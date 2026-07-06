@@ -13,6 +13,7 @@ param(
   [string]$ProjectRoot = "C:\Comfy_UI_Main",
   [string]$LaneId = "",
   [string]$PromptProfileFile = "",
+  [string]$RouteRequestFile = "",
   [string]$PackageRoot = "",
   [string]$RunId = "",
   [string]$ClientId = "codex-root-run-package",
@@ -144,6 +145,56 @@ function Copy-PackageFile {
   })
 }
 
+function Invoke-RouteGate {
+  param(
+    [Parameter(Mandatory=$true)][string]$RequestFile,
+    [Parameter(Mandatory=$true)][string]$DecisionFile,
+    [Parameter(Mandatory=$true)][string]$ExpectedLaneId
+  )
+
+  $routerScript = Join-Path $ProjectRoot "Plan\07_IMPLEMENTATION\scripts\resolve_wave64_image_engine_route.py"
+  if (!(Test-Path -LiteralPath $routerScript)) {
+    throw "Route gate script missing: $routerScript"
+  }
+
+  $pythonCommand = Get-Command python -ErrorAction SilentlyContinue
+  if ($null -eq $pythonCommand) {
+    throw "Python executable not found; cannot run route gate."
+  }
+
+  $resolvedRequest = $RequestFile
+  if (![System.IO.Path]::IsPathRooted($resolvedRequest)) {
+    $resolvedRequest = Join-Path $ProjectRoot $resolvedRequest
+  }
+  if (!(Test-Path -LiteralPath $resolvedRequest)) {
+    throw "Route request file missing: $resolvedRequest"
+  }
+
+  $routeOutput = & $pythonCommand.Source $routerScript --root $ProjectRoot --request $resolvedRequest --output $DecisionFile 2>&1
+  if ($LASTEXITCODE -ne 0) {
+    throw "Route gate command failed for $ExpectedLaneId`: $($routeOutput | Out-String)"
+  }
+
+  $decision = Read-JsonFile -Path $DecisionFile
+  if ([string]$decision.result -ne "pass_local_only") {
+    throw "Route gate did not pass for $ExpectedLaneId. Result: $($decision.result). Blocked: $(@($decision.blocked) -join ', ')"
+  }
+  if ([string]$decision.selected_lane_id -ne $ExpectedLaneId) {
+    throw "Route gate selected '$($decision.selected_lane_id)' but package lane is '$ExpectedLaneId'."
+  }
+
+  return [ordered]@{
+    supplied = $true
+    request = Convert-ToRepoPath -Path $resolvedRequest
+    decision = Convert-ToRepoPath -Path $DecisionFile
+    result = [string]$decision.result
+    selected_lane_id = [string]$decision.selected_lane_id
+    selected_family = [string]$decision.selected_family
+    selected_model_file = [string]$decision.selected_model.file_name
+    blocked = @($decision.blocked)
+  }
+}
+
 if (!(Test-Path -LiteralPath $ProjectRoot)) {
   throw "Project root not found: $ProjectRoot"
 }
@@ -254,6 +305,21 @@ if (![string]::IsNullOrWhiteSpace($PromptProfileFile)) {
 $staticValidationPath = Join-Path $packageDir "static_validation.json"
 $promptRequestPath = Join-Path $packageDir "prompt_request.json"
 $smokeDryRunPath = Join-Path $packageDir "smoke_dry_run.json"
+$routeDecisionPath = Join-Path $packageDir "router_decision.json"
+
+$routeGateRecord = [ordered]@{
+  supplied = $false
+  request = $null
+  decision = $null
+  result = "not_supplied"
+  selected_lane_id = $null
+  selected_family = $null
+  selected_model_file = $null
+  blocked = @()
+}
+if (![string]::IsNullOrWhiteSpace($RouteRequestFile)) {
+  $routeGateRecord = Invoke-RouteGate -RequestFile $RouteRequestFile -DecisionFile $routeDecisionPath -ExpectedLaneId $LaneId
+}
 
 $staticScript = Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\Test-ComfyWorkflowStatic.ps1"
 $smokeScript = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Invoke-ComfyWorkflowSmoke.ps1"
@@ -274,6 +340,10 @@ $promptRequest = Read-JsonFile -Path $promptRequestPath
 $requestHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $promptRequestPath).Hash.ToLowerInvariant()
 $staticHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $staticValidationPath).Hash.ToLowerInvariant()
 $smokeHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $smokeDryRunPath).Hash.ToLowerInvariant()
+$routeDecisionHash = $null
+if ([bool]$routeGateRecord.supplied -and (Test-Path -LiteralPath $routeDecisionPath)) {
+  $routeDecisionHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $routeDecisionPath).Hash.ToLowerInvariant()
+}
 
 $packageManifest = [ordered]@{
   schema_version = "1.0"
@@ -285,6 +355,7 @@ $packageManifest = [ordered]@{
   package_dir = Convert-ToRepoPath -Path $packageDir
   active_lanes_manifest = Convert-ToRepoPath -Path $activeLanesPath
   prompt_profile = $promptProfileRecord
+  route_gate = $routeGateRecord
   local_only = $true
   aws_contacted = $false
   github_api_contacted = $false
@@ -332,10 +403,18 @@ $packageManifest = [ordered]@{
   runtime_boundaries = [ordered]@{
     ec2_start_allowed_by_package = $false
     generation_allowed_by_package = $false
-    reason = "This package proves local request construction only. EC2 static proof and AWS auth remain mandatory before execution."
+    reason = "This package proves local request construction and optional route compatibility only. EC2 static proof and AWS auth remain mandatory before execution."
   }
   result = $(if ([string]$staticValidation.qa_status -eq "pass" -and [bool]$smokeDryRun.request_body_written -and @($smokeDryRun.errors).Count -eq 0) { "pass_local_only" } else { "fail" })
   next_action = "After AWS auth is refreshed and EC2 static proof passes, use prompt_request.json as the bounded /prompt body for this lane."
+}
+
+if ([bool]$routeGateRecord.supplied) {
+  $packageManifest.generated_files += [ordered]@{
+    path = Convert-ToRepoPath -Path $routeDecisionPath
+    sha256 = $routeDecisionHash
+    purpose = "Local image engine router decision proving package lane/model compatibility."
+  }
 }
 
 $manifestPath = Join-Path $packageDir "RUN_PACKAGE_MANIFEST.json"

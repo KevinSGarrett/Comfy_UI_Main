@@ -1,0 +1,90 @@
+﻿{
+    "evidence_id":  "W66-WORKFLOW-RUN-PACKAGE-ROUTER-GATE-20260706T153602-0500",
+    "created_at":  "2026-07-06T15:36:02-05:00",
+    "artifact_id":  "TRK-W64-009",
+    "artifact_type":  "workflow_run_package_router_gate_validation",
+    "local_only":  true,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "scripts":  {
+                    "package_builder":  "tools/New-WorkflowRunPackage.ps1",
+                    "validator":  "Plan/Instructions/QA/Scripts/Test-WorkflowRunPackageRouterGate.ps1"
+                },
+    "route_request":  "Plan/09_EXAMPLES/wave64_image_engine_route_realvisxl_request.example.json",
+    "validation_temp_root":  "[VALIDATION_TEMP_ROOT]",
+    "positive":  {
+                     "exit_code":  0,
+                     "manifest_path":  "[VALIDATION_TEMP_ROOT]/router_gate_positive_realvisxl_20260706T153602-0500/RUN_PACKAGE_MANIFEST.json",
+                     "selected_lane_id":  "sdxl_realvisxl_base_lane",
+                     "selected_model_file":  "realvisxlV50_v50Bakedvae.safetensors",
+                     "result":  "pass_local_only"
+                 },
+    "negative":  {
+                     "exit_code":  1,
+                     "output_tail":  "\nRoute gate selected \u0027sdxl_realvisxl_base_lane\u0027 but package lane is \u0027sdxl_low_risk_fallback_lane\u0027.\r\nAt C:\\Comfy_UI_Main\\tools\\New-WorkflowRunPackage.ps1:183 char:5\r\n+     throw \"Route gate selected \u0027$($decision.selected_lane_id)\u0027 but pa ...\r\n+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : OperationStopped: (Route gate sele...fallback_lane\u0027.:String) [], RuntimeException\r\n    + FullyQualifiedErrorId : Route gate selected \u0027sdxl_realvisxl_base_lane\u0027 but package lane is \u0027sdxl_low_risk_fallba \r\n   ck_lane\u0027."
+                 },
+    "checks":  [
+                   {
+                       "name":  "positive_package_exit_zero",
+                       "result":  "pass",
+                       "observed":  0,
+                       "expected":  0
+                   },
+                   {
+                       "name":  "positive_manifest_passes",
+                       "result":  "pass",
+                       "observed":  "pass_local_only",
+                       "expected":  "pass_local_only"
+                   },
+                   {
+                       "name":  "positive_route_gate_supplied",
+                       "result":  "pass",
+                       "observed":  true,
+                       "expected":  true
+                   },
+                   {
+                       "name":  "positive_route_gate_passes",
+                       "result":  "pass",
+                       "observed":  "pass_local_only",
+                       "expected":  "pass_local_only"
+                   },
+                   {
+                       "name":  "positive_route_gate_matches_lane",
+                       "result":  "pass",
+                       "observed":  "sdxl_realvisxl_base_lane",
+                       "expected":  "sdxl_realvisxl_base_lane"
+                   },
+                   {
+                       "name":  "positive_package_no_external_contact",
+                       "result":  "pass",
+                       "observed":  {
+                                        "local_only":  true,
+                                        "aws":  false,
+                                        "github_api":  false,
+                                        "civitai":  false,
+                                        "comfyui":  false,
+                                        "ec2_started":  false,
+                                        "generation_executed":  false
+                                    },
+                       "expected":  "local only; all contacts false; no EC2/generation"
+                   },
+                   {
+                       "name":  "negative_package_exit_nonzero",
+                       "result":  "pass",
+                       "observed":  1,
+                       "expected":  "nonzero"
+                   },
+                   {
+                       "name":  "negative_blocks_lane_mismatch",
+                       "result":  "pass",
+                       "observed":  "\nRoute gate selected \u0027sdxl_realvisxl_base_lane\u0027 but package lane is \u0027sdxl_low_risk_fallback_lane\u0027.\r\nAt C:\\Comfy_UI_Main\\tools\\New-WorkflowRunPackage.ps1:183 char:5\r\n+     throw \"Route gate selected \u0027$($decision.selected_lane_id)\u0027 but pa ...\r\n+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : OperationStopped: (Route gate sele...fallback_lane\u0027.:String) [], RuntimeException\r\n    + FullyQualifiedErrorId : Route gate selected \u0027sdxl_realvisxl_base_lane\u0027 but package lane is \u0027sdxl_low_risk_fallba \r\n   ck_lane\u0027.",
+                       "expected":  "router lane mismatch error"
+                   }
+               ],
+    "failure_count":  0,
+    "failures":  [
+
+                 ],
+    "result":  "pass_local_only",
+    "next_action":  "Use -RouteRequestFile on future image run packages so package lane selection cannot bypass router/model compatibility proof."
+}

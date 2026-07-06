@@ -482,6 +482,15 @@ If AWS auth is expired or Git is not clean/pushed, stop and report that blocker.
 - Wave64 is integrated into Items/Tracker validation and project readiness evidence. Current records: `Plan/Instructions/QA/Evidence/Items_Tracker_Validation/W64_ITEMS_TRACKER_STRICT_AI_COVERAGE_20260706T150215-0500.json`, `Plan/Instructions/QA/Evidence/Project_Readiness/W64_PROJECT_READINESS_STRICT_AI_ITEMS_TRACKER_FINAL_20260706T150215-0500.json`, and `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W64_QA_HELPER_STRICT_AI_ITEMS_TRACKER_20260706T150215-0500.json`.
 - Wave64 is a strict coverage/control layer for future work; it does not certify full project completion.
 
+## Latest Workflow Run Package Router Gate
+
+- `tools\New-WorkflowRunPackage.ps1` now accepts `-RouteRequestFile` and uses `Plan\07_IMPLEMENTATION\scripts\resolve_wave64_image_engine_route.py` to gate package creation.
+- A routed package writes `router_decision.json` and a manifest `route_gate` block; if the router-selected lane does not match `-LaneId`, package creation throws before a package can be promoted.
+- Current generated package: `runtime_artifacts\run_packages\sdxl_realvisxl_router_gated_package_v1\RUN_PACKAGE_MANIFEST.json`; result `pass_local_only`, selected lane `sdxl_realvisxl_base_lane`, selected model `realvisxlV50_v50Bakedvae.safetensors`, `ec2_started=false`, `generation_executed=false`.
+- Dedicated evidence: `Plan\Instructions\QA\Evidence\Run_Package\W66_WORKFLOW_RUN_PACKAGE_ROUTER_GATE_20260706T153601-0500.json`; compatible RealVisXL packaging passed and intentional low-risk/RealVisXL route mismatch blocked.
+- QA helper evidence: `Plan\Instructions\QA\Evidence\QA_Helper_Static_Validation\W66_QA_HELPER_WORKFLOW_RUN_PACKAGE_ROUTER_GATE_20260706T153612-0500.json`; result `pass_local_only`, and the new `workflow_run_package_router_gate_smoke` is part of the local QA helper.
+- This was local-only and did not contact AWS, GitHub APIs, Civitai, ComfyUI, start EC2, or run generation.
+
 ## Must not repeat
 
 - Do not print token values from `.env`.

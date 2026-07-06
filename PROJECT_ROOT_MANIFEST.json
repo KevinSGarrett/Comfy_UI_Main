@@ -132,6 +132,22 @@
     "rule": "Image route selection must derive from active lanes, runtime queue, runtime requirements, and model registry evidence; incompatible checkpoint or LoRA families block instead of silently falling back.",
     "local_only_boundary": "Validation does not contact AWS, GitHub API, Civitai, ComfyUI, or EC2 and does not execute generation."
   },
+  "workflow_run_package_router_gate": {
+    "active_wave": 66,
+    "source_gate_wave": 64,
+    "package_builder": "tools/New-WorkflowRunPackage.ps1",
+    "qa_script": "Plan/Instructions/QA/Scripts/Test-WorkflowRunPackageRouterGate.ps1",
+    "qa_helper_script": "Plan/Instructions/QA/Scripts/Test-QAHelperStatic.ps1",
+    "route_request_argument": "-RouteRequestFile",
+    "router_script": "Plan/07_IMPLEMENTATION/scripts/resolve_wave64_image_engine_route.py",
+    "generated_package": "runtime_artifacts/run_packages/sdxl_realvisxl_router_gated_package_v1/RUN_PACKAGE_MANIFEST.json",
+    "router_decision": "runtime_artifacts/run_packages/sdxl_realvisxl_router_gated_package_v1/router_decision.json",
+    "validation_evidence": "Plan/Instructions/QA/Evidence/Run_Package/W66_WORKFLOW_RUN_PACKAGE_ROUTER_GATE_20260706T153601-0500.json",
+    "qa_helper_validation_evidence": "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_WORKFLOW_RUN_PACKAGE_ROUTER_GATE_20260706T153612-0500.json",
+    "result": "pass_local_only",
+    "rule": "Future image run packages should pass -RouteRequestFile so package lane selection cannot bypass router/model compatibility proof; a router-selected lane mismatch blocks package creation.",
+    "local_only_boundary": "Validation does not contact AWS, GitHub API, Civitai, ComfyUI, or EC2 and does not execute generation."
+  },
   "runtime_scope_boundary": {
     "source_analysis_context": [
       "Plan/12_SOURCE_SUMMARIES/source_snapshots/WAVE42_MAIN_FLOW_20260702.runtime_bound_snapshot.json",

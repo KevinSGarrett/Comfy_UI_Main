@@ -1,0 +1,52 @@
+﻿{
+    "evidence_id":  "LOCAL-COMFY-WORKFLOW-STATIC-20260706T153259-0500",
+    "timestamp":  "2026-07-06T15:32:59-05:00",
+    "lane_dir":  "runtime_artifacts/run_packages/sdxl_realvisxl_router_gated_package_v1/lane_files",
+    "workflow_path":  "runtime_artifacts/run_packages/sdxl_realvisxl_router_gated_package_v1/lane_files/workflow.api.json",
+    "lane_id":  "sdxl_realvisxl_base_lane",
+    "qa_status":  "pass",
+    "node_count":  7,
+    "link_count":  9,
+    "class_counts":  {
+                         "EmptyLatentImage":  1,
+                         "CheckpointLoaderSimple":  1,
+                         "SaveImage":  1,
+                         "VAEDecode":  1,
+                         "KSampler":  1,
+                         "CLIPTextEncode":  2
+                     },
+    "checkpoint_nodes":  [
+                             {
+                                 "node_id":  "4",
+                                 "ckpt_name":  "realvisxlV50_v50Bakedvae.safetensors"
+                             }
+                         ],
+    "model_reference_checks":  [
+                                   {
+                                       "role":  "checkpoint",
+                                       "filename":  "realvisxlV50_v50Bakedvae.safetensors",
+                                       "node_id":  "",
+                                       "node_class":  "",
+                                       "input":  "",
+                                       "observed":  [
+                                                        "4.ckpt_name=realvisxlV50_v50Bakedvae.safetensors"
+                                                    ],
+                                       "matched":  true
+                                   }
+                               ],
+    "defects":  [
+
+                ],
+    "warnings":  [
+
+                 ],
+    "runtime_gates_not_proven_by_static_validation":  [
+                                                          "ComfyUI object_info node compatibility",
+                                                          "model path resolution",
+                                                          "model sha256/hash proof",
+                                                          "model load validation",
+                                                          "runtime execution output",
+                                                          "generated artifact QA"
+                                                      ],
+    "next_action":  "Refresh AWS auth, run EC2 static proof for object_info/path/hash, then run bounded smoke execution."
+}

@@ -353,7 +353,11 @@ def write_csv(path: Path, columns: list[str], rows: list[dict[str, str]]) -> Non
         writer = csv.DictWriter(handle, fieldnames=columns, extrasaction="ignore")
         writer.writeheader()
         for row in rows:
-            writer.writerow({column: row.get(column, "") for column in columns})
+            cleaned = {}
+            for column in columns:
+                value = str(row.get(column, ""))
+                cleaned[column] = value.replace("\r", " ").replace("\n", " ").rstrip()
+            writer.writerow(cleaned)
 
 
 def write_text(path: Path, text: str) -> None:

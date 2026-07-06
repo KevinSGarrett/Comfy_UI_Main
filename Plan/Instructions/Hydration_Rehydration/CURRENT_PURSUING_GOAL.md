@@ -126,6 +126,8 @@ Wave64 strict AI-operational coverage is present and validated. `Plan/Items/Repo
 
 Wave65 exhaustive source coverage closure is present and validated. `Plan/Items/Reports/wave65_plan_source_coverage_report.json` and `Plan/Tracker/Reports/wave65_plan_source_coverage_report.json` report `pass`, every current `Plan` file is covered, and `missing_after_wave65_count=0`; this is source coverage/control evidence, not implementation completion evidence.
 
+Wave64 image-engine routing is now enforced at run-package creation when `-RouteRequestFile` is supplied. `tools\New-WorkflowRunPackage.ps1` writes `router_decision.json`, records `route_gate` in `RUN_PACKAGE_MANIFEST.json`, and blocks lane mismatches. Evidence `Plan/Instructions/QA/Evidence/Run_Package/W66_WORKFLOW_RUN_PACKAGE_ROUTER_GATE_20260706T153601-0500.json` and QA helper evidence `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_WORKFLOW_RUN_PACKAGE_ROUTER_GATE_20260706T153612-0500.json` both report `pass_local_only`; the compatible RealVisXL package passed and the intentional low-risk/RealVisXL mismatch was blocked without EC2 start or generation.
+
 ## Next Exact Work
 First, if the runtime proof, cost-control, tracker, or instruction updates are uncommitted, finish one clean Git checkpoint and verify local `HEAD == origin/main`.
 
