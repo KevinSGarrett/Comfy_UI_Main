@@ -67,3 +67,20 @@
 - current_status: fixed
 - evidence_path: Plan/Instructions/QA/Evidence/Hydration_Helper_Static_Validation/W62_CUMULATIVE_PACK_VALIDATION_20260706T011548-0500.json
 - next_action: Continue runtime readiness validation.
+
+## ISSUE-RUNTIME-COMFYUI-LOCAL-001
+
+- date_time: 2026-07-06T01:23:01-05:00
+- severity: high
+- category: runtime_environment
+- affected_tracker_id: TRK-W60-008; TRK-W61-006; TRK-W61-007
+- affected_item_id: W60-008; ITEM-W61-006; ITEM-W61-007
+- affected_files: C:\Comfy_UI_Main\ComfyUI
+- observed_behavior: The local checkout has workflow templates but no local `ComfyUI` runtime directory, no expected local model folders, and no local model binaries.
+- expected_behavior: Runtime workflow execution needs either a local ComfyUI runtime with required models or a verified EC2 runtime path.
+- suspected_root_cause: The local project currently contains the plan/instruction pack and registries, not the ComfyUI runtime tree or model storage.
+- fix_attempted: None locally; AWS account, EC2 identity, EC2 stopped state, EBS volume, and Civitai metadata readiness were validated.
+- retest_result: preflight_passed_with_local_runtime_blocker
+- current_status: active_runtime_blocker
+- evidence_path: Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_RUNTIME_READINESS_PREFLIGHT_20260706T012301-0500.json
+- next_action: Create a bounded EC2 runtime discovery run record, start EC2 only for runtime inspection, verify SSM and remote paths, then stop EC2.

@@ -10,6 +10,16 @@ None for Wave 59 live local directory/index validation. `ISSUE-W59-INDEX-001` wa
 
 None currently active for local Wave 58-62 static and packaging validation.
 
+## Active runtime blockers
+
+- `BLOCKER-RUNTIME-COMFYUI-LOCAL-001`
+  - blocker type: local_runtime_missing
+  - failed condition: `C:\Comfy_UI_Main\ComfyUI` and expected local model folders do not exist.
+  - local filesystem involved: yes
+  - impact: local ComfyUI workflow execution and local model load validation cannot run from this checkout.
+  - route: use bounded EC2 runtime discovery after the current GitHub checkpoint; EC2 identity and stopped state have been verified.
+  - evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_RUNTIME_READINESS_PREFLIGHT_20260706T012301-0500.json`
+
 ## Resolved blockers
 
 - `BLOCKER-W59-GIT-001` - resolved 2026-07-06T01:06:03-05:00

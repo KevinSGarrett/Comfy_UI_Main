@@ -1,0 +1,131 @@
+{
+  "evidence_id": "EVID-W60-W61-RUNTIME-READINESS-PREFLIGHT-20260706T012301-0500",
+  "created_at": "2026-07-06T01:23:01-05:00",
+  "waves": [
+    60,
+    61
+  ],
+  "task": "Secret-safe runtime readiness preflight",
+  "repo_root": "C:\\Comfy_UI_Main",
+  "secret_handling": {
+    "env_file_exists": true,
+    "env_values_printed": false,
+    "total_parsed_env_names": 171,
+    "expected_key_presence": {
+      "github": {
+        "GITHUB_TOKEN": true,
+        "GH_TOKEN": false,
+        "GITHUB_PAT": false
+      },
+      "aws": {
+        "AWS_PROFILE": true,
+        "AWS_REGION": true,
+        "AWS_DEFAULT_REGION": false,
+        "AWS_ACCESS_KEY_ID": false,
+        "AWS_SECRET_ACCESS_KEY": false,
+        "AWS_SESSION_TOKEN": false
+      },
+      "civitai": {
+        "CIVITAI_API_TOKEN": false,
+        "CIVITAI_TOKEN": false,
+        "CIVITAI_API_KEY": true
+      }
+    }
+  },
+  "git": {
+    "status": [
+      "## main...origin/main"
+    ],
+    "remote": "https://github.com/KevinSGarrett/Comfy_UI_Main.git",
+    "local_head": "3804bfc3a39d4cac6821105ff4859b988f910c75",
+    "remote_main": "3804bfc3a39d4cac6821105ff4859b988f910c75",
+    "result": "pass"
+  },
+  "github_api": {
+    "attempted": true,
+    "authenticated": true,
+    "status_code": 200,
+    "repo": "KevinSGarrett/Comfy_UI_Main",
+    "default_branch": "main",
+    "private": false,
+    "result": "pass"
+  },
+  "aws": {
+    "cli_present": true,
+    "version": "aws-cli/2.32.23 Python/3.13.11 Windows/11 exe/AMD64",
+    "identity_result": "pass",
+    "account": "029530099913",
+    "account_matches_expected": true,
+    "region": "us-east-1",
+    "region_source": "AWS_REGION_env",
+    "ec2_started": false,
+    "ec2_describe_result": "pass",
+    "instance": {
+      "instance_id": "i-0560bf8d143f93bb1",
+      "state": "stopped",
+      "type": "g5.xlarge",
+      "name": "ComfyUI-LoRA-GPU-Server",
+      "iam_profile_contains_expected": true,
+      "volumes_include_expected": true,
+      "public_ip_present": false
+    },
+    "volume_describe_result": "pass",
+    "volume": {
+      "volume_id": "vol-0eb9b2c6d3d2706d6",
+      "size_gb": 1024,
+      "state": "in-use",
+      "size_matches_expected": true
+    },
+    "result": "pass"
+  },
+  "civitai": {
+    "key_present": true,
+    "attempted": true,
+    "status_code": 200,
+    "item_count": 1,
+    "result": "pass"
+  },
+  "local_comfyui": {
+    "comfyui_dir_exists": false,
+    "expected_model_dirs": {
+      "checkpoints": false,
+      "loras": false,
+      "controlnet": false,
+      "vae": false,
+      "upscale_models": false
+    },
+    "workflow_template_root_exists": true,
+    "workflow_template_dir_count": 3,
+    "workflow_template_dirs": [
+      "base_generation",
+      "MOD-00-APP-OPERATOR-SURFACE",
+      "MOD-10-SDXL-BASE-LANE"
+    ],
+    "workflow_json_with_workflow_in_path_count": 43,
+    "workflow_json_sample": [
+      "Plan\\07_IMPLEMENTATION\\workflow_templates\\base_generation\\flux1_dev_primary_base\\patch_points.example.json",
+      "Plan\\07_IMPLEMENTATION\\workflow_templates\\base_generation\\flux1_dev_primary_base\\runtime_requirements.example.json",
+      "Plan\\07_IMPLEMENTATION\\workflow_templates\\base_generation\\flux1_schnell_smoke_lane\\patch_points.example.json",
+      "Plan\\07_IMPLEMENTATION\\workflow_templates\\base_generation\\flux1_schnell_smoke_lane\\runtime_requirements.example.json",
+      "Plan\\07_IMPLEMENTATION\\workflow_templates\\base_generation\\flux2_dev_primary_base\\patch_points.example.json",
+      "Plan\\07_IMPLEMENTATION\\workflow_templates\\base_generation\\flux2_dev_primary_base\\runtime_requirements.example.json",
+      "Plan\\07_IMPLEMENTATION\\workflow_templates\\base_generation\\pony_specialty_lane\\patch_points.example.json",
+      "Plan\\07_IMPLEMENTATION\\workflow_templates\\base_generation\\pony_specialty_lane\\runtime_requirements.example.json",
+      "Plan\\07_IMPLEMENTATION\\workflow_templates\\base_generation\\sdxl_low_risk_fallback_lane\\patch_points.example.json",
+      "Plan\\07_IMPLEMENTATION\\workflow_templates\\base_generation\\sdxl_low_risk_fallback_lane\\runtime_requirements.example.json"
+    ],
+    "local_model_binary_count": 0,
+    "local_runtime_result": "blocked_missing_local_comfyui_runtime"
+  },
+  "result": "pass_with_local_runtime_blocker",
+  "blockers_opened": [
+    "BLOCKER-RUNTIME-COMFYUI-LOCAL-001"
+  ],
+  "limitations": [
+    "No EC2 start was performed in this preflight.",
+    "No Civitai model download was performed.",
+    "No ComfyUI workflow runtime execution was performed.",
+    "No generated media artifact QA was performed."
+  ],
+  "next_action": "Create a bounded EC2 runtime discovery run record, start EC2 only for runtime inspection, verify SSM and remote ComfyUI/project paths, then stop EC2."
+}

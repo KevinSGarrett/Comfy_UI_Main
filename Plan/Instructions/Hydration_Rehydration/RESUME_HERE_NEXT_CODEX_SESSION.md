@@ -28,28 +28,28 @@ Plan\Instructions\Hydration_Rehydration\QA_EVIDENCE_INDEX.md
 - Built `C:\Comfy_UI_Main\Comfy_UI_Main_Autonomous_Codex_Desktop_Waves58_62_Cumulative.zip` from tracked project files.
 - Validated the cumulative zip with `Test-CumulativeWavePack.ps1`.
 - Created Wave 62 cumulative pack validation evidence and done certification.
+- Ran secret-safe readiness preflight. GitHub API, AWS account, EC2 identity, EBS volume, and Civitai metadata checks passed. Local ComfyUI runtime is absent.
 
 ## Active blockers
 
-None currently active for local Wave 58-62 static and packaging validation.
+- `BLOCKER-RUNTIME-COMFYUI-LOCAL-001`: local `C:\Comfy_UI_Main\ComfyUI` runtime and model folders are absent. Use bounded EC2 runtime discovery after committing the readiness checkpoint.
 
 ## Current goal
 
-Run a secret-safe runtime readiness preflight for the remaining GitHub/API, AWS/EC2, Civitai, local ComfyUI, workflow, model, and QA gates.
+Run bounded EC2 runtime discovery with SSM and stopped-state verification.
 
 ## Next exact action
 
-Run the readiness preflight without printing `.env` values and without starting EC2:
+Commit/push the readiness preflight checkpoint, then run EC2 discovery:
 
 ```powershell
 git -C C:\Comfy_UI_Main status --branch --short
-git -C C:\Comfy_UI_Main ls-remote origin refs/heads/main
-
-# Then inspect .env key names only.
-# If AWS CLI and credentials are available, run identity and stopped-instance checks only.
-# If Civitai key is present, call a small metadata endpoint only.
-# Inspect local ComfyUI paths, workflow inventory, and model prerequisites before runtime execution.
+git -C C:\Comfy_UI_Main add Plan\Instructions
+git -C C:\Comfy_UI_Main commit -m "Runtime: record readiness preflight"
+git -C C:\Comfy_UI_Main push origin main
 ```
+
+After the checkpoint is clean, start only `i-0560bf8d143f93bb1`, verify SSM, run minimal remote path/GPU discovery, stop the instance, and verify final state is `stopped`.
 
 ## Tracker rows that changed
 
@@ -57,8 +57,13 @@ git -C C:\Comfy_UI_Main ls-remote origin refs/heads/main
 - `TRK-W59-003`: complete / qa_passed for live index regeneration.
 - `TRK-W59-004`: complete / qa_passed for Git repository verification.
 - `TRK-W60-001`: complete / qa_passed for GitHub/local repository readiness.
+- `TRK-W60-002`: complete / qa_passed for AWS identity, EC2 identity, and EBS volume preflight.
+- `TRK-W60-005`: complete / qa_passed for Civitai authenticated metadata preflight.
+- `TRK-W60-008`: local runtime blocker recorded because local ComfyUI model folders are absent.
 - `TRK-W60-009`: complete / qa_passed for `.env` protection and Git status safety.
 - `TRK-W60-010`: complete / qa_passed for operations static validation.
+- `TRK-W61-006`: local runtime blocker recorded because local ComfyUI runtime is absent.
+- `TRK-W61-007`: local model binary absence recorded.
 - `TRK-W61-011`: complete / qa_passed for QA helper validation.
 - `TRK-W62-003`: complete / qa_passed for session-state helper validation.
 - `TRK-W62-009`: complete / qa_passed for cumulative pack zip validation.
@@ -78,6 +83,8 @@ git -C C:\Comfy_UI_Main ls-remote origin refs/heads/main
 - `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W62_SESSION_STATE_HELPER_VALIDATION_20260706T005425-0500.md`
 - `Plan/Instructions/QA/Evidence/Hydration_Helper_Static_Validation/W62_CUMULATIVE_PACK_VALIDATION_20260706T011548-0500.json`
 - `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W62_CUMULATIVE_PACK_VALIDATION_20260706T011548-0500.md`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_RUNTIME_READINESS_PREFLIGHT_20260706T012301-0500.json`
+- `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W60_W61_RUNTIME_READINESS_PREFLIGHT_20260706T012301-0500.md`
 
 ## GitHub state
 
@@ -85,7 +92,7 @@ git -C C:\Comfy_UI_Main ls-remote origin refs/heads/main
 - Local `main` was verified against `origin/main`.
 - `.env` is ignored and untracked.
 - Git LFS is enabled for oversized tracker CSVs and zip artifacts.
-- The cumulative zip is intended to be committed through LFS.
+- Latest pushed checkpoint before readiness preflight: `3804bfc3a39d4cac6821105ff4859b988f910c75`.
 
 ## Package state
 
@@ -95,19 +102,21 @@ git -C C:\Comfy_UI_Main ls-remote origin refs/heads/main
 
 ## AWS/EC2 state
 
-- EC2 was not started.
-- Live AWS identity and EC2 state validation are still pending.
-- Expected idle state remains stopped until runtime GPU execution is required.
+- EC2 was not started during readiness preflight.
+- AWS account matched `029530099913`.
+- Instance `i-0560bf8d143f93bb1` matched expected type/name/profile/volume and was `stopped`.
+- Expected idle state remains stopped until bounded runtime discovery starts.
 
 ## Civitai/model state
 
-- No Civitai API call was made in the completed packaging/zip validation pass.
+- Civitai authenticated metadata endpoint returned HTTP 200 with one metadata item in readiness preflight.
 - No model download was performed.
-- Model registry helper static smoke test passed using sample values only.
+- No local model binaries were found.
 
 ## Must not repeat
 
-- Do not rerun completed Wave 59 index, Wave 60 operations, Wave 61 QA helper, Wave 62 session-state helper, or Wave 62 zip validation unless their files change.
+- Do not rerun completed Wave 59 index, Wave 60 operations, Wave 61 QA helper, Wave 62 session-state helper, Wave 62 zip validation, or runtime readiness preflight unless their files change.
 - Do not print token values from `.env`.
-- Do not start EC2 until a runtime gate explicitly requires GPU execution.
+- Do not start any EC2 instance except `i-0560bf8d143f93bb1`.
+- Do not leave EC2 running after discovery.
 - Do not claim final project completion until runtime and artifact QA gates have direct evidence.

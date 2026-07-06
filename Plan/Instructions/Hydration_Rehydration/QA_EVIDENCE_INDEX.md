@@ -19,6 +19,8 @@
 | CERT-W62-SESSION-STATE-HELPER-VALIDATION-20260706T005425-0500 | Wave 62 session-state helper validation certification | done_certification | done_with_non_blocking_notes | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W62_SESSION_STATE_HELPER_VALIDATION_20260706T005425-0500.md |
 | EVID-W62-CUMULATIVE-PACK-VALIDATION-20260706T011548-0500 | Wave 62 cumulative Wave 58-62 pack build and validation | cumulative_pack_validation | pass | Plan/Instructions/QA/Evidence/Hydration_Helper_Static_Validation/W62_CUMULATIVE_PACK_VALIDATION_20260706T011548-0500.json |
 | CERT-W62-CUMULATIVE-PACK-VALIDATION-20260706T011548-0500 | Wave 62 cumulative pack validation certification | done_certification | done_with_non_blocking_runtime_notes | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W62_CUMULATIVE_PACK_VALIDATION_20260706T011548-0500.md |
+| EVID-W60-W61-RUNTIME-READINESS-PREFLIGHT-20260706T012301-0500 | Secret-safe GitHub AWS EC2 Civitai and local ComfyUI readiness preflight | runtime_readiness_preflight | pass_with_local_runtime_blocker | Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_RUNTIME_READINESS_PREFLIGHT_20260706T012301-0500.json |
+| CERT-W60-W61-RUNTIME-READINESS-PREFLIGHT-20260706T012301-0500 | Wave 60/61 runtime readiness preflight certification | done_certification | done_with_local_runtime_blocker | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W60_W61_RUNTIME_READINESS_PREFLIGHT_20260706T012301-0500.md |
 
 ## Pending runtime evidence
 

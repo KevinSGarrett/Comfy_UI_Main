@@ -1,20 +1,14 @@
 # Next Action
 
-Run a secret-safe runtime readiness preflight:
+Commit and push the readiness preflight evidence, then run bounded EC2 runtime discovery:
 
 ```powershell
-# Do not print .env values.
-# Summarize required key presence only.
-
 git -C C:\Comfy_UI_Main status --branch --short
-git -C C:\Comfy_UI_Main ls-remote origin refs/heads/main
-
-# If AWS CLI is available and credentials are configured:
-aws sts get-caller-identity
-aws ec2 describe-instances --instance-ids i-0560bf8d143f93bb1
-
-# If a Civitai API key is present:
-# Call a small metadata endpoint only; do not download models yet.
+git -C C:\Comfy_UI_Main add Plan\Instructions
+git -C C:\Comfy_UI_Main commit -m "Runtime: record readiness preflight"
+git -C C:\Comfy_UI_Main push origin main
 ```
 
-Keep EC2 stopped unless a later runtime gate explicitly requires GPU execution. Record pass/fail/blocked evidence for GitHub, AWS/EC2, Civitai, local ComfyUI path, workflow inventory, and model prerequisites.
+After the GitHub checkpoint is clean, start only `i-0560bf8d143f93bb1`, verify SSM, run minimal remote path/GPU discovery, stop the instance, and verify final state is `stopped`.
+
+Do not print `.env` values. Do not download models or run generation during discovery.

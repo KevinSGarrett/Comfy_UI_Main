@@ -4,10 +4,10 @@
 2026-07-06T00:36:08-05:00
 
 ## State
-Rehydration completed for the Wave 58-62 autonomous instruction system. Wave 59 live local directory/index validation is complete with evidence. Git recovery for `C:\Comfy_UI_Main` is complete with `main` pushed to the canonical GitHub remote. Wave 60 operations helper static validation is complete with evidence. Wave 61 QA helper local validation is complete with evidence. Wave 62 session-state helper validation and cumulative Wave 58-62 zip validation are complete with evidence.
+Rehydration completed for the Wave 58-62 autonomous instruction system. Wave 59 live local directory/index validation is complete with evidence. Git recovery for `C:\Comfy_UI_Main` is complete with `main` pushed to the canonical GitHub remote. Wave 60 operations helper static validation is complete with evidence. Wave 61 QA helper local validation is complete with evidence. Wave 62 session-state helper validation and cumulative Wave 58-62 zip validation are complete with evidence. Secret-safe runtime readiness preflight passed for GitHub API, AWS account, EC2 identity, EBS volume, and Civitai metadata; local ComfyUI runtime is absent, so EC2 runtime discovery is selected next.
 
 ## Session end timestamp
-2026-07-06T01:15:48-05:00
+2026-07-06T01:23:01-05:00
 
 ## Completed this session
 - Read the attached Codex objective file.
@@ -30,29 +30,35 @@ Rehydration completed for the Wave 58-62 autonomous instruction system. Wave 59 
 - Built `C:\Comfy_UI_Main\Comfy_UI_Main_Autonomous_Codex_Desktop_Waves58_62_Cumulative.zip` from tracked project files.
 - Validated the final cumulative zip with `Test-CumulativeWavePack.ps1`.
 - Created Wave 62 cumulative pack validation evidence and done certification.
+- Ran secret-safe readiness preflight without printing `.env` values.
+- Verified GitHub API access, AWS account identity, EC2 identity/stopped state, EBS volume identity, and Civitai metadata endpoint.
+- Confirmed local `C:\Comfy_UI_Main\ComfyUI` runtime and model folders are absent.
 
 ## Active tracker rows
-- None currently active for local Wave 58-62 static and packaging validation.
+- `TRK-W60-008`: local ComfyUI model folders are absent; EC2 path discovery required.
+- `TRK-W61-006`: local ComfyUI runtime is absent; runtime workflow execution requires EC2 or local runtime installation.
+- `TRK-W61-007`: no local model binaries were found; runtime model validation requires EC2/local runtime discovery.
 
 ## Active item rows
-- None currently active for local Wave 58-62 static and packaging validation.
+- `W60-008`: local model folder discovery pending.
+- `ITEM-W61-006`: workflow runtime execution pending.
+- `ITEM-W61-007`: model runtime validation pending.
 
 ## Pending validation in scope
-- Secret-safe runtime readiness preflight for GitHub/API state, AWS/EC2 state, Civitai API readiness, local ComfyUI paths, workflow inventory, and model prerequisites.
-- Live ComfyUI workflow execution when prerequisites and EC2/GPU need are established.
+- Commit and push readiness preflight evidence.
+- Bounded EC2 runtime discovery with SSM check, remote path inventory, and stopped-state verification.
+- Live ComfyUI workflow execution after runtime paths and prerequisites are known.
 - Generated image/video/audio QA only after artifacts exist.
 
 ## Pending runtime validation
-- GitHub API-specific token validation if required separately from successful Git remote push.
-- AWS/EC2 identity and instance-state validation.
-- Civitai API validation.
-- Local/EC2 ComfyUI runtime validation.
+- EC2 SSM/runtime path discovery.
+- Local-to-EC2 sync path validation.
+- ComfyUI runtime validation.
 - Model registry and required model file validation.
 - Generated artifact QA for images, video, and audio.
 
 ## Blockers
-- None currently active for local Wave 58-62 static and packaging validation.
-- Runtime blockers may still be discovered during the next readiness pass.
+- `BLOCKER-RUNTIME-COMFYUI-LOCAL-001`: local `C:\Comfy_UI_Main\ComfyUI` runtime and model folders are absent, so local workflow execution is blocked. Route to bounded EC2 runtime discovery.
 
 ## Next action
-Run the secret-safe runtime readiness preflight without starting EC2 unless a later runtime gate explicitly requires GPU execution.
+Commit/push the readiness evidence, then run bounded EC2 runtime discovery and verify the instance returns to `stopped`.
