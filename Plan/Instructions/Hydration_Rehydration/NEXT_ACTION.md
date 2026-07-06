@@ -331,6 +331,16 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\S
 
 Expected result: `pass_local_only`, selected lane `sdxl_low_risk_fallback_lane` result `pass`, failed check count `0`, no AWS/GitHub API/Civitai/ComfyUI contact, `ec2_started=false`, and `generation_executed=false`.
 
+Current static workflow validation also records generic required-model references:
+
+```text
+Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_STATIC_GENERIC_MODEL_REFERENCES_sdxl_low_risk_fallback_lane_20260706T144819-0500.json
+Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_STATIC_GENERIC_MODEL_REFERENCES_sdxl_realvisxl_base_lane_20260706T144819-0500.json
+Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_STATIC_GENERIC_MODEL_REFERENCES_20260706T144827-0500.json
+```
+
+When adding future non-SDXL lanes, set `required_models[].node_id` plus `input`, or `required_models[].node_class` plus `input`, so `Test-ComfyWorkflowStatic.ps1` can prove the workflow node actually references the required UNet, CLIP, VAE, LoRA, or other model asset. Checkpoint requirements can still use the `CheckpointLoaderSimple.ckpt_name` fallback.
+
 Then route the pulled-back image to image QA:
 
 ```powershell

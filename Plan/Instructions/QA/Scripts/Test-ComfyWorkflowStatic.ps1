@@ -181,6 +181,7 @@ foreach ($patchPoint in @($patchPoints.patch_points)) {
 }
 
 $checkpointNodes = @()
+$modelReferenceChecks = New-Object System.Collections.ArrayList
 foreach ($nodeId in $nodeMap.Keys) {
   $node = $nodeMap[$nodeId]
   if ([string]$node.class_type -eq "CheckpointLoaderSimple") {
@@ -192,16 +193,53 @@ foreach ($nodeId in $nodeMap.Keys) {
 }
 
 foreach ($model in @($runtime.required_models)) {
-  if ([string]$model.role -eq "checkpoint") {
-    $expectedName = [string]$model.filename
-    $matched = $false
+  $role = [string]$model.role
+  $expectedName = [string]$model.filename
+  $explicitNodeId = $(if (Has-Property -Object $model -Name "node_id") { [string]$model.node_id } else { "" })
+  $expectedNodeClass = $(if (Has-Property -Object $model -Name "node_class") { [string]$model.node_class } elseif (Has-Property -Object $model -Name "node_type") { [string]$model.node_type } else { "" })
+  $inputName = $(if (Has-Property -Object $model -Name "input") { [string]$model.input } elseif (Has-Property -Object $model -Name "input_name") { [string]$model.input_name } else { "" })
+  $matched = $false
+  $observed = @()
+
+  if (![string]::IsNullOrWhiteSpace($explicitNodeId) -or ![string]::IsNullOrWhiteSpace($expectedNodeClass)) {
+    if ([string]::IsNullOrWhiteSpace($inputName)) {
+      Add-Defect -List $defects -Severity "major" -Code "model_requirement_missing_input" -Message "Runtime model requirement $expectedName declares node mapping but no input/input_name."
+    } else {
+      foreach ($nodeId in $nodeMap.Keys) {
+        $node = $nodeMap[$nodeId]
+        $classMatches = ([string]::IsNullOrWhiteSpace($expectedNodeClass) -or [string]$node.class_type -eq $expectedNodeClass)
+        $idMatches = ([string]::IsNullOrWhiteSpace($explicitNodeId) -or [string]$nodeId -eq $explicitNodeId)
+        if ($classMatches -and $idMatches -and (Has-Property -Object $node.inputs -Name $inputName)) {
+          $value = [string]$node.inputs.$inputName
+          $observed += ("{0}.{1}={2}" -f $nodeId, $inputName, $value)
+          if ($value -eq $expectedName) { $matched = $true }
+        }
+      }
+      if (!$matched) {
+        Add-Defect -List $defects -Severity "critical" -Code "model_requirement_not_referenced" -Message "Runtime model requirement $expectedName is not referenced by node mapping node_id='$explicitNodeId' node_class='$expectedNodeClass' input='$inputName'."
+      }
+    }
+  } elseif ($role -eq "checkpoint") {
     foreach ($checkpointNode in $checkpointNodes) {
+      $observed += ("{0}.ckpt_name={1}" -f $checkpointNode.node_id, $checkpointNode.ckpt_name)
       if ([string]$checkpointNode.ckpt_name -eq $expectedName) { $matched = $true }
     }
     if (!$matched) {
       Add-Defect -List $defects -Severity "critical" -Code "checkpoint_requirement_not_referenced" -Message "Runtime checkpoint requirement $expectedName is not referenced by any CheckpointLoaderSimple node."
     }
+  } else {
+    Add-Defect -List $defects -Severity "major" -Code "model_requirement_missing_node_mapping" -Message "Runtime non-checkpoint model requirement $expectedName must declare node_id/input or node_class/input for static workflow validation."
   }
+
+  [void]$modelReferenceChecks.Add([ordered]@{
+    role = $role
+    filename = $expectedName
+    node_id = $explicitNodeId
+    node_class = $expectedNodeClass
+    input = $inputName
+    observed = $observed
+    matched = $matched
+  })
 }
 
 if ([string]$patchPoints.lane_id -ne [string]$runtime.lane_id -or [string]$smoke.lane_id -ne [string]$runtime.lane_id) {
@@ -266,6 +304,7 @@ $record = [ordered]@{
   link_count = $links.Count
   class_counts = $classCounts
   checkpoint_nodes = $checkpointNodes
+  model_reference_checks = @($modelReferenceChecks)
   defects = @($defects)
   warnings = @($warnings)
   runtime_gates_not_proven_by_static_validation = @(

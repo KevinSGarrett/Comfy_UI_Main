@@ -95,6 +95,8 @@ Model registry coverage is now queue-driven: `Test-WorkflowModelRegistryCoverage
 
 Model registry coverage also supports explicit required model types for future non-SDXL lanes. Evidence `Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_GENERIC_MODEL_TYPES_20260706T144324-0500.json` proves the current lanes still pass while the helper now validates `required_models[].model_type` when present and falls back to `Checkpoint` only for checkpoint roles.
 
+Static workflow validation now also supports generic required-model reference checks. Evidence `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_STATIC_GENERIC_MODEL_REFERENCES_sdxl_low_risk_fallback_lane_20260706T144819-0500.json`, `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_STATIC_GENERIC_MODEL_REFERENCES_sdxl_realvisxl_base_lane_20260706T144819-0500.json`, and `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_STATIC_GENERIC_MODEL_REFERENCES_20260706T144827-0500.json` prove the current two queued lanes pass with `model_reference_checks`; future non-checkpoint required models must provide `node_id`/`input` or `node_class`/`input` mappings.
+
 ## Next Exact Work
 First, if the runtime proof, cost-control, tracker, or instruction updates are uncommitted, finish one clean Git checkpoint and verify local `HEAD == origin/main`.
 

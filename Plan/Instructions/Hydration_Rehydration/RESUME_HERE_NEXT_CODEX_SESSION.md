@@ -438,6 +438,19 @@ If AWS auth is expired or Git is not clean/pushed, stop and report that blocker.
 - `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_MODEL_REGISTRY_GATE_20260706T094500-0500.json`
 - `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_MODEL_REGISTRY_GATE_20260706T094500-0500.json`
 - `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_MODEL_REGISTRY_GATE_20260706T094730-0500.json`
+- `Plan/Instructions/QA/Scripts/Test-ComfyWorkflowStatic.ps1`
+- `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_STATIC_GENERIC_MODEL_REFERENCES_sdxl_low_risk_fallback_lane_20260706T144819-0500.json`
+- `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_STATIC_GENERIC_MODEL_REFERENCES_sdxl_realvisxl_base_lane_20260706T144819-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_STATIC_GENERIC_MODEL_REFERENCES_20260706T144827-0500.json`
+
+## Latest Static Generic Model Reference Update
+
+- `Test-ComfyWorkflowStatic.ps1` now records `model_reference_checks` and validates `runtime.required_models` with explicit `node_id`/`input` or `node_class`/`input` mappings.
+- Checkpoint requirements still fall back to matching `CheckpointLoaderSimple.ckpt_name`, so both current queued SDXL lanes continue to pass.
+- Low-risk evidence: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_STATIC_GENERIC_MODEL_REFERENCES_sdxl_low_risk_fallback_lane_20260706T144819-0500.json`.
+- RealVisXL evidence: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_STATIC_GENERIC_MODEL_REFERENCES_sdxl_realvisxl_base_lane_20260706T144819-0500.json`.
+- QA helper evidence: `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_STATIC_GENERIC_MODEL_REFERENCES_20260706T144827-0500.json`; result `pass_local_only`, parse failures `0`, smoke failures `0`, project readiness contract failures `0`.
+- This was local-only. It did not contact AWS, GitHub APIs, Civitai, ComfyUI, start EC2, or run generation.
 
 ## Must not repeat
 
@@ -453,6 +466,7 @@ If AWS auth is expired or Git is not clean/pushed, stop and report that blocker.
 - Project readiness snapshots and runtime unblock handoffs must use latest acceptable passing evidence, not the newest preserved failed retest artifact.
 - Do not omit the runtime lane queue gate from readiness or handoff evidence; selected lane order must be 1 before EC2 static proof can be allowed.
 - Do not omit the model registry coverage gate from readiness or handoff evidence; `Test-WorkflowModelRegistryCoverage.ps1` must report `pass_local_only`, selected lane result `pass`, and failed check count `0` before EC2 static proof can be allowed.
+- Do not add future non-checkpoint `required_models` without a static reference mapping; include `node_id`/`input` or `node_class`/`input` so `Test-ComfyWorkflowStatic.ps1` can prove the workflow references the required asset.
 - Do not skip `Test-AuthoredLaneEvidenceCoverage.ps1` when checking multi-lane local readiness; it is now the local pre-EC2 evidence coverage gate for authored base-generation lanes.
 - Do not promote `sdxl_realvisxl_base_lane` to first EC2 proof/generation lane. `runtime_lane_queue.json` and `Test-RuntimeLaneQueue.ps1` currently validate `sdxl_low_risk_fallback_lane` first and RealVisXL second.
 - Use the top-level EC2 coordinator fields (`result`, `failure_category`, `execute_gates_pass`, `ec2_started`, `generation_executed`) when summarizing static-proof or workflow-smoke gate status.
