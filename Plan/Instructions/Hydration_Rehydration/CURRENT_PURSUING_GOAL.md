@@ -13,7 +13,7 @@ EC2 runtime inventory passed. The remote ComfyUI runtime, GPU, model folders, cu
 SELECTED_AUTHORED_STATIC_SMOKE_IMAGE_QA_AUTH_GATE_PULLBACK_PROFILE_AWARE_LANE_READINESS_EC2_STATIC_PROOF_GATE_SMOKE_COORDINATOR_CURRENT_HELPER_INDEX_AWS_PROFILE_ITEMS_TRACKER_AUTH_RECHECK_PULLBACK_MANIFEST_AUTH_CONTRACT_READINESS_CONTRACT_COORDINATOR_GATE_PROJECT_READINESS_QA_CONTRACT_RUNTIME_HANDOFF_HANDOFF_READINESS_CONTRACT_EC2_GIT_CHECKPOINT_GATE_AND_POST_CHECKPOINT_GIT_RECHECK_PASS_PENDING_BROWSER_LOGIN
 
 ## Last Action
-Verified the pushed EC2 Git checkpoint gate commit at `535c3320f443b05e1ab6dc236004fc36e0bfa611`, added post-checkpoint Git recheck evidence/certification, and refreshed index evidence for the new Git proof.
+Added post-checkpoint Git recheck evidence/certification for the EC2 Git checkpoint gate, refreshed index evidence for the new Git proof, and preserved the rule that the live `HEAD == origin/main`/clean-worktree check must run immediately before EC2.
 
 ## Next Action
 After AWS browser/SSO login is refreshed and the worktree is clean/pushed, rerun `Test-AwsAuthGate.ps1`, `Test-LaneRuntimeReadiness.ps1`, EC2 static proof, bounded smoke generation, artifact pullback, and image QA.

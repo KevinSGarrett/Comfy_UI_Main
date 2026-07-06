@@ -68,7 +68,7 @@ Start by reading this file, then re-open the standard hydration files in this fo
 - Regenerated generated indexes after runtime handoff readiness contract hardening and certified row-count parity plus discovery for the updated QA scripts, readiness snapshot, QA validation evidence, contract certification, index evidence, and index certification.
 - Added a local Git checkpoint gate to the EC2 static-proof and workflow-smoke coordinators. Future `-Execute` runs now require a clean worktree and local `HEAD == origin/main` before EC2 can start, and remote payloads verify the EC2 checkout reaches the expected pushed commit after `git pull --ff-only origin main`.
 - Refreshed the runtime unblock handoff with a `git_checkpoint_recheck` command and safety invariant, then reran operations validation, runtime handoff evidence, QA helper validation, and project readiness.
-- Verified the pushed EC2 Git checkpoint gate commit at `535c3320f443b05e1ab6dc236004fc36e0bfa611`: local `main` equals `origin/main`, worktree is clean, `git push --dry-run origin main` reports `Everything up-to-date`, and `.env` remains ignored/untracked.
+- Verified the pushed EC2 Git checkpoint gate implementation with local `main` equal to `origin/main`, clean worktree, `git push --dry-run origin main` reporting `Everything up-to-date`, and `.env` remaining ignored/untracked; later evidence commits may advance the live checkpoint and must be rechecked before EC2.
 - Added post-checkpoint Git recheck evidence/certification and refreshed generated index evidence so the current Git state is discoverable in project-owned QA evidence.
 
 ## Current goal
@@ -89,7 +89,7 @@ The account must be `029530099913`, `ec2_work_allowed` must be `true`, and `safe
 Current profile-matrix evidence confirms no configured AWS profile is presently usable for the expected account, so use `aws login --remote` or `aws sso login --profile <matching-profile>` before rerunning the gates.
 Latest selected-lane readiness evidence now includes both the auth gate and profile matrix diagnostics, but it still requires the auth gate to pass before EC2 static proof.
 
-Latest project readiness and QA helper evidence now also prove the runtime handoff is local-only and did not contact AWS, GitHub APIs, Civitai, ComfyUI, or EC2. `GITHUB_TOKEN` and `CIVITAI_API_KEY` in `.env` are present and protected, but they do not unblock EC2; AWS browser/SSO auth is the gate. Before EC2 `-Execute`, local Git must also be clean and synced to `origin/main`. The latest post-checkpoint recheck confirms this Git gate currently passes at `535c3320f443b05e1ab6dc236004fc36e0bfa611`.
+Latest project readiness and QA helper evidence now also prove the runtime handoff is local-only and did not contact AWS, GitHub APIs, Civitai, ComfyUI, or EC2. `GITHUB_TOKEN` and `CIVITAI_API_KEY` in `.env` are present and protected, but they do not unblock EC2; AWS browser/SSO auth is the gate. Before EC2 `-Execute`, local Git must also be clean and synced to `origin/main`, using the live `git_checkpoint_recheck` command from the runtime handoff.
 
 Then rerun the selected-lane readiness gate:
 
