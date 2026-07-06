@@ -7,6 +7,8 @@
     "Plan",
     "Workflows",
     "configs",
+    "tools",
+    ".github/workflows",
     "models/README.md",
     "runtime_artifacts/README.md",
     "README.md"
@@ -30,6 +32,26 @@
       "model registry coverage result=pass_local_only, selected lane result=pass, failed_check_count=0",
       "clean pushed Git checkpoint",
       "lane readiness ready_for_ec2_static_proof=true"
+    ]
+  },
+  "cost_control_runtime_strategy": {
+    "runbook": "Plan/Instructions/Operations/EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md",
+    "local_dev_preflight": "tools/Test-LocalComfyUIDevPreflight.ps1",
+    "deploy_bundle_builder": "tools/New-EC2DeployBundle.ps1",
+    "github_actions_workflow": ".github/workflows/preflight-package.yml",
+    "default_policy": "Validate and package locally or in GitHub Actions while EC2 is stopped; use EC2 only for target-runtime object-info, model path/hash/load, generation, pullback, and QA.",
+    "ec2_helper_defaults": {
+      "skip_git_lfs_pull_by_default": true,
+      "require_explicit_max_runtime_minutes": true,
+      "batch_runtime_work_in_one_window": true,
+      "always_stop_and_verify_final_state": "stopped"
+    },
+    "not_replaced_by_local_dev_or_ci": [
+      "EC2 A10G object_info proof",
+      "target model path/hash/load proof",
+      "target generation",
+      "artifact pullback",
+      "image QA"
     ]
   },
   "runtime_scope_boundary": {

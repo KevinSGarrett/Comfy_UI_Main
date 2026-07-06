@@ -1,77 +1,105 @@
 # Current Pursuing Goal
 
 ## Active Wave
-Wave 61 workflow runtime proof preparation, with Wave 62 package/readiness evidence in place.
+Wave 63 EC2 cost-control and local/CI preflight packaging, continuing Wave 61 runtime proof for queued lanes.
 
 ## Goal Statement
-Advance the first queued authored base-generation lane from local-only readiness to post-auth EC2 static proof, bounded package-fed workflow execution, artifact pullback, and image QA, without bypassing the `Plan/Instructions` operating system or repeating stale housekeeping loops.
+Advance `C:\Comfy_UI_Main` toward end-to-end autonomous ComfyUI completion by using `Plan/Instructions` as the operating system, avoiding repeated housekeeping, minimizing paid EC2 time, and moving from the completed first-lane runtime proof to the next concrete queued runtime work.
 
 ## Required Instruction Read Order
-Every continuation must use `C:\Comfy_UI_Main` as the project root and must read these project instructions before changing code, evidence, or trackers:
+Every continuation must use `C:\Comfy_UI_Main` as the project root and must read these project instructions before changing code, evidence, trackers, runtime helpers, or goals:
 
 1. `C:\Comfy_UI_Main\Plan\Instructions\Hydration_Rehydration\RESUME_HERE_NEXT_CODEX_SESSION.md`
 2. `C:\Comfy_UI_Main\Plan\Instructions\Hydration_Rehydration\SESSION_START_REHYDRATION_CHECKLIST.md`
 3. `C:\Comfy_UI_Main\Plan\Instructions\Hydration_Rehydration\CURRENT_SESSION_STATE.md`
 4. `C:\Comfy_UI_Main\Plan\Instructions\Hydration_Rehydration\NEXT_ACTION.md`
 5. `C:\Comfy_UI_Main\Plan\Instructions\NO_LOOP_NO_DRIFT_PROGRESS_CONTROL.md`
-6. `C:\Comfy_UI_Main\Plan\Instructions\AUTONOMOUS_CODEX_DESKTOP_MASTER_MANUAL.md`
-7. `C:\Comfy_UI_Main\Plan\Instructions\Operations\README_OPERATIONS_WAVE60.md`
-8. `C:\Comfy_UI_Main\Plan\Instructions\QA\README_QA_WAVE61.md`
-9. `C:\Comfy_UI_Main\Plan\Instructions\Hydration_Rehydration\TRACKER_UPDATE_PROTOCOL.md`
-10. `C:\Comfy_UI_Main\Plan\Instructions\Hydration_Rehydration\ITEMIZED_LIST_UPDATE_PROTOCOL.md`
-11. `C:\Comfy_UI_Main\Plan\Instructions\Hydration_Rehydration\QA_EVIDENCE_LOG_PROTOCOL.md`
+6. `C:\Comfy_UI_Main\Plan\Instructions\Operations\EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md`
+7. `C:\Comfy_UI_Main\Plan\Instructions\AUTONOMOUS_CODEX_DESKTOP_MASTER_MANUAL.md`
+8. `C:\Comfy_UI_Main\Plan\Instructions\Operations\README_OPERATIONS_WAVE60.md`
+9. `C:\Comfy_UI_Main\Plan\Instructions\QA\README_QA_WAVE61.md`
+10. `C:\Comfy_UI_Main\Plan\Instructions\Hydration_Rehydration\TRACKER_UPDATE_PROTOCOL.md`
+11. `C:\Comfy_UI_Main\Plan\Instructions\Hydration_Rehydration\ITEMIZED_LIST_UPDATE_PROTOCOL.md`
+12. `C:\Comfy_UI_Main\Plan\Instructions\Hydration_Rehydration\QA_EVIDENCE_LOG_PROTOCOL.md`
+13. `C:\Comfy_UI_Main\Plan\Instructions\Waves\Wave63\WAVE63_SCOPE.md`
 
-Do not replace this read order with a shorter autonomous goal. The pursuing goal is only a pointer to the active objective; the detailed operating rules live in `Plan/Instructions`.
+Do not replace this read order with a short autonomous goal. The pursuing goal is only the active objective pointer; detailed operating rules live in `Plan/Instructions`.
 
 ## How To Use The Instruction Files
 Before acting, reconcile the newest acceptable evidence across the instruction files:
 
 - Prefer current passing evidence with the newest timestamp over older failed blockers when the newer evidence directly supersedes it.
-- Treat `BLOCKER-W59-GIT-001` as superseded for `C:\Comfy_UI_Main`; this root now has a valid `.git`, canonical `origin`, and pushed `main`.
-- Treat `C:\Comfy_UI` only as historical/source context unless a task explicitly says to inspect the old workspace.
-- Treat Wave42/Main Flow analysis, registries, release records, and snapshots under `Plan` as source/staging context. The active runtime surface is `C:\Comfy_UI_Main\Workflows\base_generation`, with simplified first-proof API lanes only.
+- Treat `BLOCKER-W59-GIT-001` as superseded for `C:\Comfy_UI_Main`; this root has a valid `.git`, canonical `origin`, and pushed `main`.
+- Treat `C:\Comfy_UI` as historical/source context and a possible local development ComfyUI environment, not the active Plan-bearing project root.
+- Treat Wave42/Main Flow analysis, registries, release records, and snapshots under `Plan` as source/staging context. The active runtime surface is `C:\Comfy_UI_Main\Workflows\base_generation`, with concrete API lanes only.
 - If top summaries conflict with newer lower sections or evidence files, fix the summary instead of repeating old work.
 - Use generated indexes to find files, but do not refresh indexes repeatedly unless files changed in the current turn.
 - When evidence commits advance `HEAD`, rerun the Git checkpoint gate immediately before any EC2 `-Execute` path.
+- Read `EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md` before any AWS/EC2 decision. If local or CI validation can advance the work while EC2 is stopped, do that first.
 
 ## Current Status
-`SELECTED_AUTHORED_STATIC_SMOKE_IMAGE_QA_AUTH_GATE_PULLBACK_PROFILE_AWARE_LANE_READINESS_EC2_STATIC_PROOF_GATE_SMOKE_COORDINATOR_CURRENT_HELPER_INDEX_AWS_PROFILE_ITEMS_TRACKER_AUTH_RECHECK_PULLBACK_MANIFEST_AUTH_CONTRACT_READINESS_CONTRACT_COORDINATOR_GATE_PROJECT_READINESS_QA_CONTRACT_RUNTIME_HANDOFF_HANDOFF_READINESS_CONTRACT_EC2_GIT_CHECKPOINT_GATE_POST_CHECKPOINT_GIT_RECHECK_REALVISXL_LANE_STATIC_PASS_LANE_SPECIFIC_READINESS_LANE_AWARE_PROJECT_HANDOFF_AUTHORED_LANE_EVIDENCE_COVERAGE_RUNTIME_LANE_QUEUE_VALIDATED_QUEUE_AWARE_READINESS_VALIDATED_MODEL_REGISTRY_GATE_VALIDATED_ROOT_PREFLIGHT_MODEL_REGISTRY_GATE_PASSED_PENDING_BROWSER_LOGIN`
+The first queued runtime lane, `sdxl_low_risk_fallback_lane`, completed target EC2 static proof, one bounded package-fed workflow smoke generation, SSM pullback, technical image QA, and visual QA with runtime-smoke notes. Do not repeat that lane just to re-prove the same path.
 
-Both concrete authored base-generation lanes have lane-matched local pre-EC2 evidence and a validated runtime queue. The first runtime lane is `sdxl_low_risk_fallback_lane`; `sdxl_realvisxl_base_lane` is queued second. Model registry coverage is an EC2 preflight gate and currently passes for the active lanes. AWS browser/SSO auth is still the external blocker before EC2 static proof or generation can run.
+The next queued runtime lane is `sdxl_realvisxl_base_lane`. It is locally authored and static-valid, but it still needs target EC2 object-info, RealVisXL checkpoint path/hash/load proof, generation, pullback, and image QA before it can be treated as runtime-proven.
 
-This goal does not mean the full old `C:\Comfy_UI` workflow system or the full Wave42/Main Flow graph is active runtime yet. Main Flow material must be extracted into a lane/module and pass the current validation, registry, queue, package, auth, Git, readiness, static-proof, pullback, and QA gates before execution.
+Wave 63 cost controls are active:
+
+- Local dev preflight: `tools\Test-LocalComfyUIDevPreflight.ps1`.
+- Deploy bundle builder: `tools\New-EC2DeployBundle.ps1`.
+- GitHub Actions preflight/package workflow: `.github\workflows\preflight-package.yml`.
+- EC2 helpers now support `-SkipGitLfsPull` and `-MaxEc2RuntimeMinutes`.
+- EC2 should be used only for target-runtime facts, not for package/build/index housekeeping.
 
 ## Last Verified Facts
-The current root preflight passed from `C:\Comfy_UI_Main` with `.git` present, `HEAD == origin/main` at check time, `.env` ignored, required root file structure present, active lane exports static-valid, model registry coverage passing, `ec2_started=false`, and `generation_executed=false`.
+The current root is `C:\Comfy_UI_Main`. `.env` is ignored, GitHub/Civitai variable names are present without printing values, and model binaries/private keys/generated media must not be committed.
 
-The current runtime handoff must be model-registry-gated, queue-aware, Git-checkpoint-gated, and package-aware. The bounded workflow-smoke command must include:
+Current proof evidence for the first lane includes:
 
-```powershell
--RunPackageManifestFile C:\Comfy_UI_Main\runtime_artifacts\run_packages\sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1\RUN_PACKAGE_MANIFEST.json
+```text
+Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_POST_LOGIN_RETEST_20260706T104311-0500.json
+Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_POST_STATIC_PROOF_RETEST_20260706T110424-0500.json
+Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/PULLBACK_RECORD.json
+Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_TECHNICAL_20260706T121958-0500.json
+Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_VISUAL_20260706T122027-0500.json
 ```
 
-Use `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_MARKDOWN_ESCAPE_FIX_20260706T101855-0500.md` as the current human-readable runtime handoff. Do not use the older `W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.md` Markdown as the active handoff because it contains PowerShell backtick escape corruption.
+S3 pullback was blocked by missing EC2 role permissions and SSH/SCP timed out, so SSM chunk pullback is the known working fallback. EC2 final state was verified `stopped`.
 
 ## Next Exact Work
-If the passing root preflight/index evidence from the active session is still uncommitted, finish that evidence checkpoint first without changing runtime behavior.
+First, if the runtime proof, cost-control, tracker, or instruction updates are uncommitted, finish one clean Git checkpoint and verify local `HEAD == origin/main`.
 
-After the evidence checkpoint, stop local housekeeping and wait for AWS browser/SSO auth. Once auth is refreshed, run the current handoff sequence in this order:
+Second, use the cost-control lane before any EC2 start:
 
-1. `Test-AwsAuthGate.ps1 -AttemptRemoteLogin` until `ec2_work_allowed=true` and `safe_to_start_ec2=true`.
-2. `Test-AwsProfileAuthMatrix.ps1` to verify expected account `029530099913`.
-3. `Test-RuntimeLaneQueue.ps1` and require first lane `sdxl_low_risk_fallback_lane`, selected order `1`, failed checks `0`.
-4. `Test-WorkflowModelRegistryCoverage.ps1` and require selected lane result `pass`, failed checks `0`.
-5. `Invoke-GitHubCheckpoint.ps1` / Git checkpoint recheck and require clean worktree plus `HEAD == origin/main`.
-6. `Test-LaneRuntimeReadiness.ps1 -LaneId sdxl_low_risk_fallback_lane`.
-7. `Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_low_risk_fallback_lane -Execute`.
-8. `Invoke-EC2WorkflowSmokeRun.ps1 -LaneId sdxl_low_risk_fallback_lane -Execute -RunPackageManifestFile ...RUN_PACKAGE_MANIFEST.json`.
-9. Pull back remote artifacts, record the remote manifest, stop EC2, verify final state `stopped`.
-10. Run image artifact QA and update evidence, tracker, itemized list, state, and the pursuing goal once.
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\Test-LocalComfyUIDevPreflight.ps1 -ProjectRoot C:\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\New-WorkflowRunPackage.ps1 -ProjectRoot C:\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane -AllowNonFirstLane
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\New-EC2DeployBundle.ps1 -ProjectRoot C:\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane -RunPackageManifestFile <realvisxl-run-package-manifest>
+```
+
+Third, after AWS auth and Git gates pass, use one bounded EC2 window for the next target-runtime proof. Default to `-SkipGitLfsPull` unless the selected lane explicitly requires repository LFS payloads:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -MaxEc2RuntimeMinutes 25 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W63_EC2_LANE_STATIC_PROOF_REALVISXL_<timestamp>.json
+```
+
+Only after RealVisXL static proof passes, run its package-fed workflow smoke with `-SkipGitLfsPull`, `-MaxEc2RuntimeMinutes`, pullback, and image QA.
 
 ## Hard Stop And No-Loop Rules
-If AWS auth remains expired and the local queue, model registry, root preflight, readiness, and Git gates are already passing or blocked only by auth, do not create more validators, new instruction rewrites, repeated index refreshes, or new evidence files with the same result. Record the auth blocker once, update state once, and stop or wait for user/browser auth.
+If AWS auth is expired, Git is not clean/pushed, or the selected lane is not ready, do not start EC2. Record the blocker once and switch only to a concrete local/CI task that changes runtime capability.
 
-Housekeeping is allowed only when it fixes a real contradiction, stale current-state pointer, broken validation, missing evidence reference, or requested instruction improvement. It must end with a concrete next runtime action.
+Allowed local/CI tasks while EC2 is stopped:
+
+- Improve a lane, prompt profile, model registry record, run package, deploy bundle, or QA rule.
+- Run local ComfyUI dev checks/previews without claiming EC2 equivalence.
+- Run GitHub Actions preflight/package and inspect the artifact.
+- Fix a real stale/conflicting instruction that would misroute the autonomous session.
+
+Disallowed loop work:
+
+- Repeating first-lane proof without a changed lane/package/prompt/QA objective.
+- Rebuilding indexes or handoffs repeatedly with the same result.
+- Running Git LFS pulls on the EC2 clock unless a lane explicitly needs them.
+- Updating this pursuing goal in a way that omits the required `Plan/Instructions` read order.
 
 ## Update Protocol
-When this file is autonomously updated, preserve these sections and keep the required instruction read order. Updates should change only the current status, last verified facts, next exact work, and hard blockers. Do not compress this file back into a short goal that omits `Plan/Instructions`.
+When this file is autonomously updated, preserve these sections and keep the required instruction read order. Updates should change only current status, last verified facts, next exact work, and hard blockers. Do not compress this file back into a short goal that omits `Plan/Instructions`.

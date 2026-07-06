@@ -269,6 +269,33 @@ After no input changed: no new housekeeping artifact is allowed.
 
 Any continuation that chooses local work while AWS auth is blocked must state which concrete project capability it advances. If the answer is only "documentation cleanup", "refresh evidence", "recheck current state", or "organize files", stop and report the blocker instead.
 
+## 14. EC2 cost-control no-loop rules
+
+Cost-control work is now part of the operating system, not optional advice. Before any new EC2 start, Codex must read:
+
+```text
+C:\Comfy_UI_Main\Plan\Instructions\Operations\EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md
+```
+
+Use this decision order:
+
+```text
+1. Can the work be completed with static validation, package creation, or GitHub Actions while EC2 is stopped? Do that first.
+2. Can the work be explored in local ComfyUI dev mode without claiming target-runtime proof? Do that before EC2.
+3. Is a target A10G runtime fact required: object_info, model path/hash/load, generation, pullback, or QA? Use one bounded EC2 window.
+4. Is auth, Git, or queue state blocked? Stop and report the blocker.
+```
+
+Do not repeat a completed lane proof. If `sdxl_low_risk_fallback_lane` already has EC2 static proof, generated smoke output, pullback, and image QA evidence, future EC2 work should move to the next queued lane or a user-approved improvement task.
+
+EC2 helper defaults:
+
+```text
+Use -SkipGitLfsPull unless the lane explicitly requires repository LFS payloads.
+Use -MaxEc2RuntimeMinutes for every -Execute command.
+Do not run Git LFS pulls, bundle rebuilds, or index refreshes on the GPU clock unless they are strictly required for the active runtime command.
+```
+
 ## 14. Active runtime surface boundary
 
 The `Plan` directory contains Wave42/Main Flow analysis, deconstruction reports, registries, and source snapshots. Those files are source/staging context.

@@ -367,6 +367,9 @@ $staticProof = [ordered]@{
   found = (![string]::IsNullOrWhiteSpace($StaticProofFile) -and (Test-Path -LiteralPath $StaticProofFile))
   object_info_pass = $false
   model_hashes_present = $false
+  model_proof_count = 0
+  model_missing_count = 0
+  model_hash_missing_count = 0
   generation_allowed = $false
   status = "missing_ec2_static_proof"
 }
@@ -385,7 +388,10 @@ if ($staticProof.found) {
   }
   if (Has-Property -Object $proofPayload -Name "model_proofs") {
     $models = @($proofPayload.model_proofs)
-    $staticProof.model_hashes_present = ($models.Count -gt 0 -and (@($models | Where-Object { [string]::IsNullOrWhiteSpace([string]$_.sha256) }).Count -eq 0))
+    $staticProof.model_proof_count = $models.Count
+    $staticProof.model_missing_count = @($models | Where-Object { -not [bool]$_.exists }).Count
+    $staticProof.model_hash_missing_count = @($models | Where-Object { [string]::IsNullOrWhiteSpace([string]$_.sha256) }).Count
+    $staticProof.model_hashes_present = ($models.Count -gt 0 -and $staticProof.model_missing_count -eq 0 -and $staticProof.model_hash_missing_count -eq 0)
   }
   $staticProof.generation_allowed = ($staticProof.object_info_pass -and $staticProof.model_hashes_present)
   $staticProof.status = $(if ($staticProof.generation_allowed) { "pass" } else { "incomplete" })
@@ -484,7 +490,17 @@ if (!$localPreEc2Ready) {
   $readinessResult = "ready_for_generation"
 } elseif ($readyForEc2StaticProof) {
   $readinessResult = "ready_for_ec2_static_proof"
-  $readinessFailureCategory = "missing_ec2_static_proof"
+  if (!$staticProof.found) {
+    $readinessFailureCategory = "missing_ec2_static_proof"
+  } elseif (!$staticProof.object_info_pass) {
+    $readinessFailureCategory = "ec2_static_proof_object_info_incomplete"
+  } elseif ($staticProof.model_missing_count -gt 0) {
+    $readinessFailureCategory = "ec2_static_proof_required_model_missing"
+  } elseif ($staticProof.model_hash_missing_count -gt 0 -or !$staticProof.model_hashes_present) {
+    $readinessFailureCategory = "ec2_static_proof_required_model_hash_missing"
+  } else {
+    $readinessFailureCategory = "ec2_static_proof_incomplete"
+  }
 } elseif (!$auth.safe_to_start_ec2) {
   $readinessResult = "local_pre_ec2_ready_runtime_blocked_auth"
   $readinessFailureCategory = $(if (![string]::IsNullOrWhiteSpace([string]$auth.failure_category)) { [string]$auth.failure_category } else { "aws_auth_blocked" })
@@ -535,7 +551,7 @@ $record = [ordered]@{
   ready_for_generation = $readyForGeneration
   errors = $errors
   warnings = $warnings
-  next_action = $(if (!$auth.safe_to_start_ec2) { "Complete AWS remote browser login and rerun Test-AwsAuthGate.ps1." } elseif (!$modelRegistryCoverage.coverage_allows_selected_lane_ec2_static_proof) { "Rerun Test-WorkflowModelRegistryCoverage.ps1 and inspect registry/queue coverage before EC2 static proof." } elseif (!$staticProof.generation_allowed) { "Run Invoke-EC2LaneStaticProof.ps1 -Execute and record object-info/path/hash proof." } else { "Run Invoke-ComfyWorkflowSmoke.ps1 -Execute, pull back artifacts, create PULLBACK_RECORD.json, then perform image QA." })
+  next_action = $(if (!$auth.safe_to_start_ec2) { "Complete AWS remote browser login and rerun Test-AwsAuthGate.ps1." } elseif (!$modelRegistryCoverage.coverage_allows_selected_lane_ec2_static_proof) { "Rerun Test-WorkflowModelRegistryCoverage.ps1 and inspect registry/queue coverage before EC2 static proof." } elseif (!$staticProof.found) { "Run Invoke-EC2LaneStaticProof.ps1 -Execute and record object-info/path/hash proof." } elseif ($staticProof.model_missing_count -gt 0) { "Install or sync the required EC2 model file(s), then rerun Invoke-EC2LaneStaticProof.ps1 -Execute for this lane." } elseif (!$staticProof.generation_allowed) { "Rerun Invoke-EC2LaneStaticProof.ps1 -Execute after resolving the incomplete object-info/hash proof." } else { "Run Invoke-ComfyWorkflowSmoke.ps1 -Execute, pull back artifacts, create PULLBACK_RECORD.json, then perform image QA." })
 }
 
 if ([string]::IsNullOrWhiteSpace($OutFile)) {

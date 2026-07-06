@@ -38,6 +38,8 @@ param(
   [int]$ComfyPort = 8192,
   [int]$TimeoutSeconds = 900,
   [int]$PollSeconds = 3,
+  [int]$MaxEc2RuntimeMinutes = 45,
+  [switch]$SkipGitLfsPull,
   [switch]$Execute
 )
 
@@ -818,6 +820,8 @@ $record = [ordered]@{
   remote_artifact_root = "$RemoteArtifactRoot/$runId"
   comfy_port = $ComfyPort
   timeout_seconds = $TimeoutSeconds
+  max_ec2_runtime_minutes = $MaxEc2RuntimeMinutes
+  git_lfs_pull_skipped = [bool]$SkipGitLfsPull.IsPresent
   result = $(if ($executeGatesPass) { "ready_for_workflow_smoke_execute" } elseif ($Execute) { "blocked_before_ec2_start" } else { "dry_run_blocked_before_ec2_start" })
   failure_category = $gateFailureCategory
   lane_contracts = $laneContracts
@@ -836,7 +840,7 @@ $record = [ordered]@{
     "Require selected-lane readiness gate before generation.",
     "Require EC2 object-info/path/hash static proof before generation.",
     $(if ($runPackage.supplied) { "Load the validated run package prompt_request.json as the bounded ComfyUI /prompt body." } else { "Build the patched ComfyUI /prompt request body locally." }),
-    "With -Execute only, start i-0560bf8d143f93bb1, run remote ComfyUI smoke, create artifact manifest, pull back artifacts when S3 is available, then stop EC2."
+    "With -Execute only, start i-0560bf8d143f93bb1, run Git LFS only when needed, run remote ComfyUI smoke, create artifact manifest, pull back artifacts when S3 is available, then stop EC2."
   )
   generation_executed = $false
   ec2_started = $false
@@ -882,6 +886,7 @@ $requestBase64 = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes
 $expectedRemoteGitHead = [string]$localGitGate.expected_remote_head
 $s3BucketForRemote = $S3Bucket
 $s3PrefixForRemote = "$S3Prefix/$runId".Trim("/")
+$ssmExecutionTimeoutSeconds = [Math]::Min([Math]::Max(600, $TimeoutSeconds + 900), [Math]::Max(600, $MaxEc2RuntimeMinutes * 60))
 $remoteScript = @"
 python3 - <<'PY'
 import base64, datetime, glob, hashlib, json, os, shutil, signal, subprocess, time, traceback, urllib.request
@@ -892,6 +897,7 @@ COMFY = "$RemoteComfyRoot"
 ARTIFACT_ROOT = "$RemoteArtifactRoot/$runId"
 REQUEST_B64 = "$requestBase64"
 EXPECTED_GIT_HEAD = "$expectedRemoteGitHead"
+SKIP_GIT_LFS_PULL = "$($SkipGitLfsPull.IsPresent)".lower() == "true"
 PORT = $ComfyPort
 TIMEOUT_SECONDS = $TimeoutSeconds
 POLL_SECONDS = $PollSeconds
@@ -961,7 +967,12 @@ try:
 
     result["git_head_before"] = run(["git", "rev-parse", "HEAD"], cwd=PROJECT, check=True)["stdout"]
     result["git_pull"] = run(["git", "pull", "--ff-only", "origin", "main"], cwd=PROJECT, timeout=300, check=True)["stdout"][-500:]
-    result["git_lfs_pull_rc"] = run(["git", "lfs", "pull"], cwd=PROJECT, timeout=300, check=True)["rc"]
+    if SKIP_GIT_LFS_PULL:
+        result["git_lfs_pull_rc"] = 0
+        result["git_lfs_pull_skipped"] = True
+    else:
+        result["git_lfs_pull_rc"] = run(["git", "lfs", "pull"], cwd=PROJECT, timeout=300, check=True)["rc"]
+        result["git_lfs_pull_skipped"] = False
     result["git_head_after"] = run(["git", "rev-parse", "HEAD"], cwd=PROJECT, check=True)["stdout"]
     result["git_expected_head"] = EXPECTED_GIT_HEAD
     result["git_head_matches_expected"] = (not EXPECTED_GIT_HEAD) or result["git_head_after"] == EXPECTED_GIT_HEAD
@@ -1168,18 +1179,29 @@ try {
   $payload = @{
     DocumentName = "AWS-RunShellScript"
     InstanceIds = @($InstanceId)
-    Parameters = @{ commands = @($remoteScript); executionTimeout = @([string]($TimeoutSeconds + 900)) }
+    TimeoutSeconds = $ssmExecutionTimeoutSeconds
+    Parameters = @{ commands = @($remoteScript); executionTimeout = @([string]$ssmExecutionTimeoutSeconds) }
     CloudWatchOutputConfig = @{ CloudWatchOutputEnabled = $false }
   } | ConvertTo-Json -Depth 8
   [System.IO.File]::WriteAllText($payloadPath, $payload, [System.Text.UTF8Encoding]::new($false))
 
   $record.command_id = (aws ssm send-command --region $Region --cli-input-json "file://$payloadPath" --query "Command.CommandId" --output text).Trim()
   Write-Host "SSM command sent: $($record.command_id)"
-  for ($i = 0; $i -lt [Math]::Max(120, [int](($TimeoutSeconds + 900) / 5)); $i++) {
+  $record.ssm_execution_timeout_seconds = $ssmExecutionTimeoutSeconds
+  $maxCommandPolls = [Math]::Max(1, [int][Math]::Ceiling($ssmExecutionTimeoutSeconds / 5))
+  for ($i = 0; $i -lt $maxCommandPolls; $i++) {
     Start-Sleep -Seconds 5
     $record.command_status = (aws ssm get-command-invocation --region $Region --instance-id $InstanceId --command-id $record.command_id --query "Status" --output text 2>$null).Trim()
-    Write-Host "SSM command wait $($i + 1) status=$($record.command_status)"
+    Write-Host "SSM command wait $($i + 1)/$maxCommandPolls status=$($record.command_status)"
     if ($record.command_status -in @("Success", "Cancelled", "TimedOut", "Failed", "Cancelling")) { break }
+  }
+  if ($record.command_status -notin @("Success", "Cancelled", "TimedOut", "Failed", "Cancelling")) {
+    $record.command_status = "LocalTimeout"
+    try {
+      aws ssm cancel-command --region $Region --command-id $record.command_id --instance-ids $InstanceId --output json | Out-Null
+    } catch {
+      $record.errors += "SSM cancel-command after local timeout failed: $($_.Exception.Message)"
+    }
   }
 
   $stdout = aws ssm get-command-invocation --region $Region --instance-id $InstanceId --command-id $record.command_id --query "StandardOutputContent" --output text

@@ -1,5 +1,46 @@
 # Next Action
 
+## Current next action - 2026-07-06T12:49:30-05:00
+
+Finish and push the current checkpoint from `C:\Comfy_UI_Main`, then continue the second queued lane `sdxl_realvisxl_base_lane`.
+
+Do not repeat the first-lane smoke path. `sdxl_low_risk_fallback_lane` already has EC2 static proof, bounded workflow smoke generation, SSM pullback, technical image QA, and visual QA with runtime-smoke notes.
+
+The active RealVisXL blocker is now specific:
+
+```text
+BLOCKER-RUNTIME-REALVISXL-CHECKPOINT-EC2-001
+Required EC2 file missing:
+/home/ubuntu/ComfyUI/models/checkpoints/realvisxlV50_v50Bakedvae.safetensors
+
+Expected source:
+Civitai model 139562, version 789646, RealVisXL V5.0 (BakedVAE)
+
+Expected SHA256:
+6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80
+```
+
+Current evidence:
+
+```text
+Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_REALVISXL_20260706T123028-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_REALVISXL_MISSING_MODEL_CLASSIFICATION_20260706T124103-0500.json
+Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_REALVISXL_MISSING_MODEL_CLASSIFICATION_20260706T124103-0500.json
+Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_EC2_DEPLOY_BUNDLE_VALIDATION_20260706T124907-0500.json
+```
+
+Next runtime work after the checkpoint:
+
+1. Verify AWS auth and Git clean/head.
+2. Start EC2 only for a bounded model install/verification window.
+3. Download or sync `realvisxlV50_v50Bakedvae.safetensors` into `/home/ubuntu/ComfyUI/models/checkpoints/`.
+4. Verify SHA256 equals `6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80`.
+5. Stop EC2 and verify final state `stopped`.
+6. Rerun RealVisXL EC2 static proof with `-SkipGitLfsPull -MaxEc2RuntimeMinutes 25`.
+7. Only if static proof passes, build/use the RealVisXL run package, run bounded workflow smoke, pull back artifacts, and perform image QA.
+
+Wave 63 cost-control defaults are active: use local/CI validation first, use `-SkipGitLfsPull` unless the lane explicitly requires repository LFS payloads, set `-MaxEc2RuntimeMinutes`, and do not run housekeeping on the EC2 clock.
+
 ## Current runtime proof update - 2026-07-06T12:20:27-05:00
 
 The first queued lane `sdxl_low_risk_fallback_lane` has now completed live EC2 static proof and one bounded workflow smoke generation from the hyperreal editorial portrait run package. Commit/push the evidence from this session before any further EC2 work.
@@ -26,7 +67,35 @@ Runtime smoke result is `workflow_smoke_generation_complete`; pullback result is
 
 Important caveats: S3 pullback is blocked by missing EC2 role permissions (`s3:ListBucket` and `s3:PutObject`); SSH/SCP timed out on port 22 even though `C:\Comfy_UI_Main\comfyui-lora-key.pem` exists and is ignored by Git. The artifact was pulled back through SSM chunk transfer and verified locally. Do not claim final image-quality certification from this single smoke image; it is a runtime-lane proof with visual QA notes.
 
-Next exact action after committing this evidence: run a final Git clean/head check, then either update generated indexes/tracker rows for this proof or begin `sdxl_realvisxl_base_lane` EC2 static proof only after another clean pushed checkpoint.
+Next exact action after committing this evidence: finish the Wave 63 cost-control checkpoint, run a final Git clean/head check, then prepare `sdxl_realvisxl_base_lane` locally/through CI before any EC2 start. Begin RealVisXL EC2 static proof only after another clean pushed checkpoint, auth gate pass, lane readiness pass, and deploy/package preparation.
+
+## Current cost-control update - 2026-07-06T12:45:00-05:00
+
+The project now has an active EC2 cost-control path:
+
+```text
+Plan/Instructions/Operations/EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md
+tools/Test-LocalComfyUIDevPreflight.ps1
+tools/New-EC2DeployBundle.ps1
+.github/workflows/preflight-package.yml
+Plan/Instructions/Waves/Wave63/WAVE63_SCOPE.md
+```
+
+Before any new EC2 `-Execute`, use local/CI validation while EC2 is stopped. Default EC2 helpers to `-SkipGitLfsPull` and set `-MaxEc2RuntimeMinutes`. Do not rerun the completed low-risk lane just to re-prove it.
+
+Recommended local preparation for the next queued lane:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\Test-LocalComfyUIDevPreflight.ps1 -ProjectRoot C:\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\New-WorkflowRunPackage.ps1 -ProjectRoot C:\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane -AllowNonFirstLane
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\New-EC2DeployBundle.ps1 -ProjectRoot C:\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane -RunPackageManifestFile <realvisxl-run-package-manifest>
+```
+
+Recommended bounded EC2 static proof after auth/Git/readiness gates pass:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -MaxEc2RuntimeMinutes 25 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W63_EC2_LANE_STATIC_PROOF_REALVISXL_<timestamp>.json
+```
 
 ## Current local work completed
 

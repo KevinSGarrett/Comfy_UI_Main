@@ -1,0 +1,156 @@
+{
+    "schema_version":  "1.0",
+    "timestamp":  "2026-07-06T12:47:54-05:00",
+    "project_root":  "C:\\Comfy_UI_Main",
+    "lane_id":  "sdxl_low_risk_fallback_lane",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "local_gpu":  {
+                      "nvidia_smi_found":  true,
+                      "name":  "NVIDIA GeForce RTX 5060 Laptop GPU",
+                      "memory_total_mib":  8151,
+                      "driver_version":  "592.01",
+                      "raw":  "NVIDIA GeForce RTX 5060 Laptop GPU, 8151 MiB, 592.01"
+                  },
+    "local_comfyui":  {
+                          "selected_root":  null,
+                          "candidates":  [
+                                             {
+                                                 "path":  "C:\\Comfy_UI\\ComfyUI",
+                                                 "exists":  false,
+                                                 "main_py_exists":  false
+                                             },
+                                             {
+                                                 "path":  "C:\\Comfy_UI\\Runtime\\ComfyUI",
+                                                 "exists":  false,
+                                                 "main_py_exists":  false
+                                             },
+                                             {
+                                                 "path":  "C:\\Comfy_UI",
+                                                 "exists":  true,
+                                                 "main_py_exists":  false
+                                             },
+                                             {
+                                                 "path":  "C:\\Comfy_UI_Main\\ComfyUI",
+                                                 "exists":  false,
+                                                 "main_py_exists":  false
+                                             }
+                                         ]
+                      },
+    "local_model_roots":  [
+                              {
+                                  "path":  "C:\\Comfy_UI\\models",
+                                  "exists":  true
+                              },
+                              {
+                                  "path":  "C:\\Comfy_UI\\ComfyUI\\models",
+                                  "exists":  false
+                              },
+                              {
+                                  "path":  "C:\\Comfy_UI_Main\\models",
+                                  "exists":  true
+                              }
+                          ],
+    "static_validation":  {
+                              "attempted":  true,
+                              "qa_status":  "pass",
+                              "defect_count":  0,
+                              "error":  null
+                          },
+    "checks":  [
+                   {
+                       "name":  "nvidia_gpu_available",
+                       "passed":  true,
+                       "observed":  {
+                                        "nvidia_smi_found":  true,
+                                        "name":  "NVIDIA GeForce RTX 5060 Laptop GPU",
+                                        "memory_total_mib":  8151,
+                                        "driver_version":  "592.01",
+                                        "raw":  "NVIDIA GeForce RTX 5060 Laptop GPU, 8151 MiB, 592.01"
+                                    },
+                       "message":  "",
+                       "result":  "pass"
+                   },
+                   {
+                       "name":  "gpu_memory_suitable_for_low_res_sdxl_dev",
+                       "passed":  true,
+                       "observed":  8151,
+                       "message":  "Use low resolution, batch size 1, low steps, and low-VRAM settings for local development.",
+                       "result":  "pass"
+                   },
+                   {
+                       "name":  "local_comfyui_main_py_found",
+                       "passed":  false,
+                       "observed":  [
+                                        {
+                                            "path":  "C:\\Comfy_UI\\ComfyUI",
+                                            "exists":  false,
+                                            "main_py_exists":  false
+                                        },
+                                        {
+                                            "path":  "C:\\Comfy_UI\\Runtime\\ComfyUI",
+                                            "exists":  false,
+                                            "main_py_exists":  false
+                                        },
+                                        {
+                                            "path":  "C:\\Comfy_UI",
+                                            "exists":  true,
+                                            "main_py_exists":  false
+                                        },
+                                        {
+                                            "path":  "C:\\Comfy_UI_Main\\ComfyUI",
+                                            "exists":  false,
+                                            "main_py_exists":  false
+                                        }
+                                    ],
+                       "message":  "Provide -LocalComfyRoot if ComfyUI is installed outside the standard candidate paths.",
+                       "result":  "fail"
+                   },
+                   {
+                       "name":  "local_model_directory_candidate_exists",
+                       "passed":  true,
+                       "observed":  [
+                                        {
+                                            "path":  "C:\\Comfy_UI\\models",
+                                            "exists":  true
+                                        },
+                                        {
+                                            "path":  "C:\\Comfy_UI\\ComfyUI\\models",
+                                            "exists":  false
+                                        },
+                                        {
+                                            "path":  "C:\\Comfy_UI_Main\\models",
+                                            "exists":  true
+                                        }
+                                    ],
+                       "message":  "",
+                       "result":  "pass"
+                   },
+                   {
+                       "name":  "selected_lane_static_valid",
+                       "passed":  true,
+                       "observed":  {
+                                        "attempted":  true,
+                                        "qa_status":  "pass",
+                                        "defect_count":  0,
+                                        "error":  null
+                                    },
+                       "message":  "",
+                       "result":  "pass"
+                   }
+               ],
+    "failed_check_count":  1,
+    "local_dev_can_reduce_ec2_starts":  true,
+    "local_dev_replaces_ec2_final_proof":  false,
+    "ec2_final_proof_still_required":  true,
+    "result":  "pass_local_dev_candidate",
+    "next_action":  "Use local ComfyUI only for low-cost prompt/workflow iteration. Reserve EC2 for target-runtime object-info, model path/hash, generation, pullback, and QA proof.",
+    "errors":  [
+
+               ]
+}

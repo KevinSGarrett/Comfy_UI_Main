@@ -225,12 +225,22 @@ If stop fails, Codex must retry once, then log a high-priority issue in the trac
 
 ## 10. Cost-control behavior
 
-Codex must track the runtime window. The instance should be stopped immediately after GPU work is done. If Codex loses task context while EC2 is running, the safe default is:
+Codex must track the runtime window. The instance should be stopped immediately after GPU work is done. Before starting EC2, Codex must complete all possible local or CI work:
+
+1. Local static validation, model registry coverage, package creation, and deploy-bundle creation.
+2. GitHub Actions preflight/package when available.
+3. Local ComfyUI dev iteration when the task is prompt/workflow tuning and does not need target A10G proof.
+
+For EC2 helpers, use `-SkipGitLfsPull` by default unless the lane explicitly requires repository LFS payloads. Set `-MaxEc2RuntimeMinutes` on every live proof/smoke command. Batch static proof, smoke generation, manifest, pullback, stop, and final-state verification in one bounded EC2 window.
+
+If Codex loses task context while EC2 is running, the safe default is:
 
 1. Pull back logs/artifacts if possible.
 2. Stop the instance.
 3. Record incomplete task state.
 4. Rehydrate next session from the local run record.
+
+If an SSM command exceeds its local timeout, cancel the command, stop the instance, and write incomplete evidence. Do not leave the instance running while adding housekeeping evidence.
 
 ## 11. Failure handling
 

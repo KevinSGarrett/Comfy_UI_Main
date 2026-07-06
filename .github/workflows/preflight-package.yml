@@ -1,0 +1,67 @@
+name: Preflight and Package
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - main
+    paths:
+      - "Plan/**"
+      - "Workflows/**"
+      - "PromptProfiles/**"
+      - "tools/**"
+      - "PROJECT_ROOT_MANIFEST.json"
+      - "README.md"
+      - ".github/workflows/preflight-package.yml"
+
+jobs:
+  preflight-package:
+    name: Local-only preflight and deploy bundle
+    runs-on: windows-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout without LFS payloads
+        uses: actions/checkout@v4
+        with:
+          lfs: false
+
+      - name: Prepare artifact folders
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path "$env:GITHUB_WORKSPACE\ci_artifacts\model_registry" | Out-Null
+          New-Item -ItemType Directory -Force -Path "$env:GITHUB_WORKSPACE\ci_artifacts\run_packages" | Out-Null
+          New-Item -ItemType Directory -Force -Path "$env:GITHUB_WORKSPACE\ci_artifacts\deploy_bundle" | Out-Null
+
+      - name: Sync exported workflow files
+        shell: pwsh
+        run: |
+          powershell -NoProfile -ExecutionPolicy Bypass -File "$env:GITHUB_WORKSPACE\tools\Sync-WorkflowExports.ps1" -ProjectRoot "$env:GITHUB_WORKSPACE"
+
+      - name: Model registry coverage gate
+        shell: pwsh
+        run: |
+          powershell -NoProfile -ExecutionPolicy Bypass -File "$env:GITHUB_WORKSPACE\Plan\Instructions\QA\Scripts\Test-WorkflowModelRegistryCoverage.ps1" -ProjectRoot "$env:GITHUB_WORKSPACE" -OutFile "$env:GITHUB_WORKSPACE\ci_artifacts\model_registry\model_registry_coverage.json"
+
+      - name: Build verified run package
+        shell: pwsh
+        run: |
+          powershell -NoProfile -ExecutionPolicy Bypass -File "$env:GITHUB_WORKSPACE\tools\New-WorkflowRunPackage.ps1" -ProjectRoot "$env:GITHUB_WORKSPACE" -LaneId "sdxl_low_risk_fallback_lane" -PromptProfileFile "PromptProfiles\base_generation\hyperreal_editorial_portrait.json" -RunId "sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1" -PackageRoot "$env:GITHUB_WORKSPACE\ci_artifacts\run_packages"
+
+      - name: Build deploy bundle
+        shell: pwsh
+        run: |
+          powershell -NoProfile -ExecutionPolicy Bypass -File "$env:GITHUB_WORKSPACE\tools\New-EC2DeployBundle.ps1" -ProjectRoot "$env:GITHUB_WORKSPACE" -LaneId "sdxl_low_risk_fallback_lane" -RunPackageManifestFile "$env:GITHUB_WORKSPACE\ci_artifacts\run_packages\sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1\RUN_PACKAGE_MANIFEST.json" -OutDir "$env:GITHUB_WORKSPACE\ci_artifacts\deploy_bundle" -BundleName "sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1"
+
+      - name: Upload deploy bundle artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: comfy-ui-main-preflight-deploy-bundle
+          path: |
+            ci_artifacts/deploy_bundle/*.zip
+            ci_artifacts/deploy_bundle/DEPLOY_BUNDLE_MANIFEST.json
+            ci_artifacts/model_registry/model_registry_coverage.json
+          retention-days: 7

@@ -12,6 +12,18 @@ None currently active for local Wave 58-62 static and packaging validation.
 
 ## Active runtime blockers
 
+- `BLOCKER-RUNTIME-REALVISXL-CHECKPOINT-EC2-001`
+  - blocker type: ec2_required_model_missing
+  - failed condition: RealVisXL second-lane EC2 static proof found `/home/ubuntu/ComfyUI/models/checkpoints/realvisxlV50_v50Bakedvae.safetensors` missing.
+  - AWS/EC2 involved: yes
+  - impact: `sdxl_realvisxl_base_lane` cannot run generation, pullback, or image QA until the checkpoint exists on EC2 and its SHA256 is verified.
+  - expected file: `realvisxlV50_v50Bakedvae.safetensors`
+  - expected source/version: Civitai model `139562`, version `789646`, `RealVisXL V5.0 (BakedVAE)`
+  - expected source SHA256: `6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80`
+  - current state: EC2 `/object_info` proof passed, required nodes were present, command status was `Success`, and final EC2 state was verified `stopped`; model proof reported `exists=false`.
+  - route: install or sync the checkpoint into the EC2 ComfyUI checkpoints directory, verify SHA256, rerun `Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_realvisxl_base_lane -Execute`, then rerun lane readiness before any workflow smoke generation.
+  - evidence: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_REALVISXL_20260706T123028-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_REALVISXL_MISSING_MODEL_CLASSIFICATION_20260706T124103-0500.json`
+
 - `BLOCKER-RUNTIME-COMFYUI-LOCAL-001`
   - blocker type: local_runtime_missing
   - failed condition: `C:\Comfy_UI_Main\ComfyUI` and expected local model folders do not exist.

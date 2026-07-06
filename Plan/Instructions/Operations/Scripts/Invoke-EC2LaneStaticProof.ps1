@@ -18,6 +18,8 @@ param(
   [string]$AuthGateFile = "",
   [string]$ReadinessFile = "",
   [string]$OutFile = "",
+  [int]$MaxEc2RuntimeMinutes = 25,
+  [switch]$SkipGitLfsPull,
   [switch]$Execute
 )
 
@@ -327,7 +329,7 @@ if (-not $Execute) {
       "Require lane readiness ready_for_ec2_static_proof=true before EC2 start.",
       "Start instance only if stopped.",
       "Wait for EC2 status checks and SSM online.",
-      "Update remote project checkout and Git LFS.",
+      "Update remote project checkout and run Git LFS only when the lane explicitly needs it.",
       "Read lane runtime_requirements.json.",
       "Launch ComfyUI only for /object_info.",
       "Resolve and sha256 required model files.",
@@ -409,6 +411,7 @@ $ssmAvailable = $false
 $startState = ""
 $finalState = ""
 $expectedRemoteGitHead = [string]$localGitGate.expected_remote_head
+$ssmExecutionTimeoutSeconds = [Math]::Max(600, $MaxEc2RuntimeMinutes * 60)
 
 $remoteScript = @"
 python3 - <<'PY'
@@ -418,6 +421,7 @@ PROJECT = "$RemoteProjectRoot"
 COMFY = "$RemoteComfyRoot"
 LANE_ID = "$LaneId"
 EXPECTED_GIT_HEAD = "$expectedRemoteGitHead"
+SKIP_GIT_LFS_PULL = "$($SkipGitLfsPull.IsPresent)".lower() == "true"
 MODELS = os.path.join(COMFY, "models")
 PORT = 8191
 
@@ -455,7 +459,11 @@ try:
 
     before = run(["git", "rev-parse", "HEAD"], cwd=PROJECT, check=True)["stdout"]
     pull = run(["git", "pull", "--ff-only", "origin", "main"], cwd=PROJECT, timeout=300, check=True)
-    lfs = run(["git", "lfs", "pull"], cwd=PROJECT, timeout=300, check=True)
+    if SKIP_GIT_LFS_PULL:
+        lfs = {"rc": 0, "stdout": "", "stderr": "", "skipped": True}
+    else:
+        lfs = run(["git", "lfs", "pull"], cwd=PROJECT, timeout=300, check=True)
+        lfs["skipped"] = False
     after = run(["git", "rev-parse", "HEAD"], cwd=PROJECT, check=True)["stdout"]
     status = run(["git", "status", "--porcelain"], cwd=PROJECT, check=True)["stdout"]
     result["remote_project"].update({
@@ -465,7 +473,8 @@ try:
         "head_matches_expected": (not EXPECTED_GIT_HEAD) or after == EXPECTED_GIT_HEAD,
         "status_clean": status == "",
         "git_pull_summary": pull["stdout"][-500:],
-        "git_lfs_pull_rc": lfs["rc"]
+        "git_lfs_pull_rc": lfs["rc"],
+        "git_lfs_pull_skipped": lfs["skipped"]
     })
     if EXPECTED_GIT_HEAD and after != EXPECTED_GIT_HEAD:
         raise RuntimeError("remote project HEAD %s did not match expected origin/main %s" % (after, EXPECTED_GIT_HEAD))
@@ -601,18 +610,28 @@ try {
   $payload = @{
     DocumentName = "AWS-RunShellScript"
     InstanceIds = @($InstanceId)
-    Parameters = @{ commands = @($remoteScript); executionTimeout = @("1200") }
+    TimeoutSeconds = $ssmExecutionTimeoutSeconds
+    Parameters = @{ commands = @($remoteScript); executionTimeout = @([string]$ssmExecutionTimeoutSeconds) }
     CloudWatchOutputConfig = @{ CloudWatchOutputEnabled = $false }
   } | ConvertTo-Json -Depth 8
   [System.IO.File]::WriteAllText($payloadPath, $payload, [System.Text.UTF8Encoding]::new($false))
 
   $commandId = (aws ssm send-command --region $Region --cli-input-json "file://$payloadPath" --query "Command.CommandId" --output text).Trim()
   Write-Host "SSM command sent: $commandId"
-  for ($i = 0; $i -lt 120; $i++) {
+  $maxCommandPolls = [Math]::Max(1, [int][Math]::Ceiling($ssmExecutionTimeoutSeconds / 5))
+  for ($i = 0; $i -lt $maxCommandPolls; $i++) {
     Start-Sleep -Seconds 5
     $commandStatus = (aws ssm get-command-invocation --region $Region --instance-id $InstanceId --command-id $commandId --query "Status" --output text 2>$null).Trim()
-    Write-Host "SSM command wait $($i + 1)/120 status=$commandStatus"
+    Write-Host "SSM command wait $($i + 1)/$maxCommandPolls status=$commandStatus"
     if ($commandStatus -in @("Success", "Cancelled", "TimedOut", "Failed", "Cancelling")) { break }
+  }
+  if ($commandStatus -notin @("Success", "Cancelled", "TimedOut", "Failed", "Cancelling")) {
+    $commandStatus = "LocalTimeout"
+    try {
+      aws ssm cancel-command --region $Region --command-id $commandId --instance-ids $InstanceId --output json | Out-Null
+    } catch {
+      Write-Host "SSM cancel-command after local timeout failed: $($_.Exception.Message)"
+    }
   }
   $stdout = aws ssm get-command-invocation --region $Region --instance-id $InstanceId --command-id $commandId --query "StandardOutputContent" --output text
   $stderr = aws ssm get-command-invocation --region $Region --instance-id $InstanceId --command-id $commandId --query "StandardErrorContent" --output text
@@ -631,6 +650,9 @@ $record = [ordered]@{
   instance_id = $InstanceId
   region = $Region
   lane_id = $LaneId
+  max_ec2_runtime_minutes = $MaxEc2RuntimeMinutes
+  ssm_execution_timeout_seconds = $ssmExecutionTimeoutSeconds
+  git_lfs_pull_skipped = [bool]$SkipGitLfsPull.IsPresent
   auth_gate = $authGate
   readiness_gate = $readinessGate
   execute_gates_pass = $executeGatesPass
@@ -649,12 +671,130 @@ $record = [ordered]@{
   generation_executed = $false
 }
 
-if ($commandStatus -eq "Success" -and $finalState -eq "stopped") {
+$staticProofErrors = @()
+$staticProofFailureCategory = $null
+$remoteProofPayload = $null
+
+if ($commandStatus -ne "Success") {
+  $staticProofErrors += "SSM command status was $commandStatus."
+  $staticProofFailureCategory = "ssm_command_failed"
+}
+if ($finalState -ne "stopped") {
+  $staticProofErrors += "Final EC2 state was $finalState, expected stopped."
+  if ([string]::IsNullOrWhiteSpace($staticProofFailureCategory)) {
+    $staticProofFailureCategory = "ec2_stop_not_verified"
+  }
+}
+
+foreach ($line in @($stdout)) {
+  $candidate = ([string]$line).Trim()
+  if ([string]::IsNullOrWhiteSpace($candidate) -or !$candidate.StartsWith("{")) { continue }
+  try {
+    $remoteProofPayload = $candidate | ConvertFrom-Json
+    break
+  } catch {
+    continue
+  }
+}
+if ($null -eq $remoteProofPayload) {
+  $stdoutText = (($stdout | Out-String).Trim())
+  if (![string]::IsNullOrWhiteSpace($stdoutText)) {
+    try {
+      $remoteProofPayload = $stdoutText | ConvertFrom-Json
+    } catch {
+      $staticProofErrors += "Remote static proof stdout was not parseable JSON."
+      if ([string]::IsNullOrWhiteSpace($staticProofFailureCategory)) {
+        $staticProofFailureCategory = "remote_static_proof_stdout_unparseable"
+      }
+    }
+  } else {
+    $staticProofErrors += "Remote static proof stdout was empty."
+    if ([string]::IsNullOrWhiteSpace($staticProofFailureCategory)) {
+      $staticProofFailureCategory = "remote_static_proof_stdout_empty"
+    }
+  }
+}
+
+$staticProofSummary = [ordered]@{
+  remote_payload_parsed = ($null -ne $remoteProofPayload)
+  remote_errors = @()
+  object_info_pass = $false
+  model_proof_count = 0
+  model_missing_count = 0
+  model_hash_missing_count = 0
+  required_models_present = $false
+  required_model_hashes_present = $false
+  pass = $false
+}
+
+if ($null -ne $remoteProofPayload) {
+  if (Has-Property -Object $remoteProofPayload -Name "errors") {
+    $staticProofSummary.remote_errors = @($remoteProofPayload.errors)
+    foreach ($remoteError in @($remoteProofPayload.errors)) {
+      if (![string]::IsNullOrWhiteSpace([string]$remoteError)) {
+        $staticProofErrors += "Remote proof error: $remoteError"
+        if ([string]::IsNullOrWhiteSpace($staticProofFailureCategory)) {
+          $staticProofFailureCategory = "remote_static_proof_error"
+        }
+      }
+    }
+  }
+  if (Has-Property -Object $remoteProofPayload -Name "object_info") {
+    $staticProofSummary.object_info_pass = ([string]$remoteProofPayload.object_info.status -eq "pass")
+  }
+  if (!$staticProofSummary.object_info_pass) {
+    $staticProofErrors += "ComfyUI object_info proof did not pass."
+    if ([string]::IsNullOrWhiteSpace($staticProofFailureCategory)) {
+      $staticProofFailureCategory = "object_info_not_pass"
+    }
+  }
+  if (Has-Property -Object $remoteProofPayload -Name "model_proofs") {
+    $models = @($remoteProofPayload.model_proofs)
+    $staticProofSummary.model_proof_count = $models.Count
+    $staticProofSummary.model_missing_count = @($models | Where-Object { -not [bool]$_.exists }).Count
+    $staticProofSummary.model_hash_missing_count = @($models | Where-Object { [string]::IsNullOrWhiteSpace([string]$_.sha256) }).Count
+    foreach ($model in $models) {
+      if (-not [bool]$model.exists) {
+        $staticProofErrors += "Required model missing in EC2 static proof: $($model.relative_path)"
+      }
+      if ([string]::IsNullOrWhiteSpace([string]$model.sha256)) {
+        $staticProofErrors += "Required model missing sha256 in EC2 static proof: $($model.relative_path)"
+      }
+    }
+    $staticProofSummary.required_models_present = ($models.Count -gt 0 -and $staticProofSummary.model_missing_count -eq 0)
+    $staticProofSummary.required_model_hashes_present = ($models.Count -gt 0 -and $staticProofSummary.model_hash_missing_count -eq 0)
+    if ($staticProofSummary.model_missing_count -gt 0 -and [string]::IsNullOrWhiteSpace($staticProofFailureCategory)) {
+      $staticProofFailureCategory = "required_model_missing"
+    } elseif ($staticProofSummary.model_hash_missing_count -gt 0 -and [string]::IsNullOrWhiteSpace($staticProofFailureCategory)) {
+      $staticProofFailureCategory = "required_model_hash_missing"
+    }
+  } else {
+    $staticProofErrors += "Remote static proof payload has no model_proofs."
+    if ([string]::IsNullOrWhiteSpace($staticProofFailureCategory)) {
+      $staticProofFailureCategory = "model_proofs_missing"
+    }
+  }
+}
+
+$staticProofSummary.pass = (
+  $commandStatus -eq "Success" -and
+  $finalState -eq "stopped" -and
+  $staticProofSummary.remote_payload_parsed -eq $true -and
+  $staticProofSummary.object_info_pass -eq $true -and
+  $staticProofSummary.required_models_present -eq $true -and
+  $staticProofSummary.required_model_hashes_present -eq $true -and
+  $staticProofSummary.remote_errors.Count -eq 0 -and
+  $staticProofErrors.Count -eq 0
+)
+$record.static_proof_summary = $staticProofSummary
+$record.errors = $staticProofErrors
+
+if ($staticProofSummary.pass) {
   $record.result = "ec2_static_proof_recorded"
   $record.failure_category = $null
 } elseif ([string]::IsNullOrWhiteSpace([string]$record.failure_category)) {
   $record.result = "ec2_static_proof_failed"
-  $record.failure_category = "ec2_static_proof_failed"
+  $record.failure_category = $(if (![string]::IsNullOrWhiteSpace($staticProofFailureCategory)) { $staticProofFailureCategory } else { "ec2_static_proof_failed" })
 }
 
 if (![string]::IsNullOrWhiteSpace($OutFile)) {

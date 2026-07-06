@@ -1,26 +1,31 @@
 # Current Session State
 
 ## Session timestamp
-2026-07-06T10:14:33-05:00
+2026-07-06T12:20:27-05:00
 
 ## State
-Local static/package validation is complete through Wave 62 cumulative zip validation and the active root is `C:\Comfy_UI_Main`. The earlier `BLOCKER-W59-GIT-001` no-`.git` finding is superseded for this root: current root-preflight evidence shows `.git` present, canonical `origin`, `.env` ignored, required root structure present, active lane exports static-valid, and model registry coverage passing. The old `C:\Comfy_UI` workspace remains historical/source context, not the active runtime project root.
+The active root is `C:\Comfy_UI_Main`. The earlier `BLOCKER-W59-GIT-001` no-`.git` finding is superseded for this root: `.git` exists, `origin` is canonical, `.env` is ignored, and the required root structure is present. The old `C:\Comfy_UI` workspace remains historical/source context and may be inspected as a local ComfyUI development environment, but it is not the Plan-bearing project root.
 
 Wave42/Main Flow analysis, registries, release records, and source snapshots exist under `Plan` as source/staging context. The active runtime surface is currently only `C:\Comfy_UI_Main\Workflows\base_generation`: simplified first-proof API lanes exported from validated Plan templates. The full old `C:\Comfy_UI` workflow system and full Wave42/Main Flow graph are not active runtime until specific pieces are extracted into lane/module form and pass the current validation, registry, queue, package, auth, Git, readiness, static-proof, pullback, and QA gates.
 
-The first runtime lane is `sdxl_low_risk_fallback_lane`; `sdxl_realvisxl_base_lane` is queued second. Both concrete authored base-generation lanes have local static evidence, lane-runtime readiness evidence, authored-lane evidence coverage, runtime lane queue coverage, and model registry coverage. The current runtime unblock path is queue-aware, model-registry-gated, Git-checkpoint-gated, lane-readiness-gated, and package-aware. The current handoff sequence has 11 command steps, including `model_registry_coverage_recheck`, and bounded workflow smoke must use the hyperreal run package manifest before any package-fed execution.
+The first runtime lane, `sdxl_low_risk_fallback_lane`, has completed EC2 static proof, one bounded package-fed workflow smoke generation, SSM pullback, technical image QA, and visual QA with runtime-smoke notes. Do not repeat that lane just to re-prove the same path. The next queued runtime lane is `sdxl_realvisxl_base_lane`; it is locally authored/static-valid but still needs target EC2 object-info, RealVisXL checkpoint path/hash/load proof, generation, pullback, and image QA.
 
 Current human-readable runtime handoff Markdown is `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_MARKDOWN_ESCAPE_FIX_20260706T101855-0500.md`. The older `W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.md` file is historical and contains PowerShell backtick escape corruption, so do not use it as the active handoff.
 
-Runtime proof is still blocked by AWS browser/SSO auth. Current auth/profile evidence reports expired AWS CLI auth, zero configured profiles authenticating to expected account `029530099913`, `ec2_started=false`, and `generation_executed=false`. Until `Test-AwsAuthGate.ps1` reports `ec2_work_allowed=true` and `safe_to_start_ec2=true`, future sessions must not start EC2 or generate images. If local gates remain passing and AWS auth is still expired, the correct next action is to record the blocker once, avoid repeated housekeeping, and wait for browser/SSO auth.
+Wave 63 cost control is active. Before any new EC2 start, use `Plan/Instructions/Operations/EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md`, run local/CI validation and deploy-bundle preparation while EC2 is stopped, default EC2 helpers to `-SkipGitLfsPull`, set `-MaxEc2RuntimeMinutes`, and batch target-runtime work into one bounded EC2 window. AWS auth can expire between sessions; rerun the auth gate and Git checkpoint before any future `-Execute` command.
 
 ## Session end timestamp
-2026-07-06T10:14:33-05:00
+2026-07-06T12:20:27-05:00
 
 ## Latest continuation update
-Root-level run package preparation is now concrete for the first queued lane. `tools\New-WorkflowRunPackage.ps1` builds a local-only package from `Workflows\base_generation\ACTIVE_LANES.json`; the current package `runtime_artifacts\run_packages\sdxl_low_risk_fallback_lane_20260706T081301-0500` contains copied lane files, `prompt_request.json`, `static_validation.json`, `smoke_dry_run.json`, and `RUN_PACKAGE_MANIFEST.json`. Manifest result is `pass_local_only`; static validation passes; request body is written; `execution_allowed=false`, `ec2_started=false`, and `generation_executed=false`.
+RealVisXL second-lane EC2 static proof was attempted for `sdxl_realvisxl_base_lane` and EC2 final state was verified `stopped`. The EC2 `/object_info` proof passed and required core nodes were present, but the required checkpoint `checkpoints/realvisxlV50_v50Bakedvae.safetensors` was missing on EC2, so generation remains blocked. Evidence: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_REALVISXL_20260706T123028-0500.json`. Readiness now classifies this correctly as `ec2_static_proof_required_model_missing` with `ready_for_generation=false`; evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_REALVISXL_MISSING_MODEL_CLASSIFICATION_20260706T124103-0500.json`.
+
+Static-proof/readiness helpers were hardened so missing required models or missing hashes cannot be treated as a completed EC2 static proof. Wave 63 cost-control implementation is also validated locally: the project has a cost-control runbook, local ComfyUI dev preflight helper, deploy-bundle builder, GitHub Actions preflight/package workflow, and EC2 helper knobs for bounded runtime and opt-in Git LFS pulls. Deploy-bundle validation evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_EC2_DEPLOY_BUNDLE_VALIDATION_20260706T124907-0500.json`.
 
 ## Previous continuation update
+Root-level run package preparation is now concrete for the first queued lane. `tools\New-WorkflowRunPackage.ps1` builds a local-only package from `Workflows\base_generation\ACTIVE_LANES.json`; the current package `runtime_artifacts\run_packages\sdxl_low_risk_fallback_lane_20260706T081301-0500` contains copied lane files, `prompt_request.json`, `static_validation.json`, `smoke_dry_run.json`, and `RUN_PACKAGE_MANIFEST.json`. Manifest result is `pass_local_only`; static validation passes; request body is written; `execution_allowed=false`, `ec2_started=false`, and `generation_executed=false`.
+
+## Earlier continuation update
 Visible main-directory scaffold is now present in `C:\Comfy_UI_Main`: top-level `README.md`, `PROJECT_ROOT_MANIFEST.json`, exported runtime-facing workflows under `Workflows\base_generation\`, safe model/config/runtime artifact folders, and `Workflows\base_generation\ACTIVE_LANES.json`. The exported low-risk and RealVisXL workflow files hash-match the validated Plan templates and both pass static validation from their top-level `Workflows` paths.
 
 ## Earlier continuation update

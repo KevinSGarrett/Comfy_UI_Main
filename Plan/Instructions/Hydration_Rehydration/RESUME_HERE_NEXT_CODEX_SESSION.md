@@ -120,75 +120,42 @@ Start by reading this file, then read `CURRENT_PURSUING_GOAL.md` and follow its 
 
 ## Current goal
 
-Refresh AWS auth, complete EC2 static proof for the first queued lane, then run bounded workflow execution and generated image QA.
+Finish the Wave 63 cost-control checkpoint, then continue runtime proof from the next concrete lane without repeating the completed low-risk lane. Use local/CI validation and deploy-bundle preparation while EC2 is stopped; use EC2 only for target-runtime object-info, model path/hash/load, generation, pullback, and QA.
 
 ## Next exact action
 
-Complete AWS CLI remote browser/SSO login in an interactive/browser-capable shell, then rerun the auth gate:
+Read `Plan/Instructions/Operations/EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md` before any EC2 decision. If the current Wave 63 changes are uncommitted, first create one clean checkpoint and verify `HEAD == origin/main`.
+
+Do not rerun `sdxl_low_risk_fallback_lane` just to re-prove the same path. It already has EC2 static proof, generated smoke output, pullback, and image QA evidence. The next queued runtime lane is `sdxl_realvisxl_base_lane`.
+
+Cost-control local/CI preparation:
 
 ```powershell
-aws login --remote
-powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-AwsAuthGate.ps1 -AttemptRemoteLogin -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W60_W61_AWS_AUTH_GATE_<timestamp>.json
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\Test-LocalComfyUIDevPreflight.ps1 -ProjectRoot C:\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\New-WorkflowRunPackage.ps1 -ProjectRoot C:\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane -AllowNonFirstLane
 ```
 
-The account must be `029530099913`, `ec2_work_allowed` must be `true`, and `safe_to_start_ec2` must be `true` before EC2 work resumes.
-
-Current profile-matrix evidence confirms no configured AWS profile is presently usable for the expected account, so use `aws login --remote` or `aws sso login --profile <matching-profile>` before rerunning the gates.
-Latest selected-lane readiness evidence now includes both the auth gate and profile matrix diagnostics, but it still requires the auth gate to pass before EC2 static proof.
-
-Latest project readiness, QA helper, runtime handoff, runtime lane queue, and model registry coverage evidence now prove the current local gate state is local-only and did not contact AWS, GitHub APIs, Civitai, ComfyUI, or EC2. `GITHUB_TOKEN` and `CIVITAI_API_KEY` in `.env` are present and protected, but they do not unblock EC2; AWS browser/SSO auth is the gate. Before EC2 `-Execute`, local Git must be clean and synced to `origin/main`, the runtime queue gate must pass using `runtime_lane_queue_recheck`, and model registry coverage must pass using `model_registry_coverage_recheck`. The selected lane must remain the first queued lane. The primary first EC2 proof lane remains `sdxl_low_risk_fallback_lane`; `sdxl_realvisxl_base_lane` is queued second for later RealVisXL path/hash/load/output QA. All future readiness/static-proof/smoke-run evidence must match the requested `LaneId`; do not reuse low-risk proof for RealVisXL.
-
-Then rerun the queue, model registry, Git, and selected-lane readiness gates:
+When a RealVisXL run package manifest exists, build the deploy bundle while EC2 is off:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\Scripts\Test-RuntimeLaneQueue.ps1 -ProjectRoot C:\Comfy_UI_Main -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Prerequisite_Matching\W61_RUNTIME_LANE_QUEUE_VALIDATION_<timestamp>.json
-powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\Scripts\Test-WorkflowModelRegistryCoverage.ps1 -ProjectRoot C:\Comfy_UI_Main -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Model_Registry\W61_MODEL_REGISTRY_COVERAGE_<timestamp>.json
-git -C C:\Comfy_UI_Main status --short --branch
-git -C C:\Comfy_UI_Main rev-parse HEAD
-git -C C:\Comfy_UI_Main rev-parse origin/main
-powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-LaneRuntimeReadiness.ps1 -LaneId sdxl_low_risk_fallback_lane -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_LANE_RUNTIME_READINESS_<timestamp>.json
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\New-EC2DeployBundle.ps1 -ProjectRoot C:\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane -RunPackageManifestFile <realvisxl-run-package-manifest>
 ```
 
-Only proceed if `ready_for_ec2_static_proof=true`.
+Before any future EC2 `-Execute`, rerun AWS auth, queue, model registry, Git, and lane readiness gates. The account must be `029530099913`, `safe_to_start_ec2` must be `true`, the worktree must be clean, and local `HEAD` must equal `origin/main`.
 
-Then rerun the EC2 static lane proof for `sdxl_low_risk_fallback_lane`:
+Use one bounded EC2 window for the next target-runtime static proof. Default to `-SkipGitLfsPull` unless the lane explicitly requires repository LFS payloads:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_low_risk_fallback_lane -Execute -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W61_EC2_LANE_STATIC_PROOF_<timestamp>.json
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -MaxEc2RuntimeMinutes 25 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W63_EC2_LANE_STATIC_PROOF_REALVISXL_<timestamp>.json
 ```
 
-That helper should:
-
-1. Start only `i-0560bf8d143f93bb1`.
-2. Update `/home/ubuntu/Comfy_UI_Main` to `origin/main` and pull LFS.
-3. Query ComfyUI `/object_info` for required node availability.
-4. Resolve and hash `/home/ubuntu/ComfyUI/models/checkpoints/sd_xl_base_1.0.safetensors`.
-5. Stop EC2 and verify `stopped`.
-6. Record evidence before running generation.
-
-The helper now self-gates before AWS identity checks or EC2 start. If auth/readiness gates are false, it writes a blocked-execute record and leaves `ec2_started=false`.
-
-Do not run generation until object-info, path, and hash proof are recorded.
-
-After object-info/path/hash proof exists, run the preferred bounded coordinator:
+Only after RealVisXL object-info/path/hash proof passes, run a package-fed workflow smoke with `-SkipGitLfsPull`, `-MaxEc2RuntimeMinutes 45`, pull back artifacts, verify final EC2 state `stopped`, and run image QA:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1 -LaneId sdxl_low_risk_fallback_lane -Execute -StaticProofFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W61_EC2_LANE_STATIC_PROOF_<timestamp>.json -ReadinessFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_LANE_RUNTIME_READINESS_<timestamp>.json -RunPackageManifestFile C:\Comfy_UI_Main\runtime_artifacts\run_packages\sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1\RUN_PACKAGE_MANIFEST.json -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Runtime\W61_EC2_WORKFLOW_SMOKE_RUN_EXECUTION_<timestamp>.json
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1 -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -MaxEc2RuntimeMinutes 45 -StaticProofFile <realvisxl-static-proof> -RunPackageManifestFile <realvisxl-run-package-manifest> -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Runtime\W63_EC2_WORKFLOW_SMOKE_REALVISXL_<timestamp>.json
 ```
 
-Then pull back generated image artifacts and apply `Plan/Instructions/QA/IMAGE_GENERATION_VISUAL_REVIEW_PROTOCOL.md`.
-
-Create a local pullback record after artifact pullback:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\New-EC2PullbackRecord.ps1 -RunId <run_id> -LocalDestination C:\Comfy_UI_Main\Plan\Instructions\Operations\Pulled_Back_Artifacts\<run_id> -RemoteManifestFile C:\Comfy_UI_Main\Plan\Instructions\Operations\Pulled_Back_Artifacts\<run_id>\REMOTE_ARTIFACT_MANIFEST.json
-```
-
-Image QA helper command after pullback record exists:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\Scripts\New-ImageArtifactQARecord.ps1 -ImagePath <pulled-back-image> -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Image_Artifact_QA\W61_IMAGE_QA_<timestamp>.json -ChecklistOutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Image_Artifact_QA\W61_IMAGE_QA_CHECKLIST_<timestamp>.md
-```
+If AWS auth is expired or Git is not clean/pushed, stop and report that blocker. Do not create more housekeeping evidence unless it fixes a real stale/conflicting instruction.
 
 ## Evidence created
 
