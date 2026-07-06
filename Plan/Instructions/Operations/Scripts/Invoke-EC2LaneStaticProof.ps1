@@ -15,22 +15,168 @@ param(
   [string]$LaneId = "sdxl_low_risk_fallback_lane",
   [string]$RemoteProjectRoot = "/home/ubuntu/Comfy_UI_Main",
   [string]$RemoteComfyRoot = "/home/ubuntu/ComfyUI",
+  [string]$AuthGateFile = "",
+  [string]$ReadinessFile = "",
   [string]$OutFile = "",
   [switch]$Execute
 )
 
 $ErrorActionPreference = "Stop"
 
+function Get-RelativePathCompat {
+  param(
+    [string]$BasePath,
+    [string]$TargetPath
+  )
+
+  if ([string]::IsNullOrWhiteSpace($TargetPath)) { return $null }
+  $separator = [System.IO.Path]::DirectorySeparatorChar.ToString()
+  $baseFull = [System.IO.Path]::GetFullPath($BasePath)
+  if (!$baseFull.EndsWith($separator)) {
+    $baseFull = "$baseFull$separator"
+  }
+
+  $targetFull = [System.IO.Path]::GetFullPath($TargetPath)
+  $baseUri = New-Object System.Uri($baseFull)
+  $targetUri = New-Object System.Uri($targetFull)
+  $relativeUri = $baseUri.MakeRelativeUri($targetUri)
+  $relativePath = [System.Uri]::UnescapeDataString($relativeUri.ToString())
+  return $relativePath.Replace("/", $separator)
+}
+
+function ConvertTo-ProjectRelativePath {
+  param(
+    [string]$BasePath,
+    [string]$TargetPath
+  )
+
+  if ([string]::IsNullOrWhiteSpace($TargetPath)) { return $null }
+  $relative = Get-RelativePathCompat -BasePath $BasePath -TargetPath $TargetPath
+  return $relative.Replace("\", "/")
+}
+
+function Has-Property {
+  param(
+    [object]$Object,
+    [string]$Name
+  )
+  if ($null -eq $Object) { return $false }
+  return @($Object.PSObject.Properties.Name) -contains $Name
+}
+
+function Read-JsonFile {
+  param([Parameter(Mandatory=$true)][string]$Path)
+  if (!(Test-Path -LiteralPath $Path)) { throw "JSON file missing: $Path" }
+  return Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json
+}
+
+function Find-LatestFile {
+  param(
+    [string]$Directory,
+    [string]$Filter
+  )
+
+  if (!(Test-Path -LiteralPath $Directory)) { return $null }
+  $file = Get-ChildItem -LiteralPath $Directory -Filter $Filter -File |
+    Sort-Object LastWriteTime -Descending |
+    Select-Object -First 1
+  if ($null -eq $file) { return $null }
+  return $file.FullName
+}
+
+function Get-AuthGateStatus {
+  param([string]$Path)
+
+  $result = [ordered]@{
+    file = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $Path
+    found = (![string]::IsNullOrWhiteSpace($Path) -and (Test-Path -LiteralPath $Path))
+    expected_account = "029530099913"
+    account_match = $false
+    ec2_work_allowed = $false
+    safe_to_start_ec2 = $false
+    generation_allowed = $false
+    status = "missing_auth_gate"
+    failure_category = $null
+    remote_login_status = $null
+  }
+
+  if (!$result.found) { return $result }
+  $auth = Read-JsonFile -Path $Path
+  $result.expected_account = [string]$auth.expected_account
+  $result.ec2_work_allowed = [bool]$auth.ec2_work_allowed
+  $result.safe_to_start_ec2 = [bool]$auth.safe_to_start_ec2
+  $result.generation_allowed = [bool]$auth.generation_allowed
+  if (Has-Property -Object $auth -Name "sts_after" -and $null -ne $auth.sts_after) {
+    $result.account_match = [bool]$auth.sts_after.account_match
+    $result.failure_category = [string]$auth.sts_after.failure_category
+  } elseif (Has-Property -Object $auth -Name "sts_before" -and $null -ne $auth.sts_before) {
+    $result.account_match = [bool]$auth.sts_before.account_match
+    $result.failure_category = [string]$auth.sts_before.failure_category
+  }
+  if (Has-Property -Object $auth -Name "remote_login" -and $null -ne $auth.remote_login) {
+    $result.remote_login_status = [string]$auth.remote_login.status
+  }
+  $result.status = $(if ($result.safe_to_start_ec2) { "pass" } else { "blocked" })
+  return $result
+}
+
+function Get-ReadinessStatus {
+  param([string]$Path)
+
+  $result = [ordered]@{
+    file = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $Path
+    found = (![string]::IsNullOrWhiteSpace($Path) -and (Test-Path -LiteralPath $Path))
+    local_pre_ec2_ready = $false
+    ready_for_ec2_static_proof = $false
+    ready_for_generation = $false
+    status = "missing_readiness_record"
+  }
+  if (!$result.found) { return $result }
+  $readiness = Read-JsonFile -Path $Path
+  $result.local_pre_ec2_ready = [bool]$readiness.local_pre_ec2_ready
+  $result.ready_for_ec2_static_proof = [bool]$readiness.ready_for_ec2_static_proof
+  $result.ready_for_generation = [bool]$readiness.ready_for_generation
+  $result.status = $(if ($result.ready_for_ec2_static_proof) { "static_proof_ready" } elseif ($result.local_pre_ec2_ready) { "local_ready_runtime_blocked" } else { "not_ready" })
+  return $result
+}
+
+$stamp = (Get-Date -Format "yyyyMMddTHHmmsszzz").Replace(":", "")
+$runtimeReadinessDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Runtime_Readiness"
+$workflowStaticDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Workflow_Static_Validation"
+if ([string]::IsNullOrWhiteSpace($AuthGateFile)) {
+  $AuthGateFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_AUTH_GATE_*.json"
+}
+if ([string]::IsNullOrWhiteSpace($ReadinessFile)) {
+  $ReadinessFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W61_LANE_RUNTIME_READINESS_*.json"
+}
+
+$authGate = Get-AuthGateStatus -Path $AuthGateFile
+$readinessGate = Get-ReadinessStatus -Path $ReadinessFile
+$blockedReasons = @()
+if ($InstanceId -ne "i-0560bf8d143f93bb1") { $blockedReasons += "InstanceId is not the approved EC2 instance." }
+if (!$authGate.safe_to_start_ec2) { $blockedReasons += "Auth gate does not allow EC2 start." }
+if (!$readinessGate.ready_for_ec2_static_proof) { $blockedReasons += "Lane readiness gate does not allow EC2 static proof." }
+$executeGatesPass = ($blockedReasons.Count -eq 0)
+
 if (-not $Execute) {
+  if ([string]::IsNullOrWhiteSpace($OutFile)) {
+    $OutFile = Join-Path $workflowStaticDir "W61_EC2_LANE_STATIC_PROOF_DRY_RUN_GATED_$stamp.json"
+  }
   $plan = [ordered]@{
-    evidence_id = "EC2-LANE-STATIC-PROOF-DRY-RUN-" + (Get-Date -Format "yyyyMMddTHHmmsszzz").Replace(":", "")
+    evidence_id = "EC2-LANE-STATIC-PROOF-DRY-RUN-" + $stamp
     timestamp = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
     mode = "dry_run"
     instance_id = $InstanceId
     region = $Region
     lane_id = $LaneId
+    auth_gate = $authGate
+    readiness_gate = $readinessGate
+    execute_gates_pass = $executeGatesPass
+    blocked_reasons = $blockedReasons
     actions = @(
       "Verify AWS account and EC2 identity.",
+      "Require auth gate safe_to_start_ec2=true before EC2 start.",
+      "Require lane readiness ready_for_ec2_static_proof=true before EC2 start.",
       "Start instance only if stopped.",
       "Wait for EC2 status checks and SSM online.",
       "Update remote project checkout and Git LFS.",
@@ -53,13 +199,55 @@ if (-not $Execute) {
   exit 0
 }
 
+if (!$executeGatesPass) {
+  if ([string]::IsNullOrWhiteSpace($OutFile)) {
+    $OutFile = Join-Path $workflowStaticDir "W61_EC2_LANE_STATIC_PROOF_BLOCKED_EXECUTE_$stamp.json"
+  }
+  $record = [ordered]@{
+    evidence_id = "EC2-LANE-STATIC-PROOF-BLOCKED-" + $stamp
+    timestamp = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
+    mode = "execute"
+    instance_id = $InstanceId
+    region = $Region
+    lane_id = $LaneId
+    auth_gate = $authGate
+    readiness_gate = $readinessGate
+    execute_gates_pass = $false
+    blocked_reasons = $blockedReasons
+    start_state = $null
+    ec2_started = $false
+    ssm_available = $false
+    command_id = $null
+    command_status = "not_started"
+    stdout = ""
+    stderr = ""
+    final_state = $null
+    generation_executed = $false
+    errors = @("Execution blocked before AWS identity check or EC2 start.")
+    next_action = "Resolve blocked_reasons, then rerun EC2 static proof."
+  }
+  if (![string]::IsNullOrWhiteSpace($OutFile)) {
+    $outDir = Split-Path -Parent $OutFile
+    if (![string]::IsNullOrWhiteSpace($outDir)) {
+      $null = New-Item -ItemType Directory -Force -Path $outDir
+    }
+    $record | ConvertTo-Json -Depth 20 | Set-Content -LiteralPath $OutFile -Encoding UTF8
+    Write-Host "Wrote blocked EC2 lane static proof record: $OutFile"
+  }
+  $record | ConvertTo-Json -Depth 20
+  exit 2
+}
+
 . (Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Load-ComfyEnv.ps1") -ProjectRoot $ProjectRoot -Quiet
+
+if ([string]::IsNullOrWhiteSpace($OutFile)) {
+  $OutFile = Join-Path $workflowStaticDir "W61_EC2_LANE_STATIC_PROOF_$stamp.json"
+}
 
 $identityScript = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Test-AwsComfyGpuIdentity.ps1"
 & $identityScript -ProjectRoot $ProjectRoot -InstanceId $InstanceId -ExpectedAccount "029530099913"
 if ($LASTEXITCODE -ne 0) { throw "AWS/EC2 identity check failed. EC2 lane static proof aborted." }
 
-$stamp = (Get-Date -Format "yyyyMMddTHHmmsszzz").Replace(":", "")
 $startTime = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
 $commandId = $null
 $commandStatus = "NotStarted"
@@ -250,6 +438,10 @@ $record = [ordered]@{
   instance_id = $InstanceId
   region = $Region
   lane_id = $LaneId
+  auth_gate = $authGate
+  readiness_gate = $readinessGate
+  execute_gates_pass = $executeGatesPass
+  blocked_reasons = $blockedReasons
   start_state = $startState
   ec2_started = $started
   ssm_available = $ssmAvailable

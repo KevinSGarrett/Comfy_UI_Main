@@ -73,13 +73,16 @@ function Test-PowerShellParser {
 function Find-LatestFile {
   param(
     [string]$Directory,
-    [string]$Filter
+    [string]$Filter,
+    [string]$ExcludePattern = ""
   )
 
   if (!(Test-Path -LiteralPath $Directory)) { return $null }
-  $file = Get-ChildItem -LiteralPath $Directory -Filter $Filter -File |
-    Sort-Object LastWriteTime -Descending |
-    Select-Object -First 1
+  $files = Get-ChildItem -LiteralPath $Directory -Filter $Filter -File
+  if (![string]::IsNullOrWhiteSpace($ExcludePattern)) {
+    $files = $files | Where-Object { $_.Name -notmatch $ExcludePattern }
+  }
+  $file = $files | Sort-Object LastWriteTime -Descending | Select-Object -First 1
   if ($null -eq $file) { return $null }
   return $file.FullName
 }
@@ -106,7 +109,7 @@ if ([string]::IsNullOrWhiteSpace($AuthGateFile)) {
 
 $workflowStaticDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Workflow_Static_Validation"
 if ([string]::IsNullOrWhiteSpace($StaticProofFile)) {
-  $StaticProofFile = Find-LatestFile -Directory $workflowStaticDir -Filter "W61_EC2_LANE_STATIC_PROOF_*.json"
+  $StaticProofFile = Find-LatestFile -Directory $workflowStaticDir -Filter "W61_EC2_LANE_STATIC_PROOF_*.json" -ExcludePattern "DRY_RUN|BLOCKED_EXECUTE"
 }
 
 $helperPaths = @(

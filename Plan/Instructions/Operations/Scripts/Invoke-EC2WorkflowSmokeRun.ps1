@@ -385,7 +385,7 @@ if ([string]::IsNullOrWhiteSpace($AuthGateFile)) {
   $AuthGateFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_AUTH_GATE_*.json"
 }
 if ([string]::IsNullOrWhiteSpace($StaticProofFile)) {
-  $StaticProofFile = Find-LatestFile -Directory $workflowStaticDir -Filter "W61_EC2_LANE_STATIC_PROOF_*.json" -ExcludePattern "DRY_RUN"
+  $StaticProofFile = Find-LatestFile -Directory $workflowStaticDir -Filter "W61_EC2_LANE_STATIC_PROOF_*.json" -ExcludePattern "DRY_RUN|BLOCKED_EXECUTE"
 }
 if ([string]::IsNullOrWhiteSpace($ReadinessFile)) {
   $ReadinessFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W61_LANE_RUNTIME_READINESS_*.json"

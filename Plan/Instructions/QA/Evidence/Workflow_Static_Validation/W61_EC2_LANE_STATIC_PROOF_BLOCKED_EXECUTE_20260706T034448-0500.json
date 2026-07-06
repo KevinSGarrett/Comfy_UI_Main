@@ -1,0 +1,46 @@
+﻿{
+    "evidence_id":  "EC2-LANE-STATIC-PROOF-BLOCKED-20260706T034448-0500",
+    "timestamp":  "2026-07-06T03:44:49-05:00",
+    "mode":  "execute",
+    "instance_id":  "i-0560bf8d143f93bb1",
+    "region":  "us-east-1",
+    "lane_id":  "sdxl_low_risk_fallback_lane",
+    "auth_gate":  {
+                      "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_AUTH_GATE_20260706T031007-0500.json",
+                      "found":  true,
+                      "expected_account":  "029530099913",
+                      "account_match":  false,
+                      "ec2_work_allowed":  false,
+                      "safe_to_start_ec2":  false,
+                      "generation_allowed":  false,
+                      "status":  "blocked",
+                      "failure_category":  "expired_session",
+                      "remote_login_status":  "external_authorization_required_noninteractive"
+                  },
+    "readiness_gate":  {
+                           "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_20260706T033522-0500.json",
+                           "found":  true,
+                           "local_pre_ec2_ready":  true,
+                           "ready_for_ec2_static_proof":  false,
+                           "ready_for_generation":  false,
+                           "status":  "local_ready_runtime_blocked"
+                       },
+    "execute_gates_pass":  false,
+    "blocked_reasons":  [
+                            "Auth gate does not allow EC2 start.",
+                            "Lane readiness gate does not allow EC2 static proof."
+                        ],
+    "start_state":  null,
+    "ec2_started":  false,
+    "ssm_available":  false,
+    "command_id":  null,
+    "command_status":  "not_started",
+    "stdout":  "",
+    "stderr":  "",
+    "final_state":  null,
+    "generation_executed":  false,
+    "errors":  [
+                   "Execution blocked before AWS identity check or EC2 start."
+               ],
+    "next_action":  "Resolve blocked_reasons, then rerun EC2 static proof."
+}
