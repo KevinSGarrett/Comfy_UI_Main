@@ -238,6 +238,11 @@ $localSmokeResults += Invoke-LocalHelper -Name "model_registry_record_smoke" `
   -Arguments @("-ModelName", "static-validation-placeholder", "-ModelType", "checkpoint", "-BaseModel", "SDXL", "-LocalPath", "C:\Comfy_UI_Main\__missing_static_validation_placeholder.safetensors") `
   -ExpectedOutputFile ""
 
+$localSmokeResults += Invoke-LocalHelper -Name "github_checkpoint_dry_run" `
+  -ScriptPath (Join-Path $scriptsRoot "Invoke-GitHubCheckpoint.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-Message", "static validation dry run") `
+  -ExpectedOutputFile ""
+
 $staticProofDryRunFile = Join-Path $tempRoot "ec2_lane_static_proof_dry_run.json"
 $localSmokeResults += Invoke-LocalHelper -Name "ec2_lane_static_proof_dry_run" `
   -ScriptPath (Join-Path $scriptsRoot "Invoke-EC2LaneStaticProof.ps1") `
@@ -320,7 +325,6 @@ $record = [ordered]@{
   }
   skipped_live_execution = @(
     [ordered]@{ script = "Invoke-CivitaiModelLookup.ps1"; reason = "Would contact Civitai API; out of scope for local static validation." },
-    [ordered]@{ script = "Invoke-GitHubCheckpoint.ps1"; reason = "Would contact GitHub; out of scope for local static validation." },
     [ordered]@{ script = "Start-ComfyUIGpuServer.ps1"; reason = "Could start EC2/cost resources; out of scope for local static validation." },
     [ordered]@{ script = "Stop-ComfyUIGpuServer.ps1"; reason = "Would contact AWS; out of scope for local static validation." },
     [ordered]@{ script = "Test-AwsAuthGate.ps1"; reason = "Would contact AWS login/STS; existing auth evidence is inspected instead." },
