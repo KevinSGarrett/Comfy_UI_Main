@@ -1,0 +1,32 @@
+{
+    "schema_version":  "1.0",
+    "updated_at":  "2026-07-06T08:08:48-05:00",
+    "source_queue":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+    "lanes":  [
+                  {
+                      "order":  1,
+                      "lane_id":  "sdxl_low_risk_fallback_lane",
+                      "workflow":  "Workflows/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
+                      "smoke_request":  "Workflows/base_generation/sdxl_low_risk_fallback_lane/smoke_test_request.json",
+                      "runtime_requirements":  "Workflows/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
+                      "patch_points":  "Workflows/base_generation/sdxl_low_risk_fallback_lane/patch_points.json",
+                      "status":  "local_pre_ec2_ready_runtime_blocked_auth",
+                      "next_gate":  "aws_browser_sso_auth_then_lane_readiness_then_ec2_static_proof"
+                  },
+                  {
+                      "order":  2,
+                      "lane_id":  "sdxl_realvisxl_base_lane",
+                      "workflow":  "Workflows/base_generation/sdxl_realvisxl_base_lane/workflow.api.json",
+                      "smoke_request":  "Workflows/base_generation/sdxl_realvisxl_base_lane/smoke_test_request.json",
+                      "runtime_requirements":  "Workflows/base_generation/sdxl_realvisxl_base_lane/runtime_requirements.json",
+                      "patch_points":  "Workflows/base_generation/sdxl_realvisxl_base_lane/patch_points.json",
+                      "status":  "queued_after_low_risk_runtime_path",
+                      "next_gate":  "wait_for_low_risk_runtime_path_then_realvisxl_static_proof"
+                  }
+              ],
+    "runtime_boundaries":  {
+                               "ec2_start_allowed_by_this_manifest":  false,
+                               "generation_allowed_by_this_manifest":  false,
+                               "reason":  "This manifest exposes local workflow files only; AWS auth and runtime proof gates remain mandatory."
+                           }
+}

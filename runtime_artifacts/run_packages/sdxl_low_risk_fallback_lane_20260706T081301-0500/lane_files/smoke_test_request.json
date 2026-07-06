@@ -1,0 +1,41 @@
+{
+  "lane_id": "sdxl_low_risk_fallback_lane",
+  "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
+  "execution_target": "EC2 ComfyUI API",
+  "api_endpoint": "/prompt",
+  "execution_allowed": false,
+  "execution_allowed_after": [
+    "AWS CLI login refreshed",
+    "object_info proof confirms required nodes",
+    "checkpoint path and sha256 are recorded"
+  ],
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic editorial portrait, natural skin texture, balanced lighting, realistic eyes, detailed fabric, neutral studio background",
+    "negative_prompt": "cartoon, anime, illustration, plastic skin, distorted anatomy, extra fingers, missing fingers, deformed hands, low resolution, blurry, watermark, text",
+    "seed": 6100610061,
+    "sampler_settings": {
+      "steps": 20,
+      "cfg": 6.5,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 1
+    },
+    "latent_resolution": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "model_asset": "sd_xl_base_1.0.safetensors",
+    "save_prefix": "codex_sdxl_low_risk_smoke"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_sdxl_low_risk_smoke"
+  },
+  "qa_protocols": [
+    "Plan/Instructions/QA/COMFYUI_WORKFLOW_TESTING_PROTOCOL.md",
+    "Plan/Instructions/QA/MODEL_LORA_CHECKPOINT_VALIDATION_PROTOCOL.md",
+    "Plan/Instructions/QA/IMAGE_GENERATION_VISUAL_REVIEW_PROTOCOL.md"
+  ]
+}

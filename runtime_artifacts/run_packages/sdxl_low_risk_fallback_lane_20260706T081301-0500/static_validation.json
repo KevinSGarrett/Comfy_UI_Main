@@ -1,0 +1,39 @@
+﻿{
+    "evidence_id":  "LOCAL-COMFY-WORKFLOW-STATIC-20260706T081305-0500",
+    "timestamp":  "2026-07-06T08:13:05-05:00",
+    "lane_dir":  "Workflows/base_generation/sdxl_low_risk_fallback_lane",
+    "workflow_path":  "Workflows/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
+    "lane_id":  "sdxl_low_risk_fallback_lane",
+    "qa_status":  "pass",
+    "node_count":  7,
+    "link_count":  9,
+    "class_counts":  {
+                         "EmptyLatentImage":  1,
+                         "CheckpointLoaderSimple":  1,
+                         "SaveImage":  1,
+                         "VAEDecode":  1,
+                         "KSampler":  1,
+                         "CLIPTextEncode":  2
+                     },
+    "checkpoint_nodes":  [
+                             {
+                                 "node_id":  "4",
+                                 "ckpt_name":  "sd_xl_base_1.0.safetensors"
+                             }
+                         ],
+    "defects":  [
+
+                ],
+    "warnings":  [
+
+                 ],
+    "runtime_gates_not_proven_by_static_validation":  [
+                                                          "ComfyUI object_info node compatibility",
+                                                          "model path resolution",
+                                                          "model sha256/hash proof",
+                                                          "model load validation",
+                                                          "runtime execution output",
+                                                          "generated artifact QA"
+                                                      ],
+    "next_action":  "Refresh AWS auth, run EC2 static proof for object_info/path/hash, then run bounded smoke execution."
+}
