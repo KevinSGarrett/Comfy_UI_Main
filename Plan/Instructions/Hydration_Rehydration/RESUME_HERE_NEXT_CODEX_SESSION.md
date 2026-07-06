@@ -105,6 +105,10 @@ Start by reading this file, then re-open the standard hydration files in this fo
 - Generated package-fed EC2 workflow smoke dry-run evidence at `Plan\Instructions\QA\Evidence\Workflow_Runtime\W61_EC2_WORKFLOW_SMOKE_RUN_DRY_RUN_HYPERREAL_PACKAGE_20260706T091711-0500.json`; it records local Git gate `pass`, `request_source=run_package`, `run_package.valid=true`, profile `hyperreal_editorial_portrait_v1`, `failure_category=expired_session`, `ec2_started=false`, and `generation_executed=false`.
 - Added `-RunPackageManifestFile` support to `New-RuntimeUnblockHandoff.ps1` and pushed commit `f841b95822d64c31b9396ac0b7995646bd8fcb96`, so the generated post-auth handoff now includes the verified hyperreal package on the bounded workflow-smoke command.
 - Generated package-aware runtime handoff evidence at `Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_RUNTIME_UNBLOCK_HANDOFF_HYPERREAL_PACKAGE_20260706T092429-0500.json` plus Markdown at `Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_RUNTIME_UNBLOCK_HANDOFF_HYPERREAL_PACKAGE_20260706T092429-0500.md`; it records `gate_summary.run_package.valid=true`, profile `hyperreal_editorial_portrait_v1`, prompt hash match `true`, command step count `10`, and `ec2_started=false` / `generation_executed=false`.
+- Hardened selected-lane readiness, project readiness, runtime unblock handoff, QA helper validation, and operations helper validation so model registry coverage is now a required EC2 preflight gate.
+- Generated model-registry-gated readiness evidence at `Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_LANE_RUNTIME_READINESS_MODEL_REGISTRY_GATE_20260706T094500-0500.json`; it records `local_pre_ec2_ready=true`, `ready_for_ec2_static_proof=false`, `failure_category=expired_session`, and `model_registry_coverage.coverage_allows_selected_lane_ec2_static_proof=true`.
+- Generated model-registry-gated project readiness at `Plan\Instructions\QA\Evidence\Project_Readiness\W61_PROJECT_READINESS_SNAPSHOT_MODEL_REGISTRY_GATE_20260706T094500-0500.json`; it records `pass_local_ready_runtime_blocked_auth`, `local_ready=true`, `ec2_start_allowed=false`, and `generation_allowed=false`.
+- Generated current runtime handoff at `Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.json` plus Markdown at `Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.md`; it records command step count `11`, includes `model_registry_coverage_recheck`, keeps the hyperreal package argument, and still blocks on AWS auth with `ec2_started=false` / `generation_executed=false`.
 
 ## Current goal
 
@@ -399,6 +403,13 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\S
 - `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_MODEL_REGISTRY_COVERAGE_20260706T093415-0500.json`
 - `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_CIVITAI_MODEL_REGISTRY_20260706T093415-0500.json`
 - `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_MODEL_REGISTRY_COVERAGE_20260706T093806-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_MODEL_REGISTRY_GATE_20260706T094500-0500.json`
+- `Plan/Instructions/QA/Evidence/Project_Readiness/W61_PROJECT_READINESS_SNAPSHOT_MODEL_REGISTRY_GATE_20260706T094500-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.md`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_MODEL_REGISTRY_GATE_20260706T094500-0500.json`
+- `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_MODEL_REGISTRY_GATE_20260706T094500-0500.json`
+- `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_MODEL_REGISTRY_GATE_20260706T094730-0500.json`
 
 ## Must not repeat
 
@@ -413,6 +424,7 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\S
 - Project readiness snapshots and runtime unblock handoffs must also match the requested `LaneId`; do not let a latest RealVisXL readiness record become the low-risk handoff.
 - Project readiness snapshots and runtime unblock handoffs must use latest acceptable passing evidence, not the newest preserved failed retest artifact.
 - Do not omit the runtime lane queue gate from readiness or handoff evidence; selected lane order must be 1 before EC2 static proof can be allowed.
+- Do not omit the model registry coverage gate from readiness or handoff evidence; `Test-WorkflowModelRegistryCoverage.ps1` must report `pass_local_only`, selected lane result `pass`, and failed check count `0` before EC2 static proof can be allowed.
 - Do not skip `Test-AuthoredLaneEvidenceCoverage.ps1` when checking multi-lane local readiness; it is now the local pre-EC2 evidence coverage gate for authored base-generation lanes.
 - Do not promote `sdxl_realvisxl_base_lane` to first EC2 proof/generation lane. `runtime_lane_queue.json` and `Test-RuntimeLaneQueue.ps1` currently validate `sdxl_low_risk_fallback_lane` first and RealVisXL second.
 - Use the top-level EC2 coordinator fields (`result`, `failure_category`, `execute_gates_pass`, `ec2_started`, `generation_executed`) when summarizing static-proof or workflow-smoke gate status.
@@ -422,7 +434,7 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\S
 - Do not store literal GitHub token prefixes, token-like scan labels, or user-specific temp paths in helper scan-pattern definitions; `Test-ProjectReadinessSnapshot.ps1` builds those patterns dynamically and uses neutral labels to avoid staged-scan false positives.
 - Treat the project-readiness snapshot as a local status aggregator only; it proves `local_ready=true` and blocked runtime gates, but it does not prove EC2 object-info/path/hash, generation, artifact pullback, or media QA.
 - Do not treat project-readiness snapshot smoke as sufficient merely because JSON was created; `Test-QAHelperStatic.ps1` now contract-checks recognized result, `local_ready=true`, scan cleanliness, runtime gate consistency, and blocked coordinator safety.
-- Use `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_QUEUE_AWARE_SELECTOR_RETEST_20260706T075211-0500.md` as the concise post-auth command handoff. It is local-only and does not replace the actual auth gate/readiness/static proof evidence.
+- Use `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.md` as the current post-auth command handoff. It is local-only and does not replace the actual auth gate/readiness/static proof evidence.
 - Do not run EC2 static proof until `Test-LaneRuntimeReadiness.ps1` reports `ready_for_ec2_static_proof=true`.
 - Treat static-proof dry-run and blocked-execute records as safety evidence only, not as object-info/path/hash proof.
 - Do not leave EC2 running.
@@ -431,7 +443,7 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\S
 - Do not run generation until prerequisite matching object-info, path, and hash proof is recorded.
 - Prefer `Invoke-EC2WorkflowSmokeRun.ps1 -Execute` for the first bounded smoke generation after static proof because it owns the run lifecycle and stop verification.
 - For the first hyperreal portrait smoke generation, pass `-RunPackageManifestFile C:\Comfy_UI_Main\runtime_artifacts\run_packages\sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1\RUN_PACKAGE_MANIFEST.json` to `Invoke-EC2WorkflowSmokeRun.ps1` so the coordinator uses the verified package request.
-- Use `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_HYPERREAL_PACKAGE_20260706T092429-0500.md` as the current post-auth handoff; older handoffs may omit the package manifest argument.
+- Older handoffs may omit either the package manifest argument or the model registry coverage recheck. Prefer the model-registry-gated handoff unless a newer passing handoff supersedes it.
 - Do not claim final project completion until runtime and artifact QA gates have direct evidence.
 - Do not treat GitHub or Civitai token presence in `.env` as AWS auth proof; latest STS/profile-matrix evidence shows AWS auth itself is expired.
 - Do not rerun the pre-fix Civitai helper path that uses `System.Web.HttpUtility`; `Invoke-CivitaiModelLookup.ps1` now uses `System.Net.WebUtility` and has successfully cached RealVisXL V5.0 metadata without printing the key.

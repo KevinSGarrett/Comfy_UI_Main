@@ -15,6 +15,7 @@ param(
   [string]$AuthGateFile = "",
   [string]$ProfileMatrixFile = "",
   [string]$StaticProofFile = "",
+  [string]$ModelRegistryCoverageFile = "",
   [string]$OutFile = ""
 )
 
@@ -176,8 +177,14 @@ if ([string]::IsNullOrWhiteSpace($StaticProofFile)) {
   $StaticProofFile = Find-LatestFile -Directory $workflowStaticDir -Filter "W61_EC2_LANE_STATIC_PROOF_*.json" -ExcludePattern "DRY_RUN|BLOCKED_EXECUTE"
 }
 
+$modelRegistryCoverageDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Model_Registry"
+if ([string]::IsNullOrWhiteSpace($ModelRegistryCoverageFile)) {
+  $ModelRegistryCoverageFile = Find-LatestFile -Directory $modelRegistryCoverageDir -Filter "W61_MODEL_REGISTRY_COVERAGE*.json"
+}
+
 $helperPaths = @(
   (Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\Test-ComfyWorkflowStatic.ps1"),
+  (Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\Test-WorkflowModelRegistryCoverage.ps1"),
   (Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1"),
   (Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Invoke-ComfyWorkflowSmoke.ps1"),
   (Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1"),
@@ -206,6 +213,7 @@ $evidenceFiles = [ordered]@{
   workflow_static_validation = $workflowStaticValidationFile
   smoke_dry_run = $smokeDryRunFile
   smoke_request = $smokeRequestFile
+  model_registry_coverage = $ModelRegistryCoverageFile
   image_qa_dry_run = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Image_Artifact_QA\W61_IMAGE_QA_DRY_RUN_20260706T030037-0500.json"
   pullback_dry_run = Join-Path $runtimeReadinessDir "W60_EC2_PULLBACK_RECORD_DRY_RUN_20260706T031758-0500.json"
 }
@@ -383,6 +391,80 @@ if ($staticProof.found) {
   $staticProof.status = $(if ($staticProof.generation_allowed) { "pass" } else { "incomplete" })
 }
 
+$modelRegistryCoverage = [ordered]@{
+  file = $(if ([string]::IsNullOrWhiteSpace($ModelRegistryCoverageFile)) { $null } else { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $ModelRegistryCoverageFile })
+  found = (![string]::IsNullOrWhiteSpace($ModelRegistryCoverageFile) -and (Test-Path -LiteralPath $ModelRegistryCoverageFile))
+  result = "missing_model_registry_coverage"
+  failed_check_count = $null
+  registry_record_count = $null
+  runtime_validation_queue_row_count = $null
+  active_lane_ids = @()
+  selected_lane_covered = $false
+  selected_lane_result = $null
+  local_only = $false
+  aws_contacted = $true
+  github_api_contacted = $true
+  civitai_contacted = $true
+  comfyui_contacted = $true
+  ec2_started = $true
+  generation_executed = $true
+  coverage_allows_selected_lane_ec2_static_proof = $false
+}
+if ($modelRegistryCoverage.found) {
+  $coverageJson = Read-JsonFile -Path $ModelRegistryCoverageFile
+  if (Has-Property -Object $coverageJson -Name "result") { $modelRegistryCoverage.result = [string]$coverageJson.result }
+  foreach ($name in @("failed_check_count", "registry_record_count", "runtime_validation_queue_row_count")) {
+    if (Has-Property -Object $coverageJson -Name $name) { $modelRegistryCoverage[$name] = [int]$coverageJson.$name }
+  }
+  foreach ($name in @("local_only", "aws_contacted", "github_api_contacted", "civitai_contacted", "comfyui_contacted", "ec2_started", "generation_executed")) {
+    if (Has-Property -Object $coverageJson -Name $name) { $modelRegistryCoverage[$name] = [bool]$coverageJson.$name }
+  }
+  if (Has-Property -Object $coverageJson -Name "active_lane_ids") {
+    $modelRegistryCoverage.active_lane_ids = @($coverageJson.active_lane_ids | ForEach-Object { [string]$_ })
+    $modelRegistryCoverage.selected_lane_covered = @($modelRegistryCoverage.active_lane_ids) -contains [string]$LaneId
+  }
+  if (Has-Property -Object $coverageJson -Name "lane_results") {
+    $selectedCoverageLaneMatches = @($coverageJson.lane_results | Where-Object { [string]$_.lane_id -eq [string]$LaneId } | Select-Object -First 1)
+    if (@($selectedCoverageLaneMatches).Count -gt 0) {
+      $modelRegistryCoverage.selected_lane_covered = $true
+      if (Has-Property -Object $selectedCoverageLaneMatches[0] -Name "result") {
+        $modelRegistryCoverage.selected_lane_result = [string]$selectedCoverageLaneMatches[0].result
+      }
+    }
+  }
+  $modelRegistryCoverage.coverage_allows_selected_lane_ec2_static_proof = (
+    $modelRegistryCoverage.result -eq "pass_local_only" -and
+    $modelRegistryCoverage.failed_check_count -eq 0 -and
+    $modelRegistryCoverage.local_only -eq $true -and
+    $modelRegistryCoverage.aws_contacted -eq $false -and
+    $modelRegistryCoverage.github_api_contacted -eq $false -and
+    $modelRegistryCoverage.civitai_contacted -eq $false -and
+    $modelRegistryCoverage.comfyui_contacted -eq $false -and
+    $modelRegistryCoverage.ec2_started -eq $false -and
+    $modelRegistryCoverage.generation_executed -eq $false -and
+    $modelRegistryCoverage.selected_lane_covered -eq $true -and
+    $modelRegistryCoverage.selected_lane_result -eq "pass"
+  )
+}
+if ($modelRegistryCoverage.result -ne "pass_local_only") {
+  $errors += "Model registry coverage validation is missing or not pass_local_only."
+}
+if ($modelRegistryCoverage.selected_lane_covered -ne $true) {
+  $errors += "Selected LaneId $LaneId is not covered by model registry coverage evidence."
+}
+if ($modelRegistryCoverage.selected_lane_result -ne "pass") {
+  $errors += "Selected LaneId $LaneId does not have passing model registry coverage."
+}
+if ($modelRegistryCoverage.failed_check_count -ne 0) {
+  $errors += "Model registry coverage validation has failed checks."
+}
+if ($modelRegistryCoverage.local_only -ne $true -or $modelRegistryCoverage.aws_contacted -ne $false -or $modelRegistryCoverage.github_api_contacted -ne $false -or $modelRegistryCoverage.civitai_contacted -ne $false -or $modelRegistryCoverage.comfyui_contacted -ne $false) {
+  $errors += "Model registry coverage validation is not local-only or reports external contact."
+}
+if ($modelRegistryCoverage.ec2_started -ne $false -or $modelRegistryCoverage.generation_executed -ne $false) {
+  $errors += "Model registry coverage validation unexpectedly started EC2 or generation."
+}
+
 $localPreEc2Ready = (
   ($errors.Count -eq 0) -and
   (@($laneFiles | Where-Object { -not $_.exists -or -not $_.json_valid }).Count -eq 0) -and
@@ -390,7 +472,7 @@ $localPreEc2Ready = (
   (@($evidenceResults | Where-Object { -not $_.exists -or -not $_.json_valid }).Count -eq 0)
 )
 
-$readyForEc2StaticProof = ($localPreEc2Ready -and [bool]$auth.safe_to_start_ec2)
+$readyForEc2StaticProof = ($localPreEc2Ready -and [bool]$auth.safe_to_start_ec2 -and [bool]$modelRegistryCoverage.coverage_allows_selected_lane_ec2_static_proof)
 $readyForGeneration = ($readyForEc2StaticProof -and [bool]$staticProof.generation_allowed)
 $readinessResult = "not_ready"
 $readinessFailureCategory = $null
@@ -417,6 +499,9 @@ if (!$auth.safe_to_start_ec2) {
 if ($profileMatrix.found -and !$profileMatrix.safe_to_start_ec2) {
   $warnings += "AWS profile matrix found no profile currently safe for EC2 start."
 }
+if (!$modelRegistryCoverage.coverage_allows_selected_lane_ec2_static_proof) {
+  $warnings += "Model registry coverage does not allow selected lane EC2 static proof."
+}
 if (!$staticProof.generation_allowed) {
   $warnings += "Generation remains blocked until EC2 object-info/path/hash proof passes."
 }
@@ -441,6 +526,7 @@ $record = [ordered]@{
   }
   auth_gate = $auth
   profile_matrix = $profileMatrix
+  model_registry_coverage = $modelRegistryCoverage
   ec2_static_proof = $staticProof
   result = $readinessResult
   failure_category = $readinessFailureCategory
@@ -449,7 +535,7 @@ $record = [ordered]@{
   ready_for_generation = $readyForGeneration
   errors = $errors
   warnings = $warnings
-  next_action = $(if (!$auth.safe_to_start_ec2) { "Complete AWS remote browser login and rerun Test-AwsAuthGate.ps1." } elseif (!$staticProof.generation_allowed) { "Run Invoke-EC2LaneStaticProof.ps1 -Execute and record object-info/path/hash proof." } else { "Run Invoke-ComfyWorkflowSmoke.ps1 -Execute, pull back artifacts, create PULLBACK_RECORD.json, then perform image QA." })
+  next_action = $(if (!$auth.safe_to_start_ec2) { "Complete AWS remote browser login and rerun Test-AwsAuthGate.ps1." } elseif (!$modelRegistryCoverage.coverage_allows_selected_lane_ec2_static_proof) { "Rerun Test-WorkflowModelRegistryCoverage.ps1 and inspect registry/queue coverage before EC2 static proof." } elseif (!$staticProof.generation_allowed) { "Run Invoke-EC2LaneStaticProof.ps1 -Execute and record object-info/path/hash proof." } else { "Run Invoke-ComfyWorkflowSmoke.ps1 -Execute, pull back artifacts, create PULLBACK_RECORD.json, then perform image QA." })
 }
 
 if ([string]::IsNullOrWhiteSpace($OutFile)) {

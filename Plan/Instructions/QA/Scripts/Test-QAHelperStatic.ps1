@@ -294,6 +294,18 @@ function Test-ProjectReadinessSnapshotContract {
     runtime_lane_queue_ec2_started = $null
     runtime_lane_queue_generation_executed = $null
     runtime_lane_queue_allows_selected_lane_ec2_static_proof = $null
+    model_registry_coverage_result = $null
+    model_registry_coverage_selected_lane_covered = $null
+    model_registry_coverage_selected_lane_result = $null
+    model_registry_coverage_failed_check_count = $null
+    model_registry_coverage_local_only = $null
+    model_registry_coverage_aws_contacted = $null
+    model_registry_coverage_github_api_contacted = $null
+    model_registry_coverage_civitai_contacted = $null
+    model_registry_coverage_comfyui_contacted = $null
+    model_registry_coverage_ec2_started = $null
+    model_registry_coverage_generation_executed = $null
+    model_registry_coverage_allows_selected_lane_ec2_static_proof = $null
     coordinator_blocked_execute_records_safe = $null
     contract_check_failures = 0
     contract_checks = @()
@@ -316,6 +328,7 @@ function Test-ProjectReadinessSnapshotContract {
       "handoff_ready_runtime_blocked_auth",
       "handoff_auth_ready_lane_not_ready",
       "handoff_lane_queue_order_blocked",
+      "handoff_model_registry_blocked",
       "handoff_ready_for_ec2_static_proof",
       "handoff_ready_for_generation"
     )
@@ -456,6 +469,32 @@ function Test-ProjectReadinessSnapshotContract {
       } else {
         $checks += New-ContractCheck -Name "runtime_lane_queue_present" -Passed $false -Expected "present" -Observed "missing"
       }
+      if (Test-JsonProperty -Object $runtime -Name "model_registry_coverage") {
+        $modelRegistryCoverage = $runtime.model_registry_coverage
+        $checks += New-ContractCheck -Name "model_registry_coverage_present" -Passed $true -Expected "present" -Observed "present"
+        if (Test-JsonProperty -Object $modelRegistryCoverage -Name "result") {
+          $entry.model_registry_coverage_result = [string]$modelRegistryCoverage.result
+        }
+        if (Test-JsonProperty -Object $modelRegistryCoverage -Name "selected_lane_covered") {
+          $entry.model_registry_coverage_selected_lane_covered = [bool]$modelRegistryCoverage.selected_lane_covered
+        }
+        if (Test-JsonProperty -Object $modelRegistryCoverage -Name "selected_lane_result") {
+          $entry.model_registry_coverage_selected_lane_result = [string]$modelRegistryCoverage.selected_lane_result
+        }
+        if (Test-JsonProperty -Object $modelRegistryCoverage -Name "failed_check_count") {
+          $entry.model_registry_coverage_failed_check_count = [int]$modelRegistryCoverage.failed_check_count
+        }
+        foreach ($name in @("local_only", "aws_contacted", "github_api_contacted", "civitai_contacted", "comfyui_contacted", "ec2_started", "generation_executed")) {
+          if (Test-JsonProperty -Object $modelRegistryCoverage -Name $name) {
+            $entry["model_registry_coverage_$name"] = [bool]$modelRegistryCoverage.$name
+          }
+        }
+        if (Test-JsonProperty -Object $modelRegistryCoverage -Name "coverage_allows_selected_lane_ec2_static_proof") {
+          $entry.model_registry_coverage_allows_selected_lane_ec2_static_proof = [bool]$modelRegistryCoverage.coverage_allows_selected_lane_ec2_static_proof
+        }
+      } else {
+        $checks += New-ContractCheck -Name "model_registry_coverage_present" -Passed $false -Expected "present" -Observed "missing"
+      }
       if (Test-JsonProperty -Object $runtime -Name "coordinator_safety") {
         $coordinatorSafety = $runtime.coordinator_safety
         if (Test-JsonProperty -Object $coordinatorSafety -Name "blocked_execute_records_safe") {
@@ -528,6 +567,38 @@ function Test-ProjectReadinessSnapshotContract {
       -Passed ($entry.runtime_lane_queue_allows_selected_lane_ec2_static_proof -eq $true) `
       -Expected "true" `
       -Observed ([string]$entry.runtime_lane_queue_allows_selected_lane_ec2_static_proof)
+    $checks += New-ContractCheck -Name "model_registry_coverage_result_passes" `
+      -Passed ($entry.model_registry_coverage_result -eq "pass_local_only") `
+      -Expected "pass_local_only" `
+      -Observed ([string]$entry.model_registry_coverage_result)
+    $checks += New-ContractCheck -Name "model_registry_coverage_contains_snapshot_lane" `
+      -Passed ($entry.model_registry_coverage_selected_lane_covered -eq $true) `
+      -Expected "true" `
+      -Observed ([string]$entry.model_registry_coverage_selected_lane_covered)
+    $checks += New-ContractCheck -Name "model_registry_coverage_snapshot_lane_passes" `
+      -Passed ($entry.model_registry_coverage_selected_lane_result -eq "pass") `
+      -Expected "pass" `
+      -Observed ([string]$entry.model_registry_coverage_selected_lane_result)
+    $checks += New-ContractCheck -Name "model_registry_coverage_failed_check_count_zero" `
+      -Passed ($entry.model_registry_coverage_failed_check_count -eq 0) `
+      -Expected "0" `
+      -Observed ([string]$entry.model_registry_coverage_failed_check_count)
+    $checks += New-ContractCheck -Name "model_registry_coverage_local_only" `
+      -Passed ($entry.model_registry_coverage_local_only -eq $true) `
+      -Expected "true" `
+      -Observed ([string]$entry.model_registry_coverage_local_only)
+    $checks += New-ContractCheck -Name "model_registry_coverage_no_external_contacts" `
+      -Passed ($entry.model_registry_coverage_aws_contacted -eq $false -and $entry.model_registry_coverage_github_api_contacted -eq $false -and $entry.model_registry_coverage_civitai_contacted -eq $false -and $entry.model_registry_coverage_comfyui_contacted -eq $false) `
+      -Expected "aws_contacted=false; github_api_contacted=false; civitai_contacted=false; comfyui_contacted=false" `
+      -Observed ("aws_contacted={0}; github_api_contacted={1}; civitai_contacted={2}; comfyui_contacted={3}" -f $entry.model_registry_coverage_aws_contacted, $entry.model_registry_coverage_github_api_contacted, $entry.model_registry_coverage_civitai_contacted, $entry.model_registry_coverage_comfyui_contacted)
+    $checks += New-ContractCheck -Name "model_registry_coverage_no_ec2_or_generation" `
+      -Passed ($entry.model_registry_coverage_ec2_started -eq $false -and $entry.model_registry_coverage_generation_executed -eq $false) `
+      -Expected "ec2_started=false; generation_executed=false" `
+      -Observed ("ec2_started={0}; generation_executed={1}" -f $entry.model_registry_coverage_ec2_started, $entry.model_registry_coverage_generation_executed)
+    $checks += New-ContractCheck -Name "model_registry_coverage_allows_snapshot_lane" `
+      -Passed ($entry.model_registry_coverage_allows_selected_lane_ec2_static_proof -eq $true) `
+      -Expected "true" `
+      -Observed ([string]$entry.model_registry_coverage_allows_selected_lane_ec2_static_proof)
 
     switch ($entry.top_level_result) {
       "pass_local_ready_runtime_blocked_auth" {
@@ -566,8 +637,8 @@ function Test-ProjectReadinessSnapshotContract {
           -Expected "false" `
           -Observed ([string]$entry.generation_allowed)
         $checks += New-ContractCheck -Name "runtime_blocked_runtime_handoff_matches_gate" `
-          -Passed ($entry.runtime_handoff_result -eq "handoff_auth_ready_lane_not_ready") `
-          -Expected "handoff_auth_ready_lane_not_ready" `
+          -Passed ($entry.runtime_handoff_result -in @("handoff_auth_ready_lane_not_ready", "handoff_lane_queue_order_blocked", "handoff_model_registry_blocked")) `
+          -Expected "handoff_auth_ready_lane_not_ready | handoff_lane_queue_order_blocked | handoff_model_registry_blocked" `
           -Observed ([string]$entry.runtime_handoff_result)
       }
       "pass_local_ready_for_ec2_static_proof" {

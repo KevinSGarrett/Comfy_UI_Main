@@ -369,6 +369,7 @@ $qaRoot = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence"
 $runtimeReadinessDir = Join-Path $qaRoot "Runtime_Readiness"
 $projectReadinessDir = Join-Path $qaRoot "Project_Readiness"
 $workflowPrerequisiteDir = Join-Path $qaRoot "Workflow_Prerequisite_Matching"
+$modelRegistryCoverageDir = Join-Path $qaRoot "Model_Registry"
 $operationsValidationDir = Join-Path $qaRoot "Operations_Static_Validation"
 $qaValidationDir = Join-Path $qaRoot "QA_Helper_Static_Validation"
 $indexValidationDir = Join-Path $qaRoot "Index_Validation"
@@ -386,6 +387,7 @@ $latest = [ordered]@{
   lane_readiness = Find-LatestJsonByLaneId -Directory $runtimeReadinessDir -Filter "W61_LANE_RUNTIME_READINESS*.json" -ExpectedLaneId $LaneId
   project_readiness = Find-LatestJsonByLaneIdAndResult -Directory $projectReadinessDir -Filter "W61_PROJECT_READINESS_SNAPSHOT*.json" -ExpectedLaneId $LaneId -AcceptableResults @("pass_local_ready_runtime_blocked_auth", "pass_local_ready_runtime_blocked", "pass_local_ready_for_ec2_static_proof", "pass_ready_for_generation")
   runtime_lane_queue = Find-LatestFile -Directory $workflowPrerequisiteDir -Filter "W61_RUNTIME_LANE_QUEUE_VALIDATION*.json"
+  model_registry_coverage = Find-LatestFile -Directory $modelRegistryCoverageDir -Filter "W61_MODEL_REGISTRY_COVERAGE*.json"
   operations_validation = Find-LatestJsonByResult -Directory $operationsValidationDir -Filter "W60_OPERATIONS_HELPER_CURRENT_VALIDATION*.json" -AcceptableResults @("pass_local_only")
   qa_validation = Find-LatestJsonByResult -Directory $qaValidationDir -Filter "W61_QA_HELPER_CURRENT_VALIDATION*.json" -AcceptableResults @("pass_local_only")
   index_validation = Find-LatestJsonByResult -Directory $indexValidationDir -Filter "W59_LIVE_INDEX_REFRESH*.json" -AcceptableResults @("pass")
@@ -396,6 +398,7 @@ $profileJson = Read-JsonEvidence -Path $latest.profile_matrix
 $readinessJson = Read-JsonEvidence -Path $latest.lane_readiness
 $projectJson = Read-JsonEvidence -Path $latest.project_readiness
 $queueJson = Read-JsonEvidence -Path $latest.runtime_lane_queue
+$modelRegistryCoverageJson = Read-JsonEvidence -Path $latest.model_registry_coverage
 $operationsJson = Read-JsonEvidence -Path $latest.operations_validation
 $qaJson = Read-JsonEvidence -Path $latest.qa_validation
 $indexJson = Read-JsonEvidence -Path $latest.index_validation
@@ -498,6 +501,53 @@ $queueSummary.queue_allows_selected_lane_ec2_static_proof = (
   $queueSummary.first_runtime_lane_match -eq $true
 )
 
+$modelRegistryCoverageSummary = [ordered]@{
+  evidence = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.model_registry_coverage
+  result = [string](Get-PropertyValue -Object $modelRegistryCoverageJson -Name "result" -Default "missing_model_registry_coverage")
+  selected_lane_id = $LaneId
+  selected_lane_covered = $false
+  selected_lane_result = $null
+  active_lane_ids = @()
+  failed_check_count = Get-PropertyValue -Object $modelRegistryCoverageJson -Name "failed_check_count" -Default $null
+  registry_record_count = Get-PropertyValue -Object $modelRegistryCoverageJson -Name "registry_record_count" -Default $null
+  runtime_validation_queue_row_count = Get-PropertyValue -Object $modelRegistryCoverageJson -Name "runtime_validation_queue_row_count" -Default $null
+  local_only = Get-BoolPropertyValue -Object $modelRegistryCoverageJson -Name "local_only" -Default $false
+  aws_contacted = Get-BoolPropertyValue -Object $modelRegistryCoverageJson -Name "aws_contacted" -Default $true
+  github_api_contacted = Get-BoolPropertyValue -Object $modelRegistryCoverageJson -Name "github_api_contacted" -Default $true
+  civitai_contacted = Get-BoolPropertyValue -Object $modelRegistryCoverageJson -Name "civitai_contacted" -Default $true
+  comfyui_contacted = Get-BoolPropertyValue -Object $modelRegistryCoverageJson -Name "comfyui_contacted" -Default $true
+  ec2_started = Get-BoolPropertyValue -Object $modelRegistryCoverageJson -Name "ec2_started" -Default $true
+  generation_executed = Get-BoolPropertyValue -Object $modelRegistryCoverageJson -Name "generation_executed" -Default $true
+  coverage_allows_selected_lane_ec2_static_proof = $false
+}
+if (Has-Property -Object $modelRegistryCoverageJson -Name "active_lane_ids") {
+  $coverageLaneIds = @($modelRegistryCoverageJson.active_lane_ids | ForEach-Object { [string]$_ })
+  $modelRegistryCoverageSummary.active_lane_ids = $coverageLaneIds
+  $modelRegistryCoverageSummary.selected_lane_covered = @($coverageLaneIds) -contains [string]$LaneId
+}
+if (Has-Property -Object $modelRegistryCoverageJson -Name "lane_results") {
+  $selectedCoverageLaneMatches = @($modelRegistryCoverageJson.lane_results | Where-Object { [string]$_.lane_id -eq [string]$LaneId } | Select-Object -First 1)
+  if (@($selectedCoverageLaneMatches).Count -gt 0) {
+    $modelRegistryCoverageSummary.selected_lane_covered = $true
+    if (Has-Property -Object $selectedCoverageLaneMatches[0] -Name "result") {
+      $modelRegistryCoverageSummary.selected_lane_result = [string]$selectedCoverageLaneMatches[0].result
+    }
+  }
+}
+$modelRegistryCoverageSummary.coverage_allows_selected_lane_ec2_static_proof = (
+  $modelRegistryCoverageSummary.result -eq "pass_local_only" -and
+  $modelRegistryCoverageSummary.failed_check_count -eq 0 -and
+  $modelRegistryCoverageSummary.local_only -eq $true -and
+  $modelRegistryCoverageSummary.aws_contacted -eq $false -and
+  $modelRegistryCoverageSummary.github_api_contacted -eq $false -and
+  $modelRegistryCoverageSummary.civitai_contacted -eq $false -and
+  $modelRegistryCoverageSummary.comfyui_contacted -eq $false -and
+  $modelRegistryCoverageSummary.ec2_started -eq $false -and
+  $modelRegistryCoverageSummary.generation_executed -eq $false -and
+  $modelRegistryCoverageSummary.selected_lane_covered -eq $true -and
+  $modelRegistryCoverageSummary.selected_lane_result -eq "pass"
+)
+
 $helperSummary = [ordered]@{
   operations_validation = [ordered]@{
     evidence = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.operations_validation
@@ -529,6 +579,10 @@ if ($projectSummary.local_ready -and -not $authSummary.safe_to_start_ec2) {
   $result = "handoff_lane_queue_order_blocked"
   $failureCategory = "runtime_lane_queue_order_blocked"
   $nextRequiredAction = "inspect_runtime_lane_queue"
+} elseif ($projectSummary.local_ready -and $authSummary.safe_to_start_ec2 -and -not $modelRegistryCoverageSummary.coverage_allows_selected_lane_ec2_static_proof) {
+  $result = "handoff_model_registry_blocked"
+  $failureCategory = "model_registry_coverage_blocked"
+  $nextRequiredAction = "rerun_model_registry_coverage"
 } elseif ($projectSummary.local_ready -and $authSummary.safe_to_start_ec2 -and -not $laneSummary.ready_for_ec2_static_proof) {
   $result = "handoff_auth_ready_lane_not_ready"
   $failureCategory = $(if (![string]::IsNullOrWhiteSpace([string]$laneSummary.failure_category)) { [string]$laneSummary.failure_category } else { "lane_readiness_blocked" })
@@ -548,6 +602,7 @@ $commandSequence = @(
   (New-CommandStep -Name "auth_gate_recheck" -Gate "after_aws_login" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-AwsAuthGate.ps1 -AttemptRemoteLogin -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W60_W61_AWS_AUTH_GATE_<timestamp>.json" -ExpectedEvidence "result=pass, ec2_work_allowed=true, safe_to_start_ec2=true, account_match=true" -WhenToRun "Immediately after AWS browser/SSO login."),
   (New-CommandStep -Name "profile_matrix_recheck" -Gate "after_auth_gate_or_for_diagnosis" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-AwsProfileAuthMatrix.ps1 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W60_W61_AWS_PROFILE_AUTH_MATRIX_<timestamp>.json" -ExpectedEvidence "At least one profile authenticates to account 029530099913, or a clear diagnostic if not." -WhenToRun "After auth refresh or when account/profile mismatch is suspected."),
   (New-CommandStep -Name "runtime_lane_queue_recheck" -Gate "before_any_ec2_execute" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\Scripts\Test-RuntimeLaneQueue.ps1 -ProjectRoot C:\Comfy_UI_Main -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Prerequisite_Matching\W61_RUNTIME_LANE_QUEUE_VALIDATION_<timestamp>.json" -ExpectedEvidence "result=pass_local_only, first_runtime_lane_id=$LaneId, selected lane order=1, failed_check_count=0." -WhenToRun "Immediately before EC2 static proof if queue files or evidence changed."),
+  (New-CommandStep -Name "model_registry_coverage_recheck" -Gate "before_any_ec2_execute" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\Scripts\Test-WorkflowModelRegistryCoverage.ps1 -ProjectRoot C:\Comfy_UI_Main -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Model_Registry\W61_MODEL_REGISTRY_COVERAGE_<timestamp>.json" -ExpectedEvidence "result=pass_local_only, selected lane $LaneId has result=pass, failed_check_count=0, registry records and runtime-validation queue rows exist." -WhenToRun "Immediately before EC2 static proof if model registry, runtime requirements, or queue files changed."),
   (New-CommandStep -Name "git_checkpoint_recheck" -Gate "before_any_ec2_execute" -Command "git -C C:\Comfy_UI_Main status --short --branch; git -C C:\Comfy_UI_Main rev-parse HEAD; git -C C:\Comfy_UI_Main rev-parse origin/main" -ExpectedEvidence "Working tree clean and local HEAD equals origin/main before any EC2 helper runs with -Execute." -WhenToRun "Immediately before EC2 static proof or workflow smoke execution."),
   (New-CommandStep -Name "lane_readiness_recheck" -Gate "auth_gate_safe_to_start_ec2_true" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-LaneRuntimeReadiness.ps1 -LaneId $LaneId -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_LANE_RUNTIME_READINESS_<timestamp>.json" -ExpectedEvidence "local_pre_ec2_ready=true, lane_id=$LaneId, and ready_for_ec2_static_proof=true before EC2 static proof." -WhenToRun "Only after auth gate reports safe_to_start_ec2=true."),
   (New-CommandStep -Name "ec2_static_proof" -Gate "ready_for_ec2_static_proof_true" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 -LaneId $LaneId -Execute -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W61_EC2_LANE_STATIC_PROOF_<timestamp>.json" -ExpectedEvidence "Object-info node availability, checkpoint path, checkpoint size/hash, LaneId match, and EC2 stop verification." -WhenToRun "Only after readiness reports ready_for_ec2_static_proof=true."),
@@ -562,6 +617,7 @@ $safetyInvariants = [ordered]@{
   expected_idle_state = "stopped"
   do_not_start_ec2_unless_auth_safe = "Test-AwsAuthGate.ps1 must report ec2_work_allowed=true and safe_to_start_ec2=true."
   do_not_start_ec2_unless_runtime_lane_queue_allows = "Test-RuntimeLaneQueue.ps1 must report first_runtime_lane_id=$LaneId, selected lane order=1, and failed_check_count=0."
+  do_not_start_ec2_unless_model_registry_coverage_passes = "Test-WorkflowModelRegistryCoverage.ps1 must report result=pass_local_only, selected lane $LaneId result=pass, and failed_check_count=0."
   do_not_start_ec2_unless_git_checkpoint_clean = "EC2 execution helpers must see local HEAD equal origin/main with a clean working tree so remote git pull can reproduce the intended commit."
   do_not_start_ec2_unless_lane_ready = "Test-LaneRuntimeReadiness.ps1 must report lane_id=$LaneId and ready_for_ec2_static_proof=true."
   do_not_run_generation_without_static_proof = "Invoke-EC2LaneStaticProof.ps1 -Execute must record object-info/path/hash proof before workflow smoke generation."
@@ -599,6 +655,7 @@ $record = [ordered]@{
     lane_readiness = $laneSummary.evidence
     project_readiness = $projectSummary.evidence
     runtime_lane_queue = $queueSummary.evidence
+    model_registry_coverage = $modelRegistryCoverageSummary.evidence
     run_package = $runPackageSummary.evidence
     operations_validation = $helperSummary.operations_validation.evidence
     qa_validation = $helperSummary.qa_validation.evidence
@@ -610,6 +667,7 @@ $record = [ordered]@{
     lane_readiness = $laneSummary
     project_readiness = $projectSummary
     runtime_lane_queue = $queueSummary
+    model_registry_coverage = $modelRegistryCoverageSummary
     run_package = $runPackageSummary
     helper_validation = $helperSummary
   }
@@ -660,6 +718,7 @@ $markdown = @"
 - Lane readiness: $($laneSummary.result), lane_id=$($laneSummary.lane_id), lane_match=$($laneSummary.lane_match), local_pre_ec2_ready=$($laneSummary.local_pre_ec2_ready), ready_for_ec2_static_proof=$($laneSummary.ready_for_ec2_static_proof), ready_for_generation=$($laneSummary.ready_for_generation)
 - Project readiness: $($projectSummary.result), lane_id=$($projectSummary.lane_id), lane_match=$($projectSummary.lane_match), local_ready=$($projectSummary.local_ready), ec2_start_allowed=$($projectSummary.ec2_start_allowed), generation_allowed=$($projectSummary.generation_allowed), scan_hit_count=$($projectSummary.scan_hit_count)
 - Runtime lane queue: $($queueSummary.result), first_runtime_lane_id=$($queueSummary.first_runtime_lane_id), first_runtime_lane_match=$($queueSummary.first_runtime_lane_match), selected_lane_order=$($queueSummary.selected_lane_order), queue_allows_selected_lane_ec2_static_proof=$($queueSummary.queue_allows_selected_lane_ec2_static_proof)
+- Model registry coverage: $($modelRegistryCoverageSummary.result), selected_lane_covered=$($modelRegistryCoverageSummary.selected_lane_covered), selected_lane_result=$($modelRegistryCoverageSummary.selected_lane_result), failed_check_count=$($modelRegistryCoverageSummary.failed_check_count), coverage_allows_selected_lane_ec2_static_proof=$($modelRegistryCoverageSummary.coverage_allows_selected_lane_ec2_static_proof)
 - Run package: supplied=$($runPackageSummary.supplied), valid=$($runPackageSummary.valid), run_id=$($runPackageSummary.run_id), profile=$($runPackageSummary.prompt_profile.profile_id), prompt_hash_match=$($runPackageSummary.prompt_request.hash_match)
 
 ## Safety Invariants
@@ -668,6 +727,7 @@ $markdown = @"
 - Expected AWS account is `029530099913`.
 - Do not start EC2 unless auth gate reports `ec2_work_allowed=true` and `safe_to_start_ec2=true`.
 - Do not start EC2 unless runtime lane queue validation reports `first_runtime_lane_id=$LaneId`, selected lane order `1`, and failed check count `0`.
+- Do not start EC2 unless model registry coverage reports `result=pass_local_only`, selected lane `$LaneId` result `pass`, and failed check count `0`.
 - Do not start EC2 unless local Git is clean and `HEAD` equals `origin/main`.
 - Do not run EC2 static proof unless lane readiness reports `lane_id=$LaneId` and `ready_for_ec2_static_proof=true`.
 - Do not run generation until object-info, checkpoint path, and checkpoint hash proof exists.

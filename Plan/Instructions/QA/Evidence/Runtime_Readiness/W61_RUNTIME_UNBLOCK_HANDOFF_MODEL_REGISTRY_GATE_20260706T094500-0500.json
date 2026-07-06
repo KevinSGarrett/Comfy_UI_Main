@@ -1,0 +1,262 @@
+﻿{
+    "evidence_id":  "W61-RUNTIME-UNBLOCK-HANDOFF-20260706T094414-0500",
+    "created_at":  "2026-07-06T09:44:14-05:00",
+    "artifact_id":  "TRK-W61-006",
+    "artifact_type":  "runtime_unblock_handoff",
+    "tracker_ids":  [
+                        "TRK-W61-006",
+                        "TRK-W61-007",
+                        "TRK-W60-010"
+                    ],
+    "qa_protocol_used":  [
+                             "README_OPERATIONS_WAVE60.md",
+                             "SECRETS_ENV_HANDLING_PROTOCOL.md",
+                             "QA_EVIDENCE_LOG_PROTOCOL.md"
+                         ],
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "lane_id":  "sdxl_low_risk_fallback_lane",
+    "result":  "handoff_ready_runtime_blocked_auth",
+    "failure_category":  "expired_session",
+    "next_required_action":  "complete_aws_browser_sso_login",
+    "latest_evidence":  {
+                            "auth_gate":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_AUTH_GATE_COORDINATOR_CONTRACT_20260706T052346-0500.json",
+                            "profile_matrix":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_PROFILE_AUTH_MATRIX_COORDINATOR_CONTRACT_20260706T052346-0500.json",
+                            "lane_readiness":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_MODEL_REGISTRY_GATE_20260706T094500-0500.json",
+                            "project_readiness":  "Plan/Instructions/QA/Evidence/Project_Readiness/W61_PROJECT_READINESS_SNAPSHOT_MODEL_REGISTRY_GATE_20260706T094500-0500.json",
+                            "runtime_lane_queue":  "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W61_RUNTIME_LANE_QUEUE_VALIDATION_20260706T073455-0500.json",
+                            "model_registry_coverage":  "Plan/Instructions/QA/Evidence/Model_Registry/W61_MODEL_REGISTRY_COVERAGE_20260706T093415-0500.json",
+                            "run_package":  "runtime_artifacts/run_packages/sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1/RUN_PACKAGE_MANIFEST.json",
+                            "operations_validation":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_CIVITAI_MODEL_REGISTRY_20260706T093415-0500.json",
+                            "qa_validation":  "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_MODEL_REGISTRY_COVERAGE_20260706T093415-0500.json",
+                            "index_validation":  "Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_MODEL_REGISTRY_COVERAGE_20260706T093806-0500.json"
+                        },
+    "gate_summary":  {
+                         "auth_gate":  {
+                                           "evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_AUTH_GATE_COORDINATOR_CONTRACT_20260706T052346-0500.json",
+                                           "result":  "blocked_expired_session",
+                                           "failure_category":  "expired_session",
+                                           "account_match":  false,
+                                           "remote_login_status":  "not_attempted",
+                                           "ec2_work_allowed":  false,
+                                           "safe_to_start_ec2":  false,
+                                           "generation_allowed":  false
+                                       },
+                         "profile_matrix":  {
+                                                "evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_PROFILE_AUTH_MATRIX_COORDINATOR_CONTRACT_20260706T052346-0500.json",
+                                                "result":  "blocked_no_valid_profile",
+                                                "expected_account":  "029530099913",
+                                                "profile_count":  15,
+                                                "profiles_matching_expected_count":  0,
+                                                "safe_to_start_ec2":  false
+                                            },
+                         "lane_readiness":  {
+                                                "evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_MODEL_REGISTRY_GATE_20260706T094500-0500.json",
+                                                "result":  "local_pre_ec2_ready_runtime_blocked_auth",
+                                                "failure_category":  "expired_session",
+                                                "lane_id":  "sdxl_low_risk_fallback_lane",
+                                                "lane_match":  true,
+                                                "local_pre_ec2_ready":  true,
+                                                "ready_for_ec2_static_proof":  false,
+                                                "ready_for_generation":  false
+                                            },
+                         "project_readiness":  {
+                                                   "evidence":  "Plan/Instructions/QA/Evidence/Project_Readiness/W61_PROJECT_READINESS_SNAPSHOT_MODEL_REGISTRY_GATE_20260706T094500-0500.json",
+                                                   "result":  "pass_local_ready_runtime_blocked_auth",
+                                                   "failure_category":  "expired_session",
+                                                   "lane_id":  "sdxl_low_risk_fallback_lane",
+                                                   "lane_match":  true,
+                                                   "local_ready":  true,
+                                                   "ec2_start_allowed":  false,
+                                                   "generation_allowed":  false,
+                                                   "scan_hit_count":  0
+                                               },
+                         "runtime_lane_queue":  {
+                                                    "evidence":  "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W61_RUNTIME_LANE_QUEUE_VALIDATION_20260706T073455-0500.json",
+                                                    "result":  "pass_local_only",
+                                                    "queue_file":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+                                                    "selected_lane_id":  "sdxl_low_risk_fallback_lane",
+                                                    "selected_lane_in_queue":  true,
+                                                    "selected_lane_order":  1,
+                                                    "first_runtime_lane_id":  "sdxl_low_risk_fallback_lane",
+                                                    "first_runtime_lane_match":  true,
+                                                    "queued_lane_count":  2,
+                                                    "failed_check_count":  0,
+                                                    "local_only":  true,
+                                                    "aws_contacted":  false,
+                                                    "github_api_contacted":  false,
+                                                    "civitai_contacted":  false,
+                                                    "comfyui_contacted":  false,
+                                                    "ec2_started":  false,
+                                                    "generation_executed":  false,
+                                                    "queue_allows_selected_lane_ec2_static_proof":  true
+                                                },
+                         "model_registry_coverage":  {
+                                                         "evidence":  "Plan/Instructions/QA/Evidence/Model_Registry/W61_MODEL_REGISTRY_COVERAGE_20260706T093415-0500.json",
+                                                         "result":  "pass_local_only",
+                                                         "selected_lane_id":  "sdxl_low_risk_fallback_lane",
+                                                         "selected_lane_covered":  true,
+                                                         "selected_lane_result":  "pass",
+                                                         "active_lane_ids":  [
+                                                                                 "sdxl_low_risk_fallback_lane",
+                                                                                 "sdxl_realvisxl_base_lane"
+                                                                             ],
+                                                         "failed_check_count":  0,
+                                                         "registry_record_count":  2,
+                                                         "runtime_validation_queue_row_count":  2,
+                                                         "local_only":  true,
+                                                         "aws_contacted":  false,
+                                                         "github_api_contacted":  false,
+                                                         "civitai_contacted":  false,
+                                                         "comfyui_contacted":  false,
+                                                         "ec2_started":  false,
+                                                         "generation_executed":  false,
+                                                         "coverage_allows_selected_lane_ec2_static_proof":  true
+                                                     },
+                         "run_package":  {
+                                             "supplied":  true,
+                                             "evidence":  "runtime_artifacts/run_packages/sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1/RUN_PACKAGE_MANIFEST.json",
+                                             "found":  true,
+                                             "valid":  true,
+                                             "errors":  [
+
+                                                        ],
+                                             "run_id":  "sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1",
+                                             "result":  "pass_local_only",
+                                             "lane_id":  "sdxl_low_risk_fallback_lane",
+                                             "lane_match":  true,
+                                             "prompt_profile":  {
+                                                                    "supplied":  true,
+                                                                    "applied":  true,
+                                                                    "profile_id":  "hyperreal_editorial_portrait_v1",
+                                                                    "path":  "PromptProfiles/base_generation/hyperreal_editorial_portrait.json"
+                                                                },
+                                             "prompt_request":  {
+                                                                    "path":  "runtime_artifacts/run_packages/sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1/prompt_request.json",
+                                                                    "expected_sha256":  "37f2947023321b9018c72f941cbd33e9f9dcf5ca2c4dd7fa54971aa4e6bd1538",
+                                                                    "actual_sha256":  "37f2947023321b9018c72f941cbd33e9f9dcf5ca2c4dd7fa54971aa4e6bd1538",
+                                                                    "hash_match":  true,
+                                                                    "json_valid":  true,
+                                                                    "node_count":  7
+                                                                }
+                                         },
+                         "helper_validation":  {
+                                                   "operations_validation":  {
+                                                                                 "evidence":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_CIVITAI_MODEL_REGISTRY_20260706T093415-0500.json",
+                                                                                 "result":  "pass_local_only"
+                                                                             },
+                                                   "qa_validation":  {
+                                                                         "evidence":  "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_MODEL_REGISTRY_COVERAGE_20260706T093415-0500.json",
+                                                                         "result":  "pass_local_only"
+                                                                     },
+                                                   "index_validation":  {
+                                                                            "evidence":  "Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_MODEL_REGISTRY_COVERAGE_20260706T093806-0500.json",
+                                                                            "result":  "pass"
+                                                                        }
+                                               }
+                     },
+    "safety_invariants":  {
+                              "approved_instance_id":  "i-0560bf8d143f93bb1",
+                              "expected_aws_account":  "029530099913",
+                              "expected_idle_state":  "stopped",
+                              "do_not_start_ec2_unless_auth_safe":  "Test-AwsAuthGate.ps1 must report ec2_work_allowed=true and safe_to_start_ec2=true.",
+                              "do_not_start_ec2_unless_runtime_lane_queue_allows":  "Test-RuntimeLaneQueue.ps1 must report first_runtime_lane_id=sdxl_low_risk_fallback_lane, selected lane order=1, and failed_check_count=0.",
+                              "do_not_start_ec2_unless_model_registry_coverage_passes":  "Test-WorkflowModelRegistryCoverage.ps1 must report result=pass_local_only, selected lane sdxl_low_risk_fallback_lane result=pass, and failed_check_count=0.",
+                              "do_not_start_ec2_unless_git_checkpoint_clean":  "EC2 execution helpers must see local HEAD equal origin/main with a clean working tree so remote git pull can reproduce the intended commit.",
+                              "do_not_start_ec2_unless_lane_ready":  "Test-LaneRuntimeReadiness.ps1 must report lane_id=sdxl_low_risk_fallback_lane and ready_for_ec2_static_proof=true.",
+                              "do_not_run_generation_without_static_proof":  "Invoke-EC2LaneStaticProof.ps1 -Execute must record object-info/path/hash proof before workflow smoke generation.",
+                              "stop_ec2_after_runtime_work":  "Any EC2 runtime action must stop instance i-0560bf8d143f93bb1 and verify stopped.",
+                              "use_verified_run_package":  "Invoke-EC2WorkflowSmokeRun.ps1 must use run package runtime_artifacts/run_packages/sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1/RUN_PACKAGE_MANIFEST.json, and run_package.valid must be true before generation."
+                          },
+    "command_sequence":  [
+                             {
+                                 "name":  "aws_browser_sso_login",
+                                 "gate":  "external_interactive_browser_required",
+                                 "command":  "aws login --remote",
+                                 "expected_evidence":  "AWS CLI login refreshed for account 029530099913",
+                                 "when_to_run":  "Only while EC2 gates remain blocked by expired AWS auth."
+                             },
+                             {
+                                 "name":  "auth_gate_recheck",
+                                 "gate":  "after_aws_login",
+                                 "command":  "powershell -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Test-AwsAuthGate.ps1 -AttemptRemoteLogin -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W60_W61_AWS_AUTH_GATE_\u003ctimestamp\u003e.json",
+                                 "expected_evidence":  "result=pass, ec2_work_allowed=true, safe_to_start_ec2=true, account_match=true",
+                                 "when_to_run":  "Immediately after AWS browser/SSO login."
+                             },
+                             {
+                                 "name":  "profile_matrix_recheck",
+                                 "gate":  "after_auth_gate_or_for_diagnosis",
+                                 "command":  "powershell -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Test-AwsProfileAuthMatrix.ps1 -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W60_W61_AWS_PROFILE_AUTH_MATRIX_\u003ctimestamp\u003e.json",
+                                 "expected_evidence":  "At least one profile authenticates to account 029530099913, or a clear diagnostic if not.",
+                                 "when_to_run":  "After auth refresh or when account/profile mismatch is suspected."
+                             },
+                             {
+                                 "name":  "runtime_lane_queue_recheck",
+                                 "gate":  "before_any_ec2_execute",
+                                 "command":  "powershell -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Scripts\\Test-RuntimeLaneQueue.ps1 -ProjectRoot C:\\Comfy_UI_Main -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Prerequisite_Matching\\W61_RUNTIME_LANE_QUEUE_VALIDATION_\u003ctimestamp\u003e.json",
+                                 "expected_evidence":  "result=pass_local_only, first_runtime_lane_id=sdxl_low_risk_fallback_lane, selected lane order=1, failed_check_count=0.",
+                                 "when_to_run":  "Immediately before EC2 static proof if queue files or evidence changed."
+                             },
+                             {
+                                 "name":  "model_registry_coverage_recheck",
+                                 "gate":  "before_any_ec2_execute",
+                                 "command":  "powershell -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Scripts\\Test-WorkflowModelRegistryCoverage.ps1 -ProjectRoot C:\\Comfy_UI_Main -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Model_Registry\\W61_MODEL_REGISTRY_COVERAGE_\u003ctimestamp\u003e.json",
+                                 "expected_evidence":  "result=pass_local_only, selected lane sdxl_low_risk_fallback_lane has result=pass, failed_check_count=0, registry records and runtime-validation queue rows exist.",
+                                 "when_to_run":  "Immediately before EC2 static proof if model registry, runtime requirements, or queue files changed."
+                             },
+                             {
+                                 "name":  "git_checkpoint_recheck",
+                                 "gate":  "before_any_ec2_execute",
+                                 "command":  "git -C C:\\Comfy_UI_Main status --short --branch; git -C C:\\Comfy_UI_Main rev-parse HEAD; git -C C:\\Comfy_UI_Main rev-parse origin/main",
+                                 "expected_evidence":  "Working tree clean and local HEAD equals origin/main before any EC2 helper runs with -Execute.",
+                                 "when_to_run":  "Immediately before EC2 static proof or workflow smoke execution."
+                             },
+                             {
+                                 "name":  "lane_readiness_recheck",
+                                 "gate":  "auth_gate_safe_to_start_ec2_true",
+                                 "command":  "powershell -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Test-LaneRuntimeReadiness.ps1 -LaneId sdxl_low_risk_fallback_lane -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W61_LANE_RUNTIME_READINESS_\u003ctimestamp\u003e.json",
+                                 "expected_evidence":  "local_pre_ec2_ready=true, lane_id=sdxl_low_risk_fallback_lane, and ready_for_ec2_static_proof=true before EC2 static proof.",
+                                 "when_to_run":  "Only after auth gate reports safe_to_start_ec2=true."
+                             },
+                             {
+                                 "name":  "ec2_static_proof",
+                                 "gate":  "ready_for_ec2_static_proof_true",
+                                 "command":  "powershell -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_low_risk_fallback_lane -Execute -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Static_Validation\\W61_EC2_LANE_STATIC_PROOF_\u003ctimestamp\u003e.json",
+                                 "expected_evidence":  "Object-info node availability, checkpoint path, checkpoint size/hash, LaneId match, and EC2 stop verification.",
+                                 "when_to_run":  "Only after readiness reports ready_for_ec2_static_proof=true."
+                             },
+                             {
+                                 "name":  "bounded_workflow_smoke",
+                                 "gate":  "static_proof_generation_allowed",
+                                 "command":  "powershell -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Invoke-EC2WorkflowSmokeRun.ps1 -LaneId sdxl_low_risk_fallback_lane -Execute -StaticProofFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Static_Validation\\W61_EC2_LANE_STATIC_PROOF_\u003ctimestamp\u003e.json -ReadinessFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W61_LANE_RUNTIME_READINESS_\u003ctimestamp\u003e.json -RunPackageManifestFile \"C:\\Comfy_UI_Main\\runtime_artifacts\\run_packages\\sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1\\RUN_PACKAGE_MANIFEST.json\" -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Runtime\\W61_EC2_WORKFLOW_SMOKE_RUN_EXECUTION_\u003ctimestamp\u003e.json",
+                                 "expected_evidence":  "Bounded prompt execution from validated run package sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1, LaneId-matched static proof/readiness, remote artifact manifest, pullback route, and EC2 stop verification.",
+                                 "when_to_run":  "Only after EC2 static proof permits generation."
+                             },
+                             {
+                                 "name":  "artifact_pullback_record",
+                                 "gate":  "generated_artifacts_pulled_back",
+                                 "command":  "powershell -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\New-EC2PullbackRecord.ps1 -RunId \u003crun_id\u003e -LocalDestination C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\\u003crun_id\u003e -RemoteManifestFile C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\\u003crun_id\u003e\\REMOTE_ARTIFACT_MANIFEST.json",
+                                 "expected_evidence":  "PULLBACK_RECORD.json with count/hash match and QA routing.",
+                                 "when_to_run":  "After generated artifacts and remote manifest exist locally."
+                             },
+                             {
+                                 "name":  "image_artifact_qa",
+                                 "gate":  "pullback_hashes_verified",
+                                 "command":  "powershell -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Scripts\\New-ImageArtifactQARecord.ps1 -ImagePath \u003cpulled-back-image\u003e -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Image_Artifact_QA\\W61_IMAGE_QA_\u003ctimestamp\u003e.json -ChecklistOutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Image_Artifact_QA\\W61_IMAGE_QA_CHECKLIST_\u003ctimestamp\u003e.md",
+                                 "expected_evidence":  "Image technical QA record and human/visual review checklist.",
+                                 "when_to_run":  "After pullback hashes are verified."
+                             }
+                         ],
+    "command_step_count":  11,
+    "markdown_path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.md",
+    "markdown_written":  true,
+    "known_issues":  [
+                         "This is a local handoff only and does not refresh AWS auth.",
+                         "AWS auth remains the runtime blocker if safe_to_start_ec2 is false.",
+                         "This handoff does not prove EC2 object-info/path/hash, generation, artifact pullback, or media QA."
+                     ]
+}

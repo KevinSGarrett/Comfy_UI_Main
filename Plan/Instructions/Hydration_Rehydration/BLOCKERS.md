@@ -23,7 +23,7 @@ None currently active for local Wave 58-62 static and packaging validation.
 - `BLOCKER-AWS-AUTH-EXPIRED-001`
   - blocker type: aws_cli_login_expired
   - failed condition: `aws sts get-caller-identity` returned `ExpiredToken` and `aws ec2 describe-instances` returned `RequestExpired` for the default login credential.
-  - latest retest: 2026-07-06T07:35:23-05:00 local runtime lane queue validation records `result=pass_local_only`, first runtime lane `sdxl_low_risk_fallback_lane`, queued lane count 2, failed check count 0, `ec2_started=false`, and `generation_executed=false`; `Test-QAHelperStatic.ps1` now includes the runtime lane queue smoke and reports 9 QA scripts parsed, 12 local smokes passed, 0 smoke failures, and 0 project-readiness contract failures. `Test-ProjectReadinessSnapshot.ps1` still records `result=pass_local_ready_runtime_blocked_auth`, `ec2_start_allowed=false`, and `generation_allowed=false`.
+  - latest retest: 2026-07-06T09:45:00-05:00 model-registry-gated readiness records `result=local_pre_ec2_ready_runtime_blocked_auth`, `local_pre_ec2_ready=true`, `ready_for_ec2_static_proof=false`, and `model_registry_coverage.coverage_allows_selected_lane_ec2_static_proof=true`; project readiness records `result=pass_local_ready_runtime_blocked_auth`, `local_ready=true`, `ec2_start_allowed=false`, and `generation_allowed=false`; runtime handoff records command step count `11` with `model_registry_coverage_recheck`; QA and operations helper validations both report `pass_local_only` with zero local smoke failures. AWS auth still blocks EC2 start.
   - AWS/EC2 involved: yes
   - impact: EC2 static lane proof, model hash capture, object-info proof, workflow execution, and generated artifact QA cannot continue until AWS login is refreshed.
   - current state: EC2 was verified `stopped` after the failed static-probe attempt.
@@ -45,7 +45,7 @@ None currently active for local Wave 58-62 static and packaging validation.
   - affected tracker IDs: `TRK-W59-004`, `TRK-W60-001`, `TRK-W60-009`
   - resolution: initialized Git metadata in `C:\Comfy_UI_Main`, configured canonical origin, enabled Git LFS for oversized CSVs, created initial commit, pushed `main`, and verified remote HEAD matches local HEAD.
   - evidence: `Plan/Instructions/QA/Evidence/Git_Verification/W59_W60_GIT_RECOVERY_INITIAL_COMMIT_20260706T010603-0500.json`
-  - latest recheck: 2026-07-06T06:38:42-05:00 confirmed `.git` exists, `origin` is configured, `.env` is ignored and untracked, `GITHUB_TOKEN` and `CIVITAI_API_KEY` variable names are present without values printed, local `main` matches `origin/main` at `535c3320f443b05e1ab6dc236004fc36e0bfa611`, and a no-prompt push dry-run reports `Everything up-to-date`.
+  - latest recheck: 2026-07-06T09:45:00-05:00 confirmed `C:\Comfy_UI_Main` is the canonical repo, `.git` exists, `origin` is configured as `https://github.com/KevinSGarrett/Comfy_UI_Main.git`, `.env` is ignored and untracked, and current uncommitted work is real model-registry gate integration inside `C:\Comfy_UI_Main` pending checkpoint. Do not recreate Git metadata or switch to `C:\Comfy_UI`.
   - latest recheck evidence: `Plan/Instructions/QA/Evidence/Git_Verification/W59_W60_GIT_CURRENT_RECHECK_20260706T063842-0500.json`
 
 - `BLOCKER-W62-ZIP-001` - resolved 2026-07-06T01:15:48-05:00

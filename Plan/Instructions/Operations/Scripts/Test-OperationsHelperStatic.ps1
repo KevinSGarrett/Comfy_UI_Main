@@ -277,6 +277,12 @@ function Invoke-LocalHelper {
         if (-not (Has-Property -Object $payload.gate_summary -Name "run_package")) {
           throw "$Name gate_summary is missing run_package."
         }
+        if (-not (Has-Property -Object $payload.gate_summary -Name "model_registry_coverage")) {
+          throw "$Name gate_summary is missing model_registry_coverage."
+        }
+        if (-not [bool]$payload.gate_summary.model_registry_coverage.coverage_allows_selected_lane_ec2_static_proof) {
+          throw "$Name model registry coverage gate must allow selected lane EC2 static proof."
+        }
         if ([bool]$payload.gate_summary.run_package.supplied) {
           if (-not [bool]$payload.gate_summary.run_package.valid) {
             throw "$Name supplied run package must be valid."
@@ -285,6 +291,10 @@ function Invoke-LocalHelper {
           if ($boundedStep.Count -eq 0 -or [string]$boundedStep[0].command -notmatch "-RunPackageManifestFile") {
             throw "$Name bounded_workflow_smoke command must include -RunPackageManifestFile when a run package is supplied."
           }
+        }
+        $modelRegistryStep = @($payload.command_sequence | Where-Object { [string]$_.name -eq "model_registry_coverage_recheck" } | Select-Object -First 1)
+        if ($modelRegistryStep.Count -eq 0 -or [string]$modelRegistryStep[0].command -notmatch "Test-WorkflowModelRegistryCoverage.ps1") {
+          throw "$Name command_sequence must include model_registry_coverage_recheck."
         }
         if (-not [bool]$payload.markdown_written) {
           throw "$Name did not write its Markdown handoff."
@@ -296,6 +306,9 @@ function Invoke-LocalHelper {
           if (-not (Has-Property -Object $payload.safety_invariants -Name $requiredSafety)) {
             throw "$Name safety_invariants is missing: $requiredSafety"
           }
+        }
+        if (-not (Has-Property -Object $payload.safety_invariants -Name "do_not_start_ec2_unless_model_registry_coverage_passes")) {
+          throw "$Name safety_invariants is missing model registry coverage gate."
         }
         if ([string]$payload.result -like "*blocked*" -and [string]::IsNullOrWhiteSpace([string]$payload.failure_category)) {
           throw "$Name blocked result must include failure_category."

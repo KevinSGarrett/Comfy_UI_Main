@@ -342,6 +342,7 @@ $runtimeReadinessDir = Join-Path $qaEvidenceRoot "Runtime_Readiness"
 $workflowStaticDir = Join-Path $qaEvidenceRoot "Workflow_Static_Validation"
 $workflowRuntimeDir = Join-Path $qaEvidenceRoot "Workflow_Runtime"
 $workflowPrerequisiteDir = Join-Path $qaEvidenceRoot "Workflow_Prerequisite_Matching"
+$modelRegistryCoverageDir = Join-Path $qaEvidenceRoot "Model_Registry"
 $operationsValidationDir = Join-Path $qaEvidenceRoot "Operations_Static_Validation"
 $qaValidationDir = Join-Path $qaEvidenceRoot "QA_Helper_Static_Validation"
 $hydrationValidationDir = Join-Path $qaEvidenceRoot "Hydration_Helper_Static_Validation"
@@ -360,6 +361,7 @@ $latest = [ordered]@{
   lane_readiness = Find-LatestJsonByLaneId -Directory $runtimeReadinessDir -Filter "W61_LANE_RUNTIME_READINESS_*.json" -ExpectedLaneId $LaneId
   runtime_unblock_handoff = Find-LatestJsonByLaneId -Directory $runtimeReadinessDir -Filter "W61_RUNTIME_UNBLOCK_HANDOFF_*.json" -ExpectedLaneId $LaneId
   runtime_lane_queue = Find-LatestFile -Directory $workflowPrerequisiteDir -Filter "W61_RUNTIME_LANE_QUEUE_VALIDATION*.json"
+  model_registry_coverage = Find-LatestFile -Directory $modelRegistryCoverageDir -Filter "W61_MODEL_REGISTRY_COVERAGE*.json"
   ec2_static_proof_blocked = Find-LatestJsonByLaneId -Directory $workflowStaticDir -Filter "W61_EC2_LANE_STATIC_PROOF_BLOCKED_EXECUTE_*.json" -ExpectedLaneId $LaneId
   ec2_workflow_smoke_blocked = Find-LatestJsonByLaneId -Directory $workflowRuntimeDir -Filter "W61_EC2_WORKFLOW_SMOKE_RUN_BLOCKED_EXECUTE_*.json" -ExpectedLaneId $LaneId
   operations_validation = Find-LatestJsonByResult -Directory $operationsValidationDir -Filter "W60_OPERATIONS_HELPER_CURRENT_VALIDATION*.json" -AcceptableResults @("pass_local_only")
@@ -411,8 +413,9 @@ $evidenceChecks = @(
   (Test-JsonEvidence -Name "auth_gate" -Path $latest.auth_gate -AcceptableResults @("pass", "blocked_expired_session", "blocked_account_mismatch", "blocked_aws_cli_unavailable", "blocked_remote_login_required", "blocked_unknown_auth_state")),
   (Test-JsonEvidence -Name "profile_matrix" -Path $latest.profile_matrix -AcceptableResults @("pass", "blocked_no_valid_profile", "blocked_aws_cli_unavailable", "blocked_no_profiles")),
   (Test-JsonEvidence -Name "lane_readiness" -Path $latest.lane_readiness -AcceptableResults @("ready_for_generation", "ready_for_ec2_static_proof", "local_pre_ec2_ready_runtime_blocked_auth", "local_pre_ec2_ready_runtime_blocked")),
-  (Test-JsonEvidence -Name "runtime_unblock_handoff" -Path $latest.runtime_unblock_handoff -AcceptableResults @("handoff_ready_runtime_blocked_auth", "handoff_auth_ready_lane_not_ready", "handoff_ready_for_ec2_static_proof", "handoff_ready_for_generation")),
+  (Test-JsonEvidence -Name "runtime_unblock_handoff" -Path $latest.runtime_unblock_handoff -AcceptableResults @("handoff_ready_runtime_blocked_auth", "handoff_auth_ready_lane_not_ready", "handoff_lane_queue_order_blocked", "handoff_model_registry_blocked", "handoff_ready_for_ec2_static_proof", "handoff_ready_for_generation")),
   (Test-JsonEvidence -Name "runtime_lane_queue" -Path $latest.runtime_lane_queue -AcceptableResults @("pass_local_only")),
+  (Test-JsonEvidence -Name "model_registry_coverage" -Path $latest.model_registry_coverage -AcceptableResults @("pass_local_only")),
   (Test-JsonEvidence -Name "ec2_static_proof_blocked_execute" -Path $latest.ec2_static_proof_blocked -AcceptableResults @("blocked_before_ec2_start")),
   (Test-JsonEvidence -Name "ec2_workflow_smoke_blocked_execute" -Path $latest.ec2_workflow_smoke_blocked -AcceptableResults @("blocked_before_ec2_start"))
 )
@@ -629,6 +632,80 @@ if ($runtimeLaneQueueSummary.first_runtime_lane_match -ne $true) {
   $warnings += "Selected lane is queued but is not the first runtime lane; EC2 static proof remains disallowed by runtime lane queue."
 }
 
+$modelRegistryCoverageSummary = [ordered]@{
+  result = "missing_model_registry_coverage"
+  evidence = $(if ($latest.model_registry_coverage) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.model_registry_coverage } else { $null })
+  selected_lane_id = $LaneId
+  selected_lane_covered = $false
+  selected_lane_result = $null
+  active_lane_ids = @()
+  failed_check_count = $null
+  registry_record_count = $null
+  runtime_validation_queue_row_count = $null
+  local_only = $false
+  aws_contacted = $true
+  github_api_contacted = $true
+  civitai_contacted = $true
+  comfyui_contacted = $true
+  ec2_started = $true
+  generation_executed = $true
+  coverage_allows_selected_lane_ec2_static_proof = $false
+}
+if (![string]::IsNullOrWhiteSpace($latest.model_registry_coverage) -and (Test-Path -LiteralPath $latest.model_registry_coverage)) {
+  $coverageJson = Read-JsonFile -Path $latest.model_registry_coverage
+  if (Has-Property -Object $coverageJson -Name "result") { $modelRegistryCoverageSummary.result = [string]$coverageJson.result }
+  foreach ($name in @("failed_check_count", "registry_record_count", "runtime_validation_queue_row_count")) {
+    if (Has-Property -Object $coverageJson -Name $name) { $modelRegistryCoverageSummary[$name] = [int]$coverageJson.$name }
+  }
+  foreach ($name in @("local_only", "aws_contacted", "github_api_contacted", "civitai_contacted", "comfyui_contacted", "ec2_started", "generation_executed")) {
+    if (Has-Property -Object $coverageJson -Name $name) { $modelRegistryCoverageSummary[$name] = [bool]$coverageJson.$name }
+  }
+  if (Has-Property -Object $coverageJson -Name "active_lane_ids") {
+    $modelRegistryCoverageSummary.active_lane_ids = @($coverageJson.active_lane_ids | ForEach-Object { [string]$_ })
+    $modelRegistryCoverageSummary.selected_lane_covered = @($modelRegistryCoverageSummary.active_lane_ids) -contains [string]$LaneId
+  }
+  if (Has-Property -Object $coverageJson -Name "lane_results") {
+    $selectedCoverageLaneMatches = @($coverageJson.lane_results | Where-Object { [string]$_.lane_id -eq [string]$LaneId } | Select-Object -First 1)
+    if (@($selectedCoverageLaneMatches).Count -gt 0) {
+      $modelRegistryCoverageSummary.selected_lane_covered = $true
+      if (Has-Property -Object $selectedCoverageLaneMatches[0] -Name "result") {
+        $modelRegistryCoverageSummary.selected_lane_result = [string]$selectedCoverageLaneMatches[0].result
+      }
+    }
+  }
+  $modelRegistryCoverageSummary.coverage_allows_selected_lane_ec2_static_proof = (
+    $modelRegistryCoverageSummary.result -eq "pass_local_only" -and
+    $modelRegistryCoverageSummary.failed_check_count -eq 0 -and
+    $modelRegistryCoverageSummary.local_only -eq $true -and
+    $modelRegistryCoverageSummary.aws_contacted -eq $false -and
+    $modelRegistryCoverageSummary.github_api_contacted -eq $false -and
+    $modelRegistryCoverageSummary.civitai_contacted -eq $false -and
+    $modelRegistryCoverageSummary.comfyui_contacted -eq $false -and
+    $modelRegistryCoverageSummary.ec2_started -eq $false -and
+    $modelRegistryCoverageSummary.generation_executed -eq $false -and
+    $modelRegistryCoverageSummary.selected_lane_covered -eq $true -and
+    $modelRegistryCoverageSummary.selected_lane_result -eq "pass"
+  )
+}
+if ($modelRegistryCoverageSummary.result -ne "pass_local_only") {
+  $errors += "Model registry coverage validation is missing or not pass_local_only."
+}
+if ($modelRegistryCoverageSummary.selected_lane_covered -ne $true) {
+  $errors += "Selected LaneId $LaneId is not covered by model registry coverage."
+}
+if ($modelRegistryCoverageSummary.selected_lane_result -ne "pass") {
+  $errors += "Selected LaneId $LaneId does not have passing model registry coverage."
+}
+if ($modelRegistryCoverageSummary.failed_check_count -ne 0) {
+  $errors += "Model registry coverage validation has failed checks."
+}
+if ($modelRegistryCoverageSummary.local_only -ne $true -or $modelRegistryCoverageSummary.aws_contacted -ne $false -or $modelRegistryCoverageSummary.github_api_contacted -ne $false -or $modelRegistryCoverageSummary.civitai_contacted -ne $false -or $modelRegistryCoverageSummary.comfyui_contacted -ne $false) {
+  $errors += "Model registry coverage validation is not local-only or reports external contact."
+}
+if ($modelRegistryCoverageSummary.ec2_started -ne $false -or $modelRegistryCoverageSummary.generation_executed -ne $false) {
+  $errors += "Model registry coverage validation unexpectedly started EC2 or generation."
+}
+
 $coordinatorSummary = [ordered]@{
   static_proof_result = "missing"
   static_proof_failure_category = "missing"
@@ -691,6 +768,9 @@ if (!$authSummary.safe_to_start_ec2) {
 if (!$runtimeLaneQueueSummary.queue_allows_selected_lane_ec2_static_proof) {
   $warnings += "Runtime lane queue does not allow the selected lane to start EC2 static proof as the first queued lane."
 }
+if (!$modelRegistryCoverageSummary.coverage_allows_selected_lane_ec2_static_proof) {
+  $warnings += "Model registry coverage does not allow selected lane EC2 static proof."
+}
 if (!$laneReadinessSummary.ready_for_ec2_static_proof) {
   $warnings += "Selected lane is not ready for EC2 static proof until runtime gates change."
 }
@@ -706,7 +786,7 @@ $localReady = (
   $secretScan.result -eq "pass"
 )
 
-$ec2StartAllowed = ($authSummary.safe_to_start_ec2 -and $laneReadinessSummary.ready_for_ec2_static_proof -and $runtimeLaneQueueSummary.queue_allows_selected_lane_ec2_static_proof)
+$ec2StartAllowed = ($authSummary.safe_to_start_ec2 -and $laneReadinessSummary.ready_for_ec2_static_proof -and $runtimeLaneQueueSummary.queue_allows_selected_lane_ec2_static_proof -and $modelRegistryCoverageSummary.coverage_allows_selected_lane_ec2_static_proof)
 $generationAllowed = ($ec2StartAllowed -and $laneReadinessSummary.ready_for_generation)
 
 $result = "fail"
@@ -722,6 +802,9 @@ if ($localReady -and $generationAllowed) {
 } elseif ($localReady -and !$runtimeLaneQueueSummary.queue_allows_selected_lane_ec2_static_proof) {
   $result = "pass_local_ready_runtime_blocked"
   $failureCategory = "runtime_lane_queue_order_blocked"
+} elseif ($localReady -and !$modelRegistryCoverageSummary.coverage_allows_selected_lane_ec2_static_proof) {
+  $result = "pass_local_ready_runtime_blocked"
+  $failureCategory = "model_registry_coverage_blocked"
 } elseif ($localReady) {
   $result = "pass_local_ready_runtime_blocked"
   $failureCategory = $(if (![string]::IsNullOrWhiteSpace([string]$laneReadinessSummary.failure_category)) { [string]$laneReadinessSummary.failure_category } else { "runtime_gate_blocked" })
@@ -749,6 +832,7 @@ $record = [ordered]@{
     "latest auth/readiness/profile/coordinator gate evidence",
     "latest runtime unblock handoff evidence",
     "latest runtime lane queue evidence",
+    "latest model registry coverage evidence",
     "secret/private path scan over generated indexes, hydration, and QA evidence"
   )
   lane_id = $LaneId
@@ -762,6 +846,7 @@ $record = [ordered]@{
     lane_readiness = $(if ($latest.lane_readiness) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.lane_readiness } else { $null })
     runtime_unblock_handoff = $(if ($latest.runtime_unblock_handoff) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.runtime_unblock_handoff } else { $null })
     runtime_lane_queue = $(if ($latest.runtime_lane_queue) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.runtime_lane_queue } else { $null })
+    model_registry_coverage = $(if ($latest.model_registry_coverage) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.model_registry_coverage } else { $null })
     ec2_static_proof_blocked = $(if ($latest.ec2_static_proof_blocked) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.ec2_static_proof_blocked } else { $null })
     ec2_workflow_smoke_blocked = $(if ($latest.ec2_workflow_smoke_blocked) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.ec2_workflow_smoke_blocked } else { $null })
     operations_validation = $(if ($latest.operations_validation) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.operations_validation } else { $null })
@@ -779,6 +864,7 @@ $record = [ordered]@{
     lane_readiness = $laneReadinessSummary
     runtime_unblock_handoff = $runtimeHandoffSummary
     runtime_lane_queue = $runtimeLaneQueueSummary
+    model_registry_coverage = $modelRegistryCoverageSummary
     coordinator_safety = $coordinatorSummary
     ec2_start_allowed = $ec2StartAllowed
     generation_allowed = $generationAllowed

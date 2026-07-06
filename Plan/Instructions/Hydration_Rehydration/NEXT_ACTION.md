@@ -71,13 +71,13 @@ Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_RUN_DRY_RU
 
 It proves `Invoke-EC2WorkflowSmokeRun.ps1 -RunPackageManifestFile` can consume the hyperreal package, validate the package hash/profile/lane match, copy the package `prompt_request.json`, and keep `ec2_started=false` plus `generation_executed=false` while AWS auth is expired. The paired request body is `Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_RUN_REQUEST_HYPERREAL_PACKAGE_20260706T091711-0500.json`.
 
-Current package-aware runtime unblock handoff:
+Current model-registry-gated runtime unblock handoff:
 
 ```text
-Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_HYPERREAL_PACKAGE_20260706T092429-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.json
 ```
 
-It records `gate_summary.run_package.valid=true`, profile `hyperreal_editorial_portrait_v1`, prompt hash match `true`, command step count `10`, and a bounded workflow-smoke command containing `-RunPackageManifestFile`. Use its Markdown pair `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_HYPERREAL_PACKAGE_20260706T092429-0500.md` as the current post-auth command handoff.
+It records `gate_summary.run_package.valid=true`, profile `hyperreal_editorial_portrait_v1`, prompt hash match `true`, `gate_summary.model_registry_coverage.coverage_allows_selected_lane_ec2_static_proof=true`, command step count `11`, and a bounded workflow-smoke command containing `-RunPackageManifestFile`. Use its Markdown pair `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.md` as the current post-auth command handoff.
 
 Do not start EC2 unless the auth gate reports:
 
@@ -152,6 +152,14 @@ Plan/Instructions/QA/Evidence/Model_Registry/W61_MODEL_REGISTRY_COVERAGE_2026070
 ```
 
 It proves both active SDXL lanes have checkpoint registry records and queued runtime-validation rows. RealVisXL V5.0 metadata was fetched through the Civitai helper after fixing URL encoding, and the cached metadata confirms model id `139562`, version id `789646`, file `realvisxlV50_v50Bakedvae.safetensors`, and source SHA256 `6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80`. This does not download model binaries or replace EC2 path/hash/load proof.
+
+Model registry coverage is now an EC2 preflight gate. Immediately before any EC2 static proof attempt, rerun:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\Scripts\Test-WorkflowModelRegistryCoverage.ps1 -ProjectRoot C:\Comfy_UI_Main -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Model_Registry\W61_MODEL_REGISTRY_COVERAGE_<timestamp>.json
+```
+
+Expected result: `pass_local_only`, selected lane `sdxl_low_risk_fallback_lane` result `pass`, failed check count `0`, no AWS/GitHub API/Civitai/ComfyUI contact, `ec2_started=false`, and `generation_executed=false`.
 
 Then route the pulled-back image to image QA:
 
