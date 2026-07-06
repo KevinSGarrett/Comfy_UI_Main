@@ -313,6 +313,13 @@ $localSmokeResults += Invoke-LocalHelper -Name "workflow_static_validation_smoke
   -ExpectedOutputFile $workflowStaticFile `
   -ExpectedOutputType "json"
 
+$itemsTrackerValidationFile = Join-Path $tempRoot "items_tracker_package_validation.json"
+$localSmokeResults += Invoke-LocalHelper -Name "items_tracker_package_validation_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "Test-ItemsTrackerPackageStatic.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-OutFile", $itemsTrackerValidationFile) `
+  -ExpectedOutputFile $itemsTrackerValidationFile `
+  -ExpectedOutputType "json"
+
 $scriptFailures = @($scriptParseResults | Where-Object { $_.result -ne "pass" })
 $jsonFailures = @($jsonParseResults | Where-Object { $_.result -ne "pass" })
 $markdownFailures = @($markdownTemplateResults | Where-Object { $_.result -ne "pass" })
@@ -339,7 +346,8 @@ $record = [ordered]@{
     "Plan/Instructions/QA/Templates/*.json",
     "Plan/Instructions/QA/Templates/*.md",
     "selected-lane workflow static validation smoke",
-    "image artifact QA dry-run and technical sample smoke"
+    "image artifact QA dry-run and technical sample smoke",
+    "Items/Tracker package validator smoke"
   )
   validation_results = [ordered]@{
     script_count = @($scriptParseResults).Count

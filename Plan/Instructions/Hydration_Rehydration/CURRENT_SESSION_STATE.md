@@ -1,13 +1,13 @@
 # Current Session State
 
 ## Session timestamp
-2026-07-06T04:31:30-05:00
+2026-07-06T04:40:21-05:00
 
 ## State
-Local static/package validation is complete through Wave 62 cumulative zip validation. GitHub sync is active and a fresh recheck confirms `C:\Comfy_UI_Main` has `.git`, canonical `origin`, ignored/untracked `.env`, `GITHUB_TOKEN` and `CIVITAI_API_KEY` variable names present without values printed, and local `main` matching `origin/main`. EC2 readiness, discovery, project sync, and runtime inventory passed with the instance returned to `stopped` each time. Wave 61 workflow lane selection identified `sdxl_low_risk_fallback_lane` as the first bounded execution candidate. The selected lane has concrete workflow files and passes local static graph validation. Runtime proof is still pending because AWS CLI auth is expired before EC2 object-info, checkpoint path, checkpoint hash, generation output, and QA evidence can be collected. Secret-safe auth evidence now shows the active default AWS profile is expired and zero of 15 configured AWS CLI profiles currently authenticate to expected account `029530099913`; EC2 start and generation remain disallowed until AWS browser/SSO login is refreshed and verified. Pullback, image-QA, lane-readiness, EC2 static-proof, and EC2 workflow smoke-run coordinator helpers are ready for the first post-auth runtime path. Static-proof and smoke-run helpers now self-gate and write local evidence before any EC2 start path when auth/readiness/static proof is missing. Current selected-lane readiness now includes AWS profile matrix diagnostics and still reports `local_pre_ec2_ready=true`, `ready_for_ec2_static_proof=false`, and `ready_for_generation=false`. Current operations helper validation now covers all 15 operations scripts and 5 operation JSON schema/template files, with validation-temp paths redacted from the latest evidence. The GitHub checkpoint helper now also scans staged content for configured secret patterns before committing. Current QA helper validation now covers all 5 QA scripts, QA schemas/templates, image-QA dry-run/technical sample checks, and selected-lane workflow static validation smoke. Current hydration helper validation now covers all 3 hydration scripts, all 3 hydration templates, session-state generation, and the real cumulative zip validation. Generated local indexes are refreshed after the latest profile-aware readiness evidence/cert additions.
+Local static/package validation is complete through Wave 62 cumulative zip validation. GitHub sync is active and a fresh recheck confirms `C:\Comfy_UI_Main` has `.git`, canonical `origin`, ignored/untracked `.env`, `GITHUB_TOKEN` and `CIVITAI_API_KEY` variable names present without values printed, and local `main` matching `origin/main`. EC2 readiness, discovery, project sync, and runtime inventory passed with the instance returned to `stopped` each time. Wave 61 workflow lane selection identified `sdxl_low_risk_fallback_lane` as the first bounded execution candidate. The selected lane has concrete workflow files and passes local static graph validation. Runtime proof is still pending because AWS CLI auth is expired before EC2 object-info, checkpoint path, checkpoint hash, generation output, and QA evidence can be collected. Secret-safe auth evidence now shows the active default AWS profile is expired and zero of 15 configured AWS CLI profiles currently authenticate to expected account `029530099913`; EC2 start and generation remain disallowed until AWS browser/SSO login is refreshed and verified. Pullback, image-QA, lane-readiness, EC2 static-proof, and EC2 workflow smoke-run coordinator helpers are ready for the first post-auth runtime path. Static-proof and smoke-run helpers now self-gate and write local evidence before any EC2 start path when auth/readiness/static proof is missing. Current selected-lane readiness now includes AWS profile matrix diagnostics and still reports `local_pre_ec2_ready=true`, `ready_for_ec2_static_proof=false`, and `ready_for_generation=false`. Current Items/Tracker package validation passes locally for 54695 tracker rows and 54647 item rows, with complete source-key coverage and zero structural/citation/human-flag defects. Current operations helper validation covers all 15 operations scripts and 5 operation JSON schema/template files. Current QA helper validation now covers all 6 QA scripts, QA schemas/templates, image-QA dry-run/technical sample checks, selected-lane workflow static validation smoke, and Items/Tracker package validation smoke. Current hydration helper validation covers all 3 hydration scripts, all 3 hydration templates, session-state generation, and the real cumulative zip validation. Generated local indexes have been refreshed after the latest Items/Tracker evidence additions and validated for row-count parity, discovery, and credential-pattern exclusion.
 
 ## Session end timestamp
-2026-07-06T04:31:30-05:00
+2026-07-06T04:40:21-05:00
 
 ## Completed this session
 - Fixed and validated Wave 59 live index generation.
@@ -61,6 +61,10 @@ Local static/package validation is complete through Wave 62 cumulative zip valid
 - Reran selected-lane readiness and recorded local-ready/runtime-blocked evidence with auth failure category `expired_session` and 0 of 15 profile matches.
 - Reran current operations helper validation after the readiness update: 15 operation scripts parsed, 5 operation schemas/templates parsed, and 7 local-only smoke checks passed.
 - Regenerated generated local indexes after profile-aware readiness evidence and validated row-count parity, new file discovery, and AWS auth URL/credential-pattern exclusion.
+- Added `Test-ItemsTrackerPackageStatic.ps1`.
+- Ran current Items/Tracker package validation: tracker rows 54695, item rows 54647, source key coverage 5059/5059 in both packages, zero missing source keys, zero bad human flags, zero bad citations, and zero bad line rows.
+- Reran current QA helper validation with Items/Tracker smoke: 6 QA scripts parsed, 4 JSON schemas/templates parsed, 4 markdown templates checked, and 6 local-only smoke checks passed.
+- Regenerated generated local indexes after Items/Tracker validation evidence: plan rows 2481, instructions rows 255, items rows 45, tracker rows 26, with discovery and secret/auth URL scan passing.
 
 ## Latest Git Result
 - Current recheck evidence: `Plan/Instructions/QA/Evidence/Git_Verification/W59_W60_GIT_CURRENT_RECHECK_20260706T035900-0500.json`
@@ -92,6 +96,9 @@ Local static/package validation is complete through Wave 62 cumulative zip valid
 - Selected-lane profile-aware readiness evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_PROFILE_MATRIX_20260706T042932-0500.json`
 - Current operations helper validation after profile-aware readiness evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_20260706T042938-0500.json`
 - Current generated index refresh after profile-aware readiness evidence: `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_PROFILE_READINESS_20260706T043130-0500.json`
+- Current Items/Tracker package validation evidence: `Plan/Instructions/QA/Evidence/Items_Tracker_Validation/W59_W60_ITEMS_TRACKER_CURRENT_VALIDATION_20260706T043530-0500.json`
+- Current QA helper validation with Items/Tracker smoke evidence: `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_20260706T043539-0500.json`
+- Current generated index refresh after Items/Tracker evidence: `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_ITEMS_TRACKER_20260706T044021-0500.json`
 
 ## Selected Lane
 - Lane: `sdxl_low_risk_fallback_lane`
@@ -107,10 +114,10 @@ Local static/package validation is complete through Wave 62 cumulative zip valid
 - `TRK-W61-006`: workflow lane selected, graph authored, local static validation passed, patched smoke request generated, profile-aware local readiness gate passed, EC2 static-proof gate safety passed, and EC2 workflow smoke-run coordinator dry-run passed; auth gate blocks EC2 object-info, execution output, and QA.
 - `TRK-W61-007`: selected checkpoint filename is referenced by the workflow and passed static validation; latest readiness gate confirms actual EC2 path, hash, load, and sample-output validation are still pending on AWS auth.
 - `TRK-W61-002`: image QA protocol exists and helper dry-run passed; actual generated image visual review pending.
-- `TRK-W61-011`: current QA helper validation passed locally for all 5 QA scripts, schemas/templates, markdown templates, image QA dry-run/technical sample smoke, and selected-lane workflow static validation smoke.
+- `TRK-W61-011`: current QA helper validation passed locally for all 6 QA scripts, schemas/templates, markdown templates, image QA dry-run/technical sample smoke, selected-lane workflow static validation smoke, and Items/Tracker package validation smoke.
 - `TRK-W60-010`: current operations helper validation passed locally for all 15 operations scripts and related schema/template files; latest evidence redacts validation temp paths, includes a GitHub checkpoint dry-run smoke, and covers profile-aware lane readiness.
 - `TRK-W62-003` / `TRK-W62-009`: current hydration helper validation passed locally for all hydration scripts/templates, session-state generation, and the current cumulative zip validator.
-- `TRK-W59-002` / `TRK-W59-003`: generated local indexes refreshed and validated against the latest helper/evidence files.
+- `TRK-W59-002` / `TRK-W59-003`: generated local indexes refreshed and current Items/Tracker package validation passes with complete source-key coverage and no structural defects.
 
 ## Pending validation in scope
 - Complete AWS CLI remote browser login in an interactive/browser-capable shell.

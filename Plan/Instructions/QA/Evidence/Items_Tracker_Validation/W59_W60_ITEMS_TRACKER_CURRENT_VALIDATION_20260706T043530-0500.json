@@ -1,0 +1,100 @@
+﻿{
+    "evidence_id":  "EVID-W59-W60-ITEMS-TRACKER-CURRENT-VALIDATION-20260706T043530-0500",
+    "created_at":  "2026-07-06T04:35:30-05:00",
+    "artifact_id":  "TRK-W59-002-TRK-W59-003",
+    "artifact_type":  "items_tracker_package_current_validation",
+    "tracker_ids":  [
+                        "TRK-W59-002",
+                        "TRK-W59-003",
+                        "TRK-W60-010"
+                    ],
+    "qa_protocol_used":  [
+                             "TRACKER_UPDATE_PROTOCOL.md",
+                             "ITEMIZED_LIST_UPDATE_PROTOCOL.md",
+                             "QA_EVIDENCE_LOG_PROTOCOL.md"
+                         ],
+    "python":  {
+                   "executable":  "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+                   "version_command":  "python --version"
+               },
+    "validations":  {
+                        "tracker":  {
+                                        "validator":  "Plan/Tracker/Scripts/validate_tracker_package.py",
+                                        "root":  "Plan/Tracker",
+                                        "exit_code":  0,
+                                        "stdout_tail":  "{\r\n  \"package\": \"Tracker Waves 48-52 Coverage Verified\",\r\n  \"row_count\": 54695,\r\n  \"waves_present\": [\r\n    \"48\",\r\n    \"49\",\r\n    \"50\",\r\n    \"51\",\r\n    \"52\"\r\n  ],\r\n  \"ultra_source_section_records\": 5059,\r\n  \"ultra_source_keys_covered\": 5059,\r\n  \"missing_ultra_source_keys\": 0,\r\n  \"bad_human_flag_rows\": 0,\r\n  \"bad_citation_rows\": 0,\r\n  \"bad_line_rows\": 0,\r\n  \"errors\": [],\r\n  \"promotion_decision\": \"pass\"\r\n}",
+                                        "stderr_tail":  "",
+                                        "report_path":  "Plan/Tracker/Reports/tracker_validation_report.json",
+                                        "report":  {
+                                                       "package":  "Tracker Waves 48-52 Coverage Verified",
+                                                       "row_count":  54695,
+                                                       "waves_present":  [
+                                                                             "48",
+                                                                             "49",
+                                                                             "50",
+                                                                             "51",
+                                                                             "52"
+                                                                         ],
+                                                       "ultra_source_section_records":  5059,
+                                                       "ultra_source_keys_covered":  5059,
+                                                       "missing_ultra_source_keys":  0,
+                                                       "bad_human_flag_rows":  0,
+                                                       "bad_citation_rows":  0,
+                                                       "bad_line_rows":  0,
+                                                       "errors":  [
+
+                                                                  ],
+                                                       "promotion_decision":  "pass"
+                                                   },
+                                        "report_check":  {
+                                                             "result":  "pass",
+                                                             "errors":  [
+
+                                                                        ]
+                                                         }
+                                    },
+                        "items":  {
+                                      "validator":  "Plan/Items/Scripts/validate_items_package.py",
+                                      "root":  "Plan/Items",
+                                      "exit_code":  0,
+                                      "stdout_tail":  "{\r\n  \"package\": \"Items Waves 53-57 Coverage Verified\",\r\n  \"row_count\": 54647,\r\n  \"waves_present\": [\r\n    \"53\",\r\n    \"54\",\r\n    \"55\",\r\n    \"56\",\r\n    \"57\"\r\n  ],\r\n  \"ultra_source_section_records\": 5059,\r\n  \"ultra_source_keys_covered\": 5059,\r\n  \"missing_ultra_source_keys\": 0,\r\n  \"bad_human_flag_rows\": 0,\r\n  \"bad_citation_rows\": 0,\r\n  \"bad_line_rows\": 0,\r\n  \"errors\": [],\r\n  \"promotion_decision\": \"pass\"\r\n}",
+                                      "stderr_tail":  "",
+                                      "report_path":  "Plan/Items/Reports/items_validation_report.json",
+                                      "report":  {
+                                                     "package":  "Items Waves 53-57 Coverage Verified",
+                                                     "row_count":  54647,
+                                                     "waves_present":  [
+                                                                           "53",
+                                                                           "54",
+                                                                           "55",
+                                                                           "56",
+                                                                           "57"
+                                                                       ],
+                                                     "ultra_source_section_records":  5059,
+                                                     "ultra_source_keys_covered":  5059,
+                                                     "missing_ultra_source_keys":  0,
+                                                     "bad_human_flag_rows":  0,
+                                                     "bad_citation_rows":  0,
+                                                     "bad_line_rows":  0,
+                                                     "errors":  [
+
+                                                                ],
+                                                     "promotion_decision":  "pass"
+                                                 },
+                                      "report_check":  {
+                                                           "result":  "pass",
+                                                           "errors":  [
+
+                                                                      ]
+                                                       }
+                                  }
+                    },
+    "result":  "pass_local_only",
+    "failures":  [
+
+                 ],
+    "known_issues":  [
+                         "This validates package ledger structure and coverage only. It does not claim EC2 runtime proof, ComfyUI generation, model load, artifact pullback, or media QA."
+                     ],
+    "next_action":  "Continue local validations where possible; after AWS browser login refresh, rerun auth/readiness and EC2 static proof."
+}
