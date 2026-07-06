@@ -1,6 +1,6 @@
 # Next Action
 
-## Current next action - 2026-07-06T14:11:04-05:00
+## Current next action - 2026-07-06T14:31:46-05:00
 
 Finish and push the current checkpoint from `C:\Comfy_UI_Main`, then choose the next runtime target intentionally. Both active base-generation lanes now have live EC2 runtime smoke proof.
 
@@ -25,8 +25,9 @@ Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_IMAGE_QA_TECHNICAL_REALVISXL
 Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_REALVISXL_IMAGE_QA_VISUAL_20260706T140120-0500.json
 Plan/Instructions/QA/Evidence/Project_Readiness/W63_PROJECT_READINESS_REALVISXL_QA_COMPLETE_INDEX_REFRESH_20260706T141911-0500.json
 Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_RUNTIME_UNBLOCK_HANDOFF_REALVISXL_QA_COMPLETE_FINAL_20260706T140828-0500.json
-Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_COST_CONTROL_TERMINAL_STATE_VALIDATION_20260706T140909-0500.json
-Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_TERMINAL_STATE_VALIDATION_20260706T141104-0500.json
+Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_OPERATIONS_HELPER_S3_TRANSFER_READINESS_FINAL_20260706T142956-0500.json
+Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_S3_RUNTIME_TRANSFER_READINESS_20260706T142504-0500.json
+Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_S3_TRANSFER_READINESS_FINAL_20260706T143145-0500.json
 ```
 
 Next runtime work after the checkpoint:
@@ -53,10 +54,11 @@ configs/aws/
 Validation evidence:
 
 ```text
-Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_COST_CONTROL_TERMINAL_STATE_VALIDATION_20260706T140909-0500.json
+Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_OPERATIONS_HELPER_S3_TRANSFER_READINESS_FINAL_20260706T142956-0500.json
+Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_S3_RUNTIME_TRANSFER_READINESS_20260706T142504-0500.json
 ```
 
-Result is `pass_local_only` with 20 operations scripts parsed, 14 local smokes, 0 smoke failures, and 0 evidence-contract failures. The generated handoff smoke now requires S3 deploy-bundle, S3 model-install, emergency-stop instructions, and the no-rerun completed-smoke invariant. Do not rerun this validation unless the helper scripts or policy templates change.
+Operations validation result is `pass_local_only` with 21 operations scripts parsed, 15 local smokes, 0 smoke failures, and 0 evidence-contract failures. S3 runtime transfer readiness is local-only and currently reports `blocked_missing_s3_runtime_config`; fill `COMFY_DEPLOY_BUNDLE_S3_URI`, `S3_MODEL_BUCKET`, `S3_MODEL_PREFIX`, `S3_RENDER_OUTPUT_PREFIX`, `AWS_ROLE_TO_ASSUME`, and the scheduler stop role ARN before applying AWS policies or starting EC2 for a future transfer window. The generated handoff smoke now requires S3 deploy-bundle, S3 model-install, emergency-stop instructions, and the no-rerun completed-smoke invariant. Do not rerun this validation unless the helper scripts, policy templates, or S3/IAM config change.
 
 ## Current runtime proof update - 2026-07-06T12:20:27-05:00
 

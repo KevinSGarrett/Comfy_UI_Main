@@ -94,9 +94,12 @@ $candidateRoots = New-Object System.Collections.ArrayList
 if (![string]::IsNullOrWhiteSpace($LocalComfyRoot)) { [void]$candidateRoots.Add($LocalComfyRoot) }
 foreach ($candidate in @(
   "C:\Comfy_UI\ComfyUI",
+  "C:\Comfy_UI\ComfyUI_windows_portable\ComfyUI",
+  "C:\Comfy_UI\portable\ComfyUI",
   "C:\Comfy_UI\Runtime\ComfyUI",
   "C:\Comfy_UI",
-  "C:\Comfy_UI_Main\ComfyUI"
+  "C:\Comfy_UI_Main\ComfyUI",
+  "C:\Comfy_UI_Main\ComfyUI_windows_portable\ComfyUI"
 )) {
   [void]$candidateRoots.Add($candidate)
 }

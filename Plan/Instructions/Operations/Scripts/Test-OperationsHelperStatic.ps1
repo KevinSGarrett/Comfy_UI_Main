@@ -722,6 +722,12 @@ $localSmokeResults += Invoke-LocalHelper -Name "publish_deploy_bundle_to_s3_dry_
   -Arguments @("-BundleManifestFile", $dummyBundleManifestFile, "-S3BaseUri", "s3://example-bucket/deploy-bundles", "-OutFile", $publishBundleFile) `
   -ExpectedOutputFile $publishBundleFile
 
+$s3TransferReadinessFile = Join-Path $tempRoot "s3_runtime_transfer_readiness.json"
+$localSmokeResults += Invoke-LocalHelper -Name "s3_runtime_transfer_readiness_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "Test-S3RuntimeTransferReadiness.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-OutFile", $s3TransferReadinessFile) `
+  -ExpectedOutputFile $s3TransferReadinessFile
+
 $installModelFile = Join-Path $tempRoot "install_ec2_model_from_s3_dry_run.json"
 $localSmokeResults += Invoke-LocalHelper -Name "install_ec2_model_from_s3_dry_run" `
   -ScriptPath (Join-Path $scriptsRoot "Install-EC2ModelFromS3.ps1") `

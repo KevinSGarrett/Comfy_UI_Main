@@ -83,6 +83,14 @@ powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instru
 
 The command is dry-run by default. Add `-Execute` only after AWS auth and bucket/prefix permissions are verified.
 
+S3 runtime transfer readiness:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-S3RuntimeTransferReadiness.ps1 -ProjectRoot C:\Comfy_UI_Main -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Operations_Static_Validation\W63_S3_RUNTIME_TRANSFER_READINESS_<timestamp>.json
+```
+
+The current readiness evidence is `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_S3_RUNTIME_TRANSFER_READINESS_20260706T142504-0500.json`. It is local-only, validates the safe-to-commit policy templates, prints no secret values, and currently reports `blocked_missing_s3_runtime_config` until deploy-bundle S3 URI, model-cache bucket/prefix, artifact-output prefix, GitHub OIDC role, and scheduler stop role are configured.
+
 ## EC2 Defaults
 
 For future EC2 proof or smoke commands:

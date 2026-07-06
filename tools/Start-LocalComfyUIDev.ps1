@@ -36,9 +36,12 @@ function Find-ComfyRoot {
   if (![string]::IsNullOrWhiteSpace($ExplicitRoot)) { [void]$candidates.Add($ExplicitRoot) }
   foreach ($candidate in @(
     "C:\Comfy_UI\ComfyUI",
+    "C:\Comfy_UI\ComfyUI_windows_portable\ComfyUI",
+    "C:\Comfy_UI\portable\ComfyUI",
     "C:\Comfy_UI\Runtime\ComfyUI",
     "C:\Comfy_UI",
-    "C:\Comfy_UI_Main\ComfyUI"
+    "C:\Comfy_UI_Main\ComfyUI",
+    "C:\Comfy_UI_Main\ComfyUI_windows_portable\ComfyUI"
   )) {
     [void]$candidates.Add($candidate)
   }
@@ -53,9 +56,12 @@ function Find-ComfyRoot {
 
 function Find-Python {
   param([string]$ComfyRoot)
+  $parentRoot = Split-Path -Parent $ComfyRoot
   foreach ($candidate in @(
     (Join-Path $ComfyRoot "venv\Scripts\python.exe"),
     (Join-Path $ComfyRoot ".venv\Scripts\python.exe"),
+    (Join-Path $parentRoot "python_embeded\python.exe"),
+    (Join-Path $parentRoot "python_embedded\python.exe"),
     "python"
   )) {
     if ($candidate -eq "python") { return $candidate }

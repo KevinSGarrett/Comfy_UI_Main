@@ -48,6 +48,7 @@ Wave 63 cost controls are active:
 - Local dev startup: `tools\Start-LocalComfyUIDev.ps1`.
 - Deploy bundle builder: `tools\New-EC2DeployBundle.ps1`.
 - Deploy bundle S3 publisher: `Plan\Instructions\Operations\Scripts\Publish-DeployBundleToS3.ps1`.
+- S3 runtime transfer readiness gate: `Plan\Instructions\Operations\Scripts\Test-S3RuntimeTransferReadiness.ps1`.
 - EC2 model S3 installer: `Plan\Instructions\Operations\Scripts\Install-EC2ModelFromS3.ps1`.
 - EC2 emergency stop scheduler: `Plan\Instructions\Operations\Scripts\New-EC2EmergencyStopSchedule.ps1`.
 - EC2 instance-side watchdog: `Plan\Instructions\Operations\Scripts\Start-EC2InstanceStopWatchdog.ps1`.
@@ -83,11 +84,12 @@ Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_IMAGE_QA_TECHNICAL_REALVISXL
 Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_REALVISXL_IMAGE_QA_VISUAL_20260706T140120-0500.json
 Plan/Instructions/QA/Evidence/Project_Readiness/W63_PROJECT_READINESS_REALVISXL_QA_COMPLETE_INDEX_REFRESH_20260706T141911-0500.json
 Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_RUNTIME_UNBLOCK_HANDOFF_REALVISXL_QA_COMPLETE_FINAL_20260706T140828-0500.json
-Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_COST_CONTROL_TERMINAL_STATE_VALIDATION_20260706T140909-0500.json
-Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_TERMINAL_STATE_VALIDATION_20260706T141104-0500.json
+Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_OPERATIONS_HELPER_S3_TRANSFER_READINESS_FINAL_20260706T142956-0500.json
+Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_S3_RUNTIME_TRANSFER_READINESS_20260706T142504-0500.json
+Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_S3_TRANSFER_READINESS_FINAL_20260706T143145-0500.json
 ```
 
-The expected RealVisXL file is now present on EC2 and verified with SHA256 `6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80`. Model binaries must not be committed to Git.
+The expected RealVisXL file is now present on EC2 and verified with SHA256 `6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80`. Model binaries must not be committed to Git. S3 runtime transfer readiness is implemented and local-only, but live S3 transfer remains blocked until `COMFY_DEPLOY_BUNDLE_S3_URI`, `S3_MODEL_BUCKET`, `S3_MODEL_PREFIX`, `S3_RENDER_OUTPUT_PREFIX`, `AWS_ROLE_TO_ASSUME`, and the scheduler stop role ARN are configured.
 
 ## Next Exact Work
 First, if the runtime proof, cost-control, tracker, or instruction updates are uncommitted, finish one clean Git checkpoint and verify local `HEAD == origin/main`.
