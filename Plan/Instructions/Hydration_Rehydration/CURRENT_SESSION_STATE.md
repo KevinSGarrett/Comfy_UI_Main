@@ -451,3 +451,14 @@ After AWS remote login is refreshed externally, rerun `Test-AwsAuthGate.ps1` unt
 - `Publish-DeployBundleToS3.ps1` preserves matrix sidecar naming, and EC2 static-proof/workflow-smoke helpers now accept either `DEPLOY_BUNDLE_MANIFEST.json` or `DEPLOY_BUNDLE_MATRIX_MANIFEST.json` after bundle extraction.
 - Wave65 source coverage was rerun after this addition. Current result: `pass`, `plan_file_count=2840`, `wave65_rows_created=665`, `missing_after_wave65_count=0`.
 - This is still local preparation. Next quality certification requires publishing the bundle to S3, bounded EC2 execution for every sample, artifact pullback, hash verification, and whole-image visual QA for all generated samples.
+
+## Latest RealVisXL Matrix Quality-Run Plan - 2026-07-06T17:31:38-05:00
+
+- Added `Plan\Instructions\Operations\Scripts\New-EC2WorkflowMatrixQualityRunPlan.ps1` to bridge the local RealVisXL three-sample package matrix to future bounded EC2 quality execution.
+- Added `Plan\Instructions\QA\Scripts\Test-EC2WorkflowMatrixQualityRunPlan.ps1` and wired `ec2_workflow_matrix_quality_run_plan_smoke` into `Plan\Instructions\QA\Scripts\Test-QAHelperStatic.ps1`.
+- Dedicated evidence `Plan\Instructions\QA\Evidence\Workflow_Runtime\W66_EC2_WORKFLOW_MATRIX_QUALITY_RUN_PLAN_20260706T173124-0500.json` reports `pass_local_only`, sample count `3`, all sample commands include `-RunPackageManifestFile`, `-DeployBundleS3Uri`, `-DeployBundleSha256`, `-SkipGitLfsPull`, and `-MaxEc2RuntimeMinutes`, and every sample has planned pullback plus whole-image QA commands.
+- QA helper evidence `Plan\Instructions\QA\Evidence\QA_Helper_Static_Validation\W66_QA_HELPER_MATRIX_QUALITY_RUN_PLAN_20260706T173138-0500.json` reports `pass_local_only`, 15 QA scripts parsed, 18 local smokes, and 0 local smoke failures.
+- Operations helper evidence `Plan\Instructions\QA\Evidence\Operations_Static_Validation\W66_OPERATIONS_HELPER_MATRIX_QUALITY_RUN_PLAN_20260706T173138-0500.json` reports `pass_local_only`, 22 operations scripts parsed, and 0 script parse failures.
+- Wave65 source coverage was rerun after this addition. Current result: `pass`, `plan_file_count=2845`, `wave65_rows_created=670`, `missing_after_wave65_count=0`.
+- This remains local preparation only. It did not contact AWS, GitHub APIs, Civitai, ComfyUI, start EC2, or run generation.
+- Next quality step: publish the matrix deploy bundle to S3, verify the real uploaded bundle SHA256, then run only the planned per-sample commands after AWS auth, Git cleanliness, static proof, readiness, and cost-control gates pass; pull back and whole-image QA every sample before certification.

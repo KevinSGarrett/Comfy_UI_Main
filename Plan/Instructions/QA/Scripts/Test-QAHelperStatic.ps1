@@ -899,6 +899,13 @@ $localSmokeResults += Invoke-LocalHelper -Name "ec2_deploy_bundle_matrix_smoke" 
   -ExpectedOutputFile $ec2DeployBundleMatrixFile `
   -ExpectedOutputType "json"
 
+$ec2WorkflowMatrixQualityRunPlanFile = Join-Path $tempRoot "ec2_workflow_matrix_quality_run_plan.json"
+$localSmokeResults += Invoke-LocalHelper -Name "ec2_workflow_matrix_quality_run_plan_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "Test-EC2WorkflowMatrixQualityRunPlan.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-OutFile", $ec2WorkflowMatrixQualityRunPlanFile) `
+  -ExpectedOutputFile $ec2WorkflowMatrixQualityRunPlanFile `
+  -ExpectedOutputType "json"
+
 $itemsTrackerValidationFile = Join-Path $tempRoot "items_tracker_package_validation.json"
 $localSmokeResults += Invoke-LocalHelper -Name "items_tracker_package_validation_smoke" `
   -ScriptPath (Join-Path $scriptsRoot "Test-ItemsTrackerPackageStatic.ps1") `

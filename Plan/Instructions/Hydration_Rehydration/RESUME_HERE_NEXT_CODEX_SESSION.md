@@ -522,6 +522,20 @@ If AWS auth is expired or Git is not clean/pushed, stop and report that blocker.
 - This was local-only. It did not contact AWS, GitHub APIs, Civitai, ComfyUI, start EC2, or run generation.
 - Next RealVisXL quality step: publish the matrix deploy bundle to S3, verify its SHA256, run bounded EC2 generation for all three matrix packages only after auth/Git/cost-control gates pass, pull back every generated artifact, verify hashes, and perform whole-image visual QA for every sample.
 
+## Latest RealVisXL Matrix Quality-Run Plan
+
+- Planner: `Plan\Instructions\Operations\Scripts\New-EC2WorkflowMatrixQualityRunPlan.ps1`.
+- QA script: `Plan\Instructions\QA\Scripts\Test-EC2WorkflowMatrixQualityRunPlan.ps1`.
+- QA helper integration: `Plan\Instructions\QA\Scripts\Test-QAHelperStatic.ps1` now includes `ec2_workflow_matrix_quality_run_plan_smoke`.
+- Dedicated evidence: `Plan\Instructions\QA\Evidence\Workflow_Runtime\W66_EC2_WORKFLOW_MATRIX_QUALITY_RUN_PLAN_20260706T173124-0500.json`; result `pass_local_only`, matrix id `realvisxl_multisample_certification_v1`, sample count `3`, planned sample count `3`.
+- QA helper evidence: `Plan\Instructions\QA\Evidence\QA_Helper_Static_Validation\W66_QA_HELPER_MATRIX_QUALITY_RUN_PLAN_20260706T173138-0500.json`; result `pass_local_only`, 15 QA scripts parsed, 18 local smokes, 0 smoke failures.
+- Operations helper evidence: `Plan\Instructions\QA\Evidence\Operations_Static_Validation\W66_OPERATIONS_HELPER_MATRIX_QUALITY_RUN_PLAN_20260706T173138-0500.json`; result `pass_local_only`, 22 operations scripts parsed, 0 parse failures.
+- The plan emits one bounded `Invoke-EC2WorkflowSmokeRun.ps1` command per sample and requires `-RunPackageManifestFile`, `-DeployBundleS3Uri`, `-DeployBundleSha256`, `-SkipGitLfsPull`, and `-MaxEc2RuntimeMinutes`.
+- The plan also emits per-sample `New-EC2PullbackRecord.ps1` and `New-ImageArtifactQARecord.ps1` commands so every generated sample has pullback hash verification plus whole-image QA before certification.
+- Wave65 source coverage was rerun after this addition. Current result: `pass`, `plan_file_count=2845`, `wave65_rows_created=670`, `missing_after_wave65_count=0`.
+- This was local-only. It did not contact AWS, GitHub APIs, Civitai, ComfyUI, start EC2, or run generation.
+- Next RealVisXL quality step: publish the matrix deploy bundle to S3, verify the real uploaded SHA256, then run only the generated per-sample plan after AWS auth, Git cleanliness, static proof, readiness, and cost-control gates pass. Pull back and whole-image QA every sample before any quality certification.
+
 ## Must not repeat
 
 - Do not print token values from `.env`.
