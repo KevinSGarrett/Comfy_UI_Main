@@ -512,3 +512,10 @@ After AWS remote login is refreshed externally, rerun `Test-AwsAuthGate.ps1` unt
 - Fixed `Plan\Instructions\Operations\Scripts\New-EC2EmergencyStopSchedule.ps1` so future schedules use short names, Windows-safe `Mode=OFF`, and nonzero AWS CLI exit checks. Dry-run validation: `Plan\Instructions\QA\Evidence\Runtime_Readiness\W66_EC2_EMERGENCY_STOP_HELPER_DRY_RUN_FIXED_20260706T182320-0500.json`.
 - Wave65 source coverage was rerun after this addition. Current result: `pass`, `plan_file_count=2865`, `wave65_rows_created=690`, `missing_after_wave65_count=0`.
 - EC2 remained `stopped`; no generation ran. Next exact step is to commit/push this gate checkpoint, then run the S3-backed EC2 static proof from a clean pushed worktree.
+
+## Latest Matrix Static Proof Attempt - 2026-07-06T18:36:13-05:00
+
+- Ran `Invoke-EC2LaneStaticProof.ps1 -Execute` for `sdxl_realvisxl_base_lane` with uploaded matrix bundle `rvxl_mx_s3_20260706T181144-0500`.
+- Evidence `Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W66_EC2_STATIC_PROOF_REALVISXL_MATRIX_S3_20260706T182817-0500.json` reports `ec2_static_proof_failed`, `failure_category=remote_static_proof_error`, `ec2_started=true`, `final_state=stopped`, and `generation_executed=false`.
+- Cause: the uploaded S3 bundle was built from source head `27111d0c606336e5c67c529228e11703974b02e7`, but the clean expected `origin/main` was `ce4487f5cfbd72448e5bec1d3191d076ec4d97af`.
+- This is a correct safety block, not a model/runtime failure. The next fix is to checkpoint this failure evidence, rebuild a fresh matrix deploy bundle from current clean `HEAD`, upload and SHA-verify it, regenerate the S3-backed matrix plan, and retry static proof.

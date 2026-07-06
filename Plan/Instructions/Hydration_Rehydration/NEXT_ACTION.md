@@ -2,7 +2,7 @@
 
 ## Current next action - 2026-07-06T18:02:36-05:00
 
-Finish the current matrix quality pre-EC2 gate checkpoint from `C:\Comfy_UI_Main`, then run the S3-backed RealVisXL EC2 static proof from a clean pushed worktree. The matrix bundle is already uploaded and SHA-verified in S3, and fresh auth/queue/model/readiness gates now pass; do not run generation until the fresh static proof completes and EC2 is verified stopped.
+Finish the current stale-bundle static-proof failure checkpoint from `C:\Comfy_UI_Main`, then rebuild and publish a fresh RealVisXL matrix deploy bundle from the current clean pushed `HEAD`. The previous uploaded bundle was SHA-valid but built from source head `27111d0`, so the EC2 helper correctly rejected it against current `origin/main` `ce4487f`; do not retry static proof or run generation until a new S3 bundle sidecar records the current pushed head.
 
 Latest run-package hardening: `tools\New-WorkflowRunPackage.ps1` now supports `-RouteRequestFile` and records the Wave64 router decision in each gated package manifest. Use it for future image run packages so package creation cannot bypass model-family and lane compatibility. Current package evidence is `runtime_artifacts/run_packages/sdxl_realvisxl_router_gated_package_v1/RUN_PACKAGE_MANIFEST.json`; dedicated validation is `Plan/Instructions/QA/Evidence/Run_Package/W66_WORKFLOW_RUN_PACKAGE_ROUTER_GATE_20260706T153601-0500.json`; QA helper evidence is `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_WORKFLOW_RUN_PACKAGE_ROUTER_GATE_20260706T153612-0500.json`. Result: `pass_local_only`, no EC2 start, no generation.
 
@@ -33,7 +33,7 @@ Plan/Tracker/Reports/wave65_plan_source_coverage_report.json
 Plan/Items/Scripts/generate_wave65_plan_source_coverage.py
 ```
 
-Wave 65 current result is `pass`: 2,865 current source files under `Plan` are covered, 690 closure Items rows and 690 closure Tracker rows were generated, and `missing_after_wave65_count=0`. Transient `__pycache__` and `.pyc` files are excluded from the coverage universe. Rerun `python Plan\Items\Scripts\generate_wave65_plan_source_coverage.py` after any Plan file addition or rename.
+Wave 65 current result is `pass`: 2,866 current source files under `Plan` are covered, 691 closure Items rows and 691 closure Tracker rows were generated, and `missing_after_wave65_count=0`. Transient `__pycache__` and `.pyc` files are excluded from the coverage universe. Rerun `python Plan\Items\Scripts\generate_wave65_plan_source_coverage.py` after any Plan file addition or rename.
 
 Latest multi-sample preparation: `tools\New-WorkflowRunPackageMatrix.ps1` created a router-gated RealVisXL certification matrix from `PromptProfiles/base_generation/realvisxl_multisample_certification.matrix.json`. Persistent manifest: `runtime_artifacts/run_package_matrices/realvisxl_multisample_certification_v1/RUN_PACKAGE_MATRIX_MANIFEST.json`; dedicated evidence: `Plan/Instructions/QA/Evidence/Run_Package/W66_WORKFLOW_RUN_PACKAGE_MATRIX_20260706T155031-0500.json`; QA helper evidence: `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_WORKFLOW_RUN_PACKAGE_MATRIX_20260706T155048-0500.json`. Result: `pass_local_only`, three unique RealVisXL sample packages, no EC2 start, no generation.
 
