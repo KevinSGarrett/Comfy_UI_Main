@@ -301,6 +301,54 @@ function Get-ReadinessStatus {
   return $result
 }
 
+function Get-LocalGitCheckpointGate {
+  $result = [ordered]@{
+    git_root = $null
+    head = $null
+    origin_main = $null
+    expected_remote_head = $null
+    local_matches_origin = $false
+    clean = $false
+    porcelain_count = $null
+    remote = $null
+    result = "fail"
+    error = $null
+  }
+
+  try {
+    Push-Location $ProjectRoot
+    try {
+      $result.git_root = (git rev-parse --show-toplevel 2>$null)
+      if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace([string]$result.git_root)) {
+        throw "Project root is not a Git checkout."
+      }
+      $result.head = (git rev-parse HEAD 2>$null)
+      if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace([string]$result.head)) {
+        throw "Unable to resolve local HEAD."
+      }
+      $result.origin_main = (git rev-parse origin/main 2>$null)
+      if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace([string]$result.origin_main)) {
+        throw "Unable to resolve origin/main."
+      }
+      $result.expected_remote_head = $result.origin_main
+      $result.local_matches_origin = ([string]$result.head -eq [string]$result.origin_main)
+      $porcelain = @(git status --porcelain 2>$null)
+      $result.porcelain_count = $porcelain.Count
+      $result.clean = ($porcelain.Count -eq 0)
+      $remoteLines = @(git remote -v 2>$null)
+      $result.remote = (($remoteLines | Where-Object { $_ -match "^origin\s+" }) | Select-Object -First 1)
+      $result.result = $(if ($result.local_matches_origin -and $result.clean) { "pass" } else { "fail" })
+    } finally {
+      Pop-Location
+    }
+  } catch {
+    $result.error = $_.Exception.Message
+    $result.result = "fail"
+  }
+
+  return $result
+}
+
 function Invoke-SmokeRequestDryRun {
   param(
     [string]$SmokeScript,
@@ -435,6 +483,7 @@ $laneContractValid = (@($laneContracts | Where-Object { -not $_.exists -or -not 
 $authGate = Get-AuthGateStatus -Path $AuthGateFile
 $readinessGate = Get-ReadinessStatus -Path $ReadinessFile
 $staticProof = Test-StaticProof -Path $StaticProofFile
+$localGitGate = Get-LocalGitCheckpointGate
 
 if ([string]::IsNullOrWhiteSpace($OutRequestFile)) {
   $null = New-Item -ItemType Directory -Force -Path $workflowRuntimeDir
@@ -452,6 +501,7 @@ $smokeRequestReady = ($smokeRequest.exit_code -eq 0 -and $smokeRequest.json_pars
 $blockedReasons = @()
 if ($InstanceId -ne "i-0560bf8d143f93bb1") { $blockedReasons += "InstanceId is not the approved EC2 instance." }
 if (!$laneContractValid) { $blockedReasons += "Selected lane JSON contract is missing or invalid." }
+if ($localGitGate.result -ne "pass") { $blockedReasons += "Local Git checkpoint gate is not clean and synced to origin/main." }
 if (!$authGate.safe_to_start_ec2) { $blockedReasons += "Auth gate does not allow EC2 start." }
 if (!$readinessGate.ready_for_generation) { $blockedReasons += "Lane readiness gate does not allow generation." }
 if (!$staticProof.valid) { $blockedReasons += "EC2 object-info/path/hash static proof is missing or invalid." }
@@ -463,6 +513,8 @@ if ($InstanceId -ne "i-0560bf8d143f93bb1") {
   $gateFailureCategory = "unapproved_instance"
 } elseif (!$laneContractValid) {
   $gateFailureCategory = "lane_contract_invalid"
+} elseif ($localGitGate.result -ne "pass") {
+  $gateFailureCategory = $(if ($localGitGate.clean -ne $true) { "local_git_worktree_dirty" } elseif ($localGitGate.local_matches_origin -ne $true) { "local_git_not_synced_to_origin" } else { "local_git_checkpoint_invalid" })
 } elseif (!$authGate.safe_to_start_ec2) {
   $gateFailureCategory = $(if (![string]::IsNullOrWhiteSpace([string]$authGate.failure_category)) { [string]$authGate.failure_category } else { "aws_auth_blocked" })
 } elseif (!$readinessGate.ready_for_generation) {
@@ -489,6 +541,7 @@ $record = [ordered]@{
   result = $(if ($executeGatesPass) { "ready_for_workflow_smoke_execute" } elseif ($Execute) { "blocked_before_ec2_start" } else { "dry_run_blocked_before_ec2_start" })
   failure_category = $gateFailureCategory
   lane_contracts = $laneContracts
+  local_git_checkpoint_gate = $localGitGate
   auth_gate = $authGate
   readiness_gate = $readinessGate
   ec2_static_proof = $staticProof
@@ -544,6 +597,7 @@ if (!$executeGatesPass) {
 
 $requestJson = Get-Content -LiteralPath $requestFile -Raw
 $requestBase64 = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($requestJson))
+$expectedRemoteGitHead = [string]$localGitGate.expected_remote_head
 $s3BucketForRemote = $S3Bucket
 $s3PrefixForRemote = "$S3Prefix/$runId".Trim("/")
 $remoteScript = @"
@@ -555,6 +609,7 @@ PROJECT = "$RemoteProjectRoot"
 COMFY = "$RemoteComfyRoot"
 ARTIFACT_ROOT = "$RemoteArtifactRoot/$runId"
 REQUEST_B64 = "$requestBase64"
+EXPECTED_GIT_HEAD = "$expectedRemoteGitHead"
 PORT = $ComfyPort
 TIMEOUT_SECONDS = $TimeoutSeconds
 POLL_SECONDS = $PollSeconds
@@ -626,6 +681,10 @@ try:
     result["git_pull"] = run(["git", "pull", "--ff-only", "origin", "main"], cwd=PROJECT, timeout=300, check=True)["stdout"][-500:]
     result["git_lfs_pull_rc"] = run(["git", "lfs", "pull"], cwd=PROJECT, timeout=300, check=True)["rc"]
     result["git_head_after"] = run(["git", "rev-parse", "HEAD"], cwd=PROJECT, check=True)["stdout"]
+    result["git_expected_head"] = EXPECTED_GIT_HEAD
+    result["git_head_matches_expected"] = (not EXPECTED_GIT_HEAD) or result["git_head_after"] == EXPECTED_GIT_HEAD
+    if EXPECTED_GIT_HEAD and result["git_head_after"] != EXPECTED_GIT_HEAD:
+        raise RuntimeError("remote project HEAD %s did not match expected origin/main %s" % (result["git_head_after"], EXPECTED_GIT_HEAD))
 
     request_json = base64.b64decode(REQUEST_B64.encode("ascii")).decode("utf-8")
     request_path = os.path.join(ARTIFACT_ROOT, "workflows", "prompt_request.json")

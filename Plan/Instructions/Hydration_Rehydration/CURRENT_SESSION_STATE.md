@@ -1,16 +1,19 @@
 # Current Session State
 
 ## Session timestamp
-2026-07-06T06:20:43-05:00
+2026-07-06T06:31:45-05:00
 
 ## State
 Local static/package validation is complete through Wave 62 cumulative zip validation. GitHub sync is active and the current recheck confirms `C:\Comfy_UI_Main` has `.git`, canonical `origin`, ignored/untracked `.env`, `GITHUB_TOKEN` and `CIVITAI_API_KEY` variable names present without values printed, and local `main` matching `origin/main`. EC2 readiness, discovery, project sync, and runtime inventory passed with the instance returned to `stopped` each time. Wave 61 workflow lane selection identified `sdxl_low_risk_fallback_lane` as the first bounded execution candidate. The selected lane has concrete workflow files and passes local static graph validation. Runtime proof is still pending because AWS CLI auth is expired before EC2 object-info, checkpoint path, checkpoint hash, generation output, and QA evidence can be collected. Fresh secret-safe auth evidence now records top-level `result=blocked_expired_session`, `failure_category=expired_session`, `account_match=false`, and `remote_login_status=not_attempted`; profile-matrix evidence still shows zero of 15 configured AWS CLI profiles currently authenticate to expected account `029530099913`; EC2 start and generation remain disallowed until AWS browser/SSO login is refreshed and verified. Pullback, image-QA, lane-readiness, EC2 static-proof, and EC2 workflow smoke-run coordinator helpers are ready for the first post-auth runtime path. Static-proof and smoke-run helpers now self-gate and write local evidence before any EC2 start path when auth/readiness/static proof is missing. Current selected-lane readiness still reports `local_pre_ec2_ready=true`, `ready_for_ec2_static_proof=false`, and `ready_for_generation=false`. Current runtime unblock handoff reports `handoff_ready_runtime_blocked_auth`, `failure_category=expired_session`, `next_required_action=complete_aws_browser_sso_login`, `aws_contacted=false`, `ec2_started=false`, and `generation_executed=false`. Current project readiness snapshot reports `result=pass_local_ready_runtime_blocked_auth`, `failure_category=expired_session`, `local_ready=true`, `ec2_start_allowed=false`, and `generation_allowed=false`. Current Items/Tracker package validation passes locally for 54695 tracker rows and 54647 item rows, with complete source-key coverage and zero structural/citation/human-flag defects. Current operations helper validation covers all 16 operations scripts, 5 operation JSON schema/template files, 9 local smoke checks including runtime-unblock handoff smoke, and 5 evidence-contract checks. Current QA helper validation covers all 7 QA scripts, QA schemas/templates, image-QA dry-run/technical sample checks, selected-lane workflow static validation smoke, Items/Tracker package validation smoke, project-readiness snapshot smoke, and project-readiness snapshot contract checks with 0 contract failures. Current hydration helper validation covers all 3 hydration scripts, all 3 hydration templates, session-state generation, and the real cumulative zip validation. Generated local indexes were refreshed after runtime handoff evidence with row-count parity and new-file discovery passing.
 
 ## Session end timestamp
-2026-07-06T06:20:43-05:00
+2026-07-06T06:31:45-05:00
 
 ## Latest continuation update
 Runtime handoff readiness contract hardening is complete locally. `Test-ProjectReadinessSnapshot.ps1` now imports the latest runtime unblock handoff as a required evidence input and records `runtime_gates.runtime_unblock_handoff` with `handoff_ready_runtime_blocked_auth`, `next_required_action=complete_aws_browser_sso_login`, `local_only=true`, no AWS/GitHub API/Civitai contact, `ec2_started=false`, `generation_executed=false`, eight command steps, and Markdown output written. `Test-QAHelperStatic.ps1` now contract-checks those fields; the latest QA helper validation reports `project_readiness_contract_failures=0`. This reinforces that `BLOCKER-W59-GIT-001` is resolved and `.env` is protected; the remaining runtime blocker is AWS browser/SSO auth, not missing GitHub or Civitai tokens.
+
+## Latest EC2 Git checkpoint gate update
+EC2 static-proof and workflow-smoke coordinators now require a clean pushed local Git checkpoint before future `-Execute` paths. `Invoke-EC2LaneStaticProof.ps1` and `Invoke-EC2WorkflowSmokeRun.ps1` block locally unless local `HEAD` equals `origin/main` and the worktree is clean; their remote payloads also carry the expected `origin/main` commit and verify the EC2 checkout matches it after `git pull --ff-only origin main`. Current validation occurred while this checkpoint was still being created, so dry-runs correctly classified the active worktree as `local_git_worktree_dirty` without contacting AWS or starting EC2. After this checkpoint is committed/pushed, that gate should pass locally before AWS-authenticated EC2 work resumes.
 
 ## Completed this session
 - Fixed and validated Wave 59 live index generation.
@@ -88,6 +91,12 @@ Runtime handoff readiness contract hardening is complete locally. `Test-ProjectR
 - Reran direct project readiness snapshot validation: `result=pass_local_ready_runtime_blocked_auth`, `runtime_unblock_handoff.result=handoff_ready_runtime_blocked_auth`, `command_step_count=8`, `ec2_start_allowed=false`, and `generation_allowed=false`.
 - Reran current QA helper validation: 7 QA scripts parsed, 7 local smokes passed, project-readiness contract failures 0, and runtime handoff contract checks passed.
 - Regenerated generated local indexes after runtime handoff readiness contract hardening and validated row-count parity: plan 2559, instructions 333, items 45, tracker 26.
+- Added a local Git checkpoint gate to `Invoke-EC2LaneStaticProof.ps1` and `Invoke-EC2WorkflowSmokeRun.ps1`.
+- Updated remote EC2 payloads to verify the post-pull remote checkout matches the expected pushed `origin/main` commit.
+- Updated `New-RuntimeUnblockHandoff.ps1` with a `git_checkpoint_recheck` command step and `do_not_start_ec2_unless_git_checkpoint_clean` invariant.
+- Reran current operations helper validation with Git checkpoint gate smoke coverage: 16 scripts parsed, 9 local smokes passed, 5 evidence-contract checks passed, and result `pass_local_only`.
+- Reran runtime unblock handoff: `handoff_ready_runtime_blocked_auth`, 9 command steps, `aws_contacted=false`, `ec2_started=false`, and `generation_executed=false`.
+- Reran current QA helper validation and project readiness snapshot after the handoff refresh: QA result `pass_local_only`, project readiness `pass_local_ready_runtime_blocked_auth`, `ec2_start_allowed=false`, and `generation_allowed=false`.
 
 ## Latest Git Result
 - Current recheck evidence: `Plan/Instructions/QA/Evidence/Git_Verification/W59_W60_GIT_CURRENT_RECHECK_20260706T055911-0500.json`
@@ -185,6 +194,14 @@ Runtime handoff readiness contract hardening is complete locally. `Test-ProjectR
 - Current runtime handoff readiness contract certification: `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W61_RUNTIME_HANDOFF_READINESS_CONTRACT_20260706T062043-0500.md`
 - Current generated index refresh after runtime handoff contract: `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_RUNTIME_HANDOFF_CONTRACT_20260706T062043-0500.json`
 - Current generated index refresh after runtime handoff contract certification: `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_LIVE_INDEX_REFRESH_RUNTIME_HANDOFF_CONTRACT_20260706T062043-0500.md`
+- Current operations validation with EC2 Git checkpoint gate: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_20260706T063044-0500.json`
+- Current runtime handoff with Git checkpoint step: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_20260706T063108-0500.json`
+- Current runtime handoff Markdown with Git checkpoint step: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_20260706T063108-0500.md`
+- Current QA helper validation after EC2 Git checkpoint gate: `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_20260706T063119-0500.json`
+- Current project readiness after EC2 Git checkpoint gate: `Plan/Instructions/QA/Evidence/Project_Readiness/W61_PROJECT_READINESS_SNAPSHOT_20260706T063135-0500.json`
+- Current EC2 Git checkpoint gate certification: `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W60_W61_EC2_GIT_CHECKPOINT_GATE_20260706T063145-0500.md`
+- Current generated index refresh after EC2 Git checkpoint gate: `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_EC2_GIT_GATE_20260706T063145-0500.json`
+- Current generated index refresh after EC2 Git checkpoint gate certification: `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_LIVE_INDEX_REFRESH_EC2_GIT_GATE_20260706T063145-0500.md`
 
 ## Selected Lane
 - Lane: `sdxl_low_risk_fallback_lane`
@@ -202,6 +219,7 @@ Runtime handoff readiness contract hardening is complete locally. `Test-ProjectR
 - `TRK-W61-002`: image QA protocol exists and helper dry-run passed; actual generated image visual review pending.
 - `TRK-W61-011`: current QA helper validation passed locally for all 7 QA scripts, schemas/templates, markdown templates, image QA dry-run/technical sample smoke, selected-lane workflow static validation smoke, Items/Tracker package validation smoke, project readiness snapshot smoke, and project-readiness snapshot contract checks with 0 contract failures.
 - `TRK-W60-010`: current operations helper validation passed locally for all 16 operations scripts and related schema/template files; latest evidence redacts validation temp paths, includes a GitHub checkpoint dry-run smoke, covers profile-aware lane readiness, verifies pullback manifest comparison without counting the manifest as a local artifact, validates the latest auth-gate and lane-readiness evidence contracts, contract-validates static-proof/workflow-smoke coordinator records, and smoke-validates the runtime-unblock handoff with `aws_contacted=false`, `ec2_started=false`, and `generation_executed=false`.
+- `TRK-W60-010` / `TRK-W61-006`: EC2 static-proof and workflow-smoke coordinators now have a local Git checkpoint gate before any `-Execute` path and a remote expected-commit verification after `git pull --ff-only origin main`.
 - `TRK-W62-003` / `TRK-W62-009`: current hydration helper validation passed locally for all hydration scripts/templates, session-state generation, and the current cumulative zip validator.
 - `TRK-W59-002` / `TRK-W59-003`: generated local indexes refreshed after runtime handoff evidence/certification and current Items/Tracker package validation passes with complete source-key coverage and no structural defects.
 - `TRK-W61-006` / `TRK-W61-011`: runtime handoff readiness contract is now enforced in both the project readiness snapshot and QA helper validation. Latest evidence proves the handoff is local-only, no external services were contacted, EC2 was not started, generation was not run, the eight-step post-auth command sequence exists, and the Markdown handoff was written.
@@ -220,4 +238,4 @@ Runtime handoff readiness contract hardening is complete locally. `Test-ProjectR
 - `BLOCKER-AWS-AUTH-EXPIRED-001`: AWS CLI default login credential expired; profile-matrix evidence found zero valid profiles for expected account `029530099913`. EC2 validation remains blocked until browser/SSO auth is refreshed.
 
 ## Next action
-Checkpoint runtime handoff readiness contract hardening. After AWS remote login is refreshed externally, rerun `Test-AwsAuthGate.ps1` until `ec2_work_allowed=true`, rerun `Test-LaneRuntimeReadiness.ps1`, run `Invoke-EC2LaneStaticProof.ps1 -Execute`, run `Invoke-EC2WorkflowSmokeRun.ps1 -Execute`, verify/pull back the generated image artifacts, run `New-EC2PullbackRecord.ps1` if pullback was not already recorded by the coordinator, and run `New-ImageArtifactQARecord.ps1` plus visual review.
+Checkpoint EC2 Git checkpoint gate hardening. After this checkpoint is clean/pushed and AWS remote login is refreshed externally, rerun `Test-AwsAuthGate.ps1` until `ec2_work_allowed=true`, rerun `Test-LaneRuntimeReadiness.ps1`, run `Invoke-EC2LaneStaticProof.ps1 -Execute`, run `Invoke-EC2WorkflowSmokeRun.ps1 -Execute`, verify/pull back the generated image artifacts, run `New-EC2PullbackRecord.ps1` if pullback was not already recorded by the coordinator, and run `New-ImageArtifactQARecord.ps1` plus visual review.

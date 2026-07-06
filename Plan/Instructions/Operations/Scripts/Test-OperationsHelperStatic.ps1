@@ -220,9 +220,14 @@ function Invoke-LocalHelper {
         $entry.ec2_started = [bool]$payload.ec2_started
       }
       if ($Name -in @("ec2_lane_static_proof_dry_run", "ec2_workflow_smoke_run_dry_run")) {
-        foreach ($required in @("result", "failure_category", "execute_gates_pass", "blocked_reasons")) {
+        foreach ($required in @("result", "failure_category", "local_git_checkpoint_gate", "execute_gates_pass", "blocked_reasons")) {
           if (-not (Has-Property -Object $payload -Name $required)) {
             throw "$Name output is missing top-level field: $required"
+          }
+        }
+        foreach ($requiredGit in @("head", "origin_main", "expected_remote_head", "local_matches_origin", "clean", "result")) {
+          if (-not (Has-Property -Object $payload.local_git_checkpoint_gate -Name $requiredGit)) {
+            throw "$Name local_git_checkpoint_gate is missing: $requiredGit"
           }
         }
         if ([string]::IsNullOrWhiteSpace($entry.top_level_result)) {
@@ -256,7 +261,7 @@ function Invoke-LocalHelper {
         if (@($payload.command_sequence).Count -lt 8) {
           throw "$Name command_sequence is missing expected post-auth steps."
         }
-        foreach ($requiredSafety in @("approved_instance_id", "expected_aws_account", "do_not_start_ec2_unless_auth_safe", "do_not_start_ec2_unless_lane_ready", "stop_ec2_after_runtime_work")) {
+        foreach ($requiredSafety in @("approved_instance_id", "expected_aws_account", "do_not_start_ec2_unless_auth_safe", "do_not_start_ec2_unless_git_checkpoint_clean", "do_not_start_ec2_unless_lane_ready", "stop_ec2_after_runtime_work")) {
           if (-not (Has-Property -Object $payload.safety_invariants -Name $requiredSafety)) {
             throw "$Name safety_invariants is missing: $requiredSafety"
           }

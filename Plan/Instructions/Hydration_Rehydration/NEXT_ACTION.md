@@ -2,6 +2,8 @@
 
 Current local validation is refreshed through the scan-safe project readiness snapshot, current Git blocker recheck, QA helper project-readiness contract validation, runtime unblock handoff validation, runtime handoff readiness contract validation, and generated index refresh. Checkpoint the local-only runtime handoff readiness contract work. The next runtime-unblocking action remains AWS CLI remote browser/SSO login in an interactive/browser-capable shell.
 
+Latest EC2 coordinator hardening also requires a clean pushed Git checkpoint before any EC2 `-Execute` run. `Invoke-EC2LaneStaticProof.ps1` and `Invoke-EC2WorkflowSmokeRun.ps1` now block locally unless `HEAD` equals `origin/main` and the worktree is clean, and their remote payloads verify the EC2 checkout reaches the expected pushed commit after `git pull --ff-only origin main`.
+
 After AWS login, rerun the secret-safe auth gate:
 
 ```powershell
@@ -30,6 +32,8 @@ Latest operations validation now contract-checks those coordinator records direc
 Latest project readiness snapshot now also imports `runtime_unblock_handoff` and records `handoff_ready_runtime_blocked_auth`, `next_required_action=complete_aws_browser_sso_login`, `local_only=true`, `aws_contacted=false`, `github_api_contacted=false`, `civitai_contacted=false`, `ec2_started=false`, `generation_executed=false`, `command_step_count=8`, and `markdown_written=true`.
 
 Latest QA helper validation contract-checks those runtime handoff fields with 0 project-readiness contract failures. This confirms the `.env` GitHub/Civitai keys are not the blocker for EC2; AWS browser/SSO auth is still the runtime gate.
+
+Latest runtime handoff command sequence now includes `git_checkpoint_recheck`; it must pass before EC2 static proof or workflow smoke execution.
 
 Do not start EC2 unless the auth gate reports:
 
