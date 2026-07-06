@@ -246,6 +246,8 @@
 | EVID-ROOT-LOCAL-PREFLIGHT-MODEL-REGISTRY-GATE-20260706T101500-0500 | Root local preflight proving canonical repo, file structure, ignored env, active lane exports, and model registry gate | root_local_preflight | pass_local_only | runtime_artifacts/run_manifests/ROOT_LOCAL_PREFLIGHT_MODEL_REGISTRY_GATE_20260706T101500-0500.json |
 | EVID-W60-OPERATIONS-ROOT-PREFLIGHT-HANDOFF-MARKDOWN-20260706T101500-0500 | Operations helper validation after runtime handoff Markdown safety checks | operations_helper_current_static_validation | pass_local_only | Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_ROOT_PREFLIGHT_HANDOFF_MARKDOWN_20260706T101500-0500.json |
 | EVID-W59-LIVE-INDEX-REFRESH-ROOT-PREFLIGHT-MODEL-REGISTRY-GATE-20260706T101500-0500 | Generated index refresh after root preflight model registry gate evidence | index_validation | pass | Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_ROOT_PREFLIGHT_MODEL_REGISTRY_GATE_20260706T101500-0500.json |
+| EVID-ROOT-LOCAL-PREFLIGHT-CURRENT-HEAD-20260706T103000-0500 | Current-head root local preflight after evidence commit push | root_local_preflight | pass_local_only | runtime_artifacts/run_manifests/ROOT_LOCAL_PREFLIGHT_CURRENT_HEAD_20260706T103000-0500.json |
+| EVID-W59-LIVE-INDEX-REFRESH-CURRENT-HEAD-ROOT-PREFLIGHT-20260706T103000-0500 | Generated index refresh after current-head root preflight evidence | index_validation | pass | Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_CURRENT_HEAD_ROOT_PREFLIGHT_20260706T103000-0500.json |
 
 ## Pending runtime evidence
 

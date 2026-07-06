@@ -2,11 +2,11 @@
 
 ## Current local work completed
 
-As of 2026-07-06T10:15:00-05:00, Codex pushed the root preflight model-registry gate commit to `origin/main` and reran `tools/Test-RootProjectPreflight.ps1` from `C:\Comfy_UI_Main`. Current evidence `runtime_artifacts/run_manifests/ROOT_LOCAL_PREFLIGHT_MODEL_REGISTRY_GATE_20260706T101500-0500.json` reports `pass_local_only`, failed check count `0`, `.git` present, `HEAD == origin/main`, `.env` ignored with GitHub/Civitai variable names present, root file structure present, active exported lanes static-valid, and model registry coverage passing for both active lanes. The stale `BLOCKER-W59-GIT-001` no-`.git` report is not active.
+As of 2026-07-06T10:30:00-05:00, Codex reran `tools/Test-RootProjectPreflight.ps1` from `C:\Comfy_UI_Main` after the latest pushed evidence commit. Current evidence `runtime_artifacts/run_manifests/ROOT_LOCAL_PREFLIGHT_CURRENT_HEAD_20260706T103000-0500.json` reports `pass_local_only`, failed check count `0`, `.git` present, `HEAD == origin/main` at `8bd059bdec2b2c8bd95a158930d2a26fa9d77b0a`, `.env` ignored with GitHub/Civitai variable names present, root file structure present, active exported lanes static-valid, and model registry coverage passing for both active lanes. The stale `BLOCKER-W59-GIT-001` no-`.git` report is not active.
 
-As of 2026-07-06T07:52:41-05:00, Codex completed queue-aware project readiness and runtime handoff hardening. `Test-ProjectReadinessSnapshot.ps1` imports runtime lane queue evidence and only allows EC2 static-proof readiness when the selected lane is first in `runtime_lane_queue.json`. `New-RuntimeUnblockHandoff.ps1` records the queue gate, includes a `runtime_lane_queue_recheck` command, and carries the `do_not_start_ec2_unless_runtime_lane_queue_allows` safety invariant. `Test-QAHelperStatic.ps1` contract-checks the queue gate. This work did not contact AWS, GitHub APIs, Civitai, ComfyUI, start EC2, or run generation.
+Queue-aware readiness is now superseded by the model-registry-gated runtime handoff. `Test-ProjectReadinessSnapshot.ps1` must import runtime lane queue, model registry coverage, and the current runtime unblock handoff; `New-RuntimeUnblockHandoff.ps1` must include `runtime_lane_queue_recheck`, `model_registry_coverage_recheck`, and `git_checkpoint_recheck` before any EC2 `-Execute` step. This work did not contact AWS, GitHub APIs, Civitai, ComfyUI, start EC2, or run generation.
 
-Current local validation is refreshed through the scan-safe project readiness snapshot, current Git blocker recheck, QA helper project-readiness contract validation, runtime unblock handoff validation, runtime handoff readiness contract validation, EC2 Git checkpoint gate validation, post-checkpoint Git recheck evidence, lane-aware project handoff validation, authored-lane local pre-EC2 evidence coverage, runtime lane queue validation, queue-aware project readiness/handoff retests, generated index refresh for the queue-aware slice, top-level workflow export/static validation, root local preflight, and a local run package for the first queued lane. The next runtime-unblocking action remains AWS CLI remote browser/SSO login in an interactive/browser-capable shell.
+Current local validation is refreshed through scan-safe project readiness, current Git blocker recheck, QA helper project-readiness contract validation, runtime unblock handoff validation, runtime handoff readiness contract validation, EC2 Git checkpoint gate validation, post-checkpoint Git recheck evidence, lane-aware project handoff validation, authored-lane local pre-EC2 evidence coverage, runtime lane queue validation, model registry coverage validation, model-registry-gated project readiness/handoff retests, generated index refreshes, top-level workflow export/static validation, root preflight, and local run packages for the first queued lane. The next runtime-unblocking action remains AWS CLI remote browser/SSO login in an interactive/browser-capable shell.
 
 `sdxl_realvisxl_base_lane` is now authored and local-static validated as a second SDXL lane. Keep `sdxl_low_risk_fallback_lane` as the first EC2 proof/generation lane; queue `sdxl_realvisxl_base_lane` for later RealVisXL checkpoint path/hash/load/output QA after the low-risk lane proves the runtime path.
 
@@ -43,11 +43,11 @@ Latest EC2 coordinator gate contract evidence records static-proof and workflow-
 
 Latest operations validation now contract-checks those coordinator records directly: 5 evidence-contract checks, 0 failures.
 
-Latest project readiness snapshot now imports both `runtime_unblock_handoff` and `runtime_lane_queue`. It records `handoff_ready_runtime_blocked_auth`, `next_required_action=complete_aws_browser_sso_login`, `local_only=true`, `aws_contacted=false`, `github_api_contacted=false`, `civitai_contacted=false`, `ec2_started=false`, `generation_executed=false`, `command_step_count=10`, `markdown_written=true`, selected queue order 1, and `queue_allows_selected_lane_ec2_static_proof=true`.
+Latest project readiness snapshot now imports `runtime_unblock_handoff`, `runtime_lane_queue`, and model registry coverage. It records `handoff_ready_runtime_blocked_auth`, `next_required_action=complete_aws_browser_sso_login`, `local_only=true`, `aws_contacted=false`, `github_api_contacted=false`, `civitai_contacted=false`, `ec2_started=false`, `generation_executed=false`, `command_step_count=11`, `markdown_written=true`, selected queue order 1, `queue_allows_selected_lane_ec2_static_proof=true`, and model registry coverage allowing selected-lane EC2 static proof.
 
-Latest QA helper validation parses 9 QA scripts, runs 12 local smokes, includes the authored-lane coverage and runtime lane queue smokes, and contract-checks runtime handoff plus runtime queue fields with 0 project-readiness contract failures. This confirms the `.env` GitHub/Civitai keys are not the blocker for EC2; AWS browser/SSO auth is still the runtime gate.
+Latest QA helper validation parses 10 QA scripts, runs 13 local smokes, includes authored-lane coverage, runtime lane queue, and model registry coverage smokes, and contract-checks runtime handoff, runtime queue, and model registry fields with 0 project-readiness contract failures. This confirms the `.env` GitHub/Civitai keys are not the blocker for EC2; AWS browser/SSO auth is still the runtime gate.
 
-Latest runtime handoff command sequence now includes both `runtime_lane_queue_recheck` and `git_checkpoint_recheck`; both must pass before EC2 static proof or workflow smoke execution.
+Latest runtime handoff command sequence now includes `runtime_lane_queue_recheck`, `model_registry_coverage_recheck`, and `git_checkpoint_recheck`; all three must pass before EC2 static proof or workflow smoke execution.
 
 Current local run package for the first queued lane:
 
@@ -84,7 +84,7 @@ It records `gate_summary.run_package.valid=true`, profile `hyperreal_editorial_p
 Current root preflight evidence:
 
 ```text
-runtime_artifacts/run_manifests/ROOT_LOCAL_PREFLIGHT_MODEL_REGISTRY_GATE_20260706T101500-0500.json
+runtime_artifacts/run_manifests/ROOT_LOCAL_PREFLIGHT_CURRENT_HEAD_20260706T103000-0500.json
 ```
 
 It proves `C:\Comfy_UI_Main` is the Git repository root, local `main` matched `origin/main` during the check, `.env` was ignored, required root directories exist, active lane exports validate, and model registry coverage is a required/passing EC2 preflight gate. Later evidence commits may advance `HEAD`, so rerun this preflight or the Git checkpoint recheck before any EC2 `-Execute` path.
@@ -96,7 +96,19 @@ ec2_work_allowed: true
 safe_to_start_ec2: true
 ```
 
-After AWS auth is refreshed and verified, rerun the EC2 static proof for `sdxl_low_risk_fallback_lane`:
+After AWS auth is refreshed and verified, rerun the current local preflight gates before EC2 static proof:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\Scripts\Test-RuntimeLaneQueue.ps1 -ProjectRoot C:\Comfy_UI_Main -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Prerequisite_Matching\W61_RUNTIME_LANE_QUEUE_VALIDATION_<timestamp>.json
+powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\Scripts\Test-WorkflowModelRegistryCoverage.ps1 -ProjectRoot C:\Comfy_UI_Main -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Model_Registry\W61_MODEL_REGISTRY_COVERAGE_<timestamp>.json
+git -C C:\Comfy_UI_Main status --short --branch
+git -C C:\Comfy_UI_Main rev-parse HEAD
+git -C C:\Comfy_UI_Main rev-parse origin/main
+```
+
+Required results: first runtime lane `sdxl_low_risk_fallback_lane`, selected lane order `1`, model registry selected lane result `pass`, failed check count `0`, clean worktree, and local `HEAD == origin/main`.
+
+Then rerun the lane readiness gate for `sdxl_low_risk_fallback_lane`:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-LaneRuntimeReadiness.ps1 -LaneId sdxl_low_risk_fallback_lane -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_LANE_RUNTIME_READINESS_<timestamp>.json
@@ -126,10 +138,10 @@ Only after that proof exists, run the bounded EC2 workflow smoke-run coordinator
 Preferred smoke-run coordinator command after proof exists:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1 -LaneId sdxl_low_risk_fallback_lane -Execute -StaticProofFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W61_EC2_LANE_STATIC_PROOF_<timestamp>.json -ReadinessFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_LANE_RUNTIME_READINESS_<timestamp>.json -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Runtime\W61_EC2_WORKFLOW_SMOKE_RUN_EXECUTION_<timestamp>.json
+powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1 -LaneId sdxl_low_risk_fallback_lane -Execute -StaticProofFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W61_EC2_LANE_STATIC_PROOF_<timestamp>.json -ReadinessFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_LANE_RUNTIME_READINESS_<timestamp>.json -RunPackageManifestFile C:\Comfy_UI_Main\runtime_artifacts\run_packages\sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1\RUN_PACKAGE_MANIFEST.json -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Runtime\W61_EC2_WORKFLOW_SMOKE_RUN_EXECUTION_<timestamp>.json
 ```
 
-For the first hyperreal portrait execution, include:
+For the first hyperreal portrait execution, keep this package manifest in the command:
 
 ```powershell
 -RunPackageManifestFile C:\Comfy_UI_Main\runtime_artifacts\run_packages\sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1\RUN_PACKAGE_MANIFEST.json

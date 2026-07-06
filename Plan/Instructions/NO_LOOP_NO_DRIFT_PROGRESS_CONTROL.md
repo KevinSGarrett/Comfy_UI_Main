@@ -229,7 +229,44 @@ If Codex is stuck, it must move down this ladder:
 7. Switch to a prerequisite task.
 8. Mark blocker and continue another unblocked task.
 
-## 13. End-of-session anti-loop requirement
+## 13. Runtime auth hard stop and housekeeping budget
+
+When the active runtime blocker is AWS browser/SSO auth, Codex must not turn the block into repeated local housekeeping.
+
+Apply this hard stop when all of the following are true:
+
+```text
+C:\Comfy_UI_Main is the active project root.
+The latest acceptable local evidence says runtime lane queue passes.
+The latest acceptable local evidence says model registry coverage passes.
+The latest acceptable local evidence says root preflight or project readiness passes locally.
+The latest acceptable Git checkpoint evidence is clean or only needs a final post-evidence commit.
+AWS auth is expired, missing, or not yet browser/SSO refreshed.
+No user has requested a specific non-runtime implementation task.
+```
+
+Under this hard stop, allowed actions are limited to:
+
+```text
+1. Record the AWS auth blocker once.
+2. Update CURRENT_SESSION_STATE.md, NEXT_ACTION.md, CURRENT_PURSUING_GOAL.md, and trackers once if they are stale.
+3. Commit and push an already-created evidence checkpoint when appropriate.
+4. Wait for or request the browser/SSO auth step.
+```
+
+Do not create another validator, another index refresh, another handoff, another local proof file, or another instruction rewrite with the same gate result unless an input changed or a user explicitly asked for that fix.
+
+Housekeeping budget:
+
+```text
+After meaningful implementation: one evidence/index/state refresh is allowed.
+After a failed external auth gate: one blocker/state update is allowed.
+After no input changed: no new housekeeping artifact is allowed.
+```
+
+Any continuation that chooses local work while AWS auth is blocked must state which concrete project capability it advances. If the answer is only "documentation cleanup", "refresh evidence", "recheck current state", or "organize files", stop and report the blocker instead.
+
+## 14. End-of-session anti-loop requirement
 
 Before ending or packaging, Codex must answer in the session state file:
 
@@ -243,7 +280,7 @@ What is the next exact action?
 Which file should the next session open first?
 ```
 
-## 14. Wave 58 no-loop target
+## 15. Wave 58 no-loop target
 
 Wave 58 is documentation-heavy, so the major loop risk is rewriting guidance without producing structured usable files. Codex must avoid that by validating these concrete deliverables:
 
