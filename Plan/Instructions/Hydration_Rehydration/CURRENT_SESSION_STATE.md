@@ -1,7 +1,7 @@
 # Current Session State
 
 ## Session timestamp
-2026-07-06T12:20:27-05:00
+2026-07-06T14:11:04-05:00
 
 ## State
 The active root is `C:\Comfy_UI_Main`. The earlier `BLOCKER-W59-GIT-001` no-`.git` finding is superseded for this root: `.git` exists, `origin` is canonical, `.env` is ignored, and the required root structure is present. The old `C:\Comfy_UI` workspace remains historical/source context and may be inspected as a local ComfyUI development environment, but it is not the Plan-bearing project root.
@@ -15,7 +15,7 @@ Current human-readable runtime handoff Markdown is `Plan/Instructions/QA/Evidenc
 Wave 63 cost control is active. Before any new EC2 start, use `Plan/Instructions/Operations/EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md`, run local/CI validation and deploy-bundle preparation while EC2 is stopped, upload deploy bundles and large model binaries through S3/model-cache paths, default EC2 helpers to `-SkipGitLfsPull`, prefer `-DeployBundleS3Uri` plus `-DeployBundleSha256`, set `-MaxEc2RuntimeMinutes`, and batch target-runtime work into one bounded EC2 window. AWS auth can expire between sessions; rerun the auth gate and Git checkpoint before any future `-Execute` command.
 
 ## Session end timestamp
-2026-07-06T12:20:27-05:00
+2026-07-06T14:11:04-05:00
 
 ## Latest continuation update
 RealVisXL second-lane runtime work advanced past the earlier missing-checkpoint and pullback/QA blockers. Model install evidence reports `download_verified_installed`; static proof after install reports the checkpoint exists with SHA256 `6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80`; readiness reports `ready_for_generation`; workflow smoke evidence reports `workflow_smoke_generation_complete`; pullback evidence reports `pullback_hashes_verified`; and visual QA reports `pass_with_notes_for_runtime_smoke`. EC2 final state was verified `stopped`. Evidence: `Plan/Instructions/QA/Evidence/Model_Registry/W63_EC2_REALVISXL_MODEL_INSTALL_20260706T125425-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_EC2_LANE_STATIC_PROOF_REALVISXL_AFTER_INSTALL_20260706T131129-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_LANE_RUNTIME_READINESS_REALVISXL_AFTER_STATIC_PROOF_20260706T132103-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Runtime/W63_EC2_WORKFLOW_SMOKE_REALVISXL_AFTER_STATIC_PROOF_20260706T132206-0500.json`; `Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T132206-0500/PULLBACK_RECORD.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_REALVISXL_IMAGE_QA_VISUAL_20260706T140120-0500.json`.
