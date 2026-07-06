@@ -264,6 +264,17 @@ function Test-ProjectReadinessSnapshotContract {
     auth_safe_to_start_ec2 = $null
     lane_ready_for_ec2_static_proof = $null
     lane_ready_for_generation = $null
+    runtime_handoff_result = $null
+    runtime_handoff_failure_category = $null
+    runtime_handoff_next_required_action = $null
+    runtime_handoff_local_only = $null
+    runtime_handoff_aws_contacted = $null
+    runtime_handoff_github_api_contacted = $null
+    runtime_handoff_civitai_contacted = $null
+    runtime_handoff_ec2_started = $null
+    runtime_handoff_generation_executed = $null
+    runtime_handoff_command_step_count = $null
+    runtime_handoff_markdown_written = $null
     coordinator_blocked_execute_records_safe = $null
     contract_check_failures = 0
     contract_checks = @()
@@ -281,6 +292,12 @@ function Test-ProjectReadinessSnapshotContract {
       "pass_local_ready_runtime_blocked",
       "pass_local_ready_for_ec2_static_proof",
       "pass_ready_for_generation"
+    )
+    $recognizedHandoffResults = @(
+      "handoff_ready_runtime_blocked_auth",
+      "handoff_auth_ready_lane_not_ready",
+      "handoff_ready_for_ec2_static_proof",
+      "handoff_ready_for_generation"
     )
 
     if (Test-JsonProperty -Object $payload -Name "result") {
@@ -345,6 +362,29 @@ function Test-ProjectReadinessSnapshotContract {
           $entry.lane_ready_for_generation = [bool]$laneReadiness.ready_for_generation
         }
       }
+      if (Test-JsonProperty -Object $runtime -Name "runtime_unblock_handoff") {
+        $runtimeHandoff = $runtime.runtime_unblock_handoff
+        $checks += New-ContractCheck -Name "runtime_handoff_present" -Passed $true -Expected "present" -Observed "present"
+        if (Test-JsonProperty -Object $runtimeHandoff -Name "result") {
+          $entry.runtime_handoff_result = [string]$runtimeHandoff.result
+        }
+        if (Test-JsonProperty -Object $runtimeHandoff -Name "failure_category") {
+          $entry.runtime_handoff_failure_category = [string]$runtimeHandoff.failure_category
+        }
+        if (Test-JsonProperty -Object $runtimeHandoff -Name "next_required_action") {
+          $entry.runtime_handoff_next_required_action = [string]$runtimeHandoff.next_required_action
+        }
+        foreach ($name in @("local_only", "aws_contacted", "github_api_contacted", "civitai_contacted", "ec2_started", "generation_executed", "markdown_written")) {
+          if (Test-JsonProperty -Object $runtimeHandoff -Name $name) {
+            $entry["runtime_handoff_$name"] = [bool]$runtimeHandoff.$name
+          }
+        }
+        if (Test-JsonProperty -Object $runtimeHandoff -Name "command_step_count") {
+          $entry.runtime_handoff_command_step_count = [int]$runtimeHandoff.command_step_count
+        }
+      } else {
+        $checks += New-ContractCheck -Name "runtime_handoff_present" -Passed $false -Expected "present" -Observed "missing"
+      }
       if (Test-JsonProperty -Object $runtime -Name "coordinator_safety") {
         $coordinatorSafety = $runtime.coordinator_safety
         if (Test-JsonProperty -Object $coordinatorSafety -Name "blocked_execute_records_safe") {
@@ -352,6 +392,31 @@ function Test-ProjectReadinessSnapshotContract {
         }
       }
     }
+
+    $checks += New-ContractCheck -Name "runtime_handoff_result_recognized" `
+      -Passed (@($recognizedHandoffResults) -contains $entry.runtime_handoff_result) `
+      -Expected ($recognizedHandoffResults -join " | ") `
+      -Observed ([string]$entry.runtime_handoff_result)
+    $checks += New-ContractCheck -Name "runtime_handoff_local_only" `
+      -Passed ($entry.runtime_handoff_local_only -eq $true) `
+      -Expected "true" `
+      -Observed ([string]$entry.runtime_handoff_local_only)
+    $checks += New-ContractCheck -Name "runtime_handoff_no_external_contacts" `
+      -Passed ($entry.runtime_handoff_aws_contacted -eq $false -and $entry.runtime_handoff_github_api_contacted -eq $false -and $entry.runtime_handoff_civitai_contacted -eq $false) `
+      -Expected "aws_contacted=false; github_api_contacted=false; civitai_contacted=false" `
+      -Observed ("aws_contacted={0}; github_api_contacted={1}; civitai_contacted={2}" -f $entry.runtime_handoff_aws_contacted, $entry.runtime_handoff_github_api_contacted, $entry.runtime_handoff_civitai_contacted)
+    $checks += New-ContractCheck -Name "runtime_handoff_no_ec2_or_generation" `
+      -Passed ($entry.runtime_handoff_ec2_started -eq $false -and $entry.runtime_handoff_generation_executed -eq $false) `
+      -Expected "ec2_started=false; generation_executed=false" `
+      -Observed ("ec2_started={0}; generation_executed={1}" -f $entry.runtime_handoff_ec2_started, $entry.runtime_handoff_generation_executed)
+    $checks += New-ContractCheck -Name "runtime_handoff_has_full_command_sequence" `
+      -Passed ($entry.runtime_handoff_command_step_count -ge 8) `
+      -Expected ">= 8" `
+      -Observed ([string]$entry.runtime_handoff_command_step_count)
+    $checks += New-ContractCheck -Name "runtime_handoff_markdown_written" `
+      -Passed ($entry.runtime_handoff_markdown_written -eq $true) `
+      -Expected "true" `
+      -Observed ([string]$entry.runtime_handoff_markdown_written)
 
     switch ($entry.top_level_result) {
       "pass_local_ready_runtime_blocked_auth" {
@@ -371,6 +436,10 @@ function Test-ProjectReadinessSnapshotContract {
           -Passed ($entry.coordinator_blocked_execute_records_safe -eq $true) `
           -Expected "true" `
           -Observed ([string]$entry.coordinator_blocked_execute_records_safe)
+        $checks += New-ContractCheck -Name "blocked_auth_runtime_handoff_matches_gate" `
+          -Passed ($entry.runtime_handoff_result -eq "handoff_ready_runtime_blocked_auth" -and $entry.runtime_handoff_next_required_action -eq "complete_aws_browser_sso_login") `
+          -Expected "handoff_ready_runtime_blocked_auth; complete_aws_browser_sso_login" `
+          -Observed ("{0}; {1}" -f $entry.runtime_handoff_result, $entry.runtime_handoff_next_required_action)
       }
       "pass_local_ready_runtime_blocked" {
         $checks += New-ContractCheck -Name "runtime_blocked_has_failure_category" `
@@ -385,6 +454,10 @@ function Test-ProjectReadinessSnapshotContract {
           -Passed ($entry.generation_allowed -eq $false) `
           -Expected "false" `
           -Observed ([string]$entry.generation_allowed)
+        $checks += New-ContractCheck -Name "runtime_blocked_runtime_handoff_matches_gate" `
+          -Passed ($entry.runtime_handoff_result -eq "handoff_auth_ready_lane_not_ready") `
+          -Expected "handoff_auth_ready_lane_not_ready" `
+          -Observed ([string]$entry.runtime_handoff_result)
       }
       "pass_local_ready_for_ec2_static_proof" {
         $checks += New-ContractCheck -Name "static_proof_ready_allows_ec2_start" `
@@ -395,6 +468,10 @@ function Test-ProjectReadinessSnapshotContract {
           -Passed ($entry.generation_allowed -eq $false) `
           -Expected "false" `
           -Observed ([string]$entry.generation_allowed)
+        $checks += New-ContractCheck -Name "static_proof_ready_runtime_handoff_matches_gate" `
+          -Passed ($entry.runtime_handoff_result -eq "handoff_ready_for_ec2_static_proof" -and $entry.runtime_handoff_next_required_action -eq "run_ec2_static_proof") `
+          -Expected "handoff_ready_for_ec2_static_proof; run_ec2_static_proof" `
+          -Observed ("{0}; {1}" -f $entry.runtime_handoff_result, $entry.runtime_handoff_next_required_action)
       }
       "pass_ready_for_generation" {
         $checks += New-ContractCheck -Name "generation_ready_allows_ec2_start" `
@@ -405,6 +482,10 @@ function Test-ProjectReadinessSnapshotContract {
           -Passed ($entry.generation_allowed -eq $true -and $entry.lane_ready_for_generation -eq $true) `
           -Expected "generation_allowed=true; lane.ready_for_generation=true" `
           -Observed ("generation_allowed={0}; lane.ready_for_generation={1}" -f $entry.generation_allowed, $entry.lane_ready_for_generation)
+        $checks += New-ContractCheck -Name "generation_ready_runtime_handoff_matches_gate" `
+          -Passed ($entry.runtime_handoff_result -eq "handoff_ready_for_generation" -and $entry.runtime_handoff_next_required_action -eq "run_bounded_workflow_smoke") `
+          -Expected "handoff_ready_for_generation; run_bounded_workflow_smoke" `
+          -Observed ("{0}; {1}" -f $entry.runtime_handoff_result, $entry.runtime_handoff_next_required_action)
       }
     }
 

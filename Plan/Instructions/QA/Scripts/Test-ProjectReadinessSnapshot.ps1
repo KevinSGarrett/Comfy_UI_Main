@@ -288,6 +288,7 @@ $latest = [ordered]@{
   auth_gate = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_AUTH_GATE_*.json"
   profile_matrix = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_PROFILE_AUTH_MATRIX_*.json"
   lane_readiness = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W61_LANE_RUNTIME_READINESS_*.json"
+  runtime_unblock_handoff = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W61_RUNTIME_UNBLOCK_HANDOFF_*.json"
   ec2_static_proof_blocked = Find-LatestFile -Directory $workflowStaticDir -Filter "W61_EC2_LANE_STATIC_PROOF_BLOCKED_EXECUTE_*.json"
   ec2_workflow_smoke_blocked = Find-LatestFile -Directory $workflowRuntimeDir -Filter "W61_EC2_WORKFLOW_SMOKE_RUN_BLOCKED_EXECUTE_*.json"
   operations_validation = Find-LatestFile -Directory $operationsValidationDir -Filter "W60_OPERATIONS_HELPER_CURRENT_VALIDATION*.json"
@@ -339,6 +340,7 @@ $evidenceChecks = @(
   (Test-JsonEvidence -Name "auth_gate" -Path $latest.auth_gate -AcceptableResults @("pass", "blocked_expired_session", "blocked_account_mismatch", "blocked_aws_cli_unavailable", "blocked_remote_login_required", "blocked_unknown_auth_state")),
   (Test-JsonEvidence -Name "profile_matrix" -Path $latest.profile_matrix -AcceptableResults @("pass", "blocked_no_valid_profile", "blocked_aws_cli_unavailable", "blocked_no_profiles")),
   (Test-JsonEvidence -Name "lane_readiness" -Path $latest.lane_readiness -AcceptableResults @("ready_for_generation", "ready_for_ec2_static_proof", "local_pre_ec2_ready_runtime_blocked_auth", "local_pre_ec2_ready_runtime_blocked")),
+  (Test-JsonEvidence -Name "runtime_unblock_handoff" -Path $latest.runtime_unblock_handoff -AcceptableResults @("handoff_ready_runtime_blocked_auth", "handoff_auth_ready_lane_not_ready", "handoff_ready_for_ec2_static_proof", "handoff_ready_for_generation")),
   (Test-JsonEvidence -Name "ec2_static_proof_blocked_execute" -Path $latest.ec2_static_proof_blocked -AcceptableResults @("blocked_before_ec2_start")),
   (Test-JsonEvidence -Name "ec2_workflow_smoke_blocked_execute" -Path $latest.ec2_workflow_smoke_blocked -AcceptableResults @("blocked_before_ec2_start"))
 )
@@ -403,6 +405,54 @@ if (![string]::IsNullOrWhiteSpace($latest.lane_readiness) -and (Test-Path -Liter
   foreach ($name in @("local_pre_ec2_ready", "ready_for_ec2_static_proof", "ready_for_generation")) {
     if (Has-Property -Object $readinessJson -Name $name) { $laneReadinessSummary[$name] = [bool]$readinessJson.$name }
   }
+}
+
+$runtimeHandoffSummary = [ordered]@{
+  result = "missing_runtime_unblock_handoff"
+  failure_category = "missing_runtime_unblock_handoff"
+  next_required_action = "missing_runtime_unblock_handoff"
+  local_only = $false
+  aws_contacted = $true
+  github_api_contacted = $true
+  civitai_contacted = $true
+  ec2_started = $true
+  generation_executed = $true
+  command_step_count = 0
+  markdown_path = $null
+  markdown_written = $false
+}
+if (![string]::IsNullOrWhiteSpace($latest.runtime_unblock_handoff) -and (Test-Path -LiteralPath $latest.runtime_unblock_handoff)) {
+  $handoffJson = Read-JsonFile -Path $latest.runtime_unblock_handoff
+  foreach ($name in @("result", "failure_category", "next_required_action", "markdown_path")) {
+    if (Has-Property -Object $handoffJson -Name $name) { $runtimeHandoffSummary[$name] = [string]$handoffJson.$name }
+  }
+  foreach ($name in @("local_only", "aws_contacted", "github_api_contacted", "civitai_contacted", "ec2_started", "generation_executed", "markdown_written")) {
+    if (Has-Property -Object $handoffJson -Name $name) { $runtimeHandoffSummary[$name] = [bool]$handoffJson.$name }
+  }
+  if (Has-Property -Object $handoffJson -Name "command_step_count") {
+    $runtimeHandoffSummary.command_step_count = [int]$handoffJson.command_step_count
+  } elseif (Has-Property -Object $handoffJson -Name "command_sequence") {
+    $runtimeHandoffSummary.command_step_count = @($handoffJson.command_sequence).Count
+  }
+}
+
+if ($runtimeHandoffSummary.local_only -ne $true) {
+  $errors += "Runtime unblock handoff is not marked local-only."
+}
+if ($runtimeHandoffSummary.aws_contacted -ne $false -or $runtimeHandoffSummary.github_api_contacted -ne $false -or $runtimeHandoffSummary.civitai_contacted -ne $false) {
+  $errors += "Runtime unblock handoff unexpectedly contacted an external service."
+}
+if ($runtimeHandoffSummary.ec2_started -ne $false) {
+  $errors += "Runtime unblock handoff unexpectedly started EC2."
+}
+if ($runtimeHandoffSummary.generation_executed -ne $false) {
+  $errors += "Runtime unblock handoff unexpectedly executed generation."
+}
+if ($runtimeHandoffSummary.command_step_count -lt 8) {
+  $errors += "Runtime unblock handoff command sequence is incomplete."
+}
+if ($runtimeHandoffSummary.markdown_written -ne $true) {
+  $errors += "Runtime unblock handoff markdown record was not written."
 }
 
 $coordinatorSummary = [ordered]@{
@@ -517,6 +567,7 @@ $record = [ordered]@{
     "latest local helper validation evidence",
     "latest generated index parity",
     "latest auth/readiness/profile/coordinator gate evidence",
+    "latest runtime unblock handoff evidence",
     "secret/private path scan over generated indexes, hydration, and QA evidence"
   )
   lane_id = $LaneId
@@ -528,6 +579,7 @@ $record = [ordered]@{
     auth_gate = $(if ($latest.auth_gate) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.auth_gate } else { $null })
     profile_matrix = $(if ($latest.profile_matrix) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.profile_matrix } else { $null })
     lane_readiness = $(if ($latest.lane_readiness) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.lane_readiness } else { $null })
+    runtime_unblock_handoff = $(if ($latest.runtime_unblock_handoff) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.runtime_unblock_handoff } else { $null })
     ec2_static_proof_blocked = $(if ($latest.ec2_static_proof_blocked) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.ec2_static_proof_blocked } else { $null })
     ec2_workflow_smoke_blocked = $(if ($latest.ec2_workflow_smoke_blocked) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.ec2_workflow_smoke_blocked } else { $null })
     operations_validation = $(if ($latest.operations_validation) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.operations_validation } else { $null })
@@ -543,6 +595,7 @@ $record = [ordered]@{
     auth_gate = $authSummary
     profile_matrix = $profileSummary
     lane_readiness = $laneReadinessSummary
+    runtime_unblock_handoff = $runtimeHandoffSummary
     coordinator_safety = $coordinatorSummary
     ec2_start_allowed = $ec2StartAllowed
     generation_allowed = $generationAllowed

@@ -63,6 +63,9 @@ Start by reading this file, then re-open the standard hydration files in this fo
 - Regenerated generated indexes after QA helper contract hardening and certified row-count parity plus discovery for the new QA validation, readiness snapshot, contract certification, and index refresh evidence.
 - Added `New-RuntimeUnblockHandoff.ps1`, generated local-only JSON/Markdown handoff evidence with exact post-auth command sequence and EC2 safety gates, wired it into operations helper validation, and refreshed project readiness. Current handoff result is `handoff_ready_runtime_blocked_auth`; it records `aws_contacted=false`, `ec2_started=false`, and `generation_executed=false`.
 - Regenerated generated indexes after runtime unblock handoff evidence/certification and certified row-count parity plus discovery for the new helper, handoff evidence, operations validation, readiness snapshot, and index evidence.
+- Hardened project readiness and QA helper validation so `runtime_unblock_handoff` is now a required readiness input and QA contract-checks `local_only=true`, no AWS/GitHub API/Civitai contact, `ec2_started=false`, `generation_executed=false`, eight command steps, and Markdown output written.
+- Reran direct project readiness and QA helper validation; the latest snapshot reports `pass_local_ready_runtime_blocked_auth`, the handoff summary reports `handoff_ready_runtime_blocked_auth`, and the QA helper reports `project_readiness_contract_failures=0`.
+- Regenerated generated indexes after runtime handoff readiness contract hardening and certified row-count parity plus discovery for the updated QA scripts, readiness snapshot, QA validation evidence, contract certification, index evidence, and index certification.
 
 ## Current goal
 
@@ -81,6 +84,8 @@ The account must be `029530099913`, `ec2_work_allowed` must be `true`, and `safe
 
 Current profile-matrix evidence confirms no configured AWS profile is presently usable for the expected account, so use `aws login --remote` or `aws sso login --profile <matching-profile>` before rerunning the gates.
 Latest selected-lane readiness evidence now includes both the auth gate and profile matrix diagnostics, but it still requires the auth gate to pass before EC2 static proof.
+
+Latest project readiness and QA helper evidence now also prove the runtime handoff is local-only and did not contact AWS, GitHub APIs, Civitai, ComfyUI, or EC2. `GITHUB_TOKEN` and `CIVITAI_API_KEY` in `.env` are present and protected, but they do not unblock EC2; AWS browser/SSO auth is the gate.
 
 Then rerun the selected-lane readiness gate:
 
@@ -262,6 +267,11 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\S
 - `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W61_RUNTIME_UNBLOCK_HANDOFF_20260706T061207-0500.md`
 - `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_RUNTIME_HANDOFF_20260706T061430-0500.json`
 - `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_LIVE_INDEX_REFRESH_RUNTIME_HANDOFF_20260706T061430-0500.md`
+- `Plan/Instructions/QA/Evidence/Project_Readiness/W61_PROJECT_READINESS_SNAPSHOT_20260706T061933-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_20260706T061938-0500.json`
+- `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W61_RUNTIME_HANDOFF_READINESS_CONTRACT_20260706T062043-0500.md`
+- `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_RUNTIME_HANDOFF_CONTRACT_20260706T062043-0500.json`
+- `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_LIVE_INDEX_REFRESH_RUNTIME_HANDOFF_CONTRACT_20260706T062043-0500.md`
 
 ## Must not repeat
 

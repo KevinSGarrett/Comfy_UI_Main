@@ -1,6 +1,6 @@
 # Next Action
 
-Current local validation is refreshed through the scan-safe project readiness snapshot, current Git blocker recheck, QA helper project-readiness contract validation, runtime unblock handoff validation, and generated index refresh. Checkpoint the local-only runtime handoff work. The next runtime-unblocking action remains AWS CLI remote browser/SSO login in an interactive/browser-capable shell.
+Current local validation is refreshed through the scan-safe project readiness snapshot, current Git blocker recheck, QA helper project-readiness contract validation, runtime unblock handoff validation, runtime handoff readiness contract validation, and generated index refresh. Checkpoint the local-only runtime handoff readiness contract work. The next runtime-unblocking action remains AWS CLI remote browser/SSO login in an interactive/browser-capable shell.
 
 After AWS login, rerun the secret-safe auth gate:
 
@@ -26,6 +26,10 @@ Latest lane readiness contract evidence records `result=local_pre_ec2_ready_runt
 Latest EC2 coordinator gate contract evidence records static-proof and workflow-smoke blocked `-Execute` results as `blocked_before_ec2_start`, `failure_category=expired_session`, and `ec2_started=false`; no EC2 start or generation occurred.
 
 Latest operations validation now contract-checks those coordinator records directly: 5 evidence-contract checks, 0 failures.
+
+Latest project readiness snapshot now also imports `runtime_unblock_handoff` and records `handoff_ready_runtime_blocked_auth`, `next_required_action=complete_aws_browser_sso_login`, `local_only=true`, `aws_contacted=false`, `github_api_contacted=false`, `civitai_contacted=false`, `ec2_started=false`, `generation_executed=false`, `command_step_count=8`, and `markdown_written=true`.
+
+Latest QA helper validation contract-checks those runtime handoff fields with 0 project-readiness contract failures. This confirms the `.env` GitHub/Civitai keys are not the blocker for EC2; AWS browser/SSO auth is still the runtime gate.
 
 Do not start EC2 unless the auth gate reports:
 
