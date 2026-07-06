@@ -91,6 +91,8 @@ Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_S3_TRANS
 
 The expected RealVisXL file is now present on EC2 and verified with SHA256 `6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80`. Model binaries must not be committed to Git. S3 runtime transfer readiness is implemented and local-only, but live S3 transfer remains blocked until `COMFY_DEPLOY_BUNDLE_S3_URI`, `S3_MODEL_BUCKET`, `S3_MODEL_PREFIX`, `S3_RENDER_OUTPUT_PREFIX`, `AWS_ROLE_TO_ASSUME`, and the scheduler stop role ARN are configured.
 
+Model registry coverage is now queue-driven: `Test-WorkflowModelRegistryCoverage.ps1` reads `runtime_lane_queue.json`, so adding a third or later lane requires matching `runtime_requirements.json`, `model_registry.jsonl`, and `model_runtime_validation_queue.csv` coverage before EC2 readiness can pass. Current dynamic evidence is `Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_DYNAMIC_QUEUE_COVERAGE_20260706T143810-0500.json`.
+
 ## Next Exact Work
 First, if the runtime proof, cost-control, tracker, or instruction updates are uncommitted, finish one clean Git checkpoint and verify local `HEAD == origin/main`.
 

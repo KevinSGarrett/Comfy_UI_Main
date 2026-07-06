@@ -3,15 +3,17 @@
 Validates active workflow lane coverage in the model registry.
 
 .DESCRIPTION
-Checks that the first two queued SDXL base-generation lanes have checkpoint
-records in Plan/Registries/Models/model_registry.jsonl and rows in the runtime
-validation queue. This is local-only validation. It does not download models,
-contact Civitai, contact AWS, start EC2, contact ComfyUI, or run generation.
+Checks that every lane listed in the base-generation runtime lane queue has
+checkpoint records in Plan/Registries/Models/model_registry.jsonl and rows in
+the model runtime validation queue. This is local-only validation. It does not
+download models, contact Civitai, contact AWS, start EC2, contact ComfyUI, or
+run generation.
 #>
 param(
   [string]$ProjectRoot = "C:\Comfy_UI_Main",
   [string]$RegistryFile = "",
   [string]$RuntimeQueueFile = "",
+  [string]$WorkflowQueueFile = "",
   [string]$OutFile = ""
 )
 
@@ -162,16 +164,17 @@ if ([string]::IsNullOrWhiteSpace($RuntimeQueueFile)) {
   $RuntimeQueueFile = Resolve-ProjectPath -Path $RuntimeQueueFile
 }
 
+if ([string]::IsNullOrWhiteSpace($WorkflowQueueFile)) {
+  $WorkflowQueueFile = Join-Path $ProjectRoot "Plan\07_IMPLEMENTATION\workflow_templates\base_generation\runtime_lane_queue.json"
+} else {
+  $WorkflowQueueFile = Resolve-ProjectPath -Path $WorkflowQueueFile
+}
+
 if ([string]::IsNullOrWhiteSpace($OutFile)) {
   $OutFile = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Model_Registry\W61_MODEL_REGISTRY_COVERAGE_$stamp.json"
 } else {
   $OutFile = Resolve-ProjectPath -Path $OutFile
 }
-
-$activeLaneIds = @(
-  "sdxl_low_risk_fallback_lane",
-  "sdxl_realvisxl_base_lane"
-)
 
 $requiredRegistryFields = @(
   "registry_schema_version",
@@ -191,6 +194,45 @@ $recordChecks = @()
 $laneResults = @()
 $registryEntries = @()
 $queueRows = @()
+$workflowQueue = $null
+$activeLaneIds = @()
+
+$workflowQueueExists = Test-Path -LiteralPath $WorkflowQueueFile
+$checks += New-Check -Name "workflow_runtime_lane_queue_exists" `
+  -Passed $workflowQueueExists `
+  -Expected "runtime_lane_queue.json exists" `
+  -Observed $(if ($workflowQueueExists) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $WorkflowQueueFile } else { "missing" })
+
+if ($workflowQueueExists) {
+  try {
+    $workflowQueue = Read-JsonFile -Path $WorkflowQueueFile
+    $queueLaneObjects = @($workflowQueue.lanes | Sort-Object order)
+    $activeLaneIds = @($queueLaneObjects | ForEach-Object { [string]$_.lane_id } | Where-Object { ![string]::IsNullOrWhiteSpace($_) })
+    $checks += New-Check -Name "workflow_runtime_lane_queue_json_valid" `
+      -Passed $true `
+      -Expected "runtime lane queue JSON parses" `
+      -Observed "valid"
+    $checks += New-Check -Name "workflow_runtime_lane_queue_has_lanes" `
+      -Passed (@($activeLaneIds).Count -gt 0) `
+      -Expected "at least one queued runtime lane" `
+      -Observed ("{0} queued lanes" -f @($activeLaneIds).Count)
+    $duplicateLaneIds = @($activeLaneIds | Group-Object | Where-Object { $_.Count -gt 1 } | ForEach-Object { $_.Name })
+    $checks += New-Check -Name "workflow_runtime_lane_queue_unique_lane_ids" `
+      -Passed (@($duplicateLaneIds).Count -eq 0) `
+      -Expected "lane IDs are unique" `
+      -Observed $(if (@($duplicateLaneIds).Count -eq 0) { "unique" } else { "duplicates: $($duplicateLaneIds -join ', ')" })
+  } catch {
+    $checks += New-Check -Name "workflow_runtime_lane_queue_json_valid" `
+      -Passed $false `
+      -Expected "runtime lane queue JSON parses" `
+      -Observed $_.Exception.Message
+  }
+} else {
+  $checks += New-Check -Name "workflow_runtime_lane_queue_json_valid" `
+    -Passed $false `
+    -Expected "runtime lane queue JSON parses" `
+    -Observed "workflow queue missing"
+}
 
 $registryExists = Test-Path -LiteralPath $RegistryFile
 $checks += New-Check -Name "registry_file_exists" `
@@ -415,8 +457,8 @@ $record = [ordered]@{
   scope = @(
     "Plan/Registries/Models/model_registry.jsonl",
     "Plan/Registries/Models/model_runtime_validation_queue.csv",
-    "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
-    "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/runtime_requirements.json"
+    "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+    "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/<queued-lane>/runtime_requirements.json"
   )
   local_only = $true
   aws_contacted = $false
@@ -427,8 +469,10 @@ $record = [ordered]@{
   generation_executed = $false
   registry_file = $(if ($registryExists) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $RegistryFile } else { $RegistryFile })
   runtime_validation_queue_file = $(if ($queueExists) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $RuntimeQueueFile } else { $RuntimeQueueFile })
+  workflow_runtime_lane_queue_file = $(if ($workflowQueueExists) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $WorkflowQueueFile } else { $WorkflowQueueFile })
   registry_record_count = @($registryEntries).Count
   runtime_validation_queue_row_count = @($queueRows).Count
+  workflow_runtime_lane_count = @($activeLaneIds).Count
   active_lane_ids = $activeLaneIds
   checks = $checks
   registry_record_checks = $recordChecks
@@ -442,7 +486,7 @@ $record = [ordered]@{
     "Does not start EC2 or contact ComfyUI.",
     "Does not execute generation or perform generated artifact visual QA."
   )
-  next_action = "After AWS auth is refreshed, run EC2 static path/hash proof for the first queued low-risk SDXL lane, then bounded workflow smoke, pullback, and image QA."
+  next_action = "Before adding or promoting any queued lane, keep runtime_lane_queue.json, runtime_requirements.json, model_registry.jsonl, and model_runtime_validation_queue.csv aligned; then run EC2 proof only after auth, Git, queue, registry, and lane-readiness gates pass."
 }
 
 $outDir = Split-Path -Parent $OutFile
