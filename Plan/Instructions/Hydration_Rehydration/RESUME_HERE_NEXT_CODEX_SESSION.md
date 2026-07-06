@@ -20,6 +20,7 @@ Start by reading this file, then re-open the standard hydration files in this fo
 - Passed local static validation for the selected SDXL lane and recorded dry-run evidence for the EC2 proof helper.
 - Added a bounded ComfyUI smoke helper and generated the patched `/prompt` request body for the selected SDXL lane without starting EC2 or running generation.
 - Added an image artifact QA helper and generated a pending-artifact QA record/checklist for the future selected-lane smoke output.
+- Added a secret-safe AWS auth gate helper and recorded redacted evidence that AWS remote browser authorization is still required before EC2 work can resume.
 
 ## Current goal
 
@@ -27,14 +28,14 @@ Refresh AWS auth, complete EC2 static proof for the selected lane, then run boun
 
 ## Next exact action
 
-Refresh AWS CLI default login:
+Complete AWS CLI remote browser login in an interactive/browser-capable shell, then rerun the auth gate:
 
 ```powershell
 aws login --remote
-aws sts get-caller-identity --query Account --output text
+powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-AwsAuthGate.ps1 -AttemptRemoteLogin -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W60_W61_AWS_AUTH_GATE_<timestamp>.json
 ```
 
-The account must be `029530099913` before EC2 work resumes.
+The account must be `029530099913`, `ec2_work_allowed` must be `true`, and `safe_to_start_ec2` must be `true` before EC2 work resumes.
 
 Then rerun the EC2 static lane proof for `sdxl_low_risk_fallback_lane`:
 
@@ -84,11 +85,14 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\S
 - `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_DRY_RUN_20260706T030037-0500.json`
 - `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_CHECKLIST_DRY_RUN_20260706T030037-0500.md`
 - `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W61_IMAGE_ARTIFACT_QA_HELPER_DRY_RUN_20260706T030037-0500.md`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_AUTH_GATE_20260706T031007-0500.json`
+- `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W60_W61_AWS_AUTH_GATE_HELPER_20260706T031007-0500.md`
 
 ## Must not repeat
 
 - Do not print token values from `.env`.
 - Do not start any EC2 instance except `i-0560bf8d143f93bb1`.
+- Do not start EC2 until `Test-AwsAuthGate.ps1` verifies account `029530099913` and reports `safe_to_start_ec2=true`.
 - Do not leave EC2 running.
 - Do not run generation until prerequisite matching object-info, path, and hash proof is recorded.
 - Do not claim final project completion until runtime and artifact QA gates have direct evidence.
