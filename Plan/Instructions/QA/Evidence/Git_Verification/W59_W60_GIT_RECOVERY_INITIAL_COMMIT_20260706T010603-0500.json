@@ -1,0 +1,101 @@
+{
+  "evidence_id": "EVID-W59-W60-GIT-RECOVERY-INITIAL-COMMIT-20260706T010603-0500",
+  "created_at": "2026-07-06T01:06:03-05:00",
+  "artifact_id": "BLOCKER-W59-GIT-001",
+  "artifact_type": "git_recovery_initial_commit_and_push",
+  "tracker_ids": [
+    "TRK-W59-004",
+    "TRK-W60-001",
+    "TRK-W60-009"
+  ],
+  "item_ids": [
+    "W59-007",
+    "W60-001",
+    "W60-009"
+  ],
+  "qa_protocol_used": [
+    "GITHUB_REPOSITORY_OPERATING_INDEX.md",
+    "GITHUB_MINIMAL_PERSONAL_PROJECT_PROTOCOL.md",
+    "SECRETS_ENV_HANDLING_PROTOCOL.md",
+    "TRACKER_UPDATE_PROTOCOL.md",
+    "QA_EVIDENCE_LOG_PROTOCOL.md"
+  ],
+  "recovery_decision": {
+    "selected_option": "initialize_git_in_canonical_project_folder_add_origin_fetch_commit_push",
+    "reason": "User clarified that the missing .git blocker should be resolved by creating Git metadata in C:\\Comfy_UI_Main. The canonical remote had no refs before the initial push.",
+    "mutation_performed": true
+  },
+  "commands_and_results": [
+    {
+      "command": "git -C C:\\Comfy_UI_Main init -b main",
+      "result": "pass",
+      "exit_code": 0
+    },
+    {
+      "command": "git -C C:\\Comfy_UI_Main remote add origin https://github.com/KevinSGarrett/Comfy_UI_Main.git",
+      "result": "pass",
+      "exit_code": 0
+    },
+    {
+      "command": "git -C C:\\Comfy_UI_Main fetch origin",
+      "result": "pass",
+      "exit_code": 0,
+      "remote_heads_before_initial_push": 0
+    },
+    {
+      "command": "git lfs install --local",
+      "result": "pass",
+      "exit_code": 0
+    },
+    {
+      "command": "pre-commit guard: staged path guard and staged secret scan",
+      "result": "pass",
+      "blocked_staged_paths": 0,
+      "secret_scan_matches": 0
+    },
+    {
+      "command": "git commit -m \"Wave 62: initialize autonomous ComfyUI project state\"",
+      "result": "pass",
+      "exit_code": 0,
+      "commit": "032be6fd96e1b3d8edd3cb2a8c135515c5b10f2d"
+    },
+    {
+      "command": "git push -u origin main",
+      "result": "pass_with_notes",
+      "note": "PowerShell reported native command stderr as nonzero, but Git output and subsequent remote HEAD verification show branch main and LFS objects were pushed."
+    },
+    {
+      "command": "git ls-remote origin refs/heads/main",
+      "result": "pass",
+      "remote_head": "032be6fd96e1b3d8edd3cb2a8c135515c5b10f2d",
+      "matches_local_head": true
+    }
+  ],
+  "secret_and_ignore_validation": {
+    "env_file_present": true,
+    "env_ignored": true,
+    "env_tracked": false,
+    "env_values_printed": false,
+    "gitignore_present": true,
+    "env_example_present": true
+  },
+  "lfs_validation": {
+    "git_lfs_available": true,
+    "lfs_file_count": 8,
+    "lfs_files": [
+      "Plan/Items/Waves/Wave48/wave48_tracker_rows.csv",
+      "Plan/Items/Waves/Wave50/wave50_tracker_rows.csv",
+      "Plan/Items/Waves/Wave55/wave55_item_rows.csv",
+      "Plan/Items/wave48_52_master_autonomous_tracker.csv",
+      "Plan/Items/wave53_57_master_itemized_list.csv",
+      "Plan/Tracker/Waves/Wave48/wave48_tracker_rows.csv",
+      "Plan/Tracker/Waves/Wave50/wave50_tracker_rows.csv",
+      "Plan/Tracker/wave48_52_master_autonomous_tracker.csv"
+    ]
+  },
+  "result": "pass",
+  "known_issues": [
+    "A second commit is required after this evidence file and tracker/hydration updates are written."
+  ],
+  "next_action": "Commit and push the Git recovery evidence/tracker updates, then continue with the next project validation lane."
+}

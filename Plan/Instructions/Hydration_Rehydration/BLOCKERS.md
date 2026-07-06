@@ -8,15 +8,10 @@ None for Wave 59 live local directory/index validation. `ISSUE-W59-INDEX-001` wa
 
 ## Active blockers
 
-- `BLOCKER-W59-GIT-001`
-  - affected tracker IDs: `TRK-W59-004`, `TRK-W60-001`
-  - blocker type: local_git_repository_missing
-  - failed condition: `C:\Comfy_UI_Main` does not contain `.git`, so Git root, remote, branch, HEAD, working tree, and `.env` tracking status cannot be verified.
-  - local filesystem involved: yes
-  - GitHub involved: yes, but no network action was attempted.
-  - fix already applied: root `.gitignore` and `.env.example` were created and validated.
-  - best non-blocked next task: continue local non-Git validation, or explicitly select a dedicated Git recovery task to initialize/link/fetch safely.
-  - evidence: `Plan/Instructions/QA/Evidence/Git_Verification/W59_W60_GIT_LOCAL_VERIFICATION_20260706T004200-0500.json`
+- `BLOCKER-W59-GIT-001` - resolved 2026-07-06T01:06:03-05:00
+  - affected tracker IDs: `TRK-W59-004`, `TRK-W60-001`, `TRK-W60-009`
+  - resolution: initialized Git metadata in `C:\Comfy_UI_Main`, configured canonical origin, enabled Git LFS for oversized CSVs, created initial commit, pushed `main`, and verified remote HEAD matches local HEAD.
+  - evidence: `Plan/Instructions/QA/Evidence/Git_Verification/W59_W60_GIT_RECOVERY_INITIAL_COMMIT_20260706T010603-0500.json`
 
 - `BLOCKER-W62-ZIP-001`
   - affected tracker ID: `TRK-W62-009`

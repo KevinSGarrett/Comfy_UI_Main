@@ -4,7 +4,7 @@
 2026-07-06T00:36:08-05:00
 
 ## State
-Rehydration completed for the Wave 58-62 autonomous instruction system. Wave 59 live local directory/index validation is complete with evidence. Secret-safe local Git verification found an active blocker because `C:\Comfy_UI_Main` lacks `.git` metadata. Wave 60 local static validation of operations helper scripts, schemas, and templates is complete with evidence. Wave 61 QA helper local validation is complete with evidence. Wave 62 session-state helper validation is complete with evidence; cumulative pack zip validation is pending because no local zip was found.
+Rehydration completed for the Wave 58-62 autonomous instruction system. Wave 59 live local directory/index validation is complete with evidence. Git recovery for `C:\Comfy_UI_Main` is complete through initial commit and push. Wave 60 local static validation of operations helper scripts, schemas, and templates is complete with evidence. Wave 61 QA helper local validation is complete with evidence. Wave 62 session-state helper validation is complete with evidence; cumulative pack zip validation is pending because no local zip was found.
 
 ## Session end timestamp
 2026-07-06T00:57:38-05:00
@@ -31,19 +31,16 @@ Rehydration completed for the Wave 58-62 autonomous instruction system. Wave 59 
 - Parsed Wave 62 hydration helper scripts/templates with zero parse failures.
 - Smoke-tested `New-SessionState.ps1` into QA evidence.
 - Recorded `BLOCKER-W62-ZIP-001` because no cumulative zip exists under `C:\Comfy_UI_Main` for `Test-CumulativeWavePack.ps1`.
+- Resolved `BLOCKER-W59-GIT-001` by initializing Git, configuring origin, enabling LFS, committing project state, pushing `main`, and verifying remote HEAD `032be6fd96e1b3d8edd3cb2a8c135515c5b10f2d`.
 
 ## Active tracker rows
-- `TRK-W59-004`: blocked by missing Git repository metadata.
-- `TRK-W60-001`: blocked by missing Git repository metadata.
 - `TRK-W62-009`: pending cumulative zip validation because no zip was found.
 
 ## Active item rows
-- `W59-007`: blocked live Git verification.
-- `W60-001`: blocked live Git verification.
 - `ITEM-W62-009`: pending cumulative zip validation.
 
 ## Pending validation in scope
-- Git recovery preflight for `BLOCKER-W59-GIT-001`.
+- Commit and push Git recovery evidence/tracker updates created after the initial project-state commit.
 
 ## Pending runtime validation out of scope for current task
 - Live GitHub remote/token status.
@@ -54,8 +51,7 @@ Rehydration completed for the Wave 58-62 autonomous instruction system. Wave 59 
 - Live artifact QA on actual outputs.
 
 ## Blockers
-- `BLOCKER-W59-GIT-001`: `C:\Comfy_UI_Main` is not a Git repository. This blocks Git remote/status verification and any push/pull/commit from the canonical folder, but does not block local non-Git validation.
 - `BLOCKER-W62-ZIP-001`: no cumulative zip exists under `C:\Comfy_UI_Main`; cumulative pack tester live validation is pending.
 
 ## Next action
-Run dedicated Git recovery preflight for `C:\Comfy_UI_Main` without initializing, fetching, pulling, committing, or pushing until a safe recovery decision is recorded.
+Commit and push the Git recovery evidence/tracker updates, then select the next highest-value validation task.

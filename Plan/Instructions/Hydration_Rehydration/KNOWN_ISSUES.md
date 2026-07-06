@@ -14,5 +14,5 @@ The final pack defines instructions and protocols. It does not prove live runtim
 
 ## Active known issues
 
-- `ISSUE-W59-GIT-001`: `C:\Comfy_UI_Main` is not currently a Git repository, so live Git remote/status verification is blocked. `.gitignore` and `.env.example` have been created and validated, but no Git push/pull/commit should be attempted from this folder until a dedicated Git recovery task is selected. Evidence: `Plan/Instructions/QA/Evidence/Git_Verification/W59_W60_GIT_LOCAL_VERIFICATION_20260706T004200-0500.json`.
+- `ISSUE-W59-GIT-001` (resolved 2026-07-06T01:06:03-05:00): `C:\Comfy_UI_Main` was not a Git repository. Resolved by initializing Git metadata, adding canonical origin, enabling LFS for oversized CSVs, committing, pushing `main`, and verifying remote HEAD. Evidence: `Plan/Instructions/QA/Evidence/Git_Verification/W59_W60_GIT_RECOVERY_INITIAL_COMMIT_20260706T010603-0500.json`.
 - `ISSUE-W62-ZIP-001`: No cumulative zip file exists under `C:\Comfy_UI_Main`; cumulative pack tester parsed successfully but live pack validation is pending until a real zip is restored or created. Evidence: `Plan/Instructions/QA/Evidence/Hydration_Helper_Static_Validation/W62_HYDRATION_HELPER_STATIC_VALIDATION_20260706T005425-0500.json`.

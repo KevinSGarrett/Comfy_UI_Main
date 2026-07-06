@@ -1,13 +1,13 @@
 # Next Action
 
-Initialize and verify Git in the canonical project folder:
+Commit and push the Git recovery evidence/tracker updates that were created after the initial project-state commit:
 
 ```powershell
-git -C C:\Comfy_UI_Main init -b main
-git -C C:\Comfy_UI_Main remote add origin https://github.com/KevinSGarrett/Comfy_UI_Main.git
-git -C C:\Comfy_UI_Main fetch origin
 git -C C:\Comfy_UI_Main status --branch --short
-git -C C:\Comfy_UI_Main check-ignore -v .env
+git -C C:\Comfy_UI_Main add Plan\Instructions
+git -C C:\Comfy_UI_Main diff --cached --name-only
+git -C C:\Comfy_UI_Main commit -m "Tracker: record Git recovery evidence"
+git -C C:\Comfy_UI_Main push origin main
 ```
 
-Do not commit, push, pull, or merge until fetch/status results are recorded and local-vs-remote file state is understood.
+Before committing, rerun the staged path guard and staged secret scan. Do not add `.env`.
