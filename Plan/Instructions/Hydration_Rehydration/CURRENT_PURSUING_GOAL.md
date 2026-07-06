@@ -16,4 +16,4 @@ SELECTED_AUTHORED_STATIC_SMOKE_IMAGE_QA_AUTH_GATE_PULLBACK_PROFILE_AWARE_LANE_RE
 Added and validated the local runtime lane queue. Current evidence records `result=pass_local_only`, first runtime lane `sdxl_low_risk_fallback_lane`, queued lane count 2, failed check count 0, QA helper result `pass_local_only`, and operations helper result `pass_local_only`.
 
 ## Next Action
-Regenerate generated indexes, checkpoint the runtime lane queue validation, then complete AWS browser/SSO login before EC2 static proof for `sdxl_low_risk_fallback_lane`.
+Complete AWS browser/SSO login, rerun the auth and lane-readiness gates, then start EC2 static proof for the first queued lane only after the auth and Git checkpoint gates pass.
