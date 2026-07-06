@@ -362,6 +362,13 @@ function New-CommandStep {
   }
 }
 
+function New-MarkdownCode {
+  param([string]$Text)
+
+  $tick = [string][char]96
+  return ("{0}{1}{0}" -f $tick, $Text)
+}
+
 $stamp = (Get-Date -Format "yyyyMMddTHHmmsszzz").Replace(":", "")
 $createdAt = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
 
@@ -683,20 +690,37 @@ $record = [ordered]@{
   )
 }
 
+$markdownFence = ([string][char]96) * 3
 $markdownCommands = ($commandSequence | ForEach-Object {
-  @"
-### $($_.name)
-
-Gate: $($_.gate)
-
-```powershell
-$($_.command)
-```
-
-Expected evidence: $($_.expected_evidence)
-
-"@
+  @(
+    "### $($_.name)",
+    "",
+    "Gate: $($_.gate)",
+    "",
+    ("{0}powershell" -f $markdownFence),
+    "$($_.command)",
+    $markdownFence,
+    "",
+    "Expected evidence: $($_.expected_evidence)",
+    ""
+  ) -join "`n"
 }) -join "`n"
+
+$mdApprovedInstanceId = New-MarkdownCode "i-0560bf8d143f93bb1"
+$mdExpectedAwsAccount = New-MarkdownCode "029530099913"
+$mdAuthEc2Allowed = New-MarkdownCode "ec2_work_allowed=true"
+$mdAuthSafeToStart = New-MarkdownCode "safe_to_start_ec2=true"
+$mdFirstRuntimeLane = New-MarkdownCode "first_runtime_lane_id=$LaneId"
+$mdQueueOrder = New-MarkdownCode "1"
+$mdFailedCheckZero = New-MarkdownCode "0"
+$mdCoverageResult = New-MarkdownCode "result=pass_local_only"
+$mdCoverageLane = New-MarkdownCode $LaneId
+$mdCoveragePass = New-MarkdownCode "pass"
+$mdHead = New-MarkdownCode "HEAD"
+$mdOriginMain = New-MarkdownCode "origin/main"
+$mdLaneReadyId = New-MarkdownCode "lane_id=$LaneId"
+$mdReadyForStaticProof = New-MarkdownCode "ready_for_ec2_static_proof=true"
+$mdStopped = New-MarkdownCode "stopped"
 
 $markdown = @"
 # Runtime Unblock Handoff
@@ -723,15 +747,15 @@ $markdown = @"
 
 ## Safety Invariants
 
-- Start only EC2 instance `i-0560bf8d143f93bb1`.
-- Expected AWS account is `029530099913`.
-- Do not start EC2 unless auth gate reports `ec2_work_allowed=true` and `safe_to_start_ec2=true`.
-- Do not start EC2 unless runtime lane queue validation reports `first_runtime_lane_id=$LaneId`, selected lane order `1`, and failed check count `0`.
-- Do not start EC2 unless model registry coverage reports `result=pass_local_only`, selected lane `$LaneId` result `pass`, and failed check count `0`.
-- Do not start EC2 unless local Git is clean and `HEAD` equals `origin/main`.
-- Do not run EC2 static proof unless lane readiness reports `lane_id=$LaneId` and `ready_for_ec2_static_proof=true`.
+- Start only EC2 instance $mdApprovedInstanceId.
+- Expected AWS account is $mdExpectedAwsAccount.
+- Do not start EC2 unless auth gate reports $mdAuthEc2Allowed and $mdAuthSafeToStart.
+- Do not start EC2 unless runtime lane queue validation reports $mdFirstRuntimeLane, selected lane order $mdQueueOrder, and failed check count $mdFailedCheckZero.
+- Do not start EC2 unless model registry coverage reports $mdCoverageResult, selected lane $mdCoverageLane result $mdCoveragePass, and failed check count $mdFailedCheckZero.
+- Do not start EC2 unless local Git is clean and $mdHead equals $mdOriginMain.
+- Do not run EC2 static proof unless lane readiness reports $mdLaneReadyId and $mdReadyForStaticProof.
 - Do not run generation until object-info, checkpoint path, and checkpoint hash proof exists.
-- Stop EC2 after runtime work and verify final state `stopped`.
+- Stop EC2 after runtime work and verify final state $mdStopped.
 
 ## Command Sequence
 

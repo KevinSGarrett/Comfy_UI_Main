@@ -45,8 +45,8 @@ None currently active for local Wave 58-62 static and packaging validation.
   - affected tracker IDs: `TRK-W59-004`, `TRK-W60-001`, `TRK-W60-009`
   - resolution: initialized Git metadata in `C:\Comfy_UI_Main`, configured canonical origin, enabled Git LFS for oversized CSVs, created initial commit, pushed `main`, and verified remote HEAD matches local HEAD.
   - evidence: `Plan/Instructions/QA/Evidence/Git_Verification/W59_W60_GIT_RECOVERY_INITIAL_COMMIT_20260706T010603-0500.json`
-  - latest recheck: 2026-07-06T09:45:00-05:00 confirmed `C:\Comfy_UI_Main` is the canonical repo, `.git` exists, `origin` is configured as `https://github.com/KevinSGarrett/Comfy_UI_Main.git`, `.env` is ignored and untracked, and current uncommitted work is real model-registry gate integration inside `C:\Comfy_UI_Main` pending checkpoint. Do not recreate Git metadata or switch to `C:\Comfy_UI`.
-  - latest recheck evidence: `Plan/Instructions/QA/Evidence/Git_Verification/W59_W60_GIT_CURRENT_RECHECK_20260706T063842-0500.json`
+  - latest recheck: 2026-07-06T10:15:00-05:00 confirmed `C:\Comfy_UI_Main` is the canonical repo, `.git` exists, `origin` is configured as `https://github.com/KevinSGarrett/Comfy_UI_Main.git`, `.env` is ignored and untracked, `GITHUB_TOKEN` and `CIVITAI_API_KEY` variable names are present without values printed, and root preflight passed with local `HEAD` matching `origin/main` at `2a1449601bc2d022fa5034fd2b5940f3ef3a474e`. Do not recreate Git metadata or switch to `C:\Comfy_UI`.
+  - latest recheck evidence: `runtime_artifacts/run_manifests/ROOT_LOCAL_PREFLIGHT_MODEL_REGISTRY_GATE_20260706T101500-0500.json`
 
 - `BLOCKER-W62-ZIP-001` - resolved 2026-07-06T01:15:48-05:00
   - affected tracker ID: `TRK-W62-009`

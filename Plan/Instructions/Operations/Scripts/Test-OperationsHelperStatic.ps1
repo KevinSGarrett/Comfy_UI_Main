@@ -299,6 +299,36 @@ function Invoke-LocalHelper {
         if (-not [bool]$payload.markdown_written) {
           throw "$Name did not write its Markdown handoff."
         }
+        $expectedMarkdownFile = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+        if (-not (Test-Path -LiteralPath $expectedMarkdownFile)) {
+          throw "$Name did not create the expected Markdown handoff: $expectedMarkdownFile"
+        }
+        $markdownBytes = [System.IO.File]::ReadAllBytes($expectedMarkdownFile)
+        $allowedControlBytes = @(9, 10, 13)
+        $unexpectedControlBytes = @($markdownBytes | Where-Object { ([int]$_ -lt 32) -and ($allowedControlBytes -notcontains [int]$_) })
+        if ($unexpectedControlBytes.Count -gt 0) {
+          throw "$Name Markdown handoff contains unexpected control characters."
+        }
+        $markdownText = Get-Content -LiteralPath $expectedMarkdownFile -Raw
+        $tick = [string][char]96
+        $markdownFence = $tick * 3
+        $selectedLaneForMarkdown = [string]$payload.gate_summary.runtime_lane_queue.first_runtime_lane_id
+        if ([string]::IsNullOrWhiteSpace($selectedLaneForMarkdown)) {
+          $selectedLaneForMarkdown = "sdxl_low_risk_fallback_lane"
+        }
+        $requiredMarkdownSnippets = @(
+          ("{0}powershell" -f $markdownFence),
+          ("Expected AWS account is {0}029530099913{0}" -f $tick),
+          ("first_runtime_lane_id={0}" -f $selectedLaneForMarkdown),
+          "result=pass_local_only",
+          "ready_for_ec2_static_proof=true",
+          "-RunPackageManifestFile"
+        )
+        foreach ($requiredMarkdownSnippet in $requiredMarkdownSnippets) {
+          if (-not $markdownText.Contains($requiredMarkdownSnippet)) {
+            throw "$Name Markdown handoff is missing required text: $requiredMarkdownSnippet"
+          }
+        }
         if (@($payload.command_sequence).Count -lt 8) {
           throw "$Name command_sequence is missing expected post-auth steps."
         }

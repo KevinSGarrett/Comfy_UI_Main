@@ -2,6 +2,8 @@
 
 ## Current local work completed
 
+As of 2026-07-06T10:15:00-05:00, Codex pushed the root preflight model-registry gate commit to `origin/main` and reran `tools/Test-RootProjectPreflight.ps1` from `C:\Comfy_UI_Main`. Current evidence `runtime_artifacts/run_manifests/ROOT_LOCAL_PREFLIGHT_MODEL_REGISTRY_GATE_20260706T101500-0500.json` reports `pass_local_only`, failed check count `0`, `.git` present, `HEAD == origin/main`, `.env` ignored with GitHub/Civitai variable names present, root file structure present, active exported lanes static-valid, and model registry coverage passing for both active lanes. The stale `BLOCKER-W59-GIT-001` no-`.git` report is not active.
+
 As of 2026-07-06T07:52:41-05:00, Codex completed queue-aware project readiness and runtime handoff hardening. `Test-ProjectReadinessSnapshot.ps1` imports runtime lane queue evidence and only allows EC2 static-proof readiness when the selected lane is first in `runtime_lane_queue.json`. `New-RuntimeUnblockHandoff.ps1` records the queue gate, includes a `runtime_lane_queue_recheck` command, and carries the `do_not_start_ec2_unless_runtime_lane_queue_allows` safety invariant. `Test-QAHelperStatic.ps1` contract-checks the queue gate. This work did not contact AWS, GitHub APIs, Civitai, ComfyUI, start EC2, or run generation.
 
 Current local validation is refreshed through the scan-safe project readiness snapshot, current Git blocker recheck, QA helper project-readiness contract validation, runtime unblock handoff validation, runtime handoff readiness contract validation, EC2 Git checkpoint gate validation, post-checkpoint Git recheck evidence, lane-aware project handoff validation, authored-lane local pre-EC2 evidence coverage, runtime lane queue validation, queue-aware project readiness/handoff retests, generated index refresh for the queue-aware slice, top-level workflow export/static validation, root local preflight, and a local run package for the first queued lane. The next runtime-unblocking action remains AWS CLI remote browser/SSO login in an interactive/browser-capable shell.
@@ -78,6 +80,14 @@ Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_MODE
 ```
 
 It records `gate_summary.run_package.valid=true`, profile `hyperreal_editorial_portrait_v1`, prompt hash match `true`, `gate_summary.model_registry_coverage.coverage_allows_selected_lane_ec2_static_proof=true`, command step count `11`, and a bounded workflow-smoke command containing `-RunPackageManifestFile`. Use its Markdown pair `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.md` as the current post-auth command handoff.
+
+Current root preflight evidence:
+
+```text
+runtime_artifacts/run_manifests/ROOT_LOCAL_PREFLIGHT_MODEL_REGISTRY_GATE_20260706T101500-0500.json
+```
+
+It proves `C:\Comfy_UI_Main` is the Git repository root, local `main` matched `origin/main` during the check, `.env` was ignored, required root directories exist, active lane exports validate, and model registry coverage is a required/passing EC2 preflight gate. Later evidence commits may advance `HEAD`, so rerun this preflight or the Git checkpoint recheck before any EC2 `-Execute` path.
 
 Do not start EC2 unless the auth gate reports:
 
