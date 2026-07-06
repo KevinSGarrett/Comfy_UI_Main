@@ -143,6 +143,16 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Oper
 
 Current local validation proves this helper excludes `REMOTE_ARTIFACT_MANIFEST.json` from artifact counts and hashes, so a manifest listing one generated image verifies as one local generated image.
 
+Current active model registry coverage:
+
+```text
+Plan/Registries/Models/model_registry.jsonl
+Plan/Registries/Models/model_runtime_validation_queue.csv
+Plan/Instructions/QA/Evidence/Model_Registry/W61_MODEL_REGISTRY_COVERAGE_20260706T093415-0500.json
+```
+
+It proves both active SDXL lanes have checkpoint registry records and queued runtime-validation rows. RealVisXL V5.0 metadata was fetched through the Civitai helper after fixing URL encoding, and the cached metadata confirms model id `139562`, version id `789646`, file `realvisxlV50_v50Bakedvae.safetensors`, and source SHA256 `6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80`. This does not download model binaries or replace EC2 path/hash/load proof.
+
 Then route the pulled-back image to image QA:
 
 ```powershell

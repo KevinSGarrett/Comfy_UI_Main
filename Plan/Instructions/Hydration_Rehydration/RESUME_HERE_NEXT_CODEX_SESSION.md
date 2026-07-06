@@ -389,6 +389,16 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\S
 - `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_HYPERREAL_PACKAGE_20260706T092429-0500.json`
 - `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_HYPERREAL_PACKAGE_20260706T092429-0500.md`
 - `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_PACKAGE_HANDOFF_20260706T092429-0500.json`
+- `Plan/Registries/Models/model_registry.jsonl`
+- `Plan/Registries/Models/model_runtime_validation_queue.csv`
+- `Plan/Registries/Models/model_registry_index.md`
+- `Plan/Registries/Models/metadata/civitai/realvisxl_query_20260706T093109-0500.json`
+- `Plan/Instructions/Operations/Scripts/Invoke-CivitaiModelLookup.ps1`
+- `Plan/Instructions/QA/Scripts/Test-WorkflowModelRegistryCoverage.ps1`
+- `Plan/Instructions/QA/Evidence/Model_Registry/W61_MODEL_REGISTRY_COVERAGE_20260706T093415-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_MODEL_REGISTRY_COVERAGE_20260706T093415-0500.json`
+- `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_CIVITAI_MODEL_REGISTRY_20260706T093415-0500.json`
+- `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_MODEL_REGISTRY_COVERAGE_20260706T093806-0500.json`
 
 ## Must not repeat
 
@@ -424,3 +434,5 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\S
 - Use `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_HYPERREAL_PACKAGE_20260706T092429-0500.md` as the current post-auth handoff; older handoffs may omit the package manifest argument.
 - Do not claim final project completion until runtime and artifact QA gates have direct evidence.
 - Do not treat GitHub or Civitai token presence in `.env` as AWS auth proof; latest STS/profile-matrix evidence shows AWS auth itself is expired.
+- Do not rerun the pre-fix Civitai helper path that uses `System.Web.HttpUtility`; `Invoke-CivitaiModelLookup.ps1` now uses `System.Net.WebUtility` and has successfully cached RealVisXL V5.0 metadata without printing the key.
+- Do not treat `Plan/Registries/Models/model_registry.jsonl` as runtime proof. It is local registry/queue coverage only; EC2 must still prove checkpoint path, hash, model load, generation output, pullback, and image QA.

@@ -1,0 +1,92 @@
+﻿{
+    "evidence_id":  "EVID-W59-LIVE-INDEX-REFRESH-MODEL-REGISTRY-COVERAGE-20260706T093806-0500",
+    "created_at":  "2026-07-06T09:38:06-05:00",
+    "artifact_type":  "index_validation",
+    "scope":  [
+                  "Plan/Instructions/Indexes/Generated/*.csv",
+                  "Plan/Instructions/Indexes/Generated/*.json",
+                  "Plan/Registries/Models",
+                  "Plan/Instructions/QA/Evidence/Model_Registry"
+              ],
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "index_checks":  [
+                         {
+                             "name":  "plan_file_index",
+                             "csv_path":  "Plan/Instructions/Indexes/Generated/plan_file_index.csv",
+                             "json_path":  "Plan/Instructions/Indexes/Generated/plan_file_index.json",
+                             "csv_rows":  2646,
+                             "json_rows":  2646,
+                             "row_count_match":  true
+                         },
+                         {
+                             "name":  "instructions_file_index",
+                             "csv_path":  "Plan/Instructions/Indexes/Generated/instructions_file_index.csv",
+                             "json_path":  "Plan/Instructions/Indexes/Generated/instructions_file_index.json",
+                             "csv_rows":  411,
+                             "json_rows":  411,
+                             "row_count_match":  true
+                         },
+                         {
+                             "name":  "items_file_index",
+                             "csv_path":  "Plan/Instructions/Indexes/Generated/items_file_index.csv",
+                             "json_path":  "Plan/Instructions/Indexes/Generated/items_file_index.json",
+                             "csv_rows":  45,
+                             "json_rows":  45,
+                             "row_count_match":  true
+                         },
+                         {
+                             "name":  "tracker_file_index",
+                             "csv_path":  "Plan/Instructions/Indexes/Generated/tracker_file_index.csv",
+                             "json_path":  "Plan/Instructions/Indexes/Generated/tracker_file_index.json",
+                             "csv_rows":  26,
+                             "json_rows":  26,
+                             "row_count_match":  true
+                         }
+                     ],
+    "discovery_checks":  [
+                             {
+                                 "path":  "Plan/Registries/Models/model_registry.jsonl",
+                                 "indexed":  true
+                             },
+                             {
+                                 "path":  "Plan/Registries/Models/model_runtime_validation_queue.csv",
+                                 "indexed":  true
+                             },
+                             {
+                                 "path":  "Plan/Registries/Models/model_registry_index.md",
+                                 "indexed":  true
+                             },
+                             {
+                                 "path":  "Plan/Registries/Models/metadata/civitai/realvisxl_query_20260706T093109-0500.json",
+                                 "indexed":  true
+                             },
+                             {
+                                 "path":  "Plan/Instructions/QA/Scripts/Test-WorkflowModelRegistryCoverage.ps1",
+                                 "indexed":  true
+                             },
+                             {
+                                 "path":  "Plan/Instructions/QA/Evidence/Model_Registry/W61_MODEL_REGISTRY_COVERAGE_20260706T093415-0500.json",
+                                 "indexed":  true
+                             },
+                             {
+                                 "path":  "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_MODEL_REGISTRY_COVERAGE_20260706T093415-0500.json",
+                                 "indexed":  true
+                             },
+                             {
+                                 "path":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_CIVITAI_MODEL_REGISTRY_20260706T093415-0500.json",
+                                 "indexed":  true
+                             }
+                         ],
+    "failed_check_count":  0,
+    "result":  "pass",
+    "known_limits":  [
+                         "Index refresh proves discoverability only; it does not prove model download, EC2 path/hash, ComfyUI load, generation, or visual QA."
+                     ],
+    "next_action":  "Checkpoint model registry coverage, then continue with AWS-auth-gated EC2 static proof when available."
+}

@@ -752,6 +752,13 @@ $localSmokeResults += Invoke-LocalHelper -Name "runtime_lane_queue_validation_sm
   -ExpectedOutputFile $runtimeLaneQueueFile `
   -ExpectedOutputType "json"
 
+$modelRegistryCoverageFile = Join-Path $tempRoot "workflow_model_registry_coverage.json"
+$localSmokeResults += Invoke-LocalHelper -Name "workflow_model_registry_coverage_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "Test-WorkflowModelRegistryCoverage.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-OutFile", $modelRegistryCoverageFile) `
+  -ExpectedOutputFile $modelRegistryCoverageFile `
+  -ExpectedOutputType "json"
+
 $itemsTrackerValidationFile = Join-Path $tempRoot "items_tracker_package_validation.json"
 $localSmokeResults += Invoke-LocalHelper -Name "items_tracker_package_validation_smoke" `
   -ScriptPath (Join-Path $scriptsRoot "Test-ItemsTrackerPackageStatic.ps1") `

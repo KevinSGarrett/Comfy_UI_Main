@@ -21,8 +21,8 @@ if ($env:CIVITAI_API_TOKEN) { $headers["Authorization"] = "Bearer $env:CIVITAI_A
 elseif ($env:CIVITAI_TOKEN) { $headers["Authorization"] = "Bearer $env:CIVITAI_TOKEN" }
 elseif ($env:CIVITAI_API_KEY) { $headers["Authorization"] = "Bearer $env:CIVITAI_API_KEY" }
 
-$encodedQuery = [System.Web.HttpUtility]::UrlEncode($Query)
-$encodedTypes = [System.Web.HttpUtility]::UrlEncode($Types)
+$encodedQuery = [System.Net.WebUtility]::UrlEncode($Query)
+$encodedTypes = [System.Net.WebUtility]::UrlEncode($Types)
 $uri = "https://civitai.com/api/v1/models?query=$encodedQuery&types=$encodedTypes&limit=$Limit&primaryFileOnly=true"
 $result = Invoke-RestMethod -Method Get -Uri $uri -Headers $headers
 
