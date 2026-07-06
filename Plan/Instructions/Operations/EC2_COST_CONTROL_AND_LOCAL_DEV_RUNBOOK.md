@@ -80,6 +80,28 @@ Example workflow smoke:
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1 -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -MaxEc2RuntimeMinutes 45 -RunPackageManifestFile <run-package-manifest> -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Runtime\W63_EC2_WORKFLOW_SMOKE_REALVISXL_<timestamp>.json
 ```
 
+## Model Provisioning Cost Rules
+
+Model binaries are not Git project artifacts. Do not commit checkpoints, do not add them to Git LFS as the default provisioning path, and do not spend EC2 time on repeated proof attempts when evidence already says a model is missing.
+
+For missing EC2 models:
+
+1. Read the model registry and runtime requirements first.
+2. Check for an existing approved local file or cache/S3 copy.
+3. If a local/cache copy exists, sync it through an approved non-Git path and verify SHA256 on EC2.
+4. If no local/cache copy exists, prepare the Civitai/Hugging Face source metadata while EC2 is stopped, then use one bounded EC2 model-download/provisioning window.
+5. Stop EC2 after provisioning and verify final state `stopped`.
+6. Rerun EC2 static proof only after the expected file exists.
+
+Current RealVisXL blocker:
+
+```text
+expected_ec2_path: /home/ubuntu/ComfyUI/models/checkpoints/realvisxlV50_v50Bakedvae.safetensors
+source: Civitai model 139562, version 789646, RealVisXL V5.0 (BakedVAE)
+expected_sha256: 6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80
+evidence: Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_REALVISXL_20260706T123028-0500.json
+```
+
 ## No-Loop Rule
 
 If local preflight, model registry coverage, queue, Git, package, and instruction indexes are already current, do not create more local evidence solely to appear busy. Choose one of these:

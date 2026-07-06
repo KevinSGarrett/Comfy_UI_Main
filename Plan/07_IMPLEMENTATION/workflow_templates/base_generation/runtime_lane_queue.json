@@ -1,12 +1,17 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-07-06T07:31:43-05:00",
+  "updated_at": "2026-07-06T12:58:00-05:00",
   "artifact_id": "TRK-W61-006",
   "purpose": "Local queue for base-generation lane runtime proof order before EC2 execution resumes.",
   "local_only": true,
   "selection_policy": {
     "first_runtime_lane_id": "sdxl_low_risk_fallback_lane",
+    "current_runtime_lane_id": "sdxl_realvisxl_base_lane",
+    "completed_runtime_lane_ids": [
+      "sdxl_low_risk_fallback_lane"
+    ],
     "do_not_promote_later_lanes_before_first_lane_runtime_proof": true,
+    "later_lane_promotion_allowed_after_first_lane_runtime_proof": true,
     "requires_aws_auth_gate_before_ec2": true,
     "requires_clean_git_checkpoint_before_ec2_execute": true,
     "requires_lane_matched_evidence": true,
@@ -19,9 +24,14 @@
       "role": "first_ec2_static_proof_and_bounded_smoke_generation",
       "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
       "requirements_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
-      "status": "local_pre_ec2_ready_runtime_blocked_auth",
-      "required_next_runtime_gate": "aws_browser_sso_auth_then_model_registry_coverage_then_lane_readiness_then_ec2_static_proof",
-      "promotion_rule": "May start EC2 only after AWS auth gate, model registry coverage, lane readiness, and Git checkpoint gate pass."
+      "status": "runtime_smoke_proven",
+      "required_next_runtime_gate": "completed_first_runtime_proof",
+      "promotion_rule": "Do not rerun solely to re-prove the path; use as the completed first runtime proof lane unless a user-approved change requires retest.",
+      "proof_evidence": [
+        "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_POST_LOGIN_RETEST_20260706T104311-0500.json",
+        "Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_POST_STATIC_PROOF_RETEST_20260706T110424-0500.json",
+        "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_VISUAL_20260706T122027-0500.json"
+      ]
     },
     {
       "order": 2,
@@ -29,9 +39,13 @@
       "role": "second_sdxl_realvisxl_checkpoint_path_hash_load_output_qa",
       "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/workflow.api.json",
       "requirements_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/runtime_requirements.json",
-      "status": "queued_after_low_risk_runtime_path",
-      "required_next_runtime_gate": "wait_for_low_risk_runtime_path_then_realvisxl_static_proof",
-      "promotion_rule": "Do not use RealVisXL as the first EC2 proof lane; promote only after the low-risk lane proves object-info, checkpoint path/hash, output, and image QA."
+      "status": "current_runtime_blocked_required_checkpoint_missing",
+      "required_next_runtime_gate": "install_or_sync_realvisxl_checkpoint_then_verify_sha256_then_rerun_static_proof",
+      "promotion_rule": "May proceed because the low-risk lane has completed first runtime proof; do not generate until RealVisXL checkpoint exists on EC2 and SHA256 is verified.",
+      "blocker_evidence": [
+        "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_REALVISXL_20260706T123028-0500.json",
+        "Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_REALVISXL_MISSING_MODEL_CLASSIFICATION_20260706T124103-0500.json"
+      ]
     }
   ],
   "runtime_boundary": {
@@ -51,5 +65,5 @@
     "Does not prove checkpoint path/hash or runtime model load.",
     "Does not execute generation or perform generated image QA."
   ],
-  "next_action": "Validate the queue locally, then keep AWS browser/SSO login as the runtime-unblocking gate."
+  "next_action": "Provision the RealVisXL checkpoint through a non-Git path, verify SHA256 on EC2, rerun RealVisXL static proof, then generate only after proof passes."
 }

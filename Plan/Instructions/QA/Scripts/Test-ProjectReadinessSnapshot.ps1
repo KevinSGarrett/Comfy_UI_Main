@@ -358,12 +358,12 @@ if ([string]::IsNullOrWhiteSpace($OutFile)) {
 $latest = [ordered]@{
   auth_gate = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_AUTH_GATE_*.json"
   profile_matrix = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_PROFILE_AUTH_MATRIX_*.json"
-  lane_readiness = Find-LatestJsonByLaneId -Directory $runtimeReadinessDir -Filter "W61_LANE_RUNTIME_READINESS_*.json" -ExpectedLaneId $LaneId
-  runtime_unblock_handoff = Find-LatestJsonByLaneId -Directory $runtimeReadinessDir -Filter "W61_RUNTIME_UNBLOCK_HANDOFF_*.json" -ExpectedLaneId $LaneId
-  runtime_lane_queue = Find-LatestFile -Directory $workflowPrerequisiteDir -Filter "W61_RUNTIME_LANE_QUEUE_VALIDATION*.json"
-  model_registry_coverage = Find-LatestFile -Directory $modelRegistryCoverageDir -Filter "W61_MODEL_REGISTRY_COVERAGE*.json"
-  ec2_static_proof_blocked = Find-LatestJsonByLaneId -Directory $workflowStaticDir -Filter "W61_EC2_LANE_STATIC_PROOF_BLOCKED_EXECUTE_*.json" -ExpectedLaneId $LaneId
-  ec2_workflow_smoke_blocked = Find-LatestJsonByLaneId -Directory $workflowRuntimeDir -Filter "W61_EC2_WORKFLOW_SMOKE_RUN_BLOCKED_EXECUTE_*.json" -ExpectedLaneId $LaneId
+  lane_readiness = Find-LatestJsonByLaneId -Directory $runtimeReadinessDir -Filter "*LANE_RUNTIME_READINESS_*.json" -ExpectedLaneId $LaneId
+  runtime_unblock_handoff = Find-LatestJsonByLaneId -Directory $runtimeReadinessDir -Filter "*RUNTIME_UNBLOCK_HANDOFF_*.json" -ExpectedLaneId $LaneId
+  runtime_lane_queue = Find-LatestFile -Directory $workflowPrerequisiteDir -Filter "*RUNTIME_LANE_QUEUE*.json"
+  model_registry_coverage = Find-LatestFile -Directory $modelRegistryCoverageDir -Filter "*MODEL_REGISTRY_COVERAGE*.json"
+  ec2_static_proof_blocked = Find-LatestJsonByLaneId -Directory $workflowStaticDir -Filter "*EC2_LANE_STATIC_PROOF_BLOCKED_EXECUTE_*.json" -ExpectedLaneId $LaneId
+  ec2_workflow_smoke_blocked = Find-LatestJsonByLaneId -Directory $workflowRuntimeDir -Filter "*EC2_WORKFLOW_SMOKE_RUN_BLOCKED_EXECUTE_*.json" -ExpectedLaneId $LaneId
   operations_validation = Find-LatestJsonByResult -Directory $operationsValidationDir -Filter "W60_OPERATIONS_HELPER_CURRENT_VALIDATION*.json" -AcceptableResults @("pass_local_only")
   qa_validation = Find-LatestJsonByResult -Directory $qaValidationDir -Filter "W61_QA_HELPER_CURRENT_VALIDATION*.json" -AcceptableResults @("pass_local_only")
   hydration_validation = Find-LatestJsonByResult -Directory $hydrationValidationDir -Filter "W62_HYDRATION_HELPER_CURRENT_VALIDATION*.json" -AcceptableResults @("pass_local_only")
@@ -411,11 +411,14 @@ $evidenceChecks = @(
   (Test-JsonEvidence -Name "items_tracker_validation" -Path $latest.items_tracker_validation -AcceptableResults @("pass", "pass_local_only")),
   (Test-JsonEvidence -Name "index_validation" -Path $latest.index_validation -AcceptableResults @("pass")),
   (Test-JsonEvidence -Name "auth_gate" -Path $latest.auth_gate -AcceptableResults @("pass", "blocked_expired_session", "blocked_account_mismatch", "blocked_aws_cli_unavailable", "blocked_remote_login_required", "blocked_unknown_auth_state")),
-  (Test-JsonEvidence -Name "profile_matrix" -Path $latest.profile_matrix -AcceptableResults @("pass", "blocked_no_valid_profile", "blocked_aws_cli_unavailable", "blocked_no_profiles")),
+  (Test-JsonEvidence -Name "profile_matrix" -Path $latest.profile_matrix -AcceptableResults @("pass", "pass_profile_available", "blocked_no_valid_profile", "blocked_aws_cli_unavailable", "blocked_no_profiles")),
   (Test-JsonEvidence -Name "lane_readiness" -Path $latest.lane_readiness -AcceptableResults @("ready_for_generation", "ready_for_ec2_static_proof", "local_pre_ec2_ready_runtime_blocked_auth", "local_pre_ec2_ready_runtime_blocked")),
-  (Test-JsonEvidence -Name "runtime_unblock_handoff" -Path $latest.runtime_unblock_handoff -AcceptableResults @("handoff_ready_runtime_blocked_auth", "handoff_auth_ready_lane_not_ready", "handoff_lane_queue_order_blocked", "handoff_model_registry_blocked", "handoff_ready_for_ec2_static_proof", "handoff_ready_for_generation")),
   (Test-JsonEvidence -Name "runtime_lane_queue" -Path $latest.runtime_lane_queue -AcceptableResults @("pass_local_only")),
-  (Test-JsonEvidence -Name "model_registry_coverage" -Path $latest.model_registry_coverage -AcceptableResults @("pass_local_only")),
+  (Test-JsonEvidence -Name "model_registry_coverage" -Path $latest.model_registry_coverage -AcceptableResults @("pass_local_only"))
+)
+
+$optionalEvidenceChecks = @(
+  (Test-JsonEvidence -Name "runtime_unblock_handoff" -Path $latest.runtime_unblock_handoff -AcceptableResults @("handoff_ready_runtime_blocked_auth", "handoff_auth_ready_lane_not_ready", "handoff_lane_queue_order_blocked", "handoff_model_registry_blocked", "handoff_ready_for_ec2_static_proof", "handoff_ready_for_generation")),
   (Test-JsonEvidence -Name "ec2_static_proof_blocked_execute" -Path $latest.ec2_static_proof_blocked -AcceptableResults @("blocked_before_ec2_start")),
   (Test-JsonEvidence -Name "ec2_workflow_smoke_blocked_execute" -Path $latest.ec2_workflow_smoke_blocked -AcceptableResults @("blocked_before_ec2_start"))
 )
@@ -423,6 +426,13 @@ $evidenceChecks = @(
 foreach ($check in $evidenceChecks) {
   if (!$check.found -or !$check.json_valid -or !$check.acceptable_result) {
     $errors += "Evidence check failed: $($check.name)"
+  }
+}
+foreach ($check in $optionalEvidenceChecks) {
+  if ($check.found -and (!$check.json_valid -or !$check.acceptable_result)) {
+    $errors += "Optional evidence check found an invalid current file: $($check.name)"
+  } elseif (!$check.found) {
+    $warnings += "Optional evidence is not present for this lane yet: $($check.name)"
   }
 }
 
@@ -526,26 +536,31 @@ if (![string]::IsNullOrWhiteSpace($latest.runtime_unblock_handoff) -and (Test-Pa
 if ($laneReadinessSummary.lane_match -ne $true) {
   $errors += "Lane readiness evidence does not match selected LaneId $LaneId."
 }
-if ($runtimeHandoffSummary.local_only -ne $true) {
-  $errors += "Runtime unblock handoff is not marked local-only."
-}
-if ($runtimeHandoffSummary.lane_match -ne $true) {
-  $errors += "Runtime unblock handoff does not match selected LaneId $LaneId."
-}
-if ($runtimeHandoffSummary.aws_contacted -ne $false -or $runtimeHandoffSummary.github_api_contacted -ne $false -or $runtimeHandoffSummary.civitai_contacted -ne $false) {
-  $errors += "Runtime unblock handoff unexpectedly contacted an external service."
-}
-if ($runtimeHandoffSummary.ec2_started -ne $false) {
-  $errors += "Runtime unblock handoff unexpectedly started EC2."
-}
-if ($runtimeHandoffSummary.generation_executed -ne $false) {
-  $errors += "Runtime unblock handoff unexpectedly executed generation."
-}
-if ($runtimeHandoffSummary.command_step_count -lt 8) {
-  $errors += "Runtime unblock handoff command sequence is incomplete."
-}
-if ($runtimeHandoffSummary.markdown_written -ne $true) {
-  $errors += "Runtime unblock handoff markdown record was not written."
+if (![string]::IsNullOrWhiteSpace($latest.runtime_unblock_handoff) -and (Test-Path -LiteralPath $latest.runtime_unblock_handoff)) {
+  if ($runtimeHandoffSummary.lane_match -ne $true) {
+    $warnings += "Latest runtime unblock handoff does not match selected LaneId $LaneId; generate a lane-specific handoff after this snapshot."
+  } else {
+  if ($runtimeHandoffSummary.local_only -ne $true) {
+    $errors += "Runtime unblock handoff is not marked local-only."
+  }
+  if ($runtimeHandoffSummary.aws_contacted -ne $false -or $runtimeHandoffSummary.github_api_contacted -ne $false -or $runtimeHandoffSummary.civitai_contacted -ne $false) {
+    $errors += "Runtime unblock handoff unexpectedly contacted an external service."
+  }
+  if ($runtimeHandoffSummary.ec2_started -ne $false) {
+    $errors += "Runtime unblock handoff unexpectedly started EC2."
+  }
+  if ($runtimeHandoffSummary.generation_executed -ne $false) {
+    $errors += "Runtime unblock handoff unexpectedly executed generation."
+  }
+  if ($runtimeHandoffSummary.command_step_count -lt 8) {
+    $errors += "Runtime unblock handoff command sequence is incomplete."
+  }
+  if ($runtimeHandoffSummary.markdown_written -ne $true) {
+    $errors += "Runtime unblock handoff markdown record was not written."
+  }
+  }
+} else {
+  $warnings += "Runtime unblock handoff has not been generated for selected LaneId $LaneId yet."
 }
 
 $runtimeLaneQueueSummary = [ordered]@{
@@ -557,6 +572,8 @@ $runtimeLaneQueueSummary = [ordered]@{
   selected_lane_order = $null
   first_runtime_lane_id = $null
   first_runtime_lane_match = $false
+  current_runtime_lane_id = $null
+  current_runtime_lane_match = $false
   required_first_runtime_lane_id = "sdxl_low_risk_fallback_lane"
   required_second_lane_id = "sdxl_realvisxl_base_lane"
   queued_lane_count = 0
@@ -574,7 +591,7 @@ $runtimeLaneQueueSummary = [ordered]@{
 if (![string]::IsNullOrWhiteSpace($latest.runtime_lane_queue) -and (Test-Path -LiteralPath $latest.runtime_lane_queue)) {
   $queueJson = Read-JsonFile -Path $latest.runtime_lane_queue
   if (Has-Property -Object $queueJson -Name "result") { $runtimeLaneQueueSummary.result = [string]$queueJson.result }
-  foreach ($name in @("queue_file", "first_runtime_lane_id", "required_first_runtime_lane_id", "required_second_lane_id")) {
+  foreach ($name in @("queue_file", "first_runtime_lane_id", "current_runtime_lane_id", "required_first_runtime_lane_id", "required_second_lane_id")) {
     if (Has-Property -Object $queueJson -Name $name) { $runtimeLaneQueueSummary[$name] = [string]$queueJson.$name }
   }
   foreach ($name in @("queued_lane_count", "failed_check_count")) {
@@ -588,6 +605,7 @@ if (![string]::IsNullOrWhiteSpace($latest.runtime_lane_queue) -and (Test-Path -L
     $runtimeLaneQueueSummary.selected_lane_in_queue = @($runtimeLaneQueueSummary.queued_lanes) -contains [string]$LaneId
   }
   $runtimeLaneQueueSummary.first_runtime_lane_match = ([string]$runtimeLaneQueueSummary.first_runtime_lane_id -eq [string]$LaneId)
+  $runtimeLaneQueueSummary.current_runtime_lane_match = ([string]$runtimeLaneQueueSummary.current_runtime_lane_id -eq [string]$LaneId)
   if (Has-Property -Object $queueJson -Name "lane_queue_results") {
     $selectedQueueLaneMatches = @($queueJson.lane_queue_results | Where-Object { [string]$_.lane_id -eq [string]$LaneId } | Select-Object -First 1)
     if (@($selectedQueueLaneMatches).Count -gt 0) {
@@ -609,7 +627,7 @@ if (![string]::IsNullOrWhiteSpace($latest.runtime_lane_queue) -and (Test-Path -L
     $runtimeLaneQueueSummary.ec2_started -eq $false -and
     $runtimeLaneQueueSummary.generation_executed -eq $false -and
     $runtimeLaneQueueSummary.selected_lane_in_queue -eq $true -and
-    $runtimeLaneQueueSummary.first_runtime_lane_match -eq $true
+    $runtimeLaneQueueSummary.current_runtime_lane_match -eq $true
   )
 }
 
@@ -628,8 +646,8 @@ if ($runtimeLaneQueueSummary.ec2_started -ne $false -or $runtimeLaneQueueSummary
 if ($runtimeLaneQueueSummary.failed_check_count -ne 0) {
   $errors += "Runtime lane queue validation has failed checks."
 }
-if ($runtimeLaneQueueSummary.first_runtime_lane_match -ne $true) {
-  $warnings += "Selected lane is queued but is not the first runtime lane; EC2 static proof remains disallowed by runtime lane queue."
+if ($runtimeLaneQueueSummary.current_runtime_lane_match -ne $true) {
+  $warnings += "Selected lane is queued but is not the current runtime lane; EC2 static proof remains disallowed by runtime lane queue."
 }
 
 $modelRegistryCoverageSummary = [ordered]@{
@@ -716,13 +734,15 @@ $coordinatorSummary = [ordered]@{
   workflow_smoke_generation_executed = $null
   blocked_execute_records_safe = $false
 }
-if (![string]::IsNullOrWhiteSpace($latest.ec2_static_proof_blocked) -and (Test-Path -LiteralPath $latest.ec2_static_proof_blocked)) {
+$hasStaticBlocked = (![string]::IsNullOrWhiteSpace($latest.ec2_static_proof_blocked) -and (Test-Path -LiteralPath $latest.ec2_static_proof_blocked))
+$hasWorkflowBlocked = (![string]::IsNullOrWhiteSpace($latest.ec2_workflow_smoke_blocked) -and (Test-Path -LiteralPath $latest.ec2_workflow_smoke_blocked))
+if ($hasStaticBlocked) {
   $staticBlocked = Read-JsonFile -Path $latest.ec2_static_proof_blocked
   if (Has-Property -Object $staticBlocked -Name "result") { $coordinatorSummary.static_proof_result = [string]$staticBlocked.result }
   if (Has-Property -Object $staticBlocked -Name "failure_category") { $coordinatorSummary.static_proof_failure_category = [string]$staticBlocked.failure_category }
   if (Has-Property -Object $staticBlocked -Name "ec2_started") { $coordinatorSummary.static_proof_ec2_started = [bool]$staticBlocked.ec2_started }
 }
-if (![string]::IsNullOrWhiteSpace($latest.ec2_workflow_smoke_blocked) -and (Test-Path -LiteralPath $latest.ec2_workflow_smoke_blocked)) {
+if ($hasWorkflowBlocked) {
   $workflowBlocked = Read-JsonFile -Path $latest.ec2_workflow_smoke_blocked
   if (Has-Property -Object $workflowBlocked -Name "result") { $coordinatorSummary.workflow_smoke_result = [string]$workflowBlocked.result }
   if (Has-Property -Object $workflowBlocked -Name "failure_category") { $coordinatorSummary.workflow_smoke_failure_category = [string]$workflowBlocked.failure_category }
@@ -736,8 +756,12 @@ $coordinatorSummary.blocked_execute_records_safe = (
   $coordinatorSummary.workflow_smoke_ec2_started -eq $false -and
   $coordinatorSummary.workflow_smoke_generation_executed -eq $false
 )
-if (!$coordinatorSummary.blocked_execute_records_safe) {
+if ($hasStaticBlocked -and $hasWorkflowBlocked) {
+  if (!$coordinatorSummary.blocked_execute_records_safe) {
   $errors += "Blocked coordinator safety evidence is not complete."
+  }
+} else {
+  $warnings += "Complete blocked coordinator safety evidence is not present for this lane yet."
 }
 
 $generatedIndexParity = Get-GeneratedIndexParity -GeneratedIndexDir $generatedIndexDir
@@ -766,7 +790,7 @@ if (!$authSummary.safe_to_start_ec2) {
   $warnings += "AWS auth gate does not allow EC2 start."
 }
 if (!$runtimeLaneQueueSummary.queue_allows_selected_lane_ec2_static_proof) {
-  $warnings += "Runtime lane queue does not allow the selected lane to start EC2 static proof as the first queued lane."
+  $warnings += "Runtime lane queue does not allow the selected lane to start EC2 static proof as the current runtime lane."
 }
 if (!$modelRegistryCoverageSummary.coverage_allows_selected_lane_ec2_static_proof) {
   $warnings += "Model registry coverage does not allow selected lane EC2 static proof."
@@ -856,6 +880,7 @@ $record = [ordered]@{
     index_validation = $(if ($latest.index_validation) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.index_validation } else { $null })
   }
   evidence_checks = $evidenceChecks
+  optional_evidence_checks = $optionalEvidenceChecks
   generated_index_parity = $generatedIndexParity
   secret_private_path_scan = $secretScan
   runtime_gates = [ordered]@{

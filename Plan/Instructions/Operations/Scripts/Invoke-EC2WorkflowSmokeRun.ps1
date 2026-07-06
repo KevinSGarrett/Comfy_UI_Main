@@ -732,10 +732,10 @@ if ([string]::IsNullOrWhiteSpace($AuthGateFile)) {
   $AuthGateFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_AUTH_GATE_*.json"
 }
 if ([string]::IsNullOrWhiteSpace($StaticProofFile)) {
-  $StaticProofFile = Find-LatestJsonByLaneId -Directory $workflowStaticDir -Filter "W61_EC2_LANE_STATIC_PROOF_*.json" -ExpectedLaneId $LaneId -ExcludePattern "DRY_RUN|BLOCKED_EXECUTE"
+  $StaticProofFile = Find-LatestJsonByLaneId -Directory $workflowStaticDir -Filter "*EC2_LANE_STATIC_PROOF_*.json" -ExpectedLaneId $LaneId -ExcludePattern "DRY_RUN|BLOCKED_EXECUTE"
 }
 if ([string]::IsNullOrWhiteSpace($ReadinessFile)) {
-  $ReadinessFile = Find-LatestJsonByLaneId -Directory $runtimeReadinessDir -Filter "W61_LANE_RUNTIME_READINESS_*.json" -ExpectedLaneId $LaneId
+  $ReadinessFile = Find-LatestJsonByLaneId -Directory $runtimeReadinessDir -Filter "*LANE_RUNTIME_READINESS_*.json" -ExpectedLaneId $LaneId
 }
 if ([string]::IsNullOrWhiteSpace($OutFile)) {
   $OutFile = Join-Path $workflowRuntimeDir ("W61_EC2_WORKFLOW_SMOKE_RUN_{0}_{1}.json" -f $(if ($Execute) { "EXECUTION" } else { "DRY_RUN" }), $stamp)

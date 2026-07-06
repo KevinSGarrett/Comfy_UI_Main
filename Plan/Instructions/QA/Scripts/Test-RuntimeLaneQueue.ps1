@@ -3,9 +3,10 @@
 Validates the local runtime execution queue for authored base-generation lanes.
 
 .DESCRIPTION
-Checks that the base-generation runtime queue keeps the low-risk SDXL lane first
-and RealVisXL queued second, that every queued lane is a concrete authored lane,
-and that the latest authored-lane evidence coverage passes for all queued lanes.
+Checks that the base-generation runtime queue keeps the low-risk SDXL lane as
+the completed first proof lane, allows RealVisXL as the current runtime lane
+after that proof, verifies every queued lane is concrete/authored, and confirms
+the latest authored-lane evidence coverage passes for all queued lanes.
 This is local-only validation; it does not contact AWS, GitHub APIs, Civitai,
 ComfyUI, or EC2, and it does not run generation.
 #>
@@ -188,11 +189,12 @@ if ([string]::IsNullOrWhiteSpace($QueueFile)) {
 }
 
 if ([string]::IsNullOrWhiteSpace($OutFile)) {
-  $OutFile = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Workflow_Prerequisite_Matching\W61_RUNTIME_LANE_QUEUE_VALIDATION_$stamp.json"
+  $OutFile = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Workflow_Prerequisite_Matching\W63_RUNTIME_LANE_QUEUE_VALIDATION_$stamp.json"
 }
 
 $requiredFirstLaneId = "sdxl_low_risk_fallback_lane"
 $requiredSecondLaneId = "sdxl_realvisxl_base_lane"
+$requiredCurrentLaneId = "sdxl_realvisxl_base_lane"
 $checks = @()
 $laneResults = @()
 $coverageChecks = @()
@@ -240,8 +242,25 @@ if ($null -ne $queuePayload) {
     -Expected "first_runtime_lane_id=$requiredFirstLaneId" `
     -Observed $(if ($null -ne $selectionPolicy -and (Has-Property -Object $selectionPolicy -Name "first_runtime_lane_id")) { [string]$selectionPolicy.first_runtime_lane_id } else { "missing" })
 
+  $currentRuntimeLaneId = $(if ($null -ne $selectionPolicy -and (Has-Property -Object $selectionPolicy -Name "current_runtime_lane_id")) { [string]$selectionPolicy.current_runtime_lane_id } else { "" })
+  $completedRuntimeLaneIds = @()
+  if ($null -ne $selectionPolicy -and (Has-Property -Object $selectionPolicy -Name "completed_runtime_lane_ids")) {
+    $completedRuntimeLaneIds = @($selectionPolicy.completed_runtime_lane_ids | ForEach-Object { [string]$_ })
+  }
+
+  $checks += New-Check -Name "selection_policy_current_lane" `
+    -Passed ($currentRuntimeLaneId -eq $requiredCurrentLaneId) `
+    -Expected "current_runtime_lane_id=$requiredCurrentLaneId" `
+    -Observed $(if (![string]::IsNullOrWhiteSpace($currentRuntimeLaneId)) { $currentRuntimeLaneId } else { "missing" })
+
+  $checks += New-Check -Name "first_lane_marked_completed" `
+    -Passed (@($completedRuntimeLaneIds) -contains $requiredFirstLaneId) `
+    -Expected "completed_runtime_lane_ids contains $requiredFirstLaneId" `
+    -Observed $(if (@($completedRuntimeLaneIds).Count -gt 0) { $completedRuntimeLaneIds -join ", " } else { "missing" })
+
   foreach ($flagName in @(
     "do_not_promote_later_lanes_before_first_lane_runtime_proof",
+    "later_lane_promotion_allowed_after_first_lane_runtime_proof",
     "requires_aws_auth_gate_before_ec2",
     "requires_clean_git_checkpoint_before_ec2_execute",
     "requires_lane_matched_evidence"
@@ -318,7 +337,7 @@ if ($null -ne $queuePayload) {
     $resolvedRequirementsPath = Resolve-ProjectPath -Path $requirementsPath
     $expectedWorkflowPath = "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/$laneId/workflow.api.json"
     $expectedRequirementsPath = "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/$laneId/runtime_requirements.json"
-    $expectedStatus = $(if ($laneId -eq $requiredFirstLaneId) { "local_pre_ec2_ready_runtime_blocked_auth" } elseif ($laneId -eq $requiredSecondLaneId) { "queued_after_low_risk_runtime_path" } else { "queued" })
+    $expectedStatus = $(if ($laneId -eq $requiredFirstLaneId) { "runtime_smoke_proven" } elseif ($laneId -eq $requiredSecondLaneId) { "current_runtime_blocked_required_checkpoint_missing" } else { "queued" })
     $status = $(if (Has-Property -Object $queuedLane -Name "status") { [string]$queuedLane.status } else { "" })
 
     $laneChecks = @(
@@ -463,6 +482,8 @@ $record = [ordered]@{
   first_runtime_lane_id = $(if (@($orderedQueueLanes).Count -gt 0) { [string]$orderedQueueLanes[0].lane_id } else { $null })
   required_first_runtime_lane_id = $requiredFirstLaneId
   required_second_lane_id = $requiredSecondLaneId
+  current_runtime_lane_id = $(if ($null -ne $queuePayload -and (Has-Property -Object $queuePayload -Name "selection_policy") -and (Has-Property -Object $queuePayload.selection_policy -Name "current_runtime_lane_id")) { [string]$queuePayload.selection_policy.current_runtime_lane_id } else { $null })
+  completed_runtime_lane_ids = $(if ($null -ne $queuePayload -and (Has-Property -Object $queuePayload -Name "selection_policy") -and (Has-Property -Object $queuePayload.selection_policy -Name "completed_runtime_lane_ids")) { @($queuePayload.selection_policy.completed_runtime_lane_ids | ForEach-Object { [string]$_ }) } else { @() })
   queue_checks = $checks
   lane_queue_results = $laneResults
   coverage_checks = $coverageChecks
@@ -474,7 +495,7 @@ $record = [ordered]@{
     "Does not prove checkpoint path/hash or runtime model load.",
     "Does not execute generation or perform generated artifact visual QA."
   )
-  next_action = "After AWS auth is refreshed, run the first queued lane through lane-specific readiness, EC2 static proof, bounded smoke execution, pullback, and image QA."
+  next_action = "Provision the current runtime lane model if missing, then run lane-specific readiness, EC2 static proof, bounded smoke execution, pullback, and image QA only after auth and Git gates pass."
 }
 
 $outDir = Split-Path -Parent $OutFile

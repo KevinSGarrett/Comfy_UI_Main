@@ -83,6 +83,28 @@ Plan/Instructions/Waves/Wave63/WAVE63_SCOPE.md
 
 Before any new EC2 `-Execute`, use local/CI validation while EC2 is stopped. Default EC2 helpers to `-SkipGitLfsPull` and set `-MaxEc2RuntimeMinutes`. Do not rerun the completed low-risk lane just to re-prove it.
 
+Current RealVisXL blocker:
+
+```text
+Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_REALVISXL_20260706T123028-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_REALVISXL_MISSING_MODEL_CLASSIFICATION_20260706T124103-0500.json
+Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W63_RUNTIME_LANE_QUEUE_VALIDATION_CURRENT_REALVISXL_20260706T130600-0500.json
+Plan/Instructions/QA/Evidence/Project_Readiness/W63_PROJECT_READINESS_REALVISXL_CURRENT_QUEUE_20260706T131000-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_RUNTIME_UNBLOCK_HANDOFF_REALVISXL_CURRENT_20260706T131300-0500.json
+```
+
+EC2 object-info/core-node proof passed for `sdxl_realvisxl_base_lane`, but `/home/ubuntu/ComfyUI/models/checkpoints/realvisxlV50_v50Bakedvae.safetensors` is missing. The next runtime-unblocking action is model provisioning and hash verification, not another housekeeping pass and not a repeat of the low-risk lane.
+
+Expected model:
+
+```text
+filename: realvisxlV50_v50Bakedvae.safetensors
+source: Civitai model 139562, version 789646, RealVisXL V5.0 (BakedVAE)
+expected_sha256: 6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80
+```
+
+Do not commit model binaries and do not use Git LFS as the model-provisioning path. Prefer an approved cache/S3/local upload path; if the file is not already available, use a bounded EC2 model-download/provisioning window, verify SHA256, then stop EC2.
+
 Recommended local preparation for the next queued lane:
 
 ```powershell
@@ -91,7 +113,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\New-W
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\New-EC2DeployBundle.ps1 -ProjectRoot C:\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane -RunPackageManifestFile <realvisxl-run-package-manifest>
 ```
 
-Recommended bounded EC2 static proof after auth/Git/readiness gates pass:
+Recommended bounded EC2 static proof after the model is present and auth/Git/readiness gates pass:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -MaxEc2RuntimeMinutes 25 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W63_EC2_LANE_STATIC_PROOF_REALVISXL_<timestamp>.json

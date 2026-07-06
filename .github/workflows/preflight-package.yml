@@ -22,6 +22,18 @@ jobs:
     timeout-minutes: 20
     permissions:
       contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - lane_id: sdxl_low_risk_fallback_lane
+            run_id: sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1
+            prompt_profile: PromptProfiles\base_generation\hyperreal_editorial_portrait.json
+            allow_non_first_lane: "false"
+          - lane_id: sdxl_realvisxl_base_lane
+            run_id: sdxl_realvisxl_base_lane_ci_preflight
+            prompt_profile: ""
+            allow_non_first_lane: "true"
 
     steps:
       - name: Checkout without LFS payloads
@@ -49,19 +61,34 @@ jobs:
       - name: Build verified run package
         shell: pwsh
         run: |
-          powershell -NoProfile -ExecutionPolicy Bypass -File "$env:GITHUB_WORKSPACE\tools\New-WorkflowRunPackage.ps1" -ProjectRoot "$env:GITHUB_WORKSPACE" -LaneId "sdxl_low_risk_fallback_lane" -PromptProfileFile "PromptProfiles\base_generation\hyperreal_editorial_portrait.json" -RunId "sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1" -PackageRoot "$env:GITHUB_WORKSPACE\ci_artifacts\run_packages"
+          $args = @(
+            "-NoProfile",
+            "-ExecutionPolicy", "Bypass",
+            "-File", "$env:GITHUB_WORKSPACE\tools\New-WorkflowRunPackage.ps1",
+            "-ProjectRoot", "$env:GITHUB_WORKSPACE",
+            "-LaneId", "${{ matrix.lane_id }}",
+            "-RunId", "${{ matrix.run_id }}",
+            "-PackageRoot", "$env:GITHUB_WORKSPACE\ci_artifacts\run_packages"
+          )
+          if ("${{ matrix.prompt_profile }}" -ne "") {
+            $args += @("-PromptProfileFile", "${{ matrix.prompt_profile }}")
+          }
+          if ("${{ matrix.allow_non_first_lane }}" -eq "true") {
+            $args += "-AllowNonFirstLane"
+          }
+          & powershell @args
 
       - name: Build deploy bundle
         shell: pwsh
         run: |
-          powershell -NoProfile -ExecutionPolicy Bypass -File "$env:GITHUB_WORKSPACE\tools\New-EC2DeployBundle.ps1" -ProjectRoot "$env:GITHUB_WORKSPACE" -LaneId "sdxl_low_risk_fallback_lane" -RunPackageManifestFile "$env:GITHUB_WORKSPACE\ci_artifacts\run_packages\sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1\RUN_PACKAGE_MANIFEST.json" -OutDir "$env:GITHUB_WORKSPACE\ci_artifacts\deploy_bundle" -BundleName "sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1"
+          powershell -NoProfile -ExecutionPolicy Bypass -File "$env:GITHUB_WORKSPACE\tools\New-EC2DeployBundle.ps1" -ProjectRoot "$env:GITHUB_WORKSPACE" -LaneId "${{ matrix.lane_id }}" -RunPackageManifestFile "$env:GITHUB_WORKSPACE\ci_artifacts\run_packages\${{ matrix.run_id }}\RUN_PACKAGE_MANIFEST.json" -OutDir "$env:GITHUB_WORKSPACE\ci_artifacts\deploy_bundle\${{ matrix.run_id }}" -BundleName "${{ matrix.run_id }}"
 
       - name: Upload deploy bundle artifact
         uses: actions/upload-artifact@v4
         with:
-          name: comfy-ui-main-preflight-deploy-bundle
+          name: comfy-ui-main-preflight-deploy-bundle-${{ matrix.run_id }}
           path: |
-            ci_artifacts/deploy_bundle/*.zip
-            ci_artifacts/deploy_bundle/DEPLOY_BUNDLE_MANIFEST.json
+            ci_artifacts/deploy_bundle/**/*.zip
+            ci_artifacts/deploy_bundle/**/DEPLOY_BUNDLE_MANIFEST.json
             ci_artifacts/model_registry/model_registry_coverage.json
           retention-days: 7

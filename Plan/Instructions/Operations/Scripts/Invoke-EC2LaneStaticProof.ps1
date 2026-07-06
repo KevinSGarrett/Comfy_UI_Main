@@ -278,7 +278,7 @@ if ([string]::IsNullOrWhiteSpace($AuthGateFile)) {
   $AuthGateFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_AUTH_GATE_*.json"
 }
 if ([string]::IsNullOrWhiteSpace($ReadinessFile)) {
-  $ReadinessFile = Find-LatestJsonByLaneId -Directory $runtimeReadinessDir -Filter "W61_LANE_RUNTIME_READINESS_*.json" -ExpectedLaneId $LaneId
+  $ReadinessFile = Find-LatestJsonByLaneId -Directory $runtimeReadinessDir -Filter "*LANE_RUNTIME_READINESS_*.json" -ExpectedLaneId $LaneId
 }
 
 $authGate = Get-AuthGateStatus -Path $AuthGateFile

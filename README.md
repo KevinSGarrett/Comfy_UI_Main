@@ -53,6 +53,8 @@ Plan\Instructions\Operations\EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md
 
 The first low-risk lane has runtime smoke proof and pulled-back image QA evidence. Do not repeat that lane just to re-prove the same path; move to the next queued lane or a concrete user-approved improvement.
 
+Current next-lane blocker: `sdxl_realvisxl_base_lane` reached EC2 object-info/core-node proof, but the checkpoint `realvisxlV50_v50Bakedvae.safetensors` is missing from `/home/ubuntu/ComfyUI/models/checkpoints`. Install or sync that model through a non-Git path, verify SHA256, then rerun bounded static proof before generation.
+
 Do not commit `.env`, model binaries, private keys, or generated media outputs.
 
 ## Root Tools

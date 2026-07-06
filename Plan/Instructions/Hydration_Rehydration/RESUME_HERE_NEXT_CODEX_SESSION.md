@@ -126,7 +126,27 @@ Finish the Wave 63 cost-control checkpoint, then continue runtime proof from the
 
 Read `Plan/Instructions/Operations/EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md` before any EC2 decision. If the current Wave 63 changes are uncommitted, first create one clean checkpoint and verify `HEAD == origin/main`.
 
-Do not rerun `sdxl_low_risk_fallback_lane` just to re-prove the same path. It already has EC2 static proof, generated smoke output, pullback, and image QA evidence. The next queued runtime lane is `sdxl_realvisxl_base_lane`.
+Do not rerun `sdxl_low_risk_fallback_lane` just to re-prove the same path. It already has EC2 static proof, generated smoke output, pullback, and image QA evidence.
+
+The next queued runtime lane is `sdxl_realvisxl_base_lane`. Its latest EC2 static proof reached the target runtime and passed object-info/core-node checks, but the checkpoint was missing on EC2:
+
+```text
+Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_REALVISXL_20260706T123028-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_REALVISXL_MISSING_MODEL_CLASSIFICATION_20260706T124103-0500.json
+Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W63_RUNTIME_LANE_QUEUE_VALIDATION_CURRENT_REALVISXL_20260706T130600-0500.json
+Plan/Instructions/QA/Evidence/Project_Readiness/W63_PROJECT_READINESS_REALVISXL_CURRENT_QUEUE_20260706T131000-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_RUNTIME_UNBLOCK_HANDOFF_REALVISXL_CURRENT_20260706T131300-0500.json
+```
+
+Expected model:
+
+```text
+/home/ubuntu/ComfyUI/models/checkpoints/realvisxlV50_v50Bakedvae.safetensors
+Civitai model 139562, version 789646, RealVisXL V5.0 (BakedVAE)
+SHA256 6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80
+```
+
+The next runtime-unblocking action is model provisioning and SHA256 verification through an approved non-Git path. Do not commit the model binary and do not use Git LFS as the model-provisioning path.
 
 Cost-control local/CI preparation:
 
@@ -143,13 +163,13 @@ powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\New-E
 
 Before any future EC2 `-Execute`, rerun AWS auth, queue, model registry, Git, and lane readiness gates. The account must be `029530099913`, `safe_to_start_ec2` must be `true`, the worktree must be clean, and local `HEAD` must equal `origin/main`.
 
-Use one bounded EC2 window for the next target-runtime static proof. Default to `-SkipGitLfsPull` unless the lane explicitly requires repository LFS payloads:
+After the checkpoint is installed/synced, use one bounded EC2 window to verify the target-runtime model path and SHA256. Default to `-SkipGitLfsPull` unless the lane explicitly requires repository LFS payloads:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -MaxEc2RuntimeMinutes 25 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W63_EC2_LANE_STATIC_PROOF_REALVISXL_<timestamp>.json
 ```
 
-Only after RealVisXL object-info/path/hash proof passes, run a package-fed workflow smoke with `-SkipGitLfsPull`, `-MaxEc2RuntimeMinutes 45`, pull back artifacts, verify final EC2 state `stopped`, and run image QA:
+Only after RealVisXL object-info/path/hash proof passes with the expected checkpoint SHA256, run a package-fed workflow smoke with `-SkipGitLfsPull`, `-MaxEc2RuntimeMinutes 45`, pull back artifacts, verify final EC2 state `stopped`, and run image QA:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1 -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -MaxEc2RuntimeMinutes 45 -StaticProofFile <realvisxl-static-proof> -RunPackageManifestFile <realvisxl-run-package-manifest> -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Runtime\W63_EC2_WORKFLOW_SMOKE_REALVISXL_<timestamp>.json

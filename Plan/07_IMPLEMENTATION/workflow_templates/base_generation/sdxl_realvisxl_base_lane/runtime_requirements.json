@@ -36,9 +36,10 @@
   "runtime_output_required": true,
   "qa_report_required": true,
   "promotion_allowed_without_evidence": false,
-  "current_status": "authored_pending_ec2_validation",
+  "current_status": "ec2_object_info_passed_required_checkpoint_missing",
   "known_blockers": [
-    "AWS CLI auth is expired before EC2 object-info, checkpoint path, checkpoint hash, generation output, and QA evidence can be collected.",
-    "RealVisXL checkpoint filename must be verified against the EC2 ComfyUI checkpoints directory before runtime promotion."
+    "EC2 object_info and required core nodes passed for this lane, but /home/ubuntu/ComfyUI/models/checkpoints/realvisxlV50_v50Bakedvae.safetensors was missing during static proof.",
+    "Install or sync the RealVisXL checkpoint through a non-Git path, verify SHA256 6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80, then rerun EC2 static proof before generation.",
+    "AWS auth and Git checkpoint gates must still be rechecked before every future EC2 -Execute command."
   ]
 }

@@ -26,9 +26,17 @@
     "queue_file": "Workflows/base_generation/ACTIVE_LANES.json",
     "first_lane_id": "sdxl_low_risk_fallback_lane",
     "second_lane_id": "sdxl_realvisxl_base_lane",
+    "current_runtime_blocker": {
+      "lane_id": "sdxl_realvisxl_base_lane",
+      "blocker_id": "BLOCKER-RUNTIME-REALVISXL-CHECKPOINT-EC2-001",
+      "status": "ec2_object_info_passed_required_checkpoint_missing",
+      "expected_ec2_path": "/home/ubuntu/ComfyUI/models/checkpoints/realvisxlV50_v50Bakedvae.safetensors",
+      "expected_sha256": "6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80",
+      "evidence": "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_REALVISXL_20260706T123028-0500.json"
+    },
     "ec2_start_requires": [
       "AWS auth gate safe_to_start_ec2=true",
-      "runtime lane queue selected lane order=1",
+      "runtime lane queue selected lane is current_runtime_lane_id",
       "model registry coverage result=pass_local_only, selected lane result=pass, failed_check_count=0",
       "clean pushed Git checkpoint",
       "lane readiness ready_for_ec2_static_proof=true"
