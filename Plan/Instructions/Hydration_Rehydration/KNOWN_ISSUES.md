@@ -17,3 +17,4 @@ The final pack defines instructions and protocols. It does not prove live runtim
 ## Active known issues
 
 - `ISSUE-RUNTIME-COMFYUI-LOCAL-001`: Local `C:\Comfy_UI_Main\ComfyUI` runtime and expected model folders are absent, so local workflow execution and local model validation cannot run from this checkout. AWS/EC2 identity is verified and the instance is stopped; next action is bounded EC2 runtime discovery with stop verification. Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_RUNTIME_READINESS_PREFLIGHT_20260706T012301-0500.json`.
+- `ISSUE-EC2-PROJECT-SYNC-001`: EC2 discovery found ComfyUI at `/home/ubuntu/ComfyUI` and a working NVIDIA A10G GPU, but no `Comfy_UI_Main` project checkout was found in searched paths. Evidence: `Plan/Instructions/QA/Evidence/EC2_Runtime_Discovery/W60_W61_EC2_RUNTIME_DISCOVERY_20260706T012748-0500.json`.

@@ -83,4 +83,21 @@
 - retest_result: preflight_passed_with_local_runtime_blocker
 - current_status: active_runtime_blocker
 - evidence_path: Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_RUNTIME_READINESS_PREFLIGHT_20260706T012301-0500.json
-- next_action: Create a bounded EC2 runtime discovery run record, start EC2 only for runtime inspection, verify SSM and remote paths, then stop EC2.
+- next_action: Use bounded EC2 project sync because EC2 discovery found `/home/ubuntu/ComfyUI`.
+
+## ISSUE-EC2-PROJECT-SYNC-001
+
+- date_time: 2026-07-06T01:46:30-05:00
+- severity: high
+- category: runtime_environment
+- affected_tracker_id: TRK-W60-003; TRK-W61-006
+- affected_item_id: W60-003; ITEM-W61-006
+- affected_files: /home/ubuntu/ComfyUI; /home/ubuntu/Comfy_UI_Main
+- observed_behavior: Bounded EC2 discovery found `/home/ubuntu/ComfyUI` and NVIDIA A10G GPU readiness, but no `Comfy_UI_Main` project checkout in searched paths.
+- expected_behavior: EC2 runtime validation needs the project checkout available so workflows, registries, QA protocols, and tracker state match the pushed local `main`.
+- suspected_root_cause: The EC2 image has ComfyUI installed independently of the project repository.
+- fix_attempted: None yet; EC2 was stopped after discovery.
+- retest_result: discovery_passed_project_missing
+- current_status: active_runtime_blocker
+- evidence_path: Plan/Instructions/QA/Evidence/EC2_Runtime_Discovery/W60_W61_EC2_RUNTIME_DISCOVERY_20260706T012748-0500.json
+- next_action: Start EC2 only for bounded project sync, clone or update `Comfy_UI_Main`, verify Git state, then stop EC2.

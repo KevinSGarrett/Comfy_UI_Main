@@ -21,6 +21,8 @@
 | CERT-W62-CUMULATIVE-PACK-VALIDATION-20260706T011548-0500 | Wave 62 cumulative pack validation certification | done_certification | done_with_non_blocking_runtime_notes | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W62_CUMULATIVE_PACK_VALIDATION_20260706T011548-0500.md |
 | EVID-W60-W61-RUNTIME-READINESS-PREFLIGHT-20260706T012301-0500 | Secret-safe GitHub AWS EC2 Civitai and local ComfyUI readiness preflight | runtime_readiness_preflight | pass_with_local_runtime_blocker | Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_RUNTIME_READINESS_PREFLIGHT_20260706T012301-0500.json |
 | CERT-W60-W61-RUNTIME-READINESS-PREFLIGHT-20260706T012301-0500 | Wave 60/61 runtime readiness preflight certification | done_certification | done_with_local_runtime_blocker | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W60_W61_RUNTIME_READINESS_PREFLIGHT_20260706T012301-0500.md |
+| EVID-W60-W61-EC2-RUNTIME-DISCOVERY-20260706T012748-0500 | Bounded EC2 runtime discovery with SSM GPU ComfyUI path and stop verification | ec2_runtime_discovery | pass_with_project_sync_required | Plan/Instructions/QA/Evidence/EC2_Runtime_Discovery/W60_W61_EC2_RUNTIME_DISCOVERY_20260706T012748-0500.json |
+| CERT-W60-W61-EC2-RUNTIME-DISCOVERY-20260706T012748-0500 | Wave 60/61 EC2 runtime discovery certification | done_certification | done_with_project_sync_required | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W60_W61_EC2_RUNTIME_DISCOVERY_20260706T012748-0500.md |
 
 ## Pending runtime evidence
 

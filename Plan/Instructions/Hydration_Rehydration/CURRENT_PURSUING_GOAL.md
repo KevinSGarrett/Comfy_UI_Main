@@ -1,64 +1,64 @@
 # Current Pursuing Goal
 
 ## Active Wave
-Wave 60/61 EC2 runtime discovery.
+Wave 60/61 EC2 project sync.
 
 ## Goal Statement
-Run a bounded EC2 runtime discovery pass because local `C:\Comfy_UI_Main\ComfyUI` is absent and workflow/model runtime validation requires a real ComfyUI-capable environment.
+Clone or update the `Comfy_UI_Main` project checkout on the verified EC2 ComfyUI machine so runtime workflow validation can use the same project state as local `origin/main`.
 
 ## Why This Goal Is Active
-Secret-safe readiness preflight passed for GitHub API, AWS identity, EC2 identity, EBS volume, and Civitai metadata. The EC2 instance is verified and stopped. Local ComfyUI runtime execution is blocked by missing local runtime/model folders, so the next valid runtime path is EC2 discovery with a stop plan.
+Bounded EC2 runtime discovery passed: SSM is available, the NVIDIA A10G GPU is visible, ComfyUI exists at `/home/ubuntu/ComfyUI`, and EC2 was stopped afterward. No `Comfy_UI_Main` project checkout was found remotely, so workflow execution cannot proceed until the project is synced.
 
 ## Current Scope
-- Create an EC2 run record before starting.
+- Commit and push the EC2 discovery evidence locally first.
 - Start only `i-0560bf8d143f93bb1`.
-- Wait for running and status-ok.
-- Verify SSM availability.
-- Run minimal remote discovery commands only.
-- Identify remote project and ComfyUI paths.
-- Capture command output as evidence.
+- Use SSM Run Command only.
+- Create or update a stable project checkout path, preferably `/home/ubuntu/Comfy_UI_Main`.
+- Pull or clone `https://github.com/KevinSGarrett/Comfy_UI_Main`.
+- Verify remote Git branch, HEAD, LFS availability, and `.env` absence.
 - Stop EC2 and verify stopped state.
-- Update blockers, trackers, and hydration.
+- Record run evidence and update trackers/hydration.
 
 ## Out of Scope
-- Long-running generation.
-- Model downloads.
+- Running ComfyUI workflows.
+- Downloading models.
 - Generated media QA.
 - Leaving EC2 running.
-- SSH unless SSM fails and a later recovery path explicitly permits it.
+- Writing secrets to EC2 project files.
 
 ## Source Inputs
-- `Plan/Instructions/Operations/AWS_EC2_GPU_SERVER_START_STOP_PROTOCOL.md`
 - `Plan/Instructions/Operations/LOCAL_TO_EC2_SYNC_PROTOCOL.md`
-- `Plan/Instructions/Operations/EC2_TO_LOCAL_ARTIFACT_PULLBACK_PROTOCOL.md`
-- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_RUNTIME_READINESS_PREFLIGHT_20260706T012301-0500.json`
+- `Plan/Instructions/Operations/AWS_EC2_GPU_SERVER_START_STOP_PROTOCOL.md`
+- `Plan/Instructions/QA/Evidence/EC2_Runtime_Discovery/W60_W61_EC2_RUNTIME_DISCOVERY_20260706T012748-0500.json`
+- Current local Git `main` after the EC2 discovery evidence checkpoint.
 
 ## Required Evidence
-- AWS account and EC2 identity already verified before start.
-- Run record with start time, starting state, commands, stop attempt, and final state.
-- SSM readiness result.
-- Remote path discovery output.
-- Final stopped-state verification.
-- Updated tracker/hydration state.
+- Local discovery checkpoint pushed before EC2 sync.
+- EC2 start and stop verification.
+- SSM command output for clone/pull and Git status.
+- Remote project path.
+- Remote HEAD matching expected pushed local commit.
+- LFS availability or blocker.
+- Tracker/hydration updates.
 
 ## Validation Plan
-- Commit and push the readiness preflight checkpoint first.
-- Start EC2 only after the checkpoint is clean on `origin/main`.
-- Use SSM Run Command for remote discovery.
-- Stop the instance even if discovery fails.
-- Record any SSM or path mismatch as a runtime blocker.
+- Commit and push the EC2 discovery evidence.
+- Start EC2 for bounded sync only.
+- Use SSM to clone or update `/home/ubuntu/Comfy_UI_Main`.
+- Run `git status`, `git rev-parse HEAD`, and LFS checks remotely.
+- Stop EC2 and verify stopped state.
 
 ## Current Status
 SELECTED
 
 ## Last Action
-Completed secret-safe readiness preflight and opened `BLOCKER-RUNTIME-COMFYUI-LOCAL-001`.
+Completed bounded EC2 runtime discovery and verified final EC2 state `stopped`.
 
 ## Next Action
-Commit/push the readiness preflight evidence, then perform bounded EC2 runtime discovery with stop verification.
+Commit/push EC2 discovery evidence, then run bounded EC2 project sync with stop verification.
 
 ## Stop Condition
-Stop this task when the EC2 discovery run has evidence and the instance is verified stopped, or when AWS/SSM blocks discovery and the stopped state is verified.
+Stop this task when EC2 has a verified project checkout matching pushed `origin/main` and the instance is verified stopped, or when sync is blocked and the instance is verified stopped.
 
 ## Fallback / Reroute
-If SSM is unavailable, stop the instance, record the blocker, and do not use SSH without an explicit recovery decision in the tracker.
+If remote Git auth or LFS blocks sync, stop EC2, record the blocker, and prepare a safe credential or artifact-transfer recovery path without printing secrets.

@@ -1,0 +1,60 @@
+{
+  "evidence_id": "EVID-W60-W61-EC2-RUNTIME-DISCOVERY-20260706T012748-0500",
+  "created_at": "2026-07-06T01:46:30-05:00",
+  "waves": [
+    60,
+    61
+  ],
+  "task": "Bounded EC2 runtime discovery with stop verification",
+  "run_record": "Plan/Instructions/Operations/Run_Records/aws_gpu_run_20260706T012748-0500.json",
+  "aws": {
+    "account": "029530099913",
+    "region": "us-east-1",
+    "instance_id": "i-0560bf8d143f93bb1",
+    "start_state": "stopped",
+    "started": true,
+    "ssm_available": true,
+    "ssm_command_status": "Success",
+    "stop_attempted": true,
+    "final_state": "stopped",
+    "stop_verified": true
+  },
+  "remote_runtime": {
+    "hostname": "ip-172-31-82-17",
+    "os": "Ubuntu Linux 6.17.0-1017-aws",
+    "ssm_user": "root",
+    "nvidia_smi_present": true,
+    "gpu_name": "NVIDIA A10G",
+    "gpu_driver_version": "595.71.05",
+    "gpu_memory_total": "23028 MiB",
+    "comfyui_paths_found": [
+      "/home/ubuntu/ComfyUI"
+    ],
+    "project_paths_found": [],
+    "root_volume_summary": "/dev/root 991G 361G 631G 37% /",
+    "ephemeral_volume_summary": "/dev/mapper/vg.01-lv_ephemeral 229G 28K 217G 1% /opt/dlami/nvme"
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "result": "stopped_after_payload_error",
+      "details": "Initial SSM send-command parameters JSON was malformed by PowerShell/AWS CLI quoting. EC2 was stopped and verified before retry."
+    },
+    {
+      "attempt": 2,
+      "result": "pass",
+      "details": "Retried SSM command using a temp --cli-input-json payload file. Discovery command succeeded and EC2 was stopped and verified."
+    }
+  ],
+  "result": "pass_with_project_sync_required",
+  "blockers_opened": [
+    "BLOCKER-EC2-PROJECT-SYNC-001"
+  ],
+  "limitations": [
+    "No generation was run.",
+    "No model download was performed.",
+    "No ComfyUI workflow execution was performed.",
+    "No generated media artifact QA was performed."
+  ],
+  "next_action": "Start EC2 only for a bounded project sync task, clone or update Comfy_UI_Main under a stable remote path, then stop EC2 again before workflow execution."
+}

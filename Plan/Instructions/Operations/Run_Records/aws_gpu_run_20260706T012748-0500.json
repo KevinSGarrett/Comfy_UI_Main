@@ -1,0 +1,91 @@
+{
+  "run_id": "aws_gpu_run_20260706T012748-0500",
+  "wave": "Wave60/61",
+  "task_id": "EC2_RUNTIME_DISCOVERY_20260706T012748-0500",
+  "task": "Bounded EC2 runtime discovery after local ComfyUI runtime was not found",
+  "start_time_local": "2026-07-06T01:27:48-05:00",
+  "end_time_local": "2026-07-06T01:46:30-05:00",
+  "aws_account": "029530099913",
+  "region": "us-east-1",
+  "instance_id": "i-0560bf8d143f93bb1",
+  "started_by": "Codex Desktop autonomous session",
+  "start_state": "stopped",
+  "end_state": "stopped",
+  "ec2_started": true,
+  "ssm_checked": true,
+  "ssm_available": true,
+  "ssm_attempts": [
+    "0:count=1;ping=Online"
+  ],
+  "commands_run": [
+    {
+      "name": "identity_precheck",
+      "status": "pass",
+      "details": "AWS account, EC2 identity, EBS volume, and stopped state were verified in readiness evidence before start."
+    },
+    {
+      "name": "start_instance_attempt_1",
+      "status": "pass",
+      "details": "Instance started from stopped and reached running/status-ok. SSM was Online. Run Command payload failed before remote execution because PowerShell/AWS CLI quoting malformed the parameters JSON."
+    },
+    {
+      "name": "stop_instance_attempt_1",
+      "status": "pass",
+      "details": "Stop was attempted after the malformed Run Command payload and final state was verified stopped."
+    },
+    {
+      "name": "start_instance_attempt_2",
+      "status": "pass",
+      "details": "Instance started from stopped and reached running/status-ok for retry with file-based --cli-input-json payload."
+    },
+    {
+      "name": "ssm_discovery_command_retry",
+      "status": "pass",
+      "command_id": "59bd67c4-a56a-4dbb-a935-2270d7c083f6",
+      "ssm_status": "Success"
+    },
+    {
+      "name": "stop_instance_attempt_2",
+      "status": "pass",
+      "details": "Stop was attempted after discovery and final state was verified stopped."
+    }
+  ],
+  "remote_discovery": {
+    "hostname": "ip-172-31-82-17",
+    "user": "root",
+    "working_directory": "/var/snap/amazon-ssm-agent/13349",
+    "uname": "Linux ip-172-31-82-17 6.17.0-1017-aws #17~24.04.1-Ubuntu SMP Tue May 26 21:30:32 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux",
+    "nvidia_smi_present": true,
+    "gpu": {
+      "name": "NVIDIA A10G",
+      "driver_version": "595.71.05",
+      "memory_total": "23028 MiB"
+    },
+    "project_paths_found": [],
+    "comfyui_paths_found": [
+      "/home/ubuntu/ComfyUI"
+    ],
+    "disk_summary": [
+      "/dev/root 991G 361G 631G 37% /",
+      "/dev/mapper/vg.01-lv_ephemeral 229G 28K 217G 1% /opt/dlami/nvme"
+    ]
+  },
+  "artifacts_generated": [
+    "Plan/Instructions/Operations/Run_Records/aws_gpu_run_20260706T012748-0500.json"
+  ],
+  "artifacts_pulled_back": [],
+  "qa_reports": [
+    "Plan/Instructions/QA/Evidence/EC2_Runtime_Discovery/W60_W61_EC2_RUNTIME_DISCOVERY_20260706T012748-0500.json"
+  ],
+  "stop_attempted": true,
+  "stop_verified": true,
+  "errors": [
+    {
+      "attempt": 1,
+      "check": "ssm_send_command_payload",
+      "status": "fixed_by_retry",
+      "message": "Initial AWS CLI --parameters payload was malformed by PowerShell quoting. Retried with --cli-input-json temp file and SSM command succeeded."
+    }
+  ],
+  "next_action": "Start EC2 only for a bounded project sync task, clone or update Comfy_UI_Main under a stable remote path, then stop EC2 again before workflow execution."
+}
