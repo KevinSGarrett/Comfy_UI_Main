@@ -142,6 +142,7 @@ if (!$DryRun) {
   $localRoot = [System.IO.Path]::GetFullPath($LocalDestination)
   foreach ($fileInfo in Get-ChildItem -LiteralPath $LocalDestination -Recurse -File) {
     if ($fileInfo.Name -eq "PULLBACK_RECORD.json") { continue }
+    if ($fileInfo.Name -eq "REMOTE_ARTIFACT_MANIFEST.json") { continue }
     $relativePath = ConvertTo-ProjectRelativePath -BasePath $localRoot -TargetPath $fileInfo.FullName
     $artifactType = Get-ArtifactType -RelativePath $relativePath -Extension $fileInfo.Extension
     $sha = Get-FileSha256 -Path $fileInfo.FullName

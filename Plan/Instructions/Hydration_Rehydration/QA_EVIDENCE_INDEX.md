@@ -94,6 +94,8 @@
 | CERT-W60-OPERATIONS-HELPER-CURRENT-VALIDATION-PROFILE-MATRIX-20260706T042257-0500 | Current operations helper static validation profile-matrix certification | done_certification | pass_local_only | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W60_OPERATIONS_HELPER_CURRENT_VALIDATION_PROFILE_MATRIX_20260706T042257-0500.md |
 | EVID-W60-OPERATIONS-HELPER-CURRENT-VALIDATION-20260706T042938-0500 | Current operations helper parser/schema/local dry-run validation with profile-aware readiness | operations_helper_current_static_validation | pass_local_only | Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_20260706T042938-0500.json |
 | CERT-W60-OPERATIONS-HELPER-CURRENT-VALIDATION-READINESS-PROFILE-20260706T042938-0500 | Current operations helper static validation profile-aware readiness certification | done_certification | pass_local_only | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W60_OPERATIONS_HELPER_CURRENT_VALIDATION_READINESS_PROFILE_20260706T042938-0500.md |
+| EVID-W60-OPERATIONS-PULLBACK-MANIFEST-VERIFICATION-20260706T045401-0500 | EC2 pullback manifest verification smoke for excluding manifest self-counting | operations_helper_current_static_validation | pass_local_only | Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_PULLBACK_20260706T045401-0500.json |
+| CERT-W60-OPERATIONS-PULLBACK-MANIFEST-VERIFICATION-20260706T045558-0500 | EC2 pullback manifest verification hardening certification | done_certification | pass_local_only | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W60_OPERATIONS_PULLBACK_MANIFEST_VERIFICATION_20260706T045558-0500.md |
 
 ## Pending runtime evidence
 

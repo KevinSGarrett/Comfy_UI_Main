@@ -68,6 +68,7 @@ Local static/package validation is complete through Wave 62 cumulative zip valid
 - Reran AWS auth/profile gates: default auth remains `expired_session`, 15 profiles checked, zero profiles authenticate to expected account `029530099913`, and EC2/generation gates remain false.
 - Reran selected-lane readiness against the fresh auth/profile evidence: `local_pre_ec2_ready=true`, `ready_for_ec2_static_proof=false`, and `ready_for_generation=false`.
 - Regenerated generated local indexes after auth/profile/readiness recheck evidence: plan rows 2488, instructions rows 262, items rows 45, tracker rows 26, with discovery and secret/auth URL scan passing.
+- Hardened `New-EC2PullbackRecord.ps1` so `REMOTE_ARTIFACT_MANIFEST.json` is excluded from local artifact counts and hashes, then reran current operations helper validation with 15 scripts, 5 JSON files, and 8 local smoke checks passing.
 
 ## Latest Git Result
 - Current recheck evidence: `Plan/Instructions/QA/Evidence/Git_Verification/W59_W60_GIT_CURRENT_RECHECK_20260706T035900-0500.json`
@@ -106,6 +107,8 @@ Local static/package validation is complete through Wave 62 cumulative zip valid
 - Current AWS profile auth matrix recheck evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_PROFILE_AUTH_MATRIX_RECHECK_20260706T044606-0500.json`
 - Current selected-lane readiness after auth recheck evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_AUTH_RECHECK_20260706T044638-0500.json`
 - Current generated index refresh after auth recheck evidence: `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_AUTH_RECHECK_20260706T044911-0500.json`
+- Current operations helper pullback manifest verification evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_PULLBACK_20260706T045401-0500.json`
+- Current operations helper pullback manifest verification certification: `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W60_OPERATIONS_PULLBACK_MANIFEST_VERIFICATION_20260706T045558-0500.md`
 
 ## Selected Lane
 - Lane: `sdxl_low_risk_fallback_lane`
@@ -122,7 +125,7 @@ Local static/package validation is complete through Wave 62 cumulative zip valid
 - `TRK-W61-007`: selected checkpoint filename is referenced by the workflow and passed static validation; latest readiness gate confirms actual EC2 path, hash, load, and sample-output validation are still pending on AWS auth.
 - `TRK-W61-002`: image QA protocol exists and helper dry-run passed; actual generated image visual review pending.
 - `TRK-W61-011`: current QA helper validation passed locally for all 6 QA scripts, schemas/templates, markdown templates, image QA dry-run/technical sample smoke, selected-lane workflow static validation smoke, and Items/Tracker package validation smoke.
-- `TRK-W60-010`: current operations helper validation passed locally for all 15 operations scripts and related schema/template files; latest evidence redacts validation temp paths, includes a GitHub checkpoint dry-run smoke, and covers profile-aware lane readiness.
+- `TRK-W60-010`: current operations helper validation passed locally for all 15 operations scripts and related schema/template files; latest evidence redacts validation temp paths, includes a GitHub checkpoint dry-run smoke, covers profile-aware lane readiness, and verifies pullback manifest comparison without counting the manifest as a local artifact.
 - `TRK-W62-003` / `TRK-W62-009`: current hydration helper validation passed locally for all hydration scripts/templates, session-state generation, and the current cumulative zip validator.
 - `TRK-W59-002` / `TRK-W59-003`: generated local indexes refreshed and current Items/Tracker package validation passes with complete source-key coverage and no structural defects.
 

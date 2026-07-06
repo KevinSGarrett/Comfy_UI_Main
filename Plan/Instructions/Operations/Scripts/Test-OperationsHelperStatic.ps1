@@ -100,12 +100,26 @@ function ConvertTo-RedactedEvidenceText {
     $replacements += [ordered]@{ From = $tempRootFull; To = "[VALIDATION_TEMP_ROOT]" }
     $replacements += [ordered]@{ From = $tempRootFull.Replace("\", "/"); To = "[VALIDATION_TEMP_ROOT]" }
     $replacements += [ordered]@{ From = $tempRootFull.Replace("\", "\\"); To = "[VALIDATION_TEMP_ROOT]" }
+    $tempRootProjectRelative = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $tempRootFull
+    if (![string]::IsNullOrWhiteSpace($tempRootProjectRelative)) {
+      $replacements += [ordered]@{ From = $tempRootProjectRelative; To = "[VALIDATION_TEMP_ROOT]" }
+      $replacements += [ordered]@{ From = $tempRootProjectRelative.Replace("/", "\"); To = "[VALIDATION_TEMP_ROOT]" }
+      $replacements += [ordered]@{ From = $tempRootProjectRelative.Replace("\", "/"); To = "[VALIDATION_TEMP_ROOT]" }
+      $replacements += [ordered]@{ From = $tempRootProjectRelative.Replace("\", "\\"); To = "[VALIDATION_TEMP_ROOT]" }
+    }
   }
   if (![string]::IsNullOrWhiteSpace($env:TEMP)) {
     $tempFull = [System.IO.Path]::GetFullPath($env:TEMP).TrimEnd("\", "/")
     $replacements += [ordered]@{ From = $tempFull; To = "[TEMP]" }
     $replacements += [ordered]@{ From = $tempFull.Replace("\", "/"); To = "[TEMP]" }
     $replacements += [ordered]@{ From = $tempFull.Replace("\", "\\"); To = "[TEMP]" }
+    $tempProjectRelative = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $tempFull
+    if (![string]::IsNullOrWhiteSpace($tempProjectRelative)) {
+      $replacements += [ordered]@{ From = $tempProjectRelative; To = "[TEMP]" }
+      $replacements += [ordered]@{ From = $tempProjectRelative.Replace("/", "\"); To = "[TEMP]" }
+      $replacements += [ordered]@{ From = $tempProjectRelative.Replace("\", "/"); To = "[TEMP]" }
+      $replacements += [ordered]@{ From = $tempProjectRelative.Replace("\", "\\"); To = "[TEMP]" }
+    }
   }
 
   foreach ($replacement in $replacements) {
@@ -180,6 +194,92 @@ function Invoke-LocalHelper {
       $entry.result = "fail"
     }
   }
+  return $entry
+}
+
+function Invoke-PullbackManifestVerificationSmoke {
+  param(
+    [Parameter(Mandatory=$true)][string]$ScriptPath,
+    [Parameter(Mandatory=$true)][string]$TempRoot
+  )
+
+  $pullbackRoot = Join-Path $TempRoot "pullback_verified"
+  $imageDir = Join-Path $pullbackRoot "images"
+  $null = New-Item -ItemType Directory -Force -Path $imageDir
+
+  $imagePath = Join-Path $imageDir "sample.png"
+  [System.IO.File]::WriteAllBytes($imagePath, [byte[]](137,80,78,71,13,10,26,10,0,0,0,0))
+  $hash = (Get-FileHash -LiteralPath $imagePath -Algorithm SHA256).Hash.ToLowerInvariant()
+  $bytes = (Get-Item -LiteralPath $imagePath).Length
+
+  $manifestPath = Join-Path $pullbackRoot "REMOTE_ARTIFACT_MANIFEST.json"
+  $manifest = [ordered]@{
+    run_id = "static_validation_pullback"
+    files = @(
+      [ordered]@{
+        relative_path = "images/sample.png"
+        size_bytes = [int64]$bytes
+        sha256 = $hash
+        artifact_type = "image"
+        qa_required = $true
+      }
+    )
+  }
+  $manifest | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $manifestPath -Encoding UTF8
+
+  $outFile = Join-Path $pullbackRoot "PULLBACK_RECORD.json"
+  $output = & powershell -NoProfile -ExecutionPolicy Bypass -File $ScriptPath `
+    -ProjectRoot $ProjectRoot `
+    -RunId "static_validation_pullback" `
+    -LocalDestination $pullbackRoot `
+    -RemoteManifestFile $manifestPath `
+    -OutFile $outFile 2>&1
+  $text = (($output | ForEach-Object { $_.ToString() }) -join "`n").Trim()
+  $text = ConvertTo-RedactedEvidenceText -Text $text -TempRoot $script:ValidationTempRoot
+
+  $entry = [ordered]@{
+    name = "ec2_pullback_manifest_verification_smoke"
+    script = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $ScriptPath
+    exit_code = $LASTEXITCODE
+    result = $(if ($LASTEXITCODE -eq 0) { "pass" } else { "fail" })
+    output_tail = $(if ($text.Length -gt 1000) { $text.Substring($text.Length - 1000) } else { $text })
+    expected_output_file = ConvertTo-EvidencePath -BasePath $ProjectRoot -TargetPath $outFile -TempRoot $script:ValidationTempRoot
+    expected_output_file_exists = (Test-Path -LiteralPath $outFile)
+    expected_output_json_valid = $false
+    expected_output_error = $null
+    status = $null
+    hashes_verified = $false
+    file_count_remote = $null
+    file_count_local = $null
+    qa_required_count = 0
+    manifest_counted_as_artifact = $false
+  }
+
+  if ($entry.expected_output_file_exists) {
+    try {
+      $record = Get-Content -LiteralPath $outFile -Raw | ConvertFrom-Json
+      $entry.expected_output_json_valid = $true
+      $entry.status = [string]$record.status
+      $entry.hashes_verified = [bool]$record.hashes_verified
+      $entry.file_count_remote = $record.file_count_remote
+      $entry.file_count_local = $record.file_count_local
+      $entry.qa_required_count = @($record.qa_required_files).Count
+      $entry.manifest_counted_as_artifact = (@($record.files | Where-Object { [string]$_.relative_path -eq "REMOTE_ARTIFACT_MANIFEST.json" }).Count -gt 0)
+
+      if (-not $entry.hashes_verified) { $entry.result = "fail"; $entry.expected_output_error = "hashes_verified was false." }
+      if ([string]$entry.status -ne "pullback_hashes_verified") { $entry.result = "fail"; $entry.expected_output_error = "Unexpected status: $($entry.status)" }
+      if ([int]$entry.file_count_remote -ne 1 -or [int]$entry.file_count_local -ne 1) { $entry.result = "fail"; $entry.expected_output_error = "Unexpected file counts remote=$($entry.file_count_remote) local=$($entry.file_count_local)" }
+      if ([int]$entry.qa_required_count -ne 1) { $entry.result = "fail"; $entry.expected_output_error = "Unexpected QA required count: $($entry.qa_required_count)" }
+      if ($entry.manifest_counted_as_artifact) { $entry.result = "fail"; $entry.expected_output_error = "Remote manifest was counted as a pulled artifact." }
+    } catch {
+      $entry.expected_output_error = $_.Exception.Message
+      $entry.result = "fail"
+    }
+  } else {
+    $entry.result = "fail"
+    $entry.expected_output_error = "Expected pullback record was not created."
+  }
+
   return $entry
 }
 
@@ -261,6 +361,10 @@ $localSmokeResults += Invoke-LocalHelper -Name "ec2_pullback_record_dry_run" `
   -ScriptPath (Join-Path $scriptsRoot "New-EC2PullbackRecord.ps1") `
   -Arguments @("-DryRun", "-OutFile", $pullbackDryRunFile) `
   -ExpectedOutputFile $pullbackDryRunFile
+
+$localSmokeResults += Invoke-PullbackManifestVerificationSmoke `
+  -ScriptPath (Join-Path $scriptsRoot "New-EC2PullbackRecord.ps1") `
+  -TempRoot $tempRoot
 
 $readinessFile = Join-Path $tempRoot "lane_runtime_readiness.json"
 $localSmokeResults += Invoke-LocalHelper -Name "lane_runtime_readiness_dry_run" `
