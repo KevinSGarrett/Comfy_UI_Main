@@ -525,7 +525,7 @@ $qaRoot = Join-Path $ProjectRoot "Plan\Instructions\QA"
 $scriptsRoot = Join-Path $qaRoot "Scripts"
 $schemasRoot = Join-Path $qaRoot "Schemas"
 $templatesRoot = Join-Path $qaRoot "Templates"
-$laneDir = Join-Path $ProjectRoot "Plan\07_IMPLEMENTATION\workflow_templates\base_generation\sdxl_low_risk_fallback_lane"
+$baseGenerationRoot = Join-Path $ProjectRoot "Plan\07_IMPLEMENTATION\workflow_templates\base_generation"
 $tempRoot = Join-Path $env:TEMP "comfy_ui_qa_static_validation_$stamp"
 $script:ValidationTempRoot = $tempRoot
 $null = New-Item -ItemType Directory -Force -Path $tempRoot
@@ -554,6 +554,28 @@ foreach ($json in @(
 $markdownTemplateResults = @()
 foreach ($template in Get-ChildItem -LiteralPath $templatesRoot -Filter "*.md" -File | Sort-Object Name) {
   $markdownTemplateResults += Test-MarkdownTemplate -Path $template.FullName
+}
+
+$authoredLaneDirs = @()
+if (Test-Path -LiteralPath $baseGenerationRoot) {
+  foreach ($dir in Get-ChildItem -LiteralPath $baseGenerationRoot -Directory | Sort-Object Name) {
+    $requiredLaneFiles = @(
+      "workflow.api.json",
+      "patch_points.json",
+      "runtime_requirements.json",
+      "smoke_test_request.json"
+    )
+    $hasRequiredFiles = $true
+    foreach ($fileName in $requiredLaneFiles) {
+      if (!(Test-Path -LiteralPath (Join-Path $dir.FullName $fileName))) {
+        $hasRequiredFiles = $false
+        break
+      }
+    }
+    if ($hasRequiredFiles) {
+      $authoredLaneDirs += $dir
+    }
+  }
 }
 
 $localSmokeResults = @()
@@ -589,12 +611,14 @@ $localSmokeResults += Invoke-LocalHelper -Name "image_artifact_qa_technical_smok
   -ExpectedOutputFile $imageTechnicalFile `
   -ExpectedOutputType "json"
 
-$workflowStaticFile = Join-Path $tempRoot "workflow_static_validation.json"
-$localSmokeResults += Invoke-LocalHelper -Name "workflow_static_validation_smoke" `
-  -ScriptPath (Join-Path $scriptsRoot "Test-ComfyWorkflowStatic.ps1") `
-  -Arguments @("-ProjectRoot", $ProjectRoot, "-LaneDir", $laneDir, "-OutFile", $workflowStaticFile) `
-  -ExpectedOutputFile $workflowStaticFile `
-  -ExpectedOutputType "json"
+foreach ($laneDir in @($authoredLaneDirs)) {
+  $workflowStaticFile = Join-Path $tempRoot ("workflow_static_validation_{0}.json" -f $laneDir.Name)
+  $localSmokeResults += Invoke-LocalHelper -Name ("workflow_static_validation_smoke_{0}" -f $laneDir.Name) `
+    -ScriptPath (Join-Path $scriptsRoot "Test-ComfyWorkflowStatic.ps1") `
+    -Arguments @("-ProjectRoot", $ProjectRoot, "-LaneDir", $laneDir.FullName, "-OutFile", $workflowStaticFile) `
+    -ExpectedOutputFile $workflowStaticFile `
+    -ExpectedOutputType "json"
+}
 
 $itemsTrackerValidationFile = Join-Path $tempRoot "items_tracker_package_validation.json"
 $localSmokeResults += Invoke-LocalHelper -Name "items_tracker_package_validation_smoke" `
@@ -641,7 +665,7 @@ $record = [ordered]@{
     "Plan/Instructions/QA/Schemas/*.json",
     "Plan/Instructions/QA/Templates/*.json",
     "Plan/Instructions/QA/Templates/*.md",
-    "selected-lane workflow static validation smoke",
+    "all authored base-generation workflow static validation smokes",
     "image artifact QA dry-run and technical sample smoke",
     "Items/Tracker package validator smoke",
     "project readiness snapshot smoke",
@@ -657,6 +681,8 @@ $record = [ordered]@{
     markdown_template_count = @($markdownTemplateResults).Count
     markdown_template_failures = @($markdownFailures).Count
     markdown_template_results = $markdownTemplateResults
+    authored_base_generation_lane_count = @($authoredLaneDirs).Count
+    authored_base_generation_lanes = @($authoredLaneDirs | ForEach-Object { $_.Name })
     local_smoke_count = @($localSmokeResults).Count
     local_smoke_failures = @($smokeFailures).Count
     local_smoke_results = $localSmokeResults
