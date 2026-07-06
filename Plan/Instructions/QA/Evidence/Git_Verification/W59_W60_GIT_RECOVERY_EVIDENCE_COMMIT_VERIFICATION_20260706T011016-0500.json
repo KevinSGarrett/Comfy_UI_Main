@@ -1,0 +1,51 @@
+{
+  "evidence_id": "EVID-W59-W60-GIT-RECOVERY-EVIDENCE-COMMIT-VERIFICATION-20260706T011016-0500",
+  "created_at": "2026-07-06T01:10:16-05:00",
+  "wave": "59/60",
+  "task": "Git recovery evidence/tracker commit remote verification",
+  "repo_root": "C:\\Comfy_UI_Main",
+  "remote": "https://github.com/KevinSGarrett/Comfy_UI_Main.git",
+  "verification_subject": {
+    "commit": "f735d838c2ac75e928b4e069ac6ba8574347882a",
+    "message": "Tracker: record Git recovery evidence"
+  },
+  "checks": [
+    {
+      "name": "local_status",
+      "command": "git -C C:\\Comfy_UI_Main status --branch --short",
+      "result": "pass",
+      "observed": [
+        "## main...origin/main"
+      ]
+    },
+    {
+      "name": "local_head",
+      "command": "git -C C:\\Comfy_UI_Main rev-parse HEAD",
+      "result": "pass",
+      "observed": "f735d838c2ac75e928b4e069ac6ba8574347882a"
+    },
+    {
+      "name": "remote_head",
+      "command": "git -C C:\\Comfy_UI_Main ls-remote origin refs/heads/main",
+      "result": "pass",
+      "observed": "f735d838c2ac75e928b4e069ac6ba8574347882a\trefs/heads/main"
+    },
+    {
+      "name": "working_tree_clean",
+      "command": "git -C C:\\Comfy_UI_Main diff --name-only; git -C C:\\Comfy_UI_Main diff --cached --name-only; git -C C:\\Comfy_UI_Main ls-files --others --exclude-standard",
+      "result": "pass",
+      "observed": {
+        "staged_count": 0,
+        "unstaged_count": 0,
+        "untracked_count": 0
+      }
+    }
+  ],
+  "result": "pass",
+  "notes": [
+    "The initial Git recovery commit was pushed as 032be6fd96e1b3d8edd3cb2a8c135515c5b10f2d.",
+    "The follow-up recovery evidence/tracker commit was pushed and verified at f735d838c2ac75e928b4e069ac6ba8574347882a.",
+    ".env content was not inspected; Git protection for .env was validated separately in prior evidence."
+  ],
+  "next_action": "Proceed to the next highest-value local validation, currently Wave 62 cumulative zip validation once a real cumulative zip is restored or created."
+}

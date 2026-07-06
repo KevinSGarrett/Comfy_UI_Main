@@ -10,6 +10,7 @@
 | CERT-W59-LIVE-INDEX-VALIDATION-20260706T003608-0500 | Wave 59 live local index validation certification | done_certification | done_with_non_blocking_notes | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_LIVE_INDEX_VALIDATION_20260706T003608-0500.md |
 | EVID-W59-W60-GIT-LOCAL-VERIFICATION-20260706T004200-0500 | Wave 59/60 local Git verification and secret guard check | git_local_verification | blocked | Plan/Instructions/QA/Evidence/Git_Verification/W59_W60_GIT_LOCAL_VERIFICATION_20260706T004200-0500.json |
 | EVID-W59-W60-GIT-RECOVERY-INITIAL-COMMIT-20260706T010603-0500 | Wave 59/60 Git recovery, initial commit, LFS setup, and push verification | git_recovery_initial_commit_and_push | pass | Plan/Instructions/QA/Evidence/Git_Verification/W59_W60_GIT_RECOVERY_INITIAL_COMMIT_20260706T010603-0500.json |
+| EVID-W59-W60-GIT-RECOVERY-EVIDENCE-COMMIT-VERIFICATION-20260706T011016-0500 | Wave 59/60 Git recovery evidence/tracker commit remote verification | git_recovery_evidence_commit_verification | pass | Plan/Instructions/QA/Evidence/Git_Verification/W59_W60_GIT_RECOVERY_EVIDENCE_COMMIT_VERIFICATION_20260706T011016-0500.json |
 | EVID-W60-OPERATIONS-STATIC-VALIDATION-20260706T004632-0500 | Wave 60 operations helper scripts/schemas/templates local validation | operations_static_validation | pass_with_notes | Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_STATIC_VALIDATION_20260706T004632-0500.json |
 | CERT-W60-OPERATIONS-STATIC-VALIDATION-20260706T004632-0500 | Wave 60 operations static validation certification | done_certification | done_with_non_blocking_notes | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W60_OPERATIONS_STATIC_VALIDATION_20260706T004632-0500.md |
 | EVID-W61-QA-HELPER-STATIC-VALIDATION-20260706T005111-0500 | Wave 61 QA helper scripts/schemas/templates local validation | qa_helper_static_validation | pass_with_notes | Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_STATIC_VALIDATION_20260706T005111-0500.json |
@@ -19,7 +20,7 @@
 
 ## Pending runtime evidence
 
-- GitHub verification evidence
+- GitHub API-specific token evidence, if required separately from pushed Git remote evidence
 - AWS/EC2 verification evidence
 - Civitai API evidence
 - ComfyUI workflow test evidence

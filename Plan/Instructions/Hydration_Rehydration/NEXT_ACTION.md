@@ -1,13 +1,9 @@
 # Next Action
 
-Commit and push the Git recovery evidence/tracker updates that were created after the initial project-state commit:
+Resolve `BLOCKER-W62-ZIP-001`: restore or create a real cumulative zip under `C:\Comfy_UI_Main`, then run the cumulative pack tester:
 
 ```powershell
-git -C C:\Comfy_UI_Main status --branch --short
-git -C C:\Comfy_UI_Main add Plan\Instructions
-git -C C:\Comfy_UI_Main diff --cached --name-only
-git -C C:\Comfy_UI_Main commit -m "Tracker: record Git recovery evidence"
-git -C C:\Comfy_UI_Main push origin main
+powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Hydration_Rehydration\Scripts\Test-CumulativeWavePack.ps1
 ```
 
-Before committing, rerun the staged path guard and staged secret scan. Do not add `.env`.
+Git recovery is complete. `C:\Comfy_UI_Main` now has Git metadata, canonical origin, Git LFS coverage for oversized CSVs, a clean branch tracking `origin/main`, and pushed recovery evidence through `f735d838c2ac75e928b4e069ac6ba8574347882a`.
