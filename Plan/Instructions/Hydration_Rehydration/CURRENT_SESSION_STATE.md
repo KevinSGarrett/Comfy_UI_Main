@@ -475,3 +475,16 @@ After AWS remote login is refreshed externally, rerun `Test-AwsAuthGate.ps1` unt
 - Wave65 source coverage was rerun after this addition. Current result: `pass`, `plan_file_count=2851`, `wave65_rows_created=676`, `missing_after_wave65_count=0`.
 - This remains local-only. It did not contact AWS, GitHub APIs, Civitai, ComfyUI, start EC2, upload to S3, or run generation.
 - Next quality step: fill the real bucket and role values, rerun S3 runtime transfer readiness, publish the matrix deploy bundle to S3, verify uploaded SHA256, then use the matrix quality-run plan inside bounded EC2 gates.
+
+## Latest S3 Runtime Infrastructure - 2026-07-06T17:58:08-05:00
+
+- Added `Plan\Instructions\Operations\Scripts\Initialize-S3RuntimeInfrastructure.ps1` to initialize the runtime S3 bucket and least-privilege IAM roles from the real AWS account while keeping EC2 stopped.
+- Dry-run evidence `Plan\Instructions\QA\Evidence\Operations_Static_Validation\W66_S3_RUNTIME_INFRA_DRY_RUN_20260706T175619-0500.json` reports `dry_run_ready`.
+- Execute evidence `Plan\Instructions\QA\Evidence\Operations_Static_Validation\W66_S3_RUNTIME_INFRA_EXECUTE_20260706T175716-0500.json` reports `s3_runtime_infrastructure_ready`: bucket `comfy-ui-main-runtime-029530099913-us-east-1` created/configured, S3 public access block/encryption/versioning enabled, `ComfyUI-SSM-Role` got `ComfyUIRuntimeS3Access`, `ComfyUIGitHubDeployBundleRole` got `ComfyUIDeployBundleS3Upload`, and `ComfyUIEmergencyStopSchedulerRole` got `ComfyUIEmergencyStopOnly`.
+- Updated `Plan\Instructions\Operations\Scripts\Test-S3RuntimeTransferReadiness.ps1` so scheduler stop role ARN can be read from `COMFY_SCHEDULER_STOP_ROLE_ARN` as well as the older fallback key.
+- Readiness evidence `Plan\Instructions\QA\Evidence\Operations_Static_Validation\W66_S3_RUNTIME_TRANSFER_READY_20260706T175808-0500.json` now reports `ready_local_only`; missing config is empty.
+- Operations helper evidence `Plan\Instructions\QA\Evidence\Operations_Static_Validation\W66_OPERATIONS_HELPER_S3_RUNTIME_INFRA_20260706T175902-0500.json` reports `pass_local_only`.
+- AWS verification confirmed bucket versioning `Enabled`, SSE-S3 encryption, public access block enabled, and expected IAM inline policies. EC2 final state was checked as `stopped`.
+- Wave65 source coverage was rerun after this addition. Current result: `pass`, `plan_file_count=2855`, `wave65_rows_created=680`, `missing_after_wave65_count=0`.
+- Non-secret `.env` S3/IAM values were updated locally but `.env` remains ignored and must not be committed or printed. `C:\Comfy_UI_Main\comfyui-lora-key.pem` remains private and must not be committed.
+- Next quality step: publish the RealVisXL matrix deploy bundle to S3, verify the uploaded SHA256, then regenerate/use the matrix quality-run plan with the real S3 URI and SHA before any bounded EC2 generation.

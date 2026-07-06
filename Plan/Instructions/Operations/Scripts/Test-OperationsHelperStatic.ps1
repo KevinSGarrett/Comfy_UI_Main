@@ -735,6 +735,12 @@ $localSmokeResults += Invoke-LocalHelper -Name "s3_runtime_config_plan_smoke" `
   -Arguments @("-ProjectRoot", $ProjectRoot, "-BucketName", "example-comfy-runtime-bucket", "-GitHubRoleArn", "arn:aws:iam::029530099913:role/example-github-deploy-role", "-SchedulerRoleArn", "arn:aws:iam::029530099913:role/example-scheduler-stop-role", "-RenderedPolicyDir", $s3RuntimeConfigPolicyDir, "-OutFile", $s3RuntimeConfigPlanFile) `
   -ExpectedOutputFile $s3RuntimeConfigPlanFile
 
+$s3RuntimeInfraDryRunFile = Join-Path $tempRoot "s3_runtime_infrastructure_dry_run.json"
+$localSmokeResults += Invoke-LocalHelper -Name "s3_runtime_infrastructure_dry_run" `
+  -ScriptPath (Join-Path $scriptsRoot "Initialize-S3RuntimeInfrastructure.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-OutFile", $s3RuntimeInfraDryRunFile) `
+  -ExpectedOutputFile $s3RuntimeInfraDryRunFile
+
 $installModelFile = Join-Path $tempRoot "install_ec2_model_from_s3_dry_run.json"
 $localSmokeResults += Invoke-LocalHelper -Name "install_ec2_model_from_s3_dry_run" `
   -ScriptPath (Join-Path $scriptsRoot "Install-EC2ModelFromS3.ps1") `

@@ -172,6 +172,12 @@ if ([string]::IsNullOrWhiteSpace($ArtifactS3Uri) -and
 if ([string]::IsNullOrWhiteSpace($GitHubRoleArn)) {
   $GitHubRoleArn = Get-EnvValue -Map $envMap -Name "AWS_ROLE_TO_ASSUME"
 }
+if ([string]::IsNullOrWhiteSpace($SchedulerRoleArn)) {
+  $SchedulerRoleArn = Get-EnvValue -Map $envMap -Name "COMFY_SCHEDULER_STOP_ROLE_ARN"
+}
+if ([string]::IsNullOrWhiteSpace($SchedulerRoleArn)) {
+  $SchedulerRoleArn = Get-EnvValue -Map $envMap -Name "SCHEDULER_STOP_ROLE_ARN"
+}
 
 $templateRoot = Join-Path $ProjectRoot "configs\aws"
 $templateFiles = @(
@@ -228,6 +234,7 @@ $record = [ordered]@{
     New-EnvCheck -Map $envMap -Name "S3_MANIFEST_PREFIX"
     New-EnvCheck -Map $envMap -Name "COMFY_DEPLOY_BUNDLE_S3_URI"
     New-EnvCheck -Map $envMap -Name "AWS_ROLE_TO_ASSUME"
+    New-EnvCheck -Map $envMap -Name "COMFY_SCHEDULER_STOP_ROLE_ARN"
   )
   resolved_config = [ordered]@{
     deploy_bundle_s3_uri_present = Test-S3UriShape -Uri $DeployBundleS3Uri

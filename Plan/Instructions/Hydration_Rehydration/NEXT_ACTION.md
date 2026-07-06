@@ -1,8 +1,8 @@
 # Next Action
 
-## Current next action - 2026-07-06T17:31:38-05:00
+## Current next action - 2026-07-06T18:02:36-05:00
 
-Finish the current checkpoint from `C:\Comfy_UI_Main`, then fill the real S3 bucket/base URI and IAM role values needed by the S3 runtime transfer gate. Do not start EC2 from this checkpoint alone: first rerun S3 readiness with real bucket/role config, publish the matrix deploy bundle to S3, verify the uploaded bundle SHA256, confirm AWS auth and Git cleanliness, then run only the planned per-sample commands with artifact pullback and whole-image QA for every generated sample.
+Finish the current S3 runtime infrastructure checkpoint from `C:\Comfy_UI_Main`, then publish the RealVisXL matrix deploy bundle to S3 using the configured runtime bucket/base URI. Do not start EC2 from this checkpoint alone: first verify the uploaded bundle SHA256, confirm Git cleanliness and cost-control gates, then run only the planned per-sample commands with artifact pullback and whole-image QA for every generated sample.
 
 Latest run-package hardening: `tools\New-WorkflowRunPackage.ps1` now supports `-RouteRequestFile` and records the Wave64 router decision in each gated package manifest. Use it for future image run packages so package creation cannot bypass model-family and lane compatibility. Current package evidence is `runtime_artifacts/run_packages/sdxl_realvisxl_router_gated_package_v1/RUN_PACKAGE_MANIFEST.json`; dedicated validation is `Plan/Instructions/QA/Evidence/Run_Package/W66_WORKFLOW_RUN_PACKAGE_ROUTER_GATE_20260706T153601-0500.json`; QA helper evidence is `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_WORKFLOW_RUN_PACKAGE_ROUTER_GATE_20260706T153612-0500.json`. Result: `pass_local_only`, no EC2 start, no generation.
 
@@ -33,7 +33,7 @@ Plan/Tracker/Reports/wave65_plan_source_coverage_report.json
 Plan/Items/Scripts/generate_wave65_plan_source_coverage.py
 ```
 
-Wave 65 current result is `pass`: 2,851 current source files under `Plan` are covered, 676 closure Items rows and 676 closure Tracker rows were generated, and `missing_after_wave65_count=0`. Transient `__pycache__` and `.pyc` files are excluded from the coverage universe. Rerun `python Plan\Items\Scripts\generate_wave65_plan_source_coverage.py` after any Plan file addition or rename.
+Wave 65 current result is `pass`: 2,855 current source files under `Plan` are covered, 680 closure Items rows and 680 closure Tracker rows were generated, and `missing_after_wave65_count=0`. Transient `__pycache__` and `.pyc` files are excluded from the coverage universe. Rerun `python Plan\Items\Scripts\generate_wave65_plan_source_coverage.py` after any Plan file addition or rename.
 
 Latest multi-sample preparation: `tools\New-WorkflowRunPackageMatrix.ps1` created a router-gated RealVisXL certification matrix from `PromptProfiles/base_generation/realvisxl_multisample_certification.matrix.json`. Persistent manifest: `runtime_artifacts/run_package_matrices/realvisxl_multisample_certification_v1/RUN_PACKAGE_MATRIX_MANIFEST.json`; dedicated evidence: `Plan/Instructions/QA/Evidence/Run_Package/W66_WORKFLOW_RUN_PACKAGE_MATRIX_20260706T155031-0500.json`; QA helper evidence: `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_WORKFLOW_RUN_PACKAGE_MATRIX_20260706T155048-0500.json`. Result: `pass_local_only`, three unique RealVisXL sample packages, no EC2 start, no generation.
 
@@ -41,7 +41,7 @@ Latest deploy-bundle preparation: `tools\New-EC2DeployBundleMatrix.ps1` packaged
 
 Latest matrix quality-run planning: `Plan/Instructions/Operations/Scripts/New-EC2WorkflowMatrixQualityRunPlan.ps1` validates the RealVisXL three-sample matrix and emits bounded per-sample `Invoke-EC2WorkflowSmokeRun.ps1` commands. Dedicated evidence: `Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_MATRIX_QUALITY_RUN_PLAN_20260706T173124-0500.json`; QA helper evidence: `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_MATRIX_QUALITY_RUN_PLAN_20260706T173138-0500.json`; operations helper evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_OPERATIONS_HELPER_MATRIX_QUALITY_RUN_PLAN_20260706T173138-0500.json`. Result: `pass_local_only`; all three sample commands include `-RunPackageManifestFile`, `-DeployBundleS3Uri`, `-DeployBundleSha256`, `-SkipGitLfsPull`, and `-MaxEc2RuntimeMinutes`; every sample has planned pullback and whole-image QA commands; no AWS contact, no EC2 start, no generation.
 
-Latest S3 runtime config planning: `Plan/Instructions/Operations/Scripts/New-S3RuntimeConfigPlan.ps1` turns missing S3/IAM config into redacted env lines, rendered policy previews, and exact readiness/publish/emergency-stop/matrix-plan commands. Dedicated evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_RUNTIME_CONFIG_PLAN_20260706T174526-0500.json`; operations helper evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_OPERATIONS_HELPER_S3_RUNTIME_CONFIG_PLAN_20260706T174541-0500.json`; QA helper evidence: `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_S3_RUNTIME_CONFIG_PLAN_20260706T174541-0500.json`. Result: `pass_local_only`; rendered policy preview count `5`; current real readiness remains blocked until the project has real `S3_MODEL_BUCKET`, `COMFY_DEPLOY_BUNDLE_S3_URI`, `AWS_ROLE_TO_ASSUME`, and scheduler stop role ARN values.
+Latest S3 runtime infrastructure: `Plan/Instructions/Operations/Scripts/Initialize-S3RuntimeInfrastructure.ps1` initialized bucket `comfy-ui-main-runtime-029530099913-us-east-1`, EC2 runtime S3 access, GitHub OIDC deploy role, scheduler stop role, and local non-secret `.env` config while EC2 stayed stopped and no generation ran. Dry-run evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_RUNTIME_INFRA_DRY_RUN_20260706T175619-0500.json`; execute evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_RUNTIME_INFRA_EXECUTE_20260706T175716-0500.json`; readiness evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_RUNTIME_TRANSFER_READY_20260706T175808-0500.json`; operations helper evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_OPERATIONS_HELPER_S3_RUNTIME_INFRA_20260706T175902-0500.json`. Result: `s3_runtime_infrastructure_ready`; readiness now `ready_local_only`; missing config is empty.
 
 Do not repeat the first-lane smoke path. `sdxl_low_risk_fallback_lane` already has EC2 static proof, bounded workflow smoke generation, SSM pullback, technical image QA, and visual QA with runtime-smoke notes.
 
@@ -74,7 +74,7 @@ Next runtime work after the checkpoint:
 
 1. Verify Wave 64 and Wave 65 coverage stay passing after any Items/Tracker/Plan change.
 2. Verify AWS auth and Git clean/head only before an EC2 `-Execute` path.
-3. Use `New-S3RuntimeConfigPlan.ps1` with real bucket and role values, then configure the S3 bucket/prefix permissions from `configs/aws` for deploy bundles, model cache, and artifact pullback.
+3. Publish the RealVisXL matrix deploy bundle to S3 using the configured runtime bucket/base URI, verify the uploaded SHA256, and feed the real S3 URI/SHA into the matrix quality-run planner.
 4. Do not rerun RealVisXL static proof or workflow smoke unless the lane, prompt, model, or EC2 runtime changed.
 5. For image-quality certification, publish the RealVisXL matrix deploy bundle to S3, verify its uploaded SHA256, run the generated matrix quality-run plan only after auth/Git/readiness/cost-control gates pass, pull back every generated sample, and perform whole-image visual QA for all three samples rather than treating the single smoke output as final portfolio proof.
 6. For audio/video expansion, require full-duration/whole-frame review in addition to target feature checks.
@@ -102,9 +102,11 @@ Validation evidence:
 ```text
 Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_OPERATIONS_HELPER_S3_TRANSFER_READINESS_FINAL_20260706T142956-0500.json
 Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_S3_RUNTIME_TRANSFER_READINESS_20260706T142504-0500.json
+Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_RUNTIME_INFRA_EXECUTE_20260706T175716-0500.json
+Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_RUNTIME_TRANSFER_READY_20260706T175808-0500.json
 ```
 
-Operations validation result is `pass_local_only` with 21 operations scripts parsed, 15 local smokes, 0 smoke failures, and 0 evidence-contract failures. S3 runtime transfer readiness is local-only and currently reports `blocked_missing_s3_runtime_config`; fill `COMFY_DEPLOY_BUNDLE_S3_URI`, `S3_MODEL_BUCKET`, `S3_MODEL_PREFIX`, `S3_RENDER_OUTPUT_PREFIX`, `AWS_ROLE_TO_ASSUME`, and the scheduler stop role ARN before applying AWS policies or starting EC2 for a future transfer window. The generated handoff smoke now requires S3 deploy-bundle, S3 model-install, emergency-stop instructions, and the no-rerun completed-smoke invariant. Do not rerun this validation unless the helper scripts, policy templates, or S3/IAM config change.
+Operations validation now includes the S3 runtime infrastructure dry-run smoke. S3 runtime transfer readiness is local-only and currently reports `ready_local_only`; the earlier `blocked_missing_s3_runtime_config` result is historical. The generated handoff smoke now requires S3 deploy-bundle, S3 model-install, emergency-stop instructions, and the no-rerun completed-smoke invariant. Do not rerun this validation unless the helper scripts, policy templates, S3/IAM config, or publish target changes.
 
 ## Current runtime proof update - 2026-07-06T12:20:27-05:00
 

@@ -1,0 +1,56 @@
+{
+    "schema_version":  "1.0",
+    "created_at":  "2026-07-06T17:56:20-05:00",
+    "operation":  "initialize_s3_runtime_infrastructure",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "secrets_printed":  false,
+    "account_id":  "029530099913",
+    "region":  "us-east-1",
+    "project_root":  "C:\\Comfy_UI_Main",
+    "bucket_name":  "comfy-ui-main-runtime-029530099913-us-east-1",
+    "prefixes":  {
+                     "deploy_bundle":  "deploy-bundles",
+                     "model_cache":  "model-cache",
+                     "artifact":  "render-outputs",
+                     "manifest":  "manifests"
+                 },
+    "roles":  {
+                  "ec2_runtime_role":  "ComfyUI-SSM-Role",
+                  "github_deploy_role":  "ComfyUIGitHubDeployBundleRole",
+                  "github_deploy_role_arn":  "arn:aws:iam::029530099913:role/ComfyUIGitHubDeployBundleRole",
+                  "scheduler_stop_role":  "ComfyUIEmergencyStopSchedulerRole",
+                  "scheduler_stop_role_arn":  "arn:aws:iam::029530099913:role/ComfyUIEmergencyStopSchedulerRole"
+              },
+    "s3_uris":  {
+                    "deploy_bundle":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles",
+                    "model_cache":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache",
+                    "artifact":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/render-outputs",
+                    "manifest":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/manifests"
+                },
+    "actions":  [
+
+                ],
+    "env_update":  {
+                       "requested":  false,
+                       "attempted":  false,
+                       "file":  "C:\\Comfy_UI_Main\\.env",
+                       "keys":  [
+                                    "COMFY_DEPLOY_BUNDLE_S3_URI",
+                                    "S3_MODEL_BUCKET",
+                                    "S3_MODEL_PREFIX",
+                                    "S3_RENDER_OUTPUT_PREFIX",
+                                    "S3_MANIFEST_PREFIX",
+                                    "AWS_ROLE_TO_ASSUME",
+                                    "COMFY_SCHEDULER_STOP_ROLE_ARN"
+                                ]
+                   },
+    "result":  "dry_run_ready",
+    "failure_category":  null,
+    "errors":  [
+
+               ],
+    "next_action":  "Run with -Execute to create/update AWS S3/IAM resources, then rerun S3 runtime transfer readiness."
+}
