@@ -1,0 +1,475 @@
+﻿{
+    "evidence_id":  "EVID-W61-MODEL-REGISTRY-COVERAGE-20260706T145843-0500",
+    "created_at":  "2026-07-06T14:58:43-05:00",
+    "artifact_id":  "TRK-W61-MODEL-REGISTRY-COVERAGE",
+    "artifact_type":  "workflow_model_registry_coverage",
+    "tracker_ids":  [
+                        "TRK-W61-006",
+                        "TRK-W61-011"
+                    ],
+    "item_ids":  [
+                     "ITEM-W61-006",
+                     "ITEM-W61-011"
+                 ],
+    "qa_protocol_used":  [
+                             "README_QA_WAVE61.md",
+                             "MODEL_DOWNLOAD_AND_REGISTRY_UPDATE_PROTOCOL.md",
+                             "MODEL_METADATA_LOOKUP_PROTOCOL.md",
+                             "QA_EVIDENCE_LOG_PROTOCOL.md"
+                         ],
+    "scope":  [
+                  "Plan/Registries/Models/model_registry.jsonl",
+                  "Plan/Registries/Models/model_runtime_validation_queue.csv",
+                  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+                  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/\u003cqueued-lane\u003e/runtime_requirements.json"
+              ],
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "registry_file":  "Plan/Registries/Models/model_registry.jsonl",
+    "runtime_validation_queue_file":  "Plan/Registries/Models/model_runtime_validation_queue.csv",
+    "workflow_runtime_lane_queue_file":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+    "registry_record_count":  2,
+    "runtime_validation_queue_row_count":  2,
+    "workflow_runtime_lane_count":  2,
+    "active_lane_ids":  [
+                            "sdxl_low_risk_fallback_lane",
+                            "sdxl_realvisxl_base_lane"
+                        ],
+    "checks":  [
+                   {
+                       "name":  "workflow_runtime_lane_queue_exists",
+                       "result":  "pass",
+                       "expected":  "runtime_lane_queue.json exists",
+                       "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+                       "details":  null
+                   },
+                   {
+                       "name":  "workflow_runtime_lane_queue_json_valid",
+                       "result":  "pass",
+                       "expected":  "runtime lane queue JSON parses",
+                       "observed":  "valid",
+                       "details":  null
+                   },
+                   {
+                       "name":  "workflow_runtime_lane_queue_has_lanes",
+                       "result":  "pass",
+                       "expected":  "at least one queued runtime lane",
+                       "observed":  "2 queued lanes",
+                       "details":  null
+                   },
+                   {
+                       "name":  "workflow_runtime_lane_queue_unique_lane_ids",
+                       "result":  "pass",
+                       "expected":  "lane IDs are unique",
+                       "observed":  "unique",
+                       "details":  null
+                   },
+                   {
+                       "name":  "registry_file_exists",
+                       "result":  "pass",
+                       "expected":  "model_registry.jsonl exists",
+                       "observed":  "Plan/Registries/Models/model_registry.jsonl",
+                       "details":  null
+                   },
+                   {
+                       "name":  "registry_jsonl_valid",
+                       "result":  "pass",
+                       "expected":  "every nonblank line is valid JSON",
+                       "observed":  "valid",
+                       "details":  null
+                   },
+                   {
+                       "name":  "registry_has_records",
+                       "result":  "pass",
+                       "expected":  "at least one registry record",
+                       "observed":  "2 records",
+                       "details":  null
+                   },
+                   {
+                       "name":  "runtime_validation_queue_exists",
+                       "result":  "pass",
+                       "expected":  "model_runtime_validation_queue.csv exists",
+                       "observed":  "Plan/Registries/Models/model_runtime_validation_queue.csv",
+                       "details":  null
+                   },
+                   {
+                       "name":  "runtime_validation_queue_has_rows",
+                       "result":  "pass",
+                       "expected":  "at least one runtime validation queue row",
+                       "observed":  "2 rows",
+                       "details":  null
+                   }
+               ],
+    "registry_record_checks":  [
+                                   {
+                                       "name":  "registry_record_required_fields_MODEL-SDXL-BASE-10-CHECKPOINT-001",
+                                       "result":  "pass",
+                                       "expected":  "required fields present: registry_schema_version, record_id, model_name, model_type, base_model, local_path, workflow_lane, compatibility_status, qa_status, runtime_validation_status",
+                                       "observed":  "all required fields present",
+                                       "details":  {
+                                                       "line_number":  1,
+                                                       "model_name":  "Stable Diffusion XL Base 1.0",
+                                                       "workflow_lane":  "sdxl_low_risk_fallback_lane",
+                                                       "file_name":  "sd_xl_base_1.0.safetensors"
+                                                   }
+                                   },
+                                   {
+                                       "name":  "registry_record_required_fields_MODEL-REALVISXL-V50-BAKEDVAE-CHECKPOINT-001",
+                                       "result":  "pass",
+                                       "expected":  "required fields present: registry_schema_version, record_id, model_name, model_type, base_model, local_path, workflow_lane, compatibility_status, qa_status, runtime_validation_status",
+                                       "observed":  "all required fields present",
+                                       "details":  {
+                                                       "line_number":  2,
+                                                       "model_name":  "RealVisXL V5.0",
+                                                       "workflow_lane":  "sdxl_realvisxl_base_lane",
+                                                       "file_name":  "realvisxlV50_v50Bakedvae.safetensors"
+                                                   }
+                                   }
+                               ],
+    "lane_results":  [
+                         {
+                             "lane_id":  "sdxl_low_risk_fallback_lane",
+                             "requirements_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
+                             "required_model_count":  1,
+                             "checks":  [
+                                            {
+                                                "name":  "runtime_requirements_exists",
+                                                "result":  "pass",
+                                                "expected":  "runtime_requirements.json exists for lane",
+                                                "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "requirements_lane_id_matches",
+                                                "result":  "pass",
+                                                "expected":  "sdxl_low_risk_fallback_lane",
+                                                "observed":  "sdxl_low_risk_fallback_lane",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "requirements_have_required_models",
+                                                "result":  "pass",
+                                                "expected":  "at least one required model",
+                                                "observed":  "1 required models",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "registry_record_found_for_required_model",
+                                                "result":  "pass",
+                                                "expected":  "registry record for sd_xl_base_1.0.safetensors",
+                                                "observed":  "MODEL-SDXL-BASE-10-CHECKPOINT-001",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "single_registry_record_for_required_model",
+                                                "result":  "pass",
+                                                "expected":  "exactly one matching registry record",
+                                                "observed":  "1 matching records",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "registry_local_path_matches_requirement",
+                                                "result":  "pass",
+                                                "expected":  "models/checkpoints/sd_xl_base_1.0.safetensors",
+                                                "observed":  "models/checkpoints/sd_xl_base_1.0.safetensors",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "registry_model_type_matches_requirement",
+                                                "result":  "pass",
+                                                "expected":  "Checkpoint",
+                                                "observed":  "Checkpoint",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "registry_base_model_matches_engine_family",
+                                                "result":  "pass",
+                                                "expected":  "sdxl",
+                                                "observed":  "sdxl",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "registry_compatible_engine_includes_lane_engine",
+                                                "result":  "pass",
+                                                "expected":  "compatible_engines contains sdxl",
+                                                "observed":  "sdxl",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "registry_compatibility_status_matches_lane_state",
+                                                "result":  "fail",
+                                                "expected":  "needs_runtime_validation",
+                                                "observed":  "runtime_validated",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "registry_runtime_validation_status_matches_lane_state",
+                                                "result":  "fail",
+                                                "expected":  "queued",
+                                                "observed":  "runtime_smoke_complete",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "registry_qa_status_matches_lane_state",
+                                                "result":  "fail",
+                                                "expected":  "not_tested",
+                                                "observed":  "pass_with_notes_for_runtime_smoke",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "registry_completed_lane_has_evidence_paths",
+                                                "result":  "pass",
+                                                "expected":  "not required for pending lane",
+                                                "observed":  "lane_status=; evidence_paths=5; existing=5",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "local_model_binary_boundary_respected",
+                                                "result":  "fail",
+                                                "expected":  "binary may be absent locally if validation is queued or completed on EC2 with evidence",
+                                                "observed":  "local binary absent; registry remains queued",
+                                                "details":  {
+                                                                "expected_local_path":  "models/checkpoints/sd_xl_base_1.0.safetensors",
+                                                                "local_file_exists":  false,
+                                                                "storage_location":  "ec2",
+                                                                "lane_status":  ""
+                                                            }
+                                            },
+                                            {
+                                                "name":  "requirements_hash_status_matches_lane_state",
+                                                "result":  "fail",
+                                                "expected":  "pending_ec2_static_match",
+                                                "observed":  "ec2_static_match_verified",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "requirements_path_status_matches_lane_state",
+                                                "result":  "fail",
+                                                "expected":  "pending_ec2_static_match",
+                                                "observed":  "ec2_static_match_verified",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "requirements_block_promotion_without_evidence",
+                                                "result":  "pass",
+                                                "expected":  "promotion_allowed_without_evidence=false",
+                                                "observed":  "False",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "runtime_validation_queue_row_found",
+                                                "result":  "pass",
+                                                "expected":  "one queue row for required model",
+                                                "observed":  "1 matching rows",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "runtime_validation_queue_status_matches_lane_state",
+                                                "result":  "fail",
+                                                "expected":  "queued",
+                                                "observed":  "runtime_smoke_complete",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "runtime_validation_queue_completed_lane_has_evidence",
+                                                "result":  "pass",
+                                                "expected":  "not required for pending lane",
+                                                "observed":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_VISUAL_20260706T122027-0500.json",
+                                                "details":  null
+                                            }
+                                        ],
+                             "failed_check_count":  7,
+                             "result":  "fail"
+                         },
+                         {
+                             "lane_id":  "sdxl_realvisxl_base_lane",
+                             "requirements_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/runtime_requirements.json",
+                             "required_model_count":  1,
+                             "checks":  [
+                                            {
+                                                "name":  "runtime_requirements_exists",
+                                                "result":  "pass",
+                                                "expected":  "runtime_requirements.json exists for lane",
+                                                "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/runtime_requirements.json",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "requirements_lane_id_matches",
+                                                "result":  "pass",
+                                                "expected":  "sdxl_realvisxl_base_lane",
+                                                "observed":  "sdxl_realvisxl_base_lane",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "requirements_have_required_models",
+                                                "result":  "pass",
+                                                "expected":  "at least one required model",
+                                                "observed":  "1 required models",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "registry_record_found_for_required_model",
+                                                "result":  "pass",
+                                                "expected":  "registry record for realvisxlV50_v50Bakedvae.safetensors",
+                                                "observed":  "MODEL-REALVISXL-V50-BAKEDVAE-CHECKPOINT-001",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "single_registry_record_for_required_model",
+                                                "result":  "pass",
+                                                "expected":  "exactly one matching registry record",
+                                                "observed":  "1 matching records",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "registry_local_path_matches_requirement",
+                                                "result":  "pass",
+                                                "expected":  "models/checkpoints/realvisxlV50_v50Bakedvae.safetensors",
+                                                "observed":  "models/checkpoints/realvisxlV50_v50Bakedvae.safetensors",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "registry_model_type_matches_requirement",
+                                                "result":  "pass",
+                                                "expected":  "Checkpoint",
+                                                "observed":  "Checkpoint",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "registry_base_model_matches_engine_family",
+                                                "result":  "pass",
+                                                "expected":  "sdxl",
+                                                "observed":  "sdxl",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "registry_compatible_engine_includes_lane_engine",
+                                                "result":  "pass",
+                                                "expected":  "compatible_engines contains sdxl",
+                                                "observed":  "sdxl",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "registry_compatibility_status_matches_lane_state",
+                                                "result":  "fail",
+                                                "expected":  "needs_runtime_validation",
+                                                "observed":  "runtime_validated",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "registry_runtime_validation_status_matches_lane_state",
+                                                "result":  "fail",
+                                                "expected":  "queued",
+                                                "observed":  "runtime_smoke_complete",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "registry_qa_status_matches_lane_state",
+                                                "result":  "fail",
+                                                "expected":  "not_tested",
+                                                "observed":  "pass_with_notes_for_runtime_smoke",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "registry_completed_lane_has_evidence_paths",
+                                                "result":  "pass",
+                                                "expected":  "not required for pending lane",
+                                                "observed":  "lane_status=; evidence_paths=7; existing=7",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "local_model_binary_boundary_respected",
+                                                "result":  "fail",
+                                                "expected":  "binary may be absent locally if validation is queued or completed on EC2 with evidence",
+                                                "observed":  "local binary absent; registry remains queued",
+                                                "details":  {
+                                                                "expected_local_path":  "models/checkpoints/realvisxlV50_v50Bakedvae.safetensors",
+                                                                "local_file_exists":  false,
+                                                                "storage_location":  "ec2",
+                                                                "lane_status":  ""
+                                                            }
+                                            },
+                                            {
+                                                "name":  "requirements_hash_status_matches_lane_state",
+                                                "result":  "fail",
+                                                "expected":  "pending_ec2_static_match",
+                                                "observed":  "ec2_static_match_verified",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "requirements_path_status_matches_lane_state",
+                                                "result":  "fail",
+                                                "expected":  "pending_ec2_static_match",
+                                                "observed":  "ec2_static_match_verified",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "requirements_block_promotion_without_evidence",
+                                                "result":  "pass",
+                                                "expected":  "promotion_allowed_without_evidence=false",
+                                                "observed":  "False",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "runtime_validation_queue_row_found",
+                                                "result":  "pass",
+                                                "expected":  "one queue row for required model",
+                                                "observed":  "1 matching rows",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "runtime_validation_queue_status_matches_lane_state",
+                                                "result":  "fail",
+                                                "expected":  "queued",
+                                                "observed":  "runtime_smoke_complete",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "runtime_validation_queue_completed_lane_has_evidence",
+                                                "result":  "pass",
+                                                "expected":  "not required for pending lane",
+                                                "observed":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_REALVISXL_IMAGE_QA_VISUAL_20260706T140120-0500.json",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "realvisxl_civitai_model_id_matches_requirement",
+                                                "result":  "pass",
+                                                "expected":  "139562",
+                                                "observed":  "139562",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "realvisxl_civitai_version_id_selected",
+                                                "result":  "pass",
+                                                "expected":  "789646 for V5.0 (BakedVAE), SDXL 1.0",
+                                                "observed":  "789646",
+                                                "details":  null
+                                            },
+                                            {
+                                                "name":  "realvisxl_source_sha256_captured",
+                                                "result":  "pass",
+                                                "expected":  "Civitai source SHA256 for realvisxlV50_v50Bakedvae.safetensors",
+                                                "observed":  "6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80",
+                                                "details":  null
+                                            }
+                                        ],
+                             "failed_check_count":  7,
+                             "result":  "fail"
+                         }
+                     ],
+    "failed_check_count":  2,
+    "result":  "fail",
+    "known_limits":  [
+                         "Does not download checkpoint binaries.",
+                         "Does not prove local or EC2 checkpoint hash.",
+                         "Does not refresh AWS browser/SSO auth.",
+                         "Does not start EC2 or contact ComfyUI.",
+                         "Does not execute generation or perform generated artifact visual QA."
+                     ],
+    "next_action":  "Before adding or promoting any queued lane, keep runtime_lane_queue.json, runtime_requirements.json, model_registry.jsonl, and model_runtime_validation_queue.csv aligned; then run EC2 proof only after auth, Git, queue, registry, and lane-readiness gates pass."
+}

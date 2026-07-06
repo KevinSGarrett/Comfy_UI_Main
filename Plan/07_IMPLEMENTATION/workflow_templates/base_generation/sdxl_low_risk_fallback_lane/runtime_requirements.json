@@ -1,35 +1,45 @@
 {
-  "lane_id": "sdxl_low_risk_fallback_lane",
-  "engine_family": "sdxl",
-  "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
-  "required_nodes": [
-    "CheckpointLoaderSimple",
-    "EmptyLatentImage",
-    "CLIPTextEncode",
-    "KSampler",
-    "VAEDecode",
-    "SaveImage"
-  ],
-  "required_models": [
-    {
-      "role": "checkpoint",
-      "comfyui_model_subdir": "checkpoints",
-      "filename": "sd_xl_base_1.0.safetensors",
-      "sha256": null,
-      "hash_status": "pending_ec2_static_match",
-      "path_status": "pending_ec2_static_match"
-    }
-  ],
-  "optional_models": [],
-  "object_info_required": true,
-  "object_info_status": "pending_ec2_static_match",
-  "model_hash_required": true,
-  "path_resolution_required": true,
-  "runtime_output_required": true,
-  "qa_report_required": true,
-  "promotion_allowed_without_evidence": false,
-  "current_status": "authored_pending_ec2_validation",
-  "known_blockers": [
-    "AWS CLI default login token expired before EC2 hash and object-info proof could be captured."
-  ]
+    "lane_id":  "sdxl_low_risk_fallback_lane",
+    "engine_family":  "sdxl",
+    "workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
+    "required_nodes":  [
+                           "CheckpointLoaderSimple",
+                           "EmptyLatentImage",
+                           "CLIPTextEncode",
+                           "KSampler",
+                           "VAEDecode",
+                           "SaveImage"
+                       ],
+    "required_models":  [
+                            {
+                                "role":  "checkpoint",
+                                "comfyui_model_subdir":  "checkpoints",
+                                "filename":  "sd_xl_base_1.0.safetensors",
+                                "sha256":  "31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b",
+                                "hash_status":  "ec2_static_match_verified",
+                                "path_status":  "ec2_static_match_verified"
+                            }
+                        ],
+    "optional_models":  [
+
+                        ],
+    "object_info_required":  true,
+    "object_info_status":  "ec2_object_info_passed",
+    "model_hash_required":  true,
+    "path_resolution_required":  true,
+    "runtime_output_required":  true,
+    "qa_report_required":  true,
+    "promotion_allowed_without_evidence":  false,
+    "current_status":  "runtime_smoke_qa_complete",
+    "known_blockers":  [
+
+                       ],
+    "evidence_paths":  [
+                           "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_POST_LOGIN_RETEST_20260706T104311-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_POST_STATIC_PROOF_RETEST_20260706T110424-0500.json",
+                           "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/PULLBACK_RECORD.json",
+                           "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_TECHNICAL_20260706T121958-0500.json",
+                           "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_VISUAL_20260706T122027-0500.json"
+                       ],
+    "status_notes":  "EC2 object_info, checkpoint path/hash, workflow smoke, pullback, technical image QA, and visual image QA are complete for runtime-smoke scope."
 }

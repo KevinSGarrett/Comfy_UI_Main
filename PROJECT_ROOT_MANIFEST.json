@@ -39,17 +39,18 @@
       "pullback_record": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T132206-0500/PULLBACK_RECORD.json",
       "image_qa_technical": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_IMAGE_QA_TECHNICAL_REALVISXL_20260706T140027-0500.json",
       "image_qa_visual": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_REALVISXL_IMAGE_QA_VISUAL_20260706T140120-0500.json",
-      "project_readiness": "Plan/Instructions/QA/Evidence/Project_Readiness/W63_PROJECT_READINESS_REALVISXL_QA_COMPLETE_INDEX_REFRESH_20260706T141911-0500.json",
+      "project_readiness": "Plan/Instructions/QA/Evidence/Project_Readiness/W64_PROJECT_READINESS_STRICT_AI_ITEMS_TRACKER_FINAL_20260706T150215-0500.json",
       "runtime_handoff": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_RUNTIME_UNBLOCK_HANDOFF_REALVISXL_QA_COMPLETE_FINAL_20260706T140828-0500.json",
       "operations_validation": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_OPERATIONS_HELPER_S3_TRANSFER_READINESS_FINAL_20260706T142956-0500.json",
       "s3_runtime_transfer_readiness": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_S3_RUNTIME_TRANSFER_READINESS_20260706T142504-0500.json",
-      "model_registry_coverage": "Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_GENERIC_MODEL_TYPES_20260706T144324-0500.json",
+      "model_registry_coverage": "Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_RUNTIME_PROOF_ALIGNMENT_FINAL_20260706T145923-0500.json",
       "workflow_static_generic_model_references": {
         "sdxl_low_risk_fallback_lane": "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_STATIC_GENERIC_MODEL_REFERENCES_sdxl_low_risk_fallback_lane_20260706T144819-0500.json",
         "sdxl_realvisxl_base_lane": "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_STATIC_GENERIC_MODEL_REFERENCES_sdxl_realvisxl_base_lane_20260706T144819-0500.json"
       },
-      "qa_validation": "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_STATIC_GENERIC_MODEL_REFERENCES_20260706T144827-0500.json",
-      "next_required_action": "checkpoint completed RealVisXL smoke evidence, fill S3 runtime-transfer bucket prefix and role config before applying AWS policies, then choose the next lane/module or multi-sample image-quality certification intentionally; model registry coverage now follows the runtime lane queue, supports non-checkpoint model types, and static workflow validation supports explicit required-model node/input mappings"
+      "qa_validation": "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W64_QA_HELPER_STRICT_AI_ITEMS_TRACKER_20260706T150215-0500.json",
+      "items_tracker_validation": "Plan/Instructions/QA/Evidence/Items_Tracker_Validation/W64_ITEMS_TRACKER_STRICT_AI_COVERAGE_20260706T150215-0500.json",
+      "next_required_action": "model registry and runtime requirements now reflect completed smoke-proof status for both active SDXL lanes; fill S3 runtime-transfer bucket prefix and role config before applying AWS policies, then choose the next lane/module or multi-sample image-quality certification intentionally"
     },
     "ec2_start_requires": [
       "AWS auth gate safe_to_start_ec2=true",
@@ -90,6 +91,19 @@
       "artifact pullback",
       "image QA"
     ]
+  },
+  "items_tracker_strict_ai_coverage": {
+    "active_wave": 64,
+    "items_csv": "Plan/Items/wave64_end_to_end_strict_ai_itemized_list.csv",
+    "items_wave_csv": "Plan/Items/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_ITEM_ROWS.csv",
+    "tracker_csv": "Plan/Tracker/wave64_end_to_end_strict_ai_tracker.csv",
+    "tracker_wave_csv": "Plan/Tracker/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_TRACKER_ROWS.csv",
+    "validation_report": "Plan/Items/Reports/wave64_end_to_end_strict_ai_coverage_report.json",
+    "items_tracker_validation_evidence": "Plan/Instructions/QA/Evidence/Items_Tracker_Validation/W64_ITEMS_TRACKER_STRICT_AI_COVERAGE_20260706T150215-0500.json",
+    "qa_helper_validation_evidence": "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W64_QA_HELPER_STRICT_AI_ITEMS_TRACKER_20260706T150215-0500.json",
+    "project_readiness_evidence": "Plan/Instructions/QA/Evidence/Project_Readiness/W64_PROJECT_READINESS_STRICT_AI_ITEMS_TRACKER_FINAL_20260706T150215-0500.json",
+    "rule": "Every strict row must include Plan source citation file, section, line range, excerpt, source key, QA gates, evidence expectations, and whole-artifact visual/audio review when media exists.",
+    "localized_work_rule": "A localized image, video, GIF, audio, mask, prompt, frame, or repair task cannot pass if any unrelated global visual or audio defect exists in the generated artifact."
   },
   "runtime_scope_boundary": {
     "source_analysis_context": [

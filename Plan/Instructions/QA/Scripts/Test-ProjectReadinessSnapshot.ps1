@@ -446,14 +446,14 @@ $latest = [ordered]@{
   lane_readiness = Find-LatestJsonByLaneId -Directory $runtimeReadinessDir -Filter "*LANE_RUNTIME_READINESS_*.json" -ExpectedLaneId $LaneId
   runtime_unblock_handoff = Find-LatestJsonByLaneId -Directory $runtimeReadinessDir -Filter "*RUNTIME_UNBLOCK_HANDOFF_*.json" -ExpectedLaneId $LaneId
   runtime_lane_queue = Find-LatestFile -Directory $workflowPrerequisiteDir -Filter "*RUNTIME_LANE_QUEUE*.json"
-  model_registry_coverage = Find-LatestFile -Directory $modelRegistryCoverageDir -Filter "*MODEL_REGISTRY_COVERAGE*.json"
+  model_registry_coverage = Find-LatestJsonByResult -Directory $modelRegistryCoverageDir -Filter "*MODEL_REGISTRY*.json" -AcceptableResults @("pass_local_only")
   ec2_static_proof_blocked = Find-LatestJsonByLaneId -Directory $workflowStaticDir -Filter "*EC2_LANE_STATIC_PROOF_BLOCKED_EXECUTE_*.json" -ExpectedLaneId $LaneId
   workflow_smoke = Find-LatestJsonByLaneIdAndResult -Directory $workflowRuntimeDir -Filter "*EC2_WORKFLOW_SMOKE*.json" -ExpectedLaneId $LaneId -AcceptableResults @("workflow_smoke_generation_complete")
   ec2_workflow_smoke_blocked = Find-LatestJsonByLaneId -Directory $workflowRuntimeDir -Filter "*EC2_WORKFLOW_SMOKE_RUN_BLOCKED_EXECUTE_*.json" -ExpectedLaneId $LaneId
-  operations_validation = Find-LatestJsonByResult -Directory $operationsValidationDir -Filter "W60_OPERATIONS_HELPER_CURRENT_VALIDATION*.json" -AcceptableResults @("pass_local_only")
-  qa_validation = Find-LatestJsonByResult -Directory $qaValidationDir -Filter "W61_QA_HELPER_CURRENT_VALIDATION*.json" -AcceptableResults @("pass_local_only")
+  operations_validation = Find-LatestJsonByResult -Directory $operationsValidationDir -Filter "*OPERATIONS_HELPER*.json" -AcceptableResults @("pass_local_only")
+  qa_validation = Find-LatestJsonByResult -Directory $qaValidationDir -Filter "*QA_HELPER*.json" -AcceptableResults @("pass_local_only")
   hydration_validation = Find-LatestJsonByResult -Directory $hydrationValidationDir -Filter "W62_HYDRATION_HELPER_CURRENT_VALIDATION*.json" -AcceptableResults @("pass_local_only")
-  items_tracker_validation = Find-LatestJsonByResult -Directory $itemsTrackerValidationDir -Filter "W59_W60_ITEMS_TRACKER_CURRENT_VALIDATION*.json" -AcceptableResults @("pass", "pass_local_only")
+  items_tracker_validation = Find-LatestJsonByResult -Directory $itemsTrackerValidationDir -Filter "*ITEMS_TRACKER*.json" -AcceptableResults @("pass", "pass_local_only")
   index_validation = Find-LatestJsonByResult -Directory $indexValidationDir -Filter "W59_LIVE_INDEX_REFRESH*.json" -AcceptableResults @("pass")
 }
 

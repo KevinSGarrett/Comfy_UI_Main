@@ -1,8 +1,21 @@
 # Next Action
 
-## Current next action - 2026-07-06T14:31:46-05:00
+## Current next action - 2026-07-06T15:02:15-05:00
 
-Finish and push the current checkpoint from `C:\Comfy_UI_Main`, then choose the next runtime target intentionally. Both active base-generation lanes now have live EC2 runtime smoke proof.
+Finish and push the current checkpoint from `C:\Comfy_UI_Main`, then use Wave 64 strict AI Items/Tracker coverage before choosing the next runtime target. Both active base-generation lanes now have live EC2 runtime smoke proof, but the full project is not complete until all Wave 64 strict build, QA, visual review, audio review, runtime, and release evidence passes.
+
+Current strict AI coverage files:
+
+```text
+Plan/Items/wave64_end_to_end_strict_ai_itemized_list.csv
+Plan/Items/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_ITEM_ROWS.csv
+Plan/Tracker/wave64_end_to_end_strict_ai_tracker.csv
+Plan/Tracker/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_TRACKER_ROWS.csv
+Plan/Items/Reports/wave64_end_to_end_strict_ai_coverage_report.json
+Plan/Tracker/Reports/wave64_end_to_end_strict_ai_coverage_report.json
+```
+
+Wave 64 hard media rule: localized visual/audio work cannot pass by looking only at the target region. Every generated image, video, GIF, or audio artifact must pass whole-artifact review; unrelated visible or audible defects block promotion.
 
 Do not repeat the first-lane smoke path. `sdxl_low_risk_fallback_lane` already has EC2 static proof, bounded workflow smoke generation, SSM pullback, technical image QA, and visual QA with runtime-smoke notes.
 
@@ -33,11 +46,13 @@ Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_GENERIC_
 
 Next runtime work after the checkpoint:
 
-1. Verify AWS auth and Git clean/head.
-2. Configure the S3 bucket/prefix permissions from `configs/aws` for deploy bundles, model cache, and artifact pullback.
-3. Do not rerun RealVisXL static proof or workflow smoke unless the lane, prompt, model, or EC2 runtime changed.
-4. For image-quality certification, run a broader multi-sample RealVisXL QA pass rather than treating the single smoke output as final portfolio proof.
-5. For runtime expansion, define the next lane/module and add it to the queue with local validation before any EC2 execution.
+1. Verify Wave 64 coverage stays passing after any Items/Tracker change.
+2. Verify AWS auth and Git clean/head only before an EC2 `-Execute` path.
+3. Configure the S3 bucket/prefix permissions from `configs/aws` for deploy bundles, model cache, and artifact pullback.
+4. Do not rerun RealVisXL static proof or workflow smoke unless the lane, prompt, model, or EC2 runtime changed.
+5. For image-quality certification, run a broader multi-sample RealVisXL QA pass with whole-artifact visual review rather than treating the single smoke output as final portfolio proof.
+6. For audio/video expansion, require full-duration/whole-frame review in addition to target feature checks.
+7. For runtime expansion, define the next lane/module and add it to the queue with local validation before any EC2 execution.
 
 The model registry coverage gate is now dynamic and queue-driven. Before adding a third or later lane, update `runtime_lane_queue.json`, the lane `runtime_requirements.json`, `Plan/Registries/Models/model_registry.jsonl`, and `Plan/Registries/Models/model_runtime_validation_queue.csv`; then rerun `Test-WorkflowModelRegistryCoverage.ps1`. Current evidence `Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_DYNAMIC_QUEUE_COVERAGE_20260706T143810-0500.json` proves the two currently queued lanes pass the dynamic gate.
 
@@ -318,10 +333,10 @@ Current active model registry coverage:
 ```text
 Plan/Registries/Models/model_registry.jsonl
 Plan/Registries/Models/model_runtime_validation_queue.csv
-Plan/Instructions/QA/Evidence/Model_Registry/W61_MODEL_REGISTRY_COVERAGE_20260706T093415-0500.json
+Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_RUNTIME_PROOF_ALIGNMENT_FINAL_20260706T145923-0500.json
 ```
 
-It proves both active SDXL lanes have checkpoint registry records and queued runtime-validation rows. RealVisXL V5.0 metadata was fetched through the Civitai helper after fixing URL encoding, and the cached metadata confirms model id `139562`, version id `789646`, file `realvisxlV50_v50Bakedvae.safetensors`, and source SHA256 `6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80`. This does not download model binaries or replace EC2 path/hash/load proof.
+It proves both active SDXL lanes have checkpoint registry records, completed runtime-smoke queue rows, verified runtime-requirement hash/path status, and existing evidence paths for EC2 static proof, workflow smoke, pullback, and image QA. RealVisXL V5.0 metadata was fetched through the Civitai helper after fixing URL encoding, and the cached metadata confirms model id `139562`, version id `789646`, file `realvisxlV50_v50Bakedvae.safetensors`, and source SHA256 `6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80`. This does not download model binaries or create a new EC2 proof; it aligns local registry state with already-recorded proof evidence.
 
 Model registry coverage is now an EC2 preflight gate. Immediately before any EC2 static proof attempt, rerun:
 

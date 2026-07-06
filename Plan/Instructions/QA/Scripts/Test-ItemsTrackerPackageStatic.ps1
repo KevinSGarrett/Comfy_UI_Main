@@ -125,6 +125,31 @@ function Test-ValidatorReport {
   }
 }
 
+function Test-Wave64Report {
+  param(
+    [Parameter(Mandatory=$true)][object]$Report
+  )
+
+  $errors = @()
+  if ([string]$Report.result -ne "pass") { $errors += "wave64_result_not_pass" }
+  if ([int]$Report.row_count_items -lt 60) { $errors += "wave64_items_row_count_below_60" }
+  if ([int]$Report.row_count_tracker -lt 60) { $errors += "wave64_tracker_row_count_below_60" }
+  if (@($Report.required_domains_missing).Count -ne 0) { $errors += "wave64_required_domains_missing" }
+  if (@($Report.errors).Count -ne 0) { $errors += "wave64_errors_present" }
+
+  foreach ($property in $Report.legacy_items_master_citation_integrity.missing_counts.PSObject.Properties) {
+    if ([int]$property.Value -ne 0) { $errors += "legacy_items_missing_$($property.Name)" }
+  }
+  foreach ($property in $Report.legacy_tracker_master_citation_integrity.missing_counts.PSObject.Properties) {
+    if ([int]$property.Value -ne 0) { $errors += "legacy_tracker_missing_$($property.Name)" }
+  }
+
+  return [ordered]@{
+    result = $(if ($errors.Count -eq 0) { "pass" } else { "fail" })
+    errors = $errors
+  }
+}
+
 $stamp = (Get-Date -Format "yyyyMMddTHHmmsszzz").Replace(":", "")
 $createdAt = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
 $pythonCommand = Get-Command python -ErrorAction SilentlyContinue
@@ -136,8 +161,11 @@ $trackerRoot = Join-Path $ProjectRoot "Plan\Tracker"
 $itemsRoot = Join-Path $ProjectRoot "Plan\Items"
 $trackerValidator = Join-Path $trackerRoot "Scripts\validate_tracker_package.py"
 $itemsValidator = Join-Path $itemsRoot "Scripts\validate_items_package.py"
+$wave64Validator = Join-Path $itemsRoot "Scripts\generate_wave64_end_to_end_ai_coverage.py"
 $trackerReportPath = Join-Path $trackerRoot "Reports\tracker_validation_report.json"
 $itemsReportPath = Join-Path $itemsRoot "Reports\items_validation_report.json"
+$wave64ItemsReportPath = Join-Path $itemsRoot "Reports\wave64_end_to_end_strict_ai_coverage_report.json"
+$wave64TrackerReportPath = Join-Path $trackerRoot "Reports\wave64_end_to_end_strict_ai_coverage_report.json"
 
 if ([string]::IsNullOrWhiteSpace($OutFile)) {
   $OutFile = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Items_Tracker_Validation\W59_W60_ITEMS_TRACKER_CURRENT_VALIDATION_$stamp.json"
@@ -145,16 +173,21 @@ if ([string]::IsNullOrWhiteSpace($OutFile)) {
 
 $trackerRun = Invoke-ProcessCapture -FileName $pythonCommand.Source -Arguments @($trackerValidator, $trackerRoot)
 $itemsRun = Invoke-ProcessCapture -FileName $pythonCommand.Source -Arguments @($itemsValidator, $itemsRoot)
+$wave64Run = Invoke-ProcessCapture -FileName $pythonCommand.Source -Arguments @($wave64Validator)
 $trackerReport = Read-JsonFile -Path $trackerReportPath
 $itemsReport = Read-JsonFile -Path $itemsReportPath
+$wave64Report = Read-JsonFile -Path $wave64ItemsReportPath
 $trackerReportCheck = Test-ValidatorReport -Report $trackerReport
 $itemsReportCheck = Test-ValidatorReport -Report $itemsReport
+$wave64ReportCheck = Test-Wave64Report -Report $wave64Report
 
 $failures = @()
 if ($trackerRun.exit_code -ne 0) { $failures += "tracker_validator_exit_$($trackerRun.exit_code)" }
 if ($itemsRun.exit_code -ne 0) { $failures += "items_validator_exit_$($itemsRun.exit_code)" }
+if ($wave64Run.exit_code -ne 0) { $failures += "wave64_validator_exit_$($wave64Run.exit_code)" }
 if ($trackerReportCheck.result -ne "pass") { $failures += "tracker_report_failed" }
 if ($itemsReportCheck.result -ne "pass") { $failures += "items_report_failed" }
+if ($wave64ReportCheck.result -ne "pass") { $failures += "wave64_report_failed" }
 
 $record = [ordered]@{
   evidence_id = "EVID-W59-W60-ITEMS-TRACKER-CURRENT-VALIDATION-$stamp"
@@ -192,13 +225,24 @@ $record = [ordered]@{
       report = $itemsReport
       report_check = $itemsReportCheck
     }
+    wave64_strict_ai_coverage = [ordered]@{
+      validator = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $wave64Validator
+      exit_code = $wave64Run.exit_code
+      stdout_tail = Get-OutputTail -Text $wave64Run.stdout
+      stderr_tail = Get-OutputTail -Text $wave64Run.stderr
+      items_report_path = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $wave64ItemsReportPath
+      tracker_report_path = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $wave64TrackerReportPath
+      report = $wave64Report
+      report_check = $wave64ReportCheck
+    }
   }
   result = $(if ($failures.Count -eq 0) { "pass_local_only" } else { "fail" })
   failures = $failures
   known_issues = @(
-    "This validates package ledger structure and coverage only. It does not claim EC2 runtime proof, ComfyUI generation, model load, artifact pullback, or media QA."
+    "This validates package ledger structure and Wave64 strict AI coverage only. It does not claim EC2 runtime proof, ComfyUI generation, model load, artifact pullback, or completed media QA.",
+    "Wave64 rows define required visual/audio/whole-artifact QA gates; each generated artifact still needs its own evidence record before completion."
   )
-  next_action = "Continue local validations where possible; after AWS browser login refresh, rerun auth/readiness and EC2 static proof."
+  next_action = "Use Wave64 Items/Tracker rows as the strict AI execution and QA map; continue local validations where possible and only use EC2 for target-runtime proof."
 }
 
 $outDir = Split-Path -Parent $OutFile

@@ -442,6 +442,14 @@ If AWS auth is expired or Git is not clean/pushed, stop and report that blocker.
 - `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_STATIC_GENERIC_MODEL_REFERENCES_sdxl_low_risk_fallback_lane_20260706T144819-0500.json`
 - `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_STATIC_GENERIC_MODEL_REFERENCES_sdxl_realvisxl_base_lane_20260706T144819-0500.json`
 - `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_STATIC_GENERIC_MODEL_REFERENCES_20260706T144827-0500.json`
+- `Plan/Registries/Models/model_registry.jsonl`
+- `Plan/Registries/Models/model_runtime_validation_queue.csv`
+- `Plan/Registries/Models/model_registry_index.md`
+- `Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_RUNTIME_PROOF_ALIGNMENT_FINAL_20260706T145923-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_MODEL_REGISTRY_RUNTIME_PROOF_ALIGNMENT_20260706T145931-0500.json`
+- `Plan/Instructions/Waves/Wave64/WAVE64_SCOPE.md`
+- `Plan/Items/Reports/wave64_end_to_end_strict_ai_coverage_report.json`
+- `Plan/Tracker/Reports/wave64_end_to_end_strict_ai_coverage_report.json`
 
 ## Latest Static Generic Model Reference Update
 
@@ -451,6 +459,23 @@ If AWS auth is expired or Git is not clean/pushed, stop and report that blocker.
 - RealVisXL evidence: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_STATIC_GENERIC_MODEL_REFERENCES_sdxl_realvisxl_base_lane_20260706T144819-0500.json`.
 - QA helper evidence: `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_STATIC_GENERIC_MODEL_REFERENCES_20260706T144827-0500.json`; result `pass_local_only`, parse failures `0`, smoke failures `0`, project readiness contract failures `0`.
 - This was local-only. It did not contact AWS, GitHub APIs, Civitai, ComfyUI, start EC2, or run generation.
+
+## Latest Model Registry Runtime-Proof Alignment
+
+- `model_registry.jsonl`, `model_runtime_validation_queue.csv`, `model_registry_index.md`, and active-lane `runtime_requirements.json` files now match the existing smoke-proof evidence instead of saying both active models are still queued or not tested.
+- `Test-WorkflowModelRegistryCoverage.ps1` is state-aware: pending lanes still require queued registry state, while lanes marked `runtime_smoke_proven` require completed registry status, completed queue status, verified hash/path requirement state, and existing evidence paths.
+- First failed alignment evidence is preserved at `Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_RUNTIME_PROOF_ALIGNMENT_20260706T145843-0500.json`; it was retested after fixing the lane-status lookup.
+- Final passing coverage evidence is `Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_RUNTIME_PROOF_ALIGNMENT_FINAL_20260706T145923-0500.json`; result `pass_local_only`, failed check count `0`, both active lanes `pass`, no external contacts, no EC2 start, no generation.
+- QA helper evidence is `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_MODEL_REGISTRY_RUNTIME_PROOF_ALIGNMENT_20260706T145931-0500.json`; result `pass_local_only`.
+
+## Latest Wave64 Strict AI Coverage
+
+- Wave64 strict AI-operational Items and Tracker coverage is present under `Plan/Instructions/Waves/Wave64`, `Plan/Items/Waves/Wave64`, and `Plan/Tracker/Waves/Wave64`.
+- Validation command: `python C:\Comfy_UI_Main\Plan\Items\Scripts\generate_wave64_end_to_end_ai_coverage.py`.
+- Reports: `Plan/Items/Reports/wave64_end_to_end_strict_ai_coverage_report.json` and `Plan/Tracker/Reports/wave64_end_to_end_strict_ai_coverage_report.json`.
+- Result: `pass`, `row_count_items=66`, `row_count_tracker=66`, `required_domain_count=28`, and no missing required domains.
+- Wave64 is integrated into Items/Tracker validation and project readiness evidence. Current records: `Plan/Instructions/QA/Evidence/Items_Tracker_Validation/W64_ITEMS_TRACKER_STRICT_AI_COVERAGE_20260706T150215-0500.json`, `Plan/Instructions/QA/Evidence/Project_Readiness/W64_PROJECT_READINESS_STRICT_AI_ITEMS_TRACKER_FINAL_20260706T150215-0500.json`, and `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W64_QA_HELPER_STRICT_AI_ITEMS_TRACKER_20260706T150215-0500.json`.
+- Wave64 is a strict coverage/control layer for future work; it does not certify full project completion.
 
 ## Must not repeat
 
@@ -466,6 +491,7 @@ If AWS auth is expired or Git is not clean/pushed, stop and report that blocker.
 - Project readiness snapshots and runtime unblock handoffs must use latest acceptable passing evidence, not the newest preserved failed retest artifact.
 - Do not omit the runtime lane queue gate from readiness or handoff evidence; selected lane order must be 1 before EC2 static proof can be allowed.
 - Do not omit the model registry coverage gate from readiness or handoff evidence; `Test-WorkflowModelRegistryCoverage.ps1` must report `pass_local_only`, selected lane result `pass`, and failed check count `0` before EC2 static proof can be allowed.
+- Do not regress active smoke-proven model registry records back to `queued`, `not_tested`, or `needs_runtime_validation`; completed active lanes must retain evidence-backed runtime-smoke status until a changed lane/model/prompt requires retest.
 - Do not add future non-checkpoint `required_models` without a static reference mapping; include `node_id`/`input` or `node_class`/`input` so `Test-ComfyWorkflowStatic.ps1` can prove the workflow references the required asset.
 - Do not skip `Test-AuthoredLaneEvidenceCoverage.ps1` when checking multi-lane local readiness; it is now the local pre-EC2 evidence coverage gate for authored base-generation lanes.
 - Do not promote `sdxl_realvisxl_base_lane` to first EC2 proof/generation lane. `runtime_lane_queue.json` and `Test-RuntimeLaneQueue.ps1` currently validate `sdxl_low_risk_fallback_lane` first and RealVisXL second.

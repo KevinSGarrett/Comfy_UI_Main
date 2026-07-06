@@ -1,7 +1,7 @@
 # Current Session State
 
 ## Session timestamp
-2026-07-06T14:31:46-05:00
+2026-07-06T15:06:00-05:00
 
 ## State
 The active root is `C:\Comfy_UI_Main`. The earlier `BLOCKER-W59-GIT-001` no-`.git` finding is superseded for this root: `.git` exists, `origin` is canonical, `.env` is ignored, and the required root structure is present. The old `C:\Comfy_UI` workspace remains historical/source context and may be inspected as a local ComfyUI development environment, but it is not the Plan-bearing project root.
@@ -10,12 +10,14 @@ Wave42/Main Flow analysis, registries, release records, and source snapshots exi
 
 The first runtime lane, `sdxl_low_risk_fallback_lane`, has completed EC2 static proof, one bounded package-fed workflow smoke generation, SSM pullback, technical image QA, and visual QA with runtime-smoke notes. Do not repeat that lane just to re-prove the same path. The second runtime lane, `sdxl_realvisxl_base_lane`, has completed RealVisXL model install, target checkpoint SHA256 proof, EC2 static proof after install, one bounded workflow smoke generation, SSM SSH-tunnel pullback, pullback hash verification, technical image QA, and visual QA with runtime-smoke notes.
 
-Current human-readable runtime handoff Markdown is `Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_RUNTIME_UNBLOCK_HANDOFF_REALVISXL_QA_COMPLETE_FINAL_20260706T140828-0500.md`. The older `W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.md` file is historical and contains PowerShell backtick escape corruption, so do not use it as the active handoff.
+Current runtime handoff Markdown is `Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_RUNTIME_UNBLOCK_HANDOFF_REALVISXL_QA_COMPLETE_FINAL_20260706T140828-0500.md`. The older `W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.md` file is historical and contains PowerShell backtick escape corruption, so do not use it as the active handoff.
 
 Wave 63 cost control is active. Before any new EC2 start, use `Plan/Instructions/Operations/EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md`, run local/CI validation and deploy-bundle preparation while EC2 is stopped, upload deploy bundles and large model binaries through S3/model-cache paths, default EC2 helpers to `-SkipGitLfsPull`, prefer `-DeployBundleS3Uri` plus `-DeployBundleSha256`, set `-MaxEc2RuntimeMinutes`, and batch target-runtime work into one bounded EC2 window. AWS auth can expire between sessions; rerun the auth gate and Git checkpoint before any future `-Execute` command.
 
+Wave 64 strict AI Items/Tracker coverage is active. Current files are `Plan/Items/wave64_end_to_end_strict_ai_itemized_list.csv`, `Plan/Tracker/wave64_end_to_end_strict_ai_tracker.csv`, and `Plan/Items/Reports/wave64_end_to_end_strict_ai_coverage_report.json`. Validation result is `pass`, with 66 Items rows, 66 Tracker rows, 0 missing required strict domains, and 0 missing core citation fields in the legacy Items/Tracker masters. Evidence is `Plan/Instructions/QA/Evidence/Items_Tracker_Validation/W64_ITEMS_TRACKER_STRICT_AI_COVERAGE_20260706T150215-0500.json`, `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W64_QA_HELPER_STRICT_AI_ITEMS_TRACKER_20260706T150215-0500.json`, and `Plan/Instructions/QA/Evidence/Project_Readiness/W64_PROJECT_READINESS_STRICT_AI_ITEMS_TRACKER_FINAL_20260706T150215-0500.json`. Wave 64 requires whole-artifact visual/audio review for generated media; localized target-region work cannot pass if unrelated full-frame or full-duration defects exist.
+
 ## Session end timestamp
-2026-07-06T14:31:46-05:00
+2026-07-06T15:06:00-05:00
 
 ## Latest continuation update
 RealVisXL second-lane runtime work advanced past the earlier missing-checkpoint and pullback/QA blockers. Model install evidence reports `download_verified_installed`; static proof after install reports the checkpoint exists with SHA256 `6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80`; readiness reports `ready_for_generation`; workflow smoke evidence reports `workflow_smoke_generation_complete`; pullback evidence reports `pullback_hashes_verified`; and visual QA reports `pass_with_notes_for_runtime_smoke`. EC2 final state was verified `stopped`. Evidence: `Plan/Instructions/QA/Evidence/Model_Registry/W63_EC2_REALVISXL_MODEL_INSTALL_20260706T125425-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_EC2_LANE_STATIC_PROOF_REALVISXL_AFTER_INSTALL_20260706T131129-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_LANE_RUNTIME_READINESS_REALVISXL_AFTER_STATIC_PROOF_20260706T132103-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Runtime/W63_EC2_WORKFLOW_SMOKE_REALVISXL_AFTER_STATIC_PROOF_20260706T132206-0500.json`; `Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T132206-0500/PULLBACK_RECORD.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_REALVISXL_IMAGE_QA_VISUAL_20260706T140120-0500.json`.
@@ -390,3 +392,17 @@ After AWS remote login is refreshed externally, rerun `Test-AwsAuthGate.ps1` unt
 - Generated RealVisXL static evidence at `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_STATIC_GENERIC_MODEL_REFERENCES_sdxl_realvisxl_base_lane_20260706T144819-0500.json`; result `pass`, defect count `0`, and one matched `model_reference_checks` record.
 - Generated QA helper evidence at `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_STATIC_GENERIC_MODEL_REFERENCES_20260706T144827-0500.json`; result `pass_local_only`, script parse failures `0`, local smoke failures `0`, and project readiness contract failures `0`.
 - Updated the manifest, QA evidence index, Wave 63 tracker supplement, Wave 63 itemized supplement, proof-of-movement log, and hydration/next-action files so future non-SDXL lanes must declare required-model node/input mappings before EC2 readiness.
+
+## Latest Model Registry Runtime-Proof Alignment - 2026-07-06T14:59:31-05:00
+- Updated `Plan/Registries/Models/model_registry.jsonl`, `Plan/Registries/Models/model_runtime_validation_queue.csv`, `Plan/Registries/Models/model_registry_index.md`, and both Plan/exported `runtime_requirements.json` files for the low-risk and RealVisXL lanes so the active smoke-proven lanes no longer claim `queued`, `not_tested`, or `pending_ec2_static_match`.
+- Hardened `Plan/Instructions/QA/Scripts/Test-WorkflowModelRegistryCoverage.ps1` so pending lanes must remain queued, while lanes with `runtime_smoke_proven` status must have completed registry statuses, completed queue rows, verified requirement hash/path status, and existing evidence paths.
+- Preserved first failed alignment evidence at `Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_RUNTIME_PROOF_ALIGNMENT_20260706T145843-0500.json`; it failed because the lane-status lookup treated proven lanes as pending, then was fixed and retested.
+- Final model registry coverage evidence is `Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_RUNTIME_PROOF_ALIGNMENT_FINAL_20260706T145923-0500.json`; result `pass_local_only`, failed check count `0`, both lanes `pass`, local-only, no external contacts, no EC2 start, and no generation.
+- QA helper evidence is `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_MODEL_REGISTRY_RUNTIME_PROOF_ALIGNMENT_20260706T145931-0500.json`; result `pass_local_only`, parse failures `0`, local smoke failures `0`, and project readiness contract checks passed.
+
+## Latest Wave64 Strict AI Coverage Validation - 2026-07-06T15:03:12-05:00
+- Detected and validated the Wave64 strict AI-operational coverage layer under `Plan/Instructions/Waves/Wave64`, `Plan/Items/Waves/Wave64`, and `Plan/Tracker/Waves/Wave64`.
+- `python Plan/Items/Scripts/generate_wave64_end_to_end_ai_coverage.py` reports `pass`, `row_count_items=66`, `row_count_tracker=66`, `required_domain_count=28`, and `required_domains_missing=[]`.
+- Primary evidence: `Plan/Items/Reports/wave64_end_to_end_strict_ai_coverage_report.json` and `Plan/Tracker/Reports/wave64_end_to_end_strict_ai_coverage_report.json`.
+- Integrated Wave64 into Items/Tracker static validation and project readiness selectors. Evidence: `Plan/Instructions/QA/Evidence/Items_Tracker_Validation/W64_ITEMS_TRACKER_STRICT_AI_COVERAGE_20260706T150215-0500.json`, `Plan/Instructions/QA/Evidence/Project_Readiness/W64_PROJECT_READINESS_STRICT_AI_ITEMS_TRACKER_FINAL_20260706T150215-0500.json`, and `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W64_QA_HELPER_STRICT_AI_ITEMS_TRACKER_20260706T150215-0500.json`.
+- Wave64 does not mark the project complete; it adds strict current coverage rows for whole-artifact visual/audio review, localized regression, runtime proof, QA evidence, and release controls.

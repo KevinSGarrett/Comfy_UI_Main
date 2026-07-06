@@ -1,7 +1,7 @@
 # Current Pursuing Goal
 
 ## Active Wave
-Wave 63 EC2 cost-control and local/CI preflight packaging, continuing Wave 61 runtime proof for queued lanes.
+Wave 64 strict AI Items/Tracker end-to-end coverage, building on Wave 63 EC2 cost-control and Wave 61 runtime proof for queued lanes.
 
 ## Goal Statement
 Advance `C:\Comfy_UI_Main` toward end-to-end autonomous ComfyUI completion by using `Plan/Instructions` as the operating system, avoiding repeated housekeeping, minimizing paid EC2 time, and moving from the completed first-lane runtime proof to the next concrete queued runtime work.
@@ -22,6 +22,9 @@ Every continuation must use `C:\Comfy_UI_Main` as the project root and must read
 11. `C:\Comfy_UI_Main\Plan\Instructions\Hydration_Rehydration\ITEMIZED_LIST_UPDATE_PROTOCOL.md`
 12. `C:\Comfy_UI_Main\Plan\Instructions\Hydration_Rehydration\QA_EVIDENCE_LOG_PROTOCOL.md`
 13. `C:\Comfy_UI_Main\Plan\Instructions\Waves\Wave63\WAVE63_SCOPE.md`
+14. `C:\Comfy_UI_Main\Plan\Instructions\Waves\Wave64\WAVE64_SCOPE.md`
+15. `C:\Comfy_UI_Main\Plan\Items\Waves\Wave64\WAVE64_STRICT_AI_COVERAGE_REQUIREMENTS.json`
+16. `C:\Comfy_UI_Main\Plan\Tracker\Waves\Wave64\WAVE64_STRICT_AI_COVERAGE_REQUIREMENTS.json`
 
 Do not replace this read order with a short autonomous goal. The pursuing goal is only the active objective pointer; detailed operating rules live in `Plan/Instructions`.
 
@@ -36,6 +39,7 @@ Before acting, reconcile the newest acceptable evidence across the instruction f
 - Use generated indexes to find files, but do not refresh indexes repeatedly unless files changed in the current turn.
 - When evidence commits advance `HEAD`, rerun the Git checkpoint gate immediately before any EC2 `-Execute` path.
 - Read `EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md` before any AWS/EC2 decision. If local or CI validation can advance the work while EC2 is stopped, do that first.
+- Read Wave 64 Items/Tracker strict AI coverage before marking any project domain complete. Wave 64 rows require source citation file, section, line range, evidence, and strict whole-artifact visual/audio review when media exists.
 
 ## Current Status
 The first queued runtime lane, `sdxl_low_risk_fallback_lane`, completed target EC2 static proof, one bounded package-fed workflow smoke generation, SSM pullback, technical image QA, and visual QA with runtime-smoke notes. Do not repeat that lane just to re-prove the same path.
@@ -56,6 +60,13 @@ Wave 63 cost controls are active:
 - EC2 helpers now support `-SkipGitLfsPull`, `-DeployBundleS3Uri`, `-DeployBundleSha256`, and `-MaxEc2RuntimeMinutes`.
 - Safe-to-commit AWS least-privilege policy templates are under `configs\aws`.
 - EC2 should be used only for target-runtime facts, not for package/build/index housekeeping.
+
+Wave 64 strict AI Items/Tracker coverage is active:
+
+- Items: `Plan\Items\wave64_end_to_end_strict_ai_itemized_list.csv`.
+- Tracker: `Plan\Tracker\wave64_end_to_end_strict_ai_tracker.csv`.
+- Validation report: `Plan\Items\Reports\wave64_end_to_end_strict_ai_coverage_report.json`.
+- Every localized visual/audio task must also pass whole-artifact review. A target region cannot pass if unrelated hands, face, body, lighting, background, contact, audio timing, voice, foley, ambience, mix, sync, or artifact defects exist elsewhere in the generated output.
 
 ## Last Verified Facts
 The current root is `C:\Comfy_UI_Main`. `.env` is ignored, GitHub/Civitai variable names are present without printing values, and model binaries/private keys/generated media must not be committed.
@@ -96,6 +107,10 @@ Model registry coverage is now queue-driven: `Test-WorkflowModelRegistryCoverage
 Model registry coverage also supports explicit required model types for future non-SDXL lanes. Evidence `Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_GENERIC_MODEL_TYPES_20260706T144324-0500.json` proves the current lanes still pass while the helper now validates `required_models[].model_type` when present and falls back to `Checkpoint` only for checkpoint roles.
 
 Static workflow validation now also supports generic required-model reference checks. Evidence `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_STATIC_GENERIC_MODEL_REFERENCES_sdxl_low_risk_fallback_lane_20260706T144819-0500.json`, `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_STATIC_GENERIC_MODEL_REFERENCES_sdxl_realvisxl_base_lane_20260706T144819-0500.json`, and `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_STATIC_GENERIC_MODEL_REFERENCES_20260706T144827-0500.json` prove the current two queued lanes pass with `model_reference_checks`; future non-checkpoint required models must provide `node_id`/`input` or `node_class`/`input` mappings.
+
+Model registry state now matches completed runtime evidence for both active lanes. `Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_RUNTIME_PROOF_ALIGNMENT_FINAL_20260706T145923-0500.json` proves `model_registry.jsonl`, `model_runtime_validation_queue.csv`, and runtime requirements use completed smoke-proof statuses with existing evidence paths; `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_MODEL_REGISTRY_RUNTIME_PROOF_ALIGNMENT_20260706T145931-0500.json` confirms the broader QA helper still passes locally.
+
+Wave64 strict AI-operational coverage is present and validated. `Plan/Items/Reports/wave64_end_to_end_strict_ai_coverage_report.json` and `Plan/Tracker/Reports/wave64_end_to_end_strict_ai_coverage_report.json` report `pass` with 66 item rows, 66 tracker rows, and 28 required domains covered; this is coverage/control evidence, not completion evidence.
 
 ## Next Exact Work
 First, if the runtime proof, cost-control, tracker, or instruction updates are uncommitted, finish one clean Git checkpoint and verify local `HEAD == origin/main`.
