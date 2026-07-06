@@ -1,0 +1,764 @@
+{
+  "source_file": "Wave42_Runtime_Bound__UI__WAVE42_MAIN_FLOW_20260702(20).json",
+  "workflow_id": "c1eb5a64-4997-472d-a6f5-93cc273d6a72",
+  "revision": 0,
+  "last_node_id": 411,
+  "last_link_id": 109,
+  "node_count": 356,
+  "link_count": 91,
+  "node_type_counts_top": {
+    "LoraLoader": 274,
+    "Note": 13,
+    "CLIPTextEncode": 12,
+    "SaveImage": 8,
+    "PreviewImage": 8,
+    "KSampler": 7,
+    "VAEDecode": 7,
+    "EmptyLatentImage": 3,
+    "LoadImage": 3,
+    "EmptySD3LatentImage": 2,
+    "CheckpointLoaderSimple": 2,
+    "UNETLoader": 1,
+    "ModelSamplingAuraFlow": 1,
+    "CLIPLoader": 1,
+    "VAELoader": 1,
+    "UpscaleModelLoader": 1,
+    "ImageUpscaleWithModel": 1,
+    "VAEEncodeForInpaint": 1,
+    "VAEEncode": 1,
+    "ModelSamplingFlux": 1
+  },
+  "save_lanes": [
+    {
+      "node_id": 19,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA"
+    },
+    {
+      "node_id": 39,
+      "prefix": "Main_Flow/Flux_Family_ZImage"
+    },
+    {
+      "node_id": 62,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA_Upscaled"
+    },
+    {
+      "node_id": 87,
+      "prefix": "Main_Flow/SDXL_Inpaint_Detail"
+    },
+    {
+      "node_id": 95,
+      "prefix": "Main_Flow/Flux_to_SDXL_Refine"
+    },
+    {
+      "node_id": 107,
+      "prefix": "Main_Flow/True_Flux_Schnell_Reference_Smoke"
+    },
+    {
+      "node_id": 128,
+      "prefix": "Main_Flow/ControlNet_Canny_Edge"
+    },
+    {
+      "node_id": 118,
+      "prefix": "Main_Flow/IPAdapter_Face_Reference"
+    }
+  ],
+  "ksampler_nodes": [
+    {
+      "node_id": 17,
+      "seed": 300300300,
+      "steps": 40,
+      "cfg": 6.5,
+      "sampler": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1
+    },
+    {
+      "node_id": 36,
+      "seed": 42043,
+      "steps": 8,
+      "cfg": 1,
+      "sampler": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 1
+    },
+    {
+      "node_id": 85,
+      "seed": 210422,
+      "steps": 14,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.28
+    },
+    {
+      "node_id": 93,
+      "seed": 210421,
+      "steps": 10,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.22
+    },
+    {
+      "node_id": 105,
+      "seed": 200420,
+      "steps": 4,
+      "cfg": 1,
+      "sampler": "euler",
+      "scheduler": "simple",
+      "denoise": 1
+    },
+    {
+      "node_id": 116,
+      "seed": 626262,
+      "steps": 8,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 1
+    },
+    {
+      "node_id": 126,
+      "seed": 707707,
+      "steps": 20,
+      "cfg": 5.5,
+      "sampler": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1
+    }
+  ],
+  "low_denoise_anchors": [
+    {
+      "node_id": 85,
+      "seed": 210422,
+      "steps": 14,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.28
+    },
+    {
+      "node_id": 93,
+      "seed": 210421,
+      "steps": 10,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.22
+    }
+  ],
+  "mask_input_slots": [
+    {
+      "node_id": 82,
+      "node_type": "VAEEncodeForInpaint",
+      "input_name": "mask",
+      "link": 51
+    },
+    {
+      "node_id": 112,
+      "node_type": "IPAdapter",
+      "input_name": "attn_mask",
+      "link": null
+    }
+  ],
+  "control_nodes": [
+    {
+      "node_id": 120,
+      "node_type": "ControlNetLoader",
+      "widgets": [
+        "controlnet-canny-sdxl-1.0-small.safetensors"
+      ]
+    },
+    {
+      "node_id": 124,
+      "node_type": "ControlNetApplyAdvanced",
+      "widgets": [
+        0.65,
+        0,
+        0.75
+      ]
+    }
+  ],
+  "skin_material_lora_summary": {
+    "count": 45,
+    "by_engine": {
+      "sdxl": 13,
+      "flux": 24,
+      "pony": 1,
+      "sd15": 2,
+      "unknown": 5
+    },
+    "by_category": {
+      "cellulite": 11,
+      "clothing_fabric": 3,
+      "inpaint_detail": 9,
+      "skin": 20,
+      "skin_texture": 3,
+      "sweat_oil_wet": 5,
+      "surface_state_other": 1,
+      "pressure_marks_contact": 1
+    },
+    "by_status": {
+      "installed": 38,
+      "active_copy": 2,
+      "disabled_review": 5
+    },
+    "active_copy_count": 2,
+    "disabled_by_default_count": 45
+  },
+  "skin_material_lora_records_sanitized": [
+    {
+      "node_id": 166,
+      "title": "W42-SDXL-0266 | adult_body_parts",
+      "engine": "sdxl",
+      "categories": [
+        "cellulite"
+      ],
+      "path": "wave42/sdxl/adult_body_parts/sdxl_body_type_bbw_cellulite_SpreadAssSDXL_v04.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 185,
+      "title": "W42-SDXL-0265 | body_type_bbw_cellulite",
+      "engine": "sdxl",
+      "categories": [
+        "cellulite"
+      ],
+      "path": "wave42/sdxl/body_type_bbw_cellulite/sdxl_hair_Slightly_Chubby_-_Perfect_BBW_Body_Realistic.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 186,
+      "title": "W42-SDXL-0295 | body_type_bbw_cellulite",
+      "engine": "sdxl",
+      "categories": [
+        "cellulite"
+      ],
+      "path": "wave42/sdxl/body_type_bbw_cellulite/sdxl_hair_XL_FD-BBW-XXX-R16.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 187,
+      "title": "W42-SDXL-0303 | body_type_bbw_cellulite",
+      "engine": "sdxl",
+      "categories": [
+        "cellulite"
+      ],
+      "path": "wave42/sdxl/body_type_bbw_cellulite/sdxl_jewelry_accessories_BBW_XL_Girls_indecent.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 188,
+      "title": "W42-SDXL-0304 | body_type_bbw_cellulite",
+      "engine": "sdxl",
+      "categories": [
+        "cellulite"
+      ],
+      "path": "wave42/sdxl/body_type_bbw_cellulite/sdxl_body_type_bbw_cellulite_bbwbootyandbodXL.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 189,
+      "title": "W42-SDXL-0305 | body_type_bbw_cellulite",
+      "engine": "sdxl",
+      "categories": [
+        "cellulite"
+      ],
+      "path": "wave42/sdxl/body_type_bbw_cellulite/sdxl_body_type_bbw_cellulite_bbwbutt_v1.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 196,
+      "title": "W42-SDXL-0041 | clothing_fabric",
+      "engine": "sdxl",
+      "categories": [
+        "clothing_fabric"
+      ],
+      "path": "wave42/sdxl/clothing_fabric/sdxl_clothing_fabric_brownthongkini-SDXL.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 197,
+      "title": "W42-SDXL-0297 | clothing_fabric",
+      "engine": "sdxl",
+      "categories": [
+        "clothing_fabric"
+      ],
+      "path": "wave42/sdxl/clothing_fabric/sdxl_face_expression_zava_viral_whire_bikini_v01.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 207,
+      "title": "W42-SDXL-0157 | experimental",
+      "engine": "sdxl",
+      "categories": [
+        "cellulite"
+      ],
+      "path": "wave42/sdxl/experimental/sdxl_body_type_bbw_cellulite_finger_ass.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 213,
+      "title": "W42-SDXL-0260 | experimental",
+      "engine": "sdxl",
+      "categories": [
+        "cellulite"
+      ],
+      "path": "wave42/sdxl/experimental/sdxl_body_type_bbw_cellulite_SDXL_DatAss_v1.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 242,
+      "title": "W42-SDXL-0015 | inpaint_detail",
+      "engine": "sdxl",
+      "categories": [
+        "inpaint_detail"
+      ],
+      "path": "wave42/sdxl/inpaint_detail/sdxl_inpaint_detail_AssSlaveV1.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 263,
+      "title": "W42-SDXL-0189 | skin_imperfections | ACTIVE_COPY",
+      "engine": "sdxl",
+      "categories": [
+        "skin"
+      ],
+      "path": "wave42/sdxl/skin_imperfections/sdxl_hair_heavily_freckled_SDXL_NSFW.safetensors",
+      "status": "active_copy",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 264,
+      "title": "W42-SDXL-0293 | skin_texture | ACTIVE_COPY",
+      "engine": "sdxl",
+      "categories": [
+        "skin",
+        "skin_texture",
+        "sweat_oil_wet",
+        "surface_state_other"
+      ],
+      "path": "wave42/sdxl/skin_texture/sdxl_skin_texture_Wet_Makeup__Runny_Mascara-000006.safetensors",
+      "status": "active_copy",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 273,
+      "title": "W42-FLUX-0168 | adult",
+      "engine": "flux",
+      "categories": [
+        "skin"
+      ],
+      "path": "wave42/flux/adult/flux_skin_flux_anal_cowgirl.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 283,
+      "title": "W42-FLUX-0232 | adult",
+      "engine": "flux",
+      "categories": [
+        "skin"
+      ],
+      "path": "wave42/flux/adult/flux_skin_Penis_on_Face.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 288,
+      "title": "W42-FLUX-0280 | adult",
+      "engine": "flux",
+      "categories": [
+        "skin"
+      ],
+      "path": "wave42/flux/adult/flux_skin_tiny_penis.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 299,
+      "title": "W42-FLUX-0016 | body",
+      "engine": "flux",
+      "categories": [
+        "skin"
+      ],
+      "path": "wave42/flux/body/flux_skin_Assthroughthong.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 303,
+      "title": "W42-FLUX-0026 | body",
+      "engine": "flux",
+      "categories": [
+        "skin",
+        "pressure_marks_contact"
+      ],
+      "path": "wave42/flux/body/flux_skin_Big_Butt_Grabbing-000001.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 309,
+      "title": "W42-FLUX-0044 | body",
+      "engine": "flux",
+      "categories": [
+        "cellulite"
+      ],
+      "path": "wave42/flux/body/flux_experimental_celluliteass-f2-klein-9b_v1.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 310,
+      "title": "W42-FLUX-0045 | body",
+      "engine": "flux",
+      "categories": [
+        "cellulite"
+      ],
+      "path": "wave42/flux/body/flux_experimental_cellulitecrazy_epoch_5.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 315,
+      "title": "W42-FLUX-0172 | body",
+      "engine": "flux",
+      "categories": [
+        "sweat_oil_wet"
+      ],
+      "path": "wave42/flux/body/flux_body_fluxxy_sexy_soaking_wet_women.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 318,
+      "title": "W42-FLUX-0198 | body",
+      "engine": "flux",
+      "categories": [
+        "cellulite"
+      ],
+      "path": "wave42/flux/body/flux_experimental_klein-cellulite-massive-buttv2-2epoc-k3nk.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 320,
+      "title": "W42-FLUX-0233 | body",
+      "engine": "flux",
+      "categories": [
+        "skin"
+      ],
+      "path": "wave42/flux/body/flux_skin_Perfect_button_nose_small_upturned_nose_for_FLUX-000033.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 339,
+      "title": "W42-FLUX-0065 | experimental",
+      "engine": "flux",
+      "categories": [
+        "inpaint_detail"
+      ],
+      "path": "wave42/flux/experimental/flux_experimental_detail_enhancer_flux_v1.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 344,
+      "title": "W42-FLUX-0145 | experimental",
+      "engine": "flux",
+      "categories": [
+        "inpaint_detail"
+      ],
+      "path": "wave42/flux/experimental/flux_experimental_Eye_Detail_Flux_Lora_-_Inpainting.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 368,
+      "title": "W42-FLUX-0292 | experimental",
+      "engine": "flux",
+      "categories": [
+        "sweat_oil_wet"
+      ],
+      "path": "wave42/flux/experimental/flux_experimental_wet-pussy-2.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 378,
+      "title": "W42-FLUX-0037 | skin",
+      "engine": "flux",
+      "categories": [
+        "skin"
+      ],
+      "path": "wave42/flux/skin/flux_skin_Bombshell_Flux_V3.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 379,
+      "title": "W42-FLUX-0067 | skin",
+      "engine": "flux",
+      "categories": [
+        "skin",
+        "inpaint_detail"
+      ],
+      "path": "wave42/flux/skin/flux_skin_Detailed_imperfect_skin_faces_and_torso_for_FLUX-000025.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 380,
+      "title": "W42-FLUX-0152 | skin",
+      "engine": "flux",
+      "categories": [
+        "skin"
+      ],
+      "path": "wave42/flux/skin/flux_skin_FC-Bandeau.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 381,
+      "title": "W42-FLUX-0184 | skin",
+      "engine": "flux",
+      "categories": [
+        "skin"
+      ],
+      "path": "wave42/flux/skin/flux_skin_hairstyle-lora-001-v1-0-flux.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 382,
+      "title": "W42-FLUX-0221 | skin",
+      "engine": "flux",
+      "categories": [
+        "skin",
+        "skin_texture"
+      ],
+      "path": "wave42/flux/skin/flux_skin_nipples_texture_closeup.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 383,
+      "title": "W42-FLUX-0228 | skin",
+      "engine": "flux",
+      "categories": [
+        "skin",
+        "sweat_oil_wet"
+      ],
+      "path": "wave42/flux/skin/flux_skin_OiledSkin_FluxDev.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 384,
+      "title": "W42-FLUX-0234 | skin",
+      "engine": "flux",
+      "categories": [
+        "skin"
+      ],
+      "path": "wave42/flux/skin/flux_skin_Pink_Thong_Bikini-000007.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 385,
+      "title": "W42-FLUX-0257 | skin",
+      "engine": "flux",
+      "categories": [
+        "skin"
+      ],
+      "path": "wave42/flux/skin/flux_skin_RingString_-_Thong_Concept.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 386,
+      "title": "W42-FLUX-0270 | skin",
+      "engine": "flux",
+      "categories": [
+        "skin"
+      ],
+      "path": "wave42/flux/skin/flux_skin_Stretch_Marks.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 387,
+      "title": "W42-FLUX-0282 | skin",
+      "engine": "flux",
+      "categories": [
+        "skin"
+      ],
+      "path": "wave42/flux/skin/flux_skin_titfuckv14_FLUX.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 389,
+      "title": "W42-FLUX-0182 | style",
+      "engine": "flux",
+      "categories": [
+        "sweat_oil_wet"
+      ],
+      "path": "wave42/flux/style/flux_style_Hair_Style_Wet_Hair-Weak.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 390,
+      "title": "W42-PONY-0055 | adult_acts",
+      "engine": "pony",
+      "categories": [
+        "skin"
+      ],
+      "path": "wave42/pony/adult_acts/pony_unclassified_Cum_on_Dark_Skin_Black_Girl_Facials_SDXLPONY_-_Black_Girl_Ebony_Cum_Helper.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 394,
+      "title": "W42-SD15-0214 | clothing",
+      "engine": "sd15",
+      "categories": [
+        "clothing_fabric"
+      ],
+      "path": "wave42/sd15/clothing/sd15_unclassified_MS_Real_Thong_Peek_Lite.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 395,
+      "title": "W42-SD15-0289 | detail",
+      "engine": "sd15",
+      "categories": [
+        "inpaint_detail"
+      ],
+      "path": "wave42/sd15/detail/sd15_unclassified_TonguesAndAhegaoV1.safetensors",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 400,
+      "title": "W42-UNKNOWN-0066 | inpaint_detail",
+      "engine": "unknown",
+      "categories": [
+        "inpaint_detail"
+      ],
+      "path": "wave42/disabled_review/inpaint_detail/unknown_unclassified_Detailed_Hands-000001.safetensors",
+      "status": "disabled_review",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 401,
+      "title": "W42-UNKNOWN-0205 | inpaint_detail",
+      "engine": "unknown",
+      "categories": [
+        "inpaint_detail"
+      ],
+      "path": "wave42/disabled_review/inpaint_detail/unknown_unclassified_longtongue-v2.safetensors",
+      "status": "disabled_review",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 402,
+      "title": "W42-UNKNOWN-0218 | inpaint_detail",
+      "engine": "unknown",
+      "categories": [
+        "inpaint_detail"
+      ],
+      "path": "wave42/disabled_review/inpaint_detail/unknown_unclassified_NEGATIVE_HANDS.safetensors",
+      "status": "disabled_review",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 403,
+      "title": "W42-UNKNOWN-0252 | inpaint_detail",
+      "engine": "unknown",
+      "categories": [
+        "inpaint_detail"
+      ],
+      "path": "wave42/disabled_review/inpaint_detail/unknown_unclassified_realistic_hands.safetensors",
+      "status": "disabled_review",
+      "mode": 2,
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 410,
+      "title": "W42-UNKNOWN-0264 | unclassified",
+      "engine": "unknown",
+      "categories": [
+        "skin",
+        "skin_texture"
+      ],
+      "path": "wave42/disabled_review/unclassified/unknown_unclassified_skin_texture_style_v5.safetensors",
+      "status": "disabled_review",
+      "mode": 2,
+      "disabled_by_default": true
+    }
+  ],
+  "wave18_interpretation": [
+    "Skin/material realism should use masked low-denoise passes focused on pores, blemishes, cellulite, sweat, oil, pressure marks, and fabric response.",
+    "Current Main Flow already contains a true inpaint mask slot and two low-denoise refine anchors that can be reused as proof targets for surface-detail passes later.",
+    "Surface-detail LoRA candidates must remain profile-selected and region-scoped; do not globally enable the whole library."
+  ]
+}

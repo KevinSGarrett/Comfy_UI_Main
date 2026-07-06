@@ -1,0 +1,81 @@
+{
+  "control_groups": [
+    {
+      "id": "scene_request",
+      "controls": [
+        "prompt_request",
+        "scene_type",
+        "output_type",
+        "target_quality"
+      ],
+      "required": true
+    },
+    {
+      "id": "characters",
+      "controls": [
+        "character_ids",
+        "identity_refs",
+        "character_versions",
+        "lock_identity"
+      ],
+      "required": true
+    },
+    {
+      "id": "references",
+      "controls": [
+        "image_refs",
+        "video_refs",
+        "mask_refs",
+        "pose_refs",
+        "depth_refs"
+      ],
+      "required": false
+    },
+    {
+      "id": "image_lane",
+      "controls": [
+        "engine_family",
+        "checkpoint_profile",
+        "lora_stack_profile",
+        "output_lane"
+      ],
+      "required": true
+    },
+    {
+      "id": "preview_budget",
+      "controls": [
+        "preview_tier",
+        "compute_budget",
+        "realism_budget",
+        "preview_qa_required"
+      ],
+      "required": true
+    },
+    {
+      "id": "final_preflight",
+      "controls": [
+        "preflight_status",
+        "ec2_unlock_status",
+        "final_render_allowed"
+      ],
+      "required": true
+    },
+    {
+      "id": "qa_status",
+      "controls": [
+        "state_diff",
+        "preview_qa",
+        "local_proof",
+        "ec2_proof",
+        "certification_status"
+      ],
+      "required": true
+    }
+  ],
+  "blocked_controls": [
+    "direct_ec2_final_render_without_preflight",
+    "enable_all_library_loras",
+    "promote_without_manifest",
+    "certify_without_evidence"
+  ]
+}

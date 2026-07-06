@@ -1,0 +1,33 @@
+{
+  "binding_required": true,
+  "required_fields": [
+    "environment_id",
+    "environment_version",
+    "room_profile_id",
+    "lighting_rig_id",
+    "prop_registry_id",
+    "scale_reference_id"
+  ],
+  "block_if_missing": [
+    "environment_id",
+    "room_profile_id",
+    "lighting_rig_id"
+  ],
+  "qa_goal_generation": {
+    "mirror_present": [
+      "reflection_consistency"
+    ],
+    "wet_or_glossy_surface": [
+      "specular_reflection_consistency"
+    ],
+    "body_prop_contact": [
+      "contact_shadow_plausibility"
+    ],
+    "video_requested": [
+      "temporal_environment_stability"
+    ],
+    "audio_requested": [
+      "room_acoustics_match"
+    ]
+  }
+}

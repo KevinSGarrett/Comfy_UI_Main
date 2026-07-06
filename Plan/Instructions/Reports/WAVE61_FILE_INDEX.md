@@ -1,0 +1,33 @@
+# WAVE61 File Index
+
+- `Plan/Instructions/Manifests/wave61_package_manifest.json`
+- `Plan/Instructions/QA/README_QA_WAVE61.md`
+- `Plan/Instructions/QA/STRICT_AUTONOMOUS_QA_MASTER_PROTOCOL.md`
+- `Plan/Instructions/QA/IMAGE_GENERATION_VISUAL_REVIEW_PROTOCOL.md`
+- `Plan/Instructions/QA/VIDEO_GENERATION_REVIEW_PROTOCOL.md`
+- `Plan/Instructions/QA/AUDIO_GENERATION_REVIEW_PROTOCOL.md`
+- `Plan/Instructions/QA/MULTIMODAL_ARTIFACT_REVIEW_SCORECARD.md`
+- `Plan/Instructions/QA/COMFYUI_WORKFLOW_TESTING_PROTOCOL.md`
+- `Plan/Instructions/QA/MODEL_LORA_CHECKPOINT_VALIDATION_PROTOCOL.md`
+- `Plan/Instructions/QA/PROMPT_NEGATIVE_PROMPT_QA_PROTOCOL.md`
+- `Plan/Instructions/QA/FAILURE_CLASSIFICATION_AND_RETEST_PROTOCOL.md`
+- `Plan/Instructions/QA/DONE_CERTIFICATION_EVIDENCE_PROTOCOL.md`
+- `Plan/Instructions/QA/Evidence/README_QA_EVIDENCE.md`
+- `Plan/Instructions/QA/Templates/artifact_qa_record.template.json`
+- `Plan/Instructions/QA/Templates/image_review_checklist.template.md`
+- `Plan/Instructions/QA/Templates/video_review_checklist.template.md`
+- `Plan/Instructions/QA/Templates/audio_review_checklist.template.md`
+- `Plan/Instructions/QA/Templates/workflow_validation_record.template.json`
+- `Plan/Instructions/QA/Templates/done_certification.template.md`
+- `Plan/Instructions/QA/Schemas/qa_record.schema.json`
+- `Plan/Instructions/QA/Schemas/done_certification.schema.json`
+- `Plan/Instructions/QA/Scripts/Initialize-QARecord.ps1`
+- `Plan/Instructions/QA/Scripts/New-DoneCertification.ps1`
+- `Plan/Instructions/README_WAVE61.md`
+- `Plan/Instructions/Reports/WAVE61_DELIVERY_REPORT.md`
+- `Plan/Instructions/Reports/WAVE61_FILE_INDEX.md`
+- `Plan/Instructions/Reports/WAVE61_VALIDATION_REPORT.json`
+- `Plan/Instructions/Source_Context/WAVE61_REFERENCE_SOURCE_NOTES.md`
+- `Plan/Instructions/Waves/Wave61/WAVE61_SCOPE.md`
+- `Plan/Instructions/Waves/Wave61/WAVE61_ITEMIZED_LIST_SUPPLEMENT.csv`
+- `Plan/Instructions/Waves/Wave61/WAVE61_TRACKER_SUPPLEMENT.csv`

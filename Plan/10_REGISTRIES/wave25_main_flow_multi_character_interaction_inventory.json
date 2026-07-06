@@ -1,0 +1,121 @@
+{
+  "source_main_flow": "Wave42_Runtime_Bound__UI__WAVE42_MAIN_FLOW_20260702(27).json",
+  "node_count": 356,
+  "link_count": 91,
+  "saveimage_lanes": [
+    {
+      "node_id": 19,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA"
+    },
+    {
+      "node_id": 39,
+      "prefix": "Main_Flow/Flux_Family_ZImage"
+    },
+    {
+      "node_id": 62,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA_Upscaled"
+    },
+    {
+      "node_id": 87,
+      "prefix": "Main_Flow/SDXL_Inpaint_Detail"
+    },
+    {
+      "node_id": 95,
+      "prefix": "Main_Flow/Flux_to_SDXL_Refine"
+    },
+    {
+      "node_id": 107,
+      "prefix": "Main_Flow/True_Flux_Schnell_Reference_Smoke"
+    },
+    {
+      "node_id": 128,
+      "prefix": "Main_Flow/ControlNet_Canny_Edge"
+    },
+    {
+      "node_id": 118,
+      "prefix": "Main_Flow/IPAdapter_Face_Reference"
+    }
+  ],
+  "mask_anchors": [
+    {
+      "node_id": 82,
+      "type": "VAEEncodeForInpaint",
+      "mask_inputs": [
+        "mask"
+      ]
+    },
+    {
+      "node_id": 112,
+      "type": "IPAdapter",
+      "mask_inputs": [
+        "attn_mask"
+      ]
+    },
+    {
+      "node_id": 81,
+      "type": "LoadImageMask",
+      "mask_inputs": []
+    }
+  ],
+  "low_denoise_anchors": [
+    {
+      "node_id": 85,
+      "steps": 14,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.28
+    },
+    {
+      "node_id": 93,
+      "steps": 10,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.22
+    }
+  ],
+  "controlnet_nodes": [
+    {
+      "node_id": 120,
+      "type": "ControlNetLoader",
+      "widgets": [
+        "controlnet-canny-sdxl-1.0-small.safetensors"
+      ]
+    },
+    {
+      "node_id": 124,
+      "type": "ControlNetApplyAdvanced",
+      "widgets": [
+        0.65,
+        0,
+        0.75
+      ]
+    }
+  ],
+  "interaction_candidate_signals": 39,
+  "interaction_candidate_categories_top": {
+    "adult": 7,
+    "body": 7,
+    "adult_body_parts": 6,
+    "experimental": 4,
+    "jewelry_accessories": 4,
+    "inpaint_detail": 3,
+    "adult_acts": 2,
+    "adult_male": 1,
+    "hair": 1,
+    "pose_camera": 1,
+    "realism_base": 1,
+    "lighting": 1,
+    "engine_mismatch": 1
+  },
+  "runtime_boundary": "proof_bound",
+  "wave25_ready_anchors": [
+    "SDXL inpaint/detail lane",
+    "Flux-to-SDXL low-denoise refine lane",
+    "VAEEncodeForInpaint mask input",
+    "IPAdapter optional attention-mask input",
+    "Canny ControlNet staging",
+    "SaveImage evidence lanes"
+  ]
+}

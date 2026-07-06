@@ -1,0 +1,482 @@
+{
+  "wave": 16,
+  "workflow_id": "c1eb5a64-4997-472d-a6f5-93cc273d6a72",
+  "revision": 0,
+  "last_node_id": 411,
+  "last_link_id": 109,
+  "source_file": "Wave42_Runtime_Bound__UI__WAVE42_MAIN_FLOW_20260702(18).json",
+  "source_sha256": "13297484923fa1ca7525fa913792b19999f395e05118e50eb269e48e4d1bc8bb",
+  "node_count": 356,
+  "link_count": 91,
+  "node_type_counts": {
+    "Note": 13,
+    "EmptyLatentImage": 3,
+    "KSampler": 7,
+    "VAEDecode": 7,
+    "SaveImage": 8,
+    "PreviewImage": 8,
+    "UNETLoader": 1,
+    "ModelSamplingAuraFlow": 1,
+    "CLIPLoader": 1,
+    "CLIPTextEncode": 12,
+    "EmptySD3LatentImage": 2,
+    "VAELoader": 1,
+    "UpscaleModelLoader": 1,
+    "ImageUpscaleWithModel": 1,
+    "VAEEncodeForInpaint": 1,
+    "VAEEncode": 1,
+    "CheckpointLoaderSimple": 2,
+    "ModelSamplingFlux": 1,
+    "ConditioningZeroOut": 1,
+    "IPAdapter": 1,
+    "ControlNetLoader": 1,
+    "ControlNetApplyAdvanced": 1,
+    "LoraLoader": 274,
+    "LoadImageMask": 1,
+    "LoadImage": 3,
+    "IPAdapterUnifiedLoader": 1,
+    "Lora Loader Stack (rgthree)": 1,
+    "CLIPTextEncodeFlux": 1
+  },
+  "mode_counts": {
+    "0": 82,
+    "2": 274
+  },
+  "save_image_lane_count": 8,
+  "save_image_lanes": [
+    {
+      "save_node_id": 19,
+      "lane_prefix": "Main_Flow/SDXL_RealVisXL_LoRA",
+      "wave16_role": "base_generation_sdxl_realvisxl",
+      "upstream_node_count": 8,
+      "upstream_type_counts": {
+        "CheckpointLoaderSimple": 1,
+        "CLIPTextEncode": 2,
+        "EmptyLatentImage": 1,
+        "KSampler": 1,
+        "VAEDecode": 1,
+        "SaveImage": 1,
+        "Lora Loader Stack (rgthree)": 1
+      },
+      "ksampler_nodes": [
+        {
+          "id": 17,
+          "denoise": 1,
+          "steps": 40
+        }
+      ],
+      "contains_low_denoise_sampler": false,
+      "lowest_denoise": 1,
+      "engine_family_inferred_from_lane_name": "sdxl",
+      "runtime_status": "source_staging_lane_requires_local_runtime_proof_before_promotion"
+    },
+    {
+      "save_node_id": 39,
+      "lane_prefix": "Main_Flow/Flux_Family_ZImage",
+      "wave16_role": "base_generation_zimage",
+      "upstream_node_count": 10,
+      "upstream_type_counts": {
+        "CLIPLoader": 1,
+        "CLIPTextEncode": 2,
+        "EmptySD3LatentImage": 1,
+        "KSampler": 1,
+        "VAELoader": 1,
+        "VAEDecode": 1,
+        "SaveImage": 1,
+        "UNETLoader": 1,
+        "ModelSamplingAuraFlow": 1
+      },
+      "ksampler_nodes": [
+        {
+          "id": 36,
+          "denoise": 1,
+          "steps": 8
+        }
+      ],
+      "contains_low_denoise_sampler": false,
+      "lowest_denoise": 1,
+      "engine_family_inferred_from_lane_name": "z_image",
+      "runtime_status": "source_staging_lane_requires_local_runtime_proof_before_promotion"
+    },
+    {
+      "save_node_id": 62,
+      "lane_prefix": "Main_Flow/SDXL_RealVisXL_LoRA_Upscaled",
+      "wave16_role": "upscale_only_not_semantic_refine",
+      "upstream_node_count": 10,
+      "upstream_type_counts": {
+        "CheckpointLoaderSimple": 1,
+        "CLIPTextEncode": 2,
+        "EmptyLatentImage": 1,
+        "KSampler": 1,
+        "VAEDecode": 1,
+        "Lora Loader Stack (rgthree)": 1,
+        "UpscaleModelLoader": 1,
+        "ImageUpscaleWithModel": 1,
+        "SaveImage": 1
+      },
+      "ksampler_nodes": [
+        {
+          "id": 17,
+          "denoise": 1,
+          "steps": 40
+        }
+      ],
+      "contains_low_denoise_sampler": false,
+      "lowest_denoise": 1,
+      "engine_family_inferred_from_lane_name": "sdxl",
+      "runtime_status": "source_staging_lane_requires_local_runtime_proof_before_promotion"
+    },
+    {
+      "save_node_id": 87,
+      "lane_prefix": "Main_Flow/SDXL_Inpaint_Detail",
+      "wave16_role": "low_denoise_regional_refine",
+      "upstream_node_count": 10,
+      "upstream_type_counts": {
+        "CheckpointLoaderSimple": 1,
+        "LoadImage": 1,
+        "LoadImageMask": 1,
+        "VAEEncodeForInpaint": 1,
+        "CLIPTextEncode": 2,
+        "KSampler": 1,
+        "VAEDecode": 1,
+        "SaveImage": 1,
+        "Lora Loader Stack (rgthree)": 1
+      },
+      "ksampler_nodes": [
+        {
+          "id": 85,
+          "denoise": 0.28,
+          "steps": 14
+        }
+      ],
+      "contains_low_denoise_sampler": true,
+      "lowest_denoise": 0.28,
+      "engine_family_inferred_from_lane_name": "sdxl",
+      "runtime_status": "source_staging_lane_requires_local_runtime_proof_before_promotion"
+    },
+    {
+      "save_node_id": 95,
+      "lane_prefix": "Main_Flow/Flux_to_SDXL_Refine",
+      "wave16_role": "cross_engine_low_denoise_bridge",
+      "upstream_node_count": 17,
+      "upstream_type_counts": {
+        "CLIPLoader": 1,
+        "CLIPTextEncode": 4,
+        "EmptySD3LatentImage": 1,
+        "KSampler": 2,
+        "VAELoader": 1,
+        "VAEDecode": 2,
+        "CheckpointLoaderSimple": 1,
+        "ModelSamplingAuraFlow": 1,
+        "UNETLoader": 1,
+        "VAEEncode": 1,
+        "Lora Loader Stack (rgthree)": 1,
+        "SaveImage": 1
+      },
+      "ksampler_nodes": [
+        {
+          "id": 36,
+          "denoise": 1,
+          "steps": 8
+        },
+        {
+          "id": 93,
+          "denoise": 0.22,
+          "steps": 10
+        }
+      ],
+      "contains_low_denoise_sampler": true,
+      "lowest_denoise": 0.22,
+      "engine_family_inferred_from_lane_name": "sdxl",
+      "runtime_status": "source_staging_lane_requires_local_runtime_proof_before_promotion"
+    },
+    {
+      "save_node_id": 107,
+      "lane_prefix": "Main_Flow/True_Flux_Schnell_Reference_Smoke",
+      "wave16_role": "flux_smoke_test",
+      "upstream_node_count": 8,
+      "upstream_type_counts": {
+        "CheckpointLoaderSimple": 1,
+        "ModelSamplingFlux": 1,
+        "CLIPTextEncodeFlux": 1,
+        "ConditioningZeroOut": 1,
+        "EmptySD3LatentImage": 1,
+        "KSampler": 1,
+        "VAEDecode": 1,
+        "SaveImage": 1
+      },
+      "ksampler_nodes": [
+        {
+          "id": 105,
+          "denoise": 1,
+          "steps": 4
+        }
+      ],
+      "contains_low_denoise_sampler": false,
+      "lowest_denoise": 1,
+      "engine_family_inferred_from_lane_name": "flux",
+      "runtime_status": "source_staging_lane_requires_local_runtime_proof_before_promotion"
+    },
+    {
+      "save_node_id": 128,
+      "lane_prefix": "Main_Flow/ControlNet_Canny_Edge",
+      "wave16_role": "controlled_regeneration_staged",
+      "upstream_node_count": 11,
+      "upstream_type_counts": {
+        "SaveImage": 1,
+        "CheckpointLoaderSimple": 1,
+        "CLIPTextEncode": 2,
+        "ControlNetLoader": 1,
+        "LoadImage": 1,
+        "Lora Loader Stack (rgthree)": 1,
+        "ControlNetApplyAdvanced": 1,
+        "EmptyLatentImage": 1,
+        "KSampler": 1,
+        "VAEDecode": 1
+      },
+      "ksampler_nodes": [
+        {
+          "id": 126,
+          "denoise": 1,
+          "steps": 20
+        }
+      ],
+      "contains_low_denoise_sampler": false,
+      "lowest_denoise": 1,
+      "engine_family_inferred_from_lane_name": "unknown",
+      "runtime_status": "source_staging_lane_requires_local_runtime_proof_before_promotion"
+    },
+    {
+      "save_node_id": 118,
+      "lane_prefix": "Main_Flow/IPAdapter_Face_Reference",
+      "wave16_role": "identity_reference_staged",
+      "upstream_node_count": 10,
+      "upstream_type_counts": {
+        "CheckpointLoaderSimple": 1,
+        "IPAdapterUnifiedLoader": 1,
+        "LoadImage": 1,
+        "IPAdapter": 1,
+        "CLIPTextEncode": 2,
+        "EmptyLatentImage": 1,
+        "KSampler": 1,
+        "VAEDecode": 1,
+        "SaveImage": 1
+      },
+      "ksampler_nodes": [
+        {
+          "id": 116,
+          "denoise": 1,
+          "steps": 8
+        }
+      ],
+      "contains_low_denoise_sampler": false,
+      "lowest_denoise": 1,
+      "engine_family_inferred_from_lane_name": "unknown",
+      "runtime_status": "source_staging_lane_requires_local_runtime_proof_before_promotion"
+    }
+  ],
+  "ksampler_count": 7,
+  "ksampler_nodes": [
+    {
+      "id": 17,
+      "widgets": [
+        300300300,
+        "fixed",
+        40,
+        6.5,
+        "dpmpp_2m_sde",
+        "karras",
+        1
+      ],
+      "denoise": 1,
+      "steps": 40,
+      "cfg": 6.5,
+      "sampler": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "mode": 0
+    },
+    {
+      "id": 36,
+      "widgets": [
+        42043,
+        "fixed",
+        8,
+        1,
+        "res_multistep",
+        "simple",
+        1
+      ],
+      "denoise": 1,
+      "steps": 8,
+      "cfg": 1,
+      "sampler": "res_multistep",
+      "scheduler": "simple",
+      "mode": 0
+    },
+    {
+      "id": 85,
+      "widgets": [
+        210422,
+        "fixed",
+        14,
+        5,
+        "euler",
+        "normal",
+        0.28
+      ],
+      "denoise": 0.28,
+      "steps": 14,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "mode": 0
+    },
+    {
+      "id": 93,
+      "widgets": [
+        210421,
+        "fixed",
+        10,
+        5,
+        "euler",
+        "normal",
+        0.22
+      ],
+      "denoise": 0.22,
+      "steps": 10,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "mode": 0
+    },
+    {
+      "id": 105,
+      "widgets": [
+        200420,
+        "fixed",
+        4,
+        1,
+        "euler",
+        "simple",
+        1
+      ],
+      "denoise": 1,
+      "steps": 4,
+      "cfg": 1,
+      "sampler": "euler",
+      "scheduler": "simple",
+      "mode": 0
+    },
+    {
+      "id": 116,
+      "widgets": [
+        626262,
+        "fixed",
+        8,
+        5,
+        "euler",
+        "normal",
+        1
+      ],
+      "denoise": 1,
+      "steps": 8,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "mode": 0
+    },
+    {
+      "id": 126,
+      "widgets": [
+        707707,
+        "fixed",
+        20,
+        5.5,
+        "dpmpp_2m_sde",
+        "karras",
+        1
+      ],
+      "denoise": 1,
+      "steps": 20,
+      "cfg": 5.5,
+      "sampler": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "mode": 0
+    }
+  ],
+  "low_denoise_ksampler_count": 2,
+  "low_denoise_ksamplers": [
+    {
+      "node_id": 85,
+      "role": "sdxl_regional_inpaint_detail_refine",
+      "denoise": 0.28,
+      "steps": 14,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "promotion_note": "usable_as_template_only_until runtime evidence confirms source/base image preservation"
+    },
+    {
+      "node_id": 93,
+      "role": "zimage_or_flux_family_to_sdxl_low_denoise_refine_bridge",
+      "denoise": 0.22,
+      "steps": 10,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "promotion_note": "usable_as_template_only_until runtime evidence confirms source/base image preservation"
+    }
+  ],
+  "mask_input_slots": [
+    {
+      "node_id": 82,
+      "node_type": "VAEEncodeForInpaint",
+      "input_name": "mask",
+      "link": 51
+    },
+    {
+      "node_id": 112,
+      "node_type": "IPAdapter",
+      "input_name": "attn_mask",
+      "link": null
+    }
+  ],
+  "vae_encode_nodes": [
+    {
+      "node_id": 82,
+      "type": "VAEEncodeForInpaint"
+    },
+    {
+      "node_id": 90,
+      "type": "VAEEncode"
+    }
+  ],
+  "controlnet_nodes": [
+    {
+      "node_id": 120,
+      "type": "ControlNetLoader"
+    },
+    {
+      "node_id": 124,
+      "type": "ControlNetApplyAdvanced"
+    }
+  ],
+  "ipadapter_nodes": [
+    {
+      "node_id": 112,
+      "type": "IPAdapter"
+    },
+    {
+      "node_id": 110,
+      "type": "IPAdapterUnifiedLoader"
+    }
+  ],
+  "disabled_lora_catalog_nodes": 274,
+  "active_or_enabled_non_lora_nodes": 82,
+  "wave16_interpretation": [
+    "The current flow already contains two low-denoise image-refine examples: SDXL inpaint/detail and cross-engine-to-SDXL refine.",
+    "These examples must be formalized as patchable templates; lane names alone are not proof.",
+    "Any cross-engine refinement must use image bridge artifacts and must not pass incompatible latents, model objects, CLIP objects, or LoRA stacks directly."
+  ],
+  "proof_status": "static_inventory_complete_runtime_refine_evidence_required_later"
+}

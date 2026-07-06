@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave06 Engine Route Decision",
+  "type": "object",
+  "required": [
+    "selected_engine",
+    "selected_family",
+    "reason",
+    "blocked",
+    "required_proof"
+  ],
+  "properties": {
+    "selected_engine": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "selected_family": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "reason": {
+      "type": "string"
+    },
+    "blocked": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "required_proof": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}

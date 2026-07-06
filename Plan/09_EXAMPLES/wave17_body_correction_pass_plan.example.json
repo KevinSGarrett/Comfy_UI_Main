@@ -1,0 +1,138 @@
+{
+  "run_id": "wave17_body_correction_run_example",
+  "source_contract": "body_shape_contract_example_001",
+  "ordered_passes": [
+    {
+      "pass_id": "body_shape_precheck",
+      "stage_order": 1,
+      "engine_family": "none",
+      "operation": "measure frame/body/reference state",
+      "denoise_range": [
+        0,
+        0
+      ],
+      "requires": [
+        "base_image",
+        "character_instance",
+        "frame_composition_report"
+      ],
+      "outputs": [
+        "body_shape_baseline_report"
+      ]
+    },
+    {
+      "pass_id": "large_mask_stomach_waist_correction",
+      "stage_order": 2,
+      "engine_family": "sdxl_or_flux2_refine",
+      "operation": "large-mask img2img/inpaint correction",
+      "denoise_range": [
+        0.16,
+        0.28
+      ],
+      "requires": [
+        "abdomen_stomach_mask",
+        "waist_masks",
+        "identity_protect_mask",
+        "body_shape_baseline_report"
+      ],
+      "outputs": [
+        "corrected_image",
+        "shape_delta_report"
+      ]
+    },
+    {
+      "pass_id": "hip_thigh_silhouette_balance",
+      "stage_order": 3,
+      "engine_family": "sdxl_or_flux2_refine",
+      "operation": "hips/thighs silhouette balance",
+      "denoise_range": [
+        0.18,
+        0.34
+      ],
+      "requires": [
+        "hips_mask",
+        "left_thigh_mask",
+        "right_thigh_mask",
+        "outer_silhouette_mask"
+      ],
+      "outputs": [
+        "corrected_image",
+        "left_right_balance_report"
+      ]
+    },
+    {
+      "pass_id": "clothing_surface_blend",
+      "stage_order": 4,
+      "engine_family": "sdxl_refine",
+      "operation": "fabric edge and skin/fabric transition cleanup",
+      "denoise_range": [
+        0.1,
+        0.22
+      ],
+      "requires": [
+        "clothing_pressure_boundary_mask",
+        "prior_corrected_image"
+      ],
+      "outputs": [
+        "blend_image",
+        "fabric_continuity_report"
+      ]
+    },
+    {
+      "pass_id": "skin_texture_restore",
+      "stage_order": 5,
+      "engine_family": "sdxl_detail",
+      "operation": "restore skin texture without shape changes",
+      "denoise_range": [
+        0.08,
+        0.18
+      ],
+      "requires": [
+        "skin_texture_preserve_mask",
+        "prior_corrected_image"
+      ],
+      "outputs": [
+        "detail_image",
+        "texture_continuity_report"
+      ]
+    },
+    {
+      "pass_id": "silhouette_edge_cleanup",
+      "stage_order": 6,
+      "engine_family": "sdxl_refine",
+      "operation": "edge cleanup only",
+      "denoise_range": [
+        0.06,
+        0.16
+      ],
+      "requires": [
+        "outer_silhouette_mask",
+        "prior_corrected_image"
+      ],
+      "outputs": [
+        "final_candidate",
+        "edge_blend_report"
+      ]
+    },
+    {
+      "pass_id": "qa_and_rerun_decision",
+      "stage_order": 7,
+      "engine_family": "none",
+      "operation": "score body proportions and decide pass/fallback/rerun",
+      "denoise_range": [
+        0,
+        0
+      ],
+      "requires": [
+        "final_candidate",
+        "all_shape_reports"
+      ],
+      "outputs": [
+        "body_shape_qa_report",
+        "promotion_decision"
+      ]
+    }
+  ],
+  "rerun_policy": "10_REGISTRIES/wave17_body_correction_rerun_policy.json",
+  "qa_scoring": "10_REGISTRIES/wave17_body_proportion_qa_scoring_rules.json"
+}

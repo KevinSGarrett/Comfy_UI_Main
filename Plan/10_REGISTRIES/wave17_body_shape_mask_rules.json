@@ -1,0 +1,103 @@
+{
+  "version": "wave17",
+  "mask_requirements": [
+    {
+      "pass_type": "stomach_refine",
+      "required_masks": [
+        "person_instance",
+        "abdomen_stomach",
+        "outer_silhouette"
+      ],
+      "forbidden_masks": [
+        "face_identity",
+        "hands_contact_exclusion"
+      ],
+      "default_feather_px": [
+        24,
+        64
+      ]
+    },
+    {
+      "pass_type": "waist_refine",
+      "required_masks": [
+        "person_instance",
+        "waist_left",
+        "waist_right",
+        "outer_silhouette"
+      ],
+      "forbidden_masks": [
+        "face_identity"
+      ],
+      "default_feather_px": [
+        32,
+        96
+      ]
+    },
+    {
+      "pass_type": "hips_refine",
+      "required_masks": [
+        "person_instance",
+        "hips_pelvis",
+        "outer_silhouette"
+      ],
+      "forbidden_masks": [
+        "face_identity"
+      ],
+      "default_feather_px": [
+        32,
+        96
+      ]
+    },
+    {
+      "pass_type": "thigh_balance",
+      "required_masks": [
+        "person_instance",
+        "thigh_left",
+        "thigh_right",
+        "outer_silhouette"
+      ],
+      "forbidden_masks": [
+        "feet_if_not_targeted",
+        "face_identity"
+      ],
+      "default_feather_px": [
+        24,
+        72
+      ]
+    },
+    {
+      "pass_type": "silhouette_cleanup",
+      "required_masks": [
+        "person_instance",
+        "outer_silhouette"
+      ],
+      "forbidden_masks": [
+        "background_only"
+      ],
+      "default_feather_px": [
+        16,
+        48
+      ]
+    },
+    {
+      "pass_type": "clothing_boundary_repair",
+      "required_masks": [
+        "person_instance",
+        "clothing_pressure_boundary"
+      ],
+      "forbidden_masks": [
+        "unowned_character_pixels"
+      ],
+      "default_feather_px": [
+        12,
+        48
+      ]
+    }
+  ],
+  "ownership_rules": [
+    "Every body-region mask must include character_id and instance_id.",
+    "Masks may overlap only when priority_order is declared.",
+    "Large masks must include a protected face/hands exclusion map when visible.",
+    "A correction pass cannot run if the mask bounding box touches image edges unless crop-safe-margin QA allows it."
+  ]
+}

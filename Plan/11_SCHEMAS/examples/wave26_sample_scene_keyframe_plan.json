@@ -1,0 +1,110 @@
+{
+  "scene_id": "sample_scene_001",
+  "export_target": "gif",
+  "loop_type": "seamless_cycle",
+  "keyframes": [
+    {
+      "keyframe_id": "kf_000",
+      "time_index": 0,
+      "phase_name": "setup",
+      "class": "anchor_start",
+      "camera_state": {
+        "framing": "half_body",
+        "angle": "eye_level",
+        "lens_style": "normal"
+      },
+      "frame_composition_state": {
+        "character_count": 2,
+        "crop_rule": "both characters fully readable"
+      },
+      "active_characters": [
+        "char_a",
+        "char_b"
+      ],
+      "per_character_pose": {
+        "char_a": "pose_a0",
+        "char_b": "pose_b0"
+      },
+      "depth_order": [
+        "char_a",
+        "char_b",
+        "background"
+      ],
+      "interaction_state": {
+        "type": "contact_start",
+        "contact_pairs": []
+      },
+      "environment_state": {
+        "location": "room_a",
+        "lighting": "soft_key"
+      },
+      "required_masks": [
+        "person_a",
+        "person_b",
+        "contact_zone"
+      ],
+      "required_control_maps": [
+        "pose",
+        "depth"
+      ],
+      "qa_targets": [
+        "identity_continuity",
+        "framing_continuity"
+      ]
+    },
+    {
+      "keyframe_id": "kf_032",
+      "time_index": 32,
+      "phase_name": "loop_close",
+      "class": "loop_close",
+      "camera_state": {
+        "framing": "half_body",
+        "angle": "eye_level",
+        "lens_style": "normal"
+      },
+      "frame_composition_state": {
+        "character_count": 2,
+        "crop_rule": "both characters fully readable"
+      },
+      "active_characters": [
+        "char_a",
+        "char_b"
+      ],
+      "per_character_pose": {
+        "char_a": "pose_a5",
+        "char_b": "pose_b5"
+      },
+      "depth_order": [
+        "char_a",
+        "char_b",
+        "background"
+      ],
+      "interaction_state": {
+        "type": "hold",
+        "contact_pairs": [
+          [
+            "char_a_hand",
+            "char_b_arm"
+          ]
+        ]
+      },
+      "environment_state": {
+        "location": "room_a",
+        "lighting": "soft_key"
+      },
+      "required_masks": [
+        "person_a",
+        "person_b",
+        "contact_zone"
+      ],
+      "required_control_maps": [
+        "pose",
+        "depth"
+      ],
+      "qa_targets": [
+        "loop_seam_integrity",
+        "contact_continuity"
+      ]
+    }
+  ]
+}

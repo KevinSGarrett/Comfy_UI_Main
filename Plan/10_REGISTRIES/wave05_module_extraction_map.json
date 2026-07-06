@@ -1,0 +1,38 @@
+{
+  "source_workflow": "Wave42_Runtime_Bound__UI__WAVE42_MAIN_FLOW_20260702.json",
+  "source_workflow_id": "c1eb5a64-4997-472d-a6f5-93cc273d6a72",
+  "wave05_summary": {
+    "nodes": 356,
+    "links": 91,
+    "enabled_nodes": 82,
+    "disabled_catalog_nodes": 274,
+    "save_lanes": 8,
+    "note_boundaries": 13,
+    "lora_catalog_nodes": 274
+  },
+  "extraction_order": [
+    "MOD-10-SDXL-BASE-LANE",
+    "MOD-11-ZIMAGE-BASE-LANE",
+    "MOD-14-ZIMAGE-TO-SDXL-REFINE-LANE",
+    "MOD-13-SDXL-INPAINT-DETAIL-LANE",
+    "MOD-12-UPSCALER-EXPORT-LANE",
+    "MOD-16-IPADAPTER-FACE-REFERENCE-LANE",
+    "MOD-17-CONTROLNET-CANNY-LANE",
+    "MOD-34-QA-EVIDENCE-PROMOTION",
+    "MOD-20-MASK-FACTORY",
+    "MOD-21-POSE-DEPTH-CONTROL",
+    "MOD-30-VIDEO-GIF-KEYFRAME",
+    "MOD-32-AUDIO-SCENE"
+  ],
+  "lane_module_map": {
+    "Main_Flow/SDXL_RealVisXL_LoRA": "MOD-10-SDXL-BASE-LANE",
+    "Main_Flow/Flux_Family_ZImage": "MOD-11-ZIMAGE-BASE-LANE",
+    "Main_Flow/SDXL_RealVisXL_LoRA_Upscaled": "MOD-12-UPSCALER-EXPORT-LANE",
+    "Main_Flow/SDXL_Inpaint_Detail": "MOD-13-SDXL-INPAINT-DETAIL-LANE",
+    "Main_Flow/Flux_to_SDXL_Refine": "MOD-14-ZIMAGE-TO-SDXL-REFINE-LANE",
+    "Main_Flow/True_Flux_Schnell_Reference_Smoke": "MOD-15-FLUX-SMOKE-TEST-LANE",
+    "Main_Flow/ControlNet_Canny_Edge": "MOD-17-CONTROLNET-CANNY-LANE",
+    "Main_Flow/IPAdapter_Face_Reference": "MOD-16-IPADAPTER-FACE-REFERENCE-LANE"
+  },
+  "strict_rule": "Do not directly run the full source canvas for production. Extract and validate one module/template at a time."
+}

@@ -1,0 +1,34 @@
+{
+  "profiles": [
+    {
+      "id": "local_metadata_only",
+      "ec2_allowed": false,
+      "cost_level": "none"
+    },
+    {
+      "id": "local_preview",
+      "ec2_allowed": false,
+      "cost_level": "low"
+    },
+    {
+      "id": "cheap_gpu_preview",
+      "ec2_allowed": false,
+      "cost_level": "low_medium"
+    },
+    {
+      "id": "ec2_preview",
+      "ec2_allowed": "only_if_local_preview_passed",
+      "cost_level": "medium"
+    },
+    {
+      "id": "ec2_final",
+      "ec2_allowed": "only_if_preflight_passed",
+      "cost_level": "high"
+    },
+    {
+      "id": "ec2_hero_final",
+      "ec2_allowed": "only_if_selected_take_and_budget_passed",
+      "cost_level": "highest"
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+[
+  {
+    "risk_id": "DRIFT-IDENTITY",
+    "severity": "high",
+    "description": "Face/body identity changes after low-denoise pass.",
+    "detection": [
+      "identity comparison",
+      "face/character consistency report"
+    ]
+  },
+  {
+    "risk_id": "DRIFT-POSE",
+    "severity": "high",
+    "description": "Body pose, hands, or character blocking changes outside requested correction.",
+    "detection": [
+      "pose/skeleton comparison",
+      "frame composition QA"
+    ]
+  },
+  {
+    "risk_id": "DRIFT-CROP",
+    "severity": "high",
+    "description": "Full/half/close-up body visibility or crop boundary changes.",
+    "detection": [
+      "frame composition integrity score"
+    ]
+  },
+  {
+    "risk_id": "DRIFT-STYLE",
+    "severity": "medium_high",
+    "description": "Pony or specialty pass overwhelms realism/look.",
+    "detection": [
+      "style drift score",
+      "realism score"
+    ]
+  },
+  {
+    "risk_id": "MASK-BLEED",
+    "severity": "medium_high",
+    "description": "Masked refine changes background or unrelated body/prop regions.",
+    "detection": [
+      "mask ownership diff",
+      "before/after diff outside mask"
+    ]
+  },
+  {
+    "risk_id": "ENGINE-MISMATCH",
+    "severity": "high",
+    "description": "Wrong checkpoint/LoRA/CLIP/VAE family enters target lane.",
+    "detection": [
+      "engine registry compatibility check"
+    ]
+  },
+  {
+    "risk_id": "OVER-DENOISE",
+    "severity": "high",
+    "description": "Pass denoise turns a refine into regeneration.",
+    "detection": [
+      "denoise policy validation"
+    ]
+  },
+  {
+    "risk_id": "TEXTURE-WAX",
+    "severity": "medium",
+    "description": "Skin/fabric becomes waxy, plastic, smeared, overprocessed.",
+    "detection": [
+      "material detail QA",
+      "artifact QA"
+    ]
+  },
+  {
+    "risk_id": "COLOR-LIGHT-SHIFT",
+    "severity": "medium",
+    "description": "Refined region no longer matches scene lighting and color.",
+    "detection": [
+      "histogram/light continuity check"
+    ]
+  }
+]

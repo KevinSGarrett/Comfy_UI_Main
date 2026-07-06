@@ -1,0 +1,92 @@
+link_id,source_node_id,source_node_type,source_slot,target_node_id,target_node_type,target_slot,declared_type
+1,10,CheckpointLoaderSimple,0,411,Lora Loader Stack (rgthree),0,MODEL
+2,10,CheckpointLoaderSimple,1,411,Lora Loader Stack (rgthree),1,CLIP
+7,411,Lora Loader Stack (rgthree),0,17,KSampler,0,MODEL
+8,411,Lora Loader Stack (rgthree),1,14,CLIPTextEncode,0,CLIP
+9,411,Lora Loader Stack (rgthree),1,15,CLIPTextEncode,0,CLIP
+10,14,CLIPTextEncode,0,17,KSampler,1,CONDITIONING
+11,15,CLIPTextEncode,0,17,KSampler,2,CONDITIONING
+12,16,EmptyLatentImage,0,17,KSampler,3,LATENT
+13,17,KSampler,0,18,VAEDecode,0,LATENT
+14,18,VAEDecode,0,19,SaveImage,0,IMAGE
+15,18,VAEDecode,0,20,PreviewImage,0,IMAGE
+17,10,CheckpointLoaderSimple,2,18,VAEDecode,1,VAE
+18,30,UNETLoader,0,31,ModelSamplingAuraFlow,0,MODEL
+19,31,ModelSamplingAuraFlow,0,36,KSampler,0,MODEL
+20,32,CLIPLoader,0,33,CLIPTextEncode,0,CLIP
+21,32,CLIPLoader,0,34,CLIPTextEncode,0,CLIP
+22,33,CLIPTextEncode,0,36,KSampler,1,CONDITIONING
+23,34,CLIPTextEncode,0,36,KSampler,2,CONDITIONING
+28,35,EmptySD3LatentImage,0,36,KSampler,3,LATENT
+29,36,KSampler,0,38,VAEDecode,0,LATENT
+30,37,VAELoader,0,38,VAEDecode,1,VAE
+31,38,VAEDecode,0,39,SaveImage,0,IMAGE
+32,38,VAEDecode,0,40,PreviewImage,0,IMAGE
+41,18,VAEDecode,0,61,ImageUpscaleWithModel,1,IMAGE
+42,60,UpscaleModelLoader,0,61,ImageUpscaleWithModel,0,UPSCALE_MODEL
+43,61,ImageUpscaleWithModel,0,62,SaveImage,0,IMAGE
+44,61,ImageUpscaleWithModel,0,63,PreviewImage,0,IMAGE
+45,411,Lora Loader Stack (rgthree),0,85,KSampler,0,MODEL
+46,411,Lora Loader Stack (rgthree),1,83,CLIPTextEncode,0,CLIP
+47,411,Lora Loader Stack (rgthree),1,84,CLIPTextEncode,0,CLIP
+48,10,CheckpointLoaderSimple,2,82,VAEEncodeForInpaint,1,VAE
+49,10,CheckpointLoaderSimple,2,86,VAEDecode,1,VAE
+50,80,LoadImage,0,82,VAEEncodeForInpaint,0,IMAGE
+51,81,LoadImageMask,0,82,VAEEncodeForInpaint,2,MASK
+52,82,VAEEncodeForInpaint,0,85,KSampler,3,LATENT
+53,83,CLIPTextEncode,0,85,KSampler,1,CONDITIONING
+54,84,CLIPTextEncode,0,85,KSampler,2,CONDITIONING
+55,85,KSampler,0,86,VAEDecode,0,LATENT
+56,86,VAEDecode,0,87,SaveImage,0,IMAGE
+57,86,VAEDecode,0,88,PreviewImage,0,IMAGE
+58,411,Lora Loader Stack (rgthree),0,93,KSampler,0,MODEL
+59,411,Lora Loader Stack (rgthree),1,91,CLIPTextEncode,0,CLIP
+60,411,Lora Loader Stack (rgthree),1,92,CLIPTextEncode,0,CLIP
+61,10,CheckpointLoaderSimple,2,90,VAEEncode,1,VAE
+62,10,CheckpointLoaderSimple,2,94,VAEDecode,1,VAE
+63,38,VAEDecode,0,90,VAEEncode,0,IMAGE
+64,90,VAEEncode,0,93,KSampler,3,LATENT
+65,91,CLIPTextEncode,0,93,KSampler,1,CONDITIONING
+66,92,CLIPTextEncode,0,93,KSampler,2,CONDITIONING
+67,93,KSampler,0,94,VAEDecode,0,LATENT
+68,94,VAEDecode,0,95,SaveImage,0,IMAGE
+69,94,VAEDecode,0,96,PreviewImage,0,IMAGE
+70,100,CheckpointLoaderSimple,0,101,ModelSamplingFlux,0,MODEL
+71,100,CheckpointLoaderSimple,1,102,CLIPTextEncodeFlux,0,CLIP
+72,101,ModelSamplingFlux,0,105,KSampler,0,MODEL
+73,102,CLIPTextEncodeFlux,0,105,KSampler,1,CONDITIONING
+74,102,CLIPTextEncodeFlux,0,103,ConditioningZeroOut,0,CONDITIONING
+75,103,ConditioningZeroOut,0,105,KSampler,2,CONDITIONING
+76,100,CheckpointLoaderSimple,2,106,VAEDecode,1,VAE
+77,104,EmptySD3LatentImage,0,105,KSampler,3,LATENT
+78,105,KSampler,0,106,VAEDecode,0,LATENT
+79,106,VAEDecode,0,107,SaveImage,0,IMAGE
+80,106,VAEDecode,0,108,PreviewImage,0,IMAGE
+81,10,CheckpointLoaderSimple,0,110,IPAdapterUnifiedLoader,0,MODEL
+82,110,IPAdapterUnifiedLoader,0,112,IPAdapter,0,MODEL
+83,110,IPAdapterUnifiedLoader,1,112,IPAdapter,1,IPADAPTER
+84,10,CheckpointLoaderSimple,1,113,CLIPTextEncode,0,CLIP
+85,10,CheckpointLoaderSimple,1,114,CLIPTextEncode,0,CLIP
+86,111,LoadImage,0,112,IPAdapter,2,IMAGE
+87,112,IPAdapter,0,116,KSampler,0,MODEL
+89,10,CheckpointLoaderSimple,2,117,VAEDecode,1,VAE
+90,113,CLIPTextEncode,0,116,KSampler,1,CONDITIONING
+91,114,CLIPTextEncode,0,116,KSampler,2,CONDITIONING
+92,115,EmptyLatentImage,0,116,KSampler,3,LATENT
+93,116,KSampler,0,117,VAEDecode,0,LATENT
+94,117,VAEDecode,0,118,SaveImage,0,IMAGE
+95,117,VAEDecode,0,119,PreviewImage,0,IMAGE
+96,411,Lora Loader Stack (rgthree),0,126,KSampler,0,MODEL
+97,120,ControlNetLoader,0,124,ControlNetApplyAdvanced,2,CONTROL_NET
+98,121,LoadImage,0,124,ControlNetApplyAdvanced,3,IMAGE
+99,411,Lora Loader Stack (rgthree),1,122,CLIPTextEncode,0,CLIP
+100,411,Lora Loader Stack (rgthree),1,123,CLIPTextEncode,0,CLIP
+101,122,CLIPTextEncode,0,124,ControlNetApplyAdvanced,0,CONDITIONING
+102,123,CLIPTextEncode,0,124,ControlNetApplyAdvanced,1,CONDITIONING
+103,124,ControlNetApplyAdvanced,0,126,KSampler,1,CONDITIONING
+104,124,ControlNetApplyAdvanced,1,126,KSampler,2,CONDITIONING
+105,125,EmptyLatentImage,0,126,KSampler,3,LATENT
+106,10,CheckpointLoaderSimple,2,127,VAEDecode,1,VAE
+107,126,KSampler,0,127,VAEDecode,0,LATENT
+108,127,VAEDecode,0,128,SaveImage,0,IMAGE
+109,127,VAEDecode,0,129,PreviewImage,0,IMAGE

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Collision and Indentation Contract",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "deformation_events"
+  ],
+  "properties": {
+    "contract_version": {
+      "type": "string"
+    },
+    "scene_id": {
+      "type": "string"
+    },
+    "source_image_id": {
+      "type": "string"
+    },
+    "deformation_events": {
+      "type": "array",
+      "items": {
+        "$ref": "physical_deformation_pass_plan.schema.json"
+      },
+      "minItems": 1
+    }
+  }
+}

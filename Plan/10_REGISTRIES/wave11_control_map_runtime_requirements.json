@@ -1,0 +1,37 @@
+{
+  "wave": "11",
+  "runtime_proof_required_before_promotion": true,
+  "local_first": true,
+  "ec2_required_now": false,
+  "required_proof_steps": [
+    "Capture ComfyUI /object_info from local runtime.",
+    "Verify all preprocessor node names required by wave11_pose_preprocessor_registry.json are visible.",
+    "Verify ControlNetLoader and ControlNetApplyAdvanced or engine-specific equivalents are visible.",
+    "Generate and save control maps for DWPose/OpenPose, depth, normal, Canny, and lineart using non-production test inputs.",
+    "Run edge/depth/pose QA scripts on generated control maps.",
+    "Run one minimal SDXL Canny generation through current Main Flow branch and collect evidence.",
+    "Run one minimal DWPose/OpenPose branch after the workflow node graph is added.",
+    "Block promotion until outputs exist under expected Main_Flow or module prefixes."
+  ],
+  "current_main_flow_status": {
+    "canny_branch": "wired_ready_to_verify",
+    "ipadapter_face_reference": "wired_ready_to_verify",
+    "dwpose_openpose_depth_normal_lineart": "planned_note_only_until_node_graph_added_and_proven"
+  },
+  "do_not_claim_working": [
+    "DWPose/OpenPose runtime generation",
+    "depth ControlNet branch",
+    "normal ControlNet branch",
+    "lineart ControlNet branch",
+    "per-character skeleton routing",
+    "video pose-sequence control"
+  ],
+  "can_claim_currently_designed": [
+    "control-map schemas",
+    "router rules",
+    "QA gates",
+    "preprocessor registry",
+    "per-character skeleton contract",
+    "current main-flow Canny branch inventory"
+  ]
+}

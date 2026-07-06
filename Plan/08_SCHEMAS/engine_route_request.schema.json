@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave06 Engine Route Request",
+  "type": "object",
+  "required": [
+    "pass_type",
+    "output_type"
+  ],
+  "properties": {
+    "pass_type": {
+      "type": "string"
+    },
+    "output_type": {
+      "type": "string",
+      "enum": [
+        "image",
+        "gif",
+        "video",
+        "audio",
+        "av",
+        "manifest_only"
+      ]
+    },
+    "requested_engine": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "requires_lora_family": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "cost_tier": {
+      "type": "string"
+    },
+    "promotion_required": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": true
+}

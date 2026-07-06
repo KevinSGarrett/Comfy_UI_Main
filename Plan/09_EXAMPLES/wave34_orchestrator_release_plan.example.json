@@ -1,0 +1,49 @@
+{
+  "orchestrator_release_id": "orch_release_034_001",
+  "stages": [
+    "intake",
+    "scene_plan",
+    "app_mode_mapping",
+    "proxy_preview",
+    "preview_qa",
+    "state_diff",
+    "final_preflight",
+    "local_proof",
+    "ec2_proof_if_unlocked",
+    "manifest_collection",
+    "qa_certification",
+    "release_decision",
+    "handoff"
+  ],
+  "stage_dependencies": {
+    "preview_qa": [
+      "proxy_preview"
+    ],
+    "final_preflight": [
+      "preview_qa",
+      "state_diff"
+    ],
+    "ec2_proof_if_unlocked": [
+      "final_preflight"
+    ],
+    "qa_certification": [
+      "manifest_collection"
+    ]
+  },
+  "hard_blocks": [
+    "no_direct_ec2_from_intake",
+    "no_release_without_manifest",
+    "no_certification_without_evidence"
+  ],
+  "runtime_routes": [
+    "image_main_flow",
+    "video_runtime_lane_when_merged",
+    "audio_runtime_lane_when_merged"
+  ],
+  "manifest_outputs": [
+    "release_manifest",
+    "proof_manifest",
+    "qa_certification_packet"
+  ],
+  "release_gate": "wave34_release_gate_decision"
+}

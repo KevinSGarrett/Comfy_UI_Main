@@ -1,0 +1,73 @@
+{
+  "version": "wave07.v1",
+  "generated_at": "2026-07-05T22:15:56Z",
+  "routes": [
+    {
+      "scene_need": "highest_prompt_following_photoreal_base",
+      "primary_engine": "flux2_dev_local",
+      "fallback_engines": [
+        "flux1_dev",
+        "sdxl_realvisxl"
+      ],
+      "proof_status": "flux2_requires_runtime_proof"
+    },
+    {
+      "scene_need": "fast_proxy_or_preview",
+      "primary_engine": "flux2_klein_preview",
+      "fallback_engines": [
+        "flux1_schnell",
+        "z_image_turbo"
+      ],
+      "proof_status": "preview_only_until_proven"
+    },
+    {
+      "scene_need": "civitai_sdxl_lora_library_use",
+      "primary_engine": "sdxl_realvisxl",
+      "fallback_engines": [
+        "sdxl_base"
+      ],
+      "proof_status": "existing_main_flow_family"
+    },
+    {
+      "scene_need": "regional_inpaint_detail",
+      "primary_engine": "sdxl_inpaint_detail",
+      "fallback_engines": [
+        "sdxl_realvisxl_low_denoise"
+      ],
+      "proof_status": "ready_to_verify"
+    },
+    {
+      "scene_need": "reference_identity",
+      "primary_engine": "sdxl_ipadapter",
+      "fallback_engines": [
+        "flux2_reference_when_proven"
+      ],
+      "proof_status": "ready_to_verify_for_sdxl_branch"
+    },
+    {
+      "scene_need": "controlnet_edge_pose_depth",
+      "primary_engine": "sdxl_controlnet",
+      "fallback_engines": [
+        "pose_depth_note_until_proven"
+      ],
+      "proof_status": "canny_ready_to_verify_pose_depth_openpose_later"
+    },
+    {
+      "scene_need": "video_generation",
+      "primary_engine": "wan2_2",
+      "fallback_engines": [
+        "hunyuanvideo_1_5",
+        "ltx2"
+      ],
+      "proof_status": "separate_video_lane_required"
+    },
+    {
+      "scene_need": "audio_av_sync",
+      "primary_engine": "audio_foley_pipeline",
+      "fallback_engines": [
+        "tts_voice_pipeline"
+      ],
+      "proof_status": "separate_audio_lane_required"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Physical Deformation Pass Plan",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "event_id",
+    "deformation_mode",
+    "contact_edge_id",
+    "source_owner_id",
+    "target_owner_id",
+    "target_material_profile_id",
+    "mask_bundle_id",
+    "pass_sequence"
+  ],
+  "properties": {
+    "contract_version": {
+      "type": "string"
+    },
+    "event_id": {
+      "type": "string"
+    },
+    "contact_edge_id": {
+      "type": "string"
+    },
+    "deformation_mode": {
+      "type": "string"
+    },
+    "source_owner_id": {
+      "type": "string"
+    },
+    "target_owner_id": {
+      "type": "string"
+    },
+    "source_region_id": {
+      "type": "string"
+    },
+    "target_region_id": {
+      "type": "string"
+    },
+    "target_material_profile_id": {
+      "type": "string"
+    },
+    "mask_bundle_id": {
+      "type": "string"
+    },
+    "pressure_tier": {
+      "type": "string"
+    },
+    "intensity_tier": {
+      "type": "string"
+    },
+    "pass_sequence": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "preservation_rules": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

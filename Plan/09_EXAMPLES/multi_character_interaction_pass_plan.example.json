@@ -1,0 +1,74 @@
+{
+  "run_id": "RUN_EXAMPLE_MULTI_CHARACTER_001",
+  "scene_id": "SCENE_TWO_CHARACTER_CONTACT",
+  "output_mode": "still",
+  "characters": [
+    "character_A",
+    "character_B"
+  ],
+  "passes": [
+    {
+      "pass_id": "P01_LAYOUT",
+      "pass_type": "base",
+      "engine_family": "flux",
+      "workflow_template": "03_WORKFLOWS/api/multichar_layout_flux.template.json",
+      "qa_gates": [
+        "character_count",
+        "instance_separation",
+        "layout_regions",
+        "depth_order"
+      ]
+    },
+    {
+      "pass_id": "P02_IDENTITY_A",
+      "pass_type": "refine",
+      "target_entity_id": "character_A",
+      "engine_family": "sdxl",
+      "workflow_template": "03_WORKFLOWS/api/per_character_identity_refine.template.json",
+      "masks": [
+        "character_A_mask"
+      ],
+      "qa_gates": [
+        "identity_A",
+        "no_cross_character_bleed"
+      ]
+    },
+    {
+      "pass_id": "P03_IDENTITY_B",
+      "pass_type": "refine",
+      "target_entity_id": "character_B",
+      "engine_family": "sdxl",
+      "workflow_template": "03_WORKFLOWS/api/per_character_identity_refine.template.json",
+      "masks": [
+        "character_B_mask"
+      ],
+      "qa_gates": [
+        "identity_B",
+        "no_cross_character_bleed"
+      ]
+    },
+    {
+      "pass_id": "P04_CONTACT",
+      "pass_type": "contact_deformation",
+      "engine_family": "sdxl",
+      "workflow_template": "03_WORKFLOWS/api/contact_deformation_sdxl.template.json",
+      "masks": [
+        "character_A_hand_mask",
+        "character_B_target_region_mask",
+        "contact_zone_mask"
+      ],
+      "control_maps": [
+        "pose",
+        "depth",
+        "normal"
+      ],
+      "denoise": 0.32,
+      "qa_gates": [
+        "contact_point",
+        "readable_hands",
+        "no_merged_bodies",
+        "plausible_occlusion"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "generated_at_utc": "2026-07-05T23:59:00Z",
+  "source_workflow": "Wave42_Runtime_Bound__UI__WAVE42_MAIN_FLOW_20260702(14).json",
+  "summary": {
+    "nodes": 356,
+    "links": 91,
+    "save_image_lanes": 8,
+    "preview_lanes": 8,
+    "disabled_or_catalog_nodes": 274,
+    "note_boundaries": 13,
+    "mask_relevant_nodes_by_keyword": 75,
+    "mask_input_slots_observed": 2,
+    "load_image_nodes": 3,
+    "tracker_rows": 12887,
+    "tracker_columns": 73,
+    "tracker_mask_related_rows": 3656
+  },
+  "observed_mask_input_slots": [
+    {
+      "node_id": 82,
+      "node_type": "VAEEncodeForInpaint",
+      "node_title": null,
+      "input_name": "mask",
+      "link": 51
+    },
+    {
+      "node_id": 112,
+      "node_type": "IPAdapter",
+      "node_title": null,
+      "input_name": "attn_mask",
+      "link": null
+    }
+  ],
+  "observed_load_image_nodes": [
+    {
+      "node_id": 80,
+      "type": "LoadImage",
+      "image_name": "IMG_4059.PNG",
+      "role_guess": "reference_or_source_image"
+    },
+    {
+      "node_id": 111,
+      "type": "LoadImage",
+      "image_name": "IMG_4053.PNG",
+      "role_guess": "reference_or_source_image"
+    },
+    {
+      "node_id": 121,
+      "type": "LoadImage",
+      "image_name": "controlnet_canny_corrected_white_edges_black_bg.png",
+      "role_guess": "control_map_or_reference_image"
+    }
+  ],
+  "save_image_lanes": [
+    {
+      "node_id": 19,
+      "type": "SaveImage",
+      "output_prefix": "Main_Flow/SDXL_RealVisXL_LoRA",
+      "mode": 0,
+      "classification": "image_output_lane"
+    },
+    {
+      "node_id": 39,
+      "type": "SaveImage",
+      "output_prefix": "Main_Flow/Flux_Family_ZImage",
+      "mode": 0,
+      "classification": "image_output_lane"
+    },
+    {
+      "node_id": 62,
+      "type": "SaveImage",
+      "output_prefix": "Main_Flow/SDXL_RealVisXL_LoRA_Upscaled",
+      "mode": 0,
+      "classification": "image_output_lane"
+    },
+    {
+      "node_id": 87,
+      "type": "SaveImage",
+      "output_prefix": "Main_Flow/SDXL_Inpaint_Detail",
+      "mode": 0,
+      "classification": "image_output_lane"
+    },
+    {
+      "node_id": 95,
+      "type": "SaveImage",
+      "output_prefix": "Main_Flow/Flux_to_SDXL_Refine",
+      "mode": 0,
+      "classification": "image_output_lane"
+    },
+    {
+      "node_id": 107,
+      "type": "SaveImage",
+      "output_prefix": "Main_Flow/True_Flux_Schnell_Reference_Smoke",
+      "mode": 0,
+      "classification": "image_output_lane"
+    },
+    {
+      "node_id": 128,
+      "type": "SaveImage",
+      "output_prefix": "Main_Flow/ControlNet_Canny_Edge",
+      "mode": 0,
+      "classification": "image_output_lane"
+    },
+    {
+      "node_id": 118,
+      "type": "SaveImage",
+      "output_prefix": "Main_Flow/IPAdapter_Face_Reference",
+      "mode": 0,
+      "classification": "image_output_lane"
+    }
+  ],
+  "interpretation": [
+    "The current main flow has one wired inpaint mask input and one optional IPAdapter attention-mask input.",
+    "The current main flow has staged reference/control behavior and a Canny ControlNet output lane.",
+    "Wave 13 adds the mask-factory contracts, schemas, registries, validation, and QA scoring needed before masks can be promoted as runtime-proof behavior."
+  ]
+}

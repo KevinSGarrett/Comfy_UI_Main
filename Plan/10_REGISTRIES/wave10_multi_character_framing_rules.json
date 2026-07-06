@@ -1,0 +1,49 @@
+{
+  "version": "wave10.v1",
+  "rules": [
+    {
+      "id": "identity_separation",
+      "description": "Each character has a stable slot with character_id, left/right/center, depth_order, and reference priority.",
+      "required": true
+    },
+    {
+      "id": "no_face_blending",
+      "description": "Faces, hairlines, body silhouettes, and outfits must not merge between characters.",
+      "required": true
+    },
+    {
+      "id": "scale_consistency",
+      "description": "Height/body scale must match Character Bible and environment scale anchors.",
+      "required": true
+    },
+    {
+      "id": "occlusion_policy",
+      "description": "Any occlusion must be declared as allowed, limited, or blocked for each character.",
+      "required": true
+    },
+    {
+      "id": "hand_contact_visibility",
+      "description": "If touch/contact is important, hands/contact points must be framed and in focus.",
+      "required": true
+    },
+    {
+      "id": "depth_layering",
+      "description": "Foreground/midground/background order must be explicit for multi-character shots.",
+      "required": true
+    }
+  ],
+  "slot_template": {
+    "character_id": "char_example",
+    "screen_position": "left|center|right|foreground|midground|background",
+    "depth_order": 1,
+    "crop_policy": "full_visible|intentional_partial|face_only|blocked_crop",
+    "identity_priority": "primary|secondary|background",
+    "occlusion_allowed": "none|minor|moderate|major",
+    "must_show": [
+      "face",
+      "hands",
+      "outfit",
+      "contact_points"
+    ]
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "wave03.model_reference_report.schema.json",
+  "title": "Wave03 Model Reference Report",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "source_file",
+    "references"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "source_file": {
+      "type": "string"
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "node_id",
+          "node_type",
+          "asset_reference"
+        ],
+        "properties": {
+          "node_id": {
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "node_type": {
+            "type": "string"
+          },
+          "asset_reference": {
+            "type": "string"
+          },
+          "engine_property": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "category_property": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "status_property": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

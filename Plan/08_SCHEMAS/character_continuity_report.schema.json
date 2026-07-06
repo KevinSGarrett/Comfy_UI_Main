@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave08 Character Continuity Report",
+  "type": "object",
+  "required": [
+    "report_id",
+    "character_id",
+    "character_version",
+    "artifact_path",
+    "status",
+    "scores",
+    "failures"
+  ],
+  "properties": {
+    "report_id": {
+      "type": "string"
+    },
+    "character_id": {
+      "type": "string"
+    },
+    "character_version": {
+      "type": "string"
+    },
+    "artifact_path": {
+      "type": "string"
+    },
+    "pass_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "warn",
+        "fail",
+        "blocked"
+      ]
+    },
+    "scores": {
+      "type": "object"
+    },
+    "failures": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "promotion_allowed": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": true
+}

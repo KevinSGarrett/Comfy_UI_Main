@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "scene_graph.schema.json",
+  "title": "Wave07 Scene Graph",
+  "type": "object",
+  "required": [
+    "scene_id",
+    "summary",
+    "characters",
+    "environment",
+    "actions",
+    "props",
+    "relationships"
+  ],
+  "properties": {
+    "scene_id": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "characters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "character_id",
+          "role",
+          "description"
+        ],
+        "properties": {
+          "character_id": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "identity_reference_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "body_targets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "wardrobe": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "pose": {
+            "type": "string"
+          },
+          "depth_order": {
+            "type": "integer"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "environment": {
+      "type": "object",
+      "required": [
+        "environment_id",
+        "description"
+      ],
+      "properties": {
+        "environment_id": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "location_type": {
+          "type": "string"
+        },
+        "lighting": {
+          "type": "string"
+        },
+        "materials": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "scale_constraints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "props": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "negative_scene_constraints": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

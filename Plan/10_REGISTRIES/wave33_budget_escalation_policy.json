@@ -1,0 +1,36 @@
+{
+  "policies": [
+    {
+      "from": "local_preview",
+      "to": "ec2_preview",
+      "requires": [
+        "preview_qa_pass",
+        "budget_fit_pass"
+      ]
+    },
+    {
+      "from": "ec2_preview",
+      "to": "ec2_final",
+      "requires": [
+        "final_preflight_pass",
+        "selected_take_declared"
+      ]
+    },
+    {
+      "from": "ec2_final",
+      "to": "ec2_hero_final",
+      "requires": [
+        "hero_region_declared",
+        "final_qa_or_preflight_pass",
+        "cost_policy_pass"
+      ]
+    },
+    {
+      "from": "any",
+      "to": "lower_tier",
+      "requires": [
+        "preview_failure_or_budget_overrun"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "control_group": "wave16_image_refine_controls",
+  "visible_controls": [
+    {
+      "id": "refine_enabled",
+      "label": "Run image refine passes",
+      "type": "boolean",
+      "default": true
+    },
+    {
+      "id": "refine_strength",
+      "label": "Refine strength",
+      "type": "enum",
+      "allowed": [
+        "very_low",
+        "low",
+        "medium_masked_only"
+      ],
+      "default": "low"
+    },
+    {
+      "id": "target_refine_engine",
+      "label": "Preferred refine engine",
+      "type": "enum",
+      "allowed": [
+        "auto",
+        "sdxl_realvisxl",
+        "pony_masked_specialty",
+        "sd15_tiny_repair"
+      ],
+      "default": "auto"
+    },
+    {
+      "id": "allow_cross_engine_bridge",
+      "label": "Allow image-based engine bridge",
+      "type": "boolean",
+      "default": true
+    },
+    {
+      "id": "allow_pony_specialty",
+      "label": "Allow Pony masked specialty pass",
+      "type": "boolean",
+      "default": false
+    },
+    {
+      "id": "max_refine_reruns",
+      "label": "Max reruns per refine pass",
+      "type": "integer",
+      "default": 2,
+      "minimum": 0,
+      "maximum": 3
+    },
+    {
+      "id": "preserve_identity_strict",
+      "label": "Strict identity preservation",
+      "type": "boolean",
+      "default": true
+    },
+    {
+      "id": "preserve_frame_strict",
+      "label": "Strict crop/body visibility preservation",
+      "type": "boolean",
+      "default": true
+    }
+  ],
+  "hidden_controls": [
+    "raw checkpoint path",
+    "raw LoRA path",
+    "raw node id patch targets",
+    "API keys",
+    "internal denoise block overrides"
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave09 Environment Reference Pack",
+  "type": "object",
+  "required": [
+    "environment_id",
+    "environment_version",
+    "files"
+  ],
+  "properties": {
+    "environment_id": {
+      "type": "string"
+    },
+    "environment_version": {
+      "type": "string"
+    },
+    "pack_root": {
+      "type": "string"
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "relative_path",
+          "sha256",
+          "size_bytes",
+          "role"
+        ],
+        "properties": {
+          "relative_path": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string"
+          },
+          "size_bytes": {
+            "type": "integer"
+          },
+          "role": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

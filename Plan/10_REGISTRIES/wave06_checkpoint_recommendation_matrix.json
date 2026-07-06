@@ -1,0 +1,100 @@
+[
+  {
+    "checkpoint_or_engine": "FLUX.2 [dev]",
+    "decision": "ADD_AS_PLANNED_PRIMARY_CANDIDATE",
+    "why": "Next-generation FLUX family; strong candidate for high-quality photoreal generation, structured prompt following, editing, and multi-reference identity workflows.",
+    "implementation_requirement": "Create dedicated Flux2 workflow templates and object_info/runtime proof before any production promotion.",
+    "status": "planned_wave06"
+  },
+  {
+    "checkpoint_or_engine": "FLUX.2 [klein] 4B/9B",
+    "decision": "ADD_AS_FAST_PREVIEW_AND_EDIT_CANDIDATE",
+    "why": "Designed for faster Flux2 text-to-image and image-editing workflows; useful for local preview/proxy before expensive renders.",
+    "implementation_requirement": "Add as preview tier, not final hero tier until A/B tested against Flux2 dev and SDXL/RealVisXL.",
+    "status": "planned_wave06"
+  },
+  {
+    "checkpoint_or_engine": "FLUX.2 [max/pro/flex] API",
+    "decision": "OPTIONAL_EXTERNAL_API_LANE",
+    "why": "Useful for benchmark/comparison, typography, or high-quality reference if user accepts API cost/latency and non-local workflow.",
+    "implementation_requirement": "Do not make it a core local dependency; route behind optional API config and cost gate.",
+    "status": "optional_review"
+  },
+  {
+    "checkpoint_or_engine": "FLUX.1 dev + schnell FP8",
+    "decision": "KEEP",
+    "why": "Existing Flux-family support and useful as stable fallback/smoke/proxy lanes.",
+    "implementation_requirement": "Separate Flux1 from Flux2 assets and LoRAs.",
+    "status": "existing"
+  },
+  {
+    "checkpoint_or_engine": "SDXL / RealVisXL",
+    "decision": "KEEP_AS_SPECIALTY_AND_REFINE_CORE",
+    "why": "Strong Civitai LoRA ecosystem and existing runtime lanes make SDXL/RealVisXL the best detail/refine/specialty pass layer.",
+    "implementation_requirement": "Keep same-engine LoRA rules; use image bridges from Flux/Flux2 outputs.",
+    "status": "existing"
+  },
+  {
+    "checkpoint_or_engine": "Pony Diffusion V6 XL / Pony-compatible variants",
+    "decision": "KEEP_AS_SPECIALTY_ONLY",
+    "why": "Useful where a Pony-specific model handles a concept better, but should not replace the primary photoreal base without visual proof.",
+    "implementation_requirement": "Treat as separate Pony-SDXL family; no blind SDXL/Pony mixing.",
+    "status": "specialty"
+  },
+  {
+    "checkpoint_or_engine": "SD1.5",
+    "decision": "LEGACY_ONLY",
+    "why": "Useful only for legacy assets or very specific models; not a primary hyperreal engine.",
+    "implementation_requirement": "Bridge by image only and isolate from SDXL/Flux/Pony models.",
+    "status": "legacy_hold"
+  },
+  {
+    "checkpoint_or_engine": "Z-Image / Z-Image Turbo",
+    "decision": "KEEP_AS_EXPERIMENTAL_PROXY",
+    "why": "Current main flow already includes a Z-Image lane; useful for fast tests if quality/cost profile is favorable.",
+    "implementation_requirement": "Do not promote as final photoreal lane until comparative QA beats existing lanes.",
+    "status": "existing_experimental"
+  },
+  {
+    "checkpoint_or_engine": "Qwen-Image",
+    "decision": "ADD_TO_REVIEW_QUEUE",
+    "why": "Strong candidate for text rendering, instruction following, editing, and composition-heavy images.",
+    "implementation_requirement": "Add only after ComfyUI workflow proof and model asset placement are verified.",
+    "status": "review_candidate"
+  },
+  {
+    "checkpoint_or_engine": "Stable Diffusion 3.5 Large/Medium",
+    "decision": "ADD_TO_REVIEW_QUEUE",
+    "why": "Potential comparison engine for typography, complex prompts, and MMDiT-based generation.",
+    "implementation_requirement": "Separate SD3.5 asset family; do not assume SDXL LoRA compatibility.",
+    "status": "review_candidate"
+  },
+  {
+    "checkpoint_or_engine": "Wan2.2",
+    "decision": "ADD_AS_PRIMARY_VIDEO_CANDIDATE",
+    "why": "Open advanced video model family with text/image/video routing potential.",
+    "implementation_requirement": "Use shot-level video QA, not still-image QA only.",
+    "status": "planned_video"
+  },
+  {
+    "checkpoint_or_engine": "HunyuanVideo 1.5",
+    "decision": "ADD_AS_EFFICIENT_VIDEO_CANDIDATE",
+    "why": "Lightweight video model candidate for lower VRAM/cost routes.",
+    "implementation_requirement": "Benchmark temporal coherence and identity drift against Wan2.2.",
+    "status": "planned_video"
+  },
+  {
+    "checkpoint_or_engine": "LTX-2",
+    "decision": "ADD_AS_AUDIO_VIDEO_REVIEW_CANDIDATE",
+    "why": "Audio-video foundation model candidate for synchronized AV experiments.",
+    "implementation_requirement": "Keep separate audio QA gates for clipping, timing, spatial placement, and timeline alignment.",
+    "status": "planned_av"
+  },
+  {
+    "checkpoint_or_engine": "Random untagged Civitai checkpoint/LoRA",
+    "decision": "DO_NOT_ADD_TO_ACTIVE_ROUTER",
+    "why": "Models without metadata, hash, family, license/source, Civitai model/version ID, and QA proof cause broken routing and bad stacks.",
+    "implementation_requirement": "Force through Wave02 Civitai metadata ingestion and Wave06 compatibility validation first.",
+    "status": "blocked"
+  }
+]

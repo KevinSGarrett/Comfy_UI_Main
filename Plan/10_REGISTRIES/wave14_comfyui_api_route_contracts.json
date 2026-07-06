@@ -1,0 +1,67 @@
+[
+  {
+    "route": "/object_info",
+    "method": "GET",
+    "purpose": "Prove node classes/input contracts before runtime"
+  },
+  {
+    "route": "/object_info/{node_class}",
+    "method": "GET",
+    "purpose": "Inspect one node class"
+  },
+  {
+    "route": "/system_stats",
+    "method": "GET",
+    "purpose": "Record runtime device/VRAM/system evidence"
+  },
+  {
+    "route": "/prompt",
+    "method": "GET",
+    "purpose": "Read queue/execution status"
+  },
+  {
+    "route": "/prompt",
+    "method": "POST",
+    "purpose": "Submit API-format workflow"
+  },
+  {
+    "route": "/ws",
+    "method": "WEBSOCKET",
+    "purpose": "Monitor execution progress/errors"
+  },
+  {
+    "route": "/history/{prompt_id}",
+    "method": "GET",
+    "purpose": "Fetch output metadata"
+  },
+  {
+    "route": "/view",
+    "method": "GET",
+    "purpose": "Retrieve output images"
+  },
+  {
+    "route": "/upload/image",
+    "method": "POST",
+    "purpose": "Upload source/reference/control images"
+  },
+  {
+    "route": "/upload/mask",
+    "method": "POST",
+    "purpose": "Upload masks"
+  },
+  {
+    "route": "/queue",
+    "method": "GET/POST",
+    "purpose": "Inspect/manage queue under execution mode"
+  },
+  {
+    "route": "/interrupt",
+    "method": "POST",
+    "purpose": "Stop current execution under explicit recovery mode"
+  },
+  {
+    "route": "/free",
+    "method": "POST",
+    "purpose": "Unload models/free memory after run if configured"
+  }
+]

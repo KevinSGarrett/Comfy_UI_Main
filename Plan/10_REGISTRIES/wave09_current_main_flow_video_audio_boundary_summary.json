@@ -1,0 +1,49 @@
+{
+  "main_flow_nodes": 356,
+  "save_image_lanes": [
+    {
+      "id": 19,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA"
+    },
+    {
+      "id": 39,
+      "prefix": "Main_Flow/Flux_Family_ZImage"
+    },
+    {
+      "id": 62,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA_Upscaled"
+    },
+    {
+      "id": 87,
+      "prefix": "Main_Flow/SDXL_Inpaint_Detail"
+    },
+    {
+      "id": 95,
+      "prefix": "Main_Flow/Flux_to_SDXL_Refine"
+    },
+    {
+      "id": 107,
+      "prefix": "Main_Flow/True_Flux_Schnell_Reference_Smoke"
+    },
+    {
+      "id": 128,
+      "prefix": "Main_Flow/ControlNet_Canny_Edge"
+    },
+    {
+      "id": 118,
+      "prefix": "Main_Flow/IPAdapter_Face_Reference"
+    }
+  ],
+  "video_audio_note": "Video/audio handoff boundary\nThe Main Flow now produces image outputs ready for video lanes. WAN/Hunyuan/LTXV/audio remain separate runtime lanes until their own ComfyUI node graphs are merged and proven.",
+  "video_in_scope": true,
+  "audio_in_scope": true,
+  "current_main_flow_proves_video_runtime": false,
+  "current_main_flow_proves_audio_runtime": false,
+  "required_next_steps": [
+    "create_video_workflow_modules",
+    "create_audio_workflow_modules",
+    "capture_runtime_outputs",
+    "run_temporal_and_audio_qa",
+    "promote_with_evidence"
+  ]
+}

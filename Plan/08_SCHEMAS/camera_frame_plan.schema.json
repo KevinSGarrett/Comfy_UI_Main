@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Camera and Frame Plan",
+  "type": "object",
+  "required": [
+    "shot_id",
+    "framing",
+    "camera_angle",
+    "required_subjects_in_frame"
+  ],
+  "properties": {
+    "shot_id": {
+      "type": "string"
+    },
+    "framing": {
+      "type": "string",
+      "enum": [
+        "full_body",
+        "knees_up",
+        "waist_up",
+        "bust",
+        "close_up",
+        "macro",
+        "multi_full_body",
+        "custom"
+      ]
+    },
+    "camera_angle": {
+      "type": "string"
+    },
+    "lens_look_mm": {
+      "type": "number"
+    },
+    "camera_distance": {
+      "type": "string"
+    },
+    "depth_of_field": {
+      "type": "string"
+    },
+    "zoom": {
+      "type": "string"
+    },
+    "required_subjects_in_frame": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "must_not_crop": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "qa_rules": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}

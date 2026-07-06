@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "model_selection_plan.schema.json",
+  "title": "Wave07 Model Selection Plan",
+  "type": "object",
+  "required": [
+    "selection_id",
+    "selection_policy",
+    "candidate_models"
+  ],
+  "properties": {
+    "selection_id": {
+      "type": "string"
+    },
+    "selection_policy": {
+      "type": "string"
+    },
+    "candidate_models": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "model_id",
+          "engine_family",
+          "asset_type",
+          "selection_status"
+        ],
+        "properties": {
+          "model_id": {
+            "type": "string"
+          },
+          "engine_family": {
+            "type": "string"
+          },
+          "asset_type": {
+            "type": "string"
+          },
+          "source_registry": {
+            "type": "string"
+          },
+          "civitai_model_id": {
+            "type": [
+              "string",
+              "integer",
+              "null"
+            ]
+          },
+          "civitai_version_id": {
+            "type": [
+              "string",
+              "integer",
+              "null"
+            ]
+          },
+          "sha256": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "local_path": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "s3_uri": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "allowed_passes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "selection_status": {
+            "type": "string",
+            "enum": [
+              "selected",
+              "candidate",
+              "rejected",
+              "blocked",
+              "needs_metadata",
+              "needs_runtime_proof"
+            ]
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "blocked_models": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": false
+}

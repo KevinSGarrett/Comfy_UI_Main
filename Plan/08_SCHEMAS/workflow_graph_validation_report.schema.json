@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "wave03.workflow_graph_validation_report.schema.json",
+  "title": "Wave03 Workflow Graph Validation Report",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "source_file",
+    "source_sha256",
+    "node_count",
+    "link_count",
+    "static_validation_result",
+    "static_graph_issues"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "source_file": {
+      "type": "string"
+    },
+    "source_sha256": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64
+    },
+    "workflow_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "workflow_version": {
+      "type": [
+        "number",
+        "string",
+        "null"
+      ]
+    },
+    "node_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "link_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "node_type_count": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer"
+      }
+    },
+    "mode_count": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer"
+      }
+    },
+    "static_graph_issues": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "static_validation_result": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL",
+        "WARN"
+      ]
+    },
+    "runtime_validation_result": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

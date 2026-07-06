@@ -1,0 +1,97 @@
+{
+  "evidence_id": "EVID-W59-LIVE-INDEX-REGEN-20260706T003608-0500",
+  "created_at": "2026-07-06T00:36:08-05:00",
+  "artifact_id": "TRK-W59-002-TRK-W59-003",
+  "artifact_type": "live_local_index_validation",
+  "tracker_ids": [
+    "TRK-W59-002",
+    "TRK-W59-003"
+  ],
+  "item_ids": [
+    "W59-002",
+    "W59-003",
+    "W59-004",
+    "W59-005",
+    "W59-006"
+  ],
+  "qa_protocol_used": [
+    "SESSION_START_REHYDRATION_CHECKLIST.md",
+    "LOCAL_DIRECTORY_CATALOGUE.md",
+    "TRACKER_UPDATE_PROTOCOL.md",
+    "QA_EVIDENCE_LOG_PROTOCOL.md"
+  ],
+  "scope": [
+    "C:\\Comfy_UI_Main\\Plan",
+    "C:\\Comfy_UI_Main\\Plan\\Items",
+    "C:\\Comfy_UI_Main\\Plan\\Tracker",
+    "C:\\Comfy_UI_Main\\Plan\\Instructions"
+  ],
+  "commands": [
+    {
+      "command": "powershell -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Scripts\\Generate-Project-Indexes.ps1",
+      "attempt": 1,
+      "exit_code": 1,
+      "result": "fail",
+      "observed_error": "Windows PowerShell did not expose [System.IO.Path]::GetRelativePath."
+    },
+    {
+      "command": "powershell -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Scripts\\Generate-Project-Indexes.ps1",
+      "attempt": 2,
+      "exit_code": 0,
+      "result": "pass",
+      "outputs": [
+        "Plan/Instructions/Indexes/Generated/plan_file_index.csv",
+        "Plan/Instructions/Indexes/Generated/plan_file_index.json",
+        "Plan/Instructions/Indexes/Generated/items_file_index.csv",
+        "Plan/Instructions/Indexes/Generated/items_file_index.json",
+        "Plan/Instructions/Indexes/Generated/tracker_file_index.csv",
+        "Plan/Instructions/Indexes/Generated/tracker_file_index.json",
+        "Plan/Instructions/Indexes/Generated/instructions_file_index.csv",
+        "Plan/Instructions/Indexes/Generated/instructions_file_index.json"
+      ]
+    }
+  ],
+  "fix_record": {
+    "issue_id": "ISSUE-W59-INDEX-001",
+    "affected_file": "Plan/Instructions/Scripts/Generate-Project-Indexes.ps1",
+    "fix": "Replaced unsupported [System.IO.Path]::GetRelativePath call with Get-RelativePathCompat, implemented with System.Uri.MakeRelativeUri for Windows PowerShell compatibility.",
+    "retest_result": "retest_passed"
+  },
+  "validation_results": {
+    "json_parse": "pass",
+    "csv_import": "pass",
+    "secret_exclusion": "pass",
+    "env_rows_found": 0,
+    "index_counts": {
+      "plan_file_index": {
+        "json_count": 2374,
+        "csv_count": 2374,
+        "json_bytes": 1308074,
+        "csv_bytes": 786528
+      },
+      "items_file_index": {
+        "json_count": 45,
+        "csv_count": 45,
+        "json_bytes": 23537,
+        "csv_bytes": 13664
+      },
+      "tracker_file_index": {
+        "json_count": 26,
+        "csv_count": 26,
+        "json_bytes": 13722,
+        "csv_bytes": 8066
+      },
+      "instructions_file_index": {
+        "json_count": 152,
+        "csv_count": 152,
+        "json_bytes": 87037,
+        "csv_bytes": 53459
+      }
+    }
+  },
+  "result": "pass_with_notes",
+  "known_issues": [
+    "The index generator required a Windows PowerShell compatibility patch before the live scan could complete."
+  ],
+  "next_action": "Use the regenerated live indexes as local project awareness evidence, then proceed to the next local validation candidate before external runtime work."
+}

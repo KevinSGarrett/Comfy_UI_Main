@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave04 Main Flow Node Classification",
+  "type": "object",
+  "required": [
+    "node_id",
+    "type",
+    "mode",
+    "classification"
+  ],
+  "properties": {
+    "node_id": {
+      "type": "integer"
+    },
+    "type": {
+      "type": "string"
+    },
+    "mode": {
+      "type": "integer"
+    },
+    "title": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "classification": {
+      "type": "string",
+      "enum": [
+        "note_boundary",
+        "terminal_save",
+        "terminal_preview",
+        "disabled_lora_catalog_node",
+        "active_stack_node",
+        "active_runtime_or_staged_lane_node",
+        "unclassified_or_orphan"
+      ]
+    },
+    "save_lane_membership": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "wave42_lora_library_node": {
+      "type": "boolean"
+    },
+    "wave42_active_stack_node": {
+      "type": "boolean"
+    },
+    "engine": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "category": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "scene_role": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "status": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "verification_tier": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "already_active_in_main_chain": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "disabled_by_default": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": true
+}

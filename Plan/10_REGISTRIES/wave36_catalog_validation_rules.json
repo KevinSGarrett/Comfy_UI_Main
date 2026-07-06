@@ -1,0 +1,24 @@
+{
+  "rules": [
+    {
+      "if": "file_exists_and_not_cataloged",
+      "status": "stale_catalog"
+    },
+    {
+      "if": "catalog_path_missing_on_disk",
+      "status": "broken_catalog_reference"
+    },
+    {
+      "if": "workflow_catalog_missing_required_assets",
+      "status": "workflow_catalog_incomplete"
+    },
+    {
+      "if": "schema_changed_without_example_refresh",
+      "status": "example_stale"
+    },
+    {
+      "if": "release_zip_changed_without_manifest_hash",
+      "status": "release_manifest_stale"
+    }
+  ]
+}

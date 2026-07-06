@@ -1,0 +1,44 @@
+{
+  "plan_id": "wave16_example_refine_bridge_plan",
+  "base_image": {
+    "path": "outputs/base/approved_base.png",
+    "engine_family": "flux2",
+    "hash": "sha256:example"
+  },
+  "passes": [
+    {
+      "pass_id": "REFINE-00-BASE-PRESERVATION-CHECK",
+      "source_engine": "flux2",
+      "target_engine": "none",
+      "denoise": 0,
+      "scope": "evidence_only",
+      "mask_required": false
+    },
+    {
+      "pass_id": "REFINE-50-CROSS-ENGINE-SDXL-BRIDGE",
+      "source_engine": "flux2",
+      "target_engine": "sdxl_realvisxl",
+      "denoise": 0.18,
+      "scope": "global_light_bridge",
+      "mask_required": false,
+      "bridge_contract_id": "BRIDGE-FLUX2-TO-SDXL-DETAIL"
+    },
+    {
+      "pass_id": "REFINE-20-REGIONAL-INPAINT-DETAIL",
+      "source_engine": "sdxl_realvisxl",
+      "target_engine": "sdxl_realvisxl",
+      "denoise": 0.24,
+      "scope": "masked_skin_fabric_contact",
+      "mask_required": true,
+      "bridge_contract_id": "same_family_low_denoise"
+    }
+  ],
+  "qa_gates": [
+    "base_preserved",
+    "identity_preserved",
+    "pose_preserved",
+    "frame_preserved",
+    "mask_ownership_pass",
+    "engine_family_compatible"
+  ]
+}

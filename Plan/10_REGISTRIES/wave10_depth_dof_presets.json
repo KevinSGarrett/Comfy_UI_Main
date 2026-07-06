@@ -1,0 +1,69 @@
+{
+  "version": "wave10.v1",
+  "presets": [
+    {
+      "id": "deep_focus",
+      "depth_of_field": "deep",
+      "background_blur": "minimal",
+      "use_for": [
+        "reference_sheet",
+        "environment_review",
+        "multi_character"
+      ],
+      "qa": [
+        "all_required_subjects_readable"
+      ]
+    },
+    {
+      "id": "natural_portrait_dof",
+      "depth_of_field": "moderate",
+      "background_blur": "medium",
+      "use_for": [
+        "half_body",
+        "close_up",
+        "identity"
+      ],
+      "qa": [
+        "eyes_or_target_region_sharp"
+      ]
+    },
+    {
+      "id": "cinematic_shallow_dof",
+      "depth_of_field": "shallow",
+      "background_blur": "strong",
+      "use_for": [
+        "beauty",
+        "emotional_closeup"
+      ],
+      "qa": [
+        "no_unintended_face_blur"
+      ]
+    },
+    {
+      "id": "macro_shallow_dof",
+      "depth_of_field": "very_shallow",
+      "background_blur": "very_strong",
+      "use_for": [
+        "texture",
+        "material",
+        "micro_detail"
+      ],
+      "qa": [
+        "focus_target_not_missed"
+      ]
+    },
+    {
+      "id": "layered_depth",
+      "depth_of_field": "moderate_to_deep",
+      "background_blur": "controlled",
+      "use_for": [
+        "multi_character",
+        "foreground_midground_background"
+      ],
+      "qa": [
+        "subject_depth_order_correct"
+      ]
+    }
+  ],
+  "locked_rule": "Multi-character scenes default to deep_focus or layered_depth unless a primary subject is explicitly isolated."
+}

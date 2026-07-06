@@ -1,0 +1,42 @@
+{
+  "project_id": "hyperrealism_test",
+  "runtime_target": "local_static_validation",
+  "ec2_permission": false,
+  "qa_level": "strict",
+  "output_type": "still_image",
+  "export_formats": [
+    "png",
+    "json_manifest"
+  ],
+  "scene_environment": {
+    "environment_preset": "studio",
+    "lighting_preset": "soft_window"
+  },
+  "characters": {
+    "character_count": 1,
+    "character_bible_ids": []
+  },
+  "camera_framing": {
+    "shot_type": "full_body",
+    "camera_angle": "eye_level",
+    "lens_mm": 85,
+    "zoom_distance": "medium",
+    "depth_of_field": "medium",
+    "must_keep_full_body_in_frame": true,
+    "must_keep_all_characters_in_frame": false
+  },
+  "engine_and_modules": {
+    "primary_engine_profile": "auto_router",
+    "enabled_passes": [
+      "base",
+      "qa"
+    ],
+    "lora_stack_profile": "registry_profile_name_only"
+  },
+  "qa_promotion": {
+    "auto_rerun_on_fail": true,
+    "require_crop_qa": true,
+    "require_manifest_hashes": true,
+    "allow_final_promotion": false
+  }
+}

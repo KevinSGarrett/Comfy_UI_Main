@@ -1,0 +1,78 @@
+{
+  "generated_at_utc": "2026-07-05T23:59:00Z",
+  "workflow_modules": [
+    {
+      "module_id": "workflow_mask_person_instance_preflight",
+      "comfyui_role": "preprocessor_or_external_detector",
+      "status": "planned_contract",
+      "required_inputs": [
+        "image"
+      ],
+      "required_outputs": [
+        "person_instance_masks"
+      ]
+    },
+    {
+      "module_id": "workflow_mask_body_part_preflight",
+      "comfyui_role": "preprocessor_or_external_detector",
+      "status": "planned_contract",
+      "required_inputs": [
+        "image",
+        "person_instance_masks"
+      ],
+      "required_outputs": [
+        "body_part_masks"
+      ]
+    },
+    {
+      "module_id": "workflow_mask_fabric_parser",
+      "comfyui_role": "preprocessor_or_external_detector",
+      "status": "planned_contract",
+      "required_inputs": [
+        "image",
+        "outfit_profile"
+      ],
+      "required_outputs": [
+        "fabric_masks"
+      ]
+    },
+    {
+      "module_id": "workflow_mask_contact_edge_parser",
+      "comfyui_role": "preprocessor_or_external_detector",
+      "status": "planned_contract",
+      "required_inputs": [
+        "image",
+        "pose_plan",
+        "object_masks"
+      ],
+      "required_outputs": [
+        "contact_masks"
+      ]
+    },
+    {
+      "module_id": "workflow_mask_to_sdxl_inpaint",
+      "comfyui_role": "VAEEncodeForInpaint mask input",
+      "status": "current_main_flow_hook_observed",
+      "required_inputs": [
+        "image",
+        "mask",
+        "sdxl_model"
+      ],
+      "required_outputs": [
+        "inpaint_output"
+      ]
+    },
+    {
+      "module_id": "workflow_mask_to_ipadapter_attention",
+      "comfyui_role": "IPAdapter optional attention mask",
+      "status": "current_main_flow_optional_hook_observed",
+      "required_inputs": [
+        "reference_image",
+        "attention_mask"
+      ],
+      "required_outputs": [
+        "conditioned_model"
+      ]
+    }
+  ]
+}

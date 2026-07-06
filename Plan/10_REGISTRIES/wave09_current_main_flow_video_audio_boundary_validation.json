@@ -1,0 +1,23 @@
+{
+  "video_in_scope": true,
+  "audio_in_scope": true,
+  "main_flow_save_image_lanes": [
+    "Main_Flow/SDXL_RealVisXL_LoRA",
+    "Main_Flow/Flux_Family_ZImage",
+    "Main_Flow/SDXL_RealVisXL_LoRA_Upscaled",
+    "Main_Flow/SDXL_Inpaint_Detail",
+    "Main_Flow/Flux_to_SDXL_Refine",
+    "Main_Flow/True_Flux_Schnell_Reference_Smoke",
+    "Main_Flow/ControlNet_Canny_Edge",
+    "Main_Flow/IPAdapter_Face_Reference"
+  ],
+  "video_audio_boundary_notes": [
+    "Video/audio handoff boundary\nThe Main Flow now produces image outputs ready for video lanes. WAN/Hunyuan/LTXV/audio remain separate runtime lanes until their own ComfyUI node graphs are merged and proven."
+  ],
+  "current_main_flow_proves_video_runtime": false,
+  "current_main_flow_proves_audio_runtime": false,
+  "boundary_note_found": true,
+  "image_save_lanes_found": true,
+  "promotion_status": "blocked_missing_runtime_proof",
+  "explanation": "Video/audio are in scope, but this workflow is treated as an image Main Flow unless separate video/audio modules and output evidence are provided."
+}

@@ -1,0 +1,54 @@
+{
+  "engine_family": "flux2",
+  "wave06_status": "planned_first_class_engine_family",
+  "why_add": [
+    "Flux2 is now an explicit target family for this system.",
+    "It should be evaluated as a next-generation image generation and image editing backbone.",
+    "It may reduce the need for SDXL/Pony specialty passes for some composition/reference tasks, but it does not replace the Civitai SDXL/Pony library without proof."
+  ],
+  "minimum_registry_fields": [
+    "engine_id",
+    "family",
+    "variant",
+    "model_filename",
+    "text_encoder_filename",
+    "vae_filename",
+    "sha256",
+    "source_url",
+    "license_or_access_notes",
+    "s3_uri",
+    "local_cache_path",
+    "ec2_path",
+    "required_comfyui_version",
+    "required_node_classes",
+    "object_info_hash",
+    "vram_profile",
+    "supported_pass_types",
+    "compatible_lora_family",
+    "bridge_in",
+    "bridge_out",
+    "promotion_status"
+  ],
+  "comfyui_runtime_proof_required": [
+    "ComfyUI starts locally or on EC2 with Flux2 nodes visible in object_info.",
+    "Text encoder, diffusion model, and VAE resolve from configured model directories.",
+    "A Flux2 text-to-image prompt creates a real output file.",
+    "A Flux2 image edit/reference workflow creates a real output file.",
+    "Output manifest includes prompt, seed, model hashes, dimensions, runtime logs, and SHA256.",
+    "Visual QA compares Flux2 output against current Flux1/SDXL baselines.",
+    "Only after QA can Flux2 move from planned candidate to production candidate."
+  ],
+  "routing_rules": [
+    "Use Flux2 dev for quality/reference/editing passes after proof.",
+    "Use Flux2 klein for preview/proxy and interactive tests after proof.",
+    "Use Flux2 API variants only behind optional API/cost gates.",
+    "Never load Flux1/SDXL/Pony/SD15 LoRAs into Flux2 unless a registry entry explicitly proves Flux2 compatibility.",
+    "Use image bridges from Flux2 to SDXL/Pony detail passes."
+  ],
+  "storage_policy": {
+    "git": "no_model_binaries",
+    "s3": "canonical_model_store",
+    "local": "hydrate_only_needed_flux2_assets",
+    "ec2": "hydrate_only_for_runtime_proof_or_final_render"
+  }
+}

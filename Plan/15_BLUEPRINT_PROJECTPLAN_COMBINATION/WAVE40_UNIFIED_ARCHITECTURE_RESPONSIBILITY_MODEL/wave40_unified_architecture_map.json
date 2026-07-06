@@ -1,0 +1,82 @@
+{
+  "nodes": [
+    {
+      "node_id": "planning_layer",
+      "architecture_layer": "planning_and_instruction_layer",
+      "owner_domain": "project_control",
+      "purpose": "Blueprint/manual/project-plan source authority",
+      "source_layers": [
+        "blueprint_manual_plan"
+      ],
+      "child_nodes": [
+        "backlog",
+        "requirements"
+      ],
+      "proof_boundary": "planning_only"
+    },
+    {
+      "node_id": "implementation_layer",
+      "architecture_layer": "implementation_layer",
+      "owner_domain": "implementation",
+      "purpose": "Local/repo/ComfyUI/App Mode implementation",
+      "source_layers": [
+        "cumulative_wave_system"
+      ],
+      "child_nodes": [
+        "local",
+        "repo",
+        "comfyui",
+        "app_mode"
+      ],
+      "proof_boundary": "structure_validated"
+    },
+    {
+      "node_id": "metadata_layer",
+      "architecture_layer": "metadata_layer",
+      "owner_domain": "registries",
+      "purpose": "Schemas registries catalogs manifests search",
+      "source_layers": [
+        "cumulative_wave_system",
+        "combined_integration_layer"
+      ],
+      "child_nodes": [
+        "schemas",
+        "registries",
+        "catalogs"
+      ],
+      "proof_boundary": "catalog_validated"
+    },
+    {
+      "node_id": "runtime_layer",
+      "architecture_layer": "runtime_layer",
+      "owner_domain": "runtime_execution",
+      "purpose": "Image/video/audio/local/EC2 proof execution",
+      "source_layers": [
+        "cumulative_wave_system",
+        "reality_status_csv"
+      ],
+      "child_nodes": [
+        "image",
+        "video",
+        "audio",
+        "ec2"
+      ],
+      "proof_boundary": "runtime_evidence_required"
+    },
+    {
+      "node_id": "handoff_layer",
+      "architecture_layer": "handoff_layer",
+      "owner_domain": "releases",
+      "purpose": "Combined handoff and release decisions",
+      "source_layers": [
+        "combined_integration_layer"
+      ],
+      "child_nodes": [
+        "validation",
+        "handoff",
+        "release"
+      ],
+      "proof_boundary": "handoff_validated"
+    }
+  ]
+}

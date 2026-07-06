@@ -1,0 +1,85 @@
+{
+  "version": "wave17",
+  "app_mode_controls": [
+    {
+      "control_id": "body_profile_target",
+      "label": "Body profile target",
+      "type": "select",
+      "options": [
+        "preserve_existing_body",
+        "subtle_waist_stomach_refine",
+        "hourglass_proportion_correction",
+        "hip_thigh_balance_correction",
+        "full_body_silhouette_repair"
+      ],
+      "default": "preserve_existing_body"
+    },
+    {
+      "control_id": "stomach_adjustment_strength",
+      "label": "Stomach adjustment strength",
+      "type": "slider",
+      "min": 0,
+      "max": 1,
+      "default": 0.25,
+      "safe_range": [
+        0,
+        0.45
+      ]
+    },
+    {
+      "control_id": "waist_adjustment_strength",
+      "label": "Waist adjustment strength",
+      "type": "slider",
+      "min": 0,
+      "max": 1,
+      "default": 0.25,
+      "safe_range": [
+        0,
+        0.45
+      ]
+    },
+    {
+      "control_id": "hip_adjustment_strength",
+      "label": "Hip adjustment strength",
+      "type": "slider",
+      "min": 0,
+      "max": 1,
+      "default": 0.25,
+      "safe_range": [
+        0,
+        0.5
+      ]
+    },
+    {
+      "control_id": "thigh_adjustment_strength",
+      "label": "Thigh adjustment strength",
+      "type": "slider",
+      "min": 0,
+      "max": 1,
+      "default": 0.25,
+      "safe_range": [
+        0,
+        0.5
+      ]
+    },
+    {
+      "control_id": "preserve_face_identity",
+      "label": "Preserve face identity",
+      "type": "boolean",
+      "default": true
+    },
+    {
+      "control_id": "preserve_pose",
+      "label": "Preserve pose",
+      "type": "boolean",
+      "default": true
+    },
+    {
+      "control_id": "require_body_qa_pass",
+      "label": "Require body QA pass",
+      "type": "boolean",
+      "default": true
+    }
+  ],
+  "operator_warning": "Controls compile into mask/pass contracts; they do not directly enable all LoRAs or redraw the whole image."
+}

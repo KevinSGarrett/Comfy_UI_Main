@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Mask Quality Report",
+  "type": "object",
+  "required": [
+    "report_id",
+    "contract_id",
+    "score",
+    "passed",
+    "blockers"
+  ],
+  "properties": {
+    "report_id": {
+      "type": "string"
+    },
+    "contract_id": {
+      "type": "string"
+    },
+    "score": {
+      "type": "number"
+    },
+    "passed": {
+      "type": "boolean"
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "component_scores": {
+      "type": "object"
+    }
+  }
+}

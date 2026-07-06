@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Workflow Module Contract",
+  "type": "object",
+  "required": [
+    "module_id",
+    "module_name",
+    "status",
+    "purpose",
+    "primary_inputs",
+    "primary_outputs",
+    "qa_required_before_promotion"
+  ],
+  "properties": {
+    "module_id": {
+      "type": "string"
+    },
+    "module_name": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "purpose": {
+      "type": [
+        "string",
+        "object"
+      ]
+    },
+    "current_main_flow_nodes": {
+      "type": "array",
+      "items": {
+        "type": [
+          "integer",
+          "string"
+        ]
+      }
+    },
+    "primary_inputs": {
+      "type": "array"
+    },
+    "primary_outputs": {
+      "type": "array"
+    },
+    "qa_required_before_promotion": {
+      "type": "array"
+    },
+    "owner_wave": {
+      "type": "integer"
+    }
+  }
+}

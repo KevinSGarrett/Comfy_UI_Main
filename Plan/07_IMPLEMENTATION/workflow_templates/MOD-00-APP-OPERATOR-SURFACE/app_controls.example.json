@@ -1,0 +1,332 @@
+{
+  "version": "wave05",
+  "principle": "App Mode exposes high-level operator controls; the external orchestrator and pass planner remain the brain.",
+  "control_groups": [
+    {
+      "group_id": "project_runtime",
+      "label": "Project / Runtime",
+      "controls": [
+        {
+          "key": "project_id",
+          "type": "text",
+          "required": true,
+          "default": "hyperrealism_test"
+        },
+        {
+          "key": "runtime_target",
+          "type": "select",
+          "options": [
+            "local_static_validation",
+            "local_comfyui_runtime",
+            "ec2_gpu_runtime"
+          ],
+          "default": "local_static_validation"
+        },
+        {
+          "key": "ec2_permission",
+          "type": "boolean",
+          "default": false,
+          "visibility": "required_for_ec2"
+        },
+        {
+          "key": "qa_level",
+          "type": "select",
+          "options": [
+            "draft",
+            "strict",
+            "production",
+            "maximum"
+          ],
+          "default": "strict"
+        }
+      ]
+    },
+    {
+      "group_id": "output_mode",
+      "label": "Output Mode",
+      "controls": [
+        {
+          "key": "output_type",
+          "type": "select",
+          "options": [
+            "still_image",
+            "gif_loop",
+            "video_clip",
+            "audio_only",
+            "audio_video"
+          ],
+          "default": "still_image"
+        },
+        {
+          "key": "export_formats",
+          "type": "multi_select",
+          "options": [
+            "png",
+            "jpg",
+            "webp",
+            "gif",
+            "mp4",
+            "webm",
+            "wav",
+            "mp3",
+            "json_manifest"
+          ],
+          "default": [
+            "png",
+            "json_manifest"
+          ]
+        },
+        {
+          "key": "seed_strategy",
+          "type": "select",
+          "options": [
+            "fixed",
+            "random",
+            "batch_variants",
+            "qa_rerun_locked"
+          ],
+          "default": "fixed"
+        }
+      ]
+    },
+    {
+      "group_id": "scene_environment",
+      "label": "Scene / Environment",
+      "controls": [
+        {
+          "key": "environment_preset",
+          "type": "select_or_text",
+          "examples": [
+            "studio",
+            "bedroom",
+            "bathroom",
+            "outdoor",
+            "vehicle",
+            "custom_room"
+          ],
+          "required": true
+        },
+        {
+          "key": "lighting_preset",
+          "type": "select",
+          "options": [
+            "soft_window",
+            "studio_softbox",
+            "cinematic_low_key",
+            "natural_daylight",
+            "night_practical",
+            "custom"
+          ],
+          "default": "soft_window"
+        },
+        {
+          "key": "prop_surface_context",
+          "type": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "group_id": "characters",
+      "label": "Characters",
+      "controls": [
+        {
+          "key": "character_count",
+          "type": "integer",
+          "min": 1,
+          "max": 5,
+          "default": 1
+        },
+        {
+          "key": "character_bible_ids",
+          "type": "list",
+          "required": false
+        },
+        {
+          "key": "identity_reference_images",
+          "type": "file_list",
+          "required": false
+        },
+        {
+          "key": "body_reference_images",
+          "type": "file_list",
+          "required": false
+        },
+        {
+          "key": "outfit_reference_images",
+          "type": "file_list",
+          "required": false
+        },
+        {
+          "key": "per_character_region_locks",
+          "type": "structured_list",
+          "required": false
+        }
+      ]
+    },
+    {
+      "group_id": "camera_framing",
+      "label": "Camera / Frame",
+      "controls": [
+        {
+          "key": "shot_type",
+          "type": "select",
+          "options": [
+            "full_body",
+            "half_body",
+            "three_quarter_body",
+            "portrait",
+            "closeup",
+            "extreme_closeup",
+            "multi_character_full_body",
+            "multi_character_medium",
+            "wide_scene"
+          ],
+          "default": "full_body"
+        },
+        {
+          "key": "camera_angle",
+          "type": "select",
+          "options": [
+            "eye_level",
+            "low_angle",
+            "high_angle",
+            "overhead",
+            "profile",
+            "three_quarter",
+            "dutch_angle"
+          ],
+          "default": "eye_level"
+        },
+        {
+          "key": "lens_mm",
+          "type": "select",
+          "options": [
+            24,
+            35,
+            50,
+            70,
+            85,
+            135
+          ],
+          "default": 85
+        },
+        {
+          "key": "zoom_distance",
+          "type": "select",
+          "options": [
+            "wide",
+            "medium",
+            "tight",
+            "macro"
+          ],
+          "default": "medium"
+        },
+        {
+          "key": "depth_of_field",
+          "type": "select",
+          "options": [
+            "deep",
+            "medium",
+            "shallow"
+          ],
+          "default": "medium"
+        },
+        {
+          "key": "must_keep_full_body_in_frame",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "key": "must_keep_all_characters_in_frame",
+          "type": "boolean",
+          "default": false
+        }
+      ]
+    },
+    {
+      "group_id": "engine_and_modules",
+      "label": "Engine / Modules",
+      "controls": [
+        {
+          "key": "primary_engine_profile",
+          "type": "select",
+          "options": [
+            "flux_primary",
+            "sdxl_realvisxl_primary",
+            "z_image_proxy",
+            "pony_specialty_masked",
+            "auto_router"
+          ],
+          "default": "auto_router"
+        },
+        {
+          "key": "enabled_passes",
+          "type": "multi_select",
+          "options": [
+            "base",
+            "refine",
+            "inpaint",
+            "upscale",
+            "identity_reference",
+            "pose_control",
+            "mask_factory",
+            "body_shape",
+            "skin_material",
+            "hard_anatomy",
+            "soft_body_contact",
+            "multi_character",
+            "video_gif",
+            "audio",
+            "av_sync"
+          ],
+          "default": [
+            "base",
+            "qa"
+          ]
+        },
+        {
+          "key": "lora_stack_profile",
+          "type": "select_or_text",
+          "required": false,
+          "note": "Use profile name, not raw model path."
+        }
+      ]
+    },
+    {
+      "group_id": "qa_promotion",
+      "label": "QA / Promotion",
+      "controls": [
+        {
+          "key": "auto_rerun_on_fail",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "key": "require_crop_qa",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "key": "require_manifest_hashes",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "key": "allow_final_promotion",
+          "type": "boolean",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "hidden_or_advanced_only": [
+    "raw_model_file_paths",
+    "raw_lora_file_paths",
+    "sampler_internal_patch_map",
+    "node_id_patch_map",
+    "ec2_instance_id",
+    "aws_secret_values",
+    "api_tokens"
+  ]
+}

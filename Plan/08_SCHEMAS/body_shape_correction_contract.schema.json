@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave17 Body Shape Correction Contract",
+  "type": "object",
+  "required": [
+    "contract_id",
+    "scene_id",
+    "character_id",
+    "source_image",
+    "target_profile",
+    "target_regions",
+    "mask_plan",
+    "pass_plan",
+    "qa_goals",
+    "promotion_policy"
+  ],
+  "properties": {
+    "contract_id": {
+      "type": "string"
+    },
+    "scene_id": {
+      "type": "string"
+    },
+    "character_id": {
+      "type": "string"
+    },
+    "character_version": {
+      "type": "string"
+    },
+    "source_image": {
+      "type": "object",
+      "required": [
+        "path_or_artifact_id",
+        "sha256"
+      ],
+      "properties": {
+        "path_or_artifact_id": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string"
+        }
+      }
+    },
+    "target_profile": {
+      "type": "string"
+    },
+    "target_regions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "protected_regions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "mask_plan": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "body_region_mask.schema.json"
+      }
+    },
+    "pass_plan": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "body_correction_pass_plan.schema.json"
+      }
+    },
+    "qa_goals": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "body_shape_qa_goal.schema.json"
+      }
+    },
+    "promotion_policy": {
+      "type": "object",
+      "required": [
+        "requires_qa_pass",
+        "allows_global_redraw"
+      ],
+      "properties": {
+        "requires_qa_pass": {
+          "type": "boolean"
+        },
+        "allows_global_redraw": {
+          "type": "boolean"
+        },
+        "max_total_reruns": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

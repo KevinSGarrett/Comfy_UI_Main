@@ -1,0 +1,34 @@
+{
+  "face_identity_match": {
+    "threshold_default": 0.85,
+    "failure_action": "rerun face/reference pass or lower conflicting LoRA weight"
+  },
+  "body_silhouette_match": {
+    "threshold_default": 0.8,
+    "failure_action": "rerun base/control pass; do not over-inpaint wrong silhouette"
+  },
+  "hair_match": {
+    "threshold_default": 0.8,
+    "failure_action": "masked hair detail pass or revise hair variant"
+  },
+  "skin_marker_preservation": {
+    "threshold_default": 0.75,
+    "failure_action": "masked skin detail pass or marker recovery"
+  },
+  "outfit_continuity": {
+    "threshold_default": 0.8,
+    "failure_action": "masked outfit/fabric correction"
+  },
+  "voice_identity_match": {
+    "threshold_default": 0.85,
+    "failure_action": "rerun voice profile or audio model route"
+  },
+  "multi_character_separation": {
+    "threshold_default": 0.9,
+    "failure_action": "split per-character masks and rerun detail passes"
+  },
+  "no_identity_bleed": {
+    "threshold_default": 0.95,
+    "failure_action": "block promotion and rerun with regional model selection"
+  }
+}

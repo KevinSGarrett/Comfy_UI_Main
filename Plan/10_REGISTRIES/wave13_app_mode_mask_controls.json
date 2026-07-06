@@ -1,0 +1,122 @@
+{
+  "control_surface_id": "wave13_app_mode_mask_controls",
+  "groups": [
+    {
+      "group": "Mask Factory Mode",
+      "controls": [
+        {
+          "id": "mask_factory_enabled",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "id": "mask_generation_scope",
+          "type": "enum",
+          "allowed": [
+            "none",
+            "person_instance",
+            "body_part",
+            "fabric",
+            "contact",
+            "all_required"
+          ],
+          "default": "all_required"
+        },
+        {
+          "id": "mask_detail_level",
+          "type": "enum",
+          "allowed": [
+            "macro_only",
+            "macro_major",
+            "macro_major_minor",
+            "all_scales"
+          ],
+          "default": "macro_major_minor"
+        }
+      ]
+    },
+    {
+      "group": "Character Instance Masks",
+      "controls": [
+        {
+          "id": "expected_character_count",
+          "type": "integer",
+          "min": 1,
+          "max": 8,
+          "default": 1
+        },
+        {
+          "id": "require_person_instance_masks",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "id": "prevent_cross_character_mask_bleed",
+          "type": "boolean",
+          "default": true
+        }
+      ]
+    },
+    {
+      "group": "Body/Fabric/Contact Masks",
+      "controls": [
+        {
+          "id": "body_part_masks",
+          "type": "multi_select",
+          "allowed": [
+            "face",
+            "hair",
+            "hands",
+            "feet",
+            "torso",
+            "arms",
+            "legs",
+            "body_outline"
+          ]
+        },
+        {
+          "id": "fabric_masks",
+          "type": "enum",
+          "allowed": [
+            "none",
+            "major_garments",
+            "garments_plus_folds",
+            "garments_folds_texture_edges"
+          ],
+          "default": "major_garments"
+        },
+        {
+          "id": "contact_masks",
+          "type": "enum",
+          "allowed": [
+            "none",
+            "detected_contacts_only",
+            "required_for_touch_overlap",
+            "all_contact_edges"
+          ],
+          "default": "required_for_touch_overlap"
+        }
+      ]
+    },
+    {
+      "group": "Mask QA",
+      "controls": [
+        {
+          "id": "minimum_mask_score",
+          "type": "integer",
+          "default": 85
+        },
+        {
+          "id": "block_on_missing_runtime_evidence",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "id": "save_mask_evidence_manifest",
+          "type": "boolean",
+          "default": true
+        }
+      ]
+    }
+  ]
+}

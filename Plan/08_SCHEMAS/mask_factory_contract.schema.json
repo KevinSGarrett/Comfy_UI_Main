@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave13 Ultimate Mask Factory Contract",
+  "type": "object",
+  "required": [
+    "contract_id",
+    "scene_id",
+    "mask_factory_mode",
+    "required_mask_scales",
+    "person_instances",
+    "promotion_gates"
+  ],
+  "properties": {
+    "contract_id": {
+      "type": "string"
+    },
+    "scene_id": {
+      "type": "string"
+    },
+    "character_count_expected": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "mask_factory_mode": {
+      "type": "string",
+      "enum": [
+        "runtime_plan",
+        "runtime_evidence",
+        "qa_report"
+      ]
+    },
+    "required_mask_scales": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "person_instances": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "mask_layers": {
+      "type": "array",
+      "items": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "title": "Wave13 Mask Layer",
+        "type": "object",
+        "required": [
+          "mask_id",
+          "scale",
+          "target_type",
+          "source",
+          "required_evidence"
+        ],
+        "properties": {
+          "mask_id": {
+            "type": "string"
+          },
+          "scale": {
+            "type": "string",
+            "enum": [
+              "macro",
+              "major",
+              "minor",
+              "micro",
+              "nano"
+            ]
+          },
+          "target_type": {
+            "type": "string"
+          },
+          "person_instance_id": {
+            "type": "string"
+          },
+          "body_region_id": {
+            "type": "string"
+          },
+          "fabric_region_id": {
+            "type": "string"
+          },
+          "contact_type": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "planned",
+              "detector",
+              "manual",
+              "reference_map",
+              "comfyui_runtime"
+            ]
+          },
+          "bbox_normalized": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 4,
+            "maxItems": 4
+          },
+          "mask_png_path": {
+            "type": "string"
+          },
+          "required_evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "fabric_masks": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "contact_masks": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "promotion_gates": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

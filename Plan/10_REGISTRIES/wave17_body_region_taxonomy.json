@@ -1,0 +1,78 @@
+{
+  "version": "wave17",
+  "purpose": "Body region taxonomy for large-mask body-shape and proportion correction.",
+  "regions": [
+    {
+      "region_id": "torso_global",
+      "label": "Torso global",
+      "mask_scale": "major",
+      "description": "Chest-to-hip body block used only for coarse silhouette rebalance."
+    },
+    {
+      "region_id": "abdomen_stomach",
+      "label": "Abdomen / stomach",
+      "mask_scale": "major",
+      "description": "Stomach profile, belly contour, abdominal volume, and front torso plane."
+    },
+    {
+      "region_id": "waist_left",
+      "label": "Left waist",
+      "mask_scale": "major",
+      "description": "Left-side waist curve and silhouette transition into hip."
+    },
+    {
+      "region_id": "waist_right",
+      "label": "Right waist",
+      "mask_scale": "major",
+      "description": "Right-side waist curve and silhouette transition into hip."
+    },
+    {
+      "region_id": "hips_pelvis",
+      "label": "Hips / pelvis",
+      "mask_scale": "major",
+      "description": "Hip width, pelvis shape, and lower torso balance."
+    },
+    {
+      "region_id": "thigh_left",
+      "label": "Left thigh",
+      "mask_scale": "major",
+      "description": "Upper leg silhouette, volume, taper, and skin continuity."
+    },
+    {
+      "region_id": "thigh_right",
+      "label": "Right thigh",
+      "mask_scale": "major",
+      "description": "Upper leg silhouette, volume, taper, and skin continuity."
+    },
+    {
+      "region_id": "outer_silhouette",
+      "label": "Outer silhouette",
+      "mask_scale": "major",
+      "description": "Body-edge contour used for silhouette correction and crop-boundary checks."
+    },
+    {
+      "region_id": "clothing_pressure_boundary",
+      "label": "Clothing pressure boundary",
+      "mask_scale": "minor",
+      "description": "Edges where fabric, waistband, or clothing shape changes body silhouette."
+    },
+    {
+      "region_id": "skin_texture_preserve",
+      "label": "Skin texture preserve zone",
+      "mask_scale": "minor",
+      "description": "Non-shape region used to preserve texture continuity during reshape."
+    },
+    {
+      "region_id": "hands_contact_exclusion",
+      "label": "Hands/contact exclusion",
+      "mask_scale": "minor",
+      "description": "Hands, props, and contact areas excluded unless separately planned."
+    }
+  ],
+  "hard_rules": [
+    "Shape masks must be owned by a single character instance.",
+    "Large body masks must not include face identity regions unless explicitly requested by another pass.",
+    "Left/right paired regions must be balanced by QA, not independently overcorrected.",
+    "Any large silhouette change must trigger character-count, crop, pose, and clothing-continuity QA."
+  ]
+}

@@ -1,0 +1,8 @@
+profile_id,mask_scales,default_denoise_max,uses,blocked_if
+macro_environment_relight,['macro'],0.3,"['environment continuity', 'lighting balance']",['missing_scene_zone_mask']
+major_person_protection,['major'],0.18,"['identity/background separation', 'no merge QA']",['missing_person_instance_mask']
+major_garment_material,"['major', 'minor']",0.32,"['fabric material continuity', 'garment repair']",['outfit_lock_conflict']
+minor_face_hair_hand_repair,['minor'],0.28,['face/hair/hand repair'],['identity_lock_missing']
+micro_texture_detail,['micro'],0.16,['skin/material/fabric detail'],['mask_area_too_large']
+nano_edge_cleanup,['nano'],0.1,"['edge halo cleanup', 'artifact repair']",['requested_large_change']
+contact_shadow_occlusion,"['minor', 'micro', 'nano']",0.22,"['contact shadow', 'occlusion edge']",['contact_participants_unassigned']

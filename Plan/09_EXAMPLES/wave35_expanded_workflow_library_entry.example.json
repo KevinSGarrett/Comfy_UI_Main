@@ -1,0 +1,29 @@
+{
+  "workflow_id": "main_flow_image_generation",
+  "canonical_folder": "05_WORKFLOWS/00_CANONICAL_MAIN_FLOW",
+  "workflow_type": "comfyui_image_generation",
+  "engine_family": [
+    "sdxl",
+    "flux_family"
+  ],
+  "status": "canonical",
+  "source_of_truth": "workflow_library_and_repo_workflows",
+  "runtime_copy_path": "ComfyUI/user/workflows/canonical/",
+  "output_prefixes": [
+    "Main_Flow/SDXL_RealVisXL_LoRA",
+    "Main_Flow/Flux_Family_ZImage"
+  ],
+  "required_assets": [
+    "checkpoint",
+    "vae",
+    "loras",
+    "optional_controlnet",
+    "optional_ipadapter"
+  ],
+  "proof_gates": [
+    "runtime_output_exists",
+    "image_decode_pass",
+    "manifest_exists",
+    "promotion_gate_pass"
+  ]
+}

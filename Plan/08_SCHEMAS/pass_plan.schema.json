@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pass_plan.schema.json",
+  "title": "Wave07 Pass Plan",
+  "type": "object",
+  "required": [
+    "pass_plan_id",
+    "passes"
+  ],
+  "properties": {
+    "pass_plan_id": {
+      "type": "string"
+    },
+    "passes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "pass_id",
+          "pass_type",
+          "engine_id",
+          "workflow_module_id",
+          "inputs",
+          "outputs",
+          "qa_goal_ids",
+          "promotion_gate"
+        ],
+        "properties": {
+          "pass_id": {
+            "type": "string"
+          },
+          "pass_type": {
+            "type": "string"
+          },
+          "engine_id": {
+            "type": "string"
+          },
+          "workflow_module_id": {
+            "type": "string"
+          },
+          "model_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "mask_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "inputs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "outputs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "qa_goal_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "promotion_gate": {
+            "type": "string",
+            "enum": [
+              "not_required",
+              "required_before_next_pass",
+              "required_before_release"
+            ]
+          },
+          "runtime_proof_required": {
+            "type": "boolean"
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "cross_engine_bridges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": false
+}

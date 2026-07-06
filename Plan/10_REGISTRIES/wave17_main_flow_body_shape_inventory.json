@@ -1,0 +1,646 @@
+{
+  "source_file": "Wave42_Runtime_Bound__UI__WAVE42_MAIN_FLOW_20260702(19).json",
+  "workflow_id": "c1eb5a64-4997-472d-a6f5-93cc273d6a72",
+  "revision": 0,
+  "last_node_id": 411,
+  "last_link_id": 109,
+  "node_count": 356,
+  "link_count": 91,
+  "node_type_counts_top": {
+    "LoraLoader": 274,
+    "Note": 13,
+    "CLIPTextEncode": 12,
+    "SaveImage": 8,
+    "PreviewImage": 8,
+    "KSampler": 7,
+    "VAEDecode": 7,
+    "EmptyLatentImage": 3,
+    "LoadImage": 3,
+    "EmptySD3LatentImage": 2,
+    "CheckpointLoaderSimple": 2,
+    "UNETLoader": 1,
+    "ModelSamplingAuraFlow": 1,
+    "CLIPLoader": 1,
+    "VAELoader": 1,
+    "UpscaleModelLoader": 1,
+    "ImageUpscaleWithModel": 1,
+    "VAEEncodeForInpaint": 1,
+    "VAEEncode": 1,
+    "ModelSamplingFlux": 1
+  },
+  "mode_counts": {
+    "0": 82,
+    "2": 274
+  },
+  "save_lanes": [
+    {
+      "node_id": 19,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA"
+    },
+    {
+      "node_id": 39,
+      "prefix": "Main_Flow/Flux_Family_ZImage"
+    },
+    {
+      "node_id": 62,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA_Upscaled"
+    },
+    {
+      "node_id": 87,
+      "prefix": "Main_Flow/SDXL_Inpaint_Detail"
+    },
+    {
+      "node_id": 95,
+      "prefix": "Main_Flow/Flux_to_SDXL_Refine"
+    },
+    {
+      "node_id": 107,
+      "prefix": "Main_Flow/True_Flux_Schnell_Reference_Smoke"
+    },
+    {
+      "node_id": 128,
+      "prefix": "Main_Flow/ControlNet_Canny_Edge"
+    },
+    {
+      "node_id": 118,
+      "prefix": "Main_Flow/IPAdapter_Face_Reference"
+    }
+  ],
+  "ksampler_nodes": [
+    {
+      "node_id": 17,
+      "steps": 40,
+      "cfg": 6.5,
+      "sampler": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1
+    },
+    {
+      "node_id": 36,
+      "steps": 8,
+      "cfg": 1,
+      "sampler": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 1
+    },
+    {
+      "node_id": 85,
+      "steps": 14,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.28
+    },
+    {
+      "node_id": 93,
+      "steps": 10,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.22
+    },
+    {
+      "node_id": 105,
+      "steps": 4,
+      "cfg": 1,
+      "sampler": "euler",
+      "scheduler": "simple",
+      "denoise": 1
+    },
+    {
+      "node_id": 116,
+      "steps": 8,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 1
+    },
+    {
+      "node_id": 126,
+      "steps": 20,
+      "cfg": 5.5,
+      "sampler": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1
+    }
+  ],
+  "low_denoise_anchors": [
+    {
+      "node_id": 85,
+      "steps": 14,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.28
+    },
+    {
+      "node_id": 93,
+      "steps": 10,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.22
+    }
+  ],
+  "mask_input_slots": [
+    {
+      "node_id": 82,
+      "node_type": "VAEEncodeForInpaint",
+      "input_name": "mask",
+      "link": 51
+    },
+    {
+      "node_id": 112,
+      "node_type": "IPAdapter",
+      "input_name": "attn_mask",
+      "link": null
+    }
+  ],
+  "control_nodes": [
+    {
+      "node_id": 120,
+      "node_type": "ControlNetLoader",
+      "widgets": [
+        "controlnet-canny-sdxl-1.0-small.safetensors"
+      ]
+    },
+    {
+      "node_id": 124,
+      "node_type": "ControlNetApplyAdvanced",
+      "widgets": [
+        0.65,
+        0,
+        0.75
+      ]
+    }
+  ],
+  "body_shape_lora_summary": {
+    "count": 37,
+    "by_engine": {
+      "sdxl": 1,
+      "flux": 36
+    },
+    "by_category": {
+      "body_type_bbw_cellulite": 1,
+      "body": 36
+    },
+    "by_status": {
+      "installed": 17,
+      "path_verified": 14,
+      "rejected_or_superseded": 6
+    },
+    "active_copy_count": 0,
+    "disabled_by_default_count": 37
+  },
+  "body_shape_lora_records_sanitized": [
+    {
+      "node_id": 186,
+      "title": "W42-SDXL-0295 | body_type_bbw_cellulite",
+      "engine": "sdxl",
+      "category": "body_type_bbw_cellulite",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "verification_tier": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 296,
+      "title": "W42-FLUX-0002 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "verification_tier": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 297,
+      "title": "W42-FLUX-0011 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "verification_tier": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 298,
+      "title": "W42-FLUX-0014 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "verification_tier": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 299,
+      "title": "W42-FLUX-0016 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "verification_tier": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 300,
+      "title": "W42-FLUX-0020 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "verification_tier": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 301,
+      "title": "W42-FLUX-0022 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "verification_tier": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 302,
+      "title": "W42-FLUX-0025 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "verification_tier": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 303,
+      "title": "W42-FLUX-0026 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "verification_tier": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 304,
+      "title": "W42-FLUX-0036 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "verification_tier": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 305,
+      "title": "W42-FLUX-0038 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "verification_tier": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 306,
+      "title": "W42-FLUX-0039 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "verification_tier": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 307,
+      "title": "W42-FLUX-0040 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "verification_tier": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 308,
+      "title": "W42-FLUX-0042 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "verification_tier": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 309,
+      "title": "W42-FLUX-0044 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "verification_tier": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 310,
+      "title": "W42-FLUX-0045 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "verification_tier": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 311,
+      "title": "W42-FLUX-0053 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "verification_tier": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 312,
+      "title": "W42-FLUX-0150 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 313,
+      "title": "W42-FLUX-0151 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 314,
+      "title": "W42-FLUX-0156 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 315,
+      "title": "W42-FLUX-0172 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 316,
+      "title": "W42-FLUX-0180 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 317,
+      "title": "W42-FLUX-0192 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 318,
+      "title": "W42-FLUX-0198 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 319,
+      "title": "W42-FLUX-0217 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 320,
+      "title": "W42-FLUX-0233 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 321,
+      "title": "W42-FLUX-0239 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 322,
+      "title": "W42-FLUX-0253 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 323,
+      "title": "W42-FLUX-0274 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 324,
+      "title": "W42-FLUX-0275 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 325,
+      "title": "W42-FLUX-0279 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 326,
+      "title": "W42-FLUX-0308 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 327,
+      "title": "W42-FLUX-0325 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 328,
+      "title": "W42-FLUX-0328 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 329,
+      "title": "W42-FLUX-0329 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 330,
+      "title": "W42-FLUX-0343 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    },
+    {
+      "node_id": 331,
+      "title": "W42-FLUX-0344 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "mode": 2,
+      "disabled_by_default": true,
+      "profile_stacks": []
+    }
+  ],
+  "wave17_interpretation": [
+    "Body correction should use large mask contracts around abdomen, waist, hips, thigh, and silhouette regions.",
+    "Current Main Flow has a real inpaint mask slot and low-denoise SDXL/refine anchors that can be used as proof targets later.",
+    "Disabled body-shape/body-detail LoRA library nodes must remain selected by compatible profile only; never enable the whole library."
+  ]
+}

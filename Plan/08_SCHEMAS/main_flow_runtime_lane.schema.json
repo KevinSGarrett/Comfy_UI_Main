@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave04 Runtime Lane Record",
+  "type": "object",
+  "required": [
+    "save_node_id",
+    "save_prefix",
+    "upstream_node_count",
+    "promotion_status_wave04"
+  ],
+  "properties": {
+    "lane_id": {
+      "type": "string"
+    },
+    "save_node_id": {
+      "type": "integer"
+    },
+    "save_prefix": {
+      "type": "string"
+    },
+    "stage": {
+      "type": "string"
+    },
+    "upstream_node_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "sampler_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "samplers": {
+      "type": "array"
+    },
+    "loader_summary": {
+      "type": "array"
+    },
+    "issues_or_required_fixes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "promotion_status_wave04": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

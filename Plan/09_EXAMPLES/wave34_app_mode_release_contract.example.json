@@ -1,0 +1,37 @@
+{
+  "app_mode_release_id": "app_release_034_001",
+  "workflow_id": "wave42_main_flow_app_mode",
+  "control_groups": [
+    "scene_request",
+    "characters",
+    "references",
+    "camera",
+    "pose_action",
+    "contact_interaction",
+    "image_lane",
+    "video_gif_lane",
+    "audio_lane",
+    "preview_budget",
+    "final_preflight",
+    "qa_status"
+  ],
+  "schema_bindings": {
+    "scene_request": "wave32_planned_state.schema.json",
+    "preview_budget": "wave33_compute_budget.schema.json",
+    "final_preflight": "wave33_final_render_preflight.schema.json"
+  },
+  "blocked_controls": [
+    "direct_ec2_final_render_without_preflight",
+    "enable_all_lora_nodes"
+  ],
+  "preview_first_enforced": true,
+  "final_render_control_policy": "locked_until_preview_qa_and_preflight_pass",
+  "qa_status_surface": [
+    "preview_qa",
+    "state_diff",
+    "local_proof",
+    "ec2_proof",
+    "qa_certification"
+  ],
+  "release_decision": "release_with_runtime_boundaries"
+}

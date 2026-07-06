@@ -1,0 +1,72 @@
+{
+  "policy_id": "wave14_default_rerun_policy",
+  "max_total_run_attempts": 12,
+  "max_attempts_per_pass": 3,
+  "dry_run_first": true,
+  "default_backoff_seconds": [
+    0,
+    15,
+    60
+  ],
+  "seed_strategy": {
+    "base_increment": 101,
+    "preserve_seed_when_identity_is_good": true
+  },
+  "parameter_adjustment_rules": [
+    {
+      "failure_code": "frame_composition_failed",
+      "adjustments": [
+        "change seed",
+        "increase safe margin",
+        "adjust shot profile",
+        "strengthen pose/control if available"
+      ]
+    },
+    {
+      "failure_code": "identity_drift",
+      "adjustments": [
+        "increase reference priority",
+        "tighten person/face mask",
+        "lower denoise"
+      ]
+    },
+    {
+      "failure_code": "pose_or_blocking_failed",
+      "adjustments": [
+        "regenerate control map",
+        "adjust control strength/start/end"
+      ]
+    },
+    {
+      "failure_code": "mask_quality_failed",
+      "adjustments": [
+        "rebuild mask at finer scale",
+        "fix instance ownership",
+        "rerun overlap/bleed check"
+      ]
+    },
+    {
+      "failure_code": "mask_bleed_or_edge_halo",
+      "adjustments": [
+        "reduce grow",
+        "adjust feather",
+        "lower denoise"
+      ]
+    },
+    {
+      "failure_code": "output_missing",
+      "adjustments": [
+        "poll history",
+        "verify SaveImage prefix",
+        "rerun once"
+      ]
+    }
+  ],
+  "stop_conditions": [
+    "cost_guard_triggered",
+    "max_attempts_exceeded",
+    "fatal_preflight_failure",
+    "missing_required_external_runtime"
+  ],
+  "promotion_requires_zero_unresolved_failures": true
+}

@@ -1,0 +1,72 @@
+{
+  "pass_plan_id": "PASSPLAN-W07-EXAMPLE-001",
+  "passes": [
+    {
+      "pass_id": "pass_001_base",
+      "pass_type": "base_image_generate",
+      "engine_id": "flux2_dev_local",
+      "workflow_module_id": "module_base_image_flux2_planned",
+      "model_ids": [
+        "flux2_dev_local"
+      ],
+      "mask_ids": [],
+      "inputs": [
+        "scene_graph",
+        "camera_plan",
+        "normalized_prompt"
+      ],
+      "outputs": [
+        "base_image",
+        "base_generation_manifest"
+      ],
+      "qa_goal_ids": [
+        "qa_basic_file",
+        "qa_scene_intent",
+        "qa_camera_framing",
+        "qa_anatomy"
+      ],
+      "promotion_gate": "required_before_next_pass",
+      "runtime_proof_required": true,
+      "notes": [
+        "Fallback to sdxl_realvisxl if Flux2 proof unavailable."
+      ]
+    },
+    {
+      "pass_id": "pass_002_sdxl_detail_bridge",
+      "pass_type": "skin_material_microdetail",
+      "engine_id": "sdxl_inpaint_detail",
+      "workflow_module_id": "module_sdxl_inpaint_detail",
+      "model_ids": [
+        "sdxl_realvisxl_lane"
+      ],
+      "mask_ids": [
+        "mask_skin_micro_001"
+      ],
+      "inputs": [
+        "approved_base_image",
+        "mask_skin_micro_001"
+      ],
+      "outputs": [
+        "detail_corrected_image",
+        "detail_manifest"
+      ],
+      "qa_goal_ids": [
+        "qa_mask_no_bleed",
+        "qa_anatomy"
+      ],
+      "promotion_gate": "required_before_release",
+      "runtime_proof_required": true,
+      "notes": [
+        "Cross-engine bridge is image-based only."
+      ]
+    }
+  ],
+  "cross_engine_bridges": [
+    {
+      "from_engine": "flux2_dev_local",
+      "to_engine": "sdxl_inpaint_detail",
+      "bridge_type": "approved_image_file",
+      "allowed": true
+    }
+  ]
+}

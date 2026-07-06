@@ -1,0 +1,26 @@
+{
+  "patch_manifest_id": "wave16_example_low_denoise_patch",
+  "workflow_template": "sdxl_low_denoise_refine_api.json",
+  "patch_targets": [
+    {
+      "node_id": "KSampler.target",
+      "field": "denoise",
+      "value": 0.18
+    },
+    {
+      "node_id": "LoadImage.base",
+      "field": "image",
+      "value": "outputs/base/approved_base.png"
+    },
+    {
+      "node_id": "SaveImage.output",
+      "field": "filename_prefix",
+      "value": "Wave16/Refine/SDXL_LowDenoise"
+    }
+  ],
+  "blocked_if": [
+    "denoise_above_policy",
+    "wrong_engine_family",
+    "missing_base_hash"
+  ]
+}

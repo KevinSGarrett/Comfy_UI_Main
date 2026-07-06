@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QA Record",
+  "type": "object",
+  "required": ["artifact_id", "artifact_type", "qa_status", "reviewer"],
+  "properties": {
+    "artifact_id": {"type": "string"},
+    "artifact_type": {"type": "string"},
+    "task_id": {"type": "string"},
+    "tracker_id": {"type": "string"},
+    "reviewer": {"type": "string"},
+    "test_method": {"type": "string"},
+    "qa_status": {"type": "string"},
+    "scores": {"type": "object"},
+    "defects": {"type": "array"},
+    "evidence_paths": {"type": "array", "items": {"type": "string"}},
+    "known_issues": {"type": "array"},
+    "next_action": {"type": "string"},
+    "timestamp": {"type": "string"}
+  }
+}

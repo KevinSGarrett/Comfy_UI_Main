@@ -1,0 +1,79 @@
+{
+  "run_id": "RUN_EXAMPLE_THIGH_CELLULITE_001",
+  "scene_id": "SCENE_SINGLE_CHARACTER_CELLULITE",
+  "output_mode": "still",
+  "passes": [
+    {
+      "pass_id": "P01_BASE",
+      "pass_type": "base",
+      "engine_family": "flux",
+      "workflow_template": "03_WORKFLOWS/api/base_flux1_dev.template.json",
+      "models": [
+        "flux1-dev"
+      ],
+      "loras": [],
+      "masks": [],
+      "control_maps": [
+        "pose",
+        "depth"
+      ],
+      "denoise": 1.0,
+      "qa_gates": [
+        "base_character_count",
+        "pose_camera",
+        "body_silhouette",
+        "identity"
+      ],
+      "rerun_policy": "rerun_base_if_character_pose_camera_or_silhouette_fails"
+    },
+    {
+      "pass_id": "P02_REFINE",
+      "pass_type": "refine",
+      "engine_family": "sdxl",
+      "workflow_template": "03_WORKFLOWS/api/refine_sdxl_low_denoise.template.json",
+      "models": [
+        "RealVisXL"
+      ],
+      "loras": [],
+      "masks": [],
+      "control_maps": [],
+      "denoise": 0.22,
+      "qa_gates": [
+        "identity_preserved",
+        "pose_preserved",
+        "realism"
+      ],
+      "rerun_policy": "lower_denoise_or_change_refine_model_if_identity_or_pose_changes"
+    },
+    {
+      "pass_id": "P03_THIGH_DETAIL",
+      "pass_type": "surface_detail",
+      "target_entity_id": "character_A",
+      "target_region": "left_and_right_thighs",
+      "engine_family": "sdxl",
+      "workflow_template": "03_WORKFLOWS/api/masked_surface_detail_sdxl.template.json",
+      "models": [
+        "RealVisXL"
+      ],
+      "loras": [
+        {
+          "role": "cellulite_or_skin_texture",
+          "engine_family": "sdxl",
+          "strength": 0.25
+        }
+      ],
+      "masks": [
+        "character_A_thighs_mask"
+      ],
+      "control_maps": [],
+      "denoise": 0.24,
+      "qa_gates": [
+        "mask_region_correct",
+        "detail_localized",
+        "no_bleed",
+        "natural_skin_texture"
+      ],
+      "rerun_policy": "adjust_mask_feather_lora_strength_or_denoise_if_bleed_or_overprocessing_occurs"
+    }
+  ]
+}

@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "scene_director_plan.schema.json",
+  "title": "Wave07 Scene Director Plan",
+  "type": "object",
+  "required": [
+    "plan_id",
+    "request_id",
+    "director_profile_id",
+    "intent_classification",
+    "ambiguity_resolution",
+    "scene_graph",
+    "camera_plan",
+    "mask_plan",
+    "model_selection_plan",
+    "engine_route",
+    "pass_plan",
+    "qa_goal_plan",
+    "promotion_requirements"
+  ],
+  "properties": {
+    "plan_id": {
+      "type": "string"
+    },
+    "request_id": {
+      "type": "string"
+    },
+    "director_profile_id": {
+      "type": "string"
+    },
+    "raw_user_request": {
+      "type": "string"
+    },
+    "normalized_request": {
+      "type": "string"
+    },
+    "intent_classification": {
+      "type": "object",
+      "required": [
+        "primary_intent",
+        "secondary_intents",
+        "target_output"
+      ],
+      "properties": {
+        "primary_intent": {
+          "type": "string"
+        },
+        "secondary_intents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "target_output": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ambiguity_resolution": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "scene_graph": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "camera_plan": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "mask_plan": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "model_selection_plan": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "engine_route": {
+      "type": "object",
+      "required": [
+        "primary_engine_id",
+        "fallback_engine_ids",
+        "routing_reason",
+        "cross_engine_policy"
+      ],
+      "properties": {
+        "primary_engine_id": {
+          "type": "string"
+        },
+        "fallback_engine_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "routing_reason": {
+          "type": "string"
+        },
+        "cross_engine_policy": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "pass_plan": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "qa_goal_plan": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "promotion_requirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence_requirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "revision_plan": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

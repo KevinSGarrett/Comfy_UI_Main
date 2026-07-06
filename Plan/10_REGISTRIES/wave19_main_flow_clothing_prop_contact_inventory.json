@@ -1,0 +1,861 @@
+{
+  "source_file": "Wave42_Runtime_Bound__UI__WAVE42_MAIN_FLOW_20260702(21).json",
+  "workflow_id": "c1eb5a64-4997-472d-a6f5-93cc273d6a72",
+  "revision": 0,
+  "last_node_id": 411,
+  "last_link_id": 109,
+  "node_count": 356,
+  "link_count": 91,
+  "node_type_counts_top": {
+    "LoraLoader": 274,
+    "Note": 13,
+    "CLIPTextEncode": 12,
+    "SaveImage": 8,
+    "PreviewImage": 8,
+    "KSampler": 7,
+    "VAEDecode": 7,
+    "EmptyLatentImage": 3,
+    "LoadImage": 3,
+    "EmptySD3LatentImage": 2,
+    "CheckpointLoaderSimple": 2,
+    "UNETLoader": 1,
+    "ModelSamplingAuraFlow": 1,
+    "CLIPLoader": 1,
+    "VAELoader": 1,
+    "UpscaleModelLoader": 1,
+    "ImageUpscaleWithModel": 1,
+    "VAEEncodeForInpaint": 1,
+    "VAEEncode": 1,
+    "ModelSamplingFlux": 1
+  },
+  "mode_counts": {
+    "0": 82,
+    "2": 274
+  },
+  "save_lanes": [
+    {
+      "node_id": 19,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA"
+    },
+    {
+      "node_id": 39,
+      "prefix": "Main_Flow/Flux_Family_ZImage"
+    },
+    {
+      "node_id": 62,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA_Upscaled"
+    },
+    {
+      "node_id": 87,
+      "prefix": "Main_Flow/SDXL_Inpaint_Detail"
+    },
+    {
+      "node_id": 95,
+      "prefix": "Main_Flow/Flux_to_SDXL_Refine"
+    },
+    {
+      "node_id": 107,
+      "prefix": "Main_Flow/True_Flux_Schnell_Reference_Smoke"
+    },
+    {
+      "node_id": 128,
+      "prefix": "Main_Flow/ControlNet_Canny_Edge"
+    },
+    {
+      "node_id": 118,
+      "prefix": "Main_Flow/IPAdapter_Face_Reference"
+    }
+  ],
+  "ksampler_nodes": [
+    {
+      "node_id": 17,
+      "seed": 300300300,
+      "control": "fixed",
+      "steps": 40,
+      "cfg": 6.5,
+      "sampler": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1
+    },
+    {
+      "node_id": 36,
+      "seed": 42043,
+      "control": "fixed",
+      "steps": 8,
+      "cfg": 1,
+      "sampler": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 1
+    },
+    {
+      "node_id": 85,
+      "seed": 210422,
+      "control": "fixed",
+      "steps": 14,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.28
+    },
+    {
+      "node_id": 93,
+      "seed": 210421,
+      "control": "fixed",
+      "steps": 10,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.22
+    },
+    {
+      "node_id": 105,
+      "seed": 200420,
+      "control": "fixed",
+      "steps": 4,
+      "cfg": 1,
+      "sampler": "euler",
+      "scheduler": "simple",
+      "denoise": 1
+    },
+    {
+      "node_id": 116,
+      "seed": 626262,
+      "control": "fixed",
+      "steps": 8,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 1
+    },
+    {
+      "node_id": 126,
+      "seed": 707707,
+      "control": "fixed",
+      "steps": 20,
+      "cfg": 5.5,
+      "sampler": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1
+    }
+  ],
+  "low_denoise_anchors": [
+    {
+      "node_id": 85,
+      "seed": 210422,
+      "control": "fixed",
+      "steps": 14,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.28
+    },
+    {
+      "node_id": 93,
+      "seed": 210421,
+      "control": "fixed",
+      "steps": 10,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.22
+    }
+  ],
+  "mask_input_slots": [
+    {
+      "node_id": 82,
+      "node_type": "VAEEncodeForInpaint",
+      "input_name": "mask",
+      "link": 51
+    },
+    {
+      "node_id": 112,
+      "node_type": "IPAdapter",
+      "input_name": "attn_mask",
+      "link": null
+    }
+  ],
+  "control_nodes": [
+    {
+      "node_id": 120,
+      "node_type": "ControlNetLoader",
+      "widgets": [
+        "controlnet-canny-sdxl-1.0-small.safetensors"
+      ]
+    },
+    {
+      "node_id": 124,
+      "node_type": "ControlNetApplyAdvanced",
+      "widgets": [
+        0.65,
+        0,
+        0.75
+      ]
+    }
+  ],
+  "note_boundaries": [
+    {
+      "node_id": 70,
+      "summary": "reference / ipadapter / controlnet staging\nthe layout source calls for reference identity, pose/depth/edge/mask control, and regional inpaint. the face-reference ipadapter branch is staged below as ready_to_verify from t"
+    },
+    {
+      "node_id": 71,
+      "summary": "image qa / promotion export\noutputs are saved under main_flow/* prefixes so downstream qa, manifest intake, and tracker-promotion scripts can consume concrete image-generation artifacts instead of layout notes."
+    },
+    {
+      "node_id": 72,
+      "summary": "video/audio handoff boundary\nthe main flow now produces image outputs ready for video lanes. wan/hunyuan/ltxv/audio remain separate runtime lanes until their own comfyui node graphs are merged and proven."
+    },
+    {
+      "node_id": 73,
+      "summary": "true flux image-reference conditioning boundary\nthe true flux schnell reference-smoke/base lane is staged as ready_to_verify using the concrete wave20 flux smoke template. actual image-reference conditioning remains note"
+    },
+    {
+      "node_id": 74,
+      "summary": "inpaint, upscale, qa, release promotion\nfinal image qa, manifest intake, and tracker promotion remain notes until proven. basic realesrgan upscale and sdxl inpaint/detail are staged and wired as ready_to_verify."
+    },
+    {
+      "node_id": 131,
+      "summary": "evidence manifest output\nmanifest path: implementation/manifests/main_flow_image_qa_evidence/*.json. this is evidence intake, not tracker promotion by itself."
+    },
+    {
+      "node_id": 132,
+      "summary": "qa boundary\nbasic file qa proves files are non-empty, decodable images with dimensions. creative qa, runtime prompt proof, object_info visibility, and model-loader proof remain separate verification gates."
+    },
+    {
+      "node_id": 133,
+      "summary": "ig-10 main flow promotion after runtime proof\nrun promote_wave42_main_flow_after_runtime_proof.py only after ig-09 finds exact main_flow outputs for the required lanes. promotion is blocked until those runtime files exis"
+    },
+    {
+      "node_id": 134,
+      "summary": "promotion decision output\nmanifest path: implementation/manifests/main_flow_promotion/*.json. verified is allowed only when all required lanes have passing evidence records."
+    },
+    {
+      "node_id": 135,
+      "summary": "current promotion boundary\nif exact main_flow runtime outputs are absent, ig-10 must report blocked_missing_runtime_proof. it must not promote from layout notes or unrelated smoke outputs."
+    }
+  ],
+  "clothing_fabric_prop_contact_summary": {
+    "count": 37,
+    "by_engine": {
+      "sdxl": 27,
+      "flux": 9,
+      "sd15": 1
+    },
+    "by_category": {
+      "prop_contact": 25,
+      "clothing_fabric": 9,
+      "contact_shadow_support": 1,
+      "furniture_support": 1,
+      "fabric_stretch_cling": 1
+    },
+    "by_status": {
+      "installed": 22,
+      "rejected_or_superseded": 7,
+      "path_verified": 8
+    },
+    "disabled_by_default_count": 37,
+    "active_copy_count": 0
+  },
+  "clothing_fabric_prop_contact_records_sanitized": [
+    {
+      "node_id": 143,
+      "lora_id": "W42-SDXL-0240",
+      "engine": "sdxl",
+      "category": "adult_acts",
+      "scene_role": "adult_act",
+      "status": "installed",
+      "verification_tier": "installed",
+      "matched_contact_categories": [
+        "prop_contact"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 165,
+      "lora_id": "W42-SDXL-0258",
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "matched_contact_categories": [
+        "prop_contact"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 178,
+      "lora_id": "W42-SDXL-0358",
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "matched_contact_categories": [
+        "prop_contact"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 187,
+      "lora_id": "W42-SDXL-0303",
+      "engine": "sdxl",
+      "category": "body_type_bbw_cellulite",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "verification_tier": "installed",
+      "matched_contact_categories": [
+        "prop_contact"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 190,
+      "lora_id": "W42-SDXL-0276",
+      "engine": "sdxl",
+      "category": "body_type_latina",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "verification_tier": "installed",
+      "matched_contact_categories": [
+        "prop_contact"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 192,
+      "lora_id": "W42-SDXL-0338",
+      "engine": "sdxl",
+      "category": "body_type_latina",
+      "scene_role": "body_shape",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "matched_contact_categories": [
+        "prop_contact"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 195,
+      "lora_id": "W42-SDXL-0352",
+      "engine": "sdxl",
+      "category": "body_type_latina",
+      "scene_role": "body_shape",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "matched_contact_categories": [
+        "prop_contact"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 196,
+      "lora_id": "W42-SDXL-0041",
+      "engine": "sdxl",
+      "category": "clothing_fabric",
+      "scene_role": "clothing_fabric",
+      "status": "installed",
+      "verification_tier": "installed",
+      "matched_contact_categories": [
+        "clothing_fabric"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 197,
+      "lora_id": "W42-SDXL-0297",
+      "engine": "sdxl",
+      "category": "clothing_fabric",
+      "scene_role": "clothing_fabric",
+      "status": "installed",
+      "verification_tier": "installed",
+      "matched_contact_categories": [
+        "clothing_fabric"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 199,
+      "lora_id": "W42-SDXL-0060",
+      "engine": "sdxl",
+      "category": "cum_fluids",
+      "scene_role": "adult_act",
+      "status": "installed",
+      "verification_tier": "installed",
+      "matched_contact_categories": [
+        "prop_contact"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 220,
+      "lora_id": "W42-SDXL-0250",
+      "engine": "sdxl",
+      "category": "face_expression",
+      "scene_role": "face_detail",
+      "status": "installed",
+      "verification_tier": "installed",
+      "matched_contact_categories": [
+        "prop_contact"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 243,
+      "lora_id": "W42-SDXL-0004",
+      "engine": "sdxl",
+      "category": "jewelry_accessories",
+      "scene_role": "final_polish",
+      "status": "installed",
+      "verification_tier": "installed",
+      "matched_contact_categories": [
+        "prop_contact"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 244,
+      "lora_id": "W42-SDXL-0013",
+      "engine": "sdxl",
+      "category": "jewelry_accessories",
+      "scene_role": "final_polish",
+      "status": "installed",
+      "verification_tier": "installed",
+      "matched_contact_categories": [
+        "prop_contact"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 245,
+      "lora_id": "W42-SDXL-0071",
+      "engine": "sdxl",
+      "category": "jewelry_accessories",
+      "scene_role": "final_polish",
+      "status": "installed",
+      "verification_tier": "installed",
+      "matched_contact_categories": [
+        "prop_contact"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 246,
+      "lora_id": "W42-SDXL-0173",
+      "engine": "sdxl",
+      "category": "jewelry_accessories",
+      "scene_role": "final_polish",
+      "status": "installed",
+      "verification_tier": "installed",
+      "matched_contact_categories": [
+        "prop_contact"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 247,
+      "lora_id": "W42-SDXL-0185",
+      "engine": "sdxl",
+      "category": "jewelry_accessories",
+      "scene_role": "final_polish",
+      "status": "installed",
+      "verification_tier": "installed",
+      "matched_contact_categories": [
+        "prop_contact"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 248,
+      "lora_id": "W42-SDXL-0187",
+      "engine": "sdxl",
+      "category": "jewelry_accessories",
+      "scene_role": "final_polish",
+      "status": "installed",
+      "verification_tier": "installed",
+      "matched_contact_categories": [
+        "prop_contact"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 249,
+      "lora_id": "W42-SDXL-0255",
+      "engine": "sdxl",
+      "category": "jewelry_accessories",
+      "scene_role": "final_polish",
+      "status": "installed",
+      "verification_tier": "installed",
+      "matched_contact_categories": [
+        "prop_contact"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 250,
+      "lora_id": "W42-SDXL-0269",
+      "engine": "sdxl",
+      "category": "jewelry_accessories",
+      "scene_role": "final_polish",
+      "status": "installed",
+      "verification_tier": "installed",
+      "matched_contact_categories": [
+        "prop_contact"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 251,
+      "lora_id": "W42-SDXL-0294",
+      "engine": "sdxl",
+      "category": "jewelry_accessories",
+      "scene_role": "final_polish",
+      "status": "installed",
+      "verification_tier": "installed",
+      "matched_contact_categories": [
+        "prop_contact"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 252,
+      "lora_id": "W42-SDXL-0298",
+      "engine": "sdxl",
+      "category": "jewelry_accessories",
+      "scene_role": "final_polish",
+      "status": "installed",
+      "verification_tier": "installed",
+      "matched_contact_categories": [
+        "prop_contact"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 253,
+      "lora_id": "W42-SDXL-0313",
+      "engine": "sdxl",
+      "category": "jewelry_accessories",
+      "scene_role": "final_polish",
+      "status": "installed",
+      "verification_tier": "installed",
+      "matched_contact_categories": [
+        "prop_contact"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 254,
+      "lora_id": "W42-SDXL-0315",
+      "engine": "sdxl",
+      "category": "jewelry_accessories",
+      "scene_role": "final_polish",
+      "status": "installed",
+      "verification_tier": "installed",
+      "matched_contact_categories": [
+        "prop_contact"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 255,
+      "lora_id": "W42-SDXL-0323",
+      "engine": "sdxl",
+      "category": "jewelry_accessories",
+      "scene_role": "final_polish",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "matched_contact_categories": [
+        "prop_contact"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 256,
+      "lora_id": "W42-SDXL-0348",
+      "engine": "sdxl",
+      "category": "jewelry_accessories",
+      "scene_role": "final_polish",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "matched_contact_categories": [
+        "prop_contact"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 257,
+      "lora_id": "W42-SDXL-0351",
+      "engine": "sdxl",
+      "category": "jewelry_accessories",
+      "scene_role": "final_polish",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "matched_contact_categories": [
+        "prop_contact"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 258,
+      "lora_id": "W42-SDXL-0355",
+      "engine": "sdxl",
+      "category": "jewelry_accessories",
+      "scene_role": "final_polish",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "matched_contact_categories": [
+        "prop_contact"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 274,
+      "lora_id": "W42-FLUX-0169",
+      "engine": "flux",
+      "category": "adult",
+      "scene_role": "adult_act",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "matched_contact_categories": [
+        "contact_shadow_support"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 299,
+      "lora_id": "W42-FLUX-0016",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "verification_tier": "installed",
+      "matched_contact_categories": [
+        "clothing_fabric"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 307,
+      "lora_id": "W42-FLUX-0040",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "verification_tier": "installed",
+      "matched_contact_categories": [
+        "clothing_fabric"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 364,
+      "lora_id": "W42-FLUX-0284",
+      "engine": "flux",
+      "category": "experimental",
+      "scene_role": "experimental",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "matched_contact_categories": [
+        "furniture_support"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 375,
+      "lora_id": "W42-FLUX-0188",
+      "engine": "flux",
+      "category": "lighting",
+      "scene_role": "lighting_grade",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "matched_contact_categories": [
+        "clothing_fabric"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 377,
+      "lora_id": "W42-FLUX-0212",
+      "engine": "flux",
+      "category": "lighting",
+      "scene_role": "lighting_grade",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "matched_contact_categories": [
+        "clothing_fabric"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 384,
+      "lora_id": "W42-FLUX-0234",
+      "engine": "flux",
+      "category": "skin",
+      "scene_role": "skin_detail",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "matched_contact_categories": [
+        "clothing_fabric"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 385,
+      "lora_id": "W42-FLUX-0257",
+      "engine": "flux",
+      "category": "skin",
+      "scene_role": "skin_detail",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "matched_contact_categories": [
+        "clothing_fabric"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 386,
+      "lora_id": "W42-FLUX-0270",
+      "engine": "flux",
+      "category": "skin",
+      "scene_role": "skin_detail",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "matched_contact_categories": [
+        "fabric_stretch_cling"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    },
+    {
+      "node_id": 394,
+      "lora_id": "W42-SD15-0214",
+      "engine": "sd15",
+      "category": "clothing",
+      "scene_role": "clothing_fabric",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "matched_contact_categories": [
+        "clothing_fabric"
+      ],
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "path_sanitized": "stored_in_wave42_manifest_not_embedded_in_summary"
+    }
+  ],
+  "tracker_rows_observed": 12887,
+  "tracker_columns_observed": 73,
+  "tracker_contact_related_rows_observed": 9450,
+  "wave19_interpretation": [
+    "Clothing, props, and furniture contact must be controlled with masks, depth/control maps, contact ownership, shadow/support QA, and low-denoise detail passes.",
+    "The current Main Flow has inpaint/mask and low-denoise anchors that can host contact refinement later, but furniture/prop compression remains proof-bound until generated evidence exists.",
+    "Disabled library candidates must remain selected by compatible profile only; the entire library must never be enabled at once."
+  ]
+}

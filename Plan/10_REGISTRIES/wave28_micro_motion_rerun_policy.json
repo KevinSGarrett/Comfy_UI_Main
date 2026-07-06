@@ -1,0 +1,24 @@
+{
+  "rules": [
+    {
+      "failure": "unbounded_jitter",
+      "action": "reduce_amplitude_or_remove_event"
+    },
+    {
+      "failure": "identity_drift",
+      "action": "repair_identity_frames_or_rerun_span"
+    },
+    {
+      "failure": "gaze_jump",
+      "action": "shorten_gaze_span_and_add intermediate frame"
+    },
+    {
+      "failure": "hair_mask_bleed",
+      "action": "repair_mask_and rerun hair span"
+    },
+    {
+      "failure": "loop_seam_pop",
+      "action": "add loop_close settle frame"
+    }
+  ]
+}

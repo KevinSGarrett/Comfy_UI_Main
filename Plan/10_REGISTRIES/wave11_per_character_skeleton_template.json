@@ -1,0 +1,56 @@
+{
+  "character_id": "char_001",
+  "character_version": "v001",
+  "skeleton_id": "skel_char_001_frame_0001",
+  "source": {
+    "source_image": "references/characters/char_001/pose/frame_0001.png",
+    "preprocessor": "dwpose_wholebody",
+    "map_image": "control_maps/char_001/frame_0001_dwpose.png",
+    "keypoint_json": "control_maps/char_001/frame_0001_dwpose.json"
+  },
+  "body_regions": {
+    "head": {
+      "visibility": "visible",
+      "confidence_min": 0.7
+    },
+    "torso": {
+      "visibility": "visible",
+      "confidence_min": 0.7
+    },
+    "left_arm": {
+      "visibility": "visible",
+      "confidence_min": 0.6
+    },
+    "right_arm": {
+      "visibility": "visible",
+      "confidence_min": 0.6
+    },
+    "left_hand": {
+      "visibility": "visible_if_action_requires",
+      "confidence_min": 0.55
+    },
+    "right_hand": {
+      "visibility": "visible_if_action_requires",
+      "confidence_min": 0.55
+    },
+    "left_leg": {
+      "visibility": "visible_if_framed",
+      "confidence_min": 0.6
+    },
+    "right_leg": {
+      "visibility": "visible_if_framed",
+      "confidence_min": 0.6
+    }
+  },
+  "scene_binding": {
+    "camera_plan_id": "camera_plan_001",
+    "blocking_slot": "foreground_left",
+    "depth_layer": "foreground",
+    "occlusion_role": "unoccluded_primary"
+  },
+  "qa": {
+    "left_right_swap_allowed": false,
+    "missing_keypoint_policy": "block_promotion_if_required_action_region_missing",
+    "multi_character_identity_policy": "each_character_requires_separate_skeleton_and_mask"
+  }
+}

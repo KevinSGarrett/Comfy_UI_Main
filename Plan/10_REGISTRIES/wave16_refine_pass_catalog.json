@@ -1,0 +1,143 @@
+[
+  {
+    "pass_id": "REFINE-00-BASE-PRESERVATION-CHECK",
+    "stage": 0,
+    "purpose": "Freeze approved base image evidence before any refine pass.",
+    "required_inputs": [
+      "base_image",
+      "base_image_hash",
+      "scene_plan",
+      "camera_plan",
+      "character_ids",
+      "mask_plan"
+    ],
+    "outputs": [
+      "base_preservation_manifest"
+    ],
+    "can_modify_pixels": false,
+    "promotion_gate": "base_image_must_pass_frame_identity_pose_environment_qa"
+  },
+  {
+    "pass_id": "REFINE-10-GLOBAL-LIGHT-POLISH",
+    "stage": 10,
+    "purpose": "Very light full-frame SDXL/RealVisXL polish without changing pose, identity, crop, or composition.",
+    "preferred_engine": "sdxl_realvisxl",
+    "denoise_range": [
+      0.08,
+      0.18
+    ],
+    "mask_required": false,
+    "allowed_after": [
+      "flux2_base",
+      "flux1_base",
+      "zimage_base",
+      "sdxl_base"
+    ],
+    "qa_focus": [
+      "color_match",
+      "identity_preservation",
+      "no_composition_shift",
+      "no_new_artifacts"
+    ]
+  },
+  {
+    "pass_id": "REFINE-20-REGIONAL-INPAINT-DETAIL",
+    "stage": 20,
+    "purpose": "Use masks for face, hands, skin/material, fabric, prop edges, and contact edges.",
+    "preferred_engine": "sdxl_realvisxl",
+    "main_flow_anchor": {
+      "ksampler_node_id": 85,
+      "denoise": 0.28,
+      "save_lane": "Main_Flow/SDXL_Inpaint_Detail"
+    },
+    "denoise_range": [
+      0.12,
+      0.3
+    ],
+    "hard_cap": 0.35,
+    "mask_required": true,
+    "qa_focus": [
+      "mask_bleed",
+      "edge_blend",
+      "identity_drift",
+      "texture_match"
+    ]
+  },
+  {
+    "pass_id": "REFINE-30-PONY-SPECIALTY-MASKED",
+    "stage": 30,
+    "purpose": "Use Pony only for specialty masked repairs where SDXL/Flux do not have a suitable asset.",
+    "preferred_engine": "pony_sdxl_specialty",
+    "denoise_range": [
+      0.08,
+      0.22
+    ],
+    "hard_cap": 0.28,
+    "mask_required": true,
+    "global_use_allowed": false,
+    "qa_focus": [
+      "realism_regression",
+      "style_drift",
+      "identity_drift",
+      "region_only_change"
+    ]
+  },
+  {
+    "pass_id": "REFINE-40-FLUX-OR-FLUX2-SPECIALTY-HOLD",
+    "stage": 40,
+    "purpose": "Future Flux/Flux2 specialty image-reference refine only after local runtime proof.",
+    "preferred_engine": "flux2_or_flux1",
+    "denoise_range": [
+      0.0,
+      0.0
+    ],
+    "status": "hold_until_reference_conditioning_proven",
+    "mask_required": true,
+    "qa_focus": [
+      "reference_conditioning_actual_effect",
+      "base_preservation"
+    ]
+  },
+  {
+    "pass_id": "REFINE-50-CROSS-ENGINE-SDXL-BRIDGE",
+    "stage": 50,
+    "purpose": "Convert a Flux/Z-Image/Flux2 base into an SDXL-compatible low-denoise refinement pass through decoded image bridge.",
+    "preferred_engine": "sdxl_realvisxl",
+    "main_flow_anchor": {
+      "ksampler_node_id": 93,
+      "denoise": 0.22,
+      "save_lane": "Main_Flow/Flux_to_SDXL_Refine"
+    },
+    "denoise_range": [
+      0.1,
+      0.25
+    ],
+    "hard_cap": 0.35,
+    "mask_required": false,
+    "qa_focus": [
+      "base_composition_preserved",
+      "identity_preserved",
+      "no_latent_object_mismatch"
+    ]
+  },
+  {
+    "pass_id": "REFINE-60-UPSCALER-EXPORT",
+    "stage": 60,
+    "purpose": "Upscale after semantic/content passes are complete; this is not a semantic engine bridge.",
+    "preferred_engine": "upscale_model",
+    "main_flow_anchor": {
+      "save_lane": "Main_Flow/SDXL_RealVisXL_LoRA_Upscaled"
+    },
+    "denoise_range": [
+      0.0,
+      0.0
+    ],
+    "mask_required": false,
+    "qa_focus": [
+      "decode_ok",
+      "sharpness",
+      "no_halo",
+      "no_upscale_artifact"
+    ]
+  }
+]

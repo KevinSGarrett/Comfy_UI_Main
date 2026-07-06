@@ -1,0 +1,32 @@
+{
+  "version": "wave17",
+  "max_reruns_per_body_region": 2,
+  "max_total_body_shape_reruns": 4,
+  "rerun_strategies": [
+    {
+      "trigger": "target_region_improvement_low",
+      "action": "rerun same mask with +0.04 denoise, if identity/pose are stable"
+    },
+    {
+      "trigger": "identity_or_pose_drift",
+      "action": "rerun with lower denoise and stronger exclusion masks"
+    },
+    {
+      "trigger": "mask_edge_visible",
+      "action": "increase feather/blur, add edge cleanup pass"
+    },
+    {
+      "trigger": "body_merge_or_extra_fragment",
+      "action": "stop and regenerate from prior approved stage with person-instance masks"
+    },
+    {
+      "trigger": "fabric_discontinuity",
+      "action": "run clothing surface blend pass after shape pass"
+    },
+    {
+      "trigger": "texture_smeared",
+      "action": "run skin texture restore pass at very low denoise"
+    }
+  ],
+  "promotion_rule": "Only the best passing candidate may promote; failed candidates remain evidence only."
+}

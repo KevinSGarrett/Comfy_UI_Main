@@ -1,0 +1,37 @@
+{
+  "sync_job_id": "ec2_sync_001",
+  "sync_scope": "minimal_runtime_proof_payload",
+  "required_workflows": [
+    "main_flow_image_generation"
+  ],
+  "required_models": [
+    "selected_checkpoint_only"
+  ],
+  "required_loras": [
+    "selected_profile_only"
+  ],
+  "required_inputs": [
+    "selected_references_only"
+  ],
+  "runtime_scripts": [
+    "validation_runner.py"
+  ],
+  "expected_outputs": [
+    "output_artifact",
+    "qa_evidence",
+    "run_log"
+  ],
+  "pullback_artifacts": [
+    "output",
+    "manifest",
+    "qa_report",
+    "cost_summary"
+  ],
+  "stop_conditions": [
+    "proof_complete",
+    "failure_detected",
+    "budget_exceeded"
+  ],
+  "ec2_allowed": false,
+  "validation_status": "blocked_until_preview_preflight"
+}

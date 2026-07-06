@@ -1,0 +1,116 @@
+{
+  "contract_id": "body_shape_contract_example_001",
+  "scene_id": "scene_example_001",
+  "character_id": "char_primary",
+  "character_version": "v001",
+  "source_image": {
+    "path_or_artifact_id": "outputs/base/approved_base.png",
+    "sha256": "REPLACE_WITH_BASE_SHA256"
+  },
+  "target_profile": "subtle_waist_stomach_refine",
+  "target_regions": [
+    "abdomen_stomach",
+    "waist_left",
+    "waist_right",
+    "outer_silhouette"
+  ],
+  "protected_regions": [
+    "face_identity",
+    "hands_contact_exclusion",
+    "background"
+  ],
+  "mask_plan": [
+    {
+      "mask_id": "mask_person_primary",
+      "character_id": "char_primary",
+      "owner_instance_id": "person_001",
+      "region_id": "person_instance",
+      "mask_scale": "major",
+      "artifact_path": "masks/person_001.png",
+      "sha256": "REPLACE",
+      "feather_px": 32,
+      "dilation_px": 8,
+      "blur_px": 8,
+      "protected_exclusions": [
+        "face_identity",
+        "hands_contact_exclusion"
+      ],
+      "priority_order": 1
+    },
+    {
+      "mask_id": "mask_abdomen_001",
+      "character_id": "char_primary",
+      "owner_instance_id": "person_001",
+      "region_id": "abdomen_stomach",
+      "mask_scale": "major",
+      "artifact_path": "masks/abdomen_stomach.png",
+      "sha256": "REPLACE",
+      "feather_px": 48,
+      "dilation_px": 10,
+      "blur_px": 12,
+      "protected_exclusions": [
+        "face_identity",
+        "hands_contact_exclusion"
+      ],
+      "priority_order": 2
+    }
+  ],
+  "pass_plan": [
+    {
+      "pass_id": "pass_001_stomach_waist",
+      "pass_type": "stomach_refine",
+      "engine_family": "sdxl",
+      "input_image": "outputs/base/approved_base.png",
+      "output_prefix": "Main_Flow/Body_Shape_Correction/Stomach_Waist",
+      "masks": [
+        "mask_person_primary",
+        "mask_abdomen_001"
+      ],
+      "denoise": 0.22,
+      "steps": 14,
+      "cfg": 5.0,
+      "same_engine_loras": [],
+      "forbidden_changes": [
+        "face_identity",
+        "pose",
+        "camera_crop",
+        "background"
+      ],
+      "qa_required": true
+    }
+  ],
+  "qa_goals": [
+    {
+      "goal_id": "qa_identity",
+      "metric_id": "identity_preservation",
+      "threshold": 0.9,
+      "weight": 0.16,
+      "required": true,
+      "auto_fail_if_missing": true
+    },
+    {
+      "goal_id": "qa_target",
+      "metric_id": "target_region_improvement",
+      "threshold": 0.8,
+      "weight": 0.16,
+      "required": true,
+      "auto_fail_if_missing": true
+    },
+    {
+      "goal_id": "qa_edges",
+      "metric_id": "mask_edge_blend",
+      "threshold": 0.82,
+      "weight": 0.08,
+      "required": true,
+      "auto_fail_if_missing": true
+    }
+  ],
+  "promotion_policy": {
+    "requires_qa_pass": true,
+    "allows_global_redraw": false,
+    "max_total_reruns": 4
+  },
+  "notes": [
+    "Example is intentionally neutral and uses placeholder hashes."
+  ]
+}

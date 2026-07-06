@@ -1,0 +1,7 @@
+module_id,comfyui_role,status,required_inputs,required_outputs
+workflow_mask_person_instance_preflight,preprocessor_or_external_detector,planned_contract,['image'],['person_instance_masks']
+workflow_mask_body_part_preflight,preprocessor_or_external_detector,planned_contract,"['image', 'person_instance_masks']",['body_part_masks']
+workflow_mask_fabric_parser,preprocessor_or_external_detector,planned_contract,"['image', 'outfit_profile']",['fabric_masks']
+workflow_mask_contact_edge_parser,preprocessor_or_external_detector,planned_contract,"['image', 'pose_plan', 'object_masks']",['contact_masks']
+workflow_mask_to_sdxl_inpaint,VAEEncodeForInpaint mask input,current_main_flow_hook_observed,"['image', 'mask', 'sdxl_model']",['inpaint_output']
+workflow_mask_to_ipadapter_attention,IPAdapter optional attention mask,current_main_flow_optional_hook_observed,"['reference_image', 'attention_mask']",['conditioned_model']

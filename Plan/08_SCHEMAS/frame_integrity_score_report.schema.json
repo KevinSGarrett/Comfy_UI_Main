@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave12 Frame Integrity Score Report",
+  "type": "object",
+  "required": [
+    "score",
+    "decision",
+    "hard_fail_reasons"
+  ],
+  "properties": {
+    "score": {
+      "type": "number"
+    },
+    "decision": {
+      "enum": [
+        "pass",
+        "review",
+        "fail",
+        "blocked_missing_runtime_evidence"
+      ]
+    },
+    "hard_fail_reasons": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "subscores": {
+      "type": "object"
+    }
+  }
+}

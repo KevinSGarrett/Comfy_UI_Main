@@ -1,0 +1,24 @@
+{
+  "rerun_branches": [
+    {
+      "if": "identity drift across keyframes",
+      "then": "re-anchor identity and reduce motion complexity"
+    },
+    {
+      "if": "pose/depth mismatch",
+      "then": "rebuild timeline state maps before generation"
+    },
+    {
+      "if": "loop seam pop",
+      "then": "insert additional recovery/loop_close keyframe"
+    },
+    {
+      "if": "contact continuity failure",
+      "then": "rebuild contact-state transition and masks"
+    },
+    {
+      "if": "camera drift failure",
+      "then": "tighten shot plan or shorten shot duration"
+    }
+  ]
+}

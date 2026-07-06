@@ -1,0 +1,131 @@
+{
+  "version": "wave12_v1",
+  "purpose": "Normalize full/half/one-third/one-quarter body visibility into measurable QA targets.",
+  "profiles": [
+    {
+      "id": "full_body",
+      "display_name": "Full body",
+      "required_landmarks": [
+        "head_top",
+        "face",
+        "torso",
+        "both_hands_if_visible",
+        "hips",
+        "knees",
+        "both_feet"
+      ],
+      "minimum_visible_body_length_ratio": 0.9,
+      "recommended_outer_padding_ratio": 0.06,
+      "forbidden_crop_points": [
+        "head",
+        "neck",
+        "shoulders",
+        "hands",
+        "feet"
+      ],
+      "promotion_threshold": 0.88
+    },
+    {
+      "id": "three_quarter_body",
+      "display_name": "3/4 body",
+      "required_landmarks": [
+        "head",
+        "face",
+        "torso",
+        "hips",
+        "upper_legs_or_knees"
+      ],
+      "minimum_visible_body_length_ratio": 0.7,
+      "recommended_outer_padding_ratio": 0.05,
+      "allowed_crop_points": [
+        "lower_shin",
+        "below_knee"
+      ],
+      "forbidden_crop_points": [
+        "head",
+        "face",
+        "hands_unless_intentional"
+      ],
+      "promotion_threshold": 0.82
+    },
+    {
+      "id": "half_body",
+      "display_name": "Half body",
+      "required_landmarks": [
+        "head",
+        "face",
+        "torso",
+        "waist_or_hips"
+      ],
+      "minimum_visible_body_length_ratio": 0.45,
+      "recommended_outer_padding_ratio": 0.04,
+      "allowed_crop_points": [
+        "hips",
+        "upper_thigh"
+      ],
+      "forbidden_crop_points": [
+        "head",
+        "face",
+        "hands_when_hand_detail_required"
+      ],
+      "promotion_threshold": 0.8
+    },
+    {
+      "id": "one_third_body",
+      "display_name": "1/3 body",
+      "required_landmarks": [
+        "head",
+        "face",
+        "upper_torso"
+      ],
+      "minimum_visible_body_length_ratio": 0.3,
+      "recommended_outer_padding_ratio": 0.035,
+      "allowed_crop_points": [
+        "mid_torso",
+        "chest_close_crop_when_requested"
+      ],
+      "forbidden_crop_points": [
+        "forehead",
+        "chin",
+        "primary_face"
+      ],
+      "promotion_threshold": 0.78
+    },
+    {
+      "id": "one_quarter_body",
+      "display_name": "1/4 body / close-up",
+      "required_landmarks": [
+        "primary_feature_region"
+      ],
+      "minimum_visible_body_length_ratio": 0.2,
+      "recommended_outer_padding_ratio": 0.03,
+      "allowed_crop_points": [
+        "shoulder",
+        "torso",
+        "limbs_outside_focus"
+      ],
+      "forbidden_crop_points": [
+        "primary_feature_region"
+      ],
+      "promotion_threshold": 0.76
+    },
+    {
+      "id": "close_up_face",
+      "display_name": "Face close-up",
+      "required_landmarks": [
+        "eyes",
+        "nose",
+        "mouth",
+        "jaw_or_hairline_as_requested"
+      ],
+      "minimum_visible_body_length_ratio": 0.1,
+      "recommended_outer_padding_ratio": 0.025,
+      "forbidden_crop_points": [
+        "eye",
+        "nose",
+        "mouth"
+      ],
+      "promotion_threshold": 0.82
+    }
+  ]
+}

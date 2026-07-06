@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave17 Silhouette Score Report",
+  "type": "object",
+  "required": [
+    "candidate_id",
+    "character_id",
+    "region_scores",
+    "silhouette_passed"
+  ],
+  "properties": {
+    "candidate_id": {
+      "type": "string"
+    },
+    "character_id": {
+      "type": "string"
+    },
+    "region_scores": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "left_right_balance_score": {
+      "type": "number"
+    },
+    "crop_safe_margin_score": {
+      "type": "number"
+    },
+    "silhouette_passed": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false
+}

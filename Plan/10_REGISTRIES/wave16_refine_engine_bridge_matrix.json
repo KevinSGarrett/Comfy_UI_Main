@@ -1,0 +1,235 @@
+[
+  {
+    "bridge_id": "BRIDGE-FLUX2-TO-SDXL-DETAIL",
+    "source_engine": "flux2",
+    "target_engine": "sdxl_realvisxl",
+    "direction": "base_image_to_low_denoise_img2img_or_inpaint",
+    "status": "planned_requires_flux2_runtime_proof",
+    "recommended_scope": [
+      "global_light_polish",
+      "regional_skin_material",
+      "regional_fabric_contact",
+      "face_hand_repair"
+    ],
+    "denoise_range": {
+      "global": [
+        0.08,
+        0.18
+      ],
+      "regional": [
+        0.12,
+        0.28
+      ],
+      "hard_cap": 0.35
+    },
+    "allowed_transfer_objects": [
+      "image_file",
+      "mask_file",
+      "control_map_file",
+      "reference_pack_manifest",
+      "qa_evidence_manifest"
+    ],
+    "forbidden_transfer_objects": [
+      "latent_tensor",
+      "MODEL",
+      "CLIP",
+      "VAE",
+      "LoRA stack from source engine"
+    ],
+    "main_risk": "Flux2 base can be corrupted if SDXL refine is too high-denoise or unmasked.",
+    "required_evidence": [
+      "base_image_hash",
+      "refined_image_hash",
+      "mask_contract",
+      "identity_pose_frame_comparison",
+      "qa_score"
+    ]
+  },
+  {
+    "bridge_id": "BRIDGE-FLUX1-TO-SDXL-DETAIL",
+    "source_engine": "flux1",
+    "target_engine": "sdxl_realvisxl",
+    "direction": "base_image_to_low_denoise_img2img_or_inpaint",
+    "status": "supported_template_requires_local_runtime_proof",
+    "recommended_scope": [
+      "global_light_polish",
+      "regional_detail",
+      "upscale_followup"
+    ],
+    "denoise_range": {
+      "global": [
+        0.08,
+        0.2
+      ],
+      "regional": [
+        0.12,
+        0.3
+      ],
+      "hard_cap": 0.35
+    },
+    "allowed_transfer_objects": [
+      "image_file",
+      "mask_file",
+      "control_map_file",
+      "reference_pack_manifest",
+      "qa_evidence_manifest"
+    ],
+    "forbidden_transfer_objects": [
+      "Flux LoRA inside SDXL chain",
+      "Flux latent directly into SDXL sampler",
+      "source CLIP into target engine"
+    ],
+    "main_risk": "Engine-family mismatch and identity drift.",
+    "required_evidence": [
+      "base_image_hash",
+      "target_engine_model_manifest",
+      "low_denoise_patch_manifest",
+      "qa_score"
+    ]
+  },
+  {
+    "bridge_id": "BRIDGE-ZIMAGE-TO-SDXL-DETAIL",
+    "source_engine": "z_image",
+    "target_engine": "sdxl_realvisxl",
+    "direction": "decoded_image_to_sdxl_low_denoise_refine",
+    "status": "present_in_main_flow_as_static_template",
+    "main_flow_anchor": {
+      "base_ksampler_node": 36,
+      "bridge_ksampler_node": 93,
+      "bridge_denoise": 0.22,
+      "save_lane": "Main_Flow/Flux_to_SDXL_Refine"
+    },
+    "recommended_scope": [
+      "composition_preserving_refine",
+      "skin_material_detail",
+      "lighting_match"
+    ],
+    "denoise_range": {
+      "global": [
+        0.1,
+        0.22
+      ],
+      "regional": [
+        0.14,
+        0.3
+      ],
+      "hard_cap": 0.35
+    },
+    "allowed_transfer_objects": [
+      "decoded_image",
+      "image_file",
+      "mask_file"
+    ],
+    "forbidden_transfer_objects": [
+      "UNET object into SDXL",
+      "Z-Image latent directly into SDXL without explicit VAEEncode path"
+    ],
+    "required_evidence": [
+      "decoded_base_image",
+      "encoded_target_latent_trace",
+      "refine_output",
+      "diff_score"
+    ]
+  },
+  {
+    "bridge_id": "BRIDGE-SDXL-TO-PONY-SPECIALTY",
+    "source_engine": "sdxl_realvisxl",
+    "target_engine": "pony_sdxl_specialty",
+    "direction": "masked_low_denoise_specialty_pass_only",
+    "status": "allowed_with_strict_masks_only",
+    "recommended_scope": [
+      "special pose/style-specific repair",
+      "specialty anatomy/detail concept where SDXL lacks coverage"
+    ],
+    "denoise_range": {
+      "global": [
+        0.0,
+        0.12
+      ],
+      "regional": [
+        0.08,
+        0.22
+      ],
+      "hard_cap": 0.28
+    },
+    "allowed_transfer_objects": [
+      "image_file",
+      "mask_file",
+      "region_crop",
+      "qa_manifest"
+    ],
+    "forbidden_transfer_objects": [
+      "global full-frame Pony repaint after approved base",
+      "Pony LoRA in SDXL base lane unless explicitly validated"
+    ],
+    "main_risk": "Pony may overpower realism, identity, and composition if used globally.",
+    "required_evidence": [
+      "mask_ownership",
+      "before_after_region_crop",
+      "identity_preservation_score",
+      "style_drift_score"
+    ]
+  },
+  {
+    "bridge_id": "BRIDGE-SDXL-TO-SD15-LEGACY-REPAIR",
+    "source_engine": "sdxl_realvisxl",
+    "target_engine": "sd15_legacy",
+    "direction": "tiny_masked_artifact_repair_only",
+    "status": "last_resort",
+    "recommended_scope": [
+      "small defect repair only"
+    ],
+    "denoise_range": {
+      "global": [
+        0.0,
+        0.0
+      ],
+      "regional": [
+        0.06,
+        0.16
+      ],
+      "hard_cap": 0.2
+    },
+    "allowed_transfer_objects": [
+      "small_region_crop",
+      "small_mask_file"
+    ],
+    "forbidden_transfer_objects": [
+      "full-frame SD1.5 repaint",
+      "identity-sensitive rebuild"
+    ],
+    "main_risk": "Resolution, anatomy, and detail regression.",
+    "required_evidence": [
+      "tiny_mask",
+      "localized_diff_only",
+      "regression_check"
+    ]
+  },
+  {
+    "bridge_id": "BRIDGE-SDXL-TO-FLUX-REFINE",
+    "source_engine": "sdxl_realvisxl",
+    "target_engine": "flux1_or_flux2",
+    "direction": "not_default",
+    "status": "hold_until_flux_img2img_reference_conditioning_is_proven_locally",
+    "recommended_scope": [],
+    "denoise_range": {
+      "global": [
+        0.0,
+        0.0
+      ],
+      "regional": [
+        0.0,
+        0.0
+      ],
+      "hard_cap": 0.0
+    },
+    "allowed_transfer_objects": [],
+    "forbidden_transfer_objects": [
+      "unproven Flux refiner over approved SDXL image"
+    ],
+    "main_risk": "High chance of repainting rather than preserving the base image.",
+    "required_evidence": [
+      "future_runtime_proof_only"
+    ]
+  }
+]

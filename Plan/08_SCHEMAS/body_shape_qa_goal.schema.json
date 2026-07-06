@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave17 Body Shape QA Goal",
+  "type": "object",
+  "required": [
+    "goal_id",
+    "metric_id",
+    "threshold",
+    "weight"
+  ],
+  "properties": {
+    "goal_id": {
+      "type": "string"
+    },
+    "metric_id": {
+      "type": "string"
+    },
+    "threshold": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "weight": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "required": {
+      "type": "boolean"
+    },
+    "auto_fail_if_missing": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave12 Frame Composition Contract",
+  "type": "object",
+  "required": [
+    "contract_id",
+    "expected_character_count",
+    "body_visibility_profile",
+    "crop_boundary_policy",
+    "no_merged_bodies_required",
+    "character_slots"
+  ],
+  "properties": {
+    "contract_id": {
+      "type": "string"
+    },
+    "scene_id": {
+      "type": "string"
+    },
+    "expected_character_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "body_visibility_profile": {
+      "type": "string"
+    },
+    "shot_size": {
+      "type": "string"
+    },
+    "crop_boundary_policy": {
+      "type": "object"
+    },
+    "no_merged_bodies_required": {
+      "type": "boolean"
+    },
+    "allow_background_people": {
+      "type": "boolean"
+    },
+    "character_slots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "character_id",
+          "slot_id"
+        ],
+        "properties": {
+          "character_id": {
+            "type": "string"
+          },
+          "slot_id": {
+            "type": "string"
+          },
+          "required_visible_regions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "qa_thresholds": {
+      "type": "object"
+    }
+  }
+}

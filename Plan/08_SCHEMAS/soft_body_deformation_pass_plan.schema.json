@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Wave21 SoftBodyDeformationPassPlan",
+  "type": "object",
+  "required": [
+    "plan_id",
+    "source_image_id",
+    "profile_id",
+    "region_bindings",
+    "pass_profile_id"
+  ],
+  "properties": {
+    "plan_id": {
+      "type": "string"
+    },
+    "source_image_id": {
+      "type": "string"
+    },
+    "profile_id": {
+      "type": "string"
+    },
+    "pass_profile_id": {
+      "type": "string"
+    },
+    "region_bindings": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "denoise": {
+      "type": "number"
+    },
+    "qa_goals": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

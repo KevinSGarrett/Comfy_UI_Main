@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave24 Instance Region Ownership",
+  "type": "object",
+  "required": [
+    "region_ownership_map_id",
+    "character_instance_id",
+    "regions"
+  ],
+  "properties": {
+    "region_ownership_map_id": {
+      "type": "string"
+    },
+    "character_instance_id": {
+      "type": "string"
+    },
+    "regions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "region_id",
+          "mask_id"
+        ],
+        "properties": {
+          "region_id": {
+            "type": "string"
+          },
+          "mask_id": {
+            "type": "string"
+          },
+          "protected": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}

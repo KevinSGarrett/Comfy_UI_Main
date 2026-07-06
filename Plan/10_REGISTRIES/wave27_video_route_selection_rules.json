@@ -1,0 +1,24 @@
+{
+  "rules": [
+    {
+      "if": "reference_video_present and motion fidelity is high priority",
+      "route": "ltxv"
+    },
+    {
+      "if": "planned keyframes and moderate motion complexity",
+      "route": "wan"
+    },
+    {
+      "if": "structured linear shot with explicit guidance",
+      "route": "hunyuan_video"
+    },
+    {
+      "if": "video generation failed but frame sequence exists",
+      "route": "animatediff_fallback"
+    },
+    {
+      "if": "isolated frame failures after generation",
+      "route": "frame_repair_lane"
+    }
+  ]
+}

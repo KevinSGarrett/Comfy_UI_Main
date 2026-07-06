@@ -1,0 +1,12 @@
+stage_id,order,name,purpose,rerunnable,qa_gate
+00_request_compile,0,Request compile,Normalize request into structured run plan.,False,00_request_compile_gate
+01_preflight,1,Runtime and asset preflight,"Check object_info, models, nodes, workflow format, patch targets, storage, cost guard.",False,01_preflight_gate
+02_base_composition,2,Base composition,"Create initial image/keyframe with character count, camera, environment, lighting, and global realism.",True,02_base_composition_gate
+03_reference_identity,3,Reference and identity,Apply character reference pack/IPAdapter/person masks where required.,True,03_reference_identity_gate
+04_pose_control,4,Pose/control map,Apply or generate DWPose/OpenPose/depth/normal/Canny/lineart control maps.,True,04_pose_control_gate
+05_mask_factory,5,Mask factory,Create/validate macro/major/minor/micro/nano/person/body/fabric/contact masks.,True,05_mask_factory_gate
+06_regional_inpaint_detail,6,Regional inpaint and detail,Use approved masks for local repair/detail passes.,True,06_regional_inpaint_detail_gate
+07_upscale_polish,7,Upscale and polish,Run final upscale/detail while preserving identity and composition.,True,07_upscale_polish_gate
+08_video_handoff,8,Video handoff,Prepare approved keyframes and metadata for video runtime.,True,08_video_handoff_gate
+09_audio_handoff,9,Audio handoff,"Prepare voice, room-acoustic, timing, and sync requests.",True,09_audio_handoff_gate
+10_promotion,10,Promotion manifest,Promote only passing outputs with full evidence lineage.,False,10_promotion_gate

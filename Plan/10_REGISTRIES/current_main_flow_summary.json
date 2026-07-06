@@ -1,0 +1,151 @@
+{
+  "source_file": "/mnt/data/Wave42_Runtime_Bound__UI__WAVE42_MAIN_FLOW_20260702.json",
+  "sha256": "13297484923fa1ca7525fa913792b19999f395e05118e50eb269e48e4d1bc8bb",
+  "node_count": 356,
+  "link_count": 91,
+  "last_node_id": 411,
+  "last_link_id": 109,
+  "node_type_counts_top": {
+    "LoraLoader": 274,
+    "Note": 13,
+    "CLIPTextEncode": 12,
+    "SaveImage": 8,
+    "PreviewImage": 8,
+    "KSampler": 7,
+    "VAEDecode": 7,
+    "EmptyLatentImage": 3,
+    "LoadImage": 3,
+    "EmptySD3LatentImage": 2,
+    "CheckpointLoaderSimple": 2,
+    "UNETLoader": 1,
+    "ModelSamplingAuraFlow": 1,
+    "CLIPLoader": 1,
+    "VAELoader": 1,
+    "UpscaleModelLoader": 1,
+    "ImageUpscaleWithModel": 1,
+    "VAEEncodeForInpaint": 1,
+    "VAEEncode": 1,
+    "ModelSamplingFlux": 1,
+    "ConditioningZeroOut": 1,
+    "IPAdapter": 1,
+    "ControlNetLoader": 1,
+    "ControlNetApplyAdvanced": 1,
+    "LoadImageMask": 1,
+    "IPAdapterUnifiedLoader": 1,
+    "Lora Loader Stack (rgthree)": 1,
+    "CLIPTextEncodeFlux": 1
+  },
+  "node_mode_counts": {
+    "0": 82,
+    "2": 274
+  },
+  "save_image_outputs": [
+    {
+      "id": 19,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA",
+      "mode": 0
+    },
+    {
+      "id": 39,
+      "prefix": "Main_Flow/Flux_Family_ZImage",
+      "mode": 0
+    },
+    {
+      "id": 62,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA_Upscaled",
+      "mode": 0
+    },
+    {
+      "id": 87,
+      "prefix": "Main_Flow/SDXL_Inpaint_Detail",
+      "mode": 0
+    },
+    {
+      "id": 95,
+      "prefix": "Main_Flow/Flux_to_SDXL_Refine",
+      "mode": 0
+    },
+    {
+      "id": 107,
+      "prefix": "Main_Flow/True_Flux_Schnell_Reference_Smoke",
+      "mode": 0
+    },
+    {
+      "id": 128,
+      "prefix": "Main_Flow/ControlNet_Canny_Edge",
+      "mode": 0
+    },
+    {
+      "id": 118,
+      "prefix": "Main_Flow/IPAdapter_Face_Reference",
+      "mode": 0
+    }
+  ],
+  "active_save_image_count": 8,
+  "active_upstream_node_count": 61,
+  "active_upstream_type_counts_top": {
+    "CLIPTextEncode": 12,
+    "SaveImage": 8,
+    "KSampler": 7,
+    "VAEDecode": 7,
+    "EmptyLatentImage": 3,
+    "LoadImage": 3,
+    "CheckpointLoaderSimple": 2,
+    "EmptySD3LatentImage": 2,
+    "Lora Loader Stack (rgthree)": 1,
+    "UNETLoader": 1,
+    "ModelSamplingAuraFlow": 1,
+    "CLIPLoader": 1,
+    "VAELoader": 1,
+    "UpscaleModelLoader": 1,
+    "ImageUpscaleWithModel": 1,
+    "LoadImageMask": 1,
+    "VAEEncodeForInpaint": 1,
+    "VAEEncode": 1,
+    "ModelSamplingFlux": 1,
+    "CLIPTextEncodeFlux": 1,
+    "ConditioningZeroOut": 1,
+    "IPAdapterUnifiedLoader": 1,
+    "IPAdapter": 1,
+    "ControlNetLoader": 1,
+    "ControlNetApplyAdvanced": 1
+  },
+  "metadata_wired_lanes": [
+    "SDXL/RealVisXL + organized Wave42 SDXL LoRA image generation",
+    "Flux-family/Z-Image executable image generation",
+    "SDXL RealESRGAN shared upscale lane staged as ready_to_verify",
+    "SDXL inpaint/detail lane staged as ready_to_verify with explicit base/mask inputs",
+    "Flux-family image into SDXL light img2img refinement staged as ready_to_verify",
+    "True Flux Schnell reference-smoke/base lane staged as ready_to_verify",
+    "SDXL IPAdapter face-reference lane staged as ready_to_verify",
+    "SDXL ControlNet Canny edge-map lane staged as ready_to_verify",
+    "Main Flow image QA/evidence export staged as ready_to_verify",
+    "Main Flow promotion gate staged; verifies only after exact runtime proof exists"
+  ],
+  "metadata_note_only_lanes": [
+    "True Flux image-reference conditioning branch",
+    "Additional reference-slot routes beyond face_reference",
+    "ControlNet pose/depth/openpose/tile variants beyond the Canny edge lane",
+    "Video handoff",
+    "Audio/AV sync"
+  ],
+  "metadata_boundary": "This is a ComfyUI UI workflow artifact. It wires only currently evidenced image-generation lanes plus the SDXL LoRA stack pending review; unverified branches are notes.",
+  "lora_library": {
+    "manifest_lora_count": 274,
+    "library_lora_loader_nodes": 274,
+    "engine_counts": {
+      "sdxl": 128,
+      "flux": 125,
+      "pony": 3,
+      "sd15": 3,
+      "disabled_review": 15
+    },
+    "mode": "library nodes are disconnected and disabled by default; active production chain unchanged",
+    "disabled_review_policy": "represented for traceability with zero strengths and disabled mode; blocked from production stacks by profile rules",
+    "active_main_chain_loras_preserved": [
+      "wave42/sdxl/pose_camera/sdxl_adult_male_Double_Kiss_POV.safetensors",
+      "wave42/sdxl/skin_imperfections/sdxl_hair_heavily_freckled_SDXL_NSFW.safetensors",
+      "wave42/sdxl/skin_texture/sdxl_skin_texture_Wet_Makeup__Runny_Mascara-000006.safetensors"
+    ]
+  }
+}

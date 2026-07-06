@@ -1,0 +1,1554 @@
+{
+  "source_main_flow_file": "Wave42_Runtime_Bound__UI__WAVE42_MAIN_FLOW_20260702(24).json",
+  "workflow_id": "c1eb5a64-4997-472d-a6f5-93cc273d6a72",
+  "revision": 0,
+  "last_node_id": 411,
+  "last_link_id": 109,
+  "node_count": 356,
+  "link_count": 91,
+  "node_type_counts_top": {
+    "LoraLoader": 274,
+    "Note": 13,
+    "CLIPTextEncode": 12,
+    "SaveImage": 8,
+    "PreviewImage": 8,
+    "KSampler": 7,
+    "VAEDecode": 7,
+    "EmptyLatentImage": 3,
+    "LoadImage": 3,
+    "EmptySD3LatentImage": 2,
+    "CheckpointLoaderSimple": 2,
+    "UNETLoader": 1,
+    "ModelSamplingAuraFlow": 1,
+    "CLIPLoader": 1,
+    "VAELoader": 1,
+    "UpscaleModelLoader": 1,
+    "ImageUpscaleWithModel": 1,
+    "VAEEncodeForInpaint": 1,
+    "VAEEncode": 1,
+    "ModelSamplingFlux": 1,
+    "ConditioningZeroOut": 1,
+    "IPAdapter": 1,
+    "ControlNetLoader": 1,
+    "ControlNetApplyAdvanced": 1,
+    "LoadImageMask": 1
+  },
+  "save_lanes": [
+    {
+      "node_id": 19,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA"
+    },
+    {
+      "node_id": 39,
+      "prefix": "Main_Flow/Flux_Family_ZImage"
+    },
+    {
+      "node_id": 62,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA_Upscaled"
+    },
+    {
+      "node_id": 87,
+      "prefix": "Main_Flow/SDXL_Inpaint_Detail"
+    },
+    {
+      "node_id": 95,
+      "prefix": "Main_Flow/Flux_to_SDXL_Refine"
+    },
+    {
+      "node_id": 107,
+      "prefix": "Main_Flow/True_Flux_Schnell_Reference_Smoke"
+    },
+    {
+      "node_id": 128,
+      "prefix": "Main_Flow/ControlNet_Canny_Edge"
+    },
+    {
+      "node_id": 118,
+      "prefix": "Main_Flow/IPAdapter_Face_Reference"
+    }
+  ],
+  "ksampler_nodes": [
+    {
+      "node_id": 17,
+      "seed": 300300300,
+      "control": "fixed",
+      "steps": 40,
+      "cfg": 6.5,
+      "sampler": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1
+    },
+    {
+      "node_id": 36,
+      "seed": 42043,
+      "control": "fixed",
+      "steps": 8,
+      "cfg": 1,
+      "sampler": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 1
+    },
+    {
+      "node_id": 85,
+      "seed": 210422,
+      "control": "fixed",
+      "steps": 14,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.28
+    },
+    {
+      "node_id": 93,
+      "seed": 210421,
+      "control": "fixed",
+      "steps": 10,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.22
+    },
+    {
+      "node_id": 105,
+      "seed": 200420,
+      "control": "fixed",
+      "steps": 4,
+      "cfg": 1,
+      "sampler": "euler",
+      "scheduler": "simple",
+      "denoise": 1
+    },
+    {
+      "node_id": 116,
+      "seed": 626262,
+      "control": "fixed",
+      "steps": 8,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 1
+    },
+    {
+      "node_id": 126,
+      "seed": 707707,
+      "control": "fixed",
+      "steps": 20,
+      "cfg": 5.5,
+      "sampler": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1
+    }
+  ],
+  "low_denoise_anchors": [
+    {
+      "node_id": 85,
+      "seed": 210422,
+      "control": "fixed",
+      "steps": 14,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.28
+    },
+    {
+      "node_id": 93,
+      "seed": 210421,
+      "control": "fixed",
+      "steps": 10,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.22
+    }
+  ],
+  "mask_input_slots": [
+    {
+      "node_id": 82,
+      "node_type": "VAEEncodeForInpaint",
+      "input_name": "mask",
+      "link": 51
+    },
+    {
+      "node_id": 112,
+      "node_type": "IPAdapter",
+      "input_name": "attn_mask",
+      "link": null
+    }
+  ],
+  "control_nodes": [
+    {
+      "node_id": 120,
+      "node_type": "ControlNetLoader",
+      "widgets": [
+        "controlnet-canny-sdxl-1.0-small.safetensors"
+      ]
+    },
+    {
+      "node_id": 124,
+      "node_type": "ControlNetApplyAdvanced",
+      "widgets": [
+        0.65,
+        0,
+        0.75
+      ]
+    }
+  ],
+  "image_io_nodes_count": 12,
+  "lora_nodes_total": 274,
+  "contact_lora_summary_sanitized": {
+    "count": 141,
+    "by_engine": {
+      "sdxl": 79,
+      "flux": 54,
+      "pony": 2,
+      "sd15": 1,
+      "disabled_review": 5
+    },
+    "by_safe_category": {
+      "specialty_contact_reference": 3,
+      "body_region_reference": 35,
+      "body_shape_contact_reference": 38,
+      "body_surface_reference": 5,
+      "body_shape_reference": 6,
+      "fabric_contact_reference": 2,
+      "experimental_reference": 8,
+      "face_detail_reference": 2,
+      "hair_identity_reference": 1,
+      "inpaint_detail_reference": 5,
+      "accessory_contact_reference": 16,
+      "pose_camera_reference": 1,
+      "skin_surface_reference": 2,
+      "reference_candidate": 17
+    },
+    "by_status": {
+      "installed": 82,
+      "rejected_or_superseded": 22,
+      "path_verified": 32,
+      "disabled_review": 5
+    },
+    "disabled_by_default_count": 141
+  },
+  "contact_lora_records_sanitized_sample": [
+    {
+      "node_id": 137,
+      "engine": "sdxl",
+      "safe_category": "specialty_contact_reference",
+      "scene_role_safe": "specialty_act",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "press"
+      ]
+    },
+    {
+      "node_id": 143,
+      "engine": "sdxl",
+      "safe_category": "specialty_contact_reference",
+      "scene_role_safe": "specialty_act",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "riding"
+      ]
+    },
+    {
+      "node_id": 146,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 147,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 148,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body",
+        "grab"
+      ]
+    },
+    {
+      "node_id": 149,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 1,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 150,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body",
+        "cover",
+        "hand",
+        "hands"
+      ]
+    },
+    {
+      "node_id": 151,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 152,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 153,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 154,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 155,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 156,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 157,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 158,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 159,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 160,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 161,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 162,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 163,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 164,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 165,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 166,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 1,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 167,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 168,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 1,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 169,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 170,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 171,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 172,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "disabled_by_default": true,
+      "profile_stack_count": 4,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 173,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 174,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 175,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 176,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 177,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 178,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "specialty_body_part",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 181,
+      "engine": "sdxl",
+      "safe_category": "body_region_reference",
+      "scene_role_safe": "body_region_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 1,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 183,
+      "engine": "sdxl",
+      "safe_category": "body_shape_contact_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 184,
+      "engine": "sdxl",
+      "safe_category": "body_shape_contact_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 185,
+      "engine": "sdxl",
+      "safe_category": "body_surface_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 186,
+      "engine": "sdxl",
+      "safe_category": "body_surface_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 187,
+      "engine": "sdxl",
+      "safe_category": "body_surface_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 188,
+      "engine": "sdxl",
+      "safe_category": "body_surface_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 189,
+      "engine": "sdxl",
+      "safe_category": "body_surface_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 2,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 190,
+      "engine": "sdxl",
+      "safe_category": "body_shape_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 191,
+      "engine": "sdxl",
+      "safe_category": "body_shape_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 2,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 192,
+      "engine": "sdxl",
+      "safe_category": "body_shape_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 193,
+      "engine": "sdxl",
+      "safe_category": "body_shape_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 194,
+      "engine": "sdxl",
+      "safe_category": "body_shape_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 195,
+      "engine": "sdxl",
+      "safe_category": "body_shape_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 196,
+      "engine": "sdxl",
+      "safe_category": "fabric_contact_reference",
+      "scene_role_safe": "fabric_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "fabric"
+      ]
+    },
+    {
+      "node_id": 197,
+      "engine": "sdxl",
+      "safe_category": "fabric_contact_reference",
+      "scene_role_safe": "fabric_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "fabric",
+        "press"
+      ]
+    },
+    {
+      "node_id": 207,
+      "engine": "sdxl",
+      "safe_category": "experimental_reference",
+      "scene_role_safe": "experimental_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 208,
+      "engine": "sdxl",
+      "safe_category": "experimental_reference",
+      "scene_role_safe": "experimental_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "grab"
+      ]
+    },
+    {
+      "node_id": 211,
+      "engine": "sdxl",
+      "safe_category": "experimental_reference",
+      "scene_role_safe": "experimental_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "press"
+      ]
+    },
+    {
+      "node_id": 213,
+      "engine": "sdxl",
+      "safe_category": "experimental_reference",
+      "scene_role_safe": "experimental_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 215,
+      "engine": "sdxl",
+      "safe_category": "experimental_reference",
+      "scene_role_safe": "experimental_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "press"
+      ]
+    },
+    {
+      "node_id": 219,
+      "engine": "sdxl",
+      "safe_category": "face_detail_reference",
+      "scene_role_safe": "face_detail",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 1,
+      "matched_contact_terms": [
+        "press"
+      ]
+    },
+    {
+      "node_id": 220,
+      "engine": "sdxl",
+      "safe_category": "face_detail_reference",
+      "scene_role_safe": "face_detail",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "press"
+      ]
+    },
+    {
+      "node_id": 225,
+      "engine": "sdxl",
+      "safe_category": "hair_identity_reference",
+      "scene_role_safe": "character_identity",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "grab"
+      ]
+    },
+    {
+      "node_id": 242,
+      "engine": "sdxl",
+      "safe_category": "inpaint_detail_reference",
+      "scene_role_safe": "inpaint_detail_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 1,
+      "matched_contact_terms": []
+    },
+    {
+      "node_id": 243,
+      "engine": "sdxl",
+      "safe_category": "accessory_contact_reference",
+      "scene_role_safe": "final_polish",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": []
+    },
+    {
+      "node_id": 244,
+      "engine": "sdxl",
+      "safe_category": "accessory_contact_reference",
+      "scene_role_safe": "final_polish",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": []
+    },
+    {
+      "node_id": 245,
+      "engine": "sdxl",
+      "safe_category": "accessory_contact_reference",
+      "scene_role_safe": "final_polish",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": []
+    },
+    {
+      "node_id": 246,
+      "engine": "sdxl",
+      "safe_category": "accessory_contact_reference",
+      "scene_role_safe": "final_polish",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": []
+    },
+    {
+      "node_id": 247,
+      "engine": "sdxl",
+      "safe_category": "accessory_contact_reference",
+      "scene_role_safe": "final_polish",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "hand"
+      ]
+    },
+    {
+      "node_id": 248,
+      "engine": "sdxl",
+      "safe_category": "accessory_contact_reference",
+      "scene_role_safe": "final_polish",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "hand",
+        "hands"
+      ]
+    },
+    {
+      "node_id": 249,
+      "engine": "sdxl",
+      "safe_category": "accessory_contact_reference",
+      "scene_role_safe": "final_polish",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "hand",
+        "hands",
+        "riding"
+      ]
+    },
+    {
+      "node_id": 250,
+      "engine": "sdxl",
+      "safe_category": "accessory_contact_reference",
+      "scene_role_safe": "final_polish",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": []
+    },
+    {
+      "node_id": 251,
+      "engine": "sdxl",
+      "safe_category": "accessory_contact_reference",
+      "scene_role_safe": "final_polish",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": []
+    },
+    {
+      "node_id": 252,
+      "engine": "sdxl",
+      "safe_category": "accessory_contact_reference",
+      "scene_role_safe": "final_polish",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": []
+    },
+    {
+      "node_id": 253,
+      "engine": "sdxl",
+      "safe_category": "accessory_contact_reference",
+      "scene_role_safe": "final_polish",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": []
+    },
+    {
+      "node_id": 254,
+      "engine": "sdxl",
+      "safe_category": "accessory_contact_reference",
+      "scene_role_safe": "final_polish",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": []
+    },
+    {
+      "node_id": 255,
+      "engine": "sdxl",
+      "safe_category": "accessory_contact_reference",
+      "scene_role_safe": "final_polish",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": []
+    },
+    {
+      "node_id": 256,
+      "engine": "sdxl",
+      "safe_category": "accessory_contact_reference",
+      "scene_role_safe": "final_polish",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": []
+    },
+    {
+      "node_id": 257,
+      "engine": "sdxl",
+      "safe_category": "accessory_contact_reference",
+      "scene_role_safe": "final_polish",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": []
+    },
+    {
+      "node_id": 258,
+      "engine": "sdxl",
+      "safe_category": "accessory_contact_reference",
+      "scene_role_safe": "final_polish",
+      "status": "rejected_or_superseded",
+      "verification_tier": "disabled",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": []
+    },
+    {
+      "node_id": 259,
+      "engine": "sdxl",
+      "safe_category": "pose_camera_reference",
+      "scene_role_safe": "pose_camera_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 1,
+      "matched_contact_terms": []
+    },
+    {
+      "node_id": 263,
+      "engine": "sdxl",
+      "safe_category": "skin_surface_reference",
+      "scene_role_safe": "skin_detail",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 1,
+      "matched_contact_terms": [
+        "skin"
+      ]
+    },
+    {
+      "node_id": 264,
+      "engine": "sdxl",
+      "safe_category": "skin_surface_reference",
+      "scene_role_safe": "skin_detail",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 1,
+      "matched_contact_terms": [
+        "skin"
+      ]
+    },
+    {
+      "node_id": 273,
+      "engine": "flux",
+      "safe_category": "reference_candidate",
+      "scene_role_safe": "specialty_act",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "skin"
+      ]
+    },
+    {
+      "node_id": 274,
+      "engine": "flux",
+      "safe_category": "reference_candidate",
+      "scene_role_safe": "specialty_act",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "contact"
+      ]
+    },
+    {
+      "node_id": 283,
+      "engine": "flux",
+      "safe_category": "reference_candidate",
+      "scene_role_safe": "specialty_act",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "skin"
+      ]
+    },
+    {
+      "node_id": 288,
+      "engine": "flux",
+      "safe_category": "reference_candidate",
+      "scene_role_safe": "specialty_act",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "disabled_by_default": true,
+      "profile_stack_count": 5,
+      "matched_contact_terms": [
+        "skin"
+      ]
+    },
+    {
+      "node_id": 296,
+      "engine": "flux",
+      "safe_category": "body_shape_contact_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 297,
+      "engine": "flux",
+      "safe_category": "body_shape_contact_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 298,
+      "engine": "flux",
+      "safe_category": "body_shape_contact_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body",
+        "grab"
+      ]
+    },
+    {
+      "node_id": 299,
+      "engine": "flux",
+      "safe_category": "body_shape_contact_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body",
+        "skin"
+      ]
+    },
+    {
+      "node_id": 300,
+      "engine": "flux",
+      "safe_category": "body_shape_contact_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body",
+        "thigh"
+      ]
+    },
+    {
+      "node_id": 301,
+      "engine": "flux",
+      "safe_category": "body_shape_contact_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 302,
+      "engine": "flux",
+      "safe_category": "body_shape_contact_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 303,
+      "engine": "flux",
+      "safe_category": "body_shape_contact_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body",
+        "grab",
+        "skin"
+      ]
+    },
+    {
+      "node_id": 304,
+      "engine": "flux",
+      "safe_category": "body_shape_contact_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 305,
+      "engine": "flux",
+      "safe_category": "body_shape_contact_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body",
+        "grab"
+      ]
+    },
+    {
+      "node_id": 306,
+      "engine": "flux",
+      "safe_category": "body_shape_contact_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body",
+        "massage"
+      ]
+    },
+    {
+      "node_id": 307,
+      "engine": "flux",
+      "safe_category": "body_shape_contact_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 308,
+      "engine": "flux",
+      "safe_category": "body_shape_contact_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 309,
+      "engine": "flux",
+      "safe_category": "body_shape_contact_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 310,
+      "engine": "flux",
+      "safe_category": "body_shape_contact_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    },
+    {
+      "node_id": 311,
+      "engine": "flux",
+      "safe_category": "body_shape_contact_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "installed",
+      "verification_tier": "installed",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body",
+        "cover",
+        "hand",
+        "hands"
+      ]
+    },
+    {
+      "node_id": 312,
+      "engine": "flux",
+      "safe_category": "body_shape_contact_reference",
+      "scene_role_safe": "body_shape_contact_reference",
+      "status": "path_verified",
+      "verification_tier": "path_verified",
+      "disabled_by_default": true,
+      "profile_stack_count": 0,
+      "matched_contact_terms": [
+        "body"
+      ]
+    }
+  ],
+  "tracker_source_file": "wave42_working_tracker_20260704_105253_ltxv_router_metadata_repromotion_20260705_142403_asset_compat_registry_promotion(23).csv",
+  "tracker_rows": 12887,
+  "tracker_columns": 73,
+  "tracker_contact_related_rows": 7343,
+  "tracker_contact_keyword_counts": {
+    "support": 3910,
+    "hand": 1776,
+    "audio": 1699,
+    "prop": 624,
+    "body": 391,
+    "fabric": 334,
+    "contact": 301,
+    "force": 266,
+    "foley": 214,
+    "bed": 177,
+    "press": 129,
+    "cloth": 128,
+    "duration": 69,
+    "occlusion": 43,
+    "compression": 30,
+    "compress": 30,
+    "touch": 20,
+    "collision": 7,
+    "furniture": 7,
+    "pressure": 3,
+    "chair": 3,
+    "bounce": 1
+  },
+  "runtime_interpretation": [
+    "The current Main Flow provides image, inpaint/detail, mask, low-denoise refine, IPAdapter, and ControlNet anchors suitable for future contact-graph-driven passes.",
+    "The Main Flow does not yet prove full physical interaction runtime. Wave 22 defines the contract, routing, QA, and evidence requirements that must be satisfied before promotion.",
+    "Contact graph evidence must be generated from real outputs and must not be inferred from prompt text or LoRA filenames alone."
+  ]
+}

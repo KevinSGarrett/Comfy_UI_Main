@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "scene_director_request.schema.json",
+  "title": "Wave07 Scene Director Request",
+  "type": "object",
+  "required": [
+    "request_id",
+    "raw_user_request",
+    "target_output"
+  ],
+  "properties": {
+    "request_id": {
+      "type": "string"
+    },
+    "raw_user_request": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_output": {
+      "type": "string",
+      "enum": [
+        "image",
+        "image_series",
+        "gif",
+        "video",
+        "audio",
+        "av_sync",
+        "model_selection",
+        "unknown"
+      ]
+    },
+    "desired_profile_id": {
+      "type": "string"
+    },
+    "user_constraints": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "negative_constraints": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "reference_assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "preferred_engines": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "required_scene_features": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "project_context": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

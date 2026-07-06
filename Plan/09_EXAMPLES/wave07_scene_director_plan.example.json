@@ -1,0 +1,360 @@
+{
+  "plan_id": "PLAN-W07-EXAMPLE-001",
+  "request_id": "REQ-W07-EXAMPLE-001",
+  "director_profile_id": "hyperreal_image_director",
+  "raw_user_request": "Create a hyperreal full-body character image in a realistic room with controlled camera framing, accurate anatomy, regional skin detail, and QA proof.",
+  "normalized_request": "Generate a hyperreal full-body character image in a realistic room, preserve full-body framing, apply regional detail only after base approval, and require QA/evidence before promotion.",
+  "intent_classification": {
+    "primary_intent": "image_single_hyperreal_character",
+    "secondary_intents": [
+      "environment_camera_framing",
+      "body_shape_or_anatomy_correction"
+    ],
+    "target_output": "image",
+    "confidence": 0.88
+  },
+  "assumptions": [
+    "Use a single-character plan because no additional character count was specified.",
+    "Use Flux2 Dev as planned primary only if local runtime proof exists; otherwise fall back to Flux1/SDXL routes.",
+    "Use SDXL detail/inpaint passes for current Civitai LoRA library compatibility."
+  ],
+  "ambiguity_resolution": {
+    "policy": "make_best_effort",
+    "assumptions": [
+      "No exact identity reference was supplied, so identity continuity is not required."
+    ],
+    "blocking_questions": [],
+    "non_blocking_defaults": [
+      {
+        "field": "camera_plan.framing.body_crop",
+        "value": "full_body"
+      },
+      {
+        "field": "engine_route.primary_engine_id",
+        "value": "flux2_dev_local_if_proven_else_sdxl_realvisxl"
+      }
+    ],
+    "confidence": 0.86
+  },
+  "scene_graph": {
+    "scene_id": "SCENE-W07-EXAMPLE-001",
+    "summary": "One character in a realistic interior room with natural lighting and full-body framing.",
+    "characters": [
+      {
+        "character_id": "char_001",
+        "role": "primary_subject",
+        "description": "Hyperreal adult character, full body visible, realistic anatomy and natural skin texture.",
+        "identity_reference_ids": [],
+        "body_targets": [
+          {
+            "region": "full_body",
+            "goal": "natural proportions"
+          },
+          {
+            "region": "skin",
+            "goal": "real texture without overprocessing"
+          }
+        ],
+        "wardrobe": [
+          "simple fitted clothing"
+        ],
+        "pose": "standing relaxed pose",
+        "depth_order": 1
+      }
+    ],
+    "environment": {
+      "environment_id": "env_001",
+      "description": "Realistic interior room with plausible furniture scale and natural light.",
+      "location_type": "interior_room",
+      "lighting": "soft natural light plus realistic ambient bounce",
+      "materials": [
+        "painted wall",
+        "wood floor",
+        "fabric furniture"
+      ],
+      "scale_constraints": [
+        "furniture scale must match body scale",
+        "no impossible perspective"
+      ]
+    },
+    "actions": [
+      {
+        "action_id": "act_001",
+        "type": "pose",
+        "description": "standing relaxed"
+      }
+    ],
+    "props": [
+      {
+        "prop_id": "prop_001",
+        "type": "furniture",
+        "description": "room furniture in background only"
+      }
+    ],
+    "relationships": [
+      {
+        "subject": "char_001",
+        "relation": "standing_in",
+        "object": "env_001"
+      }
+    ],
+    "negative_scene_constraints": [
+      "no cropped head",
+      "no cropped feet",
+      "no extra people"
+    ]
+  },
+  "camera_plan": {
+    "camera_id": "cam_001",
+    "shot_type": "full_body",
+    "framing": {
+      "body_crop": "head_to_feet_visible",
+      "subject_count_visible": 1,
+      "safe_margin": "5-8 percent around body",
+      "full_body_required": true,
+      "half_body_required": false
+    },
+    "lens_look": "natural 35-50mm equivalent",
+    "camera_angle": "straight-on slight low-neutral angle",
+    "camera_height": "waist to chest height",
+    "camera_distance": "far enough for full body",
+    "zoom_or_focal_length_hint": "avoid extreme wide distortion",
+    "depth_of_field": "moderate, keep subject sharp",
+    "composition_notes": [
+      "subject centered but not stiff",
+      "floor contact visible"
+    ],
+    "occlusion_warnings": [
+      "do not let foreground props block feet or hands"
+    ],
+    "qa_requirements": [
+      "qa_camera_framing",
+      "qa_character_count"
+    ]
+  },
+  "mask_plan": [
+    {
+      "mask_id": "mask_char_001_macro",
+      "scale": "macro",
+      "target_entity_id": "char_001",
+      "target_region": "full_body",
+      "purpose": "protect and evaluate full body silhouette",
+      "feather_px": 16,
+      "dilate_px": 4,
+      "erode_px": 0,
+      "protect_regions": [
+        "background"
+      ],
+      "qa_overlay_required": true
+    },
+    {
+      "mask_id": "mask_skin_micro_001",
+      "scale": "micro",
+      "target_entity_id": "char_001",
+      "target_region": "visible_skin_texture",
+      "purpose": "skin/material microdetail pass without changing identity or silhouette",
+      "feather_px": 8,
+      "dilate_px": 2,
+      "erode_px": 0,
+      "protect_regions": [
+        "eyes",
+        "hands",
+        "clothing_edges"
+      ],
+      "qa_overlay_required": true
+    }
+  ],
+  "model_selection_plan": {
+    "selection_id": "modelsel_w07_example_001",
+    "selection_policy": "Use only engine-compatible, manifest-known models; Civitai metadata must be present or queued for lookup.",
+    "candidate_models": [
+      {
+        "model_id": "flux2_dev_local",
+        "engine_family": "flux2",
+        "asset_type": "checkpoint",
+        "source_registry": "wave06_engine_registry",
+        "civitai_model_id": null,
+        "civitai_version_id": null,
+        "sha256": null,
+        "local_path": null,
+        "s3_uri": null,
+        "allowed_passes": [
+          "base_image_generate"
+        ],
+        "selection_status": "needs_runtime_proof",
+        "reason": "Planned primary engine but proof-gated."
+      },
+      {
+        "model_id": "sdxl_realvisxl_lane",
+        "engine_family": "sdxl",
+        "asset_type": "checkpoint_lora_stack",
+        "source_registry": "wave42_main_flow_and_civitai_registry",
+        "civitai_model_id": null,
+        "civitai_version_id": null,
+        "sha256": "registry_required",
+        "local_path": "ComfyUI/models/checkpoints-or-loras",
+        "s3_uri": "s3://canonical-model-bucket/models/sdxl/",
+        "allowed_passes": [
+          "base_image_generate",
+          "regional_inpaint_detail",
+          "skin_material_microdetail"
+        ],
+        "selection_status": "candidate",
+        "reason": "Current deployed family has SDXL LoRA library compatibility."
+      }
+    ],
+    "blocked_models": [
+      {
+        "reason": "rejected_or_superseded assets blocked unless controlled comparison requested"
+      },
+      {
+        "reason": "wrong-engine LoRA stacks blocked"
+      }
+    ]
+  },
+  "engine_route": {
+    "primary_engine_id": "flux2_dev_local",
+    "fallback_engine_ids": [
+      "flux1_dev",
+      "sdxl_realvisxl"
+    ],
+    "routing_reason": "Flux2 planned for best prompt adherence; SDXL retained for current LoRA/detail ecosystem.",
+    "cross_engine_policy": "image_bridge_only_no_latent_or_lora_mixing"
+  },
+  "pass_plan": {
+    "pass_plan_id": "PASSPLAN-W07-EXAMPLE-001",
+    "passes": [
+      {
+        "pass_id": "pass_001_base",
+        "pass_type": "base_image_generate",
+        "engine_id": "flux2_dev_local",
+        "workflow_module_id": "module_base_image_flux2_planned",
+        "model_ids": [
+          "flux2_dev_local"
+        ],
+        "mask_ids": [],
+        "inputs": [
+          "scene_graph",
+          "camera_plan",
+          "normalized_prompt"
+        ],
+        "outputs": [
+          "base_image",
+          "base_generation_manifest"
+        ],
+        "qa_goal_ids": [
+          "qa_basic_file",
+          "qa_scene_intent",
+          "qa_camera_framing",
+          "qa_anatomy"
+        ],
+        "promotion_gate": "required_before_next_pass",
+        "runtime_proof_required": true,
+        "notes": [
+          "Fallback to sdxl_realvisxl if Flux2 proof unavailable."
+        ]
+      },
+      {
+        "pass_id": "pass_002_sdxl_detail_bridge",
+        "pass_type": "skin_material_microdetail",
+        "engine_id": "sdxl_inpaint_detail",
+        "workflow_module_id": "module_sdxl_inpaint_detail",
+        "model_ids": [
+          "sdxl_realvisxl_lane"
+        ],
+        "mask_ids": [
+          "mask_skin_micro_001"
+        ],
+        "inputs": [
+          "approved_base_image",
+          "mask_skin_micro_001"
+        ],
+        "outputs": [
+          "detail_corrected_image",
+          "detail_manifest"
+        ],
+        "qa_goal_ids": [
+          "qa_mask_no_bleed",
+          "qa_anatomy"
+        ],
+        "promotion_gate": "required_before_release",
+        "runtime_proof_required": true,
+        "notes": [
+          "Cross-engine bridge is image-based only."
+        ]
+      }
+    ],
+    "cross_engine_bridges": [
+      {
+        "from_engine": "flux2_dev_local",
+        "to_engine": "sdxl_inpaint_detail",
+        "bridge_type": "approved_image_file",
+        "allowed": true
+      }
+    ]
+  },
+  "qa_goal_plan": [
+    {
+      "qa_goal_id": "qa_basic_file",
+      "scope": "all outputs",
+      "checks": [
+        "file_exists",
+        "decode_ok",
+        "sha256_recorded"
+      ],
+      "evidence_required": [
+        "output_manifest.json"
+      ],
+      "blocking": true,
+      "promotion_required": true
+    },
+    {
+      "qa_goal_id": "qa_camera_framing",
+      "scope": "camera",
+      "checks": [
+        "full_body_visible",
+        "no_cropped_feet_or_head"
+      ],
+      "evidence_required": [
+        "qa_crop_view.png"
+      ],
+      "blocking": true,
+      "promotion_required": true
+    },
+    {
+      "qa_goal_id": "qa_mask_no_bleed",
+      "scope": "regional detail",
+      "checks": [
+        "mask_overlay_saved",
+        "outside_region_unchanged"
+      ],
+      "evidence_required": [
+        "mask_overlay.png",
+        "before_after_crop.png"
+      ],
+      "blocking": true,
+      "promotion_required": true
+    }
+  ],
+  "promotion_requirements": [
+    "Actual runtime outputs must exist for each required lane.",
+    "Object_info must prove required nodes exist.",
+    "Model loader proof must pass for selected models.",
+    "All required QA goals must pass."
+  ],
+  "evidence_requirements": [
+    "scene_director_plan.json",
+    "pass_plan.json",
+    "model_selection_manifest.json",
+    "mask_overlay_manifest.json",
+    "runtime_output_manifest.json",
+    "qa_report.json"
+  ],
+  "revision_plan": {
+    "state_diff_required": true,
+    "rerun_rules": [
+      "rerun base if camera/framing fails",
+      "rerun regional pass if mask bleed fails"
+    ]
+  }
+}

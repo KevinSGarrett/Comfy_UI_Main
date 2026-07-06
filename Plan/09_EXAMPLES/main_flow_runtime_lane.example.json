@@ -1,0 +1,37 @@
+{
+  "lane_id": "sdxl_realvisxl_lora",
+  "save_node_id": 19,
+  "save_prefix": "Main_Flow/SDXL_RealVisXL_LoRA",
+  "stage": "base_or_primary",
+  "upstream_node_count": 8,
+  "sampler_count": 1,
+  "samplers": [
+    {
+      "id": 17,
+      "widgets": [
+        300300300,
+        "fixed",
+        40,
+        6.5,
+        "dpmpp_2m_sde",
+        "karras",
+        1
+      ]
+    }
+  ],
+  "loader_summary": [
+    [
+      "CheckpointLoaderSimple",
+      "flux1-dev-fp8.safetensors"
+    ],
+    [
+      "Lora Loader Stack (rgthree)",
+      "adult_body_parts/areola/huge_areola-000008.safetensors"
+    ]
+  ],
+  "issues_or_required_fixes": [
+    "lane_name_mentions_sdxl_or_realvisxl_but_checkpoint_widget_contains_flux",
+    "active_lora_stack_contains_flux_path; verify_engine_compatibility_before_runtime"
+  ],
+  "promotion_status_wave04": "deconstruct_only_not_promoted"
+}

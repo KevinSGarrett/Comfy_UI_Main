@@ -1,0 +1,73 @@
+{
+  "contract_id": "mask_contract_example_character_scene_001",
+  "scene_id": "scene_example_001",
+  "character_count_expected": 2,
+  "mask_factory_mode": "runtime_plan",
+  "required_mask_scales": [
+    "macro",
+    "major",
+    "minor",
+    "micro",
+    "nano"
+  ],
+  "person_instances": [
+    {
+      "person_instance_id": "person_001",
+      "character_id": "character_a",
+      "required_masks": [
+        "whole_person",
+        "face",
+        "hair",
+        "torso",
+        "left_hand",
+        "right_hand"
+      ]
+    },
+    {
+      "person_instance_id": "person_002",
+      "character_id": "character_b",
+      "required_masks": [
+        "whole_person",
+        "face",
+        "hair",
+        "torso",
+        "left_hand",
+        "right_hand"
+      ]
+    }
+  ],
+  "body_visibility_contract": {
+    "shot_size": "two_person_half_body",
+    "required_visibility": [
+      "head",
+      "torso",
+      "hands_if_visible"
+    ],
+    "crop_intent": "no_unwanted_crop"
+  },
+  "fabric_masks": [
+    {
+      "mask_id": "fabric_001",
+      "person_instance_id": "person_001",
+      "region": "full_garment",
+      "scale": "major"
+    }
+  ],
+  "contact_masks": [
+    {
+      "mask_id": "contact_001",
+      "type": "person_person_boundary",
+      "scale": "minor",
+      "participants": [
+        "person_001",
+        "person_002"
+      ]
+    }
+  ],
+  "promotion_gates": [
+    "mask_contract_valid",
+    "runtime_masks_generated",
+    "mask_evidence_scored",
+    "qa_passed"
+  ]
+}

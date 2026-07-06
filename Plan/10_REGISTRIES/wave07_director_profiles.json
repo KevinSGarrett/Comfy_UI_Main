@@ -1,0 +1,111 @@
+[
+  {
+    "profile_id": "hyperreal_image_director",
+    "name": "Hyperreal Image Director",
+    "primary_output": "single_image_or_image_series",
+    "default_engine_priority": [
+      "flux2_dev_local",
+      "flux1_dev",
+      "sdxl_realvisxl",
+      "z_image_turbo",
+      "pony_sdxl_specialty"
+    ],
+    "default_pass_sequence": [
+      "request_parse",
+      "scene_graph_compile",
+      "camera_framing_compile",
+      "engine_route_select",
+      "base_image_generate",
+      "identity_reference_pass",
+      "shape_proportion_pass",
+      "regional_inpaint_detail",
+      "skin_material_microdetail",
+      "upscale",
+      "qa_promotion_gate"
+    ],
+    "strict_rules": [
+      "Do not mix LoRA/checkpoint families directly.",
+      "Keep model binaries outside Git.",
+      "Use image bridge between engines.",
+      "All selected models require manifest ID, engine family, hash or pending hash status, and proof tier.",
+      "Do not promote from notes, layout labels, or unrelated smoke outputs."
+    ]
+  },
+  {
+    "profile_id": "hyperreal_video_gif_director",
+    "name": "Hyperreal Video/GIF Director",
+    "primary_output": "gif_video_or_frame_sequence",
+    "default_engine_priority": [
+      "wan2_2",
+      "hunyuanvideo_1_5",
+      "ltx2",
+      "flux2_keyframes",
+      "sdxl_keyframes"
+    ],
+    "default_pass_sequence": [
+      "request_parse",
+      "shot_timeline_compile",
+      "keyframe_plan",
+      "pose_depth_mask_timeline",
+      "approved_keyframe_generation",
+      "video_engine_route",
+      "temporal_qa",
+      "frame_repair",
+      "final_export_manifest"
+    ],
+    "strict_rules": [
+      "Generate approved keyframes before full video.",
+      "Never treat text-only motion as true physics proof.",
+      "Require temporal consistency QA before promotion.",
+      "Keep audio/video handoff explicit."
+    ]
+  },
+  {
+    "profile_id": "audio_scene_director",
+    "name": "Audio / Spatial Foley Director",
+    "primary_output": "audio_timeline_or_av_sync_plan",
+    "default_engine_priority": [
+      "audio_foley_pipeline",
+      "tts_voice_pipeline",
+      "room_acoustics_pipeline"
+    ],
+    "default_pass_sequence": [
+      "scene_audio_parse",
+      "speaker_timeline",
+      "foley_timeline",
+      "room_acoustics",
+      "pose_to_audio_force_map",
+      "mix_manifest",
+      "av_sync_qa"
+    ],
+    "strict_rules": [
+      "Audio events must come from the same scene graph as visuals.",
+      "Contact/force audio should be tied to planned visual contact events.",
+      "Do not create final AV sync proof without actual media outputs."
+    ]
+  },
+  {
+    "profile_id": "model_library_director",
+    "name": "Model Library / Civitai Metadata Director",
+    "primary_output": "model_selection_and_registry_update_plan",
+    "default_engine_priority": [
+      "civitai_metadata_registry",
+      "engine_registry",
+      "asset_compatibility_registry"
+    ],
+    "default_pass_sequence": [
+      "intent_to_model_need",
+      "registry_lookup",
+      "civitai_metadata_lookup",
+      "candidate_rank",
+      "compatibility_check",
+      "stack_profile_proposal",
+      "qa_required_flags"
+    ],
+    "strict_rules": [
+      "Every model candidate must have source metadata, engine family, asset type, hash, local path, S3 path, and status.",
+      "Do not select rejected_or_superseded assets unless explicitly running a controlled comparison.",
+      "Do not enable full LoRA libraries globally."
+    ]
+  }
+]

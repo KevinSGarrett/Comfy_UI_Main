@@ -1,0 +1,80 @@
+{
+  "scope": "contact_and_occlusion_mask_taxonomy_for_physical_plausibility",
+  "contact_types": [
+    {
+      "id": "hand_object_contact",
+      "scale": "minor",
+      "evidence": [
+        "hand_mask",
+        "object_mask",
+        "contact_edge_mask",
+        "shadow_or_occlusion"
+      ]
+    },
+    {
+      "id": "foot_floor_contact",
+      "scale": "minor",
+      "evidence": [
+        "foot_mask",
+        "floor_zone_mask",
+        "contact_shadow"
+      ]
+    },
+    {
+      "id": "person_prop_contact",
+      "scale": "minor",
+      "evidence": [
+        "person_instance_mask",
+        "prop_instance_mask",
+        "contact_boundary"
+      ]
+    },
+    {
+      "id": "person_person_boundary",
+      "scale": "minor",
+      "evidence": [
+        "person_a_mask",
+        "person_b_mask",
+        "separation_line",
+        "occlusion_order"
+      ]
+    },
+    {
+      "id": "fabric_body_contact",
+      "scale": "micro",
+      "evidence": [
+        "fabric_mask",
+        "body_region_mask",
+        "tension_or_shadow_edge"
+      ]
+    },
+    {
+      "id": "hair_face_contact",
+      "scale": "micro",
+      "evidence": [
+        "hair_mask",
+        "face_mask",
+        "edge_cleanliness"
+      ]
+    },
+    {
+      "id": "object_surface_contact",
+      "scale": "major",
+      "evidence": [
+        "object_mask",
+        "surface_mask",
+        "grounding_shadow"
+      ]
+    },
+    {
+      "id": "edge_halo_cleanup",
+      "scale": "nano",
+      "evidence": [
+        "before_crop",
+        "after_crop",
+        "mask_edge_alpha_report"
+      ]
+    }
+  ],
+  "promotion_rule": "Contact masks cannot promote unless contact geometry, occlusion order, and shadow/edge evidence agree."
+}

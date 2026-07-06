@@ -1,0 +1,176 @@
+{
+  "scope": "generic_non-explicit_body_region_taxonomy_for_runtime_masking",
+  "person_instance_required": true,
+  "regions": [
+    {
+      "id": "whole_person",
+      "scale": "major",
+      "parents": [],
+      "qa": [
+        "not_merged_with_other_people",
+        "bbox_safe_margin"
+      ]
+    },
+    {
+      "id": "head",
+      "scale": "major",
+      "parents": [
+        "whole_person"
+      ],
+      "qa": [
+        "complete_head_visible_or_intentional_crop"
+      ]
+    },
+    {
+      "id": "face",
+      "scale": "minor",
+      "parents": [
+        "head"
+      ],
+      "qa": [
+        "identity_protected",
+        "no_unwanted_face_change"
+      ]
+    },
+    {
+      "id": "hair",
+      "scale": "minor",
+      "parents": [
+        "head"
+      ],
+      "qa": [
+        "hair_boundary_clean",
+        "no_background_bleed"
+      ]
+    },
+    {
+      "id": "neck",
+      "scale": "minor",
+      "parents": [
+        "head",
+        "torso"
+      ],
+      "qa": [
+        "anatomical_connection_valid"
+      ]
+    },
+    {
+      "id": "torso",
+      "scale": "major",
+      "parents": [
+        "whole_person"
+      ],
+      "qa": [
+        "body_visibility_matches_contract"
+      ]
+    },
+    {
+      "id": "left_arm",
+      "scale": "major",
+      "parents": [
+        "whole_person"
+      ],
+      "qa": [
+        "limb_count_valid",
+        "not_merged"
+      ]
+    },
+    {
+      "id": "right_arm",
+      "scale": "major",
+      "parents": [
+        "whole_person"
+      ],
+      "qa": [
+        "limb_count_valid",
+        "not_merged"
+      ]
+    },
+    {
+      "id": "left_hand",
+      "scale": "minor",
+      "parents": [
+        "left_arm"
+      ],
+      "qa": [
+        "finger_count_check",
+        "hand_not_fused"
+      ]
+    },
+    {
+      "id": "right_hand",
+      "scale": "minor",
+      "parents": [
+        "right_arm"
+      ],
+      "qa": [
+        "finger_count_check",
+        "hand_not_fused"
+      ]
+    },
+    {
+      "id": "left_leg",
+      "scale": "major",
+      "parents": [
+        "whole_person"
+      ],
+      "qa": [
+        "limb_count_valid",
+        "visibility_matches_shot"
+      ]
+    },
+    {
+      "id": "right_leg",
+      "scale": "major",
+      "parents": [
+        "whole_person"
+      ],
+      "qa": [
+        "limb_count_valid",
+        "visibility_matches_shot"
+      ]
+    },
+    {
+      "id": "left_foot",
+      "scale": "minor",
+      "parents": [
+        "left_leg"
+      ],
+      "qa": [
+        "contact_shadow_valid_if_visible"
+      ]
+    },
+    {
+      "id": "right_foot",
+      "scale": "minor",
+      "parents": [
+        "right_leg"
+      ],
+      "qa": [
+        "contact_shadow_valid_if_visible"
+      ]
+    },
+    {
+      "id": "skin_texture_region",
+      "scale": "micro",
+      "parents": [
+        "whole_person"
+      ],
+      "qa": [
+        "low_denoise_only",
+        "no_shape_override"
+      ]
+    },
+    {
+      "id": "body_outline_edge",
+      "scale": "nano",
+      "parents": [
+        "whole_person"
+      ],
+      "qa": [
+        "edge_blend_clean",
+        "no_cutout_halo"
+      ]
+    }
+  ]
+}

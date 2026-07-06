@@ -1,0 +1,21 @@
+{
+  "repo": "C:/Comfy_UI_Main",
+  "remote": "https://github.com/KevinSGarrett/Comfy_UI_Main",
+  "ec2_policy": "off_by_default",
+  "model_policy": "external_s3_manifest_only",
+  "local_tests": [
+    "schema_validation",
+    "workflow_reachability",
+    "model_manifest_reference_check"
+  ],
+  "ec2_tests": [
+    "model_loader_proof",
+    "runtime_image_output_proof",
+    "qa_manifest_generation"
+  ],
+  "promotion_blockers": [
+    "ec2_not_stopped",
+    "missing_runtime_proof",
+    "model_binary_committed_to_git"
+  ]
+}

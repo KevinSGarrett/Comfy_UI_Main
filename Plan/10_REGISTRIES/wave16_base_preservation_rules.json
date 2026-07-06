@@ -1,0 +1,37 @@
+[
+  {
+    "rule_id": "PRESERVE-01",
+    "name": "image_hash_anchor",
+    "description": "Every refine pass must record the exact input image hash and output image hash."
+  },
+  {
+    "rule_id": "PRESERVE-02",
+    "name": "identity_lock",
+    "description": "Identity-sensitive passes require character_id, reference pack, and identity QA comparison."
+  },
+  {
+    "rule_id": "PRESERVE-03",
+    "name": "pose_camera_lock",
+    "description": "Refine output must remain within pose, body visibility, crop boundary, and camera-plan tolerance."
+  },
+  {
+    "rule_id": "PRESERVE-04",
+    "name": "region_ownership",
+    "description": "Masked passes may only materially change owned pixels/regions, plus approved feather edge."
+  },
+  {
+    "rule_id": "PRESERVE-05",
+    "name": "engine_family_isolation",
+    "description": "Bridge passes may only transfer images/masks/maps/manifests, never incompatible latents/models/CLIPs/LoRAs."
+  },
+  {
+    "rule_id": "PRESERVE-06",
+    "name": "semantic_diff_limit",
+    "description": "Unmasked semantic changes or new objects cause fail/rerun unless explicitly planned."
+  },
+  {
+    "rule_id": "PRESERVE-07",
+    "name": "fallback_not_silent",
+    "description": "Fallback from Flux/SDXL/Pony/SD1.5 must be explicit in the run manifest with reason and QA score."
+  }
+]

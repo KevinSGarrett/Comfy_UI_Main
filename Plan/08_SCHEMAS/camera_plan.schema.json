@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "camera_plan.schema.json",
+  "title": "Wave10 Camera Plan",
+  "type": "object",
+  "required": [
+    "camera_plan_id",
+    "shot_size",
+    "lens_profile",
+    "camera_angle",
+    "framing",
+    "depth_plan",
+    "subjects",
+    "qa_goals"
+  ],
+  "properties": {
+    "camera_plan_id": {
+      "type": "string"
+    },
+    "scene_id": {
+      "type": "string"
+    },
+    "modality": {
+      "type": "string",
+      "enum": [
+        "image",
+        "video",
+        "gif",
+        "audio_visual"
+      ]
+    },
+    "shot_size": {
+      "type": "string"
+    },
+    "lens_profile": {
+      "type": "string"
+    },
+    "camera_angle": {
+      "type": "string"
+    },
+    "camera_height": {
+      "type": "string"
+    },
+    "zoom_level": {
+      "type": "string"
+    },
+    "aspect_ratio": {
+      "type": "string"
+    },
+    "resolution": {
+      "type": "object",
+      "required": [
+        "width",
+        "height"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer"
+        },
+        "height": {
+          "type": "integer"
+        }
+      }
+    },
+    "framing": {
+      "$ref": "framing_profile.schema.json"
+    },
+    "depth_plan": {
+      "$ref": "depth_dof_profile.schema.json"
+    },
+    "subjects": {
+      "type": "array",
+      "items": {
+        "$ref": "multi_character_composition.schema.json"
+      },
+      "minItems": 1
+    },
+    "workflow_patch_targets": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "qa_goals": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}

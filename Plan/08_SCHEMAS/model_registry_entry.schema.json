@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Engine Model Registry Entry",
+  "type": "object",
+  "required": [
+    "model_id",
+    "engine_family",
+    "asset_type",
+    "path",
+    "status",
+    "allowed_pass_roles"
+  ],
+  "properties": {
+    "model_id": {
+      "type": "string"
+    },
+    "engine_family": {
+      "type": "string"
+    },
+    "asset_type": {
+      "enum": [
+        "checkpoint",
+        "unet",
+        "vae",
+        "clip",
+        "lora",
+        "controlnet",
+        "ipadapter",
+        "upscaler",
+        "video_model",
+        "audio_model"
+      ]
+    },
+    "path": {
+      "type": "string"
+    },
+    "sha256": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "candidate",
+        "installed",
+        "path_verified",
+        "runtime_verified",
+        "qa_verified",
+        "disabled",
+        "rejected"
+      ]
+    },
+    "allowed_pass_roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "blocked_pass_roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "mask_required": {
+      "type": "boolean"
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

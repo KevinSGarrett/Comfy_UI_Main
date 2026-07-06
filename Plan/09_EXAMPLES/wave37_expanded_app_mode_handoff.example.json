@@ -1,0 +1,40 @@
+{
+  "handoff_id": "app_mode_handoff_001",
+  "app_mode_root": "13_APP_MODE",
+  "apps": [
+    "image_generator",
+    "qa_review_tool",
+    "release_manager"
+  ],
+  "controls": [
+    "resolution",
+    "seed",
+    "preview_mode",
+    "final_render_gate"
+  ],
+  "presets": [
+    "preview_presets",
+    "final_presets"
+  ],
+  "profiles": [
+    "engine_profiles",
+    "realism_profiles"
+  ],
+  "workflow_mappings": [
+    {
+      "app": "image_generator",
+      "workflow_id": "main_flow_image_generation"
+    }
+  ],
+  "validation_rules": [
+    "control_has_schema_field",
+    "control_has_registry_entry"
+  ],
+  "release_exports": [
+    "release_exports/"
+  ],
+  "runtime_boundaries": [
+    "final_render_blocked_until_preview_qa_preflight"
+  ],
+  "validation_status": "structure_ready"
+}

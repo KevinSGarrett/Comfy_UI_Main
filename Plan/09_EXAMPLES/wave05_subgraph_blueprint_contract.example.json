@@ -1,0 +1,38 @@
+{
+  "subgraph_id": "subgraph_mask_feather_v001",
+  "name": "Mask Feather / Grow / Blur Wrapper",
+  "purpose": "Normalize masks before inpaint/detail/contact passes.",
+  "owner_wave": 13,
+  "inputs": [
+    "raw_mask",
+    "grow_px",
+    "blur_px",
+    "invert"
+  ],
+  "outputs": [
+    "processed_mask",
+    "mask_preview_image",
+    "mask_stats"
+  ],
+  "required_node_classes": [
+    "MaskComposite",
+    "MaskToImage"
+  ],
+  "patchable_inputs": [
+    "grow_px",
+    "blur_px",
+    "invert"
+  ],
+  "qa_rules": [
+    "mask_not_empty",
+    "mask_within_expected_bounds",
+    "preview_exported"
+  ],
+  "promotion_lifecycle": [
+    "draft",
+    "static_validated",
+    "object_info_validated",
+    "local_runtime_validated",
+    "production_candidate"
+  ]
+}

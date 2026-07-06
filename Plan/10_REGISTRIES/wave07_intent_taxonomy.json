@@ -1,0 +1,107 @@
+{
+  "version": "wave07.v1",
+  "generated_at": "2026-07-05T22:15:56Z",
+  "intent_groups": [
+    {
+      "intent_id": "image_single_hyperreal_character",
+      "description": "Create or refine a single hyperreal character image.",
+      "required_plan_sections": [
+        "scene_graph",
+        "camera_plan",
+        "engine_route",
+        "pass_plan",
+        "qa_goals"
+      ],
+      "default_director_profile": "hyperreal_image_director"
+    },
+    {
+      "intent_id": "image_multi_character_interaction",
+      "description": "Create or refine a multi-character scene requiring instance separation, depth ordering, contact graph, and occlusion control.",
+      "required_plan_sections": [
+        "scene_graph",
+        "character_instances",
+        "camera_plan",
+        "contact_graph",
+        "mask_plan",
+        "qa_goals"
+      ],
+      "default_director_profile": "hyperreal_image_director"
+    },
+    {
+      "intent_id": "body_shape_or_anatomy_correction",
+      "description": "Adjust silhouette, proportions, body region shape, or anatomy without regenerating the whole scene unless required.",
+      "required_plan_sections": [
+        "target_regions",
+        "mask_plan",
+        "pass_plan",
+        "qa_goals"
+      ],
+      "default_director_profile": "hyperreal_image_director"
+    },
+    {
+      "intent_id": "soft_body_contact_deformation",
+      "description": "Plan visual contact/compression/indentation/ripple/bounce approximation using masks, contact graph, depth/normal guides, and QA.",
+      "required_plan_sections": [
+        "contact_graph",
+        "soft_body_profile",
+        "mask_plan",
+        "pass_plan",
+        "qa_goals"
+      ],
+      "default_director_profile": "hyperreal_image_director"
+    },
+    {
+      "intent_id": "environment_camera_framing",
+      "description": "Plan room/world/environment, lighting, lens, camera angle, depth of field, subject framing, and shot constraints.",
+      "required_plan_sections": [
+        "environment_plan",
+        "camera_plan",
+        "composition_plan",
+        "qa_goals"
+      ],
+      "default_director_profile": "hyperreal_image_director"
+    },
+    {
+      "intent_id": "gif_or_video_scene",
+      "description": "Plan frame sequence, keyframes, camera motion, temporal masks, video engine route, and temporal QA.",
+      "required_plan_sections": [
+        "timeline",
+        "keyframes",
+        "video_engine_route",
+        "temporal_qa_goals"
+      ],
+      "default_director_profile": "hyperreal_video_gif_director"
+    },
+    {
+      "intent_id": "audio_or_av_sync",
+      "description": "Plan voice, foley, room acoustics, force-synced events, ambience, music/SFX and AV sync QA.",
+      "required_plan_sections": [
+        "audio_timeline",
+        "room_acoustics",
+        "foley_events",
+        "av_sync_qa"
+      ],
+      "default_director_profile": "audio_scene_director"
+    },
+    {
+      "intent_id": "model_selection_or_registry_update",
+      "description": "Select/checkpoint/LoRA/control/upscaler/video/audio assets using Civitai metadata, registry columns, engine family, S3/local/EC2 paths, and QA state.",
+      "required_plan_sections": [
+        "model_selection_plan",
+        "registry_update_plan",
+        "compatibility_checks",
+        "qa_required_flags"
+      ],
+      "default_director_profile": "model_library_director"
+    }
+  ],
+  "ambiguity_policy": {
+    "default": "make_best_effort_and_record_assumptions",
+    "ask_user_only_when": [
+      "the request cannot be executed without a missing user-provided file/reference",
+      "the requested output format is impossible to infer",
+      "a blocking contradiction exists between required constraints"
+    ],
+    "otherwise": "choose conservative production defaults and mark them in assumptions[]"
+  }
+}

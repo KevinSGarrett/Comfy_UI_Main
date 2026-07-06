@@ -1,0 +1,36 @@
+{
+  "version": "wave12_v1",
+  "purpose": "Detect and block merged bodies, fused limbs, shared torsos, duplicated skeletons, and ambiguous multi-character boundaries.",
+  "checks": [
+    {
+      "id": "instance_separation",
+      "description": "Each expected character must have one primary person instance mask or bbox assignment.",
+      "hard_fail_if": "two_expected_characters_share_one_person_instance_without_occlusion_reason"
+    },
+    {
+      "id": "skeleton_separation",
+      "description": "Each character gets a separate skeleton id; skeletons cannot be merged into one torso or shared limb chain.",
+      "hard_fail_if": "expected_count_gt_detected_valid_skeletons"
+    },
+    {
+      "id": "limb_topology",
+      "description": "Detect impossible limb count or duplicated/missing arms/legs compared with character plan.",
+      "hard_fail_if": "merged_or_duplicate_limbs_are_visible"
+    },
+    {
+      "id": "bbox_overlap_policy",
+      "description": "High overlap is allowed only with deliberate foreground/background occlusion and visible identity anchors.",
+      "warning_if": "bbox_iou_over_0_45_without_occlusion_assignment"
+    },
+    {
+      "id": "face_body_assignment",
+      "description": "Faces must map to bodies; extra faces are blocked unless background/decor role is declared.",
+      "hard_fail_if": "unassigned_face_or_body"
+    },
+    {
+      "id": "contact_boundary",
+      "description": "Contact points must have separate silhouettes or planned occlusion; bodies cannot melt/fuse at contact areas.",
+      "hard_fail_if": "skin_or_clothing_regions_fuse_between_characters"
+    }
+  ]
+}

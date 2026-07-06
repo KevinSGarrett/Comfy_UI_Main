@@ -1,0 +1,38 @@
+{
+  "version": "wave07.v1",
+  "generated_at": "2026-07-05T22:15:56Z",
+  "top_level_fields": [
+    "request_id",
+    "director_profile_id",
+    "raw_user_request",
+    "normalized_request",
+    "intent_classification",
+    "assumptions",
+    "ambiguity_resolution",
+    "scene_graph",
+    "character_plan",
+    "environment_plan",
+    "camera_plan",
+    "composition_plan",
+    "motion_plan",
+    "audio_plan",
+    "contact_graph",
+    "soft_body_plan",
+    "mask_plan",
+    "model_selection_plan",
+    "engine_route",
+    "pass_plan",
+    "qa_goal_plan",
+    "promotion_requirements",
+    "evidence_requirements"
+  ],
+  "field_rules": {
+    "scene_graph": "Must describe characters, environment, props, actions, object relationships, depth order, lighting context, and negative constraints.",
+    "camera_plan": "Must include shot type, lens/look, camera height, distance, angle, crop/framing, full-body/half-body requirement, depth of field, and occlusion warnings.",
+    "mask_plan": "Must include macro/major/minor/micro/nano masks when needed; contact masks require source, target, contact-zone, falloff, and no-bleed QA.",
+    "model_selection_plan": "Must reference model registry IDs, engine families, source metadata, hash/S3/local/EC2 status, Civitai metadata when available, and allowed pass scope.",
+    "engine_route": "Must use Wave06 engine IDs and never direct-mix incompatible latent/model/LoRA families.",
+    "pass_plan": "Must be ordered, engine-bound, module-bound, reversible, and QA-gated.",
+    "qa_goal_plan": "Must define pass/fail checks before generation and expected evidence after generation."
+  }
+}

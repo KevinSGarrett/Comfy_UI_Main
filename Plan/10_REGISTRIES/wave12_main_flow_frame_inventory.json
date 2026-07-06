@@ -1,0 +1,286 @@
+{
+  "generated_at": "2026-07-05T23:15:07Z",
+  "source_main_flow": "Wave42_Runtime_Bound__UI__WAVE42_MAIN_FLOW_20260702(13).json",
+  "main_flow_stats": {
+    "nodes": 356,
+    "links": 91,
+    "enabled_or_non_disabled_nodes": 82,
+    "disabled_or_catalog_nodes": 274,
+    "save_image_lanes": 8,
+    "note_boundaries": 13,
+    "lora_catalog_nodes": 274,
+    "latent_nodes": 5,
+    "control_or_composition_related_nodes": 12,
+    "tracker_rows": 12887,
+    "tracker_columns": 73
+  },
+  "save_image_lanes": [
+    {
+      "node_id": 19,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA",
+      "mode": 0,
+      "order": 343
+    },
+    {
+      "node_id": 39,
+      "prefix": "Main_Flow/Flux_Family_ZImage",
+      "mode": 0,
+      "order": 330
+    },
+    {
+      "node_id": 62,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA_Upscaled",
+      "mode": 0,
+      "order": 350
+    },
+    {
+      "node_id": 87,
+      "prefix": "Main_Flow/SDXL_Inpaint_Detail",
+      "mode": 0,
+      "order": 346
+    },
+    {
+      "node_id": 95,
+      "prefix": "Main_Flow/Flux_to_SDXL_Refine",
+      "mode": 0,
+      "order": 354
+    },
+    {
+      "node_id": 107,
+      "prefix": "Main_Flow/True_Flux_Schnell_Reference_Smoke",
+      "mode": 0,
+      "order": 339
+    },
+    {
+      "node_id": 128,
+      "prefix": "Main_Flow/ControlNet_Canny_Edge",
+      "mode": 0,
+      "order": 352
+    },
+    {
+      "node_id": 118,
+      "prefix": "Main_Flow/IPAdapter_Face_Reference",
+      "mode": 0,
+      "order": 341
+    }
+  ],
+  "latent_size_nodes": [
+    {
+      "node_id": 16,
+      "type": "EmptyLatentImage",
+      "width": 1024,
+      "height": 1280,
+      "batch_size": 1,
+      "aspect_ratio": 0.8
+    },
+    {
+      "node_id": 35,
+      "type": "EmptySD3LatentImage",
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1,
+      "aspect_ratio": 1.0
+    },
+    {
+      "node_id": 104,
+      "type": "EmptySD3LatentImage",
+      "width": 512,
+      "height": 512,
+      "batch_size": 1,
+      "aspect_ratio": 1.0
+    },
+    {
+      "node_id": 115,
+      "type": "EmptyLatentImage",
+      "width": 768,
+      "height": 768,
+      "batch_size": 1,
+      "aspect_ratio": 1.0
+    },
+    {
+      "node_id": 125,
+      "type": "EmptyLatentImage",
+      "width": 768,
+      "height": 768,
+      "batch_size": 1,
+      "aspect_ratio": 1.0
+    }
+  ],
+  "composition_relevant_nodes": [
+    {
+      "node_id": 16,
+      "type": "EmptyLatentImage",
+      "title": "",
+      "mode": 0,
+      "widgets_values": [
+        1024,
+        1280,
+        1
+      ]
+    },
+    {
+      "node_id": 35,
+      "type": "EmptySD3LatentImage",
+      "title": "",
+      "mode": 0,
+      "widgets_values": [
+        1024,
+        1024,
+        1
+      ]
+    },
+    {
+      "node_id": 82,
+      "type": "VAEEncodeForInpaint",
+      "title": "",
+      "mode": 0,
+      "widgets_values": [
+        8
+      ]
+    },
+    {
+      "node_id": 90,
+      "type": "VAEEncode",
+      "title": "",
+      "mode": 0,
+      "widgets_values": []
+    },
+    {
+      "node_id": 104,
+      "type": "EmptySD3LatentImage",
+      "title": "",
+      "mode": 0,
+      "widgets_values": [
+        512,
+        512,
+        1
+      ]
+    },
+    {
+      "node_id": 112,
+      "type": "IPAdapter",
+      "title": "",
+      "mode": 0,
+      "widgets_values": [
+        0.45,
+        0,
+        0.85,
+        "standard"
+      ]
+    },
+    {
+      "node_id": 115,
+      "type": "EmptyLatentImage",
+      "title": "",
+      "mode": 0,
+      "widgets_values": [
+        768,
+        768,
+        1
+      ]
+    },
+    {
+      "node_id": 120,
+      "type": "ControlNetLoader",
+      "title": "",
+      "mode": 0,
+      "widgets_values": [
+        "controlnet-canny-sdxl-1.0-small.safetensors"
+      ]
+    },
+    {
+      "node_id": 124,
+      "type": "ControlNetApplyAdvanced",
+      "title": "",
+      "mode": 0,
+      "widgets_values": [
+        0.65,
+        0,
+        0.75
+      ]
+    },
+    {
+      "node_id": 125,
+      "type": "EmptyLatentImage",
+      "title": "",
+      "mode": 0,
+      "widgets_values": [
+        768,
+        768,
+        1
+      ]
+    },
+    {
+      "node_id": 259,
+      "type": "LoraLoader",
+      "title": "W42-SDXL-0073 | pose_camera | ACTIVE_COPY",
+      "mode": 2,
+      "widgets_values": [
+        "wave42/sdxl/pose_camera/sdxl_adult_male_Double_Kiss_POV.safetensors",
+        0.45,
+        0.45
+      ]
+    },
+    {
+      "node_id": 110,
+      "type": "IPAdapterUnifiedLoader",
+      "title": "",
+      "mode": 0,
+      "widgets_values": [
+        "PLUS FACE (portraits)"
+      ]
+    }
+  ],
+  "composition_relevant_note_boundaries": [
+    {
+      "node_id": 70,
+      "text": "Reference / IPAdapter / ControlNet staging\nThe layout source calls for reference identity, pose/depth/edge/mask control, and regional inpaint. The face-reference IPAdapter branch is staged below as ready_to_verify from the prior smoke template. The Canny ControlNet edge-map branch is staged below as ready_to_verify. Additional reference-slot routing and pose/depth/openpose control maps remain notes until direct runtime proof exists."
+    },
+    {
+      "node_id": 71,
+      "text": "Image QA / promotion export\nOutputs are saved under Main_Flow/* prefixes so downstream QA, manifest intake, and tracker-promotion scripts can consume concrete image-generation artifacts instead of layout notes."
+    },
+    {
+      "node_id": 72,
+      "text": "Video/audio handoff boundary\nThe Main Flow now produces image outputs ready for video lanes. WAN/Hunyuan/LTXV/audio remain separate runtime lanes until their own ComfyUI node graphs are merged and proven."
+    },
+    {
+      "node_id": 73,
+      "text": "True Flux image-reference conditioning boundary\nThe true Flux Schnell reference-smoke/base lane is staged as ready_to_verify using the concrete Wave20 Flux smoke template. Actual image-reference conditioning remains note-only because current templates load or name references but do not wire reference pixels into generation."
+    },
+    {
+      "node_id": 74,
+      "text": "Inpaint, upscale, QA, release promotion\nFinal image QA, manifest intake, and tracker promotion remain notes until proven. Basic RealESRGAN upscale and SDXL inpaint/detail are staged and wired as ready_to_verify."
+    },
+    {
+      "node_id": 130,
+      "text": "IG-09 Image QA and evidence export\nRun export_wave42_main_flow_image_evidence.py after Main_Flow images are generated. It records lane prefix, file path, size, SHA256, dimensions, format, and basic decode QA."
+    },
+    {
+      "node_id": 131,
+      "text": "Evidence manifest output\nManifest path: Implementation/manifests/main_flow_image_qa_evidence/*.json. This is evidence intake, not tracker promotion by itself."
+    },
+    {
+      "node_id": 132,
+      "text": "QA boundary\nBasic file QA proves files are non-empty, decodable images with dimensions. Creative QA, runtime prompt proof, object_info visibility, and model-loader proof remain separate verification gates."
+    },
+    {
+      "node_id": 133,
+      "text": "IG-10 Main Flow promotion after runtime proof\nRun promote_wave42_main_flow_after_runtime_proof.py only after IG-09 finds exact Main_Flow outputs for the required lanes. Promotion is blocked until those runtime files exist."
+    },
+    {
+      "node_id": 134,
+      "text": "Promotion decision output\nManifest path: Implementation/manifests/main_flow_promotion/*.json. Verified is allowed only when all required lanes have passing evidence records."
+    },
+    {
+      "node_id": 135,
+      "text": "Current promotion boundary\nIf exact Main_Flow runtime outputs are absent, IG-10 must report blocked_missing_runtime_proof. It must not promote from layout notes or unrelated smoke outputs."
+    }
+  ],
+  "wave12_interpretation": [
+    "The Main Flow provides output lanes that can be frame-checked after generation.",
+    "The Main Flow does not currently include detector-based character count or body-visibility QA nodes.",
+    "Wave12 therefore adds external evidence contracts and local validation scripts for detector/skeleton/segmentation outputs.",
+    "Frame composition promotion requires actual output files plus evidence; layout notes alone cannot promote outputs."
+  ]
+}

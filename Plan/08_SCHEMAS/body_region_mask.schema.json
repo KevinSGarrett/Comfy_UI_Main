@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave17 Body Region Mask",
+  "type": "object",
+  "required": [
+    "mask_id",
+    "character_id",
+    "region_id",
+    "mask_scale",
+    "artifact_path",
+    "owner_instance_id",
+    "feather_px",
+    "protected_exclusions"
+  ],
+  "properties": {
+    "mask_id": {
+      "type": "string"
+    },
+    "character_id": {
+      "type": "string"
+    },
+    "owner_instance_id": {
+      "type": "string"
+    },
+    "region_id": {
+      "type": "string"
+    },
+    "mask_scale": {
+      "type": "string",
+      "enum": [
+        "macro",
+        "major",
+        "minor",
+        "micro",
+        "nano"
+      ]
+    },
+    "artifact_path": {
+      "type": "string"
+    },
+    "sha256": {
+      "type": "string"
+    },
+    "feather_px": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "dilation_px": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "blur_px": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "protected_exclusions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "priority_order": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "additionalProperties": false
+}

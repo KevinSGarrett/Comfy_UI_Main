@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Ultra Hyperrealism QA Manifest",
+  "type": "object",
+  "required": [
+    "run_id",
+    "pass_id",
+    "status",
+    "scores",
+    "evidence"
+  ],
+  "properties": {
+    "run_id": {
+      "type": "string"
+    },
+    "pass_id": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "pass",
+        "human_review",
+        "fail",
+        "blocked"
+      ]
+    },
+    "scores": {
+      "type": "object"
+    },
+    "critical_failures": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "properties": {
+        "outputs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "masks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "control_maps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "crops": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "hashes": {
+          "type": "object"
+        }
+      }
+    },
+    "decision": {
+      "type": "string"
+    },
+    "next_pass": {
+      "type": "string"
+    }
+  }
+}

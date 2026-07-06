@@ -1,0 +1,159 @@
+{
+  "version": "wave10.v1",
+  "purpose": "Canonical shot-size and framing vocabulary used by the Scene Director, App Mode, workflow patcher, and QA gates.",
+  "shot_sizes": [
+    {
+      "id": "full_body",
+      "label": "Full body",
+      "target_visibility": "head_to_feet_visible",
+      "recommended_aspect_ratios": [
+        "2:3",
+        "4:5",
+        "9:16"
+      ],
+      "primary_use": "character/body/outfit/pose review",
+      "qa_checks": [
+        "feet_not_cut_off",
+        "hands_visible_if_required",
+        "body_scale_consistent"
+      ]
+    },
+    {
+      "id": "three_quarter_body",
+      "label": "Three-quarter body",
+      "target_visibility": "head_to_mid_thigh_or_knee",
+      "recommended_aspect_ratios": [
+        "3:4",
+        "4:5"
+      ],
+      "primary_use": "fashion/body/gesture with more facial detail",
+      "qa_checks": [
+        "intentional_crop",
+        "knees_or_thigh_crop_not_random"
+      ]
+    },
+    {
+      "id": "half_body",
+      "label": "Half body",
+      "target_visibility": "head_to_waist_or_hips",
+      "recommended_aspect_ratios": [
+        "4:5",
+        "1:1",
+        "3:4"
+      ],
+      "primary_use": "character expression/outfit upper body",
+      "qa_checks": [
+        "hands_not_accidentally_cut",
+        "torso_scale_consistent"
+      ]
+    },
+    {
+      "id": "medium_shot",
+      "label": "Medium shot",
+      "target_visibility": "torso_and_head",
+      "recommended_aspect_ratios": [
+        "1:1",
+        "4:5",
+        "16:9"
+      ],
+      "primary_use": "dialogue, reaction, two-person staging",
+      "qa_checks": [
+        "headroom_correct",
+        "shoulders_not_cropped_randomly"
+      ]
+    },
+    {
+      "id": "close_up",
+      "label": "Close-up",
+      "target_visibility": "face_or_key_body_region",
+      "recommended_aspect_ratios": [
+        "1:1",
+        "4:5",
+        "16:9"
+      ],
+      "primary_use": "face, expression, texture, emotion",
+      "qa_checks": [
+        "identity_preserved",
+        "skin_detail_not_waxy",
+        "focus_target_sharp"
+      ]
+    },
+    {
+      "id": "extreme_close_up",
+      "label": "Extreme close-up",
+      "target_visibility": "single_feature_or_micro_detail",
+      "recommended_aspect_ratios": [
+        "1:1",
+        "4:5"
+      ],
+      "primary_use": "eyes, lips, hands, fabric, skin, contact details",
+      "qa_checks": [
+        "context_anchors_present",
+        "detail_not_abstracted"
+      ]
+    },
+    {
+      "id": "wide_shot",
+      "label": "Wide shot",
+      "target_visibility": "character_plus_environment",
+      "recommended_aspect_ratios": [
+        "16:9",
+        "3:2",
+        "2:1"
+      ],
+      "primary_use": "room/world/lighting/prop context",
+      "qa_checks": [
+        "environment_continuity",
+        "scale_anchors",
+        "subject_readability"
+      ]
+    },
+    {
+      "id": "two_shot",
+      "label": "Two-shot",
+      "target_visibility": "two_subjects_composed_together",
+      "recommended_aspect_ratios": [
+        "16:9",
+        "4:5",
+        "3:2"
+      ],
+      "primary_use": "multi-character interaction",
+      "qa_checks": [
+        "both_faces_or_bodies_intentional",
+        "no_identity_blending",
+        "clear_spatial_relationship"
+      ]
+    },
+    {
+      "id": "group_shot",
+      "label": "Group shot",
+      "target_visibility": "three_or_more_subjects",
+      "recommended_aspect_ratios": [
+        "16:9",
+        "2:1"
+      ],
+      "primary_use": "group staging and environment context",
+      "qa_checks": [
+        "silhouette_separation",
+        "no_extra_people",
+        "scale_consistency"
+      ]
+    },
+    {
+      "id": "detail_insert",
+      "label": "Detail insert",
+      "target_visibility": "prop_surface_material_contact_detail",
+      "recommended_aspect_ratios": [
+        "1:1",
+        "4:5",
+        "16:9"
+      ],
+      "primary_use": "surface/material/prop/contact detail",
+      "qa_checks": [
+        "material_correct",
+        "lighting_matches_parent_scene"
+      ]
+    }
+  ],
+  "locked_rule": "Every camera plan must choose exactly one primary shot size and may choose one secondary crop intent."
+}

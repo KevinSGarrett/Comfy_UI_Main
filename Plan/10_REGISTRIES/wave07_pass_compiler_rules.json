@@ -1,0 +1,138 @@
+{
+  "version": "wave07.v1",
+  "generated_at": "2026-07-05T22:15:56Z",
+  "global_rules": [
+    "Compile from scene plan to pass plan before touching ComfyUI workflows.",
+    "Route every pass through Wave06 engine registry and router.",
+    "Prefer minimal-pass plans; only add detail passes when the scene goal needs them.",
+    "Use low-denoise image bridge for cross-engine refinement.",
+    "Never select a model only because it exists in the disabled LoRA library.",
+    "Every pass must declare input_artifact, output_artifact, engine_id, workflow_module_id, model_ids, mask_ids, qa_goal_ids, and promotion_gate."
+  ],
+  "pass_templates": [
+    {
+      "pass_type": "base_image_generate",
+      "when": "new image or major composition/pose/camera change",
+      "default_engines": [
+        "flux2_dev_local",
+        "flux1_dev",
+        "sdxl_realvisxl",
+        "z_image_turbo"
+      ],
+      "required_inputs": [
+        "scene_graph",
+        "camera_plan",
+        "engine_route"
+      ],
+      "required_outputs": [
+        "base_image",
+        "generation_manifest",
+        "basic_file_qa"
+      ]
+    },
+    {
+      "pass_type": "reference_identity",
+      "when": "identity, face, outfit, or character continuity required",
+      "default_engines": [
+        "sdxl_ipadapter",
+        "flux2_reference_when_proven"
+      ],
+      "required_inputs": [
+        "reference_images",
+        "identity_mask",
+        "base_image"
+      ],
+      "required_outputs": [
+        "identity_corrected_image",
+        "identity_qa"
+      ]
+    },
+    {
+      "pass_type": "body_shape_proportion",
+      "when": "silhouette, waist, stomach, hips, shoulders, thighs, or body proportions need correction",
+      "default_engines": [
+        "sdxl_inpaint",
+        "flux1_or_flux2_regional_when_proven"
+      ],
+      "required_inputs": [
+        "base_image",
+        "body_region_masks",
+        "shape_targets"
+      ],
+      "required_outputs": [
+        "shape_corrected_image",
+        "silhouette_qa"
+      ]
+    },
+    {
+      "pass_type": "soft_body_contact",
+      "when": "visual contact, compression, indentation, pressure marks, ripple/bounce/rebound approximation is required",
+      "default_engines": [
+        "sdxl_inpaint_detail",
+        "flux2_detail_when_proven"
+      ],
+      "required_inputs": [
+        "source_mask",
+        "target_mask",
+        "contact_zone_mask",
+        "depth_or_normal_hint"
+      ],
+      "required_outputs": [
+        "contact_corrected_image",
+        "contact_qa_crops",
+        "no_bleed_overlay"
+      ]
+    },
+    {
+      "pass_type": "skin_material_microdetail",
+      "when": "skin texture, fabric texture, pores, cellulite, sweat/oil, hair flyaways, contact marks, or material realism needs controlled improvement",
+      "default_engines": [
+        "sdxl_detail_pass",
+        "flux2_detail_when_proven"
+      ],
+      "required_inputs": [
+        "region_masks",
+        "approved_previous_image"
+      ],
+      "required_outputs": [
+        "detail_corrected_image",
+        "crop_qa",
+        "before_after_manifest"
+      ]
+    },
+    {
+      "pass_type": "video_keyframe_plan",
+      "when": "GIF/video requested",
+      "default_engines": [
+        "flux2_keyframes",
+        "sdxl_keyframes"
+      ],
+      "required_inputs": [
+        "timeline",
+        "camera_motion",
+        "pose_timeline"
+      ],
+      "required_outputs": [
+        "keyframe_manifest",
+        "temporal_plan"
+      ]
+    },
+    {
+      "pass_type": "audio_force_timeline",
+      "when": "audio/AV sync requested",
+      "default_engines": [
+        "audio_foley_pipeline",
+        "tts_voice_pipeline"
+      ],
+      "required_inputs": [
+        "scene_graph",
+        "contact_graph",
+        "room_acoustics"
+      ],
+      "required_outputs": [
+        "audio_event_manifest",
+        "av_sync_plan"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+[
+  {
+    "stage_id": "00_request_compile",
+    "order": 0,
+    "name": "Request compile",
+    "purpose": "Normalize request into structured run plan.",
+    "rerunnable": false,
+    "qa_gate": "00_request_compile_gate"
+  },
+  {
+    "stage_id": "01_preflight",
+    "order": 1,
+    "name": "Runtime and asset preflight",
+    "purpose": "Check object_info, models, nodes, workflow format, patch targets, storage, cost guard.",
+    "rerunnable": false,
+    "qa_gate": "01_preflight_gate"
+  },
+  {
+    "stage_id": "02_base_composition",
+    "order": 2,
+    "name": "Base composition",
+    "purpose": "Create initial image/keyframe with character count, camera, environment, lighting, and global realism.",
+    "rerunnable": true,
+    "qa_gate": "02_base_composition_gate"
+  },
+  {
+    "stage_id": "03_reference_identity",
+    "order": 3,
+    "name": "Reference and identity",
+    "purpose": "Apply character reference pack/IPAdapter/person masks where required.",
+    "rerunnable": true,
+    "qa_gate": "03_reference_identity_gate"
+  },
+  {
+    "stage_id": "04_pose_control",
+    "order": 4,
+    "name": "Pose/control map",
+    "purpose": "Apply or generate DWPose/OpenPose/depth/normal/Canny/lineart control maps.",
+    "rerunnable": true,
+    "qa_gate": "04_pose_control_gate"
+  },
+  {
+    "stage_id": "05_mask_factory",
+    "order": 5,
+    "name": "Mask factory",
+    "purpose": "Create/validate macro/major/minor/micro/nano/person/body/fabric/contact masks.",
+    "rerunnable": true,
+    "qa_gate": "05_mask_factory_gate"
+  },
+  {
+    "stage_id": "06_regional_inpaint_detail",
+    "order": 6,
+    "name": "Regional inpaint and detail",
+    "purpose": "Use approved masks for local repair/detail passes.",
+    "rerunnable": true,
+    "qa_gate": "06_regional_inpaint_detail_gate"
+  },
+  {
+    "stage_id": "07_upscale_polish",
+    "order": 7,
+    "name": "Upscale and polish",
+    "purpose": "Run final upscale/detail while preserving identity and composition.",
+    "rerunnable": true,
+    "qa_gate": "07_upscale_polish_gate"
+  },
+  {
+    "stage_id": "08_video_handoff",
+    "order": 8,
+    "name": "Video handoff",
+    "purpose": "Prepare approved keyframes and metadata for video runtime.",
+    "rerunnable": true,
+    "qa_gate": "08_video_handoff_gate"
+  },
+  {
+    "stage_id": "09_audio_handoff",
+    "order": 9,
+    "name": "Audio handoff",
+    "purpose": "Prepare voice, room-acoustic, timing, and sync requests.",
+    "rerunnable": true,
+    "qa_gate": "09_audio_handoff_gate"
+  },
+  {
+    "stage_id": "10_promotion",
+    "order": 10,
+    "name": "Promotion manifest",
+    "purpose": "Promote only passing outputs with full evidence lineage.",
+    "rerunnable": false,
+    "qa_gate": "10_promotion_gate"
+  }
+]

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave12 Body Visibility Profile",
+  "type": "object",
+  "required": [
+    "profile_id",
+    "minimum_visible_body_length_ratio",
+    "forbidden_crop_points"
+  ],
+  "properties": {
+    "profile_id": {
+      "type": "string"
+    },
+    "minimum_visible_body_length_ratio": {
+      "type": "number"
+    },
+    "recommended_outer_padding_ratio": {
+      "type": "number"
+    },
+    "required_landmarks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "forbidden_crop_points": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

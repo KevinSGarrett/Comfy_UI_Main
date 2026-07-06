@@ -1,0 +1,46 @@
+{
+  "contract_version": "wave19.v1",
+  "source_image_id": "img_approved_00018",
+  "character_ids": [
+    "char_001"
+  ],
+  "contact_graph": [
+    {
+      "source": "char_001_torso",
+      "target": "shirt_front",
+      "type": "body_to_fabric",
+      "behavior": "tight_stretch"
+    },
+    {
+      "source": "char_001_hips",
+      "target": "sofa_cushion",
+      "type": "body_to_furniture",
+      "behavior": "soft_support_compression"
+    }
+  ],
+  "fabric_targets": [
+    "shirt_front"
+  ],
+  "prop_targets": [],
+  "furniture_targets": [
+    "sofa_cushion"
+  ],
+  "mask_ids": [
+    "person_001",
+    "torso_mask",
+    "shirt_mask",
+    "sofa_cushion_mask",
+    "contact_edge_mask"
+  ],
+  "pass_order": [
+    "fabric_tension",
+    "furniture_support",
+    "contact_shadow_cleanup"
+  ],
+  "qa_goals": [
+    "no_floating",
+    "no_clipping",
+    "support_shadow_visible",
+    "identity_pose_body_preserved"
+  ]
+}

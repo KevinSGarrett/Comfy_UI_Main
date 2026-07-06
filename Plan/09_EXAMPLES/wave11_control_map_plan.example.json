@@ -1,0 +1,45 @@
+{
+  "plan_id": "control_plan_001",
+  "scene_plan_id": "scene_001",
+  "engine_family": "sdxl",
+  "characters": [
+    {
+      "character_id": "char_001",
+      "character_version": "v001",
+      "skeleton_id": "skel_char_001_frame_0001",
+      "pose_map": "control_maps/char_001/frame_0001_dwpose.png",
+      "mask": "masks/char_001/full_body_mask.png",
+      "blocking_slot": "foreground_center",
+      "depth_layer": "foreground"
+    }
+  ],
+  "control_maps": [
+    {
+      "map_id": "map_pose_char_001",
+      "type": "dwpose",
+      "source": "reference_images/char_001_pose.png",
+      "output": "control_maps/char_001/frame_0001_dwpose.png",
+      "strength": 0.75,
+      "start_percent": 0.0,
+      "end_percent": 0.75,
+      "required_for_promotion": true
+    },
+    {
+      "map_id": "map_depth_scene_001",
+      "type": "depth",
+      "source": "reference_images/room_depth_source.png",
+      "output": "control_maps/scene_001/depth.png",
+      "strength": 0.55,
+      "start_percent": 0.0,
+      "end_percent": 0.7,
+      "required_for_promotion": true
+    }
+  ],
+  "qa_goals": [
+    "all_required_skeleton_keypoints_visible",
+    "no_left_right_limb_swap",
+    "foreground_background_depth_order_correct",
+    "control_map_dimensions_match_generation_resolution"
+  ],
+  "promotion_policy": "blocked_until_control_map_qa_and_generation_output_qa_pass"
+}

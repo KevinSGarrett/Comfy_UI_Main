@@ -1,0 +1,113 @@
+{
+  "generated_at_utc": "2026-07-05T23:59:00Z",
+  "mask_scales": [
+    {
+      "scale": "macro",
+      "purpose": "Whole-frame and large scene-zone masks.",
+      "examples": [
+        "foreground",
+        "midground",
+        "background",
+        "floor zone",
+        "wall zone",
+        "person group zone"
+      ],
+      "used_for": [
+        "composition isolation",
+        "environment relight",
+        "global occlusion checks"
+      ],
+      "minimum_evidence": [
+        "image_dimensions",
+        "zone_coverage_percent",
+        "safe_margin_status"
+      ]
+    },
+    {
+      "scale": "major",
+      "purpose": "Large subject regions and person-instance areas.",
+      "examples": [
+        "person_instance",
+        "head",
+        "torso",
+        "arm",
+        "leg",
+        "major garment",
+        "large prop"
+      ],
+      "used_for": [
+        "character separation",
+        "regional inpaint",
+        "identity-preserving edits"
+      ],
+      "minimum_evidence": [
+        "bbox",
+        "mask_area_percent",
+        "assigned_character_id_or_object_id"
+      ]
+    },
+    {
+      "scale": "minor",
+      "purpose": "Specific features and medium-detail regions.",
+      "examples": [
+        "face region",
+        "hair mass",
+        "hand",
+        "foot",
+        "fabric fold group",
+        "prop contact area"
+      ],
+      "used_for": [
+        "detail passes",
+        "artifact repair",
+        "localized style/model routing"
+      ],
+      "minimum_evidence": [
+        "mask_png_path",
+        "feather_px",
+        "edge_quality_score"
+      ]
+    },
+    {
+      "scale": "micro",
+      "purpose": "Fine-grain details that should be edited without altering identity or pose.",
+      "examples": [
+        "eyes region",
+        "mouth region",
+        "individual fingers group",
+        "skin texture area",
+        "fabric weave area"
+      ],
+      "used_for": [
+        "low-denoise detail enhancement",
+        "texture repair",
+        "micro-contrast preservation"
+      ],
+      "minimum_evidence": [
+        "local_crop_path",
+        "mask_padding_px",
+        "source_target_alignment"
+      ]
+    },
+    {
+      "scale": "nano",
+      "purpose": "Very small edge and artifact masks.",
+      "examples": [
+        "mask seam",
+        "halo edge",
+        "stray artifact",
+        "single-finger boundary",
+        "tiny fabric edge"
+      ],
+      "used_for": [
+        "cleanup only",
+        "edge blending",
+        "artifact removal"
+      ],
+      "minimum_evidence": [
+        "before_after_crop",
+        "no_identity_or_shape_change_flag"
+      ]
+    }
+  ]
+}

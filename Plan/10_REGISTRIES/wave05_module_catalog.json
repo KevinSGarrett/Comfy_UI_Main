@@ -1,0 +1,862 @@
+[
+  {
+    "module_id": "MOD-00-APP-OPERATOR-SURFACE",
+    "module_name": "App Mode Operator Surface",
+    "status": "blueprint_contract",
+    "source": "new_wave05",
+    "current_main_flow_nodes": [],
+    "purpose": "Expose clean high-level controls for image, video, audio, scene, camera, framing, character, pass selection, and QA level.",
+    "must_not_do": [
+      "must not expose raw model paths",
+      "must not run conditional AI logic by itself",
+      "must not bypass orchestrator promotion gates"
+    ],
+    "primary_inputs": [
+      "scene_request",
+      "character_count",
+      "camera_frame_plan",
+      "engine_profile",
+      "quality_profile",
+      "runtime_target"
+    ],
+    "primary_outputs": [
+      "operator_request_json",
+      "validated_app_inputs"
+    ],
+    "owner_wave": 5
+  },
+  {
+    "module_id": "MOD-01-SCENE-DIRECTOR-BRIDGE",
+    "module_name": "Scene Director Bridge",
+    "status": "blueprint_contract",
+    "source": "new_wave05",
+    "current_main_flow_nodes": [],
+    "purpose": "Convert operator App Mode inputs into structured scene request JSON that the LLM scene director/pass planner can consume.",
+    "primary_inputs": [
+      "operator_request_json",
+      "character_bible_refs",
+      "environment_preset",
+      "camera_preset"
+    ],
+    "primary_outputs": [
+      "scene_request.json",
+      "camera_frame_plan.json",
+      "pass_plan_request.json"
+    ],
+    "owner_wave": 5
+  },
+  {
+    "module_id": "MOD-02-ENGINE-ROUTER",
+    "module_name": "Engine Router and Compatibility Gate",
+    "status": "planned_module",
+    "source": "waves_02_03_05",
+    "current_main_flow_nodes": [],
+    "purpose": "Select compatible Flux, SDXL, Pony, Z-Image, video, and audio engines based on task and asset registry.",
+    "primary_inputs": [
+      "scene_request.json",
+      "model_asset_registry",
+      "engine_compatibility_registry"
+    ],
+    "primary_outputs": [
+      "selected_engine_plan.json",
+      "blocked_incompatible_asset_report.json"
+    ],
+    "owner_wave": 6
+  },
+  {
+    "module_id": "MOD-10-SDXL-BASE-LANE",
+    "module_name": "SDXL/RealVisXL Base Lane",
+    "status": "production_candidate",
+    "source": "current_main_flow",
+    "save_prefix": "Main_Flow/SDXL_RealVisXL_LoRA",
+    "save_node_id": 19,
+    "current_main_flow_nodes": [
+      10,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      411
+    ],
+    "upstream_node_count": 8,
+    "upstream_type_counts": {
+      "CheckpointLoaderSimple": 1,
+      "CLIPTextEncode": 2,
+      "EmptyLatentImage": 1,
+      "KSampler": 1,
+      "VAEDecode": 1,
+      "SaveImage": 1,
+      "Lora Loader Stack (rgthree)": 1
+    },
+    "purpose": "Generate a primary still image base candidate with current base model/LoRA stack.",
+    "primary_inputs": [
+      "patched_prompt",
+      "model_selection",
+      "seed",
+      "dimensions",
+      "optional_reference_inputs"
+    ],
+    "primary_outputs": [
+      "Main_Flow/SDXL_RealVisXL_LoRA"
+    ],
+    "qa_required_before_promotion": [
+      "workflow_json_schema_valid",
+      "object_info_node_classes_present",
+      "model_references_resolved",
+      "runtime_output_exists",
+      "evidence_manifest_record_created",
+      "creative_qa_not_yet_satisfied_by_static_validation"
+    ],
+    "owner_wave": 5
+  },
+  {
+    "module_id": "MOD-11-ZIMAGE-BASE-LANE",
+    "module_name": "Z-Image Base Lane",
+    "status": "production_candidate",
+    "source": "current_main_flow",
+    "save_prefix": "Main_Flow/Flux_Family_ZImage",
+    "save_node_id": 39,
+    "current_main_flow_nodes": [
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39
+    ],
+    "upstream_node_count": 10,
+    "upstream_type_counts": {
+      "CLIPLoader": 1,
+      "CLIPTextEncode": 2,
+      "EmptySD3LatentImage": 1,
+      "KSampler": 1,
+      "VAELoader": 1,
+      "VAEDecode": 1,
+      "SaveImage": 1,
+      "UNETLoader": 1,
+      "ModelSamplingAuraFlow": 1
+    },
+    "purpose": "Generate an alternative Z-Image base candidate for low-cost/proxy or fallback base creation.",
+    "primary_inputs": [
+      "patched_prompt",
+      "model_selection",
+      "seed",
+      "dimensions",
+      "optional_reference_inputs"
+    ],
+    "primary_outputs": [
+      "Main_Flow/Flux_Family_ZImage"
+    ],
+    "qa_required_before_promotion": [
+      "workflow_json_schema_valid",
+      "object_info_node_classes_present",
+      "model_references_resolved",
+      "runtime_output_exists",
+      "evidence_manifest_record_created",
+      "creative_qa_not_yet_satisfied_by_static_validation"
+    ],
+    "owner_wave": 5
+  },
+  {
+    "module_id": "MOD-12-UPSCALER-EXPORT-LANE",
+    "module_name": "Upscale and Export Lane",
+    "status": "production_candidate",
+    "source": "current_main_flow",
+    "save_prefix": "Main_Flow/SDXL_RealVisXL_LoRA_Upscaled",
+    "save_node_id": 62,
+    "current_main_flow_nodes": [
+      10,
+      14,
+      15,
+      16,
+      17,
+      18,
+      60,
+      61,
+      62,
+      411
+    ],
+    "upstream_node_count": 10,
+    "upstream_type_counts": {
+      "CheckpointLoaderSimple": 1,
+      "CLIPTextEncode": 2,
+      "EmptyLatentImage": 1,
+      "KSampler": 1,
+      "VAEDecode": 1,
+      "Lora Loader Stack (rgthree)": 1,
+      "UpscaleModelLoader": 1,
+      "ImageUpscaleWithModel": 1,
+      "SaveImage": 1
+    },
+    "purpose": "Upscale a QA-approved base/refined image and emit final image artifact candidates.",
+    "primary_inputs": [
+      "patched_prompt",
+      "model_selection",
+      "seed",
+      "dimensions",
+      "optional_reference_inputs"
+    ],
+    "primary_outputs": [
+      "Main_Flow/SDXL_RealVisXL_LoRA_Upscaled"
+    ],
+    "qa_required_before_promotion": [
+      "workflow_json_schema_valid",
+      "object_info_node_classes_present",
+      "model_references_resolved",
+      "runtime_output_exists",
+      "evidence_manifest_record_created",
+      "creative_qa_not_yet_satisfied_by_static_validation"
+    ],
+    "owner_wave": 5
+  },
+  {
+    "module_id": "MOD-13-SDXL-INPAINT-DETAIL-LANE",
+    "module_name": "SDXL Inpaint Detail Lane",
+    "status": "production_candidate",
+    "source": "current_main_flow",
+    "save_prefix": "Main_Flow/SDXL_Inpaint_Detail",
+    "save_node_id": 87,
+    "current_main_flow_nodes": [
+      10,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      411
+    ],
+    "upstream_node_count": 10,
+    "upstream_type_counts": {
+      "CheckpointLoaderSimple": 1,
+      "LoadImage": 1,
+      "LoadImageMask": 1,
+      "VAEEncodeForInpaint": 1,
+      "CLIPTextEncode": 2,
+      "KSampler": 1,
+      "VAEDecode": 1,
+      "SaveImage": 1,
+      "Lora Loader Stack (rgthree)": 1
+    },
+    "purpose": "Run local masked inpaint/detail passes at controlled denoise.",
+    "primary_inputs": [
+      "patched_prompt",
+      "model_selection",
+      "seed",
+      "dimensions",
+      "optional_reference_inputs"
+    ],
+    "primary_outputs": [
+      "Main_Flow/SDXL_Inpaint_Detail"
+    ],
+    "qa_required_before_promotion": [
+      "workflow_json_schema_valid",
+      "object_info_node_classes_present",
+      "model_references_resolved",
+      "runtime_output_exists",
+      "evidence_manifest_record_created",
+      "creative_qa_not_yet_satisfied_by_static_validation"
+    ],
+    "owner_wave": 5
+  },
+  {
+    "module_id": "MOD-14-ZIMAGE-TO-SDXL-REFINE-LANE",
+    "module_name": "Image Bridge / SDXL Refine Lane",
+    "status": "production_candidate_rename_required",
+    "source": "current_main_flow",
+    "save_prefix": "Main_Flow/Flux_to_SDXL_Refine",
+    "save_node_id": 95,
+    "current_main_flow_nodes": [
+      10,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      411
+    ],
+    "upstream_node_count": 17,
+    "upstream_type_counts": {
+      "CLIPLoader": 1,
+      "CLIPTextEncode": 4,
+      "EmptySD3LatentImage": 1,
+      "KSampler": 2,
+      "VAELoader": 1,
+      "VAEDecode": 2,
+      "CheckpointLoaderSimple": 1,
+      "UNETLoader": 1,
+      "VAEEncode": 1,
+      "Lora Loader Stack (rgthree)": 1,
+      "ModelSamplingAuraFlow": 1,
+      "SaveImage": 1
+    },
+    "purpose": "Bridge Z-Image output through image/latent encoding into SDXL refine.",
+    "primary_inputs": [
+      "patched_prompt",
+      "model_selection",
+      "seed",
+      "dimensions",
+      "optional_reference_inputs"
+    ],
+    "primary_outputs": [
+      "Main_Flow/Flux_to_SDXL_Refine"
+    ],
+    "qa_required_before_promotion": [
+      "workflow_json_schema_valid",
+      "object_info_node_classes_present",
+      "model_references_resolved",
+      "runtime_output_exists",
+      "evidence_manifest_record_created",
+      "creative_qa_not_yet_satisfied_by_static_validation"
+    ],
+    "owner_wave": 5
+  },
+  {
+    "module_id": "MOD-15-FLUX-SMOKE-TEST-LANE",
+    "module_name": "Flux Smoke Test Lane",
+    "status": "smoke_only_not_production",
+    "source": "current_main_flow",
+    "save_prefix": "Main_Flow/True_Flux_Schnell_Reference_Smoke",
+    "save_node_id": 107,
+    "current_main_flow_nodes": [
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107
+    ],
+    "upstream_node_count": 8,
+    "upstream_type_counts": {
+      "CheckpointLoaderSimple": 1,
+      "ModelSamplingFlux": 1,
+      "CLIPTextEncodeFlux": 1,
+      "ConditioningZeroOut": 1,
+      "EmptySD3LatentImage": 1,
+      "KSampler": 1,
+      "VAEDecode": 1,
+      "SaveImage": 1
+    },
+    "purpose": "Retain as runtime smoke test only; not a production reference-conditioning lane.",
+    "primary_inputs": [
+      "patched_prompt",
+      "model_selection",
+      "seed",
+      "dimensions",
+      "optional_reference_inputs"
+    ],
+    "primary_outputs": [
+      "Main_Flow/True_Flux_Schnell_Reference_Smoke"
+    ],
+    "qa_required_before_promotion": [
+      "workflow_json_schema_valid",
+      "object_info_node_classes_present",
+      "model_references_resolved",
+      "runtime_output_exists",
+      "evidence_manifest_record_created",
+      "creative_qa_not_yet_satisfied_by_static_validation"
+    ],
+    "owner_wave": 5
+  },
+  {
+    "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+    "module_name": "ControlNet Canny Edge Lane",
+    "status": "ready_to_verify",
+    "source": "current_main_flow",
+    "save_prefix": "Main_Flow/ControlNet_Canny_Edge",
+    "save_node_id": 128,
+    "current_main_flow_nodes": [
+      10,
+      120,
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128,
+      411
+    ],
+    "upstream_node_count": 11,
+    "upstream_type_counts": {
+      "SaveImage": 1,
+      "CheckpointLoaderSimple": 1,
+      "Lora Loader Stack (rgthree)": 1,
+      "ControlNetLoader": 1,
+      "LoadImage": 1,
+      "CLIPTextEncode": 2,
+      "ControlNetApplyAdvanced": 1,
+      "EmptyLatentImage": 1,
+      "KSampler": 1,
+      "VAEDecode": 1
+    },
+    "purpose": "Test edge-control guidance as an isolated module; future pose/depth modules must be separate.",
+    "primary_inputs": [
+      "patched_prompt",
+      "model_selection",
+      "seed",
+      "dimensions",
+      "optional_reference_inputs"
+    ],
+    "primary_outputs": [
+      "Main_Flow/ControlNet_Canny_Edge"
+    ],
+    "qa_required_before_promotion": [
+      "workflow_json_schema_valid",
+      "object_info_node_classes_present",
+      "model_references_resolved",
+      "runtime_output_exists",
+      "evidence_manifest_record_created",
+      "creative_qa_not_yet_satisfied_by_static_validation"
+    ],
+    "owner_wave": 5
+  },
+  {
+    "module_id": "MOD-16-IPADAPTER-FACE-REFERENCE-LANE",
+    "module_name": "IPAdapter Face Reference Lane",
+    "status": "ready_to_verify",
+    "source": "current_main_flow",
+    "save_prefix": "Main_Flow/IPAdapter_Face_Reference",
+    "save_node_id": 118,
+    "current_main_flow_nodes": [
+      10,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118
+    ],
+    "upstream_node_count": 10,
+    "upstream_type_counts": {
+      "CheckpointLoaderSimple": 1,
+      "IPAdapterUnifiedLoader": 1,
+      "LoadImage": 1,
+      "IPAdapter": 1,
+      "CLIPTextEncode": 2,
+      "EmptyLatentImage": 1,
+      "KSampler": 1,
+      "VAEDecode": 1,
+      "SaveImage": 1
+    },
+    "purpose": "Test face/reference conditioning as an isolated module before integrating with base/refine passes.",
+    "primary_inputs": [
+      "patched_prompt",
+      "model_selection",
+      "seed",
+      "dimensions",
+      "optional_reference_inputs"
+    ],
+    "primary_outputs": [
+      "Main_Flow/IPAdapter_Face_Reference"
+    ],
+    "qa_required_before_promotion": [
+      "workflow_json_schema_valid",
+      "object_info_node_classes_present",
+      "model_references_resolved",
+      "runtime_output_exists",
+      "evidence_manifest_record_created",
+      "creative_qa_not_yet_satisfied_by_static_validation"
+    ],
+    "owner_wave": 5
+  },
+  {
+    "module_id": "MOD-20-MASK-FACTORY",
+    "module_name": "Mask Factory Subgraph",
+    "status": "future_module",
+    "source": "target_architecture",
+    "current_main_flow_nodes": [],
+    "purpose": "Create macro/major/minor/micro/nano masks, person-instance masks, clothing masks, background masks, and contact-zone masks.",
+    "primary_inputs": [
+      "scene_request",
+      "pass_plan",
+      "module_specific_manifest"
+    ],
+    "primary_outputs": [
+      "module_output_manifest",
+      "qa_evidence"
+    ],
+    "qa_required_before_promotion": [
+      "schema_valid",
+      "input_assets_resolved",
+      "runtime_artifacts_exist",
+      "no_unapproved_global_side_effects",
+      "promotion_gate_passed"
+    ],
+    "owner_wave": 13
+  },
+  {
+    "module_id": "MOD-21-POSE-DEPTH-CONTROL",
+    "module_name": "Pose / Depth / Camera Control Subgraphs",
+    "status": "future_module",
+    "source": "target_architecture",
+    "current_main_flow_nodes": [],
+    "purpose": "Create reusable OpenPose/DWPose/depth/normal/Canny/lineart control-map modules.",
+    "primary_inputs": [
+      "scene_request",
+      "pass_plan",
+      "module_specific_manifest"
+    ],
+    "primary_outputs": [
+      "module_output_manifest",
+      "qa_evidence"
+    ],
+    "qa_required_before_promotion": [
+      "schema_valid",
+      "input_assets_resolved",
+      "runtime_artifacts_exist",
+      "no_unapproved_global_side_effects",
+      "promotion_gate_passed"
+    ],
+    "owner_wave": 11
+  },
+  {
+    "module_id": "MOD-22-CAMERA-FRAMING",
+    "module_name": "Camera and Framing Planner Module",
+    "status": "future_module",
+    "source": "target_architecture",
+    "current_main_flow_nodes": [],
+    "purpose": "Translate shot type, lens, angle, zoom, full-body/half-body requirements, and multi-character composition into controls.",
+    "primary_inputs": [
+      "scene_request",
+      "pass_plan",
+      "module_specific_manifest"
+    ],
+    "primary_outputs": [
+      "module_output_manifest",
+      "qa_evidence"
+    ],
+    "qa_required_before_promotion": [
+      "schema_valid",
+      "input_assets_resolved",
+      "runtime_artifacts_exist",
+      "no_unapproved_global_side_effects",
+      "promotion_gate_passed"
+    ],
+    "owner_wave": 10
+  },
+  {
+    "module_id": "MOD-23-ENVIRONMENT-LIGHTING",
+    "module_name": "Environment / Lighting / Prop Module",
+    "status": "future_module",
+    "source": "target_architecture",
+    "current_main_flow_nodes": [],
+    "purpose": "Stabilize rooms, surfaces, props, lighting, and continuity anchors.",
+    "primary_inputs": [
+      "scene_request",
+      "pass_plan",
+      "module_specific_manifest"
+    ],
+    "primary_outputs": [
+      "module_output_manifest",
+      "qa_evidence"
+    ],
+    "qa_required_before_promotion": [
+      "schema_valid",
+      "input_assets_resolved",
+      "runtime_artifacts_exist",
+      "no_unapproved_global_side_effects",
+      "promotion_gate_passed"
+    ],
+    "owner_wave": 9
+  },
+  {
+    "module_id": "MOD-24-BODY-SHAPE-CORRECTOR",
+    "module_name": "Body Shape Correction Module",
+    "status": "future_module",
+    "source": "target_architecture",
+    "current_main_flow_nodes": [],
+    "purpose": "Run large-mask silhouette/proportion corrections before micro details.",
+    "primary_inputs": [
+      "scene_request",
+      "pass_plan",
+      "module_specific_manifest"
+    ],
+    "primary_outputs": [
+      "module_output_manifest",
+      "qa_evidence"
+    ],
+    "qa_required_before_promotion": [
+      "schema_valid",
+      "input_assets_resolved",
+      "runtime_artifacts_exist",
+      "no_unapproved_global_side_effects",
+      "promotion_gate_passed"
+    ],
+    "owner_wave": 17
+  },
+  {
+    "module_id": "MOD-25-SKIN-MATERIAL-DETAILER",
+    "module_name": "Skin / Material Detail Module",
+    "status": "future_module",
+    "source": "target_architecture",
+    "current_main_flow_nodes": [],
+    "purpose": "Run localized pores, blemishes, fabric, surface-state, and texture passes without global drift.",
+    "primary_inputs": [
+      "scene_request",
+      "pass_plan",
+      "module_specific_manifest"
+    ],
+    "primary_outputs": [
+      "module_output_manifest",
+      "qa_evidence"
+    ],
+    "qa_required_before_promotion": [
+      "schema_valid",
+      "input_assets_resolved",
+      "runtime_artifacts_exist",
+      "no_unapproved_global_side_effects",
+      "promotion_gate_passed"
+    ],
+    "owner_wave": 18
+  },
+  {
+    "module_id": "MOD-26-HARD-ANATOMY-DETAILER",
+    "module_name": "Face / Hands / Feet Detail Module",
+    "status": "future_module",
+    "source": "target_architecture",
+    "current_main_flow_nodes": [],
+    "purpose": "Run strict crop/detail repair with detector evidence and anatomy QA.",
+    "primary_inputs": [
+      "scene_request",
+      "pass_plan",
+      "module_specific_manifest"
+    ],
+    "primary_outputs": [
+      "module_output_manifest",
+      "qa_evidence"
+    ],
+    "qa_required_before_promotion": [
+      "schema_valid",
+      "input_assets_resolved",
+      "runtime_artifacts_exist",
+      "no_unapproved_global_side_effects",
+      "promotion_gate_passed"
+    ],
+    "owner_wave": 20
+  },
+  {
+    "module_id": "MOD-27-SOFT-BODY-CONTACT",
+    "module_name": "Soft-Body Contact and Deformation Module",
+    "status": "future_module",
+    "source": "target_architecture",
+    "current_main_flow_nodes": [],
+    "purpose": "Run contact-zone deformation, occlusion, pressure, indentation, compression, and rebound visual passes using masks and QA.",
+    "primary_inputs": [
+      "scene_request",
+      "pass_plan",
+      "module_specific_manifest"
+    ],
+    "primary_outputs": [
+      "module_output_manifest",
+      "qa_evidence"
+    ],
+    "qa_required_before_promotion": [
+      "schema_valid",
+      "input_assets_resolved",
+      "runtime_artifacts_exist",
+      "no_unapproved_global_side_effects",
+      "promotion_gate_passed"
+    ],
+    "owner_wave": 21
+  },
+  {
+    "module_id": "MOD-28-MULTI-CHARACTER-LAYOUT",
+    "module_name": "Multi-Character Instance Layout Module",
+    "status": "future_module",
+    "source": "target_architecture",
+    "current_main_flow_nodes": [],
+    "purpose": "Maintain separate character identities, masks, regions, skeletons, and depth order.",
+    "primary_inputs": [
+      "scene_request",
+      "pass_plan",
+      "module_specific_manifest"
+    ],
+    "primary_outputs": [
+      "module_output_manifest",
+      "qa_evidence"
+    ],
+    "qa_required_before_promotion": [
+      "schema_valid",
+      "input_assets_resolved",
+      "runtime_artifacts_exist",
+      "no_unapproved_global_side_effects",
+      "promotion_gate_passed"
+    ],
+    "owner_wave": 24
+  },
+  {
+    "module_id": "MOD-29-MULTI-CHARACTER-INTERACTION",
+    "module_name": "Multi-Character Interaction Module",
+    "status": "future_module",
+    "source": "target_architecture",
+    "current_main_flow_nodes": [],
+    "purpose": "Bind interaction source/target entities, prevent merge artifacts, and coordinate occlusion/contact logic.",
+    "primary_inputs": [
+      "scene_request",
+      "pass_plan",
+      "module_specific_manifest"
+    ],
+    "primary_outputs": [
+      "module_output_manifest",
+      "qa_evidence"
+    ],
+    "qa_required_before_promotion": [
+      "schema_valid",
+      "input_assets_resolved",
+      "runtime_artifacts_exist",
+      "no_unapproved_global_side_effects",
+      "promotion_gate_passed"
+    ],
+    "owner_wave": 25
+  },
+  {
+    "module_id": "MOD-30-VIDEO-GIF-KEYFRAME",
+    "module_name": "Video/GIF Keyframe Planner Module",
+    "status": "future_module",
+    "source": "target_architecture",
+    "current_main_flow_nodes": [],
+    "purpose": "Create keyframe state plans, pose/depth/mask timelines, and GIF/video export routing.",
+    "primary_inputs": [
+      "scene_request",
+      "pass_plan",
+      "module_specific_manifest"
+    ],
+    "primary_outputs": [
+      "module_output_manifest",
+      "qa_evidence"
+    ],
+    "qa_required_before_promotion": [
+      "schema_valid",
+      "input_assets_resolved",
+      "runtime_artifacts_exist",
+      "no_unapproved_global_side_effects",
+      "promotion_gate_passed"
+    ],
+    "owner_wave": 26
+  },
+  {
+    "module_id": "MOD-31-TEMPORAL-QA-REPAIR",
+    "module_name": "Temporal QA and Frame Repair Module",
+    "status": "future_module",
+    "source": "target_architecture",
+    "current_main_flow_nodes": [],
+    "purpose": "Measure and repair identity drift, flicker, contact drift, and frame-to-frame pose inconsistency.",
+    "primary_inputs": [
+      "scene_request",
+      "pass_plan",
+      "module_specific_manifest"
+    ],
+    "primary_outputs": [
+      "module_output_manifest",
+      "qa_evidence"
+    ],
+    "qa_required_before_promotion": [
+      "schema_valid",
+      "input_assets_resolved",
+      "runtime_artifacts_exist",
+      "no_unapproved_global_side_effects",
+      "promotion_gate_passed"
+    ],
+    "owner_wave": 27
+  },
+  {
+    "module_id": "MOD-32-AUDIO-SCENE",
+    "module_name": "Audio Scene Generation Module",
+    "status": "future_module",
+    "source": "target_architecture",
+    "current_main_flow_nodes": [],
+    "purpose": "Generate dialogue, voice, foley, ambience, and action-linked sound design from the same scene graph.",
+    "primary_inputs": [
+      "scene_request",
+      "pass_plan",
+      "module_specific_manifest"
+    ],
+    "primary_outputs": [
+      "module_output_manifest",
+      "qa_evidence"
+    ],
+    "qa_required_before_promotion": [
+      "schema_valid",
+      "input_assets_resolved",
+      "runtime_artifacts_exist",
+      "no_unapproved_global_side_effects",
+      "promotion_gate_passed"
+    ],
+    "owner_wave": 30
+  },
+  {
+    "module_id": "MOD-33-AV-SYNC",
+    "module_name": "AV Sync and Spatial Audio Module",
+    "status": "future_module",
+    "source": "target_architecture",
+    "current_main_flow_nodes": [],
+    "purpose": "Bind audio timing, force, distance, panning, room acoustics, and reverb to visual action/camera.",
+    "primary_inputs": [
+      "scene_request",
+      "pass_plan",
+      "module_specific_manifest"
+    ],
+    "primary_outputs": [
+      "module_output_manifest",
+      "qa_evidence"
+    ],
+    "qa_required_before_promotion": [
+      "schema_valid",
+      "input_assets_resolved",
+      "runtime_artifacts_exist",
+      "no_unapproved_global_side_effects",
+      "promotion_gate_passed"
+    ],
+    "owner_wave": 31
+  },
+  {
+    "module_id": "MOD-34-QA-EVIDENCE-PROMOTION",
+    "module_name": "QA Evidence and Promotion Gate Module",
+    "status": "future_module",
+    "source": "target_architecture",
+    "current_main_flow_nodes": [],
+    "purpose": "Block release until required manifests, crops, hashes, visual QA, object_info proof, and runtime proof exist.",
+    "primary_inputs": [
+      "scene_request",
+      "pass_plan",
+      "module_specific_manifest"
+    ],
+    "primary_outputs": [
+      "module_output_manifest",
+      "qa_evidence"
+    ],
+    "qa_required_before_promotion": [
+      "schema_valid",
+      "input_assets_resolved",
+      "runtime_artifacts_exist",
+      "no_unapproved_global_side_effects",
+      "promotion_gate_passed"
+    ],
+    "owner_wave": 34
+  }
+]

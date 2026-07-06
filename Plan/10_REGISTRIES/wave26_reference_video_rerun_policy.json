@@ -1,0 +1,32 @@
+{
+  "rerun_rules": [
+    {
+      "failure": "decode_failed",
+      "action": "reject_source_or_transcode_before_retry"
+    },
+    {
+      "failure": "orientation_mismatch",
+      "action": "normalize_rotation_and_reextract"
+    },
+    {
+      "failure": "blank_frames",
+      "action": "resample_or_redecode_source"
+    },
+    {
+      "failure": "timeline_desync",
+      "action": "rebuild_frame_index_base_and_timeline_layers"
+    },
+    {
+      "failure": "identity_drift_from_reference",
+      "action": "tighten identity lock and lower reference influence"
+    },
+    {
+      "failure": "flicker_detected",
+      "action": "route_to_temporal_frame_repair"
+    },
+    {
+      "failure": "shot_cut_not_detected",
+      "action": "split reference into segments"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "App Mode Control Surface",
+  "type": "object",
+  "required": [
+    "version",
+    "principle",
+    "control_groups",
+    "hidden_or_advanced_only"
+  ],
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "principle": {
+      "type": "string"
+    },
+    "control_groups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "group_id",
+          "label",
+          "controls"
+        ],
+        "properties": {
+          "group_id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "controls": {
+            "type": "array"
+          }
+        }
+      }
+    },
+    "hidden_or_advanced_only": {
+      "type": "array"
+    }
+  }
+}

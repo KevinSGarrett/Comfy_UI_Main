@@ -1,0 +1,87 @@
+[
+  {
+    "failure_code": "schema_invalid",
+    "severity": "fatal",
+    "rerun_action": "repair plan/contract"
+  },
+  {
+    "failure_code": "object_info_missing_node",
+    "severity": "fatal",
+    "rerun_action": "install node or disable module"
+  },
+  {
+    "failure_code": "model_reference_missing",
+    "severity": "fatal",
+    "rerun_action": "hydrate asset or choose approved fallback"
+  },
+  {
+    "failure_code": "workflow_patch_failed",
+    "severity": "fatal",
+    "rerun_action": "fix patch target and rerun preflight"
+  },
+  {
+    "failure_code": "prompt_submit_failed",
+    "severity": "retryable",
+    "rerun_action": "retry after queue/server check"
+  },
+  {
+    "failure_code": "history_missing",
+    "severity": "retryable",
+    "rerun_action": "poll history or requeue once"
+  },
+  {
+    "failure_code": "output_missing",
+    "severity": "retryable",
+    "rerun_action": "rerun same pass with new seed"
+  },
+  {
+    "failure_code": "image_decode_failed",
+    "severity": "retryable",
+    "rerun_action": "rerun or fallback engine"
+  },
+  {
+    "failure_code": "frame_composition_failed",
+    "severity": "retryable",
+    "rerun_action": "adjust camera/pose/control"
+  },
+  {
+    "failure_code": "identity_drift",
+    "severity": "retryable",
+    "rerun_action": "increase reference/tighten mask/lower denoise"
+  },
+  {
+    "failure_code": "pose_or_blocking_failed",
+    "severity": "retryable",
+    "rerun_action": "regenerate control map/adjust strength"
+  },
+  {
+    "failure_code": "mask_quality_failed",
+    "severity": "retryable",
+    "rerun_action": "rebuild mask/fix ownership"
+  },
+  {
+    "failure_code": "mask_bleed_or_edge_halo",
+    "severity": "retryable",
+    "rerun_action": "adjust grow/feather/denoise"
+  },
+  {
+    "failure_code": "local_detail_artifact",
+    "severity": "retryable",
+    "rerun_action": "lower denoise/narrow mask"
+  },
+  {
+    "failure_code": "overprocessed_final",
+    "severity": "retryable",
+    "rerun_action": "reduce polish/upscale"
+  },
+  {
+    "failure_code": "cost_guard_triggered",
+    "severity": "stop",
+    "rerun_action": "stop run"
+  },
+  {
+    "failure_code": "max_attempts_exceeded",
+    "severity": "stop",
+    "rerun_action": "emit failure manifest"
+  }
+]

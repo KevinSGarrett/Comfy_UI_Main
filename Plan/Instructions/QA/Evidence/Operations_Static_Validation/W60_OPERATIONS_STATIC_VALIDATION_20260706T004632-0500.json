@@ -1,0 +1,130 @@
+{
+  "evidence_id": "EVID-W60-OPERATIONS-STATIC-VALIDATION-20260706T004632-0500",
+  "created_at": "2026-07-06T00:46:32-05:00",
+  "artifact_id": "TRK-W60-010",
+  "artifact_type": "operations_static_validation",
+  "tracker_ids": [
+    "TRK-W60-010"
+  ],
+  "item_ids": [
+    "W60-010",
+    "W60-011"
+  ],
+  "qa_protocol_used": [
+    "README_OPERATIONS_WAVE60.md",
+    "OPERATIONAL_DONE_GATES.md",
+    "SECRETS_ENV_HANDLING_PROTOCOL.md",
+    "TRACKER_UPDATE_PROTOCOL.md",
+    "QA_EVIDENCE_LOG_PROTOCOL.md"
+  ],
+  "scope": [
+    "Plan/Instructions/Operations/Scripts/*.ps1",
+    "Plan/Instructions/Operations/Schemas/*.json",
+    "Plan/Instructions/Operations/Templates/*.json"
+  ],
+  "validation_results": {
+    "script_count": 7,
+    "script_parse_failures": 0,
+    "script_parse_results": [
+      {
+        "name": "Invoke-CivitaiModelLookup.ps1",
+        "parse_errors": 0,
+        "result": "pass"
+      },
+      {
+        "name": "Invoke-GitHubCheckpoint.ps1",
+        "parse_errors": 0,
+        "result": "pass"
+      },
+      {
+        "name": "Load-ComfyEnv.ps1",
+        "parse_errors": 0,
+        "result": "pass"
+      },
+      {
+        "name": "New-ModelRegistryRecord.ps1",
+        "parse_errors": 0,
+        "result": "pass"
+      },
+      {
+        "name": "Start-ComfyUIGpuServer.ps1",
+        "parse_errors": 0,
+        "result": "pass"
+      },
+      {
+        "name": "Stop-ComfyUIGpuServer.ps1",
+        "parse_errors": 0,
+        "result": "pass"
+      },
+      {
+        "name": "Test-AwsComfyGpuIdentity.ps1",
+        "parse_errors": 0,
+        "result": "pass"
+      }
+    ],
+    "json_file_count": 5,
+    "json_parse_failures": 0,
+    "json_parse_results": [
+      {
+        "name": "model_registry_entry.schema.json",
+        "result": "pass"
+      },
+      {
+        "name": "sync_manifest.schema.json",
+        "result": "pass"
+      },
+      {
+        "name": "aws_gpu_run_record.template.json",
+        "result": "pass"
+      },
+      {
+        "name": "civitai_model_download_record.template.json",
+        "result": "pass"
+      },
+      {
+        "name": "sync_manifest.template.json",
+        "result": "pass"
+      }
+    ],
+    "model_registry_smoke": {
+      "script": "New-ModelRegistryRecord.ps1",
+      "exit_code": 0,
+      "result": "pass",
+      "output_model_name": "static-validation-placeholder",
+      "compatibility_status": "needs_runtime_validation"
+    }
+  },
+  "skipped_live_execution": [
+    {
+      "script": "Invoke-CivitaiModelLookup.ps1",
+      "reason": "Would contact Civitai API; out of scope for local static validation."
+    },
+    {
+      "script": "Invoke-GitHubCheckpoint.ps1",
+      "reason": "Canonical project root is not currently a Git repository; Git verification is blocked by BLOCKER-W59-GIT-001."
+    },
+    {
+      "script": "Start-ComfyUIGpuServer.ps1",
+      "reason": "Would perform AWS/EC2 checks and could start cost-bearing resources with -Execute; out of scope."
+    },
+    {
+      "script": "Stop-ComfyUIGpuServer.ps1",
+      "reason": "Would perform AWS/EC2 checks; out of scope for local static validation."
+    },
+    {
+      "script": "Test-AwsComfyGpuIdentity.ps1",
+      "reason": "Would contact AWS; out of scope for local static validation."
+    }
+  ],
+  "issue_notes": [
+    {
+      "issue_id": "ISSUE-W60-OPS-001",
+      "summary": "Initial smoke execution was blocked by PowerShell execution policy; retest using the documented -ExecutionPolicy Bypass pattern passed."
+    }
+  ],
+  "result": "pass_with_notes",
+  "known_issues": [
+    "Live AWS, Civitai, and Git checkpoint behavior remains pending and must be validated only in a dedicated runtime/external-resource task."
+  ],
+  "next_action": "Continue local validation or select AWS/Civitai/Git recovery only after the corresponding protocol is active."
+}

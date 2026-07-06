@@ -1,0 +1,39 @@
+{
+  "transition_rules": [
+    {
+      "from": "setup",
+      "to": "escalation",
+      "required_evidence": [
+        "identity",
+        "clothing_state",
+        "body_state"
+      ]
+    },
+    {
+      "from": "escalation",
+      "to": "peak",
+      "required_evidence": [
+        "fatigue",
+        "contact_state",
+        "variation_state"
+      ]
+    },
+    {
+      "from": "peak",
+      "to": "recovery",
+      "required_evidence": [
+        "fatigue_state",
+        "breathing_state",
+        "surface_state"
+      ]
+    },
+    {
+      "from": "recovery",
+      "to": "ending",
+      "required_evidence": [
+        "state_settle",
+        "no_unexplained_reset"
+      ]
+    }
+  ]
+}

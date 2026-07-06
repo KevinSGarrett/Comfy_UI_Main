@@ -1,0 +1,27 @@
+{
+  "s3_model_uri_template": "s3://{bucket}/models/{engine_family}/{asset_type}/{category_primary}/{civitai_model_id}/{civitai_model_version_id}/{normalized_filename}",
+  "s3_metadata_uri_template": "s3://{bucket}/metadata/civitai/{civitai_model_id}/{civitai_model_version_id}/{file}",
+  "local_cache_template": "C:\\Comfy_UI_Model_Cache\\{comfyui_target_folder}\\{normalized_filename}",
+  "ec2_cache_template": "/opt/ComfyUI/models/{comfyui_target_folder}/{normalized_filename}",
+  "repo_registry_paths": [
+    "registries/civitai_model_registry.csv",
+    "registries/model_asset_registry.json",
+    "registries/engine_compatibility_registry.json"
+  ],
+  "forbidden_git_patterns": [
+    "*.safetensors",
+    "*.ckpt",
+    "*.pt",
+    "*.pth",
+    "*.bin",
+    "*.gguf",
+    "*.onnx",
+    ".env",
+    ".env.*",
+    ".ec2"
+  ],
+  "allowed_git_secret_templates": [
+    ".env.example",
+    ".ec2.example"
+  ]
+}

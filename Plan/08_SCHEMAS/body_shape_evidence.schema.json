@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave17 Body Shape Evidence",
+  "type": "object",
+  "required": [
+    "contract_id",
+    "candidate_id",
+    "source_image_sha256",
+    "candidate_image_sha256",
+    "scores",
+    "fail_flags",
+    "decision"
+  ],
+  "properties": {
+    "contract_id": {
+      "type": "string"
+    },
+    "candidate_id": {
+      "type": "string"
+    },
+    "source_image_sha256": {
+      "type": "string"
+    },
+    "candidate_image_sha256": {
+      "type": "string"
+    },
+    "mask_artifacts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pass_artifacts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "scores": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "weighted_score": {
+      "type": "number"
+    },
+    "fail_flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ]
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

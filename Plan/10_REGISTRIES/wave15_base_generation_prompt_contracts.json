@@ -1,0 +1,76 @@
+{
+  "contract_id": "wave15_base_generation_prompt_contracts",
+  "global_positive_sections": [
+    "scene_subject",
+    "character_identity_bindings",
+    "environment_binding",
+    "camera_plan",
+    "pose_blocking_summary",
+    "material_lighting_summary",
+    "style_and_realism_intent"
+  ],
+  "global_negative_sections": [
+    "quality_failures",
+    "anatomy_failures",
+    "composition_failures",
+    "identity_failures",
+    "text_watermark_failures",
+    "engine_specific_negatives"
+  ],
+  "engine_specific_rules": {
+    "flux1": {
+      "default_cfg_range": [
+        1.0,
+        5.0
+      ],
+      "prompt_style": "plain structured natural language",
+      "avoid": [
+        "SDXL tag soup",
+        "Pony score tags unless a proven adapter requires them"
+      ]
+    },
+    "flux2": {
+      "default_cfg_range": [
+        1.0,
+        5.0
+      ],
+      "prompt_style": "structured natural language with reference slots when proven",
+      "avoid": [
+        "unproven Flux1 LoRA carryover",
+        "unverified reference count assumptions"
+      ]
+    },
+    "sdxl": {
+      "default_cfg_range": [
+        4.0,
+        7.5
+      ],
+      "prompt_style": "weighted natural language plus controlled tags only when checkpoint requires",
+      "avoid": [
+        "Flux-only tokens",
+        "Pony score tags unless Pony-SDXL proof exists"
+      ]
+    },
+    "zimage": {
+      "default_cfg_range": [
+        1.0,
+        4.0
+      ],
+      "prompt_style": "simple direct prompt with model-specific sampler settings",
+      "avoid": [
+        "large incompatible LoRA stacks"
+      ]
+    },
+    "pony": {
+      "default_cfg_range": [
+        4.0,
+        8.0
+      ],
+      "prompt_style": "Pony-family tags and quality tokens only in Pony lane",
+      "avoid": [
+        "Flux/SDXL LoRA stacks",
+        "using Pony as default realism base without proof"
+      ]
+    }
+  }
+}

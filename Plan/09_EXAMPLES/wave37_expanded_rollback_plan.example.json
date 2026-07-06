@@ -1,0 +1,18 @@
+{
+  "rollback_plan_id": "rollback_local_workflows_001",
+  "migration_id": "migration_local_workflows_001",
+  "backup_location": "11_BACKUPS/pre_migration_snapshot/workflows/",
+  "rollback_steps": [
+    "stop edits",
+    "restore backup folder",
+    "refresh catalogs",
+    "rerun validation"
+  ],
+  "validation_after_rollback": [
+    "file_count_match",
+    "catalog_refresh"
+  ],
+  "safe_to_delete_backup": false,
+  "owner_domain": "backups",
+  "status": "ready"
+}

@@ -1,0 +1,63 @@
+{
+  "contract_version": "wave24.v1",
+  "scene_id": "scene_024_example",
+  "source_image_id": "img_base_001",
+  "character_count_target": 2,
+  "instances": [
+    {
+      "character_instance_id": "char_A",
+      "character_identity_id": "identity_A",
+      "person_instance_mask_id": "mask_person_A",
+      "skeleton_id": "skeleton_A",
+      "region_ownership_map_id": "regions_A",
+      "frame_bbox": {
+        "x": 0.08,
+        "y": 0.05,
+        "width": 0.42,
+        "height": 0.88,
+        "body_visibility": "full_body"
+      },
+      "depth_layer": 0,
+      "role": "foreground"
+    },
+    {
+      "character_instance_id": "char_B",
+      "character_identity_id": "identity_B",
+      "person_instance_mask_id": "mask_person_B",
+      "skeleton_id": "skeleton_B",
+      "region_ownership_map_id": "regions_B",
+      "frame_bbox": {
+        "x": 0.5,
+        "y": 0.08,
+        "width": 0.42,
+        "height": 0.86,
+        "body_visibility": "full_body"
+      },
+      "depth_layer": 1,
+      "role": "background"
+    }
+  ],
+  "depth_order": [
+    {
+      "character_instance_id": "char_A",
+      "depth_layer": 0,
+      "in_front_of": [
+        "char_B"
+      ],
+      "behind": []
+    },
+    {
+      "character_instance_id": "char_B",
+      "depth_layer": 1,
+      "in_front_of": [],
+      "behind": [
+        "char_A"
+      ]
+    }
+  ],
+  "qa_goals": [
+    "correct_character_count",
+    "no_merged_bodies",
+    "no_wrong_character_edits"
+  ]
+}

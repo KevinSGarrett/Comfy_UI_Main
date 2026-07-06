@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave13 Mask Evidence",
+  "type": "object",
+  "required": [
+    "evidence_id",
+    "contract_id",
+    "mask_records",
+    "score"
+  ],
+  "properties": {
+    "evidence_id": {
+      "type": "string"
+    },
+    "contract_id": {
+      "type": "string"
+    },
+    "image_path": {
+      "type": "string"
+    },
+    "mask_records": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "score": {
+      "type": "number"
+    },
+    "passed": {
+      "type": "boolean"
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

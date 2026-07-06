@@ -1,0 +1,28 @@
+{
+  "rules": [
+    {
+      "if": "contact_graph pressure increase",
+      "then": "create body/contact foley event"
+    },
+    {
+      "if": "object impact and material profile hard",
+      "then": "create impact SFX with frame-exact sync"
+    },
+    {
+      "if": "clothing stretch or fabric shift",
+      "then": "create fabric rustle event"
+    },
+    {
+      "if": "fatigue/exertion high and visible breathing",
+      "then": "create breath layer"
+    },
+    {
+      "if": "dialogue present",
+      "then": "duck music and validate voice owner"
+    },
+    {
+      "if": "scene has no explicit music request",
+      "then": "default music to no_music"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": true,
+  "title": "Wave16 Image Refine Bridge Plan",
+  "required": [
+    "plan_id",
+    "base_image",
+    "passes",
+    "qa_gates"
+  ],
+  "properties": {
+    "plan_id": {
+      "type": "string"
+    },
+    "base_image": {
+      "type": "object"
+    },
+    "passes": {
+      "type": "array",
+      "items": {
+        "$ref": "image_refine_pass.schema.json"
+      }
+    },
+    "qa_gates": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

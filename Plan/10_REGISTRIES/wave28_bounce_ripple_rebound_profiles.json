@@ -1,0 +1,31 @@
+{
+  "profiles": [
+    {
+      "id": "soft_body_low_bounce",
+      "amplitude": "low",
+      "damping": "medium",
+      "requires": [
+        "soft_body_profile",
+        "contact_or_motion_event"
+      ]
+    },
+    {
+      "id": "subtle_ripple_release",
+      "amplitude": "low",
+      "damping": "high",
+      "requires": [
+        "pressure_release_event",
+        "region_mask"
+      ]
+    },
+    {
+      "id": "rebound_settle",
+      "amplitude": "very_low",
+      "damping": "high",
+      "requires": [
+        "release_state",
+        "continuity_QA"
+      ]
+    }
+  ]
+}

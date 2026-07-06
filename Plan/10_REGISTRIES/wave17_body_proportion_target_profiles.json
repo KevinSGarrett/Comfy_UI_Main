@@ -1,0 +1,121 @@
+{
+  "version": "wave17",
+  "purpose": "Named body-proportion target profiles for planning. These are control contracts, not model guarantees.",
+  "profiles": [
+    {
+      "profile_id": "preserve_existing_body",
+      "description": "Use when the base image is correct and body shape should not change.",
+      "allowed_regions": [],
+      "max_shape_delta": "none",
+      "default_denoise_range": [
+        0.0,
+        0.12
+      ],
+      "qa_priority": [
+        "identity_preservation",
+        "pose_preservation",
+        "silhouette_preservation"
+      ]
+    },
+    {
+      "profile_id": "subtle_waist_stomach_refine",
+      "description": "Small correction to stomach/waist without changing identity, pose, outfit, or frame.",
+      "allowed_regions": [
+        "abdomen_stomach",
+        "waist_left",
+        "waist_right",
+        "outer_silhouette"
+      ],
+      "max_shape_delta": "small",
+      "default_denoise_range": [
+        0.14,
+        0.24
+      ],
+      "qa_priority": [
+        "waist_symmetry",
+        "stomach_plane_continuity",
+        "edge_blend",
+        "identity_preservation"
+      ]
+    },
+    {
+      "profile_id": "hourglass_proportion_correction",
+      "description": "Stronger waist/hip rebalance using major masks and mandatory drift checks.",
+      "allowed_regions": [
+        "abdomen_stomach",
+        "waist_left",
+        "waist_right",
+        "hips_pelvis",
+        "outer_silhouette"
+      ],
+      "max_shape_delta": "medium",
+      "default_denoise_range": [
+        0.18,
+        0.32
+      ],
+      "qa_priority": [
+        "waist_to_hip_ratio",
+        "pose_preservation",
+        "clothing_continuity",
+        "no_body_merge"
+      ]
+    },
+    {
+      "profile_id": "hip_thigh_balance_correction",
+      "description": "Adjust hip and thigh proportions while preserving stance, feet, clothing, and camera framing.",
+      "allowed_regions": [
+        "hips_pelvis",
+        "thigh_left",
+        "thigh_right",
+        "outer_silhouette"
+      ],
+      "max_shape_delta": "medium",
+      "default_denoise_range": [
+        0.18,
+        0.34
+      ],
+      "qa_priority": [
+        "left_right_leg_balance",
+        "stance_preservation",
+        "crop_boundary",
+        "fabric_continuity"
+      ]
+    },
+    {
+      "profile_id": "full_body_silhouette_repair",
+      "description": "Repairs visibly broken or merged body silhouette using major masks and fallback reruns.",
+      "allowed_regions": [
+        "torso_global",
+        "abdomen_stomach",
+        "waist_left",
+        "waist_right",
+        "hips_pelvis",
+        "thigh_left",
+        "thigh_right",
+        "outer_silhouette"
+      ],
+      "max_shape_delta": "medium_high_with_review",
+      "default_denoise_range": [
+        0.22,
+        0.38
+      ],
+      "qa_priority": [
+        "character_count",
+        "no_merged_bodies",
+        "body_visibility",
+        "pose_preservation",
+        "identity_preservation"
+      ]
+    }
+  ],
+  "blocked_profiles": [
+    {
+      "profile_id": "unbounded_body_redraw",
+      "reason": "Would corrupt identity, pose, clothing, and frame composition."
+    },
+    {
+      "profile_id": "global_full_image_shape_change",
+      "reason": "Body correction must use owned masks and QA evidence, not whole-image redraw."
+    }
+  ]
+}

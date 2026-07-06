@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "wave03.validation_manifest.schema.json",
+  "title": "Wave03 Validation Manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "wave",
+    "result",
+    "checks"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "wave": {
+      "type": "string"
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "WARN",
+        "FAIL",
+        "BLOCKED_RUNTIME_PROOF_REQUIRED"
+      ]
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "result"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "result": {
+            "type": "string"
+          },
+          "details": {
+            "type": [
+              "string",
+              "object",
+              "array",
+              "null"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave08 Character Bible",
+  "type": "object",
+  "required": [
+    "character_id",
+    "character_version",
+    "status",
+    "identity_lock",
+    "body_profile",
+    "skin_profile",
+    "hair_profile",
+    "outfit_profile",
+    "reference_packs",
+    "allowed_engines",
+    "qa_goals"
+  ],
+  "properties": {
+    "character_id": {
+      "type": "string",
+      "pattern": "^char_[a-z0-9_\\-]+$"
+    },
+    "character_version": {
+      "type": "string",
+      "pattern": "^v[0-9]{3}$"
+    },
+    "display_name": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "candidate",
+        "active",
+        "frozen",
+        "superseded",
+        "deprecated"
+      ]
+    },
+    "adult_status": {
+      "type": "string",
+      "enum": [
+        "adult_verified",
+        "non_adult",
+        "unknown"
+      ]
+    },
+    "source_class": {
+      "type": "string",
+      "enum": [
+        "synthetic",
+        "owned_reference",
+        "licensed_reference",
+        "internal_test_reference",
+        "unknown"
+      ]
+    },
+    "identity_lock": {
+      "type": "object"
+    },
+    "body_profile": {
+      "type": "object"
+    },
+    "skin_profile": {
+      "type": "object"
+    },
+    "hair_profile": {
+      "type": "object"
+    },
+    "outfit_profile": {
+      "type": "object"
+    },
+    "voice_profile": {
+      "type": "object"
+    },
+    "reference_packs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "allowed_engines": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "allowed_scene_roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "qa_goals": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "revision_history": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

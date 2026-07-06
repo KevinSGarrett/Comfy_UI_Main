@@ -1,0 +1,57 @@
+{
+  "version": "wave10.v1",
+  "pipeline": [
+    "User request is converted by Scene Director into camera_intent.",
+    "camera_intent is normalized into camera_plan JSON.",
+    "camera_plan selects shot_size, lens_profile, angle, framing, depth_dof, crop policy, and subject slots.",
+    "workflow compiler patches width/height, prompts, control maps, reference slots, and pass routing where supported.",
+    "engine router checks engine compatibility.",
+    "QA validates framing evidence before promotion."
+  ],
+  "intent_to_camera_defaults": {
+    "full_body_character": {
+      "shot_size": "full_body",
+      "lens": "classic_35mm",
+      "angle": "eye_level",
+      "dof": "deep_focus"
+    },
+    "half_body_character": {
+      "shot_size": "half_body",
+      "lens": "normal_50mm",
+      "angle": "eye_level",
+      "dof": "natural_portrait_dof"
+    },
+    "face_closeup": {
+      "shot_size": "close_up",
+      "lens": "portrait_85mm",
+      "angle": "eye_level",
+      "dof": "natural_portrait_dof"
+    },
+    "skin_or_fabric_detail": {
+      "shot_size": "detail_insert",
+      "lens": "macro_100mm",
+      "angle": "context_dependent",
+      "dof": "macro_shallow_dof"
+    },
+    "room_establishing": {
+      "shot_size": "wide_shot",
+      "lens": "wide_24mm",
+      "angle": "eye_level",
+      "dof": "deep_focus"
+    },
+    "two_character_interaction": {
+      "shot_size": "two_shot",
+      "lens": "classic_35mm",
+      "angle": "three_quarter_front",
+      "dof": "layered_depth"
+    }
+  },
+  "blocked_conditions": [
+    "camera_plan missing primary shot_size",
+    "multi_character scene missing subject slots",
+    "full_body shot with square resolution and no crop/margin adjustment",
+    "close_up missing identity lock target",
+    "video camera motion requested without video runtime lane proof",
+    "pose/depth/openpose requested before local object_info and runtime proof exist"
+  ]
+}

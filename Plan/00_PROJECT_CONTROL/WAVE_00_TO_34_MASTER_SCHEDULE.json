@@ -1,0 +1,247 @@
+[
+  {
+    "Wave": "00",
+    "Covers": "Foundation, source audit, and AI project-manager contract",
+    "Goal": "Create the cumulative blueprint baseline grounded in the uploaded main flow, previous Wave 00 pack, plans, tracker, advanced additions, and conversation requirements.",
+    "Purpose": "Give the AI project manager a complete authoritative starting contract before any runtime implementation begins.",
+    "Core Requirements": "Source inventory; 35-wave schedule; cumulative pack rules; implementation assumptions; AI PM operating rules; QA philosophy; runtime-vs-plan boundaries; deliverable manifest."
+  },
+  {
+    "Wave": "01",
+    "Covers": "GitHub, local repo, EC2 mirror, and cost-aware development operations",
+    "Goal": "Move project work into a structured local GitHub-backed repository at C:\\Comfy_UI_Main and remote repository KevinSGarrett/Comfy_UI_Main while keeping EC2 off by default.",
+    "Purpose": "Reduce EC2 cost, make local edits reviewable, and create a safe promotion path from local planning/code to EC2 GPU runtime proof.",
+    "Core Requirements": "Repo scaffold; .gitignore; model exclusion; Git LFS policy; branch strategy; local CI; EC2 deploy script; rollback plan; secrets separation; no model binaries in Git."
+  },
+  {
+    "Wave": "02",
+    "Covers": "Model asset storage, S3/EC2/local cache, and manifest registry",
+    "Goal": "Define how hundreds of GB/TB of model files live outside Git while local workflows still validate references and EC2 can hydrate needed assets on demand.",
+    "Purpose": "Solve the model-file problem without committing huge binaries or keeping GPU EC2 online unnecessarily.",
+    "Core Requirements": "S3 canonical model store; EC2 cache; optional local cache; model manifest with SHA256/size/engine/category; hydration/dehydration scripts; missing-model stubs; sync include/exclude; cache eviction policy."
+  },
+  {
+    "Wave": "03",
+    "Covers": "Runtime inventory, object_info snapshots, and validation harness",
+    "Goal": "Build validators for ComfyUI workflows, API workflows, nodes, model paths, LoRA references, registries, prompt templates, and generated artifacts.",
+    "Purpose": "Catch failures locally before expensive EC2 runs.",
+    "Core Requirements": "Workflow JSON parser; reachable-node analyzer; object_info snapshot comparison; path validation against manifest; disabled/rejected asset blocking; QA schema validation; CI job."
+  },
+  {
+    "Wave": "04",
+    "Covers": "Main flow deconstruction and active-vs-catalog separation",
+    "Goal": "Separate the current giant main flow into active production lanes, staged lanes, notes, disabled libraries, and catalog-only model selectors.",
+    "Purpose": "Stop mistaking canvas presence for runtime effect.",
+    "Core Requirements": "Reachability report; node group inventory; active SaveImage lane list; catalog extraction; dead/disconnected node list; migration map to modules/subgraphs."
+  },
+  {
+    "Wave": "05",
+    "Covers": "Workflow modules, subgraphs, API workflow templates, and App Mode interface",
+    "Goal": "Convert production functions into small reusable workflow modules/subgraphs and expose only safe high-level controls through App Mode.",
+    "Purpose": "Make the system usable, maintainable, and automatable instead of one unmanageable mega graph.",
+    "Core Requirements": "Base/refine/mask/detail/contact/video/audio modules; API JSON templates; App Mode input/output contract; UI presets; module smoke tests."
+  },
+  {
+    "Wave": "06",
+    "Covers": "Engine compatibility registry and pass router",
+    "Goal": "Create a strict engine router for Flux, SDXL/RealVisXL, Pony, SD1.5, Z-Image, video engines, and audio tools.",
+    "Purpose": "Use unique models only in compatible passes and prevent cross-engine corruption.",
+    "Core Requirements": "Engine manifest; LoRA compatibility tags; VAE/CLIP rules; image bridge rules; specialty pass permissions; disabled/rejected model enforcement."
+  },
+  {
+    "Wave": "07",
+    "Covers": "LLM Scene Director, scene request schema, and autonomous plan generation",
+    "Goal": "Turn natural scene requests into structured scene, character, shot, pass, mask, camera, environment, video, and audio plans.",
+    "Purpose": "Allow the AI system to decide what to generate without manual node-by-node configuration.",
+    "Core Requirements": "Scene parser; clarification rules; structured JSON output; preset selection; plan validation; task decomposition; generation budget estimate."
+  },
+  {
+    "Wave": "08",
+    "Covers": "Character Bible, identity registry, and per-character reference packs",
+    "Goal": "Define character identity, face, body, skin, hair, clothing, voice, and continuity references per character.",
+    "Purpose": "Make characters look consistent and intentionally designed across images, video, and audio.",
+    "Core Requirements": "Character IDs; reference hashing; FaceID/IPAdapter strategy; body-shape references; outfit states; voice IDs; identity QA; drift repair plan."
+  },
+  {
+    "Wave": "09",
+    "Covers": "Environment, world, lighting, material, and prop realism system",
+    "Goal": "Add structured environments, room geometry, lighting rigs, props, furniture, surfaces, reflections, scale, and environmental state.",
+    "Purpose": "Make scenes feel physically located instead of floating studio prompts.",
+    "Core Requirements": "Environment Bible; room/furniture masks; lighting presets; surface material states; prop registry; environment QA; scale/depth consistency checks."
+  },
+  {
+    "Wave": "10",
+    "Covers": "Camera, lens, zoom, depth, angle, framing, and shot planner",
+    "Goal": "Build a camera system for angle, lens, distance, crop, depth of field, zoom, POV, full-body/half-body framing, and multi-character framing.",
+    "Purpose": "Fix camera/framing as a controlled shot-design problem, not a vague prompt.",
+    "Core Requirements": "Shot schema; camera profile library; framing templates; full-body/half-body/headshot validators; multi-character in-frame QA; lens/depth/zoom tags."
+  },
+  {
+    "Wave": "11",
+    "Covers": "Pose, action, body blocking, and camera-aware control maps",
+    "Goal": "Build pose and action control through DWPose/OpenPose, depth, normal, lineart, Canny, segmentation, and camera-aware contact visibility.",
+    "Purpose": "Make pose and action accuracy geometrically controlled.",
+    "Core Requirements": "Pose map generation; per-character skeletons; hand keypoints; depth/normal; action blocking; pose QA; camera/pose consistency."
+  },
+  {
+    "Wave": "12",
+    "Covers": "Frame composition and subject-count integrity",
+    "Goal": "Ensure requested characters and body extents are correctly visible: full body, half body, close-up, multiple full bodies, foreground/background placement.",
+    "Purpose": "Prevent missing limbs, cropped bodies, merged bodies, wrong character count, and wrong subject scale.",
+    "Core Requirements": "Frame planner; character count detector; body-extents QA; crop-boundary warnings; out-of-frame detection; reframe/rerun rules."
+  },
+  {
+    "Wave": "13",
+    "Covers": "Ultimate Mask Factory: macro, major, minor, micro, and nano masks",
+    "Goal": "Create the full mask hierarchy for people, body parts, clothes, environment, contact zones, pores, blemishes, pressure marks, and fine details.",
+    "Purpose": "Make every detail pass spatially truthful and prevent chopped-body artifacts.",
+    "Core Requirements": "Person instance masks; major body masks; minor body-region masks; micro/nano texture masks; mask feather/grow rules; mask overlays; mask QA."
+  },
+  {
+    "Wave": "14",
+    "Covers": "Autonomous pass planner, workflow compiler, and ComfyUI API orchestrator",
+    "Goal": "Build the controller that decides pass order, patches workflow JSON, runs ComfyUI locally/EC2, reads outputs, QA scores, and schedules reruns.",
+    "Purpose": "Make the system actually know when to run first, second, third, detail, repair, video, and audio passes.",
+    "Core Requirements": "Pass-plan schema; state machine; ComfyUI /prompt integration; local dry-runs; EC2 GPU proof mode; retry/rerun rules; output manifests."
+  },
+  {
+    "Wave": "15",
+    "Covers": "Image base generation lanes",
+    "Goal": "Create reliable Flux-first, SDXL/RealVisXL, Z-Image, Pony specialty, and fallback base generation lanes.",
+    "Purpose": "Generate correct composition, character count, camera, pose, silhouette, and environment before detail.",
+    "Core Requirements": "Base lane templates; low global LoRA limits; reference inputs; control maps; seed strategy; base QA gate."
+  },
+  {
+    "Wave": "16",
+    "Covers": "Image refine, specialty engine passes, and engine bridging",
+    "Goal": "Create full-image refine and masked specialty passes that bridge Flux outputs into SDXL/Pony/RealVisXL/etc. through decoded images.",
+    "Purpose": "Use each engine for what it is good at without mixing incompatible model graphs.",
+    "Core Requirements": "VAE encode/decode bridges; low-denoise settings; identity preservation; before/after QA; engine-specific prompt adapters."
+  },
+  {
+    "Wave": "17",
+    "Covers": "Body shape, silhouette, and proportion correction",
+    "Goal": "Add large-mask correction for stomach, waist, hips, thighs, butt, shoulders, torso, height/scale, and full silhouette.",
+    "Purpose": "Fix body shape without chopped pasted regions.",
+    "Core Requirements": "Large mask recipes; depth/edge guidance; body measurement QA; rerun-base vs inpaint decision rules; silhouette overlays."
+  },
+  {
+    "Wave": "18",
+    "Covers": "Skin/material realism, blemishes, pores, cellulite, sweat, oil, and pressure marks",
+    "Goal": "Add stateful surface realism with localized detail passes for skin and body features.",
+    "Purpose": "Make realism details appear only where intended and persist across shots.",
+    "Core Requirements": "Skin/material state ledger; small/medium masks; cellulite thigh passes; pores/blemishes; sweat/oil; pressure marks; naturalness QA."
+  },
+  {
+    "Wave": "19",
+    "Covers": "Clothing, fabric, props, furniture, and environment contact realism",
+    "Goal": "Add fabric folds, compression, stretch, cling, wrinkles, wetness, prop interaction, furniture deformation, and body support marks.",
+    "Purpose": "Make clothing and environment react believably to bodies and motion.",
+    "Core Requirements": "Clothing masks; fabric state; prop masks; furniture support graph; wrinkle/contact QA; environment continuity."
+  },
+  {
+    "Wave": "20",
+    "Covers": "Face, hands, feet, eyes, teeth, nails, and hard anatomy detailers",
+    "Goal": "Build strict crop/detail repair lanes for difficult anatomy.",
+    "Purpose": "Stop rough hands/faces by using dedicated detectors and local repair passes.",
+    "Core Requirements": "Face crop; hand crop; hand keypoints; finger count; nails; eyes/teeth; feet; crop QA; no global hand LoRAs by default."
+  },
+  {
+    "Wave": "21",
+    "Covers": "Soft-body material profiles and mechanics library",
+    "Goal": "Define firmness/softness/sag/bounce/ripple/jiggle profiles for body regions and materials.",
+    "Purpose": "Give the system structured visual targets for soft-body behavior without claiming true physics simulation.",
+    "Core Requirements": "Region profiles; firmness scale; sag profiles; compression/rebound hints; side-to-side/hanging behavior; mechanics presets; QA evidence requirements."
+  },
+  {
+    "Wave": "22",
+    "Covers": "Physical interaction contact graph",
+    "Goal": "Create a contact graph that binds source body parts, target body parts, pressure, visibility, occlusion, intensity, duration, and expected audio force.",
+    "Purpose": "Make body/hand/prop interactions explicit and machine-checkable.",
+    "Core Requirements": "Source/target region binding; pressure maps; collision zones; occlusion priority; multi-character contact edges; contact QA."
+  },
+  {
+    "Wave": "23",
+    "Covers": "Deformation, indentation, collision, compression, pull/push, and visual soft-mesh passes",
+    "Goal": "Implement masked contact-detail passes that create believable visual pressure, finger indentions, squeeze, pull, push, compression, and deformation.",
+    "Purpose": "Turn soft-body/contact specs into local generated visual evidence.",
+    "Core Requirements": "Hand/body/contact masks; falloff masks; depth/normal; contact prompts; denoise ranges; before/after contact crops; reject if merged/melted."
+  },
+  {
+    "Wave": "24",
+    "Covers": "Multi-character instance layout and separation",
+    "Goal": "Build 1–5 character scene layouts with per-character masks, prompt regions, identity refs, depth order, and frame placement.",
+    "Purpose": "Prevent multiple characters from collapsing into one body.",
+    "Core Requirements": "Person A/B/C/D/E masks; per-character references; skeletons; layout QA; merge detection; per-instance pass routing."
+  },
+  {
+    "Wave": "25",
+    "Covers": "Multi-character interactions, occlusion, and choreography",
+    "Goal": "Make multiple characters interact with correct pose, body contact, hand placement, object contact, and occlusion.",
+    "Purpose": "Achieve realistic group posing without fused limbs or conflicting identities.",
+    "Core Requirements": "Interaction graph; occlusion layers; per-character contact edges; cross-character masks; interaction QA; targeted rerun rules."
+  },
+  {
+    "Wave": "26",
+    "Covers": "GIF/video keyframe, shot, and timeline planner",
+    "Goal": "Generate still keyframes, pose/depth/mask timelines, motion states, GIF loops, and video shot plans.",
+    "Purpose": "Make motion controllable even without reference video or 3D simulation.",
+    "Core Requirements": "Keyframe schema; frame states; mask interpolation; GIF/MP4/WebM outputs; storyboard preview; frame QA."
+  },
+  {
+    "Wave": "27",
+    "Covers": "Video engine routing, temporal consistency, frame repair, and stitching",
+    "Goal": "Route to Wan/Hunyuan/LTXV/AnimateDiff-style lanes and repair temporal errors.",
+    "Purpose": "Convert still-image control into usable video/GIF production.",
+    "Core Requirements": "Video engine registry; per-frame manifests; identity/pose/flicker QA; optical-flow checks; bad-frame repair; stitch boundary QA."
+  },
+  {
+    "Wave": "28",
+    "Covers": "Micro-motion and secondary motion layer",
+    "Goal": "Add breathing, tremble, grip changes, gaze, hair motion, chest/abdomen movement, ripple, bounce, and subtle secondary motion.",
+    "Purpose": "Make bodies feel alive across GIF/video outputs.",
+    "Core Requirements": "Micro-motion tracks; region motion curves; phase alignment; soft-body secondary motion schedules; temporal QA."
+  },
+  {
+    "Wave": "29",
+    "Covers": "Long-form continuity, fatigue, variation, and scene-state memory",
+    "Goal": "Track long-form body state, fatigue, pacing, state changes, repetition control, clothing state, marks, fluids, and continuity.",
+    "Purpose": "Prevent scenes from resetting or repeating unnaturally.",
+    "Core Requirements": "Scene-state ledger; body-state timeline; fatigue curves; variation rules; continuity QA; shot-to-shot state diff."
+  },
+  {
+    "Wave": "30",
+    "Covers": "Audio generation: voice, dialogue, breathing, foley, ambience, music, and SFX",
+    "Goal": "Build audio lanes linked to the scene graph, character IDs, action timeline, and environment.",
+    "Purpose": "Make audio generated as part of the same production plan instead of an afterthought.",
+    "Core Requirements": "Voice profiles; dialogue; breathing; foley; impacts; ambience; music beds; clipping/intelligibility QA; manifests."
+  },
+  {
+    "Wave": "31",
+    "Covers": "Pose-to-audio force model, spatial audio, and room acoustics",
+    "Goal": "Map visual action/contact force to synchronized sound design and spatial mixing.",
+    "Purpose": "Make audio match contact, motion, room size, camera distance, and actor placement.",
+    "Core Requirements": "Audio force map; room impulse profile; panning; reverb; distance; sync QA; force mismatch detection."
+  },
+  {
+    "Wave": "32",
+    "Covers": "State diff debugger, revision manager, variants, and learning loop",
+    "Goal": "Compare planned state, compiled state, generated state, QA-observed state, and revised state; manage takes and successful-run presets.",
+    "Purpose": "Make iterative improvement targeted and measurable.",
+    "Core Requirements": "State diff categories; take IDs; variant recipes; failure clustering; preset saving; successful-run learning; targeted reruns."
+  },
+  {
+    "Wave": "33",
+    "Covers": "Proxy preview, animatics, realism budgets, and cost control",
+    "Goal": "Create cheap previews before final EC2 GPU runs and assign realism budgets to passes.",
+    "Purpose": "Avoid wasting EC2 money on bad scene logic.",
+    "Core Requirements": "Text preview; storyboard; pose/contact animatic; rough motion; scratch audio; budget modes; escalation to final render only after preview QA."
+  },
+  {
+    "Wave": "34",
+    "Covers": "Final integration, App Mode release, EC2 proof, QA certification, and cumulative handoff",
+    "Goal": "Assemble the full still/GIF/video/audio hyper-realism system and produce final release evidence.",
+    "Purpose": "Deliver an AI-operable end-to-end production system with strict QA and reproducible deployment.",
+    "Core Requirements": "End-to-end tests; local+EC2 proofs; App Mode UI; docs; schemas; manifests; final QA certification; release bundle."
+  }
+]

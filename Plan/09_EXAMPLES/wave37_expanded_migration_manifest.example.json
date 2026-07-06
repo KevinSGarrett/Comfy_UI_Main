@@ -1,0 +1,29 @@
+{
+  "migration_id": "migration_local_workflows_001",
+  "migration_scope": "workflow_library_cleanup",
+  "source_paths": [
+    "legacy_workflows/"
+  ],
+  "target_paths": [
+    "05_WORKFLOWS/"
+  ],
+  "owner_domain": "workflow_library",
+  "artifact_types": [
+    "workflow_json",
+    "workflow_docs"
+  ],
+  "pre_migration_counts": {
+    "files": 25
+  },
+  "post_migration_counts": {
+    "files": 25
+  },
+  "rollback_plan_id": "rollback_local_workflows_001",
+  "catalog_refresh_required": true,
+  "validation_required": [
+    "file_count_match",
+    "workflow_catalog_refresh",
+    "stale_index_pass"
+  ],
+  "status": "planned"
+}

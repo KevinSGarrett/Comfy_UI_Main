@@ -1,0 +1,31 @@
+{
+  "contract_version": "wave25.v1",
+  "scene_id": "scene_025_example",
+  "character_instances": [
+    "char_A",
+    "char_B"
+  ],
+  "interaction_events": [
+    {
+      "event_id": "interaction_001",
+      "source_instance_id": "char_A",
+      "target_instance_id": "char_B",
+      "interaction_type": "cross_character_hand_contact",
+      "source_region": "right_hand",
+      "target_region": "left_shoulder",
+      "choreography_phase": "contact_start",
+      "occlusion_role": "foreground_source",
+      "depth_order": [
+        "char_A.right_hand",
+        "char_B.left_shoulder"
+      ],
+      "required_masks": [
+        "char_A_instance",
+        "char_B_instance",
+        "source_region",
+        "target_region",
+        "contact_boundary"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "camera_plan": {
+    "camera_id": "cam_001",
+    "shot_type": "full_body",
+    "framing": {
+      "body_crop": "head_to_feet_visible",
+      "subject_count_visible": 1,
+      "safe_margin": "5-8 percent around body",
+      "full_body_required": true,
+      "half_body_required": false
+    },
+    "lens_look": "natural 35-50mm equivalent",
+    "camera_angle": "straight-on slight low-neutral angle",
+    "camera_height": "waist to chest height",
+    "camera_distance": "far enough for full body",
+    "zoom_or_focal_length_hint": "avoid extreme wide distortion",
+    "depth_of_field": "moderate, keep subject sharp",
+    "composition_notes": [
+      "subject centered but not stiff",
+      "floor contact visible"
+    ],
+    "occlusion_warnings": [
+      "do not let foreground props block feet or hands"
+    ],
+    "qa_requirements": [
+      "qa_camera_framing",
+      "qa_character_count"
+    ]
+  },
+  "mask_plan": [
+    {
+      "mask_id": "mask_char_001_macro",
+      "scale": "macro",
+      "target_entity_id": "char_001",
+      "target_region": "full_body",
+      "purpose": "protect and evaluate full body silhouette",
+      "feather_px": 16,
+      "dilate_px": 4,
+      "erode_px": 0,
+      "protect_regions": [
+        "background"
+      ],
+      "qa_overlay_required": true
+    },
+    {
+      "mask_id": "mask_skin_micro_001",
+      "scale": "micro",
+      "target_entity_id": "char_001",
+      "target_region": "visible_skin_texture",
+      "purpose": "skin/material microdetail pass without changing identity or silhouette",
+      "feather_px": 8,
+      "dilate_px": 2,
+      "erode_px": 0,
+      "protect_regions": [
+        "eyes",
+        "hands",
+        "clothing_edges"
+      ],
+      "qa_overlay_required": true
+    }
+  ],
+  "qa_goal_plan": [
+    {
+      "qa_goal_id": "qa_basic_file",
+      "scope": "all outputs",
+      "checks": [
+        "file_exists",
+        "decode_ok",
+        "sha256_recorded"
+      ],
+      "evidence_required": [
+        "output_manifest.json"
+      ],
+      "blocking": true,
+      "promotion_required": true
+    },
+    {
+      "qa_goal_id": "qa_camera_framing",
+      "scope": "camera",
+      "checks": [
+        "full_body_visible",
+        "no_cropped_feet_or_head"
+      ],
+      "evidence_required": [
+        "qa_crop_view.png"
+      ],
+      "blocking": true,
+      "promotion_required": true
+    },
+    {
+      "qa_goal_id": "qa_mask_no_bleed",
+      "scope": "regional detail",
+      "checks": [
+        "mask_overlay_saved",
+        "outside_region_unchanged"
+      ],
+      "evidence_required": [
+        "mask_overlay.png",
+        "before_after_crop.png"
+      ],
+      "blocking": true,
+      "promotion_required": true
+    }
+  ]
+}

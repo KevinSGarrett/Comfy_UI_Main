@@ -1,0 +1,172 @@
+{
+  "crosswalk_count": 11,
+  "crosswalk": [
+    {
+      "crosswalk_id": "cw_001",
+      "source_requirement": "Organization structure",
+      "source_layer": "combined_sources",
+      "covered_by_wave": [
+        35,
+        36,
+        37
+      ],
+      "covered_by_artifact": [
+        "14_ORGANIZATION_SYSTEM"
+      ],
+      "gap_class": "already_covered",
+      "merge_action": "extend_with_combination_layer",
+      "owner_domain": "project_control",
+      "validation_gate": "wave47_combined_validation"
+    },
+    {
+      "crosswalk_id": "cw_002",
+      "source_requirement": "Blueprint/manual/project plan intake",
+      "source_layer": "combined_sources",
+      "covered_by_wave": [
+        38
+      ],
+      "covered_by_artifact": [
+        "15_BLUEPRINT_PROJECTPLAN_COMBINATION/00_SOURCE_IMPORTS"
+      ],
+      "gap_class": "combined",
+      "merge_action": "use_as_planning_source",
+      "owner_domain": "project_control",
+      "validation_gate": "wave47_combined_validation"
+    },
+    {
+      "crosswalk_id": "cw_003",
+      "source_requirement": "Requirement mapping",
+      "source_layer": "combined_sources",
+      "covered_by_wave": [
+        39
+      ],
+      "covered_by_artifact": [
+        "wave39_unified_requirement_crosswalk.json"
+      ],
+      "gap_class": "combined",
+      "merge_action": "map_plan_to_system",
+      "owner_domain": "project_control",
+      "validation_gate": "wave47_combined_validation"
+    },
+    {
+      "crosswalk_id": "cw_004",
+      "source_requirement": "Unified architecture",
+      "source_layer": "combined_sources",
+      "covered_by_wave": [
+        40
+      ],
+      "covered_by_artifact": [
+        "WAVE40_UNIFIED_ARCHITECTURE_TREE.md"
+      ],
+      "gap_class": "combined",
+      "merge_action": "bind_planning_to_implementation",
+      "owner_domain": "project_control",
+      "validation_gate": "wave47_combined_validation"
+    },
+    {
+      "crosswalk_id": "cw_005",
+      "source_requirement": "Unified backlog",
+      "source_layer": "combined_sources",
+      "covered_by_wave": [
+        41
+      ],
+      "covered_by_artifact": [
+        "wave41_unified_combined_backlog.json"
+      ],
+      "gap_class": "combined",
+      "merge_action": "work_from_single_backlog",
+      "owner_domain": "project_control",
+      "validation_gate": "wave47_combined_validation"
+    },
+    {
+      "crosswalk_id": "cw_006",
+      "source_requirement": "Workflow/App Mode bridge",
+      "source_layer": "combined_sources",
+      "covered_by_wave": [
+        42
+      ],
+      "covered_by_artifact": [
+        "WAVE42_WORKFLOW_APP_RUNTIME_BRIDGE.md"
+      ],
+      "gap_class": "partially_covered",
+      "merge_action": "bridge_catalogs_and_runtime_paths",
+      "owner_domain": "project_control",
+      "validation_gate": "wave47_combined_validation"
+    },
+    {
+      "crosswalk_id": "cw_007",
+      "source_requirement": "Local/EC2 runtime proof",
+      "source_layer": "combined_sources",
+      "covered_by_wave": [
+        43
+      ],
+      "covered_by_artifact": [
+        "WAVE43_LOCAL_EC2_PROOF_CHAIN.md"
+      ],
+      "gap_class": "needs_runtime_proof",
+      "merge_action": "preserve_proof_gates",
+      "owner_domain": "project_control",
+      "validation_gate": "wave47_combined_validation"
+    },
+    {
+      "crosswalk_id": "cw_008",
+      "source_requirement": "Unified QA certification",
+      "source_layer": "combined_sources",
+      "covered_by_wave": [
+        44
+      ],
+      "covered_by_artifact": [
+        "WAVE44_QA_CERTIFICATION_UNIFICATION.md"
+      ],
+      "gap_class": "combined",
+      "merge_action": "merge_QA_evidence_model",
+      "owner_domain": "project_control",
+      "validation_gate": "wave47_combined_validation"
+    },
+    {
+      "crosswalk_id": "cw_009",
+      "source_requirement": "Catalog/search traceability",
+      "source_layer": "combined_sources",
+      "covered_by_wave": [
+        45
+      ],
+      "covered_by_artifact": [
+        "WAVE45_TRACEABILITY_GRAPH.md"
+      ],
+      "gap_class": "combined",
+      "merge_action": "trace_source_to_release",
+      "owner_domain": "project_control",
+      "validation_gate": "wave47_combined_validation"
+    },
+    {
+      "crosswalk_id": "cw_010",
+      "source_requirement": "Migration implementation playbook",
+      "source_layer": "combined_sources",
+      "covered_by_wave": [
+        46
+      ],
+      "covered_by_artifact": [
+        "WAVE46_EXECUTION_PLAYBOOK.md"
+      ],
+      "gap_class": "combined",
+      "merge_action": "execute_from_combined_playbook",
+      "owner_domain": "project_control",
+      "validation_gate": "wave47_combined_validation"
+    },
+    {
+      "crosswalk_id": "cw_011",
+      "source_requirement": "Combined final handoff",
+      "source_layer": "combined_sources",
+      "covered_by_wave": [
+        47
+      ],
+      "covered_by_artifact": [
+        "WAVE47_COMBINED_OPERATING_MANUAL.md"
+      ],
+      "gap_class": "combined",
+      "merge_action": "release_combined_operating_manual",
+      "owner_domain": "project_control",
+      "validation_gate": "wave47_combined_validation"
+    }
+  ]
+}

@@ -1,0 +1,384 @@
+{
+  "source_file_sha256": "13297484923fa1ca7525fa913792b19999f395e05118e50eb269e48e4d1bc8bb",
+  "workflow_id": "c1eb5a64-4997-472d-a6f5-93cc273d6a72",
+  "revision": 0,
+  "node_count": 356,
+  "link_count": 91,
+  "save_image_lanes": [
+    {
+      "save_node_id": 19,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA",
+      "upstream_node_count": 8,
+      "upstream_types": {
+        "CheckpointLoaderSimple": 1,
+        "CLIPTextEncode": 2,
+        "EmptyLatentImage": 1,
+        "KSampler": 1,
+        "VAEDecode": 1,
+        "SaveImage": 1,
+        "Lora Loader Stack (rgthree)": 1
+      },
+      "ksampler_ids": [
+        17
+      ],
+      "checkpoint_loader_ids": [
+        10
+      ],
+      "unet_loader_ids": [],
+      "clip_text_ids": [
+        14,
+        15
+      ],
+      "latent_ids": [
+        16
+      ]
+    },
+    {
+      "save_node_id": 39,
+      "prefix": "Main_Flow/Flux_Family_ZImage",
+      "upstream_node_count": 10,
+      "upstream_types": {
+        "CLIPLoader": 1,
+        "CLIPTextEncode": 2,
+        "EmptySD3LatentImage": 1,
+        "KSampler": 1,
+        "VAELoader": 1,
+        "VAEDecode": 1,
+        "SaveImage": 1,
+        "UNETLoader": 1,
+        "ModelSamplingAuraFlow": 1
+      },
+      "ksampler_ids": [
+        36
+      ],
+      "checkpoint_loader_ids": [],
+      "unet_loader_ids": [
+        30
+      ],
+      "clip_text_ids": [
+        33,
+        34
+      ],
+      "latent_ids": [
+        35
+      ]
+    },
+    {
+      "save_node_id": 62,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA_Upscaled",
+      "upstream_node_count": 10,
+      "upstream_types": {
+        "CheckpointLoaderSimple": 1,
+        "CLIPTextEncode": 2,
+        "EmptyLatentImage": 1,
+        "KSampler": 1,
+        "VAEDecode": 1,
+        "Lora Loader Stack (rgthree)": 1,
+        "UpscaleModelLoader": 1,
+        "ImageUpscaleWithModel": 1,
+        "SaveImage": 1
+      },
+      "ksampler_ids": [
+        17
+      ],
+      "checkpoint_loader_ids": [
+        10
+      ],
+      "unet_loader_ids": [],
+      "clip_text_ids": [
+        14,
+        15
+      ],
+      "latent_ids": [
+        16
+      ]
+    },
+    {
+      "save_node_id": 87,
+      "prefix": "Main_Flow/SDXL_Inpaint_Detail",
+      "upstream_node_count": 10,
+      "upstream_types": {
+        "CheckpointLoaderSimple": 1,
+        "LoadImage": 1,
+        "LoadImageMask": 1,
+        "VAEEncodeForInpaint": 1,
+        "CLIPTextEncode": 2,
+        "KSampler": 1,
+        "VAEDecode": 1,
+        "SaveImage": 1,
+        "Lora Loader Stack (rgthree)": 1
+      },
+      "ksampler_ids": [
+        85
+      ],
+      "checkpoint_loader_ids": [
+        10
+      ],
+      "unet_loader_ids": [],
+      "clip_text_ids": [
+        83,
+        84
+      ],
+      "latent_ids": []
+    },
+    {
+      "save_node_id": 95,
+      "prefix": "Main_Flow/Flux_to_SDXL_Refine",
+      "upstream_node_count": 17,
+      "upstream_types": {
+        "CLIPLoader": 1,
+        "CLIPTextEncode": 4,
+        "EmptySD3LatentImage": 1,
+        "KSampler": 2,
+        "VAELoader": 1,
+        "VAEDecode": 2,
+        "CheckpointLoaderSimple": 1,
+        "ModelSamplingAuraFlow": 1,
+        "UNETLoader": 1,
+        "VAEEncode": 1,
+        "Lora Loader Stack (rgthree)": 1,
+        "SaveImage": 1
+      },
+      "ksampler_ids": [
+        36,
+        93
+      ],
+      "checkpoint_loader_ids": [
+        10
+      ],
+      "unet_loader_ids": [
+        30
+      ],
+      "clip_text_ids": [
+        33,
+        34,
+        91,
+        92
+      ],
+      "latent_ids": [
+        35
+      ]
+    },
+    {
+      "save_node_id": 107,
+      "prefix": "Main_Flow/True_Flux_Schnell_Reference_Smoke",
+      "upstream_node_count": 8,
+      "upstream_types": {
+        "CheckpointLoaderSimple": 1,
+        "ModelSamplingFlux": 1,
+        "CLIPTextEncodeFlux": 1,
+        "ConditioningZeroOut": 1,
+        "EmptySD3LatentImage": 1,
+        "KSampler": 1,
+        "VAEDecode": 1,
+        "SaveImage": 1
+      },
+      "ksampler_ids": [
+        105
+      ],
+      "checkpoint_loader_ids": [
+        100
+      ],
+      "unet_loader_ids": [],
+      "clip_text_ids": [
+        102
+      ],
+      "latent_ids": [
+        104
+      ]
+    },
+    {
+      "save_node_id": 128,
+      "prefix": "Main_Flow/ControlNet_Canny_Edge",
+      "upstream_node_count": 11,
+      "upstream_types": {
+        "SaveImage": 1,
+        "CheckpointLoaderSimple": 1,
+        "Lora Loader Stack (rgthree)": 1,
+        "ControlNetLoader": 1,
+        "LoadImage": 1,
+        "CLIPTextEncode": 2,
+        "ControlNetApplyAdvanced": 1,
+        "EmptyLatentImage": 1,
+        "KSampler": 1,
+        "VAEDecode": 1
+      },
+      "ksampler_ids": [
+        126
+      ],
+      "checkpoint_loader_ids": [
+        10
+      ],
+      "unet_loader_ids": [],
+      "clip_text_ids": [
+        122,
+        123
+      ],
+      "latent_ids": [
+        125
+      ]
+    },
+    {
+      "save_node_id": 118,
+      "prefix": "Main_Flow/IPAdapter_Face_Reference",
+      "upstream_node_count": 10,
+      "upstream_types": {
+        "CheckpointLoaderSimple": 1,
+        "IPAdapterUnifiedLoader": 1,
+        "LoadImage": 1,
+        "IPAdapter": 1,
+        "CLIPTextEncode": 2,
+        "EmptyLatentImage": 1,
+        "KSampler": 1,
+        "VAEDecode": 1,
+        "SaveImage": 1
+      },
+      "ksampler_ids": [
+        116
+      ],
+      "checkpoint_loader_ids": [
+        10
+      ],
+      "unet_loader_ids": [],
+      "clip_text_ids": [
+        113,
+        114
+      ],
+      "latent_ids": [
+        115
+      ]
+    }
+  ],
+  "checkpoint_loaders": [
+    {
+      "node_id": 100,
+      "model_name": "flux1-schnell-fp8.safetensors"
+    },
+    {
+      "node_id": 10,
+      "model_name": "flux1-dev-fp8.safetensors"
+    }
+  ],
+  "unet_loaders": [
+    {
+      "node_id": 30,
+      "model_name": "z_image_turbo_bf16.safetensors",
+      "weight_dtype": "default"
+    }
+  ],
+  "latent_nodes": [
+    {
+      "node_id": 16,
+      "node_type": "EmptyLatentImage",
+      "width": 1024,
+      "height": 1280,
+      "batch_size": 1
+    },
+    {
+      "node_id": 35,
+      "node_type": "EmptySD3LatentImage",
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    {
+      "node_id": 104,
+      "node_type": "EmptySD3LatentImage",
+      "width": 512,
+      "height": 512,
+      "batch_size": 1
+    },
+    {
+      "node_id": 115,
+      "node_type": "EmptyLatentImage",
+      "width": 768,
+      "height": 768,
+      "batch_size": 1
+    },
+    {
+      "node_id": 125,
+      "node_type": "EmptyLatentImage",
+      "width": 768,
+      "height": 768,
+      "batch_size": 1
+    }
+  ],
+  "mask_slots": [
+    {
+      "node_id": 82,
+      "node_type": "VAEEncodeForInpaint",
+      "input_name": "mask",
+      "link": 51
+    },
+    {
+      "node_id": 112,
+      "node_type": "IPAdapter",
+      "input_name": "attn_mask",
+      "link": null
+    }
+  ],
+  "control_nodes": [
+    {
+      "node_id": 120,
+      "node_type": "ControlNetLoader",
+      "widgets": [
+        "controlnet-canny-sdxl-1.0-small.safetensors"
+      ]
+    },
+    {
+      "node_id": 124,
+      "node_type": "ControlNetApplyAdvanced",
+      "widgets": [
+        0.65,
+        0,
+        0.75
+      ]
+    }
+  ],
+  "ipadapter_nodes": [
+    {
+      "node_id": 112,
+      "node_type": "IPAdapter",
+      "widgets": [
+        0.45,
+        0,
+        0.85,
+        "standard"
+      ]
+    },
+    {
+      "node_id": 110,
+      "node_type": "IPAdapterUnifiedLoader",
+      "widgets": [
+        "PLUS FACE (portraits)"
+      ]
+    }
+  ],
+  "lora_library_summary": {
+    "lora_nodes": 275,
+    "disabled_or_library_nodes": 274,
+    "rule": "select compatible same-engine stack profiles; never enable library nodes globally"
+  },
+  "engine_alignment_findings": [
+    {
+      "finding_id": "W15-FINDING-001",
+      "description": "Current SDXL/RealVisXL-named lanes must verify checkpoint/engine family alignment before production promotion.",
+      "severity": "blocker_for_promotion"
+    },
+    {
+      "finding_id": "W15-FINDING-002",
+      "description": "Z-Image lane is wired with its own UNET/CLIP/VAE structure and should be treated as a separate Z-Image lane, not a Flux lane merely because of historical naming.",
+      "severity": "major"
+    },
+    {
+      "finding_id": "W15-FINDING-003",
+      "description": "Flux Schnell lane is a smoke/proof lane until final quality QA proves it is acceptable for the requested use.",
+      "severity": "major"
+    },
+    {
+      "finding_id": "W15-FINDING-004",
+      "description": "Pony base lane is not present in the current Main Flow and requires a separate template and proof cycle.",
+      "severity": "blocker_for_pony_promotion"
+    }
+  ]
+}

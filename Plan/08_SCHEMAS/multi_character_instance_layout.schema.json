@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave24 Multi Character Instance Layout",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "scene_id",
+    "character_count_target",
+    "instances"
+  ],
+  "properties": {
+    "contract_version": {
+      "type": "string"
+    },
+    "scene_id": {
+      "type": "string"
+    },
+    "source_image_id": {
+      "type": "string"
+    },
+    "character_count_target": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "instances": {
+      "type": "array",
+      "items": {
+        "$ref": "character_instance.schema.json"
+      },
+      "minItems": 1
+    },
+    "depth_order": {
+      "type": "array",
+      "items": {
+        "$ref": "depth_order_entry.schema.json"
+      }
+    },
+    "qa_goals": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

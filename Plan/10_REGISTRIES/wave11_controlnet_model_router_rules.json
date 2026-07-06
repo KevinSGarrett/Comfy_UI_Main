@@ -1,0 +1,90 @@
+[
+  {
+    "route_id": "sdxl_pose_dwpose_primary",
+    "engine_family": "sdxl",
+    "base_checkpoint_family": "sdxl_realvisxl",
+    "control_map_types": [
+      "dwpose",
+      "openpose"
+    ],
+    "expected_controlnet_model_slot": "models/controlnet/sdxl/pose/*",
+    "default_strength": 0.75,
+    "start_percent": 0.0,
+    "end_percent": 0.75,
+    "promotion_requirement": "object_info_node_exists + control_model_hash_registered + output_evidence_pass"
+  },
+  {
+    "route_id": "sdxl_depth_structure",
+    "engine_family": "sdxl",
+    "base_checkpoint_family": "sdxl_realvisxl",
+    "control_map_types": [
+      "depth"
+    ],
+    "expected_controlnet_model_slot": "models/controlnet/sdxl/depth/*",
+    "default_strength": 0.55,
+    "start_percent": 0.0,
+    "end_percent": 0.7,
+    "promotion_requirement": "depth_map_qa + generation_output_qa + no_identity_drift"
+  },
+  {
+    "route_id": "sdxl_canny_existing",
+    "engine_family": "sdxl",
+    "base_checkpoint_family": "sdxl_realvisxl",
+    "control_map_types": [
+      "canny"
+    ],
+    "expected_controlnet_model_slot": "models/controlnet/sdxl/canny/controlnet-canny-sdxl-1.0-small.safetensors",
+    "current_main_flow_node_ids": [
+      120,
+      124,
+      121,
+      128
+    ],
+    "default_strength": 0.65,
+    "start_percent": 0.0,
+    "end_percent": 0.75,
+    "promotion_requirement": "existing branch must generate Main_Flow/ControlNet_Canny_Edge image and pass evidence QA"
+  },
+  {
+    "route_id": "sdxl_lineart_contour",
+    "engine_family": "sdxl",
+    "base_checkpoint_family": "sdxl_realvisxl",
+    "control_map_types": [
+      "lineart"
+    ],
+    "expected_controlnet_model_slot": "models/controlnet/sdxl/lineart/*",
+    "default_strength": 0.45,
+    "start_percent": 0.0,
+    "end_percent": 0.65,
+    "promotion_requirement": "lineart_map_qa + contour_match_score"
+  },
+  {
+    "route_id": "flux_depth_canny_planned",
+    "engine_family": "flux",
+    "base_checkpoint_family": "flux1_or_flux2",
+    "control_map_types": [
+      "depth",
+      "canny"
+    ],
+    "expected_controlnet_model_slot": "models/controlnet/flux/*",
+    "default_strength": 0.35,
+    "start_percent": 0.0,
+    "end_percent": 0.6,
+    "promotion_requirement": "Flux/Flux2-specific ControlNet workflow proof; do not reuse SDXL ControlNet models directly"
+  },
+  {
+    "route_id": "video_pose_bridge",
+    "engine_family": "video",
+    "base_checkpoint_family": "wan_hunyuan_ltxv",
+    "control_map_types": [
+      "dwpose_sequence",
+      "depth_sequence",
+      "canny_sequence"
+    ],
+    "expected_controlnet_model_slot": "video_workflow_specific",
+    "default_strength": "per_engine",
+    "start_percent": "per_engine",
+    "end_percent": "per_engine",
+    "promotion_requirement": "per-frame or keyframe control-map sequence QA + temporal consistency evidence"
+  }
+]

@@ -1,0 +1,35 @@
+{
+  "repo_name": "Comfy_UI_Main",
+  "local_root": "C:\\Comfy_UI_Main",
+  "remote_url": "https://github.com/KevinSGarrett/Comfy_UI_Main",
+  "branch_policy": {
+    "main": "stable validated work",
+    "dev/wave-XX": "active wave development",
+    "runtime-proof/wave-XX": "runtime proof manifests and logs only"
+  },
+  "required_directories": [
+    "docs",
+    "workflows",
+    "orchestration",
+    "schemas",
+    "configs",
+    "scripts",
+    "manifests",
+    "evidence",
+    "tests",
+    "app_mode",
+    "external_assets",
+    ".github/workflows"
+  ],
+  "forbidden_file_patterns": [
+    "*.safetensors",
+    "*.ckpt",
+    "*.pt",
+    "*.pth",
+    "*.mp4",
+    "*.wav",
+    "*.zip"
+  ],
+  "model_storage_policy": "models stay outside Git; use manifests pointing to S3/local/EC2 paths",
+  "ec2_policy": "off by default; runtime proof gate required"
+}

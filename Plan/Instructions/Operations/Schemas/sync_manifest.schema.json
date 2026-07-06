@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Comfy UI Main Sync Manifest",
+  "type": "object",
+  "required": [
+    "sync_id",
+    "direction",
+    "source",
+    "target",
+    "method",
+    "files",
+    "validation",
+    "errors"
+  ],
+  "properties": {
+    "sync_id": {
+      "type": "string"
+    },
+    "direction": {
+      "enum": [
+        "local_to_ec2",
+        "ec2_to_local",
+        "github_checkpoint",
+        "s3_stage"
+      ]
+    },
+    "source": {
+      "type": "string"
+    },
+    "target": {
+      "type": "string"
+    },
+    "method": {
+      "type": "string"
+    },
+    "git_commit": {
+      "type": "string"
+    },
+    "s3_prefix": {
+      "type": "string"
+    },
+    "files": {
+      "type": "array"
+    },
+    "validation": {
+      "type": "object"
+    },
+    "errors": {
+      "type": "array"
+    }
+  }
+}

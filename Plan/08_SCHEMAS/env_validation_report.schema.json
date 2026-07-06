@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "wave03.env_validation_report.schema.json",
+  "title": "Wave03 Environment File Validation Report",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "env_file",
+    "required_keys",
+    "missing_keys",
+    "result"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "env_file": {
+      "type": "string"
+    },
+    "required_keys": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "missing_keys": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL",
+        "WARN"
+      ]
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Wave22 PhysicalContactGraph",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "contact_graph_id",
+    "contact_edges"
+  ],
+  "properties": {
+    "contract_version": {
+      "type": "string"
+    },
+    "contact_graph_id": {
+      "type": "string"
+    },
+    "scene_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "source_image_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "contact_edges": {
+      "type": "array",
+      "items": {
+        "$ref": "contact_edge.schema.json"
+      }
+    },
+    "qa_goals": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

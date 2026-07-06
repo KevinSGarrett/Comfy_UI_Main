@@ -1,0 +1,109 @@
+{
+  "evidence_id": "EVID-W61-QA-HELPER-STATIC-VALIDATION-20260706T005111-0500",
+  "created_at": "2026-07-06T00:51:11-05:00",
+  "artifact_id": "TRK-W61-011",
+  "artifact_type": "qa_helper_static_validation",
+  "tracker_ids": [
+    "TRK-W61-011"
+  ],
+  "item_ids": [
+    "ITEM-W61-011"
+  ],
+  "qa_protocol_used": [
+    "README_QA_WAVE61.md",
+    "DONE_CERTIFICATION_EVIDENCE_PROTOCOL.md",
+    "TRACKER_UPDATE_PROTOCOL.md",
+    "QA_EVIDENCE_LOG_PROTOCOL.md"
+  ],
+  "scope": [
+    "Plan/Instructions/QA/Scripts/*.ps1",
+    "Plan/Instructions/QA/Schemas/*.json",
+    "Plan/Instructions/QA/Templates/*",
+    "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/samples/*"
+  ],
+  "validation_results": {
+    "script_count": 2,
+    "script_parse_failures": 0,
+    "script_parse_results": [
+      {
+        "name": "Initialize-QARecord.ps1",
+        "parse_errors": 0,
+        "result": "pass"
+      },
+      {
+        "name": "New-DoneCertification.ps1",
+        "parse_errors": 0,
+        "result": "pass"
+      }
+    ],
+    "json_file_count": 4,
+    "json_parse_failures": 0,
+    "json_parse_results": [
+      {
+        "name": "done_certification.schema.json",
+        "result": "pass"
+      },
+      {
+        "name": "qa_record.schema.json",
+        "result": "pass"
+      },
+      {
+        "name": "artifact_qa_record.template.json",
+        "result": "pass"
+      },
+      {
+        "name": "workflow_validation_record.template.json",
+        "result": "pass"
+      }
+    ],
+    "markdown_template_count": 4,
+    "markdown_template_failures": 0,
+    "markdown_template_results": [
+      {
+        "name": "audio_review_checklist.template.md",
+        "result": "pass"
+      },
+      {
+        "name": "done_certification.template.md",
+        "result": "pass"
+      },
+      {
+        "name": "image_review_checklist.template.md",
+        "result": "pass"
+      },
+      {
+        "name": "video_review_checklist.template.md",
+        "result": "pass"
+      }
+    ],
+    "qa_record_smoke": {
+      "script": "Initialize-QARecord.ps1",
+      "exit_code": 0,
+      "result": "pass",
+      "output": "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/samples/sample_qa_record.json",
+      "artifact_id": "sample-artifact",
+      "qa_status": "pending"
+    },
+    "done_certification_smoke": {
+      "script": "New-DoneCertification.ps1",
+      "exit_code": 0,
+      "result": "pass",
+      "output": "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/samples/sample_done_certification.md"
+    }
+  },
+  "not_run": [
+    {
+      "validation": "live image/video/audio artifact QA",
+      "reason": "Not required for QA helper static validation; no generated media artifact is under review."
+    },
+    {
+      "validation": "ComfyUI runtime workflow execution",
+      "reason": "Out of scope for QA helper validation."
+    }
+  ],
+  "result": "pass_with_notes",
+  "known_issues": [
+    "Live image/video/audio artifact QA remains pending for actual generated artifacts."
+  ],
+  "next_action": "Use these helpers for future artifact QA records and done certifications."
+}

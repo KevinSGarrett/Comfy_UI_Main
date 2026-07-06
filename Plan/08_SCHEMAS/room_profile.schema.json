@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave09 Room Profile",
+  "type": "object",
+  "required": [
+    "room_profile_id",
+    "environment_type",
+    "zones",
+    "anchors",
+    "boundaries"
+  ],
+  "properties": {
+    "room_profile_id": {
+      "type": "string"
+    },
+    "environment_type": {
+      "type": "string"
+    },
+    "coordinate_model": {
+      "type": "object"
+    },
+    "zones": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "anchors": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "boundaries": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "occluders": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "camera_safe_regions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}

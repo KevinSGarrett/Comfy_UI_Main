@@ -1,0 +1,59 @@
+[
+  {
+    "profile_id": "SPECIALTY-SDXL-DETAIL",
+    "engine": "sdxl_realvisxl",
+    "role": "default_detail_refine",
+    "global_allowed": true,
+    "masked_allowed": true,
+    "preferred_denoise": [
+      0.08,
+      0.3
+    ]
+  },
+  {
+    "profile_id": "SPECIALTY-PONY-MASKED",
+    "engine": "pony_sdxl_specialty",
+    "role": "specialty_masked_concept_repair",
+    "global_allowed": false,
+    "masked_allowed": true,
+    "preferred_denoise": [
+      0.08,
+      0.22
+    ]
+  },
+  {
+    "profile_id": "SPECIALTY-FLUX2-HOLD",
+    "engine": "flux2",
+    "role": "future_reference_or_edit_refine",
+    "global_allowed": false,
+    "masked_allowed": false,
+    "preferred_denoise": [
+      0,
+      0
+    ],
+    "status": "hold_until_local_img2img_reference_proof"
+  },
+  {
+    "profile_id": "SPECIALTY-FLUX1-HOLD",
+    "engine": "flux1",
+    "role": "future_reference_or_edit_refine",
+    "global_allowed": false,
+    "masked_allowed": false,
+    "preferred_denoise": [
+      0,
+      0
+    ],
+    "status": "hold_until_local_img2img_reference_proof"
+  },
+  {
+    "profile_id": "SPECIALTY-SD15-TINY",
+    "engine": "sd15_legacy",
+    "role": "tiny_artifact_repair",
+    "global_allowed": false,
+    "masked_allowed": true,
+    "preferred_denoise": [
+      0.06,
+      0.16
+    ]
+  }
+]

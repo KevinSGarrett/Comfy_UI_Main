@@ -1,0 +1,20 @@
+# Wave 55 — QA / Testing / Visual Review Item Catalog
+
+Catalogs strict QA, testing, visual review, evidence, and certification items.
+
+## Required item fields
+
+- item ID and wave
+- item category/domain
+- autonomous Codex action
+- implementation target
+- QA gates
+- visual review requirement
+- runtime proof requirement
+- EC2/final-render gate
+- source citation fields
+- blocker policy
+
+## No-human rule
+
+No item may depend on human input or human manual work. Blockers must be recorded with exact source citation and evidence.

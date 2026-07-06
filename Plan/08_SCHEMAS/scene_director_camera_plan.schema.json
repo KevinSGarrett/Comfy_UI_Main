@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "scene_director_camera_plan.schema.json",
+  "title": "Wave07 Scene Director Camera Plan",
+  "type": "object",
+  "required": [
+    "camera_id",
+    "shot_type",
+    "framing",
+    "lens_look",
+    "camera_angle",
+    "depth_of_field",
+    "qa_requirements"
+  ],
+  "properties": {
+    "camera_id": {
+      "type": "string"
+    },
+    "shot_type": {
+      "type": "string"
+    },
+    "framing": {
+      "type": "object",
+      "required": [
+        "body_crop",
+        "subject_count_visible",
+        "safe_margin"
+      ],
+      "properties": {
+        "body_crop": {
+          "type": "string"
+        },
+        "subject_count_visible": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "safe_margin": {
+          "type": "string"
+        },
+        "full_body_required": {
+          "type": "boolean"
+        },
+        "half_body_required": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "lens_look": {
+      "type": "string"
+    },
+    "camera_angle": {
+      "type": "string"
+    },
+    "camera_height": {
+      "type": "string"
+    },
+    "camera_distance": {
+      "type": "string"
+    },
+    "zoom_or_focal_length_hint": {
+      "type": "string"
+    },
+    "depth_of_field": {
+      "type": "string"
+    },
+    "composition_notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "occlusion_warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "qa_requirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

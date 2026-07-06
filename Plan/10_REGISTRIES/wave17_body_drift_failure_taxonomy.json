@@ -1,0 +1,45 @@
+{
+  "version": "wave17",
+  "failures": [
+    {
+      "failure_id": "waist_overpinch",
+      "severity": "medium",
+      "rerun_hint": "lower denoise, wider feather, add left/right balance constraint"
+    },
+    {
+      "failure_id": "stomach_texture_smear",
+      "severity": "medium",
+      "rerun_hint": "split shape pass from texture-restore pass"
+    },
+    {
+      "failure_id": "hip_thigh_mismatch",
+      "severity": "medium_high",
+      "rerun_hint": "rerun paired thighs/hips together with symmetry QA"
+    },
+    {
+      "failure_id": "silhouette_cutoff",
+      "severity": "high",
+      "rerun_hint": "return to camera/framing contract before shape correction"
+    },
+    {
+      "failure_id": "body_merge",
+      "severity": "critical",
+      "rerun_hint": "split person-instance masks and block promotion"
+    },
+    {
+      "failure_id": "face_drift",
+      "severity": "critical",
+      "rerun_hint": "restore base face or rerun with face exclusion mask"
+    },
+    {
+      "failure_id": "fabric_float",
+      "severity": "medium_high",
+      "rerun_hint": "add clothing boundary repair pass after shape correction"
+    },
+    {
+      "failure_id": "background_warp",
+      "severity": "medium",
+      "rerun_hint": "separate background restoration mask from body mask"
+    }
+  ]
+}

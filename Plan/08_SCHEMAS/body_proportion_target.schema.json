@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave17 Body Proportion Target",
+  "type": "object",
+  "required": [
+    "profile_id",
+    "regions",
+    "max_shape_delta",
+    "denoise_range",
+    "qa_priority"
+  ],
+  "properties": {
+    "profile_id": {
+      "type": "string"
+    },
+    "regions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "max_shape_delta": {
+      "type": "string"
+    },
+    "denoise_range": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "number"
+      }
+    },
+    "qa_priority": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

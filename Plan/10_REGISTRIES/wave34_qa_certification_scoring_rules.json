@@ -1,0 +1,30 @@
+{
+  "dimensions": [
+    "schema_validity",
+    "registry_validity",
+    "script_validity",
+    "app_mode_mapping",
+    "orchestrator_route_integrity",
+    "preview_gate_integrity",
+    "state_diff_integrity",
+    "local_proof",
+    "ec2_proof_when_required",
+    "image_runtime_evidence",
+    "video_runtime_evidence_when_required",
+    "audio_runtime_evidence_when_required",
+    "manifest_completeness",
+    "release_decision_consistency"
+  ],
+  "architecture_release_threshold": 95,
+  "runtime_certified_release_threshold": 95,
+  "hard_fail_conditions": [
+    "invalid_json",
+    "script_compile_failed",
+    "missing_release_manifest",
+    "missing_release_gate_decision",
+    "ec2_claimed_without_ec2_proof",
+    "video_claimed_without_video_proof",
+    "audio_claimed_without_audio_proof",
+    "direct_final_render_unblocked_without_preflight"
+  ]
+}

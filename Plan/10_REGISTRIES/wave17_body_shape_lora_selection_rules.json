@@ -1,0 +1,37 @@
+{
+  "version": "wave17",
+  "purpose": "Rules for selecting body-shape/body-proportion LoRA candidates without corrupting the base image.",
+  "rules": [
+    "Prefer mask + denoise + prompt constraints before adding a body-shape LoRA.",
+    "Only select LoRAs whose engine family matches the active refine engine.",
+    "Use one body-shape LoRA at a time in a correction pass unless a stack profile has runtime proof.",
+    "Rejected/superseded library entries remain blocked even if their names appear semantically relevant.",
+    "Flux body LoRAs may be used only in Flux-family lanes; SDXL body LoRAs may be used only in SDXL/Pony-compatible lanes.",
+    "Body-shape LoRAs cannot be enabled globally across the full Main Flow; they must be attached to a named pass profile."
+  ],
+  "selection_priority": [
+    "runtime_promoted_character_profile",
+    "path_verified_same_engine_body_shape_candidate",
+    "installed_same_engine_body_shape_candidate",
+    "generic low-denoise inpaint with no specialty LoRA",
+    "fallback rerun from base lane"
+  ],
+  "main_flow_signal": {
+    "count": 37,
+    "by_engine": {
+      "sdxl": 1,
+      "flux": 36
+    },
+    "by_category": {
+      "body_type_bbw_cellulite": 1,
+      "body": 36
+    },
+    "by_status": {
+      "installed": 17,
+      "path_verified": 14,
+      "rejected_or_superseded": 6
+    },
+    "active_copy_count": 0,
+    "disabled_by_default_count": 37
+  }
+}

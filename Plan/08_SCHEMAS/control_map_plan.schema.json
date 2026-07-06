@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave11 Control Map Plan",
+  "type": "object",
+  "required": [
+    "plan_id",
+    "scene_plan_id",
+    "engine_family",
+    "control_maps",
+    "promotion_policy"
+  ],
+  "properties": {
+    "plan_id": {
+      "type": "string"
+    },
+    "scene_plan_id": {
+      "type": "string"
+    },
+    "engine_family": {
+      "type": "string"
+    },
+    "characters": {
+      "type": "array"
+    },
+    "control_maps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "map_id",
+          "type",
+          "source",
+          "output",
+          "strength"
+        ],
+        "properties": {
+          "map_id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "output": {
+            "type": "string"
+          },
+          "strength": {
+            "type": [
+              "number",
+              "string"
+            ]
+          },
+          "start_percent": {
+            "type": [
+              "number",
+              "string"
+            ]
+          },
+          "end_percent": {
+            "type": [
+              "number",
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "qa_goals": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "promotion_policy": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,13 @@
+# Wave 25 Merge Prevention Failure Tests
+
+## Failure flags
+- merged_body
+- merged_hands
+- merged_limbs
+- duplicate_limb
+- wrong_character_mask
+- swapped_identity
+- prop_body_fusion
+- hair_blend_between_instances
+- impossible_depth_order
+- contact_shadow_wrong_owner

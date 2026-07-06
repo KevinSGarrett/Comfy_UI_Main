@@ -1,0 +1,42 @@
+{
+  "run_id": "RUN_EXAMPLE_SOFTBODY_GIF_001",
+  "scene_id": "SCENE_KEYFRAMED_CONTACT_LOOP",
+  "output_mode": "gif",
+  "motion_type": "keyframed_contact_approximation",
+  "keyframes": [
+    {
+      "frame": 0,
+      "state": "neutral_no_contact"
+    },
+    {
+      "frame": 8,
+      "state": "light_contact"
+    },
+    {
+      "frame": 16,
+      "state": "peak_compression"
+    },
+    {
+      "frame": 24,
+      "state": "release"
+    },
+    {
+      "frame": 32,
+      "state": "settle"
+    }
+  ],
+  "required_tracks": [
+    "pose",
+    "depth",
+    "character_masks",
+    "hand_masks",
+    "contact_zone_masks"
+  ],
+  "qa": [
+    "identity_temporal",
+    "hand_temporal",
+    "contact_temporal",
+    "deformation_progression",
+    "flicker"
+  ]
+}

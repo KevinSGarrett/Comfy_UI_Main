@@ -1,0 +1,20 @@
+{
+  "policies": [
+    {
+      "condition": "planned_state changes intentionally",
+      "action": "create revision"
+    },
+    {
+      "condition": "generated output differs but plan should not change",
+      "action": "create state_diff and targeted_rerun"
+    },
+    {
+      "condition": "generated output improves plan and user accepts",
+      "action": "create promoted revision"
+    },
+    {
+      "condition": "identity or character_count changes unexpectedly",
+      "action": "block promotion"
+    }
+  ]
+}

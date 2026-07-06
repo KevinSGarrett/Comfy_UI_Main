@@ -1,0 +1,42 @@
+{
+  "records": [
+    {
+      "gap_id": "gap_001",
+      "gap_class": "partially_covered",
+      "source_requirement": "combine blueprint and implementation into one workstream",
+      "closure_action": "second_pass_deepening_layer_added",
+      "required_artifacts": [
+        "second_pass_docs",
+        "registries",
+        "validation"
+      ],
+      "validation_gate": "wave47_second_pass_validation",
+      "promotion_status": "structure_ready"
+    },
+    {
+      "gap_id": "gap_002",
+      "gap_class": "needs_runtime_proof",
+      "source_requirement": "prove video/audio/EC2 outputs",
+      "closure_action": "keep_runtime_gates_blocked_until_actual_outputs_exist",
+      "required_artifacts": [
+        "runtime_outputs",
+        "qa_evidence",
+        "manifests"
+      ],
+      "validation_gate": "runtime_QA_later",
+      "promotion_status": "blocked_until_evidence"
+    },
+    {
+      "gap_id": "gap_003",
+      "gap_class": "needs_handoff",
+      "source_requirement": "operator can continue from combined model",
+      "closure_action": "operator manual and continuation policy added",
+      "required_artifacts": [
+        "operator_manual",
+        "handoff_packet"
+      ],
+      "validation_gate": "wave47_second_pass_validation",
+      "promotion_status": "structure_ready"
+    }
+  ]
+}

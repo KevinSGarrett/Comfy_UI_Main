@@ -1,0 +1,32 @@
+{
+  "policies": [
+    {
+      "failure": "composition_failed",
+      "action": "rerun_layout_or_camera_preview"
+    },
+    {
+      "failure": "identity_failed",
+      "action": "rerun_still_proxy_with_identity_lock"
+    },
+    {
+      "failure": "pose_failed",
+      "action": "rerun_control_or_pose_preview"
+    },
+    {
+      "failure": "contact_failed",
+      "action": "rerun_contact_keyframe_preview"
+    },
+    {
+      "failure": "animatic_timing_failed",
+      "action": "rerun_animatic_only"
+    },
+    {
+      "failure": "budget_too_high",
+      "action": "reduce_budget_or_split_render_scope"
+    },
+    {
+      "failure": "preview_artifact_missing",
+      "action": "block_final_render_and_regenerate_preview"
+    }
+  ]
+}

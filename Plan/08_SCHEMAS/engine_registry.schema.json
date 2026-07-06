@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave06 Engine Registry",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "engine_id",
+      "family",
+      "tier",
+      "runtime_type",
+      "model_role",
+      "recommended_use",
+      "not_recommended_use",
+      "required_assets",
+      "compatible_lora_families",
+      "promotion_status"
+    ],
+    "properties": {
+      "engine_id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "family": {
+        "type": "string",
+        "minLength": 1
+      },
+      "tier": {
+        "type": "string"
+      },
+      "runtime_type": {
+        "type": "string"
+      },
+      "model_role": {
+        "type": "string"
+      },
+      "recommended_use": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "not_recommended_use": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "required_assets": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "compatible_lora_families": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "promotion_status": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": true
+  }
+}

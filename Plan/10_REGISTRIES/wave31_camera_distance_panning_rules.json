@@ -1,0 +1,26 @@
+{
+  "rules": [
+    {
+      "if": "source is left of camera center",
+      "pan": "left"
+    },
+    {
+      "if": "source is right of camera center",
+      "pan": "right"
+    },
+    {
+      "if": "source is near camera",
+      "gain": "normal_or_slightly_forward",
+      "reverb": "low"
+    },
+    {
+      "if": "source is far from camera",
+      "gain": "reduced",
+      "reverb": "room_dependent"
+    },
+    {
+      "if": "camera cuts to new listener position",
+      "spatial_state": "reset_from_new_camera"
+    }
+  ]
+}

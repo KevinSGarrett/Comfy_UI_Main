@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave06 Engine Compatibility Rule",
+  "type": "object",
+  "required": [
+    "rule_id",
+    "rule_type",
+    "severity",
+    "description"
+  ],
+  "properties": {
+    "rule_id": {
+      "type": "string"
+    },
+    "rule_type": {
+      "type": "string"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "info",
+        "warning",
+        "blocker"
+      ]
+    },
+    "description": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,106 @@
+{
+  "run_id": "run_20260705_wave14_example",
+  "status": "compiled",
+  "dry_run_first": true,
+  "source_request_id": "wave14_example_request_001",
+  "workflow_source": "Wave42_Runtime_Bound__UI__WAVE42_MAIN_FLOW_20260702.json",
+  "passes": [
+    {
+      "pass_id": "p00_preflight",
+      "stage_id": "01_preflight",
+      "order": 0,
+      "engine_family": "none",
+      "workflow_template": "preflight_only",
+      "required": true,
+      "max_attempts": 1,
+      "patches": [],
+      "qa_gates": [
+        "schema",
+        "object_info",
+        "model_manifest"
+      ]
+    },
+    {
+      "pass_id": "p01_base",
+      "stage_id": "02_base_composition",
+      "order": 1,
+      "engine_family": "auto",
+      "workflow_template": "main_flow_base_lane",
+      "required": true,
+      "max_attempts": 3,
+      "patches": [
+        "seed",
+        "prompt",
+        "latent_size",
+        "save_prefix"
+      ],
+      "qa_gates": [
+        "frame_composition",
+        "decode"
+      ]
+    },
+    {
+      "pass_id": "p02_masks",
+      "stage_id": "05_mask_factory",
+      "order": 2,
+      "engine_family": "none",
+      "workflow_template": "mask_factory",
+      "required": false,
+      "max_attempts": 2,
+      "patches": [],
+      "qa_gates": [
+        "mask_quality"
+      ]
+    },
+    {
+      "pass_id": "p03_inpaint",
+      "stage_id": "06_regional_inpaint_detail",
+      "order": 3,
+      "engine_family": "sdxl_realvisxl",
+      "workflow_template": "main_flow_inpaint_detail_lane",
+      "required": false,
+      "max_attempts": 3,
+      "patches": [
+        "mask",
+        "denoise",
+        "prompt",
+        "save_prefix"
+      ],
+      "qa_gates": [
+        "localized_edit",
+        "mask_bleed"
+      ]
+    },
+    {
+      "pass_id": "p04_upscale",
+      "stage_id": "07_upscale_polish",
+      "order": 4,
+      "engine_family": "upscale",
+      "workflow_template": "main_flow_upscale_lane",
+      "required": true,
+      "max_attempts": 2,
+      "patches": [
+        "input_image",
+        "save_prefix"
+      ],
+      "qa_gates": [
+        "decode",
+        "artifact_check"
+      ]
+    },
+    {
+      "pass_id": "p99_promotion",
+      "stage_id": "10_promotion",
+      "order": 99,
+      "engine_family": "none",
+      "workflow_template": "promotion_manifest",
+      "required": true,
+      "max_attempts": 1,
+      "patches": [],
+      "qa_gates": [
+        "all_required_evidence"
+      ]
+    }
+  ],
+  "promotion_rule": "all required passes must have passing evidence"
+}

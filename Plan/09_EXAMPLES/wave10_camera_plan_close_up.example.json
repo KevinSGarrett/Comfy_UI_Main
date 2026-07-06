@@ -1,0 +1,77 @@
+{
+  "camera_plan_id": "cam_face_closeup_identity_v1",
+  "scene_id": "scene_example_face_detail",
+  "modality": "image",
+  "shot_size": "close_up",
+  "lens_profile": "portrait_85mm",
+  "camera_angle": "eye_level",
+  "camera_height": "eye",
+  "zoom_level": "tight",
+  "aspect_ratio": "1:1",
+  "resolution": {
+    "width": 1024,
+    "height": 1024
+  },
+  "framing": {
+    "composition_preset": "rule_of_thirds_portrait",
+    "crop_policy": "intentional_crop",
+    "headroom": "controlled_close_crop",
+    "footroom": "not_applicable",
+    "side_margin": "face_not_cut",
+    "horizon_line": "not_visible",
+    "must_not_crop": [
+      "eyes",
+      "nose",
+      "mouth",
+      "jawline_if_identity_required"
+    ],
+    "intentional_crop_allowed": true
+  },
+  "depth_plan": {
+    "depth_profile": "natural_portrait_dof",
+    "focus_targets": [
+      "eyes",
+      "face_identity"
+    ],
+    "foreground_subjects": [],
+    "midground_subjects": [
+      "char_primary"
+    ],
+    "background_subjects": [
+      "soft_background"
+    ],
+    "background_blur_strength": 0.45,
+    "depth_continuity_notes": "Preserve identity; do not blur eyes or face landmarks."
+  },
+  "subjects": [
+    {
+      "subject_id": "char_primary_face_slot",
+      "character_id": "char_primary",
+      "screen_position": "center_upper_third",
+      "depth_order": 1,
+      "identity_priority": "primary",
+      "crop_policy": "intentional_partial",
+      "occlusion_allowed": "minor",
+      "must_show": [
+        "eyes",
+        "face",
+        "hairline",
+        "expression"
+      ],
+      "must_not_merge_with": [],
+      "scale_anchor": "face_reference_pack"
+    }
+  ],
+  "workflow_patch_targets": [
+    "latent_width_height",
+    "ipadapter_reference_weight",
+    "positive_prompt_camera_module",
+    "negative_prompt_identity_guard"
+  ],
+  "qa_goals": [
+    "identity_preserved",
+    "eyes_sharp",
+    "face_not_warped",
+    "skin_texture_natural"
+  ]
+}

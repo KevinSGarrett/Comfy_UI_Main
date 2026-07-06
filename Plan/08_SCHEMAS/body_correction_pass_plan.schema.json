@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave17 Body Correction Pass Plan",
+  "type": "object",
+  "required": [
+    "pass_id",
+    "pass_type",
+    "engine_family",
+    "input_image",
+    "masks",
+    "denoise",
+    "qa_required"
+  ],
+  "properties": {
+    "pass_id": {
+      "type": "string"
+    },
+    "pass_type": {
+      "type": "string"
+    },
+    "engine_family": {
+      "type": "string"
+    },
+    "input_image": {
+      "type": "string"
+    },
+    "output_prefix": {
+      "type": "string"
+    },
+    "masks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "denoise": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "steps": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "cfg": {
+      "type": "number",
+      "minimum": 0
+    },
+    "same_engine_loras": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "forbidden_changes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "qa_required": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false
+}

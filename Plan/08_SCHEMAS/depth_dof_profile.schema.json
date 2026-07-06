@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "depth_dof_profile.schema.json",
+  "title": "Depth and DOF Profile",
+  "type": "object",
+  "required": [
+    "depth_profile",
+    "focus_targets",
+    "background_blur_strength"
+  ],
+  "properties": {
+    "depth_profile": {
+      "type": "string"
+    },
+    "focus_targets": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "foreground_subjects": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "midground_subjects": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "background_subjects": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "background_blur_strength": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "depth_continuity_notes": {
+      "type": "string"
+    }
+  }
+}

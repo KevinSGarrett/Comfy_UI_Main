@@ -1,0 +1,92 @@
+{
+  "version": "wave06_v1",
+  "generated_at": "2026-07-05T22:10:55Z",
+  "hard_rules": [
+    "A workflow may only load LoRAs whose family exactly matches the engine family or explicit compatibility alias.",
+    "Flux1, Flux2, SDXL, Pony-SDXL, SD1.5, SD3.5, Qwen-Image, Wan, HunyuanVideo, and LTX engines must not share latent/model objects directly.",
+    "Cross-engine transfer must use an image bridge: save output image, optionally mask/crop, load as image input, then run img2img/inpaint/edit workflow in the target engine.",
+    "The router must reject any checkpoint without sha256/hash metadata, base model family, source, storage location, and promotion status.",
+    "The router must reject any runtime lane without object_info node visibility, model path proof, model loading proof, output file proof, and QA manifest.",
+    "A disabled catalog node is not an active production model. Catalog nodes become usable only when selected through a compatible stack/profile and proven by runtime output."
+  ],
+  "priority_order": [
+    "user_explicit_engine_request",
+    "pass_type_required_engine",
+    "model_asset_exact_compatibility",
+    "quality_vs_cost_budget",
+    "current_runtime_proof_status",
+    "fallback_engine_policy"
+  ],
+  "route_by_pass_type": {
+    "base_photoreal_high_quality": [
+      "flux2_dev_local",
+      "flux1_dev",
+      "sdxl_realvisxl"
+    ],
+    "base_fast_preview": [
+      "flux2_klein_preview",
+      "z_image_turbo",
+      "flux1_schnell_fp8"
+    ],
+    "identity_reference_edit": [
+      "flux2_dev_local",
+      "flux2_klein_preview",
+      "sdxl_realvisxl"
+    ],
+    "sdxl_lora_detail": [
+      "sdxl_realvisxl",
+      "sdxl_base_refiner"
+    ],
+    "pony_specialty_bridge": [
+      "pony_sdxl"
+    ],
+    "legacy_specialty_bridge": [
+      "sd15_legacy"
+    ],
+    "inpaint_local_detail": [
+      "sdxl_realvisxl",
+      "flux2_dev_local",
+      "qwen_image"
+    ],
+    "text_rendering_or_ui": [
+      "flux2_flex_api_optional",
+      "qwen_image",
+      "sd35_large_or_medium"
+    ],
+    "video_keyframe_to_motion": [
+      "wan22_video",
+      "hunyuanvideo15",
+      "ltx2_audio_video"
+    ],
+    "audio_video_sync": [
+      "ltx2_audio_video",
+      "separate_audio_lane_plus_video_lane"
+    ],
+    "final_upscale_polish": [
+      "sdxl_realvisxl",
+      "external_upscale_module",
+      "qa_only_if_no_identity_drift"
+    ]
+  },
+  "fallback_policy": {
+    "flux2_unavailable": [
+      "flux1_dev",
+      "sdxl_realvisxl"
+    ],
+    "flux1_unavailable": [
+      "sdxl_realvisxl",
+      "z_image_turbo"
+    ],
+    "sdxl_lora_needed_but_sdxl_unavailable": [
+      "block_do_not_substitute_flux_or_pony"
+    ],
+    "video_engine_unavailable": [
+      "still_keyframe_pack_only",
+      "block_final_video_promotion"
+    ],
+    "audio_engine_unavailable": [
+      "silent_video_plus_audio_plan_manifest",
+      "block_av_promotion"
+    ]
+  }
+}

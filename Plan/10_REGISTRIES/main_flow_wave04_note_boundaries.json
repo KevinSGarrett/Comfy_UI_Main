@@ -1,0 +1,93 @@
+[
+  {
+    "node_id": 1,
+    "title_line": "MAIN FLOW - Wave42 image generation canvas",
+    "full_text": "MAIN FLOW - Wave42 image generation canvas\nCanonical superseding workflow for the image-generation section. Built from the planned layout pages and the existing SDXL/RealVisXL + Flux-family runtime templates.\nExecutable lanes: SDXL/RealVisXL with organized Wave42 LoRA stack, Flux-family/Z-Image lane, and Flux-to-SDXL support pass.",
+    "boundary_type": "main_flow_intro",
+    "implementation_status_wave04": "intro_note"
+  },
+  {
+    "node_id": 70,
+    "title_line": "Reference / IPAdapter / ControlNet staging",
+    "full_text": "Reference / IPAdapter / ControlNet staging\nThe layout source calls for reference identity, pose/depth/edge/mask control, and regional inpaint. The face-reference IPAdapter branch is staged below as ready_to_verify from the prior smoke template. The Canny ControlNet edge-map branch is staged below as ready_to_verify. Additional reference-slot routing and pose/depth/openpose control maps remain notes until direct runtime proof exists.",
+    "boundary_type": "reference_control_staging",
+    "implementation_status_wave04": "note_only_or_boundary_documentation"
+  },
+  {
+    "node_id": 71,
+    "title_line": "Image QA / promotion export",
+    "full_text": "Image QA / promotion export\nOutputs are saved under Main_Flow/* prefixes so downstream QA, manifest intake, and tracker-promotion scripts can consume concrete image-generation artifacts instead of layout notes.",
+    "boundary_type": "qa_promotion",
+    "implementation_status_wave04": "note_only_or_boundary_documentation"
+  },
+  {
+    "node_id": 72,
+    "title_line": "Video/audio handoff boundary",
+    "full_text": "Video/audio handoff boundary\nThe Main Flow now produces image outputs ready for video lanes. WAN/Hunyuan/LTXV/audio remain separate runtime lanes until their own ComfyUI node graphs are merged and proven.",
+    "boundary_type": "video_audio_boundary",
+    "implementation_status_wave04": "note_only_or_boundary_documentation"
+  },
+  {
+    "node_id": 73,
+    "title_line": "True Flux image-reference conditioning boundary",
+    "full_text": "True Flux image-reference conditioning boundary\nThe true Flux Schnell reference-smoke/base lane is staged as ready_to_verify using the concrete Wave20 Flux smoke template. Actual image-reference conditioning remains note-only because current templates load or name references but do not wire reference pixels into generation.",
+    "boundary_type": "reference_control_staging",
+    "implementation_status_wave04": "note_only_or_boundary_documentation"
+  },
+  {
+    "node_id": 74,
+    "title_line": "Inpaint, upscale, QA, release promotion",
+    "full_text": "Inpaint, upscale, QA, release promotion\nFinal image QA, manifest intake, and tracker promotion remain notes until proven. Basic RealESRGAN upscale and SDXL inpaint/detail are staged and wired as ready_to_verify.",
+    "boundary_type": "qa_promotion",
+    "implementation_status_wave04": "note_only_or_boundary_documentation"
+  },
+  {
+    "node_id": 130,
+    "title_line": "IG-09 Image QA and evidence export",
+    "full_text": "IG-09 Image QA and evidence export\nRun export_wave42_main_flow_image_evidence.py after Main_Flow images are generated. It records lane prefix, file path, size, SHA256, dimensions, format, and basic decode QA.",
+    "boundary_type": "qa_promotion",
+    "implementation_status_wave04": "note_only_or_boundary_documentation"
+  },
+  {
+    "node_id": 131,
+    "title_line": "Evidence manifest output",
+    "full_text": "Evidence manifest output\nManifest path: Implementation/manifests/main_flow_image_qa_evidence/*.json. This is evidence intake, not tracker promotion by itself.",
+    "boundary_type": "qa_promotion",
+    "implementation_status_wave04": "note_only_or_boundary_documentation"
+  },
+  {
+    "node_id": 132,
+    "title_line": "QA boundary",
+    "full_text": "QA boundary\nBasic file QA proves files are non-empty, decodable images with dimensions. Creative QA, runtime prompt proof, object_info visibility, and model-loader proof remain separate verification gates.",
+    "boundary_type": "qa_promotion",
+    "implementation_status_wave04": "note_only_or_boundary_documentation"
+  },
+  {
+    "node_id": 133,
+    "title_line": "IG-10 Main Flow promotion after runtime proof",
+    "full_text": "IG-10 Main Flow promotion after runtime proof\nRun promote_wave42_main_flow_after_runtime_proof.py only after IG-09 finds exact Main_Flow outputs for the required lanes. Promotion is blocked until those runtime files exist.",
+    "boundary_type": "qa_promotion",
+    "implementation_status_wave04": "note_only_or_boundary_documentation"
+  },
+  {
+    "node_id": 134,
+    "title_line": "Promotion decision output",
+    "full_text": "Promotion decision output\nManifest path: Implementation/manifests/main_flow_promotion/*.json. Verified is allowed only when all required lanes have passing evidence records.",
+    "boundary_type": "qa_promotion",
+    "implementation_status_wave04": "note_only_or_boundary_documentation"
+  },
+  {
+    "node_id": 135,
+    "title_line": "Current promotion boundary",
+    "full_text": "Current promotion boundary\nIf exact Main_Flow runtime outputs are absent, IG-10 must report blocked_missing_runtime_proof. It must not promote from layout notes or unrelated smoke outputs.",
+    "boundary_type": "qa_promotion",
+    "implementation_status_wave04": "note_only_or_boundary_documentation"
+  },
+  {
+    "node_id": 136,
+    "title_line": "WAVE42 DEPLOYED LORA LIBRARY - MANIFEST WIRED, DISABLED BY DEFAULT",
+    "full_text": "WAVE42 DEPLOYED LORA LIBRARY - MANIFEST WIRED, DISABLED BY DEFAULT\nSource CSV: C:\\Comfy_UI_Lora\\Model_Organize\\wave07\\WAVE07_EC2_DEPLOY_MANIFEST.csv\nSource manifest JSON: C:\\Comfy_UI_Lora\\Model_Organize\\wave07\\WAVE07_EC2_DEPLOY_MANIFEST.json\nRegistry: C:\\Comfy_UI\\Implementation\\loras\\wave42_lora_registry.json\nStack profiles: C:\\Comfy_UI\\Implementation\\profiles\\wave42_stack_profiles.json\nThis section represents every Wave07 deployed LoRA path in Main Flow as a disabled/disconnected LoraLoader node.\nThe executable production chain remains the existing linked 3-LoRA SDXL lane. Promote/select only compatible same-engine stacks; do not enable all library nodes at once.",
+    "boundary_type": "lora_library_catalog",
+    "implementation_status_wave04": "note_only_or_boundary_documentation"
+  }
+]

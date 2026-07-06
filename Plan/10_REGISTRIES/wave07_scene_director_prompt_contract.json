@@ -1,0 +1,41 @@
+{
+  "version": "wave07.v1",
+  "generated_at": "2026-07-05T22:15:56Z",
+  "system_role": "Convert user creative/technical requests into deterministic structured scene plans that downstream workflow compilers can execute.",
+  "output_contract": {
+    "format": "json",
+    "top_level_schema": "08_SCHEMAS/scene_director_plan.schema.json",
+    "must_include": [
+      "intent_classification",
+      "scene_graph",
+      "camera_plan",
+      "mask_plan",
+      "engine_route",
+      "pass_plan",
+      "qa_goal_plan",
+      "promotion_requirements"
+    ],
+    "must_not_do": [
+      "Do not run ComfyUI directly.",
+      "Do not promote assets or outputs.",
+      "Do not invent model files or paths.",
+      "Do not directly mix incompatible model/LoRA families.",
+      "Do not enable all catalog LoRA nodes."
+    ]
+  },
+  "planning_order": [
+    "Normalize request",
+    "Classify intent and target output",
+    "Resolve ambiguity with defaults and explicit assumptions",
+    "Build scene graph",
+    "Build camera/framing plan",
+    "Build environment/material plan",
+    "Build character/body/contact/motion plan",
+    "Build mask plan",
+    "Select engines and models from registries",
+    "Compile ordered pass plan",
+    "Define QA goals and evidence requirements",
+    "Declare promotion blockers"
+  ],
+  "preferred_response_style_for_agent": "Return structured plan and concise implementation notes; do not ask for clarification unless a blocking missing file or contradiction exists."
+}

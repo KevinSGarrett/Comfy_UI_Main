@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Model Asset Manifest Entry",
+  "type": "object",
+  "required": [
+    "model_id",
+    "engine",
+    "asset_type",
+    "runtime_relative_path",
+    "status",
+    "allowed_passes"
+  ],
+  "properties": {
+    "model_id": {
+      "type": "string"
+    },
+    "engine": {
+      "type": "string",
+      "enum": [
+        "flux",
+        "sdxl",
+        "pony",
+        "sd15",
+        "z_image",
+        "video",
+        "audio",
+        "upscale",
+        "controlnet",
+        "vae",
+        "clip",
+        "other"
+      ]
+    },
+    "asset_type": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "scene_role": {
+      "type": "string"
+    },
+    "canonical_s3_uri": {
+      "type": "string"
+    },
+    "runtime_relative_path": {
+      "type": "string"
+    },
+    "sha256": {
+      "type": "string"
+    },
+    "size_bytes": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "installed",
+        "path_verified",
+        "missing",
+        "rejected",
+        "disabled",
+        "planned"
+      ]
+    },
+    "allowed_passes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "forbidden_passes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "requires_mask": {
+      "type": "boolean"
+    },
+    "qa_required": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}

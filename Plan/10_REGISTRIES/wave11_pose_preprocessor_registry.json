@@ -1,0 +1,141 @@
+[
+  {
+    "preprocessor_id": "dwpose_wholebody",
+    "display_name": "DWPose Whole Body",
+    "expected_node_names": [
+      "DWPose_Preprocessor",
+      "DWPreprocessor",
+      "AIO Aux Preprocessor: DWPose"
+    ],
+    "required_outputs": [
+      "pose_map_image",
+      "optional_openpose_json"
+    ],
+    "must_capture_object_info": true,
+    "runtime_stage": "planned",
+    "preferred_for": [
+      "multi-character pose",
+      "hands",
+      "face direction",
+      "body action"
+    ],
+    "qa_required": [
+      "keypoint_visibility",
+      "left_right_limb_consistency",
+      "per_character_assignment"
+    ]
+  },
+  {
+    "preprocessor_id": "openpose_body",
+    "display_name": "OpenPose Body",
+    "expected_node_names": [
+      "OpenPosePreprocessor",
+      "OpenposePreprocessor",
+      "AIO Aux Preprocessor: OpenPose"
+    ],
+    "required_outputs": [
+      "pose_map_image"
+    ],
+    "must_capture_object_info": true,
+    "runtime_stage": "planned",
+    "preferred_for": [
+      "simple skeleton pose transfer",
+      "pose library template"
+    ],
+    "qa_required": [
+      "body_keypoint_count",
+      "joint_order_validity"
+    ]
+  },
+  {
+    "preprocessor_id": "depth_anything_or_midas",
+    "display_name": "Depth Estimation",
+    "expected_node_names": [
+      "DepthAnythingPreprocessor",
+      "MiDaS-DepthMapPreprocessor",
+      "AIO Aux Preprocessor: Depth"
+    ],
+    "required_outputs": [
+      "depth_map_image"
+    ],
+    "must_capture_object_info": true,
+    "runtime_stage": "planned",
+    "preferred_for": [
+      "camera distance",
+      "foreground/background separation",
+      "video bridge"
+    ],
+    "qa_required": [
+      "depth_gradient_coherence",
+      "foreground_background_order"
+    ]
+  },
+  {
+    "preprocessor_id": "normal_bae_or_dsine",
+    "display_name": "Normal Map Extraction",
+    "expected_node_names": [
+      "BAE-NormalMapPreprocessor",
+      "DSINE-NormalMapPreprocessor",
+      "AIO Aux Preprocessor: Normal"
+    ],
+    "required_outputs": [
+      "normal_map_image"
+    ],
+    "must_capture_object_info": true,
+    "runtime_stage": "planned",
+    "preferred_for": [
+      "surface orientation",
+      "object form",
+      "lighting-material continuity"
+    ],
+    "qa_required": [
+      "normal_color_validity",
+      "surface_orientation_consistency"
+    ]
+  },
+  {
+    "preprocessor_id": "canny_edges",
+    "display_name": "Canny Edge",
+    "expected_node_names": [
+      "Canny",
+      "CannyEdgePreprocessor",
+      "AIO Aux Preprocessor: Canny"
+    ],
+    "required_outputs": [
+      "edge_map_image"
+    ],
+    "must_capture_object_info": true,
+    "runtime_stage": "current_main_flow_uses_static_canny_asset_wired_controlnet",
+    "preferred_for": [
+      "composition edges",
+      "prop boundaries",
+      "clothing silhouettes"
+    ],
+    "qa_required": [
+      "edge_density_range",
+      "no_inverted_wrong_background"
+    ]
+  },
+  {
+    "preprocessor_id": "lineart",
+    "display_name": "Lineart",
+    "expected_node_names": [
+      "LineArtPreprocessor",
+      "LineartStandardPreprocessor",
+      "AIO Aux Preprocessor: Lineart"
+    ],
+    "required_outputs": [
+      "lineart_map_image"
+    ],
+    "must_capture_object_info": true,
+    "runtime_stage": "planned",
+    "preferred_for": [
+      "clean contour retention",
+      "outfit/furniture shape"
+    ],
+    "qa_required": [
+      "line_sparsity",
+      "closed_contour_stability"
+    ]
+  }
+]

@@ -1,0 +1,99 @@
+{
+  "camera_plan_id": "cam_two_shot_layered_depth_v1",
+  "scene_id": "scene_example_two_character",
+  "modality": "image",
+  "shot_size": "two_shot",
+  "lens_profile": "classic_35mm",
+  "camera_angle": "three_quarter_front",
+  "camera_height": "chest",
+  "zoom_level": "normal",
+  "aspect_ratio": "16:9",
+  "resolution": {
+    "width": 1280,
+    "height": 720
+  },
+  "framing": {
+    "composition_preset": "two_subject_balanced",
+    "crop_policy": "blocked_unintentional_crop",
+    "headroom": "matched_between_subjects",
+    "footroom": "depends_on_shot_size",
+    "side_margin": "leave_space_between_subjects",
+    "horizon_line": "stable_room_reference",
+    "must_not_crop": [
+      "primary_faces",
+      "required_hands",
+      "declared_contact_points"
+    ],
+    "intentional_crop_allowed": false
+  },
+  "depth_plan": {
+    "depth_profile": "layered_depth",
+    "focus_targets": [
+      "char_A_face",
+      "char_B_face",
+      "declared_contact_points"
+    ],
+    "foreground_subjects": [],
+    "midground_subjects": [
+      "char_A",
+      "char_B"
+    ],
+    "background_subjects": [
+      "room_profile"
+    ],
+    "background_blur_strength": 0.2,
+    "depth_continuity_notes": "Both characters must remain separated by silhouette and identity markers."
+  },
+  "subjects": [
+    {
+      "subject_id": "char_A_slot",
+      "character_id": "char_A",
+      "screen_position": "left",
+      "depth_order": 1,
+      "identity_priority": "primary",
+      "crop_policy": "full_visible_or_half_body",
+      "occlusion_allowed": "minor",
+      "must_show": [
+        "face",
+        "hands",
+        "outfit",
+        "contact_points"
+      ],
+      "must_not_merge_with": [
+        "char_B"
+      ],
+      "scale_anchor": "shared_floor_plane"
+    },
+    {
+      "subject_id": "char_B_slot",
+      "character_id": "char_B",
+      "screen_position": "right",
+      "depth_order": 1,
+      "identity_priority": "primary",
+      "crop_policy": "full_visible_or_half_body",
+      "occlusion_allowed": "minor",
+      "must_show": [
+        "face",
+        "hands",
+        "outfit",
+        "contact_points"
+      ],
+      "must_not_merge_with": [
+        "char_A"
+      ],
+      "scale_anchor": "shared_floor_plane"
+    }
+  ],
+  "workflow_patch_targets": [
+    "latent_width_height",
+    "regional_prompt_slots",
+    "controlnet_pose_if_proven",
+    "negative_prompt_identity_blend_guard"
+  ],
+  "qa_goals": [
+    "no_identity_blending",
+    "subject_count_correct",
+    "scale_consistent",
+    "declared_contact_visible"
+  ]
+}

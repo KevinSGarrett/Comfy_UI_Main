@@ -1,0 +1,46 @@
+{
+  "score_version": "wave13_mask_quality_v1",
+  "minimum_promotion_score": 85,
+  "weighted_components": [
+    {
+      "component": "mask_presence_and_decode",
+      "weight": 10
+    },
+    {
+      "component": "assigned_instance_or_region_id",
+      "weight": 12
+    },
+    {
+      "component": "coverage_matches_contract",
+      "weight": 14
+    },
+    {
+      "component": "edge_quality_and_feathering",
+      "weight": 14
+    },
+    {
+      "component": "no_bleed_into_neighbor_region",
+      "weight": 14
+    },
+    {
+      "component": "contact_or_occlusion_consistency",
+      "weight": 12
+    },
+    {
+      "component": "identity_and_outfit_protection",
+      "weight": 12
+    },
+    {
+      "component": "before_after_output_evidence",
+      "weight": 12
+    }
+  ],
+  "automatic_blockers": [
+    "missing_required_person_instance_mask",
+    "unassigned_body_part_mask",
+    "mask_bleeds_across_two_characters",
+    "mask_changes_locked_identity_without_revision",
+    "contact_mask_missing_for_touch_or_overlap_scene",
+    "no_runtime_output_evidence"
+  ]
+}

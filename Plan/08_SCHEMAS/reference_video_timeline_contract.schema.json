@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave26 Reference Video Timeline Contract",
+  "type": "object",
+  "required": [
+    "timeline_id",
+    "source_video_id",
+    "timeline_layers",
+    "frame_manifest_path",
+    "target_output_mode"
+  ],
+  "properties": {
+    "timeline_id": {
+      "type": "string"
+    },
+    "source_video_id": {
+      "type": "string"
+    },
+    "timeline_layers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "frame_manifest_path": {
+      "type": "string"
+    },
+    "target_output_mode": {
+      "enum": [
+        "gif",
+        "video",
+        "image_keyframes",
+        "motion_reference_only"
+      ]
+    },
+    "reference_alignment_mode": {
+      "type": "string"
+    },
+    "qa_targets": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

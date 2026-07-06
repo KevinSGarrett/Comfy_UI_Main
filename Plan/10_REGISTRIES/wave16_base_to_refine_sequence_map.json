@@ -1,0 +1,57 @@
+[
+  {
+    "sequence_id": "SEQ-FLUX2-PREFERRED",
+    "base": "flux2_dev_primary_base",
+    "passes": [
+      "REFINE-00-BASE-PRESERVATION-CHECK",
+      "REFINE-50-CROSS-ENGINE-SDXL-BRIDGE",
+      "REFINE-20-REGIONAL-INPAINT-DETAIL",
+      "REFINE-60-UPSCALER-EXPORT"
+    ],
+    "status": "planned_flux2_requires_runtime_proof"
+  },
+  {
+    "sequence_id": "SEQ-FLUX1-PREFERRED",
+    "base": "flux1_dev_primary_base",
+    "passes": [
+      "REFINE-00-BASE-PRESERVATION-CHECK",
+      "REFINE-50-CROSS-ENGINE-SDXL-BRIDGE",
+      "REFINE-20-REGIONAL-INPAINT-DETAIL",
+      "REFINE-60-UPSCALER-EXPORT"
+    ],
+    "status": "allowed_after_object_info_and_runtime_output_proof"
+  },
+  {
+    "sequence_id": "SEQ-ZIMAGE-TO-SDXL",
+    "base": "zimage_turbo_base_lane",
+    "passes": [
+      "REFINE-00-BASE-PRESERVATION-CHECK",
+      "REFINE-50-CROSS-ENGINE-SDXL-BRIDGE",
+      "REFINE-20-REGIONAL-INPAINT-DETAIL",
+      "REFINE-60-UPSCALER-EXPORT"
+    ],
+    "status": "anchored_to_current_static_template"
+  },
+  {
+    "sequence_id": "SEQ-SDXL-SAME-FAMILY",
+    "base": "sdxl_realvisxl_base_lane",
+    "passes": [
+      "REFINE-00-BASE-PRESERVATION-CHECK",
+      "REFINE-10-GLOBAL-LIGHT-POLISH",
+      "REFINE-20-REGIONAL-INPAINT-DETAIL",
+      "REFINE-60-UPSCALER-EXPORT"
+    ],
+    "status": "preferred_for_lora_rich_detail_work"
+  },
+  {
+    "sequence_id": "SEQ-SDXL-PONY-SPECIALTY",
+    "base": "sdxl_realvisxl_base_lane",
+    "passes": [
+      "REFINE-00-BASE-PRESERVATION-CHECK",
+      "REFINE-30-PONY-SPECIALTY-MASKED",
+      "REFINE-20-REGIONAL-INPAINT-DETAIL",
+      "REFINE-60-UPSCALER-EXPORT"
+    ],
+    "status": "use_only_when_specialty_profile_is_required"
+  }
+]

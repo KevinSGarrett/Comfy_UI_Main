@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave25 MultiCharacterInteractionContract",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "scene_id",
+    "character_instances",
+    "interaction_events"
+  ],
+  "properties": {
+    "contract_version": {
+      "type": "string"
+    },
+    "scene_id": {
+      "type": "string"
+    },
+    "character_instances": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2
+    },
+    "interaction_events": {
+      "type": "array",
+      "items": {
+        "$ref": "interaction_event.schema.json"
+      },
+      "minItems": 1
+    }
+  }
+}

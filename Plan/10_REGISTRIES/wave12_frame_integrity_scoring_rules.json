@@ -1,0 +1,30 @@
+{
+  "version": "wave12_v1",
+  "promotion_logic": {
+    "static_pack_validation": "PASS when schemas, registries, scripts, and source inventory are valid.",
+    "runtime_image_promotion": "REQUIRES detector/segmentation/skeleton evidence for actual output files.",
+    "video_promotion": "REQUIRES per-keyframe and sampled-frame frame-integrity evidence plus temporal identity tracking.",
+    "no_prompt_only_promotion": true
+  },
+  "score_weights": {
+    "character_count": 0.22,
+    "body_visibility": 0.2,
+    "crop_boundaries": 0.18,
+    "merged_body_absence": 0.22,
+    "pose_skeleton_consistency": 0.1,
+    "composition_balance": 0.08
+  },
+  "promotion_thresholds": {
+    "pass": 0.86,
+    "review": 0.76,
+    "fail_below": 0.76
+  },
+  "hard_fail_overrides": [
+    "wrong_character_count",
+    "merged_bodies",
+    "primary_face_cut",
+    "full_body_feet_missing",
+    "unassigned_body_fragment",
+    "severe_anatomy_duplication"
+  ]
+}

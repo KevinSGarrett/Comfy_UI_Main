@@ -1,0 +1,111 @@
+{
+  "stages": [
+    {
+      "id": "intake",
+      "requires": [],
+      "blocks": []
+    },
+    {
+      "id": "scene_plan",
+      "requires": [
+        "intake"
+      ],
+      "blocks": []
+    },
+    {
+      "id": "app_mode_mapping",
+      "requires": [
+        "scene_plan"
+      ],
+      "blocks": []
+    },
+    {
+      "id": "proxy_preview",
+      "requires": [
+        "app_mode_mapping"
+      ],
+      "blocks": []
+    },
+    {
+      "id": "preview_qa",
+      "requires": [
+        "proxy_preview"
+      ],
+      "blocks": [
+        "final_render"
+      ]
+    },
+    {
+      "id": "state_diff",
+      "requires": [
+        "preview_qa"
+      ],
+      "blocks": [
+        "final_render_if_unresolved"
+      ]
+    },
+    {
+      "id": "final_preflight",
+      "requires": [
+        "preview_qa",
+        "state_diff"
+      ],
+      "blocks": [
+        "ec2_if_failed"
+      ]
+    },
+    {
+      "id": "local_proof",
+      "requires": [
+        "final_preflight"
+      ],
+      "blocks": []
+    },
+    {
+      "id": "ec2_proof_if_unlocked",
+      "requires": [
+        "final_preflight"
+      ],
+      "blocks": [
+        "runtime_certification_if_missing"
+      ]
+    },
+    {
+      "id": "manifest_collection",
+      "requires": [
+        "local_proof"
+      ],
+      "blocks": [
+        "release_if_missing"
+      ]
+    },
+    {
+      "id": "qa_certification",
+      "requires": [
+        "manifest_collection"
+      ],
+      "blocks": [
+        "runtime_certification_if_failed"
+      ]
+    },
+    {
+      "id": "release_decision",
+      "requires": [
+        "qa_certification"
+      ],
+      "blocks": []
+    },
+    {
+      "id": "handoff",
+      "requires": [
+        "release_decision"
+      ],
+      "blocks": []
+    }
+  ],
+  "hard_blocks": [
+    "no_intake_to_ec2_direct",
+    "no_release_without_manifest",
+    "no_certification_without_evidence"
+  ]
+}

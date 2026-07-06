@@ -1,0 +1,42 @@
+{
+  "profiles": [
+    {
+      "id": "gaze_subtle_shift",
+      "event_type": "gaze_shift",
+      "amplitude": "very_low",
+      "requires": [
+        "face_identity_lock",
+        "eye_region_QA"
+      ]
+    },
+    {
+      "id": "blink_single",
+      "event_type": "blink",
+      "amplitude": "very_low",
+      "requires": [
+        "face_identity_lock",
+        "eyelid_QA"
+      ]
+    },
+    {
+      "id": "grip_pressure_increase",
+      "event_type": "grip_change",
+      "amplitude": "low",
+      "requires": [
+        "hand_mask",
+        "contact_graph",
+        "finger_QA"
+      ]
+    },
+    {
+      "id": "grip_release",
+      "event_type": "grip_change",
+      "amplitude": "low",
+      "requires": [
+        "hand_mask",
+        "contact_graph",
+        "release_state"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,381 @@
+{
+  "source": "current_main_flow",
+  "patch_targets": [
+    {
+      "target_id": "save_19",
+      "node_id": 19,
+      "node_type": "SaveImage",
+      "field": "filename_prefix",
+      "lane_prefix": "Main_Flow/SDXL_RealVisXL_LoRA"
+    },
+    {
+      "target_id": "save_39",
+      "node_id": 39,
+      "node_type": "SaveImage",
+      "field": "filename_prefix",
+      "lane_prefix": "Main_Flow/Flux_Family_ZImage"
+    },
+    {
+      "target_id": "save_62",
+      "node_id": 62,
+      "node_type": "SaveImage",
+      "field": "filename_prefix",
+      "lane_prefix": "Main_Flow/SDXL_RealVisXL_LoRA_Upscaled"
+    },
+    {
+      "target_id": "save_87",
+      "node_id": 87,
+      "node_type": "SaveImage",
+      "field": "filename_prefix",
+      "lane_prefix": "Main_Flow/SDXL_Inpaint_Detail"
+    },
+    {
+      "target_id": "save_95",
+      "node_id": 95,
+      "node_type": "SaveImage",
+      "field": "filename_prefix",
+      "lane_prefix": "Main_Flow/Flux_to_SDXL_Refine"
+    },
+    {
+      "target_id": "save_107",
+      "node_id": 107,
+      "node_type": "SaveImage",
+      "field": "filename_prefix",
+      "lane_prefix": "Main_Flow/True_Flux_Schnell_Reference_Smoke"
+    },
+    {
+      "target_id": "save_128",
+      "node_id": 128,
+      "node_type": "SaveImage",
+      "field": "filename_prefix",
+      "lane_prefix": "Main_Flow/ControlNet_Canny_Edge"
+    },
+    {
+      "target_id": "save_118",
+      "node_id": 118,
+      "node_type": "SaveImage",
+      "field": "filename_prefix",
+      "lane_prefix": "Main_Flow/IPAdapter_Face_Reference"
+    },
+    {
+      "target_id": "ksampler_17",
+      "node_id": 17,
+      "node_type": "KSampler",
+      "fields": [
+        "seed",
+        "steps",
+        "cfg",
+        "sampler_name",
+        "scheduler",
+        "denoise"
+      ],
+      "current_widgets": [
+        300300300,
+        "fixed",
+        40,
+        6.5,
+        "dpmpp_2m_sde",
+        "karras",
+        1
+      ]
+    },
+    {
+      "target_id": "ksampler_36",
+      "node_id": 36,
+      "node_type": "KSampler",
+      "fields": [
+        "seed",
+        "steps",
+        "cfg",
+        "sampler_name",
+        "scheduler",
+        "denoise"
+      ],
+      "current_widgets": [
+        42043,
+        "fixed",
+        8,
+        1,
+        "res_multistep",
+        "simple",
+        1
+      ]
+    },
+    {
+      "target_id": "ksampler_85",
+      "node_id": 85,
+      "node_type": "KSampler",
+      "fields": [
+        "seed",
+        "steps",
+        "cfg",
+        "sampler_name",
+        "scheduler",
+        "denoise"
+      ],
+      "current_widgets": [
+        210422,
+        "fixed",
+        14,
+        5,
+        "euler",
+        "normal",
+        0.28
+      ]
+    },
+    {
+      "target_id": "ksampler_93",
+      "node_id": 93,
+      "node_type": "KSampler",
+      "fields": [
+        "seed",
+        "steps",
+        "cfg",
+        "sampler_name",
+        "scheduler",
+        "denoise"
+      ],
+      "current_widgets": [
+        210421,
+        "fixed",
+        10,
+        5,
+        "euler",
+        "normal",
+        0.22
+      ]
+    },
+    {
+      "target_id": "ksampler_105",
+      "node_id": 105,
+      "node_type": "KSampler",
+      "fields": [
+        "seed",
+        "steps",
+        "cfg",
+        "sampler_name",
+        "scheduler",
+        "denoise"
+      ],
+      "current_widgets": [
+        200420,
+        "fixed",
+        4,
+        1,
+        "euler",
+        "simple",
+        1
+      ]
+    },
+    {
+      "target_id": "ksampler_116",
+      "node_id": 116,
+      "node_type": "KSampler",
+      "fields": [
+        "seed",
+        "steps",
+        "cfg",
+        "sampler_name",
+        "scheduler",
+        "denoise"
+      ],
+      "current_widgets": [
+        626262,
+        "fixed",
+        8,
+        5,
+        "euler",
+        "normal",
+        1
+      ]
+    },
+    {
+      "target_id": "ksampler_126",
+      "node_id": 126,
+      "node_type": "KSampler",
+      "fields": [
+        "seed",
+        "steps",
+        "cfg",
+        "sampler_name",
+        "scheduler",
+        "denoise"
+      ],
+      "current_widgets": [
+        707707,
+        "fixed",
+        20,
+        5.5,
+        "dpmpp_2m_sde",
+        "karras",
+        1
+      ]
+    },
+    {
+      "target_id": "cliptext_34",
+      "node_id": 34,
+      "node_type": "CLIPTextEncode",
+      "field": "text",
+      "text_purpose": "positive_or_negative_prompt"
+    },
+    {
+      "target_id": "cliptext_84",
+      "node_id": 84,
+      "node_type": "CLIPTextEncode",
+      "field": "text",
+      "text_purpose": "positive_or_negative_prompt"
+    },
+    {
+      "target_id": "cliptext_92",
+      "node_id": 92,
+      "node_type": "CLIPTextEncode",
+      "field": "text",
+      "text_purpose": "positive_or_negative_prompt"
+    },
+    {
+      "target_id": "cliptext_114",
+      "node_id": 114,
+      "node_type": "CLIPTextEncode",
+      "field": "text",
+      "text_purpose": "positive_or_negative_prompt"
+    },
+    {
+      "target_id": "cliptext_123",
+      "node_id": 123,
+      "node_type": "CLIPTextEncode",
+      "field": "text",
+      "text_purpose": "positive_or_negative_prompt"
+    },
+    {
+      "target_id": "cliptext_15",
+      "node_id": 15,
+      "node_type": "CLIPTextEncode",
+      "field": "text",
+      "text_purpose": "positive_or_negative_prompt"
+    },
+    {
+      "target_id": "cliptext_113",
+      "node_id": 113,
+      "node_type": "CLIPTextEncode",
+      "field": "text",
+      "text_purpose": "positive_or_negative_prompt"
+    },
+    {
+      "target_id": "cliptext_83",
+      "node_id": 83,
+      "node_type": "CLIPTextEncode",
+      "field": "text",
+      "text_purpose": "positive_or_negative_prompt"
+    },
+    {
+      "target_id": "cliptext_33",
+      "node_id": 33,
+      "node_type": "CLIPTextEncode",
+      "field": "text",
+      "text_purpose": "positive_or_negative_prompt"
+    },
+    {
+      "target_id": "cliptext_122",
+      "node_id": 122,
+      "node_type": "CLIPTextEncode",
+      "field": "text",
+      "text_purpose": "positive_or_negative_prompt"
+    },
+    {
+      "target_id": "cliptext_102",
+      "node_id": 102,
+      "node_type": "CLIPTextEncodeFlux",
+      "field": "text",
+      "text_purpose": "positive_or_negative_prompt"
+    },
+    {
+      "target_id": "cliptext_91",
+      "node_id": 91,
+      "node_type": "CLIPTextEncode",
+      "field": "text",
+      "text_purpose": "positive_or_negative_prompt"
+    },
+    {
+      "target_id": "cliptext_14",
+      "node_id": 14,
+      "node_type": "CLIPTextEncode",
+      "field": "text",
+      "text_purpose": "positive_or_negative_prompt"
+    },
+    {
+      "target_id": "latent_16",
+      "node_id": 16,
+      "node_type": "EmptyLatentImage",
+      "fields": [
+        "width",
+        "height",
+        "batch_size"
+      ],
+      "current_widgets": [
+        1024,
+        1280,
+        1
+      ]
+    },
+    {
+      "target_id": "latent_35",
+      "node_id": 35,
+      "node_type": "EmptySD3LatentImage",
+      "fields": [
+        "width",
+        "height",
+        "batch_size"
+      ],
+      "current_widgets": [
+        1024,
+        1024,
+        1
+      ]
+    },
+    {
+      "target_id": "latent_104",
+      "node_id": 104,
+      "node_type": "EmptySD3LatentImage",
+      "fields": [
+        "width",
+        "height",
+        "batch_size"
+      ],
+      "current_widgets": [
+        512,
+        512,
+        1
+      ]
+    },
+    {
+      "target_id": "latent_115",
+      "node_id": 115,
+      "node_type": "EmptyLatentImage",
+      "fields": [
+        "width",
+        "height",
+        "batch_size"
+      ],
+      "current_widgets": [
+        768,
+        768,
+        1
+      ]
+    },
+    {
+      "target_id": "latent_125",
+      "node_id": 125,
+      "node_type": "EmptyLatentImage",
+      "fields": [
+        "width",
+        "height",
+        "batch_size"
+      ],
+      "current_widgets": [
+        768,
+        768,
+        1
+      ]
+    }
+  ]
+}

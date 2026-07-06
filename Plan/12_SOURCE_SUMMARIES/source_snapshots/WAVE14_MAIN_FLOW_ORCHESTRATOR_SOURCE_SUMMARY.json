@@ -1,0 +1,398 @@
+{
+  "source_path": "/mnt/data/Wave42_Runtime_Bound__UI__WAVE42_MAIN_FLOW_20260702(15).json",
+  "source_sha256": "13297484923fa1ca7525fa913792b19999f395e05118e50eb269e48e4d1bc8bb",
+  "workflow_id": "c1eb5a64-4997-472d-a6f5-93cc273d6a72",
+  "revision": 0,
+  "last_node_id": 411,
+  "last_link_id": 109,
+  "node_count": 356,
+  "link_count": 91,
+  "node_type_counts": {
+    "LoraLoader": 274,
+    "Note": 13,
+    "CLIPTextEncode": 12,
+    "SaveImage": 8,
+    "PreviewImage": 8,
+    "KSampler": 7,
+    "VAEDecode": 7,
+    "EmptyLatentImage": 3,
+    "LoadImage": 3,
+    "EmptySD3LatentImage": 2,
+    "CheckpointLoaderSimple": 2,
+    "UNETLoader": 1,
+    "ModelSamplingAuraFlow": 1,
+    "CLIPLoader": 1,
+    "VAELoader": 1,
+    "UpscaleModelLoader": 1,
+    "ImageUpscaleWithModel": 1,
+    "VAEEncodeForInpaint": 1,
+    "VAEEncode": 1,
+    "ModelSamplingFlux": 1,
+    "ConditioningZeroOut": 1,
+    "IPAdapter": 1,
+    "ControlNetLoader": 1,
+    "ControlNetApplyAdvanced": 1,
+    "LoadImageMask": 1,
+    "IPAdapterUnifiedLoader": 1,
+    "Lora Loader Stack (rgthree)": 1,
+    "CLIPTextEncodeFlux": 1
+  },
+  "mode_counts": {
+    "0": 82,
+    "2": 274
+  },
+  "enabled_node_count": 82,
+  "save_image_lanes": [
+    {
+      "node_id": 19,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA"
+    },
+    {
+      "node_id": 39,
+      "prefix": "Main_Flow/Flux_Family_ZImage"
+    },
+    {
+      "node_id": 62,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA_Upscaled"
+    },
+    {
+      "node_id": 87,
+      "prefix": "Main_Flow/SDXL_Inpaint_Detail"
+    },
+    {
+      "node_id": 95,
+      "prefix": "Main_Flow/Flux_to_SDXL_Refine"
+    },
+    {
+      "node_id": 107,
+      "prefix": "Main_Flow/True_Flux_Schnell_Reference_Smoke"
+    },
+    {
+      "node_id": 128,
+      "prefix": "Main_Flow/ControlNet_Canny_Edge"
+    },
+    {
+      "node_id": 118,
+      "prefix": "Main_Flow/IPAdapter_Face_Reference"
+    }
+  ],
+  "ksampler_patch_targets": [
+    {
+      "node_id": 17,
+      "seed": 300300300,
+      "steps": 40,
+      "cfg": 6.5,
+      "sampler": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1
+    },
+    {
+      "node_id": 36,
+      "seed": 42043,
+      "steps": 8,
+      "cfg": 1,
+      "sampler": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 1
+    },
+    {
+      "node_id": 85,
+      "seed": 210422,
+      "steps": 14,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.28
+    },
+    {
+      "node_id": 93,
+      "seed": 210421,
+      "steps": 10,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.22
+    },
+    {
+      "node_id": 105,
+      "seed": 200420,
+      "steps": 4,
+      "cfg": 1,
+      "sampler": "euler",
+      "scheduler": "simple",
+      "denoise": 1
+    },
+    {
+      "node_id": 116,
+      "seed": 626262,
+      "steps": 8,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 1
+    },
+    {
+      "node_id": 126,
+      "seed": 707707,
+      "steps": 20,
+      "cfg": 5.5,
+      "sampler": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1
+    }
+  ],
+  "clip_text_patch_targets": [
+    {
+      "node_id": 34,
+      "text_widget_index": 0,
+      "text_preview": "low quality, blurry, distorted anatomy, extra fingers, artifacts, text, watermark, plastic"
+    },
+    {
+      "node_id": 84,
+      "text_widget_index": 0,
+      "text_preview": "blurry, low resolution, smeared texture, visible mask edge, harsh boundary, changed face, "
+    },
+    {
+      "node_id": 92,
+      "text_widget_index": 0,
+      "text_preview": "low quality, blurry, melted details, changed identity, changed pose, watermark, text, over"
+    },
+    {
+      "node_id": 114,
+      "text_widget_index": 0,
+      "text_preview": "low quality, blurry, artifacts, distorted anatomy, watermark, text"
+    },
+    {
+      "node_id": 123,
+      "text_widget_index": 0,
+      "text_preview": "low quality, blurry, distorted anatomy, edge artifacts, watermark, text, overprocessed"
+    },
+    {
+      "node_id": 15,
+      "text_widget_index": 0,
+      "text_preview": "lowres, blurry, worst quality, low quality, jpeg artifacts, cartoon, anime, CGI, doll-like"
+    },
+    {
+      "node_id": 113,
+      "text_widget_index": 0,
+      "text_preview": "Full frame eye-level frontal cinematic portrait of a mature middle-aged Latina woman with "
+    },
+    {
+      "node_id": 83,
+      "text_widget_index": 0,
+      "text_preview": "Full frame eye-level frontal cinematic portrait of a mature middle-aged Latina woman with "
+    },
+    {
+      "node_id": 33,
+      "text_widget_index": 0,
+      "text_preview": "Full frame eye-level frontal cinematic portrait of a mature middle-aged Latina woman with "
+    },
+    {
+      "node_id": 122,
+      "text_widget_index": 0,
+      "text_preview": "Full frame eye-level frontal cinematic portrait of a mature middle-aged Latina woman with "
+    },
+    {
+      "node_id": 91,
+      "text_widget_index": 0,
+      "text_preview": "Full frame eye-level frontal cinematic portrait of a mature middle-aged Latina woman with "
+    },
+    {
+      "node_id": 14,
+      "text_widget_index": 0,
+      "text_preview": "Full frame eye-level frontal cinematic portrait of a mature middle-aged Latina woman with "
+    }
+  ],
+  "latent_size_patch_targets": [
+    {
+      "node_id": 16,
+      "node_type": "EmptyLatentImage",
+      "current_values": [
+        1024,
+        1280,
+        1
+      ],
+      "widget_indices": {
+        "width": 0,
+        "height": 1,
+        "batch": 2
+      }
+    },
+    {
+      "node_id": 35,
+      "node_type": "EmptySD3LatentImage",
+      "current_values": [
+        1024,
+        1024,
+        1
+      ],
+      "widget_indices": {
+        "width": 0,
+        "height": 1,
+        "batch": 2
+      }
+    },
+    {
+      "node_id": 104,
+      "node_type": "EmptySD3LatentImage",
+      "current_values": [
+        512,
+        512,
+        1
+      ],
+      "widget_indices": {
+        "width": 0,
+        "height": 1,
+        "batch": 2
+      }
+    },
+    {
+      "node_id": 115,
+      "node_type": "EmptyLatentImage",
+      "current_values": [
+        768,
+        768,
+        1
+      ],
+      "widget_indices": {
+        "width": 0,
+        "height": 1,
+        "batch": 2
+      }
+    },
+    {
+      "node_id": 125,
+      "node_type": "EmptyLatentImage",
+      "current_values": [
+        768,
+        768,
+        1
+      ],
+      "widget_indices": {
+        "width": 0,
+        "height": 1,
+        "batch": 2
+      }
+    }
+  ],
+  "mask_input_slots": [
+    {
+      "node_id": 82,
+      "node_type": "VAEEncodeForInpaint",
+      "input_name": "mask",
+      "link": 51
+    },
+    {
+      "node_id": 112,
+      "node_type": "IPAdapter",
+      "input_name": "attn_mask",
+      "link": null
+    }
+  ],
+  "control_nodes": [
+    {
+      "node_id": 120,
+      "node_type": "ControlNetLoader",
+      "widgets_values": [
+        "controlnet-canny-sdxl-1.0-small.safetensors"
+      ]
+    },
+    {
+      "node_id": 124,
+      "node_type": "ControlNetApplyAdvanced",
+      "widgets_values": [
+        0.65,
+        0,
+        0.75
+      ]
+    }
+  ],
+  "ipadapter_nodes": [
+    {
+      "node_id": 112,
+      "node_type": "IPAdapter",
+      "widgets_values": [
+        0.45,
+        0,
+        0.85,
+        "standard"
+      ],
+      "mask_inputs": [
+        {
+          "name": "attn_mask",
+          "shape": 7,
+          "type": "MASK",
+          "link": null
+        }
+      ]
+    },
+    {
+      "node_id": 110,
+      "node_type": "IPAdapterUnifiedLoader",
+      "widgets_values": [
+        "PLUS FACE (portraits)"
+      ],
+      "mask_inputs": []
+    }
+  ],
+  "note_boundaries": [
+    {
+      "node_id": 1,
+      "text": "MAIN FLOW - Wave42 image generation canvas\nCanonical superseding workflow for the image-generation section. Built from the planned layout pages and the existing SDXL/RealVisXL + Flux-family runtime templates.\nExecutable lanes: SDXL/RealVisXL with organized Wave42 LoRA stack, Flux-family/Z-Image lane, and Flux-to-SDXL support pass."
+    },
+    {
+      "node_id": 70,
+      "text": "Reference / IPAdapter / ControlNet staging\nThe layout source calls for reference identity, pose/depth/edge/mask control, and regional inpaint. The face-reference IPAdapter branch is staged below as ready_to_verify from the prior smoke template. The Canny ControlNet edge-map branch is staged below as ready_to_verify. Additional reference-slot routing and pose/depth/openpose control maps remain notes until direct runtime proof exists."
+    },
+    {
+      "node_id": 71,
+      "text": "Image QA / promotion export\nOutputs are saved under Main_Flow/* prefixes so downstream QA, manifest intake, and tracker-promotion scripts can consume concrete image-generation artifacts instead of layout notes."
+    },
+    {
+      "node_id": 72,
+      "text": "Video/audio handoff boundary\nThe Main Flow now produces image outputs ready for video lanes. WAN/Hunyuan/LTXV/audio remain separate runtime lanes until their own ComfyUI node graphs are merged and proven."
+    },
+    {
+      "node_id": 73,
+      "text": "True Flux image-reference conditioning boundary\nThe true Flux Schnell reference-smoke/base lane is staged as ready_to_verify using the concrete Wave20 Flux smoke template. Actual image-reference conditioning remains note-only because current templates load or name references but do not wire reference pixels into generation."
+    },
+    {
+      "node_id": 74,
+      "text": "Inpaint, upscale, QA, release promotion\nFinal image QA, manifest intake, and tracker promotion remain notes until proven. Basic RealESRGAN upscale and SDXL inpaint/detail are staged and wired as ready_to_verify."
+    },
+    {
+      "node_id": 130,
+      "text": "IG-09 Image QA and evidence export\nRun export_wave42_main_flow_image_evidence.py after Main_Flow images are generated. It records lane prefix, file path, size, SHA256, dimensions, format, and basic decode QA."
+    },
+    {
+      "node_id": 131,
+      "text": "Evidence manifest output\nManifest path: Implementation/manifests/main_flow_image_qa_evidence/*.json. This is evidence intake, not tracker promotion by itself."
+    },
+    {
+      "node_id": 132,
+      "text": "QA boundary\nBasic file QA proves files are non-empty, decodable images with dimensions. Creative QA, runtime prompt proof, object_info visibility, and model-loader proof remain separate verification gates."
+    },
+    {
+      "node_id": 133,
+      "text": "IG-10 Main Flow promotion after runtime proof\nRun promote_wave42_main_flow_after_runtime_proof.py only after IG-09 finds exact Main_Flow outputs for the required lanes. Promotion is blocked until those runtime files exist."
+    },
+    {
+      "node_id": 134,
+      "text": "Promotion decision output\nManifest path: Implementation/manifests/main_flow_promotion/*.json. Verified is allowed only when all required lanes have passing evidence records."
+    },
+    {
+      "node_id": 135,
+      "text": "Current promotion boundary\nIf exact Main_Flow runtime outputs are absent, IG-10 must report blocked_missing_runtime_proof. It must not promote from layout notes or unrelated smoke outputs."
+    },
+    {
+      "node_id": 136,
+      "text": "WAVE42 DEPLOYED LORA LIBRARY - MANIFEST WIRED, DISABLED BY DEFAULT\nSource CSV: C:\\Comfy_UI_Lora\\Model_Organize\\wave07\\WAVE07_EC2_DEPLOY_MANIFEST.csv\nSource manifest JSON: C:\\Comfy_UI_Lora\\Model_Organize\\wave07\\WAVE07_EC2_DEPLOY_MANIFEST.json\nRegistry: C:\\Comfy_UI\\Implementation\\loras\\wave42_lora_registry.json\nStack profiles: C:\\Comfy_UI\\Implementation\\profiles\\wave42_stack_profiles.json\nThis section represents every Wave07 deployed LoRA path in Main Flow as a disabled/disconnected LoraLoader node.\nThe executable production chain remains the existing linked 3-LoRA SDXL lane. Promote/select only compatible same-engine stacks; do not enable all library nodes at once."
+    }
+  ],
+  "lora_catalog_summary": {
+    "total_lora_nodes": 274,
+    "disabled_lora_nodes": 274,
+    "active_copy_lora_nodes": 3
+  },
+  "orchestrator_boundary": "Patchable image workflow/source canvas. Real execution requires API-format workflow, object_info proof, model/custom-node proof, and ComfyUI runtime."
+}

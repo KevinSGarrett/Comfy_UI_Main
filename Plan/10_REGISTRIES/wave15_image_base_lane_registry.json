@@ -1,0 +1,242 @@
+[
+  {
+    "lane_id": "flux2_dev_primary_base",
+    "display_name": "Flux2 Dev primary base lane",
+    "engine_family": "flux2",
+    "role": "primary_future_flux_first_base",
+    "status": "planned_requires_runtime_proof",
+    "default_priority": 10,
+    "recommended_use": [
+      "highest-priority photoreal base generation target once local workflow proof exists",
+      "multi-reference identity/reference-heavy scenes after reference contract proof",
+      "complex prompt adherence where Flux2 workflow is available"
+    ],
+    "blocked_until": [
+      "object_info shows required Flux2 nodes/loaders",
+      "Flux2 model assets are hash-registered and local/EC2 path verified",
+      "single-image base smoke proof passes",
+      "reference workflow proof passes if using multi-reference",
+      "QA evidence and promotion gate pass"
+    ],
+    "allowed_lora_families": [
+      "flux2_only_after_compat_proof"
+    ],
+    "forbidden_lora_families": [
+      "sdxl",
+      "pony",
+      "sd15",
+      "flux1_unless_explicitly_proven_cross_compatible"
+    ],
+    "bridge_policy": "image_bridge_only_to_sdxl_detail_or_video_keyframes",
+    "promotion_state": "not_promoted"
+  },
+  {
+    "lane_id": "flux1_dev_primary_base",
+    "display_name": "Flux1 Dev primary base lane",
+    "engine_family": "flux1",
+    "role": "current_flux_first_base",
+    "status": "planned_from_current_assets_requires_runtime_proof",
+    "default_priority": 20,
+    "recommended_use": [
+      "default base image generation when Flux2 is not yet proven",
+      "general photoreal composition and prompt adherence",
+      "image-first scenes that later receive SDXL regional detail or video handoff"
+    ],
+    "blocked_until": [
+      "Flux1 workflow JSON exists in API executable form",
+      "model loader compatibility is verified",
+      "base image output evidence passes"
+    ],
+    "allowed_lora_families": [
+      "flux1"
+    ],
+    "forbidden_lora_families": [
+      "sdxl",
+      "pony",
+      "sd15",
+      "flux2_unless_proven"
+    ],
+    "bridge_policy": "image_bridge_only_to_sdxl_refine_or_inpaint",
+    "promotion_state": "not_promoted"
+  },
+  {
+    "lane_id": "flux1_schnell_smoke_lane",
+    "display_name": "Flux1 Schnell smoke/fallback lane",
+    "engine_family": "flux1",
+    "role": "fast_smoke_and_fallback",
+    "status": "present_in_main_flow_as_smoke_ready_to_verify",
+    "main_flow_prefix": "Main_Flow/True_Flux_Schnell_Reference_Smoke",
+    "main_flow_save_node_id": 107,
+    "default_priority": 30,
+    "recommended_use": [
+      "fast object_info/model-loader smoke tests",
+      "cheap prompt sanity check",
+      "fallback when higher-quality base lane is unavailable"
+    ],
+    "blocked_until": [
+      "runtime output evidence exists for exact lane prefix"
+    ],
+    "allowed_lora_families": [
+      "flux1"
+    ],
+    "forbidden_lora_families": [
+      "sdxl",
+      "pony",
+      "sd15",
+      "flux2_unless_proven"
+    ],
+    "bridge_policy": "not a final quality lane without later QA/detail passes",
+    "promotion_state": "runtime_proof_required"
+  },
+  {
+    "lane_id": "sdxl_realvisxl_base_lane",
+    "display_name": "SDXL / RealVisXL base lane",
+    "engine_family": "sdxl",
+    "role": "compatibility_and_detail_base",
+    "status": "present_in_main_flow_ready_to_verify_but_model_name_alignment_required",
+    "main_flow_prefix": "Main_Flow/SDXL_RealVisXL_LoRA",
+    "main_flow_save_node_id": 19,
+    "default_priority": 40,
+    "recommended_use": [
+      "when SDXL LoRA stack is required",
+      "RealVisXL-style local realism where exact checkpoint is verified",
+      "regional inpaint/detail handoff and post-Flux refinement"
+    ],
+    "blocked_until": [
+      "checkpoint name, engine family, and LoRA stack family agree",
+      "current lane model-loader compatibility is verified",
+      "base output evidence passes"
+    ],
+    "allowed_lora_families": [
+      "sdxl"
+    ],
+    "forbidden_lora_families": [
+      "flux1",
+      "flux2",
+      "sd15",
+      "pony_unless_pony_sdxl_profile_is_proven"
+    ],
+    "bridge_policy": "can receive Flux image bridge through image/load/refine only",
+    "promotion_state": "runtime_proof_required"
+  },
+  {
+    "lane_id": "zimage_turbo_base_lane",
+    "display_name": "Z-Image Turbo base lane",
+    "engine_family": "zimage",
+    "role": "fast_alternative_base_and_experimental_router",
+    "status": "present_in_main_flow_ready_to_verify",
+    "main_flow_prefix": "Main_Flow/Flux_Family_ZImage",
+    "main_flow_save_node_id": 39,
+    "default_priority": 50,
+    "recommended_use": [
+      "fast alternative base render",
+      "comparison branch against Flux/SDXL",
+      "fallback if Flux model loading is unavailable"
+    ],
+    "blocked_until": [
+      "Z-Image workflow API template is separated from Flux naming",
+      "runtime output evidence exists",
+      "QA shows acceptable anatomy/composition for requested scene"
+    ],
+    "allowed_lora_families": [
+      "zimage_only_after_compat_proof"
+    ],
+    "forbidden_lora_families": [
+      "flux1",
+      "flux2",
+      "sdxl",
+      "pony",
+      "sd15"
+    ],
+    "bridge_policy": "image_bridge_only_to_sdxl_refine_or_video_keyframes",
+    "promotion_state": "runtime_proof_required"
+  },
+  {
+    "lane_id": "pony_specialty_lane",
+    "display_name": "Pony specialty base lane",
+    "engine_family": "pony",
+    "role": "specialty_not_default",
+    "status": "not_present_in_current_main_flow_requires_new_template",
+    "default_priority": 60,
+    "recommended_use": [
+      "only when the exact requested asset/checkpoint/profile is Pony-family",
+      "specialty style/pose/anatomy profile testing where SDXL/Flux cannot cover it",
+      "controlled branch experiments with separate QA and tags"
+    ],
+    "blocked_until": [
+      "Pony checkpoint and prompt/tag profile are registered",
+      "Pony-specific workflow template exists",
+      "Pony outputs pass composition/identity/QA gates",
+      "no SDXL/Flux/SD1.5 LoRA mixing"
+    ],
+    "allowed_lora_families": [
+      "pony",
+      "pony_sdxl_only_if_tagged_and_proven"
+    ],
+    "forbidden_lora_families": [
+      "flux1",
+      "flux2",
+      "sdxl_unless_explicit_pony_sdxl_compat_profile",
+      "sd15"
+    ],
+    "bridge_policy": "image_bridge_only_to_postprocess; no latent/model mixing",
+    "promotion_state": "not_promoted"
+  },
+  {
+    "lane_id": "sdxl_low_risk_fallback_lane",
+    "display_name": "SDXL low-risk fallback lane",
+    "engine_family": "sdxl",
+    "role": "stable_fallback",
+    "status": "planned_from_sdxl_lane_requires_clean_template",
+    "default_priority": 70,
+    "recommended_use": [
+      "fallback when Flux/Z-Image/Pony lane fails validation",
+      "basic composition proof",
+      "safe rerun after model-loading failures"
+    ],
+    "blocked_until": [
+      "fallback template uses a clean verified SDXL checkpoint",
+      "no incompatible LoRA stack is applied",
+      "fallback output evidence passes"
+    ],
+    "allowed_lora_families": [
+      "sdxl_minimal_or_none"
+    ],
+    "forbidden_lora_families": [
+      "flux1",
+      "flux2",
+      "pony",
+      "sd15"
+    ],
+    "bridge_policy": "can feed upscale/detail/video handoff after QA",
+    "promotion_state": "not_promoted"
+  },
+  {
+    "lane_id": "sd15_legacy_fallback_lane",
+    "display_name": "SD1.5 legacy fallback lane",
+    "engine_family": "sd15",
+    "role": "legacy_last_resort",
+    "status": "not_present_in_current_main_flow_not_recommended_for_primary_hyperreal_base",
+    "default_priority": 90,
+    "recommended_use": [
+      "only for legacy tools or models that have no SDXL/Flux equivalent",
+      "small region/reference experiments when quality loss is acceptable"
+    ],
+    "blocked_until": [
+      "explicit user/scene requirement exists",
+      "separate SD1.5 template and checkpoint proof exist",
+      "no cross-family LoRA mixing"
+    ],
+    "allowed_lora_families": [
+      "sd15"
+    ],
+    "forbidden_lora_families": [
+      "flux1",
+      "flux2",
+      "sdxl",
+      "pony"
+    ],
+    "bridge_policy": "never promote as primary hyperreal base unless manually approved after QA",
+    "promotion_state": "not_promoted"
+  }
+]

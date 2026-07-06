@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave24 Depth Order Entry",
+  "type": "object",
+  "required": [
+    "character_instance_id",
+    "depth_layer"
+  ],
+  "properties": {
+    "character_instance_id": {
+      "type": "string"
+    },
+    "depth_layer": {
+      "type": "integer"
+    },
+    "in_front_of": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "behind": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "occlusion_mask_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

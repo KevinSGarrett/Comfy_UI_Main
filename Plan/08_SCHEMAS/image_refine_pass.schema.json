@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": true,
+  "title": "Wave16 Image Refine Pass",
+  "required": [
+    "pass_id",
+    "source_engine",
+    "target_engine",
+    "denoise",
+    "scope"
+  ],
+  "properties": {
+    "pass_id": {
+      "type": "string"
+    },
+    "source_engine": {
+      "type": "string"
+    },
+    "target_engine": {
+      "type": "string"
+    },
+    "denoise": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "scope": {
+      "type": "string"
+    },
+    "mask_required": {
+      "type": "boolean"
+    },
+    "bridge_contract_id": {
+      "type": "string"
+    }
+  }
+}

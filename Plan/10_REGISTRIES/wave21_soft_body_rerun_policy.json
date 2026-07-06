@@ -1,0 +1,23 @@
+{
+  "policy_version": "wave21.v1",
+  "rerun_conditions": [
+    "deformation_too_weak",
+    "deformation_too_strong",
+    "compression_not_aligned_to_contact",
+    "surface_ripple_missing",
+    "rebound_mismatch"
+  ],
+  "fallback_actions": [
+    "lower_denoise",
+    "tighten_mask",
+    "reduce_profile_intensity",
+    "use_support_shadow_only",
+    "return_to_wave19_contact_repair"
+  ],
+  "stop_conditions": [
+    "identity_drift",
+    "unapproved_body_proportion_change",
+    "repeated_failed_deformation",
+    "video_temporal_instability"
+  ]
+}

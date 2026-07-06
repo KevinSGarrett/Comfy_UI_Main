@@ -1,0 +1,33 @@
+{
+  "version": "wave12_v1",
+  "normalized_margin_system": "All margins are ratios of output width/height.",
+  "default_safe_margins": {
+    "full_body": 0.06,
+    "three_quarter_body": 0.05,
+    "half_body": 0.04,
+    "one_third_body": 0.035,
+    "one_quarter_body": 0.03,
+    "close_up_face": 0.025
+  },
+  "hard_fail_crop_events": [
+    "head_cut_when_not_closeup",
+    "face_cut",
+    "hands_cut_when_hand_action_required",
+    "feet_cut_for_full_body",
+    "body_touching_frame_edge_for_full_body"
+  ],
+  "soft_fail_crop_events": [
+    "hair_slightly_cut",
+    "elbow_near_edge",
+    "prop_near_edge",
+    "background_object_unbalanced"
+  ],
+  "repair_actions": [
+    "expand_canvas_outpaint",
+    "reframe_with_wider_shot",
+    "lower_zoom",
+    "raise_camera_distance",
+    "switch_to_three_quarter_body_if_full_body_not_needed",
+    "rerun_pose_control_with_padding"
+  ]
+}

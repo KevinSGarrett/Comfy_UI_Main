@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "camera_validation_report.schema.json",
+  "title": "Wave10 Camera Validation Report",
+  "type": "object",
+  "required": [
+    "camera_plan_id",
+    "validation",
+    "checks"
+  ],
+  "properties": {
+    "camera_plan_id": {
+      "type": "string"
+    },
+    "validation": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL",
+        "WARN"
+      ]
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "blocking_issues": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

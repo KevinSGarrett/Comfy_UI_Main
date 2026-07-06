@@ -1,0 +1,1689 @@
+{
+  "source_file": "Wave42_Runtime_Bound__UI__WAVE42_MAIN_FLOW_20260702(22).json",
+  "workflow_id": "c1eb5a64-4997-472d-a6f5-93cc273d6a72",
+  "revision": 0,
+  "last_node_id": 411,
+  "last_link_id": 109,
+  "node_count": 356,
+  "link_count": 91,
+  "mode_counts": {
+    "0": 82,
+    "2": 274
+  },
+  "node_type_counts_top": {
+    "LoraLoader": 274,
+    "Note": 13,
+    "CLIPTextEncode": 12,
+    "SaveImage": 8,
+    "PreviewImage": 8,
+    "KSampler": 7,
+    "VAEDecode": 7,
+    "EmptyLatentImage": 3,
+    "LoadImage": 3,
+    "EmptySD3LatentImage": 2,
+    "CheckpointLoaderSimple": 2,
+    "UNETLoader": 1,
+    "ModelSamplingAuraFlow": 1,
+    "CLIPLoader": 1,
+    "VAELoader": 1,
+    "UpscaleModelLoader": 1,
+    "ImageUpscaleWithModel": 1,
+    "VAEEncodeForInpaint": 1,
+    "VAEEncode": 1,
+    "ModelSamplingFlux": 1,
+    "ConditioningZeroOut": 1,
+    "IPAdapter": 1,
+    "ControlNetLoader": 1,
+    "ControlNetApplyAdvanced": 1,
+    "LoadImageMask": 1
+  },
+  "save_lanes": [
+    {
+      "node_id": 19,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA"
+    },
+    {
+      "node_id": 39,
+      "prefix": "Main_Flow/Flux_Family_ZImage"
+    },
+    {
+      "node_id": 62,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA_Upscaled"
+    },
+    {
+      "node_id": 87,
+      "prefix": "Main_Flow/SDXL_Inpaint_Detail"
+    },
+    {
+      "node_id": 95,
+      "prefix": "Main_Flow/Flux_to_SDXL_Refine"
+    },
+    {
+      "node_id": 107,
+      "prefix": "Main_Flow/True_Flux_Schnell_Reference_Smoke"
+    },
+    {
+      "node_id": 128,
+      "prefix": "Main_Flow/ControlNet_Canny_Edge"
+    },
+    {
+      "node_id": 118,
+      "prefix": "Main_Flow/IPAdapter_Face_Reference"
+    }
+  ],
+  "ksampler_nodes": [
+    {
+      "node_id": 17,
+      "widgets_values": [
+        300300300,
+        "fixed",
+        40,
+        6.5,
+        "dpmpp_2m_sde",
+        "karras",
+        1
+      ],
+      "seed": 300300300,
+      "control_after_generate": "fixed",
+      "steps": 40,
+      "cfg": 6.5,
+      "sampler": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1
+    },
+    {
+      "node_id": 36,
+      "widgets_values": [
+        42043,
+        "fixed",
+        8,
+        1,
+        "res_multistep",
+        "simple",
+        1
+      ],
+      "seed": 42043,
+      "control_after_generate": "fixed",
+      "steps": 8,
+      "cfg": 1,
+      "sampler": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 1
+    },
+    {
+      "node_id": 85,
+      "widgets_values": [
+        210422,
+        "fixed",
+        14,
+        5,
+        "euler",
+        "normal",
+        0.28
+      ],
+      "seed": 210422,
+      "control_after_generate": "fixed",
+      "steps": 14,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.28
+    },
+    {
+      "node_id": 93,
+      "widgets_values": [
+        210421,
+        "fixed",
+        10,
+        5,
+        "euler",
+        "normal",
+        0.22
+      ],
+      "seed": 210421,
+      "control_after_generate": "fixed",
+      "steps": 10,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.22
+    },
+    {
+      "node_id": 105,
+      "widgets_values": [
+        200420,
+        "fixed",
+        4,
+        1,
+        "euler",
+        "simple",
+        1
+      ],
+      "seed": 200420,
+      "control_after_generate": "fixed",
+      "steps": 4,
+      "cfg": 1,
+      "sampler": "euler",
+      "scheduler": "simple",
+      "denoise": 1
+    },
+    {
+      "node_id": 116,
+      "widgets_values": [
+        626262,
+        "fixed",
+        8,
+        5,
+        "euler",
+        "normal",
+        1
+      ],
+      "seed": 626262,
+      "control_after_generate": "fixed",
+      "steps": 8,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 1
+    },
+    {
+      "node_id": 126,
+      "widgets_values": [
+        707707,
+        "fixed",
+        20,
+        5.5,
+        "dpmpp_2m_sde",
+        "karras",
+        1
+      ],
+      "seed": 707707,
+      "control_after_generate": "fixed",
+      "steps": 20,
+      "cfg": 5.5,
+      "sampler": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1
+    }
+  ],
+  "low_denoise_anchors": [
+    {
+      "node_id": 85,
+      "widgets_values": [
+        210422,
+        "fixed",
+        14,
+        5,
+        "euler",
+        "normal",
+        0.28
+      ],
+      "seed": 210422,
+      "control_after_generate": "fixed",
+      "steps": 14,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.28
+    },
+    {
+      "node_id": 93,
+      "widgets_values": [
+        210421,
+        "fixed",
+        10,
+        5,
+        "euler",
+        "normal",
+        0.22
+      ],
+      "seed": 210421,
+      "control_after_generate": "fixed",
+      "steps": 10,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.22
+    }
+  ],
+  "mask_input_slots": [
+    {
+      "node_id": 82,
+      "node_type": "VAEEncodeForInpaint",
+      "input_name": "mask",
+      "link": 51
+    },
+    {
+      "node_id": 112,
+      "node_type": "IPAdapter",
+      "input_name": "attn_mask",
+      "link": null
+    }
+  ],
+  "control_nodes": [
+    {
+      "node_id": 120,
+      "node_type": "ControlNetLoader",
+      "widgets_values": [
+        "controlnet-canny-sdxl-1.0-small.safetensors"
+      ]
+    },
+    {
+      "node_id": 124,
+      "node_type": "ControlNetApplyAdvanced",
+      "widgets_values": [
+        0.65,
+        0,
+        0.75
+      ]
+    }
+  ],
+  "clip_text_nodes": [
+    {
+      "node_id": 34,
+      "text": "low quality, blurry, distorted anatomy, extra fingers, artifacts, text, watermark, plastic skin"
+    },
+    {
+      "node_id": 84,
+      "text": "blurry, low resolution, smeared texture, visible mask edge, harsh boundary, changed face, changed background, mismatched lighting, color shift, warped region, noisy artifacts, text, watermark"
+    },
+    {
+      "node_id": 92,
+      "text": "low quality, blurry, melted details, changed identity, changed pose, watermark, text, overprocessed, waxy skin"
+    },
+    {
+      "node_id": 114,
+      "text": "low quality, blurry, artifacts, distorted anatomy, watermark, text"
+    },
+    {
+      "node_id": 123,
+      "text": "low quality, blurry, distorted anatomy, edge artifacts, watermark, text, overprocessed"
+    },
+    {
+      "node_id": 15,
+      "text": "lowres, blurry, worst quality, low quality, jpeg artifacts, cartoon, anime, CGI, doll-like skin, waxy skin, plastic skin, over-smoothed skin, fake pores, impossible anatomy, broken spine, twisted torso, extra fingers, missing fingers, fused fingers, deformed hands, duplicated limbs, bad teeth, crossed eyes, melted face, distorted clothing, bad perspective, cropped, watermark, text, logo, signature, clothes on, small breasts, small areolas"
+    },
+    {
+      "node_id": 113,
+      "text": "Full frame eye-level frontal cinematic portrait of a mature middle-aged Latina woman with thick hourglass figure, massive heavy saggy breasts with enormous dark brown areolas and massive sized areolas, visible stretchmarks radiating from the nipples, long curly dark brown hair cascading over shoulders, thick full lips slightly parted, large gold hoop earrings, standing completely nude facing camera, both hands cupping and squeezing her huge breasts together from the sides creating deep pressed cleavage and bulging areolas, fingers sinking into soft flesh with visible pressure marks, subtle sheen of sweat on skin, light cellulite on thick thighs, big round cellulite ass, photorealistic skin texture with visible pores, fine body hair, subtle stretchmarks on lower belly, soft dramatic volumetric god rays from a large window to the left, gentle fill light from below, ultra sharp 85mm lens f/2.0 shallow depth of field, razor focus on areolas and fingers, creamy bokeh background of rumpled silk sheets and wooden floor, 8k hyperrealistic photography, National Geographic skin detail, masterpiece, best quality"
+    },
+    {
+      "node_id": 83,
+      "text": "Full frame eye-level frontal cinematic portrait of a mature middle-aged Latina woman with thick hourglass figure, massive heavy saggy breasts with enormous dark brown areolas and massive sized areolas, visible stretchmarks radiating from the nipples, long curly dark brown hair cascading over shoulders, thick full lips slightly parted, large gold hoop earrings, standing completely nude facing camera, both hands cupping and squeezing her huge breasts together from the sides creating deep pressed cleavage and bulging areolas, fingers sinking into soft flesh with visible pressure marks, subtle sheen of sweat on skin, light cellulite on thick thighs, big round cellulite ass, photorealistic skin texture with visible pores, fine body hair, subtle stretchmarks on lower belly, soft dramatic volumetric god rays from a large window to the left, gentle fill light from below, ultra sharp 85mm lens f/2.0 shallow depth of field, razor focus on areolas and fingers, creamy bokeh background of rumpled silk sheets and wooden floor, 8k hyperrealistic photography, National Geographic skin detail, masterpiece, best quality"
+    },
+    {
+      "node_id": 33,
+      "text": "Full frame eye-level frontal cinematic portrait of a mature middle-aged Latina woman with thick hourglass figure, massive heavy saggy breasts with enormous dark brown areolas and massive sized areolas, visible stretchmarks radiating from the nipples, long curly dark brown hair cascading over shoulders, thick full lips slightly parted, large gold hoop earrings, standing completely nude facing camera, both hands cupping and squeezing her huge breasts together from the sides creating deep pressed cleavage and bulging areolas, fingers sinking into soft flesh with visible pressure marks, subtle sheen of sweat on skin, light cellulite on thick thighs, big round cellulite ass, photorealistic skin texture with visible pores, fine body hair, subtle stretchmarks on lower belly, soft dramatic volumetric god rays from a large window to the left, gentle fill light from below, ultra sharp 85mm lens f/2.0 shallow depth of field, razor focus on areolas and fingers, creamy bokeh background of rumpled silk sheets and wooden floor, 8k hyperrealistic photography, National Geographic skin detail, masterpiece, best quality"
+    },
+    {
+      "node_id": 122,
+      "text": "Full frame eye-level frontal cinematic portrait of a mature middle-aged Latina woman with thick hourglass figure, massive heavy saggy breasts with enormous dark brown areolas and massive sized areolas, visible stretchmarks radiating from the nipples, long curly dark brown hair cascading over shoulders, thick full lips slightly parted, large gold hoop earrings, standing completely nude facing camera, both hands cupping and squeezing her huge breasts together from the sides creating deep pressed cleavage and bulging areolas, fingers sinking into soft flesh with visible pressure marks, subtle sheen of sweat on skin, light cellulite on thick thighs, big round cellulite ass, photorealistic skin texture with visible pores, fine body hair, subtle stretchmarks on lower belly, soft dramatic volumetric god rays from a large window to the left, gentle fill light from below, ultra sharp 85mm lens f/2.0 shallow depth of field, razor focus on areolas and fingers, creamy bokeh background of rumpled silk sheets and wooden floor, 8k hyperrealistic photography, National Geographic skin detail, masterpiece, best quality"
+    },
+    {
+      "node_id": 91,
+      "text": "Full frame eye-level frontal cinematic portrait of a mature middle-aged Latina woman with thick hourglass figure, massive heavy saggy breasts with enormous dark brown areolas and massive sized areolas, visible stretchmarks radiating from the nipples, long curly dark brown hair cascading over shoulders, thick full lips slightly parted, large gold hoop earrings, standing completely nude facing camera, both hands cupping and squeezing her huge breasts together from the sides creating deep pressed cleavage and bulging areolas, fingers sinking into soft flesh with visible pressure marks, subtle sheen of sweat on skin, light cellulite on thick thighs, big round cellulite ass, photorealistic skin texture with visible pores, fine body hair, subtle stretchmarks on lower belly, soft dramatic volumetric god rays from a large window to the left, gentle fill light from below, ultra sharp 85mm lens f/2.0 shallow depth of field, razor focus on areolas and fingers, creamy bokeh background of rumpled silk sheets and wooden floor, 8k hyperrealistic photography, National Geographic skin detail, masterpiece, best quality"
+    },
+    {
+      "node_id": 14,
+      "text": "Full frame eye-level frontal cinematic portrait of a mature middle-aged Latina woman with thick hourglass figure, massive heavy saggy breasts with enormous dark brown areolas and massive sized areolas, visible stretchmarks radiating from the nipples, long curly dark brown hair cascading over shoulders, thick full lips slightly parted, large gold hoop earrings, standing completely nude facing camera, both hands cupping and squeezing her huge breasts together from the sides creating deep pressed cleavage and bulging areolas, fingers sinking into soft flesh with visible pressure marks, subtle sheen of sweat on skin, light cellulite on thick thighs, big round cellulite ass, photorealistic skin texture with visible pores, fine body hair, subtle stretchmarks on lower belly, soft dramatic volumetric god rays from a large window to the left, gentle fill light from below, ultra sharp 85mm lens f/2.0 shallow depth of field, razor focus on areolas and fingers, creamy bokeh background of rumpled silk sheets and wooden floor, 8k hyperrealistic photography, National Geographic skin detail, masterpiece, best quality"
+    }
+  ],
+  "hard_anatomy_lora_summary": {
+    "count": 80,
+    "active_copy_count": 2,
+    "by_engine": {
+      "sdxl": 47,
+      "flux": 23,
+      "pony": 2,
+      "sd15": 1,
+      "disabled_review": 7
+    },
+    "by_category": {
+      "adult_acts": 2,
+      "adult_body_parts": 6,
+      "clothing_fabric": 1,
+      "cum_fluids": 1,
+      "experimental": 15,
+      "face_expression": 2,
+      "hair": 21,
+      "inpaint_detail": 5,
+      "jewelry_accessories": 5,
+      "skin_imperfections": 1,
+      "skin_texture": 1,
+      "adult": 2,
+      "body": 2,
+      "character": 1,
+      "lighting": 1,
+      "skin": 10,
+      "detail": 1,
+      "engine_mismatch": 1,
+      "sd15_candidate": 1,
+      "unclassified": 1
+    },
+    "by_status": {
+      "installed": 46,
+      "rejected_or_superseded": 6,
+      "path_verified": 21,
+      "disabled_review": 7
+    },
+    "by_region": {
+      "face": 47,
+      "hands_fingers": 11,
+      "teeth_mouth": 12,
+      "feet_toes": 1,
+      "hard_anatomy_detail": 22,
+      "nails": 2,
+      "eyes": 3
+    }
+  },
+  "hard_anatomy_lora_records_sanitized": [
+    {
+      "node_id": 137,
+      "title": "W42-SDXL-0028 | adult_acts",
+      "engine": "sdxl",
+      "category": "adult_acts",
+      "scene_role": "adult_act",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 148,
+      "title": "W42-SDXL-0024 | adult_body_parts",
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 150,
+      "title": "W42-SDXL-0052 | adult_body_parts",
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "hands_fingers"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 153,
+      "title": "W42-SDXL-0154 | adult_body_parts",
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face",
+        "teeth_mouth"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 161,
+      "title": "W42-SDXL-0230 | adult_body_parts",
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 162,
+      "title": "W42-SDXL-0244 | adult_body_parts",
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "feet_toes"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 197,
+      "title": "W42-SDXL-0297 | clothing_fabric",
+      "engine": "sdxl",
+      "category": "clothing_fabric",
+      "scene_role": "clothing_fabric",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 198,
+      "title": "W42-SDXL-0058 | cum_fluids",
+      "engine": "sdxl",
+      "category": "cum_fluids",
+      "scene_role": "adult_act",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face",
+        "teeth_mouth"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 207,
+      "title": "W42-SDXL-0157 | experimental",
+      "engine": "sdxl",
+      "category": "experimental",
+      "scene_role": "experimental",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "hands_fingers"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 208,
+      "title": "W42-SDXL-0178 | experimental",
+      "engine": "sdxl",
+      "category": "experimental",
+      "scene_role": "experimental",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 209,
+      "title": "W42-SDXL-0181 | experimental",
+      "engine": "sdxl",
+      "category": "experimental",
+      "scene_role": "experimental",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 210,
+      "title": "W42-SDXL-0183 | experimental",
+      "engine": "sdxl",
+      "category": "experimental",
+      "scene_role": "experimental",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 211,
+      "title": "W42-SDXL-0194 | experimental",
+      "engine": "sdxl",
+      "category": "experimental",
+      "scene_role": "experimental",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face",
+        "teeth_mouth"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 212,
+      "title": "W42-SDXL-0216 | experimental",
+      "engine": "sdxl",
+      "category": "experimental",
+      "scene_role": "experimental",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 214,
+      "title": "W42-SDXL-0271 | experimental",
+      "engine": "sdxl",
+      "category": "experimental",
+      "scene_role": "experimental",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 215,
+      "title": "W42-SDXL-0291 | experimental",
+      "engine": "sdxl",
+      "category": "experimental",
+      "scene_role": "experimental",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 219,
+      "title": "W42-SDXL-0063 | face_expression",
+      "engine": "sdxl",
+      "category": "face_expression",
+      "scene_role": "face_detail",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face",
+        "hard_anatomy_detail"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 220,
+      "title": "W42-SDXL-0250 | face_expression",
+      "engine": "sdxl",
+      "category": "face_expression",
+      "scene_role": "face_detail",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face",
+        "hard_anatomy_detail"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 221,
+      "title": "W42-SDXL-0019 | hair",
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 222,
+      "title": "W42-SDXL-0049 | hair",
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 223,
+      "title": "W42-SDXL-0062 | hair",
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 224,
+      "title": "W42-SDXL-0144 | hair",
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 225,
+      "title": "W42-SDXL-0177 | hair",
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 226,
+      "title": "W42-SDXL-0204 | hair",
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 227,
+      "title": "W42-SDXL-0261 | hair",
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 228,
+      "title": "W42-SDXL-0262 | hair",
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 229,
+      "title": "W42-SDXL-0268 | hair",
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 230,
+      "title": "W42-SDXL-0301 | hair",
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 231,
+      "title": "W42-SDXL-0314 | hair",
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 232,
+      "title": "W42-SDXL-0318 | hair",
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 233,
+      "title": "W42-SDXL-0319 | hair",
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 234,
+      "title": "W42-SDXL-0321 | hair",
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 235,
+      "title": "W42-SDXL-0322 | hair",
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 236,
+      "title": "W42-SDXL-0324 | hair",
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "rejected_or_superseded",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0,
+      "strength_clip": 0
+    },
+    {
+      "node_id": 237,
+      "title": "W42-SDXL-0326 | hair",
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "rejected_or_superseded",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0,
+      "strength_clip": 0
+    },
+    {
+      "node_id": 238,
+      "title": "W42-SDXL-0330 | hair",
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "rejected_or_superseded",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0,
+      "strength_clip": 0
+    },
+    {
+      "node_id": 239,
+      "title": "W42-SDXL-0350 | hair",
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "rejected_or_superseded",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0,
+      "strength_clip": 0
+    },
+    {
+      "node_id": 240,
+      "title": "W42-SDXL-0353 | hair",
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "rejected_or_superseded",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0,
+      "strength_clip": 0
+    },
+    {
+      "node_id": 241,
+      "title": "W42-SDXL-0357 | hair",
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "rejected_or_superseded",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0,
+      "strength_clip": 0
+    },
+    {
+      "node_id": 242,
+      "title": "W42-SDXL-0015 | inpaint_detail",
+      "engine": "sdxl",
+      "category": "inpaint_detail",
+      "scene_role": "inpaint_detail",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "hard_anatomy_detail"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 243,
+      "title": "W42-SDXL-0004 | jewelry_accessories",
+      "engine": "sdxl",
+      "category": "jewelry_accessories",
+      "scene_role": "final_polish",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "nails"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 247,
+      "title": "W42-SDXL-0185 | jewelry_accessories",
+      "engine": "sdxl",
+      "category": "jewelry_accessories",
+      "scene_role": "final_polish",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face",
+        "hands_fingers"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 248,
+      "title": "W42-SDXL-0187 | jewelry_accessories",
+      "engine": "sdxl",
+      "category": "jewelry_accessories",
+      "scene_role": "final_polish",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "hands_fingers"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 249,
+      "title": "W42-SDXL-0255 | jewelry_accessories",
+      "engine": "sdxl",
+      "category": "jewelry_accessories",
+      "scene_role": "final_polish",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "hands_fingers"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 251,
+      "title": "W42-SDXL-0294 | jewelry_accessories",
+      "engine": "sdxl",
+      "category": "jewelry_accessories",
+      "scene_role": "final_polish",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "nails"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 263,
+      "title": "W42-SDXL-0189 | skin_imperfections | ACTIVE_COPY",
+      "engine": "sdxl",
+      "category": "skin_imperfections",
+      "scene_role": "skin_detail",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": true,
+      "matched_regions": [
+        "hard_anatomy_detail"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 264,
+      "title": "W42-SDXL-0293 | skin_texture | ACTIVE_COPY",
+      "engine": "sdxl",
+      "category": "skin_texture",
+      "scene_role": "skin_detail",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": true,
+      "matched_regions": [
+        "eyes",
+        "hard_anatomy_detail"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 274,
+      "title": "W42-FLUX-0169 | adult",
+      "engine": "flux",
+      "category": "adult",
+      "scene_role": "adult_act",
+      "status": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "eyes"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 283,
+      "title": "W42-FLUX-0232 | adult",
+      "engine": "flux",
+      "category": "adult",
+      "scene_role": "adult_act",
+      "status": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 311,
+      "title": "W42-FLUX-0053 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "hands_fingers"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 320,
+      "title": "W42-FLUX-0233 | body",
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 332,
+      "title": "W42-FLUX-0229 | character",
+      "engine": "flux",
+      "category": "character",
+      "scene_role": "character_identity",
+      "status": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 339,
+      "title": "W42-FLUX-0065 | experimental",
+      "engine": "flux",
+      "category": "experimental",
+      "scene_role": "experimental",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "hard_anatomy_detail"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 344,
+      "title": "W42-FLUX-0145 | experimental",
+      "engine": "flux",
+      "category": "experimental",
+      "scene_role": "experimental",
+      "status": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "eyes",
+        "hard_anatomy_detail"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 345,
+      "title": "W42-FLUX-0153 | experimental",
+      "engine": "flux",
+      "category": "experimental",
+      "scene_role": "experimental",
+      "status": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face",
+        "teeth_mouth"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 352,
+      "title": "W42-FLUX-0202 | experimental",
+      "engine": "flux",
+      "category": "experimental",
+      "scene_role": "experimental",
+      "status": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face",
+        "teeth_mouth"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 362,
+      "title": "W42-FLUX-0272 | experimental",
+      "engine": "flux",
+      "category": "experimental",
+      "scene_role": "experimental",
+      "status": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "hands_fingers"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 366,
+      "title": "W42-FLUX-0286 | experimental",
+      "engine": "flux",
+      "category": "experimental",
+      "scene_role": "experimental",
+      "status": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "teeth_mouth"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 367,
+      "title": "W42-FLUX-0287 | experimental",
+      "engine": "flux",
+      "category": "experimental",
+      "scene_role": "experimental",
+      "status": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "teeth_mouth"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 375,
+      "title": "W42-FLUX-0188 | lighting",
+      "engine": "flux",
+      "category": "lighting",
+      "scene_role": "lighting_grade",
+      "status": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "hands_fingers"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 378,
+      "title": "W42-FLUX-0037 | skin",
+      "engine": "flux",
+      "category": "skin",
+      "scene_role": "skin_detail",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "hard_anatomy_detail"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 379,
+      "title": "W42-FLUX-0067 | skin",
+      "engine": "flux",
+      "category": "skin",
+      "scene_role": "skin_detail",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face",
+        "hard_anatomy_detail"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 380,
+      "title": "W42-FLUX-0152 | skin",
+      "engine": "flux",
+      "category": "skin",
+      "scene_role": "skin_detail",
+      "status": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "hard_anatomy_detail"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 381,
+      "title": "W42-FLUX-0184 | skin",
+      "engine": "flux",
+      "category": "skin",
+      "scene_role": "skin_detail",
+      "status": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "hard_anatomy_detail"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 382,
+      "title": "W42-FLUX-0221 | skin",
+      "engine": "flux",
+      "category": "skin",
+      "scene_role": "skin_detail",
+      "status": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "hard_anatomy_detail"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 383,
+      "title": "W42-FLUX-0228 | skin",
+      "engine": "flux",
+      "category": "skin",
+      "scene_role": "skin_detail",
+      "status": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "hard_anatomy_detail"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 384,
+      "title": "W42-FLUX-0234 | skin",
+      "engine": "flux",
+      "category": "skin",
+      "scene_role": "skin_detail",
+      "status": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "hard_anatomy_detail"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 385,
+      "title": "W42-FLUX-0257 | skin",
+      "engine": "flux",
+      "category": "skin",
+      "scene_role": "skin_detail",
+      "status": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "hard_anatomy_detail"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 386,
+      "title": "W42-FLUX-0270 | skin",
+      "engine": "flux",
+      "category": "skin",
+      "scene_role": "skin_detail",
+      "status": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "hard_anatomy_detail"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 387,
+      "title": "W42-FLUX-0282 | skin",
+      "engine": "flux",
+      "category": "skin",
+      "scene_role": "skin_detail",
+      "status": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "hard_anatomy_detail"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 390,
+      "title": "W42-PONY-0055 | adult_acts",
+      "engine": "pony",
+      "category": "adult_acts",
+      "scene_role": "adult_act",
+      "status": "installed",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 391,
+      "title": "W42-PONY-0155 | adult_body_parts",
+      "engine": "pony",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face",
+        "teeth_mouth"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 395,
+      "title": "W42-SD15-0289 | detail",
+      "engine": "sd15",
+      "category": "detail",
+      "scene_role": "inpaint_detail",
+      "status": "path_verified",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "teeth_mouth",
+        "hard_anatomy_detail"
+      ],
+      "strength_model": 0.45,
+      "strength_clip": 0.45
+    },
+    {
+      "node_id": 398,
+      "title": "W42-UNKNOWN-0048 | engine_mismatch",
+      "engine": "disabled_review",
+      "category": "engine_mismatch",
+      "scene_role": "experimental",
+      "status": "disabled_review",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face"
+      ],
+      "strength_model": 0,
+      "strength_clip": 0
+    },
+    {
+      "node_id": 400,
+      "title": "W42-UNKNOWN-0066 | inpaint_detail",
+      "engine": "disabled_review",
+      "category": "inpaint_detail",
+      "scene_role": "inpaint_detail",
+      "status": "disabled_review",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "hands_fingers",
+        "hard_anatomy_detail"
+      ],
+      "strength_model": 0,
+      "strength_clip": 0
+    },
+    {
+      "node_id": 401,
+      "title": "W42-UNKNOWN-0205 | inpaint_detail",
+      "engine": "disabled_review",
+      "category": "inpaint_detail",
+      "scene_role": "inpaint_detail",
+      "status": "disabled_review",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "teeth_mouth",
+        "hard_anatomy_detail"
+      ],
+      "strength_model": 0,
+      "strength_clip": 0
+    },
+    {
+      "node_id": 402,
+      "title": "W42-UNKNOWN-0218 | inpaint_detail",
+      "engine": "disabled_review",
+      "category": "inpaint_detail",
+      "scene_role": "inpaint_detail",
+      "status": "disabled_review",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "hands_fingers",
+        "hard_anatomy_detail"
+      ],
+      "strength_model": 0,
+      "strength_clip": 0
+    },
+    {
+      "node_id": 403,
+      "title": "W42-UNKNOWN-0252 | inpaint_detail",
+      "engine": "disabled_review",
+      "category": "inpaint_detail",
+      "scene_role": "inpaint_detail",
+      "status": "disabled_review",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "hands_fingers",
+        "hard_anatomy_detail"
+      ],
+      "strength_model": 0,
+      "strength_clip": 0
+    },
+    {
+      "node_id": 404,
+      "title": "W42-UNKNOWN-0288 | sd15_candidate",
+      "engine": "disabled_review",
+      "category": "sd15_candidate",
+      "scene_role": "experimental",
+      "status": "disabled_review",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "teeth_mouth"
+      ],
+      "strength_model": 0,
+      "strength_clip": 0
+    },
+    {
+      "node_id": 409,
+      "title": "W42-UNKNOWN-0213 | unclassified",
+      "engine": "disabled_review",
+      "category": "unclassified",
+      "scene_role": "experimental",
+      "status": "disabled_review",
+      "mode": 2,
+      "disabled_by_default": true,
+      "already_active_in_main_chain": false,
+      "matched_regions": [
+        "face",
+        "teeth_mouth"
+      ],
+      "strength_model": 0,
+      "strength_clip": 0
+    }
+  ],
+  "tracker_summary": {
+    "rows": 12887,
+    "columns": 73,
+    "hard_anatomy_related_rows": 8355
+  },
+  "wave20_interpretation": [
+    "The current Main Flow has a real SDXL inpaint/detail lane, low-denoise refine lane, mask input, IPAdapter staging, and Canny ControlNet staging that can anchor future hard-anatomy repair workflows.",
+    "Face, hands, fingers, feet, eyes, teeth, and nails must be repaired through crop/detail lanes and owned masks instead of broad global prompts.",
+    "The disabled LoRA catalog contains hard-anatomy/detail signals but must remain profile-selected and engine-compatible; do not globally enable the catalog."
+  ]
+}

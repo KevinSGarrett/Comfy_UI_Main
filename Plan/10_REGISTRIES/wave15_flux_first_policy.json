@@ -1,0 +1,19 @@
+{
+  "policy_id": "wave15_flux_first_policy",
+  "default_order": [
+    "flux2_dev_primary_base",
+    "flux1_dev_primary_base",
+    "sdxl_realvisxl_base_lane",
+    "zimage_turbo_base_lane",
+    "flux1_schnell_smoke_lane",
+    "sdxl_low_risk_fallback_lane"
+  ],
+  "why": "Flux-family base generation should be attempted first for general photoreal bases once the lane is proven; SDXL remains required for the large SDXL LoRA/detail ecosystem.",
+  "exception_rules": [
+    "Use SDXL first when required assets are SDXL/RealVisXL only.",
+    "Use Pony only when scene explicitly requires Pony-family specialty profile.",
+    "Use Z-Image when fast experimental alternative or fallback is desired.",
+    "Use SD1.5 only for legacy last-resort compatibility."
+  ],
+  "promotion_gate": "Flux-first is a routing preference, not a promotion shortcut."
+}

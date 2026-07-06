@@ -1,0 +1,17 @@
+id,scale,parents,qa
+whole_person,major,,not_merged_with_other_people;bbox_safe_margin
+head,major,whole_person,complete_head_visible_or_intentional_crop
+face,minor,head,identity_protected;no_unwanted_face_change
+hair,minor,head,hair_boundary_clean;no_background_bleed
+neck,minor,head;torso,anatomical_connection_valid
+torso,major,whole_person,body_visibility_matches_contract
+left_arm,major,whole_person,limb_count_valid;not_merged
+right_arm,major,whole_person,limb_count_valid;not_merged
+left_hand,minor,left_arm,finger_count_check;hand_not_fused
+right_hand,minor,right_arm,finger_count_check;hand_not_fused
+left_leg,major,whole_person,limb_count_valid;visibility_matches_shot
+right_leg,major,whole_person,limb_count_valid;visibility_matches_shot
+left_foot,minor,left_leg,contact_shadow_valid_if_visible
+right_foot,minor,right_leg,contact_shadow_valid_if_visible
+skin_texture_region,micro,whole_person,low_denoise_only;no_shape_override
+body_outline_edge,nano,whole_person,edge_blend_clean;no_cutout_halo

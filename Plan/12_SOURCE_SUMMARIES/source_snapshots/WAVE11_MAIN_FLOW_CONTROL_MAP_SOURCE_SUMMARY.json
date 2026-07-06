@@ -1,0 +1,219 @@
+{
+  "wave": "11",
+  "source_main_flow": "Wave42_Runtime_Bound__UI__WAVE42_MAIN_FLOW_20260702(12).json",
+  "main_flow_sha256": "13297484923fa1ca7525fa913792b19999f395e05118e50eb269e48e4d1bc8bb",
+  "observed": {
+    "nodes": 356,
+    "links": 91,
+    "enabled_non_disabled_nodes": 82,
+    "disabled_catalog_nodes": 274,
+    "save_image_lanes": 8,
+    "notes": 13,
+    "control_related_nodes": 297,
+    "explicit_control_runtime_nodes": 8,
+    "pose_camera_lora_nodes": 1,
+    "control_note_boundaries": 1
+  },
+  "save_lanes": [
+    {
+      "node_id": 19,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA"
+    },
+    {
+      "node_id": 39,
+      "prefix": "Main_Flow/Flux_Family_ZImage"
+    },
+    {
+      "node_id": 62,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA_Upscaled"
+    },
+    {
+      "node_id": 87,
+      "prefix": "Main_Flow/SDXL_Inpaint_Detail"
+    },
+    {
+      "node_id": 95,
+      "prefix": "Main_Flow/Flux_to_SDXL_Refine"
+    },
+    {
+      "node_id": 107,
+      "prefix": "Main_Flow/True_Flux_Schnell_Reference_Smoke"
+    },
+    {
+      "node_id": 128,
+      "prefix": "Main_Flow/ControlNet_Canny_Edge"
+    },
+    {
+      "node_id": 118,
+      "prefix": "Main_Flow/IPAdapter_Face_Reference"
+    }
+  ],
+  "control_inventory": [
+    {
+      "node_id": 112,
+      "node_type": "IPAdapter",
+      "title": "",
+      "mode": 0,
+      "status": "wired_runtime_node",
+      "category": "",
+      "scene_role": "",
+      "engine": "",
+      "widgets_values": [
+        0.45,
+        0,
+        0.85,
+        "standard"
+      ],
+      "notes": ""
+    },
+    {
+      "node_id": 120,
+      "node_type": "ControlNetLoader",
+      "title": "",
+      "mode": 0,
+      "status": "wired_ready_to_verify",
+      "category": "",
+      "scene_role": "",
+      "engine": "",
+      "widgets_values": [
+        "controlnet-canny-sdxl-1.0-small.safetensors"
+      ],
+      "notes": ""
+    },
+    {
+      "node_id": 124,
+      "node_type": "ControlNetApplyAdvanced",
+      "title": "",
+      "mode": 0,
+      "status": "wired_ready_to_verify",
+      "category": "",
+      "scene_role": "",
+      "engine": "",
+      "widgets_values": [
+        0.65,
+        0,
+        0.75
+      ],
+      "notes": ""
+    },
+    {
+      "node_id": 81,
+      "node_type": "LoadImageMask",
+      "title": "",
+      "mode": 0,
+      "status": "wired_runtime_node",
+      "category": "",
+      "scene_role": "",
+      "engine": "",
+      "widgets_values": [
+        "main_flow/wave42_inpaint_mask.png",
+        "red",
+        "image"
+      ],
+      "notes": ""
+    },
+    {
+      "node_id": 80,
+      "node_type": "LoadImage",
+      "title": "",
+      "mode": 0,
+      "status": "wired_runtime_node",
+      "category": "",
+      "scene_role": "",
+      "engine": "",
+      "widgets_values": [
+        "IMG_4059.PNG",
+        "image"
+      ],
+      "notes": ""
+    },
+    {
+      "node_id": 111,
+      "node_type": "LoadImage",
+      "title": "",
+      "mode": 0,
+      "status": "wired_runtime_node",
+      "category": "",
+      "scene_role": "",
+      "engine": "",
+      "widgets_values": [
+        "IMG_4053.PNG",
+        "image"
+      ],
+      "notes": ""
+    },
+    {
+      "node_id": 121,
+      "node_type": "LoadImage",
+      "title": "",
+      "mode": 0,
+      "status": "wired_ready_to_verify_control_image",
+      "category": "",
+      "scene_role": "",
+      "engine": "",
+      "widgets_values": [
+        "controlnet_canny_corrected_white_edges_black_bg.png",
+        "image"
+      ],
+      "notes": ""
+    },
+    {
+      "node_id": 110,
+      "node_type": "IPAdapterUnifiedLoader",
+      "title": "",
+      "mode": 0,
+      "status": "wired_runtime_node",
+      "category": "",
+      "scene_role": "",
+      "engine": "",
+      "widgets_values": [
+        "PLUS FACE (portraits)"
+      ],
+      "notes": ""
+    },
+    {
+      "node_id": 259,
+      "node_type": "LoraLoader",
+      "title": "W42-SDXL-0073 | pose_camera | ACTIVE_COPY",
+      "mode": 2,
+      "status": "catalog_pose_camera_lora_active_copy_but_disconnected",
+      "category": "pose_camera",
+      "scene_role": "pose_camera",
+      "engine": "sdxl",
+      "widgets_values": [
+        "wave42/sdxl/pose_camera/sdxl_adult_male_Double_Kiss_POV.safetensors",
+        0.45,
+        0.45
+      ],
+      "notes": ""
+    },
+    {
+      "node_id": 70,
+      "node_type": "Note",
+      "title": "",
+      "mode": 0,
+      "status": "note_only_boundary",
+      "category": "",
+      "scene_role": "",
+      "engine": "",
+      "widgets_values": [
+        "Reference / IPAdapter / ControlNet staging\nThe layout source calls for reference identity, pose/depth/edge/mask control, and regional inpaint. The face-reference IPAdapter branch is staged below as ready_to_verify from the prior smoke template. The Canny ControlNet edge-map branch is staged below as ready_to_verify. Additional reference-slot routing and pose/depth/openpose control maps remain notes until direct runtime proof exists."
+      ],
+      "notes": "Reference / IPAdapter / ControlNet staging\nThe layout source calls for reference identity, pose/depth/edge/mask control, and regional inpaint. The face-reference IPAdapter branch is staged below as ready_to_verify from the prior smoke template. The Canny ControlNet edge-map branch is staged below as ready_to_verify. Additional reference-slot routing and pose/depth/openpose control maps remain notes until direct runtime proof exists."
+    }
+  ],
+  "conclusion": {
+    "current_working_or_wired": [
+      "Canny ControlNet branch nodes exist in Main Flow and are ready to verify.",
+      "IPAdapter face/reference branch exists and is ready to verify.",
+      "Pose-camera LoRA catalog entry exists as an active-copy metadata record but is disconnected/disabled as a library reference."
+    ],
+    "planned_not_yet_runtime_proven": [
+      "DWPose/OpenPose preprocessing branch",
+      "depth preprocessing/ControlNet branch",
+      "normal map preprocessing/ControlNet branch",
+      "lineart preprocessing/ControlNet branch",
+      "per-character skeleton routing and ownership masks"
+    ]
+  }
+}

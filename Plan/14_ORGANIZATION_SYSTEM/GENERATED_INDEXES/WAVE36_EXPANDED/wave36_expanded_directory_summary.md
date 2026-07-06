@@ -1,0 +1,21 @@
+# Wave 36 Expanded Directory Summary
+
+- `00_PROJECT_CONTROL` — 165 files
+- `01_CURRENT_SYSTEM_REVIEW` — 13 files
+- `02_TARGET_ARCHITECTURE` — 231 files
+- `03_IMAGE_SYSTEM` — 65 files
+- `04_VIDEO_GIF_SYSTEM` — 43 files
+- `05_AUDIO_SYSTEM` — 34 files
+- `06_QA_TESTING` — 107 files
+- `07_IMPLEMENTATION` — 323 files
+- `08_SCHEMAS` — 242 files
+- `08_SCRIPTS` — 5 files
+- `09_EXAMPLES` — 158 files
+- `10_REGISTRIES` — 349 files
+- `11_RELEASES` — 85 files
+- `11_SCHEMAS` — 2 files
+- `12_SOURCE_SUMMARIES` — 33 files
+- `13_ADVANCED_ADDITIONS_INTEGRATION` — 10 files
+- `14_ORGANIZATION_SYSTEM` — 66 files
+- `PROJECT_MANIFEST.json` — 1 files
+- `README.md` — 1 files

@@ -1,0 +1,94 @@
+# Wave 01 safety .gitignore for C:\Comfy_UI_Main
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+.ec2
+.ec2.*
+!.ec2.example
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/*.log
+.idea/
+
+# ComfyUI runtime/output folders
+ComfyUI/output/
+ComfyUI/input/
+ComfyUI/temp/
+ComfyUI/user/default/workflows/
+output/
+outputs/
+input/
+inputs/
+temp/
+cache/
+logs/runtime/
+
+# Model folders - models must stay outside Git
+models/
+checkpoints/
+loras/
+vae/
+clip/
+clip_vision/
+controlnet/
+upscale_models/
+ipadapter/
+embeddings/
+unet/
+diffusion_models/
+text_encoders/
+animatediff_models/
+video_models/
+audio_models/
+
+# Model binaries
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.bin
+*.gguf
+*.onnx
+*.engine
+*.trt
+*.pb
+*.h5
+*.tflite
+
+# Large media/output files
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
+*.gif
+*.wav
+*.flac
+*.mp3
+*.ogg
+*.m4a
+*.aac
+
+# Archives / EC2 bundles
+*.zip
+*.7z
+*.rar
+*.tar
+*.tar.gz
+*.tgz
+Implementation/sync_bundles/
+_ec2sd/
+ec2_sync_bundles/
+
+# Generated evidence that is too large; keep manifests instead
+evidence/ec2/generated_media/
+evidence/visual_qa/generated_media/
+manifests/tmp/

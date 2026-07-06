@@ -1,0 +1,103 @@
+[
+  {
+    "action_group": "standing_pose",
+    "requires": [
+      "dwpose_or_openpose",
+      "camera_plan",
+      "foot_floor_contact_check"
+    ],
+    "qa": [
+      "full_body_visible_if_requested",
+      "joint_angles_natural"
+    ]
+  },
+  {
+    "action_group": "seated_pose",
+    "requires": [
+      "dwpose_or_openpose",
+      "depth",
+      "prop_contact_mask"
+    ],
+    "qa": [
+      "hip_chair_alignment",
+      "feet_ground_or_supported"
+    ]
+  },
+  {
+    "action_group": "walking_or_motion",
+    "requires": [
+      "pose_sequence",
+      "depth_sequence",
+      "video_temporal_plan"
+    ],
+    "qa": [
+      "stride_consistency",
+      "no_limb_swap"
+    ]
+  },
+  {
+    "action_group": "two_character_interaction",
+    "requires": [
+      "per_character_skeletons",
+      "depth_ordering",
+      "occlusion_masks"
+    ],
+    "qa": [
+      "character_identity_separation",
+      "no_limb_ownership_bleed"
+    ]
+  },
+  {
+    "action_group": "hand_contact_or_grab",
+    "requires": [
+      "hand_keypoints",
+      "regional_mask",
+      "contact_shadow_plan"
+    ],
+    "qa": [
+      "finger_count",
+      "contact_patch_alignment",
+      "pressure/occlusion plausibility"
+    ]
+  },
+  {
+    "action_group": "prop_interaction",
+    "requires": [
+      "pose",
+      "depth",
+      "prop_mask",
+      "scale_reference"
+    ],
+    "qa": [
+      "grip_alignment",
+      "scale_match",
+      "prop_not_melted"
+    ]
+  },
+  {
+    "action_group": "facial_expression",
+    "requires": [
+      "face_landmarks_or_identity_reference",
+      "expression_target",
+      "face_mask"
+    ],
+    "qa": [
+      "identity_stability",
+      "expression_match",
+      "no_teeth/eye_artifacts"
+    ]
+  },
+  {
+    "action_group": "camera_pov_action",
+    "requires": [
+      "camera_plan",
+      "pose_camera_reference",
+      "depth_ordering"
+    ],
+    "qa": [
+      "pov_consistency",
+      "limb_perspective",
+      "no impossible camera body relation"
+    ]
+  }
+]

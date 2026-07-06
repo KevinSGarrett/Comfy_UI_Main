@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Contact Graph Edge",
+  "type": "object",
+  "required": [
+    "edge_id",
+    "source_entity",
+    "source_region",
+    "target_entity",
+    "target_region",
+    "contact_type",
+    "pressure"
+  ],
+  "properties": {
+    "edge_id": {
+      "type": "string"
+    },
+    "source_entity": {
+      "type": "string"
+    },
+    "source_region": {
+      "type": "string"
+    },
+    "target_entity": {
+      "type": "string"
+    },
+    "target_region": {
+      "type": "string"
+    },
+    "contact_type": {
+      "type": "string"
+    },
+    "pressure": {
+      "type": "string",
+      "enum": [
+        "none",
+        "light_touch",
+        "held_contact",
+        "firm_grip",
+        "compression",
+        "impact",
+        "repeated_impact"
+      ]
+    },
+    "visibility": {
+      "type": "string",
+      "enum": [
+        "visible",
+        "partially_visible",
+        "hidden"
+      ]
+    },
+    "deformation_hint": {
+      "type": "string"
+    },
+    "audio_force_hint": {
+      "type": "string"
+    },
+    "qa_rules": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}

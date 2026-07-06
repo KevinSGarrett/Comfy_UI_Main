@@ -1,0 +1,44 @@
+[
+  {
+    "if_base_engine": "flux2",
+    "default_refine_engine": "sdxl_realvisxl",
+    "default_bridge": "BRIDGE-FLUX2-TO-SDXL-DETAIL",
+    "status": "planned_not_auto_promoted"
+  },
+  {
+    "if_base_engine": "flux1",
+    "default_refine_engine": "sdxl_realvisxl",
+    "default_bridge": "BRIDGE-FLUX1-TO-SDXL-DETAIL",
+    "status": "allowed_after_runtime_proof"
+  },
+  {
+    "if_base_engine": "z_image",
+    "default_refine_engine": "sdxl_realvisxl",
+    "default_bridge": "BRIDGE-ZIMAGE-TO-SDXL-DETAIL",
+    "status": "present_as_static_template"
+  },
+  {
+    "if_base_engine": "sdxl_realvisxl",
+    "default_refine_engine": "sdxl_realvisxl",
+    "default_bridge": "same_family_low_denoise",
+    "status": "preferred"
+  },
+  {
+    "if_base_engine": "sdxl_realvisxl",
+    "default_refine_engine": "pony_sdxl_specialty",
+    "default_bridge": "BRIDGE-SDXL-TO-PONY-SPECIALTY",
+    "status": "masked_specialty_only"
+  },
+  {
+    "if_base_engine": "pony_sdxl_specialty",
+    "default_refine_engine": "sdxl_realvisxl",
+    "default_bridge": "image_file_to_sdxl_repair",
+    "status": "allowed_only_if_realism_regression_detected"
+  },
+  {
+    "if_base_engine": "any",
+    "default_refine_engine": "sd15_legacy",
+    "default_bridge": "BRIDGE-SDXL-TO-SD15-LEGACY-REPAIR",
+    "status": "last_resort_tiny_mask_only"
+  }
+]

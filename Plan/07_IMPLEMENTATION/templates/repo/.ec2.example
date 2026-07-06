@@ -1,0 +1,19 @@
+# .ec2.example
+# Optional EC2-specific environment overlay.
+# Copy to .ec2 only on a trusted machine if the AI project manager needs a split EC2 config.
+# Do not commit the real .ec2 file.
+
+EC2_INSTANCE_ID=
+EC2_INSTANCE_NAME=ComfyUI-GPU-Worker
+EC2_REGION=us-east-1
+EC2_DEFAULT_STATE=stopped
+EC2_START_ALLOWED=false
+EC2_REQUIRE_EXPLICIT_RUNTIME_PROOF=true
+EC2_USE_SSM=true
+EC2_REMOTE_PROJECT_ROOT=/opt/Comfy_UI_Main
+EC2_REMOTE_COMFYUI_ROOT=/opt/ComfyUI
+EC2_REMOTE_MODEL_ROOT=/opt/ComfyUI/models
+EC2_STOP_AFTER_RUN=true
+EC2_MAX_RUNTIME_MINUTES=60
+EC2_COST_GUARD_ENABLED=true
+EC2_ALLOW_MANUAL_SSH=false

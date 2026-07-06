@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "wave03.runtime_inventory.schema.json",
+  "title": "Wave03 Runtime Inventory",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "source_file",
+    "source_sha256",
+    "node_count",
+    "link_count",
+    "terminal_outputs",
+    "node_type_count",
+    "model_reference_count"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "source_file": {
+      "type": "string"
+    },
+    "source_sha256": {
+      "type": "string"
+    },
+    "node_count": {
+      "type": "integer"
+    },
+    "link_count": {
+      "type": "integer"
+    },
+    "terminal_outputs": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "node_type_count": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer"
+      }
+    },
+    "model_reference_count": {
+      "type": "integer"
+    },
+    "static_validation_result": {
+      "type": "string"
+    },
+    "runtime_validation_result": {
+      "type": "string"
+    }
+  }
+}

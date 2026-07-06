@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave24 Character Instance",
+  "type": "object",
+  "required": [
+    "character_instance_id",
+    "character_identity_id",
+    "person_instance_mask_id",
+    "skeleton_id",
+    "region_ownership_map_id",
+    "frame_bbox",
+    "depth_layer"
+  ],
+  "properties": {
+    "character_instance_id": {
+      "type": "string"
+    },
+    "character_identity_id": {
+      "type": "string"
+    },
+    "person_instance_mask_id": {
+      "type": "string"
+    },
+    "skeleton_id": {
+      "type": "string"
+    },
+    "region_ownership_map_id": {
+      "type": "string"
+    },
+    "frame_bbox": {
+      "$ref": "frame_placement_box.schema.json"
+    },
+    "depth_layer": {
+      "type": "integer"
+    },
+    "role": {
+      "type": "string"
+    },
+    "protected_identity_regions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Mask Plan v2",
+  "type": "object",
+  "required": [
+    "mask_id",
+    "level",
+    "target_entity",
+    "target_region",
+    "purpose"
+  ],
+  "properties": {
+    "mask_id": {
+      "type": "string"
+    },
+    "level": {
+      "type": "string",
+      "enum": [
+        "macro",
+        "major",
+        "minor",
+        "micro",
+        "nano",
+        "contact"
+      ]
+    },
+    "target_entity": {
+      "type": "string"
+    },
+    "target_region": {
+      "type": "string"
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "grow_px": {
+      "type": "integer"
+    },
+    "blur_px": {
+      "type": "integer"
+    },
+    "denoise_min": {
+      "type": "number"
+    },
+    "denoise_max": {
+      "type": "number"
+    },
+    "requires_overlay_preview": {
+      "type": "boolean"
+    },
+    "qa_rules": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}

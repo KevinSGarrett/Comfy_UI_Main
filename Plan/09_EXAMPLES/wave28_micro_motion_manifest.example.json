@@ -1,0 +1,58 @@
+{
+  "run_id": "run_028_example",
+  "shot_id": "shot_001",
+  "frame_count": 48,
+  "micro_motion_events": [
+    {
+      "event_id": "breath_001",
+      "event_type": "breathing",
+      "affected_regions": [
+        "torso",
+        "shoulders"
+      ],
+      "start_frame": 0,
+      "end_frame": 47,
+      "amplitude": "low",
+      "frequency": "slow",
+      "phase": "cyclic",
+      "qa_targets": [
+        "identity_stability",
+        "no_flicker"
+      ]
+    },
+    {
+      "event_id": "gaze_001",
+      "event_type": "gaze_shift",
+      "affected_regions": [
+        "eyes",
+        "face"
+      ],
+      "start_frame": 12,
+      "end_frame": 20,
+      "amplitude": "very_low",
+      "frequency": "single_shift",
+      "phase": "approach",
+      "qa_targets": [
+        "face_identity",
+        "eye_direction_continuity"
+      ]
+    }
+  ],
+  "per_frame_motion": [
+    {
+      "frame_index": 0,
+      "active_events": [
+        "breath_001"
+      ],
+      "repair_status": "none"
+    },
+    {
+      "frame_index": 12,
+      "active_events": [
+        "breath_001",
+        "gaze_001"
+      ],
+      "repair_status": "none"
+    }
+  ]
+}

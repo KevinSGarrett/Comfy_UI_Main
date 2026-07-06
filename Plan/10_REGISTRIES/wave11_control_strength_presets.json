@@ -1,0 +1,56 @@
+[
+  {
+    "preset_id": "pose_primary_strict",
+    "control_type": "dwpose",
+    "strength": 0.85,
+    "start": 0.0,
+    "end": 0.8,
+    "use_when": "pose must match reference closely",
+    "risk": "can reduce natural body variation"
+  },
+  {
+    "preset_id": "pose_primary_soft",
+    "control_type": "dwpose",
+    "strength": 0.55,
+    "start": 0.0,
+    "end": 0.65,
+    "use_when": "pose direction only",
+    "risk": "weaker joint lock"
+  },
+  {
+    "preset_id": "depth_room_medium",
+    "control_type": "depth",
+    "strength": 0.55,
+    "start": 0.0,
+    "end": 0.7,
+    "use_when": "room/person depth continuity",
+    "risk": "may flatten if map is poor"
+  },
+  {
+    "preset_id": "canny_existing_medium",
+    "control_type": "canny",
+    "strength": 0.65,
+    "start": 0.0,
+    "end": 0.75,
+    "use_when": "current wired Canny branch",
+    "risk": "over-edges/noise"
+  },
+  {
+    "preset_id": "lineart_soft",
+    "control_type": "lineart",
+    "strength": 0.35,
+    "start": 0.0,
+    "end": 0.55,
+    "use_when": "light contour preservation",
+    "risk": "may not hold enough for complex clothing"
+  },
+  {
+    "preset_id": "normal_surface_low",
+    "control_type": "normal",
+    "strength": 0.3,
+    "start": 0.05,
+    "end": 0.5,
+    "use_when": "subtle surface form support",
+    "risk": "plastic surface if high"
+  }
+]

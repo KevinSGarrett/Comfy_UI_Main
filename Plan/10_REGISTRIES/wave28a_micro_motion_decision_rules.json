@@ -1,0 +1,28 @@
+{
+  "rules": [
+    {
+      "if": "reference_video_present and exact motion needed",
+      "then": "extract micro-motion cues from reference timeline"
+    },
+    {
+      "if": "no reference video",
+      "then": "generate micro-motion from state ledger and profiles"
+    },
+    {
+      "if": "exertion_level high",
+      "then": "increase breathing amplitude/frequency and consider sweat/tremble"
+    },
+    {
+      "if": "fatigue_level exhausted",
+      "then": "use recovery breathing, posture settle, possible tremble, reduced variation speed"
+    },
+    {
+      "if": "contact_pressure changes",
+      "then": "consider grip_change and bounce/rebound only if masks and contact graph support it"
+    },
+    {
+      "if": "calm idle phase",
+      "then": "use only low-amplitude breathing/blink/gaze unless user requested more motion"
+    }
+  ]
+}

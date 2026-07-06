@@ -1,0 +1,88 @@
+{
+  "schema_version": "wave03.validation_manifest.v1",
+  "wave": "03",
+  "generated_at_utc": "2026-07-05T19:59:43Z",
+  "result": "BLOCKED_RUNTIME_PROOF_REQUIRED",
+  "checks": [
+    {
+      "name": "wave02_cumulative_base_extracted",
+      "result": "PASS",
+      "details": "Wave02 cumulative pack was extracted and used as the base for Wave03."
+    },
+    {
+      "name": "main_flow_json_loaded",
+      "result": "PASS",
+      "details": {
+        "nodes": 356,
+        "links": 91,
+        "sha256": "13297484923fa1ca7525fa913792b19999f395e05118e50eb269e48e4d1bc8bb"
+      }
+    },
+    {
+      "name": "main_flow_static_graph_validation",
+      "result": "PASS",
+      "details": {
+        "issue_count": 0,
+        "error_count": 0
+      }
+    },
+    {
+      "name": "model_reference_extraction",
+      "result": "PASS",
+      "details": {
+        "reference_count": 287
+      }
+    },
+    {
+      "name": "json_registry_parse",
+      "result": "PASS",
+      "details": {
+        "checked_count": 68,
+        "failure_count": 0
+      }
+    },
+    {
+      "name": "tracker_inventory",
+      "result": "PASS",
+      "details": {
+        "row_count": 12887,
+        "column_count": 73
+      }
+    },
+    {
+      "name": "plans_zip_inventory",
+      "result": "PASS",
+      "details": {
+        "file_count": 4870,
+        "entry_count": 6307
+      }
+    },
+    {
+      "name": "advanced_additions_inventory",
+      "result": "PASS",
+      "details": {
+        "file_count": 20,
+        "entry_count": 21
+      }
+    },
+    {
+      "name": "comfyui_object_info_node_visibility",
+      "result": "BLOCKED_RUNTIME_PROOF_REQUIRED",
+      "details": "No live local/EC2 ComfyUI runtime was queried while generating this blueprint pack."
+    },
+    {
+      "name": "model_file_local_or_s3_resolution",
+      "result": "BLOCKED_USER_ENV_REQUIRED",
+      "details": "Requires user local cache/S3 configuration and should be run locally with Wave03 scripts."
+    },
+    {
+      "name": "ec2_runtime_proof",
+      "result": "NOT_RUN_NOT_REQUIRED_FOR_STATIC_VALIDATION",
+      "details": "EC2 remains off by default for Wave03."
+    }
+  ],
+  "static_validation_result": "PASS",
+  "runtime_validation_result": "BLOCKED_RUNTIME_PROOF_REQUIRED",
+  "ec2_required_now": false,
+  "release_decision": "Wave03 blueprint/tooling pack is complete. Production runtime promotion requires later object_info/model/runtime proof."
+}

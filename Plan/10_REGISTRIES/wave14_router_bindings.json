@@ -1,0 +1,43 @@
+{
+  "binding_id": "wave14_scene_to_runtime_bindings",
+  "inputs": [
+    "scene_director_plan",
+    "character_registry",
+    "environment_registry",
+    "camera_plan",
+    "pose_control_plan",
+    "mask_factory_contract",
+    "engine_router_rules",
+    "qa_goal_catalog"
+  ],
+  "outputs": [
+    "orchestrator_run_plan",
+    "workflow_patch_set",
+    "execution_requests",
+    "pass_evidence_manifest",
+    "rerun_plan",
+    "promotion_manifest"
+  ],
+  "binding_rules": [
+    {
+      "source": "scene_director_plan.intent",
+      "target": "pass_stage_selection",
+      "rule": "base composition required for image/video keyframes"
+    },
+    {
+      "source": "engine_router_rules",
+      "target": "workflow_template_selection",
+      "rule": "same-engine model/LoRA stacks only"
+    },
+    {
+      "source": "mask_factory_contract",
+      "target": "regional_inpaint_detail",
+      "rule": "no local detail edit without approved masks"
+    },
+    {
+      "source": "qa_goal_catalog",
+      "target": "qa_decision",
+      "rule": "each pass maps to one or more QA gates"
+    }
+  ]
+}

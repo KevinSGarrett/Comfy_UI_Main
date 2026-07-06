@@ -1,0 +1,131 @@
+{
+  "version": "wave07.v1",
+  "generated_at": "2026-07-05T22:15:56Z",
+  "qa_goals": [
+    {
+      "qa_goal_id": "qa_basic_file",
+      "scope": "all media outputs",
+      "checks": [
+        "file_exists",
+        "non_empty",
+        "decode_ok",
+        "dimensions_or_duration_present",
+        "sha256_recorded"
+      ]
+    },
+    {
+      "qa_goal_id": "qa_scene_intent",
+      "scope": "scene",
+      "checks": [
+        "matches_normalized_request",
+        "no_missing_core_subjects",
+        "no_unwanted_major_objects"
+      ]
+    },
+    {
+      "qa_goal_id": "qa_character_count",
+      "scope": "multi-character",
+      "checks": [
+        "correct_person_count",
+        "no_merged_people",
+        "instance_masks_separate",
+        "depth_order_matches_plan"
+      ]
+    },
+    {
+      "qa_goal_id": "qa_camera_framing",
+      "scope": "camera/composition",
+      "checks": [
+        "shot_type_matches",
+        "crop_matches",
+        "full_body_requirement_met",
+        "no_unplanned_cutoff",
+        "subject_scale_plausible"
+      ]
+    },
+    {
+      "qa_goal_id": "qa_identity",
+      "scope": "character continuity",
+      "checks": [
+        "face_identity_within_tolerance",
+        "outfit_consistency",
+        "hair_style_consistency",
+        "no_reference_bleed"
+      ]
+    },
+    {
+      "qa_goal_id": "qa_anatomy",
+      "scope": "body/hands/face",
+      "checks": [
+        "limb_count_ok",
+        "hands_readable",
+        "face_not_melted",
+        "joints_plausible",
+        "feet_visible_when_required"
+      ]
+    },
+    {
+      "qa_goal_id": "qa_mask_no_bleed",
+      "scope": "regional passes",
+      "checks": [
+        "mask_overlay_saved",
+        "edge_feather_ok",
+        "outside_region_unchanged",
+        "before_after_crop_saved"
+      ]
+    },
+    {
+      "qa_goal_id": "qa_contact_graph",
+      "scope": "interaction/contact",
+      "checks": [
+        "source_target_readable",
+        "contact_point_matches_plan",
+        "occlusion_shadow_supports_contact",
+        "deformation_inside_target_region",
+        "no_melted_fingers_or_fused_bodies"
+      ]
+    },
+    {
+      "qa_goal_id": "qa_engine_compatibility",
+      "scope": "model routing",
+      "checks": [
+        "engine_family_match",
+        "no_direct_cross_engine_lora_mix",
+        "model_manifest_ids_exist",
+        "rejected_assets_not_selected"
+      ]
+    },
+    {
+      "qa_goal_id": "qa_video_temporal",
+      "scope": "video/gif",
+      "checks": [
+        "identity_stable",
+        "motion_continuity",
+        "no_flicker_above_threshold",
+        "keyframe_alignment",
+        "frame_repair_manifest_saved"
+      ]
+    },
+    {
+      "qa_goal_id": "qa_audio_av_sync",
+      "scope": "audio/video",
+      "checks": [
+        "event_timing_matches_contact_graph",
+        "room_acoustics_consistent",
+        "dialogue_or_foley_timeline_exported",
+        "sync_offset_within_threshold"
+      ]
+    },
+    {
+      "qa_goal_id": "qa_promotion_gate",
+      "scope": "release",
+      "checks": [
+        "all_required_qa_passed",
+        "runtime_outputs_exist",
+        "evidence_manifest_present",
+        "source_commit_or_pack_hash_recorded",
+        "ec2_stop_confirmed_when_ec2_used"
+      ]
+    }
+  ]
+}

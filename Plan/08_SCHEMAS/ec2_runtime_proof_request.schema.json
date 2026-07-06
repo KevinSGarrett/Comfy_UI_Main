@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ec2_runtime_proof_request.schema.json",
+  "title": "EC2 Runtime Proof Request",
+  "type": "object",
+  "required": [
+    "proof_id",
+    "reason",
+    "local_validation_report",
+    "workflows",
+    "model_assets",
+    "expected_runtime_minutes",
+    "stop_instance_after",
+    "confirmation_token"
+  ],
+  "properties": {
+    "proof_id": {
+      "type": "string"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "local_validation_report": {
+      "type": "string"
+    },
+    "workflows": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "model_assets": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "expected_runtime_minutes": {
+      "type": "number",
+      "minimum": 1
+    },
+    "expected_outputs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "stop_instance_after": {
+      "type": "boolean",
+      "const": true
+    },
+    "confirmation_token": {
+      "type": "string",
+      "const": "START_EC2_RUNTIME_PROOF"
+    }
+  },
+  "additionalProperties": true
+}

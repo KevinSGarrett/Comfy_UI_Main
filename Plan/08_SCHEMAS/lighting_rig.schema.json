@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave09 Lighting Rig",
+  "type": "object",
+  "required": [
+    "lighting_rig_id",
+    "mood",
+    "sources",
+    "shadow_direction",
+    "continuity_priority"
+  ],
+  "properties": {
+    "lighting_rig_id": {
+      "type": "string"
+    },
+    "mood": {
+      "type": "string"
+    },
+    "time_of_day": {
+      "type": "string"
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "shadow_direction": {
+      "type": "string"
+    },
+    "shadow_softness": {
+      "type": "string"
+    },
+    "reflection_behavior": {
+      "type": "string"
+    },
+    "continuity_priority": {
+      "type": "string",
+      "enum": [
+        "loose",
+        "normal",
+        "strict",
+        "locked"
+      ]
+    }
+  },
+  "additionalProperties": true
+}

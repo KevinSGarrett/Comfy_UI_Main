@@ -1,0 +1,32 @@
+{
+  "policies": [
+    {
+      "failure": "identity_mismatch",
+      "action": "block_or_rerun_from_identity_locked_plan"
+    },
+    {
+      "failure": "pose_mismatch",
+      "action": "pose_or_control_rerun"
+    },
+    {
+      "failure": "mask_bleed",
+      "action": "local_region_repair"
+    },
+    {
+      "failure": "audio_missing",
+      "action": "audio_layer_repair"
+    },
+    {
+      "failure": "spatial_audio_mismatch",
+      "action": "spatial_mix_repair"
+    },
+    {
+      "failure": "video_flicker_short_span",
+      "action": "span_repair"
+    },
+    {
+      "failure": "state_reset_across_shots",
+      "action": "segment_rerun_or_insert_transition"
+    }
+  ]
+}

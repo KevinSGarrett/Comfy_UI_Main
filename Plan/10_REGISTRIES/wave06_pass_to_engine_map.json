@@ -1,0 +1,125 @@
+{
+  "base_image": {
+    "preferred": [
+      "flux2_dev_local",
+      "flux1_dev",
+      "sdxl_realvisxl"
+    ],
+    "preview": [
+      "flux2_klein_preview",
+      "z_image_turbo",
+      "flux1_schnell_fp8"
+    ],
+    "blocked": [
+      "pony_sdxl_unless_requested",
+      "sd15_legacy"
+    ],
+    "requires": []
+  },
+  "reference_identity": {
+    "preferred": [
+      "flux2_dev_local",
+      "flux2_klein_preview",
+      "sdxl_realvisxl_ipadapter"
+    ],
+    "requires": [
+      "reference_hash",
+      "identity_reference_slot",
+      "qa_identity_score"
+    ],
+    "blocked": [
+      "note_only_reference_claims_without_pixel_conditioning"
+    ]
+  },
+  "body_shape_proportion": {
+    "preferred": [
+      "sdxl_realvisxl",
+      "flux2_dev_local"
+    ],
+    "mask_scope": [
+      "large_body_mask",
+      "silhouette_mask",
+      "depth_edge_control"
+    ],
+    "blocked": [
+      "small_mask_only_for_large_shape_change"
+    ],
+    "requires": []
+  },
+  "skin_fabric_microdetail": {
+    "preferred": [
+      "sdxl_realvisxl",
+      "flux2_dev_local"
+    ],
+    "mask_scope": [
+      "small_medium_masks",
+      "skin_region",
+      "fabric_region"
+    ],
+    "blocked": [
+      "global_lora_overstack"
+    ],
+    "requires": []
+  },
+  "contact_deformation": {
+    "preferred": [
+      "sdxl_realvisxl",
+      "flux2_dev_local"
+    ],
+    "requires": [
+      "source_contact_mask",
+      "target_contact_mask",
+      "contact_edge_mask",
+      "depth_or_normal_map",
+      "contact_QA"
+    ],
+    "blocked": [
+      "contact_pass_without_hand_target_binding"
+    ]
+  },
+  "multi_character": {
+    "preferred": [
+      "flux2_dev_local",
+      "sdxl_realvisxl"
+    ],
+    "requires": [
+      "per_character_id",
+      "instance_masks",
+      "depth_order",
+      "frame_layout"
+    ],
+    "blocked": [
+      "single_global_prompt_for_3_plus_characters_without_scene_graph"
+    ]
+  },
+  "video": {
+    "preferred": [
+      "wan22_video",
+      "hunyuanvideo15",
+      "ltx2_audio_video"
+    ],
+    "requires": [
+      "keyframe_manifest",
+      "pose_depth_timeline",
+      "frame_QA"
+    ],
+    "blocked": [
+      "final_video_promotion_without_temporal_QA"
+    ]
+  },
+  "audio": {
+    "preferred": [
+      "separate_audio_lane",
+      "ltx2_audio_video"
+    ],
+    "requires": [
+      "audio_event_manifest",
+      "timeline_alignment",
+      "clipping_QA",
+      "spatial_QA"
+    ],
+    "blocked": [
+      "audio_without_scene_graph_binding"
+    ]
+  }
+}

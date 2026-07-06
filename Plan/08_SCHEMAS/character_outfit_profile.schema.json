@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave08 Character Outfit Profile",
+  "type": "object",
+  "required": [
+    "outfit_profile_id",
+    "character_id",
+    "character_version",
+    "default_outfit",
+    "allowed_variants"
+  ],
+  "properties": {
+    "outfit_profile_id": {
+      "type": "string"
+    },
+    "character_id": {
+      "type": "string"
+    },
+    "character_version": {
+      "type": "string"
+    },
+    "default_outfit": {
+      "type": "object"
+    },
+    "allowed_variants": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "locked_accessories": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "qa_goals": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}

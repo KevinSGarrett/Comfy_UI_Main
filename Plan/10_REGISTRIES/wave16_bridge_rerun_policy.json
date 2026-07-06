@@ -1,0 +1,28 @@
+{
+  "max_reruns_per_pass": 2,
+  "rerun_reduction_strategy": [
+    "reduce denoise by 0.04 to 0.08",
+    "tighten mask feather/ownership",
+    "remove specialty LoRA/profile if drift was detected",
+    "fallback to same-family SDXL refine before crossing to Pony or SD1.5",
+    "stop if identity/frame/pose drift repeats"
+  ],
+  "blocked_conditions": [
+    "identity_drift_high",
+    "character_count_changed",
+    "body_visibility_or_crop_failed",
+    "unmasked_region_change_above_threshold",
+    "wrong_engine_or_lora_family",
+    "denoise_above_block_threshold"
+  ],
+  "promotion_required_fields": [
+    "base_image_hash",
+    "input_engine_family",
+    "target_engine_family",
+    "denoise",
+    "mask_contract_id_or_none",
+    "before_after_diff_report",
+    "qa_score",
+    "rerun_history"
+  ]
+}

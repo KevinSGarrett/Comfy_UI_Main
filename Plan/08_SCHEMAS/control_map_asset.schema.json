@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave11 Control Map Asset",
+  "type": "object",
+  "required": [
+    "asset_id",
+    "type",
+    "path",
+    "source",
+    "sha256",
+    "width",
+    "height"
+  ],
+  "properties": {
+    "asset_id": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "dwpose",
+        "openpose",
+        "depth",
+        "normal",
+        "canny",
+        "lineart",
+        "segmentation_or_region_mask",
+        "pose_sequence",
+        "depth_sequence",
+        "canny_sequence"
+      ]
+    },
+    "path": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "sha256": {
+      "type": "string"
+    },
+    "width": {
+      "type": "integer"
+    },
+    "height": {
+      "type": "integer"
+    },
+    "frame_index": {
+      "type": "integer"
+    },
+    "character_id": {
+      "type": "string"
+    },
+    "qa_status": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

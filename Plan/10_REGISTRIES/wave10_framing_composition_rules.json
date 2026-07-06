@@ -1,0 +1,58 @@
+{
+  "version": "wave10.v1",
+  "global_rules": [
+    "Shot size, lens, camera height, camera angle, crop policy, and depth plan must be explicit in the camera_plan.",
+    "Do not rely only on prose such as 'cinematic' or 'beautiful composition'. Convert it into concrete camera fields.",
+    "Full-body outputs must reserve margin for feet, hands, hair, props, and contact points.",
+    "Close-ups must carry identity/reference anchors so the system knows what must remain stable.",
+    "Multi-character framing must specify who is left/center/right, depth order, occlusion permissions, and identity separation.",
+    "Depth of field must not blur required identity, hand, foot, prop, or contact evidence unless intentionally requested.",
+    "Every crop must be either intentional_crop or blocked_unintentional_crop in QA."
+  ],
+  "composition_presets": [
+    {
+      "id": "centered_reference",
+      "use_for": [
+        "character_reference",
+        "outfit_reference"
+      ],
+      "rule": "subject centered; neutral horizon; no dramatic crop"
+    },
+    {
+      "id": "rule_of_thirds_portrait",
+      "use_for": [
+        "cinematic_portrait"
+      ],
+      "rule": "eyes or face placed near upper third; controlled headroom"
+    },
+    {
+      "id": "full_body_catalog",
+      "use_for": [
+        "body_outfit_pose"
+      ],
+      "rule": "full body visible with 5-10% margin around silhouette"
+    },
+    {
+      "id": "two_subject_balanced",
+      "use_for": [
+        "two_character_scene"
+      ],
+      "rule": "both subjects separated by silhouette and scale anchors"
+    },
+    {
+      "id": "foreground_depth_stack",
+      "use_for": [
+        "room_depth",
+        "multi_character"
+      ],
+      "rule": "foreground, midground, background layers explicitly named"
+    },
+    {
+      "id": "detail_insert_context",
+      "use_for": [
+        "skin_fabric_prop_detail"
+      ],
+      "rule": "macro/detail target plus enough surrounding context to identify location"
+    }
+  ]
+}

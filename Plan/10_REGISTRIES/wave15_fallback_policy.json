@@ -1,0 +1,35 @@
+{
+  "policy_id": "wave15_base_generation_fallback_policy",
+  "max_base_lane_attempts": 4,
+  "max_attempts_per_lane": 2,
+  "rerun_seed_policy": "same_seed_for_debug_first_then_new_seed_for_composition_retry",
+  "failure_order": [
+    "object_info_missing_node",
+    "model_loader_missing_asset",
+    "incompatible_lora_family",
+    "prompt_compile_error",
+    "comfyui_prompt_rejected",
+    "output_missing",
+    "decode_failed",
+    "composition_failed",
+    "identity_failed",
+    "quality_failed"
+  ],
+  "fallback_order": [
+    "flux2_dev_primary_base",
+    "flux1_dev_primary_base",
+    "sdxl_realvisxl_base_lane",
+    "zimage_turbo_base_lane",
+    "flux1_schnell_smoke_lane",
+    "sdxl_low_risk_fallback_lane",
+    "pony_specialty_lane",
+    "sd15_legacy_fallback_lane"
+  ],
+  "hard_stop_conditions": [
+    "model_family_mismatch_would_mix_lora_and_checkpoint",
+    "missing_required_character_reference_pack",
+    "missing_required_mask_or_control_map_for_scene",
+    "all_base_lanes_failed",
+    "qa_detects_unrecoverable_composition_error_after_max_attempts"
+  ]
+}

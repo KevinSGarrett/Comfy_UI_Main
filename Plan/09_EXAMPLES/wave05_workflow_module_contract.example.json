@@ -1,0 +1,26 @@
+{
+  "module_id": "MOD-00-APP-OPERATOR-SURFACE",
+  "module_name": "App Mode Operator Surface",
+  "status": "blueprint_contract",
+  "source": "new_wave05",
+  "current_main_flow_nodes": [],
+  "purpose": "Expose clean high-level controls for image, video, audio, scene, camera, framing, character, pass selection, and QA level.",
+  "must_not_do": [
+    "must not expose raw model paths",
+    "must not run conditional AI logic by itself",
+    "must not bypass orchestrator promotion gates"
+  ],
+  "primary_inputs": [
+    "scene_request",
+    "character_count",
+    "camera_frame_plan",
+    "engine_profile",
+    "quality_profile",
+    "runtime_target"
+  ],
+  "primary_outputs": [
+    "operator_request_json",
+    "validated_app_inputs"
+  ],
+  "owner_wave": 5
+}

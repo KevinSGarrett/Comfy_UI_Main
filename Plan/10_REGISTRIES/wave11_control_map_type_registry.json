@@ -1,0 +1,165 @@
+[
+  {
+    "control_map_type": "dwpose",
+    "primary_role": "whole-body pose, hands, face landmarks, multi-person skeleton planning",
+    "best_for": [
+      "body action",
+      "hand placement",
+      "head orientation",
+      "per-character blocking"
+    ],
+    "risk": "can over-constrain anatomy if source pose is inaccurate or too cropped",
+    "runtime_status": "planned_required_object_info_proof",
+    "input_asset_kind": "reference image or approved skeleton frame",
+    "output_asset_kind": "pose map image plus optional keypoint JSON",
+    "preferred_stage": "first-structure pass before detail/inpaint",
+    "can_stack_with": [
+      "depth",
+      "canny",
+      "lineart",
+      "ipadapter_identity"
+    ],
+    "do_not_use_for": [
+      "final skin texture detail",
+      "fabric micro-detail"
+    ]
+  },
+  {
+    "control_map_type": "openpose",
+    "primary_role": "body pose skeleton control with optional hand/face extensions depending on preprocessor",
+    "best_for": [
+      "simple body pose",
+      "pose transfer",
+      "animation keyframe pose consistency"
+    ],
+    "risk": "less detailed than DWPose for hands/faces in many workflows",
+    "runtime_status": "planned_required_object_info_proof",
+    "input_asset_kind": "reference image or skeleton image",
+    "output_asset_kind": "pose skeleton map",
+    "preferred_stage": "first-structure pass",
+    "can_stack_with": [
+      "depth",
+      "canny",
+      "ipadapter_identity"
+    ],
+    "do_not_use_for": [
+      "depth ordering",
+      "surface contours"
+    ]
+  },
+  {
+    "control_map_type": "depth",
+    "primary_role": "spatial depth, camera distance, foreground/background ordering",
+    "best_for": [
+      "room perspective",
+      "body-to-prop distance",
+      "depth layering",
+      "video keyframe continuity"
+    ],
+    "risk": "bad depth maps can flatten faces or distort limbs",
+    "runtime_status": "planned_required_object_info_proof",
+    "input_asset_kind": "reference image or generated keyframe",
+    "output_asset_kind": "grayscale depth map",
+    "preferred_stage": "base composition and video bridge",
+    "can_stack_with": [
+      "dwpose",
+      "openpose",
+      "canny",
+      "lineart"
+    ],
+    "do_not_use_for": [
+      "identity",
+      "fine skin texture"
+    ]
+  },
+  {
+    "control_map_type": "normal",
+    "primary_role": "surface orientation, form, material curvature, object shape",
+    "best_for": [
+      "face/body form retention",
+      "furniture and hard-surface form",
+      "lighting-aware surface hints"
+    ],
+    "risk": "over-strong normals can make skin or cloth look plasticky",
+    "runtime_status": "planned_required_object_info_proof",
+    "input_asset_kind": "reference image or depth-preprocessed image",
+    "output_asset_kind": "normal map image",
+    "preferred_stage": "secondary geometry pass",
+    "can_stack_with": [
+      "depth",
+      "canny"
+    ],
+    "do_not_use_for": [
+      "skeleton joints",
+      "action intent"
+    ]
+  },
+  {
+    "control_map_type": "canny",
+    "primary_role": "hard edges and silhouette/contour preservation",
+    "best_for": [
+      "object edges",
+      "room geometry",
+      "prop boundaries",
+      "clothing boundaries"
+    ],
+    "risk": "can over-lock noisy edges and create outline artifacts",
+    "runtime_status": "wired_ready_to_verify_in_current_main_flow",
+    "input_asset_kind": "edge source image",
+    "output_asset_kind": "black/white edge map",
+    "preferred_stage": "composition/control pass, low to medium strength",
+    "can_stack_with": [
+      "depth",
+      "dwpose",
+      "lineart"
+    ],
+    "do_not_use_for": [
+      "identity",
+      "soft tissue realism alone"
+    ]
+  },
+  {
+    "control_map_type": "lineart",
+    "primary_role": "semantic/visual contour preservation with cleaner lines than raw Canny",
+    "best_for": [
+      "outfit shape",
+      "furniture contours",
+      "stylized-to-real structure transfer"
+    ],
+    "risk": "can stylize or flatten if over-weighted",
+    "runtime_status": "planned_required_object_info_proof",
+    "input_asset_kind": "reference image",
+    "output_asset_kind": "lineart map",
+    "preferred_stage": "composition lock before texture pass",
+    "can_stack_with": [
+      "depth",
+      "pose"
+    ],
+    "do_not_use_for": [
+      "3D contact physics",
+      "fine identity matching"
+    ]
+  },
+  {
+    "control_map_type": "segmentation_or_region_mask",
+    "primary_role": "per-character and per-object isolation",
+    "best_for": [
+      "multi-character separation",
+      "regional inpaint",
+      "character-specific pose edits"
+    ],
+    "risk": "bad masks cause identity bleed and edge artifacts",
+    "runtime_status": "planned_required_object_info_proof",
+    "input_asset_kind": "mask image or detector output",
+    "output_asset_kind": "mask image",
+    "preferred_stage": "before inpaint/detail and per-character control",
+    "can_stack_with": [
+      "dwpose",
+      "ipadapter_identity",
+      "depth"
+    ],
+    "do_not_use_for": [
+      "global camera perspective"
+    ]
+  }
+]

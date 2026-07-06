@@ -1,0 +1,20 @@
+{
+  "rules": [
+    {
+      "if": "source hidden behind body or prop",
+      "effect": "attenuate_gain_and_apply_mild_lowpass"
+    },
+    {
+      "if": "source behind wall/door",
+      "effect": "strong_lowpass_and_lower_gain"
+    },
+    {
+      "if": "source off camera but in same room",
+      "effect": "pan_to_estimated_position_and_reduce_directness"
+    },
+    {
+      "if": "source covered by clothing/fabric",
+      "effect": "soften_transient_and_reduce_high_frequency"
+    }
+  ]
+}

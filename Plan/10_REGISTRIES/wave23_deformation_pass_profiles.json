@@ -1,0 +1,36 @@
+{
+  "pass_profiles": [
+    {
+      "profile_id": "contact_shadow_primer",
+      "denoise_min": 0.1,
+      "denoise_max": 0.18,
+      "requires": [
+        "contact_boundary_mask"
+      ]
+    },
+    {
+      "profile_id": "primary_deformation",
+      "denoise_min": 0.18,
+      "denoise_max": 0.35,
+      "requires": [
+        "target_mask"
+      ]
+    },
+    {
+      "profile_id": "boundary_repair",
+      "denoise_min": 0.12,
+      "denoise_max": 0.24,
+      "requires": [
+        "contact_boundary_mask"
+      ]
+    },
+    {
+      "profile_id": "texture_continuity_repair",
+      "denoise_min": 0.1,
+      "denoise_max": 0.2,
+      "requires": [
+        "target_mask"
+      ]
+    }
+  ]
+}

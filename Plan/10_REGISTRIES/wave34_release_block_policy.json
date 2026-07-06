@@ -1,0 +1,31 @@
+{
+  "block_conditions": [
+    "missing_release_manifest",
+    "missing_release_gate_decision",
+    "missing_handoff_packet",
+    "invalid_schema_or_registry",
+    "script_validation_failed",
+    "app_mode_release_claimed_without_export",
+    "orchestrator_release_claimed_without_stage_plan",
+    "local_proof_claimed_without_local_report",
+    "ec2_proof_claimed_without_ec2_report",
+    "runtime_certification_claimed_without_runtime_artifacts",
+    "final_render_unlocked_without_preview_QA_and_preflight"
+  ],
+  "allowed_architecture_release_conditions": [
+    "schemas_valid",
+    "registries_valid",
+    "scripts_valid",
+    "release_manifest_present",
+    "handoff_present",
+    "runtime_boundaries_recorded"
+  ],
+  "allowed_runtime_certified_release_conditions": [
+    "all_architecture_release_conditions",
+    "runtime_artifacts_present",
+    "local_proof_pass",
+    "ec2_proof_pass_when_ec2_used",
+    "qa_certification_certified",
+    "release_gate_runtime_certified"
+  ]
+}

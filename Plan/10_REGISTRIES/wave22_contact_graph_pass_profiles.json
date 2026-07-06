@@ -1,0 +1,41 @@
+{
+  "pass_profiles": [
+    {
+      "profile_id": "contact_shadow_repair",
+      "denoise_min": 0.1,
+      "denoise_max": 0.2,
+      "requires": [
+        "contact_boundary_mask"
+      ]
+    },
+    {
+      "profile_id": "occlusion_boundary_repair",
+      "denoise_min": 0.15,
+      "denoise_max": 0.28,
+      "requires": [
+        "source_mask",
+        "target_mask",
+        "occlusion_mask"
+      ]
+    },
+    {
+      "profile_id": "soft_body_indentation",
+      "denoise_min": 0.22,
+      "denoise_max": 0.35,
+      "requires": [
+        "source_mask",
+        "target_mask",
+        "soft_body_profile"
+      ]
+    },
+    {
+      "profile_id": "fabric_contact_repair",
+      "denoise_min": 0.18,
+      "denoise_max": 0.32,
+      "requires": [
+        "fabric_mask",
+        "target_mask"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave09 Environment Continuity Report",
+  "type": "object",
+  "required": [
+    "report_id",
+    "environment_id",
+    "environment_version",
+    "checks",
+    "overall_status"
+  ],
+  "properties": {
+    "report_id": {
+      "type": "string"
+    },
+    "environment_id": {
+      "type": "string"
+    },
+    "environment_version": {
+      "type": "string"
+    },
+    "modality": {
+      "type": "string",
+      "enum": [
+        "image",
+        "video",
+        "audio",
+        "cross_modal"
+      ]
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "overall_status": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "warn",
+        "fail",
+        "blocked"
+      ]
+    }
+  },
+  "additionalProperties": true
+}

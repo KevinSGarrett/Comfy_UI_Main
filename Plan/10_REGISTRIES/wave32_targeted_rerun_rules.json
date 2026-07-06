@@ -1,0 +1,33 @@
+{
+  "rules": [
+    {
+      "failed_domain": "metadata_only",
+      "rerun_scope": "metadata_repair"
+    },
+    {
+      "failed_domain": "mask_or_region",
+      "rerun_scope": "local_region_repair"
+    },
+    {
+      "failed_domain": "single_frame_temporal",
+      "rerun_scope": "single_frame_repair"
+    },
+    {
+      "failed_domain": "short_span_temporal",
+      "rerun_scope": "span_repair"
+    },
+    {
+      "failed_domain": "audio_or_spatial_audio",
+      "rerun_scope": "audio_layer_repair"
+    },
+    {
+      "failed_domain": "multi_visual_domains",
+      "rerun_scope": "shot_rerun"
+    },
+    {
+      "failed_domain": "cross_shot_continuity",
+      "rerun_scope": "segment_rerun"
+    }
+  ],
+  "default_policy": "smallest_safe_scope"
+}

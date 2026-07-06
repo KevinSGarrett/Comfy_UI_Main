@@ -1,0 +1,104 @@
+{
+  "generated_at_utc": "2026-07-05T23:59:00Z",
+  "pass_profiles": [
+    {
+      "profile_id": "macro_environment_relight",
+      "mask_scales": [
+        "macro"
+      ],
+      "default_denoise_max": 0.3,
+      "uses": [
+        "environment continuity",
+        "lighting balance"
+      ],
+      "blocked_if": [
+        "missing_scene_zone_mask"
+      ]
+    },
+    {
+      "profile_id": "major_person_protection",
+      "mask_scales": [
+        "major"
+      ],
+      "default_denoise_max": 0.18,
+      "uses": [
+        "identity/background separation",
+        "no merge QA"
+      ],
+      "blocked_if": [
+        "missing_person_instance_mask"
+      ]
+    },
+    {
+      "profile_id": "major_garment_material",
+      "mask_scales": [
+        "major",
+        "minor"
+      ],
+      "default_denoise_max": 0.32,
+      "uses": [
+        "fabric material continuity",
+        "garment repair"
+      ],
+      "blocked_if": [
+        "outfit_lock_conflict"
+      ]
+    },
+    {
+      "profile_id": "minor_face_hair_hand_repair",
+      "mask_scales": [
+        "minor"
+      ],
+      "default_denoise_max": 0.28,
+      "uses": [
+        "face/hair/hand repair"
+      ],
+      "blocked_if": [
+        "identity_lock_missing"
+      ]
+    },
+    {
+      "profile_id": "micro_texture_detail",
+      "mask_scales": [
+        "micro"
+      ],
+      "default_denoise_max": 0.16,
+      "uses": [
+        "skin/material/fabric detail"
+      ],
+      "blocked_if": [
+        "mask_area_too_large"
+      ]
+    },
+    {
+      "profile_id": "nano_edge_cleanup",
+      "mask_scales": [
+        "nano"
+      ],
+      "default_denoise_max": 0.1,
+      "uses": [
+        "edge halo cleanup",
+        "artifact repair"
+      ],
+      "blocked_if": [
+        "requested_large_change"
+      ]
+    },
+    {
+      "profile_id": "contact_shadow_occlusion",
+      "mask_scales": [
+        "minor",
+        "micro",
+        "nano"
+      ],
+      "default_denoise_max": 0.22,
+      "uses": [
+        "contact shadow",
+        "occlusion edge"
+      ],
+      "blocked_if": [
+        "contact_participants_unassigned"
+      ]
+    }
+  ]
+}

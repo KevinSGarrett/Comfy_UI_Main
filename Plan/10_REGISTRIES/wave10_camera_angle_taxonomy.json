@@ -1,0 +1,120 @@
+{
+  "version": "wave10.v1",
+  "angles": [
+    {
+      "id": "eye_level",
+      "description": "camera at subject eye height",
+      "use_for": [
+        "neutral_identity",
+        "reference_sheet",
+        "natural_dialogue"
+      ],
+      "risk": []
+    },
+    {
+      "id": "low_angle",
+      "description": "camera below subject looking up",
+      "use_for": [
+        "power",
+        "scale",
+        "dramatic_full_body"
+      ],
+      "risk": [
+        "foreshortening",
+        "exaggerated_limbs"
+      ]
+    },
+    {
+      "id": "high_angle",
+      "description": "camera above subject looking down",
+      "use_for": [
+        "vulnerability",
+        "top_surface_context"
+      ],
+      "risk": [
+        "compressed_body",
+        "small_face"
+      ]
+    },
+    {
+      "id": "overhead",
+      "description": "near top-down camera",
+      "use_for": [
+        "layout",
+        "bed/floor/room geometry",
+        "prop placement"
+      ],
+      "risk": [
+        "face_identity_loss"
+      ]
+    },
+    {
+      "id": "worm_eye",
+      "description": "very low angle near floor",
+      "use_for": [
+        "dramatic_scale"
+      ],
+      "risk": [
+        "extreme_distortion"
+      ]
+    },
+    {
+      "id": "three_quarter_front",
+      "description": "front three-quarter angle",
+      "use_for": [
+        "identity",
+        "body_shape",
+        "outfit"
+      ],
+      "risk": []
+    },
+    {
+      "id": "profile_side",
+      "description": "side/profile angle",
+      "use_for": [
+        "silhouette",
+        "pose",
+        "nose/jaw/body profile"
+      ],
+      "risk": [
+        "face_identity_less_visible"
+      ]
+    },
+    {
+      "id": "back_view",
+      "description": "subject back facing camera",
+      "use_for": [
+        "outfit_back",
+        "hair_back",
+        "environment_interaction"
+      ],
+      "risk": [
+        "identity_not_visible"
+      ]
+    },
+    {
+      "id": "over_shoulder",
+      "description": "camera behind one subject looking toward another/scene",
+      "use_for": [
+        "dialogue",
+        "multi_character_scene"
+      ],
+      "risk": [
+        "occlusion",
+        "identity_blending"
+      ]
+    },
+    {
+      "id": "dutch_angle",
+      "description": "tilted horizon",
+      "use_for": [
+        "stylized_tension"
+      ],
+      "risk": [
+        "composition_instability"
+      ],
+      "default_allow": false
+    }
+  ],
+  "angle_policy": "Reference packs default to eye_level, three_quarter_front, profile_side, and back_view. Dramatic angles require explicit scene intent and QA proof."
+}

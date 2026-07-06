@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave09 Environment Bible",
+  "type": "object",
+  "required": [
+    "environment_id",
+    "environment_version",
+    "display_name",
+    "environment_type",
+    "room_profile_id",
+    "lighting_rig_id",
+    "prop_registry_id",
+    "material_surface_profile_ids",
+    "scale_reference_id",
+    "continuity_rules"
+  ],
+  "properties": {
+    "environment_id": {
+      "type": "string",
+      "pattern": "^env_[a-z0-9_\\-]+$"
+    },
+    "environment_version": {
+      "type": "string"
+    },
+    "display_name": {
+      "type": "string"
+    },
+    "environment_type": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "reference_pack_created",
+        "locally_validated",
+        "image_runtime_proven",
+        "video_runtime_proven",
+        "audio_runtime_proven",
+        "promoted",
+        "deprecated_or_superseded"
+      ]
+    },
+    "room_profile_id": {
+      "type": "string"
+    },
+    "lighting_rig_id": {
+      "type": "string"
+    },
+    "prop_registry_id": {
+      "type": "string"
+    },
+    "material_surface_profile_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "scale_reference_id": {
+      "type": "string"
+    },
+    "reference_pack_id": {
+      "type": "string"
+    },
+    "allowed_changes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "disallowed_changes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "continuity_rules": {
+      "type": "object"
+    },
+    "qa_requirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}

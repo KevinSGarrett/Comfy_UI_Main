@@ -1,0 +1,37 @@
+{
+  "handoff_id": "comfyui_handoff_001",
+  "comfyui_root": "02_COMFYUI_RUNTIME/ComfyUI",
+  "canonical_workflows": [
+    "05_WORKFLOWS/00_CANONICAL_MAIN_FLOW"
+  ],
+  "required_custom_nodes": [
+    "optional_ipadapter",
+    "optional_controlnet"
+  ],
+  "required_models": [
+    "checkpoints",
+    "vae",
+    "upscale_models"
+  ],
+  "required_loras": [
+    "profile_selected_only"
+  ],
+  "input_folders": [
+    "input/references",
+    "input/masks",
+    "input/control_maps"
+  ],
+  "output_folders": [
+    "output/Main_Flow",
+    "output/previews",
+    "output/qa_evidence"
+  ],
+  "qa_evidence_folders": [
+    "08_QA_EVIDENCE/image",
+    "08_QA_EVIDENCE/release"
+  ],
+  "runtime_boundaries": [
+    "video_audio_lanes_require_separate_runtime_proof"
+  ],
+  "validation_status": "structure_ready"
+}

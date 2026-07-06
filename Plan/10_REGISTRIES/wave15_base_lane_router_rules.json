@@ -1,0 +1,38 @@
+[
+  {
+    "rule_id": "BG-RULE-001",
+    "condition": "Flux2 is available and runtime-proven and scene does not require SDXL/Pony-only assets",
+    "select": "flux2_dev_primary_base",
+    "reason": "future primary Flux-first base lane"
+  },
+  {
+    "rule_id": "BG-RULE-002",
+    "condition": "Flux2 not proven but Flux1 Dev template and assets are proven",
+    "select": "flux1_dev_primary_base",
+    "reason": "current Flux-first base generation target"
+  },
+  {
+    "rule_id": "BG-RULE-003",
+    "condition": "Scene requires SDXL/RealVisXL-compatible LoRA stack or SDXL inpaint/detail bridge",
+    "select": "sdxl_realvisxl_base_lane",
+    "reason": "asset compatibility and regional refinement"
+  },
+  {
+    "rule_id": "BG-RULE-004",
+    "condition": "Need fast alternative base proof or Flux lane unavailable",
+    "select": "zimage_turbo_base_lane",
+    "reason": "fast experimental alternative"
+  },
+  {
+    "rule_id": "BG-RULE-005",
+    "condition": "Scene explicitly requires Pony-family model/profile",
+    "select": "pony_specialty_lane",
+    "reason": "specialty only, not general default"
+  },
+  {
+    "rule_id": "BG-RULE-006",
+    "condition": "Primary lane fails model-load or output decode gate",
+    "select": "next_available_fallback",
+    "reason": "bounded fallback"
+  }
+]

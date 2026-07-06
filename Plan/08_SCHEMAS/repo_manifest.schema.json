@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "repo_manifest.schema.json",
+  "title": "Comfy UI Main Repository Manifest",
+  "type": "object",
+  "required": [
+    "repo_name",
+    "local_root",
+    "remote_url",
+    "branch_policy",
+    "required_directories",
+    "forbidden_file_patterns"
+  ],
+  "properties": {
+    "repo_name": {
+      "type": "string"
+    },
+    "local_root": {
+      "type": "string"
+    },
+    "remote_url": {
+      "type": "string"
+    },
+    "branch_policy": {
+      "type": "object"
+    },
+    "required_directories": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "forbidden_file_patterns": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "model_storage_policy": {
+      "type": "string"
+    },
+    "ec2_policy": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,86 @@
+[
+  {
+    "gate_id": "BG-QA-001",
+    "name": "output_file_decode",
+    "severity": "blocker",
+    "required_evidence": [
+      "file_path",
+      "sha256",
+      "byte_size",
+      "format",
+      "width",
+      "height"
+    ]
+  },
+  {
+    "gate_id": "BG-QA-002",
+    "name": "requested_engine_family_match",
+    "severity": "blocker",
+    "required_evidence": [
+      "lane_id",
+      "engine_family",
+      "checkpoint_family",
+      "lora_family_match"
+    ]
+  },
+  {
+    "gate_id": "BG-QA-003",
+    "name": "prompt_plan_alignment",
+    "severity": "blocker",
+    "required_evidence": [
+      "positive_prompt_compiled",
+      "negative_prompt_compiled",
+      "scene_director_plan_id"
+    ]
+  },
+  {
+    "gate_id": "BG-QA-004",
+    "name": "composition_baseline",
+    "severity": "blocker",
+    "required_evidence": [
+      "character_count_check",
+      "body_visibility_check",
+      "crop_boundary_check"
+    ]
+  },
+  {
+    "gate_id": "BG-QA-005",
+    "name": "identity_environment_not_destroyed",
+    "severity": "major",
+    "required_evidence": [
+      "identity_reference_status",
+      "environment_reference_status"
+    ]
+  },
+  {
+    "gate_id": "BG-QA-006",
+    "name": "artifact_baseline",
+    "severity": "major",
+    "required_evidence": [
+      "blur_score_or_manual_flag",
+      "artifact_flag",
+      "watermark_text_flag"
+    ]
+  },
+  {
+    "gate_id": "BG-QA-007",
+    "name": "fallback_reason_recorded",
+    "severity": "blocker_if_fallback_used",
+    "required_evidence": [
+      "failed_lane_id",
+      "failure_reason",
+      "fallback_lane_id",
+      "rerun_number"
+    ]
+  },
+  {
+    "gate_id": "BG-QA-008",
+    "name": "promotion_manifest_exists",
+    "severity": "blocker",
+    "required_evidence": [
+      "qa_report_path",
+      "evidence_manifest_path",
+      "promotion_decision"
+    ]
+  }
+]

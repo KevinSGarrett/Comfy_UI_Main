@@ -1,0 +1,78 @@
+{
+  "profiles": [
+    {
+      "mode": "micro_indentation",
+      "scope": "micro",
+      "denoise_min": 0.12,
+      "denoise_max": 0.22,
+      "requires": [
+        "contact_boundary_mask",
+        "target_region_mask"
+      ]
+    },
+    {
+      "mode": "finger_indentation",
+      "scope": "minor",
+      "denoise_min": 0.18,
+      "denoise_max": 0.3,
+      "requires": [
+        "source_finger_mask",
+        "target_region_mask",
+        "contact_boundary_mask"
+      ]
+    },
+    {
+      "mode": "compression",
+      "scope": "major",
+      "denoise_min": 0.2,
+      "denoise_max": 0.35,
+      "requires": [
+        "source_mask",
+        "target_mask"
+      ]
+    },
+    {
+      "mode": "squeeze",
+      "scope": "major",
+      "denoise_min": 0.22,
+      "denoise_max": 0.35,
+      "requires": [
+        "source_mask",
+        "target_mask",
+        "contact_boundary_mask"
+      ]
+    },
+    {
+      "mode": "pull",
+      "scope": "major",
+      "denoise_min": 0.18,
+      "denoise_max": 0.34,
+      "requires": [
+        "source_mask",
+        "target_mask",
+        "direction_vector"
+      ]
+    },
+    {
+      "mode": "push",
+      "scope": "major",
+      "denoise_min": 0.18,
+      "denoise_max": 0.34,
+      "requires": [
+        "source_mask",
+        "target_mask",
+        "direction_vector"
+      ]
+    },
+    {
+      "mode": "support_surface_compression",
+      "scope": "major",
+      "denoise_min": 0.22,
+      "denoise_max": 0.38,
+      "requires": [
+        "support_mask",
+        "target_mask"
+      ]
+    }
+  ]
+}

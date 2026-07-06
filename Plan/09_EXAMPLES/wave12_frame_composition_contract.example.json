@@ -1,0 +1,50 @@
+{
+  "contract_id": "wave12_contract_example_001",
+  "scene_id": "scene_example_two_character_full_body",
+  "expected_character_count": 2,
+  "shot_size": "full_body",
+  "body_visibility_profile": "full_body",
+  "allow_background_people": false,
+  "no_merged_bodies_required": true,
+  "crop_boundary_policy": {
+    "safe_margin_ratio": 0.06,
+    "forbidden_crop_points": [
+      "head",
+      "hands",
+      "feet"
+    ],
+    "auto_repair_actions": [
+      "expand_canvas_outpaint",
+      "rerun_wider_if_body_cut"
+    ]
+  },
+  "character_slots": [
+    {
+      "slot_id": "left_character",
+      "character_id": "character_A",
+      "required_visible_regions": [
+        "head",
+        "torso",
+        "hands",
+        "legs",
+        "feet"
+      ]
+    },
+    {
+      "slot_id": "right_character",
+      "character_id": "character_B",
+      "required_visible_regions": [
+        "head",
+        "torso",
+        "hands",
+        "legs",
+        "feet"
+      ]
+    }
+  ],
+  "qa_thresholds": {
+    "minimum_total_score": 0.86,
+    "block_on_wrong_count": true,
+    "block_on_merged_bodies": true
+  }
+}

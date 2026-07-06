@@ -1,0 +1,30 @@
+{
+  "profiles": [
+    {
+      "id": "hair_head_turn_lag",
+      "motion_class": "follow_through",
+      "amplitude": "low",
+      "requires": [
+        "hair_region_mask",
+        "head_motion_state"
+      ]
+    },
+    {
+      "id": "hair_idle_sway",
+      "motion_class": "cyclic",
+      "amplitude": "very_low",
+      "requires": [
+        "hair_region_mask"
+      ]
+    },
+    {
+      "id": "fabric_settle_after_motion",
+      "motion_class": "settle",
+      "amplitude": "low",
+      "requires": [
+        "fabric_region_mask",
+        "body_motion_state"
+      ]
+    }
+  ]
+}

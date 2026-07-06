@@ -1,0 +1,155 @@
+{
+  "version": "wave10.v1",
+  "control_groups": [
+    {
+      "id": "shot_size",
+      "label": "Shot Size",
+      "controls": [
+        {
+          "name": "shot_size",
+          "type": "select",
+          "options": [
+            "full_body",
+            "three_quarter_body",
+            "half_body",
+            "medium_shot",
+            "close_up",
+            "extreme_close_up",
+            "wide_shot",
+            "two_shot",
+            "group_shot",
+            "detail_insert"
+          ],
+          "default": "half_body"
+        },
+        {
+          "name": "crop_policy",
+          "type": "select",
+          "options": [
+            "full_visible",
+            "intentional_crop",
+            "blocked_unintentional_crop"
+          ],
+          "default": "blocked_unintentional_crop"
+        }
+      ]
+    },
+    {
+      "id": "lens_angle",
+      "label": "Lens and Angle",
+      "controls": [
+        {
+          "name": "lens_profile",
+          "type": "select",
+          "options": [
+            "ultra_wide_18mm",
+            "wide_24mm",
+            "classic_35mm",
+            "normal_50mm",
+            "portrait_85mm",
+            "macro_100mm",
+            "telephoto_135mm",
+            "telephoto_200mm"
+          ],
+          "default": "normal_50mm"
+        },
+        {
+          "name": "camera_angle",
+          "type": "select",
+          "options": [
+            "eye_level",
+            "low_angle",
+            "high_angle",
+            "overhead",
+            "worm_eye",
+            "three_quarter_front",
+            "profile_side",
+            "back_view",
+            "over_shoulder",
+            "dutch_angle"
+          ],
+          "default": "eye_level"
+        },
+        {
+          "name": "camera_height",
+          "type": "select",
+          "options": [
+            "floor",
+            "low",
+            "waist",
+            "chest",
+            "eye",
+            "overhead"
+          ],
+          "default": "eye"
+        }
+      ]
+    },
+    {
+      "id": "zoom_depth",
+      "label": "Zoom and Depth",
+      "controls": [
+        {
+          "name": "zoom_level",
+          "type": "select",
+          "options": [
+            "wide",
+            "normal",
+            "tight",
+            "macro"
+          ],
+          "default": "normal"
+        },
+        {
+          "name": "depth_dof_profile",
+          "type": "select",
+          "options": [
+            "deep_focus",
+            "natural_portrait_dof",
+            "cinematic_shallow_dof",
+            "macro_shallow_dof",
+            "layered_depth"
+          ],
+          "default": "natural_portrait_dof"
+        },
+        {
+          "name": "background_blur",
+          "type": "slider",
+          "min": 0,
+          "max": 1,
+          "step": 0.05,
+          "default": 0.35
+        }
+      ]
+    },
+    {
+      "id": "multi_character",
+      "label": "Multi-character Framing",
+      "controls": [
+        {
+          "name": "subject_count",
+          "type": "number",
+          "min": 1,
+          "max": 8,
+          "default": 1
+        },
+        {
+          "name": "identity_separation_required",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "name": "occlusion_allowed",
+          "type": "select",
+          "options": [
+            "none",
+            "minor",
+            "moderate",
+            "major"
+          ],
+          "default": "minor"
+        }
+      ]
+    }
+  ]
+}

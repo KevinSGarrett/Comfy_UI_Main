@@ -1,0 +1,128 @@
+{
+  "version": "wave10.v1",
+  "purpose": "Lens look presets for image/video prompt planning and future workflow parameter patching.",
+  "lenses": [
+    {
+      "id": "ultra_wide_18mm",
+      "focal_length_mm": 18,
+      "look": "wide_environment_distortion",
+      "best_for": [
+        "room_establishing",
+        "dramatic_low_angle"
+      ],
+      "risk": [
+        "distorted_limbs",
+        "wide_face_distortion"
+      ],
+      "recommended_subject_distance": "farther_than_portrait"
+    },
+    {
+      "id": "wide_24mm",
+      "focal_length_mm": 24,
+      "look": "environmental_wide",
+      "best_for": [
+        "full_body",
+        "small_room",
+        "action_pose"
+      ],
+      "risk": [
+        "perspective_distortion_near_edges"
+      ],
+      "recommended_subject_distance": "moderate"
+    },
+    {
+      "id": "classic_35mm",
+      "focal_length_mm": 35,
+      "look": "natural_environmental_portrait",
+      "best_for": [
+        "full_body",
+        "half_body",
+        "two_shot"
+      ],
+      "risk": [
+        "minor_edge_distortion"
+      ],
+      "recommended_subject_distance": "moderate"
+    },
+    {
+      "id": "normal_50mm",
+      "focal_length_mm": 50,
+      "look": "neutral_human_perspective",
+      "best_for": [
+        "half_body",
+        "medium_shot",
+        "reference_consistency"
+      ],
+      "risk": [
+        "less_environment_context"
+      ],
+      "recommended_subject_distance": "moderate"
+    },
+    {
+      "id": "portrait_85mm",
+      "focal_length_mm": 85,
+      "look": "compressed_portrait",
+      "best_for": [
+        "close_up",
+        "beauty",
+        "identity_lock"
+      ],
+      "risk": [
+        "background_compression",
+        "full_body_space_needed"
+      ],
+      "recommended_subject_distance": "farther"
+    },
+    {
+      "id": "macro_100mm",
+      "focal_length_mm": 100,
+      "look": "macro_detail",
+      "best_for": [
+        "skin_texture",
+        "fabric",
+        "hands",
+        "prop_detail"
+      ],
+      "risk": [
+        "shallow_dof",
+        "context_loss"
+      ],
+      "recommended_subject_distance": "close_with_context_anchor"
+    },
+    {
+      "id": "telephoto_135mm",
+      "focal_length_mm": 135,
+      "look": "strong_compression",
+      "best_for": [
+        "cinematic_close_up",
+        "background_isolation"
+      ],
+      "risk": [
+        "flattened_space",
+        "multi_character_depth_confusion"
+      ],
+      "recommended_subject_distance": "far"
+    },
+    {
+      "id": "telephoto_200mm",
+      "focal_length_mm": 200,
+      "look": "long_lens_compression",
+      "best_for": [
+        "distant_observation",
+        "isolated_subject"
+      ],
+      "risk": [
+        "unrealistic_indoor_space",
+        "loss_of_scale"
+      ],
+      "recommended_subject_distance": "far"
+    }
+  ],
+  "default_policy": {
+    "identity_reference_sheet": "normal_50mm_or_portrait_85mm",
+    "full_body_character": "classic_35mm_or_wide_24mm",
+    "environment": "wide_24mm_or_classic_35mm",
+    "skin_or_material_detail": "macro_100mm",
+    "multi_character": "classic_35mm_or_normal_50mm"
+  }
+}

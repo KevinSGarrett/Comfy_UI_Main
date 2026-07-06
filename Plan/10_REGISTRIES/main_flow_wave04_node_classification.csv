@@ -1,0 +1,357 @@
+node_id,type,mode,title,classification,save_lane_membership,has_inputs,has_outputs,wave42_lora_library_node,wave42_active_stack_node,engine,category,scene_role,status,verification_tier,already_active_in_main_chain,disabled_by_default
+1,Note,0,,note_boundary,[],False,False,False,False,,,,,,,
+10,CheckpointLoaderSimple,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/SDXL_RealVisXL_LoRA"", ""Main_Flow/SDXL_RealVisXL_LoRA_Upscaled"", ""Main_Flow/SDXL_Inpaint_Detail"", ""Main_Flow/Flux_to_SDXL_Refine"", ""Main_Flow/ControlNet_Canny_Edge"", ""Main_Flow/IPAdapter_Face_Reference""]",False,True,False,False,,,,,,,
+14,CLIPTextEncode,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/SDXL_RealVisXL_LoRA"", ""Main_Flow/SDXL_RealVisXL_LoRA_Upscaled""]",True,True,False,False,,,,,,,
+15,CLIPTextEncode,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/SDXL_RealVisXL_LoRA"", ""Main_Flow/SDXL_RealVisXL_LoRA_Upscaled""]",True,True,False,False,,,,,,,
+16,EmptyLatentImage,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/SDXL_RealVisXL_LoRA"", ""Main_Flow/SDXL_RealVisXL_LoRA_Upscaled""]",False,True,False,False,,,,,,,
+17,KSampler,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/SDXL_RealVisXL_LoRA"", ""Main_Flow/SDXL_RealVisXL_LoRA_Upscaled""]",True,True,False,False,,,,,,,
+18,VAEDecode,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/SDXL_RealVisXL_LoRA"", ""Main_Flow/SDXL_RealVisXL_LoRA_Upscaled""]",True,True,False,False,,,,,,,
+19,SaveImage,0,,terminal_save,"[""Main_Flow/SDXL_RealVisXL_LoRA""]",True,True,False,False,,,,,,,
+20,PreviewImage,0,,terminal_preview,[],True,True,False,False,,,,,,,
+30,UNETLoader,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/Flux_Family_ZImage"", ""Main_Flow/Flux_to_SDXL_Refine""]",False,True,False,False,,,,,,,
+31,ModelSamplingAuraFlow,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/Flux_Family_ZImage"", ""Main_Flow/Flux_to_SDXL_Refine""]",True,True,False,False,,,,,,,
+32,CLIPLoader,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/Flux_Family_ZImage"", ""Main_Flow/Flux_to_SDXL_Refine""]",False,True,False,False,,,,,,,
+33,CLIPTextEncode,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/Flux_Family_ZImage"", ""Main_Flow/Flux_to_SDXL_Refine""]",True,True,False,False,,,,,,,
+34,CLIPTextEncode,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/Flux_Family_ZImage"", ""Main_Flow/Flux_to_SDXL_Refine""]",True,True,False,False,,,,,,,
+35,EmptySD3LatentImage,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/Flux_Family_ZImage"", ""Main_Flow/Flux_to_SDXL_Refine""]",False,True,False,False,,,,,,,
+36,KSampler,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/Flux_Family_ZImage"", ""Main_Flow/Flux_to_SDXL_Refine""]",True,True,False,False,,,,,,,
+37,VAELoader,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/Flux_Family_ZImage"", ""Main_Flow/Flux_to_SDXL_Refine""]",False,True,False,False,,,,,,,
+38,VAEDecode,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/Flux_Family_ZImage"", ""Main_Flow/Flux_to_SDXL_Refine""]",True,True,False,False,,,,,,,
+39,SaveImage,0,,terminal_save,"[""Main_Flow/Flux_Family_ZImage""]",True,True,False,False,,,,,,,
+40,PreviewImage,0,,terminal_preview,[],True,True,False,False,,,,,,,
+60,UpscaleModelLoader,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/SDXL_RealVisXL_LoRA_Upscaled""]",False,True,False,False,,,,,,,
+61,ImageUpscaleWithModel,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/SDXL_RealVisXL_LoRA_Upscaled""]",True,True,False,False,,,,,,,
+62,SaveImage,0,,terminal_save,"[""Main_Flow/SDXL_RealVisXL_LoRA_Upscaled""]",True,True,False,False,,,,,,,
+63,PreviewImage,0,,terminal_preview,[],True,True,False,False,,,,,,,
+70,Note,0,,note_boundary,[],False,False,False,False,,,,,,,
+71,Note,0,,note_boundary,[],False,False,False,False,,,,,,,
+72,Note,0,,note_boundary,[],False,False,False,False,,,,,,,
+73,Note,0,,note_boundary,[],False,False,False,False,,,,,,,
+74,Note,0,,note_boundary,[],False,False,False,False,,,,,,,
+80,LoadImage,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/SDXL_Inpaint_Detail""]",False,True,False,False,,,,,,,
+81,LoadImageMask,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/SDXL_Inpaint_Detail""]",False,True,False,False,,,,,,,
+82,VAEEncodeForInpaint,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/SDXL_Inpaint_Detail""]",True,True,False,False,,,,,,,
+83,CLIPTextEncode,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/SDXL_Inpaint_Detail""]",True,True,False,False,,,,,,,
+84,CLIPTextEncode,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/SDXL_Inpaint_Detail""]",True,True,False,False,,,,,,,
+85,KSampler,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/SDXL_Inpaint_Detail""]",True,True,False,False,,,,,,,
+86,VAEDecode,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/SDXL_Inpaint_Detail""]",True,True,False,False,,,,,,,
+87,SaveImage,0,,terminal_save,"[""Main_Flow/SDXL_Inpaint_Detail""]",True,True,False,False,,,,,,,
+88,PreviewImage,0,,terminal_preview,[],True,True,False,False,,,,,,,
+90,VAEEncode,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/Flux_to_SDXL_Refine""]",True,True,False,False,,,,,,,
+91,CLIPTextEncode,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/Flux_to_SDXL_Refine""]",True,True,False,False,,,,,,,
+92,CLIPTextEncode,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/Flux_to_SDXL_Refine""]",True,True,False,False,,,,,,,
+93,KSampler,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/Flux_to_SDXL_Refine""]",True,True,False,False,,,,,,,
+94,VAEDecode,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/Flux_to_SDXL_Refine""]",True,True,False,False,,,,,,,
+95,SaveImage,0,,terminal_save,"[""Main_Flow/Flux_to_SDXL_Refine""]",True,True,False,False,,,,,,,
+96,PreviewImage,0,,terminal_preview,[],True,True,False,False,,,,,,,
+100,CheckpointLoaderSimple,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/True_Flux_Schnell_Reference_Smoke""]",False,True,False,False,,,,,,,
+101,ModelSamplingFlux,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/True_Flux_Schnell_Reference_Smoke""]",True,True,False,False,,,,,,,
+102,CLIPTextEncodeFlux,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/True_Flux_Schnell_Reference_Smoke""]",True,True,False,False,,,,,,,
+103,ConditioningZeroOut,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/True_Flux_Schnell_Reference_Smoke""]",True,True,False,False,,,,,,,
+104,EmptySD3LatentImage,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/True_Flux_Schnell_Reference_Smoke""]",False,True,False,False,,,,,,,
+105,KSampler,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/True_Flux_Schnell_Reference_Smoke""]",True,True,False,False,,,,,,,
+106,VAEDecode,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/True_Flux_Schnell_Reference_Smoke""]",True,True,False,False,,,,,,,
+107,SaveImage,0,,terminal_save,"[""Main_Flow/True_Flux_Schnell_Reference_Smoke""]",True,True,False,False,,,,,,,
+108,PreviewImage,0,,terminal_preview,[],True,True,False,False,,,,,,,
+110,IPAdapterUnifiedLoader,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/IPAdapter_Face_Reference""]",True,True,False,False,,,,,,,
+111,LoadImage,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/IPAdapter_Face_Reference""]",False,True,False,False,,,,,,,
+112,IPAdapter,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/IPAdapter_Face_Reference""]",True,True,False,False,,,,,,,
+113,CLIPTextEncode,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/IPAdapter_Face_Reference""]",True,True,False,False,,,,,,,
+114,CLIPTextEncode,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/IPAdapter_Face_Reference""]",True,True,False,False,,,,,,,
+115,EmptyLatentImage,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/IPAdapter_Face_Reference""]",False,True,False,False,,,,,,,
+116,KSampler,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/IPAdapter_Face_Reference""]",True,True,False,False,,,,,,,
+117,VAEDecode,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/IPAdapter_Face_Reference""]",True,True,False,False,,,,,,,
+118,SaveImage,0,,terminal_save,"[""Main_Flow/IPAdapter_Face_Reference""]",True,True,False,False,,,,,,,
+119,PreviewImage,0,,terminal_preview,[],True,True,False,False,,,,,,,
+120,ControlNetLoader,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/ControlNet_Canny_Edge""]",False,True,False,False,,,,,,,
+121,LoadImage,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/ControlNet_Canny_Edge""]",False,True,False,False,,,,,,,
+122,CLIPTextEncode,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/ControlNet_Canny_Edge""]",True,True,False,False,,,,,,,
+123,CLIPTextEncode,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/ControlNet_Canny_Edge""]",True,True,False,False,,,,,,,
+124,ControlNetApplyAdvanced,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/ControlNet_Canny_Edge""]",True,True,False,False,,,,,,,
+125,EmptyLatentImage,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/ControlNet_Canny_Edge""]",False,True,False,False,,,,,,,
+126,KSampler,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/ControlNet_Canny_Edge""]",True,True,False,False,,,,,,,
+127,VAEDecode,0,,active_runtime_or_staged_lane_node,"[""Main_Flow/ControlNet_Canny_Edge""]",True,True,False,False,,,,,,,
+128,SaveImage,0,,terminal_save,"[""Main_Flow/ControlNet_Canny_Edge""]",True,True,False,False,,,,,,,
+129,PreviewImage,0,,terminal_preview,[],True,True,False,False,,,,,,,
+130,Note,0,,note_boundary,[],False,False,False,False,,,,,,,
+131,Note,0,,note_boundary,[],False,False,False,False,,,,,,,
+132,Note,0,,note_boundary,[],False,False,False,False,,,,,,,
+133,Note,0,,note_boundary,[],False,False,False,False,,,,,,,
+134,Note,0,,note_boundary,[],False,False,False,False,,,,,,,
+135,Note,0,,note_boundary,[],False,False,False,False,,,,,,,
+136,Note,0,,note_boundary,[],False,False,False,False,,,,,,,
+137,LoraLoader,2,W42-SDXL-0028 | adult_acts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_acts,adult_act,installed,installed,False,True
+138,LoraLoader,2,W42-SDXL-0059 | adult_acts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_acts,adult_act,installed,installed,False,True
+139,LoraLoader,2,W42-SDXL-0174 | adult_acts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_acts,adult_act,installed,installed,False,True
+140,LoraLoader,2,W42-SDXL-0215 | adult_acts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_acts,adult_act,installed,installed,False,True
+141,LoraLoader,2,W42-SDXL-0236 | adult_acts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_acts,adult_act,installed,installed,False,True
+142,LoraLoader,2,W42-SDXL-0238 | adult_acts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_acts,adult_act,installed,installed,False,True
+143,LoraLoader,2,W42-SDXL-0240 | adult_acts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_acts,adult_act,installed,installed,False,True
+144,LoraLoader,2,W42-SDXL-0254 | adult_acts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_acts,adult_act,installed,installed,False,True
+145,LoraLoader,2,W42-SDXL-0283 | adult_acts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_acts,adult_act,installed,installed,False,True
+146,LoraLoader,2,W42-SDXL-0021 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,installed,installed,False,True
+147,LoraLoader,2,W42-SDXL-0023 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,installed,installed,False,True
+148,LoraLoader,2,W42-SDXL-0024 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,installed,installed,False,True
+149,LoraLoader,2,W42-SDXL-0027 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,installed,installed,False,True
+150,LoraLoader,2,W42-SDXL-0052 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,installed,installed,False,True
+151,LoraLoader,2,W42-SDXL-0070 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,installed,installed,False,True
+152,LoraLoader,2,W42-SDXL-0072 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,installed,installed,False,True
+153,LoraLoader,2,W42-SDXL-0154 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,installed,installed,False,True
+154,LoraLoader,2,W42-SDXL-0175 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,installed,installed,False,True
+155,LoraLoader,2,W42-SDXL-0191 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,installed,installed,False,True
+156,LoraLoader,2,W42-SDXL-0193 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,installed,installed,False,True
+157,LoraLoader,2,W42-SDXL-0195 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,installed,installed,False,True
+158,LoraLoader,2,W42-SDXL-0206 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,installed,installed,False,True
+159,LoraLoader,2,W42-SDXL-0208 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,installed,installed,False,True
+160,LoraLoader,2,W42-SDXL-0209 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,installed,installed,False,True
+161,LoraLoader,2,W42-SDXL-0230 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,installed,installed,False,True
+162,LoraLoader,2,W42-SDXL-0244 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,installed,installed,False,True
+163,LoraLoader,2,W42-SDXL-0245 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,installed,installed,False,True
+164,LoraLoader,2,W42-SDXL-0246 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,installed,installed,False,True
+165,LoraLoader,2,W42-SDXL-0258 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,installed,installed,False,True
+166,LoraLoader,2,W42-SDXL-0266 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,installed,installed,False,True
+167,LoraLoader,2,W42-SDXL-0299 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,installed,installed,False,True
+168,LoraLoader,2,W42-SDXL-0307 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,installed,installed,False,True
+169,LoraLoader,2,W42-SDXL-0317 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,installed,installed,False,True
+170,LoraLoader,2,W42-SDXL-0320 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,installed,installed,False,True
+171,LoraLoader,2,W42-SDXL-0332 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,rejected_or_superseded,disabled,False,True
+172,LoraLoader,2,W42-SDXL-0336 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,rejected_or_superseded,disabled,False,True
+173,LoraLoader,2,W42-SDXL-0337 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,rejected_or_superseded,disabled,False,True
+174,LoraLoader,2,W42-SDXL-0339 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,rejected_or_superseded,disabled,False,True
+175,LoraLoader,2,W42-SDXL-0346 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,rejected_or_superseded,disabled,False,True
+176,LoraLoader,2,W42-SDXL-0354 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,rejected_or_superseded,disabled,False,True
+177,LoraLoader,2,W42-SDXL-0356 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,rejected_or_superseded,disabled,False,True
+178,LoraLoader,2,W42-SDXL-0358 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_body_parts,adult_body_part,rejected_or_superseded,disabled,False,True
+179,LoraLoader,2,W42-SDXL-0054 | adult_male,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_male,adult_male,installed,installed,False,True
+180,LoraLoader,2,W42-SDXL-0147 | adult_male,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_male,adult_male,installed,installed,False,True
+181,LoraLoader,2,W42-SDXL-0149 | adult_male,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_male,adult_male,installed,installed,False,True
+182,LoraLoader,2,W42-SDXL-0190 | adult_male,disabled_lora_catalog_node,[],True,True,True,False,sdxl,adult_male,adult_male,installed,installed,False,True
+183,LoraLoader,2,W42-SDXL-0277 | body_shape,disabled_lora_catalog_node,[],True,True,True,False,sdxl,body_shape,body_shape,installed,installed,False,True
+184,LoraLoader,2,W42-SDXL-0278 | body_shape,disabled_lora_catalog_node,[],True,True,True,False,sdxl,body_shape,body_shape,installed,installed,False,True
+185,LoraLoader,2,W42-SDXL-0265 | body_type_bbw_cellulite,disabled_lora_catalog_node,[],True,True,True,False,sdxl,body_type_bbw_cellulite,body_shape,installed,installed,False,True
+186,LoraLoader,2,W42-SDXL-0295 | body_type_bbw_cellulite,disabled_lora_catalog_node,[],True,True,True,False,sdxl,body_type_bbw_cellulite,body_shape,installed,installed,False,True
+187,LoraLoader,2,W42-SDXL-0303 | body_type_bbw_cellulite,disabled_lora_catalog_node,[],True,True,True,False,sdxl,body_type_bbw_cellulite,body_shape,installed,installed,False,True
+188,LoraLoader,2,W42-SDXL-0304 | body_type_bbw_cellulite,disabled_lora_catalog_node,[],True,True,True,False,sdxl,body_type_bbw_cellulite,body_shape,installed,installed,False,True
+189,LoraLoader,2,W42-SDXL-0305 | body_type_bbw_cellulite,disabled_lora_catalog_node,[],True,True,True,False,sdxl,body_type_bbw_cellulite,body_shape,installed,installed,False,True
+190,LoraLoader,2,W42-SDXL-0276 | body_type_latina,disabled_lora_catalog_node,[],True,True,True,False,sdxl,body_type_latina,body_shape,installed,installed,False,True
+191,LoraLoader,2,W42-SDXL-0309 | body_type_latina,disabled_lora_catalog_node,[],True,True,True,False,sdxl,body_type_latina,body_shape,installed,installed,False,True
+192,LoraLoader,2,W42-SDXL-0338 | body_type_latina,disabled_lora_catalog_node,[],True,True,True,False,sdxl,body_type_latina,body_shape,rejected_or_superseded,disabled,False,True
+193,LoraLoader,2,W42-SDXL-0340 | body_type_latina,disabled_lora_catalog_node,[],True,True,True,False,sdxl,body_type_latina,body_shape,rejected_or_superseded,disabled,False,True
+194,LoraLoader,2,W42-SDXL-0341 | body_type_latina,disabled_lora_catalog_node,[],True,True,True,False,sdxl,body_type_latina,body_shape,rejected_or_superseded,disabled,False,True
+195,LoraLoader,2,W42-SDXL-0352 | body_type_latina,disabled_lora_catalog_node,[],True,True,True,False,sdxl,body_type_latina,body_shape,rejected_or_superseded,disabled,False,True
+196,LoraLoader,2,W42-SDXL-0041 | clothing_fabric,disabled_lora_catalog_node,[],True,True,True,False,sdxl,clothing_fabric,clothing_fabric,installed,installed,False,True
+197,LoraLoader,2,W42-SDXL-0297 | clothing_fabric,disabled_lora_catalog_node,[],True,True,True,False,sdxl,clothing_fabric,clothing_fabric,installed,installed,False,True
+198,LoraLoader,2,W42-SDXL-0058 | cum_fluids,disabled_lora_catalog_node,[],True,True,True,False,sdxl,cum_fluids,adult_act,installed,installed,False,True
+199,LoraLoader,2,W42-SDXL-0060 | cum_fluids,disabled_lora_catalog_node,[],True,True,True,False,sdxl,cum_fluids,adult_act,installed,installed,False,True
+200,LoraLoader,2,W42-SDXL-0061 | cum_fluids,disabled_lora_catalog_node,[],True,True,True,False,sdxl,cum_fluids,adult_act,installed,installed,False,True
+201,LoraLoader,2,W42-SDXL-0251 | cum_fluids,disabled_lora_catalog_node,[],True,True,True,False,sdxl,cum_fluids,adult_act,installed,installed,False,True
+202,LoraLoader,2,W42-SDXL-0003 | experimental,disabled_lora_catalog_node,[],True,True,True,False,sdxl,experimental,experimental,installed,installed,False,True
+203,LoraLoader,2,W42-SDXL-0005 | experimental,disabled_lora_catalog_node,[],True,True,True,False,sdxl,experimental,experimental,installed,installed,False,True
+204,LoraLoader,2,W42-SDXL-0017 | experimental,disabled_lora_catalog_node,[],True,True,True,False,sdxl,experimental,experimental,installed,installed,False,True
+205,LoraLoader,2,W42-SDXL-0050 | experimental,disabled_lora_catalog_node,[],True,True,True,False,sdxl,experimental,experimental,installed,installed,False,True
+206,LoraLoader,2,W42-SDXL-0146 | experimental,disabled_lora_catalog_node,[],True,True,True,False,sdxl,experimental,experimental,installed,installed,False,True
+207,LoraLoader,2,W42-SDXL-0157 | experimental,disabled_lora_catalog_node,[],True,True,True,False,sdxl,experimental,experimental,installed,installed,False,True
+208,LoraLoader,2,W42-SDXL-0178 | experimental,disabled_lora_catalog_node,[],True,True,True,False,sdxl,experimental,experimental,installed,installed,False,True
+209,LoraLoader,2,W42-SDXL-0181 | experimental,disabled_lora_catalog_node,[],True,True,True,False,sdxl,experimental,experimental,installed,installed,False,True
+210,LoraLoader,2,W42-SDXL-0183 | experimental,disabled_lora_catalog_node,[],True,True,True,False,sdxl,experimental,experimental,installed,installed,False,True
+211,LoraLoader,2,W42-SDXL-0194 | experimental,disabled_lora_catalog_node,[],True,True,True,False,sdxl,experimental,experimental,installed,installed,False,True
+212,LoraLoader,2,W42-SDXL-0216 | experimental,disabled_lora_catalog_node,[],True,True,True,False,sdxl,experimental,experimental,installed,installed,False,True
+213,LoraLoader,2,W42-SDXL-0260 | experimental,disabled_lora_catalog_node,[],True,True,True,False,sdxl,experimental,experimental,installed,installed,False,True
+214,LoraLoader,2,W42-SDXL-0271 | experimental,disabled_lora_catalog_node,[],True,True,True,False,sdxl,experimental,experimental,installed,installed,False,True
+215,LoraLoader,2,W42-SDXL-0291 | experimental,disabled_lora_catalog_node,[],True,True,True,False,sdxl,experimental,experimental,installed,installed,False,True
+216,LoraLoader,2,W42-SDXL-0331 | experimental,disabled_lora_catalog_node,[],True,True,True,False,sdxl,experimental,experimental,rejected_or_superseded,disabled,False,True
+217,LoraLoader,2,W42-SDXL-0333 | experimental,disabled_lora_catalog_node,[],True,True,True,False,sdxl,experimental,experimental,rejected_or_superseded,disabled,False,True
+218,LoraLoader,2,W42-SDXL-0334 | experimental,disabled_lora_catalog_node,[],True,True,True,False,sdxl,experimental,experimental,rejected_or_superseded,disabled,False,True
+219,LoraLoader,2,W42-SDXL-0063 | face_expression,disabled_lora_catalog_node,[],True,True,True,False,sdxl,face_expression,face_detail,installed,installed,False,True
+220,LoraLoader,2,W42-SDXL-0250 | face_expression,disabled_lora_catalog_node,[],True,True,True,False,sdxl,face_expression,face_detail,installed,installed,False,True
+221,LoraLoader,2,W42-SDXL-0019 | hair,disabled_lora_catalog_node,[],True,True,True,False,sdxl,hair,character_identity,installed,installed,False,True
+222,LoraLoader,2,W42-SDXL-0049 | hair,disabled_lora_catalog_node,[],True,True,True,False,sdxl,hair,character_identity,installed,installed,False,True
+223,LoraLoader,2,W42-SDXL-0062 | hair,disabled_lora_catalog_node,[],True,True,True,False,sdxl,hair,character_identity,installed,installed,False,True
+224,LoraLoader,2,W42-SDXL-0144 | hair,disabled_lora_catalog_node,[],True,True,True,False,sdxl,hair,character_identity,installed,installed,False,True
+225,LoraLoader,2,W42-SDXL-0177 | hair,disabled_lora_catalog_node,[],True,True,True,False,sdxl,hair,character_identity,installed,installed,False,True
+226,LoraLoader,2,W42-SDXL-0204 | hair,disabled_lora_catalog_node,[],True,True,True,False,sdxl,hair,character_identity,installed,installed,False,True
+227,LoraLoader,2,W42-SDXL-0261 | hair,disabled_lora_catalog_node,[],True,True,True,False,sdxl,hair,character_identity,installed,installed,False,True
+228,LoraLoader,2,W42-SDXL-0262 | hair,disabled_lora_catalog_node,[],True,True,True,False,sdxl,hair,character_identity,installed,installed,False,True
+229,LoraLoader,2,W42-SDXL-0268 | hair,disabled_lora_catalog_node,[],True,True,True,False,sdxl,hair,character_identity,installed,installed,False,True
+230,LoraLoader,2,W42-SDXL-0301 | hair,disabled_lora_catalog_node,[],True,True,True,False,sdxl,hair,character_identity,installed,installed,False,True
+231,LoraLoader,2,W42-SDXL-0314 | hair,disabled_lora_catalog_node,[],True,True,True,False,sdxl,hair,character_identity,installed,installed,False,True
+232,LoraLoader,2,W42-SDXL-0318 | hair,disabled_lora_catalog_node,[],True,True,True,False,sdxl,hair,character_identity,installed,installed,False,True
+233,LoraLoader,2,W42-SDXL-0319 | hair,disabled_lora_catalog_node,[],True,True,True,False,sdxl,hair,character_identity,installed,installed,False,True
+234,LoraLoader,2,W42-SDXL-0321 | hair,disabled_lora_catalog_node,[],True,True,True,False,sdxl,hair,character_identity,installed,installed,False,True
+235,LoraLoader,2,W42-SDXL-0322 | hair,disabled_lora_catalog_node,[],True,True,True,False,sdxl,hair,character_identity,installed,installed,False,True
+236,LoraLoader,2,W42-SDXL-0324 | hair,disabled_lora_catalog_node,[],True,True,True,False,sdxl,hair,character_identity,rejected_or_superseded,disabled,False,True
+237,LoraLoader,2,W42-SDXL-0326 | hair,disabled_lora_catalog_node,[],True,True,True,False,sdxl,hair,character_identity,rejected_or_superseded,disabled,False,True
+238,LoraLoader,2,W42-SDXL-0330 | hair,disabled_lora_catalog_node,[],True,True,True,False,sdxl,hair,character_identity,rejected_or_superseded,disabled,False,True
+239,LoraLoader,2,W42-SDXL-0350 | hair,disabled_lora_catalog_node,[],True,True,True,False,sdxl,hair,character_identity,rejected_or_superseded,disabled,False,True
+240,LoraLoader,2,W42-SDXL-0353 | hair,disabled_lora_catalog_node,[],True,True,True,False,sdxl,hair,character_identity,rejected_or_superseded,disabled,False,True
+241,LoraLoader,2,W42-SDXL-0357 | hair,disabled_lora_catalog_node,[],True,True,True,False,sdxl,hair,character_identity,rejected_or_superseded,disabled,False,True
+242,LoraLoader,2,W42-SDXL-0015 | inpaint_detail,disabled_lora_catalog_node,[],True,True,True,False,sdxl,inpaint_detail,inpaint_detail,installed,installed,False,True
+243,LoraLoader,2,W42-SDXL-0004 | jewelry_accessories,disabled_lora_catalog_node,[],True,True,True,False,sdxl,jewelry_accessories,final_polish,installed,installed,False,True
+244,LoraLoader,2,W42-SDXL-0013 | jewelry_accessories,disabled_lora_catalog_node,[],True,True,True,False,sdxl,jewelry_accessories,final_polish,installed,installed,False,True
+245,LoraLoader,2,W42-SDXL-0071 | jewelry_accessories,disabled_lora_catalog_node,[],True,True,True,False,sdxl,jewelry_accessories,final_polish,installed,installed,False,True
+246,LoraLoader,2,W42-SDXL-0173 | jewelry_accessories,disabled_lora_catalog_node,[],True,True,True,False,sdxl,jewelry_accessories,final_polish,installed,installed,False,True
+247,LoraLoader,2,W42-SDXL-0185 | jewelry_accessories,disabled_lora_catalog_node,[],True,True,True,False,sdxl,jewelry_accessories,final_polish,installed,installed,False,True
+248,LoraLoader,2,W42-SDXL-0187 | jewelry_accessories,disabled_lora_catalog_node,[],True,True,True,False,sdxl,jewelry_accessories,final_polish,installed,installed,False,True
+249,LoraLoader,2,W42-SDXL-0255 | jewelry_accessories,disabled_lora_catalog_node,[],True,True,True,False,sdxl,jewelry_accessories,final_polish,installed,installed,False,True
+250,LoraLoader,2,W42-SDXL-0269 | jewelry_accessories,disabled_lora_catalog_node,[],True,True,True,False,sdxl,jewelry_accessories,final_polish,installed,installed,False,True
+251,LoraLoader,2,W42-SDXL-0294 | jewelry_accessories,disabled_lora_catalog_node,[],True,True,True,False,sdxl,jewelry_accessories,final_polish,installed,installed,False,True
+252,LoraLoader,2,W42-SDXL-0298 | jewelry_accessories,disabled_lora_catalog_node,[],True,True,True,False,sdxl,jewelry_accessories,final_polish,installed,installed,False,True
+253,LoraLoader,2,W42-SDXL-0313 | jewelry_accessories,disabled_lora_catalog_node,[],True,True,True,False,sdxl,jewelry_accessories,final_polish,installed,installed,False,True
+254,LoraLoader,2,W42-SDXL-0315 | jewelry_accessories,disabled_lora_catalog_node,[],True,True,True,False,sdxl,jewelry_accessories,final_polish,installed,installed,False,True
+255,LoraLoader,2,W42-SDXL-0323 | jewelry_accessories,disabled_lora_catalog_node,[],True,True,True,False,sdxl,jewelry_accessories,final_polish,rejected_or_superseded,disabled,False,True
+256,LoraLoader,2,W42-SDXL-0348 | jewelry_accessories,disabled_lora_catalog_node,[],True,True,True,False,sdxl,jewelry_accessories,final_polish,rejected_or_superseded,disabled,False,True
+257,LoraLoader,2,W42-SDXL-0351 | jewelry_accessories,disabled_lora_catalog_node,[],True,True,True,False,sdxl,jewelry_accessories,final_polish,rejected_or_superseded,disabled,False,True
+258,LoraLoader,2,W42-SDXL-0355 | jewelry_accessories,disabled_lora_catalog_node,[],True,True,True,False,sdxl,jewelry_accessories,final_polish,rejected_or_superseded,disabled,False,True
+259,LoraLoader,2,W42-SDXL-0073 | pose_camera | ACTIVE_COPY,disabled_lora_catalog_node,[],True,True,True,False,sdxl,pose_camera,pose_camera,installed,installed,True,True
+260,LoraLoader,2,W42-SDXL-0001 | realism_base,disabled_lora_catalog_node,[],True,True,True,False,sdxl,realism_base,global_base,installed,installed,False,True
+261,LoraLoader,2,W42-SDXL-0007 | realism_base,disabled_lora_catalog_node,[],True,True,True,False,sdxl,realism_base,global_base,installed,installed,False,True
+262,LoraLoader,2,W42-SDXL-0347 | realism_base,disabled_lora_catalog_node,[],True,True,True,False,sdxl,realism_base,global_base,rejected_or_superseded,disabled,False,True
+263,LoraLoader,2,W42-SDXL-0189 | skin_imperfections | ACTIVE_COPY,disabled_lora_catalog_node,[],True,True,True,False,sdxl,skin_imperfections,skin_detail,installed,installed,True,True
+264,LoraLoader,2,W42-SDXL-0293 | skin_texture | ACTIVE_COPY,disabled_lora_catalog_node,[],True,True,True,False,sdxl,skin_texture,skin_detail,installed,installed,True,True
+265,LoraLoader,2,W42-FLUX-0008 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,installed,installed,False,True
+266,LoraLoader,2,W42-FLUX-0009 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,installed,installed,False,True
+267,LoraLoader,2,W42-FLUX-0012 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,installed,installed,False,True
+268,LoraLoader,2,W42-FLUX-0029 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,installed,installed,False,True
+269,LoraLoader,2,W42-FLUX-0030 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,installed,installed,False,True
+270,LoraLoader,2,W42-FLUX-0035 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,installed,installed,False,True
+271,LoraLoader,2,W42-FLUX-0069 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,installed,installed,False,True
+272,LoraLoader,2,W42-FLUX-0164 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,path_verified,path_verified,False,True
+273,LoraLoader,2,W42-FLUX-0168 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,path_verified,path_verified,False,True
+274,LoraLoader,2,W42-FLUX-0169 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,path_verified,path_verified,False,True
+275,LoraLoader,2,W42-FLUX-0170 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,path_verified,path_verified,False,True
+276,LoraLoader,2,W42-FLUX-0179 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,path_verified,path_verified,False,True
+277,LoraLoader,2,W42-FLUX-0199 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,path_verified,path_verified,False,True
+278,LoraLoader,2,W42-FLUX-0219 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,path_verified,path_verified,False,True
+279,LoraLoader,2,W42-FLUX-0222 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,path_verified,path_verified,False,True
+280,LoraLoader,2,W42-FLUX-0223 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,path_verified,path_verified,False,True
+281,LoraLoader,2,W42-FLUX-0224 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,path_verified,path_verified,False,True
+282,LoraLoader,2,W42-FLUX-0227 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,path_verified,path_verified,False,True
+283,LoraLoader,2,W42-FLUX-0232 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,path_verified,path_verified,False,True
+284,LoraLoader,2,W42-FLUX-0237 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,path_verified,path_verified,False,True
+285,LoraLoader,2,W42-FLUX-0241 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,path_verified,path_verified,False,True
+286,LoraLoader,2,W42-FLUX-0242 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,path_verified,path_verified,False,True
+287,LoraLoader,2,W42-FLUX-0263 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,path_verified,path_verified,False,True
+288,LoraLoader,2,W42-FLUX-0280 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,path_verified,path_verified,False,True
+289,LoraLoader,2,W42-FLUX-0290 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,path_verified,path_verified,False,True
+290,LoraLoader,2,W42-FLUX-0296 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,path_verified,path_verified,False,True
+291,LoraLoader,2,W42-FLUX-0327 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,rejected_or_superseded,disabled,False,True
+292,LoraLoader,2,W42-FLUX-0345 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,rejected_or_superseded,disabled,False,True
+293,LoraLoader,2,W42-FLUX-0349 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,rejected_or_superseded,disabled,False,True
+294,LoraLoader,2,W42-FLUX-0359 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,rejected_or_superseded,disabled,False,True
+295,LoraLoader,2,W42-FLUX-0360 | adult,disabled_lora_catalog_node,[],True,True,True,False,flux,adult,adult_act,rejected_or_superseded,disabled,False,True
+296,LoraLoader,2,W42-FLUX-0002 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,installed,installed,False,True
+297,LoraLoader,2,W42-FLUX-0011 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,installed,installed,False,True
+298,LoraLoader,2,W42-FLUX-0014 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,installed,installed,False,True
+299,LoraLoader,2,W42-FLUX-0016 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,installed,installed,False,True
+300,LoraLoader,2,W42-FLUX-0020 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,installed,installed,False,True
+301,LoraLoader,2,W42-FLUX-0022 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,installed,installed,False,True
+302,LoraLoader,2,W42-FLUX-0025 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,installed,installed,False,True
+303,LoraLoader,2,W42-FLUX-0026 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,installed,installed,False,True
+304,LoraLoader,2,W42-FLUX-0036 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,installed,installed,False,True
+305,LoraLoader,2,W42-FLUX-0038 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,installed,installed,False,True
+306,LoraLoader,2,W42-FLUX-0039 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,installed,installed,False,True
+307,LoraLoader,2,W42-FLUX-0040 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,installed,installed,False,True
+308,LoraLoader,2,W42-FLUX-0042 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,installed,installed,False,True
+309,LoraLoader,2,W42-FLUX-0044 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,installed,installed,False,True
+310,LoraLoader,2,W42-FLUX-0045 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,installed,installed,False,True
+311,LoraLoader,2,W42-FLUX-0053 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,installed,installed,False,True
+312,LoraLoader,2,W42-FLUX-0150 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,path_verified,path_verified,False,True
+313,LoraLoader,2,W42-FLUX-0151 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,path_verified,path_verified,False,True
+314,LoraLoader,2,W42-FLUX-0156 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,path_verified,path_verified,False,True
+315,LoraLoader,2,W42-FLUX-0172 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,path_verified,path_verified,False,True
+316,LoraLoader,2,W42-FLUX-0180 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,path_verified,path_verified,False,True
+317,LoraLoader,2,W42-FLUX-0192 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,path_verified,path_verified,False,True
+318,LoraLoader,2,W42-FLUX-0198 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,path_verified,path_verified,False,True
+319,LoraLoader,2,W42-FLUX-0217 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,path_verified,path_verified,False,True
+320,LoraLoader,2,W42-FLUX-0233 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,path_verified,path_verified,False,True
+321,LoraLoader,2,W42-FLUX-0239 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,path_verified,path_verified,False,True
+322,LoraLoader,2,W42-FLUX-0253 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,path_verified,path_verified,False,True
+323,LoraLoader,2,W42-FLUX-0274 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,path_verified,path_verified,False,True
+324,LoraLoader,2,W42-FLUX-0275 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,path_verified,path_verified,False,True
+325,LoraLoader,2,W42-FLUX-0279 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,path_verified,path_verified,False,True
+326,LoraLoader,2,W42-FLUX-0308 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,rejected_or_superseded,disabled,False,True
+327,LoraLoader,2,W42-FLUX-0325 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,rejected_or_superseded,disabled,False,True
+328,LoraLoader,2,W42-FLUX-0328 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,rejected_or_superseded,disabled,False,True
+329,LoraLoader,2,W42-FLUX-0329 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,rejected_or_superseded,disabled,False,True
+330,LoraLoader,2,W42-FLUX-0343 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,rejected_or_superseded,disabled,False,True
+331,LoraLoader,2,W42-FLUX-0344 | body,disabled_lora_catalog_node,[],True,True,True,False,flux,body,body_shape,rejected_or_superseded,disabled,False,True
+332,LoraLoader,2,W42-FLUX-0229 | character,disabled_lora_catalog_node,[],True,True,True,False,flux,character,character_identity,path_verified,path_verified,False,True
+333,LoraLoader,2,W42-FLUX-0006 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,installed,installed,False,True
+334,LoraLoader,2,W42-FLUX-0046 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,installed,installed,False,True
+335,LoraLoader,2,W42-FLUX-0051 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,installed,installed,False,True
+336,LoraLoader,2,W42-FLUX-0056 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,installed,installed,False,True
+337,LoraLoader,2,W42-FLUX-0057 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,installed,installed,False,True
+338,LoraLoader,2,W42-FLUX-0064 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,installed,installed,False,True
+339,LoraLoader,2,W42-FLUX-0065 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,installed,installed,False,True
+340,LoraLoader,2,W42-FLUX-0074 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,installed,installed,False,True
+341,LoraLoader,2,W42-FLUX-0139 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+342,LoraLoader,2,W42-FLUX-0141 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+343,LoraLoader,2,W42-FLUX-0142 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+344,LoraLoader,2,W42-FLUX-0145 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+345,LoraLoader,2,W42-FLUX-0153 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+346,LoraLoader,2,W42-FLUX-0158 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+347,LoraLoader,2,W42-FLUX-0163 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+348,LoraLoader,2,W42-FLUX-0167 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+349,LoraLoader,2,W42-FLUX-0176 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+350,LoraLoader,2,W42-FLUX-0196 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+351,LoraLoader,2,W42-FLUX-0197 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+352,LoraLoader,2,W42-FLUX-0202 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+353,LoraLoader,2,W42-FLUX-0207 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+354,LoraLoader,2,W42-FLUX-0210 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+355,LoraLoader,2,W42-FLUX-0220 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+356,LoraLoader,2,W42-FLUX-0235 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+357,LoraLoader,2,W42-FLUX-0247 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+358,LoraLoader,2,W42-FLUX-0249 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+359,LoraLoader,2,W42-FLUX-0256 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+360,LoraLoader,2,W42-FLUX-0259 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+361,LoraLoader,2,W42-FLUX-0267 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+362,LoraLoader,2,W42-FLUX-0272 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+363,LoraLoader,2,W42-FLUX-0273 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+364,LoraLoader,2,W42-FLUX-0284 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+365,LoraLoader,2,W42-FLUX-0285 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+366,LoraLoader,2,W42-FLUX-0286 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+367,LoraLoader,2,W42-FLUX-0287 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+368,LoraLoader,2,W42-FLUX-0292 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,path_verified,path_verified,False,True
+369,LoraLoader,2,W42-FLUX-0302 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,rejected_or_superseded,disabled,False,True
+370,LoraLoader,2,W42-FLUX-0310 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,rejected_or_superseded,disabled,False,True
+371,LoraLoader,2,W42-FLUX-0311 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,rejected_or_superseded,disabled,False,True
+372,LoraLoader,2,W42-FLUX-0335 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,rejected_or_superseded,disabled,False,True
+373,LoraLoader,2,W42-FLUX-0342 | experimental,disabled_lora_catalog_node,[],True,True,True,False,flux,experimental,experimental,rejected_or_superseded,disabled,False,True
+374,LoraLoader,2,W42-FLUX-0171 | lighting,disabled_lora_catalog_node,[],True,True,True,False,flux,lighting,lighting_grade,path_verified,path_verified,False,True
+375,LoraLoader,2,W42-FLUX-0188 | lighting,disabled_lora_catalog_node,[],True,True,True,False,flux,lighting,lighting_grade,path_verified,path_verified,False,True
+376,LoraLoader,2,W42-FLUX-0201 | lighting,disabled_lora_catalog_node,[],True,True,True,False,flux,lighting,lighting_grade,path_verified,path_verified,False,True
+377,LoraLoader,2,W42-FLUX-0212 | lighting,disabled_lora_catalog_node,[],True,True,True,False,flux,lighting,lighting_grade,path_verified,path_verified,False,True
+378,LoraLoader,2,W42-FLUX-0037 | skin,disabled_lora_catalog_node,[],True,True,True,False,flux,skin,skin_detail,installed,installed,False,True
+379,LoraLoader,2,W42-FLUX-0067 | skin,disabled_lora_catalog_node,[],True,True,True,False,flux,skin,skin_detail,installed,installed,False,True
+380,LoraLoader,2,W42-FLUX-0152 | skin,disabled_lora_catalog_node,[],True,True,True,False,flux,skin,skin_detail,path_verified,path_verified,False,True
+381,LoraLoader,2,W42-FLUX-0184 | skin,disabled_lora_catalog_node,[],True,True,True,False,flux,skin,skin_detail,path_verified,path_verified,False,True
+382,LoraLoader,2,W42-FLUX-0221 | skin,disabled_lora_catalog_node,[],True,True,True,False,flux,skin,skin_detail,path_verified,path_verified,False,True
+383,LoraLoader,2,W42-FLUX-0228 | skin,disabled_lora_catalog_node,[],True,True,True,False,flux,skin,skin_detail,path_verified,path_verified,False,True
+384,LoraLoader,2,W42-FLUX-0234 | skin,disabled_lora_catalog_node,[],True,True,True,False,flux,skin,skin_detail,path_verified,path_verified,False,True
+385,LoraLoader,2,W42-FLUX-0257 | skin,disabled_lora_catalog_node,[],True,True,True,False,flux,skin,skin_detail,path_verified,path_verified,False,True
+386,LoraLoader,2,W42-FLUX-0270 | skin,disabled_lora_catalog_node,[],True,True,True,False,flux,skin,skin_detail,path_verified,path_verified,False,True
+387,LoraLoader,2,W42-FLUX-0282 | skin,disabled_lora_catalog_node,[],True,True,True,False,flux,skin,skin_detail,path_verified,path_verified,False,True
+388,LoraLoader,2,W42-FLUX-0010 | style,disabled_lora_catalog_node,[],True,True,True,False,flux,style,environment_style,installed,installed,False,True
+389,LoraLoader,2,W42-FLUX-0182 | style,disabled_lora_catalog_node,[],True,True,True,False,flux,style,environment_style,path_verified,path_verified,False,True
+390,LoraLoader,2,W42-PONY-0055 | adult_acts,disabled_lora_catalog_node,[],True,True,True,False,pony,adult_acts,adult_act,installed,installed,False,True
+391,LoraLoader,2,W42-PONY-0155 | adult_body_parts,disabled_lora_catalog_node,[],True,True,True,False,pony,adult_body_parts,adult_body_part,path_verified,path_verified,False,True
+392,LoraLoader,2,W42-PONY-0068 | general,disabled_lora_catalog_node,[],True,True,True,False,pony,general,experimental,installed,installed,False,True
+393,LoraLoader,2,W42-SD15-0281 | adult,disabled_lora_catalog_node,[],True,True,True,False,sd15,adult,adult_act,path_verified,path_verified,False,True
+394,LoraLoader,2,W42-SD15-0214 | clothing,disabled_lora_catalog_node,[],True,True,True,False,sd15,clothing,clothing_fabric,path_verified,path_verified,False,True
+395,LoraLoader,2,W42-SD15-0289 | detail,disabled_lora_catalog_node,[],True,True,True,False,sd15,detail,inpaint_detail,path_verified,path_verified,False,True
+396,LoraLoader,2,W42-UNKNOWN-0300 | adult_review,disabled_lora_catalog_node,[],True,True,True,False,disabled_review,adult_review,adult_act,rejected_or_superseded,disabled,False,True
+397,LoraLoader,2,W42-UNKNOWN-0306 | adult_review,disabled_lora_catalog_node,[],True,True,True,False,disabled_review,adult_review,adult_act,rejected_or_superseded,disabled,False,True
+398,LoraLoader,2,W42-UNKNOWN-0048 | engine_mismatch,disabled_lora_catalog_node,[],True,True,True,False,disabled_review,engine_mismatch,experimental,disabled_review,installed,False,True
+399,LoraLoader,2,W42-UNKNOWN-0231 | engine_mismatch,disabled_lora_catalog_node,[],True,True,True,False,disabled_review,engine_mismatch,experimental,disabled_review,path_verified,False,True
+400,LoraLoader,2,W42-UNKNOWN-0066 | inpaint_detail,disabled_lora_catalog_node,[],True,True,True,False,disabled_review,inpaint_detail,inpaint_detail,disabled_review,installed,False,True
+401,LoraLoader,2,W42-UNKNOWN-0205 | inpaint_detail,disabled_lora_catalog_node,[],True,True,True,False,disabled_review,inpaint_detail,inpaint_detail,disabled_review,path_verified,False,True
+402,LoraLoader,2,W42-UNKNOWN-0218 | inpaint_detail,disabled_lora_catalog_node,[],True,True,True,False,disabled_review,inpaint_detail,inpaint_detail,disabled_review,path_verified,False,True
+403,LoraLoader,2,W42-UNKNOWN-0252 | inpaint_detail,disabled_lora_catalog_node,[],True,True,True,False,disabled_review,inpaint_detail,inpaint_detail,disabled_review,path_verified,False,True
+404,LoraLoader,2,W42-UNKNOWN-0288 | sd15_candidate,disabled_lora_catalog_node,[],True,True,True,False,disabled_review,sd15_candidate,experimental,disabled_review,path_verified,False,True
+405,LoraLoader,2,W42-UNKNOWN-0312 | sd15_candidate,disabled_lora_catalog_node,[],True,True,True,False,disabled_review,sd15_candidate,experimental,rejected_or_superseded,disabled,False,True
+406,LoraLoader,2,W42-UNKNOWN-0018 | unclassified,disabled_lora_catalog_node,[],True,True,True,False,disabled_review,unclassified,experimental,disabled_review,installed,False,True
+407,LoraLoader,2,W42-UNKNOWN-0047 | unclassified,disabled_lora_catalog_node,[],True,True,True,False,disabled_review,unclassified,experimental,disabled_review,installed,False,True
+408,LoraLoader,2,W42-UNKNOWN-0203 | unclassified,disabled_lora_catalog_node,[],True,True,True,False,disabled_review,unclassified,experimental,disabled_review,path_verified,False,True
+409,LoraLoader,2,W42-UNKNOWN-0213 | unclassified,disabled_lora_catalog_node,[],True,True,True,False,disabled_review,unclassified,experimental,disabled_review,path_verified,False,True
+410,LoraLoader,2,W42-UNKNOWN-0264 | unclassified,disabled_lora_catalog_node,[],True,True,True,False,disabled_review,unclassified,experimental,disabled_review,path_verified,False,True
+411,Lora Loader Stack (rgthree),0,,active_stack_node,"[""Main_Flow/SDXL_RealVisXL_LoRA"", ""Main_Flow/SDXL_RealVisXL_LoRA_Upscaled"", ""Main_Flow/SDXL_Inpaint_Detail"", ""Main_Flow/Flux_to_SDXL_Refine"", ""Main_Flow/ControlNet_Canny_Edge""]",True,True,False,True,,,,,,,

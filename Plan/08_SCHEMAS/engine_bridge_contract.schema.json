@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": true,
+  "title": "Wave16 Engine Bridge Contract",
+  "required": [
+    "bridge_id",
+    "source_engine",
+    "target_engine",
+    "allowed_transfer_objects",
+    "forbidden_transfer_objects"
+  ],
+  "properties": {
+    "bridge_id": {
+      "type": "string"
+    },
+    "source_engine": {
+      "type": "string"
+    },
+    "target_engine": {
+      "type": "string"
+    },
+    "allowed_transfer_objects": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "forbidden_transfer_objects": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

@@ -1,0 +1,319 @@
+[
+  {
+    "lane_id": "sdxl_realvisxl_lora",
+    "save_node_id": 19,
+    "save_prefix": "Main_Flow/SDXL_RealVisXL_LoRA",
+    "stage": "base_or_primary",
+    "upstream_node_count": 8,
+    "sampler_count": 1,
+    "samplers": [
+      {
+        "id": 17,
+        "widgets": [
+          300300300,
+          "fixed",
+          40,
+          6.5,
+          "dpmpp_2m_sde",
+          "karras",
+          1
+        ]
+      }
+    ],
+    "loader_summary": [
+      [
+        "CheckpointLoaderSimple",
+        "flux1-dev-fp8.safetensors"
+      ],
+      [
+        "Lora Loader Stack (rgthree)",
+        "adult_body_parts/areola/huge_areola-000008.safetensors"
+      ]
+    ],
+    "issues_or_required_fixes": [
+      "lane_name_mentions_sdxl_or_realvisxl_but_checkpoint_widget_contains_flux",
+      "active_lora_stack_contains_flux_path; verify_engine_compatibility_before_runtime"
+    ],
+    "promotion_status_wave04": "deconstruct_only_not_promoted"
+  },
+  {
+    "lane_id": "flux_family_zimage",
+    "save_node_id": 39,
+    "save_prefix": "Main_Flow/Flux_Family_ZImage",
+    "stage": "base_z_image",
+    "upstream_node_count": 10,
+    "sampler_count": 1,
+    "samplers": [
+      {
+        "id": 36,
+        "widgets": [
+          42043,
+          "fixed",
+          8,
+          1,
+          "res_multistep",
+          "simple",
+          1
+        ]
+      }
+    ],
+    "loader_summary": [
+      [
+        "VAELoader",
+        "ae.safetensors"
+      ],
+      [
+        "UNETLoader",
+        "z_image_turbo_bf16.safetensors"
+      ]
+    ],
+    "issues_or_required_fixes": [],
+    "promotion_status_wave04": "deconstruct_only_not_promoted"
+  },
+  {
+    "lane_id": "sdxl_realvisxl_lora_upscaled",
+    "save_node_id": 62,
+    "save_prefix": "Main_Flow/SDXL_RealVisXL_LoRA_Upscaled",
+    "stage": "upscale",
+    "upstream_node_count": 10,
+    "sampler_count": 1,
+    "samplers": [
+      {
+        "id": 17,
+        "widgets": [
+          300300300,
+          "fixed",
+          40,
+          6.5,
+          "dpmpp_2m_sde",
+          "karras",
+          1
+        ]
+      }
+    ],
+    "loader_summary": [
+      [
+        "CheckpointLoaderSimple",
+        "flux1-dev-fp8.safetensors"
+      ],
+      [
+        "Lora Loader Stack (rgthree)",
+        "adult_body_parts/areola/huge_areola-000008.safetensors"
+      ],
+      [
+        "UpscaleModelLoader",
+        "RealESRGAN_x4plus.pth"
+      ]
+    ],
+    "issues_or_required_fixes": [
+      "lane_name_mentions_sdxl_or_realvisxl_but_checkpoint_widget_contains_flux",
+      "active_lora_stack_contains_flux_path; verify_engine_compatibility_before_runtime"
+    ],
+    "promotion_status_wave04": "deconstruct_only_not_promoted"
+  },
+  {
+    "lane_id": "sdxl_inpaint_detail",
+    "save_node_id": 87,
+    "save_prefix": "Main_Flow/SDXL_Inpaint_Detail",
+    "stage": "masked_detail_staged",
+    "upstream_node_count": 10,
+    "sampler_count": 1,
+    "samplers": [
+      {
+        "id": 85,
+        "widgets": [
+          210422,
+          "fixed",
+          14,
+          5,
+          "euler",
+          "normal",
+          0.28
+        ]
+      }
+    ],
+    "loader_summary": [
+      [
+        "CheckpointLoaderSimple",
+        "flux1-dev-fp8.safetensors"
+      ],
+      [
+        "Lora Loader Stack (rgthree)",
+        "adult_body_parts/areola/huge_areola-000008.safetensors"
+      ]
+    ],
+    "issues_or_required_fixes": [
+      "lane_name_mentions_sdxl_or_realvisxl_but_checkpoint_widget_contains_flux",
+      "uses_fixed_LoadImage_and_LoadImageMask; must become pass-planner-fed image_and_mask_inputs",
+      "active_lora_stack_contains_flux_path; verify_engine_compatibility_before_runtime"
+    ],
+    "promotion_status_wave04": "deconstruct_only_not_promoted"
+  },
+  {
+    "lane_id": "flux_to_sdxl_refine",
+    "save_node_id": 95,
+    "save_prefix": "Main_Flow/Flux_to_SDXL_Refine",
+    "stage": "bridge_refine",
+    "upstream_node_count": 17,
+    "sampler_count": 2,
+    "samplers": [
+      {
+        "id": 36,
+        "widgets": [
+          42043,
+          "fixed",
+          8,
+          1,
+          "res_multistep",
+          "simple",
+          1
+        ]
+      },
+      {
+        "id": 93,
+        "widgets": [
+          210421,
+          "fixed",
+          10,
+          5,
+          "euler",
+          "normal",
+          0.22
+        ]
+      }
+    ],
+    "loader_summary": [
+      [
+        "VAELoader",
+        "ae.safetensors"
+      ],
+      [
+        "CheckpointLoaderSimple",
+        "flux1-dev-fp8.safetensors"
+      ],
+      [
+        "UNETLoader",
+        "z_image_turbo_bf16.safetensors"
+      ],
+      [
+        "Lora Loader Stack (rgthree)",
+        "adult_body_parts/areola/huge_areola-000008.safetensors"
+      ]
+    ],
+    "issues_or_required_fixes": [
+      "lane_name_mentions_sdxl_or_realvisxl_but_checkpoint_widget_contains_flux",
+      "lane_name_says_flux_to_sdxl_but_upstream_source_is_z_image_lane",
+      "active_lora_stack_contains_flux_path; verify_engine_compatibility_before_runtime"
+    ],
+    "promotion_status_wave04": "deconstruct_only_not_promoted"
+  },
+  {
+    "lane_id": "true_flux_schnell_reference_smoke",
+    "save_node_id": 107,
+    "save_prefix": "Main_Flow/True_Flux_Schnell_Reference_Smoke",
+    "stage": "smoke_test",
+    "upstream_node_count": 8,
+    "sampler_count": 1,
+    "samplers": [
+      {
+        "id": 105,
+        "widgets": [
+          200420,
+          "fixed",
+          4,
+          1,
+          "euler",
+          "simple",
+          1
+        ]
+      }
+    ],
+    "loader_summary": [
+      [
+        "CheckpointLoaderSimple",
+        "flux1-schnell-fp8.safetensors"
+      ]
+    ],
+    "issues_or_required_fixes": [
+      "smoke_test_not_production_base_lane"
+    ],
+    "promotion_status_wave04": "deconstruct_only_not_promoted"
+  },
+  {
+    "lane_id": "controlnet_canny_edge",
+    "save_node_id": 128,
+    "save_prefix": "Main_Flow/ControlNet_Canny_Edge",
+    "stage": "control_reference_staged",
+    "upstream_node_count": 11,
+    "sampler_count": 1,
+    "samplers": [
+      {
+        "id": 126,
+        "widgets": [
+          707707,
+          "fixed",
+          20,
+          5.5,
+          "dpmpp_2m_sde",
+          "karras",
+          1
+        ]
+      }
+    ],
+    "loader_summary": [
+      [
+        "CheckpointLoaderSimple",
+        "flux1-dev-fp8.safetensors"
+      ],
+      [
+        "Lora Loader Stack (rgthree)",
+        "adult_body_parts/areola/huge_areola-000008.safetensors"
+      ],
+      [
+        "ControlNetLoader",
+        "controlnet-canny-sdxl-1.0-small.safetensors"
+      ]
+    ],
+    "issues_or_required_fixes": [
+      "uses_static_control_image; future module must include preprocessor_and_control_map_manifest",
+      "active_lora_stack_contains_flux_path; verify_engine_compatibility_before_runtime"
+    ],
+    "promotion_status_wave04": "deconstruct_only_not_promoted"
+  },
+  {
+    "lane_id": "ipadapter_face_reference",
+    "save_node_id": 118,
+    "save_prefix": "Main_Flow/IPAdapter_Face_Reference",
+    "stage": "identity_reference_staged",
+    "upstream_node_count": 10,
+    "sampler_count": 1,
+    "samplers": [
+      {
+        "id": 116,
+        "widgets": [
+          626262,
+          "fixed",
+          8,
+          5,
+          "euler",
+          "normal",
+          1
+        ]
+      }
+    ],
+    "loader_summary": [
+      [
+        "CheckpointLoaderSimple",
+        "flux1-dev-fp8.safetensors"
+      ],
+      [
+        "IPAdapterUnifiedLoader",
+        "PLUS FACE (portraits)"
+      ]
+    ],
+    "issues_or_required_fixes": [
+      "standalone_identity_smoke; future module requires per-character_masked_identity_routing"
+    ],
+    "promotion_status_wave04": "deconstruct_only_not_promoted"
+  }
+]

@@ -1,0 +1,68 @@
+{
+  "version": "wave17",
+  "score_bands": {
+    "pass": 0.86,
+    "review": 0.72,
+    "fail_below": 0.72
+  },
+  "metrics": [
+    {
+      "metric_id": "identity_preservation",
+      "weight": 0.16,
+      "description": "Face, hairline, body identity, and character registry match remain stable."
+    },
+    {
+      "metric_id": "pose_preservation",
+      "weight": 0.12,
+      "description": "Skeleton, shoulders, pelvis, knees, and stance preserve intended action/blocking."
+    },
+    {
+      "metric_id": "character_count_integrity",
+      "weight": 0.1,
+      "description": "No extra/missing people or merged body fragments."
+    },
+    {
+      "metric_id": "target_region_improvement",
+      "weight": 0.16,
+      "description": "Requested stomach/waist/hips/thigh/silhouette target improved."
+    },
+    {
+      "metric_id": "body_ratio_plausibility",
+      "weight": 0.12,
+      "description": "Body proportions are anatomically plausible for the selected profile."
+    },
+    {
+      "metric_id": "left_right_balance",
+      "weight": 0.08,
+      "description": "Paired regions remain balanced unless asymmetry is intentional."
+    },
+    {
+      "metric_id": "mask_edge_blend",
+      "weight": 0.08,
+      "description": "No visible seams, hard mask boundaries, or warped borders."
+    },
+    {
+      "metric_id": "skin_texture_continuity",
+      "weight": 0.07,
+      "description": "Skin texture continuity survives the shape correction."
+    },
+    {
+      "metric_id": "clothing_surface_continuity",
+      "weight": 0.07,
+      "description": "Clothing follows the corrected body shape without tearing or floating."
+    },
+    {
+      "metric_id": "crop_and_frame_preservation",
+      "weight": 0.04,
+      "description": "Corrected region remains inside frame with safe margins."
+    }
+  ],
+  "automatic_fail_flags": [
+    "face_identity_changed",
+    "merged_body_detected",
+    "extra_limb_or_body_fragment_created",
+    "requested_character_missing",
+    "mask_owner_mismatch",
+    "full_image_redraw_used_for_body_correction"
+  ]
+}

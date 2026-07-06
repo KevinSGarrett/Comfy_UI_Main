@@ -1,0 +1,174 @@
+{
+  "contract_id": "mask_contract_wave13_example_request_001",
+  "scene_id": "scene_plan_example_001",
+  "character_count_expected": 2,
+  "mask_factory_mode": "runtime_plan",
+  "required_mask_scales": [
+    "macro",
+    "major",
+    "minor"
+  ],
+  "person_instances": [
+    {
+      "person_instance_id": "person_001",
+      "character_id": "character_001",
+      "required_masks": [
+        "whole_person",
+        "face",
+        "hair",
+        "body_outline_edge"
+      ]
+    },
+    {
+      "person_instance_id": "person_002",
+      "character_id": "character_002",
+      "required_masks": [
+        "whole_person",
+        "face",
+        "hair",
+        "body_outline_edge"
+      ]
+    }
+  ],
+  "requested_mask_types": [
+    "person_instance",
+    "face",
+    "hair",
+    "hands",
+    "fabric_major",
+    "contact_edges"
+  ],
+  "mask_layers": [
+    {
+      "mask_id": "person_001__whole_person",
+      "scale": "major",
+      "target_type": "person_instance",
+      "person_instance_id": "person_001",
+      "source": "planned",
+      "required_evidence": [
+        "mask_png_path",
+        "bbox_normalized",
+        "coverage_percent"
+      ]
+    },
+    {
+      "mask_id": "person_001__face",
+      "scale": "minor",
+      "target_type": "body_part",
+      "person_instance_id": "person_001",
+      "body_region_id": "face",
+      "source": "planned",
+      "required_evidence": [
+        "mask_png_path",
+        "edge_quality_score"
+      ]
+    },
+    {
+      "mask_id": "person_001__hair",
+      "scale": "minor",
+      "target_type": "body_part",
+      "person_instance_id": "person_001",
+      "body_region_id": "hair",
+      "source": "planned",
+      "required_evidence": [
+        "mask_png_path",
+        "edge_quality_score"
+      ]
+    },
+    {
+      "mask_id": "person_001__body_outline_edge",
+      "scale": "nano",
+      "target_type": "body_part",
+      "person_instance_id": "person_001",
+      "body_region_id": "body_outline_edge",
+      "source": "planned",
+      "required_evidence": [
+        "mask_png_path",
+        "edge_quality_score"
+      ]
+    },
+    {
+      "mask_id": "person_002__whole_person",
+      "scale": "major",
+      "target_type": "person_instance",
+      "person_instance_id": "person_002",
+      "source": "planned",
+      "required_evidence": [
+        "mask_png_path",
+        "bbox_normalized",
+        "coverage_percent"
+      ]
+    },
+    {
+      "mask_id": "person_002__face",
+      "scale": "minor",
+      "target_type": "body_part",
+      "person_instance_id": "person_002",
+      "body_region_id": "face",
+      "source": "planned",
+      "required_evidence": [
+        "mask_png_path",
+        "edge_quality_score"
+      ]
+    },
+    {
+      "mask_id": "person_002__hair",
+      "scale": "minor",
+      "target_type": "body_part",
+      "person_instance_id": "person_002",
+      "body_region_id": "hair",
+      "source": "planned",
+      "required_evidence": [
+        "mask_png_path",
+        "edge_quality_score"
+      ]
+    },
+    {
+      "mask_id": "person_002__body_outline_edge",
+      "scale": "nano",
+      "target_type": "body_part",
+      "person_instance_id": "person_002",
+      "body_region_id": "body_outline_edge",
+      "source": "planned",
+      "required_evidence": [
+        "mask_png_path",
+        "edge_quality_score"
+      ]
+    }
+  ],
+  "fabric_masks": [
+    {
+      "mask_id": "fabric_001",
+      "scale": "major",
+      "fabric_region_id": "full_garment",
+      "source": "planned",
+      "required_evidence": [
+        "mask_png_path",
+        "outfit_lock_status"
+      ]
+    }
+  ],
+  "contact_masks": [
+    {
+      "mask_id": "contact_001",
+      "scale": "minor",
+      "contact_type": "person_person_boundary",
+      "participants": [
+        "person_001",
+        "person_002"
+      ],
+      "source": "planned",
+      "required_evidence": [
+        "mask_png_path",
+        "occlusion_order",
+        "edge_quality_score"
+      ]
+    }
+  ],
+  "promotion_gates": [
+    "mask_contract_valid",
+    "runtime_masks_generated",
+    "mask_evidence_scored",
+    "qa_passed"
+  ]
+}

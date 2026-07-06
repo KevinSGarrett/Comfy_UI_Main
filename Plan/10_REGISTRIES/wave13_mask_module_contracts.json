@@ -1,0 +1,139 @@
+{
+  "generated_at_utc": "2026-07-05T23:59:00Z",
+  "modules": [
+    {
+      "module_id": "mask_module_person_instance_detector",
+      "purpose": "Detect and isolate each visible person as an independent instance.",
+      "inputs": [
+        "source_image",
+        "expected_character_count",
+        "camera_plan"
+      ],
+      "outputs": [
+        "person_instance_masks",
+        "person_bboxes",
+        "occlusion_order_guess"
+      ],
+      "required_runtime_evidence": [
+        "mask_pngs",
+        "bbox_json",
+        "count_match_report"
+      ],
+      "promotion_blockers": [
+        "missing_person_instance",
+        "merged_people",
+        "unassigned_body_fragment"
+      ]
+    },
+    {
+      "module_id": "mask_module_body_part_parser",
+      "purpose": "Derive body-region masks from each person instance.",
+      "inputs": [
+        "source_image",
+        "person_instance_masks",
+        "pose_skeletons"
+      ],
+      "outputs": [
+        "body_part_masks",
+        "body_part_owner_map"
+      ],
+      "required_runtime_evidence": [
+        "body_part_mask_pngs",
+        "owner_map_json"
+      ],
+      "promotion_blockers": [
+        "body_part_without_person_owner",
+        "left_right_swap_unresolved"
+      ]
+    },
+    {
+      "module_id": "mask_module_face_hair_identity_protector",
+      "purpose": "Protect identity-critical face and hair regions before detail passes.",
+      "inputs": [
+        "source_image",
+        "person_instance_masks",
+        "character_bible"
+      ],
+      "outputs": [
+        "face_masks",
+        "hair_masks",
+        "identity_protection_regions"
+      ],
+      "required_runtime_evidence": [
+        "face_mask_pngs",
+        "hair_mask_pngs",
+        "identity_lock_report"
+      ],
+      "promotion_blockers": [
+        "identity_region_missing",
+        "face_mask_bleeds_to_neighbor"
+      ]
+    },
+    {
+      "module_id": "mask_module_fabric_material_parser",
+      "purpose": "Separate garments, panels, folds, seams, and material texture patches.",
+      "inputs": [
+        "source_image",
+        "person_instance_masks",
+        "outfit_profile"
+      ],
+      "outputs": [
+        "fabric_masks",
+        "garment_owner_map",
+        "material_region_map"
+      ],
+      "required_runtime_evidence": [
+        "fabric_mask_pngs",
+        "garment_owner_json"
+      ],
+      "promotion_blockers": [
+        "fabric_mask_changes_locked_outfit",
+        "fabric_bleeds_to_skin_region"
+      ]
+    },
+    {
+      "module_id": "mask_module_contact_occlusion_detector",
+      "purpose": "Find contact boundaries, occlusion order, and contact-shadow candidates.",
+      "inputs": [
+        "source_image",
+        "person_instance_masks",
+        "prop_masks",
+        "pose_plan"
+      ],
+      "outputs": [
+        "contact_masks",
+        "occlusion_graph",
+        "contact_shadow_targets"
+      ],
+      "required_runtime_evidence": [
+        "contact_mask_pngs",
+        "occlusion_graph_json",
+        "before_after_crops"
+      ],
+      "promotion_blockers": [
+        "missing_contact_for_declared_touch",
+        "impossible_occlusion_order"
+      ]
+    },
+    {
+      "module_id": "mask_module_edge_halo_cleanup",
+      "purpose": "Create nano masks for halo seams, cutout artifacts, and small edge repairs.",
+      "inputs": [
+        "source_image",
+        "prior_masks",
+        "qa_artifact_report"
+      ],
+      "outputs": [
+        "nano_cleanup_masks"
+      ],
+      "required_runtime_evidence": [
+        "nano_mask_pngs",
+        "before_after_crop_pairs"
+      ],
+      "promotion_blockers": [
+        "nano_mask_area_too_large",
+        "cleanup_changed_shape_or_identity"
+      ]
+    }
+  ]
+}

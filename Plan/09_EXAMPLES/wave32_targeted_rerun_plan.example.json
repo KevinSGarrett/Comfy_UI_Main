@@ -1,0 +1,26 @@
+{
+  "rerun_id": "rerun_001",
+  "source_diff_id": "diff_001",
+  "failed_domains": [
+    "audio",
+    "spatial_audio"
+  ],
+  "preserved_domains": [
+    "identity",
+    "pose",
+    "camera",
+    "image"
+  ],
+  "rerun_scope": "audio_layer_repair",
+  "rerun_reason": "visual state passed but required audio state was missing",
+  "expected_fix": "render breath and foley layers without changing image/video state",
+  "blocked_risks": [
+    "do_not_change_identity",
+    "do_not_change_pose"
+  ],
+  "qa_targets": [
+    "audio_event_coverage",
+    "sync",
+    "mix_balance"
+  ]
+}

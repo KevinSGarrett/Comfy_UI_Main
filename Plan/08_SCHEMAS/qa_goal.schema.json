@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "qa_goal.schema.json",
+  "title": "Wave07 QA Goal",
+  "type": "object",
+  "required": [
+    "qa_goal_id",
+    "scope",
+    "checks",
+    "evidence_required"
+  ],
+  "properties": {
+    "qa_goal_id": {
+      "type": "string"
+    },
+    "scope": {
+      "type": "string"
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence_required": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "blocking": {
+      "type": "boolean"
+    },
+    "promotion_required": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false
+}

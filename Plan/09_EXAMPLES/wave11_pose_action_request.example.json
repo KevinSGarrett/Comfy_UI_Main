@@ -1,0 +1,22 @@
+{
+  "request_id": "pose_action_request_001",
+  "plain_language_request": "Generate a realistic two-character scene with a clear standing pose, one seated character, visible hands, natural camera perspective, and stable room depth.",
+  "resolved_by_scene_director": {
+    "requires_per_character_skeletons": true,
+    "requires_depth_map": true,
+    "requires_canny_or_lineart": "optional_for_room_edges",
+    "requires_masks": [
+      "char_001",
+      "char_002",
+      "chair",
+      "floor_contact"
+    ]
+  },
+  "blocked_until": [
+    "character_bible_lookup",
+    "environment_bible_lookup",
+    "camera_plan",
+    "control_map_plan",
+    "object_info_node_visibility"
+  ]
+}

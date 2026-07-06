@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave08 Character Identity Registry",
+  "type": "object",
+  "required": [
+    "registry_version",
+    "characters"
+  ],
+  "properties": {
+    "registry_version": {
+      "type": "string"
+    },
+    "updated_at_utc": {
+      "type": "string"
+    },
+    "characters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "character_id",
+          "active_version",
+          "status",
+          "bible_path",
+          "reference_pack_root"
+        ],
+        "properties": {
+          "character_id": {
+            "type": "string"
+          },
+          "display_name": {
+            "type": "string"
+          },
+          "active_version": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "bible_path": {
+            "type": "string"
+          },
+          "reference_pack_root": {
+            "type": "string"
+          },
+          "allowed_engines": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "qa_required": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

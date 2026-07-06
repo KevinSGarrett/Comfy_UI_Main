@@ -1,0 +1,24 @@
+{
+  "take_rules": [
+    {
+      "rule": "every take must reference revision_id and generated_state"
+    },
+    {
+      "rule": "every take must have state_diff before promotion"
+    },
+    {
+      "rule": "failed takes must record failure domains"
+    }
+  ],
+  "variant_rules": [
+    {
+      "rule": "every variant must declare changed_domains and locked_domains"
+    },
+    {
+      "rule": "variants cannot silently alter locked domains"
+    },
+    {
+      "rule": "winning variant may become promoted revision only with QA evidence"
+    }
+  ]
+}

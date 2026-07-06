@@ -1,0 +1,64 @@
+[
+  {
+    "engine_family": "sdxl",
+    "map_types": [
+      "dwpose",
+      "openpose",
+      "depth",
+      "normal",
+      "canny",
+      "lineart",
+      "segmentation_or_region_mask"
+    ],
+    "status": "primary_target",
+    "notes": "Use SDXL-specific ControlNet models; current Main Flow has Canny SDXL branch wired."
+  },
+  {
+    "engine_family": "flux1",
+    "map_types": [
+      "depth",
+      "canny"
+    ],
+    "status": "planned_engine_specific",
+    "notes": "Use Flux-specific control workflows/models. Do not attach SDXL ControlNet models directly."
+  },
+  {
+    "engine_family": "flux2",
+    "map_types": [
+      "depth",
+      "canny",
+      "reference_guided_control"
+    ],
+    "status": "planned_requires_flux2_runtime_proof",
+    "notes": "Flux2 control routing must be proven separately with current ComfyUI object_info and model-loader evidence."
+  },
+  {
+    "engine_family": "z_image",
+    "map_types": [
+      "image_bridge_only"
+    ],
+    "status": "experimental",
+    "notes": "Treat as source/keyframe image branch until direct ControlNet support is proven."
+  },
+  {
+    "engine_family": "pony_sdxl",
+    "map_types": [
+      "dwpose",
+      "openpose",
+      "canny",
+      "depth"
+    ],
+    "status": "specialty_only",
+    "notes": "Use only when style/pose model requirement is specific and engine-compatible."
+  },
+  {
+    "engine_family": "video_wan_hunyuan_ltxv",
+    "map_types": [
+      "pose_sequence",
+      "depth_sequence",
+      "canny_sequence"
+    ],
+    "status": "planned_separate_runtime_lane",
+    "notes": "Requires temporal QA and frame/keyframe control-map manifests before promotion."
+  }
+]

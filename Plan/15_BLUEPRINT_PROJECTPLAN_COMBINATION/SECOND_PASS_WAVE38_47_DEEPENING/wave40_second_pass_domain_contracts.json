@@ -1,0 +1,79 @@
+{
+  "contracts": [
+    {
+      "domain_id": "planning",
+      "owner_domain": "project_control",
+      "inputs": [
+        "blueprint_manual_plan"
+      ],
+      "outputs": [
+        "requirements",
+        "backlog_items"
+      ],
+      "upstream_dependencies": [],
+      "downstream_dependents": [
+        "implementation",
+        "workflow"
+      ],
+      "promotion_gate": "source_intake_valid"
+    },
+    {
+      "domain_id": "workflow",
+      "owner_domain": "workflow_library",
+      "inputs": [
+        "requirements",
+        "catalogs"
+      ],
+      "outputs": [
+        "workflow_app_bridge"
+      ],
+      "upstream_dependencies": [
+        "planning",
+        "implementation"
+      ],
+      "downstream_dependents": [
+        "runtime",
+        "qa"
+      ],
+      "promotion_gate": "workflow_bridge_valid"
+    },
+    {
+      "domain_id": "runtime",
+      "owner_domain": "runtime_execution",
+      "inputs": [
+        "workflow_app_bridge",
+        "preview_preflight"
+      ],
+      "outputs": [
+        "runtime_artifacts",
+        "manifests"
+      ],
+      "upstream_dependencies": [
+        "workflow",
+        "qa"
+      ],
+      "downstream_dependents": [
+        "release"
+      ],
+      "promotion_gate": "runtime_evidence_valid"
+    },
+    {
+      "domain_id": "release",
+      "owner_domain": "releases",
+      "inputs": [
+        "qa_certification",
+        "traceability"
+      ],
+      "outputs": [
+        "handoff_packet",
+        "release_decision"
+      ],
+      "upstream_dependencies": [
+        "qa",
+        "catalog_search"
+      ],
+      "downstream_dependents": [],
+      "promotion_gate": "release_decision_valid"
+    }
+  ]
+}

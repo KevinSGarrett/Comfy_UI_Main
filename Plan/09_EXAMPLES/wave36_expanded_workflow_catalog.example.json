@@ -1,0 +1,50 @@
+{
+  "catalog_id": "workflow_catalog_example",
+  "generated_at": "2026-07-05T00:00:00",
+  "workflow_count": 1,
+  "workflows": [
+    {
+      "workflow_id": "main_flow_image_generation",
+      "workflow_name": "MAIN_FLOW__image_generation",
+      "workflow_type": "comfyui_image_generation",
+      "engine_family": [
+        "sdxl",
+        "flux_family"
+      ],
+      "canonical_status": "canonical",
+      "owner_domain": "workflow_library",
+      "source_path": "05_WORKFLOWS/00_CANONICAL_MAIN_FLOW",
+      "runtime_path": "ComfyUI/user/workflows/canonical",
+      "app_mode_path": "13_APP_MODE/apps/image_generator",
+      "required_models": [
+        "checkpoint",
+        "vae"
+      ],
+      "required_loras": [
+        "profile_selected_only"
+      ],
+      "required_custom_nodes": [
+        "optional_ipadapter",
+        "optional_controlnet"
+      ],
+      "input_asset_classes": [
+        "reference_image",
+        "mask",
+        "control_map"
+      ],
+      "output_prefixes": [
+        "Main_Flow/SDXL_RealVisXL_LoRA"
+      ],
+      "preview_support": true,
+      "final_render_support": "blocked_until_preview_qa_preflight",
+      "qa_gates": [
+        "decode",
+        "manifest",
+        "promotion_evidence"
+      ],
+      "proof_status": "runtime_outputs_required",
+      "promotion_status": "blocked_until_evidence",
+      "archived_by": null
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mask_goal.schema.json",
+  "title": "Wave07 Mask Goal",
+  "type": "object",
+  "required": [
+    "mask_id",
+    "scale",
+    "target_entity_id",
+    "target_region",
+    "purpose"
+  ],
+  "properties": {
+    "mask_id": {
+      "type": "string"
+    },
+    "scale": {
+      "type": "string",
+      "enum": [
+        "macro",
+        "major",
+        "minor",
+        "micro",
+        "nano",
+        "contact",
+        "protect"
+      ]
+    },
+    "target_entity_id": {
+      "type": "string"
+    },
+    "target_region": {
+      "type": "string"
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "source_entity_id": {
+      "type": "string"
+    },
+    "source_region": {
+      "type": "string"
+    },
+    "contact_zone": {
+      "type": "string"
+    },
+    "feather_px": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "dilate_px": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "erode_px": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "protect_regions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "qa_overlay_required": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false
+}

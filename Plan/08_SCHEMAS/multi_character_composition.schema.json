@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "multi_character_composition.schema.json",
+  "title": "Subject Composition Slot",
+  "type": "object",
+  "required": [
+    "subject_id",
+    "screen_position",
+    "depth_order",
+    "identity_priority",
+    "crop_policy",
+    "must_show"
+  ],
+  "properties": {
+    "subject_id": {
+      "type": "string"
+    },
+    "character_id": {
+      "type": "string"
+    },
+    "screen_position": {
+      "type": "string"
+    },
+    "depth_order": {
+      "type": "integer"
+    },
+    "identity_priority": {
+      "type": "string"
+    },
+    "crop_policy": {
+      "type": "string"
+    },
+    "occlusion_allowed": {
+      "type": "string"
+    },
+    "must_show": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "must_not_merge_with": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "scale_anchor": {
+      "type": "string"
+    }
+  }
+}

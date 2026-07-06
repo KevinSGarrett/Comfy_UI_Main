@@ -1,0 +1,45 @@
+{
+  "plan_id": "wave15_example_request_001__base_generation_plan",
+  "scene_director_plan_id": "scene_plan_example_001",
+  "selected_lane_id": "flux1_dev_primary_base",
+  "engine_family": "flux1",
+  "fallback_lane_ids": [
+    "sdxl_realvisxl_base_lane",
+    "zimage_turbo_base_lane",
+    "flux1_schnell_smoke_lane",
+    "sdxl_low_risk_fallback_lane"
+  ],
+  "passes": [
+    {
+      "pass_id": "base_pass_001",
+      "pass_type": "image_base_generation",
+      "lane_id": "flux1_dev_primary_base",
+      "engine_family": "flux1",
+      "workflow_template_id": "flux1_dev_primary_base_template",
+      "patch_required": true,
+      "dry_run_first": true,
+      "promotion_allowed": false
+    }
+  ],
+  "required_patch_groups": [
+    "positive_prompt",
+    "negative_prompt",
+    "seed",
+    "sampler",
+    "latent_resolution",
+    "model_assets",
+    "lora_stack_profile",
+    "save_prefix"
+  ],
+  "qa_gates": [
+    "BG-QA-001",
+    "BG-QA-002",
+    "BG-QA-003",
+    "BG-QA-004",
+    "BG-QA-005",
+    "BG-QA-006",
+    "BG-QA-007",
+    "BG-QA-008"
+  ],
+  "promotion_allowed": false
+}

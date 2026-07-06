@@ -1,0 +1,55 @@
+{
+  "rule_set_id": "wave14_pass_planner_rules",
+  "rules": [
+    {
+      "rule_id": "always_preflight",
+      "condition": "any run",
+      "action": "add 01_preflight"
+    },
+    {
+      "rule_id": "image_base_required",
+      "condition": "image or video keyframe requested",
+      "action": "add 02_base_composition"
+    },
+    {
+      "rule_id": "identity_adds_reference",
+      "condition": "character_id/reference_pack exists",
+      "action": "add 03_reference_identity"
+    },
+    {
+      "rule_id": "pose_adds_control",
+      "condition": "pose/control/action requested",
+      "action": "add 04_pose_control"
+    },
+    {
+      "rule_id": "local_detail_adds_masks",
+      "condition": "regional/local detail requested",
+      "action": "add 05_mask_factory then 06_regional_inpaint_detail"
+    },
+    {
+      "rule_id": "promotion_candidate_adds_upscale",
+      "condition": "high_detail/promotion_candidate",
+      "action": "add 07_upscale_polish"
+    },
+    {
+      "rule_id": "video_requires_keyframe",
+      "condition": "video requested",
+      "action": "add 08_video_handoff after keyframe approval"
+    },
+    {
+      "rule_id": "audio_requires_contract",
+      "condition": "audio requested",
+      "action": "add 09_audio_handoff"
+    },
+    {
+      "rule_id": "dry_run_default",
+      "condition": "execute flag absent",
+      "action": "do not call runtime"
+    },
+    {
+      "rule_id": "no_self_promotion",
+      "condition": "pass complete",
+      "action": "send to QA/promotion gate"
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "router_version": "wave13_mask_factory_v1",
+  "default_runtime_mode": "local_validation_first",
+  "routing_rules": [
+    {
+      "route_id": "person_instance_to_character_protection",
+      "input_mask_scale": "major",
+      "targets": [
+        "whole_person",
+        "face",
+        "hair",
+        "body_outline_edge"
+      ],
+      "primary_use": "protect identity and prevent merged bodies",
+      "allowed_passes": [
+        "identity_reference_check",
+        "low_denoise_inpaint",
+        "composition_qa"
+      ],
+      "blocked_passes": [
+        "wrong_character_transfer",
+        "global_lora_override"
+      ]
+    },
+    {
+      "route_id": "body_part_to_regional_inpaint",
+      "input_mask_scale": "minor",
+      "targets": [
+        "hand",
+        "foot",
+        "face",
+        "hair",
+        "torso",
+        "limb_region"
+      ],
+      "primary_use": "local repair without changing whole pose",
+      "allowed_passes": [
+        "regional_inpaint",
+        "detail_refine",
+        "artifact_cleanup"
+      ],
+      "max_default_denoise": 0.35
+    },
+    {
+      "route_id": "fabric_to_material_detail",
+      "input_mask_scale": "minor_micro",
+      "targets": [
+        "full_garment",
+        "garment_panel",
+        "fabric_fold_group",
+        "fabric_texture_patch"
+      ],
+      "primary_use": "cloth realism and material continuity",
+      "allowed_passes": [
+        "fabric_detail",
+        "edge_cleanup",
+        "relight_local"
+      ],
+      "requires_outfit_lock": true
+    },
+    {
+      "route_id": "contact_to_physical_plausibility_pass",
+      "input_mask_scale": "micro_nano",
+      "targets": [
+        "contact_edge",
+        "shadow_edge",
+        "occlusion_boundary"
+      ],
+      "primary_use": "make touch, pressure, contact shadows, and overlaps believable",
+      "allowed_passes": [
+        "contact_shadow_refine",
+        "edge_blend",
+        "occlusion_repair"
+      ],
+      "requires_before_after_crop": true
+    },
+    {
+      "route_id": "macro_environment_to_scene_continuity",
+      "input_mask_scale": "macro",
+      "targets": [
+        "foreground",
+        "background",
+        "floor",
+        "wall",
+        "prop_group"
+      ],
+      "primary_use": "environment continuity, scale, and lighting",
+      "allowed_passes": [
+        "environment_relight",
+        "depth_continuity",
+        "prop_scale_check"
+      ]
+    }
+  ]
+}

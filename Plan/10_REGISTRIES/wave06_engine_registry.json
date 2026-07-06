@@ -1,0 +1,371 @@
+[
+  {
+    "engine_id": "flux2_dev_local",
+    "family": "flux2",
+    "tier": "planned_primary_candidate",
+    "runtime_type": "local_or_ec2_comfyui",
+    "model_role": "high_quality_image_generation_and_reference_editing",
+    "recommended_use": [
+      "future primary high-quality image generation once proven",
+      "multi-reference identity/reference consistency candidate",
+      "structured prompt following and complex scene generation",
+      "image editing / controlled generation after workflow proof"
+    ],
+    "not_recommended_use": [
+      "unproven production promotion before object_info + model loading + output proof",
+      "direct use with Flux1/SDXL/Pony/SD15 LoRAs",
+      "cheap proxy previews when GPU cost is priority"
+    ],
+    "required_assets": [
+      "flux2_dev_or_current_official_diffusion_model",
+      "flux2_text_encoder_bundle_current_official",
+      "flux2_vae_or_current_official_vae"
+    ],
+    "model_locations": {
+      "git": "forbidden_binary",
+      "s3": "s3://<MODEL_BUCKET>/models/flux2/dev/",
+      "local": "C:/Comfy_UI_Main/models/flux2/dev/",
+      "ec2": "/opt/ComfyUI/models/flux2/dev/"
+    },
+    "compatible_lora_families": [
+      "flux2_only_after_metadata_proof"
+    ],
+    "bridge_in": [
+      "image_reference",
+      "masked_image_reference",
+      "app_mode_scene_request"
+    ],
+    "bridge_out": [
+      "image_to_sdxl_refine",
+      "image_to_video_keyframe",
+      "image_to_qa"
+    ],
+    "promotion_status": "blocked_until_runtime_proof"
+  },
+  {
+    "engine_id": "flux2_klein_preview",
+    "family": "flux2",
+    "tier": "planned_preview_candidate",
+    "runtime_type": "local_or_ec2_comfyui",
+    "model_role": "fast_flux2_preview_and_editing_candidate",
+    "recommended_use": [
+      "low-cost visual direction checks",
+      "interactive reference edits",
+      "prototype routes before expensive dev/pro runs"
+    ],
+    "not_recommended_use": [
+      "final high-resolution hero output until compared against flux2_dev and sdxl/realvisxl",
+      "LoRA-heavy Civitai library exploitation"
+    ],
+    "required_assets": [
+      "qwen_3_4b.safetensors_or_current_official_text_encoder_for_klein",
+      "flux2_klein_4b_or_9b_model_variant",
+      "flux2-vae.safetensors_or_current_official_vae"
+    ],
+    "model_locations": {
+      "git": "forbidden_binary",
+      "s3": "s3://<MODEL_BUCKET>/models/flux2/klein/",
+      "local": "C:/Comfy_UI_Main/models/flux2/klein/",
+      "ec2": "/opt/ComfyUI/models/flux2/klein/"
+    },
+    "compatible_lora_families": [
+      "flux2_klein_only_after_metadata_proof"
+    ],
+    "bridge_in": [
+      "app_mode_scene_request",
+      "image_reference"
+    ],
+    "bridge_out": [
+      "image_to_flux2_dev",
+      "image_to_sdxl_refine",
+      "image_to_qa"
+    ],
+    "promotion_status": "blocked_until_runtime_proof"
+  },
+  {
+    "engine_id": "flux1_dev",
+    "family": "flux1",
+    "tier": "stable_candidate_existing_family",
+    "runtime_type": "local_or_ec2_comfyui",
+    "model_role": "existing_flux_high_quality_image_generation",
+    "recommended_use": [
+      "stable Flux-family base generation",
+      "existing Flux LoRA library once registry-compatible",
+      "fallback if Flux2 runtime is unavailable"
+    ],
+    "not_recommended_use": [
+      "direct use with Flux2/SDXL/Pony/SD15 LoRAs",
+      "unverified image-reference claims without pixel conditioning proof"
+    ],
+    "required_assets": [
+      "flux1_dev_or_current_installed_flux_checkpoint",
+      "flux1_text_encoder",
+      "flux1_vae"
+    ],
+    "compatible_lora_families": [
+      "flux1"
+    ],
+    "promotion_status": "candidate_existing_family"
+  },
+  {
+    "engine_id": "flux1_schnell_fp8",
+    "family": "flux1",
+    "tier": "fast_preview_existing_family",
+    "runtime_type": "local_or_ec2_comfyui",
+    "model_role": "fast_flux_smoke_tests_and_preview",
+    "recommended_use": [
+      "smoke tests",
+      "cheap preview generation",
+      "router validation"
+    ],
+    "not_recommended_use": [
+      "final hero images when quality/detail matters",
+      "deep LoRA stack production passes"
+    ],
+    "required_assets": [
+      "flux1-schnell-fp8.safetensors"
+    ],
+    "compatible_lora_families": [
+      "flux1_schnell_compatible_only"
+    ],
+    "promotion_status": "existing_runtime_lane_ready_to_verify"
+  },
+  {
+    "engine_id": "sdxl_realvisxl",
+    "family": "sdxl",
+    "tier": "existing_primary_specialty_and_refine",
+    "runtime_type": "local_or_ec2_comfyui",
+    "model_role": "Civitai_LoRA_ecosystem_refine_detail_inpaint",
+    "recommended_use": [
+      "specialty Civitai LoRA passes",
+      "skin/fabric/detail passes",
+      "low-denoise img2img refine",
+      "inpaint/detail where SDXL assets are strongest"
+    ],
+    "not_recommended_use": [
+      "direct use of Flux/Pony/SD15 LoRAs",
+      "global over-stacking of disabled catalog LoRAs"
+    ],
+    "required_assets": [
+      "RealVisXL_or_SDXL_checkpoint",
+      "SDXL_VAE",
+      "SDXL_CLIP"
+    ],
+    "compatible_lora_families": [
+      "sdxl",
+      "sdxl_lora"
+    ],
+    "promotion_status": "existing_runtime_lane_ready_to_verify"
+  },
+  {
+    "engine_id": "sdxl_base_refiner",
+    "family": "sdxl",
+    "tier": "recommended_baseline_reference",
+    "runtime_type": "local_or_ec2_comfyui",
+    "model_role": "clean_open_baseline_and_comparison_anchor",
+    "recommended_use": [
+      "baseline comparison against RealVisXL",
+      "debugging model/LoRA side effects",
+      "generic SDXL img2img/refiner tests"
+    ],
+    "not_recommended_use": [
+      "replace RealVisXL if photoreal specialty results are better",
+      "mix with non-SDXL assets"
+    ],
+    "required_assets": [
+      "stable-diffusion-xl-base-1.0",
+      "optional_sdxl_refiner"
+    ],
+    "compatible_lora_families": [
+      "sdxl"
+    ],
+    "promotion_status": "recommended_add_if_not_present"
+  },
+  {
+    "engine_id": "pony_sdxl",
+    "family": "pony_sdxl",
+    "tier": "specialty_only",
+    "runtime_type": "local_or_ec2_comfyui",
+    "model_role": "specialty_style_action_concept_candidate",
+    "recommended_use": [
+      "specialty concepts where Pony-trained checkpoints/LoRAs outperform SDXL/Flux",
+      "isolated bridge pass after base image is approved"
+    ],
+    "not_recommended_use": [
+      "primary hyperreal human base unless visual QA proves it",
+      "direct LoRA mixing with SDXL base unless checkpoint is actually Pony-compatible",
+      "direct use with Flux models"
+    ],
+    "required_assets": [
+      "Pony_Diffusion_V6_XL_or_compatible_checkpoint",
+      "Pony-compatible LoRAs only"
+    ],
+    "compatible_lora_families": [
+      "pony_sdxl"
+    ],
+    "promotion_status": "specialty_blocked_until_visual_proof"
+  },
+  {
+    "engine_id": "sd15_legacy",
+    "family": "sd15",
+    "tier": "legacy_fallback_only",
+    "runtime_type": "local_or_ec2_comfyui",
+    "model_role": "legacy_specialty_asset_support",
+    "recommended_use": [
+      "legacy LoRA/control workflows only if no SDXL/Flux equivalent exists",
+      "technical comparison, not final production by default"
+    ],
+    "not_recommended_use": [
+      "primary hyperreal base generation",
+      "high-res anatomy-critical output without downstream repair"
+    ],
+    "required_assets": [
+      "sd15_checkpoint",
+      "sd15_loras"
+    ],
+    "compatible_lora_families": [
+      "sd15"
+    ],
+    "promotion_status": "legacy_hold"
+  },
+  {
+    "engine_id": "z_image_turbo",
+    "family": "z_image",
+    "tier": "experimental_fast_proxy",
+    "runtime_type": "local_or_ec2_comfyui",
+    "model_role": "fast_proxy_or_experimental_image_lane",
+    "recommended_use": [
+      "fast rough concept exploration",
+      "cheap base composition experiments",
+      "router smoke tests"
+    ],
+    "not_recommended_use": [
+      "final photoreal output until quality comparison passes",
+      "deep Civitai LoRA exploitation unless metadata proves compatibility"
+    ],
+    "required_assets": [
+      "z_image_turbo_bf16.safetensors",
+      "qwen_3_4b.safetensors",
+      "ae.safetensors"
+    ],
+    "compatible_lora_families": [
+      "z_image_only_if_registry_proves"
+    ],
+    "promotion_status": "existing_runtime_lane_ready_to_verify"
+  },
+  {
+    "engine_id": "qwen_image",
+    "family": "qwen_image",
+    "tier": "review_candidate",
+    "runtime_type": "local_or_ec2_comfyui_if_supported",
+    "model_role": "text_rendering_precise_editing_and_complex_instruction_candidate",
+    "recommended_use": [
+      "text-heavy posters/UI/product labels",
+      "precise editing candidate",
+      "complex prompt adherence comparison"
+    ],
+    "not_recommended_use": [
+      "core hyperreal body/contact pipeline until local ComfyUI runtime proof exists",
+      "Civitai LoRA library replacement unless compatible ecosystem exists"
+    ],
+    "required_assets": [
+      "qwen_image_checkpoint_bundle_current_official"
+    ],
+    "compatible_lora_families": [
+      "qwen_image_only"
+    ],
+    "promotion_status": "review_candidate"
+  },
+  {
+    "engine_id": "sd35_large_or_medium",
+    "family": "sd35",
+    "tier": "review_candidate",
+    "runtime_type": "local_or_ec2_comfyui_if_supported",
+    "model_role": "complex_prompt_typography_and_comparison_candidate",
+    "recommended_use": [
+      "benchmark against Flux2 and SDXL for prompt complexity",
+      "typography/composition tests",
+      "alternate base candidate if node support is stable"
+    ],
+    "not_recommended_use": [
+      "replace Flux/SDXL before runtime and visual QA proof",
+      "use existing SDXL LoRAs as if compatible"
+    ],
+    "required_assets": [
+      "stable_diffusion_3_5_checkpoint_bundle"
+    ],
+    "compatible_lora_families": [
+      "sd35_only"
+    ],
+    "promotion_status": "review_candidate"
+  },
+  {
+    "engine_id": "wan22_video",
+    "family": "wan2_2",
+    "tier": "planned_video_primary_candidate",
+    "runtime_type": "local_or_ec2_comfyui",
+    "model_role": "image_to_video_text_to_video_and_video_to_video_candidate",
+    "recommended_use": [
+      "production video route candidate",
+      "keyframe-to-motion tests",
+      "shot-level motion continuity"
+    ],
+    "not_recommended_use": [
+      "audio generation",
+      "final promotion without per-frame identity/contact/flicker QA"
+    ],
+    "required_assets": [
+      "wan2_2_model_variant_by_task"
+    ],
+    "compatible_lora_families": [
+      "wan2_2"
+    ],
+    "promotion_status": "planned_video_candidate"
+  },
+  {
+    "engine_id": "hunyuanvideo15",
+    "family": "hunyuanvideo",
+    "tier": "planned_video_efficiency_candidate",
+    "runtime_type": "local_or_ec2_comfyui",
+    "model_role": "consumer_gpu_accessible_video_candidate",
+    "recommended_use": [
+      "video route where VRAM/cost matter",
+      "motion coherence benchmarks",
+      "fallback or companion to Wan2.2"
+    ],
+    "not_recommended_use": [
+      "audio generation unless separate audio lane handles sound",
+      "final contact-heavy video without targeted temporal QA"
+    ],
+    "required_assets": [
+      "hunyuanvideo_1_5_bundle"
+    ],
+    "compatible_lora_families": [
+      "hunyuanvideo"
+    ],
+    "promotion_status": "planned_video_candidate"
+  },
+  {
+    "engine_id": "ltx2_audio_video",
+    "family": "ltx2",
+    "tier": "planned_audio_video_candidate",
+    "runtime_type": "local_or_ec2_comfyui_or_native",
+    "model_role": "synchronized_audio_video_candidate",
+    "recommended_use": [
+      "audio-video synchronization experiments",
+      "foley/ambience/video unified lane comparison",
+      "low-cost AV prototype lane"
+    ],
+    "not_recommended_use": [
+      "replace separate audio lanes before AV QA proves alignment",
+      "final release without waveform/clipping/lipsync/timeline QA"
+    ],
+    "required_assets": [
+      "ltx2_bundle_current_official"
+    ],
+    "compatible_lora_families": [
+      "ltx2"
+    ],
+    "promotion_status": "planned_av_candidate"
+  }
+]

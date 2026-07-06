@@ -1,0 +1,1237 @@
+{
+  "source_main_flow": "Wave42_Runtime_Bound__UI__WAVE42_MAIN_FLOW_20260702(26).json",
+  "node_count": 356,
+  "link_count": 91,
+  "node_type_counts_top": {
+    "LoraLoader": 274,
+    "Note": 13,
+    "CLIPTextEncode": 12,
+    "SaveImage": 8,
+    "PreviewImage": 8,
+    "KSampler": 7,
+    "VAEDecode": 7,
+    "EmptyLatentImage": 3,
+    "LoadImage": 3,
+    "EmptySD3LatentImage": 2,
+    "CheckpointLoaderSimple": 2,
+    "UNETLoader": 1,
+    "ModelSamplingAuraFlow": 1,
+    "CLIPLoader": 1,
+    "VAELoader": 1,
+    "UpscaleModelLoader": 1,
+    "ImageUpscaleWithModel": 1,
+    "VAEEncodeForInpaint": 1,
+    "VAEEncode": 1,
+    "ModelSamplingFlux": 1
+  },
+  "saveimage_lanes": [
+    {
+      "node_id": 19,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA"
+    },
+    {
+      "node_id": 39,
+      "prefix": "Main_Flow/Flux_Family_ZImage"
+    },
+    {
+      "node_id": 62,
+      "prefix": "Main_Flow/SDXL_RealVisXL_LoRA_Upscaled"
+    },
+    {
+      "node_id": 87,
+      "prefix": "Main_Flow/SDXL_Inpaint_Detail"
+    },
+    {
+      "node_id": 95,
+      "prefix": "Main_Flow/Flux_to_SDXL_Refine"
+    },
+    {
+      "node_id": 107,
+      "prefix": "Main_Flow/True_Flux_Schnell_Reference_Smoke"
+    },
+    {
+      "node_id": 128,
+      "prefix": "Main_Flow/ControlNet_Canny_Edge"
+    },
+    {
+      "node_id": 118,
+      "prefix": "Main_Flow/IPAdapter_Face_Reference"
+    }
+  ],
+  "preview_image_count": 8,
+  "mask_capable_anchors": [
+    {
+      "node_id": 82,
+      "node_type": "VAEEncodeForInpaint",
+      "widgets_values": [
+        8
+      ],
+      "mask_inputs": [
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": 51
+        }
+      ]
+    },
+    {
+      "node_id": 112,
+      "node_type": "IPAdapter",
+      "widgets_values": [
+        0.45,
+        0,
+        0.85,
+        "standard"
+      ],
+      "mask_inputs": [
+        {
+          "name": "attn_mask",
+          "type": "MASK",
+          "link": null
+        }
+      ]
+    },
+    {
+      "node_id": 81,
+      "node_type": "LoadImageMask",
+      "widgets_values": [
+        "main_flow/wave42_inpaint_mask.png",
+        "red",
+        "image"
+      ],
+      "mask_inputs": []
+    }
+  ],
+  "controlnet_nodes": [
+    {
+      "node_id": 120,
+      "node_type": "ControlNetLoader",
+      "widgets_values": [
+        "controlnet-canny-sdxl-1.0-small.safetensors"
+      ]
+    },
+    {
+      "node_id": 124,
+      "node_type": "ControlNetApplyAdvanced",
+      "widgets_values": [
+        0.65,
+        0,
+        0.75
+      ]
+    }
+  ],
+  "ksampler_nodes": [
+    {
+      "node_id": 17,
+      "widgets_values": [
+        300300300,
+        "fixed",
+        40,
+        6.5,
+        "dpmpp_2m_sde",
+        "karras",
+        1
+      ],
+      "seed": 300300300,
+      "steps": 40,
+      "cfg": 6.5,
+      "sampler": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1
+    },
+    {
+      "node_id": 36,
+      "widgets_values": [
+        42043,
+        "fixed",
+        8,
+        1,
+        "res_multistep",
+        "simple",
+        1
+      ],
+      "seed": 42043,
+      "steps": 8,
+      "cfg": 1,
+      "sampler": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 1
+    },
+    {
+      "node_id": 85,
+      "widgets_values": [
+        210422,
+        "fixed",
+        14,
+        5,
+        "euler",
+        "normal",
+        0.28
+      ],
+      "seed": 210422,
+      "steps": 14,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.28
+    },
+    {
+      "node_id": 93,
+      "widgets_values": [
+        210421,
+        "fixed",
+        10,
+        5,
+        "euler",
+        "normal",
+        0.22
+      ],
+      "seed": 210421,
+      "steps": 10,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.22
+    },
+    {
+      "node_id": 105,
+      "widgets_values": [
+        200420,
+        "fixed",
+        4,
+        1,
+        "euler",
+        "simple",
+        1
+      ],
+      "seed": 200420,
+      "steps": 4,
+      "cfg": 1,
+      "sampler": "euler",
+      "scheduler": "simple",
+      "denoise": 1
+    },
+    {
+      "node_id": 116,
+      "widgets_values": [
+        626262,
+        "fixed",
+        8,
+        5,
+        "euler",
+        "normal",
+        1
+      ],
+      "seed": 626262,
+      "steps": 8,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 1
+    },
+    {
+      "node_id": 126,
+      "widgets_values": [
+        707707,
+        "fixed",
+        20,
+        5.5,
+        "dpmpp_2m_sde",
+        "karras",
+        1
+      ],
+      "seed": 707707,
+      "steps": 20,
+      "cfg": 5.5,
+      "sampler": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1
+    }
+  ],
+  "low_denoise_anchors": [
+    {
+      "node_id": 85,
+      "widgets_values": [
+        210422,
+        "fixed",
+        14,
+        5,
+        "euler",
+        "normal",
+        0.28
+      ],
+      "seed": 210422,
+      "steps": 14,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.28
+    },
+    {
+      "node_id": 93,
+      "widgets_values": [
+        210421,
+        "fixed",
+        10,
+        5,
+        "euler",
+        "normal",
+        0.22
+      ],
+      "seed": 210421,
+      "steps": 10,
+      "cfg": 5,
+      "sampler": "euler",
+      "scheduler": "normal",
+      "denoise": 0.22
+    }
+  ],
+  "identity_region_candidate_summary": {
+    "count": 115,
+    "by_category": {
+      "body": 36,
+      "adult_body_parts": 34,
+      "hair": 21,
+      "body_type_latina": 6,
+      "body_type_bbw_cellulite": 5,
+      "adult_male": 4,
+      "body_shape": 2,
+      "clothing_fabric": 2,
+      "face_expression": 2,
+      "pose_camera": 1,
+      "character": 1,
+      "clothing": 1
+    }
+  },
+  "sanitized_candidate_records": [
+    {
+      "node_id": 146,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 147,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 148,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 149,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 150,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 151,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 152,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 153,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 154,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 155,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 156,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 157,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 158,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 159,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 160,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 161,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 162,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 163,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 164,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 165,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 166,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 167,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 168,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 169,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 170,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 171,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "rejected_or_superseded",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 172,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "rejected_or_superseded",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 173,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "rejected_or_superseded",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 174,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "rejected_or_superseded",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 175,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "rejected_or_superseded",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 176,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "rejected_or_superseded",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 177,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "rejected_or_superseded",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 178,
+      "engine": "sdxl",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "rejected_or_superseded",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 179,
+      "engine": "sdxl",
+      "category": "adult_male",
+      "scene_role": "adult_male",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 180,
+      "engine": "sdxl",
+      "category": "adult_male",
+      "scene_role": "adult_male",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 181,
+      "engine": "sdxl",
+      "category": "adult_male",
+      "scene_role": "adult_male",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 182,
+      "engine": "sdxl",
+      "category": "adult_male",
+      "scene_role": "adult_male",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 183,
+      "engine": "sdxl",
+      "category": "body_shape",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 184,
+      "engine": "sdxl",
+      "category": "body_shape",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 185,
+      "engine": "sdxl",
+      "category": "body_type_bbw_cellulite",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 186,
+      "engine": "sdxl",
+      "category": "body_type_bbw_cellulite",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 187,
+      "engine": "sdxl",
+      "category": "body_type_bbw_cellulite",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 188,
+      "engine": "sdxl",
+      "category": "body_type_bbw_cellulite",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 189,
+      "engine": "sdxl",
+      "category": "body_type_bbw_cellulite",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 190,
+      "engine": "sdxl",
+      "category": "body_type_latina",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 191,
+      "engine": "sdxl",
+      "category": "body_type_latina",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 192,
+      "engine": "sdxl",
+      "category": "body_type_latina",
+      "scene_role": "body_shape",
+      "status": "rejected_or_superseded",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 193,
+      "engine": "sdxl",
+      "category": "body_type_latina",
+      "scene_role": "body_shape",
+      "status": "rejected_or_superseded",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 194,
+      "engine": "sdxl",
+      "category": "body_type_latina",
+      "scene_role": "body_shape",
+      "status": "rejected_or_superseded",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 195,
+      "engine": "sdxl",
+      "category": "body_type_latina",
+      "scene_role": "body_shape",
+      "status": "rejected_or_superseded",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 196,
+      "engine": "sdxl",
+      "category": "clothing_fabric",
+      "scene_role": "clothing_fabric",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 197,
+      "engine": "sdxl",
+      "category": "clothing_fabric",
+      "scene_role": "clothing_fabric",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 219,
+      "engine": "sdxl",
+      "category": "face_expression",
+      "scene_role": "face_detail",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 220,
+      "engine": "sdxl",
+      "category": "face_expression",
+      "scene_role": "face_detail",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 221,
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 222,
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 223,
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 224,
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 225,
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 226,
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 227,
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 228,
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 229,
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 230,
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 231,
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 232,
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 233,
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 234,
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 235,
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 236,
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "rejected_or_superseded",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 237,
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "rejected_or_superseded",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 238,
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "rejected_or_superseded",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 239,
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "rejected_or_superseded",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 240,
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "rejected_or_superseded",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 241,
+      "engine": "sdxl",
+      "category": "hair",
+      "scene_role": "character_identity",
+      "status": "rejected_or_superseded",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 259,
+      "engine": "sdxl",
+      "category": "pose_camera",
+      "scene_role": "pose_camera",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 296,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 297,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 298,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 299,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 300,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 301,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 302,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 303,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 304,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 305,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 306,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 307,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 308,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 309,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 310,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 311,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "installed",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 312,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 313,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 314,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 315,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 316,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 317,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 318,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 319,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 320,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 321,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 322,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 323,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 324,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 325,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "path_verified",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 326,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "rejected_or_superseded",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 327,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "rejected_or_superseded",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 328,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "rejected_or_superseded",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 329,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "rejected_or_superseded",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 330,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "rejected_or_superseded",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 331,
+      "engine": "flux",
+      "category": "body",
+      "scene_role": "body_shape",
+      "status": "rejected_or_superseded",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 332,
+      "engine": "flux",
+      "category": "character",
+      "scene_role": "character_identity",
+      "status": "path_verified",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 391,
+      "engine": "pony",
+      "category": "adult_body_parts",
+      "scene_role": "adult_body_part",
+      "status": "path_verified",
+      "disabled_by_default": true
+    },
+    {
+      "node_id": 394,
+      "engine": "sd15",
+      "category": "clothing",
+      "scene_role": "clothing_fabric",
+      "status": "path_verified",
+      "disabled_by_default": true
+    }
+  ],
+  "runtime_boundary": "proof_bound",
+  "wave24_ready_anchors": [
+    "SDXL inpaint/detail lane",
+    "low-denoise refine anchors",
+    "LoadImageMask input",
+    "VAEEncodeForInpaint",
+    "optional IPAdapter attention-mask slot",
+    "staged Canny ControlNet branch"
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave09 Video Audio Runtime Proof Boundary",
+  "type": "object",
+  "required": [
+    "modality",
+    "is_in_scope",
+    "runtime_proof_required",
+    "promotion_status"
+  ],
+  "properties": {
+    "modality": {
+      "type": "string",
+      "enum": [
+        "video",
+        "audio",
+        "av_sync"
+      ]
+    },
+    "is_in_scope": {
+      "type": "boolean"
+    },
+    "runtime_proof_required": {
+      "type": "boolean"
+    },
+    "workflow_module_exists": {
+      "type": "boolean"
+    },
+    "output_evidence_exists": {
+      "type": "boolean"
+    },
+    "qa_report_exists": {
+      "type": "boolean"
+    },
+    "promotion_status": {
+      "type": "string",
+      "enum": [
+        "planned",
+        "blocked_missing_runtime_proof",
+        "ready_to_verify",
+        "promoted"
+      ]
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ambiguity_resolution.schema.json",
+  "title": "Wave07 Ambiguity Resolution",
+  "type": "object",
+  "required": [
+    "policy",
+    "assumptions",
+    "blocking_questions",
+    "non_blocking_defaults"
+  ],
+  "properties": {
+    "policy": {
+      "type": "string",
+      "enum": [
+        "make_best_effort",
+        "ask_required",
+        "blocked"
+      ]
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "blocking_questions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "non_blocking_defaults": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    }
+  },
+  "additionalProperties": false
+}

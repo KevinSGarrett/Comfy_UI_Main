@@ -1,0 +1,107 @@
+{
+  "version": "wave07.v1",
+  "generated_at": "2026-07-05T22:15:56Z",
+  "presets": [
+    {
+      "preset_id": "single_character_hyperreal_portrait",
+      "target_output": "image",
+      "default_camera": {
+        "shot_type": "portrait_or_half_body",
+        "lens_look": "natural portrait",
+        "doF": "moderate"
+      },
+      "default_passes": [
+        "base_image_generate",
+        "identity_reference",
+        "skin_material_microdetail",
+        "upscale",
+        "qa_promotion_gate"
+      ]
+    },
+    {
+      "preset_id": "full_body_character_scene",
+      "target_output": "image",
+      "default_camera": {
+        "shot_type": "full_body",
+        "crop_rule": "head_to_feet_visible",
+        "camera_height": "waist_to_chest"
+      },
+      "default_passes": [
+        "base_image_generate",
+        "pose_control_when_proven",
+        "shape_proportion_pass",
+        "skin_material_microdetail",
+        "upscale",
+        "qa_promotion_gate"
+      ]
+    },
+    {
+      "preset_id": "multi_character_room_scene",
+      "target_output": "image",
+      "default_camera": {
+        "shot_type": "wide_or_medium_wide",
+        "crop_rule": "all_people_visible_if_required",
+        "depth_order": "explicit"
+      },
+      "default_passes": [
+        "layout_blocking",
+        "base_image_generate",
+        "instance_separation_qa",
+        "contact_passes",
+        "detail_passes",
+        "upscale",
+        "qa_promotion_gate"
+      ]
+    },
+    {
+      "preset_id": "soft_body_contact_detail",
+      "target_output": "image_detail_pass",
+      "default_masks": [
+        "source_mask",
+        "target_mask",
+        "contact_zone_mask",
+        "protect_mask"
+      ],
+      "default_passes": [
+        "contact_deformation",
+        "shadow_occlusion_detail",
+        "skin_material_microdetail",
+        "mask_no_bleed_qa"
+      ]
+    },
+    {
+      "preset_id": "gif_video_motion_test",
+      "target_output": "gif_or_video",
+      "default_timeline": {
+        "keyframes": 5,
+        "phases": [
+          "neutral",
+          "pre_motion",
+          "peak_motion",
+          "recovery",
+          "settle"
+        ]
+      },
+      "default_passes": [
+        "keyframe_plan",
+        "pose_depth_mask_timeline",
+        "video_engine_route",
+        "temporal_qa"
+      ]
+    },
+    {
+      "preset_id": "audio_av_sync_scene",
+      "target_output": "audio_or_av",
+      "default_audio": {
+        "room_acoustics": "infer_from_environment",
+        "event_source": "contact_graph"
+      },
+      "default_passes": [
+        "pose_to_audio_force_map",
+        "foley_timeline",
+        "room_acoustics_mix",
+        "av_sync_qa"
+      ]
+    }
+  ]
+}

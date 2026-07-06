@@ -1,0 +1,19 @@
+{
+  "proof_id": "wave08_flux_base_smoke_0001",
+  "reason": "GPU runtime proof required for Flux base generation lane after local static validation passes.",
+  "local_validation_report": "manifests/workflow_validation/wave08_local_static_validation.json",
+  "workflows": [
+    "workflows/api/templates/flux_base_api.json"
+  ],
+  "model_assets": [
+    "flux1_dev_fp8_checkpoint",
+    "t5xxl_encoder",
+    "ae_vae"
+  ],
+  "expected_runtime_minutes": 20,
+  "expected_outputs": [
+    "image"
+  ],
+  "stop_instance_after": true,
+  "confirmation_token": "START_EC2_RUNTIME_PROOF"
+}
