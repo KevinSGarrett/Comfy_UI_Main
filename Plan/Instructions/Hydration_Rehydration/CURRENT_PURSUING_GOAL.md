@@ -1,35 +1,19 @@
 # Current Pursuing Goal
 
 ## Active Wave
-Wave 60/61 EC2 runtime inventory.
+Wave 61 workflow lane selection.
 
 ## Goal Statement
-Inventory the synced EC2 project checkout, remote ComfyUI runtime, model folders, and workflow prerequisites before attempting any ComfyUI workflow execution.
+Select the lowest-risk ComfyUI workflow lane from the runtime requirement templates and verify model/node prerequisites before attempting a bounded first execution.
 
 ## Why This Goal Is Active
-EC2 project sync passed. `/home/ubuntu/Comfy_UI_Main` now matches pushed local HEAD with Git LFS pulled and `.env` absent. ComfyUI exists at `/home/ubuntu/ComfyUI`, but model folders, workflow entry points, and runnable prerequisites still need direct evidence before execution.
-
-## Current Scope
-- Commit and push the EC2 project sync evidence locally first.
-- Start only `i-0560bf8d143f93bb1`.
-- Use SSM Run Command only.
-- Inventory `/home/ubuntu/ComfyUI` model folders and workflow-related paths.
-- Inventory `/home/ubuntu/Comfy_UI_Main` workflow templates and runtime requirement files.
-- Capture model counts and missing prerequisite risks.
-- Stop EC2 and verify stopped state.
-- Record evidence and update trackers/hydration.
-
-## Out of Scope
-- Running generation.
-- Downloading models.
-- Editing remote files except read-only inventory commands.
-- Leaving EC2 running.
+EC2 runtime inventory passed. The remote ComfyUI runtime, GPU, model folders, custom nodes, synced project checkout, and seven runtime requirement templates are present. The next safe step is matching a workflow lane to available assets before running generation.
 
 ## Current Status
 SELECTED
 
 ## Last Action
-Completed bounded EC2 project sync and verified final EC2 state `stopped`.
+Completed bounded EC2 runtime inventory and verified final EC2 state `stopped`.
 
 ## Next Action
-Commit/push EC2 project sync evidence, then run bounded EC2 ComfyUI/model/workflow inventory with stop verification.
+Commit/push EC2 runtime inventory evidence, then perform workflow lane prerequisite matching.

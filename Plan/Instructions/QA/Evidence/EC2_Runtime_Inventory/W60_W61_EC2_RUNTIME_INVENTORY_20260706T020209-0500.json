@@ -1,0 +1,80 @@
+{
+  "evidence_id": "EVID-W60-W61-EC2-RUNTIME-INVENTORY-20260706T020209-0500",
+  "created_at": "2026-07-06T02:10:57-05:00",
+  "waves": [
+    60,
+    61
+  ],
+  "task": "Bounded EC2 ComfyUI model and workflow prerequisite inventory",
+  "run_record": "Plan/Instructions/Operations/Run_Records/aws_gpu_run_20260706T020209-0500.json",
+  "aws": {
+    "account": "029530099913",
+    "region": "us-east-1",
+    "instance_id": "i-0560bf8d143f93bb1",
+    "start_state": "stopped",
+    "started": true,
+    "ssm_available": true,
+    "ssm_command_status": "Success",
+    "stop_attempted": true,
+    "final_state": "stopped",
+    "stop_verified": true
+  },
+  "remote_project": {
+    "path": "/home/ubuntu/Comfy_UI_Main",
+    "head": "aaca121739e55c42b49d5b2cbb2be3c593d0c9ab",
+    "status_clean": true,
+    "lfs_count": 9
+  },
+  "remote_comfyui": {
+    "path": "/home/ubuntu/ComfyUI",
+    "exists": true,
+    "main_py_present": true,
+    "git_repo_present": true,
+    "python3": "Python 3.12.3",
+    "gpu": "NVIDIA A10G, 595.71.05, 23028 MiB",
+    "custom_nodes_count": 17
+  },
+  "model_inventory": {
+    "directories": {
+      "checkpoints": 15,
+      "loras": 374,
+      "controlnet": 7,
+      "vae": 6,
+      "upscale_models": 2,
+      "diffusion_models": 5,
+      "clip": 2,
+      "text_encoders": 6,
+      "embeddings": 1,
+      "unet": 1
+    },
+    "extensions": {
+      "safetensors": 398,
+      "ckpt": 1,
+      "pt": 2,
+      "pth": 2,
+      "onnx": 0,
+      "bin": 0,
+      "gguf": 0
+    }
+  },
+  "workflow_inventory": {
+    "workflow_template_dirs": 10,
+    "runtime_requirements_count": 7,
+    "runtime_requirement_files": [
+      "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux1_schnell_smoke_lane/runtime_requirements.example.json",
+      "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.example.json",
+      "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/runtime_requirements.example.json",
+      "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_dev_primary_base/runtime_requirements.example.json",
+      "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux1_dev_primary_base/runtime_requirements.example.json",
+      "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/pony_specialty_lane/runtime_requirements.example.json",
+      "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/zimage_turbo_base_lane/runtime_requirements.example.json"
+    ]
+  },
+  "result": "pass",
+  "limitations": [
+    "No ComfyUI workflow execution was performed.",
+    "No model download was performed.",
+    "No generated media artifact QA was performed."
+  ],
+  "next_action": "Select the lowest-risk workflow lane from runtime requirements and perform a bounded static prerequisite match before any generation run."
+}

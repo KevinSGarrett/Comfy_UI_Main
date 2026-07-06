@@ -16,3 +16,4 @@
 - 2026-07-06T01:23:01-05:00: Completed secret-safe readiness preflight. GitHub API, AWS account, EC2 identity, EBS volume, and Civitai metadata checks passed; local ComfyUI runtime is absent, so selected a bounded EC2 runtime discovery run with stop verification.
 - 2026-07-06T01:46:30-05:00: Completed bounded EC2 runtime discovery. SSM and NVIDIA A10G were available and ComfyUI exists at `/home/ubuntu/ComfyUI`; no `Comfy_UI_Main` checkout was found, so selected bounded EC2 project sync as the next task.
 - 2026-07-06T01:59:07-05:00: Completed bounded EC2 project sync. `/home/ubuntu/Comfy_UI_Main` now matches pushed local HEAD with Git LFS pulled and `.env` absent; selected bounded EC2 ComfyUI/model/workflow inventory next.
+- 2026-07-06T02:10:57-05:00: Completed bounded EC2 runtime inventory. ComfyUI, GPU, custom nodes, model folders, and seven workflow runtime requirement templates are present; selected lowest-risk workflow lane matching before execution.
