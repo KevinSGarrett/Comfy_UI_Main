@@ -1,0 +1,224 @@
+﻿{
+    "evidence_id":  "LANE-RUNTIME-READINESS-20260706T105157-0500",
+    "timestamp":  "2026-07-06T10:51:57-05:00",
+    "lane_id":  "sdxl_low_risk_fallback_lane",
+    "lane_dir":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane",
+    "lane_files":  [
+                       {
+                           "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
+                           "exists":  true,
+                           "json_valid":  true
+                       },
+                       {
+                           "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/patch_points.json",
+                           "exists":  true,
+                           "json_valid":  true
+                       },
+                       {
+                           "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
+                           "exists":  true,
+                           "json_valid":  true
+                       },
+                       {
+                           "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/smoke_test_request.json",
+                           "exists":  true,
+                           "json_valid":  true
+                       }
+                   ],
+    "runtime_requirements_summary":  {
+                                         "required_nodes":  [
+                                                                "CheckpointLoaderSimple",
+                                                                "EmptyLatentImage",
+                                                                "CLIPTextEncode",
+                                                                "KSampler",
+                                                                "VAEDecode",
+                                                                "SaveImage"
+                                                            ],
+                                         "required_model_count":  1
+                                     },
+    "helper_scripts":  [
+                           {
+                               "path":  "Plan/Instructions/QA/Scripts/Test-ComfyWorkflowStatic.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/QA/Scripts/Test-WorkflowModelRegistryCoverage.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/Operations/Scripts/Invoke-EC2LaneStaticProof.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/Operations/Scripts/Invoke-ComfyWorkflowSmoke.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/Operations/Scripts/Invoke-EC2WorkflowSmokeRun.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/Operations/Scripts/Test-AwsAuthGate.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/Operations/Scripts/Test-AwsProfileAuthMatrix.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/Operations/Scripts/New-EC2PullbackRecord.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/QA/Scripts/New-ImageArtifactQARecord.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           }
+                       ],
+    "evidence_files":  [
+                           {
+                               "name":  "workflow_static_validation",
+                               "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_SDXL_LOW_RISK_WORKFLOW_STATIC_VALIDATION_20260706T024811-0500.json",
+                               "exists":  true,
+                               "json_valid":  true
+                           },
+                           {
+                               "name":  "smoke_dry_run",
+                               "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_COMFY_WORKFLOW_SMOKE_DRY_RUN_20260706T025536-0500.json",
+                               "exists":  true,
+                               "json_valid":  true
+                           },
+                           {
+                               "name":  "smoke_request",
+                               "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_COMFY_WORKFLOW_SMOKE_REQUEST_20260706T025536-0500.json",
+                               "exists":  true,
+                               "json_valid":  true
+                           },
+                           {
+                               "name":  "model_registry_coverage",
+                               "path":  "Plan/Instructions/QA/Evidence/Model_Registry/W61_MODEL_REGISTRY_COVERAGE_20260706T093415-0500.json",
+                               "exists":  true,
+                               "json_valid":  true
+                           },
+                           {
+                               "name":  "image_qa_dry_run",
+                               "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_DRY_RUN_20260706T030037-0500.json",
+                               "exists":  true,
+                               "json_valid":  true
+                           },
+                           {
+                               "name":  "pullback_dry_run",
+                               "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_EC2_PULLBACK_RECORD_DRY_RUN_20260706T031758-0500.json",
+                               "exists":  true,
+                               "json_valid":  true
+                           }
+                       ],
+    "lane_evidence_selection":  {
+                                    "workflow_static_validation":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_SDXL_LOW_RISK_WORKFLOW_STATIC_VALIDATION_20260706T024811-0500.json",
+                                    "smoke_dry_run":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_COMFY_WORKFLOW_SMOKE_DRY_RUN_20260706T025536-0500.json",
+                                    "smoke_request":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_COMFY_WORKFLOW_SMOKE_REQUEST_20260706T025536-0500.json",
+                                    "lane_specific":  true
+                                },
+    "auth_gate":  {
+                      "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_AUTH_GATE_POST_LOGIN_20260706T103008-0500.json",
+                      "found":  true,
+                      "ec2_work_allowed":  true,
+                      "safe_to_start_ec2":  true,
+                      "generation_allowed":  true,
+                      "result":  "pass",
+                      "failure_category":  null,
+                      "account_match":  true,
+                      "remote_login_status":  "not_attempted",
+                      "status":  "pass",
+                      "sts_failure_category":  ""
+                  },
+    "profile_matrix":  {
+                           "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_PROFILE_AUTH_MATRIX_POST_LOGIN_20260706T103008-0500.json",
+                           "found":  true,
+                           "expected_account":  "029530099913",
+                           "active_env_profile_name":  "default",
+                           "profile_count":  15,
+                           "profiles_matching_expected_count":  2,
+                           "ec2_work_allowed":  true,
+                           "safe_to_start_ec2":  true,
+                           "result":  "pass_profile_available",
+                           "status":  "pass"
+                       },
+    "model_registry_coverage":  {
+                                    "file":  "Plan/Instructions/QA/Evidence/Model_Registry/W61_MODEL_REGISTRY_COVERAGE_20260706T093415-0500.json",
+                                    "found":  true,
+                                    "result":  "pass_local_only",
+                                    "failed_check_count":  0,
+                                    "registry_record_count":  2,
+                                    "runtime_validation_queue_row_count":  2,
+                                    "active_lane_ids":  [
+                                                            "sdxl_low_risk_fallback_lane",
+                                                            "sdxl_realvisxl_base_lane"
+                                                        ],
+                                    "selected_lane_covered":  true,
+                                    "selected_lane_result":  "pass",
+                                    "local_only":  true,
+                                    "aws_contacted":  false,
+                                    "github_api_contacted":  false,
+                                    "civitai_contacted":  false,
+                                    "comfyui_contacted":  false,
+                                    "ec2_started":  false,
+                                    "generation_executed":  false,
+                                    "coverage_allows_selected_lane_ec2_static_proof":  true
+                                },
+    "ec2_static_proof":  {
+                             "file":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_POST_LOGIN_RETEST_20260706T104311-0500.json",
+                             "found":  true,
+                             "object_info_pass":  true,
+                             "model_hashes_present":  true,
+                             "generation_allowed":  true,
+                             "status":  "pass"
+                         },
+    "result":  "ready_for_generation",
+    "failure_category":  null,
+    "local_pre_ec2_ready":  true,
+    "ready_for_ec2_static_proof":  true,
+    "ready_for_generation":  true,
+    "errors":  [
+
+               ],
+    "warnings":  [
+
+                 ],
+    "next_action":  "Run Invoke-ComfyWorkflowSmoke.ps1 -Execute, pull back artifacts, create PULLBACK_RECORD.json, then perform image QA."
+}

@@ -1,0 +1,63 @@
+﻿{
+    "evidence_id":  "EC2-LANE-STATIC-PROOF-20260706T104312-0500",
+    "timestamp":  "2026-07-06T10:51:45-05:00",
+    "start_time":  "2026-07-06T10:43:16-05:00",
+    "instance_id":  "i-0560bf8d143f93bb1",
+    "region":  "us-east-1",
+    "lane_id":  "sdxl_low_risk_fallback_lane",
+    "auth_gate":  {
+                      "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_AUTH_GATE_POST_LOGIN_20260706T103008-0500.json",
+                      "found":  true,
+                      "expected_account":  "029530099913",
+                      "account_match":  false,
+                      "ec2_work_allowed":  true,
+                      "safe_to_start_ec2":  true,
+                      "generation_allowed":  true,
+                      "result":  "pass",
+                      "status":  "pass",
+                      "failure_category":  "",
+                      "remote_login_status":  "not_attempted"
+                  },
+    "readiness_gate":  {
+                           "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_POST_LOGIN_RETEST_20260706T103042-0500.json",
+                           "found":  true,
+                           "local_pre_ec2_ready":  true,
+                           "ready_for_ec2_static_proof":  true,
+                           "ready_for_generation":  false,
+                           "lane_id":  "sdxl_low_risk_fallback_lane",
+                           "lane_match":  true,
+                           "result":  "ready_for_ec2_static_proof",
+                           "failure_category":  "missing_ec2_static_proof",
+                           "status":  "static_proof_ready"
+                       },
+    "execute_gates_pass":  true,
+    "blocked_reasons":  [
+
+                        ],
+    "result":  "ec2_static_proof_recorded",
+    "failure_category":  null,
+    "local_git_checkpoint_gate":  {
+                                      "git_root":  "C:/Comfy_UI_Main",
+                                      "head":  "260e341c24410283df65a2dfe8a3aaafe6ce25bc",
+                                      "origin_main":  "260e341c24410283df65a2dfe8a3aaafe6ce25bc",
+                                      "expected_remote_head":  "260e341c24410283df65a2dfe8a3aaafe6ce25bc",
+                                      "local_matches_origin":  true,
+                                      "clean":  true,
+                                      "porcelain_count":  0,
+                                      "remote":  "origin\thttps://github.com/KevinSGarrett/Comfy_UI_Main.git (fetch)",
+                                      "result":  "pass",
+                                      "error":  null
+                                  },
+    "start_state":  "stopped",
+    "ec2_started":  true,
+    "ssm_available":  true,
+    "command_id":  "5e55e0f2-5bdd-4bcc-b159-db3a52b66f1d",
+    "command_status":  "Success",
+    "stdout":  [
+                   "{\"errors\": [], \"lane_id\": \"sdxl_low_risk_fallback_lane\", \"model_proofs\": [{\"bytes\": 6938078334, \"exists\": true, \"relative_path\": \"checkpoints/sd_xl_base_1.0.safetensors\", \"role\": \"checkpoint\", \"sha256\": \"31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b\"}], \"object_info\": {\"executed\": true, \"log_path\": \"/tmp/codex_comfy_object_info_1783352747.log\", \"log_tail\": \"act Subpack] ultralytics_segm: /home/ubuntu/ComfyUI/models/ultralytics/segm\\n\\u001b[32m[INFO]\\u001b[0m ComfyUI-GGUF: Allowing full torch compile\\nUSDU batch patches applied successfully.\\n\\u001b[32m[INFO]\\u001b[0m USDU batch patches applied successfully.\\n\\u001b[36;20m[/home/ubuntu/ComfyUI/custom_nodes/comfyui-controlnet-aux] | INFO -\u003e Using ckpts path: /home/ubuntu/ComfyUI/custom_nodes/comfyui-controlnet-aux/ckpts\\u001b[0m\\n\\u001b[36;20m[/home/ubuntu/ComfyUI/custom_nodes/comfyui-controlnet-aux] | INFO -\u003e Using symlinks: False\\u001b[0m\\n\\u001b[36;20m[/home/ubuntu/ComfyUI/custom_nodes/comfyui-controlnet-aux] | INFO -\u003e Using ort providers: [\u0027CUDAExecutionProvider\u0027, \u0027DirectMLExecutionProvider\u0027, \u0027OpenVINOExecutionProvider\u0027, \u0027ROCMExecutionProvider\u0027, \u0027CPUExecutionProvider\u0027, \u0027CoreMLExecutionProvider\u0027]\\u001b[0m\\nDWPose: Onnxruntime with acceleration providers detected\\n\\u001b[32m[INFO]\\u001b[0m \\nImport times for custom nodes:\\n\\u001b[32m[INFO]\\u001b[0m    0.0 seconds: /home/ubuntu/ComfyUI/custom_nodes/websocket_image_save.py\\n\\u001b[32m[INFO]\\u001b[0m    0.0 seconds: /home/ubuntu/ComfyUI/custom_nodes/ComfyUI-GGUF\\n\\u001b[32m[INFO]\\u001b[0m    0.0 seconds: /home/ubuntu/ComfyUI/custom_nodes/ComfyUI_IPAdapter_plus\\n\\u001b[32m[INFO]\\u001b[0m    0.0 seconds: /home/ubuntu/ComfyUI/custom_nodes/ComfyUI-Custom-Scripts\\n\\u001b[32m[INFO]\\u001b[0m    0.0 seconds: /home/ubuntu/ComfyUI/custom_nodes/ComfyUI_essentials\\n\\u001b[32m[INFO]\\u001b[0m    0.0 seconds: /home/ubuntu/ComfyUI/custom_nodes/ComfyUI_UltimateSDUpscale\\n\\u001b[32m[INFO]\\u001b[0m    0.0 seconds: /home/ubuntu/ComfyUI/custom_nodes/rgthree-comfy\\n\\u001b[32m[INFO]\\u001b[0m    0.0 seconds: /home/ubuntu/ComfyUI/custom_nodes/comfyui-manager\\n\\u001b[32m[INFO]\\u001b[0m    0.0 seconds: /home/ubuntu/ComfyUI/custom_nodes/comfyui-controlnet-aux\\n\\u001b[32m[INFO]\\u001b[0m    0.0 seconds: /home/ubuntu/ComfyUI/custom_nodes/ComfyUI-KJNodes\\n\\u001b[32m[INFO]\\u001b[0m    0.0 seconds: /home/ubuntu/ComfyUI/custom_nodes/ComfyUI-AnimateDiff-Evolved\\n\\u001b[32m[INFO]\\u001b[0m    0.0 seconds: /home/ubuntu/ComfyUI/custom_nodes/ComfyUI-Impact-Pack\\n\\u001b[32m[INFO]\\u001b[0m    0.0 seconds: /home/ubuntu/ComfyUI/custom_nodes/ComfyUI-LTXVideo\\n\\u001b[32m[INFO]\\u001b[0m    0.1 seconds: /home/ubuntu/ComfyUI/custom_nodes/ComfyUI-VideoHelperSuite\\n\\u001b[32m[INFO]\\u001b[0m    0.4 seconds: /home/ubuntu/ComfyUI/custom_nodes/ComfyUI-WanVideoWrapper\\n\\u001b[32m[INFO]\\u001b[0m    0.4 seconds: /home/ubuntu/ComfyUI/custom_nodes/ComfyUI-Impact-Subpack\\n\\u001b[32m[INFO]\\u001b[0m    1.6 seconds: /home/ubuntu/ComfyUI/custom_nodes/ComfyUI-HunyuanVideoWrapper\\n\\u001b[32m[INFO]\\u001b[0m \\n\\u001b[32m[INFO]\\u001b[0m Context impl SQLiteImpl.\\n\\u001b[32m[INFO]\\u001b[0m Will assume non-transactional DDL.\\n\\u001b[1m\\u001b[31m[ERROR]\\u001b[0m Failed to initialize database. Please ensure you have installed the latest requirements. If the error persists, please report this as in future the database will be required: Could not acquire lock on database \u0027/home/ubuntu/ComfyUI/user/comfyui.db\u0027. Another ComfyUI process may already be using it. Use --database-url to specify a separate database file.\\n\\u001b[32m[INFO]\\u001b[0m Using RAM pressure cache.\\n\\u001b[32m[INFO]\\u001b[0m Starting server\\n\\n\\u001b[32m[INFO]\\u001b[0m To see the GUI go to: http://127.0.0.1:8191\\nFETCH ComfyRegistry Data: 5/159\\n\", \"node_count\": 1915, \"port\": 8191, \"python\": \"/home/ubuntu/ComfyUI/venv/bin/python\", \"required_node_presence\": {\"CLIPTextEncode\": true, \"CheckpointLoaderSimple\": true, \"EmptyLatentImage\": true, \"KSampler\": true, \"SaveImage\": true, \"VAEDecode\": true}, \"status\": \"pass\"}, \"remote_comfyui\": {\"path\": \"/home/ubuntu/ComfyUI\"}, \"remote_project\": {\"expected_head\": \"260e341c24410283df65a2dfe8a3aaafe6ce25bc\", \"git_lfs_pull_rc\": 0, \"git_pull_summary\": \"Updating 89ce7bb..260e341\\nFast-forward\\n .../Scripts/Invoke-EC2LaneStaticProof.ps1          |  42 +-\\n ...ROOF_WAITER_HARDENING_20260706T104228-0500.json | 521 +++++++++++++++++++++\\n 2 files changed, 560 insertions(+), 3 deletions(-)\\n create mode 100644 Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_STATIC_PROOF_WAITER_HARDENING_20260706T104228-0500.json\", \"head_after\": \"260e341c24410283df65a2dfe8a3aaafe6ce25bc\", \"head_before\": \"89ce7bb131a7f47378b5b5367a4f696e9e671fe9\", \"head_matches_expected\": true, \"path\": \"/home/ubuntu/Comfy_UI_Main\", \"status_clean\": true}, \"timestamp_utc\": \"2026-07-06T15:45:47.049818+00:00\"}",
+                   ""
+               ],
+    "stderr":  "",
+    "final_state":  "stopped",
+    "generation_executed":  false
+}
