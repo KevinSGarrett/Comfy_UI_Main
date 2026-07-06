@@ -1,6 +1,6 @@
 # Next Action
 
-Complete the AWS CLI remote browser login in an interactive/browser-capable shell, then rerun the secret-safe auth gate:
+Complete the AWS CLI remote browser/SSO login in an interactive/browser-capable shell, then rerun the secret-safe auth gate:
 
 ```powershell
 aws login --remote
@@ -8,6 +8,12 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Oper
 ```
 
 Expected account: `029530099913`.
+
+Current profile-matrix evidence shows zero of 15 configured AWS CLI profiles authenticate to expected account `029530099913`, so GitHub and Civitai token presence in `.env` does not unblock EC2. After browser/SSO login, rerun:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-AwsProfileAuthMatrix.ps1 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W60_W61_AWS_PROFILE_AUTH_MATRIX_<timestamp>.json
+```
 
 Do not start EC2 unless the auth gate reports:
 

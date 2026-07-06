@@ -328,6 +328,7 @@ $record = [ordered]@{
     [ordered]@{ script = "Start-ComfyUIGpuServer.ps1"; reason = "Could start EC2/cost resources; out of scope for local static validation." },
     [ordered]@{ script = "Stop-ComfyUIGpuServer.ps1"; reason = "Would contact AWS; out of scope for local static validation." },
     [ordered]@{ script = "Test-AwsAuthGate.ps1"; reason = "Would contact AWS login/STS; existing auth evidence is inspected instead." },
+    [ordered]@{ script = "Test-AwsProfileAuthMatrix.ps1"; reason = "Would contact AWS STS for every configured profile; out of scope for local static validation." },
     [ordered]@{ script = "Test-AwsComfyGpuIdentity.ps1"; reason = "Would contact AWS; out of scope for local static validation." }
   )
   temp_root = "[VALIDATION_TEMP_ROOT]"
