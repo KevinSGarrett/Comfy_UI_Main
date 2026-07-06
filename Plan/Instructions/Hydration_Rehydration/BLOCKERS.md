@@ -20,6 +20,15 @@ None currently active for local Wave 58-62 static and packaging validation.
   - route: EC2 runtime discovery found `/home/ubuntu/ComfyUI` and a working NVIDIA A10G GPU path.
   - evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_RUNTIME_READINESS_PREFLIGHT_20260706T012301-0500.json`
 
+- `BLOCKER-AWS-AUTH-EXPIRED-001`
+  - blocker type: aws_cli_login_expired
+  - failed condition: `aws sts get-caller-identity` returned `ExpiredToken` and `aws ec2 describe-instances` returned `RequestExpired` for the default login credential.
+  - AWS/EC2 involved: yes
+  - impact: EC2 static lane proof, model hash capture, object-info proof, workflow execution, and generated artifact QA cannot continue until AWS login is refreshed.
+  - current state: EC2 was verified `stopped` after the failed static-probe attempt.
+  - route: refresh the AWS CLI default login session, verify account `029530099913`, then rerun EC2 static lane proof for `sdxl_low_risk_fallback_lane`.
+  - evidence: `Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W61_WORKFLOW_LANE_SELECTION_20260706T024025-0500.json`
+
 - `BLOCKER-EC2-PROJECT-SYNC-001`
   - status: resolved 2026-07-06T01:59:07-05:00
   - blocker type: ec2_project_checkout_missing

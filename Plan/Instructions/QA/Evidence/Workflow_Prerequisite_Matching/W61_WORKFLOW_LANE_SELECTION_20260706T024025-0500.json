@@ -1,0 +1,72 @@
+﻿{
+    "evidence_id":  "EVID-W61-WORKFLOW-LANE-SELECTION-20260706T024025-0500",
+    "created_at":  "2026-07-06T02:40:25-05:00",
+    "waves":  [
+                  60,
+                  61
+              ],
+    "tracker_ids":  [
+                        "TRK-W61-006",
+                        "TRK-W61-007"
+                    ],
+    "item_ids":  [
+                     "ITEM-W61-006",
+                     "ITEM-W61-007"
+                 ],
+    "task":  "Workflow lane selection, executable graph authoring, and prerequisite status recording",
+    "selected_lane":  {
+                          "lane_id":  "sdxl_low_risk_fallback_lane",
+                          "engine_family":  "sdxl",
+                          "selection_reason":  "Lowest-risk first execution candidate because it uses a standard SDXL checkpoint graph with CheckpointLoaderSimple, EmptyLatentImage, CLIPTextEncode, KSampler, VAEDecode, and SaveImage rather than engine-specific Flux or specialty-lane loaders.",
+                          "workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json"
+                      },
+    "files_authored":  [
+                           "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
+                           "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/patch_points.json",
+                           "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
+                           "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/smoke_test_request.json"
+                       ],
+    "source_evidence":  [
+                            "Plan/Instructions/QA/Evidence/EC2_Runtime_Inventory/W60_W61_EC2_RUNTIME_INVENTORY_20260706T020209-0500.json",
+                            "Plan/Instructions/Operations/Run_Records/aws_gpu_run_20260706T022710-0500.json"
+                        ],
+    "static_validation":  {
+                              "json_parse_pass":  true,
+                              "workflow_api_present":  true,
+                              "concrete_patch_points_present":  true,
+                              "concrete_runtime_requirements_present":  true,
+                              "smoke_test_request_present":  true,
+                              "generation_executed":  false
+                          },
+    "prerequisite_gate_status":  {
+                                     "object_info_required":  true,
+                                     "object_info_status":  "pending_ec2_static_probe_after_aws_login_refresh",
+                                     "model_hash_required":  true,
+                                     "model_hash_status":  "pending_ec2_static_probe_after_aws_login_refresh",
+                                     "path_resolution_required":  true,
+                                     "path_resolution_status":  "pending_ec2_static_probe_after_aws_login_refresh",
+                                     "runtime_output_required":  true,
+                                     "runtime_output_status":  "not_started",
+                                     "qa_report_required":  true,
+                                     "qa_report_status":  "not_started",
+                                     "promotion_allowed_without_evidence":  false
+                                 },
+    "aws_status":  {
+                       "instance_id":  "i-0560bf8d143f93bb1",
+                       "final_state_verified":  "stopped",
+                       "default_profile_status":  "expired_login_token",
+                       "observed_errors":  [
+                                               "ExpiredToken from sts get-caller-identity",
+                                               "RequestExpired from ec2 describe-instances"
+                                           ],
+                       "remediation":  "Run aws login for the default login_session, or aws login --remote if browser handoff is needed, then verify account 029530099913 before rerunning EC2 static validation."
+                   },
+    "result":  "selected_and_authored_pending_ec2_validation",
+    "limitations":  [
+                        "No EC2 object_info proof was captured after AWS login expiry.",
+                        "No checkpoint sha256/path proof was captured after AWS login expiry.",
+                        "No ComfyUI generation was run.",
+                        "No generated artifact QA was performed."
+                    ],
+    "next_action":  "Refresh AWS CLI default login, verify account 029530099913, rerun static object_info/path/hash probe, then execute the bounded sdxl_low_risk_fallback_lane smoke test."
+}

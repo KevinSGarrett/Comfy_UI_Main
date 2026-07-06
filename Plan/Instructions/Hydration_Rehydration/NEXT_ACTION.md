@@ -1,14 +1,20 @@
 # Next Action
 
-Commit and push the EC2 runtime inventory evidence, then select the lowest-risk workflow lane:
+Refresh the AWS CLI default login session, then verify the expected account:
 
 ```powershell
-git -C C:\Comfy_UI_Main status --branch --short
-git -C C:\Comfy_UI_Main add Plan\Instructions
-git -C C:\Comfy_UI_Main commit -m "Runtime: record EC2 inventory"
-git -C C:\Comfy_UI_Main push origin main
+aws login --remote
+aws sts get-caller-identity --query Account --output text
 ```
 
-After the checkpoint is clean, inspect `Plan\07_IMPLEMENTATION\workflow_templates\base_generation\*\runtime_requirements.example.json` and match the safest candidate against EC2 inventory evidence.
+Expected account: `029530099913`.
 
-Do not run generation until prerequisite matching is recorded.
+After AWS auth is refreshed, rerun the EC2 static proof for `sdxl_low_risk_fallback_lane`:
+
+- update `/home/ubuntu/Comfy_UI_Main` to `origin/main`
+- query ComfyUI `/object_info` and confirm `CheckpointLoaderSimple`, `EmptyLatentImage`, `CLIPTextEncode`, `KSampler`, `VAEDecode`, and `SaveImage`
+- resolve `/home/ubuntu/ComfyUI/models/checkpoints/sd_xl_base_1.0.safetensors`
+- record file size and sha256
+- stop EC2 and verify `stopped`
+
+Only after that proof exists, run the bounded ComfyUI smoke request and perform image QA.

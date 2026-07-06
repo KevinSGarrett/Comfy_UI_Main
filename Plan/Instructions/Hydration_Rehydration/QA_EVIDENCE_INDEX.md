@@ -27,11 +27,13 @@
 | CERT-W60-W61-EC2-PROJECT-SYNC-20260706T015022-0500 | Wave 60/61 EC2 project sync certification | done_certification | done_with_runtime_inventory_pending | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W60_W61_EC2_PROJECT_SYNC_20260706T015022-0500.md |
 | EVID-W60-W61-EC2-RUNTIME-INVENTORY-20260706T020209-0500 | Bounded EC2 ComfyUI model and workflow prerequisite inventory | ec2_runtime_inventory | pass | Plan/Instructions/QA/Evidence/EC2_Runtime_Inventory/W60_W61_EC2_RUNTIME_INVENTORY_20260706T020209-0500.json |
 | CERT-W60-W61-EC2-RUNTIME-INVENTORY-20260706T020209-0500 | Wave 60/61 EC2 runtime inventory certification | done_certification | done_with_workflow_execution_pending | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W60_W61_EC2_RUNTIME_INVENTORY_20260706T020209-0500.md |
+| EVID-W61-WORKFLOW-LANE-SELECTION-20260706T024025-0500 | SDXL low-risk workflow lane selection and executable graph authoring | workflow_prerequisite_matching | selected_and_authored_pending_ec2_validation | Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W61_WORKFLOW_LANE_SELECTION_20260706T024025-0500.json |
+| CERT-W61-WORKFLOW-LANE-SELECTION-20260706T024025-0500 | Wave 61 workflow lane selection pending runtime validation certification | done_certification | pending_runtime_validation | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W61_WORKFLOW_LANE_SELECTION_20260706T024025-0500.md |
 
 ## Pending runtime evidence
 
 - GitHub API-specific token evidence, if required separately from pushed Git remote evidence
-- AWS/EC2 verification evidence
+- AWS/EC2 static lane proof after AWS login refresh
 - Civitai API evidence
 - ComfyUI workflow test evidence
 - Image review evidence

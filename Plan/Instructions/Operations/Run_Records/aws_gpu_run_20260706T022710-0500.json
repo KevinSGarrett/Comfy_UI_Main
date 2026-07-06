@@ -1,0 +1,54 @@
+﻿{
+    "run_id":  "aws_gpu_run_20260706T022710-0500",
+    "wave":  "Wave60/61",
+    "task_id":  "EC2_STATIC_LANE_MATCH_ATTEMPT_20260706T022710-0500",
+    "task":  "Bounded EC2 static workflow lane prerequisite probe attempt",
+    "start_time_local":  "2026-07-06T02:27:10-05:00",
+    "end_time_local":  "2026-07-06T02:34:51-05:00",
+    "aws_account":  "029530099913",
+    "region":  "us-east-1",
+    "instance_id":  "i-0560bf8d143f93bb1",
+    "started_by":  "Codex Desktop autonomous session",
+    "start_state":  "stopped",
+    "end_state":  "stopped",
+    "ec2_started":  true,
+    "ssm_checked":  true,
+    "ssm_available":  true,
+    "command_id":  "a0a13f9d-0400-41c3-917c-2f180dac18ed",
+    "command_status":  "Failed",
+    "commands_run":  [
+                         {
+                             "name":  "static_lane_match_probe",
+                             "status":  "failed_before_probe",
+                             "details":  "AWS-RunShellScript executed under /bin/sh and rejected set -o pipefail before model/path/object-info checks could run."
+                         },
+                         {
+                             "name":  "stop_instance",
+                             "status":  "pass",
+                             "details":  "Stop was attempted and final EC2 state was verified as stopped."
+                         }
+                     ],
+    "follow_up_attempts":  [
+                               {
+                                   "time_local":  "2026-07-06T02:36:12-05:00",
+                                   "status":  "blocked_before_start",
+                                   "details":  "AWS CLI default login credential expired. sts get-caller-identity returned ExpiredToken and ec2 describe-instances returned RequestExpired."
+                               }
+                           ],
+    "artifacts_generated":  [
+                                "Plan/Instructions/Operations/Run_Records/aws_gpu_run_20260706T022710-0500.json"
+                            ],
+    "artifacts_pulled_back":  [
+
+                              ],
+    "qa_reports":  [
+                       "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W61_WORKFLOW_LANE_SELECTION_20260706T024025-0500.json"
+                   ],
+    "stop_attempted":  true,
+    "stop_verified":  true,
+    "errors":  [
+                   "SSM shell wrapper used a non-POSIX pipefail option under /bin/sh.",
+                   "AWS CLI default login token expired before corrected EC2 static probe could be rerun."
+               ],
+    "next_action":  "Refresh AWS CLI default login, then rerun static lane probe for sdxl_low_risk_fallback_lane object_info, checkpoint path, and sha256 proof."
+}
