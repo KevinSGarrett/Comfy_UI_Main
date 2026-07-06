@@ -1114,18 +1114,51 @@ print(json.dumps(result, sort_keys=True))
 PY
 "@
 
+function Wait-InstanceState {
+  param(
+    [Parameter(Mandatory=$true)][string]$DesiredState,
+    [int]$MaxAttempts = 80,
+    [int]$SleepSeconds = 5
+  )
+
+  for ($i = 1; $i -le $MaxAttempts; $i++) {
+    $state = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
+    Write-Host "EC2 state wait $i/$MaxAttempts desired=$DesiredState observed=$state"
+    if ($state -eq $DesiredState) { return $state }
+    Start-Sleep -Seconds $SleepSeconds
+  }
+  throw "Timed out waiting for EC2 state '$DesiredState' on $InstanceId"
+}
+
+function Wait-InstanceStatusOk {
+  param(
+    [int]$MaxAttempts = 80,
+    [int]$SleepSeconds = 5
+  )
+
+  for ($i = 1; $i -le $MaxAttempts; $i++) {
+    $status = aws ec2 describe-instance-status --region $Region --instance-ids $InstanceId --include-all-instances --query "InstanceStatuses[0].{system:SystemStatus.Status,instance:InstanceStatus.Status,state:InstanceState.Name}" --output json | ConvertFrom-Json
+    Write-Host "EC2 status wait $i/$MaxAttempts state=$($status.state) system=$($status.system) instance=$($status.instance)"
+    if ($status.state -eq "running" -and $status.system -eq "ok" -and $status.instance -eq "ok") { return $true }
+    Start-Sleep -Seconds $SleepSeconds
+  }
+  throw "Timed out waiting for EC2 instance status checks on $InstanceId"
+}
+
 try {
   $record.start_state = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
   if ($record.start_state -ne "running") {
+    Write-Host "Starting EC2 instance $InstanceId from state $($record.start_state)"
     aws ec2 start-instances --region $Region --instance-ids $InstanceId --output json | Out-Null
     $record.ec2_started = $true
   }
-  aws ec2 wait instance-running --region $Region --instance-ids $InstanceId
-  aws ec2 wait instance-status-ok --region $Region --instance-ids $InstanceId
+  $null = Wait-InstanceState -DesiredState "running"
+  $null = Wait-InstanceStatusOk
 
   $ssmOnline = $false
   for ($i = 0; $i -lt 30; $i++) {
     $ping = (aws ssm describe-instance-information --region $Region --filters "Key=InstanceIds,Values=$InstanceId" --query "InstanceInformationList[0].PingStatus" --output text 2>$null).Trim()
+    Write-Host "SSM wait $($i + 1)/30 ping=$ping"
     if ($ping -eq "Online") { $ssmOnline = $true; break }
     Start-Sleep -Seconds 10
   }
@@ -1141,9 +1174,11 @@ try {
   [System.IO.File]::WriteAllText($payloadPath, $payload, [System.Text.UTF8Encoding]::new($false))
 
   $record.command_id = (aws ssm send-command --region $Region --cli-input-json "file://$payloadPath" --query "Command.CommandId" --output text).Trim()
+  Write-Host "SSM command sent: $($record.command_id)"
   for ($i = 0; $i -lt [Math]::Max(120, [int](($TimeoutSeconds + 900) / 5)); $i++) {
     Start-Sleep -Seconds 5
     $record.command_status = (aws ssm get-command-invocation --region $Region --instance-id $InstanceId --command-id $record.command_id --query "Status" --output text 2>$null).Trim()
+    Write-Host "SSM command wait $($i + 1) status=$($record.command_status)"
     if ($record.command_status -in @("Success", "Cancelled", "TimedOut", "Failed", "Cancelling")) { break }
   }
 
@@ -1193,8 +1228,9 @@ catch {
 }
 finally {
   try {
+    Write-Host "Stopping EC2 instance $InstanceId after workflow smoke attempt"
     aws ec2 stop-instances --region $Region --instance-ids $InstanceId --output json | Out-Null
-    aws ec2 wait instance-stopped --region $Region --instance-ids $InstanceId
+    $null = Wait-InstanceState -DesiredState "stopped" -MaxAttempts 120 -SleepSeconds 5
     $record.final_state = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
   } catch {
     $record.errors += "Stop/final-state verification failed: $($_.Exception.Message)"
