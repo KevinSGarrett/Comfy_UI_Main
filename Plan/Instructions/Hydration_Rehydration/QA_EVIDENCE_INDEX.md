@@ -40,12 +40,13 @@
 | CERT-W60-W61-AWS-AUTH-GATE-HELPER-20260706T031007-0500 | AWS auth gate helper and blocker evidence certification | done_certification | helper_validated_runtime_blocked | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W60_W61_AWS_AUTH_GATE_HELPER_20260706T031007-0500.md |
 | EC2-PULLBACK-RECORD-20260706T031758-0500 | EC2 pullback record helper dry-run | pullback_record_helper_dry_run | pending_runtime_artifacts | Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_EC2_PULLBACK_RECORD_DRY_RUN_20260706T031758-0500.json |
 | CERT-W60-EC2-PULLBACK-RECORD-HELPER-DRY-RUN-20260706T031758-0500 | EC2 pullback record helper dry-run certification | done_certification | helper_validated_pending_runtime_artifacts | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W60_EC2_PULLBACK_RECORD_HELPER_DRY_RUN_20260706T031758-0500.md |
+| LANE-RUNTIME-READINESS-20260706T032345-0500 | Selected SDXL lane local runtime readiness gate | lane_runtime_readiness | local_pre_ec2_ready_runtime_blocked | Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_20260706T032345-0500.json |
+| CERT-W61-LANE-RUNTIME-READINESS-LOCAL-GATE-20260706T032345-0500 | Selected lane local readiness certification | done_certification | local_pre_ec2_ready_runtime_blocked | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W61_LANE_RUNTIME_READINESS_LOCAL_GATE_20260706T032345-0500.md |
 
 ## Pending runtime evidence
 
 - GitHub API-specific token evidence, if required separately from pushed Git remote evidence
 - AWS/EC2 static lane proof after AWS login refresh
-- Civitai API evidence
 - ComfyUI workflow test evidence
 - EC2 artifact pullback runtime evidence
 - Image review evidence

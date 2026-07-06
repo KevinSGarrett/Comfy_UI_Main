@@ -19,6 +19,17 @@ safe_to_start_ec2: true
 After AWS auth is refreshed and verified, rerun the EC2 static proof for `sdxl_low_risk_fallback_lane`:
 
 ```powershell
+powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-LaneRuntimeReadiness.ps1 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_LANE_RUNTIME_READINESS_<timestamp>.json
+```
+
+Only proceed to EC2 static proof when the readiness record reports:
+
+```text
+local_pre_ec2_ready: true
+ready_for_ec2_static_proof: true
+```
+
+```powershell
 powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 -Execute -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W61_EC2_LANE_STATIC_PROOF_<timestamp>.json
 ```
 
