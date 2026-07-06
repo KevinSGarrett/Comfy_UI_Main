@@ -99,6 +99,8 @@ Start by reading this file, then re-open the standard hydration files in this fo
 - Validated both exported top-level workflow lanes directly with `Test-ComfyWorkflowStatic.ps1`; both pass and all exported workflow/support files hash-match the validated Plan templates.
 - Added root-level workflow tooling: `tools\Sync-WorkflowExports.ps1`, `tools\Test-RootProjectPreflight.ps1`, and `tools\New-WorkflowRunPackage.ps1`.
 - Generated the first local run package for `sdxl_low_risk_fallback_lane` at `runtime_artifacts\run_packages\sdxl_low_risk_fallback_lane_20260706T081301-0500`. It contains `prompt_request.json`, copied lane files, static validation, smoke dry-run, and `RUN_PACKAGE_MANIFEST.json`; result is `pass_local_only`, `execution_allowed=false`, `ec2_started=false`, and `generation_executed=false`.
+- Added prompt profile support to `tools\New-WorkflowRunPackage.ps1`, added `PromptProfiles\base_generation\hyperreal_editorial_portrait.json`, and generated `runtime_artifacts\run_packages\sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1`. The package applies `hyperreal_editorial_portrait_v1`, builds a concrete hyperreal portrait `prompt_request.json`, records `pass_local_only`, and keeps `ec2_started=false` plus `generation_executed=false`.
+- Pushed runtime package commit `92ce3111145c9d4f16e7db9f5bbd648de4a7d138` to `origin/main`, verified local/remote refs matched, and saved post-push root preflight evidence at `runtime_artifacts\run_manifests\ROOT_LOCAL_PREFLIGHT_20260706T090734-0500.json` with failed check count `0`.
 
 ## Current goal
 
@@ -372,6 +374,10 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\S
 - `tools/New-WorkflowRunPackage.ps1`
 - `runtime_artifacts/run_packages/sdxl_low_risk_fallback_lane_20260706T081301-0500/RUN_PACKAGE_MANIFEST.json`
 - `runtime_artifacts/run_packages/sdxl_low_risk_fallback_lane_20260706T081301-0500/prompt_request.json`
+- `PromptProfiles/base_generation/hyperreal_editorial_portrait.json`
+- `runtime_artifacts/run_packages/sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1/RUN_PACKAGE_MANIFEST.json`
+- `runtime_artifacts/run_packages/sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1/prompt_request.json`
+- `runtime_artifacts/run_manifests/ROOT_LOCAL_PREFLIGHT_20260706T090734-0500.json`
 
 ## Must not repeat
 

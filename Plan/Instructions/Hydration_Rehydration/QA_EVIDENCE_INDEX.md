@@ -224,6 +224,8 @@
 | EVID-W60-OPERATIONS-HELPER-QUEUE-AWARE-HANDOFF-RETEST-20260706T075228-0500 | Operations helper validation with queue-aware runtime handoff smoke | operations_helper_current_static_validation | pass_local_only | Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_QUEUE_AWARE_HANDOFF_RETEST_20260706T075228-0500.json |
 | CERT-W61-QUEUE-AWARE-READINESS-HANDOFF-20260706T075211-0500 | Queue-aware readiness and handoff certification | done_certification | pass_local_only_runtime_blocked_auth | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W61_QUEUE_AWARE_READINESS_HANDOFF_20260706T075211-0500.md |
 | EVID-W61-ROOT-RUN-PACKAGE-LOW-RISK-20260706T081301-0500 | Root-level local workflow run package for first queued low-risk lane | workflow_run_package | pass_local_only | runtime_artifacts/run_packages/sdxl_low_risk_fallback_lane_20260706T081301-0500/RUN_PACKAGE_MANIFEST.json |
+| EVID-W61-HYPERREAL-PROMPT-PACKAGE-20260706T090734-0500 | Hyperreal editorial portrait prompt-profile run package for first queued low-risk lane | workflow_run_package | pass_local_only | runtime_artifacts/run_packages/sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1/RUN_PACKAGE_MANIFEST.json |
+| EVID-ROOT-LOCAL-PREFLIGHT-20260706T090734-0500 | Root local preflight after hyperreal prompt package push | root_local_preflight | pass_local_only | runtime_artifacts/run_manifests/ROOT_LOCAL_PREFLIGHT_20260706T090734-0500.json |
 
 ## Pending runtime evidence
 

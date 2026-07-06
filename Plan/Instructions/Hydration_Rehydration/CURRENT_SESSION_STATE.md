@@ -279,3 +279,11 @@ EC2 static-proof and workflow-smoke coordinators now require a clean pushed loca
 
 ## Next action
 After AWS remote login is refreshed externally, rerun `Test-AwsAuthGate.ps1` until `ec2_work_allowed=true`, rerun `Test-LaneRuntimeReadiness.ps1`, run `Invoke-EC2LaneStaticProof.ps1 -Execute`, run `Invoke-EC2WorkflowSmokeRun.ps1 -Execute`, verify/pull back the generated image artifacts, run `New-EC2PullbackRecord.ps1` if pullback was not already recorded by the coordinator, and run `New-ImageArtifactQARecord.ps1` plus visual review. Keep the Git checkpoint gate clean and pushed before any EC2 `-Execute`.
+
+## Latest Local Runtime Package Update - 2026-07-06T09:07:34-05:00
+- Added prompt profile support to `tools/New-WorkflowRunPackage.ps1` with `-PromptProfileFile`, package-local profile merge, and manifest `prompt_profile` tracking.
+- Added `PromptProfiles/base_generation/hyperreal_editorial_portrait.json` for the first bounded hyperreal editorial portrait prompt on `sdxl_low_risk_fallback_lane`.
+- Generated profile package `runtime_artifacts/run_packages/sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1/RUN_PACKAGE_MANIFEST.json`; result is `pass_local_only`, `prompt_profile.applied=true`, `workflow_static.qa_status=pass`, `smoke_dry_run.error_count=0`, `ec2_started=false`, and `generation_executed=false`.
+- Verified the packaged `prompt_request.json` contains the hyperreal portrait prompt, negative prompt anti-artifact terms, seed `6100611061`, steps `24`, cfg `6.2`, and save prefix `codex_hyperreal_editorial_portrait`.
+- Pushed commit `92ce3111145c9d4f16e7db9f5bbd648de4a7d138` to `origin/main`; local HEAD, `origin/main`, and remote `refs/heads/main` matched before hydration edits.
+- Saved post-push root preflight evidence at `runtime_artifacts/run_manifests/ROOT_LOCAL_PREFLIGHT_20260706T090734-0500.json`; result is `pass_local_only`, failed check count `0`, `.env` is ignored, and worktree was clean at commit `92ce3111145c9d4f16e7db9f5bbd648de4a7d138`.
