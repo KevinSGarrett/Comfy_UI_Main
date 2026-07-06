@@ -257,7 +257,7 @@ function Invoke-LocalHelper {
         }
       }
       if ($Name -eq "runtime_unblock_handoff_smoke") {
-        foreach ($required in @("result", "failure_category", "next_required_action", "local_only", "aws_contacted", "ec2_started", "generation_executed", "safety_invariants", "command_sequence", "markdown_written")) {
+        foreach ($required in @("result", "failure_category", "next_required_action", "local_only", "aws_contacted", "ec2_started", "generation_executed", "safety_invariants", "command_sequence", "markdown_written", "gate_summary")) {
           if (-not (Has-Property -Object $payload -Name $required)) {
             throw "$Name output is missing top-level field: $required"
           }
@@ -273,6 +273,18 @@ function Invoke-LocalHelper {
         }
         if ([bool]$payload.generation_executed) {
           throw "$Name must not execute generation."
+        }
+        if (-not (Has-Property -Object $payload.gate_summary -Name "run_package")) {
+          throw "$Name gate_summary is missing run_package."
+        }
+        if ([bool]$payload.gate_summary.run_package.supplied) {
+          if (-not [bool]$payload.gate_summary.run_package.valid) {
+            throw "$Name supplied run package must be valid."
+          }
+          $boundedStep = @($payload.command_sequence | Where-Object { [string]$_.name -eq "bounded_workflow_smoke" } | Select-Object -First 1)
+          if ($boundedStep.Count -eq 0 -or [string]$boundedStep[0].command -notmatch "-RunPackageManifestFile") {
+            throw "$Name bounded_workflow_smoke command must include -RunPackageManifestFile when a run package is supplied."
+          }
         }
         if (-not [bool]$payload.markdown_written) {
           throw "$Name did not write its Markdown handoff."
@@ -687,7 +699,7 @@ $runtimeUnblockHandoffFile = Join-Path $tempRoot "runtime_unblock_handoff.json"
 $runtimeUnblockHandoffMarkdown = Join-Path $tempRoot "runtime_unblock_handoff.md"
 $localSmokeResults += Invoke-LocalHelper -Name "runtime_unblock_handoff_smoke" `
   -ScriptPath (Join-Path $scriptsRoot "New-RuntimeUnblockHandoff.ps1") `
-  -Arguments @("-ProjectRoot", $ProjectRoot, "-OutFile", $runtimeUnblockHandoffFile, "-MarkdownOutFile", $runtimeUnblockHandoffMarkdown) `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-OutFile", $runtimeUnblockHandoffFile, "-MarkdownOutFile", $runtimeUnblockHandoffMarkdown, "-RunPackageManifestFile", $hyperrealPackageManifest) `
   -ExpectedOutputFile $runtimeUnblockHandoffFile
 
 $latestBlockedStaticProof = Find-LatestFile -Directory $workflowStaticDir -Filter "W61_EC2_LANE_STATIC_PROOF_BLOCKED_EXECUTE_*.json"

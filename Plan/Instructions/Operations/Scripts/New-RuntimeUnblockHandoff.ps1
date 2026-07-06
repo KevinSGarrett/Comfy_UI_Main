@@ -12,7 +12,8 @@ param(
   [string]$ProjectRoot = "C:\Comfy_UI_Main",
   [string]$LaneId = "sdxl_low_risk_fallback_lane",
   [string]$OutFile = "",
-  [string]$MarkdownOutFile = ""
+  [string]$MarkdownOutFile = "",
+  [string]$RunPackageManifestFile = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -60,6 +61,16 @@ function ConvertTo-ProjectRelativePath {
   return $TargetPath
 }
 
+function Resolve-ProjectPath {
+  param([string]$Path)
+
+  if ([string]::IsNullOrWhiteSpace($Path)) { return $null }
+  if ([System.IO.Path]::IsPathRooted($Path)) {
+    return [System.IO.Path]::GetFullPath($Path)
+  }
+  return [System.IO.Path]::GetFullPath((Join-Path $ProjectRoot $Path.Replace("/", "\")))
+}
+
 function Has-Property {
   param(
     [object]$Object,
@@ -90,6 +101,12 @@ function Get-BoolPropertyValue {
 
   if (Has-Property -Object $Object -Name $Name) { return [bool]$Object.$Name }
   return $Default
+}
+
+function Get-FileSha256Lower {
+  param([string]$Path)
+  if ([string]::IsNullOrWhiteSpace($Path) -or !(Test-Path -LiteralPath $Path)) { return $null }
+  return (Get-FileHash -Algorithm SHA256 -LiteralPath $Path).Hash.ToLowerInvariant()
 }
 
 function Find-LatestFile {
@@ -196,6 +213,135 @@ function Read-JsonEvidence {
     return $null
   }
   return (Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json)
+}
+
+function Get-RunPackageSummary {
+  param([string]$Path)
+
+  $summary = [ordered]@{
+    supplied = $false
+    evidence = $null
+    found = $false
+    valid = $false
+    errors = @()
+    run_id = $null
+    result = $null
+    lane_id = $null
+    lane_match = $false
+    prompt_profile = [ordered]@{
+      supplied = $false
+      applied = $false
+      profile_id = $null
+      path = $null
+    }
+    prompt_request = [ordered]@{
+      path = $null
+      expected_sha256 = $null
+      actual_sha256 = $null
+      hash_match = $false
+      json_valid = $false
+      node_count = 0
+    }
+  }
+
+  if ([string]::IsNullOrWhiteSpace($Path)) {
+    return $summary
+  }
+
+  $summary.supplied = $true
+  $manifestPath = Resolve-ProjectPath -Path $Path
+  $summary.evidence = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $manifestPath
+  if (!(Test-Path -LiteralPath $manifestPath)) {
+    $summary.errors += "Run package manifest not found: $Path"
+    return $summary
+  }
+  $summary.found = $true
+
+  try {
+    $manifest = Read-JsonEvidence -Path $manifestPath
+  } catch {
+    $summary.errors += "Run package manifest JSON parse failed: $($_.Exception.Message)"
+    return $summary
+  }
+
+  $summary.run_id = [string](Get-PropertyValue -Object $manifest -Name "run_id" -Default "")
+  $summary.result = [string](Get-PropertyValue -Object $manifest -Name "result" -Default "")
+  $summary.lane_id = [string](Get-PropertyValue -Object $manifest -Name "lane_id" -Default "")
+  $summary.lane_match = ([string]$summary.lane_id -eq [string]$LaneId)
+  if (!$summary.lane_match) {
+    $summary.errors += "Run package lane_id '$($summary.lane_id)' does not match selected lane '$LaneId'."
+  }
+  if ([string]$summary.result -ne "pass_local_only") {
+    $summary.errors += "Run package result is '$($summary.result)', not pass_local_only."
+  }
+  if ((Has-Property -Object $manifest -Name "ec2_started") -and [bool]$manifest.ec2_started) {
+    $summary.errors += "Run package records ec2_started=true."
+  }
+  if ((Has-Property -Object $manifest -Name "generation_executed") -and [bool]$manifest.generation_executed) {
+    $summary.errors += "Run package records generation_executed=true."
+  }
+
+  if ((Has-Property -Object $manifest -Name "prompt_profile") -and $null -ne $manifest.prompt_profile) {
+    $summary.prompt_profile.supplied = Get-BoolPropertyValue -Object $manifest.prompt_profile -Name "supplied" -Default $false
+    $summary.prompt_profile.applied = Get-BoolPropertyValue -Object $manifest.prompt_profile -Name "applied" -Default $false
+    $summary.prompt_profile.profile_id = [string](Get-PropertyValue -Object $manifest.prompt_profile -Name "profile_id" -Default "")
+    $summary.prompt_profile.path = [string](Get-PropertyValue -Object $manifest.prompt_profile -Name "path" -Default "")
+  }
+
+  $promptRequestPath = $null
+  $expectedHash = $null
+  if (Has-Property -Object $manifest -Name "generated_files") {
+    $promptGenerated = @($manifest.generated_files | Where-Object { [string]$_.path -match '(^|/)prompt_request\.json$' } | Select-Object -First 1)
+    if ($promptGenerated.Count -gt 0) {
+      $promptRequestPath = [string]$promptGenerated[0].path
+      $expectedHash = ([string](Get-PropertyValue -Object $promptGenerated[0] -Name "sha256" -Default "")).ToLowerInvariant()
+    }
+  }
+  if ([string]::IsNullOrWhiteSpace($promptRequestPath) -and
+      (Has-Property -Object $manifest -Name "package_dir") -and
+      ![string]::IsNullOrWhiteSpace([string]$manifest.package_dir)) {
+    $promptRequestPath = ([string]$manifest.package_dir).TrimEnd("/", "\") + "/prompt_request.json"
+  }
+  if ([string]::IsNullOrWhiteSpace($expectedHash) -and
+      (Has-Property -Object $manifest -Name "prompt_request") -and
+      $null -ne $manifest.prompt_request) {
+    $expectedHash = ([string](Get-PropertyValue -Object $manifest.prompt_request -Name "sha256" -Default "")).ToLowerInvariant()
+  }
+
+  if ([string]::IsNullOrWhiteSpace($promptRequestPath)) {
+    $summary.errors += "Run package manifest does not identify prompt_request.json."
+    return $summary
+  }
+
+  $promptFullPath = Resolve-ProjectPath -Path $promptRequestPath
+  $summary.prompt_request.path = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $promptFullPath
+  $summary.prompt_request.expected_sha256 = $expectedHash
+  if (!(Test-Path -LiteralPath $promptFullPath)) {
+    $summary.errors += "Run package prompt_request.json not found: $promptRequestPath"
+    return $summary
+  }
+
+  $actualHash = Get-FileSha256Lower -Path $promptFullPath
+  $summary.prompt_request.actual_sha256 = $actualHash
+  $summary.prompt_request.hash_match = (![string]::IsNullOrWhiteSpace($expectedHash) -and $actualHash -eq $expectedHash)
+  if (![string]::IsNullOrWhiteSpace($expectedHash) -and !$summary.prompt_request.hash_match) {
+    $summary.errors += "Run package prompt_request.json sha256 does not match manifest."
+  }
+
+  try {
+    $request = Read-JsonEvidence -Path $promptFullPath
+    $summary.prompt_request.json_valid = $true
+    if ((Has-Property -Object $request -Name "prompt") -and $null -ne $request.prompt) {
+      $summary.prompt_request.node_count = @($request.prompt.PSObject.Properties).Count
+    } else {
+      $summary.errors += "Run package prompt_request.json has no prompt object."
+    }
+  } catch {
+    $summary.errors += "Run package prompt_request.json parse failed: $($_.Exception.Message)"
+  }
+
+  $summary.valid = ($summary.errors.Count -eq 0)
+  return $summary
 }
 
 function New-CommandStep {
@@ -366,6 +512,11 @@ $helperSummary = [ordered]@{
     result = [string](Get-PropertyValue -Object $indexJson -Name "result" -Default "missing_index_validation")
   }
 }
+$runPackageSummary = Get-RunPackageSummary -Path $RunPackageManifestFile
+$runPackageCommandArg = ""
+if ($runPackageSummary.supplied) {
+  $runPackageCommandArg = " -RunPackageManifestFile `"$((Resolve-ProjectPath -Path $RunPackageManifestFile))`""
+}
 
 $result = "handoff_failed_local_readiness"
 $failureCategory = "local_project_readiness_failed"
@@ -400,7 +551,7 @@ $commandSequence = @(
   (New-CommandStep -Name "git_checkpoint_recheck" -Gate "before_any_ec2_execute" -Command "git -C C:\Comfy_UI_Main status --short --branch; git -C C:\Comfy_UI_Main rev-parse HEAD; git -C C:\Comfy_UI_Main rev-parse origin/main" -ExpectedEvidence "Working tree clean and local HEAD equals origin/main before any EC2 helper runs with -Execute." -WhenToRun "Immediately before EC2 static proof or workflow smoke execution."),
   (New-CommandStep -Name "lane_readiness_recheck" -Gate "auth_gate_safe_to_start_ec2_true" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-LaneRuntimeReadiness.ps1 -LaneId $LaneId -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_LANE_RUNTIME_READINESS_<timestamp>.json" -ExpectedEvidence "local_pre_ec2_ready=true, lane_id=$LaneId, and ready_for_ec2_static_proof=true before EC2 static proof." -WhenToRun "Only after auth gate reports safe_to_start_ec2=true."),
   (New-CommandStep -Name "ec2_static_proof" -Gate "ready_for_ec2_static_proof_true" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 -LaneId $LaneId -Execute -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W61_EC2_LANE_STATIC_PROOF_<timestamp>.json" -ExpectedEvidence "Object-info node availability, checkpoint path, checkpoint size/hash, LaneId match, and EC2 stop verification." -WhenToRun "Only after readiness reports ready_for_ec2_static_proof=true."),
-  (New-CommandStep -Name "bounded_workflow_smoke" -Gate "static_proof_generation_allowed" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1 -LaneId $LaneId -Execute -StaticProofFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W61_EC2_LANE_STATIC_PROOF_<timestamp>.json -ReadinessFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_LANE_RUNTIME_READINESS_<timestamp>.json -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Runtime\W61_EC2_WORKFLOW_SMOKE_RUN_EXECUTION_<timestamp>.json" -ExpectedEvidence "Bounded prompt execution, LaneId-matched static proof/readiness, remote artifact manifest, pullback route, and EC2 stop verification." -WhenToRun "Only after EC2 static proof permits generation."),
+  (New-CommandStep -Name "bounded_workflow_smoke" -Gate "static_proof_generation_allowed" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1 -LaneId $LaneId -Execute -StaticProofFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W61_EC2_LANE_STATIC_PROOF_<timestamp>.json -ReadinessFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_LANE_RUNTIME_READINESS_<timestamp>.json$runPackageCommandArg -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Runtime\W61_EC2_WORKFLOW_SMOKE_RUN_EXECUTION_<timestamp>.json" -ExpectedEvidence $(if ($runPackageSummary.supplied) { "Bounded prompt execution from validated run package $($runPackageSummary.run_id), LaneId-matched static proof/readiness, remote artifact manifest, pullback route, and EC2 stop verification." } else { "Bounded prompt execution, LaneId-matched static proof/readiness, remote artifact manifest, pullback route, and EC2 stop verification." }) -WhenToRun "Only after EC2 static proof permits generation."),
   (New-CommandStep -Name "artifact_pullback_record" -Gate "generated_artifacts_pulled_back" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\New-EC2PullbackRecord.ps1 -RunId <run_id> -LocalDestination C:\Comfy_UI_Main\Plan\Instructions\Operations\Pulled_Back_Artifacts\<run_id> -RemoteManifestFile C:\Comfy_UI_Main\Plan\Instructions\Operations\Pulled_Back_Artifacts\<run_id>\REMOTE_ARTIFACT_MANIFEST.json" -ExpectedEvidence "PULLBACK_RECORD.json with count/hash match and QA routing." -WhenToRun "After generated artifacts and remote manifest exist locally."),
   (New-CommandStep -Name "image_artifact_qa" -Gate "pullback_hashes_verified" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\Scripts\New-ImageArtifactQARecord.ps1 -ImagePath <pulled-back-image> -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Image_Artifact_QA\W61_IMAGE_QA_<timestamp>.json -ChecklistOutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Image_Artifact_QA\W61_IMAGE_QA_CHECKLIST_<timestamp>.md" -ExpectedEvidence "Image technical QA record and human/visual review checklist." -WhenToRun "After pullback hashes are verified.")
 )
@@ -415,6 +566,9 @@ $safetyInvariants = [ordered]@{
   do_not_start_ec2_unless_lane_ready = "Test-LaneRuntimeReadiness.ps1 must report lane_id=$LaneId and ready_for_ec2_static_proof=true."
   do_not_run_generation_without_static_proof = "Invoke-EC2LaneStaticProof.ps1 -Execute must record object-info/path/hash proof before workflow smoke generation."
   stop_ec2_after_runtime_work = "Any EC2 runtime action must stop instance i-0560bf8d143f93bb1 and verify stopped."
+}
+if ($runPackageSummary.supplied) {
+  $safetyInvariants["use_verified_run_package"] = "Invoke-EC2WorkflowSmokeRun.ps1 must use run package $($runPackageSummary.evidence), and run_package.valid must be true before generation."
 }
 
 $markdownPathForRecord = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $MarkdownOutFile
@@ -445,6 +599,7 @@ $record = [ordered]@{
     lane_readiness = $laneSummary.evidence
     project_readiness = $projectSummary.evidence
     runtime_lane_queue = $queueSummary.evidence
+    run_package = $runPackageSummary.evidence
     operations_validation = $helperSummary.operations_validation.evidence
     qa_validation = $helperSummary.qa_validation.evidence
     index_validation = $helperSummary.index_validation.evidence
@@ -455,10 +610,12 @@ $record = [ordered]@{
     lane_readiness = $laneSummary
     project_readiness = $projectSummary
     runtime_lane_queue = $queueSummary
+    run_package = $runPackageSummary
     helper_validation = $helperSummary
   }
   safety_invariants = $safetyInvariants
   command_sequence = $commandSequence
+  command_step_count = @($commandSequence).Count
   markdown_path = $markdownPathForRecord
   markdown_written = $false
   known_issues = @(
@@ -503,6 +660,7 @@ $markdown = @"
 - Lane readiness: $($laneSummary.result), lane_id=$($laneSummary.lane_id), lane_match=$($laneSummary.lane_match), local_pre_ec2_ready=$($laneSummary.local_pre_ec2_ready), ready_for_ec2_static_proof=$($laneSummary.ready_for_ec2_static_proof), ready_for_generation=$($laneSummary.ready_for_generation)
 - Project readiness: $($projectSummary.result), lane_id=$($projectSummary.lane_id), lane_match=$($projectSummary.lane_match), local_ready=$($projectSummary.local_ready), ec2_start_allowed=$($projectSummary.ec2_start_allowed), generation_allowed=$($projectSummary.generation_allowed), scan_hit_count=$($projectSummary.scan_hit_count)
 - Runtime lane queue: $($queueSummary.result), first_runtime_lane_id=$($queueSummary.first_runtime_lane_id), first_runtime_lane_match=$($queueSummary.first_runtime_lane_match), selected_lane_order=$($queueSummary.selected_lane_order), queue_allows_selected_lane_ec2_static_proof=$($queueSummary.queue_allows_selected_lane_ec2_static_proof)
+- Run package: supplied=$($runPackageSummary.supplied), valid=$($runPackageSummary.valid), run_id=$($runPackageSummary.run_id), profile=$($runPackageSummary.prompt_profile.profile_id), prompt_hash_match=$($runPackageSummary.prompt_request.hash_match)
 
 ## Safety Invariants
 
