@@ -232,6 +232,39 @@ function Invoke-LocalHelper {
           throw "$Name blocked output must include a top-level failure_category."
         }
       }
+      if ($Name -eq "runtime_unblock_handoff_smoke") {
+        foreach ($required in @("result", "failure_category", "next_required_action", "local_only", "aws_contacted", "ec2_started", "generation_executed", "safety_invariants", "command_sequence", "markdown_written")) {
+          if (-not (Has-Property -Object $payload -Name $required)) {
+            throw "$Name output is missing top-level field: $required"
+          }
+        }
+        if (-not [bool]$payload.local_only) {
+          throw "$Name must be local_only=true."
+        }
+        if ([bool]$payload.aws_contacted) {
+          throw "$Name must not contact AWS."
+        }
+        if ([bool]$payload.ec2_started) {
+          throw "$Name must not start EC2."
+        }
+        if ([bool]$payload.generation_executed) {
+          throw "$Name must not execute generation."
+        }
+        if (-not [bool]$payload.markdown_written) {
+          throw "$Name did not write its Markdown handoff."
+        }
+        if (@($payload.command_sequence).Count -lt 8) {
+          throw "$Name command_sequence is missing expected post-auth steps."
+        }
+        foreach ($requiredSafety in @("approved_instance_id", "expected_aws_account", "do_not_start_ec2_unless_auth_safe", "do_not_start_ec2_unless_lane_ready", "stop_ec2_after_runtime_work")) {
+          if (-not (Has-Property -Object $payload.safety_invariants -Name $requiredSafety)) {
+            throw "$Name safety_invariants is missing: $requiredSafety"
+          }
+        }
+        if ([string]$payload.result -like "*blocked*" -and [string]::IsNullOrWhiteSpace([string]$payload.failure_category)) {
+          throw "$Name blocked result must include failure_category."
+        }
+      }
     } catch {
       $entry.expected_output_error = $_.Exception.Message
       $entry.result = "fail"
@@ -618,6 +651,13 @@ $localSmokeResults += Invoke-LocalHelper -Name "ec2_workflow_smoke_run_dry_run" 
   -Arguments @("-OutFile", $coordinatorFile, "-OutRequestFile", $coordinatorRequestFile, "-ReadinessFile", $readinessFile) `
   -ExpectedOutputFile $coordinatorFile
 
+$runtimeUnblockHandoffFile = Join-Path $tempRoot "runtime_unblock_handoff.json"
+$runtimeUnblockHandoffMarkdown = Join-Path $tempRoot "runtime_unblock_handoff.md"
+$localSmokeResults += Invoke-LocalHelper -Name "runtime_unblock_handoff_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-RuntimeUnblockHandoff.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-OutFile", $runtimeUnblockHandoffFile, "-MarkdownOutFile", $runtimeUnblockHandoffMarkdown) `
+  -ExpectedOutputFile $runtimeUnblockHandoffFile
+
 $latestBlockedStaticProof = Find-LatestFile -Directory $workflowStaticDir -Filter "W61_EC2_LANE_STATIC_PROOF_BLOCKED_EXECUTE_*.json"
 $latestCoordinatorDryRun = Find-LatestFile -Directory $workflowRuntimeDir -Filter "W61_EC2_WORKFLOW_SMOKE_RUN_DRY_RUN_*.json"
 $latestCoordinatorBlockedRun = Find-LatestFile -Directory $workflowRuntimeDir -Filter "W61_EC2_WORKFLOW_SMOKE_RUN_BLOCKED_EXECUTE_*.json"
@@ -670,7 +710,8 @@ $record = [ordered]@{
     "Plan/Instructions/Operations/Scripts/*.ps1",
     "Plan/Instructions/Operations/Schemas/*.json",
     "Plan/Instructions/Operations/Templates/*.json",
-    "latest selected-lane runtime gate evidence"
+    "latest selected-lane runtime gate evidence",
+    "runtime unblock handoff smoke"
   )
   validation_results = [ordered]@{
     script_count = @($scriptParseResults).Count
