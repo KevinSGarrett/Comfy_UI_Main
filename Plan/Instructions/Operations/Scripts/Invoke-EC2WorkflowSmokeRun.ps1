@@ -27,6 +27,7 @@ param(
   [string]$StaticProofFile = "",
   [string]$ReadinessFile = "",
   [string]$OutFile = "",
+  [string]$OutRequestFile = "",
   [string]$RunRecordFile = "",
   [string]$RemoteProjectRoot = "/home/ubuntu/Comfy_UI_Main",
   [string]$RemoteComfyRoot = "/home/ubuntu/ComfyUI",
@@ -403,8 +404,16 @@ $authGate = Get-AuthGateStatus -Path $AuthGateFile
 $readinessGate = Get-ReadinessStatus -Path $ReadinessFile
 $staticProof = Test-StaticProof -Path $StaticProofFile
 
-$null = New-Item -ItemType Directory -Force -Path $workflowRuntimeDir
-$requestFile = Join-Path $workflowRuntimeDir ("W61_EC2_WORKFLOW_SMOKE_RUN_REQUEST_$stamp.json")
+if ([string]::IsNullOrWhiteSpace($OutRequestFile)) {
+  $null = New-Item -ItemType Directory -Force -Path $workflowRuntimeDir
+  $requestFile = Join-Path $workflowRuntimeDir ("W61_EC2_WORKFLOW_SMOKE_RUN_REQUEST_$stamp.json")
+} else {
+  $requestFile = $OutRequestFile
+  $requestDir = Split-Path -Parent $requestFile
+  if (![string]::IsNullOrWhiteSpace($requestDir)) {
+    $null = New-Item -ItemType Directory -Force -Path $requestDir
+  }
+}
 $smokeRequest = Invoke-SmokeRequestDryRun -SmokeScript $smokeScript -LaneDirectory $laneDir -ProofFile $StaticProofFile -RequestOutFile $requestFile
 $smokeRequestReady = ($smokeRequest.exit_code -eq 0 -and $smokeRequest.json_parsed -and $smokeRequest.request_file_exists)
 

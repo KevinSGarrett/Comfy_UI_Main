@@ -52,6 +52,8 @@
 | EC2-WORKFLOW-SMOKE-RUN-20260706T034516-0500 | Bounded EC2 workflow smoke-run coordinator rerun after static-proof selector refresh | workflow_runtime_smoke_run_dry_run | gated_no_start_no_generation | Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_RUN_DRY_RUN_20260706T034516-0500.json |
 | EC2-WORKFLOW-SMOKE-RUN-REQUEST-20260706T034516-0500 | Patched selected-lane `/prompt` request generated after static-proof selector refresh | workflow_runtime_smoke_request | static_request_built_no_generation | Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_RUN_REQUEST_20260706T034516-0500.json |
 | CERT-W61-EC2-STATIC-PROOF-GATE-REFRESH-20260706T034516-0500 | EC2 static-proof and runtime selector gate refresh certification | done_certification | helper_gate_validated_runtime_blocked | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W61_EC2_STATIC_PROOF_GATE_REFRESH_20260706T034516-0500.md |
+| EVID-W60-OPERATIONS-HELPER-CURRENT-VALIDATION-20260706T035148-0500 | Current operations helper parser/schema/local dry-run validation | operations_helper_current_static_validation | pass_local_only | Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_20260706T035148-0500.json |
+| CERT-W60-OPERATIONS-HELPER-CURRENT-VALIDATION-20260706T035148-0500 | Current operations helper static validation certification | done_certification | pass_local_only | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W60_OPERATIONS_HELPER_CURRENT_VALIDATION_20260706T035148-0500.md |
 
 ## Pending runtime evidence
 
