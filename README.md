@@ -38,3 +38,10 @@ Plan\07_IMPLEMENTATION\workflow_templates\base_generation
 GitHub and Civitai keys are loaded from `.env`, but they do not prove AWS access. EC2 work remains blocked until AWS browser/SSO auth is refreshed and the auth gate reports the expected account `029530099913`.
 
 Do not commit `.env`, model binaries, private keys, or generated media outputs.
+
+## Root Tools
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\Sync-WorkflowExports.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\Test-RootProjectPreflight.ps1
+```
