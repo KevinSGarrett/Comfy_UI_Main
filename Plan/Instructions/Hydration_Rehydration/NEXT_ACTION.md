@@ -10,6 +10,8 @@ Current local validation is refreshed through scan-safe project readiness, curre
 
 `sdxl_realvisxl_base_lane` is now authored and local-static validated as a second SDXL lane. Keep `sdxl_low_risk_fallback_lane` as the first EC2 proof/generation lane; queue `sdxl_realvisxl_base_lane` for later RealVisXL checkpoint path/hash/load/output QA after the low-risk lane proves the runtime path.
 
+Runtime scope boundary: Wave42/Main Flow analysis, registries, release records, and source snapshots exist under `Plan` as source/staging context. The current executable surface is only `C:\Comfy_UI_Main\Workflows\base_generation`, with simplified first-proof API lanes exported from validated Plan templates. Do not treat the full old `C:\Comfy_UI` workflow system or the full Wave42/Main Flow graph as active runtime until a specific lane/module is extracted and passes the current validation, registry, queue, package, auth, Git, readiness, static-proof, pullback, and QA gates.
+
 Lane-runtime readiness is now lane-specific. `Test-LaneRuntimeReadiness.ps1`, `Invoke-EC2LaneStaticProof.ps1`, and `Invoke-EC2WorkflowSmokeRun.ps1` must use readiness/static-proof evidence matching the requested `LaneId`; do not reuse low-risk SDXL readiness or proof files for RealVisXL.
 
 Project readiness and runtime unblock handoff are now lane-aware too. The current first-runtime handoff is for `sdxl_low_risk_fallback_lane`; keep `-LaneId sdxl_low_risk_fallback_lane` on the first post-auth readiness, EC2 static-proof, and workflow-smoke commands.

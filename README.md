@@ -33,6 +33,12 @@ The authoritative planning copies remain under:
 Plan\07_IMPLEMENTATION\workflow_templates\base_generation
 ```
 
+## Runtime Scope Boundary
+
+`Plan\` contains Wave42/Main Flow analysis, registries, release records, and source snapshots. That material is source/staging context.
+
+The active runtime surface today is the simplified first-proof lane set under `Workflows\base_generation`, not the full old `C:\Comfy_UI` workflow system and not the full Wave42/Main Flow graph. Main Flow material must be extracted into a concrete lane or module, statically validated, registered, queued, packaged, and passed through the current auth/queue/model-registry/Git/readiness/runtime QA gates before it becomes executable project runtime.
+
 ## Current Runtime Gate
 
 GitHub and Civitai keys are loaded from `.env`, but they do not prove AWS access. EC2 work remains blocked until AWS browser/SSO auth is refreshed and the auth gate reports the expected account `029530099913`.

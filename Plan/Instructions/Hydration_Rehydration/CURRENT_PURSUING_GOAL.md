@@ -29,6 +29,7 @@ Before acting, reconcile the newest acceptable evidence across the instruction f
 - Prefer current passing evidence with the newest timestamp over older failed blockers when the newer evidence directly supersedes it.
 - Treat `BLOCKER-W59-GIT-001` as superseded for `C:\Comfy_UI_Main`; this root now has a valid `.git`, canonical `origin`, and pushed `main`.
 - Treat `C:\Comfy_UI` only as historical/source context unless a task explicitly says to inspect the old workspace.
+- Treat Wave42/Main Flow analysis, registries, release records, and snapshots under `Plan` as source/staging context. The active runtime surface is `C:\Comfy_UI_Main\Workflows\base_generation`, with simplified first-proof API lanes only.
 - If top summaries conflict with newer lower sections or evidence files, fix the summary instead of repeating old work.
 - Use generated indexes to find files, but do not refresh indexes repeatedly unless files changed in the current turn.
 - When evidence commits advance `HEAD`, rerun the Git checkpoint gate immediately before any EC2 `-Execute` path.
@@ -37,6 +38,8 @@ Before acting, reconcile the newest acceptable evidence across the instruction f
 `SELECTED_AUTHORED_STATIC_SMOKE_IMAGE_QA_AUTH_GATE_PULLBACK_PROFILE_AWARE_LANE_READINESS_EC2_STATIC_PROOF_GATE_SMOKE_COORDINATOR_CURRENT_HELPER_INDEX_AWS_PROFILE_ITEMS_TRACKER_AUTH_RECHECK_PULLBACK_MANIFEST_AUTH_CONTRACT_READINESS_CONTRACT_COORDINATOR_GATE_PROJECT_READINESS_QA_CONTRACT_RUNTIME_HANDOFF_HANDOFF_READINESS_CONTRACT_EC2_GIT_CHECKPOINT_GATE_POST_CHECKPOINT_GIT_RECHECK_REALVISXL_LANE_STATIC_PASS_LANE_SPECIFIC_READINESS_LANE_AWARE_PROJECT_HANDOFF_AUTHORED_LANE_EVIDENCE_COVERAGE_RUNTIME_LANE_QUEUE_VALIDATED_QUEUE_AWARE_READINESS_VALIDATED_MODEL_REGISTRY_GATE_VALIDATED_ROOT_PREFLIGHT_MODEL_REGISTRY_GATE_PASSED_PENDING_BROWSER_LOGIN`
 
 Both concrete authored base-generation lanes have lane-matched local pre-EC2 evidence and a validated runtime queue. The first runtime lane is `sdxl_low_risk_fallback_lane`; `sdxl_realvisxl_base_lane` is queued second. Model registry coverage is an EC2 preflight gate and currently passes for the active lanes. AWS browser/SSO auth is still the external blocker before EC2 static proof or generation can run.
+
+This goal does not mean the full old `C:\Comfy_UI` workflow system or the full Wave42/Main Flow graph is active runtime yet. Main Flow material must be extracted into a lane/module and pass the current validation, registry, queue, package, auth, Git, readiness, static-proof, pullback, and QA gates before execution.
 
 ## Last Verified Facts
 The current root preflight passed from `C:\Comfy_UI_Main` with `.git` present, `HEAD == origin/main` at check time, `.env` ignored, required root file structure present, active lane exports static-valid, model registry coverage passing, `ec2_started=false`, and `generation_executed=false`.

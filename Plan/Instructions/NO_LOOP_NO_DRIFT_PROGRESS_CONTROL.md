@@ -239,10 +239,13 @@ Apply this hard stop when all of the following are true:
 C:\Comfy_UI_Main is the active project root.
 The latest acceptable local evidence says runtime lane queue passes.
 The latest acceptable local evidence says model registry coverage passes.
-The latest acceptable local evidence says root preflight or project readiness passes locally.
+The latest acceptable local evidence says selected-lane readiness is locally ready and blocked only by auth.
+The latest acceptable local evidence says root preflight and project readiness pass locally.
+The latest acceptable runtime handoff evidence is queue-aware, model-registry-gated, Git-checkpoint-gated, package-aware, and blocked only by auth.
+The latest acceptable QA helper, operations helper, and generated index validation evidence passes.
 The latest acceptable Git checkpoint evidence is clean or only needs a final post-evidence commit.
 AWS auth is expired, missing, or not yet browser/SSO refreshed.
-No user has requested a specific non-runtime implementation task.
+No user has requested or approved a specific non-runtime implementation task.
 ```
 
 Under this hard stop, allowed actions are limited to:
@@ -266,7 +269,21 @@ After no input changed: no new housekeeping artifact is allowed.
 
 Any continuation that chooses local work while AWS auth is blocked must state which concrete project capability it advances. If the answer is only "documentation cleanup", "refresh evidence", "recheck current state", or "organize files", stop and report the blocker instead.
 
-## 14. End-of-session anti-loop requirement
+## 14. Active runtime surface boundary
+
+The `Plan` directory contains Wave42/Main Flow analysis, deconstruction reports, registries, and source snapshots. Those files are source/staging context.
+
+The active execution surface for the current runtime proof is only:
+
+```text
+C:\Comfy_UI_Main\Workflows\base_generation
+```
+
+Current active runtime work means the simplified first-proof API lanes exported from validated Plan templates, with `sdxl_low_risk_fallback_lane` first and `sdxl_realvisxl_base_lane` second. This is not yet the full old `C:\Comfy_UI` workflow system and not the full Wave42/Main Flow graph.
+
+Do not attempt to rebuild, rerun, or promote the full old workflow system merely because Wave42/Main Flow files exist in `Plan`. Main Flow material becomes executable only after it is extracted into a concrete lane/module, statically validated, registered, queued, packaged, and passed the current auth, queue, model-registry, Git, readiness, static-proof, pullback, and QA gates.
+
+## 15. End-of-session anti-loop requirement
 
 Before ending or packaging, Codex must answer in the session state file:
 
@@ -280,7 +297,7 @@ What is the next exact action?
 Which file should the next session open first?
 ```
 
-## 15. Wave 58 no-loop target
+## 16. Wave 58 no-loop target
 
 Wave 58 is documentation-heavy, so the major loop risk is rewriting guidance without producing structured usable files. Codex must avoid that by validating these concrete deliverables:
 

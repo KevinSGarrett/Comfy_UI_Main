@@ -115,6 +115,7 @@ Start by reading this file, then read `CURRENT_PURSUING_GOAL.md` and follow its 
 - Hardened runtime unblock handoff Markdown generation and operations helper validation for generated handoff Markdown content; evidence `Plan\Instructions\QA\Evidence\Operations_Static_Validation\W60_OPERATIONS_HELPER_CURRENT_VALIDATION_ROOT_PREFLIGHT_HANDOFF_MARKDOWN_20260706T101500-0500.json` reports `pass_local_only`, 16 scripts parsed, 10 local smokes, 0 smoke failures, and 0 evidence-contract failures.
 - Reran current-head root preflight after pushed evidence commit `8bd059bdec2b2c8bd95a158930d2a26fa9d77b0a`; evidence `runtime_artifacts\run_manifests\ROOT_LOCAL_PREFLIGHT_CURRENT_HEAD_20260706T103000-0500.json` reports `pass_local_only`, failed check count `0`, `.git` present, `HEAD == origin/main`, `.env` ignored, active exported lanes static-valid, and model registry coverage passing.
 - Confirmed again that `BLOCKER-W59-GIT-001` is stale/resolved. The remaining execution blocker is AWS browser/SSO auth expiry, not `.git`, GitHub token presence, or Civitai key presence.
+- Clarified the runtime scope boundary: Wave42/Main Flow analysis and snapshots under `Plan` are source/staging context. The current executable surface is `Workflows\base_generation` simplified first-proof API lanes, not the full old `C:\Comfy_UI` workflow system or full Wave42/Main Flow graph.
 
 ## Current goal
 
@@ -416,8 +417,8 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\S
 - `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_MODEL_REGISTRY_COVERAGE_20260706T093806-0500.json`
 - `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_MODEL_REGISTRY_GATE_20260706T094500-0500.json`
 - `Plan/Instructions/QA/Evidence/Project_Readiness/W61_PROJECT_READINESS_SNAPSHOT_MODEL_REGISTRY_GATE_20260706T094500-0500.json`
-- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.json`
-- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.md`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_MARKDOWN_ESCAPE_FIX_20260706T101855-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_MARKDOWN_ESCAPE_FIX_20260706T101855-0500.md`
 - `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_MODEL_REGISTRY_GATE_20260706T094500-0500.json`
 - `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_MODEL_REGISTRY_GATE_20260706T094500-0500.json`
 - `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_MODEL_REGISTRY_GATE_20260706T094730-0500.json`
@@ -445,7 +446,7 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\S
 - Do not store literal GitHub token prefixes, token-like scan labels, or user-specific temp paths in helper scan-pattern definitions; `Test-ProjectReadinessSnapshot.ps1` builds those patterns dynamically and uses neutral labels to avoid staged-scan false positives.
 - Treat the project-readiness snapshot as a local status aggregator only; it proves `local_ready=true` and blocked runtime gates, but it does not prove EC2 object-info/path/hash, generation, artifact pullback, or media QA.
 - Do not treat project-readiness snapshot smoke as sufficient merely because JSON was created; `Test-QAHelperStatic.ps1` now contract-checks recognized result, `local_ready=true`, scan cleanliness, runtime gate consistency, and blocked coordinator safety.
-- Use `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.md` as the current post-auth command handoff. It is local-only and does not replace the actual auth gate/readiness/static proof evidence.
+- Use `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_MARKDOWN_ESCAPE_FIX_20260706T101855-0500.md` as the current post-auth command handoff. It is local-only and does not replace the actual auth gate/readiness/static proof evidence. The older `W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.md` Markdown is historical/corrupted and must not be used as the active human handoff.
 - Do not run EC2 static proof until `Test-LaneRuntimeReadiness.ps1` reports `ready_for_ec2_static_proof=true`.
 - Treat static-proof dry-run and blocked-execute records as safety evidence only, not as object-info/path/hash proof.
 - Do not leave EC2 running.
@@ -459,3 +460,4 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\S
 - Do not treat GitHub or Civitai token presence in `.env` as AWS auth proof; latest STS/profile-matrix evidence shows AWS auth itself is expired.
 - Do not rerun the pre-fix Civitai helper path that uses `System.Web.HttpUtility`; `Invoke-CivitaiModelLookup.ps1` now uses `System.Net.WebUtility` and has successfully cached RealVisXL V5.0 metadata without printing the key.
 - Do not treat `Plan/Registries/Models/model_registry.jsonl` as runtime proof. It is local registry/queue coverage only; EC2 must still prove checkpoint path, hash, model load, generation output, pullback, and image QA.
+- Do not treat Wave42/Main Flow source snapshots or old `C:\Comfy_UI` workflow files as active runtime just because they exist. Promote only extracted, validated, registered, queued, packaged lanes/modules through the current gate stack.
