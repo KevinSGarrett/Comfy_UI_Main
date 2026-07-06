@@ -84,6 +84,49 @@ function Find-LatestFile {
   return $file.FullName
 }
 
+function Test-JsonMatchesLane {
+  param(
+    [object]$Payload,
+    [string]$ExpectedLaneId
+  )
+
+  if ($null -eq $Payload -or [string]::IsNullOrWhiteSpace($ExpectedLaneId)) { return $false }
+  if ((Has-Property -Object $Payload -Name "lane_id") -and [string]$Payload.lane_id -eq $ExpectedLaneId) {
+    return $true
+  }
+  if (Has-Property -Object $Payload -Name "lane_dir") {
+    $laneDirText = ([string]$Payload.lane_dir).Replace("\", "/").TrimEnd("/")
+    return $laneDirText.EndsWith("/$ExpectedLaneId", [System.StringComparison]::OrdinalIgnoreCase)
+  }
+  return $false
+}
+
+function Find-LatestJsonByLaneId {
+  param(
+    [string]$Directory,
+    [string]$Filter,
+    [string]$ExpectedLaneId,
+    [string]$ExcludePattern = ""
+  )
+
+  if (!(Test-Path -LiteralPath $Directory)) { return $null }
+  $files = Get-ChildItem -LiteralPath $Directory -Filter $Filter -File
+  if (![string]::IsNullOrWhiteSpace($ExcludePattern)) {
+    $files = $files | Where-Object { $_.Name -notmatch $ExcludePattern }
+  }
+  foreach ($file in @($files | Sort-Object LastWriteTime -Descending)) {
+    try {
+      $payload = Read-JsonFile -Path $file.FullName
+      if (Test-JsonMatchesLane -Payload $payload -ExpectedLaneId $ExpectedLaneId) {
+        return $file.FullName
+      }
+    } catch {
+      continue
+    }
+  }
+  return $null
+}
+
 function Get-AuthGateStatus {
   param([string]$Path)
 
@@ -150,6 +193,8 @@ function Get-ReadinessStatus {
     local_pre_ec2_ready = $false
     ready_for_ec2_static_proof = $false
     ready_for_generation = $false
+    lane_id = $null
+    lane_match = $false
     result = "missing_readiness_record"
     failure_category = "missing_readiness_record"
     status = "missing_readiness_record"
@@ -160,6 +205,10 @@ function Get-ReadinessStatus {
   $result.local_pre_ec2_ready = [bool]$readiness.local_pre_ec2_ready
   $result.ready_for_ec2_static_proof = [bool]$readiness.ready_for_ec2_static_proof
   $result.ready_for_generation = [bool]$readiness.ready_for_generation
+  if (Has-Property -Object $readiness -Name "lane_id") {
+    $result.lane_id = [string]$readiness.lane_id
+  }
+  $result.lane_match = ([string]$result.lane_id -eq [string]$LaneId)
   if (Has-Property -Object $readiness -Name "result") {
     $result.result = [string]$readiness.result
   } else {
@@ -227,7 +276,7 @@ if ([string]::IsNullOrWhiteSpace($AuthGateFile)) {
   $AuthGateFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_AUTH_GATE_*.json"
 }
 if ([string]::IsNullOrWhiteSpace($ReadinessFile)) {
-  $ReadinessFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W61_LANE_RUNTIME_READINESS_*.json"
+  $ReadinessFile = Find-LatestJsonByLaneId -Directory $runtimeReadinessDir -Filter "W61_LANE_RUNTIME_READINESS_*.json" -ExpectedLaneId $LaneId
 }
 
 $authGate = Get-AuthGateStatus -Path $AuthGateFile
@@ -237,6 +286,7 @@ $blockedReasons = @()
 if ($InstanceId -ne "i-0560bf8d143f93bb1") { $blockedReasons += "InstanceId is not the approved EC2 instance." }
 if ($localGitGate.result -ne "pass") { $blockedReasons += "Local Git checkpoint gate is not clean and synced to origin/main." }
 if (!$authGate.safe_to_start_ec2) { $blockedReasons += "Auth gate does not allow EC2 start." }
+if ($readinessGate.found -and !$readinessGate.lane_match) { $blockedReasons += "Lane readiness file does not match selected lane $LaneId." }
 if (!$readinessGate.ready_for_ec2_static_proof) { $blockedReasons += "Lane readiness gate does not allow EC2 static proof." }
 $executeGatesPass = ($blockedReasons.Count -eq 0)
 $gateFailureCategory = $null
@@ -246,6 +296,8 @@ if ($InstanceId -ne "i-0560bf8d143f93bb1") {
   $gateFailureCategory = $(if ($localGitGate.clean -ne $true) { "local_git_worktree_dirty" } elseif ($localGitGate.local_matches_origin -ne $true) { "local_git_not_synced_to_origin" } else { "local_git_checkpoint_invalid" })
 } elseif (!$authGate.safe_to_start_ec2) {
   $gateFailureCategory = $(if (![string]::IsNullOrWhiteSpace([string]$authGate.failure_category)) { [string]$authGate.failure_category } else { "aws_auth_blocked" })
+} elseif ($readinessGate.found -and !$readinessGate.lane_match) {
+  $gateFailureCategory = "lane_readiness_mismatch"
 } elseif (!$readinessGate.ready_for_ec2_static_proof) {
   $gateFailureCategory = $(if (![string]::IsNullOrWhiteSpace([string]$readinessGate.failure_category)) { [string]$readinessGate.failure_category } else { "lane_readiness_blocked" })
 }
@@ -360,7 +412,7 @@ $expectedRemoteGitHead = [string]$localGitGate.expected_remote_head
 
 $remoteScript = @"
 python3 - <<'PY'
-import os, json, subprocess, glob, hashlib, time, urllib.request, signal, datetime, traceback
+import os, json, subprocess, glob, hashlib, time, urllib.request, signal, datetime, traceback, tempfile
 
 PROJECT = "$RemoteProjectRoot"
 COMFY = "$RemoteComfyRoot"
@@ -433,7 +485,7 @@ try:
         "python3"
     ]
     py_exec = next((p for p in py_candidates if (os.path.isabs(p) and os.path.exists(p)) or not os.path.isabs(p)), "python3")
-    log_path = "/tmp/codex_comfy_object_info_%s.log" % int(time.time())
+    log_path = os.path.join(tempfile.gettempdir(), "codex_comfy_object_info_%s.log" % int(time.time()))
     proc = None
     try:
         result["object_info"] = {"executed": True, "status": "starting", "port": PORT, "log_path": log_path, "python": py_exec}

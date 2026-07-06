@@ -1,0 +1,66 @@
+﻿{
+    "evidence_id":  "EC2-LANE-STATIC-PROOF-DRY-RUN-20260706T065823-0500",
+    "timestamp":  "2026-07-06T06:58:23-05:00",
+    "mode":  "dry_run",
+    "instance_id":  "i-0560bf8d143f93bb1",
+    "region":  "us-east-1",
+    "lane_id":  "sdxl_realvisxl_base_lane",
+    "result":  "dry_run_blocked_before_ec2_start",
+    "failure_category":  "local_git_worktree_dirty",
+    "local_git_checkpoint_gate":  {
+                                      "git_root":  "C:/Comfy_UI_Main",
+                                      "head":  "cb9f6b4c83c2aa351aea6e06fb55a978deeb0643",
+                                      "origin_main":  "cb9f6b4c83c2aa351aea6e06fb55a978deeb0643",
+                                      "expected_remote_head":  "cb9f6b4c83c2aa351aea6e06fb55a978deeb0643",
+                                      "local_matches_origin":  true,
+                                      "clean":  false,
+                                      "porcelain_count":  6,
+                                      "remote":  "origin\thttps://github.com/KevinSGarrett/Comfy_UI_Main.git (fetch)",
+                                      "result":  "fail",
+                                      "error":  null
+                                  },
+    "auth_gate":  {
+                      "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_AUTH_GATE_COORDINATOR_CONTRACT_20260706T052346-0500.json",
+                      "found":  true,
+                      "expected_account":  "029530099913",
+                      "account_match":  false,
+                      "ec2_work_allowed":  false,
+                      "safe_to_start_ec2":  false,
+                      "generation_allowed":  false,
+                      "result":  "blocked_expired_session",
+                      "status":  "blocked",
+                      "failure_category":  "expired_session",
+                      "remote_login_status":  "not_attempted"
+                  },
+    "readiness_gate":  {
+                           "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_LANE_SPECIFIC_REALVISXL_20260706T065821-0500.json",
+                           "found":  true,
+                           "local_pre_ec2_ready":  true,
+                           "ready_for_ec2_static_proof":  false,
+                           "ready_for_generation":  false,
+                           "lane_id":  "sdxl_realvisxl_base_lane",
+                           "lane_match":  true,
+                           "result":  "local_pre_ec2_ready_runtime_blocked_auth",
+                           "failure_category":  "expired_session",
+                           "status":  "local_ready_runtime_blocked"
+                       },
+    "execute_gates_pass":  false,
+    "blocked_reasons":  [
+                            "Local Git checkpoint gate is not clean and synced to origin/main.",
+                            "Auth gate does not allow EC2 start.",
+                            "Lane readiness gate does not allow EC2 static proof."
+                        ],
+    "actions":  [
+                    "Verify AWS account and EC2 identity.",
+                    "Require auth gate safe_to_start_ec2=true before EC2 start.",
+                    "Require lane readiness ready_for_ec2_static_proof=true before EC2 start.",
+                    "Start instance only if stopped.",
+                    "Wait for EC2 status checks and SSM online.",
+                    "Update remote project checkout and Git LFS.",
+                    "Read lane runtime_requirements.json.",
+                    "Launch ComfyUI only for /object_info.",
+                    "Resolve and sha256 required model files.",
+                    "Stop EC2 and verify stopped."
+                ],
+    "generation_executed":  false
+}

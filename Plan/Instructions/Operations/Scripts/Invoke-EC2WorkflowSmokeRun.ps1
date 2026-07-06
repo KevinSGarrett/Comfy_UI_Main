@@ -106,6 +106,49 @@ function Find-LatestFile {
   return $file.FullName
 }
 
+function Test-JsonMatchesLane {
+  param(
+    [object]$Payload,
+    [string]$ExpectedLaneId
+  )
+
+  if ($null -eq $Payload -or [string]::IsNullOrWhiteSpace($ExpectedLaneId)) { return $false }
+  if ((Has-Property -Object $Payload -Name "lane_id") -and [string]$Payload.lane_id -eq $ExpectedLaneId) {
+    return $true
+  }
+  if (Has-Property -Object $Payload -Name "lane_dir") {
+    $laneDirText = ([string]$Payload.lane_dir).Replace("\", "/").TrimEnd("/")
+    return $laneDirText.EndsWith("/$ExpectedLaneId", [System.StringComparison]::OrdinalIgnoreCase)
+  }
+  return $false
+}
+
+function Find-LatestJsonByLaneId {
+  param(
+    [string]$Directory,
+    [string]$Filter,
+    [string]$ExpectedLaneId,
+    [string]$ExcludePattern = ""
+  )
+
+  if (!(Test-Path -LiteralPath $Directory)) { return $null }
+  $files = Get-ChildItem -LiteralPath $Directory -Filter $Filter -File
+  if (![string]::IsNullOrWhiteSpace($ExcludePattern)) {
+    $files = $files | Where-Object { $_.Name -notmatch $ExcludePattern }
+  }
+  foreach ($file in @($files | Sort-Object LastWriteTime -Descending)) {
+    try {
+      $payload = Read-JsonFile -Path $file.FullName
+      if (Test-JsonMatchesLane -Payload $payload -ExpectedLaneId $ExpectedLaneId) {
+        return $file.FullName
+      }
+    } catch {
+      continue
+    }
+  }
+  return $null
+}
+
 function Test-JsonContract {
   param([string[]]$Paths)
 
@@ -142,6 +185,8 @@ function Test-StaticProof {
     object_info_status = $null
     model_proof_count = 0
     dry_run_record = $false
+    lane_id = $null
+    lane_match = $false
   }
 
   if ([string]::IsNullOrWhiteSpace($Path)) {
@@ -157,6 +202,9 @@ function Test-StaticProof {
 
   $proof = Read-JsonFile -Path $Path
   $proofPayload = $proof
+  if (Has-Property -Object $proof -Name "lane_id") {
+    $result.lane_id = [string]$proof.lane_id
+  }
   if ((Has-Property -Object $proof -Name "mode") -and [string]$proof.mode -eq "dry_run") {
     $result.dry_run_record = $true
     $result.errors += "EC2 static proof is a dry-run plan, not object-info/path/hash proof."
@@ -170,6 +218,9 @@ function Test-StaticProof {
     }
     try {
       $proofPayload = ([string]$proof.stdout | ConvertFrom-Json)
+      if (Has-Property -Object $proofPayload -Name "lane_id") {
+        $result.lane_id = [string]$proofPayload.lane_id
+      }
     } catch {
       $result.errors += "EC2 static proof stdout is not valid JSON: $($_.Exception.Message)"
       return $result
@@ -207,6 +258,11 @@ function Test-StaticProof {
         $result.errors += "Required model missing sha256 in EC2 static proof: $($model.relative_path)"
       }
     }
+  }
+
+  $result.lane_match = ([string]$result.lane_id -eq [string]$LaneId)
+  if (!$result.lane_match) {
+    $result.errors += "EC2 static proof lane_id '$($result.lane_id)' does not match selected lane '$LaneId'."
   }
 
   $result.valid = ($result.errors.Count -eq 0)
@@ -279,6 +335,8 @@ function Get-ReadinessStatus {
     local_pre_ec2_ready = $false
     ready_for_ec2_static_proof = $false
     ready_for_generation = $false
+    lane_id = $null
+    lane_match = $false
     result = "missing_readiness_record"
     failure_category = "missing_readiness_record"
     status = "missing_readiness_record"
@@ -289,6 +347,10 @@ function Get-ReadinessStatus {
   $result.local_pre_ec2_ready = [bool]$readiness.local_pre_ec2_ready
   $result.ready_for_ec2_static_proof = [bool]$readiness.ready_for_ec2_static_proof
   $result.ready_for_generation = [bool]$readiness.ready_for_generation
+  if (Has-Property -Object $readiness -Name "lane_id") {
+    $result.lane_id = [string]$readiness.lane_id
+  }
+  $result.lane_match = ([string]$result.lane_id -eq [string]$LaneId)
   if (Has-Property -Object $readiness -Name "result") {
     $result.result = [string]$readiness.result
   } else {
@@ -466,10 +528,10 @@ if ([string]::IsNullOrWhiteSpace($AuthGateFile)) {
   $AuthGateFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_AUTH_GATE_*.json"
 }
 if ([string]::IsNullOrWhiteSpace($StaticProofFile)) {
-  $StaticProofFile = Find-LatestFile -Directory $workflowStaticDir -Filter "W61_EC2_LANE_STATIC_PROOF_*.json" -ExcludePattern "DRY_RUN|BLOCKED_EXECUTE"
+  $StaticProofFile = Find-LatestJsonByLaneId -Directory $workflowStaticDir -Filter "W61_EC2_LANE_STATIC_PROOF_*.json" -ExpectedLaneId $LaneId -ExcludePattern "DRY_RUN|BLOCKED_EXECUTE"
 }
 if ([string]::IsNullOrWhiteSpace($ReadinessFile)) {
-  $ReadinessFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W61_LANE_RUNTIME_READINESS_*.json"
+  $ReadinessFile = Find-LatestJsonByLaneId -Directory $runtimeReadinessDir -Filter "W61_LANE_RUNTIME_READINESS_*.json" -ExpectedLaneId $LaneId
 }
 if ([string]::IsNullOrWhiteSpace($OutFile)) {
   $OutFile = Join-Path $workflowRuntimeDir ("W61_EC2_WORKFLOW_SMOKE_RUN_{0}_{1}.json" -f $(if ($Execute) { "EXECUTION" } else { "DRY_RUN" }), $stamp)
@@ -503,7 +565,9 @@ if ($InstanceId -ne "i-0560bf8d143f93bb1") { $blockedReasons += "InstanceId is n
 if (!$laneContractValid) { $blockedReasons += "Selected lane JSON contract is missing or invalid." }
 if ($localGitGate.result -ne "pass") { $blockedReasons += "Local Git checkpoint gate is not clean and synced to origin/main." }
 if (!$authGate.safe_to_start_ec2) { $blockedReasons += "Auth gate does not allow EC2 start." }
+if ($readinessGate.found -and !$readinessGate.lane_match) { $blockedReasons += "Lane readiness file does not match selected lane $LaneId." }
 if (!$readinessGate.ready_for_generation) { $blockedReasons += "Lane readiness gate does not allow generation." }
+if ($staticProof.found -and !$staticProof.lane_match) { $blockedReasons += "EC2 static proof file does not match selected lane $LaneId." }
 if (!$staticProof.valid) { $blockedReasons += "EC2 object-info/path/hash static proof is missing or invalid." }
 if (!$smokeRequestReady) { $blockedReasons += "Smoke request dry-run did not produce a valid request body." }
 
@@ -517,8 +581,12 @@ if ($InstanceId -ne "i-0560bf8d143f93bb1") {
   $gateFailureCategory = $(if ($localGitGate.clean -ne $true) { "local_git_worktree_dirty" } elseif ($localGitGate.local_matches_origin -ne $true) { "local_git_not_synced_to_origin" } else { "local_git_checkpoint_invalid" })
 } elseif (!$authGate.safe_to_start_ec2) {
   $gateFailureCategory = $(if (![string]::IsNullOrWhiteSpace([string]$authGate.failure_category)) { [string]$authGate.failure_category } else { "aws_auth_blocked" })
+} elseif ($readinessGate.found -and !$readinessGate.lane_match) {
+  $gateFailureCategory = "lane_readiness_mismatch"
 } elseif (!$readinessGate.ready_for_generation) {
   $gateFailureCategory = $(if (![string]::IsNullOrWhiteSpace([string]$readinessGate.failure_category)) { [string]$readinessGate.failure_category } else { "lane_readiness_blocked" })
+} elseif ($staticProof.found -and !$staticProof.lane_match) {
+  $gateFailureCategory = "ec2_static_proof_lane_mismatch"
 } elseif (!$staticProof.valid) {
   $gateFailureCategory = "missing_ec2_static_proof"
 } elseif (!$smokeRequestReady) {

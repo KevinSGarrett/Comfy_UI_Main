@@ -72,6 +72,10 @@ Start by reading this file, then re-open the standard hydration files in this fo
 - Added post-checkpoint Git recheck evidence/certification and refreshed generated index evidence so the current Git state is discoverable in project-owned QA evidence.
 - Authored `sdxl_realvisxl_base_lane` as the second concrete local SDXL lane, generated static validation and smoke dry-run evidence, and updated the QA helper so it validates all authored base-generation lanes.
 - Current RealVisXL lane status: local static validation passed, `/prompt` request dry-run built, `execution_allowed=false`, `generation_executed=false`, runtime proof pending AWS auth/EC2 object-info/checkpoint hash/output/QA.
+- Hardened lane-runtime readiness after the second authored lane: `Test-LaneRuntimeReadiness.ps1` now selects static validation and smoke dry-run/request evidence by `LaneId`, and the EC2 static-proof/workflow-smoke coordinators default to lane-matched readiness/static-proof records.
+- Current lane-specific readiness status: both `sdxl_low_risk_fallback_lane` and `sdxl_realvisxl_base_lane` report `local_pre_ec2_ready=true`, `ready_for_ec2_static_proof=false`, and `ready_for_generation=false` while AWS auth remains expired.
+- QA helper validation now includes lane-runtime readiness smokes for all authored base-generation lanes; latest result is `pass_local_only`, authored lane count 2, local smoke failures 0, and project-readiness contract failures 0.
+- RealVisXL EC2 static-proof and workflow-smoke coordinator dry-runs remained blocked before EC2 start, confirmed readiness lane match for `sdxl_realvisxl_base_lane`, and kept `generation_executed=false`.
 
 ## Current goal
 
@@ -91,7 +95,7 @@ The account must be `029530099913`, `ec2_work_allowed` must be `true`, and `safe
 Current profile-matrix evidence confirms no configured AWS profile is presently usable for the expected account, so use `aws login --remote` or `aws sso login --profile <matching-profile>` before rerunning the gates.
 Latest selected-lane readiness evidence now includes both the auth gate and profile matrix diagnostics, but it still requires the auth gate to pass before EC2 static proof.
 
-Latest project readiness and QA helper evidence now also prove the runtime handoff is local-only and did not contact AWS, GitHub APIs, Civitai, ComfyUI, or EC2. `GITHUB_TOKEN` and `CIVITAI_API_KEY` in `.env` are present and protected, but they do not unblock EC2; AWS browser/SSO auth is the gate. Before EC2 `-Execute`, local Git must also be clean and synced to `origin/main`, using the live `git_checkpoint_recheck` command from the runtime handoff. The primary first EC2 proof lane remains `sdxl_low_risk_fallback_lane`; `sdxl_realvisxl_base_lane` is now queued as a second authored lane for later RealVisXL path/hash/load/output QA.
+Latest project readiness and QA helper evidence now also prove the runtime handoff is local-only and did not contact AWS, GitHub APIs, Civitai, ComfyUI, or EC2. `GITHUB_TOKEN` and `CIVITAI_API_KEY` in `.env` are present and protected, but they do not unblock EC2; AWS browser/SSO auth is the gate. Before EC2 `-Execute`, local Git must also be clean and synced to `origin/main`, using the live `git_checkpoint_recheck` command from the runtime handoff. The primary first EC2 proof lane remains `sdxl_low_risk_fallback_lane`; `sdxl_realvisxl_base_lane` is now queued as a second authored lane for later RealVisXL path/hash/load/output QA. All future readiness/static-proof/smoke-run evidence must match the requested `LaneId`; do not reuse low-risk proof for RealVisXL.
 
 Then rerun the selected-lane readiness gate:
 
@@ -286,6 +290,27 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\S
 - `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W60_W61_EC2_GIT_CHECKPOINT_GATE_20260706T063145-0500.md`
 - `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_EC2_GIT_GATE_20260706T063145-0500.json`
 - `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_LIVE_INDEX_REFRESH_EC2_GIT_GATE_20260706T063145-0500.md`
+- `Plan/Instructions/QA/Evidence/Git_Verification/W59_W60_GIT_CURRENT_RECHECK_20260706T063842-0500.json`
+- `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_W60_GIT_CURRENT_RECHECK_20260706T063842-0500.md`
+- `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_GIT_POST_CHECKPOINT_20260706T063929-0500.json`
+- `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_LIVE_INDEX_REFRESH_GIT_POST_CHECKPOINT_20260706T063929-0500.md`
+- `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_SDXL_REALVISXL_WORKFLOW_STATIC_VALIDATION_20260706T064900-0500.json`
+- `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_SDXL_REALVISXL_WORKFLOW_SMOKE_DRY_RUN_20260706T064900-0500.json`
+- `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_SDXL_REALVISXL_WORKFLOW_SMOKE_REQUEST_20260706T064900-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_REALVISXL_20260706T064900-0500.json`
+- `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W61_SDXL_REALVISXL_BASE_LANE_STATIC_20260706T064900-0500.md`
+- `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_REALVISXL_LANE_20260706T065000-0500.json`
+- `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_LIVE_INDEX_REFRESH_REALVISXL_LANE_20260706T065000-0500.md`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_LANE_SPECIFIC_LOW_RISK_20260706T065821-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_LANE_SPECIFIC_REALVISXL_20260706T065821-0500.json`
+- `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_DRY_RUN_REALVISXL_LANE_SPECIFIC_20260706T065821-0500.json`
+- `Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_RUN_DRY_RUN_REALVISXL_LANE_SPECIFIC_20260706T065821-0500.json`
+- `Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_RUN_REQUEST_REALVISXL_LANE_SPECIFIC_20260706T065821-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_LANE_READINESS_20260706T065821-0500.json`
+- `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_LANE_READINESS_20260706T065821-0500.json`
+- `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W61_LANE_READINESS_HARDENING_20260706T065821-0500.md`
+- `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_LANE_READINESS_HARDENING_20260706T070140-0500.json`
+- `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_LIVE_INDEX_REFRESH_LANE_READINESS_HARDENING_20260706T070140-0500.md`
 
 ## Must not repeat
 
@@ -295,6 +320,7 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\S
 - Do not start EC2 until `Test-AwsAuthGate.ps1` verifies account `029530099913` and reports `safe_to_start_ec2=true`.
 - Use the top-level auth gate fields (`result`, `failure_category`, `account_match`, `remote_login_status`) when summarizing the current AWS auth blocker.
 - Use the top-level lane readiness fields (`result`, `failure_category`, `local_pre_ec2_ready`, `ready_for_ec2_static_proof`, `ready_for_generation`) when summarizing selected-lane runtime status.
+- Readiness, EC2 static-proof, and EC2 workflow-smoke evidence must match the requested `LaneId`; do not use low-risk SDXL readiness/proof files for the RealVisXL lane.
 - Use the top-level EC2 coordinator fields (`result`, `failure_category`, `execute_gates_pass`, `ec2_started`, `generation_executed`) when summarizing static-proof or workflow-smoke gate status.
 - Operations helper validation now has dedicated EC2 coordinator evidence contract checks; do not rely on plain JSON parse alone when assessing blocked coordinator evidence.
 - Do not repeat the failed index-validation probe that wrapped generated JSON index arrays and counted them as one object; the corrected retest evidence uses direct JSON row counts.

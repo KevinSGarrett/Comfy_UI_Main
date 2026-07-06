@@ -88,6 +88,66 @@ function Find-LatestFile {
   return $file.FullName
 }
 
+function Test-JsonMatchesLane {
+  param(
+    [object]$Payload,
+    [string]$ExpectedLaneId
+  )
+
+  if ($null -eq $Payload -or [string]::IsNullOrWhiteSpace($ExpectedLaneId)) { return $false }
+  if ((Has-Property -Object $Payload -Name "lane_id") -and [string]$Payload.lane_id -eq $ExpectedLaneId) {
+    return $true
+  }
+  if (Has-Property -Object $Payload -Name "lane_dir") {
+    $laneDirText = ([string]$Payload.lane_dir).Replace("\", "/").TrimEnd("/")
+    return $laneDirText.EndsWith("/$ExpectedLaneId", [System.StringComparison]::OrdinalIgnoreCase)
+  }
+  if (Has-Property -Object $Payload -Name "workflow_path") {
+    $workflowText = ([string]$Payload.workflow_path).Replace("\", "/")
+    return $workflowText -match "/$([regex]::Escape($ExpectedLaneId))/workflow\.api\.json$"
+  }
+  return $false
+}
+
+function Find-LatestJsonByLaneId {
+  param(
+    [string]$Directory,
+    [string]$Filter,
+    [string]$ExpectedLaneId,
+    [string]$ExcludePattern = "",
+    [string]$RequiredProperty = "",
+    [string]$RequiredValue = ""
+  )
+
+  if (!(Test-Path -LiteralPath $Directory)) { return $null }
+  $files = Get-ChildItem -LiteralPath $Directory -Filter $Filter -File
+  if (![string]::IsNullOrWhiteSpace($ExcludePattern)) {
+    $files = $files | Where-Object { $_.Name -notmatch $ExcludePattern }
+  }
+  foreach ($file in @($files | Sort-Object LastWriteTime -Descending)) {
+    try {
+      $payload = Read-JsonFile -Path $file.FullName
+      if (!(Test-JsonMatchesLane -Payload $payload -ExpectedLaneId $ExpectedLaneId)) { continue }
+      if (![string]::IsNullOrWhiteSpace($RequiredProperty)) {
+        if (!(Has-Property -Object $payload -Name $RequiredProperty)) { continue }
+        if (![string]::IsNullOrWhiteSpace($RequiredValue) -and [string]$payload.$RequiredProperty -ne $RequiredValue) { continue }
+      }
+      return $file.FullName
+    } catch {
+      continue
+    }
+  }
+  return $null
+}
+
+function Resolve-ProjectOrAbsolutePath {
+  param([string]$Path)
+
+  if ([string]::IsNullOrWhiteSpace($Path)) { return $null }
+  if ([System.IO.Path]::IsPathRooted($Path)) { return $Path }
+  return Join-Path $ProjectRoot $Path
+}
+
 function Has-Property {
   param(
     [object]$Object,
@@ -127,10 +187,25 @@ $helperPaths = @(
   (Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\New-ImageArtifactQARecord.ps1")
 )
 
+$workflowStaticValidationFile = Find-LatestJsonByLaneId -Directory $workflowStaticDir -Filter "*WORKFLOW_STATIC_VALIDATION*.json" -ExpectedLaneId $LaneId
+$smokeDryRunFile = Find-LatestJsonByLaneId -Directory $workflowStaticDir -Filter "*WORKFLOW_SMOKE_DRY_RUN*.json" -ExpectedLaneId $LaneId -RequiredProperty "mode" -RequiredValue "dry_run"
+$smokeRequestFile = $null
+if (![string]::IsNullOrWhiteSpace($smokeDryRunFile) -and (Test-Path -LiteralPath $smokeDryRunFile)) {
+  try {
+    $smokeDryRun = Read-JsonFile -Path $smokeDryRunFile
+    if ((Has-Property -Object $smokeDryRun -Name "request_body_written") -and [bool]$smokeDryRun.request_body_written -and
+        (Has-Property -Object $smokeDryRun -Name "request_body_path")) {
+      $smokeRequestFile = Resolve-ProjectOrAbsolutePath -Path ([string]$smokeDryRun.request_body_path)
+    }
+  } catch {
+    $warnings += "Unable to derive smoke request path from lane-specific smoke dry-run evidence."
+  }
+}
+
 $evidenceFiles = [ordered]@{
-  workflow_static_validation = Join-Path $workflowStaticDir "W61_SDXL_LOW_RISK_WORKFLOW_STATIC_VALIDATION_20260706T024811-0500.json"
-  smoke_dry_run = Join-Path $workflowStaticDir "W61_COMFY_WORKFLOW_SMOKE_DRY_RUN_20260706T025536-0500.json"
-  smoke_request = Join-Path $workflowStaticDir "W61_COMFY_WORKFLOW_SMOKE_REQUEST_20260706T025536-0500.json"
+  workflow_static_validation = $workflowStaticValidationFile
+  smoke_dry_run = $smokeDryRunFile
+  smoke_request = $smokeRequestFile
   image_qa_dry_run = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Image_Artifact_QA\W61_IMAGE_QA_DRY_RUN_20260706T030037-0500.json"
   pullback_dry_run = Join-Path $runtimeReadinessDir "W60_EC2_PULLBACK_RECORD_DRY_RUN_20260706T031758-0500.json"
 }
@@ -358,6 +433,12 @@ $record = [ordered]@{
   }
   helper_scripts = $helperResults
   evidence_files = $evidenceResults
+  lane_evidence_selection = [ordered]@{
+    workflow_static_validation = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $workflowStaticValidationFile
+    smoke_dry_run = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $smokeDryRunFile
+    smoke_request = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $smokeRequestFile
+    lane_specific = $true
+  }
   auth_gate = $auth
   profile_matrix = $profileMatrix
   ec2_static_proof = $staticProof
