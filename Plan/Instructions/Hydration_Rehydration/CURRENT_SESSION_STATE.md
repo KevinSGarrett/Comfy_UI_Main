@@ -28,6 +28,8 @@ Local static/package validation is complete through Wave 62 cumulative zip valid
 - Recorded EC2 static-proof helper dry-run evidence without starting EC2.
 - Added `Invoke-ComfyWorkflowSmoke.ps1`.
 - Generated the patched ComfyUI `/prompt` request body for the selected SDXL lane without starting EC2 or running generation.
+- Added `New-ImageArtifactQARecord.ps1`.
+- Generated a pending-artifact image QA record and checklist for the future selected-lane smoke output.
 
 ## Latest EC2 Result
 - Last successful runtime inventory evidence: `Plan/Instructions/QA/Evidence/EC2_Runtime_Inventory/W60_W61_EC2_RUNTIME_INVENTORY_20260706T020209-0500.json`
@@ -43,22 +45,25 @@ Local static/package validation is complete through Wave 62 cumulative zip valid
 - Status: authored and local static validation passed; EC2 validation pending
 - Static evidence: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_SDXL_LOW_RISK_WORKFLOW_STATIC_VALIDATION_20260706T024811-0500.json`
 - Smoke dry-run evidence: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_COMFY_WORKFLOW_SMOKE_DRY_RUN_20260706T025536-0500.json`
+- Image QA dry-run evidence: `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_DRY_RUN_20260706T030037-0500.json`
 - Required next proof: object-info node availability, checkpoint path resolution, checkpoint sha256, bounded output generation, generated image QA.
 
 ## Active tracker rows
 - `TRK-W61-006`: workflow lane selected, graph authored, local static validation passed, and patched smoke request generated; EC2 object-info, execution output, and QA pending.
 - `TRK-W61-007`: selected checkpoint filename is referenced by the workflow and passed static validation; EC2 path, hash, load, and sample-output validation pending.
+- `TRK-W61-002`: image QA protocol exists and helper dry-run passed; actual generated image visual review pending.
 
 ## Pending validation in scope
 - Refresh AWS CLI default login.
 - Verify AWS account `029530099913`.
 - Run `Invoke-EC2LaneStaticProof.ps1 -Execute` for `sdxl_low_risk_fallback_lane`.
 - Run `Invoke-ComfyWorkflowSmoke.ps1 -Execute` only after object-info/path/hash proof exists and ComfyUI API is reachable.
-- Run generated image QA after output exists.
+- Pull back generated image artifacts.
+- Run `New-ImageArtifactQARecord.ps1` on the pulled-back image and complete visual review.
 
 ## Blockers
 - `BLOCKER-RUNTIME-COMFYUI-LOCAL-001`: local `C:\Comfy_UI_Main\ComfyUI` runtime and model folders are absent. EC2 route is active.
 - `BLOCKER-AWS-AUTH-EXPIRED-001`: AWS CLI default login credential expired and blocks further EC2 validation until refreshed.
 
 ## Next action
-Refresh AWS CLI default login, verify account `029530099913`, run `Invoke-EC2LaneStaticProof.ps1 -Execute`, then run `Invoke-ComfyWorkflowSmoke.ps1 -Execute` and generated image QA only after object-info/path/hash proof exists.
+Refresh AWS CLI default login, verify account `029530099913`, run `Invoke-EC2LaneStaticProof.ps1 -Execute`, run `Invoke-ComfyWorkflowSmoke.ps1 -Execute`, pull back the generated image, then run `New-ImageArtifactQARecord.ps1` and complete visual review.
