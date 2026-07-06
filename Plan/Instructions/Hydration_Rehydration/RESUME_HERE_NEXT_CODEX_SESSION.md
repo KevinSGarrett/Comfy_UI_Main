@@ -6,6 +6,7 @@ Start by reading this file, then read `CURRENT_PURSUING_GOAL.md` and follow its 
 
 ## Current session completed
 
+- Post-login runtime proof completed for the first queued lane `sdxl_low_risk_fallback_lane`: AWS auth passed for account `029530099913`; EC2 static proof passed; bounded workflow smoke generated one hyperreal editorial portrait from run package `runtime_artifacts/run_packages/sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1/RUN_PACKAGE_MANIFEST.json`; EC2 final state was verified `stopped`; artifacts were pulled back through SSM chunk transfer after S3 role permissions and SSH port 22 blocked faster routes; pullback hashes verified; technical image QA passed; visual QA passed with notes for runtime-smoke purposes. Current evidence includes `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_POST_LOGIN_RETEST_20260706T104311-0500.json`, `Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_POST_STATIC_PROOF_RETEST_20260706T110424-0500.json`, `Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/PULLBACK_RECORD.json`, and `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_VISUAL_20260706T122027-0500.json`.
 - Completed Wave 59-62 local static/package validation and cumulative zip validation.
 - Initialized and pushed GitHub `main`.
 - Passed GitHub API, AWS/EC2 identity, EBS volume, and Civitai metadata readiness checks before AWS login expiry.

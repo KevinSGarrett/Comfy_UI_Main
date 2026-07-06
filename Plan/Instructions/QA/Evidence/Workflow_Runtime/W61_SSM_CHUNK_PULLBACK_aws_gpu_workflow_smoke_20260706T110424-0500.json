@@ -1,0 +1,56 @@
+﻿{
+    "evidence_id":  "SSM-CHUNK-PULLBACK-aws_gpu_workflow_smoke_20260706T110424-0500",
+    "timestamp":  "2026-07-06T12:20:53-05:00",
+    "run_id":  "aws_gpu_workflow_smoke_20260706T110424-0500",
+    "artifact_type":  "runtime_artifact_pullback_transport_evidence",
+    "source_instance":  "i-0560bf8d143f93bb1",
+    "source_artifact_root":  "/home/ubuntu/comfyui_artifacts/aws_gpu_workflow_smoke_20260706T110424-0500",
+    "local_archive":  "runtime_artifacts/pullbacks/aws_gpu_workflow_smoke_20260706T110424-0500.tgz",
+    "local_destination":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500",
+    "result":  "pullback_synced_and_hash_verified",
+    "transport_attempts":  [
+                               {
+                                   "method":  "ssh_scp",
+                                   "result":  "blocked",
+                                   "detail":  "PEM key exists and is ignored by Git, but SSH port 22 timed out from this environment."
+                               },
+                               {
+                                   "method":  "remote_s3_sync",
+                                   "result":  "blocked",
+                                   "command_id":  "c9cd0b33-4c79-45a1-9d3f-c7e857dca584",
+                                   "detail":  "First attempt failed before sync because /bin/sh did not support set -o pipefail."
+                               },
+                               {
+                                   "method":  "remote_s3_sync_portable",
+                                   "result":  "blocked",
+                                   "command_id":  "7ffa4e40-3455-4e06-9ddb-506c12427e23",
+                                   "detail":  "EC2 role lacks s3:ListBucket on comfyui-lora-outputs-029530099913-us-east-1."
+                               },
+                               {
+                                   "method":  "remote_s3_cp",
+                                   "result":  "blocked",
+                                   "command_id":  "048e7f03-4465-4f06-999f-19c84d51e926",
+                                   "detail":  "EC2 role lacks s3:PutObject to the target bucket/prefix."
+                               },
+                               {
+                                   "method":  "ssm_chunked_base64_tar_pullback",
+                                   "result":  "pass",
+                                   "prep_command_id":  "d30161f4-04e3-4419-a059-5480e71759e9",
+                                   "chunk_count":  145,
+                                   "detail":  "Compressed remote artifact root, split base64 into 145 SSM output chunks, reassembled locally, verified archive hash, and extracted."
+                               }
+                           ],
+    "remote_archive_sha256":  "e481184436956a906b50b340d6f00dba672fcbc4753a89b6f6ae0535be25769c",
+    "local_archive_sha256":  "e481184436956a906b50b340d6f00dba672fcbc4753a89b6f6ae0535be25769c",
+    "archive_hash_match":  true,
+    "remote_archive_bytes":  1735245,
+    "pullback_record":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/PULLBACK_RECORD.json",
+    "pullback_status":  "pullback_hashes_verified",
+    "file_count_remote":  4,
+    "file_count_local":  4,
+    "hashes_verified":  true,
+    "image_path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/images/9_codex_hyperreal_editorial_portrait_00002_.png",
+    "image_sha256":  "c6ebdf0d8eb904ed297e06ef36e93c6c6e0251ddf49ff1408a252ed21eacac54",
+    "ec2_final_state":  "stopped",
+    "next_action":  "Use pulled local artifacts for image QA and commit runtime evidence."
+}

@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "9": {
+      "display_node": "9",
+      "node_id": "9",
+      "parent_node": null,
+      "real_node_id": "9"
+    }
+  },
+  "outputs": {
+    "9": {
+      "images": [
+        {
+          "filename": "codex_hyperreal_editorial_portrait_00002_.png",
+          "subfolder": "",
+          "type": "output"
+        }
+      ]
+    }
+  },
+  "prompt": [
+    0,
+    "351dcf65-fd57-49a5-947c-ce1171ada67c",
+    {
+      "3": {
+        "class_type": "KSampler",
+        "inputs": {
+          "cfg": 6.2,
+          "denoise": 1.0,
+          "latent_image": [
+            "5",
+            0
+          ],
+          "model": [
+            "4",
+            0
+          ],
+          "negative": [
+            "7",
+            0
+          ],
+          "positive": [
+            "6",
+            0
+          ],
+          "sampler_name": "euler",
+          "scheduler": "normal",
+          "seed": 6100611061,
+          "steps": 24
+        }
+      },
+      "4": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "sd_xl_base_1.0.safetensors"
+        }
+      },
+      "5": {
+        "class_type": "EmptyLatentImage",
+        "inputs": {
+          "batch_size": 1,
+          "height": 1024,
+          "width": 1024
+        }
+      },
+      "6": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "4",
+            1
+          ],
+          "text": "hyperrealistic editorial portrait of a confident adult subject, natural asymmetrical skin texture, visible pores, realistic eyes with crisp catchlights, detailed eyebrows and eyelashes, subtle facial expression, realistic hands relaxed near the frame edge, tailored textured fabric, soft studio key light, gentle fill, natural shadow falloff, neutral warm-gray background, 85mm portrait lens, shallow depth of field, high dynamic range, photographic color grading"
+        }
+      },
+      "7": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "4",
+            1
+          ],
+          "text": "cartoon, anime, illustration, CGI, doll-like face, plastic skin, waxy skin, over-smoothed texture, beauty filter, distorted anatomy, asymmetrical eyes, cross-eye, dead eyes, extra fingers, missing fingers, fused fingers, deformed hands, broken wrist, bad teeth, warped mouth, stretched limbs, low resolution, blurry, noisy, watermark, text, logo, harsh oversharpening, oversaturated colors"
+        }
+      },
+      "8": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "3",
+            0
+          ],
+          "vae": [
+            "4",
+            2
+          ]
+        }
+      },
+      "9": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "codex_hyperreal_editorial_portrait",
+          "images": [
+            "8",
+            0
+          ]
+        }
+      }
+    },
+    {
+      "client_id": "codex-root-run-package",
+      "create_time": 1783354024620
+    },
+    [
+      "9"
+    ]
+  ],
+  "status": {
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "351dcf65-fd57-49a5-947c-ce1171ada67c",
+          "timestamp": 1783354024620
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [],
+          "prompt_id": "351dcf65-fd57-49a5-947c-ce1171ada67c",
+          "timestamp": 1783354024622
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "351dcf65-fd57-49a5-947c-ce1171ada67c",
+          "timestamp": 1783354084870
+        }
+      ]
+    ],
+    "status_str": "success"
+  }
+}

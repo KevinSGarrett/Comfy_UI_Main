@@ -1,0 +1,52 @@
+﻿{
+    "evidence_id":  "IMAGE-VISUAL-QA-20260706T122027-0500",
+    "timestamp":  "2026-07-06T12:20:27-05:00",
+    "artifact_id":  "aws_gpu_workflow_smoke_20260706T110424-0500:image:9_codex_hyperreal_editorial_portrait_00002",
+    "artifact_type":  "image_visual_review",
+    "image_path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/images/9_codex_hyperreal_editorial_portrait_00002_.png",
+    "workflow_reference":  "runtime_artifacts/run_packages/sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1/prompt_request.json",
+    "model_context":  "sdxl_low_risk_fallback_lane / sd_xl_base_1.0.safetensors / hyperreal_editorial_portrait_v1",
+    "reviewer":  "Codex Desktop autonomous visual QA",
+    "protocol":  "IMAGE_GENERATION_VISUAL_REVIEW_PROTOCOL.md",
+    "result":  "pass_with_notes_for_runtime_smoke",
+    "qa_score":  86,
+    "pass_threshold":  80,
+    "decision":  "Runtime smoke image QA passed; do not treat as final portfolio certification without broader prompt/style review.",
+    "checks":  {
+                   "face_realism":  "pass",
+                   "eye_quality":  "pass",
+                   "skin_texture":  "pass_with_notes_slight_beauty_smoothing",
+                   "hands_fingers":  "not_visible",
+                   "feet_toes":  "not_visible",
+                   "hair_realism":  "pass_with_notes_some_flyaway_wisps_slightly_synthetic",
+                   "teeth_mouth_quality":  "pass_no_teeth_visible",
+                   "body_proportions":  "pass_visible_upper_body_only",
+                   "pose_accuracy":  "pass",
+                   "clothing_fabric":  "pass_with_notes_lapel_edges_slightly_soft",
+                   "contact_points":  "not_applicable",
+                   "object_body_collisions":  "pass_no_collision_visible",
+                   "deformation_realism":  "pass",
+                   "soft_body_cues":  "not_applicable",
+                   "anatomy_consistency":  "pass",
+                   "lighting":  "pass",
+                   "shadows":  "pass",
+                   "reflections":  "not_applicable",
+                   "background_coherence":  "pass",
+                   "camera_lens_realism":  "pass",
+                   "texture_detail":  "pass_with_notes_face_more_retouch_than documentary_realism",
+                   "generation_artifacts":  "minor_softness_only",
+                   "identity_drift":  "not_applicable_single_image",
+                   "prompt_compliance":  "pass_editorial_portrait_gray_blazer_neutral_background",
+                   "unwanted_style_contamination":  "none_observed"
+               },
+    "defects":  [
+                    "Minor beauty-retouch softness in skin texture; acceptable for first runtime smoke but not final hyperreal certification by itself.",
+                    "A few hair flyaways and blazer/lapel edges read slightly synthetic under close inspection."
+                ],
+    "evidence_paths":  [
+                           "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_TECHNICAL_20260706T121958-0500.json",
+                           "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_CHECKLIST_20260706T121958-0500.md",
+                           "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/PULLBACK_RECORD.json"
+                       ],
+    "next_action":  "Commit runtime smoke, pullback, and image QA evidence; then update tracker/hydration state for next lane or deeper image-quality iteration."
+}

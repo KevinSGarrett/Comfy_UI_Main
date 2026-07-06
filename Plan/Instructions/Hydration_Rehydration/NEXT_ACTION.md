@@ -1,5 +1,33 @@
 # Next Action
 
+## Current runtime proof update - 2026-07-06T12:20:27-05:00
+
+The first queued lane `sdxl_low_risk_fallback_lane` has now completed live EC2 static proof and one bounded workflow smoke generation from the hyperreal editorial portrait run package. Commit/push the evidence from this session before any further EC2 work.
+
+Key current evidence:
+
+```text
+Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_POST_LOGIN_RETEST_20260706T104311-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_AFTER_STATIC_PROOF_20260706T105156-0500.json
+Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_POST_STATIC_PROOF_RETEST_20260706T110424-0500.json
+Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/PULLBACK_RECORD.json
+Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_SSM_CHUNK_PULLBACK_aws_gpu_workflow_smoke_20260706T110424-0500.json
+Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_TECHNICAL_20260706T121958-0500.json
+Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_VISUAL_20260706T122027-0500.json
+```
+
+Generation result:
+
+```text
+Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/images/9_codex_hyperreal_editorial_portrait_00002_.png
+```
+
+Runtime smoke result is `workflow_smoke_generation_complete`; pullback result is `pullback_hashes_verified`; visual QA result is `pass_with_notes_for_runtime_smoke`. EC2 final state is `stopped`.
+
+Important caveats: S3 pullback is blocked by missing EC2 role permissions (`s3:ListBucket` and `s3:PutObject`); SSH/SCP timed out on port 22 even though `C:\Comfy_UI_Main\comfyui-lora-key.pem` exists and is ignored by Git. The artifact was pulled back through SSM chunk transfer and verified locally. Do not claim final image-quality certification from this single smoke image; it is a runtime-lane proof with visual QA notes.
+
+Next exact action after committing this evidence: run a final Git clean/head check, then either update generated indexes/tracker rows for this proof or begin `sdxl_realvisxl_base_lane` EC2 static proof only after another clean pushed checkpoint.
+
 ## Current local work completed
 
 As of 2026-07-06T10:30:00-05:00, Codex reran `tools/Test-RootProjectPreflight.ps1` from `C:\Comfy_UI_Main` after the latest pushed evidence commit. Current evidence `runtime_artifacts/run_manifests/ROOT_LOCAL_PREFLIGHT_CURRENT_HEAD_20260706T103000-0500.json` reports `pass_local_only`, failed check count `0`, `.git` present, `HEAD == origin/main` at `8bd059bdec2b2c8bd95a158930d2a26fa9d77b0a`, `.env` ignored with GitHub/Civitai variable names present, root file structure present, active exported lanes static-valid, and model registry coverage passing for both active lanes. The stale `BLOCKER-W59-GIT-001` no-`.git` report is not active.
