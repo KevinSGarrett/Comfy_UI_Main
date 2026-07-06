@@ -17,6 +17,8 @@
 | CERT-W61-QA-HELPER-STATIC-VALIDATION-20260706T005111-0500 | Wave 61 QA helper static validation certification | done_certification | done_with_non_blocking_notes | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W61_QA_HELPER_STATIC_VALIDATION_20260706T005111-0500.md |
 | EVID-W62-HYDRATION-HELPER-STATIC-VALIDATION-20260706T005425-0500 | Wave 62 hydration helper scripts/templates local validation | hydration_helper_static_validation | pass_with_pending_validation | Plan/Instructions/QA/Evidence/Hydration_Helper_Static_Validation/W62_HYDRATION_HELPER_STATIC_VALIDATION_20260706T005425-0500.json |
 | CERT-W62-SESSION-STATE-HELPER-VALIDATION-20260706T005425-0500 | Wave 62 session-state helper validation certification | done_certification | done_with_non_blocking_notes | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W62_SESSION_STATE_HELPER_VALIDATION_20260706T005425-0500.md |
+| EVID-W62-CUMULATIVE-PACK-VALIDATION-20260706T011548-0500 | Wave 62 cumulative Wave 58-62 pack build and validation | cumulative_pack_validation | pass | Plan/Instructions/QA/Evidence/Hydration_Helper_Static_Validation/W62_CUMULATIVE_PACK_VALIDATION_20260706T011548-0500.json |
+| CERT-W62-CUMULATIVE-PACK-VALIDATION-20260706T011548-0500 | Wave 62 cumulative pack validation certification | done_certification | done_with_non_blocking_runtime_notes | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W62_CUMULATIVE_PACK_VALIDATION_20260706T011548-0500.md |
 
 ## Pending runtime evidence
 

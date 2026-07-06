@@ -1,0 +1,58 @@
+{
+  "evidence_id": "EVID-W62-CUMULATIVE-PACK-VALIDATION-20260706T011548-0500",
+  "created_at": "2026-07-06T01:15:48-05:00",
+  "wave": 62,
+  "tracker_ids": [
+    "TRK-W62-009"
+  ],
+  "item_ids": [
+    "ITEM-W62-009"
+  ],
+  "task": "Cumulative Wave 58-62 pack build and validation",
+  "repo_root": "C:\\Comfy_UI_Main",
+  "zip": {
+    "path": "C:\\Comfy_UI_Main\\Comfy_UI_Main_Autonomous_Codex_Desktop_Waves58_62_Cumulative.zip",
+    "name": "Comfy_UI_Main_Autonomous_Codex_Desktop_Waves58_62_Cumulative.zip",
+    "size_bytes": 40223614,
+    "sha256": "82fbd1d2c8fcd452e9efb76e68105cb81467ec84efe0b94892f11af72b8ef4cf",
+    "entry_count": 2392,
+    "build_source": "tracked project files from git ls-files",
+    "top_level_prefix": "Comfy_UI_Main/"
+  },
+  "build_safety": {
+    "tracked_files_packaged": 2392,
+    "private_path_guard_result": "pass",
+    "forbidden_entry_count": 0,
+    "tracked_secret_scan_match_count": 0,
+    "allowed_placeholder_files": [
+      ".env.example",
+      "Plan/07_IMPLEMENTATION/templates/repo/.env.example"
+    ],
+    "excluded_private_material": [
+      ".env",
+      ".git",
+      "secrets/",
+      "private/",
+      ".aws/",
+      "private key file patterns",
+      "ignored model binaries and runtime outputs"
+    ]
+  },
+  "validation": {
+    "command": "powershell -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Hydration_Rehydration\\Scripts\\Test-CumulativeWavePack.ps1 -ZipPath C:\\Comfy_UI_Main\\Comfy_UI_Main_Autonomous_Codex_Desktop_Waves58_62_Cumulative.zip",
+    "exit_code": 0,
+    "output": "Cumulative pack validation passed.",
+    "required_missing_count": 0,
+    "result": "pass"
+  },
+  "git_lfs": {
+    "zip_lfs_rule_added": true,
+    "rule": "*.zip filter=lfs diff=lfs merge=lfs -text"
+  },
+  "result": "pass",
+  "limitations": [
+    "This evidence validates the cumulative instruction pack zip. It does not claim live AWS/EC2 execution, Civitai download, ComfyUI workflow execution, or generated media QA.",
+    "This evidence file was generated after the package build and is tracked separately from the package contents."
+  ],
+  "next_action": "Run the next runtime readiness preflight without starting EC2 unless required."
+}

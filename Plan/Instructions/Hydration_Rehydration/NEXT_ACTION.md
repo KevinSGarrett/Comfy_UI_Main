@@ -1,9 +1,20 @@
 # Next Action
 
-Resolve `BLOCKER-W62-ZIP-001`: restore or create a real cumulative zip under `C:\Comfy_UI_Main`, then run the cumulative pack tester:
+Run a secret-safe runtime readiness preflight:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Hydration_Rehydration\Scripts\Test-CumulativeWavePack.ps1
+# Do not print .env values.
+# Summarize required key presence only.
+
+git -C C:\Comfy_UI_Main status --branch --short
+git -C C:\Comfy_UI_Main ls-remote origin refs/heads/main
+
+# If AWS CLI is available and credentials are configured:
+aws sts get-caller-identity
+aws ec2 describe-instances --instance-ids i-0560bf8d143f93bb1
+
+# If a Civitai API key is present:
+# Call a small metadata endpoint only; do not download models yet.
 ```
 
-Git recovery is complete. `C:\Comfy_UI_Main` now has Git metadata, canonical origin, Git LFS coverage for oversized CSVs, a clean branch tracking `origin/main`, and pushed recovery evidence through `f735d838c2ac75e928b4e069ac6ba8574347882a`.
+Keep EC2 stopped unless a later runtime gate explicitly requires GPU execution. Record pass/fail/blocked evidence for GitHub, AWS/EC2, Civitai, local ComfyUI path, workflow inventory, and model prerequisites.

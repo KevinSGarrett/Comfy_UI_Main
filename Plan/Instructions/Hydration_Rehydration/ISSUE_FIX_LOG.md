@@ -28,11 +28,11 @@
 - observed_behavior: `C:\Comfy_UI_Main` is not a Git repository, so Git root, branch, HEAD, remote, and working tree state cannot be verified there. `.env` exists, while `.gitignore` and `.env.example` were initially absent.
 - expected_behavior: `C:\Comfy_UI_Main` should be the local Git root for `https://github.com/KevinSGarrett/Comfy_UI_Main`, with `.env` untracked and secret/binary protections present.
 - suspected_root_cause: The Wave 58-62 pack appears extracted into `C:\Comfy_UI_Main` without repository metadata.
-- fix_attempted: Created `.gitignore` with required secret/binary exclusions and `.env.example` with placeholder-only variables.
-- retest_result: retest_blocked
-- current_status: blocked_no_git_repository
-- evidence_path: Plan/Instructions/QA/Evidence/Git_Verification/W59_W60_GIT_LOCAL_VERIFICATION_20260706T004200-0500.json
-- next_action: Select a dedicated Git recovery task before initializing, fetching, pulling, committing, or pushing from `C:\Comfy_UI_Main`; otherwise continue local non-Git validation.
+- fix_attempted: Created `.gitignore` and `.env.example`, initialized Git metadata, configured canonical origin, enabled LFS, committed, pushed `main`, and verified remote HEAD.
+- retest_result: retest_passed
+- current_status: fixed
+- evidence_path: Plan/Instructions/QA/Evidence/Git_Verification/W59_W60_GIT_RECOVERY_INITIAL_COMMIT_20260706T010603-0500.json; Plan/Instructions/QA/Evidence/Git_Verification/W59_W60_GIT_RECOVERY_EVIDENCE_COMMIT_VERIFICATION_20260706T011016-0500.json
+- next_action: Continue runtime readiness validation without exposing `.env` secrets.
 
 ## ISSUE-W60-OPS-001
 
@@ -62,8 +62,8 @@
 - observed_behavior: No cumulative zip file was found under `C:\Comfy_UI_Main`, so `Test-CumulativeWavePack.ps1` could not be run against a real pack.
 - expected_behavior: A cumulative pack zip should exist when cumulative-pack validation is selected.
 - suspected_root_cause: The extracted project contains Plan files but not the final cumulative zip artifact.
-- fix_attempted: None; manufacturing a synthetic zip would not prove the real cumulative pack.
-- retest_result: retest_blocked
-- current_status: pending_validation_no_zip_found
-- evidence_path: Plan/Instructions/QA/Evidence/Hydration_Helper_Static_Validation/W62_HYDRATION_HELPER_STATIC_VALIDATION_20260706T005425-0500.json
-- next_action: Run `Test-CumulativeWavePack.ps1` only after a real cumulative zip is restored or created.
+- fix_attempted: Built `Comfy_UI_Main_Autonomous_Codex_Desktop_Waves58_62_Cumulative.zip` from tracked project files with private-path exclusion and Git LFS coverage.
+- retest_result: retest_passed
+- current_status: fixed
+- evidence_path: Plan/Instructions/QA/Evidence/Hydration_Helper_Static_Validation/W62_CUMULATIVE_PACK_VALIDATION_20260706T011548-0500.json
+- next_action: Continue runtime readiness validation.

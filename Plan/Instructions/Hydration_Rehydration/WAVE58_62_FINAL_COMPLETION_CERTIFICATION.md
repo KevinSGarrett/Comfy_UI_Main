@@ -83,6 +83,26 @@ Volume Size:
 
 Static packaging certification: PASS
 
+Local cumulative zip validation: PASS
+
+Validated zip:
+
+```text
+C:\Comfy_UI_Main\Comfy_UI_Main_Autonomous_Codex_Desktop_Waves58_62_Cumulative.zip
+```
+
+Zip SHA-256:
+
+```text
+82fbd1d2c8fcd452e9efb76e68105cb81467ec84efe0b94892f11af72b8ef4cf
+```
+
+Validation evidence:
+
+```text
+Plan/Instructions/QA/Evidence/Hydration_Helper_Static_Validation/W62_CUMULATIVE_PACK_VALIDATION_20260706T011548-0500.json
+```
+
 ## What this certification does mean
 
 The pack contains the autonomous instruction layers required for a new Codex Desktop session to understand where the project is, what to read, how to act, how to update trackers, how to perform QA, and how to build future cumulative packs.
