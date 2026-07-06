@@ -145,6 +145,16 @@ function Test-PowerShellParser {
   }
 }
 
+function Has-Property {
+  param(
+    [object]$Object,
+    [string]$Name
+  )
+
+  if ($null -eq $Object) { return $false }
+  return $null -ne ($Object.PSObject.Properties[$Name])
+}
+
 function Test-JsonFile {
   param([Parameter(Mandatory=$true)][string]$Path)
 
@@ -297,6 +307,48 @@ function Find-LatestFile {
   return $file.FullName
 }
 
+function Test-AuthGateEvidenceContract {
+  param([Parameter(Mandatory=$true)][string]$Path)
+
+  $entry = [ordered]@{
+    name = Split-Path -Leaf $Path
+    path = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $Path
+    result = "fail"
+    error = $null
+    top_level_result = $null
+    top_level_failure_category = $null
+    top_level_account_match = $null
+    top_level_remote_login_status = $null
+  }
+
+  try {
+    $payload = Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json
+    foreach ($required in @("result", "failure_category", "account_match", "remote_login_status", "ec2_work_allowed", "safe_to_start_ec2")) {
+      if (-not (Has-Property -Object $payload -Name $required)) {
+        throw "Auth gate evidence is missing top-level field: $required"
+      }
+    }
+
+    $entry.top_level_result = [string]$payload.result
+    $entry.top_level_failure_category = $payload.failure_category
+    $entry.top_level_account_match = [bool]$payload.account_match
+    $entry.top_level_remote_login_status = [string]$payload.remote_login_status
+
+    if ([string]::IsNullOrWhiteSpace($entry.top_level_result)) {
+      throw "Auth gate evidence has an empty top-level result."
+    }
+    if (-not [bool]$payload.safe_to_start_ec2 -and [string]::IsNullOrWhiteSpace([string]$payload.failure_category)) {
+      throw "Blocked auth gate evidence must include a top-level failure_category."
+    }
+
+    $entry.result = "pass"
+  } catch {
+    $entry.error = $_.Exception.Message
+  }
+
+  return $entry
+}
+
 $stamp = (Get-Date -Format "yyyyMMddTHHmmsszzz").Replace(":", "")
 $createdAt = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
 $operationsRoot = Join-Path $ProjectRoot "Plan\Instructions\Operations"
@@ -382,6 +434,7 @@ $localSmokeResults += Invoke-LocalHelper -Name "ec2_workflow_smoke_run_dry_run" 
 $latestBlockedStaticProof = Find-LatestFile -Directory $workflowStaticDir -Filter "W61_EC2_LANE_STATIC_PROOF_BLOCKED_EXECUTE_*.json"
 $latestCoordinatorDryRun = Find-LatestFile -Directory $workflowRuntimeDir -Filter "W61_EC2_WORKFLOW_SMOKE_RUN_DRY_RUN_*.json"
 $latestReadiness = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W61_LANE_RUNTIME_READINESS_*.json"
+$latestAuthGate = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_AUTH_GATE*.json"
 
 $evidenceChecks = @()
 foreach ($evidence in @($latestBlockedStaticProof, $latestCoordinatorDryRun, $latestReadiness)) {
@@ -389,10 +442,16 @@ foreach ($evidence in @($latestBlockedStaticProof, $latestCoordinatorDryRun, $la
   $evidenceChecks += Test-JsonFile -Path $evidence
 }
 
+$evidenceContractChecks = @()
+if (![string]::IsNullOrWhiteSpace($latestAuthGate)) {
+  $evidenceContractChecks += Test-AuthGateEvidenceContract -Path $latestAuthGate
+}
+
 $scriptFailures = @($scriptParseResults | Where-Object { $_.result -ne "pass" })
 $jsonFailures = @($jsonParseResults | Where-Object { $_.result -ne "pass" })
 $smokeFailures = @($localSmokeResults | Where-Object { $_.result -ne "pass" -or ($_.expected_output_file -and -not $_.expected_output_json_valid) })
 $evidenceFailures = @($evidenceChecks | Where-Object { $_.result -ne "pass" })
+$evidenceContractFailures = @($evidenceContractChecks | Where-Object { $_.result -ne "pass" })
 
 $record = [ordered]@{
   evidence_id = "EVID-W60-OPERATIONS-HELPER-CURRENT-VALIDATION-$stamp"
@@ -426,6 +485,9 @@ $record = [ordered]@{
     evidence_check_count = @($evidenceChecks).Count
     evidence_check_failures = @($evidenceFailures).Count
     evidence_checks = $evidenceChecks
+    evidence_contract_check_count = @($evidenceContractChecks).Count
+    evidence_contract_check_failures = @($evidenceContractFailures).Count
+    evidence_contract_checks = $evidenceContractChecks
   }
   skipped_live_execution = @(
     [ordered]@{ script = "Invoke-CivitaiModelLookup.ps1"; reason = "Would contact Civitai API; out of scope for local static validation." },
@@ -437,7 +499,7 @@ $record = [ordered]@{
   )
   temp_root = "[VALIDATION_TEMP_ROOT]"
   temp_root_redacted = $true
-  result = $(if ($scriptFailures.Count -eq 0 -and $jsonFailures.Count -eq 0 -and $smokeFailures.Count -eq 0 -and $evidenceFailures.Count -eq 0) { "pass_local_only" } else { "fail" })
+  result = $(if ($scriptFailures.Count -eq 0 -and $jsonFailures.Count -eq 0 -and $smokeFailures.Count -eq 0 -and $evidenceFailures.Count -eq 0 -and $evidenceContractFailures.Count -eq 0) { "pass_local_only" } else { "fail" })
   known_issues = @(
     "Live AWS, Civitai, GitHub, EC2 start, ComfyUI runtime generation, artifact pullback, and visual QA remain separate runtime validations.",
     "AWS auth is still expired in current evidence; this validation intentionally does not refresh or require AWS credentials."

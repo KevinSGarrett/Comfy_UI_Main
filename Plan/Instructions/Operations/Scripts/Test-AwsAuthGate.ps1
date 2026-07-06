@@ -146,6 +146,11 @@ $record = [ordered]@{
     status = "not_attempted"
   }
   sts_after = $null
+  result = "not_evaluated"
+  failure_category = $null
+  account_actual = $null
+  account_match = $false
+  remote_login_status = "not_attempted"
   ec2_work_allowed = $false
   safe_to_start_ec2 = $false
   generation_allowed = $false
@@ -192,6 +197,32 @@ if (-not $record.aws_cli_found) {
   } else {
     $record.next_action = "Run with -AttemptRemoteLogin or complete aws login --remote, then verify account 029530099913 before EC2 work."
   }
+}
+
+$latestSts = $record.sts_before
+if ($null -ne $record.sts_after) {
+  $latestSts = $record.sts_after
+}
+
+if ($null -ne $latestSts) {
+  $record.account_actual = $latestSts.account_actual
+  $record.account_match = [bool]$latestSts.account_match
+}
+
+$record.remote_login_status = [string]$record.remote_login.status
+
+if ([bool]$record.ec2_work_allowed -and [bool]$record.safe_to_start_ec2) {
+  $record.result = "pass"
+  $record.failure_category = $null
+} else {
+  if ($null -ne $latestSts -and ![string]::IsNullOrWhiteSpace([string]$latestSts.failure_category)) {
+    $record.failure_category = [string]$latestSts.failure_category
+  } elseif (-not $record.aws_cli_found) {
+    $record.failure_category = "aws_cli_missing"
+  } else {
+    $record.failure_category = "unknown_failure"
+  }
+  $record.result = "blocked_$($record.failure_category)"
 }
 
 if (![string]::IsNullOrWhiteSpace($OutFile)) {
