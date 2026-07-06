@@ -871,6 +871,13 @@ $localSmokeResults += Invoke-LocalHelper -Name "workflow_model_registry_coverage
   -ExpectedOutputFile $modelRegistryCoverageFile `
   -ExpectedOutputType "json"
 
+$imageEngineRouterFile = Join-Path $tempRoot "image_engine_router_validation.json"
+$localSmokeResults += Invoke-LocalHelper -Name "image_engine_router_validation_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "Test-ImageEngineRouter.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-OutFile", $imageEngineRouterFile) `
+  -ExpectedOutputFile $imageEngineRouterFile `
+  -ExpectedOutputType "json"
+
 $itemsTrackerValidationFile = Join-Path $tempRoot "items_tracker_package_validation.json"
 $localSmokeResults += Invoke-LocalHelper -Name "items_tracker_package_validation_smoke" `
   -ScriptPath (Join-Path $scriptsRoot "Test-ItemsTrackerPackageStatic.ps1") `

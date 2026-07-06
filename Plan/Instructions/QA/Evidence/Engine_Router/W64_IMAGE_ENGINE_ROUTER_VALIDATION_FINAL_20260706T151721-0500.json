@@ -1,0 +1,135 @@
+﻿{
+    "evidence_id":  "W64_IMAGE_ENGINE_ROUTER_VALIDATION_20260706T151722-0500",
+    "created_at":  "2026-07-06T15:17:22-05:00",
+    "artifact_id":  "TRK-W64-009",
+    "artifact_type":  "wave64_image_engine_router_validation",
+    "local_only":  true,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "scripts":  {
+                    "router":  "Plan/07_IMPLEMENTATION/scripts/resolve_wave64_image_engine_route.py",
+                    "validator":  "Plan/Instructions/QA/Scripts/Test-ImageEngineRouter.ps1"
+                },
+    "requests":  {
+                     "compatible":  "Plan/09_EXAMPLES/wave64_image_engine_route_realvisxl_request.example.json",
+                     "incompatible_lora":  "Plan/09_EXAMPLES/wave64_image_engine_route_incompatible_lora_request.example.json"
+                 },
+    "decisions":  {
+                      "compatible":  "Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_REALVISXL_DECISION_20260706T151722-0500.json",
+                      "incompatible_lora":  "Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_INCOMPATIBLE_LORA_DECISION_20260706T151722-0500.json"
+                  },
+    "runs":  {
+                 "compatible":  {
+                                    "exit_code":  0,
+                                    "stdout_tail":  ": \"ec2_object_info_passed\",\r\n          \"expected\": [\r\n            \"ec2_object_info_passed\"\r\n          ]\r\n        },\r\n        {\r\n          \"name\": \"runtime_requirement_evidence_paths_exist\",\r\n          \"result\": \"pass\",\r\n          \"observed\": [],\r\n          \"expected\": \"no missing evidence paths\"\r\n        },\r\n        {\r\n          \"name\": \"runtime_queue_evidence_paths_exist\",\r\n          \"result\": \"pass\",\r\n          \"observed\": [],\r\n          \"expected\": \"no missing evidence paths\"\r\n        }\r\n      ],\r\n      \"blockers\": [],\r\n      \"result\": \"pass\"\r\n    }\r\n  ],\r\n  \"local_only\": true,\r\n  \"contacts\": {\r\n    \"aws\": false,\r\n    \"github_api\": false,\r\n    \"civitai\": false,\r\n    \"comfyui\": false,\r\n    \"ec2\": false\r\n  },\r\n  \"ec2_started\": false,\r\n  \"generation_executed\": false,\r\n  \"result\": \"pass_local_only\",\r\n  \"next_action\": \"Use the selected lane for compatible local planning, or revise the request/model stack if blocked. Run EC2 only for new runtime proof, not for this local routing gate.\"\r\n}",
+                                    "stderr_tail":  ""
+                                },
+                 "incompatible_lora":  {
+                                           "exit_code":  0,
+                                           "stdout_tail":  "           \"ec2_object_info_passed\"\r\n          ]\r\n        },\r\n        {\r\n          \"name\": \"runtime_requirement_evidence_paths_exist\",\r\n          \"result\": \"pass\",\r\n          \"observed\": [],\r\n          \"expected\": \"no missing evidence paths\"\r\n        },\r\n        {\r\n          \"name\": \"runtime_queue_evidence_paths_exist\",\r\n          \"result\": \"pass\",\r\n          \"observed\": [],\r\n          \"expected\": \"no missing evidence paths\"\r\n        }\r\n      ],\r\n      \"blockers\": [\r\n        \"lora_families_match_engine_family\"\r\n      ],\r\n      \"result\": \"block\"\r\n    }\r\n  ],\r\n  \"local_only\": true,\r\n  \"contacts\": {\r\n    \"aws\": false,\r\n    \"github_api\": false,\r\n    \"civitai\": false,\r\n    \"comfyui\": false,\r\n    \"ec2\": false\r\n  },\r\n  \"ec2_started\": false,\r\n  \"generation_executed\": false,\r\n  \"result\": \"block_local_only\",\r\n  \"next_action\": \"Use the selected lane for compatible local planning, or revise the request/model stack if blocked. Run EC2 only for new runtime proof, not for this local routing gate.\"\r\n}",
+                                           "stderr_tail":  ""
+                                       }
+             },
+    "checks":  [
+                   {
+                       "name":  "valid_router_exit_zero",
+                       "result":  "pass",
+                       "observed":  0,
+                       "expected":  0
+                   },
+                   {
+                       "name":  "blocked_router_exit_zero",
+                       "result":  "pass",
+                       "observed":  0,
+                       "expected":  0
+                   },
+                   {
+                       "name":  "valid_request_passes_local_gate",
+                       "result":  "pass",
+                       "observed":  "pass_local_only",
+                       "expected":  "pass_local_only"
+                   },
+                   {
+                       "name":  "valid_request_selects_realvisxl_lane",
+                       "result":  "pass",
+                       "observed":  "sdxl_realvisxl_base_lane",
+                       "expected":  "sdxl_realvisxl_base_lane"
+                   },
+                   {
+                       "name":  "valid_request_selects_sdxl_family",
+                       "result":  "pass",
+                       "observed":  "sdxl",
+                       "expected":  "sdxl"
+                   },
+                   {
+                       "name":  "valid_request_selects_realvisxl_checkpoint",
+                       "result":  "pass",
+                       "observed":  "realvisxlV50_v50Bakedvae.safetensors",
+                       "expected":  "realvisxlV50_v50Bakedvae.safetensors"
+                   },
+                   {
+                       "name":  "valid_candidate_has_no_blockers",
+                       "result":  "pass",
+                       "observed":  [
+
+                                    ],
+                       "expected":  [
+
+                                    ]
+                   },
+                   {
+                       "name":  "blocked_request_blocks_local_gate",
+                       "result":  "pass",
+                       "observed":  "block_local_only",
+                       "expected":  "block_local_only"
+                   },
+                   {
+                       "name":  "blocked_request_has_no_selected_lane",
+                       "result":  "pass",
+                       "observed":  null,
+                       "expected":  null
+                   },
+                   {
+                       "name":  "blocked_request_reports_lora_family_mismatch",
+                       "result":  "pass",
+                       "observed":  [
+                                        "lora_families_match_engine_family"
+                                    ],
+                       "expected":  "lora_families_match_engine_family"
+                   },
+                   {
+                       "name":  "valid_request_did_not_contact_external_services",
+                       "result":  "pass",
+                       "observed":  {
+                                        "aws":  false,
+                                        "github_api":  false,
+                                        "civitai":  false,
+                                        "comfyui":  false,
+                                        "ec2":  false
+                                    },
+                       "expected":  "all false; no EC2/generation"
+                   },
+                   {
+                       "name":  "blocked_request_did_not_contact_external_services",
+                       "result":  "pass",
+                       "observed":  {
+                                        "aws":  false,
+                                        "github_api":  false,
+                                        "civitai":  false,
+                                        "comfyui":  false,
+                                        "ec2":  false
+                                    },
+                       "expected":  "all false; no EC2/generation"
+                   }
+               ],
+    "failure_count":  0,
+    "failures":  [
+
+                 ],
+    "known_limits":  [
+                         "Local router validation does not perform a new ComfyUI generation.",
+                         "Local router validation does not start EC2 or prove new model binaries.",
+                         "This validates active base-generation image lanes; future video/audio/router families need separate gates."
+                     ],
+    "result":  "pass_local_only"
+}
