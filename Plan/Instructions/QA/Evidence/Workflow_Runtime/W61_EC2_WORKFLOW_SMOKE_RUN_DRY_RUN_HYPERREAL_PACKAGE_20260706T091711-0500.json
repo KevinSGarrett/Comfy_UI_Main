@@ -1,0 +1,168 @@
+﻿{
+    "evidence_id":  "EC2-WORKFLOW-SMOKE-RUN-20260706T091712-0500",
+    "timestamp":  "2026-07-06T09:17:12-05:00",
+    "mode":  "dry_run",
+    "run_id":  "aws_gpu_workflow_smoke_20260706T091712-0500",
+    "lane_id":  "sdxl_low_risk_fallback_lane",
+    "instance_id":  "i-0560bf8d143f93bb1",
+    "region":  "us-east-1",
+    "remote_project_root":  "/home/ubuntu/Comfy_UI_Main",
+    "remote_comfy_root":  "/home/ubuntu/ComfyUI",
+    "remote_artifact_root":  "/home/ubuntu/comfyui_artifacts/aws_gpu_workflow_smoke_20260706T091712-0500",
+    "comfy_port":  8192,
+    "timeout_seconds":  900,
+    "result":  "dry_run_blocked_before_ec2_start",
+    "failure_category":  "expired_session",
+    "lane_contracts":  [
+                           {
+                               "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
+                               "exists":  true,
+                               "json_valid":  true,
+                               "error":  null
+                           },
+                           {
+                               "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/patch_points.json",
+                               "exists":  true,
+                               "json_valid":  true,
+                               "error":  null
+                           },
+                           {
+                               "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
+                               "exists":  true,
+                               "json_valid":  true,
+                               "error":  null
+                           },
+                           {
+                               "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/smoke_test_request.json",
+                               "exists":  true,
+                               "json_valid":  true,
+                               "error":  null
+                           }
+                       ],
+    "local_git_checkpoint_gate":  {
+                                      "git_root":  "C:/Comfy_UI_Main",
+                                      "head":  "f99294bf5c85af65030e07c3016dbfc93d6ddcb8",
+                                      "origin_main":  "f99294bf5c85af65030e07c3016dbfc93d6ddcb8",
+                                      "expected_remote_head":  "f99294bf5c85af65030e07c3016dbfc93d6ddcb8",
+                                      "local_matches_origin":  true,
+                                      "clean":  true,
+                                      "porcelain_count":  0,
+                                      "remote":  "origin\thttps://github.com/KevinSGarrett/Comfy_UI_Main.git (fetch)",
+                                      "result":  "pass",
+                                      "error":  null
+                                  },
+    "auth_gate":  {
+                      "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_AUTH_GATE_COORDINATOR_CONTRACT_20260706T052346-0500.json",
+                      "found":  true,
+                      "expected_account":  "029530099913",
+                      "account_match":  false,
+                      "ec2_work_allowed":  false,
+                      "safe_to_start_ec2":  false,
+                      "generation_allowed":  false,
+                      "result":  "blocked_expired_session",
+                      "status":  "blocked",
+                      "failure_category":  "expired_session",
+                      "remote_login_status":  "not_attempted"
+                  },
+    "readiness_gate":  {
+                           "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_LANE_SPECIFIC_LOW_RISK_20260706T065821-0500.json",
+                           "found":  true,
+                           "local_pre_ec2_ready":  true,
+                           "ready_for_ec2_static_proof":  false,
+                           "ready_for_generation":  false,
+                           "lane_id":  "sdxl_low_risk_fallback_lane",
+                           "lane_match":  true,
+                           "result":  "local_pre_ec2_ready_runtime_blocked_auth",
+                           "failure_category":  "expired_session",
+                           "status":  "local_ready_runtime_blocked"
+                       },
+    "ec2_static_proof":  {
+                             "file":  null,
+                             "supplied":  false,
+                             "found":  false,
+                             "valid":  false,
+                             "errors":  [
+                                            "No EC2 static proof file supplied or found."
+                                        ],
+                             "object_info_status":  null,
+                             "model_proof_count":  0,
+                             "dry_run_record":  false,
+                             "lane_id":  null,
+                             "lane_match":  false
+                         },
+    "run_package":  {
+                        "supplied":  true,
+                        "file":  "runtime_artifacts/run_packages/sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1/RUN_PACKAGE_MANIFEST.json",
+                        "found":  true,
+                        "valid":  true,
+                        "errors":  [
+
+                                   ],
+                        "run_id":  "sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1",
+                        "result":  "pass_local_only",
+                        "lane_id":  "sdxl_low_risk_fallback_lane",
+                        "lane_match":  true,
+                        "prompt_profile":  {
+                                               "supplied":  true,
+                                               "applied":  true,
+                                               "profile_id":  "hyperreal_editorial_portrait_v1",
+                                               "path":  "PromptProfiles/base_generation/hyperreal_editorial_portrait.json"
+                                           },
+                        "prompt_request":  {
+                                               "path":  "runtime_artifacts/run_packages/sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1/prompt_request.json",
+                                               "expected_sha256":  "37f2947023321b9018c72f941cbd33e9f9dcf5ca2c4dd7fa54971aa4e6bd1538",
+                                               "actual_sha256":  "37f2947023321b9018c72f941cbd33e9f9dcf5ca2c4dd7fa54971aa4e6bd1538",
+                                               "hash_match":  true,
+                                               "json_valid":  true,
+                                               "node_count":  7,
+                                               "client_id":  "codex-root-run-package"
+                                           }
+                    },
+    "request_source":  "run_package",
+    "smoke_request":  {
+                          "attempted":  true,
+                          "source":  "run_package",
+                          "exit_code":  0,
+                          "request_file":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_RUN_REQUEST_HYPERREAL_PACKAGE_20260706T091711-0500.json",
+                          "request_file_exists":  true,
+                          "json_parsed":  true,
+                          "execution_allowed":  false,
+                          "generation_executed":  false,
+                          "run_package_id":  "sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1",
+                          "prompt_profile_id":  "hyperreal_editorial_portrait_v1",
+                          "prompt_request_sha256":  "37f2947023321b9018c72f941cbd33e9f9dcf5ca2c4dd7fa54971aa4e6bd1538",
+                          "errors":  [
+
+                                     ]
+                      },
+    "execute_gates_pass":  false,
+    "blocked_reasons":  [
+                            "Auth gate does not allow EC2 start.",
+                            "Lane readiness gate does not allow generation.",
+                            "EC2 object-info/path/hash static proof is missing or invalid."
+                        ],
+    "dry_run_actions":  [
+                            "Load .env without printing values.",
+                            "Require auth gate for AWS account 029530099913 before EC2 start.",
+                            "Require selected-lane readiness gate before generation.",
+                            "Require EC2 object-info/path/hash static proof before generation.",
+                            "Load the validated run package prompt_request.json as the bounded ComfyUI /prompt body.",
+                            "With -Execute only, start i-0560bf8d143f93bb1, run remote ComfyUI smoke, create artifact manifest, pull back artifacts when S3 is available, then stop EC2."
+                        ],
+    "generation_executed":  false,
+    "ec2_started":  false,
+    "command_id":  null,
+    "command_status":  "not_started",
+    "start_state":  null,
+    "final_state":  null,
+    "remote_result":  null,
+    "local_pullback":  {
+                           "attempted":  false,
+                           "status":  "not_attempted"
+                       },
+    "run_record_file":  "Plan/Instructions/Operations/Run_Records/aws_gpu_workflow_smoke_20260706T091712-0500.json",
+    "errors":  [
+
+               ],
+    "next_action":  "Resolve blocked_reasons before any EC2 workflow smoke execution."
+}

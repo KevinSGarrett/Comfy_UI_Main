@@ -287,3 +287,11 @@ After AWS remote login is refreshed externally, rerun `Test-AwsAuthGate.ps1` unt
 - Verified the packaged `prompt_request.json` contains the hyperreal portrait prompt, negative prompt anti-artifact terms, seed `6100611061`, steps `24`, cfg `6.2`, and save prefix `codex_hyperreal_editorial_portrait`.
 - Pushed commit `92ce3111145c9d4f16e7db9f5bbd648de4a7d138` to `origin/main`; local HEAD, `origin/main`, and remote `refs/heads/main` matched before hydration edits.
 - Saved post-push root preflight evidence at `runtime_artifacts/run_manifests/ROOT_LOCAL_PREFLIGHT_20260706T090734-0500.json`; result is `pass_local_only`, failed check count `0`, `.env` is ignored, and worktree was clean at commit `92ce3111145c9d4f16e7db9f5bbd648de4a7d138`.
+
+## Latest EC2 Smoke Package Handoff Update - 2026-07-06T09:17:11-05:00
+- Added `-RunPackageManifestFile` support to `Plan/Instructions/Operations/Scripts/Invoke-EC2WorkflowSmokeRun.ps1`, so the post-auth EC2 workflow smoke path can use a validated run package `prompt_request.json` instead of rebuilding only from lane smoke values.
+- The coordinator now verifies package lane match, `pass_local_only`, prompt request JSON validity, prompt request sha256, profile metadata, and local-only boundaries before any EC2 gate can pass.
+- `Test-OperationsHelperStatic.ps1` now includes `ec2_workflow_smoke_run_package_dry_run`; local validation passed with `local_smoke_count=10`, `local_smoke_failures=0`, and `evidence_contract_check_failures=0`.
+- Pushed commit `f99294bf5c85af65030e07c3016dbfc93d6ddcb8` to `origin/main`; local HEAD, `origin/main`, and remote `refs/heads/main` matched before generating package-fed dry-run evidence.
+- Generated package-fed EC2 smoke dry-run evidence at `Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_RUN_DRY_RUN_HYPERREAL_PACKAGE_20260706T091711-0500.json` plus request body `Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_RUN_REQUEST_HYPERREAL_PACKAGE_20260706T091711-0500.json`.
+- That dry-run records `request_source=run_package`, `run_package.valid=true`, profile `hyperreal_editorial_portrait_v1`, local Git checkpoint gate `pass`, `failure_category=expired_session`, `ec2_started=false`, and `generation_executed=false`.

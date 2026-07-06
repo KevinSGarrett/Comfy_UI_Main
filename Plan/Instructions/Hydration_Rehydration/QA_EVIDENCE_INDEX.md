@@ -226,6 +226,8 @@
 | EVID-W61-ROOT-RUN-PACKAGE-LOW-RISK-20260706T081301-0500 | Root-level local workflow run package for first queued low-risk lane | workflow_run_package | pass_local_only | runtime_artifacts/run_packages/sdxl_low_risk_fallback_lane_20260706T081301-0500/RUN_PACKAGE_MANIFEST.json |
 | EVID-W61-HYPERREAL-PROMPT-PACKAGE-20260706T090734-0500 | Hyperreal editorial portrait prompt-profile run package for first queued low-risk lane | workflow_run_package | pass_local_only | runtime_artifacts/run_packages/sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1/RUN_PACKAGE_MANIFEST.json |
 | EVID-ROOT-LOCAL-PREFLIGHT-20260706T090734-0500 | Root local preflight after hyperreal prompt package push | root_local_preflight | pass_local_only | runtime_artifacts/run_manifests/ROOT_LOCAL_PREFLIGHT_20260706T090734-0500.json |
+| EVID-W61-EC2-WORKFLOW-SMOKE-HYPERREAL-PACKAGE-20260706T091711-0500 | Package-fed EC2 workflow smoke dry-run for hyperreal portrait request | ec2_workflow_smoke_dry_run | dry_run_blocked_before_ec2_start | Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_RUN_DRY_RUN_HYPERREAL_PACKAGE_20260706T091711-0500.json |
+| REQ-W61-EC2-WORKFLOW-SMOKE-HYPERREAL-PACKAGE-20260706T091711-0500 | Copied hyperreal package prompt request used by package-fed EC2 dry-run | ec2_workflow_smoke_request | static_request_built_no_generation | Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_RUN_REQUEST_HYPERREAL_PACKAGE_20260706T091711-0500.json |
 
 ## Pending runtime evidence
 
