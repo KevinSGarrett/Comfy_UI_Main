@@ -23,3 +23,4 @@
 - 2026-07-06T02:55:36-05:00: Added a bounded ComfyUI smoke helper and generated the exact patched `/prompt` request body for the selected SDXL lane. Execution remains blocked until EC2 static proof exists and ComfyUI API is running.
 - 2026-07-06T03:00:37-05:00: Added an image artifact QA helper that creates the QA record/checklist after pullback and keeps final visual review pending until a real generated image exists.
 - 2026-07-06T03:10:07-05:00: Added a secret-safe AWS auth gate helper after `aws login --remote` required browser authorization in this non-interactive shell. EC2 start and generation remain disallowed until account `029530099913` is verified and the auth gate reports `safe_to_start_ec2=true`.
+- 2026-07-06T03:17:58-05:00: Added an EC2 pullback record helper because the first generated-image runtime path needs local file counts, hashes, manifest comparison, and QA routing before any pulled-back artifact can be treated as review-ready.
