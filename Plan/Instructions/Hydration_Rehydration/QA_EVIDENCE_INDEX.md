@@ -32,6 +32,8 @@
 | LOCAL-COMFY-WORKFLOW-STATIC-20260706T024811-0500 | SDXL low-risk workflow local static graph validation | workflow_static_validation | pass | Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_SDXL_LOW_RISK_WORKFLOW_STATIC_VALIDATION_20260706T024811-0500.json |
 | EC2-LANE-STATIC-PROOF-DRY-RUN-20260706T024846-0500 | EC2 lane static-proof helper dry-run plan | ec2_lane_static_proof_dry_run | pass_no_start | Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_DRY_RUN_20260706T024845-0500.json |
 | CERT-W61-SDXL-LOW-RISK-WORKFLOW-STATIC-VALIDATION-20260706T024811-0500 | SDXL low-risk workflow static validation certification | done_certification | pending_runtime_validation | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W61_SDXL_LOW_RISK_WORKFLOW_STATIC_VALIDATION_20260706T024811-0500.md |
+| COMFY-WORKFLOW-SMOKE-20260706T025536-0500 | SDXL low-risk ComfyUI smoke helper dry-run request build | workflow_smoke_helper_dry_run | pass_no_generation | Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_COMFY_WORKFLOW_SMOKE_DRY_RUN_20260706T025536-0500.json |
+| CERT-W61-COMFY-WORKFLOW-SMOKE-HELPER-DRY-RUN-20260706T025536-0500 | SDXL low-risk ComfyUI smoke helper dry-run certification | done_certification | pending_runtime_validation | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W61_COMFY_WORKFLOW_SMOKE_HELPER_DRY_RUN_20260706T025536-0500.md |
 
 ## Pending runtime evidence
 

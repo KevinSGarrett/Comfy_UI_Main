@@ -22,3 +22,9 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Oper
 - stop EC2 and verify `stopped`
 
 Only after that proof exists, run the bounded ComfyUI smoke request and perform image QA.
+
+Smoke helper command shape after proof exists and ComfyUI API is reachable:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-ComfyWorkflowSmoke.ps1 -Execute -StaticProofFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W61_EC2_LANE_STATIC_PROOF_<timestamp>.json -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Runtime\W61_COMFY_WORKFLOW_SMOKE_EXECUTION_<timestamp>.json
+```

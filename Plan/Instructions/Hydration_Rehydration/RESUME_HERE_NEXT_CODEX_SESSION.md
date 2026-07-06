@@ -18,6 +18,7 @@ Start by reading this file, then re-open the standard hydration files in this fo
 - Recorded lane-selection evidence and pending-runtime certification.
 - Added local workflow static validation and EC2 static-proof helper scripts.
 - Passed local static validation for the selected SDXL lane and recorded dry-run evidence for the EC2 proof helper.
+- Added a bounded ComfyUI smoke helper and generated the patched `/prompt` request body for the selected SDXL lane without starting EC2 or running generation.
 
 ## Current goal
 
@@ -51,6 +52,14 @@ That helper should:
 
 Do not run generation until object-info, path, and hash proof are recorded.
 
+After object-info/path/hash proof exists and ComfyUI API is reachable, run:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-ComfyWorkflowSmoke.ps1 -Execute -StaticProofFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W61_EC2_LANE_STATIC_PROOF_<timestamp>.json -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Runtime\W61_COMFY_WORKFLOW_SMOKE_EXECUTION_<timestamp>.json
+```
+
+Then pull back generated image artifacts and apply `Plan/Instructions/QA/IMAGE_GENERATION_VISUAL_REVIEW_PROTOCOL.md`.
+
 ## Evidence created
 
 - `Plan/Instructions/Operations/Run_Records/aws_gpu_run_20260706T020209-0500.json`
@@ -62,6 +71,9 @@ Do not run generation until object-info, path, and hash proof are recorded.
 - `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_SDXL_LOW_RISK_WORKFLOW_STATIC_VALIDATION_20260706T024811-0500.json`
 - `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_DRY_RUN_20260706T024845-0500.json`
 - `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W61_SDXL_LOW_RISK_WORKFLOW_STATIC_VALIDATION_20260706T024811-0500.md`
+- `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_COMFY_WORKFLOW_SMOKE_DRY_RUN_20260706T025536-0500.json`
+- `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_COMFY_WORKFLOW_SMOKE_REQUEST_20260706T025536-0500.json`
+- `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W61_COMFY_WORKFLOW_SMOKE_HELPER_DRY_RUN_20260706T025536-0500.md`
 
 ## Must not repeat
 
