@@ -8,7 +8,8 @@ Start by reading this file, then read `CURRENT_PURSUING_GOAL.md` and follow its 
 
 - Initialized S3/IAM runtime infrastructure from `C:\Comfy_UI_Main`: added `Plan/Instructions/Operations/Scripts/Initialize-S3RuntimeInfrastructure.ps1`, created/configured bucket `comfy-ui-main-runtime-029530099913-us-east-1`, attached `ComfyUIRuntimeS3Access` to `ComfyUI-SSM-Role`, created `ComfyUIGitHubDeployBundleRole`, created `ComfyUIEmergencyStopSchedulerRole`, updated only non-secret local `.env` values, and kept EC2 `stopped` with no generation.
 - Current S3 evidence: dry run `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_RUNTIME_INFRA_DRY_RUN_20260706T175619-0500.json`; execute `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_RUNTIME_INFRA_EXECUTE_20260706T175716-0500.json`; readiness `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_RUNTIME_TRANSFER_READY_20260706T175808-0500.json`; operations helper `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_OPERATIONS_HELPER_S3_RUNTIME_INFRA_20260706T175902-0500.json`. Readiness now reports `ready_local_only`; the old missing-S3-config blocker is historical.
-- Wave65 was rerun after S3 runtime infrastructure additions and now reports `plan_file_count=2855`, `wave65_rows_created=680`, and `missing_after_wave65_count=0`.
+- Published and SHA-verified the RealVisXL matrix deploy bundle in S3. Uploaded bundle: `s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/rvxl_mx_s3_20260706T181144-0500/rvxl_mx_s3_20260706T181144-0500.zip`; SHA256: `d3d81bbe2b6cb678304ab06ddf9cb707da31721cb01ca9c26df729414396cc84`. Evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_MATRIX_DEPLOY_BUNDLE_UPLOAD_VERIFY_20260706T181252-0500.json`.
+- Wave65 was rerun after S3 matrix publish evidence and now reports `plan_file_count=2859`, `wave65_rows_created=684`, and `missing_after_wave65_count=0`.
 - Implemented Wave64 image-engine router proof for `TRK-W64-009` / `ITEM-W64-009` in `C:\Comfy_UI_Main`. New resolver: `Plan/07_IMPLEMENTATION/scripts/resolve_wave64_image_engine_route.py`; QA wrapper: `Plan/Instructions/QA/Scripts/Test-ImageEngineRouter.ps1`; example requests: `Plan/09_EXAMPLES/wave64_image_engine_route_realvisxl_request.example.json` and `Plan/09_EXAMPLES/wave64_image_engine_route_incompatible_lora_request.example.json`.
 - Post-ledger router evidence `Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_VALIDATION_POST_LEDGER_20260706T151800-0500.json` reports `pass_local_only`: compatible RealVisXL SDXL routing selects `sdxl_realvisxl_base_lane`; incompatible Flux LoRA on SDXL blocks with no silent fallback. Latest decision evidence: `Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_REALVISXL_DECISION_20260706T152201-0500.json` and `Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_INCOMPATIBLE_LORA_DECISION_20260706T152201-0500.json`.
 - Integrated the router proof into the QA helper. Post-ledger QA evidence `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W64_QA_HELPER_IMAGE_ENGINE_ROUTER_POST_LEDGER_20260706T151800-0500.json` reports `pass_local_only` with local smoke failures `0`. Wave64 supplements, `PROJECT_ROOT_MANIFEST.json`, `QA_EVIDENCE_INDEX.md`, `PROOF_OF_MOVEMENT_LOG.csv`, `CURRENT_SESSION_STATE.md`, `NEXT_ACTION.md`, and `RECENT_DECISIONS.md` were updated for the router gate.
@@ -130,7 +131,7 @@ Continue Wave 63 cost-controlled work without repeating the completed low-risk l
 
 ## Next exact action
 
-First finish the current Wave66 S3 runtime infrastructure checkpoint: validate JSON/CSV/PowerShell parsing, run `git diff --check`, run a staged forbidden-path and secret scan, commit only the S3 infrastructure helper/readiness/helper files plus required evidence/tracker/hydration/Wave65 refresh files, push, and verify `HEAD == origin/main`.
+First finish the current Wave66 S3 matrix publish checkpoint: validate JSON/CSV/PowerShell parsing, run `git diff --check`, run a staged forbidden-path and secret scan, commit only the S3 publish/verification/quality-plan evidence plus required tracker/hydration/Wave65 refresh files, push, and verify `HEAD == origin/main`.
 
 Read `Plan/Instructions/Operations/EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md` before any EC2 decision. If the current Wave 63/Wave64 changes are uncommitted, first create one clean checkpoint and verify `HEAD == origin/main`.
 
@@ -162,7 +163,7 @@ Civitai model 139562, version 789646, RealVisXL V5.0 (BakedVAE)
 SHA256 6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80
 ```
 
-The next runtime-unblocking action is not RealVisXL artifact recovery and not S3/IAM configuration planning. Do not commit the model binary and do not use Git LFS as a model-provisioning path. Do not rerun RealVisXL generation unless the lane, prompt, model, runtime, or QA objective changed. The next work should be publishing the prepared RealVisXL matrix deploy bundle to S3 with SHA verification, a new lane/module, or a user-approved broader multi-sample RealVisXL certification.
+The next runtime-unblocking action is not RealVisXL artifact recovery, not S3/IAM configuration planning, and not S3 bundle publishing. Do not commit the model binary and do not use Git LFS as a model-provisioning path. Do not rerun RealVisXL generation unless the lane, prompt, model, runtime, or QA objective changed. The next work should be fresh pre-EC2 gates followed by the S3-backed three-sample RealVisXL quality run, a new lane/module, or a user-approved broader multi-sample certification path.
 
 The model registry coverage gate now derives active lanes from `Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json` instead of a hardcoded two-lane list. Evidence `Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_DYNAMIC_QUEUE_COVERAGE_20260706T143810-0500.json` and QA helper evidence `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_DYNAMIC_MODEL_REGISTRY_COVERAGE_20260706T143818-0500.json` passed locally. Any future queued lane must have runtime requirements, model registry record(s), and model runtime validation queue rows before readiness can pass.
 
@@ -523,7 +524,7 @@ If AWS auth is expired or Git is not clean/pushed, stop and report that blocker.
 - `Publish-DeployBundleToS3.ps1` preserves the supplied manifest filename, so matrix bundles publish `DEPLOY_BUNDLE_MATRIX_MANIFEST.json` instead of being renamed to the single-package sidecar.
 - `Invoke-EC2LaneStaticProof.ps1` and `Invoke-EC2WorkflowSmokeRun.ps1` now read either `DEPLOY_BUNDLE_MANIFEST.json` or `DEPLOY_BUNDLE_MATRIX_MANIFEST.json` after S3 bundle extraction and record matrix metadata when present.
 - This was local-only. It did not contact AWS, GitHub APIs, Civitai, ComfyUI, start EC2, or run generation.
-- Next RealVisXL quality step: publish the matrix deploy bundle to S3, verify its SHA256, run bounded EC2 generation for all three matrix packages only after auth/Git/cost-control gates pass, pull back every generated artifact, verify hashes, and perform whole-image visual QA for every sample.
+- Next RealVisXL quality step: use the already uploaded and SHA-verified S3 matrix bundle for bounded EC2 generation only after auth/Git/cost-control gates pass, pull back every generated artifact, verify hashes, and perform whole-image visual QA for every sample.
 
 ## Latest RealVisXL Matrix Quality-Run Plan
 
@@ -537,7 +538,7 @@ If AWS auth is expired or Git is not clean/pushed, stop and report that blocker.
 - The plan also emits per-sample `New-EC2PullbackRecord.ps1` and `New-ImageArtifactQARecord.ps1` commands so every generated sample has pullback hash verification plus whole-image QA before certification.
 - Wave65 source coverage was rerun after this addition. Current result: `pass`, `plan_file_count=2845`, `wave65_rows_created=670`, `missing_after_wave65_count=0`.
 - This was local-only. It did not contact AWS, GitHub APIs, Civitai, ComfyUI, start EC2, or run generation.
-- Next RealVisXL quality step: publish the matrix deploy bundle to S3, verify the real uploaded SHA256, then run only the generated per-sample plan after AWS auth, Git cleanliness, static proof, readiness, and cost-control gates pass. Pull back and whole-image QA every sample before any quality certification.
+- Next RealVisXL quality step: run only the generated S3-backed per-sample plan after AWS auth, Git cleanliness, static proof, readiness, and cost-control gates pass. Pull back and whole-image QA every sample before any quality certification.
 
 ## Latest S3 Runtime Infrastructure
 
@@ -553,7 +554,20 @@ If AWS auth is expired or Git is not clean/pushed, stop and report that blocker.
 - Non-secret `.env` values were updated locally and remain ignored; do not commit or print `.env`. The private key `C:\Comfy_UI_Main\comfyui-lora-key.pem` remains ignored/private and must not be committed.
 - EC2 was not started and no generation ran. EC2 final state was verified `stopped`.
 - Wave65 source coverage was rerun after this addition. Current result: `pass`, `plan_file_count=2855`, `wave65_rows_created=680`, `missing_after_wave65_count=0`.
-- Next exact action: publish the RealVisXL matrix deploy bundle to S3, verify the uploaded SHA256, then regenerate/use the matrix quality-run plan with the real uploaded URI and SHA before any bounded EC2 quality execution.
+- This infrastructure setup was followed by a successful S3 matrix bundle publish and SHA verification.
+
+## Latest S3 Matrix Deploy Bundle Publish
+
+- Built ignored local bundle `runtime_artifacts\deploy_bundles\rvxl_mx_s3_20260706T181144-0500\DEPLOY_BUNDLE_MATRIX_MANIFEST.json`; result `pass_local_only`, file count `55`, source Git clean, EC2 not started, generation not run.
+- Publish dry-run evidence: `Plan\Instructions\QA\Evidence\Operations_Static_Validation\W66_S3_MATRIX_DEPLOY_BUNDLE_PUBLISH_DRY_RUN_20260706T181159-0500.json`; result `dry_run_ready_to_upload`.
+- Publish execute evidence: `Plan\Instructions\QA\Evidence\Operations_Static_Validation\W66_S3_MATRIX_DEPLOY_BUNDLE_PUBLISH_EXECUTE_20260706T181217-0500.json`; result `deploy_bundle_uploaded_to_s3`.
+- Upload verification evidence: `Plan\Instructions\QA\Evidence\Operations_Static_Validation\W66_S3_MATRIX_DEPLOY_BUNDLE_UPLOAD_VERIFY_20260706T181252-0500.json`; result `s3_upload_sha256_verified`.
+- Uploaded bundle URI: `s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/rvxl_mx_s3_20260706T181144-0500/rvxl_mx_s3_20260706T181144-0500.zip`.
+- Uploaded manifest URI: `s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/rvxl_mx_s3_20260706T181144-0500/DEPLOY_BUNDLE_MATRIX_MANIFEST.json`.
+- Uploaded/download-verified SHA256: `d3d81bbe2b6cb678304ab06ddf9cb707da31721cb01ca9c26df729414396cc84`.
+- S3-backed quality-run plan evidence: `Plan\Instructions\QA\Evidence\Workflow_Runtime\W66_EC2_WORKFLOW_MATRIX_QUALITY_RUN_PLAN_S3_PUBLISHED_20260706T181317-0500.json`; result `pass_local_only`, three planned samples, real `-DeployBundleS3Uri`, real `-DeployBundleSha256`, and `failure_count=0`.
+- Wave65 source coverage was rerun after this addition. Current result: `pass`, `plan_file_count=2859`, `wave65_rows_created=684`, `missing_after_wave65_count=0`.
+- Next exact action: run fresh AWS auth, Git cleanliness, readiness/static-proof, emergency-stop/cost-control, pullback, and QA gates; then execute only the three S3-backed matrix sample commands and whole-image QA every generated sample before certification.
 
 ## Must not repeat
 

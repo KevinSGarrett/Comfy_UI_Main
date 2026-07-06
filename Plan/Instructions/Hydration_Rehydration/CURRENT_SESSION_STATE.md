@@ -488,3 +488,16 @@ After AWS remote login is refreshed externally, rerun `Test-AwsAuthGate.ps1` unt
 - Wave65 source coverage was rerun after this addition. Current result: `pass`, `plan_file_count=2855`, `wave65_rows_created=680`, `missing_after_wave65_count=0`.
 - Non-secret `.env` S3/IAM values were updated locally but `.env` remains ignored and must not be committed or printed. `C:\Comfy_UI_Main\comfyui-lora-key.pem` remains private and must not be committed.
 - Next quality step: publish the RealVisXL matrix deploy bundle to S3, verify the uploaded SHA256, then regenerate/use the matrix quality-run plan with the real S3 URI and SHA before any bounded EC2 generation.
+
+## Latest RealVisXL Matrix S3 Publish - 2026-07-06T18:12:52-05:00
+
+- Built a persistent short-name RealVisXL matrix deploy bundle under ignored `runtime_artifacts\deploy_bundles\rvxl_mx_s3_20260706T181144-0500\`.
+- Bundle manifest result was `pass_local_only`, source Git was clean, file count was `55`, EC2 was not started, and generation did not run.
+- Publish dry-run evidence `Plan\Instructions\QA\Evidence\Operations_Static_Validation\W66_S3_MATRIX_DEPLOY_BUNDLE_PUBLISH_DRY_RUN_20260706T181159-0500.json` reports `dry_run_ready_to_upload`.
+- Publish execute evidence `Plan\Instructions\QA\Evidence\Operations_Static_Validation\W66_S3_MATRIX_DEPLOY_BUNDLE_PUBLISH_EXECUTE_20260706T181217-0500.json` reports `deploy_bundle_uploaded_to_s3`, `bundle_rc=0`, and `manifest_rc=0`.
+- Upload verification evidence `Plan\Instructions\QA\Evidence\Operations_Static_Validation\W66_S3_MATRIX_DEPLOY_BUNDLE_UPLOAD_VERIFY_20260706T181252-0500.json` reports `s3_upload_sha256_verified`; downloaded SHA256 matches `d3d81bbe2b6cb678304ab06ddf9cb707da31721cb01ca9c26df729414396cc84`.
+- Uploaded bundle URI: `s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/rvxl_mx_s3_20260706T181144-0500/rvxl_mx_s3_20260706T181144-0500.zip`.
+- Uploaded manifest URI: `s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/rvxl_mx_s3_20260706T181144-0500/DEPLOY_BUNDLE_MATRIX_MANIFEST.json`.
+- S3-backed quality plan evidence `Plan\Instructions\QA\Evidence\Workflow_Runtime\W66_EC2_WORKFLOW_MATRIX_QUALITY_RUN_PLAN_S3_PUBLISHED_20260706T181317-0500.json` reports `pass_local_only`, three planned samples, real `-DeployBundleS3Uri`, real `-DeployBundleSha256`, and `failure_count=0`.
+- Wave65 source coverage was rerun after this addition. Current result: `pass`, `plan_file_count=2859`, `wave65_rows_created=684`, `missing_after_wave65_count=0`.
+- Next quality step: rerun fresh AWS auth, Git cleanliness, readiness/static proof, and cost-control gates, then execute only the three S3-backed matrix sample commands; pull back every artifact, verify hashes, and complete whole-image QA for every generated sample before certification.

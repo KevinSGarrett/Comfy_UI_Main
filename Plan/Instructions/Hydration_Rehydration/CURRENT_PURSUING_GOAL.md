@@ -141,7 +141,7 @@ First, if the runtime proof, cost-control, tracker, or instruction updates are u
 
 Second, choose the next work intentionally. The default next work is one of:
 
-1. Publish the RealVisXL matrix deploy bundle to S3 with the configured runtime bucket/base URI, verify the uploaded SHA256, then regenerate/use the matrix quality-run plan with the real uploaded URI and SHA after confirming Git cleanliness and cost-control gates.
+1. Run fresh AWS auth, Git cleanliness, readiness/static-proof, and cost-control gates, then execute the three S3-backed RealVisXL matrix sample commands using uploaded bundle `s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/rvxl_mx_s3_20260706T181144-0500/rvxl_mx_s3_20260706T181144-0500.zip` with SHA256 `d3d81bbe2b6cb678304ab06ddf9cb707da31721cb01ca9c26df729414396cc84`; pull back every generated artifact, verify hashes, and complete whole-image QA for all samples.
 2. Define the next lane/module from the Main Flow/Wave42 source context and run local validation, registry coverage, queue updates, run package creation, and deploy-bundle creation while EC2 is stopped.
 3. If image-quality certification is the explicit next target, run a broader multi-sample RealVisXL QA plan rather than treating the single smoke image as final portfolio proof.
 
