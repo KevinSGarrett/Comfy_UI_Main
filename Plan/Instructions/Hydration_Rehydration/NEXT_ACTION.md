@@ -11,6 +11,10 @@ Expected account: `029530099913`.
 
 After AWS auth is refreshed, rerun the EC2 static proof for `sdxl_low_risk_fallback_lane`:
 
+```powershell
+powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 -Execute -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W61_EC2_LANE_STATIC_PROOF_<timestamp>.json
+```
+
 - update `/home/ubuntu/Comfy_UI_Main` to `origin/main`
 - query ComfyUI `/object_info` and confirm `CheckpointLoaderSimple`, `EmptyLatentImage`, `CLIPTextEncode`, `KSampler`, `VAEDecode`, and `SaveImage`
 - resolve `/home/ubuntu/ComfyUI/models/checkpoints/sd_xl_base_1.0.safetensors`
