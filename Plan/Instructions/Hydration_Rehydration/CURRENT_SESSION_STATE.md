@@ -1,13 +1,13 @@
 # Current Session State
 
 ## Session timestamp
-2026-07-06T03:23:45-05:00
+2026-07-06T03:35:22-05:00
 
 ## State
-Local static/package validation is complete through Wave 62 cumulative zip validation. GitHub sync is active. EC2 readiness, discovery, project sync, and runtime inventory passed with the instance returned to `stopped` each time. Wave 61 workflow lane selection identified `sdxl_low_risk_fallback_lane` as the first bounded execution candidate. The selected lane has concrete workflow files and now passes local static graph validation. Runtime proof is still pending because AWS CLI default login expired before EC2 object-info, checkpoint path, checkpoint hash, generation output, and QA evidence could be collected. A secret-safe AWS auth gate helper now records that this shell cannot complete the remote browser authorization code flow, so EC2 start and generation remain disallowed until AWS account `029530099913` is verified. A local pullback record helper is ready for the first post-generation artifact pullback. A selected-lane readiness gate now confirms local pre-EC2 readiness is true while EC2 start and generation remain blocked.
+Local static/package validation is complete through Wave 62 cumulative zip validation. GitHub sync is active. EC2 readiness, discovery, project sync, and runtime inventory passed with the instance returned to `stopped` each time. Wave 61 workflow lane selection identified `sdxl_low_risk_fallback_lane` as the first bounded execution candidate. The selected lane has concrete workflow files and passes local static graph validation. Runtime proof is still pending because AWS CLI default login expired before EC2 object-info, checkpoint path, checkpoint hash, generation output, and QA evidence could be collected. A secret-safe AWS auth gate helper records that this shell cannot complete the remote browser authorization code flow, so EC2 start and generation remain disallowed until AWS account `029530099913` is verified. Pullback, image-QA, lane-readiness, and EC2 workflow smoke-run coordinator helpers are ready for the first post-auth runtime path. The coordinator dry-run builds the selected-lane request and refuses EC2/generation until auth and static proof gates pass.
 
 ## Session end timestamp
-2026-07-06T03:23:45-05:00
+2026-07-06T03:35:22-05:00
 
 ## Completed this session
 - Fixed and validated Wave 59 live index generation.
@@ -35,6 +35,9 @@ Local static/package validation is complete through Wave 62 cumulative zip valid
 - Generated a pending-runtime EC2 pullback record dry-run and validated a temporary local manifest/hash smoke test.
 - Added `Test-LaneRuntimeReadiness.ps1`.
 - Generated selected-lane runtime readiness evidence showing `local_pre_ec2_ready=true`, `ready_for_ec2_static_proof=false`, and `ready_for_generation=false`.
+- Added `Invoke-EC2WorkflowSmokeRun.ps1`.
+- Generated bounded EC2 workflow smoke-run coordinator dry-run evidence and a patched selected-lane request body without starting EC2 or running generation.
+- Reran selected-lane runtime readiness; it now parser-validates the new coordinator helper and still reports `local_pre_ec2_ready=true`, `ready_for_ec2_static_proof=false`, and `ready_for_generation=false`.
 
 ## Latest EC2 Result
 - Last successful runtime inventory evidence: `Plan/Instructions/QA/Evidence/EC2_Runtime_Inventory/W60_W61_EC2_RUNTIME_INVENTORY_20260706T020209-0500.json`
@@ -45,7 +48,8 @@ Local static/package validation is complete through Wave 62 cumulative zip valid
 - New EC2 proof helper dry-run: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_DRY_RUN_20260706T024845-0500.json`
 - AWS auth gate evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_AUTH_GATE_20260706T031007-0500.json`
 - Pullback helper dry-run evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_EC2_PULLBACK_RECORD_DRY_RUN_20260706T031758-0500.json`
-- Lane readiness gate evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_20260706T032345-0500.json`
+- Lane readiness gate evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_20260706T033522-0500.json`
+- EC2 smoke-run coordinator dry-run evidence: `Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_RUN_DRY_RUN_20260706T033928-0500.json`
 
 ## Selected Lane
 - Lane: `sdxl_low_risk_fallback_lane`
@@ -54,11 +58,12 @@ Local static/package validation is complete through Wave 62 cumulative zip valid
 - Static evidence: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_SDXL_LOW_RISK_WORKFLOW_STATIC_VALIDATION_20260706T024811-0500.json`
 - Smoke dry-run evidence: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_COMFY_WORKFLOW_SMOKE_DRY_RUN_20260706T025536-0500.json`
 - Image QA dry-run evidence: `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_DRY_RUN_20260706T030037-0500.json`
+- EC2 smoke-run coordinator dry-run evidence: `Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_RUN_DRY_RUN_20260706T033928-0500.json`
 - Required next proof: object-info node availability, checkpoint path resolution, checkpoint sha256, bounded output generation, generated image QA.
 
 ## Active tracker rows
-- `TRK-W61-006`: workflow lane selected, graph authored, local static validation passed, patched smoke request generated, and local readiness gate passed; auth gate blocks EC2 object-info, execution output, and QA.
-- `TRK-W61-007`: selected checkpoint filename is referenced by the workflow and passed static validation; readiness gate confirms EC2 path, hash, load, and sample-output validation are still pending on AWS auth.
+- `TRK-W61-006`: workflow lane selected, graph authored, local static validation passed, patched smoke request generated, local readiness gate passed, and EC2 workflow smoke-run coordinator dry-run passed; auth gate blocks EC2 object-info, execution output, and QA.
+- `TRK-W61-007`: selected checkpoint filename is referenced by the workflow and passed static validation; latest readiness gate confirms EC2 path, hash, load, and sample-output validation are still pending on AWS auth.
 - `TRK-W61-002`: image QA protocol exists and helper dry-run passed; actual generated image visual review pending.
 
 ## Pending validation in scope
@@ -66,7 +71,7 @@ Local static/package validation is complete through Wave 62 cumulative zip valid
 - Verify AWS account `029530099913` with `Test-AwsAuthGate.ps1` or `aws sts get-caller-identity`.
 - Rerun `Test-LaneRuntimeReadiness.ps1` after auth refresh.
 - Run `Invoke-EC2LaneStaticProof.ps1 -Execute` for `sdxl_low_risk_fallback_lane` only after readiness allows EC2 start.
-- Run `Invoke-ComfyWorkflowSmoke.ps1 -Execute` only after object-info/path/hash proof exists and ComfyUI API is reachable.
+- Run `Invoke-EC2WorkflowSmokeRun.ps1 -Execute` only after object-info/path/hash proof exists; it owns the bounded remote ComfyUI prompt run, artifact manifest, optional S3/local pullback, and stop verification.
 - Pull back generated image artifacts and create a `PULLBACK_RECORD.json` with `New-EC2PullbackRecord.ps1`.
 - Run `New-ImageArtifactQARecord.ps1` on the pulled-back image and complete visual review.
 
@@ -75,4 +80,4 @@ Local static/package validation is complete through Wave 62 cumulative zip valid
 - `BLOCKER-AWS-AUTH-EXPIRED-001`: AWS CLI default login credential expired; `aws login --remote` requires a browser authorization code that this non-interactive shell cannot provide. EC2 validation remains blocked until refreshed.
 
 ## Next action
-Complete AWS remote login externally, rerun `Test-AwsAuthGate.ps1` until `ec2_work_allowed=true`, rerun `Test-LaneRuntimeReadiness.ps1`, then run `Invoke-EC2LaneStaticProof.ps1 -Execute`, run `Invoke-ComfyWorkflowSmoke.ps1 -Execute`, pull back the generated image, run `New-EC2PullbackRecord.ps1`, and run `New-ImageArtifactQARecord.ps1` plus visual review.
+Complete AWS remote login externally, rerun `Test-AwsAuthGate.ps1` until `ec2_work_allowed=true`, rerun `Test-LaneRuntimeReadiness.ps1`, then run `Invoke-EC2LaneStaticProof.ps1 -Execute`, run `Invoke-EC2WorkflowSmokeRun.ps1 -Execute`, verify/pull back the generated image artifacts, run `New-EC2PullbackRecord.ps1` if pullback was not already recorded by the coordinator, and run `New-ImageArtifactQARecord.ps1` plus visual review.

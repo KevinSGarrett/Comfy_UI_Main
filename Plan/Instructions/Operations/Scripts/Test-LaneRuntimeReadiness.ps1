@@ -113,6 +113,7 @@ $helperPaths = @(
   (Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\Test-ComfyWorkflowStatic.ps1"),
   (Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1"),
   (Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Invoke-ComfyWorkflowSmoke.ps1"),
+  (Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1"),
   (Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Test-AwsAuthGate.ps1"),
   (Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\New-EC2PullbackRecord.ps1"),
   (Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\New-ImageArtifactQARecord.ps1")

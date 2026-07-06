@@ -1,0 +1,822 @@
+<#
+.SYNOPSIS
+Coordinates a bounded EC2 ComfyUI workflow smoke run for a selected lane.
+
+.DESCRIPTION
+Dry-run by default. The dry run validates the local lane contract, finds the
+latest auth gate and EC2 static proof records, builds the smoke request through
+Invoke-ComfyWorkflowSmoke.ps1, and writes a gate/evidence record without
+starting EC2 or posting a prompt.
+
+With -Execute, this script requires:
+- an auth gate proving account 029530099913 and safe_to_start_ec2=true
+- a selected-lane readiness record allowing generation
+- a static proof with passing object_info and model path/hash proof
+
+Only then does it start the approved EC2 instance, run the ComfyUI prompt
+remotely through SSM, create a remote artifact manifest, optionally sync
+artifacts through S3, create a local pullback record when artifacts arrive, and
+stop the instance in a finally block.
+#>
+param(
+  [string]$ProjectRoot = "C:\Comfy_UI_Main",
+  [string]$LaneId = "sdxl_low_risk_fallback_lane",
+  [string]$InstanceId = "i-0560bf8d143f93bb1",
+  [string]$Region = "us-east-1",
+  [string]$AuthGateFile = "",
+  [string]$StaticProofFile = "",
+  [string]$ReadinessFile = "",
+  [string]$OutFile = "",
+  [string]$RunRecordFile = "",
+  [string]$RemoteProjectRoot = "/home/ubuntu/Comfy_UI_Main",
+  [string]$RemoteComfyRoot = "/home/ubuntu/ComfyUI",
+  [string]$RemoteArtifactRoot = "/home/ubuntu/comfyui_artifacts",
+  [string]$S3Bucket = "",
+  [string]$S3Prefix = "",
+  [int]$ComfyPort = 8192,
+  [int]$TimeoutSeconds = 900,
+  [int]$PollSeconds = 3,
+  [switch]$Execute
+)
+
+$ErrorActionPreference = "Stop"
+
+function Get-RelativePathCompat {
+  param(
+    [string]$BasePath,
+    [string]$TargetPath
+  )
+
+  if ([string]::IsNullOrWhiteSpace($TargetPath)) { return $null }
+  $separator = [System.IO.Path]::DirectorySeparatorChar.ToString()
+  $baseFull = [System.IO.Path]::GetFullPath($BasePath)
+  if (!$baseFull.EndsWith($separator)) {
+    $baseFull = "$baseFull$separator"
+  }
+
+  $targetFull = [System.IO.Path]::GetFullPath($TargetPath)
+  $baseUri = New-Object System.Uri($baseFull)
+  $targetUri = New-Object System.Uri($targetFull)
+  $relativeUri = $baseUri.MakeRelativeUri($targetUri)
+  $relativePath = [System.Uri]::UnescapeDataString($relativeUri.ToString())
+  return $relativePath.Replace("/", $separator)
+}
+
+function ConvertTo-ProjectRelativePath {
+  param(
+    [string]$BasePath,
+    [string]$TargetPath
+  )
+
+  if ([string]::IsNullOrWhiteSpace($TargetPath)) { return $null }
+  $relative = Get-RelativePathCompat -BasePath $BasePath -TargetPath $TargetPath
+  return $relative.Replace("\", "/")
+}
+
+function Read-JsonFile {
+  param([Parameter(Mandatory=$true)][string]$Path)
+  if (!(Test-Path -LiteralPath $Path)) { throw "JSON file missing: $Path" }
+  return Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json
+}
+
+function Has-Property {
+  param(
+    [object]$Object,
+    [string]$Name
+  )
+  if ($null -eq $Object) { return $false }
+  return @($Object.PSObject.Properties.Name) -contains $Name
+}
+
+function Find-LatestFile {
+  param(
+    [string]$Directory,
+    [string]$Filter,
+    [string]$ExcludePattern = ""
+  )
+
+  if (!(Test-Path -LiteralPath $Directory)) { return $null }
+  $files = Get-ChildItem -LiteralPath $Directory -Filter $Filter -File
+  if (![string]::IsNullOrWhiteSpace($ExcludePattern)) {
+    $files = $files | Where-Object { $_.Name -notmatch $ExcludePattern }
+  }
+  $file = $files | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+  if ($null -eq $file) { return $null }
+  return $file.FullName
+}
+
+function Test-JsonContract {
+  param([string[]]$Paths)
+
+  $results = @()
+  foreach ($path in $Paths) {
+    $entry = [ordered]@{
+      path = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $path
+      exists = (Test-Path -LiteralPath $path)
+      json_valid = $false
+      error = $null
+    }
+    if ($entry.exists) {
+      try {
+        $null = Read-JsonFile -Path $path
+        $entry.json_valid = $true
+      } catch {
+        $entry.error = $_.Exception.Message
+      }
+    }
+    $results += $entry
+  }
+  return $results
+}
+
+function Test-StaticProof {
+  param([string]$Path)
+
+  $result = [ordered]@{
+    file = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $Path
+    supplied = $false
+    found = $false
+    valid = $false
+    errors = @()
+    object_info_status = $null
+    model_proof_count = 0
+    dry_run_record = $false
+  }
+
+  if ([string]::IsNullOrWhiteSpace($Path)) {
+    $result.errors += "No EC2 static proof file supplied or found."
+    return $result
+  }
+  $result.supplied = $true
+  if (!(Test-Path -LiteralPath $Path)) {
+    $result.errors += "EC2 static proof file not found: $Path"
+    return $result
+  }
+  $result.found = $true
+
+  $proof = Read-JsonFile -Path $Path
+  $proofPayload = $proof
+  if ((Has-Property -Object $proof -Name "mode") -and [string]$proof.mode -eq "dry_run") {
+    $result.dry_run_record = $true
+    $result.errors += "EC2 static proof is a dry-run plan, not object-info/path/hash proof."
+    return $result
+  }
+
+  if (Has-Property -Object $proof -Name "stdout") {
+    if ([string]::IsNullOrWhiteSpace([string]$proof.stdout)) {
+      $result.errors += "EC2 static proof stdout is empty."
+      return $result
+    }
+    try {
+      $proofPayload = ([string]$proof.stdout | ConvertFrom-Json)
+    } catch {
+      $result.errors += "EC2 static proof stdout is not valid JSON: $($_.Exception.Message)"
+      return $result
+    }
+    if ((Has-Property -Object $proof -Name "command_status") -and [string]$proof.command_status -ne "Success") {
+      $result.errors += "EC2 static proof command_status is $($proof.command_status), not Success."
+    }
+    if ((Has-Property -Object $proof -Name "final_state") -and [string]$proof.final_state -ne "stopped") {
+      $result.errors += "EC2 static proof final_state is $($proof.final_state), not stopped."
+    }
+  }
+
+  if (!(Has-Property -Object $proofPayload -Name "object_info")) {
+    $result.errors += "EC2 static proof payload has no object_info."
+  } else {
+    $result.object_info_status = [string]$proofPayload.object_info.status
+    if ([string]$proofPayload.object_info.status -ne "pass") {
+      $result.errors += "EC2 static proof object_info status is $($proofPayload.object_info.status), not pass."
+    }
+  }
+
+  if (!(Has-Property -Object $proofPayload -Name "model_proofs")) {
+    $result.errors += "EC2 static proof payload has no model_proofs."
+  } else {
+    $models = @($proofPayload.model_proofs)
+    $result.model_proof_count = $models.Count
+    if ($models.Count -eq 0) {
+      $result.errors += "EC2 static proof has zero model_proofs."
+    }
+    foreach ($model in $models) {
+      if (-not [bool]$model.exists) {
+        $result.errors += "Required model missing in EC2 static proof: $($model.relative_path)"
+      }
+      if ([string]::IsNullOrWhiteSpace([string]$model.sha256)) {
+        $result.errors += "Required model missing sha256 in EC2 static proof: $($model.relative_path)"
+      }
+    }
+  }
+
+  $result.valid = ($result.errors.Count -eq 0)
+  return $result
+}
+
+function Get-AuthGateStatus {
+  param([string]$Path)
+
+  $result = [ordered]@{
+    file = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $Path
+    found = (![string]::IsNullOrWhiteSpace($Path) -and (Test-Path -LiteralPath $Path))
+    expected_account = "029530099913"
+    account_match = $false
+    ec2_work_allowed = $false
+    safe_to_start_ec2 = $false
+    generation_allowed = $false
+    status = "missing_auth_gate"
+    failure_category = $null
+    remote_login_status = $null
+  }
+
+  if (!$result.found) { return $result }
+  $auth = Read-JsonFile -Path $Path
+  $result.expected_account = [string]$auth.expected_account
+  $result.ec2_work_allowed = [bool]$auth.ec2_work_allowed
+  $result.safe_to_start_ec2 = [bool]$auth.safe_to_start_ec2
+  $result.generation_allowed = [bool]$auth.generation_allowed
+  if (Has-Property -Object $auth -Name "sts_after" -and $null -ne $auth.sts_after) {
+    $result.account_match = [bool]$auth.sts_after.account_match
+    $result.failure_category = [string]$auth.sts_after.failure_category
+  } elseif (Has-Property -Object $auth -Name "sts_before" -and $null -ne $auth.sts_before) {
+    $result.account_match = [bool]$auth.sts_before.account_match
+    $result.failure_category = [string]$auth.sts_before.failure_category
+  }
+  if (Has-Property -Object $auth -Name "remote_login" -and $null -ne $auth.remote_login) {
+    $result.remote_login_status = [string]$auth.remote_login.status
+  }
+  $result.status = $(if ($result.safe_to_start_ec2) { "pass" } else { "blocked" })
+  return $result
+}
+
+function Get-ReadinessStatus {
+  param([string]$Path)
+
+  $result = [ordered]@{
+    file = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $Path
+    found = (![string]::IsNullOrWhiteSpace($Path) -and (Test-Path -LiteralPath $Path))
+    local_pre_ec2_ready = $false
+    ready_for_ec2_static_proof = $false
+    ready_for_generation = $false
+    status = "missing_readiness_record"
+  }
+  if (!$result.found) { return $result }
+  $readiness = Read-JsonFile -Path $Path
+  $result.local_pre_ec2_ready = [bool]$readiness.local_pre_ec2_ready
+  $result.ready_for_ec2_static_proof = [bool]$readiness.ready_for_ec2_static_proof
+  $result.ready_for_generation = [bool]$readiness.ready_for_generation
+  $result.status = $(if ($result.ready_for_generation) { "generation_ready" } elseif ($result.local_pre_ec2_ready) { "local_ready_runtime_blocked" } else { "not_ready" })
+  return $result
+}
+
+function Invoke-SmokeRequestDryRun {
+  param(
+    [string]$SmokeScript,
+    [string]$LaneDirectory,
+    [string]$ProofFile,
+    [string]$RequestOutFile
+  )
+
+  $arguments = @(
+    "-NoProfile",
+    "-ExecutionPolicy",
+    "Bypass",
+    "-File",
+    $SmokeScript,
+    "-ProjectRoot",
+    $ProjectRoot,
+    "-LaneDir",
+    $LaneDirectory
+  )
+  if (![string]::IsNullOrWhiteSpace($ProofFile)) {
+    $arguments += @("-StaticProofFile", $ProofFile)
+  }
+  if (![string]::IsNullOrWhiteSpace($RequestOutFile)) {
+    $arguments += @("-OutRequestFile", $RequestOutFile)
+  }
+
+  $output = & powershell @arguments 2>&1
+  $text = (($output | ForEach-Object { $_.ToString() }) -join "`n").Trim()
+  $summary = [ordered]@{
+    attempted = $true
+    exit_code = $LASTEXITCODE
+    request_file = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $RequestOutFile
+    request_file_exists = (![string]::IsNullOrWhiteSpace($RequestOutFile) -and (Test-Path -LiteralPath $RequestOutFile))
+    json_parsed = $false
+    execution_allowed = $false
+    generation_executed = $false
+    errors = @()
+  }
+  try {
+    $jsonStart = $text.IndexOf("{")
+    if ($jsonStart -ge 0) {
+      $payload = $text.Substring($jsonStart) | ConvertFrom-Json
+      $summary.json_parsed = $true
+      $summary.execution_allowed = [bool]$payload.execution_allowed
+      $summary.generation_executed = [bool]$payload.generation_executed
+      if (Has-Property -Object $payload -Name "errors") {
+        $summary.errors = @($payload.errors)
+      }
+    } else {
+      $summary.errors += "Smoke helper did not emit JSON."
+    }
+  } catch {
+    $summary.errors += "Smoke helper JSON parse failed: $($_.Exception.Message)"
+  }
+  if ($summary.exit_code -ne 0) {
+    $summary.errors += "Smoke helper dry-run exited $($summary.exit_code)."
+  }
+  return $summary
+}
+
+function Invoke-AwsCliJson {
+  param([string[]]$Arguments)
+
+  $output = & aws @Arguments 2>&1
+  $text = (($output | ForEach-Object { $_.ToString() }) -join "`n").Trim()
+  return [ordered]@{
+    exit_code = $LASTEXITCODE
+    output = $text
+  }
+}
+
+function Get-TailText {
+  param(
+    [string]$Text,
+    [int]$MaxChars = 4000
+  )
+
+  if ([string]::IsNullOrEmpty($Text)) { return "" }
+  if ($Text.Length -le $MaxChars) { return $Text }
+  return $Text.Substring($Text.Length - $MaxChars)
+}
+
+$stamp = (Get-Date -Format "yyyyMMddTHHmmsszzz").Replace(":", "")
+$runId = "aws_gpu_workflow_smoke_$stamp"
+$startTime = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
+
+$envLoader = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Load-ComfyEnv.ps1"
+if (Test-Path -LiteralPath $envLoader) {
+  . $envLoader -ProjectRoot $ProjectRoot -Quiet
+}
+if ([string]::IsNullOrWhiteSpace($S3Bucket) -and ![string]::IsNullOrWhiteSpace($env:S3_MODEL_BUCKET)) {
+  $S3Bucket = $env:S3_MODEL_BUCKET
+}
+if ([string]::IsNullOrWhiteSpace($S3Prefix) -and ![string]::IsNullOrWhiteSpace($env:S3_RENDER_OUTPUT_PREFIX)) {
+  $S3Prefix = $env:S3_RENDER_OUTPUT_PREFIX
+}
+if ([string]::IsNullOrWhiteSpace($S3Prefix)) {
+  $S3Prefix = "comfy-ui-main/pullback"
+}
+$S3Prefix = $S3Prefix.Trim("/")
+
+$laneDir = Join-Path $ProjectRoot "Plan\07_IMPLEMENTATION\workflow_templates\base_generation\$LaneId"
+$workflowPath = Join-Path $laneDir "workflow.api.json"
+$patchPath = Join-Path $laneDir "patch_points.json"
+$runtimePath = Join-Path $laneDir "runtime_requirements.json"
+$smokePath = Join-Path $laneDir "smoke_test_request.json"
+$smokeScript = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Invoke-ComfyWorkflowSmoke.ps1"
+$pullbackScript = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\New-EC2PullbackRecord.ps1"
+$runtimeReadinessDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Runtime_Readiness"
+$workflowStaticDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Workflow_Static_Validation"
+$workflowRuntimeDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Workflow_Runtime"
+$pullbackRoot = Join-Path $ProjectRoot "Plan\Instructions\Operations\Pulled_Back_Artifacts"
+
+if ([string]::IsNullOrWhiteSpace($AuthGateFile)) {
+  $AuthGateFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_AUTH_GATE_*.json"
+}
+if ([string]::IsNullOrWhiteSpace($StaticProofFile)) {
+  $StaticProofFile = Find-LatestFile -Directory $workflowStaticDir -Filter "W61_EC2_LANE_STATIC_PROOF_*.json" -ExcludePattern "DRY_RUN"
+}
+if ([string]::IsNullOrWhiteSpace($ReadinessFile)) {
+  $ReadinessFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W61_LANE_RUNTIME_READINESS_*.json"
+}
+if ([string]::IsNullOrWhiteSpace($OutFile)) {
+  $OutFile = Join-Path $workflowRuntimeDir ("W61_EC2_WORKFLOW_SMOKE_RUN_{0}_{1}.json" -f $(if ($Execute) { "EXECUTION" } else { "DRY_RUN" }), $stamp)
+}
+if ([string]::IsNullOrWhiteSpace($RunRecordFile)) {
+  $RunRecordFile = Join-Path $ProjectRoot "Plan\Instructions\Operations\Run_Records\$runId.json"
+}
+
+$laneContracts = Test-JsonContract -Paths @($workflowPath, $patchPath, $runtimePath, $smokePath)
+$laneContractValid = (@($laneContracts | Where-Object { -not $_.exists -or -not $_.json_valid }).Count -eq 0)
+$authGate = Get-AuthGateStatus -Path $AuthGateFile
+$readinessGate = Get-ReadinessStatus -Path $ReadinessFile
+$staticProof = Test-StaticProof -Path $StaticProofFile
+
+$null = New-Item -ItemType Directory -Force -Path $workflowRuntimeDir
+$requestFile = Join-Path $workflowRuntimeDir ("W61_EC2_WORKFLOW_SMOKE_RUN_REQUEST_$stamp.json")
+$smokeRequest = Invoke-SmokeRequestDryRun -SmokeScript $smokeScript -LaneDirectory $laneDir -ProofFile $StaticProofFile -RequestOutFile $requestFile
+$smokeRequestReady = ($smokeRequest.exit_code -eq 0 -and $smokeRequest.json_parsed -and $smokeRequest.request_file_exists)
+
+$blockedReasons = @()
+if ($InstanceId -ne "i-0560bf8d143f93bb1") { $blockedReasons += "InstanceId is not the approved EC2 instance." }
+if (!$laneContractValid) { $blockedReasons += "Selected lane JSON contract is missing or invalid." }
+if (!$authGate.safe_to_start_ec2) { $blockedReasons += "Auth gate does not allow EC2 start." }
+if (!$readinessGate.ready_for_generation) { $blockedReasons += "Lane readiness gate does not allow generation." }
+if (!$staticProof.valid) { $blockedReasons += "EC2 object-info/path/hash static proof is missing or invalid." }
+if (!$smokeRequestReady) { $blockedReasons += "Smoke request dry-run did not produce a valid request body." }
+
+$executeGatesPass = ($blockedReasons.Count -eq 0)
+
+$record = [ordered]@{
+  evidence_id = "EC2-WORKFLOW-SMOKE-RUN-" + $stamp
+  timestamp = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
+  mode = $(if ($Execute) { "execute" } else { "dry_run" })
+  run_id = $runId
+  lane_id = $LaneId
+  instance_id = $InstanceId
+  region = $Region
+  remote_project_root = $RemoteProjectRoot
+  remote_comfy_root = $RemoteComfyRoot
+  remote_artifact_root = "$RemoteArtifactRoot/$runId"
+  comfy_port = $ComfyPort
+  timeout_seconds = $TimeoutSeconds
+  lane_contracts = $laneContracts
+  auth_gate = $authGate
+  readiness_gate = $readinessGate
+  ec2_static_proof = $staticProof
+  smoke_request = $smokeRequest
+  execute_gates_pass = $executeGatesPass
+  blocked_reasons = $blockedReasons
+  dry_run_actions = @(
+    "Load .env without printing values.",
+    "Require auth gate for AWS account 029530099913 before EC2 start.",
+    "Require selected-lane readiness gate before generation.",
+    "Require EC2 object-info/path/hash static proof before generation.",
+    "Build the patched ComfyUI /prompt request body locally.",
+    "With -Execute only, start i-0560bf8d143f93bb1, run remote ComfyUI smoke, create artifact manifest, pull back artifacts when S3 is available, then stop EC2."
+  )
+  generation_executed = $false
+  ec2_started = $false
+  command_id = $null
+  command_status = "not_started"
+  start_state = $null
+  final_state = $null
+  remote_result = $null
+  local_pullback = [ordered]@{
+    attempted = $false
+    status = "not_attempted"
+  }
+  run_record_file = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $RunRecordFile
+  errors = @()
+  next_action = $(if ($executeGatesPass) { "Run with -Execute to perform the bounded EC2 smoke run, pull back artifacts, then perform image QA." } else { "Resolve blocked_reasons before any EC2 workflow smoke execution." })
+}
+
+if (!$Execute) {
+  $outDir = Split-Path -Parent $OutFile
+  if (![string]::IsNullOrWhiteSpace($outDir)) {
+    $null = New-Item -ItemType Directory -Force -Path $outDir
+  }
+  $record | ConvertTo-Json -Depth 40 | Set-Content -LiteralPath $OutFile -Encoding UTF8
+  Write-Host "Wrote EC2 workflow smoke run dry-run record: $OutFile"
+  $record | ConvertTo-Json -Depth 40
+  exit 0
+}
+
+if (!$executeGatesPass) {
+  $record.errors += "Execution blocked by gate failures. EC2 was not started."
+  $outDir = Split-Path -Parent $OutFile
+  if (![string]::IsNullOrWhiteSpace($outDir)) {
+    $null = New-Item -ItemType Directory -Force -Path $outDir
+  }
+  $record | ConvertTo-Json -Depth 40 | Set-Content -LiteralPath $OutFile -Encoding UTF8
+  Write-Host "Wrote blocked EC2 workflow smoke run record: $OutFile"
+  $record | ConvertTo-Json -Depth 40
+  exit 2
+}
+
+$requestJson = Get-Content -LiteralPath $requestFile -Raw
+$requestBase64 = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($requestJson))
+$s3BucketForRemote = $S3Bucket
+$s3PrefixForRemote = "$S3Prefix/$runId".Trim("/")
+$remoteScript = @"
+python3 - <<'PY'
+import base64, datetime, glob, hashlib, json, os, shutil, signal, subprocess, time, traceback, urllib.request
+
+RUN_ID = "$runId"
+PROJECT = "$RemoteProjectRoot"
+COMFY = "$RemoteComfyRoot"
+ARTIFACT_ROOT = "$RemoteArtifactRoot/$runId"
+REQUEST_B64 = "$requestBase64"
+PORT = $ComfyPort
+TIMEOUT_SECONDS = $TimeoutSeconds
+POLL_SECONDS = $PollSeconds
+S3_BUCKET = "$s3BucketForRemote"
+S3_PREFIX = "$s3PrefixForRemote"
+
+result = {
+    "run_id": RUN_ID,
+    "timestamp_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+    "remote_project": PROJECT,
+    "remote_comfy_root": COMFY,
+    "artifact_root": ARTIFACT_ROOT,
+    "prompt_id": None,
+    "output_images": [],
+    "manifest_path": None,
+    "s3_sync": {"attempted": False, "succeeded": False, "s3_uri": None},
+    "errors": []
+}
+
+def run(cmd, cwd=None, timeout=300, check=False):
+    p = subprocess.run(cmd, cwd=cwd, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=timeout)
+    if check and p.returncode != 0:
+        raise RuntimeError("command failed rc=%s: %s\nSTDOUT=%s\nSTDERR=%s" % (p.returncode, " ".join(cmd), p.stdout[-1000:], p.stderr[-1000:]))
+    return {"rc": p.returncode, "stdout": p.stdout.strip(), "stderr": p.stderr.strip()}
+
+def sha256_file(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(4 * 1024 * 1024), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+def artifact_type(rel):
+    p = rel.replace("\\", "/").lower()
+    ext = os.path.splitext(p)[1]
+    if p.startswith("logs/"):
+        return "log"
+    if p.startswith("reports/"):
+        return "report"
+    if p.startswith("workflows/"):
+        return "workflow"
+    if p.startswith("images/") or ext in [".png", ".jpg", ".jpeg", ".webp", ".bmp"]:
+        return "image"
+    if p.startswith("videos/") or ext in [".mp4", ".mov", ".avi", ".webm", ".gif"]:
+        return "video"
+    if p.startswith("audio/") or ext in [".wav", ".flac", ".mp3", ".ogg", ".m4a"]:
+        return "audio"
+    if ext == ".json":
+        return "json"
+    return "other"
+
+def qa_required(kind):
+    return kind in ["image", "video", "audio", "log", "report", "workflow", "json"]
+
+proc = None
+log_handle = None
+try:
+    if not os.path.isdir(PROJECT):
+        raise RuntimeError("remote project missing: " + PROJECT)
+    if not os.path.exists(os.path.join(COMFY, "main.py")):
+        raise RuntimeError("ComfyUI main.py missing under " + COMFY)
+
+    os.makedirs(os.path.join(ARTIFACT_ROOT, "logs"), exist_ok=True)
+    os.makedirs(os.path.join(ARTIFACT_ROOT, "reports"), exist_ok=True)
+    os.makedirs(os.path.join(ARTIFACT_ROOT, "workflows"), exist_ok=True)
+    os.makedirs(os.path.join(ARTIFACT_ROOT, "images"), exist_ok=True)
+
+    result["git_head_before"] = run(["git", "rev-parse", "HEAD"], cwd=PROJECT, check=True)["stdout"]
+    result["git_pull"] = run(["git", "pull", "--ff-only", "origin", "main"], cwd=PROJECT, timeout=300, check=True)["stdout"][-500:]
+    result["git_lfs_pull_rc"] = run(["git", "lfs", "pull"], cwd=PROJECT, timeout=300, check=True)["rc"]
+    result["git_head_after"] = run(["git", "rev-parse", "HEAD"], cwd=PROJECT, check=True)["stdout"]
+
+    request_json = base64.b64decode(REQUEST_B64.encode("ascii")).decode("utf-8")
+    request_path = os.path.join(ARTIFACT_ROOT, "workflows", "prompt_request.json")
+    with open(request_path, "w", encoding="utf-8") as f:
+        f.write(request_json)
+
+    py_candidates = [
+        os.path.join(COMFY, "venv", "bin", "python"),
+        os.path.join(COMFY, ".venv", "bin", "python"),
+        "/usr/bin/python3",
+        "python3"
+    ]
+    py_exec = next((p for p in py_candidates if (os.path.isabs(p) and os.path.exists(p)) or not os.path.isabs(p)), "python3")
+    log_path = os.path.join(ARTIFACT_ROOT, "logs", "comfyui.log")
+    log_handle = open(log_path, "w", encoding="utf-8", errors="replace")
+    proc = subprocess.Popen(
+        [py_exec, "main.py", "--listen", "127.0.0.1", "--port", str(PORT)],
+        cwd=COMFY,
+        stdout=log_handle,
+        stderr=subprocess.STDOUT,
+        text=True,
+        start_new_session=True
+    )
+
+    ready_error = ""
+    for _ in range(90):
+        if proc.poll() is not None:
+            ready_error = "ComfyUI exited early rc=%s" % proc.returncode
+            break
+        try:
+            with urllib.request.urlopen("http://127.0.0.1:%s/object_info" % PORT, timeout=2) as resp:
+                result["object_info_node_count"] = len(json.loads(resp.read().decode("utf-8")))
+                ready_error = ""
+                break
+        except Exception as exc:
+            ready_error = str(exc)
+            time.sleep(2)
+    if ready_error:
+        raise RuntimeError("ComfyUI API did not become ready: " + ready_error)
+
+    prompt_body = request_json.encode("utf-8")
+    req = urllib.request.Request(
+        "http://127.0.0.1:%s/prompt" % PORT,
+        data=prompt_body,
+        headers={"Content-Type": "application/json"},
+        method="POST"
+    )
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        prompt_response = json.loads(resp.read().decode("utf-8"))
+    result["prompt_response"] = prompt_response
+    result["prompt_id"] = prompt_response.get("prompt_id")
+    if not result["prompt_id"]:
+        raise RuntimeError("ComfyUI /prompt response did not include prompt_id.")
+
+    deadline = time.time() + TIMEOUT_SECONDS
+    history = None
+    while time.time() < deadline:
+        with urllib.request.urlopen("http://127.0.0.1:%s/history/%s" % (PORT, result["prompt_id"]), timeout=15) as resp:
+            history_all = json.loads(resp.read().decode("utf-8"))
+        if result["prompt_id"] in history_all and history_all[result["prompt_id"]].get("outputs"):
+            history = history_all[result["prompt_id"]]
+            break
+        time.sleep(POLL_SECONDS)
+    if history is None:
+        raise RuntimeError("No ComfyUI history outputs found before timeout.")
+
+    history_path = os.path.join(ARTIFACT_ROOT, "reports", "history.json")
+    with open(history_path, "w", encoding="utf-8") as f:
+        json.dump(history, f, sort_keys=True, indent=2)
+
+    output_root = os.path.join(COMFY, "output")
+    for node_id, node_output in history.get("outputs", {}).items():
+        for image in node_output.get("images", []):
+            filename = image.get("filename", "")
+            subfolder = image.get("subfolder", "")
+            source = os.path.join(output_root, subfolder, filename)
+            image_record = {"node_id": node_id, "filename": filename, "subfolder": subfolder, "type": image.get("type"), "source": source, "copied": False}
+            if os.path.exists(source):
+                safe_name = ("%s_%s" % (node_id, filename)).replace("/", "_")
+                dest = os.path.join(ARTIFACT_ROOT, "images", safe_name)
+                shutil.copy2(source, dest)
+                image_record["copied"] = True
+                image_record["artifact_relative_path"] = os.path.relpath(dest, ARTIFACT_ROOT).replace(os.sep, "/")
+            result["output_images"].append(image_record)
+
+    if not any(img.get("copied") for img in result["output_images"]):
+        raise RuntimeError("ComfyUI history contained no copied image artifacts.")
+
+    files = []
+    for root, _, names in os.walk(ARTIFACT_ROOT):
+        for name in names:
+            path = os.path.join(root, name)
+            rel = os.path.relpath(path, ARTIFACT_ROOT).replace(os.sep, "/")
+            if rel == "REMOTE_ARTIFACT_MANIFEST.json":
+                continue
+            kind = artifact_type(rel)
+            files.append({
+                "relative_path": rel,
+                "size_bytes": os.path.getsize(path),
+                "sha256": sha256_file(path),
+                "artifact_type": kind,
+                "qa_required": qa_required(kind)
+            })
+    manifest = {
+        "run_id": RUN_ID,
+        "instance_id": "$InstanceId",
+        "artifact_root": ARTIFACT_ROOT,
+        "created_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "files": sorted(files, key=lambda item: item["relative_path"])
+    }
+    manifest_path = os.path.join(ARTIFACT_ROOT, "REMOTE_ARTIFACT_MANIFEST.json")
+    with open(manifest_path, "w", encoding="utf-8") as f:
+        json.dump(manifest, f, sort_keys=True, indent=2)
+    result["manifest_path"] = manifest_path
+    result["manifest_file_count"] = len(files)
+
+    if S3_BUCKET:
+        s3_uri = "s3://%s/%s/" % (S3_BUCKET, S3_PREFIX.strip("/"))
+        result["s3_sync"] = {"attempted": True, "s3_uri": s3_uri, "succeeded": False}
+        sync = run(["aws", "s3", "sync", ARTIFACT_ROOT, s3_uri, "--only-show-errors"], timeout=900, check=False)
+        result["s3_sync"]["rc"] = sync["rc"]
+        result["s3_sync"]["stdout_tail"] = sync["stdout"][-1000:]
+        result["s3_sync"]["stderr_tail"] = sync["stderr"][-1000:]
+        result["s3_sync"]["succeeded"] = (sync["rc"] == 0)
+except Exception as exc:
+    result["errors"].append(str(exc))
+    result["traceback_tail"] = traceback.format_exc()[-4000:]
+finally:
+    if proc is not None and proc.poll() is None:
+        try:
+            os.killpg(os.getpgid(proc.pid), signal.SIGTERM)
+            proc.wait(timeout=20)
+        except Exception:
+            try:
+                os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
+            except Exception:
+                pass
+    if log_handle is not None:
+        try:
+            log_handle.close()
+        except Exception:
+            pass
+
+print(json.dumps(result, sort_keys=True))
+PY
+"@
+
+try {
+  $record.start_state = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
+  if ($record.start_state -ne "running") {
+    aws ec2 start-instances --region $Region --instance-ids $InstanceId --output json | Out-Null
+    $record.ec2_started = $true
+  }
+  aws ec2 wait instance-running --region $Region --instance-ids $InstanceId
+  aws ec2 wait instance-status-ok --region $Region --instance-ids $InstanceId
+
+  $ssmOnline = $false
+  for ($i = 0; $i -lt 30; $i++) {
+    $ping = (aws ssm describe-instance-information --region $Region --filters "Key=InstanceIds,Values=$InstanceId" --query "InstanceInformationList[0].PingStatus" --output text 2>$null).Trim()
+    if ($ping -eq "Online") { $ssmOnline = $true; break }
+    Start-Sleep -Seconds 10
+  }
+  if (!$ssmOnline) { throw "SSM did not become Online for $InstanceId." }
+
+  $payloadPath = Join-Path $env:TEMP ("codex_ec2_workflow_smoke_{0}.json" -f $stamp)
+  $payload = @{
+    DocumentName = "AWS-RunShellScript"
+    InstanceIds = @($InstanceId)
+    Parameters = @{ commands = @($remoteScript); executionTimeout = @([string]($TimeoutSeconds + 900)) }
+    CloudWatchOutputConfig = @{ CloudWatchOutputEnabled = $false }
+  } | ConvertTo-Json -Depth 8
+  [System.IO.File]::WriteAllText($payloadPath, $payload, [System.Text.UTF8Encoding]::new($false))
+
+  $record.command_id = (aws ssm send-command --region $Region --cli-input-json "file://$payloadPath" --query "Command.CommandId" --output text).Trim()
+  for ($i = 0; $i -lt [Math]::Max(120, [int](($TimeoutSeconds + 900) / 5)); $i++) {
+    Start-Sleep -Seconds 5
+    $record.command_status = (aws ssm get-command-invocation --region $Region --instance-id $InstanceId --command-id $record.command_id --query "Status" --output text 2>$null).Trim()
+    if ($record.command_status -in @("Success", "Cancelled", "TimedOut", "Failed", "Cancelling")) { break }
+  }
+
+  $stdout = aws ssm get-command-invocation --region $Region --instance-id $InstanceId --command-id $record.command_id --query "StandardOutputContent" --output text
+  $stderr = aws ssm get-command-invocation --region $Region --instance-id $InstanceId --command-id $record.command_id --query "StandardErrorContent" --output text
+  $record.remote_stdout_tail = Get-TailText -Text ([string]$stdout) -MaxChars 6000
+  $record.remote_stderr_tail = Get-TailText -Text ([string]$stderr) -MaxChars 4000
+
+  try {
+    $jsonStart = ([string]$stdout).IndexOf("{")
+    if ($jsonStart -ge 0) {
+      $record.remote_result = ([string]$stdout).Substring($jsonStart) | ConvertFrom-Json
+      $record.generation_executed = (@($record.remote_result.output_images | Where-Object { [bool]$_.copied }).Count -gt 0)
+    } else {
+      $record.errors += "Remote stdout did not contain a JSON result."
+    }
+  } catch {
+    $record.errors += "Remote result JSON parse failed: $($_.Exception.Message)"
+  }
+
+  if ($record.remote_result -and $record.remote_result.s3_sync -and [bool]$record.remote_result.s3_sync.succeeded) {
+    $localDestination = Join-Path $pullbackRoot $runId
+    $null = New-Item -ItemType Directory -Force -Path $localDestination
+    $syncUri = [string]$record.remote_result.s3_sync.s3_uri
+    $record.local_pullback.attempted = $true
+    $syncResult = Invoke-AwsCliJson -Arguments @("s3", "sync", $syncUri, $localDestination, "--only-show-errors")
+    $record.local_pullback.s3_uri = $syncUri
+    $record.local_pullback.local_destination = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $localDestination
+    $record.local_pullback.sync_exit_code = $syncResult.exit_code
+    $record.local_pullback.sync_output_tail = Get-TailText -Text ([string]$syncResult.output) -MaxChars 2000
+    if ($syncResult.exit_code -eq 0) {
+      $manifestLocal = Join-Path $localDestination "REMOTE_ARTIFACT_MANIFEST.json"
+      $pullbackOutput = & powershell -NoProfile -ExecutionPolicy Bypass -File $pullbackScript -ProjectRoot $ProjectRoot -RunId $runId -LocalDestination $localDestination -RemoteManifestFile $manifestLocal -SourceInstance $InstanceId -SourceArtifactRoot ([string]$record.remote_result.artifact_root) -S3Prefix $syncUri 2>&1
+      $record.local_pullback.status = $(if ($LASTEXITCODE -eq 0) { "pullback_record_created" } else { "pullback_record_failed" })
+      $record.local_pullback.pullback_record_output_tail = Get-TailText -Text (($pullbackOutput | ForEach-Object { $_.ToString() }) -join "`n") -MaxChars 2000
+    } else {
+      $record.local_pullback.status = "s3_sync_failed"
+    }
+  } elseif (![string]::IsNullOrWhiteSpace($S3Bucket)) {
+    $record.local_pullback.status = "remote_s3_sync_not_successful"
+  } else {
+    $record.local_pullback.status = "s3_bucket_not_configured"
+  }
+}
+catch {
+  $record.errors += $_.Exception.Message
+}
+finally {
+  try {
+    aws ec2 stop-instances --region $Region --instance-ids $InstanceId --output json | Out-Null
+    aws ec2 wait instance-stopped --region $Region --instance-ids $InstanceId
+    $record.final_state = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
+  } catch {
+    $record.errors += "Stop/final-state verification failed: $($_.Exception.Message)"
+  }
+}
+
+$record.next_action = $(if ($record.generation_executed -and $record.local_pullback.status -eq "pullback_record_created") { "Run image QA on the pulled-back generated image artifacts." } else { "Inspect run record, complete artifact pullback if needed, and do not claim image QA until artifacts are local and reviewed." })
+
+$runDir = Split-Path -Parent $RunRecordFile
+if (![string]::IsNullOrWhiteSpace($runDir)) {
+  $null = New-Item -ItemType Directory -Force -Path $runDir
+}
+$record | ConvertTo-Json -Depth 50 | Set-Content -LiteralPath $RunRecordFile -Encoding UTF8
+
+$outDir = Split-Path -Parent $OutFile
+if (![string]::IsNullOrWhiteSpace($outDir)) {
+  $null = New-Item -ItemType Directory -Force -Path $outDir
+}
+$record | ConvertTo-Json -Depth 50 | Set-Content -LiteralPath $OutFile -Encoding UTF8
+Write-Host "Wrote EC2 workflow smoke run record: $OutFile"
+$record | ConvertTo-Json -Depth 50
+
+if ($record.errors.Count -gt 0 -or !$record.generation_executed -or $record.final_state -ne "stopped") { exit 2 }

@@ -1,0 +1,114 @@
+﻿{
+    "evidence_id":  "EC2-WORKFLOW-SMOKE-RUN-20260706T033928-0500",
+    "timestamp":  "2026-07-06T03:39:29-05:00",
+    "mode":  "dry_run",
+    "run_id":  "aws_gpu_workflow_smoke_20260706T033928-0500",
+    "lane_id":  "sdxl_low_risk_fallback_lane",
+    "instance_id":  "i-0560bf8d143f93bb1",
+    "region":  "us-east-1",
+    "remote_project_root":  "/home/ubuntu/Comfy_UI_Main",
+    "remote_comfy_root":  "/home/ubuntu/ComfyUI",
+    "remote_artifact_root":  "/home/ubuntu/comfyui_artifacts/aws_gpu_workflow_smoke_20260706T033928-0500",
+    "comfy_port":  8192,
+    "timeout_seconds":  900,
+    "lane_contracts":  [
+                           {
+                               "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
+                               "exists":  true,
+                               "json_valid":  true,
+                               "error":  null
+                           },
+                           {
+                               "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/patch_points.json",
+                               "exists":  true,
+                               "json_valid":  true,
+                               "error":  null
+                           },
+                           {
+                               "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
+                               "exists":  true,
+                               "json_valid":  true,
+                               "error":  null
+                           },
+                           {
+                               "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/smoke_test_request.json",
+                               "exists":  true,
+                               "json_valid":  true,
+                               "error":  null
+                           }
+                       ],
+    "auth_gate":  {
+                      "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_AUTH_GATE_20260706T031007-0500.json",
+                      "found":  true,
+                      "expected_account":  "029530099913",
+                      "account_match":  false,
+                      "ec2_work_allowed":  false,
+                      "safe_to_start_ec2":  false,
+                      "generation_allowed":  false,
+                      "status":  "blocked",
+                      "failure_category":  "expired_session",
+                      "remote_login_status":  "external_authorization_required_noninteractive"
+                  },
+    "readiness_gate":  {
+                           "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_20260706T033522-0500.json",
+                           "found":  true,
+                           "local_pre_ec2_ready":  true,
+                           "ready_for_ec2_static_proof":  false,
+                           "ready_for_generation":  false,
+                           "status":  "local_ready_runtime_blocked"
+                       },
+    "ec2_static_proof":  {
+                             "file":  null,
+                             "supplied":  false,
+                             "found":  false,
+                             "valid":  false,
+                             "errors":  [
+                                            "No EC2 static proof file supplied or found."
+                                        ],
+                             "object_info_status":  null,
+                             "model_proof_count":  0,
+                             "dry_run_record":  false
+                         },
+    "smoke_request":  {
+                          "attempted":  true,
+                          "exit_code":  0,
+                          "request_file":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_RUN_REQUEST_20260706T033928-0500.json",
+                          "request_file_exists":  true,
+                          "json_parsed":  true,
+                          "execution_allowed":  false,
+                          "generation_executed":  false,
+                          "errors":  [
+
+                                     ]
+                      },
+    "execute_gates_pass":  false,
+    "blocked_reasons":  [
+                            "Auth gate does not allow EC2 start.",
+                            "Lane readiness gate does not allow generation.",
+                            "EC2 object-info/path/hash static proof is missing or invalid."
+                        ],
+    "dry_run_actions":  [
+                            "Load .env without printing values.",
+                            "Require auth gate for AWS account 029530099913 before EC2 start.",
+                            "Require selected-lane readiness gate before generation.",
+                            "Require EC2 object-info/path/hash static proof before generation.",
+                            "Build the patched ComfyUI /prompt request body locally.",
+                            "With -Execute only, start i-0560bf8d143f93bb1, run remote ComfyUI smoke, create artifact manifest, pull back artifacts when S3 is available, then stop EC2."
+                        ],
+    "generation_executed":  false,
+    "ec2_started":  false,
+    "command_id":  null,
+    "command_status":  "not_started",
+    "start_state":  null,
+    "final_state":  null,
+    "remote_result":  null,
+    "local_pullback":  {
+                           "attempted":  false,
+                           "status":  "not_attempted"
+                       },
+    "run_record_file":  "Plan/Instructions/Operations/Run_Records/aws_gpu_workflow_smoke_20260706T033928-0500.json",
+    "errors":  [
+
+               ],
+    "next_action":  "Resolve blocked_reasons before any EC2 workflow smoke execution."
+}
