@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "realvisxl_closeup_skin_eye_v1",
+  "target_lane_id": "sdxl_realvisxl_base_lane",
+  "purpose": "RealVisXL multi-sample certification profile focused on close-up skin texture, eyes, mouth, and hairline realism.",
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic close-up editorial portrait of an adult subject, natural asymmetrical face, detailed pores, fine vellus hair, realistic under-eye texture, crisp wet catchlights, lifelike iris detail, natural lips and teeth barely visible, believable hairline, subtle expression, soft key light with realistic shadow falloff, 85mm portrait lens, shallow depth of field, photographic color grading",
+    "negative_prompt": "cartoon, anime, illustration, CGI, doll-like face, plastic skin, waxy skin, over-smoothed texture, beauty filter, smeared pores, dead eyes, crossed eyes, asymmetric pupils, warped teeth, bad mouth, distorted face, deformed ears, extra fingers, missing fingers, fused fingers, low resolution, blurry, watermark, text, logo",
+    "seed": 811006101,
+    "sampler_settings": {
+      "steps": 32,
+      "cfg": 5.4,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1
+    },
+    "latent_resolution": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_realvisxl_cert_closeup_skin_eye"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_realvisxl_cert_closeup_skin_eye"
+  },
+  "qa_focus": [
+    "face realism",
+    "eye quality",
+    "skin texture",
+    "teeth/mouth quality",
+    "hair realism",
+    "camera/lens realism",
+    "whole-frame defects"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_router_gate": true,
+    "requires_ec2_static_proof_before_execution": true,
+    "requires_whole_image_qa_before_promotion": true
+  }
+}

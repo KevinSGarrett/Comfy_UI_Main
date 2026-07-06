@@ -33,7 +33,9 @@ Plan/Tracker/Reports/wave65_plan_source_coverage_report.json
 Plan/Items/Scripts/generate_wave65_plan_source_coverage.py
 ```
 
-Wave 65 current result is `pass`: 2,831 current source files under `Plan` are covered, 656 closure Items rows and 656 closure Tracker rows were generated, and `missing_after_wave65_count=0`. Transient `__pycache__` and `.pyc` files are excluded from the coverage universe. Rerun `python Plan\Items\Scripts\generate_wave65_plan_source_coverage.py` after any Plan file addition or rename.
+Wave 65 current result is `pass`: 2,834 current source files under `Plan` are covered, 659 closure Items rows and 659 closure Tracker rows were generated, and `missing_after_wave65_count=0`. Transient `__pycache__` and `.pyc` files are excluded from the coverage universe. Rerun `python Plan\Items\Scripts\generate_wave65_plan_source_coverage.py` after any Plan file addition or rename.
+
+Latest multi-sample preparation: `tools\New-WorkflowRunPackageMatrix.ps1` created a router-gated RealVisXL certification matrix from `PromptProfiles/base_generation/realvisxl_multisample_certification.matrix.json`. Persistent manifest: `runtime_artifacts/run_package_matrices/realvisxl_multisample_certification_v1/RUN_PACKAGE_MATRIX_MANIFEST.json`; dedicated evidence: `Plan/Instructions/QA/Evidence/Run_Package/W66_WORKFLOW_RUN_PACKAGE_MATRIX_20260706T155031-0500.json`; QA helper evidence: `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_WORKFLOW_RUN_PACKAGE_MATRIX_20260706T155048-0500.json`. Result: `pass_local_only`, three unique RealVisXL sample packages, no EC2 start, no generation.
 
 Do not repeat the first-lane smoke path. `sdxl_low_risk_fallback_lane` already has EC2 static proof, bounded workflow smoke generation, SSM pullback, technical image QA, and visual QA with runtime-smoke notes.
 
@@ -68,7 +70,7 @@ Next runtime work after the checkpoint:
 2. Verify AWS auth and Git clean/head only before an EC2 `-Execute` path.
 3. Configure the S3 bucket/prefix permissions from `configs/aws` for deploy bundles, model cache, and artifact pullback.
 4. Do not rerun RealVisXL static proof or workflow smoke unless the lane, prompt, model, or EC2 runtime changed.
-5. For image-quality certification, run a broader multi-sample RealVisXL QA pass with whole-artifact visual review rather than treating the single smoke output as final portfolio proof.
+5. For image-quality certification, use the new RealVisXL multi-sample package matrix, then run a bounded EC2 quality pass only after auth/Git/cost-control gates pass, pull back every generated sample, and perform whole-image visual QA for all three samples rather than treating the single smoke output as final portfolio proof.
 6. For audio/video expansion, require full-duration/whole-frame review in addition to target feature checks.
 7. For runtime expansion, define the next lane/module and add it to the queue with local validation before any EC2 execution.
 

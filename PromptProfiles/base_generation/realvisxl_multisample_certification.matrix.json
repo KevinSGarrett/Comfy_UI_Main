@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "matrix_id": "realvisxl_multisample_certification_v1",
+  "lane_id": "sdxl_realvisxl_base_lane",
+  "route_request_file": "Plan/09_EXAMPLES/wave64_image_engine_route_realvisxl_request.example.json",
+  "purpose": "Local-only RealVisXL multi-sample package matrix for future broader image-quality certification.",
+  "minimum_sample_count": 3,
+  "requires_router_gate": true,
+  "requires_unique_seeds": true,
+  "requires_unique_output_prefixes": true,
+  "local_only": true,
+  "ec2_start_allowed_by_matrix": false,
+  "generation_allowed_by_matrix": false,
+  "certification_scope": [
+    "close-up facial realism",
+    "visible hands and fabric realism",
+    "environmental low-light coherence",
+    "whole-image visual QA for every generated sample"
+  ],
+  "samples": [
+    {
+      "profile_file": "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_closeup_skin_eye.json",
+      "certification_focus": "close-up skin, eyes, mouth, and hairline"
+    },
+    {
+      "profile_file": "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_three_quarter_hands_fabric.json",
+      "certification_focus": "hands, wrist anatomy, fabric texture, and contact realism"
+    },
+    {
+      "profile_file": "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_environment_lowlight.json",
+      "certification_focus": "lighting, reflections, background coherence, and low-light realism"
+    }
+  ],
+  "qa_protocols": [
+    "Plan/Instructions/QA/IMAGE_GENERATION_VISUAL_REVIEW_PROTOCOL.md",
+    "Plan/Instructions/QA/COMFYUI_WORKFLOW_TESTING_PROTOCOL.md",
+    "Plan/Instructions/QA/DONE_CERTIFICATION_EVIDENCE_PROTOCOL.md"
+  ],
+  "runtime_boundaries": {
+    "does_not_contact_aws": true,
+    "does_not_contact_github_api": true,
+    "does_not_contact_civitai": true,
+    "does_not_contact_comfyui": true,
+    "does_not_start_ec2": true,
+    "does_not_execute_generation": true,
+    "requires_ec2_static_proof_before_execution": true,
+    "requires_pullback_hashes_before_visual_qa": true,
+    "requires_whole_image_qa_before_certification": true
+  }
+}

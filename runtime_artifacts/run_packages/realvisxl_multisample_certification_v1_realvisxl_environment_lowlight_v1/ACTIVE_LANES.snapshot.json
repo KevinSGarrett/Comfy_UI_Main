@@ -1,0 +1,32 @@
+{
+    "schema_version":  "1.0",
+    "updated_at":  "2026-07-06T14:01:00-05:00",
+    "source_queue":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+    "lanes":  [
+                  {
+                      "order":  1,
+                      "lane_id":  "sdxl_low_risk_fallback_lane",
+                      "workflow":  "Workflows/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
+                      "smoke_request":  "Workflows/base_generation/sdxl_low_risk_fallback_lane/smoke_test_request.json",
+                      "runtime_requirements":  "Workflows/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
+                      "patch_points":  "Workflows/base_generation/sdxl_low_risk_fallback_lane/patch_points.json",
+                      "status":  "runtime_smoke_proven",
+                      "next_gate":  "completed_first_runtime_proof"
+                  },
+                  {
+                      "order":  2,
+                      "lane_id":  "sdxl_realvisxl_base_lane",
+                      "workflow":  "Workflows/base_generation/sdxl_realvisxl_base_lane/workflow.api.json",
+                      "smoke_request":  "Workflows/base_generation/sdxl_realvisxl_base_lane/smoke_test_request.json",
+                      "runtime_requirements":  "Workflows/base_generation/sdxl_realvisxl_base_lane/runtime_requirements.json",
+                      "patch_points":  "Workflows/base_generation/sdxl_realvisxl_base_lane/patch_points.json",
+                      "status":  "runtime_smoke_proven",
+                      "next_gate":  "completed_realvisxl_runtime_smoke"
+                  }
+              ],
+    "runtime_boundaries":  {
+                               "ec2_start_allowed_by_this_manifest":  false,
+                               "generation_allowed_by_this_manifest":  false,
+                               "reason":  "This manifest exposes local workflow files only; AWS auth and runtime proof gates remain mandatory."
+                           }
+}

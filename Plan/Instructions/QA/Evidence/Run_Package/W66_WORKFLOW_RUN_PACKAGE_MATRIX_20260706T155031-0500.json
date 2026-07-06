@@ -1,0 +1,145 @@
+﻿{
+    "evidence_id":  "W66-WORKFLOW-RUN-PACKAGE-MATRIX-20260706T155031-0500",
+    "created_at":  "2026-07-06T15:50:31-05:00",
+    "artifact_id":  "TRK-W64-009",
+    "artifact_type":  "workflow_run_package_matrix_validation",
+    "matrix_id":  "realvisxl_multisample_certification_v1",
+    "lane_id":  "sdxl_realvisxl_base_lane",
+    "local_only":  true,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "scripts":  {
+                    "matrix_builder":  "tools/New-WorkflowRunPackageMatrix.ps1",
+                    "validator":  "Plan/Instructions/QA/Scripts/Test-WorkflowRunPackageMatrix.ps1"
+                },
+    "matrix_file":  "PromptProfiles/base_generation/realvisxl_multisample_certification.matrix.json",
+    "validation_temp_root":  "[VALIDATION_TEMP_ROOT]",
+    "sample_count":  3,
+    "samples":  [
+                    {
+                        "profile_id":  "realvisxl_closeup_skin_eye_v1",
+                        "certification_focus":  "close-up skin, eyes, mouth, and hairline",
+                        "result":  "pass_local_only",
+                        "route_result":  "pass_local_only",
+                        "route_selected_lane_id":  "sdxl_realvisxl_base_lane",
+                        "prompt_profile_applied":  true,
+                        "seed":  "811006101",
+                        "output_prefix":  "codex_realvisxl_cert_closeup_skin_eye",
+                        "manifest_path":  "[VALIDATION_TEMP_ROOT]/packages/realvisxl_multisample_certification_v1_20260706t155031_0500_realvisxl_closeup_skin_eye_v1/RUN_PACKAGE_MANIFEST.json"
+                    },
+                    {
+                        "profile_id":  "realvisxl_three_quarter_hands_fabric_v1",
+                        "certification_focus":  "hands, wrist anatomy, fabric texture, and contact realism",
+                        "result":  "pass_local_only",
+                        "route_result":  "pass_local_only",
+                        "route_selected_lane_id":  "sdxl_realvisxl_base_lane",
+                        "prompt_profile_applied":  true,
+                        "seed":  "811006202",
+                        "output_prefix":  "codex_realvisxl_cert_hands_fabric",
+                        "manifest_path":  "[VALIDATION_TEMP_ROOT]/packages/realvisxl_multisample_certification_v1_20260706t155031_0500_realvisxl_three_quarter_hands_fabric_v1/RUN_PACKAGE_MANIFEST.json"
+                    },
+                    {
+                        "profile_id":  "realvisxl_environment_lowlight_v1",
+                        "certification_focus":  "lighting, reflections, background coherence, and low-light realism",
+                        "result":  "pass_local_only",
+                        "route_result":  "pass_local_only",
+                        "route_selected_lane_id":  "sdxl_realvisxl_base_lane",
+                        "prompt_profile_applied":  true,
+                        "seed":  "811006303",
+                        "output_prefix":  "codex_realvisxl_cert_environment_lowlight",
+                        "manifest_path":  "[VALIDATION_TEMP_ROOT]/packages/realvisxl_multisample_certification_v1_20260706t155031_0500_realvisxl_environment_lowlight_v1/RUN_PACKAGE_MANIFEST.json"
+                    }
+                ],
+    "checks":  [
+                   {
+                       "name":  "matrix_result_passes",
+                       "result":  "pass",
+                       "observed":  "pass_local_only",
+                       "expected":  "pass_local_only"
+                   },
+                   {
+                       "name":  "matrix_lane_matches",
+                       "result":  "pass",
+                       "observed":  "sdxl_realvisxl_base_lane",
+                       "expected":  "sdxl_realvisxl_base_lane"
+                   },
+                   {
+                       "name":  "sample_count_meets_minimum",
+                       "result":  "pass",
+                       "observed":  3,
+                       "expected":  3
+                   },
+                   {
+                       "name":  "all_sample_packages_pass",
+                       "result":  "pass",
+                       "observed":  [
+                                        "pass_local_only",
+                                        "pass_local_only",
+                                        "pass_local_only"
+                                    ],
+                       "expected":  "all pass_local_only"
+                   },
+                   {
+                       "name":  "all_sample_routes_pass",
+                       "result":  "pass",
+                       "observed":  [
+                                        "pass_local_only",
+                                        "pass_local_only",
+                                        "pass_local_only"
+                                    ],
+                       "expected":  "all pass_local_only"
+                   },
+                   {
+                       "name":  "all_sample_routes_match_lane",
+                       "result":  "pass",
+                       "observed":  [
+                                        "sdxl_realvisxl_base_lane",
+                                        "sdxl_realvisxl_base_lane",
+                                        "sdxl_realvisxl_base_lane"
+                                    ],
+                       "expected":  "sdxl_realvisxl_base_lane"
+                   },
+                   {
+                       "name":  "all_prompt_profiles_applied",
+                       "result":  "pass",
+                       "observed":  [
+                                        true,
+                                        true,
+                                        true
+                                    ],
+                       "expected":  "all true"
+                   },
+                   {
+                       "name":  "unique_seed_count",
+                       "result":  "pass",
+                       "observed":  3,
+                       "expected":  3
+                   },
+                   {
+                       "name":  "unique_output_prefix_count",
+                       "result":  "pass",
+                       "observed":  3,
+                       "expected":  3
+                   },
+                   {
+                       "name":  "matrix_no_external_contact_or_generation",
+                       "result":  "pass",
+                       "observed":  {
+                                        "local_only":  true,
+                                        "aws":  false,
+                                        "github_api":  false,
+                                        "civitai":  false,
+                                        "comfyui":  false,
+                                        "ec2_started":  false,
+                                        "generation_executed":  false
+                                    },
+                       "expected":  "local_only=true; all contacts false; ec2_started=false; generation_executed=false"
+                   }
+               ],
+    "failure_count":  0,
+    "failures":  [
+
+                 ],
+    "result":  "pass_local_only",
+    "next_action":  "Use the matrix builder to create a persistent RealVisXL multi-sample package set before the next bounded EC2 quality-certification run."
+}

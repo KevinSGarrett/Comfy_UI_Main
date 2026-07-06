@@ -491,6 +491,24 @@ If AWS auth is expired or Git is not clean/pushed, stop and report that blocker.
 - QA helper evidence: `Plan\Instructions\QA\Evidence\QA_Helper_Static_Validation\W66_QA_HELPER_WORKFLOW_RUN_PACKAGE_ROUTER_GATE_20260706T153612-0500.json`; result `pass_local_only`, and the new `workflow_run_package_router_gate_smoke` is part of the local QA helper.
 - This was local-only and did not contact AWS, GitHub APIs, Civitai, ComfyUI, start EC2, or run generation.
 
+## Latest RealVisXL Multi-Sample Package Matrix
+
+- Added three RealVisXL certification prompt profiles:
+  - `PromptProfiles\base_generation\realvisxl_multisample_certification\realvisxl_closeup_skin_eye.json`
+  - `PromptProfiles\base_generation\realvisxl_multisample_certification\realvisxl_three_quarter_hands_fabric.json`
+  - `PromptProfiles\base_generation\realvisxl_multisample_certification\realvisxl_environment_lowlight.json`
+- Matrix file: `PromptProfiles\base_generation\realvisxl_multisample_certification.matrix.json`.
+- Builder: `tools\New-WorkflowRunPackageMatrix.ps1`.
+- Persistent matrix manifest: `runtime_artifacts\run_package_matrices\realvisxl_multisample_certification_v1\RUN_PACKAGE_MATRIX_MANIFEST.json`; result `pass_local_only`, sample count `3`, route lane `sdxl_realvisxl_base_lane`, unique seeds, unique output prefixes, no EC2 start, no generation.
+- Persistent sample package manifests:
+  - `runtime_artifacts\run_packages\realvisxl_multisample_certification_v1_realvisxl_closeup_skin_eye_v1\RUN_PACKAGE_MANIFEST.json`
+  - `runtime_artifacts\run_packages\realvisxl_multisample_certification_v1_realvisxl_three_quarter_hands_fabric_v1\RUN_PACKAGE_MANIFEST.json`
+  - `runtime_artifacts\run_packages\realvisxl_multisample_certification_v1_realvisxl_environment_lowlight_v1\RUN_PACKAGE_MANIFEST.json`
+- Dedicated evidence: `Plan\Instructions\QA\Evidence\Run_Package\W66_WORKFLOW_RUN_PACKAGE_MATRIX_20260706T155031-0500.json`; result `pass_local_only`.
+- QA helper evidence: `Plan\Instructions\QA\Evidence\QA_Helper_Static_Validation\W66_QA_HELPER_WORKFLOW_RUN_PACKAGE_MATRIX_20260706T155048-0500.json`; result `pass_local_only`, local smoke failures `0`.
+- Wave65 source coverage was rerun after this addition. Current result: `pass`, `plan_file_count=2834`, `wave65_rows_created=659`, `missing_after_wave65_count=0`.
+- This is preparation for broader image-quality certification, not final certification. Next quality step requires bounded EC2 generation from the matrix packages, artifact pullback, hash verification, and whole-image visual QA for all three samples.
+
 ## Must not repeat
 
 - Do not print token values from `.env`.

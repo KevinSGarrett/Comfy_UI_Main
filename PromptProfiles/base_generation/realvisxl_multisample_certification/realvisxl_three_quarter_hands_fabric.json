@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "realvisxl_three_quarter_hands_fabric_v1",
+  "target_lane_id": "sdxl_realvisxl_base_lane",
+  "purpose": "RealVisXL multi-sample certification profile focused on three-quarter portrait composition, visible hands, fabric texture, and contact realism.",
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic three-quarter editorial portrait of an adult subject seated with both hands relaxed and partially visible, natural skin texture, accurate knuckles and fingernails, believable wrist anatomy, textured tailored jacket fabric, subtle cloth folds, realistic contact between hands and clothing, natural facial asymmetry, lifelike eyes, soft studio lighting, realistic shadows, 70mm portrait lens, photographic color grading",
+    "negative_prompt": "cartoon, anime, illustration, CGI, doll-like face, plastic skin, waxy skin, over-smoothed texture, deformed hands, extra fingers, missing fingers, fused fingers, broken wrist, distorted nails, warped sleeves, cloth melting into skin, bad anatomy, crossed eyes, low resolution, blurry, watermark, text, logo",
+    "seed": 811006202,
+    "sampler_settings": {
+      "steps": 34,
+      "cfg": 5.6,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1
+    },
+    "latent_resolution": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_realvisxl_cert_hands_fabric"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_realvisxl_cert_hands_fabric"
+  },
+  "qa_focus": [
+    "hands/fingers",
+    "body proportions",
+    "clothing/fabric",
+    "contact points",
+    "face realism",
+    "lighting and shadows",
+    "whole-frame defects"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_router_gate": true,
+    "requires_ec2_static_proof_before_execution": true,
+    "requires_whole_image_qa_before_promotion": true
+  }
+}

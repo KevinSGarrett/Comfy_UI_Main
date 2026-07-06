@@ -148,6 +148,30 @@
     "rule": "Future image run packages should pass -RouteRequestFile so package lane selection cannot bypass router/model compatibility proof; a router-selected lane mismatch blocks package creation.",
     "local_only_boundary": "Validation does not contact AWS, GitHub API, Civitai, ComfyUI, or EC2 and does not execute generation."
   },
+  "workflow_run_package_matrix": {
+    "active_wave": 66,
+    "target_lane_id": "sdxl_realvisxl_base_lane",
+    "matrix_id": "realvisxl_multisample_certification_v1",
+    "matrix_file": "PromptProfiles/base_generation/realvisxl_multisample_certification.matrix.json",
+    "matrix_builder": "tools/New-WorkflowRunPackageMatrix.ps1",
+    "qa_script": "Plan/Instructions/QA/Scripts/Test-WorkflowRunPackageMatrix.ps1",
+    "generated_matrix_manifest": "runtime_artifacts/run_package_matrices/realvisxl_multisample_certification_v1/RUN_PACKAGE_MATRIX_MANIFEST.json",
+    "sample_package_manifests": [
+      "runtime_artifacts/run_packages/realvisxl_multisample_certification_v1_realvisxl_closeup_skin_eye_v1/RUN_PACKAGE_MANIFEST.json",
+      "runtime_artifacts/run_packages/realvisxl_multisample_certification_v1_realvisxl_three_quarter_hands_fabric_v1/RUN_PACKAGE_MANIFEST.json",
+      "runtime_artifacts/run_packages/realvisxl_multisample_certification_v1_realvisxl_environment_lowlight_v1/RUN_PACKAGE_MANIFEST.json"
+    ],
+    "sample_profiles": [
+      "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_closeup_skin_eye.json",
+      "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_three_quarter_hands_fabric.json",
+      "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_environment_lowlight.json"
+    ],
+    "validation_evidence": "Plan/Instructions/QA/Evidence/Run_Package/W66_WORKFLOW_RUN_PACKAGE_MATRIX_20260706T155031-0500.json",
+    "qa_helper_validation_evidence": "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_WORKFLOW_RUN_PACKAGE_MATRIX_20260706T155048-0500.json",
+    "result": "pass_local_only",
+    "rule": "Use the matrix builder before a broader RealVisXL image-quality certification run so every sample package is router-gated, profile-applied, unique-seeded, and whole-image QA scoped before EC2 execution.",
+    "local_only_boundary": "Validation does not contact AWS, GitHub API, Civitai, ComfyUI, or EC2 and does not execute generation."
+  },
   "runtime_scope_boundary": {
     "source_analysis_context": [
       "Plan/12_SOURCE_SUMMARIES/source_snapshots/WAVE42_MAIN_FLOW_20260702.runtime_bound_snapshot.json",

@@ -885,6 +885,13 @@ $localSmokeResults += Invoke-LocalHelper -Name "workflow_run_package_router_gate
   -ExpectedOutputFile $workflowRunPackageRouterGateFile `
   -ExpectedOutputType "json"
 
+$workflowRunPackageMatrixFile = Join-Path $tempRoot "workflow_run_package_matrix.json"
+$localSmokeResults += Invoke-LocalHelper -Name "workflow_run_package_matrix_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "Test-WorkflowRunPackageMatrix.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-OutFile", $workflowRunPackageMatrixFile) `
+  -ExpectedOutputFile $workflowRunPackageMatrixFile `
+  -ExpectedOutputType "json"
+
 $itemsTrackerValidationFile = Join-Path $tempRoot "items_tracker_package_validation.json"
 $localSmokeResults += Invoke-LocalHelper -Name "items_tracker_package_validation_smoke" `
   -ScriptPath (Join-Path $scriptsRoot "Test-ItemsTrackerPackageStatic.ps1") `
