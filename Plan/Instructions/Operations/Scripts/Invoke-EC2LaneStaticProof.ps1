@@ -95,23 +95,44 @@ function Get-AuthGateStatus {
     ec2_work_allowed = $false
     safe_to_start_ec2 = $false
     generation_allowed = $false
+    result = "missing_auth_gate"
     status = "missing_auth_gate"
-    failure_category = $null
-    remote_login_status = $null
+    failure_category = "missing_auth_gate"
+    remote_login_status = "missing_auth_gate"
   }
 
   if (!$result.found) { return $result }
   $auth = Read-JsonFile -Path $Path
+  $result.failure_category = $null
+  $result.remote_login_status = $null
   $result.expected_account = [string]$auth.expected_account
   $result.ec2_work_allowed = [bool]$auth.ec2_work_allowed
   $result.safe_to_start_ec2 = [bool]$auth.safe_to_start_ec2
   $result.generation_allowed = [bool]$auth.generation_allowed
+  if (Has-Property -Object $auth -Name "result") {
+    $result.result = [string]$auth.result
+  } else {
+    $result.result = $(if ($result.safe_to_start_ec2) { "pass" } else { "blocked" })
+  }
+  if (Has-Property -Object $auth -Name "failure_category") {
+    $result.failure_category = $auth.failure_category
+  }
+  if (Has-Property -Object $auth -Name "account_match") {
+    $result.account_match = [bool]$auth.account_match
+  }
+  if (Has-Property -Object $auth -Name "remote_login_status") {
+    $result.remote_login_status = [string]$auth.remote_login_status
+  }
   if (Has-Property -Object $auth -Name "sts_after" -and $null -ne $auth.sts_after) {
     $result.account_match = [bool]$auth.sts_after.account_match
-    $result.failure_category = [string]$auth.sts_after.failure_category
+    if ([string]::IsNullOrWhiteSpace([string]$result.failure_category)) {
+      $result.failure_category = [string]$auth.sts_after.failure_category
+    }
   } elseif (Has-Property -Object $auth -Name "sts_before" -and $null -ne $auth.sts_before) {
     $result.account_match = [bool]$auth.sts_before.account_match
-    $result.failure_category = [string]$auth.sts_before.failure_category
+    if ([string]::IsNullOrWhiteSpace([string]$result.failure_category)) {
+      $result.failure_category = [string]$auth.sts_before.failure_category
+    }
   }
   if (Has-Property -Object $auth -Name "remote_login" -and $null -ne $auth.remote_login) {
     $result.remote_login_status = [string]$auth.remote_login.status
@@ -129,13 +150,24 @@ function Get-ReadinessStatus {
     local_pre_ec2_ready = $false
     ready_for_ec2_static_proof = $false
     ready_for_generation = $false
+    result = "missing_readiness_record"
+    failure_category = "missing_readiness_record"
     status = "missing_readiness_record"
   }
   if (!$result.found) { return $result }
   $readiness = Read-JsonFile -Path $Path
+  $result.failure_category = $null
   $result.local_pre_ec2_ready = [bool]$readiness.local_pre_ec2_ready
   $result.ready_for_ec2_static_proof = [bool]$readiness.ready_for_ec2_static_proof
   $result.ready_for_generation = [bool]$readiness.ready_for_generation
+  if (Has-Property -Object $readiness -Name "result") {
+    $result.result = [string]$readiness.result
+  } else {
+    $result.result = $(if ($result.ready_for_ec2_static_proof) { "ready_for_ec2_static_proof" } elseif ($result.local_pre_ec2_ready) { "local_pre_ec2_ready_runtime_blocked" } else { "not_ready" })
+  }
+  if (Has-Property -Object $readiness -Name "failure_category") {
+    $result.failure_category = $readiness.failure_category
+  }
   $result.status = $(if ($result.ready_for_ec2_static_proof) { "static_proof_ready" } elseif ($result.local_pre_ec2_ready) { "local_ready_runtime_blocked" } else { "not_ready" })
   return $result
 }
@@ -157,6 +189,15 @@ if ($InstanceId -ne "i-0560bf8d143f93bb1") { $blockedReasons += "InstanceId is n
 if (!$authGate.safe_to_start_ec2) { $blockedReasons += "Auth gate does not allow EC2 start." }
 if (!$readinessGate.ready_for_ec2_static_proof) { $blockedReasons += "Lane readiness gate does not allow EC2 static proof." }
 $executeGatesPass = ($blockedReasons.Count -eq 0)
+$gateFailureCategory = $null
+if ($InstanceId -ne "i-0560bf8d143f93bb1") {
+  $gateFailureCategory = "unapproved_instance"
+} elseif (!$authGate.safe_to_start_ec2) {
+  $gateFailureCategory = $(if (![string]::IsNullOrWhiteSpace([string]$authGate.failure_category)) { [string]$authGate.failure_category } else { "aws_auth_blocked" })
+} elseif (!$readinessGate.ready_for_ec2_static_proof) {
+  $gateFailureCategory = $(if (![string]::IsNullOrWhiteSpace([string]$readinessGate.failure_category)) { [string]$readinessGate.failure_category } else { "lane_readiness_blocked" })
+}
+$staticProofGateResult = $(if ($executeGatesPass) { "ready_for_ec2_static_proof_execute" } else { "blocked_before_ec2_start" })
 
 if (-not $Execute) {
   if ([string]::IsNullOrWhiteSpace($OutFile)) {
@@ -169,6 +210,8 @@ if (-not $Execute) {
     instance_id = $InstanceId
     region = $Region
     lane_id = $LaneId
+    result = $(if ($executeGatesPass) { "dry_run_ready_for_ec2_static_proof_execute" } else { "dry_run_blocked_before_ec2_start" })
+    failure_category = $gateFailureCategory
     auth_gate = $authGate
     readiness_gate = $readinessGate
     execute_gates_pass = $executeGatesPass
@@ -210,6 +253,8 @@ if (!$executeGatesPass) {
     instance_id = $InstanceId
     region = $Region
     lane_id = $LaneId
+    result = "blocked_before_ec2_start"
+    failure_category = $gateFailureCategory
     auth_gate = $authGate
     readiness_gate = $readinessGate
     execute_gates_pass = $false
@@ -442,6 +487,8 @@ $record = [ordered]@{
   readiness_gate = $readinessGate
   execute_gates_pass = $executeGatesPass
   blocked_reasons = $blockedReasons
+  result = $staticProofGateResult
+  failure_category = $gateFailureCategory
   start_state = $startState
   ec2_started = $started
   ssm_available = $ssmAvailable
@@ -451,6 +498,14 @@ $record = [ordered]@{
   stderr = $stderr
   final_state = $finalState
   generation_executed = $false
+}
+
+if ($commandStatus -eq "Success" -and $finalState -eq "stopped") {
+  $record.result = "ec2_static_proof_recorded"
+  $record.failure_category = $null
+} elseif ([string]::IsNullOrWhiteSpace([string]$record.failure_category)) {
+  $record.result = "ec2_static_proof_failed"
+  $record.failure_category = "ec2_static_proof_failed"
 }
 
 if (![string]::IsNullOrWhiteSpace($OutFile)) {

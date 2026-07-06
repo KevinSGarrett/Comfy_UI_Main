@@ -125,6 +125,17 @@ Local static/package validation is complete through Wave 62 cumulative zip valid
 - Current generated index refresh readiness-contract first validation failure: `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_READINESS_CONTRACT_20260706T051624-0500.json`
 - Current generated index refresh readiness-contract retest evidence: `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_READINESS_CONTRACT_RETEST_20260706T051738-0500.json`
 - Current generated index refresh readiness-contract certification: `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_LIVE_INDEX_REFRESH_READINESS_CONTRACT_20260706T051743-0500.md`
+- Current AWS auth gate coordinator-contract evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_AUTH_GATE_COORDINATOR_CONTRACT_20260706T052346-0500.json`
+- Current AWS profile matrix coordinator-contract evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_PROFILE_AUTH_MATRIX_COORDINATOR_CONTRACT_20260706T052346-0500.json`
+- Current selected-lane readiness coordinator-contract evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_COORDINATOR_CONTRACT_20260706T052346-0500.json`
+- Current EC2 static-proof coordinator dry-run evidence: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_DRY_RUN_COORDINATOR_CONTRACT_20260706T052346-0500.json`
+- Current EC2 static-proof coordinator blocked-execute evidence: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_BLOCKED_EXECUTE_COORDINATOR_CONTRACT_20260706T052346-0500.json`
+- Current EC2 workflow-smoke coordinator dry-run evidence: `Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_RUN_DRY_RUN_COORDINATOR_CONTRACT_20260706T052346-0500.json`
+- Current EC2 workflow-smoke coordinator blocked-execute evidence: `Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_RUN_BLOCKED_EXECUTE_COORDINATOR_CONTRACT_20260706T052346-0500.json`
+- Current operations helper coordinator-contract validation evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_COORDINATOR_CONTRACT_20260706T052346-0500.json`
+- Current EC2 coordinator gate contract hardening certification: `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W61_EC2_COORDINATOR_GATE_CONTRACT_HARDENING_20260706T052427-0500.md`
+- Current generated index refresh coordinator-contract evidence: `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_COORDINATOR_CONTRACT_20260706T052709-0500.json`
+- Current generated index refresh coordinator-contract certification: `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_LIVE_INDEX_REFRESH_COORDINATOR_CONTRACT_20260706T052714-0500.md`
 
 ## Selected Lane
 - Lane: `sdxl_low_risk_fallback_lane`
@@ -137,13 +148,13 @@ Local static/package validation is complete through Wave 62 cumulative zip valid
 - Required next proof: object-info node availability, checkpoint path resolution, checkpoint sha256, bounded output generation, generated image QA.
 
 ## Active tracker rows
-- `TRK-W61-006`: workflow lane selected, graph authored, local static validation passed, patched smoke request generated, profile-aware local readiness gate passed, readiness evidence now has top-level result/failure fields, EC2 static-proof gate safety passed, and EC2 workflow smoke-run coordinator dry-run passed; auth gate blocks EC2 object-info, execution output, and QA.
+- `TRK-W61-006`: workflow lane selected, graph authored, local static validation passed, patched smoke request generated, profile-aware local readiness gate passed, readiness evidence now has top-level result/failure fields, EC2 static-proof and workflow-smoke coordinators now emit top-level result/failure gate summaries, blocked execute records prove `ec2_started=false`, and auth gate blocks EC2 object-info, execution output, and QA.
 - `TRK-W61-007`: selected checkpoint filename is referenced by the workflow and passed static validation; latest readiness gate confirms actual EC2 path, hash, load, and sample-output validation are still pending on AWS auth.
 - `TRK-W61-002`: image QA protocol exists and helper dry-run passed; actual generated image visual review pending.
 - `TRK-W61-011`: current QA helper validation passed locally for all 6 QA scripts, schemas/templates, markdown templates, image QA dry-run/technical sample smoke, selected-lane workflow static validation smoke, and Items/Tracker package validation smoke.
-- `TRK-W60-010`: current operations helper validation passed locally for all 15 operations scripts and related schema/template files; latest evidence redacts validation temp paths, includes a GitHub checkpoint dry-run smoke, covers profile-aware lane readiness, verifies pullback manifest comparison without counting the manifest as a local artifact, and validates the latest auth-gate and lane-readiness evidence contracts.
+- `TRK-W60-010`: current operations helper validation passed locally for all 15 operations scripts and related schema/template files; latest evidence redacts validation temp paths, includes a GitHub checkpoint dry-run smoke, covers profile-aware lane readiness, verifies pullback manifest comparison without counting the manifest as a local artifact, validates the latest auth-gate and lane-readiness evidence contracts, and checks EC2 coordinator dry-run records for top-level gate result/failure fields.
 - `TRK-W62-003` / `TRK-W62-009`: current hydration helper validation passed locally for all hydration scripts/templates, session-state generation, and the current cumulative zip validator.
-- `TRK-W59-002` / `TRK-W59-003`: generated local indexes refreshed after readiness-contract hardening and current Items/Tracker package validation passes with complete source-key coverage and no structural defects.
+- `TRK-W59-002` / `TRK-W59-003`: generated local indexes refreshed after coordinator-contract hardening and current Items/Tracker package validation passes with complete source-key coverage and no structural defects.
 
 ## Pending validation in scope
 - Complete AWS CLI remote browser login in an interactive/browser-capable shell.

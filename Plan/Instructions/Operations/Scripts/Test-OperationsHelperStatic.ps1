@@ -194,11 +194,44 @@ function Invoke-LocalHelper {
     expected_output_file_exists = (![string]::IsNullOrWhiteSpace($ExpectedOutputFile) -and (Test-Path -LiteralPath $ExpectedOutputFile))
     expected_output_json_valid = $false
     expected_output_error = $null
+    top_level_result = $null
+    top_level_failure_category = $null
+    execute_gates_pass = $null
+    generation_executed = $null
+    ec2_started = $null
   }
   if ($entry.expected_output_file_exists) {
     try {
-      $null = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
+      $payload = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
       $entry.expected_output_json_valid = $true
+      if (Has-Property -Object $payload -Name "result") {
+        $entry.top_level_result = [string]$payload.result
+      }
+      if (Has-Property -Object $payload -Name "failure_category") {
+        $entry.top_level_failure_category = $payload.failure_category
+      }
+      if (Has-Property -Object $payload -Name "execute_gates_pass") {
+        $entry.execute_gates_pass = [bool]$payload.execute_gates_pass
+      }
+      if (Has-Property -Object $payload -Name "generation_executed") {
+        $entry.generation_executed = [bool]$payload.generation_executed
+      }
+      if (Has-Property -Object $payload -Name "ec2_started") {
+        $entry.ec2_started = [bool]$payload.ec2_started
+      }
+      if ($Name -in @("ec2_lane_static_proof_dry_run", "ec2_workflow_smoke_run_dry_run")) {
+        foreach ($required in @("result", "failure_category", "execute_gates_pass", "blocked_reasons")) {
+          if (-not (Has-Property -Object $payload -Name $required)) {
+            throw "$Name output is missing top-level field: $required"
+          }
+        }
+        if ([string]::IsNullOrWhiteSpace($entry.top_level_result)) {
+          throw "$Name output has an empty top-level result."
+        }
+        if (-not [bool]$payload.execute_gates_pass -and [string]::IsNullOrWhiteSpace([string]$payload.failure_category)) {
+          throw "$Name blocked output must include a top-level failure_category."
+        }
+      }
     } catch {
       $entry.expected_output_error = $_.Exception.Message
       $entry.result = "fail"
