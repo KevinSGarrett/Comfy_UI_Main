@@ -1,0 +1,112 @@
+{
+  "evidence_id": "EVID-W59-LIVE-INDEX-REFRESH-LANE-AWARE-HANDOFF-20260706T071530-0500",
+  "created_at": "2026-07-06T07:15:30-05:00",
+  "artifact_id": "TRK-W59-002",
+  "artifact_type": "index_validation",
+  "tracker_ids": [
+    "TRK-W59-002",
+    "TRK-W59-003",
+    "TRK-W60-010",
+    "TRK-W61-006",
+    "TRK-W61-011"
+  ],
+  "scope": [
+    "Plan/Instructions/Indexes/Generated/plan_file_index.csv",
+    "Plan/Instructions/Indexes/Generated/plan_file_index.json",
+    "Plan/Instructions/Indexes/Generated/instructions_file_index.csv",
+    "Plan/Instructions/Indexes/Generated/instructions_file_index.json",
+    "Plan/Instructions/Indexes/Generated/items_file_index.csv",
+    "Plan/Instructions/Indexes/Generated/items_file_index.json",
+    "Plan/Instructions/Indexes/Generated/tracker_file_index.csv",
+    "Plan/Instructions/Indexes/Generated/tracker_file_index.json"
+  ],
+  "regeneration_command": "powershell -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Scripts\\Generate-Project-Indexes.ps1 -ProjectRoot C:\\Comfy_UI_Main",
+  "row_count_parity": [
+    {
+      "name": "plan",
+      "csv_count_after_final_regen": 2601,
+      "json_count_after_final_regen": 2601,
+      "row_count_match": true
+    },
+    {
+      "name": "instructions",
+      "csv_count_after_final_regen": 371,
+      "json_count_after_final_regen": 371,
+      "row_count_match": true
+    },
+    {
+      "name": "items",
+      "csv_count_after_final_regen": 45,
+      "json_count_after_final_regen": 45,
+      "row_count_match": true
+    },
+    {
+      "name": "tracker",
+      "csv_count_after_final_regen": 26,
+      "json_count_after_final_regen": 26,
+      "row_count_match": true
+    }
+  ],
+  "discovery_checks": [
+    {
+      "path": "Plan/Instructions/QA/Scripts/Test-ProjectReadinessSnapshot.ps1",
+      "found_in_generated_indexes": true
+    },
+    {
+      "path": "Plan/Instructions/Operations/Scripts/New-RuntimeUnblockHandoff.ps1",
+      "found_in_generated_indexes": true
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/Test-QAHelperStatic.ps1",
+      "found_in_generated_indexes": true
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Project_Readiness/W61_PROJECT_READINESS_SNAPSHOT_LANE_AWARE_20260706T071230-0500.json",
+      "found_in_generated_indexes": true
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_LANE_AWARE_20260706T071230-0500.json",
+      "found_in_generated_indexes": true
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_LANE_AWARE_20260706T071230-0500.md",
+      "found_in_generated_indexes": true
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Project_Readiness/W61_PROJECT_READINESS_SNAPSHOT_LANE_AWARE_RETEST_20260706T071230-0500.json",
+      "found_in_generated_indexes": true
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_LANE_AWARE_PROJECT_READINESS_20260706T071230-0500.json",
+      "found_in_generated_indexes": true
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_LANE_AWARE_HANDOFF_20260706T071230-0500.json",
+      "found_in_generated_indexes": true
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W61_PROJECT_READINESS_LANE_AWARE_HANDOFF_20260706T071230-0500.md",
+      "found_in_generated_indexes": true
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_LANE_AWARE_HANDOFF_20260706T071530-0500.json",
+      "found_in_generated_indexes": true
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_LIVE_INDEX_REFRESH_LANE_AWARE_HANDOFF_20260706T071530-0500.md",
+      "found_in_generated_indexes": true
+    }
+  ],
+  "secret_private_path_scan": {
+    "credential_pattern_hits": 0,
+    "aws_auth_url_hits": 0,
+    "private_temp_path_hits": 0,
+    "result": "pass"
+  },
+  "result": "pass",
+  "notes": [
+    "Indexes were regenerated after lane-aware project readiness and runtime handoff hardening.",
+    "Discovery checks confirm updated helpers, lane-aware project readiness evidence, runtime handoff evidence, QA/operations validation evidence, certification, this index evidence, and index certification are present in generated indexes.",
+    "No EC2 instance was started and no runtime generation was attempted."
+  ]
+}

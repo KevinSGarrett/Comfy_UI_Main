@@ -10,6 +10,7 @@ Civitai, ComfyUI, or EC2.
 #>
 param(
   [string]$ProjectRoot = "C:\Comfy_UI_Main",
+  [string]$LaneId = "sdxl_low_risk_fallback_lane",
   [string]$OutFile = "",
   [string]$MarkdownOutFile = ""
 )
@@ -105,6 +106,44 @@ function Find-LatestFile {
   return $file.FullName
 }
 
+function Test-JsonMatchesLane {
+  param(
+    [object]$Payload,
+    [string]$ExpectedLaneId
+  )
+
+  if ($null -eq $Payload -or [string]::IsNullOrWhiteSpace($ExpectedLaneId)) { return $false }
+  if ((Has-Property -Object $Payload -Name "lane_id") -and [string]$Payload.lane_id -eq $ExpectedLaneId) {
+    return $true
+  }
+  if (Has-Property -Object $Payload -Name "lane_dir") {
+    $laneDirText = ([string]$Payload.lane_dir).Replace("\", "/").TrimEnd("/")
+    return $laneDirText.EndsWith("/$ExpectedLaneId", [System.StringComparison]::OrdinalIgnoreCase)
+  }
+  return $false
+}
+
+function Find-LatestJsonByLaneId {
+  param(
+    [string]$Directory,
+    [string]$Filter,
+    [string]$ExpectedLaneId
+  )
+
+  if (!(Test-Path -LiteralPath $Directory)) { return $null }
+  foreach ($file in @(Get-ChildItem -LiteralPath $Directory -Filter $Filter -File | Sort-Object LastWriteTime -Descending)) {
+    try {
+      $payload = Read-JsonEvidence -Path $file.FullName
+      if (Test-JsonMatchesLane -Payload $payload -ExpectedLaneId $ExpectedLaneId) {
+        return $file.FullName
+      }
+    } catch {
+      continue
+    }
+  }
+  return $null
+}
+
 function Read-JsonEvidence {
   param([string]$Path)
 
@@ -152,8 +191,8 @@ if ([string]::IsNullOrWhiteSpace($MarkdownOutFile)) {
 $latest = [ordered]@{
   auth_gate = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_AUTH_GATE*.json"
   profile_matrix = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_PROFILE_AUTH_MATRIX*.json"
-  lane_readiness = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W61_LANE_RUNTIME_READINESS*.json"
-  project_readiness = Find-LatestFile -Directory $projectReadinessDir -Filter "W61_PROJECT_READINESS_SNAPSHOT*.json"
+  lane_readiness = Find-LatestJsonByLaneId -Directory $runtimeReadinessDir -Filter "W61_LANE_RUNTIME_READINESS*.json" -ExpectedLaneId $LaneId
+  project_readiness = Find-LatestJsonByLaneId -Directory $projectReadinessDir -Filter "W61_PROJECT_READINESS_SNAPSHOT*.json" -ExpectedLaneId $LaneId
   operations_validation = Find-LatestFile -Directory $operationsValidationDir -Filter "W60_OPERATIONS_HELPER_CURRENT_VALIDATION*.json"
   qa_validation = Find-LatestFile -Directory $qaValidationDir -Filter "W61_QA_HELPER_CURRENT_VALIDATION*.json"
   index_validation = Find-LatestFile -Directory $indexValidationDir -Filter "W59_LIVE_INDEX_REFRESH*.json"
@@ -191,6 +230,8 @@ $laneSummary = [ordered]@{
   evidence = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.lane_readiness
   result = [string](Get-PropertyValue -Object $readinessJson -Name "result" -Default "missing_lane_readiness")
   failure_category = Get-PropertyValue -Object $readinessJson -Name "failure_category" -Default "missing_lane_readiness"
+  lane_id = [string](Get-PropertyValue -Object $readinessJson -Name "lane_id" -Default "")
+  lane_match = ([string](Get-PropertyValue -Object $readinessJson -Name "lane_id" -Default "") -eq [string]$LaneId)
   local_pre_ec2_ready = Get-BoolPropertyValue -Object $readinessJson -Name "local_pre_ec2_ready" -Default $false
   ready_for_ec2_static_proof = Get-BoolPropertyValue -Object $readinessJson -Name "ready_for_ec2_static_proof" -Default $false
   ready_for_generation = Get-BoolPropertyValue -Object $readinessJson -Name "ready_for_generation" -Default $false
@@ -200,6 +241,8 @@ $projectSummary = [ordered]@{
   evidence = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.project_readiness
   result = [string](Get-PropertyValue -Object $projectJson -Name "result" -Default "missing_project_readiness")
   failure_category = Get-PropertyValue -Object $projectJson -Name "failure_category" -Default "missing_project_readiness"
+  lane_id = [string](Get-PropertyValue -Object $projectJson -Name "lane_id" -Default "")
+  lane_match = ([string](Get-PropertyValue -Object $projectJson -Name "lane_id" -Default "") -eq [string]$LaneId)
   local_ready = Get-BoolPropertyValue -Object $projectJson -Name "local_ready" -Default $false
   ec2_start_allowed = $false
   generation_allowed = $false
@@ -254,9 +297,9 @@ $commandSequence = @(
   (New-CommandStep -Name "auth_gate_recheck" -Gate "after_aws_login" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-AwsAuthGate.ps1 -AttemptRemoteLogin -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W60_W61_AWS_AUTH_GATE_<timestamp>.json" -ExpectedEvidence "result=pass, ec2_work_allowed=true, safe_to_start_ec2=true, account_match=true" -WhenToRun "Immediately after AWS browser/SSO login."),
   (New-CommandStep -Name "profile_matrix_recheck" -Gate "after_auth_gate_or_for_diagnosis" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-AwsProfileAuthMatrix.ps1 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W60_W61_AWS_PROFILE_AUTH_MATRIX_<timestamp>.json" -ExpectedEvidence "At least one profile authenticates to account 029530099913, or a clear diagnostic if not." -WhenToRun "After auth refresh or when account/profile mismatch is suspected."),
   (New-CommandStep -Name "git_checkpoint_recheck" -Gate "before_any_ec2_execute" -Command "git -C C:\Comfy_UI_Main status --short --branch; git -C C:\Comfy_UI_Main rev-parse HEAD; git -C C:\Comfy_UI_Main rev-parse origin/main" -ExpectedEvidence "Working tree clean and local HEAD equals origin/main before any EC2 helper runs with -Execute." -WhenToRun "Immediately before EC2 static proof or workflow smoke execution."),
-  (New-CommandStep -Name "lane_readiness_recheck" -Gate "auth_gate_safe_to_start_ec2_true" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-LaneRuntimeReadiness.ps1 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_LANE_RUNTIME_READINESS_<timestamp>.json" -ExpectedEvidence "local_pre_ec2_ready=true and ready_for_ec2_static_proof=true before EC2 static proof." -WhenToRun "Only after auth gate reports safe_to_start_ec2=true."),
-  (New-CommandStep -Name "ec2_static_proof" -Gate "ready_for_ec2_static_proof_true" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 -Execute -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W61_EC2_LANE_STATIC_PROOF_<timestamp>.json" -ExpectedEvidence "Object-info node availability, checkpoint path, checkpoint size/hash, and EC2 stop verification." -WhenToRun "Only after readiness reports ready_for_ec2_static_proof=true."),
-  (New-CommandStep -Name "bounded_workflow_smoke" -Gate "static_proof_generation_allowed" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1 -Execute -StaticProofFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W61_EC2_LANE_STATIC_PROOF_<timestamp>.json -ReadinessFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_LANE_RUNTIME_READINESS_<timestamp>.json -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Runtime\W61_EC2_WORKFLOW_SMOKE_RUN_EXECUTION_<timestamp>.json" -ExpectedEvidence "Bounded prompt execution, remote artifact manifest, pullback route, and EC2 stop verification." -WhenToRun "Only after EC2 static proof permits generation."),
+  (New-CommandStep -Name "lane_readiness_recheck" -Gate "auth_gate_safe_to_start_ec2_true" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-LaneRuntimeReadiness.ps1 -LaneId $LaneId -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_LANE_RUNTIME_READINESS_<timestamp>.json" -ExpectedEvidence "local_pre_ec2_ready=true, lane_id=$LaneId, and ready_for_ec2_static_proof=true before EC2 static proof." -WhenToRun "Only after auth gate reports safe_to_start_ec2=true."),
+  (New-CommandStep -Name "ec2_static_proof" -Gate "ready_for_ec2_static_proof_true" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 -LaneId $LaneId -Execute -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W61_EC2_LANE_STATIC_PROOF_<timestamp>.json" -ExpectedEvidence "Object-info node availability, checkpoint path, checkpoint size/hash, LaneId match, and EC2 stop verification." -WhenToRun "Only after readiness reports ready_for_ec2_static_proof=true."),
+  (New-CommandStep -Name "bounded_workflow_smoke" -Gate "static_proof_generation_allowed" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1 -LaneId $LaneId -Execute -StaticProofFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W61_EC2_LANE_STATIC_PROOF_<timestamp>.json -ReadinessFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_LANE_RUNTIME_READINESS_<timestamp>.json -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Runtime\W61_EC2_WORKFLOW_SMOKE_RUN_EXECUTION_<timestamp>.json" -ExpectedEvidence "Bounded prompt execution, LaneId-matched static proof/readiness, remote artifact manifest, pullback route, and EC2 stop verification." -WhenToRun "Only after EC2 static proof permits generation."),
   (New-CommandStep -Name "artifact_pullback_record" -Gate "generated_artifacts_pulled_back" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\New-EC2PullbackRecord.ps1 -RunId <run_id> -LocalDestination C:\Comfy_UI_Main\Plan\Instructions\Operations\Pulled_Back_Artifacts\<run_id> -RemoteManifestFile C:\Comfy_UI_Main\Plan\Instructions\Operations\Pulled_Back_Artifacts\<run_id>\REMOTE_ARTIFACT_MANIFEST.json" -ExpectedEvidence "PULLBACK_RECORD.json with count/hash match and QA routing." -WhenToRun "After generated artifacts and remote manifest exist locally."),
   (New-CommandStep -Name "image_artifact_qa" -Gate "pullback_hashes_verified" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\Scripts\New-ImageArtifactQARecord.ps1 -ImagePath <pulled-back-image> -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Image_Artifact_QA\W61_IMAGE_QA_<timestamp>.json -ChecklistOutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Image_Artifact_QA\W61_IMAGE_QA_CHECKLIST_<timestamp>.md" -ExpectedEvidence "Image technical QA record and human/visual review checklist." -WhenToRun "After pullback hashes are verified.")
 )
@@ -267,7 +310,7 @@ $safetyInvariants = [ordered]@{
   expected_idle_state = "stopped"
   do_not_start_ec2_unless_auth_safe = "Test-AwsAuthGate.ps1 must report ec2_work_allowed=true and safe_to_start_ec2=true."
   do_not_start_ec2_unless_git_checkpoint_clean = "EC2 execution helpers must see local HEAD equal origin/main with a clean working tree so remote git pull can reproduce the intended commit."
-  do_not_start_ec2_unless_lane_ready = "Test-LaneRuntimeReadiness.ps1 must report ready_for_ec2_static_proof=true."
+  do_not_start_ec2_unless_lane_ready = "Test-LaneRuntimeReadiness.ps1 must report lane_id=$LaneId and ready_for_ec2_static_proof=true."
   do_not_run_generation_without_static_proof = "Invoke-EC2LaneStaticProof.ps1 -Execute must record object-info/path/hash proof before workflow smoke generation."
   stop_ec2_after_runtime_work = "Any EC2 runtime action must stop instance i-0560bf8d143f93bb1 and verify stopped."
 }
@@ -290,7 +333,7 @@ $record = [ordered]@{
   civitai_contacted = $false
   ec2_started = $false
   generation_executed = $false
-  lane_id = "sdxl_low_risk_fallback_lane"
+  lane_id = $LaneId
   result = $result
   failure_category = $failureCategory
   next_required_action = $nextRequiredAction
@@ -343,7 +386,7 @@ $markdown = @"
 - result: $result
 - failure_category: $failureCategory
 - next_required_action: $nextRequiredAction
-- lane: sdxl_low_risk_fallback_lane
+- lane: $LaneId
 - local_only: true
 - aws_contacted: false
 - ec2_started: false
@@ -353,8 +396,8 @@ $markdown = @"
 
 - Auth gate: $($authSummary.result), safe_to_start_ec2=$($authSummary.safe_to_start_ec2), account_match=$($authSummary.account_match), failure_category=$($authSummary.failure_category)
 - Profile matrix: $($profileSummary.result), matching profiles=$($profileSummary.profiles_matching_expected_count), expected account=$($profileSummary.expected_account)
-- Lane readiness: $($laneSummary.result), local_pre_ec2_ready=$($laneSummary.local_pre_ec2_ready), ready_for_ec2_static_proof=$($laneSummary.ready_for_ec2_static_proof), ready_for_generation=$($laneSummary.ready_for_generation)
-- Project readiness: $($projectSummary.result), local_ready=$($projectSummary.local_ready), ec2_start_allowed=$($projectSummary.ec2_start_allowed), generation_allowed=$($projectSummary.generation_allowed), scan_hit_count=$($projectSummary.scan_hit_count)
+- Lane readiness: $($laneSummary.result), lane_id=$($laneSummary.lane_id), lane_match=$($laneSummary.lane_match), local_pre_ec2_ready=$($laneSummary.local_pre_ec2_ready), ready_for_ec2_static_proof=$($laneSummary.ready_for_ec2_static_proof), ready_for_generation=$($laneSummary.ready_for_generation)
+- Project readiness: $($projectSummary.result), lane_id=$($projectSummary.lane_id), lane_match=$($projectSummary.lane_match), local_ready=$($projectSummary.local_ready), ec2_start_allowed=$($projectSummary.ec2_start_allowed), generation_allowed=$($projectSummary.generation_allowed), scan_hit_count=$($projectSummary.scan_hit_count)
 
 ## Safety Invariants
 
@@ -362,7 +405,7 @@ $markdown = @"
 - Expected AWS account is `029530099913`.
 - Do not start EC2 unless auth gate reports `ec2_work_allowed=true` and `safe_to_start_ec2=true`.
 - Do not start EC2 unless local Git is clean and `HEAD` equals `origin/main`.
-- Do not run EC2 static proof unless lane readiness reports `ready_for_ec2_static_proof=true`.
+- Do not run EC2 static proof unless lane readiness reports `lane_id=$LaneId` and `ready_for_ec2_static_proof=true`.
 - Do not run generation until object-info, checkpoint path, and checkpoint hash proof exists.
 - Stop EC2 after runtime work and verify final state `stopped`.
 

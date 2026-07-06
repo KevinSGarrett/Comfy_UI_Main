@@ -82,6 +82,49 @@ function Find-LatestFile {
   return $latest.FullName
 }
 
+function Test-JsonMatchesLane {
+  param(
+    [object]$Payload,
+    [string]$ExpectedLaneId
+  )
+
+  if ($null -eq $Payload -or [string]::IsNullOrWhiteSpace($ExpectedLaneId)) { return $false }
+  if ((Has-Property -Object $Payload -Name "lane_id") -and [string]$Payload.lane_id -eq $ExpectedLaneId) {
+    return $true
+  }
+  if (Has-Property -Object $Payload -Name "lane_dir") {
+    $laneDirText = ([string]$Payload.lane_dir).Replace("\", "/").TrimEnd("/")
+    return $laneDirText.EndsWith("/$ExpectedLaneId", [System.StringComparison]::OrdinalIgnoreCase)
+  }
+  return $false
+}
+
+function Find-LatestJsonByLaneId {
+  param(
+    [Parameter(Mandatory=$true)][string]$Directory,
+    [Parameter(Mandatory=$true)][string]$Filter,
+    [Parameter(Mandatory=$true)][string]$ExpectedLaneId,
+    [string]$ExcludePattern = ""
+  )
+
+  if (!(Test-Path -LiteralPath $Directory)) { return $null }
+  $files = Get-ChildItem -LiteralPath $Directory -Filter $Filter -File
+  if (![string]::IsNullOrWhiteSpace($ExcludePattern)) {
+    $files = $files | Where-Object { $_.Name -notmatch $ExcludePattern }
+  }
+  foreach ($file in @($files | Sort-Object LastWriteTime -Descending)) {
+    try {
+      $payload = Read-JsonFile -Path $file.FullName
+      if (Test-JsonMatchesLane -Payload $payload -ExpectedLaneId $ExpectedLaneId) {
+        return $file.FullName
+      }
+    } catch {
+      continue
+    }
+  }
+  return $null
+}
+
 function Test-JsonEvidence {
   param(
     [string]$Name,
@@ -287,10 +330,10 @@ if ([string]::IsNullOrWhiteSpace($OutFile)) {
 $latest = [ordered]@{
   auth_gate = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_AUTH_GATE_*.json"
   profile_matrix = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_PROFILE_AUTH_MATRIX_*.json"
-  lane_readiness = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W61_LANE_RUNTIME_READINESS_*.json"
-  runtime_unblock_handoff = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W61_RUNTIME_UNBLOCK_HANDOFF_*.json"
-  ec2_static_proof_blocked = Find-LatestFile -Directory $workflowStaticDir -Filter "W61_EC2_LANE_STATIC_PROOF_BLOCKED_EXECUTE_*.json"
-  ec2_workflow_smoke_blocked = Find-LatestFile -Directory $workflowRuntimeDir -Filter "W61_EC2_WORKFLOW_SMOKE_RUN_BLOCKED_EXECUTE_*.json"
+  lane_readiness = Find-LatestJsonByLaneId -Directory $runtimeReadinessDir -Filter "W61_LANE_RUNTIME_READINESS_*.json" -ExpectedLaneId $LaneId
+  runtime_unblock_handoff = Find-LatestJsonByLaneId -Directory $runtimeReadinessDir -Filter "W61_RUNTIME_UNBLOCK_HANDOFF_*.json" -ExpectedLaneId $LaneId
+  ec2_static_proof_blocked = Find-LatestJsonByLaneId -Directory $workflowStaticDir -Filter "W61_EC2_LANE_STATIC_PROOF_BLOCKED_EXECUTE_*.json" -ExpectedLaneId $LaneId
+  ec2_workflow_smoke_blocked = Find-LatestJsonByLaneId -Directory $workflowRuntimeDir -Filter "W61_EC2_WORKFLOW_SMOKE_RUN_BLOCKED_EXECUTE_*.json" -ExpectedLaneId $LaneId
   operations_validation = Find-LatestFile -Directory $operationsValidationDir -Filter "W60_OPERATIONS_HELPER_CURRENT_VALIDATION*.json"
   qa_validation = Find-LatestFile -Directory $qaValidationDir -Filter "W61_QA_HELPER_CURRENT_VALIDATION*.json"
   hydration_validation = Find-LatestFile -Directory $hydrationValidationDir -Filter "W62_HYDRATION_HELPER_CURRENT_VALIDATION*.json"
@@ -393,12 +436,18 @@ if (![string]::IsNullOrWhiteSpace($latest.profile_matrix) -and (Test-Path -Liter
 $laneReadinessSummary = [ordered]@{
   result = "missing_lane_readiness"
   failure_category = "missing_lane_readiness"
+  lane_id = $null
+  lane_match = $false
   local_pre_ec2_ready = $false
   ready_for_ec2_static_proof = $false
   ready_for_generation = $false
 }
 if (![string]::IsNullOrWhiteSpace($latest.lane_readiness) -and (Test-Path -LiteralPath $latest.lane_readiness)) {
   $readinessJson = Read-JsonFile -Path $latest.lane_readiness
+  if (Has-Property -Object $readinessJson -Name "lane_id") {
+    $laneReadinessSummary.lane_id = [string]$readinessJson.lane_id
+  }
+  $laneReadinessSummary.lane_match = ([string]$laneReadinessSummary.lane_id -eq [string]$LaneId)
   foreach ($name in @("result", "failure_category")) {
     if (Has-Property -Object $readinessJson -Name $name) { $laneReadinessSummary[$name] = [string]$readinessJson.$name }
   }
@@ -411,6 +460,8 @@ $runtimeHandoffSummary = [ordered]@{
   result = "missing_runtime_unblock_handoff"
   failure_category = "missing_runtime_unblock_handoff"
   next_required_action = "missing_runtime_unblock_handoff"
+  lane_id = $null
+  lane_match = $false
   local_only = $false
   aws_contacted = $true
   github_api_contacted = $true
@@ -423,6 +474,10 @@ $runtimeHandoffSummary = [ordered]@{
 }
 if (![string]::IsNullOrWhiteSpace($latest.runtime_unblock_handoff) -and (Test-Path -LiteralPath $latest.runtime_unblock_handoff)) {
   $handoffJson = Read-JsonFile -Path $latest.runtime_unblock_handoff
+  if (Has-Property -Object $handoffJson -Name "lane_id") {
+    $runtimeHandoffSummary.lane_id = [string]$handoffJson.lane_id
+  }
+  $runtimeHandoffSummary.lane_match = ([string]$runtimeHandoffSummary.lane_id -eq [string]$LaneId)
   foreach ($name in @("result", "failure_category", "next_required_action", "markdown_path")) {
     if (Has-Property -Object $handoffJson -Name $name) { $runtimeHandoffSummary[$name] = [string]$handoffJson.$name }
   }
@@ -436,8 +491,14 @@ if (![string]::IsNullOrWhiteSpace($latest.runtime_unblock_handoff) -and (Test-Pa
   }
 }
 
+if ($laneReadinessSummary.lane_match -ne $true) {
+  $errors += "Lane readiness evidence does not match selected LaneId $LaneId."
+}
 if ($runtimeHandoffSummary.local_only -ne $true) {
   $errors += "Runtime unblock handoff is not marked local-only."
+}
+if ($runtimeHandoffSummary.lane_match -ne $true) {
+  $errors += "Runtime unblock handoff does not match selected LaneId $LaneId."
 }
 if ($runtimeHandoffSummary.aws_contacted -ne $false -or $runtimeHandoffSummary.github_api_contacted -ne $false -or $runtimeHandoffSummary.civitai_contacted -ne $false) {
   $errors += "Runtime unblock handoff unexpectedly contacted an external service."

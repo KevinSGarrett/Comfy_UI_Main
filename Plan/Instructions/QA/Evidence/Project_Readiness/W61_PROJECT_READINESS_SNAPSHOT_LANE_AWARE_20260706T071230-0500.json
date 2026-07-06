@@ -1,0 +1,335 @@
+﻿{
+    "evidence_id":  "W61-PROJECT-READINESS-SNAPSHOT-20260706T070909-0500",
+    "created_at":  "2026-07-06T07:09:09-05:00",
+    "artifact_id":  "TRK-W61-006",
+    "artifact_type":  "project_readiness_snapshot",
+    "tracker_ids":  [
+                        "TRK-W61-006",
+                        "TRK-W61-007",
+                        "TRK-W61-011",
+                        "TRK-W60-010",
+                        "TRK-W59-002",
+                        "TRK-W59-003"
+                    ],
+    "item_ids":  [
+                     "ITEM-W61-006",
+                     "ITEM-W61-007",
+                     "ITEM-W61-011",
+                     "ITEM-W60-010"
+                 ],
+    "qa_protocol_used":  [
+                             "README_QA_WAVE61.md",
+                             "COMFYUI_WORKFLOW_TESTING_PROTOCOL.md",
+                             "DONE_CERTIFICATION_EVIDENCE_PROTOCOL.md",
+                             "QA_EVIDENCE_LOG_PROTOCOL.md"
+                         ],
+    "scope":  [
+                  "selected SDXL lane local files",
+                  "latest local helper validation evidence",
+                  "latest generated index parity",
+                  "latest auth/readiness/profile/coordinator gate evidence",
+                  "latest runtime unblock handoff evidence",
+                  "secret/private path scan over generated indexes, hydration, and QA evidence"
+              ],
+    "lane_id":  "sdxl_low_risk_fallback_lane",
+    "lane_dir":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane",
+    "git":  {
+                "git_root":  "C:/Comfy_UI_Main",
+                "head":  "1b62e5269c38b75e14b1b53004ca85e55fb39d41",
+                "origin_main":  "1b62e5269c38b75e14b1b53004ca85e55fb39d41",
+                "local_matches_origin":  true,
+                "porcelain_count":  3,
+                "clean":  false,
+                "remote":  "origin\thttps://github.com/KevinSGarrett/Comfy_UI_Main.git (fetch)",
+                "result":  "pass",
+                "error":  null
+            },
+    "lane_files":  [
+                       {
+                           "name":  "workflow.api.json",
+                           "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
+                           "exists":  true,
+                           "json_valid":  true,
+                           "result":  "pass",
+                           "error":  null
+                       },
+                       {
+                           "name":  "patch_points.json",
+                           "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/patch_points.json",
+                           "exists":  true,
+                           "json_valid":  true,
+                           "result":  "pass",
+                           "error":  null
+                       },
+                       {
+                           "name":  "runtime_requirements.json",
+                           "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
+                           "exists":  true,
+                           "json_valid":  true,
+                           "result":  "pass",
+                           "error":  null
+                       },
+                       {
+                           "name":  "smoke_test_request.json",
+                           "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/smoke_test_request.json",
+                           "exists":  true,
+                           "json_valid":  true,
+                           "result":  "pass",
+                           "error":  null
+                       }
+                   ],
+    "helper_self_parse":  {
+                              "path":  "Plan/Instructions/QA/Scripts/Test-ProjectReadinessSnapshot.ps1",
+                              "exists":  true,
+                              "parse_errors":  0,
+                              "result":  "pass",
+                              "errors":  [
+
+                                         ]
+                          },
+    "latest_evidence_inputs":  {
+                                   "auth_gate":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_AUTH_GATE_COORDINATOR_CONTRACT_20260706T052346-0500.json",
+                                   "profile_matrix":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_PROFILE_AUTH_MATRIX_COORDINATOR_CONTRACT_20260706T052346-0500.json",
+                                   "lane_readiness":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_LANE_SPECIFIC_LOW_RISK_20260706T065821-0500.json",
+                                   "runtime_unblock_handoff":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_20260706T063108-0500.json",
+                                   "ec2_static_proof_blocked":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_BLOCKED_EXECUTE_COORDINATOR_CONTRACT_20260706T052346-0500.json",
+                                   "ec2_workflow_smoke_blocked":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_RUN_BLOCKED_EXECUTE_COORDINATOR_CONTRACT_20260706T052346-0500.json",
+                                   "operations_validation":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_LANE_READINESS_20260706T065821-0500.json",
+                                   "qa_validation":  "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_LANE_READINESS_20260706T065821-0500.json",
+                                   "hydration_validation":  "Plan/Instructions/QA/Evidence/Hydration_Helper_Static_Validation/W62_HYDRATION_HELPER_CURRENT_VALIDATION_20260706T041240-0500.json",
+                                   "items_tracker_validation":  "Plan/Instructions/QA/Evidence/Items_Tracker_Validation/W59_W60_ITEMS_TRACKER_CURRENT_VALIDATION_20260706T043530-0500.json",
+                                   "index_validation":  "Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_LANE_READINESS_HARDENING_20260706T070140-0500.json"
+                               },
+    "evidence_checks":  [
+                            {
+                                "name":  "operations_validation",
+                                "path":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_LANE_READINESS_20260706T065821-0500.json",
+                                "found":  true,
+                                "json_valid":  true,
+                                "result":  "pass_local_only",
+                                "acceptable_result":  true,
+                                "error":  null
+                            },
+                            {
+                                "name":  "qa_validation",
+                                "path":  "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_LANE_READINESS_20260706T065821-0500.json",
+                                "found":  true,
+                                "json_valid":  true,
+                                "result":  "pass_local_only",
+                                "acceptable_result":  true,
+                                "error":  null
+                            },
+                            {
+                                "name":  "hydration_validation",
+                                "path":  "Plan/Instructions/QA/Evidence/Hydration_Helper_Static_Validation/W62_HYDRATION_HELPER_CURRENT_VALIDATION_20260706T041240-0500.json",
+                                "found":  true,
+                                "json_valid":  true,
+                                "result":  "pass_local_only",
+                                "acceptable_result":  true,
+                                "error":  null
+                            },
+                            {
+                                "name":  "items_tracker_validation",
+                                "path":  "Plan/Instructions/QA/Evidence/Items_Tracker_Validation/W59_W60_ITEMS_TRACKER_CURRENT_VALIDATION_20260706T043530-0500.json",
+                                "found":  true,
+                                "json_valid":  true,
+                                "result":  "pass_local_only",
+                                "acceptable_result":  true,
+                                "error":  null
+                            },
+                            {
+                                "name":  "index_validation",
+                                "path":  "Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_LANE_READINESS_HARDENING_20260706T070140-0500.json",
+                                "found":  true,
+                                "json_valid":  true,
+                                "result":  "pass",
+                                "acceptable_result":  true,
+                                "error":  null
+                            },
+                            {
+                                "name":  "auth_gate",
+                                "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_AUTH_GATE_COORDINATOR_CONTRACT_20260706T052346-0500.json",
+                                "found":  true,
+                                "json_valid":  true,
+                                "result":  "blocked_expired_session",
+                                "acceptable_result":  true,
+                                "error":  null
+                            },
+                            {
+                                "name":  "profile_matrix",
+                                "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_PROFILE_AUTH_MATRIX_COORDINATOR_CONTRACT_20260706T052346-0500.json",
+                                "found":  true,
+                                "json_valid":  true,
+                                "result":  "blocked_no_valid_profile",
+                                "acceptable_result":  true,
+                                "error":  null
+                            },
+                            {
+                                "name":  "lane_readiness",
+                                "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_LANE_SPECIFIC_LOW_RISK_20260706T065821-0500.json",
+                                "found":  true,
+                                "json_valid":  true,
+                                "result":  "local_pre_ec2_ready_runtime_blocked_auth",
+                                "acceptable_result":  true,
+                                "error":  null
+                            },
+                            {
+                                "name":  "runtime_unblock_handoff",
+                                "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_20260706T063108-0500.json",
+                                "found":  true,
+                                "json_valid":  true,
+                                "result":  "handoff_ready_runtime_blocked_auth",
+                                "acceptable_result":  true,
+                                "error":  null
+                            },
+                            {
+                                "name":  "ec2_static_proof_blocked_execute",
+                                "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_BLOCKED_EXECUTE_COORDINATOR_CONTRACT_20260706T052346-0500.json",
+                                "found":  true,
+                                "json_valid":  true,
+                                "result":  "blocked_before_ec2_start",
+                                "acceptable_result":  true,
+                                "error":  null
+                            },
+                            {
+                                "name":  "ec2_workflow_smoke_blocked_execute",
+                                "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_RUN_BLOCKED_EXECUTE_COORDINATOR_CONTRACT_20260706T052346-0500.json",
+                                "found":  true,
+                                "json_valid":  true,
+                                "result":  "blocked_before_ec2_start",
+                                "acceptable_result":  true,
+                                "error":  null
+                            }
+                        ],
+    "generated_index_parity":  [
+                                   {
+                                       "name":  "plan",
+                                       "csv_path":  "Plan/Instructions/Indexes/Generated/plan_file_index.csv",
+                                       "json_path":  "Plan/Instructions/Indexes/Generated/plan_file_index.json",
+                                       "csv_exists":  true,
+                                       "json_exists":  true,
+                                       "csv_count":  2592,
+                                       "json_count":  2592,
+                                       "row_count_match":  true,
+                                       "result":  "pass",
+                                       "error":  null
+                                   },
+                                   {
+                                       "name":  "instructions",
+                                       "csv_path":  "Plan/Instructions/Indexes/Generated/instructions_file_index.csv",
+                                       "json_path":  "Plan/Instructions/Indexes/Generated/instructions_file_index.json",
+                                       "csv_exists":  true,
+                                       "json_exists":  true,
+                                       "csv_count":  362,
+                                       "json_count":  362,
+                                       "row_count_match":  true,
+                                       "result":  "pass",
+                                       "error":  null
+                                   },
+                                   {
+                                       "name":  "items",
+                                       "csv_path":  "Plan/Instructions/Indexes/Generated/items_file_index.csv",
+                                       "json_path":  "Plan/Instructions/Indexes/Generated/items_file_index.json",
+                                       "csv_exists":  true,
+                                       "json_exists":  true,
+                                       "csv_count":  45,
+                                       "json_count":  45,
+                                       "row_count_match":  true,
+                                       "result":  "pass",
+                                       "error":  null
+                                   },
+                                   {
+                                       "name":  "tracker",
+                                       "csv_path":  "Plan/Instructions/Indexes/Generated/tracker_file_index.csv",
+                                       "json_path":  "Plan/Instructions/Indexes/Generated/tracker_file_index.json",
+                                       "csv_exists":  true,
+                                       "json_exists":  true,
+                                       "csv_count":  26,
+                                       "json_count":  26,
+                                       "row_count_match":  true,
+                                       "result":  "pass",
+                                       "error":  null
+                                   }
+                               ],
+    "secret_private_path_scan":  {
+                                     "scanned_file_count":  226,
+                                     "hit_count":  0,
+                                     "hits":  [
+
+                                              ],
+                                     "result":  "pass"
+                                 },
+    "runtime_gates":  {
+                          "auth_gate":  {
+                                            "result":  "blocked_expired_session",
+                                            "failure_category":  "expired_session",
+                                            "account_match":  false,
+                                            "remote_login_status":  "not_attempted",
+                                            "ec2_work_allowed":  false,
+                                            "safe_to_start_ec2":  false,
+                                            "generation_allowed":  false
+                                        },
+                          "profile_matrix":  {
+                                                 "expected_account":  "029530099913",
+                                                 "profile_count":  15,
+                                                 "profiles_matching_expected_count":  0,
+                                                 "safe_to_start_ec2":  false,
+                                                 "result":  "blocked_no_valid_profile"
+                                             },
+                          "lane_readiness":  {
+                                                 "result":  "local_pre_ec2_ready_runtime_blocked_auth",
+                                                 "failure_category":  "expired_session",
+                                                 "lane_id":  "sdxl_low_risk_fallback_lane",
+                                                 "lane_match":  true,
+                                                 "local_pre_ec2_ready":  true,
+                                                 "ready_for_ec2_static_proof":  false,
+                                                 "ready_for_generation":  false
+                                             },
+                          "runtime_unblock_handoff":  {
+                                                          "result":  "handoff_ready_runtime_blocked_auth",
+                                                          "failure_category":  "expired_session",
+                                                          "next_required_action":  "complete_aws_browser_sso_login",
+                                                          "lane_id":  "sdxl_low_risk_fallback_lane",
+                                                          "lane_match":  true,
+                                                          "local_only":  true,
+                                                          "aws_contacted":  false,
+                                                          "github_api_contacted":  false,
+                                                          "civitai_contacted":  false,
+                                                          "ec2_started":  false,
+                                                          "generation_executed":  false,
+                                                          "command_step_count":  9,
+                                                          "markdown_path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_20260706T063108-0500.md",
+                                                          "markdown_written":  true
+                                                      },
+                          "coordinator_safety":  {
+                                                     "static_proof_result":  "blocked_before_ec2_start",
+                                                     "static_proof_failure_category":  "expired_session",
+                                                     "static_proof_ec2_started":  false,
+                                                     "workflow_smoke_result":  "blocked_before_ec2_start",
+                                                     "workflow_smoke_failure_category":  "expired_session",
+                                                     "workflow_smoke_ec2_started":  false,
+                                                     "workflow_smoke_generation_executed":  false,
+                                                     "blocked_execute_records_safe":  true
+                                                 },
+                          "ec2_start_allowed":  false,
+                          "generation_allowed":  false
+                      },
+    "local_ready":  true,
+    "result":  "pass_local_ready_runtime_blocked_auth",
+    "failure_category":  "expired_session",
+    "errors":  [
+
+               ],
+    "warnings":  [
+                     "Git working tree has pending local changes; this is expected while creating the current snapshot checkpoint.",
+                     "AWS auth gate does not allow EC2 start.",
+                     "Selected lane is not ready for EC2 static proof until runtime gates change.",
+                     "Generation remains blocked until EC2 object-info/path/hash proof exists."
+                 ],
+    "known_issues":  [
+                         "AWS auth remains a runtime gate if safe_to_start_ec2 is false.",
+                         "This snapshot does not claim EC2 object-info/path/hash proof, ComfyUI generation, artifact pullback, image QA, video QA, audio QA, or final project completion.",
+                         "A dirty Git working tree during snapshot creation is recorded as a warning and resolved by the guarded checkpoint workflow."
+                     ],
+    "next_action":  "Complete AWS browser/SSO login, rerun Test-AwsAuthGate.ps1, then rerun selected-lane readiness before EC2 static proof."
+}

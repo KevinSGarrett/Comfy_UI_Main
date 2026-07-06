@@ -254,6 +254,7 @@ function Test-ProjectReadinessSnapshotContract {
     path = ConvertTo-EvidencePath -BasePath $ProjectRoot -TargetPath $Path -TempRoot $script:ValidationTempRoot
     result = "fail"
     error = $null
+    lane_id = $null
     top_level_result = $null
     failure_category = $null
     local_ready = $false
@@ -262,9 +263,13 @@ function Test-ProjectReadinessSnapshotContract {
     ec2_start_allowed = $null
     generation_allowed = $null
     auth_safe_to_start_ec2 = $null
+    lane_readiness_lane_id = $null
+    lane_readiness_lane_match = $null
     lane_ready_for_ec2_static_proof = $null
     lane_ready_for_generation = $null
     runtime_handoff_result = $null
+    runtime_handoff_lane_id = $null
+    runtime_handoff_lane_match = $null
     runtime_handoff_failure_category = $null
     runtime_handoff_next_required_action = $null
     runtime_handoff_local_only = $null
@@ -303,6 +308,9 @@ function Test-ProjectReadinessSnapshotContract {
     if (Test-JsonProperty -Object $payload -Name "result") {
       $entry.top_level_result = [string]$payload.result
     }
+    if (Test-JsonProperty -Object $payload -Name "lane_id") {
+      $entry.lane_id = [string]$payload.lane_id
+    }
     if (Test-JsonProperty -Object $payload -Name "failure_category") {
       $entry.failure_category = [string]$payload.failure_category
     }
@@ -319,6 +327,10 @@ function Test-ProjectReadinessSnapshotContract {
       -Passed ([bool]$entry.local_ready) `
       -Expected "true" `
       -Observed ([string]$entry.local_ready)
+    $checks += New-ContractCheck -Name "lane_id_present" `
+      -Passed (![string]::IsNullOrWhiteSpace([string]$entry.lane_id)) `
+      -Expected "non-empty" `
+      -Observed ([string]$entry.lane_id)
 
     if (Test-JsonProperty -Object $payload -Name "secret_private_path_scan") {
       $scan = $payload.secret_private_path_scan
@@ -355,6 +367,12 @@ function Test-ProjectReadinessSnapshotContract {
       }
       if (Test-JsonProperty -Object $runtime -Name "lane_readiness") {
         $laneReadiness = $runtime.lane_readiness
+        if (Test-JsonProperty -Object $laneReadiness -Name "lane_id") {
+          $entry.lane_readiness_lane_id = [string]$laneReadiness.lane_id
+        }
+        if (Test-JsonProperty -Object $laneReadiness -Name "lane_match") {
+          $entry.lane_readiness_lane_match = [bool]$laneReadiness.lane_match
+        }
         if (Test-JsonProperty -Object $laneReadiness -Name "ready_for_ec2_static_proof") {
           $entry.lane_ready_for_ec2_static_proof = [bool]$laneReadiness.ready_for_ec2_static_proof
         }
@@ -367,6 +385,12 @@ function Test-ProjectReadinessSnapshotContract {
         $checks += New-ContractCheck -Name "runtime_handoff_present" -Passed $true -Expected "present" -Observed "present"
         if (Test-JsonProperty -Object $runtimeHandoff -Name "result") {
           $entry.runtime_handoff_result = [string]$runtimeHandoff.result
+        }
+        if (Test-JsonProperty -Object $runtimeHandoff -Name "lane_id") {
+          $entry.runtime_handoff_lane_id = [string]$runtimeHandoff.lane_id
+        }
+        if (Test-JsonProperty -Object $runtimeHandoff -Name "lane_match") {
+          $entry.runtime_handoff_lane_match = [bool]$runtimeHandoff.lane_match
         }
         if (Test-JsonProperty -Object $runtimeHandoff -Name "failure_category") {
           $entry.runtime_handoff_failure_category = [string]$runtimeHandoff.failure_category
@@ -397,6 +421,14 @@ function Test-ProjectReadinessSnapshotContract {
       -Passed (@($recognizedHandoffResults) -contains $entry.runtime_handoff_result) `
       -Expected ($recognizedHandoffResults -join " | ") `
       -Observed ([string]$entry.runtime_handoff_result)
+    $checks += New-ContractCheck -Name "lane_readiness_matches_snapshot_lane" `
+      -Passed ($entry.lane_readiness_lane_match -eq $true -and [string]$entry.lane_readiness_lane_id -eq [string]$entry.lane_id) `
+      -Expected ("lane_readiness.lane_match=true; lane_readiness.lane_id={0}" -f $entry.lane_id) `
+      -Observed ("lane_readiness.lane_match={0}; lane_readiness.lane_id={1}" -f $entry.lane_readiness_lane_match, $entry.lane_readiness_lane_id)
+    $checks += New-ContractCheck -Name "runtime_handoff_matches_snapshot_lane" `
+      -Passed ($entry.runtime_handoff_lane_match -eq $true -and [string]$entry.runtime_handoff_lane_id -eq [string]$entry.lane_id) `
+      -Expected ("runtime_handoff.lane_match=true; runtime_handoff.lane_id={0}" -f $entry.lane_id) `
+      -Observed ("runtime_handoff.lane_match={0}; runtime_handoff.lane_id={1}" -f $entry.runtime_handoff_lane_match, $entry.runtime_handoff_lane_id)
     $checks += New-ContractCheck -Name "runtime_handoff_local_only" `
       -Passed ($entry.runtime_handoff_local_only -eq $true) `
       -Expected "true" `

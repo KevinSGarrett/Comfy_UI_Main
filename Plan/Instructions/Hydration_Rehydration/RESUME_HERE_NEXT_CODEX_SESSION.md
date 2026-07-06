@@ -76,6 +76,10 @@ Start by reading this file, then re-open the standard hydration files in this fo
 - Current lane-specific readiness status: both `sdxl_low_risk_fallback_lane` and `sdxl_realvisxl_base_lane` report `local_pre_ec2_ready=true`, `ready_for_ec2_static_proof=false`, and `ready_for_generation=false` while AWS auth remains expired.
 - QA helper validation now includes lane-runtime readiness smokes for all authored base-generation lanes; latest result is `pass_local_only`, authored lane count 2, local smoke failures 0, and project-readiness contract failures 0.
 - RealVisXL EC2 static-proof and workflow-smoke coordinator dry-runs remained blocked before EC2 start, confirmed readiness lane match for `sdxl_realvisxl_base_lane`, and kept `generation_executed=false`.
+- Hardened project readiness and runtime unblock handoff after adding multiple authored lanes. `Test-ProjectReadinessSnapshot.ps1` now selects lane readiness, runtime handoff, and blocked coordinator evidence by `LaneId`; `New-RuntimeUnblockHandoff.ps1` now accepts `-LaneId` and writes explicit lane-specific command steps.
+- Current low-risk project readiness retest reports `pass_local_ready_runtime_blocked_auth` and proves both `runtime_gates.lane_readiness.lane_match=true` and `runtime_gates.runtime_unblock_handoff.lane_match=true` for `sdxl_low_risk_fallback_lane`.
+- Current lane-aware runtime handoff reports `handoff_ready_runtime_blocked_auth`, carries `sdxl_low_risk_fallback_lane`, and includes 9 command steps with explicit `-LaneId sdxl_low_risk_fallback_lane` on readiness/static-proof/workflow-smoke commands.
+- QA helper validation now contract-checks the project-readiness lane match fields; latest result is `pass_local_only` with `project_readiness_contract_failures=0`.
 
 ## Current goal
 
@@ -311,6 +315,15 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\S
 - `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W61_LANE_READINESS_HARDENING_20260706T065821-0500.md`
 - `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_LANE_READINESS_HARDENING_20260706T070140-0500.json`
 - `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_LIVE_INDEX_REFRESH_LANE_READINESS_HARDENING_20260706T070140-0500.md`
+- `Plan/Instructions/QA/Evidence/Project_Readiness/W61_PROJECT_READINESS_SNAPSHOT_LANE_AWARE_20260706T071230-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_LANE_AWARE_20260706T071230-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_LANE_AWARE_20260706T071230-0500.md`
+- `Plan/Instructions/QA/Evidence/Project_Readiness/W61_PROJECT_READINESS_SNAPSHOT_LANE_AWARE_RETEST_20260706T071230-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_LANE_AWARE_PROJECT_READINESS_20260706T071230-0500.json`
+- `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_LANE_AWARE_HANDOFF_20260706T071230-0500.json`
+- `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W61_PROJECT_READINESS_LANE_AWARE_HANDOFF_20260706T071230-0500.md`
+- `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_LANE_AWARE_HANDOFF_20260706T071530-0500.json`
+- `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_LIVE_INDEX_REFRESH_LANE_AWARE_HANDOFF_20260706T071530-0500.md`
 
 ## Must not repeat
 
@@ -321,6 +334,7 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\S
 - Use the top-level auth gate fields (`result`, `failure_category`, `account_match`, `remote_login_status`) when summarizing the current AWS auth blocker.
 - Use the top-level lane readiness fields (`result`, `failure_category`, `local_pre_ec2_ready`, `ready_for_ec2_static_proof`, `ready_for_generation`) when summarizing selected-lane runtime status.
 - Readiness, EC2 static-proof, and EC2 workflow-smoke evidence must match the requested `LaneId`; do not use low-risk SDXL readiness/proof files for the RealVisXL lane.
+- Project readiness snapshots and runtime unblock handoffs must also match the requested `LaneId`; do not let a latest RealVisXL readiness record become the low-risk handoff.
 - Use the top-level EC2 coordinator fields (`result`, `failure_category`, `execute_gates_pass`, `ec2_started`, `generation_executed`) when summarizing static-proof or workflow-smoke gate status.
 - Operations helper validation now has dedicated EC2 coordinator evidence contract checks; do not rely on plain JSON parse alone when assessing blocked coordinator evidence.
 - Do not repeat the failed index-validation probe that wrapped generated JSON index arrays and counted them as one object; the corrected retest evidence uses direct JSON row counts.
