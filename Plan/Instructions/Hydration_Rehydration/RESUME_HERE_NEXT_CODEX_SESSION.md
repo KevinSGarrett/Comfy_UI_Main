@@ -142,8 +142,8 @@ Plan/Instructions/QA/Evidence/Project_Readiness/W63_PROJECT_READINESS_REALVISXL_
 Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_RUNTIME_UNBLOCK_HANDOFF_REALVISXL_QA_COMPLETE_FINAL_20260706T140828-0500.json
 Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_OPERATIONS_HELPER_S3_TRANSFER_READINESS_FINAL_20260706T142956-0500.json
 Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_S3_RUNTIME_TRANSFER_READINESS_20260706T142504-0500.json
-Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_DYNAMIC_QUEUE_COVERAGE_20260706T143810-0500.json
-Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_DYNAMIC_MODEL_REGISTRY_COVERAGE_20260706T143818-0500.json
+Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_GENERIC_MODEL_TYPES_20260706T144324-0500.json
+Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_GENERIC_MODEL_TYPES_20260706T144332-0500.json
 ```
 
 Expected model:
@@ -157,6 +157,8 @@ SHA256 6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80
 The next runtime-unblocking action is not RealVisXL artifact recovery. Do not commit the model binary and do not use Git LFS as a model-provisioning path. Do not rerun RealVisXL generation unless the lane, prompt, model, runtime, or QA objective changed. The next work should be checkpoint/advance, S3 permission hardening for future transfers, a new lane/module, or a user-approved broader multi-sample RealVisXL certification.
 
 The model registry coverage gate now derives active lanes from `Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json` instead of a hardcoded two-lane list. Evidence `Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_DYNAMIC_QUEUE_COVERAGE_20260706T143810-0500.json` and QA helper evidence `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_DYNAMIC_MODEL_REGISTRY_COVERAGE_20260706T143818-0500.json` passed locally. Any future queued lane must have runtime requirements, model registry record(s), and model runtime validation queue rows before readiness can pass.
+
+The registry gate now supports explicit required-model types for non-checkpoint assets. Evidence `Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_GENERIC_MODEL_TYPES_20260706T144324-0500.json` and QA helper evidence `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_GENERIC_MODEL_TYPES_20260706T144332-0500.json` passed locally. Future Flux/Z-Image/Pony lanes should declare each asset type in `required_models[].model_type` and keep the registry/queue rows aligned.
 
 Cost-control local/CI preparation:
 

@@ -310,6 +310,8 @@ foreach ($laneId in $activeLaneIds) {
   foreach ($model in @($requiredModels)) {
     $filename = $(if (Has-Property -Object $model -Name "filename") { [string]$model.filename } else { "" })
     $subdir = $(if (Has-Property -Object $model -Name "comfyui_model_subdir") { [string]$model.comfyui_model_subdir } else { "" })
+    $role = $(if (Has-Property -Object $model -Name "role") { [string]$model.role } else { "" })
+    $expectedModelType = $(if (Has-Property -Object $model -Name "model_type") { [string]$model.model_type } elseif ($role -eq "checkpoint") { "Checkpoint" } else { "" })
     $expectedLocalPath = ("models/{0}/{1}" -f $subdir, $filename).Replace("\", "/")
     $matches = @($registryEntries | Where-Object {
       (Has-Property -Object $_ -Name "workflow_lane") -and
@@ -343,9 +345,9 @@ foreach ($laneId in $activeLaneIds) {
         -Passed ($localPath -eq $expectedLocalPath) `
         -Expected $expectedLocalPath `
         -Observed $localPath
-      $laneChecks += New-Check -Name "registry_model_type_checkpoint" `
-        -Passed ((Has-Property -Object $entry -Name "model_type") -and [string]$entry.model_type -eq "Checkpoint") `
-        -Expected "Checkpoint" `
+      $laneChecks += New-Check -Name "registry_model_type_matches_requirement" `
+        -Passed (([string]::IsNullOrWhiteSpace($expectedModelType) -and (Has-Property -Object $entry -Name "model_type") -and ![string]::IsNullOrWhiteSpace([string]$entry.model_type)) -or ((Has-Property -Object $entry -Name "model_type") -and [string]$entry.model_type -eq $expectedModelType)) `
+        -Expected $(if ([string]::IsNullOrWhiteSpace($expectedModelType)) { "nonblank model_type for non-checkpoint role $role" } else { $expectedModelType }) `
         -Observed $(if (Has-Property -Object $entry -Name "model_type") { [string]$entry.model_type } else { "missing" })
       $laneChecks += New-Check -Name "registry_base_model_matches_engine_family" `
         -Passed ((Has-Property -Object $entry -Name "base_model") -and [string]$entry.base_model -eq $engineFamily) `

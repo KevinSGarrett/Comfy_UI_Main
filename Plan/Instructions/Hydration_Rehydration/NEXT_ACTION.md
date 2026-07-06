@@ -27,8 +27,8 @@ Plan/Instructions/QA/Evidence/Project_Readiness/W63_PROJECT_READINESS_REALVISXL_
 Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_RUNTIME_UNBLOCK_HANDOFF_REALVISXL_QA_COMPLETE_FINAL_20260706T140828-0500.json
 Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_OPERATIONS_HELPER_S3_TRANSFER_READINESS_FINAL_20260706T142956-0500.json
 Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_S3_RUNTIME_TRANSFER_READINESS_20260706T142504-0500.json
-Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_DYNAMIC_QUEUE_COVERAGE_20260706T143810-0500.json
-Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_DYNAMIC_MODEL_REGISTRY_COVERAGE_20260706T143818-0500.json
+Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_GENERIC_MODEL_TYPES_20260706T144324-0500.json
+Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_GENERIC_MODEL_TYPES_20260706T144332-0500.json
 ```
 
 Next runtime work after the checkpoint:
@@ -40,6 +40,8 @@ Next runtime work after the checkpoint:
 5. For runtime expansion, define the next lane/module and add it to the queue with local validation before any EC2 execution.
 
 The model registry coverage gate is now dynamic and queue-driven. Before adding a third or later lane, update `runtime_lane_queue.json`, the lane `runtime_requirements.json`, `Plan/Registries/Models/model_registry.jsonl`, and `Plan/Registries/Models/model_runtime_validation_queue.csv`; then rerun `Test-WorkflowModelRegistryCoverage.ps1`. Current evidence `Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_DYNAMIC_QUEUE_COVERAGE_20260706T143810-0500.json` proves the two currently queued lanes pass the dynamic gate.
+
+The same gate now supports explicit non-checkpoint model types. Future Flux/Z-Image/Pony or other non-SDXL lanes should put `model_type` on each `required_models[]` entry and mirror that type in the model registry and runtime validation queue. Current evidence `Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_GENERIC_MODEL_TYPES_20260706T144324-0500.json` proves the current two lanes pass after this generic model-type hardening.
 
 Wave 63 cost-control defaults are active: use local/CI validation first, upload deploy bundles and model binaries to S3 before EC2 starts, use `-SkipGitLfsPull` unless the lane explicitly requires repository LFS payloads, set `-MaxEc2RuntimeMinutes`, prefer `-DeployBundleS3Uri` and `-DeployBundleSha256`, and do not run housekeeping on the EC2 clock.
 
