@@ -206,6 +206,39 @@ function Find-LatestJsonByResult {
   return $null
 }
 
+function Find-LatestImageQaByRunId {
+  param(
+    [string]$Directory,
+    [string]$Filter,
+    [string]$RunId
+  )
+
+  if ([string]::IsNullOrWhiteSpace($RunId) -or !(Test-Path -LiteralPath $Directory)) { return $null }
+  foreach ($file in @(Get-ChildItem -LiteralPath $Directory -Filter $Filter -File | Sort-Object LastWriteTime -Descending)) {
+    try {
+      $payload = Read-JsonEvidence -Path $file.FullName
+      $candidateText = @(
+        [string](Get-PropertyValue -Object $payload -Name "artifact_id" -Default ""),
+        [string](Get-PropertyValue -Object $payload -Name "image_path" -Default ""),
+        [string](Get-PropertyValue -Object $payload -Name "workflow_reference" -Default "")
+      )
+      if ((Has-Property -Object $payload -Name "image") -and $null -ne $payload.image) {
+        $candidateText += [string](Get-PropertyValue -Object $payload.image -Name "display_path" -Default "")
+        $candidateText += [string](Get-PropertyValue -Object $payload.image -Name "supplied_path" -Default "")
+      }
+      if (Has-Property -Object $payload -Name "evidence_paths") {
+        $candidateText += @($payload.evidence_paths | ForEach-Object { [string]$_ })
+      }
+      if ((($candidateText -join "`n") -like "*$RunId*")) {
+        return $file.FullName
+      }
+    } catch {
+      continue
+    }
+  }
+  return $null
+}
+
 function Read-JsonEvidence {
   param([string]$Path)
 
@@ -376,7 +409,9 @@ $qaRoot = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence"
 $runtimeReadinessDir = Join-Path $qaRoot "Runtime_Readiness"
 $projectReadinessDir = Join-Path $qaRoot "Project_Readiness"
 $workflowPrerequisiteDir = Join-Path $qaRoot "Workflow_Prerequisite_Matching"
+$workflowRuntimeDir = Join-Path $qaRoot "Workflow_Runtime"
 $modelRegistryCoverageDir = Join-Path $qaRoot "Model_Registry"
+$imageArtifactQaDir = Join-Path $qaRoot "Image_Artifact_QA"
 $operationsValidationDir = Join-Path $qaRoot "Operations_Static_Validation"
 $qaValidationDir = Join-Path $qaRoot "QA_Helper_Static_Validation"
 $indexValidationDir = Join-Path $qaRoot "Index_Validation"
@@ -392,9 +427,10 @@ $latest = [ordered]@{
   auth_gate = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_AUTH_GATE*.json"
   profile_matrix = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_PROFILE_AUTH_MATRIX*.json"
   lane_readiness = Find-LatestJsonByLaneId -Directory $runtimeReadinessDir -Filter "*LANE_RUNTIME_READINESS*.json" -ExpectedLaneId $LaneId
-  project_readiness = Find-LatestJsonByLaneIdAndResult -Directory $projectReadinessDir -Filter "*PROJECT_READINESS*.json" -ExpectedLaneId $LaneId -AcceptableResults @("pass_local_ready_runtime_blocked_auth", "pass_local_ready_runtime_blocked", "pass_local_ready_for_ec2_static_proof", "pass_ready_for_generation")
+  project_readiness = Find-LatestJsonByLaneIdAndResult -Directory $projectReadinessDir -Filter "*PROJECT_READINESS*.json" -ExpectedLaneId $LaneId -AcceptableResults @("pass_local_ready_runtime_blocked_auth", "pass_local_ready_runtime_blocked", "pass_local_ready_for_ec2_static_proof", "pass_ready_for_generation", "pass_runtime_smoke_qa_complete")
   runtime_lane_queue = Find-LatestFile -Directory $workflowPrerequisiteDir -Filter "*RUNTIME_LANE_QUEUE*.json"
   model_registry_coverage = Find-LatestFile -Directory $modelRegistryCoverageDir -Filter "*MODEL_REGISTRY_COVERAGE*.json"
+  workflow_smoke = Find-LatestJsonByLaneIdAndResult -Directory $workflowRuntimeDir -Filter "*EC2_WORKFLOW_SMOKE*.json" -ExpectedLaneId $LaneId -AcceptableResults @("workflow_smoke_generation_complete")
   operations_validation = Find-LatestJsonByResult -Directory $operationsValidationDir -Filter "W60_OPERATIONS_HELPER_CURRENT_VALIDATION*.json" -AcceptableResults @("pass_local_only")
   qa_validation = Find-LatestJsonByResult -Directory $qaValidationDir -Filter "W61_QA_HELPER_CURRENT_VALIDATION*.json" -AcceptableResults @("pass_local_only")
   index_validation = Find-LatestJsonByResult -Directory $indexValidationDir -Filter "W59_LIVE_INDEX_REFRESH*.json" -AcceptableResults @("pass")
@@ -406,6 +442,7 @@ $readinessJson = Read-JsonEvidence -Path $latest.lane_readiness
 $projectJson = Read-JsonEvidence -Path $latest.project_readiness
 $queueJson = Read-JsonEvidence -Path $latest.runtime_lane_queue
 $modelRegistryCoverageJson = Read-JsonEvidence -Path $latest.model_registry_coverage
+$workflowSmokeJson = Read-JsonEvidence -Path $latest.workflow_smoke
 $operationsJson = Read-JsonEvidence -Path $latest.operations_validation
 $qaJson = Read-JsonEvidence -Path $latest.qa_validation
 $indexJson = Read-JsonEvidence -Path $latest.index_validation
@@ -557,6 +594,117 @@ $modelRegistryCoverageSummary.coverage_allows_selected_lane_ec2_static_proof = (
   $modelRegistryCoverageSummary.selected_lane_result -eq "pass"
 )
 
+$workflowSmokeSummary = [ordered]@{
+  evidence = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.workflow_smoke
+  result = [string](Get-PropertyValue -Object $workflowSmokeJson -Name "result" -Default "missing_workflow_smoke")
+  lane_id = [string](Get-PropertyValue -Object $workflowSmokeJson -Name "lane_id" -Default "")
+  lane_match = $false
+  run_id = [string](Get-PropertyValue -Object $workflowSmokeJson -Name "run_id" -Default "")
+  generation_executed = Get-BoolPropertyValue -Object $workflowSmokeJson -Name "generation_executed" -Default $false
+  final_state = [string](Get-PropertyValue -Object $workflowSmokeJson -Name "final_state" -Default "")
+  remote_artifact_root = [string](Get-PropertyValue -Object $workflowSmokeJson -Name "remote_artifact_root" -Default "")
+  local_pullback_status = ""
+  output_image_count = 0
+  complete = $false
+}
+$workflowSmokeSummary.lane_match = ([string]$workflowSmokeSummary.lane_id -eq [string]$LaneId)
+if (Has-Property -Object $workflowSmokeJson -Name "local_pullback") {
+  $workflowSmokeSummary.local_pullback_status = [string](Get-PropertyValue -Object $workflowSmokeJson.local_pullback -Name "status" -Default "")
+}
+if (Has-Property -Object $workflowSmokeJson -Name "remote_result") {
+  $workflowSmokeSummary.output_image_count = @($workflowSmokeJson.remote_result.output_images | Where-Object { [bool]$_.copied }).Count
+}
+$workflowSmokeSummary.complete = (
+  [string]$workflowSmokeSummary.result -eq "workflow_smoke_generation_complete" -and
+  [bool]$workflowSmokeSummary.lane_match -and
+  [bool]$workflowSmokeSummary.generation_executed -and
+  [string]$workflowSmokeSummary.final_state -eq "stopped" -and
+  (($workflowSmokeSummary.output_image_count -as [int]) -gt 0)
+)
+
+$pullbackRecordPath = $null
+if (![string]::IsNullOrWhiteSpace([string]$workflowSmokeSummary.run_id)) {
+  $candidatePullbackRecord = Join-Path $ProjectRoot "Plan\Instructions\Operations\Pulled_Back_Artifacts\$($workflowSmokeSummary.run_id)\PULLBACK_RECORD.json"
+  if (Test-Path -LiteralPath $candidatePullbackRecord) {
+    $pullbackRecordPath = $candidatePullbackRecord
+  }
+}
+$pullbackRecordJson = Read-JsonEvidence -Path $pullbackRecordPath
+$pullbackSummary = [ordered]@{
+  evidence = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $pullbackRecordPath
+  run_id = [string](Get-PropertyValue -Object $pullbackRecordJson -Name "run_id" -Default "")
+  run_match = ([string](Get-PropertyValue -Object $pullbackRecordJson -Name "run_id" -Default "") -eq [string]$workflowSmokeSummary.run_id)
+  status = [string](Get-PropertyValue -Object $pullbackRecordJson -Name "status" -Default "missing_pullback_record")
+  hashes_verified = Get-BoolPropertyValue -Object $pullbackRecordJson -Name "hashes_verified" -Default $false
+  file_count_remote = Get-PropertyValue -Object $pullbackRecordJson -Name "file_count_remote" -Default $null
+  file_count_local = Get-PropertyValue -Object $pullbackRecordJson -Name "file_count_local" -Default $null
+  qa_required_count = 0
+  complete = $false
+}
+if (Has-Property -Object $pullbackRecordJson -Name "qa_required_files") {
+  $pullbackSummary.qa_required_count = @($pullbackRecordJson.qa_required_files).Count
+}
+$pullbackSummary.complete = (
+  [bool]$pullbackSummary.run_match -and
+  [string]$pullbackSummary.status -eq "pullback_hashes_verified" -and
+  [bool]$pullbackSummary.hashes_verified -and
+  ($pullbackSummary.file_count_remote -as [int]) -gt 0 -and
+  ($pullbackSummary.file_count_remote -as [int]) -eq ($pullbackSummary.file_count_local -as [int])
+)
+
+$imageQaTechnicalPath = Find-LatestImageQaByRunId -Directory $imageArtifactQaDir -Filter "*IMAGE_QA_TECHNICAL*.json" -RunId $workflowSmokeSummary.run_id
+$imageQaVisualPath = Find-LatestImageQaByRunId -Directory $imageArtifactQaDir -Filter "*IMAGE_QA_VISUAL*.json" -RunId $workflowSmokeSummary.run_id
+$imageQaTechnicalJson = Read-JsonEvidence -Path $imageQaTechnicalPath
+$imageQaVisualJson = Read-JsonEvidence -Path $imageQaVisualPath
+$imageQaTechnicalSummary = [ordered]@{
+  evidence = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $imageQaTechnicalPath
+  artifact_id = [string](Get-PropertyValue -Object $imageQaTechnicalJson -Name "artifact_id" -Default "")
+  qa_status = [string](Get-PropertyValue -Object $imageQaTechnicalJson -Name "qa_status" -Default "missing_image_technical_qa")
+  technical_integrity = ""
+  resolution_check = ""
+  image_sha256 = $null
+  width = $null
+  height = $null
+  complete = $false
+}
+if (Has-Property -Object $imageQaTechnicalJson -Name "scores") {
+  $imageQaTechnicalSummary.technical_integrity = [string](Get-PropertyValue -Object $imageQaTechnicalJson.scores -Name "technical_integrity" -Default "")
+  $imageQaTechnicalSummary.resolution_check = [string](Get-PropertyValue -Object $imageQaTechnicalJson.scores -Name "resolution_check" -Default "")
+}
+if (Has-Property -Object $imageQaTechnicalJson -Name "image") {
+  $imageQaTechnicalSummary.image_sha256 = [string](Get-PropertyValue -Object $imageQaTechnicalJson.image -Name "sha256" -Default "")
+  $imageQaTechnicalSummary.width = Get-PropertyValue -Object $imageQaTechnicalJson.image -Name "width" -Default $null
+  $imageQaTechnicalSummary.height = Get-PropertyValue -Object $imageQaTechnicalJson.image -Name "height" -Default $null
+}
+$imageQaTechnicalSummary.complete = (
+  [string]$imageQaTechnicalSummary.qa_status -eq "pending_visual_review" -and
+  [string]$imageQaTechnicalSummary.technical_integrity -eq "pass" -and
+  [string]$imageQaTechnicalSummary.resolution_check -eq "pass" -and
+  ($imageQaTechnicalSummary.width -as [int]) -gt 0 -and
+  ($imageQaTechnicalSummary.height -as [int]) -gt 0
+)
+
+$imageQaVisualSummary = [ordered]@{
+  evidence = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $imageQaVisualPath
+  artifact_id = [string](Get-PropertyValue -Object $imageQaVisualJson -Name "artifact_id" -Default "")
+  result = [string](Get-PropertyValue -Object $imageQaVisualJson -Name "result" -Default "missing_image_visual_qa")
+  qa_score = Get-PropertyValue -Object $imageQaVisualJson -Name "qa_score" -Default $null
+  pass_threshold = Get-PropertyValue -Object $imageQaVisualJson -Name "pass_threshold" -Default $null
+  decision = [string](Get-PropertyValue -Object $imageQaVisualJson -Name "decision" -Default "")
+  complete = $false
+}
+$imageQaVisualSummary.complete = (
+  ([string]$imageQaVisualSummary.result).StartsWith("pass", [System.StringComparison]::OrdinalIgnoreCase) -and
+  ($imageQaVisualSummary.qa_score -as [int]) -ge ($imageQaVisualSummary.pass_threshold -as [int])
+)
+
+$runtimeSmokeQaComplete = (
+  [bool]$workflowSmokeSummary.complete -and
+  [bool]$pullbackSummary.complete -and
+  [bool]$imageQaTechnicalSummary.complete -and
+  [bool]$imageQaVisualSummary.complete
+)
+
 $helperSummary = [ordered]@{
   operations_validation = [ordered]@{
     evidence = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.operations_validation
@@ -580,7 +728,15 @@ if ($runPackageSummary.supplied) {
 $result = "handoff_failed_local_readiness"
 $failureCategory = "local_project_readiness_failed"
 $nextRequiredAction = "inspect_local_readiness_evidence"
-if ($projectSummary.local_ready -and -not $authSummary.safe_to_start_ec2) {
+if ($runtimeSmokeQaComplete) {
+  $result = "handoff_runtime_smoke_qa_complete"
+  $failureCategory = $null
+  $nextRequiredAction = "checkpoint_runtime_smoke_evidence_and_advance_next_goal"
+} elseif ($workflowSmokeSummary.complete) {
+  $result = "handoff_ready_for_pullback_qa"
+  $failureCategory = "artifact_pullback_qa_pending"
+  $nextRequiredAction = "complete_artifact_pullback_and_image_qa"
+} elseif ($projectSummary.local_ready -and -not $authSummary.safe_to_start_ec2) {
   $result = "handoff_ready_runtime_blocked_auth"
   $failureCategory = $(if (![string]::IsNullOrWhiteSpace([string]$authSummary.failure_category)) { [string]$authSummary.failure_category } else { "aws_auth_blocked" })
   $nextRequiredAction = "complete_aws_browser_sso_login"
@@ -612,10 +768,15 @@ $commandSequence = @(
   (New-CommandStep -Name "profile_matrix_recheck" -Gate "after_auth_gate_or_for_diagnosis" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-AwsProfileAuthMatrix.ps1 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W60_W61_AWS_PROFILE_AUTH_MATRIX_<timestamp>.json" -ExpectedEvidence "At least one profile authenticates to account 029530099913, or a clear diagnostic if not." -WhenToRun "After auth refresh or when account/profile mismatch is suspected."),
   (New-CommandStep -Name "runtime_lane_queue_recheck" -Gate "before_any_ec2_execute" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\Scripts\Test-RuntimeLaneQueue.ps1 -ProjectRoot C:\Comfy_UI_Main -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Prerequisite_Matching\W63_RUNTIME_LANE_QUEUE_VALIDATION_<timestamp>.json" -ExpectedEvidence "result=pass_local_only, current_runtime_lane_id=$LaneId, selected lane in queue, failed_check_count=0." -WhenToRun "Immediately before EC2 static proof if queue files or evidence changed."),
   (New-CommandStep -Name "model_registry_coverage_recheck" -Gate "before_any_ec2_execute" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\Scripts\Test-WorkflowModelRegistryCoverage.ps1 -ProjectRoot C:\Comfy_UI_Main -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Model_Registry\W61_MODEL_REGISTRY_COVERAGE_<timestamp>.json" -ExpectedEvidence "result=pass_local_only, selected lane $LaneId has result=pass, failed_check_count=0, registry records and runtime-validation queue rows exist." -WhenToRun "Immediately before EC2 static proof if model registry, runtime requirements, or queue files changed."),
+  (New-CommandStep -Name "local_comfyui_dev_preflight" -Gate "before_optional_local_iteration" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\Test-LocalComfyUIDevPreflight.ps1 -ProjectRoot C:\Comfy_UI_Main -LaneId $LaneId -LocalComfyRoot <path-to-local-ComfyUI>" -ExpectedEvidence "Local dev candidate status recorded without claiming EC2 equivalence." -WhenToRun "Use while EC2 is stopped for prompt or workflow iteration when a local ComfyUI checkout exists."),
+  (New-CommandStep -Name "deploy_bundle_build" -Gate "before_ec2_sync_or_execute" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\New-EC2DeployBundle.ps1 -ProjectRoot C:\Comfy_UI_Main -LaneId $LaneId -RunPackageManifestFile <run-package-manifest>" -ExpectedEvidence "DEPLOY_BUNDLE_MANIFEST.json and bundle zip created while EC2 is stopped." -WhenToRun "After run package creation and before any EC2 runtime window."),
+  (New-CommandStep -Name "deploy_bundle_s3_publish" -Gate "before_ec2_sync_or_execute" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Publish-DeployBundleToS3.ps1 -BundleManifestFile <deploy-bundle-manifest> -S3BaseUri s3://<bucket>/<deploy-bundle-prefix>" -ExpectedEvidence "s3_bundle_uri and bundle_zip_sha256 recorded before EC2 starts." -WhenToRun "Add -Execute only after AWS auth and S3 bundle-prefix permissions are verified."),
   (New-CommandStep -Name "git_checkpoint_recheck" -Gate "before_any_ec2_execute" -Command "git -C C:\Comfy_UI_Main status --short --branch; git -C C:\Comfy_UI_Main rev-parse HEAD; git -C C:\Comfy_UI_Main rev-parse origin/main" -ExpectedEvidence "Working tree clean and local HEAD equals origin/main before any EC2 helper runs with -Execute." -WhenToRun "Immediately before EC2 static proof or workflow smoke execution."),
+  (New-CommandStep -Name "emergency_stop_schedule" -Gate "before_any_ec2_execute" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\New-EC2EmergencyStopSchedule.ps1 -SchedulerRoleArn arn:aws:iam::<account-id>:role/<scheduler-stop-role> -StopAfterMinutes 60 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W63_EC2_EMERGENCY_STOP_SCHEDULE_<timestamp>.json" -ExpectedEvidence "One-time EventBridge Scheduler stop created or explicit missing-role blocker recorded." -WhenToRun "Before a live EC2 window when the scheduler role exists."),
+  (New-CommandStep -Name "realvisxl_model_s3_install" -Gate "before_realvisxl_static_proof" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Install-EC2ModelFromS3.ps1 -SourceS3Uri s3://<bucket>/<model-cache-prefix>/realvisxlV50_v50Bakedvae.safetensors -ExpectedSha256 6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80 -MaxEc2RuntimeMinutes 20 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Model_Registry\W63_EC2_REALVISXL_MODEL_INSTALL_<timestamp>.json" -ExpectedEvidence "result=install_model_hash_verified, final_state=stopped, generation_executed=false." -WhenToRun "For RealVisXL only, after the checkpoint exists in an approved S3 model-cache prefix."),
   (New-CommandStep -Name "lane_readiness_recheck" -Gate "auth_gate_safe_to_start_ec2_true" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-LaneRuntimeReadiness.ps1 -LaneId $LaneId -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_LANE_RUNTIME_READINESS_<timestamp>.json" -ExpectedEvidence "local_pre_ec2_ready=true, lane_id=$LaneId, and ready_for_ec2_static_proof=true before EC2 static proof." -WhenToRun "Only after auth gate reports safe_to_start_ec2=true."),
-  (New-CommandStep -Name "ec2_static_proof" -Gate "ready_for_ec2_static_proof_true" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 -LaneId $LaneId -Execute -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W61_EC2_LANE_STATIC_PROOF_<timestamp>.json" -ExpectedEvidence "Object-info node availability, checkpoint path, checkpoint size/hash, LaneId match, and EC2 stop verification." -WhenToRun "Only after readiness reports ready_for_ec2_static_proof=true."),
-  (New-CommandStep -Name "bounded_workflow_smoke" -Gate "static_proof_generation_allowed" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1 -LaneId $LaneId -Execute -StaticProofFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W61_EC2_LANE_STATIC_PROOF_<timestamp>.json -ReadinessFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_LANE_RUNTIME_READINESS_<timestamp>.json$runPackageCommandArg -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Runtime\W61_EC2_WORKFLOW_SMOKE_RUN_EXECUTION_<timestamp>.json" -ExpectedEvidence $(if ($runPackageSummary.supplied) { "Bounded prompt execution from validated run package $($runPackageSummary.run_id), LaneId-matched static proof/readiness, remote artifact manifest, pullback route, and EC2 stop verification." } else { "Bounded prompt execution, LaneId-matched static proof/readiness, remote artifact manifest, pullback route, and EC2 stop verification." }) -WhenToRun "Only after EC2 static proof permits generation."),
+  (New-CommandStep -Name "ec2_static_proof" -Gate "ready_for_ec2_static_proof_true" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 -LaneId $LaneId -Execute -SkipGitLfsPull -DeployBundleS3Uri s3://<bucket>/<deploy-bundle-prefix>/<run-id>/<commit>/<bundle>.zip -DeployBundleSha256 <bundle_sha256> -MaxEc2RuntimeMinutes 25 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W61_EC2_LANE_STATIC_PROOF_<timestamp>.json" -ExpectedEvidence "Object-info node availability, checkpoint path, checkpoint size/hash, LaneId match, S3 bundle hash verification when supplied, and EC2 stop verification." -WhenToRun "Only after readiness reports ready_for_ec2_static_proof=true."),
+  (New-CommandStep -Name "bounded_workflow_smoke" -Gate "static_proof_generation_allowed" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1 -LaneId $LaneId -Execute -SkipGitLfsPull -DeployBundleS3Uri s3://<bucket>/<deploy-bundle-prefix>/<run-id>/<commit>/<bundle>.zip -DeployBundleSha256 <bundle_sha256> -MaxEc2RuntimeMinutes 45 -StaticProofFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W61_EC2_LANE_STATIC_PROOF_<timestamp>.json -ReadinessFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_LANE_RUNTIME_READINESS_<timestamp>.json$runPackageCommandArg -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Runtime\W61_EC2_WORKFLOW_SMOKE_RUN_EXECUTION_<timestamp>.json" -ExpectedEvidence $(if ($runPackageSummary.supplied) { "Bounded prompt execution from validated run package $($runPackageSummary.run_id), LaneId-matched static proof/readiness, S3 deploy bundle preference, remote artifact manifest, pullback route, and EC2 stop verification." } else { "Bounded prompt execution, LaneId-matched static proof/readiness, S3 deploy bundle preference, remote artifact manifest, pullback route, and EC2 stop verification." }) -WhenToRun "Only after EC2 static proof permits generation."),
   (New-CommandStep -Name "artifact_pullback_record" -Gate "generated_artifacts_pulled_back" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\New-EC2PullbackRecord.ps1 -RunId <run_id> -LocalDestination C:\Comfy_UI_Main\Plan\Instructions\Operations\Pulled_Back_Artifacts\<run_id> -RemoteManifestFile C:\Comfy_UI_Main\Plan\Instructions\Operations\Pulled_Back_Artifacts\<run_id>\REMOTE_ARTIFACT_MANIFEST.json" -ExpectedEvidence "PULLBACK_RECORD.json with count/hash match and QA routing." -WhenToRun "After generated artifacts and remote manifest exist locally."),
   (New-CommandStep -Name "image_artifact_qa" -Gate "pullback_hashes_verified" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\Scripts\New-ImageArtifactQARecord.ps1 -ImagePath <pulled-back-image> -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Image_Artifact_QA\W61_IMAGE_QA_<timestamp>.json -ChecklistOutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Image_Artifact_QA\W61_IMAGE_QA_CHECKLIST_<timestamp>.md" -ExpectedEvidence "Image technical QA record and human/visual review checklist." -WhenToRun "After pullback hashes are verified.")
 )
@@ -629,6 +790,11 @@ $safetyInvariants = [ordered]@{
   do_not_start_ec2_unless_model_registry_coverage_passes = "Test-WorkflowModelRegistryCoverage.ps1 must report result=pass_local_only, selected lane $LaneId result=pass, and failed_check_count=0."
   do_not_start_ec2_unless_git_checkpoint_clean = "EC2 execution helpers must see local HEAD equal origin/main with a clean working tree so remote git pull can reproduce the intended commit."
   do_not_start_ec2_unless_lane_ready = "Test-LaneRuntimeReadiness.ps1 must report lane_id=$LaneId and ready_for_ec2_static_proof=true."
+  prepare_deploy_bundle_before_ec2 = "Build and upload a deploy bundle to S3 before EC2 starts whenever S3 is available; EC2 helpers should prefer -DeployBundleS3Uri and -DeployBundleSha256."
+  do_not_use_git_lfs_for_model_binaries = "Model checkpoints must be provisioned through S3/model-cache or another approved non-Git path, never through Git LFS as the default."
+  install_missing_realvisxl_before_generation = "For RealVisXL, Install-EC2ModelFromS3.ps1 must verify the expected SHA256 before workflow smoke generation."
+  use_emergency_stop_for_live_windows = "Create an EventBridge Scheduler emergency stop and use the instance-side watchdog when permissions allow before live EC2 runtime windows."
+  do_not_rerun_completed_runtime_smoke = "If workflow smoke, pullback hash verification, technical image QA, and visual image QA are complete for a lane, do not rerun EC2 for that same proof; checkpoint evidence and advance."
   do_not_run_generation_without_static_proof = "Invoke-EC2LaneStaticProof.ps1 -Execute must record object-info/path/hash proof before workflow smoke generation."
   stop_ec2_after_runtime_work = "Any EC2 runtime action must stop instance i-0560bf8d143f93bb1 and verify stopped."
 }
@@ -665,6 +831,10 @@ $record = [ordered]@{
     project_readiness = $projectSummary.evidence
     runtime_lane_queue = $queueSummary.evidence
     model_registry_coverage = $modelRegistryCoverageSummary.evidence
+    workflow_smoke = $workflowSmokeSummary.evidence
+    pullback_record = $pullbackSummary.evidence
+    image_qa_technical = $imageQaTechnicalSummary.evidence
+    image_qa_visual = $imageQaVisualSummary.evidence
     run_package = $runPackageSummary.evidence
     operations_validation = $helperSummary.operations_validation.evidence
     qa_validation = $helperSummary.qa_validation.evidence
@@ -677,6 +847,11 @@ $record = [ordered]@{
     project_readiness = $projectSummary
     runtime_lane_queue = $queueSummary
     model_registry_coverage = $modelRegistryCoverageSummary
+    workflow_smoke = $workflowSmokeSummary
+    pullback_record = $pullbackSummary
+    image_qa_technical = $imageQaTechnicalSummary
+    image_qa_visual = $imageQaVisualSummary
+    runtime_smoke_qa_complete = $runtimeSmokeQaComplete
     run_package = $runPackageSummary
     helper_validation = $helperSummary
   }
@@ -688,7 +863,7 @@ $record = [ordered]@{
   known_issues = @(
     "This is a local handoff only and does not refresh AWS auth.",
     "AWS auth remains the runtime blocker if safe_to_start_ec2 is false.",
-    "This handoff does not prove EC2 object-info/path/hash, generation, artifact pullback, or media QA."
+    $(if ($runtimeSmokeQaComplete) { "Runtime smoke QA is complete for this lane, but this does not certify final portfolio quality or broader prompt coverage." } else { "This handoff does not yet prove artifact pullback and media QA." })
   )
 }
 
@@ -744,6 +919,10 @@ $markdown = @"
 - Project readiness: $($projectSummary.result), lane_id=$($projectSummary.lane_id), lane_match=$($projectSummary.lane_match), local_ready=$($projectSummary.local_ready), ec2_start_allowed=$($projectSummary.ec2_start_allowed), generation_allowed=$($projectSummary.generation_allowed), scan_hit_count=$($projectSummary.scan_hit_count)
 - Runtime lane queue: $($queueSummary.result), first_runtime_lane_id=$($queueSummary.first_runtime_lane_id), current_runtime_lane_id=$($queueSummary.current_runtime_lane_id), current_runtime_lane_match=$($queueSummary.current_runtime_lane_match), selected_lane_order=$($queueSummary.selected_lane_order), queue_allows_selected_lane_ec2_static_proof=$($queueSummary.queue_allows_selected_lane_ec2_static_proof)
 - Model registry coverage: $($modelRegistryCoverageSummary.result), selected_lane_covered=$($modelRegistryCoverageSummary.selected_lane_covered), selected_lane_result=$($modelRegistryCoverageSummary.selected_lane_result), failed_check_count=$($modelRegistryCoverageSummary.failed_check_count), coverage_allows_selected_lane_ec2_static_proof=$($modelRegistryCoverageSummary.coverage_allows_selected_lane_ec2_static_proof)
+- Workflow smoke: $($workflowSmokeSummary.result), run_id=$($workflowSmokeSummary.run_id), complete=$($workflowSmokeSummary.complete), final_state=$($workflowSmokeSummary.final_state), local_pullback_status=$($workflowSmokeSummary.local_pullback_status)
+- Pullback record: $($pullbackSummary.status), hashes_verified=$($pullbackSummary.hashes_verified), complete=$($pullbackSummary.complete), file_count_remote=$($pullbackSummary.file_count_remote), file_count_local=$($pullbackSummary.file_count_local)
+- Image QA technical: $($imageQaTechnicalSummary.qa_status), technical_integrity=$($imageQaTechnicalSummary.technical_integrity), resolution_check=$($imageQaTechnicalSummary.resolution_check), complete=$($imageQaTechnicalSummary.complete)
+- Image QA visual: $($imageQaVisualSummary.result), qa_score=$($imageQaVisualSummary.qa_score), pass_threshold=$($imageQaVisualSummary.pass_threshold), complete=$($imageQaVisualSummary.complete)
 - Run package: supplied=$($runPackageSummary.supplied), valid=$($runPackageSummary.valid), run_id=$($runPackageSummary.run_id), profile=$($runPackageSummary.prompt_profile.profile_id), prompt_hash_match=$($runPackageSummary.prompt_request.hash_match)
 
 ## Safety Invariants
@@ -757,6 +936,7 @@ $markdown = @"
 - Do not run EC2 static proof unless lane readiness reports $mdLaneReadyId and $mdReadyForStaticProof.
 - Do not run generation until object-info, checkpoint path, and checkpoint hash proof exists.
 - Stop EC2 after runtime work and verify final state $mdStopped.
+- If workflow smoke, pullback hashes, technical image QA, and visual image QA are complete for this lane, do not rerun EC2 for the same smoke proof; checkpoint evidence and advance.
 
 ## Command Sequence
 

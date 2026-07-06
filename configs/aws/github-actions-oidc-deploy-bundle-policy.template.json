@@ -1,0 +1,29 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowDeployBundleListPrefix",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListBucket"
+      ],
+      "Resource": "arn:aws:s3:::<bucket-name>",
+      "Condition": {
+        "StringLike": {
+          "s3:prefix": [
+            "<deploy-bundle-prefix>/*"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "AllowDeployBundleUpload",
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:PutObjectTagging"
+      ],
+      "Resource": "arn:aws:s3:::<bucket-name>/<deploy-bundle-prefix>/*"
+    }
+  ]
+}

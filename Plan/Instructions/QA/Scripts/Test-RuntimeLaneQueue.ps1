@@ -337,7 +337,7 @@ if ($null -ne $queuePayload) {
     $resolvedRequirementsPath = Resolve-ProjectPath -Path $requirementsPath
     $expectedWorkflowPath = "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/$laneId/workflow.api.json"
     $expectedRequirementsPath = "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/$laneId/runtime_requirements.json"
-    $expectedStatus = $(if ($laneId -eq $requiredFirstLaneId) { "runtime_smoke_proven" } elseif ($laneId -eq $requiredSecondLaneId) { "current_runtime_blocked_required_checkpoint_missing" } else { "queued" })
+    $expectedStatus = $(if ($laneId -eq $requiredFirstLaneId) { "runtime_smoke_proven" } elseif ($laneId -eq $requiredSecondLaneId) { "runtime_smoke_proven" } else { "queued" })
     $status = $(if (Has-Property -Object $queuedLane -Name "status") { [string]$queuedLane.status } else { "" })
 
     $laneChecks = @(
@@ -495,7 +495,7 @@ $record = [ordered]@{
     "Does not prove checkpoint path/hash or runtime model load.",
     "Does not execute generation or perform generated artifact visual QA."
   )
-  next_action = "Provision the current runtime lane model if missing, then run lane-specific readiness, EC2 static proof, bounded smoke execution, pullback, and image QA only after auth and Git gates pass."
+  next_action = "If a queued lane is not yet runtime-smoke proven, run lane-specific readiness, EC2 static proof, bounded smoke execution, pullback, and image QA only after auth and Git gates pass. If all queued lanes are proven, choose the next lane/module or deeper QA target intentionally."
 }
 
 $outDir = Split-Path -Parent $OutFile

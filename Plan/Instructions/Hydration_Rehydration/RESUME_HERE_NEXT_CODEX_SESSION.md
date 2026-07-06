@@ -120,7 +120,7 @@ Start by reading this file, then read `CURRENT_PURSUING_GOAL.md` and follow its 
 
 ## Current goal
 
-Finish the Wave 63 cost-control checkpoint, then continue runtime proof from the next concrete lane without repeating the completed low-risk lane. Use local/CI validation and deploy-bundle preparation while EC2 is stopped; use EC2 only for target-runtime object-info, model path/hash/load, generation, pullback, and QA.
+Continue Wave 63 cost-controlled work without repeating the completed low-risk lane or the completed RealVisXL smoke proof. RealVisXL model install, static proof, workflow smoke, pullback hash verification, technical image QA, and visual image QA are done; keep EC2 only for new target-runtime facts that cannot be advanced locally or in CI.
 
 ## Next exact action
 
@@ -128,14 +128,20 @@ Read `Plan/Instructions/Operations/EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md` be
 
 Do not rerun `sdxl_low_risk_fallback_lane` just to re-prove the same path. It already has EC2 static proof, generated smoke output, pullback, and image QA evidence.
 
-The next queued runtime lane is `sdxl_realvisxl_base_lane`. Its latest EC2 static proof reached the target runtime and passed object-info/core-node checks, but the checkpoint was missing on EC2:
+The next queued runtime lane, `sdxl_realvisxl_base_lane`, has completed its single runtime smoke proof. Evidence:
 
 ```text
-Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_REALVISXL_20260706T123028-0500.json
-Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_REALVISXL_MISSING_MODEL_CLASSIFICATION_20260706T124103-0500.json
-Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W63_RUNTIME_LANE_QUEUE_VALIDATION_CURRENT_REALVISXL_20260706T130600-0500.json
-Plan/Instructions/QA/Evidence/Project_Readiness/W63_PROJECT_READINESS_REALVISXL_CURRENT_QUEUE_20260706T131000-0500.json
-Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_RUNTIME_UNBLOCK_HANDOFF_REALVISXL_CURRENT_20260706T131300-0500.json
+Plan/Instructions/QA/Evidence/Model_Registry/W63_EC2_REALVISXL_MODEL_INSTALL_20260706T125425-0500.json
+Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_EC2_LANE_STATIC_PROOF_REALVISXL_AFTER_INSTALL_20260706T131129-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_LANE_RUNTIME_READINESS_REALVISXL_AFTER_STATIC_PROOF_20260706T132103-0500.json
+Plan/Instructions/QA/Evidence/Workflow_Runtime/W63_EC2_WORKFLOW_SMOKE_REALVISXL_AFTER_STATIC_PROOF_20260706T132206-0500.json
+Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T132206-0500/PULLBACK_RECORD.json
+Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_IMAGE_QA_TECHNICAL_REALVISXL_20260706T140027-0500.json
+Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_REALVISXL_IMAGE_QA_VISUAL_20260706T140120-0500.json
+Plan/Instructions/QA/Evidence/Project_Readiness/W63_PROJECT_READINESS_REALVISXL_QA_COMPLETE_20260706T140806-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_RUNTIME_UNBLOCK_HANDOFF_REALVISXL_QA_COMPLETE_FINAL_20260706T140828-0500.json
+Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_COST_CONTROL_TERMINAL_STATE_VALIDATION_20260706T140909-0500.json
+Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_TERMINAL_STATE_VALIDATION_20260706T141104-0500.json
 ```
 
 Expected model:
@@ -146,12 +152,13 @@ Civitai model 139562, version 789646, RealVisXL V5.0 (BakedVAE)
 SHA256 6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80
 ```
 
-The next runtime-unblocking action is model provisioning and SHA256 verification through an approved non-Git path. Do not commit the model binary and do not use Git LFS as the model-provisioning path.
+The next runtime-unblocking action is not RealVisXL artifact recovery. Do not commit the model binary and do not use Git LFS as a model-provisioning path. Do not rerun RealVisXL generation unless the lane, prompt, model, runtime, or QA objective changed. The next work should be checkpoint/advance, S3 permission hardening for future transfers, a new lane/module, or a user-approved broader multi-sample RealVisXL certification.
 
 Cost-control local/CI preparation:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\Test-LocalComfyUIDevPreflight.ps1 -ProjectRoot C:\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\Start-LocalComfyUIDev.ps1 -ProjectRoot C:\Comfy_UI_Main -LocalComfyRoot <path-to-local-ComfyUI> -LowVram
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\New-WorkflowRunPackage.ps1 -ProjectRoot C:\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane -AllowNonFirstLane
 ```
 
@@ -159,20 +166,35 @@ When a RealVisXL run package manifest exists, build the deploy bundle while EC2 
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\New-EC2DeployBundle.ps1 -ProjectRoot C:\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane -RunPackageManifestFile <realvisxl-run-package-manifest>
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Publish-DeployBundleToS3.ps1 -BundleManifestFile <deploy-bundle-manifest> -S3BaseUri s3://<bucket>/<deploy-bundle-prefix>
+```
+
+For future model installs, make sure S3 permissions are in place using the placeholder templates under `configs/aws`, then upload checkpoints to an approved S3 model-cache prefix. The current RealVisXL checkpoint install is already complete, so this command is not the next action:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Install-EC2ModelFromS3.ps1 -SourceS3Uri s3://<bucket>/<model-cache-prefix>/realvisxlV50_v50Bakedvae.safetensors -ExpectedSha256 6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80 -MaxEc2RuntimeMinutes 20 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Model_Registry\W63_EC2_REALVISXL_MODEL_INSTALL_<timestamp>.json
+```
+
+Before any future live EC2 window, create the cloud-side safety stop when the scheduler role exists:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\New-EC2EmergencyStopSchedule.ps1 -SchedulerRoleArn arn:aws:iam::<account-id>:role/<scheduler-stop-role> -StopAfterMinutes 60 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W63_EC2_EMERGENCY_STOP_SCHEDULE_<timestamp>.json
 ```
 
 Before any future EC2 `-Execute`, rerun AWS auth, queue, model registry, Git, and lane readiness gates. The account must be `029530099913`, `safe_to_start_ec2` must be `true`, the worktree must be clean, and local `HEAD` must equal `origin/main`.
 
-After the checkpoint is installed/synced, use one bounded EC2 window to verify the target-runtime model path and SHA256. Default to `-SkipGitLfsPull` unless the lane explicitly requires repository LFS payloads:
+Do not rerun RealVisXL static proof after the checkpoint is verified unless lane files, checkpoint, runtime, or prompt changed. If a future proof is required, prefer S3 deploy bundles:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -MaxEc2RuntimeMinutes 25 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W63_EC2_LANE_STATIC_PROOF_REALVISXL_<timestamp>.json
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -DeployBundleS3Uri s3://<bucket>/<deploy-bundle-prefix>/<run-id>/<commit>/<bundle>.zip -DeployBundleSha256 <bundle_sha256> -MaxEc2RuntimeMinutes 25 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W63_EC2_LANE_STATIC_PROOF_REALVISXL_<timestamp>.json
 ```
 
-Only after RealVisXL object-info/path/hash proof passes with the expected checkpoint SHA256, run a package-fed workflow smoke with `-SkipGitLfsPull`, `-MaxEc2RuntimeMinutes 45`, pull back artifacts, verify final EC2 state `stopped`, and run image QA:
+Do not rerun RealVisXL workflow smoke unless a user-approved runtime change or broader QA objective requires a new generation. Current smoke result is `workflow_smoke_generation_complete`; pullback hash verification and image QA are complete. If a future smoke is required for a changed lane/prompt/model/runtime, prefer:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1 -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -MaxEc2RuntimeMinutes 45 -StaticProofFile <realvisxl-static-proof> -RunPackageManifestFile <realvisxl-run-package-manifest> -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Runtime\W63_EC2_WORKFLOW_SMOKE_REALVISXL_<timestamp>.json
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1 -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -DeployBundleS3Uri s3://<bucket>/<deploy-bundle-prefix>/<run-id>/<commit>/<bundle>.zip -DeployBundleSha256 <bundle_sha256> -MaxEc2RuntimeMinutes 45 -StaticProofFile <realvisxl-static-proof> -RunPackageManifestFile <realvisxl-run-package-manifest> -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Runtime\W63_EC2_WORKFLOW_SMOKE_REALVISXL_<timestamp>.json
 ```
 
 If AWS auth is expired or Git is not clean/pushed, stop and report that blocker. Do not create more housekeeping evidence unless it fixes a real stale/conflicting instruction.

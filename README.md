@@ -51,9 +51,17 @@ Cost-control default: validate locally or in GitHub Actions while EC2 is stopped
 Plan\Instructions\Operations\EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md
 ```
 
+Preferred low-cost runtime path:
+
+1. Build the run package and deploy bundle locally or in GitHub Actions.
+2. Upload the deploy bundle to S3 before EC2 starts.
+3. Provision large checkpoints through S3/model cache, not Git or Git LFS.
+4. Run EC2 helpers with `-SkipGitLfsPull`, `-DeployBundleS3Uri`, `-DeployBundleSha256`, and `-MaxEc2RuntimeMinutes`.
+5. Use an EventBridge Scheduler emergency stop and/or instance-side watchdog for live EC2 windows.
+
 The first low-risk lane has runtime smoke proof and pulled-back image QA evidence. Do not repeat that lane just to re-prove the same path; move to the next queued lane or a concrete user-approved improvement.
 
-Current next-lane blocker: `sdxl_realvisxl_base_lane` reached EC2 object-info/core-node proof, but the checkpoint `realvisxlV50_v50Bakedvae.safetensors` is missing from `/home/ubuntu/ComfyUI/models/checkpoints`. Install or sync that model through a non-Git path, verify SHA256, then rerun bounded static proof before generation.
+Current next-lane status: `sdxl_realvisxl_base_lane` now has RealVisXL model install evidence, EC2 static proof with the expected checkpoint SHA256, one completed EC2 workflow smoke generation, local pullback hash verification, and technical plus visual image QA. Do not rerun that smoke proof unless the lane, prompt, model, or runtime changed. The remaining cost-control improvement is S3 permissions for future deploy/model/artifact transfers, not a blocker for the completed RealVisXL proof.
 
 Do not commit `.env`, model binaries, private keys, or generated media outputs.
 
@@ -63,9 +71,14 @@ Do not commit `.env`, model binaries, private keys, or generated media outputs.
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\Sync-WorkflowExports.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\Test-RootProjectPreflight.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\Test-LocalComfyUIDevPreflight.ps1 -LaneId sdxl_low_risk_fallback_lane
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\Start-LocalComfyUIDev.ps1 -ProjectRoot C:\Comfy_UI_Main -LocalComfyRoot <path-to-local-ComfyUI> -LowVram
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\Scripts\Test-WorkflowModelRegistryCoverage.ps1 -ProjectRoot C:\Comfy_UI_Main
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\New-WorkflowRunPackage.ps1 -LaneId sdxl_low_risk_fallback_lane
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\New-WorkflowRunPackage.ps1 -LaneId sdxl_low_risk_fallback_lane -PromptProfileFile PromptProfiles\base_generation\hyperreal_editorial_portrait.json -RunId sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\New-EC2DeployBundle.ps1 -LaneId sdxl_low_risk_fallback_lane -RunPackageManifestFile C:\Comfy_UI_Main\runtime_artifacts\run_packages\sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1\RUN_PACKAGE_MANIFEST.json
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Publish-DeployBundleToS3.ps1 -BundleManifestFile <deploy-bundle-manifest> -S3BaseUri s3://<bucket>/<deploy-bundle-prefix>
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Install-EC2ModelFromS3.ps1 -SourceS3Uri s3://<bucket>/<model-cache-prefix>/realvisxlV50_v50Bakedvae.safetensors -ExpectedSha256 6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\New-EC2EmergencyStopSchedule.ps1 -SchedulerRoleArn arn:aws:iam::<account-id>:role/<scheduler-stop-role> -StopAfterMinutes 60
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Start-EC2InstanceStopWatchdog.ps1 -StopAfterMinutes 60
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1 -LaneId sdxl_low_risk_fallback_lane -RunPackageManifestFile C:\Comfy_UI_Main\runtime_artifacts\run_packages\sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1\RUN_PACKAGE_MANIFEST.json
 ```

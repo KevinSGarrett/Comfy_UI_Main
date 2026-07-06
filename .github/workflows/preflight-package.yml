@@ -22,6 +22,7 @@ jobs:
     timeout-minutes: 20
     permissions:
       contents: read
+      id-token: write
     strategy:
       fail-fast: false
       matrix:
@@ -92,3 +93,27 @@ jobs:
             ci_artifacts/deploy_bundle/**/DEPLOY_BUNDLE_MANIFEST.json
             ci_artifacts/model_registry/model_registry_coverage.json
           retention-days: 7
+
+      - name: Configure AWS credentials for optional S3 deploy bundle upload
+        if: ${{ github.event_name != 'pull_request' && vars.AWS_ROLE_TO_ASSUME != '' && vars.AWS_REGION != '' && vars.COMFY_DEPLOY_BUNDLE_S3_URI != '' }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Upload deploy bundle to S3
+        if: ${{ github.event_name != 'pull_request' && vars.AWS_ROLE_TO_ASSUME != '' && vars.AWS_REGION != '' && vars.COMFY_DEPLOY_BUNDLE_S3_URI != '' }}
+        shell: pwsh
+        run: |
+          $manifestPath = "$env:GITHUB_WORKSPACE\ci_artifacts\deploy_bundle\${{ matrix.run_id }}\DEPLOY_BUNDLE_MANIFEST.json"
+          $manifest = Get-Content -Raw -LiteralPath $manifestPath | ConvertFrom-Json
+          $bundlePath = Join-Path (Split-Path -Parent $manifestPath) ([string]$manifest.bundle_zip)
+          $targetBase = "${{ vars.COMFY_DEPLOY_BUNDLE_S3_URI }}".TrimEnd("/")
+          $targetPrefix = "$targetBase/${{ matrix.run_id }}/${{ github.sha }}"
+          aws s3 cp $bundlePath "$targetPrefix/$($manifest.bundle_zip)" --only-show-errors
+          aws s3 cp $manifestPath "$targetPrefix/DEPLOY_BUNDLE_MANIFEST.json" --only-show-errors
+          "### Deploy bundle S3 output" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+          "- Lane: ${{ matrix.lane_id }}" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+          "- Run ID: ${{ matrix.run_id }}" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+          "- Bundle: ``$targetPrefix/$($manifest.bundle_zip)``" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+          "- SHA256: ``$($manifest.bundle_zip_sha256)``" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append

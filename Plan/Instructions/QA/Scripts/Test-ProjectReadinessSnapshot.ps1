@@ -58,6 +58,28 @@ function Has-Property {
   return $null -ne ($Object.PSObject.Properties[$Name])
 }
 
+function Get-PropertyValue {
+  param(
+    [object]$Object,
+    [string]$Name,
+    [object]$Default = $null
+  )
+
+  if (Has-Property -Object $Object -Name $Name) { return $Object.$Name }
+  return $Default
+}
+
+function Get-BoolPropertyValue {
+  param(
+    [object]$Object,
+    [string]$Name,
+    [bool]$Default = $false
+  )
+
+  if (Has-Property -Object $Object -Name $Name) { return [bool]$Object.$Name }
+  return $Default
+}
+
 function Read-JsonFile {
   param([Parameter(Mandatory=$true)][string]$Path)
 
@@ -116,6 +138,68 @@ function Find-LatestJsonByLaneId {
     try {
       $payload = Read-JsonFile -Path $file.FullName
       if (Test-JsonMatchesLane -Payload $payload -ExpectedLaneId $ExpectedLaneId) {
+        return $file.FullName
+      }
+    } catch {
+      continue
+    }
+  }
+  return $null
+}
+
+function Find-LatestJsonByLaneIdAndResult {
+  param(
+    [Parameter(Mandatory=$true)][string]$Directory,
+    [Parameter(Mandatory=$true)][string]$Filter,
+    [Parameter(Mandatory=$true)][string]$ExpectedLaneId,
+    [Parameter(Mandatory=$true)][string[]]$AcceptableResults,
+    [string]$ExcludePattern = ""
+  )
+
+  if (!(Test-Path -LiteralPath $Directory)) { return $null }
+  $files = Get-ChildItem -LiteralPath $Directory -Filter $Filter -File
+  if (![string]::IsNullOrWhiteSpace($ExcludePattern)) {
+    $files = $files | Where-Object { $_.Name -notmatch $ExcludePattern }
+  }
+  foreach ($file in @($files | Sort-Object LastWriteTime -Descending)) {
+    try {
+      $payload = Read-JsonFile -Path $file.FullName
+      if ((Test-JsonMatchesLane -Payload $payload -ExpectedLaneId $ExpectedLaneId) -and
+          (Has-Property -Object $payload -Name "result") -and
+          @($AcceptableResults) -contains [string]$payload.result) {
+        return $file.FullName
+      }
+    } catch {
+      continue
+    }
+  }
+  return $null
+}
+
+function Find-LatestImageQaByRunId {
+  param(
+    [string]$Directory,
+    [string]$Filter,
+    [string]$RunId
+  )
+
+  if ([string]::IsNullOrWhiteSpace($RunId) -or !(Test-Path -LiteralPath $Directory)) { return $null }
+  foreach ($file in @(Get-ChildItem -LiteralPath $Directory -Filter $Filter -File | Sort-Object LastWriteTime -Descending)) {
+    try {
+      $payload = Read-JsonFile -Path $file.FullName
+      $candidateText = @(
+        [string](Get-PropertyValue -Object $payload -Name "artifact_id" -Default ""),
+        [string](Get-PropertyValue -Object $payload -Name "image_path" -Default ""),
+        [string](Get-PropertyValue -Object $payload -Name "workflow_reference" -Default "")
+      )
+      if ((Has-Property -Object $payload -Name "image") -and $null -ne $payload.image) {
+        $candidateText += [string](Get-PropertyValue -Object $payload.image -Name "display_path" -Default "")
+        $candidateText += [string](Get-PropertyValue -Object $payload.image -Name "supplied_path" -Default "")
+      }
+      if (Has-Property -Object $payload -Name "evidence_paths") {
+        $candidateText += @($payload.evidence_paths | ForEach-Object { [string]$_ })
+      }
+      if ((($candidateText -join "`n") -like "*$RunId*")) {
         return $file.FullName
       }
     } catch {
@@ -343,6 +427,7 @@ $workflowStaticDir = Join-Path $qaEvidenceRoot "Workflow_Static_Validation"
 $workflowRuntimeDir = Join-Path $qaEvidenceRoot "Workflow_Runtime"
 $workflowPrerequisiteDir = Join-Path $qaEvidenceRoot "Workflow_Prerequisite_Matching"
 $modelRegistryCoverageDir = Join-Path $qaEvidenceRoot "Model_Registry"
+$imageArtifactQaDir = Join-Path $qaEvidenceRoot "Image_Artifact_QA"
 $operationsValidationDir = Join-Path $qaEvidenceRoot "Operations_Static_Validation"
 $qaValidationDir = Join-Path $qaEvidenceRoot "QA_Helper_Static_Validation"
 $hydrationValidationDir = Join-Path $qaEvidenceRoot "Hydration_Helper_Static_Validation"
@@ -363,6 +448,7 @@ $latest = [ordered]@{
   runtime_lane_queue = Find-LatestFile -Directory $workflowPrerequisiteDir -Filter "*RUNTIME_LANE_QUEUE*.json"
   model_registry_coverage = Find-LatestFile -Directory $modelRegistryCoverageDir -Filter "*MODEL_REGISTRY_COVERAGE*.json"
   ec2_static_proof_blocked = Find-LatestJsonByLaneId -Directory $workflowStaticDir -Filter "*EC2_LANE_STATIC_PROOF_BLOCKED_EXECUTE_*.json" -ExpectedLaneId $LaneId
+  workflow_smoke = Find-LatestJsonByLaneIdAndResult -Directory $workflowRuntimeDir -Filter "*EC2_WORKFLOW_SMOKE*.json" -ExpectedLaneId $LaneId -AcceptableResults @("workflow_smoke_generation_complete")
   ec2_workflow_smoke_blocked = Find-LatestJsonByLaneId -Directory $workflowRuntimeDir -Filter "*EC2_WORKFLOW_SMOKE_RUN_BLOCKED_EXECUTE_*.json" -ExpectedLaneId $LaneId
   operations_validation = Find-LatestJsonByResult -Directory $operationsValidationDir -Filter "W60_OPERATIONS_HELPER_CURRENT_VALIDATION*.json" -AcceptableResults @("pass_local_only")
   qa_validation = Find-LatestJsonByResult -Directory $qaValidationDir -Filter "W61_QA_HELPER_CURRENT_VALIDATION*.json" -AcceptableResults @("pass_local_only")
@@ -418,7 +504,8 @@ $evidenceChecks = @(
 )
 
 $optionalEvidenceChecks = @(
-  (Test-JsonEvidence -Name "runtime_unblock_handoff" -Path $latest.runtime_unblock_handoff -AcceptableResults @("handoff_ready_runtime_blocked_auth", "handoff_auth_ready_lane_not_ready", "handoff_lane_queue_order_blocked", "handoff_model_registry_blocked", "handoff_ready_for_ec2_static_proof", "handoff_ready_for_generation")),
+  (Test-JsonEvidence -Name "runtime_unblock_handoff" -Path $latest.runtime_unblock_handoff -AcceptableResults @("handoff_ready_runtime_blocked_auth", "handoff_auth_ready_lane_not_ready", "handoff_lane_queue_order_blocked", "handoff_model_registry_blocked", "handoff_ready_for_ec2_static_proof", "handoff_ready_for_generation", "handoff_ready_for_pullback_qa", "handoff_runtime_smoke_qa_complete")),
+  (Test-JsonEvidence -Name "workflow_smoke" -Path $latest.workflow_smoke -AcceptableResults @("workflow_smoke_generation_complete")),
   (Test-JsonEvidence -Name "ec2_static_proof_blocked_execute" -Path $latest.ec2_static_proof_blocked -AcceptableResults @("blocked_before_ec2_start")),
   (Test-JsonEvidence -Name "ec2_workflow_smoke_blocked_execute" -Path $latest.ec2_workflow_smoke_blocked -AcceptableResults @("blocked_before_ec2_start"))
 )
@@ -724,6 +811,122 @@ if ($modelRegistryCoverageSummary.ec2_started -ne $false -or $modelRegistryCover
   $errors += "Model registry coverage validation unexpectedly started EC2 or generation."
 }
 
+$workflowSmokeSummary = [ordered]@{
+  evidence = $(if ($latest.workflow_smoke) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.workflow_smoke } else { $null })
+  result = "missing_workflow_smoke"
+  lane_id = $null
+  lane_match = $false
+  run_id = ""
+  generation_executed = $false
+  final_state = ""
+  remote_artifact_root = ""
+  output_image_count = 0
+  complete = $false
+}
+if (![string]::IsNullOrWhiteSpace($latest.workflow_smoke) -and (Test-Path -LiteralPath $latest.workflow_smoke)) {
+  $workflowSmokeJson = Read-JsonFile -Path $latest.workflow_smoke
+  foreach ($name in @("result", "lane_id", "run_id", "final_state", "remote_artifact_root")) {
+    if (Has-Property -Object $workflowSmokeJson -Name $name) { $workflowSmokeSummary[$name] = [string]$workflowSmokeJson.$name }
+  }
+  if (Has-Property -Object $workflowSmokeJson -Name "generation_executed") {
+    $workflowSmokeSummary.generation_executed = [bool]$workflowSmokeJson.generation_executed
+  }
+  $workflowSmokeSummary.lane_match = ([string]$workflowSmokeSummary.lane_id -eq [string]$LaneId)
+  if (Has-Property -Object $workflowSmokeJson -Name "remote_result") {
+    $workflowSmokeSummary.output_image_count = @($workflowSmokeJson.remote_result.output_images | Where-Object { [bool]$_.copied }).Count
+  }
+}
+$workflowSmokeSummary.complete = (
+  [string]$workflowSmokeSummary.result -eq "workflow_smoke_generation_complete" -and
+  [bool]$workflowSmokeSummary.lane_match -and
+  [bool]$workflowSmokeSummary.generation_executed -and
+  [string]$workflowSmokeSummary.final_state -eq "stopped" -and
+  ($workflowSmokeSummary.output_image_count -as [int]) -gt 0
+)
+
+$pullbackRecordPath = $null
+if (![string]::IsNullOrWhiteSpace([string]$workflowSmokeSummary.run_id)) {
+  $candidatePullbackRecord = Join-Path $ProjectRoot "Plan\Instructions\Operations\Pulled_Back_Artifacts\$($workflowSmokeSummary.run_id)\PULLBACK_RECORD.json"
+  if (Test-Path -LiteralPath $candidatePullbackRecord) {
+    $pullbackRecordPath = $candidatePullbackRecord
+  }
+}
+$pullbackRecordJson = $(if (![string]::IsNullOrWhiteSpace($pullbackRecordPath)) { Read-JsonFile -Path $pullbackRecordPath } else { $null })
+$pullbackSummary = [ordered]@{
+  evidence = $(if ($pullbackRecordPath) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $pullbackRecordPath } else { $null })
+  run_id = [string](Get-PropertyValue -Object $pullbackRecordJson -Name "run_id" -Default "")
+  run_match = ([string](Get-PropertyValue -Object $pullbackRecordJson -Name "run_id" -Default "") -eq [string]$workflowSmokeSummary.run_id)
+  status = [string](Get-PropertyValue -Object $pullbackRecordJson -Name "status" -Default "missing_pullback_record")
+  hashes_verified = Get-BoolPropertyValue -Object $pullbackRecordJson -Name "hashes_verified" -Default $false
+  file_count_remote = Get-PropertyValue -Object $pullbackRecordJson -Name "file_count_remote" -Default $null
+  file_count_local = Get-PropertyValue -Object $pullbackRecordJson -Name "file_count_local" -Default $null
+  qa_required_count = 0
+  complete = $false
+}
+if (Has-Property -Object $pullbackRecordJson -Name "qa_required_files") {
+  $pullbackSummary.qa_required_count = @($pullbackRecordJson.qa_required_files).Count
+}
+$pullbackSummary.complete = (
+  [bool]$pullbackSummary.run_match -and
+  [string]$pullbackSummary.status -eq "pullback_hashes_verified" -and
+  [bool]$pullbackSummary.hashes_verified -and
+  ($pullbackSummary.file_count_remote -as [int]) -gt 0 -and
+  ($pullbackSummary.file_count_remote -as [int]) -eq ($pullbackSummary.file_count_local -as [int])
+)
+
+$imageQaTechnicalPath = Find-LatestImageQaByRunId -Directory $imageArtifactQaDir -Filter "*IMAGE_QA_TECHNICAL*.json" -RunId $workflowSmokeSummary.run_id
+$imageQaVisualPath = Find-LatestImageQaByRunId -Directory $imageArtifactQaDir -Filter "*IMAGE_QA_VISUAL*.json" -RunId $workflowSmokeSummary.run_id
+$imageQaTechnicalJson = $(if (![string]::IsNullOrWhiteSpace($imageQaTechnicalPath)) { Read-JsonFile -Path $imageQaTechnicalPath } else { $null })
+$imageQaVisualJson = $(if (![string]::IsNullOrWhiteSpace($imageQaVisualPath)) { Read-JsonFile -Path $imageQaVisualPath } else { $null })
+$imageQaTechnicalSummary = [ordered]@{
+  evidence = $(if ($imageQaTechnicalPath) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $imageQaTechnicalPath } else { $null })
+  artifact_id = [string](Get-PropertyValue -Object $imageQaTechnicalJson -Name "artifact_id" -Default "")
+  qa_status = [string](Get-PropertyValue -Object $imageQaTechnicalJson -Name "qa_status" -Default "missing_image_technical_qa")
+  technical_integrity = ""
+  resolution_check = ""
+  width = $null
+  height = $null
+  complete = $false
+}
+if (Has-Property -Object $imageQaTechnicalJson -Name "scores") {
+  $imageQaTechnicalSummary.technical_integrity = [string](Get-PropertyValue -Object $imageQaTechnicalJson.scores -Name "technical_integrity" -Default "")
+  $imageQaTechnicalSummary.resolution_check = [string](Get-PropertyValue -Object $imageQaTechnicalJson.scores -Name "resolution_check" -Default "")
+}
+if (Has-Property -Object $imageQaTechnicalJson -Name "image") {
+  $imageQaTechnicalSummary.width = Get-PropertyValue -Object $imageQaTechnicalJson.image -Name "width" -Default $null
+  $imageQaTechnicalSummary.height = Get-PropertyValue -Object $imageQaTechnicalJson.image -Name "height" -Default $null
+}
+$imageQaTechnicalSummary.complete = (
+  [string]$imageQaTechnicalSummary.qa_status -eq "pending_visual_review" -and
+  [string]$imageQaTechnicalSummary.technical_integrity -eq "pass" -and
+  [string]$imageQaTechnicalSummary.resolution_check -eq "pass" -and
+  ($imageQaTechnicalSummary.width -as [int]) -gt 0 -and
+  ($imageQaTechnicalSummary.height -as [int]) -gt 0
+)
+
+$imageQaVisualSummary = [ordered]@{
+  evidence = $(if ($imageQaVisualPath) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $imageQaVisualPath } else { $null })
+  artifact_id = [string](Get-PropertyValue -Object $imageQaVisualJson -Name "artifact_id" -Default "")
+  result = [string](Get-PropertyValue -Object $imageQaVisualJson -Name "result" -Default "missing_image_visual_qa")
+  qa_score = Get-PropertyValue -Object $imageQaVisualJson -Name "qa_score" -Default $null
+  pass_threshold = Get-PropertyValue -Object $imageQaVisualJson -Name "pass_threshold" -Default $null
+  complete = $false
+}
+$imageQaVisualSummary.complete = (
+  ([string]$imageQaVisualSummary.result).StartsWith("pass", [System.StringComparison]::OrdinalIgnoreCase) -and
+  ($imageQaVisualSummary.qa_score -as [int]) -ge ($imageQaVisualSummary.pass_threshold -as [int])
+)
+
+$runtimeSmokeQaComplete = (
+  [bool]$workflowSmokeSummary.complete -and
+  [bool]$pullbackSummary.complete -and
+  [bool]$imageQaTechnicalSummary.complete -and
+  [bool]$imageQaVisualSummary.complete
+)
+if ($runtimeSmokeQaComplete) {
+  $warnings += "Selected lane runtime smoke, pullback hash verification, technical QA, and visual QA are complete; do not rerun EC2 for this same proof."
+}
+
 $coordinatorSummary = [ordered]@{
   static_proof_result = "missing"
   static_proof_failure_category = "missing"
@@ -798,7 +1001,7 @@ if (!$modelRegistryCoverageSummary.coverage_allows_selected_lane_ec2_static_proo
 if (!$laneReadinessSummary.ready_for_ec2_static_proof) {
   $warnings += "Selected lane is not ready for EC2 static proof until runtime gates change."
 }
-if (!$laneReadinessSummary.ready_for_generation) {
+if (!$runtimeSmokeQaComplete -and !$laneReadinessSummary.ready_for_generation) {
   $warnings += "Generation remains blocked until EC2 object-info/path/hash proof exists."
 }
 
@@ -812,10 +1015,14 @@ $localReady = (
 
 $ec2StartAllowed = ($authSummary.safe_to_start_ec2 -and $laneReadinessSummary.ready_for_ec2_static_proof -and $runtimeLaneQueueSummary.queue_allows_selected_lane_ec2_static_proof -and $modelRegistryCoverageSummary.coverage_allows_selected_lane_ec2_static_proof)
 $generationAllowed = ($ec2StartAllowed -and $laneReadinessSummary.ready_for_generation)
+$effectiveEc2StartAllowed = $(if ($runtimeSmokeQaComplete) { $false } else { $ec2StartAllowed })
+$effectiveGenerationAllowed = $(if ($runtimeSmokeQaComplete) { $false } else { $generationAllowed })
 
 $result = "fail"
 $failureCategory = $null
-if ($localReady -and $generationAllowed) {
+if ($localReady -and $runtimeSmokeQaComplete) {
+  $result = "pass_runtime_smoke_qa_complete"
+} elseif ($localReady -and $generationAllowed) {
   $result = "pass_ready_for_generation"
 } elseif ($localReady -and $ec2StartAllowed) {
   $result = "pass_local_ready_for_ec2_static_proof"
@@ -872,6 +1079,7 @@ $record = [ordered]@{
     runtime_lane_queue = $(if ($latest.runtime_lane_queue) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.runtime_lane_queue } else { $null })
     model_registry_coverage = $(if ($latest.model_registry_coverage) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.model_registry_coverage } else { $null })
     ec2_static_proof_blocked = $(if ($latest.ec2_static_proof_blocked) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.ec2_static_proof_blocked } else { $null })
+    workflow_smoke = $(if ($latest.workflow_smoke) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.workflow_smoke } else { $null })
     ec2_workflow_smoke_blocked = $(if ($latest.ec2_workflow_smoke_blocked) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.ec2_workflow_smoke_blocked } else { $null })
     operations_validation = $(if ($latest.operations_validation) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.operations_validation } else { $null })
     qa_validation = $(if ($latest.qa_validation) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.qa_validation } else { $null })
@@ -890,9 +1098,16 @@ $record = [ordered]@{
     runtime_unblock_handoff = $runtimeHandoffSummary
     runtime_lane_queue = $runtimeLaneQueueSummary
     model_registry_coverage = $modelRegistryCoverageSummary
+    workflow_smoke = $workflowSmokeSummary
+    pullback_record = $pullbackSummary
+    image_qa_technical = $imageQaTechnicalSummary
+    image_qa_visual = $imageQaVisualSummary
+    runtime_smoke_qa_complete = $runtimeSmokeQaComplete
     coordinator_safety = $coordinatorSummary
-    ec2_start_allowed = $ec2StartAllowed
-    generation_allowed = $generationAllowed
+    pre_completion_ec2_start_allowed = $ec2StartAllowed
+    pre_completion_generation_allowed = $generationAllowed
+    ec2_start_allowed = $effectiveEc2StartAllowed
+    generation_allowed = $effectiveGenerationAllowed
   }
   local_ready = $localReady
   result = $result
@@ -901,10 +1116,10 @@ $record = [ordered]@{
   warnings = $warnings
   known_issues = @(
     "AWS auth remains a runtime gate if safe_to_start_ec2 is false.",
-    "This snapshot does not claim EC2 object-info/path/hash proof, ComfyUI generation, artifact pullback, image QA, video QA, audio QA, or final project completion.",
+    $(if ($runtimeSmokeQaComplete) { "This snapshot proves the selected lane runtime smoke and image QA path only; it does not claim final portfolio quality, video QA, audio QA, or final project completion." } else { "This snapshot does not claim EC2 object-info/path/hash proof, ComfyUI generation, artifact pullback, image QA, video QA, audio QA, or final project completion." })
     "A dirty Git working tree during snapshot creation is recorded as a warning and resolved by the guarded checkpoint workflow."
   )
-  next_action = $(if (!$authSummary.safe_to_start_ec2) { "Complete AWS browser/SSO login, rerun Test-AwsAuthGate.ps1, then rerun selected-lane readiness before EC2 static proof." } elseif (!$laneReadinessSummary.ready_for_ec2_static_proof) { "Rerun selected-lane readiness and inspect the blocking gate before EC2 static proof." } elseif (!$laneReadinessSummary.ready_for_generation) { "Run Invoke-EC2LaneStaticProof.ps1 -Execute to record object-info/path/hash proof." } else { "Run Invoke-EC2WorkflowSmokeRun.ps1 -Execute, pull back artifacts, then perform image QA." })
+  next_action = $(if ($runtimeSmokeQaComplete) { "Checkpoint RealVisXL runtime smoke, pullback, and image QA evidence; then advance to the next implementation goal without rerunning EC2 for this completed proof." } elseif (!$authSummary.safe_to_start_ec2) { "Complete AWS browser/SSO login, rerun Test-AwsAuthGate.ps1, then rerun selected-lane readiness before EC2 static proof." } elseif (!$laneReadinessSummary.ready_for_ec2_static_proof) { "Rerun selected-lane readiness and inspect the blocking gate before EC2 static proof." } elseif (!$laneReadinessSummary.ready_for_generation) { "Run Invoke-EC2LaneStaticProof.ps1 -Execute to record object-info/path/hash proof." } else { "Run Invoke-EC2WorkflowSmokeRun.ps1 -Execute, pull back artifacts, then perform image QA." })
 }
 
 $outDir = Split-Path -Parent $OutFile

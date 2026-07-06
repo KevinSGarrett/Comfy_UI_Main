@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-07-06T12:58:00-05:00",
+  "updated_at": "2026-07-06T14:01:00-05:00",
   "artifact_id": "TRK-W61-006",
   "purpose": "Local queue for base-generation lane runtime proof order before EC2 execution resumes.",
   "local_only": true,
@@ -8,7 +8,8 @@
     "first_runtime_lane_id": "sdxl_low_risk_fallback_lane",
     "current_runtime_lane_id": "sdxl_realvisxl_base_lane",
     "completed_runtime_lane_ids": [
-      "sdxl_low_risk_fallback_lane"
+      "sdxl_low_risk_fallback_lane",
+      "sdxl_realvisxl_base_lane"
     ],
     "do_not_promote_later_lanes_before_first_lane_runtime_proof": true,
     "later_lane_promotion_allowed_after_first_lane_runtime_proof": true,
@@ -39,12 +40,20 @@
       "role": "second_sdxl_realvisxl_checkpoint_path_hash_load_output_qa",
       "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/workflow.api.json",
       "requirements_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/runtime_requirements.json",
-      "status": "current_runtime_blocked_required_checkpoint_missing",
-      "required_next_runtime_gate": "install_or_sync_realvisxl_checkpoint_then_verify_sha256_then_rerun_static_proof",
-      "promotion_rule": "May proceed because the low-risk lane has completed first runtime proof; do not generate until RealVisXL checkpoint exists on EC2 and SHA256 is verified.",
+      "status": "runtime_smoke_proven",
+      "required_next_runtime_gate": "completed_realvisxl_runtime_smoke",
+      "promotion_rule": "Do not rerun solely to re-prove the path; use as completed RealVisXL runtime smoke proof unless a user-approved lane, prompt, or model change requires retest.",
       "blocker_evidence": [
         "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_REALVISXL_20260706T123028-0500.json",
         "Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_REALVISXL_MISSING_MODEL_CLASSIFICATION_20260706T124103-0500.json"
+      ],
+      "proof_evidence": [
+        "Plan/Instructions/QA/Evidence/Model_Registry/W63_EC2_REALVISXL_MODEL_INSTALL_20260706T125425-0500.json",
+        "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_EC2_LANE_STATIC_PROOF_REALVISXL_AFTER_INSTALL_20260706T131129-0500.json",
+        "Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_LANE_RUNTIME_READINESS_REALVISXL_AFTER_STATIC_PROOF_20260706T132103-0500.json",
+        "Plan/Instructions/QA/Evidence/Workflow_Runtime/W63_EC2_WORKFLOW_SMOKE_REALVISXL_AFTER_STATIC_PROOF_20260706T132206-0500.json",
+        "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T132206-0500/PULLBACK_RECORD.json",
+        "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_REALVISXL_IMAGE_QA_VISUAL_20260706T140120-0500.json"
       ]
     }
   ],
@@ -62,8 +71,8 @@
   "known_limits": [
     "Does not refresh AWS browser/SSO auth.",
     "Does not start EC2 or contact ComfyUI.",
-    "Does not prove checkpoint path/hash or runtime model load.",
-    "Does not execute generation or perform generated image QA."
+    "Does not prove new lane changes after this timestamp.",
+    "Does not replace deeper multi-sample or final portfolio image-quality certification."
   ],
-  "next_action": "Provision the RealVisXL checkpoint through a non-Git path, verify SHA256 on EC2, rerun RealVisXL static proof, then generate only after proof passes."
+  "next_action": "Both current base-generation lanes have runtime smoke proof. Choose the next lane/module intentionally, or run deeper multi-sample RealVisXL QA if the goal is image-quality certification rather than runtime path proof."
 }

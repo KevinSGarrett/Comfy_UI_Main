@@ -12,18 +12,6 @@ None currently active for local Wave 58-62 static and packaging validation.
 
 ## Active runtime blockers
 
-- `BLOCKER-RUNTIME-REALVISXL-CHECKPOINT-EC2-001`
-  - blocker type: ec2_required_model_missing
-  - failed condition: RealVisXL second-lane EC2 static proof found `/home/ubuntu/ComfyUI/models/checkpoints/realvisxlV50_v50Bakedvae.safetensors` missing.
-  - AWS/EC2 involved: yes
-  - impact: `sdxl_realvisxl_base_lane` cannot run generation, pullback, or image QA until the checkpoint exists on EC2 and its SHA256 is verified.
-  - expected file: `realvisxlV50_v50Bakedvae.safetensors`
-  - expected source/version: Civitai model `139562`, version `789646`, `RealVisXL V5.0 (BakedVAE)`
-  - expected source SHA256: `6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80`
-  - current state: EC2 `/object_info` proof passed, required nodes were present, command status was `Success`, and final EC2 state was verified `stopped`; model proof reported `exists=false`.
-  - route: install or sync the checkpoint into the EC2 ComfyUI checkpoints directory, verify SHA256, rerun `Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_realvisxl_base_lane -Execute`, then rerun lane readiness before any workflow smoke generation.
-  - evidence: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_REALVISXL_20260706T123028-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_REALVISXL_MISSING_MODEL_CLASSIFICATION_20260706T124103-0500.json`
-
 - `BLOCKER-RUNTIME-COMFYUI-LOCAL-001`
   - blocker type: local_runtime_missing
   - failed condition: `C:\Comfy_UI_Main\ComfyUI` and expected local model folders do not exist.
@@ -40,7 +28,7 @@ None currently active for local Wave 58-62 static and packaging validation.
   - AWS/EC2 involved: yes
   - impact: EC2 static lane proof, model hash capture, object-info proof, workflow execution, and generated artifact QA cannot continue until AWS login is refreshed.
   - current state: EC2 was verified `stopped` after the failed static-probe attempt.
-  - route: before any future EC2 `-Execute`, rerun `Test-AwsAuthGate.ps1`, verify account `029530099913`, ensure local `HEAD` equals `origin/main` with a clean worktree, and then continue the current lane-specific blocker path. For RealVisXL, resolve the missing checkpoint on EC2 and verify SHA256 before workflow smoke generation.
+  - route: before any future EC2 `-Execute`, rerun `Test-AwsAuthGate.ps1`, verify account `029530099913`, ensure local `HEAD` equals `origin/main` with a clean worktree, and then continue the next selected lane/module path. For RealVisXL, checkpoint install, static proof, smoke generation, pullback, and image QA have completed.
   - evidence: `Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W61_WORKFLOW_LANE_SELECTION_20260706T024025-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_AUTH_GATE_20260706T031007-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_AUTH_GATE_RECHECK_20260706T041956-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_PROFILE_AUTH_MATRIX_20260706T042212-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_AUTH_GATE_RECHECK_20260706T044605-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_PROFILE_AUTH_MATRIX_RECHECK_20260706T044606-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_AUTH_RECHECK_20260706T044638-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_AUTH_GATE_CONTRACT_20260706T050233-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_PROFILE_AUTH_MATRIX_CONTRACT_20260706T050233-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_CONTRACT_20260706T050233-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_AUTH_GATE_READINESS_CONTRACT_20260706T051212-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_PROFILE_AUTH_MATRIX_READINESS_CONTRACT_20260706T051212-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_CONTRACT_RETEST_20260706T051212-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_AUTH_GATE_COORDINATOR_CONTRACT_20260706T052346-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_PROFILE_AUTH_MATRIX_COORDINATOR_CONTRACT_20260706T052346-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_COORDINATOR_CONTRACT_20260706T052346-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_BLOCKED_EXECUTE_COORDINATOR_CONTRACT_20260706T052346-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_RUN_BLOCKED_EXECUTE_COORDINATOR_CONTRACT_20260706T052346-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W61_AUTHORED_LANE_EVIDENCE_COVERAGE_20260706T071911-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W61_RUNTIME_LANE_QUEUE_VALIDATION_20260706T073455-0500.json`
 
 - `BLOCKER-EC2-PROJECT-SYNC-001`
@@ -53,6 +41,16 @@ None currently active for local Wave 58-62 static and packaging validation.
   - evidence: `Plan/Instructions/QA/Evidence/EC2_Project_Sync/W60_W61_EC2_PROJECT_SYNC_20260706T015022-0500.json`
 
 ## Resolved blockers
+
+- `BLOCKER-RUNTIME-REALVISXL-PULLBACK-QA-001` - resolved 2026-07-06T14:01:00-05:00
+  - blocker type: generated_artifact_pullback_and_qa_pending
+  - resolution: RealVisXL workflow smoke generation completed on EC2, generated artifacts were pulled back locally through the SSM SSH tunnel using `comfyui-lora-key.pem`, hashes were verified with `PULLBACK_RECORD.json`, and technical plus visual image QA were recorded.
+  - evidence: `Plan/Instructions/QA/Evidence/Workflow_Runtime/W63_EC2_WORKFLOW_SMOKE_REALVISXL_AFTER_STATIC_PROOF_20260706T132206-0500.json`; `Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T132206-0500/PULLBACK_RECORD.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_IMAGE_QA_TECHNICAL_REALVISXL_20260706T140027-0500.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_REALVISXL_IMAGE_QA_VISUAL_20260706T140120-0500.json`
+
+- `BLOCKER-RUNTIME-REALVISXL-CHECKPOINT-EC2-001` - resolved 2026-07-06T13:20:40-05:00
+  - blocker type: ec2_required_model_missing
+  - resolution: RealVisXL checkpoint `realvisxlV50_v50Bakedvae.safetensors` was installed on EC2, SHA256 was verified as `6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80`, EC2 static proof passed after install, and workflow smoke generation later completed.
+  - evidence: `Plan/Instructions/QA/Evidence/Model_Registry/W63_EC2_REALVISXL_MODEL_INSTALL_20260706T125425-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_EC2_LANE_STATIC_PROOF_REALVISXL_AFTER_INSTALL_20260706T131129-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Runtime/W63_EC2_WORKFLOW_SMOKE_REALVISXL_AFTER_STATIC_PROOF_20260706T132206-0500.json`
 
 - `BLOCKER-W59-GIT-001` - resolved 2026-07-06T01:06:03-05:00
   - affected tracker IDs: `TRK-W59-004`, `TRK-W60-001`, `TRK-W60-009`

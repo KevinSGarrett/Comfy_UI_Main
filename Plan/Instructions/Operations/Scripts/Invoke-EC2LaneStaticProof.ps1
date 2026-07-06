@@ -18,6 +18,8 @@ param(
   [string]$AuthGateFile = "",
   [string]$ReadinessFile = "",
   [string]$OutFile = "",
+  [string]$DeployBundleS3Uri = "",
+  [string]$DeployBundleSha256 = "",
   [int]$MaxEc2RuntimeMinutes = 25,
   [switch]$SkipGitLfsPull,
   [switch]$Execute
@@ -415,13 +417,15 @@ $ssmExecutionTimeoutSeconds = [Math]::Max(600, $MaxEc2RuntimeMinutes * 60)
 
 $remoteScript = @"
 python3 - <<'PY'
-import os, json, subprocess, glob, hashlib, time, urllib.request, signal, datetime, traceback, tempfile
+import os, json, subprocess, glob, hashlib, time, urllib.request, signal, datetime, traceback, tempfile, shutil, zipfile
 
 PROJECT = "$RemoteProjectRoot"
 COMFY = "$RemoteComfyRoot"
 LANE_ID = "$LaneId"
 EXPECTED_GIT_HEAD = "$expectedRemoteGitHead"
 SKIP_GIT_LFS_PULL = "$($SkipGitLfsPull.IsPresent)".lower() == "true"
+DEPLOY_BUNDLE_S3_URI = "$DeployBundleS3Uri"
+DEPLOY_BUNDLE_SHA256 = "$DeployBundleSha256".strip().lower()
 MODELS = os.path.join(COMFY, "models")
 PORT = 8191
 
@@ -451,33 +455,86 @@ def sha256_file(path):
             h.update(chunk)
     return h.hexdigest()
 
+def apply_deploy_bundle_if_configured():
+    if not DEPLOY_BUNDLE_S3_URI:
+        return None
+    os.makedirs(PROJECT, exist_ok=True)
+    bundle_path = os.path.join(tempfile.gettempdir(), "codex_deploy_bundle_%s.zip" % int(time.time()))
+    download = run(["aws", "s3", "cp", DEPLOY_BUNDLE_S3_URI, bundle_path, "--only-show-errors"], timeout=900, check=True)
+    actual_sha = sha256_file(bundle_path).lower()
+    if DEPLOY_BUNDLE_SHA256 and actual_sha != DEPLOY_BUNDLE_SHA256:
+        raise RuntimeError("deploy bundle sha256 mismatch: expected %s observed %s" % (DEPLOY_BUNDLE_SHA256, actual_sha))
+    extract_root = tempfile.mkdtemp(prefix="codex_deploy_bundle_")
+    try:
+        with zipfile.ZipFile(bundle_path, "r") as zf:
+            for member in zf.infolist():
+                normalized = os.path.normpath(member.filename)
+                if normalized.startswith("..") or os.path.isabs(member.filename):
+                    raise RuntimeError("unsafe deploy bundle path: " + member.filename)
+            zf.extractall(extract_root)
+        manifest = {}
+        manifest_path = os.path.join(extract_root, "DEPLOY_BUNDLE_MANIFEST.json")
+        if os.path.exists(manifest_path):
+            with open(manifest_path, "r", encoding="utf-8") as f:
+                manifest = json.load(f)
+        source_head = str(manifest.get("source_git_head") or "")
+        if EXPECTED_GIT_HEAD and source_head and source_head != EXPECTED_GIT_HEAD:
+            raise RuntimeError("deploy bundle source head %s did not match expected origin/main %s" % (source_head, EXPECTED_GIT_HEAD))
+        for name in os.listdir(extract_root):
+            src = os.path.join(extract_root, name)
+            dst = os.path.join(PROJECT, name)
+            if os.path.isdir(src):
+                shutil.copytree(src, dst, dirs_exist_ok=True)
+            else:
+                os.makedirs(os.path.dirname(dst), exist_ok=True)
+                shutil.copy2(src, dst)
+        return {
+            "deployment_method": "s3_deploy_bundle",
+            "s3_uri": DEPLOY_BUNDLE_S3_URI,
+            "download_rc": download["rc"],
+            "sha256": actual_sha,
+            "sha256_expected": DEPLOY_BUNDLE_SHA256,
+            "sha256_verified": (not DEPLOY_BUNDLE_SHA256) or actual_sha == DEPLOY_BUNDLE_SHA256,
+            "manifest_source_git_head": source_head,
+            "manifest_lane_id": manifest.get("lane_id"),
+            "manifest_file_count": manifest.get("file_count"),
+            "git_lfs_pull_skipped": True
+        }
+    finally:
+        shutil.rmtree(extract_root, ignore_errors=True)
+
 try:
+    deployment = apply_deploy_bundle_if_configured()
+    if deployment:
+        result["remote_project"].update(deployment)
     if not os.path.isdir(PROJECT):
         raise RuntimeError("remote project missing: " + PROJECT)
     if not os.path.exists(os.path.join(COMFY, "main.py")):
         raise RuntimeError("ComfyUI main.py missing under " + COMFY)
 
-    before = run(["git", "rev-parse", "HEAD"], cwd=PROJECT, check=True)["stdout"]
-    pull = run(["git", "pull", "--ff-only", "origin", "main"], cwd=PROJECT, timeout=300, check=True)
-    if SKIP_GIT_LFS_PULL:
-        lfs = {"rc": 0, "stdout": "", "stderr": "", "skipped": True}
-    else:
-        lfs = run(["git", "lfs", "pull"], cwd=PROJECT, timeout=300, check=True)
-        lfs["skipped"] = False
-    after = run(["git", "rev-parse", "HEAD"], cwd=PROJECT, check=True)["stdout"]
-    status = run(["git", "status", "--porcelain"], cwd=PROJECT, check=True)["stdout"]
-    result["remote_project"].update({
-        "expected_head": EXPECTED_GIT_HEAD,
-        "head_before": before,
-        "head_after": after,
-        "head_matches_expected": (not EXPECTED_GIT_HEAD) or after == EXPECTED_GIT_HEAD,
-        "status_clean": status == "",
-        "git_pull_summary": pull["stdout"][-500:],
-        "git_lfs_pull_rc": lfs["rc"],
-        "git_lfs_pull_skipped": lfs["skipped"]
-    })
-    if EXPECTED_GIT_HEAD and after != EXPECTED_GIT_HEAD:
-        raise RuntimeError("remote project HEAD %s did not match expected origin/main %s" % (after, EXPECTED_GIT_HEAD))
+    if not deployment:
+        before = run(["git", "rev-parse", "HEAD"], cwd=PROJECT, check=True)["stdout"]
+        pull = run(["git", "pull", "--ff-only", "origin", "main"], cwd=PROJECT, timeout=300, check=True)
+        if SKIP_GIT_LFS_PULL:
+            lfs = {"rc": 0, "stdout": "", "stderr": "", "skipped": True}
+        else:
+            lfs = run(["git", "lfs", "pull"], cwd=PROJECT, timeout=300, check=True)
+            lfs["skipped"] = False
+        after = run(["git", "rev-parse", "HEAD"], cwd=PROJECT, check=True)["stdout"]
+        status = run(["git", "status", "--porcelain"], cwd=PROJECT, check=True)["stdout"]
+        result["remote_project"].update({
+            "deployment_method": "git_pull",
+            "expected_head": EXPECTED_GIT_HEAD,
+            "head_before": before,
+            "head_after": after,
+            "head_matches_expected": (not EXPECTED_GIT_HEAD) or after == EXPECTED_GIT_HEAD,
+            "status_clean": status == "",
+            "git_pull_summary": pull["stdout"][-500:],
+            "git_lfs_pull_rc": lfs["rc"],
+            "git_lfs_pull_skipped": lfs["skipped"]
+        })
+        if EXPECTED_GIT_HEAD and after != EXPECTED_GIT_HEAD:
+            raise RuntimeError("remote project HEAD %s did not match expected origin/main %s" % (after, EXPECTED_GIT_HEAD))
 
     lane_dir = os.path.join(PROJECT, "Plan", "07_IMPLEMENTATION", "workflow_templates", "base_generation", LANE_ID)
     runtime_path = os.path.join(lane_dir, "runtime_requirements.json")
@@ -653,6 +710,8 @@ $record = [ordered]@{
   max_ec2_runtime_minutes = $MaxEc2RuntimeMinutes
   ssm_execution_timeout_seconds = $ssmExecutionTimeoutSeconds
   git_lfs_pull_skipped = [bool]$SkipGitLfsPull.IsPresent
+  deploy_bundle_s3_uri = $DeployBundleS3Uri
+  deploy_bundle_sha256 = $DeployBundleSha256
   auth_gate = $authGate
   readiness_gate = $readinessGate
   execute_gates_pass = $executeGatesPass
@@ -728,6 +787,9 @@ $staticProofSummary = [ordered]@{
 }
 
 if ($null -ne $remoteProofPayload) {
+  if (Has-Property -Object $remoteProofPayload -Name "remote_project") {
+    $record.remote_project = $remoteProofPayload.remote_project
+  }
   if (Has-Property -Object $remoteProofPayload -Name "errors") {
     $staticProofSummary.remote_errors = @($remoteProofPayload.errors)
     foreach ($remoteError in @($remoteProofPayload.errors)) {

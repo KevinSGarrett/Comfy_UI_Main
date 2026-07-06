@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "9": {
+      "display_node": "9",
+      "node_id": "9",
+      "parent_node": null,
+      "real_node_id": "9"
+    }
+  },
+  "outputs": {
+    "9": {
+      "images": [
+        {
+          "filename": "codex_sdxl_realvisxl_base_smoke_00001_.png",
+          "subfolder": "",
+          "type": "output"
+        }
+      ]
+    }
+  },
+  "prompt": [
+    0,
+    "d8a16e07-8a7e-4726-8cce-444ea0c5a8ad",
+    {
+      "3": {
+        "class_type": "KSampler",
+        "inputs": {
+          "cfg": 5.5,
+          "denoise": 1.0,
+          "latent_image": [
+            "5",
+            0
+          ],
+          "model": [
+            "4",
+            0
+          ],
+          "negative": [
+            "7",
+            0
+          ],
+          "positive": [
+            "6",
+            0
+          ],
+          "sampler_name": "dpmpp_2m",
+          "scheduler": "karras",
+          "seed": 7152026061,
+          "steps": 30
+        }
+      },
+      "4": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "realvisxlV50_v50Bakedvae.safetensors"
+        }
+      },
+      "5": {
+        "class_type": "EmptyLatentImage",
+        "inputs": {
+          "batch_size": 1,
+          "height": 1024,
+          "width": 1024
+        }
+      },
+      "6": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "4",
+            1
+          ],
+          "text": "hyperrealistic cinematic portrait, natural skin texture, subtle face asymmetry, realistic eyes, detailed hair, textile microfibers, balanced studio lighting, lifelike lens rendering"
+        }
+      },
+      "7": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "4",
+            1
+          ],
+          "text": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed face, distorted anatomy, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text"
+        }
+      },
+      "8": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "3",
+            0
+          ],
+          "vae": [
+            "4",
+            2
+          ]
+        }
+      },
+      "9": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "codex_sdxl_realvisxl_base_smoke",
+          "images": [
+            "8",
+            0
+          ]
+        }
+      }
+    },
+    {
+      "client_id": "codex-desktop-smoke",
+      "create_time": 1783362300417
+    },
+    [
+      "9"
+    ]
+  ],
+  "status": {
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "d8a16e07-8a7e-4726-8cce-444ea0c5a8ad",
+          "timestamp": 1783362300417
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [],
+          "prompt_id": "d8a16e07-8a7e-4726-8cce-444ea0c5a8ad",
+          "timestamp": 1783362300419
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "d8a16e07-8a7e-4726-8cce-444ea0c5a8ad",
+          "timestamp": 1783362362411
+        }
+      ]
+    ],
+    "status_str": "success"
+  }
+}

@@ -322,7 +322,10 @@ function Invoke-LocalHelper {
           ("first_runtime_lane_id={0}" -f $selectedLaneForMarkdown),
           "result=pass_local_only",
           "ready_for_ec2_static_proof=true",
-          "-RunPackageManifestFile"
+          "-RunPackageManifestFile",
+          "-DeployBundleS3Uri",
+          "Install-EC2ModelFromS3.ps1",
+          "New-EC2EmergencyStopSchedule.ps1"
         )
         foreach ($requiredMarkdownSnippet in $requiredMarkdownSnippets) {
           if (-not $markdownText.Contains($requiredMarkdownSnippet)) {
@@ -332,7 +335,7 @@ function Invoke-LocalHelper {
         if (@($payload.command_sequence).Count -lt 8) {
           throw "$Name command_sequence is missing expected post-auth steps."
         }
-        foreach ($requiredSafety in @("approved_instance_id", "expected_aws_account", "do_not_start_ec2_unless_auth_safe", "do_not_start_ec2_unless_runtime_lane_queue_allows", "do_not_start_ec2_unless_git_checkpoint_clean", "do_not_start_ec2_unless_lane_ready", "stop_ec2_after_runtime_work")) {
+        foreach ($requiredSafety in @("approved_instance_id", "expected_aws_account", "do_not_start_ec2_unless_auth_safe", "do_not_start_ec2_unless_runtime_lane_queue_allows", "do_not_start_ec2_unless_git_checkpoint_clean", "do_not_start_ec2_unless_lane_ready", "prepare_deploy_bundle_before_ec2", "do_not_use_git_lfs_for_model_binaries", "install_missing_realvisxl_before_generation", "use_emergency_stop_for_live_windows", "do_not_rerun_completed_runtime_smoke", "stop_ec2_after_runtime_work")) {
           if (-not (Has-Property -Object $payload.safety_invariants -Name $requiredSafety)) {
             throw "$Name safety_invariants is missing: $requiredSafety"
           }
@@ -684,6 +687,25 @@ foreach ($json in @(
 
 $localSmokeResults = @()
 $modelRecordFile = Join-Path $tempRoot "model_registry_smoke.json"
+$dummyBundleDir = Join-Path $tempRoot "dummy_deploy_bundle"
+$dummyBundleContentDir = Join-Path $dummyBundleDir "content"
+$null = New-Item -ItemType Directory -Force -Path $dummyBundleContentDir
+$dummyBundleTextFile = Join-Path $dummyBundleContentDir "dummy.txt"
+Set-Content -LiteralPath $dummyBundleTextFile -Value "static validation dummy deploy bundle" -Encoding UTF8
+$dummyBundleZip = Join-Path $dummyBundleDir "dummy_deploy_bundle.zip"
+Compress-Archive -Path (Join-Path $dummyBundleContentDir "*") -DestinationPath $dummyBundleZip -Force
+$dummyBundleHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $dummyBundleZip).Hash.ToLowerInvariant()
+$dummyBundleManifestFile = Join-Path $dummyBundleDir "DEPLOY_BUNDLE_MANIFEST.json"
+$dummyBundleManifest = [ordered]@{
+  schema_version = "1.0"
+  bundle_id = "dummy_deploy_bundle"
+  lane_id = "sdxl_low_risk_fallback_lane"
+  bundle_zip = "dummy_deploy_bundle.zip"
+  bundle_zip_sha256 = $dummyBundleHash
+  result = "pass_local_only"
+}
+$dummyBundleManifest | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $dummyBundleManifestFile -Encoding UTF8
+
 $localSmokeResults += Invoke-LocalHelper -Name "model_registry_record_smoke" `
   -ScriptPath (Join-Path $scriptsRoot "New-ModelRegistryRecord.ps1") `
   -Arguments @("-ModelName", "static-validation-placeholder", "-ModelType", "checkpoint", "-BaseModel", "SDXL", "-LocalPath", "C:\Comfy_UI_Main\__missing_static_validation_placeholder.safetensors") `
@@ -693,6 +715,30 @@ $localSmokeResults += Invoke-LocalHelper -Name "github_checkpoint_dry_run" `
   -ScriptPath (Join-Path $scriptsRoot "Invoke-GitHubCheckpoint.ps1") `
   -Arguments @("-ProjectRoot", $ProjectRoot, "-Message", "static validation dry run") `
   -ExpectedOutputFile ""
+
+$publishBundleFile = Join-Path $tempRoot "publish_deploy_bundle_to_s3_dry_run.json"
+$localSmokeResults += Invoke-LocalHelper -Name "publish_deploy_bundle_to_s3_dry_run" `
+  -ScriptPath (Join-Path $scriptsRoot "Publish-DeployBundleToS3.ps1") `
+  -Arguments @("-BundleManifestFile", $dummyBundleManifestFile, "-S3BaseUri", "s3://example-bucket/deploy-bundles", "-OutFile", $publishBundleFile) `
+  -ExpectedOutputFile $publishBundleFile
+
+$installModelFile = Join-Path $tempRoot "install_ec2_model_from_s3_dry_run.json"
+$localSmokeResults += Invoke-LocalHelper -Name "install_ec2_model_from_s3_dry_run" `
+  -ScriptPath (Join-Path $scriptsRoot "Install-EC2ModelFromS3.ps1") `
+  -Arguments @("-SourceS3Uri", "s3://example-bucket/model-cache/realvisxlV50_v50Bakedvae.safetensors", "-ExpectedSha256", "6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80", "-OutFile", $installModelFile) `
+  -ExpectedOutputFile $installModelFile
+
+$emergencyStopFile = Join-Path $tempRoot "ec2_emergency_stop_schedule_dry_run.json"
+$localSmokeResults += Invoke-LocalHelper -Name "ec2_emergency_stop_schedule_dry_run" `
+  -ScriptPath (Join-Path $scriptsRoot "New-EC2EmergencyStopSchedule.ps1") `
+  -Arguments @("-SchedulerRoleArn", "arn:aws:iam::029530099913:role/example-scheduler-stop-role", "-OutFile", $emergencyStopFile) `
+  -ExpectedOutputFile $emergencyStopFile
+
+$watchdogFile = Join-Path $tempRoot "ec2_instance_watchdog_dry_run.json"
+$localSmokeResults += Invoke-LocalHelper -Name "ec2_instance_watchdog_dry_run" `
+  -ScriptPath (Join-Path $scriptsRoot "Start-EC2InstanceStopWatchdog.ps1") `
+  -Arguments @("-OutFile", $watchdogFile) `
+  -ExpectedOutputFile $watchdogFile
 
 $staticProofDryRunFile = Join-Path $tempRoot "ec2_lane_static_proof_dry_run.json"
 $localSmokeResults += Invoke-LocalHelper -Name "ec2_lane_static_proof_dry_run" `
@@ -780,6 +826,20 @@ $smokeFailures = @($localSmokeResults | Where-Object { $_.result -ne "pass" -or 
 $evidenceFailures = @($evidenceChecks | Where-Object { $_.result -ne "pass" })
 $evidenceContractFailures = @($evidenceContractChecks | Where-Object { $_.result -ne "pass" })
 
+$operationsKnownIssues = @(
+  "Live AWS, Civitai, GitHub, EC2 start, ComfyUI runtime generation, artifact pullback, and visual QA remain separate runtime validations.",
+  "This validation intentionally does not refresh or require AWS credentials."
+)
+$operationsNextAction = "If the selected lane is not already runtime-smoke proven, rerun auth gate and selected-lane readiness before EC2 static proof."
+$runtimeUnblockHandoffSmoke = @($localSmokeResults | Where-Object { $_.name -eq "runtime_unblock_handoff_smoke" } | Select-Object -First 1)
+if ($runtimeUnblockHandoffSmoke -and $runtimeUnblockHandoffSmoke.top_level_result -eq "handoff_runtime_smoke_qa_complete") {
+  $operationsKnownIssues = @(
+    "Selected lane runtime smoke, artifact pullback, and QA are complete; this local validation does not perform a new live GPU run.",
+    "Completed runtime smoke proof does not certify final portfolio quality, video QA, audio QA, or full-project release completion."
+  )
+  $operationsNextAction = "Checkpoint completed runtime-smoke evidence and advance to the next lane, module, or deeper QA target without rerunning EC2 for this same proof."
+}
+
 $record = [ordered]@{
   evidence_id = "EVID-W60-OPERATIONS-HELPER-CURRENT-VALIDATION-$stamp"
   created_at = $createdAt
@@ -828,11 +888,8 @@ $record = [ordered]@{
   temp_root = "[VALIDATION_TEMP_ROOT]"
   temp_root_redacted = $true
   result = $(if ($scriptFailures.Count -eq 0 -and $jsonFailures.Count -eq 0 -and $smokeFailures.Count -eq 0 -and $evidenceFailures.Count -eq 0 -and $evidenceContractFailures.Count -eq 0) { "pass_local_only" } else { "fail" })
-  known_issues = @(
-    "Live AWS, Civitai, GitHub, EC2 start, ComfyUI runtime generation, artifact pullback, and visual QA remain separate runtime validations.",
-    "AWS auth is still expired in current evidence; this validation intentionally does not refresh or require AWS credentials."
-  )
-  next_action = "After AWS browser login refresh, rerun auth gate and selected-lane readiness before EC2 static proof."
+  known_issues = $operationsKnownIssues
+  next_action = $operationsNextAction
 }
 
 $outDir = Split-Path -Parent $OutFile

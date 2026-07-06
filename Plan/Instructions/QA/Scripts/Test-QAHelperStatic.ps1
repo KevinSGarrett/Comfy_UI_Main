@@ -285,6 +285,8 @@ function Test-ProjectReadinessSnapshotContract {
     runtime_lane_queue_selected_lane_order = $null
     runtime_lane_queue_first_runtime_lane_id = $null
     runtime_lane_queue_first_runtime_lane_match = $null
+    runtime_lane_queue_current_runtime_lane_id = $null
+    runtime_lane_queue_current_runtime_lane_match = $null
     runtime_lane_queue_failed_check_count = $null
     runtime_lane_queue_local_only = $null
     runtime_lane_queue_aws_contacted = $null
@@ -322,7 +324,8 @@ function Test-ProjectReadinessSnapshotContract {
       "pass_local_ready_runtime_blocked_auth",
       "pass_local_ready_runtime_blocked",
       "pass_local_ready_for_ec2_static_proof",
-      "pass_ready_for_generation"
+      "pass_ready_for_generation",
+      "pass_runtime_smoke_qa_complete"
     )
     $recognizedHandoffResults = @(
       "handoff_ready_runtime_blocked_auth",
@@ -330,7 +333,9 @@ function Test-ProjectReadinessSnapshotContract {
       "handoff_lane_queue_order_blocked",
       "handoff_model_registry_blocked",
       "handoff_ready_for_ec2_static_proof",
-      "handoff_ready_for_generation"
+      "handoff_ready_for_generation",
+      "handoff_ready_for_pullback_qa",
+      "handoff_runtime_smoke_qa_complete"
     )
 
     if (Test-JsonProperty -Object $payload -Name "result") {
@@ -455,6 +460,12 @@ function Test-ProjectReadinessSnapshotContract {
         if (Test-JsonProperty -Object $runtimeLaneQueue -Name "first_runtime_lane_match") {
           $entry.runtime_lane_queue_first_runtime_lane_match = [bool]$runtimeLaneQueue.first_runtime_lane_match
         }
+        if (Test-JsonProperty -Object $runtimeLaneQueue -Name "current_runtime_lane_id") {
+          $entry.runtime_lane_queue_current_runtime_lane_id = [string]$runtimeLaneQueue.current_runtime_lane_id
+        }
+        if (Test-JsonProperty -Object $runtimeLaneQueue -Name "current_runtime_lane_match") {
+          $entry.runtime_lane_queue_current_runtime_lane_match = [bool]$runtimeLaneQueue.current_runtime_lane_match
+        }
         if (Test-JsonProperty -Object $runtimeLaneQueue -Name "failed_check_count") {
           $entry.runtime_lane_queue_failed_check_count = [int]$runtimeLaneQueue.failed_check_count
         }
@@ -543,10 +554,10 @@ function Test-ProjectReadinessSnapshotContract {
       -Passed ($entry.runtime_lane_queue_selected_lane_in_queue -eq $true) `
       -Expected "true" `
       -Observed ([string]$entry.runtime_lane_queue_selected_lane_in_queue)
-    $checks += New-ContractCheck -Name "runtime_lane_queue_first_lane_matches_snapshot_lane" `
-      -Passed ($entry.runtime_lane_queue_first_runtime_lane_match -eq $true -and [string]$entry.runtime_lane_queue_first_runtime_lane_id -eq [string]$entry.lane_id -and $entry.runtime_lane_queue_selected_lane_order -eq 1) `
-      -Expected ("first_runtime_lane_id={0}; selected_lane_order=1" -f $entry.lane_id) `
-      -Observed ("first_runtime_lane_id={0}; first_runtime_lane_match={1}; selected_lane_order={2}" -f $entry.runtime_lane_queue_first_runtime_lane_id, $entry.runtime_lane_queue_first_runtime_lane_match, $entry.runtime_lane_queue_selected_lane_order)
+    $checks += New-ContractCheck -Name "runtime_lane_queue_current_lane_matches_snapshot_lane" `
+      -Passed (($entry.top_level_result -eq "pass_runtime_smoke_qa_complete" -and $entry.runtime_lane_queue_selected_lane_in_queue -eq $true) -or ($entry.runtime_lane_queue_current_runtime_lane_match -eq $true -and [string]$entry.runtime_lane_queue_current_runtime_lane_id -eq [string]$entry.lane_id -and $entry.runtime_lane_queue_selected_lane_in_queue -eq $true)) `
+      -Expected ("active lane: current_runtime_lane_id={0}; completed lane: selected_lane_in_queue=true" -f $entry.lane_id) `
+      -Observed ("current_runtime_lane_id={0}; current_runtime_lane_match={1}; selected_lane_order={2}; selected_lane_in_queue={3}" -f $entry.runtime_lane_queue_current_runtime_lane_id, $entry.runtime_lane_queue_current_runtime_lane_match, $entry.runtime_lane_queue_selected_lane_order, $entry.runtime_lane_queue_selected_lane_in_queue)
     $checks += New-ContractCheck -Name "runtime_lane_queue_failed_check_count_zero" `
       -Passed ($entry.runtime_lane_queue_failed_check_count -eq 0) `
       -Expected "0" `
@@ -564,8 +575,8 @@ function Test-ProjectReadinessSnapshotContract {
       -Expected "ec2_started=false; generation_executed=false" `
       -Observed ("ec2_started={0}; generation_executed={1}" -f $entry.runtime_lane_queue_ec2_started, $entry.runtime_lane_queue_generation_executed)
     $checks += New-ContractCheck -Name "runtime_lane_queue_allows_snapshot_lane" `
-      -Passed ($entry.runtime_lane_queue_allows_selected_lane_ec2_static_proof -eq $true) `
-      -Expected "true" `
+      -Passed (($entry.top_level_result -eq "pass_runtime_smoke_qa_complete" -and $entry.runtime_lane_queue_selected_lane_in_queue -eq $true) -or $entry.runtime_lane_queue_allows_selected_lane_ec2_static_proof -eq $true) `
+      -Expected "active lane allows EC2 static proof, or completed lane remains queued without needing EC2" `
       -Observed ([string]$entry.runtime_lane_queue_allows_selected_lane_ec2_static_proof)
     $checks += New-ContractCheck -Name "model_registry_coverage_result_passes" `
       -Passed ($entry.model_registry_coverage_result -eq "pass_local_only") `
@@ -667,6 +678,20 @@ function Test-ProjectReadinessSnapshotContract {
         $checks += New-ContractCheck -Name "generation_ready_runtime_handoff_matches_gate" `
           -Passed ($entry.runtime_handoff_result -eq "handoff_ready_for_generation" -and $entry.runtime_handoff_next_required_action -eq "run_bounded_workflow_smoke") `
           -Expected "handoff_ready_for_generation; run_bounded_workflow_smoke" `
+          -Observed ("{0}; {1}" -f $entry.runtime_handoff_result, $entry.runtime_handoff_next_required_action)
+      }
+      "pass_runtime_smoke_qa_complete" {
+        $checks += New-ContractCheck -Name "completed_smoke_disallows_additional_ec2_start" `
+          -Passed ($entry.ec2_start_allowed -eq $false) `
+          -Expected "false" `
+          -Observed ([string]$entry.ec2_start_allowed)
+        $checks += New-ContractCheck -Name "completed_smoke_disallows_additional_generation" `
+          -Passed ($entry.generation_allowed -eq $false) `
+          -Expected "false" `
+          -Observed ([string]$entry.generation_allowed)
+        $checks += New-ContractCheck -Name "completed_smoke_runtime_handoff_matches_gate" `
+          -Passed (($entry.runtime_handoff_result -eq "handoff_runtime_smoke_qa_complete" -and $entry.runtime_handoff_next_required_action -eq "checkpoint_runtime_smoke_evidence_and_advance_next_goal") -or ($entry.runtime_handoff_local_only -eq $true -and $entry.runtime_handoff_ec2_started -eq $false -and $entry.runtime_handoff_generation_executed -eq $false)) `
+          -Expected "preferred: handoff_runtime_smoke_qa_complete; allowed for previously completed lanes: stale local-only handoff with no EC2/generation" `
           -Observed ("{0}; {1}" -f $entry.runtime_handoff_result, $entry.runtime_handoff_next_required_action)
       }
     }
@@ -823,6 +848,22 @@ $localSmokeResults += Invoke-LocalHelper -Name "runtime_lane_queue_validation_sm
   -ExpectedOutputFile $runtimeLaneQueueFile `
   -ExpectedOutputType "json"
 
+$projectReadinessLaneId = "sdxl_low_risk_fallback_lane"
+try {
+  if (Test-Path -LiteralPath $runtimeLaneQueueFile) {
+    $runtimeQueueJson = Get-Content -LiteralPath $runtimeLaneQueueFile -Raw | ConvertFrom-Json
+    if ((Test-JsonProperty -Object $runtimeQueueJson -Name "current_runtime_lane_id") -and
+      ![string]::IsNullOrWhiteSpace([string]$runtimeQueueJson.current_runtime_lane_id)) {
+      $projectReadinessLaneId = [string]$runtimeQueueJson.current_runtime_lane_id
+    } elseif ((Test-JsonProperty -Object $runtimeQueueJson -Name "first_runtime_lane_id") -and
+      ![string]::IsNullOrWhiteSpace([string]$runtimeQueueJson.first_runtime_lane_id)) {
+      $projectReadinessLaneId = [string]$runtimeQueueJson.first_runtime_lane_id
+    }
+  }
+} catch {
+  $projectReadinessLaneId = "sdxl_low_risk_fallback_lane"
+}
+
 $modelRegistryCoverageFile = Join-Path $tempRoot "workflow_model_registry_coverage.json"
 $localSmokeResults += Invoke-LocalHelper -Name "workflow_model_registry_coverage_smoke" `
   -ScriptPath (Join-Path $scriptsRoot "Test-WorkflowModelRegistryCoverage.ps1") `
@@ -840,7 +881,7 @@ $localSmokeResults += Invoke-LocalHelper -Name "items_tracker_package_validation
 $projectReadinessFile = Join-Path $tempRoot "project_readiness_snapshot.json"
 $localSmokeResults += Invoke-LocalHelper -Name "project_readiness_snapshot_smoke" `
   -ScriptPath (Join-Path $scriptsRoot "Test-ProjectReadinessSnapshot.ps1") `
-  -Arguments @("-ProjectRoot", $ProjectRoot, "-OutFile", $projectReadinessFile) `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-LaneId", $projectReadinessLaneId, "-OutFile", $projectReadinessFile) `
   -ExpectedOutputFile $projectReadinessFile `
   -ExpectedOutputType "json"
 
@@ -853,6 +894,22 @@ $smokeFailures = @($localSmokeResults | Where-Object { $_.result -ne "pass" -or 
 $contractFailures = @()
 if ($projectReadinessContract.result -ne "pass") {
   $contractFailures += $projectReadinessContract
+}
+
+$qaHelperKnownIssues = @(
+  "Live image/video/audio artifact QA remains pending for actual generated artifacts.",
+  "The sample image technical smoke does not count as generated artifact visual review.",
+  "The project readiness snapshot is local-only and does not refresh AWS browser/SSO auth.",
+  "ComfyUI runtime execution, model loading, EC2 static proof, artifact pullback, and final visual QA remain separate runtime validations."
+)
+$qaHelperNextAction = "After AWS browser login refresh, run EC2 static proof, bounded smoke generation, artifact pullback, and real image QA."
+if ($projectReadinessContract.top_level_result -eq "pass_runtime_smoke_qa_complete") {
+  $qaHelperKnownIssues = @(
+    "Selected lane runtime smoke, pullback hash verification, technical QA, and visual QA are complete.",
+    "The QA helper is a local-only regression check and does not perform a new live GPU run.",
+    "Completed lane proof is not final portfolio, video, audio, or full-project certification."
+  )
+  $qaHelperNextAction = "Checkpoint completed runtime-smoke evidence and advance to the next lane, module, or deeper QA target without rerunning EC2 for this same proof."
 }
 
 $record = [ordered]@{
@@ -905,13 +962,8 @@ $record = [ordered]@{
   temp_root = "[VALIDATION_TEMP_ROOT]"
   temp_root_redacted = $true
   result = $(if ($scriptFailures.Count -eq 0 -and $jsonFailures.Count -eq 0 -and $markdownFailures.Count -eq 0 -and $smokeFailures.Count -eq 0 -and $contractFailures.Count -eq 0) { "pass_local_only" } else { "fail" })
-  known_issues = @(
-    "Live image/video/audio artifact QA remains pending for actual generated artifacts.",
-    "The sample image technical smoke does not count as generated artifact visual review.",
-    "The project readiness snapshot is local-only and does not refresh AWS browser/SSO auth.",
-    "ComfyUI runtime execution, model loading, EC2 static proof, artifact pullback, and final visual QA remain separate runtime validations."
-  )
-  next_action = "After AWS browser login refresh, run EC2 static proof, bounded smoke generation, artifact pullback, and real image QA."
+  known_issues = $qaHelperKnownIssues
+  next_action = $qaHelperNextAction
 }
 
 $outDir = Split-Path -Parent $OutFile

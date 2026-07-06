@@ -30,6 +30,23 @@ Use a three-lane runtime strategy:
 
 Local or CI success never replaces EC2 final proof. It only reduces the number and length of EC2 starts.
 
+## S3 Bundle And Model Cache Decision
+
+Use S3 as the preferred non-Git transfer path for deploy bundles, runtime artifacts, and large model binaries.
+
+- GitHub Actions uploads deploy bundles to S3 only when repository variables are configured: `AWS_ROLE_TO_ASSUME`, `AWS_REGION`, and `COMFY_DEPLOY_BUNDLE_S3_URI`.
+- EC2 helpers now accept `-DeployBundleS3Uri` and `-DeployBundleSha256`. When supplied, the remote SSM payload downloads the prepared zip from S3, verifies SHA256, extracts it safely, and skips remote `git pull`/Git LFS.
+- The RealVisXL checkpoint must be provisioned through S3/model cache or another approved non-Git path. Do not add model binaries to Git or Git LFS.
+- EC2 S3 permissions must be least-privilege: read deploy bundles and model-cache objects, write only runtime-artifact pullback objects, and list only approved prefixes.
+
+Safe-to-commit AWS policy templates live in:
+
+```text
+configs/aws/
+```
+
+They contain placeholders only and do not grant permissions until applied in AWS.
+
 ## Active Tools
 
 Local dev preflight:
@@ -58,12 +75,22 @@ GitHub Actions workflow:
 
 The workflow intentionally checks out without Git LFS payloads and uploads the deploy bundle for 7 days.
 
+Optional local S3 publish for a prepared bundle:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Publish-DeployBundleToS3.ps1 -BundleManifestFile <deploy-bundle-manifest> -S3BaseUri s3://<bucket>/<deploy-bundle-prefix> -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Operations_Static_Validation\W63_DEPLOY_BUNDLE_S3_PUBLISH_<timestamp>.json
+```
+
+The command is dry-run by default. Add `-Execute` only after AWS auth and bucket/prefix permissions are verified.
+
 ## EC2 Defaults
 
 For future EC2 proof or smoke commands:
 
 - Use `-SkipGitLfsPull` by default unless the selected lane explicitly requires Git LFS payloads from the repository.
+- Prefer `-DeployBundleS3Uri <s3://...zip> -DeployBundleSha256 <sha256>` when a GitHub Actions or local deploy bundle has been uploaded to S3.
 - Set a bounded runtime with `-MaxEc2RuntimeMinutes`.
+- Before a live EC2 window, create a one-time emergency stop schedule when the scheduler role exists, and start an instance-side watchdog after SSM is online.
 - Batch all target-runtime work for a lane into one window: static proof, smoke generation, remote manifest, pullback, stop, final-state verification.
 - Stop the instance in a `finally` path and verify final state `stopped`.
 - If a command exceeds the local SSM timeout, cancel the command, stop EC2, and write incomplete evidence rather than waiting indefinitely.
@@ -74,11 +101,37 @@ Example static proof:
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -MaxEc2RuntimeMinutes 25 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W63_EC2_LANE_STATIC_PROOF_REALVISXL_<timestamp>.json
 ```
 
+Preferred static proof when a verified S3 deploy bundle exists:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -DeployBundleS3Uri s3://<bucket>/<deploy-bundle-prefix>/<run-id>/<commit>/<bundle>.zip -DeployBundleSha256 <bundle_sha256> -MaxEc2RuntimeMinutes 25 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W63_EC2_LANE_STATIC_PROOF_REALVISXL_<timestamp>.json
+```
+
 Example workflow smoke:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1 -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -MaxEc2RuntimeMinutes 45 -RunPackageManifestFile <run-package-manifest> -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Runtime\W63_EC2_WORKFLOW_SMOKE_REALVISXL_<timestamp>.json
 ```
+
+Preferred workflow smoke when a verified S3 deploy bundle exists:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1 -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -DeployBundleS3Uri s3://<bucket>/<deploy-bundle-prefix>/<run-id>/<commit>/<bundle>.zip -DeployBundleSha256 <bundle_sha256> -MaxEc2RuntimeMinutes 45 -RunPackageManifestFile <run-package-manifest> -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Runtime\W63_EC2_WORKFLOW_SMOKE_REALVISXL_<timestamp>.json
+```
+
+Emergency stop schedule dry-run:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\New-EC2EmergencyStopSchedule.ps1 -StopAfterMinutes 60 -SchedulerRoleArn arn:aws:iam::<account-id>:role/<scheduler-stop-role> -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W63_EC2_EMERGENCY_STOP_SCHEDULE_<timestamp>.json
+```
+
+Instance-side watchdog dry-run:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Start-EC2InstanceStopWatchdog.ps1 -StopAfterMinutes 60 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W63_EC2_INSTANCE_WATCHDOG_<timestamp>.json
+```
+
+Both commands are dry-run by default. Add `-Execute` only when AWS auth, IAM permissions, and the intended EC2 runtime window are ready.
 
 ## Model Provisioning Cost Rules
 
@@ -93,14 +146,59 @@ For missing EC2 models:
 5. Stop EC2 after provisioning and verify final state `stopped`.
 6. Rerun EC2 static proof only after the expected file exists.
 
-Current RealVisXL blocker:
+RealVisXL model provisioning status:
 
 ```text
 expected_ec2_path: /home/ubuntu/ComfyUI/models/checkpoints/realvisxlV50_v50Bakedvae.safetensors
 source: Civitai model 139562, version 789646, RealVisXL V5.0 (BakedVAE)
 expected_sha256: 6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80
-evidence: Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_REALVISXL_20260706T123028-0500.json
+resolved_by: Plan/Instructions/QA/Evidence/Model_Registry/W63_EC2_REALVISXL_MODEL_INSTALL_20260706T125425-0500.json
+verified_by: Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_EC2_LANE_STATIC_PROOF_REALVISXL_AFTER_INSTALL_20260706T131129-0500.json
 ```
+
+Preferred RealVisXL model install once the model is present in S3:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Install-EC2ModelFromS3.ps1 -SourceS3Uri s3://<bucket>/<model-cache-prefix>/realvisxlV50_v50Bakedvae.safetensors -ExpectedSha256 6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80 -MaxEc2RuntimeMinutes 20 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Model_Registry\W63_EC2_REALVISXL_MODEL_INSTALL_<timestamp>.json
+```
+
+The command is dry-run by default. Add `-Execute` only after the S3 object exists, AWS auth passes, and the EC2 role has `s3:GetObject` for the model-cache prefix. A successful live record must report `result=install_model_hash_verified`, `final_state=stopped`, and `generation_executed=false`.
+
+Current RealVisXL runtime status:
+
+```text
+model install: complete and SHA256 verified
+EC2 static proof: complete after install
+workflow smoke generation: complete
+pullback: complete with local hash verification
+image QA: technical pass and visual pass_with_notes_for_runtime_smoke
+workflow smoke evidence: Plan/Instructions/QA/Evidence/Workflow_Runtime/W63_EC2_WORKFLOW_SMOKE_REALVISXL_AFTER_STATIC_PROOF_20260706T132206-0500.json
+pullback evidence: Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T132206-0500/PULLBACK_RECORD.json
+image QA evidence: Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_REALVISXL_IMAGE_QA_VISUAL_20260706T140120-0500.json
+terminal handoff: Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_RUNTIME_UNBLOCK_HANDOFF_REALVISXL_QA_COMPLETE_FINAL_20260706T140828-0500.json
+current blocker: none for this single RealVisXL runtime smoke proof
+S3 status: smoke run recorded s3_bucket_not_configured / remote s3_sync not attempted; SSM SSH-tunnel pullback succeeded as fallback
+```
+
+Next cost-saving action is to apply the EC2 runtime S3 policy template before future smoke/pullback windows, use `-S3Bucket`/`-S3Prefix` where supported, and avoid SSM chunk or SSH-tunnel pullback except as a fallback. Do not rerun the completed RealVisXL smoke only to test S3.
+
+## Local ComfyUI Activation
+
+Use local ComfyUI for iteration when a real local checkout exists. It is good for prompt/request construction, low-resolution previews, node compatibility checks, and workflow edits. It does not replace EC2 final proof.
+
+Preflight:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\Test-LocalComfyUIDevPreflight.ps1 -ProjectRoot C:\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane -LocalComfyRoot <path-to-local-ComfyUI>
+```
+
+Start local dev server dry-run:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\Start-LocalComfyUIDev.ps1 -ProjectRoot C:\Comfy_UI_Main -LocalComfyRoot <path-to-local-ComfyUI> -LowVram -OutFile C:\Comfy_UI_Main\runtime_artifacts\run_manifests\LOCAL_COMFY_DEV_START_<timestamp>.json
+```
+
+Add `-Execute` only after `main.py` is found. Default local settings use `127.0.0.1`, port `8188`, and low-VRAM arguments for the local RTX 5060 Laptop GPU class.
 
 ## No-Loop Rule
 

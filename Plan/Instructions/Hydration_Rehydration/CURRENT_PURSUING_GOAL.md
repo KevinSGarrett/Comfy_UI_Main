@@ -40,14 +40,20 @@ Before acting, reconcile the newest acceptable evidence across the instruction f
 ## Current Status
 The first queued runtime lane, `sdxl_low_risk_fallback_lane`, completed target EC2 static proof, one bounded package-fed workflow smoke generation, SSM pullback, technical image QA, and visual QA with runtime-smoke notes. Do not repeat that lane just to re-prove the same path.
 
-The next queued runtime lane is `sdxl_realvisxl_base_lane`. EC2 object-info/core-node proof has been attempted and passed, but the required checkpoint is missing on EC2. It still needs the RealVisXL checkpoint installed or synced to `/home/ubuntu/ComfyUI/models/checkpoints/realvisxlV50_v50Bakedvae.safetensors`, SHA256 verification, model-load/generation proof, pullback, and image QA before it can be treated as runtime-proven.
+The next queued runtime lane, `sdxl_realvisxl_base_lane`, has also completed RealVisXL model installation, SHA256 verification, EC2 static proof after install, one EC2 workflow smoke generation, generated artifact pullback, pullback hash verification, and technical plus visual image QA. Do not rerun this smoke proof unless the lane, prompt, model, or runtime changed, or the user explicitly asks for a broader multi-sample image-quality certification.
 
 Wave 63 cost controls are active:
 
 - Local dev preflight: `tools\Test-LocalComfyUIDevPreflight.ps1`.
+- Local dev startup: `tools\Start-LocalComfyUIDev.ps1`.
 - Deploy bundle builder: `tools\New-EC2DeployBundle.ps1`.
+- Deploy bundle S3 publisher: `Plan\Instructions\Operations\Scripts\Publish-DeployBundleToS3.ps1`.
+- EC2 model S3 installer: `Plan\Instructions\Operations\Scripts\Install-EC2ModelFromS3.ps1`.
+- EC2 emergency stop scheduler: `Plan\Instructions\Operations\Scripts\New-EC2EmergencyStopSchedule.ps1`.
+- EC2 instance-side watchdog: `Plan\Instructions\Operations\Scripts\Start-EC2InstanceStopWatchdog.ps1`.
 - GitHub Actions preflight/package workflow: `.github\workflows\preflight-package.yml`.
-- EC2 helpers now support `-SkipGitLfsPull` and `-MaxEc2RuntimeMinutes`.
+- EC2 helpers now support `-SkipGitLfsPull`, `-DeployBundleS3Uri`, `-DeployBundleSha256`, and `-MaxEc2RuntimeMinutes`.
+- Safe-to-commit AWS least-privilege policy templates are under `configs\aws`.
 - EC2 should be used only for target-runtime facts, not for package/build/index housekeeping.
 
 ## Last Verified Facts
@@ -65,43 +71,46 @@ Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_VISUAL_20260706T122
 
 S3 pullback was blocked by missing EC2 role permissions and SSH/SCP timed out, so SSM chunk pullback is the known working fallback. EC2 final state was verified `stopped`.
 
-Current RealVisXL blocker evidence:
+Current RealVisXL evidence:
 
 ```text
-Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_REALVISXL_20260706T123028-0500.json
-Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_REALVISXL_MISSING_MODEL_CLASSIFICATION_20260706T124103-0500.json
-Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W63_RUNTIME_LANE_QUEUE_VALIDATION_CURRENT_REALVISXL_20260706T130600-0500.json
-Plan/Instructions/QA/Evidence/Project_Readiness/W63_PROJECT_READINESS_REALVISXL_CURRENT_QUEUE_20260706T131000-0500.json
-Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_RUNTIME_UNBLOCK_HANDOFF_REALVISXL_CURRENT_20260706T131300-0500.json
+Plan/Instructions/QA/Evidence/Model_Registry/W63_EC2_REALVISXL_MODEL_INSTALL_20260706T125425-0500.json
+Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_EC2_LANE_STATIC_PROOF_REALVISXL_AFTER_INSTALL_20260706T131129-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_LANE_RUNTIME_READINESS_REALVISXL_AFTER_STATIC_PROOF_20260706T132103-0500.json
+Plan/Instructions/QA/Evidence/Workflow_Runtime/W63_EC2_WORKFLOW_SMOKE_REALVISXL_AFTER_STATIC_PROOF_20260706T132206-0500.json
+Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T132206-0500/PULLBACK_RECORD.json
+Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_IMAGE_QA_TECHNICAL_REALVISXL_20260706T140027-0500.json
+Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_REALVISXL_IMAGE_QA_VISUAL_20260706T140120-0500.json
+Plan/Instructions/QA/Evidence/Project_Readiness/W63_PROJECT_READINESS_REALVISXL_QA_COMPLETE_20260706T140806-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_RUNTIME_UNBLOCK_HANDOFF_REALVISXL_QA_COMPLETE_FINAL_20260706T140828-0500.json
+Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_COST_CONTROL_TERMINAL_STATE_VALIDATION_20260706T140909-0500.json
+Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_TERMINAL_STATE_VALIDATION_20260706T141104-0500.json
 ```
 
-The expected RealVisXL file is `realvisxlV50_v50Bakedvae.safetensors` from Civitai model `139562`, version `789646`, expected SHA256 `6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80`. Model binaries must not be committed to Git.
+The expected RealVisXL file is now present on EC2 and verified with SHA256 `6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80`. Model binaries must not be committed to Git.
 
 ## Next Exact Work
 First, if the runtime proof, cost-control, tracker, or instruction updates are uncommitted, finish one clean Git checkpoint and verify local `HEAD == origin/main`.
 
-Second, resolve the current RealVisXL blocker without using Git LFS or committing model binaries. Prefer this order:
+Second, choose the next work intentionally. The default next work is one of:
 
-1. Check whether the RealVisXL checkpoint already exists locally or in an approved cache/S3 bucket.
-2. If it exists locally, upload or sync it through an approved non-Git path before EC2 runtime proof.
-3. If it does not exist locally, use the Civitai metadata/API key only to prepare a bounded model-provisioning plan; install the model on EC2 in one timed window, then stop EC2.
-4. Verify SHA256 against `6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80` before generation.
+1. Configure/apply S3 runtime permissions using `configs\aws\ec2-runtime-s3-policy.template.json`, `configs\aws\github-actions-oidc-deploy-bundle-policy.template.json`, and the scheduler templates so future deploy/model/artifact transfer is faster and cheaper.
+2. Define the next lane/module from the Main Flow/Wave42 source context and run local validation, registry coverage, queue updates, run package creation, and deploy-bundle creation while EC2 is stopped.
+3. If image-quality certification is the explicit next target, run a broader multi-sample RealVisXL QA plan rather than treating the single smoke image as final portfolio proof.
 
-Third, keep using the cost-control lane before any generation attempt:
+Third, keep using the cost-control lane before any future generation attempt:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\Test-LocalComfyUIDevPreflight.ps1 -ProjectRoot C:\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\Start-LocalComfyUIDev.ps1 -ProjectRoot C:\Comfy_UI_Main -LocalComfyRoot <path-to-local-ComfyUI> -LowVram
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\New-WorkflowRunPackage.ps1 -ProjectRoot C:\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane -AllowNonFirstLane
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\New-EC2DeployBundle.ps1 -ProjectRoot C:\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane -RunPackageManifestFile <realvisxl-run-package-manifest>
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Publish-DeployBundleToS3.ps1 -BundleManifestFile <deploy-bundle-manifest> -S3BaseUri s3://<bucket>/<deploy-bundle-prefix>
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\New-EC2EmergencyStopSchedule.ps1 -SchedulerRoleArn arn:aws:iam::<account-id>:role/<scheduler-stop-role> -StopAfterMinutes 60
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Start-EC2InstanceStopWatchdog.ps1 -StopAfterMinutes 60
 ```
 
-After AWS auth and Git gates pass, rerun one bounded EC2 static proof to verify the model path and hash. Default to `-SkipGitLfsPull` unless the selected lane explicitly requires repository LFS payloads:
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -MaxEc2RuntimeMinutes 25 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W63_EC2_LANE_STATIC_PROOF_REALVISXL_<timestamp>.json
-```
-
-Only after RealVisXL static proof reports the checkpoint exists and its SHA256 matches, run its package-fed workflow smoke with `-SkipGitLfsPull`, `-MaxEc2RuntimeMinutes`, pullback, and image QA.
+Do not rerun RealVisXL static proof, workflow smoke, pullback, or image QA for the completed proof unless the lane, prompt, model, runtime, or QA objective changed. The next runtime evidence should belong to a new lane/module or a user-approved broader quality pass.
 
 ## Hard Stop And No-Loop Rules
 If AWS auth is expired, Git is not clean/pushed, or the selected lane is not ready, do not start EC2. Record the blocker once and switch only to a concrete local/CI task that changes runtime capability.
@@ -118,6 +127,8 @@ Disallowed loop work:
 - Repeating first-lane proof without a changed lane/package/prompt/QA objective.
 - Rebuilding indexes or handoffs repeatedly with the same result.
 - Running Git LFS pulls on the EC2 clock unless a lane explicitly needs them.
+- Starting EC2 to upload/sync project files when a deploy bundle can be prepared and uploaded to S3 first.
+- Starting EC2 for prompt/workflow iteration that local ComfyUI can handle.
 - Updating this pursuing goal in a way that omits the required `Plan/Instructions` read order.
 
 ## Update Protocol

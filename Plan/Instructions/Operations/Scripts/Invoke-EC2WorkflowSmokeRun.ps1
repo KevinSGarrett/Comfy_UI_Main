@@ -35,6 +35,8 @@ param(
   [string]$RemoteArtifactRoot = "/home/ubuntu/comfyui_artifacts",
   [string]$S3Bucket = "",
   [string]$S3Prefix = "",
+  [string]$DeployBundleS3Uri = "",
+  [string]$DeployBundleSha256 = "",
   [int]$ComfyPort = 8192,
   [int]$TimeoutSeconds = 900,
   [int]$PollSeconds = 3,
@@ -822,6 +824,8 @@ $record = [ordered]@{
   timeout_seconds = $TimeoutSeconds
   max_ec2_runtime_minutes = $MaxEc2RuntimeMinutes
   git_lfs_pull_skipped = [bool]$SkipGitLfsPull.IsPresent
+  deploy_bundle_s3_uri = $DeployBundleS3Uri
+  deploy_bundle_sha256 = $DeployBundleSha256
   result = $(if ($executeGatesPass) { "ready_for_workflow_smoke_execute" } elseif ($Execute) { "blocked_before_ec2_start" } else { "dry_run_blocked_before_ec2_start" })
   failure_category = $gateFailureCategory
   lane_contracts = $laneContracts
@@ -889,7 +893,7 @@ $s3PrefixForRemote = "$S3Prefix/$runId".Trim("/")
 $ssmExecutionTimeoutSeconds = [Math]::Min([Math]::Max(600, $TimeoutSeconds + 900), [Math]::Max(600, $MaxEc2RuntimeMinutes * 60))
 $remoteScript = @"
 python3 - <<'PY'
-import base64, datetime, glob, hashlib, json, os, shutil, signal, subprocess, time, traceback, urllib.request
+import base64, datetime, glob, hashlib, json, os, shutil, signal, subprocess, tempfile, time, traceback, urllib.request, zipfile
 
 RUN_ID = "$runId"
 PROJECT = "$RemoteProjectRoot"
@@ -898,6 +902,8 @@ ARTIFACT_ROOT = "$RemoteArtifactRoot/$runId"
 REQUEST_B64 = "$requestBase64"
 EXPECTED_GIT_HEAD = "$expectedRemoteGitHead"
 SKIP_GIT_LFS_PULL = "$($SkipGitLfsPull.IsPresent)".lower() == "true"
+DEPLOY_BUNDLE_S3_URI = "$DeployBundleS3Uri"
+DEPLOY_BUNDLE_SHA256 = "$DeployBundleSha256".strip().lower()
 PORT = $ComfyPort
 TIMEOUT_SECONDS = $TimeoutSeconds
 POLL_SECONDS = $PollSeconds
@@ -930,6 +936,54 @@ def sha256_file(path):
             h.update(chunk)
     return h.hexdigest()
 
+def apply_deploy_bundle_if_configured():
+    if not DEPLOY_BUNDLE_S3_URI:
+        return None
+    os.makedirs(PROJECT, exist_ok=True)
+    bundle_path = os.path.join(tempfile.gettempdir(), "codex_deploy_bundle_%s.zip" % int(time.time()))
+    download = run(["aws", "s3", "cp", DEPLOY_BUNDLE_S3_URI, bundle_path, "--only-show-errors"], timeout=900, check=True)
+    actual_sha = sha256_file(bundle_path).lower()
+    if DEPLOY_BUNDLE_SHA256 and actual_sha != DEPLOY_BUNDLE_SHA256:
+        raise RuntimeError("deploy bundle sha256 mismatch: expected %s observed %s" % (DEPLOY_BUNDLE_SHA256, actual_sha))
+    extract_root = tempfile.mkdtemp(prefix="codex_deploy_bundle_")
+    try:
+        with zipfile.ZipFile(bundle_path, "r") as zf:
+            for member in zf.infolist():
+                normalized = os.path.normpath(member.filename)
+                if normalized.startswith("..") or os.path.isabs(member.filename):
+                    raise RuntimeError("unsafe deploy bundle path: " + member.filename)
+            zf.extractall(extract_root)
+        manifest = {}
+        manifest_path = os.path.join(extract_root, "DEPLOY_BUNDLE_MANIFEST.json")
+        if os.path.exists(manifest_path):
+            with open(manifest_path, "r", encoding="utf-8") as f:
+                manifest = json.load(f)
+        source_head = str(manifest.get("source_git_head") or "")
+        if EXPECTED_GIT_HEAD and source_head and source_head != EXPECTED_GIT_HEAD:
+            raise RuntimeError("deploy bundle source head %s did not match expected origin/main %s" % (source_head, EXPECTED_GIT_HEAD))
+        for name in os.listdir(extract_root):
+            src = os.path.join(extract_root, name)
+            dst = os.path.join(PROJECT, name)
+            if os.path.isdir(src):
+                shutil.copytree(src, dst, dirs_exist_ok=True)
+            else:
+                os.makedirs(os.path.dirname(dst), exist_ok=True)
+                shutil.copy2(src, dst)
+        return {
+            "deployment_method": "s3_deploy_bundle",
+            "s3_uri": DEPLOY_BUNDLE_S3_URI,
+            "download_rc": download["rc"],
+            "sha256": actual_sha,
+            "sha256_expected": DEPLOY_BUNDLE_SHA256,
+            "sha256_verified": (not DEPLOY_BUNDLE_SHA256) or actual_sha == DEPLOY_BUNDLE_SHA256,
+            "manifest_source_git_head": source_head,
+            "manifest_lane_id": manifest.get("lane_id"),
+            "manifest_file_count": manifest.get("file_count"),
+            "git_lfs_pull_skipped": True
+        }
+    finally:
+        shutil.rmtree(extract_root, ignore_errors=True)
+
 def artifact_type(rel):
     p = rel.replace("\\", "/").lower()
     ext = os.path.splitext(p)[1]
@@ -955,6 +1009,9 @@ def qa_required(kind):
 proc = None
 log_handle = None
 try:
+    deployment = apply_deploy_bundle_if_configured()
+    if deployment:
+        result["remote_project_deployment"] = deployment
     if not os.path.isdir(PROJECT):
         raise RuntimeError("remote project missing: " + PROJECT)
     if not os.path.exists(os.path.join(COMFY, "main.py")):
@@ -965,19 +1022,21 @@ try:
     os.makedirs(os.path.join(ARTIFACT_ROOT, "workflows"), exist_ok=True)
     os.makedirs(os.path.join(ARTIFACT_ROOT, "images"), exist_ok=True)
 
-    result["git_head_before"] = run(["git", "rev-parse", "HEAD"], cwd=PROJECT, check=True)["stdout"]
-    result["git_pull"] = run(["git", "pull", "--ff-only", "origin", "main"], cwd=PROJECT, timeout=300, check=True)["stdout"][-500:]
-    if SKIP_GIT_LFS_PULL:
-        result["git_lfs_pull_rc"] = 0
-        result["git_lfs_pull_skipped"] = True
-    else:
-        result["git_lfs_pull_rc"] = run(["git", "lfs", "pull"], cwd=PROJECT, timeout=300, check=True)["rc"]
-        result["git_lfs_pull_skipped"] = False
-    result["git_head_after"] = run(["git", "rev-parse", "HEAD"], cwd=PROJECT, check=True)["stdout"]
-    result["git_expected_head"] = EXPECTED_GIT_HEAD
-    result["git_head_matches_expected"] = (not EXPECTED_GIT_HEAD) or result["git_head_after"] == EXPECTED_GIT_HEAD
-    if EXPECTED_GIT_HEAD and result["git_head_after"] != EXPECTED_GIT_HEAD:
-        raise RuntimeError("remote project HEAD %s did not match expected origin/main %s" % (result["git_head_after"], EXPECTED_GIT_HEAD))
+    if not deployment:
+        result["remote_project_deployment"] = {"deployment_method": "git_pull"}
+        result["git_head_before"] = run(["git", "rev-parse", "HEAD"], cwd=PROJECT, check=True)["stdout"]
+        result["git_pull"] = run(["git", "pull", "--ff-only", "origin", "main"], cwd=PROJECT, timeout=300, check=True)["stdout"][-500:]
+        if SKIP_GIT_LFS_PULL:
+            result["git_lfs_pull_rc"] = 0
+            result["git_lfs_pull_skipped"] = True
+        else:
+            result["git_lfs_pull_rc"] = run(["git", "lfs", "pull"], cwd=PROJECT, timeout=300, check=True)["rc"]
+            result["git_lfs_pull_skipped"] = False
+        result["git_head_after"] = run(["git", "rev-parse", "HEAD"], cwd=PROJECT, check=True)["stdout"]
+        result["git_expected_head"] = EXPECTED_GIT_HEAD
+        result["git_head_matches_expected"] = (not EXPECTED_GIT_HEAD) or result["git_head_after"] == EXPECTED_GIT_HEAD
+        if EXPECTED_GIT_HEAD and result["git_head_after"] != EXPECTED_GIT_HEAD:
+            raise RuntimeError("remote project HEAD %s did not match expected origin/main %s" % (result["git_head_after"], EXPECTED_GIT_HEAD))
 
     request_json = base64.b64decode(REQUEST_B64.encode("ascii")).decode("utf-8")
     request_path = os.path.join(ARTIFACT_ROOT, "workflows", "prompt_request.json")

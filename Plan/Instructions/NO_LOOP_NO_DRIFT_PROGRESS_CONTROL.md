@@ -281,19 +281,23 @@ Use this decision order:
 
 ```text
 1. Can the work be completed with static validation, package creation, or GitHub Actions while EC2 is stopped? Do that first.
-2. Can the work be explored in local ComfyUI dev mode without claiming target-runtime proof? Do that before EC2.
-3. Is a target A10G runtime fact required: object_info, model path/hash/load, generation, pullback, or QA? Use one bounded EC2 window.
-4. Is auth, Git, or queue state blocked? Stop and report the blocker.
+2. Can deploy bundles or model binaries be uploaded to S3/model-cache before EC2 starts? Do that first.
+3. Can the work be explored in local ComfyUI dev mode without claiming target-runtime proof? Do that before EC2.
+4. Is a target A10G runtime fact required: object_info, model path/hash/load, generation, pullback, or QA? Use one bounded EC2 window.
+5. Is auth, Git, queue, S3 permission, or model-cache state blocked? Stop and report the blocker.
 ```
 
-Do not repeat a completed lane proof. If `sdxl_low_risk_fallback_lane` already has EC2 static proof, generated smoke output, pullback, and image QA evidence, future EC2 work should move to the next queued lane or a user-approved improvement task.
+Do not repeat a completed lane proof. If `sdxl_low_risk_fallback_lane` or `sdxl_realvisxl_base_lane` already has EC2 static proof, generated smoke output, pullback, and image QA evidence, future EC2 work should move to the next queued lane/module, S3 permission hardening, or a user-approved broader QA objective. Do not rerun RealVisXL only to re-prove the single completed smoke image.
 
 EC2 helper defaults:
 
 ```text
 Use -SkipGitLfsPull unless the lane explicitly requires repository LFS payloads.
+Use -DeployBundleS3Uri and -DeployBundleSha256 when a verified deploy bundle exists in S3.
 Use -MaxEc2RuntimeMinutes for every -Execute command.
-Do not run Git LFS pulls, bundle rebuilds, or index refreshes on the GPU clock unless they are strictly required for the active runtime command.
+Use Install-EC2ModelFromS3.ps1 for model-cache provisioning instead of Git or Git LFS.
+Create an emergency stop schedule and use the instance watchdog when permissions allow.
+Do not run Git LFS pulls, model uploads, bundle rebuilds, or index refreshes on the GPU clock unless they are strictly required for the active runtime command.
 ```
 
 ## 14. Active runtime surface boundary
