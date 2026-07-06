@@ -28,6 +28,7 @@ param(
   [string]$ReadinessFile = "",
   [string]$OutFile = "",
   [string]$OutRequestFile = "",
+  [string]$RunPackageManifestFile = "",
   [string]$RunRecordFile = "",
   [string]$RemoteProjectRoot = "/home/ubuntu/Comfy_UI_Main",
   [string]$RemoteComfyRoot = "/home/ubuntu/ComfyUI",
@@ -173,6 +174,160 @@ function Test-JsonContract {
   return $results
 }
 
+function Get-FileSha256Lower {
+  param([string]$Path)
+  if ([string]::IsNullOrWhiteSpace($Path) -or !(Test-Path -LiteralPath $Path)) { return $null }
+  return (Get-FileHash -Algorithm SHA256 -LiteralPath $Path).Hash.ToLowerInvariant()
+}
+
+function Resolve-ProjectPath {
+  param([string]$Path)
+
+  if ([string]::IsNullOrWhiteSpace($Path)) { return $null }
+  if ([System.IO.Path]::IsPathRooted($Path)) {
+    return [System.IO.Path]::GetFullPath($Path)
+  }
+  return [System.IO.Path]::GetFullPath((Join-Path $ProjectRoot $Path.Replace("/", "\")))
+}
+
+function Get-RunPackageStatus {
+  param([string]$Path)
+
+  $result = [ordered]@{
+    supplied = $false
+    file = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $Path
+    found = $false
+    valid = $false
+    errors = @()
+    run_id = $null
+    result = $null
+    lane_id = $null
+    lane_match = $false
+    prompt_profile = [ordered]@{
+      supplied = $false
+      applied = $false
+      profile_id = $null
+      path = $null
+    }
+    prompt_request = [ordered]@{
+      path = $null
+      expected_sha256 = $null
+      actual_sha256 = $null
+      hash_match = $false
+      json_valid = $false
+      node_count = 0
+      client_id = $null
+    }
+  }
+
+  if ([string]::IsNullOrWhiteSpace($Path)) {
+    return $result
+  }
+
+  $result.supplied = $true
+  $manifestPath = Resolve-ProjectPath -Path $Path
+  $result.file = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $manifestPath
+  if (!(Test-Path -LiteralPath $manifestPath)) {
+    $result.errors += "Run package manifest not found: $Path"
+    return $result
+  }
+  $result.found = $true
+
+  try {
+    $manifest = Read-JsonFile -Path $manifestPath
+  } catch {
+    $result.errors += "Run package manifest JSON parse failed: $($_.Exception.Message)"
+    return $result
+  }
+
+  if (Has-Property -Object $manifest -Name "run_id") { $result.run_id = [string]$manifest.run_id }
+  if (Has-Property -Object $manifest -Name "result") { $result.result = [string]$manifest.result }
+  if (Has-Property -Object $manifest -Name "lane_id") { $result.lane_id = [string]$manifest.lane_id }
+  $result.lane_match = ([string]$result.lane_id -eq [string]$LaneId)
+  if (!$result.lane_match) {
+    $result.errors += "Run package lane_id '$($result.lane_id)' does not match selected lane '$LaneId'."
+  }
+  if ([string]$result.result -ne "pass_local_only") {
+    $result.errors += "Run package result is '$($result.result)', not pass_local_only."
+  }
+  if ((Has-Property -Object $manifest -Name "ec2_started") -and [bool]$manifest.ec2_started) {
+    $result.errors += "Run package records ec2_started=true; expected a local-only package."
+  }
+  if ((Has-Property -Object $manifest -Name "generation_executed") -and [bool]$manifest.generation_executed) {
+    $result.errors += "Run package records generation_executed=true; expected a pre-execution package."
+  }
+  if ((Has-Property -Object $manifest -Name "prompt_profile") -and $null -ne $manifest.prompt_profile) {
+    $result.prompt_profile.supplied = [bool]$manifest.prompt_profile.supplied
+    $result.prompt_profile.applied = [bool]$manifest.prompt_profile.applied
+    if (Has-Property -Object $manifest.prompt_profile -Name "profile_id") {
+      $result.prompt_profile.profile_id = [string]$manifest.prompt_profile.profile_id
+    }
+    if (Has-Property -Object $manifest.prompt_profile -Name "path") {
+      $result.prompt_profile.path = [string]$manifest.prompt_profile.path
+    }
+  }
+
+  $promptRequestPath = $null
+  $expectedHash = $null
+  if (Has-Property -Object $manifest -Name "generated_files") {
+    $promptGenerated = @($manifest.generated_files | Where-Object { [string]$_.path -match '(^|/)prompt_request\.json$' } | Select-Object -First 1)
+    if ($promptGenerated.Count -gt 0) {
+      $promptRequestPath = [string]$promptGenerated[0].path
+      if (Has-Property -Object $promptGenerated[0] -Name "sha256") {
+        $expectedHash = ([string]$promptGenerated[0].sha256).ToLowerInvariant()
+      }
+    }
+  }
+  if ([string]::IsNullOrWhiteSpace($promptRequestPath) -and
+      (Has-Property -Object $manifest -Name "package_dir") -and
+      ![string]::IsNullOrWhiteSpace([string]$manifest.package_dir)) {
+    $promptRequestPath = ([string]$manifest.package_dir).TrimEnd("/", "\") + "/prompt_request.json"
+  }
+  if ([string]::IsNullOrWhiteSpace($expectedHash) -and
+      (Has-Property -Object $manifest -Name "prompt_request") -and
+      $null -ne $manifest.prompt_request -and
+      (Has-Property -Object $manifest.prompt_request -Name "sha256")) {
+    $expectedHash = ([string]$manifest.prompt_request.sha256).ToLowerInvariant()
+  }
+  if ([string]::IsNullOrWhiteSpace($promptRequestPath)) {
+    $result.errors += "Run package manifest does not identify prompt_request.json."
+    return $result
+  }
+
+  $promptFullPath = Resolve-ProjectPath -Path $promptRequestPath
+  $result.prompt_request.path = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $promptFullPath
+  $result.prompt_request.expected_sha256 = $expectedHash
+  if (!(Test-Path -LiteralPath $promptFullPath)) {
+    $result.errors += "Run package prompt_request.json not found: $promptRequestPath"
+    return $result
+  }
+
+  $actualHash = Get-FileSha256Lower -Path $promptFullPath
+  $result.prompt_request.actual_sha256 = $actualHash
+  $result.prompt_request.hash_match = (![string]::IsNullOrWhiteSpace($expectedHash) -and $actualHash -eq $expectedHash)
+  if (![string]::IsNullOrWhiteSpace($expectedHash) -and !$result.prompt_request.hash_match) {
+    $result.errors += "Run package prompt_request.json sha256 does not match manifest."
+  }
+
+  try {
+    $request = Read-JsonFile -Path $promptFullPath
+    $result.prompt_request.json_valid = $true
+    if (Has-Property -Object $request -Name "client_id") {
+      $result.prompt_request.client_id = [string]$request.client_id
+    }
+    if ((Has-Property -Object $request -Name "prompt") -and $null -ne $request.prompt) {
+      $result.prompt_request.node_count = @($request.prompt.PSObject.Properties).Count
+    } else {
+      $result.errors += "Run package prompt_request.json has no prompt object."
+    }
+  } catch {
+    $result.errors += "Run package prompt_request.json parse failed: $($_.Exception.Message)"
+  }
+
+  $result.valid = ($result.errors.Count -eq 0)
+  return $result
+}
+
 function Test-StaticProof {
   param([string]$Path)
 
@@ -308,18 +463,18 @@ function Get-AuthGateStatus {
   if (Has-Property -Object $auth -Name "remote_login_status") {
     $result.remote_login_status = [string]$auth.remote_login_status
   }
-  if (Has-Property -Object $auth -Name "sts_after" -and $null -ne $auth.sts_after) {
+  if ((Has-Property -Object $auth -Name "sts_after") -and $null -ne $auth.sts_after) {
     $result.account_match = [bool]$auth.sts_after.account_match
     if ([string]::IsNullOrWhiteSpace([string]$result.failure_category)) {
       $result.failure_category = [string]$auth.sts_after.failure_category
     }
-  } elseif (Has-Property -Object $auth -Name "sts_before" -and $null -ne $auth.sts_before) {
+  } elseif ((Has-Property -Object $auth -Name "sts_before") -and $null -ne $auth.sts_before) {
     $result.account_match = [bool]$auth.sts_before.account_match
     if ([string]::IsNullOrWhiteSpace([string]$result.failure_category)) {
       $result.failure_category = [string]$auth.sts_before.failure_category
     }
   }
-  if (Has-Property -Object $auth -Name "remote_login" -and $null -ne $auth.remote_login) {
+  if ((Has-Property -Object $auth -Name "remote_login") -and $null -ne $auth.remote_login) {
     $result.remote_login_status = [string]$auth.remote_login.status
   }
   $result.status = $(if ($result.safe_to_start_ec2) { "pass" } else { "blocked" })
@@ -471,6 +626,53 @@ function Invoke-SmokeRequestDryRun {
   return $summary
 }
 
+function Copy-RunPackageRequest {
+  param(
+    [System.Collections.IDictionary]$RunPackage,
+    [string]$RequestOutFile
+  )
+
+  $summary = [ordered]@{
+    attempted = $true
+    source = "run_package"
+    exit_code = 1
+    request_file = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $RequestOutFile
+    request_file_exists = $false
+    json_parsed = $false
+    execution_allowed = $false
+    generation_executed = $false
+    run_package_id = $RunPackage.run_id
+    prompt_profile_id = $RunPackage.prompt_profile.profile_id
+    prompt_request_sha256 = $RunPackage.prompt_request.actual_sha256
+    errors = @()
+  }
+
+  if (!$RunPackage.valid) {
+    $summary.errors = @($RunPackage.errors)
+    return $summary
+  }
+
+  $sourcePath = Resolve-ProjectPath -Path ([string]$RunPackage.prompt_request.path)
+  try {
+    $requestDir = Split-Path -Parent $RequestOutFile
+    if (![string]::IsNullOrWhiteSpace($requestDir)) {
+      $null = New-Item -ItemType Directory -Force -Path $requestDir
+    }
+    Copy-Item -LiteralPath $sourcePath -Destination $RequestOutFile -Force
+    $summary.request_file_exists = (Test-Path -LiteralPath $RequestOutFile)
+    $request = Read-JsonFile -Path $RequestOutFile
+    $summary.json_parsed = $true
+    if (!(Has-Property -Object $request -Name "prompt")) {
+      $summary.errors += "Copied run package request has no prompt object."
+    }
+    $summary.exit_code = $(if ($summary.errors.Count -eq 0) { 0 } else { 1 })
+  } catch {
+    $summary.errors += "Run package request copy/parse failed: $($_.Exception.Message)"
+  }
+
+  return $summary
+}
+
 function Invoke-AwsCliJson {
   param([string[]]$Arguments)
 
@@ -546,6 +748,7 @@ $authGate = Get-AuthGateStatus -Path $AuthGateFile
 $readinessGate = Get-ReadinessStatus -Path $ReadinessFile
 $staticProof = Test-StaticProof -Path $StaticProofFile
 $localGitGate = Get-LocalGitCheckpointGate
+$runPackage = Get-RunPackageStatus -Path $RunPackageManifestFile
 
 if ([string]::IsNullOrWhiteSpace($OutRequestFile)) {
   $null = New-Item -ItemType Directory -Force -Path $workflowRuntimeDir
@@ -557,12 +760,19 @@ if ([string]::IsNullOrWhiteSpace($OutRequestFile)) {
     $null = New-Item -ItemType Directory -Force -Path $requestDir
   }
 }
-$smokeRequest = Invoke-SmokeRequestDryRun -SmokeScript $smokeScript -LaneDirectory $laneDir -ProofFile $StaticProofFile -RequestOutFile $requestFile
+$requestSource = $(if ($runPackage.supplied) { "run_package" } else { "lane_smoke_request" })
+if ($runPackage.supplied) {
+  $smokeRequest = Copy-RunPackageRequest -RunPackage $runPackage -RequestOutFile $requestFile
+} else {
+  $smokeRequest = Invoke-SmokeRequestDryRun -SmokeScript $smokeScript -LaneDirectory $laneDir -ProofFile $StaticProofFile -RequestOutFile $requestFile
+  $smokeRequest["source"] = "lane_smoke_request"
+}
 $smokeRequestReady = ($smokeRequest.exit_code -eq 0 -and $smokeRequest.json_parsed -and $smokeRequest.request_file_exists)
 
 $blockedReasons = @()
 if ($InstanceId -ne "i-0560bf8d143f93bb1") { $blockedReasons += "InstanceId is not the approved EC2 instance." }
 if (!$laneContractValid) { $blockedReasons += "Selected lane JSON contract is missing or invalid." }
+if ($runPackage.supplied -and !$runPackage.valid) { $blockedReasons += "Run package manifest/request is invalid." }
 if ($localGitGate.result -ne "pass") { $blockedReasons += "Local Git checkpoint gate is not clean and synced to origin/main." }
 if (!$authGate.safe_to_start_ec2) { $blockedReasons += "Auth gate does not allow EC2 start." }
 if ($readinessGate.found -and !$readinessGate.lane_match) { $blockedReasons += "Lane readiness file does not match selected lane $LaneId." }
@@ -577,6 +787,8 @@ if ($InstanceId -ne "i-0560bf8d143f93bb1") {
   $gateFailureCategory = "unapproved_instance"
 } elseif (!$laneContractValid) {
   $gateFailureCategory = "lane_contract_invalid"
+} elseif ($runPackage.supplied -and !$runPackage.valid) {
+  $gateFailureCategory = "run_package_invalid"
 } elseif ($localGitGate.result -ne "pass") {
   $gateFailureCategory = $(if ($localGitGate.clean -ne $true) { "local_git_worktree_dirty" } elseif ($localGitGate.local_matches_origin -ne $true) { "local_git_not_synced_to_origin" } else { "local_git_checkpoint_invalid" })
 } elseif (!$authGate.safe_to_start_ec2) {
@@ -613,6 +825,8 @@ $record = [ordered]@{
   auth_gate = $authGate
   readiness_gate = $readinessGate
   ec2_static_proof = $staticProof
+  run_package = $runPackage
+  request_source = $requestSource
   smoke_request = $smokeRequest
   execute_gates_pass = $executeGatesPass
   blocked_reasons = $blockedReasons
@@ -621,7 +835,7 @@ $record = [ordered]@{
     "Require auth gate for AWS account 029530099913 before EC2 start.",
     "Require selected-lane readiness gate before generation.",
     "Require EC2 object-info/path/hash static proof before generation.",
-    "Build the patched ComfyUI /prompt request body locally.",
+    $(if ($runPackage.supplied) { "Load the validated run package prompt_request.json as the bounded ComfyUI /prompt body." } else { "Build the patched ComfyUI /prompt request body locally." }),
     "With -Execute only, start i-0560bf8d143f93bb1, run remote ComfyUI smoke, create artifact manifest, pull back artifacts when S3 is available, then stop EC2."
   )
   generation_executed = $false

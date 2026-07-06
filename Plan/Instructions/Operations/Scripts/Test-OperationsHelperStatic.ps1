@@ -219,7 +219,7 @@ function Invoke-LocalHelper {
       if (Has-Property -Object $payload -Name "ec2_started") {
         $entry.ec2_started = [bool]$payload.ec2_started
       }
-      if ($Name -in @("ec2_lane_static_proof_dry_run", "ec2_workflow_smoke_run_dry_run")) {
+      if ($Name -in @("ec2_lane_static_proof_dry_run", "ec2_workflow_smoke_run_dry_run", "ec2_workflow_smoke_run_package_dry_run")) {
         foreach ($required in @("result", "failure_category", "local_git_checkpoint_gate", "execute_gates_pass", "blocked_reasons")) {
           if (-not (Has-Property -Object $payload -Name $required)) {
             throw "$Name output is missing top-level field: $required"
@@ -235,6 +235,25 @@ function Invoke-LocalHelper {
         }
         if (-not [bool]$payload.execute_gates_pass -and [string]::IsNullOrWhiteSpace([string]$payload.failure_category)) {
           throw "$Name blocked output must include a top-level failure_category."
+        }
+      }
+      if ($Name -eq "ec2_workflow_smoke_run_package_dry_run") {
+        foreach ($required in @("run_package", "request_source", "smoke_request")) {
+          if (-not (Has-Property -Object $payload -Name $required)) {
+            throw "$Name output is missing package field: $required"
+          }
+        }
+        if ([string]$payload.request_source -ne "run_package") {
+          throw "$Name request_source must be run_package."
+        }
+        if (-not [bool]$payload.run_package.valid) {
+          throw "$Name run_package.valid must be true."
+        }
+        if ([string]$payload.smoke_request.source -ne "run_package") {
+          throw "$Name smoke_request.source must be run_package."
+        }
+        if ([string]::IsNullOrWhiteSpace([string]$payload.run_package.prompt_profile.profile_id)) {
+          throw "$Name run package prompt profile id is missing."
         }
       }
       if ($Name -eq "runtime_unblock_handoff_smoke") {
@@ -655,6 +674,14 @@ $localSmokeResults += Invoke-LocalHelper -Name "ec2_workflow_smoke_run_dry_run" 
   -ScriptPath (Join-Path $scriptsRoot "Invoke-EC2WorkflowSmokeRun.ps1") `
   -Arguments @("-OutFile", $coordinatorFile, "-OutRequestFile", $coordinatorRequestFile, "-ReadinessFile", $readinessFile) `
   -ExpectedOutputFile $coordinatorFile
+
+$packageCoordinatorFile = Join-Path $tempRoot "ec2_workflow_smoke_run_package_dry_run.json"
+$packageCoordinatorRequestFile = Join-Path $tempRoot "ec2_workflow_smoke_run_package_request.json"
+$hyperrealPackageManifest = Join-Path $ProjectRoot "runtime_artifacts\run_packages\sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1\RUN_PACKAGE_MANIFEST.json"
+$localSmokeResults += Invoke-LocalHelper -Name "ec2_workflow_smoke_run_package_dry_run" `
+  -ScriptPath (Join-Path $scriptsRoot "Invoke-EC2WorkflowSmokeRun.ps1") `
+  -Arguments @("-OutFile", $packageCoordinatorFile, "-OutRequestFile", $packageCoordinatorRequestFile, "-ReadinessFile", $readinessFile, "-RunPackageManifestFile", $hyperrealPackageManifest) `
+  -ExpectedOutputFile $packageCoordinatorFile
 
 $runtimeUnblockHandoffFile = Join-Path $tempRoot "runtime_unblock_handoff.json"
 $runtimeUnblockHandoffMarkdown = Join-Path $tempRoot "runtime_unblock_handoff.md"
