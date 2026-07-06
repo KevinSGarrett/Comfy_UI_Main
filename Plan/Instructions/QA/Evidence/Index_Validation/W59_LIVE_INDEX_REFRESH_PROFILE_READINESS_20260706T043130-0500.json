@@ -1,0 +1,44 @@
+{
+  "evidence_id": "EVID-W59-LIVE-INDEX-REFRESH-PROFILE-READINESS-20260706T043130-0500",
+  "created_at": "2026-07-06T04:31:30-05:00",
+  "artifact_id": "TRK-W59-002-TRK-W59-003",
+  "artifact_type": "live_local_index_refresh_after_profile_aware_readiness",
+  "tracker_ids": ["TRK-W59-002", "TRK-W59-003", "TRK-W60-010", "TRK-W61-006", "TRK-W61-007"],
+  "qa_protocol_used": ["MASTER_PROJECT_LOCATION_INDEX.md", "Generate-Project-Indexes.ps1", "QA_EVIDENCE_LOG_PROTOCOL.md", "TRACKER_UPDATE_PROTOCOL.md"],
+  "command": "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Scripts\\Generate-Project-Indexes.ps1",
+  "regenerated_files": [
+    "Plan/Instructions/Indexes/Generated/plan_file_index.csv",
+    "Plan/Instructions/Indexes/Generated/plan_file_index.json",
+    "Plan/Instructions/Indexes/Generated/items_file_index.csv",
+    "Plan/Instructions/Indexes/Generated/items_file_index.json",
+    "Plan/Instructions/Indexes/Generated/tracker_file_index.csv",
+    "Plan/Instructions/Indexes/Generated/tracker_file_index.json",
+    "Plan/Instructions/Indexes/Generated/instructions_file_index.csv",
+    "Plan/Instructions/Indexes/Generated/instructions_file_index.json"
+  ],
+  "validation": {
+    "parse_result": "pass",
+    "row_counts": {
+      "plan_file_index": {"csv_rows": 2474, "json_rows": 2474},
+      "items_file_index": {"csv_rows": 45, "json_rows": 45},
+      "tracker_file_index": {"csv_rows": 26, "json_rows": 26},
+      "instructions_file_index": {"csv_rows": 248, "json_rows": 248}
+    },
+    "new_file_discovery_checks": [
+      "Plan/Instructions/Operations/Scripts/Test-LaneRuntimeReadiness.ps1",
+      "Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_PROFILE_MATRIX_20260706T042932-0500.json",
+      "Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W61_LANE_RUNTIME_READINESS_PROFILE_MATRIX_20260706T042932-0500.md",
+      "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_20260706T042938-0500.json",
+      "Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W60_OPERATIONS_HELPER_CURRENT_VALIDATION_READINESS_PROFILE_20260706T042938-0500.md"
+    ],
+    "new_file_discovery_result": "pass",
+    "auth_url_or_secret_scan_result": "pass",
+    "auth_url_or_secret_scan_matches": 0
+  },
+  "result": "pass",
+  "known_issues": [
+    "This refresh validates local generated index currency only. It does not claim AWS login refresh, EC2 object-info proof, Civitai download, ComfyUI runtime generation, generated artifact pullback, or media QA."
+  ],
+  "next_action": "Complete AWS browser/SSO login, rerun auth/profile gates, rerun selected-lane readiness, then perform EC2 static proof."
+}
+

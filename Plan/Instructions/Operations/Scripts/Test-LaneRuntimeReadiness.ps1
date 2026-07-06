@@ -13,6 +13,7 @@ param(
   [string]$ProjectRoot = "C:\Comfy_UI_Main",
   [string]$LaneId = "sdxl_low_risk_fallback_lane",
   [string]$AuthGateFile = "",
+  [string]$ProfileMatrixFile = "",
   [string]$StaticProofFile = "",
   [string]$OutFile = ""
 )
@@ -106,6 +107,9 @@ $runtimeReadinessDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Run
 if ([string]::IsNullOrWhiteSpace($AuthGateFile)) {
   $AuthGateFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_AUTH_GATE_*.json"
 }
+if ([string]::IsNullOrWhiteSpace($ProfileMatrixFile)) {
+  $ProfileMatrixFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_PROFILE_AUTH_MATRIX_*.json"
+}
 
 $workflowStaticDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Workflow_Static_Validation"
 if ([string]::IsNullOrWhiteSpace($StaticProofFile)) {
@@ -118,6 +122,7 @@ $helperPaths = @(
   (Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Invoke-ComfyWorkflowSmoke.ps1"),
   (Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1"),
   (Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Test-AwsAuthGate.ps1"),
+  (Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Test-AwsProfileAuthMatrix.ps1"),
   (Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\New-EC2PullbackRecord.ps1"),
   (Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\New-ImageArtifactQARecord.ps1")
 )
@@ -208,11 +213,49 @@ if ($auth.found) {
   if (Has-Property -Object $authJson -Name "remote_login") {
     $auth.remote_login_status = [string]$authJson.remote_login.status
   }
-  if (Has-Property -Object $authJson -Name "sts_after" -and $null -ne $authJson.sts_after) {
+  if ((Has-Property -Object $authJson -Name "sts_after") -and (Has-Property -Object $authJson.sts_after -Name "failure_category")) {
     $auth.sts_failure_category = [string]$authJson.sts_after.failure_category
-  } elseif (Has-Property -Object $authJson -Name "sts_before" -and $null -ne $authJson.sts_before) {
+  } elseif ((Has-Property -Object $authJson -Name "sts_before") -and (Has-Property -Object $authJson.sts_before -Name "failure_category")) {
     $auth.sts_failure_category = [string]$authJson.sts_before.failure_category
   }
+}
+
+$profileMatrix = [ordered]@{
+  file = $(if ([string]::IsNullOrWhiteSpace($ProfileMatrixFile)) { $null } else { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $ProfileMatrixFile })
+  found = (![string]::IsNullOrWhiteSpace($ProfileMatrixFile) -and (Test-Path -LiteralPath $ProfileMatrixFile))
+  expected_account = $null
+  active_env_profile_name = $null
+  profile_count = 0
+  profiles_matching_expected_count = 0
+  ec2_work_allowed = $false
+  safe_to_start_ec2 = $false
+  result = "missing_profile_matrix"
+  status = "missing_profile_matrix"
+}
+if ($profileMatrix.found) {
+  $profileJson = Read-JsonFile -Path $ProfileMatrixFile
+  if (Has-Property -Object $profileJson -Name "expected_account") {
+    $profileMatrix.expected_account = [string]$profileJson.expected_account
+  }
+  if (Has-Property -Object $profileJson -Name "active_env_profile_name") {
+    $profileMatrix.active_env_profile_name = [string]$profileJson.active_env_profile_name
+  }
+  if (Has-Property -Object $profileJson -Name "profile_count") {
+    $profileMatrix.profile_count = [int]$profileJson.profile_count
+  }
+  if (Has-Property -Object $profileJson -Name "profiles_matching_expected_count") {
+    $profileMatrix.profiles_matching_expected_count = [int]$profileJson.profiles_matching_expected_count
+  }
+  if (Has-Property -Object $profileJson -Name "ec2_work_allowed") {
+    $profileMatrix.ec2_work_allowed = [bool]$profileJson.ec2_work_allowed
+  }
+  if (Has-Property -Object $profileJson -Name "safe_to_start_ec2") {
+    $profileMatrix.safe_to_start_ec2 = [bool]$profileJson.safe_to_start_ec2
+  }
+  if (Has-Property -Object $profileJson -Name "result") {
+    $profileMatrix.result = [string]$profileJson.result
+  }
+  $profileMatrix.status = $(if ($profileMatrix.safe_to_start_ec2) { "pass" } else { "blocked" })
 }
 
 $staticProof = [ordered]@{
@@ -257,6 +300,9 @@ $readyForGeneration = ($readyForEc2StaticProof -and [bool]$staticProof.generatio
 if (!$auth.safe_to_start_ec2) {
   $warnings += "AWS auth gate does not allow EC2 start."
 }
+if ($profileMatrix.found -and !$profileMatrix.safe_to_start_ec2) {
+  $warnings += "AWS profile matrix found no profile currently safe for EC2 start."
+}
 if (!$staticProof.generation_allowed) {
   $warnings += "Generation remains blocked until EC2 object-info/path/hash proof passes."
 }
@@ -274,6 +320,7 @@ $record = [ordered]@{
   helper_scripts = $helperResults
   evidence_files = $evidenceResults
   auth_gate = $auth
+  profile_matrix = $profileMatrix
   ec2_static_proof = $staticProof
   local_pre_ec2_ready = $localPreEc2Ready
   ready_for_ec2_static_proof = $readyForEc2StaticProof
