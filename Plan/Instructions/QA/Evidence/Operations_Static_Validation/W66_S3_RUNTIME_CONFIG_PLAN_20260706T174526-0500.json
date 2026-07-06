@@ -1,0 +1,219 @@
+{
+    "evidence_id":  "W66-S3-RUNTIME-CONFIG-PLAN-VALIDATION-20260706T174527-0500",
+    "created_at":  "2026-07-06T17:45:28-05:00",
+    "artifact_type":  "s3_runtime_config_plan_validation",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "scripts":  {
+                    "planner":  "Plan/Instructions/Operations/Scripts/New-S3RuntimeConfigPlan.ps1",
+                    "validator":  "Plan/Instructions/QA/Scripts/Test-S3RuntimeConfigPlan.ps1"
+                },
+    "planner_result":  {
+                           "result":  "ready_to_apply_local_plan",
+                           "rendered_policy_count":  5,
+                           "command_count":  4
+                       },
+    "checks":  [
+                   {
+                       "name":  "planner_result_ready",
+                       "result":  "pass",
+                       "observed":  "ready_to_apply_local_plan",
+                       "expected":  "ready_to_apply_local_plan"
+                   },
+                   {
+                       "name":  "planner_local_only",
+                       "result":  "pass",
+                       "observed":  {
+                                        "local_only":  true,
+                                        "aws":  false,
+                                        "ec2_started":  false,
+                                        "generation_executed":  false
+                                    },
+                       "expected":  "local only; no AWS/EC2/generation"
+                   },
+                   {
+                       "name":  "planner_does_not_print_secrets",
+                       "result":  "pass",
+                       "observed":  false,
+                       "expected":  false
+                   },
+                   {
+                       "name":  "planned_s3_uris_present",
+                       "result":  "pass",
+                       "observed":  {
+                                        "bucket_configured":  true,
+                                        "deploy_bundle_s3_uri":  "s3://example-comfy-runtime-bucket/deploy-bundles",
+                                        "model_cache_s3_uri":  "s3://example-comfy-runtime-bucket/model-cache",
+                                        "artifact_s3_uri":  "s3://example-comfy-runtime-bucket/render-outputs",
+                                        "manifest_s3_uri":  "s3://example-comfy-runtime-bucket/manifests",
+                                        "github_role_arn_configured":  true,
+                                        "scheduler_role_arn_configured":  true
+                                    },
+                       "expected":  "deploy, model-cache, and artifact S3 URIs"
+                   },
+                   {
+                       "name":  "env_lines_include_required_keys",
+                       "result":  "pass",
+                       "observed":  [
+                                        "COMFY_DEPLOY_BUNDLE_S3_URI=s3://example-comfy-runtime-bucket/deploy-bundles",
+                                        "S3_MODEL_BUCKET=example-comfy-runtime-bucket",
+                                        "S3_MODEL_PREFIX=model-cache",
+                                        "S3_RENDER_OUTPUT_PREFIX=render-outputs",
+                                        "S3_MANIFEST_PREFIX=manifests",
+                                        "AWS_ROLE_TO_ASSUME=arn:aws:iam::029530099913:role/example-github-deploy-role",
+                                        "COMFY_SCHEDULER_STOP_ROLE_ARN=arn:aws:iam::029530099913:role/example-scheduler-stop-role"
+                                    ],
+                       "expected":  "required S3/IAM env lines"
+                   },
+                   {
+                       "name":  "all_policy_templates_parse",
+                       "result":  "pass",
+                       "observed":  [
+                                        {
+                                            "path":  "C:\\Comfy_UI_Main\\configs\\aws\\ec2-runtime-s3-policy.template.json",
+                                            "exists":  true,
+                                            "json_valid":  true,
+                                            "placeholders":  [
+                                                                 "\u003cartifact-prefix\u003e",
+                                                                 "\u003cbucket-name\u003e",
+                                                                 "\u003cdeploy-bundle-prefix\u003e",
+                                                                 "\u003cmodel-cache-prefix\u003e"
+                                                             ],
+                                            "result":  "pass",
+                                            "error":  null
+                                        },
+                                        {
+                                            "path":  "C:\\Comfy_UI_Main\\configs\\aws\\github-actions-oidc-deploy-bundle-policy.template.json",
+                                            "exists":  true,
+                                            "json_valid":  true,
+                                            "placeholders":  [
+                                                                 "\u003cbucket-name\u003e",
+                                                                 "\u003cdeploy-bundle-prefix\u003e"
+                                                             ],
+                                            "result":  "pass",
+                                            "error":  null
+                                        },
+                                        {
+                                            "path":  "C:\\Comfy_UI_Main\\configs\\aws\\github-actions-oidc-trust-policy.template.json",
+                                            "exists":  true,
+                                            "json_valid":  true,
+                                            "placeholders":  [
+                                                                 "\u003caccount-id\u003e",
+                                                                 "\u003cgithub-owner\u003e",
+                                                                 "\u003cgithub-repo\u003e"
+                                                             ],
+                                            "result":  "pass",
+                                            "error":  null
+                                        },
+                                        {
+                                            "path":  "C:\\Comfy_UI_Main\\configs\\aws\\eventbridge-scheduler-stop-role-policy.template.json",
+                                            "exists":  true,
+                                            "json_valid":  true,
+                                            "placeholders":  [
+                                                                 "\u003caccount-id\u003e",
+                                                                 "\u003cinstance-id\u003e",
+                                                                 "\u003cregion\u003e"
+                                                             ],
+                                            "result":  "pass",
+                                            "error":  null
+                                        },
+                                        {
+                                            "path":  "C:\\Comfy_UI_Main\\configs\\aws\\eventbridge-scheduler-stop-role-trust-policy.template.json",
+                                            "exists":  true,
+                                            "json_valid":  true,
+                                            "placeholders":  [
+
+                                                             ],
+                                            "result":  "pass",
+                                            "error":  null
+                                        }
+                                    ],
+                       "expected":  "all template checks pass"
+                   },
+                   {
+                       "name":  "rendered_policies_exist_and_parse",
+                       "result":  "pass",
+                       "observed":  {
+                                        "rendered_count":  5,
+                                        "failures":  [
+
+                                                     ],
+                                        "results":  [
+                                                        {
+                                                            "name":  "ec2_runtime_s3_policy",
+                                                            "path":  "[VALIDATION_TEMP_ROOT]/rendered_policies/ec2_runtime_s3_policy.rendered.json",
+                                                            "json_valid":  true,
+                                                            "remaining_placeholder_count":  0,
+                                                            "remaining_placeholders":  [
+
+                                                                                       ],
+                                                            "result":  "pass"
+                                                        },
+                                                        {
+                                                            "name":  "github_actions_oidc_deploy_bundle_policy",
+                                                            "path":  "[VALIDATION_TEMP_ROOT]/rendered_policies/github_actions_oidc_deploy_bundle_policy.rendered.json",
+                                                            "json_valid":  true,
+                                                            "remaining_placeholder_count":  0,
+                                                            "remaining_placeholders":  [
+
+                                                                                       ],
+                                                            "result":  "pass"
+                                                        },
+                                                        {
+                                                            "name":  "github_actions_oidc_trust_policy",
+                                                            "path":  "[VALIDATION_TEMP_ROOT]/rendered_policies/github_actions_oidc_trust_policy.rendered.json",
+                                                            "json_valid":  true,
+                                                            "remaining_placeholder_count":  0,
+                                                            "remaining_placeholders":  [
+
+                                                                                       ],
+                                                            "result":  "pass"
+                                                        },
+                                                        {
+                                                            "name":  "eventbridge_scheduler_stop_role_policy",
+                                                            "path":  "[VALIDATION_TEMP_ROOT]/rendered_policies/eventbridge_scheduler_stop_role_policy.rendered.json",
+                                                            "json_valid":  true,
+                                                            "remaining_placeholder_count":  0,
+                                                            "remaining_placeholders":  [
+
+                                                                                       ],
+                                                            "result":  "pass"
+                                                        },
+                                                        {
+                                                            "name":  "eventbridge_scheduler_stop_role_trust_policy",
+                                                            "path":  "[VALIDATION_TEMP_ROOT]/rendered_policies/eventbridge_scheduler_stop_role_trust_policy.rendered.json",
+                                                            "json_valid":  true,
+                                                            "remaining_placeholder_count":  0,
+                                                            "remaining_placeholders":  [
+
+                                                                                       ],
+                                                            "result":  "pass"
+                                                        }
+                                                    ]
+                                    },
+                       "expected":  "5 rendered valid JSON policies with no placeholders"
+                   },
+                   {
+                       "name":  "command_plan_has_required_followups",
+                       "result":  "pass",
+                       "observed":  [
+                                        "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Test-S3RuntimeTransferReadiness.ps1 -ProjectRoot C:\\Comfy_UI_Main -DeployBundleS3Uri s3://example-comfy-runtime-bucket/deploy-bundles -ModelCacheS3Uri s3://example-comfy-runtime-bucket/model-cache -ArtifactS3Uri s3://example-comfy-runtime-bucket/render-outputs -GitHubRoleArn arn:aws:iam::029530099913:role/example-github-deploy-role -SchedulerRoleArn arn:aws:iam::029530099913:role/example-scheduler-stop-role -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Operations_Static_Validation\\W66_S3_RUNTIME_TRANSFER_READINESS_\u003ctimestamp\u003e.json",
+                                        "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Publish-DeployBundleToS3.ps1 -BundleManifestFile \u003cmatrix-deploy-bundle-manifest\u003e -S3BaseUri s3://example-comfy-runtime-bucket/deploy-bundles -Region us-east-1 -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Operations_Static_Validation\\W66_MATRIX_DEPLOY_BUNDLE_S3_UPLOAD_\u003ctimestamp\u003e.json -Execute",
+                                        "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\New-EC2EmergencyStopSchedule.ps1 -SchedulerRoleArn arn:aws:iam::029530099913:role/example-scheduler-stop-role -StopAfterMinutes 60 -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Operations_Static_Validation\\W66_EC2_EMERGENCY_STOP_SCHEDULE_\u003ctimestamp\u003e.json",
+                                        "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\New-EC2WorkflowMatrixQualityRunPlan.ps1 -ProjectRoot C:\\Comfy_UI_Main -DeployBundleS3Uri \u003cuploaded-matrix-bundle-s3-uri\u003e -DeployBundleSha256 \u003cuploaded-matrix-bundle-sha256\u003e -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Runtime\\W66_EC2_WORKFLOW_MATRIX_QUALITY_RUN_PLAN_\u003ctimestamp\u003e.json"
+                                    ],
+                       "expected":  "readiness, publish, and matrix plan commands"
+                   }
+               ],
+    "failure_count":  0,
+    "failures":  [
+
+                 ],
+    "result":  "pass_local_only",
+    "next_action":  "Use real bucket and role values, rerun S3 readiness, then publish the matrix deploy bundle only after auth/Git gates pass."
+}

@@ -235,6 +235,43 @@
     "rule": "Use this plan as the bridge from the local RealVisXL three-sample matrix to bounded EC2 quality execution. Each sample must run from its verified package manifest with the matrix S3 bundle URI and SHA256, cost controls, artifact pullback, hash verification, and whole-image QA before certification.",
     "local_only_boundary": "Validation does not contact AWS, GitHub API, Civitai, ComfyUI, or EC2 and does not execute generation."
   },
+  "s3_runtime_config_plan": {
+    "active_wave": 66,
+    "planner": "Plan/Instructions/Operations/Scripts/New-S3RuntimeConfigPlan.ps1",
+    "qa_script": "Plan/Instructions/QA/Scripts/Test-S3RuntimeConfigPlan.ps1",
+    "qa_helper_script": "Plan/Instructions/QA/Scripts/Test-QAHelperStatic.ps1",
+    "operations_helper_script": "Plan/Instructions/Operations/Scripts/Test-OperationsHelperStatic.ps1",
+    "current_readiness_check": "Plan/Instructions/Operations/Scripts/Test-S3RuntimeTransferReadiness.ps1",
+    "validation_evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_RUNTIME_CONFIG_PLAN_20260706T174526-0500.json",
+    "qa_helper_validation_evidence": "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_S3_RUNTIME_CONFIG_PLAN_20260706T174541-0500.json",
+    "operations_helper_validation_evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_OPERATIONS_HELPER_S3_RUNTIME_CONFIG_PLAN_20260706T174541-0500.json",
+    "current_env_readiness_result": "blocked_missing_s3_runtime_config",
+    "current_missing_config": [
+      "S3_MODEL_BUCKET has no value",
+      "COMFY_DEPLOY_BUNDLE_S3_URI is missing",
+      "AWS_ROLE_TO_ASSUME is missing",
+      "scheduler stop role ARN is missing"
+    ],
+    "planner_validation_result": "pass_local_only",
+    "rendered_policy_preview_count": 5,
+    "required_env_lines": [
+      "COMFY_DEPLOY_BUNDLE_S3_URI",
+      "S3_MODEL_BUCKET",
+      "S3_MODEL_PREFIX",
+      "S3_RENDER_OUTPUT_PREFIX",
+      "S3_MANIFEST_PREFIX",
+      "AWS_ROLE_TO_ASSUME",
+      "COMFY_SCHEDULER_STOP_ROLE_ARN"
+    ],
+    "wave65_plan_source_coverage_after_update": {
+      "result": "pass",
+      "plan_file_count": 2851,
+      "wave65_rows_created": 676,
+      "missing_after_wave65_count": 0
+    },
+    "rule": "Before live matrix deploy-bundle upload or EC2 quality execution, fill the S3 bucket and IAM role values, rerun S3 runtime transfer readiness, publish the matrix bundle to S3, verify uploaded SHA256, then feed the uploaded URI/SHA into the matrix quality-run planner.",
+    "local_only_boundary": "Validation does not contact AWS, GitHub API, Civitai, ComfyUI, or EC2 and does not execute generation."
+  },
   "runtime_scope_boundary": {
     "source_analysis_context": [
       "Plan/12_SOURCE_SUMMARIES/source_snapshots/WAVE42_MAIN_FLOW_20260702.runtime_bound_snapshot.json",

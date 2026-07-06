@@ -906,6 +906,13 @@ $localSmokeResults += Invoke-LocalHelper -Name "ec2_workflow_matrix_quality_run_
   -ExpectedOutputFile $ec2WorkflowMatrixQualityRunPlanFile `
   -ExpectedOutputType "json"
 
+$s3RuntimeConfigPlanFile = Join-Path $tempRoot "s3_runtime_config_plan.json"
+$localSmokeResults += Invoke-LocalHelper -Name "s3_runtime_config_plan_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "Test-S3RuntimeConfigPlan.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-OutFile", $s3RuntimeConfigPlanFile) `
+  -ExpectedOutputFile $s3RuntimeConfigPlanFile `
+  -ExpectedOutputType "json"
+
 $itemsTrackerValidationFile = Join-Path $tempRoot "items_tracker_package_validation.json"
 $localSmokeResults += Invoke-LocalHelper -Name "items_tracker_package_validation_smoke" `
   -ScriptPath (Join-Path $scriptsRoot "Test-ItemsTrackerPackageStatic.ps1") `

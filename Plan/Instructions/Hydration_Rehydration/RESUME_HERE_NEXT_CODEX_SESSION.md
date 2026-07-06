@@ -536,6 +536,20 @@ If AWS auth is expired or Git is not clean/pushed, stop and report that blocker.
 - This was local-only. It did not contact AWS, GitHub APIs, Civitai, ComfyUI, start EC2, or run generation.
 - Next RealVisXL quality step: publish the matrix deploy bundle to S3, verify the real uploaded SHA256, then run only the generated per-sample plan after AWS auth, Git cleanliness, static proof, readiness, and cost-control gates pass. Pull back and whole-image QA every sample before any quality certification.
 
+## Latest S3 Runtime Config Plan
+
+- Current real S3 runtime transfer readiness is still `blocked_missing_s3_runtime_config`; the missing values are the actual S3 bucket/base URI and IAM role ARNs, not GitHub or Civitai token values.
+- Planner: `Plan\Instructions\Operations\Scripts\New-S3RuntimeConfigPlan.ps1`.
+- QA script: `Plan\Instructions\QA\Scripts\Test-S3RuntimeConfigPlan.ps1`.
+- QA helper integration: `Plan\Instructions\QA\Scripts\Test-QAHelperStatic.ps1` now includes `s3_runtime_config_plan_smoke`.
+- Operations helper integration: `Plan\Instructions\Operations\Scripts\Test-OperationsHelperStatic.ps1` now includes `s3_runtime_config_plan_smoke`.
+- Dedicated evidence: `Plan\Instructions\QA\Evidence\Operations_Static_Validation\W66_S3_RUNTIME_CONFIG_PLAN_20260706T174526-0500.json`; result `pass_local_only`, rendered policy preview count `5`, command count `4`.
+- Operations helper evidence: `Plan\Instructions\QA\Evidence\Operations_Static_Validation\W66_OPERATIONS_HELPER_S3_RUNTIME_CONFIG_PLAN_20260706T174541-0500.json`; result `pass_local_only`, 23 operations scripts parsed, 0 parse failures.
+- QA helper evidence: `Plan\Instructions\QA\Evidence\QA_Helper_Static_Validation\W66_QA_HELPER_S3_RUNTIME_CONFIG_PLAN_20260706T174541-0500.json`; result `pass_local_only`, 16 QA scripts parsed, 19 local smokes, 0 smoke failures.
+- Wave65 source coverage was rerun after this addition. Current result: `pass`, `plan_file_count=2851`, `wave65_rows_created=676`, `missing_after_wave65_count=0`.
+- This was local-only. It did not contact AWS, GitHub APIs, Civitai, ComfyUI, start EC2, upload to S3, or run generation.
+- Next exact action: run `New-S3RuntimeConfigPlan.ps1` with real bucket and role values, update `.env` outside Git with the produced values, rerun `Test-S3RuntimeTransferReadiness.ps1`, then publish the matrix deploy bundle to S3 and verify the uploaded SHA256 before any bounded EC2 quality execution.
+
 ## Must not repeat
 
 - Do not print token values from `.env`.
