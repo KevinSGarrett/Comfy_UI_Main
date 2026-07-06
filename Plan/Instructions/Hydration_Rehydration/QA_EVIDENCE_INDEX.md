@@ -251,13 +251,13 @@
 | EVID-ROOT-LOCAL-PREFLIGHT-CURRENT-HEAD-20260706T103000-0500 | Current-head root local preflight after evidence commit push | root_local_preflight | pass_local_only | runtime_artifacts/run_manifests/ROOT_LOCAL_PREFLIGHT_CURRENT_HEAD_20260706T103000-0500.json |
 | EVID-W59-LIVE-INDEX-REFRESH-CURRENT-HEAD-ROOT-PREFLIGHT-20260706T103000-0500 | Generated index refresh after current-head root preflight evidence | index_validation | pass | Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_CURRENT_HEAD_ROOT_PREFLIGHT_20260706T103000-0500.json |
 
-## Pending runtime evidence
+## Pending runtime evidence for future lanes or broader QA objectives
 
 - GitHub API-specific token evidence, if required separately from pushed Git remote evidence
-- AWS/EC2 static lane proof after AWS login refresh
-- ComfyUI workflow execution evidence after auth/static proof gates pass
-- EC2 artifact pullback runtime evidence
-- Image review evidence
+- AWS/EC2 static lane proof for any new lane/module after AWS login refresh
+- ComfyUI workflow execution evidence for any new lane/module after auth/static proof gates pass
+- EC2 artifact pullback runtime evidence for any new lane/module or broader multi-sample QA pass
+- Image review evidence for any new lane/module or broader multi-sample QA pass
 - Video review evidence
 - Audio review evidence
 | EVID-W61-REALVISXL-EC2-STATIC-MISSING-MODEL-20260706T123028-0500 | RealVisXL EC2 static proof: object_info passed, required checkpoint missing, EC2 stopped | ec2_lane_static_proof | ec2_static_proof_model_missing | Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_REALVISXL_20260706T123028-0500.json |
@@ -265,3 +265,13 @@
 | EVID-W60-OPERATIONS-REALVISXL-MISSING-MODEL-20260706T124103-0500 | Operations helper validation after static-proof/readiness missing-model classification hardening | operations_helper_current_static_validation | pass_local_only | Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_REALVISXL_MISSING_MODEL_CLASSIFICATION_20260706T124103-0500.json |
 | EVID-W63-LOCAL-COMFY-DEV-PREFLIGHT-20260706T124824-0500 | Local ComfyUI dev preflight retest: local GPU present, local ComfyUI main.py absent, EC2 final proof still required | local_dev_preflight | needs_local_dev_prerequisite | Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LOCAL_COMFY_DEV_PREFLIGHT_RETEST_20260706T124824-0500.json |
 | EVID-W63-EC2-DEPLOY-BUNDLE-VALIDATION-20260706T124907-0500 | Local-only EC2 deploy bundle validation: 30 files packaged, no AWS/EC2/generation | ec2_deploy_bundle_validation | pass_local_only | Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_EC2_DEPLOY_BUNDLE_VALIDATION_20260706T124907-0500.json |
+| EVID-W63-REALVISXL-MODEL-INSTALL-20260706T125425-0500 | RealVisXL checkpoint installed on EC2 through non-Git path with SHA256 verification | ec2_model_install | download_verified_installed | Plan/Instructions/QA/Evidence/Model_Registry/W63_EC2_REALVISXL_MODEL_INSTALL_20260706T125425-0500.json |
+| EVID-W63-REALVISXL-STATIC-PROOF-20260706T131129-0500 | RealVisXL EC2 static proof after model install with checkpoint path and hash proof | ec2_lane_static_proof | ec2_static_proof_recorded | Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_EC2_LANE_STATIC_PROOF_REALVISXL_AFTER_INSTALL_20260706T131129-0500.json |
+| EVID-W63-REALVISXL-WORKFLOW-SMOKE-20260706T132206-0500 | RealVisXL bounded EC2 workflow smoke generation completed and EC2 stopped | ec2_workflow_smoke | workflow_smoke_generation_complete | Plan/Instructions/QA/Evidence/Workflow_Runtime/W63_EC2_WORKFLOW_SMOKE_REALVISXL_AFTER_STATIC_PROOF_20260706T132206-0500.json |
+| EVID-W63-REALVISXL-PULLBACK-20260706T140020-0500 | RealVisXL smoke artifacts pulled back locally and hash-verified against remote manifest | pullback_record | pullback_hashes_verified | Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T132206-0500/PULLBACK_RECORD.json |
+| EVID-W63-REALVISXL-IMAGE-QA-TECHNICAL-20260706T140027-0500 | RealVisXL pulled-back image technical integrity dimensions and hash QA | image_artifact_qa | pending_visual_review_technical_passed | Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_IMAGE_QA_TECHNICAL_REALVISXL_20260706T140027-0500.json |
+| EVID-W63-REALVISXL-IMAGE-QA-VISUAL-20260706T140120-0500 | RealVisXL pulled-back image visual review passed with runtime-smoke notes | image_visual_review | pass_with_notes_for_runtime_smoke | Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_REALVISXL_IMAGE_QA_VISUAL_20260706T140120-0500.json |
+| EVID-W63-REALVISXL-PROJECT-READINESS-QA-COMPLETE-20260706T140806-0500 | RealVisXL project readiness terminal state disallows rerun for completed smoke proof | project_readiness_snapshot | pass_runtime_smoke_qa_complete | Plan/Instructions/QA/Evidence/Project_Readiness/W63_PROJECT_READINESS_REALVISXL_QA_COMPLETE_20260706T140806-0500.json |
+| EVID-W63-REALVISXL-RUNTIME-HANDOFF-QA-COMPLETE-20260706T140828-0500 | RealVisXL runtime handoff terminal state with pullback and image QA complete | runtime_unblock_handoff | handoff_runtime_smoke_qa_complete | Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_RUNTIME_UNBLOCK_HANDOFF_REALVISXL_QA_COMPLETE_FINAL_20260706T140828-0500.json |
+| EVID-W63-OPERATIONS-TERMINAL-STATE-20260706T140909-0500 | Operations helper validation after terminal-state no-rerun and cost-control gates | operations_helper_current_static_validation | pass_local_only | Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_COST_CONTROL_TERMINAL_STATE_VALIDATION_20260706T140909-0500.json |
+| EVID-W63-QA-HELPER-TERMINAL-STATE-20260706T141104-0500 | QA helper validation after terminal-state readiness and completed-lane queue contracts | qa_helper_current_static_validation | pass_local_only | Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_TERMINAL_STATE_VALIDATION_20260706T141104-0500.json |
