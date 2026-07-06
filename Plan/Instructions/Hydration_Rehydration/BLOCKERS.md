@@ -21,12 +21,13 @@ None currently active for local Wave 58-62 static and packaging validation.
   - evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_RUNTIME_READINESS_PREFLIGHT_20260706T012301-0500.json`
 
 - `BLOCKER-EC2-PROJECT-SYNC-001`
+  - status: resolved 2026-07-06T01:59:07-05:00
   - blocker type: ec2_project_checkout_missing
   - failed condition: bounded EC2 discovery found `/home/ubuntu/ComfyUI` but no `Comfy_UI_Main` project checkout in searched paths.
   - AWS/EC2 involved: yes
   - impact: EC2 cannot pull/use the latest project workflows, registries, tracker state, or QA protocols until the project checkout is cloned or updated.
-  - route: start EC2 only for bounded project sync, clone or update `https://github.com/KevinSGarrett/Comfy_UI_Main` under a stable remote path, verify Git state, then stop EC2.
-  - evidence: `Plan/Instructions/QA/Evidence/EC2_Runtime_Discovery/W60_W61_EC2_RUNTIME_DISCOVERY_20260706T012748-0500.json`
+  - resolution: cloned `https://github.com/KevinSGarrett/Comfy_UI_Main.git` to `/home/ubuntu/Comfy_UI_Main`, pulled Git LFS, verified matching HEAD, confirmed `.env` absent, stopped EC2, and verified final state `stopped`.
+  - evidence: `Plan/Instructions/QA/Evidence/EC2_Project_Sync/W60_W61_EC2_PROJECT_SYNC_20260706T015022-0500.json`
 
 ## Resolved blockers
 

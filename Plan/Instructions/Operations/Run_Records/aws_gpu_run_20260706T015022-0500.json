@@ -1,0 +1,69 @@
+{
+  "run_id": "aws_gpu_run_20260706T015022-0500",
+  "wave": "Wave60/61",
+  "task_id": "EC2_PROJECT_SYNC_20260706T015022-0500",
+  "task": "Bounded EC2 project checkout sync after runtime discovery found no Comfy_UI_Main checkout",
+  "start_time_local": "2026-07-06T01:50:22-05:00",
+  "end_time_local": "2026-07-06T01:59:07-05:00",
+  "aws_account": "029530099913",
+  "region": "us-east-1",
+  "instance_id": "i-0560bf8d143f93bb1",
+  "started_by": "Codex Desktop autonomous session",
+  "start_state": "stopped",
+  "end_state": "stopped",
+  "ec2_started": true,
+  "ssm_checked": true,
+  "ssm_available": true,
+  "ssm_attempts": [
+    "0:count=1;ping=Online"
+  ],
+  "commands_run": [
+    {
+      "name": "start_instance",
+      "status": "pass"
+    },
+    {
+      "name": "ssm_project_sync",
+      "status": "pass",
+      "command_id": "e2b9cc3f-1131-4a56-b77b-c408b61d77f0",
+      "ssm_status": "Success",
+      "response_code": 0
+    },
+    {
+      "name": "verify_remote_git_lfs_state",
+      "status": "pass"
+    },
+    {
+      "name": "stop_instance",
+      "status": "pass"
+    }
+  ],
+  "remote_sync": {
+    "project_path": "/home/ubuntu/Comfy_UI_Main",
+    "repo": "https://github.com/KevinSGarrett/Comfy_UI_Main.git",
+    "git_present": true,
+    "git_version": "2.43.0",
+    "git_lfs_present": true,
+    "git_lfs_version": "git-lfs/3.4.1",
+    "clone_exit": 0,
+    "lfs_pull_exit": 0,
+    "head": "edc659b41ad9f6a18c0d295427cbd6a5903ff8a3",
+    "branch": "main",
+    "working_tree_clean": true,
+    "lfs_count": 9,
+    "env_file_present": false,
+    "zip_present": true,
+    "project_size": "1.4G"
+  },
+  "artifacts_generated": [
+    "Plan/Instructions/Operations/Run_Records/aws_gpu_run_20260706T015022-0500.json"
+  ],
+  "artifacts_pulled_back": [],
+  "qa_reports": [
+    "Plan/Instructions/QA/Evidence/EC2_Project_Sync/W60_W61_EC2_PROJECT_SYNC_20260706T015022-0500.json"
+  ],
+  "stop_attempted": true,
+  "stop_verified": true,
+  "errors": [],
+  "next_action": "Run bounded EC2 ComfyUI/model/workflow inventory using the synced project checkout, then stop EC2 again."
+}

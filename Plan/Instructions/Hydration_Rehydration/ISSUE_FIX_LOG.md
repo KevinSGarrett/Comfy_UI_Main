@@ -96,8 +96,8 @@
 - observed_behavior: Bounded EC2 discovery found `/home/ubuntu/ComfyUI` and NVIDIA A10G GPU readiness, but no `Comfy_UI_Main` project checkout in searched paths.
 - expected_behavior: EC2 runtime validation needs the project checkout available so workflows, registries, QA protocols, and tracker state match the pushed local `main`.
 - suspected_root_cause: The EC2 image has ComfyUI installed independently of the project repository.
-- fix_attempted: None yet; EC2 was stopped after discovery.
-- retest_result: discovery_passed_project_missing
-- current_status: active_runtime_blocker
-- evidence_path: Plan/Instructions/QA/Evidence/EC2_Runtime_Discovery/W60_W61_EC2_RUNTIME_DISCOVERY_20260706T012748-0500.json
-- next_action: Start EC2 only for bounded project sync, clone or update `Comfy_UI_Main`, verify Git state, then stop EC2.
+- fix_attempted: Cloned `https://github.com/KevinSGarrett/Comfy_UI_Main.git` to `/home/ubuntu/Comfy_UI_Main`, pulled Git LFS, verified branch `main`, matching HEAD, clean status, `.env` absence, and cumulative zip presence.
+- retest_result: retest_passed
+- current_status: fixed
+- evidence_path: Plan/Instructions/QA/Evidence/EC2_Project_Sync/W60_W61_EC2_PROJECT_SYNC_20260706T015022-0500.json
+- next_action: Run bounded EC2 ComfyUI/model/workflow inventory before workflow execution.
