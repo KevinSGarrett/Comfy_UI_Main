@@ -228,6 +228,9 @@
 | EVID-ROOT-LOCAL-PREFLIGHT-20260706T090734-0500 | Root local preflight after hyperreal prompt package push | root_local_preflight | pass_local_only | runtime_artifacts/run_manifests/ROOT_LOCAL_PREFLIGHT_20260706T090734-0500.json |
 | EVID-W61-EC2-WORKFLOW-SMOKE-HYPERREAL-PACKAGE-20260706T091711-0500 | Package-fed EC2 workflow smoke dry-run for hyperreal portrait request | ec2_workflow_smoke_dry_run | dry_run_blocked_before_ec2_start | Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_RUN_DRY_RUN_HYPERREAL_PACKAGE_20260706T091711-0500.json |
 | REQ-W61-EC2-WORKFLOW-SMOKE-HYPERREAL-PACKAGE-20260706T091711-0500 | Copied hyperreal package prompt request used by package-fed EC2 dry-run | ec2_workflow_smoke_request | static_request_built_no_generation | Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_RUN_REQUEST_HYPERREAL_PACKAGE_20260706T091711-0500.json |
+| EVID-W61-RUNTIME-HANDOFF-HYPERREAL-PACKAGE-20260706T092429-0500 | Package-aware runtime unblock handoff for hyperreal portrait package | runtime_unblock_handoff | handoff_ready_runtime_blocked_auth | Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_HYPERREAL_PACKAGE_20260706T092429-0500.json |
+| DOC-W61-RUNTIME-HANDOFF-HYPERREAL-PACKAGE-20260706T092429-0500 | Package-aware runtime unblock handoff Markdown | runtime_unblock_handoff_markdown | handoff_ready_runtime_blocked_auth | Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_HYPERREAL_PACKAGE_20260706T092429-0500.md |
+| EVID-W60-OPERATIONS-PACKAGE-HANDOFF-20260706T092429-0500 | Operations helper validation with package-aware handoff smoke | operations_helper_current_static_validation | pass_local_only | Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_PACKAGE_HANDOFF_20260706T092429-0500.json |
 
 ## Pending runtime evidence
 

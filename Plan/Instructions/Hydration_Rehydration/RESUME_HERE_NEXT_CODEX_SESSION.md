@@ -103,6 +103,8 @@ Start by reading this file, then re-open the standard hydration files in this fo
 - Pushed runtime package commit `92ce3111145c9d4f16e7db9f5bbd648de4a7d138` to `origin/main`, verified local/remote refs matched, and saved post-push root preflight evidence at `runtime_artifacts\run_manifests\ROOT_LOCAL_PREFLIGHT_20260706T090734-0500.json` with failed check count `0`.
 - Added `-RunPackageManifestFile` support to `Invoke-EC2WorkflowSmokeRun.ps1` and pushed commit `f99294bf5c85af65030e07c3016dbfc93d6ddcb8` to `origin/main`, so the first post-auth bounded workflow smoke can consume the verified hyperreal run package request.
 - Generated package-fed EC2 workflow smoke dry-run evidence at `Plan\Instructions\QA\Evidence\Workflow_Runtime\W61_EC2_WORKFLOW_SMOKE_RUN_DRY_RUN_HYPERREAL_PACKAGE_20260706T091711-0500.json`; it records local Git gate `pass`, `request_source=run_package`, `run_package.valid=true`, profile `hyperreal_editorial_portrait_v1`, `failure_category=expired_session`, `ec2_started=false`, and `generation_executed=false`.
+- Added `-RunPackageManifestFile` support to `New-RuntimeUnblockHandoff.ps1` and pushed commit `f841b95822d64c31b9396ac0b7995646bd8fcb96`, so the generated post-auth handoff now includes the verified hyperreal package on the bounded workflow-smoke command.
+- Generated package-aware runtime handoff evidence at `Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_RUNTIME_UNBLOCK_HANDOFF_HYPERREAL_PACKAGE_20260706T092429-0500.json` plus Markdown at `Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_RUNTIME_UNBLOCK_HANDOFF_HYPERREAL_PACKAGE_20260706T092429-0500.md`; it records `gate_summary.run_package.valid=true`, profile `hyperreal_editorial_portrait_v1`, prompt hash match `true`, command step count `10`, and `ec2_started=false` / `generation_executed=false`.
 
 ## Current goal
 
@@ -383,6 +385,10 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\S
 - `Plan/Instructions/Operations/Scripts/Invoke-EC2WorkflowSmokeRun.ps1`
 - `Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_RUN_DRY_RUN_HYPERREAL_PACKAGE_20260706T091711-0500.json`
 - `Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_RUN_REQUEST_HYPERREAL_PACKAGE_20260706T091711-0500.json`
+- `Plan/Instructions/Operations/Scripts/New-RuntimeUnblockHandoff.ps1`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_HYPERREAL_PACKAGE_20260706T092429-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_HYPERREAL_PACKAGE_20260706T092429-0500.md`
+- `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_PACKAGE_HANDOFF_20260706T092429-0500.json`
 
 ## Must not repeat
 
@@ -415,5 +421,6 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\S
 - Do not run generation until prerequisite matching object-info, path, and hash proof is recorded.
 - Prefer `Invoke-EC2WorkflowSmokeRun.ps1 -Execute` for the first bounded smoke generation after static proof because it owns the run lifecycle and stop verification.
 - For the first hyperreal portrait smoke generation, pass `-RunPackageManifestFile C:\Comfy_UI_Main\runtime_artifacts\run_packages\sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1\RUN_PACKAGE_MANIFEST.json` to `Invoke-EC2WorkflowSmokeRun.ps1` so the coordinator uses the verified package request.
+- Use `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_HYPERREAL_PACKAGE_20260706T092429-0500.md` as the current post-auth handoff; older handoffs may omit the package manifest argument.
 - Do not claim final project completion until runtime and artifact QA gates have direct evidence.
 - Do not treat GitHub or Civitai token presence in `.env` as AWS auth proof; latest STS/profile-matrix evidence shows AWS auth itself is expired.
