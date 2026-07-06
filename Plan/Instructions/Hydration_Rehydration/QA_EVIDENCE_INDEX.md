@@ -56,6 +56,8 @@
 | CERT-W61-EC2-STATIC-PROOF-GATE-REFRESH-20260706T034516-0500 | EC2 static-proof and runtime selector gate refresh certification | done_certification | helper_gate_validated_runtime_blocked | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W61_EC2_STATIC_PROOF_GATE_REFRESH_20260706T034516-0500.md |
 | EVID-W60-OPERATIONS-HELPER-CURRENT-VALIDATION-20260706T035148-0500 | Current operations helper parser/schema/local dry-run validation | operations_helper_current_static_validation | pass_local_only | Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_20260706T035148-0500.json |
 | CERT-W60-OPERATIONS-HELPER-CURRENT-VALIDATION-20260706T035148-0500 | Current operations helper static validation certification | done_certification | pass_local_only | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W60_OPERATIONS_HELPER_CURRENT_VALIDATION_20260706T035148-0500.md |
+| EVID-W60-OPERATIONS-HELPER-CURRENT-VALIDATION-20260706T040205-0500 | Current operations helper parser/schema/local dry-run validation with temp-path redaction | operations_helper_current_static_validation | pass_local_only | Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_20260706T040205-0500.json |
+| CERT-W60-OPERATIONS-HELPER-CURRENT-VALIDATION-SANITIZED-20260706T040205-0500 | Current operations helper static validation temp-path redaction certification | done_certification | pass_local_only | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W60_OPERATIONS_HELPER_CURRENT_VALIDATION_SANITIZED_20260706T040205-0500.md |
 
 ## Pending runtime evidence
 

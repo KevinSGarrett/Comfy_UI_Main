@@ -47,6 +47,75 @@ function ConvertTo-ProjectRelativePath {
   return $relative.Replace("\", "/")
 }
 
+function Test-PathIsUnderRoot {
+  param(
+    [string]$RootPath,
+    [string]$TargetPath
+  )
+
+  if ([string]::IsNullOrWhiteSpace($RootPath) -or [string]::IsNullOrWhiteSpace($TargetPath)) { return $false }
+  $separator = [System.IO.Path]::DirectorySeparatorChar.ToString()
+  $rootFull = [System.IO.Path]::GetFullPath($RootPath).TrimEnd("\", "/")
+  $targetFull = [System.IO.Path]::GetFullPath($TargetPath)
+  return ($targetFull.Equals($rootFull, [System.StringComparison]::OrdinalIgnoreCase) -or
+    $targetFull.StartsWith("$rootFull$separator", [System.StringComparison]::OrdinalIgnoreCase))
+}
+
+function ConvertTo-EvidencePath {
+  param(
+    [string]$BasePath,
+    [string]$TargetPath,
+    [string]$TempRoot = ""
+  )
+
+  if ([string]::IsNullOrWhiteSpace($TargetPath)) { return $null }
+
+  if (Test-PathIsUnderRoot -RootPath $TempRoot -TargetPath $TargetPath) {
+    $relativeTemp = Get-RelativePathCompat -BasePath $TempRoot -TargetPath $TargetPath
+    $relativeTemp = $relativeTemp.Replace("\", "/")
+    if ([string]::IsNullOrWhiteSpace($relativeTemp) -or $relativeTemp -eq ".") { return "[VALIDATION_TEMP_ROOT]" }
+    return "[VALIDATION_TEMP_ROOT]/$relativeTemp"
+  }
+
+  if (![string]::IsNullOrWhiteSpace($env:TEMP) -and (Test-PathIsUnderRoot -RootPath $env:TEMP -TargetPath $TargetPath)) {
+    $relativeTemp = Get-RelativePathCompat -BasePath $env:TEMP -TargetPath $TargetPath
+    return ("[TEMP]/" + $relativeTemp.Replace("\", "/"))
+  }
+
+  return ConvertTo-ProjectRelativePath -BasePath $BasePath -TargetPath $TargetPath
+}
+
+function ConvertTo-RedactedEvidenceText {
+  param(
+    [string]$Text,
+    [string]$TempRoot = ""
+  )
+
+  if ([string]::IsNullOrEmpty($Text)) { return $Text }
+
+  $redacted = $Text
+  $replacements = @()
+  if (![string]::IsNullOrWhiteSpace($TempRoot)) {
+    $tempRootFull = [System.IO.Path]::GetFullPath($TempRoot).TrimEnd("\", "/")
+    $replacements += [ordered]@{ From = $tempRootFull; To = "[VALIDATION_TEMP_ROOT]" }
+    $replacements += [ordered]@{ From = $tempRootFull.Replace("\", "/"); To = "[VALIDATION_TEMP_ROOT]" }
+    $replacements += [ordered]@{ From = $tempRootFull.Replace("\", "\\"); To = "[VALIDATION_TEMP_ROOT]" }
+  }
+  if (![string]::IsNullOrWhiteSpace($env:TEMP)) {
+    $tempFull = [System.IO.Path]::GetFullPath($env:TEMP).TrimEnd("\", "/")
+    $replacements += [ordered]@{ From = $tempFull; To = "[TEMP]" }
+    $replacements += [ordered]@{ From = $tempFull.Replace("\", "/"); To = "[TEMP]" }
+    $replacements += [ordered]@{ From = $tempFull.Replace("\", "\\"); To = "[TEMP]" }
+  }
+
+  foreach ($replacement in $replacements) {
+    if (![string]::IsNullOrWhiteSpace($replacement.From)) {
+      $redacted = $redacted.Replace($replacement.From, $replacement.To)
+    }
+  }
+  return $redacted
+}
+
 function Test-PowerShellParser {
   param([Parameter(Mandatory=$true)][string]$Path)
 
@@ -90,13 +159,14 @@ function Invoke-LocalHelper {
 
   $output = & powershell -NoProfile -ExecutionPolicy Bypass -File $ScriptPath @Arguments 2>&1
   $text = (($output | ForEach-Object { $_.ToString() }) -join "`n").Trim()
+  $text = ConvertTo-RedactedEvidenceText -Text $text -TempRoot $script:ValidationTempRoot
   $entry = [ordered]@{
     name = $Name
     script = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $ScriptPath
     exit_code = $LASTEXITCODE
     result = $(if ($LASTEXITCODE -eq 0) { "pass" } else { "fail" })
     output_tail = $(if ($text.Length -gt 1000) { $text.Substring($text.Length - 1000) } else { $text })
-    expected_output_file = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $ExpectedOutputFile
+    expected_output_file = ConvertTo-EvidencePath -BasePath $ProjectRoot -TargetPath $ExpectedOutputFile -TempRoot $script:ValidationTempRoot
     expected_output_file_exists = (![string]::IsNullOrWhiteSpace($ExpectedOutputFile) -and (Test-Path -LiteralPath $ExpectedOutputFile))
     expected_output_json_valid = $false
     expected_output_error = $null
@@ -137,6 +207,7 @@ $runtimeReadinessDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Run
 $workflowStaticDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Workflow_Static_Validation"
 $workflowRuntimeDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Workflow_Runtime"
 $tempRoot = Join-Path $env:TEMP "comfy_ui_ops_static_validation_$stamp"
+$script:ValidationTempRoot = $tempRoot
 $null = New-Item -ItemType Directory -Force -Path $tempRoot
 
 if ([string]::IsNullOrWhiteSpace($OutFile)) {
@@ -255,7 +326,8 @@ $record = [ordered]@{
     [ordered]@{ script = "Test-AwsAuthGate.ps1"; reason = "Would contact AWS login/STS; existing auth evidence is inspected instead." },
     [ordered]@{ script = "Test-AwsComfyGpuIdentity.ps1"; reason = "Would contact AWS; out of scope for local static validation." }
   )
-  temp_root = $tempRoot
+  temp_root = "[VALIDATION_TEMP_ROOT]"
+  temp_root_redacted = $true
   result = $(if ($scriptFailures.Count -eq 0 -and $jsonFailures.Count -eq 0 -and $smokeFailures.Count -eq 0 -and $evidenceFailures.Count -eq 0) { "pass_local_only" } else { "fail" })
   known_issues = @(
     "Live AWS, Civitai, GitHub, EC2 start, ComfyUI runtime generation, artifact pullback, and visual QA remain separate runtime validations.",
