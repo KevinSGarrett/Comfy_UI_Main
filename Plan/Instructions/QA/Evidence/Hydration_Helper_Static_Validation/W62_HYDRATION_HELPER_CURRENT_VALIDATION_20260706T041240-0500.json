@@ -1,0 +1,118 @@
+﻿{
+    "evidence_id":  "EVID-W62-HYDRATION-HELPER-CURRENT-VALIDATION-20260706T041240-0500",
+    "created_at":  "2026-07-06T04:12:40-05:00",
+    "artifact_id":  "TRK-W62-003-TRK-W62-009",
+    "artifact_type":  "hydration_helper_current_static_validation",
+    "tracker_ids":  [
+                        "TRK-W62-003",
+                        "TRK-W62-009"
+                    ],
+    "item_ids":  [
+                     "ITEM-W62-003",
+                     "ITEM-W62-009"
+                 ],
+    "qa_protocol_used":  [
+                             "SESSION_START_REHYDRATION_CHECKLIST.md",
+                             "SESSION_END_HYDRATION_CHECKLIST.md",
+                             "CUMULATIVE_WAVE_PACK_BUILD_PROTOCOL.md",
+                             "TRACKER_UPDATE_PROTOCOL.md",
+                             "QA_EVIDENCE_LOG_PROTOCOL.md"
+                         ],
+    "scope":  [
+                  "Plan/Instructions/Hydration_Rehydration/Scripts/*.ps1",
+                  "Plan/Instructions/Hydration_Rehydration/Templates/*",
+                  "session state generation smoke",
+                  "current cumulative Wave 58-62 zip validation"
+              ],
+    "validation_results":  {
+                               "script_count":  3,
+                               "script_parse_failures":  0,
+                               "script_parse_results":  [
+                                                            {
+                                                                "name":  "New-SessionState.ps1",
+                                                                "path":  "Plan/Instructions/Hydration_Rehydration/Scripts/New-SessionState.ps1",
+                                                                "parse_errors":  0,
+                                                                "errors":  [
+
+                                                                           ],
+                                                                "result":  "pass"
+                                                            },
+                                                            {
+                                                                "name":  "Test-CumulativeWavePack.ps1",
+                                                                "path":  "Plan/Instructions/Hydration_Rehydration/Scripts/Test-CumulativeWavePack.ps1",
+                                                                "parse_errors":  0,
+                                                                "errors":  [
+
+                                                                           ],
+                                                                "result":  "pass"
+                                                            },
+                                                            {
+                                                                "name":  "Test-HydrationHelperStatic.ps1",
+                                                                "path":  "Plan/Instructions/Hydration_Rehydration/Scripts/Test-HydrationHelperStatic.ps1",
+                                                                "parse_errors":  0,
+                                                                "errors":  [
+
+                                                                           ],
+                                                                "result":  "pass"
+                                                            }
+                                                        ],
+                               "template_count":  3,
+                               "template_failures":  0,
+                               "template_results":  [
+                                                        {
+                                                            "name":  "bug_issue_fix_log.template.csv",
+                                                            "path":  "Plan/Instructions/Hydration_Rehydration/Templates/bug_issue_fix_log.template.csv",
+                                                            "type":  "csv",
+                                                            "result":  "pass",
+                                                            "row_count":  0,
+                                                            "error":  null
+                                                        },
+                                                        {
+                                                            "name":  "qa_evidence_index.template.csv",
+                                                            "path":  "Plan/Instructions/Hydration_Rehydration/Templates/qa_evidence_index.template.csv",
+                                                            "type":  "csv",
+                                                            "result":  "pass",
+                                                            "row_count":  0,
+                                                            "error":  null
+                                                        },
+                                                        {
+                                                            "name":  "session_state.template.json",
+                                                            "path":  "Plan/Instructions/Hydration_Rehydration/Templates/session_state.template.json",
+                                                            "type":  "json",
+                                                            "result":  "pass",
+                                                            "row_count":  null,
+                                                            "error":  null
+                                                        }
+                                                    ],
+                               "session_state_smoke":  {
+                                                           "name":  "session_state_generation_smoke",
+                                                           "script":  "Plan/Instructions/Hydration_Rehydration/Scripts/New-SessionState.ps1",
+                                                           "exit_code":  0,
+                                                           "result":  "pass",
+                                                           "output_tail":  "Created session state: [VALIDATION_TEMP_ROOT]\\sample_session_state.json",
+                                                           "expected_output_file":  "[VALIDATION_TEMP_ROOT]/sample_session_state.json",
+                                                           "expected_output_type":  "json",
+                                                           "expected_output_file_exists":  true,
+                                                           "expected_output_valid":  true,
+                                                           "expected_output_error":  null
+                                                       },
+                               "cumulative_pack_validation":  {
+                                                                  "zip_count":  1,
+                                                                  "selected_zip":  "Comfy_UI_Main_Autonomous_Codex_Desktop_Waves58_62_Cumulative.zip",
+                                                                  "selected_zip_size_bytes":  40223614,
+                                                                  "selected_zip_sha256":  "82fbd1d2c8fcd452e9efb76e68105cb81467ec84efe0b94892f11af72b8ef4cf",
+                                                                  "command_exit_code":  0,
+                                                                  "output_tail":  "Cumulative pack validation passed.",
+                                                                  "result":  "pass",
+                                                                  "error":  null
+                                                              }
+                           },
+    "temp_root":  "[VALIDATION_TEMP_ROOT]",
+    "temp_root_redacted":  true,
+    "result":  "pass_local_only",
+    "known_issues":  [
+                         "This validates hydration helpers and the current cumulative instruction pack zip only.",
+                         "Live AWS/EC2 execution, Civitai downloads, ComfyUI generation, model loading, artifact pullback, and media QA remain separate runtime validations."
+                     ],
+    "next_action":  "After AWS browser login refresh, rerun auth gate, selected-lane readiness, and EC2 static proof."
+}
