@@ -136,6 +136,10 @@ Local static/package validation is complete through Wave 62 cumulative zip valid
 - Current EC2 coordinator gate contract hardening certification: `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W61_EC2_COORDINATOR_GATE_CONTRACT_HARDENING_20260706T052427-0500.md`
 - Current generated index refresh coordinator-contract evidence: `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_COORDINATOR_CONTRACT_20260706T052709-0500.json`
 - Current generated index refresh coordinator-contract certification: `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_LIVE_INDEX_REFRESH_COORDINATOR_CONTRACT_20260706T052714-0500.md`
+- Current operations helper coordinator-contract validator evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_COORDINATOR_CONTRACT_VALIDATOR_20260706T053043-0500.json`
+- Current operations helper coordinator-contract validator certification: `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W60_OPERATIONS_COORDINATOR_CONTRACT_VALIDATOR_20260706T053100-0500.md`
+- Current generated index refresh coordinator-validator evidence: `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_COORDINATOR_VALIDATOR_20260706T053239-0500.json`
+- Current generated index refresh coordinator-validator certification: `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_LIVE_INDEX_REFRESH_COORDINATOR_VALIDATOR_20260706T053244-0500.md`
 
 ## Selected Lane
 - Lane: `sdxl_low_risk_fallback_lane`
@@ -152,9 +156,9 @@ Local static/package validation is complete through Wave 62 cumulative zip valid
 - `TRK-W61-007`: selected checkpoint filename is referenced by the workflow and passed static validation; latest readiness gate confirms actual EC2 path, hash, load, and sample-output validation are still pending on AWS auth.
 - `TRK-W61-002`: image QA protocol exists and helper dry-run passed; actual generated image visual review pending.
 - `TRK-W61-011`: current QA helper validation passed locally for all 6 QA scripts, schemas/templates, markdown templates, image QA dry-run/technical sample smoke, selected-lane workflow static validation smoke, and Items/Tracker package validation smoke.
-- `TRK-W60-010`: current operations helper validation passed locally for all 15 operations scripts and related schema/template files; latest evidence redacts validation temp paths, includes a GitHub checkpoint dry-run smoke, covers profile-aware lane readiness, verifies pullback manifest comparison without counting the manifest as a local artifact, validates the latest auth-gate and lane-readiness evidence contracts, and checks EC2 coordinator dry-run records for top-level gate result/failure fields.
+- `TRK-W60-010`: current operations helper validation passed locally for all 15 operations scripts and related schema/template files; latest evidence redacts validation temp paths, includes a GitHub checkpoint dry-run smoke, covers profile-aware lane readiness, verifies pullback manifest comparison without counting the manifest as a local artifact, validates the latest auth-gate and lane-readiness evidence contracts, and now contract-validates static-proof/workflow-smoke coordinator records for top-level gate result/failure fields, blocked reasons, `ec2_started=false`, and no blocked generation.
 - `TRK-W62-003` / `TRK-W62-009`: current hydration helper validation passed locally for all hydration scripts/templates, session-state generation, and the current cumulative zip validator.
-- `TRK-W59-002` / `TRK-W59-003`: generated local indexes refreshed after coordinator-contract hardening and current Items/Tracker package validation passes with complete source-key coverage and no structural defects.
+- `TRK-W59-002` / `TRK-W59-003`: generated local indexes refreshed after coordinator-validator hardening and current Items/Tracker package validation passes with complete source-key coverage and no structural defects.
 
 ## Pending validation in scope
 - Complete AWS CLI remote browser login in an interactive/browser-capable shell.

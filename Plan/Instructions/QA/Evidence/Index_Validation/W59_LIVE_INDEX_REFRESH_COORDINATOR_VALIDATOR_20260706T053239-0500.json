@@ -1,0 +1,163 @@
+﻿{
+    "evidence_id":  "W59-LIVE-INDEX-REFRESH-COORDINATOR-VALIDATOR-20260706T053239-0500",
+    "created_at":  "2026-07-06T05:32:39-05:00",
+    "artifact_id":  "W59_LIVE_INDEX_REFRESH_COORDINATOR_VALIDATOR_20260706T053239-0500",
+    "artifact_type":  "index_validation",
+    "tracker_ids":  [
+                        "TRK-W59-002",
+                        "TRK-W59-003",
+                        "TRK-W60-010",
+                        "TRK-W61-006",
+                        "TRK-W61-007"
+                    ],
+    "scope":  "Generated Plan/Items/Tracker/Instructions indexes after operations coordinator contract validator hardening.",
+    "row_counts":  [
+                       {
+                           "name":  "plan",
+                           "csv_count":  2523,
+                           "json_count":  2523,
+                           "row_count_match":  true
+                       },
+                       {
+                           "name":  "instructions",
+                           "csv_count":  297,
+                           "json_count":  297,
+                           "row_count_match":  true
+                       },
+                       {
+                           "name":  "items",
+                           "csv_count":  45,
+                           "json_count":  45,
+                           "row_count_match":  true
+                       },
+                       {
+                           "name":  "tracker",
+                           "csv_count":  26,
+                           "json_count":  26,
+                           "row_count_match":  true
+                       }
+                   ],
+    "discovery":  [
+                      {
+                          "relative_path":  "Plan\\Instructions\\Operations\\Scripts\\Test-OperationsHelperStatic.ps1",
+                          "exists_on_disk":  true,
+                          "found_in_plan_index":  true,
+                          "found_in_instructions_index":  true
+                      },
+                      {
+                          "relative_path":  "Plan\\Instructions\\QA\\Evidence\\Operations_Static_Validation\\W60_OPERATIONS_HELPER_CURRENT_VALIDATION_COORDINATOR_CONTRACT_VALIDATOR_20260706T053043-0500.json",
+                          "exists_on_disk":  true,
+                          "found_in_plan_index":  true,
+                          "found_in_instructions_index":  true
+                      },
+                      {
+                          "relative_path":  "Plan\\Instructions\\QA\\Evidence\\Done_Certifications\\CERT_W60_OPERATIONS_COORDINATOR_CONTRACT_VALIDATOR_20260706T053100-0500.md",
+                          "exists_on_disk":  true,
+                          "found_in_plan_index":  true,
+                          "found_in_instructions_index":  true
+                      },
+                      {
+                          "relative_path":  "Plan\\Instructions\\Hydration_Rehydration\\QA_EVIDENCE_INDEX.md",
+                          "exists_on_disk":  true,
+                          "found_in_plan_index":  true,
+                          "found_in_instructions_index":  true
+                      },
+                      {
+                          "relative_path":  "Plan\\Instructions\\Hydration_Rehydration\\CURRENT_SESSION_STATE.md",
+                          "exists_on_disk":  true,
+                          "found_in_plan_index":  true,
+                          "found_in_instructions_index":  true
+                      },
+                      {
+                          "relative_path":  "Plan\\Instructions\\Hydration_Rehydration\\RESUME_HERE_NEXT_CODEX_SESSION.md",
+                          "exists_on_disk":  true,
+                          "found_in_plan_index":  true,
+                          "found_in_instructions_index":  true
+                      }
+                  ],
+    "source_validation_summary":  {
+                                      "operations_result":  "pass_local_only",
+                                      "operations_script_count":  15,
+                                      "operations_local_smoke_count":  8,
+                                      "operations_evidence_check_count":  4,
+                                      "operations_evidence_contract_check_count":  5,
+                                      "operations_evidence_contract_check_failures":  0
+                                  },
+    "secret_private_path_scan":  [
+                                     {
+                                         "rule":  "private_temp_path",
+                                         "match_count":  0,
+                                         "matched_files":  [
+
+                                                           ]
+                                     },
+                                     {
+                                         "rule":  "parent_user_path",
+                                         "match_count":  0,
+                                         "matched_files":  [
+
+                                                           ]
+                                     },
+                                     {
+                                         "rule":  "aws_signin_url",
+                                         "match_count":  0,
+                                         "matched_files":  [
+
+                                                           ]
+                                     },
+                                     {
+                                         "rule":  "awsapps_url",
+                                         "match_count":  0,
+                                         "matched_files":  [
+
+                                                           ]
+                                     },
+                                     {
+                                         "rule":  "github_classic_token",
+                                         "match_count":  0,
+                                         "matched_files":  [
+
+                                                           ]
+                                     },
+                                     {
+                                         "rule":  "github_fine_grained_token",
+                                         "match_count":  0,
+                                         "matched_files":  [
+
+                                                           ]
+                                     },
+                                     {
+                                         "rule":  "civitai_assignment",
+                                         "match_count":  0,
+                                         "matched_files":  [
+
+                                                           ]
+                                     },
+                                     {
+                                         "rule":  "aws_access_key_assignment",
+                                         "match_count":  0,
+                                         "matched_files":  [
+
+                                                           ]
+                                     },
+                                     {
+                                         "rule":  "aws_secret_key_assignment",
+                                         "match_count":  0,
+                                         "matched_files":  [
+
+                                                           ]
+                                     },
+                                     {
+                                         "rule":  "aws_session_token_assignment",
+                                         "match_count":  0,
+                                         "matched_files":  [
+
+                                                           ]
+                                     }
+                                 ],
+    "result":  "pass",
+    "known_issues":  [
+                         "This validates generated local index currency only. AWS auth remains expired; EC2 static proof, ComfyUI generation, artifact pullback, and image QA remain pending runtime work."
+                     ],
+    "next_action":  "Complete AWS browser/SSO login, rerun auth/profile/readiness gates, then run EC2 static proof only if readiness allows."
+}

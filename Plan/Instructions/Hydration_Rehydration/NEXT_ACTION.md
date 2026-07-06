@@ -23,6 +23,8 @@ Latest lane readiness contract evidence records `result=local_pre_ec2_ready_runt
 
 Latest EC2 coordinator gate contract evidence records static-proof and workflow-smoke blocked `-Execute` results as `blocked_before_ec2_start`, `failure_category=expired_session`, and `ec2_started=false`; no EC2 start or generation occurred.
 
+Latest operations validation now contract-checks those coordinator records directly: 5 evidence-contract checks, 0 failures.
+
 Do not start EC2 unless the auth gate reports:
 
 ```text

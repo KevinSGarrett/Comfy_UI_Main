@@ -435,6 +435,107 @@ function Test-LaneReadinessEvidenceContract {
   return $entry
 }
 
+function Test-EC2CoordinatorGateEvidenceContract {
+  param(
+    [Parameter(Mandatory=$true)][string]$Path,
+    [Parameter(Mandatory=$true)][ValidateSet("static_proof", "workflow_smoke")][string]$Kind
+  )
+
+  $entry = [ordered]@{
+    name = Split-Path -Leaf $Path
+    kind = $Kind
+    path = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $Path
+    result = "fail"
+    error = $null
+    top_level_result = $null
+    top_level_failure_category = $null
+    execute_gates_pass = $null
+    blocked_reason_count = $null
+    ec2_started = $null
+    command_status = $null
+    generation_executed = $null
+    auth_gate_result = $null
+    auth_gate_failure_category = $null
+    readiness_gate_result = $null
+    readiness_gate_failure_category = $null
+  }
+
+  try {
+    $payload = Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json
+    foreach ($required in @("result", "failure_category", "execute_gates_pass", "blocked_reasons", "auth_gate", "readiness_gate")) {
+      if (-not (Has-Property -Object $payload -Name $required)) {
+        throw "EC2 coordinator evidence is missing top-level field: $required"
+      }
+    }
+    foreach ($requiredAuth in @("result", "failure_category", "ec2_work_allowed", "safe_to_start_ec2")) {
+      if (-not (Has-Property -Object $payload.auth_gate -Name $requiredAuth)) {
+        throw "EC2 coordinator auth_gate is missing field: $requiredAuth"
+      }
+    }
+    foreach ($requiredReadiness in @("result", "failure_category", "local_pre_ec2_ready", "ready_for_ec2_static_proof", "ready_for_generation")) {
+      if (-not (Has-Property -Object $payload.readiness_gate -Name $requiredReadiness)) {
+        throw "EC2 coordinator readiness_gate is missing field: $requiredReadiness"
+      }
+    }
+
+    $entry.top_level_result = [string]$payload.result
+    $entry.top_level_failure_category = $payload.failure_category
+    $entry.execute_gates_pass = [bool]$payload.execute_gates_pass
+    $entry.blocked_reason_count = @($payload.blocked_reasons).Count
+    $entry.auth_gate_result = [string]$payload.auth_gate.result
+    $entry.auth_gate_failure_category = $payload.auth_gate.failure_category
+    $entry.readiness_gate_result = [string]$payload.readiness_gate.result
+    $entry.readiness_gate_failure_category = $payload.readiness_gate.failure_category
+
+    if (Has-Property -Object $payload -Name "ec2_started") {
+      $entry.ec2_started = [bool]$payload.ec2_started
+    }
+    if (Has-Property -Object $payload -Name "command_status") {
+      $entry.command_status = [string]$payload.command_status
+    }
+    if (Has-Property -Object $payload -Name "generation_executed") {
+      $entry.generation_executed = [bool]$payload.generation_executed
+    }
+
+    if ([string]::IsNullOrWhiteSpace($entry.top_level_result)) {
+      throw "EC2 coordinator evidence has an empty top-level result."
+    }
+    if (-not $entry.execute_gates_pass) {
+      if ([string]::IsNullOrWhiteSpace([string]$payload.failure_category)) {
+        throw "Blocked EC2 coordinator evidence must include a top-level failure_category."
+      }
+      if ($entry.blocked_reason_count -eq 0) {
+        throw "Blocked EC2 coordinator evidence must include blocked_reasons."
+      }
+    }
+    if ($entry.top_level_result -like "*blocked_before_ec2_start*") {
+      if (-not (Has-Property -Object $payload -Name "ec2_started")) {
+        throw "Blocked-before-start EC2 coordinator evidence must include ec2_started."
+      }
+      if ([bool]$payload.ec2_started) {
+        throw "Blocked-before-start EC2 coordinator evidence must not start EC2."
+      }
+      if ((Has-Property -Object $payload -Name "command_status") -and [string]$payload.command_status -ne "not_started") {
+        throw "Blocked-before-start EC2 coordinator evidence must keep command_status=not_started."
+      }
+    }
+    if ($Kind -eq "workflow_smoke") {
+      if (-not (Has-Property -Object $payload -Name "generation_executed")) {
+        throw "Workflow smoke coordinator evidence is missing generation_executed."
+      }
+      if (-not $entry.execute_gates_pass -and [bool]$payload.generation_executed) {
+        throw "Blocked workflow smoke coordinator evidence must not execute generation."
+      }
+    }
+
+    $entry.result = "pass"
+  } catch {
+    $entry.error = $_.Exception.Message
+  }
+
+  return $entry
+}
+
 $stamp = (Get-Date -Format "yyyyMMddTHHmmsszzz").Replace(":", "")
 $createdAt = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
 $operationsRoot = Join-Path $ProjectRoot "Plan\Instructions\Operations"
@@ -519,11 +620,12 @@ $localSmokeResults += Invoke-LocalHelper -Name "ec2_workflow_smoke_run_dry_run" 
 
 $latestBlockedStaticProof = Find-LatestFile -Directory $workflowStaticDir -Filter "W61_EC2_LANE_STATIC_PROOF_BLOCKED_EXECUTE_*.json"
 $latestCoordinatorDryRun = Find-LatestFile -Directory $workflowRuntimeDir -Filter "W61_EC2_WORKFLOW_SMOKE_RUN_DRY_RUN_*.json"
+$latestCoordinatorBlockedRun = Find-LatestFile -Directory $workflowRuntimeDir -Filter "W61_EC2_WORKFLOW_SMOKE_RUN_BLOCKED_EXECUTE_*.json"
 $latestReadiness = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W61_LANE_RUNTIME_READINESS_*.json"
 $latestAuthGate = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_AUTH_GATE*.json"
 
 $evidenceChecks = @()
-foreach ($evidence in @($latestBlockedStaticProof, $latestCoordinatorDryRun, $latestReadiness)) {
+foreach ($evidence in @($latestBlockedStaticProof, $latestCoordinatorDryRun, $latestCoordinatorBlockedRun, $latestReadiness)) {
   if ([string]::IsNullOrWhiteSpace($evidence)) { continue }
   $evidenceChecks += Test-JsonFile -Path $evidence
 }
@@ -534,6 +636,15 @@ if (![string]::IsNullOrWhiteSpace($latestAuthGate)) {
 }
 if (![string]::IsNullOrWhiteSpace($latestReadiness)) {
   $evidenceContractChecks += Test-LaneReadinessEvidenceContract -Path $latestReadiness
+}
+if (![string]::IsNullOrWhiteSpace($latestBlockedStaticProof)) {
+  $evidenceContractChecks += Test-EC2CoordinatorGateEvidenceContract -Path $latestBlockedStaticProof -Kind "static_proof"
+}
+if (![string]::IsNullOrWhiteSpace($latestCoordinatorDryRun)) {
+  $evidenceContractChecks += Test-EC2CoordinatorGateEvidenceContract -Path $latestCoordinatorDryRun -Kind "workflow_smoke"
+}
+if (![string]::IsNullOrWhiteSpace($latestCoordinatorBlockedRun)) {
+  $evidenceContractChecks += Test-EC2CoordinatorGateEvidenceContract -Path $latestCoordinatorBlockedRun -Kind "workflow_smoke"
 }
 
 $scriptFailures = @($scriptParseResults | Where-Object { $_.result -ne "pass" })
