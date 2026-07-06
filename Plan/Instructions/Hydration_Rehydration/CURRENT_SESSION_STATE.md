@@ -501,3 +501,14 @@ After AWS remote login is refreshed externally, rerun `Test-AwsAuthGate.ps1` unt
 - S3-backed quality plan evidence `Plan\Instructions\QA\Evidence\Workflow_Runtime\W66_EC2_WORKFLOW_MATRIX_QUALITY_RUN_PLAN_S3_PUBLISHED_20260706T181317-0500.json` reports `pass_local_only`, three planned samples, real `-DeployBundleS3Uri`, real `-DeployBundleSha256`, and `failure_count=0`.
 - Wave65 source coverage was rerun after this addition. Current result: `pass`, `plan_file_count=2859`, `wave65_rows_created=684`, `missing_after_wave65_count=0`.
 - Next quality step: rerun fresh AWS auth, Git cleanliness, readiness/static proof, and cost-control gates, then execute only the three S3-backed matrix sample commands; pull back every artifact, verify hashes, and complete whole-image QA for every generated sample before certification.
+
+## Latest Matrix Quality Pre-EC2 Gates - 2026-07-06T18:23:20-05:00
+
+- Fresh AWS auth gate `Plan\Instructions\QA\Evidence\Runtime_Readiness\W66_AWS_AUTH_GATE_MATRIX_QUALITY_20260706T182114-0500.json` reports `pass`, account `029530099913`, `safe_to_start_ec2=true`, and `generation_allowed=true`.
+- Fresh runtime lane queue validation `Plan\Instructions\QA\Evidence\Workflow_Prerequisite_Matching\W66_RUNTIME_LANE_QUEUE_MATRIX_QUALITY_20260706T182114-0500.json` reports `pass_local_only`.
+- Fresh model registry coverage `Plan\Instructions\QA\Evidence\Model_Registry\W66_MODEL_REGISTRY_MATRIX_QUALITY_20260706T182114-0500.json` reports `pass_local_only` and failed check count `0`.
+- Fresh RealVisXL readiness `Plan\Instructions\QA\Evidence\Runtime_Readiness\W66_LANE_RUNTIME_READINESS_REALVISXL_MATRIX_QUALITY_20260706T182127-0500.json` reports `ready_for_generation`, `ready_for_ec2_static_proof=true`, and `ready_for_generation=true`.
+- Created verified one-time EventBridge Scheduler emergency stop `Plan\Instructions\QA\Evidence\Runtime_Readiness\W66_EC2_EMERGENCY_STOP_MATRIX_STATIC_DIRECT_20260706T182233-0500.json`; result `emergency_stop_schedule_created_verified`, stop after `45` minutes.
+- Fixed `Plan\Instructions\Operations\Scripts\New-EC2EmergencyStopSchedule.ps1` so future schedules use short names, Windows-safe `Mode=OFF`, and nonzero AWS CLI exit checks. Dry-run validation: `Plan\Instructions\QA\Evidence\Runtime_Readiness\W66_EC2_EMERGENCY_STOP_HELPER_DRY_RUN_FIXED_20260706T182320-0500.json`.
+- Wave65 source coverage was rerun after this addition. Current result: `pass`, `plan_file_count=2865`, `wave65_rows_created=690`, `missing_after_wave65_count=0`.
+- EC2 remained `stopped`; no generation ran. Next exact step is to commit/push this gate checkpoint, then run the S3-backed EC2 static proof from a clean pushed worktree.

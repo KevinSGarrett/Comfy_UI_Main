@@ -31,7 +31,8 @@ function Write-JsonNoBom {
 
 $stamp = (Get-Date -Format "yyyyMMddTHHmmsszzz").Replace(":", "")
 if ([string]::IsNullOrWhiteSpace($ScheduleName)) {
-  $ScheduleName = "comfy-ui-main-emergency-stop-$($InstanceId)-$stamp" -replace "[^A-Za-z0-9_.-]", "-"
+  $shortStamp = (Get-Date -Format "yyyyMMddTHHmmss")
+  $ScheduleName = "cu-stop-$shortStamp" -replace "[^A-Za-z0-9_.-]", "-"
 }
 if ([string]::IsNullOrWhiteSpace($OutFile)) {
   $OutFile = "C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W63_EC2_EMERGENCY_STOP_SCHEDULE_$stamp.json"
@@ -80,9 +81,12 @@ if ([string]::IsNullOrWhiteSpace($SchedulerRoleArn)) {
       --name $ScheduleName `
       --schedule-expression $scheduleExpression `
       --schedule-expression-timezone UTC `
-      --flexible-time-window '{"Mode":"OFF"}' `
+      --flexible-time-window Mode=OFF `
       --action-after-completion DELETE `
       --target "file://$targetPath" | Out-Null
+    if ($LASTEXITCODE -ne 0) {
+      throw "aws scheduler create-schedule failed with exit code $LASTEXITCODE"
+    }
     $record.result = "emergency_stop_schedule_created"
     $record.next_action = "Leave this one-time safety stop in place for the current EC2 window; it deletes itself after completion."
   } catch {
