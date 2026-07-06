@@ -10,9 +10,12 @@ Local static/package validation is complete through Wave 62 cumulative zip valid
 2026-07-06T07:19:43-05:00
 
 ## Latest continuation update
-Visible main-directory scaffold is now present in `C:\Comfy_UI_Main`: top-level `README.md`, `PROJECT_ROOT_MANIFEST.json`, exported runtime-facing workflows under `Workflows\base_generation\`, safe model/config/runtime artifact folders, and `Workflows\base_generation\ACTIVE_LANES.json`. The exported low-risk and RealVisXL workflow files hash-match the validated Plan templates and both pass static validation from their top-level `Workflows` paths.
+Root-level run package preparation is now concrete for the first queued lane. `tools\New-WorkflowRunPackage.ps1` builds a local-only package from `Workflows\base_generation\ACTIVE_LANES.json`; the current package `runtime_artifacts\run_packages\sdxl_low_risk_fallback_lane_20260706T081301-0500` contains copied lane files, `prompt_request.json`, `static_validation.json`, `smoke_dry_run.json`, and `RUN_PACKAGE_MANIFEST.json`. Manifest result is `pass_local_only`; static validation passes; request body is written; `execution_allowed=false`, `ec2_started=false`, and `generation_executed=false`.
 
 ## Previous continuation update
+Visible main-directory scaffold is now present in `C:\Comfy_UI_Main`: top-level `README.md`, `PROJECT_ROOT_MANIFEST.json`, exported runtime-facing workflows under `Workflows\base_generation\`, safe model/config/runtime artifact folders, and `Workflows\base_generation\ACTIVE_LANES.json`. The exported low-risk and RealVisXL workflow files hash-match the validated Plan templates and both pass static validation from their top-level `Workflows` paths.
+
+## Earlier continuation update
 Queue-aware readiness and handoff hardening is complete locally. `Test-ProjectReadinessSnapshot.ps1` now imports runtime lane queue evidence and only allows EC2 static-proof readiness when the selected lane is the first queued runtime lane. `New-RuntimeUnblockHandoff.ps1` now records the queue gate, includes a runtime lane queue recheck command, and carries a queue safety invariant. `Test-QAHelperStatic.ps1` contract-checks the queue gate. Final retest evidence reports project readiness `pass_local_ready_runtime_blocked_auth`, runtime handoff `handoff_ready_runtime_blocked_auth` with 10 command steps, QA helper `pass_local_only` with 0 contract failures, and operations helper `pass_local_only`.
 
 ## Earlier continuation update

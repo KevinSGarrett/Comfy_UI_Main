@@ -97,6 +97,8 @@ Start by reading this file, then re-open the standard hydration files in this fo
 - Operations helper validation now checks the runtime queue safety invariant in the runtime handoff smoke and remains `pass_local_only`.
 - Added visible main-directory scaffold under `C:\Comfy_UI_Main`: `README.md`, `PROJECT_ROOT_MANIFEST.json`, `Workflows\base_generation\ACTIVE_LANES.json`, exported low-risk and RealVisXL workflow files under `Workflows\base_generation\`, and safe `models`, `configs`, and `runtime_artifacts` subfolders.
 - Validated both exported top-level workflow lanes directly with `Test-ComfyWorkflowStatic.ps1`; both pass and all exported workflow/support files hash-match the validated Plan templates.
+- Added root-level workflow tooling: `tools\Sync-WorkflowExports.ps1`, `tools\Test-RootProjectPreflight.ps1`, and `tools\New-WorkflowRunPackage.ps1`.
+- Generated the first local run package for `sdxl_low_risk_fallback_lane` at `runtime_artifacts\run_packages\sdxl_low_risk_fallback_lane_20260706T081301-0500`. It contains `prompt_request.json`, copied lane files, static validation, smoke dry-run, and `RUN_PACKAGE_MANIFEST.json`; result is `pass_local_only`, `execution_allowed=false`, `ec2_started=false`, and `generation_executed=false`.
 
 ## Current goal
 
@@ -367,6 +369,9 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\S
 - `Workflows/base_generation/ACTIVE_LANES.json`
 - `Workflows/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json`
 - `Workflows/base_generation/sdxl_realvisxl_base_lane/workflow.api.json`
+- `tools/New-WorkflowRunPackage.ps1`
+- `runtime_artifacts/run_packages/sdxl_low_risk_fallback_lane_20260706T081301-0500/RUN_PACKAGE_MANIFEST.json`
+- `runtime_artifacts/run_packages/sdxl_low_risk_fallback_lane_20260706T081301-0500/prompt_request.json`
 
 ## Must not repeat
 

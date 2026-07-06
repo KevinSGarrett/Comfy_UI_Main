@@ -4,7 +4,7 @@
 
 As of 2026-07-06T07:52:41-05:00, Codex completed queue-aware project readiness and runtime handoff hardening. `Test-ProjectReadinessSnapshot.ps1` imports runtime lane queue evidence and only allows EC2 static-proof readiness when the selected lane is first in `runtime_lane_queue.json`. `New-RuntimeUnblockHandoff.ps1` records the queue gate, includes a `runtime_lane_queue_recheck` command, and carries the `do_not_start_ec2_unless_runtime_lane_queue_allows` safety invariant. `Test-QAHelperStatic.ps1` contract-checks the queue gate. This work did not contact AWS, GitHub APIs, Civitai, ComfyUI, start EC2, or run generation.
 
-Current local validation is refreshed through the scan-safe project readiness snapshot, current Git blocker recheck, QA helper project-readiness contract validation, runtime unblock handoff validation, runtime handoff readiness contract validation, EC2 Git checkpoint gate validation, post-checkpoint Git recheck evidence, lane-aware project handoff validation, authored-lane local pre-EC2 evidence coverage, runtime lane queue validation, queue-aware project readiness/handoff retests, generated index refresh for the queue-aware slice, and top-level workflow export/static validation. The next runtime-unblocking action remains AWS CLI remote browser/SSO login in an interactive/browser-capable shell.
+Current local validation is refreshed through the scan-safe project readiness snapshot, current Git blocker recheck, QA helper project-readiness contract validation, runtime unblock handoff validation, runtime handoff readiness contract validation, EC2 Git checkpoint gate validation, post-checkpoint Git recheck evidence, lane-aware project handoff validation, authored-lane local pre-EC2 evidence coverage, runtime lane queue validation, queue-aware project readiness/handoff retests, generated index refresh for the queue-aware slice, top-level workflow export/static validation, root local preflight, and a local run package for the first queued lane. The next runtime-unblocking action remains AWS CLI remote browser/SSO login in an interactive/browser-capable shell.
 
 `sdxl_realvisxl_base_lane` is now authored and local-static validated as a second SDXL lane. Keep `sdxl_low_risk_fallback_lane` as the first EC2 proof/generation lane; queue `sdxl_realvisxl_base_lane` for later RealVisXL checkpoint path/hash/load/output QA after the low-risk lane proves the runtime path.
 
@@ -46,6 +46,14 @@ Latest project readiness snapshot now imports both `runtime_unblock_handoff` and
 Latest QA helper validation parses 9 QA scripts, runs 12 local smokes, includes the authored-lane coverage and runtime lane queue smokes, and contract-checks runtime handoff plus runtime queue fields with 0 project-readiness contract failures. This confirms the `.env` GitHub/Civitai keys are not the blocker for EC2; AWS browser/SSO auth is still the runtime gate.
 
 Latest runtime handoff command sequence now includes both `runtime_lane_queue_recheck` and `git_checkpoint_recheck`; both must pass before EC2 static proof or workflow smoke execution.
+
+Current local run package for the first queued lane:
+
+```text
+runtime_artifacts/run_packages/sdxl_low_risk_fallback_lane_20260706T081301-0500/RUN_PACKAGE_MANIFEST.json
+```
+
+It contains the patched `prompt_request.json` for later bounded `/prompt` execution, but it is local-only and records `execution_allowed=false`, `ec2_started=false`, and `generation_executed=false`.
 
 Do not start EC2 unless the auth gate reports:
 
