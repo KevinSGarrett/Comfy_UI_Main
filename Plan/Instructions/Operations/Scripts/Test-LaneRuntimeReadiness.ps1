@@ -202,6 +202,10 @@ $auth = [ordered]@{
   ec2_work_allowed = $false
   safe_to_start_ec2 = $false
   generation_allowed = $false
+  result = "missing_auth_gate"
+  failure_category = "missing_auth_gate"
+  account_match = $false
+  remote_login_status = "missing_auth_gate"
   status = "missing_auth_gate"
 }
 if ($auth.found) {
@@ -209,6 +213,20 @@ if ($auth.found) {
   $auth.ec2_work_allowed = [bool]$authJson.ec2_work_allowed
   $auth.safe_to_start_ec2 = [bool]$authJson.safe_to_start_ec2
   $auth.generation_allowed = [bool]$authJson.generation_allowed
+  if (Has-Property -Object $authJson -Name "result") {
+    $auth.result = [string]$authJson.result
+  } else {
+    $auth.result = $(if ($auth.safe_to_start_ec2) { "pass" } else { "blocked" })
+  }
+  if (Has-Property -Object $authJson -Name "failure_category") {
+    $auth.failure_category = $authJson.failure_category
+  }
+  if (Has-Property -Object $authJson -Name "account_match") {
+    $auth.account_match = [bool]$authJson.account_match
+  }
+  if (Has-Property -Object $authJson -Name "remote_login_status") {
+    $auth.remote_login_status = [string]$authJson.remote_login_status
+  }
   $auth.status = $(if ($auth.safe_to_start_ec2) { "pass" } else { "blocked" })
   if (Has-Property -Object $authJson -Name "remote_login") {
     $auth.remote_login_status = [string]$authJson.remote_login.status
@@ -217,6 +235,9 @@ if ($auth.found) {
     $auth.sts_failure_category = [string]$authJson.sts_after.failure_category
   } elseif ((Has-Property -Object $authJson -Name "sts_before") -and (Has-Property -Object $authJson.sts_before -Name "failure_category")) {
     $auth.sts_failure_category = [string]$authJson.sts_before.failure_category
+  }
+  if ([string]::IsNullOrWhiteSpace([string]$auth.failure_category) -and ![string]::IsNullOrWhiteSpace([string]$auth.sts_failure_category)) {
+    $auth.failure_category = [string]$auth.sts_failure_category
   }
 }
 
@@ -296,6 +317,24 @@ $localPreEc2Ready = (
 
 $readyForEc2StaticProof = ($localPreEc2Ready -and [bool]$auth.safe_to_start_ec2)
 $readyForGeneration = ($readyForEc2StaticProof -and [bool]$staticProof.generation_allowed)
+$readinessResult = "not_ready"
+$readinessFailureCategory = $null
+
+if (!$localPreEc2Ready) {
+  $readinessResult = "not_ready"
+  $readinessFailureCategory = "local_pre_ec2_contract_failed"
+} elseif ($readyForGeneration) {
+  $readinessResult = "ready_for_generation"
+} elseif ($readyForEc2StaticProof) {
+  $readinessResult = "ready_for_ec2_static_proof"
+  $readinessFailureCategory = "missing_ec2_static_proof"
+} elseif (!$auth.safe_to_start_ec2) {
+  $readinessResult = "local_pre_ec2_ready_runtime_blocked_auth"
+  $readinessFailureCategory = $(if (![string]::IsNullOrWhiteSpace([string]$auth.failure_category)) { [string]$auth.failure_category } else { "aws_auth_blocked" })
+} else {
+  $readinessResult = "local_pre_ec2_ready_runtime_blocked"
+  $readinessFailureCategory = "runtime_gate_blocked"
+}
 
 if (!$auth.safe_to_start_ec2) {
   $warnings += "AWS auth gate does not allow EC2 start."
@@ -322,6 +361,8 @@ $record = [ordered]@{
   auth_gate = $auth
   profile_matrix = $profileMatrix
   ec2_static_proof = $staticProof
+  result = $readinessResult
+  failure_category = $readinessFailureCategory
   local_pre_ec2_ready = $localPreEc2Ready
   ready_for_ec2_static_proof = $readyForEc2StaticProof
   ready_for_generation = $readyForGeneration

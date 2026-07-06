@@ -1,0 +1,184 @@
+﻿{
+    "evidence_id":  "LANE-RUNTIME-READINESS-20260706T051235-0500",
+    "timestamp":  "2026-07-06T05:12:35-05:00",
+    "lane_id":  "sdxl_low_risk_fallback_lane",
+    "lane_dir":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane",
+    "lane_files":  [
+                       {
+                           "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
+                           "exists":  true,
+                           "json_valid":  true
+                       },
+                       {
+                           "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/patch_points.json",
+                           "exists":  true,
+                           "json_valid":  true
+                       },
+                       {
+                           "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
+                           "exists":  true,
+                           "json_valid":  true
+                       },
+                       {
+                           "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/smoke_test_request.json",
+                           "exists":  true,
+                           "json_valid":  true
+                       }
+                   ],
+    "runtime_requirements_summary":  {
+                                         "required_nodes":  [
+                                                                "CheckpointLoaderSimple",
+                                                                "EmptyLatentImage",
+                                                                "CLIPTextEncode",
+                                                                "KSampler",
+                                                                "VAEDecode",
+                                                                "SaveImage"
+                                                            ],
+                                         "required_model_count":  1
+                                     },
+    "helper_scripts":  [
+                           {
+                               "path":  "Plan/Instructions/QA/Scripts/Test-ComfyWorkflowStatic.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/Operations/Scripts/Invoke-EC2LaneStaticProof.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/Operations/Scripts/Invoke-ComfyWorkflowSmoke.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/Operations/Scripts/Invoke-EC2WorkflowSmokeRun.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/Operations/Scripts/Test-AwsAuthGate.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/Operations/Scripts/Test-AwsProfileAuthMatrix.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/Operations/Scripts/New-EC2PullbackRecord.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/QA/Scripts/New-ImageArtifactQARecord.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           }
+                       ],
+    "evidence_files":  [
+                           {
+                               "name":  "workflow_static_validation",
+                               "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_SDXL_LOW_RISK_WORKFLOW_STATIC_VALIDATION_20260706T024811-0500.json",
+                               "exists":  true,
+                               "json_valid":  true
+                           },
+                           {
+                               "name":  "smoke_dry_run",
+                               "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_COMFY_WORKFLOW_SMOKE_DRY_RUN_20260706T025536-0500.json",
+                               "exists":  true,
+                               "json_valid":  true
+                           },
+                           {
+                               "name":  "smoke_request",
+                               "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_COMFY_WORKFLOW_SMOKE_REQUEST_20260706T025536-0500.json",
+                               "exists":  true,
+                               "json_valid":  true
+                           },
+                           {
+                               "name":  "image_qa_dry_run",
+                               "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_DRY_RUN_20260706T030037-0500.json",
+                               "exists":  true,
+                               "json_valid":  true
+                           },
+                           {
+                               "name":  "pullback_dry_run",
+                               "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_EC2_PULLBACK_RECORD_DRY_RUN_20260706T031758-0500.json",
+                               "exists":  true,
+                               "json_valid":  true
+                           }
+                       ],
+    "auth_gate":  {
+                      "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_AUTH_GATE_READINESS_CONTRACT_20260706T051212-0500.json",
+                      "found":  true,
+                      "ec2_work_allowed":  false,
+                      "safe_to_start_ec2":  false,
+                      "generation_allowed":  false,
+                      "result":  "blocked_expired_session",
+                      "failure_category":  "expired_session",
+                      "account_match":  false,
+                      "remote_login_status":  "not_attempted",
+                      "status":  "blocked",
+                      "sts_failure_category":  "expired_session"
+                  },
+    "profile_matrix":  {
+                           "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_PROFILE_AUTH_MATRIX_READINESS_CONTRACT_20260706T051212-0500.json",
+                           "found":  true,
+                           "expected_account":  "029530099913",
+                           "active_env_profile_name":  "default",
+                           "profile_count":  15,
+                           "profiles_matching_expected_count":  0,
+                           "ec2_work_allowed":  false,
+                           "safe_to_start_ec2":  false,
+                           "result":  "blocked_no_valid_profile",
+                           "status":  "blocked"
+                       },
+    "ec2_static_proof":  {
+                             "file":  null,
+                             "found":  false,
+                             "object_info_pass":  false,
+                             "model_hashes_present":  false,
+                             "generation_allowed":  false,
+                             "status":  "missing_ec2_static_proof"
+                         },
+    "result":  "local_pre_ec2_ready_runtime_blocked_auth",
+    "failure_category":  "expired_session",
+    "local_pre_ec2_ready":  true,
+    "ready_for_ec2_static_proof":  false,
+    "ready_for_generation":  false,
+    "errors":  [
+
+               ],
+    "warnings":  [
+                     "AWS auth gate does not allow EC2 start.",
+                     "AWS profile matrix found no profile currently safe for EC2 start.",
+                     "Generation remains blocked until EC2 object-info/path/hash proof passes."
+                 ],
+    "next_action":  "Complete AWS remote browser login and rerun Test-AwsAuthGate.ps1."
+}

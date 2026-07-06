@@ -349,6 +349,59 @@ function Test-AuthGateEvidenceContract {
   return $entry
 }
 
+function Test-LaneReadinessEvidenceContract {
+  param([Parameter(Mandatory=$true)][string]$Path)
+
+  $entry = [ordered]@{
+    name = Split-Path -Leaf $Path
+    path = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $Path
+    result = "fail"
+    error = $null
+    top_level_result = $null
+    top_level_failure_category = $null
+    local_pre_ec2_ready = $null
+    ready_for_ec2_static_proof = $null
+    ready_for_generation = $null
+    auth_gate_result = $null
+    auth_gate_failure_category = $null
+  }
+
+  try {
+    $payload = Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json
+    foreach ($required in @("result", "failure_category", "local_pre_ec2_ready", "ready_for_ec2_static_proof", "ready_for_generation", "auth_gate")) {
+      if (-not (Has-Property -Object $payload -Name $required)) {
+        throw "Lane readiness evidence is missing top-level field: $required"
+      }
+    }
+    foreach ($requiredAuth in @("result", "failure_category", "account_match", "remote_login_status", "ec2_work_allowed", "safe_to_start_ec2")) {
+      if (-not (Has-Property -Object $payload.auth_gate -Name $requiredAuth)) {
+        throw "Lane readiness auth_gate is missing field: $requiredAuth"
+      }
+    }
+
+    $entry.top_level_result = [string]$payload.result
+    $entry.top_level_failure_category = $payload.failure_category
+    $entry.local_pre_ec2_ready = [bool]$payload.local_pre_ec2_ready
+    $entry.ready_for_ec2_static_proof = [bool]$payload.ready_for_ec2_static_proof
+    $entry.ready_for_generation = [bool]$payload.ready_for_generation
+    $entry.auth_gate_result = [string]$payload.auth_gate.result
+    $entry.auth_gate_failure_category = $payload.auth_gate.failure_category
+
+    if ([string]::IsNullOrWhiteSpace($entry.top_level_result)) {
+      throw "Lane readiness evidence has an empty top-level result."
+    }
+    if (-not [bool]$payload.ready_for_generation -and [string]::IsNullOrWhiteSpace([string]$payload.failure_category)) {
+      throw "Blocked lane readiness evidence must include a top-level failure_category."
+    }
+
+    $entry.result = "pass"
+  } catch {
+    $entry.error = $_.Exception.Message
+  }
+
+  return $entry
+}
+
 $stamp = (Get-Date -Format "yyyyMMddTHHmmsszzz").Replace(":", "")
 $createdAt = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
 $operationsRoot = Join-Path $ProjectRoot "Plan\Instructions\Operations"
@@ -445,6 +498,9 @@ foreach ($evidence in @($latestBlockedStaticProof, $latestCoordinatorDryRun, $la
 $evidenceContractChecks = @()
 if (![string]::IsNullOrWhiteSpace($latestAuthGate)) {
   $evidenceContractChecks += Test-AuthGateEvidenceContract -Path $latestAuthGate
+}
+if (![string]::IsNullOrWhiteSpace($latestReadiness)) {
+  $evidenceContractChecks += Test-LaneReadinessEvidenceContract -Path $latestReadiness
 }
 
 $scriptFailures = @($scriptParseResults | Where-Object { $_.result -ne "pass" })

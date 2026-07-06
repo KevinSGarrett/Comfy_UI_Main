@@ -1,0 +1,212 @@
+﻿{
+    "evidence_id":  "W59-LIVE-INDEX-REFRESH-READINESS-CONTRACT-RETEST-20260706T051738-0500",
+    "created_at":  "2026-07-06T05:17:38-05:00",
+    "artifact_id":  "W59_LIVE_INDEX_REFRESH_READINESS_CONTRACT_RETEST_20260706T051738-0500",
+    "artifact_type":  "index_validation",
+    "tracker_ids":  [
+                        "TRK-W59-002",
+                        "TRK-W59-003",
+                        "TRK-W60-010",
+                        "TRK-W61-006",
+                        "TRK-W61-007"
+                    ],
+    "scope":  "Generated Plan/Items/Tracker/Instructions indexes after lane readiness evidence contract hardening; retest after correcting JSON row-count parsing in the validation probe.",
+    "first_validation_failure":  "Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_READINESS_CONTRACT_20260706T051624-0500.json",
+    "row_counts":  [
+                       {
+                           "name":  "plan",
+                           "csv_path":  "Plan\\Instructions\\Indexes\\Generated\\plan_file_index.csv",
+                           "json_path":  "Plan\\Instructions\\Indexes\\Generated\\plan_file_index.json",
+                           "csv_count":  2506,
+                           "json_count":  2506,
+                           "row_count_match":  true
+                       },
+                       {
+                           "name":  "instructions",
+                           "csv_path":  "Plan\\Instructions\\Indexes\\Generated\\instructions_file_index.csv",
+                           "json_path":  "Plan\\Instructions\\Indexes\\Generated\\instructions_file_index.json",
+                           "csv_count":  280,
+                           "json_count":  280,
+                           "row_count_match":  true
+                       },
+                       {
+                           "name":  "items",
+                           "csv_path":  "Plan\\Instructions\\Indexes\\Generated\\items_file_index.csv",
+                           "json_path":  "Plan\\Instructions\\Indexes\\Generated\\items_file_index.json",
+                           "csv_count":  45,
+                           "json_count":  45,
+                           "row_count_match":  true
+                       },
+                       {
+                           "name":  "tracker",
+                           "csv_path":  "Plan\\Instructions\\Indexes\\Generated\\tracker_file_index.csv",
+                           "json_path":  "Plan\\Instructions\\Indexes\\Generated\\tracker_file_index.json",
+                           "csv_count":  26,
+                           "json_count":  26,
+                           "row_count_match":  true
+                       }
+                   ],
+    "discovery":  [
+                      {
+                          "relative_path":  "Plan\\Instructions\\Operations\\Scripts\\Test-LaneRuntimeReadiness.ps1",
+                          "found_in_plan_index":  true,
+                          "found_in_instructions_index":  true,
+                          "exists_on_disk":  true
+                      },
+                      {
+                          "relative_path":  "Plan\\Instructions\\Operations\\Scripts\\Test-OperationsHelperStatic.ps1",
+                          "found_in_plan_index":  true,
+                          "found_in_instructions_index":  true,
+                          "exists_on_disk":  true
+                      },
+                      {
+                          "relative_path":  "Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W60_W61_AWS_AUTH_GATE_READINESS_CONTRACT_20260706T051212-0500.json",
+                          "found_in_plan_index":  true,
+                          "found_in_instructions_index":  true,
+                          "exists_on_disk":  true
+                      },
+                      {
+                          "relative_path":  "Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W60_W61_AWS_PROFILE_AUTH_MATRIX_READINESS_CONTRACT_20260706T051212-0500.json",
+                          "found_in_plan_index":  true,
+                          "found_in_instructions_index":  true,
+                          "exists_on_disk":  true
+                      },
+                      {
+                          "relative_path":  "Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W61_LANE_RUNTIME_READINESS_CONTRACT_RETEST_20260706T051212-0500.json",
+                          "found_in_plan_index":  true,
+                          "found_in_instructions_index":  true,
+                          "exists_on_disk":  true
+                      },
+                      {
+                          "relative_path":  "Plan\\Instructions\\QA\\Evidence\\Operations_Static_Validation\\W60_OPERATIONS_HELPER_CURRENT_VALIDATION_READINESS_CONTRACT_20260706T051212-0500.json",
+                          "found_in_plan_index":  true,
+                          "found_in_instructions_index":  true,
+                          "exists_on_disk":  true
+                      },
+                      {
+                          "relative_path":  "Plan\\Instructions\\QA\\Evidence\\Done_Certifications\\CERT_W61_LANE_READINESS_CONTRACT_HARDENING_20260706T051348-0500.md",
+                          "found_in_plan_index":  true,
+                          "found_in_instructions_index":  true,
+                          "exists_on_disk":  true
+                      },
+                      {
+                          "relative_path":  "Plan\\Instructions\\QA\\Evidence\\Index_Validation\\W59_LIVE_INDEX_REFRESH_READINESS_CONTRACT_20260706T051624-0500.json",
+                          "found_in_plan_index":  true,
+                          "found_in_instructions_index":  true,
+                          "exists_on_disk":  true
+                      },
+                      {
+                          "relative_path":  "Plan\\Instructions\\Hydration_Rehydration\\QA_EVIDENCE_INDEX.md",
+                          "found_in_plan_index":  true,
+                          "found_in_instructions_index":  true,
+                          "exists_on_disk":  true
+                      },
+                      {
+                          "relative_path":  "Plan\\Instructions\\Hydration_Rehydration\\PROOF_OF_MOVEMENT_LOG.csv",
+                          "found_in_plan_index":  true,
+                          "found_in_instructions_index":  true,
+                          "exists_on_disk":  true
+                      },
+                      {
+                          "relative_path":  "Plan\\Instructions\\Hydration_Rehydration\\CURRENT_SESSION_STATE.md",
+                          "found_in_plan_index":  true,
+                          "found_in_instructions_index":  true,
+                          "exists_on_disk":  true
+                      }
+                  ],
+    "source_validation_summary":  {
+                                      "auth_result":  "blocked_expired_session",
+                                      "auth_failure_category":  "expired_session",
+                                      "auth_safe_to_start_ec2":  false,
+                                      "profile_count":  15,
+                                      "profiles_matching_expected_count":  0,
+                                      "readiness_result":  "local_pre_ec2_ready_runtime_blocked_auth",
+                                      "readiness_failure_category":  "expired_session",
+                                      "local_pre_ec2_ready":  true,
+                                      "ready_for_ec2_static_proof":  false,
+                                      "ready_for_generation":  false,
+                                      "operations_result":  "pass_local_only",
+                                      "operations_script_count":  15,
+                                      "operations_json_file_count":  5,
+                                      "operations_local_smoke_count":  8,
+                                      "operations_evidence_contract_check_count":  2,
+                                      "operations_evidence_contract_check_failures":  0
+                                  },
+    "secret_private_path_scan":  [
+                                     {
+                                         "rule":  "private_temp_path",
+                                         "match_count":  0,
+                                         "matched_files":  [
+
+                                                           ]
+                                     },
+                                     {
+                                         "rule":  "parent_user_path",
+                                         "match_count":  0,
+                                         "matched_files":  [
+
+                                                           ]
+                                     },
+                                     {
+                                         "rule":  "aws_signin_url",
+                                         "match_count":  0,
+                                         "matched_files":  [
+
+                                                           ]
+                                     },
+                                     {
+                                         "rule":  "awsapps_url",
+                                         "match_count":  0,
+                                         "matched_files":  [
+
+                                                           ]
+                                     },
+                                     {
+                                         "rule":  "github_classic_token",
+                                         "match_count":  0,
+                                         "matched_files":  [
+
+                                                           ]
+                                     },
+                                     {
+                                         "rule":  "github_fine_grained_token",
+                                         "match_count":  0,
+                                         "matched_files":  [
+
+                                                           ]
+                                     },
+                                     {
+                                         "rule":  "civitai_assignment",
+                                         "match_count":  0,
+                                         "matched_files":  [
+
+                                                           ]
+                                     },
+                                     {
+                                         "rule":  "aws_access_key_assignment",
+                                         "match_count":  0,
+                                         "matched_files":  [
+
+                                                           ]
+                                     },
+                                     {
+                                         "rule":  "aws_secret_key_assignment",
+                                         "match_count":  0,
+                                         "matched_files":  [
+
+                                                           ]
+                                     },
+                                     {
+                                         "rule":  "aws_session_token_assignment",
+                                         "match_count":  0,
+                                         "matched_files":  [
+
+                                                           ]
+                                     }
+                                 ],
+    "result":  "pass",
+    "known_issues":  [
+                         "This validates generated local index currency only. AWS auth remains expired; EC2 static proof, ComfyUI generation, artifact pullback, and image QA remain pending runtime work."
+                     ],
+    "next_action":  "Complete AWS browser/SSO login, rerun auth/profile/readiness gates, then run EC2 static proof only if readiness allows."
+}
