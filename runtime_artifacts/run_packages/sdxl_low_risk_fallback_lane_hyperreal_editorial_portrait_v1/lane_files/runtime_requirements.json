@@ -1,0 +1,35 @@
+{
+  "lane_id": "sdxl_low_risk_fallback_lane",
+  "engine_family": "sdxl",
+  "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
+  "required_nodes": [
+    "CheckpointLoaderSimple",
+    "EmptyLatentImage",
+    "CLIPTextEncode",
+    "KSampler",
+    "VAEDecode",
+    "SaveImage"
+  ],
+  "required_models": [
+    {
+      "role": "checkpoint",
+      "comfyui_model_subdir": "checkpoints",
+      "filename": "sd_xl_base_1.0.safetensors",
+      "sha256": null,
+      "hash_status": "pending_ec2_static_match",
+      "path_status": "pending_ec2_static_match"
+    }
+  ],
+  "optional_models": [],
+  "object_info_required": true,
+  "object_info_status": "pending_ec2_static_match",
+  "model_hash_required": true,
+  "path_resolution_required": true,
+  "runtime_output_required": true,
+  "qa_report_required": true,
+  "promotion_allowed_without_evidence": false,
+  "current_status": "authored_pending_ec2_validation",
+  "known_blockers": [
+    "AWS CLI default login token expired before EC2 hash and object-info proof could be captured."
+  ]
+}

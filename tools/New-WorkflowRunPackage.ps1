@@ -12,6 +12,7 @@ start EC2.
 param(
   [string]$ProjectRoot = "C:\Comfy_UI_Main",
   [string]$LaneId = "",
+  [string]$PromptProfileFile = "",
   [string]$PackageRoot = "",
   [string]$RunId = "",
   [string]$ClientId = "codex-root-run-package",
@@ -58,6 +59,67 @@ function Write-JsonNoBom {
   )
   $encoding = New-Object System.Text.UTF8Encoding($false)
   [System.IO.File]::WriteAllText($Path, ($Value | ConvertTo-Json -Depth $Depth), $encoding)
+}
+
+function Test-MapKey {
+  param(
+    [object]$Map,
+    [string]$Key
+  )
+  if ($null -eq $Map) { return $false }
+  if ($Map -is [System.Collections.IDictionary]) {
+    return $Map.Contains($Key)
+  }
+  return @($Map.PSObject.Properties.Name) -contains $Key
+}
+
+function ConvertTo-HashtableDeep {
+  param([object]$InputObject)
+
+  if ($null -eq $InputObject) { return $null }
+
+  if ($InputObject -is [System.Collections.IDictionary]) {
+    $hash = [ordered]@{}
+    foreach ($key in $InputObject.Keys) {
+      $hash[$key] = ConvertTo-HashtableDeep -InputObject $InputObject[$key]
+    }
+    return $hash
+  }
+
+  if ($InputObject -is [pscustomobject]) {
+    $hash = [ordered]@{}
+    foreach ($property in $InputObject.PSObject.Properties) {
+      $hash[$property.Name] = ConvertTo-HashtableDeep -InputObject $property.Value
+    }
+    return $hash
+  }
+
+  if ($InputObject -is [System.Collections.IEnumerable] -and $InputObject -isnot [string]) {
+    $array = @()
+    foreach ($item in $InputObject) {
+      $array += ,(ConvertTo-HashtableDeep -InputObject $item)
+    }
+    return $array
+  }
+
+  return $InputObject
+}
+
+function Merge-HashtableDeep {
+  param(
+    [Parameter(Mandatory=$true)][System.Collections.IDictionary]$Target,
+    [Parameter(Mandatory=$true)][System.Collections.IDictionary]$Overlay
+  )
+
+  foreach ($key in $Overlay.Keys) {
+    if ((Test-MapKey -Map $Target -Key $key) -and
+        $Target[$key] -is [System.Collections.IDictionary] -and
+        $Overlay[$key] -is [System.Collections.IDictionary]) {
+      Merge-HashtableDeep -Target $Target[$key] -Overlay $Overlay[$key]
+    } else {
+      $Target[$key] = $Overlay[$key]
+    }
+  }
 }
 
 function Copy-PackageFile {
@@ -132,6 +194,63 @@ Copy-PackageFile -SourcePath $runtimePath -DestinationPath (Join-Path $laneFiles
 Copy-PackageFile -SourcePath $patchPath -DestinationPath (Join-Path $laneFilesDir "patch_points.json") -FileRecords $packagedFiles
 Copy-PackageFile -SourcePath $activeLanesPath -DestinationPath (Join-Path $packageDir "ACTIVE_LANES.snapshot.json") -FileRecords $packagedFiles
 
+$packagedSmokePath = Join-Path $laneFilesDir "smoke_test_request.json"
+$promptProfile = $null
+$promptProfileRecord = [ordered]@{
+  supplied = $false
+  applied = $false
+  path = $null
+  profile_id = $null
+  errors = @()
+}
+
+if (![string]::IsNullOrWhiteSpace($PromptProfileFile)) {
+  $resolvedProfilePath = $PromptProfileFile
+  if (![System.IO.Path]::IsPathRooted($resolvedProfilePath)) {
+    $resolvedProfilePath = Join-Path $ProjectRoot $resolvedProfilePath
+  }
+  $promptProfileRecord.supplied = $true
+  $promptProfileRecord.path = Convert-ToRepoPath -Path $resolvedProfilePath
+  $promptProfile = Read-JsonFile -Path $resolvedProfilePath
+  $promptProfileHash = ConvertTo-HashtableDeep -InputObject $promptProfile
+  $promptProfileRecord.profile_id = [string]$promptProfileHash["profile_id"]
+
+  if ((Test-MapKey -Map $promptProfileHash -Key "target_lane_id") -and
+      ![string]::IsNullOrWhiteSpace([string]$promptProfileHash["target_lane_id"]) -and
+      [string]$promptProfileHash["target_lane_id"] -ne $LaneId) {
+    throw "Prompt profile target_lane_id '$($promptProfileHash["target_lane_id"])' does not match lane '$LaneId'."
+  }
+
+  $smokeHash = ConvertTo-HashtableDeep -InputObject (Read-JsonFile -Path $packagedSmokePath)
+  if (!(Test-MapKey -Map $smokeHash -Key "request_patch_values")) {
+    $smokeHash["request_patch_values"] = [ordered]@{}
+  }
+  if (Test-MapKey -Map $promptProfileHash -Key "request_patch_values") {
+    Merge-HashtableDeep -Target $smokeHash["request_patch_values"] -Overlay $promptProfileHash["request_patch_values"]
+  }
+  if (Test-MapKey -Map $promptProfileHash -Key "expected_outputs") {
+    if (!(Test-MapKey -Map $smokeHash -Key "expected_outputs")) {
+      $smokeHash["expected_outputs"] = [ordered]@{}
+    }
+    Merge-HashtableDeep -Target $smokeHash["expected_outputs"] -Overlay $promptProfileHash["expected_outputs"]
+  }
+  $smokeHash["prompt_profile"] = [ordered]@{
+    profile_id = [string]$promptProfileHash["profile_id"]
+    source = $promptProfileRecord.path
+  }
+  Write-JsonNoBom -Value $smokeHash -Path $packagedSmokePath -Depth 20
+  $modifiedSmokeHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $packagedSmokePath).Hash.ToLowerInvariant()
+  $packagedSmokeRepoPath = Convert-ToRepoPath -Path $packagedSmokePath
+  foreach ($fileRecord in @($packagedFiles)) {
+    if ([string]$fileRecord["packaged"] -eq $packagedSmokeRepoPath) {
+      $fileRecord["sha256"] = $modifiedSmokeHash
+      $fileRecord["source_hash_match"] = $false
+      $fileRecord["profile_modified"] = $true
+    }
+  }
+  $promptProfileRecord.applied = $true
+}
+
 $staticValidationPath = Join-Path $packageDir "static_validation.json"
 $promptRequestPath = Join-Path $packageDir "prompt_request.json"
 $smokeDryRunPath = Join-Path $packageDir "smoke_dry_run.json"
@@ -139,11 +258,11 @@ $smokeDryRunPath = Join-Path $packageDir "smoke_dry_run.json"
 $staticScript = Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\Test-ComfyWorkflowStatic.ps1"
 $smokeScript = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Invoke-ComfyWorkflowSmoke.ps1"
 
-& powershell -NoProfile -ExecutionPolicy Bypass -File $staticScript -ProjectRoot $ProjectRoot -LaneDir $laneDir -OutFile $staticValidationPath | Out-Null
+& powershell -NoProfile -ExecutionPolicy Bypass -File $staticScript -ProjectRoot $ProjectRoot -LaneDir $laneFilesDir -OutFile $staticValidationPath | Out-Null
 if ($LASTEXITCODE -ne 0) {
   throw "Static workflow validation failed for $LaneId"
 }
-& powershell -NoProfile -ExecutionPolicy Bypass -File $smokeScript -ProjectRoot $ProjectRoot -LaneDir $laneDir -ClientId $ClientId -OutFile $smokeDryRunPath -OutRequestFile $promptRequestPath | Out-Null
+& powershell -NoProfile -ExecutionPolicy Bypass -File $smokeScript -ProjectRoot $ProjectRoot -LaneDir $laneFilesDir -ClientId $ClientId -OutFile $smokeDryRunPath -OutRequestFile $promptRequestPath | Out-Null
 if ($LASTEXITCODE -ne 0) {
   throw "Comfy workflow smoke dry-run failed for $LaneId"
 }
@@ -165,6 +284,7 @@ $packageManifest = [ordered]@{
   lane_order = [int]$selectedLane.order
   package_dir = Convert-ToRepoPath -Path $packageDir
   active_lanes_manifest = Convert-ToRepoPath -Path $activeLanesPath
+  prompt_profile = $promptProfileRecord
   local_only = $true
   aws_contacted = $false
   github_api_contacted = $false
