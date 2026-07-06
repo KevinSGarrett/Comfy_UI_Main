@@ -1,8 +1,8 @@
 # Next Action
 
-Current local validation is refreshed through the scan-safe project readiness snapshot, current Git blocker recheck, QA helper project-readiness contract validation, runtime unblock handoff validation, runtime handoff readiness contract validation, and generated index refresh. Checkpoint the local-only runtime handoff readiness contract work. The next runtime-unblocking action remains AWS CLI remote browser/SSO login in an interactive/browser-capable shell.
+Current local validation is refreshed through the scan-safe project readiness snapshot, current Git blocker recheck, QA helper project-readiness contract validation, runtime unblock handoff validation, runtime handoff readiness contract validation, EC2 Git checkpoint gate validation, post-checkpoint Git recheck at `535c3320f443b05e1ab6dc236004fc36e0bfa611`, and generated index refresh. The next runtime-unblocking action remains AWS CLI remote browser/SSO login in an interactive/browser-capable shell.
 
-Latest EC2 coordinator hardening also requires a clean pushed Git checkpoint before any EC2 `-Execute` run. `Invoke-EC2LaneStaticProof.ps1` and `Invoke-EC2WorkflowSmokeRun.ps1` now block locally unless `HEAD` equals `origin/main` and the worktree is clean, and their remote payloads verify the EC2 checkout reaches the expected pushed commit after `git pull --ff-only origin main`.
+Latest EC2 coordinator hardening also requires a clean pushed Git checkpoint before any EC2 `-Execute` run. `Invoke-EC2LaneStaticProof.ps1` and `Invoke-EC2WorkflowSmokeRun.ps1` now block locally unless `HEAD` equals `origin/main` and the worktree is clean, and their remote payloads verify the EC2 checkout reaches the expected pushed commit after `git pull --ff-only origin main`. The latest post-checkpoint Git recheck confirms the current local precondition passes at `535c3320f443b05e1ab6dc236004fc36e0bfa611`.
 
 After AWS login, rerun the secret-safe auth gate:
 

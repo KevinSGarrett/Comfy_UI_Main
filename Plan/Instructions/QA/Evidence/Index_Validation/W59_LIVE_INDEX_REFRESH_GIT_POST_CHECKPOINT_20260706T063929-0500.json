@@ -1,0 +1,82 @@
+{
+  "evidence_id": "EVID-W59-LIVE-INDEX-REFRESH-GIT-POST-CHECKPOINT-20260706T063929-0500",
+  "created_at": "2026-07-06T06:39:29-05:00",
+  "artifact_id": "TRK-W59-002",
+  "artifact_type": "index_validation",
+  "tracker_ids": [
+    "TRK-W59-002",
+    "TRK-W59-003",
+    "TRK-W59-004",
+    "TRK-W60-001",
+    "TRK-W60-009",
+    "TRK-W60-010",
+    "TRK-W61-006"
+  ],
+  "scope": [
+    "Plan/Instructions/Indexes/Generated/plan_file_index.csv",
+    "Plan/Instructions/Indexes/Generated/plan_file_index.json",
+    "Plan/Instructions/Indexes/Generated/instructions_file_index.csv",
+    "Plan/Instructions/Indexes/Generated/instructions_file_index.json",
+    "Plan/Instructions/Indexes/Generated/items_file_index.csv",
+    "Plan/Instructions/Indexes/Generated/items_file_index.json",
+    "Plan/Instructions/Indexes/Generated/tracker_file_index.csv",
+    "Plan/Instructions/Indexes/Generated/tracker_file_index.json"
+  ],
+  "regeneration_command": "powershell -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Scripts\\Generate-Project-Indexes.ps1",
+  "row_count_parity": [
+    {
+      "name": "plan",
+      "csv_count_after_final_regen": 2571,
+      "json_count_after_final_regen": 2571,
+      "row_count_match": true
+    },
+    {
+      "name": "instructions",
+      "csv_count_after_final_regen": 345,
+      "json_count_after_final_regen": 345,
+      "row_count_match": true
+    },
+    {
+      "name": "items",
+      "csv_count_after_final_regen": 45,
+      "json_count_after_final_regen": 45,
+      "row_count_match": true
+    },
+    {
+      "name": "tracker",
+      "csv_count_after_final_regen": 26,
+      "json_count_after_final_regen": 26,
+      "row_count_match": true
+    }
+  ],
+  "discovery_checks": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Git_Verification/W59_W60_GIT_CURRENT_RECHECK_20260706T063842-0500.json",
+      "found_in_generated_indexes": true
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_W60_GIT_CURRENT_RECHECK_20260706T063842-0500.md",
+      "found_in_generated_indexes": true
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_GIT_POST_CHECKPOINT_20260706T063929-0500.json",
+      "found_in_generated_indexes": true
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_LIVE_INDEX_REFRESH_GIT_POST_CHECKPOINT_20260706T063929-0500.md",
+      "found_in_generated_indexes": true
+    }
+  ],
+  "secret_private_path_scan": {
+    "credential_pattern_hits": 0,
+    "aws_auth_url_hits": 0,
+    "private_temp_path_hits": 0,
+    "result": "pass"
+  },
+  "result": "pass",
+  "notes": [
+    "Indexes were regenerated after the post-checkpoint Git recheck evidence and certification files existed.",
+    "Discovery checks confirm the pushed checkpoint Git recheck evidence, its certification, this index evidence, and the index certification are present in generated indexes.",
+    "No EC2 instance was started and no runtime generation was attempted."
+  ]
+}

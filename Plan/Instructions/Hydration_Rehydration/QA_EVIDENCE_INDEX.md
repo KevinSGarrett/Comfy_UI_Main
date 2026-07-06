@@ -169,6 +169,10 @@
 | CERT-W60-W61-EC2-GIT-CHECKPOINT-GATE-20260706T063145-0500 | EC2 Git checkpoint gate hardening certification | done_certification | pass_local_only_runtime_blocked_auth | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W60_W61_EC2_GIT_CHECKPOINT_GATE_20260706T063145-0500.md |
 | EVID-W59-LIVE-INDEX-REFRESH-EC2-GIT-GATE-20260706T063145-0500 | Generated index refresh after EC2 Git checkpoint gate hardening | index_validation | pass | Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_EC2_GIT_GATE_20260706T063145-0500.json |
 | CERT-W59-LIVE-INDEX-REFRESH-EC2-GIT-GATE-20260706T063145-0500 | Generated index refresh after EC2 Git checkpoint gate certification | done_certification | pass | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_LIVE_INDEX_REFRESH_EC2_GIT_GATE_20260706T063145-0500.md |
+| EVID-W59-W60-GIT-CURRENT-RECHECK-20260706T063842-0500 | Post-checkpoint Git repository, remote, and secret guard recheck at pushed EC2 Git gate commit | git_repository_current_state_recheck | pass_confirmed_resolved | Plan/Instructions/QA/Evidence/Git_Verification/W59_W60_GIT_CURRENT_RECHECK_20260706T063842-0500.json |
+| CERT-W59-W60-GIT-CURRENT-RECHECK-20260706T063842-0500 | Post-checkpoint Git current recheck certification | done_certification | pass_confirmed_resolved | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_W60_GIT_CURRENT_RECHECK_20260706T063842-0500.md |
+| EVID-W59-LIVE-INDEX-REFRESH-GIT-POST-CHECKPOINT-20260706T063929-0500 | Generated index refresh after post-checkpoint Git recheck evidence | index_validation | pass | Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_GIT_POST_CHECKPOINT_20260706T063929-0500.json |
+| CERT-W59-LIVE-INDEX-REFRESH-GIT-POST-CHECKPOINT-20260706T063929-0500 | Generated index refresh after post-checkpoint Git recheck certification | done_certification | pass | Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_LIVE_INDEX_REFRESH_GIT_POST_CHECKPOINT_20260706T063929-0500.md |
 
 ## Pending runtime evidence
 
