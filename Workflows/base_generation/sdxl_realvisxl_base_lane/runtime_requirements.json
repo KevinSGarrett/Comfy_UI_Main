@@ -1,0 +1,44 @@
+{
+  "lane_id": "sdxl_realvisxl_base_lane",
+  "engine_family": "sdxl",
+  "checkpoint_family": "RealVisXL",
+  "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/workflow.api.json",
+  "required_nodes": [
+    "CheckpointLoaderSimple",
+    "EmptyLatentImage",
+    "CLIPTextEncode",
+    "KSampler",
+    "VAEDecode",
+    "SaveImage"
+  ],
+  "required_models": [
+    {
+      "role": "checkpoint",
+      "comfyui_model_subdir": "checkpoints",
+      "filename": "realvisxlV50_v50Bakedvae.safetensors",
+      "source_model": "RealVisXL V5.0",
+      "source_model_id": "civitai:139562",
+      "source_version_hint": "v5.0 baked VAE",
+      "source_urls": [
+        "https://civitai.com/models/139562",
+        "https://huggingface.co/SG161222/RealVisXL_V5.0"
+      ],
+      "sha256": null,
+      "hash_status": "pending_ec2_static_match",
+      "path_status": "pending_ec2_static_match"
+    }
+  ],
+  "optional_models": [],
+  "object_info_required": true,
+  "object_info_status": "pending_ec2_static_match",
+  "model_hash_required": true,
+  "path_resolution_required": true,
+  "runtime_output_required": true,
+  "qa_report_required": true,
+  "promotion_allowed_without_evidence": false,
+  "current_status": "authored_pending_ec2_validation",
+  "known_blockers": [
+    "AWS CLI auth is expired before EC2 object-info, checkpoint path, checkpoint hash, generation output, and QA evidence can be collected.",
+    "RealVisXL checkpoint filename must be verified against the EC2 ComfyUI checkpoints directory before runtime promotion."
+  ]
+}

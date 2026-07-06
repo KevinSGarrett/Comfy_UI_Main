@@ -1,0 +1,34 @@
+# Done Certification - W59 Live Index Refresh After Queue-Aware Readiness
+
+- Certification ID: CERT-W59-LIVE-INDEX-REFRESH-QUEUE-AWARE-READINESS-20260706T080013-0500
+- Task / Tracker ID: TRK-W59-002 / TRK-W59-003 / TRK-W61-006 / TRK-W61-011 / TRK-W60-010
+- Title: Generated index refresh after queue-aware readiness and runtime handoff hardening
+- Artifact Scope:
+  - `Plan/Instructions/Indexes/Generated`
+  - `Plan/Instructions/QA/Scripts/Test-ProjectReadinessSnapshot.ps1`
+  - `Plan/Instructions/Operations/Scripts/New-RuntimeUnblockHandoff.ps1`
+  - `Plan/Instructions/QA/Scripts/Test-QAHelperStatic.ps1`
+  - `Plan/Instructions/Operations/Scripts/Test-OperationsHelperStatic.ps1`
+  - queue-aware project readiness, runtime handoff, QA helper, and operations helper evidence
+  - hydration ledgers and resume state
+- Implementation Summary:
+  - Regenerated generated project indexes after queue-aware readiness/handoff hardening and ledger updates.
+  - Verified CSV/JSON row-count parity and discovery for changed helpers, final queue-aware evidence, certification, and hydration ledgers.
+- Tests Performed:
+  - `Generate-Project-Indexes.ps1`
+  - PowerShell parser checks for changed helper scripts.
+  - Existing queue-aware project readiness, runtime handoff, QA helper, and operations helper evidence summary checks.
+  - CSV/JSON generated index row-count parity checks.
+  - Discovery checks for queue-aware helper and evidence files.
+  - Credential/private-path scan over changed local files.
+- QA Summary:
+  - Index refresh is local-only and did not contact AWS, GitHub APIs, Civitai, ComfyUI, start EC2, or run generation.
+  - `C:\Comfy_UI_Main` remains the canonical Git repository root; `.env` stays ignored and token values were not printed.
+- Evidence Paths:
+  - `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_QUEUE_AWARE_READINESS_20260706T080013-0500.json`
+- Known Issues:
+  - AWS browser/SSO auth remains expired; runtime proof and generated artifact QA remain pending.
+- Final Decision:
+  - Complete certified for local generated index refresh after queue-aware readiness and runtime handoff hardening.
+- Certifier: Codex Desktop autonomous release manager
+- Timestamp: 2026-07-06T08:00:13-05:00

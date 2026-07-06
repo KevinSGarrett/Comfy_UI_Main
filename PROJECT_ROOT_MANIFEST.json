@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "project": "Comfy_UI_Main",
+  "local_root": "C:\\Comfy_UI_Main",
+  "canonical_git_remote": "https://github.com/KevinSGarrett/Comfy_UI_Main.git",
+  "safe_to_commit": [
+    "Plan",
+    "Workflows",
+    "configs",
+    "models/README.md",
+    "runtime_artifacts/README.md",
+    "README.md"
+  ],
+  "never_commit": [
+    ".env",
+    "*.pem",
+    "*.key",
+    "model binaries",
+    "generated media outputs",
+    "AWS credentials",
+    "private SSH keys"
+  ],
+  "active_runtime_queue": {
+    "queue_file": "Workflows/base_generation/ACTIVE_LANES.json",
+    "first_lane_id": "sdxl_low_risk_fallback_lane",
+    "second_lane_id": "sdxl_realvisxl_base_lane",
+    "ec2_start_requires": [
+      "AWS auth gate safe_to_start_ec2=true",
+      "runtime lane queue selected lane order=1",
+      "clean pushed Git checkpoint",
+      "lane readiness ready_for_ec2_static_proof=true"
+    ]
+  },
+  "directories": {
+    "plan": {
+      "path": "Plan",
+      "purpose": "Project source of truth, trackers, instructions, QA evidence, and certifications."
+    },
+    "workflows": {
+      "path": "Workflows",
+      "purpose": "Runtime-facing exported ComfyUI workflow files copied from the validated Plan templates."
+    },
+    "models": {
+      "path": "models",
+      "purpose": "Local placement guide for checkpoints, LoRAs, VAEs, ControlNet models, and embeddings. Binaries are ignored."
+    },
+    "runtime_artifacts": {
+      "path": "runtime_artifacts",
+      "purpose": "Local landing area for run manifests, pullbacks, and review artifacts that are not committed unless explicitly approved."
+    },
+    "configs": {
+      "path": "configs",
+      "purpose": "Safe-to-commit runtime configuration and handoff notes."
+    }
+  }
+}

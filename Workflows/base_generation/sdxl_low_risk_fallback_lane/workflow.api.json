@@ -1,0 +1,86 @@
+{
+  "3": {
+    "class_type": "KSampler",
+    "inputs": {
+      "seed": 6100610061,
+      "steps": 20,
+      "cfg": 6.5,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 1,
+      "model": [
+        "4",
+        0
+      ],
+      "positive": [
+        "6",
+        0
+      ],
+      "negative": [
+        "7",
+        0
+      ],
+      "latent_image": [
+        "5",
+        0
+      ]
+    }
+  },
+  "4": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "sd_xl_base_1.0.safetensors"
+    }
+  },
+  "5": {
+    "class_type": "EmptyLatentImage",
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    }
+  },
+  "6": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "hyperrealistic editorial portrait, natural skin texture, balanced lighting, realistic eyes, detailed fabric, neutral studio background",
+      "clip": [
+        "4",
+        1
+      ]
+    }
+  },
+  "7": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "cartoon, anime, illustration, plastic skin, distorted anatomy, extra fingers, missing fingers, deformed hands, low resolution, blurry, watermark, text",
+      "clip": [
+        "4",
+        1
+      ]
+    }
+  },
+  "8": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "3",
+        0
+      ],
+      "vae": [
+        "4",
+        2
+      ]
+    }
+  },
+  "9": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "filename_prefix": "codex_sdxl_low_risk_smoke",
+      "images": [
+        "8",
+        0
+      ]
+    }
+  }
+}

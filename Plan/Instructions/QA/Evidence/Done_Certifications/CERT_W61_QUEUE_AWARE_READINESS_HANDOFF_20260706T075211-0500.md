@@ -1,0 +1,43 @@
+# Done Certification - W61 Queue-Aware Readiness And Handoff
+
+- Certification ID: CERT-W61-QUEUE-AWARE-READINESS-HANDOFF-20260706T075211-0500
+- Task / Tracker ID: TRK-W61-006 / TRK-W61-011 / TRK-W60-010
+- Title: Queue-aware project readiness and runtime unblock handoff
+- Artifact Scope:
+  - `Plan/Instructions/QA/Scripts/Test-ProjectReadinessSnapshot.ps1`
+  - `Plan/Instructions/Operations/Scripts/New-RuntimeUnblockHandoff.ps1`
+  - `Plan/Instructions/QA/Scripts/Test-QAHelperStatic.ps1`
+  - `Plan/Instructions/Operations/Scripts/Test-OperationsHelperStatic.ps1`
+- Implementation Summary:
+  - Project readiness now imports runtime lane queue validation evidence and exposes it under `runtime_gates.runtime_lane_queue`.
+  - EC2 static-proof eligibility now requires the selected lane to be the first queued runtime lane.
+  - Runtime unblock handoff now records runtime lane queue state, includes a queue recheck command, and adds a queue safety invariant.
+  - QA helper project-readiness contract now verifies the queue gate is present, local-only, first-lane matched, and allows the selected low-risk lane.
+  - Readiness and handoff selectors now skip failed helper/index readiness artifacts when choosing current validation inputs.
+- Tests Performed:
+  - PowerShell parser validation for all changed scripts: pass.
+  - Queue-aware project readiness final retest: `pass_local_ready_runtime_blocked_auth`.
+  - Queue-aware runtime unblock handoff selector retest: `handoff_ready_runtime_blocked_auth`, command step count 10.
+  - QA helper retest: `pass_local_only`, 9 QA scripts parsed, 12 local smokes, 0 smoke failures, 0 project-readiness contract failures.
+  - Operations helper retest: `pass_local_only`, 16 operations scripts parsed, 9 local smokes, 0 smoke failures, 0 evidence contract failures.
+- Retest Notes:
+  - The first QA helper queue-aware validation failed because selected queue order was not extracted from a single lane result object.
+  - A follow-up project readiness attempt then failed because the snapshot selected the preserved failed QA helper artifact as the latest QA validation.
+  - Both issues were corrected and retested successfully by selecting latest acceptable validation records and by indexing the selected queue lane object correctly.
+- Evidence Paths:
+  - `Plan/Instructions/QA/Evidence/Project_Readiness/W61_PROJECT_READINESS_SNAPSHOT_QUEUE_AWARE_20260706T074902-0500.json`
+  - `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_QUEUE_AWARE_20260706T074902-0500.json`
+  - `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_QUEUE_AWARE_20260706T074902-0500.md`
+  - `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_QUEUE_AWARE_READINESS_20260706T074917-0500.json`
+  - `Plan/Instructions/QA/Evidence/Project_Readiness/W61_PROJECT_READINESS_SNAPSHOT_QUEUE_AWARE_ORDER_FIX_20260706T075102-0500.json`
+  - `Plan/Instructions/QA/Evidence/Project_Readiness/W61_PROJECT_READINESS_SNAPSHOT_QUEUE_AWARE_SELECTOR_FINAL_20260706T075211-0500.json`
+  - `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_QUEUE_AWARE_SELECTOR_RETEST_20260706T075211-0500.json`
+  - `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_QUEUE_AWARE_SELECTOR_RETEST_20260706T075211-0500.md`
+  - `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_QUEUE_AWARE_READINESS_RETEST_20260706T075228-0500.json`
+  - `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_QUEUE_AWARE_HANDOFF_RETEST_20260706T075228-0500.json`
+- Known Issues:
+  - AWS browser/SSO auth remains expired; EC2 static proof, checkpoint path/hash proof, generation, pullback, and visual QA remain pending.
+- Final Decision:
+  - Complete certified for local-only queue-aware readiness and handoff hardening. Runtime execution is not certified.
+- Certifier: Codex Desktop autonomous release manager
+- Timestamp: 2026-07-06T07:52:41-05:00

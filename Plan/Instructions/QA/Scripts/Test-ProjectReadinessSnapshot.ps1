@@ -125,6 +125,32 @@ function Find-LatestJsonByLaneId {
   return $null
 }
 
+function Find-LatestJsonByResult {
+  param(
+    [Parameter(Mandatory=$true)][string]$Directory,
+    [Parameter(Mandatory=$true)][string]$Filter,
+    [Parameter(Mandatory=$true)][string[]]$AcceptableResults,
+    [string]$ExcludePattern = ""
+  )
+
+  if (!(Test-Path -LiteralPath $Directory)) { return $null }
+  $files = Get-ChildItem -LiteralPath $Directory -Filter $Filter -File
+  if (![string]::IsNullOrWhiteSpace($ExcludePattern)) {
+    $files = $files | Where-Object { $_.Name -notmatch $ExcludePattern }
+  }
+  foreach ($file in @($files | Sort-Object LastWriteTime -Descending)) {
+    try {
+      $payload = Read-JsonFile -Path $file.FullName
+      if ((Has-Property -Object $payload -Name "result") -and @($AcceptableResults) -contains [string]$payload.result) {
+        return $file.FullName
+      }
+    } catch {
+      continue
+    }
+  }
+  return $null
+}
+
 function Test-JsonEvidence {
   param(
     [string]$Name,
@@ -315,6 +341,7 @@ $qaEvidenceRoot = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence"
 $runtimeReadinessDir = Join-Path $qaEvidenceRoot "Runtime_Readiness"
 $workflowStaticDir = Join-Path $qaEvidenceRoot "Workflow_Static_Validation"
 $workflowRuntimeDir = Join-Path $qaEvidenceRoot "Workflow_Runtime"
+$workflowPrerequisiteDir = Join-Path $qaEvidenceRoot "Workflow_Prerequisite_Matching"
 $operationsValidationDir = Join-Path $qaEvidenceRoot "Operations_Static_Validation"
 $qaValidationDir = Join-Path $qaEvidenceRoot "QA_Helper_Static_Validation"
 $hydrationValidationDir = Join-Path $qaEvidenceRoot "Hydration_Helper_Static_Validation"
@@ -332,13 +359,14 @@ $latest = [ordered]@{
   profile_matrix = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_PROFILE_AUTH_MATRIX_*.json"
   lane_readiness = Find-LatestJsonByLaneId -Directory $runtimeReadinessDir -Filter "W61_LANE_RUNTIME_READINESS_*.json" -ExpectedLaneId $LaneId
   runtime_unblock_handoff = Find-LatestJsonByLaneId -Directory $runtimeReadinessDir -Filter "W61_RUNTIME_UNBLOCK_HANDOFF_*.json" -ExpectedLaneId $LaneId
+  runtime_lane_queue = Find-LatestFile -Directory $workflowPrerequisiteDir -Filter "W61_RUNTIME_LANE_QUEUE_VALIDATION*.json"
   ec2_static_proof_blocked = Find-LatestJsonByLaneId -Directory $workflowStaticDir -Filter "W61_EC2_LANE_STATIC_PROOF_BLOCKED_EXECUTE_*.json" -ExpectedLaneId $LaneId
   ec2_workflow_smoke_blocked = Find-LatestJsonByLaneId -Directory $workflowRuntimeDir -Filter "W61_EC2_WORKFLOW_SMOKE_RUN_BLOCKED_EXECUTE_*.json" -ExpectedLaneId $LaneId
-  operations_validation = Find-LatestFile -Directory $operationsValidationDir -Filter "W60_OPERATIONS_HELPER_CURRENT_VALIDATION*.json"
-  qa_validation = Find-LatestFile -Directory $qaValidationDir -Filter "W61_QA_HELPER_CURRENT_VALIDATION*.json"
-  hydration_validation = Find-LatestFile -Directory $hydrationValidationDir -Filter "W62_HYDRATION_HELPER_CURRENT_VALIDATION*.json"
-  items_tracker_validation = Find-LatestFile -Directory $itemsTrackerValidationDir -Filter "W59_W60_ITEMS_TRACKER_CURRENT_VALIDATION*.json"
-  index_validation = Find-LatestFile -Directory $indexValidationDir -Filter "W59_LIVE_INDEX_REFRESH*.json"
+  operations_validation = Find-LatestJsonByResult -Directory $operationsValidationDir -Filter "W60_OPERATIONS_HELPER_CURRENT_VALIDATION*.json" -AcceptableResults @("pass_local_only")
+  qa_validation = Find-LatestJsonByResult -Directory $qaValidationDir -Filter "W61_QA_HELPER_CURRENT_VALIDATION*.json" -AcceptableResults @("pass_local_only")
+  hydration_validation = Find-LatestJsonByResult -Directory $hydrationValidationDir -Filter "W62_HYDRATION_HELPER_CURRENT_VALIDATION*.json" -AcceptableResults @("pass_local_only")
+  items_tracker_validation = Find-LatestJsonByResult -Directory $itemsTrackerValidationDir -Filter "W59_W60_ITEMS_TRACKER_CURRENT_VALIDATION*.json" -AcceptableResults @("pass", "pass_local_only")
+  index_validation = Find-LatestJsonByResult -Directory $indexValidationDir -Filter "W59_LIVE_INDEX_REFRESH*.json" -AcceptableResults @("pass")
 }
 
 $errors = @()
@@ -384,6 +412,7 @@ $evidenceChecks = @(
   (Test-JsonEvidence -Name "profile_matrix" -Path $latest.profile_matrix -AcceptableResults @("pass", "blocked_no_valid_profile", "blocked_aws_cli_unavailable", "blocked_no_profiles")),
   (Test-JsonEvidence -Name "lane_readiness" -Path $latest.lane_readiness -AcceptableResults @("ready_for_generation", "ready_for_ec2_static_proof", "local_pre_ec2_ready_runtime_blocked_auth", "local_pre_ec2_ready_runtime_blocked")),
   (Test-JsonEvidence -Name "runtime_unblock_handoff" -Path $latest.runtime_unblock_handoff -AcceptableResults @("handoff_ready_runtime_blocked_auth", "handoff_auth_ready_lane_not_ready", "handoff_ready_for_ec2_static_proof", "handoff_ready_for_generation")),
+  (Test-JsonEvidence -Name "runtime_lane_queue" -Path $latest.runtime_lane_queue -AcceptableResults @("pass_local_only")),
   (Test-JsonEvidence -Name "ec2_static_proof_blocked_execute" -Path $latest.ec2_static_proof_blocked -AcceptableResults @("blocked_before_ec2_start")),
   (Test-JsonEvidence -Name "ec2_workflow_smoke_blocked_execute" -Path $latest.ec2_workflow_smoke_blocked -AcceptableResults @("blocked_before_ec2_start"))
 )
@@ -516,6 +545,90 @@ if ($runtimeHandoffSummary.markdown_written -ne $true) {
   $errors += "Runtime unblock handoff markdown record was not written."
 }
 
+$runtimeLaneQueueSummary = [ordered]@{
+  result = "missing_runtime_lane_queue"
+  evidence = $(if ($latest.runtime_lane_queue) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.runtime_lane_queue } else { $null })
+  queue_file = $null
+  selected_lane_id = $LaneId
+  selected_lane_in_queue = $false
+  selected_lane_order = $null
+  first_runtime_lane_id = $null
+  first_runtime_lane_match = $false
+  required_first_runtime_lane_id = "sdxl_low_risk_fallback_lane"
+  required_second_lane_id = "sdxl_realvisxl_base_lane"
+  queued_lane_count = 0
+  queued_lanes = @()
+  failed_check_count = $null
+  local_only = $false
+  aws_contacted = $true
+  github_api_contacted = $true
+  civitai_contacted = $true
+  comfyui_contacted = $true
+  ec2_started = $true
+  generation_executed = $true
+  queue_allows_selected_lane_ec2_static_proof = $false
+}
+if (![string]::IsNullOrWhiteSpace($latest.runtime_lane_queue) -and (Test-Path -LiteralPath $latest.runtime_lane_queue)) {
+  $queueJson = Read-JsonFile -Path $latest.runtime_lane_queue
+  if (Has-Property -Object $queueJson -Name "result") { $runtimeLaneQueueSummary.result = [string]$queueJson.result }
+  foreach ($name in @("queue_file", "first_runtime_lane_id", "required_first_runtime_lane_id", "required_second_lane_id")) {
+    if (Has-Property -Object $queueJson -Name $name) { $runtimeLaneQueueSummary[$name] = [string]$queueJson.$name }
+  }
+  foreach ($name in @("queued_lane_count", "failed_check_count")) {
+    if (Has-Property -Object $queueJson -Name $name) { $runtimeLaneQueueSummary[$name] = [int]$queueJson.$name }
+  }
+  foreach ($name in @("local_only", "aws_contacted", "github_api_contacted", "civitai_contacted", "comfyui_contacted", "ec2_started", "generation_executed")) {
+    if (Has-Property -Object $queueJson -Name $name) { $runtimeLaneQueueSummary[$name] = [bool]$queueJson.$name }
+  }
+  if (Has-Property -Object $queueJson -Name "queued_lanes") {
+    $runtimeLaneQueueSummary.queued_lanes = @($queueJson.queued_lanes | ForEach-Object { [string]$_ })
+    $runtimeLaneQueueSummary.selected_lane_in_queue = @($runtimeLaneQueueSummary.queued_lanes) -contains [string]$LaneId
+  }
+  $runtimeLaneQueueSummary.first_runtime_lane_match = ([string]$runtimeLaneQueueSummary.first_runtime_lane_id -eq [string]$LaneId)
+  if (Has-Property -Object $queueJson -Name "lane_queue_results") {
+    $selectedQueueLaneMatches = @($queueJson.lane_queue_results | Where-Object { [string]$_.lane_id -eq [string]$LaneId } | Select-Object -First 1)
+    if (@($selectedQueueLaneMatches).Count -gt 0) {
+      $selectedQueueLane = $selectedQueueLaneMatches[0]
+      if (Has-Property -Object $selectedQueueLane -Name "order") {
+        $runtimeLaneQueueSummary.selected_lane_order = [int]$selectedQueueLane.order
+      }
+      $runtimeLaneQueueSummary.selected_lane_in_queue = $true
+    }
+  }
+  $runtimeLaneQueueSummary.queue_allows_selected_lane_ec2_static_proof = (
+    $runtimeLaneQueueSummary.result -eq "pass_local_only" -and
+    $runtimeLaneQueueSummary.failed_check_count -eq 0 -and
+    $runtimeLaneQueueSummary.local_only -eq $true -and
+    $runtimeLaneQueueSummary.aws_contacted -eq $false -and
+    $runtimeLaneQueueSummary.github_api_contacted -eq $false -and
+    $runtimeLaneQueueSummary.civitai_contacted -eq $false -and
+    $runtimeLaneQueueSummary.comfyui_contacted -eq $false -and
+    $runtimeLaneQueueSummary.ec2_started -eq $false -and
+    $runtimeLaneQueueSummary.generation_executed -eq $false -and
+    $runtimeLaneQueueSummary.selected_lane_in_queue -eq $true -and
+    $runtimeLaneQueueSummary.first_runtime_lane_match -eq $true
+  )
+}
+
+if ($runtimeLaneQueueSummary.result -ne "pass_local_only") {
+  $errors += "Runtime lane queue validation is missing or not pass_local_only."
+}
+if ($runtimeLaneQueueSummary.selected_lane_in_queue -ne $true) {
+  $errors += "Selected LaneId $LaneId is not present in the runtime lane queue."
+}
+if ($runtimeLaneQueueSummary.local_only -ne $true -or $runtimeLaneQueueSummary.aws_contacted -ne $false -or $runtimeLaneQueueSummary.github_api_contacted -ne $false -or $runtimeLaneQueueSummary.civitai_contacted -ne $false -or $runtimeLaneQueueSummary.comfyui_contacted -ne $false) {
+  $errors += "Runtime lane queue validation is not local-only or reports external contact."
+}
+if ($runtimeLaneQueueSummary.ec2_started -ne $false -or $runtimeLaneQueueSummary.generation_executed -ne $false) {
+  $errors += "Runtime lane queue validation unexpectedly started EC2 or generation."
+}
+if ($runtimeLaneQueueSummary.failed_check_count -ne 0) {
+  $errors += "Runtime lane queue validation has failed checks."
+}
+if ($runtimeLaneQueueSummary.first_runtime_lane_match -ne $true) {
+  $warnings += "Selected lane is queued but is not the first runtime lane; EC2 static proof remains disallowed by runtime lane queue."
+}
+
 $coordinatorSummary = [ordered]@{
   static_proof_result = "missing"
   static_proof_failure_category = "missing"
@@ -575,6 +688,9 @@ if (!$gitSummary.clean) {
 if (!$authSummary.safe_to_start_ec2) {
   $warnings += "AWS auth gate does not allow EC2 start."
 }
+if (!$runtimeLaneQueueSummary.queue_allows_selected_lane_ec2_static_proof) {
+  $warnings += "Runtime lane queue does not allow the selected lane to start EC2 static proof as the first queued lane."
+}
 if (!$laneReadinessSummary.ready_for_ec2_static_proof) {
   $warnings += "Selected lane is not ready for EC2 static proof until runtime gates change."
 }
@@ -590,7 +706,7 @@ $localReady = (
   $secretScan.result -eq "pass"
 )
 
-$ec2StartAllowed = ($authSummary.safe_to_start_ec2 -and $laneReadinessSummary.ready_for_ec2_static_proof)
+$ec2StartAllowed = ($authSummary.safe_to_start_ec2 -and $laneReadinessSummary.ready_for_ec2_static_proof -and $runtimeLaneQueueSummary.queue_allows_selected_lane_ec2_static_proof)
 $generationAllowed = ($ec2StartAllowed -and $laneReadinessSummary.ready_for_generation)
 
 $result = "fail"
@@ -603,6 +719,9 @@ if ($localReady -and $generationAllowed) {
 } elseif ($localReady -and !$authSummary.safe_to_start_ec2) {
   $result = "pass_local_ready_runtime_blocked_auth"
   $failureCategory = $(if (![string]::IsNullOrWhiteSpace([string]$authSummary.failure_category)) { [string]$authSummary.failure_category } else { "aws_auth_blocked" })
+} elseif ($localReady -and !$runtimeLaneQueueSummary.queue_allows_selected_lane_ec2_static_proof) {
+  $result = "pass_local_ready_runtime_blocked"
+  $failureCategory = "runtime_lane_queue_order_blocked"
 } elseif ($localReady) {
   $result = "pass_local_ready_runtime_blocked"
   $failureCategory = $(if (![string]::IsNullOrWhiteSpace([string]$laneReadinessSummary.failure_category)) { [string]$laneReadinessSummary.failure_category } else { "runtime_gate_blocked" })
@@ -629,6 +748,7 @@ $record = [ordered]@{
     "latest generated index parity",
     "latest auth/readiness/profile/coordinator gate evidence",
     "latest runtime unblock handoff evidence",
+    "latest runtime lane queue evidence",
     "secret/private path scan over generated indexes, hydration, and QA evidence"
   )
   lane_id = $LaneId
@@ -641,6 +761,7 @@ $record = [ordered]@{
     profile_matrix = $(if ($latest.profile_matrix) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.profile_matrix } else { $null })
     lane_readiness = $(if ($latest.lane_readiness) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.lane_readiness } else { $null })
     runtime_unblock_handoff = $(if ($latest.runtime_unblock_handoff) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.runtime_unblock_handoff } else { $null })
+    runtime_lane_queue = $(if ($latest.runtime_lane_queue) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.runtime_lane_queue } else { $null })
     ec2_static_proof_blocked = $(if ($latest.ec2_static_proof_blocked) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.ec2_static_proof_blocked } else { $null })
     ec2_workflow_smoke_blocked = $(if ($latest.ec2_workflow_smoke_blocked) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.ec2_workflow_smoke_blocked } else { $null })
     operations_validation = $(if ($latest.operations_validation) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.operations_validation } else { $null })
@@ -657,6 +778,7 @@ $record = [ordered]@{
     profile_matrix = $profileSummary
     lane_readiness = $laneReadinessSummary
     runtime_unblock_handoff = $runtimeHandoffSummary
+    runtime_lane_queue = $runtimeLaneQueueSummary
     coordinator_safety = $coordinatorSummary
     ec2_start_allowed = $ec2StartAllowed
     generation_allowed = $generationAllowed

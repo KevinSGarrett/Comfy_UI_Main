@@ -280,6 +280,20 @@ function Test-ProjectReadinessSnapshotContract {
     runtime_handoff_generation_executed = $null
     runtime_handoff_command_step_count = $null
     runtime_handoff_markdown_written = $null
+    runtime_lane_queue_result = $null
+    runtime_lane_queue_selected_lane_in_queue = $null
+    runtime_lane_queue_selected_lane_order = $null
+    runtime_lane_queue_first_runtime_lane_id = $null
+    runtime_lane_queue_first_runtime_lane_match = $null
+    runtime_lane_queue_failed_check_count = $null
+    runtime_lane_queue_local_only = $null
+    runtime_lane_queue_aws_contacted = $null
+    runtime_lane_queue_github_api_contacted = $null
+    runtime_lane_queue_civitai_contacted = $null
+    runtime_lane_queue_comfyui_contacted = $null
+    runtime_lane_queue_ec2_started = $null
+    runtime_lane_queue_generation_executed = $null
+    runtime_lane_queue_allows_selected_lane_ec2_static_proof = $null
     coordinator_blocked_execute_records_safe = $null
     contract_check_failures = 0
     contract_checks = @()
@@ -301,6 +315,7 @@ function Test-ProjectReadinessSnapshotContract {
     $recognizedHandoffResults = @(
       "handoff_ready_runtime_blocked_auth",
       "handoff_auth_ready_lane_not_ready",
+      "handoff_lane_queue_order_blocked",
       "handoff_ready_for_ec2_static_proof",
       "handoff_ready_for_generation"
     )
@@ -409,6 +424,38 @@ function Test-ProjectReadinessSnapshotContract {
       } else {
         $checks += New-ContractCheck -Name "runtime_handoff_present" -Passed $false -Expected "present" -Observed "missing"
       }
+      if (Test-JsonProperty -Object $runtime -Name "runtime_lane_queue") {
+        $runtimeLaneQueue = $runtime.runtime_lane_queue
+        $checks += New-ContractCheck -Name "runtime_lane_queue_present" -Passed $true -Expected "present" -Observed "present"
+        if (Test-JsonProperty -Object $runtimeLaneQueue -Name "result") {
+          $entry.runtime_lane_queue_result = [string]$runtimeLaneQueue.result
+        }
+        if (Test-JsonProperty -Object $runtimeLaneQueue -Name "selected_lane_in_queue") {
+          $entry.runtime_lane_queue_selected_lane_in_queue = [bool]$runtimeLaneQueue.selected_lane_in_queue
+        }
+        if (Test-JsonProperty -Object $runtimeLaneQueue -Name "selected_lane_order") {
+          $entry.runtime_lane_queue_selected_lane_order = [int]$runtimeLaneQueue.selected_lane_order
+        }
+        if (Test-JsonProperty -Object $runtimeLaneQueue -Name "first_runtime_lane_id") {
+          $entry.runtime_lane_queue_first_runtime_lane_id = [string]$runtimeLaneQueue.first_runtime_lane_id
+        }
+        if (Test-JsonProperty -Object $runtimeLaneQueue -Name "first_runtime_lane_match") {
+          $entry.runtime_lane_queue_first_runtime_lane_match = [bool]$runtimeLaneQueue.first_runtime_lane_match
+        }
+        if (Test-JsonProperty -Object $runtimeLaneQueue -Name "failed_check_count") {
+          $entry.runtime_lane_queue_failed_check_count = [int]$runtimeLaneQueue.failed_check_count
+        }
+        foreach ($name in @("local_only", "aws_contacted", "github_api_contacted", "civitai_contacted", "comfyui_contacted", "ec2_started", "generation_executed")) {
+          if (Test-JsonProperty -Object $runtimeLaneQueue -Name $name) {
+            $entry["runtime_lane_queue_$name"] = [bool]$runtimeLaneQueue.$name
+          }
+        }
+        if (Test-JsonProperty -Object $runtimeLaneQueue -Name "queue_allows_selected_lane_ec2_static_proof") {
+          $entry.runtime_lane_queue_allows_selected_lane_ec2_static_proof = [bool]$runtimeLaneQueue.queue_allows_selected_lane_ec2_static_proof
+        }
+      } else {
+        $checks += New-ContractCheck -Name "runtime_lane_queue_present" -Passed $false -Expected "present" -Observed "missing"
+      }
       if (Test-JsonProperty -Object $runtime -Name "coordinator_safety") {
         $coordinatorSafety = $runtime.coordinator_safety
         if (Test-JsonProperty -Object $coordinatorSafety -Name "blocked_execute_records_safe") {
@@ -449,6 +496,38 @@ function Test-ProjectReadinessSnapshotContract {
       -Passed ($entry.runtime_handoff_markdown_written -eq $true) `
       -Expected "true" `
       -Observed ([string]$entry.runtime_handoff_markdown_written)
+    $checks += New-ContractCheck -Name "runtime_lane_queue_result_passes" `
+      -Passed ($entry.runtime_lane_queue_result -eq "pass_local_only") `
+      -Expected "pass_local_only" `
+      -Observed ([string]$entry.runtime_lane_queue_result)
+    $checks += New-ContractCheck -Name "runtime_lane_queue_contains_snapshot_lane" `
+      -Passed ($entry.runtime_lane_queue_selected_lane_in_queue -eq $true) `
+      -Expected "true" `
+      -Observed ([string]$entry.runtime_lane_queue_selected_lane_in_queue)
+    $checks += New-ContractCheck -Name "runtime_lane_queue_first_lane_matches_snapshot_lane" `
+      -Passed ($entry.runtime_lane_queue_first_runtime_lane_match -eq $true -and [string]$entry.runtime_lane_queue_first_runtime_lane_id -eq [string]$entry.lane_id -and $entry.runtime_lane_queue_selected_lane_order -eq 1) `
+      -Expected ("first_runtime_lane_id={0}; selected_lane_order=1" -f $entry.lane_id) `
+      -Observed ("first_runtime_lane_id={0}; first_runtime_lane_match={1}; selected_lane_order={2}" -f $entry.runtime_lane_queue_first_runtime_lane_id, $entry.runtime_lane_queue_first_runtime_lane_match, $entry.runtime_lane_queue_selected_lane_order)
+    $checks += New-ContractCheck -Name "runtime_lane_queue_failed_check_count_zero" `
+      -Passed ($entry.runtime_lane_queue_failed_check_count -eq 0) `
+      -Expected "0" `
+      -Observed ([string]$entry.runtime_lane_queue_failed_check_count)
+    $checks += New-ContractCheck -Name "runtime_lane_queue_local_only" `
+      -Passed ($entry.runtime_lane_queue_local_only -eq $true) `
+      -Expected "true" `
+      -Observed ([string]$entry.runtime_lane_queue_local_only)
+    $checks += New-ContractCheck -Name "runtime_lane_queue_no_external_contacts" `
+      -Passed ($entry.runtime_lane_queue_aws_contacted -eq $false -and $entry.runtime_lane_queue_github_api_contacted -eq $false -and $entry.runtime_lane_queue_civitai_contacted -eq $false -and $entry.runtime_lane_queue_comfyui_contacted -eq $false) `
+      -Expected "aws_contacted=false; github_api_contacted=false; civitai_contacted=false; comfyui_contacted=false" `
+      -Observed ("aws_contacted={0}; github_api_contacted={1}; civitai_contacted={2}; comfyui_contacted={3}" -f $entry.runtime_lane_queue_aws_contacted, $entry.runtime_lane_queue_github_api_contacted, $entry.runtime_lane_queue_civitai_contacted, $entry.runtime_lane_queue_comfyui_contacted)
+    $checks += New-ContractCheck -Name "runtime_lane_queue_no_ec2_or_generation" `
+      -Passed ($entry.runtime_lane_queue_ec2_started -eq $false -and $entry.runtime_lane_queue_generation_executed -eq $false) `
+      -Expected "ec2_started=false; generation_executed=false" `
+      -Observed ("ec2_started={0}; generation_executed={1}" -f $entry.runtime_lane_queue_ec2_started, $entry.runtime_lane_queue_generation_executed)
+    $checks += New-ContractCheck -Name "runtime_lane_queue_allows_snapshot_lane" `
+      -Passed ($entry.runtime_lane_queue_allows_selected_lane_ec2_static_proof -eq $true) `
+      -Expected "true" `
+      -Observed ([string]$entry.runtime_lane_queue_allows_selected_lane_ec2_static_proof)
 
     switch ($entry.top_level_result) {
       "pass_local_ready_runtime_blocked_auth" {

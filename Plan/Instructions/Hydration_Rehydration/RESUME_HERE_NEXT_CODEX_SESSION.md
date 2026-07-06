@@ -90,6 +90,13 @@ Start by reading this file, then re-open the standard hydration files in this fo
 - QA helper validation now includes the runtime lane queue smoke: 9 QA scripts parsed, 12 local smokes passed, local smoke failures 0, authored lane count 2, project-readiness contract failures 0.
 - Operations helper validation was rerun after runtime lane queue validation and remains `pass_local_only`.
 - Generated indexes were refreshed after runtime lane queue validation: plan rows 2617, instructions rows 386, items rows 45, tracker rows 26, discovery missing 0, credential/private-path scan hits 0. A first ad hoc index probe failure caused by top-level JSON array wrapping was preserved and corrected on retest.
+- Hardened project readiness and runtime unblock handoff so runtime lane queue evidence is a required local readiness/handoff input.
+- Current queue-aware project readiness reports `pass_local_ready_runtime_blocked_auth`, selected queue order 1, `queue_allows_selected_lane_ec2_static_proof=true`, `ec2_start_allowed=false`, and `generation_allowed=false` while AWS auth remains expired.
+- Current queue-aware runtime handoff reports `handoff_ready_runtime_blocked_auth`, selected queue order 1, command step count 10, includes `runtime_lane_queue_recheck`, and records `aws_contacted=false`, `ec2_started=false`, and `generation_executed=false`.
+- QA helper validation now contract-checks the runtime lane queue gate in project readiness and passes with 9 QA scripts, 12 local smokes, 0 smoke failures, and 0 project-readiness contract failures.
+- Operations helper validation now checks the runtime queue safety invariant in the runtime handoff smoke and remains `pass_local_only`.
+- Added visible main-directory scaffold under `C:\Comfy_UI_Main`: `README.md`, `PROJECT_ROOT_MANIFEST.json`, `Workflows\base_generation\ACTIVE_LANES.json`, exported low-risk and RealVisXL workflow files under `Workflows\base_generation\`, and safe `models`, `configs`, and `runtime_artifacts` subfolders.
+- Validated both exported top-level workflow lanes directly with `Test-ComfyWorkflowStatic.ps1`; both pass and all exported workflow/support files hash-match the validated Plan templates.
 
 ## Current goal
 
@@ -109,7 +116,7 @@ The account must be `029530099913`, `ec2_work_allowed` must be `true`, and `safe
 Current profile-matrix evidence confirms no configured AWS profile is presently usable for the expected account, so use `aws login --remote` or `aws sso login --profile <matching-profile>` before rerunning the gates.
 Latest selected-lane readiness evidence now includes both the auth gate and profile matrix diagnostics, but it still requires the auth gate to pass before EC2 static proof.
 
-Latest project readiness, QA helper, and runtime lane queue evidence now also prove the runtime handoff/queue state is local-only and did not contact AWS, GitHub APIs, Civitai, ComfyUI, or EC2. `GITHUB_TOKEN` and `CIVITAI_API_KEY` in `.env` are present and protected, but they do not unblock EC2; AWS browser/SSO auth is the gate. Before EC2 `-Execute`, local Git must also be clean and synced to `origin/main`, using the live `git_checkpoint_recheck` command from the runtime handoff. The primary first EC2 proof lane remains `sdxl_low_risk_fallback_lane`; `sdxl_realvisxl_base_lane` is now queued as a second authored lane for later RealVisXL path/hash/load/output QA. All future readiness/static-proof/smoke-run evidence must match the requested `LaneId`; do not reuse low-risk proof for RealVisXL.
+Latest project readiness, QA helper, runtime handoff, and runtime lane queue evidence now prove the handoff/queue state is local-only and did not contact AWS, GitHub APIs, Civitai, ComfyUI, or EC2. `GITHUB_TOKEN` and `CIVITAI_API_KEY` in `.env` are present and protected, but they do not unblock EC2; AWS browser/SSO auth is the gate. Before EC2 `-Execute`, local Git must also be clean and synced to `origin/main`, using the live `git_checkpoint_recheck` command from the runtime handoff. The runtime queue gate must also pass using `runtime_lane_queue_recheck`; the selected lane must remain the first queued lane. The primary first EC2 proof lane remains `sdxl_low_risk_fallback_lane`; `sdxl_realvisxl_base_lane` is now queued as a second authored lane for later RealVisXL path/hash/load/output QA. All future readiness/static-proof/smoke-run evidence must match the requested `LaneId`; do not reuse low-risk proof for RealVisXL.
 
 Then rerun the selected-lane readiness gate:
 
@@ -349,17 +356,31 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\S
 - `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_RUNTIME_LANE_QUEUE_FIRST_VALIDATION_FAILURE_20260706T073928-0500.json`
 - `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_RUNTIME_LANE_QUEUE_20260706T073928-0500.json`
 - `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_LIVE_INDEX_REFRESH_RUNTIME_LANE_QUEUE_20260706T073928-0500.md`
+- `Plan/Instructions/QA/Evidence/Project_Readiness/W61_PROJECT_READINESS_SNAPSHOT_QUEUE_AWARE_SELECTOR_FINAL_20260706T075211-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_QUEUE_AWARE_SELECTOR_RETEST_20260706T075211-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_QUEUE_AWARE_SELECTOR_RETEST_20260706T075211-0500.md`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_QUEUE_AWARE_READINESS_RETEST_20260706T075228-0500.json`
+- `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_QUEUE_AWARE_HANDOFF_RETEST_20260706T075228-0500.json`
+- `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W61_QUEUE_AWARE_READINESS_HANDOFF_20260706T075211-0500.md`
+- `README.md`
+- `PROJECT_ROOT_MANIFEST.json`
+- `Workflows/base_generation/ACTIVE_LANES.json`
+- `Workflows/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json`
+- `Workflows/base_generation/sdxl_realvisxl_base_lane/workflow.api.json`
 
 ## Must not repeat
 
 - Do not print token values from `.env`.
 - Do not recreate Git metadata in `C:\Comfy_UI_Main`; `.git` already exists and `origin/main` currently matches local `main`. Use `C:\Comfy_UI_Main` as the canonical project root even if the Codex workspace root is `C:\Comfy_UI`.
+- Do not treat the empty/broken `.git` directory under `C:\Comfy_UI` as the project repository. Use `git -C C:\Comfy_UI_Main ...` or set the shell working directory to `C:\Comfy_UI_Main` for Git operations.
 - Do not start any EC2 instance except `i-0560bf8d143f93bb1`.
 - Do not start EC2 until `Test-AwsAuthGate.ps1` verifies account `029530099913` and reports `safe_to_start_ec2=true`.
 - Use the top-level auth gate fields (`result`, `failure_category`, `account_match`, `remote_login_status`) when summarizing the current AWS auth blocker.
 - Use the top-level lane readiness fields (`result`, `failure_category`, `local_pre_ec2_ready`, `ready_for_ec2_static_proof`, `ready_for_generation`) when summarizing selected-lane runtime status.
 - Readiness, EC2 static-proof, and EC2 workflow-smoke evidence must match the requested `LaneId`; do not use low-risk SDXL readiness/proof files for the RealVisXL lane.
 - Project readiness snapshots and runtime unblock handoffs must also match the requested `LaneId`; do not let a latest RealVisXL readiness record become the low-risk handoff.
+- Project readiness snapshots and runtime unblock handoffs must use latest acceptable passing evidence, not the newest preserved failed retest artifact.
+- Do not omit the runtime lane queue gate from readiness or handoff evidence; selected lane order must be 1 before EC2 static proof can be allowed.
 - Do not skip `Test-AuthoredLaneEvidenceCoverage.ps1` when checking multi-lane local readiness; it is now the local pre-EC2 evidence coverage gate for authored base-generation lanes.
 - Do not promote `sdxl_realvisxl_base_lane` to first EC2 proof/generation lane. `runtime_lane_queue.json` and `Test-RuntimeLaneQueue.ps1` currently validate `sdxl_low_risk_fallback_lane` first and RealVisXL second.
 - Use the top-level EC2 coordinator fields (`result`, `failure_category`, `execute_gates_pass`, `ec2_started`, `generation_executed`) when summarizing static-proof or workflow-smoke gate status.
@@ -369,7 +390,7 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\S
 - Do not store literal GitHub token prefixes, token-like scan labels, or user-specific temp paths in helper scan-pattern definitions; `Test-ProjectReadinessSnapshot.ps1` builds those patterns dynamically and uses neutral labels to avoid staged-scan false positives.
 - Treat the project-readiness snapshot as a local status aggregator only; it proves `local_ready=true` and blocked runtime gates, but it does not prove EC2 object-info/path/hash, generation, artifact pullback, or media QA.
 - Do not treat project-readiness snapshot smoke as sufficient merely because JSON was created; `Test-QAHelperStatic.ps1` now contract-checks recognized result, `local_ready=true`, scan cleanliness, runtime gate consistency, and blocked coordinator safety.
-- Use `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_20260706T061207-0500.md` as the concise post-auth command handoff. It is local-only and does not replace the actual auth gate/readiness/static proof evidence.
+- Use `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_QUEUE_AWARE_SELECTOR_RETEST_20260706T075211-0500.md` as the concise post-auth command handoff. It is local-only and does not replace the actual auth gate/readiness/static proof evidence.
 - Do not run EC2 static proof until `Test-LaneRuntimeReadiness.ps1` reports `ready_for_ec2_static_proof=true`.
 - Treat static-proof dry-run and blocked-execute records as safety evidence only, not as object-info/path/hash proof.
 - Do not leave EC2 running.

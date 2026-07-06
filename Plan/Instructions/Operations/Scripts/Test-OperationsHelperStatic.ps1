@@ -261,7 +261,7 @@ function Invoke-LocalHelper {
         if (@($payload.command_sequence).Count -lt 8) {
           throw "$Name command_sequence is missing expected post-auth steps."
         }
-        foreach ($requiredSafety in @("approved_instance_id", "expected_aws_account", "do_not_start_ec2_unless_auth_safe", "do_not_start_ec2_unless_git_checkpoint_clean", "do_not_start_ec2_unless_lane_ready", "stop_ec2_after_runtime_work")) {
+        foreach ($requiredSafety in @("approved_instance_id", "expected_aws_account", "do_not_start_ec2_unless_auth_safe", "do_not_start_ec2_unless_runtime_lane_queue_allows", "do_not_start_ec2_unless_git_checkpoint_clean", "do_not_start_ec2_unless_lane_ready", "stop_ec2_after_runtime_work")) {
           if (-not (Has-Property -Object $payload.safety_invariants -Name $requiredSafety)) {
             throw "$Name safety_invariants is missing: $requiredSafety"
           }
