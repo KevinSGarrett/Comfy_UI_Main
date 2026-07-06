@@ -506,7 +506,7 @@ If AWS auth is expired or Git is not clean/pushed, stop and report that blocker.
   - `runtime_artifacts\run_packages\realvisxl_multisample_certification_v1_realvisxl_environment_lowlight_v1\RUN_PACKAGE_MANIFEST.json`
 - Dedicated evidence: `Plan\Instructions\QA\Evidence\Run_Package\W66_WORKFLOW_RUN_PACKAGE_MATRIX_20260706T155031-0500.json`; result `pass_local_only`.
 - QA helper evidence: `Plan\Instructions\QA\Evidence\QA_Helper_Static_Validation\W66_QA_HELPER_WORKFLOW_RUN_PACKAGE_MATRIX_20260706T155048-0500.json`; result `pass_local_only`, local smoke failures `0`.
-- Wave65 source coverage was rerun again after the deploy-bundle matrix addition. Current result: `pass`, `plan_file_count=2837`, `wave65_rows_created=662`, `missing_after_wave65_count=0`.
+- Wave65 source coverage was rerun again after the matrix S3 dry-run addition. Current result: `pass`, `plan_file_count=2840`, `wave65_rows_created=665`, `missing_after_wave65_count=0`.
 - This is preparation for broader image-quality certification, not final certification. Next quality step requires bounded EC2 generation from the matrix packages, artifact pullback, hash verification, and whole-image visual QA for all three samples.
 
 ## Latest RealVisXL Matrix Deploy Bundle
@@ -514,8 +514,11 @@ If AWS auth is expired or Git is not clean/pushed, stop and report that blocker.
 - Builder: `tools\New-EC2DeployBundleMatrix.ps1`.
 - QA script: `Plan\Instructions\QA\Scripts\Test-EC2DeployBundleMatrix.ps1`.
 - QA helper integration: `Plan\Instructions\QA\Scripts\Test-QAHelperStatic.ps1` now includes `ec2_deploy_bundle_matrix_smoke`.
-- Dedicated evidence: `Plan\Instructions\QA\Evidence\Operations_Static_Validation\W66_EC2_DEPLOY_BUNDLE_MATRIX_20260706T170025-0500.json`; result `pass_local_only`, matrix id `realvisxl_multisample_certification_v1`, sample count `3`, bundle file count `55`, ZIP SHA256 `840a56395c143b0a1ea1c81091838e4d60fdf73719e8b5191824ed9b1f630526`.
-- QA helper evidence: `Plan\Instructions\QA\Evidence\QA_Helper_Static_Validation\W66_QA_HELPER_EC2_DEPLOY_BUNDLE_MATRIX_20260706T170052-0500.json`; result `pass_local_only`, 14 QA scripts parsed, 17 local smokes, 0 smoke failures.
+- Latest dedicated evidence: `Plan\Instructions\QA\Evidence\Operations_Static_Validation\W66_EC2_DEPLOY_BUNDLE_MATRIX_S3_DRY_RUN_REDACTED_20260706T171921-0500.json`; result `pass_local_only`, matrix id `realvisxl_multisample_certification_v1`, sample count `3`, bundle file count `55`, ZIP SHA256 `e29256311196349987e505bf38a8f2006b72cb7300fa5d545ce2270a01fc9d8e`, and S3 dry-run sidecar `DEPLOY_BUNDLE_MATRIX_MANIFEST.json`.
+- QA helper evidence: `Plan\Instructions\QA\Evidence\QA_Helper_Static_Validation\W66_QA_HELPER_MATRIX_S3_DRY_RUN_REDACTED_20260706T171934-0500.json`; result `pass_local_only`, 14 QA scripts parsed, 17 local smokes, 0 smoke failures.
+- Operations helper evidence: `Plan\Instructions\QA\Evidence\Operations_Static_Validation\W66_OPERATIONS_HELPER_MATRIX_BUNDLE_MANIFEST_20260706T171309-0500.json`; result `pass_local_only`, 21 operations scripts parsed, 15 local smokes, 0 evidence-contract failures.
+- `Publish-DeployBundleToS3.ps1` preserves the supplied manifest filename, so matrix bundles publish `DEPLOY_BUNDLE_MATRIX_MANIFEST.json` instead of being renamed to the single-package sidecar.
+- `Invoke-EC2LaneStaticProof.ps1` and `Invoke-EC2WorkflowSmokeRun.ps1` now read either `DEPLOY_BUNDLE_MANIFEST.json` or `DEPLOY_BUNDLE_MATRIX_MANIFEST.json` after S3 bundle extraction and record matrix metadata when present.
 - This was local-only. It did not contact AWS, GitHub APIs, Civitai, ComfyUI, start EC2, or run generation.
 - Next RealVisXL quality step: publish the matrix deploy bundle to S3, verify its SHA256, run bounded EC2 generation for all three matrix packages only after auth/Git/cost-control gates pass, pull back every generated artifact, verify hashes, and perform whole-image visual QA for every sample.
 

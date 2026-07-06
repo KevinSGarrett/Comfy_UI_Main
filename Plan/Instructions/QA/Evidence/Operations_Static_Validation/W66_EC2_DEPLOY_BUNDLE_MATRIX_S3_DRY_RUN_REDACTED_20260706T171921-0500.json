@@ -1,0 +1,135 @@
+﻿{
+    "evidence_id":  "W66-EC2-DEPLOY-BUNDLE-MATRIX-20260706T171921-0500",
+    "created_at":  "2026-07-06T17:19:21-05:00",
+    "artifact_id":  "TRK-W63-COST-CONTROL",
+    "artifact_type":  "ec2_deploy_bundle_matrix_validation",
+    "matrix_id":  "realvisxl_multisample_certification_v1",
+    "lane_id":  "sdxl_realvisxl_base_lane",
+    "local_only":  true,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "scripts":  {
+                    "bundle_builder":  "tools/New-EC2DeployBundleMatrix.ps1",
+                    "s3_publisher":  "Plan/Instructions/Operations/Scripts/Publish-DeployBundleToS3.ps1",
+                    "validator":  "Plan/Instructions/QA/Scripts/Test-EC2DeployBundleMatrix.ps1"
+                },
+    "matrix_manifest":  "runtime_artifacts/run_package_matrices/realvisxl_multisample_certification_v1/RUN_PACKAGE_MATRIX_MANIFEST.json",
+    "validation_temp_root":  "[VALIDATION_TEMP_ROOT]",
+    "bundle_manifest":  "[VALIDATION_TEMP_ROOT]/DEPLOY_BUNDLE_MATRIX_MANIFEST.json",
+    "bundle_zip":  "[VALIDATION_TEMP_ROOT]/deploy_bundle_matrix_validation_20260706T171921-0500.zip",
+    "bundle_zip_sha256":  "e29256311196349987e505bf38a8f2006b72cb7300fa5d545ce2270a01fc9d8e",
+    "publish_dry_run":  {
+                            "result":  "dry_run_ready_to_upload",
+                            "bundle_manifest_name":  "DEPLOY_BUNDLE_MATRIX_MANIFEST.json",
+                            "s3_bundle_uri":  "s3://example-bucket/deploy-bundles/deploy_bundle_matrix_validation_20260706T171921-0500/deploy_bundle_matrix_validation_20260706T171921-0500.zip",
+                            "s3_manifest_uri":  "s3://example-bucket/deploy-bundles/deploy_bundle_matrix_validation_20260706T171921-0500/DEPLOY_BUNDLE_MATRIX_MANIFEST.json",
+                            "local_only":  true,
+                            "aws_contacted":  false
+                        },
+    "sample_count":  3,
+    "file_count":  55,
+    "checks":  [
+                   {
+                       "name":  "bundle_result_passes",
+                       "result":  "pass",
+                       "observed":  "pass_local_only",
+                       "expected":  "pass_local_only"
+                   },
+                   {
+                       "name":  "bundle_matrix_matches",
+                       "result":  "pass",
+                       "observed":  "realvisxl_multisample_certification_v1",
+                       "expected":  "realvisxl_multisample_certification_v1"
+                   },
+                   {
+                       "name":  "bundle_sample_count_matches",
+                       "result":  "pass",
+                       "observed":  3,
+                       "expected":  3
+                   },
+                   {
+                       "name":  "bundle_zip_exists",
+                       "result":  "pass",
+                       "observed":  "[VALIDATION_TEMP_ROOT]/deploy_bundle_matrix_validation_20260706T171921-0500.zip",
+                       "expected":  "zip exists"
+                   },
+                   {
+                       "name":  "bundle_zip_hash_present",
+                       "result":  "pass",
+                       "observed":  "e29256311196349987e505bf38a8f2006b72cb7300fa5d545ce2270a01fc9d8e",
+                       "expected":  "sha256 present"
+                   },
+                   {
+                       "name":  "bundle_file_count_nonzero",
+                       "result":  "pass",
+                       "observed":  55,
+                       "expected":  "\u003e 0"
+                   },
+                   {
+                       "name":  "bundle_local_only",
+                       "result":  "pass",
+                       "observed":  {
+                                        "local_only":  true,
+                                        "aws":  false,
+                                        "github_api":  false,
+                                        "civitai":  false,
+                                        "comfyui":  false,
+                                        "ec2_started":  false,
+                                        "generation_executed":  false
+                                    },
+                       "expected":  "local only; all contacts false; no EC2/generation"
+                   },
+                   {
+                       "name":  "bundle_contains_all_sample_manifests",
+                       "result":  "pass",
+                       "observed":  [
+                                        "runtime_artifacts/run_packages/realvisxl_multisample_certification_v1_realvisxl_closeup_skin_eye_v1/RUN_PACKAGE_MANIFEST.json",
+                                        "runtime_artifacts/run_packages/realvisxl_multisample_certification_v1_realvisxl_three_quarter_hands_fabric_v1/RUN_PACKAGE_MANIFEST.json",
+                                        "runtime_artifacts/run_packages/realvisxl_multisample_certification_v1_realvisxl_environment_lowlight_v1/RUN_PACKAGE_MANIFEST.json"
+                                    ],
+                       "expected":  "all sample manifest paths present"
+                   },
+                   {
+                       "name":  "publish_dry_run_result_passes",
+                       "result":  "pass",
+                       "observed":  "dry_run_ready_to_upload",
+                       "expected":  "dry_run_ready_to_upload"
+                   },
+                   {
+                       "name":  "publish_preserves_matrix_manifest_name",
+                       "result":  "pass",
+                       "observed":  {
+                                        "bundle_manifest_name":  "DEPLOY_BUNDLE_MATRIX_MANIFEST.json",
+                                        "s3_manifest_uri":  "s3://example-bucket/deploy-bundles/deploy_bundle_matrix_validation_20260706T171921-0500/DEPLOY_BUNDLE_MATRIX_MANIFEST.json"
+                                    },
+                       "expected":  "DEPLOY_BUNDLE_MATRIX_MANIFEST.json sidecar"
+                   },
+                   {
+                       "name":  "publish_records_matrix_context",
+                       "result":  "pass",
+                       "observed":  {
+                                        "bundle_type":  "run_package_matrix_deploy_bundle",
+                                        "matrix_id":  "realvisxl_multisample_certification_v1",
+                                        "sample_count":  3
+                                    },
+                       "expected":  "matrix bundle type, matrix id, and sample count"
+                   },
+                   {
+                       "name":  "publish_local_only_no_aws_contact",
+                       "result":  "pass",
+                       "observed":  {
+                                        "local_only":  true,
+                                        "aws_contacted":  false,
+                                        "ec2_started":  false,
+                                        "generation_executed":  false
+                                    },
+                       "expected":  "dry-run local only; no AWS/EC2/generation"
+                   }
+               ],
+    "failure_count":  0,
+    "failures":  [
+
+                 ],
+    "result":  "pass_local_only",
+    "next_action":  "Publish a matrix deploy bundle to S3 before any future EC2 multi-sample quality run."
+}

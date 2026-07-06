@@ -954,10 +954,14 @@ def apply_deploy_bundle_if_configured():
                     raise RuntimeError("unsafe deploy bundle path: " + member.filename)
             zf.extractall(extract_root)
         manifest = {}
-        manifest_path = os.path.join(extract_root, "DEPLOY_BUNDLE_MANIFEST.json")
-        if os.path.exists(manifest_path):
-            with open(manifest_path, "r", encoding="utf-8") as f:
-                manifest = json.load(f)
+        manifest_name = None
+        for candidate in ["DEPLOY_BUNDLE_MANIFEST.json", "DEPLOY_BUNDLE_MATRIX_MANIFEST.json"]:
+            manifest_path = os.path.join(extract_root, candidate)
+            if os.path.exists(manifest_path):
+                manifest_name = candidate
+                with open(manifest_path, "r", encoding="utf-8") as f:
+                    manifest = json.load(f)
+                break
         source_head = str(manifest.get("source_git_head") or "")
         if EXPECTED_GIT_HEAD and source_head and source_head != EXPECTED_GIT_HEAD:
             raise RuntimeError("deploy bundle source head %s did not match expected origin/main %s" % (source_head, EXPECTED_GIT_HEAD))
@@ -976,8 +980,12 @@ def apply_deploy_bundle_if_configured():
             "sha256": actual_sha,
             "sha256_expected": DEPLOY_BUNDLE_SHA256,
             "sha256_verified": (not DEPLOY_BUNDLE_SHA256) or actual_sha == DEPLOY_BUNDLE_SHA256,
+            "manifest_name": manifest_name,
+            "manifest_bundle_type": manifest.get("bundle_type"),
             "manifest_source_git_head": source_head,
             "manifest_lane_id": manifest.get("lane_id"),
+            "manifest_matrix_id": manifest.get("matrix_id"),
+            "manifest_sample_count": manifest.get("sample_count"),
             "manifest_file_count": manifest.get("file_count"),
             "git_lfs_pull_skipped": True
         }

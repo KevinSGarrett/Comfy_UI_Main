@@ -178,14 +178,23 @@
     "matrix_id": "realvisxl_multisample_certification_v1",
     "matrix_manifest": "runtime_artifacts/run_package_matrices/realvisxl_multisample_certification_v1/RUN_PACKAGE_MATRIX_MANIFEST.json",
     "bundle_builder": "tools/New-EC2DeployBundleMatrix.ps1",
+    "s3_publisher": "Plan/Instructions/Operations/Scripts/Publish-DeployBundleToS3.ps1",
     "qa_script": "Plan/Instructions/QA/Scripts/Test-EC2DeployBundleMatrix.ps1",
-    "validation_evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_EC2_DEPLOY_BUNDLE_MATRIX_20260706T170025-0500.json",
-    "qa_helper_validation_evidence": "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_EC2_DEPLOY_BUNDLE_MATRIX_20260706T170052-0500.json",
+    "validation_evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_EC2_DEPLOY_BUNDLE_MATRIX_S3_DRY_RUN_REDACTED_20260706T171921-0500.json",
+    "previous_validation_evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_EC2_DEPLOY_BUNDLE_MATRIX_20260706T170025-0500.json",
+    "qa_helper_validation_evidence": "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_MATRIX_S3_DRY_RUN_REDACTED_20260706T171934-0500.json",
+    "operations_helper_validation_evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_OPERATIONS_HELPER_MATRIX_BUNDLE_MANIFEST_20260706T171309-0500.json",
     "result": "pass_local_only",
     "sample_count": 3,
     "bundle_file_count": 55,
-    "bundle_zip_sha256": "840a56395c143b0a1ea1c81091838e4d60fdf73719e8b5191824ed9b1f630526",
-    "rule": "Before a future RealVisXL multi-sample EC2 quality run, publish the matrix deploy bundle to S3, verify bundle SHA256, run each sample package within bounded EC2/cost-control gates, pull back every generated artifact, verify hashes, and perform whole-image visual QA for all samples.",
+    "latest_validation_bundle_zip_sha256": "e29256311196349987e505bf38a8f2006b72cb7300fa5d545ce2270a01fc9d8e",
+    "publish_dry_run_result": "dry_run_ready_to_upload",
+    "publish_manifest_name": "DEPLOY_BUNDLE_MATRIX_MANIFEST.json",
+    "ec2_helper_manifest_support": [
+      "DEPLOY_BUNDLE_MANIFEST.json",
+      "DEPLOY_BUNDLE_MATRIX_MANIFEST.json"
+    ],
+    "rule": "Before a future RealVisXL multi-sample EC2 quality run, publish the matrix deploy bundle to S3 with its DEPLOY_BUNDLE_MATRIX_MANIFEST.json sidecar, verify bundle SHA256, run each sample package within bounded EC2/cost-control gates, pull back every generated artifact, verify hashes, and perform whole-image visual QA for all samples.",
     "local_only_boundary": "Validation does not contact AWS, GitHub API, Civitai, ComfyUI, or EC2 and does not execute generation."
   },
   "runtime_scope_boundary": {

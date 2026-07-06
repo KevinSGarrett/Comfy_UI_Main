@@ -43,6 +43,7 @@ if (!(Test-Path -LiteralPath $BundleManifestFile)) {
 $manifestPath = [System.IO.Path]::GetFullPath($BundleManifestFile)
 $manifest = Read-JsonFile -Path $manifestPath
 $bundleDir = Split-Path -Parent $manifestPath
+$manifestFileName = Split-Path -Leaf $manifestPath
 $bundleZip = Join-Path $bundleDir ([string]$manifest.bundle_zip)
 if (!(Test-Path -LiteralPath $bundleZip)) {
   throw "Bundle zip missing: $bundleZip"
@@ -69,13 +70,17 @@ $record = [ordered]@{
   generation_executed = $false
   region = $Region
   bundle_manifest_file = $manifestPath
+  bundle_manifest_name = $manifestFileName
+  bundle_type = $(if ($manifest.bundle_type) { [string]$manifest.bundle_type } else { "single_run_package_deploy_bundle" })
   bundle_zip = $bundleZip
   bundle_id = [string]$manifest.bundle_id
   lane_id = [string]$manifest.lane_id
+  matrix_id = $(if ($manifest.matrix_id) { [string]$manifest.matrix_id } else { $null })
+  sample_count = $(if ($manifest.sample_count) { [int]$manifest.sample_count } else { $null })
   bundle_zip_sha256 = $observedHash
   s3_base_uri = $S3BaseUri
   s3_bundle_uri = $(if ($targetPrefix) { "$targetPrefix/$($manifest.bundle_zip)" } else { $null })
-  s3_manifest_uri = $(if ($targetPrefix) { "$targetPrefix/DEPLOY_BUNDLE_MANIFEST.json" } else { $null })
+  s3_manifest_uri = $(if ($targetPrefix) { "$targetPrefix/$manifestFileName" } else { $null })
   result = "dry_run_ready_to_upload"
   failure_category = $null
   upload = [ordered]@{
