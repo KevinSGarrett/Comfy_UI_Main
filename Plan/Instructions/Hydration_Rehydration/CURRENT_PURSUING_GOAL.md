@@ -1,7 +1,7 @@
 # Current Pursuing Goal
 
 ## Active Wave
-Wave 64 strict AI Items/Tracker end-to-end coverage, building on Wave 63 EC2 cost-control and Wave 61 runtime proof for queued lanes.
+Wave 64 strict AI Items/Tracker end-to-end QA coverage plus Wave 65 exhaustive Plan source coverage closure, building on Wave 63 EC2 cost-control and Wave 61 runtime proof for queued lanes.
 
 ## Goal Statement
 Advance `C:\Comfy_UI_Main` toward end-to-end autonomous ComfyUI completion by using `Plan/Instructions` as the operating system, avoiding repeated housekeeping, minimizing paid EC2 time, and moving from the completed first-lane runtime proof to the next concrete queued runtime work.
@@ -25,6 +25,9 @@ Every continuation must use `C:\Comfy_UI_Main` as the project root and must read
 14. `C:\Comfy_UI_Main\Plan\Instructions\Waves\Wave64\WAVE64_SCOPE.md`
 15. `C:\Comfy_UI_Main\Plan\Items\Waves\Wave64\WAVE64_STRICT_AI_COVERAGE_REQUIREMENTS.json`
 16. `C:\Comfy_UI_Main\Plan\Tracker\Waves\Wave64\WAVE64_STRICT_AI_COVERAGE_REQUIREMENTS.json`
+17. `C:\Comfy_UI_Main\Plan\Instructions\Waves\Wave65\WAVE65_SCOPE.md`
+18. `C:\Comfy_UI_Main\Plan\Items\Waves\Wave65\WAVE65_PLAN_SOURCE_COVERAGE_REQUIREMENTS.json`
+19. `C:\Comfy_UI_Main\Plan\Tracker\Waves\Wave65\WAVE65_PLAN_SOURCE_COVERAGE_REQUIREMENTS.json`
 
 Do not replace this read order with a short autonomous goal. The pursuing goal is only the active objective pointer; detailed operating rules live in `Plan/Instructions`.
 
@@ -40,6 +43,7 @@ Before acting, reconcile the newest acceptable evidence across the instruction f
 - When evidence commits advance `HEAD`, rerun the Git checkpoint gate immediately before any EC2 `-Execute` path.
 - Read `EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md` before any AWS/EC2 decision. If local or CI validation can advance the work while EC2 is stopped, do that first.
 - Read Wave 64 Items/Tracker strict AI coverage before marking any project domain complete. Wave 64 rows require source citation file, section, line range, evidence, and strict whole-artifact visual/audio review when media exists.
+- Read Wave 65 Plan source coverage closure before deciding the project plan is fully mapped. Wave 65 proves every current file under `C:\Comfy_UI_Main\Plan` has direct Items/Tracker source coverage. If any Plan file is added or renamed, rerun `Plan\Items\Scripts\generate_wave65_plan_source_coverage.py` before marking coverage complete.
 
 ## Current Status
 The first queued runtime lane, `sdxl_low_risk_fallback_lane`, completed target EC2 static proof, one bounded package-fed workflow smoke generation, SSM pullback, technical image QA, and visual QA with runtime-smoke notes. Do not repeat that lane just to re-prove the same path.
@@ -67,6 +71,14 @@ Wave 64 strict AI Items/Tracker coverage is active:
 - Tracker: `Plan\Tracker\wave64_end_to_end_strict_ai_tracker.csv`.
 - Validation report: `Plan\Items\Reports\wave64_end_to_end_strict_ai_coverage_report.json`.
 - Every localized visual/audio task must also pass whole-artifact review. A target region cannot pass if unrelated hands, face, body, lighting, background, contact, audio timing, voice, foley, ambience, mix, sync, or artifact defects exist elsewhere in the generated output.
+
+Wave 65 exhaustive Plan source coverage closure is active:
+
+- Items: `Plan\Items\wave65_plan_source_coverage_closure_itemized_list.csv`.
+- Tracker: `Plan\Tracker\wave65_plan_source_coverage_closure_tracker.csv`.
+- Validation report: `Plan\Items\Reports\wave65_plan_source_coverage_report.json`.
+- Current result: `pass`, with every current file under `C:\Comfy_UI_Main\Plan` covered by baseline Items/Tracker rows or Wave65 closure rows.
+- Wave65 rows are AI-only source execution controls. They do not mark implementation complete; each row still requires source reading, requirement extraction, implementation or blocker, tests, strict QA, whole-artifact media review when applicable, and evidence.
 
 ## Last Verified Facts
 The current root is `C:\Comfy_UI_Main`. `.env` is ignored, GitHub/Civitai variable names are present without printing values, and model binaries/private keys/generated media must not be committed.
@@ -111,6 +123,8 @@ Static workflow validation now also supports generic required-model reference ch
 Model registry state now matches completed runtime evidence for both active lanes. `Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_RUNTIME_PROOF_ALIGNMENT_FINAL_20260706T145923-0500.json` proves `model_registry.jsonl`, `model_runtime_validation_queue.csv`, and runtime requirements use completed smoke-proof statuses with existing evidence paths; `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_MODEL_REGISTRY_RUNTIME_PROOF_ALIGNMENT_20260706T145931-0500.json` confirms the broader QA helper still passes locally.
 
 Wave64 strict AI-operational coverage is present and validated. `Plan/Items/Reports/wave64_end_to_end_strict_ai_coverage_report.json` and `Plan/Tracker/Reports/wave64_end_to_end_strict_ai_coverage_report.json` report `pass` with 66 item rows, 66 tracker rows, and 28 required domains covered; this is coverage/control evidence, not completion evidence.
+
+Wave65 exhaustive source coverage closure is present and validated. `Plan/Items/Reports/wave65_plan_source_coverage_report.json` and `Plan/Tracker/Reports/wave65_plan_source_coverage_report.json` report `pass`, every current `Plan` file is covered, and `missing_after_wave65_count=0`; this is source coverage/control evidence, not implementation completion evidence.
 
 ## Next Exact Work
 First, if the runtime proof, cost-control, tracker, or instruction updates are uncommitted, finish one clean Git checkpoint and verify local `HEAD == origin/main`.

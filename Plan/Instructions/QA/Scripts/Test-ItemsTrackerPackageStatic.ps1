@@ -150,6 +150,28 @@ function Test-Wave64Report {
   }
 }
 
+function Test-Wave65Report {
+  param(
+    [Parameter(Mandatory=$true)][object]$Report
+  )
+
+  $errors = @()
+  if ([string]$Report.result -ne "pass") { $errors += "wave65_result_not_pass" }
+  if ([int]$Report.plan_file_count -le 0) { $errors += "wave65_plan_file_count_not_positive" }
+  if ([int]$Report.wave65_rows_created -le 0) { $errors += "wave65_rows_created_not_positive" }
+  if ([int]$Report.item_row_count -ne [int]$Report.tracker_row_count) { $errors += "wave65_item_tracker_row_count_mismatch" }
+  if ([int]$Report.missing_after_wave65_count -ne 0) { $errors += "wave65_missing_after_not_zero" }
+  if ([int]$Report.post_wave65_covered_plan_files -ne [int]$Report.plan_file_count) { $errors += "wave65_post_coverage_not_complete" }
+  if ([bool]$Report.human_input_allowed -ne $false) { $errors += "wave65_human_input_allowed" }
+  if ([bool]$Report.human_work_allowed -ne $false) { $errors += "wave65_human_work_allowed" }
+  if (@($Report.errors).Count -ne 0) { $errors += "wave65_errors_present" }
+
+  return [ordered]@{
+    result = $(if ($errors.Count -eq 0) { "pass" } else { "fail" })
+    errors = $errors
+  }
+}
+
 $stamp = (Get-Date -Format "yyyyMMddTHHmmsszzz").Replace(":", "")
 $createdAt = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
 $pythonCommand = Get-Command python -ErrorAction SilentlyContinue
@@ -162,10 +184,13 @@ $itemsRoot = Join-Path $ProjectRoot "Plan\Items"
 $trackerValidator = Join-Path $trackerRoot "Scripts\validate_tracker_package.py"
 $itemsValidator = Join-Path $itemsRoot "Scripts\validate_items_package.py"
 $wave64Validator = Join-Path $itemsRoot "Scripts\generate_wave64_end_to_end_ai_coverage.py"
+$wave65Validator = Join-Path $itemsRoot "Scripts\generate_wave65_plan_source_coverage.py"
 $trackerReportPath = Join-Path $trackerRoot "Reports\tracker_validation_report.json"
 $itemsReportPath = Join-Path $itemsRoot "Reports\items_validation_report.json"
 $wave64ItemsReportPath = Join-Path $itemsRoot "Reports\wave64_end_to_end_strict_ai_coverage_report.json"
 $wave64TrackerReportPath = Join-Path $trackerRoot "Reports\wave64_end_to_end_strict_ai_coverage_report.json"
+$wave65ItemsReportPath = Join-Path $itemsRoot "Reports\wave65_plan_source_coverage_report.json"
+$wave65TrackerReportPath = Join-Path $trackerRoot "Reports\wave65_plan_source_coverage_report.json"
 
 if ([string]::IsNullOrWhiteSpace($OutFile)) {
   $OutFile = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Items_Tracker_Validation\W59_W60_ITEMS_TRACKER_CURRENT_VALIDATION_$stamp.json"
@@ -174,20 +199,25 @@ if ([string]::IsNullOrWhiteSpace($OutFile)) {
 $trackerRun = Invoke-ProcessCapture -FileName $pythonCommand.Source -Arguments @($trackerValidator, $trackerRoot)
 $itemsRun = Invoke-ProcessCapture -FileName $pythonCommand.Source -Arguments @($itemsValidator, $itemsRoot)
 $wave64Run = Invoke-ProcessCapture -FileName $pythonCommand.Source -Arguments @($wave64Validator)
+$wave65Run = Invoke-ProcessCapture -FileName $pythonCommand.Source -Arguments @($wave65Validator)
 $trackerReport = Read-JsonFile -Path $trackerReportPath
 $itemsReport = Read-JsonFile -Path $itemsReportPath
 $wave64Report = Read-JsonFile -Path $wave64ItemsReportPath
+$wave65Report = Read-JsonFile -Path $wave65ItemsReportPath
 $trackerReportCheck = Test-ValidatorReport -Report $trackerReport
 $itemsReportCheck = Test-ValidatorReport -Report $itemsReport
 $wave64ReportCheck = Test-Wave64Report -Report $wave64Report
+$wave65ReportCheck = Test-Wave65Report -Report $wave65Report
 
 $failures = @()
 if ($trackerRun.exit_code -ne 0) { $failures += "tracker_validator_exit_$($trackerRun.exit_code)" }
 if ($itemsRun.exit_code -ne 0) { $failures += "items_validator_exit_$($itemsRun.exit_code)" }
 if ($wave64Run.exit_code -ne 0) { $failures += "wave64_validator_exit_$($wave64Run.exit_code)" }
+if ($wave65Run.exit_code -ne 0) { $failures += "wave65_validator_exit_$($wave65Run.exit_code)" }
 if ($trackerReportCheck.result -ne "pass") { $failures += "tracker_report_failed" }
 if ($itemsReportCheck.result -ne "pass") { $failures += "items_report_failed" }
 if ($wave64ReportCheck.result -ne "pass") { $failures += "wave64_report_failed" }
+if ($wave65ReportCheck.result -ne "pass") { $failures += "wave65_report_failed" }
 
 $record = [ordered]@{
   evidence_id = "EVID-W59-W60-ITEMS-TRACKER-CURRENT-VALIDATION-$stamp"
@@ -235,14 +265,25 @@ $record = [ordered]@{
       report = $wave64Report
       report_check = $wave64ReportCheck
     }
+    wave65_plan_source_coverage = [ordered]@{
+      validator = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $wave65Validator
+      exit_code = $wave65Run.exit_code
+      stdout_tail = Get-OutputTail -Text $wave65Run.stdout
+      stderr_tail = Get-OutputTail -Text $wave65Run.stderr
+      items_report_path = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $wave65ItemsReportPath
+      tracker_report_path = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $wave65TrackerReportPath
+      report = $wave65Report
+      report_check = $wave65ReportCheck
+    }
   }
   result = $(if ($failures.Count -eq 0) { "pass_local_only" } else { "fail" })
   failures = $failures
   known_issues = @(
-    "This validates package ledger structure and Wave64 strict AI coverage only. It does not claim EC2 runtime proof, ComfyUI generation, model load, artifact pullback, or completed media QA.",
-    "Wave64 rows define required visual/audio/whole-artifact QA gates; each generated artifact still needs its own evidence record before completion."
+    "This validates package ledger structure, Wave64 strict AI coverage, and Wave65 direct Plan source coverage. It does not claim EC2 runtime proof, ComfyUI generation, model load, artifact pullback, or completed media QA.",
+    "Wave64 rows define required visual/audio/whole-artifact QA gates; each generated artifact still needs its own evidence record before completion.",
+    "Wave65 rows prove current source coverage only; rerun the Wave65 generator after any Plan file addition or rename."
   )
-  next_action = "Use Wave64 Items/Tracker rows as the strict AI execution and QA map; continue local validations where possible and only use EC2 for target-runtime proof."
+  next_action = "Use Wave64 Items/Tracker rows as the strict AI execution and QA map and Wave65 rows as the exhaustive Plan source coverage closure; continue local validations where possible and only use EC2 for target-runtime proof."
 }
 
 $outDir = Split-Path -Parent $OutFile

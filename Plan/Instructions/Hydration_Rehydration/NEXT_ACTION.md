@@ -1,8 +1,10 @@
 # Next Action
 
-## Current next action - 2026-07-06T15:02:15-05:00
+## Current next action - 2026-07-06T15:26:07-05:00
 
-Finish and push the current checkpoint from `C:\Comfy_UI_Main`, then use Wave 64 strict AI Items/Tracker coverage before choosing the next runtime target. Both active base-generation lanes now have live EC2 runtime smoke proof, but the full project is not complete until all Wave 64 strict build, QA, visual review, audio review, runtime, and release evidence passes.
+Finish the current checkpoint from `C:\Comfy_UI_Main`, then use Wave 64 strict AI Items/Tracker QA coverage and Wave 65 exhaustive Plan source coverage before choosing the next runtime target. Both active base-generation lanes now have live EC2 runtime smoke proof, but the full project is not complete until all Wave 64 strict build, QA, visual review, audio review, runtime, and release evidence passes and every current Plan source file remains directly covered by Items/Tracker.
+
+Latest local implementation: the Wave 64 image-engine router proof for `TRK-W64-009` / `ITEM-W64-009` is implemented and validated. Use `Plan/07_IMPLEMENTATION/scripts/resolve_wave64_image_engine_route.py` and `Plan/Instructions/QA/Scripts/Test-ImageEngineRouter.ps1` before promoting new image routes. Current post-ledger evidence is `Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_VALIDATION_POST_LEDGER_20260706T151800-0500.json`, with QA helper evidence `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W64_QA_HELPER_IMAGE_ENGINE_ROUTER_POST_LEDGER_20260706T151800-0500.json`. Compatible RealVisXL SDXL routing passes; incompatible Flux LoRA on SDXL blocks with no external contact, EC2 start, or generation.
 
 Current strict AI coverage files:
 
@@ -16,6 +18,20 @@ Plan/Tracker/Reports/wave64_end_to_end_strict_ai_coverage_report.json
 ```
 
 Wave 64 hard media rule: localized visual/audio work cannot pass by looking only at the target region. Every generated image, video, GIF, or audio artifact must pass whole-artifact review; unrelated visible or audible defects block promotion.
+
+Current exhaustive Plan source coverage files:
+
+```text
+Plan/Items/wave65_plan_source_coverage_closure_itemized_list.csv
+Plan/Items/Waves/Wave65/WAVE65_PLAN_SOURCE_COVERAGE_ITEM_ROWS.csv
+Plan/Tracker/wave65_plan_source_coverage_closure_tracker.csv
+Plan/Tracker/Waves/Wave65/WAVE65_PLAN_SOURCE_COVERAGE_TRACKER_ROWS.csv
+Plan/Items/Reports/wave65_plan_source_coverage_report.json
+Plan/Tracker/Reports/wave65_plan_source_coverage_report.json
+Plan/Items/Scripts/generate_wave65_plan_source_coverage.py
+```
+
+Wave 65 current result is `pass`: 2,828 current source files under `Plan` are covered, 653 closure Items rows and 653 closure Tracker rows were generated, and `missing_after_wave65_count=0`. Transient `__pycache__` and `.pyc` files are excluded from the coverage universe. Rerun `python Plan\Items\Scripts\generate_wave65_plan_source_coverage.py` after any Plan file addition or rename.
 
 Do not repeat the first-lane smoke path. `sdxl_low_risk_fallback_lane` already has EC2 static proof, bounded workflow smoke generation, SSM pullback, technical image QA, and visual QA with runtime-smoke notes.
 
@@ -46,7 +62,7 @@ Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_GENERIC_
 
 Next runtime work after the checkpoint:
 
-1. Verify Wave 64 coverage stays passing after any Items/Tracker change.
+1. Verify Wave 64 and Wave 65 coverage stay passing after any Items/Tracker/Plan change.
 2. Verify AWS auth and Git clean/head only before an EC2 `-Execute` path.
 3. Configure the S3 bucket/prefix permissions from `configs/aws` for deploy bundles, model cache, and artifact pullback.
 4. Do not rerun RealVisXL static proof or workflow smoke unless the lane, prompt, model, or EC2 runtime changed.

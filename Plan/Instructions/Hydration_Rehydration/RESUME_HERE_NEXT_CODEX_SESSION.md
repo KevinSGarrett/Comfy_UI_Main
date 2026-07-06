@@ -6,6 +6,9 @@ Start by reading this file, then read `CURRENT_PURSUING_GOAL.md` and follow its 
 
 ## Current session completed
 
+- Implemented Wave64 image-engine router proof for `TRK-W64-009` / `ITEM-W64-009` in `C:\Comfy_UI_Main`. New resolver: `Plan/07_IMPLEMENTATION/scripts/resolve_wave64_image_engine_route.py`; QA wrapper: `Plan/Instructions/QA/Scripts/Test-ImageEngineRouter.ps1`; example requests: `Plan/09_EXAMPLES/wave64_image_engine_route_realvisxl_request.example.json` and `Plan/09_EXAMPLES/wave64_image_engine_route_incompatible_lora_request.example.json`.
+- Post-ledger router evidence `Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_VALIDATION_POST_LEDGER_20260706T151800-0500.json` reports `pass_local_only`: compatible RealVisXL SDXL routing selects `sdxl_realvisxl_base_lane`; incompatible Flux LoRA on SDXL blocks with no silent fallback. Latest decision evidence: `Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_REALVISXL_DECISION_20260706T152201-0500.json` and `Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_INCOMPATIBLE_LORA_DECISION_20260706T152201-0500.json`.
+- Integrated the router proof into the QA helper. Post-ledger QA evidence `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W64_QA_HELPER_IMAGE_ENGINE_ROUTER_POST_LEDGER_20260706T151800-0500.json` reports `pass_local_only` with local smoke failures `0`. Wave64 supplements, `PROJECT_ROOT_MANIFEST.json`, `QA_EVIDENCE_INDEX.md`, `PROOF_OF_MOVEMENT_LOG.csv`, `CURRENT_SESSION_STATE.md`, `NEXT_ACTION.md`, and `RECENT_DECISIONS.md` were updated for the router gate.
 - Post-login runtime proof completed for the first queued lane `sdxl_low_risk_fallback_lane`: AWS auth passed for account `029530099913`; EC2 static proof passed; bounded workflow smoke generated one hyperreal editorial portrait from run package `runtime_artifacts/run_packages/sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1/RUN_PACKAGE_MANIFEST.json`; EC2 final state was verified `stopped`; artifacts were pulled back through SSM chunk transfer after S3 role permissions and SSH port 22 blocked faster routes; pullback hashes verified; technical image QA passed; visual QA passed with notes for runtime-smoke purposes. Current evidence includes `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_POST_LOGIN_RETEST_20260706T104311-0500.json`, `Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_POST_STATIC_PROOF_RETEST_20260706T110424-0500.json`, `Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/PULLBACK_RECORD.json`, and `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_VISUAL_20260706T122027-0500.json`.
 - Completed Wave 59-62 local static/package validation and cumulative zip validation.
 - Initialized and pushed GitHub `main`.
@@ -124,7 +127,9 @@ Continue Wave 63 cost-controlled work without repeating the completed low-risk l
 
 ## Next exact action
 
-Read `Plan/Instructions/Operations/EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md` before any EC2 decision. If the current Wave 63 changes are uncommitted, first create one clean checkpoint and verify `HEAD == origin/main`.
+First finish the current router checkpoint: validate JSON/CSV/PowerShell/Python parsing, run the Items/Tracker validation after supplement updates, run `git diff --check`, run a staged secret scan, commit only router-related files, push, and verify `HEAD == origin/main`. Leave unrelated untracked Wave65 files untouched unless intentionally taking over that work.
+
+Read `Plan/Instructions/Operations/EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md` before any EC2 decision. If the current Wave 63/Wave64 changes are uncommitted, first create one clean checkpoint and verify `HEAD == origin/main`.
 
 Do not rerun `sdxl_low_risk_fallback_lane` just to re-prove the same path. It already has EC2 static proof, generated smoke output, pullback, and image QA evidence.
 
