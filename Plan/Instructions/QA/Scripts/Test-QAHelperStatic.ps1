@@ -173,6 +173,16 @@ function Test-MarkdownTemplate {
   }
 }
 
+function Test-JsonProperty {
+  param(
+    [object]$Object,
+    [Parameter(Mandatory=$true)][string]$Name
+  )
+
+  if ($null -eq $Object) { return $false }
+  return ($null -ne $Object.PSObject.Properties[$Name])
+}
+
 function Invoke-LocalHelper {
   param(
     [Parameter(Mandatory=$true)][string]$Name,
@@ -217,6 +227,198 @@ function Invoke-LocalHelper {
     $entry.result = "fail"
     $entry.expected_output_error = "Expected output file was not created."
   }
+  return $entry
+}
+
+function New-ContractCheck {
+  param(
+    [Parameter(Mandatory=$true)][string]$Name,
+    [Parameter(Mandatory=$true)][bool]$Passed,
+    [string]$Expected = "",
+    [string]$Observed = ""
+  )
+
+  return [ordered]@{
+    name = $Name
+    expected = $Expected
+    observed = $Observed
+    result = $(if ($Passed) { "pass" } else { "fail" })
+  }
+}
+
+function Test-ProjectReadinessSnapshotContract {
+  param([Parameter(Mandatory=$true)][string]$Path)
+
+  $entry = [ordered]@{
+    name = "project_readiness_snapshot_contract"
+    path = ConvertTo-EvidencePath -BasePath $ProjectRoot -TargetPath $Path -TempRoot $script:ValidationTempRoot
+    result = "fail"
+    error = $null
+    top_level_result = $null
+    failure_category = $null
+    local_ready = $false
+    scan_result = $null
+    scan_hit_count = $null
+    ec2_start_allowed = $null
+    generation_allowed = $null
+    auth_safe_to_start_ec2 = $null
+    lane_ready_for_ec2_static_proof = $null
+    lane_ready_for_generation = $null
+    coordinator_blocked_execute_records_safe = $null
+    contract_check_failures = 0
+    contract_checks = @()
+  }
+
+  $checks = @()
+  try {
+    if (!(Test-Path -LiteralPath $Path)) {
+      throw "Project readiness snapshot file was not created."
+    }
+
+    $payload = Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json
+    $recognizedResults = @(
+      "pass_local_ready_runtime_blocked_auth",
+      "pass_local_ready_runtime_blocked",
+      "pass_local_ready_for_ec2_static_proof",
+      "pass_ready_for_generation"
+    )
+
+    if (Test-JsonProperty -Object $payload -Name "result") {
+      $entry.top_level_result = [string]$payload.result
+    }
+    if (Test-JsonProperty -Object $payload -Name "failure_category") {
+      $entry.failure_category = [string]$payload.failure_category
+    }
+    if (Test-JsonProperty -Object $payload -Name "local_ready") {
+      $entry.local_ready = [bool]$payload.local_ready
+    }
+
+    $checks += New-ContractCheck -Name "top_level_result_recognized" `
+      -Passed (@($recognizedResults) -contains $entry.top_level_result) `
+      -Expected ($recognizedResults -join " | ") `
+      -Observed ([string]$entry.top_level_result)
+
+    $checks += New-ContractCheck -Name "local_ready_true" `
+      -Passed ([bool]$entry.local_ready) `
+      -Expected "true" `
+      -Observed ([string]$entry.local_ready)
+
+    if (Test-JsonProperty -Object $payload -Name "secret_private_path_scan") {
+      $scan = $payload.secret_private_path_scan
+      if (Test-JsonProperty -Object $scan -Name "result") { $entry.scan_result = [string]$scan.result }
+      if (Test-JsonProperty -Object $scan -Name "hit_count") { $entry.scan_hit_count = [int]$scan.hit_count }
+    }
+
+    $checks += New-ContractCheck -Name "secret_private_scan_passes" `
+      -Passed ($entry.scan_result -eq "pass") `
+      -Expected "pass" `
+      -Observed ([string]$entry.scan_result)
+    $checks += New-ContractCheck -Name "secret_private_scan_zero_hits" `
+      -Passed ($entry.scan_hit_count -eq 0) `
+      -Expected "0" `
+      -Observed ([string]$entry.scan_hit_count)
+
+    if (!(Test-JsonProperty -Object $payload -Name "runtime_gates")) {
+      $checks += New-ContractCheck -Name "runtime_gates_present" -Passed $false -Expected "present" -Observed "missing"
+    } else {
+      $runtime = $payload.runtime_gates
+      $checks += New-ContractCheck -Name "runtime_gates_present" -Passed $true -Expected "present" -Observed "present"
+
+      if (Test-JsonProperty -Object $runtime -Name "ec2_start_allowed") {
+        $entry.ec2_start_allowed = [bool]$runtime.ec2_start_allowed
+      }
+      if (Test-JsonProperty -Object $runtime -Name "generation_allowed") {
+        $entry.generation_allowed = [bool]$runtime.generation_allowed
+      }
+      if (Test-JsonProperty -Object $runtime -Name "auth_gate") {
+        $authGate = $runtime.auth_gate
+        if (Test-JsonProperty -Object $authGate -Name "safe_to_start_ec2") {
+          $entry.auth_safe_to_start_ec2 = [bool]$authGate.safe_to_start_ec2
+        }
+      }
+      if (Test-JsonProperty -Object $runtime -Name "lane_readiness") {
+        $laneReadiness = $runtime.lane_readiness
+        if (Test-JsonProperty -Object $laneReadiness -Name "ready_for_ec2_static_proof") {
+          $entry.lane_ready_for_ec2_static_proof = [bool]$laneReadiness.ready_for_ec2_static_proof
+        }
+        if (Test-JsonProperty -Object $laneReadiness -Name "ready_for_generation") {
+          $entry.lane_ready_for_generation = [bool]$laneReadiness.ready_for_generation
+        }
+      }
+      if (Test-JsonProperty -Object $runtime -Name "coordinator_safety") {
+        $coordinatorSafety = $runtime.coordinator_safety
+        if (Test-JsonProperty -Object $coordinatorSafety -Name "blocked_execute_records_safe") {
+          $entry.coordinator_blocked_execute_records_safe = [bool]$coordinatorSafety.blocked_execute_records_safe
+        }
+      }
+    }
+
+    switch ($entry.top_level_result) {
+      "pass_local_ready_runtime_blocked_auth" {
+        $checks += New-ContractCheck -Name "blocked_auth_has_failure_category" `
+          -Passed (![string]::IsNullOrWhiteSpace([string]$entry.failure_category)) `
+          -Expected "non-empty" `
+          -Observed ([string]$entry.failure_category)
+        $checks += New-ContractCheck -Name "blocked_auth_disallows_ec2_start" `
+          -Passed ($entry.ec2_start_allowed -eq $false -and $entry.auth_safe_to_start_ec2 -eq $false) `
+          -Expected "ec2_start_allowed=false; auth.safe_to_start_ec2=false" `
+          -Observed ("ec2_start_allowed={0}; auth.safe_to_start_ec2={1}" -f $entry.ec2_start_allowed, $entry.auth_safe_to_start_ec2)
+        $checks += New-ContractCheck -Name "blocked_auth_disallows_generation" `
+          -Passed ($entry.generation_allowed -eq $false) `
+          -Expected "false" `
+          -Observed ([string]$entry.generation_allowed)
+        $checks += New-ContractCheck -Name "blocked_auth_coordinator_records_safe" `
+          -Passed ($entry.coordinator_blocked_execute_records_safe -eq $true) `
+          -Expected "true" `
+          -Observed ([string]$entry.coordinator_blocked_execute_records_safe)
+      }
+      "pass_local_ready_runtime_blocked" {
+        $checks += New-ContractCheck -Name "runtime_blocked_has_failure_category" `
+          -Passed (![string]::IsNullOrWhiteSpace([string]$entry.failure_category)) `
+          -Expected "non-empty" `
+          -Observed ([string]$entry.failure_category)
+        $checks += New-ContractCheck -Name "runtime_blocked_disallows_ec2_start" `
+          -Passed ($entry.ec2_start_allowed -eq $false) `
+          -Expected "false" `
+          -Observed ([string]$entry.ec2_start_allowed)
+        $checks += New-ContractCheck -Name "runtime_blocked_disallows_generation" `
+          -Passed ($entry.generation_allowed -eq $false) `
+          -Expected "false" `
+          -Observed ([string]$entry.generation_allowed)
+      }
+      "pass_local_ready_for_ec2_static_proof" {
+        $checks += New-ContractCheck -Name "static_proof_ready_allows_ec2_start" `
+          -Passed ($entry.ec2_start_allowed -eq $true -and $entry.lane_ready_for_ec2_static_proof -eq $true) `
+          -Expected "ec2_start_allowed=true; lane.ready_for_ec2_static_proof=true" `
+          -Observed ("ec2_start_allowed={0}; lane.ready_for_ec2_static_proof={1}" -f $entry.ec2_start_allowed, $entry.lane_ready_for_ec2_static_proof)
+        $checks += New-ContractCheck -Name "static_proof_ready_disallows_generation" `
+          -Passed ($entry.generation_allowed -eq $false) `
+          -Expected "false" `
+          -Observed ([string]$entry.generation_allowed)
+      }
+      "pass_ready_for_generation" {
+        $checks += New-ContractCheck -Name "generation_ready_allows_ec2_start" `
+          -Passed ($entry.ec2_start_allowed -eq $true) `
+          -Expected "true" `
+          -Observed ([string]$entry.ec2_start_allowed)
+        $checks += New-ContractCheck -Name "generation_ready_allows_generation" `
+          -Passed ($entry.generation_allowed -eq $true -and $entry.lane_ready_for_generation -eq $true) `
+          -Expected "generation_allowed=true; lane.ready_for_generation=true" `
+          -Observed ("generation_allowed={0}; lane.ready_for_generation={1}" -f $entry.generation_allowed, $entry.lane_ready_for_generation)
+      }
+    }
+
+    $failedChecks = @($checks | Where-Object { $_.result -ne "pass" })
+    $entry.contract_checks = $checks
+    $entry.contract_check_failures = @($failedChecks).Count
+    $entry.result = $(if ($entry.contract_check_failures -eq 0) { "pass" } else { "fail" })
+  } catch {
+    $entry.error = $_.Exception.Message
+    $entry.contract_checks = $checks
+    $entry.contract_check_failures = $(if (@($checks).Count -eq 0) { 1 } else { @($checks | Where-Object { $_.result -ne "pass" }).Count })
+    $entry.result = "fail"
+  }
+
   return $entry
 }
 
@@ -327,10 +529,16 @@ $localSmokeResults += Invoke-LocalHelper -Name "project_readiness_snapshot_smoke
   -ExpectedOutputFile $projectReadinessFile `
   -ExpectedOutputType "json"
 
+$projectReadinessContract = Test-ProjectReadinessSnapshotContract -Path $projectReadinessFile
+
 $scriptFailures = @($scriptParseResults | Where-Object { $_.result -ne "pass" })
 $jsonFailures = @($jsonParseResults | Where-Object { $_.result -ne "pass" })
 $markdownFailures = @($markdownTemplateResults | Where-Object { $_.result -ne "pass" })
 $smokeFailures = @($localSmokeResults | Where-Object { $_.result -ne "pass" -or ($_.expected_output_type -ne "none" -and -not $_.expected_output_valid) })
+$contractFailures = @()
+if ($projectReadinessContract.result -ne "pass") {
+  $contractFailures += $projectReadinessContract
+}
 
 $record = [ordered]@{
   evidence_id = "EVID-W61-QA-HELPER-CURRENT-VALIDATION-$stamp"
@@ -355,7 +563,8 @@ $record = [ordered]@{
     "selected-lane workflow static validation smoke",
     "image artifact QA dry-run and technical sample smoke",
     "Items/Tracker package validator smoke",
-    "project readiness snapshot smoke"
+    "project readiness snapshot smoke",
+    "project readiness snapshot contract checks"
   )
   validation_results = [ordered]@{
     script_count = @($scriptParseResults).Count
@@ -370,10 +579,12 @@ $record = [ordered]@{
     local_smoke_count = @($localSmokeResults).Count
     local_smoke_failures = @($smokeFailures).Count
     local_smoke_results = $localSmokeResults
+    project_readiness_contract_failures = @($contractFailures).Count
+    project_readiness_contract = $projectReadinessContract
   }
   temp_root = "[VALIDATION_TEMP_ROOT]"
   temp_root_redacted = $true
-  result = $(if ($scriptFailures.Count -eq 0 -and $jsonFailures.Count -eq 0 -and $markdownFailures.Count -eq 0 -and $smokeFailures.Count -eq 0) { "pass_local_only" } else { "fail" })
+  result = $(if ($scriptFailures.Count -eq 0 -and $jsonFailures.Count -eq 0 -and $markdownFailures.Count -eq 0 -and $smokeFailures.Count -eq 0 -and $contractFailures.Count -eq 0) { "pass_local_only" } else { "fail" })
   known_issues = @(
     "Live image/video/audio artifact QA remains pending for actual generated artifacts.",
     "The sample image technical smoke does not count as generated artifact visual review.",

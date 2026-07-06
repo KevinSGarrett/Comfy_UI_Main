@@ -1,0 +1,89 @@
+{
+  "evidence_id": "EVID-W59-LIVE-INDEX-REFRESH-QA-CONTRACT-20260706T060710-0500",
+  "created_at": "2026-07-06T06:07:10-05:00",
+  "artifact_id": "TRK-W59-002",
+  "artifact_type": "index_validation",
+  "tracker_ids": [
+    "TRK-W59-002",
+    "TRK-W59-003",
+    "TRK-W61-011"
+  ],
+  "item_ids": [
+    "ITEM-W61-011"
+  ],
+  "scope": [
+    "Plan/Instructions/Indexes/Generated/plan_file_index.csv",
+    "Plan/Instructions/Indexes/Generated/plan_file_index.json",
+    "Plan/Instructions/Indexes/Generated/instructions_file_index.csv",
+    "Plan/Instructions/Indexes/Generated/instructions_file_index.json",
+    "Plan/Instructions/Indexes/Generated/items_file_index.csv",
+    "Plan/Instructions/Indexes/Generated/items_file_index.json",
+    "Plan/Instructions/Indexes/Generated/tracker_file_index.csv",
+    "Plan/Instructions/Indexes/Generated/tracker_file_index.json"
+  ],
+  "regeneration_command": "powershell -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Scripts\\Generate-Project-Indexes.ps1",
+  "row_count_parity": [
+    {
+      "name": "plan",
+      "csv_count_after_final_regen": 2546,
+      "json_count_after_final_regen": 2546,
+      "row_count_match": true
+    },
+    {
+      "name": "instructions",
+      "csv_count_after_final_regen": 320,
+      "json_count_after_final_regen": 320,
+      "row_count_match": true
+    },
+    {
+      "name": "items",
+      "csv_count_after_final_regen": 45,
+      "json_count_after_final_regen": 45,
+      "row_count_match": true
+    },
+    {
+      "name": "tracker",
+      "csv_count_after_final_regen": 26,
+      "json_count_after_final_regen": 26,
+      "row_count_match": true
+    }
+  ],
+  "discovery_checks": [
+    {
+      "path": "Plan/Instructions/QA/Scripts/Test-QAHelperStatic.ps1",
+      "found_in_generated_indexes": true
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_20260706T060420-0500.json",
+      "found_in_generated_indexes": true
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Project_Readiness/W61_PROJECT_READINESS_SNAPSHOT_20260706T060449-0500.json",
+      "found_in_generated_indexes": true
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W61_QA_HELPER_PROJECT_READINESS_CONTRACT_20260706T060500-0500.md",
+      "found_in_generated_indexes": true
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_QA_CONTRACT_20260706T060710-0500.json",
+      "found_in_generated_indexes": true
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_LIVE_INDEX_REFRESH_QA_CONTRACT_20260706T060710-0500.md",
+      "found_in_generated_indexes": true
+    }
+  ],
+  "secret_private_path_scan": {
+    "credential_pattern_hits": 0,
+    "aws_auth_url_hits": 0,
+    "private_temp_path_hits": 0,
+    "result": "pass"
+  },
+  "result": "pass",
+  "notes": [
+    "Indexes were regenerated after QA helper project-readiness contract hardening.",
+    "Final post-evidence regeneration includes this index validation evidence and certification.",
+    "No EC2 instance was started and no runtime generation was attempted."
+  ]
+}

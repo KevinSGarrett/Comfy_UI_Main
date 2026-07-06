@@ -1,6 +1,6 @@
 # Next Action
 
-Current local validation is refreshed through the scan-safe project readiness snapshot and generated index refresh. The next runtime-unblocking action is AWS CLI remote browser/SSO login in an interactive/browser-capable shell.
+Current local validation is refreshed through the scan-safe project readiness snapshot, current Git blocker recheck, QA helper project-readiness contract validation, and generated index refresh. Checkpoint the local-only hardening. The next runtime-unblocking action remains AWS CLI remote browser/SSO login in an interactive/browser-capable shell.
 
 After AWS login, rerun the secret-safe auth gate:
 
