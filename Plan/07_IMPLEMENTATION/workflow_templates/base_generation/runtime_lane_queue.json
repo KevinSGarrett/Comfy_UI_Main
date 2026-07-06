@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-07-06T07:31:43-05:00",
+  "artifact_id": "TRK-W61-006",
+  "purpose": "Local queue for base-generation lane runtime proof order before EC2 execution resumes.",
+  "local_only": true,
+  "selection_policy": {
+    "first_runtime_lane_id": "sdxl_low_risk_fallback_lane",
+    "do_not_promote_later_lanes_before_first_lane_runtime_proof": true,
+    "requires_aws_auth_gate_before_ec2": true,
+    "requires_clean_git_checkpoint_before_ec2_execute": true,
+    "requires_lane_matched_evidence": true
+  },
+  "lanes": [
+    {
+      "order": 1,
+      "lane_id": "sdxl_low_risk_fallback_lane",
+      "role": "first_ec2_static_proof_and_bounded_smoke_generation",
+      "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
+      "requirements_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
+      "status": "local_pre_ec2_ready_runtime_blocked_auth",
+      "required_next_runtime_gate": "aws_browser_sso_auth_then_lane_readiness_then_ec2_static_proof",
+      "promotion_rule": "May start EC2 only after AWS auth gate, lane readiness, and Git checkpoint gate pass."
+    },
+    {
+      "order": 2,
+      "lane_id": "sdxl_realvisxl_base_lane",
+      "role": "second_sdxl_realvisxl_checkpoint_path_hash_load_output_qa",
+      "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/workflow.api.json",
+      "requirements_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/runtime_requirements.json",
+      "status": "queued_after_low_risk_runtime_path",
+      "required_next_runtime_gate": "wait_for_low_risk_runtime_path_then_realvisxl_static_proof",
+      "promotion_rule": "Do not use RealVisXL as the first EC2 proof lane; promote only after the low-risk lane proves object-info, checkpoint path/hash, output, and image QA."
+    }
+  ],
+  "runtime_boundary": {
+    "ec2_start_allowed_by_queue_file": false,
+    "generation_allowed_by_queue_file": false,
+    "local_queue_validation_does_not_contact": [
+      "AWS",
+      "GitHub API",
+      "Civitai",
+      "ComfyUI",
+      "EC2"
+    ]
+  },
+  "known_limits": [
+    "Does not refresh AWS browser/SSO auth.",
+    "Does not start EC2 or contact ComfyUI.",
+    "Does not prove checkpoint path/hash or runtime model load.",
+    "Does not execute generation or perform generated image QA."
+  ],
+  "next_action": "Validate the queue locally, then keep AWS browser/SSO login as the runtime-unblocking gate."
+}

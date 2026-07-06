@@ -1,0 +1,33 @@
+# Done Certification - W59 Live Index Refresh After Runtime Lane Queue
+
+- Certification ID: CERT-W59-LIVE-INDEX-REFRESH-RUNTIME-LANE-QUEUE-20260706T073928-0500
+- Task / Tracker ID: TRK-W59-002 / TRK-W59-003 / TRK-W61-006 / TRK-W61-011
+- Title: Generated index refresh after runtime lane queue validation
+- Artifact Scope:
+  - `Plan/Instructions/Indexes/Generated`
+  - `Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json`
+  - `Plan/Instructions/QA/Scripts/Test-RuntimeLaneQueue.ps1`
+  - runtime lane queue validation evidence and certifications
+  - hydration ledgers
+- Implementation Summary:
+  - Regenerated generated project indexes after runtime lane queue validation and ledger updates.
+  - Verified CSV/JSON row-count parity and discovery for queue helper, queue evidence, QA/operations validation evidence, certifications, and hydration ledgers.
+- Tests Performed:
+  - `Generate-Project-Indexes.ps1`
+  - CSV/JSON generated index row-count parity checks.
+  - Discovery checks for runtime lane queue files and evidence.
+  - Credential/auth URL/private-path scan over changed local files.
+- Retest Notes:
+  - First ad hoc index-validation attempt incorrectly wrapped top-level generated JSON arrays and counted each JSON index as one object.
+  - Preserved failure evidence, corrected the probe to count parsed array rows directly, reran validation, and passed.
+- QA Summary:
+  - Index refresh is local-only and does not contact AWS, GitHub APIs, Civitai, ComfyUI, start EC2, or run generation.
+- Evidence Paths:
+  - `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_RUNTIME_LANE_QUEUE_FIRST_VALIDATION_FAILURE_20260706T073928-0500.json`
+  - `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_RUNTIME_LANE_QUEUE_20260706T073928-0500.json`
+- Known Issues:
+  - AWS browser/SSO auth remains expired; runtime proof and generated artifact QA remain pending.
+- Final Decision:
+  - Complete certified for local generated index refresh after runtime lane queue validation.
+- Certifier: Codex Desktop autonomous release manager
+- Timestamp: 2026-07-06T07:39:28-05:00

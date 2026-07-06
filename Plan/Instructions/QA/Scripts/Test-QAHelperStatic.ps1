@@ -666,6 +666,13 @@ $localSmokeResults += Invoke-LocalHelper -Name "authored_lane_evidence_coverage_
   -ExpectedOutputFile $authoredLaneEvidenceCoverageFile `
   -ExpectedOutputType "json"
 
+$runtimeLaneQueueFile = Join-Path $tempRoot "runtime_lane_queue_validation.json"
+$localSmokeResults += Invoke-LocalHelper -Name "runtime_lane_queue_validation_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "Test-RuntimeLaneQueue.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-CoverageFile", $authoredLaneEvidenceCoverageFile, "-OutFile", $runtimeLaneQueueFile) `
+  -ExpectedOutputFile $runtimeLaneQueueFile `
+  -ExpectedOutputType "json"
+
 $itemsTrackerValidationFile = Join-Path $tempRoot "items_tracker_package_validation.json"
 $localSmokeResults += Invoke-LocalHelper -Name "items_tracker_package_validation_smoke" `
   -ScriptPath (Join-Path $scriptsRoot "Test-ItemsTrackerPackageStatic.ps1") `
@@ -714,6 +721,7 @@ $record = [ordered]@{
     "all authored base-generation workflow static validation smokes",
     "all authored base-generation lane runtime readiness smokes",
     "all authored base-generation local pre-EC2 evidence coverage smoke",
+    "runtime lane queue validation smoke",
     "image artifact QA dry-run and technical sample smoke",
     "Items/Tracker package validator smoke",
     "project readiness snapshot smoke",

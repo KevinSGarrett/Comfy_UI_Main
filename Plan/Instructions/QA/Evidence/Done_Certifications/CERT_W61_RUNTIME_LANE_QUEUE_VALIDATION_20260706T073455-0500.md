@@ -1,0 +1,31 @@
+# Done Certification - W61 Runtime Lane Queue Validation
+
+- Certification ID: CERT-W61-RUNTIME-LANE-QUEUE-VALIDATION-20260706T073455-0500
+- Task / Tracker ID: TRK-W61-006 / TRK-W61-011
+- Title: Runtime lane queue local validation
+- Artifact Scope:
+  - `Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json`
+  - `Plan/Instructions/QA/Scripts/Test-RuntimeLaneQueue.ps1`
+  - `Plan/Instructions/QA/Scripts/Test-QAHelperStatic.ps1`
+- Implementation Summary:
+  - Added a local runtime lane queue contract that fixes `sdxl_low_risk_fallback_lane` as the first EC2 proof/generation lane and queues `sdxl_realvisxl_base_lane` second.
+  - Added a local-only validator that checks the queue against concrete authored lane files and authored-lane evidence coverage.
+  - Wired the validator into the QA helper smoke suite.
+- Tests Performed:
+  - Parser validation for `Test-RuntimeLaneQueue.ps1` and `Test-QAHelperStatic.ps1`: pass.
+  - Direct runtime lane queue validation: `pass_local_only`, failed check count 0.
+  - QA helper validation: `pass_local_only`, 9 QA scripts parsed, 12 local smokes, 0 smoke failures.
+  - Operations helper validation: `pass_local_only`, 16 operations scripts parsed, 9 local smokes, 0 smoke failures.
+- QA Summary:
+  - The queue validator confirms both queued lanes are concrete authored lanes, all concrete authored lanes are queued, the first runtime lane is `sdxl_low_risk_fallback_lane`, and RealVisXL is queued after it.
+  - The validator confirms the referenced authored-lane coverage evidence is `pass_local_only`, has failed lane count 0, and records no AWS/GitHub API/Civitai/ComfyUI contact, no EC2 start, and no generation.
+- Evidence Paths:
+  - `Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W61_RUNTIME_LANE_QUEUE_VALIDATION_20260706T073455-0500.json`
+  - `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_RUNTIME_LANE_QUEUE_20260706T073502-0500.json`
+  - `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_RUNTIME_LANE_QUEUE_20260706T073523-0500.json`
+- Known Issues:
+  - AWS browser/SSO auth remains expired, so EC2 static proof, checkpoint path/hash, generation output, pullback, and visual QA remain pending runtime validation.
+- Final Decision:
+  - Complete certified for local-only runtime lane queue validation. Runtime execution is not certified.
+- Certifier: Codex Desktop autonomous release manager
+- Timestamp: 2026-07-06T07:35:23-05:00
