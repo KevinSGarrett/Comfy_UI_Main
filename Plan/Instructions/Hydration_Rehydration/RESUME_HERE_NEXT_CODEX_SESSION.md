@@ -51,6 +51,13 @@ Start by reading this file, then re-open the standard hydration files in this fo
 - Hardened EC2 pullback manifest verification so `REMOTE_ARTIFACT_MANIFEST.json` is not counted as a pulled artifact, then reran current operations helper validation with 15 scripts, 5 JSON files, 8 local smoke checks, and zero local smoke failures.
 - Hardened AWS auth gate evidence so `Test-AwsAuthGate.ps1` emits top-level `result`, `failure_category`, `account_match`, and `remote_login_status`; reran auth/profile/readiness gates without EC2 start; and passed operations helper validation with the auth evidence contract check.
 - Regenerated current generated local indexes after auth-contract hardening and recorded row-count/discovery/secret-scan evidence: plan 2498, instructions 272, items 45, tracker 26.
+- Hardened selected-lane readiness evidence so `Test-LaneRuntimeReadiness.ps1` emits top-level `result` and `failure_category`, carries auth summary fields, and passes operations validation with readiness evidence contract checks.
+- Hardened EC2 static-proof and workflow-smoke coordinator evidence so blocked dry-run/execute records emit top-level gate summaries and prove `ec2_started=false` and `generation_executed=false` while AWS auth is blocked.
+- Added EC2 coordinator evidence contract checks to the operations helper validator; latest operations helper validation has 4 evidence checks, 5 evidence-contract checks, and 0 failures.
+- Added `Test-ProjectReadinessSnapshot.ps1`, wired it into current QA helper validation, retained the first failed snapshot as retest evidence, and passed the final local project readiness snapshot with `result=pass_local_ready_runtime_blocked_auth`, `local_ready=true`, `ec2_start_allowed=false`, and `generation_allowed=false`.
+- Reran current QA helper validation with the project-readiness snapshot smoke included; 7 QA scripts parsed, 4 JSON schemas/templates parsed, 4 markdown templates checked, and 7 local-only smoke checks passed.
+- Regenerated current generated local indexes after project-readiness snapshot evidence and recorded row-count/discovery/secret-scan evidence: plan 2531, instructions 305, items 45, tracker 26; final post-cert regeneration row counts are plan 2533, instructions 307, items 45, tracker 26.
+- Removed literal token/private-temp scan patterns and token-like scan labels from `Test-ProjectReadinessSnapshot.ps1`, reran direct snapshot validation and QA helper validation, and passed the current scan-safe snapshot with 177 scanned files and 0 secret/private-path hits.
 
 ## Current goal
 
@@ -225,6 +232,19 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\S
 - `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W60_OPERATIONS_COORDINATOR_CONTRACT_VALIDATOR_20260706T053100-0500.md`
 - `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_COORDINATOR_VALIDATOR_20260706T053239-0500.json`
 - `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_LIVE_INDEX_REFRESH_COORDINATOR_VALIDATOR_20260706T053244-0500.md`
+- `Plan/Instructions/QA/Evidence/Project_Readiness/W61_PROJECT_READINESS_SNAPSHOT_20260706T054119-0500.json`
+- `Plan/Instructions/QA/Evidence/Project_Readiness/W61_PROJECT_READINESS_SNAPSHOT_20260706T054134-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_20260706T054139-0500.json`
+- `Plan/Instructions/QA/Evidence/Project_Readiness/W61_PROJECT_READINESS_SNAPSHOT_20260706T054153-0500.json`
+- `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W61_PROJECT_READINESS_SNAPSHOT_20260706T054201-0500.md`
+- `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_PROJECT_READINESS_20260706T054446-0500.json`
+- `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_LIVE_INDEX_REFRESH_PROJECT_READINESS_20260706T054450-0500.md`
+- `Plan/Instructions/QA/Evidence/Project_Readiness/W61_PROJECT_READINESS_SNAPSHOT_20260706T054909-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_20260706T054918-0500.json`
+- `Plan/Instructions/QA/Evidence/Project_Readiness/W61_PROJECT_READINESS_SNAPSHOT_20260706T054932-0500.json`
+- `Plan/Instructions/QA/Evidence/Project_Readiness/W61_PROJECT_READINESS_SNAPSHOT_20260706T055410-0500.json`
+- `Plan/Instructions/QA/Evidence/Index_Validation/W59_LIVE_INDEX_REFRESH_PROJECT_READINESS_SCAN_SAFE_20260706T055133-0500.json`
+- `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_LIVE_INDEX_REFRESH_PROJECT_READINESS_SCAN_SAFE_20260706T055137-0500.md`
 
 ## Must not repeat
 
@@ -237,6 +257,9 @@ powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\S
 - Use the top-level EC2 coordinator fields (`result`, `failure_category`, `execute_gates_pass`, `ec2_started`, `generation_executed`) when summarizing static-proof or workflow-smoke gate status.
 - Operations helper validation now has dedicated EC2 coordinator evidence contract checks; do not rely on plain JSON parse alone when assessing blocked coordinator evidence.
 - Do not repeat the failed index-validation probe that wrapped generated JSON index arrays and counted them as one object; the corrected retest evidence uses direct JSON row counts.
+- Do not repeat the first project-readiness snapshot validation mistake that accepted `pass` but not `pass_local_only` for Items/Tracker validation; `Test-ProjectReadinessSnapshot.ps1` now accepts both local-valid result names.
+- Do not store literal GitHub token prefixes, token-like scan labels, or user-specific temp paths in helper scan-pattern definitions; `Test-ProjectReadinessSnapshot.ps1` builds those patterns dynamically and uses neutral labels to avoid staged-scan false positives.
+- Treat the project-readiness snapshot as a local status aggregator only; it proves `local_ready=true` and blocked runtime gates, but it does not prove EC2 object-info/path/hash, generation, artifact pullback, or media QA.
 - Do not run EC2 static proof until `Test-LaneRuntimeReadiness.ps1` reports `ready_for_ec2_static_proof=true`.
 - Treat static-proof dry-run and blocked-execute records as safety evidence only, not as object-info/path/hash proof.
 - Do not leave EC2 running.

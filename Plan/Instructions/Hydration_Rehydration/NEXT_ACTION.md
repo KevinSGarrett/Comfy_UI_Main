@@ -1,6 +1,8 @@
 # Next Action
 
-Complete the AWS CLI remote browser/SSO login in an interactive/browser-capable shell, then rerun the secret-safe auth gate:
+Current local validation is refreshed through the scan-safe project readiness snapshot and generated index refresh. The next runtime-unblocking action is AWS CLI remote browser/SSO login in an interactive/browser-capable shell.
+
+After AWS login, rerun the secret-safe auth gate:
 
 ```powershell
 aws login --remote

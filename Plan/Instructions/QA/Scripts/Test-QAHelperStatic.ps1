@@ -320,6 +320,13 @@ $localSmokeResults += Invoke-LocalHelper -Name "items_tracker_package_validation
   -ExpectedOutputFile $itemsTrackerValidationFile `
   -ExpectedOutputType "json"
 
+$projectReadinessFile = Join-Path $tempRoot "project_readiness_snapshot.json"
+$localSmokeResults += Invoke-LocalHelper -Name "project_readiness_snapshot_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "Test-ProjectReadinessSnapshot.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-OutFile", $projectReadinessFile) `
+  -ExpectedOutputFile $projectReadinessFile `
+  -ExpectedOutputType "json"
+
 $scriptFailures = @($scriptParseResults | Where-Object { $_.result -ne "pass" })
 $jsonFailures = @($jsonParseResults | Where-Object { $_.result -ne "pass" })
 $markdownFailures = @($markdownTemplateResults | Where-Object { $_.result -ne "pass" })
@@ -347,7 +354,8 @@ $record = [ordered]@{
     "Plan/Instructions/QA/Templates/*.md",
     "selected-lane workflow static validation smoke",
     "image artifact QA dry-run and technical sample smoke",
-    "Items/Tracker package validator smoke"
+    "Items/Tracker package validator smoke",
+    "project readiness snapshot smoke"
   )
   validation_results = [ordered]@{
     script_count = @($scriptParseResults).Count
@@ -369,6 +377,7 @@ $record = [ordered]@{
   known_issues = @(
     "Live image/video/audio artifact QA remains pending for actual generated artifacts.",
     "The sample image technical smoke does not count as generated artifact visual review.",
+    "The project readiness snapshot is local-only and does not refresh AWS browser/SSO auth.",
     "ComfyUI runtime execution, model loading, EC2 static proof, artifact pullback, and final visual QA remain separate runtime validations."
   )
   next_action = "After AWS browser login refresh, run EC2 static proof, bounded smoke generation, artifact pullback, and real image QA."
