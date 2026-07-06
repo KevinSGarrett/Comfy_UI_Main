@@ -47,6 +47,8 @@ The current runtime handoff must be model-registry-gated, queue-aware, Git-check
 -RunPackageManifestFile C:\Comfy_UI_Main\runtime_artifacts\run_packages\sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1\RUN_PACKAGE_MANIFEST.json
 ```
 
+Use `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_MARKDOWN_ESCAPE_FIX_20260706T101855-0500.md` as the current human-readable runtime handoff. Do not use the older `W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.md` Markdown as the active handoff because it contains PowerShell backtick escape corruption.
+
 ## Next Exact Work
 If the passing root preflight/index evidence from the active session is still uncommitted, finish that evidence checkpoint first without changing runtime behavior.
 

@@ -8,6 +8,8 @@ Local static/package validation is complete through Wave 62 cumulative zip valid
 
 The first runtime lane is `sdxl_low_risk_fallback_lane`; `sdxl_realvisxl_base_lane` is queued second. Both concrete authored base-generation lanes have local static evidence, lane-runtime readiness evidence, authored-lane evidence coverage, runtime lane queue coverage, and model registry coverage. The current runtime unblock path is queue-aware, model-registry-gated, Git-checkpoint-gated, lane-readiness-gated, and package-aware. The current handoff sequence has 11 command steps, including `model_registry_coverage_recheck`, and bounded workflow smoke must use the hyperreal run package manifest before any package-fed execution.
 
+Current human-readable runtime handoff Markdown is `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_MARKDOWN_ESCAPE_FIX_20260706T101855-0500.md`. The older `W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.md` file is historical and contains PowerShell backtick escape corruption, so do not use it as the active handoff.
+
 Runtime proof is still blocked by AWS browser/SSO auth. Current auth/profile evidence reports expired AWS CLI auth, zero configured profiles authenticating to expected account `029530099913`, `ec2_started=false`, and `generation_executed=false`. Until `Test-AwsAuthGate.ps1` reports `ec2_work_allowed=true` and `safe_to_start_ec2=true`, future sessions must not start EC2 or generate images. If local gates remain passing and AWS auth is still expired, the correct next action is to record the blocker once, avoid repeated housekeeping, and wait for browser/SSO auth.
 
 ## Session end timestamp
