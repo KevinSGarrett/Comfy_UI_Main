@@ -1,0 +1,65 @@
+{
+  "evidence_id": "EVID-W59-LIVE-INDEX-REFRESH-CURRENT-20260706T041526-0500",
+  "created_at": "2026-07-06T04:15:26-05:00",
+  "artifact_id": "TRK-W59-002-TRK-W59-003",
+  "artifact_type": "live_local_index_refresh_current",
+  "tracker_ids": [
+    "TRK-W59-002",
+    "TRK-W59-003",
+    "TRK-W62-003",
+    "TRK-W61-011",
+    "TRK-W60-010"
+  ],
+  "qa_protocol_used": [
+    "MASTER_PROJECT_LOCATION_INDEX.md",
+    "Generate-Project-Indexes.ps1",
+    "QA_EVIDENCE_LOG_PROTOCOL.md",
+    "TRACKER_UPDATE_PROTOCOL.md"
+  ],
+  "command": "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Scripts\\Generate-Project-Indexes.ps1",
+  "regenerated_files": [
+    "Plan/Instructions/Indexes/Generated/plan_file_index.csv",
+    "Plan/Instructions/Indexes/Generated/plan_file_index.json",
+    "Plan/Instructions/Indexes/Generated/items_file_index.csv",
+    "Plan/Instructions/Indexes/Generated/items_file_index.json",
+    "Plan/Instructions/Indexes/Generated/tracker_file_index.csv",
+    "Plan/Instructions/Indexes/Generated/tracker_file_index.json",
+    "Plan/Instructions/Indexes/Generated/instructions_file_index.csv",
+    "Plan/Instructions/Indexes/Generated/instructions_file_index.json"
+  ],
+  "validation": {
+    "parse_result": "pass",
+    "row_counts": {
+      "plan_file_index": {
+        "csv_rows": 2460,
+        "json_rows": 2460
+      },
+      "items_file_index": {
+        "csv_rows": 45,
+        "json_rows": 45
+      },
+      "tracker_file_index": {
+        "csv_rows": 26,
+        "json_rows": 26
+      },
+      "instructions_file_index": {
+        "csv_rows": 234,
+        "json_rows": 234
+      }
+    },
+    "new_file_discovery_checks": [
+      "Plan/Instructions/Hydration_Rehydration/Scripts/Test-HydrationHelperStatic.ps1",
+      "Plan/Instructions/QA/Evidence/Hydration_Helper_Static_Validation/W62_HYDRATION_HELPER_CURRENT_VALIDATION_20260706T041240-0500.json",
+      "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_20260706T040932-0500.json",
+      "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_20260706T040505-0500.json"
+    ],
+    "new_file_discovery_result": "pass",
+    "private_path_or_secret_scan_result": "pass",
+    "private_path_or_secret_scan_matches": 0
+  },
+  "result": "pass",
+  "known_issues": [
+    "This refresh validates local generated index currency only. It does not claim AWS/EC2 execution, Civitai download, ComfyUI runtime, generated artifact pullback, or media QA."
+  ],
+  "next_action": "Refresh AWS auth, rerun auth gate, selected-lane readiness, and EC2 static proof before bounded runtime generation."
+}
