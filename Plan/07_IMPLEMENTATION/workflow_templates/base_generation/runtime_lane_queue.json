@@ -9,7 +9,8 @@
     "do_not_promote_later_lanes_before_first_lane_runtime_proof": true,
     "requires_aws_auth_gate_before_ec2": true,
     "requires_clean_git_checkpoint_before_ec2_execute": true,
-    "requires_lane_matched_evidence": true
+    "requires_lane_matched_evidence": true,
+    "requires_model_registry_coverage_before_ec2": true
   },
   "lanes": [
     {
@@ -19,8 +20,8 @@
       "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
       "requirements_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
       "status": "local_pre_ec2_ready_runtime_blocked_auth",
-      "required_next_runtime_gate": "aws_browser_sso_auth_then_lane_readiness_then_ec2_static_proof",
-      "promotion_rule": "May start EC2 only after AWS auth gate, lane readiness, and Git checkpoint gate pass."
+      "required_next_runtime_gate": "aws_browser_sso_auth_then_model_registry_coverage_then_lane_readiness_then_ec2_static_proof",
+      "promotion_rule": "May start EC2 only after AWS auth gate, model registry coverage, lane readiness, and Git checkpoint gate pass."
     },
     {
       "order": 2,

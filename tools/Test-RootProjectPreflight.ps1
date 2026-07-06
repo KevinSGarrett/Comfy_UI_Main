@@ -4,8 +4,9 @@ Runs a local-only preflight from C:\Comfy_UI_Main.
 
 .DESCRIPTION
 Checks the visible root scaffold, exported workflows, Git state, .env variable
-names, model/runtime directories, active lane manifest, and static workflow
-validity without contacting AWS, GitHub APIs, Civitai, ComfyUI, or EC2.
+names, model/runtime directories, active lane manifest, model registry coverage,
+and static workflow validity without contacting AWS, GitHub APIs, Civitai,
+ComfyUI, or EC2.
 #>
 param(
   [string]$ProjectRoot = "C:\Comfy_UI_Main",
@@ -37,6 +38,45 @@ function Read-JsonFile {
     throw "Required JSON file missing: $Path"
   }
   return Get-Content -Raw -LiteralPath $Path | ConvertFrom-Json
+}
+
+function Has-Property {
+  param(
+    [object]$Object,
+    [string]$Name
+  )
+
+  if ($null -eq $Object) { return $false }
+  return $null -ne ($Object.PSObject.Properties[$Name])
+}
+
+function Find-LatestFile {
+  param(
+    [Parameter(Mandatory=$true)][string]$Directory,
+    [Parameter(Mandatory=$true)][string]$Filter
+  )
+
+  if (!(Test-Path -LiteralPath $Directory)) { return $null }
+  $match = Get-ChildItem -LiteralPath $Directory -Filter $Filter -File |
+    Sort-Object LastWriteTimeUtc, Name -Descending |
+    Select-Object -First 1
+  if ($null -eq $match) { return $null }
+  return $match.FullName
+}
+
+function ConvertTo-RepoPath {
+  param([string]$Path)
+
+  if ([string]::IsNullOrWhiteSpace($Path)) { return $null }
+  $separator = [System.IO.Path]::DirectorySeparatorChar.ToString()
+  $baseFull = [System.IO.Path]::GetFullPath($ProjectRoot)
+  if (!$baseFull.EndsWith($separator)) {
+    $baseFull = "$baseFull$separator"
+  }
+  $targetFull = [System.IO.Path]::GetFullPath($Path)
+  $baseUri = New-Object System.Uri($baseFull)
+  $targetUri = New-Object System.Uri($targetFull)
+  return [System.Uri]::UnescapeDataString($baseUri.MakeRelativeUri($targetUri).ToString()).Replace("\", "/")
 }
 
 function Test-EnvNamePresent {
@@ -83,6 +123,7 @@ if (!(Test-Path -LiteralPath $ProjectRoot)) {
 
 $rootManifestPath = Join-Path $ProjectRoot "PROJECT_ROOT_MANIFEST.json"
 $activeLanesPath = Join-Path $ProjectRoot "Workflows\base_generation\ACTIVE_LANES.json"
+$modelRegistryCoverageDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Model_Registry"
 $envPath = Join-Path $ProjectRoot ".env"
 
 Add-Check -Checks $checks -Name "project_root_exists" -Passed (Test-Path -LiteralPath $ProjectRoot) -Observed $ProjectRoot
@@ -150,6 +191,19 @@ try {
   Add-Check -Checks $checks -Name "active_lanes_json_valid" -Passed $false -Observed "Workflows/base_generation/ACTIVE_LANES.json" -Message $_.Exception.Message
 }
 
+if ($rootManifest -ne $null) {
+  $ec2StartRequires = @()
+  if ((Has-Property -Object $rootManifest -Name "active_runtime_queue") -and
+      (Has-Property -Object $rootManifest.active_runtime_queue -Name "ec2_start_requires")) {
+    $ec2StartRequires = @($rootManifest.active_runtime_queue.ec2_start_requires | ForEach-Object { [string]$_ })
+  }
+  $manifestRequiresModelCoverage = (@($ec2StartRequires | Where-Object { $_ -match "model registry coverage" }).Count -gt 0)
+  Add-Check -Checks $checks -Name "root_manifest_requires_model_registry_coverage_gate" `
+    -Passed $manifestRequiresModelCoverage `
+    -Observed $ec2StartRequires `
+    -Message "PROJECT_ROOT_MANIFEST.json active_runtime_queue.ec2_start_requires must include the model registry coverage gate."
+}
+
 if ($activeLanes -ne $null) {
   $laneCount = @($activeLanes.lanes).Count
   Add-Check -Checks $checks -Name "active_lane_count_at_least_two" -Passed ($laneCount -ge 2) -Observed $laneCount
@@ -184,6 +238,121 @@ if ($activeLanes -ne $null) {
   }
 }
 
+$activeLaneIds = @()
+if ($activeLanes -ne $null) {
+  $activeLaneIds = @($activeLanes.lanes | ForEach-Object { [string]$_.lane_id } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })
+}
+
+$modelRegistryCoverage = [ordered]@{
+  evidence = $null
+  found = $false
+  json_valid = $false
+  result = "missing_model_registry_coverage"
+  failed_check_count = $null
+  registry_record_count = $null
+  runtime_validation_queue_row_count = $null
+  active_lane_ids = @()
+  lane_results = @()
+  local_only = $false
+  aws_contacted = $true
+  github_api_contacted = $true
+  civitai_contacted = $true
+  comfyui_contacted = $true
+  ec2_started = $true
+  generation_executed = $true
+  coverage_allows_root_ec2_static_proof = $false
+}
+
+$modelRegistryCoverageFile = Find-LatestFile -Directory $modelRegistryCoverageDir -Filter "W61_MODEL_REGISTRY_COVERAGE*.json"
+$modelRegistryCoverage.evidence = ConvertTo-RepoPath -Path $modelRegistryCoverageFile
+$modelRegistryCoverage.found = (![string]::IsNullOrWhiteSpace($modelRegistryCoverageFile) -and (Test-Path -LiteralPath $modelRegistryCoverageFile))
+Add-Check -Checks $checks -Name "model_registry_coverage_evidence_found" `
+  -Passed $modelRegistryCoverage.found `
+  -Observed $(if ($modelRegistryCoverage.found) { $modelRegistryCoverage.evidence } else { "missing" }) `
+  -Message "Latest model registry coverage evidence is required before EC2 static proof."
+
+if ($modelRegistryCoverage.found) {
+  try {
+    $coverageJson = Read-JsonFile -Path $modelRegistryCoverageFile
+    $modelRegistryCoverage.json_valid = $true
+    Add-Check -Checks $checks -Name "model_registry_coverage_json_valid" -Passed $true -Observed $modelRegistryCoverage.evidence
+
+    if (Has-Property -Object $coverageJson -Name "result") { $modelRegistryCoverage.result = [string]$coverageJson.result }
+    foreach ($name in @("failed_check_count", "registry_record_count", "runtime_validation_queue_row_count")) {
+      if (Has-Property -Object $coverageJson -Name $name) { $modelRegistryCoverage[$name] = [int]$coverageJson.$name }
+    }
+    foreach ($name in @("local_only", "aws_contacted", "github_api_contacted", "civitai_contacted", "comfyui_contacted", "ec2_started", "generation_executed")) {
+      if (Has-Property -Object $coverageJson -Name $name) { $modelRegistryCoverage[$name] = [bool]$coverageJson.$name }
+    }
+    if (Has-Property -Object $coverageJson -Name "active_lane_ids") {
+      $modelRegistryCoverage.active_lane_ids = @($coverageJson.active_lane_ids | ForEach-Object { [string]$_ })
+    }
+
+    Add-Check -Checks $checks -Name "model_registry_coverage_result_passes" `
+      -Passed ($modelRegistryCoverage.result -eq "pass_local_only") `
+      -Observed $modelRegistryCoverage.result
+    Add-Check -Checks $checks -Name "model_registry_coverage_failed_check_count_zero" `
+      -Passed ($modelRegistryCoverage.failed_check_count -eq 0) `
+      -Observed $modelRegistryCoverage.failed_check_count
+    Add-Check -Checks $checks -Name "model_registry_coverage_local_only" `
+      -Passed ($modelRegistryCoverage.local_only -eq $true) `
+      -Observed $modelRegistryCoverage.local_only
+    Add-Check -Checks $checks -Name "model_registry_coverage_no_external_contact" `
+      -Passed ($modelRegistryCoverage.aws_contacted -eq $false -and $modelRegistryCoverage.github_api_contacted -eq $false -and $modelRegistryCoverage.civitai_contacted -eq $false -and $modelRegistryCoverage.comfyui_contacted -eq $false) `
+      -Observed ([ordered]@{
+        aws_contacted = $modelRegistryCoverage.aws_contacted
+        github_api_contacted = $modelRegistryCoverage.github_api_contacted
+        civitai_contacted = $modelRegistryCoverage.civitai_contacted
+        comfyui_contacted = $modelRegistryCoverage.comfyui_contacted
+      })
+    Add-Check -Checks $checks -Name "model_registry_coverage_no_ec2_or_generation" `
+      -Passed ($modelRegistryCoverage.ec2_started -eq $false -and $modelRegistryCoverage.generation_executed -eq $false) `
+      -Observed ([ordered]@{
+        ec2_started = $modelRegistryCoverage.ec2_started
+        generation_executed = $modelRegistryCoverage.generation_executed
+      })
+
+    $laneCoverageRows = @()
+    foreach ($laneId in $activeLaneIds) {
+      $selectedLane = $null
+      if (Has-Property -Object $coverageJson -Name "lane_results") {
+        $selectedLane = @($coverageJson.lane_results | Where-Object { [string]$_.lane_id -eq $laneId } | Select-Object -First 1)
+      }
+      $laneCovered = ($null -ne $selectedLane -and @($selectedLane).Count -gt 0)
+      $laneResult = $(if ($laneCovered -and (Has-Property -Object $selectedLane[0] -Name "result")) { [string]$selectedLane[0].result } else { "missing" })
+      $lanePass = ($laneCovered -and $laneResult -eq "pass")
+      $laneCoverageRows += [ordered]@{
+        lane_id = $laneId
+        covered = $laneCovered
+        result = $laneResult
+        pass = $lanePass
+      }
+      Add-Check -Checks $checks -Name "model_registry_coverage_active_lane:${laneId}" `
+        -Passed $lanePass `
+        -Observed ([ordered]@{ covered = $laneCovered; result = $laneResult })
+    }
+    $modelRegistryCoverage.lane_results = @($laneCoverageRows)
+    $modelRegistryCoverage.coverage_allows_root_ec2_static_proof = (
+      $modelRegistryCoverage.result -eq "pass_local_only" -and
+      $modelRegistryCoverage.failed_check_count -eq 0 -and
+      $modelRegistryCoverage.local_only -eq $true -and
+      $modelRegistryCoverage.aws_contacted -eq $false -and
+      $modelRegistryCoverage.github_api_contacted -eq $false -and
+      $modelRegistryCoverage.civitai_contacted -eq $false -and
+      $modelRegistryCoverage.comfyui_contacted -eq $false -and
+      $modelRegistryCoverage.ec2_started -eq $false -and
+      $modelRegistryCoverage.generation_executed -eq $false -and
+      @($laneCoverageRows | Where-Object { -not $_.pass }).Count -eq 0 -and
+      @($laneCoverageRows).Count -gt 0
+    )
+    Add-Check -Checks $checks -Name "model_registry_coverage_allows_root_ec2_static_proof" `
+      -Passed $modelRegistryCoverage.coverage_allows_root_ec2_static_proof `
+      -Observed $modelRegistryCoverage.coverage_allows_root_ec2_static_proof
+  } catch {
+    Add-Check -Checks $checks -Name "model_registry_coverage_json_valid" -Passed $false -Observed $modelRegistryCoverage.evidence -Message $_.Exception.Message
+  }
+}
+
 $failedChecks = @($checks | Where-Object { -not $_.passed })
 $result = $(if (@($failedChecks).Count -eq 0 -and @($errors).Count -eq 0) { "pass_local_only" } else { "fail" })
 
@@ -207,6 +376,7 @@ $record = [ordered]@{
   checks = @($checks)
   failed_check_count = @($failedChecks).Count
   workflow_static_results = @($workflowResults)
+  model_registry_coverage = $modelRegistryCoverage
   errors = @($errors)
   result = $result
   next_action = "Refresh AWS browser/SSO auth before EC2 static proof; local root scaffold and exported workflows are ready only if this preflight passes."
