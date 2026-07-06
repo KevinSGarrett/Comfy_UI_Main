@@ -127,7 +127,7 @@ Continue Wave 63 cost-controlled work without repeating the completed low-risk l
 
 ## Next exact action
 
-First finish the current router checkpoint: validate JSON/CSV/PowerShell/Python parsing, run the Items/Tracker validation after supplement updates, run `git diff --check`, run a staged secret scan, commit only router-related files, push, and verify `HEAD == origin/main`. Leave unrelated untracked Wave65 files untouched unless intentionally taking over that work.
+First finish the current Wave66 matrix deploy-bundle checkpoint: validate JSON/CSV/PowerShell parsing, run `git diff --check`, run a staged forbidden-path and secret scan, commit only the deploy-bundle matrix files plus required tracker/hydration/Wave65 refresh files, push, and verify `HEAD == origin/main`.
 
 Read `Plan/Instructions/Operations/EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md` before any EC2 decision. If the current Wave 63/Wave64 changes are uncommitted, first create one clean checkpoint and verify `HEAD == origin/main`.
 
@@ -506,8 +506,18 @@ If AWS auth is expired or Git is not clean/pushed, stop and report that blocker.
   - `runtime_artifacts\run_packages\realvisxl_multisample_certification_v1_realvisxl_environment_lowlight_v1\RUN_PACKAGE_MANIFEST.json`
 - Dedicated evidence: `Plan\Instructions\QA\Evidence\Run_Package\W66_WORKFLOW_RUN_PACKAGE_MATRIX_20260706T155031-0500.json`; result `pass_local_only`.
 - QA helper evidence: `Plan\Instructions\QA\Evidence\QA_Helper_Static_Validation\W66_QA_HELPER_WORKFLOW_RUN_PACKAGE_MATRIX_20260706T155048-0500.json`; result `pass_local_only`, local smoke failures `0`.
-- Wave65 source coverage was rerun after this addition. Current result: `pass`, `plan_file_count=2834`, `wave65_rows_created=659`, `missing_after_wave65_count=0`.
+- Wave65 source coverage was rerun again after the deploy-bundle matrix addition. Current result: `pass`, `plan_file_count=2837`, `wave65_rows_created=662`, `missing_after_wave65_count=0`.
 - This is preparation for broader image-quality certification, not final certification. Next quality step requires bounded EC2 generation from the matrix packages, artifact pullback, hash verification, and whole-image visual QA for all three samples.
+
+## Latest RealVisXL Matrix Deploy Bundle
+
+- Builder: `tools\New-EC2DeployBundleMatrix.ps1`.
+- QA script: `Plan\Instructions\QA\Scripts\Test-EC2DeployBundleMatrix.ps1`.
+- QA helper integration: `Plan\Instructions\QA\Scripts\Test-QAHelperStatic.ps1` now includes `ec2_deploy_bundle_matrix_smoke`.
+- Dedicated evidence: `Plan\Instructions\QA\Evidence\Operations_Static_Validation\W66_EC2_DEPLOY_BUNDLE_MATRIX_20260706T170025-0500.json`; result `pass_local_only`, matrix id `realvisxl_multisample_certification_v1`, sample count `3`, bundle file count `55`, ZIP SHA256 `840a56395c143b0a1ea1c81091838e4d60fdf73719e8b5191824ed9b1f630526`.
+- QA helper evidence: `Plan\Instructions\QA\Evidence\QA_Helper_Static_Validation\W66_QA_HELPER_EC2_DEPLOY_BUNDLE_MATRIX_20260706T170052-0500.json`; result `pass_local_only`, 14 QA scripts parsed, 17 local smokes, 0 smoke failures.
+- This was local-only. It did not contact AWS, GitHub APIs, Civitai, ComfyUI, start EC2, or run generation.
+- Next RealVisXL quality step: publish the matrix deploy bundle to S3, verify its SHA256, run bounded EC2 generation for all three matrix packages only after auth/Git/cost-control gates pass, pull back every generated artifact, verify hashes, and perform whole-image visual QA for every sample.
 
 ## Must not repeat
 
