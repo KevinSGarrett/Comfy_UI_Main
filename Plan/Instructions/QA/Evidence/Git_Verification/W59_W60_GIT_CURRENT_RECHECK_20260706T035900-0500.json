@@ -1,0 +1,50 @@
+﻿{
+    "evidence_id":  "EVID-W59-W60-GIT-CURRENT-RECHECK-20260706T035900-0500",
+    "created_at":  "2026-07-06T03:59:00-05:00",
+    "artifact_id":  "BLOCKER-W59-GIT-001",
+    "artifact_type":  "git_repository_current_state_recheck",
+    "tracker_ids":  [
+                        "TRK-W59-004",
+                        "TRK-W60-001",
+                        "TRK-W60-009"
+                    ],
+    "qa_protocol_used":  [
+                             "GITHUB_MINIMAL_PERSONAL_PROJECT_PROTOCOL.md",
+                             "SECRETS_ENV_HANDLING_PROTOCOL.md",
+                             "QA_EVIDENCE_LOG_PROTOCOL.md"
+                         ],
+    "canonical_project_root":  "C:\\Comfy_UI_Main",
+    "workspace_context":  {
+                              "current_codex_workspace_root":  "C:\\Comfy_UI",
+                              "workspace_root_exists":  true,
+                              "workspace_root_has_dot_git":  true,
+                              "workspace_root_has_plan":  false,
+                              "project_root_has_plan":  true
+                          },
+    "git_state":  {
+                      "dot_git_exists":  true,
+                      "branch":  "main",
+                      "local_head":  "7c63b41c0269810f37bd78080b299a1698dfdbe8",
+                      "origin_url":  "https://github.com/KevinSGarrett/Comfy_UI_Main.git",
+                      "remote_main_head":  "7c63b41c0269810f37bd78080b299a1698dfdbe8",
+                      "remote_matches_local":  true,
+                      "status_short_before_this_evidence":  "## main...origin/main",
+                      "git_lfs_tracked_file_count":  9
+                  },
+    "secret_guard":  {
+                         "env_file_present":  true,
+                         "env_gitignored":  true,
+                         "env_gitignore_rule":  ".gitignore:2:*.env\t.env",
+                         "env_tracked":  false,
+                         "env_values_printed":  false,
+                         "github_token_variable_present":  true,
+                         "civitai_api_key_variable_present":  true,
+                         "reported_secret_variable_names":  [
+                                                                "GITHUB_TOKEN",
+                                                                "CIVITAI_API_KEY"
+                                                            ]
+                     },
+    "result":  "pass_confirmed_resolved",
+    "conclusion":  "C:\\Comfy_UI_Main is already initialized as a Git repository, has canonical origin configured, has .env ignored and untracked, and local main matches origin/main. The quoted no-.git blocker is stale/resolved, not a current GitHub token or Civitai key failure.",
+    "next_action":  "Continue local-first work; refresh AWS auth before EC2 runtime proof."
+}

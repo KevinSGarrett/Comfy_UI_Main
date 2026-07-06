@@ -1,13 +1,13 @@
 # Current Session State
 
 ## Session timestamp
-2026-07-06T03:51:48-05:00
+2026-07-06T03:59:00-05:00
 
 ## State
-Local static/package validation is complete through Wave 62 cumulative zip validation. GitHub sync is active. EC2 readiness, discovery, project sync, and runtime inventory passed with the instance returned to `stopped` each time. Wave 61 workflow lane selection identified `sdxl_low_risk_fallback_lane` as the first bounded execution candidate. The selected lane has concrete workflow files and passes local static graph validation. Runtime proof is still pending because AWS CLI default login expired before EC2 object-info, checkpoint path, checkpoint hash, generation output, and QA evidence could be collected. A secret-safe AWS auth gate helper records that this shell cannot complete the remote browser authorization code flow, so EC2 start and generation remain disallowed until AWS account `029530099913` is verified. Pullback, image-QA, lane-readiness, EC2 static-proof, and EC2 workflow smoke-run coordinator helpers are ready for the first post-auth runtime path. Static-proof and smoke-run helpers now self-gate and write local evidence before any EC2 start path when auth/readiness/static proof is missing. Current operations helper validation now covers all 14 operations scripts and 5 operation JSON schema/template files.
+Local static/package validation is complete through Wave 62 cumulative zip validation. GitHub sync is active and a fresh recheck confirms `C:\Comfy_UI_Main` has `.git`, canonical `origin`, ignored/untracked `.env`, `GITHUB_TOKEN` and `CIVITAI_API_KEY` variable names present without values printed, and local `main` matching `origin/main`. EC2 readiness, discovery, project sync, and runtime inventory passed with the instance returned to `stopped` each time. Wave 61 workflow lane selection identified `sdxl_low_risk_fallback_lane` as the first bounded execution candidate. The selected lane has concrete workflow files and passes local static graph validation. Runtime proof is still pending because AWS CLI default login expired before EC2 object-info, checkpoint path, checkpoint hash, generation output, and QA evidence could be collected. A secret-safe AWS auth gate helper records that this shell cannot complete the remote browser authorization code flow, so EC2 start and generation remain disallowed until AWS account `029530099913` is verified. Pullback, image-QA, lane-readiness, EC2 static-proof, and EC2 workflow smoke-run coordinator helpers are ready for the first post-auth runtime path. Static-proof and smoke-run helpers now self-gate and write local evidence before any EC2 start path when auth/readiness/static proof is missing. Current operations helper validation now covers all 14 operations scripts and 5 operation JSON schema/template files.
 
 ## Session end timestamp
-2026-07-06T03:51:48-05:00
+2026-07-06T03:59:00-05:00
 
 ## Completed this session
 - Fixed and validated Wave 59 live index generation.
@@ -44,6 +44,13 @@ Local static/package validation is complete through Wave 62 cumulative zip valid
 - Reran lane readiness and coordinator dry-run; latest records now show real EC2 static proof is missing instead of treating prior dry-run evidence as proof.
 - Added `Test-OperationsHelperStatic.ps1`.
 - Ran current operations helper validation: 14 scripts parsed, 5 operation schemas/templates parsed, 6 local-only helper smoke checks passed, and latest runtime gate evidence parsed.
+- Rechecked the stale `BLOCKER-W59-GIT-001` report: `C:\Comfy_UI_Main` already has `.git`, `origin` is configured, `.env` is ignored and untracked, required GitHub/Civitai secret variable names exist without values printed, and local `main` matches `origin/main`.
+
+## Latest Git Result
+- Current recheck evidence: `Plan/Instructions/QA/Evidence/Git_Verification/W59_W60_GIT_CURRENT_RECHECK_20260706T035900-0500.json`
+- Current recheck certification: `Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W59_W60_GIT_CURRENT_RECHECK_20260706T035900-0500.md`
+- Result: `pass_confirmed_resolved`
+- Note: `C:\Comfy_UI` is the current Codex workspace root and has a `.git`, but it is not the Plan-bearing canonical project root; future commands should keep using `C:\Comfy_UI_Main` for this project.
 
 ## Latest EC2 Result
 - Last successful runtime inventory evidence: `Plan/Instructions/QA/Evidence/EC2_Runtime_Inventory/W60_W61_EC2_RUNTIME_INVENTORY_20260706T020209-0500.json`
