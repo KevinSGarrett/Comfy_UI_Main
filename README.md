@@ -36,7 +36,7 @@ Plan\07_IMPLEMENTATION\workflow_templates\base_generation
 ## Current Runtime Gate
 
 GitHub and Civitai keys are loaded from `.env`, but they do not prove AWS access. EC2 work remains blocked until AWS browser/SSO auth is refreshed and the auth gate reports the expected account `029530099913`.
-The selected lane must also pass runtime lane queue, model registry coverage, clean Git checkpoint, and lane-readiness gates before any EC2 static proof can start.
+The selected lane must also pass runtime lane queue, model registry coverage (`result=pass_local_only`, selected lane `pass`, failed checks `0`), clean Git checkpoint, and lane-readiness gates before any EC2 static proof can start.
 
 Do not commit `.env`, model binaries, private keys, or generated media outputs.
 
