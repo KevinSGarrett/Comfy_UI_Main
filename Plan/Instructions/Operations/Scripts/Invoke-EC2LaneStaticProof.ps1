@@ -476,10 +476,17 @@ def apply_deploy_bundle_if_configured():
     try:
         with zipfile.ZipFile(bundle_path, "r") as zf:
             for member in zf.infolist():
-                normalized = os.path.normpath(member.filename)
-                if normalized.startswith("..") or os.path.isabs(member.filename):
+                member_name = member.filename.replace("\\", "/")
+                normalized = os.path.normpath(member_name)
+                if normalized.startswith("..") or os.path.isabs(member_name):
                     raise RuntimeError("unsafe deploy bundle path: " + member.filename)
-            zf.extractall(extract_root)
+                target_path = os.path.join(extract_root, normalized)
+                if member.is_dir() or member_name.endswith("/"):
+                    os.makedirs(target_path, exist_ok=True)
+                    continue
+                os.makedirs(os.path.dirname(target_path), exist_ok=True)
+                with zf.open(member, "r") as src, open(target_path, "wb") as dst:
+                    shutil.copyfileobj(src, dst)
         manifest = {}
         manifest_name = None
         for candidate in ["DEPLOY_BUNDLE_MANIFEST.json", "DEPLOY_BUNDLE_MATRIX_MANIFEST.json"]:
