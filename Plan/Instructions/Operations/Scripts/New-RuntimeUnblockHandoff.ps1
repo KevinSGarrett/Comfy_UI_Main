@@ -439,6 +439,26 @@ $latest = [ordered]@{
 $authJson = Read-JsonEvidence -Path $latest.auth_gate
 $profileJson = Read-JsonEvidence -Path $latest.profile_matrix
 $readinessJson = Read-JsonEvidence -Path $latest.lane_readiness
+if ($null -ne $readinessJson) {
+  if ((Has-Property -Object $readinessJson -Name "auth_gate") -and
+      (Has-Property -Object $readinessJson.auth_gate -Name "file") -and
+      ![string]::IsNullOrWhiteSpace([string]$readinessJson.auth_gate.file)) {
+    $candidateAuthGate = Resolve-ProjectPath -Path ([string]$readinessJson.auth_gate.file)
+    if (Test-Path -LiteralPath $candidateAuthGate) {
+      $latest.auth_gate = $candidateAuthGate
+      $authJson = Read-JsonEvidence -Path $latest.auth_gate
+    }
+  }
+  if ((Has-Property -Object $readinessJson -Name "profile_matrix") -and
+      (Has-Property -Object $readinessJson.profile_matrix -Name "file") -and
+      ![string]::IsNullOrWhiteSpace([string]$readinessJson.profile_matrix.file)) {
+    $candidateProfileMatrix = Resolve-ProjectPath -Path ([string]$readinessJson.profile_matrix.file)
+    if (Test-Path -LiteralPath $candidateProfileMatrix) {
+      $latest.profile_matrix = $candidateProfileMatrix
+      $profileJson = Read-JsonEvidence -Path $latest.profile_matrix
+    }
+  }
+}
 $projectJson = Read-JsonEvidence -Path $latest.project_readiness
 $queueJson = Read-JsonEvidence -Path $latest.runtime_lane_queue
 $modelRegistryCoverageJson = Read-JsonEvidence -Path $latest.model_registry_coverage

@@ -1,5 +1,27 @@
 # Next Action
 
+## Current next action - 2026-07-07T01:45:00-05:00
+
+Refresh Wave65 source coverage after the new Canny queue/handoff/QA evidence and hydration updates, then validate, scan, commit, push, and verify the checkpoint from `C:\Comfy_UI_Main`.
+
+`C:\Comfy_UI_Main` is the active project root and it already has `.git`, `.env`, `comfyui-lora-key.pem`, `Plan`, `Workflows`, `models`, and `ComfyUI`. Do not recreate Git metadata. Do not print or commit `.env`, the PEM, model binaries, local ComfyUI, local models, or generated private runtime outputs.
+
+New checkpoint evidence:
+
+```text
+Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W68_WORKFLOW_EXPORT_SYNC_CANNY_CURRENT_LANE_20260707T012500-0500.json
+Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W68_RUNTIME_LANE_QUEUE_CANNY_CURRENT_LOCAL_PROOF_20260707T012500-0500.json
+Plan/Instructions/QA/Evidence/Model_Registry/W68_MODEL_REGISTRY_COVERAGE_CANNY_CURRENT_LOCAL_PROOF_20260707T013000-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_LANE_RUNTIME_READINESS_CANNY_CURRENT_QUEUE_BLOCKED_AUTH_20260707T012500-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_RUNTIME_UNBLOCK_HANDOFF_CANNY_CURRENT_QUEUE_BLOCKED_AUTH_20260707T013000-0500.json
+Plan/Instructions/QA/Evidence/Project_Readiness/W68_PROJECT_READINESS_CANNY_CURRENT_QUEUE_WITH_HANDOFF_20260707T013500-0500.json
+Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W68_QA_HELPER_CANNY_CURRENT_QUEUE_CONTRACT_SYNC_20260707T014500-0500.json
+```
+
+Current runtime state: `sdxl_realvisxl_controlnet_canny_lane` is the current queue lane and has local pre-EC2 proof, model registry coverage, lane readiness, runtime unblock handoff, project readiness, and QA helper validation. EC2 static proof and generation remain blocked by AWS auth only: the selected W68 auth gate reports expired session, `safe_to_start_ec2=false`, and the lane readiness reports `ready_for_ec2_static_proof=false`.
+
+After this checkpoint is clean and pushed, the next runtime unlock is to refresh AWS login/SSO for expected account `029530099913`, rerun auth/profile/readiness gates for `sdxl_realvisxl_controlnet_canny_lane`, create a fresh emergency stop schedule, and run Canny EC2 static proof only when the auth gate and lane readiness both allow it.
+
 ## Current next action - 2026-07-07T01:20:00-05:00
 
 Validate, scan, commit, push, and verify the W68 Canny gate-contract checkpoint. `C:\Comfy_UI_Main` is the active root and is already a Git repo; `.git`, `.env`, and `comfyui-lora-key.pem` exist locally, but `.env` and the PEM must stay unprinted and uncommitted.

@@ -648,8 +648,8 @@ function Test-ProjectReadinessSnapshotContract {
           -Expected "false" `
           -Observed ([string]$entry.generation_allowed)
         $checks += New-ContractCheck -Name "runtime_blocked_runtime_handoff_matches_gate" `
-          -Passed ($entry.runtime_handoff_result -in @("handoff_auth_ready_lane_not_ready", "handoff_lane_queue_order_blocked", "handoff_model_registry_blocked")) `
-          -Expected "handoff_auth_ready_lane_not_ready | handoff_lane_queue_order_blocked | handoff_model_registry_blocked" `
+          -Passed ($entry.runtime_handoff_result -in @("handoff_ready_runtime_blocked_auth", "handoff_auth_ready_lane_not_ready", "handoff_lane_queue_order_blocked", "handoff_model_registry_blocked")) `
+          -Expected "handoff_ready_runtime_blocked_auth | handoff_auth_ready_lane_not_ready | handoff_lane_queue_order_blocked | handoff_model_registry_blocked" `
           -Observed ([string]$entry.runtime_handoff_result)
       }
       "pass_local_ready_for_ec2_static_proof" {

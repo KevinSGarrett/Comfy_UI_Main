@@ -4,6 +4,25 @@
 
 Start by reading this file, then read `CURRENT_PURSUING_GOAL.md` and follow its required instruction read order for `Plan/Instructions`. Do not continue from this resume file alone. The current active runtime handoff is the W68 ControlNet Canny target-runtime sequence in `NEXT_ACTION.md`, not the old W61 low-risk handoff. The older `W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.md` Markdown is historical/corrupted.
 
+## Latest W68 Canny current-queue checkpoint
+
+- Active root is `C:\Comfy_UI_Main`. This directory already has `.git`, `.env`, `comfyui-lora-key.pem`, `Plan`, `Workflows`, `models`, and `ComfyUI`; do not recreate Git metadata and do not switch work to `C:\Comfy_UI`.
+- Sensitive local files remain private and uncommitted: `.env`, `comfyui-lora-key.pem`, local model binaries, ignored local `ComfyUI`, and generated private runtime outputs.
+- `Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json` and `Workflows/base_generation/ACTIVE_LANES.json` now identify `sdxl_realvisxl_controlnet_canny_lane` as the current runtime lane while preserving target-runtime status as queued/pending EC2 proof.
+- Canny local pre-EC2 proof evidence is attached to the queue record: local model provisioning, input asset manifest, object_info/model/input readiness, bounded local generation, whole-image visual QA, and operations gate-contract validation.
+- New evidence:
+  - `Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W68_WORKFLOW_EXPORT_SYNC_CANNY_CURRENT_LANE_20260707T012500-0500.json`
+  - `Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W68_RUNTIME_LANE_QUEUE_CANNY_CURRENT_LOCAL_PROOF_20260707T012500-0500.json`
+  - `Plan/Instructions/QA/Evidence/Model_Registry/W68_MODEL_REGISTRY_COVERAGE_CANNY_CURRENT_LOCAL_PROOF_20260707T013000-0500.json`
+  - `Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_LANE_RUNTIME_READINESS_CANNY_CURRENT_QUEUE_BLOCKED_AUTH_20260707T012500-0500.json`
+  - `Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_RUNTIME_UNBLOCK_HANDOFF_CANNY_CURRENT_QUEUE_BLOCKED_AUTH_20260707T013000-0500.json`
+  - `Plan/Instructions/QA/Evidence/Project_Readiness/W68_PROJECT_READINESS_CANNY_CURRENT_QUEUE_WITH_HANDOFF_20260707T013500-0500.json`
+  - `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W68_QA_HELPER_CANNY_CURRENT_QUEUE_CONTRACT_SYNC_20260707T014500-0500.json`
+- The image-engine router now reads UTF-8-BOM JSON/JSONL files correctly. `New-RuntimeUnblockHandoff.ps1` now prefers auth/profile evidence selected by lane readiness. `Test-QAHelperStatic.ps1` now accepts the explicit `handoff_ready_runtime_blocked_auth` result in the `pass_local_ready_runtime_blocked` contract.
+- Latest QA helper result is `pass_local_only`. No EC2 start and no generation occurred in this checkpoint.
+- Current runtime blocker remains AWS auth only: the selected W68 AWS auth gate reports expired session, `safe_to_start_ec2=false`, and Canny lane readiness reports `ready_for_ec2_static_proof=false`.
+- Immediate next action: rerun Wave65 source coverage after these new Plan evidence/hydration updates, validate JSON/CSV/PowerShell/Python, run secret/path scans, commit, push, and verify clean `HEAD == origin/main`. After the clean checkpoint, refresh AWS login/SSO for account `029530099913` before any EC2 static proof.
+
 ## Latest W68 Canny gate-contract checkpoint
 
 - Active root is still `C:\Comfy_UI_Main`; `.git` exists and the old `BLOCKER-W59-GIT-001` no-`.git` statement is resolved/stale for this root. Do not recreate Git metadata and do not switch work to `C:\Comfy_UI`.

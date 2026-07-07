@@ -194,7 +194,7 @@ if ([string]::IsNullOrWhiteSpace($OutFile)) {
 
 $requiredFirstLaneId = "sdxl_low_risk_fallback_lane"
 $requiredSecondLaneId = "sdxl_realvisxl_base_lane"
-$requiredCurrentLaneId = "sdxl_realvisxl_base_lane"
+$requiredCurrentLaneId = "sdxl_realvisxl_controlnet_canny_lane"
 $checks = @()
 $laneResults = @()
 $coverageChecks = @()

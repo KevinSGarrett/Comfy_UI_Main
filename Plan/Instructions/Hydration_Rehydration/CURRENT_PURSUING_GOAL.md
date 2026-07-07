@@ -62,6 +62,8 @@ The current live runtime blocker is AWS auth expiry before static proof. After i
 
 Latest local gate-contract hardening is complete. `Test-OperationsHelperStatic.ps1` now directly contract-checks the current W68 Canny auth/readiness/static-proof/workflow-smoke blocked-auth evidence. Evidence `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W68_OPERATIONS_HELPER_W68_CANNY_GATE_CONTRACTS_20260707T011500-0500.json` reports `pass_local_only` with the new `controlnet_canny_w68_gate_contract` passing, EC2 not started, and generation not executed. Latest Wave65 after this evidence reports `pass`, `plan_file_count=3002`, `wave65_rows_created=827`, and `missing_after_wave65_count=0`.
 
+Latest Canny queue/handoff alignment is complete locally. `Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json` and exported `Workflows/base_generation/ACTIVE_LANES.json` now identify `sdxl_realvisxl_controlnet_canny_lane` as the current runtime lane while keeping it queued/pending target-runtime proof. Canny local pre-EC2 evidence is attached to the queue record, model registry coverage passes, lane readiness reports `local_pre_ec2_ready_runtime_blocked_auth`, runtime unblock handoff reports `handoff_ready_runtime_blocked_auth`, project readiness reports `pass_local_ready_runtime_blocked`, and QA helper validation reports `pass_local_only`. The router now reads UTF-8-BOM JSON/JSONL files correctly, runtime handoff auth/profile selection is lane-aware, and the QA helper contract recognizes the explicit blocked-auth handoff state.
+
 Wave 63 cost controls are active:
 
 - Local dev preflight: `tools\Test-LocalComfyUIDevPreflight.ps1`.
