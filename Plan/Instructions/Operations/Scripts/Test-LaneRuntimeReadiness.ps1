@@ -166,10 +166,10 @@ $smokePath = Join-Path $laneDir "smoke_test_request.json"
 
 $runtimeReadinessDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Runtime_Readiness"
 if ([string]::IsNullOrWhiteSpace($AuthGateFile)) {
-  $AuthGateFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_AUTH_GATE_*.json"
+  $AuthGateFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "*AWS_AUTH_GATE*.json"
 }
 if ([string]::IsNullOrWhiteSpace($ProfileMatrixFile)) {
-  $ProfileMatrixFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_PROFILE_AUTH_MATRIX_*.json"
+  $ProfileMatrixFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "*AWS_PROFILE_AUTH_MATRIX*.json"
 }
 
 $workflowStaticDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Workflow_Static_Validation"
@@ -179,7 +179,7 @@ if ([string]::IsNullOrWhiteSpace($StaticProofFile)) {
 
 $modelRegistryCoverageDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Model_Registry"
 if ([string]::IsNullOrWhiteSpace($ModelRegistryCoverageFile)) {
-  $ModelRegistryCoverageFile = Find-LatestFile -Directory $modelRegistryCoverageDir -Filter "*MODEL_REGISTRY_COVERAGE*.json"
+  $ModelRegistryCoverageFile = Find-LatestFile -Directory $modelRegistryCoverageDir -Filter "*MODEL_REGISTRY*.json"
 }
 
 $helperPaths = @(

@@ -2,7 +2,19 @@
 
 ## First instruction
 
-Start by reading this file, then read `CURRENT_PURSUING_GOAL.md` and follow its required instruction read order for `Plan/Instructions`. Do not continue from this resume file alone. Use `Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_RUNTIME_UNBLOCK_HANDOFF_MARKDOWN_ESCAPE_FIX_20260706T101855-0500.md` as the current human runtime handoff; the older `W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.md` Markdown is historical/corrupted.
+Start by reading this file, then read `CURRENT_PURSUING_GOAL.md` and follow its required instruction read order for `Plan/Instructions`. Do not continue from this resume file alone. The current active runtime handoff is the W68 ControlNet Canny target-runtime sequence in `NEXT_ACTION.md`, not the old W61 low-risk handoff. The older `W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.md` Markdown is historical/corrupted.
+
+## Latest W68 checkpoint preparation
+
+- Active root is `C:\Comfy_UI_Main`; `.git` exists and the old `BLOCKER-W59-GIT-001` no-`.git` statement is resolved/stale for this root. Do not recreate Git metadata and do not switch the project root to `C:\Comfy_UI`.
+- Sensitive local files exist and must remain unprinted/uncommitted: `C:\Comfy_UI_Main\.env` and `C:\Comfy_UI_Main\comfyui-lora-key.pem`.
+- W68 pre-EC2 gates passed for `sdxl_realvisxl_controlnet_canny_lane`: AWS auth, AWS profile matrix, model registry coverage, runtime lane queue, S3 transfer readiness, and lane runtime readiness. Evidence is under `Plan/Instructions/QA/Evidence/.../W68_*CONTROLNET_CANNY*`.
+- `Plan/Instructions/Operations/Scripts/Test-LaneRuntimeReadiness.ps1` was fixed to select current auth/profile/model-registry evidence instead of stale W60/W61-only records. The failed stale-selector readiness record is preserved as evidence; the retest reports `ready_for_ec2_static_proof`.
+- Added `Plan/Instructions/Operations/Scripts/Install-EC2InputAssetFromS3.ps1`, a dry-run-by-default helper that installs S3 input assets into `/home/ubuntu/ComfyUI/input` only with `-Execute`; dry-run evidence exists at `Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_EC2_INPUT_ASSET_INSTALL_HELPER_DRY_RUN_20260706T222000-0500.json`.
+- Uploaded and verified the ControlNet Canny runtime assets in S3 without starting EC2. Model: `s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/controlnet/controlnet-canny-sdxl-1.0-small.safetensors`, SHA256 `fde4888a5f0a5648118991cc50e0ac4d60a2356dbaddf5e0649dd69c1119a2f9`. Input: `s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets/controlnet_canny_corrected_white_edges_black_bg.png`, SHA256 `1af02b8bd12a9de394fbcc1becd72912f4604f843cb7e7a2fc80496835b8e9a5`. Evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W68_S3_CONTROLNET_CANNY_RUNTIME_ASSET_UPLOAD_20260706T222500-0500.json`.
+- Latest Wave65 coverage after W68 passes: `plan_file_count=2987`, `wave65_rows_created=812`, `missing_after_wave65_count=0`.
+- Local ComfyUI port 8188 is closed. EC2 `i-0560bf8d143f93bb1` is `stopped`, type `g5.xlarge`, IAM profile `ComfyUI-SSM-Profile`, volume `vol-0eb9b2c6d3d2706d6`, and public IP `null`.
+- Immediate next action: validate, staged-file scan, commit, push, verify clean `HEAD == origin/main`; then create/verify emergency stop, install model/input on EC2 from S3, commit/push install evidence, run EC2 static proof, rerun readiness, execute one bounded EC2 workflow smoke, pull back artifacts, and complete technical plus whole-image visual QA.
 
 ## Current session completed
 

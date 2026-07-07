@@ -1,5 +1,39 @@
 # Next Action
 
+## Current next action - 2026-07-06T22:35:00-05:00
+
+Checkpoint the W68 ControlNet Canny target-runtime preparation from `C:\Comfy_UI_Main`, then continue with EC2 only for the target-runtime facts that cannot be proven locally. The old `BLOCKER-W59-GIT-001` no-`.git` statement is stale for this root: `.git` exists, `origin` is `https://github.com/KevinSGarrett/Comfy_UI_Main.git`, and `main` tracks `origin/main`. `.env` and `comfyui-lora-key.pem` are local sensitive files and must not be printed or committed.
+
+Current W68 evidence:
+
+```text
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_AWS_AUTH_GATE_CONTROLNET_CANNY_TARGET_20260706T220500-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_AWS_PROFILE_AUTH_MATRIX_CONTROLNET_CANNY_TARGET_20260706T221200-0500.json
+Plan/Instructions/QA/Evidence/Model_Registry/W68_MODEL_REGISTRY_CONTROLNET_CANNY_TARGET_20260706T220500-0500.json
+Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W68_RUNTIME_LANE_QUEUE_CONTROLNET_CANNY_TARGET_20260706T220500-0500.json
+Plan/Instructions/QA/Evidence/Operations_Static_Validation/W68_S3_RUNTIME_TRANSFER_READINESS_CONTROLNET_CANNY_TARGET_20260706T220500-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_LANE_RUNTIME_READINESS_CONTROLNET_CANNY_TARGET_RETEST_20260706T221300-0500.json
+Plan/Instructions/Operations/Scripts/Install-EC2InputAssetFromS3.ps1
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_EC2_INPUT_ASSET_INSTALL_HELPER_DRY_RUN_20260706T222000-0500.json
+Plan/Instructions/QA/Evidence/Model_Registry/W68_EC2_CONTROLNET_CANNY_MODEL_INSTALL_HELPER_DRY_RUN_20260706T222000-0500.json
+Plan/Instructions/QA/Evidence/Operations_Static_Validation/W68_S3_CONTROLNET_CANNY_RUNTIME_ASSET_UPLOAD_20260706T222500-0500.json
+Plan/Items/Reports/wave65_plan_source_coverage_report.json
+```
+
+Current W68 asset facts:
+
+```text
+ControlNet model S3 URI: s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/controlnet/controlnet-canny-sdxl-1.0-small.safetensors
+ControlNet model SHA256: fde4888a5f0a5648118991cc50e0ac4d60a2356dbaddf5e0649dd69c1119a2f9
+Input asset S3 URI: s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets/controlnet_canny_corrected_white_edges_black_bg.png
+Input asset SHA256: 1af02b8bd12a9de394fbcc1becd72912f4604f843cb7e7a2fc80496835b8e9a5
+Wave65 latest result: pass; plan_file_count=2987; wave65_rows_created=812; missing_after_wave65_count=0
+```
+
+Immediate checkpoint steps: validate changed JSON/CSV/PowerShell files, confirm local ComfyUI port 8188 is closed and EC2 is `stopped`, scan staged files for forbidden secrets/private keys/model binaries, commit, push, and verify clean `HEAD == origin/main`.
+
+Next runtime steps after the clean pushed checkpoint: create/verify the emergency stop schedule, install the Canny ControlNet model on EC2 from S3 with `Install-EC2ModelFromS3.ps1 -Execute`, install the Canny input image into `/home/ubuntu/ComfyUI/input` with `Install-EC2InputAssetFromS3.ps1 -Execute`, commit/push those install evidence files, then run `Invoke-EC2LaneStaticProof.ps1` for `sdxl_realvisxl_controlnet_canny_lane` from a clean pushed head. Only after static proof and readiness pass should bounded EC2 workflow smoke, pullback, technical QA, and whole-image visual QA run.
+
 ## Current next action - 2026-07-06T22:00:00-05:00
 
 Continue `sdxl_realvisxl_controlnet_canny_lane` from the new local runtime proof, not from the old missing-model blocker. The ControlNet Canny asset is now downloaded locally, SHA256-recorded, and visible to local ComfyUI through `config/comfyui_extra_model_paths.yaml`; the Canny input image exists in the active ComfyUI input directory and has an evidence copy under `Plan/Instructions/Operations/Prepared_Input_Assets`. A bounded local run-package smoke generated one PNG, pulled it into project evidence, and passed technical plus whole-image visual QA with local-smoke notes.
