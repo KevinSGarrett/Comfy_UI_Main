@@ -4,6 +4,7 @@ from __future__ import annotations
 import csv
 import json
 import re
+import subprocess
 from pathlib import Path
 
 ROOT = Path(r"C:\Comfy_UI_Main")
@@ -154,10 +155,31 @@ def citation_for(path: Path) -> dict[str, str]:
 
 
 def plan_files() -> list[Path]:
-    found = {path for path in PLAN.rglob("*") if path.is_file() and is_plan_source_file(path)}
+    candidates = {path for path in PLAN.rglob("*") if path.is_file() and is_plan_source_file(path)}
+    ignored = git_ignored_paths(candidates)
+    found = {path for path in candidates if norm(rel(path)) not in ignored}
     found.update(OUTPUT_PATHS)
     found.add(ITEMS / "Scripts" / "generate_wave65_plan_source_coverage.py")
     return sorted(found, key=lambda p: rel(p).lower())
+
+
+def git_ignored_paths(paths: set[Path]) -> set[str]:
+    if not paths:
+        return set()
+    repo_paths = sorted(str(path.relative_to(ROOT)).replace("\\", "/") for path in paths)
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(ROOT), "check-ignore", "--stdin"],
+            input="\n".join(repo_paths) + "\n",
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+    except Exception:
+        return set()
+    if result.returncode not in (0, 1):
+        return set()
+    return {norm(line) for line in result.stdout.splitlines() if line.strip()}
 
 
 def is_plan_source_file(path: Path) -> bool:
