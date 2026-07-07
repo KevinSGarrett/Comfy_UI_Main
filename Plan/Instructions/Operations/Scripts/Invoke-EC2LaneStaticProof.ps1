@@ -492,14 +492,19 @@ def apply_deploy_bundle_if_configured():
         source_head = str(manifest.get("source_git_head") or "")
         if EXPECTED_GIT_HEAD and source_head and source_head != EXPECTED_GIT_HEAD:
             raise RuntimeError("deploy bundle source head %s did not match expected origin/main %s" % (source_head, EXPECTED_GIT_HEAD))
-        for name in os.listdir(extract_root):
+        copied_file_count = 0
+        extracted_top_level = sorted(os.listdir(extract_root))
+        for name in extracted_top_level:
             src = os.path.join(extract_root, name)
             dst = os.path.join(PROJECT, name)
             if os.path.isdir(src):
+                for _, _, files in os.walk(src):
+                    copied_file_count += len(files)
                 shutil.copytree(src, dst, dirs_exist_ok=True)
             else:
                 os.makedirs(os.path.dirname(dst), exist_ok=True)
                 shutil.copy2(src, dst)
+                copied_file_count += 1
         return {
             "deployment_method": "s3_deploy_bundle",
             "s3_uri": DEPLOY_BUNDLE_S3_URI,
@@ -514,6 +519,8 @@ def apply_deploy_bundle_if_configured():
             "manifest_matrix_id": manifest.get("matrix_id"),
             "manifest_sample_count": manifest.get("sample_count"),
             "manifest_file_count": manifest.get("file_count"),
+            "extracted_top_level": extracted_top_level,
+            "copied_file_count": copied_file_count,
             "git_lfs_pull_skipped": True
         }
     finally:
@@ -552,10 +559,19 @@ try:
         if EXPECTED_GIT_HEAD and after != EXPECTED_GIT_HEAD:
             raise RuntimeError("remote project HEAD %s did not match expected origin/main %s" % (after, EXPECTED_GIT_HEAD))
 
-    lane_dir = os.path.join(PROJECT, "Plan", "07_IMPLEMENTATION", "workflow_templates", "base_generation", LANE_ID)
-    runtime_path = os.path.join(lane_dir, "runtime_requirements.json")
-    if not os.path.exists(runtime_path):
-        raise RuntimeError("runtime_requirements.json missing for " + LANE_ID)
+    runtime_candidates = [
+        os.path.join(PROJECT, "Plan", "07_IMPLEMENTATION", "workflow_templates", "base_generation", LANE_ID, "runtime_requirements.json"),
+        os.path.join(PROJECT, "Workflows", "base_generation", LANE_ID, "runtime_requirements.json"),
+        os.path.join(PROJECT, "runtime_artifacts", "run_packages", LANE_ID + "_static_package_v1", "lane_files", "runtime_requirements.json"),
+    ]
+    runtime_path = next((candidate for candidate in runtime_candidates if os.path.exists(candidate)), None)
+    result["runtime_requirements"] = {
+        "candidate_paths": runtime_candidates,
+        "selected_path": runtime_path,
+        "found": runtime_path is not None
+    }
+    if not runtime_path:
+        raise RuntimeError("runtime_requirements.json missing for " + LANE_ID + "; candidates=" + "; ".join(runtime_candidates))
     with open(runtime_path, "r", encoding="utf-8") as f:
         runtime = json.load(f)
 

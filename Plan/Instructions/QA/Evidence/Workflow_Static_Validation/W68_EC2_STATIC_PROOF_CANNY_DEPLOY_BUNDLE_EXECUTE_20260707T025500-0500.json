@@ -1,0 +1,102 @@
+﻿{
+    "evidence_id":  "EC2-LANE-STATIC-PROOF-20260706T235004-0500",
+    "timestamp":  "2026-07-06T23:57:57-05:00",
+    "start_time":  "2026-07-06T23:50:08-05:00",
+    "instance_id":  "i-0560bf8d143f93bb1",
+    "region":  "us-east-1",
+    "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+    "max_ec2_runtime_minutes":  25,
+    "ssm_execution_timeout_seconds":  1500,
+    "git_lfs_pull_skipped":  true,
+    "deploy_bundle_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/canny-static-proof/canny_static_deploy_20260707T025000-0500/canny_static_deploy_20260707T025000-0500.zip",
+    "deploy_bundle_sha256":  "8834dcd8282371775ab68e5c423ac72b0efb2e026ce8e5e237ad4c5abab106ec",
+    "auth_gate":  {
+                      "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_AWS_AUTH_GATE_CONTROLNET_CANNY_STATIC_REAUTH_20260707T024000-0500.json",
+                      "found":  true,
+                      "expected_account":  "029530099913",
+                      "account_match":  false,
+                      "ec2_work_allowed":  true,
+                      "safe_to_start_ec2":  true,
+                      "generation_allowed":  true,
+                      "result":  "pass",
+                      "status":  "pass",
+                      "failure_category":  "",
+                      "remote_login_status":  "not_attempted"
+                  },
+    "readiness_gate":  {
+                           "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_LANE_RUNTIME_READINESS_CONTROLNET_CANNY_STATIC_REAUTH_20260707T024500-0500.json",
+                           "found":  true,
+                           "local_pre_ec2_ready":  true,
+                           "ready_for_ec2_static_proof":  true,
+                           "ready_for_generation":  false,
+                           "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+                           "lane_match":  true,
+                           "result":  "ready_for_ec2_static_proof",
+                           "failure_category":  "missing_ec2_static_proof",
+                           "status":  "static_proof_ready"
+                       },
+    "execute_gates_pass":  true,
+    "blocked_reasons":  [
+
+                        ],
+    "result":  "ec2_static_proof_failed",
+    "failure_category":  "remote_static_proof_error",
+    "local_git_checkpoint_gate":  {
+                                      "git_root":  "C:/Comfy_UI_Main",
+                                      "head":  "2053fe274db172d150ce69dabc8d1d9797258477",
+                                      "origin_main":  "2053fe274db172d150ce69dabc8d1d9797258477",
+                                      "expected_remote_head":  "2053fe274db172d150ce69dabc8d1d9797258477",
+                                      "local_matches_origin":  true,
+                                      "clean":  true,
+                                      "porcelain_count":  0,
+                                      "remote":  "origin\thttps://github.com/KevinSGarrett/Comfy_UI_Main.git (fetch)",
+                                      "result":  "pass",
+                                      "error":  null
+                                  },
+    "start_state":  "stopped",
+    "ec2_started":  true,
+    "ssm_available":  true,
+    "command_id":  "7e208681-0ea1-444b-b245-cd671cb193e2",
+    "command_status":  "Success",
+    "stdout":  [
+                   "{\"errors\": [\"runtime_requirements.json missing for sdxl_realvisxl_controlnet_canny_lane\"], \"lane_id\": \"sdxl_realvisxl_controlnet_canny_lane\", \"model_proofs\": [], \"object_info\": {\"executed\": false, \"status\": \"not_started\"}, \"remote_comfyui\": {\"path\": \"/home/ubuntu/ComfyUI\"}, \"remote_project\": {\"deployment_method\": \"s3_deploy_bundle\", \"download_rc\": 0, \"git_lfs_pull_skipped\": true, \"manifest_bundle_type\": null, \"manifest_file_count\": 26, \"manifest_lane_id\": \"sdxl_realvisxl_controlnet_canny_lane\", \"manifest_matrix_id\": null, \"manifest_name\": \"DEPLOY_BUNDLE_MANIFEST.json\", \"manifest_sample_count\": null, \"manifest_source_git_head\": \"2053fe274db172d150ce69dabc8d1d9797258477\", \"path\": \"/home/ubuntu/Comfy_UI_Main\", \"s3_uri\": \"s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/canny-static-proof/canny_static_deploy_20260707T025000-0500/canny_static_deploy_20260707T025000-0500.zip\", \"sha256\": \"8834dcd8282371775ab68e5c423ac72b0efb2e026ce8e5e237ad4c5abab106ec\", \"sha256_expected\": \"8834dcd8282371775ab68e5c423ac72b0efb2e026ce8e5e237ad4c5abab106ec\", \"sha256_verified\": true}, \"timestamp_utc\": \"2026-07-07T04:52:43.962663+00:00\", \"traceback\": \"Traceback (most recent call last):\\n  File \\\"\u003cstdin\u003e\\\", line 131, in \u003cmodule\u003e\\nRuntimeError: runtime_requirements.json missing for sdxl_realvisxl_controlnet_canny_lane\\n\"}",
+                   ""
+               ],
+    "stderr":  "",
+    "final_state":  "stopped",
+    "generation_executed":  false,
+    "remote_project":  {
+                           "deployment_method":  "s3_deploy_bundle",
+                           "download_rc":  0,
+                           "git_lfs_pull_skipped":  true,
+                           "manifest_bundle_type":  null,
+                           "manifest_file_count":  26,
+                           "manifest_lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+                           "manifest_matrix_id":  null,
+                           "manifest_name":  "DEPLOY_BUNDLE_MANIFEST.json",
+                           "manifest_sample_count":  null,
+                           "manifest_source_git_head":  "2053fe274db172d150ce69dabc8d1d9797258477",
+                           "path":  "/home/ubuntu/Comfy_UI_Main",
+                           "s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/canny-static-proof/canny_static_deploy_20260707T025000-0500/canny_static_deploy_20260707T025000-0500.zip",
+                           "sha256":  "8834dcd8282371775ab68e5c423ac72b0efb2e026ce8e5e237ad4c5abab106ec",
+                           "sha256_expected":  "8834dcd8282371775ab68e5c423ac72b0efb2e026ce8e5e237ad4c5abab106ec",
+                           "sha256_verified":  true
+                       },
+    "static_proof_summary":  {
+                                 "remote_payload_parsed":  true,
+                                 "remote_errors":  [
+                                                       "runtime_requirements.json missing for sdxl_realvisxl_controlnet_canny_lane"
+                                                   ],
+                                 "object_info_pass":  false,
+                                 "model_proof_count":  0,
+                                 "model_missing_count":  0,
+                                 "model_hash_missing_count":  0,
+                                 "required_models_present":  false,
+                                 "required_model_hashes_present":  false,
+                                 "pass":  false
+                             },
+    "errors":  [
+                   "Remote proof error: runtime_requirements.json missing for sdxl_realvisxl_controlnet_canny_lane",
+                   "ComfyUI object_info proof did not pass."
+               ]
+}
