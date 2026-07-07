@@ -493,7 +493,7 @@ def apply_deploy_bundle_if_configured():
             manifest_path = os.path.join(extract_root, candidate)
             if os.path.exists(manifest_path):
                 manifest_name = candidate
-                with open(manifest_path, "r", encoding="utf-8") as f:
+                with open(manifest_path, "r", encoding="utf-8-sig") as f:
                     manifest = json.load(f)
                 break
         source_head = str(manifest.get("source_git_head") or "")
@@ -579,7 +579,7 @@ try:
     }
     if not runtime_path:
         raise RuntimeError("runtime_requirements.json missing for " + LANE_ID + "; candidates=" + "; ".join(runtime_candidates))
-    with open(runtime_path, "r", encoding="utf-8") as f:
+    with open(runtime_path, "r", encoding="utf-8-sig") as f:
         runtime = json.load(f)
 
     required_nodes = runtime.get("required_nodes", [])

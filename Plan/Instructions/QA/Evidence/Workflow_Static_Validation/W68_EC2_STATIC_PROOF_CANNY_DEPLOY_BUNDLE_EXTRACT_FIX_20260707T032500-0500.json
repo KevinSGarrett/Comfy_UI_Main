@@ -1,0 +1,112 @@
+﻿{
+    "evidence_id":  "EC2-LANE-STATIC-PROOF-20260707T001102-0500",
+    "timestamp":  "2026-07-07T00:18:39-05:00",
+    "start_time":  "2026-07-07T00:11:06-05:00",
+    "instance_id":  "i-0560bf8d143f93bb1",
+    "region":  "us-east-1",
+    "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+    "max_ec2_runtime_minutes":  25,
+    "ssm_execution_timeout_seconds":  1500,
+    "git_lfs_pull_skipped":  true,
+    "deploy_bundle_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/canny-static-proof/canny_static_deploy_20260707T032000-0500/canny_static_deploy_20260707T032000-0500.zip",
+    "deploy_bundle_sha256":  "444dcf6a63d7212857d05fdd41ad54c5606f4c0b9b78ac975c2cad547723481c",
+    "auth_gate":  {
+                      "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_AWS_AUTH_GATE_CONTROLNET_CANNY_STATIC_REAUTH_20260707T024000-0500.json",
+                      "found":  true,
+                      "expected_account":  "029530099913",
+                      "account_match":  false,
+                      "ec2_work_allowed":  true,
+                      "safe_to_start_ec2":  true,
+                      "generation_allowed":  true,
+                      "result":  "pass",
+                      "status":  "pass",
+                      "failure_category":  "",
+                      "remote_login_status":  "not_attempted"
+                  },
+    "readiness_gate":  {
+                           "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_LANE_RUNTIME_READINESS_CONTROLNET_CANNY_STATIC_REAUTH_20260707T024500-0500.json",
+                           "found":  true,
+                           "local_pre_ec2_ready":  true,
+                           "ready_for_ec2_static_proof":  true,
+                           "ready_for_generation":  false,
+                           "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+                           "lane_match":  true,
+                           "result":  "ready_for_ec2_static_proof",
+                           "failure_category":  "missing_ec2_static_proof",
+                           "status":  "static_proof_ready"
+                       },
+    "execute_gates_pass":  true,
+    "blocked_reasons":  [
+
+                        ],
+    "result":  "ec2_static_proof_failed",
+    "failure_category":  "remote_static_proof_error",
+    "local_git_checkpoint_gate":  {
+                                      "git_root":  "C:/Comfy_UI_Main",
+                                      "head":  "ed392856411d84f01203a83fc0619032a1fe5946",
+                                      "origin_main":  "ed392856411d84f01203a83fc0619032a1fe5946",
+                                      "expected_remote_head":  "ed392856411d84f01203a83fc0619032a1fe5946",
+                                      "local_matches_origin":  true,
+                                      "clean":  true,
+                                      "porcelain_count":  0,
+                                      "remote":  "origin\thttps://github.com/KevinSGarrett/Comfy_UI_Main.git (fetch)",
+                                      "result":  "pass",
+                                      "error":  null
+                                  },
+    "start_state":  "stopped",
+    "ec2_started":  true,
+    "ssm_available":  true,
+    "command_id":  "9d2ef334-8fea-473f-8841-8a02c23bd601",
+    "command_status":  "Success",
+    "stdout":  [
+                   "{\"errors\": [\"Unexpected UTF-8 BOM (decode using utf-8-sig): line 1 column 1 (char 0)\"], \"lane_id\": \"sdxl_realvisxl_controlnet_canny_lane\", \"model_proofs\": [], \"object_info\": {\"executed\": false, \"status\": \"not_started\"}, \"remote_comfyui\": {\"path\": \"/home/ubuntu/ComfyUI\"}, \"remote_project\": {\"copied_file_count\": 27, \"deployment_method\": \"s3_deploy_bundle\", \"download_rc\": 0, \"extracted_top_level\": [\"DEPLOY_BUNDLE_MANIFEST.json\", \"PROJECT_ROOT_MANIFEST.json\", \"Plan\", \"README.md\", \"Workflows\", \"configs\", \"runtime_artifacts\"], \"git_lfs_pull_skipped\": true, \"manifest_bundle_type\": null, \"manifest_file_count\": 26, \"manifest_lane_id\": \"sdxl_realvisxl_controlnet_canny_lane\", \"manifest_matrix_id\": null, \"manifest_name\": \"DEPLOY_BUNDLE_MANIFEST.json\", \"manifest_sample_count\": null, \"manifest_source_git_head\": \"ed392856411d84f01203a83fc0619032a1fe5946\", \"path\": \"/home/ubuntu/Comfy_UI_Main\", \"s3_uri\": \"s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/canny-static-proof/canny_static_deploy_20260707T032000-0500/canny_static_deploy_20260707T032000-0500.zip\", \"sha256\": \"444dcf6a63d7212857d05fdd41ad54c5606f4c0b9b78ac975c2cad547723481c\", \"sha256_expected\": \"444dcf6a63d7212857d05fdd41ad54c5606f4c0b9b78ac975c2cad547723481c\", \"sha256_verified\": true}, \"runtime_requirements\": {\"candidate_paths\": [\"/home/ubuntu/Comfy_UI_Main/Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json\", \"/home/ubuntu/Comfy_UI_Main/Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json\", \"/home/ubuntu/Comfy_UI_Main/runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_lane_static_package_v1/lane_files/runtime_requirements.json\"], \"found\": true, \"selected_path\": \"/home/ubuntu/Comfy_UI_Main/Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json\"}, \"timestamp_utc\": \"2026-07-07T05:13:44.761413+00:00\", \"traceback\": \"Traceback (most recent call last):\\n  File \\\"\u003cstdin\u003e\\\", line 156, in \u003cmodule\u003e\\n  File \\\"/usr/lib/python3.12/json/__init__.py\\\", line 293, in load\\n    return loads(fp.read(),\\n           ^^^^^^^^^^^^^^^^\\n  File \\\"/usr/lib/python3.12/json/__init__.py\\\", line 335, in loads\\n    raise JSONDecodeError(\\\"Unexpected UTF-8 BOM (decode using utf-8-sig)\\\",\\njson.decoder.JSONDecodeError: Unexpected UTF-8 BOM (decode using utf-8-sig): line 1 column 1 (char 0)\\n\"}",
+                   ""
+               ],
+    "stderr":  "",
+    "final_state":  "stopped",
+    "generation_executed":  false,
+    "remote_project":  {
+                           "copied_file_count":  27,
+                           "deployment_method":  "s3_deploy_bundle",
+                           "download_rc":  0,
+                           "extracted_top_level":  [
+                                                       "DEPLOY_BUNDLE_MANIFEST.json",
+                                                       "PROJECT_ROOT_MANIFEST.json",
+                                                       "Plan",
+                                                       "README.md",
+                                                       "Workflows",
+                                                       "configs",
+                                                       "runtime_artifacts"
+                                                   ],
+                           "git_lfs_pull_skipped":  true,
+                           "manifest_bundle_type":  null,
+                           "manifest_file_count":  26,
+                           "manifest_lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+                           "manifest_matrix_id":  null,
+                           "manifest_name":  "DEPLOY_BUNDLE_MANIFEST.json",
+                           "manifest_sample_count":  null,
+                           "manifest_source_git_head":  "ed392856411d84f01203a83fc0619032a1fe5946",
+                           "path":  "/home/ubuntu/Comfy_UI_Main",
+                           "s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/canny-static-proof/canny_static_deploy_20260707T032000-0500/canny_static_deploy_20260707T032000-0500.zip",
+                           "sha256":  "444dcf6a63d7212857d05fdd41ad54c5606f4c0b9b78ac975c2cad547723481c",
+                           "sha256_expected":  "444dcf6a63d7212857d05fdd41ad54c5606f4c0b9b78ac975c2cad547723481c",
+                           "sha256_verified":  true
+                       },
+    "static_proof_summary":  {
+                                 "remote_payload_parsed":  true,
+                                 "remote_errors":  [
+                                                       "Unexpected UTF-8 BOM (decode using utf-8-sig): line 1 column 1 (char 0)"
+                                                   ],
+                                 "object_info_pass":  false,
+                                 "model_proof_count":  0,
+                                 "model_missing_count":  0,
+                                 "model_hash_missing_count":  0,
+                                 "required_models_present":  false,
+                                 "required_model_hashes_present":  false,
+                                 "pass":  false
+                             },
+    "errors":  [
+                   "Remote proof error: Unexpected UTF-8 BOM (decode using utf-8-sig): line 1 column 1 (char 0)",
+                   "ComfyUI object_info proof did not pass."
+               ]
+}
