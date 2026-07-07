@@ -1,0 +1,61 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "W68-LOCAL-CANNY-CLEAN-CONTROL-V1-VISUAL-QA-20260707T005700-0500",
+    "timestamp":  "2026-07-07T00:42:24-05:00",
+    "project_root":  "C:\\Comfy_UI_Main",
+    "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+    "module_id":  "MOD-17-CONTROLNET-CANNY-LANE",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  true,
+    "source_files_reviewed":  [
+                                  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+                                  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json",
+                                  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/smoke_test_request.json"
+                              ],
+    "source_files_touched":  [
+                                 "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+                                 "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+                                 "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/smoke_test_request.json",
+                                 "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/smoke_test_request.json",
+                                 "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json",
+                                 "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json"
+                             ],
+    "control_asset":  {
+                          "filename":  "controlnet_canny_cleaned_eye_safe_v1.png",
+                          "sha256":  "d2f09161928d6efa1c724aafd6798ab597f8cfa0e12dcb4db61203c6b4e74bd0",
+                          "manifest":  "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_cleaned_eye_safe_v1_20260707T005200-0500/CONTROL_IMAGE_INPUT_ASSET_MANIFEST.json"
+                      },
+    "runtime_evidence":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_CLEAN_CONTROL_V1_20260707T005400-0500.json",
+    "promoted_sample":  {
+                            "variant":  "clean_control_v1",
+                            "seed":  711170101,
+                            "control_strength":  0.55,
+                            "lane_default_strength_after_review":  0.45,
+                            "end_percent":  0.65,
+                            "image":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_local_quality_clean_control_v1_20260707T005400-0500/images/codex_sdxl_realvisxl_controlnet_canny_clean_control_v1_00001_.png",
+                            "sha256":  "15395f32051efc9614ff6d74fb1d6613fcf42897e455c1351f69dca48875bc88",
+                            "whole_image_qa":  "pass_with_notes_promoted_control_asset",
+                            "findings":  [
+                                             "No colored eye artifacts observed",
+                                             "Face proportions, eyes, lips, skin, and hair are coherent at local preview resolution",
+                                             "Silhouette/control adherence is stronger than the original-control promptfix sample",
+                                             "Lighting and background are coherent and cinematic",
+                                             "Clothing remains slightly soft but not deformed",
+                                             "No hands, feet, or teeth visible; these categories remain unassessed for this portrait crop"
+                                         ]
+                        },
+    "promotion_decision":  {
+                               "promoted":  true,
+                               "promoted_control_image":  "controlnet_canny_cleaned_eye_safe_v1.png",
+                               "promoted_default_strength":  0.45,
+                               "promoted_end_percent":  0.65,
+                               "rationale":  "Cleaned control image reduced face/eye speckle and produced a stronger controlled silhouette without reintroducing colored eye artifacts. Strength remains 0.45 because higher strength remains a known artifact risk."
+                           },
+    "remaining_risks":  [
+                            "Local QA does not replace EC2 target generation/pullback/QA",
+                            "Portrait crop still does not cover hands/feet/teeth",
+                            "Cleaned control asset should be included in the next target-runtime asset install/sync before EC2 generation"
+                        ]
+}

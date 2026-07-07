@@ -43,7 +43,7 @@
   "6": {
     "class_type": "CLIPTextEncode",
     "inputs": {
-      "text": "hyperrealistic cinematic editorial portrait, natural skin texture, realistic eyes, detailed hair, edge-guided composition, coherent silhouette, soft directional light, lifelike lens rendering",
+      "text": "hyperrealistic cinematic editorial portrait, natural skin texture, realistic eyes with clean catchlights, detailed hair, edge-guided composition, coherent silhouette, tailored dark blazer over textured shirt, clothed shoulders, soft natural fill light, balanced exposure, clean face with no painted marks, lifelike lens rendering",
       "clip": [
         "4",
         1
@@ -53,7 +53,7 @@
   "7": {
     "class_type": "CLIPTextEncode",
     "inputs": {
-      "text": "cartoon, anime, illustration, plastic skin, waxy skin, distorted anatomy, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text, edge artifacts",
+      "text": "cartoon, anime, illustration, plastic skin, waxy skin, distorted anatomy, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text, edge artifacts, harsh outlines, colored blotches, paint marks, over-dark eyes, control map stains, bare shoulders, strapless top, nude, unclothed torso",
       "clip": [
         "4",
         1
@@ -69,16 +69,16 @@
   "11": {
     "class_type": "LoadImage",
     "inputs": {
-      "image": "controlnet_canny_corrected_white_edges_black_bg.png",
+      "image": "controlnet_canny_cleaned_eye_safe_v1.png",
       "upload": "image"
     }
   },
   "12": {
     "class_type": "ControlNetApplyAdvanced",
     "inputs": {
-      "strength": 0.65,
+      "strength": 0.45,
       "start_percent": 0,
-      "end_percent": 0.75,
+      "end_percent": 0.65,
       "positive": [
         "6",
         0

@@ -59,12 +59,12 @@
                   {
                       "order":  3,
                       "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
-                      "role":  "third_sdxl_realvisxl_controlnet_canny_branch_extraction_local_smoke_passed_pending_ec2_target_proof",
+                      "role":  "third_sdxl_realvisxl_controlnet_canny_clean_control_local_quality_passed_pending_ec2_target_proof",
                       "workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
                       "requirements_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json",
                       "status":  "queued",
-                      "required_next_runtime_gate":  "refresh_aws_auth_then_ec2_static_proof",
-                      "local_pre_ec2_status":  "local_model_input_object_info_generation_pullback_and_visual_qa_passed",
+                      "required_next_runtime_gate":  "clean_checkpoint_then_bounded_ec2_static_proof_and_generation_when_allowed",
+                      "local_pre_ec2_status":  "local_model_cleaned_input_generation_pullback_technical_qa_and_three_seed_whole_image_visual_qa_passed",
                       "promotion_rule":  "Do not promote to target-runtime proven until EC2 static proof, bounded EC2 generation, pullback, technical image QA, and whole-image visual QA are complete from a clean pushed head.",
                       "source_evidence":  [
                                               "Plan/10_REGISTRIES/wave05_workflow_template_contracts.json",
@@ -77,7 +77,14 @@
                                                      "Plan/Instructions/QA/Evidence/Runtime_Readiness/W67_LOCAL_OBJECT_INFO_CONTROLNET_CANNY_MODEL_INPUT_20260706T215000-0500.json",
                                                      "Plan/Instructions/QA/Evidence/Workflow_Runtime/W67_LOCAL_CONTROLNET_CANNY_RUN_PACKAGE_EXECUTE_20260706T215500-0500.json",
                                                      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W67_LOCAL_CONTROLNET_CANNY_IMAGE_QA_VISUAL_20260706T220000-0500.json",
-                                                     "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W68_OPERATIONS_HELPER_W68_CANNY_GATE_CONTRACTS_20260707T011500-0500.json"
+                                                     "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W68_OPERATIONS_HELPER_W68_CANNY_GATE_CONTRACTS_20260707T011500-0500.json",
+                                                     "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_cleaned_eye_safe_v1_20260707T005200-0500/CONTROL_IMAGE_INPUT_ASSET_MANIFEST.json",
+                                                     "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_CLEAN_CONTROL_WARDROBE_PACKAGE_V3_20260707T011000-0500.json",
+                                                     "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_WARDROBE_PACKAGE_V3_TECHNICAL_20260707T011200-0500.json",
+                                                     "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_LOCAL_CANNY_WARDROBE_PACKAGE_V3_VISUAL_QA_20260707T011200-0500.json",
+                                                     "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_WARDROBE_V3_MULTISEED_TECHNICAL_20260707T011900-0500.json",
+                                                     "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_LOCAL_CANNY_WARDROBE_V3_MULTISEED_VISUAL_QA_20260707T011900-0500.json",
+                                                     "Plan/Instructions/QA/Evidence/Run_Package/W68_CANNY_CLEAN_CONTROL_WARDROBE_CURRENT_PACKAGE_V4_20260707T013600-0500.json"
                                           ]
                   }
               ],
@@ -95,9 +102,9 @@
     "known_limits":  [
                          "Does not refresh AWS browser/SSO auth.",
                          "Does not start EC2 or contact ComfyUI.",
-                         "Does not prove new lane changes after this timestamp.",
+                         "Does not prove target-runtime behavior for the cleaned-control/wardrobe Canny workflow changes.",
                          "Does not replace deeper multi-sample or final portfolio image-quality certification.",
-                         "The ControlNet Canny lane has local pre-EC2 smoke and QA evidence, but is not target-runtime proven until AWS auth, EC2 static proof, bounded EC2 generation, pullback, technical QA, and whole-image visual QA pass."
+                         "The ControlNet Canny lane has cleaned-control local quality evidence across three seeds, but is not target-runtime proven until a clean checkpoint, EC2 static proof, bounded EC2 generation, pullback, technical QA, and whole-image visual QA pass."
                      ],
-    "next_action":  "Refresh AWS auth for account 029530099913, rerun auth/profile/readiness gates, create a fresh emergency stop schedule, and run Canny EC2 static proof only if the gates allow it."
+    "next_action":  "After checkpointing the cleaned-control local quality changes, run only the minimal changed-input gates needed for the Canny lane before any bounded target-runtime EC2 proof/generation."
 }

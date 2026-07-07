@@ -1,0 +1,36 @@
+{
+  "evidence_id": "W68-CANNY-V4-ROUTE-GATED-PACKAGE-BLOCK-20260707T014500-0500",
+  "created_at": "2026-07-07T01:15:30-05:00",
+  "artifact_type": "workflow_run_package_route_gate_probe",
+  "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "route_request": "Plan/Instructions/QA/Evidence/Engine_Router/W68_CANNY_V4_ROUTE_REQUEST_20260707T014500-0500.json",
+  "route_decision": "Plan/Instructions/QA/Evidence/Engine_Router/W68_CANNY_V4_ROUTE_DECISION_20260707T014500-0500.json",
+  "attempted_run_id": "sdxl_realvisxl_controlnet_canny_lane_route_gated_current_v4_probe",
+  "package_manifest": "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_lane_clean_control_wardrobe_current_v4/RUN_PACKAGE_MANIFEST.json",
+  "expected_result": "block_until_canny_target_runtime_proof",
+  "selected_lane_id": "sdxl_realvisxl_base_lane",
+  "canny_candidate_result": "block",
+  "canny_candidate_blockers": [
+    "queue_status_runtime_smoke_proven",
+    "requirements_status_runtime_smoke_qa_complete",
+    "model_compatibility_status_runtime_validated",
+    "model_runtime_validation_status_complete",
+    "model_qa_status_pass",
+    "required_model_hash_status_verified",
+    "required_model_path_status_verified",
+    "object_info_status_passed"
+  ],
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "comfyui_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "package_builder_stderr_tail": "Route gate selected 'sdxl_realvisxl_base_lane' but package lane is 'sdxl_realvisxl_controlnet_canny_lane'.",
+  "result": "blocked_expected_route_gate",
+  "known_limits": [
+    "The wrapper process was stopped after the child package builder had already written the expected route mismatch stderr. This record uses the persisted router decision and stderr files from the local probe."
+  ],
+  "next_action": "Do not route-promote the Canny v4 package until Canny has target-runtime static proof/generation/pullback/QA evidence satisfying image-engine router proof requirements."
+}

@@ -12,6 +12,15 @@ None currently active for local Wave 58-62 static and packaging validation.
 
 ## Active runtime blockers
 
+- `BLOCKER-W68-CANNY-V4-GENERATION-CLEAN-HEAD-001`
+  - status: active as of 2026-07-07T01:23:00-05:00; not a missing `.git`, GitHub token, Civitai key, `.env`, AWS auth, EC2 model placement, or EC2 stopped-state blocker.
+  - blocker type: local_git_worktree_dirty_before_ec2_generation
+  - failed condition: `Invoke-EC2WorkflowSmokeRun.ps1` dry-run for `sdxl_realvisxl_controlnet_canny_lane` with the current v4 run package, passed static proof, passed auth gate, and passed readiness gate still blocks `-Execute` because the local clean-head checkpoint gate requires a clean worktree synced to `origin/main`.
+  - proof of progress before block: W68 Canny EC2 static proof passed with `/object_info` and two required model hashes; readiness now reports `ready_for_generation=true`; the Canny v4 deploy bundle was built locally from the current v4 package.
+  - impact: bounded EC2 Canny v4 generation must not start from the current dirty worktree.
+  - safe current work: continue local-only Canny implementation/QA/package alignment or, if checkpointing is allowed, make one minimal clean-head checkpoint for the Canny v4 changes before any EC2 `-Execute`.
+  - evidence: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W68_EC2_STATIC_PROOF_CANNY_DEPLOY_BUNDLE_BOM_FIX_20260707T034500-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_LANE_RUNTIME_READINESS_CANNY_AFTER_STATIC_PROOF_20260707T012158-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_EC2_WORKFLOW_SMOKE_CANNY_V4_GATE_DRY_RUN_20260707T012214-0500.json`; `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W68_CANNY_V4_DEPLOY_BUNDLE_LOCAL_READY_20260707T012255-0500.json`
+
 - `BLOCKER-AWS-AUTH-EXPIRED-W68-STATIC-PROOF-001`
   - status: active after successful W68 EC2 Canny model/input installation; not a GitHub token, Civitai key, `.env`, or Git repository blocker.
   - blocker type: aws_cli_login_expired

@@ -1,5 +1,75 @@
 # Next Action
 
+## Current next action - 2026-07-07T01:23:00-05:00 - Canny V4 Generation Blocked By Clean-Head Gate
+
+The current `sdxl_realvisxl_controlnet_canny_lane` / `MOD-17-CONTROLNET-CANNY-LANE` state has real target-runtime progress and one exact remaining execution blocker:
+
+- Passed EC2 static proof evidence: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W68_EC2_STATIC_PROOF_CANNY_DEPLOY_BUNDLE_BOM_FIX_20260707T034500-0500.json`
+- Generation readiness evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_LANE_RUNTIME_READINESS_CANNY_AFTER_STATIC_PROOF_20260707T012158-0500.json`
+- Canny v4 generation gate dry-run: `Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_EC2_WORKFLOW_SMOKE_CANNY_V4_GATE_DRY_RUN_20260707T012214-0500.json`
+- Current v4 deploy bundle local evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W68_CANNY_V4_DEPLOY_BUNDLE_LOCAL_READY_20260707T012255-0500.json`
+
+The dry-run did not start EC2 and did not generate. It blocked only because `Invoke-EC2WorkflowSmokeRun.ps1 -Execute` requires a clean pushed `HEAD`, and the live worktree contains the local Canny QA/package/evidence changes. Do not start EC2 from the dirty worktree. Do not rerun Wave65, broad indexes, helper evidence, AWS auth checks, or Git/GitHub checkpointing as substitute work.
+
+Immediate next action:
+If Git checkpointing is allowed again, make one minimal clean-head checkpoint for the Canny v4 local QA/package/evidence state, publish `runtime_artifacts/deploy_bundles/canny_v4_static_deploy_20260707T012255-0500/` or a clean-head successor to S3, rerun one bounded v4 EC2 static proof, then run one bounded v4 EC2 generation with pullback, technical QA, and strict whole-image QA. If Git checkpointing remains frozen, continue local-first implementation work under the named Canny item instead of starting EC2.
+
+## Current next action - 2026-07-07T01:40:00-05:00 - Canny V4 Package Ready Locally
+
+The required local `sdxl_realvisxl_controlnet_canny_lane` quality loop has produced generated media, technical QA, whole-image visual QA, QA-driven workflow/request changes, and a current local v4 run package. Do not repeat the quality matrix or rebuild the package unless the Canny workflow, prompt, control image, model, route gate, or QA threshold changes again.
+
+Immediate next task:
+Use `runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_lane_clean_control_wardrobe_current_v4/RUN_PACKAGE_MANIFEST.json` as the current Canny package for the next target-runtime proof/generation path. The image-engine route gate correctly blocks route-promoting Canny v4 until target-runtime proof exists, so do not rebuild packages trying to make the route gate pass locally. Keep EC2 stopped until the real target-runtime gates are intentionally run. Do not rerun Wave65, broad indexes, helper evidence, S3 publishing, AWS auth checks, or Git/GitHub checkpointing as a substitute for the local runtime work already completed.
+
+Current local Canny evidence:
+
+```text
+Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_cleaned_eye_safe_v1_20260707T005200-0500/CONTROL_IMAGE_INPUT_ASSET_MANIFEST.json
+Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_WARDROBE_PACKAGE_V3_TECHNICAL_20260707T011200-0500.json
+Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_LOCAL_CANNY_WARDROBE_PACKAGE_V3_VISUAL_QA_20260707T011200-0500.json
+Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_WARDROBE_V3_MULTISEED_TECHNICAL_20260707T011900-0500.json
+Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_LOCAL_CANNY_WARDROBE_V3_MULTISEED_VISUAL_QA_20260707T011900-0500.json
+Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W68_LOCAL_CANNY_CLEAN_CONTROL_WARDROBE_STATIC_RECHECK_20260707T013000-0500.json
+Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W68_RUNTIME_LANE_QUEUE_CANNY_CLEAN_CONTROL_LOCAL_QA_RETEST_20260707T013500-0500.json
+Plan/Instructions/QA/Evidence/Run_Package/W68_CANNY_CLEAN_CONTROL_WARDROBE_CURRENT_PACKAGE_V4_20260707T013600-0500.json
+Plan/Instructions/QA/Evidence/Engine_Router/W68_CANNY_V4_ROUTE_DECISION_20260707T014500-0500.json
+Plan/Instructions/QA/Evidence/Run_Package/W68_CANNY_V4_ROUTE_GATED_PACKAGE_BLOCK_20260707T014500-0500.json
+```
+
+The next target-runtime step is still gated: clean checkpoint, bounded EC2 static proof for v4, bounded EC2 generation from v4, pullback, technical QA, and strict whole-image visual QA. Do not certify the Canny lane from local evidence alone.
+
+## Current next action - 2026-07-07T00:21:01-05:00 - Local ComfyUI Required
+
+TWO_HOUR_SUPERVISOR_CORRECTION_ACTIVE = TRUE
+LOCAL_COMFYUI_WORK_REQUIRED_NOW = TRUE
+EC2_GIT_WAVE65_HOUSEKEEPING_FREEZE = TRUE
+
+Stop the EC2/Git/Wave65/readiness loop now. The next task must be actual local ComfyUI work.
+
+Run a bounded local `sdxl_realvisxl_controlnet_canny_lane` quality-development loop:
+
+1. Use the existing local ComfyUI setup under `C:\Comfy_UI_Main\ComfyUI`, the local RealVisXL checkpoint, the local Canny ControlNet model, and the prepared control image.
+2. Read the Canny lane sources under `C:\Comfy_UI_Main\Plan\07_IMPLEMENTATION\workflow_templates\base_generation\sdxl_realvisxl_controlnet_canny_lane\`.
+3. Generate a small local quality matrix from the Canny workflow/request, with bounded low-cost settings.
+4. Perform strict whole-image visual QA on every output: prompt alignment, face, eyes, teeth, hands, feet, anatomy, clothing, props, lighting, background, crop/framing, artifacts, and control-map adherence.
+5. Make one concrete QA-driven workflow/request/prompt/control-strength improvement.
+6. Rerun the minimum local sample needed to prove whether the improvement helped.
+7. Record technical evidence, whole-image QA evidence, and the exact Items/Tracker rows or source files touched.
+
+Do not start EC2. Do not rerun Wave65, indexes, broad validators, helper evidence, hydration rewrites, AWS auth checks, S3 publishing, or Git/GitHub checkpointing before the local ComfyUI loop has produced generated media plus QA evidence. If local ComfyUI is blocked, write one exact local blocker and switch to the next local implementation task from `C:\Comfy_UI_Main\Plan\Items` / `C:\Comfy_UI_Main\Plan\Tracker`; do not return to EC2/Git/Wave65 churn.
+
+## Current next action - 2026-07-07T00:21:01-05:00
+
+TWO_HOUR_SUPERVISOR_CORRECTION_ACTIVE = TRUE
+
+Finish/verify the in-progress BOM-tolerant `C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1` checkpoint only if that commit/push is already underway or already complete. Then stop all Wave65, hydration, Git, GitHub, AWS-auth, and helper-validation churn unless a changed runtime input makes one check directly necessary.
+
+Run exactly one bounded `sdxl_realvisxl_controlnet_canny_lane` EC2 static-proof retry from clean pushed `HEAD` using the prepared deploy bundle, `-SkipGitLfsPull`, `-MaxEc2RuntimeMinutes 25`, emergency-stop/cost controls, artifact/evidence pullback, and final stopped-state verification. Keep status updates terse: report state changes, the final stopped state, or actionable failures only.
+
+If that static proof passes, proceed directly to bounded Canny generation, pullback, technical QA, and strict whole-image visual QA.
+
+If that static proof fails again, write one exact blocker with evidence, verify EC2 stopped, and move to a named local-first ComfyUI task from `C:\Comfy_UI_Main\Plan\Items` and `C:\Comfy_UI_Main\Plan\Tracker`. Do not continue AWS/Git/Wave65/hydration documentation loops.
+
 ## Current next action - 2026-07-07T02:15:00-05:00
 
 Refresh Wave65 after the static-proof helper hardening, validate, scan, commit, push, and verify clean `HEAD == origin/main`. Then rerun the Canny deploy-bundle static-proof blocked gate from the clean pushed head to produce final blocked-auth evidence that includes:

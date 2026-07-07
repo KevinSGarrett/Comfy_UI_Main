@@ -1,0 +1,48 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "W68-LOCAL-CANNY-WARDROBE-PACKAGE-V3-VISUAL-QA-20260707T011200-0500",
+    "timestamp":  "2026-07-07T00:50:44-05:00",
+    "project_root":  "C:\\Comfy_UI_Main",
+    "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+    "module_id":  "MOD-17-CONTROLNET-CANNY-LANE",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  true,
+    "source_package":  "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_lane_clean_control_wardrobe_package_v3/RUN_PACKAGE_MANIFEST.json",
+    "runtime_evidence":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_CLEAN_CONTROL_WARDROBE_PACKAGE_V3_20260707T011000-0500.json",
+    "image":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_local_clean_control_wardrobe_package_v3_20260707T011000-0500/images/codex_sdxl_realvisxl_controlnet_canny_smoke_00003_.png",
+    "image_sha256":  "c9f79120cdfb2e1dc7331134b828b457a7f6d39816e84bb4b02f92f2af59a92a",
+    "settings":  {
+                     "control_image":  "controlnet_canny_cleaned_eye_safe_v1.png",
+                     "control_image_sha256":  "d2f09161928d6efa1c724aafd6798ab597f8cfa0e12dcb4db61203c6b4e74bd0",
+                     "control_strength":  0.45,
+                     "end_percent":  0.65,
+                     "seed":  711170001,
+                     "steps":  20,
+                     "cfg":  5.5,
+                     "resolution":  "768x768",
+                     "wardrobe_prompt":  "tailored dark blazer over textured shirt, clothed shoulders"
+                 },
+    "whole_image_qa":  "pass_with_notes_local_wardrobe_default",
+    "findings":  [
+                     "Wardrobe consistency improved: visible blazer and collared/textured shirt, clothed shoulders, no bare-shoulder/strapless output",
+                     "Face realism passes: coherent proportions, natural skin texture, stable lips/nose/cheeks",
+                     "Eyes pass: clean irises/catchlights, no colored control artifact, no over-dark stain",
+                     "Hair passes with plausible volume and edge softness",
+                     "Lighting and background are coherent, subdued editorial style",
+                     "No hands, feet, or teeth visible; these categories remain unassessed, not passed",
+                     "Control adherence is moderate and stable; no obvious control-map stain or face paint artifact"
+                 ],
+    "promotion_decision":  {
+                               "promoted":  true,
+                               "promoted_package":  "sdxl_realvisxl_controlnet_canny_lane_clean_control_wardrobe_package_v3",
+                               "reason":  "The wardrobe prompt fixed the prior bare-shoulder/clothing inconsistency without regressing face/eye quality or reintroducing control artifacts.",
+                               "final_certification":  false
+                           },
+    "remaining_risks":  [
+                            "Local proof does not replace EC2 target-runtime generation/pullback/QA",
+                            "Portrait crop still does not exercise hands, feet, or teeth",
+                            "A broader multi-pose QA set is needed before final portfolio certification"
+                        ]
+}

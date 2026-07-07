@@ -1,0 +1,57 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "W68-LOCAL-CANNY-WARDROBE-V3-MULTISEED-VISUAL-QA-20260707T011900-0500",
+    "timestamp":  "2026-07-07T00:56:14-05:00",
+    "project_root":  "C:\\Comfy_UI_Main",
+    "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+    "module_id":  "MOD-17-CONTROLNET-CANNY-LANE",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  true,
+    "source_package":  "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_lane_clean_control_wardrobe_package_v3/RUN_PACKAGE_MANIFEST.json",
+    "purpose":  "Local robustness QA for cleaned-control wardrobe Canny defaults across additional seeds.",
+    "samples":  [
+                    {
+                        "seed":  711170002,
+                        "runtime_evidence":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_WARDROBE_V3_SEED711170002_20260707T011600-0500.json",
+                        "image":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_local_wardrobe_v3_seed711170002_20260707T011600-0500/images/codex_sdxl_realvisxl_controlnet_canny_wardrobe_v3_seed711170002_00001_.png",
+                        "sha256":  "0ede9006b90292a70a8104257a0ebf93df0968cff67caa73c26b3fd681e294a6",
+                        "whole_image_qa":  "pass_with_notes",
+                        "findings":  [
+                                         "Wardrobe holds: dark blazer and shirt visible",
+                                         "Face/eyes are coherent with no colored control artifact",
+                                         "Hair and skin are plausible",
+                                         "Lighting/background are coherent warm editorial style",
+                                         "Hands/feet/teeth not visible and not assessed"
+                                     ]
+                    },
+                    {
+                        "seed":  711170003,
+                        "runtime_evidence":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_WARDROBE_V3_SEED711170003_20260707T011700-0500.json",
+                        "image":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_local_wardrobe_v3_seed711170003_20260707T011700-0500/images/codex_sdxl_realvisxl_controlnet_canny_wardrobe_v3_seed711170003_00001_.png",
+                        "sha256":  "9df830f427a03b5df5cae977ab9b10555daa43187f28243b6c918b893f027810",
+                        "whole_image_qa":  "pass_with_notes",
+                        "findings":  [
+                                         "Wardrobe holds: blazer and white shirt visible",
+                                         "Face/eyes coherent with no control staining",
+                                         "Moodier lighting remains plausible",
+                                         "Hair silhouette and background are coherent",
+                                         "Hands/feet/teeth not visible and not assessed"
+                                     ]
+                    }
+                ],
+    "aggregate_decision":  {
+                               "local_multiseed_status":  "pass_with_notes",
+                               "promoted_package":  "sdxl_realvisxl_controlnet_canny_lane_clean_control_wardrobe_package_v3",
+                               "sample_count":  2,
+                               "prior_default_sample":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_LOCAL_CANNY_WARDROBE_PACKAGE_V3_VISUAL_QA_20260707T011200-0500.json",
+                               "reason":  "Both additional seeds preserved the wardrobe fix and avoided the earlier colored-eye/control-stain artifacts.",
+                               "final_certification":  false
+                           },
+    "remaining_risks":  [
+                            "Local samples do not replace EC2 target generation, pullback, technical QA, and whole-image visual QA",
+                            "All samples are portrait crops without hands/feet/teeth visibility",
+                            "Broader pose/control coverage remains future work before final portfolio certification"
+                        ]
+}

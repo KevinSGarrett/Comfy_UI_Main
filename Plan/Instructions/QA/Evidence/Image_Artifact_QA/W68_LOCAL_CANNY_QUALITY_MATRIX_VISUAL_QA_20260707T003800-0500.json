@@ -1,0 +1,115 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "W68-LOCAL-CANNY-QUALITY-MATRIX-VISUAL-QA-20260707T003800-0500",
+    "timestamp":  "2026-07-07T00:35:09-05:00",
+    "project_root":  "C:\\Comfy_UI_Main",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  true,
+    "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+    "module_id":  "MOD-17-CONTROLNET-CANNY-LANE",
+    "source_files_reviewed":  [
+                                  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+                                  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json",
+                                  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/smoke_test_request.json"
+                              ],
+    "source_files_touched":  [
+                                 "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+                                 "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+                                 "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/smoke_test_request.json",
+                                 "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/smoke_test_request.json"
+                             ],
+    "runtime_evidence":  [
+                             "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_QUALITY_MATRIX_S045_20260707T003000-0500.json",
+                             "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_QUALITY_MATRIX_S065_20260707T003200-0500.json",
+                             "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_QUALITY_MATRIX_S080_20260707T003300-0500.json",
+                             "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_QUALITY_IMPROVED_S052_20260707T003600-0500.json"
+                         ],
+    "technical_settings":  {
+                               "checkpoint":  "realvisxlV50_v50Bakedvae.safetensors",
+                               "controlnet":  "controlnet-canny-sdxl-1.0-small.safetensors",
+                               "control_image":  "controlnet_canny_corrected_white_edges_black_bg.png",
+                               "resolution":  "512x512",
+                               "steps":  12,
+                               "sampler":  "dpmpp_2m_sde",
+                               "scheduler":  "karras",
+                               "batch_size":  1
+                           },
+    "matrix_results":  [
+                           {
+                               "variant":  "s045",
+                               "seed":  711170101,
+                               "control_strength":  0.45,
+                               "end_percent":  0.65,
+                               "image":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_local_quality_matrix_s045_20260707T003000-0500/images/codex_sdxl_realvisxl_controlnet_canny_local_quality_matrix_s045_00001_.png",
+                               "sha256":  "716a46a4b6228bace85f0411f9b7fb36f766eddc6c2618228298b3e79169f04c",
+                               "whole_image_qa":  "pass_with_notes",
+                               "findings":  [
+                                                "Best face realism in matrix",
+                                                "Eyes, skin texture, hair, lighting, and background coherent",
+                                                "No hands or feet visible, so hand/foot anatomy not assessable",
+                                                "Sweater and shoulder detail slightly soft",
+                                                "Canny/control adherence weaker than higher strengths"
+                                            ]
+                           },
+                           {
+                               "variant":  "s065",
+                               "seed":  711170102,
+                               "control_strength":  0.65,
+                               "end_percent":  0.75,
+                               "image":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_local_quality_matrix_s065_20260707T003200-0500/images/codex_sdxl_realvisxl_controlnet_canny_local_quality_matrix_s065_00001_.png",
+                               "sha256":  "ef6b6b6fc77e73e972159fbf41b41a0a5f7bdf6bc065b7671d5255a6cc08c434",
+                               "whole_image_qa":  "fail_quality_regression",
+                               "findings":  [
+                                                "Better edge/control presence than s045",
+                                                "Face underexposed",
+                                                "Eyes over-dark and slightly glassy",
+                                                "Brows and eyelashes too harsh",
+                                                "Skin texture high-contrast/ridged, reducing realism"
+                                            ]
+                           },
+                           {
+                               "variant":  "s080",
+                               "seed":  711170103,
+                               "control_strength":  0.8,
+                               "end_percent":  0.85,
+                               "image":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_local_quality_matrix_s080_20260707T003300-0500/images/codex_sdxl_realvisxl_controlnet_canny_local_quality_matrix_s080_00001_.png",
+                               "sha256":  "ce08311a40699574698201d99e01d12cb22d9f3f587b6573b8d2a6ba7dc78712",
+                               "whole_image_qa":  "fail_severe_artifacts",
+                               "findings":  [
+                                                "Severe painted/colored facial artifacts on forehead, nose, and cheek",
+                                                "Control influence too strong",
+                                                "Whole-image realism unacceptable despite stronger edge adherence"
+                                            ]
+                           },
+                           {
+                               "variant":  "improved_s052",
+                               "seed":  711170101,
+                               "control_strength":  0.52,
+                               "end_percent":  0.65,
+                               "image":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_local_quality_improved_s052_20260707T003600-0500/images/codex_sdxl_realvisxl_controlnet_canny_improved_s052_00001_.png",
+                               "sha256":  "3be780c6ad1616c83867c58ccea3b052d5d193e82ca271e2b0c5eaeff87cc0ee",
+                               "whole_image_qa":  "fail_new_eye_artifact",
+                               "findings":  [
+                                                "Large colored artifact over the left eye and smaller color contamination near the right eye",
+                                                "Face structure otherwise coherent",
+                                                "Hair/background/lighting acceptable",
+                                                "Prompt/control tweak did not improve the best baseline and is not quality-promotable"
+                                            ]
+                           }
+                       ],
+    "improvement_attempt":  {
+                                "applied":  true,
+                                "rationale":  "Matrix showed s045 had best realism, s065/s080 increased control but caused harsh eye/skin and painted artifacts; attempted intermediate strength plus negative prompt additions for colored blotches and edge burn.",
+                                "changed_control_strength":  "0.65 -\u003e 0.52",
+                                "changed_end_percent":  "0.75 -\u003e 0.65",
+                                "prompt_changes":  [
+                                                       "added clean catchlights, soft natural fill light, balanced exposure, clean face with no painted marks",
+                                                       "added negatives for harsh outlines, colored blotches, paint marks, over-dark eyes, control map stains"
+                                                   ],
+                                "result":  "not_promoted",
+                                "reason":  "Improved rerun introduced unacceptable colored eye artifacts."
+                            },
+    "next_local_action":  "Do not promote improved_s052. Next local iteration should test lower strength around 0.42-0.48 with the expanded negative prompt, or inspect/control image preprocessing for eye-region chroma artifacts before EC2 generation."
+}

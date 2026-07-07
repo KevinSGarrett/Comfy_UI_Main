@@ -65,15 +65,15 @@
     "required_input_assets":  [
                                   {
                                       "role":  "control_image",
-                                      "filename":  "controlnet_canny_corrected_white_edges_black_bg.png",
+            "filename":  "controlnet_canny_cleaned_eye_safe_v1.png",
                                       "comfyui_input_subdir":  "",
                                       "node_id":  "11",
                                       "node_class":  "LoadImage",
                                       "input":  "image",
-                                      "status":  "prepared_local_comfyui_input",
-                                      "sha256":  "1af02b8bd12a9de394fbcc1becd72912f4604f843cb7e7a2fc80496835b8e9a5",
-                                      "comfyui_input_path":  "ComfyUI/input/controlnet_canny_corrected_white_edges_black_bg.png",
-                                      "evidence_path":  "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_input_20260707T000000-0500/CONTROL_IMAGE_INPUT_ASSET_MANIFEST.json"
+            "status":  "prepared_local_comfyui_input_cleaned_eye_safe",
+            "sha256":  "d2f09161928d6efa1c724aafd6798ab597f8cfa0e12dcb4db61203c6b4e74bd0",
+            "comfyui_input_path":  "ComfyUI/input/controlnet_canny_cleaned_eye_safe_v1.png",
+            "evidence_path":  "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_cleaned_eye_safe_v1_20260707T005200-0500/CONTROL_IMAGE_INPUT_ASSET_MANIFEST.json"
                                   }
                               ],
     "optional_models":  [
@@ -86,9 +86,9 @@
     "runtime_output_required":  true,
     "qa_report_required":  true,
     "promotion_allowed_without_evidence":  false,
-    "current_status":  "queued_pending_ec2_target_proof_local_smoke_passed",
+    "current_status":  "queued_pending_ec2_static_proof_and_generation_after_local_clean_control_package_v4",
     "known_blockers":  [
-                           "EC2 target-runtime static proof has not yet passed for this lane.",
+                           "Current cleaned-control wardrobe v4 package still requires EC2 static proof before target-runtime generation.",
                            "EC2 bounded generation, pullback, technical image QA, and whole-image visual QA remain pending.",
                            "Final portfolio certification remains pending."
                        ],
@@ -105,7 +105,23 @@
                            "Plan/Instructions/QA/Evidence/Runtime_Readiness/W67_LOCAL_OBJECT_INFO_CONTROLNET_CANNY_MODEL_INPUT_20260706T215000-0500.json",
                            "Plan/Instructions/QA/Evidence/Workflow_Runtime/W67_LOCAL_CONTROLNET_CANNY_RUN_PACKAGE_EXECUTE_20260706T215500-0500.json",
                            "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W67_LOCAL_CONTROLNET_CANNY_IMAGE_QA_TECHNICAL_20260706T215800-0500.json",
-                           "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W67_LOCAL_CONTROLNET_CANNY_IMAGE_QA_VISUAL_20260706T220000-0500.json"
+                           "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W67_LOCAL_CONTROLNET_CANNY_IMAGE_QA_VISUAL_20260706T220000-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W68_EC2_STATIC_PROOF_CANNY_DEPLOY_BUNDLE_BOM_FIX_20260707T034500-0500.json",
+                           "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_cleaned_eye_safe_v1_20260707T005200-0500/CONTROL_IMAGE_INPUT_ASSET_MANIFEST.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_CLEAN_CONTROL_PACKAGE_V2_DEFAULT_20260707T010000-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_CLEAN_CONTROL_PACKAGE_V2_DEFAULT_TECHNICAL_20260707T010200-0500.json",
+                           "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_LOCAL_CANNY_CLEAN_CONTROL_PACKAGE_V2_DEFAULT_VISUAL_QA_20260707T010200-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_CLEAN_CONTROL_WARDROBE_PACKAGE_V3_20260707T011000-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_WARDROBE_PACKAGE_V3_TECHNICAL_20260707T011200-0500.json",
+                           "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_LOCAL_CANNY_WARDROBE_PACKAGE_V3_VISUAL_QA_20260707T011200-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_WARDROBE_V3_MULTISEED_TECHNICAL_20260707T011900-0500.json",
+                           "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_LOCAL_CANNY_WARDROBE_V3_MULTISEED_VISUAL_QA_20260707T011900-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W68_LOCAL_CANNY_CLEAN_CONTROL_WARDROBE_STATIC_RECHECK_20260707T013000-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W68_RUNTIME_LANE_QUEUE_CANNY_CLEAN_CONTROL_LOCAL_QA_RETEST_20260707T013500-0500.json",
+                           "Plan/Instructions/QA/Evidence/Run_Package/W68_CANNY_CLEAN_CONTROL_WARDROBE_CURRENT_PACKAGE_V4_20260707T013600-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W68_RUNTIME_LANE_QUEUE_CANNY_V4_PACKAGE_LOCAL_RETEST_20260707T014000-0500.json",
+                           "Plan/Instructions/QA/Evidence/Engine_Router/W68_CANNY_V4_ROUTE_DECISION_20260707T014500-0500.json",
+                           "Plan/Instructions/QA/Evidence/Run_Package/W68_CANNY_V4_ROUTE_GATED_PACKAGE_BLOCK_20260707T014500-0500.json"
                        ],
-    "status_notes":  "ControlNet model and control image are locally provisioned. Local object_info sees the checkpoint, ControlNet model, and input image; bounded local generation produced a 768x768 image that passed technical QA and whole-image visual QA with notes. EC2 target-runtime proof remains pending."
+    "status_notes":  "ControlNet model and cleaned eye-safe control image are locally provisioned. The regenerated clean-control wardrobe package v3 produced local 768x768 clothed editorial portraits across three seeds that passed technical QA and whole-image visual QA with notes. Current package v4 was rebuilt from the updated exported lane and passed local static validation plus dry-run prompt construction. Route-gated package promotion correctly blocks until Canny has target-runtime proof. Current v4 package still requires EC2 static proof, bounded generation, pullback, technical image QA, and whole-image visual QA before target-runtime certification."
 }

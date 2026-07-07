@@ -1,0 +1,68 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "W68-LOCAL-CANNY-PROMPTFIX-S045-QA-20260707T004800-0500",
+    "timestamp":  "2026-07-07T00:38:41-05:00",
+    "project_root":  "C:\\Comfy_UI_Main",
+    "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+    "module_id":  "MOD-17-CONTROLNET-CANNY-LANE",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  true,
+    "source_files_reviewed":  [
+                                  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+                                  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/smoke_test_request.json",
+                                  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json"
+                              ],
+    "source_files_touched":  [
+                                 "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+                                 "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+                                 "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/smoke_test_request.json",
+                                 "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/smoke_test_request.json"
+                             ],
+    "runtime_evidence":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_QUALITY_IMPROVED_S045_PROMPTFIX_20260707T004500-0500.json",
+    "compared_against":  [
+                             "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_local_quality_matrix_s045_20260707T003000-0500/images/codex_sdxl_realvisxl_controlnet_canny_local_quality_matrix_s045_00001_.png",
+                             "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_local_quality_improved_s052_20260707T003600-0500/images/codex_sdxl_realvisxl_controlnet_canny_improved_s052_00001_.png"
+                         ],
+    "promoted_sample":  {
+                            "variant":  "improved_s045_promptfix",
+                            "seed":  711170101,
+                            "control_strength":  0.45,
+                            "end_percent":  0.65,
+                            "cfg":  5,
+                            "steps":  12,
+                            "resolution":  "512x512",
+                            "image":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_local_quality_improved_s045_promptfix_20260707T004500-0500/images/codex_sdxl_realvisxl_controlnet_canny_improved_s045_promptfix_00001_.png",
+                            "sha256":  "bca0c238be47cbbb41fa2631e3016125952d063b15e27c216e6d3c5272b5f794",
+                            "whole_image_qa":  "pass_with_notes_promoted_for_local_default",
+                            "findings":  [
+                                             "Face realism passes: coherent facial proportions, natural skin texture, clean lips and nose, no painted face marks",
+                                             "Eye quality passes: catchlights and irises are coherent; no colored eye artifact seen unlike failed s052",
+                                             "Hair passes with natural curl structure and plausible backlight frizz",
+                                             "Clothing is cleaner and more structured than the first s045 baseline",
+                                             "Lighting/background are coherent and softly realistic",
+                                             "No hands/feet/teeth visible, so those categories are not assessable rather than passed",
+                                             "Control-map adherence remains moderate, acceptable for realism-first Canny default but not a final certification sample"
+                                         ]
+                        },
+    "qa_driven_change":  {
+                             "promoted":  true,
+                             "previous_failed_default":  "0.52 strength caused colored eye artifacts and is superseded",
+                             "promoted_control_strength":  0.45,
+                             "promoted_end_percent":  0.65,
+                             "promoted_prompt_changes":  [
+                                                             "clean catchlights",
+                                                             "soft natural fill light",
+                                                             "balanced exposure",
+                                                             "clean face with no painted marks",
+                                                             "negative colored blotches/paint marks/over-dark eyes/control map stains"
+                                                         ],
+                             "files_updated":  true
+                         },
+    "remaining_risks":  [
+                            "Local proof does not replace EC2 generation/QA",
+                            "Prompt still produces portrait crop with no hands/feet/teeth coverage",
+                            "Control adherence should be retested on a more structured control image before final Canny certification"
+                        ]
+}

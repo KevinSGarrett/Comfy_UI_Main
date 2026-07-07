@@ -1,5 +1,70 @@
 # Current Pursuing Goal
 
+## Local Canny Quality Loop Completed - 2026-07-07T01:25:00-05:00
+
+The manual-supervisor-required local ComfyUI loop for `sdxl_realvisxl_controlnet_canny_lane` has now produced generated media, technical QA, whole-image visual QA, QA-driven workflow/request changes, and a current local v4 run package. The promoted local Canny state uses cleaned control image `controlnet_canny_cleaned_eye_safe_v1.png`, ControlNet `strength=0.45`, `end_percent=0.65`, and wardrobe-safe prompt terms. Evidence is indexed in `QA_EVIDENCE_INDEX.md` and the Canny lane queue entry now points at the cleaned-control/wardrobe multiseed evidence plus package evidence `Plan/Instructions/QA/Evidence/Run_Package/W68_CANNY_CLEAN_CONTROL_WARDROBE_CURRENT_PACKAGE_V4_20260707T013600-0500.json`. Route-gated promotion is correctly blocked until target-runtime proof exists; evidence is `Plan/Instructions/QA/Evidence/Run_Package/W68_CANNY_V4_ROUTE_GATED_PACKAGE_BLOCK_20260707T014500-0500.json`.
+
+The full project goal remains active. The Canny lane is not certified from local evidence alone; target-runtime proof still requires a clean checkpoint, bounded EC2 static proof, bounded EC2 generation, pullback, technical QA, and strict whole-image visual QA. Until those gates are intentionally run, continue with minimal changed-input local checks or another named local-first implementation task, and do not return to Wave65/index/helper/AWS/Git churn as a substitute for runtime work.
+
+## Manual Supervisor Override - Local ComfyUI Work Mode - 2026-07-07T00:21:01-05:00
+
+TWO_HOUR_SUPERVISOR_CORRECTION_ACTIVE = TRUE
+LOCAL_COMFYUI_WORK_REQUIRED_NOW = TRUE
+EC2_GIT_WAVE65_HOUSEKEEPING_FREEZE = TRUE
+
+Classification: LOOPING_RISK_REQUIRES_LOCAL_RUNTIME_WORK.
+
+Reason: The autonomous build has spent too much wall-clock time around Git, Wave65, hydration, AWS auth, EC2 start/stop waits, helper evidence, and readiness bookkeeping. Those activities may be valid only as gates, but they are no longer acceptable as the main work stream. The next visible progress must be actual ComfyUI project work: local runtime generation, workflow/lane improvement, strict technical QA, and strict whole-image visual QA that can improve the project without EC2.
+
+Immediate required task:
+Run a bounded local ComfyUI development loop for `sdxl_realvisxl_controlnet_canny_lane` / `MOD-17-CONTROLNET-CANNY-LANE`. Generate a small local quality matrix using the existing local ComfyUI setup, RealVisXL checkpoint, Canny ControlNet model, and prepared control image. Review every output with strict whole-image QA, not only the Canny/control region. Record defects across prompt alignment, face, eyes, teeth, hands, feet, anatomy, clothing, props, lighting, background, crop/framing, artifacts, and control-map adherence. Use the QA findings to make one concrete workflow/request/prompt/control-strength improvement, then rerun only the minimal local sample needed to prove whether the improvement helped.
+
+Required source references for this local work:
+- `C:\Comfy_UI_Main\Plan\07_IMPLEMENTATION\workflow_templates\base_generation\sdxl_realvisxl_controlnet_canny_lane\workflow.api.json`
+- `C:\Comfy_UI_Main\Plan\07_IMPLEMENTATION\workflow_templates\base_generation\sdxl_realvisxl_controlnet_canny_lane\runtime_requirements.json`
+- `C:\Comfy_UI_Main\Plan\07_IMPLEMENTATION\workflow_templates\base_generation\sdxl_realvisxl_controlnet_canny_lane\smoke_test_request.json`
+- `C:\Comfy_UI_Main\Plan\00_PROJECT_CONTROL\AI_PROJECT_MANAGER_OPERATING_MANUAL.md`
+- `C:\Comfy_UI_Main\Plan\00_PROJECT_CONTROL\WAVE20_CURRENT_STATUS.md`
+- `C:\Comfy_UI_Main\Plan\Items\Waves\Wave65\WAVE65_PLAN_SOURCE_COVERAGE_ITEM_ROWS.csv`
+- `C:\Comfy_UI_Main\Plan\Tracker\Waves\Wave65\WAVE65_PLAN_SOURCE_COVERAGE_TRACKER_ROWS.csv`
+
+Hard stop:
+- Do not start EC2 for this local loop.
+- Do not rerun Wave65, generated indexes, broad validators, helper evidence, hydration rewrites, AWS auth checks, S3 publishing, or Git/GitHub checkpointing before this local ComfyUI loop produces generated media plus QA evidence.
+- Do not treat `CURRENT_PURSUING_GOAL.md` or `NEXT_ACTION.md` edits as a reason for coverage regeneration.
+- Do not keep narrating waits. Report actual artifact generation, actual QA findings, actual workflow/request changes, or actual blockers only.
+- If local ComfyUI cannot run, record the exact local blocker once and move to the next local implementation task from Items/Tracker; do not fall back to EC2/Git/Wave65 churn.
+
+Success criteria:
+- At least one new local ComfyUI output artifact exists.
+- Technical evidence records workflow, model, request, seed, resolution, steps, output path, and runtime result.
+- Whole-image visual QA is recorded for every generated artifact.
+- At least one QA-driven improvement or blocker is source-cited and reflected in the relevant lane files, request files, or tracker/hydration state.
+
+## Manual Supervisor Correction - 2026-07-07T00:21:01-05:00
+
+TWO_HOUR_SUPERVISOR_CORRECTION_ACTIVE = TRUE
+
+Classification: ADVANCING_WITH_LOOP_RISK.
+
+Reason: The main session produced a useful W68 Canny static-proof result and a targeted BOM JSON reader fix, but it is drifting into EC2 stop-wait narration, Wave65 refreshes, hydration churn, and Git checkpoint repetition instead of concrete ComfyUI runtime/QA progress. The next objective is not more proof that the instance is stopping or more source-coverage reassurance; it is one bounded target-runtime retry or a local-first ComfyUI task.
+
+Current useful facts:
+- EC2 must be verified stopped before any next EC2 action.
+- The Canny deploy-bundle extraction path worked and found the runtime package files.
+- The latest static proof failed on UTF-8 BOM JSON decoding, not on Canny model placement, deploy-bundle extraction, or S3 object access.
+- `C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1` was patched to read manifest/runtime JSON with `utf-8-sig`.
+
+Immediate objective:
+Finish and verify the BOM-tolerant static-proof helper checkpoint if it is already in progress. Then perform exactly one bounded `sdxl_realvisxl_controlnet_canny_lane` EC2 static-proof retry from clean pushed `HEAD` using the prepared deploy bundle, `-SkipGitLfsPull`, `-MaxEc2RuntimeMinutes 25`, emergency-stop/cost controls, and stopped-state verification. If static proof passes, proceed directly to bounded Canny generation, artifact pullback, technical QA, and whole-image visual QA. If static proof fails again, record one exact blocker with evidence, verify EC2 stopped, and switch to a named local-first ComfyUI task from `Plan\Items` / `Plan\Tracker`.
+
+Hard stops:
+- Do not rerun Wave65, indexes, hydration, QA helper validation, operations helper validation, AWS-auth checks, Git cleanup, or GitHub checkpointing unless a new implementation/runtime/QA input changed and that run directly gates the immediate runtime step.
+- Do not produce repeated "still stopping" narration. Report only state changes, final stopped verification, or an actionable failure.
+- GitHub commits are checkpointing only; GitHub is not the project objective.
+- No EC2 run unless AWS, Git, model, lane readiness, deploy-bundle, TTL, emergency stop, and cost-control gates pass.
+- No final quality certification from a single smoke artifact; media work still requires full technical QA plus strict whole-image/whole-duration visual or audio review.
+
 ## Active Wave
 Wave 64 strict AI Items/Tracker end-to-end QA coverage plus Wave 65 exhaustive Plan source coverage closure, building on Wave 63 EC2 cost-control and Wave 61 runtime proof for queued lanes.
 

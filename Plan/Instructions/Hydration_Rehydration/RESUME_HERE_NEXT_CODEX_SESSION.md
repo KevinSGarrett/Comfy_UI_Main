@@ -4,6 +4,17 @@
 
 Start by reading this file, then read `CURRENT_PURSUING_GOAL.md` and follow its required instruction read order for `Plan/Instructions`. Do not continue from this resume file alone. The current active runtime handoff is the W68 ControlNet Canny target-runtime sequence in `NEXT_ACTION.md`, not the old W61 low-risk handoff. The older `W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.md` Markdown is historical/corrupted.
 
+## Latest W68 Canny v4 generation gate
+
+- Active root remains `C:\Comfy_UI_Main`; do not switch to `C:\Comfy_UI`.
+- The old no-`.git` blocker is stale for this root. `.git` exists and `origin/main` currently matches local `HEAD`, but the live worktree is dirty with local Canny QA/package/evidence changes.
+- W68 Canny EC2 static proof passed: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W68_EC2_STATIC_PROOF_CANNY_DEPLOY_BUNDLE_BOM_FIX_20260707T034500-0500.json`.
+- Fresh readiness after static proof reports `ready_for_generation=true`: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_LANE_RUNTIME_READINESS_CANNY_AFTER_STATIC_PROOF_20260707T012158-0500.json`.
+- Canny v4 generation dry-run used the current v4 package and blocked before EC2 start only on `local_git_worktree_dirty`; no generation ran and EC2 was not started: `Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_EC2_WORKFLOW_SMOKE_CANNY_V4_GATE_DRY_RUN_20260707T012214-0500.json`.
+- Built a local-only v4 deploy bundle from `runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_lane_clean_control_wardrobe_current_v4/RUN_PACKAGE_MANIFEST.json`: `runtime_artifacts/deploy_bundles/canny_v4_static_deploy_20260707T012255-0500/`.
+- V4 bundle tracked evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W68_CANNY_V4_DEPLOY_BUNDLE_LOCAL_READY_20260707T012255-0500.json`; ZIP SHA256 `76cdfcf6fa3f1e4f80d2d6f67f657fa51512286b398b8496ca9cd074bbbb418f`, size `62877`.
+- Do not start EC2 until the clean-head gate is satisfied. If Git checkpointing is allowed, make one minimal checkpoint for the Canny v4 local QA/package/evidence state, publish this v4 bundle or a clean-head successor to S3, rerun exactly one bounded v4 static proof, then run exactly one bounded v4 generation with pullback and strict QA.
+
 ## Latest W68 Canny deploy-bundle readiness
 
 - Active root is `C:\Comfy_UI_Main`; the work must continue there, not in `C:\Comfy_UI`.
@@ -696,6 +707,23 @@ If AWS auth is expired or Git is not clean/pushed, stop and report that blocker.
 - S3-backed quality-run plan evidence: `Plan\Instructions\QA\Evidence\Workflow_Runtime\W66_EC2_WORKFLOW_MATRIX_QUALITY_RUN_PLAN_S3_PUBLISHED_20260706T181317-0500.json`; result `pass_local_only`, three planned samples, real `-DeployBundleS3Uri`, real `-DeployBundleSha256`, and `failure_count=0`.
 - Wave65 source coverage was rerun after this addition. Current result: `pass`, `plan_file_count=2859`, `wave65_rows_created=684`, `missing_after_wave65_count=0`.
 - Next exact action: checkpoint the completed local RealVisXL smoke and QA evidence, then choose the next local-first lane/module or bounded local prompt iteration from a clean pushed state. Fresh AWS auth/Git/readiness/static/cost gates are still required before any future EC2 `-Execute`.
+
+## Latest Local ControlNet Canny QA Loop - 2026-07-07T01:25:00-05:00
+
+- Manual-supervisor local work requirement has been satisfied for `sdxl_realvisxl_controlnet_canny_lane`: local ComfyUI generated a quality matrix, QA identified control-strength/control-image defects, the workflow/request was improved, and the improved package passed local QA across three seeds.
+- Current promoted local settings: cleaned control image `controlnet_canny_cleaned_eye_safe_v1.png`, ControlNet `strength=0.45`, `end_percent=0.65`, positive wardrobe terms `tailored dark blazer over textured shirt, clothed shoulders`, and negative wardrobe/control-artifact terms including `bare shoulders`, `strapless top`, `nude`, and `unclothed torso`.
+- Final local evidence to use before any future target-runtime gate:
+  - `Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_cleaned_eye_safe_v1_20260707T005200-0500/CONTROL_IMAGE_INPUT_ASSET_MANIFEST.json`
+  - `Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_WARDROBE_PACKAGE_V3_TECHNICAL_20260707T011200-0500.json`
+  - `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_LOCAL_CANNY_WARDROBE_PACKAGE_V3_VISUAL_QA_20260707T011200-0500.json`
+  - `Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_WARDROBE_V3_MULTISEED_TECHNICAL_20260707T011900-0500.json`
+  - `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_LOCAL_CANNY_WARDROBE_V3_MULTISEED_VISUAL_QA_20260707T011900-0500.json`
+- `Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json` now records the cleaned-control/wardrobe multiseed evidence as the current local pre-EC2 proof. Canny remains pending target-runtime proof; do not certify it until clean checkpoint, bounded EC2 static proof, bounded EC2 generation, pullback, technical QA, and strict whole-image visual QA pass.
+- Minimal changed-input local checks passed after this alignment: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W68_LOCAL_CANNY_CLEAN_CONTROL_WARDROBE_STATIC_RECHECK_20260707T013000-0500.json` and `Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W68_RUNTIME_LANE_QUEUE_CANNY_CLEAN_CONTROL_LOCAL_QA_RETEST_20260707T013500-0500.json`.
+- Preserve `status=queued` for the Canny lane in `runtime_lane_queue.json`; the runtime queue validator expects that exact status while richer local-QA details belong in `role`, `local_pre_ec2_status`, and evidence fields.
+- Current Canny package for future target-runtime proof/generation is `runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_lane_clean_control_wardrobe_current_v4/RUN_PACKAGE_MANIFEST.json`. Tracked evidence `Plan/Instructions/QA/Evidence/Run_Package/W68_CANNY_CLEAN_CONTROL_WARDROBE_CURRENT_PACKAGE_V4_20260707T013600-0500.json` reports `pass_local_only`, static workflow pass, dry-run prompt request construction with 18 patched inputs, and prompt SHA256 `0764b5a7a0f51adedaeef99ed4f6685317b6d533b94abe915addb76ac041f3b1`. This package does not certify target runtime; v4 still needs EC2 static proof, bounded EC2 generation, pullback, technical QA, and strict whole-image visual QA.
+- Runtime queue validation passed after adding the v4 package evidence: `Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W68_RUNTIME_LANE_QUEUE_CANNY_V4_PACKAGE_LOCAL_RETEST_20260707T014000-0500.json`.
+- Route-gated package promotion is correctly blocked for Canny v4 until target-runtime proof exists. Router decision `Plan/Instructions/QA/Evidence/Engine_Router/W68_CANNY_V4_ROUTE_DECISION_20260707T014500-0500.json` selected already target-proven `sdxl_realvisxl_base_lane`; package block evidence `Plan/Instructions/QA/Evidence/Run_Package/W68_CANNY_V4_ROUTE_GATED_PACKAGE_BLOCK_20260707T014500-0500.json` records the expected mismatch. Do not treat this as a defect in v4 packaging; it is the router enforcing the missing EC2 static/generation/QA gates.
 
 ## Must not repeat
 

@@ -1,0 +1,22 @@
+{
+    "schema_version":  "1.0",
+    "asset_id":  "controlnet_canny_cleaned_eye_safe_v1",
+    "source":  "C:\\Comfy_UI_Main\\ComfyUI\\input\\controlnet_canny_corrected_white_edges_black_bg.png",
+    "output":  "C:\\Comfy_UI_Main\\ComfyUI\\input\\controlnet_canny_cleaned_eye_safe_v1.png",
+    "sha256":  "d2f09161928d6efa1c724aafd6798ab597f8cfa0e12dcb4db61203c6b4e74bd0",
+    "purpose":  "Local Canny QA iteration: reduce speckled eye/face edge noise that caused colored artifacts at higher ControlNet strength.",
+    "local_only":  true,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "processing":  [
+                       "resize 1024-\u003e512 bilinear",
+                       "median filter size=3",
+                       "max filter size=3",
+                       "threshold \u003e=96",
+                       "min filter size=3",
+                       "resize back to 1024 nearest"
+                   ],
+    "evidence_copy":  "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_cleaned_eye_safe_v1_20260707T005200-0500/controlnet_canny_cleaned_eye_safe_v1.png",
+    "evidence_copy_sha256":  "d2f09161928d6efa1c724aafd6798ab597f8cfa0e12dcb4db61203c6b4e74bd0",
+    "tracked_project_asset":  true
+}

@@ -1,0 +1,90 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "W68-LOCAL-CANNY-QUALITY-MATRIX-TECHNICAL-20260707T003800-0500",
+    "timestamp":  "2026-07-07T00:35:42-05:00",
+    "project_root":  "C:\\Comfy_UI_Main",
+    "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+    "module_id":  "MOD-17-CONTROLNET-CANNY-LANE",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  true,
+    "workflow_source":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+    "exported_workflow":  "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+    "runtime_requirements":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json",
+    "local_comfy_root":  "C:\\Comfy_UI_Main\\ComfyUI",
+    "local_comfy_port":  8188,
+    "model_assets":  [
+                         {
+                             "role":  "checkpoint",
+                             "filename":  "realvisxlV50_v50Bakedvae.safetensors",
+                             "sha256":  "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80"
+                         },
+                         {
+                             "role":  "controlnet",
+                             "filename":  "controlnet-canny-sdxl-1.0-small.safetensors",
+                             "sha256":  "fde4888a5f0a5648118991cc50e0ac4d60a2356dbaddf5e0649dd69c1119a2f9"
+                         },
+                         {
+                             "role":  "control_image",
+                             "filename":  "controlnet_canny_corrected_white_edges_black_bg.png",
+                             "sha256":  "1af02b8bd12a9de394fbcc1becd72912f4604f843cb7e7a2fc80496835b8e9a5"
+                         }
+                     ],
+    "runs":  [
+                 {
+                     "variant":  "s045",
+                     "request":  "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_lane_local_quality_matrix_s045/prompt_request.json",
+                     "runtime_evidence":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_QUALITY_MATRIX_S045_20260707T003000-0500.json",
+                     "seed":  711170101,
+                     "resolution":  "512x512",
+                     "steps":  12,
+                     "cfg":  5,
+                     "control_strength":  0.45,
+                     "end_percent":  0.65,
+                     "result":  "pass_local_run_package_generation_smoke",
+                     "output":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_local_quality_matrix_s045_20260707T003000-0500/images/codex_sdxl_realvisxl_controlnet_canny_local_quality_matrix_s045_00001_.png"
+                 },
+                 {
+                     "variant":  "s065",
+                     "request":  "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_lane_local_quality_matrix_s065/prompt_request.json",
+                     "runtime_evidence":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_QUALITY_MATRIX_S065_20260707T003200-0500.json",
+                     "seed":  711170102,
+                     "resolution":  "512x512",
+                     "steps":  12,
+                     "cfg":  5.5,
+                     "control_strength":  0.65,
+                     "end_percent":  0.75,
+                     "result":  "pass_local_run_package_generation_smoke",
+                     "output":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_local_quality_matrix_s065_20260707T003200-0500/images/codex_sdxl_realvisxl_controlnet_canny_local_quality_matrix_s065_00001_.png"
+                 },
+                 {
+                     "variant":  "s080",
+                     "request":  "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_lane_local_quality_matrix_s080/prompt_request.json",
+                     "runtime_evidence":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_QUALITY_MATRIX_S080_20260707T003300-0500.json",
+                     "seed":  711170103,
+                     "resolution":  "512x512",
+                     "steps":  12,
+                     "cfg":  5.5,
+                     "control_strength":  0.8,
+                     "end_percent":  0.85,
+                     "result":  "pass_local_run_package_generation_smoke",
+                     "output":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_local_quality_matrix_s080_20260707T003300-0500/images/codex_sdxl_realvisxl_controlnet_canny_local_quality_matrix_s080_00001_.png"
+                 },
+                 {
+                     "variant":  "improved_s052",
+                     "request":  "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_lane_local_quality_improved_s052/prompt_request.json",
+                     "runtime_evidence":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_QUALITY_IMPROVED_S052_20260707T003600-0500.json",
+                     "seed":  711170101,
+                     "resolution":  "512x512",
+                     "steps":  12,
+                     "cfg":  5.2,
+                     "control_strength":  0.52,
+                     "end_percent":  0.65,
+                     "result":  "pass_local_run_package_generation_smoke",
+                     "output":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_local_quality_improved_s052_20260707T003600-0500/images/codex_sdxl_realvisxl_controlnet_canny_improved_s052_00001_.png"
+                 }
+             ],
+    "visual_qa_evidence":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_LOCAL_CANNY_QUALITY_MATRIX_VISUAL_QA_20260707T003800-0500.json",
+    "improvement_status":  "attempted_not_promoted_due_to_colored_eye_artifact"
+}

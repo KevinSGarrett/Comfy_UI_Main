@@ -1,0 +1,51 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "W68-LOCAL-CANNY-CLEAN-CONTROL-PACKAGE-V2-DEFAULT-VISUAL-QA-20260707T010200-0500",
+    "timestamp":  "2026-07-07T00:46:03-05:00",
+    "project_root":  "C:\\Comfy_UI_Main",
+    "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+    "module_id":  "MOD-17-CONTROLNET-CANNY-LANE",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  true,
+    "source_package":  "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_lane_clean_control_package_v2/RUN_PACKAGE_MANIFEST.json",
+    "runtime_evidence":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_CLEAN_CONTROL_PACKAGE_V2_DEFAULT_20260707T010000-0500.json",
+    "image":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_local_clean_control_package_v2_default_20260707T010000-0500/images/codex_sdxl_realvisxl_controlnet_canny_smoke_00002_.png",
+    "image_sha256":  "34b80a6a2dfed8d5f4658c7c59e504bf2c5a666054327bf86cee9e9a2dcf6378",
+    "settings":  {
+                     "control_image":  "controlnet_canny_cleaned_eye_safe_v1.png",
+                     "control_image_sha256":  "d2f09161928d6efa1c724aafd6798ab597f8cfa0e12dcb4db61203c6b4e74bd0",
+                     "control_strength":  0.45,
+                     "end_percent":  0.65,
+                     "seed":  711170001,
+                     "steps":  20,
+                     "cfg":  5.5,
+                     "resolution":  "768x768",
+                     "sampler":  "dpmpp_2m_sde",
+                     "scheduler":  "karras"
+                 },
+    "whole_image_qa":  "pass_with_notes_local_default_package",
+    "findings":  [
+                     "Face proportions and pose are coherent",
+                     "Eyes are clean with no colored artifacts or over-dark control stains",
+                     "Skin texture is natural at local preview resolution",
+                     "Hair silhouette is plausible with mild softness at edges",
+                     "Lighting/background are coherent and not visibly broken",
+                     "No hands, feet, or teeth visible; those categories remain unassessed, not passed",
+                     "Shoulder/clothing coverage differs from expected clothed editorial portrait and should be tightened in later prompt work if wardrobe consistency matters",
+                     "Control adherence is sufficient for local default preview but still requires EC2 generation and QA before target certification"
+                 ],
+    "promotion_decision":  {
+                               "package_promoted_for_next_local_target_step":  true,
+                               "package_id":  "sdxl_realvisxl_controlnet_canny_lane_clean_control_package_v2",
+                               "lane_defaults_verified_locally":  true,
+                               "final_certification":  false,
+                               "reason":  "The exact regenerated package defaults produced a clean local artifact without the earlier colored-eye/control-stain failures."
+                           },
+    "remaining_risks":  [
+                            "Local ComfyUI proof does not replace EC2 target-runtime generation, pullback, technical QA, and whole-image visual QA",
+                            "Portrait crop does not exercise hands, feet, or teeth",
+                            "Wardrobe/clothing consistency needs a future prompt/profile variant if required by the final use case"
+                        ]
+}
