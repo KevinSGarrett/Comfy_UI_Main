@@ -1,0 +1,81 @@
+{
+    "evidence_id": "REALVISXL-MATRIX-FINAL-QA-CERTIFICATION-20260706T201000-0500",
+    "timestamp": "2026-07-06T20:10:00-05:00",
+    "task_id": "ITEM-W66-REALVISXL-MATRIX",
+    "tracker_id": "TRK-W66-REALVISXL-MATRIX",
+    "matrix_id": "realvisxl_multisample_certification_v1",
+    "lane_id": "sdxl_realvisxl_base_lane",
+    "model_context": "realvisxlV50_v50Bakedvae.safetensors / SHA256 6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+    "certification_scope": "Bounded three-sample RealVisXL image quality matrix covering close-up skin/eye realism, three-quarter hands/fabric/contact realism, and low-light environmental portrait/background coherence.",
+    "result": "pass_with_notes",
+    "certification_status": "matrix_sample_set_certified",
+    "overall_decision": "All three RealVisXL matrix samples generated successfully on EC2 through S3-backed clean-head deploy bundles, pulled artifacts back locally with hash verification, passed technical image QA, passed whole-image visual QA with only nonblocking notes, and left EC2 stopped after each runtime/static window.",
+    "samples": [
+        {
+            "sample": 1,
+            "profile_id": "realvisxl_closeup_skin_eye_v1",
+            "run_id": "aws_gpu_workflow_smoke_20260706T185315-0500",
+            "prompt_id": "3c0be6fd-274c-4a2d-bcc1-644be90fe22d",
+            "image_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T185315-0500/images/9_codex_realvisxl_cert_closeup_skin_eye_00001_.png",
+            "image_sha256": "5f8a996ea615a7376f9186dff80bce0ee600b19378bdaa307bbcf73394e0e18d",
+            "resolution": "1024x1024",
+            "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_MATRIX_SAMPLE1_20260706T185314-0500.json",
+            "pullback_record": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T185315-0500/PULLBACK_RECORD.json",
+            "technical_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE1_IMAGE_QA_TECHNICAL_20260706T190410-0500.json",
+            "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE1_IMAGE_QA_VISUAL_20260706T190640-0500.json",
+            "visual_result": "pass_for_matrix_sample1_with_notes",
+            "visual_score": 91,
+            "notes": "Strong close-up face/eye realism with minor beauty-retouch smoothness and close-crop coverage limits."
+        },
+        {
+            "sample": 2,
+            "profile_id": "realvisxl_three_quarter_hands_fabric_v1",
+            "run_id": "aws_gpu_workflow_smoke_20260706T192734-0500",
+            "prompt_id": "e1f39062-8c05-4a44-9968-2916796bd5bd",
+            "image_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T192734-0500/images/9_codex_realvisxl_cert_hands_fabric_00001_.png",
+            "image_sha256": "3d69eb051d1d416a0adf01de2ba357d7540d24a4993638888dea28a0b1ba9076",
+            "resolution": "1024x1024",
+            "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_MATRIX_SAMPLE2_20260706T192734-0500.json",
+            "pullback_record": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T192734-0500/PULLBACK_RECORD.json",
+            "technical_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE2_IMAGE_QA_TECHNICAL_20260706T193743-0500.json",
+            "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE2_IMAGE_QA_VISUAL_20260706T193800-0500.json",
+            "visual_result": "pass_for_matrix_sample2_with_notes",
+            "visual_score": 88,
+            "notes": "Hands/fabric/contact coverage passed with minor interlocked-finger/contact compression and limited background exercise."
+        },
+        {
+            "sample": 3,
+            "profile_id": "realvisxl_environment_lowlight_v1",
+            "run_id": "aws_gpu_workflow_smoke_20260706T195752-0500",
+            "prompt_id": "1683210b-6159-41a6-9ea7-c171e7e84880",
+            "image_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T195752-0500/images/9_codex_realvisxl_cert_environment_lowlight_00001_.png",
+            "image_sha256": "5a47e700233c29065c8ccfc18397ff55e7bc1717596110cf89a9d5e9eca23bc5",
+            "resolution": "1024x1024",
+            "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_MATRIX_SAMPLE3_20260706T195751-0500.json",
+            "pullback_record": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T195752-0500/PULLBACK_RECORD.json",
+            "technical_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE3_IMAGE_QA_TECHNICAL_20260706T200751-0500.json",
+            "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE3_IMAGE_QA_VISUAL_20260706T200845-0500.json",
+            "visual_result": "pass_for_matrix_sample3_with_notes",
+            "visual_score": 90,
+            "notes": "Low-light environmental portrait passed with coherent mixed lighting/background; minor lamp-edge geometry and slightly polished skin are nonblocking."
+        }
+    ],
+    "quality_gates": {
+        "s3_bundle_publish_and_download_verify": "pass",
+        "fresh_static_proof_before_generation": "pass",
+        "ec2_emergency_stop_schedules": "pass",
+        "workflow_runtime_generation": "pass",
+        "s3_render_sync": "pass",
+        "local_pullback_hash_verification": "pass",
+        "technical_image_qa": "pass",
+        "whole_image_visual_qa": "pass_with_notes",
+        "ec2_final_state": "stopped"
+    },
+    "known_nonblocking_runtime_notes": [
+        "ComfyUI logs included ONNX device-discovery warnings during successful runs.",
+        "ComfyUI logs included database-lock startup messages during successful runs.",
+        "Sample 3 additionally logged optional CUDA/sageattention performance warnings. None of these blocked execution_success, node-error-free generation, S3 sync, or verified pullback."
+    ],
+    "not_project_final_done": true,
+    "next_action": "Use this certified RealVisXL matrix as the current image-quality proof baseline, rerun Wave65 source coverage, update hydration/tracker state, commit, push, and then select the next highest-value non-complete project item."
+}

@@ -1,5 +1,23 @@
 # Next Action
 
+## Current next action - 2026-07-06T20:10:00-05:00
+
+Checkpoint and push the completed Wave66 RealVisXL three-sample matrix certification from `C:\Comfy_UI_Main`. Samples 1, 2, and 3 have all generated through bounded S3-backed EC2 workflow runs, pulled artifacts back locally, verified hashes, passed technical image QA, passed whole-image visual QA with notes, and left EC2 `stopped`. After validation, rerun Wave65 source coverage, commit/push this certification checkpoint, verify `HEAD == origin/main`, and then select the next highest-value incomplete project item; do not rerun the matrix unless the lane, model, prompt, workflow, or QA threshold changes.
+
+Current sample 3 and final certification evidence:
+
+```text
+Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_MATRIX_DEPLOY_BUNDLE_PUBLISH_SAMPLE3_S3D_20260706T194520-0500.json
+Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_MATRIX_DEPLOY_BUNDLE_UPLOAD_VERIFY_S3D_20260706T194525-0500.json
+Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_EC2_STATIC_PROOF_REALVISXL_MATRIX_S3D_20260706T194602-0500.json
+Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_MATRIX_SAMPLE3_20260706T195751-0500.json
+Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T195752-0500/PULLBACK_RECORD.json
+Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE3_IMAGE_QA_TECHNICAL_20260706T200751-0500.json
+Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE3_IMAGE_QA_VISUAL_20260706T200845-0500.json
+Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE3_PULLBACK_ARTIFACT_QA_20260706T200855-0500.json
+Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_FINAL_QA_CERTIFICATION_20260706T201000-0500.json
+```
+
 ## Current next action - 2026-07-06T19:07:00-05:00
 
 Checkpoint the completed RealVisXL matrix sample 2 evidence from `C:\Comfy_UI_Main`, then rebuild and publish a fresh clean-head matrix bundle before running sample 3. Samples 1 and 2 generated successfully from S3-backed bundles, pulled back through S3, hash-verified locally, and passed technical plus visual QA with notes. The full three-sample matrix is not certified until sample 3 receives the same runtime, pullback, and whole-image QA treatment.

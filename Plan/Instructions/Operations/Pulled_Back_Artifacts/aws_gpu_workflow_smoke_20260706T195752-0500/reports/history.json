@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "9": {
+      "display_node": "9",
+      "node_id": "9",
+      "parent_node": null,
+      "real_node_id": "9"
+    }
+  },
+  "outputs": {
+    "9": {
+      "images": [
+        {
+          "filename": "codex_realvisxl_cert_environment_lowlight_00001_.png",
+          "subfolder": "",
+          "type": "output"
+        }
+      ]
+    }
+  },
+  "prompt": [
+    0,
+    "1683210b-6159-41a6-9ea7-c171e7e84880",
+    {
+      "3": {
+        "class_type": "KSampler",
+        "inputs": {
+          "cfg": 5.2,
+          "denoise": 1.0,
+          "latent_image": [
+            "5",
+            0
+          ],
+          "model": [
+            "4",
+            0
+          ],
+          "negative": [
+            "7",
+            0
+          ],
+          "positive": [
+            "6",
+            0
+          ],
+          "sampler_name": "dpmpp_2m",
+          "scheduler": "karras",
+          "seed": 811006303,
+          "steps": 32
+        }
+      },
+      "4": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "realvisxlV50_v50Bakedvae.safetensors"
+        }
+      },
+      "5": {
+        "class_type": "EmptyLatentImage",
+        "inputs": {
+          "batch_size": 1,
+          "height": 1024,
+          "width": 1024
+        }
+      },
+      "6": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "4",
+            1
+          ],
+          "text": "hyperrealistic environmental portrait of an adult subject in a softly lit interior, realistic face and hands, natural skin pores, detailed hair, subtle window reflection, coherent background depth, believable practical lamp glow, accurate shadow direction, fabric texture, realistic color temperature mix, 50mm documentary portrait lens, high dynamic range photographic rendering"
+        }
+      },
+      "7": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "4",
+            1
+          ],
+          "text": "cartoon, anime, illustration, CGI, plastic skin, waxy skin, over-smoothed face, distorted hands, extra fingers, missing fingers, broken wrist, impossible reflection, incoherent background, warped furniture, bad perspective, harsh halos, blown highlights, muddy shadows, low resolution, blurry, watermark, text, logo"
+        }
+      },
+      "8": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "3",
+            0
+          ],
+          "vae": [
+            "4",
+            2
+          ]
+        }
+      },
+      "9": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "codex_realvisxl_cert_environment_lowlight",
+          "images": [
+            "8",
+            0
+          ]
+        }
+      }
+    },
+    {
+      "client_id": "codex-package-matrix-3",
+      "create_time": 1783386059150
+    },
+    [
+      "9"
+    ]
+  ],
+  "status": {
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "1683210b-6159-41a6-9ea7-c171e7e84880",
+          "timestamp": 1783386059151
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [],
+          "prompt_id": "1683210b-6159-41a6-9ea7-c171e7e84880",
+          "timestamp": 1783386059152
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "1683210b-6159-41a6-9ea7-c171e7e84880",
+          "timestamp": 1783386121696
+        }
+      ]
+    ],
+    "status_str": "success"
+  }
+}
