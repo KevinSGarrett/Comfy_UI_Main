@@ -1,5 +1,45 @@
 # Next Action
 
+## Current next action - 2026-07-06T23:05:00-05:00
+
+Checkpoint the W68 EC2 ControlNet Canny asset install evidence, then run static proof from a clean pushed head. The Canny ControlNet model and Canny input image are now installed on EC2 from S3 and SHA256-verified; EC2 final state is `stopped`; no generation has run during W68 install work.
+
+Current install evidence:
+
+```text
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_EC2_EMERGENCY_STOP_CONTROLNET_CANNY_INSTALL_20260706T224000-0500.json
+Plan/Instructions/QA/Evidence/Model_Registry/W68_EC2_CONTROLNET_CANNY_MODEL_INSTALL_20260706T224500-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_EC2_CONTROLNET_CANNY_INPUT_ASSET_INSTALL_20260706T225500-0500.json
+Plan/Items/Reports/wave65_plan_source_coverage_report.json
+```
+
+Verified remote install facts:
+
+```text
+/home/ubuntu/ComfyUI/models/controlnet/controlnet-canny-sdxl-1.0-small.safetensors
+sha256: fde4888a5f0a5648118991cc50e0ac4d60a2356dbaddf5e0649dd69c1119a2f9
+
+/home/ubuntu/ComfyUI/input/controlnet_canny_corrected_white_edges_black_bg.png
+sha256: 1af02b8bd12a9de394fbcc1becd72912f4604f843cb7e7a2fc80496835b8e9a5
+
+Wave65 latest result: pass; plan_file_count=2990; wave65_rows_created=815; missing_after_wave65_count=0
+```
+
+Immediate checkpoint steps: validate JSON/CSV/PowerShell, confirm EC2 is `stopped`, staged-file scan for `.env`, PEMs, safetensors, `ComfyUI/`, `models/`, and token/private-key patterns, commit, push, and verify clean `HEAD == origin/main`.
+
+Next runtime step after the clean pushed checkpoint: create/verify a fresh emergency stop schedule for the static-proof window, then run:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 `
+  -LaneId sdxl_realvisxl_controlnet_canny_lane `
+  -SkipGitLfsPull `
+  -MaxEc2RuntimeMinutes 25 `
+  -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W68_EC2_STATIC_PROOF_CONTROLNET_CANNY_<timestamp>.json `
+  -Execute
+```
+
+After static proof passes, rerun lane readiness. Only then run one bounded EC2 workflow smoke from `runtime_artifacts\run_packages\sdxl_realvisxl_controlnet_canny_lane_static_package_v1\RUN_PACKAGE_MANIFEST.json`, pull back artifacts, and complete technical plus whole-image visual QA.
+
 ## Current next action - 2026-07-06T22:35:00-05:00
 
 Checkpoint the W68 ControlNet Canny target-runtime preparation from `C:\Comfy_UI_Main`, then continue with EC2 only for the target-runtime facts that cannot be proven locally. The old `BLOCKER-W59-GIT-001` no-`.git` statement is stale for this root: `.git` exists, `origin` is `https://github.com/KevinSGarrett/Comfy_UI_Main.git`, and `main` tracks `origin/main`. `.env` and `comfyui-lora-key.pem` are local sensitive files and must not be printed or committed.

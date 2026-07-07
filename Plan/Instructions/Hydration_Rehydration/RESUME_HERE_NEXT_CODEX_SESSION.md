@@ -16,6 +16,14 @@ Start by reading this file, then read `CURRENT_PURSUING_GOAL.md` and follow its 
 - Local ComfyUI port 8188 is closed. EC2 `i-0560bf8d143f93bb1` is `stopped`, type `g5.xlarge`, IAM profile `ComfyUI-SSM-Profile`, volume `vol-0eb9b2c6d3d2706d6`, and public IP `null`.
 - Immediate next action: validate, staged-file scan, commit, push, verify clean `HEAD == origin/main`; then create/verify emergency stop, install model/input on EC2 from S3, commit/push install evidence, run EC2 static proof, rerun readiness, execute one bounded EC2 workflow smoke, pull back artifacts, and complete technical plus whole-image visual QA.
 
+## Latest W68 EC2 asset install
+
+- After checkpoint `51e5fe9`, created emergency stop schedule evidence `Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_EC2_EMERGENCY_STOP_CONTROLNET_CANNY_INSTALL_20260706T224000-0500.json`.
+- Installed the Canny ControlNet model on EC2 from S3. Evidence `Plan/Instructions/QA/Evidence/Model_Registry/W68_EC2_CONTROLNET_CANNY_MODEL_INSTALL_20260706T224500-0500.json` reports `install_model_hash_verified`, command status `Success`, remote path `/home/ubuntu/ComfyUI/models/controlnet/controlnet-canny-sdxl-1.0-small.safetensors`, SHA256 `fde4888a5f0a5648118991cc50e0ac4d60a2356dbaddf5e0649dd69c1119a2f9`, final EC2 state `stopped`, and `generation_executed=false`.
+- Installed the Canny LoadImage input asset on EC2 from S3. Evidence `Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_EC2_CONTROLNET_CANNY_INPUT_ASSET_INSTALL_20260706T225500-0500.json` reports `input_asset_hash_verified`, command status `Success`, remote path `/home/ubuntu/ComfyUI/input/controlnet_canny_corrected_white_edges_black_bg.png`, SHA256 `1af02b8bd12a9de394fbcc1becd72912f4604f843cb7e7a2fc80496835b8e9a5`, final EC2 state `stopped`, and `generation_executed=false`.
+- Latest Wave65 coverage after install evidence passes: `plan_file_count=2990`, `wave65_rows_created=815`, `missing_after_wave65_count=0`.
+- Immediate next action: validate, staged-file scan, commit, push, verify clean `HEAD == origin/main`, create a fresh emergency stop schedule for static proof, then run `Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_realvisxl_controlnet_canny_lane -SkipGitLfsPull -MaxEc2RuntimeMinutes 25 -Execute`.
+
 ## Current session completed
 
 - Provisioned and locally runtime-proved `sdxl_realvisxl_controlnet_canny_lane` after the earlier static extraction checkpoint. Downloaded `controlnet-canny-sdxl-1.0-small.safetensors` from Hugging Face into ignored `models\controlnet`, recorded SHA256 `fde4888a5f0a5648118991cc50e0ac4d60a2356dbaddf5e0649dd69c1119a2f9`, and updated the model registry/runtime validation queue.
