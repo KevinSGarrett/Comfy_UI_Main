@@ -52,6 +52,8 @@ The next queued runtime lane, `sdxl_realvisxl_base_lane`, has also completed Rea
 
 The local-first RealVisXL iteration path is now live too. `C:\Comfy_UI_Main\ComfyUI` is an ignored local checkout with CUDA Torch, the verified RealVisXL checkpoint is in ignored project model storage, local extra model paths are configured, `/object_info` passes, and a bounded 512x512/10-step local RealVisXL smoke generated one PNG with technical plus whole-image visual QA. Local evidence is `Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_LOCAL_COMFYUI_REALVISXL_SMOKE_EXECUTE_20260706T205501-0500.json` and `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_LOCAL_REALVISXL_SMOKE_IMAGE_QA_VISUAL_20260706T205650-0500.json`. This local proof is for low-cost iteration and does not replace EC2 target-runtime proof.
 
+The next local-first lane is now concrete: `sdxl_realvisxl_controlnet_canny_lane` / `MOD-17-CONTROLNET-CANNY-LANE`. The lane has been extracted from the Wave11/Main Flow Canny branch into Plan and exported `Workflows`, added as queue order 3, registered with queued model requirements, packaged as `runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_lane_static_package_v1/RUN_PACKAGE_MANIFEST.json`, statically validated, smoke-dry-run validated, and local object_info checked for ControlNet nodes. It remains blocked from generation until the SDXL Canny ControlNet model and the control image input asset are provisioned and hashed.
+
 Wave 63 cost controls are active:
 
 - Local dev preflight: `tools\Test-LocalComfyUIDevPreflight.ps1`.
@@ -147,11 +149,9 @@ RealVisXL matrix sample 3 is now generated, pulled back, hash-verified, and QA-r
 ## Next Exact Work
 First, if the local RealVisXL smoke, runtime proof, cost-control, tracker, or instruction updates are uncommitted, finish one clean Git checkpoint and verify local `HEAD == origin/main`.
 
-Second, choose the next work intentionally from a clean pushed state. The default next work is one of:
+Second, continue the queued ControlNet Canny lane locally. Provision the SDXL Canny ControlNet model without committing the binary, record source metadata/file size/SHA256, place or generate `controlnet_canny_corrected_white_edges_black_bg.png` in the active ComfyUI input path, rerun local validation, and then use the local run-package helper for a bounded generation plus technical and whole-image QA before any EC2 target proof.
 
-1. Use the local ComfyUI path for the next low-cost prompt/workflow iteration, generating small bounded artifacts locally with technical plus whole-image QA before spending EC2 time.
-2. Define the next lane/module from the Main Flow/Wave42 source context and run local validation, registry coverage, queue updates, run package creation, and deploy-bundle creation while EC2 is stopped.
-3. If broader image-quality certification is the explicit next target, create a new multi-sample QA plan instead of rerunning already certified RealVisXL matrix samples.
+Third, if broader image-quality certification becomes the explicit target instead, create a new multi-sample QA plan rather than rerunning already certified RealVisXL matrix samples.
 
 Third, keep using the cost-control lane before any future generation attempt:
 

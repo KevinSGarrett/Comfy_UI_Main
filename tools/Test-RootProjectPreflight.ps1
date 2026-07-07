@@ -263,7 +263,7 @@ $modelRegistryCoverage = [ordered]@{
   coverage_allows_root_ec2_static_proof = $false
 }
 
-$modelRegistryCoverageFile = Find-LatestFile -Directory $modelRegistryCoverageDir -Filter "W61_MODEL_REGISTRY_COVERAGE*.json"
+$modelRegistryCoverageFile = Find-LatestFile -Directory $modelRegistryCoverageDir -Filter "*MODEL_REGISTRY*.json"
 $modelRegistryCoverage.evidence = ConvertTo-RepoPath -Path $modelRegistryCoverageFile
 $modelRegistryCoverage.found = (![string]::IsNullOrWhiteSpace($modelRegistryCoverageFile) -and (Test-Path -LiteralPath $modelRegistryCoverageFile))
 Add-Check -Checks $checks -Name "model_registry_coverage_evidence_found" `

@@ -23,6 +23,8 @@ The final pack defines instructions and protocols. It does not prove live runtim
 
 ## Active known issues
 
+- `ISSUE-RUNTIME-CONTROLNET-CANNY-MODEL-001`: Active for queued lane `sdxl_realvisxl_controlnet_canny_lane`. The lane is extracted, statically validated, dry-run packaged, and local object_info confirms ControlNet node classes, but the SDXL Canny ControlNet model file and control image input asset are not yet provisioned. Do not claim runtime proof or QA until model metadata/SHA256, input placement, generation, pullback, technical image QA, and whole-image visual QA are complete. Evidence: `Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W66_RUNTIME_LANE_QUEUE_CONTROLNET_CANNY_RETEST_20260706T212030-0500.json`.
+
 - `ISSUE-EC2-PROJECT-SYNC-001` (resolved 2026-07-06T01:59:07-05:00): EC2 discovery found ComfyUI at `/home/ubuntu/ComfyUI` and a working NVIDIA A10G GPU, but no `Comfy_UI_Main` project checkout was found in searched paths. Resolved by cloning the project to `/home/ubuntu/Comfy_UI_Main`, pulling Git LFS, verifying matching HEAD, and stopping EC2. Evidence: `Plan/Instructions/QA/Evidence/EC2_Project_Sync/W60_W61_EC2_PROJECT_SYNC_20260706T015022-0500.json`.
 - `ISSUE-AWS-AUTH-EXPIRED-001`: Historical/conditional gate. Earlier AWS CLI credentials expired, but later post-login evidence allowed the low-risk lane proof/generation and the RealVisXL install/static proof/workflow smoke. Future sessions must still rerun AWS auth and account checks before any EC2 `-Execute`, because auth can expire between sessions. Do not treat this as the current RealVisXL blocker; RealVisXL runtime smoke, pullback, and image QA are complete.
 

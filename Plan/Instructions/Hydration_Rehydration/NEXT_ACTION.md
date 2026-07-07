@@ -1,5 +1,32 @@
 # Next Action
 
+## Current next action - 2026-07-06T21:26:30-05:00
+
+Continue the newly queued `sdxl_realvisxl_controlnet_canny_lane` locally by provisioning its missing ControlNet/runtime input assets, not by rerunning completed RealVisXL smoke proofs. The Canny lane has been extracted from the Wave11/Main Flow ControlNet branch into concrete Plan and `Workflows` lane files, added as queue order 3, added to model registry coverage, packaged into a local run package, statically validated, smoke-dry-run validated, and checked against local `/object_info` for `ControlNetLoader` and `ControlNetApplyAdvanced`.
+
+Current Canny lane evidence:
+
+```text
+Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W66_NEXT_LANE_MODULE_SELECTION_CONTROLNET_CANNY_20260706T212030-0500.json
+Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json
+Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json
+runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_lane_static_package_v1/RUN_PACKAGE_MANIFEST.json
+Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_WORKFLOW_STATIC_VALIDATION_SDXL_REALVISXL_CONTROLNET_CANNY_20260706T212030-0500.json
+Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_WORKFLOW_SMOKE_DRY_RUN_SDXL_REALVISXL_CONTROLNET_CANNY_20260706T212030-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_OBJECT_INFO_CONTROLNET_CANNY_NODES_20260706T212030-0500.json
+Plan/Instructions/QA/Evidence/Model_Registry/W66_MODEL_REGISTRY_CONTROLNET_CANNY_QUEUE_20260706T212030-0500.json
+Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W66_RUNTIME_LANE_QUEUE_CONTROLNET_CANNY_RETEST_20260706T212030-0500.json
+```
+
+Current blocker for this lane:
+
+```text
+models/controlnet/controlnet-canny-sdxl-1.0-small.safetensors is not present.
+controlnet_canny_corrected_white_edges_black_bg.png is not yet proven in the active ComfyUI input directory.
+```
+
+Next exact work: look up/download or otherwise provision the SDXL Canny ControlNet asset without committing the binary, record source metadata/file size/SHA256, place or generate the Canny control image input asset, rerun local object-info/model-path checks, then use `tools/Invoke-LocalComfyUIRunPackageSmoke.ps1` for a bounded local generation and whole-image QA before any EC2 target proof.
+
 ## Current next action - 2026-07-06T21:12:00-05:00
 
 Checkpoint the reusable local ComfyUI run-package smoke helper, then continue local-first from a clean pushed state. `tools/Invoke-LocalComfyUIRunPackageSmoke.ps1` now turns the previously ad hoc local smoke path into a dry-run-by-default helper: it validates a run package, verifies the prompt request hash/lane, starts local ComfyUI with the extra model paths config, posts `/prompt`, polls `/history`, copies generated images into project pullback evidence, and stops the local process it started. The helper has both dry-run and execute evidence, and the helper-produced PNG has technical plus whole-image visual QA.

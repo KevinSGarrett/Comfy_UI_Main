@@ -12,6 +12,15 @@ None currently active for local Wave 58-62 static and packaging validation.
 
 ## Active runtime blockers
 
+- `BLOCKER-RUNTIME-CONTROLNET-CANNY-MODEL-001`
+  - status: active for queued lane `sdxl_realvisxl_controlnet_canny_lane`; not a Git, GitHub token, Civitai key, or `.env` blocker.
+  - blocker type: required_controlnet_model_and_input_asset_missing
+  - failed condition: `models/controlnet/controlnet-canny-sdxl-1.0-small.safetensors` is not present and `controlnet_canny_corrected_white_edges_black_bg.png` has not yet been proven in the active ComfyUI input directory.
+  - impact: The Canny lane can be statically validated and packaged, but runtime generation, pullback, technical image QA, and whole-image visual QA must remain blocked.
+  - current proof: lane extraction, static validation, dry-run prompt construction, local object_info node availability, registry queue coverage, authored-lane coverage, and runtime queue validation all pass locally.
+  - evidence: `Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W66_NEXT_LANE_MODULE_SELECTION_CONTROLNET_CANNY_20260706T212030-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_WORKFLOW_STATIC_VALIDATION_SDXL_REALVISXL_CONTROLNET_CANNY_20260706T212030-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_OBJECT_INFO_CONTROLNET_CANNY_NODES_20260706T212030-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W66_RUNTIME_LANE_QUEUE_CONTROLNET_CANNY_RETEST_20260706T212030-0500.json`
+  - route: look up/download or S3-sync the ControlNet model without committing the binary, record metadata/file size/SHA256, place or generate the Canny control input image, rerun local validation, then run bounded local generation and QA before any EC2 target proof.
+
 - `BLOCKER-AWS-AUTH-EXPIRED-001`
   - status: historical/conditional recheck gate after the post-login low-risk proof, RealVisXL runtime proof, and S3/IAM runtime infrastructure initialization; not a current local/S3 blocker.
   - blocker type: aws_cli_login_expired

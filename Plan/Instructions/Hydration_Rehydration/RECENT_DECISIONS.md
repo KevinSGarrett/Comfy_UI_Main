@@ -1,5 +1,7 @@
 # Recent Decisions
 
+- 2026-07-06T21:26:30-05:00: Selected `MOD-17-CONTROLNET-CANNY-LANE` as the next local-first lane/module because Wave05 marks it `extract_from_current_flow`, Wave11 marks the Canny branch `wired_ready_to_verify`, and the RealVisXL SDXL base path is already locally and target-runtime proven. Extracted it as `sdxl_realvisxl_controlnet_canny_lane`, added it to Plan and exported `Workflows`, queued it as order 3, added model registry/runtime queue records, built `sdxl_realvisxl_controlnet_canny_lane_static_package_v1`, passed static validation, built the dry-run `/prompt` body, proved local object_info contains ControlNet node classes, refreshed authored-lane coverage, and reran queue validation to pass. This is not runtime-proven; the ControlNet model and control image asset remain the next blocker.
+
 - Wave 62 was built as the final continuity and certification layer for Waves 58-62.
 - Existing hydration starter files were preserved and updated instead of discarded.
 - Completion rules require QA evidence and done certification before any item is marked complete.

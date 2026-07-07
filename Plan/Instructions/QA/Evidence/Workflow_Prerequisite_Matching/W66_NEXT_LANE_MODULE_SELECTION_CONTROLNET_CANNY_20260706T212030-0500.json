@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W66_NEXT_LANE_MODULE_SELECTION_CONTROLNET_CANNY_20260706T212030-0500",
+  "created_at": "2026-07-06T21:26:30-05:00",
+  "artifact_type": "next_lane_module_selection",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "comfyui_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "selected_module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+  "selected_lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "selection_result": "selected_for_local_extraction_and_queueing",
+  "source_inputs": [
+    {
+      "path": "Plan/10_REGISTRIES/wave05_workflow_template_contracts.json",
+      "finding": "MOD-17-CONTROLNET-CANNY-LANE is extract_from_current_flow."
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave11_control_map_runtime_requirements.json",
+      "finding": "Canny branch is wired_ready_to_verify and local-first; EC2 is not required for initial extraction."
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave11_main_flow_control_map_inventory.json",
+      "finding": "Main Flow contains ControlNetLoader, LoadImage, ControlNetApplyAdvanced, KSampler, VAEDecode, and SaveImage for the Canny lane."
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+      "finding": "The first two SDXL lanes are runtime-smoke proven, so the next lane should be intentionally queued rather than rerunning completed smoke paths."
+    }
+  ],
+  "candidate_comparison": [
+    {
+      "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+      "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+      "score": 95,
+      "reason": "Direct Main Flow branch exists, SDXL/RealVisXL base path is proven locally and on EC2, and required node classes are present in local object_info.",
+      "status_after_this_work": "queued_with_static_validation_and_dry_run_request"
+    },
+    {
+      "module_id": "MOD-15-FLUX-SMOKE-TEST-LANE",
+      "score": 55,
+      "reason": "Useful future image lane, but model/tooling requirements are heavier and less aligned with the already-proven local RealVisXL path.",
+      "status_after_this_work": "not_selected"
+    },
+    {
+      "module_id": "MOD-20-MASK-FACTORY",
+      "score": 45,
+      "reason": "Important downstream module, but detector/parser dependencies make it a larger dependency-provisioning task than the wired Canny branch.",
+      "status_after_this_work": "not_selected"
+    }
+  ],
+  "artifacts_created_or_updated": [
+    "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+    "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/patch_points.json",
+    "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json",
+    "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/smoke_test_request.json",
+    "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+    "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/patch_points.json",
+    "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json",
+    "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/smoke_test_request.json",
+    "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_lane_static_package_v1/RUN_PACKAGE_MANIFEST.json"
+  ],
+  "validation_summary": {
+    "workflow_static_validation": "pass",
+    "smoke_dry_run": "pass",
+    "local_object_info_controlnet_nodes": "pass",
+    "model_registry_coverage": "pass_local_only",
+    "authored_lane_evidence_coverage": "pass_local_only",
+    "runtime_lane_queue_retest": "pass_local_only",
+    "ready_for_generation": false
+  },
+  "promotion_blockers": [
+    "ControlNet model source metadata, file size, and SHA256 are not yet recorded.",
+    "models/controlnet/controlnet-canny-sdxl-1.0-small.safetensors is not present.",
+    "controlnet_canny_corrected_white_edges_black_bg.png is not yet placed/proven in the active ComfyUI input directory.",
+    "No lane-specific object_info/path/hash proof has been run after model provisioning.",
+    "No generated Canny-lane artifact, pullback hash verification, technical image QA, or whole-image visual QA exists."
+  ],
+  "next_action": "Perform ControlNet model metadata lookup/download or S3 sync, create/place the Canny control image input asset, rerun local object_info/path checks, then run bounded local generation before any EC2 target proof."
+}
