@@ -4,6 +4,24 @@
 
 Start by reading this file, then read `CURRENT_PURSUING_GOAL.md` and follow its required instruction read order for `Plan/Instructions`. Do not continue from this resume file alone. The current active runtime handoff is the W68 ControlNet Canny target-runtime sequence in `NEXT_ACTION.md`, not the old W61 low-risk handoff. The older `W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.md` Markdown is historical/corrupted.
 
+## Latest W68 Canny deploy-bundle readiness
+
+- Active root is `C:\Comfy_UI_Main`; the work must continue there, not in `C:\Comfy_UI`.
+- Built a local-only Canny deploy bundle from the validated run package while AWS auth remained expired and EC2 stayed unused.
+- Tracked evidence:
+  - `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W68_CANNY_DEPLOY_BUNDLE_LOCAL_READY_20260707T020500-0500.json`
+  - `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W68_CANNY_DEPLOY_BUNDLE_S3_PUBLISH_DRY_RUN_20260707T020600-0500.json`
+- Bundle facts:
+  - `bundle_id`: `canny_static_deploy_20260707T020500-0500`
+  - `source_git_head`: `96c01860997344cdd449847aff551f35edea9908`
+  - `bundle_zip_sha256`: `b9cd47466f761a86db61d48c02ef11f8b570f93dafe367662b80a7fc587b067c`
+  - `bundle_zip_size_bytes`: `60317`
+  - `s3_bundle_uri`: `s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/canny-static-proof/canny_static_deploy_20260707T020500-0500/canny_static_deploy_20260707T020500-0500.zip`
+  - `s3_manifest_uri`: `s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/canny-static-proof/canny_static_deploy_20260707T020500-0500/DEPLOY_BUNDLE_MANIFEST.json`
+- The actual bundle ZIP/content is ignored under `runtime_artifacts/deploy_bundles/` and must not be committed.
+- No AWS contact, GitHub API contact, Civitai contact, ComfyUI contact, EC2 start, or generation occurred.
+- Next: after AWS login/SSO refresh for account `029530099913`, rerun auth/profile/readiness. If safe, upload this exact bundle or a fresh clean-head successor with `Publish-DeployBundleToS3.ps1 -Execute`, verify SHA256, schedule emergency stop, and run Canny EC2 static proof with `-DeployBundleS3Uri` and `-DeployBundleSha256`.
+
 ## Latest W68 Canny current-queue checkpoint
 
 - Active root is `C:\Comfy_UI_Main`. This directory already has `.git`, `.env`, `comfyui-lora-key.pem`, `Plan`, `Workflows`, `models`, and `ComfyUI`; do not recreate Git metadata and do not switch work to `C:\Comfy_UI`.

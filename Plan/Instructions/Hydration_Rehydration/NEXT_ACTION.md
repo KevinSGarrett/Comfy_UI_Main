@@ -1,5 +1,31 @@
 # Next Action
 
+## Current next action - 2026-07-07T02:06:00-05:00
+
+Refresh Wave65 after the new Canny deploy-bundle evidence, validate, scan, commit, push, and verify clean `HEAD == origin/main` from `C:\Comfy_UI_Main`.
+
+New local-only Canny EC2-readiness evidence:
+
+```text
+Plan/Instructions/QA/Evidence/Operations_Static_Validation/W68_CANNY_DEPLOY_BUNDLE_LOCAL_READY_20260707T020500-0500.json
+Plan/Instructions/QA/Evidence/Operations_Static_Validation/W68_CANNY_DEPLOY_BUNDLE_S3_PUBLISH_DRY_RUN_20260707T020600-0500.json
+```
+
+Bundle facts:
+
+```text
+bundle_id: canny_static_deploy_20260707T020500-0500
+bundle_zip_sha256: b9cd47466f761a86db61d48c02ef11f8b570f93dafe367662b80a7fc587b067c
+bundle_zip_size_bytes: 60317
+source_git_head: 96c01860997344cdd449847aff551f35edea9908
+s3_bundle_uri: s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/canny-static-proof/canny_static_deploy_20260707T020500-0500/canny_static_deploy_20260707T020500-0500.zip
+s3_manifest_uri: s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/canny-static-proof/canny_static_deploy_20260707T020500-0500/DEPLOY_BUNDLE_MANIFEST.json
+```
+
+The bundle ZIP and copied content live under ignored `runtime_artifacts/deploy_bundles/` and must not be committed. The tracked evidence records hash/size/URI facts only. No AWS contact, EC2 start, ComfyUI contact, or generation occurred.
+
+After AWS login/SSO is refreshed for expected account `029530099913`, rerun auth/profile/readiness gates. If they pass, upload either this exact clean-head bundle or a freshly rebuilt clean-head successor with `Publish-DeployBundleToS3.ps1 -Execute`, verify SHA256, create a fresh emergency stop schedule, then run Canny EC2 static proof using `-DeployBundleS3Uri` and `-DeployBundleSha256`.
+
 ## Current next action - 2026-07-07T01:45:00-05:00
 
 Refresh Wave65 source coverage after the new Canny queue/handoff/QA evidence and hydration updates, then validate, scan, commit, push, and verify the checkpoint from `C:\Comfy_UI_Main`.
