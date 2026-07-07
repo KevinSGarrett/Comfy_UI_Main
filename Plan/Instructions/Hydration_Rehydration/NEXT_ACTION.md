@@ -1,5 +1,27 @@
 # Next Action
 
+## Current next action - 2026-07-07T02:15:00-05:00
+
+Refresh Wave65 after the static-proof helper hardening, validate, scan, commit, push, and verify clean `HEAD == origin/main`. Then rerun the Canny deploy-bundle static-proof blocked gate from the clean pushed head to produce final blocked-auth evidence that includes:
+
+```text
+deploy_bundle_s3_uri
+deploy_bundle_sha256
+git_lfs_pull_skipped=true
+max_ec2_runtime_minutes=25
+ec2_started=false
+generation_executed=false
+```
+
+The helper change is tracked by:
+
+```text
+Plan/Instructions/Operations/Scripts/Invoke-EC2LaneStaticProof.ps1
+Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W68_EC2_STATIC_PROOF_BLOCKED_RECORD_BUNDLE_FIELDS_20260707T021500-0500.json
+```
+
+No AWS contact, EC2 start, ComfyUI contact, or generation occurred for this helper hardening.
+
 ## Current next action - 2026-07-07T02:06:00-05:00
 
 Refresh Wave65 after the new Canny deploy-bundle evidence, validate, scan, commit, push, and verify clean `HEAD == origin/main` from `C:\Comfy_UI_Main`.

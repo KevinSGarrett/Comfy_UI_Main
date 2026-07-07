@@ -318,6 +318,10 @@ if (-not $Execute) {
     instance_id = $InstanceId
     region = $Region
     lane_id = $LaneId
+    max_ec2_runtime_minutes = $MaxEc2RuntimeMinutes
+    git_lfs_pull_skipped = [bool]$SkipGitLfsPull.IsPresent
+    deploy_bundle_s3_uri = $DeployBundleS3Uri
+    deploy_bundle_sha256 = $DeployBundleSha256
     result = $(if ($executeGatesPass) { "dry_run_ready_for_ec2_static_proof_execute" } else { "dry_run_blocked_before_ec2_start" })
     failure_category = $gateFailureCategory
     local_git_checkpoint_gate = $localGitGate
@@ -362,6 +366,10 @@ if (!$executeGatesPass) {
     instance_id = $InstanceId
     region = $Region
     lane_id = $LaneId
+    max_ec2_runtime_minutes = $MaxEc2RuntimeMinutes
+    git_lfs_pull_skipped = [bool]$SkipGitLfsPull.IsPresent
+    deploy_bundle_s3_uri = $DeployBundleS3Uri
+    deploy_bundle_sha256 = $DeployBundleSha256
     result = "blocked_before_ec2_start"
     failure_category = $gateFailureCategory
     local_git_checkpoint_gate = $localGitGate
