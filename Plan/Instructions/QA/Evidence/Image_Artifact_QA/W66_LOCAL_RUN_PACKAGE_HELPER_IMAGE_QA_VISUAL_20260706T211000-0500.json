@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W66-LOCAL-RUN-PACKAGE-HELPER-IMAGE-QA-VISUAL-20260706T211000-0500",
+  "timestamp": "2026-07-06T21:10:00-05:00",
+  "artifact_id": "codex_realvisxl_local_bounded_smoke_helper_00002",
+  "artifact_type": "image",
+  "image_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_local_bounded_smoke_v1_20260706T210854-0500/images/codex_realvisxl_local_bounded_smoke_00002_.png",
+  "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_LOCAL_COMFYUI_RUN_PACKAGE_HELPER_EXECUTE_20260706T210854-0500.json",
+  "technical_qa_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_LOCAL_RUN_PACKAGE_HELPER_IMAGE_QA_TECHNICAL_20260706T210930-0500.json",
+  "reviewer": "Codex Desktop autonomous visual QA",
+  "review_scope": "whole-image visual review for reusable local run-package helper proof; local iteration proof only",
+  "scores": {
+    "face_realism": 9,
+    "eye_quality": 8,
+    "skin_texture": 9,
+    "hands_fingers": "not_visible",
+    "feet_toes": "not_visible",
+    "hair_realism": 8,
+    "teeth_mouth_quality": 8,
+    "body_proportions": 8,
+    "pose_accuracy": 9,
+    "clothing_fabric": 8,
+    "contact_points": "not_visible",
+    "object_body_collisions": 9,
+    "deformation_realism": 8,
+    "soft_body_cues": 8,
+    "anatomy_consistency": 8,
+    "lighting": 9,
+    "shadows": 8,
+    "reflections": "not_applicable",
+    "background_coherence": 9,
+    "camera_lens_realism": 9,
+    "texture_detail": 8,
+    "artifacting": 8,
+    "prompt_compliance": 9
+  },
+  "observations": [
+    "Helper-produced image is deterministic with the prior local smoke artifact and has matching SHA256.",
+    "Portrait remains coherent across the whole frame, with realistic face structure, skin texture, lighting, and background.",
+    "The helper correctly preserves the local-only proof boundary while producing a QA-routable artifact."
+  ],
+  "minor_limitations": [
+    "The image is intentionally 512x512 and 10 steps, so fine hair edges and shadowed eye detail remain slightly soft.",
+    "No hands or full-body anatomy are visible in this bounded local helper proof."
+  ],
+  "blockers": [],
+  "qa_status": "pass_with_notes_local_helper_smoke",
+  "promotion_allowed": false,
+  "local_generation_confirmed": true,
+  "helper_execute_path_confirmed": true,
+  "ec2_final_proof_still_required": true,
+  "next_action": "Update hydration and Wave65 coverage for the reusable local helper proof, then checkpoint."
+}

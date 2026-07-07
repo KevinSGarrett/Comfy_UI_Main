@@ -208,6 +208,14 @@ powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\Start
 
 Add `-Execute` only after `main.py` is found. Default local settings use `127.0.0.1`, port `8188`, and low-VRAM arguments for the local RTX 5060 Laptop GPU class.
 
+Run a verified local run package smoke:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\Invoke-LocalComfyUIRunPackageSmoke.ps1 -ProjectRoot C:\Comfy_UI_Main -RunPackageManifestFile <run-package-manifest> -LaneId <lane-id> -LocalComfyRoot C:\Comfy_UI_Main\ComfyUI -ExtraModelPathsConfig C:\Comfy_UI_Main\config\comfyui_extra_model_paths.yaml -LowVram -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Runtime\W66_LOCAL_COMFYUI_RUN_PACKAGE_SMOKE_<timestamp>.json
+```
+
+The command is dry-run by default. Add `-Execute` only for a deliberately bounded local preview. A successful execute record must copy generated images into `Plan\Instructions\Operations\Pulled_Back_Artifacts\`, stop the local process it started, and be followed by technical plus whole-image visual QA for every generated artifact. Current helper validation evidence: dry run `Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_LOCAL_COMFYUI_RUN_PACKAGE_HELPER_DRY_RUN_20260706T210826-0500.json`; execute `Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_LOCAL_COMFYUI_RUN_PACKAGE_HELPER_EXECUTE_20260706T210854-0500.json`; visual QA `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_LOCAL_RUN_PACKAGE_HELPER_IMAGE_QA_VISUAL_20260706T211000-0500.json`.
+
 ## No-Loop Rule
 
 If local preflight, model registry coverage, queue, Git, package, and instruction indexes are already current, do not create more local evidence solely to appear busy. Choose one of these:

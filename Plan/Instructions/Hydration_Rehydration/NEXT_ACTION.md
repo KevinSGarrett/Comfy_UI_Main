@@ -1,5 +1,23 @@
 # Next Action
 
+## Current next action - 2026-07-06T21:12:00-05:00
+
+Checkpoint the reusable local ComfyUI run-package smoke helper, then continue local-first from a clean pushed state. `tools/Invoke-LocalComfyUIRunPackageSmoke.ps1` now turns the previously ad hoc local smoke path into a dry-run-by-default helper: it validates a run package, verifies the prompt request hash/lane, starts local ComfyUI with the extra model paths config, posts `/prompt`, polls `/history`, copies generated images into project pullback evidence, and stops the local process it started. The helper has both dry-run and execute evidence, and the helper-produced PNG has technical plus whole-image visual QA.
+
+Current helper evidence:
+
+```text
+tools/Invoke-LocalComfyUIRunPackageSmoke.ps1
+Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_LOCAL_COMFYUI_RUN_PACKAGE_HELPER_DRY_RUN_20260706T210826-0500.json
+Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_LOCAL_COMFYUI_RUN_PACKAGE_HELPER_EXECUTE_20260706T210854-0500.json
+Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_local_bounded_smoke_v1_20260706T210854-0500/LOCAL_ARTIFACT_MANIFEST.json
+Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_local_bounded_smoke_v1_20260706T210854-0500/images/codex_realvisxl_local_bounded_smoke_00002_.png
+Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_LOCAL_RUN_PACKAGE_HELPER_IMAGE_QA_TECHNICAL_20260706T210930-0500.json
+Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_LOCAL_RUN_PACKAGE_HELPER_IMAGE_QA_VISUAL_20260706T211000-0500.json
+```
+
+Immediate checkpoint steps: rerun Wave65 after these new Plan files, validate JSON/CSV/PowerShell parse, confirm local ComfyUI is stopped and EC2 is stopped, scan staged content for secrets/private keys/model binaries, commit, push, and verify `HEAD == origin/main`.
+
 ## Current next action - 2026-07-06T20:58:00-05:00
 
 Checkpoint the bounded local ComfyUI RealVisXL smoke generation and QA from `C:\Comfy_UI_Main`, then continue local-first work from a clean pushed state. The local CUDA/model/object-info path is now proven through an actual local generation: `realvisxl_local_bounded_smoke_v1` generated one 512x512 PNG through local ComfyUI with RealVisXL, pulled it into project evidence, passed technical image QA, and passed whole-image visual QA with local-smoke notes. This local proof does not replace EC2 target-runtime proof or final portfolio certification.
