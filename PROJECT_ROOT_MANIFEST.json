@@ -393,5 +393,29 @@
                                                 "ec2_final_state":  "stopped",
                                                 "generation_executed":  true,
                                                 "rule":  "Sample 1 is QA-complete for the matrix, but full matrix certification requires samples 2 and 3 to complete runtime, pullback, technical QA, and whole-image visual QA."
-                                            }
+                                            },
+    "realvisxl_matrix_runtime_qa_status":  {
+                                               "active_wave":  66,
+                                               "matrix_id":  "realvisxl_multisample_certification_v1",
+                                               "target_lane_id":  "sdxl_realvisxl_base_lane",
+                                               "samples_completed":  [
+                                                                         1,
+                                                                         2
+                                                                     ],
+                                               "samples_pending":  [
+                                                                       3
+                                                                   ],
+                                               "latest_bundle_id":  "rvxl_mx_s3c_20260706T191636-0500",
+                                               "latest_bundle_sha256":  "74d1a8f9d18f78487c34c5dd96be5571fc6f82172ef4bcc0907032774bcd2aa9",
+                                               "sample2_static_proof_evidence":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_EC2_STATIC_PROOF_REALVISXL_MATRIX_S3C_20260706T191804-0500.json",
+                                               "sample2_runtime_evidence":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_MATRIX_SAMPLE2_20260706T192734-0500.json",
+                                               "sample2_pullback_record":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T192734-0500/PULLBACK_RECORD.json",
+                                               "sample2_generated_image":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T192734-0500/images/9_codex_realvisxl_cert_hands_fabric_00001_.png",
+                                               "sample2_technical_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE2_IMAGE_QA_TECHNICAL_20260706T193743-0500.json",
+                                               "sample2_visual_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE2_IMAGE_QA_VISUAL_20260706T193800-0500.json",
+                                               "sample2_artifact_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE2_PULLBACK_ARTIFACT_QA_20260706T193810-0500.json",
+                                               "result":  "samples1_2_qa_complete_sample3_pending",
+                                               "ec2_final_state":  "stopped",
+                                               "rule":  "Full matrix certification still requires sample 3 runtime, pullback, technical QA, and whole-image visual QA after a fresh clean-head checkpoint and bundle."
+                                           }
 }

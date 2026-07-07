@@ -2,7 +2,7 @@
 
 ## Current next action - 2026-07-06T19:07:00-05:00
 
-Checkpoint the completed RealVisXL matrix sample 1 evidence from `C:\Comfy_UI_Main`, then rebuild and publish a fresh clean-head matrix bundle before running samples 2 and 3. Sample 1 generated successfully from the S3-backed bundle, pulled back through S3, hash-verified locally, and passed technical plus visual QA with notes. The full three-sample matrix is not certified until samples 2 and 3 receive the same runtime, pullback, and whole-image QA treatment.
+Checkpoint the completed RealVisXL matrix sample 2 evidence from `C:\Comfy_UI_Main`, then rebuild and publish a fresh clean-head matrix bundle before running sample 3. Samples 1 and 2 generated successfully from S3-backed bundles, pulled back through S3, hash-verified locally, and passed technical plus visual QA with notes. The full three-sample matrix is not certified until sample 3 receives the same runtime, pullback, and whole-image QA treatment.
 
 Current sample 1 evidence:
 
@@ -16,7 +16,19 @@ Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE1_IMA
 Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE1_PULLBACK_ARTIFACT_QA_20260706T190700-0500.json
 ```
 
-Before the next EC2 `-Execute`, verify EC2 is `stopped`, commit/push this checkpoint, confirm local `HEAD == origin/main` and a clean worktree, build/upload a fresh bundle whose manifest source head matches the new pushed commit, create a fresh emergency stop schedule, and then run only one bounded sample at a time. Wave65 has already been refreshed after sample 1 and reports `plan_file_count=2883`, `wave65_rows_created=708`, and `missing_after_wave65_count=0`.
+Current sample 2 evidence:
+
+```text
+Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_MATRIX_DEPLOY_BUNDLE_UPLOAD_VERIFY_S3C_20260706T191655-0500.json
+Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_EC2_STATIC_PROOF_REALVISXL_MATRIX_S3C_20260706T191804-0500.json
+Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_MATRIX_SAMPLE2_20260706T192734-0500.json
+Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T192734-0500/PULLBACK_RECORD.json
+Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE2_IMAGE_QA_TECHNICAL_20260706T193743-0500.json
+Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE2_IMAGE_QA_VISUAL_20260706T193800-0500.json
+Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE2_PULLBACK_ARTIFACT_QA_20260706T193810-0500.json
+```
+
+Before the next EC2 `-Execute`, verify EC2 is `stopped`, commit/push this checkpoint, confirm local `HEAD == origin/main` and a clean worktree, build/upload a fresh bundle whose manifest source head matches the new pushed commit, create a fresh emergency stop schedule, and then run only one bounded sample at a time. Wave65 has already been refreshed after sample 2 and reports `plan_file_count=2901`, `wave65_rows_created=726`, and `missing_after_wave65_count=0`.
 
 ## Current next action - 2026-07-06T18:02:36-05:00
 
