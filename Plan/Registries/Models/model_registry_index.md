@@ -1,6 +1,6 @@
 # Model Registry Index
 
-Updated: 2026-07-06T14:58:05-05:00
+Updated: 2026-07-06T20:45:00-05:00
 
 Primary registry:
 
@@ -21,6 +21,8 @@ Runtime validation queue:
 
 - Model binaries are not committed to the repo.
 - Local registry coverage is not a new runtime run; completed statuses above point to existing EC2 path/hash proof, ComfyUI object-info proof, generation output, pullback, and image QA evidence.
-- Single-image runtime smoke is not final portfolio certification.
-- S3 runtime transfer remains blocked until bucket prefix and role values are configured.
+- RealVisXL is now present both on EC2 and locally: the local ignored file `models/checkpoints/realvisxlV50_v50Bakedvae.safetensors` was downloaded from Civitai version `789646` and SHA256-verified in `Plan/Instructions/QA/Evidence/Model_Registry/W66_LOCAL_REALVISXL_MODEL_DOWNLOAD_20260706T204500-0500.json`.
+- Local ComfyUI is CUDA-ready for low-cost development iteration: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_COMFYUI_DEV_PREFLIGHT_FULL_READY_20260706T204500-0500.json` reports CUDA Torch, required model presence, and selected-lane static validation; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_COMFYUI_OBJECT_INFO_SMOKE_20260706T204800-0500.json` reports required local ComfyUI nodes present.
+- Single-image runtime smoke is no longer the broadest RealVisXL proof; the bounded three-sample matrix certification is recorded in `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_FINAL_QA_CERTIFICATION_20260706T201000-0500.json`.
+- S3 runtime transfer infrastructure is configured and the matrix deploy/pullback path has been exercised; keep using fresh clean-head bundles and emergency stops for future EC2 target proof.
 - RealVisXL metadata was fetched through the Civitai API helper and cached at `Plan/Registries/Models/metadata/civitai/realvisxl_query_20260706T093109-0500.json`.

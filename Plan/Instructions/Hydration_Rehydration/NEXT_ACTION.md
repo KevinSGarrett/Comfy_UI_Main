@@ -1,5 +1,18 @@
 # Next Action
 
+## Current next action - 2026-07-06T20:48:00-05:00
+
+Run a bounded local ComfyUI RealVisXL smoke generation before using more EC2 time. Local prerequisites are now ready: ignored ComfyUI checkout exists, CUDA Torch venv is ready, RealVisXL checkpoint is locally downloaded and SHA256-verified, hardened preflight reports `pass_local_gpu_generation_candidate`, and local `/object_info` reports all required workflow nodes. Keep the local smoke small and clearly marked as local-only; it does not replace EC2 target proof. After local generation, pull/record the artifact, run technical image QA and whole-image visual QA, update hydration/tracker/evidence, and commit.
+
+Current local-ready evidence:
+
+```text
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_COMFYUI_PYTHON_ENV_EXECUTE_20260706T203510-0500.json
+Plan/Instructions/QA/Evidence/Model_Registry/W66_LOCAL_REALVISXL_MODEL_DOWNLOAD_20260706T204500-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_COMFYUI_DEV_PREFLIGHT_FULL_READY_20260706T204500-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_COMFYUI_OBJECT_INFO_SMOKE_20260706T204800-0500.json
+```
+
 ## Current next action - 2026-07-06T20:26:00-05:00
 
 Continue local-first runtime readiness work without starting EC2: the ignored local ComfyUI checkout now exists at `C:\Comfy_UI_Main\ComfyUI`, CLI import/help smoke passes, and hardened preflight finds the local RTX 5060 Laptop GPU plus selected-lane static validation. Before attempting local GPU generation, resolve the two remaining local prerequisites recorded in `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_COMFYUI_DEV_PREFLIGHT_AFTER_BOOTSTRAP_HARDENED_20260706T202700-0500.json`: the active Python has CPU-only Torch (`2.12.1+cpu`, CUDA false), and the RealVisXL checkpoint is not present in local model candidate paths. Keep model binaries and the ComfyUI checkout out of Git; EC2 remains required for target-runtime proof.

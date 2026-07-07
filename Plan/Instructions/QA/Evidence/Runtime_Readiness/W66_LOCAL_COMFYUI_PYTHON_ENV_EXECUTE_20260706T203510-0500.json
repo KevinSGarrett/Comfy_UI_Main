@@ -1,0 +1,64 @@
+{
+    "schema_version":  "1.0",
+    "timestamp":  "2026-07-06T20:35:17-05:00",
+    "operation":  "initialize_local_comfyui_python_env",
+    "project_root":  "C:\\Comfy_UI_Main",
+    "local_comfy_root":  "C:\\Comfy_UI_Main\\ComfyUI",
+    "venv_path":  "C:\\Comfy_UI_Main\\ComfyUI\\.venv",
+    "venv_python":  "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe",
+    "torch_index_url":  "https://download.pytorch.org/whl/cu128",
+    "execute":  true,
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "model_binaries_downloaded":  false,
+    "main_py_exists":  true,
+    "requirements_exists":  true,
+    "venv_preexisting":  false,
+    "commands":  [
+                     {
+                         "command":  "python -m venv C:\\Comfy_UI_Main\\ComfyUI\\.venv",
+                         "exit_code":  0,
+                         "output_tail":  ""
+                     },
+                     {
+                         "command":  "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe -m pip install --upgrade pip",
+                         "exit_code":  0,
+                         "output_tail":  "Requirement already satisfied: pip in c:\\comfy_ui_main\\comfyui\\.venv\\lib\\site-packages (24.0)\nCollecting pip\n  Using cached pip-26.1.2-py3-none-any.whl.metadata (4.6 kB)\nUsing cached pip-26.1.2-py3-none-any.whl (1.8 MB)\nInstalling collected packages: pip\n  Attempting uninstall: pip\n    Found existing installation: pip 24.0\n    Uninstalling pip-24.0:\n      Successfully uninstalled pip-24.0\nSuccessfully installed pip-26.1.2"
+                     },
+                     {
+                         "command":  "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128",
+                         "exit_code":  0,
+                         "output_tail":  "Collecting filelock (from torch)\n  Using cached filelock-3.29.0-py3-none-any.whl.metadata (2.0 kB)\nCollecting typing-extensions\u003e=4.10.0 (from torch)\n  Using cached typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)\nRequirement already satisfied: setuptools\u003c82 in .\\ComfyUI\\.venv\\Lib\\site-packages (from torch) (65.5.0)\nCollecting sympy\u003e=1.13.3 (from torch)\n  Using cached sympy-1.14.0-py3-none-any.whl.metadata (12 kB)\nCollecting networkx\u003e=2.5.1 (from torch)\n  Using cached networkx-3.6.1-py3-none-any.whl.metadata (6.8 kB)\nCollecting jinja2 (from torch)\n  Using cached jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)\nCollecting fsspec\u003e=0.8.5 (from torch)\n  Using cached fsspec-2026.4.0-py3-none-any.whl.metadata (10 kB)\nCollecting numpy (from torchvision)\n  Using cached numpy-2.4.4-cp311-cp311-win_amd64.whl.metadata (6.6 kB)\nCollecting pillow!=8.3.*,\u003e=5.3.0 (from torchvision)\n  Using cached pillow-12.2.0-cp311-cp311-win_amd64.whl.metadata (9.0 kB)\nCollecting mpmath\u003c1.4,\u003e=1.1.0 (from sympy\u003e=1.13.3-\u003etorch)\n  Using cached mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)\nCollecting MarkupSafe\u003e=2.0 (from jinja2-\u003etorch)\n  Using cached markupsafe-3.0.3-cp311-cp311-win_amd64.whl.metadata (2.8 kB)\nDownloading torch-2.11.0%2Bcu128-cp311-cp311-win_amd64.whl (2753.1 MB)\n   ---------------------------------------- 2.8/2.8 GB 31.7 MB/s  0:00:38\nDownloading torchvision-0.26.0%2Bcu128-cp311-cp311-win_amd64.whl (9.3 MB)\n   ---------------------------------------- 9.3/9.3 MB 96.3 MB/s  0:00:00\nDownloading torchaudio-2.11.0%2Bcu128-cp311-cp311-win_amd64.whl (1.7 MB)\n   ---------------------------------------- 1.7/1.7 MB 45.5 MB/s  0:00:00\nUsing cached fsspec-2026.4.0-py3-none-any.whl (203 kB)\nUsing cached networkx-3.6.1-py3-none-any.whl (2.1 MB)\nUsing cached pillow-12.2.0-cp311-cp311-win_amd64.whl (7.1 MB)\nUsing cached sympy-1.14.0-py3-none-any.whl (6.3 MB)\nUsing cached mpmath-1.3.0-py3-none-any.whl (536 kB)\nUsing cached typing_extensions-4.15.0-py3-none-any.whl (44 kB)\nUsing cached filelock-3.29.0-py3-none-any.whl (39 kB)\nUsing cached jinja2-3.1.6-py3-none-any.whl (134 kB)\nUsing cached markupsafe-3.0.3-cp311-cp311-win_amd64.whl (15 kB)\nUsing cached numpy-2.4.4-cp311-cp311-win_amd64.whl (12.6 MB)\nInstalling collected packages: torchaudio, mpmath, typing-extensions, sympy, pillow, numpy, networkx, MarkupSafe, fsspec, filelock, jinja2, torch, torchvision\n\nSuccessfully installed MarkupSafe-3.0.3 filelock-3.29.0 fsspec-2026.4.0 jinja2-3.1.6 mpmath-1.3.0 networkx-3.6.1 numpy-2.4.4 pillow-12.2.0 sympy-1.14.0 torch-2.11.0+cu128 torchaudio-2.11.0+cu128 torchvision-0.26.0+cu128 typing-extensions-4.15.0"
+                     },
+                     {
+                         "command":  "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe -m pip install -r C:\\Users\\kevin\\AppData\\Local\\Temp\\comfyui_non_torch_requirements_20260706T203516-0500.txt",
+                         "exit_code":  0,
+                         "output_tail":  "Using cached idna-3.18-py3-none-any.whl (65 kB)\nDownloading urllib3-2.7.0-py3-none-any.whl (131 kB)\nDownloading simpleeval-1.0.7-py3-none-any.whl (18 kB)\nDownloading blake3-1.0.9-cp311-cp311-win_amd64.whl (220 kB)\nDownloading kornia-0.8.3-py3-none-any.whl (1.2 MB)\n   ---------------------------------------- 1.2/1.2 MB 58.0 MB/s  0:00:00\nDownloading spandrel-0.4.2-py3-none-any.whl (320 kB)\nDownloading pyopengl-3.1.10-py3-none-any.whl (3.2 MB)\n   ---------------------------------------- 3.2/3.2 MB 62.4 MB/s  0:00:00\nDownloading comfy_angle-0.1.0-py3-none-win_amd64.whl (5.6 MB)\n   ---------------------------------------- 5.6/5.6 MB 67.2 MB/s  0:00:00\nDownloading aiohappyeyeballs-2.7.1-py3-none-any.whl (15 kB)\nDownloading aiosignal-1.4.0-py3-none-any.whl (7.5 kB)\nDownloading annotated_types-0.7.0-py3-none-any.whl (13 kB)\nDownloading attrs-26.1.0-py3-none-any.whl (67 kB)\nUsing cached certifi-2026.6.17-py3-none-any.whl (133 kB)\nDownloading frozenlist-1.8.0-cp311-cp311-win_amd64.whl (44 kB)\nDownloading greenlet-3.5.3-cp311-cp311-win_amd64.whl (239 kB)\nDownloading h11-0.16.0-py3-none-any.whl (37 kB)\nDownloading kornia_rs-0.1.14-cp311-cp311-win_amd64.whl (3.4 MB)\n   ---------------------------------------- 3.4/3.4 MB 66.1 MB/s  0:00:00\nUsing cached packaging-26.2-py3-none-any.whl (100 kB)\nDownloading propcache-0.5.2-cp311-cp311-win_amd64.whl (42 kB)\nDownloading python_dotenv-1.2.2-py3-none-any.whl (22 kB)\nUsing cached regex-2026.6.28-cp311-cp311-win_amd64.whl (277 kB)\nDownloading trampoline-0.1.2-py3-none-any.whl (5.2 kB)\nDownloading typing_inspection-0.4.2-py3-none-any.whl (14 kB)\nDownloading anyio-4.14.1-py3-none-any.whl (124 kB)\nUsing cached colorama-0.4.6-py2.py3-none-any.whl (25 kB)\nDownloading mako-1.3.12-py3-none-any.whl (78 kB)\nDownloading typer-0.26.8-py3-none-any.whl (122 kB)\nDownloading annotated_doc-0.0.4-py3-none-any.whl (5.3 kB)\nDownloading rich-15.0.0-py3-none-any.whl (310 kB)\nUsing cached pygments-2.20.0-py3-none-any.whl (1.2 MB)\nUsing cached markdown_it_py-4.2.0-py3-none-any.whl (91 kB)\nUsing cached mdurl-0.1.2-py3-none-any.whl (10.0 kB)\nDownloading shellingham-1.5.4-py2.py3-none-any.whl (9.8 kB)\nInstalling collected packages: trampoline, PyOpenGL, urllib3, typing-inspection, simpleeval, shellingham, sentencepiece, scipy, safetensors, regex, pyyaml, python-dotenv, pygments, pydantic-core, psutil, propcache, packaging, multidict, mdurl, Mako, kornia-rs, idna, hf-xet, h11, greenlet, frozenlist, einops, comfyui-workflow-templates-media-video, comfyui-workflow-templates-media-other, comfyui-workflow-templates-media-image, comfyui-workflow-templates-media-assets-01, comfyui-workflow-templates-media-api, comfyui-workflow-templates-json, comfyui-workflow-templates-core, comfyui-frontend-package, comfyui-embedded-docs, comfy-kitchen, comfy-angle, comfy-aimdo, colorama, charset_normalizer, certifi, blake3, av, attrs, annotated-types, annotated-doc, aiohappyeyeballs, yarl, tqdm, SQLAlchemy, requests, pydantic, markdown-it-py, httpcore, comfyui-workflow-templates, click, anyio, aiosignal, torchsde, rich, pydantic-settings, kornia, httpx, alembic, aiohttp, typer, spandrel, huggingface-hub, tokenizers, transformers\n\nSuccessfully installed Mako-1.3.12 PyOpenGL-3.1.10 SQLAlchemy-2.0.51 aiohappyeyeballs-2.7.1 aiohttp-3.14.1 aiosignal-1.4.0 alembic-1.18.5 annotated-doc-0.0.4 annotated-types-0.7.0 anyio-4.14.1 attrs-26.1.0 av-18.0.0 blake3-1.0.9 certifi-2026.6.17 charset_normalizer-3.4.8 click-8.4.2 colorama-0.4.6 comfy-aimdo-0.4.10 comfy-angle-0.1.0 comfy-kitchen-0.2.16 comfyui-embedded-docs-0.5.7 comfyui-frontend-package-1.45.20 comfyui-workflow-templates-0.11.2 comfyui-workflow-templates-core-0.3.267 comfyui-workflow-templates-json-0.1.2 comfyui-workflow-templates-media-api-0.3.84 comfyui-workflow-templates-media-assets-01-0.1.0 comfyui-workflow-templates-media-image-0.3.160 comfyui-workflow-templates-media-other-0.3.229 comfyui-workflow-templates-media-video-0.3.101 einops-0.8.2 frozenlist-1.8.0 greenlet-3.5.3 h11-0.16.0 hf-xet-1.5.1 httpcore-1.0.9 httpx-0.28.1 huggingface-hub-1.22.0 idna-3.18 kornia-0.8.3 kornia-rs-0.1.14 markdown-it-py-4.2.0 mdurl-0.1.2 multidict-6.7.1 packaging-26.2 propcache-0.5.2 psutil-7.2.2 pydantic-2.13.4 pydantic-core-2.46.4 pydantic-settings-2.14.2 pygments-2.20.0 python-dotenv-1.2.2 pyyaml-6.0.3 regex-2026.6.28 requests-2.34.2 rich-15.0.0 safetensors-0.8.0 scipy-1.17.1 sentencepiece-0.2.1 shellingham-1.5.4 simpleeval-1.0.7 spandrel-0.4.2 tokenizers-0.22.2 torchsde-0.2.6 tqdm-4.68.3 trampoline-0.1.2 transformers-5.13.0 typer-0.26.8 typing-inspection-0.4.2 urllib3-2.7.0 yarl-1.24.2"
+                     }
+                 ],
+    "torch_probe":  {
+                        "command":  "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe -c import json, sys; r={\u0027executable\u0027:sys.executable,\u0027torch_imported\u0027:False,\u0027torch_version\u0027:None,\u0027cuda_available\u0027:False,\u0027cuda_version\u0027:None,\u0027device_count\u0027:0,\u0027device_name\u0027:None,\u0027error\u0027:None};\ntry:\n import torch; r[\u0027torch_imported\u0027]=True; r[\u0027torch_version\u0027]=getattr(torch,\u0027__version__\u0027,None); r[\u0027cuda_available\u0027]=bool(torch.cuda.is_available()); r[\u0027cuda_version\u0027]=getattr(torch.version,\u0027cuda\u0027,None); r[\u0027device_count\u0027]=torch.cuda.device_count(); r[\u0027device_name\u0027]=torch.cuda.get_device_name(0) if r[\u0027device_count\u0027] else None\nexcept Exception as e:\n r[\u0027error\u0027]=str(e)\nprint(json.dumps(r))",
+                        "exit_code":  0,
+                        "output_tail":  "{\"executable\": \"C:\\\\Comfy_UI_Main\\\\ComfyUI\\\\.venv\\\\Scripts\\\\python.exe\", \"torch_imported\": true, \"torch_version\": \"2.11.0+cu128\", \"cuda_available\": true, \"cuda_version\": \"12.8\", \"device_count\": 1, \"device_name\": \"NVIDIA GeForce RTX 5060 Laptop GPU\", \"error\": null}",
+                        "parsed":  {
+                                       "executable":  "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe",
+                                       "torch_imported":  true,
+                                       "torch_version":  "2.11.0+cu128",
+                                       "cuda_available":  true,
+                                       "cuda_version":  "12.8",
+                                       "device_count":  1,
+                                       "device_name":  "NVIDIA GeForce RTX 5060 Laptop GPU",
+                                       "error":  null
+                                   }
+                    },
+    "result":  "local_python_env_cuda_ready",
+    "failure_category":  null,
+    "errors":  [
+
+               ],
+    "next_action":  "Rerun tools/Test-LocalComfyUIDevPreflight.ps1; local model placement is still required before local generation."
+}
