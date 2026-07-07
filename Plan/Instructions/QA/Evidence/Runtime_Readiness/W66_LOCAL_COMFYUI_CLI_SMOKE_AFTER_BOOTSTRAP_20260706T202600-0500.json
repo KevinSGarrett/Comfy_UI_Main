@@ -1,0 +1,35 @@
+{
+    "schema_version": "1.0",
+    "evidence_id": "LOCAL-COMFYUI-CLI-SMOKE-20260706T202600-0500",
+    "timestamp": "2026-07-06T20:26:00-05:00",
+    "operation": "local_comfyui_cli_smoke_after_bootstrap",
+    "project_root": "C:\\Comfy_UI_Main",
+    "local_comfy_root": "C:\\Comfy_UI_Main\\ComfyUI",
+    "local_only": true,
+    "aws_contacted": false,
+    "github_api_contacted": false,
+    "civitai_contacted": false,
+    "comfyui_server_started": false,
+    "ec2_started": false,
+    "generation_executed": false,
+    "model_binaries_downloaded": false,
+    "commands": [
+        {
+            "command": "python C:\\Comfy_UI_Main\\ComfyUI\\main.py --help",
+            "exit_code": 0,
+            "result": "pass",
+            "evidence": "Command printed ComfyUI CLI help/options successfully, proving the checked-out local ComfyUI tree imports far enough to expose the runtime entry point."
+        },
+        {
+            "command": "python -c \"import torch; print(torch.__version__, torch.cuda.is_available())\"",
+            "exit_code": 0,
+            "result": "pass_with_cuda_note",
+            "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+            "torch_version": "2.12.1+cpu",
+            "torch_cuda_available": false,
+            "evidence": "Torch imports, but the active Python environment is CPU-only; CUDA-enabled Torch remains required before treating this local checkout as a useful GPU generation candidate."
+        }
+    ],
+    "result": "pass_local_cli_smoke_with_cuda_and_model_prerequisites",
+    "next_action": "Install or select a CUDA-enabled local Python/Torch environment and place/link the required RealVisXL checkpoint locally before attempting local GPU generation. EC2 remains required for target-runtime proof."
+}

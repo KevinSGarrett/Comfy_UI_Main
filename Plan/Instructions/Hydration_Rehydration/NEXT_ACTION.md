@@ -1,5 +1,19 @@
 # Next Action
 
+## Current next action - 2026-07-06T20:26:00-05:00
+
+Continue local-first runtime readiness work without starting EC2: the ignored local ComfyUI checkout now exists at `C:\Comfy_UI_Main\ComfyUI`, CLI import/help smoke passes, and hardened preflight finds the local RTX 5060 Laptop GPU plus selected-lane static validation. Before attempting local GPU generation, resolve the two remaining local prerequisites recorded in `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_COMFYUI_DEV_PREFLIGHT_AFTER_BOOTSTRAP_HARDENED_20260706T202700-0500.json`: the active Python has CPU-only Torch (`2.12.1+cpu`, CUDA false), and the RealVisXL checkpoint is not present in local model candidate paths. Keep model binaries and the ComfyUI checkout out of Git; EC2 remains required for target-runtime proof.
+
+Current local ComfyUI evidence:
+
+```text
+tools/Initialize-LocalComfyUICheckout.ps1
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_COMFYUI_CHECKOUT_BOOTSTRAP_DRY_RUN_20260706T202204-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_COMFYUI_CHECKOUT_BOOTSTRAP_EXECUTE_20260706T202500-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_COMFYUI_CLI_SMOKE_AFTER_BOOTSTRAP_20260706T202600-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_COMFYUI_DEV_PREFLIGHT_AFTER_BOOTSTRAP_HARDENED_20260706T202700-0500.json
+```
+
 ## Current next action - 2026-07-06T20:10:00-05:00
 
 Checkpoint and push the completed Wave66 RealVisXL three-sample matrix certification from `C:\Comfy_UI_Main`. Samples 1, 2, and 3 have all generated through bounded S3-backed EC2 workflow runs, pulled artifacts back locally, verified hashes, passed technical image QA, passed whole-image visual QA with notes, and left EC2 `stopped`. After validation, rerun Wave65 source coverage, commit/push this certification checkpoint, verify `HEAD == origin/main`, and then select the next highest-value incomplete project item; do not rerun the matrix unless the lane, model, prompt, workflow, or QA threshold changes.

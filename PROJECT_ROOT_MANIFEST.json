@@ -1,4 +1,4 @@
-﻿{
+{
     "schema_version":  "1.0",
     "project":  "Comfy_UI_Main",
     "local_root":  "C:\\Comfy_UI_Main",
@@ -426,5 +426,27 @@
                                                "sample3_visual_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE3_IMAGE_QA_VISUAL_20260706T200845-0500.json",
                                                "sample3_artifact_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE3_PULLBACK_ARTIFACT_QA_20260706T200855-0500.json",
                                                "final_matrix_certification":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_FINAL_QA_CERTIFICATION_20260706T201000-0500.json"
-                                           }
+                                           },
+    "local_comfyui_dev_status":  {
+                                     "active_wave":  66,
+                                     "issue_id":  "ISSUE-RUNTIME-COMFYUI-LOCAL-001",
+                                     "local_comfy_root":  "C:\\Comfy_UI_Main\\ComfyUI",
+                                     "local_comfy_root_gitignored":  true,
+                                     "checkout_head":  "7747c342d4143f35e7c8031dddf3ee4455f10a2e",
+                                     "checkout_remote":  "https://github.com/comfyanonymous/ComfyUI.git",
+                                     "bootstrap_script":  "tools/Initialize-LocalComfyUICheckout.ps1",
+                                     "bootstrap_dry_run_evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_COMFYUI_CHECKOUT_BOOTSTRAP_DRY_RUN_20260706T202204-0500.json",
+                                     "bootstrap_execute_evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_COMFYUI_CHECKOUT_BOOTSTRAP_EXECUTE_20260706T202500-0500.json",
+                                     "preflight_evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_COMFYUI_DEV_PREFLIGHT_AFTER_BOOTSTRAP_HARDENED_20260706T202700-0500.json",
+                                     "cli_smoke_evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_COMFYUI_CLI_SMOKE_AFTER_BOOTSTRAP_20260706T202600-0500.json",
+                                     "result":  "local_comfyui_checkout_ready_cli_smoke_passed_gpu_generation_prereqs_pending",
+                                     "local_dev_can_reduce_ec2_starts":  true,
+                                     "local_gpu_generation_candidate":  false,
+                                     "pending_prerequisites":  [
+                                                                   "CUDA-enabled Torch for the selected local Python environment",
+                                                                   "local/linkable RealVisXL checkpoint file outside Git"
+                                                               ],
+                                     "ec2_final_proof_still_required":  true,
+                                     "rule":  "Use this ignored local checkout for low-cost CLI, workflow, and prompt iteration only. Do not commit ComfyUI runtime files or model binaries. EC2 remains required for target-runtime proof."
+                                 }
 }
