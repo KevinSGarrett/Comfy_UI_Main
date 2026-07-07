@@ -1,5 +1,39 @@
 # Next Action
 
+## Current next action - 2026-07-06T23:15:00-05:00
+
+Refresh AWS auth for expected account `029530099913`, then continue `sdxl_realvisxl_controlnet_canny_lane` static proof from the clean pushed install checkpoint. This is not blocked by GitHub token, Civitai key, `.env`, `.git`, model download, or EC2 asset placement: those are already in place. The current blocker is expired AWS CLI/SSO auth immediately before static proof.
+
+Current blocker evidence:
+
+```text
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_AWS_PROFILE_AUTH_MATRIX_CONTROLNET_CANNY_STATIC_RECHECK_20260706T231000-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_AWS_AUTH_GATE_CONTROLNET_CANNY_STATIC_RECHECK_BLOCKED_20260706T231000-0500.json
+```
+
+Known-good installed EC2 assets:
+
+```text
+Plan/Instructions/QA/Evidence/Model_Registry/W68_EC2_CONTROLNET_CANNY_MODEL_INSTALL_20260706T224500-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_EC2_CONTROLNET_CANNY_INPUT_ASSET_INSTALL_20260706T225500-0500.json
+```
+
+After AWS login is refreshed, rerun:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-AwsAuthGate.ps1 `
+  -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W68_AWS_AUTH_GATE_CONTROLNET_CANNY_STATIC_REAUTH_<timestamp>.json
+
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-AwsProfileAuthMatrix.ps1 `
+  -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W68_AWS_PROFILE_AUTH_MATRIX_CONTROLNET_CANNY_STATIC_REAUTH_<timestamp>.json
+
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-LaneRuntimeReadiness.ps1 `
+  -LaneId sdxl_realvisxl_controlnet_canny_lane `
+  -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W68_LANE_RUNTIME_READINESS_CONTROLNET_CANNY_STATIC_REAUTH_<timestamp>.json
+```
+
+Only when the auth gate reports `safe_to_start_ec2=true` and lane readiness reports `ready_for_ec2_static_proof=true`, create a fresh emergency stop schedule and run the Canny EC2 static proof from clean pushed `HEAD`.
+
 ## Current next action - 2026-07-06T23:05:00-05:00
 
 Checkpoint the W68 EC2 ControlNet Canny asset install evidence, then run static proof from a clean pushed head. The Canny ControlNet model and Canny input image are now installed on EC2 from S3 and SHA256-verified; EC2 final state is `stopped`; no generation has run during W68 install work.

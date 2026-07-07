@@ -24,6 +24,13 @@ Start by reading this file, then read `CURRENT_PURSUING_GOAL.md` and follow its 
 - Latest Wave65 coverage after install evidence passes: `plan_file_count=2990`, `wave65_rows_created=815`, `missing_after_wave65_count=0`.
 - Immediate next action: validate, staged-file scan, commit, push, verify clean `HEAD == origin/main`, create a fresh emergency stop schedule for static proof, then run `Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_realvisxl_controlnet_canny_lane -SkipGitLfsPull -MaxEc2RuntimeMinutes 25 -Execute`.
 
+## Current W68 runtime blocker
+
+- After pushing install checkpoint `d766aaa`, clean Git still matched `origin/main`, but AWS auth expired before static proof. The default auth gate reports `blocked_expired_session`, and the profile matrix reports `blocked_no_valid_profile` with 0 of 15 profiles authenticating to expected account `029530099913`.
+- Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_AWS_PROFILE_AUTH_MATRIX_CONTROLNET_CANNY_STATIC_RECHECK_20260706T231000-0500.json` and `Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_AWS_AUTH_GATE_CONTROLNET_CANNY_STATIC_RECHECK_BLOCKED_20260706T231000-0500.json`.
+- This is not a GitHub token, Civitai key, `.env`, `.git`, local model, S3 upload, or EC2 asset-placement blocker. The Canny model/input are already installed and hash-verified on EC2.
+- Immediate next action: refresh AWS login/SSO for expected account `029530099913`, rerun auth/profile/lane-readiness gates, create a fresh emergency stop schedule, then run Canny EC2 static proof from clean pushed head.
+
 ## Current session completed
 
 - Provisioned and locally runtime-proved `sdxl_realvisxl_controlnet_canny_lane` after the earlier static extraction checkpoint. Downloaded `controlnet-canny-sdxl-1.0-small.safetensors` from Hugging Face into ignored `models\controlnet`, recorded SHA256 `fde4888a5f0a5648118991cc50e0ac4d60a2356dbaddf5e0649dd69c1119a2f9`, and updated the model registry/runtime validation queue.

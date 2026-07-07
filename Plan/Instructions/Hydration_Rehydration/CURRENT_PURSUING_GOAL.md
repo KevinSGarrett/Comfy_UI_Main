@@ -58,6 +58,8 @@ The W68 target-runtime preparation for the Canny lane is now locally complete an
 
 The W68 EC2 asset install step has also passed. An emergency stop schedule was created before the live window. The Canny ControlNet model was installed on EC2 at `/home/ubuntu/ComfyUI/models/controlnet/controlnet-canny-sdxl-1.0-small.safetensors` and SHA256-verified as `fde4888a5f0a5648118991cc50e0ac4d60a2356dbaddf5e0649dd69c1119a2f9`. The Canny input image was installed at `/home/ubuntu/ComfyUI/input/controlnet_canny_corrected_white_edges_black_bg.png` and SHA256-verified as `1af02b8bd12a9de394fbcc1becd72912f4604f843cb7e7a2fc80496835b8e9a5`. Both helpers verified EC2 final state `stopped`; no generation ran. Latest Wave65 after install evidence reports `pass`, `plan_file_count=2990`, `wave65_rows_created=815`, and `missing_after_wave65_count=0`.
 
+The current live runtime blocker is AWS auth expiry before static proof. After install checkpoint `d766aaa`, clean Git still matched `origin/main`, but `aws sts get-caller-identity` returned expired session and the profile matrix found zero valid expected-account profiles. This blocks EC2 static proof and generation until AWS login/SSO is refreshed. It is not caused by the GitHub token, Civitai key, `.env`, `.git`, local model provisioning, S3 asset upload, or EC2 asset placement.
+
 Wave 63 cost controls are active:
 
 - Local dev preflight: `tools\Test-LocalComfyUIDevPreflight.ps1`.
@@ -151,9 +153,9 @@ RealVisXL matrix sample 2 is now generated, pulled back, hash-verified, and QA-r
 RealVisXL matrix sample 3 is now generated, pulled back, hash-verified, and QA-reviewed. Fresh bundle `rvxl_mx_s3d_20260706T194502-0500` was download-verified from S3 with SHA256 `b5ff8b371d80773654d0646d2c842ffd0a8fcee8722687b5a0e0fe76e696ebda`; fresh static proof passed in `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_EC2_STATIC_PROOF_REALVISXL_MATRIX_S3D_20260706T194602-0500.json`; sample 3 runtime evidence is `Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_MATRIX_SAMPLE3_20260706T195751-0500.json`; pullback evidence is `Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T195752-0500/PULLBACK_RECORD.json`; technical QA is `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE3_IMAGE_QA_TECHNICAL_20260706T200751-0500.json`; visual QA is `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE3_IMAGE_QA_VISUAL_20260706T200845-0500.json`. Final matrix certification is `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_FINAL_QA_CERTIFICATION_20260706T201000-0500.json`; the bounded three-sample RealVisXL matrix is certified with notes.
 
 ## Next Exact Work
-First, commit and push the W68 Canny EC2 asset install evidence after validation and staged-file secret/binary scans. Verify local ComfyUI port 8188 is closed, EC2 `i-0560bf8d143f93bb1` is `stopped`, and local `HEAD == origin/main` after push.
+First, refresh AWS login/SSO for expected account `029530099913`, then rerun `Test-AwsAuthGate.ps1`, `Test-AwsProfileAuthMatrix.ps1`, and `Test-LaneRuntimeReadiness.ps1` for `sdxl_realvisxl_controlnet_canny_lane`. Do not start EC2 unless the auth gate reports `safe_to_start_ec2=true`.
 
-Second, create/verify a fresh emergency stop schedule for the static-proof window, then run `Invoke-EC2LaneStaticProof.ps1` for `sdxl_realvisxl_controlnet_canny_lane` from the clean pushed head. Rerun lane readiness after static proof.
+Second, create/verify a fresh emergency stop schedule for the static-proof window, then run `Invoke-EC2LaneStaticProof.ps1` for `sdxl_realvisxl_controlnet_canny_lane` from a clean pushed head. Rerun lane readiness after static proof.
 
 Third, run one bounded EC2 workflow smoke from `runtime_artifacts\run_packages\sdxl_realvisxl_controlnet_canny_lane_static_package_v1\RUN_PACKAGE_MANIFEST.json` only if static proof and readiness pass. Pull back artifacts, run technical image QA and whole-image visual QA, update tracker/evidence/hydration files, and certify only the lane result that actually passed.
 

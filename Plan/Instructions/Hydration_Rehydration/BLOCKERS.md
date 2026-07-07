@@ -12,6 +12,16 @@ None currently active for local Wave 58-62 static and packaging validation.
 
 ## Active runtime blockers
 
+- `BLOCKER-AWS-AUTH-EXPIRED-W68-STATIC-PROOF-001`
+  - status: active after successful W68 EC2 Canny model/input installation; not a GitHub token, Civitai key, `.env`, or Git repository blocker.
+  - blocker type: aws_cli_login_expired
+  - failed condition: before the `sdxl_realvisxl_controlnet_canny_lane` EC2 static-proof window, `aws sts get-caller-identity` returned an expired-session error and the profile matrix found 0 of 15 profiles authenticating to expected account `029530099913`.
+  - latest proof of progress before block: the Canny ControlNet model and Canny input image were installed on EC2 from S3 and SHA256-verified; both helpers verified EC2 final state `stopped`; no generation ran.
+  - impact: EC2 static proof and bounded workflow smoke must not start until fresh AWS auth/account gates pass again.
+  - current state: Git is clean/pushed at the install checkpoint, but AWS auth must be refreshed before EC2 static proof.
+  - route: complete `aws login`/SSO for expected account `029530099913`, rerun `Test-AwsAuthGate.ps1`, rerun `Test-AwsProfileAuthMatrix.ps1`, rerun lane readiness, create a fresh emergency stop schedule, then run `Invoke-EC2LaneStaticProof.ps1` for `sdxl_realvisxl_controlnet_canny_lane` from a clean pushed head.
+  - evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_AWS_PROFILE_AUTH_MATRIX_CONTROLNET_CANNY_STATIC_RECHECK_20260706T231000-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_AWS_AUTH_GATE_CONTROLNET_CANNY_STATIC_RECHECK_BLOCKED_20260706T231000-0500.json`; `Plan/Instructions/QA/Evidence/Model_Registry/W68_EC2_CONTROLNET_CANNY_MODEL_INSTALL_20260706T224500-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_EC2_CONTROLNET_CANNY_INPUT_ASSET_INSTALL_20260706T225500-0500.json`
+
 - `BLOCKER-RUNTIME-CONTROLNET-CANNY-EC2-PROOF-001`
   - status: active for queued lane `sdxl_realvisxl_controlnet_canny_lane` after local runtime proof.
   - blocker type: target_runtime_proof_pending
