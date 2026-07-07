@@ -1,87 +1,111 @@
-{
-  "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
-  "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
-  "engine_family": "sdxl",
-  "checkpoint_family": "RealVisXL",
-  "control_family": "ControlNet Canny SDXL",
-  "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
-  "source_contracts": [
-    "Plan/10_REGISTRIES/wave05_workflow_template_contracts.json",
-    "Plan/10_REGISTRIES/wave11_control_map_runtime_requirements.json",
-    "Plan/10_REGISTRIES/wave11_main_flow_control_map_inventory.json"
-  ],
-  "required_nodes": [
-    "CheckpointLoaderSimple",
-    "EmptyLatentImage",
-    "CLIPTextEncode",
-    "ControlNetLoader",
-    "LoadImage",
-    "ControlNetApplyAdvanced",
-    "KSampler",
-    "VAEDecode",
-    "SaveImage"
-  ],
-  "required_models": [
-    {
-      "role": "checkpoint",
-      "model_type": "Checkpoint",
-      "comfyui_model_subdir": "checkpoints",
-      "filename": "realvisxlV50_v50Bakedvae.safetensors",
-      "source_model": "RealVisXL V5.0",
-      "source_model_id": "civitai:139562",
-      "source_version_hint": "v5.0 baked VAE",
-      "source_urls": [
-        "https://civitai.com/models/139562"
-      ],
-      "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
-      "node_id": "4",
-      "node_class": "CheckpointLoaderSimple",
-      "input": "ckpt_name",
-      "hash_status": "pending_ec2_static_match",
-      "path_status": "pending_ec2_static_match"
-    },
-    {
-      "role": "controlnet",
-      "model_type": "ControlNet",
-      "comfyui_model_subdir": "controlnet",
-      "filename": "controlnet-canny-sdxl-1.0-small.safetensors",
-      "source_model": "SDXL Canny ControlNet small",
-      "source_model_id": "pending_lookup",
-      "source_version_hint": "ControlNet Canny for SDXL 1.0",
-      "source_urls": [],
-      "sha256": "",
-      "node_id": "10",
-      "node_class": "ControlNetLoader",
-      "input": "control_net_name",
-      "hash_status": "pending_ec2_static_match",
-      "path_status": "pending_ec2_static_match"
-    }
-  ],
-  "required_input_assets": [
-    {
-      "role": "control_image",
-      "filename": "controlnet_canny_corrected_white_edges_black_bg.png",
-      "comfyui_input_subdir": "",
-      "node_id": "11",
-      "node_class": "LoadImage",
-      "input": "image",
-      "status": "pending_local_input_asset"
-    }
-  ],
-  "optional_models": [],
-  "object_info_required": true,
-  "object_info_status": "pending_object_info",
-  "model_hash_required": true,
-  "path_resolution_required": true,
-  "runtime_output_required": true,
-  "qa_report_required": true,
-  "promotion_allowed_without_evidence": false,
-  "current_status": "queued_pending_model_provisioning",
-  "known_blockers": [
-    "ControlNet Canny model is not present under models/controlnet.",
-    "Control image asset must be placed in the ComfyUI input directory before runtime execution.",
-    "Lane has static/request evidence only until object_info, model path/hash, generation, pullback, and image QA pass."
-  ],
-  "evidence_paths": [],
-  "status_notes": "Extracted from the Wave11 Main Flow Canny branch as a queued local-first lane. Static validation and dry-run request construction may pass before model/input provisioning, but runtime promotion remains blocked."
+﻿{
+    "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+    "module_id":  "MOD-17-CONTROLNET-CANNY-LANE",
+    "engine_family":  "sdxl",
+    "checkpoint_family":  "RealVisXL",
+    "control_family":  "ControlNet Canny SDXL",
+    "workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+    "source_contracts":  [
+                             "Plan/10_REGISTRIES/wave05_workflow_template_contracts.json",
+                             "Plan/10_REGISTRIES/wave11_control_map_runtime_requirements.json",
+                             "Plan/10_REGISTRIES/wave11_main_flow_control_map_inventory.json"
+                         ],
+    "required_nodes":  [
+                           "CheckpointLoaderSimple",
+                           "EmptyLatentImage",
+                           "CLIPTextEncode",
+                           "ControlNetLoader",
+                           "LoadImage",
+                           "ControlNetApplyAdvanced",
+                           "KSampler",
+                           "VAEDecode",
+                           "SaveImage"
+                       ],
+    "required_models":  [
+                            {
+                                "role":  "checkpoint",
+                                "model_type":  "Checkpoint",
+                                "comfyui_model_subdir":  "checkpoints",
+                                "filename":  "realvisxlV50_v50Bakedvae.safetensors",
+                                "source_model":  "RealVisXL V5.0",
+                                "source_model_id":  "civitai:139562",
+                                "source_version_hint":  "v5.0 baked VAE",
+                                "source_urls":  [
+                                                    "https://civitai.com/models/139562"
+                                                ],
+                                "sha256":  "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+                                "node_id":  "4",
+                                "node_class":  "CheckpointLoaderSimple",
+                                "input":  "ckpt_name",
+                                "hash_status":  "pending_ec2_static_match",
+                                "path_status":  "pending_ec2_static_match"
+                            },
+                            {
+                                "role":  "controlnet",
+                                "model_type":  "ControlNet",
+                                "comfyui_model_subdir":  "controlnet",
+                                "filename":  "controlnet-canny-sdxl-1.0-small.safetensors",
+                                "source_model":  "SDXL Canny ControlNet small",
+                                "source_model_id":  "diffusers/controlnet-canny-sdxl-1.0-small",
+                                "source_version_hint":  "fp16 small SDXL Canny ControlNet",
+                                "source_urls":  [
+                                                    "https://huggingface.co/diffusers/controlnet-canny-sdxl-1.0-small",
+                                                    "https://huggingface.co/diffusers/controlnet-canny-sdxl-1.0-small/resolve/main/diffusion_pytorch_model.fp16.safetensors"
+                                                ],
+                                "sha256":  "fde4888a5f0a5648118991cc50e0ac4d60a2356dbaddf5e0649dd69c1119a2f9",
+                                "node_id":  "10",
+                                "node_class":  "ControlNetLoader",
+                                "input":  "control_net_name",
+                                "hash_status":  "pending_ec2_static_match",
+                                "path_status":  "pending_ec2_static_match",
+                                "local_hash_status":  "verified_local",
+                                "local_path_status":  "present_local_ignored_model_path"
+                            }
+                        ],
+    "required_input_assets":  [
+                                  {
+                                      "role":  "control_image",
+                                      "filename":  "controlnet_canny_corrected_white_edges_black_bg.png",
+                                      "comfyui_input_subdir":  "",
+                                      "node_id":  "11",
+                                      "node_class":  "LoadImage",
+                                      "input":  "image",
+                                      "status":  "prepared_local_comfyui_input",
+                                      "sha256":  "1af02b8bd12a9de394fbcc1becd72912f4604f843cb7e7a2fc80496835b8e9a5",
+                                      "comfyui_input_path":  "ComfyUI/input/controlnet_canny_corrected_white_edges_black_bg.png",
+                                      "evidence_path":  "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_input_20260707T000000-0500/CONTROL_IMAGE_INPUT_ASSET_MANIFEST.json"
+                                  }
+                              ],
+    "optional_models":  [
+
+                        ],
+    "object_info_required":  true,
+    "object_info_status":  "local_object_info_passed_model_and_input_visible",
+    "model_hash_required":  true,
+    "path_resolution_required":  true,
+    "runtime_output_required":  true,
+    "qa_report_required":  true,
+    "promotion_allowed_without_evidence":  false,
+    "current_status":  "queued_pending_ec2_target_proof_local_smoke_passed",
+    "known_blockers":  [
+                           "EC2 target-runtime static proof has not yet passed for this lane.",
+                           "EC2 bounded generation, pullback, technical image QA, and whole-image visual QA remain pending.",
+                           "Final portfolio certification remains pending."
+                       ],
+    "evidence_paths":  [
+                           "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_WORKFLOW_STATIC_VALIDATION_SDXL_REALVISXL_CONTROLNET_CANNY_20260706T212030-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_WORKFLOW_SMOKE_DRY_RUN_SDXL_REALVISXL_CONTROLNET_CANNY_20260706T212030-0500.json",
+                           "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_OBJECT_INFO_CONTROLNET_CANNY_NODES_20260706T212030-0500.json",
+                           "Plan/Instructions/QA/Evidence/Model_Registry/W66_MODEL_REGISTRY_CONTROLNET_CANNY_QUEUE_20260706T212030-0500.json",
+                           "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LANE_RUNTIME_READINESS_CONTROLNET_CANNY_20260706T212030-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W66_AUTHORED_LANE_EVIDENCE_COVERAGE_CONTROLNET_CANNY_20260706T212030-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W66_RUNTIME_LANE_QUEUE_CONTROLNET_CANNY_RETEST_20260706T212030-0500.json",
+                           "Plan/Instructions/QA/Evidence/Model_Registry/W67_CONTROLNET_CANNY_MODEL_LOCAL_PROVISIONING_20260706T214500-0500.json",
+                           "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_input_20260707T000000-0500/CONTROL_IMAGE_INPUT_ASSET_MANIFEST.json",
+                           "Plan/Instructions/QA/Evidence/Runtime_Readiness/W67_LOCAL_OBJECT_INFO_CONTROLNET_CANNY_MODEL_INPUT_20260706T215000-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Runtime/W67_LOCAL_CONTROLNET_CANNY_RUN_PACKAGE_EXECUTE_20260706T215500-0500.json",
+                           "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W67_LOCAL_CONTROLNET_CANNY_IMAGE_QA_TECHNICAL_20260706T215800-0500.json",
+                           "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W67_LOCAL_CONTROLNET_CANNY_IMAGE_QA_VISUAL_20260706T220000-0500.json"
+                       ],
+    "status_notes":  "ControlNet model and control image are locally provisioned. Local object_info sees the checkpoint, ControlNet model, and input image; bounded local generation produced a 768x768 image that passed technical QA and whole-image visual QA with notes. EC2 target-runtime proof remains pending."
 }

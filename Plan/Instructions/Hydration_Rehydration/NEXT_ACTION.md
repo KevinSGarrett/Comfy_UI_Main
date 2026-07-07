@@ -1,5 +1,24 @@
 # Next Action
 
+## Current next action - 2026-07-06T22:00:00-05:00
+
+Continue `sdxl_realvisxl_controlnet_canny_lane` from the new local runtime proof, not from the old missing-model blocker. The ControlNet Canny asset is now downloaded locally, SHA256-recorded, and visible to local ComfyUI through `config/comfyui_extra_model_paths.yaml`; the Canny input image exists in the active ComfyUI input directory and has an evidence copy under `Plan/Instructions/Operations/Prepared_Input_Assets`. A bounded local run-package smoke generated one PNG, pulled it into project evidence, and passed technical plus whole-image visual QA with local-smoke notes.
+
+Current Canny local runtime evidence:
+
+```text
+Plan/Instructions/QA/Evidence/Model_Registry/W67_CONTROLNET_CANNY_MODEL_LOCAL_PROVISIONING_20260706T214500-0500.json
+Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_input_20260707T000000-0500/CONTROL_IMAGE_INPUT_ASSET_MANIFEST.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W67_LOCAL_OBJECT_INFO_CONTROLNET_CANNY_MODEL_INPUT_20260706T215000-0500.json
+Plan/Instructions/QA/Evidence/Workflow_Runtime/W67_LOCAL_CONTROLNET_CANNY_RUN_PACKAGE_EXECUTE_20260706T215500-0500.json
+Plan/Instructions/Operations/Pulled_Back_Artifacts/controlnet_canny_local_bounded_smoke_v1_20260706T215500-0500/LOCAL_ARTIFACT_MANIFEST.json
+Plan/Instructions/Operations/Pulled_Back_Artifacts/controlnet_canny_local_bounded_smoke_v1_20260706T215500-0500/images/codex_sdxl_realvisxl_controlnet_canny_smoke_00001_.png
+Plan/Instructions/QA/Evidence/Image_Artifact_QA/W67_LOCAL_CONTROLNET_CANNY_IMAGE_QA_TECHNICAL_20260706T215800-0500.json
+Plan/Instructions/QA/Evidence/Image_Artifact_QA/W67_LOCAL_CONTROLNET_CANNY_IMAGE_QA_VISUAL_20260706T220000-0500.json
+```
+
+Next exact work: refresh Wave65 coverage after the new Plan evidence/assets, run local JSON/CSV/PowerShell validation plus root preflight, verify local ComfyUI is stopped and EC2 remains stopped, then checkpoint and push. After the checkpoint, the next runtime step is EC2 target proof for the Canny lane from a clean pushed head, with fresh AWS auth/Git/cost gates first.
+
 ## Current next action - 2026-07-06T21:26:30-05:00
 
 Continue the newly queued `sdxl_realvisxl_controlnet_canny_lane` locally by provisioning its missing ControlNet/runtime input assets, not by rerunning completed RealVisXL smoke proofs. The Canny lane has been extracted from the Wave11/Main Flow ControlNet branch into concrete Plan and `Workflows` lane files, added as queue order 3, added to model registry coverage, packaged into a local run package, statically validated, smoke-dry-run validated, and checked against local `/object_info` for `ControlNetLoader` and `ControlNetApplyAdvanced`.

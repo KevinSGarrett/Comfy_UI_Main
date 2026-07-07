@@ -1,0 +1,52 @@
+﻿{
+    "schema_version":  "1.0",
+    "evidence_id":  "W67-LOCAL-CONTROLNET-CANNY-IMAGE-QA-VISUAL-20260706T220000-0500",
+    "timestamp":  "2026-07-06T21:44:59.1445328-05:00",
+    "artifact_id":  "codex_sdxl_realvisxl_controlnet_canny_smoke_00001",
+    "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+    "artifact_type":  "image",
+    "image_path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/controlnet_canny_local_bounded_smoke_v1_20260706T215500-0500/images/codex_sdxl_realvisxl_controlnet_canny_smoke_00001_.png",
+    "image_sha256":  "3d862c177370c2ebc8b9b6e11f5bec6071b504dff02abe7a28b722c6b72d3644",
+    "whole_image_review_required":  true,
+    "review_method":  "Codex visual inspection of full generated image, not localized crop-only review.",
+    "qa_status":  "pass_with_notes_for_local_smoke",
+    "scores":  {
+                   "full_frame_coherence":  "pass",
+                   "face_realism":  "pass",
+                   "eye_quality":  "pass_with_notes_low_light",
+                   "skin_texture":  "pass_with_notes_soft_focus",
+                   "hair_realism":  "pass",
+                   "mouth_quality":  "pass",
+                   "hands_fingers":  "not_applicable_not_visible",
+                   "body_proportions":  "pass_visible_upper_body",
+                   "pose_accuracy":  "pass",
+                   "clothing_fabric":  "pass_visible_sweater_texture",
+                   "lighting":  "pass_cinematic_low_light",
+                   "background_coherence":  "pass",
+                   "camera_lens_realism":  "pass",
+                   "texture_detail":  "pass_with_notes_soft_local_smoke",
+                   "controlnet_compliance":  "pass_portrait_edges_follow_control_map",
+                   "edge_map_leakage":  "pass_no_visible_white_edge_overlay",
+                   "artifacting":  "pass_no_blocking_artifacts_observed",
+                   "prompt_compliance":  "pass_local_smoke_scope"
+               },
+    "defects":  [
+
+                ],
+    "notes":  [
+                  "Image is a coherent 768x768 cinematic portrait with full-frame subject/background continuity.",
+                  "Canny conditioning appears to guide hair, face, shoulder, and portrait framing without visible edge-map leakage.",
+                  "Low-key lighting leaves one side of the face shadowed, but this is acceptable for a bounded local smoke proof and not a blocking artifact.",
+                  "Hands are not visible, so hand/finger quality is not certified by this sample."
+              ],
+    "evidence_inputs":  [
+                            "Plan/Instructions/QA/Evidence/Workflow_Runtime/W67_LOCAL_CONTROLNET_CANNY_RUN_PACKAGE_EXECUTE_20260706T215500-0500.json",
+                            "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W67_LOCAL_CONTROLNET_CANNY_IMAGE_QA_TECHNICAL_20260706T215800-0500.json",
+                            "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_input_20260707T000000-0500/CONTROL_IMAGE_INPUT_ASSET_MANIFEST.json",
+                            "Plan/Instructions/QA/Evidence/Model_Registry/W67_CONTROLNET_CANNY_MODEL_LOCAL_PROVISIONING_20260706T214500-0500.json"
+                        ],
+    "decision":  "local_runtime_smoke_passed_not_ec2_certified",
+    "promotion_boundary":  "Local smoke and visual QA can unblock local iteration only; EC2 target-runtime proof and final portfolio certification remain pending.",
+    "aws_contacted":  false,
+    "ec2_started":  false
+}

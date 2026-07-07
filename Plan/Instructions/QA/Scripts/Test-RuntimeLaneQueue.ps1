@@ -159,7 +159,7 @@ function Find-LatestCoverageFile {
   $coverageDir = Join-Path $EvidenceRoot "Workflow_Prerequisite_Matching"
   if (!(Test-Path -LiteralPath $coverageDir)) { return $null }
 
-  $latest = Get-ChildItem -LiteralPath $coverageDir -Filter "W61_AUTHORED_LANE_EVIDENCE_COVERAGE*.json" -File |
+  $latest = Get-ChildItem -LiteralPath $coverageDir -Filter "*AUTHORED_LANE_EVIDENCE_COVERAGE*.json" -File |
     Sort-Object LastWriteTime -Descending |
     Select-Object -First 1
   if ($null -eq $latest) { return $null }
@@ -464,7 +464,7 @@ $record = [ordered]@{
     "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
     "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/*/workflow.api.json",
     "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/*/runtime_requirements.json",
-    "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W61_AUTHORED_LANE_EVIDENCE_COVERAGE*.json"
+  "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/*AUTHORED_LANE_EVIDENCE_COVERAGE*.json"
   )
   local_only = $true
   aws_contacted = $false

@@ -12,14 +12,21 @@ None currently active for local Wave 58-62 static and packaging validation.
 
 ## Active runtime blockers
 
+- `BLOCKER-RUNTIME-CONTROLNET-CANNY-EC2-PROOF-001`
+  - status: active for queued lane `sdxl_realvisxl_controlnet_canny_lane` after local runtime proof.
+  - blocker type: target_runtime_proof_pending
+  - failed condition: EC2 static proof, bounded EC2 generation, pullback, technical QA, and whole-image visual QA have not yet run for the ControlNet Canny lane from a clean pushed head.
+  - impact: Local iteration is unblocked, but the lane is not target-runtime certified and cannot count toward final project completion.
+  - current proof: local model provisioning, input asset preparation, local `/object_info` model visibility, local bounded generation, pullback, technical QA, and whole-image visual QA all pass with notes.
+  - evidence: `Plan/Instructions/QA/Evidence/Model_Registry/W67_CONTROLNET_CANNY_MODEL_LOCAL_PROVISIONING_20260706T214500-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W67_LOCAL_OBJECT_INFO_CONTROLNET_CANNY_MODEL_INPUT_20260706T215000-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Runtime/W67_LOCAL_CONTROLNET_CANNY_RUN_PACKAGE_EXECUTE_20260706T215500-0500.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W67_LOCAL_CONTROLNET_CANNY_IMAGE_QA_VISUAL_20260706T220000-0500.json`
+  - route: after checkpoint/push and fresh AWS auth/Git/cost-control gates, run the lane-specific EC2 static proof, bounded generation, pullback, technical image QA, and whole-image visual QA.
+
 - `BLOCKER-RUNTIME-CONTROLNET-CANNY-MODEL-001`
-  - status: active for queued lane `sdxl_realvisxl_controlnet_canny_lane`; not a Git, GitHub token, Civitai key, or `.env` blocker.
+  - status: resolved 2026-07-06T22:00:00-05:00; not a Git, GitHub token, Civitai key, or `.env` blocker.
   - blocker type: required_controlnet_model_and_input_asset_missing
   - failed condition: `models/controlnet/controlnet-canny-sdxl-1.0-small.safetensors` is not present and `controlnet_canny_corrected_white_edges_black_bg.png` has not yet been proven in the active ComfyUI input directory.
-  - impact: The Canny lane can be statically validated and packaged, but runtime generation, pullback, technical image QA, and whole-image visual QA must remain blocked.
-  - current proof: lane extraction, static validation, dry-run prompt construction, local object_info node availability, registry queue coverage, authored-lane coverage, and runtime queue validation all pass locally.
-  - evidence: `Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W66_NEXT_LANE_MODULE_SELECTION_CONTROLNET_CANNY_20260706T212030-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_WORKFLOW_STATIC_VALIDATION_SDXL_REALVISXL_CONTROLNET_CANNY_20260706T212030-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_OBJECT_INFO_CONTROLNET_CANNY_NODES_20260706T212030-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W66_RUNTIME_LANE_QUEUE_CONTROLNET_CANNY_RETEST_20260706T212030-0500.json`
-  - route: look up/download or S3-sync the ControlNet model without committing the binary, record metadata/file size/SHA256, place or generate the Canny control input image, rerun local validation, then run bounded local generation and QA before any EC2 target proof.
+  - resolution: downloaded the fp16 small SDXL Canny ControlNet safetensors from Hugging Face into ignored `models/controlnet`, SHA256-recorded it as `fde4888a5f0a5648118991cc50e0ac4d60a2356dbaddf5e0649dd69c1119a2f9`, generated and placed `controlnet_canny_corrected_white_edges_black_bg.png` in the active ComfyUI input directory, proved both through local `/object_info`, ran bounded local generation, pulled the image into project evidence, and completed technical plus whole-image visual QA.
+  - evidence: `Plan/Instructions/QA/Evidence/Model_Registry/W67_CONTROLNET_CANNY_MODEL_LOCAL_PROVISIONING_20260706T214500-0500.json`; `Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_input_20260707T000000-0500/CONTROL_IMAGE_INPUT_ASSET_MANIFEST.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W67_LOCAL_OBJECT_INFO_CONTROLNET_CANNY_MODEL_INPUT_20260706T215000-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Runtime/W67_LOCAL_CONTROLNET_CANNY_RUN_PACKAGE_EXECUTE_20260706T215500-0500.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W67_LOCAL_CONTROLNET_CANNY_IMAGE_QA_VISUAL_20260706T220000-0500.json`
 
 - `BLOCKER-AWS-AUTH-EXPIRED-001`
   - status: historical/conditional recheck gate after the post-login low-risk proof, RealVisXL runtime proof, and S3/IAM runtime infrastructure initialization; not a current local/S3 blocker.

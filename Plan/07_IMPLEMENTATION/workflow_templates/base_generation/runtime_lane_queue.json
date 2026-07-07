@@ -1,94 +1,94 @@
-{
-  "schema_version": "1.0",
-  "updated_at": "2026-07-06T14:01:00-05:00",
-  "artifact_id": "TRK-W61-006",
-  "purpose": "Local queue for base-generation lane runtime proof order before EC2 execution resumes.",
-  "local_only": true,
-  "selection_policy": {
-    "first_runtime_lane_id": "sdxl_low_risk_fallback_lane",
-    "current_runtime_lane_id": "sdxl_realvisxl_base_lane",
-    "completed_runtime_lane_ids": [
-      "sdxl_low_risk_fallback_lane",
-      "sdxl_realvisxl_base_lane"
-    ],
-    "do_not_promote_later_lanes_before_first_lane_runtime_proof": true,
-    "later_lane_promotion_allowed_after_first_lane_runtime_proof": true,
-    "requires_aws_auth_gate_before_ec2": true,
-    "requires_clean_git_checkpoint_before_ec2_execute": true,
-    "requires_lane_matched_evidence": true,
-    "requires_model_registry_coverage_before_ec2": true
-  },
-  "lanes": [
-    {
-      "order": 1,
-      "lane_id": "sdxl_low_risk_fallback_lane",
-      "role": "first_ec2_static_proof_and_bounded_smoke_generation",
-      "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
-      "requirements_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
-      "status": "runtime_smoke_proven",
-      "required_next_runtime_gate": "completed_first_runtime_proof",
-      "promotion_rule": "Do not rerun solely to re-prove the path; use as the completed first runtime proof lane unless a user-approved change requires retest.",
-      "proof_evidence": [
-        "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_POST_LOGIN_RETEST_20260706T104311-0500.json",
-        "Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_POST_STATIC_PROOF_RETEST_20260706T110424-0500.json",
-        "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_VISUAL_20260706T122027-0500.json"
-      ]
-    },
-    {
-      "order": 2,
-      "lane_id": "sdxl_realvisxl_base_lane",
-      "role": "second_sdxl_realvisxl_checkpoint_path_hash_load_output_qa",
-      "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/workflow.api.json",
-      "requirements_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/runtime_requirements.json",
-      "status": "runtime_smoke_proven",
-      "required_next_runtime_gate": "completed_realvisxl_runtime_smoke",
-      "promotion_rule": "Do not rerun solely to re-prove the path; use as completed RealVisXL runtime smoke proof unless a user-approved lane, prompt, or model change requires retest.",
-      "blocker_evidence": [
-        "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_REALVISXL_20260706T123028-0500.json",
-        "Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_REALVISXL_MISSING_MODEL_CLASSIFICATION_20260706T124103-0500.json"
-      ],
-      "proof_evidence": [
-        "Plan/Instructions/QA/Evidence/Model_Registry/W63_EC2_REALVISXL_MODEL_INSTALL_20260706T125425-0500.json",
-        "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_EC2_LANE_STATIC_PROOF_REALVISXL_AFTER_INSTALL_20260706T131129-0500.json",
-        "Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_LANE_RUNTIME_READINESS_REALVISXL_AFTER_STATIC_PROOF_20260706T132103-0500.json",
-        "Plan/Instructions/QA/Evidence/Workflow_Runtime/W63_EC2_WORKFLOW_SMOKE_REALVISXL_AFTER_STATIC_PROOF_20260706T132206-0500.json",
-        "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T132206-0500/PULLBACK_RECORD.json",
-        "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_REALVISXL_IMAGE_QA_VISUAL_20260706T140120-0500.json"
-      ]
-    },
-    {
-      "order": 3,
-      "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
-      "role": "third_sdxl_realvisxl_controlnet_canny_branch_extraction",
-      "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
-      "requirements_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json",
-      "status": "queued",
-      "required_next_runtime_gate": "provision_controlnet_model_input_asset_then_static_proof",
-      "promotion_rule": "Do not promote or execute until ControlNet model lookup/download/hash, control image placement, object_info proof, path/hash proof, generation, pullback, and image QA are complete.",
-      "source_evidence": [
-        "Plan/10_REGISTRIES/wave05_workflow_template_contracts.json",
-        "Plan/10_REGISTRIES/wave11_control_map_runtime_requirements.json",
-        "Plan/10_REGISTRIES/wave11_main_flow_control_map_inventory.json"
-      ]
-    }
-  ],
-  "runtime_boundary": {
-    "ec2_start_allowed_by_queue_file": false,
-    "generation_allowed_by_queue_file": false,
-    "local_queue_validation_does_not_contact": [
-      "AWS",
-      "GitHub API",
-      "Civitai",
-      "ComfyUI",
-      "EC2"
-    ]
-  },
-  "known_limits": [
-    "Does not refresh AWS browser/SSO auth.",
-    "Does not start EC2 or contact ComfyUI.",
-    "Does not prove new lane changes after this timestamp.",
-    "Does not replace deeper multi-sample or final portfolio image-quality certification.",
-    "The ControlNet Canny lane is queued only; it is not runtime-proven until model/input provisioning and lane-specific QA pass."
-  ],
-  "next_action": "Provision and hash the queued SDXL RealVisXL ControlNet Canny model/input assets, then run lane-specific object_info/path/hash proof before any generation."
+﻿{
+    "schema_version":  "1.0",
+    "updated_at":  "2026-07-06T14:01:00-05:00",
+    "artifact_id":  "TRK-W61-006",
+    "purpose":  "Local queue for base-generation lane runtime proof order before EC2 execution resumes.",
+    "local_only":  true,
+    "selection_policy":  {
+                             "first_runtime_lane_id":  "sdxl_low_risk_fallback_lane",
+                             "current_runtime_lane_id":  "sdxl_realvisxl_base_lane",
+                             "completed_runtime_lane_ids":  [
+                                                                "sdxl_low_risk_fallback_lane",
+                                                                "sdxl_realvisxl_base_lane"
+                                                            ],
+                             "do_not_promote_later_lanes_before_first_lane_runtime_proof":  true,
+                             "later_lane_promotion_allowed_after_first_lane_runtime_proof":  true,
+                             "requires_aws_auth_gate_before_ec2":  true,
+                             "requires_clean_git_checkpoint_before_ec2_execute":  true,
+                             "requires_lane_matched_evidence":  true,
+                             "requires_model_registry_coverage_before_ec2":  true
+                         },
+    "lanes":  [
+                  {
+                      "order":  1,
+                      "lane_id":  "sdxl_low_risk_fallback_lane",
+                      "role":  "first_ec2_static_proof_and_bounded_smoke_generation",
+                      "workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
+                      "requirements_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
+                      "status":  "runtime_smoke_proven",
+                      "required_next_runtime_gate":  "completed_first_runtime_proof",
+                      "promotion_rule":  "Do not rerun solely to re-prove the path; use as the completed first runtime proof lane unless a user-approved change requires retest.",
+                      "proof_evidence":  [
+                                             "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_POST_LOGIN_RETEST_20260706T104311-0500.json",
+                                             "Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_POST_STATIC_PROOF_RETEST_20260706T110424-0500.json",
+                                             "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_VISUAL_20260706T122027-0500.json"
+                                         ]
+                  },
+                  {
+                      "order":  2,
+                      "lane_id":  "sdxl_realvisxl_base_lane",
+                      "role":  "second_sdxl_realvisxl_checkpoint_path_hash_load_output_qa",
+                      "workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/workflow.api.json",
+                      "requirements_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/runtime_requirements.json",
+                      "status":  "runtime_smoke_proven",
+                      "required_next_runtime_gate":  "completed_realvisxl_runtime_smoke",
+                      "promotion_rule":  "Do not rerun solely to re-prove the path; use as completed RealVisXL runtime smoke proof unless a user-approved lane, prompt, or model change requires retest.",
+                      "blocker_evidence":  [
+                                               "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_REALVISXL_20260706T123028-0500.json",
+                                               "Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_REALVISXL_MISSING_MODEL_CLASSIFICATION_20260706T124103-0500.json"
+                                           ],
+                      "proof_evidence":  [
+                                             "Plan/Instructions/QA/Evidence/Model_Registry/W63_EC2_REALVISXL_MODEL_INSTALL_20260706T125425-0500.json",
+                                             "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_EC2_LANE_STATIC_PROOF_REALVISXL_AFTER_INSTALL_20260706T131129-0500.json",
+                                             "Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_LANE_RUNTIME_READINESS_REALVISXL_AFTER_STATIC_PROOF_20260706T132103-0500.json",
+                                             "Plan/Instructions/QA/Evidence/Workflow_Runtime/W63_EC2_WORKFLOW_SMOKE_REALVISXL_AFTER_STATIC_PROOF_20260706T132206-0500.json",
+                                             "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T132206-0500/PULLBACK_RECORD.json",
+                                             "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_REALVISXL_IMAGE_QA_VISUAL_20260706T140120-0500.json"
+                                         ]
+                  },
+                  {
+                      "order":  3,
+                      "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+                      "role":  "third_sdxl_realvisxl_controlnet_canny_branch_extraction",
+                      "workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+                      "requirements_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json",
+                      "status":  "queued",
+                      "required_next_runtime_gate":  "provision_controlnet_model_input_asset_then_static_proof",
+                      "promotion_rule":  "Do not promote or execute until ControlNet model lookup/download/hash, control image placement, object_info proof, path/hash proof, generation, pullback, and image QA are complete.",
+                      "source_evidence":  [
+                                              "Plan/10_REGISTRIES/wave05_workflow_template_contracts.json",
+                                              "Plan/10_REGISTRIES/wave11_control_map_runtime_requirements.json",
+                                              "Plan/10_REGISTRIES/wave11_main_flow_control_map_inventory.json"
+                                          ]
+                  }
+              ],
+    "runtime_boundary":  {
+                             "ec2_start_allowed_by_queue_file":  false,
+                             "generation_allowed_by_queue_file":  false,
+                             "local_queue_validation_does_not_contact":  [
+                                                                             "AWS",
+                                                                             "GitHub API",
+                                                                             "Civitai",
+                                                                             "ComfyUI",
+                                                                             "EC2"
+                                                                         ]
+                         },
+    "known_limits":  [
+                         "Does not refresh AWS browser/SSO auth.",
+                         "Does not start EC2 or contact ComfyUI.",
+                         "Does not prove new lane changes after this timestamp.",
+                         "Does not replace deeper multi-sample or final portfolio image-quality certification.",
+                         "The ControlNet Canny lane is queued only; it is not runtime-proven until model/input provisioning and lane-specific QA pass."
+                     ],
+    "next_action":  "Provision and hash the queued SDXL RealVisXL ControlNet Canny model/input assets, then run lane-specific object_info/path/hash proof before any generation."
 }
