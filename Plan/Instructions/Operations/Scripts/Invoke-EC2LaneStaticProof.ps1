@@ -277,7 +277,7 @@ $stamp = (Get-Date -Format "yyyyMMddTHHmmsszzz").Replace(":", "")
 $runtimeReadinessDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Runtime_Readiness"
 $workflowStaticDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Workflow_Static_Validation"
 if ([string]::IsNullOrWhiteSpace($AuthGateFile)) {
-  $AuthGateFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_AUTH_GATE_*.json"
+  $AuthGateFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "*AWS_AUTH_GATE*.json"
 }
 if ([string]::IsNullOrWhiteSpace($ReadinessFile)) {
   $ReadinessFile = Find-LatestJsonByLaneId -Directory $runtimeReadinessDir -Filter "*LANE_RUNTIME_READINESS_*.json" -ExpectedLaneId $LaneId
