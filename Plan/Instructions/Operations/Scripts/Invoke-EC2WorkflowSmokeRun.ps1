@@ -731,7 +731,7 @@ $workflowRuntimeDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Work
 $pullbackRoot = Join-Path $ProjectRoot "Plan\Instructions\Operations\Pulled_Back_Artifacts"
 
 if ([string]::IsNullOrWhiteSpace($AuthGateFile)) {
-  $AuthGateFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_AUTH_GATE_*.json"
+  $AuthGateFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "*AWS_AUTH_GATE*.json"
 }
 if ([string]::IsNullOrWhiteSpace($StaticProofFile)) {
   $StaticProofFile = Find-LatestJsonByLaneId -Directory $workflowStaticDir -Filter "*EC2_LANE_STATIC_PROOF_*.json" -ExpectedLaneId $LaneId -ExcludePattern "DRY_RUN|BLOCKED_EXECUTE"
