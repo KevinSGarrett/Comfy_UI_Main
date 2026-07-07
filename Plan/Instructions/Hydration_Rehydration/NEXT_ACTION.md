@@ -1,5 +1,25 @@
 # Next Action
 
+## Current next action - 2026-07-06T20:58:00-05:00
+
+Checkpoint the bounded local ComfyUI RealVisXL smoke generation and QA from `C:\Comfy_UI_Main`, then continue local-first work from a clean pushed state. The local CUDA/model/object-info path is now proven through an actual local generation: `realvisxl_local_bounded_smoke_v1` generated one 512x512 PNG through local ComfyUI with RealVisXL, pulled it into project evidence, passed technical image QA, and passed whole-image visual QA with local-smoke notes. This local proof does not replace EC2 target-runtime proof or final portfolio certification.
+
+Current local smoke evidence:
+
+```text
+config/comfyui_extra_model_paths.yaml
+PromptProfiles/base_generation/realvisxl_local_bounded_smoke.json
+runtime_artifacts/run_packages/realvisxl_local_bounded_smoke_v1/RUN_PACKAGE_MANIFEST.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_COMFYUI_START_FOR_REALVISXL_SMOKE_20260706T205415-0500.json
+Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_LOCAL_COMFYUI_REALVISXL_SMOKE_EXECUTE_20260706T205501-0500.json
+Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_realvisxl_smoke_20260706T205501-0500/LOCAL_ARTIFACT_MANIFEST.json
+Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_realvisxl_smoke_20260706T205501-0500/images/codex_realvisxl_local_bounded_smoke_00001_.png
+Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_LOCAL_REALVISXL_SMOKE_IMAGE_QA_TECHNICAL_20260706T205600-0500.json
+Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_LOCAL_REALVISXL_SMOKE_IMAGE_QA_VISUAL_20260706T205650-0500.json
+```
+
+Immediate remaining checkpoint steps: rerun Wave65 coverage after these new Plan files, validate JSON/CSV/PowerShell parse, confirm local ComfyUI is stopped and EC2 is stopped, scan staged content for secrets/private keys/model binaries, commit, push, and verify `HEAD == origin/main`.
+
 ## Current next action - 2026-07-06T20:48:00-05:00
 
 Run a bounded local ComfyUI RealVisXL smoke generation before using more EC2 time. Local prerequisites are now ready: ignored ComfyUI checkout exists, CUDA Torch venv is ready, RealVisXL checkpoint is locally downloaded and SHA256-verified, hardened preflight reports `pass_local_gpu_generation_candidate`, and local `/object_info` reports all required workflow nodes. Keep the local smoke small and clearly marked as local-only; it does not replace EC2 target proof. After local generation, pull/record the artifact, run technical image QA and whole-image visual QA, update hydration/tracker/evidence, and commit.

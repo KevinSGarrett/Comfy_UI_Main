@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "realvisxl_local_bounded_smoke_v1",
+  "target_lane_id": "sdxl_realvisxl_base_lane",
+  "purpose": "Local-only bounded RealVisXL smoke profile for fast ComfyUI runtime iteration on the RTX 5060 Laptop GPU. This does not replace EC2 target-runtime proof.",
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic natural-light portrait of an adult subject, realistic skin texture, lifelike eyes, detailed hair strands, believable facial asymmetry, soft fabric texture, clean photographic lens rendering, balanced studio shadows, subtle background depth",
+    "negative_prompt": "cartoon, anime, illustration, CGI, doll-like face, plastic skin, waxy skin, over-smoothed texture, dead eyes, crossed eyes, distorted anatomy, extra fingers, missing fingers, fused fingers, watermark, text, logo, blurry, low resolution",
+    "seed": 660715512,
+    "sampler_settings": {
+      "steps": 10,
+      "cfg": 5.2,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1
+    },
+    "latent_resolution": {
+      "width": 512,
+      "height": 512,
+      "batch_size": 1
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_realvisxl_local_bounded_smoke"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_realvisxl_local_bounded_smoke"
+  },
+  "qa_focus": [
+    "local runtime model loading",
+    "whole-image visual sanity",
+    "face realism",
+    "eye quality",
+    "skin texture",
+    "lighting",
+    "artifacting"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_router_gate": true,
+    "requires_ec2_static_proof_before_promotion": true,
+    "requires_whole_image_qa_before_promotion": true
+  }
+}

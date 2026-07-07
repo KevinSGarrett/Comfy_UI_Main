@@ -12,14 +12,6 @@ None currently active for local Wave 58-62 static and packaging validation.
 
 ## Active runtime blockers
 
-- `BLOCKER-RUNTIME-COMFYUI-LOCAL-001`
-  - blocker type: local_runtime_missing
-  - failed condition: `C:\Comfy_UI_Main\ComfyUI` and expected local model folders do not exist.
-  - local filesystem involved: yes
-  - impact: local ComfyUI workflow execution and local model load validation cannot run from this checkout.
-  - route: EC2 runtime discovery found `/home/ubuntu/ComfyUI` and a working NVIDIA A10G GPU path.
-  - evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_RUNTIME_READINESS_PREFLIGHT_20260706T012301-0500.json`
-
 - `BLOCKER-AWS-AUTH-EXPIRED-001`
   - status: historical/conditional recheck gate after the post-login low-risk proof, RealVisXL runtime proof, and S3/IAM runtime infrastructure initialization; not a current local/S3 blocker.
   - blocker type: aws_cli_login_expired
@@ -41,6 +33,11 @@ None currently active for local Wave 58-62 static and packaging validation.
   - evidence: `Plan/Instructions/QA/Evidence/EC2_Project_Sync/W60_W61_EC2_PROJECT_SYNC_20260706T015022-0500.json`
 
 ## Resolved blockers
+
+- `BLOCKER-RUNTIME-COMFYUI-LOCAL-001` - resolved 2026-07-06T20:58:00-05:00
+  - blocker type: local_runtime_missing / local_generation_unproven
+  - resolution: bootstrapped ignored local ComfyUI checkout, created CUDA Torch venv, downloaded and SHA-verified local RealVisXL checkpoint, configured local extra model paths, passed local `/object_info`, generated one bounded RealVisXL PNG locally, copied it into project pullback evidence, ran technical image QA, and completed whole-image visual QA.
+  - evidence: `Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_LOCAL_COMFYUI_REALVISXL_SMOKE_EXECUTE_20260706T205501-0500.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_LOCAL_REALVISXL_SMOKE_IMAGE_QA_VISUAL_20260706T205650-0500.json`
 
 - `BLOCKER-RUNTIME-S3-CONFIG-001` - resolved 2026-07-06T17:58:08-05:00
   - blocker type: missing_s3_runtime_bucket_and_iam_config

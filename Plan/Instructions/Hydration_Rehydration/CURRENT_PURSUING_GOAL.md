@@ -50,6 +50,8 @@ The first queued runtime lane, `sdxl_low_risk_fallback_lane`, completed target E
 
 The next queued runtime lane, `sdxl_realvisxl_base_lane`, has also completed RealVisXL model installation, SHA256 verification, EC2 static proof after install, one EC2 workflow smoke generation, generated artifact pullback, pullback hash verification, and technical plus visual image QA. Do not rerun this smoke proof unless the lane, prompt, model, or runtime changed, or the user explicitly asks for a broader multi-sample image-quality certification.
 
+The local-first RealVisXL iteration path is now live too. `C:\Comfy_UI_Main\ComfyUI` is an ignored local checkout with CUDA Torch, the verified RealVisXL checkpoint is in ignored project model storage, local extra model paths are configured, `/object_info` passes, and a bounded 512x512/10-step local RealVisXL smoke generated one PNG with technical plus whole-image visual QA. Local evidence is `Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_LOCAL_COMFYUI_REALVISXL_SMOKE_EXECUTE_20260706T205501-0500.json` and `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_LOCAL_REALVISXL_SMOKE_IMAGE_QA_VISUAL_20260706T205650-0500.json`. This local proof is for low-cost iteration and does not replace EC2 target-runtime proof.
+
 Wave 63 cost controls are active:
 
 - Local dev preflight: `tools\Test-LocalComfyUIDevPreflight.ps1`.
@@ -143,13 +145,13 @@ RealVisXL matrix sample 2 is now generated, pulled back, hash-verified, and QA-r
 RealVisXL matrix sample 3 is now generated, pulled back, hash-verified, and QA-reviewed. Fresh bundle `rvxl_mx_s3d_20260706T194502-0500` was download-verified from S3 with SHA256 `b5ff8b371d80773654d0646d2c842ffd0a8fcee8722687b5a0e0fe76e696ebda`; fresh static proof passed in `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_EC2_STATIC_PROOF_REALVISXL_MATRIX_S3D_20260706T194602-0500.json`; sample 3 runtime evidence is `Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_MATRIX_SAMPLE3_20260706T195751-0500.json`; pullback evidence is `Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T195752-0500/PULLBACK_RECORD.json`; technical QA is `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE3_IMAGE_QA_TECHNICAL_20260706T200751-0500.json`; visual QA is `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE3_IMAGE_QA_VISUAL_20260706T200845-0500.json`. Final matrix certification is `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_FINAL_QA_CERTIFICATION_20260706T201000-0500.json`; the bounded three-sample RealVisXL matrix is certified with notes.
 
 ## Next Exact Work
-First, if the runtime proof, cost-control, tracker, or instruction updates are uncommitted, finish one clean Git checkpoint and verify local `HEAD == origin/main`.
+First, if the local RealVisXL smoke, runtime proof, cost-control, tracker, or instruction updates are uncommitted, finish one clean Git checkpoint and verify local `HEAD == origin/main`.
 
-Second, choose the next work intentionally. The default next work is one of:
+Second, choose the next work intentionally from a clean pushed state. The default next work is one of:
 
-1. Checkpoint the completed sample 2 evidence, rerun Wave65, push, verify clean `HEAD == origin/main`, rebuild/upload a fresh clean-head S3 matrix bundle, then execute RealVisXL matrix sample 3 with emergency stop coverage, pullback hash verification, technical QA, and whole-image visual QA.
+1. Use the local ComfyUI path for the next low-cost prompt/workflow iteration, generating small bounded artifacts locally with technical plus whole-image QA before spending EC2 time.
 2. Define the next lane/module from the Main Flow/Wave42 source context and run local validation, registry coverage, queue updates, run package creation, and deploy-bundle creation while EC2 is stopped.
-3. If image-quality certification is the explicit next target, run a broader multi-sample RealVisXL QA plan rather than treating the single smoke image as final portfolio proof.
+3. If broader image-quality certification is the explicit next target, create a new multi-sample QA plan instead of rerunning already certified RealVisXL matrix samples.
 
 Third, keep using the cost-control lane before any future generation attempt:
 

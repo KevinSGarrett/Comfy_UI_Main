@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W66-LOCAL-REALVISXL-SMOKE-IMAGE-QA-VISUAL-20260706T205650-0500",
+  "timestamp": "2026-07-06T20:56:50-05:00",
+  "artifact_id": "codex_realvisxl_local_bounded_smoke_00001",
+  "artifact_type": "image",
+  "image_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_realvisxl_smoke_20260706T205501-0500/images/codex_realvisxl_local_bounded_smoke_00001_.png",
+  "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_LOCAL_COMFYUI_REALVISXL_SMOKE_EXECUTE_20260706T205501-0500.json",
+  "technical_qa_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_LOCAL_REALVISXL_SMOKE_IMAGE_QA_TECHNICAL_20260706T205600-0500.json",
+  "reviewer": "Codex Desktop autonomous visual QA",
+  "review_scope": "whole-image visual review for local-only bounded RealVisXL smoke; this does not replace EC2 target-runtime proof or final portfolio certification",
+  "scores": {
+    "face_realism": 9,
+    "eye_quality": 8,
+    "skin_texture": 9,
+    "hands_fingers": "not_visible",
+    "feet_toes": "not_visible",
+    "hair_realism": 8,
+    "teeth_mouth_quality": 8,
+    "body_proportions": 8,
+    "pose_accuracy": 9,
+    "clothing_fabric": 8,
+    "contact_points": "not_visible",
+    "object_body_collisions": 9,
+    "deformation_realism": 8,
+    "soft_body_cues": 8,
+    "anatomy_consistency": 8,
+    "lighting": 9,
+    "shadows": 8,
+    "reflections": "not_applicable",
+    "background_coherence": 9,
+    "camera_lens_realism": 9,
+    "texture_detail": 8,
+    "artifacting": 8,
+    "prompt_compliance": 9
+  },
+  "observations": [
+    "Generated a plausible adult portrait with coherent facial structure, natural asymmetry, visible skin texture, and believable eye placement.",
+    "Hair, fabric, and background are coherent for a 512x512 low-step local smoke output.",
+    "Lighting and depth of field match the bounded prompt well enough to prove local RealVisXL generation is functioning."
+  ],
+  "minor_limitations": [
+    "Local smoke is intentionally low resolution and only 10 steps, so it is not a final quality bar.",
+    "Fine hair edges and one shadowed eye are slightly soft, consistent with the bounded runtime settings."
+  ],
+  "blockers": [],
+  "qa_status": "pass_with_notes_local_smoke",
+  "promotion_allowed": false,
+  "local_generation_confirmed": true,
+  "ec2_final_proof_still_required": true,
+  "next_action": "Update hydration, tracker/evidence index, and Wave65 coverage; keep this as local iteration evidence only."
+}
