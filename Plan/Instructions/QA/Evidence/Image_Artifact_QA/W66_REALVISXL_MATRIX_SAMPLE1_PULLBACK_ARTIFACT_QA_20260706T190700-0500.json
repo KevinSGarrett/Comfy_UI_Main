@@ -1,0 +1,42 @@
+﻿{
+    "evidence_id":  "PULLBACK-ARTIFACT-QA-20260706T190700-0500",
+    "timestamp":  "2026-07-06T19:07:00-05:00",
+    "run_id":  "aws_gpu_workflow_smoke_20260706T185315-0500",
+    "result":  "pass_with_nonblocking_log_notes",
+    "pullback_status":  "pullback_hashes_verified",
+    "hashes_verified":  true,
+    "file_count_remote":  4,
+    "file_count_local":  4,
+    "history_json_valid":  true,
+    "history_status":  "success",
+    "history_completed":  true,
+    "prompt_request_json_valid":  true,
+    "prompt_request_node_count":  2,
+    "log_scan":  {
+                     "fatal_errors_found":  false,
+                     "warning_or_error_lines":  [
+                                                    {
+                                                        "line_number":  72,
+                                                        "line":  "2026-07-06 23:56:56.231141335 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under \"/sys/class/drm/card0\": device_discovery.cc:93 ReadFileContents Failed to open file: \"/sys/class/drm/card0/device/vendor\""
+                                                    },
+                                                    {
+                                                        "line_number":  143,
+                                                        "line":  "[ERROR] Failed to initialize database. Please ensure you have installed the latest requirements. If the error persists, please report this as in future the database will be required: Could not acquire lock on database \u0027/home/ubuntu/ComfyUI/user/comfyui.db\u0027. Another ComfyUI process may already be using it. Use --database-url to specify a separate database file."
+                                                    }
+                                                ],
+                     "interpretation":  "ComfyUI logged an ONNX device-discovery warning and a database-lock startup error, but the bounded prompt completed successfully with execution_success, one output image, no prompt node_errors, and successful S3 pullback. Track as nonblocking runtime hygiene for later cleanup."
+                 },
+    "qa_required_files":  [
+                              "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T185315-0500/images/9_codex_realvisxl_cert_closeup_skin_eye_00001_.png",
+                              "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T185315-0500/logs/comfyui.log",
+                              "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T185315-0500/reports/history.json",
+                              "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T185315-0500/workflows/prompt_request.json"
+                          ],
+    "qa_evidence_paths":  [
+                              "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE1_IMAGE_QA_TECHNICAL_20260706T190410-0500.json",
+                              "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE1_IMAGE_QA_VISUAL_20260706T190640-0500.json",
+                              "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_MATRIX_SAMPLE1_20260706T185314-0500.json",
+                              "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_EC2_STATIC_PROOF_REALVISXL_MATRIX_S3_RETRY_20260706T184233-0500.json"
+                          ],
+    "next_action":  "Commit sample 1 evidence, rebuild a clean-head deploy bundle, then execute samples 2 and 3."
+}

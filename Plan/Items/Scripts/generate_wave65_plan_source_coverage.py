@@ -14,6 +14,10 @@ INSTRUCTIONS = PLAN / "Instructions"
 
 WAVE = "65"
 WAVE_NAME = "plan_source_coverage_closure"
+BINARY_OR_MEDIA_EXTENSIONS = {
+    ".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".ico",
+    ".zip", ".7z", ".tar", ".gz", ".pdf", ".safetensors", ".ckpt",
+}
 
 ITEM_COLUMNS = [
     "Item_ID", "Item_Wave", "Item_Type", "Item_Title", "Item_Category", "Item_Domain",
@@ -79,18 +83,42 @@ def norm(value: str | None) -> str:
 
 
 def read_lines(path: Path) -> list[str]:
+    if path.suffix.lower() in BINARY_OR_MEDIA_EXTENSIONS:
+        return []
     try:
         return path.read_text(encoding="utf-8", errors="ignore").splitlines()
     except Exception:
         return []
 
 
+def clean_citation_text(value: str) -> str:
+    without_ansi = re.sub(r"\x1b\[[0-9;]*[A-Za-z]", " ", value)
+    without_control = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", " ", without_ansi)
+    return re.sub(r"\s+", " ", without_control).strip()
+
+
 def citation_for(path: Path) -> dict[str, str]:
+    if path.suffix.lower() in BINARY_OR_MEDIA_EXTENSIONS:
+        source_type = path.suffix.lstrip(".").lower() or "file"
+        file_size = path.stat().st_size if path.exists() else 0
+        return {
+            "Citation_File": rel(path),
+            "Citation_Full_Path": str(path),
+            "Citation_Section": f"{source_type.upper()} binary/media artifact",
+            "Citation_Line_Start": "1",
+            "Citation_Line_End": "1",
+            "Citation_Excerpt": f"Binary or media Plan artifact {rel(path)} exists with size {file_size} bytes; use hash, pullback, and whole-artifact QA evidence instead of embedding raw bytes in source coverage CSV.",
+            "Source_Package": str(PLAN),
+            "Source_Type": source_type,
+            "Source_File_Size": str(file_size),
+            "Source_File_Relative": rel(path),
+        }
+
     lines = read_lines(path)
     section = path.stem
     start = 1
     for index, line in enumerate(lines, start=1):
-        stripped = line.strip()
+        stripped = clean_citation_text(line)
         if stripped.startswith("#"):
             section = re.sub(r"^#+\s*", "", stripped)[:180] or section
             start = index
@@ -108,7 +136,7 @@ def citation_for(path: Path) -> dict[str, str]:
             start = index
             break
     end = min(max(start + 12, start), len(lines) if lines else start)
-    excerpt = " ".join(line.strip() for line in lines[start - 1 : end] if line.strip())[:700]
+    excerpt = clean_citation_text(" ".join(line.strip() for line in lines[start - 1 : end] if line.strip()))[:700]
     if not excerpt:
         excerpt = f"Plan source file {rel(path)} exists and requires Items/Tracker coverage."
     return {

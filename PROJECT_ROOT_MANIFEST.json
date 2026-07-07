@@ -1,376 +1,397 @@
-{
-  "schema_version": "1.0",
-  "project": "Comfy_UI_Main",
-  "local_root": "C:\\Comfy_UI_Main",
-  "canonical_git_remote": "https://github.com/KevinSGarrett/Comfy_UI_Main.git",
-  "safe_to_commit": [
-    "Plan",
-    "Workflows",
-    "configs",
-    "tools",
-    ".github/workflows",
-    "models/README.md",
-    "runtime_artifacts/README.md",
-    "README.md"
-  ],
-  "never_commit": [
-    ".env",
-    "*.pem",
-    "*.key",
-    "model binaries",
-    "generated media outputs",
-    "AWS credentials",
-    "private SSH keys"
-  ],
-  "active_runtime_queue": {
-    "queue_file": "Workflows/base_generation/ACTIVE_LANES.json",
-    "first_lane_id": "sdxl_low_risk_fallback_lane",
-    "second_lane_id": "sdxl_realvisxl_base_lane",
-    "current_runtime_blocker": {
-      "lane_id": "sdxl_realvisxl_base_lane",
-      "blocker_id": "NONE-CURRENT-REALVISXL-SMOKE-QA-COMPLETE",
-      "status_id": "RESOLVED-RUNTIME-REALVISXL-SMOKE-QA-001",
-      "status": "runtime_smoke_pullback_and_image_qa_complete",
-      "expected_ec2_path": "/home/ubuntu/ComfyUI/models/checkpoints/realvisxlV50_v50Bakedvae.safetensors",
-      "expected_sha256": "6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80",
-      "model_install_evidence": "Plan/Instructions/QA/Evidence/Model_Registry/W63_EC2_REALVISXL_MODEL_INSTALL_20260706T125425-0500.json",
-      "static_proof_evidence": "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_EC2_LANE_STATIC_PROOF_REALVISXL_AFTER_INSTALL_20260706T131129-0500.json",
-      "workflow_smoke_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W63_EC2_WORKFLOW_SMOKE_REALVISXL_AFTER_STATIC_PROOF_20260706T132206-0500.json",
-      "pullback_record": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T132206-0500/PULLBACK_RECORD.json",
-      "image_qa_technical": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_IMAGE_QA_TECHNICAL_REALVISXL_20260706T140027-0500.json",
-      "image_qa_visual": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_REALVISXL_IMAGE_QA_VISUAL_20260706T140120-0500.json",
-      "project_readiness": "Plan/Instructions/QA/Evidence/Project_Readiness/W64_PROJECT_READINESS_STRICT_AI_ITEMS_TRACKER_FINAL_20260706T150215-0500.json",
-      "runtime_handoff": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_RUNTIME_UNBLOCK_HANDOFF_REALVISXL_QA_COMPLETE_FINAL_20260706T140828-0500.json",
-      "operations_validation": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_OPERATIONS_HELPER_S3_TRANSFER_READINESS_FINAL_20260706T142956-0500.json",
-      "s3_runtime_transfer_readiness": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_S3_RUNTIME_TRANSFER_READINESS_20260706T142504-0500.json",
-      "model_registry_coverage": "Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_RUNTIME_PROOF_ALIGNMENT_FINAL_20260706T145923-0500.json",
-      "workflow_static_generic_model_references": {
-        "sdxl_low_risk_fallback_lane": "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_STATIC_GENERIC_MODEL_REFERENCES_sdxl_low_risk_fallback_lane_20260706T144819-0500.json",
-        "sdxl_realvisxl_base_lane": "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_STATIC_GENERIC_MODEL_REFERENCES_sdxl_realvisxl_base_lane_20260706T144819-0500.json"
-      },
-      "qa_validation": "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W64_QA_HELPER_STRICT_AI_ITEMS_TRACKER_20260706T150215-0500.json",
-      "items_tracker_validation": "Plan/Instructions/QA/Evidence/Items_Tracker_Validation/W64_ITEMS_TRACKER_STRICT_AI_COVERAGE_20260706T150215-0500.json",
-      "next_required_action": "model registry and runtime requirements now reflect completed smoke-proof status for both active SDXL lanes; fill S3 runtime-transfer bucket prefix and role config before applying AWS policies, then choose the next lane/module or multi-sample image-quality certification intentionally"
-    },
-    "ec2_start_requires": [
-      "AWS auth gate safe_to_start_ec2=true",
-      "runtime lane queue selected lane is current_runtime_lane_id",
-      "model registry coverage result=pass_local_only, selected lane result=pass, failed_check_count=0",
-      "clean pushed Git checkpoint",
-      "lane readiness ready_for_ec2_static_proof=true"
-    ]
-  },
-  "cost_control_runtime_strategy": {
-    "runbook": "Plan/Instructions/Operations/EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md",
-    "local_dev_preflight": "tools/Test-LocalComfyUIDevPreflight.ps1",
-    "local_dev_start_helper": "tools/Start-LocalComfyUIDev.ps1",
-    "deploy_bundle_builder": "tools/New-EC2DeployBundle.ps1",
-    "deploy_bundle_s3_publisher": "Plan/Instructions/Operations/Scripts/Publish-DeployBundleToS3.ps1",
-    "s3_runtime_transfer_readiness": "Plan/Instructions/Operations/Scripts/Test-S3RuntimeTransferReadiness.ps1",
-    "ec2_model_s3_installer": "Plan/Instructions/Operations/Scripts/Install-EC2ModelFromS3.ps1",
-    "ec2_emergency_stop_schedule": "Plan/Instructions/Operations/Scripts/New-EC2EmergencyStopSchedule.ps1",
-    "ec2_instance_stop_watchdog": "Plan/Instructions/Operations/Scripts/Start-EC2InstanceStopWatchdog.ps1",
-    "github_actions_workflow": ".github/workflows/preflight-package.yml",
-    "aws_policy_templates": "configs/aws",
-    "default_policy": "Validate and package locally or in GitHub Actions while EC2 is stopped; use EC2 only for target-runtime object-info, model path/hash/load, generation, pullback, and QA.",
-    "preferred_transfer_policy": "Use S3 deploy bundles and model-cache objects before EC2 starts; EC2 helpers should prefer -DeployBundleS3Uri/-DeployBundleSha256 and never use Git LFS for model binaries.",
-    "ec2_helper_defaults": {
-      "skip_git_lfs_pull_by_default": true,
-      "prefer_s3_deploy_bundle": true,
-      "prefer_s3_model_cache": true,
-      "require_explicit_max_runtime_minutes": true,
-      "batch_runtime_work_in_one_window": true,
-      "use_emergency_stop_schedule_when_role_exists": true,
-      "use_instance_side_watchdog_when_ssm_online": true,
-      "always_stop_and_verify_final_state": "stopped"
-    },
-    "not_replaced_by_local_dev_or_ci": [
-      "EC2 A10G object_info proof",
-      "target model path/hash/load proof",
-      "target generation",
-      "artifact pullback",
-      "image QA"
-    ]
-  },
-  "items_tracker_strict_ai_coverage": {
-    "active_waves": [
-      64,
-      65
-    ],
-    "wave64_role": "strict AI domain, QA, visual review, audio review, runtime proof, and release-control coverage",
-    "wave65_role": "exhaustive direct source coverage closure for every current file under C:\\Comfy_UI_Main\\Plan",
-    "items_csv": "Plan/Items/wave64_end_to_end_strict_ai_itemized_list.csv",
-    "items_wave_csv": "Plan/Items/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_ITEM_ROWS.csv",
-    "tracker_csv": "Plan/Tracker/wave64_end_to_end_strict_ai_tracker.csv",
-    "tracker_wave_csv": "Plan/Tracker/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_TRACKER_ROWS.csv",
-    "validation_report": "Plan/Items/Reports/wave64_end_to_end_strict_ai_coverage_report.json",
-    "wave65_items_csv": "Plan/Items/wave65_plan_source_coverage_closure_itemized_list.csv",
-    "wave65_items_wave_csv": "Plan/Items/Waves/Wave65/WAVE65_PLAN_SOURCE_COVERAGE_ITEM_ROWS.csv",
-    "wave65_tracker_csv": "Plan/Tracker/wave65_plan_source_coverage_closure_tracker.csv",
-    "wave65_tracker_wave_csv": "Plan/Tracker/Waves/Wave65/WAVE65_PLAN_SOURCE_COVERAGE_TRACKER_ROWS.csv",
-    "wave65_validation_report": "Plan/Items/Reports/wave65_plan_source_coverage_report.json",
-    "items_tracker_validation_evidence": "Plan/Instructions/QA/Evidence/Items_Tracker_Validation/W64_ITEMS_TRACKER_STRICT_AI_COVERAGE_20260706T150215-0500.json",
-    "qa_helper_validation_evidence": "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W64_QA_HELPER_STRICT_AI_ITEMS_TRACKER_20260706T150215-0500.json",
-    "project_readiness_evidence": "Plan/Instructions/QA/Evidence/Project_Readiness/W64_PROJECT_READINESS_STRICT_AI_ITEMS_TRACKER_FINAL_20260706T150215-0500.json",
-    "rule": "Every strict row must include Plan source citation file, section, line range, excerpt, source key, QA gates, evidence expectations, and whole-artifact visual/audio review when media exists.",
-    "plan_source_closure_rule": "Every current file under C:\\Comfy_UI_Main\\Plan must be covered by baseline Items/Tracker rows or Wave65 closure rows. Rerun Plan/Items/Scripts/generate_wave65_plan_source_coverage.py after any Plan file addition or rename.",
-    "localized_work_rule": "A localized image, video, GIF, audio, mask, prompt, frame, or repair task cannot pass if any unrelated global visual or audio defect exists in the generated artifact."
-  },
-  "image_engine_router_local_gate": {
-    "active_wave": 64,
-    "tracker_id": "TRK-W64-009",
-    "item_id": "ITEM-W64-009",
-    "router_script": "Plan/07_IMPLEMENTATION/scripts/resolve_wave64_image_engine_route.py",
-    "qa_script": "Plan/Instructions/QA/Scripts/Test-ImageEngineRouter.ps1",
-    "compatible_request": "Plan/09_EXAMPLES/wave64_image_engine_route_realvisxl_request.example.json",
-    "incompatible_request": "Plan/09_EXAMPLES/wave64_image_engine_route_incompatible_lora_request.example.json",
-    "compatible_decision": "Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_REALVISXL_DECISION_20260706T152201-0500.json",
-    "incompatible_decision": "Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_INCOMPATIBLE_LORA_DECISION_20260706T152201-0500.json",
-    "validation_evidence": "Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_VALIDATION_POST_LEDGER_20260706T151800-0500.json",
-    "qa_helper_validation_evidence": "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W64_QA_HELPER_IMAGE_ENGINE_ROUTER_POST_LEDGER_20260706T151800-0500.json",
-    "result": "pass_local_only",
-    "rule": "Image route selection must derive from active lanes, runtime queue, runtime requirements, and model registry evidence; incompatible checkpoint or LoRA families block instead of silently falling back.",
-    "local_only_boundary": "Validation does not contact AWS, GitHub API, Civitai, ComfyUI, or EC2 and does not execute generation."
-  },
-  "workflow_run_package_router_gate": {
-    "active_wave": 66,
-    "source_gate_wave": 64,
-    "package_builder": "tools/New-WorkflowRunPackage.ps1",
-    "qa_script": "Plan/Instructions/QA/Scripts/Test-WorkflowRunPackageRouterGate.ps1",
-    "qa_helper_script": "Plan/Instructions/QA/Scripts/Test-QAHelperStatic.ps1",
-    "route_request_argument": "-RouteRequestFile",
-    "router_script": "Plan/07_IMPLEMENTATION/scripts/resolve_wave64_image_engine_route.py",
-    "generated_package": "runtime_artifacts/run_packages/sdxl_realvisxl_router_gated_package_v1/RUN_PACKAGE_MANIFEST.json",
-    "router_decision": "runtime_artifacts/run_packages/sdxl_realvisxl_router_gated_package_v1/router_decision.json",
-    "validation_evidence": "Plan/Instructions/QA/Evidence/Run_Package/W66_WORKFLOW_RUN_PACKAGE_ROUTER_GATE_20260706T153601-0500.json",
-    "qa_helper_validation_evidence": "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_WORKFLOW_RUN_PACKAGE_ROUTER_GATE_20260706T153612-0500.json",
-    "result": "pass_local_only",
-    "rule": "Future image run packages should pass -RouteRequestFile so package lane selection cannot bypass router/model compatibility proof; a router-selected lane mismatch blocks package creation.",
-    "local_only_boundary": "Validation does not contact AWS, GitHub API, Civitai, ComfyUI, or EC2 and does not execute generation."
-  },
-  "workflow_run_package_matrix": {
-    "active_wave": 66,
-    "target_lane_id": "sdxl_realvisxl_base_lane",
-    "matrix_id": "realvisxl_multisample_certification_v1",
-    "matrix_file": "PromptProfiles/base_generation/realvisxl_multisample_certification.matrix.json",
-    "matrix_builder": "tools/New-WorkflowRunPackageMatrix.ps1",
-    "qa_script": "Plan/Instructions/QA/Scripts/Test-WorkflowRunPackageMatrix.ps1",
-    "generated_matrix_manifest": "runtime_artifacts/run_package_matrices/realvisxl_multisample_certification_v1/RUN_PACKAGE_MATRIX_MANIFEST.json",
-    "sample_package_manifests": [
-      "runtime_artifacts/run_packages/realvisxl_multisample_certification_v1_realvisxl_closeup_skin_eye_v1/RUN_PACKAGE_MANIFEST.json",
-      "runtime_artifacts/run_packages/realvisxl_multisample_certification_v1_realvisxl_three_quarter_hands_fabric_v1/RUN_PACKAGE_MANIFEST.json",
-      "runtime_artifacts/run_packages/realvisxl_multisample_certification_v1_realvisxl_environment_lowlight_v1/RUN_PACKAGE_MANIFEST.json"
-    ],
-    "sample_profiles": [
-      "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_closeup_skin_eye.json",
-      "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_three_quarter_hands_fabric.json",
-      "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_environment_lowlight.json"
-    ],
-    "validation_evidence": "Plan/Instructions/QA/Evidence/Run_Package/W66_WORKFLOW_RUN_PACKAGE_MATRIX_20260706T155031-0500.json",
-    "qa_helper_validation_evidence": "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_WORKFLOW_RUN_PACKAGE_MATRIX_20260706T155048-0500.json",
-    "result": "pass_local_only",
-    "rule": "Use the matrix builder before a broader RealVisXL image-quality certification run so every sample package is router-gated, profile-applied, unique-seeded, and whole-image QA scoped before EC2 execution.",
-    "local_only_boundary": "Validation does not contact AWS, GitHub API, Civitai, ComfyUI, or EC2 and does not execute generation."
-  },
-  "ec2_deploy_bundle_matrix": {
-    "active_wave": 66,
-    "target_lane_id": "sdxl_realvisxl_base_lane",
-    "matrix_id": "realvisxl_multisample_certification_v1",
-    "matrix_manifest": "runtime_artifacts/run_package_matrices/realvisxl_multisample_certification_v1/RUN_PACKAGE_MATRIX_MANIFEST.json",
-    "bundle_builder": "tools/New-EC2DeployBundleMatrix.ps1",
-    "s3_publisher": "Plan/Instructions/Operations/Scripts/Publish-DeployBundleToS3.ps1",
-    "qa_script": "Plan/Instructions/QA/Scripts/Test-EC2DeployBundleMatrix.ps1",
-    "validation_evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_EC2_DEPLOY_BUNDLE_MATRIX_S3_DRY_RUN_REDACTED_20260706T171921-0500.json",
-    "previous_validation_evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_EC2_DEPLOY_BUNDLE_MATRIX_20260706T170025-0500.json",
-    "qa_helper_validation_evidence": "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_MATRIX_S3_DRY_RUN_REDACTED_20260706T171934-0500.json",
-    "operations_helper_validation_evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_OPERATIONS_HELPER_MATRIX_BUNDLE_MANIFEST_20260706T171309-0500.json",
-    "result": "pass_local_only",
-    "sample_count": 3,
-    "bundle_file_count": 55,
-    "latest_validation_bundle_zip_sha256": "e29256311196349987e505bf38a8f2006b72cb7300fa5d545ce2270a01fc9d8e",
-    "publish_dry_run_result": "dry_run_ready_to_upload",
-    "publish_manifest_name": "DEPLOY_BUNDLE_MATRIX_MANIFEST.json",
-    "ec2_helper_manifest_support": [
-      "DEPLOY_BUNDLE_MANIFEST.json",
-      "DEPLOY_BUNDLE_MATRIX_MANIFEST.json"
-    ],
-    "rule": "Before a future RealVisXL multi-sample EC2 quality run, publish the matrix deploy bundle to S3 with its DEPLOY_BUNDLE_MATRIX_MANIFEST.json sidecar, verify bundle SHA256, run each sample package within bounded EC2/cost-control gates, pull back every generated artifact, verify hashes, and perform whole-image visual QA for all samples.",
-    "local_only_boundary": "Validation does not contact AWS, GitHub API, Civitai, ComfyUI, or EC2 and does not execute generation."
-  },
-  "ec2_workflow_matrix_quality_run_plan": {
-    "active_wave": 66,
-    "target_lane_id": "sdxl_realvisxl_base_lane",
-    "matrix_id": "realvisxl_multisample_certification_v1",
-    "matrix_manifest": "runtime_artifacts/run_package_matrices/realvisxl_multisample_certification_v1/RUN_PACKAGE_MATRIX_MANIFEST.json",
-    "planner": "Plan/Instructions/Operations/Scripts/New-EC2WorkflowMatrixQualityRunPlan.ps1",
-    "qa_script": "Plan/Instructions/QA/Scripts/Test-EC2WorkflowMatrixQualityRunPlan.ps1",
-    "qa_helper_script": "Plan/Instructions/QA/Scripts/Test-QAHelperStatic.ps1",
-    "deploy_bundle_evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_EC2_DEPLOY_BUNDLE_MATRIX_S3_DRY_RUN_REDACTED_20260706T171921-0500.json",
-    "validation_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_MATRIX_QUALITY_RUN_PLAN_20260706T173124-0500.json",
-    "qa_helper_validation_evidence": "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_MATRIX_QUALITY_RUN_PLAN_20260706T173138-0500.json",
-    "operations_helper_validation_evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_OPERATIONS_HELPER_MATRIX_QUALITY_RUN_PLAN_20260706T173138-0500.json",
-    "result": "pass_local_only",
-    "sample_count": 3,
-    "planned_sample_count": 3,
-    "required_command_arguments": [
-      "-RunPackageManifestFile",
-      "-DeployBundleS3Uri",
-      "-DeployBundleSha256",
-      "-SkipGitLfsPull",
-      "-MaxEc2RuntimeMinutes"
-    ],
-    "required_post_run_evidence_per_sample": [
-      "workflow runtime record",
-      "remote artifact manifest",
-      "pullback hash verification record",
-      "image QA JSON",
-      "whole-image QA checklist"
-    ],
-    "wave65_plan_source_coverage_after_update": {
-      "result": "pass",
-      "plan_file_count": 2845,
-      "wave65_rows_created": 670,
-      "missing_after_wave65_count": 0
-    },
-    "rule": "Use this plan as the bridge from the local RealVisXL three-sample matrix to bounded EC2 quality execution. Each sample must run from its verified package manifest with the matrix S3 bundle URI and SHA256, cost controls, artifact pullback, hash verification, and whole-image QA before certification.",
-    "local_only_boundary": "Validation does not contact AWS, GitHub API, Civitai, ComfyUI, or EC2 and does not execute generation."
-  },
-  "s3_runtime_config_plan": {
-    "active_wave": 66,
-    "planner": "Plan/Instructions/Operations/Scripts/New-S3RuntimeConfigPlan.ps1",
-    "qa_script": "Plan/Instructions/QA/Scripts/Test-S3RuntimeConfigPlan.ps1",
-    "qa_helper_script": "Plan/Instructions/QA/Scripts/Test-QAHelperStatic.ps1",
-    "operations_helper_script": "Plan/Instructions/Operations/Scripts/Test-OperationsHelperStatic.ps1",
-    "current_readiness_check": "Plan/Instructions/Operations/Scripts/Test-S3RuntimeTransferReadiness.ps1",
-    "validation_evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_RUNTIME_CONFIG_PLAN_20260706T174526-0500.json",
-    "qa_helper_validation_evidence": "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_S3_RUNTIME_CONFIG_PLAN_20260706T174541-0500.json",
-    "operations_helper_validation_evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_OPERATIONS_HELPER_S3_RUNTIME_CONFIG_PLAN_20260706T174541-0500.json",
-    "current_env_readiness_result": "blocked_missing_s3_runtime_config",
-    "current_missing_config": [
-      "S3_MODEL_BUCKET has no value",
-      "COMFY_DEPLOY_BUNDLE_S3_URI is missing",
-      "AWS_ROLE_TO_ASSUME is missing",
-      "scheduler stop role ARN is missing"
-    ],
-    "planner_validation_result": "pass_local_only",
-    "rendered_policy_preview_count": 5,
-    "required_env_lines": [
-      "COMFY_DEPLOY_BUNDLE_S3_URI",
-      "S3_MODEL_BUCKET",
-      "S3_MODEL_PREFIX",
-      "S3_RENDER_OUTPUT_PREFIX",
-      "S3_MANIFEST_PREFIX",
-      "AWS_ROLE_TO_ASSUME",
-      "COMFY_SCHEDULER_STOP_ROLE_ARN"
-    ],
-    "wave65_plan_source_coverage_after_update": {
-      "result": "pass",
-      "plan_file_count": 2851,
-      "wave65_rows_created": 676,
-      "missing_after_wave65_count": 0
-    },
-    "rule": "Before live matrix deploy-bundle upload or EC2 quality execution, fill the S3 bucket and IAM role values, rerun S3 runtime transfer readiness, publish the matrix bundle to S3, verify uploaded SHA256, then feed the uploaded URI/SHA into the matrix quality-run planner.",
-    "local_only_boundary": "Validation does not contact AWS, GitHub API, Civitai, ComfyUI, or EC2 and does not execute generation."
-  },
-  "s3_runtime_infrastructure": {
-    "active_wave": 66,
-    "initializer": "Plan/Instructions/Operations/Scripts/Initialize-S3RuntimeInfrastructure.ps1",
-    "readiness_check": "Plan/Instructions/Operations/Scripts/Test-S3RuntimeTransferReadiness.ps1",
-    "operations_helper_script": "Plan/Instructions/Operations/Scripts/Test-OperationsHelperStatic.ps1",
-    "bucket": "comfy-ui-main-runtime-029530099913-us-east-1",
-    "roles": {
-      "ec2_runtime_role": "ComfyUI-SSM-Role",
-      "github_deploy_role": "ComfyUIGitHubDeployBundleRole",
-      "scheduler_stop_role": "ComfyUIEmergencyStopSchedulerRole"
-    },
-    "dry_run_evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_RUNTIME_INFRA_DRY_RUN_20260706T175619-0500.json",
-    "execute_evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_RUNTIME_INFRA_EXECUTE_20260706T175716-0500.json",
-    "readiness_evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_RUNTIME_TRANSFER_READY_20260706T175808-0500.json",
-    "operations_helper_validation_evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_OPERATIONS_HELPER_S3_RUNTIME_INFRA_20260706T175902-0500.json",
-    "result": "s3_runtime_infrastructure_ready",
-    "readiness_result": "ready_local_only",
-    "bucket_controls_verified": [
-      "versioning_enabled",
-      "sse_s3_encryption_enabled",
-      "public_access_block_enabled"
-    ],
-    "iam_inline_policies_verified": [
-      "ComfyUIRuntimeS3Access",
-      "ComfyUIDeployBundleS3Upload",
-      "ComfyUIEmergencyStopOnly"
-    ],
-    "ec2_final_state": "stopped",
-    "generation_executed": false,
-    "secrets_committed": false,
-    "wave65_plan_source_coverage_after_update": {
-      "result": "pass",
-      "plan_file_count": 2855,
-      "wave65_rows_created": 680,
-      "missing_after_wave65_count": 0
-    },
-    "rule": "S3/IAM runtime infrastructure is initialized and real readiness now passes locally. Next publish the RealVisXL matrix deploy bundle to S3, verify the uploaded SHA256, then feed the real S3 URI and SHA into the bounded matrix quality-run plan before any EC2 generation.",
-    "local_or_aws_boundary": "The initializer contacted AWS only for S3/IAM setup and did not start EC2 or run generation. Non-secret .env values were updated locally and remain uncommitted."
-  },
-  "s3_matrix_deploy_bundle_publish": {
-    "active_wave": 66,
-    "target_lane_id": "sdxl_realvisxl_base_lane",
-    "matrix_id": "realvisxl_multisample_certification_v1",
-    "bundle_id": "rvxl_mx_s3_20260706T181144-0500",
-    "bundle_type": "run_package_matrix_deploy_bundle",
-    "sample_count": 3,
-    "bundle_file_count": 55,
-    "s3_bundle_uri": "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/rvxl_mx_s3_20260706T181144-0500/rvxl_mx_s3_20260706T181144-0500.zip",
-    "s3_manifest_uri": "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/rvxl_mx_s3_20260706T181144-0500/DEPLOY_BUNDLE_MATRIX_MANIFEST.json",
-    "bundle_zip_sha256": "d3d81bbe2b6cb678304ab06ddf9cb707da31721cb01ca9c26df729414396cc84",
-    "publish_dry_run_evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_MATRIX_DEPLOY_BUNDLE_PUBLISH_DRY_RUN_20260706T181159-0500.json",
-    "publish_execute_evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_MATRIX_DEPLOY_BUNDLE_PUBLISH_EXECUTE_20260706T181217-0500.json",
-    "upload_verify_evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_MATRIX_DEPLOY_BUNDLE_UPLOAD_VERIFY_20260706T181252-0500.json",
-    "quality_run_plan_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_MATRIX_QUALITY_RUN_PLAN_S3_PUBLISHED_20260706T181317-0500.json",
-    "publish_result": "deploy_bundle_uploaded_to_s3",
-    "verification_result": "s3_upload_sha256_verified",
-    "quality_plan_result": "pass_local_only",
-    "ec2_started": false,
-    "generation_executed": false,
-    "wave65_plan_source_coverage_after_update": {
-      "result": "pass",
-      "plan_file_count": 2859,
-      "wave65_rows_created": 684,
-      "missing_after_wave65_count": 0
-    },
-    "rule": "Use this uploaded bundle URI and SHA for the next bounded RealVisXL three-sample quality run. EC2 execution is still pending and must include fresh auth, Git cleanliness, static/readiness gates, artifact pullback, hash verification, and whole-image QA for every sample before certification."
-  },
-  "runtime_scope_boundary": {
-    "source_analysis_context": [
-      "Plan/12_SOURCE_SUMMARIES/source_snapshots/WAVE42_MAIN_FLOW_20260702.runtime_bound_snapshot.json",
-      "Plan/01_CURRENT_SYSTEM_REVIEW",
-      "Plan/10_REGISTRIES/main_flow_*",
-      "Plan/11_RELEASES"
-    ],
-    "active_runtime_surface": "Workflows/base_generation",
-    "current_execution_scope": "simplified first-proof API lanes exported from validated Plan templates",
-    "not_yet_active_runtime": "the full Wave42/Main Flow graph and the old C:\\Comfy_UI workflow system",
-    "promotion_rule": "Main Flow material must be extracted into a concrete lane or module, statically validated, registered, queued, packaged, and pass auth, queue, model-registry, Git, readiness, static-proof, pullback, and QA gates before EC2 execution."
-  },
-  "directories": {
-    "plan": {
-      "path": "Plan",
-      "purpose": "Project source of truth, trackers, instructions, QA evidence, and certifications."
-    },
-    "workflows": {
-      "path": "Workflows",
-      "purpose": "Runtime-facing exported ComfyUI workflow files copied from the validated Plan templates."
-    },
-    "models": {
-      "path": "models",
-      "purpose": "Local placement guide for checkpoints, LoRAs, VAEs, ControlNet models, and embeddings. Binaries are ignored."
-    },
-    "runtime_artifacts": {
-      "path": "runtime_artifacts",
-      "purpose": "Local landing area for run manifests, pullbacks, and review artifacts that are not committed unless explicitly approved."
-    },
-    "configs": {
-      "path": "configs",
-      "purpose": "Safe-to-commit runtime configuration and handoff notes."
-    }
-  }
+﻿{
+    "schema_version":  "1.0",
+    "project":  "Comfy_UI_Main",
+    "local_root":  "C:\\Comfy_UI_Main",
+    "canonical_git_remote":  "https://github.com/KevinSGarrett/Comfy_UI_Main.git",
+    "safe_to_commit":  [
+                           "Plan",
+                           "Workflows",
+                           "configs",
+                           "tools",
+                           ".github/workflows",
+                           "models/README.md",
+                           "runtime_artifacts/README.md",
+                           "README.md"
+                       ],
+    "never_commit":  [
+                         ".env",
+                         "*.pem",
+                         "*.key",
+                         "model binaries",
+                         "generated media outputs",
+                         "AWS credentials",
+                         "private SSH keys"
+                     ],
+    "active_runtime_queue":  {
+                                 "queue_file":  "Workflows/base_generation/ACTIVE_LANES.json",
+                                 "first_lane_id":  "sdxl_low_risk_fallback_lane",
+                                 "second_lane_id":  "sdxl_realvisxl_base_lane",
+                                 "current_runtime_blocker":  {
+                                                                 "lane_id":  "sdxl_realvisxl_base_lane",
+                                                                 "blocker_id":  "NONE-CURRENT-REALVISXL-SMOKE-QA-COMPLETE",
+                                                                 "status_id":  "RESOLVED-RUNTIME-REALVISXL-SMOKE-QA-001",
+                                                                 "status":  "runtime_smoke_pullback_and_image_qa_complete",
+                                                                 "expected_ec2_path":  "/home/ubuntu/ComfyUI/models/checkpoints/realvisxlV50_v50Bakedvae.safetensors",
+                                                                 "expected_sha256":  "6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80",
+                                                                 "model_install_evidence":  "Plan/Instructions/QA/Evidence/Model_Registry/W63_EC2_REALVISXL_MODEL_INSTALL_20260706T125425-0500.json",
+                                                                 "static_proof_evidence":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_EC2_LANE_STATIC_PROOF_REALVISXL_AFTER_INSTALL_20260706T131129-0500.json",
+                                                                 "workflow_smoke_evidence":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W63_EC2_WORKFLOW_SMOKE_REALVISXL_AFTER_STATIC_PROOF_20260706T132206-0500.json",
+                                                                 "pullback_record":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T132206-0500/PULLBACK_RECORD.json",
+                                                                 "image_qa_technical":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_IMAGE_QA_TECHNICAL_REALVISXL_20260706T140027-0500.json",
+                                                                 "image_qa_visual":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_REALVISXL_IMAGE_QA_VISUAL_20260706T140120-0500.json",
+                                                                 "project_readiness":  "Plan/Instructions/QA/Evidence/Project_Readiness/W64_PROJECT_READINESS_STRICT_AI_ITEMS_TRACKER_FINAL_20260706T150215-0500.json",
+                                                                 "runtime_handoff":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_RUNTIME_UNBLOCK_HANDOFF_REALVISXL_QA_COMPLETE_FINAL_20260706T140828-0500.json",
+                                                                 "operations_validation":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_OPERATIONS_HELPER_S3_TRANSFER_READINESS_FINAL_20260706T142956-0500.json",
+                                                                 "s3_runtime_transfer_readiness":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_S3_RUNTIME_TRANSFER_READINESS_20260706T142504-0500.json",
+                                                                 "model_registry_coverage":  "Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_RUNTIME_PROOF_ALIGNMENT_FINAL_20260706T145923-0500.json",
+                                                                 "workflow_static_generic_model_references":  {
+                                                                                                                  "sdxl_low_risk_fallback_lane":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_STATIC_GENERIC_MODEL_REFERENCES_sdxl_low_risk_fallback_lane_20260706T144819-0500.json",
+                                                                                                                  "sdxl_realvisxl_base_lane":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_STATIC_GENERIC_MODEL_REFERENCES_sdxl_realvisxl_base_lane_20260706T144819-0500.json"
+                                                                                                              },
+                                                                 "qa_validation":  "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W64_QA_HELPER_STRICT_AI_ITEMS_TRACKER_20260706T150215-0500.json",
+                                                                 "items_tracker_validation":  "Plan/Instructions/QA/Evidence/Items_Tracker_Validation/W64_ITEMS_TRACKER_STRICT_AI_COVERAGE_20260706T150215-0500.json",
+                                                                 "next_required_action":  "model registry and runtime requirements now reflect completed smoke-proof status for both active SDXL lanes; fill S3 runtime-transfer bucket prefix and role config before applying AWS policies, then choose the next lane/module or multi-sample image-quality certification intentionally"
+                                                             },
+                                 "ec2_start_requires":  [
+                                                            "AWS auth gate safe_to_start_ec2=true",
+                                                            "runtime lane queue selected lane is current_runtime_lane_id",
+                                                            "model registry coverage result=pass_local_only, selected lane result=pass, failed_check_count=0",
+                                                            "clean pushed Git checkpoint",
+                                                            "lane readiness ready_for_ec2_static_proof=true"
+                                                        ]
+                             },
+    "cost_control_runtime_strategy":  {
+                                          "runbook":  "Plan/Instructions/Operations/EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md",
+                                          "local_dev_preflight":  "tools/Test-LocalComfyUIDevPreflight.ps1",
+                                          "local_dev_start_helper":  "tools/Start-LocalComfyUIDev.ps1",
+                                          "deploy_bundle_builder":  "tools/New-EC2DeployBundle.ps1",
+                                          "deploy_bundle_s3_publisher":  "Plan/Instructions/Operations/Scripts/Publish-DeployBundleToS3.ps1",
+                                          "s3_runtime_transfer_readiness":  "Plan/Instructions/Operations/Scripts/Test-S3RuntimeTransferReadiness.ps1",
+                                          "ec2_model_s3_installer":  "Plan/Instructions/Operations/Scripts/Install-EC2ModelFromS3.ps1",
+                                          "ec2_emergency_stop_schedule":  "Plan/Instructions/Operations/Scripts/New-EC2EmergencyStopSchedule.ps1",
+                                          "ec2_instance_stop_watchdog":  "Plan/Instructions/Operations/Scripts/Start-EC2InstanceStopWatchdog.ps1",
+                                          "github_actions_workflow":  ".github/workflows/preflight-package.yml",
+                                          "aws_policy_templates":  "configs/aws",
+                                          "default_policy":  "Validate and package locally or in GitHub Actions while EC2 is stopped; use EC2 only for target-runtime object-info, model path/hash/load, generation, pullback, and QA.",
+                                          "preferred_transfer_policy":  "Use S3 deploy bundles and model-cache objects before EC2 starts; EC2 helpers should prefer -DeployBundleS3Uri/-DeployBundleSha256 and never use Git LFS for model binaries.",
+                                          "ec2_helper_defaults":  {
+                                                                      "skip_git_lfs_pull_by_default":  true,
+                                                                      "prefer_s3_deploy_bundle":  true,
+                                                                      "prefer_s3_model_cache":  true,
+                                                                      "require_explicit_max_runtime_minutes":  true,
+                                                                      "batch_runtime_work_in_one_window":  true,
+                                                                      "use_emergency_stop_schedule_when_role_exists":  true,
+                                                                      "use_instance_side_watchdog_when_ssm_online":  true,
+                                                                      "always_stop_and_verify_final_state":  "stopped"
+                                                                  },
+                                          "not_replaced_by_local_dev_or_ci":  [
+                                                                                  "EC2 A10G object_info proof",
+                                                                                  "target model path/hash/load proof",
+                                                                                  "target generation",
+                                                                                  "artifact pullback",
+                                                                                  "image QA"
+                                                                              ]
+                                      },
+    "items_tracker_strict_ai_coverage":  {
+                                             "active_waves":  [
+                                                                  64,
+                                                                  65
+                                                              ],
+                                             "wave64_role":  "strict AI domain, QA, visual review, audio review, runtime proof, and release-control coverage",
+                                             "wave65_role":  "exhaustive direct source coverage closure for every current file under C:\\Comfy_UI_Main\\Plan",
+                                             "items_csv":  "Plan/Items/wave64_end_to_end_strict_ai_itemized_list.csv",
+                                             "items_wave_csv":  "Plan/Items/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_ITEM_ROWS.csv",
+                                             "tracker_csv":  "Plan/Tracker/wave64_end_to_end_strict_ai_tracker.csv",
+                                             "tracker_wave_csv":  "Plan/Tracker/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_TRACKER_ROWS.csv",
+                                             "validation_report":  "Plan/Items/Reports/wave64_end_to_end_strict_ai_coverage_report.json",
+                                             "wave65_items_csv":  "Plan/Items/wave65_plan_source_coverage_closure_itemized_list.csv",
+                                             "wave65_items_wave_csv":  "Plan/Items/Waves/Wave65/WAVE65_PLAN_SOURCE_COVERAGE_ITEM_ROWS.csv",
+                                             "wave65_tracker_csv":  "Plan/Tracker/wave65_plan_source_coverage_closure_tracker.csv",
+                                             "wave65_tracker_wave_csv":  "Plan/Tracker/Waves/Wave65/WAVE65_PLAN_SOURCE_COVERAGE_TRACKER_ROWS.csv",
+                                             "wave65_validation_report":  "Plan/Items/Reports/wave65_plan_source_coverage_report.json",
+                                             "items_tracker_validation_evidence":  "Plan/Instructions/QA/Evidence/Items_Tracker_Validation/W64_ITEMS_TRACKER_STRICT_AI_COVERAGE_20260706T150215-0500.json",
+                                             "qa_helper_validation_evidence":  "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W64_QA_HELPER_STRICT_AI_ITEMS_TRACKER_20260706T150215-0500.json",
+                                             "project_readiness_evidence":  "Plan/Instructions/QA/Evidence/Project_Readiness/W64_PROJECT_READINESS_STRICT_AI_ITEMS_TRACKER_FINAL_20260706T150215-0500.json",
+                                             "rule":  "Every strict row must include Plan source citation file, section, line range, excerpt, source key, QA gates, evidence expectations, and whole-artifact visual/audio review when media exists.",
+                                             "plan_source_closure_rule":  "Every current file under C:\\Comfy_UI_Main\\Plan must be covered by baseline Items/Tracker rows or Wave65 closure rows. Rerun Plan/Items/Scripts/generate_wave65_plan_source_coverage.py after any Plan file addition or rename.",
+                                             "localized_work_rule":  "A localized image, video, GIF, audio, mask, prompt, frame, or repair task cannot pass if any unrelated global visual or audio defect exists in the generated artifact."
+                                         },
+    "image_engine_router_local_gate":  {
+                                           "active_wave":  64,
+                                           "tracker_id":  "TRK-W64-009",
+                                           "item_id":  "ITEM-W64-009",
+                                           "router_script":  "Plan/07_IMPLEMENTATION/scripts/resolve_wave64_image_engine_route.py",
+                                           "qa_script":  "Plan/Instructions/QA/Scripts/Test-ImageEngineRouter.ps1",
+                                           "compatible_request":  "Plan/09_EXAMPLES/wave64_image_engine_route_realvisxl_request.example.json",
+                                           "incompatible_request":  "Plan/09_EXAMPLES/wave64_image_engine_route_incompatible_lora_request.example.json",
+                                           "compatible_decision":  "Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_REALVISXL_DECISION_20260706T152201-0500.json",
+                                           "incompatible_decision":  "Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_INCOMPATIBLE_LORA_DECISION_20260706T152201-0500.json",
+                                           "validation_evidence":  "Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_VALIDATION_POST_LEDGER_20260706T151800-0500.json",
+                                           "qa_helper_validation_evidence":  "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W64_QA_HELPER_IMAGE_ENGINE_ROUTER_POST_LEDGER_20260706T151800-0500.json",
+                                           "result":  "pass_local_only",
+                                           "rule":  "Image route selection must derive from active lanes, runtime queue, runtime requirements, and model registry evidence; incompatible checkpoint or LoRA families block instead of silently falling back.",
+                                           "local_only_boundary":  "Validation does not contact AWS, GitHub API, Civitai, ComfyUI, or EC2 and does not execute generation."
+                                       },
+    "workflow_run_package_router_gate":  {
+                                             "active_wave":  66,
+                                             "source_gate_wave":  64,
+                                             "package_builder":  "tools/New-WorkflowRunPackage.ps1",
+                                             "qa_script":  "Plan/Instructions/QA/Scripts/Test-WorkflowRunPackageRouterGate.ps1",
+                                             "qa_helper_script":  "Plan/Instructions/QA/Scripts/Test-QAHelperStatic.ps1",
+                                             "route_request_argument":  "-RouteRequestFile",
+                                             "router_script":  "Plan/07_IMPLEMENTATION/scripts/resolve_wave64_image_engine_route.py",
+                                             "generated_package":  "runtime_artifacts/run_packages/sdxl_realvisxl_router_gated_package_v1/RUN_PACKAGE_MANIFEST.json",
+                                             "router_decision":  "runtime_artifacts/run_packages/sdxl_realvisxl_router_gated_package_v1/router_decision.json",
+                                             "validation_evidence":  "Plan/Instructions/QA/Evidence/Run_Package/W66_WORKFLOW_RUN_PACKAGE_ROUTER_GATE_20260706T153601-0500.json",
+                                             "qa_helper_validation_evidence":  "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_WORKFLOW_RUN_PACKAGE_ROUTER_GATE_20260706T153612-0500.json",
+                                             "result":  "pass_local_only",
+                                             "rule":  "Future image run packages should pass -RouteRequestFile so package lane selection cannot bypass router/model compatibility proof; a router-selected lane mismatch blocks package creation.",
+                                             "local_only_boundary":  "Validation does not contact AWS, GitHub API, Civitai, ComfyUI, or EC2 and does not execute generation."
+                                         },
+    "workflow_run_package_matrix":  {
+                                        "active_wave":  66,
+                                        "target_lane_id":  "sdxl_realvisxl_base_lane",
+                                        "matrix_id":  "realvisxl_multisample_certification_v1",
+                                        "matrix_file":  "PromptProfiles/base_generation/realvisxl_multisample_certification.matrix.json",
+                                        "matrix_builder":  "tools/New-WorkflowRunPackageMatrix.ps1",
+                                        "qa_script":  "Plan/Instructions/QA/Scripts/Test-WorkflowRunPackageMatrix.ps1",
+                                        "generated_matrix_manifest":  "runtime_artifacts/run_package_matrices/realvisxl_multisample_certification_v1/RUN_PACKAGE_MATRIX_MANIFEST.json",
+                                        "sample_package_manifests":  [
+                                                                         "runtime_artifacts/run_packages/realvisxl_multisample_certification_v1_realvisxl_closeup_skin_eye_v1/RUN_PACKAGE_MANIFEST.json",
+                                                                         "runtime_artifacts/run_packages/realvisxl_multisample_certification_v1_realvisxl_three_quarter_hands_fabric_v1/RUN_PACKAGE_MANIFEST.json",
+                                                                         "runtime_artifacts/run_packages/realvisxl_multisample_certification_v1_realvisxl_environment_lowlight_v1/RUN_PACKAGE_MANIFEST.json"
+                                                                     ],
+                                        "sample_profiles":  [
+                                                                "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_closeup_skin_eye.json",
+                                                                "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_three_quarter_hands_fabric.json",
+                                                                "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_environment_lowlight.json"
+                                                            ],
+                                        "validation_evidence":  "Plan/Instructions/QA/Evidence/Run_Package/W66_WORKFLOW_RUN_PACKAGE_MATRIX_20260706T155031-0500.json",
+                                        "qa_helper_validation_evidence":  "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_WORKFLOW_RUN_PACKAGE_MATRIX_20260706T155048-0500.json",
+                                        "result":  "pass_local_only",
+                                        "rule":  "Use the matrix builder before a broader RealVisXL image-quality certification run so every sample package is router-gated, profile-applied, unique-seeded, and whole-image QA scoped before EC2 execution.",
+                                        "local_only_boundary":  "Validation does not contact AWS, GitHub API, Civitai, ComfyUI, or EC2 and does not execute generation."
+                                    },
+    "ec2_deploy_bundle_matrix":  {
+                                     "active_wave":  66,
+                                     "target_lane_id":  "sdxl_realvisxl_base_lane",
+                                     "matrix_id":  "realvisxl_multisample_certification_v1",
+                                     "matrix_manifest":  "runtime_artifacts/run_package_matrices/realvisxl_multisample_certification_v1/RUN_PACKAGE_MATRIX_MANIFEST.json",
+                                     "bundle_builder":  "tools/New-EC2DeployBundleMatrix.ps1",
+                                     "s3_publisher":  "Plan/Instructions/Operations/Scripts/Publish-DeployBundleToS3.ps1",
+                                     "qa_script":  "Plan/Instructions/QA/Scripts/Test-EC2DeployBundleMatrix.ps1",
+                                     "validation_evidence":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_EC2_DEPLOY_BUNDLE_MATRIX_S3_DRY_RUN_REDACTED_20260706T171921-0500.json",
+                                     "previous_validation_evidence":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_EC2_DEPLOY_BUNDLE_MATRIX_20260706T170025-0500.json",
+                                     "qa_helper_validation_evidence":  "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_MATRIX_S3_DRY_RUN_REDACTED_20260706T171934-0500.json",
+                                     "operations_helper_validation_evidence":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_OPERATIONS_HELPER_MATRIX_BUNDLE_MANIFEST_20260706T171309-0500.json",
+                                     "result":  "pass_local_only",
+                                     "sample_count":  3,
+                                     "bundle_file_count":  55,
+                                     "latest_validation_bundle_zip_sha256":  "e29256311196349987e505bf38a8f2006b72cb7300fa5d545ce2270a01fc9d8e",
+                                     "publish_dry_run_result":  "dry_run_ready_to_upload",
+                                     "publish_manifest_name":  "DEPLOY_BUNDLE_MATRIX_MANIFEST.json",
+                                     "ec2_helper_manifest_support":  [
+                                                                         "DEPLOY_BUNDLE_MANIFEST.json",
+                                                                         "DEPLOY_BUNDLE_MATRIX_MANIFEST.json"
+                                                                     ],
+                                     "rule":  "Before a future RealVisXL multi-sample EC2 quality run, publish the matrix deploy bundle to S3 with its DEPLOY_BUNDLE_MATRIX_MANIFEST.json sidecar, verify bundle SHA256, run each sample package within bounded EC2/cost-control gates, pull back every generated artifact, verify hashes, and perform whole-image visual QA for all samples.",
+                                     "local_only_boundary":  "Validation does not contact AWS, GitHub API, Civitai, ComfyUI, or EC2 and does not execute generation."
+                                 },
+    "ec2_workflow_matrix_quality_run_plan":  {
+                                                 "active_wave":  66,
+                                                 "target_lane_id":  "sdxl_realvisxl_base_lane",
+                                                 "matrix_id":  "realvisxl_multisample_certification_v1",
+                                                 "matrix_manifest":  "runtime_artifacts/run_package_matrices/realvisxl_multisample_certification_v1/RUN_PACKAGE_MATRIX_MANIFEST.json",
+                                                 "planner":  "Plan/Instructions/Operations/Scripts/New-EC2WorkflowMatrixQualityRunPlan.ps1",
+                                                 "qa_script":  "Plan/Instructions/QA/Scripts/Test-EC2WorkflowMatrixQualityRunPlan.ps1",
+                                                 "qa_helper_script":  "Plan/Instructions/QA/Scripts/Test-QAHelperStatic.ps1",
+                                                 "deploy_bundle_evidence":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_EC2_DEPLOY_BUNDLE_MATRIX_S3_DRY_RUN_REDACTED_20260706T171921-0500.json",
+                                                 "validation_evidence":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_MATRIX_QUALITY_RUN_PLAN_20260706T173124-0500.json",
+                                                 "qa_helper_validation_evidence":  "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_MATRIX_QUALITY_RUN_PLAN_20260706T173138-0500.json",
+                                                 "operations_helper_validation_evidence":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_OPERATIONS_HELPER_MATRIX_QUALITY_RUN_PLAN_20260706T173138-0500.json",
+                                                 "result":  "pass_local_only",
+                                                 "sample_count":  3,
+                                                 "planned_sample_count":  3,
+                                                 "required_command_arguments":  [
+                                                                                    "-RunPackageManifestFile",
+                                                                                    "-DeployBundleS3Uri",
+                                                                                    "-DeployBundleSha256",
+                                                                                    "-SkipGitLfsPull",
+                                                                                    "-MaxEc2RuntimeMinutes"
+                                                                                ],
+                                                 "required_post_run_evidence_per_sample":  [
+                                                                                               "workflow runtime record",
+                                                                                               "remote artifact manifest",
+                                                                                               "pullback hash verification record",
+                                                                                               "image QA JSON",
+                                                                                               "whole-image QA checklist"
+                                                                                           ],
+                                                 "wave65_plan_source_coverage_after_update":  {
+                                                                                                  "result":  "pass",
+                                                                                                  "plan_file_count":  2845,
+                                                                                                  "wave65_rows_created":  670,
+                                                                                                  "missing_after_wave65_count":  0
+                                                                                              },
+                                                 "rule":  "Use this plan as the bridge from the local RealVisXL three-sample matrix to bounded EC2 quality execution. Each sample must run from its verified package manifest with the matrix S3 bundle URI and SHA256, cost controls, artifact pullback, hash verification, and whole-image QA before certification.",
+                                                 "local_only_boundary":  "Validation does not contact AWS, GitHub API, Civitai, ComfyUI, or EC2 and does not execute generation."
+                                             },
+    "s3_runtime_config_plan":  {
+                                   "active_wave":  66,
+                                   "planner":  "Plan/Instructions/Operations/Scripts/New-S3RuntimeConfigPlan.ps1",
+                                   "qa_script":  "Plan/Instructions/QA/Scripts/Test-S3RuntimeConfigPlan.ps1",
+                                   "qa_helper_script":  "Plan/Instructions/QA/Scripts/Test-QAHelperStatic.ps1",
+                                   "operations_helper_script":  "Plan/Instructions/Operations/Scripts/Test-OperationsHelperStatic.ps1",
+                                   "current_readiness_check":  "Plan/Instructions/Operations/Scripts/Test-S3RuntimeTransferReadiness.ps1",
+                                   "validation_evidence":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_RUNTIME_CONFIG_PLAN_20260706T174526-0500.json",
+                                   "qa_helper_validation_evidence":  "Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_S3_RUNTIME_CONFIG_PLAN_20260706T174541-0500.json",
+                                   "operations_helper_validation_evidence":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_OPERATIONS_HELPER_S3_RUNTIME_CONFIG_PLAN_20260706T174541-0500.json",
+                                   "current_env_readiness_result":  "blocked_missing_s3_runtime_config",
+                                   "current_missing_config":  [
+                                                                  "S3_MODEL_BUCKET has no value",
+                                                                  "COMFY_DEPLOY_BUNDLE_S3_URI is missing",
+                                                                  "AWS_ROLE_TO_ASSUME is missing",
+                                                                  "scheduler stop role ARN is missing"
+                                                              ],
+                                   "planner_validation_result":  "pass_local_only",
+                                   "rendered_policy_preview_count":  5,
+                                   "required_env_lines":  [
+                                                              "COMFY_DEPLOY_BUNDLE_S3_URI",
+                                                              "S3_MODEL_BUCKET",
+                                                              "S3_MODEL_PREFIX",
+                                                              "S3_RENDER_OUTPUT_PREFIX",
+                                                              "S3_MANIFEST_PREFIX",
+                                                              "AWS_ROLE_TO_ASSUME",
+                                                              "COMFY_SCHEDULER_STOP_ROLE_ARN"
+                                                          ],
+                                   "wave65_plan_source_coverage_after_update":  {
+                                                                                    "result":  "pass",
+                                                                                    "plan_file_count":  2851,
+                                                                                    "wave65_rows_created":  676,
+                                                                                    "missing_after_wave65_count":  0
+                                                                                },
+                                   "rule":  "Before live matrix deploy-bundle upload or EC2 quality execution, fill the S3 bucket and IAM role values, rerun S3 runtime transfer readiness, publish the matrix bundle to S3, verify uploaded SHA256, then feed the uploaded URI/SHA into the matrix quality-run planner.",
+                                   "local_only_boundary":  "Validation does not contact AWS, GitHub API, Civitai, ComfyUI, or EC2 and does not execute generation."
+                               },
+    "s3_runtime_infrastructure":  {
+                                      "active_wave":  66,
+                                      "initializer":  "Plan/Instructions/Operations/Scripts/Initialize-S3RuntimeInfrastructure.ps1",
+                                      "readiness_check":  "Plan/Instructions/Operations/Scripts/Test-S3RuntimeTransferReadiness.ps1",
+                                      "operations_helper_script":  "Plan/Instructions/Operations/Scripts/Test-OperationsHelperStatic.ps1",
+                                      "bucket":  "comfy-ui-main-runtime-029530099913-us-east-1",
+                                      "roles":  {
+                                                    "ec2_runtime_role":  "ComfyUI-SSM-Role",
+                                                    "github_deploy_role":  "ComfyUIGitHubDeployBundleRole",
+                                                    "scheduler_stop_role":  "ComfyUIEmergencyStopSchedulerRole"
+                                                },
+                                      "dry_run_evidence":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_RUNTIME_INFRA_DRY_RUN_20260706T175619-0500.json",
+                                      "execute_evidence":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_RUNTIME_INFRA_EXECUTE_20260706T175716-0500.json",
+                                      "readiness_evidence":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_RUNTIME_TRANSFER_READY_20260706T175808-0500.json",
+                                      "operations_helper_validation_evidence":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_OPERATIONS_HELPER_S3_RUNTIME_INFRA_20260706T175902-0500.json",
+                                      "result":  "s3_runtime_infrastructure_ready",
+                                      "readiness_result":  "ready_local_only",
+                                      "bucket_controls_verified":  [
+                                                                       "versioning_enabled",
+                                                                       "sse_s3_encryption_enabled",
+                                                                       "public_access_block_enabled"
+                                                                   ],
+                                      "iam_inline_policies_verified":  [
+                                                                           "ComfyUIRuntimeS3Access",
+                                                                           "ComfyUIDeployBundleS3Upload",
+                                                                           "ComfyUIEmergencyStopOnly"
+                                                                       ],
+                                      "ec2_final_state":  "stopped",
+                                      "generation_executed":  false,
+                                      "secrets_committed":  false,
+                                      "wave65_plan_source_coverage_after_update":  {
+                                                                                       "result":  "pass",
+                                                                                       "plan_file_count":  2855,
+                                                                                       "wave65_rows_created":  680,
+                                                                                       "missing_after_wave65_count":  0
+                                                                                   },
+                                      "rule":  "S3/IAM runtime infrastructure is initialized and real readiness now passes locally. Next publish the RealVisXL matrix deploy bundle to S3, verify the uploaded SHA256, then feed the real S3 URI and SHA into the bounded matrix quality-run plan before any EC2 generation.",
+                                      "local_or_aws_boundary":  "The initializer contacted AWS only for S3/IAM setup and did not start EC2 or run generation. Non-secret .env values were updated locally and remain uncommitted."
+                                  },
+    "s3_matrix_deploy_bundle_publish":  {
+                                            "active_wave":  66,
+                                            "target_lane_id":  "sdxl_realvisxl_base_lane",
+                                            "matrix_id":  "realvisxl_multisample_certification_v1",
+                                            "bundle_id":  "rvxl_mx_s3_20260706T181144-0500",
+                                            "bundle_type":  "run_package_matrix_deploy_bundle",
+                                            "sample_count":  3,
+                                            "bundle_file_count":  55,
+                                            "s3_bundle_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/rvxl_mx_s3_20260706T181144-0500/rvxl_mx_s3_20260706T181144-0500.zip",
+                                            "s3_manifest_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/rvxl_mx_s3_20260706T181144-0500/DEPLOY_BUNDLE_MATRIX_MANIFEST.json",
+                                            "bundle_zip_sha256":  "d3d81bbe2b6cb678304ab06ddf9cb707da31721cb01ca9c26df729414396cc84",
+                                            "publish_dry_run_evidence":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_MATRIX_DEPLOY_BUNDLE_PUBLISH_DRY_RUN_20260706T181159-0500.json",
+                                            "publish_execute_evidence":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_MATRIX_DEPLOY_BUNDLE_PUBLISH_EXECUTE_20260706T181217-0500.json",
+                                            "upload_verify_evidence":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_MATRIX_DEPLOY_BUNDLE_UPLOAD_VERIFY_20260706T181252-0500.json",
+                                            "quality_run_plan_evidence":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_MATRIX_QUALITY_RUN_PLAN_S3_PUBLISHED_20260706T181317-0500.json",
+                                            "publish_result":  "deploy_bundle_uploaded_to_s3",
+                                            "verification_result":  "s3_upload_sha256_verified",
+                                            "quality_plan_result":  "pass_local_only",
+                                            "ec2_started":  false,
+                                            "generation_executed":  false,
+                                            "wave65_plan_source_coverage_after_update":  {
+                                                                                             "result":  "pass",
+                                                                                             "plan_file_count":  2859,
+                                                                                             "wave65_rows_created":  684,
+                                                                                             "missing_after_wave65_count":  0
+                                                                                         },
+                                            "rule":  "Use this uploaded bundle URI and SHA for the next bounded RealVisXL three-sample quality run. EC2 execution is still pending and must include fresh auth, Git cleanliness, static/readiness gates, artifact pullback, hash verification, and whole-image QA for every sample before certification."
+                                        },
+    "runtime_scope_boundary":  {
+                                   "source_analysis_context":  [
+                                                                   "Plan/12_SOURCE_SUMMARIES/source_snapshots/WAVE42_MAIN_FLOW_20260702.runtime_bound_snapshot.json",
+                                                                   "Plan/01_CURRENT_SYSTEM_REVIEW",
+                                                                   "Plan/10_REGISTRIES/main_flow_*",
+                                                                   "Plan/11_RELEASES"
+                                                               ],
+                                   "active_runtime_surface":  "Workflows/base_generation",
+                                   "current_execution_scope":  "simplified first-proof API lanes exported from validated Plan templates",
+                                   "not_yet_active_runtime":  "the full Wave42/Main Flow graph and the old C:\\Comfy_UI workflow system",
+                                   "promotion_rule":  "Main Flow material must be extracted into a concrete lane or module, statically validated, registered, queued, packaged, and pass auth, queue, model-registry, Git, readiness, static-proof, pullback, and QA gates before EC2 execution."
+                               },
+    "directories":  {
+                        "plan":  {
+                                     "path":  "Plan",
+                                     "purpose":  "Project source of truth, trackers, instructions, QA evidence, and certifications."
+                                 },
+                        "workflows":  {
+                                          "path":  "Workflows",
+                                          "purpose":  "Runtime-facing exported ComfyUI workflow files copied from the validated Plan templates."
+                                      },
+                        "models":  {
+                                       "path":  "models",
+                                       "purpose":  "Local placement guide for checkpoints, LoRAs, VAEs, ControlNet models, and embeddings. Binaries are ignored."
+                                   },
+                        "runtime_artifacts":  {
+                                                  "path":  "runtime_artifacts",
+                                                  "purpose":  "Local landing area for run manifests, pullbacks, and review artifacts that are not committed unless explicitly approved."
+                                              },
+                        "configs":  {
+                                        "path":  "configs",
+                                        "purpose":  "Safe-to-commit runtime configuration and handoff notes."
+                                    }
+                    },
+    "realvisxl_matrix_sample1_runtime_qa":  {
+                                                "active_wave":  66,
+                                                "matrix_id":  "realvisxl_multisample_certification_v1",
+                                                "target_lane_id":  "sdxl_realvisxl_base_lane",
+                                                "sample_index":  1,
+                                                "sample_profile":  "realvisxl_closeup_skin_eye_v1",
+                                                "bundle_id":  "rvxl_mx_s3b_20260706T184054-0500",
+                                                "s3_bundle_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/rvxl_mx_s3b_20260706T184054-0500/rvxl_mx_s3b_20260706T184054-0500.zip",
+                                                "bundle_sha256":  "e1044e447abb548db5e834ba26c8376ba0a80ad463fadd5b969346edf30a3605",
+                                                "static_proof_evidence":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_EC2_STATIC_PROOF_REALVISXL_MATRIX_S3_RETRY_20260706T184233-0500.json",
+                                                "runtime_evidence":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_MATRIX_SAMPLE1_20260706T185314-0500.json",
+                                                "pullback_record":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T185315-0500/PULLBACK_RECORD.json",
+                                                "generated_image":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T185315-0500/images/9_codex_realvisxl_cert_closeup_skin_eye_00001_.png",
+                                                "technical_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE1_IMAGE_QA_TECHNICAL_20260706T190410-0500.json",
+                                                "visual_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE1_IMAGE_QA_VISUAL_20260706T190640-0500.json",
+                                                "artifact_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE1_PULLBACK_ARTIFACT_QA_20260706T190700-0500.json",
+                                                "result":  "sample1_qa_complete_samples2_3_pending",
+                                                "ec2_final_state":  "stopped",
+                                                "generation_executed":  true,
+                                                "rule":  "Sample 1 is QA-complete for the matrix, but full matrix certification requires samples 2 and 3 to complete runtime, pullback, technical QA, and whole-image visual QA."
+                                            }
 }
