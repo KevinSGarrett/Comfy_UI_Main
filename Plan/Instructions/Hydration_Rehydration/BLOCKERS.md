@@ -12,6 +12,14 @@ None currently active for local Wave 58-62 static and packaging validation.
 
 ## Active runtime blockers
 
+- `BLOCKER-W68-CANNY-V4-BUNDLE-HEAD-MISMATCH-001`
+  - status: active as of 2026-07-07T01:42:34-05:00; procedural, not a model, AWS auth, GitHub token, `.env`, Civitai key, or EC2 stopped-state blocker.
+  - blocker type: deploy_bundle_source_head_mismatch
+  - failed condition: the Canny v4 deploy bundle source head `5c0645cd26b5c389e9d0a112481f7bc9228d9057` did not match expected `origin/main` `5d308fd705d7fafda70eb0b55fb6e91e3910f9d7` during EC2 static proof after the S3 publish evidence checkpoint advanced `origin/main`.
+  - proof of safety: EC2 started for the static-proof attempt, no generation ran, and final state was verified `stopped`.
+  - corrective route: commit this failure evidence, rebuild a successor deploy bundle from the current clean pushed head, publish it without tracked pre-runtime evidence, then rerun one bounded static proof and proceed to generation only if it passes.
+  - evidence: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W68_EC2_STATIC_PROOF_CANNY_V4_CLEAN_HEAD_20260707T013500-0500.json`
+
 - `BLOCKER-W68-CANNY-V4-GENERATION-CLEAN-HEAD-001`
   - status: active as of 2026-07-07T01:23:00-05:00; not a missing `.git`, GitHub token, Civitai key, `.env`, AWS auth, EC2 model placement, or EC2 stopped-state blocker.
   - blocker type: local_git_worktree_dirty_before_ec2_generation

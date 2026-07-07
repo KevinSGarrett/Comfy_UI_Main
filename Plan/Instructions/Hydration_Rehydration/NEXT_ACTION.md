@@ -12,7 +12,7 @@ The current `sdxl_realvisxl_controlnet_canny_lane` / `MOD-17-CONTROLNET-CANNY-LA
 The dry-run did not start EC2 and did not generate. It blocked only because `Invoke-EC2WorkflowSmokeRun.ps1 -Execute` requires a clean pushed `HEAD`, and the live worktree contains the local Canny QA/package/evidence changes. Do not start EC2 from the dirty worktree. Do not rerun Wave65, broad indexes, helper evidence, AWS auth checks, or Git/GitHub checkpointing as substitute work.
 
 Immediate next action:
-Checkpoint the clean-head v4 S3 publish evidence, then run one bounded v4 EC2 static proof using `-DeployBundleS3Uri s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/canny-static-proof/canny_v4_clean_head_deploy_20260707T013125-0500/canny_v4_clean_head_deploy_20260707T013125-0500.zip`, `-DeployBundleSha256 20c27a7aeb2f472ac8218efdd7ba2b43bd69b297515d16c450a0556887459c67`, `-SkipGitLfsPull`, and `-MaxEc2RuntimeMinutes 25`. If that passes, checkpoint the static-proof evidence if required by the clean-head gate, then run one bounded v4 EC2 generation with pullback, technical QA, and strict whole-image QA.
+The latest bounded static proof failed because the deploy bundle source head no longer matched `origin/main` after the S3 publish evidence checkpoint. Commit the failure evidence, rebuild the v4 deploy bundle from the new clean head, publish the successor to S3 without creating tracked publish evidence before runtime, and rerun one bounded static proof using ignored temporary output. If that passes, immediately run one bounded v4 EC2 generation from the same clean head and same bundle with pullback, technical QA, and strict whole-image QA.
 
 ## Current next action - 2026-07-07T01:40:00-05:00 - Canny V4 Package Ready Locally
 

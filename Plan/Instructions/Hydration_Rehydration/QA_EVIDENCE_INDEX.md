@@ -9,6 +9,7 @@
 | W68-CANNY-V4-DEPLOY-BUNDLE-LOCAL-READY-20260707T012255-0500 | ControlNet Canny v4 deploy bundle built from current v4 package | operations_static_validation | pass_local_only_with_clean_head_blocker | Plan/Instructions/QA/Evidence/Operations_Static_Validation/W68_CANNY_V4_DEPLOY_BUNDLE_LOCAL_READY_20260707T012255-0500.json |
 | LOCAL-COMFY-WORKFLOW-STATIC-20260707T012837-0500 | ControlNet Canny v4 checkpoint static validation | workflow_static_validation | pass | Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W68_CANNY_V4_CHECKPOINT_STATIC_VALIDATION_20260707T012836-0500.json |
 | W68-CANNY-V4-CLEAN-HEAD-DEPLOY-BUNDLE-S3-PUBLISH-20260707T013200-0500 | ControlNet Canny v4 clean-head deploy bundle S3 upload | operations_static_validation | deploy_bundle_uploaded_to_s3 | Plan/Instructions/QA/Evidence/Operations_Static_Validation/W68_CANNY_V4_CLEAN_HEAD_DEPLOY_BUNDLE_S3_PUBLISH_20260707T013200-0500.json |
+| EC2-LANE-STATIC-PROOF-20260707T013458-0500 | ControlNet Canny v4 clean-head static proof attempt | workflow_static_validation | failed_bundle_source_head_mismatch_no_generation_stopped | Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W68_EC2_STATIC_PROOF_CANNY_V4_CLEAN_HEAD_20260707T013500-0500.json |
 
 ## Current packaging evidence
 
