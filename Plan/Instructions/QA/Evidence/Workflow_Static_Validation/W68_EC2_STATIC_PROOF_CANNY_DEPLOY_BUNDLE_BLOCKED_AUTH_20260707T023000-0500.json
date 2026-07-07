@@ -1,0 +1,69 @@
+﻿{
+    "evidence_id":  "EC2-LANE-STATIC-PROOF-BLOCKED-20260706T234003-0500",
+    "timestamp":  "2026-07-06T23:40:04-05:00",
+    "mode":  "execute",
+    "instance_id":  "i-0560bf8d143f93bb1",
+    "region":  "us-east-1",
+    "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+    "max_ec2_runtime_minutes":  25,
+    "git_lfs_pull_skipped":  true,
+    "deploy_bundle_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/canny-static-proof/canny_static_deploy_20260707T020500-0500/canny_static_deploy_20260707T020500-0500.zip",
+    "deploy_bundle_sha256":  "b9cd47466f761a86db61d48c02ef11f8b570f93dafe367662b80a7fc587b067c",
+    "result":  "blocked_before_ec2_start",
+    "failure_category":  "expired_session",
+    "local_git_checkpoint_gate":  {
+                                      "git_root":  "C:/Comfy_UI_Main",
+                                      "head":  "473d0416a24d44edc849557486f0ed6fe93bb7c2",
+                                      "origin_main":  "473d0416a24d44edc849557486f0ed6fe93bb7c2",
+                                      "expected_remote_head":  "473d0416a24d44edc849557486f0ed6fe93bb7c2",
+                                      "local_matches_origin":  true,
+                                      "clean":  true,
+                                      "porcelain_count":  0,
+                                      "remote":  "origin\thttps://github.com/KevinSGarrett/Comfy_UI_Main.git (fetch)",
+                                      "result":  "pass",
+                                      "error":  null
+                                  },
+    "auth_gate":  {
+                      "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_AWS_AUTH_GATE_CONTROLNET_CANNY_STATIC_REMOTE_LOGIN_CLASSIFIED_20260707T001000-0500.json",
+                      "found":  true,
+                      "expected_account":  "029530099913",
+                      "account_match":  false,
+                      "ec2_work_allowed":  false,
+                      "safe_to_start_ec2":  false,
+                      "generation_allowed":  false,
+                      "result":  "blocked_expired_session",
+                      "status":  "blocked",
+                      "failure_category":  "expired_session",
+                      "remote_login_status":  "external_authorization_required_noninteractive"
+                  },
+    "readiness_gate":  {
+                           "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_LANE_RUNTIME_READINESS_CANNY_CURRENT_QUEUE_BLOCKED_AUTH_20260707T012500-0500.json",
+                           "found":  true,
+                           "local_pre_ec2_ready":  true,
+                           "ready_for_ec2_static_proof":  false,
+                           "ready_for_generation":  false,
+                           "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+                           "lane_match":  true,
+                           "result":  "local_pre_ec2_ready_runtime_blocked_auth",
+                           "failure_category":  "expired_session",
+                           "status":  "local_ready_runtime_blocked"
+                       },
+    "execute_gates_pass":  false,
+    "blocked_reasons":  [
+                            "Auth gate does not allow EC2 start.",
+                            "Lane readiness gate does not allow EC2 static proof."
+                        ],
+    "start_state":  null,
+    "ec2_started":  false,
+    "ssm_available":  false,
+    "command_id":  null,
+    "command_status":  "not_started",
+    "stdout":  "",
+    "stderr":  "",
+    "final_state":  null,
+    "generation_executed":  false,
+    "errors":  [
+                   "Execution blocked before AWS identity check or EC2 start."
+               ],
+    "next_action":  "Resolve blocked_reasons, then rerun EC2 static proof."
+}
