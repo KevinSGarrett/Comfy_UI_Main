@@ -7,9 +7,13 @@ Refresh AWS auth for expected account `029530099913`, then continue `sdxl_realvi
 Current blocker evidence:
 
 ```text
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_AWS_AUTH_GATE_CONTROLNET_CANNY_STATIC_REMOTE_LOGIN_CLASSIFIED_20260707T001000-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_LANE_RUNTIME_READINESS_CONTROLNET_CANNY_STATIC_REMOTE_LOGIN_CLASSIFIED_20260707T001500-0500.json
 Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_AWS_PROFILE_AUTH_MATRIX_CONTROLNET_CANNY_STATIC_RECHECK_20260706T231000-0500.json
 Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_AWS_AUTH_GATE_CONTROLNET_CANNY_STATIC_RECHECK_BLOCKED_20260706T231000-0500.json
 ```
+
+Latest local hardening: `Test-AwsAuthGate.ps1` now classifies the redacted `aws login --remote` browser-code path as `external_authorization_required_noninteractive` instead of a generic remote-login failure. The latest Canny readiness retest selects that corrected auth gate and reports `local_pre_ec2_ready=true`, `ready_for_ec2_static_proof=false`, and `ready_for_generation=false`.
 
 Known-good installed EC2 assets:
 

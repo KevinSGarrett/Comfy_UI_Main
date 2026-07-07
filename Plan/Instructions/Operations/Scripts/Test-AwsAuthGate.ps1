@@ -176,13 +176,16 @@ if (-not $record.aws_cli_found) {
   } elseif ($AttemptRemoteLogin) {
     $loginResult = Invoke-AwsCli -Arguments @("login", "--remote")
     $loginText = [string]$loginResult.output
+    $browserAuthorizationRequired = ($loginText -match "\[REDACTED_AWS_AUTH_URL\]" -or $loginText -match "Enter the authorization code")
+    $authorizationCodePrompted = ($loginText -match "Enter the authorization code")
+    $noninteractiveEof = ($loginText -match "EOF when reading a line")
     $record.remote_login = [ordered]@{
       attempted = $true
       exit_code = $loginResult.exit_code
-      status = $(if ($loginResult.exit_code -eq 0) { "completed" } elseif ($loginText -match "EOF when reading a line") { "external_authorization_required_noninteractive" } else { "failed" })
-      browser_authorization_required = ($loginText -match "\[REDACTED_AWS_AUTH_URL\]" -or $loginText -match "Enter the authorization code")
-      authorization_code_prompted = ($loginText -match "Enter the authorization code")
-      noninteractive_eof = ($loginText -match "EOF when reading a line")
+      status = $(if ($loginResult.exit_code -eq 0) { "completed" } elseif ($browserAuthorizationRequired -or $noninteractiveEof) { "external_authorization_required_noninteractive" } else { "failed" })
+      browser_authorization_required = $browserAuthorizationRequired
+      authorization_code_prompted = $authorizationCodePrompted
+      noninteractive_eof = $noninteractiveEof
       output_summary = $loginText
     }
     $record.sts_after = Convert-StsResult -CommandResult (Invoke-AwsCli -Arguments @("sts", "get-caller-identity", "--query", "Account", "--output", "text")) -ExpectedAccountValue $ExpectedAccount

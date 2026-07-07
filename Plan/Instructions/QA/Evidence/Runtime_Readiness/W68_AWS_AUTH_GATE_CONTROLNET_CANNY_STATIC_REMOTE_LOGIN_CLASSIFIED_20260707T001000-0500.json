@@ -1,0 +1,48 @@
+﻿{
+    "evidence_id":  "AWS-AUTH-GATE-20260706T223426-0500",
+    "timestamp":  "2026-07-06T22:34:26-05:00",
+    "project_root":  "C:\\Comfy_UI_Main",
+    "expected_account":  "029530099913",
+    "env_loader_found":  true,
+    "aws_cli_found":  true,
+    "sts_before":  {
+                       "attempted":  true,
+                       "exit_code":  255,
+                       "status":  "failed",
+                       "account_actual":  null,
+                       "account_expected":  "029530099913",
+                       "account_match":  false,
+                       "failure_category":  "expired_session",
+                       "output_summary":  "Your session has expired. Please reauthenticate using \u0027aws login\u0027."
+                   },
+    "remote_login":  {
+                         "attempted":  true,
+                         "exit_code":  255,
+                         "status":  "external_authorization_required_noninteractive",
+                         "browser_authorization_required":  true,
+                         "authorization_code_prompted":  true,
+                         "noninteractive_eof":  false,
+                         "output_summary":  "Browser will not be automatically opened.\r\nPlease visit the following URL:\r\n\r\n[REDACTED_AWS_AUTH_URL]\r\n\r\nEnter the authorization code displayed in your browser: \n\r\nstring argument should contain only ASCII characters"
+                     },
+    "sts_after":  {
+                      "attempted":  true,
+                      "exit_code":  255,
+                      "status":  "failed",
+                      "account_actual":  null,
+                      "account_expected":  "029530099913",
+                      "account_match":  false,
+                      "failure_category":  "expired_session",
+                      "output_summary":  "Your session has expired. Please reauthenticate using \u0027aws login\u0027."
+                  },
+    "result":  "blocked_expired_session",
+    "failure_category":  "expired_session",
+    "account_actual":  null,
+    "account_match":  false,
+    "remote_login_status":  "external_authorization_required_noninteractive",
+    "ec2_work_allowed":  false,
+    "safe_to_start_ec2":  false,
+    "generation_allowed":  false,
+    "secrets_printed":  false,
+    "auth_url_recorded":  false,
+    "next_action":  "Complete aws login --remote in a browser-capable interactive shell, verify account 029530099913, then rerun this auth gate."
+}
