@@ -4,6 +4,16 @@
 
 Start by reading this file, then read `CURRENT_PURSUING_GOAL.md` and follow its required instruction read order for `Plan/Instructions`. Do not continue from this resume file alone. The current active runtime handoff is the W68 ControlNet Canny target-runtime sequence in `NEXT_ACTION.md`, not the old W61 low-risk handoff. The older `W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.md` Markdown is historical/corrupted.
 
+## Latest W68 Canny gate-contract checkpoint
+
+- Active root is still `C:\Comfy_UI_Main`; `.git` exists and the old `BLOCKER-W59-GIT-001` no-`.git` statement is resolved/stale for this root. Do not recreate Git metadata and do not switch work to `C:\Comfy_UI`.
+- Sensitive files exist locally and must remain unprinted/uncommitted: `C:\Comfy_UI_Main\.env` and `C:\Comfy_UI_Main\comfyui-lora-key.pem`.
+- Hardened `Plan/Instructions/Operations/Scripts/Test-OperationsHelperStatic.ps1` so it directly selects and contract-checks the current W68 ControlNet Canny auth/readiness/static-proof/workflow-smoke gate evidence, not only older W60/W61 records.
+- Evidence `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W68_OPERATIONS_HELPER_W68_CANNY_GATE_CONTRACTS_20260707T011500-0500.json` reports `pass_local_only`, 25 operations scripts parsed, local dry-run smokes passed, evidence contract failures 0, and `controlnet_canny_w68_gate_contract` result `pass`.
+- The contract asserts the real current state: AWS session expired, remote login requires external noninteractive browser authorization, no auth URL was recorded, Canny local pre-EC2 readiness is true, EC2 static proof and workflow smoke are blocked before EC2 start, EC2 was not started, generation did not run, and the Canny run package is valid/lane-matched.
+- Wave65 was rerun after the new evidence and reports `pass`, `plan_file_count=3002`, `wave65_rows_created=827`, `missing_after_wave65_count=0`.
+- Immediate next action: validate, scan, commit, push, verify clean `HEAD == origin/main`; then refresh AWS login/SSO for account `029530099913`, rerun auth/profile/readiness gates, create a fresh emergency stop schedule, and run Canny EC2 static proof only if auth/readiness gates allow it.
+
 ## Latest W68 checkpoint preparation
 
 - Active root is `C:\Comfy_UI_Main`; `.git` exists and the old `BLOCKER-W59-GIT-001` no-`.git` statement is resolved/stale for this root. Do not recreate Git metadata and do not switch the project root to `C:\Comfy_UI`.

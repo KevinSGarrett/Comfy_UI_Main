@@ -651,6 +651,141 @@ function Test-EC2CoordinatorGateEvidenceContract {
   return $entry
 }
 
+function Test-ControlNetCannyW68GateEvidenceContract {
+  param(
+    [Parameter(Mandatory=$true)][string]$AuthGatePath,
+    [Parameter(Mandatory=$true)][string]$ReadinessPath,
+    [Parameter(Mandatory=$true)][string]$StaticProofPath,
+    [Parameter(Mandatory=$true)][string]$WorkflowSmokePath
+  )
+
+  $entry = [ordered]@{
+    name = "controlnet_canny_w68_gate_contract"
+    path = "Plan/Instructions/QA/Evidence"
+    result = "fail"
+    error = $null
+    auth_gate = $null
+    readiness_gate = $null
+    static_proof = $null
+    workflow_smoke = $null
+  }
+
+  try {
+    foreach ($requiredPath in @($AuthGatePath, $ReadinessPath, $StaticProofPath, $WorkflowSmokePath)) {
+      if ([string]::IsNullOrWhiteSpace($requiredPath) -or !(Test-Path -LiteralPath $requiredPath)) {
+        throw "Missing W68 ControlNet Canny gate evidence: $requiredPath"
+      }
+    }
+
+    $authGate = Get-Content -LiteralPath $AuthGatePath -Raw | ConvertFrom-Json
+    $readinessGate = Get-Content -LiteralPath $ReadinessPath -Raw | ConvertFrom-Json
+    $staticProof = Get-Content -LiteralPath $StaticProofPath -Raw | ConvertFrom-Json
+    $workflowSmoke = Get-Content -LiteralPath $WorkflowSmokePath -Raw | ConvertFrom-Json
+
+    $entry.auth_gate = [ordered]@{
+      file = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $AuthGatePath
+      result = [string]$authGate.result
+      failure_category = [string]$authGate.failure_category
+      remote_login_status = [string]$authGate.remote_login_status
+      safe_to_start_ec2 = [bool]$authGate.safe_to_start_ec2
+      generation_allowed = [bool]$authGate.generation_allowed
+      auth_url_recorded = [bool]$authGate.auth_url_recorded
+    }
+    if ($entry.auth_gate.result -ne "blocked_expired_session") {
+      throw "W68 Canny auth gate must have result=blocked_expired_session."
+    }
+    if ($entry.auth_gate.failure_category -ne "expired_session") {
+      throw "W68 Canny auth gate must have failure_category=expired_session."
+    }
+    if ($entry.auth_gate.remote_login_status -ne "external_authorization_required_noninteractive") {
+      throw "W68 Canny auth gate must classify remote login as external_authorization_required_noninteractive."
+    }
+    if ($entry.auth_gate.safe_to_start_ec2 -or $entry.auth_gate.generation_allowed -or $entry.auth_gate.auth_url_recorded) {
+      throw "W68 Canny auth gate must keep EC2/generation blocked and must not record the auth URL."
+    }
+
+    $entry.readiness_gate = [ordered]@{
+      file = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $ReadinessPath
+      lane_id = [string]$readinessGate.lane_id
+      result = [string]$readinessGate.result
+      failure_category = [string]$readinessGate.failure_category
+      local_pre_ec2_ready = [bool]$readinessGate.local_pre_ec2_ready
+      ready_for_ec2_static_proof = [bool]$readinessGate.ready_for_ec2_static_proof
+      ready_for_generation = [bool]$readinessGate.ready_for_generation
+      auth_gate_result = [string]$readinessGate.auth_gate.result
+    }
+    if ($entry.readiness_gate.lane_id -ne "sdxl_realvisxl_controlnet_canny_lane") {
+      throw "W68 Canny readiness gate must target sdxl_realvisxl_controlnet_canny_lane."
+    }
+    if ($entry.readiness_gate.result -ne "local_pre_ec2_ready_runtime_blocked_auth") {
+      throw "W68 Canny readiness gate must have result=local_pre_ec2_ready_runtime_blocked_auth."
+    }
+    if ($entry.readiness_gate.failure_category -ne "expired_session") {
+      throw "W68 Canny readiness gate must have failure_category=expired_session."
+    }
+    if (-not $entry.readiness_gate.local_pre_ec2_ready -or $entry.readiness_gate.ready_for_ec2_static_proof -or $entry.readiness_gate.ready_for_generation) {
+      throw "W68 Canny readiness gate must be locally ready while keeping EC2 static proof and generation blocked."
+    }
+    if ($entry.readiness_gate.auth_gate_result -ne "blocked_expired_session") {
+      throw "W68 Canny readiness gate must embed the blocked auth result."
+    }
+
+    $entry.static_proof = [ordered]@{
+      file = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $StaticProofPath
+      result = [string]$staticProof.result
+      failure_category = [string]$staticProof.failure_category
+      execute_gates_pass = [bool]$staticProof.execute_gates_pass
+      ec2_started = [bool]$staticProof.ec2_started
+      generation_executed = [bool]$staticProof.generation_executed
+      local_git_checkpoint_result = [string]$staticProof.local_git_checkpoint_gate.result
+      auth_gate_file = [string]$staticProof.auth_gate.file
+      readiness_gate_file = [string]$staticProof.readiness_gate.file
+    }
+    if ($entry.static_proof.result -ne "blocked_before_ec2_start" -or $entry.static_proof.failure_category -ne "expired_session") {
+      throw "W68 Canny static proof must be blocked_before_ec2_start by expired_session."
+    }
+    if ($entry.static_proof.execute_gates_pass -or $entry.static_proof.ec2_started -or $entry.static_proof.generation_executed) {
+      throw "W68 Canny static proof must not pass execute gates, start EC2, or run generation."
+    }
+    if ($entry.static_proof.local_git_checkpoint_result -ne "pass") {
+      throw "W68 Canny static proof must include a passing local git checkpoint gate."
+    }
+    if ($entry.static_proof.auth_gate_file -notlike "*W68_AWS_AUTH_GATE_CONTROLNET_CANNY_STATIC_REMOTE_LOGIN_CLASSIFIED_*") {
+      throw "W68 Canny static proof must select the classified W68 auth gate."
+    }
+    if ($entry.static_proof.readiness_gate_file -notlike "*W68_LANE_RUNTIME_READINESS_CONTROLNET_CANNY_STATIC_REMOTE_LOGIN_CLASSIFIED_*") {
+      throw "W68 Canny static proof must select the classified W68 readiness gate."
+    }
+
+    $entry.workflow_smoke = [ordered]@{
+      file = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $WorkflowSmokePath
+      result = [string]$workflowSmoke.result
+      failure_category = [string]$workflowSmoke.failure_category
+      execute_gates_pass = [bool]$workflowSmoke.execute_gates_pass
+      ec2_started = [bool]$workflowSmoke.ec2_started
+      generation_executed = [bool]$workflowSmoke.generation_executed
+      run_package_valid = [bool]$workflowSmoke.run_package.valid
+      run_package_lane_match = [bool]$workflowSmoke.run_package.lane_match
+      smoke_request_generation_executed = [bool]$workflowSmoke.smoke_request.generation_executed
+    }
+    if ($entry.workflow_smoke.result -ne "blocked_before_ec2_start" -or $entry.workflow_smoke.failure_category -ne "expired_session") {
+      throw "W68 Canny workflow smoke must be blocked_before_ec2_start by expired_session."
+    }
+    if ($entry.workflow_smoke.execute_gates_pass -or $entry.workflow_smoke.ec2_started -or $entry.workflow_smoke.generation_executed -or $entry.workflow_smoke.smoke_request_generation_executed) {
+      throw "W68 Canny workflow smoke must not pass execute gates, start EC2, or run generation."
+    }
+    if (-not $entry.workflow_smoke.run_package_valid -or -not $entry.workflow_smoke.run_package_lane_match) {
+      throw "W68 Canny workflow smoke must include a valid matching run package."
+    }
+
+    $entry.result = "pass"
+  } catch {
+    $entry.error = $_.Exception.Message
+  }
+
+  return $entry
+}
+
 $stamp = (Get-Date -Format "yyyyMMddTHHmmsszzz").Replace(":", "")
 $createdAt = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
 $operationsRoot = Join-Path $ProjectRoot "Plan\Instructions\Operations"
@@ -815,9 +950,22 @@ $latestCoordinatorDryRun = Find-LatestFile -Directory $workflowRuntimeDir -Filte
 $latestCoordinatorBlockedRun = Find-LatestFile -Directory $workflowRuntimeDir -Filter "W61_EC2_WORKFLOW_SMOKE_RUN_BLOCKED_EXECUTE_*.json"
 $latestReadiness = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W61_LANE_RUNTIME_READINESS_*.json"
 $latestAuthGate = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W60_W61_AWS_AUTH_GATE*.json"
+$latestCannyW68AuthGate = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W68_AWS_AUTH_GATE_CONTROLNET_CANNY_STATIC_REMOTE_LOGIN_CLASSIFIED_*.json"
+$latestCannyW68Readiness = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W68_LANE_RUNTIME_READINESS_CONTROLNET_CANNY_STATIC_REMOTE_LOGIN_CLASSIFIED_*.json"
+$latestCannyW68StaticProof = Find-LatestFile -Directory $workflowStaticDir -Filter "W68_EC2_STATIC_PROOF_CONTROLNET_CANNY_BLOCKED_AUTH_*.json"
+$latestCannyW68WorkflowSmoke = Find-LatestFile -Directory $workflowRuntimeDir -Filter "W68_EC2_WORKFLOW_SMOKE_CONTROLNET_CANNY_BLOCKED_AUTH_*.json"
 
 $evidenceChecks = @()
-foreach ($evidence in @($latestBlockedStaticProof, $latestCoordinatorDryRun, $latestCoordinatorBlockedRun, $latestReadiness)) {
+foreach ($evidence in @(
+  $latestBlockedStaticProof,
+  $latestCoordinatorDryRun,
+  $latestCoordinatorBlockedRun,
+  $latestReadiness,
+  $latestCannyW68AuthGate,
+  $latestCannyW68Readiness,
+  $latestCannyW68StaticProof,
+  $latestCannyW68WorkflowSmoke
+)) {
   if ([string]::IsNullOrWhiteSpace($evidence)) { continue }
   $evidenceChecks += Test-JsonFile -Path $evidence
 }
@@ -837,6 +985,30 @@ if (![string]::IsNullOrWhiteSpace($latestCoordinatorDryRun)) {
 }
 if (![string]::IsNullOrWhiteSpace($latestCoordinatorBlockedRun)) {
   $evidenceContractChecks += Test-EC2CoordinatorGateEvidenceContract -Path $latestCoordinatorBlockedRun -Kind "workflow_smoke"
+}
+if (![string]::IsNullOrWhiteSpace($latestCannyW68AuthGate)) {
+  $evidenceContractChecks += Test-AuthGateEvidenceContract -Path $latestCannyW68AuthGate
+}
+if (![string]::IsNullOrWhiteSpace($latestCannyW68Readiness)) {
+  $evidenceContractChecks += Test-LaneReadinessEvidenceContract -Path $latestCannyW68Readiness
+}
+if (![string]::IsNullOrWhiteSpace($latestCannyW68StaticProof)) {
+  $evidenceContractChecks += Test-EC2CoordinatorGateEvidenceContract -Path $latestCannyW68StaticProof -Kind "static_proof"
+}
+if (![string]::IsNullOrWhiteSpace($latestCannyW68WorkflowSmoke)) {
+  $evidenceContractChecks += Test-EC2CoordinatorGateEvidenceContract -Path $latestCannyW68WorkflowSmoke -Kind "workflow_smoke"
+}
+if (
+  ![string]::IsNullOrWhiteSpace($latestCannyW68AuthGate) -and
+  ![string]::IsNullOrWhiteSpace($latestCannyW68Readiness) -and
+  ![string]::IsNullOrWhiteSpace($latestCannyW68StaticProof) -and
+  ![string]::IsNullOrWhiteSpace($latestCannyW68WorkflowSmoke)
+) {
+  $evidenceContractChecks += Test-ControlNetCannyW68GateEvidenceContract `
+    -AuthGatePath $latestCannyW68AuthGate `
+    -ReadinessPath $latestCannyW68Readiness `
+    -StaticProofPath $latestCannyW68StaticProof `
+    -WorkflowSmokePath $latestCannyW68WorkflowSmoke
 }
 
 $scriptFailures = @($scriptParseResults | Where-Object { $_.result -ne "pass" })

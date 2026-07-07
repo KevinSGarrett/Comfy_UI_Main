@@ -60,6 +60,8 @@ The W68 EC2 asset install step has also passed. An emergency stop schedule was c
 
 The current live runtime blocker is AWS auth expiry before static proof. After install checkpoint `d766aaa`, clean Git still matched `origin/main`, but `aws sts get-caller-identity` returned expired session and the profile matrix found zero valid expected-account profiles. This blocks EC2 static proof and generation until AWS login/SSO is refreshed. It is not caused by the GitHub token, Civitai key, `.env`, `.git`, local model provisioning, S3 asset upload, or EC2 asset placement.
 
+Latest local gate-contract hardening is complete. `Test-OperationsHelperStatic.ps1` now directly contract-checks the current W68 Canny auth/readiness/static-proof/workflow-smoke blocked-auth evidence. Evidence `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W68_OPERATIONS_HELPER_W68_CANNY_GATE_CONTRACTS_20260707T011500-0500.json` reports `pass_local_only` with the new `controlnet_canny_w68_gate_contract` passing, EC2 not started, and generation not executed. Latest Wave65 after this evidence reports `pass`, `plan_file_count=3002`, `wave65_rows_created=827`, and `missing_after_wave65_count=0`.
+
 Wave 63 cost controls are active:
 
 - Local dev preflight: `tools\Test-LocalComfyUIDevPreflight.ps1`.

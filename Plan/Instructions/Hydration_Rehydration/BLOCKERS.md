@@ -60,6 +60,12 @@ None currently active for local Wave 58-62 static and packaging validation.
 
 ## Resolved blockers
 
+- `BLOCKER-W59-GIT-001` - resolved/stale for active root 2026-07-07T01:20:00-05:00
+  - blocker type: stale_wrong_root_git_detection
+  - resolution: `C:\Comfy_UI_Main` is the active project root and contains `.git`, `.env`, `comfyui-lora-key.pem`, `Plan`, `Workflows`, `models`, `ComfyUI`, and the expected project file structure. Git status/head checks confirm the active repo root is `C:/Comfy_UI_Main`; do not recreate Git metadata and do not switch back to historical `C:\Comfy_UI`.
+  - current blocker after resolution: AWS CLI/SSO auth is expired before W68 Canny EC2 static proof; this is separate from GitHub token, Civitai key, `.env`, `.git`, local model, S3 upload, or EC2 asset placement.
+  - evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W68_OPERATIONS_HELPER_W68_CANNY_GATE_CONTRACTS_20260707T011500-0500.json`
+
 - `BLOCKER-RUNTIME-COMFYUI-LOCAL-001` - resolved 2026-07-06T20:58:00-05:00
   - blocker type: local_runtime_missing / local_generation_unproven
   - resolution: bootstrapped ignored local ComfyUI checkout, created CUDA Torch venv, downloaded and SHA-verified local RealVisXL checkpoint, configured local extra model paths, passed local `/object_info`, generated one bounded RealVisXL PNG locally, copied it into project pullback evidence, ran technical image QA, and completed whole-image visual QA.

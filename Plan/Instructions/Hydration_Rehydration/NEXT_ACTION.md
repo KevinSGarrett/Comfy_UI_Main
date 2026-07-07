@@ -1,5 +1,28 @@
 # Next Action
 
+## Current next action - 2026-07-07T01:20:00-05:00
+
+Validate, scan, commit, push, and verify the W68 Canny gate-contract checkpoint. `C:\Comfy_UI_Main` is the active root and is already a Git repo; `.git`, `.env`, and `comfyui-lora-key.pem` exist locally, but `.env` and the PEM must stay unprinted and uncommitted.
+
+New local progress:
+
+```text
+Plan/Instructions/Operations/Scripts/Test-OperationsHelperStatic.ps1
+Plan/Instructions/QA/Evidence/Operations_Static_Validation/W68_OPERATIONS_HELPER_W68_CANNY_GATE_CONTRACTS_20260707T011500-0500.json
+Plan/Items/Reports/wave65_plan_source_coverage_report.json
+```
+
+The operations helper now directly contract-checks the current W68 Canny auth gate, lane readiness gate, static-proof blocked gate, and workflow-smoke blocked gate. The validation result is `pass_local_only`; it parsed 25 operations scripts, passed local dry-run smokes, passed evidence contracts, and did not start EC2. Wave65 now reports `pass`, `plan_file_count=3002`, `wave65_rows_created=827`, and `missing_after_wave65_count=0`.
+
+Current runtime blocker remains AWS auth only:
+
+```text
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_AWS_AUTH_GATE_CONTROLNET_CANNY_STATIC_REMOTE_LOGIN_CLASSIFIED_20260707T001000-0500.json
+Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_LANE_RUNTIME_READINESS_CONTROLNET_CANNY_STATIC_REMOTE_LOGIN_CLASSIFIED_20260707T001500-0500.json
+```
+
+After this checkpoint is clean and pushed, refresh AWS login/SSO for expected account `029530099913`, rerun auth/profile/readiness gates, create a fresh emergency stop schedule, then run Canny EC2 static proof only if `safe_to_start_ec2=true` and `ready_for_ec2_static_proof=true`.
+
 ## Current next action - 2026-07-06T23:15:00-05:00
 
 Refresh AWS auth for expected account `029530099913`, then continue `sdxl_realvisxl_controlnet_canny_lane` static proof from the clean pushed install checkpoint. This is not blocked by GitHub token, Civitai key, `.env`, `.git`, model download, or EC2 asset placement: those are already in place. The current blocker is expired AWS CLI/SSO auth immediately before static proof.
