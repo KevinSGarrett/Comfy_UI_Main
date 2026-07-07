@@ -1,0 +1,233 @@
+﻿{
+    "evidence_id":  "EC2-WORKFLOW-SMOKE-RUN-20260707T021155-0500",
+    "timestamp":  "2026-07-07T02:11:55-05:00",
+    "mode":  "execute",
+    "run_id":  "aws_gpu_workflow_smoke_20260707T021155-0500",
+    "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+    "instance_id":  "i-0560bf8d143f93bb1",
+    "region":  "us-east-1",
+    "remote_project_root":  "/home/ubuntu/Comfy_UI_Main",
+    "remote_comfy_root":  "/home/ubuntu/ComfyUI",
+    "remote_artifact_root":  "/home/ubuntu/comfyui_artifacts/aws_gpu_workflow_smoke_20260707T021155-0500",
+    "comfy_port":  8192,
+    "timeout_seconds":  900,
+    "max_ec2_runtime_minutes":  25,
+    "git_lfs_pull_skipped":  true,
+    "deploy_bundle_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/canny-static-proof/canny_v4_runtime_deploy_20260707T014527-0500/canny_v4_runtime_deploy_20260707T014527-0500.zip",
+    "deploy_bundle_sha256":  "dc063a59d1bc281ec9bad02147ca0dc41b50525be0807d2550b4d007b0397d42",
+    "result":  "workflow_smoke_generation_complete",
+    "failure_category":  null,
+    "lane_contracts":  [
+                           {
+                               "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+                               "exists":  true,
+                               "json_valid":  true,
+                               "error":  null
+                           },
+                           {
+                               "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/patch_points.json",
+                               "exists":  true,
+                               "json_valid":  true,
+                               "error":  null
+                           },
+                           {
+                               "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json",
+                               "exists":  true,
+                               "json_valid":  true,
+                               "error":  null
+                           },
+                           {
+                               "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/smoke_test_request.json",
+                               "exists":  true,
+                               "json_valid":  true,
+                               "error":  null
+                           }
+                       ],
+    "local_git_checkpoint_gate":  {
+                                      "git_root":  "C:/Comfy_UI_Main",
+                                      "head":  "2055cc60d8c9c035832cd034dbb7d99aa4b1d922",
+                                      "origin_main":  "2055cc60d8c9c035832cd034dbb7d99aa4b1d922",
+                                      "expected_remote_head":  "2055cc60d8c9c035832cd034dbb7d99aa4b1d922",
+                                      "local_matches_origin":  true,
+                                      "clean":  true,
+                                      "porcelain_count":  0,
+                                      "remote":  "origin\thttps://github.com/KevinSGarrett/Comfy_UI_Main.git (fetch)",
+                                      "result":  "pass",
+                                      "error":  null
+                                  },
+    "auth_gate":  {
+                      "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_AWS_AUTH_GATE_CONTROLNET_CANNY_STATIC_REAUTH_20260707T024000-0500.json",
+                      "found":  true,
+                      "expected_account":  "029530099913",
+                      "account_match":  true,
+                      "ec2_work_allowed":  true,
+                      "safe_to_start_ec2":  true,
+                      "generation_allowed":  true,
+                      "result":  "pass",
+                      "status":  "pass",
+                      "failure_category":  "",
+                      "remote_login_status":  "not_attempted"
+                  },
+    "readiness_gate":  {
+                           "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_LANE_RUNTIME_READINESS_CANNY_AFTER_STATIC_PROOF_20260707T012158-0500.json",
+                           "found":  true,
+                           "local_pre_ec2_ready":  true,
+                           "ready_for_ec2_static_proof":  true,
+                           "ready_for_generation":  true,
+                           "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+                           "lane_match":  true,
+                           "result":  "ready_for_generation",
+                           "failure_category":  null,
+                           "status":  "generation_ready"
+                       },
+    "ec2_static_proof":  {
+                             "file":  "runtime_artifacts/deploy_bundles/runtime_evidence/W68_EC2_STATIC_PROOF_CANNY_V4_RUNTIME_TEMP_20260707T014700-0500.json",
+                             "supplied":  true,
+                             "found":  true,
+                             "valid":  true,
+                             "errors":  [
+
+                                        ],
+                             "object_info_status":  "pass",
+                             "model_proof_count":  2,
+                             "dry_run_record":  false,
+                             "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+                             "lane_match":  true
+                         },
+    "run_package":  {
+                        "supplied":  true,
+                        "file":  "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_lane_clean_control_wardrobe_current_v4/RUN_PACKAGE_MANIFEST.json",
+                        "found":  true,
+                        "valid":  true,
+                        "errors":  [
+
+                                   ],
+                        "run_id":  "sdxl_realvisxl_controlnet_canny_lane_clean_control_wardrobe_current_v4",
+                        "result":  "pass_local_only",
+                        "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+                        "lane_match":  true,
+                        "prompt_profile":  {
+                                               "supplied":  false,
+                                               "applied":  false,
+                                               "profile_id":  "",
+                                               "path":  ""
+                                           },
+                        "prompt_request":  {
+                                               "path":  "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_lane_clean_control_wardrobe_current_v4/prompt_request.json",
+                                               "expected_sha256":  "0764b5a7a0f51adedaeef99ed4f6685317b6d533b94abe915addb76ac041f3b1",
+                                               "actual_sha256":  "0764b5a7a0f51adedaeef99ed4f6685317b6d533b94abe915addb76ac041f3b1",
+                                               "hash_match":  true,
+                                               "json_valid":  true,
+                                               "node_count":  10,
+                                               "client_id":  "codex-canny-clean-control-wardrobe-current-v4"
+                                           }
+                    },
+    "request_source":  "run_package",
+    "smoke_request":  {
+                          "attempted":  true,
+                          "source":  "run_package",
+                          "exit_code":  0,
+                          "request_file":  "runtime_artifacts/deploy_bundles/runtime_evidence/W68_EC2_WORKFLOW_SMOKE_CANNY_V4_AFTER_INPUT_INSTALL_REQUEST_TEMP_20260707T020800-0500.json",
+                          "request_file_exists":  true,
+                          "json_parsed":  true,
+                          "execution_allowed":  false,
+                          "generation_executed":  false,
+                          "run_package_id":  "sdxl_realvisxl_controlnet_canny_lane_clean_control_wardrobe_current_v4",
+                          "prompt_profile_id":  "",
+                          "prompt_request_sha256":  "0764b5a7a0f51adedaeef99ed4f6685317b6d533b94abe915addb76ac041f3b1",
+                          "errors":  [
+
+                                     ]
+                      },
+    "execute_gates_pass":  true,
+    "blocked_reasons":  [
+
+                        ],
+    "dry_run_actions":  [
+                            "Load .env without printing values.",
+                            "Require auth gate for AWS account 029530099913 before EC2 start.",
+                            "Require selected-lane readiness gate before generation.",
+                            "Require EC2 object-info/path/hash static proof before generation.",
+                            "Load the validated run package prompt_request.json as the bounded ComfyUI /prompt body.",
+                            "With -Execute only, start i-0560bf8d143f93bb1, run Git LFS only when needed, run remote ComfyUI smoke, create artifact manifest, pull back artifacts when S3 is available, then stop EC2."
+                        ],
+    "generation_executed":  true,
+    "ec2_started":  true,
+    "command_id":  "8bfb6e87-1589-4551-8934-41d2787dcf85",
+    "command_status":  "Success",
+    "start_state":  "stopped",
+    "final_state":  "stopped",
+    "remote_result":  {
+                          "artifact_root":  "/home/ubuntu/comfyui_artifacts/aws_gpu_workflow_smoke_20260707T021155-0500",
+                          "errors":  [
+
+                                     ],
+                          "manifest_file_count":  4,
+                          "manifest_path":  "/home/ubuntu/comfyui_artifacts/aws_gpu_workflow_smoke_20260707T021155-0500/REMOTE_ARTIFACT_MANIFEST.json",
+                          "object_info_node_count":  1915,
+                          "output_images":  [
+                                                {
+                                                    "artifact_relative_path":  "images/9_codex_sdxl_realvisxl_controlnet_canny_smoke_00001_.png",
+                                                    "copied":  true,
+                                                    "filename":  "codex_sdxl_realvisxl_controlnet_canny_smoke_00001_.png",
+                                                    "node_id":  "9",
+                                                    "source":  "/home/ubuntu/ComfyUI/output/codex_sdxl_realvisxl_controlnet_canny_smoke_00001_.png",
+                                                    "subfolder":  "",
+                                                    "type":  "output"
+                                                }
+                                            ],
+                          "prompt_id":  "4e74d659-fa8e-449a-9b1e-1e17ad3eed13",
+                          "prompt_response":  {
+                                                  "node_errors":  {
+
+                                                                  },
+                                                  "number":  0,
+                                                  "prompt_id":  "4e74d659-fa8e-449a-9b1e-1e17ad3eed13"
+                                              },
+                          "remote_comfy_root":  "/home/ubuntu/ComfyUI",
+                          "remote_project":  "/home/ubuntu/Comfy_UI_Main",
+                          "remote_project_deployment":  {
+                                                            "deployment_method":  "s3_deploy_bundle",
+                                                            "download_rc":  0,
+                                                            "git_lfs_pull_skipped":  true,
+                                                            "manifest_bundle_type":  null,
+                                                            "manifest_file_count":  26,
+                                                            "manifest_lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+                                                            "manifest_matrix_id":  null,
+                                                            "manifest_name":  "DEPLOY_BUNDLE_MANIFEST.json",
+                                                            "manifest_sample_count":  null,
+                                                            "manifest_source_git_head":  "2055cc60d8c9c035832cd034dbb7d99aa4b1d922",
+                                                            "s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/canny-static-proof/canny_v4_runtime_deploy_20260707T014527-0500/canny_v4_runtime_deploy_20260707T014527-0500.zip",
+                                                            "sha256":  "dc063a59d1bc281ec9bad02147ca0dc41b50525be0807d2550b4d007b0397d42",
+                                                            "sha256_expected":  "dc063a59d1bc281ec9bad02147ca0dc41b50525be0807d2550b4d007b0397d42",
+                                                            "sha256_verified":  true
+                                                        },
+                          "run_id":  "aws_gpu_workflow_smoke_20260707T021155-0500",
+                          "s3_sync":  {
+                                          "attempted":  true,
+                                          "rc":  0,
+                                          "s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/render-outputs/aws_gpu_workflow_smoke_20260707T021155-0500/",
+                                          "stderr_tail":  "",
+                                          "stdout_tail":  "",
+                                          "succeeded":  true
+                                      },
+                          "timestamp_utc":  "2026-07-07T07:14:44.505577+00:00"
+                      },
+    "local_pullback":  {
+                           "attempted":  true,
+                           "status":  "pullback_record_created",
+                           "s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/render-outputs/aws_gpu_workflow_smoke_20260707T021155-0500/",
+                           "local_destination":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260707T021155-0500",
+                           "sync_exit_code":  0,
+                           "sync_output_tail":  "",
+                           "pullback_record_output_tail":  "206af8f6a99d874ad3e523\",\n                      \"artifact_type\":  \"image\",\n                      \"qa_required\":  true,\n                      \"remote_manifest_match\":  true\n                  },\n                  {\n                      \"relative_path\":  \"logs/comfyui.log\",\n                      \"local_path\":  \"Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260707T021155-0500/logs/comfyui.log\",\n                      \"size_bytes\":  16593,\n                      \"sha256\":  \"d5de0e2e14fe40a520c133676c53f1b1a8916a82d0943fd86d412e4fca43d6dc\",\n                      \"artifact_type\":  \"log\",\n                      \"qa_required\":  true,\n                      \"remote_manifest_match\":  true\n                  },\n                  {\n                      \"relative_path\":  \"reports/history.json\",\n                      \"local_path\":  \"Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260707T021155-0500/reports/history.json\",\n                      \"size_bytes\":  4387,\n                      \"sha256\":  \"8642ddcdea426d97c4346f5626a4a1f5a9d38355b9ed2e020b274961a8f9daa5\",\n                      \"artifact_type\":  \"report\",\n                      \"qa_required\":  true,\n                      \"remote_manifest_match\":  true\n                  },\n                  {\n                      \"relative_path\":  \"workflows/prompt_request.json\",\n                      \"local_path\":  \"Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260707T021155-0500/workflows/prompt_request.json\",\n                      \"size_bytes\":  7683,\n                      \"sha256\":  \"6caa643ef3f5c0516e59ebd87484aa3ced63dad67898c2000a30abc1b4976adf\",\n                      \"artifact_type\":  \"workflow\",\n                      \"qa_required\":  true,\n                      \"remote_manifest_match\":  true\n                  }\n              ],\n    \"errors\":  [\n\n               ],\n    \"next_action\":  \"Route qa_required_files through the relevant Wave 61 QA protocols.\"\n}"
+                       },
+    "run_record_file":  "runtime_artifacts/deploy_bundles/runtime_evidence/W68_EC2_WORKFLOW_SMOKE_CANNY_V4_AFTER_INPUT_INSTALL_RUN_RECORD_TEMP_20260707T020800-0500.json",
+    "errors":  [
+
+               ],
+    "next_action":  "Run image QA on the pulled-back generated image artifacts.",
+    "ssm_execution_timeout_seconds":  1500,
+    "remote_stdout_tail":  "{\"artifact_root\": \"/home/ubuntu/comfyui_artifacts/aws_gpu_workflow_smoke_20260707T021155-0500\", \"errors\": [], \"manifest_file_count\": 4, \"manifest_path\": \"/home/ubuntu/comfyui_artifacts/aws_gpu_workflow_smoke_20260707T021155-0500/REMOTE_ARTIFACT_MANIFEST.json\", \"object_info_node_count\": 1915, \"output_images\": [{\"artifact_relative_path\": \"images/9_codex_sdxl_realvisxl_controlnet_canny_smoke_00001_.png\", \"copied\": true, \"filename\": \"codex_sdxl_realvisxl_controlnet_canny_smoke_00001_.png\", \"node_id\": \"9\", \"source\": \"/home/ubuntu/ComfyUI/output/codex_sdxl_realvisxl_controlnet_canny_smoke_00001_.png\", \"subfolder\": \"\", \"type\": \"output\"}], \"prompt_id\": \"4e74d659-fa8e-449a-9b1e-1e17ad3eed13\", \"prompt_response\": {\"node_errors\": {}, \"number\": 0, \"prompt_id\": \"4e74d659-fa8e-449a-9b1e-1e17ad3eed13\"}, \"remote_comfy_root\": \"/home/ubuntu/ComfyUI\", \"remote_project\": \"/home/ubuntu/Comfy_UI_Main\", \"remote_project_deployment\": {\"deployment_method\": \"s3_deploy_bundle\", \"download_rc\": 0, \"git_lfs_pull_skipped\": true, \"manifest_bundle_type\": null, \"manifest_file_count\": 26, \"manifest_lane_id\": \"sdxl_realvisxl_controlnet_canny_lane\", \"manifest_matrix_id\": null, \"manifest_name\": \"DEPLOY_BUNDLE_MANIFEST.json\", \"manifest_sample_count\": null, \"manifest_source_git_head\": \"2055cc60d8c9c035832cd034dbb7d99aa4b1d922\", \"s3_uri\": \"s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/canny-static-proof/canny_v4_runtime_deploy_20260707T014527-0500/canny_v4_runtime_deploy_20260707T014527-0500.zip\", \"sha256\": \"dc063a59d1bc281ec9bad02147ca0dc41b50525be0807d2550b4d007b0397d42\", \"sha256_expected\": \"dc063a59d1bc281ec9bad02147ca0dc41b50525be0807d2550b4d007b0397d42\", \"sha256_verified\": true}, \"run_id\": \"aws_gpu_workflow_smoke_20260707T021155-0500\", \"s3_sync\": {\"attempted\": true, \"rc\": 0, \"s3_uri\": \"s3://comfy-ui-main-runtime-029530099913-us-east-1/render-outputs/aws_gpu_workflow_smoke_20260707T021155-0500/\", \"stderr_tail\": \"\", \"stdout_tail\": \"\", \"succeeded\": true}, \"timestamp_utc\": \"2026-07-07T07:14:44.505577+00:00\"} ",
+    "remote_stderr_tail":  ""
+}

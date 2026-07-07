@@ -12,7 +12,7 @@ The current `sdxl_realvisxl_controlnet_canny_lane` / `MOD-17-CONTROLNET-CANNY-LA
 The dry-run did not start EC2 and did not generate. It blocked only because `Invoke-EC2WorkflowSmokeRun.ps1 -Execute` requires a clean pushed `HEAD`, and the live worktree contains the local Canny QA/package/evidence changes. Do not start EC2 from the dirty worktree. Do not rerun Wave65, broad indexes, helper evidence, AWS auth checks, or Git/GitHub checkpointing as substitute work.
 
 Immediate next action:
-The latest bounded static proof failed because the deploy bundle source head no longer matched `origin/main` after the S3 publish evidence checkpoint. Commit the failure evidence, rebuild the v4 deploy bundle from the new clean head, publish the successor to S3 without creating tracked publish evidence before runtime, and rerun one bounded static proof using ignored temporary output. If that passes, immediately run one bounded v4 EC2 generation from the same clean head and same bundle with pullback, technical QA, and strict whole-image QA.
+The Canny v4 target-runtime smoke path is now proven after the cleaned input install fix, and the Canny lane queue has been updated to `runtime_smoke_proven` with static proof, input install, generation, pullback, technical QA, visual QA, and Wave65 refresh evidence attached. Do not rerun Canny v4 generation just to re-prove it. After checkpoint/push verification, continue with either broader Canny multi-sample quality certification or the next named local-first implementation/runtime lane; keep EC2 stopped unless a new bounded runtime validation explicitly requires it.
 
 ## Current next action - 2026-07-07T01:40:00-05:00 - Canny V4 Package Ready Locally
 

@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W68-CANNY-V4-EC2-IMAGE-QA-VISUAL-20260707T022300-0500",
+  "timestamp": "2026-07-07T02:23:00-05:00",
+  "artifact_id": "W68_CANNY_V4_EC2_SMOKE_IMAGE_20260707T021155-0500",
+  "artifact_type": "image_visual_review",
+  "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+  "image_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260707T021155-0500/images/9_codex_sdxl_realvisxl_controlnet_canny_smoke_00001_.png",
+  "image_sha256": "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523",
+  "technical_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_CANNY_V4_EC2_IMAGE_QA_TECHNICAL_20260707T021700-0500.json",
+  "review_scope": "strict_whole_image_visual_qa",
+  "scores": {
+    "face_realism": "pass",
+    "eye_quality": "pass",
+    "skin_texture": "pass",
+    "hands_fingers": "not_visible",
+    "feet_toes": "not_visible",
+    "hair_realism": "pass",
+    "teeth_mouth_quality": "not_visible_mouth_closed",
+    "body_proportions": "pass_visible_head_shoulders",
+    "pose_accuracy": "pass",
+    "clothing_fabric": "pass",
+    "contact_points": "not_visible",
+    "object_body_collisions": "pass_no_collisions_visible",
+    "deformation_realism": "pass",
+    "soft_body_cues": "not_applicable",
+    "anatomy_consistency": "pass_visible_regions",
+    "lighting": "pass",
+    "shadows": "pass",
+    "reflections": "pass_eye_catchlights",
+    "background_coherence": "pass",
+    "camera_lens_realism": "pass",
+    "texture_detail": "pass",
+    "artifacting": "pass",
+    "identity_drift": "not_applicable_single_image",
+    "over_smoothing": "pass_with_minor_note",
+    "plastic_skin": "pass",
+    "prompt_compliance": "pass",
+    "control_map_adherence": "pass_for_portrait_edges"
+  },
+  "whole_image_findings": [
+    "Head-and-shoulders portrait is coherent and realistic with natural lighting, catchlights, skin texture, and hair silhouette.",
+    "Wardrobe prompt fix is respected: dark blazer and textured collared shirt are visible; no bare shoulders, strapless top, or unclothed torso regression.",
+    "Eyes, nose, lips, jawline, and visible ear region are anatomically consistent. Mouth is closed, so teeth cannot be assessed.",
+    "Hands, feet, and lower body are outside the crop and are scored not_visible rather than pass.",
+    "Background is simple and coherent with no obvious object collisions, text artifacts, or frame-breaking distortions.",
+    "Minor note: skin is slightly polished/smooth in the cheek and forehead regions, but not enough to fail this bounded runtime smoke."
+  ],
+  "defects": [],
+  "known_issues": [
+    {
+      "severity": "minor",
+      "code": "single_smoke_sample_only",
+      "note": "This is one bounded EC2 smoke image. It supports target-runtime proof for the lane but does not replace broader multi-sample image-quality certification."
+    }
+  ],
+  "decision": "pass_with_notes_for_runtime_smoke",
+  "final_certification_allowed": false,
+  "next_action": "Record runtime evidence, update pullback QA completion references, and keep broader lane certification pending until required multi-sample or downstream quality gates are complete."
+}

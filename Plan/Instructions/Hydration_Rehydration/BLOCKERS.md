@@ -13,12 +13,20 @@ None currently active for local Wave 58-62 static and packaging validation.
 ## Active runtime blockers
 
 - `BLOCKER-W68-CANNY-V4-BUNDLE-HEAD-MISMATCH-001`
-  - status: active as of 2026-07-07T01:42:34-05:00; procedural, not a model, AWS auth, GitHub token, `.env`, Civitai key, or EC2 stopped-state blocker.
+  - status: resolved 2026-07-07T01:54:44-05:00; procedural, not a model, AWS auth, GitHub token, `.env`, Civitai key, or EC2 stopped-state blocker.
   - blocker type: deploy_bundle_source_head_mismatch
   - failed condition: the Canny v4 deploy bundle source head `5c0645cd26b5c389e9d0a112481f7bc9228d9057` did not match expected `origin/main` `5d308fd705d7fafda70eb0b55fb6e91e3910f9d7` during EC2 static proof after the S3 publish evidence checkpoint advanced `origin/main`.
   - proof of safety: EC2 started for the static-proof attempt, no generation ran, and final state was verified `stopped`.
-  - corrective route: commit this failure evidence, rebuild a successor deploy bundle from the current clean pushed head, publish it without tracked pre-runtime evidence, then rerun one bounded static proof and proceed to generation only if it passes.
-  - evidence: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W68_EC2_STATIC_PROOF_CANNY_V4_CLEAN_HEAD_20260707T013500-0500.json`
+  - resolution: committed the failure evidence, rebuilt a successor bundle from clean pushed head `2055cc60d8c9c035832cd034dbb7d99aa4b1d922`, published it without tracked pre-runtime evidence, and reran static proof successfully. Static proof pass evidence: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W68_EC2_STATIC_PROOF_CANNY_V4_RUNTIME_PASS_20260707T014700-0500.json`.
+  - evidence: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W68_EC2_STATIC_PROOF_CANNY_V4_CLEAN_HEAD_20260707T013500-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W68_EC2_STATIC_PROOF_CANNY_V4_RUNTIME_PASS_20260707T014700-0500.json`
+
+- `BLOCKER-W68-CANNY-V4-MISSING-CLEANED-INPUT-001`
+  - status: resolved 2026-07-07T02:16:04-05:00; target-runtime LoadImage input placement issue.
+  - blocker type: missing_ec2_loadimage_input_asset
+  - failed condition: first Canny v4 generation attempt from the source-head-aligned bundle returned HTTP 400 before prompt acceptance because the v4 request requires `controlnet_canny_cleaned_eye_safe_v1.png`; the target EC2 input directory still had only the older Canny control image from the pre-v4 install path.
+  - proof of safety: failed generation attempt produced no prompt id, no output images, `generation_executed=false`, and final EC2 state `stopped`.
+  - resolution: uploaded `controlnet_canny_cleaned_eye_safe_v1.png` to S3, installed it to `/home/ubuntu/ComfyUI/input/controlnet_canny_cleaned_eye_safe_v1.png`, verified SHA256 `d2f09161928d6efa1c724aafd6798ab597f8cfa0e12dcb4db61203c6b4e74bd0`, and reran generation successfully with pullback and QA.
+  - evidence: `Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_EC2_WORKFLOW_SMOKE_CANNY_V4_HTTP400_MISSING_INPUT_20260707T015600-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_EC2_INPUT_ASSET_INSTALL_CANNY_CLEANED_V1_20260707T020300-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_EC2_WORKFLOW_SMOKE_CANNY_V4_AFTER_INPUT_INSTALL_20260707T020800-0500.json`; `Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260707T021155-0500/PULLBACK_RECORD.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_CANNY_V4_EC2_IMAGE_QA_VISUAL_20260707T022300-0500.json`
 
 - `BLOCKER-W68-CANNY-V4-GENERATION-CLEAN-HEAD-001`
   - status: active as of 2026-07-07T01:23:00-05:00; not a missing `.git`, GitHub token, Civitai key, `.env`, AWS auth, EC2 model placement, or EC2 stopped-state blocker.

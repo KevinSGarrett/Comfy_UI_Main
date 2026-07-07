@@ -4,6 +4,21 @@
 
 Start by reading this file, then read `CURRENT_PURSUING_GOAL.md` and follow its required instruction read order for `Plan/Instructions`. Do not continue from this resume file alone. The current active runtime handoff is the W68 ControlNet Canny target-runtime sequence in `NEXT_ACTION.md`, not the old W61 low-risk handoff. The older `W61_RUNTIME_UNBLOCK_HANDOFF_MODEL_REGISTRY_GATE_20260706T094500-0500.md` Markdown is historical/corrupted.
 
+## Latest W68 Canny target-runtime smoke pass
+
+- Active root is `C:\Comfy_UI_Main`; do not switch to `C:\Comfy_UI`.
+- The Canny v4 target-runtime proof now has actual generated media, pullback, technical QA, and strict whole-image visual QA. Do not rerun Canny v4 solely to re-prove the same smoke path.
+- Clean pushed-head static proof passed from the successor deploy bundle. Evidence: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W68_EC2_STATIC_PROOF_CANNY_V4_RUNTIME_PASS_20260707T014700-0500.json`.
+- The first generation attempt correctly failed before output with HTTP 400 because EC2 lacked `controlnet_canny_cleaned_eye_safe_v1.png`. Evidence: `Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_EC2_WORKFLOW_SMOKE_CANNY_V4_HTTP400_MISSING_INPUT_20260707T015600-0500.json`.
+- The cleaned input was uploaded/installed on EC2 and hash-verified at `/home/ubuntu/ComfyUI/input/controlnet_canny_cleaned_eye_safe_v1.png`. Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_EC2_INPUT_ASSET_INSTALL_CANNY_CLEANED_V1_20260707T020300-0500.json`.
+- The post-install bounded generation succeeded. Evidence: `Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_EC2_WORKFLOW_SMOKE_CANNY_V4_AFTER_INPUT_INSTALL_20260707T020800-0500.json`; pulled-back image: `Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260707T021155-0500/images/9_codex_sdxl_realvisxl_controlnet_canny_smoke_00001_.png`; image SHA256 `7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523`.
+- Pullback hashes verified in `Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260707T021155-0500/PULLBACK_RECORD.json`.
+- Technical image QA passed in `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_CANNY_V4_EC2_IMAGE_QA_TECHNICAL_20260707T021700-0500.json`.
+- Whole-image visual QA passed with runtime-smoke notes in `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_CANNY_V4_EC2_IMAGE_QA_VISUAL_20260707T022300-0500.json`; the artifact is a realistic clothed head-and-shoulders portrait with no bare-shoulder/strapless/nude regression.
+- `Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json` now marks `sdxl_realvisxl_controlnet_canny_lane` as `runtime_smoke_proven` and records this proof evidence. Broader multi-sample quality certification remains pending; a single smoke image is not final certification.
+- Wave65 was rerun after the new evidence and lane queue update. Current result: `pass`, `plan_file_count=3107`, `wave65_rows_created=932`, `missing_after_wave65_count=0`.
+- Next: checkpoint/push this evidence state, verify clean `HEAD == origin/main`, then continue with either broader Canny certification or the next named local-first implementation/runtime lane. Keep EC2 stopped unless a new bounded runtime validation explicitly requires it.
+
 ## Latest W68 Canny v4 generation gate
 
 - Active root remains `C:\Comfy_UI_Main`; do not switch to `C:\Comfy_UI`.

@@ -1,0 +1,187 @@
+{
+  "meta": {
+    "9": {
+      "display_node": "9",
+      "node_id": "9",
+      "parent_node": null,
+      "real_node_id": "9"
+    }
+  },
+  "outputs": {
+    "9": {
+      "images": [
+        {
+          "filename": "codex_sdxl_realvisxl_controlnet_canny_smoke_00001_.png",
+          "subfolder": "",
+          "type": "output"
+        }
+      ]
+    }
+  },
+  "prompt": [
+    0,
+    "4e74d659-fa8e-449a-9b1e-1e17ad3eed13",
+    {
+      "10": {
+        "class_type": "ControlNetLoader",
+        "inputs": {
+          "control_net_name": "controlnet-canny-sdxl-1.0-small.safetensors"
+        }
+      },
+      "11": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "controlnet_canny_cleaned_eye_safe_v1.png",
+          "upload": "image"
+        }
+      },
+      "12": {
+        "class_type": "ControlNetApplyAdvanced",
+        "inputs": {
+          "control_net": [
+            "10",
+            0
+          ],
+          "end_percent": 0.65,
+          "image": [
+            "11",
+            0
+          ],
+          "negative": [
+            "7",
+            0
+          ],
+          "positive": [
+            "6",
+            0
+          ],
+          "start_percent": 0.0,
+          "strength": 0.45,
+          "vae": [
+            "4",
+            2
+          ]
+        }
+      },
+      "3": {
+        "class_type": "KSampler",
+        "inputs": {
+          "cfg": 5.5,
+          "denoise": 1.0,
+          "latent_image": [
+            "5",
+            0
+          ],
+          "model": [
+            "4",
+            0
+          ],
+          "negative": [
+            "12",
+            1
+          ],
+          "positive": [
+            "12",
+            0
+          ],
+          "sampler_name": "dpmpp_2m_sde",
+          "scheduler": "karras",
+          "seed": 711170001,
+          "steps": 20
+        }
+      },
+      "4": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "realvisxlV50_v50Bakedvae.safetensors"
+        }
+      },
+      "5": {
+        "class_type": "EmptyLatentImage",
+        "inputs": {
+          "batch_size": 1,
+          "height": 768,
+          "width": 768
+        }
+      },
+      "6": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "4",
+            1
+          ],
+          "text": "hyperrealistic cinematic editorial portrait, natural skin texture, realistic eyes with clean catchlights, detailed hair, edge-guided composition, coherent silhouette, tailored dark blazer over textured shirt, clothed shoulders, soft natural fill light, balanced exposure, clean face with no painted marks, lifelike lens rendering"
+        }
+      },
+      "7": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "4",
+            1
+          ],
+          "text": "cartoon, anime, illustration, plastic skin, waxy skin, distorted anatomy, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text, edge artifacts, harsh outlines, colored blotches, paint marks, over-dark eyes, control map stains, bare shoulders, strapless top, nude, unclothed torso"
+        }
+      },
+      "8": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "3",
+            0
+          ],
+          "vae": [
+            "4",
+            2
+          ]
+        }
+      },
+      "9": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "codex_sdxl_realvisxl_controlnet_canny_smoke",
+          "images": [
+            "8",
+            0
+          ]
+        }
+      }
+    },
+    {
+      "client_id": "codex-canny-clean-control-wardrobe-current-v4",
+      "create_time": 1783408498163
+    },
+    [
+      "9"
+    ]
+  ],
+  "status": {
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "4e74d659-fa8e-449a-9b1e-1e17ad3eed13",
+          "timestamp": 1783408498164
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [],
+          "prompt_id": "4e74d659-fa8e-449a-9b1e-1e17ad3eed13",
+          "timestamp": 1783408498174
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "4e74d659-fa8e-449a-9b1e-1e17ad3eed13",
+          "timestamp": 1783408557955
+        }
+      ]
+    ],
+    "status_str": "success"
+  }
+}
