@@ -13,7 +13,8 @@ param(
   [string]$LaneId = "",
   [string]$RunPackageManifestFile = "",
   [string]$OutDir = "",
-  [string]$BundleName = ""
+  [string]$BundleName = "",
+  [string[]]$SourceGitStatusExcludePath = @()
 )
 
 $ErrorActionPreference = "Stop"
@@ -64,6 +65,35 @@ function Resolve-ProjectPath {
     return [System.IO.Path]::GetFullPath($Path)
   }
   return [System.IO.Path]::GetFullPath((Join-Path $ProjectRoot $Path.Replace("/", "\")))
+}
+
+function ConvertTo-GitRelativePath {
+  param([AllowNull()][object]$Path)
+  if ($null -eq $Path) { return "" }
+  $value = ([string]$Path).Trim().Replace("\", "/")
+  while ($value.StartsWith("./")) {
+    $value = $value.Substring(2)
+  }
+  return $value.Trim("/")
+}
+
+function Test-GitPathUnderRoot {
+  param(
+    [Parameter(Mandatory=$true)][string]$Path,
+    [Parameter(Mandatory=$true)][string]$Root
+  )
+
+  $normalizedPath = ConvertTo-GitRelativePath -Path $Path
+  $normalizedRoot = ConvertTo-GitRelativePath -Path $Root
+  if ([string]::IsNullOrWhiteSpace($normalizedPath) -or [string]::IsNullOrWhiteSpace($normalizedRoot)) { return $false }
+  return ($normalizedPath -eq $normalizedRoot -or $normalizedPath.StartsWith("$normalizedRoot/"))
+}
+
+function Get-PorcelainPath {
+  param([string]$Line)
+  if ([string]::IsNullOrWhiteSpace($Line)) { return "" }
+  if ($Line.Length -gt 3) { return (ConvertTo-GitRelativePath -Path $Line.Substring(3).Trim()) }
+  return (ConvertTo-GitRelativePath -Path $Line.Trim())
 }
 
 function Assert-UnderProject {
@@ -219,6 +249,15 @@ try {
   $gitHead = $null
   $gitStatus = @("git_status_unavailable")
 }
+$sourceGitStatusExcludePaths = @($SourceGitStatusExcludePath | ForEach-Object { ConvertTo-GitRelativePath -Path $_ } | Where-Object { ![string]::IsNullOrWhiteSpace($_) } | Select-Object -Unique)
+$effectiveGitStatus = @($gitStatus | Where-Object {
+  $statusPath = Get-PorcelainPath -Line $_
+  if ([string]::IsNullOrWhiteSpace($statusPath)) { return $true }
+  foreach ($excludePath in @($sourceGitStatusExcludePaths)) {
+    if (Test-GitPathUnderRoot -Path $statusPath -Root $excludePath) { return $false }
+  }
+  return $true
+})
 
 $manifest = [ordered]@{
   schema_version = "1.0"
@@ -228,8 +267,11 @@ $manifest = [ordered]@{
   lane_id = $LaneId
   run_package_manifest = Convert-ToRepoPath -Path $RunPackageManifestFile
   source_git_head = $gitHead
-  source_git_clean = (@($gitStatus).Count -eq 0)
-  source_git_status_count = @($gitStatus).Count
+  source_git_clean = (@($effectiveGitStatus).Count -eq 0)
+  source_git_status_count = @($effectiveGitStatus).Count
+  source_git_status_all_count = @($gitStatus).Count
+  source_git_status_exclude_paths = @($sourceGitStatusExcludePaths)
+  source_git_status_excluded_count = (@($gitStatus).Count - @($effectiveGitStatus).Count)
   local_only = $true
   aws_contacted = $false
   github_api_contacted = $false

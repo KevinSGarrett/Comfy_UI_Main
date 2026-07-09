@@ -1,3 +1,9 @@
+## Local Source Of Truth Overrides Stale EC2 Workspace - 2026-07-09T12:28:07-05:00
+
+Decision: local `C:\Comfy_UI_Main` is the authoritative execution ledger for Items, Tracker, hydration, runtime-lane queue, selected next action, and completed-work status. EC2 `/home/ubuntu/Comfy_UI_Main` is runtime/cache state only and cannot reopen completed work or override local evidence.
+
+Decision boundary: if EC2 and local disagree, classify `EC2_WORKSPACE_STALE_NOT_AUTHORITY`, use local evidence, and continue selected local-first ComfyUI runtime/orchestration work. Do not rerun completed fallback/base/Canny/certification-sample/local-smoke work from stale EC2 queue state.
+
 ## S3 Publish Path Is Prepared But Not Upload-Ready - 2026-07-09T09:37:06-05:00
 
 Decision: the selected inpaint deploy bundle may proceed to S3 publish dry-run only after the explicit manifest-scoped checkpoint, clean Git proof, selected deploy-bundle rebuild, package/deploy matrix recheck, and S3 readiness recheck have all passed against a concrete rebuilt manifest and zip.

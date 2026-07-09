@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "created_at": "2026-07-09T10:52:25-05:00",
+  "artifact_type": "github_checkpoint_lfs_push_blocker",
+  "result": "blocked_lfs_object_upload_remote_connection_reset",
+  "local_checkpoint_commit": "04ce32fccee9a4705507b3af2a8bff6b60090fd0",
+  "origin_main_at_check": "7e30bf1fb4ca3176aa98fe427e6a247d0129f5c2",
+  "local_matches_origin": false,
+  "commit_created": true,
+  "push_attempted": true,
+  "git_ref_pushed": false,
+  "lfs_objects_uploaded_successfully": [
+    "0f6f0c742e37c3556251b561a54ea8dcecaed43e6d8501831e45108b0e1917b2",
+    "822117dd08c81320e0e870a32378cb48b141c447513d082ed183c2a8c2cedaa9",
+    "237c3a6b2dd90c27d7b8fbaea6fed12ce60f51f999fd077b419d315880e6a4c8",
+    "056cf11beb2b744c3000453e9f92c0371b47a4ccc8c6e5e83e9e5a1ccb2775a2",
+    "4eec5a12bcdb53122779e4ca6deeff5b836884dd6be256776bee086753bfcf93"
+  ],
+  "blocked_lfs_object": {
+    "path": "Plan/Items/wave48_52_master_autonomous_tracker.csv",
+    "oid_sha256": "c313ed8683771d76699023db5c1c40f11c14f30b0268fe408ea1ba48ef24a334",
+    "size_bytes": 140284569,
+    "size_mb": 133.79,
+    "failure": "Repeated GitHub LFS PUT upload attempts were reset by the remote host / GitHub S3 transport before completion."
+  },
+  "post_execute_gate_evidence": "Plan/Instructions/QA/Evidence/Git_Verification/W66_GITHUB_CHECKPOINT_POST_EXECUTE_GATE_20260709T105225-0500.json",
+  "execute_evidence": "Plan/Instructions/QA/Evidence/Git_Verification/W66_GITHUB_CHECKPOINT_MANIFEST_SCOPE_EXECUTE_RETRY_20260709T095155-0500.json",
+  "preserved_local_roots_remaining_untracked": [
+    "runtime_artifacts",
+    "Ref_Image_1",
+    "Ref_Image_2",
+    "Ref_Image_Canonical_Body",
+    "Reference_Images",
+    "masks",
+    "Jira",
+    "Plan.zip",
+    "_ci_w64_20260708T232900-0500"
+  ],
+  "boundary": "No EC2, S3 upload, deploy-bundle rebuild, mask promotion, Wave70 hard-gate rerun, Wave71+ activation, Jira mutation, reset, checkout, or destructive cleanup was performed.",
+  "next_action": "Do not continue generic checkpoint-loop retries. Resume concrete local ComfyUI runtime/orchestration work that does not require origin sync; retry the single blocked LFS object later or from a more stable network before requiring local_matches_origin=true."
+}

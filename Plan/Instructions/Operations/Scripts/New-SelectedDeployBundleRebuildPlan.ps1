@@ -136,7 +136,9 @@ $result = if (-not $runPackagePass) {
 
 $bundleNameTemplate = "deploy_bundle_$selectedLaneId`_<timestamp>"
 $outDirTemplate = "runtime_artifacts/deploy_bundles/$bundleNameTemplate"
-$rebuildCommand = "powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\New-EC2DeployBundle.ps1 -ProjectRoot C:\Comfy_UI_Main -LaneId $selectedLaneId -RunPackageManifestFile C:\Comfy_UI_Main\$runPackageRel -BundleName $bundleNameTemplate -OutDir C:\Comfy_UI_Main\$outDirTemplate"
+$sourceGitStatusExcludePaths = @("runtime_artifacts", "Ref_Image_1", "Ref_Image_2", "Ref_Image_Canonical_Body", "Reference_Images", "masks", "Jira", "Plan.zip", "_ci_w64_20260708T232900-0500")
+$sourceGitStatusExcludeArgs = ($sourceGitStatusExcludePaths | ForEach-Object { "-SourceGitStatusExcludePath $_" }) -join " "
+$rebuildCommand = "powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\New-EC2DeployBundle.ps1 -ProjectRoot C:\Comfy_UI_Main -LaneId $selectedLaneId -RunPackageManifestFile C:\Comfy_UI_Main\$runPackageRel -BundleName $bundleNameTemplate -OutDir C:\Comfy_UI_Main\$outDirTemplate $sourceGitStatusExcludeArgs"
 
 $record = [ordered]@{
   schema_version = "1.0"
@@ -177,6 +179,7 @@ $record = [ordered]@{
   existing_deploy_bundle_source_git_status_count = $(if ($null -ne $selectedRow) { [int]$selectedRow.source_git_status_count } else { $null })
   current_git_clean = $currentGitClean
   current_git_status_count = @($currentGitStatus).Count
+  source_git_status_exclude_paths_for_rebuild = @($sourceGitStatusExcludePaths)
   ready_to_rebuild_after_clean_checkpoint = $readyAfterCheckpoint
   rebuild_command = $rebuildCommand
   expected_manifest_after_rebuild = "$outDirTemplate/DEPLOY_BUNDLE_MANIFEST.json"
@@ -185,6 +188,7 @@ $record = [ordered]@{
     "DEPLOY_BUNDLE_MANIFEST.json result=pass_local_only",
     "source_git_clean=true",
     "source_git_status_count=0",
+    "source_git_status_exclude_paths match approved preserve-local roots",
     "bundle_zip exists",
     "bundle_zip_sha256 matches actual zip hash",
     "ec2_started=false",

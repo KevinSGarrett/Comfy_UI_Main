@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "LOCAL_SOURCE_OF_TRUTH_EC2_STALE_WORKSPACE_BOUNDARY_20260709T122807-0500",
+  "created_at": "2026-07-09T12:28:07-05:00",
+  "classification": "LOCAL_SOURCE_OF_TRUTH_ACTIVE",
+  "secondary_classifications": [
+    "EC2_WORKSPACE_STALE_NOT_AUTHORITY",
+    "NO_RERUN_COMPLETED_EC2_PROOF",
+    "SELECTED_INPAINT_TARGET_RUNTIME_NOT_DUPLICATE"
+  ],
+  "approved_ec2_instance": {
+    "instance_id": "i-0560bf8d143f93bb1",
+    "instance_type": "g5.xlarge",
+    "platform": "Linux/UNIX",
+    "state_after_inspection": "stopped",
+    "inspection_started_instance": true,
+    "inspection_stopped_instance_afterwards": true
+  },
+  "inspection_findings": {
+    "comfyui_auto_started_on_boot": true,
+    "comfyui_queue_running": [],
+    "comfyui_queue_pending": [],
+    "comfyui_current_history_count": 0,
+    "generation_launched_during_inspection": false,
+    "ec2_latest_relevant_runtime_artifacts_date": "2026-07-07",
+    "ec2_project_copy": "/home/ubuntu/Comfy_UI_Main",
+    "ec2_project_copy_authoritative": false,
+    "local_project_root": "C:\\Comfy_UI_Main",
+    "local_project_root_authoritative": true
+  },
+  "stale_ec2_risk": {
+    "risk": "EC2 /home/ubuntu/Comfy_UI_Main still contains an older three-lane runtime queue where Canny can appear queued, while local C:\\Comfy_UI_Main contains the newer nine-lane queue and newer selected-inpaint readiness evidence.",
+    "impact": "Any agent or script using the EC2 project copy as planning authority could resurrect completed Canny/base/fallback work.",
+    "mitigation": "Use local C:\\Comfy_UI_Main hydration, local runtime-lane queue, local QA evidence, and local Tracker evidence as the execution ledger. Treat EC2 files as runtime evidence/cache only."
+  },
+  "completed_work_do_not_rerun": [
+    "sdxl_low_risk_fallback_lane first runtime proof",
+    "sdxl_realvisxl_base_lane RealVisXL base smoke/proof and prior certification sample runs",
+    "sdxl_realvisxl_controlnet_canny_lane baseline/Canny v4 target-runtime smoke proof",
+    "2026-07-09 local package smoke and visual QA matrix evidence for active base-generation lanes"
+  ],
+  "still_open_not_duplicate_when_gated": [
+    "selected inpaint clean deploy-bundle rebuild/revalidation from local source",
+    "selected S3 publish proof for deploy bundle/input/model assets",
+    "selected EC2 input/model install hash proof",
+    "selected inpaint target-runtime proof",
+    "final certification"
+  ],
+  "required_policy_file": "C:\\Comfy_UI_Main\\Plan\\Instructions\\LOCAL_SOURCE_OF_TRUTH_AND_EC2_STALE_WORKSPACE_PROTOCOL.md",
+  "main_session_rule": "Main session must not plan from /home/ubuntu/Comfy_UI_Main. If EC2 and local disagree, use local as authority and classify the EC2 copy as EC2_WORKSPACE_STALE_NOT_AUTHORITY.",
+  "cron_rule": "Scheduled cron jobs must check the local source-of-truth protocol before steering EC2/runtime work and must not report stale EC2 queue state as current project queue state.",
+  "ec2_final_state_verified": "stopped"
+}

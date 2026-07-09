@@ -1,0 +1,73 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "scoped_git_checkpoint_manifest",
+    "created_at":  "2026-07-09T12:31:36-05:00",
+    "project_root":  "C:\\Comfy_UI_Main",
+    "result":  "scoped_git_checkpoint_manifest_ready_pending_explicit_intent",
+    "failure_category":  null,
+    "local_only":  true,
+    "github_api_contacted":  false,
+    "aws_contacted":  false,
+    "civitai_contacted":  false,
+    "comfyui_contacted":  false,
+    "s3_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "prompt_posted":  false,
+    "active_runtime_marker_written":  false,
+    "stage_attempted":  false,
+    "commit_attempted":  false,
+    "push_attempted":  false,
+    "reset_attempted":  false,
+    "checkout_attempted":  false,
+    "deploy_bundle_rebuilt":  false,
+    "checkpoint_intent_required":  true,
+    "ready_for_checkpoint_execute_after_explicit_intent":  true,
+    "review_resolution_evidence":  "Plan/Instructions/QA/Evidence/Git_Verification/W66_DIRTY_GIT_CHECKPOINT_REVIEW_RESOLUTION_20260709T082734-0500.json",
+    "checkpoint_dry_run_evidence":  "Plan/Instructions/QA/Evidence/Git_Verification/W66_GITHUB_CHECKPOINT_EXPLICIT_SCOPE_DRY_RUN_TOOLS_SCOPED_FIXED_20260709T123133-0500.json",
+    "review_result":  "checkpoint_review_resolved_ready_for_guarded_dry_run",
+    "review_ready_for_guarded_checkpoint_dry_run":  true,
+    "dry_run_result":  "blocked_git_checkpoint_dirty_worktree",
+    "dry_run_checkpoint_scope_mode":  "explicit_paths",
+    "dry_run_clean_worktree":  false,
+    "dry_run_local_matches_origin":  false,
+    "dry_run_scope_changed_path_count":  144,
+    "dry_run_scope_excluded_changed_path_count":  40,
+    "include_paths":  [
+                          "Plan",
+                          ".github",
+                          "PromptProfiles",
+                          "Workflows",
+                          "config",
+                          "PROJECT_ROOT_MANIFEST.json",
+                          "tools"
+                      ],
+    "exclude_paths":  [
+                          "runtime_artifacts",
+                          "Ref_Image_1",
+                          "Ref_Image_2",
+                          "Ref_Image_Canonical_Body",
+                          "Reference_Images",
+                          "masks",
+                          "Jira",
+                          "Plan.zip",
+                          "_ci_w64_20260708T232900-0500"
+                      ],
+    "missing_required_include_paths":  [
+
+                                       ],
+    "missing_required_exclude_paths":  [
+
+                                       ],
+    "blocked_include_paths":  [
+
+                              ],
+    "blocked_exclude_paths":  [
+
+                              ],
+    "dry_run_command":  "powershell -NoProfile -ExecutionPolicy Bypass -File Plan/Instructions/Operations/Scripts/Invoke-GitHubCheckpoint.ps1 -ProjectRoot C:\\Comfy_UI_Main -ScopeManifestFile \u003cthis-manifest\u003e -OutFile \u003cdry-run-evidence\u003e",
+    "execute_command_requires_explicit_user_intent":  "powershell -NoProfile -ExecutionPolicy Bypass -File Plan/Instructions/Operations/Scripts/Invoke-GitHubCheckpoint.ps1 -ProjectRoot C:\\Comfy_UI_Main -ScopeManifestFile \u003cthis-manifest\u003e -Message \u003ccheckpoint-message\u003e -Execute",
+    "push_command_requires_explicit_user_intent":  "Add -Push only after local commit result is inspected and pushing is explicitly selected.",
+    "checkpoint_boundary":  "Manifest evidence only. This artifact does not stage, commit, push, reset, checkout, rebuild deploy bundles, upload to S3, start EC2, post prompts, generate, write runtime markers, promote masks, rerun Wave70 gates, switch to Jira bookkeeping, or activate Wave71+.",
+    "next_action":  "Use this manifest for one guarded checkpoint dry-run or execute path only after explicit checkpoint intent; then revalidate clean Git, deploy bundle, and runtime gates."
+}

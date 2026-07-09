@@ -1,0 +1,68 @@
+# Selected Target Runtime Pre-EC2 Handoff Bundle
+
+- created_at: 2026-07-09T11:30:05-05:00
+- result: pass_local_only_selected_target_runtime_pre_ec2_handoff_bundle_ready_ec2_blocked
+- lane_id: sdxl_realvisxl_inpaint_detail_lane
+- selected_work_order_id: WO-W66-SDXL_REALVISXL_INPAINT_DETAIL_LANE-TARGET-RUNTIME-PROOF
+- target_runtime_launch_allowed: false
+- execute_allowed_now: false
+- ready_for_s3_publish_after_rebuild: False
+- ready_for_input_asset_publish: True
+- ready_for_ec2_input_asset_install_execute: False
+- ready_for_model_cache_publish: True
+- ready_for_ec2_model_install_execute: False
+- allowed_local_recheck_step_count: 6
+- blocked_live_step_count: 7
+- exact_blockers: git_checkpoint_gate_not_clean_for_ec2_execute, explicit_user_target_runtime_selection_required, deploy_bundle_source_git_dirty_rebuild_required_before_ec2, runtime_handoff_git_gate_not_passing, target_runtime_or_final_certification_not_proven, target_runtime_proof_evidence_missing, queue_status_not_final_certified:local_runtime_smoke_visual_qa_pass_with_notes_plus_wave25_contact_refine_robustness_pass_with_notes_pending_target_runtime, required_next_runtime_gate_still_requires_target_or_final_review, manifest_scoped_checkpoint_not_yet_executed_clean, selected_deploy_bundle_rebuild_not_completed, selected_deploy_bundle_manifest_missing_until_rebuild, selected_deploy_bundle_zip_missing_until_rebuild, input_assets_not_yet_published_to_s3_for_selected_lane, ec2_input_asset_install_execute_requires_explicit_intent, model_not_yet_published_to_s3_for_selected_lane, ec2_model_install_execute_requires_explicit_intent
+
+## Allowed Local Rechecks
+
+- 2. closure_rollup_recheck
+- 3. git_checkpoint_recheck
+- 4. runtime_unblock_handoff_recheck
+- 5. active_runtime_queue_local_support_recheck
+- 6. runtime_lane_queue_recheck
+- 7. model_registry_coverage_recheck
+
+## Blocked Live Steps
+
+- 1. explicit_target_runtime_selection
+- 8. lane_runtime_readiness_recheck
+- 9. deploy_bundle_build
+- 10. deploy_bundle_s3_publish
+- 11. active_runtime_marker_plan_or_write
+- 12. ec2_static_proof_execute
+- 13. workflow_smoke_execute
+
+## Checks
+
+- target_plan_is_latest_authority_for_selected_inpaint_lane: pass
+- selected_package_ready_but_execution_blocked: pass
+- launch_gate_blocks_target_runtime_launch: pass
+- package_deploy_matrix_has_selected_lane_dirty_bundle: pass
+- selected_s3_publish_waits_for_clean_rebuild: pass
+- selected_input_assets_publish_ready_install_execute_blocked: pass
+- selected_model_cache_publish_ready_install_execute_blocked: pass
+- selected_model_s3_dry_run_hash_verified_no_live_contact: pass
+- selected_input_asset_s3_dry_runs_hash_verified_no_live_contact: pass
+- handoff_command_partition_is_fail_closed: pass
+- required_blockers_are_preserved: pass
+
+## Boundary
+
+Local pre-EC2 handoff bundle only. Allowed local rechecks are listed, but live upload, S3 publish with Execute, marker write, EC2 start, prompt post, generation, final certification, mask promotion, Wave70 hard-gate rerun, Jira bookkeeping, and Wave71+ activation remain blocked.
+
+## Evidence
+
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_TARGET_RUNTIME_EXECUTION_PLAN_20260709T065516-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LANE_PACKAGE_READINESS_20260709T051227-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LAUNCH_GATE_POST_CHECKPOINT_20260709T110110-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_PACKAGE_DEPLOY_MATRIX_20260709T053152-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_S3_PUBLISH_READINESS_PLAN_20260709T093656-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_INPUT_ASSET_INSTALL_READINESS_PLAN_20260709T111309-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_MODEL_CACHE_READINESS_PLAN_20260709T111928-0500.json
+- Plan/Instructions/QA/Evidence/Model_Registry/W66_SELECTED_MODEL_S3_PUBLISH_DRY_RUN_REALVISXL_20260709T112009-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_INPUT_ASSET_S3_PUBLISH_DRY_RUN_SOURCE_20260709T111255-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_INPUT_ASSET_S3_PUBLISH_DRY_RUN_20260709T111245-0500.json
+- runtime_artifacts/g9_20260709T030509/r/sdxl_realvisxl_inpaint_detail_lane_ci_preflight/RUN_PACKAGE_MANIFEST.json
+- runtime_artifacts/g9_20260709T030509/d/sdxl_realvisxl_inpaint_detail_lane_ci_preflight/DEPLOY_BUNDLE_MANIFEST.json

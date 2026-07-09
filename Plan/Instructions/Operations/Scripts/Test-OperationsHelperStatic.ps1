@@ -483,6 +483,318 @@ function Invoke-LocalHelper {
           throw "$Name did not create the expected Markdown plan: $selectedS3PublishMarkdown"
         }
       }
+      if ($Name -eq "selected_input_asset_install_readiness_plan_smoke") {
+        foreach ($required in @("result", "local_only", "github_api_contacted", "aws_contacted", "civitai_contacted", "s3_contacted", "comfyui_contacted", "ec2_started", "generation_executed", "prompt_posted", "active_runtime_marker_written", "stage_attempted", "commit_attempted", "push_attempted", "reset_attempted", "checkout_attempted", "deploy_bundle_rebuilt", "s3_upload_attempted", "input_asset_install_attempted", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "full_project_certification_allowed", "selected_lane_id", "selected_work_order_id", "selected_package_readiness", "selected_package_readiness_result", "selected_package_ready_local_only", "runtime_requirements", "required_input_asset_count", "input_asset_plans", "input_asset_local_hash_all_pass", "s3_runtime_transfer_readiness", "s3_runtime_transfer_readiness_result", "s3_runtime_transfer_ready_local_only", "input_asset_s3_base_uri_present", "region", "ready_for_input_asset_publish", "ready_for_ec2_input_asset_install_execute", "exact_blockers", "required_before_ec2_input_install", "command_sequence", "boundary", "next_action")) {
+          if (-not (Has-Property -Object $payload -Name $required)) {
+            throw "$Name output is missing top-level field: $required"
+          }
+        }
+        if ([string]$payload.result -ne "blocked_selected_input_asset_install_readiness_waiting_for_s3_publish_and_live_gates") {
+          throw "$Name result must stay blocked until S3 input publishing and live gates are complete."
+        }
+        if (-not [bool]$payload.local_only -or [bool]$payload.github_api_contacted -or [bool]$payload.aws_contacted -or [bool]$payload.civitai_contacted -or [bool]$payload.s3_contacted -or [bool]$payload.comfyui_contacted) {
+          throw "$Name must be local-only and must not contact external services."
+        }
+        if ([bool]$payload.ec2_started -or [bool]$payload.generation_executed -or [bool]$payload.prompt_posted -or [bool]$payload.active_runtime_marker_written) {
+          throw "$Name must not start EC2, generate, post prompts, or write runtime markers."
+        }
+        if ([bool]$payload.stage_attempted -or [bool]$payload.commit_attempted -or [bool]$payload.push_attempted -or [bool]$payload.reset_attempted -or [bool]$payload.checkout_attempted -or [bool]$payload.deploy_bundle_rebuilt -or [bool]$payload.s3_upload_attempted -or [bool]$payload.input_asset_install_attempted) {
+          throw "$Name must not mutate git, rebuild deploy bundles, upload to S3, or install input assets."
+        }
+        if ([bool]$payload.masks_consumed_as_truth -or [bool]$payload.masks_promoted -or [bool]$payload.wave70_hard_gate_rerun -or [bool]$payload.wave71_plus_activated -or [bool]$payload.full_project_certification_allowed) {
+          throw "$Name must not consume/promote masks, rerun Wave70, activate Wave71+, or allow final certification."
+        }
+        if ([string]$payload.selected_lane_id -ne "sdxl_realvisxl_inpaint_detail_lane") {
+          throw "$Name must plan input-asset install readiness for the current selected inpaint lane."
+        }
+        if (-not [bool]$payload.selected_package_ready_local_only -or -not [bool]$payload.input_asset_local_hash_all_pass) {
+          throw "$Name must consume passing selected package readiness and prove all local input asset hashes."
+        }
+        if ([int]$payload.required_input_asset_count -ne 2 -or @($payload.input_asset_plans).Count -ne 2) {
+          throw "$Name must plan exactly the source and mask input assets for the selected inpaint lane."
+        }
+        foreach ($requiredFile in @("sdxl_inpaint_detail_source_canny_v1.png", "sdxl_inpaint_detail_micro_nomouth_v4.png")) {
+          if ($requiredFile -notin @($payload.input_asset_plans | ForEach-Object { [string]$_.filename })) {
+            throw "$Name input_asset_plans is missing $requiredFile."
+          }
+        }
+        foreach ($assetPlan in @($payload.input_asset_plans)) {
+          if (-not [bool]$assetPlan.source_file_exists -or -not [bool]$assetPlan.local_hash_match) {
+            throw "$Name asset plan must have source_file_exists=true and local_hash_match=true for $($assetPlan.filename)."
+          }
+          if ([string]$assetPlan.publish_dry_run_command -notmatch "Publish-InputAssetToS3.ps1" -or [string]$assetPlan.publish_dry_run_command -match "\s-Execute(\s|$)") {
+            throw "$Name publish_dry_run_command must call Publish-InputAssetToS3.ps1 without -Execute."
+          }
+          if ([string]$assetPlan.publish_execute_command_requires_explicit_user_intent -notmatch "\s-Execute(\s|$)") {
+            throw "$Name publish execute command must explicitly include -Execute."
+          }
+          if ([string]$assetPlan.install_dry_run_command -notmatch "Install-EC2InputAssetFromS3.ps1" -or [string]$assetPlan.install_dry_run_command -match "\s-Execute(\s|$)") {
+            throw "$Name install_dry_run_command must call Install-EC2InputAssetFromS3.ps1 without -Execute."
+          }
+          if ([string]$assetPlan.install_execute_command_requires_explicit_user_intent -notmatch "\s-Execute(\s|$)") {
+            throw "$Name install execute command must explicitly include -Execute."
+          }
+        }
+        foreach ($requiredBlocker in @("git_checkpoint_gate_not_clean_for_ec2_execute", "explicit_user_target_runtime_selection_required", "deploy_bundle_source_git_dirty_rebuild_required_before_ec2", "input_assets_not_yet_published_to_s3_for_selected_lane", "ec2_input_asset_install_execute_requires_explicit_intent")) {
+          if ($requiredBlocker -notin @($payload.exact_blockers)) {
+            throw "$Name exact_blockers is missing $requiredBlocker."
+          }
+        }
+        foreach ($requiredStep in @("input_asset_publish_dry_runs", "publish_input_assets_to_s3_after_explicit_intent", "input_asset_install_dry_runs", "input_asset_install_execute_after_live_gates", "target_runtime_workflow_smoke_still_blocked")) {
+          if ($requiredStep -notin @($payload.command_sequence | ForEach-Object { [string]$_.name })) {
+            throw "$Name command_sequence is missing $requiredStep."
+          }
+        }
+        if ([string]$payload.boundary -notmatch "Selected input-asset install readiness plan only") {
+          throw "$Name boundary must explicitly describe selected-input-asset-install-readiness-only behavior."
+        }
+        $selectedInputAssetMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+        if (-not (Test-Path -LiteralPath $selectedInputAssetMarkdown)) {
+          throw "$Name did not create the expected Markdown plan: $selectedInputAssetMarkdown"
+        }
+      }
+      if ($Name -eq "publish_input_asset_to_s3_dry_run") {
+        foreach ($required in @("schema_version", "timestamp", "operation", "local_only", "aws_contacted", "s3_contacted", "ec2_started", "generation_executed", "prompt_posted", "active_runtime_marker_written", "region", "asset_file", "file_name", "size_bytes", "expected_sha256", "observed_sha256", "local_hash_match", "s3_uri", "result", "failure_category", "upload", "errors", "next_action")) {
+          if (-not (Has-Property -Object $payload -Name $required)) {
+            throw "$Name output is missing top-level field: $required"
+          }
+        }
+        if ([string]$payload.operation -ne "publish_input_asset_to_s3" -or [string]$payload.result -ne "dry_run_ready_to_upload_input_asset") {
+          throw "$Name must produce a dry_run_ready_to_upload_input_asset publish plan."
+        }
+        if (-not [bool]$payload.local_only -or [bool]$payload.aws_contacted -or [bool]$payload.s3_contacted) {
+          throw "$Name must remain local-only and must not contact AWS/S3."
+        }
+        if ([bool]$payload.ec2_started -or [bool]$payload.generation_executed -or [bool]$payload.prompt_posted -or [bool]$payload.active_runtime_marker_written) {
+          throw "$Name must not start EC2, run generation, post prompts, or write runtime markers."
+        }
+        if (-not [bool]$payload.local_hash_match -or [string]$payload.s3_uri -notmatch "^s3://") {
+          throw "$Name must prove the local hash and include an s3:// target URI."
+        }
+        if ([bool]$payload.upload.attempted) {
+          throw "$Name dry run must not attempt upload."
+        }
+      }
+      if ($Name -eq "publish_model_to_s3_dry_run") {
+        foreach ($required in @("schema_version", "timestamp", "operation", "local_only", "aws_contacted", "s3_contacted", "ec2_started", "generation_executed", "prompt_posted", "active_runtime_marker_written", "git_lfs_used", "region", "model_file", "file_name", "size_bytes", "expected_sha256", "observed_sha256", "local_hash_match", "s3_uri", "result", "failure_category", "upload", "errors", "next_action")) {
+          if (-not (Has-Property -Object $payload -Name $required)) {
+            throw "$Name output is missing top-level field: $required"
+          }
+        }
+        if ([string]$payload.operation -ne "publish_model_to_s3" -or [string]$payload.result -ne "dry_run_ready_to_upload_model") {
+          throw "$Name must produce a dry_run_ready_to_upload_model publish plan."
+        }
+        if (-not [bool]$payload.local_only -or [bool]$payload.aws_contacted -or [bool]$payload.s3_contacted) {
+          throw "$Name must remain local-only and must not contact AWS/S3."
+        }
+        if ([bool]$payload.ec2_started -or [bool]$payload.generation_executed -or [bool]$payload.prompt_posted -or [bool]$payload.active_runtime_marker_written -or [bool]$payload.git_lfs_used) {
+          throw "$Name must not start EC2, run generation, post prompts, write runtime markers, or use Git LFS."
+        }
+        if (-not [bool]$payload.local_hash_match -or [string]$payload.s3_uri -notmatch "^s3://") {
+          throw "$Name must prove the local hash and include an s3:// target URI."
+        }
+        if ([bool]$payload.upload.attempted) {
+          throw "$Name dry run must not attempt upload."
+        }
+      }
+      if ($Name -eq "selected_model_cache_readiness_plan_smoke") {
+        foreach ($required in @("result", "local_only", "github_api_contacted", "aws_contacted", "civitai_contacted", "s3_contacted", "comfyui_contacted", "ec2_started", "generation_executed", "prompt_posted", "active_runtime_marker_written", "stage_attempted", "commit_attempted", "push_attempted", "reset_attempted", "checkout_attempted", "deploy_bundle_rebuilt", "s3_upload_attempted", "model_install_attempted", "git_lfs_used", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "full_project_certification_allowed", "selected_lane_id", "selected_work_order_id", "selected_package_readiness", "selected_package_ready_local_only", "runtime_requirements", "local_object_info_evidence", "required_model_count", "model_cache_plans", "model_local_hash_all_pass_from_object_info", "s3_runtime_transfer_readiness", "s3_runtime_transfer_readiness_result", "s3_runtime_transfer_ready_local_only", "model_cache_s3_base_uri_present", "region", "ready_for_model_cache_publish", "ready_for_ec2_model_install_execute", "exact_blockers", "required_before_ec2_model_install", "command_sequence", "boundary", "next_action")) {
+          if (-not (Has-Property -Object $payload -Name $required)) {
+            throw "$Name output is missing top-level field: $required"
+          }
+        }
+        if ([string]$payload.result -ne "blocked_selected_model_cache_readiness_waiting_for_s3_publish_and_live_gates") {
+          throw "$Name result must stay blocked until S3 model publishing and live gates are complete."
+        }
+        if (-not [bool]$payload.local_only -or [bool]$payload.github_api_contacted -or [bool]$payload.aws_contacted -or [bool]$payload.civitai_contacted -or [bool]$payload.s3_contacted -or [bool]$payload.comfyui_contacted) {
+          throw "$Name must be local-only and must not contact external services."
+        }
+        if ([bool]$payload.ec2_started -or [bool]$payload.generation_executed -or [bool]$payload.prompt_posted -or [bool]$payload.active_runtime_marker_written) {
+          throw "$Name must not start EC2, generate, post prompts, or write runtime markers."
+        }
+        if ([bool]$payload.stage_attempted -or [bool]$payload.commit_attempted -or [bool]$payload.push_attempted -or [bool]$payload.reset_attempted -or [bool]$payload.checkout_attempted -or [bool]$payload.deploy_bundle_rebuilt -or [bool]$payload.s3_upload_attempted -or [bool]$payload.model_install_attempted -or [bool]$payload.git_lfs_used) {
+          throw "$Name must not mutate git, rebuild deploy bundles, upload to S3, install models, or use Git LFS."
+        }
+        if ([bool]$payload.masks_consumed_as_truth -or [bool]$payload.masks_promoted -or [bool]$payload.wave70_hard_gate_rerun -or [bool]$payload.wave71_plus_activated -or [bool]$payload.full_project_certification_allowed) {
+          throw "$Name must not consume/promote masks, rerun Wave70, activate Wave71+, or allow final certification."
+        }
+        if ([string]$payload.selected_lane_id -ne "sdxl_realvisxl_inpaint_detail_lane") {
+          throw "$Name must plan model-cache readiness for the current selected inpaint lane."
+        }
+        if (-not [bool]$payload.selected_package_ready_local_only -or -not [bool]$payload.model_local_hash_all_pass_from_object_info) {
+          throw "$Name must consume passing selected package readiness and object_info model hash proof."
+        }
+        if ([int]$payload.required_model_count -ne 1 -or @($payload.model_cache_plans).Count -ne 1) {
+          throw "$Name must plan exactly the RealVisXL checkpoint for the selected inpaint lane."
+        }
+        $modelPlan = @($payload.model_cache_plans)[0]
+        if ([string]$modelPlan.filename -ne "realvisxlV50_v50Bakedvae.safetensors" -or -not [bool]$modelPlan.local_model_exists -or -not [bool]$modelPlan.local_hash_match_from_object_info) {
+          throw "$Name model_cache_plans must include a locally hash-proven RealVisXL checkpoint."
+        }
+        if ([string]$modelPlan.publish_dry_run_command -notmatch "Publish-ModelToS3.ps1" -or [string]$modelPlan.publish_dry_run_command -match "\s-Execute(\s|$)") {
+          throw "$Name publish_dry_run_command must call Publish-ModelToS3.ps1 without -Execute."
+        }
+        if ([string]$modelPlan.publish_execute_command_requires_explicit_user_intent -notmatch "\s-Execute(\s|$)") {
+          throw "$Name publish execute command must explicitly include -Execute."
+        }
+        if ([string]$modelPlan.install_dry_run_command -notmatch "Install-EC2ModelFromS3.ps1" -or [string]$modelPlan.install_dry_run_command -match "\s-Execute(\s|$)") {
+          throw "$Name install_dry_run_command must call Install-EC2ModelFromS3.ps1 without -Execute."
+        }
+        if ([string]$modelPlan.install_execute_command_requires_explicit_user_intent -notmatch "\s-Execute(\s|$)") {
+          throw "$Name install execute command must explicitly include -Execute."
+        }
+        foreach ($requiredBlocker in @("git_checkpoint_gate_not_clean_for_ec2_execute", "explicit_user_target_runtime_selection_required", "deploy_bundle_source_git_dirty_rebuild_required_before_ec2", "model_not_yet_published_to_s3_for_selected_lane", "ec2_model_install_execute_requires_explicit_intent")) {
+          if ($requiredBlocker -notin @($payload.exact_blockers)) {
+            throw "$Name exact_blockers is missing $requiredBlocker."
+          }
+        }
+        foreach ($requiredStep in @("model_cache_publish_dry_run", "publish_model_to_s3_after_explicit_intent", "model_install_dry_run", "model_install_execute_after_live_gates", "target_runtime_workflow_smoke_still_blocked")) {
+          if ($requiredStep -notin @($payload.command_sequence | ForEach-Object { [string]$_.name })) {
+            throw "$Name command_sequence is missing $requiredStep."
+          }
+        }
+        if ([string]$payload.boundary -notmatch "Selected model-cache readiness plan only") {
+          throw "$Name boundary must explicitly describe selected-model-cache-readiness-only behavior."
+        }
+        $selectedModelCacheMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+        if (-not (Test-Path -LiteralPath $selectedModelCacheMarkdown)) {
+          throw "$Name did not create the expected Markdown plan: $selectedModelCacheMarkdown"
+        }
+      }
+      if ($Name -eq "selected_target_runtime_live_execution_runbook_smoke") {
+        foreach ($required in @("result", "local_only", "github_api_contacted", "aws_contacted", "civitai_contacted", "s3_contacted", "comfyui_contacted", "ec2_started", "generation_executed", "prompt_posted", "active_runtime_marker_written", "stage_attempted", "commit_attempted", "push_attempted", "reset_attempted", "checkout_attempted", "deploy_bundle_rebuilt", "s3_upload_attempted", "model_install_attempted", "input_asset_install_attempted", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "jira_mutated", "full_project_certification_allowed", "selected_lane_id", "selected_work_order_id", "selected_s3_publish_readiness", "selected_input_asset_install_readiness", "selected_model_cache_readiness", "pre_ec2_handoff_bundle", "project_readiness_snapshot", "project_readiness_result", "project_readiness_failure_category", "project_readiness_errors", "project_readiness_warnings", "project_local_ready", "git_local_matches_origin", "ready_for_live_execution", "ready_for_s3_publish_after_rebuild", "ready_for_input_asset_publish", "ready_for_ec2_input_asset_install_execute", "ready_for_model_cache_publish", "ready_for_ec2_model_install_execute", "target_runtime_launch_allowed", "execute_allowed_now", "exact_blockers", "ordered_live_execution_steps", "ordered_step_count", "checks", "failed_check_count", "boundary", "next_action")) {
+          if (-not (Has-Property -Object $payload -Name $required)) {
+            throw "$Name output is missing top-level field: $required"
+          }
+        }
+        if ([string]$payload.result -ne "blocked_selected_target_runtime_live_execution_runbook_waiting_for_clean_git_and_explicit_live_intent") {
+          throw "$Name must remain blocked until clean Git and explicit live intent."
+        }
+        if (-not [bool]$payload.local_only -or [bool]$payload.github_api_contacted -or [bool]$payload.aws_contacted -or [bool]$payload.civitai_contacted -or [bool]$payload.s3_contacted -or [bool]$payload.comfyui_contacted) {
+          throw "$Name must be local-only and must not contact external services."
+        }
+        if ([bool]$payload.ec2_started -or [bool]$payload.generation_executed -or [bool]$payload.prompt_posted -or [bool]$payload.active_runtime_marker_written) {
+          throw "$Name must not start EC2, generate, post prompts, or write runtime markers."
+        }
+        if ([bool]$payload.stage_attempted -or [bool]$payload.commit_attempted -or [bool]$payload.push_attempted -or [bool]$payload.reset_attempted -or [bool]$payload.checkout_attempted -or [bool]$payload.deploy_bundle_rebuilt -or [bool]$payload.s3_upload_attempted -or [bool]$payload.model_install_attempted -or [bool]$payload.input_asset_install_attempted) {
+          throw "$Name must not mutate git, rebuild deploy bundles, upload to S3, or install remote assets/models."
+        }
+        if ([bool]$payload.masks_consumed_as_truth -or [bool]$payload.masks_promoted -or [bool]$payload.wave70_hard_gate_rerun -or [bool]$payload.wave71_plus_activated -or [bool]$payload.jira_mutated -or [bool]$payload.full_project_certification_allowed) {
+          throw "$Name must not consume/promote masks, rerun Wave70, activate Wave71+, mutate Jira, or allow final certification."
+        }
+        if ([string]$payload.selected_lane_id -ne "sdxl_realvisxl_inpaint_detail_lane" -or [string]$payload.selected_work_order_id -ne "WO-W66-SDXL_REALVISXL_INPAINT_DETAIL_LANE-TARGET-RUNTIME-PROOF") {
+          throw "$Name must target the selected inpaint target-runtime work order."
+        }
+        if ([bool]$payload.ready_for_live_execution -or [bool]$payload.execute_allowed_now -or [bool]$payload.target_runtime_launch_allowed -or [bool]$payload.ready_for_s3_publish_after_rebuild -or [bool]$payload.ready_for_ec2_input_asset_install_execute -or [bool]$payload.ready_for_ec2_model_install_execute) {
+          throw "$Name must keep all live execution gates blocked."
+        }
+        if (-not [bool]$payload.ready_for_input_asset_publish -or -not [bool]$payload.ready_for_model_cache_publish) {
+          throw "$Name must preserve the local-ready input/model evidence."
+        }
+        if (-not [bool]$payload.project_local_ready -or [string]$payload.project_readiness_result -ne "pass_local_ready_for_ec2_static_proof" -or [string]$payload.project_readiness_failure_category -ne "missing_ec2_static_proof") {
+          throw "$Name must record the selected project-readiness snapshot as local-ready for EC2 static proof while generation remains blocked."
+        }
+        if ([bool]$payload.git_local_matches_origin) {
+          throw "$Name must record the current local/origin divergence gate."
+        }
+        if ([int]$payload.ordered_step_count -lt 17 -or @($payload.ordered_live_execution_steps).Count -ne [int]$payload.ordered_step_count) {
+          throw "$Name must emit the full ordered live execution sequence."
+        }
+        if (@($payload.ordered_live_execution_steps | Where-Object { [bool]$_.execute_allowed_now }).Count -ne 0) {
+          throw "$Name must not allow any runbook step to execute now."
+        }
+        foreach ($requiredStep in @("pre_ec2_handoff_recheck", "project_readiness_snapshot_recheck", "manifest_scoped_checkpoint_execute_blocked", "selected_deploy_bundle_rebuild_after_clean_checkpoint", "selected_deploy_bundle_s3_publish_dry_run", "selected_deploy_bundle_s3_publish_execute_after_explicit_intent", "ec2_static_proof_execute_blocked", "workflow_smoke_execute_blocked")) {
+          if ($requiredStep -notin @($payload.ordered_live_execution_steps | ForEach-Object { [string]$_.name })) {
+            throw "$Name ordered_live_execution_steps is missing $requiredStep."
+          }
+        }
+        $projectReadinessStep = @($payload.ordered_live_execution_steps | Where-Object { [string]$_.name -eq "project_readiness_snapshot_recheck" } | Select-Object -First 1)
+        if ([string]$projectReadinessStep.command -notmatch "-LaneId\s+sdxl_realvisxl_inpaint_detail_lane(\s|$)") {
+          throw "$Name project_readiness_snapshot_recheck must target the selected inpaint lane."
+        }
+        foreach ($requiredPattern in @("input_asset_publish_dry_run:", "input_asset_publish_execute_after_explicit_intent:", "model_cache_publish_dry_run:", "model_install_execute_after_live_gates:", "input_asset_install_execute_after_live_gates:")) {
+          if (@($payload.ordered_live_execution_steps | Where-Object { [string]$_.name -like "$requiredPattern*" }).Count -eq 0) {
+            throw "$Name ordered_live_execution_steps is missing pattern $requiredPattern."
+          }
+        }
+        foreach ($requiredBlocker in @("git_checkpoint_gate_not_clean_for_ec2_execute", "explicit_user_target_runtime_selection_required", "deploy_bundle_source_git_dirty_rebuild_required_before_ec2", "explicit_live_execution_intent_required", "live_s3_uploads_not_authorized", "ec2_start_not_authorized")) {
+          if ($requiredBlocker -notin @($payload.exact_blockers)) {
+            throw "$Name exact_blockers is missing $requiredBlocker."
+          }
+        }
+        if ([int]$payload.failed_check_count -ne 0) {
+          throw "$Name must have failed_check_count=0."
+        }
+        if ([string]$payload.boundary -notmatch "Selected target-runtime live execution runbook only") {
+          throw "$Name boundary must explicitly describe runbook-only behavior."
+        }
+        $selectedRunbookMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+        if (-not (Test-Path -LiteralPath $selectedRunbookMarkdown)) {
+          throw "$Name did not create the expected Markdown runbook: $selectedRunbookMarkdown"
+        }
+      }
+      if ($Name -eq "selected_target_runtime_execution_readiness_snapshot_smoke") {
+        foreach ($required in @("result", "local_only", "github_api_contacted", "aws_contacted", "civitai_contacted", "s3_contacted", "comfyui_contacted", "ec2_started", "generation_executed", "prompt_posted", "active_runtime_marker_written", "stage_attempted", "commit_attempted", "push_attempted", "reset_attempted", "checkout_attempted", "deploy_bundle_rebuilt", "s3_upload_attempted", "model_install_attempted", "input_asset_install_attempted", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "jira_mutated", "full_project_certification_allowed", "selected_lane_id", "selected_work_order_id", "live_execution_runbook", "model_install_dry_run", "source_input_install_dry_run", "mask_input_install_dry_run", "ready_for_live_execution", "execute_allowed_now", "target_runtime_launch_allowed", "local_install_dry_run_proof_count", "local_install_dry_run_proofs", "runbook_ordered_step_count", "runbook_failed_check_count", "runbook_git_local_matches_origin", "runbook_ready_for_input_asset_publish", "runbook_ready_for_model_cache_publish", "runbook_ready_for_ec2_input_asset_install_execute", "runbook_ready_for_ec2_model_install_execute", "exact_blockers", "checks", "failed_check_count", "boundary", "next_action")) {
+          if (-not (Has-Property -Object $payload -Name $required)) {
+            throw "$Name output is missing top-level field: $required"
+          }
+        }
+        if ([string]$payload.result -ne "blocked_selected_target_runtime_execution_readiness_local_proofs_complete_live_gates_closed") {
+          throw "$Name must report local proofs complete while live gates remain closed."
+        }
+        if (-not [bool]$payload.local_only -or [bool]$payload.github_api_contacted -or [bool]$payload.aws_contacted -or [bool]$payload.civitai_contacted -or [bool]$payload.s3_contacted -or [bool]$payload.comfyui_contacted) {
+          throw "$Name must be local-only and must not contact external services."
+        }
+        if ([bool]$payload.ec2_started -or [bool]$payload.generation_executed -or [bool]$payload.prompt_posted -or [bool]$payload.active_runtime_marker_written) {
+          throw "$Name must not start EC2, generate, post prompts, or write runtime markers."
+        }
+        if ([bool]$payload.stage_attempted -or [bool]$payload.commit_attempted -or [bool]$payload.push_attempted -or [bool]$payload.reset_attempted -or [bool]$payload.checkout_attempted -or [bool]$payload.deploy_bundle_rebuilt -or [bool]$payload.s3_upload_attempted -or [bool]$payload.model_install_attempted -or [bool]$payload.input_asset_install_attempted) {
+          throw "$Name must not mutate git, rebuild deploy bundles, upload to S3, or install remote assets/models."
+        }
+        if ([bool]$payload.masks_consumed_as_truth -or [bool]$payload.masks_promoted -or [bool]$payload.wave70_hard_gate_rerun -or [bool]$payload.wave71_plus_activated -or [bool]$payload.jira_mutated -or [bool]$payload.full_project_certification_allowed) {
+          throw "$Name must not consume/promote masks, rerun Wave70, activate Wave71+, mutate Jira, or allow final certification."
+        }
+        if ([string]$payload.selected_lane_id -ne "sdxl_realvisxl_inpaint_detail_lane" -or [string]$payload.selected_work_order_id -ne "WO-W66-SDXL_REALVISXL_INPAINT_DETAIL_LANE-TARGET-RUNTIME-PROOF") {
+          throw "$Name must target the selected inpaint target-runtime work order."
+        }
+        if ([bool]$payload.ready_for_live_execution -or [bool]$payload.execute_allowed_now -or [bool]$payload.target_runtime_launch_allowed -or [bool]$payload.runbook_ready_for_ec2_input_asset_install_execute -or [bool]$payload.runbook_ready_for_ec2_model_install_execute) {
+          throw "$Name must keep all live execution and EC2 install gates blocked."
+        }
+        if ([int]$payload.local_install_dry_run_proof_count -ne 3 -or @($payload.local_install_dry_run_proofs).Count -ne 3) {
+          throw "$Name must include exactly three local install dry-run proofs."
+        }
+        foreach ($proof in @($payload.local_install_dry_run_proofs)) {
+          if ([bool]$proof.execute -or [bool]$proof.ec2_started -or [string]$proof.command_status -ne "not_started" -or [bool]$proof.generation_executed -or [bool]$proof.git_lfs_used -or [int]$proof.error_count -ne 0) {
+            throw "$Name dry-run proof $($proof.name) must remain no-execute/no-EC2/not-started/no-generation/no-Git-LFS/errors=0."
+          }
+        }
+        foreach ($requiredProof in @("realvisxl_model_install_dry_run", "source_input_asset_install_dry_run", "mask_input_asset_install_dry_run")) {
+          if ($requiredProof -notin @($payload.local_install_dry_run_proofs | ForEach-Object { [string]$_.name })) {
+            throw "$Name local_install_dry_run_proofs is missing $requiredProof."
+          }
+        }
+        if ([int]$payload.runbook_ordered_step_count -lt 17 -or [int]$payload.runbook_failed_check_count -ne 0 -or [bool]$payload.runbook_git_local_matches_origin) {
+          throw "$Name must preserve the fail-closed runbook sequence and local/origin divergence gate."
+        }
+        if (-not [bool]$payload.runbook_ready_for_input_asset_publish -or -not [bool]$payload.runbook_ready_for_model_cache_publish) {
+          throw "$Name must preserve local publish-readiness for selected input assets and model cache."
+        }
+        foreach ($requiredBlocker in @("selected_deploy_bundle_not_rebuilt_after_clean_checkpoint", "selected_s3_publish_proof_missing_for_deploy_bundle", "selected_input_asset_s3_publish_proof_missing_for_live_install", "selected_model_s3_publish_proof_missing_for_live_install", "explicit_live_execution_intent_required", "ec2_start_not_authorized")) {
+          if ($requiredBlocker -notin @($payload.exact_blockers)) {
+            throw "$Name exact_blockers is missing $requiredBlocker."
+          }
+        }
+        if ([int]$payload.failed_check_count -ne 0) {
+          throw "$Name must have failed_check_count=0."
+        }
+        if ([string]$payload.boundary -notmatch "Selected target-runtime execution readiness snapshot only") {
+          throw "$Name boundary must explicitly describe snapshot-only behavior."
+        }
+        $selectedSnapshotMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+        if (-not (Test-Path -LiteralPath $selectedSnapshotMarkdown)) {
+          throw "$Name did not create the expected Markdown snapshot: $selectedSnapshotMarkdown"
+        }
+      }
       if ($Name -eq "runtime_unblock_handoff_smoke") {
         foreach ($required in @("result", "failure_category", "next_required_action", "local_only", "aws_contacted", "ec2_started", "generation_executed", "safety_invariants", "command_sequence", "markdown_written", "gate_summary", "latest_evidence")) {
           if (-not (Has-Property -Object $payload -Name $required)) {
@@ -1179,6 +1491,24 @@ $localSmokeResults += Invoke-LocalHelper -Name "publish_deploy_bundle_to_s3_dry_
   -Arguments @("-BundleManifestFile", $dummyBundleManifestFile, "-S3BaseUri", "s3://example-bucket/deploy-bundles", "-OutFile", $publishBundleFile) `
   -ExpectedOutputFile $publishBundleFile
 
+$dummyInputAssetFile = Join-Path $tempRoot "dummy_input_asset.png"
+Set-Content -LiteralPath $dummyInputAssetFile -Value "static validation dummy input asset" -Encoding UTF8
+$dummyInputAssetHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $dummyInputAssetFile).Hash.ToLowerInvariant()
+$publishInputAssetFile = Join-Path $tempRoot "publish_input_asset_to_s3_dry_run.json"
+$localSmokeResults += Invoke-LocalHelper -Name "publish_input_asset_to_s3_dry_run" `
+  -ScriptPath (Join-Path $scriptsRoot "Publish-InputAssetToS3.ps1") `
+  -Arguments @("-AssetFile", $dummyInputAssetFile, "-S3Uri", "s3://example-bucket/model-cache/input-assets/dummy_input_asset.png", "-ExpectedSha256", $dummyInputAssetHash, "-OutFile", $publishInputAssetFile) `
+  -ExpectedOutputFile $publishInputAssetFile
+
+$dummyModelFile = Join-Path $tempRoot "dummy_model.safetensors"
+Set-Content -LiteralPath $dummyModelFile -Value "static validation dummy model binary" -Encoding UTF8
+$dummyModelHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $dummyModelFile).Hash.ToLowerInvariant()
+$publishModelFile = Join-Path $tempRoot "publish_model_to_s3_dry_run.json"
+$localSmokeResults += Invoke-LocalHelper -Name "publish_model_to_s3_dry_run" `
+  -ScriptPath (Join-Path $scriptsRoot "Publish-ModelToS3.ps1") `
+  -Arguments @("-ModelFile", $dummyModelFile, "-S3Uri", "s3://example-bucket/model-cache/dummy_model.safetensors", "-ExpectedSha256", $dummyModelHash, "-OutFile", $publishModelFile) `
+  -ExpectedOutputFile $publishModelFile
+
 $s3TransferReadinessFile = Join-Path $tempRoot "s3_runtime_transfer_readiness.json"
 $localSmokeResults += Invoke-LocalHelper -Name "s3_runtime_transfer_readiness_smoke" `
   -ScriptPath (Join-Path $scriptsRoot "Test-S3RuntimeTransferReadiness.ps1") `
@@ -1191,6 +1521,34 @@ $localSmokeResults += Invoke-LocalHelper -Name "selected_s3_publish_readiness_pl
   -ScriptPath (Join-Path $scriptsRoot "New-SelectedS3PublishReadinessPlan.ps1") `
   -Arguments @("-ProjectRoot", $ProjectRoot, "-SelectedDeployBundleRebuildPlanFile", $selectedDeployBundleRebuildPlanFile, "-S3RuntimeTransferReadinessFile", $s3TransferReadinessFile, "-S3BaseUri", "s3://example-bucket/deploy-bundles", "-OutFile", $selectedS3PublishReadinessPlanFile, "-MarkdownOutFile", $selectedS3PublishReadinessPlanMarkdown) `
   -ExpectedOutputFile $selectedS3PublishReadinessPlanFile
+
+$selectedInputAssetInstallReadinessPlanFile = Join-Path $tempRoot "selected_input_asset_install_readiness_plan.json"
+$selectedInputAssetInstallReadinessPlanMarkdown = Join-Path $tempRoot "selected_input_asset_install_readiness_plan.md"
+$localSmokeResults += Invoke-LocalHelper -Name "selected_input_asset_install_readiness_plan_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-SelectedInputAssetInstallReadinessPlan.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-S3RuntimeTransferReadinessFile", $s3TransferReadinessFile, "-InputAssetS3BaseUri", "s3://example-bucket/model-cache/input-assets", "-OutFile", $selectedInputAssetInstallReadinessPlanFile, "-MarkdownOutFile", $selectedInputAssetInstallReadinessPlanMarkdown) `
+  -ExpectedOutputFile $selectedInputAssetInstallReadinessPlanFile
+
+$selectedModelCacheReadinessPlanFile = Join-Path $tempRoot "selected_model_cache_readiness_plan.json"
+$selectedModelCacheReadinessPlanMarkdown = Join-Path $tempRoot "selected_model_cache_readiness_plan.md"
+$localSmokeResults += Invoke-LocalHelper -Name "selected_model_cache_readiness_plan_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-SelectedModelCacheReadinessPlan.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-S3RuntimeTransferReadinessFile", $s3TransferReadinessFile, "-ModelCacheS3BaseUri", "s3://example-bucket/model-cache", "-OutFile", $selectedModelCacheReadinessPlanFile, "-MarkdownOutFile", $selectedModelCacheReadinessPlanMarkdown) `
+  -ExpectedOutputFile $selectedModelCacheReadinessPlanFile
+
+$selectedTargetRuntimeLiveExecutionRunbookFile = Join-Path $tempRoot "selected_target_runtime_live_execution_runbook.json"
+$selectedTargetRuntimeLiveExecutionRunbookMarkdown = Join-Path $tempRoot "selected_target_runtime_live_execution_runbook.md"
+$localSmokeResults += Invoke-LocalHelper -Name "selected_target_runtime_live_execution_runbook_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-SelectedTargetRuntimeLiveExecutionRunbook.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-OutFile", $selectedTargetRuntimeLiveExecutionRunbookFile, "-MarkdownOutFile", $selectedTargetRuntimeLiveExecutionRunbookMarkdown) `
+  -ExpectedOutputFile $selectedTargetRuntimeLiveExecutionRunbookFile
+
+$selectedTargetRuntimeExecutionReadinessSnapshotFile = Join-Path $tempRoot "selected_target_runtime_execution_readiness_snapshot.json"
+$selectedTargetRuntimeExecutionReadinessSnapshotMarkdown = Join-Path $tempRoot "selected_target_runtime_execution_readiness_snapshot.md"
+$localSmokeResults += Invoke-LocalHelper -Name "selected_target_runtime_execution_readiness_snapshot_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-SelectedTargetRuntimeExecutionReadinessSnapshot.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-LiveExecutionRunbookFile", $selectedTargetRuntimeLiveExecutionRunbookFile, "-OutFile", $selectedTargetRuntimeExecutionReadinessSnapshotFile, "-MarkdownOutFile", $selectedTargetRuntimeExecutionReadinessSnapshotMarkdown) `
+  -ExpectedOutputFile $selectedTargetRuntimeExecutionReadinessSnapshotFile
 
 $s3RuntimeConfigPlanFile = Join-Path $tempRoot "s3_runtime_config_plan.json"
 $s3RuntimeConfigPolicyDir = Join-Path $tempRoot "s3_runtime_config_plan_policies"

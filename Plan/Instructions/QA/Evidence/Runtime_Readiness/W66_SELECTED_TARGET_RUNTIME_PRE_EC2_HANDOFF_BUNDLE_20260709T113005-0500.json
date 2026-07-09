@@ -1,0 +1,518 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "selected_target_runtime_pre_ec2_handoff_bundle",
+    "created_at":  "2026-07-09T11:30:05-05:00",
+    "result":  "pass_local_only_selected_target_runtime_pre_ec2_handoff_bundle_ready_ec2_blocked",
+    "lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+    "selected_work_order_id":  "WO-W66-SDXL_REALVISXL_INPAINT_DETAIL_LANE-TARGET-RUNTIME-PROOF",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "s3_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "prompt_posted":  false,
+    "active_runtime_marker_written":  false,
+    "masks_consumed_as_truth":  false,
+    "masks_promoted":  false,
+    "wave70_hard_gate_rerun":  false,
+    "wave71_plus_activated":  false,
+    "full_project_certification_allowed":  false,
+    "target_runtime_launch_allowed":  false,
+    "execute_allowed_now":  false,
+    "target_runtime_plan":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_TARGET_RUNTIME_EXECUTION_PLAN_20260709T065516-0500.json",
+    "selected_package_readiness":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LANE_PACKAGE_READINESS_20260709T051227-0500.json",
+    "selected_launch_gate":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LAUNCH_GATE_POST_CHECKPOINT_20260709T110110-0500.json",
+    "package_deploy_matrix":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_PACKAGE_DEPLOY_MATRIX_20260709T053152-0500.json",
+    "selected_s3_publish_readiness":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_S3_PUBLISH_READINESS_PLAN_20260709T093656-0500.json",
+    "selected_input_asset_install_readiness":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_INPUT_ASSET_INSTALL_READINESS_PLAN_20260709T111309-0500.json",
+    "selected_model_cache_readiness":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_MODEL_CACHE_READINESS_PLAN_20260709T111928-0500.json",
+    "selected_model_s3_publish_dry_run":  "Plan/Instructions/QA/Evidence/Model_Registry/W66_SELECTED_MODEL_S3_PUBLISH_DRY_RUN_REALVISXL_20260709T112009-0500.json",
+    "selected_input_asset_source_s3_publish_dry_run":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_INPUT_ASSET_S3_PUBLISH_DRY_RUN_SOURCE_20260709T111255-0500.json",
+    "selected_input_asset_mask_s3_publish_dry_run":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_INPUT_ASSET_S3_PUBLISH_DRY_RUN_20260709T111245-0500.json",
+    "run_package_manifest":  "runtime_artifacts/g9_20260709T030509/r/sdxl_realvisxl_inpaint_detail_lane_ci_preflight/RUN_PACKAGE_MANIFEST.json",
+    "deploy_bundle_manifest":  "runtime_artifacts/g9_20260709T030509/d/sdxl_realvisxl_inpaint_detail_lane_ci_preflight/DEPLOY_BUNDLE_MANIFEST.json",
+    "deploy_bundle_zip":  "runtime_artifacts/g9_20260709T030509/d/sdxl_realvisxl_inpaint_detail_lane_ci_preflight/sdxl_realvisxl_inpaint_detail_lane_ci_preflight.zip",
+    "deploy_bundle_zip_sha256":  "583065c17d44ff5ec9d4a1e52c41ede8930dd63e5dc6adbc623af7d504bba70f",
+    "local_object_info_evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_OBJECT_INFO_INPAINT_DETAIL_MASKTOIMAGE_REFRESH_20260709T051205-0500.json",
+    "ready_for_s3_publish_after_rebuild":  false,
+    "ready_for_input_asset_publish":  true,
+    "ready_for_ec2_input_asset_install_execute":  false,
+    "ready_for_model_cache_publish":  true,
+    "ready_for_ec2_model_install_execute":  false,
+    "selected_input_asset_count":  2,
+    "selected_model_cache_count":  1,
+    "exact_blockers":  [
+                           "git_checkpoint_gate_not_clean_for_ec2_execute",
+                           "explicit_user_target_runtime_selection_required",
+                           "deploy_bundle_source_git_dirty_rebuild_required_before_ec2",
+                           "runtime_handoff_git_gate_not_passing",
+                           "target_runtime_or_final_certification_not_proven",
+                           "target_runtime_proof_evidence_missing",
+                           "queue_status_not_final_certified:local_runtime_smoke_visual_qa_pass_with_notes_plus_wave25_contact_refine_robustness_pass_with_notes_pending_target_runtime",
+                           "required_next_runtime_gate_still_requires_target_or_final_review",
+                           "manifest_scoped_checkpoint_not_yet_executed_clean",
+                           "selected_deploy_bundle_rebuild_not_completed",
+                           "selected_deploy_bundle_manifest_missing_until_rebuild",
+                           "selected_deploy_bundle_zip_missing_until_rebuild",
+                           "input_assets_not_yet_published_to_s3_for_selected_lane",
+                           "ec2_input_asset_install_execute_requires_explicit_intent",
+                           "model_not_yet_published_to_s3_for_selected_lane",
+                           "ec2_model_install_execute_requires_explicit_intent"
+                       ],
+    "allowed_local_recheck_step_count":  6,
+    "blocked_live_step_count":  7,
+    "allowed_local_recheck_steps":  [
+                                        {
+                                            "order":  2,
+                                            "name":  "closure_rollup_recheck",
+                                            "gate":  "before_any_ec2_execute",
+                                            "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Scripts\\New-ActiveRuntimeQueueFinalCertificationClosureRollup.ps1 -ProjectRoot C:\\Comfy_UI_Main -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_CLOSURE_ROLLUP_\u003ctimestamp\u003e.json",
+                                            "expected_evidence":  "remaining_local_ready_count=0 and selected target-runtime work order still open.",
+                                            "when_to_run":  "Before selecting the live lane if any work-order or done-certification evidence changed.",
+                                            "source_execute_allowed_now":  true,
+                                            "allowed_in_current_local_session":  true
+                                        },
+                                        {
+                                            "order":  3,
+                                            "name":  "git_checkpoint_recheck",
+                                            "gate":  "before_any_ec2_execute",
+                                            "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Invoke-GitHubCheckpoint.ps1 -ProjectRoot C:\\Comfy_UI_Main -Message \"pre-ec2 checkpoint gate dry run\" -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Git_Verification\\W66_GITHUB_CHECKPOINT_DRY_RUN_JSON_GATE_\u003ctimestamp\u003e.json",
+                                            "expected_evidence":  "result=pass_git_checkpoint_ready, clean_worktree=true, local_matches_origin=true, commit_attempted=false, push_attempted=false.",
+                                            "when_to_run":  "Immediately before any EC2 helper runs with -Execute.",
+                                            "source_execute_allowed_now":  true,
+                                            "allowed_in_current_local_session":  true
+                                        },
+                                        {
+                                            "order":  4,
+                                            "name":  "runtime_unblock_handoff_recheck",
+                                            "gate":  "before_any_ec2_execute",
+                                            "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\New-RuntimeUnblockHandoff.ps1 -ProjectRoot C:\\Comfy_UI_Main -LaneId sdxl_realvisxl_inpaint_detail_lane -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W66_RUNTIME_UNBLOCK_HANDOFF_sdxl_realvisxl_inpaint_detail_lane_\u003ctimestamp\u003e.json",
+                                            "expected_evidence":  "handoff records selected lane, active queue support, model registry coverage, Git checkpoint gate, and command sequence.",
+                                            "when_to_run":  "After explicit lane selection and before live runtime.",
+                                            "source_execute_allowed_now":  true,
+                                            "allowed_in_current_local_session":  true
+                                        },
+                                        {
+                                            "order":  5,
+                                            "name":  "active_runtime_queue_local_support_recheck",
+                                            "gate":  "before_any_ec2_execute",
+                                            "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Scripts\\Test-ActiveRuntimeQueueLocalSupportCertification.ps1 -ProjectRoot C:\\Comfy_UI_Main -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Done_Certifications\\W66_ACTIVE_RUNTIME_QUEUE_LOCAL_SUPPORT_CERTIFICATION_\u003ctimestamp\u003e.json",
+                                            "expected_evidence":  "result=pass_local_active_runtime_queue_support_certification, lane_count=9, defects=0.",
+                                            "when_to_run":  "Before target-runtime proof if queue files, lane exports, evidence paths, or local support certification changed.",
+                                            "source_execute_allowed_now":  true,
+                                            "allowed_in_current_local_session":  true
+                                        },
+                                        {
+                                            "order":  6,
+                                            "name":  "runtime_lane_queue_recheck",
+                                            "gate":  "before_any_ec2_execute",
+                                            "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Scripts\\Test-RuntimeLaneQueue.ps1 -ProjectRoot C:\\Comfy_UI_Main -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Prerequisite_Matching\\W66_RUNTIME_LANE_QUEUE_\u003ctimestamp\u003e.json",
+                                            "expected_evidence":  "result=pass_local_only, failed_check_count=0, selected lane remains in active queue.",
+                                            "when_to_run":  "Before EC2 static proof if queue files or evidence changed.",
+                                            "source_execute_allowed_now":  true,
+                                            "allowed_in_current_local_session":  true
+                                        },
+                                        {
+                                            "order":  7,
+                                            "name":  "model_registry_coverage_recheck",
+                                            "gate":  "before_any_ec2_execute",
+                                            "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Scripts\\Test-WorkflowModelRegistryCoverage.ps1 -ProjectRoot C:\\Comfy_UI_Main -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Model_Registry\\W66_MODEL_REGISTRY_COVERAGE_\u003ctimestamp\u003e.json",
+                                            "expected_evidence":  "result=pass_local_only and selected lane sdxl_realvisxl_inpaint_detail_lane has result=pass.",
+                                            "when_to_run":  "Before EC2 static proof if model registry, runtime requirements, or queue files changed.",
+                                            "source_execute_allowed_now":  true,
+                                            "allowed_in_current_local_session":  true
+                                        }
+                                    ],
+    "blocked_live_steps":  [
+                               {
+                                   "order":  1,
+                                   "name":  "explicit_target_runtime_selection",
+                                   "gate":  "manual_selection_required",
+                                   "command":  "User selects target-runtime proof for lane sdxl_realvisxl_inpaint_detail_lane and confirms EC2 live-window intent.",
+                                   "expected_evidence":  "A current user instruction explicitly selects this lane and target-runtime task.",
+                                   "when_to_run":  "Before any live upload, marker write, EC2 static proof, or workflow smoke.",
+                                   "source_execute_allowed_now":  false,
+                                   "allowed_in_current_local_session":  false
+                               },
+                               {
+                                   "order":  8,
+                                   "name":  "lane_runtime_readiness_recheck",
+                                   "gate":  "auth_gate_safe_to_start_ec2_true",
+                                   "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Test-LaneRuntimeReadiness.ps1 -ProjectRoot C:\\Comfy_UI_Main -LaneId sdxl_realvisxl_inpaint_detail_lane -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W66_LANE_RUNTIME_READINESS_sdxl_realvisxl_inpaint_detail_lane_\u003ctimestamp\u003e.json",
+                                   "expected_evidence":  "lane_id=sdxl_realvisxl_inpaint_detail_lane and ready_for_ec2_static_proof=true.",
+                                   "when_to_run":  "Only after AWS auth gate reports safe_to_start_ec2=true.",
+                                   "source_execute_allowed_now":  false,
+                                   "allowed_in_current_local_session":  false
+                               },
+                               {
+                                   "order":  9,
+                                   "name":  "deploy_bundle_build",
+                                   "gate":  "before_ec2_sync_or_execute",
+                                   "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\tools\\New-EC2DeployBundle.ps1 -ProjectRoot C:\\Comfy_UI_Main -LaneId sdxl_realvisxl_inpaint_detail_lane -RunPackageManifestFile \u003crun-package-manifest\u003e",
+                                   "expected_evidence":  "DEPLOY_BUNDLE_MANIFEST.json and bundle zip created while EC2 is stopped.",
+                                   "when_to_run":  "After a current run package is selected for the lane.",
+                                   "source_execute_allowed_now":  false,
+                                   "allowed_in_current_local_session":  false
+                               },
+                               {
+                                   "order":  10,
+                                   "name":  "deploy_bundle_s3_publish",
+                                   "gate":  "before_ec2_sync_or_execute",
+                                   "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Publish-DeployBundleToS3.ps1 -BundleManifestFile \u003cdeploy-bundle-manifest\u003e -S3BaseUri s3://\u003cbucket\u003e/\u003cdeploy-bundle-prefix\u003e",
+                                   "expected_evidence":  "s3_bundle_uri and bundle_zip_sha256 recorded before EC2 starts.",
+                                   "when_to_run":  "Add -Execute only after explicit live-window selection, AWS auth, and S3 permission gates pass.",
+                                   "source_execute_allowed_now":  false,
+                                   "allowed_in_current_local_session":  false
+                               },
+                               {
+                                   "order":  11,
+                                   "name":  "active_runtime_marker_plan_or_write",
+                                   "gate":  "after_all_pre_ec2_gates_pass",
+                                   "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\New-EC2RuntimeWindowMarkerPlan.ps1 -ProjectRoot C:\\Comfy_UI_Main -LaneId sdxl_realvisxl_inpaint_detail_lane -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W66_EC2_RUNTIME_WINDOW_MARKER_PLAN_\u003ctimestamp\u003e.json",
+                                   "expected_evidence":  "Dry-run marker plan or explicit marker write evidence only after all gates pass.",
+                                   "when_to_run":  "Do not write ACTIVE_EC2_RUNTIME_WINDOW.json until the live window is actually selected.",
+                                   "source_execute_allowed_now":  false,
+                                   "allowed_in_current_local_session":  false
+                               },
+                               {
+                                   "order":  12,
+                                   "name":  "ec2_static_proof_execute",
+                                   "gate":  "ready_for_ec2_static_proof_true",
+                                   "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_realvisxl_inpaint_detail_lane -Execute -SkipGitLfsPull -DeployBundleS3Uri \u003cs3-bundle-uri\u003e -DeployBundleSha256 \u003cbundle-sha256\u003e -MaxEc2RuntimeMinutes 25 -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Static_Validation\\W66_EC2_LANE_STATIC_PROOF_sdxl_realvisxl_inpaint_detail_lane_\u003ctimestamp\u003e.json",
+                                   "expected_evidence":  "object_info, checkpoint path/hash, lane match, S3 bundle verification, and final EC2 stopped state.",
+                                   "when_to_run":  "Only after explicit selection, clean Git gate, AWS auth, queue/model/readiness gates, S3 bundle proof, and emergency stop are all proven.",
+                                   "source_execute_allowed_now":  false,
+                                   "allowed_in_current_local_session":  false
+                               },
+                               {
+                                   "order":  13,
+                                   "name":  "workflow_smoke_execute",
+                                   "gate":  "ec2_static_proof_passed",
+                                   "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Invoke-EC2WorkflowSmokeRun.ps1 -LaneId sdxl_realvisxl_inpaint_detail_lane -Execute -SkipGitLfsPull -DeployBundleS3Uri \u003cs3-bundle-uri\u003e -DeployBundleSha256 \u003cbundle-sha256\u003e -MaxEc2RuntimeMinutes 45 -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Runtime\\W66_EC2_WORKFLOW_SMOKE_sdxl_realvisxl_inpaint_detail_lane_\u003ctimestamp\u003e.json",
+                                   "expected_evidence":  "bounded generation, artifact pullback plan, technical QA, visual QA, and final EC2 stopped state.",
+                                   "when_to_run":  "Only after EC2 static proof passes for the selected lane.",
+                                   "source_execute_allowed_now":  false,
+                                   "allowed_in_current_local_session":  false
+                               }
+                           ],
+    "command_steps":  [
+                          {
+                              "order":  1,
+                              "name":  "explicit_target_runtime_selection",
+                              "gate":  "manual_selection_required",
+                              "command":  "User selects target-runtime proof for lane sdxl_realvisxl_inpaint_detail_lane and confirms EC2 live-window intent.",
+                              "expected_evidence":  "A current user instruction explicitly selects this lane and target-runtime task.",
+                              "when_to_run":  "Before any live upload, marker write, EC2 static proof, or workflow smoke.",
+                              "source_execute_allowed_now":  false,
+                              "allowed_in_current_local_session":  false
+                          },
+                          {
+                              "order":  2,
+                              "name":  "closure_rollup_recheck",
+                              "gate":  "before_any_ec2_execute",
+                              "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Scripts\\New-ActiveRuntimeQueueFinalCertificationClosureRollup.ps1 -ProjectRoot C:\\Comfy_UI_Main -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_CLOSURE_ROLLUP_\u003ctimestamp\u003e.json",
+                              "expected_evidence":  "remaining_local_ready_count=0 and selected target-runtime work order still open.",
+                              "when_to_run":  "Before selecting the live lane if any work-order or done-certification evidence changed.",
+                              "source_execute_allowed_now":  true,
+                              "allowed_in_current_local_session":  true
+                          },
+                          {
+                              "order":  3,
+                              "name":  "git_checkpoint_recheck",
+                              "gate":  "before_any_ec2_execute",
+                              "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Invoke-GitHubCheckpoint.ps1 -ProjectRoot C:\\Comfy_UI_Main -Message \"pre-ec2 checkpoint gate dry run\" -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Git_Verification\\W66_GITHUB_CHECKPOINT_DRY_RUN_JSON_GATE_\u003ctimestamp\u003e.json",
+                              "expected_evidence":  "result=pass_git_checkpoint_ready, clean_worktree=true, local_matches_origin=true, commit_attempted=false, push_attempted=false.",
+                              "when_to_run":  "Immediately before any EC2 helper runs with -Execute.",
+                              "source_execute_allowed_now":  true,
+                              "allowed_in_current_local_session":  true
+                          },
+                          {
+                              "order":  4,
+                              "name":  "runtime_unblock_handoff_recheck",
+                              "gate":  "before_any_ec2_execute",
+                              "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\New-RuntimeUnblockHandoff.ps1 -ProjectRoot C:\\Comfy_UI_Main -LaneId sdxl_realvisxl_inpaint_detail_lane -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W66_RUNTIME_UNBLOCK_HANDOFF_sdxl_realvisxl_inpaint_detail_lane_\u003ctimestamp\u003e.json",
+                              "expected_evidence":  "handoff records selected lane, active queue support, model registry coverage, Git checkpoint gate, and command sequence.",
+                              "when_to_run":  "After explicit lane selection and before live runtime.",
+                              "source_execute_allowed_now":  true,
+                              "allowed_in_current_local_session":  true
+                          },
+                          {
+                              "order":  5,
+                              "name":  "active_runtime_queue_local_support_recheck",
+                              "gate":  "before_any_ec2_execute",
+                              "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Scripts\\Test-ActiveRuntimeQueueLocalSupportCertification.ps1 -ProjectRoot C:\\Comfy_UI_Main -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Done_Certifications\\W66_ACTIVE_RUNTIME_QUEUE_LOCAL_SUPPORT_CERTIFICATION_\u003ctimestamp\u003e.json",
+                              "expected_evidence":  "result=pass_local_active_runtime_queue_support_certification, lane_count=9, defects=0.",
+                              "when_to_run":  "Before target-runtime proof if queue files, lane exports, evidence paths, or local support certification changed.",
+                              "source_execute_allowed_now":  true,
+                              "allowed_in_current_local_session":  true
+                          },
+                          {
+                              "order":  6,
+                              "name":  "runtime_lane_queue_recheck",
+                              "gate":  "before_any_ec2_execute",
+                              "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Scripts\\Test-RuntimeLaneQueue.ps1 -ProjectRoot C:\\Comfy_UI_Main -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Prerequisite_Matching\\W66_RUNTIME_LANE_QUEUE_\u003ctimestamp\u003e.json",
+                              "expected_evidence":  "result=pass_local_only, failed_check_count=0, selected lane remains in active queue.",
+                              "when_to_run":  "Before EC2 static proof if queue files or evidence changed.",
+                              "source_execute_allowed_now":  true,
+                              "allowed_in_current_local_session":  true
+                          },
+                          {
+                              "order":  7,
+                              "name":  "model_registry_coverage_recheck",
+                              "gate":  "before_any_ec2_execute",
+                              "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Scripts\\Test-WorkflowModelRegistryCoverage.ps1 -ProjectRoot C:\\Comfy_UI_Main -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Model_Registry\\W66_MODEL_REGISTRY_COVERAGE_\u003ctimestamp\u003e.json",
+                              "expected_evidence":  "result=pass_local_only and selected lane sdxl_realvisxl_inpaint_detail_lane has result=pass.",
+                              "when_to_run":  "Before EC2 static proof if model registry, runtime requirements, or queue files changed.",
+                              "source_execute_allowed_now":  true,
+                              "allowed_in_current_local_session":  true
+                          },
+                          {
+                              "order":  8,
+                              "name":  "lane_runtime_readiness_recheck",
+                              "gate":  "auth_gate_safe_to_start_ec2_true",
+                              "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Test-LaneRuntimeReadiness.ps1 -ProjectRoot C:\\Comfy_UI_Main -LaneId sdxl_realvisxl_inpaint_detail_lane -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W66_LANE_RUNTIME_READINESS_sdxl_realvisxl_inpaint_detail_lane_\u003ctimestamp\u003e.json",
+                              "expected_evidence":  "lane_id=sdxl_realvisxl_inpaint_detail_lane and ready_for_ec2_static_proof=true.",
+                              "when_to_run":  "Only after AWS auth gate reports safe_to_start_ec2=true.",
+                              "source_execute_allowed_now":  false,
+                              "allowed_in_current_local_session":  false
+                          },
+                          {
+                              "order":  9,
+                              "name":  "deploy_bundle_build",
+                              "gate":  "before_ec2_sync_or_execute",
+                              "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\tools\\New-EC2DeployBundle.ps1 -ProjectRoot C:\\Comfy_UI_Main -LaneId sdxl_realvisxl_inpaint_detail_lane -RunPackageManifestFile \u003crun-package-manifest\u003e",
+                              "expected_evidence":  "DEPLOY_BUNDLE_MANIFEST.json and bundle zip created while EC2 is stopped.",
+                              "when_to_run":  "After a current run package is selected for the lane.",
+                              "source_execute_allowed_now":  false,
+                              "allowed_in_current_local_session":  false
+                          },
+                          {
+                              "order":  10,
+                              "name":  "deploy_bundle_s3_publish",
+                              "gate":  "before_ec2_sync_or_execute",
+                              "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Publish-DeployBundleToS3.ps1 -BundleManifestFile \u003cdeploy-bundle-manifest\u003e -S3BaseUri s3://\u003cbucket\u003e/\u003cdeploy-bundle-prefix\u003e",
+                              "expected_evidence":  "s3_bundle_uri and bundle_zip_sha256 recorded before EC2 starts.",
+                              "when_to_run":  "Add -Execute only after explicit live-window selection, AWS auth, and S3 permission gates pass.",
+                              "source_execute_allowed_now":  false,
+                              "allowed_in_current_local_session":  false
+                          },
+                          {
+                              "order":  11,
+                              "name":  "active_runtime_marker_plan_or_write",
+                              "gate":  "after_all_pre_ec2_gates_pass",
+                              "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\New-EC2RuntimeWindowMarkerPlan.ps1 -ProjectRoot C:\\Comfy_UI_Main -LaneId sdxl_realvisxl_inpaint_detail_lane -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W66_EC2_RUNTIME_WINDOW_MARKER_PLAN_\u003ctimestamp\u003e.json",
+                              "expected_evidence":  "Dry-run marker plan or explicit marker write evidence only after all gates pass.",
+                              "when_to_run":  "Do not write ACTIVE_EC2_RUNTIME_WINDOW.json until the live window is actually selected.",
+                              "source_execute_allowed_now":  false,
+                              "allowed_in_current_local_session":  false
+                          },
+                          {
+                              "order":  12,
+                              "name":  "ec2_static_proof_execute",
+                              "gate":  "ready_for_ec2_static_proof_true",
+                              "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_realvisxl_inpaint_detail_lane -Execute -SkipGitLfsPull -DeployBundleS3Uri \u003cs3-bundle-uri\u003e -DeployBundleSha256 \u003cbundle-sha256\u003e -MaxEc2RuntimeMinutes 25 -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Static_Validation\\W66_EC2_LANE_STATIC_PROOF_sdxl_realvisxl_inpaint_detail_lane_\u003ctimestamp\u003e.json",
+                              "expected_evidence":  "object_info, checkpoint path/hash, lane match, S3 bundle verification, and final EC2 stopped state.",
+                              "when_to_run":  "Only after explicit selection, clean Git gate, AWS auth, queue/model/readiness gates, S3 bundle proof, and emergency stop are all proven.",
+                              "source_execute_allowed_now":  false,
+                              "allowed_in_current_local_session":  false
+                          },
+                          {
+                              "order":  13,
+                              "name":  "workflow_smoke_execute",
+                              "gate":  "ec2_static_proof_passed",
+                              "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Invoke-EC2WorkflowSmokeRun.ps1 -LaneId sdxl_realvisxl_inpaint_detail_lane -Execute -SkipGitLfsPull -DeployBundleS3Uri \u003cs3-bundle-uri\u003e -DeployBundleSha256 \u003cbundle-sha256\u003e -MaxEc2RuntimeMinutes 45 -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Runtime\\W66_EC2_WORKFLOW_SMOKE_sdxl_realvisxl_inpaint_detail_lane_\u003ctimestamp\u003e.json",
+                              "expected_evidence":  "bounded generation, artifact pullback plan, technical QA, visual QA, and final EC2 stopped state.",
+                              "when_to_run":  "Only after EC2 static proof passes for the selected lane.",
+                              "source_execute_allowed_now":  false,
+                              "allowed_in_current_local_session":  false
+                          }
+                      ],
+    "checks":  [
+                   {
+                       "name":  "target_plan_is_latest_authority_for_selected_inpaint_lane",
+                       "result":  "pass",
+                       "observed":  {
+                                        "result":  "blocked_target_runtime_execution_plan_waiting_for_explicit_selection_and_clean_git",
+                                        "lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+                                        "work_order_id":  "WO-W66-SDXL_REALVISXL_INPAINT_DETAIL_LANE-TARGET-RUNTIME-PROOF",
+                                        "execute_allowed_now":  false
+                                    },
+                       "expected":  "latest target plan selects blocked inpaint target-runtime proof"
+                   },
+                   {
+                       "name":  "selected_package_ready_but_execution_blocked",
+                       "result":  "pass",
+                       "observed":  {
+                                        "lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+                                        "package_readiness_pass":  true,
+                                        "target_runtime_execution_allowed":  false,
+                                        "failed_check_count":  0
+                                    },
+                       "expected":  "selected package is locally ready but does not authorize execution"
+                   },
+                   {
+                       "name":  "launch_gate_blocks_target_runtime_launch",
+                       "result":  "pass",
+                       "observed":  {
+                                        "lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+                                        "local_package_ready":  true,
+                                        "target_runtime_launch_allowed":  false,
+                                        "failed_check_count":  0
+                                    },
+                       "expected":  "launch gate blocks target runtime while package is locally ready"
+                   },
+                   {
+                       "name":  "package_deploy_matrix_has_selected_lane_dirty_bundle",
+                       "result":  "pass",
+                       "observed":  {
+                                        "selected_row_found":  true,
+                                        "lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+                                        "local_package_deploy_ready":  true,
+                                        "target_runtime_launch_allowed":  false,
+                                        "source_git_clean_in_bundle":  false
+                                    },
+                       "expected":  "selected lane exists in package/deploy matrix with dirty source launch blocker"
+                   },
+                   {
+                       "name":  "selected_s3_publish_waits_for_clean_rebuild",
+                       "result":  "pass",
+                       "observed":  {
+                                        "result":  "blocked_selected_s3_publish_readiness_waiting_for_clean_rebuild",
+                                        "selected_lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+                                        "s3_runtime_transfer_ready_local_only":  true,
+                                        "selected_rebuild_ready_after_clean_checkpoint":  true,
+                                        "selected_rebuild_current_git_clean":  false,
+                                        "ready_for_s3_publish_after_rebuild":  false
+                                    },
+                       "expected":  "deploy bundle S3 publish remains blocked until clean checkpoint and clean rebuild"
+                   },
+                   {
+                       "name":  "selected_input_assets_publish_ready_install_execute_blocked",
+                       "result":  "pass",
+                       "observed":  {
+                                        "result":  "blocked_selected_input_asset_install_readiness_waiting_for_s3_publish_and_live_gates",
+                                        "selected_lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+                                        "selected_work_order_id":  "WO-W66-SDXL_REALVISXL_INPAINT_DETAIL_LANE-TARGET-RUNTIME-PROOF",
+                                        "ready_for_input_asset_publish":  true,
+                                        "ready_for_ec2_input_asset_install_execute":  false,
+                                        "input_asset_local_hash_all_pass":  true,
+                                        "required_input_asset_count":  2
+                                    },
+                       "expected":  "selected input assets are hash-verified and publish-ready, but EC2 install execute is blocked"
+                   },
+                   {
+                       "name":  "selected_model_cache_publish_ready_install_execute_blocked",
+                       "result":  "pass",
+                       "observed":  {
+                                        "result":  "blocked_selected_model_cache_readiness_waiting_for_s3_publish_and_live_gates",
+                                        "selected_lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+                                        "selected_work_order_id":  "WO-W66-SDXL_REALVISXL_INPAINT_DETAIL_LANE-TARGET-RUNTIME-PROOF",
+                                        "ready_for_model_cache_publish":  true,
+                                        "ready_for_ec2_model_install_execute":  false,
+                                        "model_local_hash_all_pass_from_object_info":  true,
+                                        "required_model_count":  1
+                                    },
+                       "expected":  "RealVisXL model cache is hash-verified and publish-ready, but EC2 install execute is blocked"
+                   },
+                   {
+                       "name":  "selected_model_s3_dry_run_hash_verified_no_live_contact",
+                       "result":  "pass",
+                       "observed":  {
+                                        "result":  "dry_run_ready_to_upload_model",
+                                        "file_name":  "realvisxlV50_v50Bakedvae.safetensors",
+                                        "local_only":  true,
+                                        "aws_contacted":  false,
+                                        "s3_contacted":  false,
+                                        "git_lfs_used":  false,
+                                        "local_hash_match":  true,
+                                        "expected_sha256":  "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+                                        "observed_sha256":  "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80"
+                                    },
+                       "expected":  "RealVisXL model S3 publish dry-run is hash-verified and made no live contact"
+                   },
+                   {
+                       "name":  "selected_input_asset_s3_dry_runs_hash_verified_no_live_contact",
+                       "result":  "pass",
+                       "observed":  {
+                                        "source":  {
+                                                       "result":  "dry_run_ready_to_upload_input_asset",
+                                                       "file_name":  "sdxl_inpaint_detail_source_canny_v1.png",
+                                                       "local_only":  true,
+                                                       "aws_contacted":  false,
+                                                       "s3_contacted":  false,
+                                                       "local_hash_match":  true,
+                                                       "expected_sha256":  "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523",
+                                                       "observed_sha256":  "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523"
+                                                   },
+                                        "mask":  {
+                                                     "result":  "dry_run_ready_to_upload_input_asset",
+                                                     "file_name":  "sdxl_inpaint_detail_micro_nomouth_v4.png",
+                                                     "local_only":  true,
+                                                     "aws_contacted":  false,
+                                                     "s3_contacted":  false,
+                                                     "local_hash_match":  true,
+                                                     "expected_sha256":  "9bfbbda24b0f4915282649bb8c2b3e5a39b5a057dacbce6278683e9b531ec92d",
+                                                     "observed_sha256":  "9bfbbda24b0f4915282649bb8c2b3e5a39b5a057dacbce6278683e9b531ec92d"
+                                                 }
+                                    },
+                       "expected":  "both selected input asset S3 publish dry-runs are hash-verified and made no live contact"
+                   },
+                   {
+                       "name":  "handoff_command_partition_is_fail_closed",
+                       "result":  "pass",
+                       "observed":  {
+                                        "allowed_local_recheck_count":  6,
+                                        "blocked_live_step_count":  7,
+                                        "missing_allowed_local_steps":  [
+
+                                                                        ],
+                                        "missing_live_blocked_steps":  [
+
+                                                                       ],
+                                        "unexpected_allowed_live_steps":  [
+
+                                                                          ]
+                                    },
+                       "expected":  "six local rechecks allowed and all seven live/marker/S3/EC2/generation steps blocked"
+                   },
+                   {
+                       "name":  "required_blockers_are_preserved",
+                       "result":  "pass",
+                       "observed":  {
+                                        "required_blockers":  [
+                                                                  "explicit_user_target_runtime_selection_required",
+                                                                  "git_checkpoint_gate_not_clean_for_ec2_execute",
+                                                                  "deploy_bundle_source_git_dirty_rebuild_required_before_ec2"
+                                                              ],
+                                        "missing_required_blockers":  [
+
+                                                                      ],
+                                        "exact_blockers":  [
+                                                               "git_checkpoint_gate_not_clean_for_ec2_execute",
+                                                               "explicit_user_target_runtime_selection_required",
+                                                               "deploy_bundle_source_git_dirty_rebuild_required_before_ec2",
+                                                               "runtime_handoff_git_gate_not_passing",
+                                                               "target_runtime_or_final_certification_not_proven",
+                                                               "target_runtime_proof_evidence_missing",
+                                                               "queue_status_not_final_certified:local_runtime_smoke_visual_qa_pass_with_notes_plus_wave25_contact_refine_robustness_pass_with_notes_pending_target_runtime",
+                                                               "required_next_runtime_gate_still_requires_target_or_final_review",
+                                                               "manifest_scoped_checkpoint_not_yet_executed_clean",
+                                                               "selected_deploy_bundle_rebuild_not_completed",
+                                                               "selected_deploy_bundle_manifest_missing_until_rebuild",
+                                                               "selected_deploy_bundle_zip_missing_until_rebuild",
+                                                               "input_assets_not_yet_published_to_s3_for_selected_lane",
+                                                               "ec2_input_asset_install_execute_requires_explicit_intent",
+                                                               "model_not_yet_published_to_s3_for_selected_lane",
+                                                               "ec2_model_install_execute_requires_explicit_intent"
+                                                           ]
+                                    },
+                       "expected":  "explicit selection, dirty Git, and dirty bundle blockers preserved"
+                   }
+               ],
+    "failed_check_count":  0,
+    "handoff_boundary":  "Local pre-EC2 handoff bundle only. Allowed local rechecks are listed, but live upload, S3 publish with Execute, marker write, EC2 start, prompt post, generation, final certification, mask promotion, Wave70 hard-gate rerun, Jira bookkeeping, and Wave71+ activation remain blocked.",
+    "next_action":  "Keep EC2 stopped. Use this bundle as the selected inpaint target-runtime handoff anchor only after explicit live-window selection; then rerun the allowed local rechecks, require a clean Git checkpoint, rebuild or revalidate the deploy bundle from that clean checkpoint, publish the selected deploy bundle, input assets, and RealVisXL model through explicit Execute-only S3 steps, and proceed to EC2 install/launch only after all live gates pass."
+}

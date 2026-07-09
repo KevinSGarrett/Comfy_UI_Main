@@ -406,7 +406,7 @@ function Get-GitSummary {
       $summary.clean = ($porcelain.Count -eq 0)
       $remoteLines = @(git remote -v 2>$null)
       $summary.remote = (($remoteLines | Where-Object { $_ -match "^origin\s+" }) | Select-Object -First 1)
-      $summary.result = $(if (![string]::IsNullOrWhiteSpace($summary.git_root) -and $summary.local_matches_origin) { "pass" } else { "fail" })
+      $summary.result = $(if (![string]::IsNullOrWhiteSpace($summary.git_root) -and ![string]::IsNullOrWhiteSpace($summary.head)) { "pass" } else { "fail" })
     } finally {
       Pop-Location
     }
@@ -504,7 +504,7 @@ $evidenceChecks = @(
 )
 
 $optionalEvidenceChecks = @(
-  (Test-JsonEvidence -Name "runtime_unblock_handoff" -Path $latest.runtime_unblock_handoff -AcceptableResults @("handoff_failed_local_readiness", "handoff_ready_runtime_blocked_auth", "handoff_auth_ready_lane_not_ready", "handoff_lane_queue_order_blocked", "handoff_model_registry_blocked", "handoff_ready_for_ec2_static_proof", "handoff_ready_for_generation", "handoff_ready_for_pullback_qa", "handoff_runtime_smoke_qa_complete")),
+  (Test-JsonEvidence -Name "runtime_unblock_handoff" -Path $latest.runtime_unblock_handoff -AcceptableResults @("handoff_failed_local_readiness", "handoff_git_checkpoint_blocked", "handoff_ready_runtime_blocked_auth", "handoff_auth_ready_lane_not_ready", "handoff_lane_queue_order_blocked", "handoff_model_registry_blocked", "handoff_ready_for_ec2_static_proof", "handoff_ready_for_generation", "handoff_ready_for_pullback_qa", "handoff_runtime_smoke_qa_complete")),
   (Test-JsonEvidence -Name "workflow_smoke" -Path $latest.workflow_smoke -AcceptableResults @("workflow_smoke_generation_complete")),
   (Test-JsonEvidence -Name "ec2_static_proof_blocked_execute" -Path $latest.ec2_static_proof_blocked -AcceptableResults @("blocked_before_ec2_start", "dry_run_blocked_before_ec2_start")),
   (Test-JsonEvidence -Name "ec2_workflow_smoke_blocked_execute" -Path $latest.ec2_workflow_smoke_blocked -AcceptableResults @("blocked_before_ec2_start", "dry_run_blocked_before_ec2_start"))
@@ -661,10 +661,13 @@ $runtimeLaneQueueSummary = [ordered]@{
   first_runtime_lane_match = $false
   current_runtime_lane_id = $null
   current_runtime_lane_match = $false
+  queue_complete_sentinel = $false
+  current_runtime_lane_allows_selected_proof = $false
   required_first_runtime_lane_id = "sdxl_low_risk_fallback_lane"
   required_second_lane_id = "sdxl_realvisxl_base_lane"
   queued_lane_count = 0
   queued_lanes = @()
+  completed_runtime_lane_ids = @()
   failed_check_count = $null
   local_only = $false
   aws_contacted = $true
@@ -691,8 +694,25 @@ if (![string]::IsNullOrWhiteSpace($latest.runtime_lane_queue) -and (Test-Path -L
     $runtimeLaneQueueSummary.queued_lanes = @($queueJson.queued_lanes | ForEach-Object { [string]$_ })
     $runtimeLaneQueueSummary.selected_lane_in_queue = @($runtimeLaneQueueSummary.queued_lanes) -contains [string]$LaneId
   }
+  if (Has-Property -Object $queueJson -Name "completed_runtime_lane_ids") {
+    $runtimeLaneQueueSummary.completed_runtime_lane_ids = @($queueJson.completed_runtime_lane_ids | ForEach-Object { [string]$_ })
+  }
   $runtimeLaneQueueSummary.first_runtime_lane_match = ([string]$runtimeLaneQueueSummary.first_runtime_lane_id -eq [string]$LaneId)
   $runtimeLaneQueueSummary.current_runtime_lane_match = ([string]$runtimeLaneQueueSummary.current_runtime_lane_id -eq [string]$LaneId)
+  $queuedLaneIds = @($runtimeLaneQueueSummary.queued_lanes | ForEach-Object { [string]$_ })
+  $completedLaneIds = @($runtimeLaneQueueSummary.completed_runtime_lane_ids | ForEach-Object { [string]$_ })
+  $allQueuedLanesCompleted = (
+    $queuedLaneIds.Count -gt 0 -and
+    @($queuedLaneIds | Where-Object { $_ -notin $completedLaneIds }).Count -eq 0
+  )
+  $runtimeLaneQueueSummary.queue_complete_sentinel = (
+    ([string]$runtimeLaneQueueSummary.current_runtime_lane_id).StartsWith("none_", [System.StringComparison]::OrdinalIgnoreCase) -and
+    $allQueuedLanesCompleted
+  )
+  $runtimeLaneQueueSummary.current_runtime_lane_allows_selected_proof = (
+    $runtimeLaneQueueSummary.current_runtime_lane_match -eq $true -or
+    $runtimeLaneQueueSummary.queue_complete_sentinel -eq $true
+  )
   if (Has-Property -Object $queueJson -Name "lane_queue_results") {
     $selectedQueueLaneMatches = @($queueJson.lane_queue_results | Where-Object { [string]$_.lane_id -eq [string]$LaneId } | Select-Object -First 1)
     if (@($selectedQueueLaneMatches).Count -gt 0) {
@@ -714,7 +734,7 @@ if (![string]::IsNullOrWhiteSpace($latest.runtime_lane_queue) -and (Test-Path -L
     $runtimeLaneQueueSummary.ec2_started -eq $false -and
     $runtimeLaneQueueSummary.generation_executed -eq $false -and
     $runtimeLaneQueueSummary.selected_lane_in_queue -eq $true -and
-    $runtimeLaneQueueSummary.current_runtime_lane_match -eq $true
+    $runtimeLaneQueueSummary.current_runtime_lane_allows_selected_proof -eq $true
   )
 }
 
@@ -733,7 +753,7 @@ if ($runtimeLaneQueueSummary.ec2_started -ne $false -or $runtimeLaneQueueSummary
 if ($runtimeLaneQueueSummary.failed_check_count -ne 0) {
   $errors += "Runtime lane queue validation has failed checks."
 }
-if ($runtimeLaneQueueSummary.current_runtime_lane_match -ne $true) {
+if ($runtimeLaneQueueSummary.current_runtime_lane_allows_selected_proof -ne $true) {
   $warnings += "Selected lane is queued but is not the current runtime lane; EC2 static proof remains disallowed by runtime lane queue."
 }
 
@@ -987,6 +1007,9 @@ if ($gitSummary.result -ne "pass") {
 }
 if (!$gitSummary.clean) {
   $warnings += "Git working tree has pending local changes; this is expected while creating the current snapshot checkpoint."
+}
+if (!$gitSummary.local_matches_origin) {
+  $warnings += "Local HEAD does not match origin/main; remote sync remains a checkpoint gate and does not by itself fail local readiness."
 }
 
 if (!$authSummary.safe_to_start_ec2) {

@@ -1,3 +1,115 @@
+## Current Pursuing Goal Update - Local Source Of Truth / EC2 Stale Workspace Guard Active - 2026-07-09T12:28:07-05:00
+
+The active pursuing goal remains selected local-first ComfyUI runtime/orchestration progress from local `C:\Comfy_UI_Main`. The EC2 copy `/home/ubuntu/Comfy_UI_Main` is not planning authority because inspection found it stale against local 2026-07-09 readiness/queue state.
+
+Current boundary: use `Plan/Instructions/LOCAL_SOURCE_OF_TRUTH_AND_EC2_STALE_WORKSPACE_PROTOCOL.md` before runtime, EC2, S3, deploy-bundle, artifact pullback, Items, Tracker, or hydration steering. Evidence is recorded at `Plan/Instructions/QA/Evidence/Runtime_Readiness/LOCAL_SOURCE_OF_TRUTH_EC2_STALE_WORKSPACE_BOUNDARY_20260709T122807-0500.json` and mirrored under Tracker evidence.
+
+Do not duplicate completed low-risk fallback, RealVisXL base, Canny baseline/v4, prior RealVisXL certification sample, or 2026-07-09 local package smoke/visual QA work. Valid future work remains selected-inpaint deploy-bundle rebuild/revalidation, S3 publish proof, EC2 input/model install hash proof, selected target-runtime proof, and final certification after local gates pass.
+
+## Current Pursuing Goal Update - Selected Deploy Bundle Rebuild Plan Refreshed - 2026-07-09T12:24:49-05:00
+
+The active pursuing goal remains the transferred end-to-end ComfyUI project objective in this session (`019f422f-88b1-7382-872b-21de2089e983`). Current work posture remains local-first non-mask runtime/orchestration while manual gold masks are still outside Codex-controlled promotion authority.
+
+Latest concrete progress: generated the selected deploy-bundle rebuild plan for `sdxl_realvisxl_inpaint_detail_lane` from the current selected runtime state. The plan captures the exact rebuild command and post-rebuild checks but keeps the actual rebuild blocked until the manifest-scoped checkpoint is clean and explicitly selected.
+
+Current evidence:
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_DEPLOY_BUNDLE_REBUILD_PLAN_QUEUE_SENTINEL_20260709T122447-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_DEPLOY_BUNDLE_REBUILD_PLAN_QUEUE_SENTINEL_20260709T122447-0500.md
+- Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_AFTER_SELECTED_DEPLOY_BUNDLE_REBUILD_PLAN_QUEUE_SENTINEL_20260709T122448-0500.json
+- Mirrored copies under Plan/Tracker/Evidence
+
+Boundary: selected live execution remains not authorized. The rebuild plan is ready after clean checkpoint only; no deploy bundle rebuild, S3 publish, EC2 start, or generation occurred.
+
+## Current Pursuing Goal Update - Selected Inpaint Queue Sentinel Readiness Proven - 2026-07-09T12:20:10-05:00
+
+The active pursuing goal remains the transferred end-to-end ComfyUI project objective in this session (`019f422f-88b1-7382-872b-21de2089e983`). Current work posture remains local-first non-mask runtime/orchestration while manual gold masks are still outside Codex-controlled promotion authority.
+
+Latest concrete progress: patched selected project readiness so a completed runtime-lane queue sentinel allows the selected inpaint lane to advance to EC2 static-proof readiness without falsely failing on the queue state. The runbook and consolidated execution-readiness snapshot were regenerated from that corrected gate.
+
+Current evidence:
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_PROJECT_READINESS_SNAPSHOT_SELECTED_INPAINT_QUEUE_SENTINEL_20260709T121857-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LIVE_EXECUTION_RUNBOOK_QUEUE_SENTINEL_20260709T121958-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LIVE_EXECUTION_RUNBOOK_QUEUE_SENTINEL_20260709T121958-0500.md
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_EXECUTION_READINESS_SNAPSHOT_QUEUE_SENTINEL_20260709T122009-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_EXECUTION_READINESS_SNAPSHOT_QUEUE_SENTINEL_20260709T122009-0500.md
+- Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_AFTER_PROJECT_READINESS_QUEUE_SENTINEL_20260709T122010-0500.json
+- Mirrored copies under Plan/Tracker/Evidence
+
+Boundary: selected live execution remains not authorized. The selected gate is local-ready only for EC2 static proof (`generation_allowed=false`), and the runbook still keeps `ready_for_live_execution=false` and `execute_allowed_now=false`. Continue concrete local runtime/orchestration work only.
+
+## Current Pursuing Goal Update - Selected Inpaint Readiness Gate Proven Fail-Closed - 2026-07-09T12:14:34-05:00
+
+The active pursuing goal remains the transferred end-to-end ComfyUI project objective in this session (`019f422f-88b1-7382-872b-21de2089e983`). Current work posture remains local-first non-mask runtime/orchestration while manual gold masks are still outside Codex-controlled promotion authority.
+
+Latest concrete progress: ran the selected inpaint project-readiness snapshot directly, then updated the selected target-runtime runbook so it consumes that selected-lane gate as fail-closed readiness evidence. This prevents the selected live path from relying on the older generic/fallback pass snapshot.
+
+Current evidence:
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_PROJECT_READINESS_SNAPSHOT_SELECTED_INPAINT_20260709T121304-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LIVE_EXECUTION_RUNBOOK_SELECTED_READINESS_GATE_20260709T121415-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LIVE_EXECUTION_RUNBOOK_SELECTED_READINESS_GATE_20260709T121415-0500.md
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_EXECUTION_READINESS_SNAPSHOT_SELECTED_READINESS_GATE_20260709T121425-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_EXECUTION_READINESS_SNAPSHOT_SELECTED_READINESS_GATE_20260709T121425-0500.md
+- Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_AFTER_SELECTED_READINESS_GATE_20260709T121434-0500.json
+- Mirrored copies under Plan/Tracker/Evidence
+
+Boundary: selected live execution remains not authorized. The selected readiness gate reports `local_ready=false`, `ec2_start_allowed=false`, and `generation_allowed=false`; continue concrete local runtime/orchestration work only.
+
+## Current Pursuing Goal Update - Selected Runbook Lane Recheck Corrected - 2026-07-09T12:10:05-05:00
+
+The active pursuing goal remains the transferred end-to-end ComfyUI project objective in this session (`019f422f-88b1-7382-872b-21de2089e983`). Current work posture remains local-first non-mask runtime/orchestration while manual gold masks are still outside Codex-controlled promotion authority.
+
+Latest concrete progress: corrected the selected target-runtime live execution runbook so its project-readiness recheck targets selected lane `sdxl_realvisxl_inpaint_detail_lane`, then regenerated the runbook and readiness snapshot and validated the new lane assertion.
+
+Current evidence:
+- Plan/Instructions/Operations/Scripts/New-SelectedTargetRuntimeLiveExecutionRunbook.ps1
+- Plan/Instructions/Operations/Scripts/Test-OperationsHelperStatic.ps1
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LIVE_EXECUTION_RUNBOOK_20260709T120944-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LIVE_EXECUTION_RUNBOOK_20260709T120944-0500.md
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_EXECUTION_READINESS_SNAPSHOT_20260709T120955-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_EXECUTION_READINESS_SNAPSHOT_20260709T120955-0500.md
+- Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_AFTER_SELECTED_RUNBOOK_LANE_FIX_20260709T121004-0500.json
+- Plan/Tracker/Evidence/W66_SELECTED_TARGET_RUNTIME_LIVE_EXECUTION_RUNBOOK_20260709T120944-0500.json
+- Plan/Tracker/Evidence/W66_SELECTED_TARGET_RUNTIME_LIVE_EXECUTION_RUNBOOK_20260709T120944-0500.md
+- Plan/Tracker/Evidence/W66_SELECTED_TARGET_RUNTIME_EXECUTION_READINESS_SNAPSHOT_20260709T120955-0500.json
+- Plan/Tracker/Evidence/W66_SELECTED_TARGET_RUNTIME_EXECUTION_READINESS_SNAPSHOT_20260709T120955-0500.md
+- Plan/Tracker/Evidence/W60_OPERATIONS_HELPER_AFTER_SELECTED_RUNBOOK_LANE_FIX_20260709T121004-0500.json
+
+Boundary: live execution remains not authorized. Continue concrete local runtime/orchestration work only; do not return to broad checkpoint, hydration, Jira, Wave65, or mask-promotion loops.
+
+## Current Pursuing Goal Update - Selected Target Runtime Execution Readiness Snapshot Added - 2026-07-09T12:06:02-05:00
+
+The active pursuing goal remains the transferred end-to-end ComfyUI project objective in this session (`019f422f-88b1-7382-872b-21de2089e983`). Current work posture remains local-first non-mask runtime/orchestration while manual gold masks are still outside Codex-controlled promotion authority.
+
+Latest concrete progress: added a selected target-runtime execution readiness snapshot helper and validator smoke so the current selected inpaint lane has one consolidated, fail-closed readiness artifact. It ties the live execution runbook to the RealVisXL model install dry-run and both selected inpaint input-asset install dry-runs.
+
+Current evidence:
+- Plan/Instructions/Operations/Scripts/New-SelectedTargetRuntimeExecutionReadinessSnapshot.ps1
+- Plan/Instructions/Operations/Scripts/Test-OperationsHelperStatic.ps1
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_EXECUTION_READINESS_SNAPSHOT_20260709T120556-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_EXECUTION_READINESS_SNAPSHOT_20260709T120556-0500.md
+- Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_AFTER_SELECTED_EXECUTION_READINESS_SNAPSHOT_20260709T120602-0500.json
+- Plan/Tracker/Evidence/W66_SELECTED_TARGET_RUNTIME_EXECUTION_READINESS_SNAPSHOT_20260709T120556-0500.json
+- Plan/Tracker/Evidence/W66_SELECTED_TARGET_RUNTIME_EXECUTION_READINESS_SNAPSHOT_20260709T120556-0500.md
+- Plan/Tracker/Evidence/W60_OPERATIONS_HELPER_AFTER_SELECTED_EXECUTION_READINESS_SNAPSHOT_20260709T120602-0500.json
+
+Boundary: live execution is still not authorized. The snapshot reports `ready_for_live_execution=false`, `execute_allowed_now=false`, and `target_runtime_launch_allowed=false`. Continue concrete local runtime/orchestration work only; do not return to broad checkpoint, hydration, Jira, Wave65, or mask-promotion loops.
+
+## Current Pursuing Goal Update - Selected Model/Input EC2 Install Dry-Runs Proven - 2026-07-09T11:56:26-05:00
+
+The active pursuing goal remains the transferred end-to-end ComfyUI project objective in this session (`019f422f-88b1-7382-872b-21de2089e983`). Current work posture remains local-first non-mask runtime/orchestration while manual gold masks are still outside Codex-controlled promotion authority.
+
+Latest concrete progress: the selected target-runtime runbook's EC2 install dry-run commands were run without `-Execute` for the RealVisXL checkpoint and both selected inpaint input assets. These runs produced local evidence only and did not contact AWS/S3, start EC2, invoke SSM, run generation, use Git LFS, consume candidate masks as truth, promote masks, rerun Wave70 hard gates, activate Wave71+, mutate Jira, reset, checkout, or destructively clean local reference/artifact roots.
+
+Current evidence:
+- Plan/Instructions/QA/Evidence/Model_Registry/W66_SELECTED_MODEL_EC2_INSTALL_DRY_RUN_REALVISXL_20260709T120000-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_INPUT_ASSET_INSTALL_DRY_RUN_SOURCE_20260709T120000-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_INPUT_ASSET_INSTALL_DRY_RUN_MASK_20260709T120000-0500.json
+- Plan/Tracker/Evidence/W66_SELECTED_MODEL_EC2_INSTALL_DRY_RUN_REALVISXL_20260709T120000-0500.json
+- Plan/Tracker/Evidence/W66_SELECTED_INPUT_ASSET_INSTALL_DRY_RUN_SOURCE_20260709T120000-0500.json
+- Plan/Tracker/Evidence/W66_SELECTED_INPUT_ASSET_INSTALL_DRY_RUN_MASK_20260709T120000-0500.json
+
+Boundary: live install execution still requires explicit live intent, clean Git/origin gate or approved bypass, S3 publish proof, EC2 start authorization, and selected target-runtime gates. Continue concrete local runtime/orchestration work only; do not return to broad checkpoint, hydration, Jira, Wave65, or mask-promotion loops.
+
 ## Current Pursuing Goal Update - Selected S3 Publish Readiness Plan Added - 2026-07-09T09:37:06-05:00
 
 The active pursuing goal remains the transferred end-to-end ComfyUI project objective in this session. Current work posture remains local-first non-mask runtime/orchestration. The latest concrete progress prepares the selected inpaint S3 publish dry-run path without treating the not-yet-rebuilt bundle as upload-ready.

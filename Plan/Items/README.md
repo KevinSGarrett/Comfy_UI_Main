@@ -119,6 +119,7 @@ C:\Comfy_UI_Main\Plan
 ## Autonomy Rule
 
 Every item is designed for Codex Desktop autonomous implementation with no human work dependency.
+Before selecting or repeating runtime/EC2 work, Items routing must follow `C:\Comfy_UI_Main\Plan\Instructions\LOCAL_SOURCE_OF_TRUTH_AND_EC2_STALE_WORKSPACE_PROTOCOL.md`. Local `C:\Comfy_UI_Main` is authoritative; EC2 `/home/ubuntu/Comfy_UI_Main` is runtime/cache state only. Do not use stale EC2 queue state to reopen completed low-risk fallback, RealVisXL base, Canny baseline/v4, prior RealVisXL certification sample, or 2026-07-09 local package smoke/visual QA work. Selected inpaint deploy-bundle rebuild, S3 publish proof, EC2 install/hash proof, target-runtime proof, and final certification remain valid future work only when selected and gated from local evidence.
 For Wave 64, localized work cannot pass localized-only review. Every generated image, video, GIF, or audio artifact must receive whole-artifact review in addition to any target-region review.
 For Wave 65, every current Plan file must have direct Items/Tracker source coverage. Rerun `Plan\Items\Scripts\generate_wave65_plan_source_coverage.py` after any Plan file is added or renamed.
 For Jira, Items rows are the local autonomous execution ledger and must not be bulk-mirrored into Jira Stories, Tasks, or Sub-tasks. CU Jira is a control-plane board only; read `C:\Comfy_UI_Main\Plan\Instructions\JIRA_CONTROL_PLANE_AND_AI_EXECUTION_LEDGER_POLICY.md` before any Jira-related automation.

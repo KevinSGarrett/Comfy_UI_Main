@@ -1,3 +1,14 @@
+## EC2 Workspace Is Stale And Not Planning Authority - 2026-07-09T12:28:07-05:00
+
+Blocker classification: `EC2_WORKSPACE_STALE_NOT_AUTHORITY`.
+
+EC2 `/home/ubuntu/Comfy_UI_Main` has older 2026-07-07 runtime state and a stale three-lane queue; local `C:\Comfy_UI_Main` has newer 2026-07-09 selected-inpaint readiness and the current nine-lane queue. Do not select or repeat work from EC2 queue state. Use local hydration, local runtime-lane queue, local QA evidence, and local Tracker evidence as authority.
+
+Evidence:
+- Plan/Instructions/LOCAL_SOURCE_OF_TRUTH_AND_EC2_STALE_WORKSPACE_PROTOCOL.md
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/LOCAL_SOURCE_OF_TRUTH_EC2_STALE_WORKSPACE_BOUNDARY_20260709T122807-0500.json
+- Plan/Tracker/Evidence/LOCAL_SOURCE_OF_TRUTH_EC2_STALE_WORKSPACE_BOUNDARY_20260709T122807-0500.json
+
 ## Selected S3 Publish Blocked Until Clean Rebuild Produces Concrete Bundle - 2026-07-09T09:37:06-05:00
 
 S3 runtime transfer config is locally ready, but selected S3 publish is correctly blocked because the clean-checkpoint rebuild has not run and the concrete `DEPLOY_BUNDLE_MANIFEST.json` plus zip do not exist yet. Required blockers: manifest-scoped checkpoint not executed cleanly, selected deploy-bundle rebuild not completed, selected deploy-bundle manifest missing until rebuild, selected deploy-bundle zip missing until rebuild, and explicit target-runtime selection still required.
