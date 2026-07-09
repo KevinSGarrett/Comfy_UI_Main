@@ -64,7 +64,9 @@ Cursor is the first worker for mechanical Git/GitHub analysis:
 - identify whether Git/GitHub state is blocking the selected ComfyUI work;
 - draft commit-message, PR-body, release-note, or checkpoint-summary candidates.
 
-Cursor must not stage, commit, push, reset, checkout, restore, clean, merge, rebase, create PRs, edit PRs, merge PRs, rerun workflows, cancel workflows, mutate issues, or mutate labels.
+Cursor must not stage, commit, push, reset, checkout, restore, clean, merge, rebase, create PRs, edit PRs, merge PRs, rerun workflows, cancel workflows, mutate issues, mutate labels, mutate releases, mutate projects, submit reviews, or add reactions.
+
+For GitHub PR, issue, comment, label, reaction, review, release, and metadata reads, prefer the connected GitHub app/connector when available. Use local `gh` only for gaps the connector does not cover well, especially current-branch PR discovery, GitHub Actions logs, and local checkout correlation.
 
 ## Claude Responsibilities
 
@@ -119,7 +121,7 @@ gh pr checks <number-or-url>
 gh issue view <number-or-url>
 ```
 
-Workers must not print tokens, credential values, `.env` values, or secret-bearing remotes.
+Workers must not print tokens, credential values, `.env` values, or secret-bearing remotes. If `git remote -v` includes an embedded credential or token-like value, workers must redact it or report only the host/repo shape.
 
 ## Output Contract
 
@@ -170,6 +172,7 @@ The combined AI worker monitor should score:
 - `git_github_analysis_successful_handoffs`
 - `git_github_direct_codex_analysis_violations`
 - `git_github_worker_mutation_attempts_detected`
+- `git_github_connector_first_compliance`
 - `git_github_codex_mutation_authority_preserved`
 - `estimated_git_github_codex_minutes_avoided`
 

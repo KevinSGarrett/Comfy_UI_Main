@@ -1,3 +1,11 @@
+## Immediate Next Action - Selected Inpaint Static And Workflow Smoke Dry-Runs Current - 2026-07-09T17:18:00-05:00
+
+Continue selected-inpaint runtime/orchestration from the clean local source-of-truth chain. The selected EC2 lane static-proof dry-run and workflow-smoke dry-run now both run from clean Git without starting EC2 or executing generation. The workflow-smoke helper lane-match bug for static dry-run records was fixed and committed as `390715372f5e7bb59ef3a6511576b7437231f303`.
+
+Current evidence: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_EC2_LANE_STATIC_PROOF_DRY_RUN_GATED_sdxl_realvisxl_inpaint_detail_lane_CLEAN_CURRENT_20260709T171800-0500.json` and `Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_SMOKE_DRY_RUN_GATED_sdxl_realvisxl_inpaint_detail_lane_CLEAN_CURRENT_20260709T172000-0500.json`. The workflow-smoke dry-run reports `dry_run_blocked_before_ec2_start`, `failure_category=expired_session`, `local_git_checkpoint_gate.clean=true`, `local_matches_origin=true`, `ec2_static_proof.lane_match=true`, `smoke_request.attempted=true`, `ec2_started=false`, and `generation_executed=false`. Operations helper validation `W60_OPERATIONS_HELPER_CURRENT_VALIDATION_20260709T171642-0500.json` reports `pass_local_only`.
+
+Remaining blockers are the real live gates only: refreshed AWS auth, S3 Execute proofs for deploy bundle/input/model assets, EC2 object-info/path/hash static proof, explicit live execution intent, and EC2 start authorization. Do not use stale EC2 workspace state, promote masks, rerun Wave70 hard gates, activate Wave71+, or switch to Jira bookkeeping.
+
 ## Immediate Next Action - Selected Inpaint Clean-Git Gate Chain Refreshed - 2026-07-09T17:08:00-05:00
 
 Continue selected-inpaint runtime/orchestration from the refreshed clean-git local chain. The target-runtime plan now reports `blocked_target_runtime_execution_plan_waiting_for_explicit_selection` with `git_checkpoint_summary.passes_for_ec2_execute=true`; package readiness, input-asset readiness, model-cache readiness, pre-EC2 handoff, live runbook, execution-readiness snapshot, and final launch gate were regenerated against the rebuilt selected-inpaint bundle `089a7a411f9380c4f737a8d246d1ade29799d59c1fcba95aaf4dde4bcbd68bcb`.

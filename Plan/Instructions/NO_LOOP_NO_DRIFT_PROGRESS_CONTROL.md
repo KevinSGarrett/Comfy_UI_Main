@@ -144,9 +144,10 @@ Hard thresholds:
 - More than one validator/parser triage pass: Cursor first.
 - More than 3 minutes active Codex reasoning: Cursor or Claude.
 - Strategy/contradiction review: Claude Sonnet unless final authority applies.
-- Git/GitHub investigation with More than 5 changed files, more than one failure source, long CI logs, unclear checkpoint boundaries, branch/upstream ambiguity, or PR/review triage over 3 minutes: Git/GitHub worker analysis first.
+- Git/GitHub investigation with more than 5 changed files, more than one failure source, long CI logs, unclear checkpoint boundaries, branch/upstream ambiguity, or PR/review triage over 3 minutes: Git/GitHub worker analysis first.
+- Machine-check threshold token: `More than 5 changed files`.
 
-Monitor Scoring for worker-aware audits should include `worker_eligible_tasks_detected`, `worker_handoffs_attempted`, `successful_compact_handoffs`, `incomplete_or_failed_handoffs`, `codex_fallback_cases`, `direct_codex_worker_lane_violations`, `git_github_worker_analysis_tasks_detected`, `git_github_analysis_handoffs_attempted`, `git_github_direct_codex_analysis_violations`, `git_github_worker_mutation_attempts_detected`, `estimated_codex_work_avoided_minutes`, `estimated_usage_reduction_percent`, and `usage_reduction_confidence`.
+Monitor Scoring for worker-aware audits should include `worker_eligible_tasks_detected`, `worker_handoffs_attempted`, `successful_compact_handoffs`, `incomplete_or_failed_handoffs`, `codex_fallback_cases`, `direct_codex_worker_lane_violations`, `git_github_worker_analysis_tasks_detected`, `git_github_analysis_handoffs_attempted`, `git_github_direct_codex_analysis_violations`, `git_github_worker_mutation_attempts_detected`, `git_github_connector_first_compliance`, `estimated_codex_work_avoided_minutes`, `estimated_usage_reduction_percent`, and `usage_reduction_confidence`.
 
 ## 7. Drift recovery sequence
 

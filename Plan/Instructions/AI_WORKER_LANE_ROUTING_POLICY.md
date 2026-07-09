@@ -214,6 +214,7 @@ The combined AI worker monitor must score each audit window with:
 - `git_github_analysis_handoffs_attempted`
 - `git_github_direct_codex_analysis_violations`
 - `git_github_worker_mutation_attempts_detected`
+- `git_github_connector_first_compliance`
 - estimated Codex work avoided;
 - usage reduction confidence.
 

@@ -129,6 +129,7 @@ Monitor Scoring fields for worker-aware audits:
 - `git_github_analysis_handoffs_attempted`
 - `git_github_direct_codex_analysis_violations`
 - `git_github_worker_mutation_attempts_detected`
+- `git_github_connector_first_compliance`
 - `estimated_codex_work_avoided_minutes`
 - `estimated_usage_reduction_percent`
 - `usage_reduction_confidence`
@@ -167,6 +168,8 @@ Cron jobs may inspect repository state but must not mutate it. They must not run
 When repo or GitHub investigation exceeds a tiny check, use `GIT_GITHUB_WORKER_ANALYSIS_REQUIRED` before Codex spends a long turn on diff, CI, PR, issue, or branch-state analysis. Workers may produce read-only evidence and draft recommended Codex commands. Codex alone may execute Git/GitHub mutations.
 
 Git/GitHub worker-analysis handoffs must preserve `mutation_boundary: Codex-only`.
+
+For GitHub PR, issue, comment, label, reaction, review, release, and metadata reads, prefer the connected GitHub app/connector when available. Use local `gh` mainly for current-branch PR discovery, GitHub Actions logs, and local checkout correlation.
 
 Use these classifications where applicable:
 - REPO_SYNC_BLOCKER: repo or origin state blocks live deploy/EC2 gates, but local ComfyUI work can continue.

@@ -1,3 +1,9 @@
+## Current Pursuing Goal - Selected Inpaint Static And Workflow Smoke Dry-Runs Current - 2026-07-09T17:18:00-05:00
+
+Keep pursuing the selected-inpaint target-runtime path from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is clean-current static-proof and workflow-smoke dry-run evidence for `sdxl_realvisxl_inpaint_detail_lane`; both fail closed before EC2 start because live auth/static-proof gates are not satisfied, but the local request path and lane matching are now verified.
+
+Current validation anchors: `W66_EC2_LANE_STATIC_PROOF_DRY_RUN_GATED_sdxl_realvisxl_inpaint_detail_lane_CLEAN_CURRENT_20260709T171800-0500.json`, `W66_EC2_WORKFLOW_SMOKE_DRY_RUN_GATED_sdxl_realvisxl_inpaint_detail_lane_CLEAN_CURRENT_20260709T172000-0500.json`, and `W60_OPERATIONS_HELPER_CURRENT_VALIDATION_20260709T171642-0500.json` (`pass_local_only`). Live execution remains unauthorized until refreshed AWS auth, S3 Execute proofs for deploy bundle/input/model assets, EC2 object-info/path/hash static proof, explicit live intent, and EC2 start authorization are present. Gold-mask-dependent promotion/body authority work remains blocked outside this non-mask runtime lane.
+
 ## Immediate Next Action - Selected Inpaint Clean-Git Gate Chain Refreshed - 2026-07-09T17:08:00-05:00
 
 Continue selected-inpaint runtime/orchestration from the refreshed clean-git local chain. The target-runtime plan now reports `blocked_target_runtime_execution_plan_waiting_for_explicit_selection` with `git_checkpoint_summary.passes_for_ec2_execute=true`; package readiness, input-asset readiness, model-cache readiness, pre-EC2 handoff, live runbook, execution-readiness snapshot, and final launch gate were regenerated against the rebuilt selected-inpaint bundle `089a7a411f9380c4f737a8d246d1ade29799d59c1fcba95aaf4dde4bcbd68bcb`.
