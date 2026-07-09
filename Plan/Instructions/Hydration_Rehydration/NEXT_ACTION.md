@@ -1,3 +1,11 @@
+## Immediate Next Action - Selected Inpaint Clean Local Recheck Ledger Current - 2026-07-09T17:50:00-05:00
+
+Continue selected-inpaint runtime/orchestration from the clean local recheck ledger. The local recheck path now has a current clean Git dry-run gate, a selected-inpaint runtime-unblock handoff, and a selected target-runtime local recheck ledger after fixing stale ledger assumptions for clean Git and auth-blocked handoffs.
+
+Current evidence: `Plan/Instructions/QA/Evidence/Git_Verification/W66_GITHUB_CHECKPOINT_DRY_RUN_JSON_GATE_SELECTED_INPAINT_CLEAN_RECHECK_20260709T175000-0500.json`, `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_RUNTIME_UNBLOCK_HANDOFF_sdxl_realvisxl_inpaint_detail_lane_CLEAN_RECHECK_20260709T175000-0500.json`, and `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LOCAL_RECHECK_LEDGER_CLEAN_RECHECK_20260709T175000-0500.json`. The ledger reports `pass_local_only_selected_target_runtime_local_rechecks_accounted_ec2_blocked`, `failed_check_count=0`, `pass_recheck_count=5`, `unexpected_recheck_count=0`, exact blockers `aws_auth_expired_session` and `target_runtime_proof_evidence_missing`, `target_runtime_launch_allowed=false`, `execute_allowed_now=false`, `ec2_started=false`, and `generation_executed=false`. QA helper validation after the helper fixes reports `pass_local_only` in `W61_QA_HELPER_CURRENT_VALIDATION_20260709T173331-0500.json`.
+
+Remaining live blockers are refreshed AWS auth plus actual target-runtime proof steps: S3 Execute proofs for deploy bundle/input/model assets, EC2 object-info/path/hash static proof, explicit live execution intent, and EC2 start authorization. Do not write `ACTIVE_EC2_RUNTIME_WINDOW.json`, start EC2, upload to S3, post ComfyUI prompts, promote masks, rerun Wave70 hard gates, activate Wave71+, or switch to Jira bookkeeping without the explicit live/gate conditions.
+
 ## Immediate Next Action - Selected Inpaint Current-Bundle Runtime Window Safety Plan Ready - 2026-07-09T17:30:00-05:00
 
 Continue selected-inpaint runtime/orchestration from the current rebuilt bundle safety chain. A fresh local-only emergency-stop dry-run, instance watchdog dry-run, and active runtime-window marker plan were generated for `sdxl_realvisxl_inpaint_detail_lane` using deploy bundle SHA256 `089a7a411f9380c4f737a8d246d1ade29799d59c1fcba95aaf4dde4bcbd68bcb`.

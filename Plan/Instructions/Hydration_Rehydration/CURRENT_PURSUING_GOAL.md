@@ -1,3 +1,9 @@
+## Current Pursuing Goal - Selected Inpaint Clean Local Recheck Ledger Current - 2026-07-09T17:50:00-05:00
+
+Keep pursuing the selected-inpaint target-runtime path from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a current local recheck ledger that accounts for clean Git, selected-inpaint runtime handoff, active queue local support, runtime queue, and model registry coverage while preserving fail-closed live execution boundaries.
+
+Current validation anchors: `W66_GITHUB_CHECKPOINT_DRY_RUN_JSON_GATE_SELECTED_INPAINT_CLEAN_RECHECK_20260709T175000-0500.json` (`pass_git_checkpoint_ready`), `W66_RUNTIME_UNBLOCK_HANDOFF_sdxl_realvisxl_inpaint_detail_lane_CLEAN_RECHECK_20260709T175000-0500.json` (`handoff_ready_runtime_blocked_auth`), `W66_SELECTED_TARGET_RUNTIME_LOCAL_RECHECK_LEDGER_CLEAN_RECHECK_20260709T175000-0500.json` (`pass_local_only_selected_target_runtime_local_rechecks_accounted_ec2_blocked`, `failed_check_count=0`), and QA helper validation `W61_QA_HELPER_CURRENT_VALIDATION_20260709T173331-0500.json` (`pass_local_only`). Live execution remains unauthorized until refreshed AWS auth, S3 Execute proofs for deploy bundle/input/model assets, EC2 object-info/path/hash static proof, explicit live intent, and EC2 start authorization are present. Gold-mask-dependent promotion/body authority work remains blocked outside this non-mask runtime lane.
+
 ## Current Pursuing Goal - Selected Inpaint Current-Bundle Runtime Window Safety Plan Ready - 2026-07-09T17:30:00-05:00
 
 Keep pursuing the selected-inpaint target-runtime path from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a refreshed current-bundle runtime-window safety chain: emergency stop dry-run, instance watchdog dry-run, and marker template plan all align to `sdxl_realvisxl_inpaint_detail_lane` and bundle SHA256 `089a7a411f9380c4f737a8d246d1ade29799d59c1fcba95aaf4dde4bcbd68bcb`.
