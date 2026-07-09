@@ -366,6 +366,10 @@ function Test-StaticProof {
   }
   if ((Has-Property -Object $proof -Name "mode") -and [string]$proof.mode -eq "dry_run") {
     $result.dry_run_record = $true
+    $result.lane_match = ([string]$result.lane_id -eq [string]$LaneId)
+    if (!$result.lane_match) {
+      $result.errors += "EC2 static proof lane_id '$($result.lane_id)' does not match selected lane '$LaneId'."
+    }
     $result.errors += "EC2 static proof is a dry-run plan, not object-info/path/hash proof."
     return $result
   }
