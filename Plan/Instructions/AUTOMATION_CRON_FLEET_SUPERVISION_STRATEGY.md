@@ -64,6 +64,39 @@ C:\Users\kevin\.codex\claude_subscription_handoff\Invoke-ClaudeSubscriptionHando
 
 Use the Claude subscription lane only when `Test-ClaudeSubscriptionHandoff.ps1` passes or the latest successful probe is fresh. It must use `claude.ai` subscription auth and must not fall back to Anthropic API keys or Console PAYG billing.
 
+## Mandatory Pre-Work Delegation Gate
+
+Before any cron job performs a broad scan, audit, helper draft, multi-file diagnosis, evidence extraction, or strategy review, it must apply the gate from `AI_WORKER_LANE_ROUTING_POLICY.md`:
+
+- `CODEX_ONLY_AUTHORITY`
+- `CURSOR_FIRST_REQUIRED`
+- `CLAUDE_HEAVY_REVIEW_REQUIRED`
+- `NO_WORKER_NEEDED_UNDER_THRESHOLD`
+
+Hard thresholds:
+
+- More than 10 files: Cursor first.
+- More than one major tree: Cursor first.
+- More than one broad `rg` or inventory pass: Cursor first.
+- More than one validator/parser triage pass: Cursor first.
+- More than 3 minutes active Codex reasoning: Cursor or Claude.
+- Strategy/contradiction review: Claude Sonnet unless final authority applies.
+- Failed worker output: retry once with a narrower work order before Codex absorbs the task.
+
+Each cron audit that touches worker-eligible work should record the selected gate, the worker handoff path if used, and any fallback reason.
+
+Monitor Scoring fields for worker-aware audits:
+
+- `worker_eligible_tasks_detected`
+- `worker_handoffs_attempted`
+- `successful_compact_handoffs`
+- `incomplete_or_failed_handoffs`
+- `codex_fallback_cases`
+- `direct_codex_worker_lane_violations`
+- `estimated_codex_work_avoided_minutes`
+- `estimated_usage_reduction_percent`
+- `usage_reduction_confidence`
+
 ## Role Ownership
 
 - The two-hour anti-loop supervisor is the primary progress and repo-cleanliness watchdog.
@@ -75,6 +108,14 @@ Use the Claude subscription lane only when `Test-ClaudeSubscriptionHandoff.ps1` 
 - The weekly consistency audit owns Plan/Instructions/Items/Tracker consistency only.
 
 Specialist jobs may report drift, but they should not all steer the main session. Use the shared correction lock before any steering message or project file edit.
+
+## Audit Finalization And Stale Stub Handling
+
+Every cron job that writes an audit must finish with a parseable final JSON record. Acceptable final statuses include `FINALIZED`, `FINAL`, `DEGRADED_FINALIZED`, or a documented monitor-specific pass/degraded status. A standalone `IN_PROGRESS` record is not a final audit.
+
+If a job creates an `IN_PROGRESS` stub and later writes a separate final audit, the final audit must reference or supersede that stub when possible. Future fleet-health reviews should classify an old `IN_PROGRESS` stub as `STALE_IN_PROGRESS_SUPERSEDED` only when a newer final audit for the same automation/run window exists. If no newer final audit exists, classify it as `STALE_IN_PROGRESS_UNRESOLVED`.
+
+Cron jobs must not repeatedly regenerate audits just to clean historical stubs. Record the stale-stub finding once, keep the audit external unless it blocks runtime safety, and return attention to concrete selected-inpaint runtime/orchestration work.
 
 ## Repo Cleanliness
 

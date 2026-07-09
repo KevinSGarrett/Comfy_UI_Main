@@ -122,6 +122,30 @@ If the answer is no, Codex must not proceed unless it updates the pursuing goal 
 
 If a task is explicitly routed to Cursor-first or Claude-second-pass, the current Codex turn does not need to own the broad scan itself. In that case, Codex must still preserve final authority and bounded scope, but it should treat the delegated lane as the active worker for the scan/synthesis portion instead of redoing the same work locally.
 
+### Mandatory Pre-Work Delegation Gate
+
+Before broad local reasoning, Codex must write one gate classification:
+
+```text
+CODEX_ONLY_AUTHORITY
+CURSOR_FIRST_REQUIRED
+CLAUDE_HEAVY_REVIEW_REQUIRED
+NO_WORKER_NEEDED_UNDER_THRESHOLD
+```
+
+The `NO_WORKER_NEEDED_UNDER_THRESHOLD` path is valid only while the work remains below the thresholds in `AI_WORKER_LANE_ROUTING_POLICY.md`. Crossing a threshold without creating a worker handoff is `DIRECT_CODEX_WORKER_LANE_VIOLATION`.
+
+Hard thresholds:
+
+- More than 10 files: Cursor first.
+- More than one major tree: Cursor first.
+- More than one broad inventory or `rg` pass: Cursor first.
+- More than one validator/parser triage pass: Cursor first.
+- More than 3 minutes active Codex reasoning: Cursor or Claude.
+- Strategy/contradiction review: Claude Sonnet unless final authority applies.
+
+Monitor Scoring for worker-aware audits should include `worker_eligible_tasks_detected`, `worker_handoffs_attempted`, `successful_compact_handoffs`, `incomplete_or_failed_handoffs`, `codex_fallback_cases`, `direct_codex_worker_lane_violations`, `estimated_codex_work_avoided_minutes`, `estimated_usage_reduction_percent`, and `usage_reduction_confidence`.
+
 ## 7. Drift recovery sequence
 
 When drift is detected:
@@ -327,6 +351,8 @@ The current project now uses three worker lanes for local reasoning:
 - Claude subscription: optional high-effort Sonnet synthesis, contradiction review, or strategy critique after Cursor extraction through `C:\Users\kevin\.codex\claude_subscription_handoff\Invoke-ClaudeSubscriptionHandoff.ps1`.
 
 Do not treat a delegated lane as duplicate work if it is operating on a smaller, explicit work order that was created to reduce Codex Desktop load. Duplicate work is only a loop if Codex redoes the same broad scan instead of reviewing the delegated output.
+
+If Cursor or Claude output is incomplete, Codex must retry once with a narrower work order or record why direct fallback is necessary. Absorbing the original broad task into Codex without a narrow retry is a loop-risk event.
 
 ## 15. End-of-session anti-loop requirement
 

@@ -1,3 +1,17 @@
+## Immediate Next Action - Git LFS Push Resolved Follow-Up Checkpoint Needed - 2026-07-09T15:11:00-05:00
+
+The selected-inpaint checkpoint commit 53b629b1d03fae060bb8f8349a6f4d732f0fe547 is now pushed to origin/main. The failed LFS object c313ed8683771d76699023db5c1c40f11c14f30b0268fe408ea1ba48ef24a334 was uploaded directly by object ID, then the Git push succeeded with http.postBuffer=1048576000. Current classification: github_lfs_push_blocker_resolved_origin_main_at_checkpoint.
+
+Remaining local worktree dirt is post-checkpoint evidence, hydration, and scheduled automation updates written after the checkpoint. Run one guarded follow-up scoped checkpoint for these Plan-only updates, then re-run the Git checkpoint gate. Do not rebuild deploy bundles, upload to S3, start EC2, post ComfyUI prompts, write active runtime markers, promote masks, rerun Wave70 hard gates, or activate Wave71+ until the follow-up Git gate reports clean_worktree=true and local_matches_origin=true.
+
+Evidence: Plan/Instructions/QA/Evidence/Git_Verification/W66_GITHUB_CHECKPOINT_LFS_PUSH_RESOLVED_SELECTED_CURRENT_20260709T151100-0500.json and tracker mirror Plan/Tracker/Evidence/W66_GITHUB_CHECKPOINT_LFS_PUSH_RESOLVED_SELECTED_CURRENT_20260709T151100-0500.json.
+## Immediate Next Action - Git LFS Push Blocker After Selected Inpaint Checkpoint - 2026-07-09T15:03:30-05:00
+
+The scoped selected-inpaint checkpoint was committed locally as 53b629b1d03fae060bb8f8349a6f4d732f0fe547 (Wave66: checkpoint selected inpaint runtime orchestration), but push to origin/main failed twice during Git LFS upload. The failing LFS object is c313ed8683771d76699023db5c1c40f11c14f30b0268fe408ea1ba48ef24a334 for Plan/Items/wave48_52_master_autonomous_tracker.csv; both the guarded checkpoint push and one single-transfer retry failed with the remote connection forcibly closed after 83% / 5 of 6 LFS objects.
+
+Current classification: blocked_github_lfs_push_remote_connection_closed. Current Git state is local checkpoint committed, main ahead of origin/main by 4, local_matches_origin=false, and worktree dirty again because scheduled automation wrote fresh 15:00 evidence/config updates after the checkpoint. Do not rebuild deploy bundles, upload to S3, start EC2, post ComfyUI prompts, write active runtime markers, promote masks, rerun Wave70 hard gates, or activate Wave71+ until Git push/LFS policy is resolved and the Git checkpoint gate is re-run.
+
+Evidence: Plan/Instructions/QA/Evidence/Git_Verification/W66_GITHUB_CHECKPOINT_LFS_PUSH_BLOCKER_SELECTED_CURRENT_20260709T150330-0500.json and tracker mirror Plan/Tracker/Evidence/W66_GITHUB_CHECKPOINT_LFS_PUSH_BLOCKER_SELECTED_CURRENT_20260709T150330-0500.json.
 ## Current Blocker - Selected Inpaint Launch Gate Waiting For Live Gates After S3 Revalidation - 2026-07-09T14:52:00-05:00
 
 The selected inpaint launch gate is current and locally validated, but live target-runtime launch remains blocked. Evidence `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LAUNCH_GATE_CURRENT_S3_REVALIDATION_FIXED_20260709T145300-0500.json` reports `blocked_selected_target_runtime_launch_gate_local_proofs_ready_waiting_for_live_gates`, `local_package_ready=true`, `local_install_dry_run_proofs_complete=true`, `target_runtime_launch_allowed=false`, and `failed_check_count=0`.

@@ -1,0 +1,86 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "github_checkpoint_lfs_push_blocker",
+    "created_at":  "2026-07-09T15:03:30-05:00",
+    "project_root":  "C:\\Comfy_UI_Main",
+    "local_source_of_truth":  "C:\\Comfy_UI_Main",
+    "local_only":  true,
+    "checkpoint_commit":  "53b629b1d03fae060bb8f8349a6f4d732f0fe547",
+    "checkpoint_commit_subject":  "Wave66: checkpoint selected inpaint runtime orchestration",
+    "branch":  "main",
+    "origin":  "https://github.com/KevinSGarrett/Comfy_UI_Main.git",
+    "result":  "blocked_github_lfs_push_remote_connection_closed",
+    "failure_category":  "git_lfs_push_failed",
+    "clean_worktree":  false,
+    "local_matches_origin":  false,
+    "branch_status":  "main ahead 4 after local checkpoint commit; push failed",
+    "push_attempts":  [
+                          {
+                              "attempt":  "guarded_checkpoint_execute_push",
+                              "result":  "failed",
+                              "message":  "Git LFS upload reached 83% (5/6), then remote connection forcibly closed while uploading object c313ed8683771d76699023db5c1c40f11c14f30b0268fe408ea1ba48ef24a334"
+                          },
+                          {
+                              "attempt":  "single_transfer_lfs_retry",
+                              "result":  "failed",
+                              "message":  "Same LFS object c313ed8683771d76699023db5c1c40f11c14f30b0268fe408ea1ba48ef24a334 failed after 83% (5/6), remote connection forcibly closed"
+                          }
+                      ],
+    "lfs_objects_to_push":  [
+                                {
+                                    "path":  "Plan/Items/Waves/Wave48/wave48_tracker_rows.csv",
+                                    "oid":  "0f6f0c742e37c3556251b561a54ea8dcecaed43e6d8501831e45108b0e1917b2",
+                                    "bytes":  57746708
+                                },
+                                {
+                                    "path":  "Plan/Items/Waves/Wave50/wave50_tracker_rows.csv",
+                                    "oid":  "822117dd08c81320e0e870a32378cb48b141c447513d082ed183c2a8c2cedaa9",
+                                    "bytes":  79703810
+                                },
+                                {
+                                    "path":  "Plan/Items/Waves/Wave55/wave55_item_rows.csv",
+                                    "oid":  "237c3a6b2dd90c27d7b8fbaea6fed12ce60f51f999fd077b419d315880e6a4c8",
+                                    "bytes":  84241074
+                                },
+                                {
+                                    "path":  "Plan/Items/wave48_52_master_autonomous_tracker.csv",
+                                    "oid":  "c313ed8683771d76699023db5c1c40f11c14f30b0268fe408ea1ba48ef24a334",
+                                    "bytes":  140284569,
+                                    "failed_upload":  true
+                                },
+                                {
+                                    "path":  "Plan/Items/wave53_57_master_itemized_list.csv",
+                                    "oid":  "056cf11beb2b744c3000453e9f92c0371b47a4ccc8c6e5e83e9e5a1ccb2775a2",
+                                    "bytes":  97386744
+                                },
+                                {
+                                    "path":  "Plan/Tracker/wave48_52_master_autonomous_tracker.csv",
+                                    "oid":  "4eec5a12bcdb53122779e4ca6deeff5b836884dd6be256776bee086753bfcf93",
+                                    "bytes":  140287197
+                                }
+                            ],
+    "current_dirty_after_checkpoint":  [
+                                           "Plan/Instructions/AI_WORKER_LANE_ROUTING_POLICY.md",
+                                           "Plan/Instructions/AUTOMATION_CRON_FLEET_SUPERVISION_STRATEGY.md",
+                                           "Plan/Instructions/NO_LOOP_NO_DRIFT_PROGRESS_CONTROL.md",
+                                           "Plan/Instructions/QA/Evidence/Automation_Fleet/",
+                                           "Plan/Instructions/QA/Evidence/Git_Verification/W66_GITHUB_CHECKPOINT_EXACT_SCOPE_EXECUTE_SELECTED_CURRENT_20260709T150700-0500.json",
+                                           "Plan/Tracker/Evidence/AUTOMATION_CRON_FLEET_24H_REVIEW_20260709T150000-0500.json"
+                                       ],
+    "excluded_local_roots_preserved_via_git_info_exclude":  [
+                                                                "runtime_artifacts",
+                                                                "Ref_Image_1",
+                                                                "Ref_Image_2",
+                                                                "Ref_Image_Canonical_Body",
+                                                                "Reference_Images",
+                                                                "masks",
+                                                                "Jira",
+                                                                "Plan.zip",
+                                                                "_ci_w64_20260708T232900-0500"
+                                                            ],
+    "no_ec2_started":  true,
+    "no_s3_contacted":  true,
+    "no_generation_executed":  true,
+    "no_mask_promotion":  true,
+    "next_action":  "Do not rebuild deploy bundles, upload S3, start EC2, or run selected target runtime until Git checkpoint is pushed or LFS push policy is corrected; then re-run Git checkpoint gate."
+}

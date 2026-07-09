@@ -1,0 +1,129 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "AUTOMATION_CRON_FLEET_24H_REVIEW_20260709T150000-0500",
+  "created_at": "2026-07-09T15:00:00-05:00",
+  "review_window_hours": 24,
+  "classification": "AUTOMATION_FLEET_OPERATIONAL_WITH_TARGETED_HARDENING",
+  "overall_confidence": 0.88,
+  "active_automation_count": 10,
+  "paused_automation_count": 1,
+  "active_cron_count": 9,
+  "active_heartbeat_count": 1,
+  "paused_heartbeat_count": 1,
+  "aws_state": {
+    "auth_status": "PASS",
+    "account": "029530099913",
+    "approved_comfyui_gpu_instance": "i-0560bf8d143f93bb1",
+    "approved_comfyui_gpu_state": "stopped",
+    "running_instances_observed": [
+      {
+        "name": "NocoDB",
+        "instance_type": "t3.small",
+        "project_relation": "not_comfyui_gpu_runtime"
+      }
+    ]
+  },
+  "worker_verifiers": {
+    "cursor": {
+      "status": "PASS",
+      "cursor_agent_version": "2026.07.08-0c04a8a",
+      "latest_probe_record": "C:\\Comfy_UI_Main\\runtime_artifacts\\agent_handoffs\\cursor\\20260709T145644-0500_wrapper_probe\\handoff_record.json"
+    },
+    "claude_subscription": {
+      "status": "PASS",
+      "subscription_type": "team",
+      "api_env_absent": true,
+      "latest_probe_record": "C:\\Comfy_UI_Main\\runtime_artifacts\\agent_handoffs\\claude_subscription\\20260709T145637-0500_claude_subscription_probe\\handoff_record.json"
+    }
+  },
+  "automation_health_summary": [
+    {
+      "id": "comfy-ui-main-ec2-cost-safety-sentinel",
+      "status": "HEALTHY",
+      "last24_audits": 19,
+      "latest_classification": "SAFE_STOPPED",
+      "issue": null
+    },
+    {
+      "id": "comfy-ui-main-hardened-two-hour-plan-instructions-items-tracker-supervisor",
+      "status": "HEALTHY_WITH_STALE_STUBS_SUPERSEDED",
+      "latest_final_status": "DEGRADED_FINALIZED",
+      "latest_classification": "ADVANCING_WITH_REPO_SYNC_BLOCKER",
+      "issue": "Historical IN_PROGRESS stubs remain in the audit directory, but a newer FINALIZED audit supersedes the latest run."
+    },
+    {
+      "id": "comfy-ui-main-six-hour-milestone-progress-auditor",
+      "status": "HEALTHY",
+      "latest_classification": "MILESTONE_SEQUENCE_PASS",
+      "issue": null
+    },
+    {
+      "id": "comfy-ui-main-daily-artifact-qa-integrity-audit",
+      "status": "HEALTHY_WITH_LEDGER_GAP_FINDINGS",
+      "latest_classification": "QA_LEDGER_GAP",
+      "issue": "Ledger gaps are findings, not automation failure."
+    },
+    {
+      "id": "comfy-ui-main-daily-cost-control-local-first-audit",
+      "status": "HEALTHY",
+      "latest_classification": "COST_FINDINGS_EXTERNAL_AUDIT_ONLY",
+      "issue": null
+    },
+    {
+      "id": "comfy-ui-main-weekly-plan-instructions-consistency-audit",
+      "status": "HEALTHY",
+      "latest_classification": "CONSISTENCY_FINDINGS_EXTERNAL_AUDIT_ONLY",
+      "issue": null
+    },
+    {
+      "id": "comfy-ui-main-automation-fleet-health-supervisor",
+      "status": "CONFIG_HEALTHY_NO_LAST24_AUDIT_OBSERVED",
+      "issue": "Daily cadence may not have produced a separate audit in this review window after hardening; scheduler card renders and prompt inherits shared strategy."
+    },
+    {
+      "id": "comfyui-cursor-delegation-health-monitor",
+      "status": "HEALTHY_HARDENED_BY_POLICY",
+      "latest_classification": "AI_WORKER_SETUP_REVIEW_COMPLETE",
+      "issue": "Prompt did not directly include local source-of-truth/no-Git/Jira guardrails; policy files now include them."
+    },
+    {
+      "id": "comfyui-claude-subscription-delegation-health-monitor",
+      "status": "VERIFIER_PASS_HARDENED_BY_POLICY_WAITING_FOR_FIRST_SCHEDULED_AUDIT",
+      "issue": "Created after its initial DTSTART window; verifier passed and policy files now include shared guardrails."
+    },
+    {
+      "id": "review-cursor-handoffs-after-bookmark",
+      "status": "ACTIVE_ONE_SHOT_HEARTBEAT",
+      "issue": "Not part of recurring ComfyUI cron fleet; leave alone unless user wants it archived after firing."
+    },
+    {
+      "id": "wave42-six-lane-supervisor-poll",
+      "status": "PAUSED_LEGACY_HEARTBEAT",
+      "issue": "Paused legacy heartbeat, not active fleet."
+    }
+  ],
+  "main_session_progress_assessment": {
+    "classification": "ADVANCING_WITH_REPO_SYNC_BLOCKER",
+    "not_looping": true,
+    "evidence": [
+      "selected-inpaint input/model dry-run proofs",
+      "selected launch gate",
+      "pre-EC2 handoff bundle",
+      "EC2 static-proof dry-run",
+      "workflow-smoke dry-run",
+      "runtime marker plan",
+      "final-review blocker packet",
+      "deploy-bundle revalidation plan",
+      "selected S3 publish readiness plan"
+    ],
+    "residual_blocker": "dirty/unsynced Git and missing clean checkpoint/rebuild/S3 publish proofs prevent live EC2/generation"
+  },
+  "updates_applied": [
+    "Updated C:\\Comfy_UI_Main\\Plan\\Instructions\\AUTOMATION_CRON_FLEET_SUPERVISION_STRATEGY.md with audit-finalization and stale-stub handling policy.",
+    "Updated C:\\Comfy_UI_Main\\Plan\\Instructions\\AI_WORKER_LANE_ROUTING_POLICY.md with shared source-of-truth, no-rerun, anti-ceremony, and audit-finalization rules.",
+    "Updated C:\\Users\\kevin\\.codex\\cursor_handoff\\CURSOR_DELEGATION_POLICY.md with shared source-of-truth, no-rerun, anti-ceremony, and audit-finalization rules.",
+    "Updated C:\\Users\\kevin\\.codex\\claude_subscription_handoff\\CLAUDE_SUBSCRIPTION_DELEGATION_POLICY.md with shared source-of-truth, no-rerun, anti-ceremony, and audit-finalization rules."
+  ],
+  "scheduler_api_note": "Direct automation_update save for comfyui-claude-subscription-delegation-health-monitor was refused even though view and suggested_update rendered the card. No raw scheduler TOML rewrite was performed; hardening was applied through policies read by the worker monitors.",
+  "next_recommended_action": "Keep all active schedules. Let the next Claude monitor run produce its first scheduled audit; fleet-health should classify superseded IN_PROGRESS stubs without generating cleanup churn. Main session should continue selected-inpaint runtime/orchestration and avoid housekeeping loops."
+}
