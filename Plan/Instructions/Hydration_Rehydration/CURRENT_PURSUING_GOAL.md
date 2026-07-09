@@ -1,3 +1,9 @@
+## Current Pursuing Goal - Selected Inpaint Final Certification Readiness Current - 2026-07-09T18:11:00-05:00
+
+Keep pursuing the selected-inpaint target-runtime path from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a current active-runtime final-certification readiness record that binds the selected-inpaint launch gate and execution-readiness snapshot into the certification boundary without starting EC2 or using candidate masks as truth.
+
+Current validation anchors: `W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_SELECTED_INPAINT_CHAIN_20260709T181000-0500.json` (`blocked_final_certification_target_runtime_or_final_review_missing`, `defects=0`, `blocked_lane_count=8`) and QA helper validation `W66_QA_HELPER_AFTER_FINAL_CERT_READINESS_SELECTED_CHAIN_20260709T181100-0500.json` (`pass_local_only`, 57 local smokes, 0 failures). Live execution remains unauthorized until explicit target-runtime/live intent, refreshed AWS auth, S3 Execute proofs, EC2 install/static proof, and EC2 start authorization are present. Gold-mask-dependent promotion/body authority work remains blocked outside this non-mask runtime lane.
+
 ## Current Pursuing Goal - Selected Inpaint Pre-EC2 Launch Chain Fixed - 2026-07-09T18:06:00-05:00
 
 Keep pursuing the selected-inpaint target-runtime path from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a refreshed pre-EC2 launch chain that carries the current handoff bundle through project readiness, live runbook, execution-readiness snapshot, and launch gate without starting EC2 or using candidate masks as truth.

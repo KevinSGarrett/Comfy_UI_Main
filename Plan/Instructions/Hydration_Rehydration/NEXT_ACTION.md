@@ -1,3 +1,11 @@
+## Immediate Next Action - Selected Inpaint Final Certification Readiness Current - 2026-07-09T18:11:00-05:00
+
+Continue selected-inpaint runtime/orchestration from the current local final-certification readiness boundary. The active runtime queue final-certification readiness now consumes the current selected-inpaint launch gate and execution-readiness snapshot, accepts the clean/synced Git checkpoint gate, and still blocks certification on target-runtime/live proof gaps.
+
+Current evidence: `Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_SELECTED_INPAINT_CHAIN_20260709T181000-0500.json` reports `blocked_final_certification_target_runtime_or_final_review_missing`, `defects=0`, `lane_count=9`, `final_ready_lane_count=1`, `blocked_lane_count=8`, selected launch gate `blocked_selected_target_runtime_launch_gate_local_proofs_ready_waiting_for_live_gates`, and selected execution snapshot `blocked_selected_target_runtime_execution_readiness_local_proofs_complete_live_gates_closed`. QA helper validation `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_QA_HELPER_AFTER_FINAL_CERT_READINESS_SELECTED_CHAIN_20260709T181100-0500.json` reports `pass_local_only`, 57 local smokes, and 0 failures. Tracker mirrors exist.
+
+Remaining live/certification blockers are unchanged: explicit target-runtime/live intent, refreshed AWS auth, S3 Execute proofs for deploy bundle/input/model assets, EC2 input/model install execute proof, EC2 object-info/path/hash static proof, EC2 start authorization, and lane-specific final review for lanes still lacking final certification. Do not start EC2, upload to S3, post ComfyUI prompts, promote masks, rerun Wave70 hard gates, activate Wave71+, or switch to Jira bookkeeping without explicit live/gate conditions.
+
 ## Immediate Next Action - Selected Inpaint Pre-EC2 Launch Chain Fixed - 2026-07-09T18:06:00-05:00
 
 Continue selected-inpaint runtime/orchestration from the refreshed local pre-EC2 launch chain. The project readiness snapshot, live execution runbook, execution-readiness snapshot, and launch gate now align to the current local pre-EC2 handoff bundle and correctly accept the clean/synced Git state while preserving fail-closed expired-auth live gates.

@@ -14,7 +14,9 @@ param(
   [string]$RuntimeQueuePath = "Plan\07_IMPLEMENTATION\workflow_templates\base_generation\runtime_lane_queue.json",
   [string]$ActiveLanesPath = "Workflows\base_generation\ACTIVE_LANES.json",
   [string]$OutFile = "",
-  [string]$ReadinessPath = ""
+  [string]$ReadinessPath = "",
+  [string]$SelectedLaunchGatePath = "",
+  [string]$SelectedExecutionReadinessSnapshotPath = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -109,6 +111,18 @@ if ($null -eq $handoffPath) {
   $handoffPath = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W66_RUNTIME_UNBLOCK_HANDOFF_*.json"
 }
 $gitGatePath = Find-LatestFile -Directory $gitVerificationDir -Filter "W66_GITHUB_CHECKPOINT_DRY_RUN_JSON_GATE_*.json"
+if ([string]::IsNullOrWhiteSpace($SelectedLaunchGatePath)) {
+  $SelectedLaunchGatePath = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W66_SELECTED_TARGET_RUNTIME_LAUNCH_GATE_*.json"
+}
+else {
+  $SelectedLaunchGatePath = Resolve-ProjectPath -Path $SelectedLaunchGatePath
+}
+if ([string]::IsNullOrWhiteSpace($SelectedExecutionReadinessSnapshotPath)) {
+  $SelectedExecutionReadinessSnapshotPath = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W66_SELECTED_TARGET_RUNTIME_EXECUTION_READINESS_SNAPSHOT_*.json"
+}
+else {
+  $SelectedExecutionReadinessSnapshotPath = Resolve-ProjectPath -Path $SelectedExecutionReadinessSnapshotPath
+}
 
 $defects = New-Object System.Collections.Generic.List[string]
 $finalBlockers = New-Object System.Collections.Generic.List[string]
@@ -118,7 +132,9 @@ foreach ($required in @(
   @{ label = "active_lanes"; path = $activeLanesResolved },
   @{ label = "local_support"; path = $localSupportPath },
   @{ label = "runtime_handoff"; path = $handoffPath },
-  @{ label = "git_gate"; path = $gitGatePath }
+  @{ label = "git_gate"; path = $gitGatePath },
+  @{ label = "selected_launch_gate"; path = $SelectedLaunchGatePath },
+  @{ label = "selected_execution_readiness_snapshot"; path = $SelectedExecutionReadinessSnapshotPath }
 )) {
   if ([string]::IsNullOrWhiteSpace([string]$required.path) -or -not (Test-Path -LiteralPath $required.path -PathType Leaf)) {
     Add-Text -List $defects -Text "missing_required_input:$($required.label)"
@@ -130,6 +146,8 @@ $activeLanes = Read-JsonFile -Path $activeLanesResolved
 $localSupport = if ($null -ne $localSupportPath) { Read-JsonFile -Path $localSupportPath } else { $null }
 $handoff = if ($null -ne $handoffPath) { Read-JsonFile -Path $handoffPath } else { $null }
 $gitGate = if ($null -ne $gitGatePath) { Read-JsonFile -Path $gitGatePath } else { $null }
+$selectedLaunchGate = if ($null -ne $SelectedLaunchGatePath) { Read-JsonFile -Path $SelectedLaunchGatePath } else { $null }
+$selectedExecutionSnapshot = if ($null -ne $SelectedExecutionReadinessSnapshotPath) { Read-JsonFile -Path $SelectedExecutionReadinessSnapshotPath } else { $null }
 
 $queueLanes = @(Convert-ToArray -Value $runtimeQueue.lanes)
 $activeLaneRows = @(Convert-ToArray -Value $activeLanes.lanes)
@@ -159,8 +177,48 @@ if (-not $gitPassesForEc2) {
 
 $handoffGitGate = Get-PropertyValue -Object (Get-PropertyValue -Object $handoff -Name "gate_summary") -Name "git_checkpoint_gate"
 $handoffGitPass = [bool](Get-PropertyValue -Object $handoffGitGate -Name "passes_for_ec2_execute" -Default $false)
-if (-not $handoffGitPass) {
+if (-not $handoffGitPass -and -not $gitPassesForEc2) {
   Add-Text -List $finalBlockers -Text "runtime_handoff_git_checkpoint_gate_not_passing"
+}
+
+$selectedLaneId = "sdxl_realvisxl_inpaint_detail_lane"
+$launchGateResult = [string](Get-PropertyValue -Object $selectedLaunchGate -Name "result" -Default "missing_selected_launch_gate")
+$launchGateLaneId = [string](Get-PropertyValue -Object $selectedLaunchGate -Name "selected_lane_id" -Default "")
+if ([string]::IsNullOrWhiteSpace($launchGateLaneId)) {
+  $launchGateLaneId = [string](Get-PropertyValue -Object $selectedLaunchGate -Name "lane_id" -Default "")
+}
+$launchGateFailedCheckCount = [int](Get-PropertyValue -Object $selectedLaunchGate -Name "failed_check_count" -Default -1)
+$launchGateAllowsLaunch = [bool](Get-PropertyValue -Object $selectedLaunchGate -Name "target_runtime_launch_allowed" -Default $false)
+$launchGateEc2Started = [bool](Get-PropertyValue -Object $selectedLaunchGate -Name "ec2_started" -Default $false)
+$launchGateGenerationExecuted = [bool](Get-PropertyValue -Object $selectedLaunchGate -Name "generation_executed" -Default $false)
+if ($launchGateLaneId -ne $selectedLaneId) {
+  Add-Text -List $defects -Text "selected_launch_gate_lane_mismatch:$launchGateLaneId"
+}
+if ($launchGateFailedCheckCount -ne 0 -or $launchGateEc2Started -or $launchGateGenerationExecuted) {
+  Add-Text -List $defects -Text "selected_launch_gate_invalid_or_mutating:$launchGateResult"
+}
+if (-not $launchGateAllowsLaunch) {
+  Add-Text -List $finalBlockers -Text "selected_launch_gate_target_runtime_launch_blocked:$launchGateResult"
+  foreach ($blocker in @(Convert-ToArray -Value (Get-PropertyValue -Object $selectedLaunchGate -Name "exact_blockers" -Default @()))) {
+    Add-Text -List $finalBlockers -Text "selected_launch_gate:$([string]$blocker)"
+  }
+}
+
+$executionSnapshotResult = [string](Get-PropertyValue -Object $selectedExecutionSnapshot -Name "result" -Default "missing_selected_execution_readiness_snapshot")
+$executionSnapshotLaneId = [string](Get-PropertyValue -Object $selectedExecutionSnapshot -Name "selected_lane_id" -Default "")
+$executionSnapshotFailedCheckCount = [int](Get-PropertyValue -Object $selectedExecutionSnapshot -Name "failed_check_count" -Default -1)
+$executionSnapshotReadyForLive = [bool](Get-PropertyValue -Object $selectedExecutionSnapshot -Name "ready_for_live_execution" -Default $false)
+$executionSnapshotExecuteAllowed = [bool](Get-PropertyValue -Object $selectedExecutionSnapshot -Name "execute_allowed_now" -Default $false)
+$executionSnapshotEc2Started = [bool](Get-PropertyValue -Object $selectedExecutionSnapshot -Name "ec2_started" -Default $false)
+$executionSnapshotGenerationExecuted = [bool](Get-PropertyValue -Object $selectedExecutionSnapshot -Name "generation_executed" -Default $false)
+if ($executionSnapshotLaneId -ne $selectedLaneId) {
+  Add-Text -List $defects -Text "selected_execution_readiness_snapshot_lane_mismatch:$executionSnapshotLaneId"
+}
+if ($executionSnapshotFailedCheckCount -ne 0 -or $executionSnapshotEc2Started -or $executionSnapshotGenerationExecuted) {
+  Add-Text -List $defects -Text "selected_execution_readiness_snapshot_invalid_or_mutating:$executionSnapshotResult"
+}
+if (-not $executionSnapshotReadyForLive -or -not $executionSnapshotExecuteAllowed) {
+  Add-Text -List $finalBlockers -Text "selected_execution_readiness_snapshot_execute_blocked:$executionSnapshotResult"
 }
 
 $laneResults = @()
@@ -246,6 +304,8 @@ $evidence = [ordered]@{
   local_support_certification = ConvertTo-ProjectRelativePath -Path $localSupportPath
   runtime_handoff = ConvertTo-ProjectRelativePath -Path $handoffPath
   git_checkpoint_gate = ConvertTo-ProjectRelativePath -Path $gitGatePath
+  selected_target_runtime_launch_gate = ConvertTo-ProjectRelativePath -Path $SelectedLaunchGatePath
+  selected_target_runtime_execution_readiness_snapshot = ConvertTo-ProjectRelativePath -Path $SelectedExecutionReadinessSnapshotPath
   lane_count = $queueLanes.Count
   final_ready_lane_count = @($laneResults | Where-Object { $_.final_certification_ready }).Count
   blocked_lane_count = @($laneResults | Where-Object { -not $_.final_certification_ready }).Count
@@ -264,6 +324,20 @@ $evidence = [ordered]@{
     git_checkpoint_gate_passes_for_ec2_execute = $handoffGitPass
     ec2_started = [bool](Get-PropertyValue -Object $handoff -Name "ec2_started" -Default $false)
     generation_executed = [bool](Get-PropertyValue -Object $handoff -Name "generation_executed" -Default $false)
+  }
+  selected_launch_gate_summary = [ordered]@{
+    result = $launchGateResult
+    selected_lane_id = $launchGateLaneId
+    failed_check_count = $launchGateFailedCheckCount
+    target_runtime_launch_allowed = $launchGateAllowsLaunch
+    exact_blockers = @(Convert-ToArray -Value (Get-PropertyValue -Object $selectedLaunchGate -Name "exact_blockers" -Default @()))
+  }
+  selected_execution_readiness_snapshot_summary = [ordered]@{
+    result = $executionSnapshotResult
+    selected_lane_id = $executionSnapshotLaneId
+    failed_check_count = $executionSnapshotFailedCheckCount
+    ready_for_live_execution = $executionSnapshotReadyForLive
+    execute_allowed_now = $executionSnapshotExecuteAllowed
   }
   lanes = @($laneResults)
   certification_boundary = "Local final-certification readiness aggregation only. This does not run ComfyUI, contact AWS/S3/GitHub/Civitai, start EC2, execute generation, promote masks, consume candidate masks as truth, rerun Wave70 hard gates, activate Wave71+, or certify final image quality."
@@ -291,6 +365,10 @@ $markdown = @"
 - git_gate_result: $gitGateResult
 - git_clean_worktree: $gitClean
 - git_local_matches_origin: $gitMatchesOrigin
+- selected_launch_gate_result: $launchGateResult
+- selected_launch_gate_allows_launch: $launchGateAllowsLaunch
+- selected_execution_snapshot_result: $executionSnapshotResult
+- selected_execution_snapshot_execute_allowed: $executionSnapshotExecuteAllowed
 
 ## Lane Readiness
 
@@ -305,6 +383,8 @@ $($evidence.certification_boundary)
 - $($evidence.local_support_certification)
 - $($evidence.runtime_handoff)
 - $($evidence.git_checkpoint_gate)
+- $($evidence.selected_target_runtime_launch_gate)
+- $($evidence.selected_target_runtime_execution_readiness_snapshot)
 - $(ConvertTo-ProjectRelativePath -Path $outFileResolved)
 "@
 [System.IO.File]::WriteAllText($readinessResolved, $markdown + [Environment]::NewLine, $utf8NoBom)

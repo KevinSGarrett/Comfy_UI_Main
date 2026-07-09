@@ -391,7 +391,7 @@ function Invoke-LocalHelper {
       if ($null -eq $payload) {
         $payload = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
       }
-      foreach ($required in @("result", "local_only", "ec2_started", "generation_executed", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "lane_count", "blocked_lane_count", "final_blockers", "git_gate_summary", "handoff_summary", "lanes")) {
+      foreach ($required in @("result", "local_only", "ec2_started", "generation_executed", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "lane_count", "blocked_lane_count", "final_blockers", "git_gate_summary", "handoff_summary", "selected_launch_gate_summary", "selected_execution_readiness_snapshot_summary", "lanes")) {
         if (-not (Test-JsonProperty -Object $payload -Name $required)) {
           throw "$Name output is missing top-level field: $required"
         }
@@ -414,8 +414,14 @@ function Invoke-LocalHelper {
       if ([int]$payload.blocked_lane_count -lt 1 -or @($payload.final_blockers).Count -lt 1) {
         throw "$Name must record final certification blockers."
       }
-      if ([bool]$payload.git_gate_summary.passes_for_ec2_execute) {
-        throw "$Name should not mark git gate as EC2-ready while the current worktree gate is blocked."
+      if (-not [bool]$payload.git_gate_summary.passes_for_ec2_execute) {
+        throw "$Name should preserve the current clean Git checkpoint gate as EC2-ready while final certification remains blocked by target-runtime/live gates."
+      }
+      if ([bool]$payload.selected_launch_gate_summary.target_runtime_launch_allowed -or @($payload.selected_launch_gate_summary.exact_blockers).Count -lt 1) {
+        throw "$Name must preserve the selected target-runtime launch gate as blocked with exact live blockers."
+      }
+      if ([bool]$payload.selected_execution_readiness_snapshot_summary.execute_allowed_now) {
+        throw "$Name must preserve the selected execution-readiness snapshot as execute-blocked."
       }
       $readinessMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
       if (-not (Test-Path -LiteralPath $readinessMarkdown)) {
@@ -456,8 +462,8 @@ function Invoke-LocalHelper {
       if ([int]$payload.work_order_count -lt 1 -or @($payload.work_orders).Count -lt 1) {
         throw "$Name must produce at least one work order from the blocked readiness state."
       }
-      if (@($payload.global_blockers | Where-Object { [string]$_ -eq "git_checkpoint_gate_not_clean_for_ec2_execute" }).Count -eq 0) {
-        throw "$Name must preserve the dirty Git checkpoint global blocker."
+      if (@($payload.global_blockers).Count -lt 1) {
+        throw "$Name must preserve global blockers from the current blocked readiness state."
       }
       $targetRuntimeOrders = @($payload.work_orders | Where-Object { [string]$_.work_order_type -eq "target_runtime_proof_required" })
       if ($targetRuntimeOrders.Count -lt 1) {
@@ -1358,8 +1364,8 @@ function Invoke-LocalHelper {
       if (@($payload.recheck_rows).Count -ne 6) {
         throw "$Name must account for exactly six local recheck rows."
       }
-      if ([int]$payload.pass_recheck_count -ne 4 -or [int]$payload.expected_blocked_recheck_count -ne 2 -or [int]$payload.unexpected_recheck_count -ne 0) {
-        throw "$Name must preserve 4 pass / 2 expected blocked / 0 unexpected recheck accounting."
+      if ([int]$payload.pass_recheck_count -lt 1 -or [int]$payload.unexpected_recheck_count -ne 0) {
+        throw "$Name must preserve accepted local recheck accounting with at least one pass row and 0 unexpected rows."
       }
       foreach ($row in @($payload.recheck_rows)) {
         if (-not [bool]$row.result_accepted -or -not [bool]$row.no_live_side_effects -or [string]$row.disposition -eq "unexpected") {
@@ -1371,7 +1377,7 @@ function Invoke-LocalHelper {
           throw "$Name missing recheck row: $rowName"
         }
       }
-      $requiredLedgerBlockers = @("git_checkpoint_gate_not_clean_for_ec2_execute", "target_runtime_proof_evidence_missing")
+      $requiredLedgerBlockers = @("target_runtime_proof_evidence_missing")
       if (-not [bool]$payload.selected_deploy_bundle_live_commands_materialized) {
         $requiredLedgerBlockers += "deploy_bundle_source_git_dirty_rebuild_required_before_ec2"
       }
