@@ -1,3 +1,11 @@
+## Immediate Next Action - Base Lane Final Review Blocker Packet Current - 2026-07-09T18:47:00-05:00
+
+Continue final-certification work from the current base lane final-review blocker packet. The packet now consumes the current selected-inpaint final-certification work-order map from Done_Certifications, carries both final-review and target-runtime work-order blockers, and keeps the base lane blocked without reopening stale Git/deploy-bundle blockers.
+
+Current evidence: `Plan/Instructions/QA/Evidence/Done_Certifications/W66_BASE_LANE_FINAL_REVIEW_BLOCKER_PACKET_SELECTED_CHAIN_20260709T184600-0500.json` reports `blocked_base_lane_final_review_candidate_scope_mismatch`, `defects=0`, 0 failed checks, `closes_work_order=false`, `full_project_certification_allowed=false`, and current work-order blockers including `target_runtime_or_final_certification_not_proven`, `queue_status_not_final_certified:runtime_smoke_proven_local_single_hand_contact_closeup_and_two_character_contact_pixel_attempt_pass_with_notes_pending_final_certification`, and `required_next_runtime_gate_still_requires_target_or_final_review`. QA helper validation `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_QA_HELPER_AFTER_BASE_BLOCKER_PACKET_SELECTED_CHAIN_20260709T184700-0500.json` reports `pass_local_only`, 52 scripts parsed, 57 local smokes, and 0 failures. Tracker mirrors exist.
+
+Remaining project blockers are unchanged: other lane target-runtime/final-review work orders, explicit target-runtime/live intent, refreshed AWS auth, S3 Execute proofs, EC2 install/static proof, EC2 start authorization, and gold-mask-dependent gates. Do not start EC2, upload to S3, post ComfyUI prompts, promote masks, rerun Wave70 hard gates, activate Wave71+, or switch to Jira bookkeeping without explicit live/gate conditions.
+
 ## Immediate Next Action - Canny Lane Final Review Packet Current - 2026-07-09T18:41:00-05:00
 
 Continue final-certification work from the current Canny lane final-review packet. The packet now consumes the current selected-inpaint final-certification work-order map, closes only the Canny lane-local final review packet, and keeps full-project certification blocked.

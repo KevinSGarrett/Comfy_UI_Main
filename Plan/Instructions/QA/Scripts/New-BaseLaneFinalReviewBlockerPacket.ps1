@@ -80,8 +80,12 @@ function New-Check {
 
 $qaRoot = Resolve-ProjectPath -Path "Plan\Instructions\QA\Evidence"
 $runtimeReadinessDir = Join-Path $qaRoot "Runtime_Readiness"
+$doneCertificationsDir = Join-Path $qaRoot "Done_Certifications"
 if ([string]::IsNullOrWhiteSpace($WorkOrderFile)) {
-  $WorkOrderFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_*.json"
+  $WorkOrderFile = Find-LatestFile -Directory $doneCertificationsDir -Filter "W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_*.json"
+  if ([string]::IsNullOrWhiteSpace($WorkOrderFile)) {
+    $WorkOrderFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_*.json"
+  }
 }
 if ([string]::IsNullOrWhiteSpace($OutFile)) {
   $stamp = Get-Date -Format "yyyyMMddTHHmmss-0500"
@@ -135,12 +139,25 @@ $twoCharacterTracker = Read-JsonFile -Path $twoCharacterTrackerPath
 $queue = Read-JsonFile -Path $queuePath
 
 $workOrder = @(Convert-ToArray -Value $workOrderRecord.work_orders | Where-Object { [string]$_.lane_id -eq $LaneId -and [string]$_.work_order_type -eq "final_certification_review_required" } | Select-Object -First 1)
+$targetProofWorkOrder = @(Convert-ToArray -Value $workOrderRecord.work_orders | Where-Object { [string]$_.lane_id -eq $LaneId -and [string]$_.work_order_type -eq "target_runtime_proof_required" } | Select-Object -First 1)
 $queueLane = @(Convert-ToArray -Value $queue.lanes | Where-Object { [string]$_.lane_id -eq $LaneId } | Select-Object -First 1)
 
 $runtimeVisualDefects = @(Convert-ToArray -Value $runtimeVisualQa.defects)
 $singleHandRemainingNotes = @(Convert-ToArray -Value $singleHandVisualQa.sample.remaining_notes)
 $twoCharacterRemainingRisks = @(Convert-ToArray -Value $twoCharacterVisualQa.remaining_risks)
 $queuePromotionRule = if ($queueLane.Count -gt 0) { [string]$queueLane[0].promotion_rule } else { "" }
+$workOrderBlockerList = New-Object System.Collections.Generic.List[string]
+if ($workOrder.Count -gt 0) {
+  foreach ($blocker in @(Convert-ToArray -Value $workOrder[0].blocked_by)) {
+    if (-not [string]::IsNullOrWhiteSpace([string]$blocker)) { Add-Text -List $workOrderBlockerList -Text ([string]$blocker) }
+  }
+}
+if ($targetProofWorkOrder.Count -gt 0) {
+  foreach ($blocker in @(Convert-ToArray -Value $targetProofWorkOrder[0].blocked_by)) {
+    if (-not [string]::IsNullOrWhiteSpace([string]$blocker)) { Add-Text -List $workOrderBlockerList -Text ([string]$blocker) }
+  }
+}
+$workOrderBlockers = @($workOrderBlockerList | Select-Object -Unique)
 
 $checks = @(
   (New-Check -Name "final_review_work_order_present" -Passed ($workOrder.Count -gt 0 -and [string]$workOrder[0].work_order_id -eq "WO-W66-SDXL_REALVISXL_BASE_LANE-FINAL-CERTIFICATION-REVIEW") -Observed $(if ($workOrder.Count -gt 0) { [ordered]@{ work_order_id = [string]$workOrder[0].work_order_id; status = [string]$workOrder[0].status } } else { "missing" }) -Expected "Base lane final-certification-review work order is present"),
@@ -158,14 +175,21 @@ foreach ($check in $checks) {
   if ([string]$check.result -ne "pass") { Add-Text -List $reviewDefects -Text "check_failed:$($check.name)" }
 }
 
-$blockers = @(
+$blockerList = New-Object System.Collections.Generic.List[string]
+foreach ($blocker in @(
   "base_lane_final_review_candidate_scope_mismatch",
   "generic_w63_target_runtime_smoke_does_not_certify_current_single_hand_or_two_character_contact_candidates",
   "single_hand_contact_closeup_final_decision_allowed_false",
   "two_character_hand_to_body_certification_allowed_false",
   "mask_routed_refine_or_small_robustness_pair_missing_for_base_contact_scope",
   "full_project_certification_allowed_false"
-)
+)) {
+  Add-Text -List $blockerList -Text $blocker
+}
+foreach ($blocker in $workOrderBlockers) {
+  Add-Text -List $blockerList -Text $blocker
+}
+$blockers = @($blockerList | Select-Object -Unique)
 
 $knownIssues = @(
   "W63 proves the base lane can run on target runtime and return a coherent close-face smoke image, but that QA explicitly says it is not final portfolio/style certification.",
