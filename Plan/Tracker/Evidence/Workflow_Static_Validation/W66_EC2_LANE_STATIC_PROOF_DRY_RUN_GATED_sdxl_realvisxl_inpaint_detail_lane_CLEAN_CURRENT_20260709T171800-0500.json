@@ -1,0 +1,71 @@
+﻿{
+    "evidence_id":  "EC2-LANE-STATIC-PROOF-DRY-RUN-20260709T171228-0500",
+    "timestamp":  "2026-07-09T17:12:29-05:00",
+    "mode":  "dry_run",
+    "instance_id":  "i-0560bf8d143f93bb1",
+    "region":  "us-east-1",
+    "lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+    "max_ec2_runtime_minutes":  25,
+    "git_lfs_pull_skipped":  true,
+    "deploy_bundle_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/deploy_bundle_sdxl_realvisxl_inpaint_detail_lane_20260709T151500-0500/deploy_bundle_sdxl_realvisxl_inpaint_detail_lane_20260709T151500-0500.zip",
+    "deploy_bundle_sha256":  "089a7a411f9380c4f737a8d246d1ade29799d59c1fcba95aaf4dde4bcbd68bcb",
+    "result":  "dry_run_blocked_before_ec2_start",
+    "failure_category":  "expired_session",
+    "local_git_checkpoint_gate":  {
+                                      "git_root":  "C:/Comfy_UI_Main",
+                                      "head":  "93c423b2c6f6594a99e520806f7b0fda43fa7ad4",
+                                      "origin_main":  "93c423b2c6f6594a99e520806f7b0fda43fa7ad4",
+                                      "expected_remote_head":  "93c423b2c6f6594a99e520806f7b0fda43fa7ad4",
+                                      "local_matches_origin":  true,
+                                      "clean":  true,
+                                      "porcelain_count":  0,
+                                      "remote":  "origin\thttps://github.com/KevinSGarrett/Comfy_UI_Main.git (fetch)",
+                                      "result":  "pass",
+                                      "error":  null
+                                  },
+    "auth_gate":  {
+                      "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_AWS_AUTH_GATE_EC2_TARGET_RUNTIME_PROOF_20260708T232100-0500.json",
+                      "found":  true,
+                      "expected_account":  "029530099913",
+                      "account_match":  false,
+                      "ec2_work_allowed":  false,
+                      "safe_to_start_ec2":  false,
+                      "generation_allowed":  false,
+                      "result":  "blocked_expired_session",
+                      "status":  "blocked",
+                      "failure_category":  "expired_session",
+                      "remote_login_status":  "not_attempted"
+                  },
+    "readiness_gate":  {
+                           "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LANE_RUNTIME_READINESS_sdxl_realvisxl_inpaint_detail_lane_CURRENT_PRE_EC2_20260709T141500-0500.json",
+                           "found":  true,
+                           "local_pre_ec2_ready":  true,
+                           "ready_for_ec2_static_proof":  false,
+                           "ready_for_generation":  false,
+                           "lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+                           "lane_match":  true,
+                           "result":  "local_pre_ec2_ready_runtime_blocked_auth",
+                           "failure_category":  "expired_session",
+                           "status":  "local_ready_runtime_blocked"
+                       },
+    "execute_gates_pass":  false,
+    "blocked_reasons":  [
+                            "Auth gate does not allow EC2 start.",
+                            "Lane readiness gate does not allow EC2 static proof."
+                        ],
+    "ec2_started":  false,
+    "actions":  [
+                    "Verify AWS account and EC2 identity.",
+                    "Require auth gate safe_to_start_ec2=true before EC2 start.",
+                    "Require lane readiness ready_for_ec2_static_proof=true before EC2 start.",
+                    "Start instance only if stopped.",
+                    "Wait for EC2 status checks and SSM online.",
+                    "Update remote project checkout and run Git LFS only when the lane explicitly needs it.",
+                    "Read lane runtime_requirements.json.",
+                    "Launch ComfyUI only for /object_info.",
+                    "Resolve and sha256 required model files.",
+                    "Stop EC2 and verify stopped."
+                ],
+    "generation_executed":  false,
+    "active_runtime_marker_written":  false
+}
