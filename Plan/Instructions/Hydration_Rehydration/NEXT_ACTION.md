@@ -1,3 +1,11 @@
+## Immediate Next Action - Selected Inpaint Local Publish/Final Review Coverage Accounted - 2026-07-09T17:45:00-05:00
+
+Continue selected-inpaint runtime/orchestration from the local-only live-boundary chain. A bounded final-review evidence coverage matrix now accounts for all 9 active final-review work orders with 2 closed review packets, 7 open blocker packets, and 0 missing review-evidence rows. A refreshed selected RealVisXL model S3 publish dry-run also passed locally with SHA256 match and no AWS/S3 contact.
+
+Current evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_FINAL_REVIEW_EVIDENCE_COVERAGE_20260709T174241-0500.json` and `Plan/Instructions/QA/Evidence/Model_Registry/W66_SELECTED_MODEL_S3_PUBLISH_DRY_RUN_realvisxlV50_v50Bakedvae.safetensors_CURRENT_LOCAL_20260709T174500-0500.json`. Tracker mirrors exist under `Plan/Tracker/Evidence/Runtime_Readiness` and `Plan/Tracker/Evidence/Model_Registry`.
+
+Remaining live blockers are unchanged: refreshed AWS auth, explicit live execution intent, S3 Execute proofs for deploy bundle/input/model assets, EC2 object-info/path/hash static proof, and EC2 start authorization. Do not repeat final-review packet generation, write `ACTIVE_EC2_RUNTIME_WINDOW.json`, start EC2, upload to S3, post ComfyUI prompts, promote masks, rerun Wave70 hard gates, activate Wave71+, or switch to Jira bookkeeping without explicit live/gate conditions.
+
 ## Immediate Next Action - Selected Inpaint Clean Local Recheck Ledger Current - 2026-07-09T17:50:00-05:00
 
 Continue selected-inpaint runtime/orchestration from the clean local recheck ledger. The local recheck path now has a current clean Git dry-run gate, a selected-inpaint runtime-unblock handoff, and a selected target-runtime local recheck ledger after fixing stale ledger assumptions for clean Git and auth-blocked handoffs.

@@ -1,3 +1,9 @@
+## Final Review Coverage Is Accounted, Do Not Loop Packets - 2026-07-09T17:45:00-05:00
+
+Decision: use `W66_ACTIVE_RUNTIME_QUEUE_FINAL_REVIEW_EVIDENCE_COVERAGE_20260709T174241-0500.json` as the current local accounting record for final-review packet coverage. It has 0 missing review-evidence rows, so do not regenerate final-review blocker packets unless a new lane/work-order/evidence file changes the coverage inputs.
+
+Decision boundary: this is local evidence coverage only. It does not close open final-review work orders, authorize S3 Execute, start EC2, certify target-runtime proof, promote masks, rerun Wave70 hard gates, activate Wave71+, or mutate Jira.
+
 ## Checkpoint Evidence Must Use Post-Commit Git Snapshot - 2026-07-09T15:42:24-05:00
 
 Decision: checkpoint evidence emitted after Execute/Push must recompute every Git status-derived counter, preview, and scope field from the post-commit/post-push worktree. Stale pre-commit porcelain counts must not coexist with clean_worktree=true because those records can mis-gate selected runtime orchestration.
