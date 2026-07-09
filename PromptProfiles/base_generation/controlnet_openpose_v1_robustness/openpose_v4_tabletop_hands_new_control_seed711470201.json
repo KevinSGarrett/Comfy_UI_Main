@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "openpose_v4_tabletop_hands_new_control_seed711470201",
+  "target_lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+  "purpose": "Bounded local OpenPose hands/tabletop retry using the new explicit both-hands tabletop OpenPose control map instead of prompt-only retries against the old head-and-shoulders map.",
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic cinematic editorial portrait, seated upper-body composition at a wooden table, both hands visible and separated, both hands resting naturally on the tabletop, wrists visible, natural forearms, realistic fingers, natural human posture, pose-guided composition, realistic neck and shoulder alignment, natural skin texture, realistic fine pores, realistic eyes with clean catchlights, detailed hair, tailored blazer over textured shirt, clothed shoulders and torso, soft natural window light, balanced exposure, coherent interior background, lifelike lens rendering",
+    "negative_prompt": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, distorted anatomy, twisted neck, broken shoulders, extra limbs, missing limbs, extra fingers, missing fingers, fused fingers, deformed hands, hidden hands, cropped hands, hands out of frame, close-up portrait, face-only crop, no table, floating hands, crossed eyes, low resolution, blurry, watermark, text, openpose skeleton overlay, pose map stains, colored bones, colored dots, control map stains, harsh outlines, bare shoulders, strapless top, nude, unclothed torso",
+    "seed": 711470201,
+    "sampler_settings": {
+      "steps": 20,
+      "cfg": 5.5,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1
+    },
+    "latent_resolution": {
+      "width": 768,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "controlnet_asset": "OpenPoseXL2.safetensors",
+    "control_image": "controlnet_openpose_hands_tabletop_w69_v1.png",
+    "controlnet_settings": {
+      "strength": 0.85,
+      "start_percent": 0,
+      "end_percent": 1
+    },
+    "save_prefix": "openpose_tablehands_711470201"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "openpose_tablehands_711470201"
+  },
+  "qa_focus": [
+    "both hands visible",
+    "hands separated on tabletop",
+    "finger anatomy",
+    "forearm/wrist continuity",
+    "pose adherence to new OpenPose map",
+    "absence of skeleton or color leakage",
+    "whole-image prompt alignment"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "uses_new_openpose_control_source": true,
+    "requires_whole_image_qa_before_promotion": true,
+    "requires_target_runtime_reproof_before_certification": true
+  }
+}

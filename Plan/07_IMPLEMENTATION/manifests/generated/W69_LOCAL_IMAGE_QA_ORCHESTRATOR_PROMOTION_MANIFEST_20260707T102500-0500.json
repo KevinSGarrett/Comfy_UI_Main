@@ -1,0 +1,54 @@
+{
+    "schema_version":  "1.0",
+    "manifest_type":  "orchestrator_promotion_manifest",
+    "run_id":  "w69_local_image_qa_promotion_gate_20260707T101500-0500",
+    "generated_at":  "2026-07-07T10:06:11-05:00",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "ec2_started":  false,
+    "promotion_status":  "block_final_promotion_missing_target_runtime",
+    "promotion_allowed":  false,
+    "qa_promotion_gate":  "Plan/Instructions/QA/Evidence/QA_Sheets/W69_LOCAL_IMAGE_QA_PROMOTION_GATE_20260707T101500-0500.json",
+    "run_manifest":  null,
+    "passed_passes":  [
+                          {
+                              "pass_id":  "qa_sheet_export",
+                              "status":  "completed",
+                              "evidence":  "Plan/Instructions/QA/Evidence/QA_Sheets/W69_LOCAL_IMAGE_QA_SHEET_20260707T101500-0500.csv"
+                          },
+                          {
+                              "pass_id":  "qa_gate_parse_check",
+                              "status":  "passed",
+                              "evidence":  "Plan/Instructions/QA/Evidence/QA_Sheets/W69_LOCAL_IMAGE_QA_PROMOTION_GATE_20260707T101500-0500.json"
+                          }
+                      ],
+    "failed_passes":  [
+                          {
+                              "evidence":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_VISUAL_QA_20260707T031000-0500.json",
+                              "reason":  "blocking_or_failed_qa_row"
+                          },
+                          {
+                              "evidence":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V2_UPPER_BODY_HANDS_VISUAL_QA_20260707T064800-0500.json",
+                              "reason":  "blocking_or_failed_qa_row"
+                          }
+                      ],
+    "promoted_outputs":  [
+
+                         ],
+    "blocking_reasons":  [
+                             "One or more QA evidence rows has a failed, blocked, rejected, or blocking-defect result.",
+                             "Target-runtime proof was required for promotion, but one or more rows lack EC2/target-runtime evidence.",
+                             "qa_gate_blocking_rows_present",
+                             "qa_gate_target_runtime_blocks_present"
+                         ],
+    "gate_summary":  {
+                         "exported_row_count":  47,
+                         "parse_error_count":  0,
+                         "blocking_row_count":  2,
+                         "target_runtime_block_count":  47,
+                         "gate_decision":  "block_final_promotion_missing_target_runtime"
+                     },
+    "boundary":  "Promotion manifest generated from existing local QA gate evidence only. It blocks final promotion unless all required runtime, QA, and certification gates are independently proven."
+}

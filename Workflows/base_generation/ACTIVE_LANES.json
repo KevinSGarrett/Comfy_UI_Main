@@ -1,6 +1,6 @@
 {
     "schema_version":  "1.0",
-    "updated_at":  "2026-07-06T23:06:02-05:00",
+    "updated_at":  "2026-07-09T03:14:14-05:00",
     "source_queue":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
     "lanes":  [
                   {
@@ -20,8 +20,8 @@
                       "smoke_request":  "Workflows/base_generation/sdxl_realvisxl_base_lane/smoke_test_request.json",
                       "runtime_requirements":  "Workflows/base_generation/sdxl_realvisxl_base_lane/runtime_requirements.json",
                       "patch_points":  "Workflows/base_generation/sdxl_realvisxl_base_lane/patch_points.json",
-                      "status":  "runtime_smoke_proven",
-                      "next_gate":  "completed_realvisxl_runtime_smoke"
+                      "status":  "runtime_smoke_proven_local_single_hand_contact_closeup_and_two_character_contact_pixel_attempt_pass_with_notes_pending_final_certification",
+                      "next_gate":  "optional_mask_routed_two_character_refine_or_final_base_lane_certification_or_target_runtime_reproof_when_intentionally_selected"
                   },
                   {
                       "order":  3,
@@ -30,8 +30,68 @@
                       "smoke_request":  "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/smoke_test_request.json",
                       "runtime_requirements":  "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json",
                       "patch_points":  "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/patch_points.json",
-                      "status":  "queued",
-                      "next_gate":  "refresh_aws_auth_then_ec2_static_proof"
+                      "status":  "target_runtime_smoke_proven_canny_v4_plus_local_package_and_multiseed_pass_with_notes_final_certification_pending",
+                      "next_gate":  "do_not_rerun_baseline_canny_local_or_aws_proof; only changed_variant_target_runtime_proof_or_final_canny_certification_when_intentionally_selected"
+                  },
+                  {
+                      "order":  4,
+                      "lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+                      "workflow":  "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/workflow.api.json",
+                      "smoke_request":  "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/smoke_test_request.json",
+                      "runtime_requirements":  "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/runtime_requirements.json",
+                      "patch_points":  "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/patch_points.json",
+                      "status":  "local_runtime_smoke_visual_qa_pass_with_notes_plus_wave25_contact_refine_robustness_pass_with_notes_pending_target_runtime",
+                      "next_gate":  "optional_local_robustness_or_target_runtime_object_info_path_hash_input_asset_proof_when_intentionally_selected"
+                  },
+                  {
+                      "order":  5,
+                      "lane_id":  "sdxl_realvisxl_controlnet_depth_lane",
+                      "workflow":  "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/workflow.api.json",
+                      "smoke_request":  "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/smoke_test_request.json",
+                      "runtime_requirements":  "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/runtime_requirements.json",
+                      "patch_points":  "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/patch_points.json",
+                      "status":  "local_depth_v2_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+                      "next_gate":  "optional_target_runtime_proof_or_final_depth_certification_when_intentionally_selected"
+                  },
+                  {
+                      "order":  6,
+                      "lane_id":  "sdxl_realvisxl_controlnet_lineart_lane",
+                      "workflow":  "Workflows/base_generation/sdxl_realvisxl_controlnet_lineart_lane/workflow.api.json",
+                      "smoke_request":  "Workflows/base_generation/sdxl_realvisxl_controlnet_lineart_lane/smoke_test_request.json",
+                      "runtime_requirements":  "Workflows/base_generation/sdxl_realvisxl_controlnet_lineart_lane/runtime_requirements.json",
+                      "patch_points":  "Workflows/base_generation/sdxl_realvisxl_controlnet_lineart_lane/patch_points.json",
+                      "status":  "local_lineart_v4_plain_backdrop_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+                      "next_gate":  "optional_target_runtime_proof_or_final_lineart_certification_when_intentionally_selected"
+                  },
+                  {
+                      "order":  7,
+                      "lane_id":  "sdxl_realvisxl_controlnet_openpose_lane",
+                      "workflow":  "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/workflow.api.json",
+                      "smoke_request":  "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/smoke_test_request.json",
+                      "runtime_requirements":  "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/runtime_requirements.json",
+                      "patch_points":  "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/patch_points.json",
+                      "status":  "local_openpose_tablehands_multisample_pass_with_notes_pending_target_runtime_and_final_hand_certification",
+                      "next_gate":  "optional_target_runtime_proof_or_stricter_hand_anatomy_certification_when_intentionally_selected"
+                  },
+                  {
+                      "order":  8,
+                      "lane_id":  "sdxl_realvisxl_controlnet_normal_lane",
+                      "workflow":  "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/workflow.api.json",
+                      "smoke_request":  "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/smoke_test_request.json",
+                      "runtime_requirements":  "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/runtime_requirements.json",
+                      "patch_points":  "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/patch_points.json",
+                      "status":  "local_normal_v3_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+                      "next_gate":  "optional_target_runtime_proof_or_final_normal_certification_when_intentionally_selected"
+                  },
+                  {
+                      "order":  9,
+                      "lane_id":  "sdxl_realesrgan_upscale_polish_lane",
+                      "workflow":  "Workflows/base_generation/sdxl_realesrgan_upscale_polish_lane/workflow.api.json",
+                      "smoke_request":  "Workflows/base_generation/sdxl_realesrgan_upscale_polish_lane/smoke_test_request.json",
+                      "runtime_requirements":  "Workflows/base_generation/sdxl_realesrgan_upscale_polish_lane/runtime_requirements.json",
+                      "patch_points":  "Workflows/base_generation/sdxl_realesrgan_upscale_polish_lane/patch_points.json",
+                      "status":  "local_upscale_polish_runtime_visual_qa_pass_with_notes_pending_target_runtime_and_final_certification",
+                      "next_gate":  "optional_target_runtime_proof_or_final_upscale_polish_certification_when_intentionally_selected"
                   }
               ],
     "runtime_boundaries":  {

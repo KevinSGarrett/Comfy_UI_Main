@@ -36,6 +36,16 @@ function Read-JsonFile {
   return Get-Content -Raw -LiteralPath $Path | ConvertFrom-Json
 }
 
+function Write-JsonNoBom {
+  param(
+    [Parameter(Mandatory=$true)][object]$Value,
+    [Parameter(Mandatory=$true)][string]$Path,
+    [int]$Depth = 40
+  )
+  $encoding = New-Object System.Text.UTF8Encoding($false)
+  [System.IO.File]::WriteAllText($Path, ($Value | ConvertTo-Json -Depth $Depth), $encoding)
+}
+
 function Has-Property {
   param(
     [object]$Object,
@@ -232,7 +242,7 @@ if (![string]::IsNullOrWhiteSpace($OutRequestFile)) {
   if (![string]::IsNullOrWhiteSpace($requestDir)) {
     $null = New-Item -ItemType Directory -Force -Path $requestDir
   }
-  $requestBody | ConvertTo-Json -Depth 40 | Set-Content -LiteralPath $OutRequestFile -Encoding UTF8
+  Write-JsonNoBom -Value $requestBody -Path $OutRequestFile -Depth 40
 }
 
 $proofStatus = Test-StaticProof -Path $StaticProofFile
@@ -322,7 +332,7 @@ if (![string]::IsNullOrWhiteSpace($OutFile)) {
   if (![string]::IsNullOrWhiteSpace($outDir)) {
     $null = New-Item -ItemType Directory -Force -Path $outDir
   }
-  $record | ConvertTo-Json -Depth 40 | Set-Content -LiteralPath $OutFile -Encoding UTF8
+  Write-JsonNoBom -Value $record -Path $OutFile -Depth 40
   Write-Host "Wrote ComfyUI smoke record: $OutFile"
 }
 

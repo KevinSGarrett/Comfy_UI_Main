@@ -1,0 +1,219 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_TORSO_ABDOMEN_UMBILICUS_AUTHORITY_20260708T143124-0500",
+  "created_local": "20260708T143124-0500",
+  "task": "Implement torso chest abdomen belly-button waist hips and back authority for TRK-W70-0167 / ITEM-W70-0167.",
+  "script": "Plan/07_IMPLEMENTATION/scripts/implement_wave70_torso_abdomen_umbilicus_authority.py",
+  "source_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "exists": true,
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "dimensions": [
+      768,
+      768
+    ]
+  },
+  "ref_image_1": {
+    "manifest_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_body_mask_gold_standard.json",
+    "manifest_exists": true,
+    "main_reference_path": "Ref_Image_1/725de85824bbe45ba4601dd4a7aed698.jpg",
+    "main_reference_exists": true,
+    "main_reference_sha256": "b4876e7415485efc79c2c69a914e3316c8c5f7301dc15a69b039f7515ab36df5",
+    "layout_interpretation": {
+      "top_strip": "partial upper-body / one-third-body reference only; absent lower/full-body parts here are not failures",
+      "lower_strip": "primary full-body pose and body-mask validation area"
+    },
+    "scope": "torso_body_part_reference_masks_only_not_active_source_visibility_or_promotion_proof",
+    "torso_reference_mask_count": 9,
+    "torso_reference_masks": [
+      {
+        "label": "abdomen_belly_button",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/abdomen_belly_button.png",
+        "binary_mask_sha256": "18d4e431620d50f721ac5a1b0bfa6537be07b39e73d00b04b34eedf82d8cf0e2",
+        "red_overlay_pixel_count": 767,
+        "mask_type_candidates": [
+          "mf70_belly_button_umbilicus"
+        ],
+        "gold_standard_use": "user_provided_visual_body_part_mask_reference"
+      },
+      {
+        "label": "abdomen_stomach",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/abdomen_stomach.png",
+        "binary_mask_sha256": "6007b764d261eb007527f14e4243673070b016fe15e30400e2d814b57029e6f3",
+        "red_overlay_pixel_count": 29761,
+        "mask_type_candidates": [
+          "mf70_abdomen",
+          "mf70_stomach"
+        ],
+        "gold_standard_use": "user_provided_visual_body_part_mask_reference"
+      },
+      {
+        "label": "breasts_both",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/breasts_both.png",
+        "binary_mask_sha256": "4c8011f5ea27fa8b4b561f9e137787519aa5e2caab214945486f253dbf5b2d01",
+        "red_overlay_pixel_count": 16704,
+        "mask_type_candidates": [
+          "mf70_breasts",
+          "mf70_left_breast",
+          "mf70_right_breast"
+        ],
+        "gold_standard_use": "user_provided_visual_body_part_mask_reference"
+      },
+      {
+        "label": "breasts_left_breast",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/breasts_left_breast.png",
+        "binary_mask_sha256": "5c52bea0fc15a4abcf65ec06c1316b963b2a4ca73cdb4b2a12669744dc5aa3eb",
+        "red_overlay_pixel_count": 6172,
+        "mask_type_candidates": [
+          "mf70_left_breast"
+        ],
+        "gold_standard_use": "user_provided_visual_body_part_mask_reference"
+      },
+      {
+        "label": "breasts_right",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/breasts_right.png",
+        "binary_mask_sha256": "7fb5fd921b86c658fc3d4a9e61aeb397ac5d515988f7f6f5be3aa5177d220e64",
+        "red_overlay_pixel_count": 6236,
+        "mask_type_candidates": [
+          "mf70_right_breast"
+        ],
+        "gold_standard_use": "user_provided_visual_body_part_mask_reference"
+      },
+      {
+        "label": "glute_both",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/glute_both.png",
+        "binary_mask_sha256": "b7bdc2d147eeadb6bf7dfac1f5d270a7abee019a3eb2b326b446ea95e5295ce8",
+        "red_overlay_pixel_count": 14320,
+        "mask_type_candidates": [
+          "mf70_left_glute",
+          "mf70_right_glute",
+          "mf70_glutes"
+        ],
+        "gold_standard_use": "user_provided_visual_body_part_mask_reference"
+      },
+      {
+        "label": "glute_left",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/glute_left.png",
+        "binary_mask_sha256": "5a2ca5d9b52b2b0998187b553960f537032c7b73d8fde0de37f481117b2964a4",
+        "red_overlay_pixel_count": 6094,
+        "mask_type_candidates": [
+          "mf70_left_glute"
+        ],
+        "gold_standard_use": "user_provided_visual_body_part_mask_reference"
+      },
+      {
+        "label": "glute_right",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/glute_right.png",
+        "binary_mask_sha256": "b505ac923dc04ad992620dded2329d4232d064f51a13d611887606397d634d2f",
+        "red_overlay_pixel_count": 11008,
+        "mask_type_candidates": [
+          "mf70_right_glute"
+        ],
+        "gold_standard_use": "user_provided_visual_body_part_mask_reference"
+      },
+      {
+        "label": "pelvic_pelvic_region",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/pelvic_pelvic_region.png",
+        "binary_mask_sha256": "0865d45ee2e110ee572fd098e492f7c11831847005076b195b5f38f3b40aa067",
+        "red_overlay_pixel_count": 7566,
+        "mask_type_candidates": [
+          "mf70_pelvic_region"
+        ],
+        "gold_standard_use": "user_provided_visual_body_part_mask_reference"
+      }
+    ]
+  },
+  "environment": {
+    "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "cwd": "C:\\Comfy_UI_Main"
+  },
+  "prerequisite_evidence": [
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_POSE_LANDMARK_AUTHORITY_20260708T024435-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_HUMAN_PART_PARSING_AUTHORITY_20260708T034134-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_HAND_FINGER_LANDMARK_AUTHORITY_20260708T032502-0500.json"
+  ],
+  "source_visibility_analysis": {
+    "active_source_framing": "head_neck_upper_chest_portrait",
+    "image_dimensions": [
+      768,
+      768
+    ],
+    "required_region_results": {
+      "chest": {
+        "visibility": "partial_upper_chest_only",
+        "authority_status": "blocked",
+        "reason": "visible area is clothing-occluded and lacks parser or pose authority for a canonical torso polygon"
+      },
+      "abdomen": {
+        "visibility": "not_visible_in_crop",
+        "authority_status": "blocked",
+        "reason": "the active source crop ends above abdomen landmarks"
+      },
+      "belly_button": {
+        "visibility": "not_visible_in_crop",
+        "authority_status": "blocked",
+        "reason": "the active source crop does not expose the umbilicus region"
+      },
+      "waist": {
+        "visibility": "not_visible_in_crop",
+        "authority_status": "blocked",
+        "reason": "the active source crop does not expose waist boundaries"
+      },
+      "hips": {
+        "visibility": "not_visible_in_crop",
+        "authority_status": "blocked",
+        "reason": "the active source crop does not expose hip boundaries"
+      },
+      "back": {
+        "visibility": "not_visible_front_portrait",
+        "authority_status": "blocked",
+        "reason": "the source is a front-facing portrait and contains no back-facing surface"
+      }
+    },
+    "source_visibility_pass": false,
+    "body_region_geometry_pass": false,
+    "canonical_polygon_export_pass": false,
+    "protected_neighbor_pass": false
+  },
+  "artifacts": {
+    "blocker_panel": "runtime_artifacts/mask_factory/wave70_torso_abdomen_umbilicus_authority/20260708T143124-0500/torso_abdomen_umbilicus_authority_blocker_panel.png",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_torso_abdomen_umbilicus_authority/20260708T143124-0500/torso_abdomen_umbilicus_authority.json"
+  },
+  "torso_abdomen_umbilicus_authority": {
+    "result": "blocked",
+    "torso_region_pass": false,
+    "abdomen_region_pass": false,
+    "belly_button_umbilicus_pass": false,
+    "waist_region_pass": false,
+    "hips_region_pass": false,
+    "back_region_pass": false,
+    "protected_neighbor_pass": false,
+    "whole_body_geometry_authority_pass": false,
+    "pose_hand_dense_landmark_or_segmentation_pass": false,
+    "semantic_human_part_parsing_pass": false,
+    "contact_occlusion_ownership_pass": false,
+    "body_region_geometry_pass": false,
+    "body_reference_matrix_pass": false,
+    "canonical_polygon_export_pass": false,
+    "blocked_reason": "active_source_portrait_crop_does_not_expose_abdomen_umbilicus_waist_hips_or_back; partial_upper_chest_is_clothing_occluded; pose_landmark_and_semantic_human_part_parsing_authority_unavailable",
+    "findings": [
+      "The active source is a head/neck/upper-chest portrait, not a torso or full-body image.",
+      "Abdomen, belly-button, waist, hips, and back regions are not visible in the crop.",
+      "The visible upper-chest area is partial and clothing-occluded, so it cannot define canonical torso boundaries.",
+      "Existing local pose and semantic human-part parsing authority rows are blocked, so no model-backed torso polygon can be exported.",
+      "Ref_Image_1 has 9 torso/abdomen/pelvic/glute reference masks; these are gold references, not active-source visibility or promotion proof.",
+      "No mask geometry was generated, changed, or promoted from this evidence."
+    ]
+  },
+  "qa_decision": "blocked_exact_local_source_torso_region_not_visible",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_torso_region_authority_blocked",
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  },
+  "next_step": "Work TRK-W70-0168 limb joint region authority locally, or provide an eligible source/reference slot that visibly exposes the blocked torso regions."
+}

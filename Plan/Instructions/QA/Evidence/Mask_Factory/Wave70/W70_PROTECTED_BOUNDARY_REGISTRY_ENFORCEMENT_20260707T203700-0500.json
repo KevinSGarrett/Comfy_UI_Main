@@ -1,0 +1,47 @@
+{
+  "audit_id": "W70-PROTECTED-BOUNDARY-REGISTRY-ENFORCEMENT-20260707T203700-0500",
+  "created_at_local": "2026-07-07T20:37:00-05:00",
+  "status": "canonical_protected_boundary_registry_required",
+  "trigger": "User asked how masks are prevented from crossing protected boundaries and whether a bad nose mask crossing into mouth would corrupt later mouth-mask creation.",
+  "decision": {
+    "bad_mask_must_not_become_boundary_source": true,
+    "previous_editable_mask_authoritative_by_default": false,
+    "canonical_boundary_source_required": true,
+    "protected_overlap_matrix_required": true,
+    "stable_generated_output_does_not_override_boundary_failure": true
+  },
+  "required_protocols": [
+    "Plan/Instructions/QA/WAVE70_PROTECTED_BOUNDARY_REGISTRY_PROTOCOL.md",
+    "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "Plan/Instructions/QA/WAVE70_REFERENCE_IMAGE_MATRIX_QA_PROTOCOL.md",
+    "Plan/Instructions/QA/Templates/WAVE70_REFERENCE_IMAGE_MATRIX_MANIFEST_TEMPLATE.json",
+    "Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_FACTORY_PROMOTION_GATES.md",
+    "Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_FACTORY_TAXONOMY.md"
+  ],
+  "required_gates_added": [
+    "canonical_protected_boundary_registry_pass",
+    "protected_overlap_matrix_pass",
+    "boundary_registry_manifest_present",
+    "protected_boundary_noninheritance_pass"
+  ],
+  "policy_examples": [
+    {
+      "case": "nose_crosses_mouth",
+      "result": "mf70_nose fails or needs revision against canonical nose/mouth boundary; mf70_mouth_lips must not inherit that bad nose mask as a protected boundary"
+    },
+    {
+      "case": "cheek_mask_touches_eye_or_nose",
+      "result": "cheek mask fails protected-overlap matrix even if low-denoise output looks stable"
+    },
+    {
+      "case": "jaw_chin_mask_crosses_lips_or_neck",
+      "result": "jaw/chin mask fails or requires revision against canonical mouth, chin, neck, and clothing boundaries"
+    }
+  ],
+  "current_implementation_observation": {
+    "some_scripts_have_manual_exclusion_boxes": true,
+    "some_scripts_rely_on_source_specific_polygons_and_review_notes": true,
+    "generalized_solution_required": "source-derived canonical boundary registry plus protected-overlap matrix per source/matrix slot"
+  },
+  "cron_or_scheduled_task_changed": false
+}

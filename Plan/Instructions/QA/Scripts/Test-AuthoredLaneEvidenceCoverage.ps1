@@ -12,6 +12,7 @@ or EC2, and it does not claim generated artifact QA.
 #>
 param(
   [string]$ProjectRoot = "C:\Comfy_UI_Main",
+  [string]$QueueFile = "",
   [string]$OutFile = ""
 )
 
@@ -289,12 +290,118 @@ function Test-LaneReadinessEvidence {
   }
 }
 
+function Find-LatestLocalPackageSmokeMatrix {
+  param([string]$Directory)
+
+  if (!(Test-Path -LiteralPath $Directory)) { return $null }
+  foreach ($file in @(Get-ChildItem -LiteralPath $Directory -Filter "BASE_GENERATION_REPAIRED_PACKAGE_LOCAL_SMOKE_MATRIX_COMPLETION_*.json" -File | Sort-Object LastWriteTime -Descending)) {
+    try {
+      $payload = Read-JsonFile -Path $file.FullName
+      if (
+        (Has-Property -Object $payload -Name "decision") -and
+        [string]$payload.decision -eq "base_generation_repaired_package_local_smoke_matrix_complete" -and
+        (Has-Property -Object $payload -Name "lanes")
+      ) {
+        return [ordered]@{
+          path = $file.FullName
+          payload = $payload
+        }
+      }
+    } catch {
+      continue
+    }
+  }
+  return $null
+}
+
+function Test-LocalPackageSmokeMatrixEvidence {
+  param(
+    [string]$LaneId,
+    [object]$MatrixMatch
+  )
+
+  if ($null -eq $MatrixMatch) {
+    return New-MissingCheck -Name "local_package_smoke_matrix" -Expected "latest repaired package-smoke matrix lists lane"
+  }
+
+  $payload = $MatrixMatch.payload
+  $lanesPassed = @($payload.lanes | Where-Object { [string]$_.decision -eq "local_package_smoke_passed" } | ForEach-Object { [string]$_.lane_id })
+  $passed = @($lanesPassed) -contains $LaneId
+  return [ordered]@{
+    name = "local_package_smoke_matrix"
+    path = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $MatrixMatch.path
+    found = $true
+    passed = $passed
+    expected = "lane is listed in repaired local package-smoke matrix"
+    observed = $(if ($passed) { "lane_passed_with_limitations" } else { "lane_not_listed" })
+    details = [ordered]@{
+      matrix_decision = [string]$payload.decision
+      claim_boundaries = $(if (Has-Property -Object $payload -Name "claim_boundaries") { @($payload.claim_boundaries | ForEach-Object { [string]$_ }) } else { @("local package smoke only") })
+    }
+  }
+}
+
+function Test-LocalRuntimeVisualQaEvidence {
+  param(
+    [string]$LaneId,
+    [string]$RuntimeDirectory,
+    [string]$ImageQaDirectory
+  )
+
+  $runtimeMatch = Find-LatestEvidence -Directories @($RuntimeDirectory) -ExpectedLaneId $LaneId -Predicate {
+    param($payload)
+    return (
+      (Has-Property -Object $payload -Name "result") -and [string]$payload.result -like "pass*" -and
+      (Has-Property -Object $payload -Name "local_only") -and [bool]$payload.local_only -and
+      (Has-Property -Object $payload -Name "aws_contacted") -and -not [bool]$payload.aws_contacted -and
+      (Has-Property -Object $payload -Name "ec2_started") -and -not [bool]$payload.ec2_started -and
+      (Has-Property -Object $payload -Name "generation_executed") -and [bool]$payload.generation_executed
+    )
+  }
+  $imageQaMatch = Find-LatestEvidence -Directories @($ImageQaDirectory) -ExpectedLaneId $LaneId -Predicate {
+    param($payload)
+    $qaValue = ""
+    if (Has-Property -Object $payload -Name "qa_result") {
+      $qaValue = [string]$payload.qa_result
+    } elseif (Has-Property -Object $payload -Name "result") {
+      $qaValue = [string]$payload.result
+    }
+    return (
+      $qaValue -like "pass*" -and
+      (Has-Property -Object $payload -Name "local_only") -and [bool]$payload.local_only -and
+      (Has-Property -Object $payload -Name "aws_contacted") -and -not [bool]$payload.aws_contacted -and
+      (Has-Property -Object $payload -Name "ec2_started") -and -not [bool]$payload.ec2_started
+    )
+  }
+
+  $runtimePassed = ($null -ne $runtimeMatch)
+  $imageQaPassed = ($null -ne $imageQaMatch)
+  return [ordered]@{
+    name = "local_runtime_visual_qa"
+    path = $(if ($imageQaPassed) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $imageQaMatch.path } elseif ($runtimePassed) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $runtimeMatch.path } else { $null })
+    found = ($runtimePassed -or $imageQaPassed)
+    passed = ($runtimePassed -and $imageQaPassed)
+    expected = "lane-matched local runtime generation pass plus local visual QA pass"
+    observed = "runtime=$runtimePassed; image_qa=$imageQaPassed"
+    details = [ordered]@{
+      runtime_evidence = $(if ($runtimePassed) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $runtimeMatch.path } else { $null })
+      image_qa_evidence = $(if ($imageQaPassed) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $imageQaMatch.path } else { $null })
+      claim_boundary = "Local runtime and visual QA evidence only; not target-runtime EC2 proof, final certification, gold body-mask proof, or Wave71 activation."
+    }
+  }
+}
+
 $stamp = (Get-Date -Format "yyyyMMddTHHmmsszzz").Replace(":", "")
 $createdAt = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
 $baseGenerationRoot = Join-Path $ProjectRoot "Plan\07_IMPLEMENTATION\workflow_templates\base_generation"
 $workflowStaticDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Workflow_Static_Validation"
 $workflowRuntimeDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Workflow_Runtime"
+$imageQaDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Image_Artifact_QA"
 $runtimeReadinessDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Runtime_Readiness"
+$localPackageSmokeMatrix = Find-LatestLocalPackageSmokeMatrix -Directory $workflowRuntimeDir
+if ([string]::IsNullOrWhiteSpace($QueueFile)) {
+  $QueueFile = Join-Path $baseGenerationRoot "runtime_lane_queue.json"
+}
 
 if ([string]::IsNullOrWhiteSpace($OutFile)) {
   $OutFile = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Workflow_Prerequisite_Matching\W61_AUTHORED_LANE_EVIDENCE_COVERAGE_$stamp.json"
@@ -308,6 +415,18 @@ $requiredLaneFiles = @(
 )
 
 $laneResults = @()
+$queueLaneIds = @()
+$excludedAuthoredLaneIds = @()
+if (Test-Path -LiteralPath $QueueFile) {
+  try {
+    $queuePayload = Read-JsonFile -Path $QueueFile
+    if (Has-Property -Object $queuePayload -Name "lanes") {
+      $queueLaneIds = @($queuePayload.lanes | ForEach-Object { [string]$_.lane_id } | Where-Object { ![string]::IsNullOrWhiteSpace($_) })
+    }
+  } catch {
+    $queueLaneIds = @()
+  }
+}
 if (Test-Path -LiteralPath $baseGenerationRoot) {
   foreach ($laneDir in Get-ChildItem -LiteralPath $baseGenerationRoot -Directory | Sort-Object Name) {
     $missingLaneFiles = @()
@@ -321,20 +440,36 @@ if (Test-Path -LiteralPath $baseGenerationRoot) {
     }
 
     $laneId = $laneDir.Name
+    if (@($queueLaneIds).Count -gt 0 -and @($queueLaneIds) -notcontains $laneId) {
+      $excludedAuthoredLaneIds += $laneId
+      continue
+    }
+    $workflowStaticCheck = Test-WorkflowStaticEvidence -LaneId $laneId -Directories @($workflowStaticDir)
+    $workflowSmokeDryRunCheck = Test-WorkflowSmokeDryRunEvidence -LaneId $laneId -Directories @($workflowStaticDir, $workflowRuntimeDir)
+    $laneReadinessCheck = Test-LaneReadinessEvidence -LaneId $laneId -Directories @($runtimeReadinessDir)
+    $localPackageSmokeCheck = Test-LocalPackageSmokeMatrixEvidence -LaneId $laneId -MatrixMatch $localPackageSmokeMatrix
+    $localRuntimeVisualQaCheck = Test-LocalRuntimeVisualQaEvidence -LaneId $laneId -RuntimeDirectory $workflowRuntimeDir -ImageQaDirectory $imageQaDir
     $checks = @(
-      (Test-WorkflowStaticEvidence -LaneId $laneId -Directories @($workflowStaticDir)),
-      (Test-WorkflowSmokeDryRunEvidence -LaneId $laneId -Directories @($workflowStaticDir, $workflowRuntimeDir)),
-      (Test-LaneReadinessEvidence -LaneId $laneId -Directories @($runtimeReadinessDir))
+      $workflowStaticCheck,
+      $workflowSmokeDryRunCheck,
+      $laneReadinessCheck,
+      $localPackageSmokeCheck,
+      $localRuntimeVisualQaCheck
     )
-    $failures = @($checks | Where-Object { -not [bool]$_.passed })
+    $legacyPreEc2CoveragePassed = ([bool]$workflowSmokeDryRunCheck.passed -and [bool]$laneReadinessCheck.passed)
+    $localPackageSmokeCoveragePassed = [bool]$localPackageSmokeCheck.passed
+    $localRuntimeVisualQaPassed = [bool]$localRuntimeVisualQaCheck.passed
+    $lanePassed = ([bool]$workflowStaticCheck.passed -and ($legacyPreEc2CoveragePassed -or $localPackageSmokeCoveragePassed -or $localRuntimeVisualQaPassed))
+    $failures = $(if ($lanePassed) { @() } else { @($checks | Where-Object { -not [bool]$_.passed }) })
 
     $laneResults += [ordered]@{
       lane_id = $laneId
       lane_dir = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $laneDir.FullName
       authored_contract_files = @($requiredLaneFiles)
+      coverage_mode = $(if ($legacyPreEc2CoveragePassed) { "legacy_pre_ec2_readiness" } elseif ($localPackageSmokeCoveragePassed) { "local_package_smoke_matrix" } elseif ($localRuntimeVisualQaPassed) { "local_runtime_visual_qa" } else { "insufficient" })
       required_evidence_checks = $checks
       required_evidence_failures = @($failures).Count
-      result = $(if (@($failures).Count -eq 0) { "pass" } else { "fail" })
+      result = $(if ($lanePassed) { "pass" } else { "fail" })
     }
   }
 }
@@ -353,12 +488,14 @@ $record = [ordered]@{
     "QA_EVIDENCE_LOG_PROTOCOL.md"
   )
   scope = @(
+    "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
     "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/*/workflow.api.json",
     "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/*/patch_points.json",
     "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/*/runtime_requirements.json",
     "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/*/smoke_test_request.json",
     "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/*.json",
     "Plan/Instructions/QA/Evidence/Workflow_Runtime/*.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/*.json",
     "Plan/Instructions/QA/Evidence/Runtime_Readiness/*.json"
   )
   local_only = $true
@@ -368,6 +505,12 @@ $record = [ordered]@{
   comfyui_contacted = $false
   ec2_started = $false
   generation_executed = $false
+  queue_file = $(if (Test-Path -LiteralPath $QueueFile) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $QueueFile } else { $QueueFile })
+  scoped_to_runtime_queue = @($queueLaneIds).Count -gt 0
+  queued_lane_count = @($queueLaneIds).Count
+  queued_lanes = $queueLaneIds
+  excluded_authored_lanes_not_in_queue = $excludedAuthoredLaneIds
+  local_package_smoke_matrix = $(if ($null -ne $localPackageSmokeMatrix) { ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $localPackageSmokeMatrix.path } else { $null })
   authored_base_generation_lane_count = @($laneResults).Count
   authored_base_generation_lanes = @($laneResults | ForEach-Object { $_.lane_id })
   lane_results = $laneResults
@@ -377,16 +520,18 @@ $record = [ordered]@{
     "Does not prove ComfyUI object_info compatibility.",
     "Does not prove checkpoint path/hash on EC2.",
     "Does not load models or execute generation.",
-    "Does not perform generated artifact visual QA."
+    "Does not perform new generated artifact visual QA.",
+    "When coverage_mode is local_package_smoke_matrix, the lane is covered only by repaired local package-smoke evidence with limitations; this is not final quality certification or target-runtime EC2 proof."
+    "When coverage_mode is local_runtime_visual_qa, the lane is covered by existing local runtime and image QA evidence only; this is not target-runtime EC2 proof, final certification, or gold mask proof."
   )
-  next_action = "After AWS auth is refreshed, run lane-specific EC2 static proof and bounded smoke execution for the selected first runtime lane."
+  next_action = "Use this queued-lane coverage with runtime lane queue validation before any future EC2 proof; nonqueued authored lanes require explicit queue selection and their own evidence coverage."
 }
 
 $outDir = Split-Path -Parent $OutFile
 if (![string]::IsNullOrWhiteSpace($outDir)) {
   $null = New-Item -ItemType Directory -Force -Path $outDir
 }
-$record | ConvertTo-Json -Depth 20 | Set-Content -LiteralPath $OutFile -Encoding UTF8
+[System.IO.File]::WriteAllText($OutFile, ($record | ConvertTo-Json -Depth 20), (New-Object System.Text.UTF8Encoding($false)))
 Write-Host "Wrote authored lane evidence coverage record: $OutFile"
 $record | ConvertTo-Json -Depth 20
 

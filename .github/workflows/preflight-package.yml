@@ -35,6 +35,34 @@ jobs:
             run_id: sdxl_realvisxl_base_lane_ci_preflight
             prompt_profile: ""
             allow_non_first_lane: "true"
+          - lane_id: sdxl_realvisxl_controlnet_canny_lane
+            run_id: sdxl_realvisxl_controlnet_canny_lane_ci_preflight
+            prompt_profile: ""
+            allow_non_first_lane: "true"
+          - lane_id: sdxl_realvisxl_inpaint_detail_lane
+            run_id: sdxl_realvisxl_inpaint_detail_lane_ci_preflight
+            prompt_profile: ""
+            allow_non_first_lane: "true"
+          - lane_id: sdxl_realvisxl_controlnet_depth_lane
+            run_id: sdxl_realvisxl_controlnet_depth_lane_ci_preflight
+            prompt_profile: ""
+            allow_non_first_lane: "true"
+          - lane_id: sdxl_realvisxl_controlnet_lineart_lane
+            run_id: sdxl_realvisxl_controlnet_lineart_lane_ci_preflight
+            prompt_profile: ""
+            allow_non_first_lane: "true"
+          - lane_id: sdxl_realvisxl_controlnet_openpose_lane
+            run_id: sdxl_realvisxl_controlnet_openpose_lane_ci_preflight
+            prompt_profile: ""
+            allow_non_first_lane: "true"
+          - lane_id: sdxl_realvisxl_controlnet_normal_lane
+            run_id: sdxl_realvisxl_controlnet_normal_lane_ci_preflight
+            prompt_profile: ""
+            allow_non_first_lane: "true"
+          - lane_id: sdxl_realesrgan_upscale_polish_lane
+            run_id: sdxl_realesrgan_upscale_polish_lane_ci_preflight
+            prompt_profile: ""
+            allow_non_first_lane: "true"
 
     steps:
       - name: Checkout without LFS payloads
@@ -46,6 +74,7 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path "$env:GITHUB_WORKSPACE\ci_artifacts\model_registry" | Out-Null
+          New-Item -ItemType Directory -Force -Path "$env:GITHUB_WORKSPACE\ci_artifacts\workflow_prerequisite_matching" | Out-Null
           New-Item -ItemType Directory -Force -Path "$env:GITHUB_WORKSPACE\ci_artifacts\run_packages" | Out-Null
           New-Item -ItemType Directory -Force -Path "$env:GITHUB_WORKSPACE\ci_artifacts\deploy_bundle" | Out-Null
 
@@ -58,6 +87,16 @@ jobs:
         shell: pwsh
         run: |
           powershell -NoProfile -ExecutionPolicy Bypass -File "$env:GITHUB_WORKSPACE\Plan\Instructions\QA\Scripts\Test-WorkflowModelRegistryCoverage.ps1" -ProjectRoot "$env:GITHUB_WORKSPACE" -OutFile "$env:GITHUB_WORKSPACE\ci_artifacts\model_registry\model_registry_coverage.json"
+
+      - name: Authored lane evidence coverage gate
+        shell: pwsh
+        run: |
+          powershell -NoProfile -ExecutionPolicy Bypass -File "$env:GITHUB_WORKSPACE\Plan\Instructions\QA\Scripts\Test-AuthoredLaneEvidenceCoverage.ps1" -ProjectRoot "$env:GITHUB_WORKSPACE" -OutFile "$env:GITHUB_WORKSPACE\ci_artifacts\workflow_prerequisite_matching\authored_lane_evidence_coverage.json"
+
+      - name: Runtime lane queue gate
+        shell: pwsh
+        run: |
+          powershell -NoProfile -ExecutionPolicy Bypass -File "$env:GITHUB_WORKSPACE\Plan\Instructions\QA\Scripts\Test-RuntimeLaneQueue.ps1" -ProjectRoot "$env:GITHUB_WORKSPACE" -CoverageFile "$env:GITHUB_WORKSPACE\ci_artifacts\workflow_prerequisite_matching\authored_lane_evidence_coverage.json" -OutFile "$env:GITHUB_WORKSPACE\ci_artifacts\workflow_prerequisite_matching\runtime_lane_queue.json"
 
       - name: Build verified run package
         shell: pwsh
@@ -92,6 +131,7 @@ jobs:
             ci_artifacts/deploy_bundle/**/*.zip
             ci_artifacts/deploy_bundle/**/DEPLOY_BUNDLE_MANIFEST.json
             ci_artifacts/model_registry/model_registry_coverage.json
+            ci_artifacts/workflow_prerequisite_matching/*.json
           retention-days: 7
 
       - name: Configure AWS credentials for optional S3 deploy bundle upload

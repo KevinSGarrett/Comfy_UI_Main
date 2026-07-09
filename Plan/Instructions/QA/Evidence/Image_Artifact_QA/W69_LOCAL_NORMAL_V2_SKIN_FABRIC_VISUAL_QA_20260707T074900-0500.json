@@ -1,0 +1,89 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "W69-LOCAL-NORMAL-V2-SKIN-FABRIC-VISUAL-QA-20260707T074900-0500",
+    "timestamp":  "2026-07-07T07:49:00-05:00",
+    "project_root":  "C:\\Comfy_UI_Main",
+    "local_only":  true,
+    "ec2_started":  false,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "generation_executed":  true,
+    "lane_id":  "sdxl_realvisxl_controlnet_normal_lane",
+    "module_id":  "MOD-21-CONTROLNET-NORMAL-LANE",
+    "prompt_profile":  "PromptProfiles/base_generation/controlnet_normal_v1_followup/normal_v2_skin_fabric_texture_seed711670202.json",
+    "run_package":  "runtime_artifacts/run_packages/normal_v2_skin_fabric_711670202/RUN_PACKAGE_MANIFEST.json",
+    "runtime_evidence":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_NORMAL_V2_SKIN_FABRIC_EXECUTE_20260707T074700-0500.json",
+    "previous_visual_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_NORMAL_CONTROLNET_V1_VISUAL_QA_20260707T064000-0500.json",
+    "control_map_artifact":  {
+                                 "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v2_skin_fabric_711670202_20260707T074551-0500/images/codex_sdxl_realvisxl_controlnet_normal_control_map_diagnostic_00002_.png",
+                                 "sha256":  "de1b1c0ce98095a87516931d3d0fd340858528b34f2d8ebf9b644f5f305cdb09",
+                                 "width":  512,
+                                 "height":  512,
+                                 "visual_assessment":  "Diagnostic remains the expected RGB BAE normal map with smooth face, hair, shoulder, and background surface-direction colors. No diagnostic corruption was observed."
+                             },
+    "generated_artifact":  {
+                               "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v2_skin_fabric_711670202_20260707T074551-0500/images/normal_v2_skin_fabric_711670202_00001_.png",
+                               "sha256":  "f3186da8e115e0a25295d1af2075981a358b5fa6b91638de47b41f24a451cafd",
+                               "width":  768,
+                               "height":  768,
+                               "bytes":  724493
+                           },
+    "whole_image_review":  {
+                               "face_realism":  "pass",
+                               "eye_quality":  "pass",
+                               "skin_texture":  "pass_with_notes_not_materially_improved",
+                               "hands_fingers":  "not_visible_not_scored",
+                               "feet_toes":  "not_visible_not_scored",
+                               "hair_realism":  "pass",
+                               "teeth_mouth_quality":  "pass_no_teeth_visible",
+                               "body_proportions":  "pass_for_head_shoulders_crop",
+                               "pose_accuracy":  "pass",
+                               "clothing_fabric":  "mixed_clean_collar_but_texture_goal_not_met",
+                               "contact_points":  "not_visible_not_scored",
+                               "object_body_collisions":  "pass",
+                               "deformation_realism":  "pass",
+                               "soft_body_cues":  "not_applicable_for_clothed_head_shoulders_crop",
+                               "anatomy_consistency":  "pass",
+                               "lighting":  "pass",
+                               "shadows":  "pass_with_notes_right_side_shadow_heavier_than_v1",
+                               "reflections":  "not_applicable",
+                               "background_coherence":  "pass",
+                               "camera_lens_realism":  "pass",
+                               "texture_detail":  "mixed",
+                               "generation_artifacts":  "pass_with_notes",
+                               "identity_drift":  "not_certified_single_local_followup",
+                               "prompt_compliance":  "mixed_texture_objectives_not_met",
+                               "control_adherence":  "pass_for_normal_followup",
+                               "control_map_leakage":  "pass_no_rainbow_or_normal_map_stains_visible"
+                           },
+    "qa_findings":  [
+                        "The v2 follow-up generated a coherent hyperrealistic head-and-shoulders portrait with stable face planes, aligned eyes, plausible hair, clean collar geometry, and no visible normal-map color leakage.",
+                        "The BAE normal diagnostic is intact and expected; no RGB normal-map colors, purple/green/blue stains, or surface-vector artifacts appear in the generated portrait.",
+                        "Skin remains mildly beauty-polished on cheeks and forehead; the request did not materially improve pore breakup compared with v1.",
+                        "The shirt/collar is clean, but the intended woven fabric/detail improvement did not land. The white shirt reads smoother and less textured than the v1 gray shirt region.",
+                        "The right-side facial shadow is heavier than v1 but still coherent; it is not a blocking defect.",
+                        "Hands, full-body anatomy, contact points, and broader surface robustness remain outside scope for this head-and-shoulders single sample."
+                    ],
+    "improvement_against_v1":  {
+                                   "face_plane_stability":  "held",
+                                   "normal_map_leakage":  "no_regression_observed",
+                                   "skin_texture":  "not_materially_improved",
+                                   "shirt_fabric_texture":  "not_improved_goal_missed",
+                                   "collar_geometry":  "held_or_slightly_cleaner",
+                                   "promotion_decision":  "do_not_promote_over_v1; record_as_mixed_local_followup"
+                               },
+    "blocking_defects":  [
+
+                         ],
+    "qa_result":  "mixed_result_geometry_stable_texture_goals_not_improved",
+    "certification_scope":  "local_normal_controlnet_qa_followup_only",
+    "certification_allowed":  false,
+    "remaining_risks":  [
+                            "Single local follow-up image is not full normal lane certification.",
+                            "The v2 profile did not materially fix the skin/fabric texture notes and should not be treated as a preferred local candidate.",
+                            "Hands, full-body anatomy, contact points, and multi-seed robustness are not certified.",
+                            "Target-runtime EC2 object_info/path/hash/input proof, bounded generation, pullback, technical QA, and strict whole-image visual QA remain separate gates if normal is selected for promotion."
+                        ],
+    "next_action":  "Keep normal v1/v2 evidence as local proof and mixed follow-up evidence; if continuing normal quality work, change the actual request/control strategy rather than repeating this v2 texture wording."
+}

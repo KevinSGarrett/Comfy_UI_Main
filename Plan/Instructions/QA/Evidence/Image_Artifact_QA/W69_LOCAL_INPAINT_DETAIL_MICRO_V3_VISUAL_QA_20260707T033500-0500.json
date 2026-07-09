@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-INPAINT-DETAIL-MICRO-V3-VISUAL-QA-20260707T033500-0500",
+  "timestamp": "2026-07-07T03:35:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "module_id": "MOD-13-SDXL-INPAINT-DETAIL-LANE",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "qa_scope": "strict whole-image visual review of the v3 micro-mask local inpaint sample, compared with the source image and prior failed v1/v2 outputs",
+  "source_image": {
+    "path": "ComfyUI/input/sdxl_inpaint_detail_source_canny_v1.png",
+    "sha256": "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523"
+  },
+  "mask_asset": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_micro_mask_v2_20260707T032500-0500/sdxl_inpaint_detail_micro_mask_v2.png",
+    "sha256": "25a72ab773544c393c548179367daa53ff4993d3fe81939035055504b86629e6",
+    "manifest": "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_micro_mask_v2_20260707T032500-0500/INPAINT_MICRO_MASK_INPUT_ASSET_MANIFEST.json"
+  },
+  "workflow_change": {
+    "summary": "Replaced full-face VAEEncodeForInpaint with identity-preserving VAEEncode plus SetLatentNoiseMask, FeatherMask, and ImageCompositeMasked. The edit uses a narrow micro-detail mask and denoise 0.32.",
+    "changed_lane_files": [
+      "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/workflow.api.json",
+      "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/smoke_test_request.json",
+      "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/patch_points.json",
+      "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/runtime_requirements.json",
+      "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/workflow.api.json",
+      "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/smoke_test_request.json",
+      "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/patch_points.json",
+      "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/runtime_requirements.json"
+    ]
+  },
+  "technical_evidence": [
+    "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_SDXL_REALVISXL_INPAINT_DETAIL_MICRO_V3_STATIC_VALIDATION_20260707T033000-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_MICRO_V3_EXECUTE_20260707T033500-0500.json"
+  ],
+  "reviewed_artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_local_micro_v3_20260707T033500-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_v3_00001_.png",
+    "sha256": "ff1a87149083c84f52a4426b48c13bfef1dce67c9600e2bd0697eb50a46203d2",
+    "bytes": 586472,
+    "runtime_result": "pass_local_run_package_generation_smoke"
+  },
+  "whole_image_findings": {
+    "prompt_alignment": "pass_with_notes",
+    "face_realism": "pass_with_notes",
+    "identity_preservation": "pass_with_notes",
+    "eye_quality": "pass",
+    "skin_texture": "pass_with_notes",
+    "mouth_teeth": "pass_with_notes",
+    "hair_realism": "pass",
+    "hands_feet_body": "not_visible",
+    "clothing_fabric": "pass",
+    "lighting_shadows": "pass",
+    "background_coherence": "pass",
+    "framing_crop": "pass",
+    "mask_edge_artifacts": "pass",
+    "control_or_mask_adherence": "pass",
+    "artifact_notes": [
+      "The prior flat gray oval failure is absent.",
+      "The prior v2 full-face identity drift is substantially reduced; eye color, gaze, face shape, hair, clothing, and background remain close to the source.",
+      "The edited mouth/lip region is slightly more saturated than the source and the small edited skin regions are a little smoother.",
+      "No visible hard mask edge is apparent after the FeatherMask and ImageCompositeMasked path."
+    ]
+  },
+  "strict_qa_result": "pass_with_notes_for_local_iteration",
+  "certification_status": "local_iteration_pass_with_notes_not_target_runtime_certified",
+  "next_action": "Keep v3 as the current local inpaint detail candidate. Before promotion, run target-runtime object_info/path/hash proof and a bounded target-runtime sample, then repeat technical and strict whole-image QA."
+}

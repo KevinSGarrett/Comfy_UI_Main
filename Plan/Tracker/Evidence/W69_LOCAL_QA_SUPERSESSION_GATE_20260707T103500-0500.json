@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-QA-SUPERSESSION-GATE-20260707T103500-0500",
+  "timestamp": "2026-07-07T10:35:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "tracker_item": "local_qa_promotion_gate_supersession_accounting",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "implementation_files": [
+    "Plan/Instructions/QA/Scripts/Export-QAEvidenceSheet.ps1",
+    "Plan/Instructions/QA/Evidence/QA_Sheets/W69_LOCAL_IMAGE_QA_SUPERSESSION_MAP_20260707T103500-0500.json"
+  ],
+  "generated_evidence": [
+    "Plan/Instructions/QA/Evidence/QA_Sheets/W69_LOCAL_IMAGE_QA_SHEET_SUPERSEDED_20260707T103500-0500.csv",
+    "Plan/Instructions/QA/Evidence/QA_Sheets/W69_LOCAL_IMAGE_QA_PROMOTION_GATE_SUPERSEDED_20260707T103500-0500.json",
+    "Plan/07_IMPLEMENTATION/manifests/generated/W69_LOCAL_IMAGE_QA_ORCHESTRATOR_PROMOTION_MANIFEST_SUPERSEDED_20260707T103500-0500.json"
+  ],
+  "superseded_historical_failures": [
+    {
+      "source_file": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_VISUAL_QA_20260707T031000-0500.json",
+      "superseded_by": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_ROBUSTNESS_VISUAL_QA_20260707T034000-0500.json"
+    },
+    {
+      "source_file": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V2_UPPER_BODY_HANDS_VISUAL_QA_20260707T064800-0500.json",
+      "superseded_by": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V5_TABLEHANDS_ROBUSTNESS_VISUAL_QA_20260707T073000-0500.json"
+    }
+  ],
+  "result": "pass_local_qa_supersession_gate_blocks_only_target_runtime",
+  "gate_summary": {
+    "exported_row_count": 47,
+    "parse_error_count": 0,
+    "superseded_row_count": 2,
+    "blocking_row_count": 0,
+    "target_runtime_block_count": 45,
+    "promotion_decision": "block_final_promotion_missing_target_runtime",
+    "promotion_allowed": false
+  },
+  "boundary": "This corrects local QA gate accounting only. It does not erase failed historical evidence, does not satisfy target-runtime proof, and does not certify final release."
+}

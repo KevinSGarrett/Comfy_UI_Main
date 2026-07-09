@@ -1,0 +1,2327 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_SEGMENTATION_REFINEMENT_AUTHORITY_20260708T100547-0500",
+  "created_local": "20260708T100547-0500",
+  "task": "Implement promptable segmentation refinement adapter for TRK-W70-0145 / ITEM-W70-0145.",
+  "script": "Plan/07_IMPLEMENTATION/scripts/implement_wave70_segmentation_refinement_authority.py",
+  "source_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "exists": true,
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "dimensions": [
+      768,
+      768
+    ]
+  },
+  "environment": {
+    "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "cwd": "C:\\Comfy_UI_Main",
+    "wave70_model_registry": {
+      "project_root": "C:\\Comfy_UI_Main",
+      "comfyui_root": "C:\\Comfy_UI_Main\\ComfyUI",
+      "comfyui_venv_python": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe",
+      "system_python": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+      "search_roots": [
+        {
+          "path": "C:\\Comfy_UI_Main",
+          "exists": true
+        },
+        {
+          "path": "C:\\Comfy_UI_Main\\ComfyUI",
+          "exists": true
+        },
+        {
+          "path": "C:\\Comfy_UI_Main\\ComfyUI\\models",
+          "exists": true
+        },
+        {
+          "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux",
+          "exists": true
+        },
+        {
+          "path": "C:\\Comfy_UI_Main\\models",
+          "exists": true
+        },
+        {
+          "path": "C:\\Comfy_UI",
+          "exists": true
+        },
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models",
+          "exists": true
+        },
+        {
+          "path": "C:\\Users\\kevin\\.cache\\huggingface",
+          "exists": true
+        },
+        {
+          "path": "C:\\Users\\kevin\\.cache\\torch",
+          "exists": true
+        }
+      ],
+      "known_assets": {
+        "mediapipe_face_landmarker_task": {
+          "candidates": [
+            {
+              "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\face_landmarker.task",
+              "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\face_landmarker.task",
+              "exists": true,
+              "size_bytes": 3758596,
+              "suffix": ".task",
+              "sha256": "64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff",
+              "sha256_limited": false
+            },
+            {
+              "path": "C:\\Comfy_UI_Main\\ComfyUI\\models\\mediapipe\\face_landmarker.task",
+              "relative_path": "C:\\Comfy_UI_Main\\ComfyUI\\models\\mediapipe\\face_landmarker.task",
+              "exists": false
+            },
+            {
+              "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\mediapipe\\face_landmarker.task",
+              "relative_path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\mediapipe\\face_landmarker.task",
+              "exists": false
+            }
+          ],
+          "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\face_landmarker.task"
+        },
+        "mediapipe_pose_landmarker_task": {
+          "candidates": [
+            {
+              "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\pose_landmarker_heavy.task",
+              "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\pose_landmarker_heavy.task",
+              "exists": true,
+              "size_bytes": 30664242,
+              "suffix": ".task",
+              "sha256": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b",
+              "sha256_limited": false
+            }
+          ],
+          "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\pose_landmarker_heavy.task"
+        },
+        "mediapipe_hand_landmarker_task": {
+          "candidates": [
+            {
+              "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\mesh_graphormer\\hand_landmarker.task",
+              "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/mesh_graphormer/hand_landmarker.task",
+              "exists": true,
+              "size_bytes": 7819105,
+              "suffix": ".task",
+              "sha256": "fbc2a30080c3c557093b5ddfc334698132eb341044ccee322ccf8bcf3607cde1",
+              "sha256_limited": false
+            },
+            {
+              "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\hand_landmarker.task",
+              "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\hand_landmarker.task",
+              "exists": true,
+              "size_bytes": 7819105,
+              "suffix": ".task",
+              "sha256": "fbc2a30080c3c557093b5ddfc334698132eb341044ccee322ccf8bcf3607cde1",
+              "sha256_limited": false
+            }
+          ],
+          "selected_path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\mesh_graphormer\\hand_landmarker.task"
+        },
+        "sam2_hiera_tiny_checkpoint": {
+          "candidates": [
+            {
+              "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt",
+              "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt",
+              "exists": true,
+              "size_bytes": 156008466,
+              "suffix": ".pt",
+              "sha256": "7402e0d864fa82708a20fbd15bc84245c2f26dff0eb43a4b5b93452deb34be69",
+              "sha256_limited": false
+            }
+          ],
+          "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt"
+        },
+        "schp_lip_checkpoint": {
+          "candidates": [
+            {
+              "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\schp\\exp-schp-201908261155-lip.pth",
+              "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\schp\\exp-schp-201908261155-lip.pth",
+              "exists": true,
+              "size_bytes": 267449349,
+              "suffix": ".pth",
+              "sha256": "24fa3254ceeb74c8435458994a64b522fb439a3635b7b86ff470457e0413da00",
+              "sha256_limited": false
+            }
+          ],
+          "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\schp\\exp-schp-201908261155-lip.pth"
+        },
+        "dwpose_detector_onnx": {
+          "candidates": [
+            {
+              "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\yolox_l.onnx",
+              "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\yolox_l.onnx",
+              "exists": true,
+              "size_bytes": 216746733,
+              "suffix": ".onnx",
+              "sha256": "7860ae79de6c89a3c1eb72ae9a2756c0ccfbe04b7791bb5880afabd97855a411",
+              "sha256_limited": false
+            }
+          ],
+          "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\yolox_l.onnx"
+        },
+        "dwpose_pose_onnx": {
+          "candidates": [
+            {
+              "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\dw-ll_ucoco_384.onnx",
+              "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\dw-ll_ucoco_384.onnx",
+              "exists": true,
+              "size_bytes": 134399116,
+              "suffix": ".onnx",
+              "sha256": "724f4ff2439ed61afb86fb8a1951ec39c6220682803b4a8bd4f598cd913b1843",
+              "sha256_limited": false
+            }
+          ],
+          "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\dw-ll_ucoco_384.onnx"
+        },
+        "ultralytics_yolo_pose": {
+          "candidates": [
+            {
+              "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\ultralytics\\yolo11x-pose.pt",
+              "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\ultralytics\\yolo11x-pose.pt",
+              "exists": true,
+              "size_bytes": 118481010,
+              "suffix": ".pt",
+              "sha256": "013c43543b0751b8918486ba96e01ee44a59040683a07f96cc22bcc2cb7785f8",
+              "sha256_limited": false
+            }
+          ],
+          "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\ultralytics\\yolo11x-pose.pt"
+        },
+        "openpose_body_model": {
+          "candidates": [
+            {
+              "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\ckpts\\lllyasviel\\Annotators\\body_pose_model.pth",
+              "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/lllyasviel/Annotators/body_pose_model.pth",
+              "exists": true,
+              "size_bytes": 209267595,
+              "suffix": ".pth",
+              "sha256": "25a948c16078b0f08e236bda51a385d855ef4c153598947c28c0d47ed94bb746",
+              "sha256_limited": false
+            }
+          ],
+          "selected_path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\ckpts\\lllyasviel\\Annotators\\body_pose_model.pth"
+        },
+        "openpose_hand_model": {
+          "candidates": [
+            {
+              "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\ckpts\\lllyasviel\\Annotators\\hand_pose_model.pth",
+              "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/lllyasviel/Annotators/hand_pose_model.pth",
+              "exists": true,
+              "size_bytes": 147341049,
+              "suffix": ".pth",
+              "sha256": "b76b00d1750901abd07b9f9d8c98cc3385b8fe834a26d4b4f0aad439e75fc600",
+              "sha256_limited": false
+            }
+          ],
+          "selected_path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\ckpts\\lllyasviel\\Annotators\\hand_pose_model.pth"
+        },
+        "openpose_face_model": {
+          "candidates": [
+            {
+              "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\ckpts\\lllyasviel\\Annotators\\facenet.pth",
+              "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/lllyasviel/Annotators/facenet.pth",
+              "exists": true,
+              "size_bytes": 153718792,
+              "suffix": ".pth",
+              "sha256": "8beb52e548624ffcc4aed12af7aee7dcbfaeea420c75609fee999fe7add79d43",
+              "sha256_limited": false
+            }
+          ],
+          "selected_path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\ckpts\\lllyasviel\\Annotators\\facenet.pth"
+        }
+      }
+    },
+    "current_python_probe": {
+      "python": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+      "exists": true,
+      "modules": {
+        "segment_anything": {
+          "available": false,
+          "origin": null,
+          "imported": false,
+          "version": null,
+          "error": null
+        },
+        "sam2": {
+          "available": true,
+          "origin": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\__init__.py",
+          "imported": true,
+          "version": null,
+          "error": null
+        },
+        "torch": {
+          "available": true,
+          "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\torch\\__init__.py",
+          "imported": true,
+          "version": "2.12.1+cpu",
+          "error": null
+        },
+        "torchvision": {
+          "available": true,
+          "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\torchvision\\__init__.py",
+          "imported": true,
+          "version": "0.27.1+cpu",
+          "error": null
+        },
+        "cv2": {
+          "available": true,
+          "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\cv2\\__init__.py",
+          "imported": true,
+          "version": "4.11.0",
+          "error": null
+        },
+        "numpy": {
+          "available": true,
+          "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\numpy\\__init__.py",
+          "imported": true,
+          "version": "1.26.4",
+          "error": null
+        },
+        "PIL": {
+          "available": true,
+          "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\PIL\\__init__.py",
+          "imported": true,
+          "version": "12.3.0",
+          "error": null
+        },
+        "onnxruntime": {
+          "available": true,
+          "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\onnxruntime\\__init__.py",
+          "imported": true,
+          "version": "1.27.0",
+          "error": null
+        }
+      }
+    },
+    "comfyui_venv_python_probe": {
+      "python": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe",
+      "exists": true,
+      "modules": {
+        "segment_anything": {
+          "available": false,
+          "origin": null,
+          "imported": false,
+          "version": null,
+          "error": null
+        },
+        "sam2": {
+          "available": false,
+          "origin": null,
+          "imported": false,
+          "version": null,
+          "error": null
+        },
+        "torch": {
+          "available": true,
+          "origin": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\torch\\__init__.py",
+          "imported": true,
+          "version": "2.11.0+cu128",
+          "error": null
+        },
+        "torchvision": {
+          "available": true,
+          "origin": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\torchvision\\__init__.py",
+          "imported": true,
+          "version": "0.26.0+cu128",
+          "error": null
+        },
+        "cv2": {
+          "available": true,
+          "origin": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\cv2\\__init__.py",
+          "imported": true,
+          "version": "5.0.0",
+          "error": null
+        },
+        "numpy": {
+          "available": true,
+          "origin": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\numpy\\__init__.py",
+          "imported": true,
+          "version": "2.4.4",
+          "error": null
+        },
+        "PIL": {
+          "available": true,
+          "origin": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\PIL\\__init__.py",
+          "imported": true,
+          "version": "12.2.0",
+          "error": null
+        },
+        "onnxruntime": {
+          "available": true,
+          "origin": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\__init__.py",
+          "imported": true,
+          "version": "1.27.0",
+          "error": null
+        }
+      }
+    }
+  },
+  "local_promptable_segmentation_candidates": [
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\comfyui_workflow_templates_json\\templates\\utility_image_segment_sam3.json",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/comfyui_workflow_templates_json/templates/utility_image_segment_sam3.json",
+      "size_bytes": 22546,
+      "suffix": ".json",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\comfyui_workflow_templates_json\\templates\\utility_video_segment_sam3.json",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/comfyui_workflow_templates_json/templates/utility_video_segment_sam3.json",
+      "size_bytes": 23942,
+      "suffix": ".json",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\kornia\\models\\sam3\\__init__.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/kornia/models/sam3/__init__.py",
+      "size_bytes": 1029,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\kornia\\models\\sam3\\architecture\\common.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/kornia/models/sam3/architecture/common.py",
+      "size_bytes": 3584,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\kornia\\models\\sam3\\architecture\\image_encoder.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/kornia/models/sam3/architecture/image_encoder.py",
+      "size_bytes": 8026,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\kornia\\models\\sam3\\architecture\\mask_decoder.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/kornia/models/sam3/architecture/mask_decoder.py",
+      "size_bytes": 9618,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\kornia\\models\\sam3\\architecture\\prompt_encoder.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/kornia/models/sam3/architecture/prompt_encoder.py",
+      "size_bytes": 10379,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\kornia\\models\\sam3\\architecture\\__init__.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/kornia/models/sam3/architecture/__init__.py",
+      "size_bytes": 1157,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\fusion_attention_sam2.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/fusion_attention_sam2.py",
+      "size_bytes": 21307,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\onnx_model_sam2.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/onnx_model_sam2.py",
+      "size_bytes": 4981,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\models\\sam2\\benchmark_sam2.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/models/sam2/benchmark_sam2.py",
+      "size_bytes": 22468,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\models\\sam2\\convert_to_onnx.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/models/sam2/convert_to_onnx.py",
+      "size_bytes": 10669,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\models\\sam2\\image_decoder.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/models/sam2/image_decoder.py",
+      "size_bytes": 11093,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\models\\sam2\\image_encoder.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/models/sam2/image_encoder.py",
+      "size_bytes": 9788,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\models\\sam2\\mask_decoder.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/models/sam2/mask_decoder.py",
+      "size_bytes": 9066,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\models\\sam2\\nvtx_helper.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/models/sam2/nvtx_helper.py",
+      "size_bytes": 1312,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\models\\sam2\\prompt_encoder.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/models/sam2/prompt_encoder.py",
+      "size_bytes": 8530,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\models\\sam2\\sam2_demo.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/models/sam2/sam2_demo.py",
+      "size_bytes": 10822,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\models\\sam2\\sam2_image_onnx_predictor.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/models/sam2/sam2_image_onnx_predictor.py",
+      "size_bytes": 12702,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\models\\sam2\\sam2_utils.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/models/sam2/sam2_utils.py",
+      "size_bytes": 5667,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\models\\sam2\\__init__.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/models/sam2/__init__.py",
+      "size_bytes": 495,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\timm\\models\\hieradet_sam2.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/timm/models/hieradet_sam2.py",
+      "size_bytes": 25214,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam2\\configuration_sam2.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam2/configuration_sam2.py",
+      "size_bytes": 12670,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam2\\image_processing_sam2.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam2/image_processing_sam2.py",
+      "size_bytes": 28492,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam2\\modeling_sam2.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam2/modeling_sam2.py",
+      "size_bytes": 71963,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam2\\modular_sam2.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam2/modular_sam2.py",
+      "size_bytes": 62301,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam2\\processing_sam2.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam2/processing_sam2.py",
+      "size_bytes": 22411,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam2\\__init__.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam2/__init__.py",
+      "size_bytes": 1065,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam2_video\\configuration_sam2_video.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam2_video/configuration_sam2_video.py",
+      "size_bytes": 13820,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam2_video\\modeling_sam2_video.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam2_video/modeling_sam2_video.py",
+      "size_bytes": 132913,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam2_video\\modular_sam2_video.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam2_video/modular_sam2_video.py",
+      "size_bytes": 120861,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam2_video\\processing_sam2_video.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam2_video/processing_sam2_video.py",
+      "size_bytes": 37447,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam2_video\\video_processing_sam2_video.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam2_video/video_processing_sam2_video.py",
+      "size_bytes": 4868,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam2_video\\__init__.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam2_video/__init__.py",
+      "size_bytes": 1089,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3\\configuration_sam3.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3/configuration_sam3.py",
+      "size_bytes": 10873,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3\\image_processing_sam3.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3/image_processing_sam3.py",
+      "size_bytes": 40263,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3\\modeling_sam3.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3/modeling_sam3.py",
+      "size_bytes": 102306,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3\\modular_sam3.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3/modular_sam3.py",
+      "size_bytes": 12807,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3\\processing_sam3.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3/processing_sam3.py",
+      "size_bytes": 28781,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3\\__init__.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3/__init__.py",
+      "size_bytes": 1065,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_lite_text\\configuration_sam3_lite_text.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_lite_text/configuration_sam3_lite_text.py",
+      "size_bytes": 9253,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_lite_text\\modeling_sam3_lite_text.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_lite_text/modeling_sam3_lite_text.py",
+      "size_bytes": 94557,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_lite_text\\modular_sam3_lite_text.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_lite_text/modular_sam3_lite_text.py",
+      "size_bytes": 17721,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_lite_text\\__init__.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_lite_text/__init__.py",
+      "size_bytes": 1010,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_tracker\\configuration_sam3_tracker.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_tracker/configuration_sam3_tracker.py",
+      "size_bytes": 7269,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_tracker\\modeling_sam3_tracker.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_tracker/modeling_sam3_tracker.py",
+      "size_bytes": 52692,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_tracker\\modular_sam3_tracker.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_tracker/modular_sam3_tracker.py",
+      "size_bytes": 8116,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_tracker\\processing_sam3_tracker.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_tracker/processing_sam3_tracker.py",
+      "size_bytes": 23144,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_tracker\\__init__.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_tracker/__init__.py",
+      "size_bytes": 1049,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_tracker_video\\configuration_sam3_tracker_video.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_tracker_video/configuration_sam3_tracker_video.py",
+      "size_bytes": 15116,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_tracker_video\\modeling_sam3_tracker_video.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_tracker_video/modeling_sam3_tracker_video.py",
+      "size_bytes": 134369,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_tracker_video\\modular_sam3_tracker_video.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_tracker_video/modular_sam3_tracker_video.py",
+      "size_bytes": 21204,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_tracker_video\\processing_sam3_tracker_video.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_tracker_video/processing_sam3_tracker_video.py",
+      "size_bytes": 37541,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_tracker_video\\__init__.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_tracker_video/__init__.py",
+      "size_bytes": 1067,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_video\\configuration_sam3_video.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_video/configuration_sam3_video.py",
+      "size_bytes": 9315,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_video\\modeling_sam3_video.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_video/modeling_sam3_video.py",
+      "size_bytes": 92973,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_video\\processing_sam3_video.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_video/processing_sam3_video.py",
+      "size_bytes": 17822,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_video\\__init__.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_video/__init__.py",
+      "size_bytes": 1042,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam_hq\\configuration_sam_hq.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam_hq/configuration_sam_hq.py",
+      "size_bytes": 8024,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam_hq\\modeling_sam_hq.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam_hq/modeling_sam_hq.py",
+      "size_bytes": 68933,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam_hq\\modular_sam_hq.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam_hq/modular_sam_hq.py",
+      "size_bytes": 28014,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam_hq\\processing_sam_hq.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam_hq/processing_sam_hq.py",
+      "size_bytes": 13391,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam_hq\\__init__.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam_hq/__init__.py",
+      "size_bytes": 1030,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\blueprints\\Image Segmentation (SAM3).json",
+      "relative_path": "ComfyUI/blueprints/Image Segmentation (SAM3).json",
+      "size_bytes": 18619,
+      "suffix": ".json",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\blueprints\\Video Segmentation (SAM3).json",
+      "relative_path": "ComfyUI/blueprints/Video Segmentation (SAM3).json",
+      "size_bytes": 21599,
+      "suffix": ".json",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\comfy\\ldm\\sam3\\detector.py",
+      "relative_path": "ComfyUI/comfy/ldm/sam3/detector.py",
+      "size_bytes": 33077,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\comfy\\ldm\\sam3\\sam.py",
+      "relative_path": "ComfyUI/comfy/ldm/sam3/sam.py",
+      "size_bytes": 21244,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\comfy\\ldm\\sam3\\tracker.py",
+      "relative_path": "ComfyUI/comfy/ldm/sam3/tracker.py",
+      "size_bytes": 97213,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\comfy\\text_encoders\\sam3_clip.py",
+      "relative_path": "ComfyUI/comfy/text_encoders/sam3_clip.py",
+      "size_bytes": 4324,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\comfy_extras\\nodes_sam3.py",
+      "relative_path": "ComfyUI/comfy_extras/nodes_sam3.py",
+      "size_bytes": 26673,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\node_wrappers\\segment_anything.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/node_wrappers/segment_anything.py",
+      "size_bytes": 867,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\comfyui_workflow_templates_json\\templates\\utility_image_segment_sam3.json",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/comfyui_workflow_templates_json/templates/utility_image_segment_sam3.json",
+      "size_bytes": 22546,
+      "suffix": ".json",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\comfyui_workflow_templates_json\\templates\\utility_video_segment_sam3.json",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/comfyui_workflow_templates_json/templates/utility_video_segment_sam3.json",
+      "size_bytes": 23942,
+      "suffix": ".json",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\kornia\\models\\sam3\\__init__.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/kornia/models/sam3/__init__.py",
+      "size_bytes": 1029,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\kornia\\models\\sam3\\architecture\\common.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/kornia/models/sam3/architecture/common.py",
+      "size_bytes": 3584,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\kornia\\models\\sam3\\architecture\\image_encoder.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/kornia/models/sam3/architecture/image_encoder.py",
+      "size_bytes": 8026,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\kornia\\models\\sam3\\architecture\\mask_decoder.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/kornia/models/sam3/architecture/mask_decoder.py",
+      "size_bytes": 9618,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\kornia\\models\\sam3\\architecture\\prompt_encoder.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/kornia/models/sam3/architecture/prompt_encoder.py",
+      "size_bytes": 10379,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\kornia\\models\\sam3\\architecture\\__init__.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/kornia/models/sam3/architecture/__init__.py",
+      "size_bytes": 1157,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\fusion_attention_sam2.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/fusion_attention_sam2.py",
+      "size_bytes": 21307,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\onnx_model_sam2.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/onnx_model_sam2.py",
+      "size_bytes": 4981,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\models\\sam2\\benchmark_sam2.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/models/sam2/benchmark_sam2.py",
+      "size_bytes": 22468,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\models\\sam2\\convert_to_onnx.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/models/sam2/convert_to_onnx.py",
+      "size_bytes": 10669,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\models\\sam2\\image_decoder.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/models/sam2/image_decoder.py",
+      "size_bytes": 11093,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\models\\sam2\\image_encoder.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/models/sam2/image_encoder.py",
+      "size_bytes": 9788,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\models\\sam2\\mask_decoder.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/models/sam2/mask_decoder.py",
+      "size_bytes": 9066,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\models\\sam2\\nvtx_helper.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/models/sam2/nvtx_helper.py",
+      "size_bytes": 1312,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\models\\sam2\\prompt_encoder.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/models/sam2/prompt_encoder.py",
+      "size_bytes": 8530,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\models\\sam2\\sam2_demo.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/models/sam2/sam2_demo.py",
+      "size_bytes": 10822,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\models\\sam2\\sam2_image_onnx_predictor.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/models/sam2/sam2_image_onnx_predictor.py",
+      "size_bytes": 12702,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\models\\sam2\\sam2_utils.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/models/sam2/sam2_utils.py",
+      "size_bytes": 5667,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\transformers\\models\\sam2\\__init__.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/onnxruntime/transformers/models/sam2/__init__.py",
+      "size_bytes": 495,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\timm\\models\\hieradet_sam2.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/timm/models/hieradet_sam2.py",
+      "size_bytes": 25214,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam2\\configuration_sam2.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam2/configuration_sam2.py",
+      "size_bytes": 12670,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam2\\image_processing_sam2.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam2/image_processing_sam2.py",
+      "size_bytes": 28492,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam2\\modeling_sam2.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam2/modeling_sam2.py",
+      "size_bytes": 71963,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam2\\modular_sam2.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam2/modular_sam2.py",
+      "size_bytes": 62301,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam2\\processing_sam2.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam2/processing_sam2.py",
+      "size_bytes": 22411,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam2\\__init__.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam2/__init__.py",
+      "size_bytes": 1065,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam2_video\\configuration_sam2_video.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam2_video/configuration_sam2_video.py",
+      "size_bytes": 13820,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam2_video\\modeling_sam2_video.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam2_video/modeling_sam2_video.py",
+      "size_bytes": 132913,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam2_video\\modular_sam2_video.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam2_video/modular_sam2_video.py",
+      "size_bytes": 120861,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam2_video\\processing_sam2_video.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam2_video/processing_sam2_video.py",
+      "size_bytes": 37447,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam2_video\\video_processing_sam2_video.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam2_video/video_processing_sam2_video.py",
+      "size_bytes": 4868,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam2_video\\__init__.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam2_video/__init__.py",
+      "size_bytes": 1089,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3\\configuration_sam3.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3/configuration_sam3.py",
+      "size_bytes": 10873,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3\\image_processing_sam3.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3/image_processing_sam3.py",
+      "size_bytes": 40263,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3\\modeling_sam3.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3/modeling_sam3.py",
+      "size_bytes": 102306,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3\\modular_sam3.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3/modular_sam3.py",
+      "size_bytes": 12807,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3\\processing_sam3.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3/processing_sam3.py",
+      "size_bytes": 28781,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3\\__init__.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3/__init__.py",
+      "size_bytes": 1065,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_lite_text\\configuration_sam3_lite_text.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_lite_text/configuration_sam3_lite_text.py",
+      "size_bytes": 9253,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_lite_text\\modeling_sam3_lite_text.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_lite_text/modeling_sam3_lite_text.py",
+      "size_bytes": 94557,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_lite_text\\modular_sam3_lite_text.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_lite_text/modular_sam3_lite_text.py",
+      "size_bytes": 17721,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_lite_text\\__init__.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_lite_text/__init__.py",
+      "size_bytes": 1010,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_tracker\\configuration_sam3_tracker.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_tracker/configuration_sam3_tracker.py",
+      "size_bytes": 7269,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_tracker\\modeling_sam3_tracker.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_tracker/modeling_sam3_tracker.py",
+      "size_bytes": 52692,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_tracker\\modular_sam3_tracker.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_tracker/modular_sam3_tracker.py",
+      "size_bytes": 8116,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_tracker\\processing_sam3_tracker.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_tracker/processing_sam3_tracker.py",
+      "size_bytes": 23144,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_tracker\\__init__.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_tracker/__init__.py",
+      "size_bytes": 1049,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_tracker_video\\configuration_sam3_tracker_video.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_tracker_video/configuration_sam3_tracker_video.py",
+      "size_bytes": 15116,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_tracker_video\\modeling_sam3_tracker_video.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_tracker_video/modeling_sam3_tracker_video.py",
+      "size_bytes": 134369,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_tracker_video\\modular_sam3_tracker_video.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_tracker_video/modular_sam3_tracker_video.py",
+      "size_bytes": 21204,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_tracker_video\\processing_sam3_tracker_video.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_tracker_video/processing_sam3_tracker_video.py",
+      "size_bytes": 37541,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_tracker_video\\__init__.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_tracker_video/__init__.py",
+      "size_bytes": 1067,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_video\\configuration_sam3_video.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_video/configuration_sam3_video.py",
+      "size_bytes": 9315,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_video\\modeling_sam3_video.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_video/modeling_sam3_video.py",
+      "size_bytes": 92973,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_video\\processing_sam3_video.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_video/processing_sam3_video.py",
+      "size_bytes": 17822,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam3_video\\__init__.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam3_video/__init__.py",
+      "size_bytes": 1042,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam_hq\\configuration_sam_hq.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam_hq/configuration_sam_hq.py",
+      "size_bytes": 8024,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam_hq\\modeling_sam_hq.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam_hq/modeling_sam_hq.py",
+      "size_bytes": 68933,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam_hq\\modular_sam_hq.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam_hq/modular_sam_hq.py",
+      "size_bytes": 28014,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam_hq\\processing_sam_hq.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam_hq/processing_sam_hq.py",
+      "size_bytes": 13391,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\models\\sam_hq\\__init__.py",
+      "relative_path": "ComfyUI/.venv/Lib/site-packages/transformers/models/sam_hq/__init__.py",
+      "size_bytes": 1030,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\blueprints\\Image Segmentation (SAM3).json",
+      "relative_path": "ComfyUI/blueprints/Image Segmentation (SAM3).json",
+      "size_bytes": 18619,
+      "suffix": ".json",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\blueprints\\Video Segmentation (SAM3).json",
+      "relative_path": "ComfyUI/blueprints/Video Segmentation (SAM3).json",
+      "size_bytes": 21599,
+      "suffix": ".json",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\comfy\\ldm\\sam3\\detector.py",
+      "relative_path": "ComfyUI/comfy/ldm/sam3/detector.py",
+      "size_bytes": 33077,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\comfy\\ldm\\sam3\\sam.py",
+      "relative_path": "ComfyUI/comfy/ldm/sam3/sam.py",
+      "size_bytes": 21244,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\comfy\\ldm\\sam3\\tracker.py",
+      "relative_path": "ComfyUI/comfy/ldm/sam3/tracker.py",
+      "size_bytes": 97213,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\comfy\\text_encoders\\sam3_clip.py",
+      "relative_path": "ComfyUI/comfy/text_encoders/sam3_clip.py",
+      "size_bytes": 4324,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\comfy_extras\\nodes_sam3.py",
+      "relative_path": "ComfyUI/comfy_extras/nodes_sam3.py",
+      "size_bytes": 26673,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\node_wrappers\\segment_anything.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/node_wrappers/segment_anything.py",
+      "size_bytes": 867,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\node_wrappers\\segment_anything.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/node_wrappers/segment_anything.py",
+      "size_bytes": 867,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\docker-compose.yaml",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\docker-compose.yaml",
+      "size_bytes": 1137,
+      "suffix": ".yaml",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\setup.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\setup.py",
+      "size_bytes": 5225,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\backend\\server\\app.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\backend\\server\\app.py",
+      "size_bytes": 4210,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\backend\\server\\app_conf.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\backend\\server\\app_conf.py",
+      "size_bytes": 1642,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\backend\\server\\data\\data_types.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\backend\\server\\data\\data_types.py",
+      "size_bytes": 2887,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\backend\\server\\data\\loader.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\backend\\server\\data\\loader.py",
+      "size_bytes": 3000,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\backend\\server\\data\\resolver.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\backend\\server\\data\\resolver.py",
+      "size_bytes": 540,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\backend\\server\\data\\schema.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\backend\\server\\data\\schema.py",
+      "size_bytes": 11466,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\backend\\server\\data\\store.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\backend\\server\\data\\store.py",
+      "size_bytes": 824,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\backend\\server\\data\\transcoder.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\backend\\server\\data\\transcoder.py",
+      "size_bytes": 5391,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\backend\\server\\inference\\data_types.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\backend\\server\\inference\\data_types.py",
+      "size_bytes": 3251,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\backend\\server\\inference\\multipart.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\backend\\server\\inference\\multipart.py",
+      "size_bytes": 1641,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\backend\\server\\inference\\predictor.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\backend\\server\\inference\\predictor.py",
+      "size_bytes": 17489,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\frontend\\.prettierrc.json",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\frontend\\.prettierrc.json",
+      "size_bytes": 179,
+      "suffix": ".json",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\frontend\\package.json",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\frontend\\package.json",
+      "size_bytes": 3110,
+      "suffix": ".json",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\frontend\\tsconfig.json",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\frontend\\tsconfig.json",
+      "size_bytes": 1454,
+      "suffix": ".json",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\frontend\\tsconfig.node.json",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\demo\\frontend\\tsconfig.node.json",
+      "size_bytes": 925,
+      "suffix": ".json",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\automatic_mask_generator.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\automatic_mask_generator.py",
+      "size_bytes": 18915,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\benchmark.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\benchmark.py",
+      "size_bytes": 2903,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\build_sam.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\build_sam.py",
+      "size_bytes": 6579,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\sam2_hiera_b+.yaml",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\sam2_hiera_b+.yaml",
+      "size_bytes": 31,
+      "suffix": ".yaml",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\sam2_hiera_l.yaml",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\sam2_hiera_l.yaml",
+      "size_bytes": 30,
+      "suffix": ".yaml",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\sam2_hiera_s.yaml",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\sam2_hiera_s.yaml",
+      "size_bytes": 30,
+      "suffix": ".yaml",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\sam2_hiera_t.yaml",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\sam2_hiera_t.yaml",
+      "size_bytes": 30,
+      "suffix": ".yaml",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\sam2_image_predictor.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\sam2_image_predictor.py",
+      "size_bytes": 20403,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\sam2_video_predictor.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\sam2_video_predictor.py",
+      "size_bytes": 60144,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\sam2_video_predictor_legacy.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\sam2_video_predictor_legacy.py",
+      "size_bytes": 59949,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\__init__.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\__init__.py",
+      "size_bytes": 406,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\configs\\sam2\\sam2_hiera_b+.yaml",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\configs\\sam2\\sam2_hiera_b+.yaml",
+      "size_bytes": 3661,
+      "suffix": ".yaml",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\configs\\sam2\\sam2_hiera_l.yaml",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\configs\\sam2\\sam2_hiera_l.yaml",
+      "size_bytes": 3813,
+      "suffix": ".yaml",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\configs\\sam2\\sam2_hiera_s.yaml",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\configs\\sam2\\sam2_hiera_s.yaml",
+      "size_bytes": 3775,
+      "suffix": ".yaml",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\configs\\sam2\\sam2_hiera_t.yaml",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\configs\\sam2\\sam2_hiera_t.yaml",
+      "size_bytes": 3871,
+      "suffix": ".yaml",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\configs\\sam2.1\\sam2.1_hiera_b+.yaml",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\configs\\sam2.1\\sam2.1_hiera_b+.yaml",
+      "size_bytes": 3766,
+      "suffix": ".yaml",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\configs\\sam2.1\\sam2.1_hiera_l.yaml",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\configs\\sam2.1\\sam2.1_hiera_l.yaml",
+      "size_bytes": 3918,
+      "suffix": ".yaml",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\configs\\sam2.1\\sam2.1_hiera_s.yaml",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\configs\\sam2.1\\sam2.1_hiera_s.yaml",
+      "size_bytes": 3880,
+      "suffix": ".yaml",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\configs\\sam2.1\\sam2.1_hiera_t.yaml",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\configs\\sam2.1\\sam2.1_hiera_t.yaml",
+      "size_bytes": 3976,
+      "suffix": ".yaml",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\configs\\sam2.1_training\\sam2.1_hiera_b+_MOSE_finetune.yaml",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\configs\\sam2.1_training\\sam2.1_hiera_b+_MOSE_finetune.yaml",
+      "size_bytes": 11595,
+      "suffix": ".yaml",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\memory_attention.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\memory_attention.py",
+      "size_bytes": 5678,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\memory_encoder.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\memory_encoder.py",
+      "size_bytes": 5838,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\position_encoding.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\position_encoding.py",
+      "size_bytes": 9219,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\sam2_base.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\sam2_base.py",
+      "size_bytes": 47892,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\sam2_utils.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\sam2_utils.py",
+      "size_bytes": 13496,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\__init__.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\__init__.py",
+      "size_bytes": 202,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\backbones\\hieradet.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\backbones\\hieradet.py",
+      "size_bytes": 10320,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\backbones\\image_encoder.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\backbones\\image_encoder.py",
+      "size_bytes": 4840,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\backbones\\utils.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\backbones\\utils.py",
+      "size_bytes": 3100,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\backbones\\__init__.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\backbones\\__init__.py",
+      "size_bytes": 202,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\sam\\mask_decoder.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\sam\\mask_decoder.py",
+      "size_bytes": 12952,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\sam\\prompt_encoder.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\sam\\prompt_encoder.py",
+      "size_bytes": 7743,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\sam\\transformer.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\sam\\transformer.py",
+      "size_bytes": 11072,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\sam\\__init__.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\modeling\\sam\\__init__.py",
+      "size_bytes": 202,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\utils\\amg.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\utils\\amg.py",
+      "size_bytes": 13190,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\utils\\misc.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\utils\\misc.py",
+      "size_bytes": 13439,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\utils\\transforms.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\utils\\transforms.py",
+      "size_bytes": 5003,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\utils\\__init__.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\utils\\__init__.py",
+      "size_bytes": 202,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sav_dataset\\sav_evaluator.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sav_dataset\\sav_evaluator.py",
+      "size_bytes": 3139,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sav_dataset\\example\\sav_000001_auto.json",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sav_dataset\\example\\sav_000001_auto.json",
+      "size_bytes": 389294,
+      "suffix": ".json",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sav_dataset\\example\\sav_000001_manual.json",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sav_dataset\\example\\sav_000001_manual.json",
+      "size_bytes": 216107,
+      "suffix": ".json",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sav_dataset\\utils\\sav_benchmark.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sav_dataset\\utils\\sav_benchmark.py",
+      "size_bytes": 18403,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sav_dataset\\utils\\sav_utils.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sav_dataset\\utils\\sav_utils.py",
+      "size_bytes": 5968,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\tools\\vos_inference.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\tools\\vos_inference.py",
+      "size_bytes": 22904,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\loss_fns.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\loss_fns.py",
+      "size_bytes": 12685,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\optimizer.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\optimizer.py",
+      "size_bytes": 20375,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\train.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\train.py",
+      "size_bytes": 10457,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\trainer.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\trainer.py",
+      "size_bytes": 42487,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\__init__.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\__init__.py",
+      "size_bytes": 202,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\dataset\\sam2_datasets.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\dataset\\sam2_datasets.py",
+      "size_bytes": 7588,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\dataset\\transforms.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\dataset\\transforms.py",
+      "size_bytes": 19067,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\dataset\\utils.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\dataset\\utils.py",
+      "size_bytes": 3995,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\dataset\\vos_dataset.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\dataset\\vos_dataset.py",
+      "size_bytes": 5958,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\dataset\\vos_raw_dataset.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\dataset\\vos_raw_dataset.py",
+      "size_bytes": 10309,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\dataset\\vos_sampler.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\dataset\\vos_sampler.py",
+      "size_bytes": 3534,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\dataset\\vos_segment_loader.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\dataset\\vos_segment_loader.py",
+      "size_bytes": 10615,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\dataset\\__init__.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\dataset\\__init__.py",
+      "size_bytes": 202,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\model\\sam2.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\model\\sam2.py",
+      "size_bytes": 26889,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\model\\__init__.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\model\\__init__.py",
+      "size_bytes": 202,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\scripts\\sav_frame_extraction_submitit.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\scripts\\sav_frame_extraction_submitit.py",
+      "size_bytes": 4986,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\utils\\checkpoint_utils.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\utils\\checkpoint_utils.py",
+      "size_bytes": 12088,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\utils\\data_utils.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\utils\\data_utils.py",
+      "size_bytes": 5994,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\utils\\distributed.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\utils\\distributed.py",
+      "size_bytes": 19562,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\utils\\logger.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\utils\\logger.py",
+      "size_bytes": 7922,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\utils\\train_utils.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\utils\\train_utils.py",
+      "size_bytes": 9094,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\utils\\__init__.py",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\training\\utils\\__init__.py",
+      "size_bytes": 202,
+      "suffix": ".py",
+      "likely_promptable_segmentation_checkpoint": false,
+      "classification": "code_config_or_wrapper"
+    },
+    {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt",
+      "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt",
+      "size_bytes": 156008466,
+      "suffix": ".pt",
+      "likely_promptable_segmentation_checkpoint": true,
+      "classification": "candidate_promptable_segmentation_checkpoint"
+    }
+  ],
+  "candidate_summary": {
+    "total_keyword_matches": 227,
+    "likely_promptable_segmentation_checkpoint_count": 1,
+    "likely_promptable_segmentation_checkpoints": [
+      {
+        "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt",
+        "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt",
+        "size_bytes": 156008466,
+        "suffix": ".pt",
+        "likely_promptable_segmentation_checkpoint": true,
+        "classification": "candidate_promptable_segmentation_checkpoint"
+      }
+    ]
+  },
+  "runtime_attempts": {
+    "controlnet_aux_sam_routes": {
+      "sys_path_added": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src",
+      "src_exists": true,
+      "routes": {
+        "custom_controlnet_aux.sam": {
+          "module": "custom_controlnet_aux.sam",
+          "available": true,
+          "origin": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\sam\\__init__.py",
+          "imported": true,
+          "version": null,
+          "error": null,
+          "load_attempted": false,
+          "loaded": false,
+          "inference_pass": false
+        },
+        "custom_controlnet_aux.mobile_sam": {
+          "module": "custom_controlnet_aux.mobile_sam",
+          "available": false,
+          "origin": null,
+          "imported": false,
+          "version": null,
+          "error": null,
+          "load_attempted": false,
+          "loaded": false,
+          "inference_pass": false
+        }
+      }
+    }
+  },
+  "artifacts": {
+    "blocker_panel": "runtime_artifacts/mask_factory/wave70_segmentation_refinement_authority/20260708T100547-0500/segmentation_refinement_authority_blocker_panel.png",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_segmentation_refinement_authority/20260708T100547-0500/segmentation_refinement_authority.json"
+  },
+  "model_backed_geometry_authority": {
+    "result": "blocked",
+    "model_backed_geometry_authority_pass": false,
+    "source_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "source_sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "source_dimensions": [
+      768,
+      768
+    ],
+    "mask_type_id": "MBGA-004",
+    "matrix_slot_id": "TRK-W70-0145",
+    "models_attempted": [
+      "default_python_segment_anything_sam2_probe",
+      "comfyui_venv_segment_anything_sam2_probe",
+      "custom_controlnet_aux_sam_import_probe",
+      "local_promptable_segmentation_model_file_scan"
+    ],
+    "models_available": [
+      "base_image_io_and_cv"
+    ],
+    "model_versions": {
+      "torch": "2.12.1+cpu",
+      "torchvision": "0.27.1+cpu",
+      "cv2": "4.11.0",
+      "numpy": "1.26.4",
+      "PIL": "12.3.0",
+      "onnxruntime": "1.27.0"
+    },
+    "landmark_record_path": "",
+    "semantic_parsing_record_path": "",
+    "sam_refinement_record_path": "",
+    "visibility_occlusion_record_path": "",
+    "canonical_polygon_path": "",
+    "coordinate_transform_manifest_path": "",
+    "gold_trace_comparison_path": "",
+    "consensus_metrics": {
+      "iou_against_gold_or_prior": null,
+      "mean_boundary_error_px": null,
+      "max_boundary_error_px": null,
+      "center_drift_px": null,
+      "protected_overlap_ratio": null
+    },
+    "confidence": {
+      "landmark_confidence": null,
+      "parsing_confidence": null,
+      "refinement_confidence": null,
+      "visibility_confidence": null,
+      "overall_confidence": null
+    },
+    "dependency_probe_completed": true,
+    "model_geometry_dependency_probe_pass": false,
+    "sam_refinement_pass": false,
+    "positive_negative_prompt_manifest_pass": false,
+    "stability_score_recorded": false,
+    "source_derived_landmark_or_segmentation_pass": false,
+    "model_consensus_geometry_pass": false,
+    "visibility_occlusion_confidence_pass": false,
+    "no_symmetry_guessing_pass": true,
+    "canonical_polygon_export_pass": false,
+    "no_human_work_dependency": true,
+    "no_debug_rectangle_mask_pass": true,
+    "whole_body_geometry_authority_pass": false,
+    "pose_hand_dense_landmark_or_segmentation_pass": false,
+    "semantic_human_part_parsing_pass": false,
+    "contact_occlusion_ownership_pass": false,
+    "body_region_geometry_pass": false,
+    "body_reference_matrix_pass": false,
+    "blocked_reason": "Blocked_Model_Geometry_Dependency_Missing",
+    "findings": [
+      "Active Wave70 source image exists and was used for the blocker panel.",
+      "No local checkpoint proven to be a promptable segmentation model was found.",
+      "A wrapper/code path alone is not promptable segmentation refinement evidence.",
+      "The ComfyUI virtualenv does not expose segment_anything or sam2 modules.",
+      "No source-derived positive/negative prompt manifest could be created because face parsing and landmark authority remain blocked.",
+      "No refinement mask, stability score, consensus metric, canonical polygon, or mask promotion was produced."
+    ]
+  },
+  "segmentation_refinement_authority": {
+    "result": "blocked",
+    "sam_refinement_pass": false,
+    "positive_negative_prompt_manifest_pass": false,
+    "stability_score_recorded": false,
+    "refinement_mask_path": "",
+    "prompt_manifest_path": "",
+    "canonical_polygon_path": "",
+    "blocked_reason": "Blocked_Model_Geometry_Dependency_Missing"
+  },
+  "qa_decision": "blocked_exact_local_promptable_segmentation_route_unavailable",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_segmentation_refinement_blocked",
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  },
+  "next_step": "Resolve a compatible local promptable segmentation runtime/model or continue to the next model-backed authority row with exact local evidence."
+}

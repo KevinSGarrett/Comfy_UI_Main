@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W66_PERSISTENT_MATRIX_DEPLOY_BUNDLE_AND_DRY_RUN_QA_20260709T014930-0500",
+  "created_iso": "2026-07-09T01:49:30-05:00",
+  "artifact_type": "persistent_matrix_deploy_bundle_and_s3_dry_run_qa",
+  "bundle": {
+    "bundle_id": "rvxl_mx_cur_20260709T0148",
+    "bundle_manifest": "runtime_artifacts/deploy_bundles/rvxl_mx_cur_20260709T0148/DEPLOY_BUNDLE_MATRIX_MANIFEST.json",
+    "bundle_zip": "runtime_artifacts/deploy_bundles/rvxl_mx_cur_20260709T0148/rvxl_mx_cur_20260709T0148.zip",
+    "bundle_zip_sha256": "b57c4bdaa1f18124e3f6ba35b0fe27fafd2f7e39b72fe8c61fcca4574ee49177",
+    "bundle_type": "run_package_matrix_deploy_bundle",
+    "lane_id": "sdxl_realvisxl_base_lane",
+    "matrix_id": "realvisxl_multisample_certification_v1",
+    "sample_count": 3,
+    "file_count": 55,
+    "result": "pass_local_only"
+  },
+  "dry_run_publish": {
+    "evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_MATRIX_DEPLOY_BUNDLE_S3_DRY_RUN_CURRENT_ACTIVE_LANES_20260709T014900-0500.json",
+    "tracker_evidence": "Plan/Tracker/Evidence/W66_MATRIX_DEPLOY_BUNDLE_S3_DRY_RUN_CURRENT_ACTIVE_LANES_20260709T014900-0500.json",
+    "result": "dry_run_ready_to_upload",
+    "s3_bundle_uri": "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/rvxl_mx_cur_20260709T0148/rvxl_mx_cur_20260709T0148.zip",
+    "s3_manifest_uri": "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/rvxl_mx_cur_20260709T0148/DEPLOY_BUNDLE_MATRIX_MANIFEST.json",
+    "upload_attempted": false
+  },
+  "checks": [
+    {
+      "name": "bundle_manifest_json_valid",
+      "result": "pass"
+    },
+    {
+      "name": "dry_run_publish_json_valid",
+      "result": "pass"
+    },
+    {
+      "name": "bundle_zip_hash_matches_manifest",
+      "result": "pass",
+      "observed_sha256": "b57c4bdaa1f18124e3f6ba35b0fe27fafd2f7e39b72fe8c61fcca4574ee49177"
+    },
+    {
+      "name": "tracker_dry_run_copy_json_valid",
+      "result": "pass"
+    },
+    {
+      "name": "packaged_active_lanes_contains_reuse_pointer",
+      "result": "pass",
+      "observed": "Packaged Workflows/base_generation/ACTIVE_LANES.json contains complete_with_limitations and BASE_GENERATION_REPAIRED_PACKAGE_LOCAL_SMOKE_MATRIX_COMPLETION_20260709T013348-0500."
+    },
+    {
+      "name": "packaged_runtime_lane_queue_contains_matrix_complete_pointer",
+      "result": "pass",
+      "observed": "Packaged runtime_lane_queue.json contains none_local_package_smoke_matrix_complete and complete_with_limitations."
+    },
+    {
+      "name": "long_bundle_name_attempt_recorded",
+      "result": "pass_with_note",
+      "observed": "The first persistent bundle attempt using the longer name realvisxl_matrix_current_active_lanes_20260709T014800-0500 failed during nested Copy-Item with a directory-not-found path under lane_files. The shorter bundle name rvxl_mx_cur_20260709T0148 succeeded with the same matrix content."
+    }
+  ],
+  "runtime_boundary": {
+    "local_only": true,
+    "aws_contacted": false,
+    "live_s3_upload_attempted": false,
+    "ec2_started": false,
+    "generation_executed": false,
+    "hard_gates_rerun": false,
+    "gold_body_mask_truth_consumed": false,
+    "candidate_body_masks_consumed_as_truth": false,
+    "body_masks_promoted": false,
+    "wave71_activation_attempted": false
+  },
+  "claim_boundary": "This evidence proves local persistent deploy-bundle creation and dry-run S3 publish readiness only. It is not live S3 upload, target-runtime EC2 proof, final image quality certification, exact character identity proof, body-mask proof, or Wave71+ activation.",
+  "next_recommended_action": "Use the dry-run s3_bundle_uri and bundle_zip_sha256 only after explicit live-upload selection, AWS auth/Git cleanliness checks, and EC2/runtime gates; otherwise continue local-only orchestration validation."
+}

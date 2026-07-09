@@ -1,0 +1,45 @@
+﻿{
+    "evidence_id":  "WEEKLY-PLAN-CONSISTENCY-20260708T191942Z",
+    "created_at_utc":  "2026-07-08T19:19:42.8898066Z",
+    "source_external_audit":  "C:\\Users\\kevin\\.codex\\automations\\comfy-ui-main-weekly-plan-instructions-consistency-audit\\audits\\WEEKLY_PLAN_INSTRUCTIONS_CONSISTENCY_20260708T141623-0500.json",
+    "classification":  "CONSISTENCY_FINDINGS_EXTERNAL_AUDIT_ONLY",
+    "correction_needed":  false,
+    "corrections_made":  [
+
+                         ],
+    "findings":  [
+                     {
+                         "id":  "STALE-W70-MANIFEST-ROW-COUNT",
+                         "summary":  "Items and Tracker package manifests report Wave70 row count 141 while current Wave70 Items/Tracker CSVs each contain 166 rows.",
+                         "affected_files":  [
+                                                "Plan/Items/Manifests/items_package_manifest.json",
+                                                "Plan/Tracker/Manifests/tracker_package_manifest.json"
+                                            ],
+                         "recommended_action":  "Refresh count metadata during intentional manifest maintenance; do not rerun Wave65 solely for this."
+                     },
+                     {
+                         "id":  "LEGACY-PLAN-PROJECT-MANIFEST-WAVE-CURRENT",
+                         "summary":  "Plan/PROJECT_MANIFEST.json retains legacy top-level wave_current=25 despite current Wave64/65/70 steering and deferred Waves71-87.",
+                         "affected_files":  [
+                                                "Plan/PROJECT_MANIFEST.json"
+                                            ],
+                         "recommended_action":  "Clarify legacy/current metadata during intentional manifest maintenance."
+                     },
+                     {
+                         "id":  "STALE-BLOCKERS-TOP-FRONTIER",
+                         "summary":  "BLOCKERS.md top blocker sections trail active steering, which is now TRK-W70-0164 / ITEM-W70-0164.",
+                         "affected_files":  [
+                                                "Plan/Instructions/Hydration_Rehydration/BLOCKERS.md"
+                                            ],
+                         "recommended_action":  "Align the top blocker frontier on the next real blocker update; primary steering files are already coherent."
+                     }
+                 ],
+    "non_findings":  [
+                         "NEXT_ACTION.md and CURRENT_PURSUING_GOAL.md point to active TRK-W70-0164 / ITEM-W70-0164, not a completed row.",
+                         "Deferred Waves71-87 sampled rows remain Deferred_Required_Not_Complete.",
+                         "QA visual/audio and localized whole-artifact rules remain strict.",
+                         "EC2 cost-control rules remain present; EC2 was not started.",
+                         "Wave65 was not rerun."
+                     ],
+    "next_recommended_action":  "No immediate correction. Batch manifest metadata clarification with the next intentional Plan manifest maintenance pass."
+}

@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_FRONT_CALIBRATION_POST_GATES_20260708T194927-0500",
+  "created_iso": "2026-07-08T19:49:27-05:00",
+  "task": "Record Wave70 hard gate results after front calibration source/mask seeding.",
+  "front_calibration_state": {
+    "source_seed_evidence_id": "W70_FRONT_CALIBRATION_REFERENCE_SEED_20260708T193954-0500",
+    "mask_seed_evidence_id": "W70_FRONT_CALIBRATION_MASK_SEED_20260708T194422-0500",
+    "dropzone_sync_evidence_id": "W70_CANONICAL_REFERENCE_DROPZONE_MANIFEST_SYNC_20260708T194433-0500",
+    "intake_evidence_id": "W70_CANONICAL_REFERENCE_PACKAGE_INTAKE_VALIDATION_20260708T194534-0500",
+    "manifest_source_image_count": 7,
+    "manifest_mask_image_count": 54,
+    "required_slots_satisfied": 1,
+    "required_slots_complete_for_authority": 0,
+    "blocked_required_slot_count": 6,
+    "intake_contract_pass": false
+  },
+  "geometry_gate": {
+    "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_FRONT_CALIBRATION_SEED_20260708T194534-0500.json",
+    "tracker_copy": "Plan/Tracker/Evidence/W70_MASK_GEOMETRY_HARD_GATE_POST_FRONT_CALIBRATION_SEED_20260708T194534-0500.json",
+    "result": "pass_wave70_mask_geometry_hard_gate",
+    "pass": true,
+    "checked_row_count": 332,
+    "pass_like_row_count": 0,
+    "failure_count": 0,
+    "warning_count": 0
+  },
+  "promotion_gate": {
+    "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_FRONT_CALIBRATION_SEED_20260708T194534-0500.json",
+    "tracker_copy": "Plan/Tracker/Evidence/W70_MASK_PROMOTION_HARD_GATE_POST_FRONT_CALIBRATION_SEED_20260708T194534-0500.json",
+    "result": "pass_wave70_mask_promotion_hard_gate",
+    "pass": true,
+    "checked_row_count": 332,
+    "pass_like_row_count": 0,
+    "blocked_or_untrusted_row_count": 58,
+    "failure_count": 0,
+    "warning_count": 0
+  },
+  "policy": {
+    "front_calibration_only": true,
+    "mask_promotion_allowed": false,
+    "wave71_activation_allowed": false,
+    "hard_gates_rerun_reason": "Specific post-front-calibration source/mask seed artifact changed local reference state."
+  },
+  "qa_decision": "front_calibration_post_gates_pass_no_promotion",
+  "promotion_decision": "no_mask_promoted_front_calibration_remains_calibration_only",
+  "next_step": "Continue fail-closed until missing side/profile, back, 3/4, contact/support references and model-backed geometry authority are available.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FRONT_CALIBRATION_POST_GATES_20260708T194927-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/front_calibration_post_gates.json",
+    "Plan/Tracker/Evidence/W70_FRONT_CALIBRATION_POST_GATES_20260708T194927-0500.json",
+    "Plan/Tracker/Evidence/front_calibration_post_gates.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_FRONT_CALIBRATION_SEED_20260708T194534-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_FRONT_CALIBRATION_SEED_20260708T194534-0500.json",
+    "Plan/Tracker/Evidence/W70_MASK_GEOMETRY_HARD_GATE_POST_FRONT_CALIBRATION_SEED_20260708T194534-0500.json",
+    "Plan/Tracker/Evidence/W70_MASK_PROMOTION_HARD_GATE_POST_FRONT_CALIBRATION_SEED_20260708T194534-0500.json"
+  ]
+}

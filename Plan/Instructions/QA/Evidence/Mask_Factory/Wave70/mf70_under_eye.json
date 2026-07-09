@@ -1,0 +1,199 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-UNDER-EYE-LOCAL-SUPPORT-20260707T184500-0500",
+  "timestamp": "2026-07-07T18:45:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave70_ultimate_mask_factory_local_artifact_routing_support",
+  "mask_type_id": "mf70_under_eye",
+  "tracker_id": "TRK-W70-0015",
+  "item_id": "ITEM-W70-0015",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "source_requirements": [
+    "Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_FACTORY_TAXONOMY.md#L46",
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv:TRK-W70-0015",
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv:ITEM-W70-0015"
+  ],
+  "artifacts": {
+    "request": "runtime_artifacts/mask_factory/wave70_mf70_under_eye/MASK_FACTORY_REQUEST.json",
+    "contract": "runtime_artifacts/mask_factory/wave70_mf70_under_eye/MASK_FACTORY_CONTRACT.json",
+    "contract_validation": "runtime_artifacts/mask_factory/wave70_mf70_under_eye/MASK_FACTORY_CONTRACT_VALIDATION.json",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_mf70_under_eye/MASK_RUNTIME_EVIDENCE.json",
+    "quality_report": "runtime_artifacts/mask_factory/wave70_mf70_under_eye/MASK_QUALITY_REPORT.json",
+    "patch_manifest": "runtime_artifacts/mask_factory/wave70_mf70_under_eye/MASK_TO_WORKFLOW_PATCH_MANIFEST.csv",
+    "mask_png": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_under_eye_20260707T184500-0500/wave70_mf70_under_eye_mask.png",
+    "comfyui_input_copy": "ComfyUI/input/wave70_mf70_under_eye_mask.png",
+    "preview_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_under_eye_20260707T184500-0500/wave70_mf70_under_eye_overlay.png"
+  },
+  "mask_asset": {
+    "mask_id": "scene_wave70_canny_v3__person_001__mf70_under_eye__minor",
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_under_eye_20260707T184500-0500/wave70_mf70_under_eye_mask.png",
+    "sha256": "b16fb836fed07e38c623fced2ac7138a46f77312aac5ce3ee32f9d37ea763823",
+    "width": 768,
+    "height": 768,
+    "coverage_percent": 0.6176,
+    "person_instance_id": "person_001",
+    "body_region_id": "under_eye_skin",
+    "scale": "minor"
+  },
+  "validation": {
+    "contract_valid": true,
+    "contract_errors": [],
+    "contract_warnings": [],
+    "quality_score": 88.0,
+    "minimum_required": 85,
+    "quality_passed": true,
+    "workflow_routing_manifest_present": true,
+    "preview_overlay_generated": true,
+    "protected_neighbor_check_pass": true,
+    "generated_output_proof_present": true,
+    "target_runtime_proof_present": false,
+    "blockers": [
+      "target_runtime_proof_required_before_final_certification",
+      "user_disputed_mask_alignment_requires_source_overlay_rebuild"
+    ],
+    "mask_alignment_semantic_pass": true,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "reference_image_matrix_pass": false,
+    "single_anchor_only": true,
+    "generalized_completion_allowed": false
+  },
+  "overlay_visual_review": {
+    "review_method": "direct local image inspection after generation",
+    "result": "pass_with_notes_direct_overlay_visual_review",
+    "findings": [
+      "Overlay targets compact under-eye skin crescents below both lower lids.",
+      "Eye cores and eyelid apertures remain excluded by protected eye regions.",
+      "The mask avoids broad cheeks, nose bridge, clothing, background, and hair mass.",
+      "Under-eye skin is close to visible eye detail, so generated-output proof requires low denoise and strict gaze, eyelid, skin-tone, and whole-image QA."
+    ]
+  },
+  "result": "under_eye_v2_strict_visual_alignment_pass_generated_output_safe_target_runtime_pending_reference_matrix_pending",
+  "boundary": "Superseded by user global mask-alignment dispute: generated-output stability may remain useful, but this mask is not accepted as source-aligned. Rebuild or re-audit from strict source overlay/zoom crop/protected-neighbor evidence before any pass or certification claim.",
+  "generated_output_proof": {
+    "profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_under_eye_seed210814.json",
+    "profile_sha256": "e7fddb2d198de7c1e69d95df1ebf66eb91311d957768d99f3672b7333ba8892c",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_under_eye_seed210814/RUN_PACKAGE_MANIFEST.json",
+    "run_package_sha256": "4639e813a76604961b227d19ce276ec2f76cc20261be2b1e1c086daf07f991ef",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_UNDER_EYE_SEED210814_EXECUTE_20260707T184500-0500.json",
+    "runtime_evidence_sha256": "26a405aed7c64af2de9c3643edc928ae4bf0eceac61c78188f1e31cdac0ca4a4",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_under_eye_seed210814_20260707T182853-0500/images/codex_wave70_mf70_under_eye_seed210814_00001_.png",
+    "generated_output_sha256": "279f643ac7ce33957718e603ce34c26136045992f3a4efa69c100aed5741faad",
+    "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_under_eye_seed210814_20260707T182853-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00020_.png",
+    "diagnostic_mask_preview_sha256": "98a7f75a6e1121fd84d20babc260665332aa9f49f35c80258344e99f2e42c619",
+    "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_under_eye/qa_comparisons/wave70_mf70_under_eye_source_overlay_output_compare.png",
+    "comparison_artifact_sha256": "a31d09a46cfb02908e19fc92be8af317b8cc5d37de38dd780869cea00c69640c",
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_UNDER_EYE_SEED210814_VISUAL_QA_20260707T184500-0500.json",
+    "visual_qa_result": "pass_with_notes_local_wave70_under_eye_generated_output",
+    "visual_qa_sha256": "095a8ad06817a5ba73e93115a95ab1e8acfe629a8a5977b722a51a702cd20fdb"
+  },
+  "semantic_mask_alignment_reaudit": {
+    "audit_id": "W70-MASK-ALIGNMENT-RETRO-AUDIT-20260707T184000-0500",
+    "timestamp": "2026-07-07T18:40:00-05:00",
+    "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "result": "pass_with_notes",
+    "named_target_match": true,
+    "protected_neighbor_pass": true,
+    "generated_output_safe_pass": true,
+    "completion_allowed": true,
+    "findings": [
+      "Retro audit classified the under-eye mask as acceptable with notes: it sits below the lower lids and avoids eye cores, broad cheeks, nose, and background.",
+      "Completion still requires target-runtime proof before final certification."
+    ],
+    "policy": "Generated-output stability is preserved where applicable, but it does not override semantic mask-alignment defects."
+  },
+  "strict_semantic_mask_alignment_review": {
+    "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "review_timestamp": "2026-07-07T19:25:00-05:00",
+    "review_id": "W70-MASK-ALIGNMENT-STRICT-VISUAL-REVIEW-20260707T192500-0500",
+    "alignment_result": "needs_revision_user_disputed",
+    "mask_alignment_semantic_pass": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "review_basis": "strict visual review of user-supplied overlays and/or matching project overlay artifacts, separated from generated-output stability",
+    "findings": [
+      "Under-eye crescents are reasonably aligned to under-eye skin and avoid most protected neighbors; pass only for the narrow under_eye_skin label, not for eyelids, eyes, or cheeks.",
+      "Keep but require zoomed review that lower lid, eye aperture, broad cheek, and nose are excluded."
+    ],
+    "named_target_match": false,
+    "full_visible_target_covered": false,
+    "completion_allowed": false
+  },
+  "reference_image_matrix_review": {
+    "result": "required_not_run",
+    "single_anchor_only": true,
+    "completion_allowed": false,
+    "minimum_resolution_pass": false,
+    "high_resolution_detail_review_pass": false,
+    "cross_subject_generalization_pass": false,
+    "matrix_manifest_path": null,
+    "required_protocol": "Plan/Instructions/QA/WAVE70_REFERENCE_IMAGE_MATRIX_QA_PROTOCOL.md",
+    "policy_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_REFERENCE_IMAGE_MATRIX_ENFORCEMENT_20260707T200600-0500.json",
+    "reason": "Existing evidence used the active local MOD-17 portrait as one source image. It remains useful single-anchor smoke evidence but does not prove generalized or universal mask reliability."
+  },
+  "single_anchor_boundary": {
+    "status": "Mask_Alignment_Candidate_Pass_Generated_Output_Safe_Target_Runtime_Pending",
+    "single_source_local_overlay_or_generated_output_may_remain_valid": true,
+    "generalized_completion_blocked_until_reference_matrix_passes": true,
+    "target_runtime_still_pending": true
+  },
+  "user_global_mask_alignment_dispute": {
+    "review_id": "W70-MASK-ALIGNMENT-USER-DISPUTE-GLOBAL-REVIEW-20260707T211000-0500",
+    "timestamp": "2026-07-07T21:10:00-05:00",
+    "evidence": "Plan\\Instructions\\QA\\Evidence\\Mask_Factory\\Wave70\\W70_MASK_ALIGNMENT_USER_DISPUTE_GLOBAL_REVIEW_20260707T211000-0500.json",
+    "user_report": "Every generated mask appears visibly off from the actual picture; the nose case specifically appears to cover the mouth and not match source anatomy.",
+    "corrected_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+    "mask_alignment_semantic_pass": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "prior_pass_claim_frozen": true,
+    "required_next_action": "Rebuild or re-audit the mask from source image geometry with zoomed overlay review and protected-neighbor exclusions before any generated-output proof is used for advancement."
+  },
+  "fail_closed_alignment_audit": {
+    "audit_id": "W70-MASK-ALIGNMENT-FAIL-CLOSED-AUDIT-20260707T211500-0500",
+    "timestamp": "2026-07-07T21:15:00-05:00",
+    "evidence": "Plan\\Instructions\\QA\\Evidence\\Mask_Factory\\Wave70\\W70_MASK_ALIGNMENT_FAIL_CLOSED_AUDIT_20260707T211500-0500.json",
+    "audit_panel": "runtime_artifacts/mask_factory/wave70_alignment_audit_20260707T211500-0500/mf70_under_eye_source_mask_alignment_panel.png",
+    "audit_panel_sha256": "02d05ee61b3d701a95ed90d5795091b6186deca53cfe1f8a778afdbb42811f02",
+    "decision": "needs_revision_user_disputed",
+    "corrected_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+    "semantic_mask_alignment_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "fail_closed_until_source_geometry_rebuilt": true
+  },
+  "source_landmark_v2_repair": {
+    "timestamp": "2026-07-07T23:25:00-05:00",
+    "status": "under_eye_v2_strict_visual_alignment_pass_generated_output_safe_target_runtime_pending_reference_matrix_pending",
+    "evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_UNDER_EYE_V2_SOURCE_LANDMARK_REPAIR_20260707T232500-0500.json",
+    "tracker_evidence": "Plan/Tracker/Evidence/W70_MF70_UNDER_EYE_V2_SOURCE_LANDMARK_REPAIR_20260707T232500-0500.json",
+    "mask_path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_under_eye_v2_20260707T232500-0500/wave70_mf70_under_eye_v2_mask.png",
+    "mask_sha256": "60d2a5697f7d594f4265ff061192dd97fcddd3d1252d73574c2ea0b563edd30e",
+    "overlay_path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_under_eye_v2_20260707T232500-0500/wave70_mf70_under_eye_v2_overlay.png",
+    "overlay_sha256": "e83d250c46e1a1d76af536170b477afbbacf88b879ae6ee57591ccb704e58420",
+    "protected_overlap_matrix": "runtime_artifacts/mask_factory/wave70_mf70_under_eye/source_landmark_repair_v2/20260707T232500-0500/mf70_under_eye_v2_protected_overlap_matrix.csv",
+    "protected_overlap_matrix_pass": true,
+    "generated_output_proof_valid_for_this_mask": true,
+    "old_generated_output_proof_invalidated_reason": "v2 mask hash differs from old generated-output proof mask hash",
+    "target_runtime_proof_present": false,
+    "reference_image_matrix_pass": false,
+    "completion_allowed_by_mask_alignment": false,
+    "findings": [
+      "Accepted candidate: v2 mask is placed below the protected lower-lid guardrails instead of on top of the lid/eye aperture.",
+      "Accepted candidate: v2 mask clears protected eye cores, nose sidewalls, eyebrow bands, and lower-cheek boundary in the matrix.",
+      "Accepted with limitation: v2 is intentionally narrower/lower than the old mask, so it targets tear-trough/under-eye skin only and avoids broad cheek edits.",
+      "Old generated-output proof is not reused because the v2 mask hash differs from the old mask hash."
+    ],
+    "generated_output_visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_UNDER_EYE_V2_SEED210814_VISUAL_QA_20260707T234500-0500.json",
+    "generated_output_tracker_evidence": "Plan/Tracker/Evidence/W70_MF70_UNDER_EYE_V2_GENERATED_OUTPUT_20260707T234500-0500.json",
+    "generated_output_safe_pass": true,
+    "generated_output_comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_under_eye/qa_comparisons/wave70_mf70_under_eye_v2_source_landmark_source_overlay_output_compare.png"
+  }
+}

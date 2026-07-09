@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_AVAILABLE_ROUTE_RUNTIME_VALIDATION_ALIGNMENT_20260708T185104-0500",
+  "created_iso": "2026-07-08T18:51:04-05:00",
+  "task": "Record runtime-executed status for locally available Wave70 whole-body routes without promoting masks.",
+  "dependency_alignment": {
+    "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/dependency_probe_refresh_alignment.json",
+    "evidence_id": "W70_DEPENDENCY_PROBE_REFRESH_ALIGNMENT_20260708T184729-0500",
+    "qa_decision": "dependency_probe_refreshed_missing_routes_recorded_ref_images_1_2_prerequisite_gap_aligned_no_promotion"
+  },
+  "available_route_runtime_validation": {
+    "pose_landmark_route": {
+      "runtime_executed": true,
+      "route_level_result": "source_derived_pose_landmarks_partial",
+      "source_scope": "active portrait only",
+      "authority_limit": "active_source_is_portrait_not_full_body_reference; full_body_torso_feet_contact_reference_slots_not_visible; human_part_parsing_contact_ownership_and_body_reference_matrix_still_blocked",
+      "evidence_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/pose_landmark_authority.json"
+    },
+    "hand_landmark_route": {
+      "runtime_executed": true,
+      "route_level_result": "blocked",
+      "detected_hand_count": 0,
+      "authority_limit": "local_hand_landmarker_executed_detected_zero_hands_on_active_source",
+      "evidence_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/hand_finger_landmark_authority.json"
+    },
+    "promptable_segmentation_refinement_route": {
+      "runtime_executed": true,
+      "route_level_result": "sam2_refinement_executed_pending_consensus",
+      "sam_refinement_pass": true,
+      "authority_limit": "full_authority_pending_semantic_face_parsing_visibility_consensus_and_canonical_polygon",
+      "evidence_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/segmentation_refinement_authority.json"
+    }
+  },
+  "still_missing_required_routes": [
+    "human_part_parsing_route",
+    "person_instance_segmentation_route",
+    "temporal_propagation_route",
+    "contact_occlusion_ownership_route"
+  ],
+  "full_stack_state": {
+    "required_stack_available": false,
+    "whole_body_geometry_authority_pass": false,
+    "canonical_polygon_export_allowed": false,
+    "body_hand_contact_support_soft_body_promotion_allowed": false,
+    "wave71_activation_allowed": false
+  },
+  "qa_decision": "available_routes_runtime_executed_partial_but_whole_body_stack_still_blocked_no_promotion",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_available_route_validation_only",
+  "next_step": "Resolve/register human parsing, person-instance segmentation, temporal propagation, and contact ownership routes, then rerun dependency probe and hard gates before canonical polygon work.",
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  }
+}

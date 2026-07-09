@@ -1,0 +1,38 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "W69-LOCAL-NORMAL-V3-MULTISEED-ROBUSTNESS-20260707T080600-0500",
+    "timestamp":  "2026-07-07T08:06:00-05:00",
+    "lane_id":  "sdxl_realvisxl_controlnet_normal_lane",
+    "module_id":  "MOD-21-CONTROLNET-NORMAL-LANE",
+    "work_type":  "bounded_local_normal_v3_multiseed_robustness",
+    "local_only":  true,
+    "ec2_started":  false,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "profiles":  [
+                     "PromptProfiles/base_generation/controlnet_normal_v1_followup/normal_v3_lower_control_oxford_texture_seed711670203.json",
+                     "PromptProfiles/base_generation/controlnet_normal_v1_followup/normal_v3_robust_oxford_seed711670204.json",
+                     "PromptProfiles/base_generation/controlnet_normal_v1_followup/normal_v3_robust_oxford_seed711670205.json"
+                 ],
+    "run_package_manifests":  [
+                                  "runtime_artifacts/run_packages/normal_v3_oxford_711670203/RUN_PACKAGE_MANIFEST.json",
+                                  "runtime_artifacts/run_packages/normal_v3_robust_711670204/RUN_PACKAGE_MANIFEST.json",
+                                  "runtime_artifacts/run_packages/normal_v3_robust_711670205/RUN_PACKAGE_MANIFEST.json"
+                              ],
+    "runtime_evidence":  [
+                             "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_NORMAL_V3_OXFORD_EXECUTE_20260707T075400-0500.json",
+                             "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_NORMAL_V3_ROBUST_SEED711670204_EXECUTE_20260707T080100-0500.json",
+                             "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_NORMAL_V3_ROBUST_SEED711670205_EXECUTE_20260707T080300-0500.json"
+                         ],
+    "generated_images":  [
+                             "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v3_oxford_711670203_20260707T075249-0500/images/normal_v3_oxford_711670203_00001_.png",
+                             "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v3_robust_711670204_20260707T080034-0500/images/normal_v3_robust_711670204_00001_.png",
+                             "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v3_robust_711670205_20260707T080140-0500/images/normal_v3_robust_711670205_00001_.png"
+                         ],
+    "visual_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_NORMAL_V3_MULTISEED_ROBUSTNESS_VISUAL_QA_20260707T080600-0500.json",
+    "result":  "pass_with_notes_local_normal_v3_multiseed_robustness",
+    "preferred_local_candidate":  "normal_v3_lower_control_oxford_texture_seed711670203",
+    "robustness_summary":  "Preferred v3 candidate plus two additional seeds retain stable normal-guided geometry, dark oxford/blazer fabric texture, and no visible normal-map leakage; mild skin polish persists and seed 711670205 has a small lower-left blazer fleck.",
+    "remaining_boundary":  "Not target-runtime proof, not full body/hands/contact certification, and not final normal lane certification."
+}

@@ -15,8 +15,9 @@ Read these in order:
 1. `Plan/Instructions/QA/STRICT_AUTONOMOUS_QA_MASTER_PROTOCOL.md`
 2. `Plan/Instructions/QA/COMFYUI_WORKFLOW_TESTING_PROTOCOL.md`
 3. `Plan/Instructions/QA/MULTIMODAL_ARTIFACT_REVIEW_SCORECARD.md`
-4. `Plan/Instructions/QA/DONE_CERTIFICATION_EVIDENCE_PROTOCOL.md`
-5. Then open the modality-specific protocol for the artifact under review.
+4. `Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md` when reviewing any Wave70 mask or overlay
+5. `Plan/Instructions/QA/DONE_CERTIFICATION_EVIDENCE_PROTOCOL.md`
+6. Then open the modality-specific protocol for the artifact under review.
 
 ## Core rule
 

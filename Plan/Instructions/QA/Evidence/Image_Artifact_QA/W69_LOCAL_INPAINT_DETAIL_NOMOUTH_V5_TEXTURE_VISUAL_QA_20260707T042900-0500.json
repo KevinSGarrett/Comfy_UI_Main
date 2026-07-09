@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-INPAINT-DETAIL-NOMOUTH-V5-TEXTURE-VISUAL-QA-20260707T042900-0500",
+  "timestamp": "2026-07-07T04:29:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "module_id": "MOD-13-SDXL-INPAINT-DETAIL-LANE",
+  "artifact_type": "image_artifact_visual_qa",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "source_qa_driver": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_ROBUSTNESS_VISUAL_QA_20260707T034000-0500.json",
+  "profile_reference": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_v5_nomouth_texture_preserve_seed210601.json",
+  "run_package_manifest": "runtime_artifacts/run_packages/sdxl_realvisxl_inpaint_detail_nomouth_v5_texture_seed210601/RUN_PACKAGE_MANIFEST.json",
+  "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V5_TEXTURE_SEED210601_EXECUTE_20260707T042700-0500.json",
+  "workflow_reference": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/workflow.api.json",
+  "request_change": {
+    "summary": "Lowered denoise from 0.24 to 0.20 and added natural pore/fine grain preservation terms to address the remaining v4 note that masked skin was slightly smoother than surrounding skin.",
+    "kept_constant": [
+      "same no-mouth micro mask",
+      "same VAEEncode plus SetLatentNoiseMask plus FeatherMask plus ImageCompositeMasked workflow path",
+      "same RealVisXL checkpoint",
+      "mouth and eyes remain excluded from the mask"
+    ]
+  },
+  "technical_checks": {
+    "file_exists": true,
+    "file_decodes": true,
+    "extension_expected": true,
+    "minimum_resolution": "512x512",
+    "meets_minimum_resolution": true,
+    "width": 768,
+    "height": 768,
+    "pixel_format": "Format24bppRgb",
+    "bytes": 587395,
+    "sha256": "1036fdcf45c0317f45d7af1293f188af276b8b8529b7986b5a45f74ead488854"
+  },
+  "reviewed_artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_nomouth_v5_texture_seed210601_20260707T042700-0500/images/codex_sdxl_realvisxl_inpaint_detail_nomouth_v5_texture_seed210601_00001_.png",
+    "runtime_result": "pass_local_run_package_generation_smoke"
+  },
+  "comparison_reference": {
+    "preferred_current_candidate": "v4_no_mouth_micro_mask",
+    "v4_reference_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_local_nomouth_v4_20260707T035000-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_00001_.png",
+    "v4_reference_sha256": "d2e7834c93b2be7000fe5080c5f96d0cea511e68c48f0008d7aac8558630c8c7"
+  },
+  "whole_image_findings": {
+    "prompt_alignment": "pass_with_notes",
+    "face_realism": "pass_with_notes",
+    "identity_preservation": "pass",
+    "eye_quality": "pass",
+    "skin_texture": "pass_with_notes_no_material_improvement",
+    "mouth_teeth": "pass",
+    "hair_realism": "pass",
+    "hands_feet_body": "not_visible",
+    "clothing_fabric": "pass",
+    "lighting_shadows": "pass",
+    "background_coherence": "pass",
+    "framing_crop": "pass",
+    "mask_edge_artifacts": "pass",
+    "mask_adherence": "pass",
+    "artifact_notes": [
+      "The v5 texture-preserve retest avoids the prior gray-mask and identity-drift failures.",
+      "Identity, gaze, eye color, lip color, hair, clothing, and background remain stable.",
+      "Compared with v4, the output is visually near-identical; the lower denoise and prompt terms do not produce a clearly stronger skin-texture improvement.",
+      "Masked skin still reads slightly smoother than surrounding skin under close inspection, but no hard mask edge or blocking artifact is visible."
+    ]
+  },
+  "strict_qa_result": "pass_with_notes_no_material_improvement",
+  "candidate_comparison": {
+    "preferred_local_candidate": "v4_no_mouth_micro_mask",
+    "reason": "V5 texture-preserve is a safe no-regression local retest but does not materially improve the remaining v4 smooth-skin note."
+  },
+  "certification_status": "local_retest_pass_with_notes_not_target_runtime_certified",
+  "promotion_allowed": false,
+  "next_action": "Keep no-mouth v4 as the preferred local inpaint detail candidate. Avoid further prompt-only smooth-skin retests unless using a new mask/control strategy; target-runtime proof and QA are still required before promotion."
+}

@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "realvisxl_two_character_hand_to_body_seed7152026251",
+  "target_lane_id": "sdxl_realvisxl_base_lane",
+  "purpose": "First bounded local RealVisXL pixel attempt after Wave25 two-character hand-to-body interaction preflight passed.",
+  "wave25_dependency": {
+    "interaction_contract": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/WAVE25_INTERACTION_CONTRACT.json",
+    "interaction_validation": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/WAVE25_INTERACTION_VALIDATION.json",
+    "interaction_score": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/WAVE25_INTERACTION_SCORE_REPORT.json",
+    "qa_evidence": "Plan/Instructions/QA/Evidence/Multi_Character_Interaction/W69_LOCAL_WAVE25_TWO_CHARACTER_HAND_TO_BODY_PREFLIGHT_20260707T113500-0500.json"
+  },
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic editorial studio photograph of two fully clothed adult professionals, medium shot, person on the left gently rests one visible right hand on the other person's upper arm, light respectful hand-to-body contact, both people have separate bodies and separate clothing silhouettes, natural skin texture, realistic eyes, detailed hair, crisp fabric weave, believable contact shadow at the hand and sleeve, no merged anatomy, no overlapping faces, no extra people, balanced soft studio lighting, lifelike lens rendering",
+    "negative_prompt": "cartoon, anime, illustration, child, nude, lingerie, erotic pose, plastic skin, waxy skin, over-smoothed face, distorted anatomy, merged bodies, fused people, shared torso, extra person, extra arms, extra hands, extra fingers, missing fingers, deformed hands, claw fingers, melted hand, hand passing through arm, impossible contact, no contact shadow, crossed eyes, low resolution, blurry, watermark, text",
+    "seed": 7152026251,
+    "sampler_settings": {
+      "steps": 30,
+      "cfg": 5.2,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1
+    },
+    "latent_resolution": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_realvisxl_two_character_hand_to_body_seed7152026251"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_realvisxl_two_character_hand_to_body_seed7152026251"
+  },
+  "qa_focus": [
+    "two distinct adult clothed characters",
+    "source hand visible and plausibly resting on target upper arm",
+    "contact shadow at hand-to-sleeve boundary",
+    "no merged bodies or wrong-character edits",
+    "hands and fingers readable enough for first local pixel attempt",
+    "identity and face coherence for both visible people",
+    "clothing separation and fabric realism",
+    "background coherence"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "single_sample_first_attempt": true,
+    "requires_strict_whole_image_qa": true,
+    "requires_target_runtime_reproof_before_final_certification": true,
+    "does_not_certify_wave25_final_output": true
+  }
+}

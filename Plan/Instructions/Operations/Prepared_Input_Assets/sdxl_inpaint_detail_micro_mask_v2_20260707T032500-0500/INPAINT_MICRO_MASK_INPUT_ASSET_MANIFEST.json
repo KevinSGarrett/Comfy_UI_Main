@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "asset_id": "sdxl_inpaint_detail_micro_mask_v2_20260707T032500-0500",
+  "created_at": "2026-07-07T03:25:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "module_id": "MOD-13-SDXL-INPAINT-DETAIL-LANE",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "purpose": "Narrow feature mask for identity-preserving local inpaint detail iteration after the full face mask caused gray-mask failure and identity drift.",
+  "source_image": {
+    "filename": "sdxl_inpaint_detail_source_canny_v1.png",
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_micro_mask_v2_20260707T032500-0500/sdxl_inpaint_detail_source_canny_v1.png",
+    "sha256": "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523",
+    "copied_to_local_comfy_input": "ComfyUI/input/sdxl_inpaint_detail_source_canny_v1.png"
+  },
+  "mask_image": {
+    "filename": "sdxl_inpaint_detail_micro_mask_v2.png",
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_micro_mask_v2_20260707T032500-0500/sdxl_inpaint_detail_micro_mask_v2.png",
+    "sha256": "25a72ab773544c393c548179367daa53ff4993d3fe81939035055504b86629e6",
+    "copied_to_local_comfy_input": "ComfyUI/input/sdxl_inpaint_detail_micro_mask_v2.png"
+  },
+  "mask_geometry": {
+    "canvas": "768x768",
+    "white_regions": [
+      "left eye-adjacent micro ellipse x=250 y=276 w=74 h=56",
+      "right eye-adjacent micro ellipse x=438 y=276 w=74 h=56",
+      "nose/central skin micro ellipse x=326 y=330 w=110 h=92",
+      "mouth/lower-face micro ellipse x=310 y=438 w=152 h=70",
+      "forehead texture micro ellipse x=282 y=250 w=205 h=34"
+    ],
+    "intent": "Limit generation to small facial detail regions and avoid full-face replacement."
+  },
+  "next_action": "Run a local VAEEncode plus SetLatentNoiseMask inpaint sample and compare whole-image visual QA against baseline and v2."
+}

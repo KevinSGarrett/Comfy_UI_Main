@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_FACE_LANDMARK_AUTHORITY_20260708T102538-0500",
+  "created_local": "20260708T102538-0500",
+  "task": "Implement face landmark authority for dense face anchors for TRK-W70-0143 / ITEM-W70-0143.",
+  "result": "face_landmark_authority_implemented_pending_model_consensus_and_downstream_authority",
+  "source_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+  "source_sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+  "script": "Plan/07_IMPLEMENTATION/scripts/implement_wave70_face_landmark_authority.py",
+  "artifacts": {
+    "landmark_record_path": "runtime_artifacts/mask_factory/wave70_face_landmark_authority/20260708T102538-0500/face_landmark_authority_landmarks.json",
+    "coordinate_transform_manifest_path": "runtime_artifacts/mask_factory/wave70_face_landmark_authority/20260708T102538-0500/face_landmark_authority_coordinate_transform_manifest.json",
+    "landmark_panel_path": "runtime_artifacts/mask_factory/wave70_face_landmark_authority/20260708T102538-0500/face_landmark_authority_panel.png"
+  },
+  "model_backed_geometry_authority": {
+    "result": "face_landmark_route_executed_pending_consensus",
+    "model_backed_geometry_authority_pass": false,
+    "source_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "source_sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "source_dimensions": [
+      768,
+      768
+    ],
+    "mask_type_id": "model_backed_geometry_authority",
+    "matrix_slot_id": "TRK-W70-0143",
+    "models_attempted": [
+      "mediapipe_face_landmarker_task"
+    ],
+    "models_available": [
+      "mediapipe_face_landmarker_task"
+    ],
+    "model_versions": {
+      "mediapipe": "0.10.35"
+    },
+    "landmark_record_path": "runtime_artifacts/mask_factory/wave70_face_landmark_authority/20260708T102538-0500/face_landmark_authority_landmarks.json",
+    "semantic_parsing_record_path": "",
+    "sam_refinement_record_path": "",
+    "visibility_occlusion_record_path": "",
+    "canonical_polygon_path": "",
+    "coordinate_transform_manifest_path": "runtime_artifacts/mask_factory/wave70_face_landmark_authority/20260708T102538-0500/face_landmark_authority_coordinate_transform_manifest.json",
+    "gold_trace_comparison_path": "",
+    "consensus_metrics": {
+      "iou_against_gold_or_prior": null,
+      "mean_boundary_error_px": null,
+      "max_boundary_error_px": null,
+      "center_drift_px": null,
+      "protected_overlap_ratio": null
+    },
+    "confidence": {
+      "landmark_confidence": 0.93,
+      "parsing_confidence": null,
+      "refinement_confidence": null,
+      "visibility_confidence": null,
+      "overall_confidence": 0.78
+    },
+    "dependency_probe_completed": true,
+    "model_geometry_dependency_probe_pass": true,
+    "source_derived_landmark_or_segmentation_pass": true,
+    "landmark_detection_pass": true,
+    "coordinate_transform_manifest_pass": true,
+    "subject_viewer_side_mapping_pass": true,
+    "blocked_reason": "full_authority_pending_semantic_parsing_sam_refinement_visibility_and_consensus",
+    "findings": [
+      "MediaPipe Face Landmarker produced source-specific dense face landmarks for the active MOD-17 portrait.",
+      "This satisfies the local face-landmark layer only; it does not promote any mask and does not satisfy full model-backed geometry authority without parsing/refinement/visibility/consensus.",
+      "No symmetry-only geometry, Haar box, Canny-only geometry, or debug rectangle was used."
+    ]
+  },
+  "landmark_detection": {
+    "landmark_detection_pass": true,
+    "subject_viewer_side_mapping_pass": true,
+    "coordinate_transform_manifest_pass": true,
+    "source_derived_landmark_or_segmentation_pass": true,
+    "detected_face_count": 1,
+    "landmark_count": 478,
+    "bbox_xyxy": [
+      197.219,
+      215.899,
+      471.755,
+      543.22
+    ],
+    "out_of_bounds_landmark_count": 0
+  },
+  "environment": {
+    "python_executable": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "cwd": "C:\\Comfy_UI_Main"
+  },
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_no_model_authority_approval_token_emitted",
+  "next_action": "Continue with semantic face parsing route or keep blocked until model files are available; use landmarks as one input to downstream consensus only.",
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  }
+}

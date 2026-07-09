@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-LOCAL-MF70-EYELASHES-VISUAL-QA-20260707T183000-0500",
+  "timestamp": "2026-07-07T18:30:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "strict_whole_image_visual_qa_generated_output",
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "mask_type_id": "mf70_eyelashes",
+  "tracker_id": "TRK-W70-0014",
+  "item_id": "ITEM-W70-0014",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "artifacts": {
+    "prompt_profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_eyelashes_seed210813.json",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_eyelashes_seed210813/RUN_PACKAGE_MANIFEST.json",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_EYELASHES_SEED210813_EXECUTE_20260707T183000-0500.json",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_eyelashes_seed210813_20260707T181631-0500/images/codex_wave70_mf70_eyelashes_seed210813_00001_.png",
+    "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_eyelashes_seed210813_20260707T181631-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00019_.png",
+    "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_eyelashes/qa_comparisons/wave70_mf70_eyelashes_source_overlay_output_compare.png",
+    "mask_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_eyelashes.json"
+  },
+  "artifact_hashes": {
+    "prompt_profile_sha256": "0a8d5940463ce4a1bff51d554c6b6a56721976bf5671a523392a9a535d6837d9",
+    "run_package_sha256": "1a1f25888b2090620502c821c2cf42d88227bb75509d4485631df7fea9515314",
+    "runtime_evidence_sha256": "ff9034f0d20b0f058de9430e8238d05d85fc11bbbd28736be55c060ee7ab9d7f",
+    "generated_output_sha256": "73d9ec3ac001ff0f54ba1dd011ce6da28c33ea27fdffcd812fde2c9b0e064e9d",
+    "diagnostic_mask_preview_sha256": "44ed9bafd38bc0521841baac39331c492aa1d400c5c78282301b07b02d09fa7d",
+    "comparison_artifact_sha256": "cb7fad7ce7680ec55fa70c46fccc73e25c84e7faec05352d13077542e8f6d7e2"
+  },
+  "review_method": "direct local inspection of source image, eyelash mask overlay, generated output, and three-panel comparison artifact",
+  "strict_whole_image_findings": {
+    "identity_preserved": true,
+    "gaze_preserved": true,
+    "iris_pupil_sclera_preserved": true,
+    "eyelash_region_result": "pass_with_notes_tiny_lash_line_preservation_only",
+    "false_lash_or_makeup_drift": false,
+    "eyelids_preserved": true,
+    "eyebrows_preserved": true,
+    "hair_occlusion_preserved": true,
+    "skin_texture_preserved": true,
+    "mouth_teeth_preserved": true,
+    "hands_visible": false,
+    "clothing_preserved": true,
+    "background_preserved": true,
+    "lighting_preserved": true,
+    "visible_seam": false,
+    "whole_frame_regression": false
+  },
+  "findings": [
+    "Generated output is visually source-stable against the active local MOD-17 Canny v3 portrait.",
+    "Eyelash-line regions remain natural and very subtle; no false-lash, mascara, heavy eyeliner, lash-spike, or clumped-lash mutation is visible.",
+    "Gaze direction, iris size/color, sclera tone, catchlights, eyelids, and eyebrows remain stable.",
+    "Nearby subject-right hair occlusion, face identity, mouth, blazer, neck, lighting, crop, and gray background remain stable.",
+    "No visible hard seam or unrelated whole-frame mutation was observed."
+  ],
+  "result": "pass_with_notes_local_wave70_eyelashes_generated_output",
+  "remaining_blockers": [
+    "target_runtime_proof_required_before_final_certification"
+  ],
+  "boundary": "This approves the local generated-output proof for Wave70 mf70_eyelashes only. Final item certification still requires target-runtime proof."
+}

@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "inpaint_wave70_mf70_nose_v2_source_landmark_seed210820",
+  "target_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "purpose": "Generated-output proof for the accepted Wave70 mf70_nose v2 source-landmark candidate after strict source-overlay and protected-overlap review.",
+  "request_patch_values": {
+    "positive_prompt": "extremely subtle photoreal nose texture and contour preservation pass, preserve exact person identity, full visible nose bridge, sidewalls, tip, alae, nostril shape, natural skin texture, gaze direction, eye shape, iris color, pupil size, sclera tone, catchlights, cheeks, lips, philtrum, mouth shape, eyebrows, hairline, nearby hair occlusion, face lighting, white blazer, background, and portrait composition unchanged",
+    "negative_prompt": "identity change, different person, nose shape change, enlarged nose, narrowed nose, crooked nose, changed nostrils, asymmetrical nostrils, bulbous nose, pinched nose, nose bridge mutation, nose sidewall mutation, nose tip mutation, cheek shape change, lip shape change, mouth change, philtrum mutation, upper lip mutation, over-smoothed skin, plastic skin, waxy skin, skin tone change, gaze change, mismatched eyes, iris color change, glassy eyes, catchlight change, eyebrow change, hair mutation, visible seam, clothing change, background change, watermark, text",
+    "source_image": "wave70_mf70_face_identity_source_canny_v3.png",
+    "mask_image": "wave70_mf70_nose_mask.png",
+    "mask_channel": "red",
+    "seed": 210820,
+    "sampler_settings": {
+      "steps": 18,
+      "cfg": 3.2,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.03
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_wave70_mf70_nose_v2_source_landmark_seed210820"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_wave70_mf70_nose_v2_source_landmark_seed210820",
+    "diagnostic_output_prefix": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview"
+  },
+  "qa_focus": [
+    "whole-image identity preservation",
+    "v2 candidate nose bridge, sidewalls, tip, alae, and nostrils remain natural",
+    "no mouth, lip, philtrum, cheek, eye, or identity drift",
+    "no visible seam around the v2 source-landmark mask boundary",
+    "do not promote other disputed masks from this single mask proof"
+  ],
+  "source_qa_driver": {
+    "evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_NOSE_V2_STRICT_VISUAL_ACCEPTANCE_20260707T215500-0500.json",
+    "mask_qa": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_nose.json",
+    "v2_candidate_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_nose_source_landmark_v2_20260707T214500-0500/wave70_mf70_nose_overlay.png",
+    "v2_strict_visual_acceptance_panel": "runtime_artifacts/mask_factory/wave70_mf70_nose/strict_visual_acceptance/20260707T215500-0500/mf70_nose_v2_strict_visual_acceptance_panel.png",
+    "change_summary": "Use the accepted v2 source-landmark Wave70 nose mask with very low denoise to prove local generated-output routing while minimizing nose, nostril, cheek, lip, mouth, eye, and identity drift."
+  },
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_generated_output_proof_before_item_completion": true,
+    "requires_whole_image_qa_before_promotion": true,
+    "requires_target_runtime_reproof_before_final_certification": true,
+    "does_not_certify_other_disputed_masks": true
+  }
+}

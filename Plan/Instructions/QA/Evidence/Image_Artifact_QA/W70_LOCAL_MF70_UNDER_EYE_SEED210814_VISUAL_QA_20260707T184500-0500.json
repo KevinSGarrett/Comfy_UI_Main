@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-LOCAL-MF70-UNDER-EYE-VISUAL-QA-20260707T184500-0500",
+  "timestamp": "2026-07-07T18:45:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "strict_whole_image_visual_qa_generated_output",
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "mask_type_id": "mf70_under_eye",
+  "tracker_id": "TRK-W70-0015",
+  "item_id": "ITEM-W70-0015",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "artifacts": {
+    "prompt_profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_under_eye_seed210814.json",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_under_eye_seed210814/RUN_PACKAGE_MANIFEST.json",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_UNDER_EYE_SEED210814_EXECUTE_20260707T184500-0500.json",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_under_eye_seed210814_20260707T182853-0500/images/codex_wave70_mf70_under_eye_seed210814_00001_.png",
+    "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_under_eye_seed210814_20260707T182853-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00020_.png",
+    "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_under_eye/qa_comparisons/wave70_mf70_under_eye_source_overlay_output_compare.png",
+    "mask_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_under_eye.json"
+  },
+  "artifact_hashes": {
+    "prompt_profile_sha256": "e7fddb2d198de7c1e69d95df1ebf66eb91311d957768d99f3672b7333ba8892c",
+    "run_package_sha256": "4639e813a76604961b227d19ce276ec2f76cc20261be2b1e1c086daf07f991ef",
+    "runtime_evidence_sha256": "26a405aed7c64af2de9c3643edc928ae4bf0eceac61c78188f1e31cdac0ca4a4",
+    "generated_output_sha256": "279f643ac7ce33957718e603ce34c26136045992f3a4efa69c100aed5741faad",
+    "diagnostic_mask_preview_sha256": "98a7f75a6e1121fd84d20babc260665332aa9f49f35c80258344e99f2e42c619",
+    "comparison_artifact_sha256": "a31d09a46cfb02908e19fc92be8af317b8cc5d37de38dd780869cea00c69640c"
+  },
+  "review_method": "direct local inspection of source image, under-eye mask overlay, generated output, and three-panel comparison artifact",
+  "strict_whole_image_findings": {
+    "identity_preserved": true,
+    "gaze_preserved": true,
+    "iris_pupil_sclera_preserved": true,
+    "under_eye_region_result": "pass_with_notes_subtle_skin_texture_preservation_only",
+    "dark_circle_or_swelling_added": false,
+    "lower_eyelids_preserved": true,
+    "cheeks_preserved": true,
+    "nose_bridge_preserved": true,
+    "eyelashes_preserved": true,
+    "eyebrows_preserved": true,
+    "hair_occlusion_preserved": true,
+    "skin_texture_preserved": true,
+    "mouth_teeth_preserved": true,
+    "hands_visible": false,
+    "clothing_preserved": true,
+    "background_preserved": true,
+    "lighting_preserved": true,
+    "visible_seam": false,
+    "whole_frame_regression": false
+  },
+  "findings": [
+    "Generated output is visually source-stable against the active local MOD-17 Canny v3 portrait.",
+    "Under-eye skin remains natural; no added dark circles, swollen lower lids, lower-lid deformation, or over-smoothed patch is visible.",
+    "Gaze direction, iris size/color, sclera tone, catchlights, eyelashes, and eyebrows remain stable.",
+    "Cheeks, nose bridge, nearby hair occlusion, face identity, mouth, blazer, neck, lighting, crop, and gray background remain stable.",
+    "No visible hard seam or unrelated whole-frame mutation was observed."
+  ],
+  "result": "pass_with_notes_local_wave70_under_eye_generated_output",
+  "remaining_blockers": [
+    "target_runtime_proof_required_before_final_certification"
+  ],
+  "boundary": "This approves the local generated-output proof for Wave70 mf70_under_eye only. Final item certification still requires target-runtime proof."
+}

@@ -1,0 +1,29 @@
+﻿{
+    "schema_version":  "1.0",
+    "evidence_id":  "DAILY_ARTIFACT_QA_INTEGRITY_LEDGER_GAP_20260709T051730-0500",
+    "created_at":  "2026-07-09T05:20:06.8474260-05:00",
+    "classification":  "QA_LEDGER_GAP",
+    "source_audit":  "C:\\Users\\kevin\\.codex\\automations\\comfy-ui-main-daily-artifact-qa-integrity-audit\\audits\\DAILY_ARTIFACT_QA_INTEGRITY_20260709T051730-0500.json",
+    "actionable_gaps":  [
+                            {
+                                "path":  "C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\QA_EVIDENCE_INDEX.md",
+                                "finding":  "Required QA evidence index path was not found during daily artifact QA integrity audit.",
+                                "recommended_action":  "Create or refresh a lightweight QA evidence index pointer for current evidence roots."
+                            },
+                            {
+                                "path":  "C:\\Comfy_UI_Main\\PROOF_OF_MOVEMENT_LOG.csv",
+                                "finding":  "Required proof-of-movement log path was not found during daily artifact QA integrity audit.",
+                                "recommended_action":  "Create or refresh a movement/proof ledger pointer or document the canonical replacement path."
+                            }
+                        ],
+    "non_findings":  [
+                         "Wave70 Tracker rows match expected count 166.",
+                         "Wave70 Item rows match expected count 166.",
+                         "No unblocked pass-like Wave70 Tracker/Item rows found.",
+                         "No masks promoted by this audit.",
+                         "No Jira action performed."
+                     ],
+    "correction_needed":  true,
+    "steering_edit_performed":  false,
+    "next_recommended_action":  "Address ledger pointers without changing Wave70 mask promotion state."
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "W69-CONTROLNET-CANNY-PREPROCESS-MODULE-V1",
+  "created_at": "2026-07-07T10:02:07.384434+00:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+  "source_requirement": "Plan/07_IMPLEMENTATION/COMFYUI_WIRING_REPAIR_LIST.md Priority 2: Create control-map preprocessing module; feed actual control maps into ControlNet.",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "source_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_local_bounded_smoke_v1_20260706T210854-0500/images/codex_realvisxl_local_bounded_smoke_00002_.png",
+    "width": 512,
+    "height": 512,
+    "mode": "RGB",
+    "bytes": 384578,
+    "sha256": "a3b1527fcd3223fbb55cfc51434ff9b7495318ec79cfcb2f1ca48b0184881ec8"
+  },
+  "processing": {
+    "raw_control": [
+      "convert source to grayscale",
+      "fit to 1024x1024 with LANCZOS",
+      "Pillow FIND_EDGES",
+      "autocontrast cutoff=1",
+      "threshold >=36 to white on black"
+    ],
+    "clean_control": [
+      "resize raw control 1024->512 bilinear",
+      "median filter size=3",
+      "max filter size=3",
+      "threshold >=96",
+      "min filter size=3",
+      "resize cleaned control 512->1024 nearest"
+    ]
+  },
+  "outputs": [
+    {
+      "role": "raw_canny_control_map",
+      "path": "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_preprocess_module_v1_20260707T051500-0500/controlnet_canny_corrected_white_edges_black_bg.png",
+      "filename": "controlnet_canny_corrected_white_edges_black_bg.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "L",
+      "bytes": 113578,
+      "sha256": "1af02b8bd12a9de394fbcc1becd72912f4604f843cb7e7a2fc80496835b8e9a5"
+    },
+    {
+      "role": "cleaned_eye_safe_canny_control_map",
+      "path": "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_preprocess_module_v1_20260707T051500-0500/controlnet_canny_cleaned_eye_safe_v1.png",
+      "filename": "controlnet_canny_cleaned_eye_safe_v1.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "L",
+      "bytes": 21519,
+      "sha256": "d2f09161928d6efa1c724aafd6798ab597f8cfa0e12dcb4db61203c6b4e74bd0"
+    }
+  ],
+  "copied_to_comfy_input": [],
+  "result": "prepared_local_canny_control_map_module_outputs",
+  "next_action": "Use the cleaned eye-safe Canny control map as the ControlNet LoadImage input after lane-level hash/path evidence is recorded."
+}

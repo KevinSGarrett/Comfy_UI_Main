@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W71_LOCAL_CANNY_SUBJECT_ANCHOR_VISUAL_QA_20260707T175000-0500",
+  "created_at": "2026-07-07T17:50:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+  "result": "mixed_subject_anchor_retry_helped_gender_hair_but_not_promoted",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "strict_whole_image_visual_qa_performed": true,
+  "test_design": {
+    "baseline_profile": "canny_w71_matrix_preferred_042060_seed711570106",
+    "retry_profile": "canny_w71_subject_anchor_seed711570106",
+    "single_variable_change": "Prompt/request anchor text only. Seed, control image, ControlNet strength, and ControlNet end percent were retained from the preferred local candidate.",
+    "unchanged_settings": {
+      "seed": 711570106,
+      "control_image": "controlnet_canny_cleaned_eye_safe_v3_rightedge_band_masked.png",
+      "controlnet_strength": 0.42,
+      "controlnet_end_percent": 0.6
+    }
+  },
+  "runtime_summary": {
+    "run_package_static_validated_zero_defects": true,
+    "local_comfyui_generated_output": true,
+    "local_comfyui_stopped_by_helper": true,
+    "port_8188_closed_after_stop": true,
+    "output_count": 1,
+    "diagnostic_control_map_count": 1
+  },
+  "sample": {
+    "profile_id": "canny_w71_subject_anchor_seed711570106",
+    "profile_path": "PromptProfiles/base_generation/controlnet_canny_w71_local_quality_loop/canny_w71_subject_anchor_seed711570106.json",
+    "profile_sha256": "1845a587910e89762cc78cb5f0af3acd94fce6d060caa499f56d22c779b26544",
+    "run_package": "runtime_artifacts/run_packages/canny_w71_subject_anchor_seed711570106/RUN_PACKAGE_MANIFEST.json",
+    "run_package_sha256": "370b039810d8ed04042be42eeac8c3a44aed5abb3a69b062142335bbf68173c3",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W71_LOCAL_CANNY_SUBJECT_ANCHOR_SEED711570106_EXECUTE_20260707T175000-0500.json",
+    "runtime_evidence_sha256": "3b52027b86ce337e924acbc39acfc1ee60481cab98735279f3d351568a0b40ef",
+    "generated_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w71_subject_anchor_seed711570106_20260707T174709-0500/images/canny_w71_subject_anchor_seed711570106_00001_.png",
+    "generated_image_sha256": "30dd8c923fdbba2c683c6673b6ea05a0ddb365291e75a3f26ff545d611b76280",
+    "diagnostic_control_map": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w71_subject_anchor_seed711570106_20260707T174709-0500/images/codex_sdxl_realvisxl_controlnet_canny_control_map_diagnostic_00018_.png",
+    "diagnostic_control_map_sha256": "fa4dd238d291f5a95ee89bdd87a5a5598995ce7fdc028536da6e89bcd2c748ea"
+  },
+  "comparison_artifact": {
+    "path": "runtime_artifacts/controlnet_canny_w71_quality_loop/qa_comparisons/canny_w71_subject_anchor_vs_retained_seed711570106_compare.png",
+    "sha256": "cae3408abe5bb75ffbbb7853c5864ebdeb3db08b6b24147f72f96fbb99b92ce2"
+  },
+  "whole_image_visual_findings": {
+    "improvements_over_prior_failed_antidrift": [
+      "The subject-anchor retry restores a young body male presentation compared with the prior negative-only anti-drift output.",
+      "Hair is short and black rather than long, gray, or feminine-styled.",
+      "The shirt/blazer clothing route remains coherent and the right-edge artifact is not severe."
+    ],
+    "regressions_against_retained_candidate": [
+      "The face shape, eye styling, nose, and overall identity still drift from the retained preferred candidate.",
+      "Hair becomes too uniformly helmet-like and less naturally textured than the retained sample.",
+      "The flat neutral gray background request is not preserved; the retry shifts to a cooler blue gradient.",
+      "Framing/crop changes enough that this is not a clean retained-candidate improvement.",
+      "Eyes are darker and less naturally lit than the retained sample."
+    ],
+    "anatomy_and_artifact_review": [
+      "Visible head, neck, shoulders, blazer, and shirt are anatomically coherent.",
+      "No visible hands are present, so hand/finger QA is not applicable to this artifact.",
+      "No text, watermark, hard right-edge seam, or obvious control-map line stain is visible.",
+      "Skin texture is plausible but less faithful to the retained candidate identity."
+    ]
+  },
+  "qa_decision": {
+    "helped_specific_failure": true,
+    "helped_specific_failure_scope": "gender presentation and short-hair anchoring improved compared with the prior negative-only anti-drift sample",
+    "promote_over_retained_candidate": false,
+    "retained_local_candidate": "canny_w71_matrix_preferred_042060_seed711570106",
+    "decision": "Do not promote the subject-anchor retry. Retain the 0.42/0.60 seed711570106 preferred sample as the best local candidate while treating prompt-only identity anchoring as insufficient.",
+    "next_local_recommendation": "Stop prompt-only anti-drift retries for MOD-17 Canny unless a new reference/identity-conditioning workflow path is added. The current Canny-only lane can produce plausible portraits but is not identity-robust."
+  },
+  "final_certification_boundary": {
+    "local_generation_evidence_added": true,
+    "target_runtime_proof_present": false,
+    "final_mod17_certification_allowed": false,
+    "remaining_blockers": [
+      "prompt_only_subject_anchoring_not_identity_robust",
+      "target_runtime_proof_required_before_final_certification",
+      "broader MOD-17 certification gates remain separate from this local quality loop"
+    ]
+  }
+}

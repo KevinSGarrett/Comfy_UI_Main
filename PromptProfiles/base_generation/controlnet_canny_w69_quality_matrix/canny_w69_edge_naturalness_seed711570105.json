@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "canny_w69_edge_naturalness_seed711570105",
+  "target_lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "purpose": "QA-driven minimum rerun after seam suppression passed with notes. Keep the same seed while slightly reducing and shortening Canny guidance to test whether skin, collar, and background edges stay natural without reintroducing right-edge artifacts.",
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic cinematic editorial portrait, natural skin texture with fine pores, subtle human skin asymmetry, realistic eyes with clean catchlights and visible iris detail, gently open eye shadows, detailed natural hair, natural edge-guided composition, coherent face silhouette, clean but soft jawline, separated neck and shirt collar, tailored dark blazer over textured shirt, clothed shoulders, soft natural fill light, balanced exposure, plain continuous neutral interior background, seamless image edges, no visible wall panel boundary, clean face with no painted marks, lifelike lens rendering",
+    "negative_prompt": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, beauty filter skin, airbrushed face, porcelain skin, over-sharpened skin, gritty skin, over-sharpened edges, dark edge halos, harsh outlines, black contour stains, distorted anatomy, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text, colored blotches, paint marks, dim eye sockets, over-dark eyes, underexposed eyes, muddy shadows, crushed shadows, smeared jawline, warped collar edge, control map stains, right-edge seam, vertical seam, background panel line, border artifact, edge strip, window band, light bar, bare shoulders, strapless top, nude, unclothed torso",
+    "seed": 711570105,
+    "controlnet_settings": {
+      "strength": 0.38,
+      "start_percent": 0,
+      "end_percent": 0.55
+    },
+    "save_prefix": "canny_w69_edge_naturalness_seed711570105"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "canny_w69_edge_naturalness_seed711570105"
+  },
+  "qa_focus": [
+    "skin and collar edge naturalness after lower Canny strength",
+    "right-edge seam regression check",
+    "background continuity",
+    "eye readability and catchlights",
+    "jawline and shirt collar coherence",
+    "control-map leakage",
+    "whole-image prompt alignment"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "minimum_rerun_after_qa_note": true,
+    "requires_target_runtime_reproof_before_certification": true,
+    "requires_whole_image_qa_before_promotion": true
+  }
+}

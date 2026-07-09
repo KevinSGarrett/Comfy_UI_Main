@@ -1,0 +1,218 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_CANONICAL_POLYGON_MASK_GENERATOR_20260708T103232-0500",
+  "created_local": "20260708T103232-0500",
+  "created_iso": "2026-07-08T10:32:32-05:00",
+  "task": "Generate masks only from canonical polygons or segmentation maps for TRK-W70-0150 / ITEM-W70-0150.",
+  "script": "Plan/07_IMPLEMENTATION/scripts/implement_wave70_canonical_polygon_mask_generator.py",
+  "source_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "exists": true,
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "dimensions": [
+      768,
+      768
+    ]
+  },
+  "prerequisite_authority_evidence": {
+    "canonical_geometry_polygon_export": {
+      "exists": true,
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/canonical_geometry_polygon_export.json",
+      "sha256": "f90a30c95c190f33a03fe3f6caa31bfedd4aa5c64bb958372107e3031bd7cd42",
+      "evidence_id": "W70_CANONICAL_GEOMETRY_POLYGON_EXPORT_20260708T103103-0500",
+      "qa_decision": "canonical_source_derived_polygon_exported_pending_mask_generation",
+      "promotion_decision": "no_mask_promoted_no_active_input_changed_canonical_polygon_authority_only",
+      "result": "canonical_source_derived_polygon_exported_pending_mask_generation",
+      "model_backed_geometry_authority_pass": false,
+      "source_derived_landmark_or_segmentation_pass": true,
+      "model_consensus_geometry_pass": true,
+      "visibility_occlusion_confidence_pass": true,
+      "canonical_polygon_export_pass": true,
+      "canonical_polygon_path": "runtime_artifacts/mask_factory/wave70_canonical_geometry_polygon_export/20260708T103103-0500/canonical_geometry_polygon.json",
+      "no_debug_rectangle_mask_pass": true,
+      "blocked_reason": ""
+    },
+    "model_consensus_geometry_validator": {
+      "exists": true,
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/model_consensus_geometry_validator.json",
+      "sha256": "2380b8a220811d7d257fe27a974c9f1c7acf8f75ebf08ccf12eeb5a5287e8d49",
+      "evidence_id": "W70_MODEL_CONSENSUS_GEOMETRY_VALIDATOR_20260708T102923-0500",
+      "qa_decision": "model_consensus_geometry_validated_pending_canonical_polygon",
+      "promotion_decision": "no_mask_promoted_no_active_input_changed_model_consensus_authority_only",
+      "result": "model_consensus_geometry_validated_pending_canonical_polygon",
+      "model_backed_geometry_authority_pass": false,
+      "source_derived_landmark_or_segmentation_pass": true,
+      "model_consensus_geometry_pass": true,
+      "visibility_occlusion_confidence_pass": true,
+      "canonical_polygon_export_pass": false,
+      "canonical_polygon_path": "",
+      "no_debug_rectangle_mask_pass": true,
+      "blocked_reason": ""
+    },
+    "visibility_occlusion_confidence": {
+      "exists": true,
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/visibility_occlusion_confidence.json",
+      "sha256": "27920d4ce227fc3be2480161dd2fb76dac869844cb591ddfe910c06bca30a02c",
+      "evidence_id": "W70_VISIBILITY_OCCLUSION_CONFIDENCE_20260708T102731-0500",
+      "qa_decision": "visibility_occlusion_confidence_executed_pending_consensus_and_canonical_polygon",
+      "promotion_decision": "no_mask_promoted_no_active_input_changed_visibility_occlusion_authority_only",
+      "result": "visibility_occlusion_confidence_executed_pending_consensus",
+      "model_backed_geometry_authority_pass": false,
+      "source_derived_landmark_or_segmentation_pass": true,
+      "model_consensus_geometry_pass": false,
+      "visibility_occlusion_confidence_pass": true,
+      "canonical_polygon_export_pass": false,
+      "canonical_polygon_path": "",
+      "no_debug_rectangle_mask_pass": true,
+      "blocked_reason": ""
+    },
+    "gold_trace_dataset_manifest": {
+      "exists": true,
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/gold_trace_dataset_manifest.json",
+      "sha256": "33724afe1c5e056fe9d1f0d7e1d4d6c83d428a4b9903088213259ae69029b338",
+      "evidence_id": "W70_GOLD_TRACE_DATASET_MANIFEST_20260708T071713-0500",
+      "qa_decision": "registered_gold_trace_dataset_pending_model_authority_gates",
+      "promotion_decision": "no_mask_promoted_no_active_input_changed_gold_trace_registered_only",
+      "result": "registered_gold_trace_dataset_pending_model_authority_gates",
+      "model_backed_geometry_authority_pass": false,
+      "source_derived_landmark_or_segmentation_pass": false,
+      "model_consensus_geometry_pass": false,
+      "visibility_occlusion_confidence_pass": false,
+      "canonical_polygon_export_pass": false,
+      "canonical_polygon_path": "",
+      "no_debug_rectangle_mask_pass": true,
+      "blocked_reason": "Pending_Model_Geometry_Authority_Gates"
+    }
+  },
+  "mask_generation_readiness": {
+    "required_passes": {
+      "canonical_polygon_export_pass": true,
+      "canonical_polygon_path_present": true,
+      "canonical_polygon_path_exists": true,
+      "model_consensus_geometry_pass": true,
+      "visibility_occlusion_confidence_pass": true
+    },
+    "failed_requirements": [],
+    "canonical_polygon_path": "runtime_artifacts/mask_factory/wave70_canonical_geometry_polygon_export/20260708T103103-0500/canonical_geometry_polygon.json",
+    "mask_generation_computable": true,
+    "mask_from_canonical_geometry_pass": false,
+    "no_debug_rectangle_mask_pass": true,
+    "geometry_gate_pass": false,
+    "blocking_reason": "Blocked_Wave70_Mask_Geometry_Gate_Not_Passed"
+  },
+  "mask_generation_record": {
+    "schema_version": "1.0",
+    "evidence_id": "W70_CANONICAL_POLYGON_MASK_GENERATOR_20260708T103232-0500",
+    "source_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "source_dimensions": [
+      768,
+      768
+    ],
+    "canonical_polygon_path": "runtime_artifacts/mask_factory/wave70_canonical_geometry_polygon_export/20260708T103103-0500/canonical_geometry_polygon.json",
+    "generated_mask_path": "runtime_artifacts/mask_factory/wave70_canonical_polygon_mask_generator/20260708T103232-0500/canonical_polygon_mask.png",
+    "overlay_path": "runtime_artifacts/mask_factory/wave70_canonical_polygon_mask_generator/20260708T103232-0500/canonical_polygon_mask_overlay_panel.png",
+    "mask_sha256": "9484c95e0ae0a0fdf9dfe84ad1d3b6d50d27173fabd24681e3a67611c6488d5f",
+    "mask_dimensions": [
+      768,
+      768
+    ],
+    "mask_nonzero_pixels": 98607,
+    "mask_nonzero_ratio": 0.16718,
+    "point_count": 24,
+    "mask_from_canonical_geometry_pass": true,
+    "no_debug_rectangle_mask_pass": true,
+    "geometry_gate_pass": true,
+    "no_mask_promoted": true,
+    "blocked_reason": "",
+    "mask_record_path": "runtime_artifacts/mask_factory/wave70_canonical_polygon_mask_generator/20260708T103232-0500/canonical_polygon_mask_record.json"
+  },
+  "artifacts": {
+    "panel": "runtime_artifacts/mask_factory/wave70_canonical_polygon_mask_generator/20260708T103232-0500/canonical_polygon_mask_overlay_panel.png",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_canonical_polygon_mask_generator/20260708T103232-0500/canonical_polygon_mask_generator.json",
+    "generated_mask": "runtime_artifacts/mask_factory/wave70_canonical_polygon_mask_generator/20260708T103232-0500/canonical_polygon_mask.png",
+    "mask_record": "runtime_artifacts/mask_factory/wave70_canonical_polygon_mask_generator/20260708T103232-0500/canonical_polygon_mask_record.json"
+  },
+  "model_backed_geometry_authority": {
+    "result": "canonical_polygon_mask_generated_no_promotion",
+    "model_backed_geometry_authority_pass": false,
+    "source_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "source_sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "source_dimensions": [
+      768,
+      768
+    ],
+    "mask_type_id": "MBGA-009",
+    "matrix_slot_id": "TRK-W70-0150",
+    "models_attempted": [
+      "canonical_geometry_polygon_export_review",
+      "canonical_polygon_mask_generation_gate"
+    ],
+    "models_available": [
+      "base_image_io_and_cv"
+    ],
+    "model_versions": {},
+    "landmark_record_path": "",
+    "semantic_parsing_record_path": "",
+    "sam_refinement_record_path": "",
+    "visibility_occlusion_record_path": "",
+    "canonical_polygon_path": "runtime_artifacts/mask_factory/wave70_canonical_geometry_polygon_export/20260708T103103-0500/canonical_geometry_polygon.json",
+    "coordinate_transform_manifest_path": "",
+    "gold_trace_comparison_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/gold_trace_dataset_manifest.json",
+    "generated_mask_path": "runtime_artifacts/mask_factory/wave70_canonical_polygon_mask_generator/20260708T103232-0500/canonical_polygon_mask.png",
+    "consensus_metrics": {
+      "iou_against_gold_or_prior": null,
+      "mean_boundary_error_px": null,
+      "max_boundary_error_px": null,
+      "center_drift_px": null,
+      "protected_overlap_ratio": null
+    },
+    "confidence": {
+      "landmark_confidence": null,
+      "parsing_confidence": null,
+      "refinement_confidence": null,
+      "visibility_confidence": null,
+      "overall_confidence": null
+    },
+    "dependency_probe_completed": true,
+    "model_geometry_dependency_probe_pass": true,
+    "source_derived_landmark_or_segmentation_pass": true,
+    "model_consensus_geometry_pass": true,
+    "visibility_occlusion_confidence_pass": true,
+    "no_symmetry_guessing_pass": true,
+    "canonical_polygon_export_pass": true,
+    "mask_from_canonical_geometry_pass": true,
+    "geometry_gate_pass": true,
+    "no_human_work_dependency": true,
+    "no_debug_rectangle_mask_pass": true,
+    "whole_body_geometry_authority_pass": false,
+    "pose_hand_dense_landmark_or_segmentation_pass": false,
+    "semantic_human_part_parsing_pass": false,
+    "contact_occlusion_ownership_pass": false,
+    "body_region_geometry_pass": false,
+    "body_reference_matrix_pass": false,
+    "blocked_reason": "",
+    "findings": [
+      "A QA mask artifact was generated from the canonical source-derived polygon.",
+      "The generated mask remains an evidence artifact only and was not promoted.",
+      "No mask was generated from debug rectangles, Canny edges, Haar boxes, visual guesses, or generated-output stability.",
+      "No active mask artifact changed and no mask was promoted."
+    ]
+  },
+  "canonical_polygon_mask_generator": {
+    "result": "executed",
+    "mask_from_canonical_geometry_pass": true,
+    "no_debug_rectangle_mask_pass": true,
+    "geometry_gate_pass": true,
+    "generated_mask_path": "runtime_artifacts/mask_factory/wave70_canonical_polygon_mask_generator/20260708T103232-0500/canonical_polygon_mask.png",
+    "blocked_reason": ""
+  },
+  "qa_decision": "canonical_polygon_mask_generated_no_promotion",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_canonical_mask_generator_authority_only",
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  },
+  "next_step": "Work TRK-W70-0151 / ITEM-W70-0151 body hand contact geometry authority locally."
+}

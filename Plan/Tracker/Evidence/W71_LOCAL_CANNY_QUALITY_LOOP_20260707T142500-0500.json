@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "tracker_evidence_id": "W71_LOCAL_CANNY_QUALITY_LOOP_20260707T142500-0500",
+  "created_at": "2026-07-07T14:25:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+  "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "status": "local_quality_loop_completed_best_candidate_retained_followup_rejected",
+  "actual_work_performed": [
+    "Created two fresh local Canny quality-matrix prompt profiles.",
+    "Packaged both profiles through New-WorkflowRunPackage.ps1 with static validation passing at zero defects.",
+    "Executed both local ComfyUI run packages and pulled back generated portrait plus diagnostic control-map outputs.",
+    "Performed strict whole-image visual QA on every generated output.",
+    "Made one QA-driven follow-up profile change after the softer sample drifted.",
+    "Executed the minimum one-sample follow-up rerun and rejected it after visual QA showed regression."
+  ],
+  "selected_local_candidate": "canny_w71_matrix_preferred_042060_seed711570106",
+  "selected_local_candidate_result": "pass_with_notes_best_of_loop",
+  "rejected_candidates": [
+    {
+      "profile_id": "canny_w71_matrix_softer_036052_seed711570106",
+      "reason": "Identity and hair silhouette drift under softer 0.36/0.52 Canny guidance."
+    },
+    {
+      "profile_id": "canny_w71_followup_identitylock_044062_seed711570106",
+      "reason": "Follow-up did not help; it caused major identity shift and a dark boundary artifact."
+    }
+  ],
+  "evidence": {
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W71_LOCAL_CANNY_QUALITY_LOOP_VISUAL_QA_20260707T142500-0500.json",
+    "comparison": "runtime_artifacts/controlnet_canny_w71_quality_loop/qa_comparisons/canny_w71_matrix_preferred_softer_followup_compare.png",
+    "runtime_evidence": [
+      "Plan/Instructions/QA/Evidence/Workflow_Runtime/W71_LOCAL_CANNY_MATRIX_PREFERRED_042060_SEED711570106_EXECUTE_20260707T141500-0500.json",
+      "Plan/Instructions/QA/Evidence/Workflow_Runtime/W71_LOCAL_CANNY_MATRIX_SOFTER_036052_SEED711570106_EXECUTE_20260707T142000-0500.json",
+      "Plan/Instructions/QA/Evidence/Workflow_Runtime/W71_LOCAL_CANNY_FOLLOWUP_IDENTITYLOCK_044062_SEED711570106_EXECUTE_20260707T142200-0500.json"
+    ],
+    "run_packages": [
+      "runtime_artifacts/run_packages/canny_w71_matrix_preferred_042060_seed711570106/RUN_PACKAGE_MANIFEST.json",
+      "runtime_artifacts/run_packages/canny_w71_matrix_softer_036052_seed711570106/RUN_PACKAGE_MANIFEST.json",
+      "runtime_artifacts/run_packages/canny_w71_followup_identitylock_044062_seed711570106/RUN_PACKAGE_MANIFEST.json"
+    ]
+  },
+  "boundaries": {
+    "local_only": true,
+    "ec2_started": false,
+    "aws_contacted": false,
+    "github_api_contacted": false,
+    "civitai_contacted": false,
+    "target_runtime_proof_present": false,
+    "final_certification_allowed": false
+  },
+  "next_action": "Keep the 0.42/0.60 v3 right-edge-masked Canny settings as the preferred local MOD-17 candidate unless a future one-variable local test beats it. Do not promote the softer or identity-lock follow-up profiles."
+}

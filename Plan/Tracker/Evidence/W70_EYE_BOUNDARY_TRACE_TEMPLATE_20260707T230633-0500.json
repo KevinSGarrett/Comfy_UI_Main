@@ -1,0 +1,133 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_EYE_BOUNDARY_TRACE_TEMPLATE_20260707T230633-0500",
+  "created_local": "20260707T230633-05:00",
+  "task": "Wave70 eye-family source-boundary diagnostic after user-reported eye/brow geometry drift into hair",
+  "source_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+  "source_sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+  "affected_mask_type_ids": [
+    "mf70_left_eye",
+    "mf70_right_eye",
+    "mf70_pupils_iris_sclera",
+    "mf70_eyelids",
+    "mf70_eyelashes",
+    "mf70_eyebrows"
+  ],
+  "result": "blocked_manual_or_better_source_derived_trace_required",
+  "promotion_decision": "no_eye_family_mask_promoted_no_W70_MASK_PROMOTION_ROW_GATE_PASS_TRUE",
+  "detector": {
+    "name": "OpenCV Haar frontal face + eye-tree-eyeglasses",
+    "face_boxes_xywh": [
+      [
+        216,
+        209,
+        292,
+        292
+      ]
+    ],
+    "eye_boxes_xywh": [
+      [
+        392,
+        305,
+        55,
+        55
+      ]
+    ],
+    "detected_eye_count": 1,
+    "decision": "not_sufficient_for_eye_family_acceptance"
+  },
+  "user_dispute_response": "User is correct that current eye-family boundaries must not be accepted while visible eye/brow geometry runs into the hair mass. This evidence fails closed and creates a trace template instead of another guessed polygon.",
+  "artifacts": {
+    "source_trace_panel": "runtime_artifacts/mask_factory/wave70_eye_boundary_trace_template_20260707T230633-0500/wave70_eye_boundary_source_trace_template_panel.png",
+    "current_disputed_mask_overlay_panel": "runtime_artifacts/mask_factory/wave70_eye_boundary_trace_template_20260707T230633-0500/wave70_eye_family_current_disputed_mask_overlays.png",
+    "manual_trace_template": "runtime_artifacts/mask_factory/wave70_eye_boundary_trace_template_20260707T230633-0500/wave70_eye_boundary_manual_trace_template.json"
+  },
+  "current_mask_records": [
+    {
+      "mask_type_id": "mf70_left_eye",
+      "exists": true,
+      "path": "ComfyUI/input/wave70_mf70_left_eye_mask.png",
+      "sha256": "2b81866c1d683823234eed50bb9b922991947fe71bede620b4ab2aaf53c5331c",
+      "bbox": [
+        387,
+        291,
+        474,
+        352
+      ],
+      "hair_occluded_viewer_left_zone_hits": 0,
+      "nonzero_pixels": 4239
+    },
+    {
+      "mask_type_id": "mf70_right_eye",
+      "exists": true,
+      "path": "ComfyUI/input/wave70_mf70_right_eye_mask.png",
+      "sha256": "8bde85884cc71767086d561a8f3ca831d43237bed6da78c8cf6a336c32fbe66c",
+      "bbox": [
+        275,
+        296,
+        360,
+        356
+      ],
+      "hair_occluded_viewer_left_zone_hits": 282,
+      "nonzero_pixels": 4096
+    },
+    {
+      "mask_type_id": "mf70_pupils_iris_sclera",
+      "exists": true,
+      "path": "ComfyUI/input/wave70_mf70_pupils_iris_sclera_mask.png",
+      "sha256": "41a38bdf59632005231828cdc3ba6d2ac8da913787b1fd30759a1e00ac39f82d",
+      "bbox": [
+        258,
+        310,
+        504,
+        331
+      ],
+      "hair_occluded_viewer_left_zone_hits": 319,
+      "nonzero_pixels": 1768
+    },
+    {
+      "mask_type_id": "mf70_eyelids",
+      "exists": true,
+      "path": "ComfyUI/input/wave70_mf70_eyelids_mask.png",
+      "sha256": "d24720d764255ee2eef0b2e3c00cf47220323c27eb2cd6090c551e5de43ac6c6",
+      "bbox": [
+        277,
+        297,
+        472,
+        360
+      ],
+      "hair_occluded_viewer_left_zone_hits": 96,
+      "nonzero_pixels": 4705
+    },
+    {
+      "mask_type_id": "mf70_eyelashes",
+      "exists": true,
+      "path": "ComfyUI/input/wave70_mf70_eyelashes_mask.png",
+      "sha256": "9437f87962b09df1e0f69f89ae771a242a1d5be2ffb50bd04e816882d1216051",
+      "bbox": [
+        284,
+        311,
+        467,
+        351
+      ],
+      "hair_occluded_viewer_left_zone_hits": 2,
+      "nonzero_pixels": 1148
+    },
+    {
+      "mask_type_id": "mf70_eyebrows",
+      "exists": true,
+      "path": "ComfyUI/input/wave70_mf70_eyebrows_mask.png",
+      "sha256": "f6aac06704808dd70814d78317db320afc460b2159c6c88140794d6dcf986b6a",
+      "bbox": [
+        226,
+        282,
+        542,
+        304
+      ],
+      "hair_occluded_viewer_left_zone_hits": 592,
+      "nonzero_pixels": 2423
+    }
+  ],
+  "required_next_step": "Complete source-derived segmentation/landmark extraction or fill the high-zoom manual trace slots for visible eye apertures, brows, eyelids, lashes, and hair occlusion before generating any new eye-family mask.",
+  "forbidden_next_step": "Do not run generated-output proof, target-runtime proof, row promotion, or hand-guessed eye polygons for these rows."
+}

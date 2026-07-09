@@ -1,0 +1,154 @@
+{
+    "evidence_id":  "W66-EC2-WORKFLOW-MATRIX-QUALITY-RUN-PLAN-VALIDATION-20260709T014206-0500",
+    "created_at":  "2026-07-09T01:42:06-05:00",
+    "artifact_type":  "ec2_workflow_matrix_quality_run_plan_validation",
+    "matrix_id":  "realvisxl_multisample_certification_v1",
+    "lane_id":  "sdxl_realvisxl_base_lane",
+    "local_only":  true,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "scripts":  {
+                    "planner":  "Plan/Instructions/Operations/Scripts/New-EC2WorkflowMatrixQualityRunPlan.ps1",
+                    "validator":  "Plan/Instructions/QA/Scripts/Test-EC2WorkflowMatrixQualityRunPlan.ps1"
+                },
+    "inputs":  {
+                   "matrix_manifest":  "runtime_artifacts/run_package_matrices/realvisxl_multisample_certification_v1/RUN_PACKAGE_MATRIX_MANIFEST.json",
+                   "deploy_bundle_evidence":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_EC2_DEPLOY_BUNDLE_MATRIX_CURRENT_ACTIVE_LANES_20260709T014000-0500.json",
+                   "deploy_bundle_s3_uri_present":  true,
+                   "deploy_bundle_sha256_present":  true
+               },
+    "plan":  {
+                 "evidence_id":  "W66-EC2-WORKFLOW-MATRIX-QUALITY-RUN-PLAN-20260709T014206-0500",
+                 "sample_count":  3,
+                 "result":  "pass_local_only",
+                 "planned_sample_count":  3
+             },
+    "checks":  [
+                   {
+                       "name":  "plan_result_passes",
+                       "result":  "pass",
+                       "observed":  "pass_local_only",
+                       "expected":  "pass_local_only"
+                   },
+                   {
+                       "name":  "plan_sample_count_matches_matrix",
+                       "result":  "pass",
+                       "observed":  3,
+                       "expected":  3
+                   },
+                   {
+                       "name":  "plan_local_only",
+                       "result":  "pass",
+                       "observed":  {
+                                        "local_only":  true,
+                                        "aws":  false,
+                                        "comfyui":  false,
+                                        "ec2_started":  false,
+                                        "generation_executed":  false
+                                    },
+                       "expected":  "local only; no contacts; no EC2/generation"
+                   },
+                   {
+                       "name":  "plan_uses_s3_bundle_inputs",
+                       "result":  "pass",
+                       "observed":  {
+                                        "uri":  "s3://example-bucket/deploy-bundles/deploy_bundle_matrix_validation_20260709T014024-0500/deploy_bundle_matrix_validation_20260709T014024-0500.zip",
+                                        "sha256":  "952bbf9fd1db620bf88c6cbf90985c8b0deda3c534c98f699cc9cf0766e6367c"
+                                    },
+                       "expected":  "S3 URI and SHA supplied"
+                   },
+                   {
+                       "name":  "all_sample_commands_include_run_package",
+                       "result":  "pass",
+                       "observed":  [
+                                        "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Invoke-EC2WorkflowSmokeRun.ps1 -ProjectRoot C:\\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -DeployBundleS3Uri s3://example-bucket/deploy-bundles/deploy_bundle_matrix_validation_20260709T014024-0500/deploy_bundle_matrix_validation_20260709T014024-0500.zip -DeployBundleSha256 952bbf9fd1db620bf88c6cbf90985c8b0deda3c534c98f699cc9cf0766e6367c -MaxEc2RuntimeMinutes 45 -StaticProofFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Static_Validation\\\u003cstatic-proof\u003e.json -ReadinessFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\\u003creadiness\u003e.json -RunPackageManifestFile C:\\Comfy_UI_Main\\runtime_artifacts\\run_packages\\realvisxl_multisample_certification_v1_realvisxl_closeup_skin_eye_v1\\RUN_PACKAGE_MANIFEST.json -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Runtime\\W66_EC2_WORKFLOW_MATRIX_realvisxl_multisample_certification_v1_realvisxl_closeup_skin_eye_v1_\u003ctimestamp\u003e.json",
+                                        "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Invoke-EC2WorkflowSmokeRun.ps1 -ProjectRoot C:\\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -DeployBundleS3Uri s3://example-bucket/deploy-bundles/deploy_bundle_matrix_validation_20260709T014024-0500/deploy_bundle_matrix_validation_20260709T014024-0500.zip -DeployBundleSha256 952bbf9fd1db620bf88c6cbf90985c8b0deda3c534c98f699cc9cf0766e6367c -MaxEc2RuntimeMinutes 45 -StaticProofFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Static_Validation\\\u003cstatic-proof\u003e.json -ReadinessFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\\u003creadiness\u003e.json -RunPackageManifestFile C:\\Comfy_UI_Main\\runtime_artifacts\\run_packages\\realvisxl_multisample_certification_v1_realvisxl_three_quarter_hands_fabric_v1\\RUN_PACKAGE_MANIFEST.json -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Runtime\\W66_EC2_WORKFLOW_MATRIX_realvisxl_multisample_certification_v1_realvisxl_three_quarter_hands_fabric_v1_\u003ctimestamp\u003e.json",
+                                        "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Invoke-EC2WorkflowSmokeRun.ps1 -ProjectRoot C:\\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -DeployBundleS3Uri s3://example-bucket/deploy-bundles/deploy_bundle_matrix_validation_20260709T014024-0500/deploy_bundle_matrix_validation_20260709T014024-0500.zip -DeployBundleSha256 952bbf9fd1db620bf88c6cbf90985c8b0deda3c534c98f699cc9cf0766e6367c -MaxEc2RuntimeMinutes 45 -StaticProofFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Static_Validation\\\u003cstatic-proof\u003e.json -ReadinessFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\\u003creadiness\u003e.json -RunPackageManifestFile C:\\Comfy_UI_Main\\runtime_artifacts\\run_packages\\realvisxl_multisample_certification_v1_realvisxl_environment_lowlight_v1\\RUN_PACKAGE_MANIFEST.json -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Runtime\\W66_EC2_WORKFLOW_MATRIX_realvisxl_multisample_certification_v1_realvisxl_environment_lowlight_v1_\u003ctimestamp\u003e.json"
+                                    ],
+                       "expected":  "all workflow commands include -RunPackageManifestFile"
+                   },
+                   {
+                       "name":  "all_sample_commands_include_s3_bundle",
+                       "result":  "pass",
+                       "observed":  [
+                                        "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Invoke-EC2WorkflowSmokeRun.ps1 -ProjectRoot C:\\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -DeployBundleS3Uri s3://example-bucket/deploy-bundles/deploy_bundle_matrix_validation_20260709T014024-0500/deploy_bundle_matrix_validation_20260709T014024-0500.zip -DeployBundleSha256 952bbf9fd1db620bf88c6cbf90985c8b0deda3c534c98f699cc9cf0766e6367c -MaxEc2RuntimeMinutes 45 -StaticProofFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Static_Validation\\\u003cstatic-proof\u003e.json -ReadinessFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\\u003creadiness\u003e.json -RunPackageManifestFile C:\\Comfy_UI_Main\\runtime_artifacts\\run_packages\\realvisxl_multisample_certification_v1_realvisxl_closeup_skin_eye_v1\\RUN_PACKAGE_MANIFEST.json -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Runtime\\W66_EC2_WORKFLOW_MATRIX_realvisxl_multisample_certification_v1_realvisxl_closeup_skin_eye_v1_\u003ctimestamp\u003e.json",
+                                        "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Invoke-EC2WorkflowSmokeRun.ps1 -ProjectRoot C:\\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -DeployBundleS3Uri s3://example-bucket/deploy-bundles/deploy_bundle_matrix_validation_20260709T014024-0500/deploy_bundle_matrix_validation_20260709T014024-0500.zip -DeployBundleSha256 952bbf9fd1db620bf88c6cbf90985c8b0deda3c534c98f699cc9cf0766e6367c -MaxEc2RuntimeMinutes 45 -StaticProofFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Static_Validation\\\u003cstatic-proof\u003e.json -ReadinessFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\\u003creadiness\u003e.json -RunPackageManifestFile C:\\Comfy_UI_Main\\runtime_artifacts\\run_packages\\realvisxl_multisample_certification_v1_realvisxl_three_quarter_hands_fabric_v1\\RUN_PACKAGE_MANIFEST.json -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Runtime\\W66_EC2_WORKFLOW_MATRIX_realvisxl_multisample_certification_v1_realvisxl_three_quarter_hands_fabric_v1_\u003ctimestamp\u003e.json",
+                                        "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Invoke-EC2WorkflowSmokeRun.ps1 -ProjectRoot C:\\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -DeployBundleS3Uri s3://example-bucket/deploy-bundles/deploy_bundle_matrix_validation_20260709T014024-0500/deploy_bundle_matrix_validation_20260709T014024-0500.zip -DeployBundleSha256 952bbf9fd1db620bf88c6cbf90985c8b0deda3c534c98f699cc9cf0766e6367c -MaxEc2RuntimeMinutes 45 -StaticProofFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Static_Validation\\\u003cstatic-proof\u003e.json -ReadinessFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\\u003creadiness\u003e.json -RunPackageManifestFile C:\\Comfy_UI_Main\\runtime_artifacts\\run_packages\\realvisxl_multisample_certification_v1_realvisxl_environment_lowlight_v1\\RUN_PACKAGE_MANIFEST.json -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Runtime\\W66_EC2_WORKFLOW_MATRIX_realvisxl_multisample_certification_v1_realvisxl_environment_lowlight_v1_\u003ctimestamp\u003e.json"
+                                    ],
+                       "expected":  "all workflow commands include bundle URI and SHA"
+                   },
+                   {
+                       "name":  "all_sample_commands_include_cost_controls",
+                       "result":  "pass",
+                       "observed":  [
+                                        "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Invoke-EC2WorkflowSmokeRun.ps1 -ProjectRoot C:\\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -DeployBundleS3Uri s3://example-bucket/deploy-bundles/deploy_bundle_matrix_validation_20260709T014024-0500/deploy_bundle_matrix_validation_20260709T014024-0500.zip -DeployBundleSha256 952bbf9fd1db620bf88c6cbf90985c8b0deda3c534c98f699cc9cf0766e6367c -MaxEc2RuntimeMinutes 45 -StaticProofFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Static_Validation\\\u003cstatic-proof\u003e.json -ReadinessFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\\u003creadiness\u003e.json -RunPackageManifestFile C:\\Comfy_UI_Main\\runtime_artifacts\\run_packages\\realvisxl_multisample_certification_v1_realvisxl_closeup_skin_eye_v1\\RUN_PACKAGE_MANIFEST.json -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Runtime\\W66_EC2_WORKFLOW_MATRIX_realvisxl_multisample_certification_v1_realvisxl_closeup_skin_eye_v1_\u003ctimestamp\u003e.json",
+                                        "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Invoke-EC2WorkflowSmokeRun.ps1 -ProjectRoot C:\\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -DeployBundleS3Uri s3://example-bucket/deploy-bundles/deploy_bundle_matrix_validation_20260709T014024-0500/deploy_bundle_matrix_validation_20260709T014024-0500.zip -DeployBundleSha256 952bbf9fd1db620bf88c6cbf90985c8b0deda3c534c98f699cc9cf0766e6367c -MaxEc2RuntimeMinutes 45 -StaticProofFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Static_Validation\\\u003cstatic-proof\u003e.json -ReadinessFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\\u003creadiness\u003e.json -RunPackageManifestFile C:\\Comfy_UI_Main\\runtime_artifacts\\run_packages\\realvisxl_multisample_certification_v1_realvisxl_three_quarter_hands_fabric_v1\\RUN_PACKAGE_MANIFEST.json -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Runtime\\W66_EC2_WORKFLOW_MATRIX_realvisxl_multisample_certification_v1_realvisxl_three_quarter_hands_fabric_v1_\u003ctimestamp\u003e.json",
+                                        "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Invoke-EC2WorkflowSmokeRun.ps1 -ProjectRoot C:\\Comfy_UI_Main -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -DeployBundleS3Uri s3://example-bucket/deploy-bundles/deploy_bundle_matrix_validation_20260709T014024-0500/deploy_bundle_matrix_validation_20260709T014024-0500.zip -DeployBundleSha256 952bbf9fd1db620bf88c6cbf90985c8b0deda3c534c98f699cc9cf0766e6367c -MaxEc2RuntimeMinutes 45 -StaticProofFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Static_Validation\\\u003cstatic-proof\u003e.json -ReadinessFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\\u003creadiness\u003e.json -RunPackageManifestFile C:\\Comfy_UI_Main\\runtime_artifacts\\run_packages\\realvisxl_multisample_certification_v1_realvisxl_environment_lowlight_v1\\RUN_PACKAGE_MANIFEST.json -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Runtime\\W66_EC2_WORKFLOW_MATRIX_realvisxl_multisample_certification_v1_realvisxl_environment_lowlight_v1_\u003ctimestamp\u003e.json"
+                                    ],
+                       "expected":  "all workflow commands include cost controls"
+                   },
+                   {
+                       "name":  "all_samples_require_pullback",
+                       "result":  "pass",
+                       "observed":  [
+                                        {
+                                            "run_id":  "realvisxl_multisample_certification_v1_realvisxl_closeup_skin_eye_v1",
+                                            "pullback_command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\New-EC2PullbackRecord.ps1 -ProjectRoot C:\\Comfy_UI_Main -RunId realvisxl_multisample_certification_v1_realvisxl_closeup_skin_eye_v1 -LocalDestination C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\realvisxl_multisample_certification_v1_realvisxl_closeup_skin_eye_v1 -RemoteManifestFile C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\realvisxl_multisample_certification_v1_realvisxl_closeup_skin_eye_v1\\REMOTE_ARTIFACT_MANIFEST.json -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\realvisxl_multisample_certification_v1_realvisxl_closeup_skin_eye_v1\\PULLBACK_RECORD.json"
+                                        },
+                                        {
+                                            "run_id":  "realvisxl_multisample_certification_v1_realvisxl_three_quarter_hands_fabric_v1",
+                                            "pullback_command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\New-EC2PullbackRecord.ps1 -ProjectRoot C:\\Comfy_UI_Main -RunId realvisxl_multisample_certification_v1_realvisxl_three_quarter_hands_fabric_v1 -LocalDestination C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\realvisxl_multisample_certification_v1_realvisxl_three_quarter_hands_fabric_v1 -RemoteManifestFile C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\realvisxl_multisample_certification_v1_realvisxl_three_quarter_hands_fabric_v1\\REMOTE_ARTIFACT_MANIFEST.json -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\realvisxl_multisample_certification_v1_realvisxl_three_quarter_hands_fabric_v1\\PULLBACK_RECORD.json"
+                                        },
+                                        {
+                                            "run_id":  "realvisxl_multisample_certification_v1_realvisxl_environment_lowlight_v1",
+                                            "pullback_command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\New-EC2PullbackRecord.ps1 -ProjectRoot C:\\Comfy_UI_Main -RunId realvisxl_multisample_certification_v1_realvisxl_environment_lowlight_v1 -LocalDestination C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\realvisxl_multisample_certification_v1_realvisxl_environment_lowlight_v1 -RemoteManifestFile C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\realvisxl_multisample_certification_v1_realvisxl_environment_lowlight_v1\\REMOTE_ARTIFACT_MANIFEST.json -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\realvisxl_multisample_certification_v1_realvisxl_environment_lowlight_v1\\PULLBACK_RECORD.json"
+                                        }
+                                    ],
+                       "expected":  "pullback command for every sample"
+                   },
+                   {
+                       "name":  "all_samples_require_whole_image_qa",
+                       "result":  "pass",
+                       "observed":  [
+                                        {
+                                            "run_id":  "realvisxl_multisample_certification_v1_realvisxl_closeup_skin_eye_v1",
+                                            "whole_image_qa_command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Scripts\\New-ImageArtifactQARecord.ps1 -ImagePath \u003cpulled-back-image-for-realvisxl_multisample_certification_v1_realvisxl_closeup_skin_eye_v1\u003e -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Image_Artifact_QA\\W66_IMAGE_QA_MATRIX_realvisxl_multisample_certification_v1_realvisxl_closeup_skin_eye_v1_\u003ctimestamp\u003e.json -ChecklistOutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Image_Artifact_QA\\W66_IMAGE_QA_MATRIX_realvisxl_multisample_certification_v1_realvisxl_closeup_skin_eye_v1_\u003ctimestamp\u003e.md"
+                                        },
+                                        {
+                                            "run_id":  "realvisxl_multisample_certification_v1_realvisxl_three_quarter_hands_fabric_v1",
+                                            "whole_image_qa_command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Scripts\\New-ImageArtifactQARecord.ps1 -ImagePath \u003cpulled-back-image-for-realvisxl_multisample_certification_v1_realvisxl_three_quarter_hands_fabric_v1\u003e -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Image_Artifact_QA\\W66_IMAGE_QA_MATRIX_realvisxl_multisample_certification_v1_realvisxl_three_quarter_hands_fabric_v1_\u003ctimestamp\u003e.json -ChecklistOutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Image_Artifact_QA\\W66_IMAGE_QA_MATRIX_realvisxl_multisample_certification_v1_realvisxl_three_quarter_hands_fabric_v1_\u003ctimestamp\u003e.md"
+                                        },
+                                        {
+                                            "run_id":  "realvisxl_multisample_certification_v1_realvisxl_environment_lowlight_v1",
+                                            "whole_image_qa_command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Scripts\\New-ImageArtifactQARecord.ps1 -ImagePath \u003cpulled-back-image-for-realvisxl_multisample_certification_v1_realvisxl_environment_lowlight_v1\u003e -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Image_Artifact_QA\\W66_IMAGE_QA_MATRIX_realvisxl_multisample_certification_v1_realvisxl_environment_lowlight_v1_\u003ctimestamp\u003e.json -ChecklistOutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Image_Artifact_QA\\W66_IMAGE_QA_MATRIX_realvisxl_multisample_certification_v1_realvisxl_environment_lowlight_v1_\u003ctimestamp\u003e.md"
+                                        }
+                                    ],
+                       "expected":  "whole-image QA command for every sample"
+                   },
+                   {
+                       "name":  "all_samples_have_required_post_run_evidence",
+                       "result":  "pass",
+                       "observed":  [
+                                        {
+                                            "run_id":  "realvisxl_multisample_certification_v1_realvisxl_closeup_skin_eye_v1",
+                                            "evidence_count":  5
+                                        },
+                                        {
+                                            "run_id":  "realvisxl_multisample_certification_v1_realvisxl_three_quarter_hands_fabric_v1",
+                                            "evidence_count":  5
+                                        },
+                                        {
+                                            "run_id":  "realvisxl_multisample_certification_v1_realvisxl_environment_lowlight_v1",
+                                            "evidence_count":  5
+                                        }
+                                    ],
+                       "expected":  "workflow, remote manifest, pullback, image QA JSON, QA checklist"
+                   }
+               ],
+    "failure_count":  0,
+    "failures":  [
+
+                 ],
+    "result":  "pass_local_only",
+    "next_action":  "Use the planned commands only after S3 config, AWS auth, clean Git, static proof, and readiness gates pass; then pull back and whole-image QA every generated sample."
+}

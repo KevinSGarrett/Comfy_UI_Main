@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "asset_id": "controlnet_canny_cleaned_eye_safe_v3_rightedge_band_masked",
+  "created_at": "2026-07-07T13:28:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "source": {
+    "path": "ComfyUI/input/controlnet_canny_cleaned_eye_safe_v1.png",
+    "sha256": "d2f09161928d6efa1c724aafd6798ab597f8cfa0e12dcb4db61203c6b4e74bd0",
+    "width": 1024,
+    "height": 1024
+  },
+  "supersedes": "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_rightedge_masked_v2_20260707T132500-0500/CONTROL_IMAGE_INPUT_ASSET_MANIFEST.json",
+  "operation": {
+    "type": "right_edge_band_mask_to_black",
+    "mask_width_px": 96,
+    "reason": "The initial 22px mask left the visible right-edge Canny line; this masks the full right-edge artifact band while leaving the portrait subject silhouette outside the masked area."
+  },
+  "prepared_asset": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_rightedge_masked_v3_20260707T132800-0500/controlnet_canny_cleaned_eye_safe_v3_rightedge_band_masked.png",
+    "sha256": "4b40cdd7386d9287a37d64efafdeb7078a8a9d4160e23e00b5ddc87106a1f870",
+    "width": 1024,
+    "height": 1024
+  },
+  "active_comfyui_input": {
+    "path": "ComfyUI/input/controlnet_canny_cleaned_eye_safe_v3_rightedge_band_masked.png",
+    "sha256": "4b40cdd7386d9287a37d64efafdeb7078a8a9d4160e23e00b5ddc87106a1f870",
+    "hash_matches_prepared_asset": true
+  },
+  "comparison": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_rightedge_masked_v3_20260707T132800-0500/controlnet_canny_v1_vs_v3_rightedge_compare.png",
+    "sha256": "4d8ca4c9fa58963c5150ae4e2e43ee97fd2a42bf7403e0b1b5eaf3bdbfd64297"
+  },
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "next_use": "Patch MOD-17 Canny control_image to controlnet_canny_cleaned_eye_safe_v3_rightedge_band_masked.png for one bounded local retest."
+}

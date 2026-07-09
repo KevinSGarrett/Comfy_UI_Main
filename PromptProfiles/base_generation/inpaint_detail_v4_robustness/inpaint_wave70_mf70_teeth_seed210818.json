@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "inpaint_wave70_mf70_teeth_seed210818",
+  "target_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "purpose": "Generated-output proof for Wave70 mf70_teeth mask routing using the active MOD-17 Canny v3 portrait as source.",
+  "request_patch_values": {
+    "positive_prompt": "extremely subtle photoreal visible teeth preservation pass, preserve exact person identity, neutral expression, closed relaxed mouth shape, tiny visible teeth band, natural tooth color, upper lip shape, lower lip shape, lip line, philtrum, tongue hidden, inner mouth unchanged, nose, chin, cheeks, surrounding skin, gaze direction, eye shape, iris color, pupil size, sclera tone, catchlights, eyebrows, hairline, nearby hair occlusion, face lighting, white blazer, background, and portrait composition unchanged",
+    "negative_prompt": "identity change, different person, expression change, smile, frown, open mouth, large teeth, extra teeth, missing teeth, crooked teeth, tooth count change, visible tongue, tongue mutation, gum exposure, lip shape change, enlarged lips, thinner lips, swollen lips, asymmetric lips, lipstick, gloss, mouth line mutation, philtrum mutation, chin shape change, cheek shape change, skin patch, over-smoothed skin, plastic skin, waxy skin, skin tone change, nose mutation, gaze change, mismatched eyes, iris color change, glassy eyes, catchlight change, eyebrow change, hair mutation, visible seam, clothing change, background change, watermark, text",
+    "source_image": "wave70_mf70_face_identity_source_canny_v3.png",
+    "mask_image": "wave70_mf70_teeth_mask.png",
+    "mask_channel": "red",
+    "seed": 210818,
+    "sampler_settings": {
+      "steps": 18,
+      "cfg": 3.0,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.02
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_wave70_mf70_teeth_seed210818"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_wave70_mf70_teeth_seed210818",
+    "diagnostic_output_prefix": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview"
+  },
+  "qa_focus": [
+    "whole-image identity preservation",
+    "tiny visible teeth band remains natural",
+    "no tooth-count, gum, tongue, open-mouth, smile, or frown drift",
+    "upper lip, lower lip, and mouth line remain stable",
+    "philtrum, nose, chin, cheeks, and surrounding skin remain stable",
+    "gaze, pupil, iris, sclera, and catchlights remain stable",
+    "no visible seam around teeth mask"
+  ],
+  "source_qa_driver": {
+    "evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_teeth.json",
+    "remaining_gap": "generated_output_proof_required_before_item_completion",
+    "change_summary": "Use the tightened Wave70 visible-teeth mask with extremely low denoise to prove local generated-output routing while minimizing tooth-count, expression, lip-shape, tongue, inner-mouth, skin, eye, and identity drift."
+  },
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_generated_output_proof_before_item_completion": true,
+    "requires_whole_image_qa_before_promotion": true,
+    "requires_target_runtime_reproof_before_final_certification": true
+  }
+}

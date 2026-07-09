@@ -121,7 +121,7 @@ Raw machine inventory is stored in:
 - `10_REGISTRIES/main_flow_wave04_lora_catalog_inventory_raw.json`
 - `10_REGISTRIES/main_flow_wave04_lora_catalog_inventory_raw.csv`
 
-Some source asset labels contain adult/sensitive terminology because they come from the user-provided model library. Human-facing reports should summarize them by engine, category, scene role, status, and hash rather than expanding explicit names.
+Some source asset labels contain body-part or descriptive terminology because they come from the user-provided model library. Human-facing reports should summarize them by engine, category, scene role, status, and hash rather than expanding explicit names.
 
 ## Critical architecture findings
 

@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-WAVE25-CONTACT-SHADOW-PRESSURE-SEED210704-VISUAL-QA-20260707T124500-0500",
+  "timestamp": "2026-07-07T12:45:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "module_context": "Wave25 two-character hand-to-body contact shadow and pressure targeted refinement",
+  "qa_subject": {
+    "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_contact_shadow_pressure_seed210704_20260707T122546-0500/images/codex_wave25_contact_shadow_pressure_seed210704_00001_.png",
+    "sha256": "b9a1a02057c99eeabf0d6427c1af0a5e2a5b33195db1b8ebd6866915fafd6321",
+    "bytes": 1794206,
+    "width": 1024,
+    "height": 1024
+  },
+  "source_baseline": {
+    "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_two_character_contact_refine_seed210701_20260707T114731-0500/images/codex_wave25_two_character_contact_refine_seed210701_00001_.png",
+    "sha256": "991ede7b0df2f820d7fbd834a888c1b085958ebf30781840728f190a32e2968c",
+    "certification_blocker_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_HAND_CONTACT_VISUAL_CERTIFICATION_TWO_CHARACTER_HAND_TO_BODY_20260707T123500-0500.json"
+  },
+  "request_change": {
+    "profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave25_contact_shadow_pressure_seed210704.json",
+    "run_package": "runtime_artifacts/run_packages/wave25_contact_shadow_pressure_seed210704/RUN_PACKAGE_MANIFEST.json",
+    "run_package_sha256": "ed3e7f88cef8e2a878e5026e0bffff031094d1bc5095c9e886a2594eef1a8056",
+    "prompt_request_sha256": "73abf96cbeea867692da8fe95e3993d02d733d4ba1651ef3b0e4de60461820ad",
+    "source_image": "ComfyUI/input/wave25_contact_refine_seed210701_source.png",
+    "source_image_sha256": "991ede7b0df2f820d7fbd834a888c1b085958ebf30781840728f190a32e2968c",
+    "mask_image": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/masks/contact_shadow_pressure_seed210701_1024.png",
+    "mask_sha256": "fc77fcc776fe180f4c86b6378f4eb7d2d34d8866b111875c732e9acdb0725283",
+    "denoise": 0.18,
+    "seed": 210704,
+    "intent": "Target only the lower-finger/sleeve contact zone to increase soft contact shadow and sleeve pressure without moving the hand."
+  },
+  "runtime_evidence": {
+    "file": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_WAVE25_CONTACT_SHADOW_PRESSURE_SEED210704_EXECUTE_20260707T124000-0500.json",
+    "sha256": "fa73b116b2ebb575122b6db281da75b9149705530f2931d4630b0e63d66872a7",
+    "result": "pass_local_run_package_generation_smoke",
+    "local_comfy_stopped": true,
+    "port_8188_closed_after_stop": true
+  },
+  "comparison_artifacts": [
+    {
+      "path": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/qa_contact_crops/contact_shadow_pressure_compare_seed210701_seed210704.png",
+      "sha256": "4f2d47f3506a2444f9c674fb050e11fd27177d322d741ba4834c287249400199",
+      "width": 520,
+      "height": 316,
+      "purpose": "Side-by-side contact crop comparing prior preferred refine seed210701 and shadow/pressure attempt seed210704."
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_contact_shadow_pressure_seed210704_20260707T122546-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00005_.png",
+      "sha256": "1f03b017c578b62558f42da7c8900de90a7de333b0459443fad932a7e1f38623",
+      "width": 1024,
+      "height": 1024,
+      "purpose": "Pulled-back mask preview from the targeted inpaint run."
+    }
+  ],
+  "whole_image_visual_qa": {
+    "result": "partial_improvement_local_contact_shadow_pressure_seed210704_final_blockers_remain",
+    "passes": [
+      "two bodys remain distinct with stable identities, clothing, and neutral background",
+      "woman remains the visible contact source and man remains the contact target",
+      "open-hand contact remains visible with no body merge and no duplicate/missing hand",
+      "comparison crop shows a slightly stronger lower-finger/sleeve contact shadow and pressure cue than seed210701"
+    ],
+    "notes": [
+      "contact shadow improved slightly but is still not clear enough for final certification",
+      "contact placement remains shoulder/top-upper-sleeve biased rather than exact lower upper-arm target",
+      "finger/edge texture is acceptable but not a decisive final-certification improvement",
+      "target-runtime proof and final certification review remain missing"
+    ],
+    "failures": []
+  },
+  "qa_decision": {
+    "local_iteration_useful": true,
+    "promote_over_seed210701_for_final_certification": false,
+    "rerun_certification_gate": true,
+    "expected_remaining_blockers": [
+      "contact_shadow_not_clear:subtle_to_moderate",
+      "contact_placement_not_exact_target:shoulder_top_upper_sleeve",
+      "target_runtime_proof_missing",
+      "final_certification_review_missing"
+    ],
+    "certification_boundary": "Local targeted refinement evidence only; do not mark final hand/contact certification complete from this sample."
+  },
+  "next_action": "Rerun the hand/contact certification gate with seed210704 evidence so the remaining blockers are explicit."
+}

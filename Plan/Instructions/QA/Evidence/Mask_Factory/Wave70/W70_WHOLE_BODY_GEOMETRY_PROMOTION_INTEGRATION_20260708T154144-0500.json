@@ -1,0 +1,194 @@
+﻿{
+    "schema_version":  "1.0",
+    "evidence_id":  "W70_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_20260708T154144-0500",
+    "created_local":  "20260708T154144-0500",
+    "task":  "Integrate or exactly block whole-body authority into Wave70 promotion and scheduled QA gates for TRK-W70-0178 / ITEM-W70-0178.",
+    "script":  "Plan/07_IMPLEMENTATION/scripts/implement_wave70_whole_body_geometry_promotion_integration.py",
+    "source_image":  {
+                         "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+                         "exists":  true,
+                         "sha256":  "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+                         "dimensions":  [
+                                            768,
+                                            768
+                                        ],
+                         "role":  "historical_generated_source_not_decisive_for_ref_image_1_ref_image_2_body_reference_context"
+                     },
+    "environment":  {
+                        "python_executable":  "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+                        "python_version":  "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+                        "platform":  "Windows-10-10.0.26200-SP0",
+                        "cwd":  "C:\\Comfy_UI_Main"
+                    },
+    "prerequisite_evidence":  [
+                                  "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/body_geometry_dependency_probe.json",
+                                  "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/person_instance_owner_authority.json",
+                                  "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/pose_landmark_authority.json",
+                                  "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/hand_finger_landmark_authority.json",
+                                  "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/human_part_parsing_authority.json",
+                                  "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/contact_occlusion_ownership_authority.json",
+                                  "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/body_region_geometry_authority.json",
+                                  "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/body_reference_matrix.json",
+                                  "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/redo_existing_body_hand_contact_masks.json"
+                              ],
+    "wave70_row_counts":  {
+                              "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv":  166,
+                              "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv":  166,
+                              "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv":  166,
+                              "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv":  166
+                          },
+    "artifacts":  {
+                      "blocker_panel":  "runtime_artifacts/mask_factory/wave70_whole_body_geometry_promotion_integration/20260708T154144-0500/whole_body_geometry_promotion_integration_blocker_panel.png",
+                      "runtime_evidence":  "runtime_artifacts/mask_factory/wave70_whole_body_geometry_promotion_integration/20260708T154144-0500/whole_body_geometry_promotion_integration.json",
+                      "expected_post_integration_geometry_gate":  "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_REF_IMAGES_1_2_20260708T154144-0500.json",
+                      "expected_post_integration_promotion_gate":  "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_REF_IMAGES_1_2_20260708T154144-0500.json",
+                      "post_whole_body_geometry_promotion_integration_geometry_gate":  "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_REF_IMAGES_1_2_20260708T154144-0500.json",
+                      "post_whole_body_geometry_promotion_integration_promotion_gate":  "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_REF_IMAGES_1_2_20260708T154144-0500.json"
+                  },
+    "whole_body_geometry_authority":  {
+                                          "result":  "blocked",
+                                          "whole_body_geometry_authority_pass":  false,
+                                          "pose_hand_dense_landmark_or_segmentation_pass":  false,
+                                          "semantic_human_part_parsing_pass":  false,
+                                          "contact_occlusion_ownership_pass":  false,
+                                          "body_region_geometry_pass":  false,
+                                          "body_reference_context_available":  true,
+                                          "body_reference_matrix_pass":  false,
+                                          "source_image":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+                                          "source_sha256":  "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+                                          "source_dimensions":  [
+                                                                    768,
+                                                                    768
+                                                                ],
+                                          "mask_type_id":  "whole_body_geometry_promotion_integration",
+                                          "matrix_slot_id":  "BGA-017_whole_body_geometry_promotion_integration",
+                                          "person_instance_id":  "",
+                                          "subject_side_mapping":  {
+
+                                                                   },
+                                          "models_attempted":  [
+
+                                                               ],
+                                          "models_available":  [
+
+                                                               ],
+                                          "pose_landmark_record_path":  "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/pose_landmark_authority.json",
+                                          "hand_landmark_record_path":  "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/hand_finger_landmark_authority.json",
+                                          "human_part_parsing_record_path":  "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/human_part_parsing_authority.json",
+                                          "sam_refinement_record_path":  "",
+                                          "contact_occlusion_record_path":  "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/contact_occlusion_ownership_authority.json",
+                                          "visibility_occlusion_record_path":  "runtime_artifacts/mask_factory/wave70_whole_body_geometry_promotion_integration/20260708T154144-0500/whole_body_geometry_promotion_integration.json",
+                                          "canonical_polygon_path":  "",
+                                          "coordinate_transform_manifest_path":  "",
+                                          "consensus_metrics":  {
+                                                                    "iou_against_gold_or_prior":  null,
+                                                                    "mean_boundary_error_px":  null,
+                                                                    "max_boundary_error_px":  null,
+                                                                    "center_drift_px":  null,
+                                                                    "protected_overlap_ratio":  null,
+                                                                    "owner_overlap_error_ratio":  null
+                                                                },
+                                          "confidence":  {
+                                                             "pose_confidence":  null,
+                                                             "hand_confidence":  null,
+                                                             "human_parsing_confidence":  null,
+                                                             "refinement_confidence":  null,
+                                                             "contact_ownership_confidence":  null,
+                                                             "visibility_confidence":  0.0,
+                                                             "overall_confidence":  0.0
+                                                         },
+                                          "blocked_reason":  "blocked_body_geometry_authority_not_integrated; ref_images_1_2_reference_context_available; prerequisite_whole_body_authority_gates_blocked; body_reference_matrix_not_passed; canonical_body_geometry_unavailable",
+                                          "findings":  [
+                                                           "Whole-body authority integration cannot be marked pass because required whole-body authority gates are false.",
+                                                           "Ref_Image_1 and Ref_Image_2 provide body reference context and organized gold masks, so the old missing-reference reason is superseded.",
+                                                           "The body reference matrix has source context but has not passed, and canonical body geometry redo is blocked.",
+                                                           "Wave70 promotion and scheduled QA must continue to require whole-body authority before body, hand, contact, support, soft-body, temporal, or generalized mask promotion.",
+                                                           "No generated-output stability, broad body mask, or prior mask artifact was promoted through this integration evidence.",
+                                                           "No mask artifact was changed or promoted."
+                                                       ]
+                                      },
+    "whole_body_geometry_promotion_integration":  {
+                                                      "result":  "blocked",
+                                                      "blocker_status":  "Blocked_Body_Geometry_Authority_Not_Integrated",
+                                                      "whole_body_geometry_authority_pass":  false,
+                                                      "wave70_mask_geometry_gate_pass":  false,
+                                                      "wave70_mask_promotion_gate_pass":  false,
+                                                      "scheduled_qa_integration_pass":  false,
+                                                      "promotion_gate_integration_pass":  false,
+                                                      "prerequisite_gate_state":  {
+                                                                                      "body_reference_context_available":  true,
+                                                                                      "body_reference_context":  {
+                                                                                                                     "body_reference_matrix_path":  "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/body_reference_matrix.json",
+                                                                                                                     "body_reference_matrix_exists":  true,
+                                                                                                                     "body_reference_matrix_evidence_id":  "W70_BODY_REFERENCE_MATRIX_AUTHORITY_20260708T153118-0500",
+                                                                                                                     "body_reference_matrix_qa_decision":  "ref_images_1_2_body_reference_matrix_context_available_route_not_complete_global_gates_pass",
+                                                                                                                     "body_reference_matrix_pass":  false,
+                                                                                                                     "source_visibility_matrix_pass":  true,
+                                                                                                                     "combined_full_or_near_full_reference_count":  9,
+                                                                                                                     "combined_gold_mask_count":  78,
+                                                                                                                     "ref_image_2_gold_mask_count":  44,
+                                                                                                                     "ref_image_1_limited_reference_policy":  "Ref_Image_1/Full/New folder remains knees-to-head only and is excluded from feet/toes/ankles/lower-calf/support proof."
+                                                                                                                 },
+                                                                                      "whole_body_geometry_authority_pass":  false,
+                                                                                      "pose_hand_dense_landmark_or_segmentation_pass":  false,
+                                                                                      "semantic_human_part_parsing_pass":  false,
+                                                                                      "contact_occlusion_ownership_pass":  false,
+                                                                                      "body_region_geometry_pass":  false,
+                                                                                      "body_reference_matrix_pass":  false,
+                                                                                      "existing_body_hand_contact_masks_fail_closed":  true,
+                                                                                      "mask_from_canonical_body_geometry_pass":  false,
+                                                                                      "body_reference_matrix_evidence":  "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/body_reference_matrix.json",
+                                                                                      "redo_existing_body_hand_contact_evidence":  "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/redo_existing_body_hand_contact_masks.json"
+                                                                                  },
+                                                      "fail_closed_policy_confirmed":  true,
+                                                      "masks_changed":  [
+
+                                                                        ],
+                                                      "masks_promoted":  [
+
+                                                                         ],
+                                                      "completion_allowed":  false
+                                                  },
+    "qa_decision":  "blocked_exact_local_whole_body_geometry_authority_not_integrated_ref_images_1_2_context_available",
+    "promotion_decision":  "no_mask_promoted_no_active_input_changed_integration_blocked",
+    "tracker_item_updates":  {
+                                 "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv":  1,
+                                 "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv":  1,
+                                 "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv":  1,
+                                 "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv":  1
+                             },
+    "next_step":  "Return to the next local project task selected from Plan/Items and Plan/Tracker; Wave70 whole-body authority rows through BGA-017 are now fail-closed with evidence.",
+    "post_evaluation_hard_gates":  {
+                                       "geometry":  {
+                                                        "path":  "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_REF_IMAGES_1_2_20260708T154144-0500.json",
+                                                        "checked":  332,
+                                                        "pass_like":  0,
+                                                        "failures":  0
+                                                    },
+                                       "promotion":  {
+                                                         "path":  "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_REF_IMAGES_1_2_20260708T154144-0500.json",
+                                                         "checked":  332,
+                                                         "pass_like":  0,
+                                                         "failures":  0
+                                                     },
+                                       "tracker_copies":  [
+                                                              "Plan/Tracker/Evidence/W70_MASK_GEOMETRY_HARD_GATE_POST_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_REF_IMAGES_1_2_20260708T154144-0500.json",
+                                                              "Plan/Tracker/Evidence/W70_MASK_PROMOTION_HARD_GATE_POST_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_REF_IMAGES_1_2_20260708T154144-0500.json"
+                                                          ]
+                                   },
+    "evidence_paths":  [
+                           "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_20260708T154144-0500.json",
+                           "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/whole_body_geometry_promotion_integration.json",
+                           "Plan/Tracker/Evidence/W70_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_20260708T154144-0500.json",
+                           "Plan/Tracker/Evidence/whole_body_geometry_promotion_integration.json",
+                           "runtime_artifacts/mask_factory/wave70_whole_body_geometry_promotion_integration/20260708T154144-0500/whole_body_geometry_promotion_integration.json",
+                           "runtime_artifacts/mask_factory/wave70_whole_body_geometry_promotion_integration/20260708T154144-0500/whole_body_geometry_promotion_integration_blocker_panel.png",
+                           "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/body_reference_matrix.json",
+                           "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/redo_existing_body_hand_contact_masks.json",
+                           "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_2_body_reference.json",
+                           "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_REF_IMAGES_1_2_20260708T154144-0500.json",
+                           "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_REF_IMAGES_1_2_20260708T154144-0500.json",
+                           "Plan/Tracker/Evidence/W70_MASK_GEOMETRY_HARD_GATE_POST_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_REF_IMAGES_1_2_20260708T154144-0500.json",
+                           "Plan/Tracker/Evidence/W70_MASK_PROMOTION_HARD_GATE_POST_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_REF_IMAGES_1_2_20260708T154144-0500.json"
+                       ]
+}

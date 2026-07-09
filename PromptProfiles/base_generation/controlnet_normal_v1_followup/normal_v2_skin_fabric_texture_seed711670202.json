@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "normal_v2_skin_fabric_texture_seed711670202",
+  "target_lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+  "purpose": "Bounded local normal ControlNet QA iteration from v1 notes: reduce beauty-polished skin and improve shirt/fabric texture while keeping the same RealVisXL checkpoint, ControlNet Union SDXL normal model, prepared BAE normal control image, and normal union control type.",
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic cinematic editorial portrait, normal-map-guided facial planes and clothing volume, natural skin texture, realistic fine pores, subtle cheek texture, soft human skin asymmetry, realistic eyes with clean catchlights, clear iris detail, detailed hair, dimensional nose cheek jaw and collar geometry, crisp shirt weave, visible woven fabric texture, tailored dark blazer over textured shirt, clean collar edge, clothed shoulders, quiet neutral studio interior, soft natural fill light, balanced exposure, lifelike lens rendering",
+    "negative_prompt": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, beauty filter skin, airbrushed face, porcelain skin, glossy skin, smeared fabric, soft shirt texture, blurry collar, distorted anatomy, warped face planes, melted facial geometry, broken collar, deformed shoulders, extra limbs, missing limbs, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text, normal map stains, rainbow surface colors, purple green blue normal-map leakage, control map stains, harsh outlines, bare shoulders, strapless top, nude, unclothed torso",
+    "seed": 711670202,
+    "save_prefix": "normal_v2_skin_fabric_711670202",
+    "union_control_type": "normal"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "normal_v2_skin_fabric_711670202"
+  },
+  "qa_focus": [
+    "whole-image prompt alignment",
+    "skin texture versus beauty smoothing",
+    "shirt weave and collar texture",
+    "normal-map leakage or rainbow staining",
+    "face plane and shoulder volume",
+    "eye realism",
+    "background coherence",
+    "generation artifacts"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_target_runtime_reproof_before_certification": true,
+    "requires_whole_image_qa_before_promotion": true
+  }
+}

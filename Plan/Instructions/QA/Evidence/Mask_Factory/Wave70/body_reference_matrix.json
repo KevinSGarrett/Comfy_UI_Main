@@ -1,0 +1,590 @@
+{
+  "schema_version": "1.1",
+  "evidence_id": "W70_BODY_REFERENCE_MATRIX_AUTHORITY_20260708T153118-0500",
+  "created_local": "20260708T153118-0500",
+  "created_iso": "2026-07-08T15:31:18-05:00",
+  "task": "Build body reference matrix for TRK-W70-0176 / ITEM-W70-0176 using Ref_Image_1 context.",
+  "script": "Plan/07_IMPLEMENTATION/scripts/implement_wave70_body_reference_matrix_authority.py",
+  "historical_portrait_source": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "exists": true,
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "role": "historical_prior_active_source_not_decisive_for_current_body_reference_evaluation"
+  },
+  "main_reference": {
+    "path": "Ref_Image_1/725de85824bbe45ba4601dd4a7aed698.jpg",
+    "exists": true,
+    "sha256": "b4876e7415485efc79c2c69a914e3316c8c5f7301dc15a69b039f7515ab36df5"
+  },
+  "ref_image_2_main_reference": {
+    "path": "Ref_Image_2/97f30ff4819b8b8206e8ce30f2355800.jpg",
+    "exists": true,
+    "sha256": "18957f6de8022e9281142a554d3057d4d387e2c30997ec1f58efa9670f677b62"
+  },
+  "ref_image_1_full_body_references": {
+    "manifest_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+    "manifest_exists": true,
+    "sha256": "35a5474bfa718b5a9af3783ff4edc41606ed17e2f0900afa9e229533d26ebe17",
+    "static_pose_reference_count": 8,
+    "full_body_lower_region_eligible_reference_count": 7,
+    "near_full_knees_to_head_reference_count": 1,
+    "dimensions_observed": [
+      [
+        564,
+        705
+      ],
+      [
+        474,
+        711
+      ],
+      [
+        1640,
+        2560
+      ],
+      [
+        3000,
+        4000
+      ],
+      [
+        2667,
+        4000
+      ],
+      [
+        1280,
+        1920
+      ],
+      [
+        736,
+        956
+      ],
+      [
+        3072,
+        4096
+      ]
+    ],
+    "near_full_limitations": [
+      {
+        "path": "Ref_Image_1/Full/New folder/8ead94ca6f2884fb1ae671fee89e8126.jpg",
+        "relative_to_full_dir": "New folder/8ead94ca6f2884fb1ae671fee89e8126.jpg",
+        "coverage_limitations": [
+          "user_corrected_not_full_body",
+          "covers_from_knees_to_top_of_head",
+          "do_not_use_as_full_body_feet_toes_ankles_or_lower_calf_proof",
+          "usable_for_torso_head_hair_upper_limb_and_above_knee_body_context_only"
+        ]
+      }
+    ]
+  },
+  "ref_image_1_body_mask_gold_refs": {
+    "manifest_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_body_mask_gold_standard.json",
+    "manifest_exists": true,
+    "sha256": "08aae0b644cbd3b8a07f056058582ed1a18600f13c4b96044bb6a728a743249a",
+    "all_gold_mask_count": 34,
+    "labels": [
+      "abdomen_belly_button",
+      "abdomen_stomach",
+      "arms_left_lower_arm",
+      "arms_left_upper_arm",
+      "arms_lower_arm_fore_arms",
+      "arms_right_lower_arm",
+      "arms_right_upper_arm",
+      "arms_upper_arms",
+      "breasts_both",
+      "breasts_left_breast",
+      "breasts_right",
+      "calves_both_calves",
+      "calves_left_calf",
+      "calves_right_calf",
+      "feet_both_feet",
+      "feet_left_foot",
+      "feet_right_foot",
+      "feet_toes_feet",
+      "glute_both",
+      "glute_left",
+      "glute_right",
+      "hair_hair",
+      "hands_both_hands",
+      "hands_index_fingers",
+      "hands_left_hand",
+      "hands_middle_fingers",
+      "hands_pinkys",
+      "hands_right_hand",
+      "hands_ring_finger",
+      "hands_thumbs",
+      "pelvic_pelvic_region",
+      "thigh_both_thighs",
+      "thigh_left_thigh",
+      "thigh_right_thigh"
+    ],
+    "category_presence": {
+      "torso_abdomen": true,
+      "arms_hands_fingers": true,
+      "legs_feet_toes": true,
+      "pelvis_glute": true,
+      "hair": true,
+      "breasts": true
+    },
+    "layout_interpretation": {
+      "top_strip": "partial upper-body / one-third-body reference only; absent lower/full-body masks here are not failures",
+      "lower_strip": "primary full-body body-mask validation area"
+    }
+  },
+  "ref_image_2_body_mask_gold_refs": {
+    "manifest_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_2_body_reference.json",
+    "manifest_exists": true,
+    "sha256": "7da0e03e692c48a1fa7e59247cdf052a46bfdd4b2bedcc4d703321590c9dc81f",
+    "main_reference": {
+      "path": "Ref_Image_2/97f30ff4819b8b8206e8ce30f2355800.jpg",
+      "exists": true,
+      "sha256": "18957f6de8022e9281142a554d3057d4d387e2c30997ec1f58efa9670f677b62",
+      "dimensions": [
+        1280,
+        1920
+      ],
+      "coverage_scope": "full_body_reference_user_provided"
+    },
+    "all_gold_mask_count": 44,
+    "manifest_row_count": 44,
+    "labels": [
+      "belly button",
+      "both calves",
+      "both eyes",
+      "both feet",
+      "both hands",
+      "both thighs",
+      "bra",
+      "breast skin",
+      "breasts",
+      "cheeks",
+      "hair",
+      "index fingers",
+      "iris",
+      "jaw",
+      "left breast",
+      "left calf",
+      "left eye",
+      "left foot",
+      "left hand",
+      "left lower arm",
+      "left thigh",
+      "left upper arm",
+      "lips",
+      "lower arm/fore arms",
+      "middle fingers",
+      "nose",
+      "pelvic region",
+      "pinkys",
+      "pupil",
+      "right breast",
+      "right calf",
+      "right eye",
+      "right foot",
+      "right hand",
+      "right lower arm",
+      "right thigh",
+      "right upper arm",
+      "ring finger",
+      "stomach",
+      "thumbs",
+      "toes feet",
+      "top lip",
+      "underwear/panties",
+      "upper arms"
+    ],
+    "category_presence": {
+      "torso_abdomen": true,
+      "arms_hands_fingers": true,
+      "legs_feet_toes": true,
+      "pelvis_glute": true,
+      "hair": true,
+      "breasts": true,
+      "clothes": true
+    },
+    "layout_interpretation": {
+      "role": "additional full-body gold reference with organized per-part overlays",
+      "duplicate_source_copy_policy": "Do not count Ref_Image_2/Face/Ref_Image_2 extracted copies as additional organized masks."
+    }
+  },
+  "prerequisite_evidence": {
+    "model_consensus_geometry_validator": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/model_consensus_geometry_validator.json",
+      "exists": true,
+      "sha256": "7b4fb58e4d9052f189375691ed75a1af7e7e4a6ab748ac6339eebdb22ff48ffb",
+      "evidence_id": "W70_MODEL_CONSENSUS_GEOMETRY_VALIDATOR_20260708T150714-0500",
+      "qa_decision": "ref_image_1_reference_context_available_model_consensus_route_not_complete",
+      "result": "blocked",
+      "body_reference_matrix_pass": null,
+      "model_consensus_geometry_pass": false,
+      "body_region_geometry_pass": null,
+      "contact_occlusion_ownership_pass": null,
+      "soft_body_anchor_pass": null,
+      "temporal_tracking_pass": null,
+      "canonical_polygon_export_pass": false
+    },
+    "body_region_geometry_authority": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/body_region_geometry_authority.json",
+      "exists": true,
+      "sha256": "2fdc7c59871ffe44c8c1aef5c79ef40b15c09cd377db48de3883b786753c9398",
+      "evidence_id": "W70_BODY_REGION_GEOMETRY_AUTHORITY_20260708T145908-0500",
+      "qa_decision": "ref_image_1_body_region_references_available_route_not_complete",
+      "result": "required_not_complete",
+      "body_reference_matrix_pass": true,
+      "model_consensus_geometry_pass": false,
+      "body_region_geometry_pass": false,
+      "contact_occlusion_ownership_pass": false,
+      "soft_body_anchor_pass": null,
+      "temporal_tracking_pass": null,
+      "canonical_polygon_export_pass": false
+    },
+    "contact_occlusion_ownership_authority": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/contact_occlusion_ownership_authority.json",
+      "exists": true,
+      "sha256": "d9ebe47c64dbd5630c2b19e546c76da8764a05fdea96276efb67b92015c4c734",
+      "evidence_id": "W70_CONTACT_OCCLUSION_OWNERSHIP_AUTHORITY_20260708T145450-0500",
+      "qa_decision": "ref_image_1_contact_actor_references_available_route_not_complete",
+      "result": "required_not_complete",
+      "body_reference_matrix_pass": true,
+      "model_consensus_geometry_pass": null,
+      "body_region_geometry_pass": false,
+      "contact_occlusion_ownership_pass": false,
+      "soft_body_anchor_pass": null,
+      "temporal_tracking_pass": null,
+      "canonical_polygon_export_pass": false
+    },
+    "soft_body_anchor_geometry_authority": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/soft_body_anchor_geometry_authority.json",
+      "exists": true,
+      "sha256": "3eb68e4aba777d88c610f51ddd97360ebb60712459fce4dd4794ba606dafaf0e",
+      "evidence_id": "W70_SOFT_BODY_ANCHOR_GEOMETRY_AUTHORITY_20260708T151301-0500",
+      "qa_decision": "ref_image_1_soft_body_anchor_references_available_route_not_complete_global_gates_pass",
+      "result": "required_not_complete",
+      "body_reference_matrix_pass": true,
+      "model_consensus_geometry_pass": false,
+      "body_region_geometry_pass": false,
+      "contact_occlusion_ownership_pass": false,
+      "soft_body_anchor_pass": false,
+      "temporal_tracking_pass": null,
+      "canonical_polygon_export_pass": false
+    },
+    "temporal_body_part_tracking_authority": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/temporal_body_part_tracking_authority.json",
+      "exists": true,
+      "sha256": "e3d6e639f4d537bc585019076c0c05aade321616492b63a075f0680eba122b1f",
+      "evidence_id": "W70_TEMPORAL_BODY_PART_TRACKING_AUTHORITY_20260708T151823-0500",
+      "qa_decision": "ref_image_1_temporal_reference_context_available_route_not_complete_global_gates_pass",
+      "result": "required_not_complete",
+      "body_reference_matrix_pass": true,
+      "model_consensus_geometry_pass": false,
+      "body_region_geometry_pass": false,
+      "contact_occlusion_ownership_pass": false,
+      "soft_body_anchor_pass": null,
+      "temporal_tracking_pass": false,
+      "canonical_polygon_export_pass": false
+    }
+  },
+  "environment": {
+    "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "cwd": "C:\\Comfy_UI_Main"
+  },
+  "body_reference_matrix_analysis": {
+    "reference_docs_found": [
+      "Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_REFERENCE_IMAGE_MATRIX.md",
+      "Plan/07_IMPLEMENTATION/mask_factory/WAVE70_WHOLE_BODY_GEOMETRY_AUTHORITY.md",
+      "Plan/07_IMPLEMENTATION/mask_factory/WAVE70_WHOLE_BODY_GEOMETRY_AUTHORITY_MATRIX.csv",
+      "Plan/Instructions/QA/WAVE70_REFERENCE_IMAGE_MATRIX_QA_PROTOCOL.md",
+      "Plan/Instructions/QA/WHOLE_BODY_GEOMETRY_AUTHORITY_PROTOCOL.md",
+      "Plan/Instructions/QA/Templates/WAVE70_REFERENCE_IMAGE_MATRIX_MANIFEST_TEMPLATE.json"
+    ],
+    "required_body_matrix_slots": [
+      "pose_front_standing_or_neutral",
+      "pose_three_quarter_left",
+      "pose_three_quarter_right",
+      "pose_profile_or_near_profile",
+      "body_size_variation",
+      "skin_tone_variation",
+      "hair_and_body_hair_case",
+      "clothing_state_upper_lower_boundary",
+      "hand_finger_configuration_visible",
+      "feet_toe_visibility",
+      "contact_support_surface",
+      "occlusion_or_multi_person_case",
+      "body_region_regression_case"
+    ],
+    "slot_status": [
+      {
+        "slot_id": "pose_front_standing_or_neutral",
+        "status": "reference_available_route_not_complete",
+        "source_artifact": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+        "source_artifacts": [
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_body_mask_gold_standard.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_2_body_reference.json"
+        ],
+        "source_visibility_matrix_pass": true,
+        "cross_subject_generalization_pass": false,
+        "body_reference_matrix_pass": false,
+        "reason": "Ref_Image_1 and Ref_Image_2 static references/gold masks provide reference context, but production/generalization proof is incomplete."
+      },
+      {
+        "slot_id": "pose_three_quarter_left",
+        "status": "reference_available_route_not_complete",
+        "source_artifact": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+        "source_artifacts": [
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_body_mask_gold_standard.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_2_body_reference.json"
+        ],
+        "source_visibility_matrix_pass": true,
+        "cross_subject_generalization_pass": false,
+        "body_reference_matrix_pass": false,
+        "reason": "Ref_Image_1 and Ref_Image_2 static references/gold masks provide reference context, but production/generalization proof is incomplete."
+      },
+      {
+        "slot_id": "pose_three_quarter_right",
+        "status": "reference_available_route_not_complete",
+        "source_artifact": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+        "source_artifacts": [
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_body_mask_gold_standard.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_2_body_reference.json"
+        ],
+        "source_visibility_matrix_pass": true,
+        "cross_subject_generalization_pass": false,
+        "body_reference_matrix_pass": false,
+        "reason": "Ref_Image_1 and Ref_Image_2 static references/gold masks provide reference context, but production/generalization proof is incomplete."
+      },
+      {
+        "slot_id": "pose_profile_or_near_profile",
+        "status": "reference_available_route_not_complete",
+        "source_artifact": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+        "source_artifacts": [
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_body_mask_gold_standard.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_2_body_reference.json"
+        ],
+        "source_visibility_matrix_pass": true,
+        "cross_subject_generalization_pass": false,
+        "body_reference_matrix_pass": false,
+        "reason": "Ref_Image_1 and Ref_Image_2 static references/gold masks provide reference context, but production/generalization proof is incomplete."
+      },
+      {
+        "slot_id": "body_size_variation",
+        "status": "blocked",
+        "source_artifact": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+        "source_artifacts": [
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_body_mask_gold_standard.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_2_body_reference.json"
+        ],
+        "source_visibility_matrix_pass": false,
+        "cross_subject_generalization_pass": false,
+        "body_reference_matrix_pass": false,
+        "reason": "Single-character reference set does not prove cross-body-size generalization."
+      },
+      {
+        "slot_id": "skin_tone_variation",
+        "status": "blocked",
+        "source_artifact": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+        "source_artifacts": [
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_body_mask_gold_standard.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_2_body_reference.json"
+        ],
+        "source_visibility_matrix_pass": false,
+        "cross_subject_generalization_pass": false,
+        "body_reference_matrix_pass": false,
+        "reason": "Single-character reference set does not prove skin-tone variation."
+      },
+      {
+        "slot_id": "hair_and_body_hair_case",
+        "status": "reference_available_route_not_complete",
+        "source_artifact": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+        "source_artifacts": [
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_body_mask_gold_standard.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_2_body_reference.json"
+        ],
+        "source_visibility_matrix_pass": true,
+        "cross_subject_generalization_pass": false,
+        "body_reference_matrix_pass": false,
+        "reason": "Ref_Image_1 and Ref_Image_2 static references/gold masks provide reference context, but production/generalization proof is incomplete."
+      },
+      {
+        "slot_id": "clothing_state_upper_lower_boundary",
+        "status": "required_not_complete",
+        "source_artifact": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+        "source_artifacts": [
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_body_mask_gold_standard.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_2_body_reference.json"
+        ],
+        "source_visibility_matrix_pass": true,
+        "cross_subject_generalization_pass": false,
+        "body_reference_matrix_pass": false,
+        "reason": "Body masks exist, but parser-backed clothing/body boundary ownership is not complete."
+      },
+      {
+        "slot_id": "hand_finger_configuration_visible",
+        "status": "reference_available_route_not_complete",
+        "source_artifact": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+        "source_artifacts": [
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_body_mask_gold_standard.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_2_body_reference.json"
+        ],
+        "source_visibility_matrix_pass": true,
+        "cross_subject_generalization_pass": false,
+        "body_reference_matrix_pass": false,
+        "reason": "Ref_Image_1 and Ref_Image_2 static references/gold masks provide reference context, but production/generalization proof is incomplete."
+      },
+      {
+        "slot_id": "feet_toe_visibility",
+        "status": "reference_available_route_not_complete",
+        "source_artifact": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+        "source_artifacts": [
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_body_mask_gold_standard.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_2_body_reference.json"
+        ],
+        "source_visibility_matrix_pass": true,
+        "cross_subject_generalization_pass": false,
+        "body_reference_matrix_pass": false,
+        "reason": "Ref_Image_1 and Ref_Image_2 static references/gold masks provide reference context, but production/generalization proof is incomplete."
+      },
+      {
+        "slot_id": "contact_support_surface",
+        "status": "required_not_complete",
+        "source_artifact": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+        "source_artifacts": [
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_body_mask_gold_standard.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_2_body_reference.json"
+        ],
+        "source_visibility_matrix_pass": true,
+        "cross_subject_generalization_pass": false,
+        "body_reference_matrix_pass": false,
+        "reason": "Static references include foot/body context but do not prove support/contact ownership or generated-output contact behavior."
+      },
+      {
+        "slot_id": "occlusion_or_multi_person_case",
+        "status": "blocked",
+        "source_artifact": "",
+        "source_artifacts": [
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_body_mask_gold_standard.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_2_body_reference.json"
+        ],
+        "source_visibility_matrix_pass": false,
+        "cross_subject_generalization_pass": false,
+        "body_reference_matrix_pass": false,
+        "reason": "No multi-person or occlusion matrix slot is filled by Ref_Image_1."
+      },
+      {
+        "slot_id": "body_region_regression_case",
+        "status": "reference_available_route_not_complete",
+        "source_artifact": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+        "source_artifacts": [
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_body_mask_gold_standard.json",
+          "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_2_body_reference.json"
+        ],
+        "source_visibility_matrix_pass": true,
+        "cross_subject_generalization_pass": false,
+        "body_reference_matrix_pass": false,
+        "reason": "Ref_Image_1 and Ref_Image_2 static references/gold masks provide reference context, but production/generalization proof is incomplete."
+      }
+    ],
+    "slots_required_count": 13,
+    "source_visibility_slots_available_count": 10,
+    "slots_blocked_count": 3,
+    "static_reference_context_available": true,
+    "ref_image_1_full_body_reference_count": 8,
+    "ref_image_2_full_body_reference_count": 1,
+    "full_body_reference_count": 9,
+    "ref_image_1_gold_mask_count": 34,
+    "ref_image_2_gold_mask_count": 44,
+    "gold_mask_count": 78,
+    "multi_reference_gold_context_available": true,
+    "single_character_reference_set": true,
+    "body_reference_matrix_pass": false,
+    "cross_subject_generalization_pass": false,
+    "source_visibility_matrix_pass": true,
+    "whole_body_geometry_authority_pass": false,
+    "canonical_polygon_export_pass": false,
+    "blocked_reason": "ref_images_1_2_body_reference_context_available_but_matrix_route_missing_cross_subject_generalization_occlusion_multi_person_slot_parser_backed_ownership_canonical_polygons_generated_output_and_promotion_evidence"
+  },
+  "artifacts": {
+    "reference_route_panel": "runtime_artifacts/mask_factory/wave70_body_reference_matrix_authority/20260708T153118-0500/body_reference_matrix_authority_reference_route_panel.png",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_body_reference_matrix_authority/20260708T153118-0500/body_reference_matrix.json",
+    "post_body_reference_matrix_geometry_gate": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_BODY_REFERENCE_MATRIX_REF_IMAGES_1_2_20260708T153118-0500.json",
+    "post_body_reference_matrix_promotion_gate": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_BODY_REFERENCE_MATRIX_REF_IMAGES_1_2_20260708T153118-0500.json"
+  },
+  "whole_body_geometry_authority": {
+    "result": "required_not_complete",
+    "reference_source_available": true,
+    "source_visibility_matrix_pass": true,
+    "body_reference_matrix_pass": false,
+    "cross_subject_generalization_pass": false,
+    "whole_body_geometry_authority_pass": false,
+    "pose_hand_dense_landmark_or_segmentation_pass": false,
+    "semantic_human_part_parsing_pass": false,
+    "contact_occlusion_ownership_pass": false,
+    "body_region_geometry_pass": false,
+    "source_derived_landmark_or_segmentation_pass": false,
+    "visibility_occlusion_confidence_pass": false,
+    "model_consensus_geometry_pass": false,
+    "canonical_polygon_export_pass": false,
+    "blocked_reason": "ref_images_1_2_body_reference_context_available_but_matrix_route_missing_cross_subject_generalization_occlusion_multi_person_slot_parser_backed_ownership_canonical_polygons_generated_output_and_promotion_evidence",
+    "findings": [
+      "Ref_Image_1 and Ref_Image_1/Full provide static body-reference context and labeled gold body masks.",
+      "Ref_Image_2 provides an additional full-body reference image and organized per-part mask overlays, now included in the body reference matrix context.",
+      "The prior single portrait matrix blocker is superseded for this reference evaluation.",
+      "The knees-to-head Full/New folder reference remains excluded from feet/toes/ankles/lower-calf/support proof.",
+      "The matrix still does not prove cross-subject/body-size/skin-tone generalization, occlusion/multi-person coverage, parser-backed ownership, canonical polygons, generated output, target runtime, visual QA, or promotion evidence.",
+      "No active mask changed and no mask was promoted."
+    ]
+  },
+  "qa_decision": "ref_images_1_2_body_reference_matrix_context_available_route_not_complete_global_gates_pass",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_body_reference_matrix_route_not_complete",
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  },
+  "next_step": "Work TRK-W70-0177 / ITEM-W70-0177 locally.",
+  "post_evaluation_hard_gates": {
+    "geometry": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_BODY_REFERENCE_MATRIX_REF_IMAGES_1_2_20260708T153118-0500.json",
+      "checked": 332,
+      "pass_like": 0,
+      "failures": 0
+    },
+    "promotion": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_BODY_REFERENCE_MATRIX_REF_IMAGES_1_2_20260708T153118-0500.json",
+      "checked": 332,
+      "pass_like": 0,
+      "failures": 0
+    },
+    "tracker_copies": [
+      "Plan/Tracker/Evidence/W70_MASK_GEOMETRY_HARD_GATE_POST_BODY_REFERENCE_MATRIX_REF_IMAGES_1_2_20260708T153118-0500.json",
+      "Plan/Tracker/Evidence/W70_MASK_PROMOTION_HARD_GATE_POST_BODY_REFERENCE_MATRIX_REF_IMAGES_1_2_20260708T153118-0500.json"
+    ]
+  },
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_BODY_REFERENCE_MATRIX_AUTHORITY_20260708T153118-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/body_reference_matrix.json",
+    "Plan/Tracker/Evidence/W70_BODY_REFERENCE_MATRIX_AUTHORITY_20260708T153118-0500.json",
+    "Plan/Tracker/Evidence/body_reference_matrix.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_REF_IMAGE_2_BODY_REFERENCE_20260708T153111-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_2_body_reference.json",
+    "Plan/Tracker/Evidence/W70_REF_IMAGE_2_BODY_REFERENCE_20260708T153111-0500.json",
+    "Plan/Tracker/Evidence/ref_image_2_body_reference.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_BODY_REFERENCE_MATRIX_REF_IMAGES_1_2_20260708T153118-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_BODY_REFERENCE_MATRIX_REF_IMAGES_1_2_20260708T153118-0500.json",
+    "Plan/Tracker/Evidence/W70_MASK_GEOMETRY_HARD_GATE_POST_BODY_REFERENCE_MATRIX_REF_IMAGES_1_2_20260708T153118-0500.json",
+    "Plan/Tracker/Evidence/W70_MASK_PROMOTION_HARD_GATE_POST_BODY_REFERENCE_MATRIX_REF_IMAGES_1_2_20260708T153118-0500.json"
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-NORMAL-CONTROLNET-V1-VISUAL-QA-20260707T064000-0500",
+  "timestamp": "2026-07-07T06:40:00-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+  "module_id": "MOD-21-CONTROLNET-NORMAL-LANE",
+  "artifact_type": "image_artifact_visual_qa",
+  "local_only": true,
+  "ec2_started": false,
+  "generation_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_NORMAL_CONTROLNET_V1_EXECUTE_20260707T063800-0500.json",
+  "technical_qa_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_NORMAL_CONTROLNET_V1_TECHNICAL_QA_20260707T063900-0500.json",
+  "reviewed_artifacts": [
+    {
+      "role": "normal_control_map_diagnostic",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_normal_w69_v1_20260707T063800-0500/images/codex_sdxl_realvisxl_controlnet_normal_control_map_diagnostic_00001_.png",
+      "sha256": "85f814d52480078bc0c4e572a2a928850956c3656d4f594cbd2fe5566358c745",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "role": "generated_portrait",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_normal_w69_v1_20260707T063800-0500/images/codex_sdxl_realvisxl_controlnet_normal_smoke_00001_.png",
+      "sha256": "368c26848267da70ee69002636fb56f68249c0953d6eb0298085d15203376b04",
+      "width": 768,
+      "height": 768
+    }
+  ],
+  "visual_findings": {
+    "control_map_diagnostic": "The diagnostic image is the expected RGB BAE normal map with smooth surface-direction colors over the face, hair, shoulders, and background. It shows no unexpected generated portrait content.",
+    "face_realism": "Pass. The generated portrait has coherent facial structure, stable nose/cheek/jaw planes, aligned lips, and no melted geometry.",
+    "eye_quality": "Pass. Eyes are aligned, symmetrical enough for a local smoke sample, and free of cross-eye or severe iris artifacts.",
+    "skin_texture": "Pass with notes. Skin is plausible but noticeably beauty-polished on cheeks and forehead, with limited pore breakup.",
+    "hair_realism": "Pass. Hair mass, flyaway strands, and edge silhouette are coherent without obvious melting.",
+    "pose_and_anatomy": "Pass for the visible head-and-shoulders crop. Neck, shoulders, and collar geometry are coherent; hands and full-body anatomy are not visible and therefore not certified.",
+    "clothing_and_fabric": "Pass with notes. Blazer reads cleanly and the shirt collar is coherent, but shirt/fabric detail is slightly soft.",
+    "background_lighting_camera": "Pass. Background is coherent and lighting is believable for a portrait setup.",
+    "control_map_leakage": "Pass. No visible rainbow normal-map colors, purple/green/blue stains, or surface-vector artifacts appear in the generated portrait.",
+    "prompt_compliance": "Pass with notes. The output is a hyperrealistic editorial portrait and appears to use normal-map guidance for stable facial planes, but this one sample does not prove broader surface-shape robustness."
+  },
+  "defects": [],
+  "notes": [
+    "This proves local normal ControlNet Union model load, SetUnionControlNetType=normal routing, and bounded generation for one head-and-shoulders sample.",
+    "The sample does not certify hands, full-body anatomy, multi-sample robustness, or target-runtime behavior.",
+    "Slight beauty-polished skin and soft shirt texture remain as quality notes."
+  ],
+  "result": "pass_with_notes_for_local_normal_controlnet_smoke",
+  "certification_allowed": false,
+  "promotion_boundary": "Local smoke generation plus strict visual QA only. Final normal-lane certification and target-runtime EC2 proof remain unclaimed.",
+  "next_action": "Use this as first local normal ControlNet generation proof. The non-Canny control generation model gap is now locally smoke-covered for depth, lineart, OpenPose, and normal; next work should be robustness/certification sampling or target-runtime proof only when intentionally selected."
+}

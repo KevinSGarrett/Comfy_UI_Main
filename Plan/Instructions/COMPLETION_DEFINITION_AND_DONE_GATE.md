@@ -94,6 +94,18 @@ Was next-session state updated?
 
 If any applicable answer is no, the item is not complete.
 
+### 3.1 Gold-standard mask dependency gate
+
+Gold-standard mask work follows:
+
+```text
+Plan/Instructions/QA/GOLD_STANDARD_MASK_DEPENDENCY_GATE_PROTOCOL.md
+```
+
+Missing or not-yet-validated manual gold masks block only the rows, gates, artifacts, and certification claims that depend on those masks. Use `Blocked_Gold_Mask_Dependency_Missing` for mask-dependent work that cannot honestly pass yet.
+
+Unrelated workflow structure, orchestration, evidence/logging, automation, tracker hygiene, dataset organization, validation scaffolding, and non-mask asset work may continue when it does not consume candidate masks as truth and does not claim mask promotion, geometry authority, or certification readiness.
+
 ## 4. Documentation-only done gate
 
 For documentation/instruction waves such as Wave 58, runtime proof is usually not required. The done gate is:

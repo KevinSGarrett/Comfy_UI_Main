@@ -1,0 +1,92 @@
+{
+  "activation_gate": "Deferred. Activate after at least one production simulation package can be generated or approximated and the current ComfyUI runtime lanes are stable.",
+  "audio_qa_gates": [
+    "full_duration_audio_review_pass",
+    "audio_event_visual_contact_alignment_pass",
+    "av_sync_drift_check_pass",
+    "clipping_noise_mix_balance_pass"
+  ],
+  "comfyui_qa_gates": [
+    "control_map_dimensions_match_generation",
+    "map_value_range_normalized",
+    "comfyui_route_manifest_pass",
+    "generated_output_proof_present",
+    "target_runtime_proof_before_final_certification"
+  ],
+  "common_qa_gates": [
+    "schema_validation_pass",
+    "source_citation_present",
+    "artifact_manifest_with_hashes_present",
+    "preview_or_overlay_generated",
+    "strict_visual_review_pass",
+    "whole_artifact_review_pass_when_media_exists",
+    "no_human_work_dependency_after_registered_inputs",
+    "autonomous_failure_blocker_written_if_blocked"
+  ],
+  "external_references": [
+    {
+      "name": "Blender command line and background automation",
+      "url": "https://docs.blender.org/manual/en/latest/advanced/command_line/arguments.html",
+      "usage": "Blender-first adapter can run scripted scene import, fitting, simulation prep, render-pass export, and validation from command line."
+    },
+    {
+      "name": "SideFX Houdini hython/hbatch batch workflow",
+      "url": "https://www.sidefx.com/docs/houdini/render/batch.html",
+      "usage": "Optional Houdini adapter can run procedural/SDF/Vellum-style simulation and render/export tasks through command-line tools."
+    },
+    {
+      "name": "Unreal Python command-line scripting",
+      "url": "https://dev.epicgames.com/documentation/unreal-engine/scripting-the-unreal-editor-using-python?lang=en-US",
+      "usage": "Optional Unreal adapter can automate editor/script tasks for physics assets, animation, rendered passes, and real-time simulation evidence."
+    },
+    {
+      "name": "DAZ Studio scripting",
+      "url": "https://docs.daz3d.com/public/software/dazstudio/4/referenceguide/scripting/start",
+      "usage": "DAZ is treated as prototype sculpt/source intake and scriptable export surface, not the production physics authority."
+    },
+    {
+      "name": "DAZ silent FBX export sample",
+      "url": "https://docs.daz3d.com/public/software/dazstudio/4/referenceguide/scripting/api_reference/samples/file_io/export_fbx_silent/start",
+      "usage": "DAZ prototype packages can be exported without interactive export dialogs when DAZ is available."
+    },
+    {
+      "name": "DAZ neutral prototype boundary",
+      "url": "https://docs.daz3d.com/public/software/dazstudio/4/referenceguide/scripting/start",
+      "usage": "DAZ is a neutral A/T-pose prototype and export source only; DAZ dForce, grip posing, hand posing, runtime morphing, production rigging, and production deformation are not allowed after prototype registration."
+    },
+    {
+      "name": "Marvelous Designer Python API",
+      "url": "https://developer.marvelousdesigner.com/",
+      "usage": "Optional clothing adapter can automate garment import, simulation, and export where licensed/available."
+    },
+    {
+      "name": "Marvelous Designer export API list",
+      "url": "https://developer.marvelousdesigner.com/list.html",
+      "usage": "Optional clothing adapter can export OBJ/Alembic and related artifacts for downstream fitting, collision, and map baking."
+    }
+  ],
+  "generated_at_utc": "2026-07-07T17:56:09.231290+00:00",
+  "items_csv": "Plan\\Items\\wave75_comfyui_physics_conditioning_package_itemized_list.csv",
+  "physics_qa_gates": [
+    "body_region_mapping_pass",
+    "protected_anchor_preservation_pass",
+    "gravity_direction_plausibility_pass",
+    "collision_contact_plausibility_pass",
+    "no_mesh_or_visual_penetration_pass",
+    "no_floating_contact_pass",
+    "body_shape_continuity_pass",
+    "temporal_stability_pass_for_video"
+  ],
+  "row_count": 20,
+  "schema_version": "1.0",
+  "slug": "comfyui_physics_conditioning_package",
+  "source_files": [
+    "Plan\\07_IMPLEMENTATION\\physics_deformation_system\\WAVE75_COMFYUI_PHYSICS_CONDITIONING_PACKAGE.md",
+    "Plan\\07_IMPLEMENTATION\\physics_deformation_system\\WAVE75_COMFYUI_PHYSICS_CONDITIONING_PACKAGE_MATRIX.csv",
+    "Plan\\Instructions\\Waves\\Wave75\\WAVE75_SCOPE.md"
+  ],
+  "status": "Deferred_Required_Not_Complete",
+  "title": "ComfyUI Physics Conditioning Package",
+  "tracker_csv": "Plan\\Tracker\\wave75_comfyui_physics_conditioning_package_tracker.csv",
+  "wave": 75
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-OPENPOSE-TABLETOP-CONTROL-SOURCE-VISUAL-QA-20260707T072100-0500",
+  "timestamp": "2026-07-07T07:21:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+  "module_id": "MOD-20-CONTROLNET-OPENPOSE-LANE",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "script": "Plan/07_IMPLEMENTATION/scripts/prepare_openpose_tabletop_control_map.py",
+  "manifest": "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_hands_tabletop_w69_v1/OPENPOSE_HANDS_TABLETOP_CONTROL_SOURCE_MANIFEST.json",
+  "source_guide": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_hands_tabletop_w69_v1/openpose_hands_tabletop_source_guide_w69_v1.png",
+    "sha256": "10c043e120020d3b936ac8bb8f82b605e4899a5c98ca715c995bcd3a9a465dd0",
+    "dimensions": "768x1024",
+    "bytes": 9383
+  },
+  "prepared_openpose_control_map": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_hands_tabletop_w69_v1/controlnet_openpose_hands_tabletop_w69_v1.png",
+    "sha256": "071fae66490195443a883b157f68455707be00c6427686a4252dcfd7e6a6019c",
+    "dimensions": "768x1024",
+    "bytes": 7017
+  },
+  "active_comfyui_input_copy": {
+    "path": "ComfyUI/input/controlnet_openpose_hands_tabletop_w69_v1.png",
+    "sha256": "071fae66490195443a883b157f68455707be00c6427686a4252dcfd7e6a6019c",
+    "dimensions": "768x1024",
+    "bytes": 7017
+  },
+  "visual_findings": [
+    "The source guide explicitly shows an upper-body seated/tabletop target with both hands separated and placed on the tabletop contact line.",
+    "The prepared OpenPose-style map is black-background, pose-only, and contains a tall upper-body skeleton with both wrists low in the frame and both hand keypoint clusters separated left/right.",
+    "The active ComfyUI input copy hash-matches the prepared OpenPose control map.",
+    "No photographic texture, source text, table drawing, or non-pose background detail is present in the actual control map that the OpenPose lane loads."
+  ],
+  "qa_checks": {
+    "both_hands_encoded": "pass",
+    "hands_separated": "pass",
+    "tabletop_contact_target_in_source_guide": "pass",
+    "pose_map_background_clean": "pass",
+    "active_input_hash_matches_prepared_map": "pass",
+    "generation_certification": "not_claimed"
+  },
+  "result": "pass_local_openpose_tabletop_control_source_prepared",
+  "promotion_boundary": "Prepared control source/map only. This QA does not certify generated image quality, hands anatomy, target-runtime behavior, or final OpenPose lane completion."
+}

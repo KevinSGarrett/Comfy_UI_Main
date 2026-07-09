@@ -1,0 +1,183 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-EYEBROWS-LOCAL-SUPPORT-20260707T190000-0500",
+  "timestamp": "2026-07-07T19:00:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave70_ultimate_mask_factory_local_artifact_routing_support",
+  "mask_type_id": "mf70_eyebrows",
+  "tracker_id": "TRK-W70-0016",
+  "item_id": "ITEM-W70-0016",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "source_requirements": [
+    "Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_FACTORY_TAXONOMY.md#L47",
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv:TRK-W70-0016",
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv:ITEM-W70-0016"
+  ],
+  "artifacts": {
+    "request": "runtime_artifacts/mask_factory/wave70_mf70_eyebrows/MASK_FACTORY_REQUEST.json",
+    "contract": "runtime_artifacts/mask_factory/wave70_mf70_eyebrows/MASK_FACTORY_CONTRACT.json",
+    "contract_validation": "runtime_artifacts/mask_factory/wave70_mf70_eyebrows/MASK_FACTORY_CONTRACT_VALIDATION.json",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_mf70_eyebrows/MASK_RUNTIME_EVIDENCE.json",
+    "quality_report": "runtime_artifacts/mask_factory/wave70_mf70_eyebrows/MASK_QUALITY_REPORT.json",
+    "patch_manifest": "runtime_artifacts/mask_factory/wave70_mf70_eyebrows/MASK_TO_WORKFLOW_PATCH_MANIFEST.csv",
+    "mask_png": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_eyebrows_20260707T190000-0500/wave70_mf70_eyebrows_mask.png",
+    "comfyui_input_copy": "ComfyUI/input/wave70_mf70_eyebrows_mask.png",
+    "preview_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_eyebrows_20260707T190000-0500/wave70_mf70_eyebrows_overlay.png"
+  },
+  "mask_asset": {
+    "mask_id": "scene_wave70_canny_v3__person_001__mf70_eyebrows__minor",
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_eyebrows_20260707T190000-0500/wave70_mf70_eyebrows_mask.png",
+    "sha256": "a00cd253f5a9c24c2a09eb467686a740fee2b3c294e5c1aea755fe4a6f9471f2",
+    "width": 768,
+    "height": 768,
+    "coverage_percent": 0.6048,
+    "person_instance_id": "person_001",
+    "body_region_id": "left_right_eyebrows",
+    "scale": "minor"
+  },
+  "validation": {
+    "contract_valid": true,
+    "contract_errors": [],
+    "contract_warnings": [],
+    "quality_score": 89.0,
+    "minimum_required": 85,
+    "quality_passed": true,
+    "workflow_routing_manifest_present": true,
+    "preview_overlay_generated": true,
+    "protected_neighbor_check_pass": true,
+    "generated_output_proof_present": true,
+    "target_runtime_proof_present": false,
+    "blockers": [
+      "target_runtime_proof_required_before_final_certification",
+      "user_disputed_mask_alignment_requires_source_overlay_rebuild"
+    ],
+    "mask_alignment_semantic_pass": true,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "reference_image_matrix_pass": false,
+    "single_anchor_only": true,
+    "generalized_completion_allowed": false
+  },
+  "overlay_visual_review": {
+    "review_method": "direct local image inspection after generation",
+    "result": "pass_with_notes_direct_overlay_visual_review",
+    "findings": [
+      "Overlay targets compact left and right eyebrow bands.",
+      "Eye cores and eyelid apertures remain excluded by protected eye regions.",
+      "The mask avoids broad forehead, hairline, hair mass, clothing, and background coverage.",
+      "Brow shape and expression are identity-sensitive, so generated-output proof requires low denoise and strict whole-image QA."
+    ]
+  },
+  "result": "eyebrows_v3_strict_visual_alignment_pass_generated_output_safe_target_runtime_pending_reference_matrix_pending",
+  "boundary": "Superseded by user global mask-alignment dispute: generated-output stability may remain useful, but this mask is not accepted as source-aligned. Rebuild or re-audit from strict source overlay/zoom crop/protected-neighbor evidence before any pass or certification claim.",
+  "generated_output_proof": {
+    "profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_eyebrows_seed210815.json",
+    "profile_sha256": "d72667fa86df9a3dc0a4f70438096da18ca139643c1aacb9064ee049c0c4eb3e",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_eyebrows_seed210815/RUN_PACKAGE_MANIFEST.json",
+    "run_package_sha256": "0e1dab35549eb41c9553ce9ec595edad44d23cd4f9edd0a993ed8867ac2a28b1",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_EYEBROWS_SEED210815_EXECUTE_20260707T190000-0500.json",
+    "runtime_evidence_sha256": "6ce01215e8de12910b59037b427b02a0a5505643c3f6e3d8f47073dc61a7172e",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_eyebrows_seed210815_20260707T184304-0500/images/codex_wave70_mf70_eyebrows_seed210815_00001_.png",
+    "generated_output_sha256": "bd523bfdafbfa8e597e0e5a6ab0b693cc951fa2d5f23e2f90f9681e6720fe69f",
+    "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_eyebrows_seed210815_20260707T184304-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00021_.png",
+    "diagnostic_mask_preview_sha256": "c5f8d9e682fb5cf97a138dce3d10b368637a9589a18c8a004c7db9461baf7ae5",
+    "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_eyebrows/qa_comparisons/wave70_mf70_eyebrows_source_overlay_output_compare.png",
+    "comparison_artifact_sha256": "68f8d56f9190c5381879e5b5dc4edbe7acbb883526f65b69bac23c460feb6000",
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_EYEBROWS_SEED210815_VISUAL_QA_20260707T190000-0500.json",
+    "visual_qa_result": "pass_with_notes_local_wave70_eyebrows_generated_output",
+    "visual_qa_sha256": "70080599a72a1f4c46aef9faed4c0e674ff503b71049e2ccb3c2614f2087bd29"
+  },
+  "semantic_mask_alignment_review": {
+    "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "review_timestamp": "2026-07-07T19:05:00-05:00",
+    "alignment_result": "needs_revision_user_disputed",
+    "mask_alignment_semantic_pass": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "findings": [
+      "The eyebrow overlay targets compact left and right eyebrow bands for the named mf70_eyebrows region.",
+      "The mask avoids protected eye cores, eyelid apertures, broad forehead, hairline, hair mass, clothing, and background.",
+      "Generated-output stability remains a separate pass; final certification still requires target-runtime proof."
+    ],
+    "named_target_match": false,
+    "full_visible_target_covered": false,
+    "completion_allowed": false
+  },
+  "reference_image_matrix_review": {
+    "result": "required_not_run",
+    "single_anchor_only": true,
+    "completion_allowed": false,
+    "minimum_resolution_pass": false,
+    "high_resolution_detail_review_pass": false,
+    "cross_subject_generalization_pass": false,
+    "matrix_manifest_path": null,
+    "required_protocol": "Plan/Instructions/QA/WAVE70_REFERENCE_IMAGE_MATRIX_QA_PROTOCOL.md",
+    "policy_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_REFERENCE_IMAGE_MATRIX_ENFORCEMENT_20260707T200600-0500.json",
+    "reason": "Existing evidence used the active local MOD-17 portrait as one source image. It remains useful single-anchor smoke evidence but does not prove generalized or universal mask reliability."
+  },
+  "single_anchor_boundary": {
+    "status": "Mask_Alignment_Candidate_Pass_Generated_Output_Safe_Target_Runtime_Pending",
+    "single_source_local_overlay_or_generated_output_may_remain_valid": true,
+    "generalized_completion_blocked_until_reference_matrix_passes": true,
+    "target_runtime_still_pending": true
+  },
+  "user_global_mask_alignment_dispute": {
+    "review_id": "W70-MASK-ALIGNMENT-USER-DISPUTE-GLOBAL-REVIEW-20260707T211000-0500",
+    "timestamp": "2026-07-07T21:10:00-05:00",
+    "evidence": "Plan\\Instructions\\QA\\Evidence\\Mask_Factory\\Wave70\\W70_MASK_ALIGNMENT_USER_DISPUTE_GLOBAL_REVIEW_20260707T211000-0500.json",
+    "user_report": "Every generated mask appears visibly off from the actual picture; the nose case specifically appears to cover the mouth and not match source anatomy.",
+    "corrected_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+    "mask_alignment_semantic_pass": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "prior_pass_claim_frozen": true,
+    "required_next_action": "Rebuild or re-audit the mask from source image geometry with zoomed overlay review and protected-neighbor exclusions before any generated-output proof is used for advancement."
+  },
+  "fail_closed_alignment_audit": {
+    "audit_id": "W70-MASK-ALIGNMENT-FAIL-CLOSED-AUDIT-20260707T211500-0500",
+    "timestamp": "2026-07-07T21:15:00-05:00",
+    "evidence": "Plan\\Instructions\\QA\\Evidence\\Mask_Factory\\Wave70\\W70_MASK_ALIGNMENT_FAIL_CLOSED_AUDIT_20260707T211500-0500.json",
+    "audit_panel": "runtime_artifacts/mask_factory/wave70_alignment_audit_20260707T211500-0500/mf70_eyebrows_source_mask_alignment_panel.png",
+    "audit_panel_sha256": "c6ce3d9aa3b6eb8b74e1864492360e15af88b62d71ed651fbeeb89d5744faf62",
+    "decision": "needs_revision_user_disputed",
+    "corrected_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+    "semantic_mask_alignment_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "fail_closed_until_source_geometry_rebuilt": true
+  },
+  "source_landmark_v3_repair": {
+    "timestamp": "2026-07-08T00:15:00-05:00",
+    "status": "eyebrows_v3_strict_visual_alignment_pass_generated_output_safe_target_runtime_pending_reference_matrix_pending",
+    "evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_EYEBROWS_V3_SOURCE_LANDMARK_REPAIR_20260708T001500-0500.json",
+    "tracker_evidence": "Plan/Tracker/Evidence/W70_MF70_EYEBROWS_V3_SOURCE_LANDMARK_REPAIR_20260708T001500-0500.json",
+    "mask_path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_eyebrows_v3_20260708T001500-0500/wave70_mf70_eyebrows_v3_mask.png",
+    "mask_sha256": "f6aac06704808dd70814d78317db320afc460b2159c6c88140794d6dcf986b6a",
+    "overlay_path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_eyebrows_v3_20260708T001500-0500/wave70_mf70_eyebrows_v3_overlay.png",
+    "overlay_sha256": "8593e2edab19386a7bfc355b3223212c21f9ddaebacfc7e64e589d44595e338a",
+    "protected_overlap_matrix": "runtime_artifacts/mask_factory/wave70_mf70_eyebrows/source_landmark_repair_v3/20260708T001500-0500/mf70_eyebrows_v3_protected_overlap_matrix.csv",
+    "protected_overlap_matrix_pass": true,
+    "generated_output_proof_valid_for_this_mask": true,
+    "old_generated_output_proof_invalidated_reason": "v3 mask hash differs from old generated-output proof mask hash",
+    "target_runtime_proof_present": false,
+    "reference_image_matrix_pass": false,
+    "completion_allowed_by_mask_alignment": false,
+    "findings": [
+      "Accepted candidate: v3 mask is slimmer than the old eyebrow slab and follows the visible brow bands more closely.",
+      "Accepted candidate: v3 clears protected eye cores, corrected upper-lid apertures, hair-occlusion edges, and lower eye-adjacent skin guardrails in the matrix.",
+      "Accepted with limitation: the mask is single-anchor source-specific and does not prove generalized eyebrow masking.",
+      "Old generated-output proof is not reused because the v3 mask hash differs from the old mask hash."
+    ],
+    "generated_output_visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_EYEBROWS_V3_SEED210815_VISUAL_QA_20260708T002500-0500.json",
+    "generated_output_tracker_evidence": "Plan/Tracker/Evidence/W70_MF70_EYEBROWS_V3_GENERATED_OUTPUT_20260708T002500-0500.json",
+    "generated_output_safe_pass": true,
+    "generated_output_comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_eyebrows/qa_comparisons/wave70_mf70_eyebrows_v3_source_landmark_source_overlay_output_compare.png"
+  }
+}

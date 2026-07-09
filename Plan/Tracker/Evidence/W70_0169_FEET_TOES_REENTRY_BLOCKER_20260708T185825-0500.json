@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_0169_FEET_TOES_REENTRY_BLOCKER_20260708T185825-0500",
+  "created_iso": "2026-07-08T18:58:25-05:00",
+  "task": "Re-enter TRK-W70-0169 / ITEM-W70-0169 after supervisor correction and record exact foot/toe authority blocker.",
+  "supervisor_correction": {
+    "path": "Plan/Instructions/QA/Evidence/Milestone_Progress_Audit/TWO_HOUR_SUPERVISOR_ROUTE_LOOP_CORRECTION_20260708T185529-0500.json",
+    "classification": "ADVANCING_WITH_LOOP_RISK_SEQUENCE_DRIFT_CORRECTED",
+    "corrected_next_action": "Return to TRK-W70-0169 / ITEM-W70-0169 foot/toe authority with Ref_Image_1+Ref_Image_2, or implement exactly one missing route with a named artifact and pass/fail evidence. No generic route probing or hard-gate rerun without new row-level evidence."
+  },
+  "source_evidence": {
+    "prior_feet_toes_authority": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/feet_toes_authority.json",
+      "evidence_id": "W70_FEET_TOES_CONTACT_AUTHORITY_20260708T171844-0500",
+      "qa_decision": "ref_images_1_2_full_body_feet_toes_references_available_route_not_complete"
+    },
+    "available_route_alignment": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/available_route_runtime_validation_alignment.json",
+      "evidence_id": "W70_AVAILABLE_ROUTE_RUNTIME_VALIDATION_ALIGNMENT_20260708T185104-0500",
+      "qa_decision": "available_routes_runtime_executed_partial_but_whole_body_stack_still_blocked_no_promotion"
+    }
+  },
+  "reference_context": {
+    "ref_image_1_full": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+      "evidence_id": "W70_REF_IMAGE_1_FULL_BODY_REFERENCES_20260708T143650-0500",
+      "all_ref_image_1_full_folder_count": 8,
+      "feet_toes_eligible_count": 7,
+      "feet_toes_excluded_count": 1,
+      "excluded_references": [
+        {
+          "path": "Ref_Image_1/Full/New folder/8ead94ca6f2884fb1ae671fee89e8126.jpg",
+          "coverage_scope": "near_full_body_knees_to_head_reference",
+          "coverage_limitations": [
+            "user_corrected_not_full_body",
+            "covers_from_knees_to_top_of_head",
+            "do_not_use_as_full_body_feet_toes_ankles_or_lower_calf_proof",
+            "usable_for_torso_head_hair_upper_limb_and_above_knee_body_context_only"
+          ]
+        }
+      ]
+    },
+    "ref_image_1_gold": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_body_mask_gold_standard.json",
+      "evidence_id": "W70_REF_IMAGE_1_BODY_MASK_GOLD_STANDARD_20260708T133754-0500",
+      "foot_toe_gold_mask_count": 4,
+      "foot_toe_gold_masks": [
+        {
+          "label": "feet_both_feet",
+          "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/feet_both_feet.png",
+          "red_overlay_pixel_count": 11612
+        },
+        {
+          "label": "feet_left_foot",
+          "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/feet_left_foot.png",
+          "red_overlay_pixel_count": 2074
+        },
+        {
+          "label": "feet_right_foot",
+          "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/feet_right_foot.png",
+          "red_overlay_pixel_count": 4190
+        },
+        {
+          "label": "feet_toes_feet",
+          "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/feet_toes_feet.png",
+          "red_overlay_pixel_count": 1952
+        }
+      ]
+    },
+    "ref_image_2": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_2_body_reference.json",
+      "evidence_id": "W70_REF_IMAGE_2_BODY_REFERENCE_20260708T153111-0500",
+      "manifest_row_count": 44,
+      "foot_toe_overlay_count": 4,
+      "foot_toe_overlays": [
+        {
+          "path": "Ref_Image_2/Feet/Both Feet/ref_image_2_both_feet_overlay.png",
+          "overlay_exists": true
+        },
+        {
+          "path": "Ref_Image_2/Feet/Left Foot/ref_image_2_left_foot_overlay.png",
+          "overlay_exists": true
+        },
+        {
+          "path": "Ref_Image_2/Feet/Right Foot/ref_image_2_right_foot_overlay.png",
+          "overlay_exists": true
+        },
+        {
+          "path": "Ref_Image_2/Feet/toes feet/ref_image_2_toes_feet_overlay.png",
+          "overlay_exists": true
+        }
+      ]
+    },
+    "body_matrix": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/body_reference_matrix.json",
+      "evidence_id": "W70_BODY_REFERENCE_MATRIX_AUTHORITY_20260708T153118-0500",
+      "qa_decision": "ref_images_1_2_body_reference_matrix_context_available_route_not_complete_global_gates_pass",
+      "source_visibility_matrix_pass": true,
+      "body_reference_matrix_pass": false,
+      "whole_body_geometry_authority_pass": false,
+      "canonical_polygon_export_pass": false,
+      "combined_full_or_near_full_reference_count": 9,
+      "combined_gold_mask_count": 78,
+      "blocked_reason": "ref_images_1_2_body_reference_context_available_but_matrix_route_missing_cross_subject_generalization_occlusion_multi_person_slot_parser_backed_ownership_canonical_polygons_generated_output_and_promotion_evidence"
+    }
+  },
+  "row_decision": {
+    "tracker_id": "TRK-W70-0169",
+    "item_id": "ITEM-W70-0169",
+    "status": "Required_Not_Complete",
+    "qa_decision": "ref_images_1_2_feet_toes_reentry_exact_blocker_no_promotion",
+    "promotion_decision": "no_mask_promoted_no_active_input_changed_feet_toes_reentry_blocker",
+    "blocker_reason": "foot_toe_gold_references_available_but_body_reference_matrix_whole_body_authority_contact_ownership_floor_support_boundary_and_canonical_polygons_not_passed",
+    "masks_changed": [],
+    "masks_promoted": [],
+    "hard_gate_rerun_performed": false
+  },
+  "artifacts": {
+    "panel": "runtime_artifacts/mask_factory/wave70_0169_feet_toes_reentry_blocker/20260708T185825-0500/feet_toes_reentry_blocker_panel.png"
+  },
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  },
+  "next_step": "Run Wave70 hard gates only after this row-level blocker, then continue active Wave70 sequence without returning to generic route-loop work."
+}

@@ -1,0 +1,31 @@
+﻿{
+    "evidence_type":  "weekly_plan_instructions_consistency_actionable_findings",
+    "created_at":  "2026-07-07T18:14:09.7351007-05:00",
+    "external_audit":  "C:\\Users\\kevin\\.codex\\automations\\comfy-ui-main-weekly-plan-instructions-consistency-audit\\audits\\WEEKLY_PLAN_INSTRUCTIONS_CONSISTENCY_20260707_181108.json",
+    "classification":  "CONSISTENCY_FINDINGS_EXTERNAL_AUDIT_ONLY",
+    "project_corrections_made":  false,
+    "correction_lock_status":  "not_needed_no_project_correction",
+    "actionable_findings":  [
+                                {
+                                    "id":  "STALE-BLOCKERS-W68-ACTIVE-AFTER-CANNY-PROOF",
+                                    "finding":  "BLOCKERS.md still lists W68 Canny/AWS/proof blockers as active even though later hydration records Canny v4 target-runtime smoke, pullback, technical QA, visual QA, and runtime_smoke_proven.",
+                                    "next_action":  "Supersede or resolve those blocker entries during the next intentional hydration update."
+                                },
+                                {
+                                    "id":  "STALE-PLAN-PROJECT-MANIFEST-LEGACY-WAVE-METADATA",
+                                    "finding":  "Plan/PROJECT_MANIFEST.json still advertises legacy wave_current=25 and latest_wave=34 while current control layers are Wave64/Wave65/Wave70 with Waves71-76 deferred.",
+                                    "next_action":  "Clarify current control layers or legacy metadata during next manifest maintenance."
+                                },
+                                {
+                                    "id":  "STALE-CURRENT-SESSION-STATE-TIMESTAMP",
+                                    "finding":  "CURRENT_SESSION_STATE.md top timestamp is 2026-07-06 while first current state entry is 2026-07-07T18:15.",
+                                    "next_action":  "Refresh timestamp on next normal hydration write."
+                                },
+                                {
+                                    "id":  "DEFERRED-NAMING-COLLISION-W71-CANNY",
+                                    "finding":  "Active Canny evidence uses W71_LOCAL_CANNY prefixes, colliding with deferred Wave71 physics naming; Wave71-76 rows themselves remain deferred.",
+                                    "next_action":  "Avoid future W71 prefixes for non-Wave71 physics evidence or annotate the prefix as non-activation."
+                                }
+                            ],
+    "safe_current_route":  "Continue Wave70 local-first generated-output proof work; do not start EC2, rerun Wave65, run AWS auth, publish S3, or checkpoint Git solely for this audit."
+}

@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-TONGUE-INNER-MOUTH-SOURCE-VISIBILITY-BLOCKER-20260707T200000-0500",
+  "timestamp": "2026-07-07T20:00:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave70_ultimate_mask_factory_source_visibility_blocker",
+  "mask_type_id": "mf70_tongue_inner_mouth",
+  "tracker_id": "TRK-W70-0020",
+  "item_id": "ITEM-W70-0020",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "source_requirements": [
+    "Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_FACTORY_TAXONOMY.md#L55",
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv:TRK-W70-0020",
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv:ITEM-W70-0020"
+  ],
+  "source_visibility_review": {
+    "result": "blocked_local_source_region_not_visible",
+    "source_crop": "runtime_artifacts/mask_factory/wave70_mf70_tongue_inner_mouth/visibility_review/mf70_tongue_inner_mouth_source_mouth_crop.png",
+    "source_crop_sha256": "d1d6e2809c302cea0f5cb80b70bbdbcf3123a5a60c46c62a4596ebab4cc65c16",
+    "finding": "The active portrait shows closed/near-closed lips and a tiny teeth band only; no tongue surface or inner-mouth region is visible enough to support a meaningful mf70_tongue_inner_mouth mask.",
+    "visual_review_method": "direct local inspection of zoomed mouth crop generated from the active MOD-17 Canny v3 portrait"
+  },
+  "validation": {
+    "contract_valid": false,
+    "quality_score": null,
+    "quality_passed": false,
+    "workflow_routing_manifest_present": false,
+    "preview_overlay_generated": false,
+    "protected_neighbor_check_pass": false,
+    "mask_alignment_semantic_pass": false,
+    "generated_output_safe_pass": false,
+    "generated_output_proof_present": false,
+    "target_runtime_proof_present": false,
+    "blockers": [
+      "source_region_not_visible_for_named_target",
+      "generated_output_proof_not_applicable_without_semantic_mask_target",
+      "target_runtime_proof_required_before_final_certification"
+    ]
+  },
+  "semantic_mask_alignment_review": {
+    "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "review_timestamp": "2026-07-07T20:00:00-05:00",
+    "alignment_result": "blocked",
+    "mask_alignment_semantic_pass": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": false,
+    "completion_allowed_by_mask_alignment": false,
+    "findings": [
+      "Named target is tongue_inner_mouth.",
+      "The active source crop exposes lips and a tiny teeth band, but no visible tongue surface and no meaningful inner-mouth region.",
+      "Creating a mask would require inventing anatomy or using a broad mouth shortcut, which the Wave70 semantic mask-alignment protocol forbids."
+    ]
+  },
+  "result": "blocked_local_source_region_not_visible",
+  "boundary": "This is a source-visibility blocker for the active portrait only. It does not certify mf70_tongue_inner_mouth complete; a future source with visible tongue/inner-mouth content would still need mask, overlay, generated-output QA, and target-runtime proof."
+}

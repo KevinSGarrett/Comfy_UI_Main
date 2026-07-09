@@ -1,0 +1,227 @@
+{
+  "schema_version": "1.0",
+  "audit_id": "W70-MASK-ALIGNMENT-STRICT-VISUAL-REVIEW-20260707T192500-0500",
+  "timestamp": "2026-07-07T19:25:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "reason": "User challenged whether prior Wave70 masks were actually strictly reviewed. This superseding audit applies stricter overlay-first semantic QA to the original user-supplied image set and the later mf70_nose case.",
+  "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+  "policy": "Generated-output stability remains separate evidence and must not mark mask completion. Shortcut polygons, partial targets, or protected-neighbor overlap fail or require revision even when low-denoise output is stable.",
+  "items": [
+    {
+      "mask_type_id": "mf70_face_identity_critical",
+      "tracker_id": "TRK-W70-0002",
+      "item_id": "ITEM-W70-0002",
+      "strict_alignment_result": "needs_revision",
+      "new_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+      "generated_output_safe_pass": true,
+      "mask_alignment_semantic_pass": false,
+      "completion_allowed_by_mask_alignment": false,
+      "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_face_identity_critical.json",
+      "qa_evidence_sha256": "be05d14eb0678e819c9e83e7851cb536215597a59f7e76b88af8161fcdab6d00",
+      "findings": [
+        "Strict review of the project overlay shows a broad shortcut polygon over the identity triangle that spills into hair/side regions and cannot be certified against the protected-neighbor contract for eyes, nose, mouth, jawline, and hairline.",
+        "Replace with a region-aware identity mask or split into protected submasks; do not certify this polygon as anatomically honest face identity coverage."
+      ]
+    },
+    {
+      "mask_type_id": "mf70_expression_region",
+      "tracker_id": "TRK-W70-0003",
+      "item_id": "ITEM-W70-0003",
+      "strict_alignment_result": "needs_revision",
+      "new_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+      "generated_output_safe_pass": true,
+      "mask_alignment_semantic_pass": false,
+      "completion_allowed_by_mask_alignment": false,
+      "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_expression_region.json",
+      "qa_evidence_sha256": "531ae25b42e0d918793b3918236173e6b2a722245cd68b62392b58ddd18ba9b6",
+      "findings": [
+        "Project overlay is a broad face polygon, not a region-aware brows/eyes/cheeks/mouth expression mask; it includes identity-sensitive neighbors and hair/side-face context.",
+        "Split expression-region coverage into precise brow, eye-adjacent, cheek-motion, and mouth-expression zones with protected teeth/hairline/background exclusions."
+      ]
+    },
+    {
+      "mask_type_id": "mf70_forehead_skin",
+      "tracker_id": "TRK-W70-0004",
+      "item_id": "ITEM-W70-0004",
+      "strict_alignment_result": "needs_revision",
+      "new_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+      "generated_output_safe_pass": true,
+      "mask_alignment_semantic_pass": false,
+      "completion_allowed_by_mask_alignment": false,
+      "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_forehead_skin.json",
+      "qa_evidence_sha256": "7efd1f8e90caf402dab3693f05796c3b2c4dc00d2455e5305edd44bcff661ee9",
+      "findings": [
+        "Forehead overlay is mostly in the right area but is a shortcut polygon that rides into hairline/brow-adjacent protected neighbors; strict QA should not mark it pass.",
+        "Regenerate as a forehead-skin band bounded by hairline and eyebrow clearance, with a small inset from both protected boundaries."
+      ]
+    },
+    {
+      "mask_type_id": "mf70_cheeks_skin",
+      "tracker_id": "TRK-W70-0005",
+      "item_id": "ITEM-W70-0005",
+      "strict_alignment_result": "needs_revision",
+      "new_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+      "generated_output_safe_pass": true,
+      "mask_alignment_semantic_pass": false,
+      "completion_allowed_by_mask_alignment": false,
+      "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_cheeks_skin.json",
+      "qa_evidence_sha256": "528a6fa1ae59403a332de97ed2d5c569c44fa122c06603f52cd7dcd1c950b643",
+      "findings": [
+        "Original side-by-side cheek masks are geometric cheekbone patches, too close to eyes/nose and not faithful left/right cheek-skin coverage.",
+        "Use cheek landmarks/contours that cover the cheek surface while excluding eyes, nose, mouth, hairline, and jawline."
+      ]
+    },
+    {
+      "mask_type_id": "mf70_jawline_chin",
+      "tracker_id": "TRK-W70-0006",
+      "item_id": "ITEM-W70-0006",
+      "strict_alignment_result": "needs_revision",
+      "new_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+      "generated_output_safe_pass": true,
+      "mask_alignment_semantic_pass": false,
+      "completion_allowed_by_mask_alignment": false,
+      "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_jawline_chin.json",
+      "qa_evidence_sha256": "dcc1de8a448b73e2ef2b4acd58beb9b12afbe2d03567a7b6347d51c10f329153",
+      "findings": [
+        "Jaw/chin overlay is a V-shaped shortcut under/around the mouth, not a faithful jawline/chin contour, and it risks mouth/lip neighbor intrusion.",
+        "Trace the visible chin and jaw contour with explicit mouth, neck, hair, and clothing exclusion margins."
+      ]
+    },
+    {
+      "mask_type_id": "mf70_skin_tone_continuity",
+      "tracker_id": "TRK-W70-0008",
+      "item_id": "ITEM-W70-0008",
+      "strict_alignment_result": "fail",
+      "new_status": "Mask_Alignment_Fail_Generated_Output_Safe_Target_Runtime_Pending",
+      "generated_output_safe_pass": true,
+      "mask_alignment_semantic_pass": false,
+      "completion_allowed_by_mask_alignment": false,
+      "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_skin_tone_continuity.json",
+      "qa_evidence_sha256": "37cae74148101da8a8c064a29715ada703b5aae7dc2bc06058093639ba6bd8ac",
+      "findings": [
+        "Skin-tone continuity overlay includes a large artificial neck/chest/clothing-shaped triangle and broad face polygon; it violates clothing/background protection and is not a valid visible-skin semantic mask.",
+        "Regenerate separate face-skin, neck-skin, and chest-skin masks using skin segmentation, explicitly subtracting clothing and background."
+      ]
+    },
+    {
+      "mask_type_id": "mf70_left_eye",
+      "tracker_id": "TRK-W70-0010",
+      "item_id": "ITEM-W70-0010",
+      "strict_alignment_result": "needs_revision",
+      "new_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+      "generated_output_safe_pass": true,
+      "mask_alignment_semantic_pass": false,
+      "completion_allowed_by_mask_alignment": false,
+      "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_left_eye.json",
+      "qa_evidence_sha256": "715648ed1e29866050ae5d9aecdec873beaab1b6b2b9d2f936dccf84c05a045a",
+      "findings": [
+        "Single-eye overlay is an oval shortcut over/around the eye, including surrounding skin/hair/upper-orbital context rather than the visible eye aperture.",
+        "Regenerate from eyelid aperture landmarks and subtract protected iris/pupil/lid/lash/skin subregions according to the target label."
+      ]
+    },
+    {
+      "mask_type_id": "mf70_right_eye",
+      "tracker_id": "TRK-W70-0011",
+      "item_id": "ITEM-W70-0011",
+      "strict_alignment_result": "needs_revision",
+      "new_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+      "generated_output_safe_pass": true,
+      "mask_alignment_semantic_pass": false,
+      "completion_allowed_by_mask_alignment": false,
+      "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_right_eye.json",
+      "qa_evidence_sha256": "fadd5a3f8e108530e19c0f27e36b930858d2552384a4533dddce6355fffe7eea",
+      "findings": [
+        "Single-eye overlay is an oval shortcut over/around the eye, including eyelid/skin context rather than a precise visible eye aperture.",
+        "Regenerate from eyelid aperture landmarks and subtract protected iris/pupil/lid/lash/skin subregions according to the target label."
+      ]
+    },
+    {
+      "mask_type_id": "mf70_pupils_iris_sclera",
+      "tracker_id": "TRK-W70-0012",
+      "item_id": "ITEM-W70-0012",
+      "strict_alignment_result": "fail",
+      "new_status": "Mask_Alignment_Fail_Generated_Output_Safe_Target_Runtime_Pending",
+      "generated_output_safe_pass": true,
+      "mask_alignment_semantic_pass": false,
+      "completion_allowed_by_mask_alignment": false,
+      "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_pupils_iris_sclera.json",
+      "qa_evidence_sha256": "0aaddcbb1c01645c9b2c00dbe3ac3ac8e3a2f5604f12669f91dbc19ffb7599c9",
+      "findings": [
+        "Eye ovals do not precisely isolate pupils, irises, and visible sclera; they include eyelid/skin context and do not clearly cover sclera correctly.",
+        "Use eye-aperture segmentation with separate pupil/iris/sclera components and subtract eyelids, lashes, catchlights, and skin."
+      ]
+    },
+    {
+      "mask_type_id": "mf70_eyelids",
+      "tracker_id": "TRK-W70-0013",
+      "item_id": "ITEM-W70-0013",
+      "strict_alignment_result": "needs_revision",
+      "new_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+      "generated_output_safe_pass": true,
+      "mask_alignment_semantic_pass": false,
+      "completion_allowed_by_mask_alignment": false,
+      "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_eyelids.json",
+      "qa_evidence_sha256": "383073583e62ba234e1c8979efb06df4d96e1b8a9d70244c2f3c3e6fb394ac9e",
+      "findings": [
+        "Eyelid overlay is mostly upper-orbital/brow-adjacent polygons and does not represent upper/lower eyelid bands; it intrudes into protected neighboring regions.",
+        "Generate narrow upper and lower eyelid bands from lid-fold/aperture landmarks and exclude iris, sclera, eyelashes, broad skin, and brows."
+      ]
+    },
+    {
+      "mask_type_id": "mf70_eyelashes",
+      "tracker_id": "TRK-W70-0014",
+      "item_id": "ITEM-W70-0014",
+      "strict_alignment_result": "needs_revision",
+      "new_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+      "generated_output_safe_pass": true,
+      "mask_alignment_semantic_pass": false,
+      "completion_allowed_by_mask_alignment": false,
+      "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_eyelashes.json",
+      "qa_evidence_sha256": "033b3de53ab5d382a8663b9074df04b8cf0def627cd99f3c523f28a2a2eafa8c",
+      "findings": [
+        "Eyelash overlay is a pair of shortcut strokes near the eyes, not anatomically reliable upper/lower eyelash coverage, and may cross eyelid/eye-aperture protected regions.",
+        "Use lash-line edge detection or landmark-following thin masks that trace actual visible lashes while excluding eyelid, iris, skin, and background."
+      ]
+    },
+    {
+      "mask_type_id": "mf70_under_eye",
+      "tracker_id": "TRK-W70-0015",
+      "item_id": "ITEM-W70-0015",
+      "strict_alignment_result": "pass_with_notes",
+      "new_status": "Mask_Alignment_Pass_Generated_Output_Safe_Target_Runtime_Pending",
+      "generated_output_safe_pass": true,
+      "mask_alignment_semantic_pass": true,
+      "completion_allowed_by_mask_alignment": true,
+      "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_under_eye.json",
+      "qa_evidence_sha256": "b4e42e1f33b1b6d86f86853675e65221598ff43b7d887edbbf26cb16c243ea30",
+      "findings": [
+        "Under-eye crescents are reasonably aligned to under-eye skin and avoid most protected neighbors; pass only for the narrow under_eye_skin label, not for eyelids, eyes, or cheeks.",
+        "Keep but require zoomed review that lower lid, eye aperture, broad cheek, and nose are excluded."
+      ]
+    },
+    {
+      "mask_type_id": "mf70_nose",
+      "tracker_id": "TRK-W70-0017",
+      "item_id": "ITEM-W70-0017",
+      "strict_alignment_result": "fail",
+      "new_status": "Mask_Alignment_Fail_Generated_Output_Safe_Target_Runtime_Pending",
+      "generated_output_safe_pass": true,
+      "mask_alignment_semantic_pass": false,
+      "completion_allowed_by_mask_alignment": false,
+      "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_nose.json",
+      "qa_evidence_sha256": "16877043e1070d2a7c104321e27378cbcc27e4a2afc93597ffb383bbbb1efa16",
+      "findings": [
+        "Nose overlay covers only part of the full visible nose, misses a meaningful sidewall/half of the nose, and intrudes near protected mouth/philtrum and inner-eye/canthus regions.",
+        "Regenerate full_nose_bridge_tip_nostrils mask symmetrically over the visible bridge, sidewalls, tip, alae, and nostrils, with explicit clearance from eyes, cheeks, philtrum, upper lip, and mouth."
+      ]
+    }
+  ],
+  "better_masking_requirements": [
+    "Use actual anatomical landmarks/segmentation for face parts; do not use coarse ovals or broad polygons as passable masks for detailed features.",
+    "For full-region labels, cover the full visible target, not half or a convenient subset.",
+    "Subtract protected neighbors before output proof: eyes, eyelids, mouth, lips, hairline, clothing, background, and skin neighbors as listed by taxonomy.",
+    "Require zoomed overlay review of source, overlay, and generated output; generated-output stability cannot override overlay defects.",
+    "Split broad masks into smaller named submasks when one polygon would cross protected boundaries."
+  ],
+  "result": "strict_overlay_first_review_enforced_and_prior_passes_downgraded_where_needed"
+}

@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-SKIN-TONE-CONTINUITY-LOCAL-SUPPORT-20260707T163000-0500",
+  "timestamp": "2026-07-07T16:30:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave70_ultimate_mask_factory_local_artifact_routing_support",
+  "mask_type_id": "mf70_skin_tone_continuity",
+  "tracker_id": "TRK-W70-0008",
+  "item_id": "ITEM-W70-0008",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "source_requirements": [
+    "Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_FACTORY_TAXONOMY.md#L15-L31",
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv:TRK-W70-0008",
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv:ITEM-W70-0008"
+  ],
+  "artifacts": {
+    "request": "runtime_artifacts/mask_factory/wave70_mf70_skin_tone_continuity/MASK_FACTORY_REQUEST.json",
+    "contract": "runtime_artifacts/mask_factory/wave70_mf70_skin_tone_continuity/MASK_FACTORY_CONTRACT.json",
+    "contract_validation": "runtime_artifacts/mask_factory/wave70_mf70_skin_tone_continuity/MASK_FACTORY_CONTRACT_VALIDATION.json",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_mf70_skin_tone_continuity/MASK_RUNTIME_EVIDENCE.json",
+    "quality_report": "runtime_artifacts/mask_factory/wave70_mf70_skin_tone_continuity/MASK_QUALITY_REPORT.json",
+    "patch_manifest": "runtime_artifacts/mask_factory/wave70_mf70_skin_tone_continuity/MASK_TO_WORKFLOW_PATCH_MANIFEST.csv",
+    "mask_png": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_skin_tone_continuity_20260707T163000-0500/wave70_mf70_skin_tone_continuity_mask.png",
+    "comfyui_input_copy": "ComfyUI/input/wave70_mf70_skin_tone_continuity_mask.png",
+    "preview_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_skin_tone_continuity_20260707T163000-0500/wave70_mf70_skin_tone_continuity_overlay.png"
+  },
+  "mask_asset": {
+    "mask_id": "scene_wave70_canny_v3__person_001__mf70_skin_tone_continuity__minor",
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_skin_tone_continuity_20260707T163000-0500/wave70_mf70_skin_tone_continuity_mask.png",
+    "sha256": "c3aa10d3cb9f23e5a7b256eec8b266d805cb23a291eb3f1ff54f31f820ab8d03",
+    "width": 768,
+    "height": 768,
+    "coverage_percent": 20.1662,
+    "person_instance_id": "person_001",
+    "body_region_id": "global_visible_skin_tone_continuity",
+    "scale": "minor"
+  },
+  "validation": {
+    "contract_valid": true,
+    "contract_errors": [],
+    "contract_warnings": [],
+    "quality_score": 90.0,
+    "minimum_required": 85,
+    "quality_passed": true,
+    "workflow_routing_manifest_present": true,
+    "preview_overlay_generated": true,
+    "protected_neighbor_check_pass": false,
+    "generated_output_proof_present": true,
+    "target_runtime_proof_present": false,
+    "blockers": [
+      "mask_alignment_revision_required_before_completion",
+      "target_runtime_proof_required_before_final_certification",
+      "mask_alignment_strict_review_requires_revision_before_completion"
+    ],
+    "mask_alignment_semantic_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false
+  },
+  "overlay_visual_review": {
+    "review_method": "direct local image inspection via Codex view_image",
+    "result": "pass_with_notes_skin_tone_continuity_overlay",
+    "findings": [
+      "Mask covers visible face skin plus exposed neck and upper chest skin for tone-continuity testing.",
+      "Overlay mostly avoids the white blazer and gray background.",
+      "Lower V-shaped skin region sits close to clothing edges, so generated-output proof must use very low denoise and strict whole-image QA."
+    ]
+  },
+  "result": "mask_alignment_fail_generated_output_safe_final_blocked_target_runtime",
+  "boundary": "Strict semantic mask-alignment review supersedes earlier generated-output-safe interpretation. Generated-output stability is preserved when present, but mask completion is blocked unless semantic alignment and protected-neighbor review pass.",
+  "generated_output_proof": {
+    "profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_skin_tone_continuity_seed210807.json",
+    "profile_sha256": "b8a2f6c97573d76a380faabbb658337615a220af744cbe41a51f3524b178d5f6",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_skin_tone_continuity_seed210807/RUN_PACKAGE_MANIFEST.json",
+    "run_package_sha256": "8614a367a9de55ef85dfa6cd177dba90d420c326a8ae07eeee86efc49e0d213d",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_SKIN_TONE_CONTINUITY_SEED210807_EXECUTE_20260707T163500-0500.json",
+    "runtime_evidence_sha256": "78e74f6d841f01474082b55e9d7523a3f4b9681215f0f35292a8c4d868b9888f",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_skin_tone_continuity_seed210807_20260707T165331-0500/images/codex_wave70_mf70_skin_tone_continuity_seed210807_00001_.png",
+    "generated_output_sha256": "2a750a4d180300e02dff9c2729debfeac4a87c8d7b8f92f17ae629ca097f5889",
+    "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_skin_tone_continuity_seed210807_20260707T165331-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00013_.png",
+    "diagnostic_mask_preview_sha256": "9678f4003e477905cbf36dadd1f9897668bb61f0ad87b9a52a8a4db60d4fb606",
+    "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_skin_tone_continuity/qa_comparisons/wave70_mf70_skin_tone_continuity_source_overlay_output_compare.png",
+    "comparison_artifact_sha256": "8dc8833aa4a5d13ea14f245e1aab1fb21508120c89d769c575492a36cf8eb704",
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_SKIN_TONE_CONTINUITY_SEED210807_VISUAL_QA_20260707T163000-0500.json",
+    "visual_qa_result": "pass_with_notes_local_wave70_skin_tone_continuity_generated_output"
+  },
+  "semantic_mask_alignment_reaudit": {
+    "audit_id": "W70-MASK-ALIGNMENT-RETRO-AUDIT-20260707T184000-0500",
+    "timestamp": "2026-07-07T18:40:00-05:00",
+    "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "result": "needs_revision",
+    "named_target_match": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed": false,
+    "findings": [
+      "Retro audit found the broad skin-continuity mask includes an overextended neck/chest/clothing-shaped region risk.",
+      "Generated output safety at low denoise does not prove the global visible-skin mask is semantically correct.",
+      "Future skin-continuity masks must exclude clothing and background and distinguish face/neck/chest skin boundaries."
+    ],
+    "policy": "Generated-output stability is preserved where applicable, but it does not override semantic mask-alignment defects."
+  },
+  "strict_semantic_mask_alignment_review": {
+    "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "review_timestamp": "2026-07-07T19:25:00-05:00",
+    "review_id": "W70-MASK-ALIGNMENT-STRICT-VISUAL-REVIEW-20260707T192500-0500",
+    "alignment_result": "fail",
+    "mask_alignment_semantic_pass": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "review_basis": "strict visual review of user-supplied overlays and/or matching project overlay artifacts, separated from generated-output stability",
+    "findings": [
+      "Skin-tone continuity overlay includes a large artificial neck/chest/clothing-shaped triangle and broad face polygon; it violates clothing/background protection and is not a valid visible-skin semantic mask.",
+      "Regenerate separate face-skin, neck-skin, and chest-skin masks using skin segmentation, explicitly subtracting clothing and background."
+    ]
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-INSTANCE-LAYOUT-INPAINT-NOMOUTH-V4-20260707T110500-0500",
+  "timestamp": "2026-07-07T11:05:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave24_instance_layout_contract_validation_and_score",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "source_requirements": [
+    "Plan/07_IMPLEMENTATION/WAVE24_IMPLEMENTATION_MANUAL.md",
+    "Plan/07_IMPLEMENTATION/WAVE24_INSTANCE_LAYOUT_WORKFLOW_BUILD_INSTRUCTIONS.md",
+    "Plan/10_REGISTRIES/wave24_character_instance_field_requirements.json",
+    "Plan/10_REGISTRIES/wave24_instance_qa_scoring_rules.json"
+  ],
+  "implementation_changes": [
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/compile_multi_character_instance_layout.py",
+      "summary": "Preserve request-supplied region ownership maps, mask factory evidence, and profile id in compiled Wave24 contracts."
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/validate_multi_character_instance_layout.py",
+      "summary": "Add stricter validation for normalized frame bboxes, integer depth layers, depth-order coverage, and region ownership map references; emit optional JSON validation reports."
+    }
+  ],
+  "artifacts": {
+    "request": "runtime_artifacts/instance_layout/inpaint_nomouth_v4_w69/INSTANCE_LAYOUT_REQUEST.json",
+    "contract": "runtime_artifacts/instance_layout/inpaint_nomouth_v4_w69/INSTANCE_LAYOUT_CONTRACT.json",
+    "validation": "runtime_artifacts/instance_layout/inpaint_nomouth_v4_w69/INSTANCE_LAYOUT_VALIDATION.json",
+    "score_input": "runtime_artifacts/instance_layout/inpaint_nomouth_v4_w69/INSTANCE_LAYOUT_EVIDENCE_INPUT.json",
+    "score_report": "runtime_artifacts/instance_layout/inpaint_nomouth_v4_w69/INSTANCE_LAYOUT_SCORE_REPORT.json",
+    "mask_factory_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/W69_LOCAL_MASK_FACTORY_INPAINT_NOMOUTH_V4_20260707T105500-0500.json"
+  },
+  "instance_layout": {
+    "profile_id": "targeted_single_instance_repair",
+    "scene_id": "scene_w69_inpaint_detail_nomouth_v4",
+    "character_count_target": 1,
+    "instance_count": 1,
+    "depth_order_count": 1,
+    "region_ownership_map_count": 1,
+    "character_instance_id": "charinst_001",
+    "character_identity_id": "character_realvisxl_source_001",
+    "person_instance_mask_id": "scene_w69_inpaint_detail_nomouth_v4__person_001__face_skin_detail_nomouth__micro",
+    "region_ownership_map_id": "regionmap_w69_inpaint_nomouth_v4_person_001",
+    "frame_bbox": [
+      0.0,
+      0.0,
+      1.0,
+      1.0
+    ],
+    "depth_layer": 0
+  },
+  "validation": {
+    "contract_valid": true,
+    "errors": [],
+    "score": 1.0,
+    "score_passed": true,
+    "failure_flags": []
+  },
+  "result": "pass_local_instance_layout_inpaint_nomouth_v4_targeted_single_instance_repair",
+  "boundary": "This proves a local Wave24 targeted single-instance repair contract and ownership score tied to existing Mask Factory evidence. It does not prove multi-character interactions, generated image quality, target-runtime behavior, or final release readiness."
+}

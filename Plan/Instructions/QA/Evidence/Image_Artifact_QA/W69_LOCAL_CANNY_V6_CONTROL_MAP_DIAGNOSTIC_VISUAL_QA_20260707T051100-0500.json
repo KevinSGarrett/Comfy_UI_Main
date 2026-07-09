@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-CANNY-V6-CONTROL-MAP-DIAGNOSTIC-VISUAL-QA-20260707T051100-0500",
+  "timestamp": "2026-07-07T05:11:00-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+  "run_id": "sdxl_realvisxl_controlnet_canny_v6_control_map_diagnostic_w69",
+  "qa_scope": "strict whole-artifact review for the generated portrait plus diagnostic review for the exact saved control-map branch",
+  "local_only": true,
+  "ec2_started": false,
+  "generation_executed": true,
+  "certification_scope": "local quality-development evidence only",
+  "certification_allowed": false,
+  "source_evidence": {
+    "static_validation": "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_CANNY_CONTROL_MAP_DIAGNOSTIC_STATIC_20260707T052500-0500.json",
+    "run_package": "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_v6_control_map_diagnostic_w69/RUN_PACKAGE_MANIFEST.json",
+    "runtime_execution": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_V6_CONTROL_MAP_DIAGNOSTIC_EXECUTE_20260707T052600-0500.json",
+    "local_artifact_manifest": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_canny_v6_control_map_diagnostic_w69_20260707T050853-0500/LOCAL_ARTIFACT_MANIFEST.json"
+  },
+  "artifacts_reviewed": [
+    {
+      "role": "control_map_diagnostic",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_canny_v6_control_map_diagnostic_w69_20260707T050853-0500/images/codex_sdxl_realvisxl_controlnet_canny_control_map_diagnostic_00001_.png",
+      "sha256": "6ae69e878bc07770dfa0955f62c47246cc74d5391121be587b2be0d647051370",
+      "width": 1024,
+      "height": 1024,
+      "source_input_path": "ComfyUI/input/controlnet_canny_cleaned_eye_safe_v1.png",
+      "source_input_sha256": "d2f09161928d6efa1c724aafd6798ab597f8cfa0e12dcb4db61203c6b4e74bd0",
+      "pixel_comparison": {
+        "same_dimensions": true,
+        "total_pixels": 1048576,
+        "mismatch_count": 191048,
+        "mismatch_percent": 18.2198,
+        "max_channel_delta": 1,
+        "observed_value_pair_histogram": {
+          "255_to_254": 191048
+        },
+        "interpretation": "ComfyUI re-saved white edge pixels as 254 instead of 255; black pixels and geometry stayed aligned, so this verifies the diagnostic branch saved the loaded control map content."
+      },
+      "visual_findings": [
+        "High-contrast white-edge-on-black control map is present and legible.",
+        "Face, hair, shoulder, jacket, collar, jaw, and neck contours are visible.",
+        "No color contamination, unrelated image content, or RGB placeholder artifact is visible.",
+        "The map remains visually suitable as a QA diagnostic for the active Canny input."
+      ],
+      "qa_status": "pass_local_diagnostic_control_map"
+    },
+    {
+      "role": "generated_portrait",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_canny_v6_control_map_diagnostic_w69_20260707T050853-0500/images/codex_sdxl_realvisxl_controlnet_canny_smoke_00006_.png",
+      "sha256": "32e67d29c65cb244a878b292d52630d5fdb5c426783681543e916221cf30cc3a",
+      "width": 768,
+      "height": 768,
+      "whole_image_findings": {
+        "face_realism": "pass; face structure is coherent and proportional with no obvious warping.",
+        "eyes": "pass_with_notes; both eyes are readable with natural catchlights, though the overall eye area remains slightly low-key.",
+        "skin_texture": "pass_with_notes; pores and microtexture are visible, but the finish is still somewhat polished.",
+        "hair": "pass; hairline and volume are natural with no severe edge artifacts.",
+        "mouth_teeth": "pass; closed mouth is natural and no teeth artifacts are present.",
+        "hands_feet": "not_visible_not_applicable",
+        "body_proportions": "pass; shoulders, neck, jawline, and collar relation are coherent.",
+        "clothing_fabric": "pass; blazer and shirt are clothed and plausible, with improved collar boundary readability.",
+        "lighting_background": "pass; soft neutral studio background and balanced cinematic exposure are coherent.",
+        "control_map_adherence": "pass; silhouette, head pose, hair mass, jaw, neck, and shoulder lines follow the diagnostic control map without harsh outline contamination.",
+        "generation_artifacts": "pass_with_notes; no severe artifacts, but local-only polish/smoothness note remains."
+      },
+      "qa_status": "pass_with_notes_for_local_control_map_diagnostic_iteration"
+    }
+  ],
+  "qa_result": "pass_with_notes_for_local_control_map_diagnostic_iteration",
+  "improvement_verified": {
+    "workflow_change": "Added SaveImage node 13 from LoadImage node 11 so the exact Canny control map loaded by the workflow is saved beside the generated portrait.",
+    "request_change": "Updated expected_outputs.minimum_output_count to 2 and added diagnostic_output_prefix for the control-map diagnostic artifact.",
+    "verified_by_runtime": true,
+    "outputs_found": 2,
+    "runtime_result": "pass_local_run_package_generation_smoke"
+  },
+  "remaining_risks": [
+    "This is local ComfyUI evidence only and does not certify target-runtime EC2 behavior for the changed v6 request.",
+    "The generated portrait is a single local smoke artifact, not broad multi-seed quality certification.",
+    "The portrait still carries minor local QA notes for low-key eye shadows and slightly polished skin."
+  ],
+  "next_action": "Keep EC2 stopped unless target-runtime proof is intentionally selected; otherwise continue local-first with another named workflow diagnostic, pose/depth lane, or QA-driven control strategy."
+}

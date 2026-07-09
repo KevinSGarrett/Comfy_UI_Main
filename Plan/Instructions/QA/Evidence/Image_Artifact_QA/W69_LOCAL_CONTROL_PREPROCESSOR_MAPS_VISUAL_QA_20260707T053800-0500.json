@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-CONTROL-PREPROCESSOR-MAPS-VISUAL-QA-20260707T053800-0500",
+  "timestamp": "2026-07-07T05:38:00-05:00",
+  "qa_scope": "strict control-map artifact QA for local OpenPose, DepthAnything, Lineart, and BAE Normal preprocessor outputs",
+  "source_input": "ComfyUI/input/sdxl_inpaint_detail_source_canny_v1.png",
+  "local_only": true,
+  "ec2_started": false,
+  "generation_executed": false,
+  "preprocessor_execution_only": true,
+  "certification_scope": "local control-map preprocessor readiness and artifact QA only",
+  "certification_allowed": false,
+  "source_evidence": {
+    "initial_object_info_blocker": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_OBJECT_INFO_CONTROL_PREPROCESSORS_20260707T052000-0500.json",
+    "custom_node_install": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_CONTROLNET_AUX_PREPROCESSOR_INSTALL_20260707T052400-0500.json",
+    "post_install_object_info": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_OBJECT_INFO_CONTROL_PREPROCESSORS_AFTER_AUX_INSTALL_20260707T052500-0500.json",
+    "node_schema_capture": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_CONTROL_PREPROCESSOR_NODE_SCHEMAS_20260707T052700-0500.json",
+    "first_map_attempt": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CONTROL_PREPROCESSOR_MAPS_EXECUTE_20260707T053000-0500.json",
+    "map_retry": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CONTROL_PREPROCESSOR_MAPS_RETRY_EXECUTE_20260707T053300-0500.json",
+    "normal_retry": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CONTROL_PREPROCESSOR_NORMAL_RETRY_EXECUTE_20260707T053500-0500.json"
+  },
+  "dependency_recovery": [
+    {
+      "issue": "OpenPose prompt class alias rejected",
+      "failed_class_type": "OpenPosePreprocessor",
+      "successful_class_type": "OpenposePreprocessor",
+      "evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CONTROL_PREPROCESSOR_MAPS_RETRY_EXECUTE_20260707T053300-0500.json"
+    },
+    {
+      "issue": "BAE normal preprocessor missing timm dependency",
+      "failure": "ModuleNotFoundError: No module named 'timm'",
+      "fix": "Installed timm into the local ComfyUI venv and reran only BAE-NormalMapPreprocessor.",
+      "evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CONTROL_PREPROCESSOR_NORMAL_RETRY_EXECUTE_20260707T053500-0500.json"
+    }
+  ],
+  "artifacts_reviewed": [
+    {
+      "role": "openpose_pose_map",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_maps_w69_v2_20260707T053300-0500/images/codex_control_preprocessor_openpose_w69_00001_.png",
+      "sha256": "709ff1ace4607afa6f3b8d188faea2d6ce7757927e3456b3553e40c39c59bfc7",
+      "width": 512,
+      "height": 512,
+      "bytes": 6040,
+      "sampled_unique_color_count": 17,
+      "visual_findings": [
+        "Black-background pose map was generated with visible colored body joints and limb connections.",
+        "Face and hand landmark dots are visible around the head/upper body region.",
+        "The source is a cropped portrait, so lower-body pose coverage is limited and not suitable as a full-body pose certification map."
+      ],
+      "qa_status": "pass_with_notes_for_local_pose_preprocessor_artifact"
+    },
+    {
+      "role": "depth_anything_map",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_maps_w69_v2_20260707T053300-0500/images/codex_control_preprocessor_depth_anything_w69_00001_.png",
+      "sha256": "d9d21c69ea3ea50f3991bd0a420f338c5c7bc3c3450508526a7e9060c0319ef7",
+      "width": 512,
+      "height": 512,
+      "bytes": 54373,
+      "sampled_unique_color_count": 254,
+      "visual_findings": [
+        "Grayscale depth map was generated with a coherent portrait foreground separated from a darker background.",
+        "Head, hair mass, shoulders, and jacket form are readable as spatial layers.",
+        "Facial features are intentionally smoothed by the depth model; this is acceptable for depth structure but not identity detail."
+      ],
+      "qa_status": "pass_local_depth_preprocessor_artifact"
+    },
+    {
+      "role": "lineart_map",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_maps_w69_v2_20260707T053300-0500/images/codex_control_preprocessor_lineart_w69_00001_.png",
+      "sha256": "1994c628abb6df5abda27e61b1e17dd32f0f3cf50993d1ca795c89de4ef7ff46",
+      "width": 512,
+      "height": 512,
+      "bytes": 158803,
+      "sampled_unique_color_count": 225,
+      "visual_findings": [
+        "Lineart map was generated with strong hair, eye, face, collar, and jacket contours.",
+        "The map has dense facial and hair detail useful for contour QA.",
+        "The lineart is high contrast and somewhat dense, so future generation use should start at low to moderate strength."
+      ],
+      "qa_status": "pass_with_notes_for_local_lineart_preprocessor_artifact"
+    },
+    {
+      "role": "normal_bae_map",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_normal_w69_v3_20260707T053500-0500/images/codex_control_preprocessor_normal_bae_w69_00001_.png",
+      "sha256": "1a0526da325d7fb29986b8de017ba9af7c43e1b328d51da5afa7c6bf84863139",
+      "width": 512,
+      "height": 512,
+      "bytes": 161483,
+      "sampled_unique_color_count": 7954,
+      "visual_findings": [
+        "Normal map was generated after installing the missing timm dependency.",
+        "The output uses expected normal-map color bands and preserves face, hair, collar, and shoulder form.",
+        "The result is smoothed as expected for a normal estimator and should be QA-tested again before any generation lane uses it."
+      ],
+      "qa_status": "pass_local_normal_preprocessor_artifact"
+    }
+  ],
+  "qa_result": "pass_with_notes_for_local_control_preprocessor_artifacts",
+  "remaining_risks": [
+    "These are preprocessor artifacts only; no OpenPose, depth, normal, or lineart ControlNet generation model was installed or proven.",
+    "The source image is a cropped portrait, so OpenPose is not a full-body pose certification sample.",
+    "Future generation lanes need matching SDXL ControlNet model registry records, path/hash proof, static validation, bounded generation, pullback, technical QA, and whole-image visual QA before promotion."
+  ],
+  "next_action": "Use these artifacts as local preprocessor readiness evidence; next non-EC2 task is model-registry planning/provisioning for one selected SDXL pose/depth/normal/lineart ControlNet lane or a dedicated QA sheet exporter."
+}

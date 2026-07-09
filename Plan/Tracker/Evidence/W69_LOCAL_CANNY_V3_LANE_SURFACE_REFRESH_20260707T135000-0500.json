@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "tracker_evidence_id": "W69-LOCAL-CANNY-V3-LANE-SURFACE-REFRESH-20260707T135000-0500",
+  "timestamp": "2026-07-07T13:50:00-05:00",
+  "wave": 69,
+  "task": "MOD-17 ControlNet Canny v3 control input lane-surface refresh",
+  "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+  "status": "pass_local_support_refresh_final_blocked_target_runtime",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "actual_work_completed": [
+    "Promoted the v3 right-edge-band-masked Canny control input into the active exported Canny workflow defaults and Plan template defaults.",
+    "Updated Canny runtime requirements to reference the v3 control asset manifest and v3 visual QA evidence.",
+    "Updated reference-slot routing request edge_reference to the v3 active ComfyUI input path.",
+    "Updated ControlNet lane local support certification request to use v3 Canny tracker, visual QA, static validation, and reference-slot evidence.",
+    "Ran Canny workflow static validation after the default input change.",
+    "Reran reference-slot routing validation and verified edge_reference path/hash/dimensions for the v3 control input.",
+    "Reran the five-lane local support certification gate; local support passes and final certification remains correctly blocked by target-runtime evidence."
+  ],
+  "changed_or_generated_files": [
+    "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+    "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/smoke_test_request.json",
+    "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json",
+    "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+    "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/smoke_test_request.json",
+    "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json",
+    "runtime_artifacts/reference_slot_routing/w69_beyond_face_reference/REFERENCE_SLOT_ROUTING_REQUEST.json",
+    "runtime_artifacts/controlnet_lane_certification/w69_local_support/LOCAL_CONTROLNET_LANE_CERTIFICATION_REQUEST.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_CANNY_V3_CONTROL_INPUT_STATIC_RECHECK_20260707T134500-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W69_LOCAL_REFERENCE_SLOT_ROUTING_BEYOND_FACE_V3_CANNY_20260707T134600-0500.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W69_LOCAL_CONTROLNET_LANE_LOCAL_SUPPORT_CERTIFICATION_V3_CANNY_20260707T134800-0500.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/CERT_W69_LOCAL_CONTROLNET_LANE_SUPPORT_V3_CANNY_20260707T134800-0500.md"
+  ],
+  "key_hashes": {
+    "workflow_api_sha256": "0edc8a46365fd8067327e40260aeb8121146f2b3c5a0d680a8773ce5031effb8",
+    "smoke_test_request_sha256": "25758d68f3bcf4c8f0fe10a5b269109ed12c77162cfd44790f7c587046d20007",
+    "runtime_requirements_sha256": "dcbded5e9d0eddbd39fe1544ee8368cab70fbfdefc7902c03d7a699a2ae9e3d8",
+    "reference_slot_request_sha256": "f3e7c605bdf0bbffec9ddf67c91d86a69913697fe4ecd066d8a796a3e0390fe0",
+    "certification_request_sha256": "10c6ee59017da1c4282af0d8dc5e79c54c561ade128a7d7e51cfa7d4a3d73b3b",
+    "static_validation_sha256": "45ae9e9d838597d49925d72ab784bc9c6c9b99358561db099ffe1d9471c7180d",
+    "reference_slot_evidence_sha256": "56273a27e8e723f312c89d43e26c3e0f11d3c2a406256a0709a60c92fa15075d",
+    "lane_support_certification_sha256": "debe69f3d0504857e1911a290f57eeaade18ff3003f6a3e8911a79d53e22ef9f",
+    "certification_markdown_sha256": "17ceee4ce598b78e870a20efd327b03a36c61b0e156ea9696c663b4f9e257d1b"
+  },
+  "validation_results": {
+    "workflow_static": "pass",
+    "workflow_static_defects": 0,
+    "reference_slot_routing": "pass_local_reference_slot_routing_beyond_face",
+    "edge_reference_control_image_path": "ComfyUI/input/controlnet_canny_cleaned_eye_safe_v3_rightedge_band_masked.png",
+    "edge_reference_control_image_sha256": "4b40cdd7386d9287a37d64efafdeb7078a8a9d4160e23e00b5ddc87106a1f870",
+    "controlnet_lane_local_support": "pass_local_controlnet_lane_support_certification",
+    "final_certification": "blocked_final_controlnet_lane_certification_missing_target_runtime"
+  },
+  "decision": "The v3 right-edge-band-masked control input is now the active local MOD-17 Canny control-image surface for workflow defaults, routing, and local support certification. Final certification remains blocked pending target-runtime proof.",
+  "next_action": "Continue local-first with another named implementation/QA gap, or use the v3 Canny lane surface for the next bounded MOD-17 run/certification step."
+}

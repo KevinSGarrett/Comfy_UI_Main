@@ -1,0 +1,589 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_MODEL_GEOMETRY_DEPENDENCY_PROBE_20260708T102438-0500",
+  "created_local": "20260708T102438-0500",
+  "task": "Probe local model-backed geometry dependencies and model files for TRK-W70-0142 / ITEM-W70-0142.",
+  "script": "Plan/07_IMPLEMENTATION/scripts/implement_wave70_model_geometry_dependency_probe.py",
+  "source_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "exists": true,
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+  },
+  "environment": {
+    "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "cwd": "C:\\Comfy_UI_Main",
+    "current_python_probe": {
+      "python": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+      "exists": true,
+      "modules": {
+        "cv2": {
+          "available": true,
+          "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\cv2\\__init__.py",
+          "imported": true,
+          "version": "4.11.0",
+          "error": null
+        },
+        "numpy": {
+          "available": true,
+          "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\numpy\\__init__.py",
+          "imported": true,
+          "version": "1.26.4",
+          "error": null
+        },
+        "PIL": {
+          "available": true,
+          "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\PIL\\__init__.py",
+          "imported": true,
+          "version": "12.3.0",
+          "error": null
+        },
+        "torch": {
+          "available": true,
+          "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\torch\\__init__.py",
+          "imported": true,
+          "version": "2.12.1+cpu",
+          "error": null
+        },
+        "torchvision": {
+          "available": true,
+          "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\torchvision\\__init__.py",
+          "imported": true,
+          "version": "0.27.1+cpu",
+          "error": null
+        },
+        "mediapipe": {
+          "available": true,
+          "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\mediapipe\\__init__.py",
+          "imported": true,
+          "version": "0.10.35",
+          "error": null
+        },
+        "onnxruntime": {
+          "available": true,
+          "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\onnxruntime\\__init__.py",
+          "imported": true,
+          "version": "1.27.0",
+          "error": null
+        },
+        "ultralytics": {
+          "available": true,
+          "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\ultralytics\\__init__.py",
+          "imported": true,
+          "version": "8.4.87",
+          "error": null
+        },
+        "sam2": {
+          "available": true,
+          "origin": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\__init__.py",
+          "imported": true,
+          "version": null,
+          "error": null
+        },
+        "segment_anything": {
+          "available": false,
+          "origin": null,
+          "imported": false,
+          "version": null,
+          "error": null
+        },
+        "transformers": {
+          "available": true,
+          "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\transformers\\__init__.py",
+          "imported": false,
+          "version": null,
+          "error": "ImportError: cannot import name 'is_offline_mode' from 'huggingface_hub' (C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\huggingface_hub\\__init__.py)"
+        },
+        "mmdet": {
+          "available": false,
+          "origin": null,
+          "imported": false,
+          "version": null,
+          "error": null
+        },
+        "mmengine": {
+          "available": false,
+          "origin": null,
+          "imported": false,
+          "version": null,
+          "error": null
+        },
+        "mmcv": {
+          "available": false,
+          "origin": null,
+          "imported": false,
+          "version": null,
+          "error": null
+        }
+      }
+    },
+    "comfyui_venv_python_probe": {
+      "python": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe",
+      "exists": true,
+      "modules": {
+        "cv2": {
+          "available": true,
+          "origin": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\cv2\\__init__.py",
+          "imported": true,
+          "version": "5.0.0",
+          "error": null
+        },
+        "numpy": {
+          "available": true,
+          "origin": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\numpy\\__init__.py",
+          "imported": true,
+          "version": "2.4.4",
+          "error": null
+        },
+        "PIL": {
+          "available": true,
+          "origin": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\PIL\\__init__.py",
+          "imported": true,
+          "version": "12.2.0",
+          "error": null
+        },
+        "torch": {
+          "available": true,
+          "origin": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\torch\\__init__.py",
+          "imported": true,
+          "version": "2.11.0+cu128",
+          "error": null
+        },
+        "torchvision": {
+          "available": true,
+          "origin": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\torchvision\\__init__.py",
+          "imported": true,
+          "version": "0.26.0+cu128",
+          "error": null
+        },
+        "mediapipe": {
+          "available": true,
+          "origin": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\mediapipe\\__init__.py",
+          "imported": true,
+          "version": "0.10.35",
+          "error": null
+        },
+        "onnxruntime": {
+          "available": true,
+          "origin": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\__init__.py",
+          "imported": true,
+          "version": "1.27.0",
+          "error": null
+        },
+        "ultralytics": {
+          "available": false,
+          "origin": null,
+          "imported": false,
+          "version": null,
+          "error": null
+        },
+        "sam2": {
+          "available": false,
+          "origin": null,
+          "imported": false,
+          "version": null,
+          "error": null
+        },
+        "segment_anything": {
+          "available": false,
+          "origin": null,
+          "imported": false,
+          "version": null,
+          "error": null
+        },
+        "transformers": {
+          "available": true,
+          "origin": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\transformers\\__init__.py",
+          "imported": true,
+          "version": "5.13.0",
+          "error": null
+        },
+        "mmdet": {
+          "available": false,
+          "origin": null,
+          "imported": false,
+          "version": null,
+          "error": null
+        },
+        "mmengine": {
+          "available": false,
+          "origin": null,
+          "imported": false,
+          "version": null,
+          "error": null
+        },
+        "mmcv": {
+          "available": false,
+          "origin": null,
+          "imported": false,
+          "version": null,
+          "error": null
+        }
+      }
+    }
+  },
+  "wave70_model_registry": {
+    "project_root": "C:\\Comfy_UI_Main",
+    "comfyui_root": "C:\\Comfy_UI_Main\\ComfyUI",
+    "comfyui_venv_python": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe",
+    "system_python": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "search_roots": [
+      {
+        "path": "C:\\Comfy_UI_Main",
+        "exists": true
+      },
+      {
+        "path": "C:\\Comfy_UI_Main\\ComfyUI",
+        "exists": true
+      },
+      {
+        "path": "C:\\Comfy_UI_Main\\ComfyUI\\models",
+        "exists": true
+      },
+      {
+        "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux",
+        "exists": true
+      },
+      {
+        "path": "C:\\Comfy_UI_Main\\models",
+        "exists": true
+      },
+      {
+        "path": "C:\\Comfy_UI",
+        "exists": true
+      },
+      {
+        "path": "C:\\Comfy_UI_Lora\\OpenPose\\models",
+        "exists": true
+      },
+      {
+        "path": "C:\\Users\\kevin\\.cache\\huggingface",
+        "exists": true
+      },
+      {
+        "path": "C:\\Users\\kevin\\.cache\\torch",
+        "exists": true
+      }
+    ],
+    "known_assets": {
+      "mediapipe_face_landmarker_task": {
+        "candidates": [
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\face_landmarker.task",
+            "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\face_landmarker.task",
+            "exists": true,
+            "size_bytes": 3758596,
+            "suffix": ".task",
+            "sha256": "64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff",
+            "sha256_limited": false
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\ComfyUI\\models\\mediapipe\\face_landmarker.task",
+            "relative_path": "C:\\Comfy_UI_Main\\ComfyUI\\models\\mediapipe\\face_landmarker.task",
+            "exists": false
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\mediapipe\\face_landmarker.task",
+            "relative_path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\mediapipe\\face_landmarker.task",
+            "exists": false
+          }
+        ],
+        "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\face_landmarker.task"
+      },
+      "mediapipe_pose_landmarker_task": {
+        "candidates": [
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\pose_landmarker_heavy.task",
+            "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\pose_landmarker_heavy.task",
+            "exists": true,
+            "size_bytes": 30664242,
+            "suffix": ".task",
+            "sha256": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b",
+            "sha256_limited": false
+          }
+        ],
+        "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\pose_landmarker_heavy.task"
+      },
+      "mediapipe_hand_landmarker_task": {
+        "candidates": [
+          {
+            "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\mesh_graphormer\\hand_landmarker.task",
+            "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/mesh_graphormer/hand_landmarker.task",
+            "exists": true,
+            "size_bytes": 7819105,
+            "suffix": ".task",
+            "sha256": "fbc2a30080c3c557093b5ddfc334698132eb341044ccee322ccf8bcf3607cde1",
+            "sha256_limited": false
+          },
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\hand_landmarker.task",
+            "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\hand_landmarker.task",
+            "exists": true,
+            "size_bytes": 7819105,
+            "suffix": ".task",
+            "sha256": "fbc2a30080c3c557093b5ddfc334698132eb341044ccee322ccf8bcf3607cde1",
+            "sha256_limited": false
+          }
+        ],
+        "selected_path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\mesh_graphormer\\hand_landmarker.task"
+      },
+      "sam2_hiera_tiny_checkpoint": {
+        "candidates": [
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt",
+            "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt",
+            "exists": true,
+            "size_bytes": 156008466,
+            "suffix": ".pt",
+            "sha256": "7402e0d864fa82708a20fbd15bc84245c2f26dff0eb43a4b5b93452deb34be69",
+            "sha256_limited": false
+          }
+        ],
+        "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt"
+      },
+      "bisenet_face_parsing_checkpoint": {
+        "candidates": [
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\face_parsing\\79999_iter.pth",
+            "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\face_parsing\\79999_iter.pth",
+            "exists": true,
+            "size_bytes": 53289463,
+            "suffix": ".pth",
+            "sha256": "468e13ca13a9b43cc0881a9f99083a430e9c0a38abd935431d1c28ee94b26567",
+            "sha256_limited": false
+          }
+        ],
+        "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\face_parsing\\79999_iter.pth"
+      },
+      "schp_lip_checkpoint": {
+        "candidates": [
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\schp\\exp-schp-201908261155-lip.pth",
+            "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\schp\\exp-schp-201908261155-lip.pth",
+            "exists": true,
+            "size_bytes": 267449349,
+            "suffix": ".pth",
+            "sha256": "24fa3254ceeb74c8435458994a64b522fb439a3635b7b86ff470457e0413da00",
+            "sha256_limited": false
+          }
+        ],
+        "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\schp\\exp-schp-201908261155-lip.pth"
+      },
+      "dwpose_detector_onnx": {
+        "candidates": [
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\yolox_l.onnx",
+            "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\yolox_l.onnx",
+            "exists": true,
+            "size_bytes": 216746733,
+            "suffix": ".onnx",
+            "sha256": "7860ae79de6c89a3c1eb72ae9a2756c0ccfbe04b7791bb5880afabd97855a411",
+            "sha256_limited": false
+          }
+        ],
+        "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\yolox_l.onnx"
+      },
+      "dwpose_pose_onnx": {
+        "candidates": [
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\dw-ll_ucoco_384.onnx",
+            "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\dw-ll_ucoco_384.onnx",
+            "exists": true,
+            "size_bytes": 134399116,
+            "suffix": ".onnx",
+            "sha256": "724f4ff2439ed61afb86fb8a1951ec39c6220682803b4a8bd4f598cd913b1843",
+            "sha256_limited": false
+          }
+        ],
+        "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\dw-ll_ucoco_384.onnx"
+      },
+      "ultralytics_yolo_pose": {
+        "candidates": [
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\ultralytics\\yolo11x-pose.pt",
+            "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\ultralytics\\yolo11x-pose.pt",
+            "exists": true,
+            "size_bytes": 118481010,
+            "suffix": ".pt",
+            "sha256": "013c43543b0751b8918486ba96e01ee44a59040683a07f96cc22bcc2cb7785f8",
+            "sha256_limited": false
+          }
+        ],
+        "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\ultralytics\\yolo11x-pose.pt"
+      },
+      "openpose_body_model": {
+        "candidates": [
+          {
+            "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\ckpts\\lllyasviel\\Annotators\\body_pose_model.pth",
+            "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/lllyasviel/Annotators/body_pose_model.pth",
+            "exists": true,
+            "size_bytes": 209267595,
+            "suffix": ".pth",
+            "sha256": "25a948c16078b0f08e236bda51a385d855ef4c153598947c28c0d47ed94bb746",
+            "sha256_limited": false
+          }
+        ],
+        "selected_path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\ckpts\\lllyasviel\\Annotators\\body_pose_model.pth"
+      },
+      "openpose_hand_model": {
+        "candidates": [
+          {
+            "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\ckpts\\lllyasviel\\Annotators\\hand_pose_model.pth",
+            "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/lllyasviel/Annotators/hand_pose_model.pth",
+            "exists": true,
+            "size_bytes": 147341049,
+            "suffix": ".pth",
+            "sha256": "b76b00d1750901abd07b9f9d8c98cc3385b8fe834a26d4b4f0aad439e75fc600",
+            "sha256_limited": false
+          }
+        ],
+        "selected_path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\ckpts\\lllyasviel\\Annotators\\hand_pose_model.pth"
+      },
+      "openpose_face_model": {
+        "candidates": [
+          {
+            "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\ckpts\\lllyasviel\\Annotators\\facenet.pth",
+            "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/lllyasviel/Annotators/facenet.pth",
+            "exists": true,
+            "size_bytes": 153718792,
+            "suffix": ".pth",
+            "sha256": "8beb52e548624ffcc4aed12af7aee7dcbfaeea420c75609fee999fe7add79d43",
+            "sha256_limited": false
+          }
+        ],
+        "selected_path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\ckpts\\lllyasviel\\Annotators\\facenet.pth"
+      }
+    }
+  },
+  "route_status": {
+    "face_landmark_route_available": true,
+    "face_landmark_route_executed": false,
+    "semantic_face_parsing_candidate_available": true,
+    "semantic_face_parsing_route_executed": true,
+    "promptable_segmentation_candidate_available": true,
+    "promptable_segmentation_python_route_available": true,
+    "promptable_segmentation_route_executed": true,
+    "pose_task_available": true,
+    "hand_task_available": true
+  },
+  "authority_summaries": {
+    "face_landmark_authority.json": {
+      "exists": true,
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/face_landmark_authority.json",
+      "sha256": "64c50d5132f65614b3991cd9645680c8b5a3c83c4912041d2c0debfd1fa8bc7e",
+      "evidence_id": "W70_FACE_LANDMARK_AUTHORITY_20260708T100422-0500",
+      "qa_decision": null,
+      "promotion_decision": "no_mask_promoted_no_active_input_changed_no_model_authority_approval_token_emitted",
+      "result": "face_landmark_authority_implemented_pending_model_consensus_and_downstream_authority",
+      "model_backed_geometry_authority_pass": false,
+      "source_derived_landmark_or_segmentation_pass": null,
+      "model_geometry_dependency_probe_pass": null,
+      "blocked_reason": "full_authority_pending_semantic_parsing_sam_refinement_visibility_and_consensus"
+    },
+    "face_parsing_authority.json": {
+      "exists": true,
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/face_parsing_authority.json",
+      "sha256": "ee897d6df0ad823c4b4dd4204ad974d2945063696b3a7779586642b0a40dde0c",
+      "evidence_id": "W70_FACE_PARSING_AUTHORITY_20260708T102325-0500",
+      "qa_decision": "semantic_face_parsing_route_executed_pending_consensus_and_canonical_polygon",
+      "promotion_decision": "no_mask_promoted_no_active_input_changed_face_parsing_authority_only",
+      "result": "semantic_face_parsing_route_executed_pending_consensus",
+      "model_backed_geometry_authority_pass": false,
+      "source_derived_landmark_or_segmentation_pass": true,
+      "model_geometry_dependency_probe_pass": false,
+      "blocked_reason": ""
+    },
+    "segmentation_refinement_authority.json": {
+      "exists": true,
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/segmentation_refinement_authority.json",
+      "sha256": "2a66ca495ba9335d00e08aed13588bb4eb10ebf94b9e054a6a3ec2ab08701cf6",
+      "evidence_id": "W70_SEGMENTATION_REFINEMENT_AUTHORITY_20260708T101434-0500",
+      "qa_decision": "sam2_promptable_refinement_executed_pending_consensus_and_canonical_polygon",
+      "promotion_decision": "no_mask_promoted_no_active_input_changed_sam2_refinement_only",
+      "result": "sam2_refinement_executed_pending_consensus",
+      "model_backed_geometry_authority_pass": false,
+      "source_derived_landmark_or_segmentation_pass": true,
+      "model_geometry_dependency_probe_pass": true,
+      "blocked_reason": "full_authority_pending_semantic_face_parsing_visibility_consensus_and_canonical_polygon"
+    },
+    "visibility_occlusion_confidence.json": {
+      "exists": true,
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/visibility_occlusion_confidence.json",
+      "sha256": "ac7766e78a3143257b6aee9556eff41b8656758381fae7d9d8f8bb2e76df43d6",
+      "evidence_id": "W70_VISIBILITY_OCCLUSION_CONFIDENCE_20260708T070201-0500",
+      "qa_decision": "blocked_exact_local_visibility_occlusion_confidence_low_confidence",
+      "promotion_decision": "no_mask_promoted_no_active_input_changed_visibility_occlusion_blocked",
+      "result": "blocked",
+      "model_backed_geometry_authority_pass": false,
+      "source_derived_landmark_or_segmentation_pass": false,
+      "model_geometry_dependency_probe_pass": false,
+      "blocked_reason": "Blocked_Model_Geometry_Low_Confidence"
+    },
+    "model_consensus_geometry_validator.json": {
+      "exists": true,
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/model_consensus_geometry_validator.json",
+      "sha256": "a74cf7ff3dddb870b985b5a7b433c18d255866b3e045d252470783bbd7a87420",
+      "evidence_id": "W70_MODEL_CONSENSUS_GEOMETRY_VALIDATOR_20260708T072933-0500",
+      "qa_decision": "blocked_exact_local_model_consensus_not_computable",
+      "promotion_decision": "no_mask_promoted_no_active_input_changed_model_consensus_blocked",
+      "result": "blocked",
+      "model_backed_geometry_authority_pass": false,
+      "source_derived_landmark_or_segmentation_pass": false,
+      "model_geometry_dependency_probe_pass": false,
+      "blocked_reason": "Blocked_Model_Geometry_Disagreement"
+    },
+    "canonical_geometry_polygon_export.json": {
+      "exists": true,
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/canonical_geometry_polygon_export.json",
+      "sha256": "f28876ac7f550925f1fe010a745f7e7fff09bf07580fde7232aa996ce5629c53",
+      "evidence_id": "W70_CANONICAL_GEOMETRY_POLYGON_EXPORT_20260708T074808-0500",
+      "qa_decision": "blocked_exact_local_canonical_boundary_not_available",
+      "promotion_decision": "no_mask_promoted_no_active_input_changed_canonical_polygon_export_blocked",
+      "result": "blocked",
+      "model_backed_geometry_authority_pass": false,
+      "source_derived_landmark_or_segmentation_pass": false,
+      "model_geometry_dependency_probe_pass": false,
+      "blocked_reason": "Blocked_Canonical_Boundary_Not_Available"
+    }
+  },
+  "dependency_probe": {
+    "dependency_probe_pass": true,
+    "model_geometry_dependency_probe_pass": true,
+    "no_human_work_dependency": true,
+    "exact_blocker_if_missing": true,
+    "remaining_blockers": [
+      "visibility_occlusion_confidence_not_passing",
+      "model_consensus_not_passing",
+      "canonical_polygon_export_not_passing"
+    ]
+  },
+  "model_backed_geometry_authority": {
+    "result": "dependency_probe_complete_downstream_authority_blocked",
+    "model_backed_geometry_authority_pass": false,
+    "model_geometry_dependency_probe_pass": true,
+    "source_derived_landmark_or_segmentation_pass": false,
+    "model_consensus_geometry_pass": false,
+    "visibility_occlusion_confidence_pass": false,
+    "no_symmetry_guessing_pass": true,
+    "canonical_polygon_export_pass": false,
+    "whole_body_geometry_authority_pass": false,
+    "blocked_reason": "visibility_occlusion_confidence_not_passing; model_consensus_not_passing; canonical_polygon_export_not_passing",
+    "findings": [
+      "Central Wave70 registry now includes ComfyUI roots, C:/Comfy_UI_Lora/OpenPose/models, and user caches.",
+      "MediaPipe FaceLandmarker task asset is present and face landmark authority has executed.",
+      "MediaPipe pose and hand task assets are present.",
+      "SAM2 and SCHP checkpoints are visible, but Wave70 refinement/parsing scripts have not executed them into masks.",
+      "Full model-backed geometry authority remains fail-closed until semantic parsing, promptable refinement, visibility, consensus, and canonical polygons pass."
+    ]
+  },
+  "qa_decision": "model_geometry_dependency_probe_complete_downstream_authority_still_blocked",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_dependency_probe_only",
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  },
+  "next_step": "Wire and execute semantic parsing and promptable segmentation refinement routes before rerunning consensus/canonical/reference-matrix rows."
+}

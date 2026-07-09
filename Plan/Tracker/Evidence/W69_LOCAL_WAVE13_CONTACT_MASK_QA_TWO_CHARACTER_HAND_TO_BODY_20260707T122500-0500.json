@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "tracker_evidence_id": "W69-LOCAL-WAVE13-CONTACT-MASK-QA-TWO-CHARACTER-HAND-TO-BODY-20260707T122500-0500",
+  "timestamp": "2026-07-07T12:25:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "item_or_module": "Wave13 contact mask QA for Wave25 two-character hand-to-body interaction",
+  "work_type": "local_contact_mask_validation_and_overlay_evidence",
+  "status": "pass_local_contact_mask_qa",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "source_requirements": [
+    "Plan/06_QA_TESTING/WAVE13_CONTACT_MASK_TESTS.md",
+    "Plan/06_QA_TESTING/WAVE13_MASK_BLEED_AND_OVERLAP_QA.md",
+    "Plan/06_QA_TESTING/WAVE13_MASK_FACTORY_QA_GATES.md"
+  ],
+  "source_tracker_rows": [
+    "TRK-052261 / SRC-8b65b5ee44df3d56 / WAVE13_CONTACT_MASK_TESTS.md Required contact validation",
+    "TRK-052265 / SRC-16e78f412b105991 / WAVE13_MASK_BLEED_AND_OVERLAP_QA.md Checks",
+    "TRK-052272 / SRC-a4dac6b258ae093e / WAVE13_MASK_FACTORY_QA_GATES.md Gate 2 - Mask ownership"
+  ],
+  "implementation_files": [
+    "Plan/Instructions/QA/Scripts/Test-ContactMaskQA.ps1"
+  ],
+  "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/W69_LOCAL_WAVE13_CONTACT_MASK_QA_TWO_CHARACTER_HAND_TO_BODY_20260707T122500-0500.json",
+  "overlay_artifact": {
+    "path": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/qa_contact_crops/contact_mask_overlay_seed210701.png",
+    "sha256": "024ff2f6c563ef4045da4d5a7703f78a321f77f41528ccb6c177692c537d91d7"
+  },
+  "validated_contact_mask": {
+    "path": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/masks/contact_edge_hand_to_body_seed7152026252_1024.png",
+    "sha256": "a80d236c890726d3f310fc5d63d1a7a6c20f447694752469deb9bff6f7997f21",
+    "coverage_percent": 2.0351,
+    "edge_pixel_count": 475,
+    "outside_participant_percent": 18.5239
+  },
+  "qa_decision": {
+    "result": "pass_local_contact_mask_qa",
+    "participants_named": true,
+    "contact_edge_exists": true,
+    "contact_overlaps_both_named_participants": true,
+    "outside_participant_bleed_within_bounds": true,
+    "certification_allowed": false,
+    "certification_boundary": "Local Wave13 contact-mask QA only; strict image visual QA, robustness, and target-runtime proof remain separate."
+  },
+  "next_action": "Continue local-first with another named Plan/Tracker implementation gap; do not use this mask QA pass alone as final Wave25 certification."
+}

@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-PASS-PLANNER-CANNY-INPAINT-READINESS-P06-BOUND-20260707T112000-0500",
+  "timestamp": "2026-07-07T11:20:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "wave": "Wave14",
+  "component": "Pass Planner",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "comfyui_generation_executed": false,
+  "implementation_changes": [
+    "Added local p06_upscale_polish evidence bindings to runtime_artifacts/pass_planner/w69_local_canny_inpaint_readiness/PASS_PLANNER_REQUEST.json.",
+    "Bound RealESRGAN model provisioning, local upscale runtime evidence, strict visual QA, and run package manifest to the p06_upscale_polish pass.",
+    "Recompiled and revalidated the dry-run-first orchestrator run plan."
+  ],
+  "request": "runtime_artifacts/pass_planner/w69_local_canny_inpaint_readiness/PASS_PLANNER_REQUEST.json",
+  "compiled_plan": "runtime_artifacts/pass_planner/w69_local_canny_inpaint_readiness/ORCHESTRATOR_RUN_PLAN.json",
+  "validation": "runtime_artifacts/pass_planner/w69_local_canny_inpaint_readiness/ORCHESTRATOR_RUN_PLAN_VALIDATION.json",
+  "bound_upscale_polish_evidence": [
+    "Plan/Instructions/QA/Evidence/Model_Registry/W69_LOCAL_REALESRGAN_UPSCALE_MODEL_PROVISIONING_20260707T110500-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_UPSCALE_POLISH_REALESRGAN_CANNY_SEED711570105_EXECUTE_20260707T111000-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_UPSCALE_POLISH_REALESRGAN_CANNY_SEED711570105_VISUAL_QA_20260707T111500-0500.json",
+    "runtime_artifacts/run_packages/upscale_polish_w69_canny_seed711570105/RUN_PACKAGE_MANIFEST.json"
+  ],
+  "compiled_plan_summary": {
+    "run_id": "wave14_w69_local_canny_inpaint_readiness",
+    "status": "compiled",
+    "execution_mode": "dry_run_plan_only",
+    "dry_run_first": true,
+    "pass_count": 7,
+    "passes": [
+      "p00_preflight",
+      "p01_base",
+      "p03_pose_control",
+      "p04_mask_factory",
+      "p05_regional_detail",
+      "p06_upscale_polish",
+      "p99_promotion"
+    ]
+  },
+  "validation_summary": {
+    "status": "PASS",
+    "error_count": 0,
+    "warning_count": 0,
+    "checked_evidence_path_count": 19,
+    "previous_warning_cleared": "p06_upscale_polish is required but has no evidence dependency binding yet"
+  },
+  "evidence_boundaries": {
+    "bound_local_canny_evidence": true,
+    "bound_mask_factory_evidence": true,
+    "bound_inpaint_detail_evidence": true,
+    "bound_upscale_polish_evidence": true,
+    "bound_promotion_gate_evidence": true,
+    "target_runtime_proof_bound": false
+  },
+  "qa_result": "pass_local_pass_planner_contract_p06_upscale_polish_bound_no_warnings",
+  "certification_allowed": false,
+  "remaining_gaps": [
+    "The plan is dry-run-first and did not execute ComfyUI during planner validation.",
+    "Target-runtime EC2 proof remains separate.",
+    "The plan does not promote final output or certify release readiness."
+  ],
+  "next_action": "Continue local-first with the next named implementation/QA gap, or intentionally select a bounded target-runtime proof only when needed. Do not rerun Git, Wave65, AWS auth checks, S3 publishing, or broad helper evidence as a substitute for implementation work."
+}

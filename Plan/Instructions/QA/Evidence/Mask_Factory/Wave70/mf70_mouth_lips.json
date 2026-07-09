@@ -1,0 +1,208 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-MOUTH-LIPS-LOCAL-SUPPORT-20260707T193000-0500",
+  "timestamp": "2026-07-07T19:30:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave70_ultimate_mask_factory_local_artifact_routing_support",
+  "mask_type_id": "mf70_mouth_lips",
+  "tracker_id": "TRK-W70-0018",
+  "item_id": "ITEM-W70-0018",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "source_requirements": [
+    "Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_FACTORY_TAXONOMY.md#L51",
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv:TRK-W70-0018",
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv:ITEM-W70-0018"
+  ],
+  "artifacts": {
+    "request": "runtime_artifacts/mask_factory/wave70_mf70_mouth_lips/MASK_FACTORY_REQUEST.json",
+    "contract": "runtime_artifacts/mask_factory/wave70_mf70_mouth_lips/MASK_FACTORY_CONTRACT.json",
+    "contract_validation": "runtime_artifacts/mask_factory/wave70_mf70_mouth_lips/MASK_FACTORY_CONTRACT_VALIDATION.json",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_mf70_mouth_lips/MASK_RUNTIME_EVIDENCE.json",
+    "quality_report": "runtime_artifacts/mask_factory/wave70_mf70_mouth_lips/MASK_QUALITY_REPORT.json",
+    "patch_manifest": "runtime_artifacts/mask_factory/wave70_mf70_mouth_lips/MASK_TO_WORKFLOW_PATCH_MANIFEST.csv",
+    "mask_png": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_mouth_lips_20260707T193000-0500/wave70_mf70_mouth_lips_mask.png",
+    "comfyui_input_copy": "ComfyUI/input/wave70_mf70_mouth_lips_mask.png",
+    "preview_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_mouth_lips_20260707T193000-0500/wave70_mf70_mouth_lips_overlay.png"
+  },
+  "mask_asset": {
+    "mask_id": "scene_wave70_canny_v3__person_001__mf70_mouth_lips__minor",
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_mouth_lips_20260707T193000-0500/wave70_mf70_mouth_lips_mask.png",
+    "sha256": "e739b48be26463f5e991524c3faf63bb9d646146c01d019ae0b6bcf01ab674d0",
+    "width": 768,
+    "height": 768,
+    "coverage_percent": 0.4883,
+    "person_instance_id": "person_001",
+    "body_region_id": "outer_mouth_lips",
+    "scale": "minor"
+  },
+  "validation": {
+    "contract_valid": true,
+    "contract_errors": [],
+    "contract_warnings": [],
+    "quality_score": 91.0,
+    "minimum_required": 85,
+    "quality_passed": true,
+    "workflow_routing_manifest_present": true,
+    "preview_overlay_generated": true,
+    "protected_neighbor_check_pass": false,
+    "generated_output_proof_present": true,
+    "target_runtime_proof_present": false,
+    "blockers": [
+      "target_runtime_proof_required_before_final_certification",
+      "user_disputed_mask_alignment_requires_source_overlay_rebuild"
+    ],
+    "mask_alignment_semantic_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "reference_image_matrix_pass": false,
+    "single_anchor_only": true,
+    "generalized_completion_allowed": false
+  },
+  "overlay_visual_review": {
+    "review_method": "direct local image inspection after generation and one QA-driven polygon tightening pass",
+    "result": "pass_with_notes_direct_overlay_visual_review",
+    "findings": [
+      "Initial overlay was too generous into perioral skin for strict outer_mouth_lips semantics; polygons were tightened before runtime proof.",
+      "Revised overlay targets the upper and lower outer lip surfaces and follows the closed-mouth contour.",
+      "The central mouth slit is excluded to protect teeth, tongue, and inner-mouth detail.",
+      "The mask avoids broad chin, cheek, nose, clothing, background, and general skin coverage."
+    ]
+  },
+  "result": "mouth_lips_v4_candidate_strict_visual_alignment_pass_generated_output_safe_target_runtime_pending_reference_matrix_pending",
+  "boundary": "Superseded by user global mask-alignment dispute: generated-output stability may remain useful, but this mask is not accepted as source-aligned. Rebuild or re-audit from strict source overlay/zoom crop/protected-neighbor evidence before any pass or certification claim.",
+  "generated_output_proof": {
+    "prompt_profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_mouth_lips_seed210817.json",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_mouth_lips_seed210817/RUN_PACKAGE_MANIFEST.json",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_MOUTH_LIPS_SEED210817_EXECUTE_20260707T193000-0500.json",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_mouth_lips_seed210817_20260707T191423-0500/images/codex_wave70_mf70_mouth_lips_seed210817_00001_.png",
+    "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_mouth_lips_seed210817_20260707T191423-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00023_.png",
+    "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_mouth_lips/qa_comparisons/wave70_mf70_mouth_lips_source_overlay_output_compare.png",
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_MOUTH_LIPS_SEED210817_VISUAL_QA_20260707T193000-0500.json",
+    "result": "pass_with_notes_local_wave70_mouth_lips_generated_output",
+    "hashes": {
+      "prompt_profile_sha256": "842e5a789d0fa9e1486df943343036f9da6629ab2cd79f2cc28433141b7333ee",
+      "run_package_sha256": "30adc464bd399259fd6af6742b6e6aeeff2f501cae757479662c12c2a34f3f71",
+      "runtime_evidence_sha256": "23f5af4291df817330686ea3dc698dbc0f4c697b14ed8e018f169bf378293ef1",
+      "generated_output_sha256": "60ffde4a69ad5a67194c2f53d7f62fe63db6a6415b48877c81004ea93e00d1dc",
+      "diagnostic_mask_preview_sha256": "7b7196f32ece3335b79256fe0129caf8fab71f20c14ab9e04d406b9fa4bd78e9",
+      "comparison_artifact_sha256": "5f4a80c87b0036c7b13e26a1c0aff25a364eb356bad588df7f7fb26436a95c3e",
+      "visual_qa_sha256": "6bf7b0b0f48143b18d71cf953081b3cd4d6d43cf9ed01f19978766b9c8eaed8d"
+    }
+  },
+  "semantic_mask_alignment_review": {
+    "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "review_timestamp": "2026-07-07T19:30:00-05:00",
+    "alignment_result": "needs_revision_user_disputed",
+    "mask_alignment_semantic_pass": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "findings": [
+      "The revised mouth/lips overlay targets the named outer_mouth_lips region rather than a broad mouth/perioral rectangle.",
+      "Protected teeth, tongue, chin, cheeks, skin, nose, clothing, and background remain excluded or stable; the central inner-mouth slit was protected explicitly.",
+      "Generated-output stability passed locally after the overlay-tightening improvement; final certification still requires target-runtime proof."
+    ],
+    "named_target_match": false,
+    "full_visible_target_covered": false,
+    "completion_allowed": false
+  },
+  "reference_image_matrix_review": {
+    "result": "required_not_run",
+    "single_anchor_only": true,
+    "completion_allowed": false,
+    "minimum_resolution_pass": false,
+    "high_resolution_detail_review_pass": false,
+    "cross_subject_generalization_pass": false,
+    "matrix_manifest_path": null,
+    "required_protocol": "Plan/Instructions/QA/WAVE70_REFERENCE_IMAGE_MATRIX_QA_PROTOCOL.md",
+    "policy_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_REFERENCE_IMAGE_MATRIX_ENFORCEMENT_20260707T200600-0500.json",
+    "reason": "Existing evidence used the active local MOD-17 portrait as one source image. It remains useful single-anchor smoke evidence but does not prove generalized or universal mask reliability."
+  },
+  "single_anchor_boundary": {
+    "status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+    "single_source_local_overlay_or_generated_output_may_remain_valid": false,
+    "generalized_completion_blocked_until_reference_matrix_passes": true,
+    "target_runtime_still_pending": true
+  },
+  "user_global_mask_alignment_dispute": {
+    "review_id": "W70-MASK-ALIGNMENT-USER-DISPUTE-GLOBAL-REVIEW-20260707T211000-0500",
+    "timestamp": "2026-07-07T21:10:00-05:00",
+    "evidence": "Plan\\Instructions\\QA\\Evidence\\Mask_Factory\\Wave70\\W70_MASK_ALIGNMENT_USER_DISPUTE_GLOBAL_REVIEW_20260707T211000-0500.json",
+    "user_report": "Every generated mask appears visibly off from the actual picture; the nose case specifically appears to cover the mouth and not match source anatomy.",
+    "corrected_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+    "mask_alignment_semantic_pass": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "prior_pass_claim_frozen": true,
+    "required_next_action": "Rebuild or re-audit the mask from source image geometry with zoomed overlay review and protected-neighbor exclusions before any generated-output proof is used for advancement."
+  },
+  "fail_closed_alignment_audit": {
+    "audit_id": "W70-MASK-ALIGNMENT-FAIL-CLOSED-AUDIT-20260707T211500-0500",
+    "timestamp": "2026-07-07T21:15:00-05:00",
+    "evidence": "Plan\\Instructions\\QA\\Evidence\\Mask_Factory\\Wave70\\W70_MASK_ALIGNMENT_FAIL_CLOSED_AUDIT_20260707T211500-0500.json",
+    "audit_panel": "runtime_artifacts/mask_factory/wave70_alignment_audit_20260707T211500-0500/mf70_mouth_lips_source_mask_alignment_panel.png",
+    "audit_panel_sha256": "ebd4400efed90e7932dbadad8e3b82be8e2e468e81cc040d255916b4dd15078d",
+    "decision": "needs_revision_user_disputed",
+    "corrected_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+    "semantic_mask_alignment_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "fail_closed_until_source_geometry_rebuilt": true
+  },
+  "source_landmark_repair_candidates": {
+    "v1_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_MOUTH_LIPS_SOURCE_LANDMARK_REPAIR_20260707T221500-0500.json",
+    "v2_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_MOUTH_LIPS_SOURCE_LANDMARK_REPAIR_V2_20260707T222500-0500.json",
+    "v3_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_MOUTH_LIPS_SOURCE_LANDMARK_REPAIR_V2_20260707T223000-0500.json",
+    "v4_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_MOUTH_LIPS_SOURCE_LANDMARK_REPAIR_V2_20260707T223500-0500.json",
+    "v4_result": "pass_candidate_protected_overlap_pending_strict_visual_review",
+    "v4_protected_overlap_matrix_pass": true
+  },
+  "strict_visual_acceptance_v4": {
+    "evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_MOUTH_LIPS_V4_STRICT_VISUAL_ACCEPTANCE_20260707T224000-0500.json",
+    "tracker_evidence": "Plan/Tracker/Evidence/W70_MF70_MOUTH_LIPS_V4_STRICT_VISUAL_ACCEPTANCE_20260707T224000-0500.json",
+    "timestamp": "2026-07-07T22:40:00-05:00",
+    "result": "pass_candidate_strict_visual_alignment_pending_generated_output_and_target_runtime",
+    "status": "mouth_lips_v4_candidate_strict_visual_alignment_pass_generated_output_safe_target_runtime_pending_reference_matrix_pending",
+    "semantic_mask_alignment_candidate_pass": true,
+    "protected_overlap_matrix_pass": true,
+    "generated_output_executed_for_v4": true,
+    "target_runtime_proof_present": false,
+    "reference_image_matrix_pass": false,
+    "completion_allowed_by_mask_alignment": false,
+    "candidate_mask": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_mouth_lips_source_landmark_v2_20260707T223500-0500/wave70_mf70_mouth_lips_mask.png",
+    "candidate_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_mouth_lips_source_landmark_v2_20260707T223500-0500/wave70_mf70_mouth_lips_overlay.png",
+    "review_panel": "runtime_artifacts/mask_factory/wave70_mf70_mouth_lips/source_landmark_repair_v2/20260707T223500-0500/mf70_mouth_lips_source_landmark_repair_v2_panel.png",
+    "findings": [
+      "Candidate follows the visible closed-mouth upper and lower lip surfaces more tightly than the old disputed overlay.",
+      "Candidate removes the old right-side speckle/fragment artifacts.",
+      "Candidate excludes the protected inner-mouth/teeth slit and clears philtrum skin, nose, chin, and cheek protected regions.",
+      "This acceptance applies only to the active single-anchor source image and does not certify generalized Wave70 mouth/lips masking."
+    ],
+    "generated_output_safe_pass": true,
+    "generated_output_visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_MOUTH_LIPS_V4_SEED210821_VISUAL_QA_20260707T225000-0500.json"
+  },
+  "source_landmark_repair_v4_generated_output_proof": {
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_MOUTH_LIPS_V4_SEED210821_VISUAL_QA_20260707T225000-0500.json",
+    "tracker_evidence": "Plan/Tracker/Evidence/W70_MF70_MOUTH_LIPS_V4_GENERATED_OUTPUT_20260707T225000-0500.json",
+    "timestamp": "2026-07-07T22:50:00-05:00",
+    "result": "pass_with_notes_local_wave70_mouth_lips_v4_generated_output",
+    "status": "mouth_lips_v4_candidate_strict_visual_alignment_pass_generated_output_safe_target_runtime_pending_reference_matrix_pending",
+    "generated_output_safe_pass": true,
+    "semantic_mask_alignment_candidate_pass": true,
+    "target_runtime_proof_present": false,
+    "reference_image_matrix_pass": false,
+    "final_completion_allowed": false,
+    "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_mouth_lips/qa_comparisons/wave70_mf70_mouth_lips_v4_source_landmark_source_overlay_output_compare.png",
+    "notes": [
+      "Local generated-output proof used the accepted V4 source-landmark mouth/lips mask.",
+      "Whole-image QA did not find expression drift, open-mouth drift, teeth/tongue introduction, lip shape mutation, philtrum/nose/chin/cheek deformation, visible edge, clothing drift, or background regression.",
+      "This proof does not certify other disputed masks and does not replace target-runtime or reference-matrix proof."
+    ]
+  }
+}

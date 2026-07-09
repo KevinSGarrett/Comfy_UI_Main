@@ -98,22 +98,25 @@ When multiple sources disagree, Codex must resolve them in this order:
 
 If a live state contradicts a static file, Codex must record the contradiction and treat the live state as current operational reality while preserving the static source as historical context.
 
+Wave naming is not a single linear build queue. Codex must read `C:\Comfy_UI_Main\Plan\Instructions\WAVE_NAMESPACE_AND_SEQUENCE_CONTROL.md` before deciding that a `W68_*` evidence label, a blueprint `wave_current`, or a deferred Wave71+ tracker row is the active build starting point.
+
 ## 5. Required session startup behavior
 
 At the start of every Codex Desktop session:
 
 1. Open `C:\Comfy_UI_Main\Plan\Instructions\DAILY_SESSION_REHYDRATION_PROTOCOL.md`.
-2. Open the latest hydration file in `C:\Comfy_UI_Main\Plan\Instructions\Hydration_Rehydration`.
-3. Read the current pursuing goal file if it exists.
-4. Read the current tracker summary and active tracker rows.
-5. Read the current itemized list summary and active item rows.
-6. Read the latest wave delivery and validation reports.
-7. Run a lightweight local project inventory:
+2. Open `C:\Comfy_UI_Main\Plan\Instructions\WAVE_NAMESPACE_AND_SEQUENCE_CONTROL.md`.
+3. Open the latest hydration file in `C:\Comfy_UI_Main\Plan\Instructions\Hydration_Rehydration`.
+4. Read the current pursuing goal file if it exists.
+5. Read the current tracker summary and active tracker rows.
+6. Read the current itemized list summary and active item rows.
+7. Read the latest wave delivery and validation reports.
+8. Run a lightweight local project inventory:
    - confirm `C:\Comfy_UI_Main\` exists
    - confirm `Plan`, `Plan\Items`, `Plan\Tracker`, and `Plan\Instructions` exist
    - confirm Git repository state if `.git` exists
    - confirm no expected instruction files are missing
-8. Build a short current-state summary:
+9. Build a short current-state summary:
    - active wave
    - active goal
    - selected item
@@ -121,8 +124,8 @@ At the start of every Codex Desktop session:
    - blockers
    - files likely affected
    - next action
-9. Select the next action using the task-selection model in `AI_PROJECT_MANAGER_DYNAMIC_OPERATING_MODEL.md`.
-10. Update the pursuing goal text before editing or running a long task.
+10. Select the next action using the task-selection model in `AI_PROJECT_MANAGER_DYNAMIC_OPERATING_MODEL.md`.
+11. Update the pursuing goal text before editing or running a long task.
 
 ## 6. How Codex selects the next task without human input
 
@@ -136,6 +139,8 @@ Codex must choose the next task by applying this sequence:
 6. **Prefer tasks that unlock many later tasks.**
 7. **Avoid tasks that require GPU until static/local proof is ready.**
 8. **If two tasks are equal, choose the one with the highest tracker priority or earliest dependency position.**
+
+Never infer the active work sequence from a runtime evidence label such as `W68_*` alone. Never advance into Wave71+ deferred physics/deformation rows unless their activation gate is explicitly met. If wave namespaces conflict, apply `WAVE_NAMESPACE_AND_SEQUENCE_CONTROL.md` and prefer active non-deferred Tracker/Items rows plus top hydration state.
 
 The selected task must be written into the pursuing goal file with:
 - task id or file reference

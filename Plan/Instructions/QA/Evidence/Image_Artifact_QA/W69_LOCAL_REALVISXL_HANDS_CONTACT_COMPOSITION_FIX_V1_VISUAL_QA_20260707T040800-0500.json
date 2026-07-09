@@ -1,0 +1,99 @@
+{
+  "evidence_id": "W69-LOCAL-REALVISXL-HANDS-CONTACT-COMPOSITION-FIX-V1-VISUAL-QA-20260707T040800-0500",
+  "artifact_type": "image_artifact_visual_qa",
+  "lane_id": "sdxl_realvisxl_base_lane",
+  "module_id": "MOD-BASE-REALVISXL-LANE",
+  "task_id": "ITEM-W64-009",
+  "tracker_id": "TRK-W64-009",
+  "reviewer": "Codex Desktop autonomous QA",
+  "timestamp": "2026-07-07T04:08:00-05:00",
+  "scope": "Minimum local composition retest after two RealVisXL hand/contact robustness samples found one partial hand-pose issue and one severe face crop.",
+  "source_qa_driver": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_HANDS_CONTACT_ROBUSTNESS_VISUAL_QA_20260707T040500-0500.json",
+  "profile_reference": "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_hands_contact_composition_fix_v1.json",
+  "run_package_manifest": "runtime_artifacts/run_packages/realvisxl_hands_contact_composition_fix_w69_v1/RUN_PACKAGE_MANIFEST.json",
+  "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_REALVISXL_HANDS_CONTACT_COMPOSITION_FIX_V1_EXECUTE_20260707T040700-0500.json",
+  "workflow_reference": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/workflow.api.json",
+  "overall_result": "partial_improvement_needs_hand_pose_retest",
+  "certification_status": "not_certified_local_retest_partial",
+  "runtime_boundaries": {
+    "local_comfyui_used": true,
+    "ec2_started": false,
+    "aws_contacted": false,
+    "github_api_contacted": false,
+    "civitai_contacted": false,
+    "generation_executed": true,
+    "comfyui_port_closed_after_run": true
+  },
+  "technical_checks": {
+    "file_exists": true,
+    "file_decodes": true,
+    "extension_expected": true,
+    "minimum_resolution": "512x512",
+    "meets_minimum_resolution": true,
+    "width": 1024,
+    "height": 1024,
+    "pixel_format": "Format24bppRgb",
+    "bytes": 1426245,
+    "sha256": "4b01f26ac9fad8faa0d66d74c8acfc08c445e8fe323ef590189cc7983db8f366"
+  },
+  "sample": {
+    "sample_id": "realvisxl_hands_contact_composition_fix_v1",
+    "output_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_hands_contact_composition_fix_v1_20260707T040700-0500/images/codex_realvisxl_hands_contact_composition_fix_00001_.png",
+    "visual_result": "partial_improvement",
+    "improvement_observed": [
+      "The severe face crop from the previous notebook/object-contact robustness sample is fixed.",
+      "The portrait is centered with full face inside frame, both eyes visible, coherent hair, wardrobe, lighting, and background.",
+      "Hands are visible in the lower frame with plausible skin texture and table contact."
+    ],
+    "remaining_notes": [
+      "The prompt requested separated hands, but the output reverted to stacked/clasped hands.",
+      "Hand/finger structure is plausible enough for a portrait sample, but it does not satisfy the separated-hand robustness objective.",
+      "This result narrows the problem: composition framing can be stabilized, but hand separation needs stronger spatial constraints or a different pose strategy."
+    ],
+    "defects": [
+      {
+        "severity": "major",
+        "code": "separated_hand_prompt_failed",
+        "message": "Hands are stacked/clasped instead of separated and fully visible in the lower third."
+      }
+    ]
+  },
+  "strict_whole_image_categories_reviewed": [
+    "face_realism",
+    "eye_quality",
+    "skin_texture",
+    "hands_fingers",
+    "feet_toes_when_visible",
+    "hair_realism",
+    "teeth_mouth_quality",
+    "body_proportions",
+    "pose_accuracy",
+    "clothing_fabric",
+    "contact_points",
+    "object_body_collisions",
+    "deformation_realism",
+    "soft_body_cues",
+    "anatomy_consistency",
+    "lighting",
+    "shadows",
+    "reflections",
+    "background_coherence",
+    "camera_lens_realism",
+    "texture_detail",
+    "generation_artifacts",
+    "identity_drift",
+    "over_smoothing",
+    "plastic_skin",
+    "waxy_faces",
+    "distorted_limbs",
+    "prompt_compliance",
+    "unwanted_style_contamination"
+  ],
+  "qa_decision": {
+    "previous_issue_status": "face_crop_fixed_hand_separation_not_fixed",
+    "promotion_allowed": false,
+    "reason": "The local retest fixed whole-image portrait framing but failed the separated-hand prompt objective.",
+    "recommended_next_action": "Use a stronger spatial composition prompt with left hand and right hand placed far apart on opposite sides of the table, or switch to a simpler one-hand visible contact test before certifying hands/fabric quality."
+  },
+  "final_decision_allowed": false
+}

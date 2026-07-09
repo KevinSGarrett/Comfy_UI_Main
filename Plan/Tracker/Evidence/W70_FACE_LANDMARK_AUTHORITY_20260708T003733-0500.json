@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_FACE_LANDMARK_AUTHORITY_20260708T003733-0500",
+  "created_local": "20260708T003733-0500",
+  "task": "Implement face landmark authority for dense face anchors for TRK-W70-0143 / ITEM-W70-0143.",
+  "result": "blocked_model_geometry_dependency_missing",
+  "source_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+  "source_sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+  "script": "Plan/07_IMPLEMENTATION/scripts/implement_wave70_face_landmark_authority.py",
+  "artifacts": {
+    "landmark_record_path": "",
+    "coordinate_transform_manifest_path": "",
+    "landmark_panel_path": ""
+  },
+  "model_backed_geometry_authority": {
+    "result": "blocked",
+    "model_backed_geometry_authority_pass": false,
+    "source_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "source_sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "source_dimensions": [
+      768,
+      768
+    ],
+    "mask_type_id": "model_backed_geometry_authority",
+    "matrix_slot_id": "TRK-W70-0143",
+    "models_attempted": [
+      "mediapipe.solutions.face_mesh",
+      "mediapipe.tasks.vision.FaceLandmarker"
+    ],
+    "models_available": [],
+    "model_versions": {
+      "mediapipe": "0.10.35"
+    },
+    "landmark_record_path": "",
+    "semantic_parsing_record_path": "",
+    "sam_refinement_record_path": "",
+    "visibility_occlusion_record_path": "",
+    "canonical_polygon_path": "",
+    "coordinate_transform_manifest_path": "",
+    "gold_trace_comparison_path": "",
+    "consensus_metrics": {
+      "iou_against_gold_or_prior": null,
+      "mean_boundary_error_px": null,
+      "max_boundary_error_px": null,
+      "center_drift_px": null,
+      "protected_overlap_ratio": null
+    },
+    "confidence": {
+      "landmark_confidence": null,
+      "parsing_confidence": null,
+      "refinement_confidence": null,
+      "visibility_confidence": null,
+      "overall_confidence": null
+    },
+    "blocked_reason": "mediapipe_legacy_facemesh_api_missing_and_no_proven_local_face_landmarker_task_model_route",
+    "findings": [
+      "The installed mediapipe package exposes mediapipe.tasks but not mediapipe.solutions.face_mesh.",
+      "Potential package artifacts were found, but no runnable FaceLandmarker task model route has been wired or proven locally: C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\mesh_graphormer\\hand_landmarker.task",
+      "TRK-W70-0143 cannot produce source-derived landmarks without a proven local model-backed face landmark route."
+    ]
+  },
+  "landmark_detection": {
+    "landmark_detection_pass": false,
+    "subject_viewer_side_mapping_pass": false,
+    "coordinate_transform_manifest_pass": false,
+    "source_derived_landmark_or_segmentation_pass": false,
+    "detected_face_count": 0,
+    "landmark_count": 0,
+    "bbox_xyxy": null,
+    "out_of_bounds_landmark_count": null
+  },
+  "environment": {
+    "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "cwd": "C:\\Comfy_UI_Main"
+  },
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_face_landmark_route_blocked",
+  "next_action": "Install or discover a local MediaPipe FaceLandmarker task model or another approved face landmark model route before deriving masks from landmarks.",
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  }
+}

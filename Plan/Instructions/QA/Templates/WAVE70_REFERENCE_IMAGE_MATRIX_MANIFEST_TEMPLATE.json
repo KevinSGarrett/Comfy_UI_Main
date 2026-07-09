@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "manifest_type": "wave70_reference_image_matrix",
+  "mask_type_id": "mf70_example",
+  "matrix_version": "YYYYMMDDTHHMMSS-local",
+  "created_at_local": "YYYY-MM-DDTHH:MM:SS-05:00",
+  "source_policy": {
+    "single_anchor_only": false,
+    "near_duplicate_subjects_allowed": false,
+    "generated_sources_allowed_with_seed_prompt_manifest": true,
+    "licensed_or_project_approved_sources_required": true
+  },
+  "required_gates": {
+    "semantic_mask_alignment_pass": false,
+    "protected_neighbor_check_pass": false,
+    "canonical_protected_boundary_registry_pass": false,
+    "protected_overlap_matrix_pass": false,
+    "generated_output_safe_pass": false,
+    "reference_image_matrix_pass": false,
+    "high_resolution_detail_review_pass": false,
+    "cross_subject_generalization_pass": false,
+    "source_visibility_matrix_pass": false,
+    "target_runtime_evidence_pass": false
+  },
+  "minimum_face_slots": [
+    "face_front_neutral_highres",
+    "face_front_smile_teeth",
+    "face_front_open_mouth_inner",
+    "face_three_quarter_left",
+    "face_three_quarter_right",
+    "face_profile_or_near_profile",
+    "face_eye_expression_variant",
+    "face_occlusion_or_hair_variant"
+  ],
+  "matrix_slots": [
+    {
+      "slot_id": "face_front_neutral_highres",
+      "source_image_id": "",
+      "subject_id": "",
+      "source_image_path": "",
+      "source_image_sha256": "",
+      "source_width": 0,
+      "source_height": 0,
+      "angle": "front",
+      "expression_or_pose": "neutral",
+      "occlusion_notes": "",
+      "target_visibility": "eligible | blocked_not_visible | blocked_resolution_too_low",
+      "target_crop_path": "",
+      "target_crop_sha256": "",
+      "boundary_registry_path": "",
+      "boundary_registry_sha256": "",
+      "protected_overlap_matrix_path": "",
+      "protected_overlap_matrix_sha256": "",
+      "overlay_path": "",
+      "overlay_sha256": "",
+      "generated_output_path": "",
+      "generated_output_sha256": "",
+      "semantic_mask_alignment_result": "pass | needs_revision | fail | blocked",
+      "protected_neighbor_result": "pass | needs_revision | fail | blocked",
+      "canonical_protected_boundary_result": "pass | needs_revision | fail | blocked",
+      "protected_overlap_matrix_result": "pass | needs_revision | fail | blocked",
+      "generated_output_safe_result": "pass | pass_with_notes | fail | not_run",
+      "reviewer_notes": ""
+    }
+  ],
+  "matrix_summary": {
+    "eligible_slots_count": 0,
+    "passed_slots_count": 0,
+    "blocked_not_visible_count": 0,
+    "blocked_resolution_too_low_count": 0,
+    "failed_slots_count": 0,
+    "frontal_pass_present": false,
+    "angled_pass_present": false,
+    "expression_or_visibility_variant_pass_present": false,
+    "zoom_crop_evidence_present_for_all_eligible_slots": false,
+    "canonical_boundary_registry_present_for_all_eligible_slots": false,
+    "protected_overlap_matrix_pass": false,
+    "completion_allowed": false,
+    "next_action": ""
+  }
+}

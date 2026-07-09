@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ARTIFACT_PULLBACK_INTEGRITY_20260708T233714-0500",
+  "created_iso": "2026-07-08T23:37:14-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-043",
+  "item_id": "ITEM-W64-043",
+  "task": "Validate artifact pullback and hash integrity requirements for the current Wave64 EC2 runtime path.",
+  "source_protocol": "Plan/Instructions/Operations/EC2_TO_LOCAL_ARTIFACT_PULLBACK_PROTOCOL.md",
+  "source_script": "Plan/Instructions/Operations/Scripts/New-EC2PullbackRecord.ps1",
+  "pullback_dry_run": {
+    "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_EC2_PULLBACK_RECORD_DRY_RUN_20260708T233558-0500.json",
+    "run_id": "w64_pending_runtime_pullback",
+    "mode": "dry_run",
+    "status": "pending_runtime_artifacts",
+    "file_count_remote": null,
+    "file_count_local": 0,
+    "hashes_verified": false,
+    "qa_required_files_count": 0,
+    "errors": [
+      "dry_run_no_artifacts_inspected"
+    ]
+  },
+  "current_ec2_runtime_dependency": {
+    "auth_gate_path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_AWS_AUTH_GATE_EC2_TTL_WATCHDOG_20260708T233332-0500.json",
+    "auth_result": "blocked_expired_session",
+    "auth_failure_category": "expired_session",
+    "safe_to_start_ec2": false,
+    "ec2_target_runtime_dry_run": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_EC2_TARGET_RUNTIME_PROOF_DRY_RUN_CURRENT_GATES_20260708T232200-0500.json",
+    "ec2_target_runtime_result": "dry_run_blocked_before_ec2_start",
+    "ec2_target_runtime_failure_category": "local_git_worktree_dirty",
+    "ec2_started": false,
+    "generation_executed": false
+  },
+  "integrity_gate": {
+    "remote_manifest_available": false,
+    "local_artifacts_available": false,
+    "remote_local_count_match": false,
+    "sha256_match": false,
+    "qa_record_required": true,
+    "qa_record_complete": false,
+    "blocker_reason": "No current EC2 runtime artifact set exists because target runtime execution is blocked before EC2 start."
+  },
+  "gold_mask_dependency_boundary": {
+    "mask_truth_consumed": false,
+    "masks_promoted": false,
+    "hard_gates_rerun": false,
+    "wave71_activation_attempted": false
+  },
+  "errors": [],
+  "qa_decision": "blocked_artifact_pullback_integrity_current_ec2_runtime_artifacts_missing",
+  "next_step": "Advance to TRK-W64-044/ITEM-W64-044 model registry governance; do not rerun pullback until a current EC2 runtime proof produces artifacts.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/artifact_pullback_integrity.json",
+    "Plan/Instructions/QA/Evidence/Wave64/ARTIFACT_PULLBACK_INTEGRITY_20260708T233714-0500.json",
+    "Plan/Tracker/Evidence/ARTIFACT_PULLBACK_INTEGRITY_20260708T233714-0500.json",
+    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_EC2_PULLBACK_RECORD_DRY_RUN_20260708T233558-0500.json",
+    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_AWS_AUTH_GATE_EC2_TTL_WATCHDOG_20260708T233332-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_EC2_TARGET_RUNTIME_PROOF_DRY_RUN_CURRENT_GATES_20260708T232200-0500.json",
+    "Plan/Instructions/Operations/EC2_TO_LOCAL_ARTIFACT_PULLBACK_PROTOCOL.md",
+    "Plan/Instructions/Operations/Scripts/New-EC2PullbackRecord.ps1"
+  ]
+}

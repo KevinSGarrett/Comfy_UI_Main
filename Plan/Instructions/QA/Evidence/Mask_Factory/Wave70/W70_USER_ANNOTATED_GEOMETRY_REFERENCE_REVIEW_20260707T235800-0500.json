@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_USER_ANNOTATED_GEOMETRY_REFERENCE_REVIEW_20260707T235800-0500",
+  "created_local": "20260707T235800-0500",
+  "task": "Review user-provided annotated geometry references to correct Wave70 mask and geometry alignment method",
+  "source_context": "User supplied two annotated 768x768 RGBA images showing intended face-level scaffold and semantic region masks for the active portrait.",
+  "artifacts": {
+    "user_reference_full_face_geometry_scaffold": {
+      "path": "runtime_artifacts/mask_factory/wave70_user_geometry_reference_20260707T235800-0500/user_reference_full_face_geometry_scaffold.png",
+      "sha256": "1B1219B0FE05529AD5626DBDEE9007864453EA5DB5ADDD630AE16DBDD104D070",
+      "dimensions": [768, 768],
+      "mode": "RGBA"
+    },
+    "user_reference_semantic_mask_regions": {
+      "path": "runtime_artifacts/mask_factory/wave70_user_geometry_reference_20260707T235800-0500/user_reference_semantic_mask_regions.png",
+      "sha256": "BF6BDA044CFE2DC30EEBA9C7074A07C8012A97E848C0824AC53FFF8EE21BC269",
+      "dimensions": [768, 768],
+      "mode": "RGBA"
+    }
+  },
+  "review_findings": [
+    "The correct workflow must establish a full visible-face scaffold before deriving eye, brow, nose, mouth, jaw, and neck masks.",
+    "Image #1 shows a red visible-face contour that excludes the hair mass but defines the forehead, cheek, jaw, and chin envelope; my previous eye-local traces did not anchor against this full-face contour.",
+    "Image #1 shows a shared yellow eye band across both eyes and bridge area; my previous single-eye/eyelid traces were too isolated and did not honor a coherent bilateral eye-zone scaffold.",
+    "Image #1 shows a brow/forehead separator and nose axis/side guides; future nose, brow, eyelid, and under-eye masks must be constrained by these face-level guide relationships, not by broad debug boxes.",
+    "Image #1 shows a mouth/lip plane and polygon that should constrain mouth/lips/teeth/chin boundaries; generated-output stability cannot substitute for this geometry.",
+    "Image #2 shows semantic masks as anatomical regions inside the face/neck scaffold, including separate face skin, neck, nose, eyes, brows, lips, and lower-face regions.",
+    "The user's references show why current masks can look shifted: subregions were being built from local polygons without first locking the global visible-face contour, hair occlusion boundary, eye band, centerline, and neck/face separation."
+  ],
+  "correction_rules": [
+    "Do not derive or promote any face-detail mask from an isolated local crop alone.",
+    "First create a face-level coordinate scaffold: visible face contour, hair occlusion boundary, eye band, brow band, nose axis/side guides, mouth plane, chin/jaw boundary, and neck/face separation.",
+    "Every eye-family candidate must be checked against the shared eye band and full-face scaffold, not just an eye-only crop.",
+    "Every nose/mouth candidate must be checked against the face centerline, nose side guides, philtrum/mouth plane, and lip polygon.",
+    "Every face/neck/skin candidate must be checked against the red face contour and separate neck region visible in the user's semantic reference.",
+    "Use these images as user intent reference evidence, not as automatic pass masks. All derived geometry still requires row-specific geometry and promotion hard gates."
+  ],
+  "affected_mask_type_ids": [
+    "mf70_face_full_instance",
+    "mf70_face_identity_critical",
+    "mf70_forehead_skin",
+    "mf70_eyes_full",
+    "mf70_left_eye",
+    "mf70_right_eye",
+    "mf70_pupils_iris_sclera",
+    "mf70_eyelids",
+    "mf70_eyelashes",
+    "mf70_eyebrows",
+    "mf70_nose",
+    "mf70_mouth_lips",
+    "mf70_teeth",
+    "mf70_jawline_chin"
+  ],
+  "result": "user_reference_review_completed_geometry_method_correction_required",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_no_W70_MASK_PROMOTION_ROW_GATE_PASS_TRUE",
+  "next_step": "Build a source/user-reference-aligned full-face geometry scaffold before deriving additional face-detail masks or promoting the eyelids candidate."
+}

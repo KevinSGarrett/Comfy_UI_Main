@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-REFERENCE-SLOT-ROUTING-BEYOND-FACE-20260707T124000-0500",
+  "timestamp": "2026-07-07T12:40:00-05:00",
+  "work_type": "local_reference_slot_routing_contract_beyond_face_reference",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "comfyui_contacted": false,
+  "generation_executed": false,
+  "request": "runtime_artifacts/reference_slot_routing/w69_beyond_face_reference/REFERENCE_SLOT_ROUTING_REQUEST.json",
+  "request_sha256": "47575dfae0e939a8d372358f8e57fd83417847a05a99f9d82aa9d881149542e4",
+  "validator": "Plan/Instructions/QA/Scripts/Test-ReferenceSlotRouting.ps1",
+  "validator_sha256": "fb45ff01ac1931825df3f58469aae781b847ac042295983bcfcbcf0cf2b9b013",
+  "qa_evidence": "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W69_LOCAL_REFERENCE_SLOT_ROUTING_BEYOND_FACE_20260707T124000-0500.json",
+  "qa_evidence_sha256": "59a1c6ec9c29df4971dc77dec9cb9a761f094db8f66c22c2d39fa8c6f72dc4a5",
+  "result": "pass_local_reference_slot_routing_beyond_face",
+  "non_face_slots_verified": [
+    "edge_reference",
+    "depth_reference",
+    "lineart_reference",
+    "pose_reference",
+    "normal_reference"
+  ],
+  "lane_bindings": [
+    "sdxl_realvisxl_controlnet_canny_lane",
+    "sdxl_realvisxl_controlnet_depth_lane",
+    "sdxl_realvisxl_controlnet_lineart_lane",
+    "sdxl_realvisxl_controlnet_openpose_lane",
+    "sdxl_realvisxl_controlnet_normal_lane"
+  ],
+  "validated_input_assets": [
+    {
+      "path": "ComfyUI/input/controlnet_canny_cleaned_eye_safe_v1.png",
+      "sha256": "d2f09161928d6efa1c724aafd6798ab597f8cfa0e12dcb4db61203c6b4e74bd0",
+      "dimensions": "1024x1024"
+    },
+    {
+      "path": "ComfyUI/input/controlnet_depth_anything_w69_v1.png",
+      "sha256": "d9d21c69ea3ea50f3991bd0a420f338c5c7bc3c3450508526a7e9060c0319ef7",
+      "dimensions": "512x512"
+    },
+    {
+      "path": "ComfyUI/input/controlnet_lineart_w69_v1.png",
+      "sha256": "1994c628abb6df5abda27e61b1e17dd32f0f3cf50993d1ca795c89de4ef7ff46",
+      "dimensions": "512x512"
+    },
+    {
+      "path": "ComfyUI/input/controlnet_openpose_hands_tabletop_w69_v1.png",
+      "sha256": "071fae66490195443a883b157f68455707be00c6427686a4252dcfd7e6a6019c",
+      "dimensions": "768x1024"
+    },
+    {
+      "path": "ComfyUI/input/controlnet_normal_bae_w69_v1.png",
+      "sha256": "1a0526da325d7fb29986b8de017ba9af7c43e1b328d51da5afa7c6bf84863139",
+      "dimensions": "512x512"
+    }
+  ],
+  "validated_patch_points": [
+    "control_image",
+    "controlnet_asset",
+    "controlnet_settings",
+    "union_control_type for normal lane"
+  ],
+  "promotion_boundary": "This proves local routing contracts and asset bindings for five non-face reference/control slots. It does not claim target-runtime generation proof or final visual certification for any lane.",
+  "next_action": "Continue local-first with a named implementation or QA gap; good candidates are final lane certification packaging for the already generated ControlNet lanes, a different Wave25 contact-placement strategy, or another Plan/Tracker gap that does not require EC2."
+}

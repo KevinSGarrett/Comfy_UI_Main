@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "inpaint_v5_nomouth_texture_preserve_seed210601",
+  "target_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "purpose": "QA-driven local inpaint retest to reduce the remaining v4 note that masked skin is slightly smoother than surrounding skin.",
+  "request_patch_values": {
+    "positive_prompt": "subtle photoreal skin texture refinement, preserve exact identity, preserve original eye color gaze and lip color, preserve natural pores and fine skin grain, match surrounding skin texture, realistic micro-contrast, consistent portrait lighting, no global style drift",
+    "negative_prompt": "blank face, gray mask, identity change, eye color change, lip color change, gaze drift, face shape drift, plastic skin, waxy skin, over-smoothed face, airbrushed skin, blurred pores, smeared texture, distorted eyes, crossed eyes, extra teeth, deformed mouth, new jewelry, new clothing, background change, watermark, text",
+    "seed": 210601,
+    "sampler_settings": {
+      "steps": 20,
+      "cfg": 4.8,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.2
+    },
+    "save_prefix": "codex_sdxl_realvisxl_inpaint_detail_nomouth_v5_texture_seed210601"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_sdxl_realvisxl_inpaint_detail_nomouth_v5_texture_seed210601"
+  },
+  "qa_focus": [
+    "whole-image identity preservation",
+    "eye color and gaze preservation",
+    "lip color preservation",
+    "mask edge blending",
+    "skin pore and fine texture continuity",
+    "background and clothing stability"
+  ],
+  "source_qa_driver": {
+    "evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_ROBUSTNESS_VISUAL_QA_20260707T034000-0500.json",
+    "remaining_note": "masked skin regions remain slightly smoother than surrounding skin",
+    "change_summary": "Lower denoise and strengthen natural pore/fine grain preservation terms while keeping the no-mouth v4 mask."
+  },
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_target_runtime_reproof_before_certification": true,
+    "requires_whole_image_qa_before_promotion": true
+  }
+}

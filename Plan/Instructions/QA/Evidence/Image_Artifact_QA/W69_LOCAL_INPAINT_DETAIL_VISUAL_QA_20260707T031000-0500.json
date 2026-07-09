@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-INPAINT-DETAIL-VISUAL-QA-20260707T031000-0500",
+  "timestamp": "2026-07-07T03:10:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "module_id": "MOD-13-SDXL-INPAINT-DETAIL-LANE",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "technical_evidence": [
+    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_PREFLIGHT_SDXL_REALVISXL_INPAINT_DETAIL_20260707T030000-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_SMOKE_EXECUTE_20260707T030000-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_REPAIR_V2_EXECUTE_20260707T031000-0500.json"
+  ],
+  "source_and_mask_assets": {
+    "source_image": "ComfyUI/input/sdxl_inpaint_detail_source_canny_v1.png",
+    "mask_image": "ComfyUI/input/sdxl_inpaint_detail_face_mask_v1.png",
+    "prepared_input_manifest": "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_face_mask_v1_20260707T024000-0500/INPAINT_INPUT_ASSET_MANIFEST.json"
+  },
+  "reviewed_artifacts": [
+    {
+      "artifact_id": "baseline_v1",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_local_smoke_v1_20260707T030000-0500/images/codex_sdxl_realvisxl_inpaint_detail_smoke_00001_.png",
+      "sha256": "299fe23ca9307e5d88f98eceea18089c34eb3809b1a294681716efa8b29c66bc",
+      "runtime_result": "pass_local_run_package_generation_smoke",
+      "visual_result": "fail",
+      "whole_image_findings": [
+        "The source portrait and mask loaded correctly, but the output leaves the masked face region as a flat gray oval.",
+        "Face, eyes, eyebrows, nose, and upper mouth are not regenerated, so the artifact fails face realism, eye quality, anatomy consistency, prompt compliance, and artifact checks.",
+        "Hair, clothing, background, lighting, and framing outside the mask remain coherent."
+      ]
+    },
+    {
+      "artifact_id": "repair_v2",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_local_repair_v2_20260707T031000-0500/images/codex_sdxl_realvisxl_inpaint_detail_repair_v2_00001_.png",
+      "sha256": "d1b2e5152166fff28b3ef72e19ed21ff4517638d0303dc0aba5b8cf704b4977f",
+      "runtime_result": "pass_local_run_package_generation_smoke",
+      "visual_result": "fail_with_improvement",
+      "whole_image_findings": [
+        "The gray oval defect is removed and the face region is regenerated.",
+        "Identity drift is strong: eye color and gaze differ from the source, eyebrows and facial proportions changed, and the expression no longer matches the source portrait.",
+        "The regenerated eyes are over-bright and synthetic-looking compared with the surrounding low-key lighting.",
+        "A visible forehead and hairline transition remains near the top of the mask boundary.",
+        "Skin texture is smoother than the surrounding image and the masked region does not fully match the original lighting.",
+        "Clothing, background, body framing, and most hair outside the mask remain stable."
+      ]
+    }
+  ],
+  "qa_driven_change": {
+    "changed_files": [
+      "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/workflow.api.json",
+      "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/smoke_test_request.json",
+      "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/workflow.api.json",
+      "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/smoke_test_request.json"
+    ],
+    "change_summary": "Raised inpaint KSampler settings from 14 steps / denoise 0.28 to 20 steps / denoise 0.72, changed the save prefix to repair_v2, and updated positive/negative prompt terms to target face repair and reject blank or gray mask output.",
+    "effect": "The change fixed the blank gray mask failure but introduced or exposed unacceptable identity drift and synthetic-eye artifacts."
+  },
+  "strict_qa_result": "fail_with_improvement",
+  "certification_status": "not_certified",
+  "next_action": "Keep the lane in local development. Try a narrower face-feature mask or an inpaint-specific checkpoint/conditioning path before any target-runtime proof."
+}

@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-FOREHEAD-SKIN-LOCAL-SUPPORT-20260707T153000-0500",
+  "timestamp": "2026-07-07T15:30:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave70_ultimate_mask_factory_local_artifact_routing_support",
+  "mask_type_id": "mf70_forehead_skin",
+  "tracker_id": "TRK-W70-0004",
+  "item_id": "ITEM-W70-0004",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "source_requirements": [
+    "Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_FACTORY_TAXONOMY.md#L15-L31",
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv:TRK-W70-0004",
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv:ITEM-W70-0004"
+  ],
+  "artifacts": {
+    "request": "runtime_artifacts/mask_factory/wave70_mf70_forehead_skin/MASK_FACTORY_REQUEST.json",
+    "contract": "runtime_artifacts/mask_factory/wave70_mf70_forehead_skin/MASK_FACTORY_CONTRACT.json",
+    "contract_validation": "runtime_artifacts/mask_factory/wave70_mf70_forehead_skin/MASK_FACTORY_CONTRACT_VALIDATION.json",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_mf70_forehead_skin/MASK_RUNTIME_EVIDENCE.json",
+    "quality_report": "runtime_artifacts/mask_factory/wave70_mf70_forehead_skin/MASK_QUALITY_REPORT.json",
+    "patch_manifest": "runtime_artifacts/mask_factory/wave70_mf70_forehead_skin/MASK_TO_WORKFLOW_PATCH_MANIFEST.csv",
+    "mask_png": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_forehead_skin_20260707T153000-0500/wave70_mf70_forehead_skin_mask.png",
+    "comfyui_input_copy": "ComfyUI/input/wave70_mf70_forehead_skin_mask.png",
+    "preview_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_forehead_skin_20260707T153000-0500/wave70_mf70_forehead_skin_overlay.png"
+  },
+  "mask_asset": {
+    "mask_id": "scene_wave70_canny_v3__person_001__mf70_forehead_skin__minor",
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_forehead_skin_20260707T153000-0500/wave70_mf70_forehead_skin_mask.png",
+    "sha256": "ad925d9a2f8f7df8f4628d690d7bd78efccef2fd7ae43c61046bd2bea136c506",
+    "width": 768,
+    "height": 768,
+    "coverage_percent": 2.8695,
+    "person_instance_id": "person_001",
+    "body_region_id": "forehead_skin",
+    "scale": "minor"
+  },
+  "validation": {
+    "contract_valid": true,
+    "contract_errors": [],
+    "contract_warnings": [],
+    "quality_score": 92.0,
+    "minimum_required": 85,
+    "quality_passed": true,
+    "workflow_routing_manifest_present": true,
+    "preview_overlay_generated": true,
+    "protected_neighbor_check_pass": true,
+    "generated_output_proof_present": true,
+    "target_runtime_proof_present": false,
+    "blockers": [
+      "target_runtime_proof_required_before_final_certification",
+      "mask_alignment_strict_review_requires_revision_before_completion"
+    ],
+    "mask_alignment_semantic_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false
+  },
+  "overlay_visual_review": {
+    "review_method": "direct local image inspection via Codex view_image",
+    "result": "pass_with_notes_forehead_skin_overlay",
+    "findings": [
+      "Initial forehead polygon was rejected because the lower edge grazed the eyebrow band.",
+      "Revised mask covers the visible central forehead skin and stays above the eyes.",
+      "Overlay mostly avoids the protected eyebrow band and hairline mass; small soft-boundary proximity remains acceptable for low-denoise local generated-output proof."
+    ]
+  },
+  "result": "mask_alignment_needs_revision_generated_output_safe_final_blocked_target_runtime",
+  "boundary": "Strict semantic mask-alignment review supersedes earlier generated-output-safe interpretation. Generated-output stability is preserved when present, but mask completion is blocked unless semantic alignment and protected-neighbor review pass.",
+  "generated_output_proof": {
+    "profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_forehead_skin_seed210804.json",
+    "profile_sha256": "bdff19cc0801f8ee49f97b1c8292d8b04f4679f86b867308a978d5077770c913",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_forehead_skin_seed210804/RUN_PACKAGE_MANIFEST.json",
+    "run_package_sha256": "726a6753744e6e6b737e524230c5f78f7c01c9e84be18bee307839c612a6a7db",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_FOREHEAD_SKIN_SEED210804_EXECUTE_20260707T153500-0500.json",
+    "runtime_evidence_sha256": "4bea4d6a91bee8dc9deeb3885e793d7b1c79e5acd07db1fbadb49b051f2c5591",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_forehead_skin_seed210804_20260707T152513-0500/images/codex_wave70_mf70_forehead_skin_seed210804_00001_.png",
+    "generated_output_sha256": "19d1635f41299583197db0289372231a70a91f206895e3ca3b778d69246117bc",
+    "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_forehead_skin_seed210804_20260707T152513-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00010_.png",
+    "diagnostic_mask_preview_sha256": "23a35da48730b713ae71aaf827d487145c0c1d559be79881a62ec4bec604363d",
+    "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_forehead_skin/qa_comparisons/wave70_mf70_forehead_skin_source_overlay_output_compare.png",
+    "comparison_artifact_sha256": "c9fec7ee62fa10595fd72d9cb4a5039c13a443d1d023838bcefda8ad398ef479",
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_FOREHEAD_SKIN_SEED210804_VISUAL_QA_20260707T153000-0500.json",
+    "visual_qa_result": "pass_with_notes_local_wave70_forehead_skin_generated_output"
+  },
+  "semantic_mask_alignment_reaudit": {
+    "audit_id": "W70-MASK-ALIGNMENT-RETRO-AUDIT-20260707T184000-0500",
+    "timestamp": "2026-07-07T18:40:00-05:00",
+    "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "result": "pass_with_notes",
+    "named_target_match": true,
+    "protected_neighbor_pass": true,
+    "generated_output_safe_pass": true,
+    "completion_allowed": true,
+    "findings": [
+      "Retro audit classified the forehead overlay as acceptable with notes for the named forehead-skin target.",
+      "Completion still requires target-runtime proof before final certification."
+    ],
+    "policy": "Generated-output stability is preserved where applicable, but it does not override semantic mask-alignment defects."
+  },
+  "strict_semantic_mask_alignment_review": {
+    "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "review_timestamp": "2026-07-07T19:25:00-05:00",
+    "review_id": "W70-MASK-ALIGNMENT-STRICT-VISUAL-REVIEW-20260707T192500-0500",
+    "alignment_result": "needs_revision",
+    "mask_alignment_semantic_pass": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "review_basis": "strict visual review of user-supplied overlays and/or matching project overlay artifacts, separated from generated-output stability",
+    "findings": [
+      "Forehead overlay is mostly in the right area but is a shortcut polygon that rides into hairline/brow-adjacent protected neighbors; strict QA should not mark it pass.",
+      "Regenerate as a forehead-skin band bounded by hairline and eyebrow clearance, with a small inset from both protected boundaries."
+    ]
+  }
+}

@@ -141,6 +141,14 @@ powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instru
 
 Both commands are dry-run by default. Add `-Execute` only when AWS auth, IAM permissions, and the intended EC2 runtime window are ready.
 
+Runtime-window marker plan:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\New-EC2RuntimeWindowMarkerPlan.ps1 -LaneId sdxl_realvisxl_base_lane -Command "<approved live EC2 command>" -DeployBundleS3Uri s3://<bucket>/<bundle>.zip -DeployBundleSha256 <bundle_sha256> -EmergencyStopEvidencePath <emergency-stop-evidence.json> -WatchdogEvidencePath <watchdog-evidence.json> -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W66_EC2_RUNTIME_WINDOW_MARKER_PLAN_<timestamp>.json
+```
+
+This helper is local-only. It writes a marker template for the future live window, but it does not write `runtime_artifacts/ec2_runtime_windows/ACTIVE_EC2_RUNTIME_WINDOW.json`; write the active marker only when the approved EC2 window is actually starting, then remove it or mark it `ENDED` after final stopped-state verification.
+
 ## Model Provisioning Cost Rules
 
 Model binaries are not Git project artifacts. Do not commit checkpoints, do not add them to Git LFS as the default provisioning path, and do not spend EC2 time on repeated proof attempts when evidence already says a model is missing.

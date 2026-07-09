@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-MASK-FACTORY-INPAINT-NOMOUTH-V4-20260707T105500-0500",
+  "timestamp": "2026-07-07T10:55:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave13_mask_factory_contract_validation_and_quality_score",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "source_requirements": [
+    "Plan/07_IMPLEMENTATION/WAVE13_MASK_FACTORY_BUILD_INSTRUCTIONS.md",
+    "Plan/07_IMPLEMENTATION/WAVE13_MASK_NAMING_CONVENTIONS.md",
+    "Plan/07_IMPLEMENTATION/WAVE13_MASK_TO_COMFYUI_PATCHING_NOTES.md",
+    "Plan/10_REGISTRIES/wave13_mask_runtime_evidence_checklist.json",
+    "Plan/10_REGISTRIES/wave13_mask_quality_scoring_rules.json"
+  ],
+  "implementation_changes": [
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/compile_mask_factory_contract.py",
+      "summary": "Preserve explicit request-supplied person instances, mask layers, fabric masks, and contact masks so real prepared mask assets can compile into deterministic contracts instead of only default placeholder layers."
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/New-MaskRuntimeEvidence.ps1",
+      "summary": "Create repeatable local mask runtime evidence with SHA256, dimensions, coverage percent, ownership fields, source/output image links, and workflow patch-manifest row."
+    }
+  ],
+  "artifacts": {
+    "request": "runtime_artifacts/mask_factory/inpaint_nomouth_v4_w69/MASK_FACTORY_REQUEST.json",
+    "contract": "runtime_artifacts/mask_factory/inpaint_nomouth_v4_w69/MASK_FACTORY_CONTRACT.json",
+    "contract_validation": "runtime_artifacts/mask_factory/inpaint_nomouth_v4_w69/MASK_FACTORY_CONTRACT_VALIDATION.json",
+    "runtime_evidence": "runtime_artifacts/mask_factory/inpaint_nomouth_v4_w69/MASK_RUNTIME_EVIDENCE.json",
+    "quality_report": "runtime_artifacts/mask_factory/inpaint_nomouth_v4_w69/MASK_QUALITY_REPORT.json",
+    "patch_manifest": "runtime_artifacts/mask_factory/inpaint_nomouth_v4_w69/MASK_TO_WORKFLOW_PATCH_MANIFEST.csv"
+  },
+  "mask_asset": {
+    "mask_id": "scene_w69_inpaint_detail_nomouth_v4__person_001__face_skin_detail_nomouth__micro",
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_micro_nomouth_v4_20260707T034500-0500/sdxl_inpaint_detail_micro_nomouth_v4.png",
+    "sha256": "9bfbbda24b0f4915282649bb8c2b3e5a39b5a057dacbce6278683e9b531ec92d",
+    "width": 768,
+    "height": 768,
+    "coverage_percent": 2.8907,
+    "person_instance_id": "person_001",
+    "body_region_id": "face_skin_detail_nomouth",
+    "scale": "micro"
+  },
+  "validation": {
+    "contract_valid": true,
+    "contract_errors": [],
+    "contract_warnings": [],
+    "quality_score": 98.88,
+    "minimum_required": 85,
+    "quality_passed": true,
+    "blockers": []
+  },
+  "result": "pass_local_mask_factory_inpaint_nomouth_v4_contract_and_quality_score",
+  "boundary": "This proves a local Mask Factory contract/evidence/score loop for one existing prepared inpaint mask. It does not generate new segmentation masks, run ComfyUI, satisfy target-runtime proof, or certify final release readiness."
+}

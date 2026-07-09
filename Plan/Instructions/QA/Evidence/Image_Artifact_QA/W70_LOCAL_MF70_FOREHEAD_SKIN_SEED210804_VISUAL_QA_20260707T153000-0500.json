@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_LOCAL_MF70_FOREHEAD_SKIN_SEED210804_VISUAL_QA_20260707T153000-0500",
+  "created_at": "2026-07-07T15:30:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "mask_type_id": "mf70_forehead_skin",
+  "tracker_id": "TRK-W70-0004",
+  "item_id": "ITEM-W70-0004",
+  "qa_type": "strict_whole_image_visual_qa",
+  "result": "pass_with_notes_local_wave70_forehead_skin_generated_output",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "source_image": "ComfyUI/input/wave70_mf70_face_identity_source_canny_v3.png",
+  "mask_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_forehead_skin_20260707T153000-0500/wave70_mf70_forehead_skin_overlay.png",
+  "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_forehead_skin_seed210804_20260707T152513-0500/images/codex_wave70_mf70_forehead_skin_seed210804_00001_.png",
+  "generated_output_sha256": "19d1635f41299583197db0289372231a70a91f206895e3ca3b778d69246117bc",
+  "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_forehead_skin_seed210804_20260707T152513-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00010_.png",
+  "diagnostic_mask_preview_sha256": "23a35da48730b713ae71aaf827d487145c0c1d559be79881a62ec4bec604363d",
+  "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_forehead_skin/qa_comparisons/wave70_mf70_forehead_skin_source_overlay_output_compare.png",
+  "comparison_artifact_sha256": "c9fec7ee62fa10595fd72d9cb4a5039c13a443d1d023838bcefda8ad398ef479",
+  "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_FOREHEAD_SKIN_SEED210804_EXECUTE_20260707T153500-0500.json",
+  "runtime_evidence_sha256": "4bea4d6a91bee8dc9deeb3885e793d7b1c79e5acd07db1fbadb49b051f2c5591",
+  "visual_findings": [
+    "Generated output preserves the source portrait identity, gaze direction, hair silhouette, white blazer, neck, and gray background.",
+    "Forehead-only pass remains subtle at denoise 0.09; forehead tone and texture are slightly smoother/brighter without a visible hard seam.",
+    "Eyebrows, eyes, hairline shape, nose, mouth, cheeks, and clothing remain stable in the side-by-side comparison.",
+    "No obvious background mutation, new facial hair, plastic-skin failure, hairline deformation, or protected-eye/eyebrow damage was observed.",
+    "The mask boundary remains close to the eyebrow/hairline protected regions, so this is pass-with-notes local support and still needs target-runtime proof before final certification."
+  ],
+  "decision": {
+    "generated_output_proof_present": true,
+    "whole_image_visual_qa_passed_with_notes": true,
+    "target_runtime_proof_present": false,
+    "final_certification_allowed": false,
+    "remaining_blockers": [
+      "target_runtime_proof_required_before_final_certification"
+    ]
+  }
+}

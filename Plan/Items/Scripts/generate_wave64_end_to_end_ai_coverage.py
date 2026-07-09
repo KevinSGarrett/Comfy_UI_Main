@@ -139,6 +139,35 @@ DOMAINS = [
     ("future_lane_promotion", "Future lane and module promotion rule", "Runtime Control", "Plan/Instructions/Hydration_Rehydration/NEXT_ACTION.md", "Future work must choose a new lane/module or broader certification intentionally and satisfy all local, CI, runtime, pullback, and QA gates.", "objective_declared|lane_queue_update|model_registry|run_package|runtime_proof|review_gate", True, "new_artifact_review_when_generated", True, True, "P0", "CRITICAL"),
 ]
 
+WAVE64_RECONCILED_EVIDENCE = {
+    "ITEM-W64-001": ("Evidence_Passed_Scoped_NonMask", "Plan/Tracker/Evidence/PLAN_SOURCE_FILE_COVERAGE_20260708T224946-0500.json"),
+    "ITEM-W64-009": ("Local_Pass_Target_Runtime_Not_Certified", "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_SINGLE_HAND_CONTACT_CLOSEUP_V1_VISUAL_QA_20260707T095000-0500.json"),
+    "ITEM-W64-036": ("Evidence_Passed_Scoped_NonRuntime", "Plan/Tracker/Evidence/WORKFLOW_STATIC_VALIDATION_20260708T231150-0500.json"),
+    "ITEM-W64-037": ("Local_Pass_Target_Runtime_Not_Certified", "Plan/Tracker/Evidence/WORKFLOW_RUNTIME_SMOKE_20260708T231534-0500.json"),
+    "ITEM-W64-038": ("Blocked_Target_Runtime_PreStart_Gates", "Plan/Tracker/Evidence/EC2_RUNTIME_PROOF_20260708T231944-0500.json"),
+    "ITEM-W64-039": ("Evidence_Passed_Local_NonEC2_Preview", "Plan/Tracker/Evidence/LOCAL_COMFY_DEV_20260708T232249-0500.json"),
+    "ITEM-W64-040": ("Blocked_GitHub_CI_Model_Registry_Coverage_Gate", "Plan/Tracker/Evidence/GITHUB_ACTIONS_CI_PACKAGE_20260708T232951-0500.json"),
+    "ITEM-W64-041": ("Local_Ready_Only_AWS_Not_Contacted", "Plan/Tracker/Evidence/S3_TRANSFER_COST_CONTROL_20260708T233214-0500.json"),
+    "ITEM-W64-042": ("Blocked_AWS_Expired_Session_Live_Proof", "Plan/Tracker/Evidence/EC2_TTL_WATCHDOG_20260708T233454-0500.json"),
+    "ITEM-W64-043": ("Blocked_Runtime_Artifacts_Missing", "Plan/Tracker/Evidence/ARTIFACT_PULLBACK_INTEGRITY_20260708T233714-0500.json"),
+    "ITEM-W64-044": ("Evidence_Passed_Local_Only", "Plan/Tracker/Evidence/MODEL_REGISTRY_GOVERNANCE_20260708T234222-0500.json"),
+    "ITEM-W64-045": ("Evidence_Passed_Local_Metadata_Provenance", "Plan/Tracker/Evidence/CIVITAI_METADATA_20260708T234544-0500.json"),
+    "ITEM-W64-046": ("Blocked_Dirty_Worktree_Checkpoint", "Plan/Tracker/Evidence/SECRET_GIT_SECURITY_20260708T235206-0500.json"),
+    "ITEM-W64-047": ("Evidence_Passed_Hydration_Control", "Plan/Tracker/Evidence/HYDRATION_RESUME_CONTROL_20260708T235724-0500.json"),
+    "ITEM-W64-048": ("Evidence_Passed_No_Loop_No_Drift_Control", "Plan/Tracker/Evidence/NO_LOOP_NO_DRIFT_20260708T235942-0500.json"),
+    "ITEM-W64-049": ("Evidence_Passed_Blocker_Governance_Active_Blockers_Tracked", "Plan/Tracker/Evidence/BLOCKER_KNOWN_ISSUE_CONTROL_20260709T000153-0500.json"),
+    "ITEM-W64-050": ("Evidence_Passed_Items_Tracker_Coverage", "Plan/Tracker/Evidence/ITEMS_TRACKER_COVERAGE_20260709T000816-0500.json"),
+    "ITEM-W64-051": ("Evidence_Passed_Schema_Validation", "Plan/Tracker/Evidence/SCHEMA_VALIDATION_20260709T001322-0500.json"),
+    "ITEM-W64-052": ("Evidence_Passed_Script_Parser_Smoke", "Plan/Tracker/Evidence/SCRIPT_VALIDATION_20260709T001625-0500.json"),
+    "ITEM-W64-053": ("Evidence_Passed_Examples_Fixtures", "Plan/Tracker/Evidence/EXAMPLE_FIXTURE_VALIDATION_20260709T002349-0500.json"),
+    "ITEM-W64-054": ("Evidence_Passed_Registry_Integrity", "Plan/Tracker/Evidence/REGISTRY_INTEGRITY_20260709T002835-0500.json"),
+}
+
+WAVE64_RECONCILIATION_NOTE = (
+    "Wave64 reconciliation 2026-07-09: status is generated from exact direct evidence "
+    "when present; skip repeat local/AWS work unless source, evidence, or downstream gate changes."
+)
+
 
 def read_lines(path: Path) -> list[str]:
     try:
@@ -180,6 +209,41 @@ def citation_for(source_rel: str) -> dict[str, str]:
     }
 
 
+def evidence_decision(evidence_rel: str) -> str:
+    evidence_path = ROOT / evidence_rel.replace("/", "\\")
+    if not evidence_path.exists():
+        return ""
+    try:
+        data = json.loads(evidence_path.read_text(encoding="utf-8"))
+    except Exception:
+        return ""
+    decision = data.get("qa_decision") or data.get("overall_result") or data.get("result") or ""
+    if isinstance(decision, dict):
+        return json.dumps(decision, sort_keys=True)
+    return str(decision)
+
+
+def apply_wave64_reconciliation(row: dict[str, str], *, tracker: bool = False) -> None:
+    item_id = row.get("Source_Item_ID") if tracker else row.get("Item_ID")
+    if item_id in WAVE64_RECONCILED_EVIDENCE:
+        status, evidence_rel = WAVE64_RECONCILED_EVIDENCE[item_id]
+        row["Status"] = status
+        decision = evidence_decision(evidence_rel) or status
+        if tracker:
+            row["Evidence_Path"] = str(ROOT / evidence_rel.replace("/", "\\"))
+            row["Status_Decision"] = decision
+        row["Notes"] = f"{row.get('Notes', '').rstrip()} | {WAVE64_RECONCILIATION_NOTE}"
+    elif item_id:
+        if tracker:
+            row["Status_Decision"] = "needs_exact_direct_row_evidence_not_complete"
+        row["Notes"] = (
+            f"{row.get('Notes', '').rstrip()} | Wave64 reconciliation 2026-07-09: "
+            "no exact direct row evidence found; do not infer completion from rollups, mentions, "
+            "Wave65 planned rows, Wave70 supporting evidence, local artifacts, or AWS artifacts "
+            "without matching item/tracker id."
+        )
+
+
 def item_row(index: int, domain: tuple[str, ...]) -> dict[str, str]:
     key, title, category, source, acceptance, qa, visual_required, visual_method, test_required, runtime_required, priority, risk = domain
     citation = citation_for(source)
@@ -219,6 +283,7 @@ def item_row(index: int, domain: tuple[str, ...]) -> dict[str, str]:
         "Ultra_Source_Coverage_Record": source_key,
     }
     row.update(citation)
+    apply_wave64_reconciliation(row)
     return row
 
 
@@ -275,6 +340,7 @@ def tracker_row(index: int, item: dict[str, str]) -> dict[str, str]:
         "Coverage_Audit_Status": item["Coverage_Audit_Status"],
         "Ultra_Source_Coverage_Record": item["Ultra_Source_Coverage_Record"],
     }
+    apply_wave64_reconciliation(row, tracker=True)
     return row
 
 

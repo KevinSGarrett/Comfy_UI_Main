@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-REALVISXL-TWO-CHARACTER-HAND-TO-BODY-VISUAL-QA-20260707T115000-0500",
+  "timestamp": "2026-07-07T11:50:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "artifact_type": "image_artifact_visual_qa",
+  "lane_id": "sdxl_realvisxl_base_lane",
+  "module_id": "MOD-BASE-REALVISXL-LANE",
+  "work_type": "bounded_local_two_character_hand_to_body_pixel_attempt_after_wave25_preflight",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "generation_executed": true,
+  "wave25_dependency": {
+    "interaction_contract": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/WAVE25_INTERACTION_CONTRACT.json",
+    "interaction_validation": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/WAVE25_INTERACTION_VALIDATION.json",
+    "interaction_score": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/WAVE25_INTERACTION_SCORE_REPORT.json",
+    "qa_evidence": "Plan/Instructions/QA/Evidence/Multi_Character_Interaction/W69_LOCAL_WAVE25_TWO_CHARACTER_HAND_TO_BODY_PREFLIGHT_20260707T113500-0500.json"
+  },
+  "attempts": [
+    {
+      "sample_id": "realvisxl_two_character_hand_to_body_seed7152026251",
+      "profile": "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_two_character_hand_to_body_seed7152026251.json",
+      "run_package_manifest": "runtime_artifacts/run_packages/realvisxl_two_character_hand_to_body_w69_seed7152026251/RUN_PACKAGE_MANIFEST.json",
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_REALVISXL_TWO_CHARACTER_HAND_TO_BODY_SEED7152026251_EXECUTE_20260707T114000-0500.json",
+      "output_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_two_character_hand_to_body_w69_seed7152026251_20260707T113218-0500/images/codex_realvisxl_two_character_hand_to_body_seed7152026251_00001_.png",
+      "sha256": "83b770ac164042fa3d6b533812c35df4ed89cde90164619110d8532d45d25f34",
+      "width": 1024,
+      "height": 1024,
+      "visual_result": "partial_pass_with_prompt_compliance_failure",
+      "qa_findings": [
+        "Two distinct clothed body characters are present with coherent faces, clothing, and neutral studio background.",
+        "The image contains a contact-like gesture and no obvious merged bodies.",
+        "The intended source/target action failed: the visible contact appears to come from the man gripping or holding the woman's sleeve rather than the woman resting an open hand on the man's upper arm.",
+        "The woman's visible hand is near her own chest rather than serving as the contact source."
+      ]
+    },
+    {
+      "sample_id": "realvisxl_two_character_hand_to_body_seed7152026252_source_hand_visible",
+      "profile": "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_two_character_hand_to_body_seed7152026252_source_hand_visible.json",
+      "run_package_manifest": "runtime_artifacts/run_packages/realvisxl_two_character_hand_to_body_w69_seed7152026252/RUN_PACKAGE_MANIFEST.json",
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_REALVISXL_TWO_CHARACTER_HAND_TO_BODY_SEED7152026252_EXECUTE_20260707T114500-0500.json",
+      "output_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_two_character_hand_to_body_w69_seed7152026252_20260707T113434-0500/images/codex_realvisxl_two_character_hand_to_body_seed7152026252_00001_.png",
+      "sha256": "d6ef67713167d55696b1f07e86c88e9ee0a038f946be9cd8cc56810f724b81a7",
+      "width": 1024,
+      "height": 1024,
+      "visual_result": "pass_with_notes_local_two_character_contact_first_pixel_attempt",
+      "qa_findings": [
+        "Exactly two distinct clothed body characters are present.",
+        "The woman on the left is the visible contact source and rests an open hand on the man's shoulder/upper-arm area.",
+        "The man is not the contact source; his hands are not creating the main contact gesture.",
+        "Faces, hair, clothing silhouettes, and studio background are coherent.",
+        "There is no visible body merge, shared torso, extra person, or severe wrong-character edit.",
+        "The contact reads plausibly, though the hand is more on shoulder/top upper arm than the precise upper-arm sleeve target.",
+        "Contact shadow/pressure is present but subtle and not enough for final interaction certification.",
+        "Hands are readable at whole-image scale, but finger anatomy and contact-edge detail require closer target-runtime or inpaint/refine proof before final promotion."
+      ]
+    }
+  ],
+  "qa_driven_change": {
+    "source_issue": "Seed 7152026251 generated two characters but used the wrong source hand and created a sleeve-grip gesture.",
+    "request_change": "Seed 7152026252 profile explicitly made the woman on the left extend her right arm, rest one open relaxed hand on the man's upper arm sleeve, keep the man's hands away from the contact, and added negatives for gripping fabric, pulling sleeve, hand on own chest, and man touching woman.",
+    "minimum_rerun_scope": "one local RealVisXL base-lane sample from the changed prompt profile only",
+    "improvement_observed": "The rerun corrected source/target ownership at the visible contact gesture and produced a plausible two-character contact image."
+  },
+  "strict_whole_image_checks_for_preferred_sample": {
+    "face_realism": "pass_two_faces_coherent",
+    "eye_quality": "pass",
+    "skin_texture": "pass_with_mild_polish_note",
+    "hands_fingers": "pass_with_notes_visible_source_hand_readable_but_not_closeup_certified",
+    "feet_toes_when_visible": "not_visible_not_scored",
+    "hair_realism": "pass",
+    "teeth_mouth_quality": "pass_closed_or_neutral_mouths_no_teeth_issue",
+    "body_proportions": "pass_for_medium_shot",
+    "pose_accuracy": "pass_with_notes_contact_is_shoulder_upper_arm_not_exact_upper_arm_sleeve",
+    "clothing_fabric": "pass_fabric_texture_and_separate_silhouettes_readable",
+    "contact_points": "pass_with_notes_visible_hand_to_shoulder_upper_arm_contact_subtle_shadow",
+    "object_body_collisions": "pass_no_obvious_body_collision",
+    "deformation_realism": "pass_no_blocking_deformation",
+    "soft_body_cues": "pass_with_notes_contact_pressure_subtle",
+    "anatomy_consistency": "pass_with_notes_hand_detail_not_final_certified",
+    "lighting": "pass_soft_studio_light",
+    "shadows": "pass_with_notes_contact_shadow_subtle",
+    "background_coherence": "pass_neutral_studio_background",
+    "camera_lens_realism": "pass",
+    "texture_detail": "pass_with_notes",
+    "generation_artifacts": "pass_no_blocking_artifacts",
+    "identity_drift": "not_applicable_no_identity_reference_pair",
+    "over_smoothing": "pass_with_mild_skin_polish_note",
+    "plastic_skin": "pass",
+    "waxy_faces": "pass",
+    "distorted_limbs": "pass_no_blocking_limb_distortion",
+    "prompt_compliance": "pass_with_notes_after_rerun",
+    "unwanted_style_contamination": "pass"
+  },
+  "qa_result": "pass_with_notes_local_two_character_hand_to_body_first_pixel_attempt_seed7152026252_preferred",
+  "preferred_local_candidate": "realvisxl_two_character_hand_to_body_seed7152026252_source_hand_visible",
+  "certification_allowed": false,
+  "certification_scope": "local_two_character_pixel_attempt_after_wave25_preflight",
+  "remaining_risks": [
+    "This is one local preferred sample after one local QA-driven rerun, not multi-seed robustness.",
+    "This does not use the deterministic Wave25 contact mask as an inpaint/refine mask yet.",
+    "This does not prove target-runtime EC2 behavior.",
+    "This does not certify final multi-character contact, contact shadows, pixel-level ownership, or no-merge behavior across prompts."
+  ],
+  "next_action": "Use the preferred local sample as the first pixel-facing Wave25 dependency; next local work should route the Wave25 contact mask into a low-denoise/inpaint refine pass or run a small robustness pair before any target-runtime proof."
+}

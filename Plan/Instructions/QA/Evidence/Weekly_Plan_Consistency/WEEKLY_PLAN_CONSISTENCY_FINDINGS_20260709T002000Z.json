@@ -1,0 +1,58 @@
+﻿{
+    "schema_version":  "1.0",
+    "evidence_type":  "weekly_plan_instructions_consistency_actionable_findings",
+    "created_at":  "2026-07-09T05:19:36.7632546Z",
+    "automation_id":  "comfy-ui-main-weekly-plan-instructions-consistency-audit",
+    "external_audit":  "C:\\Users\\kevin\\.codex\\automations\\comfy-ui-main-weekly-plan-instructions-consistency-audit\\audits\\WEEKLY_PLAN_INSTRUCTIONS_CONSISTENCY_20260709T001639-0500.json",
+    "classification":  "CONSISTENCY_FINDINGS_EXTERNAL_AUDIT_ONLY",
+    "correction_made":  false,
+    "correction_lock_status":  "not acquired; no critical consistency drift correction was warranted",
+    "actionable_findings":  [
+                                {
+                                    "id":  "STALE-WAVE70-COVERAGE-REPORT-ROW-COUNTS",
+                                    "severity":  "medium",
+                                    "files":  [
+                                                  "Plan/Items/Reports/wave70_ultimate_mask_factory_coverage_report.json",
+                                                  "Plan/Tracker/Reports/wave70_ultimate_mask_factory_coverage_report.json"
+                                              ],
+                                    "current_csv_counts":  {
+                                                               "items_wave_csv":  166,
+                                                               "tracker_wave_csv":  166,
+                                                               "items_master_csv":  166,
+                                                               "tracker_master_csv":  166,
+                                                               "items_package_manifest":  166,
+                                                               "tracker_package_manifest":  166
+                                                           },
+                                    "stale_report_counts":  {
+                                                                "items_report_item_row_count":  178,
+                                                                "items_report_tracker_row_count":  178,
+                                                                "tracker_report_item_row_count":  178,
+                                                                "tracker_report_tracker_row_count":  178
+                                                            },
+                                    "impact":  "Sequence-ledger/report staleness only. Current hydration is not misrouted and no Wave71+ activation leakage was found.",
+                                    "recommended_action":  "Refresh or annotate only the Wave70 coverage reports; do not run Wave65 unless Plan source files were actually added/renamed and direct coverage is proven stale."
+                                },
+                                {
+                                    "id":  "STALE-PROJECT-MANIFEST-LEGACY-WAVE-METADATA",
+                                    "severity":  "low",
+                                    "files":  [
+                                                  "Plan/PROJECT_MANIFEST.json"
+                                              ],
+                                    "stale_values":  {
+                                                         "wave_current":  25,
+                                                         "latest_wave":  34
+                                                     },
+                                    "current_steering":  "PROJECT_ROOT_MANIFEST and Items/Tracker READMEs identify active waves 64,65,70 and deferred waves 71-87; hydration currently advances Wave64 TRK/ITEM-053.",
+                                    "impact":  "Low risk because current steering sources supersede the legacy fields.",
+                                    "recommended_action":  "Mark historical or refresh during a justified manifest-maintenance pass; no standalone correction required."
+                                }
+                            ],
+    "healthy_checks":  [
+                           "NEXT_ACTION, CURRENT_PURSUING_GOAL, CURRENT_SESSION_STATE, and RESUME_HERE_NEXT_CODEX_SESSION point to Wave64 TRK/ITEM-053, not stale completed blocker work.",
+                           "Wave65 current CSVs and reports agree at 2519 rows; Wave65 was not rerun during this audit.",
+                           "Waves71-87 Items/Tracker rows remain Deferred_Required_Not_Complete with zero non-deferred rows.",
+                           "Strict whole-artifact visual/audio review rules and EC2 stopped-state/cost-control rules remain present.",
+                           "No EC2, Git staging, commit, push, reset, checkout, or project instruction correction was performed."
+                       ],
+    "next_recommended_action":  "Continue Wave64 TRK/ITEM-053; separately refresh/annotate stale Wave70 coverage reports when doing narrow ledger maintenance."
+}

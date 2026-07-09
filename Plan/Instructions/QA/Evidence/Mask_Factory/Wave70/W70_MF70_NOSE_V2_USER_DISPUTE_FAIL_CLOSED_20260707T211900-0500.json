@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-NOSE-V2-USER-DISPUTE-FAIL-CLOSED-20260707T211900-0500",
+  "timestamp": "2026-07-07T21:19:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave70_mask_alignment_user_visual_dispute_fail_closed",
+  "mask_type_id": "mf70_nose",
+  "tracker_id": "TRK-W70-0017",
+  "item_id": "ITEM-W70-0017",
+  "local_only": true,
+  "aws_contacted": false,
+  "ec2_started": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "user_dispute": {
+    "source": "Codex side conversation user-supplied panel",
+    "attached_panel": "C:\\Users\\kevin\\AppData\\Local\\Temp\\codex-clipboard-9a1888d3-3c05-4f11-95c4-1e4eb9f6fc9b.png",
+    "summary": "User correctly identified that the v2 nose candidate is still visibly off: shifted toward the viewer-right cheek/under-eye area, not cleanly centered on the nose, and still not proving separation from eye, cheek, philtrum, upper lip, or mouth protected regions."
+  },
+  "supersedes_prior_evidence": [
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_NOSE_V2_STRICT_VISUAL_ACCEPTANCE_20260707T215500-0500.json",
+    "Plan/Tracker/Evidence/W70_MF70_NOSE_V2_STRICT_VISUAL_ACCEPTANCE_20260707T215500-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_NOSE_V2_SOURCE_LANDMARK_SEED210820_VISUAL_QA_20260707T220500-0500.json",
+    "Plan/Tracker/Evidence/W70_MF70_NOSE_V2_GENERATED_OUTPUT_20260707T220500-0500.json"
+  ],
+  "reviewed_panel_artifacts": {
+    "runtime_panel": "runtime_artifacts/mask_factory/wave70_mf70_nose/strict_visual_acceptance/20260707T215500-0500/mf70_nose_v2_strict_visual_acceptance_panel.png",
+    "attached_panel": "C:\\Users\\kevin\\AppData\\Local\\Temp\\codex-clipboard-9a1888d3-3c05-4f11-95c4-1e4eb9f6fc9b.png"
+  },
+  "strict_visual_findings": [
+    "The green candidate is not an acceptable full mf70_nose semantic mask because it is shifted toward the viewer-right side of the face rather than centered on the visible nose anatomy.",
+    "The mask misses meaningful visible nose anatomy, including sidewall/ala/nostril coverage, while covering or approaching cheek/under-eye skin that should be protected for a nose-only mask.",
+    "The panel does not prove clean protected-neighbor separation from eye/canthus/lower-lid, cheek, philtrum, upper lip, or mouth regions.",
+    "The protected-overlap thumbnail is not sufficient proof when the visual overlay itself contradicts the acceptance claim.",
+    "Generated-output stability from low-denoise inpainting may remain useful as output-geometry evidence, but it does not rehabilitate this mask as anatomically correct."
+  ],
+  "corrected_gate_results": {
+    "semantic_mask_alignment_candidate_pass": false,
+    "mask_alignment_semantic_pass": false,
+    "named_target_match": false,
+    "full_visible_target_covered": false,
+    "protected_neighbor_pass": false,
+    "protected_overlap_matrix_pass": false,
+    "canonical_boundary_layer_pass": false,
+    "generated_output_safe_pass": true,
+    "target_runtime_proof_present": false,
+    "reference_image_matrix_pass": false,
+    "completion_allowed_by_mask_alignment": false,
+    "final_completion_allowed": false
+  },
+  "corrected_status": "User_Disputed_Mask_Alignment_Fail_Generated_Output_Safe_Target_Runtime_Pending",
+  "semantic_mask_alignment_candidate_pass": false,
+  "mask_alignment_semantic_pass": false,
+  "protected_neighbor_pass": false,
+  "protected_overlap_matrix_pass": false,
+  "generated_output_safe_pass": true,
+  "target_runtime_proof_present": false,
+  "reference_image_matrix_pass": false,
+  "completion_allowed_by_mask_alignment": false,
+  "final_completion_allowed": false,
+  "result": "fail_closed_user_disputed_v2_mask_alignment_needs_revision_generated_output_safe_target_runtime_pending_reference_matrix_pending",
+  "required_next_action": [
+    "Stop treating the v2 candidate as accepted.",
+    "Do not run or promote additional runtime proof from this candidate.",
+    "Regenerate mf70_nose from source-visible anatomy using centered nose geometry, explicit sidewall/ala/nostril coverage, and protected-neighbor exclusions for eyes, eyelids/canthus, cheeks, philtrum, upper lip, and mouth.",
+    "Before any future pass, provide source crop, mask-only crop, overlay crop, boundary overlay, and protected-overlap evidence large enough for direct visual inspection.",
+    "Record generated-output stability separately from semantic mask alignment."
+  ]
+}

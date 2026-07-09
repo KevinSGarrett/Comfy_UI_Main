@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_CANONICAL_REFERENCE_SLOT_LEDGER_20260708T192329-0500",
+  "created_iso": "2026-07-08T19:23:29-05:00",
+  "task": "Record per-image canonical reference slot ledger for Ref_Image_1 and Ref_Image_2.",
+  "ledger_paths": {
+    "timestamped_csv": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_CANONICAL_REFERENCE_SLOT_LEDGER_20260708T192329-0500.csv",
+    "canonical_csv": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/canonical_reference_slot_ledger.csv"
+  },
+  "ledger_summary": {
+    "image_count": 132,
+    "by_root": {
+      "Ref_Image_1": 43,
+      "Ref_Image_2": 89
+    },
+    "by_role": {
+      "full_folder_top_level_body_reference": 7,
+      "main_composite_partial_top_and_lower_mask_panels": 1,
+      "main_full_body_reference": 1,
+      "near_full_body_knees_to_head_reference": 1,
+      "organized_body_part_gold_mask": 34,
+      "organized_body_part_overlay": 44,
+      "unclassified_reference_context": 44
+    },
+    "by_slot_status": {
+      "calibration_context_only": 9,
+      "excluded_for_lower_body_proof": 1,
+      "gold_mask_calibration_only": 78,
+      "not_promotable_without_slot_manifest": 44
+    },
+    "front_calibration_image_count": 87,
+    "lower_body_exclusion_count": 1
+  },
+  "slot_statuses": [
+    {
+      "slot_id": "front_full_body_with_masks",
+      "status": "available_calibration_only",
+      "current_image_count": 87,
+      "authority_complete": false,
+      "remaining_need": "model-backed canonical geometry stack plus manifest-confirmed masks"
+    },
+    {
+      "slot_id": "left_side_or_profile_full_body",
+      "status": "missing_not_proven",
+      "current_image_count": 0,
+      "authority_complete": false,
+      "remaining_need": "full-body reference plus organized masks and model-backed geometry evidence"
+    },
+    {
+      "slot_id": "right_side_or_profile_full_body",
+      "status": "missing_not_proven",
+      "current_image_count": 0,
+      "authority_complete": false,
+      "remaining_need": "full-body reference plus organized masks and model-backed geometry evidence"
+    },
+    {
+      "slot_id": "back_full_body",
+      "status": "missing_not_proven",
+      "current_image_count": 0,
+      "authority_complete": false,
+      "remaining_need": "full-body reference plus organized masks and model-backed geometry evidence"
+    },
+    {
+      "slot_id": "three_quarter_left_full_body",
+      "status": "missing_not_proven",
+      "current_image_count": 0,
+      "authority_complete": false,
+      "remaining_need": "full-body reference plus organized masks and model-backed geometry evidence"
+    },
+    {
+      "slot_id": "three_quarter_right_full_body",
+      "status": "missing_not_proven",
+      "current_image_count": 0,
+      "authority_complete": false,
+      "remaining_need": "full-body reference plus organized masks and model-backed geometry evidence"
+    },
+    {
+      "slot_id": "contact_occlusion_support_case",
+      "status": "missing_not_proven",
+      "current_image_count": 0,
+      "authority_complete": false,
+      "remaining_need": "full-body reference plus organized masks and model-backed geometry evidence"
+    }
+  ],
+  "policies": {
+    "ref_image_1_top_section_partial_body_policy_recorded": true,
+    "ref_image_1_lower_section_mask_panels_are_calibration_only": true,
+    "ref_image_1_full_new_folder_knees_to_head_excluded_for_lower_body_proof": true,
+    "ref_image_2_main_reference_included_as_front_full_body_calibration": true,
+    "gold_masks_are_not_canonical_polygon_authority": true,
+    "wave71_activation_allowed": false,
+    "mask_promotion_allowed": false
+  },
+  "qa_decision": "canonical_reference_slot_ledger_recorded_missing_slots_no_promotion",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_slot_ledger_only",
+  "gate_policy": {
+    "hard_gate_rerun_performed": false,
+    "reason": "The slot ledger records and classifies existing references only; it does not add a route implementation, canonical polygon, pass-like row, or complete reference package."
+  },
+  "next_step": "Use the ledger plus manifest template to add missing side/profile, back, 3/4, and contact/occlusion/support full-body references before rerunning intake validation.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_CANONICAL_REFERENCE_SLOT_LEDGER_20260708T192329-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/canonical_reference_slot_ledger.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_CANONICAL_REFERENCE_SLOT_LEDGER_20260708T192329-0500.csv",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/canonical_reference_slot_ledger.csv",
+    "Plan/Tracker/Evidence/W70_CANONICAL_REFERENCE_SLOT_LEDGER_20260708T192329-0500.json",
+    "Plan/Tracker/Evidence/canonical_reference_slot_ledger.json",
+    "Plan/Tracker/Evidence/W70_CANONICAL_REFERENCE_SLOT_LEDGER_20260708T192329-0500.csv",
+    "Plan/Tracker/Evidence/canonical_reference_slot_ledger.csv",
+    "runtime_artifacts/mask_factory/wave70_canonical_reference_slot_ledger/20260708T192329-0500/canonical_reference_slot_ledger_panel.png"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "tracker_evidence_id": "W71_LOCAL_CANNY_IPADAPTER_IDENTITY_PATH_BLOCKER_20260707T181000-0500",
+  "created_at": "2026-07-07T18:10:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+  "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "status": "blocked_local_ipadapter_identity_conditioning_assets_missing",
+  "actual_work_performed": [
+    "Inspected current MOD-17 Canny steering and latest subject-anchor QA evidence.",
+    "Inspected the Wave42 main-flow snapshot and link inventory for IPAdapter identity-reference wiring.",
+    "Confirmed the source graph has IPAdapterUnifiedLoader -> IPAdapter -> KSampler model-conditioning structure.",
+    "Scanned local ComfyUI custom_nodes and model directories for IPAdapter custom node and required IPAdapter/CLIP-vision assets.",
+    "Recorded an exact local blocker and switched away from prompt-only Canny retries."
+  ],
+  "evidence": {
+    "prerequisite_blocker": "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W71_LOCAL_CANNY_IPADAPTER_IDENTITY_PATH_BLOCKER_20260707T181000-0500.json",
+    "source_main_flow_snapshot": "Plan/12_SOURCE_SUMMARIES/source_snapshots/WAVE42_MAIN_FLOW_20260702_WAVE13_SOURCE.json",
+    "source_link_inventory": "Plan/10_REGISTRIES/main_flow_link_inventory.csv",
+    "latest_subject_anchor_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W71_LOCAL_CANNY_SUBJECT_ANCHOR_VISUAL_QA_20260707T175000-0500.json"
+  },
+  "blocker": {
+    "summary": "The reference/identity-conditioning path is structurally plausible from the main-flow source, but cannot be honestly executed locally because the current local ComfyUI checkout lacks ComfyUI_IPAdapter_plus and usable IPAdapter/CLIP-vision model assets.",
+    "unblock_requires": [
+      "ComfyUI_IPAdapter_plus custom node",
+      "SDXL-compatible IPAdapter model file",
+      "CLIP-vision model file",
+      "local object_info proof for IPAdapterUnifiedLoader and IPAdapter"
+    ]
+  },
+  "boundaries": {
+    "local_only": true,
+    "ec2_started": false,
+    "aws_contacted": false,
+    "github_api_contacted": false,
+    "civitai_contacted": false,
+    "s3_published": false,
+    "git_checkpointed": false,
+    "generation_executed": false
+  },
+  "next_action": "Switch to the next named local implementation task from Plan/Items and Plan/Tracker; do not spend another prompt-only MOD-17 Canny retry."
+}

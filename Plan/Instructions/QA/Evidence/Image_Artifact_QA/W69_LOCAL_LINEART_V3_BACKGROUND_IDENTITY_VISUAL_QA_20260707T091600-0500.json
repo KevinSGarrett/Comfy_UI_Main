@@ -1,0 +1,96 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "W69-LOCAL-LINEART-V3-BACKGROUND-IDENTITY-VISUAL-QA-20260707T091600-0500",
+    "timestamp":  "2026-07-07T09:16:00-05:00",
+    "project_root":  "C:\\Comfy_UI_Main",
+    "local_only":  true,
+    "ec2_started":  false,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "generation_executed":  true,
+    "lane_id":  "sdxl_realvisxl_controlnet_lineart_lane",
+    "module_id":  "MOD-19-CONTROLNET-LINEART-LANE",
+    "prompt_profile":  "PromptProfiles/base_generation/controlnet_lineart_v1_followup/lineart_v3_background_identity_seed711370003.json",
+    "run_package":  "runtime_artifacts/run_packages/lineart_v3_background_identity_711370003/RUN_PACKAGE_MANIFEST.json",
+    "runtime_evidence":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_LINEART_V3_BACKGROUND_IDENTITY_SEED711370003_EXECUTE_20260707T091500-0500.json",
+    "prior_multiseed_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_LINEART_V2_MULTISEED_ROBUSTNESS_VISUAL_QA_20260707T083000-0500.json",
+    "comparison_targets":  [
+                               {
+                                   "role":  "preferred_v2_candidate",
+                                   "seed":  711370002,
+                                   "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_lineart_v2_natural_skin_background_w69_20260707T061000-0500/images/codex_sdxl_realvisxl_controlnet_lineart_v2_natural_skin_background_seed711370002_00001_.png",
+                                   "qa_summary":  "best balanced preferred local candidate before v3"
+                               },
+                               {
+                                   "role":  "weak_v2_seed_retested",
+                                   "seed":  711370003,
+                                   "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/lineart_v2_robust_711370003_20260707T082132-0500/images/lineart_v2_robust_711370003_00001_.png",
+                                   "qa_summary":  "clean lineart but strong diagonal light-strip background regression"
+                               }
+                           ],
+    "generated_artifact":  {
+                               "seed":  711370003,
+                               "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/lineart_v3_background_identity_711370003_20260707T091312-0500/images/lineart_v3_background_identity_711370003_00001_.png",
+                               "sha256":  "b111d269d6be108667f798f8b7e5ee4bd0b9633e99d57495fbaeb8fc8562919f",
+                               "width":  768,
+                               "height":  768
+                           },
+    "control_map_diagnostic":  {
+                                   "seed":  711370003,
+                                   "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/lineart_v3_background_identity_711370003_20260707T091312-0500/images/codex_sdxl_realvisxl_controlnet_lineart_control_map_diagnostic_00005_.png",
+                                   "sha256":  "1bf00847a4dbbbf4451ae3fe48fc69fe5e916571db4bef87a86ad525d2bc8ba8",
+                                   "width":  512,
+                                   "height":  512
+                               },
+    "workflow_request_change":  {
+                                    "changed_seed":  711370003,
+                                    "changed_prompt":  true,
+                                    "changed_controlnet_settings":  true,
+                                    "controlnet_strength":  0.38,
+                                    "controlnet_end_percent":  0.55,
+                                    "intent":  "Retest the prior weak seed with explicit body-woman subject presentation, explicit diagonal/vertical-light failure negatives, and lower/shorter Lineart ControlNet influence."
+                                },
+    "whole_image_review":  {
+                               "face_realism":  "pass_with_notes",
+                               "eye_quality":  "pass_clearer_and_well_aligned",
+                               "skin_texture":  "pass_with_notes_mild_polish_persists_but_visible_texture_present",
+                               "hands_fingers":  "not_visible_not_scored",
+                               "feet_toes":  "not_visible_not_scored",
+                               "hair_realism":  "pass",
+                               "teeth_mouth_quality":  "pass_no_teeth_visible",
+                               "body_proportions":  "pass_for_head_shoulders_crop",
+                               "pose_accuracy":  "pass",
+                               "clothing_fabric":  "pass_with_notes_blazer_and_collar_clean",
+                               "contact_points":  "not_visible_not_scored",
+                               "deformation_realism":  "pass",
+                               "anatomy_consistency":  "pass_for_visible_crop",
+                               "lighting":  "mixed_improved_no_diagonal_strip_but_top_left_bright_panel_persists",
+                               "background_coherence":  "mixed_partial_improvement_diagonal_strip_removed_vertical_window_bands_and_bright_panel_remain",
+                               "camera_lens_realism":  "pass",
+                               "texture_detail":  "pass_with_notes",
+                               "generation_artifacts":  "pass_with_notes_no_blocking_artifacts",
+                               "identity_drift":  "improved_subject_presentation_back_to_preferred_candidate_family_not_certified_as_exact_identity",
+                               "prompt_compliance":  "partial_pass_subject_and_clothing_hold_background_still_has_light_panel_bands",
+                               "control_adherence":  "pass_with_notes_lower_control_kept clean contours",
+                               "lineart_leakage":  "pass_no_visible_ink_outline_contour_stain_or_lineart_map_leakage"
+                           },
+    "qa_findings":  [
+                        "The v3 prompt/control change materially improves the previously weak seed 711370003: the strong diagonal light strip from the v2 robustness sample is gone.",
+                        "Subject presentation is also improved versus v2 seed 711370004 drift: v3 returns to an body woman in a professional blazer/collared-shirt presentation closer to the preferred v2 candidate family.",
+                        "Lineart control remains clean after reducing strength/end_percent: no visible ink outlines, contour stains, lineart-map leakage, harsh edge halos, or collar/jaw contour corruption were observed.",
+                        "The background is still not a clean robustness solution. A bright rectangular panel remains in the upper-left background and vertical window bands remain along the right side, so v3 is a partial improvement rather than a promoted final candidate.",
+                        "Skin remains mildly polished, although pore/skin detail is visible enough for pass-with-notes local iteration. Hands, full body, and contact points remain outside this head-and-shoulders sample."
+                    ],
+    "qa_result":  "partial_improvement_lineart_v3_background_identity_followup_not_promoted_to_final",
+    "promotion_decision":  "do_not_promote_as_final_lineart_candidate",
+    "preferred_local_candidate_after_review":  "lineart_v2_natural_skin_background_seed711370002_remains_preferred_until_more_robust_background_strategy_exists",
+    "certification_allowed":  false,
+    "remaining_risks":  [
+                            "V3 fixes the prior diagonal light-strip failure on seed 711370003 but does not eliminate all background light-panel/window-band artifacts.",
+                            "This is a single local follow-up sample, not multisample robustness, target-runtime proof, or final Lineart certification.",
+                            "Exact identity consistency is not certified; v3 only improves subject-presentation alignment relative to the weak robustness sample.",
+                            "Hands, full-body anatomy, contact points, and broader scene complexity are not certified."
+                        ],
+    "next_action":  "Record v3 as a partial Lineart background/identity improvement. Keep preferred v2 seed 711370002 as the local Lineart candidate; if continuing Lineart, use a stronger background strategy or different control composition instead of repeating prompt-only tweaks."
+}

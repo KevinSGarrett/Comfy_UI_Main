@@ -1,0 +1,939 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_POSE_LANDMARK_AUTHORITY_20260708T100949-0500",
+  "created_local": "20260708T100949-0500",
+  "task": "Implement pose landmark authority for TRK-W70-0164 / ITEM-W70-0164.",
+  "script": "Plan/07_IMPLEMENTATION/scripts/implement_wave70_pose_landmark_authority.py",
+  "source_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "exists": true,
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "dimensions": [
+      768,
+      768
+    ]
+  },
+  "environment": {
+    "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "cwd": "C:\\Comfy_UI_Main",
+    "wave70_model_registry": {
+      "project_root": "C:\\Comfy_UI_Main",
+      "comfyui_root": "C:\\Comfy_UI_Main\\ComfyUI",
+      "comfyui_venv_python": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe",
+      "system_python": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+      "search_roots": [
+        {
+          "path": "C:\\Comfy_UI_Main",
+          "exists": true
+        },
+        {
+          "path": "C:\\Comfy_UI_Main\\ComfyUI",
+          "exists": true
+        },
+        {
+          "path": "C:\\Comfy_UI_Main\\ComfyUI\\models",
+          "exists": true
+        },
+        {
+          "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux",
+          "exists": true
+        },
+        {
+          "path": "C:\\Comfy_UI_Main\\models",
+          "exists": true
+        },
+        {
+          "path": "C:\\Comfy_UI",
+          "exists": true
+        },
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models",
+          "exists": true
+        },
+        {
+          "path": "C:\\Users\\kevin\\.cache\\huggingface",
+          "exists": true
+        },
+        {
+          "path": "C:\\Users\\kevin\\.cache\\torch",
+          "exists": true
+        }
+      ],
+      "known_assets": {
+        "mediapipe_face_landmarker_task": {
+          "candidates": [
+            {
+              "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\face_landmarker.task",
+              "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\face_landmarker.task",
+              "exists": true,
+              "size_bytes": 3758596,
+              "suffix": ".task",
+              "sha256": "64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff",
+              "sha256_limited": false
+            },
+            {
+              "path": "C:\\Comfy_UI_Main\\ComfyUI\\models\\mediapipe\\face_landmarker.task",
+              "relative_path": "C:\\Comfy_UI_Main\\ComfyUI\\models\\mediapipe\\face_landmarker.task",
+              "exists": false
+            },
+            {
+              "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\mediapipe\\face_landmarker.task",
+              "relative_path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\mediapipe\\face_landmarker.task",
+              "exists": false
+            }
+          ],
+          "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\face_landmarker.task"
+        },
+        "mediapipe_pose_landmarker_task": {
+          "candidates": [
+            {
+              "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\pose_landmarker_heavy.task",
+              "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\pose_landmarker_heavy.task",
+              "exists": true,
+              "size_bytes": 30664242,
+              "suffix": ".task",
+              "sha256": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b",
+              "sha256_limited": false
+            }
+          ],
+          "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\pose_landmarker_heavy.task"
+        },
+        "mediapipe_hand_landmarker_task": {
+          "candidates": [
+            {
+              "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\mesh_graphormer\\hand_landmarker.task",
+              "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/mesh_graphormer/hand_landmarker.task",
+              "exists": true,
+              "size_bytes": 7819105,
+              "suffix": ".task",
+              "sha256": "fbc2a30080c3c557093b5ddfc334698132eb341044ccee322ccf8bcf3607cde1",
+              "sha256_limited": false
+            },
+            {
+              "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\hand_landmarker.task",
+              "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\hand_landmarker.task",
+              "exists": true,
+              "size_bytes": 7819105,
+              "suffix": ".task",
+              "sha256": "fbc2a30080c3c557093b5ddfc334698132eb341044ccee322ccf8bcf3607cde1",
+              "sha256_limited": false
+            }
+          ],
+          "selected_path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\mesh_graphormer\\hand_landmarker.task"
+        },
+        "sam2_hiera_tiny_checkpoint": {
+          "candidates": [
+            {
+              "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt",
+              "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt",
+              "exists": true,
+              "size_bytes": 156008466,
+              "suffix": ".pt",
+              "sha256": "7402e0d864fa82708a20fbd15bc84245c2f26dff0eb43a4b5b93452deb34be69",
+              "sha256_limited": false
+            }
+          ],
+          "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt"
+        },
+        "schp_lip_checkpoint": {
+          "candidates": [
+            {
+              "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\schp\\exp-schp-201908261155-lip.pth",
+              "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\schp\\exp-schp-201908261155-lip.pth",
+              "exists": true,
+              "size_bytes": 267449349,
+              "suffix": ".pth",
+              "sha256": "24fa3254ceeb74c8435458994a64b522fb439a3635b7b86ff470457e0413da00",
+              "sha256_limited": false
+            }
+          ],
+          "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\schp\\exp-schp-201908261155-lip.pth"
+        },
+        "dwpose_detector_onnx": {
+          "candidates": [
+            {
+              "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\yolox_l.onnx",
+              "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\yolox_l.onnx",
+              "exists": true,
+              "size_bytes": 216746733,
+              "suffix": ".onnx",
+              "sha256": "7860ae79de6c89a3c1eb72ae9a2756c0ccfbe04b7791bb5880afabd97855a411",
+              "sha256_limited": false
+            }
+          ],
+          "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\yolox_l.onnx"
+        },
+        "dwpose_pose_onnx": {
+          "candidates": [
+            {
+              "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\dw-ll_ucoco_384.onnx",
+              "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\dw-ll_ucoco_384.onnx",
+              "exists": true,
+              "size_bytes": 134399116,
+              "suffix": ".onnx",
+              "sha256": "724f4ff2439ed61afb86fb8a1951ec39c6220682803b4a8bd4f598cd913b1843",
+              "sha256_limited": false
+            }
+          ],
+          "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\dw-ll_ucoco_384.onnx"
+        },
+        "ultralytics_yolo_pose": {
+          "candidates": [
+            {
+              "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\ultralytics\\yolo11x-pose.pt",
+              "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\ultralytics\\yolo11x-pose.pt",
+              "exists": true,
+              "size_bytes": 118481010,
+              "suffix": ".pt",
+              "sha256": "013c43543b0751b8918486ba96e01ee44a59040683a07f96cc22bcc2cb7785f8",
+              "sha256_limited": false
+            }
+          ],
+          "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\ultralytics\\yolo11x-pose.pt"
+        },
+        "openpose_body_model": {
+          "candidates": [
+            {
+              "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\ckpts\\lllyasviel\\Annotators\\body_pose_model.pth",
+              "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/lllyasviel/Annotators/body_pose_model.pth",
+              "exists": true,
+              "size_bytes": 209267595,
+              "suffix": ".pth",
+              "sha256": "25a948c16078b0f08e236bda51a385d855ef4c153598947c28c0d47ed94bb746",
+              "sha256_limited": false
+            }
+          ],
+          "selected_path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\ckpts\\lllyasviel\\Annotators\\body_pose_model.pth"
+        },
+        "openpose_hand_model": {
+          "candidates": [
+            {
+              "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\ckpts\\lllyasviel\\Annotators\\hand_pose_model.pth",
+              "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/lllyasviel/Annotators/hand_pose_model.pth",
+              "exists": true,
+              "size_bytes": 147341049,
+              "suffix": ".pth",
+              "sha256": "b76b00d1750901abd07b9f9d8c98cc3385b8fe834a26d4b4f0aad439e75fc600",
+              "sha256_limited": false
+            }
+          ],
+          "selected_path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\ckpts\\lllyasviel\\Annotators\\hand_pose_model.pth"
+        },
+        "openpose_face_model": {
+          "candidates": [
+            {
+              "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\ckpts\\lllyasviel\\Annotators\\facenet.pth",
+              "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/lllyasviel/Annotators/facenet.pth",
+              "exists": true,
+              "size_bytes": 153718792,
+              "suffix": ".pth",
+              "sha256": "8beb52e548624ffcc4aed12af7aee7dcbfaeea420c75609fee999fe7add79d43",
+              "sha256_limited": false
+            }
+          ],
+          "selected_path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\ckpts\\lllyasviel\\Annotators\\facenet.pth"
+        }
+      }
+    },
+    "modules": {
+      "mediapipe": {
+        "module": "mediapipe",
+        "available": true,
+        "version": "0.10.35"
+      },
+      "mmpose": {
+        "module": "mmpose",
+        "available": false,
+        "version": null
+      },
+      "mmengine": {
+        "module": "mmengine",
+        "available": false,
+        "version": null
+      },
+      "mmcv": {
+        "module": "mmcv",
+        "available": false,
+        "version": null
+      },
+      "ultralytics": {
+        "module": "ultralytics",
+        "available": true,
+        "version": "8.4.87"
+      },
+      "torch": {
+        "module": "torch",
+        "available": true,
+        "version": "2.12.1+cpu"
+      },
+      "torchvision": {
+        "module": "torchvision",
+        "available": true,
+        "version": "0.27.1+cpu"
+      },
+      "cv2": {
+        "module": "cv2",
+        "available": true,
+        "version": "4.11.0"
+      }
+    }
+  },
+  "runtime_attempts": {
+    "mediapipe_pose_landmarker": {
+      "runtime": "mediapipe.tasks.vision.PoseLandmarker",
+      "module_available": true,
+      "pose_task_model_available": true,
+      "attempted": true,
+      "inference_pass": true,
+      "error": null,
+      "task_model_candidates": [
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\pose_landmarker_heavy.task",
+          "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\pose_landmarker_heavy.task",
+          "exists": true,
+          "size_bytes": 30664242,
+          "suffix": ".task",
+          "sha256": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b",
+          "sha256_limited": false
+        },
+        {
+          "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\mesh_graphormer\\hand_landmarker.task",
+          "exists": true,
+          "size_bytes": 7819105,
+          "suffix": ".task",
+          "sha256": "fbc2a30080c3c557093b5ddfc334698132eb341044ccee322ccf8bcf3607cde1"
+        },
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\face_landmarker.task",
+          "exists": true,
+          "size_bytes": 3758596,
+          "suffix": ".task",
+          "sha256": "64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff"
+        },
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\hand_landmarker.task",
+          "exists": true,
+          "size_bytes": 7819105,
+          "suffix": ".task",
+          "sha256": "fbc2a30080c3c557093b5ddfc334698132eb341044ccee322ccf8bcf3607cde1"
+        },
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\pose_landmarker_heavy.task",
+          "exists": true,
+          "size_bytes": 30664242,
+          "suffix": ".task",
+          "sha256": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b"
+        }
+      ],
+      "mediapipe_version": "0.10.35",
+      "vision_has_pose_landmarker": true,
+      "model_used": {
+        "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\pose_landmarker_heavy.task",
+        "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\pose_landmarker_heavy.task",
+        "exists": true,
+        "size_bytes": 30664242,
+        "suffix": ".task",
+        "sha256": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b",
+        "sha256_limited": false
+      },
+      "detected_person_count": 1,
+      "pose_landmark_count": 33,
+      "pose_landmarks": [
+        {
+          "index": 0,
+          "x_norm": 0.47332323,
+          "y_norm": 0.52001417,
+          "z_norm": -2.2798717,
+          "visibility": 0.99989903,
+          "presence": 0.99983013
+        },
+        {
+          "index": 1,
+          "x_norm": 0.512447,
+          "y_norm": 0.43924367,
+          "z_norm": -2.12725878,
+          "visibility": 0.99980456,
+          "presence": 0.99979979
+        },
+        {
+          "index": 2,
+          "x_norm": 0.54495704,
+          "y_norm": 0.43869865,
+          "z_norm": -2.12877965,
+          "visibility": 0.99976379,
+          "presence": 0.99980015
+        },
+        {
+          "index": 3,
+          "x_norm": 0.56948608,
+          "y_norm": 0.43698573,
+          "z_norm": -2.12867761,
+          "visibility": 0.99979538,
+          "presence": 0.99969316
+        },
+        {
+          "index": 4,
+          "x_norm": 0.41531736,
+          "y_norm": 0.43046832,
+          "z_norm": -2.17250037,
+          "visibility": 0.99988949,
+          "presence": 0.99976271
+        },
+        {
+          "index": 5,
+          "x_norm": 0.3811211,
+          "y_norm": 0.42566073,
+          "z_norm": -2.17421126,
+          "visibility": 0.99990475,
+          "presence": 0.99980038
+        },
+        {
+          "index": 6,
+          "x_norm": 0.34218299,
+          "y_norm": 0.42188859,
+          "z_norm": -2.1754775,
+          "visibility": 0.99991548,
+          "presence": 0.99973017
+        },
+        {
+          "index": 7,
+          "x_norm": 0.57736182,
+          "y_norm": 0.46607339,
+          "z_norm": -1.23143482,
+          "visibility": 0.99982989,
+          "presence": 0.99965024
+        },
+        {
+          "index": 8,
+          "x_norm": 0.26425141,
+          "y_norm": 0.45422685,
+          "z_norm": -1.43293142,
+          "visibility": 0.99977189,
+          "presence": 0.99953222
+        },
+        {
+          "index": 9,
+          "x_norm": 0.51854366,
+          "y_norm": 0.60460126,
+          "z_norm": -1.92193377,
+          "visibility": 0.99969971,
+          "presence": 0.99944443
+        },
+        {
+          "index": 10,
+          "x_norm": 0.39748085,
+          "y_norm": 0.590819,
+          "z_norm": -1.99210203,
+          "visibility": 0.99975854,
+          "presence": 0.99908817
+        },
+        {
+          "index": 11,
+          "x_norm": 0.73024476,
+          "y_norm": 0.89124012,
+          "z_norm": -0.63333309,
+          "visibility": 0.99908245,
+          "presence": 0.99814391
+        },
+        {
+          "index": 12,
+          "x_norm": 0.05071738,
+          "y_norm": 0.90396506,
+          "z_norm": -0.99785674,
+          "visibility": 0.99790657,
+          "presence": 0.99486214
+        },
+        {
+          "index": 13,
+          "x_norm": 0.8265022,
+          "y_norm": 1.42472053,
+          "z_norm": -0.51320827,
+          "visibility": 0.17756413,
+          "presence": 0.16153267
+        },
+        {
+          "index": 14,
+          "x_norm": -0.05004776,
+          "y_norm": 1.45835948,
+          "z_norm": -1.285483,
+          "visibility": 0.18777473,
+          "presence": 0.08124924
+        },
+        {
+          "index": 15,
+          "x_norm": 0.85205102,
+          "y_norm": 1.80435717,
+          "z_norm": -1.11766851,
+          "visibility": 0.01074685,
+          "presence": 0.01904924
+        },
+        {
+          "index": 16,
+          "x_norm": -0.01662979,
+          "y_norm": 1.82726967,
+          "z_norm": -2.02195215,
+          "visibility": 0.01038432,
+          "presence": 0.0104432
+        },
+        {
+          "index": 17,
+          "x_norm": 0.89513797,
+          "y_norm": 1.92069757,
+          "z_norm": -1.27453887,
+          "visibility": 0.01313048,
+          "presence": 0.01989401
+        },
+        {
+          "index": 18,
+          "x_norm": -0.03821179,
+          "y_norm": 1.94617927,
+          "z_norm": -2.26602387,
+          "visibility": 0.01069827,
+          "presence": 0.01021361
+        },
+        {
+          "index": 19,
+          "x_norm": 0.85721779,
+          "y_norm": 1.91085958,
+          "z_norm": -1.43517852,
+          "visibility": 0.01896073,
+          "presence": 0.02547357
+        },
+        {
+          "index": 20,
+          "x_norm": 0.00298423,
+          "y_norm": 1.93330586,
+          "z_norm": -2.38731265,
+          "visibility": 0.01602558,
+          "presence": 0.01491263
+        },
+        {
+          "index": 21,
+          "x_norm": 0.82514352,
+          "y_norm": 1.86613488,
+          "z_norm": -1.19121575,
+          "visibility": 0.01824894,
+          "presence": 0.0251384
+        },
+        {
+          "index": 22,
+          "x_norm": 0.02601168,
+          "y_norm": 1.88115263,
+          "z_norm": -2.09152937,
+          "visibility": 0.01515404,
+          "presence": 0.01779436
+        },
+        {
+          "index": 23,
+          "x_norm": 0.63042349,
+          "y_norm": 1.80635262,
+          "z_norm": 0.16477585,
+          "visibility": 0.02770714,
+          "presence": 0.00685834
+        },
+        {
+          "index": 24,
+          "x_norm": 0.22050478,
+          "y_norm": 1.82530987,
+          "z_norm": -0.16602021,
+          "visibility": 0.03330806,
+          "presence": 0.00607761
+        },
+        {
+          "index": 25,
+          "x_norm": 0.68763655,
+          "y_norm": 2.65079689,
+          "z_norm": 0.27259994,
+          "visibility": 0.00092803,
+          "presence": 0.000448
+        },
+        {
+          "index": 26,
+          "x_norm": 0.24761181,
+          "y_norm": 2.56681228,
+          "z_norm": -0.76407486,
+          "visibility": 0.00281593,
+          "presence": 0.00073901
+        },
+        {
+          "index": 27,
+          "x_norm": 0.64352965,
+          "y_norm": 3.25475144,
+          "z_norm": 1.25689411,
+          "visibility": 0.00080363,
+          "presence": 0.00045617
+        },
+        {
+          "index": 28,
+          "x_norm": 0.2163413,
+          "y_norm": 3.2612896,
+          "z_norm": 0.49222115,
+          "visibility": 0.0017215,
+          "presence": 0.00030189
+        },
+        {
+          "index": 29,
+          "x_norm": 0.64308411,
+          "y_norm": 3.3599,
+          "z_norm": 1.30873835,
+          "visibility": 0.00132809,
+          "presence": 0.00039725
+        },
+        {
+          "index": 30,
+          "x_norm": 0.19698447,
+          "y_norm": 3.36503458,
+          "z_norm": 0.58869475,
+          "visibility": 0.0015754,
+          "presence": 0.00055198
+        },
+        {
+          "index": 31,
+          "x_norm": 0.57615966,
+          "y_norm": 3.41059971,
+          "z_norm": 0.4923507,
+          "visibility": 0.00085143,
+          "presence": 0.00121244
+        },
+        {
+          "index": 32,
+          "x_norm": 0.32456321,
+          "y_norm": 3.47367716,
+          "z_norm": -0.17082536,
+          "visibility": 0.00136522,
+          "presence": 0.0007438
+        }
+      ],
+      "world_landmark_count": 33,
+      "segmentation_mask_count": 1
+    },
+    "ultralytics_rtmpose": {
+      "runtime": "ultralytics.YOLO(task='pose')",
+      "label": "rtmpose_wholebody_checkpoint",
+      "model": {
+        "path": "C:\\Users\\kevin\\.cache\\torch\\hub\\checkpoints\\rtmpose-m_simcc-coco-wholebody_pt-aic-coco_270e-256x192-cd5e845c_20230123.pth",
+        "exists": true,
+        "size_bytes": 72010049,
+        "suffix": ".pth",
+        "sha256": "3da02694cd6479d3b333ff42ebd0723f96bfa06adac1db1e2e815ed2e9e1b02d"
+      },
+      "loaded": true,
+      "inference_pass": false,
+      "detections": [],
+      "error": "AssertionError: C:\\Users\\kevin\\.cache\\torch\\hub\\checkpoints\\rtmpose-m_simcc-coco-wholebody_pt-aic-coco_270e-256x192-cd5e845c_20230123.pth acceptable suffix is {'.pt'}, not .pth"
+    },
+    "ultralytics_openpose_controlnet": {
+      "runtime": "ultralytics.YOLO(task='pose')",
+      "label": "openpose_controlnet_weight",
+      "model": {
+        "path": "C:\\Comfy_UI_Main\\models\\controlnet\\OpenPoseXL2.safetensors",
+        "exists": true,
+        "size_bytes": 5004167829,
+        "suffix": ".safetensors",
+        "sha256": "skipped_large_file"
+      },
+      "loaded": true,
+      "inference_pass": false,
+      "detections": [],
+      "error": "TypeError: model='C:\\Comfy_UI_Main\\models\\controlnet\\OpenPoseXL2.safetensors' is not a supported model format. Ultralytics supports: ('PyTorch', 'TorchScript', 'ONNX', 'OpenVINO', 'TensorRT', 'CoreML', 'TensorFlow SavedModel', 'TensorFlow GraphDef', 'TensorFlow Edge TPU', 'PaddlePaddle', 'MNN', 'NCNN', 'IMX', 'RKNN', 'ExecuTorch', 'Axelera AI', 'DEEPX', 'Qualcomm QNN', 'LiteRT')\nSee https://docs.ultralytics.com/modes/predict for help."
+    }
+  },
+  "artifacts": {
+    "review_panel": "runtime_artifacts/mask_factory/wave70_pose_landmark_authority/20260708T100949-0500/pose_landmark_authority_panel.png",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_pose_landmark_authority/20260708T100949-0500/pose_landmark_authority.json"
+  },
+  "pose_landmark_authority": {
+    "result": "source_derived_pose_landmarks_partial",
+    "pose_landmark_pass": true,
+    "subject_viewer_side_mapping_pass": true,
+    "skeleton_anchor_pass": true,
+    "source_derived_landmark_or_segmentation_pass": true,
+    "detected_person_count": 1,
+    "pose_landmark_count": 33,
+    "segmentation_mask_count": 1,
+    "pose_landmarks": [
+      {
+        "index": 0,
+        "x_norm": 0.47332323,
+        "y_norm": 0.52001417,
+        "z_norm": -2.2798717,
+        "visibility": 0.99989903,
+        "presence": 0.99983013
+      },
+      {
+        "index": 1,
+        "x_norm": 0.512447,
+        "y_norm": 0.43924367,
+        "z_norm": -2.12725878,
+        "visibility": 0.99980456,
+        "presence": 0.99979979
+      },
+      {
+        "index": 2,
+        "x_norm": 0.54495704,
+        "y_norm": 0.43869865,
+        "z_norm": -2.12877965,
+        "visibility": 0.99976379,
+        "presence": 0.99980015
+      },
+      {
+        "index": 3,
+        "x_norm": 0.56948608,
+        "y_norm": 0.43698573,
+        "z_norm": -2.12867761,
+        "visibility": 0.99979538,
+        "presence": 0.99969316
+      },
+      {
+        "index": 4,
+        "x_norm": 0.41531736,
+        "y_norm": 0.43046832,
+        "z_norm": -2.17250037,
+        "visibility": 0.99988949,
+        "presence": 0.99976271
+      },
+      {
+        "index": 5,
+        "x_norm": 0.3811211,
+        "y_norm": 0.42566073,
+        "z_norm": -2.17421126,
+        "visibility": 0.99990475,
+        "presence": 0.99980038
+      },
+      {
+        "index": 6,
+        "x_norm": 0.34218299,
+        "y_norm": 0.42188859,
+        "z_norm": -2.1754775,
+        "visibility": 0.99991548,
+        "presence": 0.99973017
+      },
+      {
+        "index": 7,
+        "x_norm": 0.57736182,
+        "y_norm": 0.46607339,
+        "z_norm": -1.23143482,
+        "visibility": 0.99982989,
+        "presence": 0.99965024
+      },
+      {
+        "index": 8,
+        "x_norm": 0.26425141,
+        "y_norm": 0.45422685,
+        "z_norm": -1.43293142,
+        "visibility": 0.99977189,
+        "presence": 0.99953222
+      },
+      {
+        "index": 9,
+        "x_norm": 0.51854366,
+        "y_norm": 0.60460126,
+        "z_norm": -1.92193377,
+        "visibility": 0.99969971,
+        "presence": 0.99944443
+      },
+      {
+        "index": 10,
+        "x_norm": 0.39748085,
+        "y_norm": 0.590819,
+        "z_norm": -1.99210203,
+        "visibility": 0.99975854,
+        "presence": 0.99908817
+      },
+      {
+        "index": 11,
+        "x_norm": 0.73024476,
+        "y_norm": 0.89124012,
+        "z_norm": -0.63333309,
+        "visibility": 0.99908245,
+        "presence": 0.99814391
+      },
+      {
+        "index": 12,
+        "x_norm": 0.05071738,
+        "y_norm": 0.90396506,
+        "z_norm": -0.99785674,
+        "visibility": 0.99790657,
+        "presence": 0.99486214
+      },
+      {
+        "index": 13,
+        "x_norm": 0.8265022,
+        "y_norm": 1.42472053,
+        "z_norm": -0.51320827,
+        "visibility": 0.17756413,
+        "presence": 0.16153267
+      },
+      {
+        "index": 14,
+        "x_norm": -0.05004776,
+        "y_norm": 1.45835948,
+        "z_norm": -1.285483,
+        "visibility": 0.18777473,
+        "presence": 0.08124924
+      },
+      {
+        "index": 15,
+        "x_norm": 0.85205102,
+        "y_norm": 1.80435717,
+        "z_norm": -1.11766851,
+        "visibility": 0.01074685,
+        "presence": 0.01904924
+      },
+      {
+        "index": 16,
+        "x_norm": -0.01662979,
+        "y_norm": 1.82726967,
+        "z_norm": -2.02195215,
+        "visibility": 0.01038432,
+        "presence": 0.0104432
+      },
+      {
+        "index": 17,
+        "x_norm": 0.89513797,
+        "y_norm": 1.92069757,
+        "z_norm": -1.27453887,
+        "visibility": 0.01313048,
+        "presence": 0.01989401
+      },
+      {
+        "index": 18,
+        "x_norm": -0.03821179,
+        "y_norm": 1.94617927,
+        "z_norm": -2.26602387,
+        "visibility": 0.01069827,
+        "presence": 0.01021361
+      },
+      {
+        "index": 19,
+        "x_norm": 0.85721779,
+        "y_norm": 1.91085958,
+        "z_norm": -1.43517852,
+        "visibility": 0.01896073,
+        "presence": 0.02547357
+      },
+      {
+        "index": 20,
+        "x_norm": 0.00298423,
+        "y_norm": 1.93330586,
+        "z_norm": -2.38731265,
+        "visibility": 0.01602558,
+        "presence": 0.01491263
+      },
+      {
+        "index": 21,
+        "x_norm": 0.82514352,
+        "y_norm": 1.86613488,
+        "z_norm": -1.19121575,
+        "visibility": 0.01824894,
+        "presence": 0.0251384
+      },
+      {
+        "index": 22,
+        "x_norm": 0.02601168,
+        "y_norm": 1.88115263,
+        "z_norm": -2.09152937,
+        "visibility": 0.01515404,
+        "presence": 0.01779436
+      },
+      {
+        "index": 23,
+        "x_norm": 0.63042349,
+        "y_norm": 1.80635262,
+        "z_norm": 0.16477585,
+        "visibility": 0.02770714,
+        "presence": 0.00685834
+      },
+      {
+        "index": 24,
+        "x_norm": 0.22050478,
+        "y_norm": 1.82530987,
+        "z_norm": -0.16602021,
+        "visibility": 0.03330806,
+        "presence": 0.00607761
+      },
+      {
+        "index": 25,
+        "x_norm": 0.68763655,
+        "y_norm": 2.65079689,
+        "z_norm": 0.27259994,
+        "visibility": 0.00092803,
+        "presence": 0.000448
+      },
+      {
+        "index": 26,
+        "x_norm": 0.24761181,
+        "y_norm": 2.56681228,
+        "z_norm": -0.76407486,
+        "visibility": 0.00281593,
+        "presence": 0.00073901
+      },
+      {
+        "index": 27,
+        "x_norm": 0.64352965,
+        "y_norm": 3.25475144,
+        "z_norm": 1.25689411,
+        "visibility": 0.00080363,
+        "presence": 0.00045617
+      },
+      {
+        "index": 28,
+        "x_norm": 0.2163413,
+        "y_norm": 3.2612896,
+        "z_norm": 0.49222115,
+        "visibility": 0.0017215,
+        "presence": 0.00030189
+      },
+      {
+        "index": 29,
+        "x_norm": 0.64308411,
+        "y_norm": 3.3599,
+        "z_norm": 1.30873835,
+        "visibility": 0.00132809,
+        "presence": 0.00039725
+      },
+      {
+        "index": 30,
+        "x_norm": 0.19698447,
+        "y_norm": 3.36503458,
+        "z_norm": 0.58869475,
+        "visibility": 0.0015754,
+        "presence": 0.00055198
+      },
+      {
+        "index": 31,
+        "x_norm": 0.57615966,
+        "y_norm": 3.41059971,
+        "z_norm": 0.4923507,
+        "visibility": 0.00085143,
+        "presence": 0.00121244
+      },
+      {
+        "index": 32,
+        "x_norm": 0.32456321,
+        "y_norm": 3.47367716,
+        "z_norm": -0.17082536,
+        "visibility": 0.00136522,
+        "presence": 0.0007438
+      }
+    ],
+    "blocked_reason": "active_source_is_portrait_not_full_body_reference; full_body_torso_feet_contact_reference_slots_not_visible; human_part_parsing_contact_ownership_and_body_reference_matrix_still_blocked",
+    "findings": [
+      "MediaPipe PoseLandmarker executed against the active source image.",
+      "A source-derived pose landmark record and segmentation-mask count were produced.",
+      "The active portrait is not a full-body reference, so this cannot satisfy full-body, feet, contact, or body reference matrix requirements by itself.",
+      "No active masks changed or promoted."
+    ]
+  },
+  "qa_decision": "pose_landmark_route_executed_source_derived_partial_full_body_authority_still_blocked",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_pose_landmark_partial",
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  },
+  "next_step": "Use full-body source/reference slots before whole-body authority can pass."
+}

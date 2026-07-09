@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-UPSCALE-POLISH-REALESRGAN-CANNY-SEED711570105-VISUAL-QA-20260707T111500-0500",
+  "timestamp": "2026-07-07T11:15:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "lane_id": "sdxl_realesrgan_upscale_polish_lane",
+  "module_id": "WAVE14-P06-UPSCALE-POLISH",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "generation_executed": true,
+  "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_UPSCALE_POLISH_REALESRGAN_CANNY_SEED711570105_EXECUTE_20260707T111000-0500.json",
+  "run_package_manifest": "runtime_artifacts/run_packages/upscale_polish_w69_canny_seed711570105/RUN_PACKAGE_MANIFEST.json",
+  "source_image": {
+    "path": "ComfyUI/input/upscale_polish_source_canny_w69.png",
+    "source_pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_eyeonly_seam_suppression_711570105_20260707T104736-0500/images/canny_w69_eyeonly_seam_suppression_711570105_00001_.png",
+    "sha256": "4119997a991d443c17e2a9b26fad775a179c5ee11d060c730eb64c81e50f728e",
+    "width": 768,
+    "height": 768
+  },
+  "generated_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/upscale_polish_w69_canny_seed711570105_20260707T110600-0500/images/upscale_polish_w69_canny_seed711570105_00001_.png",
+    "sha256": "71205ac2e9811bf9d41939fc51fc0219de377bde16bcd6e5af264a23c635d5da",
+    "width": 3072,
+    "height": 3072,
+    "bytes": 9558805,
+    "pixel_format": "Format24bppRgb"
+  },
+  "workflow_request_change": {
+    "added_lane": "Workflows/base_generation/sdxl_realesrgan_upscale_polish_lane",
+    "template_copy": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realesrgan_upscale_polish_lane",
+    "request_change": "Created a bounded local RealESRGAN upscale/polish lane that loads the corrected Canny seed 711570105 image and applies RealESRGAN_x4plus through ComfyUI ImageUpscaleWithModel.",
+    "minimum_rerun_scope": "one local upscale/polish sample from the corrected Canny source image only"
+  },
+  "strict_whole_image_checks": {
+    "image_decodable": "pass",
+    "expected_dimensions": "pass_3072x3072_from_4x_upscale",
+    "face_realism": "pass_with_notes",
+    "eye_quality": "pass_readable_catchlights_and_alignment",
+    "skin_texture": "pass_with_polished_texture_note",
+    "hands_fingers": "not_visible_not_certified",
+    "feet_toes": "not_visible_not_certified",
+    "hair_realism": "pass_dense_curly_hair_preserved_with_some_soft_upscale_edges",
+    "teeth_mouth_quality": "pass_closed_mouth_no_teeth_visible",
+    "body_proportions": "pass_for_head_and_shoulders_crop_only",
+    "pose_accuracy": "pass",
+    "clothing_fabric": "pass_white_blazer_edges_and_fabric_texture_readable",
+    "contact_points": "not_visible_not_certified",
+    "deformation_realism": "pass",
+    "anatomy_consistency": "pass_for_visible_crop",
+    "lighting": "pass_soft_fill_preserved",
+    "background_coherence": "pass_no_right_edge_seam_observed",
+    "camera_lens_realism": "pass_portrait_crop_preserved",
+    "texture_detail": "pass_with_notes_upscale_adds_resolution_but_not_true_fine_skin_texture",
+    "generation_artifacts": "pass_no_blocking_artifacts_observed",
+    "identity_drift": "pass_no_new_identity_drift_observed_from_source_upscale",
+    "prompt_compliance": "pass_for_upscale_polish_scope",
+    "control_adherence": "not_applicable_upscale_only",
+    "canny_leakage": "pass_no_visible_canny_map_transfer_harsh_edge_halos_or_black_contour_stains"
+  },
+  "comparison_to_source": {
+    "improvements": [
+      "The output is a valid 4x local upscale of the corrected Canny source, increasing from 768x768 to 3072x3072.",
+      "The prior right-edge seam remains absent after upscale.",
+      "Face, eyes, hair mass, blazer silhouette, and background composition remain coherent after model loading and generation.",
+      "No new Canny guide leakage, hard contour staining, or edge-panel artifacts are visible in the whole image."
+    ],
+    "tradeoffs_or_notes": [
+      "RealESRGAN preserves a smooth portrait look and does not reconstruct convincing pore-level skin texture from the source.",
+      "Some hair-edge strands remain soft or painterly at full-image scale.",
+      "Hands, feet, full-body anatomy, and contact points are outside this crop and remain uncertified."
+    ]
+  },
+  "qa_result": "pass_with_notes_local_realesrgan_upscale_polish_runtime_and_visual_qa",
+  "pass_planner_binding_target": "p06_upscale_polish",
+  "certification_scope": "local_upscale_polish_evidence_for_pass_planner_binding_only",
+  "certification_allowed": false,
+  "remaining_risks": [
+    "This is local runtime evidence only and does not prove target-runtime EC2 readiness.",
+    "The upscale lane improves resolution and validates local model integration, but final hyperrealism still needs downstream target-runtime proof and final promotion QA.",
+    "No broad multi-image upscale robustness matrix was run."
+  ],
+  "next_action": "Bind this local p06_upscale_polish evidence into the Wave14 Pass Planner request and validate that the prior missing p06 warning clears."
+}

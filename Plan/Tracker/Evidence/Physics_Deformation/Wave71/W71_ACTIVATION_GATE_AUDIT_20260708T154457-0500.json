@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W71_ACTIVATION_GATE_AUDIT_20260708T154457-0500",
+  "created_local": "20260708T154457-0500",
+  "created_iso": "2026-07-08T15:44:57-05:00",
+  "script": "Plan/07_IMPLEMENTATION/scripts/audit_wave71_activation_gate.py",
+  "task": "Audit Wave71 activation gate after Wave70 fail-closed whole-body authority work.",
+  "wave71_activation_gate": {
+    "result": "deferred_required_not_complete",
+    "activation_gate_met": false,
+    "deferred_status_preserved": true,
+    "reason": "Wave70/current foundation is not stable enough for Wave71 physics-map activation.",
+    "no_physics_map_generation_started": true,
+    "no_simulation_backend_started": true,
+    "ec2_started": false
+  },
+  "wave70_dependency_summary": {
+    "tracker_path": "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv",
+    "row_count": 166,
+    "status_counts": {
+      "Blocked_Body_Geometry_Authority_Not_Integrated": 1,
+      "Blocked_Body_Geometry_Dependency_Missing": 1,
+      "Blocked_Human_Part_Parsing_Route_Unavailable": 1,
+      "Blocked_Local_Source_Hand_Region_Not_Visible": 1,
+      "Blocked_Local_Source_Region_Not_Visible": 2,
+      "Blocked_Model_Geometry_Authority_Not_Integrated": 1,
+      "Blocked_Model_Geometry_Dependency_Missing": 2,
+      "Blocked_Person_Instance_Owner_Route_Unloadable": 1,
+      "Blocked_Reference_Matrix_Not_Run": 1,
+      "Blocked_Wave70_Mask_Geometry_Gate_Not_Passed": 1,
+      "Blocked_Wave70_Mask_Promotion_Gate_Not_Passed": 17,
+      "Canonical_Geometry_Polygon_Exported_Pending_Mask_Generation": 1,
+      "Canonical_Polygon_Mask_Generated_Not_Promoted": 1,
+      "Gold_Trace_Registered_Pending_Authority_Gates": 1,
+      "Implemented_Pending_Model_Consensus_And_Downstream_Authority": 1,
+      "Model_Consensus_Geometry_Validated_Pending_Canonical_Polygon": 1,
+      "Pose_Landmark_Authority_Source_Derived_Partial": 1,
+      "Required_Not_Complete": 128,
+      "Segmentation_Refinement_Authority_Implemented_Pending_Consensus": 1,
+      "Semantic_Face_Parsing_Authority_Implemented_Pending_Consensus": 1,
+      "Visibility_Occlusion_Confidence_Implemented_Pending_Consensus": 1
+    },
+    "whole_body_authority_current_evidence": {
+      "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/body_reference_matrix.json": {
+        "exists": true,
+        "evidence_id": "W70_BODY_REFERENCE_MATRIX_AUTHORITY_20260708T153118-0500",
+        "qa_decision": "ref_images_1_2_body_reference_matrix_context_available_route_not_complete_global_gates_pass",
+        "sha256": "87fcea239c48560a3fa86cf921ab55be194dd0f9719e6c1d52ef12f0dbdce8c4"
+      },
+      "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/redo_existing_body_hand_contact_masks.json": {
+        "exists": true,
+        "evidence_id": "W70_REDO_EXISTING_BODY_HAND_CONTACT_MASKS_20260708T153727-0500",
+        "qa_decision": "blocked_exact_local_canonical_body_geometry_unavailable_ref_images_1_2_context_available",
+        "sha256": "afb349d66015f00141b711b2ce9c027a6415c753ed05813ea05ad34f3a6170af"
+      },
+      "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/whole_body_geometry_promotion_integration.json": {
+        "exists": true,
+        "evidence_id": "W70_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_20260708T154144-0500",
+        "qa_decision": "blocked_exact_local_whole_body_geometry_authority_not_integrated_ref_images_1_2_context_available",
+        "sha256": "de33f8ebdbdb30ac22946cfeff085520209e28b588baf3910c390c721638aa94"
+      }
+    },
+    "activation_dependency_result": "not_stable_enough_for_wave71_activation",
+    "reason": "Wave70 still has fail-closed whole-body geometry authority blockers: body reference matrix context exists but has not passed, canonical body geometry is unavailable, and whole-body promotion integration remains blocked."
+  },
+  "wave71_summary": {
+    "source_doc": {
+      "path": "Plan/07_IMPLEMENTATION/physics_deformation_system/WAVE71_SOFT_BODY_PHYSICS_DEFORMATION_MAP_SYSTEM.md",
+      "exists": true,
+      "sha256": "e42f95af826ea9804612a10fa1c904a40334b85e2f5975aa8bb63056741f8515"
+    },
+    "source_matrix": {
+      "path": "Plan/07_IMPLEMENTATION/physics_deformation_system/WAVE71_SOFT_BODY_PHYSICS_DEFORMATION_MAP_SYSTEM_MATRIX.csv",
+      "exists": true,
+      "sha256": "32ef70afc449c66b32c9d9bbc7cd81c3735df1c9774472559815e1d896a47f55",
+      "row_count": 38
+    },
+    "tracker": {
+      "path": "Plan/Tracker/wave71_soft_body_physics_deformation_map_system_tracker.csv",
+      "row_count": 34,
+      "status_counts": {
+        "Deferred_Required_Not_Complete": 34
+      },
+      "first_row": "TRK-W71-0001",
+      "last_row": "TRK-W71-0042"
+    },
+    "activation_gate_text": "Deferred. Activate only after current ComfyUI foundation, runtime lanes, cost controls, and Wave70 Mask Factory coverage are stable enough that physics-map work will not derail nearer project milestones."
+  },
+  "environment": {
+    "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "cwd": "C:\\Comfy_UI_Main"
+  },
+  "tracker_item_updates": {
+    "Plan/Tracker/wave71_soft_body_physics_deformation_map_system_tracker.csv": 34,
+    "Plan/Tracker/Waves/Wave71/WAVE71_SOFT_BODY_PHYSICS_DEFORMATION_MAP_SYSTEM_TRACKER_ROWS.csv": 34,
+    "Plan/Items/wave71_soft_body_physics_deformation_map_system_itemized_list.csv": 34,
+    "Plan/Items/Waves/Wave71/WAVE71_SOFT_BODY_PHYSICS_DEFORMATION_MAP_SYSTEM_ITEM_ROWS.csv": 34
+  },
+  "qa_decision": "deferred_wave71_activation_gate_not_met_wave70_not_stable",
+  "next_step": "Inspect Wave72+ trackers or other project trackers for the next non-deferred local-first task."
+}

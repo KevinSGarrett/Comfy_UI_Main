@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-REALESRGAN-UPSCALE-MODEL-PROVISIONING-20260707T110500-0500",
+  "timestamp": "2026-07-07T11:05:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "model_role": "upscale_model",
+  "model_file": "models/upscale_models/RealESRGAN_x4plus.pth",
+  "model_filename": "RealESRGAN_x4plus.pth",
+  "sha256": "4fa0d38905f75ac06eb49a7951b426670021be3018265fd191d2125df9d682f1",
+  "bytes": 67040989,
+  "source": "https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth",
+  "config_change": {
+    "file": "config/comfyui_extra_model_paths.yaml",
+    "mapping": "upscale_models: upscale_models"
+  },
+  "runtime_use": {
+    "lane_id": "sdxl_realesrgan_upscale_polish_lane",
+    "runtime_requirements": "Workflows/base_generation/sdxl_realesrgan_upscale_polish_lane/runtime_requirements.json",
+    "node_id": "2",
+    "node_class": "UpscaleModelLoader",
+    "input": "model_name",
+    "observed_value": "RealESRGAN_x4plus.pth"
+  },
+  "qa_result": "pass_local_model_present_hash_recorded_and_runtime_loaded",
+  "certification_scope": "local_model_provisioning_for_realesrgan_upscale_polish_lane",
+  "certification_allowed": false,
+  "remaining_risks": [
+    "This proves local model presence and local runtime loading only.",
+    "Target-runtime EC2 model-path proof remains separate."
+  ]
+}

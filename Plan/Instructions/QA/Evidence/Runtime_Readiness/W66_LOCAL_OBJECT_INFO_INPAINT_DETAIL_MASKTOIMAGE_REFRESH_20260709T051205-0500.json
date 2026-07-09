@@ -1,0 +1,89 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "W66-LOCAL-OBJECT-INFO-INPAINT-DETAIL-MASKTOIMAGE-REFRESH-20260709T051205-0500",
+    "timestamp":  "2026-07-09T05:12:16-05:00",
+    "project_root":  "C:\\Comfy_UI_Main",
+    "lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+    "module_id":  "MOD-13-SDXL-INPAINT-DETAIL-LANE",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "s3_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "prompt_posted":  false,
+    "comfyui_contacted":  true,
+    "local_comfy":  {
+                        "root":  "C:\\Comfy_UI_Main\\ComfyUI",
+                        "python":  "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe",
+                        "extra_model_paths_config":  "config/comfyui_extra_model_paths.yaml",
+                        "port":  8188,
+                        "started_by_probe":  false,
+                        "stopped_by_probe":  false,
+                        "port_closed_after_stop":  false,
+                        "preexisting_listener_used":  true
+                    },
+    "object_info":  {
+                        "status":  "pass",
+                        "node_count":  855,
+                        "required_nodes_present":  [
+                                                       "CheckpointLoaderSimple",
+                                                       "LoadImage",
+                                                       "LoadImageMask",
+                                                       "VAEEncode",
+                                                       "SetLatentNoiseMask",
+                                                       "FeatherMask",
+                                                       "MaskToImage",
+                                                       "ImageCompositeMasked",
+                                                       "CLIPTextEncode",
+                                                       "KSampler",
+                                                       "VAEDecode",
+                                                       "SaveImage"
+                                                   ],
+                        "missing_required_nodes":  [
+
+                                                   ]
+                    },
+    "required_models":  [
+                            {
+                                "role":  "checkpoint",
+                                "local_path":  "models/checkpoints/realvisxlV50_v50Bakedvae.safetensors",
+                                "exists":  true,
+                                "bytes":  6938065488,
+                                "expected_sha256":  "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+                                "sha256":  "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+                                "sha256_match":  true
+                            }
+                        ],
+    "required_input_assets":  [
+                                  {
+                                      "role":  "source_image",
+                                      "local_path":  "ComfyUI/input/sdxl_inpaint_detail_source_canny_v1.png",
+                                      "exists":  true,
+                                      "bytes":  581287,
+                                      "expected_sha256":  "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523",
+                                      "sha256":  "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523",
+                                      "sha256_match":  true
+                                  },
+                                  {
+                                      "role":  "mask_image",
+                                      "local_path":  "ComfyUI/input/sdxl_inpaint_detail_micro_nomouth_v4.png",
+                                      "exists":  true,
+                                      "bytes":  6702,
+                                      "expected_sha256":  "9bfbbda24b0f4915282649bb8c2b3e5a39b5a057dacbce6278683e9b531ec92d",
+                                      "sha256":  "9bfbbda24b0f4915282649bb8c2b3e5a39b5a057dacbce6278683e9b531ec92d",
+                                      "sha256_match":  true
+                                  }
+                              ],
+    "result":  "pass_local_object_info_model_input_hash_proof",
+    "errors":  [
+
+               ],
+    "masks_consumed_as_truth":  false,
+    "masks_promoted":  false,
+    "wave70_hard_gate_rerun":  false,
+    "wave71_plus_activated":  false,
+    "does_not_replace_target_runtime_proof":  true,
+    "next_action":  "Use as local selected-lane readiness proof only; target-runtime object_info/path/hash/input proof, bounded target-runtime generation, pullback, technical QA, and strict whole-image visual QA remain required before promotion."
+}

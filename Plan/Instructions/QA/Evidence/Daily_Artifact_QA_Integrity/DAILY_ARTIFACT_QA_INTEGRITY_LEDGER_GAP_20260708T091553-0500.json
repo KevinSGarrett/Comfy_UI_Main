@@ -1,0 +1,30 @@
+﻿{
+    "evidence_id":  "DAILY_ARTIFACT_QA_INTEGRITY_LEDGER_GAP_20260708T091553-0500",
+    "created_at":  "2026-07-08T09:18:52.7671897-05:00",
+    "classification":  "QA_LEDGER_GAP",
+    "source_external_audit":  "C:\\Users\\kevin\\.codex\\automations\\comfy-ui-main-daily-artifact-qa-integrity-audit\\audits\\DAILY_ARTIFACT_QA_INTEGRITY_20260708T091553-0500.json",
+    "finding":  "Wave70 tracker/items have 166 rows each, not expected 178 rows each.",
+    "missing_ids":  [
+                        "W70-0099",
+                        "W70-0100",
+                        "W70-0133",
+                        "W70-0134",
+                        "W70-0135",
+                        "W70-0136",
+                        "W70-0137",
+                        "W70-0138",
+                        "W70-0140",
+                        "W70-0160",
+                        "W70-0161",
+                        "W70-0173"
+                    ],
+    "latest_gate_summary":  {
+                                "geometry_gate":  "pass_wave70_mask_geometry_hard_gate",
+                                "promotion_gate":  "pass_wave70_mask_promotion_hard_gate",
+                                "checked_row_count":  332,
+                                "expected_checked_row_count":  356,
+                                "pass_like_row_count":  0
+                            },
+    "correction_needed":  true,
+    "required_correction":  "Restore missing Wave70 tracker/item rows as fail-closed rows with exact authority/gate requirements, then rerun bounded Wave70 geometry and promotion gates and verify checked_row_count=356 and pass_like_row_count=0."
+}

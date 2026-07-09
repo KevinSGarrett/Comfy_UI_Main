@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-OPENPOSE-CONTROLNET-V1-VISUAL-QA-20260707T062800-0500",
+  "timestamp": "2026-07-07T06:28:00-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+  "module_id": "MOD-20-CONTROLNET-OPENPOSE-LANE",
+  "artifact_type": "image_artifact_visual_qa",
+  "local_only": true,
+  "ec2_started": false,
+  "generation_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_OPENPOSE_CONTROLNET_V1_EXECUTE_20260707T062500-0500.json",
+  "technical_qa_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_CONTROLNET_V1_TECHNICAL_QA_20260707T062700-0500.json",
+  "reviewed_artifacts": [
+    {
+      "role": "openpose_control_map_diagnostic",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_openpose_w69_v1_20260707T062500-0500/images/codex_sdxl_realvisxl_controlnet_openpose_control_map_diagnostic_00001_.png",
+      "sha256": "8a70e5299c2c4d7e7ae9ac649ec50a27fb56219b24438063c18f070292781482",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "role": "generated_portrait",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_openpose_w69_v1_20260707T062500-0500/images/codex_sdxl_realvisxl_controlnet_openpose_smoke_00001_.png",
+      "sha256": "a87e54f75280f001caadcad8cb53aa73be2f3058b950e2d193af39e3e3c88cdb",
+      "width": 768,
+      "height": 768
+    }
+  ],
+  "visual_findings": {
+    "control_map_diagnostic": "The diagnostic image is the expected black-background OpenPose skeleton map with colored limb segments and white facial/keypoint markers. It matches the intended pose-map role and shows no unexpected photographic content.",
+    "face_realism": "Pass. The generated portrait has coherent facial structure, believable skin tone, aligned eyes, stable nose and mouth anatomy, and no obvious facial distortion.",
+    "eye_quality": "Pass. Eyes are clear and aligned with believable catchlights and no cross-eye artifact.",
+    "skin_texture": "Pass with notes. Skin has visible stubble and some pore detail, but still trends slightly polished in forehead and cheek regions.",
+    "hair_realism": "Pass. Hair shape and strand mass are coherent with plausible highlights and no obvious melting.",
+    "pose_and_anatomy": "Pass for the visible head-and-shoulders crop. Neck, shoulders, shirt collar, and blazer alignment are coherent; hands and full-body pose are not visible and therefore not certified.",
+    "clothing_and_fabric": "Pass. Blazer, shirt, and tie are realistic enough for a local smoke sample with stable collar boundaries.",
+    "background_lighting_camera": "Pass. Background and lighting are coherent, portrait-style, and free of visible pose-map contamination.",
+    "control_map_leakage": "Pass. No visible OpenPose colored bones, dots, skeleton overlays, or map stains appear in the generated portrait.",
+    "prompt_compliance": "Pass with notes. The output is a hyperrealistic editorial head-and-shoulders portrait with natural posture, but the test does not exercise hands or wider pose control."
+  },
+  "defects": [],
+  "notes": [
+    "This proves local OpenPose ControlNet model load and bounded generation for one head-and-shoulders sample.",
+    "The sample does not certify hands, full-body pose, multi-person pose, or broader pose robustness.",
+    "Slight polished skin remains as a quality note."
+  ],
+  "result": "pass_with_notes_for_local_openpose_controlnet_smoke",
+  "certification_allowed": false,
+  "promotion_boundary": "Local smoke generation plus strict visual QA only. Final OpenPose certification and target-runtime EC2 proof remain unclaimed.",
+  "next_action": "Use this as first local OpenPose generation proof. For OpenPose certification, run broader pose/robustness samples including hands or full-body framing; otherwise continue local-first with the remaining normal ControlNet model proof."
+}

@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-TEETH-STRICT-VISUAL-ACCEPTANCE-20260707T230000-0500",
+  "timestamp": "2026-07-07T23:00:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave70_mf70_teeth_strict_visual_fail_closed_acceptance",
+  "implementation_script": "Plan/07_IMPLEMENTATION/scripts/accept_wave70_teeth_strict_visual_audit.py",
+  "implementation_script_sha256": "4f7c26a8123a1fc5dc34913d5e90178a7a9cd120096b2699c651f3fb9b2399bf",
+  "mask_type_id": "mf70_teeth",
+  "tracker_id": "TRK-W70-0019",
+  "item_id": "ITEM-W70-0019",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "source_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+  "source_image_sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+  "candidate_mask": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_teeth_20260707T194500-0500/wave70_mf70_teeth_mask.png",
+  "candidate_mask_sha256": "f2bc7f635a41035e37602f219997d34b24e8dcf481847a51aa42c4adecb9053e",
+  "candidate_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_teeth_20260707T194500-0500/wave70_mf70_teeth_overlay.png",
+  "candidate_overlay_sha256": "f41ff8c705aa051954a25a45b6c13e080815f8d16fea852cf9737219b9e6ffd4",
+  "boundary_protocol": "Plan/Instructions/QA/WAVE70_PROTECTED_BOUNDARY_REGISTRY_PROTOCOL.md",
+  "protected_overlap_matrix": "runtime_artifacts/mask_factory/wave70_mf70_teeth/strict_visual_acceptance/20260707T230000-0500/mf70_teeth_strict_protected_overlap_matrix.csv",
+  "protected_overlap_matrix_sha256": "2f7ae32f54ec6f5a91750ab65889df03b044351f22184ecc5ccb207f679b5c78",
+  "boundary_overlay": "runtime_artifacts/mask_factory/wave70_mf70_teeth/strict_visual_acceptance/20260707T230000-0500/mf70_teeth_strict_boundary_overlay.png",
+  "boundary_overlay_sha256": "b9db7514ce43b5ff75463548cbb61b84bd0664fde802a5ffaa7a4870a7700839",
+  "review_panel": "runtime_artifacts/mask_factory/wave70_mf70_teeth/strict_visual_acceptance/20260707T230000-0500/mf70_teeth_strict_visual_acceptance_panel.png",
+  "review_panel_sha256": "806a8df71e11ee81b1d94f419248d6c43750651ada1efecf5c2c6a1d14143f8e",
+  "candidate_metrics": {
+    "white_pixel_count": 380,
+    "nonblack_pixel_count": 380,
+    "coverage_percent": 0.0644,
+    "bbox_pixels": {
+      "x_min": 340,
+      "y_min": 454,
+      "x_max": 402,
+      "y_max": 462
+    }
+  },
+  "protected_overlap_rows": [
+    {
+      "target_mask_type_id": "mf70_teeth",
+      "protected_region_id": "upper_lip",
+      "overlap_pixels": 0,
+      "overlap_percent_of_candidate": 0.0,
+      "allowed_overlap_pixels": 8,
+      "pass": true
+    },
+    {
+      "target_mask_type_id": "mf70_teeth",
+      "protected_region_id": "lower_lip",
+      "overlap_pixels": 0,
+      "overlap_percent_of_candidate": 0.0,
+      "allowed_overlap_pixels": 8,
+      "pass": true
+    },
+    {
+      "target_mask_type_id": "mf70_teeth",
+      "protected_region_id": "inner_mouth_non_teeth",
+      "overlap_pixels": 24,
+      "overlap_percent_of_candidate": 6.3158,
+      "allowed_overlap_pixels": 0,
+      "pass": false
+    },
+    {
+      "target_mask_type_id": "mf70_teeth",
+      "protected_region_id": "tongue_inner_mouth",
+      "overlap_pixels": 0,
+      "overlap_percent_of_candidate": 0.0,
+      "allowed_overlap_pixels": 0,
+      "pass": true
+    },
+    {
+      "target_mask_type_id": "mf70_teeth",
+      "protected_region_id": "philtrum",
+      "overlap_pixels": 0,
+      "overlap_percent_of_candidate": 0.0,
+      "allowed_overlap_pixels": 0,
+      "pass": true
+    },
+    {
+      "target_mask_type_id": "mf70_teeth",
+      "protected_region_id": "chin_lower_skin",
+      "overlap_pixels": 0,
+      "overlap_percent_of_candidate": 0.0,
+      "allowed_overlap_pixels": 0,
+      "pass": true
+    },
+    {
+      "target_mask_type_id": "mf70_teeth",
+      "protected_region_id": "mouth_lips_v4",
+      "overlap_pixels": 0,
+      "overlap_percent_of_candidate": 0.0,
+      "allowed_overlap_pixels": 12,
+      "pass": true
+    }
+  ],
+  "protected_overlap_failures": [
+    "inner_mouth_non_teeth"
+  ],
+  "protected_overlap_matrix_pass": false,
+  "visual_review_findings": [
+    "Accepted: mask targets the tiny central visible teeth band visible in the active closed-mouth source crop.",
+    "Accepted: mask does not behave like a broad mouth/lips mask and has no right-side speckle fragments.",
+    "Accepted: protected-overlap audit clears non-teeth inner mouth, tongue/inner-mouth, philtrum, chin skin, and lip boundaries within tight local tolerances.",
+    "Accepted with boundary: source only exposes a tiny teeth band; this is single-anchor candidate evidence only and does not prove generalized teeth masking.",
+    "Generated-output stability is reused only because the old local proof used this same mask hash and already passed whole-image QA; target-runtime/reference-matrix proof remains pending."
+  ],
+  "semantic_mask_alignment_candidate_pass": false,
+  "generated_output_proof_reused": {
+    "prompt_profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_teeth_seed210818.json",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_teeth_seed210818/RUN_PACKAGE_MANIFEST.json",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_TEETH_SEED210818_EXECUTE_20260707T194500-0500.json",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_teeth_seed210818_20260707T193049-0500/images/codex_wave70_mf70_teeth_seed210818_00001_.png",
+    "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_teeth_seed210818_20260707T193049-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00024_.png",
+    "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_teeth/qa_comparisons/wave70_mf70_teeth_source_overlay_output_compare.png",
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_TEETH_SEED210818_VISUAL_QA_20260707T194500-0500.json",
+    "result": "pass_with_notes_local_wave70_teeth_generated_output",
+    "hashes": {
+      "prompt_profile_sha256": "c046134af61d437d19287c39d4eded83a6ebbe74e4ba0fb677ea7eb3a4bd779b",
+      "run_package_sha256": "56dfeda7c8f11d9962b0b52ab3aceb6c0357f7208e1ee826adf328463201d9b5",
+      "runtime_evidence_sha256": "1e586ae22d6cac3958667e32b097ca77fb52c1de716c34a82058c842099d1edf",
+      "generated_output_sha256": "7b76125f737ae1fe2ebcc3bf0846d948e06b100015c2112c0105740a6185470b",
+      "diagnostic_mask_preview_sha256": "4be55e1335a3ee55753840f4d2d2fcef483e7b8d59dcd56e124f3eced3fbef05",
+      "comparison_artifact_sha256": "c8467a3687af11958f20d1712a5a3366ee427aef1c98257e3a68d93a8017b5d7",
+      "visual_qa_sha256": "31c7b666cc308f15a75ccde4b1b8914532aaa3a2b2026c602bb494b5ce0acba7"
+    }
+  },
+  "generated_output_safe_pass": true,
+  "target_runtime_proof_present": false,
+  "reference_image_matrix_pass": false,
+  "completion_allowed_by_mask_alignment": false,
+  "result": "teeth_strict_visual_candidate_protected_overlap_failed",
+  "status_after_audit": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+  "status_decision_after_audit": "teeth_candidate_protected_overlap_failed",
+  "boundary": "This evidence accepts only the tightened mf70_teeth mask on the active source portrait. It does not certify Wave70 and does not replace target-runtime/reference-matrix proof."
+}

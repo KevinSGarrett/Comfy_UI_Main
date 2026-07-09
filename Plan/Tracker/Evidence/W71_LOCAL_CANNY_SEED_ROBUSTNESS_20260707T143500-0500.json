@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "tracker_evidence_id": "W71_LOCAL_CANNY_SEED_ROBUSTNESS_20260707T143500-0500",
+  "created_at": "2026-07-07T14:35:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+  "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "status": "local_seed_robustness_generated_but_failed_visual_qa",
+  "actual_work_performed": [
+    "Created two seed-only robustness prompt profiles using the retained 0.42/0.60 v3-control settings.",
+    "Packaged both profiles through New-WorkflowRunPackage.ps1 with static validation passing at zero defects.",
+    "Executed both local ComfyUI run packages and pulled back generated portrait plus diagnostic control-map outputs.",
+    "Performed strict whole-image visual QA on both generated outputs against the retained seed 711570106 candidate.",
+    "Created a side-by-side comparison artifact showing the retained candidate and both seed-only robustness failures."
+  ],
+  "retained_local_candidate": "canny_w71_matrix_preferred_042060_seed711570106",
+  "robustness_result": "failed_seed_robustness",
+  "rejected_seed_samples": [
+    {
+      "profile_id": "canny_w71_robust_seed711570107",
+      "reason": "Identity, hair silhouette, and gender presentation drift; left-side bright panel/background boundary reappears."
+    },
+    {
+      "profile_id": "canny_w71_robust_seed711570108",
+      "reason": "Identity, face shape, hair length, lighting, and background shift too far from the retained candidate."
+    }
+  ],
+  "evidence": {
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W71_LOCAL_CANNY_SEED_ROBUSTNESS_VISUAL_QA_20260707T143500-0500.json",
+    "comparison": "runtime_artifacts/controlnet_canny_w71_quality_loop/qa_comparisons/canny_w71_seed_robustness_711570106_107_108_compare.png",
+    "runtime_evidence": [
+      "Plan/Instructions/QA/Evidence/Workflow_Runtime/W71_LOCAL_CANNY_ROBUST_SEED711570107_EXECUTE_20260707T143000-0500.json",
+      "Plan/Instructions/QA/Evidence/Workflow_Runtime/W71_LOCAL_CANNY_ROBUST_SEED711570108_EXECUTE_20260707T143200-0500.json"
+    ],
+    "run_packages": [
+      "runtime_artifacts/run_packages/canny_w71_robust_seed711570107/RUN_PACKAGE_MANIFEST.json",
+      "runtime_artifacts/run_packages/canny_w71_robust_seed711570108/RUN_PACKAGE_MANIFEST.json"
+    ]
+  },
+  "boundaries": {
+    "local_only": true,
+    "ec2_started": false,
+    "aws_contacted": false,
+    "github_api_contacted": false,
+    "civitai_contacted": false,
+    "target_runtime_proof_present": false,
+    "final_certification_allowed": false
+  },
+  "next_action": "Do not treat the retained 0.42/0.60 sample as seed-robust. If continuing MOD-17 Canny locally, add identity anchoring or change one identity-preservation variable before another seed sweep."
+}

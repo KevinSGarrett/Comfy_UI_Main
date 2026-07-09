@@ -1,0 +1,257 @@
+{
+  "schema_version": "1.1",
+  "evidence_id": "W70_TEMPORAL_BODY_PART_TRACKING_AUTHORITY_20260708T151823-0500",
+  "created_local": "20260708T151823-0500",
+  "created_iso": "2026-07-08T15:18:23-05:00",
+  "task": "Implement temporal body-part tracking and video mask drift authority for TRK-W70-0175 / ITEM-W70-0175 using Ref_Image_1 context.",
+  "script": "Plan/07_IMPLEMENTATION/scripts/implement_wave70_temporal_body_part_tracking_authority.py",
+  "historical_portrait_source": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "exists": true,
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "role": "historical_prior_active_source_not_decisive_for_current_body_reference_evaluation"
+  },
+  "main_reference": {
+    "path": "Ref_Image_1/725de85824bbe45ba4601dd4a7aed698.jpg",
+    "exists": true,
+    "sha256": "b4876e7415485efc79c2c69a914e3316c8c5f7301dc15a69b039f7515ab36df5"
+  },
+  "ref_image_1_full_body_references": {
+    "manifest_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+    "manifest_exists": true,
+    "sha256": "35a5474bfa718b5a9af3783ff4edc41606ed17e2f0900afa9e229533d26ebe17",
+    "static_pose_reference_count": 8,
+    "temporal_frame_sequence_count": 0,
+    "temporal_video_source_available": false,
+    "temporal_note": "Ref_Image_1/Full provides static full/near-full pose references, not ordered temporal video frames.",
+    "lower_body_eligible_static_reference_count": 7,
+    "near_full_knees_to_head_reference_count": 1,
+    "near_full_limitations": [
+      {
+        "path": "Ref_Image_1/Full/New folder/8ead94ca6f2884fb1ae671fee89e8126.jpg",
+        "relative_to_full_dir": "New folder/8ead94ca6f2884fb1ae671fee89e8126.jpg",
+        "coverage_limitations": [
+          "user_corrected_not_full_body",
+          "covers_from_knees_to_top_of_head",
+          "do_not_use_as_full_body_feet_toes_ankles_or_lower_calf_proof",
+          "usable_for_torso_head_hair_upper_limb_and_above_knee_body_context_only"
+        ]
+      }
+    ]
+  },
+  "ref_image_1_body_mask_gold_refs": {
+    "manifest_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_body_mask_gold_standard.json",
+    "manifest_exists": true,
+    "sha256": "08aae0b644cbd3b8a07f056058582ed1a18600f13c4b96044bb6a728a743249a",
+    "all_gold_mask_count": 34,
+    "layout_interpretation": {
+      "top_strip": "partial upper-body / one-third-body reference only; absent lower/full-body temporal masks here are not failures",
+      "lower_strip": "primary full-body body-mask validation area; still not an ordered temporal sequence"
+    }
+  },
+  "temporal_media_scan": {
+    "search_roots": [
+      "Ref_Image_1",
+      "Plan/Instructions/Operations",
+      "runtime_artifacts"
+    ],
+    "candidate_temporal_media": [],
+    "candidate_temporal_media_count": 0,
+    "rejected_dependency_or_model_media_count": 0
+  },
+  "prerequisite_evidence": {
+    "model_consensus_geometry_validator": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/model_consensus_geometry_validator.json",
+      "exists": true,
+      "sha256": "7b4fb58e4d9052f189375691ed75a1af7e7e4a6ab748ac6339eebdb22ff48ffb",
+      "evidence_id": "W70_MODEL_CONSENSUS_GEOMETRY_VALIDATOR_20260708T150714-0500",
+      "qa_decision": "ref_image_1_reference_context_available_model_consensus_route_not_complete",
+      "result": "blocked",
+      "model_consensus_geometry_pass": false,
+      "body_region_geometry_pass": null,
+      "soft_body_anchor_pass": null,
+      "contact_occlusion_ownership_pass": null,
+      "canonical_polygon_export_pass": false
+    },
+    "body_region_geometry_authority": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/body_region_geometry_authority.json",
+      "exists": true,
+      "sha256": "2fdc7c59871ffe44c8c1aef5c79ef40b15c09cd377db48de3883b786753c9398",
+      "evidence_id": "W70_BODY_REGION_GEOMETRY_AUTHORITY_20260708T145908-0500",
+      "qa_decision": "ref_image_1_body_region_references_available_route_not_complete",
+      "result": "required_not_complete",
+      "model_consensus_geometry_pass": false,
+      "body_region_geometry_pass": false,
+      "soft_body_anchor_pass": null,
+      "contact_occlusion_ownership_pass": false,
+      "canonical_polygon_export_pass": false
+    },
+    "soft_body_anchor_geometry_authority": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/soft_body_anchor_geometry_authority.json",
+      "exists": true,
+      "sha256": "3eb68e4aba777d88c610f51ddd97360ebb60712459fce4dd4794ba606dafaf0e",
+      "evidence_id": "W70_SOFT_BODY_ANCHOR_GEOMETRY_AUTHORITY_20260708T151301-0500",
+      "qa_decision": "ref_image_1_soft_body_anchor_references_available_route_not_complete_global_gates_pass",
+      "result": "required_not_complete",
+      "model_consensus_geometry_pass": false,
+      "body_region_geometry_pass": false,
+      "soft_body_anchor_pass": false,
+      "contact_occlusion_ownership_pass": false,
+      "canonical_polygon_export_pass": false
+    },
+    "contact_occlusion_ownership_authority": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/contact_occlusion_ownership_authority.json",
+      "exists": true,
+      "sha256": "d9ebe47c64dbd5630c2b19e546c76da8764a05fdea96276efb67b92015c4c734",
+      "evidence_id": "W70_CONTACT_OCCLUSION_OWNERSHIP_AUTHORITY_20260708T145450-0500",
+      "qa_decision": "ref_image_1_contact_actor_references_available_route_not_complete",
+      "result": "required_not_complete",
+      "model_consensus_geometry_pass": null,
+      "body_region_geometry_pass": false,
+      "soft_body_anchor_pass": null,
+      "contact_occlusion_ownership_pass": false,
+      "canonical_polygon_export_pass": false
+    }
+  },
+  "reference_docs_found": [
+    "Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_REFERENCE_IMAGE_MATRIX.md",
+    "Plan/06_QA_TESTING/WAVE26_REFERENCE_VIDEO_FRAME_EXTRACTION_TEST_MATRIX.md",
+    "Plan/06_QA_TESTING/WAVE08_REFERENCE_PACK_TEST_MATRIX.md",
+    "Plan/Tracker/Evidence/W70_REFERENCE_IMAGE_MATRIX_ENFORCEMENT_20260707T200600-0500.json",
+    "Plan/Instructions/QA/WAVE70_REFERENCE_IMAGE_MATRIX_QA_PROTOCOL.md",
+    "Plan/Instructions/QA/Templates/WAVE70_REFERENCE_IMAGE_MATRIX_MANIFEST_TEMPLATE.json"
+  ],
+  "environment": {
+    "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "cwd": "C:\\Comfy_UI_Main"
+  },
+  "temporal_tracking_analysis": {
+    "reference_source_available": true,
+    "static_pose_reference_matrix_available": true,
+    "temporal_video_or_frame_grid_available": false,
+    "body_reference_matrix_pass": true,
+    "temporal_tracking_pass": false,
+    "mask_drift_detection_pass": false,
+    "frame_grid_review_pass": false,
+    "canonical_polygon_export_pass": false,
+    "required_temporal_results": {
+      "static_pose_reference_context": {
+        "availability": "available",
+        "authority_status": "reference_only",
+        "reason": "Ref_Image_1 and Ref_Image_1/Full provide static body-pose and gold-mask context."
+      },
+      "ordered_video_or_frame_grid_source": {
+        "availability": "not_available",
+        "authority_status": "required_not_complete",
+        "reason": "No eligible ordered video/GIF/frame-grid source is registered for this row."
+      },
+      "per_frame_body_part_tracking": {
+        "availability": "not_runnable",
+        "authority_status": "required_not_complete",
+        "reason": "Requires sequential frames plus canonical per-frame body-part polygons."
+      },
+      "mask_drift_detection": {
+        "availability": "not_runnable",
+        "authority_status": "required_not_complete",
+        "reason": "Cannot measure drift from static pose references alone."
+      },
+      "body_part_dependencies": {
+        "availability": "required_not_complete",
+        "authority_status": "required_not_complete",
+        "reason": "Model consensus, canonical body polygons, soft-body anchors, and temporal frame ownership are not complete."
+      }
+    },
+    "blocked_reason": "ref_image_1_static_reference_context_available_but_temporal_route_missing_ordered_video_or_frame_grid_per_frame_body_polygons_mask_drift_metrics_and_generated_output"
+  },
+  "reference_image_matrix": {
+    "result": "static_reference_context_available_temporal_route_not_complete",
+    "single_anchor_only": false,
+    "matrix_manifest_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+    "slots_required": [
+      "ordered_video_or_gif_frame_grid_with_body_parts"
+    ],
+    "slots_passed": [
+      "ref_image_1_static_pose_reference_context"
+    ],
+    "slots_blocked": [
+      "ordered_temporal_frame_sequence_missing"
+    ],
+    "slots_failed": [],
+    "minimum_resolution_pass": true,
+    "high_resolution_detail_review_pass": false,
+    "cross_subject_generalization_pass": false,
+    "completion_allowed": false
+  },
+  "artifacts": {
+    "reference_route_panel": "runtime_artifacts/mask_factory/wave70_temporal_body_part_tracking_authority/20260708T151823-0500/temporal_body_part_tracking_authority_reference_route_panel.png",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_temporal_body_part_tracking_authority/20260708T151823-0500/temporal_body_part_tracking_authority.json",
+    "post_temporal_geometry_gate": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_TEMPORAL_REF_IMAGE_1_20260708T151823-0500.json",
+    "post_temporal_promotion_gate": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_TEMPORAL_REF_IMAGE_1_20260708T151823-0500.json"
+  },
+  "temporal_body_part_tracking_authority": {
+    "result": "required_not_complete",
+    "reference_source_available": true,
+    "static_pose_reference_matrix_available": true,
+    "source_visibility_blocker_superseded": true,
+    "temporal_tracking_pass": false,
+    "mask_drift_detection_pass": false,
+    "frame_grid_review_pass": false,
+    "whole_body_geometry_authority_pass": false,
+    "pose_hand_dense_landmark_or_segmentation_pass": false,
+    "semantic_human_part_parsing_pass": false,
+    "contact_occlusion_ownership_pass": false,
+    "body_region_geometry_pass": false,
+    "body_reference_matrix_pass": true,
+    "source_derived_landmark_or_segmentation_pass": false,
+    "visibility_occlusion_confidence_pass": false,
+    "model_consensus_geometry_pass": false,
+    "canonical_polygon_export_pass": false,
+    "blocked_reason": "ref_image_1_static_reference_context_available_but_temporal_route_missing_ordered_video_or_frame_grid_per_frame_body_polygons_mask_drift_metrics_and_generated_output",
+    "findings": [
+      "Ref_Image_1 and Ref_Image_1/Full provide static body-pose and gold-mask context.",
+      "Static multi-pose references are not an ordered temporal video or frame-grid sequence.",
+      "No eligible project temporal media was found in the reference/runtime roots after excluding dependency/demo media.",
+      "Temporal tracking cannot pass without per-frame body-part polygons, drift metrics, frame-grid visual QA, generated output, and target-runtime proof.",
+      "No temporal tracking, drift detection, frame-grid review, segmentation map, active mask change, or mask promotion was produced."
+    ]
+  },
+  "qa_decision": "ref_image_1_temporal_reference_context_available_route_not_complete_global_gates_pass",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_temporal_tracking_route_not_complete",
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  },
+  "next_step": "Work TRK-W70-0176 / ITEM-W70-0176 body reference matrix locally.",
+  "post_evaluation_hard_gates": {
+    "geometry": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_TEMPORAL_REF_IMAGE_1_20260708T151823-0500.json",
+      "checked": 332,
+      "pass_like": 0,
+      "failures": 0
+    },
+    "promotion": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_TEMPORAL_REF_IMAGE_1_20260708T151823-0500.json",
+      "checked": 332,
+      "pass_like": 0,
+      "failures": 0
+    },
+    "tracker_copies": [
+      "Plan/Tracker/Evidence/W70_MASK_GEOMETRY_HARD_GATE_POST_TEMPORAL_REF_IMAGE_1_20260708T151823-0500.json",
+      "Plan/Tracker/Evidence/W70_MASK_PROMOTION_HARD_GATE_POST_TEMPORAL_REF_IMAGE_1_20260708T151823-0500.json"
+    ]
+  },
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_TEMPORAL_BODY_PART_TRACKING_AUTHORITY_20260708T151823-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/temporal_body_part_tracking_authority.json",
+    "Plan/Tracker/Evidence/W70_TEMPORAL_BODY_PART_TRACKING_AUTHORITY_20260708T151823-0500.json",
+    "Plan/Tracker/Evidence/temporal_body_part_tracking_authority.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_TEMPORAL_REF_IMAGE_1_20260708T151823-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_TEMPORAL_REF_IMAGE_1_20260708T151823-0500.json",
+    "Plan/Tracker/Evidence/W70_MASK_GEOMETRY_HARD_GATE_POST_TEMPORAL_REF_IMAGE_1_20260708T151823-0500.json",
+    "Plan/Tracker/Evidence/W70_MASK_PROMOTION_HARD_GATE_POST_TEMPORAL_REF_IMAGE_1_20260708T151823-0500.json"
+  ]
+}

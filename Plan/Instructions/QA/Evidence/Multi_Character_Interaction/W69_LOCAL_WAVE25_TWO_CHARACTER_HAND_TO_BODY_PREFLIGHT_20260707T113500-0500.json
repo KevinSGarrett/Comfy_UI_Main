@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-WAVE25-TWO-CHARACTER-HAND-TO-BODY-PREFLIGHT-20260707T113500-0500",
+  "timestamp": "2026-07-07T11:35:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave25_multi_character_interaction_two_instance_preflight",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "source_requirements": [
+    "Plan/07_IMPLEMENTATION/WAVE25_IMPLEMENTATION_MANUAL.md",
+    "Plan/07_IMPLEMENTATION/WAVE25_MULTI_CHARACTER_INTERACTION_WORKFLOW_BUILD_INSTRUCTIONS.md",
+    "Plan/07_IMPLEMENTATION/WAVE22_IMPLEMENTATION_MANUAL.md",
+    "Plan/10_REGISTRIES/wave22_scene_director_contact_graph_rules.json",
+    "Plan/10_REGISTRIES/wave25_cross_character_contact_profiles.json",
+    "Plan/10_REGISTRIES/wave25_multi_character_interaction_qa_scoring_rules.json"
+  ],
+  "implementation_changes": [
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/compile_multi_character_interaction_contract.py",
+      "summary": "Preserve contact graph evidence, contact graph id, contact graph edges, QA scoring rules, and certification boundary in compiled Wave25 contracts."
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/validate_multi_character_interaction_contract.py",
+      "summary": "Validate declared contact masks and contact graph edges, and require each event to reference a known source contact edge when graph edges are supplied."
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/validate_physical_contact_graph_contract.py",
+      "summary": "Emit optional machine-readable Wave22 validation JSON reports for evidence binding."
+    }
+  ],
+  "artifacts": {
+    "wave24_two_instance_layout_request": "runtime_artifacts/instance_layout/two_character_hand_to_body_w69/INSTANCE_LAYOUT_REQUEST.json",
+    "wave24_two_instance_layout_contract": "runtime_artifacts/instance_layout/two_character_hand_to_body_w69/INSTANCE_LAYOUT_CONTRACT.json",
+    "wave24_two_instance_layout_validation": "runtime_artifacts/instance_layout/two_character_hand_to_body_w69/INSTANCE_LAYOUT_VALIDATION.json",
+    "wave24_two_instance_layout_score": "runtime_artifacts/instance_layout/two_character_hand_to_body_w69/INSTANCE_LAYOUT_SCORE_REPORT.json",
+    "wave22_contact_graph_request": "runtime_artifacts/physical_contact_graph/two_character_hand_to_body_w69/CONTACT_GRAPH_REQUEST.json",
+    "wave22_contact_graph_contract": "runtime_artifacts/physical_contact_graph/two_character_hand_to_body_w69/CONTACT_GRAPH_CONTRACT.json",
+    "wave22_contact_graph_validation": "runtime_artifacts/physical_contact_graph/two_character_hand_to_body_w69/CONTACT_GRAPH_VALIDATION.json",
+    "wave22_contact_graph_score": "runtime_artifacts/physical_contact_graph/two_character_hand_to_body_w69/CONTACT_GRAPH_SCORE_REPORT.json",
+    "wave25_interaction_request": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/WAVE25_INTERACTION_REQUEST.json",
+    "wave25_interaction_contract": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/WAVE25_INTERACTION_CONTRACT.json",
+    "wave25_interaction_validation": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/WAVE25_INTERACTION_VALIDATION.json",
+    "wave25_interaction_score": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/WAVE25_INTERACTION_SCORE_REPORT.json",
+    "mask_manifest": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/MASK_MANIFEST.json"
+  },
+  "mask_artifacts": [
+    {
+      "path": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/masks/charinst_001_region_mask.png",
+      "sha256": "8da5a7d556d4cc6e0966b22e6230acaa8aa2d697bed2bd0611e2edec38e8ca57",
+      "width": 512,
+      "height": 512,
+      "role": "source_character_instance_region_mask"
+    },
+    {
+      "path": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/masks/charinst_002_region_mask.png",
+      "sha256": "a90023f2f78e53a2cb31584d2de18975f1d4cbd5f28c91b511488419d392c96c",
+      "width": 512,
+      "height": 512,
+      "role": "target_character_instance_region_mask"
+    },
+    {
+      "path": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/masks/contact_edge_hand_to_body.png",
+      "sha256": "53155aa12f66e8b571a55f655cb440536a0ff0dd179cca10e3e102fb97c63f29",
+      "width": 512,
+      "height": 512,
+      "role": "bounded_hand_to_body_contact_edge_mask"
+    }
+  ],
+  "validation_results": {
+    "wave24_instance_layout": {
+      "passed": true,
+      "instance_count": 2,
+      "depth_order_count": 2,
+      "region_ownership_map_count": 2,
+      "score": 1.0
+    },
+    "wave22_contact_graph": {
+      "passed": true,
+      "contact_edge_count": 1,
+      "score": 1.0
+    },
+    "wave25_interaction": {
+      "passed": true,
+      "character_instance_count": 2,
+      "interaction_event_count": 1,
+      "depth_order_count": 2,
+      "contact_mask_count": 1,
+      "contact_graph_edge_count": 1,
+      "merge_prevention_check_count": 3,
+      "score": 1.0
+    }
+  },
+  "supersedes_blocker": {
+    "blocker_id": "BLOCKER-W69-WAVE25-SINGLE-INSTANCE-001",
+    "prior_evidence": "Plan/Instructions/QA/Evidence/Multi_Character_Interaction/W69_LOCAL_WAVE25_SINGLE_INSTANCE_PREFLIGHT_BLOCKER_20260707T111500-0500.json",
+    "reason": "The new local preflight supplies two character instances, a Wave22 contact edge, a Wave25 interaction event, depth order coverage, a declared contact mask, and merge-prevention checks."
+  },
+  "qa_result": "pass_local_wave25_two_character_hand_to_body_preflight_contract",
+  "certification_allowed": false,
+  "certification_scope": "local_contract_mask_score_preflight_only",
+  "remaining_risks": [
+    "This does not generate a multi-character image.",
+    "This does not prove actual character segmentation from a generated artifact.",
+    "This does not prove target-runtime EC2 behavior.",
+    "This does not certify final multi-character interaction quality, anatomy, contact shadows, or no-merge behavior in pixels."
+  ],
+  "next_action": "Use this as the local Wave25 preflight dependency for later low-denoise/inpaint or target-runtime multi-character generation; do not promote final multi-character output until generated-image QA passes."
+}

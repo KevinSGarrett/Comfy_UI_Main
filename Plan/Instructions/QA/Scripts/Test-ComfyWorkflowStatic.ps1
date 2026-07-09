@@ -323,7 +323,7 @@ if (![string]::IsNullOrWhiteSpace($OutFile)) {
   if (![string]::IsNullOrWhiteSpace($outDir)) {
     $null = New-Item -ItemType Directory -Force -Path $outDir
   }
-  $record | ConvertTo-Json -Depth 20 | Set-Content -LiteralPath $OutFile -Encoding UTF8
+  [System.IO.File]::WriteAllText($OutFile, ($record | ConvertTo-Json -Depth 20), (New-Object System.Text.UTF8Encoding($false)))
   Write-Host "Wrote workflow static validation record: $OutFile"
 }
 

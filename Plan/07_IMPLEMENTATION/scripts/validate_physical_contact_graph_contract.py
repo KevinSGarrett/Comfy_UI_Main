@@ -25,6 +25,7 @@ REQUIRED_EDGE_FIELDS = [
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", required=True)
+    parser.add_argument("--output")
     args = parser.parse_args()
 
     obj = json.loads(Path(args.input).read_text(encoding="utf-8"))
@@ -42,6 +43,16 @@ def main() -> int:
             missing = [key for key in REQUIRED_EDGE_FIELDS if key not in edge]
             for key in missing:
                 errors.append(f"edge[{idx}] missing field: {key}")
+
+    report = {
+        "validation_version": "wave22.v1",
+        "input": args.input,
+        "passed": not errors,
+        "errors": errors,
+        "contact_edge_count": len(edges) if isinstance(edges, list) else 0,
+    }
+    if args.output:
+        Path(args.output).write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
 
     if errors:
         print("FAIL")

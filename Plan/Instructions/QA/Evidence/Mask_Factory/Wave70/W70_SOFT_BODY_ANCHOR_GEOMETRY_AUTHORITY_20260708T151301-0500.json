@@ -1,0 +1,254 @@
+{
+  "schema_version": "1.1",
+  "evidence_id": "W70_SOFT_BODY_ANCHOR_GEOMETRY_AUTHORITY_20260708T151301-0500",
+  "created_local": "20260708T151301-0500",
+  "created_iso": "2026-07-08T15:13:01-05:00",
+  "task": "Implement soft-body deformation and protected anchor geometry authority for TRK-W70-0174 / ITEM-W70-0174 using Ref_Image_1 context.",
+  "script": "Plan/07_IMPLEMENTATION/scripts/implement_wave70_soft_body_anchor_geometry_authority.py",
+  "historical_portrait_source": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "exists": true,
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "role": "historical_prior_active_source_not_decisive_for_current_body_reference_evaluation"
+  },
+  "main_reference": {
+    "path": "Ref_Image_1/725de85824bbe45ba4601dd4a7aed698.jpg",
+    "exists": true,
+    "sha256": "b4876e7415485efc79c2c69a914e3316c8c5f7301dc15a69b039f7515ab36df5"
+  },
+  "ref_image_1_full_body_references": {
+    "manifest_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+    "manifest_exists": true,
+    "sha256": "35a5474bfa718b5a9af3783ff4edc41606ed17e2f0900afa9e229533d26ebe17",
+    "recursive_image_count": 8,
+    "soft_body_lower_anchor_eligible_reference_count": 7,
+    "near_full_knees_to_head_reference_count": 1,
+    "near_full_limitations": [
+      {
+        "path": "Ref_Image_1/Full/New folder/8ead94ca6f2884fb1ae671fee89e8126.jpg",
+        "relative_to_full_dir": "New folder/8ead94ca6f2884fb1ae671fee89e8126.jpg",
+        "coverage_limitations": [
+          "user_corrected_not_full_body",
+          "covers_from_knees_to_top_of_head",
+          "do_not_use_as_full_body_feet_toes_ankles_or_lower_calf_proof",
+          "usable_for_torso_head_hair_upper_limb_and_above_knee_body_context_only"
+        ]
+      }
+    ]
+  },
+  "ref_image_1_soft_body_gold_refs": {
+    "manifest_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_body_mask_gold_standard.json",
+    "manifest_exists": true,
+    "sha256": "08aae0b644cbd3b8a07f056058582ed1a18600f13c4b96044bb6a728a743249a",
+    "all_gold_mask_count": 34,
+    "soft_body_reference_mask_count": 20,
+    "soft_body_reference_labels": [
+      "abdomen_belly_button",
+      "abdomen_stomach",
+      "arms_left_lower_arm",
+      "arms_left_upper_arm",
+      "arms_lower_arm_fore_arms",
+      "arms_right_lower_arm",
+      "arms_right_upper_arm",
+      "arms_upper_arms",
+      "breasts_both",
+      "breasts_left_breast",
+      "breasts_right",
+      "calves_left_calf",
+      "calves_right_calf",
+      "glute_both",
+      "glute_left",
+      "glute_right",
+      "pelvic_pelvic_region",
+      "thigh_both_thighs",
+      "thigh_left_thigh",
+      "thigh_right_thigh"
+    ],
+    "layout_interpretation": {
+      "top_strip": "partial upper-body / one-third-body reference only; absent lower/full-body soft-body anchors here are not failures",
+      "lower_strip": "primary full-body body-mask validation area"
+    }
+  },
+  "prerequisite_evidence": {
+    "model_consensus_geometry_validator": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/model_consensus_geometry_validator.json",
+      "exists": true,
+      "sha256": "7b4fb58e4d9052f189375691ed75a1af7e7e4a6ab748ac6339eebdb22ff48ffb",
+      "evidence_id": "W70_MODEL_CONSENSUS_GEOMETRY_VALIDATOR_20260708T150714-0500",
+      "qa_decision": "ref_image_1_reference_context_available_model_consensus_route_not_complete",
+      "result": "blocked",
+      "whole_body_geometry_authority_pass": null,
+      "model_consensus_geometry_pass": false,
+      "semantic_human_part_parsing_pass": null,
+      "contact_occlusion_ownership_pass": null,
+      "body_region_geometry_pass": null,
+      "canonical_polygon_export_pass": false
+    },
+    "body_region_geometry_authority": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/body_region_geometry_authority.json",
+      "exists": true,
+      "sha256": "2fdc7c59871ffe44c8c1aef5c79ef40b15c09cd377db48de3883b786753c9398",
+      "evidence_id": "W70_BODY_REGION_GEOMETRY_AUTHORITY_20260708T145908-0500",
+      "qa_decision": "ref_image_1_body_region_references_available_route_not_complete",
+      "result": "required_not_complete",
+      "whole_body_geometry_authority_pass": false,
+      "model_consensus_geometry_pass": false,
+      "semantic_human_part_parsing_pass": false,
+      "contact_occlusion_ownership_pass": false,
+      "body_region_geometry_pass": false,
+      "canonical_polygon_export_pass": false
+    },
+    "contact_occlusion_ownership_authority": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/contact_occlusion_ownership_authority.json",
+      "exists": true,
+      "sha256": "d9ebe47c64dbd5630c2b19e546c76da8764a05fdea96276efb67b92015c4c734",
+      "evidence_id": "W70_CONTACT_OCCLUSION_OWNERSHIP_AUTHORITY_20260708T145450-0500",
+      "qa_decision": "ref_image_1_contact_actor_references_available_route_not_complete",
+      "result": "required_not_complete",
+      "whole_body_geometry_authority_pass": false,
+      "model_consensus_geometry_pass": null,
+      "semantic_human_part_parsing_pass": false,
+      "contact_occlusion_ownership_pass": false,
+      "body_region_geometry_pass": false,
+      "canonical_polygon_export_pass": false
+    },
+    "limb_joint_region_authority": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/limb_joint_region_authority.json",
+      "exists": true,
+      "sha256": "275fe80ad3afb8796743a6487beb2f93c8e5e4107c661153fef82a63c245c0f2",
+      "evidence_id": "W70_LIMB_JOINT_REGION_AUTHORITY_20260708T144246-0500",
+      "qa_decision": "ref_image_1_full_body_limb_references_available_route_not_complete",
+      "result": null,
+      "whole_body_geometry_authority_pass": null,
+      "model_consensus_geometry_pass": null,
+      "semantic_human_part_parsing_pass": null,
+      "contact_occlusion_ownership_pass": null,
+      "body_region_geometry_pass": null,
+      "canonical_polygon_export_pass": null
+    },
+    "torso_abdomen_umbilicus_authority": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/torso_abdomen_umbilicus_authority.json",
+      "exists": true,
+      "sha256": "78ef78964862f2b000c54c00110d44ad429a332ca9938acd15effd0341cbc69b",
+      "evidence_id": "W70_TORSO_ABDOMEN_UMBILICUS_AUTHORITY_20260708T143828-0500",
+      "qa_decision": "ref_image_1_full_body_torso_references_available_route_not_complete",
+      "result": null,
+      "whole_body_geometry_authority_pass": null,
+      "model_consensus_geometry_pass": null,
+      "semantic_human_part_parsing_pass": null,
+      "contact_occlusion_ownership_pass": null,
+      "body_region_geometry_pass": null,
+      "canonical_polygon_export_pass": null
+    }
+  },
+  "environment": {
+    "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "cwd": "C:\\Comfy_UI_Main"
+  },
+  "artifacts": {
+    "reference_route_panel": "runtime_artifacts/mask_factory/wave70_soft_body_anchor_geometry_authority/20260708T151301-0500/soft_body_anchor_geometry_authority_reference_route_panel.png",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_soft_body_anchor_geometry_authority/20260708T151301-0500/soft_body_anchor_geometry_authority.json",
+    "post_soft_body_geometry_gate": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_SOFT_BODY_REF_IMAGE_1_20260708T151301-0500.json",
+    "post_soft_body_promotion_gate": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_SOFT_BODY_REF_IMAGE_1_20260708T151301-0500.json"
+  },
+  "soft_body_anchor_analysis": {
+    "reference_source_available": true,
+    "source_visibility_blocker_superseded": true,
+    "body_reference_matrix_pass": true,
+    "production_route_pass": false,
+    "soft_body_anchor_pass": false,
+    "skeletal_anchor_pass": false,
+    "deformation_region_protected_neighbor_pass": false,
+    "canonical_polygon_export_pass": false,
+    "required_anchor_results": {
+      "gold_soft_body_regions": {
+        "visibility": "reference_masks_available",
+        "authority_status": "reference_only",
+        "reason": "Ref_Image_1 contains labeled body-region masks usable as gold reference context."
+      },
+      "skeletal_anchor_map": {
+        "visibility": "not_exported",
+        "authority_status": "required_not_complete",
+        "reason": "No dense pose or skeleton-to-body canonical anchor graph has been exported."
+      },
+      "soft_body_deformation_regions": {
+        "visibility": "reference_context_available",
+        "authority_status": "required_not_complete",
+        "reason": "Reference masks do not produce deformation fields, strain anchors, or parser-backed soft-body regions."
+      },
+      "protected_neighbor_anchors": {
+        "visibility": "not_exported",
+        "authority_status": "required_not_complete",
+        "reason": "No canonical polygons exist for body/clothing/contact boundaries or protected-neighbor thresholds."
+      }
+    },
+    "blocked_reason": "ref_image_1_soft_body_reference_context_available_but_production_route_missing_dense_pose_skeletal_anchor_graph_semantic_body_part_parser_deformation_fields_canonical_polygons_protected_neighbor_metrics_and_promotion_evidence"
+  },
+  "soft_body_anchor_geometry_authority": {
+    "result": "required_not_complete",
+    "reference_source_available": true,
+    "soft_body_reference_gold_refs_available": true,
+    "body_reference_matrix_pass": true,
+    "source_visibility_blocker_superseded": true,
+    "production_route_pass": false,
+    "soft_body_anchor_pass": false,
+    "skeletal_anchor_pass": false,
+    "deformation_region_protected_neighbor_pass": false,
+    "whole_body_geometry_authority_pass": false,
+    "pose_hand_dense_landmark_or_segmentation_pass": false,
+    "semantic_human_part_parsing_pass": false,
+    "contact_occlusion_ownership_pass": false,
+    "body_region_geometry_pass": false,
+    "source_derived_landmark_or_segmentation_pass": false,
+    "visibility_occlusion_confidence_pass": false,
+    "model_consensus_geometry_pass": false,
+    "canonical_polygon_export_pass": false,
+    "blocked_reason": "ref_image_1_soft_body_reference_context_available_but_production_route_missing_dense_pose_skeletal_anchor_graph_semantic_body_part_parser_deformation_fields_canonical_polygons_protected_neighbor_metrics_and_promotion_evidence",
+    "findings": [
+      "Ref_Image_1 gold-standard masks include soft-body/body-region reference context.",
+      "Ref_Image_1/Full supplies full/near-full body context, with the knees-to-head image still limited for lower-body proof.",
+      "The prior portrait-only soft-body blocker is superseded for this reference evaluation.",
+      "Reference masks do not by themselves prove dense-pose skeletal anchors, deformation fields, canonical polygons, protected-neighbor thresholds, generated output, visual QA, or promotion evidence.",
+      "No soft-body deformation field, protected anchor polygon, segmentation map, active mask change, or mask promotion was produced."
+    ]
+  },
+  "qa_decision": "ref_image_1_soft_body_anchor_references_available_route_not_complete_global_gates_pass",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_soft_body_anchor_route_not_complete",
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  },
+  "next_step": "Work TRK-W70-0175 / ITEM-W70-0175 temporal body-part tracking and video mask drift authority locally.",
+  "post_evaluation_hard_gates": {
+    "geometry": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_SOFT_BODY_REF_IMAGE_1_20260708T151301-0500.json",
+      "checked": 332,
+      "pass_like": 0,
+      "failures": 0
+    },
+    "promotion": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_SOFT_BODY_REF_IMAGE_1_20260708T151301-0500.json",
+      "checked": 332,
+      "pass_like": 0,
+      "failures": 0
+    },
+    "tracker_copies": [
+      "Plan/Tracker/Evidence/W70_MASK_GEOMETRY_HARD_GATE_POST_SOFT_BODY_REF_IMAGE_1_20260708T151301-0500.json",
+      "Plan/Tracker/Evidence/W70_MASK_PROMOTION_HARD_GATE_POST_SOFT_BODY_REF_IMAGE_1_20260708T151301-0500.json"
+    ]
+  },
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_SOFT_BODY_ANCHOR_GEOMETRY_AUTHORITY_20260708T151301-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/soft_body_anchor_geometry_authority.json",
+    "Plan/Tracker/Evidence/W70_SOFT_BODY_ANCHOR_GEOMETRY_AUTHORITY_20260708T151301-0500.json",
+    "Plan/Tracker/Evidence/soft_body_anchor_geometry_authority.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_SOFT_BODY_REF_IMAGE_1_20260708T151301-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_SOFT_BODY_REF_IMAGE_1_20260708T151301-0500.json",
+    "Plan/Tracker/Evidence/W70_MASK_GEOMETRY_HARD_GATE_POST_SOFT_BODY_REF_IMAGE_1_20260708T151301-0500.json",
+    "Plan/Tracker/Evidence/W70_MASK_PROMOTION_HARD_GATE_POST_SOFT_BODY_REF_IMAGE_1_20260708T151301-0500.json"
+  ]
+}

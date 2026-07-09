@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "SCRIPT_VALIDATION_20260709T001625-0500",
+  "created_iso": "2026-07-09T00:16:25-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-052",
+  "item_id": "ITEM-W64-052",
+  "source_script_root": "Plan/08_SCRIPTS",
+  "check_script": "Plan/07_IMPLEMENTATION/scripts/run_wave64_script_validation_checks.py",
+  "check_evidence": "Plan/Instructions/QA/Evidence/Wave64/SCRIPT_VALIDATION_CHECKS_20260709T001509-0500.json",
+  "checks": {
+    "previous_row_passed": true,
+    "parser_check": true,
+    "local_smoke": true,
+    "no_live_side_effect_default": true,
+    "evidence_output_json": true,
+    "script_root_exists": true
+  },
+  "counts": {
+    "python_files": 349,
+    "python_parse_errors": 0,
+    "powershell_files": 100,
+    "powershell_parse_errors": 0
+  },
+  "runtime_boundary": {
+    "ec2_started": false,
+    "aws_contacted": false,
+    "generation_executed": false,
+    "comfyui_contacted": false,
+    "helper_bodies_executed": false,
+    "hard_gates_rerun": false
+  },
+  "gold_mask_dependency_boundary": {
+    "mask_truth_consumed": false,
+    "candidate_masks_consumed_as_truth": false,
+    "masks_promoted": false,
+    "wave71_activation_attempted": false
+  },
+  "errors": [],
+  "qa_decision": "script_validation_passed_parser_only_no_live_side_effects",
+  "next_step": "Advance to TRK-W64-053/ITEM-W64-053.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/script_validation.json",
+    "Plan/Instructions/QA/Evidence/Wave64/SCRIPT_VALIDATION_20260709T001625-0500.json",
+    "Plan/Tracker/Evidence/SCRIPT_VALIDATION_20260709T001625-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/SCRIPT_VALIDATION_CHECKS_20260709T001509-0500.json",
+    "Plan/07_IMPLEMENTATION/scripts/run_wave64_script_validation_checks.py",
+    "Plan/08_SCRIPTS",
+    "Plan/Instructions/QA/Evidence/Wave64/SCRIPT_VALIDATION_POWERSHELL_PARSE_20260709T001509-0500.json"
+  ],
+  "csv_updates": {
+    "tracker": {
+      "Plan/Tracker/wave64_end_to_end_strict_ai_tracker.csv": 1,
+      "Plan/Tracker/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_TRACKER_ROWS.csv": 1
+    },
+    "items": {
+      "Plan/Items/wave64_end_to_end_strict_ai_itemized_list.csv": 1,
+      "Plan/Items/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_ITEM_ROWS.csv": 1
+    }
+  }
+}

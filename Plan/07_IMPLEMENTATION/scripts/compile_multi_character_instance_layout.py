@@ -20,6 +20,9 @@ def main() -> int:
         "character_count_target": src.get("character_count_target", len(src.get("instances", []))),
         "instances": src.get("instances", []),
         "depth_order": src.get("depth_order", []),
+        "region_ownership_maps": src.get("region_ownership_maps", []),
+        "mask_factory_evidence": src.get("mask_factory_evidence"),
+        "profile_id": src.get("profile_id"),
         "qa_goals": src.get("qa_goals", [
             "correct_character_count",
             "identity_binding_pass",

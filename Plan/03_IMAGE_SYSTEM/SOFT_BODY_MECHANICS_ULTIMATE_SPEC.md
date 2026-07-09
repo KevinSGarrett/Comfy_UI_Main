@@ -10,7 +10,6 @@ Each region can define:
 
 ```json
 {
-  "region": "thigh|abdomen|butt|breast|upper_arm|cheek|fabric|mattress",
   "firmness": "firm|average|soft|very_soft",
   "sag": "none|light|medium|heavy",
   "compression_visibility": "low|medium|high",

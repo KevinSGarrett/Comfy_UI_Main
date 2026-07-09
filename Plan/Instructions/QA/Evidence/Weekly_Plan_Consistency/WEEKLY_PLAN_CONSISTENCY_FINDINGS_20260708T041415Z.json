@@ -1,0 +1,58 @@
+﻿{
+    "status":  "ACTIONABLE_CONSISTENCY_FINDINGS_RECORDED",
+    "created_at":  "2026-07-08T04:14:15.9833463Z",
+    "source_external_audit":  "C:\\Users\\kevin\\.codex\\automations\\comfy-ui-main-weekly-plan-instructions-consistency-audit\\audits\\WEEKLY_PLAN_INSTRUCTIONS_CONSISTENCY_20260708T041146Z.json",
+    "classification":  "CONSISTENCY_FINDINGS_EXTERNAL_AUDIT_ONLY",
+    "findings":  [
+                     {
+                         "id":  "STALE-HYDRATION-EYE-FAMILY-NEXT-ACTION-20260708",
+                         "severity":  "medium",
+                         "file":  "C:\\Comfy_UI_Main\\Plan\\Instructions\\Hydration_Rehydration\\NEXT_ACTION.md",
+                         "evidence_lines":  [
+                                                3,
+                                                5,
+                                                27,
+                                                3128,
+                                                3140
+                                            ],
+                         "finding":  "Top Immediate Next Action still says to stop eye-family mask generation/generated-output proof for eyebrows and pupils/iris/sclera from the 2026-07-07T23:06:33-05:00 diagnostic, while later entries record repaired eyebrow and pupils/iris/sclera generated-output proofs on 2026-07-08.",
+                         "impact":  "A resumed autonomous session may restart from the older blanket stop instruction instead of the latest row-specific hard-gate state.",
+                         "recommended_action":  "Refresh the top hydration summary so it distinguishes still-blocked old/current eye-family masks from later source-repaired local-output evidence, while preserving that rows remain unpromoted until hard-gate proof."
+                     },
+                     {
+                         "id":  "STALE-PLAN-PROJECT-MANIFEST-LEGACY-WAVE-METADATA-20260708",
+                         "severity":  "low",
+                         "file":  "C:\\Comfy_UI_Main\\Plan\\PROJECT_MANIFEST.json",
+                         "evidence_fields":  [
+                                                 "wave_current=25",
+                                                 "latest_wave=34",
+                                                 "wave70_ultimate_mask_factory_extension",
+                                                 "waves71_76_physics_deformation_extension"
+                                             ],
+                         "finding":  "Plan/PROJECT_MANIFEST.json still carries legacy wave_current/latest_wave metadata from Wave25/Wave34 while also carrying Wave70 and deferred Waves71-76 extensions.",
+                         "impact":  "The root manifest and Items/Tracker readmes correctly describe current Wave70/deferred layers, but a simple reader of Plan/PROJECT_MANIFEST.json could infer stale active wave state.",
+                         "recommended_action":  "During normal manifest maintenance, align legacy wave_current/latest_wave wording with the current control layer or explicitly mark those fields as historical."
+                     },
+                     {
+                         "id":  "CONTRADICTION-HYDRATION-EYE-PROOF-BLANKET-STOP-20260708",
+                         "severity":  "medium",
+                         "files":  [
+                                       "C:\\Comfy_UI_Main\\Plan\\Instructions\\Hydration_Rehydration\\NEXT_ACTION.md",
+                                       "C:\\Comfy_UI_Main\\Plan\\Instructions\\Hydration_Rehydration\\CURRENT_PURSUING_GOAL.md",
+                                       "C:\\Comfy_UI_Main\\Plan\\Instructions\\Hydration_Rehydration\\CURRENT_SESSION_STATE.md"
+                                   ],
+                         "finding":  "Hydration top sections contain blanket stop language for eye-family generation/proof, but later sections and actual tracker rows include source-repaired local generated-output proof for mf70_eyebrows v3 and mf70_pupils_iris_sclera v3.",
+                         "boundary":  "The tracker status remains fail-closed: Wave70 CSV rows counted 122 Required_Not_Complete, 17 Blocked_Wave70_Mask_Promotion_Gate_Not_Passed, and 2 Blocked_Local_Source_Region_Not_Visible. This is stale steering language, not false completion state.",
+                         "recommended_action":  "Update hydration top summaries only; do not weaken the Wave70 hard-gate or promote rows."
+                     },
+                     {
+                         "id":  "ACTIVE-NEXT-ACTION-STALE-EYE-FAMILY-20260708",
+                         "severity":  "medium",
+                         "finding":  "CURRENT_PURSUING_GOAL and NEXT_ACTION start with the 2026-07-07T23:06:33 eye-boundary diagnostic even though later 2026-07-08 entries show narrower row-specific repair/proof progress.",
+                         "recommended_next_action":  "Set next action to the latest unresolved row-specific hard gate, likely source-derived/manual-trace work for still-disputed eye-family rows or explicit promotion-gate proof for repaired rows, not the old blanket diagnostic."
+                     }
+                 ],
+    "correction_made":  false,
+    "correction_reason":  "Findings are actionable but not critical enough to edit project instructions under the shared correction policy.",
+    "next_recommended_action":  "Refresh hydration top summaries during normal maintenance so the active next action reflects latest row-specific Wave70 hard-gate state; do not rerun Wave65 and do not start EC2 for this audit."
+}

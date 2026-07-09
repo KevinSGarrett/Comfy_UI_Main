@@ -1,0 +1,134 @@
+{
+  "evidence_id": "W69-LOCAL-REALVISXL-HANDS-CONTACT-ROBUSTNESS-VISUAL-QA-20260707T040500-0500",
+  "artifact_type": "image_artifact_visual_qa",
+  "lane_id": "sdxl_realvisxl_base_lane",
+  "module_id": "MOD-BASE-REALVISXL-LANE",
+  "task_id": "ITEM-W64-009",
+  "tracker_id": "TRK-W64-009",
+  "reviewer": "Codex Desktop autonomous QA",
+  "timestamp": "2026-07-07T04:05:00-05:00",
+  "scope": "Local RealVisXL separated-hand robustness retest using two additional seeds after hand/contact follow-up v1 improved prior clasped-hand ambiguity but left mild tabletop finger softness.",
+  "source_qa_driver": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_HANDS_CONTACT_FOLLOWUP_V1_VISUAL_QA_20260707T035600-0500.json",
+  "overall_result": "mixed_needs_prompt_composition_retest",
+  "certification_status": "not_certified_local_robustness_mixed",
+  "runtime_boundaries": {
+    "local_comfyui_used": true,
+    "ec2_started": false,
+    "aws_contacted": false,
+    "github_api_contacted": false,
+    "civitai_contacted": false,
+    "generation_executed": true,
+    "comfyui_port_closed_after_each_run": true
+  },
+  "profiles": [
+    "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_hands_contact_robustness_seed811006304.json",
+    "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_hands_contact_robustness_seed811006305.json"
+  ],
+  "run_package_manifests": [
+    "runtime_artifacts/run_packages/realvisxl_hands_contact_robustness_w69_seed811006304/RUN_PACKAGE_MANIFEST.json",
+    "runtime_artifacts/run_packages/realvisxl_hands_contact_robustness_w69_seed811006305/RUN_PACKAGE_MANIFEST.json"
+  ],
+  "runtime_evidence": [
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_REALVISXL_HANDS_CONTACT_ROBUSTNESS_SEED811006304_EXECUTE_20260707T040200-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_REALVISXL_HANDS_CONTACT_ROBUSTNESS_SEED811006305_EXECUTE_20260707T040300-0500.json"
+  ],
+  "technical_checks": {
+    "all_files_exist": true,
+    "all_files_decode": true,
+    "all_extensions_expected": true,
+    "minimum_resolution": "512x512",
+    "all_samples_meet_minimum_resolution": true,
+    "all_samples_are_1024_square": true
+  },
+  "samples": [
+    {
+      "sample_id": "realvisxl_hands_contact_robustness_seed811006304",
+      "profile_focus": "palms-down tabletop pose",
+      "output_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_hands_contact_robustness_seed811006304_20260707T040200-0500/images/codex_realvisxl_hands_contact_robustness_a_00001_.png",
+      "sha256": "7d10c1aee64183a0b4d71f336c6cfb682ac1e845bbe026c5482b96fd2988c656",
+      "bytes": 1306981,
+      "width": 1024,
+      "height": 1024,
+      "pixel_format": "Format24bppRgb",
+      "visual_result": "pass_with_notes",
+      "qa_notes": [
+        "Face, lighting, wardrobe, window background, and fabric are coherent.",
+        "The lower tabletop hand has more readable separated fingers than the earlier clasped baseline.",
+        "Prompt compliance is incomplete: the upper hand is raised near the chin instead of both hands palms-down on the table, and some fingers remain partly hidden."
+      ],
+      "defects": [
+        {
+          "severity": "minor",
+          "code": "partial_hand_pose_noncompliance",
+          "message": "The sample improved hand readability but did not follow the requested both-hands-palms-down pose."
+        }
+      ]
+    },
+    {
+      "sample_id": "realvisxl_hands_contact_robustness_seed811006305",
+      "profile_focus": "small notebook object-contact pose",
+      "output_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_hands_contact_robustness_seed811006305_20260707T040300-0500/images/codex_realvisxl_hands_contact_robustness_b_00001_.png",
+      "sha256": "382a87ad81d2375fdcf29146d2151ab4fcd49cf46c9f0d11f390dbf3adc37ba9",
+      "bytes": 1349836,
+      "width": 1024,
+      "height": 1024,
+      "pixel_format": "Format24bppRgb",
+      "visual_result": "fail_whole_image_qa",
+      "qa_notes": [
+        "Hand-object interaction is plausible and the writing hand/finger contact is more readable than the original clasped baseline.",
+        "Whole-image QA fails because the subject face is severely cropped at the upper-right edge, breaking portrait framing and prompt compliance.",
+        "The prompt asked for lightly holding a closed notebook, but the output changed to an active writing pose with a pen and open page."
+      ],
+      "defects": [
+        {
+          "severity": "major",
+          "code": "face_severely_cropped",
+          "message": "The face is cut off at the upper-right edge, so the image cannot pass whole-image portrait QA."
+        },
+        {
+          "severity": "minor",
+          "code": "object_contact_prompt_drift",
+          "message": "The requested closed-notebook holding pose drifted into a writing-with-pen scene."
+        }
+      ]
+    }
+  ],
+  "strict_whole_image_categories_reviewed": [
+    "face_realism",
+    "eye_quality",
+    "skin_texture",
+    "hands_fingers",
+    "feet_toes_when_visible",
+    "hair_realism",
+    "teeth_mouth_quality",
+    "body_proportions",
+    "pose_accuracy",
+    "clothing_fabric",
+    "contact_points",
+    "object_body_collisions",
+    "deformation_realism",
+    "soft_body_cues",
+    "anatomy_consistency",
+    "lighting",
+    "shadows",
+    "reflections",
+    "background_coherence",
+    "camera_lens_realism",
+    "texture_detail",
+    "generation_artifacts",
+    "identity_drift",
+    "over_smoothing",
+    "plastic_skin",
+    "waxy_faces",
+    "distorted_limbs",
+    "prompt_compliance",
+    "unwanted_style_contamination"
+  ],
+  "qa_decision": {
+    "previous_issue_status": "partly_improved_but_not_robust",
+    "promotion_allowed": false,
+    "reason": "The robustness samples show usable hand-contact improvements but are not robust enough for certification: one has pose noncompliance and one fails whole-image QA due to severe face crop.",
+    "recommended_next_action": "Create a composition-safe retest profile that explicitly keeps the full face centered and both separated hands visible in the lower frame, then rerun one minimum local sample."
+  },
+  "final_decision_allowed": false
+}

@@ -1,0 +1,144 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_POSE_LANDMARK_AUTHORITY_20260708T024435-0500",
+  "created_local": "20260708T024435-0500",
+  "task": "Implement pose landmark authority for TRK-W70-0164 / ITEM-W70-0164.",
+  "script": "Plan/07_IMPLEMENTATION/scripts/implement_wave70_pose_landmark_authority.py",
+  "source_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "exists": true,
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "dimensions": [
+      768,
+      768
+    ]
+  },
+  "environment": {
+    "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "cwd": "C:\\Comfy_UI_Main",
+    "modules": {
+      "mediapipe": {
+        "module": "mediapipe",
+        "available": true,
+        "version": "0.10.35"
+      },
+      "mmpose": {
+        "module": "mmpose",
+        "available": false,
+        "version": null
+      },
+      "mmengine": {
+        "module": "mmengine",
+        "available": false,
+        "version": null
+      },
+      "mmcv": {
+        "module": "mmcv",
+        "available": false,
+        "version": null
+      },
+      "ultralytics": {
+        "module": "ultralytics",
+        "available": true,
+        "version": "8.4.87"
+      },
+      "torch": {
+        "module": "torch",
+        "available": true,
+        "version": "2.12.1+cpu"
+      },
+      "torchvision": {
+        "module": "torchvision",
+        "available": true,
+        "version": "0.27.1+cpu"
+      },
+      "cv2": {
+        "module": "cv2",
+        "available": true,
+        "version": "4.11.0"
+      }
+    }
+  },
+  "runtime_attempts": {
+    "mediapipe_pose_landmarker": {
+      "runtime": "mediapipe.tasks.vision.PoseLandmarker",
+      "module_available": true,
+      "pose_task_model_available": false,
+      "attempted": false,
+      "inference_pass": false,
+      "error": "no_local_pose_landmarker_task_model_found",
+      "task_model_candidates": [
+        {
+          "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\mesh_graphormer\\hand_landmarker.task",
+          "exists": true,
+          "size_bytes": 7819105,
+          "suffix": ".task",
+          "sha256": "fbc2a30080c3c557093b5ddfc334698132eb341044ccee322ccf8bcf3607cde1"
+        }
+      ],
+      "mediapipe_version": "0.10.35"
+    },
+    "ultralytics_rtmpose": {
+      "runtime": "ultralytics.YOLO(task='pose')",
+      "label": "rtmpose_wholebody_checkpoint",
+      "model": {
+        "path": "C:\\Users\\kevin\\.cache\\torch\\hub\\checkpoints\\rtmpose-m_simcc-coco-wholebody_pt-aic-coco_270e-256x192-cd5e845c_20230123.pth",
+        "exists": true,
+        "size_bytes": 72010049,
+        "suffix": ".pth",
+        "sha256": "3da02694cd6479d3b333ff42ebd0723f96bfa06adac1db1e2e815ed2e9e1b02d"
+      },
+      "loaded": true,
+      "inference_pass": false,
+      "detections": [],
+      "error": "AssertionError: C:\\Users\\kevin\\.cache\\torch\\hub\\checkpoints\\rtmpose-m_simcc-coco-wholebody_pt-aic-coco_270e-256x192-cd5e845c_20230123.pth acceptable suffix is {'.pt'}, not .pth"
+    },
+    "ultralytics_openpose_controlnet": {
+      "runtime": "ultralytics.YOLO(task='pose')",
+      "label": "openpose_controlnet_weight",
+      "model": {
+        "path": "C:\\Comfy_UI_Main\\models\\controlnet\\OpenPoseXL2.safetensors",
+        "exists": true,
+        "size_bytes": 5004167829,
+        "suffix": ".safetensors",
+        "sha256": "skipped_large_file"
+      },
+      "loaded": true,
+      "inference_pass": false,
+      "detections": [],
+      "error": "TypeError: model='C:\\Comfy_UI_Main\\models\\controlnet\\OpenPoseXL2.safetensors' is not a supported model format. Ultralytics supports: ('PyTorch', 'TorchScript', 'ONNX', 'OpenVINO', 'TensorRT', 'CoreML', 'TensorFlow SavedModel', 'TensorFlow GraphDef', 'TensorFlow Edge TPU', 'PaddlePaddle', 'MNN', 'NCNN', 'IMX', 'RKNN', 'ExecuTorch', 'Axelera AI', 'DEEPX', 'Qualcomm QNN', 'LiteRT')\nSee https://docs.ultralytics.com/modes/predict for help."
+    }
+  },
+  "artifacts": {
+    "blocker_panel": "runtime_artifacts/mask_factory/wave70_pose_landmark_authority/20260708T024435-0500/pose_landmark_authority_blocker_panel.png",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_pose_landmark_authority/20260708T024435-0500/pose_landmark_authority.json"
+  },
+  "pose_landmark_authority": {
+    "result": "blocked",
+    "pose_landmark_pass": false,
+    "subject_viewer_side_mapping_pass": false,
+    "skeleton_anchor_pass": false,
+    "source_derived_landmark_or_segmentation_pass": false,
+    "detected_person_count": 0,
+    "pose_landmark_count": 0,
+    "pose_landmarks": [],
+    "blocked_reason": "mediapipe_pose_task_model_missing; rtmpose_checkpoint_not_executable_by_installed_ultralytics_path; openpose_controlnet_weight_not_pose_landmark_runtime_model; mmpose_mmengine_mmcv_not_installed",
+    "findings": [
+      "MediaPipe tasks exposes PoseLandmarker, but no local pose_landmarker task model was found.",
+      "The RTMPose whole-body checkpoint is present as .pth, but the installed Ultralytics prediction path rejects .pth inference.",
+      "OpenPoseXL2 is a ControlNet weight, not an executable local pose landmark runtime model.",
+      "MMPose/MMEngine/MMCV are not installed, so the RTMPose checkpoint has no compatible local runtime."
+    ]
+  },
+  "qa_decision": "blocked_pose_landmark_route_unloadable",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_pose_landmark_blocked",
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  },
+  "next_step": "Install/register a compatible local pose runtime or a local MediaPipe pose landmarker task model before pose-derived masks can pass."
+}

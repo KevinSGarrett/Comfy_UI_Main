@@ -4,9 +4,9 @@ The uploaded `Advaned_Additions.zip` contains 21 source files. The AI project ma
 
 ## Source files reviewed
 
-- **Advanced Additions Master Wave Schedule** (`Advaned_Additions/00_MASTER_ADVANCED_ADDITIONS_WAVE_SCHEDULE.md`): This planning pack adds seven advanced realism systems to the existing adult generation platform:
-- **01 - Physical Interaction Engine Plan** (`Advaned_Additions/01_PHYSICAL_INTERACTION_ENGINE_PLAN.md`): Add contact pressure, occlusion, soft-body deformation, hand placement, limb collision, furniture interaction, and body-weight realism to adult image and video generation.
-- **02 - Micro-Motion Layer Plan** (`Advaned_Additions/02_MICRO_MOTION_LAYER_PLAN.md`): Add breathing, trembling, grip changes, eye movement, facial tension, skin compression motion, hair movement, and subtle muscle motion to adult image/video generation.
+- **Advanced Additions Master Wave Schedule** (`Advaned_Additions/00_MASTER_ADVANCED_ADDITIONS_WAVE_SCHEDULE.md`): This planning pack adds seven advanced realism systems to the existing body generation platform:
+- **01 - Physical Interaction Engine Plan** (`Advaned_Additions/01_PHYSICAL_INTERACTION_ENGINE_PLAN.md`): Add contact pressure, occlusion, soft-body deformation, hand placement, limb collision, furniture interaction, and body-weight realism to body image and video generation.
+- **02 - Micro-Motion Layer Plan** (`Advaned_Additions/02_MICRO_MOTION_LAYER_PLAN.md`): Add breathing, trembling, grip changes, eye movement, facial tension, skin compression motion, hair movement, and subtle muscle motion to body image/video generation.
 - **03 - Skin and Material Realism System Plan** (`Advaned_Additions/03_SKIN_MATERIAL_REALISM_SYSTEM_PLAN.md`): Add pores, sweat, oil, pressure marks, redness, fluids, fabric cling, smearing, lighting response, and progressive state changes over time.
 - **04 - Fluid and Body-State Continuity Engine Plan** (`Advaned_Additions/04_FLUID_STATE_CONTINUITY_ENGINE_PLAN.md`): Track where visible fluids, sweat, makeup, hair changes, clothing removal, marks, and body state should persist across images, video clips, stitched sequences, and revisions.
 - **05 - Pose-to-Audio Force Model Plan** (`Advaned_Additions/05_POSE_TO_AUDIO_FORCE_MODEL_PLAN.md`): Drive body impacts, wet sounds, breathing, vocal effort, bed/furniture sounds, and rhythm intensity from actual pose, contact, pressure, and motion data.

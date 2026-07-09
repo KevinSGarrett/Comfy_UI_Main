@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "inpaint_wave70_mf70_mouth_lips_v4_seed210821",
+  "target_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "purpose": "Generated-output proof for the accepted Wave70 mf70_mouth_lips V4 source-landmark candidate after strict source-overlay and protected-overlap review.",
+  "request_patch_values": {
+    "positive_prompt": "extremely subtle photoreal outer lip texture and contour preservation pass, preserve exact person identity, neutral expression, closed relaxed mouth shape, upper lip shape, lower lip shape, lip line, natural lip texture, teeth hidden or unchanged, tongue hidden, philtrum, nose, chin, cheeks, surrounding skin, gaze direction, eye shape, iris color, pupil size, sclera tone, catchlights, eyebrows, hairline, nearby hair occlusion, face lighting, white blazer, background, and portrait composition unchanged",
+    "negative_prompt": "identity change, different person, expression change, smile, frown, open mouth, teeth change, visible teeth added, tongue visible, lip shape change, enlarged lips, thinner lips, swollen lips, asymmetric lips, lipstick, gloss, mouth line mutation, philtrum mutation, chin shape change, cheek shape change, skin patch, over-smoothed skin, plastic skin, waxy skin, skin tone change, nose mutation, gaze change, mismatched eyes, iris color change, glassy eyes, catchlight change, eyebrow change, hair mutation, visible seam, clothing change, background change, watermark, text",
+    "source_image": "wave70_mf70_face_identity_source_canny_v3.png",
+    "mask_image": "wave70_mf70_mouth_lips_mask.png",
+    "mask_channel": "red",
+    "seed": 210821,
+    "sampler_settings": {
+      "steps": 18,
+      "cfg": 3.1,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.03
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_wave70_mf70_mouth_lips_v4_seed210821"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_wave70_mf70_mouth_lips_v4_seed210821",
+    "diagnostic_output_prefix": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview"
+  },
+  "qa_focus": [
+    "whole-image identity preservation",
+    "upper lip, lower lip, and mouth line remain natural",
+    "no expression, smile, frown, or open-mouth drift",
+    "teeth and tongue are not introduced or mutated",
+    "philtrum, nose, chin, cheeks, and surrounding skin remain stable",
+    "gaze, pupil, iris, sclera, and catchlights remain stable",
+    "no visible seam around the V4 lip mask"
+  ],
+  "source_qa_driver": {
+    "evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_MOUTH_LIPS_V4_STRICT_VISUAL_ACCEPTANCE_20260707T224000-0500.json",
+    "mask_qa": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_mouth_lips.json",
+    "v4_candidate_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_mouth_lips_source_landmark_v2_20260707T223500-0500/wave70_mf70_mouth_lips_overlay.png",
+    "v4_strict_visual_acceptance_panel": "runtime_artifacts/mask_factory/wave70_mf70_mouth_lips/source_landmark_repair_v2/20260707T223500-0500/mf70_mouth_lips_source_landmark_repair_v2_panel.png",
+    "change_summary": "Use the accepted V4 source-landmark Wave70 mouth/lips mask with very low denoise to prove local generated-output routing while minimizing expression, teeth, tongue, lip-shape, chin, cheek, skin, eye, and identity drift."
+  },
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_generated_output_proof_before_item_completion": true,
+    "requires_whole_image_qa_before_promotion": true,
+    "requires_target_runtime_reproof_before_final_certification": true,
+    "does_not_certify_other_disputed_masks": true
+  }
+}

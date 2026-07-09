@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "inpaint_wave25_two_character_contact_refine_seed210703",
+  "target_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "purpose": "Second seed in a small local robustness pair for the Wave25 two-character contact mask-routed refine path. Uses the same source, mask, prompt, and low-denoise settings as seed210701 so QA can test stability rather than a new recipe.",
+  "request_patch_values": {
+    "positive_prompt": "photoreal studio portrait contact refinement, preserve exact two adult identities, preserve woman on left and man on right, preserve clothing colors and background, woman's open relaxed hand resting naturally on man's left shoulder and upper sleeve, subtle finger pressure on fabric, natural sleeve compression under the hand, soft realistic contact shadow, realistic hand anatomy, coherent fingers and fingernails, no global style drift",
+    "negative_prompt": "identity change, face change, hair change, clothing change, background change, pose change, hand morph, extra fingers, missing fingers, fused fingers, elongated fingers, claw hand, rubber hand, sleeve pull, gripping, grabbing, man touching woman, merged bodies, merged arms, duplicate hand, visible mask edge, overpainted shoulder, plastic skin, waxy skin, text, watermark",
+    "source_image": "wave25_two_character_seed7152026252_source.png",
+    "mask_image": "wave25_contact_edge_hand_to_body_seed7152026252_1024.png",
+    "mask_channel": "red",
+    "seed": 210703,
+    "sampler_settings": {
+      "steps": 20,
+      "cfg": 4.4,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.16
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_wave25_two_character_contact_refine_seed210703"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_wave25_two_character_contact_refine_seed210703"
+  },
+  "qa_focus": [
+    "identity and clothing preservation",
+    "source/target contact ownership stability",
+    "finger and sleeve contact stability",
+    "no body merge or hand duplication",
+    "no global drift outside the contact mask"
+  ],
+  "source_qa_driver": {
+    "baseline_refine_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_WAVE25_TWO_CHARACTER_CONTACT_REFINE_VISUAL_QA_20260707T120500-0500.json",
+    "change_summary": "Robustness seed only; no prompt, mask, denoise, or model change from seed210701."
+  },
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_target_runtime_reproof_before_certification": true,
+    "requires_whole_image_qa_before_promotion": true
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-WAVE25-TWO-CHARACTER-CONTACT-REFINE-ROBUSTNESS-VISUAL-QA-20260707T121500-0500",
+  "timestamp": "2026-07-07T12:15:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "module_context": "Wave25 multi-character hand-to-body contact refinement robustness",
+  "robustness_scope": {
+    "baseline_refine_seed": 210701,
+    "new_test_seeds": [
+      210702,
+      210703
+    ],
+    "recipe_change": "Seeds and save prefixes only; same source image, contact mask, prompt, model, sampler, and denoise as the seed210701 contact refine."
+  },
+  "source_and_mask": {
+    "source_image": "ComfyUI/input/wave25_two_character_seed7152026252_source.png",
+    "source_sha256": "d6ef67713167d55696b1f07e86c88e9ee0a038f946be9cd8cc56810f724b81a7",
+    "mask_image": "ComfyUI/input/wave25_contact_edge_hand_to_body_seed7152026252_1024.png",
+    "mask_sha256": "a80d236c890726d3f310fc5d63d1a7a6c20f447694752469deb9bff6f7997f21"
+  },
+  "runtime_evidence": [
+    {
+      "seed": 210702,
+      "file": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_WAVE25_TWO_CHARACTER_CONTACT_REFINE_SEED210702_EXECUTE_20260707T121000-0500.json",
+      "sha256": "b0fc13a61391bac2b64593b5905910bc12bc81a8b768c9f8232975c34c6615d2",
+      "result": "pass_local_run_package_generation_smoke",
+      "prompt_request_sha256": "9de5fd491955f448300f487eb575e553cc6e074c6f49f8fad3481d6af03f296e",
+      "local_comfy_stopped": true,
+      "port_8188_closed_after_stop": true
+    },
+    {
+      "seed": 210703,
+      "file": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_WAVE25_TWO_CHARACTER_CONTACT_REFINE_SEED210703_EXECUTE_20260707T121200-0500.json",
+      "sha256": "cbaea3feebaea9b9395c6183b5eb8addd44e4473da0a66c0b0a45bcbc173e7c9",
+      "result": "pass_local_run_package_generation_smoke",
+      "prompt_request_sha256": "ea4b10efd29e173c4dbef2b04d0ea4d0ee8220e2abdbc7554dfc26d33149292b",
+      "local_comfy_stopped": true,
+      "port_8188_closed_after_stop": true
+    }
+  ],
+  "generated_images": [
+    {
+      "seed": 210702,
+      "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_two_character_contact_refine_seed210702_20260707T115721-0500/images/codex_wave25_two_character_contact_refine_seed210702_00001_.png",
+      "sha256": "13bbf5171c572dee5d54527b049d7ab6478d35be5762ca363904adbe757483ec",
+      "bytes": 1794554,
+      "width": 1024,
+      "height": 1024,
+      "mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_two_character_contact_refine_seed210702_20260707T115721-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00003_.png",
+      "mask_preview_sha256": "2c10a52b6f9d6e5e645a1dd2c8767a061cb4da8353867c76f0872b97ab3c4127"
+    },
+    {
+      "seed": 210703,
+      "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_two_character_contact_refine_seed210703_20260707T115814-0500/images/codex_wave25_two_character_contact_refine_seed210703_00001_.png",
+      "sha256": "7c928e6d2ab9cf2bad3b8499fa9a109acc9fbed74f71e3456fe323fa2055416a",
+      "bytes": 1794652,
+      "width": 1024,
+      "height": 1024,
+      "mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_two_character_contact_refine_seed210703_20260707T115814-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00004_.png",
+      "mask_preview_sha256": "5384562871825b2fd4aac6f265c5d4ef26c6a59cbe8007a831759f80aee08fe8"
+    }
+  ],
+  "comparison_artifacts": [
+    {
+      "path": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/qa_contact_crops/refine_robustness_contact_crop_seed210701_210702_210703.png",
+      "sha256": "4321c8695a245b72dedc8992b8ec4c2b53e0eb81eeafc03fa853fce049338bca",
+      "width": 780,
+      "height": 316,
+      "purpose": "Three-panel contact-zone comparison for seed210701, seed210702, and seed210703."
+    }
+  ],
+  "whole_image_visual_qa": {
+    "result": "pass_with_notes_local_wave25_contact_refine_robustness_pair_stable",
+    "passes": [
+      "seed210702 preserves both body identities, clothing, neutral background, body separation, and visible woman-to-man contact ownership",
+      "seed210703 preserves both body identities, clothing, neutral background, body separation, and visible woman-to-man contact ownership",
+      "neither robustness sample introduces duplicate hands, merged arms, missing fingers, visible mask edges, or global composition drift",
+      "contact crop comparison keeps a consistent open-hand placement and sleeve edge across seed210701, seed210702, and seed210703"
+    ],
+    "notes": [
+      "contact shadow remains subtle across all three refine seeds",
+      "the hand still reads closer to shoulder/top upper sleeve than a lower upper-arm target",
+      "this proves a small local robustness pair only; target-runtime proof and final Wave25 certification remain separate"
+    ],
+    "failures": []
+  },
+  "qa_decision": {
+    "local_robustness_pair_passed": true,
+    "preferred_local_refine_seed": 210701,
+    "promotion_over_baseline_allowed_for_local_iteration": true,
+    "final_certification_allowed": false,
+    "certification_boundary": "Local two-seed robustness support for the mask-routed contact refine recipe only; no EC2 target-runtime proof, no final release certification."
+  },
+  "next_action": "Continue local-first with another named Plan/Tracker implementation gap, or select a deliberate target-runtime proof only when EC2 is explicitly justified."
+}

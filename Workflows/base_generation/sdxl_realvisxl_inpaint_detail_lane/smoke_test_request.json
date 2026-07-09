@@ -1,0 +1,44 @@
+{
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "module_id": "MOD-13-SDXL-INPAINT-DETAIL-LANE",
+  "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/workflow.api.json",
+  "execution_target": "local or EC2 ComfyUI API after input/model provisioning",
+  "api_endpoint": "/prompt",
+  "execution_allowed": false,
+  "execution_allowed_after": [
+    "static workflow validation passes",
+    "object_info proof confirms LoadImageMask, VAEEncode, SetLatentNoiseMask, FeatherMask, and ImageCompositeMasked",
+    "RealVisXL checkpoint path and sha256 are recorded",
+    "source and mask images are present in the active ComfyUI input directory",
+    "runtime output, pullback, technical QA, and whole-image visual QA evidence are recorded"
+  ],
+  "request_patch_values": {
+    "positive_prompt": "subtle photoreal skin texture refinement, preserve exact identity, preserve original eye color gaze and lip color, natural skin pores, consistent portrait lighting, no global style drift",
+    "negative_prompt": "blank face, gray mask, identity change, eye color change, lip color change, gaze drift, face shape drift, plastic skin, waxy skin, over-smoothed face, distorted eyes, crossed eyes, extra teeth, deformed mouth, new jewelry, new clothing, background change, watermark, text",
+    "source_image": "sdxl_inpaint_detail_source_canny_v1.png",
+    "mask_image": "sdxl_inpaint_detail_micro_nomouth_v4.png",
+    "mask_channel": "red",
+    "mask_feather_pixels": 24,
+    "seed": 210422,
+    "sampler_settings": {
+      "steps": 20,
+      "cfg": 5,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.24
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 2,
+    "output_prefix": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4",
+    "diagnostic_output_prefix": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview"
+  },
+  "qa_protocols": [
+    "Plan/Instructions/QA/COMFYUI_WORKFLOW_TESTING_PROTOCOL.md",
+    "Plan/Instructions/QA/MODEL_LORA_CHECKPOINT_VALIDATION_PROTOCOL.md",
+    "Plan/Instructions/QA/IMAGE_GENERATION_VISUAL_REVIEW_PROTOCOL.md"
+  ]
+}

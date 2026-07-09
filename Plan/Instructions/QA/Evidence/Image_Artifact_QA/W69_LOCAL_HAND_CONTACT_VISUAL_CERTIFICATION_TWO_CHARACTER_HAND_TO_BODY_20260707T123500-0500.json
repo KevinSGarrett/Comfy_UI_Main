@@ -1,0 +1,80 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "W69-LOCAL-HAND-CONTACT-VISUAL-CERTIFICATION-TWO-CHARACTER-HAND-TO-BODY-20260707T123500-0500",
+    "timestamp":  "2026-07-07T12:35:00-05:00",
+    "project_root":  "C:\\Comfy_UI_Main",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "certification_subject":  "Wave25 two-character woman-left hand resting on man-right shoulder or upper sleeve contact",
+    "source_requirements":  [
+                                "Plan/02_TARGET_ARCHITECTURE/WAVE20_HAND_FINGER_FOOT_TOE_NAIL_REPAIR_SYSTEM.md",
+                                "Plan/02_TARGET_ARCHITECTURE/WAVE22_SOURCE_TARGET_BODY_PART_BINDING.md",
+                                "Plan/02_TARGET_ARCHITECTURE/WAVE23_CONTACT_TO_DEFORMATION_RENDERING_MODEL.md",
+                                "Plan/02_TARGET_ARCHITECTURE/WAVE25_CROSS_CHARACTER_CONTACT_OCCLUSION_MODEL.md",
+                                "Plan/06_QA_TESTING/WAVE13_CONTACT_MASK_TESTS.md"
+                            ],
+    "checked_evidence_paths":  [
+                                   "Plan/02_TARGET_ARCHITECTURE/WAVE20_HAND_FINGER_FOOT_TOE_NAIL_REPAIR_SYSTEM.md",
+                                   "Plan/02_TARGET_ARCHITECTURE/WAVE22_SOURCE_TARGET_BODY_PART_BINDING.md",
+                                   "Plan/02_TARGET_ARCHITECTURE/WAVE23_CONTACT_TO_DEFORMATION_RENDERING_MODEL.md",
+                                   "Plan/02_TARGET_ARCHITECTURE/WAVE25_CROSS_CHARACTER_CONTACT_OCCLUSION_MODEL.md",
+                                   "Plan/06_QA_TESTING/WAVE13_CONTACT_MASK_TESTS.md",
+                                   "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_WAVE25_TWO_CHARACTER_CONTACT_REFINE_VISUAL_QA_20260707T120500-0500.json",
+                                   "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_WAVE25_TWO_CHARACTER_CONTACT_REFINE_ROBUSTNESS_VISUAL_QA_20260707T121500-0500.json",
+                                   "Plan/Instructions/QA/Evidence/Mask_Factory/W69_LOCAL_WAVE13_CONTACT_MASK_QA_TWO_CHARACTER_HAND_TO_BODY_20260707T122500-0500.json",
+                                   "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/qa_contact_crops/refine_robustness_contact_crop_seed210701_210702_210703.png",
+                                   "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/qa_contact_crops/contact_mask_overlay_seed210701.png",
+                                   "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_two_character_contact_refine_seed210701_20260707T114731-0500/images/codex_wave25_two_character_contact_refine_seed210701_00001_.png",
+                                   "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_two_character_contact_refine_seed210702_20260707T115721-0500/images/codex_wave25_two_character_contact_refine_seed210702_00001_.png",
+                                   "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_two_character_contact_refine_seed210703_20260707T115814-0500/images/codex_wave25_two_character_contact_refine_seed210703_00001_.png"
+                               ],
+    "visual_review":  {
+                          "participants_distinct":  true,
+                          "source_target_ownership_correct":  true,
+                          "open_hand_contact_visible":  true,
+                          "hand_anatomy_acceptable":  true,
+                          "no_body_merge":  true,
+                          "no_duplicate_or_missing_hand":  true,
+                          "no_visible_mask_edge":  true,
+                          "robustness_pair_stable":  true,
+                          "contact_shadow_strength":  "subtle",
+                          "contact_placement_precision":  "shoulder_top_upper_sleeve",
+                          "review_notes":  [
+                                               "Woman on the left remains the visible contact source and the man on the right remains the contact target.",
+                                               "Open hand placement and finger anatomy are stable across seed210701, seed210702, and seed210703.",
+                                               "Contact shadow and fabric pressure are visible enough for local support but not clear enough for final certification.",
+                                               "Hand placement remains shoulder/top-upper-sleeve biased rather than exact lower upper-arm target."
+                                           ]
+                      },
+    "local_pass_checks":  {
+                              "participants_distinct":  true,
+                              "source_target_ownership_correct":  true,
+                              "open_hand_contact_visible":  true,
+                              "hand_anatomy_acceptable":  true,
+                              "no_body_merge":  true,
+                              "no_duplicate_or_missing_hand":  true,
+                              "no_visible_mask_edge":  true,
+                              "robustness_pair_stable":  true,
+                              "contact_mask_qa_passed":  true
+                          },
+    "final_certification_blockers":  [
+                                         "contact_shadow_not_clear:subtle",
+                                         "contact_placement_not_exact_target:shoulder_top_upper_sleeve",
+                                         "target_runtime_proof_missing",
+                                         "final_certification_review_missing"
+                                     ],
+    "warnings":  [
+
+                 ],
+    "errors":  [
+
+               ],
+    "local_support_passed":  true,
+    "final_certification_allowed":  false,
+    "result":  "pass_local_support_block_final_hand_contact_certification",
+    "certification_boundary":  "This is a local visual certification gate. Final project certification still requires target-runtime proof and all broader done gates."
+}

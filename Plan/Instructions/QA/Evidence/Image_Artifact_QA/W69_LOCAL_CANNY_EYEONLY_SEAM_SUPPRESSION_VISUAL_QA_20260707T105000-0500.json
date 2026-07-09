@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-CANNY-EYEONLY-SEAM-SUPPRESSION-VISUAL-QA-20260707T105000-0500",
+  "timestamp": "2026-07-07T10:50:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "generation_executed": true,
+  "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_EYEONLY_SEAM_SUPPRESSION_SEED711570105_EXECUTE_20260707T104800-0500.json",
+  "profile": "PromptProfiles/base_generation/controlnet_canny_w69_quality_matrix/canny_w69_eyeonly_seam_suppression_seed711570105.json",
+  "run_package_manifest": "runtime_artifacts/run_packages/canny_w69_eyeonly_seam_suppression_711570105/RUN_PACKAGE_MANIFEST.json",
+  "generated_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_eyeonly_seam_suppression_711570105_20260707T104736-0500/images/canny_w69_eyeonly_seam_suppression_711570105_00001_.png",
+    "sha256": "4119997a991d443c17e2a9b26fad775a179c5ee11d060c730eb64c81e50f728e",
+    "width": 768,
+    "height": 768,
+    "bytes": 779332
+  },
+  "diagnostic_control_map": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_eyeonly_seam_suppression_711570105_20260707T104736-0500/images/codex_sdxl_realvisxl_controlnet_canny_control_map_diagnostic_00008_.png",
+    "sha256": "42c93736ebaa74a068594edd993033d7b7176a710eff1ddd70beb826083d88f6",
+    "width": 1024,
+    "height": 1024,
+    "bytes": 33746
+  },
+  "qa_driven_change": {
+    "source_note": "W69_LOCAL_CANNY_EYEONLY_MULTISEED_ROBUSTNESS_VISUAL_QA_20260707T092500-0500 noted a faint right-edge vertical seam/background artifact in seed 711570105.",
+    "request_change": "Retested seed 711570105 with explicit continuous-background and no right-edge-seam wording, plus Canny strength lowered from 0.45 to 0.42 and end_percent shortened from 0.65 to 0.60.",
+    "minimum_rerun_scope": "one local sample from the changed request only"
+  },
+  "strict_whole_image_checks": {
+    "face_realism": "pass",
+    "eye_quality": "pass_readable_catchlights",
+    "skin_texture": "pass_with_mild_polish_note",
+    "hands_fingers": "not_visible_not_certified",
+    "feet_toes": "not_visible_not_certified",
+    "hair_realism": "pass",
+    "teeth_mouth_quality": "pass_closed_mouth_no_teeth_visible",
+    "body_proportions": "pass_for_head_and_shoulders_crop_only",
+    "pose_accuracy": "pass",
+    "clothing_fabric": "pass_white_blazer_texture_readable",
+    "contact_points": "not_visible_not_certified",
+    "deformation_realism": "pass",
+    "anatomy_consistency": "pass_for_visible_crop",
+    "lighting": "pass_soft_fill",
+    "background_coherence": "pass_improved_right_edge_seam_removed",
+    "camera_lens_realism": "pass",
+    "texture_detail": "pass_with_notes",
+    "generation_artifacts": "pass_no_blocking_artifacts_observed",
+    "identity_drift": "not_certified_beyond_same_seed_iteration",
+    "prompt_compliance": "pass",
+    "control_adherence": "pass",
+    "canny_leakage": "pass_no_visible_canny_map_transfer_harsh_edge_halos_or_black_contour_stains"
+  },
+  "comparison_to_prior_seed": {
+    "prior_seed_artifact": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_eyeonly_robust_711570105_20260707T092148-0500/images/canny_w69_eyeonly_robust_711570105_00001_.png",
+    "prior_seed_sha256": "6793cdbb31b945a2cbf32524103f72e3092b25dc3d989375c5d1a69ffbb8b757",
+    "improvements": [
+      "The prior faint dotted vertical right-edge seam is no longer visible.",
+      "The new background reads as a continuous neutral matte field rather than a right-edge panel or strip.",
+      "Eyes remain readable and aligned after the lower/shorter Canny guidance change.",
+      "Jaw, neck, shoulder, and blazer boundaries remain coherent without visible Canny leakage."
+    ],
+    "tradeoffs_or_notes": [
+      "Skin remains mildly polished.",
+      "The lower Canny setting slightly changes wardrobe/color presentation into a lighter blazer, but the image stays clothed and coherent.",
+      "Hands, full body, contact points, and broad scene robustness remain outside this local minimum rerun."
+    ]
+  },
+  "qa_result": "pass_with_notes_local_canny_seed711570105_seam_suppression_improved",
+  "preferred_local_candidate": "canny_w69_followup_eye_only_seed711570102",
+  "candidate_status_update": "The seam-suppression rerun improves the noted robustness seed artifact and can be used as supporting local Canny evidence, but it does not replace the preferred seed 711570102 candidate without broader multi-seed retesting.",
+  "certification_scope": "local_minimum_rerun_after_qa_note_only",
+  "certification_allowed": false,
+  "remaining_risks": [
+    "This is a single local rerun and not final MOD-17 certification.",
+    "Target-runtime EC2 object_info/path/hash/input proof, bounded generation, pullback, technical QA, and strict visual QA remain separate promotion gates.",
+    "Hands, full-body anatomy, contact points, and wider prompt robustness are not certified."
+  ],
+  "next_action": "Keep Canny local status as pass-with-notes with seam-suppression improvement recorded; continue local-first on another named implementation/QA gap or intentionally select target-runtime proof only when required."
+}

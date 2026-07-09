@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "canny_v5_eye_fill_seed711170101",
+  "target_lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "purpose": "Local Canny v5 robustness sample using the current eye-fill/open-shadow prompt candidate with a distinct seed.",
+  "request_patch_values": {
+    "seed": 711170101,
+    "save_prefix": "codex_sdxl_realvisxl_controlnet_canny_v5_seed711170101"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_sdxl_realvisxl_controlnet_canny_v5_seed711170101"
+  },
+  "qa_focus": [
+    "whole-image prompt alignment",
+    "eye readability",
+    "shadow detail",
+    "clothing coverage",
+    "control-map adherence",
+    "generation artifacts"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_target_runtime_reproof_before_certification": true,
+    "requires_whole_image_qa_before_promotion": true
+  }
+}

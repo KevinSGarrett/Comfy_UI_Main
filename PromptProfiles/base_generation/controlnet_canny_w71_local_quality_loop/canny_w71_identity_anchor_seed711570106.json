@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "canny_w71_identity_anchor_seed711570106",
+  "target_lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "purpose": "Prompt-only identity anchoring test for the retained MOD-17 Canny candidate after seed-only robustness failed. This keeps seed 711570106, the v3 right-edge-masked control image, and 0.42/0.60 ControlNet guidance unchanged.",
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic cinematic editorial portrait of an adult Black man with short natural afro-textured hair, medium brown skin, natural skin texture with fine pores, subtle human skin asymmetry, realistic eyes with clean catchlights and visible iris detail, gently open eye shadows, detailed short natural hair matching the control silhouette, stable masculine face shape matching the control image, edge-guided but natural composition, coherent face silhouette, clean but not over-sharpened jawline, separated neck and shirt collar, tailored dark blazer over light blue textured shirt, clothed shoulders, soft natural fill light, balanced exposure, calm plain continuous neutral gray interior background, seamless right image edge, no visible wall panel boundary, clean face with no painted marks, lifelike lens rendering",
+    "negative_prompt": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, beauty filter skin, airbrushed face, porcelain skin, over-sharpened skin, gritty skin, over-sharpened edges, dark edge halos, harsh outlines, black contour stains, identity drift, changed face shape, changed age, changed gender presentation, changed skin tone, long hair, feminine hairstyle, gray hair, older man, white shirt, dark background, bright side panel, distorted anatomy, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text, colored blotches, paint marks, dim eye sockets, over-dark eyes, underexposed eyes, muddy shadows, crushed shadows, smeared jawline, warped collar edge, control map stains, right-edge seam, vertical seam, background panel line, border artifact, edge strip, window band, light bar, bare shoulders, strapless top, nude, unclothed torso",
+    "seed": 711570106,
+    "control_image": "controlnet_canny_cleaned_eye_safe_v3_rightedge_band_masked.png",
+    "controlnet_settings": {
+      "strength": 0.42,
+      "start_percent": 0,
+      "end_percent": 0.6
+    },
+    "save_prefix": "canny_w71_identity_anchor_seed711570106"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "canny_w71_identity_anchor_seed711570106"
+  },
+  "qa_focus": [
+    "prompt-only identity anchoring against retained seed 711570106",
+    "identity, age, skin tone, and hair silhouette preservation",
+    "right-edge and left-edge boundary artifacts",
+    "eye readability and catchlights",
+    "skin texture preservation",
+    "jawline and collar boundary",
+    "background continuity",
+    "control-map leakage"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "prompt_only_identity_anchor": true,
+    "requires_whole_image_qa_before_any_seed_rerun": true,
+    "requires_target_runtime_reproof_before_certification": true
+  }
+}

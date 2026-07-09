@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-INPAINT-DETAIL-NOMOUTH-V4-ROBUSTNESS-VISUAL-QA-20260707T034000-0500",
+  "timestamp": "2026-07-07T03:40:00-05:00",
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "module_id": "MOD-13-SDXL-INPAINT-DETAIL-LANE",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "strict_whole_image_visual_qa_multiseed_local_robustness",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "prompt_profiles": [
+    "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_v4_nomouth_seed210501.json",
+    "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_v4_nomouth_seed210502.json"
+  ],
+  "technical_evidence": [
+    {
+      "seed": 210501,
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_ROBUSTNESS_SEED210501_EXECUTE_20260707T033600-0500.json",
+      "run_package_manifest": "runtime_artifacts/run_packages/sdxl_realvisxl_inpaint_detail_nomouth_v4_robustness_seed210501/RUN_PACKAGE_MANIFEST.json",
+      "result": "pass_local_run_package_generation_smoke",
+      "prompt_request_sha256": "dc73bd0f8eff3b5bddba7fcb697ecf8f68340d5539b444efead70855580ceb41"
+    },
+    {
+      "seed": 210502,
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_ROBUSTNESS_SEED210502_EXECUTE_20260707T033800-0500.json",
+      "run_package_manifest": "runtime_artifacts/run_packages/sdxl_realvisxl_inpaint_detail_nomouth_v4_robustness_seed210502/RUN_PACKAGE_MANIFEST.json",
+      "result": "pass_local_run_package_generation_smoke",
+      "prompt_request_sha256": "fdf6c704f88750132221b476c94f2c518b2afc014005dff7dea81089c25e01c8"
+    }
+  ],
+  "artifacts_reviewed": [
+    {
+      "seed": 210501,
+      "image_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_nomouth_v4_robustness_seed210501_20260707T033600-0500/images/codex_sdxl_realvisxl_inpaint_detail_nomouth_v4_seed210501_00001_.png",
+      "sha256": "b11a5c5ba1a7731fe46bfacb98363b9a79c09c2e2b444b22de91408093bada26",
+      "whole_image_findings": {
+        "identity_preservation": "Pass: face shape, gaze, eye color, hair silhouette, clothing, and background remain consistent with the v4 source/candidate.",
+        "face_and_skin": "Pass with notes: no gray mask and no face replacement; edited skin remains mildly smooth in the masked zones.",
+        "eyes": "Pass: eyes remain coherent with no synthetic-eye drift or gaze change.",
+        "mouth_lips": "Pass: mouth was excluded from the v4 mask and lip color remains stable.",
+        "mask_edge_blending": "Pass: no obvious hard mask edge around forehead, cheeks, or nose.",
+        "hair_clothing_background": "Pass: hair, blazer, shirt, and background remain stable with no unrelated global style drift.",
+        "hands_feet_anatomy": "Not visible: no hands, fingers, feet, toes, or full-body limb anatomy in frame.",
+        "artifacts": "No blocking artifacts observed."
+      },
+      "qa_result": "pass_with_notes"
+    },
+    {
+      "seed": 210502,
+      "image_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_nomouth_v4_robustness_seed210502_20260707T033800-0500/images/codex_sdxl_realvisxl_inpaint_detail_nomouth_v4_seed210502_00001_.png",
+      "sha256": "ec1006e8a01c489ab6fdce1c2d108503737ac08449136ffc5bf372a963900e0d",
+      "whole_image_findings": {
+        "identity_preservation": "Pass: identity, face shape, gaze, eye color, hairstyle, wardrobe, and background remain stable.",
+        "face_and_skin": "Pass with notes: no gray mask, no identity drift, and no visible face replacement; masked skin still reads a little smoother than surrounding skin.",
+        "eyes": "Pass: eyes remain natural and consistent with the source; no gaze drift.",
+        "mouth_lips": "Pass: lips remain stable because the no-mouth mask excludes the mouth region.",
+        "mask_edge_blending": "Pass: no obvious hard boundary around edited areas.",
+        "hair_clothing_background": "Pass: unrelated regions remain unchanged and coherent.",
+        "hands_feet_anatomy": "Not visible: no hands, fingers, feet, toes, or full-body limb anatomy in frame.",
+        "artifacts": "No blocking artifacts observed."
+      },
+      "qa_result": "pass_with_notes"
+    }
+  ],
+  "robustness_summary": {
+    "sample_count": 2,
+    "passed_with_notes_count": 2,
+    "blocking_defect_count": 0,
+    "consistent_strengths": [
+      "v4 no-mouth mask avoids v3 lip saturation and v1/v2 gray-face failures",
+      "identity, gaze, and eye color remain stable across both seeds",
+      "clothing and background remain stable",
+      "mask edges are not visibly hard"
+    ],
+    "remaining_notes": [
+      "masked skin regions remain slightly smoother than surrounding skin",
+      "low denoise and narrow mask make seed variation intentionally subtle"
+    ]
+  },
+  "overall_result": "pass_with_notes_for_local_robustness",
+  "certification_scope": "local_multiseed_robustness_only",
+  "not_certified_reasons": [
+    "The inpaint v4 lane still needs target-runtime object_info/path/hash/input proof, bounded target-runtime generation, pullback, technical QA, and strict whole-image visual QA.",
+    "This two-seed robustness check is not final portfolio certification."
+  ],
+  "next_action": "Keep no-mouth v4 as the preferred local inpaint-detail candidate. Do not certify or target-promote until exact v4 target-runtime proof and QA pass."
+}

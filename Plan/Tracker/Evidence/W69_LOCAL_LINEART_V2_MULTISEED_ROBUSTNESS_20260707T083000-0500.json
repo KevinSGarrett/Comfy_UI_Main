@@ -1,0 +1,38 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "W69-LOCAL-LINEART-V2-MULTISEED-ROBUSTNESS-20260707T083000-0500",
+    "timestamp":  "2026-07-07T08:30:00-05:00",
+    "lane_id":  "sdxl_realvisxl_controlnet_lineart_lane",
+    "module_id":  "MOD-19-CONTROLNET-LINEART-LANE",
+    "work_type":  "bounded_local_lineart_v2_multiseed_robustness",
+    "local_only":  true,
+    "ec2_started":  false,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "profiles":  [
+                     "PromptProfiles/base_generation/controlnet_lineart_v1_followup/lineart_v2_natural_skin_background_seed711370002.json",
+                     "PromptProfiles/base_generation/controlnet_lineart_v1_followup/lineart_v2_robust_natural_skin_seed711370003.json",
+                     "PromptProfiles/base_generation/controlnet_lineart_v1_followup/lineart_v2_robust_natural_skin_seed711370004.json"
+                 ],
+    "run_package_manifests":  [
+                                  "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_lineart_v2_natural_skin_background_w69/RUN_PACKAGE_MANIFEST.json",
+                                  "runtime_artifacts/run_packages/lineart_v2_robust_711370003/RUN_PACKAGE_MANIFEST.json",
+                                  "runtime_artifacts/run_packages/lineart_v2_robust_711370004/RUN_PACKAGE_MANIFEST.json"
+                              ],
+    "runtime_evidence":  [
+                             "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_LINEART_V2_NATURAL_SKIN_BACKGROUND_EXECUTE_20260707T061000-0500.json",
+                             "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_LINEART_V2_ROBUST_SEED711370003_EXECUTE_20260707T082300-0500.json",
+                             "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_LINEART_V2_ROBUST_SEED711370004_EXECUTE_20260707T082500-0500.json"
+                         ],
+    "generated_images":  [
+                             "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_lineart_v2_natural_skin_background_w69_20260707T061000-0500/images/codex_sdxl_realvisxl_controlnet_lineart_v2_natural_skin_background_seed711370002_00001_.png",
+                             "Plan/Instructions/Operations/Pulled_Back_Artifacts/lineart_v2_robust_711370003_20260707T082132-0500/images/lineart_v2_robust_711370003_00001_.png",
+                             "Plan/Instructions/Operations/Pulled_Back_Artifacts/lineart_v2_robust_711370004_20260707T082228-0500/images/lineart_v2_robust_711370004_00001_.png"
+                         ],
+    "visual_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_LINEART_V2_MULTISEED_ROBUSTNESS_VISUAL_QA_20260707T083000-0500.json",
+    "result":  "pass_with_notes_local_lineart_v2_multiseed_functional_but_background_identity_robustness_weaker",
+    "preferred_local_candidate":  "lineart_v2_natural_skin_background_seed711370002",
+    "robustness_summary":  "Preferred v2 plus two additional seed-only samples confirm clean Lineart control with no visible ink/contour leakage. Background naturalness and identity/presentation are weaker across seeds, so this is functional pass-with-notes robustness, not a clean quality certification.",
+    "remaining_boundary":  "Not target-runtime proof, not full body/hands/contact certification, not identity/background robustness certification, and not final Lineart lane certification."
+}

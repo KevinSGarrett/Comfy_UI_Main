@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W66_EC2_DEPLOY_BUNDLE_CURRENT_ACTIVE_LANES_CONTENT_QA_20260709T014115-0500",
+  "created_iso": "2026-07-09T01:41:15-05:00",
+  "artifact_type": "ec2_deploy_bundle_content_qa",
+  "source_validation_evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_EC2_DEPLOY_BUNDLE_MATRIX_CURRENT_ACTIVE_LANES_20260709T014000-0500.json",
+  "source_validation_tracker_evidence": "Plan/Tracker/Evidence/W66_EC2_DEPLOY_BUNDLE_MATRIX_CURRENT_ACTIVE_LANES_20260709T014000-0500.json",
+  "bundle_temp_root": "C:/Users/kevin/AppData/Local/Temp/comfy_deploy_bundle_matrix_20260709T014024-0500",
+  "bundle_manifest": "C:/Users/kevin/AppData/Local/Temp/comfy_deploy_bundle_matrix_20260709T014024-0500/DEPLOY_BUNDLE_MATRIX_MANIFEST.json",
+  "bundle_zip_sha256": "952bbf9fd1db620bf88c6cbf90985c8b0deda3c534c98f699cc9cf0766e6367c",
+  "checks": [
+    {
+      "name": "active_lanes_contains_local_package_smoke_completion",
+      "result": "pass",
+      "file": "C:/Users/kevin/AppData/Local/Temp/comfy_deploy_bundle_matrix_20260709T014024-0500/content/Workflows/base_generation/ACTIVE_LANES.json",
+      "observed": [
+        "status complete_with_limitations",
+        "completion_evidence Plan/Instructions/QA/Evidence/Workflow_Runtime/BASE_GENERATION_REPAIRED_PACKAGE_LOCAL_SMOKE_MATRIX_COMPLETION_20260709T013348-0500.json"
+      ],
+      "expected": "Packaged ACTIVE_LANES.json includes the repaired local package smoke matrix reuse pointer."
+    },
+    {
+      "name": "runtime_lane_queue_contains_local_package_smoke_completion",
+      "result": "pass",
+      "file": "C:/Users/kevin/AppData/Local/Temp/comfy_deploy_bundle_matrix_20260709T014024-0500/content/Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+      "observed": [
+        "current_runtime_lane_id none_local_package_smoke_matrix_complete",
+        "status complete_with_limitations",
+        "completion_evidence Plan/Instructions/QA/Evidence/Workflow_Runtime/BASE_GENERATION_REPAIRED_PACKAGE_LOCAL_SMOKE_MATRIX_COMPLETION_20260709T013348-0500.json"
+      ],
+      "expected": "Packaged runtime_lane_queue.json includes the repaired local package smoke matrix completion state."
+    }
+  ],
+  "result": "pass",
+  "runtime_boundary": {
+    "local_only": true,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "generation_executed": false,
+    "mask_truth_consumed": false,
+    "masks_promoted": false,
+    "wave71_activation_attempted": false
+  },
+  "claim_boundary": "This confirms deploy-bundle packaging includes the current active-lane reuse state only. It is not live S3 upload, target-runtime EC2 proof, final image certification, body-mask proof, or Wave71+ activation.",
+  "next_recommended_action": "Generate or validate the local-only EC2 workflow matrix quality-run plan using the current deploy-bundle evidence, without starting EC2."
+}

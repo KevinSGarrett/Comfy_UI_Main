@@ -6,7 +6,7 @@ CERT-W61-PROJECT-READINESS-SNAPSHOT-20260706T054201-0500
 
 ## Scope
 
-Local-only project readiness snapshot for the selected `sdxl_low_risk_fallback_lane`. This certifies that `Test-ProjectReadinessSnapshot.ps1` consolidates the current selected-lane files, helper validation evidence, generated index parity, auth/profile/readiness gates, and EC2 coordinator blocked-execute safety evidence without contacting AWS, Civitai, GitHub APIs, ComfyUI, or EC2.
+Local-only project readiness snapshot for the selected `sdxl_low_risk_fallback_lane`. This certifies that `Test-ProjectReadinessSnapshot.ps1` consolidates the current selected-lane files, helper validation evidence, generated index parity, auth/profile/readiness gates, and EC2 coordinator blocked-execute geometry evidence without contacting AWS, Civitai, GitHub APIs, ComfyUI, or EC2.
 
 ## Files changed
 

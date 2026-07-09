@@ -1,0 +1,98 @@
+{
+  "evidence_id": "W69-LOCAL-REALVISXL-HANDS-CONTACT-FOLLOWUP-V1-VISUAL-QA-20260707T035600-0500",
+  "artifact_type": "image_artifact_visual_qa",
+  "lane_id": "sdxl_realvisxl_base_lane",
+  "module_id": "MOD-BASE-REALVISXL-LANE",
+  "task_id": "ITEM-W64-009",
+  "tracker_id": "TRK-W64-009",
+  "reviewer": "Codex Desktop autonomous QA",
+  "timestamp": "2026-07-07T03:56:00-05:00",
+  "scope": "QA-driven local RealVisXL hand/contact follow-up after prior local multisample QA found mild clasped-hand contact ambiguity.",
+  "source_qa_driver": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_MULTISAMPLE_VISUAL_QA_20260707T034600-0500.json",
+  "profile_reference": "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_hands_contact_followup_v1.json",
+  "run_package_manifest": "runtime_artifacts/run_packages/realvisxl_hands_contact_followup_w69_v1/RUN_PACKAGE_MANIFEST.json",
+  "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_REALVISXL_HANDS_CONTACT_FOLLOWUP_V1_EXECUTE_20260707T035400-0500.json",
+  "workflow_reference": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/workflow.api.json",
+  "overall_result": "pass_with_notes_for_local_hand_contact_followup",
+  "certification_status": "not_certified_local_followup_only",
+  "runtime_boundaries": {
+    "local_comfyui_used": true,
+    "ec2_started": false,
+    "aws_contacted": false,
+    "github_api_contacted": false,
+    "civitai_contacted": false,
+    "generation_executed": true,
+    "comfyui_port_closed_after_run": true
+  },
+  "technical_checks": {
+    "file_exists": true,
+    "file_decodes": true,
+    "extension_expected": true,
+    "minimum_resolution": "512x512",
+    "meets_minimum_resolution": true,
+    "width": 1024,
+    "height": 1024,
+    "pixel_format": "Format24bppRgb",
+    "bytes": 1473607,
+    "sha256": "8620867cb4795754cfcadfa104e90d894868a2fae174596c22c63c94c554759c"
+  },
+  "sample": {
+    "sample_id": "realvisxl_hands_contact_followup_v1",
+    "output_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_hands_contact_followup_v1_20260707T035400-0500/images/codex_realvisxl_hands_contact_followup_00001_.png",
+    "visual_result": "pass_with_notes",
+    "improvement_observed": [
+      "Separated tabletop hand pose removes the prior clasped/interlocked-hand ambiguity.",
+      "Both hands are visible with clearer finger count, wrist placement, sleeve boundaries, and table contact shadows than the prior hands/fabric sample.",
+      "Face, eyes, hair, wardrobe, fabric texture, lighting, background, and camera framing remain coherent."
+    ],
+    "remaining_notes": [
+      "Some resting fingers show mild compression/softness at tabletop contact, especially where fingertips overlap the table edge and paper surface.",
+      "The follow-up is a meaningful local quality improvement but still needs additional hand/contact robustness samples before final hands/fabric certification."
+    ],
+    "defects": [
+      {
+        "severity": "minor",
+        "code": "mild_tabletop_finger_softness",
+        "message": "Separated hands are much clearer than the clasped baseline, but a few tabletop-resting finger contours remain slightly soft or compressed."
+      }
+    ]
+  },
+  "strict_whole_image_categories_reviewed": [
+    "face_realism",
+    "eye_quality",
+    "skin_texture",
+    "hands_fingers",
+    "feet_toes_when_visible",
+    "hair_realism",
+    "teeth_mouth_quality",
+    "body_proportions",
+    "pose_accuracy",
+    "clothing_fabric",
+    "contact_points",
+    "object_body_collisions",
+    "deformation_realism",
+    "soft_body_cues",
+    "anatomy_consistency",
+    "lighting",
+    "shadows",
+    "reflections",
+    "background_coherence",
+    "camera_lens_realism",
+    "texture_detail",
+    "generation_artifacts",
+    "identity_drift",
+    "over_smoothing",
+    "plastic_skin",
+    "waxy_faces",
+    "distorted_limbs",
+    "prompt_compliance",
+    "unwanted_style_contamination"
+  ],
+  "qa_decision": {
+    "previous_issue_status": "improved",
+    "promotion_allowed": false,
+    "reason": "Local follow-up improved hand/contact readability, but a single local sample is insufficient for final hands/fabric certification and minor finger softness remains.",
+    "recommended_next_action": "Add one or two additional separated-hand robustness profiles or target-runtime proof before claiming RealVisXL hand/contact certification."
+  },
+  "final_decision_allowed": false
+}

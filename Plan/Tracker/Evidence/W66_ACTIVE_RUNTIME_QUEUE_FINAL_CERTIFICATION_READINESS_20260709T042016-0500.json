@@ -1,0 +1,239 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "active_runtime_queue_final_certification_readiness",
+    "created_at":  "2026-07-09T04:20:17-05:00",
+    "result":  "blocked_final_certification_target_runtime_or_final_review_missing",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "comfyui_contacted":  false,
+    "s3_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "active_runtime_marker_written":  false,
+    "masks_consumed_as_truth":  false,
+    "masks_promoted":  false,
+    "wave70_hard_gate_rerun":  false,
+    "wave71_plus_activated":  false,
+    "runtime_queue":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+    "active_lanes_manifest":  "Workflows/base_generation/ACTIVE_LANES.json",
+    "local_support_certification":  "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_LOCAL_SUPPORT_CERTIFICATION_20260709T033754-0500.json",
+    "runtime_handoff":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_RUNTIME_UNBLOCK_HANDOFF_WITH_GIT_GATE_20260709T040900-0500.json",
+    "git_checkpoint_gate":  "Plan/Instructions/QA/Evidence/Git_Verification/W66_GITHUB_CHECKPOINT_DRY_RUN_JSON_GATE_20260709T040418-0500.json",
+    "lane_count":  9,
+    "final_ready_lane_count":  1,
+    "blocked_lane_count":  8,
+    "defects":  [
+
+                ],
+    "final_blockers":  [
+                           "git_checkpoint_gate_not_clean_for_ec2_execute:blocked_git_checkpoint_dirty_worktree",
+                           "runtime_handoff_git_checkpoint_gate_not_passing",
+                           "sdxl_realvisxl_base_lane:target_runtime_or_final_certification_not_proven",
+                           "sdxl_realvisxl_base_lane:queue_status_not_final_certified:runtime_smoke_proven_local_single_hand_contact_closeup_and_two_character_contact_pixel_attempt_pass_with_notes_pending_final_certification",
+                           "sdxl_realvisxl_base_lane:required_next_runtime_gate_still_requires_target_or_final_review",
+                           "sdxl_realvisxl_controlnet_canny_lane:target_runtime_or_final_certification_not_proven",
+                           "sdxl_realvisxl_controlnet_canny_lane:queue_status_not_final_certified:target_runtime_smoke_proven_canny_v4_plus_local_package_and_multiseed_pass_with_notes_final_certification_pending",
+                           "sdxl_realvisxl_controlnet_canny_lane:required_next_runtime_gate_still_requires_target_or_final_review",
+                           "sdxl_realvisxl_inpaint_detail_lane:target_runtime_or_final_certification_not_proven",
+                           "sdxl_realvisxl_inpaint_detail_lane:target_runtime_proof_evidence_missing",
+                           "sdxl_realvisxl_inpaint_detail_lane:queue_status_not_final_certified:local_runtime_smoke_visual_qa_pass_with_notes_plus_wave25_contact_refine_robustness_pass_with_notes_pending_target_runtime",
+                           "sdxl_realvisxl_inpaint_detail_lane:required_next_runtime_gate_still_requires_target_or_final_review",
+                           "sdxl_realvisxl_controlnet_depth_lane:target_runtime_or_final_certification_not_proven",
+                           "sdxl_realvisxl_controlnet_depth_lane:target_runtime_proof_evidence_missing",
+                           "sdxl_realvisxl_controlnet_depth_lane:queue_status_not_final_certified:local_depth_v2_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+                           "sdxl_realvisxl_controlnet_depth_lane:required_next_runtime_gate_still_requires_target_or_final_review",
+                           "sdxl_realvisxl_controlnet_lineart_lane:target_runtime_or_final_certification_not_proven",
+                           "sdxl_realvisxl_controlnet_lineart_lane:target_runtime_proof_evidence_missing",
+                           "sdxl_realvisxl_controlnet_lineart_lane:queue_status_not_final_certified:local_lineart_v4_plain_backdrop_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+                           "sdxl_realvisxl_controlnet_lineart_lane:required_next_runtime_gate_still_requires_target_or_final_review",
+                           "sdxl_realvisxl_controlnet_openpose_lane:target_runtime_or_final_certification_not_proven",
+                           "sdxl_realvisxl_controlnet_openpose_lane:target_runtime_proof_evidence_missing",
+                           "sdxl_realvisxl_controlnet_openpose_lane:queue_status_not_final_certified:local_openpose_tablehands_multisample_pass_with_notes_pending_target_runtime_and_final_hand_certification",
+                           "sdxl_realvisxl_controlnet_openpose_lane:required_next_runtime_gate_still_requires_target_or_final_review",
+                           "sdxl_realvisxl_controlnet_normal_lane:target_runtime_or_final_certification_not_proven",
+                           "sdxl_realvisxl_controlnet_normal_lane:target_runtime_proof_evidence_missing",
+                           "sdxl_realvisxl_controlnet_normal_lane:queue_status_not_final_certified:local_normal_v3_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+                           "sdxl_realvisxl_controlnet_normal_lane:required_next_runtime_gate_still_requires_target_or_final_review",
+                           "sdxl_realesrgan_upscale_polish_lane:target_runtime_or_final_certification_not_proven",
+                           "sdxl_realesrgan_upscale_polish_lane:target_runtime_proof_evidence_missing",
+                           "sdxl_realesrgan_upscale_polish_lane:queue_status_not_final_certified:local_upscale_polish_runtime_visual_qa_pass_with_notes_pending_target_runtime_and_final_certification",
+                           "sdxl_realesrgan_upscale_polish_lane:required_next_runtime_gate_still_requires_target_or_final_review"
+                       ],
+    "git_gate_summary":  {
+                             "result":  "blocked_git_checkpoint_dirty_worktree",
+                             "clean_worktree":  false,
+                             "local_matches_origin":  true,
+                             "commit_attempted":  false,
+                             "push_attempted":  false,
+                             "passes_for_ec2_execute":  false
+                         },
+    "handoff_summary":  {
+                            "result":  "handoff_runtime_smoke_qa_complete",
+                            "git_checkpoint_gate_passes_for_ec2_execute":  false,
+                            "ec2_started":  false,
+                            "generation_executed":  false
+                        },
+    "lanes":  [
+                  {
+                      "lane_id":  "sdxl_low_risk_fallback_lane",
+                      "order":  1,
+                      "queue_status":  "runtime_smoke_proven",
+                      "required_next_runtime_gate":  "completed_first_runtime_proof",
+                      "local_support_result":  "pass_local_support",
+                      "local_support_final_status":  "final_certification_possible",
+                      "final_certification_ready":  true,
+                      "defects":  [
+
+                                  ],
+                      "final_blockers":  [
+
+                                         ]
+                  },
+                  {
+                      "lane_id":  "sdxl_realvisxl_base_lane",
+                      "order":  2,
+                      "queue_status":  "runtime_smoke_proven_local_single_hand_contact_closeup_and_two_character_contact_pixel_attempt_pass_with_notes_pending_final_certification",
+                      "required_next_runtime_gate":  "optional_mask_routed_two_character_refine_or_final_base_lane_certification_or_target_runtime_reproof_when_intentionally_selected",
+                      "local_support_result":  "pass_local_support",
+                      "local_support_final_status":  "local_support_pass_final_certification_blocked",
+                      "final_certification_ready":  false,
+                      "defects":  [
+
+                                  ],
+                      "final_blockers":  [
+                                             "target_runtime_or_final_certification_not_proven",
+                                             "queue_status_not_final_certified:runtime_smoke_proven_local_single_hand_contact_closeup_and_two_character_contact_pixel_attempt_pass_with_notes_pending_final_certification",
+                                             "required_next_runtime_gate_still_requires_target_or_final_review"
+                                         ]
+                  },
+                  {
+                      "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+                      "order":  3,
+                      "queue_status":  "target_runtime_smoke_proven_canny_v4_plus_local_package_and_multiseed_pass_with_notes_final_certification_pending",
+                      "required_next_runtime_gate":  "do_not_rerun_baseline_canny_local_or_aws_proof; only changed_variant_target_runtime_proof_or_final_canny_certification_when_intentionally_selected",
+                      "local_support_result":  "pass_local_support",
+                      "local_support_final_status":  "local_support_pass_final_certification_blocked",
+                      "final_certification_ready":  false,
+                      "defects":  [
+
+                                  ],
+                      "final_blockers":  [
+                                             "target_runtime_or_final_certification_not_proven",
+                                             "queue_status_not_final_certified:target_runtime_smoke_proven_canny_v4_plus_local_package_and_multiseed_pass_with_notes_final_certification_pending",
+                                             "required_next_runtime_gate_still_requires_target_or_final_review"
+                                         ]
+                  },
+                  {
+                      "lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+                      "order":  4,
+                      "queue_status":  "local_runtime_smoke_visual_qa_pass_with_notes_plus_wave25_contact_refine_robustness_pass_with_notes_pending_target_runtime",
+                      "required_next_runtime_gate":  "optional_local_robustness_or_target_runtime_object_info_path_hash_input_asset_proof_when_intentionally_selected",
+                      "local_support_result":  "pass_local_support",
+                      "local_support_final_status":  "local_support_pass_final_certification_blocked",
+                      "final_certification_ready":  false,
+                      "defects":  [
+
+                                  ],
+                      "final_blockers":  [
+                                             "target_runtime_or_final_certification_not_proven",
+                                             "target_runtime_proof_evidence_missing",
+                                             "queue_status_not_final_certified:local_runtime_smoke_visual_qa_pass_with_notes_plus_wave25_contact_refine_robustness_pass_with_notes_pending_target_runtime",
+                                             "required_next_runtime_gate_still_requires_target_or_final_review"
+                                         ]
+                  },
+                  {
+                      "lane_id":  "sdxl_realvisxl_controlnet_depth_lane",
+                      "order":  5,
+                      "queue_status":  "local_depth_v2_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+                      "required_next_runtime_gate":  "optional_target_runtime_proof_or_final_depth_certification_when_intentionally_selected",
+                      "local_support_result":  "pass_local_support",
+                      "local_support_final_status":  "local_support_pass_final_certification_blocked",
+                      "final_certification_ready":  false,
+                      "defects":  [
+
+                                  ],
+                      "final_blockers":  [
+                                             "target_runtime_or_final_certification_not_proven",
+                                             "target_runtime_proof_evidence_missing",
+                                             "queue_status_not_final_certified:local_depth_v2_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+                                             "required_next_runtime_gate_still_requires_target_or_final_review"
+                                         ]
+                  },
+                  {
+                      "lane_id":  "sdxl_realvisxl_controlnet_lineart_lane",
+                      "order":  6,
+                      "queue_status":  "local_lineart_v4_plain_backdrop_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+                      "required_next_runtime_gate":  "optional_target_runtime_proof_or_final_lineart_certification_when_intentionally_selected",
+                      "local_support_result":  "pass_local_support",
+                      "local_support_final_status":  "local_support_pass_final_certification_blocked",
+                      "final_certification_ready":  false,
+                      "defects":  [
+
+                                  ],
+                      "final_blockers":  [
+                                             "target_runtime_or_final_certification_not_proven",
+                                             "target_runtime_proof_evidence_missing",
+                                             "queue_status_not_final_certified:local_lineart_v4_plain_backdrop_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+                                             "required_next_runtime_gate_still_requires_target_or_final_review"
+                                         ]
+                  },
+                  {
+                      "lane_id":  "sdxl_realvisxl_controlnet_openpose_lane",
+                      "order":  7,
+                      "queue_status":  "local_openpose_tablehands_multisample_pass_with_notes_pending_target_runtime_and_final_hand_certification",
+                      "required_next_runtime_gate":  "optional_target_runtime_proof_or_stricter_hand_anatomy_certification_when_intentionally_selected",
+                      "local_support_result":  "pass_local_support",
+                      "local_support_final_status":  "local_support_pass_final_certification_blocked",
+                      "final_certification_ready":  false,
+                      "defects":  [
+
+                                  ],
+                      "final_blockers":  [
+                                             "target_runtime_or_final_certification_not_proven",
+                                             "target_runtime_proof_evidence_missing",
+                                             "queue_status_not_final_certified:local_openpose_tablehands_multisample_pass_with_notes_pending_target_runtime_and_final_hand_certification",
+                                             "required_next_runtime_gate_still_requires_target_or_final_review"
+                                         ]
+                  },
+                  {
+                      "lane_id":  "sdxl_realvisxl_controlnet_normal_lane",
+                      "order":  8,
+                      "queue_status":  "local_normal_v3_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+                      "required_next_runtime_gate":  "optional_target_runtime_proof_or_final_normal_certification_when_intentionally_selected",
+                      "local_support_result":  "pass_local_support",
+                      "local_support_final_status":  "local_support_pass_final_certification_blocked",
+                      "final_certification_ready":  false,
+                      "defects":  [
+
+                                  ],
+                      "final_blockers":  [
+                                             "target_runtime_or_final_certification_not_proven",
+                                             "target_runtime_proof_evidence_missing",
+                                             "queue_status_not_final_certified:local_normal_v3_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+                                             "required_next_runtime_gate_still_requires_target_or_final_review"
+                                         ]
+                  },
+                  {
+                      "lane_id":  "sdxl_realesrgan_upscale_polish_lane",
+                      "order":  9,
+                      "queue_status":  "local_upscale_polish_runtime_visual_qa_pass_with_notes_pending_target_runtime_and_final_certification",
+                      "required_next_runtime_gate":  "optional_target_runtime_proof_or_final_upscale_polish_certification_when_intentionally_selected",
+                      "local_support_result":  "pass_local_support",
+                      "local_support_final_status":  "local_support_pass_final_certification_blocked",
+                      "final_certification_ready":  false,
+                      "defects":  [
+
+                                  ],
+                      "final_blockers":  [
+                                             "target_runtime_or_final_certification_not_proven",
+                                             "target_runtime_proof_evidence_missing",
+                                             "queue_status_not_final_certified:local_upscale_polish_runtime_visual_qa_pass_with_notes_pending_target_runtime_and_final_certification",
+                                             "required_next_runtime_gate_still_requires_target_or_final_review"
+                                         ]
+                  }
+              ],
+    "certification_boundary":  "Local final-certification readiness aggregation only. This does not run ComfyUI, contact AWS/S3/GitHub/Civitai, start EC2, execute generation, promote masks, consume candidate masks as truth, rerun Wave70 hard gates, activate Wave71+, or certify final image quality.",
+    "next_action":  "Continue local-first non-mask orchestration/runtime work. Final certification remains blocked until target-runtime proof, clean Git checkpoint, final review, and lane-specific remaining gates are intentionally selected and proven."
+}

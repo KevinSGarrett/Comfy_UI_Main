@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "openpose_v2_upper_body_hands_seed711470101",
+  "target_lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+  "purpose": "Bounded local OpenPose robustness iteration from v1 notes: exercise a wider upper-body framing with visible separated hands/tabletop contact while checking for skeleton/color leakage and pose/anatomy stability.",
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic cinematic editorial upper-body portrait, pose-guided seated subject at a simple table, both hands visible and separated on the tabletop, natural wrist alignment, realistic fingers, natural human posture, realistic neck and shoulder alignment, tailored dark blazer over textured shirt, clothed shoulders, natural skin texture, realistic fine pores, realistic eyes with clean catchlights, detailed hair, soft natural fill light, balanced exposure, clean face with no painted marks, lifelike lens rendering",
+    "negative_prompt": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, distorted anatomy, twisted neck, broken shoulders, extra arms, missing arms, merged hands, fused fingers, extra fingers, missing fingers, deformed hands, crossed wrists, crossed eyes, low resolution, blurry, watermark, text, openpose skeleton overlay, pose map stains, colored bones, colored dots, control map stains, harsh outlines, bare shoulders, strapless top, nude, unclothed torso",
+    "seed": 711470101,
+    "controlnet_settings": {
+      "strength": 0.82,
+      "start_percent": 0,
+      "end_percent": 1
+    },
+    "save_prefix": "codex_sdxl_realvisxl_controlnet_openpose_v2_upper_body_hands_seed711470101"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_sdxl_realvisxl_controlnet_openpose_v2_upper_body_hands_seed711470101"
+  },
+  "qa_focus": [
+    "whole-image prompt alignment",
+    "visible separated hands and finger count",
+    "wrist and tabletop contact plausibility",
+    "OpenPose skeleton or color leakage",
+    "neck and shoulder pose stability",
+    "face and eye realism",
+    "clothing and collar geometry",
+    "generation artifacts"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_target_runtime_reproof_before_certification": true,
+    "requires_whole_image_qa_before_promotion": true
+  }
+}

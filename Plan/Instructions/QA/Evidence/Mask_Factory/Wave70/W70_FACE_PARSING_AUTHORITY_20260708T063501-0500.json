@@ -1,0 +1,784 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_FACE_PARSING_AUTHORITY_20260708T063501-0500",
+  "created_local": "20260708T063501-0500",
+  "task": "Implement semantic face parsing authority for TRK-W70-0144 / ITEM-W70-0144.",
+  "script": "Plan/07_IMPLEMENTATION/scripts/implement_wave70_face_parsing_authority.py",
+  "source_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "exists": true,
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "dimensions": [
+      768,
+      768
+    ]
+  },
+  "environment": {
+    "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "cwd": "C:\\Comfy_UI_Main",
+    "current_python_probe": {
+      "python": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+      "exists": true,
+      "modules": {
+        "torch": {
+          "available": true,
+          "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\torch\\__init__.py",
+          "imported": true,
+          "version": "2.12.1+cpu",
+          "error": null
+        },
+        "torchvision": {
+          "available": true,
+          "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\torchvision\\__init__.py",
+          "imported": true,
+          "version": "0.27.1+cpu",
+          "error": null
+        },
+        "transformers": {
+          "available": true,
+          "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\transformers\\__init__.py",
+          "imported": false,
+          "version": null,
+          "error": "ImportError: cannot import name 'is_offline_mode' from 'huggingface_hub' (C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\huggingface_hub\\__init__.py)"
+        },
+        "controlnet_aux": {
+          "available": false,
+          "origin": null,
+          "imported": false,
+          "version": null,
+          "error": null
+        },
+        "custom_controlnet_aux": {
+          "available": false,
+          "origin": null,
+          "imported": false,
+          "version": null,
+          "error": null
+        },
+        "mediapipe": {
+          "available": true,
+          "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\mediapipe\\__init__.py",
+          "imported": true,
+          "version": "0.10.35",
+          "error": null
+        },
+        "cv2": {
+          "available": true,
+          "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\cv2\\__init__.py",
+          "imported": true,
+          "version": "4.11.0",
+          "error": null
+        },
+        "PIL": {
+          "available": true,
+          "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\PIL\\__init__.py",
+          "imported": true,
+          "version": "12.3.0",
+          "error": null
+        },
+        "numpy": {
+          "available": true,
+          "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\numpy\\__init__.py",
+          "imported": true,
+          "version": "1.26.4",
+          "error": null
+        },
+        "onnxruntime": {
+          "available": true,
+          "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\onnxruntime\\__init__.py",
+          "imported": true,
+          "version": "1.27.0",
+          "error": null
+        },
+        "face_alignment": {
+          "available": false,
+          "origin": null,
+          "imported": false,
+          "version": null,
+          "error": null
+        },
+        "insightface": {
+          "available": false,
+          "origin": null,
+          "imported": false,
+          "version": null,
+          "error": null
+        },
+        "segment_anything": {
+          "available": false,
+          "origin": null,
+          "imported": false,
+          "version": null,
+          "error": null
+        },
+        "sam2": {
+          "available": true,
+          "origin": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\__init__.py",
+          "imported": true,
+          "version": null,
+          "error": null
+        }
+      }
+    },
+    "comfyui_venv_python_probe": {
+      "python": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe",
+      "exists": true,
+      "modules": {},
+      "error": "TimeoutExpired: Command '['C:\\\\Comfy_UI_Main\\\\ComfyUI\\\\.venv\\\\Scripts\\\\python.exe', '-c', \"import importlib.util, json, sys\\nmods=['torch', 'torchvision', 'transformers', 'controlnet_aux', 'custom_controlnet_aux', 'mediapipe', 'cv2', 'PIL', 'numpy', 'onnxruntime', 'face_alignment', 'insightface', 'segment_anything', 'sam2']\\nout={'python':sys.executable,'exists':True,'modules':{}}\\nfor m in mods:\\n    rec={'available':False,'origin':None,'imported':False,'version':None,'error':None}\\n    try:\\n        spec=importlib.util.find_spec(m)\\n        rec['available']=spec is not None\\n        rec['origin']=spec.origin if spec else None\\n        if spec is not None:\\n            module=__import__(m)\\n            rec['imported']=True\\n            rec['version']=getattr(module,'__version__',None)\\n    except Exception as exc:\\n        rec['error']=type(exc).__name__+': '+str(exc)\\n    out['modules'][m]=rec\\nprint(json.dumps(out))\\n\"]' timed out after 30 seconds"
+    }
+  },
+  "local_face_parsing_candidates": [
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\ckpts\\lllyasviel\\Annotators\\facenet.pth",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/lllyasviel/Annotators/facenet.pth",
+      "size_bytes": 153718792,
+      "suffix": ".pth",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\node_wrappers\\oneformer.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/node_wrappers/oneformer.py",
+      "size_bytes": 1929,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\node_wrappers\\uniformer.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/node_wrappers/uniformer.py",
+      "size_bytes": 1267,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\oneformer\\transformers.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/oneformer/transformers.py",
+      "size_bytes": 5363,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\oneformer\\__init__.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/oneformer/__init__.py",
+      "size_bytes": 142,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\oneformer\\configs\\ade20k\\Base-ADE20K-UnifiedSegmentation.yaml",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/oneformer/configs/ade20k/Base-ADE20K-UnifiedSegmentation.yaml",
+      "size_bytes": 1746,
+      "suffix": ".yaml",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\oneformer\\configs\\ade20k\\oneformer_R50_bs16_160k.yaml",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/oneformer/configs/ade20k/oneformer_R50_bs16_160k.yaml",
+      "size_bytes": 1606,
+      "suffix": ".yaml",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\oneformer\\configs\\ade20k\\oneformer_swin_large_IN21k_384_bs16_160k.yaml",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/oneformer/configs/ade20k/oneformer_swin_large_IN21k_384_bs16_160k.yaml",
+      "size_bytes": 1044,
+      "suffix": ".yaml",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\oneformer\\configs\\coco\\Base-COCO-UnifiedSegmentation.yaml",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/oneformer/configs/coco/Base-COCO-UnifiedSegmentation.yaml",
+      "size_bytes": 1402,
+      "suffix": ".yaml",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\oneformer\\configs\\coco\\oneformer_R50_bs16_50ep.yaml",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/oneformer/configs/coco/oneformer_R50_bs16_50ep.yaml",
+      "size_bytes": 1629,
+      "suffix": ".yaml",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\oneformer\\configs\\coco\\oneformer_swin_large_IN21k_384_bs16_100ep.yaml",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/oneformer/configs/coco/oneformer_swin_large_IN21k_384_bs16_100ep.yaml",
+      "size_bytes": 589,
+      "suffix": ".yaml",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\inference.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/inference.py",
+      "size_bytes": 4891,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\uniformer.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/uniformer.py",
+      "size_bytes": 18874,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\upernet_global_small.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/upernet_global_small.py",
+      "size_bytes": 1452,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\__init__.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/__init__.py",
+      "size_bytes": 2771,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\default_runtime.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/default_runtime.py",
+      "size_bytes": 335,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\datasets\\ade20k.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/datasets/ade20k.py",
+      "size_bytes": 1898,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\datasets\\chase_db1.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/datasets/chase_db1.py",
+      "size_bytes": 1983,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\datasets\\cityscapes.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/datasets/cityscapes.py",
+      "size_bytes": 1834,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\datasets\\cityscapes_769x769.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/datasets/cityscapes_769x769.py",
+      "size_bytes": 1316,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\datasets\\drive.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/datasets/drive.py",
+      "size_bytes": 1974,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\datasets\\hrf.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/datasets/hrf.py",
+      "size_bytes": 1974,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\datasets\\pascal_context.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/datasets/pascal_context.py",
+      "size_bytes": 2058,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\datasets\\pascal_context_59.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/datasets/pascal_context_59.py",
+      "size_bytes": 2084,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\datasets\\pascal_voc12.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/datasets/pascal_voc12.py",
+      "size_bytes": 1987,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\datasets\\pascal_voc12_aug.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/datasets/pascal_voc12_aug.py",
+      "size_bytes": 270,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\datasets\\stare.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/datasets/stare.py",
+      "size_bytes": 1976,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\ann_r50-d8.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/ann_r50-d8.py",
+      "size_bytes": 1392,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\apcnet_r50-d8.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/apcnet_r50-d8.py",
+      "size_bytes": 1346,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\ccnet_r50-d8.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/ccnet_r50-d8.py",
+      "size_bytes": 1302,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\cgnet.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/cgnet.py",
+      "size_bytes": 1145,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\danet_r50-d8.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/danet_r50-d8.py",
+      "size_bytes": 1305,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\deeplabv3plus_r50-d8.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/deeplabv3plus_r50-d8.py",
+      "size_bytes": 1389,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\deeplabv3_r50-d8.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/deeplabv3_r50-d8.py",
+      "size_bytes": 1317,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\deeplabv3_unet_s5-d16.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/deeplabv3_unet_s5-d16.py",
+      "size_bytes": 1549,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\dmnet_r50-d8.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/dmnet_r50-d8.py",
+      "size_bytes": 1346,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\dnl_r50-d8.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/dnl_r50-d8.py",
+      "size_bytes": 1362,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\emanet_r50-d8.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/emanet_r50-d8.py",
+      "size_bytes": 1376,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\encnet_r50-d8.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/encnet_r50-d8.py",
+      "size_bytes": 1483,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\fast_scnn.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/fast_scnn.py",
+      "size_bytes": 1818,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\fcn_hr18.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/fcn_hr18.py",
+      "size_bytes": 1698,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\fcn_r50-d8.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/fcn_r50-d8.py",
+      "size_bytes": 1330,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\fcn_unet_s5-d16.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/fcn_unet_s5-d16.py",
+      "size_bytes": 1563,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\fpn_r50.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/fpn_r50.py",
+      "size_bytes": 1092,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\fpn_uniformer.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/fpn_uniformer.py",
+      "size_bytes": 1012,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\gcnet_r50-d8.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/gcnet_r50-d8.py",
+      "size_bytes": 1372,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\lraspp_m-v3-d8.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/lraspp_m-v3-d8.py",
+      "size_bytes": 791,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\nonlocal_r50-d8.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/nonlocal_r50-d8.py",
+      "size_bytes": 1361,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\ocrnet_hr18.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/ocrnet_hr18.py",
+      "size_bytes": 2264,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\ocrnet_r50-d8.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/ocrnet_r50-d8.py",
+      "size_bytes": 1432,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\pointrend_r50.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/pointrend_r50.py",
+      "size_bytes": 1760,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\psanet_r50-d8.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/psanet_r50-d8.py",
+      "size_bytes": 1455,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\pspnet_r50-d8.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/pspnet_r50-d8.py",
+      "size_bytes": 1315,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\pspnet_unet_s5-d16.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/pspnet_unet_s5-d16.py",
+      "size_bytes": 1547,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\upernet_r50.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/upernet_r50.py",
+      "size_bytes": 1345,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\models\\upernet_uniformer.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/models/upernet_uniformer.py",
+      "size_bytes": 1277,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\schedules\\schedule_160k.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/schedules/schedule_160k.py",
+      "size_bytes": 391,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\schedules\\schedule_20k.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/schedules/schedule_20k.py",
+      "size_bytes": 388,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\schedules\\schedule_40k.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/schedules/schedule_40k.py",
+      "size_bytes": 388,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\configs\\_base_\\schedules\\schedule_80k.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/configs/_base_/schedules/schedule_80k.py",
+      "size_bytes": 388,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\mmcv_custom\\checkpoint.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/mmcv_custom/checkpoint.py",
+      "size_bytes": 19590,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\mmcv_custom\\__init__.py",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/uniformer/mmcv_custom/__init__.py",
+      "size_bytes": 99,
+      "suffix": ".py",
+      "likely_semantic_face_parsing_checkpoint": false,
+      "classification": "code_config_or_non_face_parsing_model"
+    }
+  ],
+  "candidate_summary": {
+    "total_keyword_matches": 62,
+    "likely_semantic_face_parsing_checkpoint_count": 0,
+    "likely_semantic_face_parsing_checkpoints": []
+  },
+  "runtime_attempts": {
+    "controlnet_aux_routes": {
+      "sys_path_added": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src",
+      "src_exists": true,
+      "routes": {
+        "custom_controlnet_aux.oneformer": {
+          "module": "custom_controlnet_aux.oneformer",
+          "available": true,
+          "origin": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\oneformer\\__init__.py",
+          "imported": true,
+          "version": null,
+          "error": "ImportError: cannot import name 'is_offline_mode' from 'huggingface_hub' (C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\huggingface_hub\\__init__.py)",
+          "load_attempted": true,
+          "loaded": false,
+          "inference_pass": false,
+          "semantic_face_classes_proven": false
+        },
+        "custom_controlnet_aux.uniformer": {
+          "module": "custom_controlnet_aux.uniformer",
+          "available": true,
+          "origin": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\__init__.py",
+          "imported": false,
+          "version": null,
+          "error": "ModuleNotFoundError: No module named 'addict'",
+          "load_attempted": false,
+          "loaded": false,
+          "inference_pass": false,
+          "semantic_face_classes_proven": false
+        },
+        "custom_controlnet_aux.sam": {
+          "module": "custom_controlnet_aux.sam",
+          "available": true,
+          "origin": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\sam\\__init__.py",
+          "imported": true,
+          "version": null,
+          "error": "sam_import_route_is_promptable_refinement_not_semantic_face_parsing",
+          "load_attempted": false,
+          "loaded": false,
+          "inference_pass": false,
+          "semantic_face_classes_proven": false
+        }
+      }
+    }
+  },
+  "artifacts": {
+    "blocker_panel": "runtime_artifacts/mask_factory/wave70_face_parsing_authority/20260708T063501-0500/face_parsing_authority_blocker_panel.png",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_face_parsing_authority/20260708T063501-0500/face_parsing_authority.json"
+  },
+  "model_backed_geometry_authority": {
+    "result": "blocked",
+    "model_backed_geometry_authority_pass": false,
+    "source_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "source_sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "source_dimensions": [
+      768,
+      768
+    ],
+    "mask_type_id": "MBGA-003",
+    "matrix_slot_id": "TRK-W70-0144",
+    "models_attempted": [
+      "custom_controlnet_aux.oneformer_import_and_offline_load_probe",
+      "custom_controlnet_aux.uniformer_import_probe",
+      "custom_controlnet_aux.sam_import_probe",
+      "default_python_module_probe",
+      "comfyui_venv_module_probe",
+      "local_face_parsing_model_file_scan"
+    ],
+    "models_available": [
+      "base_image_io_and_cv",
+      "mediapipe_face_landmark_assist_only"
+    ],
+    "model_versions": {
+      "torch": "2.12.1+cpu",
+      "torchvision": "0.27.1+cpu",
+      "mediapipe": "0.10.35",
+      "cv2": "4.11.0",
+      "PIL": "12.3.0",
+      "numpy": "1.26.4",
+      "onnxruntime": "1.27.0"
+    },
+    "landmark_record_path": "",
+    "semantic_parsing_record_path": "",
+    "sam_refinement_record_path": "",
+    "visibility_occlusion_record_path": "",
+    "canonical_polygon_path": "",
+    "coordinate_transform_manifest_path": "",
+    "gold_trace_comparison_path": "",
+    "consensus_metrics": {
+      "iou_against_gold_or_prior": null,
+      "mean_boundary_error_px": null,
+      "max_boundary_error_px": null,
+      "center_drift_px": null,
+      "protected_overlap_ratio": null
+    },
+    "confidence": {
+      "landmark_confidence": null,
+      "parsing_confidence": null,
+      "refinement_confidence": null,
+      "visibility_confidence": null,
+      "overall_confidence": null
+    },
+    "dependency_probe_completed": true,
+    "model_geometry_dependency_probe_pass": false,
+    "semantic_region_parse_pass": false,
+    "protected_region_parse_pass": false,
+    "model_confidence_recorded": false,
+    "source_derived_landmark_or_segmentation_pass": false,
+    "model_consensus_geometry_pass": false,
+    "visibility_occlusion_confidence_pass": false,
+    "no_symmetry_guessing_pass": true,
+    "canonical_polygon_export_pass": false,
+    "no_human_work_dependency": true,
+    "no_debug_rectangle_mask_pass": true,
+    "whole_body_geometry_authority_pass": false,
+    "pose_hand_dense_landmark_or_segmentation_pass": false,
+    "semantic_human_part_parsing_pass": false,
+    "contact_occlusion_ownership_pass": false,
+    "body_region_geometry_pass": false,
+    "body_reference_matrix_pass": false,
+    "blocked_reason": "Blocked_Model_Geometry_Dependency_Missing",
+    "findings": [
+      "Active Wave70 source image exists and was used for the blocker panel.",
+      "No local checkpoint proven to be a semantic face parsing model was found.",
+      "ControlNet Aux OneFormer/Uniformer entries are code/config routes, not proven face-region parsing with local weights.",
+      "SAM-style routes, when present, are promptable refinement routes and do not provide face-region semantic class labels by themselves.",
+      "MediaPipe can assist face landmarks but is not semantic face parsing for skin, hair, brows, eyes, nose, lips, mouth, neck, and background classes.",
+      "No canonical face-region polygons, parsing map, model confidence, or consensus metrics were exported.",
+      "No mask was changed or promoted."
+    ]
+  },
+  "face_parsing_authority": {
+    "result": "blocked",
+    "semantic_region_parse_pass": false,
+    "protected_region_parse_pass": false,
+    "model_confidence_recorded": false,
+    "class_map": [],
+    "segmentation_map_path": "",
+    "canonical_polygon_path": "",
+    "blocked_reason": "Blocked_Model_Geometry_Dependency_Missing"
+  },
+  "qa_decision": "blocked_exact_local_semantic_face_parsing_route_unavailable",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_face_parsing_blocked",
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  },
+  "next_step": "Resolve a compatible local semantic face parsing runtime/model or continue to the next model-backed authority row with exact local evidence."
+}

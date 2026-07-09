@@ -1,0 +1,800 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "W69-LOCAL-CONTROL-PREPROCESSOR-NODE-SCHEMAS-20260707T052700-0500",
+    "timestamp":  "2026-07-07T05:24:11-05:00",
+    "local_only":  true,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "object_info_node_count":  855,
+    "requested_classes":  [
+                              "DWPreprocessor",
+                              "OpenPosePreprocessor",
+                              "DepthAnythingPreprocessor",
+                              "MiDaS-DepthMapPreprocessor",
+                              "BAE-NormalMapPreprocessor",
+                              "DSINE-NormalMapPreprocessor",
+                              "CannyEdgePreprocessor",
+                              "LineArtPreprocessor",
+                              "LineartStandardPreprocessor",
+                              "LoadImage",
+                              "SaveImage"
+                          ],
+    "found_classes":  [
+                          "DWPreprocessor",
+                          "OpenPosePreprocessor",
+                          "DepthAnythingPreprocessor",
+                          "MiDaS-DepthMapPreprocessor",
+                          "BAE-NormalMapPreprocessor",
+                          "DSINE-NormalMapPreprocessor",
+                          "CannyEdgePreprocessor",
+                          "LineArtPreprocessor",
+                          "LineartStandardPreprocessor",
+                          "LoadImage",
+                          "SaveImage"
+                      ],
+    "missing_classes":  [
+
+                        ],
+    "schemas":  {
+                    "DWPreprocessor":  {
+                                           "input":  {
+                                                         "required":  {
+                                                                          "image":  [
+                                                                                        "IMAGE"
+                                                                                    ]
+                                                                      },
+                                                         "optional":  {
+                                                                          "detect_hand":  [
+                                                                                              [
+                                                                                                  "enable",
+                                                                                                  "disable"
+                                                                                              ],
+                                                                                              {
+                                                                                                  "default":  "enable"
+                                                                                              }
+                                                                                          ],
+                                                                          "detect_body":  [
+                                                                                              [
+                                                                                                  "enable",
+                                                                                                  "disable"
+                                                                                              ],
+                                                                                              {
+                                                                                                  "default":  "enable"
+                                                                                              }
+                                                                                          ],
+                                                                          "detect_face":  [
+                                                                                              [
+                                                                                                  "enable",
+                                                                                                  "disable"
+                                                                                              ],
+                                                                                              {
+                                                                                                  "default":  "enable"
+                                                                                              }
+                                                                                          ],
+                                                                          "resolution":  [
+                                                                                             "INT",
+                                                                                             {
+                                                                                                 "default":  512,
+                                                                                                 "min":  64,
+                                                                                                 "max":  16384,
+                                                                                                 "step":  64
+                                                                                             }
+                                                                                         ],
+                                                                          "bbox_detector":  [
+                                                                                                [
+                                                                                                    "None",
+                                                                                                    "yolox_l.torchscript.pt",
+                                                                                                    "yolox_l.onnx",
+                                                                                                    "yolo_nas_l_fp16.onnx",
+                                                                                                    "yolo_nas_m_fp16.onnx",
+                                                                                                    "yolo_nas_s_fp16.onnx"
+                                                                                                ],
+                                                                                                {
+                                                                                                    "default":  "yolox_l.onnx"
+                                                                                                }
+                                                                                            ],
+                                                                          "pose_estimator":  [
+                                                                                                 [
+                                                                                                     "dw-ll_ucoco_384_bs5.torchscript.pt",
+                                                                                                     "dw-ll_ucoco_384.onnx",
+                                                                                                     "dw-ll_ucoco.onnx"
+                                                                                                 ],
+                                                                                                 {
+                                                                                                     "default":  "dw-ll_ucoco_384_bs5.torchscript.pt"
+                                                                                                 }
+                                                                                             ],
+                                                                          "scale_stick_for_xinsr_cn":  [
+                                                                                                           [
+                                                                                                               "disable",
+                                                                                                               "enable"
+                                                                                                           ],
+                                                                                                           {
+                                                                                                               "default":  "disable"
+                                                                                                           }
+                                                                                                       ]
+                                                                      }
+                                                     },
+                                           "input_order":  {
+                                                               "required":  [
+                                                                                "image"
+                                                                            ],
+                                                               "optional":  [
+                                                                                "detect_hand",
+                                                                                "detect_body",
+                                                                                "detect_face",
+                                                                                "resolution",
+                                                                                "bbox_detector",
+                                                                                "pose_estimator",
+                                                                                "scale_stick_for_xinsr_cn"
+                                                                            ]
+                                                           },
+                                           "is_input_list":  false,
+                                           "output":  [
+                                                          "IMAGE",
+                                                          "POSE_KEYPOINT"
+                                                      ],
+                                           "output_is_list":  [
+                                                                  false,
+                                                                  false
+                                                              ],
+                                           "output_name":  [
+                                                               "IMAGE",
+                                                               "POSE_KEYPOINT"
+                                                           ],
+                                           "name":  "DWPreprocessor",
+                                           "display_name":  "DWPose Estimator",
+                                           "description":  "",
+                                           "python_module":  "custom_nodes.comfyui_controlnet_aux",
+                                           "category":  "ControlNet Preprocessors/Faces and Poses Estimators",
+                                           "output_node":  false,
+                                           "has_intermediate_output":  false,
+                                           "search_aliases":  [
+
+                                                              ]
+                                       },
+                    "OpenPosePreprocessor":  {
+                                                 "input":  {
+                                                               "required":  {
+                                                                                "image":  [
+                                                                                              "IMAGE"
+                                                                                          ]
+                                                                            },
+                                                               "optional":  {
+                                                                                "detect_hand":  [
+                                                                                                    [
+                                                                                                        "enable",
+                                                                                                        "disable"
+                                                                                                    ],
+                                                                                                    {
+                                                                                                        "default":  "enable"
+                                                                                                    }
+                                                                                                ],
+                                                                                "detect_body":  [
+                                                                                                    [
+                                                                                                        "enable",
+                                                                                                        "disable"
+                                                                                                    ],
+                                                                                                    {
+                                                                                                        "default":  "enable"
+                                                                                                    }
+                                                                                                ],
+                                                                                "detect_face":  [
+                                                                                                    [
+                                                                                                        "enable",
+                                                                                                        "disable"
+                                                                                                    ],
+                                                                                                    {
+                                                                                                        "default":  "enable"
+                                                                                                    }
+                                                                                                ],
+                                                                                "resolution":  [
+                                                                                                   "INT",
+                                                                                                   {
+                                                                                                       "default":  512,
+                                                                                                       "min":  64,
+                                                                                                       "max":  16384,
+                                                                                                       "step":  64
+                                                                                                   }
+                                                                                               ],
+                                                                                "scale_stick_for_xinsr_cn":  [
+                                                                                                                 [
+                                                                                                                     "disable",
+                                                                                                                     "enable"
+                                                                                                                 ],
+                                                                                                                 {
+                                                                                                                     "default":  "disable"
+                                                                                                                 }
+                                                                                                             ]
+                                                                            }
+                                                           },
+                                                 "input_order":  {
+                                                                     "required":  [
+                                                                                      "image"
+                                                                                  ],
+                                                                     "optional":  [
+                                                                                      "detect_hand",
+                                                                                      "detect_body",
+                                                                                      "detect_face",
+                                                                                      "resolution",
+                                                                                      "scale_stick_for_xinsr_cn"
+                                                                                  ]
+                                                                 },
+                                                 "is_input_list":  false,
+                                                 "output":  [
+                                                                "IMAGE",
+                                                                "POSE_KEYPOINT"
+                                                            ],
+                                                 "output_is_list":  [
+                                                                        false,
+                                                                        false
+                                                                    ],
+                                                 "output_name":  [
+                                                                     "IMAGE",
+                                                                     "POSE_KEYPOINT"
+                                                                 ],
+                                                 "name":  "OpenposePreprocessor",
+                                                 "display_name":  "OpenPose Pose",
+                                                 "description":  "",
+                                                 "python_module":  "custom_nodes.comfyui_controlnet_aux",
+                                                 "category":  "ControlNet Preprocessors/Faces and Poses Estimators",
+                                                 "output_node":  false,
+                                                 "has_intermediate_output":  false,
+                                                 "search_aliases":  [
+
+                                                                    ]
+                                             },
+                    "DepthAnythingPreprocessor":  {
+                                                      "input":  {
+                                                                    "required":  {
+                                                                                     "image":  [
+                                                                                                   "IMAGE"
+                                                                                               ]
+                                                                                 },
+                                                                    "optional":  {
+                                                                                     "ckpt_name":  [
+                                                                                                       [
+                                                                                                           "depth_anything_vitl14.pth",
+                                                                                                           "depth_anything_vitb14.pth",
+                                                                                                           "depth_anything_vits14.pth"
+                                                                                                       ],
+                                                                                                       {
+                                                                                                           "default":  "depth_anything_vitl14.pth"
+                                                                                                       }
+                                                                                                   ],
+                                                                                     "resolution":  [
+                                                                                                        "INT",
+                                                                                                        {
+                                                                                                            "default":  512,
+                                                                                                            "min":  64,
+                                                                                                            "max":  16384,
+                                                                                                            "step":  64
+                                                                                                        }
+                                                                                                    ]
+                                                                                 }
+                                                                },
+                                                      "input_order":  {
+                                                                          "required":  [
+                                                                                           "image"
+                                                                                       ],
+                                                                          "optional":  [
+                                                                                           "ckpt_name",
+                                                                                           "resolution"
+                                                                                       ]
+                                                                      },
+                                                      "is_input_list":  false,
+                                                      "output":  [
+                                                                     "IMAGE"
+                                                                 ],
+                                                      "output_is_list":  [
+                                                                             false
+                                                                         ],
+                                                      "output_name":  [
+                                                                          "IMAGE"
+                                                                      ],
+                                                      "name":  "DepthAnythingPreprocessor",
+                                                      "display_name":  "Depth Anything",
+                                                      "description":  "",
+                                                      "python_module":  "custom_nodes.comfyui_controlnet_aux",
+                                                      "category":  "ControlNet Preprocessors/Normal and Depth Estimators",
+                                                      "output_node":  false,
+                                                      "has_intermediate_output":  false,
+                                                      "search_aliases":  [
+
+                                                                         ]
+                                                  },
+                    "MiDaS-DepthMapPreprocessor":  {
+                                                       "input":  {
+                                                                     "required":  {
+                                                                                      "image":  [
+                                                                                                    "IMAGE"
+                                                                                                ]
+                                                                                  },
+                                                                     "optional":  {
+                                                                                      "a":  [
+                                                                                                "FLOAT",
+                                                                                                {
+                                                                                                    "default":  6.283185307179586,
+                                                                                                    "min":  0.0,
+                                                                                                    "max":  15.707963267948966,
+                                                                                                    "step":  0.01
+                                                                                                }
+                                                                                            ],
+                                                                                      "bg_threshold":  [
+                                                                                                           "FLOAT",
+                                                                                                           {
+                                                                                                               "default":  0.1,
+                                                                                                               "min":  0,
+                                                                                                               "max":  1,
+                                                                                                               "step":  0.01
+                                                                                                           }
+                                                                                                       ],
+                                                                                      "resolution":  [
+                                                                                                         "INT",
+                                                                                                         {
+                                                                                                             "default":  512,
+                                                                                                             "min":  64,
+                                                                                                             "max":  16384,
+                                                                                                             "step":  64
+                                                                                                         }
+                                                                                                     ]
+                                                                                  }
+                                                                 },
+                                                       "input_order":  {
+                                                                           "required":  [
+                                                                                            "image"
+                                                                                        ],
+                                                                           "optional":  [
+                                                                                            "a",
+                                                                                            "bg_threshold",
+                                                                                            "resolution"
+                                                                                        ]
+                                                                       },
+                                                       "is_input_list":  false,
+                                                       "output":  [
+                                                                      "IMAGE"
+                                                                  ],
+                                                       "output_is_list":  [
+                                                                              false
+                                                                          ],
+                                                       "output_name":  [
+                                                                           "IMAGE"
+                                                                       ],
+                                                       "name":  "MiDaS-DepthMapPreprocessor",
+                                                       "display_name":  "MiDaS Depth Map",
+                                                       "description":  "",
+                                                       "python_module":  "custom_nodes.comfyui_controlnet_aux",
+                                                       "category":  "ControlNet Preprocessors/Normal and Depth Estimators",
+                                                       "output_node":  false,
+                                                       "has_intermediate_output":  false,
+                                                       "search_aliases":  [
+
+                                                                          ]
+                                                   },
+                    "BAE-NormalMapPreprocessor":  {
+                                                      "input":  {
+                                                                    "required":  {
+                                                                                     "image":  [
+                                                                                                   "IMAGE"
+                                                                                               ]
+                                                                                 },
+                                                                    "optional":  {
+                                                                                     "resolution":  [
+                                                                                                        "INT",
+                                                                                                        {
+                                                                                                            "default":  512,
+                                                                                                            "min":  64,
+                                                                                                            "max":  16384,
+                                                                                                            "step":  64
+                                                                                                        }
+                                                                                                    ]
+                                                                                 }
+                                                                },
+                                                      "input_order":  {
+                                                                          "required":  [
+                                                                                           "image"
+                                                                                       ],
+                                                                          "optional":  [
+                                                                                           "resolution"
+                                                                                       ]
+                                                                      },
+                                                      "is_input_list":  false,
+                                                      "output":  [
+                                                                     "IMAGE"
+                                                                 ],
+                                                      "output_is_list":  [
+                                                                             false
+                                                                         ],
+                                                      "output_name":  [
+                                                                          "IMAGE"
+                                                                      ],
+                                                      "name":  "BAE-NormalMapPreprocessor",
+                                                      "display_name":  "BAE Normal Map",
+                                                      "description":  "",
+                                                      "python_module":  "custom_nodes.comfyui_controlnet_aux",
+                                                      "category":  "ControlNet Preprocessors/Normal and Depth Estimators",
+                                                      "output_node":  false,
+                                                      "has_intermediate_output":  false,
+                                                      "search_aliases":  [
+
+                                                                         ]
+                                                  },
+                    "DSINE-NormalMapPreprocessor":  {
+                                                        "input":  {
+                                                                      "required":  {
+                                                                                       "image":  [
+                                                                                                     "IMAGE"
+                                                                                                 ]
+                                                                                   },
+                                                                      "optional":  {
+                                                                                       "fov":  [
+                                                                                                   "FLOAT",
+                                                                                                   {
+                                                                                                       "default":  60.0,
+                                                                                                       "min":  0,
+                                                                                                       "max":  365.0,
+                                                                                                       "step":  0.01
+                                                                                                   }
+                                                                                               ],
+                                                                                       "iterations":  [
+                                                                                                          "INT",
+                                                                                                          {
+                                                                                                              "default":  5,
+                                                                                                              "min":  1,
+                                                                                                              "max":  20,
+                                                                                                              "step":  1
+                                                                                                          }
+                                                                                                      ],
+                                                                                       "resolution":  [
+                                                                                                          "INT",
+                                                                                                          {
+                                                                                                              "default":  512,
+                                                                                                              "min":  64,
+                                                                                                              "max":  16384,
+                                                                                                              "step":  64
+                                                                                                          }
+                                                                                                      ]
+                                                                                   }
+                                                                  },
+                                                        "input_order":  {
+                                                                            "required":  [
+                                                                                             "image"
+                                                                                         ],
+                                                                            "optional":  [
+                                                                                             "fov",
+                                                                                             "iterations",
+                                                                                             "resolution"
+                                                                                         ]
+                                                                        },
+                                                        "is_input_list":  false,
+                                                        "output":  [
+                                                                       "IMAGE"
+                                                                   ],
+                                                        "output_is_list":  [
+                                                                               false
+                                                                           ],
+                                                        "output_name":  [
+                                                                            "IMAGE"
+                                                                        ],
+                                                        "name":  "DSINE-NormalMapPreprocessor",
+                                                        "display_name":  "DSINE Normal Map",
+                                                        "description":  "",
+                                                        "python_module":  "custom_nodes.comfyui_controlnet_aux",
+                                                        "category":  "ControlNet Preprocessors/Normal and Depth Estimators",
+                                                        "output_node":  false,
+                                                        "has_intermediate_output":  false,
+                                                        "search_aliases":  [
+
+                                                                           ]
+                                                    },
+                    "CannyEdgePreprocessor":  {
+                                                  "input":  {
+                                                                "required":  {
+                                                                                 "image":  [
+                                                                                               "IMAGE"
+                                                                                           ]
+                                                                             },
+                                                                "optional":  {
+                                                                                 "low_threshold":  [
+                                                                                                       "INT",
+                                                                                                       {
+                                                                                                           "default":  100,
+                                                                                                           "min":  0,
+                                                                                                           "max":  255,
+                                                                                                           "step":  1
+                                                                                                       }
+                                                                                                   ],
+                                                                                 "high_threshold":  [
+                                                                                                        "INT",
+                                                                                                        {
+                                                                                                            "default":  200,
+                                                                                                            "min":  0,
+                                                                                                            "max":  255,
+                                                                                                            "step":  1
+                                                                                                        }
+                                                                                                    ],
+                                                                                 "resolution":  [
+                                                                                                    "INT",
+                                                                                                    {
+                                                                                                        "default":  512,
+                                                                                                        "min":  64,
+                                                                                                        "max":  16384,
+                                                                                                        "step":  64
+                                                                                                    }
+                                                                                                ]
+                                                                             }
+                                                            },
+                                                  "input_order":  {
+                                                                      "required":  [
+                                                                                       "image"
+                                                                                   ],
+                                                                      "optional":  [
+                                                                                       "low_threshold",
+                                                                                       "high_threshold",
+                                                                                       "resolution"
+                                                                                   ]
+                                                                  },
+                                                  "is_input_list":  false,
+                                                  "output":  [
+                                                                 "IMAGE"
+                                                             ],
+                                                  "output_is_list":  [
+                                                                         false
+                                                                     ],
+                                                  "output_name":  [
+                                                                      "IMAGE"
+                                                                  ],
+                                                  "name":  "CannyEdgePreprocessor",
+                                                  "display_name":  "Canny Edge",
+                                                  "description":  "",
+                                                  "python_module":  "custom_nodes.comfyui_controlnet_aux",
+                                                  "category":  "ControlNet Preprocessors/Line Extractors",
+                                                  "output_node":  false,
+                                                  "has_intermediate_output":  false,
+                                                  "search_aliases":  [
+
+                                                                     ]
+                                              },
+                    "LineArtPreprocessor":  {
+                                                "input":  {
+                                                              "required":  {
+                                                                               "image":  [
+                                                                                             "IMAGE"
+                                                                                         ]
+                                                                           },
+                                                              "optional":  {
+                                                                               "coarse":  [
+                                                                                              [
+                                                                                                  "disable",
+                                                                                                  "enable"
+                                                                                              ],
+                                                                                              {
+                                                                                                  "default":  "disable"
+                                                                                              }
+                                                                                          ],
+                                                                               "resolution":  [
+                                                                                                  "INT",
+                                                                                                  {
+                                                                                                      "default":  512,
+                                                                                                      "min":  64,
+                                                                                                      "max":  16384,
+                                                                                                      "step":  64
+                                                                                                  }
+                                                                                              ]
+                                                                           }
+                                                          },
+                                                "input_order":  {
+                                                                    "required":  [
+                                                                                     "image"
+                                                                                 ],
+                                                                    "optional":  [
+                                                                                     "coarse",
+                                                                                     "resolution"
+                                                                                 ]
+                                                                },
+                                                "is_input_list":  false,
+                                                "output":  [
+                                                               "IMAGE"
+                                                           ],
+                                                "output_is_list":  [
+                                                                       false
+                                                                   ],
+                                                "output_name":  [
+                                                                    "IMAGE"
+                                                                ],
+                                                "name":  "LineArtPreprocessor",
+                                                "display_name":  "Realistic Lineart",
+                                                "description":  "",
+                                                "python_module":  "custom_nodes.comfyui_controlnet_aux",
+                                                "category":  "ControlNet Preprocessors/Line Extractors",
+                                                "output_node":  false,
+                                                "has_intermediate_output":  false,
+                                                "search_aliases":  [
+
+                                                                   ]
+                                            },
+                    "LineartStandardPreprocessor":  {
+                                                        "input":  {
+                                                                      "required":  {
+                                                                                       "image":  [
+                                                                                                     "IMAGE"
+                                                                                                 ]
+                                                                                   },
+                                                                      "optional":  {
+                                                                                       "guassian_sigma":  [
+                                                                                                              "FLOAT",
+                                                                                                              {
+                                                                                                                  "default":  6.0,
+                                                                                                                  "min":  0,
+                                                                                                                  "max":  100.0,
+                                                                                                                  "step":  0.01
+                                                                                                              }
+                                                                                                          ],
+                                                                                       "intensity_threshold":  [
+                                                                                                                   "INT",
+                                                                                                                   {
+                                                                                                                       "default":  8,
+                                                                                                                       "min":  0,
+                                                                                                                       "max":  16,
+                                                                                                                       "step":  1
+                                                                                                                   }
+                                                                                                               ],
+                                                                                       "resolution":  [
+                                                                                                          "INT",
+                                                                                                          {
+                                                                                                              "default":  512,
+                                                                                                              "min":  64,
+                                                                                                              "max":  16384,
+                                                                                                              "step":  64
+                                                                                                          }
+                                                                                                      ]
+                                                                                   }
+                                                                  },
+                                                        "input_order":  {
+                                                                            "required":  [
+                                                                                             "image"
+                                                                                         ],
+                                                                            "optional":  [
+                                                                                             "guassian_sigma",
+                                                                                             "intensity_threshold",
+                                                                                             "resolution"
+                                                                                         ]
+                                                                        },
+                                                        "is_input_list":  false,
+                                                        "output":  [
+                                                                       "IMAGE"
+                                                                   ],
+                                                        "output_is_list":  [
+                                                                               false
+                                                                           ],
+                                                        "output_name":  [
+                                                                            "IMAGE"
+                                                                        ],
+                                                        "name":  "LineartStandardPreprocessor",
+                                                        "display_name":  "Standard Lineart",
+                                                        "description":  "",
+                                                        "python_module":  "custom_nodes.comfyui_controlnet_aux",
+                                                        "category":  "ControlNet Preprocessors/Line Extractors",
+                                                        "output_node":  false,
+                                                        "has_intermediate_output":  false,
+                                                        "search_aliases":  [
+
+                                                                           ]
+                                                    },
+                    "LoadImage":  {
+                                      "input":  {
+                                                    "required":  {
+                                                                     "image":  [
+                                                                                   [
+                                                                                       "controlnet_canny_cleaned_eye_safe_v1.png",
+                                                                                       "controlnet_canny_corrected_white_edges_black_bg.png",
+                                                                                       "example.png",
+                                                                                       "sdxl_inpaint_detail_face_mask_v1.png",
+                                                                                       "sdxl_inpaint_detail_micro_mask_v2.png",
+                                                                                       "sdxl_inpaint_detail_micro_nomouth_v4.png",
+                                                                                       "sdxl_inpaint_detail_source_canny_v1.png"
+                                                                                   ],
+                                                                                   {
+                                                                                       "image_upload":  true
+                                                                                   }
+                                                                               ]
+                                                                 }
+                                                },
+                                      "input_order":  {
+                                                          "required":  [
+                                                                           "image"
+                                                                       ]
+                                                      },
+                                      "is_input_list":  false,
+                                      "output":  [
+                                                     "IMAGE",
+                                                     "MASK"
+                                                 ],
+                                      "output_is_list":  [
+                                                             false,
+                                                             false
+                                                         ],
+                                      "output_name":  [
+                                                          "IMAGE",
+                                                          "MASK"
+                                                      ],
+                                      "name":  "LoadImage",
+                                      "display_name":  "Load Image",
+                                      "description":  "",
+                                      "python_module":  "nodes",
+                                      "category":  "image",
+                                      "output_node":  false,
+                                      "has_intermediate_output":  false,
+                                      "search_aliases":  [
+                                                             "load image",
+                                                             "open image",
+                                                             "import image",
+                                                             "image input",
+                                                             "upload image",
+                                                             "read image",
+                                                             "image loader"
+                                                         ],
+                                      "essentials_category":  "Basics"
+                                  },
+                    "SaveImage":  {
+                                      "input":  {
+                                                    "required":  {
+                                                                     "images":  [
+                                                                                    "IMAGE",
+                                                                                    {
+                                                                                        "tooltip":  "The images to save."
+                                                                                    }
+                                                                                ],
+                                                                     "filename_prefix":  [
+                                                                                             "STRING",
+                                                                                             {
+                                                                                                 "default":  "ComfyUI",
+                                                                                                 "tooltip":  "The prefix for the file to save. This may include formatting information such as %date:yyyy-MM-dd% or %Empty Latent Image.width% to include values from nodes."
+                                                                                             }
+                                                                                         ]
+                                                                 },
+                                                    "hidden":  {
+                                                                   "prompt":  "PROMPT",
+                                                                   "extra_pnginfo":  "EXTRA_PNGINFO"
+                                                               }
+                                                },
+                                      "input_order":  {
+                                                          "required":  [
+                                                                           "images",
+                                                                           "filename_prefix"
+                                                                       ],
+                                                          "hidden":  [
+                                                                         "prompt",
+                                                                         "extra_pnginfo"
+                                                                     ]
+                                                      },
+                                      "is_input_list":  false,
+                                      "output":  [
+                                                     "IMAGE"
+                                                 ],
+                                      "output_is_list":  [
+                                                             false
+                                                         ],
+                                      "output_name":  [
+                                                          "images"
+                                                      ],
+                                      "name":  "SaveImage",
+                                      "display_name":  "Save Image",
+                                      "description":  "Saves the input images to your ComfyUI output directory.",
+                                      "python_module":  "nodes",
+                                      "category":  "image",
+                                      "output_node":  true,
+                                      "has_intermediate_output":  false,
+                                      "search_aliases":  [
+                                                             "save",
+                                                             "save image",
+                                                             "export image",
+                                                             "output image",
+                                                             "write image",
+                                                             "download"
+                                                         ],
+                                      "essentials_category":  "Basics"
+                                  }
+                },
+    "result":  "pass_schema_capture",
+    "port_closed_after_stop":  true
+}

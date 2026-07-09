@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "inpaint_wave70_mf70_face_full_instance_seed210802",
+  "target_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "purpose": "Generated-output proof for Wave70 mf70_face_full_instance mask routing using the active MOD-17 Canny v3 portrait as source.",
+  "request_patch_values": {
+    "positive_prompt": "very subtle photoreal full-face preservation pass, preserve exact face identity, preserve skin tone, both eyes, eye color, gaze direction, nose shape, lip shape, cheeks, chin, jawline, forehead, and visible face contour, natural skin texture, consistent portrait lighting, no background, hair, neck, or clothing change",
+    "negative_prompt": "identity change, face shape drift, different person, age change, gender presentation change, skin tone change, eye color change, gaze drift, distorted eyes, crossed eyes, asymmetrical eyes, nose deformation, changed lips, deformed mouth, extra teeth, jawline change, hairline change, hair volume change, neck change, clothing change, background change, plastic skin, waxy skin, over-smoothed face, watermark, text",
+    "source_image": "wave70_mf70_face_identity_source_canny_v3.png",
+    "mask_image": "wave70_mf70_face_full_instance_mask.png",
+    "mask_channel": "red",
+    "seed": 210802,
+    "sampler_settings": {
+      "steps": 18,
+      "cfg": 4.0,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.11
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_wave70_mf70_face_full_instance_seed210802"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_wave70_mf70_face_full_instance_seed210802",
+    "diagnostic_output_prefix": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview"
+  },
+  "qa_focus": [
+    "whole-image identity preservation",
+    "visible full-face contour preservation",
+    "skin texture preservation without over-smoothing",
+    "hair, neck, background, and clothing protection",
+    "mask edge blending across full-face region",
+    "no new facial hair, jewelry, background, or clothing changes"
+  ],
+  "source_qa_driver": {
+    "evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_face_full_instance.json",
+    "remaining_gap": "generated_output_proof_required_before_item_completion",
+    "change_summary": "Use the Wave70 full-face instance mask as the inpaint mask with low denoise to prove local generated-output routing while minimizing identity drift."
+  },
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_generated_output_proof_before_item_completion": true,
+    "requires_whole_image_qa_before_promotion": true,
+    "requires_target_runtime_reproof_before_final_certification": true
+  }
+}

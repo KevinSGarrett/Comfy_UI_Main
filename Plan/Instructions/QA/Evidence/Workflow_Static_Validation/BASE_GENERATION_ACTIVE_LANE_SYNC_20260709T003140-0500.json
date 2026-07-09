@@ -1,0 +1,872 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "BASE_GENERATION_ACTIVE_LANE_SYNC_20260709T003140-0500",
+  "created_iso": "2026-07-09T00:31:40-05:00",
+  "active_lanes_path": "Workflows/base_generation/ACTIVE_LANES.json",
+  "runtime_queue_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+  "workflow_root": "Workflows/base_generation",
+  "template_root": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation",
+  "checks": {
+    "active_lanes_json_valid": true,
+    "runtime_queue_json_valid": true,
+    "active_lane_ids_unique": true,
+    "queue_lane_ids_unique": true,
+    "active_lanes_present_in_queue": true,
+    "queue_lanes_present_in_active": true,
+    "active_lane_files_exist_and_parse": false,
+    "runtime_boundaries_preserved": true
+  },
+  "counts": {
+    "active_lanes": 8,
+    "queue_lanes": 8,
+    "workflow_lane_folders": 9,
+    "inactive_workflow_folders": 1,
+    "failed_lanes": 4
+  },
+  "inactive_workflow_folders": [
+    "sdxl_realesrgan_upscale_polish_lane"
+  ],
+  "active_missing_from_queue": [],
+  "queue_missing_from_active": [],
+  "duplicate_active_ids": [],
+  "duplicate_queue_ids": [],
+  "lane_reports": [
+    {
+      "lane_id": "sdxl_low_risk_fallback_lane",
+      "order": 1,
+      "status": "runtime_smoke_proven",
+      "next_gate": "completed_first_runtime_proof",
+      "queue_present": true,
+      "folder_present": true,
+      "manifest_file_checks": [
+        {
+          "field": "workflow",
+          "path": "Workflows/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
+          "suffix_matches": true
+        },
+        {
+          "field": "smoke_request",
+          "path": "Workflows/base_generation/sdxl_low_risk_fallback_lane/smoke_test_request.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_low_risk_fallback_lane/smoke_test_request.json",
+          "suffix_matches": true
+        },
+        {
+          "field": "runtime_requirements",
+          "path": "Workflows/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
+          "suffix_matches": true
+        },
+        {
+          "field": "patch_points",
+          "path": "Workflows/base_generation/sdxl_low_risk_fallback_lane/patch_points.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_low_risk_fallback_lane/patch_points.json",
+          "suffix_matches": true
+        }
+      ],
+      "file_reports": [
+        {
+          "file_name": "workflow.api.json",
+          "workflow_path": "Workflows/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": null,
+          "template_lane_id": null,
+          "sha256_match": true,
+          "workflow_sha256": "ef6f4383eb7b31a8b00b895a16eae70ab4ee50023d2daf48eb679351bce62a20",
+          "template_sha256": "ef6f4383eb7b31a8b00b895a16eae70ab4ee50023d2daf48eb679351bce62a20",
+          "errors": []
+        },
+        {
+          "file_name": "smoke_test_request.json",
+          "workflow_path": "Workflows/base_generation/sdxl_low_risk_fallback_lane/smoke_test_request.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/smoke_test_request.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": "sdxl_low_risk_fallback_lane",
+          "template_lane_id": "sdxl_low_risk_fallback_lane",
+          "sha256_match": true,
+          "workflow_sha256": "112b63b48c194241fc82d689927ae2a0843f82f00aeaa99824d25bc815296d6f",
+          "template_sha256": "112b63b48c194241fc82d689927ae2a0843f82f00aeaa99824d25bc815296d6f",
+          "errors": []
+        },
+        {
+          "file_name": "runtime_requirements.json",
+          "workflow_path": "Workflows/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": "sdxl_low_risk_fallback_lane",
+          "template_lane_id": "sdxl_low_risk_fallback_lane",
+          "sha256_match": true,
+          "workflow_sha256": "e9a5b4b3d80fc7f4c17ebcdf66a51dd97a82a98ce278f86892216a6686aa3424",
+          "template_sha256": "e9a5b4b3d80fc7f4c17ebcdf66a51dd97a82a98ce278f86892216a6686aa3424",
+          "errors": []
+        },
+        {
+          "file_name": "patch_points.json",
+          "workflow_path": "Workflows/base_generation/sdxl_low_risk_fallback_lane/patch_points.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/patch_points.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": "sdxl_low_risk_fallback_lane",
+          "template_lane_id": "sdxl_low_risk_fallback_lane",
+          "sha256_match": true,
+          "workflow_sha256": "bd7c7fae0c0e6b5389c1b52383739d0de8fed628c254d92bf1c5c816432b8574",
+          "template_sha256": "bd7c7fae0c0e6b5389c1b52383739d0de8fed628c254d92bf1c5c816432b8574",
+          "errors": []
+        }
+      ],
+      "errors": []
+    },
+    {
+      "lane_id": "sdxl_realvisxl_base_lane",
+      "order": 2,
+      "status": "runtime_smoke_proven_local_single_hand_contact_closeup_and_two_character_contact_pixel_attempt_pass_with_notes_pending_final_certification",
+      "next_gate": "optional_mask_routed_two_character_refine_or_final_base_lane_certification_or_target_runtime_reproof_when_intentionally_selected",
+      "queue_present": true,
+      "folder_present": true,
+      "manifest_file_checks": [
+        {
+          "field": "workflow",
+          "path": "Workflows/base_generation/sdxl_realvisxl_base_lane/workflow.api.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_base_lane/workflow.api.json",
+          "suffix_matches": true
+        },
+        {
+          "field": "smoke_request",
+          "path": "Workflows/base_generation/sdxl_realvisxl_base_lane/smoke_test_request.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_base_lane/smoke_test_request.json",
+          "suffix_matches": true
+        },
+        {
+          "field": "runtime_requirements",
+          "path": "Workflows/base_generation/sdxl_realvisxl_base_lane/runtime_requirements.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_base_lane/runtime_requirements.json",
+          "suffix_matches": true
+        },
+        {
+          "field": "patch_points",
+          "path": "Workflows/base_generation/sdxl_realvisxl_base_lane/patch_points.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_base_lane/patch_points.json",
+          "suffix_matches": true
+        }
+      ],
+      "file_reports": [
+        {
+          "file_name": "workflow.api.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_base_lane/workflow.api.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/workflow.api.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": null,
+          "template_lane_id": null,
+          "sha256_match": true,
+          "workflow_sha256": "eae060a1c3351db8b851506926e7fc24b59c9b5a5467e116f766c0f7f81fe988",
+          "template_sha256": "eae060a1c3351db8b851506926e7fc24b59c9b5a5467e116f766c0f7f81fe988",
+          "errors": []
+        },
+        {
+          "file_name": "smoke_test_request.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_base_lane/smoke_test_request.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/smoke_test_request.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": "sdxl_realvisxl_base_lane",
+          "template_lane_id": "sdxl_realvisxl_base_lane",
+          "sha256_match": true,
+          "workflow_sha256": "8e3cace86e785cef9c80cae6169b23603de94b50f0cb1d05240e8610a547a404",
+          "template_sha256": "8e3cace86e785cef9c80cae6169b23603de94b50f0cb1d05240e8610a547a404",
+          "errors": []
+        },
+        {
+          "file_name": "runtime_requirements.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_base_lane/runtime_requirements.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/runtime_requirements.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": "sdxl_realvisxl_base_lane",
+          "template_lane_id": "sdxl_realvisxl_base_lane",
+          "sha256_match": true,
+          "workflow_sha256": "eca3a44301c6580c7a7c019c3f72fecc263f418b7fb5a96c66bf3831305ab69e",
+          "template_sha256": "eca3a44301c6580c7a7c019c3f72fecc263f418b7fb5a96c66bf3831305ab69e",
+          "errors": []
+        },
+        {
+          "file_name": "patch_points.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_base_lane/patch_points.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/patch_points.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": "sdxl_realvisxl_base_lane",
+          "template_lane_id": "sdxl_realvisxl_base_lane",
+          "sha256_match": true,
+          "workflow_sha256": "3527286351e3a9849ceb99b37b197ba31300bb59f5520cec9e2e01c68c45ce57",
+          "template_sha256": "3527286351e3a9849ceb99b37b197ba31300bb59f5520cec9e2e01c68c45ce57",
+          "errors": []
+        }
+      ],
+      "errors": []
+    },
+    {
+      "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+      "order": 3,
+      "status": "local_canny_eyeonly_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+      "next_gate": "optional_target_runtime_proof_or_final_canny_certification_when_intentionally_selected",
+      "queue_present": true,
+      "folder_present": true,
+      "manifest_file_checks": [
+        {
+          "field": "workflow",
+          "path": "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+          "suffix_matches": true
+        },
+        {
+          "field": "smoke_request",
+          "path": "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/smoke_test_request.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/smoke_test_request.json",
+          "suffix_matches": true
+        },
+        {
+          "field": "runtime_requirements",
+          "path": "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json",
+          "suffix_matches": true
+        },
+        {
+          "field": "patch_points",
+          "path": "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/patch_points.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/patch_points.json",
+          "suffix_matches": true
+        }
+      ],
+      "file_reports": [
+        {
+          "file_name": "workflow.api.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": null,
+          "template_lane_id": null,
+          "sha256_match": true,
+          "workflow_sha256": "0edc8a46365fd8067327e40260aeb8121146f2b3c5a0d680a8773ce5031effb8",
+          "template_sha256": "0edc8a46365fd8067327e40260aeb8121146f2b3c5a0d680a8773ce5031effb8",
+          "errors": []
+        },
+        {
+          "file_name": "smoke_test_request.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/smoke_test_request.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/smoke_test_request.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+          "template_lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+          "sha256_match": true,
+          "workflow_sha256": "25758d68f3bcf4c8f0fe10a5b269109ed12c77162cfd44790f7c587046d20007",
+          "template_sha256": "25758d68f3bcf4c8f0fe10a5b269109ed12c77162cfd44790f7c587046d20007",
+          "errors": []
+        },
+        {
+          "file_name": "runtime_requirements.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+          "template_lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+          "sha256_match": true,
+          "workflow_sha256": "dcbded5e9d0eddbd39fe1544ee8368cab70fbfdefc7902c03d7a699a2ae9e3d8",
+          "template_sha256": "dcbded5e9d0eddbd39fe1544ee8368cab70fbfdefc7902c03d7a699a2ae9e3d8",
+          "errors": []
+        },
+        {
+          "file_name": "patch_points.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/patch_points.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/patch_points.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+          "template_lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+          "sha256_match": true,
+          "workflow_sha256": "97c27280877cc8811d0a2c8c547789e066c78220154df8a1b22fa39b618850a9",
+          "template_sha256": "97c27280877cc8811d0a2c8c547789e066c78220154df8a1b22fa39b618850a9",
+          "errors": []
+        }
+      ],
+      "errors": []
+    },
+    {
+      "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+      "order": 4,
+      "status": "local_runtime_smoke_visual_qa_pass_with_notes_plus_wave25_contact_refine_robustness_pass_with_notes_pending_target_runtime",
+      "next_gate": "optional_local_robustness_or_target_runtime_object_info_path_hash_input_asset_proof_when_intentionally_selected",
+      "queue_present": true,
+      "folder_present": true,
+      "manifest_file_checks": [
+        {
+          "field": "workflow",
+          "path": "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/workflow.api.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/workflow.api.json",
+          "suffix_matches": true
+        },
+        {
+          "field": "smoke_request",
+          "path": "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/smoke_test_request.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/smoke_test_request.json",
+          "suffix_matches": true
+        },
+        {
+          "field": "runtime_requirements",
+          "path": "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/runtime_requirements.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/runtime_requirements.json",
+          "suffix_matches": true
+        },
+        {
+          "field": "patch_points",
+          "path": "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/patch_points.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/patch_points.json",
+          "suffix_matches": true
+        }
+      ],
+      "file_reports": [
+        {
+          "file_name": "workflow.api.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/workflow.api.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/workflow.api.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": null,
+          "template_lane_id": null,
+          "sha256_match": true,
+          "workflow_sha256": "b9ebd765e53bfb8586b741785796578e219eddb68d54a6a852e46e7dd5d38b15",
+          "template_sha256": "b9ebd765e53bfb8586b741785796578e219eddb68d54a6a852e46e7dd5d38b15",
+          "errors": []
+        },
+        {
+          "file_name": "smoke_test_request.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/smoke_test_request.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/smoke_test_request.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+          "template_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+          "sha256_match": true,
+          "workflow_sha256": "b33e459179e5b51a89a479e7c349d401fc406dd313b4ef64cac6c9e061cd1e37",
+          "template_sha256": "b33e459179e5b51a89a479e7c349d401fc406dd313b4ef64cac6c9e061cd1e37",
+          "errors": []
+        },
+        {
+          "file_name": "runtime_requirements.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/runtime_requirements.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/runtime_requirements.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+          "template_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+          "sha256_match": true,
+          "workflow_sha256": "9d00c7c225ada267eeda9dccc20af20b65af3c5e9c0c34ee88ff8ff5abd14230",
+          "template_sha256": "9d00c7c225ada267eeda9dccc20af20b65af3c5e9c0c34ee88ff8ff5abd14230",
+          "errors": []
+        },
+        {
+          "file_name": "patch_points.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/patch_points.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/patch_points.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+          "template_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+          "sha256_match": true,
+          "workflow_sha256": "2bf318506b2a2e9dcf7f5adc20bdef61ddd699cabcf8ff5fbf68488bfd0289ae",
+          "template_sha256": "2bf318506b2a2e9dcf7f5adc20bdef61ddd699cabcf8ff5fbf68488bfd0289ae",
+          "errors": []
+        }
+      ],
+      "errors": []
+    },
+    {
+      "lane_id": "sdxl_realvisxl_controlnet_depth_lane",
+      "order": 5,
+      "status": "local_depth_v2_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+      "next_gate": "optional_target_runtime_proof_or_final_depth_certification_when_intentionally_selected",
+      "queue_present": true,
+      "folder_present": true,
+      "manifest_file_checks": [
+        {
+          "field": "workflow",
+          "path": "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/workflow.api.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/workflow.api.json",
+          "suffix_matches": true
+        },
+        {
+          "field": "smoke_request",
+          "path": "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/smoke_test_request.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/smoke_test_request.json",
+          "suffix_matches": true
+        },
+        {
+          "field": "runtime_requirements",
+          "path": "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/runtime_requirements.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/runtime_requirements.json",
+          "suffix_matches": true
+        },
+        {
+          "field": "patch_points",
+          "path": "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/patch_points.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/patch_points.json",
+          "suffix_matches": true
+        }
+      ],
+      "file_reports": [
+        {
+          "file_name": "workflow.api.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/workflow.api.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_depth_lane/workflow.api.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": null,
+          "template_lane_id": null,
+          "sha256_match": true,
+          "workflow_sha256": "57094ed6991b51f29555e59cdb4169d2a353c32937c0627aa51505b378641d47",
+          "template_sha256": "57094ed6991b51f29555e59cdb4169d2a353c32937c0627aa51505b378641d47",
+          "errors": []
+        },
+        {
+          "file_name": "smoke_test_request.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/smoke_test_request.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_depth_lane/smoke_test_request.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": "sdxl_realvisxl_controlnet_depth_lane",
+          "template_lane_id": "sdxl_realvisxl_controlnet_depth_lane",
+          "sha256_match": true,
+          "workflow_sha256": "38690766cd07dc0675eef27c1d7ae18819da328ecef84b52d845364153f8c3db",
+          "template_sha256": "38690766cd07dc0675eef27c1d7ae18819da328ecef84b52d845364153f8c3db",
+          "errors": []
+        },
+        {
+          "file_name": "runtime_requirements.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/runtime_requirements.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_depth_lane/runtime_requirements.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": "sdxl_realvisxl_controlnet_depth_lane",
+          "template_lane_id": "sdxl_realvisxl_controlnet_depth_lane",
+          "sha256_match": false,
+          "workflow_sha256": "1782125f377a7cb5d34969e31727df2c15a9d45bea12c3d9dfd53edd53ae451c",
+          "template_sha256": "85678f851615e64626aaaf2d7f9f5588b1757c6a7c233ce363e0b4db5fc8bd86",
+          "errors": [
+            "workflow_template_sha256_mismatch"
+          ]
+        },
+        {
+          "file_name": "patch_points.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/patch_points.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_depth_lane/patch_points.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": "sdxl_realvisxl_controlnet_depth_lane",
+          "template_lane_id": "sdxl_realvisxl_controlnet_depth_lane",
+          "sha256_match": true,
+          "workflow_sha256": "c351233052f2812dc85c4346751d0fc8836166ebaae964aa4f7a702a0ee44867",
+          "template_sha256": "c351233052f2812dc85c4346751d0fc8836166ebaae964aa4f7a702a0ee44867",
+          "errors": []
+        }
+      ],
+      "errors": [
+        "workflow_template_sha256_mismatch"
+      ]
+    },
+    {
+      "lane_id": "sdxl_realvisxl_controlnet_lineart_lane",
+      "order": 6,
+      "status": "local_lineart_v4_plain_backdrop_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+      "next_gate": "optional_target_runtime_proof_or_final_lineart_certification_when_intentionally_selected",
+      "queue_present": true,
+      "folder_present": true,
+      "manifest_file_checks": [
+        {
+          "field": "workflow",
+          "path": "Workflows/base_generation/sdxl_realvisxl_controlnet_lineart_lane/workflow.api.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_controlnet_lineart_lane/workflow.api.json",
+          "suffix_matches": true
+        },
+        {
+          "field": "smoke_request",
+          "path": "Workflows/base_generation/sdxl_realvisxl_controlnet_lineart_lane/smoke_test_request.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_controlnet_lineart_lane/smoke_test_request.json",
+          "suffix_matches": true
+        },
+        {
+          "field": "runtime_requirements",
+          "path": "Workflows/base_generation/sdxl_realvisxl_controlnet_lineart_lane/runtime_requirements.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_controlnet_lineart_lane/runtime_requirements.json",
+          "suffix_matches": true
+        },
+        {
+          "field": "patch_points",
+          "path": "Workflows/base_generation/sdxl_realvisxl_controlnet_lineart_lane/patch_points.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_controlnet_lineart_lane/patch_points.json",
+          "suffix_matches": true
+        }
+      ],
+      "file_reports": [
+        {
+          "file_name": "workflow.api.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_controlnet_lineart_lane/workflow.api.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_lineart_lane/workflow.api.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": null,
+          "template_lane_id": null,
+          "sha256_match": true,
+          "workflow_sha256": "ae36350813cc1cb44dbd7a60572cc9ba939b87aa500d49a89bef38cd7ceb3d3c",
+          "template_sha256": "ae36350813cc1cb44dbd7a60572cc9ba939b87aa500d49a89bef38cd7ceb3d3c",
+          "errors": []
+        },
+        {
+          "file_name": "smoke_test_request.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_controlnet_lineart_lane/smoke_test_request.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_lineart_lane/smoke_test_request.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": "sdxl_realvisxl_controlnet_lineart_lane",
+          "template_lane_id": "sdxl_realvisxl_controlnet_lineart_lane",
+          "sha256_match": true,
+          "workflow_sha256": "519c425c3a5180fefd4536a3bdc9d73df81214d0b029bd42954432e65307cf2f",
+          "template_sha256": "519c425c3a5180fefd4536a3bdc9d73df81214d0b029bd42954432e65307cf2f",
+          "errors": []
+        },
+        {
+          "file_name": "runtime_requirements.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_controlnet_lineart_lane/runtime_requirements.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_lineart_lane/runtime_requirements.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": "sdxl_realvisxl_controlnet_lineart_lane",
+          "template_lane_id": "sdxl_realvisxl_controlnet_lineart_lane",
+          "sha256_match": false,
+          "workflow_sha256": "ca4c26dc33094d43cd84ee83d93fe489a6b07183bfe6cd6e4eeeca1880a2ece0",
+          "template_sha256": "8dc758ca39e701e66bc88a358f5c8fcb6cb1b5ef7ed89d893534928449e0fd60",
+          "errors": [
+            "workflow_template_sha256_mismatch"
+          ]
+        },
+        {
+          "file_name": "patch_points.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_controlnet_lineart_lane/patch_points.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_lineart_lane/patch_points.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": "sdxl_realvisxl_controlnet_lineart_lane",
+          "template_lane_id": "sdxl_realvisxl_controlnet_lineart_lane",
+          "sha256_match": true,
+          "workflow_sha256": "240a5cfb79b83a5787d8a121283e00cfb09121b0d678fc82654c57476c008c51",
+          "template_sha256": "240a5cfb79b83a5787d8a121283e00cfb09121b0d678fc82654c57476c008c51",
+          "errors": []
+        }
+      ],
+      "errors": [
+        "workflow_template_sha256_mismatch"
+      ]
+    },
+    {
+      "lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+      "order": 7,
+      "status": "local_openpose_tablehands_multisample_pass_with_notes_pending_target_runtime_and_final_hand_certification",
+      "next_gate": "optional_target_runtime_proof_or_stricter_hand_anatomy_certification_when_intentionally_selected",
+      "queue_present": true,
+      "folder_present": true,
+      "manifest_file_checks": [
+        {
+          "field": "workflow",
+          "path": "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/workflow.api.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/workflow.api.json",
+          "suffix_matches": true
+        },
+        {
+          "field": "smoke_request",
+          "path": "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/smoke_test_request.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/smoke_test_request.json",
+          "suffix_matches": true
+        },
+        {
+          "field": "runtime_requirements",
+          "path": "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/runtime_requirements.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/runtime_requirements.json",
+          "suffix_matches": true
+        },
+        {
+          "field": "patch_points",
+          "path": "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/patch_points.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/patch_points.json",
+          "suffix_matches": true
+        }
+      ],
+      "file_reports": [
+        {
+          "file_name": "workflow.api.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/workflow.api.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_openpose_lane/workflow.api.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": null,
+          "template_lane_id": null,
+          "sha256_match": true,
+          "workflow_sha256": "6d2fab05f2c4390643ef75c3e9923bedc028ed3df8ab9f0b97e09e0aaaf9c0ed",
+          "template_sha256": "6d2fab05f2c4390643ef75c3e9923bedc028ed3df8ab9f0b97e09e0aaaf9c0ed",
+          "errors": []
+        },
+        {
+          "file_name": "smoke_test_request.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/smoke_test_request.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_openpose_lane/smoke_test_request.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+          "template_lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+          "sha256_match": true,
+          "workflow_sha256": "c0fd565ef57d9710bf0c920b27ced421db2b9aae61c22e0d41d0fa0d416dc43b",
+          "template_sha256": "c0fd565ef57d9710bf0c920b27ced421db2b9aae61c22e0d41d0fa0d416dc43b",
+          "errors": []
+        },
+        {
+          "file_name": "runtime_requirements.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/runtime_requirements.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_openpose_lane/runtime_requirements.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+          "template_lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+          "sha256_match": false,
+          "workflow_sha256": "6f5543114a1df5483d7989496620e0d8c77b867d5016d14300b0e28f0db0b7ba",
+          "template_sha256": "b45f0a6395914a9664d1fdfe7bcd911838032b71311176bfc2d58657e023fb9b",
+          "errors": [
+            "workflow_template_sha256_mismatch"
+          ]
+        },
+        {
+          "file_name": "patch_points.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/patch_points.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_openpose_lane/patch_points.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+          "template_lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+          "sha256_match": true,
+          "workflow_sha256": "178e2c8b1670e11c48e67884802cbf506396706eb45ac01f10c24239aaf2df9c",
+          "template_sha256": "178e2c8b1670e11c48e67884802cbf506396706eb45ac01f10c24239aaf2df9c",
+          "errors": []
+        }
+      ],
+      "errors": [
+        "workflow_template_sha256_mismatch"
+      ]
+    },
+    {
+      "lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+      "order": 8,
+      "status": "local_normal_v3_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+      "next_gate": "optional_target_runtime_proof_or_final_normal_certification_when_intentionally_selected",
+      "queue_present": true,
+      "folder_present": true,
+      "manifest_file_checks": [
+        {
+          "field": "workflow",
+          "path": "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/workflow.api.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/workflow.api.json",
+          "suffix_matches": true
+        },
+        {
+          "field": "smoke_request",
+          "path": "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/smoke_test_request.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/smoke_test_request.json",
+          "suffix_matches": true
+        },
+        {
+          "field": "runtime_requirements",
+          "path": "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/runtime_requirements.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/runtime_requirements.json",
+          "suffix_matches": true
+        },
+        {
+          "field": "patch_points",
+          "path": "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/patch_points.json",
+          "exists": true,
+          "expected_suffix": "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/patch_points.json",
+          "suffix_matches": true
+        }
+      ],
+      "file_reports": [
+        {
+          "file_name": "workflow.api.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/workflow.api.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_normal_lane/workflow.api.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": null,
+          "template_lane_id": null,
+          "sha256_match": true,
+          "workflow_sha256": "472715e830586ad4fd9e88183ab59cee7bfdf8d813b4e9eadbeaa1a6092ac3ff",
+          "template_sha256": "472715e830586ad4fd9e88183ab59cee7bfdf8d813b4e9eadbeaa1a6092ac3ff",
+          "errors": []
+        },
+        {
+          "file_name": "smoke_test_request.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/smoke_test_request.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_normal_lane/smoke_test_request.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+          "template_lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+          "sha256_match": true,
+          "workflow_sha256": "91d1803e0b3bc4f324d4c75ec59e282da893e2b2cd787a44409b71afb6342a41",
+          "template_sha256": "91d1803e0b3bc4f324d4c75ec59e282da893e2b2cd787a44409b71afb6342a41",
+          "errors": []
+        },
+        {
+          "file_name": "runtime_requirements.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/runtime_requirements.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_normal_lane/runtime_requirements.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+          "template_lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+          "sha256_match": false,
+          "workflow_sha256": "974968ee8df8460f78dbcfb65a8b8a9d76079c550617bbf24b93f6a83fec6624",
+          "template_sha256": "ba4ac165527d8f7ea46e1189be2bd5a2ec4c11008a242da950a13181435f4c6f",
+          "errors": [
+            "workflow_template_sha256_mismatch"
+          ]
+        },
+        {
+          "file_name": "patch_points.json",
+          "workflow_path": "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/patch_points.json",
+          "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_normal_lane/patch_points.json",
+          "workflow_exists": true,
+          "template_exists": true,
+          "workflow_json_valid": true,
+          "template_json_valid": true,
+          "workflow_lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+          "template_lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+          "sha256_match": true,
+          "workflow_sha256": "8d93ad166653aaa6023eed56eaa3ffc11e74e467ca128665b31470eb940c3593",
+          "template_sha256": "8d93ad166653aaa6023eed56eaa3ffc11e74e467ca128665b31470eb940c3593",
+          "errors": []
+        }
+      ],
+      "errors": [
+        "workflow_template_sha256_mismatch"
+      ]
+    }
+  ],
+  "runtime_boundary": {
+    "ec2_started": false,
+    "aws_contacted": false,
+    "generation_executed": false,
+    "comfyui_contacted": false,
+    "hard_gates_rerun": false,
+    "mask_truth_consumed": false,
+    "candidate_masks_consumed_as_truth": false,
+    "masks_promoted": false,
+    "wave71_activation_attempted": false
+  },
+  "pass": false,
+  "decision": "blocked_base_generation_active_lane_sync_gap"
+}

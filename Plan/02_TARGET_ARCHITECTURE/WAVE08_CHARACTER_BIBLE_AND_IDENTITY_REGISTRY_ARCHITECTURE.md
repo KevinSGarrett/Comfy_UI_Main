@@ -59,7 +59,7 @@ The Scene Director attaches a character to a scene by ID:
 Identity-critical fields require a character revision instead of direct prompt overwrite:
 
 - face structure
-- approximate age band/adult status
+- approximate age band/body status
 - body silhouette
 - skin marker set
 - hair root color and hairline

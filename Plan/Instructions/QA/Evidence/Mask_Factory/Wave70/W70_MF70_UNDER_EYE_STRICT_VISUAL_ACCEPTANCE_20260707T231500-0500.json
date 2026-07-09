@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-UNDER-EYE-STRICT-VISUAL-ACCEPTANCE-20260707T231500-0500",
+  "timestamp": "2026-07-07T23:15:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave70_mf70_under_eye_strict_visual_fail_closed_acceptance",
+  "implementation_script": "Plan/07_IMPLEMENTATION/scripts/accept_wave70_under_eye_strict_visual_audit.py",
+  "implementation_script_sha256": "25c76d903235a870531892a173c7ce1cd51ef3a44f6977e2960d3e422857033b",
+  "mask_type_id": "mf70_under_eye",
+  "tracker_id": "TRK-W70-0015",
+  "item_id": "ITEM-W70-0015",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "source_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+  "source_image_sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+  "candidate_mask": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_under_eye_20260707T184500-0500/wave70_mf70_under_eye_mask.png",
+  "candidate_mask_sha256": "b16fb836fed07e38c623fced2ac7138a46f77312aac5ce3ee32f9d37ea763823",
+  "candidate_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_under_eye_20260707T184500-0500/wave70_mf70_under_eye_overlay.png",
+  "candidate_overlay_sha256": "bf615a273fc912c7fc64979c9602151a2c61cb345b0be1de1aef29e566a5c252",
+  "boundary_protocol": "Plan/Instructions/QA/WAVE70_PROTECTED_BOUNDARY_REGISTRY_PROTOCOL.md",
+  "protected_overlap_matrix": "runtime_artifacts/mask_factory/wave70_mf70_under_eye/strict_visual_acceptance/20260707T231500-0500/mf70_under_eye_strict_protected_overlap_matrix.csv",
+  "protected_overlap_matrix_sha256": "544417c1f285ff6a093b908a6fd6a2eb87c8ac96c7e82343919728072dbcdfcf",
+  "boundary_overlay": "runtime_artifacts/mask_factory/wave70_mf70_under_eye/strict_visual_acceptance/20260707T231500-0500/mf70_under_eye_strict_boundary_overlay.png",
+  "boundary_overlay_sha256": "a872c2264ca3d87fa1abd83111eb5c45e254c93f7287b1793bbea84321d4ff00",
+  "review_panel": "runtime_artifacts/mask_factory/wave70_mf70_under_eye/strict_visual_acceptance/20260707T231500-0500/mf70_under_eye_strict_visual_acceptance_panel.png",
+  "review_panel_sha256": "f0797b8118f9f7c901d03ca3e959ac22558b1dec72672e690b503982d7b94e04",
+  "candidate_metrics": {
+    "white_pixel_count": 888,
+    "nonblack_pixel_count": 3643,
+    "coverage_percent": 0.6176,
+    "bbox_pixels": {
+      "x_min": 286,
+      "y_min": 342,
+      "x_max": 466,
+      "y_max": 376
+    }
+  },
+  "protected_overlap_rows": [
+    {
+      "target_mask_type_id": "mf70_under_eye",
+      "protected_region_id": "left_eye_core",
+      "overlap_pixels": 91,
+      "overlap_percent_of_candidate": 2.9993,
+      "allowed_overlap_pixels": 0,
+      "pass": false
+    },
+    {
+      "target_mask_type_id": "mf70_under_eye",
+      "protected_region_id": "right_eye_core",
+      "overlap_pixels": 268,
+      "overlap_percent_of_candidate": 8.8332,
+      "allowed_overlap_pixels": 0,
+      "pass": false
+    },
+    {
+      "target_mask_type_id": "mf70_under_eye",
+      "protected_region_id": "left_lower_lid",
+      "overlap_pixels": 593,
+      "overlap_percent_of_candidate": 19.5452,
+      "allowed_overlap_pixels": 12,
+      "pass": false
+    },
+    {
+      "target_mask_type_id": "mf70_under_eye",
+      "protected_region_id": "right_lower_lid",
+      "overlap_pixels": 581,
+      "overlap_percent_of_candidate": 19.1496,
+      "allowed_overlap_pixels": 12,
+      "pass": false
+    },
+    {
+      "target_mask_type_id": "mf70_under_eye",
+      "protected_region_id": "nose_bridge_sidewalls",
+      "overlap_pixels": 270,
+      "overlap_percent_of_candidate": 8.8991,
+      "allowed_overlap_pixels": 0,
+      "pass": false
+    },
+    {
+      "target_mask_type_id": "mf70_under_eye",
+      "protected_region_id": "upper_cheek_lower_boundary",
+      "overlap_pixels": 0,
+      "overlap_percent_of_candidate": 0.0,
+      "allowed_overlap_pixels": 16,
+      "pass": true
+    },
+    {
+      "target_mask_type_id": "mf70_under_eye",
+      "protected_region_id": "eyebrows",
+      "overlap_pixels": 0,
+      "overlap_percent_of_candidate": 0.0,
+      "allowed_overlap_pixels": 0,
+      "pass": true
+    }
+  ],
+  "protected_overlap_failures": [
+    "left_eye_core",
+    "right_eye_core",
+    "left_lower_lid",
+    "right_lower_lid",
+    "nose_bridge_sidewalls"
+  ],
+  "protected_overlap_matrix_pass": false,
+  "visual_review_findings": [
+    "Rejected: the old compact under-eye mask overlaps protected eye cores, lower-lid guardrails, and nose sidewall guardrails.",
+    "Rejected: generated-output stability for the old mask does not prove source-image alignment.",
+    "Required correction: create a lower, narrower source-landmark candidate and re-run protected-overlap review before any generated-output proof."
+  ],
+  "semantic_mask_alignment_candidate_pass": false,
+  "generated_output_proof_reused": {
+    "profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_under_eye_seed210814.json",
+    "profile_sha256": "e7fddb2d198de7c1e69d95df1ebf66eb91311d957768d99f3672b7333ba8892c",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_under_eye_seed210814/RUN_PACKAGE_MANIFEST.json",
+    "run_package_sha256": "4639e813a76604961b227d19ce276ec2f76cc20261be2b1e1c086daf07f991ef",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_UNDER_EYE_SEED210814_EXECUTE_20260707T184500-0500.json",
+    "runtime_evidence_sha256": "26a405aed7c64af2de9c3643edc928ae4bf0eceac61c78188f1e31cdac0ca4a4",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_under_eye_seed210814_20260707T182853-0500/images/codex_wave70_mf70_under_eye_seed210814_00001_.png",
+    "generated_output_sha256": "279f643ac7ce33957718e603ce34c26136045992f3a4efa69c100aed5741faad",
+    "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_under_eye_seed210814_20260707T182853-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00020_.png",
+    "diagnostic_mask_preview_sha256": "98a7f75a6e1121fd84d20babc260665332aa9f49f35c80258344e99f2e42c619",
+    "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_under_eye/qa_comparisons/wave70_mf70_under_eye_source_overlay_output_compare.png",
+    "comparison_artifact_sha256": "a31d09a46cfb02908e19fc92be8af317b8cc5d37de38dd780869cea00c69640c",
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_UNDER_EYE_SEED210814_VISUAL_QA_20260707T184500-0500.json",
+    "visual_qa_result": "pass_with_notes_local_wave70_under_eye_generated_output",
+    "visual_qa_sha256": "095a8ad06817a5ba73e93115a95ab1e8acfe629a8a5977b722a51a702cd20fdb"
+  },
+  "generated_output_safe_pass": true,
+  "target_runtime_proof_present": false,
+  "reference_image_matrix_pass": false,
+  "completion_allowed_by_mask_alignment": false,
+  "result": "under_eye_strict_visual_candidate_protected_overlap_failed",
+  "status_after_audit": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+  "status_decision_after_audit": "under_eye_candidate_protected_overlap_failed",
+  "boundary": "Failure evidence only. This record does not accept the old compact mf70_under_eye mask; it records why the old mask remains downgraded until repaired."
+}

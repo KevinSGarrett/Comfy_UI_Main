@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-CONTROLNET-CANNY-PREPROCESS-MODULE-V1-20260707T051500-0500",
+  "timestamp": "2026-07-07T05:15:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+  "qa_type": "local_control_map_preprocessing_module_validation",
+  "source_requirement": "Plan/07_IMPLEMENTATION/COMFYUI_WIRING_REPAIR_LIST.md Priority 2: Create control-map preprocessing module; feed actual control maps into ControlNet, not arbitrary RGB placeholders.",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "implementation_artifacts": [
+    "Plan/07_IMPLEMENTATION/scripts/prepare_canny_control_map.py",
+    "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_preprocess_module_v1_20260707T051500-0500/CONTROL_MAP_PREPROCESS_MANIFEST.json",
+    "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_preprocess_module_v1_20260707T051500-0500/CONTROL_MAP_ASSET_MANIFEST.json"
+  ],
+  "source_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_local_bounded_smoke_v1_20260706T210854-0500/images/codex_realvisxl_local_bounded_smoke_00002_.png",
+    "sha256": "a3b1527fcd3223fbb55cfc51434ff9b7495318ec79cfcb2f1ca48b0184881ec8",
+    "width": 512,
+    "height": 512,
+    "role": "previous_local_base_image_source_for_canny_control_map"
+  },
+  "validated_outputs": [
+    {
+      "role": "raw_canny_control_map",
+      "generated_path": "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_preprocess_module_v1_20260707T051500-0500/controlnet_canny_corrected_white_edges_black_bg.png",
+      "active_comfyui_input_path": "ComfyUI/input/controlnet_canny_corrected_white_edges_black_bg.png",
+      "sha256": "1af02b8bd12a9de394fbcc1becd72912f4604f843cb7e7a2fc80496835b8e9a5",
+      "width": 1024,
+      "height": 1024,
+      "mode": "L",
+      "hash_matches_active_input": true,
+      "dimension_valid": true
+    },
+    {
+      "role": "cleaned_eye_safe_canny_control_map",
+      "generated_path": "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_preprocess_module_v1_20260707T051500-0500/controlnet_canny_cleaned_eye_safe_v1.png",
+      "active_comfyui_input_path": "ComfyUI/input/controlnet_canny_cleaned_eye_safe_v1.png",
+      "sha256": "d2f09161928d6efa1c724aafd6798ab597f8cfa0e12dcb4db61203c6b4e74bd0",
+      "width": 1024,
+      "height": 1024,
+      "mode": "L",
+      "hash_matches_active_input": true,
+      "dimension_valid": true,
+      "currently_bound_controlnet_input": true
+    }
+  ],
+  "processing_summary": {
+    "raw_control": "Pillow grayscale fit 1024x1024, FIND_EDGES, autocontrast cutoff=1, threshold >=36 to white on black.",
+    "clean_control": "Resize 1024->512 bilinear, median filter size=3, max filter size=3, threshold >=96, min filter size=3, resize 512->1024 nearest.",
+    "placeholder_rejection": "The active Canny lane control image is a deterministic generated control map from the recorded source portrait, not an arbitrary RGB placeholder."
+  },
+  "visual_review": {
+    "cleaned_map_reviewed": true,
+    "finding": "The cleaned map is a high-contrast white-on-black Canny-style portrait edge map with preserved head/shoulder silhouette and reduced facial/eye speckle relative to the raw edge map intent.",
+    "qa_result": "pass_control_map_preprocessing_visual_check_with_notes"
+  },
+  "result": "pass_local_control_map_preprocessing_module_validation",
+  "certification_scope": "local_control_map_preprocessing_and_provenance_only",
+  "not_certified_reasons": [
+    "This does not prove target-runtime behavior for the current v6 Canny prompt candidate.",
+    "Target-runtime static proof, bounded generation, pullback, technical QA, and strict whole-image visual QA remain required before Canny promotion."
+  ],
+  "next_action": "Keep the cleaned eye-safe generated control map as the ControlNet input for the current Canny lane; continue local-first with the next named wiring or QA task."
+}

@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "BASE_GENERATION_INPAINT_DETAIL_LOCAL_PACKAGE_SMOKE_VISUAL_QA_20260709T013130-0500",
+  "created_iso": "2026-07-09T01:31:30-05:00",
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "source_runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/BASE_GENERATION_LOCAL_PACKAGE_SMOKE_sdxl_realvisxl_inpaint_detail_lane_20260709T013041-0500.json",
+  "runtime_artifact_root": "runtime_artifacts/base_generation_local_smoke_execution/20260709T013041-0500/sdxl_realvisxl_inpaint_detail_lane",
+  "artifacts_reviewed": [
+    {
+      "artifact_role": "generated_image",
+      "path": "runtime_artifacts/base_generation_local_smoke_execution/20260709T013041-0500/sdxl_realvisxl_inpaint_detail_lane/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_00003_.png",
+      "sha256": "bd6c7fba6b0e808d1dbd83100ae570da783ad416d9e8f0ebf7aa616ce1289d7c",
+      "width": 768,
+      "height": 768,
+      "mode": "RGB",
+      "visual_observation": "Coherent, nonblank close-up portrait with readable face, hair, clothing, and lighting. Suitable for bounded local inpaint/detail package smoke viability. This is not full-body proof, exact character/reference identity certification, final-quality certification, or body-mask readiness proof."
+    },
+    {
+      "artifact_role": "localized_inpaint_mask_preview",
+      "path": "runtime_artifacts/base_generation_local_smoke_execution/20260709T013041-0500/sdxl_realvisxl_inpaint_detail_lane/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00031_.png",
+      "sha256": "8f59a4e7f9bea2644f00e2462aba359cbe5fa8dfd78b5166da91349187a65360",
+      "width": 768,
+      "height": 768,
+      "mode": "RGB",
+      "visual_observation": "Readable localized inpaint/detail mask preview with small white regions on a black background. This mask is a prepared inpaint workflow asset for detail testing, not a gold-standard body-part mask and not candidate body-mask truth."
+    }
+  ],
+  "visual_qa": {
+    "local_smoke_viability_pass": true,
+    "generated_image_coherent": true,
+    "mask_preview_readable": true,
+    "nonblank_visual_pass": true,
+    "final_quality_certified": false,
+    "reference_identity_certified": false,
+    "full_body_composition_certified": false,
+    "gold_body_mask_truth_consumed": false,
+    "candidate_body_masks_consumed_as_truth": false,
+    "body_mask_promotion_performed": false,
+    "wave71_activation_attempted": false
+  },
+  "decision": "inpaint_detail_lane_local_package_visual_smoke_passed_with_limitations",
+  "next_recommended_action": "record repaired package local smoke matrix completion and select the next non-mask runtime_orchestration task",
+  "notes": [
+    "This evidence confirms bounded local package execution and visual smoke viability for the inpaint/detail lane.",
+    "The localized inpaint mask is a workflow input asset only and must not be treated as gold-standard body mask truth, candidate body-mask validation, or body/hand/contact geometry authority.",
+    "No EC2/AWS contact occurred, no hard gates were rerun, no body masks were promoted, and no Wave71+ activation occurred."
+  ]
+}

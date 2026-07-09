@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "asset_id": "sdxl_inpaint_detail_micro_nomouth_v4_20260707T034500-0500",
+  "created_at": "2026-07-07T03:45:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "module_id": "MOD-13-SDXL-INPAINT-DETAIL-LANE",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "purpose": "No-mouth micro-detail mask for testing whether the v3 lip saturation note can be removed while preserving identity.",
+  "source_image": {
+    "filename": "sdxl_inpaint_detail_source_canny_v1.png",
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_micro_nomouth_v4_20260707T034500-0500/sdxl_inpaint_detail_source_canny_v1.png",
+    "sha256": "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523",
+    "copied_to_local_comfy_input": "ComfyUI/input/sdxl_inpaint_detail_source_canny_v1.png"
+  },
+  "mask_image": {
+    "filename": "sdxl_inpaint_detail_micro_nomouth_v4.png",
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_micro_nomouth_v4_20260707T034500-0500/sdxl_inpaint_detail_micro_nomouth_v4.png",
+    "sha256": "9bfbbda24b0f4915282649bb8c2b3e5a39b5a057dacbce6278683e9b531ec92d",
+    "copied_to_local_comfy_input": "ComfyUI/input/sdxl_inpaint_detail_micro_nomouth_v4.png"
+  },
+  "mask_geometry": {
+    "canvas": "768x768",
+    "white_regions": [
+      "forehead micro ellipse x=292 y=250 w=182 h=30",
+      "nose/central skin micro ellipse x=324 y=334 w=118 h=86",
+      "left cheek micro ellipse x=280 y=326 w=58 h=50",
+      "right cheek micro ellipse x=430 y=326 w=58 h=50"
+    ],
+    "excluded_regions": [
+      "mouth and lips",
+      "eyes and pupils",
+      "hairline edges"
+    ],
+    "intent": "Reduce v3 lip saturation and identity drift risk by avoiding mouth and eye generation."
+  },
+  "next_action": "Run one bounded local v4 sample and compare against source and v3."
+}

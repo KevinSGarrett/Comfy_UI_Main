@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "tracker_evidence_id": "W69-LOCAL-OPENPOSE-CONTROLNET-SMOKE-20260707T062800-0500",
+  "timestamp": "2026-07-07T06:28:00-05:00",
+  "wave": 69,
+  "task": "Local OpenPose ControlNet generation proof",
+  "lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+  "module_id": "MOD-20-CONTROLNET-OPENPOSE-LANE",
+  "status": "local_smoke_pass_with_notes_pending_target_runtime_and_multisample_certification",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_contacted": false,
+  "wave65_rerun": false,
+  "summary": "Provisioned OpenPoseXL2 SDXL ControlNet locally, copied the QA-reviewed OpenPose map into active ComfyUI input, created/exported the OpenPose lane, built a local run package, executed one bounded local ComfyUI generation with LowVram, pulled back diagnostic and generated portrait artifacts, and completed technical plus strict whole-image visual QA.",
+  "result": "pass_with_notes_for_local_openpose_controlnet_smoke",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Model_Registry/W69_LOCAL_CONTROLNET_OPENPOSE_MODEL_PROVISIONING_20260707T062100-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_OPENPOSE_LANE_STATIC_20260707T062200-0500.json",
+    "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_openpose_w69_v1/RUN_PACKAGE_MANIFEST.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_OPENPOSE_CONTROLNET_V1_EXECUTE_20260707T062500-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_CONTROLNET_V1_TECHNICAL_QA_20260707T062700-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_CONTROLNET_V1_VISUAL_QA_20260707T062800-0500.json"
+  ],
+  "artifact_hashes": {
+    "model_OpenPoseXL2_safetensors": "5a4b928cb1e93748217900cb66d4135bf70d932d2924232f925910fad9e43a92",
+    "active_openpose_input": "709ff1ace4607afa6f3b8d188faea2d6ce7757927e3456b3553e40c39c59bfc7",
+    "diagnostic_output": "8a70e5299c2c4d7e7ae9ac649ec50a27fb56219b24438063c18f070292781482",
+    "generated_portrait": "a87e54f75280f001caadcad8cb53aa73be2f3058b950e2d193af39e3e3c88cdb"
+  },
+  "qa_notes": [
+    "No visible OpenPose skeleton/color leakage in the generated portrait.",
+    "Face, eyes, hair, neck, shoulders, collar, blazer, shirt, and tie are coherent for the local smoke sample.",
+    "Hands, full-body pose, multi-person pose, and broader pose robustness remain unproven.",
+    "Target-runtime EC2 proof remains separate."
+  ],
+  "next_action": "Continue local-first with normal ControlNet model proof, or run OpenPose robustness only if intentionally selected."
+}

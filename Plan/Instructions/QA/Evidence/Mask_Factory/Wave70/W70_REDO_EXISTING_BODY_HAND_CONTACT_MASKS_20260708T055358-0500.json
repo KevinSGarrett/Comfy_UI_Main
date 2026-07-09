@@ -1,0 +1,608 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_REDO_EXISTING_BODY_HAND_CONTACT_MASKS_20260708T055358-0500",
+  "created_local": "20260708T055358-0500",
+  "task": "Redo or exactly block existing body, hand, contact, support, and soft-body masks for TRK-W70-0177 / ITEM-W70-0177.",
+  "script": "Plan/07_IMPLEMENTATION/scripts/implement_wave70_redo_existing_body_hand_contact_masks.py",
+  "source_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "exists": true,
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "dimensions": [
+      768,
+      768
+    ]
+  },
+  "environment": {
+    "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "cwd": "C:\\Comfy_UI_Main"
+  },
+  "prerequisite_evidence": [
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/body_geometry_dependency_probe.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/person_instance_owner_authority.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/pose_landmark_authority.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/hand_finger_landmark_authority.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/human_part_parsing_authority.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/contact_occlusion_ownership_authority.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/body_region_geometry_authority.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/soft_body_anchor_geometry_authority.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/body_reference_matrix.json"
+  ],
+  "redo_existing_body_hand_contact_analysis": {
+    "canonical_body_geometry_available": false,
+    "canonical_polygon_path": "",
+    "canonical_segmentation_map_path": "",
+    "body_reference_matrix_pass": false,
+    "whole_body_geometry_authority_pass": false,
+    "pose_hand_dense_landmark_or_segmentation_pass": false,
+    "semantic_human_part_parsing_pass": false,
+    "contact_occlusion_ownership_pass": false,
+    "body_region_geometry_pass": false,
+    "affected_rows_count": 166,
+    "affected_rows_sample": [
+      {
+        "tracker_id": "TRK-W70-0001",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_face_full_instance",
+        "source_key": "W70:core_identity_face:mf70_face_full_instance"
+      },
+      {
+        "tracker_id": "TRK-W70-0002",
+        "status": "Blocked_Wave70_Mask_Promotion_Gate_Not_Passed",
+        "task_name": "Prove Mask Factory mask type mf70_face_identity_critical",
+        "source_key": "W70:core_identity_face:mf70_face_identity_critical"
+      },
+      {
+        "tracker_id": "TRK-W70-0003",
+        "status": "Blocked_Wave70_Mask_Promotion_Gate_Not_Passed",
+        "task_name": "Prove Mask Factory mask type mf70_expression_region",
+        "source_key": "W70:core_identity_face:mf70_expression_region"
+      },
+      {
+        "tracker_id": "TRK-W70-0004",
+        "status": "Blocked_Wave70_Mask_Promotion_Gate_Not_Passed",
+        "task_name": "Prove Mask Factory mask type mf70_forehead_skin",
+        "source_key": "W70:core_identity_face:mf70_forehead_skin"
+      },
+      {
+        "tracker_id": "TRK-W70-0005",
+        "status": "Blocked_Wave70_Mask_Promotion_Gate_Not_Passed",
+        "task_name": "Prove Mask Factory mask type mf70_cheeks_skin",
+        "source_key": "W70:core_identity_face:mf70_cheeks_skin"
+      },
+      {
+        "tracker_id": "TRK-W70-0006",
+        "status": "Blocked_Wave70_Mask_Promotion_Gate_Not_Passed",
+        "task_name": "Prove Mask Factory mask type mf70_jawline_chin",
+        "source_key": "W70:core_identity_face:mf70_jawline_chin"
+      },
+      {
+        "tracker_id": "TRK-W70-0007",
+        "status": "Blocked_Local_Source_Region_Not_Visible",
+        "task_name": "Prove Mask Factory mask type mf70_ears",
+        "source_key": "W70:core_identity_face:mf70_ears"
+      },
+      {
+        "tracker_id": "TRK-W70-0008",
+        "status": "Blocked_Wave70_Mask_Promotion_Gate_Not_Passed",
+        "task_name": "Prove Mask Factory mask type mf70_skin_tone_continuity",
+        "source_key": "W70:core_identity_face:mf70_skin_tone_continuity"
+      },
+      {
+        "tracker_id": "TRK-W70-0009",
+        "status": "Blocked_Wave70_Mask_Promotion_Gate_Not_Passed",
+        "task_name": "Prove Mask Factory mask type mf70_eyes_full",
+        "source_key": "W70:face_detail_subregions:mf70_eyes_full"
+      },
+      {
+        "tracker_id": "TRK-W70-0010",
+        "status": "Blocked_Wave70_Mask_Promotion_Gate_Not_Passed",
+        "task_name": "Prove Mask Factory mask type mf70_left_eye",
+        "source_key": "W70:face_detail_subregions:mf70_left_eye"
+      },
+      {
+        "tracker_id": "TRK-W70-0011",
+        "status": "Blocked_Wave70_Mask_Promotion_Gate_Not_Passed",
+        "task_name": "Prove Mask Factory mask type mf70_right_eye",
+        "source_key": "W70:face_detail_subregions:mf70_right_eye"
+      },
+      {
+        "tracker_id": "TRK-W70-0012",
+        "status": "Blocked_Wave70_Mask_Promotion_Gate_Not_Passed",
+        "task_name": "Prove Mask Factory mask type mf70_pupils_iris_sclera",
+        "source_key": "W70:face_detail_subregions:mf70_pupils_iris_sclera"
+      },
+      {
+        "tracker_id": "TRK-W70-0013",
+        "status": "Blocked_Wave70_Mask_Promotion_Gate_Not_Passed",
+        "task_name": "Prove Mask Factory mask type mf70_eyelids",
+        "source_key": "W70:face_detail_subregions:mf70_eyelids"
+      },
+      {
+        "tracker_id": "TRK-W70-0014",
+        "status": "Blocked_Wave70_Mask_Promotion_Gate_Not_Passed",
+        "task_name": "Prove Mask Factory mask type mf70_eyelashes",
+        "source_key": "W70:face_detail_subregions:mf70_eyelashes"
+      },
+      {
+        "tracker_id": "TRK-W70-0015",
+        "status": "Blocked_Wave70_Mask_Promotion_Gate_Not_Passed",
+        "task_name": "Prove Mask Factory mask type mf70_under_eye",
+        "source_key": "W70:face_detail_subregions:mf70_under_eye"
+      },
+      {
+        "tracker_id": "TRK-W70-0016",
+        "status": "Blocked_Wave70_Mask_Promotion_Gate_Not_Passed",
+        "task_name": "Prove Mask Factory mask type mf70_eyebrows",
+        "source_key": "W70:face_detail_subregions:mf70_eyebrows"
+      },
+      {
+        "tracker_id": "TRK-W70-0017",
+        "status": "Blocked_Wave70_Mask_Promotion_Gate_Not_Passed",
+        "task_name": "Prove Mask Factory mask type mf70_nose",
+        "source_key": "W70:face_detail_subregions:mf70_nose"
+      },
+      {
+        "tracker_id": "TRK-W70-0018",
+        "status": "Blocked_Wave70_Mask_Promotion_Gate_Not_Passed",
+        "task_name": "Prove Mask Factory mask type mf70_mouth_lips",
+        "source_key": "W70:face_detail_subregions:mf70_mouth_lips"
+      },
+      {
+        "tracker_id": "TRK-W70-0019",
+        "status": "Blocked_Wave70_Mask_Promotion_Gate_Not_Passed",
+        "task_name": "Prove Mask Factory mask type mf70_teeth",
+        "source_key": "W70:face_detail_subregions:mf70_teeth"
+      },
+      {
+        "tracker_id": "TRK-W70-0020",
+        "status": "Blocked_Local_Source_Region_Not_Visible",
+        "task_name": "Prove Mask Factory mask type mf70_tongue_inner_mouth",
+        "source_key": "W70:face_detail_subregions:mf70_tongue_inner_mouth"
+      },
+      {
+        "tracker_id": "TRK-W70-0021",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_makeup_cosmetics",
+        "source_key": "W70:face_detail_subregions:mf70_makeup_cosmetics"
+      },
+      {
+        "tracker_id": "TRK-W70-0022",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_hair_full",
+        "source_key": "W70:hair_scalp_skin_marks:mf70_hair_full"
+      },
+      {
+        "tracker_id": "TRK-W70-0023",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_hairline_edges",
+        "source_key": "W70:hair_scalp_skin_marks:mf70_hairline_edges"
+      },
+      {
+        "tracker_id": "TRK-W70-0024",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_hair_strands_flyaways",
+        "source_key": "W70:hair_scalp_skin_marks:mf70_hair_strands_flyaways"
+      },
+      {
+        "tracker_id": "TRK-W70-0025",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_scalp",
+        "source_key": "W70:hair_scalp_skin_marks:mf70_scalp"
+      },
+      {
+        "tracker_id": "TRK-W70-0026",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_body_hair",
+        "source_key": "W70:hair_scalp_skin_marks:mf70_body_hair"
+      },
+      {
+        "tracker_id": "TRK-W70-0027",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_facial_hair",
+        "source_key": "W70:hair_scalp_skin_marks:mf70_facial_hair"
+      },
+      {
+        "tracker_id": "TRK-W70-0028",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_tattoos_scars_freckles_moles",
+        "source_key": "W70:hair_scalp_skin_marks:mf70_tattoos_scars_freckles_moles"
+      },
+      {
+        "tracker_id": "TRK-W70-0029",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_tanlines_pressure_marks",
+        "source_key": "W70:hair_scalp_skin_marks:mf70_tanlines_pressure_marks"
+      },
+      {
+        "tracker_id": "TRK-W70-0030",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_neck",
+        "source_key": "W70:skin_surface_zones_and_limbs:mf70_neck"
+      },
+      {
+        "tracker_id": "TRK-W70-0031",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_shoulders",
+        "source_key": "W70:skin_surface_zones_and_limbs:mf70_shoulders"
+      },
+      {
+        "tracker_id": "TRK-W70-0032",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_chest_upper_torso",
+        "source_key": "W70:skin_surface_zones_and_limbs:mf70_chest_upper_torso"
+      },
+      {
+        "tracker_id": "TRK-W70-0033",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_abdomen_stomach",
+        "source_key": "W70:skin_surface_zones_and_limbs:mf70_abdomen_stomach"
+      },
+      {
+        "tracker_id": "TRK-W70-0034",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_waist_hips",
+        "source_key": "W70:skin_surface_zones_and_limbs:mf70_waist_hips"
+      },
+      {
+        "tracker_id": "TRK-W70-0035",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_back",
+        "source_key": "W70:skin_surface_zones_and_limbs:mf70_back"
+      },
+      {
+        "tracker_id": "TRK-W70-0036",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_left_arm",
+        "source_key": "W70:skin_surface_zones_and_limbs:mf70_left_arm"
+      },
+      {
+        "tracker_id": "TRK-W70-0037",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_right_arm",
+        "source_key": "W70:skin_surface_zones_and_limbs:mf70_right_arm"
+      },
+      {
+        "tracker_id": "TRK-W70-0038",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_elbows",
+        "source_key": "W70:skin_surface_zones_and_limbs:mf70_elbows"
+      },
+      {
+        "tracker_id": "TRK-W70-0039",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_wrists",
+        "source_key": "W70:skin_surface_zones_and_limbs:mf70_wrists"
+      },
+      {
+        "tracker_id": "TRK-W70-0040",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_hands_full",
+        "source_key": "W70:skin_surface_zones_and_limbs:mf70_hands_full"
+      },
+      {
+        "tracker_id": "TRK-W70-0041",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_left_hand",
+        "source_key": "W70:skin_surface_zones_and_limbs:mf70_left_hand"
+      },
+      {
+        "tracker_id": "TRK-W70-0042",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_right_hand",
+        "source_key": "W70:skin_surface_zones_and_limbs:mf70_right_hand"
+      },
+      {
+        "tracker_id": "TRK-W70-0043",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_fingers",
+        "source_key": "W70:skin_surface_zones_and_limbs:mf70_fingers"
+      },
+      {
+        "tracker_id": "TRK-W70-0044",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_fingertips_fingernails",
+        "source_key": "W70:skin_surface_zones_and_limbs:mf70_fingertips_fingernails"
+      },
+      {
+        "tracker_id": "TRK-W70-0045",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_palms_knuckles",
+        "source_key": "W70:skin_surface_zones_and_limbs:mf70_palms_knuckles"
+      },
+      {
+        "tracker_id": "TRK-W70-0046",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_thighs",
+        "source_key": "W70:skin_surface_zones_and_limbs:mf70_thighs"
+      },
+      {
+        "tracker_id": "TRK-W70-0047",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_knees",
+        "source_key": "W70:skin_surface_zones_and_limbs:mf70_knees"
+      },
+      {
+        "tracker_id": "TRK-W70-0048",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_calves",
+        "source_key": "W70:skin_surface_zones_and_limbs:mf70_calves"
+      },
+      {
+        "tracker_id": "TRK-W70-0049",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_ankles",
+        "source_key": "W70:skin_surface_zones_and_limbs:mf70_ankles"
+      },
+      {
+        "tracker_id": "TRK-W70-0050",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_feet_full",
+        "source_key": "W70:skin_surface_zones_and_limbs:mf70_feet_full"
+      },
+      {
+        "tracker_id": "TRK-W70-0051",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_toes_toenails",
+        "source_key": "W70:skin_surface_zones_and_limbs:mf70_toes_toenails"
+      },
+      {
+        "tracker_id": "TRK-W70-0052",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_clothing_full_item",
+        "source_key": "W70:clothing_material_accessories:mf70_clothing_full_item"
+      },
+      {
+        "tracker_id": "TRK-W70-0053",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_shirt_top",
+        "source_key": "W70:clothing_material_accessories:mf70_shirt_top"
+      },
+      {
+        "tracker_id": "TRK-W70-0054",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_pants_skirt_dress",
+        "source_key": "W70:clothing_material_accessories:mf70_pants_skirt_dress"
+      },
+      {
+        "tracker_id": "TRK-W70-0055",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_underwear_swimwear",
+        "source_key": "W70:clothing_material_accessories:mf70_underwear_swimwear"
+      },
+      {
+        "tracker_id": "TRK-W70-0056",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_sleeves_collars_cuffs_hems",
+        "source_key": "W70:clothing_material_accessories:mf70_sleeves_collars_cuffs_hems"
+      },
+      {
+        "tracker_id": "TRK-W70-0057",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_straps_buttons_zippers",
+        "source_key": "W70:clothing_material_accessories:mf70_straps_buttons_zippers"
+      },
+      {
+        "tracker_id": "TRK-W70-0058",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_fabric_folds_seams",
+        "source_key": "W70:clothing_material_accessories:mf70_fabric_folds_seams"
+      },
+      {
+        "tracker_id": "TRK-W70-0059",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_sheer_transparent_fabric",
+        "source_key": "W70:clothing_material_accessories:mf70_sheer_transparent_fabric"
+      },
+      {
+        "tracker_id": "TRK-W70-0060",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_wet_stretched_compressed_fabric",
+        "source_key": "W70:clothing_material_accessories:mf70_wet_stretched_compressed_fabric"
+      },
+      {
+        "tracker_id": "TRK-W70-0061",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_shoes_socks_gloves",
+        "source_key": "W70:clothing_material_accessories:mf70_shoes_socks_gloves"
+      },
+      {
+        "tracker_id": "TRK-W70-0062",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_jewelry_piercings",
+        "source_key": "W70:clothing_material_accessories:mf70_jewelry_piercings"
+      },
+      {
+        "tracker_id": "TRK-W70-0063",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_glasses",
+        "source_key": "W70:clothing_material_accessories:mf70_glasses"
+      },
+      {
+        "tracker_id": "TRK-W70-0064",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_watches_belts_bags",
+        "source_key": "W70:clothing_material_accessories:mf70_watches_belts_bags"
+      },
+      {
+        "tracker_id": "TRK-W70-0065",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_hats_hair_accessories",
+        "source_key": "W70:clothing_material_accessories:mf70_hats_hair_accessories"
+      },
+      {
+        "tracker_id": "TRK-W70-0066",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_support_surface_bed",
+        "source_key": "W70:scene_camera_lighting_support:mf70_support_surface_bed"
+      },
+      {
+        "tracker_id": "TRK-W70-0067",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_support_surface_chair_couch",
+        "source_key": "W70:scene_camera_lighting_support:mf70_support_surface_chair_couch"
+      },
+      {
+        "tracker_id": "TRK-W70-0068",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_support_surface_floor_wall_table",
+        "source_key": "W70:scene_camera_lighting_support:mf70_support_surface_floor_wall_table"
+      },
+      {
+        "tracker_id": "TRK-W70-0069",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_blanket_pillow_fabric_support",
+        "source_key": "W70:scene_camera_lighting_support:mf70_blanket_pillow_fabric_support"
+      },
+      {
+        "tracker_id": "TRK-W70-0070",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_held_objects_props",
+        "source_key": "W70:scene_camera_lighting_support:mf70_held_objects_props"
+      },
+      {
+        "tracker_id": "TRK-W70-0071",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_object_between_body",
+        "source_key": "W70:scene_camera_lighting_support:mf70_object_between_body"
+      },
+      {
+        "tracker_id": "TRK-W70-0072",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_background_objects",
+        "source_key": "W70:scene_camera_lighting_support:mf70_background_objects"
+      },
+      {
+        "tracker_id": "TRK-W70-0073",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_foreground_character_instance",
+        "source_key": "W70:scene_camera_lighting_support:mf70_foreground_character_instance"
+      },
+      {
+        "tracker_id": "TRK-W70-0074",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_background_depth_layer",
+        "source_key": "W70:scene_camera_lighting_support:mf70_background_depth_layer"
+      },
+      {
+        "tracker_id": "TRK-W70-0075",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_crop_safety_head_hands_feet",
+        "source_key": "W70:scene_camera_lighting_support:mf70_crop_safety_head_hands_feet"
+      },
+      {
+        "tracker_id": "TRK-W70-0076",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_frame_edge_risk",
+        "source_key": "W70:scene_camera_lighting_support:mf70_frame_edge_risk"
+      },
+      {
+        "tracker_id": "TRK-W70-0077",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_mirror_reflection",
+        "source_key": "W70:scene_camera_lighting_support:mf70_mirror_reflection"
+      },
+      {
+        "tracker_id": "TRK-W70-0078",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_shadow_only",
+        "source_key": "W70:scene_camera_lighting_support:mf70_shadow_only"
+      },
+      {
+        "tracker_id": "TRK-W70-0079",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_contact_shadow_cast_shadow",
+        "source_key": "W70:scene_camera_lighting_support:mf70_contact_shadow_cast_shadow"
+      },
+      {
+        "tracker_id": "TRK-W70-0080",
+        "status": "Required_Not_Complete",
+        "task_name": "Prove Mask Factory mask type mf70_lighting_correction",
+        "source_key": "W70:scene_camera_lighting_support:mf70_lighting_correction"
+      }
+    ],
+    "existing_body_hand_contact_masks_fail_closed": true,
+    "mask_from_canonical_body_geometry_pass": false,
+    "no_generated_output_only_promotion": true
+  },
+  "artifacts": {
+    "blocker_panel": "runtime_artifacts/mask_factory/wave70_redo_existing_body_hand_contact_masks/20260708T055358-0500/redo_existing_body_hand_contact_masks_blocker_panel.png",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_redo_existing_body_hand_contact_masks/20260708T055358-0500/redo_existing_body_hand_contact_masks.json"
+  },
+  "whole_body_geometry_authority": {
+    "result": "blocked",
+    "whole_body_geometry_authority_pass": false,
+    "pose_hand_dense_landmark_or_segmentation_pass": false,
+    "semantic_human_part_parsing_pass": false,
+    "contact_occlusion_ownership_pass": false,
+    "body_region_geometry_pass": false,
+    "body_reference_matrix_pass": false,
+    "source_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "source_sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "source_dimensions": [
+      768,
+      768
+    ],
+    "mask_type_id": "redo_existing_body_hand_contact_masks",
+    "matrix_slot_id": "BGA-016_redo_existing_body_hand_contact_masks",
+    "person_instance_id": "",
+    "subject_side_mapping": {},
+    "models_attempted": [],
+    "models_available": [],
+    "pose_landmark_record_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/pose_landmark_authority.json",
+    "hand_landmark_record_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/hand_finger_landmark_authority.json",
+    "human_part_parsing_record_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/human_part_parsing_authority.json",
+    "sam_refinement_record_path": "",
+    "contact_occlusion_record_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/contact_occlusion_ownership_authority.json",
+    "visibility_occlusion_record_path": "runtime_artifacts/mask_factory/wave70_redo_existing_body_hand_contact_masks/20260708T055358-0500/redo_existing_body_hand_contact_masks.json",
+    "canonical_polygon_path": "",
+    "coordinate_transform_manifest_path": "",
+    "consensus_metrics": {
+      "iou_against_gold_or_prior": null,
+      "mean_boundary_error_px": null,
+      "max_boundary_error_px": null,
+      "center_drift_px": null,
+      "protected_overlap_ratio": null,
+      "owner_overlap_error_ratio": null
+    },
+    "confidence": {
+      "pose_confidence": null,
+      "hand_confidence": null,
+      "human_parsing_confidence": null,
+      "refinement_confidence": null,
+      "contact_ownership_confidence": null,
+      "visibility_confidence": 0.0,
+      "overall_confidence": 0.0
+    },
+    "blocked_reason": "blocked_wave70_mask_geometry_gate_not_passed; canonical_body_geometry_unavailable; body_reference_matrix_blocked; upstream_whole_body_geometry_dependencies_blocked",
+    "findings": [
+      "This row requires existing body, hand, contact, support, and soft-body masks to be regenerated from canonical body geometry.",
+      "No canonical body-part polygon or segmentation map is available for the active source or a passing reference-matrix slot.",
+      "The body reference matrix is blocked, and upstream pose, hand, human-part parsing, contact ownership, and body-region evidence is blocked or insufficient.",
+      "Affected body/hand/contact/support/soft-body rows therefore remain fail-closed instead of being redrawn from guessed geometry.",
+      "No generated-output stability or prior broad mask was used as promotion evidence, and no mask artifact was changed."
+    ]
+  },
+  "redo_existing_body_hand_contact_masks": {
+    "result": "blocked",
+    "existing_body_hand_contact_masks_fail_closed": true,
+    "mask_from_canonical_body_geometry_pass": false,
+    "no_generated_output_only_promotion": true,
+    "canonical_body_geometry_available": false,
+    "canonical_polygon_path": "",
+    "masks_changed": [],
+    "masks_promoted": [],
+    "blocker_status": "Blocked_Wave70_Mask_Geometry_Gate_Not_Passed"
+  },
+  "qa_decision": "blocked_exact_local_canonical_body_geometry_unavailable",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_redo_blocked",
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  },
+  "next_step": "Work TRK-W70-0178 whole-body authority promotion integration locally, or provide passing canonical body geometry artifacts."
+}

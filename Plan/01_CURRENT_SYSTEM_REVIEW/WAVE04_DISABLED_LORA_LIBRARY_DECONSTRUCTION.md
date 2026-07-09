@@ -43,7 +43,7 @@ The autonomous pass planner should select LoRAs like this:
 
 ## Human-facing naming policy
 
-Some source model filenames contain adult/sensitive labels. For human-facing summaries, use:
+Some source model filenames contain body-part or descriptive labels. For human-facing summaries, use:
 
 - engine
 - category
@@ -51,6 +51,6 @@ Some source model filenames contain adult/sensitive labels. For human-facing sum
 - status
 - verification tier
 - hash
-- safe internal ID
+- internal ID
 
 Do not expand explicit model names in ordinary reports unless required for internal machine validation.

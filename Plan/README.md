@@ -23,6 +23,16 @@ These waves focus entirely on making the system highly organized across:
 - QA proof folders
 - release/handoff folders
 
+## Gold mask dependency boundary
+
+Manual gold-standard body masks are a scoped dependency gate, not a global project freeze. Mask-dependent promotion, geometry authority, certification, and Wave71+ activation must stay fail-closed with `Blocked_Gold_Mask_Dependency_Missing` until the exact masks pass intake and strict gates. Unrelated organization, workflow wiring, evidence/logging, automation, validation scaffolding, and non-mask asset work may continue without consuming candidate masks as truth.
+
+Policy source:
+
+```text
+Plan/Instructions/QA/GOLD_STANDARD_MASK_DEPENDENCY_GATE_PROTOCOL.md
+```
+
 ## Why these waves exist
 
 The system had already reached a large cumulative architecture by Wave 34. At that size, the next problem is not another capability layer — it is **organization, findability, consistency, and maintainability**.

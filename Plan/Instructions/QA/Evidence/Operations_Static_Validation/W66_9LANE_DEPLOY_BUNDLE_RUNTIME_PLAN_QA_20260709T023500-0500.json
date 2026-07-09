@@ -1,0 +1,84 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "W66-9LANE-DEPLOY-BUNDLE-RUNTIME-PLAN-QA-20260709T023500-0500",
+    "created_at":  "2026-07-09T02:35:00-05:00",
+    "artifact_type":  "nine_lane_deploy_bundle_runtime_plan_qa_rollup",
+    "tracker_ids":  [
+                        "TRK-W63-COST-CONTROL",
+                        "TRK-W61-006",
+                        "TRK-W61-011"
+                    ],
+    "item_ids":  [
+                     "ITEM-W63-COST-CONTROL",
+                     "ITEM-W61-006",
+                     "ITEM-W61-011"
+                 ],
+    "local_only":  true,
+    "aws_contacted":  false,
+    "s3_upload_attempted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "mask_truth_consumed":  false,
+    "mask_promotion_attempted":  false,
+    "wave71_activation_attempted":  false,
+    "jira_action_taken":  false,
+    "decision":  "pass_local_only_9lane_active_queue_deploy_bundle_dry_run_runtime_plan_and_s3_readiness_refreshed",
+    "bundle":  {
+                   "bundle_id":  "rvxl_mx_9lane_20260709T0235",
+                   "bundle_manifest":  "runtime_artifacts/deploy_bundles/rvxl_mx_9lane_20260709T0235/DEPLOY_BUNDLE_MATRIX_MANIFEST.json",
+                   "bundle_zip":  "runtime_artifacts/deploy_bundles/rvxl_mx_9lane_20260709T0235/rvxl_mx_9lane_20260709T0235.zip",
+                   "bundle_zip_sha256":  "3dd302fe3603d25d51ac2049de61015ac15cb6ba7891b23a9b293e5ce5188dee",
+                   "bundle_zip_size_bytes":  109368,
+                   "file_count":  55,
+                   "sample_count":  3,
+                   "packaged_active_lane_count":  9,
+                   "packaged_runtime_queue_lane_count":  9,
+                   "packaged_runtime_queue_current_runtime_lane_id":  "none_all_current_local_runtime_proofs_complete"
+               },
+    "dry_run_publish":  {
+                            "result":  "dry_run_ready_to_upload",
+                            "s3_bundle_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/rvxl_mx_9lane_20260709T0235/rvxl_mx_9lane_20260709T0235.zip",
+                            "s3_manifest_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/rvxl_mx_9lane_20260709T0235/DEPLOY_BUNDLE_MATRIX_MANIFEST.json",
+                            "upload_attempted":  false,
+                            "aws_contacted":  false
+                        },
+    "quality_run_plan":  {
+                             "result":  "pass_local_only",
+                             "validation_result":  "pass_local_only",
+                             "sample_count":  3,
+                             "validation_failure_count":  0,
+                             "deploy_bundle_s3_uri_supplied":  true,
+                             "deploy_bundle_sha256_supplied":  true
+                         },
+    "s3_readiness":  {
+                         "result":  "ready_local_only",
+                         "missing_config_count":  0,
+                         "policy_template_failures":  0
+                     },
+    "evidence":  {
+                     "deploy_bundle_manifest":  "runtime_artifacts/deploy_bundles/rvxl_mx_9lane_20260709T0235/DEPLOY_BUNDLE_MATRIX_MANIFEST.json",
+                     "deploy_bundle_s3_dry_run":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_MATRIX_DEPLOY_BUNDLE_S3_DRY_RUN_9LANE_ACTIVE_QUEUE_20260709T023500-0500.json",
+                     "quality_run_plan":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_MATRIX_QUALITY_RUN_PLAN_9LANE_ACTIVE_QUEUE_20260709T023500-0500.json",
+                     "quality_run_plan_validation":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_MATRIX_QUALITY_RUN_PLAN_9LANE_ACTIVE_QUEUE_VALIDATION_20260709T023500-0500.json",
+                     "s3_runtime_transfer_readiness":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_RUNTIME_TRANSFER_READINESS_9LANE_ACTIVE_QUEUE_20260709T023500-0500.json",
+                     "bundle_content_qa":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_DEPLOY_BUNDLE_9LANE_ACTIVE_QUEUE_CONTENT_QA_20260709T023500-0500.json",
+                     "tracker_mirrors":  [
+                                             "Plan/Tracker/Evidence/W66_MATRIX_DEPLOY_BUNDLE_S3_DRY_RUN_9LANE_ACTIVE_QUEUE_20260709T023500-0500.json",
+                                             "Plan/Tracker/Evidence/W66_EC2_WORKFLOW_MATRIX_QUALITY_RUN_PLAN_9LANE_ACTIVE_QUEUE_20260709T023500-0500.json",
+                                             "Plan/Tracker/Evidence/W66_EC2_WORKFLOW_MATRIX_QUALITY_RUN_PLAN_9LANE_ACTIVE_QUEUE_VALIDATION_20260709T023500-0500.json",
+                                             "Plan/Tracker/Evidence/W66_S3_RUNTIME_TRANSFER_READINESS_9LANE_ACTIVE_QUEUE_20260709T023500-0500.json",
+                                             "Plan/Tracker/Evidence/W66_DEPLOY_BUNDLE_9LANE_ACTIVE_QUEUE_CONTENT_QA_20260709T023500-0500.json"
+                                         ]
+                 },
+    "claim_boundaries":  [
+                             "Local-only deploy-bundle, dry-run publish, quality-run planning, S3 readiness, and bundle-content QA only.",
+                             "No AWS contact, no live S3 upload, no EC2 start, no ComfyUI contact, and no generation occurred in this step.",
+                             "This does not prove target-runtime EC2 behavior, final RealVisXL certification, gold body-mask proof, or Wave71+ activation.",
+                             "Manual gold-standard masks remain pending; candidate masks were not consumed as truth."
+                         ],
+    "result":  "pass_local_only",
+    "next_action":  "Continue concrete non-mask ComfyUI orchestration/runtime work, or wait for explicit live-upload/EC2-window selection after AWS auth and Git cleanliness checks. Do not rerun hard gates, promote masks, or activate Wave71+ by default."
+}

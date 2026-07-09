@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W66_EC2_WORKFLOW_MATRIX_QUALITY_RUN_PLAN_VALIDATOR_COMPAT_20260709T015430-0500",
+  "created_iso": "2026-07-09T01:54:30-05:00",
+  "artifact_type": "ec2_workflow_matrix_quality_run_plan_validator_compatibility",
+  "script_updated": "Plan/Instructions/QA/Scripts/Test-EC2WorkflowMatrixQualityRunPlan.ps1",
+  "changes": [
+    "Accept deploy bundle S3 URI from either publish_dry_run.s3_bundle_uri or root-level s3_bundle_uri.",
+    "Fail fast when deploy bundle evidence lacks s3_bundle_uri or bundle_zip_sha256.",
+    "Write validator evidence with UTF-8 no BOM instead of Set-Content -Encoding UTF8."
+  ],
+  "primary_persistent_plan_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_MATRIX_QUALITY_RUN_PLAN_PERSISTENT_DRY_RUN_20260709T015300-0500.json",
+  "primary_persistent_plan_tracker_evidence": "Plan/Tracker/Evidence/W66_EC2_WORKFLOW_MATRIX_QUALITY_RUN_PLAN_PERSISTENT_DRY_RUN_20260709T015300-0500.json",
+  "validated_inputs": [
+    {
+      "shape": "root_level_publish_dry_run_record",
+      "evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_MATRIX_DEPLOY_BUNDLE_S3_DRY_RUN_CURRENT_ACTIVE_LANES_20260709T014900-0500.json",
+      "expected_s3_bundle_uri": "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/rvxl_mx_cur_20260709T0148/rvxl_mx_cur_20260709T0148.zip",
+      "expected_bundle_zip_sha256": "b57c4bdaa1f18124e3f6ba35b0fe27fafd2f7e39b72fe8c61fcca4574ee49177",
+      "result": "pass_local_only_no_bom_json"
+    },
+    {
+      "shape": "nested_publish_dry_run_validation_record",
+      "evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_EC2_DEPLOY_BUNDLE_MATRIX_CURRENT_ACTIVE_LANES_20260709T014000-0500.json",
+      "result": "pass_local_only_no_bom_json"
+    }
+  ],
+  "primary_plan_result": {
+    "result": "pass_local_only",
+    "failure_count": 0,
+    "planned_sample_count": 3,
+    "uses_persistent_bundle_uri": true,
+    "uses_persistent_bundle_sha256": true
+  },
+  "runtime_boundary": {
+    "local_only": true,
+    "aws_contacted": false,
+    "live_s3_upload_attempted": false,
+    "ec2_started": false,
+    "generation_executed": false,
+    "hard_gates_rerun": false,
+    "gold_body_mask_truth_consumed": false,
+    "candidate_body_masks_consumed_as_truth": false,
+    "body_masks_promoted": false,
+    "wave71_activation_attempted": false
+  },
+  "claim_boundary": "This evidence validates local-only quality-run plan generation against deploy-bundle evidence shapes. It is not live upload, target-runtime EC2 proof, final image quality certification, body-mask proof, or Wave71+ activation.",
+  "next_recommended_action": "Continue local-only orchestration validation, or use the persistent dry-run URI/hash only after explicit live-upload selection plus AWS auth and Git cleanliness checks."
+}

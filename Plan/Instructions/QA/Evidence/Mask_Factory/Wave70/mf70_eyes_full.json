@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-EYES-FULL-LOCAL-SUPPORT-20260707T171500-0500",
+  "timestamp": "2026-07-07T17:15:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave70_ultimate_mask_factory_local_artifact_routing_support",
+  "mask_type_id": "mf70_eyes_full",
+  "tracker_id": "TRK-W70-0009",
+  "item_id": "ITEM-W70-0009",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "source_requirements": [
+    "Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_FACTORY_TAXONOMY.md#L40",
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv:TRK-W70-0009",
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv:ITEM-W70-0009"
+  ],
+  "artifacts": {
+    "request": "runtime_artifacts/mask_factory/wave70_mf70_eyes_full/MASK_FACTORY_REQUEST.json",
+    "contract": "runtime_artifacts/mask_factory/wave70_mf70_eyes_full/MASK_FACTORY_CONTRACT.json",
+    "contract_validation": "runtime_artifacts/mask_factory/wave70_mf70_eyes_full/MASK_FACTORY_CONTRACT_VALIDATION.json",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_mf70_eyes_full/MASK_RUNTIME_EVIDENCE.json",
+    "quality_report": "runtime_artifacts/mask_factory/wave70_mf70_eyes_full/MASK_QUALITY_REPORT.json",
+    "patch_manifest": "runtime_artifacts/mask_factory/wave70_mf70_eyes_full/MASK_TO_WORKFLOW_PATCH_MANIFEST.csv",
+    "mask_png": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_eyes_full_20260707T171500-0500/wave70_mf70_eyes_full_mask.png",
+    "comfyui_input_copy": "ComfyUI/input/wave70_mf70_eyes_full_mask.png",
+    "preview_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_eyes_full_20260707T171500-0500/wave70_mf70_eyes_full_overlay.png"
+  },
+  "mask_asset": {
+    "mask_id": "scene_wave70_canny_v3__person_001__mf70_eyes_full__minor",
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_eyes_full_20260707T171500-0500/wave70_mf70_eyes_full_mask.png",
+    "sha256": "f976cdfaea79f0be01dbca5886c51f358140a1cb1d949a8a07fbd9371eb03dae",
+    "width": 768,
+    "height": 768,
+    "coverage_percent": 1.4131,
+    "person_instance_id": "person_001",
+    "body_region_id": "both_eyes_full_region",
+    "scale": "minor"
+  },
+  "validation": {
+    "contract_valid": true,
+    "contract_errors": [],
+    "contract_warnings": [],
+    "quality_score": 92.0,
+    "minimum_required": 85,
+    "quality_passed": true,
+    "workflow_routing_manifest_present": true,
+    "preview_overlay_generated": true,
+    "protected_neighbor_check_pass": true,
+    "generated_output_proof_present": true,
+    "target_runtime_proof_present": false,
+    "blockers": [
+      "semantic_mask_alignment_reaudit_required_before_completion",
+      "target_runtime_proof_required_before_final_certification"
+    ],
+    "mask_alignment_semantic_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false
+  },
+  "overlay_visual_review": {
+    "review_method": "direct local image inspection of generated preview overlay",
+    "result": "pass_with_notes_eyes_full_overlay",
+    "findings": [
+      "Overlay covers both visible eye apertures and immediate eyelid/eyelash regions.",
+      "Overlay avoids broad eyebrows, nose bridge, cheeks, clothing, and background.",
+      "Subject-right eye has nearby hair occlusion, so generated-output proof must use very low denoise and strict gaze/identity QA."
+    ]
+  },
+  "result": "generated_output_safe_mask_alignment_unreviewed_final_blocked_target_runtime",
+  "boundary": "Retroactive Wave70 semantic mask-alignment audit separates generated-output stability from mask correctness. Final completion remains blocked unless semantic alignment, generated-output QA, and target-runtime proof all pass.",
+  "generated_output_proof": {
+    "profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_eyes_full_seed210808.json",
+    "profile_sha256": "cd949a8c4c6c0cbc5b13fe1258431235f339b444fb4863322d81c1a6c81ab620",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_eyes_full_seed210808/RUN_PACKAGE_MANIFEST.json",
+    "run_package_sha256": "2138809430055c23a02d1d0a401ec0021928151b1625f65ece360df75ddd315e",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_EYES_FULL_SEED210808_EXECUTE_20260707T171500-0500.json",
+    "runtime_evidence_sha256": "0cbfb6fdc8f483586941e8a11176dcfa5fd81b2991fdb5511e567ccd1c316941",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_eyes_full_seed210808_20260707T170742-0500/images/codex_wave70_mf70_eyes_full_seed210808_00001_.png",
+    "generated_output_sha256": "1cf2ab9f043944ecebd795176d46774f98f8a4d580af3003b8a761c31b444a86",
+    "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_eyes_full_seed210808_20260707T170742-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00014_.png",
+    "diagnostic_mask_preview_sha256": "b42856f5242f9e7ad4b1b34d10822a8ae097e65e3d3bfe4abbdb11c4300beb86",
+    "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_eyes_full/qa_comparisons/wave70_mf70_eyes_full_source_overlay_output_compare.png",
+    "comparison_artifact_sha256": "7d38828287bdcb8a0626cdb7b60adf104e387917eb23abe0520fddab83afb224",
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_EYES_FULL_SEED210808_VISUAL_QA_20260707T171500-0500.json",
+    "visual_qa_result": "pass_with_notes_local_wave70_eyes_full_generated_output",
+    "visual_qa_sha256": "23ae253226f4f09263e65c739e2de8ce43f47adec2a95ef391f88b48c3ecf643"
+  },
+  "semantic_mask_alignment_reaudit": {
+    "audit_id": "W70-MASK-ALIGNMENT-RETRO-AUDIT-20260707T184000-0500",
+    "timestamp": "2026-07-07T18:40:00-05:00",
+    "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "result": "unreviewed",
+    "named_target_match": null,
+    "protected_neighbor_pass": null,
+    "generated_output_safe_pass": true,
+    "completion_allowed": false,
+    "findings": [
+      "Retro policy update did not receive enough explicit overlay review evidence to certify semantic alignment for the both-eyes full-region mask.",
+      "Generated-output stability may remain recorded, but semantic mask-alignment must be re-reviewed under the new protocol before completion."
+    ],
+    "policy": "Generated-output stability is preserved where applicable, but it does not override semantic mask-alignment defects."
+  }
+}

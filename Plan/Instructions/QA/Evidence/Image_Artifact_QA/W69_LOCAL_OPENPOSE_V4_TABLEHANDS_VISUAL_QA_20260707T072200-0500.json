@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-OPENPOSE-V4-TABLEHANDS-VISUAL-QA-20260707T072200-0500",
+  "timestamp": "2026-07-07T07:22:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+  "module_id": "MOD-20-CONTROLNET-OPENPOSE-LANE",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "profile": "PromptProfiles/base_generation/controlnet_openpose_v1_robustness/openpose_v4_tabletop_hands_new_control_seed711470201.json",
+  "run_package_manifest": "runtime_artifacts/run_packages/openpose_v4_tablehands_711470201/RUN_PACKAGE_MANIFEST.json",
+  "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_OPENPOSE_V4_TABLEHANDS_EXECUTE_20260707T072000-0500.json",
+  "source_control_manifest": "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_hands_tabletop_w69_v1/OPENPOSE_HANDS_TABLETOP_CONTROL_SOURCE_MANIFEST.json",
+  "diagnostic_control_map": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/openpose_v4_tablehands_711470201_20260707T071658-0500/images/codex_sdxl_realvisxl_controlnet_openpose_control_map_diagnostic_00004_.png",
+    "sha256": "131beae53e3c1a9f72ad76a5360522b971f4dad74fec47b8742108625b0f1c0f",
+    "dimensions": "768x1024",
+    "bytes": 10080
+  },
+  "generated_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/openpose_v4_tablehands_711470201_20260707T071658-0500/images/openpose_tablehands_711470201_00001_.png",
+    "sha256": "fb9584fcba5cb61c83650503a4bcd36f18aedf9490d246a00fb0a139ade1901d",
+    "dimensions": "768x1024",
+    "bytes": 924863
+  },
+  "whole_image_visual_findings": [
+    "The generated image is a coherent seated/tabletop composition with an upper body, a visible table plane, and both hands visible, separated left/right, and resting on the tabletop.",
+    "This materially resolves the previous OpenPose V2/V3 target failure where hands and table contact were absent or incomplete.",
+    "No visible OpenPose skeleton, colored bones, colored dots, pose-map stains, text, watermark, or obvious control-map leakage appears in the generated image.",
+    "Face, hair, suit jacket, tie, shirt, background window, and table are coherent and plausibly lit.",
+    "Hands are target-present but not final-certified: fingers are somewhat simplified and soft, with mild fingertip/detail uncertainty, especially at the left hand; broader hand anatomy robustness needs more than one sample."
+  ],
+  "strict_whole_image_checks": {
+    "face_realism": "pass",
+    "eyes": "pass",
+    "skin_texture": "pass_with_minor_polish_note",
+    "hair": "pass",
+    "hands_visible": "pass",
+    "hands_separated": "pass",
+    "hands_on_tabletop": "pass",
+    "finger_anatomy": "pass_with_notes_not_final_certified",
+    "forearm_wrist_continuity": "pass_with_notes",
+    "body_proportions": "pass_for_seated_upper_body",
+    "clothing_fabric": "pass",
+    "contact_points": "pass_with_notes_hands_present_on_table",
+    "lighting": "pass",
+    "background_coherence": "pass",
+    "camera_lens_realism": "pass",
+    "control_map_leakage": "pass_no_visible_leakage",
+    "generation_artifacts": "pass_no_blocking_artifacts",
+    "prompt_compliance": "pass"
+  },
+  "decision": {
+    "result": "pass_with_notes_local_openpose_tablehands_target_exercised",
+    "preferred_local_tablehands_candidate": "openpose_v4_tabletop_hands_new_control_seed711470201",
+    "resolved_previous_gap": "The local sample now exercises both visible separated hands and tabletop contact.",
+    "remaining_boundary": "Single local sample only. Finger anatomy and multi-seed robustness are not final-certified. Target-runtime EC2 proof remains separate."
+  }
+}

@@ -1,0 +1,84 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "W69-LOCAL-WAVE13-CONTACT-MASK-QA-TWO-CHARACTER-HAND-TO-BODY-20260707T122500-0500",
+    "timestamp":  "2026-07-07T12:25:00-05:00",
+    "project_root":  "C:\\Comfy_UI_Main",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "source_requirements":  [
+                                "Plan/06_QA_TESTING/WAVE13_CONTACT_MASK_TESTS.md",
+                                "Plan/06_QA_TESTING/WAVE13_MASK_BLEED_AND_OVERLAP_QA.md",
+                                "Plan/06_QA_TESTING/WAVE13_MASK_FACTORY_QA_GATES.md"
+                            ],
+    "contact_mask":  {
+                         "path":  "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/masks/contact_edge_hand_to_body_seed7152026252_1024.png",
+                         "sha256":  "a80d236c890726d3f310fc5d63d1a7a6c20f447694752469deb9bff6f7997f21",
+                         "width":  1024,
+                         "height":  1024,
+                         "contact_pixel_count":  21340,
+                         "coverage_percent":  2.0351,
+                         "edge_pixel_count":  475,
+                         "edge_percent_of_contact":  2.2259,
+                         "bbox":  {
+                                      "x_min":  475,
+                                      "y_min":  350,
+                                      "x_max":  620,
+                                      "y_max":  535
+                                  }
+                     },
+    "participants":  [
+                         {
+                             "participant_id":  "charinst_001_woman_left_contact_source",
+                             "mask_path":  "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/masks/charinst_001_region_mask.png",
+                             "mask_sha256":  "8da5a7d556d4cc6e0966b22e6230acaa8aa2d697bed2bd0611e2edec38e8ca57",
+                             "contact_overlap_pixels":  1626,
+                             "contact_overlap_percent":  7.6195
+                         },
+                         {
+                             "participant_id":  "charinst_002_man_right_contact_target",
+                             "mask_path":  "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/masks/charinst_002_region_mask.png",
+                             "mask_sha256":  "a90023f2f78e53a2cb31584d2de18975f1d4cbd5f28c91b511488419d392c96c",
+                             "contact_overlap_pixels":  15761,
+                             "contact_overlap_percent":  73.8566
+                         }
+                     ],
+    "overlap":  {
+                    "both_participants_overlap_pixels":  0,
+                    "both_participants_overlap_percent":  0,
+                    "outside_participant_pixels":  3953,
+                    "outside_participant_percent":  18.5239,
+                    "max_outside_participant_percent":  20
+                },
+    "source_image":  {
+                         "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_two_character_hand_to_body_w69_seed7152026252_20260707T113434-0500/images/codex_realvisxl_two_character_hand_to_body_seed7152026252_00001_.png",
+                         "sha256":  "d6ef67713167d55696b1f07e86c88e9ee0a038f946be9cd8cc56810f724b81a7"
+                     },
+    "output_image":  {
+                         "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_two_character_contact_refine_seed210701_20260707T114731-0500/images/codex_wave25_two_character_contact_refine_seed210701_00001_.png",
+                         "sha256":  "991ede7b0df2f820d7fbd834a888c1b085958ebf30781840728f190a32e2968c"
+                     },
+    "overlay":  {
+                    "path":  "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/qa_contact_crops/contact_mask_overlay_seed210701.png",
+                    "sha256":  "024ff2f6c563ef4045da4d5a7703f78a321f77f41528ccb6c177692c537d91d7"
+                },
+    "checks":  {
+                   "participants_named":  true,
+                   "contact_mask_nonempty":  true,
+                   "contact_edge_exists":  true,
+                   "contact_overlaps_participant_a":  true,
+                   "contact_overlaps_participant_b":  true,
+                   "contact_overlaps_both_participants":  true,
+                   "coverage_within_configured_bounds":  true,
+                   "outside_participant_bleed_within_bounds":  true,
+                   "explicitly_labeled_as_contact_mask":  true
+               },
+    "failures":  [
+
+                 ],
+    "result":  "pass_local_contact_mask_qa",
+    "certification_boundary":  "Local mask QA only; does not replace strict whole-image visual QA or target-runtime proof."
+}

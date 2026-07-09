@@ -65,7 +65,11 @@ $record = [ordered]@{
   result = "dry_run_emergency_stop_schedule_plan"
   failure_category = $null
   errors = @()
-  next_action = "Create the scheduler execution role from configs/aws, then run with -Execute before EC2 runtime windows."
+  next_action = $(if ([string]::IsNullOrWhiteSpace($SchedulerRoleArn)) {
+      "Create the scheduler execution role from configs/aws, then rerun this helper with -SchedulerRoleArn before EC2 runtime windows."
+    } else {
+      "Dry-run schedule plan is ready; run with -Execute only immediately before an approved bounded EC2 runtime window after AWS auth and Git cleanliness checks pass."
+    })
 }
 
 if ([string]::IsNullOrWhiteSpace($SchedulerRoleArn)) {

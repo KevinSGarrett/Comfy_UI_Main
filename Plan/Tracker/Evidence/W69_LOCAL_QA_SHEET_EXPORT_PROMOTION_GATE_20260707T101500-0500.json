@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-QA-SHEET-EXPORT-PROMOTION-GATE-20260707T101500-0500",
+  "timestamp": "2026-07-07T10:15:00-05:00",
+  "work_type": "local_qa_sheet_exporter_and_promotion_gate",
+  "source_priority": "Plan/07_IMPLEMENTATION/COMFYUI_WIRING_REPAIR_LIST.md Priority 5 - Add QA sheet exporter and promotion gate.",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "script": "Plan/Instructions/QA/Scripts/Export-QAEvidenceSheet.ps1",
+  "inputs": {
+    "evidence_root": "Plan/Instructions/QA/Evidence/Image_Artifact_QA",
+    "include_pattern": "W69_LOCAL_*.json",
+    "require_target_runtime_for_promotion": true
+  },
+  "outputs": {
+    "qa_sheet_csv": "Plan/Instructions/QA/Evidence/QA_Sheets/W69_LOCAL_IMAGE_QA_SHEET_20260707T101500-0500.csv",
+    "promotion_gate_json": "Plan/Instructions/QA/Evidence/QA_Sheets/W69_LOCAL_IMAGE_QA_PROMOTION_GATE_20260707T101500-0500.json"
+  },
+  "summary": {
+    "exported_row_count": 47,
+    "blank_result_count": 0,
+    "parse_error_count": 0,
+    "blocking_row_count": 2,
+    "target_runtime_block_count": 47,
+    "promotion_decision": "block_final_promotion_missing_target_runtime",
+    "promotion_allowed": false
+  },
+  "blocking_rows": [
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_VISUAL_QA_20260707T031000-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V2_UPPER_BODY_HANDS_VISUAL_QA_20260707T064800-0500.json"
+  ],
+  "result": "pass_local_qa_sheet_export_promotion_gate_blocks_final",
+  "remaining_boundary": "This is a local QA sheet and promotion gate only. It does not certify final release, target-runtime behavior, or unresolved failed/blocking QA rows."
+}

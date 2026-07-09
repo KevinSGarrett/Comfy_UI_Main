@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-INPAINT-DETAIL-NOMOUTH-V4-VISUAL-QA-20260707T035000-0500",
+  "timestamp": "2026-07-07T03:50:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "module_id": "MOD-13-SDXL-INPAINT-DETAIL-LANE",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "qa_scope": "strict whole-image visual review of the v4 no-mouth micro-mask local inpaint sample, compared with source and v3",
+  "source_image": {
+    "path": "ComfyUI/input/sdxl_inpaint_detail_source_canny_v1.png",
+    "sha256": "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523"
+  },
+  "mask_asset": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_micro_nomouth_v4_20260707T034500-0500/sdxl_inpaint_detail_micro_nomouth_v4.png",
+    "sha256": "9bfbbda24b0f4915282649bb8c2b3e5a39b5a057dacbce6278683e9b531ec92d",
+    "manifest": "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_micro_nomouth_v4_20260707T034500-0500/INPAINT_MICRO_NOMOUTH_INPUT_ASSET_MANIFEST.json"
+  },
+  "workflow_change": {
+    "summary": "V4 keeps the identity-preserving VAEEncode plus SetLatentNoiseMask composite path, excludes mouth/eyes from the mask, lowers denoise to 0.24, and prompts to preserve lip color.",
+    "changed_lane_files": [
+      "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/workflow.api.json",
+      "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/smoke_test_request.json",
+      "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/runtime_requirements.json",
+      "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/workflow.api.json",
+      "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/smoke_test_request.json",
+      "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/runtime_requirements.json"
+    ]
+  },
+  "technical_evidence": [
+    "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_SDXL_REALVISXL_INPAINT_DETAIL_NOMOUTH_V4_STATIC_VALIDATION_20260707T034700-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_EXECUTE_20260707T035000-0500.json"
+  ],
+  "reviewed_artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_local_nomouth_v4_20260707T035000-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_00001_.png",
+    "sha256": "d2e7834c93b2be7000fe5080c5f96d0cea511e68c48f0008d7aac8558630c8c7",
+    "bytes": 587843,
+    "runtime_result": "pass_local_run_package_generation_smoke"
+  },
+  "whole_image_findings": {
+    "prompt_alignment": "pass_with_notes",
+    "face_realism": "pass_with_notes",
+    "identity_preservation": "pass",
+    "eye_quality": "pass",
+    "skin_texture": "pass_with_notes",
+    "mouth_teeth": "pass",
+    "hair_realism": "pass",
+    "hands_feet_body": "not_visible",
+    "clothing_fabric": "pass",
+    "lighting_shadows": "pass",
+    "background_coherence": "pass",
+    "framing_crop": "pass",
+    "mask_edge_artifacts": "pass",
+    "mask_adherence": "pass",
+    "artifact_notes": [
+      "The prior flat gray oval failure is absent.",
+      "The v2 full-face identity drift is absent; face shape, gaze, eye color, hair, clothing, and background remain close to the source.",
+      "Compared with v3, the lip saturation note is reduced because the mouth/lips were excluded from the mask.",
+      "The edited nose/cheek/forehead regions remain slightly smoother than the source under close inspection, but no hard mask edge is visible."
+    ]
+  },
+  "strict_qa_result": "pass_with_notes_for_local_iteration",
+  "candidate_comparison": {
+    "preferred_local_candidate": "v4_no_mouth_micro_mask",
+    "reason": "Preserves mouth/lip color better than v3 while retaining the identity-preserving benefits of the micro-mask composite path."
+  },
+  "certification_status": "local_iteration_pass_with_notes_not_target_runtime_certified",
+  "next_action": "Use v4 as the current local inpaint detail candidate. Before promotion, run target-runtime object_info/path/hash proof and a bounded target-runtime sample, then repeat technical and strict whole-image QA."
+}

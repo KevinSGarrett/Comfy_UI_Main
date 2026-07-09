@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "tracker_evidence_id": "W69-LOCAL-NORMAL-CONTROLNET-SMOKE-20260707T064000-0500",
+  "timestamp": "2026-07-07T06:40:00-05:00",
+  "wave": 69,
+  "task": "Local normal ControlNet generation proof",
+  "lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+  "module_id": "MOD-21-CONTROLNET-NORMAL-LANE",
+  "status": "local_smoke_pass_with_notes_pending_target_runtime_and_multisample_certification",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_contacted": false,
+  "wave65_rerun": false,
+  "summary": "Provisioned the Xinsir ControlNet Union SDXL model locally, copied the QA-reviewed BAE normal map into active ComfyUI input, created/exported the normal lane with SetUnionControlNetType=normal, built a local run package, executed one bounded local ComfyUI generation with LowVram, pulled back diagnostic and generated portrait artifacts, and completed technical plus strict whole-image visual QA.",
+  "result": "pass_with_notes_for_local_normal_controlnet_smoke",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Model_Registry/W69_LOCAL_CONTROLNET_NORMAL_MODEL_PROVISIONING_20260707T063400-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_NORMAL_LANE_STATIC_20260707T063600-0500.json",
+    "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_normal_w69_v1/RUN_PACKAGE_MANIFEST.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_NORMAL_CONTROLNET_V1_EXECUTE_20260707T063800-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_NORMAL_CONTROLNET_V1_TECHNICAL_QA_20260707T063900-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_NORMAL_CONTROLNET_V1_VISUAL_QA_20260707T064000-0500.json"
+  ],
+  "artifact_hashes": {
+    "model_controlnet_union_sdxl_1_0": "a9e13fd61f3193887791c8a0dd07a07202174dc47d5ddaea94ea1344f07c7467",
+    "active_normal_input": "1a0526da325d7fb29986b8de017ba9af7c43e1b328d51da5afa7c6bf84863139",
+    "diagnostic_output": "85f814d52480078bc0c4e572a2a928850956c3656d4f594cbd2fe5566358c745",
+    "generated_portrait": "368c26848267da70ee69002636fb56f68249c0953d6eb0298085d15203376b04"
+  },
+  "qa_notes": [
+    "No visible rainbow normal-map leakage in the generated portrait.",
+    "Face planes, eyes, hair, neck, collar, and clothing geometry are coherent for the local smoke sample.",
+    "Slight beauty-polished skin and soft shirt texture remain.",
+    "Hands, full-body anatomy, multisample robustness, and target-runtime EC2 proof remain unproven."
+  ],
+  "next_action": "Depth, lineart, OpenPose, and normal now have local smoke coverage with notes. Continue with targeted robustness/certification sampling or intentionally selected target-runtime proof."
+}

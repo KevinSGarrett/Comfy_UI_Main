@@ -1,0 +1,151 @@
+{
+  "schema_version": "1.1",
+  "evidence_id": "W70_CONTACT_OCCLUSION_OWNERSHIP_AUTHORITY_20260708T181125-0500",
+  "created_local": "20260708T181125-0500",
+  "task": "Implement contact occlusion ownership resolver for TRK-W70-0171 / ITEM-W70-0171 using Ref_Image_1 gold masks and Full reference context.",
+  "script": "Plan/07_IMPLEMENTATION/scripts/implement_wave70_contact_occlusion_ownership_authority.py",
+  "historical_portrait_source": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "exists": true,
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "role": "historical_prior_active_source_not_decisive_for_current_body_reference_evaluation"
+  },
+  "ref_image_1_full_body_references": {
+    "manifest_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+    "manifest_exists": true,
+    "recursive_image_count": 8,
+    "support_contact_eligible_reference_count": 7,
+    "near_full_knees_to_head_reference_count": 1,
+    "contact_sheet": "runtime_artifacts/mask_factory/ref_image_1_full_body_references/20260708T143650-0500/ref_image_1_full_body_references_contact_sheet.png",
+    "near_full_limitations": [
+      {
+        "path": "Ref_Image_1/Full/New folder/8ead94ca6f2884fb1ae671fee89e8126.jpg",
+        "relative_to_full_dir": "New folder/8ead94ca6f2884fb1ae671fee89e8126.jpg",
+        "coverage_limitations": [
+          "user_corrected_not_full_body",
+          "covers_from_knees_to_top_of_head",
+          "do_not_use_as_full_body_feet_toes_ankles_or_lower_calf_proof",
+          "usable_for_torso_head_hair_upper_limb_and_above_knee_body_context_only"
+        ]
+      }
+    ]
+  },
+  "ref_image_1_contact_actor_gold_refs": {
+    "manifest_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_body_mask_gold_standard.json",
+    "manifest_exists": true,
+    "all_gold_mask_count": 34,
+    "hand_contact_actor_reference_count": 8,
+    "foot_support_actor_reference_count": 4,
+    "body_contact_surface_reference_count": 20,
+    "hand_reference_labels": [
+      "hands_both_hands",
+      "hands_index_fingers",
+      "hands_left_hand",
+      "hands_middle_fingers",
+      "hands_pinkys",
+      "hands_right_hand",
+      "hands_ring_finger",
+      "hands_thumbs"
+    ],
+    "foot_reference_labels": [
+      "feet_both_feet",
+      "feet_left_foot",
+      "feet_right_foot",
+      "feet_toes_feet"
+    ],
+    "body_contact_surface_labels": [
+      "abdomen_belly_button",
+      "abdomen_stomach",
+      "arms_left_lower_arm",
+      "arms_left_upper_arm",
+      "arms_lower_arm_fore_arms",
+      "arms_right_lower_arm",
+      "arms_right_upper_arm",
+      "arms_upper_arms",
+      "breasts_both",
+      "breasts_left_breast",
+      "breasts_right",
+      "calves_left_calf",
+      "calves_right_calf",
+      "glute_both",
+      "glute_left",
+      "glute_right",
+      "pelvic_pelvic_region",
+      "thigh_both_thighs",
+      "thigh_left_thigh",
+      "thigh_right_thigh"
+    ],
+    "layout_interpretation": {
+      "top_strip": "partial upper-body / one-third-body reference only; absent lower/full-body contact actors here are not failures",
+      "lower_strip": "primary full-body body-part validation area; still not an automatic contact ownership solver"
+    }
+  },
+  "ref_images_1_2_combined_body_reference_matrix": {
+    "manifest_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/body_reference_matrix.json",
+    "manifest_exists": true,
+    "evidence_id": "W70_BODY_REFERENCE_MATRIX_AUTHORITY_20260708T153118-0500",
+    "qa_decision": "ref_images_1_2_body_reference_matrix_context_available_route_not_complete_global_gates_pass",
+    "ref_image_1_gold_mask_count": 34,
+    "ref_image_2_gold_mask_count": 44,
+    "combined_gold_mask_count": 78,
+    "ref_image_1_full_or_near_full_reference_count": 8,
+    "ref_image_2_full_body_reference_count": 1,
+    "combined_full_or_near_full_reference_count": 9,
+    "ref_image_1_contact_actor_categories_present": {
+      "arms_hands_fingers": true,
+      "legs_feet_toes": true,
+      "torso_abdomen": true
+    },
+    "ref_image_2_contact_actor_categories_present": {
+      "arms_hands_fingers": true,
+      "legs_feet_toes": true,
+      "torso_abdomen": true
+    },
+    "limited_reference_policy": "Ref_Image_1/Full/New folder is knees-to-head only and cannot prove support/feet/floor contact."
+  },
+  "environment": {
+    "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "cwd": "C:\\Comfy_UI_Main"
+  },
+  "artifacts": {
+    "reference_route_panel": "runtime_artifacts/mask_factory/wave70_contact_occlusion_ownership_authority/20260708T181125-0500/contact_occlusion_ownership_authority_reference_route_panel.png",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_contact_occlusion_ownership_authority/20260708T181125-0500/contact_occlusion_ownership_authority.json"
+  },
+  "contact_occlusion_ownership_authority": {
+    "result": "required_not_complete",
+    "reference_source_available": true,
+    "contact_actor_gold_refs_available": true,
+    "body_surface_gold_refs_available": true,
+    "body_reference_matrix_pass": true,
+    "source_visibility_blocker_superseded": true,
+    "production_route_pass": false,
+    "contact_occlusion_ownership_pass": false,
+    "protected_overlap_threshold_pass": false,
+    "owner_overlap_error_pass": false,
+    "whole_body_geometry_authority_pass": false,
+    "pose_hand_dense_landmark_or_segmentation_pass": false,
+    "semantic_human_part_parsing_pass": false,
+    "body_region_geometry_pass": false,
+    "canonical_polygon_export_pass": false,
+    "blocked_reason": "reference_contact_actors_available_but_production_route_missing_contact_pair_owner_graph_parser_backed_body_object_ownership_occlusion_transfer_proof_overlap_metrics_canonical_polygons_and_promotion_evidence",
+    "findings": [
+      "Ref_Image_1 gold-standard masks include hand/finger, foot/toe, and body-surface reference actors.",
+      "Ref_Image_1/Full supplies full/near-full body context for contact/occlusion authority rows.",
+      "Ref_Image_2 is attached through the combined body reference matrix and contributes additional contact actor/body surface context.",
+      "The prior portrait-only contact blocker is superseded for this reference evaluation.",
+      "Reference actors do not by themselves prove contact ownership, occlusion transfer, protected-overlap thresholds, owner-overlap metrics, generated output, visual QA, or promotion evidence.",
+      "No contact, hand, body, object, support, or broad mask geometry was generated, changed, or promoted from this evidence."
+    ]
+  },
+  "qa_decision": "ref_images_1_2_contact_actor_references_available_route_not_complete",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_contact_occlusion_ownership_route_not_complete",
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  },
+  "next_step": "Run Wave70 geometry and promotion hard gates, attach gate evidence to TRK-W70-0171 / ITEM-W70-0171, then continue to TRK-W70-0172 body region geometry resolver."
+}

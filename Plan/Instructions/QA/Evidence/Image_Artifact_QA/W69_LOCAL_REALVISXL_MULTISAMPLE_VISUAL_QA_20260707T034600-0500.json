@@ -1,0 +1,137 @@
+{
+  "evidence_id": "W69-LOCAL-REALVISXL-MULTISAMPLE-VISUAL-QA-20260707T034600-0500",
+  "artifact_type": "image_artifact_visual_qa",
+  "lane_id": "sdxl_realvisxl_base_lane",
+  "module_id": "MOD-BASE-REALVISXL-LANE",
+  "task_id": "ITEM-W64-009",
+  "tracker_id": "TRK-W64-009",
+  "reviewer": "Codex Desktop autonomous QA",
+  "timestamp": "2026-07-07T03:46:00-05:00",
+  "scope": "Local-only RealVisXL three-sample quality matrix for close-up skin/eyes, visible hands/fabric, and low-light environment coherence.",
+  "overall_result": "pass_with_notes_for_local_multisample",
+  "certification_status": "not_certified_local_multisample_only",
+  "runtime_boundaries": {
+    "local_comfyui_used": true,
+    "ec2_started": false,
+    "aws_contacted": false,
+    "github_api_contacted": false,
+    "civitai_contacted": false,
+    "generation_executed": true,
+    "comfyui_port_closed_after_each_run": true
+  },
+  "workflow_reference": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/workflow.api.json",
+  "runtime_requirements_reference": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/runtime_requirements.json",
+  "matrix_reference": "PromptProfiles/base_generation/realvisxl_multisample_certification.matrix.json",
+  "run_package_matrix_manifest": "runtime_artifacts/run_package_matrices/realvisxl_local_multisample_certification_w69/RUN_PACKAGE_MATRIX_MANIFEST.json",
+  "runtime_evidence": [
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_REALVISXL_MULTISAMPLE_CLOSEUP_EXECUTE_20260707T034100-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_REALVISXL_MULTISAMPLE_HANDS_FABRIC_EXECUTE_20260707T034300-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_REALVISXL_MULTISAMPLE_LOWLIGHT_EXECUTE_20260707T034500-0500.json"
+  ],
+  "sample_count": 3,
+  "technical_checks": {
+    "all_files_exist": true,
+    "all_files_decode": true,
+    "all_extensions_expected": true,
+    "minimum_resolution": "512x512",
+    "all_samples_meet_minimum_resolution": true,
+    "all_samples_are_1024_square": true
+  },
+  "samples": [
+    {
+      "sample_id": "realvisxl_closeup_skin_eye_v1",
+      "focus": "close-up skin, eyes, mouth, and hairline",
+      "output_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_multisample_closeup_skin_eye_20260707T034100-0500/images/codex_realvisxl_cert_closeup_skin_eye_00001_.png",
+      "sha256": "a76a8cbd1cb35b3b6d9e859cb5b12728a77a15c766e07bc1497f7d03472f8183",
+      "bytes": 1599513,
+      "width": 1024,
+      "height": 1024,
+      "pixel_format": "Format24bppRgb",
+      "visual_result": "pass",
+      "qa_notes": [
+        "Strong close-up facial realism with readable iris detail, stable eyelids, and believable skin pores.",
+        "Mouth and jawline are coherent; no obvious teeth, lip, or facial deformation defects.",
+        "Hairline and background are stable, with no blocking crop or artifact issue."
+      ],
+      "defects": []
+    },
+    {
+      "sample_id": "realvisxl_three_quarter_hands_fabric_v1",
+      "focus": "hands, wrist anatomy, fabric texture, and contact realism",
+      "output_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_multisample_hands_fabric_20260707T034300-0500/images/codex_realvisxl_cert_hands_fabric_00001_.png",
+      "sha256": "dac0ba017a7ea1a5b319f21dfbeb49a2b749fcb2b92ab4f2c7ea628704fecde3",
+      "bytes": 1822866,
+      "width": 1024,
+      "height": 1024,
+      "pixel_format": "Format24bppRgb",
+      "visual_result": "pass_with_notes",
+      "qa_notes": [
+        "Face, wardrobe, fabric weave, lighting, and seated pose are coherent.",
+        "Hands are usable for local matrix evidence but not clean final certification material; clasped contact points create mild finger/contact ambiguity.",
+        "No severe extra-finger, collision, or body-proportion failure observed, but this sample should drive future hand/contact prompt improvement."
+      ],
+      "defects": [
+        {
+          "severity": "minor",
+          "code": "mild_hand_contact_ambiguity",
+          "message": "Clasped hands have mild finger/contact ambiguity; acceptable for local pass-with-notes but not enough for final hands certification."
+        }
+      ]
+    },
+    {
+      "sample_id": "realvisxl_environment_lowlight_v1",
+      "focus": "lighting, reflections, background coherence, and low-light realism",
+      "output_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_multisample_lowlight_20260707T034500-0500/images/codex_realvisxl_cert_environment_lowlight_00001_.png",
+      "sha256": "b2b5f826252f64b6823ffe32478b4abfd14508725388f09e6f0cf2c5f03e95c8",
+      "bytes": 1423378,
+      "width": 1024,
+      "height": 1024,
+      "pixel_format": "Format24bppRgb",
+      "visual_result": "pass",
+      "qa_notes": [
+        "Lamp/window lighting is coherent and atmospheric without crushing the subject.",
+        "Background, curtains, fabric texture, jewelry, and hair remain plausible.",
+        "Face and gaze are stable; no obvious anatomical, crop, or object-collision defect."
+      ],
+      "defects": []
+    }
+  ],
+  "strict_whole_image_categories_reviewed": [
+    "face_realism",
+    "eye_quality",
+    "skin_texture",
+    "hands_fingers",
+    "feet_toes_when_visible",
+    "hair_realism",
+    "teeth_mouth_quality",
+    "body_proportions",
+    "pose_accuracy",
+    "clothing_fabric",
+    "contact_points",
+    "object_body_collisions",
+    "deformation_realism",
+    "soft_body_cues",
+    "anatomy_consistency",
+    "lighting",
+    "shadows",
+    "reflections",
+    "background_coherence",
+    "camera_lens_realism",
+    "texture_detail",
+    "generation_artifacts",
+    "identity_drift",
+    "over_smoothing",
+    "plastic_skin",
+    "waxy_faces",
+    "distorted_limbs",
+    "prompt_compliance",
+    "unwanted_style_contamination"
+  ],
+  "qa_driven_next_improvement": {
+    "target": "realvisxl_three_quarter_hands_fabric_v1",
+    "reason": "The only material note across the matrix is mild clasped-hand contact ambiguity.",
+    "recommended_follow_up": "Add a future RealVisXL hand/contact follow-up profile with clearer separated hand pose, stronger wrist/finger anatomy terms, and negative terms for fused fingers before claiming hands certification."
+  },
+  "final_decision_allowed": false,
+  "next_action": "Keep RealVisXL base lane at runtime-smoke-complete plus local multisample pass-with-notes. Do not certify full image quality until hand/contact follow-up and target-runtime certification gates are complete."
+}

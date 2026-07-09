@@ -189,7 +189,8 @@ function Invoke-LocalHelper {
     [Parameter(Mandatory=$true)][string]$ScriptPath,
     [string[]]$Arguments = @(),
     [string]$ExpectedOutputFile = "",
-    [string]$ExpectedOutputType = "none"
+    [string]$ExpectedOutputType = "none",
+    [int[]]$AllowedExitCodes = @(0)
   )
 
   $output = & powershell -NoProfile -ExecutionPolicy Bypass -File $ScriptPath @Arguments 2>&1
@@ -199,7 +200,8 @@ function Invoke-LocalHelper {
     name = $Name
     script = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $ScriptPath
     exit_code = $LASTEXITCODE
-    result = $(if ($LASTEXITCODE -eq 0) { "pass" } else { "fail" })
+    allowed_exit_codes = $AllowedExitCodes
+    result = $(if ($AllowedExitCodes -contains $LASTEXITCODE) { "pass" } else { "fail" })
     output_tail = $(if ($text.Length -gt 1000) { $text.Substring($text.Length - 1000) } else { $text })
     expected_output_file = ConvertTo-EvidencePath -BasePath $ProjectRoot -TargetPath $ExpectedOutputFile -TempRoot $script:ValidationTempRoot
     expected_output_type = $ExpectedOutputType
@@ -211,7 +213,7 @@ function Invoke-LocalHelper {
   if ($entry.expected_output_file_exists) {
     try {
       if ($ExpectedOutputType -eq "json") {
-        $null = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
+        $payload = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
         $entry.expected_output_valid = $true
       } elseif ($ExpectedOutputType -eq "markdown") {
         $content = Get-Content -LiteralPath $ExpectedOutputFile -Raw
@@ -226,6 +228,1136 @@ function Invoke-LocalHelper {
   } elseif ($ExpectedOutputType -ne "none") {
     $entry.result = "fail"
     $entry.expected_output_error = "Expected output file was not created."
+  }
+
+  if ($entry.expected_output_valid -and $Name -eq "dirty_git_checkpoint_inventory_smoke") {
+    try {
+      if ($null -eq $payload) {
+        $payload = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
+      }
+      foreach ($required in @("schema_version", "artifact_type", "created_at", "result", "local_only", "github_api_contacted", "aws_contacted", "civitai_contacted", "comfyui_contacted", "s3_contacted", "ec2_started", "generation_executed", "prompt_posted", "active_runtime_marker_written", "commit_attempted", "push_attempted", "stage_attempted", "reset_attempted", "checkout_attempted", "head", "origin_main", "local_matches_origin", "clean_worktree", "porcelain_count", "tracked_porcelain_count", "untracked_porcelain_count", "staged_count", "unstaged_count", "blocked_changed_path_count", "top_level_counts", "status_counts", "changed_preview", "checkpoint_boundary", "next_action")) {
+        if (-not (Test-JsonProperty -Object $payload -Name $required)) {
+          throw "$Name output is missing top-level field: $required"
+        }
+      }
+      if ([string]$payload.artifact_type -ne "dirty_git_checkpoint_inventory") {
+        throw "$Name artifact_type must be dirty_git_checkpoint_inventory."
+      }
+      if (-not [bool]$payload.local_only -or [bool]$payload.github_api_contacted -or [bool]$payload.aws_contacted -or [bool]$payload.civitai_contacted -or [bool]$payload.comfyui_contacted -or [bool]$payload.s3_contacted) {
+        throw "$Name must be local-only and must not contact external services."
+      }
+      if ([bool]$payload.ec2_started -or [bool]$payload.generation_executed -or [bool]$payload.prompt_posted -or [bool]$payload.active_runtime_marker_written) {
+        throw "$Name must not start EC2, generate, post prompts, or write runtime markers."
+      }
+      if ([bool]$payload.commit_attempted -or [bool]$payload.push_attempted -or [bool]$payload.stage_attempted -or [bool]$payload.reset_attempted -or [bool]$payload.checkout_attempted) {
+        throw "$Name must not stage, commit, push, reset, or checkout."
+      }
+      if ([string]$payload.result -notin @("pass_clean_git_checkpoint_inventory", "blocked_dirty_git_inventory_checkpoint_required", "blocked_dirty_git_inventory_blocked_paths_present")) {
+        throw "$Name result is not a known inventory state: $($payload.result)"
+      }
+      if ([int]$payload.porcelain_count -lt 0 -or [int]$payload.porcelain_count -ne ([int]$payload.tracked_porcelain_count + [int]$payload.untracked_porcelain_count)) {
+        throw "$Name porcelain accounting must equal tracked plus untracked counts."
+      }
+      if ([int]$payload.porcelain_count -gt 0 -and [string]$payload.result -eq "pass_clean_git_checkpoint_inventory") {
+        throw "$Name cannot pass clean inventory with dirty porcelain entries."
+      }
+      if (@($payload.top_level_counts).Count -eq 0 -and [int]$payload.porcelain_count -gt 0) {
+        throw "$Name dirty inventory must include top-level counts."
+      }
+      if ([string]$payload.checkpoint_boundary -notmatch "Inventory only") {
+        throw "$Name boundary must explicitly describe inventory-only behavior."
+      }
+      $inventoryMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+      if (-not (Test-Path -LiteralPath $inventoryMarkdown)) {
+        throw "$Name did not create the expected Markdown inventory: $inventoryMarkdown"
+      }
+    } catch {
+      $entry.expected_output_error = $_.Exception.Message
+      $entry.result = "fail"
+      $entry.expected_output_valid = $false
+    }
+  }
+
+  if ($entry.expected_output_valid -and $Name -eq "dirty_git_checkpoint_scope_plan_smoke") {
+    try {
+      if ($null -eq $payload) {
+        $payload = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
+      }
+      foreach ($required in @("schema_version", "artifact_type", "created_at", "result", "failure_category", "local_only", "github_api_contacted", "aws_contacted", "civitai_contacted", "comfyui_contacted", "s3_contacted", "ec2_started", "generation_executed", "prompt_posted", "active_runtime_marker_written", "commit_attempted", "push_attempted", "stage_attempted", "reset_attempted", "checkout_attempted", "inventory_evidence", "inventory_matches_current", "porcelain_count", "comparison_porcelain_count", "include_candidate_count", "review_before_checkpoint_count", "defer_or_exclude_candidate_count", "scope_ready_for_checkpoint", "top_level_counts", "disposition_counts", "category_scope", "checkpoint_boundary", "next_action")) {
+        if (-not (Test-JsonProperty -Object $payload -Name $required)) {
+          throw "$Name output is missing top-level field: $required"
+        }
+      }
+      if ([string]$payload.artifact_type -ne "dirty_git_checkpoint_scope_plan") {
+        throw "$Name artifact_type must be dirty_git_checkpoint_scope_plan."
+      }
+      if (-not [bool]$payload.local_only -or [bool]$payload.github_api_contacted -or [bool]$payload.aws_contacted -or [bool]$payload.civitai_contacted -or [bool]$payload.comfyui_contacted -or [bool]$payload.s3_contacted) {
+        throw "$Name must be local-only and must not contact external services."
+      }
+      if ([bool]$payload.ec2_started -or [bool]$payload.generation_executed -or [bool]$payload.prompt_posted -or [bool]$payload.active_runtime_marker_written) {
+        throw "$Name must not start EC2, generate, post prompts, or write runtime markers."
+      }
+      if ([bool]$payload.commit_attempted -or [bool]$payload.push_attempted -or [bool]$payload.stage_attempted -or [bool]$payload.reset_attempted -or [bool]$payload.checkout_attempted) {
+        throw "$Name must not stage, commit, push, reset, or checkout."
+      }
+      if ([string]$payload.result -notin @("blocked_checkpoint_scope_inventory_drift", "blocked_checkpoint_scope_blocked_paths_present", "checkpoint_scope_review_required", "checkpoint_scope_include_candidates_only", "checkpoint_scope_no_dirty_paths")) {
+        throw "$Name result is not a known scope-plan state: $($payload.result)"
+      }
+      if (-not [bool]$payload.inventory_matches_current) {
+        throw "$Name inventory must match current git status after self-evidence handling."
+      }
+      if ([int]$payload.porcelain_count -lt [int]$payload.comparison_porcelain_count) {
+        throw "$Name porcelain_count must be >= comparison_porcelain_count."
+      }
+      if (([int]$payload.include_candidate_count + [int]$payload.review_before_checkpoint_count + [int]$payload.defer_or_exclude_candidate_count) -ne [int]$payload.porcelain_count) {
+        throw "$Name disposition counts must sum to porcelain_count."
+      }
+      if ([int]$payload.review_before_checkpoint_count -gt 0 -and [string]$payload.result -ne "checkpoint_scope_review_required") {
+        throw "$Name must require review when review_before_checkpoint_count is nonzero."
+      }
+      if ([string]$payload.checkpoint_boundary -notmatch "Scope plan only") {
+        throw "$Name boundary must explicitly describe scope-plan-only behavior."
+      }
+      $scopeMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+      if (-not (Test-Path -LiteralPath $scopeMarkdown)) {
+        throw "$Name did not create the expected Markdown scope plan: $scopeMarkdown"
+      }
+    } catch {
+      $entry.expected_output_error = $_.Exception.Message
+      $entry.result = "fail"
+      $entry.expected_output_valid = $false
+    }
+  }
+
+  if ($entry.expected_output_valid -and $Name -eq "dirty_git_checkpoint_review_resolution_smoke") {
+    try {
+      if ($null -eq $payload) {
+        $payload = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
+      }
+      foreach ($required in @("schema_version", "artifact_type", "created_at", "result", "failure_category", "local_only", "github_api_contacted", "aws_contacted", "civitai_contacted", "comfyui_contacted", "s3_contacted", "ec2_started", "generation_executed", "prompt_posted", "active_runtime_marker_written", "commit_attempted", "push_attempted", "stage_attempted", "reset_attempted", "checkout_attempted", "deploy_bundle_rebuilt", "scope_plan_evidence", "scope_plan_result", "inventory_matches_current", "source_porcelain_count", "include_candidate_path_count", "preserve_local_do_not_stage_path_count", "do_not_stage_path_count", "checkpoint_workflow_gap_path_count", "unresolved_path_count", "review_groups_resolved", "checkpoint_workflow_gap_present", "ready_for_guarded_checkpoint_dry_run", "resolution_rows", "intended_include_roots", "intended_include_roots_requiring_checkpoint_helper_support", "intended_preserve_local_roots", "intended_do_not_stage_roots", "checkpoint_boundary", "next_action")) {
+        if (-not (Test-JsonProperty -Object $payload -Name $required)) {
+          throw "$Name output is missing top-level field: $required"
+        }
+      }
+      if ([string]$payload.artifact_type -ne "dirty_git_checkpoint_review_resolution") {
+        throw "$Name artifact_type must be dirty_git_checkpoint_review_resolution."
+      }
+      if (-not [bool]$payload.local_only -or [bool]$payload.github_api_contacted -or [bool]$payload.aws_contacted -or [bool]$payload.civitai_contacted -or [bool]$payload.comfyui_contacted -or [bool]$payload.s3_contacted) {
+        throw "$Name must be local-only and must not contact external services."
+      }
+      if ([bool]$payload.ec2_started -or [bool]$payload.generation_executed -or [bool]$payload.prompt_posted -or [bool]$payload.active_runtime_marker_written) {
+        throw "$Name must not start EC2, generate, post prompts, or write runtime markers."
+      }
+      if ([bool]$payload.commit_attempted -or [bool]$payload.push_attempted -or [bool]$payload.stage_attempted -or [bool]$payload.reset_attempted -or [bool]$payload.checkout_attempted -or [bool]$payload.deploy_bundle_rebuilt) {
+        throw "$Name must not stage, commit, push, reset, checkout, or rebuild deploy bundles."
+      }
+      if ([string]$payload.result -notin @("blocked_review_resolution_inventory_drift", "blocked_review_resolution_blocked_paths_present", "checkpoint_review_resolved_workflow_gap_remaining", "checkpoint_review_resolved_ready_for_guarded_dry_run", "checkpoint_review_unresolved")) {
+        throw "$Name result is not a known review-resolution state: $($payload.result)"
+      }
+      if (-not [bool]$payload.inventory_matches_current) {
+        throw "$Name inventory must match current status before review resolution can be trusted."
+      }
+      if (-not [bool]$payload.review_groups_resolved) {
+        throw "$Name should resolve known review groups into explicit actions."
+      }
+      if ([int]$payload.unresolved_path_count -ne 0) {
+        throw "$Name unresolved_path_count must be zero for known checkpoint groups."
+      }
+      if ([int]$payload.checkpoint_workflow_gap_path_count -gt 0 -and -not [bool]$payload.checkpoint_workflow_gap_present) {
+        throw "$Name must flag checkpoint workflow gap when gap path count is nonzero."
+      }
+      if ([bool]$payload.checkpoint_workflow_gap_present -and [bool]$payload.ready_for_guarded_checkpoint_dry_run) {
+        throw "$Name cannot be ready for guarded dry-run while checkpoint workflow gap remains."
+      }
+      if (@($payload.resolution_rows).Count -lt 1) {
+        throw "$Name must include resolution rows."
+      }
+      if ([string]$payload.checkpoint_boundary -notmatch "Review resolution only") {
+        throw "$Name boundary must explicitly describe review-resolution-only behavior."
+      }
+      $resolutionMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+      if (-not (Test-Path -LiteralPath $resolutionMarkdown)) {
+        throw "$Name did not create the expected Markdown review resolution: $resolutionMarkdown"
+      }
+    } catch {
+      $entry.expected_output_error = $_.Exception.Message
+      $entry.result = "fail"
+      $entry.expected_output_valid = $false
+    }
+  }
+
+  if ($entry.expected_output_valid -and $Name -eq "active_runtime_queue_final_certification_readiness_smoke") {
+    try {
+      if ($null -eq $payload) {
+        $payload = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
+      }
+      foreach ($required in @("result", "local_only", "ec2_started", "generation_executed", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "lane_count", "blocked_lane_count", "final_blockers", "git_gate_summary", "handoff_summary", "lanes")) {
+        if (-not (Test-JsonProperty -Object $payload -Name $required)) {
+          throw "$Name output is missing top-level field: $required"
+        }
+      }
+      if ([string]$payload.result -ne "blocked_final_certification_target_runtime_or_final_review_missing") {
+        throw "$Name result must be blocked_final_certification_target_runtime_or_final_review_missing for the current local-only queue state."
+      }
+      if (-not [bool]$payload.local_only) {
+        throw "$Name must be local_only=true."
+      }
+      if ([bool]$payload.ec2_started -or [bool]$payload.generation_executed) {
+        throw "$Name must not start EC2 or execute generation."
+      }
+      if ([bool]$payload.masks_consumed_as_truth -or [bool]$payload.masks_promoted -or [bool]$payload.wave70_hard_gate_rerun -or [bool]$payload.wave71_plus_activated) {
+        throw "$Name must not consume/promote masks, rerun Wave70 hard gates, or activate Wave71+."
+      }
+      if ([int]$payload.lane_count -ne 9) {
+        throw "$Name lane_count must be 9."
+      }
+      if ([int]$payload.blocked_lane_count -lt 1 -or @($payload.final_blockers).Count -lt 1) {
+        throw "$Name must record final certification blockers."
+      }
+      if ([bool]$payload.git_gate_summary.passes_for_ec2_execute) {
+        throw "$Name should not mark git gate as EC2-ready while the current worktree gate is blocked."
+      }
+      $readinessMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+      if (-not (Test-Path -LiteralPath $readinessMarkdown)) {
+        throw "$Name did not create the expected Markdown readiness record: $readinessMarkdown"
+      }
+    } catch {
+      $entry.expected_output_error = $_.Exception.Message
+      $entry.result = "fail"
+      $entry.expected_output_valid = $false
+    }
+  }
+
+  if ($entry.expected_output_valid -and $Name -eq "active_runtime_queue_final_certification_work_order_smoke") {
+    try {
+      if ($null -eq $payload) {
+        $payload = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
+      }
+      foreach ($required in @("result", "readiness_result", "local_only", "ec2_started", "generation_executed", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "work_order_count", "work_orders", "global_blockers")) {
+        if (-not (Test-JsonProperty -Object $payload -Name $required)) {
+          throw "$Name output is missing top-level field: $required"
+        }
+      }
+      if ([string]$payload.result -ne "pass_local_only_final_certification_work_order_ready") {
+        throw "$Name result must be pass_local_only_final_certification_work_order_ready."
+      }
+      if ([string]$payload.readiness_result -ne "blocked_final_certification_target_runtime_or_final_review_missing") {
+        throw "$Name must consume the current blocked final-certification readiness record."
+      }
+      if (-not [bool]$payload.local_only) {
+        throw "$Name must be local_only=true."
+      }
+      if ([bool]$payload.ec2_started -or [bool]$payload.generation_executed) {
+        throw "$Name must not start EC2 or execute generation."
+      }
+      if ([bool]$payload.masks_consumed_as_truth -or [bool]$payload.masks_promoted -or [bool]$payload.wave70_hard_gate_rerun -or [bool]$payload.wave71_plus_activated) {
+        throw "$Name must not consume/promote masks, rerun Wave70 hard gates, or activate Wave71+."
+      }
+      if ([int]$payload.work_order_count -lt 1 -or @($payload.work_orders).Count -lt 1) {
+        throw "$Name must produce at least one work order from the blocked readiness state."
+      }
+      if (@($payload.global_blockers | Where-Object { [string]$_ -eq "git_checkpoint_gate_not_clean_for_ec2_execute" }).Count -eq 0) {
+        throw "$Name must preserve the dirty Git checkpoint global blocker."
+      }
+      $targetRuntimeOrders = @($payload.work_orders | Where-Object { [string]$_.work_order_type -eq "target_runtime_proof_required" })
+      if ($targetRuntimeOrders.Count -lt 1) {
+        throw "$Name must include target_runtime_proof_required work orders for blocked lanes."
+      }
+      $workOrderMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+      if (-not (Test-Path -LiteralPath $workOrderMarkdown)) {
+        throw "$Name did not create the expected Markdown work-order record: $workOrderMarkdown"
+      }
+    } catch {
+      $entry.expected_output_error = $_.Exception.Message
+      $entry.result = "fail"
+      $entry.expected_output_valid = $false
+    }
+  }
+
+  if ($entry.expected_output_valid -and @("low_risk_lane_final_review_packet_smoke", "canny_lane_final_review_packet_smoke") -contains $Name) {
+    try {
+      if ($null -eq $payload) {
+        $payload = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
+      }
+      foreach ($required in @("result", "final_decision", "lane_id", "local_only", "new_ec2_started", "new_generation_executed", "historical_ec2_started", "historical_generation_executed", "full_project_certification_allowed", "tests_performed", "evidence_paths", "known_issues", "certification_boundary")) {
+        if (-not (Test-JsonProperty -Object $payload -Name $required)) {
+          throw "$Name output is missing top-level field: $required"
+        }
+      }
+      $expectedResult = if ($Name -eq "canny_lane_final_review_packet_smoke") { "pass_canny_lane_final_review_packet_ready" } else { "pass_low_risk_lane_final_review_packet_ready" }
+      if ([string]$payload.result -ne $expectedResult) {
+        throw "$Name result must be $expectedResult."
+      }
+      if ([string]$payload.final_decision -ne "done_with_non_blocking_notes") {
+        throw "$Name final_decision must be done_with_non_blocking_notes."
+      }
+      $expectedLaneId = if ($Name -eq "canny_lane_final_review_packet_smoke") { "sdxl_realvisxl_controlnet_canny_lane" } else { "sdxl_low_risk_fallback_lane" }
+      if ([string]$payload.lane_id -ne $expectedLaneId) {
+        throw "$Name lane_id must be $expectedLaneId."
+      }
+      if (-not [bool]$payload.local_only -or [bool]$payload.new_ec2_started -or [bool]$payload.new_generation_executed) {
+        throw "$Name must be local-only and must not start new EC2 or generation."
+      }
+      if (-not [bool]$payload.historical_ec2_started -or -not [bool]$payload.historical_generation_executed) {
+        throw "$Name must explicitly distinguish reused historical runtime proof."
+      }
+      if ([bool]$payload.full_project_certification_allowed) {
+        throw "$Name must not allow full project certification."
+      }
+      if (@($payload.tests_performed | Where-Object { [string]$_.result -ne "pass" }).Count -ne 0) {
+        throw "$Name contains failed review checks."
+      }
+      if ([string]$payload.certification_boundary -notmatch "Lane-scoped") {
+        throw "$Name certification boundary must be lane-scoped."
+      }
+      $packetMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+      if (-not (Test-Path -LiteralPath $packetMarkdown)) {
+        throw "$Name did not create the expected Markdown review packet: $packetMarkdown"
+      }
+    } catch {
+      $entry.expected_output_error = $_.Exception.Message
+      $entry.result = "fail"
+      $entry.expected_output_valid = $false
+    }
+  }
+
+  if ($entry.expected_output_valid -and $Name -eq "base_lane_final_review_blocker_packet_smoke") {
+    try {
+      if ($null -eq $payload) {
+        $payload = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
+      }
+      foreach ($required in @("result", "final_decision", "lane_id", "local_only", "new_ec2_started", "new_generation_executed", "historical_ec2_started", "historical_generation_executed", "full_project_certification_allowed", "closes_work_order", "tests_performed", "blocker_summary", "evidence_paths", "known_issues", "certification_boundary")) {
+        if (-not (Test-JsonProperty -Object $payload -Name $required)) {
+          throw "$Name output is missing top-level field: $required"
+        }
+      }
+      if ([string]$payload.result -ne "blocked_base_lane_final_review_candidate_scope_mismatch") {
+        throw "$Name result must be blocked_base_lane_final_review_candidate_scope_mismatch."
+      }
+      if ([string]$payload.final_decision -ne "blocked") {
+        throw "$Name final_decision must be blocked."
+      }
+      if ([string]$payload.lane_id -ne "sdxl_realvisxl_base_lane") {
+        throw "$Name lane_id must be sdxl_realvisxl_base_lane."
+      }
+      if (-not [bool]$payload.local_only -or [bool]$payload.new_ec2_started -or [bool]$payload.new_generation_executed) {
+        throw "$Name must be local-only and must not start new EC2 or generation."
+      }
+      if (-not [bool]$payload.historical_ec2_started -or -not [bool]$payload.historical_generation_executed) {
+        throw "$Name must explicitly distinguish reused historical runtime proof."
+      }
+      if ([bool]$payload.full_project_certification_allowed -or [bool]$payload.closes_work_order) {
+        throw "$Name must not allow full project certification or close the work order."
+      }
+      if (@($payload.tests_performed | Where-Object { [string]$_.result -ne "pass" }).Count -ne 0) {
+        throw "$Name contains failed review checks."
+      }
+      if (@($payload.blocker_summary | Where-Object { [string]$_ -eq "mask_routed_refine_or_small_robustness_pair_missing_for_base_contact_scope" }).Count -eq 0) {
+        throw "$Name must record the base lane refine/robustness blocker."
+      }
+      if ([string]$payload.certification_boundary -notmatch "Lane-scoped blocker review") {
+        throw "$Name certification boundary must describe a lane-scoped blocker review."
+      }
+      $packetMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+      if (-not (Test-Path -LiteralPath $packetMarkdown)) {
+        throw "$Name did not create the expected Markdown blocker packet: $packetMarkdown"
+      }
+    } catch {
+      $entry.expected_output_error = $_.Exception.Message
+      $entry.result = "fail"
+      $entry.expected_output_valid = $false
+    }
+  }
+
+  if ($entry.expected_output_valid -and $Name -eq "inpaint_lane_final_review_blocker_packet_smoke") {
+    try {
+      if ($null -eq $payload) {
+        $payload = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
+      }
+      foreach ($required in @("result", "final_decision", "lane_id", "local_only", "new_ec2_started", "new_generation_executed", "full_project_certification_allowed", "closes_work_order", "tests_performed", "blocker_summary", "evidence_paths", "known_issues", "certification_boundary")) {
+        if (-not (Test-JsonProperty -Object $payload -Name $required)) {
+          throw "$Name output is missing top-level field: $required"
+        }
+      }
+      if ([string]$payload.result -ne "blocked_inpaint_lane_final_review_target_runtime_proof_missing") {
+        throw "$Name result must be blocked_inpaint_lane_final_review_target_runtime_proof_missing."
+      }
+      if ([string]$payload.final_decision -ne "blocked") {
+        throw "$Name final_decision must be blocked."
+      }
+      if ([string]$payload.lane_id -ne "sdxl_realvisxl_inpaint_detail_lane") {
+        throw "$Name lane_id must be sdxl_realvisxl_inpaint_detail_lane."
+      }
+      if (-not [bool]$payload.local_only -or [bool]$payload.new_ec2_started -or [bool]$payload.new_generation_executed) {
+        throw "$Name must be local-only and must not start new EC2 or generation."
+      }
+      if ([bool]$payload.full_project_certification_allowed -or [bool]$payload.closes_work_order) {
+        throw "$Name must not allow full project certification or close the work order."
+      }
+      if (@($payload.tests_performed | Where-Object { [string]$_.result -ne "pass" }).Count -ne 0) {
+        throw "$Name contains failed review checks."
+      }
+      foreach ($blocker in @("inpaint_lane_target_runtime_proof_evidence_missing", "target_runtime_object_info_path_hash_input_proof_missing", "bounded_target_runtime_output_missing")) {
+        if (@($payload.blocker_summary | Where-Object { [string]$_ -eq $blocker }).Count -eq 0) {
+          throw "$Name must record blocker: $blocker"
+        }
+      }
+      if ([string]$payload.certification_boundary -notmatch "Lane-scoped blocker review") {
+        throw "$Name certification boundary must describe a lane-scoped blocker review."
+      }
+      $packetMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+      if (-not (Test-Path -LiteralPath $packetMarkdown)) {
+        throw "$Name did not create the expected Markdown blocker packet: $packetMarkdown"
+      }
+    } catch {
+      $entry.expected_output_error = $_.Exception.Message
+      $entry.result = "fail"
+      $entry.expected_output_valid = $false
+    }
+  }
+
+  if ($entry.expected_output_valid -and $Name -eq "realesrgan_lane_final_review_blocker_packet_smoke") {
+    try {
+      if ($null -eq $payload) {
+        $payload = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
+      }
+      foreach ($required in @("result", "final_decision", "lane_id", "local_only", "new_ec2_started", "new_generation_executed", "full_project_certification_allowed", "closes_work_order", "tests_performed", "blocker_summary", "evidence_paths", "known_issues", "certification_boundary")) {
+        if (-not (Test-JsonProperty -Object $payload -Name $required)) {
+          throw "$Name output is missing top-level field: $required"
+        }
+      }
+      if ([string]$payload.result -ne "blocked_realesrgan_lane_final_review_target_runtime_proof_missing") {
+        throw "$Name result must be blocked_realesrgan_lane_final_review_target_runtime_proof_missing."
+      }
+      if ([string]$payload.final_decision -ne "blocked") {
+        throw "$Name final_decision must be blocked."
+      }
+      if ([string]$payload.lane_id -ne "sdxl_realesrgan_upscale_polish_lane") {
+        throw "$Name lane_id must be sdxl_realesrgan_upscale_polish_lane."
+      }
+      if (-not [bool]$payload.local_only -or [bool]$payload.new_ec2_started -or [bool]$payload.new_generation_executed) {
+        throw "$Name must be local-only and must not start new EC2 or generation."
+      }
+      if ([bool]$payload.full_project_certification_allowed -or [bool]$payload.closes_work_order) {
+        throw "$Name must not allow full project certification or close the work order."
+      }
+      if (@($payload.tests_performed | Where-Object { [string]$_.result -ne "pass" }).Count -ne 0) {
+        throw "$Name contains failed review checks."
+      }
+      foreach ($blocker in @("realesrgan_lane_target_runtime_proof_evidence_missing", "target_runtime_object_info_path_hash_proof_missing", "single_local_upscale_sample_not_broad_robustness_matrix")) {
+        if (@($payload.blocker_summary | Where-Object { [string]$_ -eq $blocker }).Count -eq 0) {
+          throw "$Name must record blocker: $blocker"
+        }
+      }
+      if ([string]$payload.certification_boundary -notmatch "Lane-scoped blocker review") {
+        throw "$Name certification boundary must describe a lane-scoped blocker review."
+      }
+      $packetMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+      if (-not (Test-Path -LiteralPath $packetMarkdown)) {
+        throw "$Name did not create the expected Markdown blocker packet: $packetMarkdown"
+      }
+    } catch {
+      $entry.expected_output_error = $_.Exception.Message
+      $entry.result = "fail"
+      $entry.expected_output_valid = $false
+    }
+  }
+
+  if ($entry.expected_output_valid -and $Name -eq "depth_lane_final_review_blocker_packet_smoke") {
+    try {
+      if ($null -eq $payload) {
+        $payload = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
+      }
+      foreach ($required in @("result", "final_decision", "lane_id", "local_only", "new_ec2_started", "new_generation_executed", "full_project_certification_allowed", "closes_work_order", "tests_performed", "blocker_summary", "evidence_paths", "known_issues", "certification_boundary")) {
+        if (-not (Test-JsonProperty -Object $payload -Name $required)) {
+          throw "$Name output is missing top-level field: $required"
+        }
+      }
+      if ([string]$payload.result -ne "blocked_depth_lane_final_review_target_runtime_proof_missing") {
+        throw "$Name result must be blocked_depth_lane_final_review_target_runtime_proof_missing."
+      }
+      if ([string]$payload.final_decision -ne "blocked") {
+        throw "$Name final_decision must be blocked."
+      }
+      if ([string]$payload.lane_id -ne "sdxl_realvisxl_controlnet_depth_lane") {
+        throw "$Name lane_id must be sdxl_realvisxl_controlnet_depth_lane."
+      }
+      if (-not [bool]$payload.local_only -or [bool]$payload.new_ec2_started -or [bool]$payload.new_generation_executed) {
+        throw "$Name must be local-only and must not start new EC2 or generation."
+      }
+      if ([bool]$payload.full_project_certification_allowed -or [bool]$payload.closes_work_order) {
+        throw "$Name must not allow full project certification or close the work order."
+      }
+      if (@($payload.tests_performed | Where-Object { [string]$_.result -ne "pass" }).Count -ne 0) {
+        throw "$Name contains failed review checks."
+      }
+      foreach ($blocker in @("depth_lane_target_runtime_proof_evidence_missing", "target_runtime_object_info_path_hash_input_proof_missing", "local_three_sample_robustness_not_final_depth_certification")) {
+        if (@($payload.blocker_summary | Where-Object { [string]$_ -eq $blocker }).Count -eq 0) {
+          throw "$Name must record blocker: $blocker"
+        }
+      }
+      if ([string]$payload.certification_boundary -notmatch "Lane-scoped blocker review") {
+        throw "$Name certification boundary must describe a lane-scoped blocker review."
+      }
+      $packetMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+      if (-not (Test-Path -LiteralPath $packetMarkdown)) {
+        throw "$Name did not create the expected Markdown blocker packet: $packetMarkdown"
+      }
+    } catch {
+      $entry.expected_output_error = $_.Exception.Message
+      $entry.result = "fail"
+      $entry.expected_output_valid = $false
+    }
+  }
+
+  if ($entry.expected_output_valid -and $Name -eq "lineart_lane_final_review_blocker_packet_smoke") {
+    try {
+      if ($null -eq $payload) {
+        $payload = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
+      }
+      foreach ($required in @("result", "final_decision", "lane_id", "local_only", "new_ec2_started", "new_generation_executed", "full_project_certification_allowed", "closes_work_order", "tests_performed", "blocker_summary", "evidence_paths", "known_issues", "certification_boundary")) {
+        if (-not (Test-JsonProperty -Object $payload -Name $required)) {
+          throw "$Name output is missing top-level field: $required"
+        }
+      }
+      if ([string]$payload.result -ne "blocked_lineart_lane_final_review_target_runtime_proof_missing") {
+        throw "$Name result must be blocked_lineart_lane_final_review_target_runtime_proof_missing."
+      }
+      if ([string]$payload.final_decision -ne "blocked") {
+        throw "$Name final_decision must be blocked."
+      }
+      if ([string]$payload.lane_id -ne "sdxl_realvisxl_controlnet_lineart_lane") {
+        throw "$Name lane_id must be sdxl_realvisxl_controlnet_lineart_lane."
+      }
+      if (-not [bool]$payload.local_only -or [bool]$payload.new_ec2_started -or [bool]$payload.new_generation_executed) {
+        throw "$Name must be local-only and must not start new EC2 or generation."
+      }
+      if ([bool]$payload.full_project_certification_allowed -or [bool]$payload.closes_work_order) {
+        throw "$Name must not allow full project certification or close the work order."
+      }
+      if (@($payload.tests_performed | Where-Object { [string]$_.result -ne "pass" }).Count -ne 0) {
+        throw "$Name contains failed review checks."
+      }
+      foreach ($blocker in @("lineart_lane_target_runtime_proof_evidence_missing", "target_runtime_object_info_path_hash_input_proof_missing", "local_three_sample_robustness_not_final_lineart_certification")) {
+        if (@($payload.blocker_summary | Where-Object { [string]$_ -eq $blocker }).Count -eq 0) {
+          throw "$Name must record blocker: $blocker"
+        }
+      }
+      if ([string]$payload.certification_boundary -notmatch "Lane-scoped blocker review") {
+        throw "$Name certification boundary must describe a lane-scoped blocker review."
+      }
+      $packetMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+      if (-not (Test-Path -LiteralPath $packetMarkdown)) {
+        throw "$Name did not create the expected Markdown blocker packet: $packetMarkdown"
+      }
+    } catch {
+      $entry.expected_output_error = $_.Exception.Message
+      $entry.result = "fail"
+      $entry.expected_output_valid = $false
+    }
+  }
+
+  if ($entry.expected_output_valid -and $Name -eq "openpose_lane_final_review_blocker_packet_smoke") {
+    try {
+      if ($null -eq $payload) {
+        $payload = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
+      }
+      foreach ($required in @("result", "final_decision", "lane_id", "local_only", "new_ec2_started", "new_generation_executed", "full_project_certification_allowed", "closes_work_order", "tests_performed", "blocker_summary", "evidence_paths", "known_issues", "certification_boundary")) {
+        if (-not (Test-JsonProperty -Object $payload -Name $required)) {
+          throw "$Name output is missing top-level field: $required"
+        }
+      }
+      if ([string]$payload.result -ne "blocked_openpose_lane_final_review_target_runtime_proof_missing") {
+        throw "$Name result must be blocked_openpose_lane_final_review_target_runtime_proof_missing."
+      }
+      if ([string]$payload.final_decision -ne "blocked") {
+        throw "$Name final_decision must be blocked."
+      }
+      if ([string]$payload.lane_id -ne "sdxl_realvisxl_controlnet_openpose_lane") {
+        throw "$Name lane_id must be sdxl_realvisxl_controlnet_openpose_lane."
+      }
+      if (-not [bool]$payload.local_only -or [bool]$payload.new_ec2_started -or [bool]$payload.new_generation_executed) {
+        throw "$Name must be local-only and must not start new EC2 or generation."
+      }
+      if ([bool]$payload.full_project_certification_allowed -or [bool]$payload.closes_work_order) {
+        throw "$Name must not allow full project certification or close the work order."
+      }
+      if (@($payload.tests_performed | Where-Object { [string]$_.result -ne "pass" }).Count -ne 0) {
+        throw "$Name contains failed review checks."
+      }
+      foreach ($blocker in @("openpose_lane_target_runtime_proof_evidence_missing", "target_runtime_object_info_path_hash_input_proof_missing", "local_three_sample_tablehands_robustness_not_final_openpose_certification", "strict_final_hand_anatomy_qa_missing")) {
+        if (@($payload.blocker_summary | Where-Object { [string]$_ -eq $blocker }).Count -eq 0) {
+          throw "$Name must record blocker: $blocker"
+        }
+      }
+      if ([string]$payload.certification_boundary -notmatch "Lane-scoped blocker review") {
+        throw "$Name certification boundary must describe a lane-scoped blocker review."
+      }
+      $packetMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+      if (-not (Test-Path -LiteralPath $packetMarkdown)) {
+        throw "$Name did not create the expected Markdown blocker packet: $packetMarkdown"
+      }
+    } catch {
+      $entry.expected_output_error = $_.Exception.Message
+      $entry.result = "fail"
+      $entry.expected_output_valid = $false
+    }
+  }
+
+  if ($entry.expected_output_valid -and $Name -eq "normal_lane_final_review_blocker_packet_smoke") {
+    try {
+      if ($null -eq $payload) {
+        $payload = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
+      }
+      foreach ($required in @("result", "final_decision", "lane_id", "local_only", "new_ec2_started", "new_generation_executed", "full_project_certification_allowed", "closes_work_order", "tests_performed", "blocker_summary", "evidence_paths", "known_issues", "certification_boundary")) {
+        if (-not (Test-JsonProperty -Object $payload -Name $required)) {
+          throw "$Name output is missing top-level field: $required"
+        }
+      }
+      if ([string]$payload.result -ne "blocked_normal_lane_final_review_target_runtime_proof_missing") {
+        throw "$Name result must be blocked_normal_lane_final_review_target_runtime_proof_missing."
+      }
+      if ([string]$payload.final_decision -ne "blocked") {
+        throw "$Name final_decision must be blocked."
+      }
+      if ([string]$payload.lane_id -ne "sdxl_realvisxl_controlnet_normal_lane") {
+        throw "$Name lane_id must be sdxl_realvisxl_controlnet_normal_lane."
+      }
+      if (-not [bool]$payload.local_only -or [bool]$payload.new_ec2_started -or [bool]$payload.new_generation_executed) {
+        throw "$Name must be local-only and must not start new EC2 or generation."
+      }
+      if ([bool]$payload.full_project_certification_allowed -or [bool]$payload.closes_work_order) {
+        throw "$Name must not allow full project certification or close the work order."
+      }
+      if (@($payload.tests_performed | Where-Object { [string]$_.result -ne "pass" }).Count -ne 0) {
+        throw "$Name contains failed review checks."
+      }
+      foreach ($blocker in @("normal_lane_target_runtime_proof_evidence_missing", "target_runtime_object_info_path_hash_input_proof_missing", "local_three_sample_robustness_not_final_normal_certification")) {
+        if (@($payload.blocker_summary | Where-Object { [string]$_ -eq $blocker }).Count -eq 0) {
+          throw "$Name must record blocker: $blocker"
+        }
+      }
+      if ([string]$payload.certification_boundary -notmatch "Lane-scoped blocker review") {
+        throw "$Name certification boundary must describe a lane-scoped blocker review."
+      }
+      $packetMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+      if (-not (Test-Path -LiteralPath $packetMarkdown)) {
+        throw "$Name did not create the expected Markdown blocker packet: $packetMarkdown"
+      }
+    } catch {
+      $entry.expected_output_error = $_.Exception.Message
+      $entry.result = "fail"
+      $entry.expected_output_valid = $false
+    }
+  }
+
+  if ($entry.expected_output_valid -and $Name -eq "active_runtime_queue_final_certification_closure_rollup_smoke") {
+    try {
+      if ($null -eq $payload) {
+        $payload = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
+      }
+      foreach ($required in @("result", "local_only", "ec2_started", "generation_executed", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "full_project_certification_allowed", "source_work_order_count", "closed_work_order_count", "open_work_order_count", "remaining_local_ready_count", "remaining_target_runtime_count", "remaining_final_review_count", "closed_work_order_ids", "rollup_entries", "certification_boundary")) {
+        if (-not (Test-JsonProperty -Object $payload -Name $required)) {
+          throw "$Name output is missing top-level field: $required"
+        }
+      }
+      if ([string]$payload.result -ne "pass_local_only_final_certification_closure_rollup") {
+        throw "$Name result must be pass_local_only_final_certification_closure_rollup."
+      }
+      if (-not [bool]$payload.local_only -or [bool]$payload.ec2_started -or [bool]$payload.generation_executed) {
+        throw "$Name must be local-only and must not start EC2 or generation."
+      }
+      if ([bool]$payload.masks_consumed_as_truth -or [bool]$payload.masks_promoted -or [bool]$payload.wave70_hard_gate_rerun -or [bool]$payload.wave71_plus_activated) {
+        throw "$Name must not consume/promote masks, rerun Wave70 hard gates, or activate Wave71+."
+      }
+      if ([bool]$payload.full_project_certification_allowed) {
+        throw "$Name must not allow full project certification."
+      }
+      if ([int]$payload.source_work_order_count -lt 1 -or [int]$payload.closed_work_order_count -lt 1 -or [int]$payload.open_work_order_count -lt 1) {
+        throw "$Name must record closed and remaining work orders."
+      }
+      if ([int]$payload.remaining_local_ready_count -ne 0) {
+        throw "$Name should not leave the low-risk local-ready review packet open."
+      }
+      if ([int]$payload.remaining_target_runtime_count -lt 1 -or [int]$payload.remaining_final_review_count -lt 1) {
+        throw "$Name must preserve remaining target-runtime and final-review blockers."
+      }
+      if (@($payload.closed_work_order_ids | Where-Object { [string]$_ -eq "WO-W66-SDXL_LOW_RISK_FALLBACK_LANE-FINAL-REVIEW-PACKET" }).Count -eq 0) {
+        throw "$Name must close the low-risk lane final-review packet work order."
+      }
+      if ([string]$payload.certification_boundary -notmatch "Local closure-state rollup") {
+        throw "$Name certification boundary must describe a local closure-state rollup."
+      }
+      $closureMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+      if (-not (Test-Path -LiteralPath $closureMarkdown)) {
+        throw "$Name did not create the expected Markdown closure rollup: $closureMarkdown"
+      }
+    } catch {
+      $entry.expected_output_error = $_.Exception.Message
+      $entry.result = "fail"
+      $entry.expected_output_valid = $false
+    }
+  }
+
+  if ($entry.expected_output_valid -and $Name -eq "active_runtime_queue_final_review_evidence_coverage_smoke") {
+    try {
+      if ($null -eq $payload) {
+        $payload = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
+      }
+      foreach ($required in @("result", "local_only", "ec2_started", "generation_executed", "active_runtime_marker_written", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "full_project_certification_allowed", "closes_work_orders", "final_review_work_order_count", "closure_packet_count", "blocker_packet_count", "missing_review_evidence_count", "coverage_entries", "missing_review_evidence", "certification_boundary")) {
+        if (-not (Test-JsonProperty -Object $payload -Name $required)) {
+          throw "$Name output is missing top-level field: $required"
+        }
+      }
+      if ([string]$payload.result -ne "pass_local_only_final_review_evidence_coverage_complete") {
+        throw "$Name result must be pass_local_only_final_review_evidence_coverage_complete."
+      }
+      if (-not [bool]$payload.local_only -or [bool]$payload.ec2_started -or [bool]$payload.generation_executed -or [bool]$payload.active_runtime_marker_written) {
+        throw "$Name must be local-only and must not start EC2, generate, or write a runtime marker."
+      }
+      if ([bool]$payload.masks_consumed_as_truth -or [bool]$payload.masks_promoted -or [bool]$payload.wave70_hard_gate_rerun -or [bool]$payload.wave71_plus_activated) {
+        throw "$Name must not consume/promote masks, rerun Wave70 hard gates, or activate Wave71+."
+      }
+      if ([bool]$payload.full_project_certification_allowed -or [bool]$payload.closes_work_orders) {
+        throw "$Name must not allow full project certification or close work orders."
+      }
+      if ([int]$payload.final_review_work_order_count -ne 9 -or [int]$payload.closure_packet_count -ne 2 -or [int]$payload.blocker_packet_count -ne 7) {
+        throw "$Name must account for 9 final-review work orders as 2 closures plus 7 blockers."
+      }
+      if ([int]$payload.missing_review_evidence_count -ne 0 -or @($payload.missing_review_evidence).Count -ne 0) {
+        throw "$Name must not leave any final-review work order without closure or blocker evidence."
+      }
+      foreach ($coverage in @("closed_with_review_packet", "open_with_blocker_packet")) {
+        if (@($payload.coverage_entries | Where-Object { [string]$_.coverage_status -eq $coverage }).Count -eq 0) {
+          throw "$Name must include coverage status: $coverage"
+        }
+      }
+      foreach ($workOrderId in @(
+        "WO-W66-SDXL_REALVISXL_BASE_LANE-FINAL-CERTIFICATION-REVIEW",
+        "WO-W66-SDXL_REALVISXL_INPAINT_DETAIL_LANE-FINAL-CERTIFICATION-REVIEW",
+        "WO-W66-SDXL_REALESRGAN_UPSCALE_POLISH_LANE-FINAL-CERTIFICATION-REVIEW",
+        "WO-W66-SDXL_REALVISXL_CONTROLNET_DEPTH_LANE-FINAL-CERTIFICATION-REVIEW",
+        "WO-W66-SDXL_REALVISXL_CONTROLNET_LINEART_LANE-FINAL-CERTIFICATION-REVIEW",
+        "WO-W66-SDXL_REALVISXL_CONTROLNET_OPENPOSE_LANE-FINAL-CERTIFICATION-REVIEW",
+        "WO-W66-SDXL_REALVISXL_CONTROLNET_NORMAL_LANE-FINAL-CERTIFICATION-REVIEW"
+      )) {
+        $covered = @($payload.coverage_entries | Where-Object { [string]$_.work_order_id -eq $workOrderId -and [string]$_.coverage_status -eq "open_with_blocker_packet" })
+        if ($covered.Count -ne 1) {
+          throw "$Name must classify $workOrderId as open_with_blocker_packet."
+        }
+      }
+      if ([string]$payload.certification_boundary -notmatch "Local final-review evidence coverage") {
+        throw "$Name certification boundary must describe local final-review evidence coverage."
+      }
+      $coverageMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+      if (-not (Test-Path -LiteralPath $coverageMarkdown)) {
+        throw "$Name did not create the expected Markdown evidence coverage matrix: $coverageMarkdown"
+      }
+    } catch {
+      $entry.expected_output_error = $_.Exception.Message
+      $entry.result = "fail"
+      $entry.expected_output_valid = $false
+    }
+  }
+
+  if ($entry.expected_output_valid -and $Name -eq "active_runtime_queue_target_runtime_execution_plan_smoke") {
+    try {
+      if ($null -eq $payload) {
+        $payload = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
+      }
+      foreach ($required in @("result", "local_only", "execute_allowed_now", "explicit_user_selection_required", "ec2_started", "generation_executed", "active_runtime_marker_written", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "full_project_certification_allowed", "selected_work_order_id", "selected_lane_id", "selected_lane_queue_order", "selection_policy", "target_candidate_count", "target_candidates", "blocker_summary", "git_checkpoint_summary", "s3_transfer_summary", "command_sequence", "command_step_count", "certification_boundary")) {
+        if (-not (Test-JsonProperty -Object $payload -Name $required)) {
+          throw "$Name output is missing top-level field: $required"
+        }
+      }
+      if ([string]$payload.result -ne "blocked_target_runtime_execution_plan_waiting_for_explicit_selection_and_clean_git") {
+        throw "$Name result must be blocked_target_runtime_execution_plan_waiting_for_explicit_selection_and_clean_git."
+      }
+      if (-not [bool]$payload.local_only -or [bool]$payload.execute_allowed_now -or -not [bool]$payload.explicit_user_selection_required) {
+        throw "$Name must be local-only, blocked from execution now, and require explicit user selection."
+      }
+      if ([bool]$payload.ec2_started -or [bool]$payload.generation_executed -or [bool]$payload.active_runtime_marker_written) {
+        throw "$Name must not start EC2, execute generation, or write an active runtime marker."
+      }
+      if ([bool]$payload.masks_consumed_as_truth -or [bool]$payload.masks_promoted -or [bool]$payload.wave70_hard_gate_rerun -or [bool]$payload.wave71_plus_activated) {
+        throw "$Name must not consume/promote masks, rerun Wave70 hard gates, or activate Wave71+."
+      }
+      if ([bool]$payload.full_project_certification_allowed) {
+        throw "$Name must not allow full project certification."
+      }
+      if ([string]$payload.selected_lane_id -ne "sdxl_realvisxl_inpaint_detail_lane") {
+        throw "$Name must select the first runtime-queue-order lane that is missing target-runtime proof."
+      }
+      if ([int]$payload.selected_lane_queue_order -ne 4) {
+        throw "$Name selected lane queue order must be 4."
+      }
+      if (@($payload.target_candidates).Count -lt 8 -or [int]$payload.target_candidate_count -lt 8) {
+        throw "$Name must preserve the remaining target-runtime candidate set."
+      }
+      if (@($payload.blocker_summary | Where-Object { [string]$_ -eq "explicit_user_target_runtime_selection_required" }).Count -eq 0) {
+        throw "$Name must require explicit user target-runtime selection."
+      }
+      if (@($payload.blocker_summary | Where-Object { [string]$_ -eq "git_checkpoint_gate_not_clean_for_ec2_execute" }).Count -eq 0) {
+        throw "$Name must preserve the dirty Git checkpoint blocker."
+      }
+      if ([bool]$payload.git_checkpoint_summary.passes_for_ec2_execute) {
+        throw "$Name must not mark the Git checkpoint gate as passing for EC2."
+      }
+      if ([int]$payload.command_step_count -lt 10 -or @($payload.command_sequence).Count -lt 10) {
+        throw "$Name must emit a complete gated command sequence."
+      }
+      if (@($payload.command_sequence | Where-Object { [string]$_.name -eq "ec2_static_proof_execute" -and [bool]$_.execute_allowed_now }).Count -ne 0) {
+        throw "$Name must not allow EC2 execute steps now."
+      }
+      if ([string]$payload.certification_boundary -notmatch "Local target-runtime execution planning") {
+        throw "$Name certification boundary must describe local target-runtime execution planning."
+      }
+      $planMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+      if (-not (Test-Path -LiteralPath $planMarkdown)) {
+        throw "$Name did not create the expected Markdown target-runtime plan: $planMarkdown"
+      }
+    } catch {
+      $entry.expected_output_error = $_.Exception.Message
+      $entry.result = "fail"
+      $entry.expected_output_valid = $false
+    }
+  }
+
+  if ($entry.expected_output_valid -and $Name -eq "selected_target_runtime_lane_package_readiness_smoke") {
+    try {
+      if ($null -eq $payload) {
+        $payload = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
+      }
+      foreach ($required in @("result", "lane_id", "selected_work_order_id", "local_only", "ec2_started", "generation_executed", "active_runtime_marker_written", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "full_project_certification_allowed", "target_runtime_execution_allowed", "package_readiness_pass", "explicit_user_selection_required", "git_checkpoint_passes_for_ec2", "source_git_clean_in_bundle", "run_package_manifest", "deploy_bundle_manifest", "deploy_bundle_zip", "deploy_bundle_zip_sha256", "checks", "failed_check_count", "exact_blockers", "certification_boundary")) {
+        if (-not (Test-JsonProperty -Object $payload -Name $required)) {
+          throw "$Name output is missing top-level field: $required"
+        }
+      }
+      if ([string]$payload.result -ne "pass_local_only_selected_target_runtime_lane_package_ready_ec2_blocked") {
+        throw "$Name result must be pass_local_only_selected_target_runtime_lane_package_ready_ec2_blocked after the local object_info proof includes MaskToImage."
+      }
+      if ([string]$payload.lane_id -ne "sdxl_realvisxl_inpaint_detail_lane") {
+        throw "$Name lane_id must be sdxl_realvisxl_inpaint_detail_lane."
+      }
+      if ([string]$payload.selected_work_order_id -ne "WO-W66-SDXL_REALVISXL_INPAINT_DETAIL_LANE-TARGET-RUNTIME-PROOF") {
+        throw "$Name must bind to the selected inpaint target-runtime work order."
+      }
+      if (-not [bool]$payload.local_only -or [bool]$payload.ec2_started -or [bool]$payload.generation_executed -or [bool]$payload.active_runtime_marker_written) {
+        throw "$Name must be local-only and must not start EC2, generate, or write a runtime marker."
+      }
+      if ([bool]$payload.masks_consumed_as_truth -or [bool]$payload.masks_promoted -or [bool]$payload.wave70_hard_gate_rerun -or [bool]$payload.wave71_plus_activated) {
+        throw "$Name must not consume/promote masks, rerun Wave70 hard gates, or activate Wave71+."
+      }
+      if ([bool]$payload.full_project_certification_allowed -or [bool]$payload.target_runtime_execution_allowed) {
+        throw "$Name must not allow full certification or target-runtime execution from a local package readiness packet."
+      }
+      if (-not [bool]$payload.package_readiness_pass) {
+        throw "$Name must pass local package readiness after object_info proves MaskToImage."
+      }
+      if (-not [bool]$payload.explicit_user_selection_required -or [bool]$payload.git_checkpoint_passes_for_ec2) {
+        throw "$Name must require explicit selection and preserve the failed Git EC2 gate."
+      }
+      if ([bool]$payload.source_git_clean_in_bundle) {
+        throw "$Name must record that the existing bundle was built from a dirty local source state."
+      }
+      if ([int]$payload.failed_check_count -ne 0 -or @($payload.checks | Where-Object { [string]$_.result -ne "pass" }).Count -ne 0) {
+        throw "$Name must pass all selected package readiness checks."
+      }
+      if (@($payload.exact_blockers | Where-Object { [string]$_ -eq "local_object_info_evidence_missing_runtime_required_node:MaskToImage" }).Count -eq 0) {
+        $maskToImageBlockerAbsent = $true
+      } else {
+        throw "$Name must not retain the stale MaskToImage object_info blocker after the refresh proof."
+      }
+      if ([string]$payload.local_object_info_evidence -notmatch "W66_LOCAL_OBJECT_INFO_INPAINT_DETAIL_MASKTOIMAGE_REFRESH_") {
+        throw "$Name must use the refreshed W66 MaskToImage object_info evidence."
+      }
+      if (@($payload.exact_blockers | Where-Object { [string]$_ -eq "git_checkpoint_gate_not_clean_for_ec2_execute" }).Count -eq 0) {
+        throw "$Name must preserve the dirty Git EC2 blocker."
+      }
+      if (@($payload.exact_blockers | Where-Object { [string]$_ -eq "explicit_user_target_runtime_selection_required" }).Count -eq 0) {
+        throw "$Name must preserve explicit target-runtime selection as a blocker."
+      }
+      if (@($payload.exact_blockers | Where-Object { [string]$_ -eq "deploy_bundle_source_git_dirty_rebuild_required_before_ec2" }).Count -eq 0) {
+        throw "$Name must preserve the dirty deploy-bundle source blocker."
+      }
+      if ([string]$payload.certification_boundary -notmatch "Local selected-lane package readiness") {
+        throw "$Name certification boundary must describe local selected-lane package readiness."
+      }
+      $readinessMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+      if (-not (Test-Path -LiteralPath $readinessMarkdown)) {
+        throw "$Name did not create the expected Markdown readiness packet: $readinessMarkdown"
+      }
+    } catch {
+      $entry.expected_output_error = $_.Exception.Message
+      $entry.result = "fail"
+      $entry.expected_output_valid = $false
+    }
+  }
+
+  if ($entry.expected_output_valid -and $Name -eq "selected_target_runtime_launch_gate_smoke") {
+    try {
+      if ($null -eq $payload) {
+        $payload = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
+      }
+      foreach ($required in @("result", "lane_id", "selected_work_order_id", "local_only", "aws_contacted", "s3_contacted", "ec2_started", "generation_executed", "prompt_posted", "active_runtime_marker_written", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "full_project_certification_allowed", "local_package_ready", "target_runtime_launch_allowed", "explicit_user_selection_required", "git_checkpoint_passes_for_ec2", "source_git_clean_in_bundle", "s3_transfer_ready_local_only", "target_runtime_plan", "selected_package_readiness", "local_object_info_evidence", "git_checkpoint_gate", "s3_transfer_readiness", "deploy_bundle_manifest", "deploy_bundle_zip", "checks", "failed_check_count", "exact_blockers", "next_live_gate_sequence", "certification_boundary")) {
+        if (-not (Test-JsonProperty -Object $payload -Name $required)) {
+          throw "$Name output is missing top-level field: $required"
+        }
+      }
+      if ([string]$payload.result -ne "blocked_selected_target_runtime_launch_gate_package_ready_waiting_for_selection_and_clean_git") {
+        throw "$Name result must be blocked_selected_target_runtime_launch_gate_package_ready_waiting_for_selection_and_clean_git."
+      }
+      if ([string]$payload.lane_id -ne "sdxl_realvisxl_inpaint_detail_lane") {
+        throw "$Name lane_id must be sdxl_realvisxl_inpaint_detail_lane."
+      }
+      if ([string]$payload.selected_work_order_id -ne "WO-W66-SDXL_REALVISXL_INPAINT_DETAIL_LANE-TARGET-RUNTIME-PROOF") {
+        throw "$Name must bind to the selected inpaint target-runtime work order."
+      }
+      if (-not [bool]$payload.local_only -or [bool]$payload.aws_contacted -or [bool]$payload.s3_contacted -or [bool]$payload.ec2_started -or [bool]$payload.generation_executed -or [bool]$payload.prompt_posted -or [bool]$payload.active_runtime_marker_written) {
+        throw "$Name must be local-only and must not contact external services, start EC2, generate, post prompts, or write a runtime marker."
+      }
+      if ([bool]$payload.masks_consumed_as_truth -or [bool]$payload.masks_promoted -or [bool]$payload.wave70_hard_gate_rerun -or [bool]$payload.wave71_plus_activated) {
+        throw "$Name must not consume/promote masks, rerun Wave70 hard gates, or activate Wave71+."
+      }
+      if ([bool]$payload.full_project_certification_allowed -or [bool]$payload.target_runtime_launch_allowed) {
+        throw "$Name must not allow full certification or target-runtime launch."
+      }
+      if (-not [bool]$payload.local_package_ready) {
+        throw "$Name must recognize the selected package as locally ready."
+      }
+      if (-not [bool]$payload.explicit_user_selection_required -or [bool]$payload.git_checkpoint_passes_for_ec2 -or [bool]$payload.source_git_clean_in_bundle) {
+        throw "$Name must preserve explicit selection, dirty Git, and dirty bundle-source blockers."
+      }
+      if (-not [bool]$payload.s3_transfer_ready_local_only) {
+        throw "$Name must preserve the current local S3 transfer readiness."
+      }
+      if ([int]$payload.failed_check_count -ne 0 -or @($payload.checks | Where-Object { [string]$_.result -ne "pass" }).Count -ne 0) {
+        throw "$Name must pass all launch-gate state checks while still blocking launch through exact blockers."
+      }
+      foreach ($blocker in @("git_checkpoint_gate_not_clean_for_ec2_execute", "explicit_user_target_runtime_selection_required", "deploy_bundle_source_git_dirty_rebuild_required_before_ec2")) {
+        if (@($payload.exact_blockers | Where-Object { [string]$_ -eq $blocker }).Count -eq 0) {
+          throw "$Name must preserve exact blocker: $blocker"
+        }
+      }
+      if ([string]$payload.local_object_info_evidence -notmatch "W66_LOCAL_OBJECT_INFO_INPAINT_DETAIL_MASKTOIMAGE_REFRESH_") {
+        throw "$Name must use the refreshed MaskToImage object_info evidence."
+      }
+      if (@($payload.next_live_gate_sequence).Count -lt 8) {
+        throw "$Name must list the complete next live-gate sequence."
+      }
+      if ([string]$payload.certification_boundary -notmatch "Local selected target-runtime launch gate") {
+        throw "$Name certification boundary must describe local selected target-runtime launch gate."
+      }
+      $launchMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+      if (-not (Test-Path -LiteralPath $launchMarkdown)) {
+        throw "$Name did not create the expected Markdown launch gate: $launchMarkdown"
+      }
+    } catch {
+      $entry.expected_output_error = $_.Exception.Message
+      $entry.result = "fail"
+      $entry.expected_output_valid = $false
+    }
+  }
+
+  if ($entry.expected_output_valid -and $Name -eq "active_runtime_queue_package_deploy_matrix_smoke") {
+    try {
+      if ($null -eq $payload) {
+        $payload = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
+      }
+      foreach ($required in @("result", "local_only", "aws_contacted", "github_api_contacted", "civitai_contacted", "s3_contacted", "comfyui_contacted", "ec2_started", "generation_executed", "active_runtime_marker_written", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "full_project_certification_allowed", "target_runtime_launch_allowed", "runtime_queue", "run_package_root", "deploy_bundle_root", "lane_count", "local_package_deploy_ready_count", "dirty_source_bundle_count", "clean_source_bundle_count", "rows", "checks", "failed_check_count", "exact_blockers", "certification_boundary")) {
+        if (-not (Test-JsonProperty -Object $payload -Name $required)) {
+          throw "$Name output is missing top-level field: $required"
+        }
+      }
+      if ([string]$payload.result -ne "pass_local_only_active_runtime_queue_package_deploy_matrix_ec2_blocked") {
+        throw "$Name result must be pass_local_only_active_runtime_queue_package_deploy_matrix_ec2_blocked."
+      }
+      if (-not [bool]$payload.local_only -or [bool]$payload.aws_contacted -or [bool]$payload.github_api_contacted -or [bool]$payload.civitai_contacted -or [bool]$payload.s3_contacted -or [bool]$payload.comfyui_contacted -or [bool]$payload.ec2_started -or [bool]$payload.generation_executed -or [bool]$payload.active_runtime_marker_written) {
+        throw "$Name must be local-only and must not contact external services, start EC2, generate, or write a runtime marker."
+      }
+      if ([bool]$payload.masks_consumed_as_truth -or [bool]$payload.masks_promoted -or [bool]$payload.wave70_hard_gate_rerun -or [bool]$payload.wave71_plus_activated) {
+        throw "$Name must not consume/promote masks, rerun Wave70 hard gates, or activate Wave71+."
+      }
+      if ([bool]$payload.full_project_certification_allowed -or [bool]$payload.target_runtime_launch_allowed) {
+        throw "$Name must not allow full certification or target-runtime launch."
+      }
+      if ([int]$payload.lane_count -ne 9 -or @($payload.rows).Count -ne 9) {
+        throw "$Name must cover all nine active runtime queue lanes."
+      }
+      if ([int]$payload.local_package_deploy_ready_count -ne 9) {
+        throw "$Name must show all nine lanes locally package/deploy ready."
+      }
+      if ([int]$payload.dirty_source_bundle_count -ne 9 -or [int]$payload.clean_source_bundle_count -ne 0) {
+        throw "$Name must preserve dirty-source deploy bundle blockers for all nine lanes."
+      }
+      if ([int]$payload.failed_check_count -ne 0 -or @($payload.checks | Where-Object { [string]$_.result -ne "pass" }).Count -ne 0) {
+        throw "$Name must pass all package/deploy matrix checks."
+      }
+      foreach ($row in @($payload.rows)) {
+        if (-not [bool]$row.run_package_pass -or -not [bool]$row.deploy_bundle_pass -or -not [bool]$row.local_package_deploy_ready) {
+          throw "$Name row must have passing run package and deploy bundle: $($row.lane_id)"
+        }
+        if ([bool]$row.source_git_clean_in_bundle -or [bool]$row.target_runtime_launch_allowed) {
+          throw "$Name row must retain dirty source and disallow launch: $($row.lane_id)"
+        }
+      }
+      foreach ($blocker in @("deploy_bundle_source_git_dirty_rebuild_required_before_ec2", "explicit_user_target_runtime_selection_required", "git_checkpoint_gate_not_clean_for_ec2_execute")) {
+        if (@($payload.exact_blockers | Where-Object { [string]$_ -eq $blocker }).Count -eq 0) {
+          throw "$Name must preserve exact blocker: $blocker"
+        }
+      }
+      if ([string]$payload.certification_boundary -notmatch "Local active-runtime queue package/deploy matrix") {
+        throw "$Name certification boundary must describe local active-runtime queue package/deploy matrix."
+      }
+      $matrixMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+      if (-not (Test-Path -LiteralPath $matrixMarkdown)) {
+        throw "$Name did not create the expected Markdown package/deploy matrix: $matrixMarkdown"
+      }
+    } catch {
+      $entry.expected_output_error = $_.Exception.Message
+      $entry.result = "fail"
+      $entry.expected_output_valid = $false
+    }
+  }
+
+  if ($entry.expected_output_valid -and $Name -eq "selected_target_runtime_pre_ec2_handoff_bundle_smoke") {
+    try {
+      if ($null -eq $payload) {
+        $payload = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
+      }
+      foreach ($required in @("result", "artifact_type", "lane_id", "selected_work_order_id", "local_only", "aws_contacted", "github_api_contacted", "civitai_contacted", "s3_contacted", "comfyui_contacted", "ec2_started", "generation_executed", "prompt_posted", "active_runtime_marker_written", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "full_project_certification_allowed", "target_runtime_launch_allowed", "execute_allowed_now", "target_runtime_plan", "selected_package_readiness", "selected_launch_gate", "package_deploy_matrix", "run_package_manifest", "deploy_bundle_manifest", "deploy_bundle_zip", "deploy_bundle_zip_sha256", "local_object_info_evidence", "exact_blockers", "allowed_local_recheck_step_count", "blocked_live_step_count", "allowed_local_recheck_steps", "blocked_live_steps", "command_steps", "checks", "failed_check_count", "handoff_boundary")) {
+        if (-not (Test-JsonProperty -Object $payload -Name $required)) {
+          throw "$Name output is missing top-level field: $required"
+        }
+      }
+      if ([string]$payload.result -ne "pass_local_only_selected_target_runtime_pre_ec2_handoff_bundle_ready_ec2_blocked") {
+        throw "$Name result must be pass_local_only_selected_target_runtime_pre_ec2_handoff_bundle_ready_ec2_blocked."
+      }
+      if ([string]$payload.artifact_type -ne "selected_target_runtime_pre_ec2_handoff_bundle") {
+        throw "$Name artifact_type must be selected_target_runtime_pre_ec2_handoff_bundle."
+      }
+      if ([string]$payload.lane_id -ne "sdxl_realvisxl_inpaint_detail_lane" -or [string]$payload.selected_work_order_id -ne "WO-W66-SDXL_REALVISXL_INPAINT_DETAIL_LANE-TARGET-RUNTIME-PROOF") {
+        throw "$Name must preserve selected inpaint target-runtime work order."
+      }
+      if (-not [bool]$payload.local_only -or [bool]$payload.aws_contacted -or [bool]$payload.github_api_contacted -or [bool]$payload.civitai_contacted -or [bool]$payload.s3_contacted -or [bool]$payload.comfyui_contacted -or [bool]$payload.ec2_started -or [bool]$payload.generation_executed -or [bool]$payload.prompt_posted -or [bool]$payload.active_runtime_marker_written) {
+        throw "$Name must be local-only and must not contact services, start EC2, post prompts, generate, or write runtime markers."
+      }
+      if ([bool]$payload.masks_consumed_as_truth -or [bool]$payload.masks_promoted -or [bool]$payload.wave70_hard_gate_rerun -or [bool]$payload.wave71_plus_activated) {
+        throw "$Name must not consume/promote masks, rerun Wave70 hard gates, or activate Wave71+."
+      }
+      if ([bool]$payload.full_project_certification_allowed -or [bool]$payload.target_runtime_launch_allowed -or [bool]$payload.execute_allowed_now) {
+        throw "$Name must not allow full certification, launch, or immediate execution."
+      }
+      if ([int]$payload.allowed_local_recheck_step_count -ne 6 -or @($payload.allowed_local_recheck_steps).Count -ne 6) {
+        throw "$Name must expose exactly six allowed local recheck steps."
+      }
+      if ([int]$payload.blocked_live_step_count -ne 7 -or @($payload.blocked_live_steps).Count -ne 7) {
+        throw "$Name must block exactly seven live/S3/marker/EC2/generation steps."
+      }
+      foreach ($stepName in @("closure_rollup_recheck", "git_checkpoint_recheck", "runtime_unblock_handoff_recheck", "active_runtime_queue_local_support_recheck", "runtime_lane_queue_recheck", "model_registry_coverage_recheck")) {
+        if (@($payload.allowed_local_recheck_steps | Where-Object { [string]$_.name -eq $stepName -and [bool]$_.allowed_in_current_local_session }).Count -ne 1) {
+          throw "$Name missing allowed local recheck step: $stepName"
+        }
+      }
+      foreach ($stepName in @("explicit_target_runtime_selection", "lane_runtime_readiness_recheck", "deploy_bundle_build", "deploy_bundle_s3_publish", "active_runtime_marker_plan_or_write", "ec2_static_proof_execute", "workflow_smoke_execute")) {
+        if (@($payload.blocked_live_steps | Where-Object { [string]$_.name -eq $stepName -and -not [bool]$_.allowed_in_current_local_session }).Count -ne 1) {
+          throw "$Name missing blocked live step: $stepName"
+        }
+      }
+      foreach ($blocker in @("explicit_user_target_runtime_selection_required", "git_checkpoint_gate_not_clean_for_ec2_execute", "deploy_bundle_source_git_dirty_rebuild_required_before_ec2")) {
+        if (@($payload.exact_blockers | Where-Object { [string]$_ -eq $blocker }).Count -eq 0) {
+          throw "$Name must preserve exact blocker: $blocker"
+        }
+      }
+      if ([int]$payload.failed_check_count -ne 0 -or @($payload.checks | Where-Object { [string]$_.result -ne "pass" }).Count -ne 0) {
+        throw "$Name must pass all handoff bundle checks."
+      }
+      if ([string]::IsNullOrWhiteSpace([string]$payload.target_runtime_plan) -or [string]$payload.target_runtime_plan -notmatch "target_runtime_execution_plan") {
+        throw "$Name must cite a target-runtime execution plan."
+      }
+      if ([string]$payload.handoff_boundary -notmatch "Local pre-EC2 handoff bundle") {
+        throw "$Name boundary must describe a local pre-EC2 handoff bundle."
+      }
+      $handoffMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+      if (-not (Test-Path -LiteralPath $handoffMarkdown)) {
+        throw "$Name did not create the expected Markdown handoff bundle: $handoffMarkdown"
+      }
+    } catch {
+      $entry.expected_output_error = $_.Exception.Message
+      $entry.result = "fail"
+      $entry.expected_output_valid = $false
+    }
+  }
+
+  if ($entry.expected_output_valid -and $Name -eq "selected_target_runtime_local_recheck_ledger_smoke") {
+    try {
+      if ($null -eq $payload) {
+        $payload = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
+      }
+      foreach ($required in @("result", "artifact_type", "lane_id", "selected_work_order_id", "local_only", "aws_contacted", "github_api_contacted", "civitai_contacted", "s3_contacted", "comfyui_contacted", "ec2_started", "generation_executed", "prompt_posted", "active_runtime_marker_written", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "full_project_certification_allowed", "target_runtime_launch_allowed", "execute_allowed_now", "pre_ec2_handoff_bundle", "recheck_rows", "pass_recheck_count", "expected_blocked_recheck_count", "unexpected_recheck_count", "exact_blockers", "checks", "failed_check_count", "ledger_boundary")) {
+        if (-not (Test-JsonProperty -Object $payload -Name $required)) {
+          throw "$Name output is missing top-level field: $required"
+        }
+      }
+      if ([string]$payload.result -ne "pass_local_only_selected_target_runtime_local_rechecks_accounted_ec2_blocked") {
+        throw "$Name result must be pass_local_only_selected_target_runtime_local_rechecks_accounted_ec2_blocked."
+      }
+      if ([string]$payload.artifact_type -ne "selected_target_runtime_local_recheck_ledger") {
+        throw "$Name artifact_type must be selected_target_runtime_local_recheck_ledger."
+      }
+      if ([string]$payload.lane_id -ne "sdxl_realvisxl_inpaint_detail_lane") {
+        throw "$Name must preserve selected inpaint lane."
+      }
+      if (-not [bool]$payload.local_only -or [bool]$payload.aws_contacted -or [bool]$payload.github_api_contacted -or [bool]$payload.civitai_contacted -or [bool]$payload.s3_contacted -or [bool]$payload.comfyui_contacted -or [bool]$payload.ec2_started -or [bool]$payload.generation_executed -or [bool]$payload.prompt_posted -or [bool]$payload.active_runtime_marker_written) {
+        throw "$Name must be local-only and must not contact services, start EC2, post prompts, generate, or write runtime markers."
+      }
+      if ([bool]$payload.masks_consumed_as_truth -or [bool]$payload.masks_promoted -or [bool]$payload.wave70_hard_gate_rerun -or [bool]$payload.wave71_plus_activated) {
+        throw "$Name must not consume/promote masks, rerun Wave70 hard gates, or activate Wave71+."
+      }
+      if ([bool]$payload.full_project_certification_allowed -or [bool]$payload.target_runtime_launch_allowed -or [bool]$payload.execute_allowed_now) {
+        throw "$Name must not allow full certification, launch, or immediate execution."
+      }
+      if (@($payload.recheck_rows).Count -ne 6) {
+        throw "$Name must account for exactly six local recheck rows."
+      }
+      if ([int]$payload.pass_recheck_count -ne 4 -or [int]$payload.expected_blocked_recheck_count -ne 2 -or [int]$payload.unexpected_recheck_count -ne 0) {
+        throw "$Name must preserve 4 pass / 2 expected blocked / 0 unexpected recheck accounting."
+      }
+      foreach ($row in @($payload.recheck_rows)) {
+        if (-not [bool]$row.result_accepted -or -not [bool]$row.no_live_side_effects -or [string]$row.disposition -eq "unexpected") {
+          throw "$Name row is not accepted and side-effect-free: $($row.name)"
+        }
+      }
+      foreach ($rowName in @("closure_rollup_recheck", "git_checkpoint_recheck", "runtime_unblock_handoff_recheck", "active_runtime_queue_local_support_recheck", "runtime_lane_queue_recheck", "model_registry_coverage_recheck")) {
+        if (@($payload.recheck_rows | Where-Object { [string]$_.name -eq $rowName }).Count -ne 1) {
+          throw "$Name missing recheck row: $rowName"
+        }
+      }
+      foreach ($blocker in @("git_checkpoint_gate_not_clean_for_ec2_execute", "deploy_bundle_source_git_dirty_rebuild_required_before_ec2", "project_readiness_runtime_lane_queue_order_blocked", "target_runtime_proof_evidence_missing")) {
+        if (@($payload.exact_blockers | Where-Object { [string]$_ -eq $blocker }).Count -eq 0) {
+          throw "$Name must preserve exact blocker: $blocker"
+        }
+      }
+      foreach ($retiredBlocker in @("explicit_user_target_runtime_selection_required", "runtime_handoff_project_readiness_missing")) {
+        if (@($payload.exact_blockers | Where-Object { [string]$_ -eq $retiredBlocker }).Count -ne 0) {
+          throw "$Name must not preserve retired blocker after selected-lane readiness evidence is current: $retiredBlocker"
+        }
+      }
+      if ([int]$payload.failed_check_count -ne 0 -or @($payload.checks | Where-Object { [string]$_.result -ne "pass" }).Count -ne 0) {
+        throw "$Name must pass all ledger checks."
+      }
+      if ([string]$payload.ledger_boundary -notmatch "Local selected target-runtime recheck ledger") {
+        throw "$Name boundary must describe a local selected target-runtime recheck ledger."
+      }
+      $ledgerMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+      if (-not (Test-Path -LiteralPath $ledgerMarkdown)) {
+        throw "$Name did not create the expected Markdown local recheck ledger: $ledgerMarkdown"
+      }
+    } catch {
+      $entry.expected_output_error = $_.Exception.Message
+      $entry.result = "fail"
+      $entry.expected_output_valid = $false
+    }
   }
   return $entry
 }
@@ -831,7 +1963,8 @@ foreach ($laneDir in @($authoredLaneDirs)) {
     -ScriptPath (Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Test-LaneRuntimeReadiness.ps1") `
     -Arguments @("-ProjectRoot", $ProjectRoot, "-LaneId", $laneDir.Name, "-OutFile", $laneReadinessFile) `
     -ExpectedOutputFile $laneReadinessFile `
-    -ExpectedOutputType "json"
+    -ExpectedOutputType "json" `
+    -AllowedExitCodes @(0, 2)
 }
 
 $authoredLaneEvidenceCoverageFile = Join-Path $tempRoot "authored_lane_evidence_coverage.json"
@@ -852,9 +1985,11 @@ $projectReadinessLaneId = "sdxl_low_risk_fallback_lane"
 try {
   if (Test-Path -LiteralPath $runtimeLaneQueueFile) {
     $runtimeQueueJson = Get-Content -LiteralPath $runtimeLaneQueueFile -Raw | ConvertFrom-Json
+    $currentRuntimeLaneId = [string]$runtimeQueueJson.current_runtime_lane_id
     if ((Test-JsonProperty -Object $runtimeQueueJson -Name "current_runtime_lane_id") -and
-      ![string]::IsNullOrWhiteSpace([string]$runtimeQueueJson.current_runtime_lane_id)) {
-      $projectReadinessLaneId = [string]$runtimeQueueJson.current_runtime_lane_id
+      ![string]::IsNullOrWhiteSpace($currentRuntimeLaneId) -and
+      $currentRuntimeLaneId -notlike "none_*") {
+      $projectReadinessLaneId = $currentRuntimeLaneId
     } elseif ((Test-JsonProperty -Object $runtimeQueueJson -Name "first_runtime_lane_id") -and
       ![string]::IsNullOrWhiteSpace([string]$runtimeQueueJson.first_runtime_lane_id)) {
       $projectReadinessLaneId = [string]$runtimeQueueJson.first_runtime_lane_id
@@ -897,6 +2032,197 @@ $localSmokeResults += Invoke-LocalHelper -Name "ec2_deploy_bundle_matrix_smoke" 
   -ScriptPath (Join-Path $scriptsRoot "Test-EC2DeployBundleMatrix.ps1") `
   -Arguments @("-ProjectRoot", $ProjectRoot, "-OutFile", $ec2DeployBundleMatrixFile) `
   -ExpectedOutputFile $ec2DeployBundleMatrixFile `
+  -ExpectedOutputType "json"
+
+$githubActionsPreflightPackageWorkflowFile = Join-Path $tempRoot "github_actions_preflight_package_workflow.json"
+$localSmokeResults += Invoke-LocalHelper -Name "github_actions_preflight_package_workflow_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "Test-GitHubActionsPreflightPackageWorkflow.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-OutFile", $githubActionsPreflightPackageWorkflowFile) `
+  -ExpectedOutputFile $githubActionsPreflightPackageWorkflowFile `
+  -ExpectedOutputType "json"
+
+$dirtyGitCheckpointInventoryFile = Join-Path $tempRoot "dirty_git_checkpoint_inventory.json"
+$dirtyGitCheckpointInventoryMarkdown = Join-Path $tempRoot "dirty_git_checkpoint_inventory.md"
+$localSmokeResults += Invoke-LocalHelper -Name "dirty_git_checkpoint_inventory_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-DirtyGitCheckpointInventory.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-OutFile", $dirtyGitCheckpointInventoryFile, "-MarkdownOutFile", $dirtyGitCheckpointInventoryMarkdown) `
+  -ExpectedOutputFile $dirtyGitCheckpointInventoryFile `
+  -ExpectedOutputType "json"
+
+$dirtyGitCheckpointScopePlanFile = Join-Path $tempRoot "dirty_git_checkpoint_scope_plan.json"
+$dirtyGitCheckpointScopePlanMarkdown = Join-Path $tempRoot "dirty_git_checkpoint_scope_plan.md"
+$localSmokeResults += Invoke-LocalHelper -Name "dirty_git_checkpoint_scope_plan_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-DirtyGitCheckpointScopePlan.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-InventoryFile", $dirtyGitCheckpointInventoryFile, "-OutFile", $dirtyGitCheckpointScopePlanFile, "-MarkdownOutFile", $dirtyGitCheckpointScopePlanMarkdown) `
+  -ExpectedOutputFile $dirtyGitCheckpointScopePlanFile `
+  -ExpectedOutputType "json"
+
+$dirtyGitCheckpointReviewResolutionFile = Join-Path $tempRoot "dirty_git_checkpoint_review_resolution.json"
+$dirtyGitCheckpointReviewResolutionMarkdown = Join-Path $tempRoot "dirty_git_checkpoint_review_resolution.md"
+$localSmokeResults += Invoke-LocalHelper -Name "dirty_git_checkpoint_review_resolution_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-DirtyGitCheckpointReviewResolution.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-ScopePlanFile", $dirtyGitCheckpointScopePlanFile, "-OutFile", $dirtyGitCheckpointReviewResolutionFile, "-MarkdownOutFile", $dirtyGitCheckpointReviewResolutionMarkdown) `
+  -ExpectedOutputFile $dirtyGitCheckpointReviewResolutionFile `
+  -ExpectedOutputType "json"
+
+$activeRuntimeQueueLocalSupportFile = Join-Path $tempRoot "active_runtime_queue_local_support_certification.json"
+$activeRuntimeQueueLocalSupportMarkdown = Join-Path $tempRoot "active_runtime_queue_local_support_certification.md"
+$localSmokeResults += Invoke-LocalHelper -Name "active_runtime_queue_local_support_certification_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "Test-ActiveRuntimeQueueLocalSupportCertification.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-OutFile", $activeRuntimeQueueLocalSupportFile, "-CertificationPath", $activeRuntimeQueueLocalSupportMarkdown) `
+  -ExpectedOutputFile $activeRuntimeQueueLocalSupportFile `
+  -ExpectedOutputType "json"
+
+$activeRuntimeQueueFinalReadinessFile = Join-Path $tempRoot "active_runtime_queue_final_certification_readiness.json"
+$activeRuntimeQueueFinalReadinessMarkdown = Join-Path $tempRoot "active_runtime_queue_final_certification_readiness.md"
+$localSmokeResults += Invoke-LocalHelper -Name "active_runtime_queue_final_certification_readiness_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "Test-ActiveRuntimeQueueFinalCertificationReadiness.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-OutFile", $activeRuntimeQueueFinalReadinessFile, "-ReadinessPath", $activeRuntimeQueueFinalReadinessMarkdown) `
+  -ExpectedOutputFile $activeRuntimeQueueFinalReadinessFile `
+  -ExpectedOutputType "json"
+
+$activeRuntimeQueueFinalWorkOrderFile = Join-Path $tempRoot "active_runtime_queue_final_certification_work_order.json"
+$activeRuntimeQueueFinalWorkOrderMarkdown = Join-Path $tempRoot "active_runtime_queue_final_certification_work_order.md"
+$localSmokeResults += Invoke-LocalHelper -Name "active_runtime_queue_final_certification_work_order_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-ActiveRuntimeQueueFinalCertificationWorkOrder.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-ReadinessEvidenceFile", $activeRuntimeQueueFinalReadinessFile, "-OutFile", $activeRuntimeQueueFinalWorkOrderFile, "-MarkdownOutFile", $activeRuntimeQueueFinalWorkOrderMarkdown) `
+  -ExpectedOutputFile $activeRuntimeQueueFinalWorkOrderFile `
+  -ExpectedOutputType "json"
+
+$lowRiskLaneFinalReviewFile = Join-Path $tempRoot "low_risk_lane_final_review_packet.json"
+$lowRiskLaneFinalReviewMarkdown = Join-Path $tempRoot "low_risk_lane_final_review_packet.md"
+$localSmokeResults += Invoke-LocalHelper -Name "low_risk_lane_final_review_packet_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-LowRiskLaneFinalReviewPacket.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-WorkOrderFile", $activeRuntimeQueueFinalWorkOrderFile, "-OutFile", $lowRiskLaneFinalReviewFile, "-MarkdownOutFile", $lowRiskLaneFinalReviewMarkdown) `
+  -ExpectedOutputFile $lowRiskLaneFinalReviewFile `
+  -ExpectedOutputType "json"
+
+$cannyLaneFinalReviewFile = Join-Path $tempRoot "canny_lane_final_review_packet.json"
+$cannyLaneFinalReviewMarkdown = Join-Path $tempRoot "canny_lane_final_review_packet.md"
+$localSmokeResults += Invoke-LocalHelper -Name "canny_lane_final_review_packet_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-CannyLaneFinalReviewPacket.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-WorkOrderFile", $activeRuntimeQueueFinalWorkOrderFile, "-OutFile", $cannyLaneFinalReviewFile, "-MarkdownOutFile", $cannyLaneFinalReviewMarkdown) `
+  -ExpectedOutputFile $cannyLaneFinalReviewFile `
+  -ExpectedOutputType "json"
+
+$baseLaneFinalReviewBlockerFile = Join-Path $tempRoot "base_lane_final_review_blocker_packet.json"
+$baseLaneFinalReviewBlockerMarkdown = Join-Path $tempRoot "base_lane_final_review_blocker_packet.md"
+$localSmokeResults += Invoke-LocalHelper -Name "base_lane_final_review_blocker_packet_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-BaseLaneFinalReviewBlockerPacket.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-WorkOrderFile", $activeRuntimeQueueFinalWorkOrderFile, "-OutFile", $baseLaneFinalReviewBlockerFile, "-MarkdownOutFile", $baseLaneFinalReviewBlockerMarkdown) `
+  -ExpectedOutputFile $baseLaneFinalReviewBlockerFile `
+  -ExpectedOutputType "json"
+
+$activeRuntimeQueueClosureRollupFile = Join-Path $tempRoot "active_runtime_queue_final_certification_closure_rollup.json"
+$activeRuntimeQueueClosureRollupMarkdown = Join-Path $tempRoot "active_runtime_queue_final_certification_closure_rollup.md"
+$localSmokeResults += Invoke-LocalHelper -Name "active_runtime_queue_final_certification_closure_rollup_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-ActiveRuntimeQueueFinalCertificationClosureRollup.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-WorkOrderFile", $activeRuntimeQueueFinalWorkOrderFile, "-DoneEvidenceDir", $tempRoot, "-OutFile", $activeRuntimeQueueClosureRollupFile, "-MarkdownOutFile", $activeRuntimeQueueClosureRollupMarkdown) `
+  -ExpectedOutputFile $activeRuntimeQueueClosureRollupFile `
+  -ExpectedOutputType "json"
+
+$activeRuntimeQueueTargetRuntimePlanFile = Join-Path $tempRoot "active_runtime_queue_target_runtime_execution_plan.json"
+$activeRuntimeQueueTargetRuntimePlanMarkdown = Join-Path $tempRoot "active_runtime_queue_target_runtime_execution_plan.md"
+$localSmokeResults += Invoke-LocalHelper -Name "active_runtime_queue_target_runtime_execution_plan_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-ActiveRuntimeQueueTargetRuntimeExecutionPlan.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-ClosureRollupFile", $activeRuntimeQueueClosureRollupFile, "-OutFile", $activeRuntimeQueueTargetRuntimePlanFile, "-MarkdownOutFile", $activeRuntimeQueueTargetRuntimePlanMarkdown) `
+  -ExpectedOutputFile $activeRuntimeQueueTargetRuntimePlanFile `
+  -ExpectedOutputType "json"
+
+$inpaintLaneFinalReviewBlockerFile = Join-Path $tempRoot "inpaint_lane_final_review_blocker_packet.json"
+$inpaintLaneFinalReviewBlockerMarkdown = Join-Path $tempRoot "inpaint_lane_final_review_blocker_packet.md"
+$localSmokeResults += Invoke-LocalHelper -Name "inpaint_lane_final_review_blocker_packet_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-InpaintLaneFinalReviewBlockerPacket.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-WorkOrderFile", $activeRuntimeQueueFinalWorkOrderFile, "-TargetRuntimePlanFile", $activeRuntimeQueueTargetRuntimePlanFile, "-OutFile", $inpaintLaneFinalReviewBlockerFile, "-MarkdownOutFile", $inpaintLaneFinalReviewBlockerMarkdown) `
+  -ExpectedOutputFile $inpaintLaneFinalReviewBlockerFile `
+  -ExpectedOutputType "json"
+
+$realesrganLaneFinalReviewBlockerFile = Join-Path $tempRoot "realesrgan_lane_final_review_blocker_packet.json"
+$realesrganLaneFinalReviewBlockerMarkdown = Join-Path $tempRoot "realesrgan_lane_final_review_blocker_packet.md"
+$localSmokeResults += Invoke-LocalHelper -Name "realesrgan_lane_final_review_blocker_packet_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-RealesrganLaneFinalReviewBlockerPacket.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-WorkOrderFile", $activeRuntimeQueueFinalWorkOrderFile, "-TargetRuntimePlanFile", $activeRuntimeQueueTargetRuntimePlanFile, "-OutFile", $realesrganLaneFinalReviewBlockerFile, "-MarkdownOutFile", $realesrganLaneFinalReviewBlockerMarkdown) `
+  -ExpectedOutputFile $realesrganLaneFinalReviewBlockerFile `
+  -ExpectedOutputType "json"
+
+$depthLaneFinalReviewBlockerFile = Join-Path $tempRoot "depth_lane_final_review_blocker_packet.json"
+$depthLaneFinalReviewBlockerMarkdown = Join-Path $tempRoot "depth_lane_final_review_blocker_packet.md"
+$localSmokeResults += Invoke-LocalHelper -Name "depth_lane_final_review_blocker_packet_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-DepthLaneFinalReviewBlockerPacket.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-WorkOrderFile", $activeRuntimeQueueFinalWorkOrderFile, "-TargetRuntimePlanFile", $activeRuntimeQueueTargetRuntimePlanFile, "-OutFile", $depthLaneFinalReviewBlockerFile, "-MarkdownOutFile", $depthLaneFinalReviewBlockerMarkdown) `
+  -ExpectedOutputFile $depthLaneFinalReviewBlockerFile `
+  -ExpectedOutputType "json"
+
+$lineartLaneFinalReviewBlockerFile = Join-Path $tempRoot "lineart_lane_final_review_blocker_packet.json"
+$lineartLaneFinalReviewBlockerMarkdown = Join-Path $tempRoot "lineart_lane_final_review_blocker_packet.md"
+$localSmokeResults += Invoke-LocalHelper -Name "lineart_lane_final_review_blocker_packet_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-LineartLaneFinalReviewBlockerPacket.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-WorkOrderFile", $activeRuntimeQueueFinalWorkOrderFile, "-TargetRuntimePlanFile", $activeRuntimeQueueTargetRuntimePlanFile, "-OutFile", $lineartLaneFinalReviewBlockerFile, "-MarkdownOutFile", $lineartLaneFinalReviewBlockerMarkdown) `
+  -ExpectedOutputFile $lineartLaneFinalReviewBlockerFile `
+  -ExpectedOutputType "json"
+
+$openposeLaneFinalReviewBlockerFile = Join-Path $tempRoot "openpose_lane_final_review_blocker_packet.json"
+$openposeLaneFinalReviewBlockerMarkdown = Join-Path $tempRoot "openpose_lane_final_review_blocker_packet.md"
+$localSmokeResults += Invoke-LocalHelper -Name "openpose_lane_final_review_blocker_packet_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-OpenposeLaneFinalReviewBlockerPacket.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-WorkOrderFile", $activeRuntimeQueueFinalWorkOrderFile, "-TargetRuntimePlanFile", $activeRuntimeQueueTargetRuntimePlanFile, "-OutFile", $openposeLaneFinalReviewBlockerFile, "-MarkdownOutFile", $openposeLaneFinalReviewBlockerMarkdown) `
+  -ExpectedOutputFile $openposeLaneFinalReviewBlockerFile `
+  -ExpectedOutputType "json"
+
+$normalLaneFinalReviewBlockerFile = Join-Path $tempRoot "normal_lane_final_review_blocker_packet.json"
+$normalLaneFinalReviewBlockerMarkdown = Join-Path $tempRoot "normal_lane_final_review_blocker_packet.md"
+$localSmokeResults += Invoke-LocalHelper -Name "normal_lane_final_review_blocker_packet_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-NormalLaneFinalReviewBlockerPacket.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-WorkOrderFile", $activeRuntimeQueueFinalWorkOrderFile, "-TargetRuntimePlanFile", $activeRuntimeQueueTargetRuntimePlanFile, "-OutFile", $normalLaneFinalReviewBlockerFile, "-MarkdownOutFile", $normalLaneFinalReviewBlockerMarkdown) `
+  -ExpectedOutputFile $normalLaneFinalReviewBlockerFile `
+  -ExpectedOutputType "json"
+
+$activeRuntimeQueueFinalReviewEvidenceCoverageFile = Join-Path $tempRoot "active_runtime_queue_final_review_evidence_coverage.json"
+$activeRuntimeQueueFinalReviewEvidenceCoverageMarkdown = Join-Path $tempRoot "active_runtime_queue_final_review_evidence_coverage.md"
+$localSmokeResults += Invoke-LocalHelper -Name "active_runtime_queue_final_review_evidence_coverage_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-ActiveRuntimeQueueFinalReviewEvidenceCoverage.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-WorkOrderFile", $activeRuntimeQueueFinalWorkOrderFile, "-ClosureRollupFile", $activeRuntimeQueueClosureRollupFile, "-DoneEvidenceDir", $tempRoot, "-OutFile", $activeRuntimeQueueFinalReviewEvidenceCoverageFile, "-MarkdownOutFile", $activeRuntimeQueueFinalReviewEvidenceCoverageMarkdown) `
+  -ExpectedOutputFile $activeRuntimeQueueFinalReviewEvidenceCoverageFile `
+  -ExpectedOutputType "json"
+
+$selectedTargetRuntimeLanePackageReadinessFile = Join-Path $tempRoot "selected_target_runtime_lane_package_readiness.json"
+$selectedTargetRuntimeLanePackageReadinessMarkdown = Join-Path $tempRoot "selected_target_runtime_lane_package_readiness.md"
+$localSmokeResults += Invoke-LocalHelper -Name "selected_target_runtime_lane_package_readiness_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-SelectedTargetRuntimeLanePackageReadiness.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-TargetRuntimePlanFile", $activeRuntimeQueueTargetRuntimePlanFile, "-OutFile", $selectedTargetRuntimeLanePackageReadinessFile, "-MarkdownOutFile", $selectedTargetRuntimeLanePackageReadinessMarkdown) `
+  -ExpectedOutputFile $selectedTargetRuntimeLanePackageReadinessFile `
+  -ExpectedOutputType "json"
+
+$selectedTargetRuntimeLaunchGateFile = Join-Path $tempRoot "selected_target_runtime_launch_gate.json"
+$selectedTargetRuntimeLaunchGateMarkdown = Join-Path $tempRoot "selected_target_runtime_launch_gate.md"
+$localSmokeResults += Invoke-LocalHelper -Name "selected_target_runtime_launch_gate_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-SelectedTargetRuntimeLaunchGate.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-TargetRuntimePlanFile", $activeRuntimeQueueTargetRuntimePlanFile, "-SelectedPackageReadinessFile", $selectedTargetRuntimeLanePackageReadinessFile, "-OutFile", $selectedTargetRuntimeLaunchGateFile, "-MarkdownOutFile", $selectedTargetRuntimeLaunchGateMarkdown) `
+  -ExpectedOutputFile $selectedTargetRuntimeLaunchGateFile `
+  -ExpectedOutputType "json"
+
+$activeRuntimeQueuePackageDeployMatrixFile = Join-Path $tempRoot "active_runtime_queue_package_deploy_matrix.json"
+$activeRuntimeQueuePackageDeployMatrixMarkdown = Join-Path $tempRoot "active_runtime_queue_package_deploy_matrix.md"
+$localSmokeResults += Invoke-LocalHelper -Name "active_runtime_queue_package_deploy_matrix_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-ActiveRuntimeQueuePackageDeployMatrix.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-OutFile", $activeRuntimeQueuePackageDeployMatrixFile, "-MarkdownOutFile", $activeRuntimeQueuePackageDeployMatrixMarkdown) `
+  -ExpectedOutputFile $activeRuntimeQueuePackageDeployMatrixFile `
+  -ExpectedOutputType "json"
+
+$selectedTargetRuntimePreEC2HandoffBundleFile = Join-Path $tempRoot "selected_target_runtime_pre_ec2_handoff_bundle.json"
+$selectedTargetRuntimePreEC2HandoffBundleMarkdown = Join-Path $tempRoot "selected_target_runtime_pre_ec2_handoff_bundle.md"
+$localSmokeResults += Invoke-LocalHelper -Name "selected_target_runtime_pre_ec2_handoff_bundle_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-SelectedTargetRuntimePreEC2HandoffBundle.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-TargetRuntimePlanFile", $activeRuntimeQueueTargetRuntimePlanFile, "-SelectedPackageReadinessFile", $selectedTargetRuntimeLanePackageReadinessFile, "-SelectedLaunchGateFile", $selectedTargetRuntimeLaunchGateFile, "-PackageDeployMatrixFile", $activeRuntimeQueuePackageDeployMatrixFile, "-OutFile", $selectedTargetRuntimePreEC2HandoffBundleFile, "-MarkdownOutFile", $selectedTargetRuntimePreEC2HandoffBundleMarkdown) `
+  -ExpectedOutputFile $selectedTargetRuntimePreEC2HandoffBundleFile `
+  -ExpectedOutputType "json"
+
+$selectedTargetRuntimeLocalRecheckLedgerFile = Join-Path $tempRoot "selected_target_runtime_local_recheck_ledger.json"
+$selectedTargetRuntimeLocalRecheckLedgerMarkdown = Join-Path $tempRoot "selected_target_runtime_local_recheck_ledger.md"
+$localSmokeResults += Invoke-LocalHelper -Name "selected_target_runtime_local_recheck_ledger_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-SelectedTargetRuntimeLocalRecheckLedger.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-PreEC2HandoffBundleFile", $selectedTargetRuntimePreEC2HandoffBundleFile, "-OutFile", $selectedTargetRuntimeLocalRecheckLedgerFile, "-MarkdownOutFile", $selectedTargetRuntimeLocalRecheckLedgerMarkdown) `
+  -ExpectedOutputFile $selectedTargetRuntimeLocalRecheckLedgerFile `
   -ExpectedOutputType "json"
 
 $ec2WorkflowMatrixQualityRunPlanFile = Join-Path $tempRoot "ec2_workflow_matrix_quality_run_plan.json"

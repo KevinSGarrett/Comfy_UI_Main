@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_LOCAL_MF70_FACE_FULL_INSTANCE_SEED210802_VISUAL_QA_20260707T150500-0500",
+  "created_at": "2026-07-07T15:05:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "mask_type_id": "mf70_face_full_instance",
+  "tracker_id": "TRK-W70-0001",
+  "item_id": "ITEM-W70-0001",
+  "qa_type": "strict_whole_image_visual_qa",
+  "result": "pass_with_notes_local_wave70_face_full_instance_generated_output",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "source_image": "ComfyUI/input/wave70_mf70_face_identity_source_canny_v3.png",
+  "mask_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_face_full_instance_20260707T145500-0500/wave70_mf70_face_full_instance_overlay.png",
+  "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_face_full_instance_seed210802_20260707T145730-0500/images/codex_wave70_mf70_face_full_instance_seed210802_00001_.png",
+  "generated_output_sha256": "b0ca322efc4c2f73e5c12fa84854268fd6f91d478bd8879f7a5baad41e939f72",
+  "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_face_full_instance_seed210802_20260707T145730-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00008_.png",
+  "diagnostic_mask_preview_sha256": "446f03e587f4e36f996ac894157ab7d75271c80470b5c3dc2d2c308bf0d51b33",
+  "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_face_full_instance/qa_comparisons/wave70_mf70_face_full_instance_source_overlay_output_compare.png",
+  "comparison_artifact_sha256": "b26a2e73b32ad149ba6e7b2f5444b5bcd1642c197f2ac9e874905bd3bed478f1",
+  "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_FACE_FULL_INSTANCE_SEED210802_EXECUTE_20260707T150000-0500.json",
+  "runtime_evidence_sha256": "765197be1c7c27412a777227c3153f26ca5298813e7bef14a4b7ae2a8c20d5fd",
+  "visual_findings": [
+    "Generated output preserves the source portrait identity, eye/gaze alignment, hair silhouette, white blazer, neck, and background.",
+    "The revised full-face mask avoids clothing and broad hair/background in the generated pass.",
+    "Low denoise keeps the image stable; face-region change is subtle and does not introduce obvious seams or plastic skin.",
+    "Small occluding side-hair contact at the mask boundary remains a note, not a failure for local generated-output support."
+  ],
+  "decision": {
+    "generated_output_proof_present": true,
+    "whole_image_visual_qa_passed_with_notes": true,
+    "target_runtime_proof_present": false,
+    "final_certification_allowed": false,
+    "remaining_blockers": [
+      "target_runtime_proof_required_before_final_certification"
+    ]
+  }
+}

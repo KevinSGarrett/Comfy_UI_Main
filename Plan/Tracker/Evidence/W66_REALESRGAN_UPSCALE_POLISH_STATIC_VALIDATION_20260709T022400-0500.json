@@ -1,0 +1,47 @@
+{
+    "evidence_id":  "LOCAL-COMFY-WORKFLOW-STATIC-20260709T022453-0500",
+    "timestamp":  "2026-07-09T02:24:53-05:00",
+    "lane_dir":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realesrgan_upscale_polish_lane",
+    "workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realesrgan_upscale_polish_lane/workflow.api.json",
+    "lane_id":  "sdxl_realesrgan_upscale_polish_lane",
+    "qa_status":  "pass",
+    "node_count":  4,
+    "link_count":  3,
+    "class_counts":  {
+                         "LoadImage":  1,
+                         "UpscaleModelLoader":  1,
+                         "SaveImage":  1,
+                         "ImageUpscaleWithModel":  1
+                     },
+    "checkpoint_nodes":  [
+
+                         ],
+    "model_reference_checks":  [
+                                   {
+                                       "role":  "upscale_model",
+                                       "filename":  "RealESRGAN_x4plus.pth",
+                                       "node_id":  "2",
+                                       "node_class":  "UpscaleModelLoader",
+                                       "input":  "model_name",
+                                       "observed":  [
+                                                        "2.model_name=RealESRGAN_x4plus.pth"
+                                                    ],
+                                       "matched":  true
+                                   }
+                               ],
+    "defects":  [
+
+                ],
+    "warnings":  [
+
+                 ],
+    "runtime_gates_not_proven_by_static_validation":  [
+                                                          "ComfyUI object_info node compatibility",
+                                                          "model path resolution",
+                                                          "model sha256/hash proof",
+                                                          "model load validation",
+                                                          "runtime execution output",
+                                                          "generated artifact QA"
+                                                      ],
+    "next_action":  "Refresh AWS auth, run EC2 static proof for object_info/path/hash, then run bounded smoke execution."
+}

@@ -1,0 +1,620 @@
+﻿{
+    "evidence_id":  "EVID-W61-RUNTIME-LANE-QUEUE-VALIDATION-20260709T020756-0500",
+    "created_at":  "2026-07-09T02:07:56-05:00",
+    "artifact_id":  "TRK-W61-006",
+    "artifact_type":  "runtime_lane_queue_local_validation",
+    "tracker_ids":  [
+                        "TRK-W61-006",
+                        "TRK-W61-011"
+                    ],
+    "item_ids":  [
+                     "ITEM-W61-006",
+                     "ITEM-W61-011"
+                 ],
+    "qa_protocol_used":  [
+                             "README_QA_WAVE61.md",
+                             "COMFYUI_WORKFLOW_TESTING_PROTOCOL.md",
+                             "QA_EVIDENCE_LOG_PROTOCOL.md"
+                         ],
+    "scope":  [
+                  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+                  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/*/workflow.api.json",
+                  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/*/runtime_requirements.json",
+                  "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/*AUTHORED_LANE_EVIDENCE_COVERAGE*.json"
+              ],
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "queue_file":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+    "coverage_file":  "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W66_AUTHORED_LANE_EVIDENCE_COVERAGE_CURRENT_ACTIVE_LANES_20260709T020800-0500.json",
+    "authored_base_generation_lane_count":  9,
+    "authored_base_generation_lanes":  [
+                                           "sdxl_low_risk_fallback_lane",
+                                           "sdxl_realesrgan_upscale_polish_lane",
+                                           "sdxl_realvisxl_base_lane",
+                                           "sdxl_realvisxl_controlnet_canny_lane",
+                                           "sdxl_realvisxl_controlnet_depth_lane",
+                                           "sdxl_realvisxl_controlnet_lineart_lane",
+                                           "sdxl_realvisxl_controlnet_normal_lane",
+                                           "sdxl_realvisxl_controlnet_openpose_lane",
+                                           "sdxl_realvisxl_inpaint_detail_lane"
+                                       ],
+    "queued_lane_count":  8,
+    "queued_lanes":  [
+                         "sdxl_low_risk_fallback_lane",
+                         "sdxl_realvisxl_base_lane",
+                         "sdxl_realvisxl_controlnet_canny_lane",
+                         "sdxl_realvisxl_inpaint_detail_lane",
+                         "sdxl_realvisxl_controlnet_depth_lane",
+                         "sdxl_realvisxl_controlnet_lineart_lane",
+                         "sdxl_realvisxl_controlnet_openpose_lane",
+                         "sdxl_realvisxl_controlnet_normal_lane"
+                     ],
+    "first_runtime_lane_id":  "sdxl_low_risk_fallback_lane",
+    "required_first_runtime_lane_id":  "sdxl_low_risk_fallback_lane",
+    "required_second_lane_id":  "sdxl_realvisxl_base_lane",
+    "current_runtime_lane_id":  "none_local_package_smoke_matrix_complete",
+    "completed_runtime_lane_ids":  [
+                                       "sdxl_low_risk_fallback_lane",
+                                       "sdxl_realvisxl_base_lane",
+                                       "sdxl_realvisxl_controlnet_canny_lane",
+                                       "sdxl_realvisxl_controlnet_depth_lane",
+                                       "sdxl_realvisxl_controlnet_lineart_lane",
+                                       "sdxl_realvisxl_controlnet_normal_lane",
+                                       "sdxl_realvisxl_controlnet_openpose_lane",
+                                       "sdxl_realvisxl_inpaint_detail_lane"
+                                   ],
+    "queue_checks":  [
+                         {
+                             "name":  "queue_file_exists",
+                             "result":  "pass",
+                             "expected":  "runtime_lane_queue.json exists",
+                             "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+                             "details":  null
+                         },
+                         {
+                             "name":  "queue_json_valid",
+                             "result":  "pass",
+                             "expected":  "valid JSON",
+                             "observed":  "valid",
+                             "details":  null
+                         },
+                         {
+                             "name":  "authored_base_generation_lanes_discovered",
+                             "result":  "pass",
+                             "expected":  "at least one concrete authored lane discovered",
+                             "observed":  "9: sdxl_low_risk_fallback_lane, sdxl_realesrgan_upscale_polish_lane, sdxl_realvisxl_base_lane, sdxl_realvisxl_controlnet_canny_lane, sdxl_realvisxl_controlnet_depth_lane, sdxl_realvisxl_controlnet_lineart_lane, sdxl_realvisxl_controlnet_normal_lane, sdxl_realvisxl_controlnet_openpose_lane, sdxl_realvisxl_inpaint_detail_lane",
+                             "details":  null
+                         },
+                         {
+                             "name":  "selection_policy_first_lane",
+                             "result":  "pass",
+                             "expected":  "first_runtime_lane_id=sdxl_low_risk_fallback_lane",
+                             "observed":  "sdxl_low_risk_fallback_lane",
+                             "details":  null
+                         },
+                         {
+                             "name":  "selection_policy_current_lane",
+                             "result":  "fail",
+                             "expected":  "current_runtime_lane_id is nonblank and present in queue lanes",
+                             "observed":  "none_local_package_smoke_matrix_complete",
+                             "details":  null
+                         },
+                         {
+                             "name":  "first_lane_marked_completed",
+                             "result":  "pass",
+                             "expected":  "completed_runtime_lane_ids contains sdxl_low_risk_fallback_lane",
+                             "observed":  "sdxl_low_risk_fallback_lane, sdxl_realvisxl_base_lane, sdxl_realvisxl_controlnet_canny_lane, sdxl_realvisxl_controlnet_depth_lane, sdxl_realvisxl_controlnet_lineart_lane, sdxl_realvisxl_controlnet_normal_lane, sdxl_realvisxl_controlnet_openpose_lane, sdxl_realvisxl_inpaint_detail_lane",
+                             "details":  null
+                         },
+                         {
+                             "name":  "selection_policy_do_not_promote_later_lanes_before_first_lane_runtime_proof",
+                             "result":  "pass",
+                             "expected":  "do_not_promote_later_lanes_before_first_lane_runtime_proof=true",
+                             "observed":  "True",
+                             "details":  null
+                         },
+                         {
+                             "name":  "selection_policy_later_lane_promotion_allowed_after_first_lane_runtime_proof",
+                             "result":  "pass",
+                             "expected":  "later_lane_promotion_allowed_after_first_lane_runtime_proof=true",
+                             "observed":  "True",
+                             "details":  null
+                         },
+                         {
+                             "name":  "selection_policy_requires_aws_auth_gate_before_ec2",
+                             "result":  "pass",
+                             "expected":  "requires_aws_auth_gate_before_ec2=true",
+                             "observed":  "True",
+                             "details":  null
+                         },
+                         {
+                             "name":  "selection_policy_requires_clean_git_checkpoint_before_ec2_execute",
+                             "result":  "pass",
+                             "expected":  "requires_clean_git_checkpoint_before_ec2_execute=true",
+                             "observed":  "True",
+                             "details":  null
+                         },
+                         {
+                             "name":  "selection_policy_requires_lane_matched_evidence",
+                             "result":  "pass",
+                             "expected":  "requires_lane_matched_evidence=true",
+                             "observed":  "True",
+                             "details":  null
+                         },
+                         {
+                             "name":  "runtime_boundary_no_ec2_start",
+                             "result":  "pass",
+                             "expected":  "ec2_start_allowed_by_queue_file=false",
+                             "observed":  "False",
+                             "details":  null
+                         },
+                         {
+                             "name":  "runtime_boundary_no_generation",
+                             "result":  "pass",
+                             "expected":  "generation_allowed_by_queue_file=false",
+                             "observed":  "False",
+                             "details":  null
+                         },
+                         {
+                             "name":  "queue_lanes_present",
+                             "result":  "pass",
+                             "expected":  "one or more queued lanes",
+                             "observed":  "8: sdxl_low_risk_fallback_lane, sdxl_realvisxl_base_lane, sdxl_realvisxl_controlnet_canny_lane, sdxl_realvisxl_inpaint_detail_lane, sdxl_realvisxl_controlnet_depth_lane, sdxl_realvisxl_controlnet_lineart_lane, sdxl_realvisxl_controlnet_openpose_lane, sdxl_realvisxl_controlnet_normal_lane",
+                             "details":  null
+                         },
+                         {
+                             "name":  "queue_orders_valid_unique",
+                             "result":  "pass",
+                             "expected":  "every queued lane has a unique numeric order",
+                             "observed":  "missing=0; duplicate=",
+                             "details":  null
+                         },
+                         {
+                             "name":  "queue_lane_ids_unique",
+                             "result":  "pass",
+                             "expected":  "every queued lane id is unique",
+                             "observed":  "unique",
+                             "details":  null
+                         },
+                         {
+                             "name":  "first_runtime_lane_order",
+                             "result":  "pass",
+                             "expected":  "order=1 lane_id=sdxl_low_risk_fallback_lane",
+                             "observed":  "order=1 lane_id=sdxl_low_risk_fallback_lane",
+                             "details":  null
+                         },
+                         {
+                             "name":  "realvisxl_lane_queued_after_first",
+                             "result":  "pass",
+                             "expected":  "sdxl_realvisxl_base_lane is present after order 1",
+                             "observed":  "order=2",
+                             "details":  null
+                         },
+                         {
+                             "name":  "queued_lanes_are_concrete_authored_lanes",
+                             "result":  "pass",
+                             "expected":  "all queued lane ids have concrete authored lane files",
+                             "observed":  "all queued lanes authored",
+                             "details":  null
+                         },
+                         {
+                             "name":  "all_concrete_authored_lanes_are_queued",
+                             "result":  "fail",
+                             "expected":  "every concrete authored base-generation lane is represented in the runtime queue",
+                             "observed":  "sdxl_realesrgan_upscale_polish_lane",
+                             "details":  null
+                         }
+                     ],
+    "lane_queue_results":  [
+                               {
+                                   "order":  1,
+                                   "lane_id":  "sdxl_low_risk_fallback_lane",
+                                   "role":  "first_ec2_static_proof_and_bounded_smoke_generation",
+                                   "checks":  [
+                                                  {
+                                                      "name":  "lane_is_authored",
+                                                      "result":  "pass",
+                                                      "expected":  "lane exists as concrete authored directory",
+                                                      "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane",
+                                                      "details":  null
+                                                  },
+                                                  {
+                                                      "name":  "workflow_path_matches_lane",
+                                                      "result":  "pass",
+                                                      "expected":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
+                                                      "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
+                                                      "details":  null
+                                                  },
+                                                  {
+                                                      "name":  "requirements_path_matches_lane",
+                                                      "result":  "pass",
+                                                      "expected":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
+                                                      "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
+                                                      "details":  null
+                                                  },
+                                                  {
+                                                      "name":  "lane_status_expected",
+                                                      "result":  "pass",
+                                                      "expected":  "runtime_smoke_proven",
+                                                      "observed":  "runtime_smoke_proven",
+                                                      "details":  null
+                                                  }
+                                              ],
+                                   "failed_check_count":  0,
+                                   "result":  "pass"
+                               },
+                               {
+                                   "order":  2,
+                                   "lane_id":  "sdxl_realvisxl_base_lane",
+                                   "role":  "second_sdxl_realvisxl_checkpoint_path_hash_load_output_qa_plus_local_single_hand_contact_closeup_and_two_character_contact_pass_with_notes",
+                                   "checks":  [
+                                                  {
+                                                      "name":  "lane_is_authored",
+                                                      "result":  "pass",
+                                                      "expected":  "lane exists as concrete authored directory",
+                                                      "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane",
+                                                      "details":  null
+                                                  },
+                                                  {
+                                                      "name":  "workflow_path_matches_lane",
+                                                      "result":  "pass",
+                                                      "expected":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/workflow.api.json",
+                                                      "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/workflow.api.json",
+                                                      "details":  null
+                                                  },
+                                                  {
+                                                      "name":  "requirements_path_matches_lane",
+                                                      "result":  "pass",
+                                                      "expected":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/runtime_requirements.json",
+                                                      "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/runtime_requirements.json",
+                                                      "details":  null
+                                                  },
+                                                  {
+                                                      "name":  "lane_status_expected",
+                                                      "result":  "fail",
+                                                      "expected":  "runtime_smoke_proven",
+                                                      "observed":  "runtime_smoke_proven_local_single_hand_contact_closeup_and_two_character_contact_pixel_attempt_pass_with_notes_pending_final_certification",
+                                                      "details":  null
+                                                  }
+                                              ],
+                                   "failed_check_count":  1,
+                                   "result":  "fail"
+                               },
+                               {
+                                   "order":  3,
+                                   "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+                                   "role":  "third_sdxl_realvisxl_controlnet_canny_eyeonly_multiseed_robustness_pass_with_notes_pending_target_runtime",
+                                   "checks":  [
+                                                  {
+                                                      "name":  "lane_is_authored",
+                                                      "result":  "pass",
+                                                      "expected":  "lane exists as concrete authored directory",
+                                                      "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane",
+                                                      "details":  null
+                                                  },
+                                                  {
+                                                      "name":  "workflow_path_matches_lane",
+                                                      "result":  "pass",
+                                                      "expected":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+                                                      "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+                                                      "details":  null
+                                                  },
+                                                  {
+                                                      "name":  "requirements_path_matches_lane",
+                                                      "result":  "pass",
+                                                      "expected":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json",
+                                                      "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json",
+                                                      "details":  null
+                                                  },
+                                                  {
+                                                      "name":  "lane_status_expected",
+                                                      "result":  "fail",
+                                                      "expected":  "runtime_smoke_proven",
+                                                      "observed":  "target_runtime_smoke_proven_canny_v4_plus_local_package_and_multiseed_pass_with_notes_final_certification_pending",
+                                                      "details":  null
+                                                  }
+                                              ],
+                                   "failed_check_count":  1,
+                                   "result":  "fail"
+                               },
+                               {
+                                   "order":  4,
+                                   "lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+                                   "role":  "fourth_sdxl_realvisxl_inpaint_detail_nomouth_v4_local_runtime_mask_preview_handoff_plus_wave25_contact_refine_robustness_pass_with_notes_pending_target_runtime",
+                                   "checks":  [
+                                                  {
+                                                      "name":  "lane_is_authored",
+                                                      "result":  "pass",
+                                                      "expected":  "lane exists as concrete authored directory",
+                                                      "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane",
+                                                      "details":  null
+                                                  },
+                                                  {
+                                                      "name":  "workflow_path_matches_lane",
+                                                      "result":  "pass",
+                                                      "expected":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/workflow.api.json",
+                                                      "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/workflow.api.json",
+                                                      "details":  null
+                                                  },
+                                                  {
+                                                      "name":  "requirements_path_matches_lane",
+                                                      "result":  "pass",
+                                                      "expected":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/runtime_requirements.json",
+                                                      "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/runtime_requirements.json",
+                                                      "details":  null
+                                                  },
+                                                  {
+                                                      "name":  "lane_status_expected",
+                                                      "result":  "fail",
+                                                      "expected":  "runtime_smoke_proven",
+                                                      "observed":  "local_runtime_smoke_visual_qa_pass_with_notes_plus_wave25_contact_refine_robustness_pass_with_notes_pending_target_runtime",
+                                                      "details":  null
+                                                  }
+                                              ],
+                                   "failed_check_count":  1,
+                                   "result":  "fail"
+                               },
+                               {
+                                   "order":  5,
+                                   "lane_id":  "sdxl_realvisxl_controlnet_depth_lane",
+                                   "role":  "fifth_sdxl_realvisxl_controlnet_depth_v2_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+                                   "checks":  [
+                                                  {
+                                                      "name":  "lane_is_authored",
+                                                      "result":  "pass",
+                                                      "expected":  "lane exists as concrete authored directory",
+                                                      "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_depth_lane",
+                                                      "details":  null
+                                                  },
+                                                  {
+                                                      "name":  "workflow_path_matches_lane",
+                                                      "result":  "pass",
+                                                      "expected":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_depth_lane/workflow.api.json",
+                                                      "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_depth_lane/workflow.api.json",
+                                                      "details":  null
+                                                  },
+                                                  {
+                                                      "name":  "requirements_path_matches_lane",
+                                                      "result":  "pass",
+                                                      "expected":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_depth_lane/runtime_requirements.json",
+                                                      "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_depth_lane/runtime_requirements.json",
+                                                      "details":  null
+                                                  },
+                                                  {
+                                                      "name":  "lane_status_expected",
+                                                      "result":  "fail",
+                                                      "expected":  "runtime_smoke_proven",
+                                                      "observed":  "local_depth_v2_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+                                                      "details":  null
+                                                  }
+                                              ],
+                                   "failed_check_count":  1,
+                                   "result":  "fail"
+                               },
+                               {
+                                   "order":  6,
+                                   "lane_id":  "sdxl_realvisxl_controlnet_lineart_lane",
+                                   "role":  "sixth_sdxl_realvisxl_controlnet_lineart_v4_plain_backdrop_multiseed_robustness_pass_with_notes",
+                                   "checks":  [
+                                                  {
+                                                      "name":  "lane_is_authored",
+                                                      "result":  "pass",
+                                                      "expected":  "lane exists as concrete authored directory",
+                                                      "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_lineart_lane",
+                                                      "details":  null
+                                                  },
+                                                  {
+                                                      "name":  "workflow_path_matches_lane",
+                                                      "result":  "pass",
+                                                      "expected":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_lineart_lane/workflow.api.json",
+                                                      "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_lineart_lane/workflow.api.json",
+                                                      "details":  null
+                                                  },
+                                                  {
+                                                      "name":  "requirements_path_matches_lane",
+                                                      "result":  "pass",
+                                                      "expected":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_lineart_lane/runtime_requirements.json",
+                                                      "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_lineart_lane/runtime_requirements.json",
+                                                      "details":  null
+                                                  },
+                                                  {
+                                                      "name":  "lane_status_expected",
+                                                      "result":  "fail",
+                                                      "expected":  "runtime_smoke_proven",
+                                                      "observed":  "local_lineart_v4_plain_backdrop_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+                                                      "details":  null
+                                                  }
+                                              ],
+                                   "failed_check_count":  1,
+                                   "result":  "fail"
+                               },
+                               {
+                                   "order":  7,
+                                   "lane_id":  "sdxl_realvisxl_controlnet_openpose_lane",
+                                   "role":  "seventh_sdxl_realvisxl_controlnet_openpose_first_local_smoke_pass_with_notes_pending_target_runtime_and_multisample_certification",
+                                   "checks":  [
+                                                  {
+                                                      "name":  "lane_is_authored",
+                                                      "result":  "pass",
+                                                      "expected":  "lane exists as concrete authored directory",
+                                                      "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_openpose_lane",
+                                                      "details":  null
+                                                  },
+                                                  {
+                                                      "name":  "workflow_path_matches_lane",
+                                                      "result":  "pass",
+                                                      "expected":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_openpose_lane/workflow.api.json",
+                                                      "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_openpose_lane/workflow.api.json",
+                                                      "details":  null
+                                                  },
+                                                  {
+                                                      "name":  "requirements_path_matches_lane",
+                                                      "result":  "pass",
+                                                      "expected":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_openpose_lane/runtime_requirements.json",
+                                                      "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_openpose_lane/runtime_requirements.json",
+                                                      "details":  null
+                                                  },
+                                                  {
+                                                      "name":  "lane_status_expected",
+                                                      "result":  "fail",
+                                                      "expected":  "runtime_smoke_proven",
+                                                      "observed":  "local_openpose_tablehands_multisample_pass_with_notes_pending_target_runtime_and_final_hand_certification",
+                                                      "details":  null
+                                                  }
+                                              ],
+                                   "failed_check_count":  1,
+                                   "result":  "fail"
+                               },
+                               {
+                                   "order":  8,
+                                   "lane_id":  "sdxl_realvisxl_controlnet_normal_lane",
+                                   "role":  "eighth_sdxl_realvisxl_controlnet_normal_v3_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+                                   "checks":  [
+                                                  {
+                                                      "name":  "lane_is_authored",
+                                                      "result":  "pass",
+                                                      "expected":  "lane exists as concrete authored directory",
+                                                      "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_normal_lane",
+                                                      "details":  null
+                                                  },
+                                                  {
+                                                      "name":  "workflow_path_matches_lane",
+                                                      "result":  "pass",
+                                                      "expected":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_normal_lane/workflow.api.json",
+                                                      "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_normal_lane/workflow.api.json",
+                                                      "details":  null
+                                                  },
+                                                  {
+                                                      "name":  "requirements_path_matches_lane",
+                                                      "result":  "pass",
+                                                      "expected":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_normal_lane/runtime_requirements.json",
+                                                      "observed":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_normal_lane/runtime_requirements.json",
+                                                      "details":  null
+                                                  },
+                                                  {
+                                                      "name":  "lane_status_expected",
+                                                      "result":  "fail",
+                                                      "expected":  "runtime_smoke_proven",
+                                                      "observed":  "local_normal_v3_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+                                                      "details":  null
+                                                  }
+                                              ],
+                                   "failed_check_count":  1,
+                                   "result":  "fail"
+                               }
+                           ],
+    "coverage_checks":  [
+                            {
+                                "name":  "coverage_file_found",
+                                "result":  "pass",
+                                "expected":  "authored-lane evidence coverage file exists",
+                                "observed":  "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W66_AUTHORED_LANE_EVIDENCE_COVERAGE_CURRENT_ACTIVE_LANES_20260709T020800-0500.json",
+                                "details":  null
+                            },
+                            {
+                                "name":  "coverage_json_valid",
+                                "result":  "pass",
+                                "expected":  "valid JSON",
+                                "observed":  "valid",
+                                "details":  null
+                            },
+                            {
+                                "name":  "coverage_result_pass_local_only",
+                                "result":  "fail",
+                                "expected":  "result=pass_local_only",
+                                "observed":  "fail",
+                                "details":  null
+                            },
+                            {
+                                "name":  "coverage_failed_lane_count_zero",
+                                "result":  "fail",
+                                "expected":  "failed_lane_count=0",
+                                "observed":  "5",
+                                "details":  null
+                            },
+                            {
+                                "name":  "coverage_lane_count_matches_authored_lanes",
+                                "result":  "pass",
+                                "expected":  "authored_base_generation_lane_count=9",
+                                "observed":  "9",
+                                "details":  null
+                            },
+                            {
+                                "name":  "coverage_local_only",
+                                "result":  "pass",
+                                "expected":  "local_only=true",
+                                "observed":  "True",
+                                "details":  null
+                            },
+                            {
+                                "name":  "coverage_aws_contacted",
+                                "result":  "pass",
+                                "expected":  "aws_contacted=false",
+                                "observed":  "False",
+                                "details":  null
+                            },
+                            {
+                                "name":  "coverage_github_api_contacted",
+                                "result":  "pass",
+                                "expected":  "github_api_contacted=false",
+                                "observed":  "False",
+                                "details":  null
+                            },
+                            {
+                                "name":  "coverage_civitai_contacted",
+                                "result":  "pass",
+                                "expected":  "civitai_contacted=false",
+                                "observed":  "False",
+                                "details":  null
+                            },
+                            {
+                                "name":  "coverage_comfyui_contacted",
+                                "result":  "pass",
+                                "expected":  "comfyui_contacted=false",
+                                "observed":  "False",
+                                "details":  null
+                            },
+                            {
+                                "name":  "coverage_ec2_started",
+                                "result":  "pass",
+                                "expected":  "ec2_started=false",
+                                "observed":  "False",
+                                "details":  null
+                            },
+                            {
+                                "name":  "coverage_generation_executed",
+                                "result":  "pass",
+                                "expected":  "generation_executed=false",
+                                "observed":  "False",
+                                "details":  null
+                            },
+                            {
+                                "name":  "coverage_contains_all_queued_lanes",
+                                "result":  "pass",
+                                "expected":  "coverage lane list contains every queued lane",
+                                "observed":  "all queued lanes covered",
+                                "details":  null
+                            },
+                            {
+                                "name":  "coverage_queue_lane_results_pass",
+                                "result":  "fail",
+                                "expected":  "every queued lane has coverage result=pass",
+                                "observed":  "sdxl_realvisxl_controlnet_depth_lane, sdxl_realvisxl_controlnet_lineart_lane, sdxl_realvisxl_controlnet_openpose_lane, sdxl_realvisxl_controlnet_normal_lane",
+                                "details":  null
+                            }
+                        ],
+    "failed_check_count":  12,
+    "result":  "fail",
+    "known_limits":  [
+                         "Does not refresh AWS browser/SSO auth.",
+                         "Does not start EC2 or contact ComfyUI.",
+                         "Does not prove checkpoint path/hash or runtime model load.",
+                         "Does not execute generation or perform generated artifact visual QA."
+                     ],
+    "next_action":  "If a queued lane is not yet runtime-smoke proven, run lane-specific readiness, EC2 static proof, bounded smoke execution, pullback, and image QA only after auth and Git gates pass. If all queued lanes are proven, choose the next lane/module or deeper QA target intentionally."
+}

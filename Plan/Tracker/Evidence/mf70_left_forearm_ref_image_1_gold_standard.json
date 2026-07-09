@@ -1,0 +1,114 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_MF70_LEFT_FOREARM_REF_IMAGE_1_GOLD_STANDARD_20260708T134610-0500",
+  "created_local": "20260708T134610-0500",
+  "created_iso": "2026-07-08T13:46:10-05:00",
+  "script": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave70_mf70_left_forearm_ref_image_1_gold_standard.py",
+  "task": "Re-evaluate mf70_left_forearm for TRK-W70-0157 / ITEM-W70-0157 using Ref_Image_1 gold-standard body masks.",
+  "environment": {
+    "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]"
+  },
+  "ref_image_1_manifest": {
+    "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_body_mask_gold_standard.json",
+    "sha256": "08aae0b644cbd3b8a07f056058582ed1a18600f13c4b96044bb6a728a743249a",
+    "runtime_copy": "runtime_artifacts/mask_factory/wave70_mf70_left_forearm_ref_image_1/20260708T134610-0500/ref_image_1_body_mask_gold_standard.json",
+    "evidence_id": "W70_REF_IMAGE_1_BODY_MASK_GOLD_STANDARD_20260708T133754-0500",
+    "created_local": "20260708T133754-0500"
+  },
+  "layout_interpretation": {
+    "top_strip": {
+      "description": "partial upper-body / one-third-body pose reference strip",
+      "expected_body_part_completeness": "partial",
+      "absence_of_lower_body_masks_means": "not_applicable_to_top_strip_not_a_mask_failure"
+    },
+    "lower_strip": {
+      "description": "full-body pose strip with body-part mask overlays",
+      "expected_body_part_completeness": "primary_full_body_mask_reference_area",
+      "use_for_full_body_validation": true
+    },
+    "validation_rule": "Do not mark a body part missing because it is absent from the top partial-body strip; evaluate full body-part coverage primarily against the lower full-body strip and the labeled part overlay files."
+  },
+  "left_forearm_gold_masks": {
+    "primary_left_lower_arm": {
+      "source_overlay_path": "Ref_Image_1/Arms/left lower arm/ChatGPT Image Jul 8, 2026, 01_11_57 PM (6).png",
+      "source_overlay_sha256": "d4c5f01b0cef5ff2549f350117ec011b74da7136739ea39b5bd99bd66c0b8871",
+      "label": "arms_left_lower_arm",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/arms_left_lower_arm.png",
+      "binary_mask_sha256": "a745787af13cab5cf03c58737d4ea83255c2ba995fc4828db0f656386bcc2d86",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/mask_previews/arms_left_lower_arm_preview.png",
+      "preview_sha256": "8a978ff3a5cf8244137144b5ba145b8f650525e4762f3b5c26bcb1b7945f0b34",
+      "red_overlay_pixel_count": 13537,
+      "red_overlay_coverage_ratio": 0.008611,
+      "mask_type_candidates": [
+        "mf70_left_forearm"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=125, b<=120, r-g>=75, r-b>=75"
+    },
+    "aggregate_lower_arms_forearms": {
+      "source_overlay_path": "Ref_Image_1/Arms/lower arm - fore arms/ChatGPT Image Jul 8, 2026, 01_11_56 PM (2).png",
+      "source_overlay_sha256": "9d69d8b2e20d820d23a980d1fe692e014c17b6e702abc431fe072ab39623777d",
+      "label": "arms_lower_arm_fore_arms",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/arms_lower_arm_fore_arms.png",
+      "binary_mask_sha256": "3c04bf661967d5e3aec1ae50d1870629afb9ccb3bc5be4f657849b77b9c1af16",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/mask_previews/arms_lower_arm_fore_arms_preview.png",
+      "preview_sha256": "8b5dbc73d37fde35dcb2fd247cc58c4523eefcd446cc6dfe1ab60f45c1de5bb4",
+      "red_overlay_pixel_count": 19590,
+      "red_overlay_coverage_ratio": 0.012461,
+      "mask_type_candidates": [
+        "mf70_left_forearm",
+        "mf70_right_forearm",
+        "mf70_forearms"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=125, b<=120, r-g>=75, r-b>=75"
+    },
+    "primary_binary_mask_exists": true,
+    "aggregate_binary_mask_exists": true,
+    "primary_binary_mask_sha256": "a745787af13cab5cf03c58737d4ea83255c2ba995fc4828db0f656386bcc2d86",
+    "aggregate_binary_mask_sha256": "3c04bf661967d5e3aec1ae50d1870629afb9ccb3bc5be4f657849b77b9c1af16"
+  },
+  "artifacts": {
+    "panel": "runtime_artifacts/mask_factory/wave70_mf70_left_forearm_ref_image_1/20260708T134610-0500/mf70_left_forearm_ref_image_1_gold_standard_panel.png",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_mf70_left_forearm_ref_image_1/20260708T134610-0500/mf70_left_forearm_ref_image_1_gold_standard.json",
+    "runtime_manifest_copy": "runtime_artifacts/mask_factory/wave70_mf70_left_forearm_ref_image_1/20260708T134610-0500/ref_image_1_body_mask_gold_standard.json"
+  },
+  "row_evaluation": {
+    "tracker_id": "TRK-W70-0157",
+    "item_id": "ITEM-W70-0157",
+    "mask_type_id": "mf70_left_forearm",
+    "ref_image_1_gold_standard_available_pass": true,
+    "left_forearm_gold_mask_exists_pass": true,
+    "top_strip_partial_body_rule_pass": true,
+    "lower_strip_primary_validation_area_pass": true,
+    "row_status": "Required_Not_Complete",
+    "row_completion_allowed": false,
+    "row_promotion_allowed": false,
+    "remaining_required_evidence": [
+      "row-level mask route integration",
+      "strict visual QA against source and protected neighbors",
+      "generated-output proof",
+      "target-runtime evidence",
+      "explicit Wave70 geometry row-gate approval",
+      "explicit Wave70 promotion row-gate approval"
+    ],
+    "obsolete_prior_blocker": "portrait_only_left_forearm_not_source_visible",
+    "current_decision": "ref_image_1_left_forearm_gold_mask_available_route_not_complete"
+  },
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  },
+  "next_step": "Work TRK-W70-0158 / ITEM-W70-0158 mf70_right_forearm using Ref_Image_1 gold masks under non-promotional rules."
+}

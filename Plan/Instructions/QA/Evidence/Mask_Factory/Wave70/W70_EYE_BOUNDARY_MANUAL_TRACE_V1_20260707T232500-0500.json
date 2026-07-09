@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_EYE_BOUNDARY_MANUAL_TRACE_V1_20260707T232500-0500",
+  "created_local": "20260707T232500-0500",
+  "task": "Wave70 eye-family high-zoom manual boundary trace v1 after user dispute",
+  "source_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+  "source_sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+  "result": "manual_trace_v1_created_boundary_evidence_only_not_promoted",
+  "promotion_decision": "no_eye_family_mask_promoted_no_W70_MASK_PROMOTION_ROW_GATE_PASS_TRUE",
+  "affected_mask_type_ids": [
+    "mf70_left_eye",
+    "mf70_right_eye",
+    "mf70_pupils_iris_sclera",
+    "mf70_eyelids",
+    "mf70_eyelashes",
+    "mf70_eyebrows"
+  ],
+  "artifacts": {
+    "manual_trace_json": "runtime_artifacts/mask_factory/wave70_eye_boundary_manual_trace_v1/20260707T232500-0500/wave70_eye_boundary_manual_trace_v1.json",
+    "manual_trace_panel": "runtime_artifacts/mask_factory/wave70_eye_boundary_manual_trace_v1/20260707T232500-0500/wave70_eye_boundary_manual_trace_v1_panel.png"
+  },
+  "trace_summary": {
+    "viewer_left": "eye/brow are represented as smaller visible regions with an explicit hair-occlusion boundary; no extension into hair mass",
+    "viewer_right": "eye/brow are represented as unobstructed visible aperture and brow hair boundaries"
+  },
+  "next_step": "Use this boundary trace to derive candidate masks only after another high-zoom panel review; keep rows blocked until exact row-level hard-gate evidence exists.",
+  "forbidden": "Do not treat this trace as mask acceptance, generated-output proof, target-runtime proof, or certification."
+}

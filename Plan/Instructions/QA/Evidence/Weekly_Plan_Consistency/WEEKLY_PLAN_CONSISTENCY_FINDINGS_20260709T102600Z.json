@@ -1,0 +1,75 @@
+﻿{
+    "schema_version":  "1.0",
+    "audit_type":  "weekly_plan_instructions_consistency_actionable_findings",
+    "created_at":  "2026-07-09T10:20:36.8660129Z",
+    "source_external_audit":  "C:\\Users\\kevin\\.codex\\automations\\comfy-ui-main-weekly-plan-instructions-consistency-audit\\audits\\WEEKLY_PLAN_INSTRUCTIONS_CONSISTENCY_20260709T101707Z.json",
+    "classification":  "CONSISTENCY_FINDINGS_EXTERNAL_AUDIT_ONLY",
+    "corrections_made":  [
+
+                         ],
+    "correction_lock_status":  "READ_ONLY_LOCK_CHECKED_COOLDOWN_EXPIRED_NO_CRITICAL_DRIFT_NO_LOCK_ACQUIRED",
+    "actionable_findings":  [
+                                {
+                                    "id":  "W70-REPORT-COUNT-STALE-178-VS-166",
+                                    "severity":  "medium",
+                                    "finding":  "Wave70 current Items/Tracker CSVs and current package manifests report 166 rows, but both Wave70 coverage reports still state item_row_count=178 and tracker_row_count=178.",
+                                    "current_counts":  {
+                                                           "items_csv":  166,
+                                                           "tracker_csv":  166,
+                                                           "items_manifest_current_ultimate_mask_factory_row_count":  166,
+                                                           "tracker_manifest_current_ultimate_mask_factory_row_count":  166,
+                                                           "items_report_item_row_count":  178,
+                                                           "items_report_tracker_row_count":  178,
+                                                           "tracker_report_item_row_count":  178,
+                                                           "tracker_report_tracker_row_count":  178
+                                                       },
+                                    "recommended_action":  "Refresh or narrowly annotate only the Wave70 coverage reports; do not run Wave65 for this mismatch."
+                                },
+                                {
+                                    "id":  "DEFERRED-REPORT-COUNT-STALE",
+                                    "severity":  "medium",
+                                    "finding":  "Deferred coverage reports/manifests retain older row-count totals while all Waves71-87 CSV rows remain deferred and non-active.",
+                                    "mismatches":  [
+                                                       {
+                                                           "wave":  71,
+                                                           "csv_rows":  34,
+                                                           "report_row_count":  42
+                                                       },
+                                                       {
+                                                           "wave":  73,
+                                                           "csv_rows":  28,
+                                                           "report_row_count":  30
+                                                       },
+                                                       {
+                                                           "wave":  79,
+                                                           "csv_rows":  18,
+                                                           "report_row_count":  20
+                                                       },
+                                                       {
+                                                           "wave":  81,
+                                                           "csv_rows":  20,
+                                                           "report_row_count":  21
+                                                       }
+                                                   ],
+                                    "manifest_totals":  {
+                                                            "deferred_physics_deformation_base_row_count_manifest":  152,
+                                                            "deferred_waves_71_76_csv_sum":  142,
+                                                            "deferred_physics_deformation_expansion_row_count_manifest":  207,
+                                                            "deferred_waves_77_87_csv_sum":  204
+                                                        },
+                                    "recommended_action":  "Refresh or annotate deferred wave coverage reports/manifests in a narrow ledger maintenance task; keep Waves71-87 deferred."
+                                },
+                                {
+                                    "id":  "STALE-PROJECT-MANIFEST-LEGACY-WAVE-METADATA",
+                                    "severity":  "low",
+                                    "finding":  "Plan/PROJECT_MANIFEST.json still has legacy top-level wave_current=25 and latest_wave=34 metadata despite current steering through Wave64/Wave65/Wave70 plus deferred Waves71-87.",
+                                    "recommended_action":  "Mark the legacy top-level fields historical or refresh them during intentional manifest maintenance; current routing risk is low because hydration and current package manifests are clear."
+                                }
+                            ],
+    "non_findings":  [
+                         "Hydration top files point to selected inpaint lane package-readiness blocker and exact MaskToImage object-info next local action.",
+                         "No deferred Wave71-87 implementation leakage detected; all inspected CSV rows are deferred with zero non-deferred rows.",
+                         "Strict whole-artifact visual/audio QA, proof-reuse/no-rerun, gold-mask scoped dependency, and EC2 stopped-state/cost-control rules remain present."
+                     ],
+    "next_recommended_action":  "Narrowly refresh stale report/manifests counts; continue active local inpaint object-info readiness work."
+}

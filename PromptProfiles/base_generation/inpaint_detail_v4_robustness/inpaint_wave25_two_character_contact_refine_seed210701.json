@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "inpaint_wave25_two_character_contact_refine_seed210701",
+  "target_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "purpose": "QA-driven local Wave25 two-character contact refinement for the preferred RealVisXL seed7152026252 output. The pass uses a pixel-aligned contact mask to improve hand-to-sleeve pressure and contact shadow while preserving both identities and the whole-image composition.",
+  "request_patch_values": {
+    "positive_prompt": "photoreal studio portrait contact refinement, preserve exact two adult identities, preserve woman on left and man on right, preserve clothing colors and background, woman's open relaxed hand resting naturally on man's left shoulder and upper sleeve, subtle finger pressure on fabric, natural sleeve compression under the hand, soft realistic contact shadow, realistic hand anatomy, coherent fingers and fingernails, no global style drift",
+    "negative_prompt": "identity change, face change, hair change, clothing change, background change, pose change, hand morph, extra fingers, missing fingers, fused fingers, elongated fingers, claw hand, rubber hand, sleeve pull, gripping, grabbing, man touching woman, merged bodies, merged arms, duplicate hand, visible mask edge, overpainted shoulder, plastic skin, waxy skin, text, watermark",
+    "source_image": "wave25_two_character_seed7152026252_source.png",
+    "mask_image": "wave25_contact_edge_hand_to_body_seed7152026252_1024.png",
+    "mask_channel": "red",
+    "seed": 210701,
+    "sampler_settings": {
+      "steps": 20,
+      "cfg": 4.4,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.16
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_wave25_two_character_contact_refine_seed210701"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_wave25_two_character_contact_refine_seed210701"
+  },
+  "qa_focus": [
+    "whole-image identity preservation",
+    "two distinct clothed adults with no body merge",
+    "woman remains the visible source of contact",
+    "open hand remains on man's left shoulder or upper sleeve",
+    "natural sleeve compression and contact shadow",
+    "no hand anatomy regression",
+    "no background or clothing drift outside the mask"
+  ],
+  "source_qa_driver": {
+    "evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_TWO_CHARACTER_HAND_TO_BODY_VISUAL_QA_20260707T115000-0500.json",
+    "preferred_source_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_two_character_hand_to_body_w69_seed7152026252_20260707T113434-0500/images/codex_realvisxl_two_character_hand_to_body_seed7152026252_00001_.png",
+    "preferred_source_sha256": "d6ef67713167d55696b1f07e86c88e9ee0a038f946be9cd8cc56810f724b81a7",
+    "remaining_note": "contact is stronger than the first attempt but still reads closer to shoulder/top upper arm, with subtle contact shadow and non-final finger/contact edge certification",
+    "change_summary": "Route a pixel-aligned Wave25 contact mask into a low-denoise inpaint pass focused only on hand-to-sleeve contact realism."
+  },
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_target_runtime_reproof_before_certification": true,
+    "requires_whole_image_qa_before_promotion": true,
+    "does_not_replace_base_candidate_without_visual_qa": true
+  }
+}

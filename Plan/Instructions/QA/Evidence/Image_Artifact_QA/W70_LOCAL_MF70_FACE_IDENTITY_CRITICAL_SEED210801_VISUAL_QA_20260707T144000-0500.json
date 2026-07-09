@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-LOCAL-MF70-FACE-IDENTITY-CRITICAL-SEED210801-VISUAL-QA-20260707T144000-0500",
+  "timestamp": "2026-07-07T14:40:00-05:00",
+  "qa_type": "wave70_mask_generated_output_whole_image_visual_qa",
+  "mask_type_id": "mf70_face_identity_critical",
+  "tracker_id": "TRK-W70-0002",
+  "item_id": "ITEM-W70-0002",
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "run_id": "wave70_mf70_face_identity_critical_seed210801",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "source_image": {
+    "path": "ComfyUI/input/wave70_mf70_face_identity_source_canny_v3.png",
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+  },
+  "mask": {
+    "path": "ComfyUI/input/wave70_mf70_face_identity_critical_mask.png",
+    "sha256": "367d7d213d2152111fbc80ea7d5e11035296e0e184807a3bcddeba5bf1af473a",
+    "coverage_percent": 20.4608
+  },
+  "run_package": {
+    "path": "runtime_artifacts/run_packages/wave70_mf70_face_identity_critical_seed210801/RUN_PACKAGE_MANIFEST.json",
+    "sha256": "fbd38366bb20c4bf51ff3ca4e3bb0e83acf0efdbdea185e4a199bceee2349441",
+    "prompt_request_sha256": "3cf2ff480408a721f0bc99b10535aaed3389f631102111f2cd2a13580506060e"
+  },
+  "runtime_evidence": {
+    "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_FACE_IDENTITY_CRITICAL_SEED210801_EXECUTE_20260707T143500-0500.json",
+    "sha256": "0836d8c1c4bd42c6946cbc57b0c167a5c0f8b8560f6fabec3047088d0d845a26",
+    "result": "pass_local_run_package_generation_smoke",
+    "output_count": 2,
+    "port_closed_after_stop": true
+  },
+  "generated_artifacts": [
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_face_identity_critical_seed210801_20260707T143500-0500/images/codex_wave70_mf70_face_identity_critical_seed210801_00001_.png",
+      "sha256": "d9119357b2e681224715f9a6698806fabebe9264f001714104f3268344fe5669",
+      "width": 768,
+      "height": 768,
+      "role": "generated_output"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_face_identity_critical_seed210801_20260707T143500-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00007_.png",
+      "sha256": "8654e6f022b82ce5229c9d7aee1160e7e48487509cf0062c98689afd0e164aa6",
+      "width": 768,
+      "height": 768,
+      "role": "diagnostic_mask_preview"
+    },
+    {
+      "path": "runtime_artifacts/mask_factory/wave70_mf70_face_identity_critical/qa_comparisons/wave70_mf70_face_identity_source_overlay_output_compare.png",
+      "sha256": "4500febd702efc4fcbce3dae402392eab417a6de4555fbcaea02990e413aa6d1",
+      "width": 1536,
+      "height": 548,
+      "role": "source_overlay_output_comparison"
+    }
+  ],
+  "visual_review": {
+    "method": "direct whole-image inspection plus source/overlay/output comparison",
+    "result": "pass_with_notes_local_wave70_face_identity_generated_output",
+    "passes": [
+      "Identity, face orientation, gaze direction, hair silhouette, blazer, background, and composition are preserved.",
+      "Both eyes remain readable and aligned; no crossed-eye, extra-feature, or blank-face failure is visible.",
+      "Nose, lips, jawline, and hairline remain coherent after the identity-critical mask pass.",
+      "Mask preview confirms the intended identity-critical face region was used."
+    ],
+    "notes": [
+      "Masked face region reads slightly smoother and modestly darker around the eyes/lips than the source, so this is pass-with-notes rather than final visual certification.",
+      "This is local generated-output proof only; target-runtime proof is still required before final Wave70 item certification."
+    ],
+    "blocking_defects": []
+  },
+  "result": "pass_with_notes_local_wave70_face_identity_generated_output",
+  "final_certification_result": "blocked_final_wave70_mask_certification_missing_target_runtime",
+  "remaining_blockers": [
+    "target_runtime_proof_required_before_final_certification"
+  ]
+}

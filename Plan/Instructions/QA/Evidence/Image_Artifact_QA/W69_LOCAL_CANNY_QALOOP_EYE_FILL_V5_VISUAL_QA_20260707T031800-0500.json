@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-CANNY-QALOOP-EYE-FILL-V5-VISUAL-QA-20260707T031800-0500",
+  "timestamp": "2026-07-07T03:18:00-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+  "project_root": "C:\\Comfy_UI_Main",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "qa_type": "strict_whole_image_visual_qa_and_qa_driven_prompt_iteration",
+  "source_files_touched": [
+    "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+    "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/smoke_test_request.json",
+    "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+    "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/smoke_test_request.json"
+  ],
+  "technical_evidence": [
+    {
+      "role": "current_baseline_runtime",
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_QALOOP_CURRENT_EXECUTE_20260707T031600-0500.json",
+      "result": "pass_local_run_package_generation_smoke",
+      "output_sha256": "c9f79120cdfb2e1dc7331134b828b457a7f6d39816e84bb4b02f92f2af59a92a"
+    },
+    {
+      "role": "qa_driven_v5_runtime",
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_QALOOP_EYE_FILL_V5_EXECUTE_20260707T031800-0500.json",
+      "result": "pass_local_run_package_generation_smoke",
+      "output_sha256": "d9b7eb4fdd05d4ff9cc6639613824fe77fe7dbfcd807806e7824823b2ab244a2"
+    }
+  ],
+  "artifacts_reviewed": [
+    {
+      "role": "current_baseline_before_prompt_iteration",
+      "image_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_canny_qaloop_current_20260707T031600-0500/images/codex_sdxl_realvisxl_controlnet_canny_smoke_00004_.png",
+      "sha256": "c9f79120cdfb2e1dc7331134b828b457a7f6d39816e84bb4b02f92f2af59a92a",
+      "whole_image_findings": {
+        "prompt_alignment": "Pass: hyperreal editorial portrait, clothed blazer and shirt, edge-guided head-and-shoulders composition.",
+        "face": "Pass with notes: coherent facial structure and natural proportions, mild smoothing but not blocking.",
+        "eyes": "Pass with notes: eyes are anatomically coherent with catchlights, but surrounding shadows are slightly underexposed.",
+        "teeth_mouth": "Pass: closed mouth, no teeth artifact exposure.",
+        "hands_feet_anatomy": "Not visible: no exposed hands, fingers, feet, toes, or full-body limb anatomy in frame.",
+        "hair": "Pass with notes: believable hair silhouette, but left hair mass has mildly crushed shadow detail.",
+        "clothing": "Pass: blazer/shirt coverage avoids prior bare-shoulder failure mode.",
+        "lighting_background": "Pass with notes: coherent studio lighting and simple background, but overall left-side tonal range is a little dark.",
+        "control_adherence": "Pass: head-and-shoulder silhouette follows the cleaned Canny guide without colored control-map staining.",
+        "artifacts": "No blocking artifacts; mild underexposure is the main improvement target."
+      },
+      "qa_result": "pass_with_notes_needs_minor_eye_shadow_iteration"
+    },
+    {
+      "role": "v5_after_eye_fill_prompt_iteration",
+      "image_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_canny_qaloop_eye_fill_v5_20260707T031800-0500/images/codex_sdxl_realvisxl_controlnet_canny_smoke_00005_.png",
+      "sha256": "d9b7eb4fdd05d4ff9cc6639613824fe77fe7dbfcd807806e7824823b2ab244a2",
+      "whole_image_findings": {
+        "prompt_alignment": "Pass: remains a hyperreal editorial portrait with clothed blazer/shirt styling and clean face.",
+        "face": "Pass with notes: coherent facial geometry and natural lips; skin remains slightly smoothed but acceptable for local iteration.",
+        "eyes": "Pass: iris readability and catchlights improved versus baseline, with less underexposed eye area.",
+        "teeth_mouth": "Pass: closed mouth, no teeth artifacts.",
+        "hands_feet_anatomy": "Not visible: no hand, finger, foot, toe, or full-body anatomy risks in the crop.",
+        "hair": "Pass with notes: hair is realistic and less crushed than baseline, though left-side shadow remains moody.",
+        "clothing": "Pass: blazer, shirt collar, and clothed shoulders remain coherent.",
+        "lighting_background": "Pass: background is coherent, lighting is still low-key but less muddy around the eyes.",
+        "control_adherence": "Pass: Canny-guided silhouette and crop remain stable; no colored control stains or harsh outlines observed.",
+        "artifacts": "No blocking artifacts observed in whole-image review."
+      },
+      "qa_result": "pass_with_notes_for_local_iteration"
+    }
+  ],
+  "qa_driven_change": {
+    "change_type": "prompt_request_update",
+    "reason": "Baseline current sample passed overall but showed mild underexposure around the eyes and crushed left-side hair shadows.",
+    "positive_prompt_added_terms": [
+      "clear iris detail",
+      "gentle eye fill light",
+      "open shadow detail"
+    ],
+    "negative_prompt_added_terms": [
+      "underexposed eyes",
+      "muddy shadows",
+      "crushed shadows"
+    ],
+    "model_changed": false,
+    "control_image_changed": false,
+    "controlnet_strength_changed": false,
+    "seed_changed": false,
+    "result": "Improved eye readability and shadow detail without reintroducing bare-shoulder, colored control-map, or composition defects."
+  },
+  "overall_result": "pass_with_notes_for_local_iteration",
+  "certification_scope": "local_quality_development_only",
+  "not_certified_reasons": [
+    "This v5 prompt changed after the prior Canny target-runtime smoke, so target-runtime proof must be rerun before certification.",
+    "This is a bounded two-sample local QA loop, not full portfolio or multi-sample certification."
+  ],
+  "next_action": "Keep v5 as the current local Canny prompt candidate; do not certify until target-runtime static proof, bounded generation, pullback, technical QA, and whole-image visual QA pass for this exact v5 request."
+}

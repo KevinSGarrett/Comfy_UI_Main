@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_LOCAL_MF70_JAWLINE_CHIN_SEED210806_VISUAL_QA_20260707T160000-0500",
+  "created_at": "2026-07-07T16:00:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "mask_type_id": "mf70_jawline_chin",
+  "tracker_id": "TRK-W70-0006",
+  "item_id": "ITEM-W70-0006",
+  "qa_type": "strict_whole_image_visual_qa",
+  "result": "pass_with_notes_local_wave70_jawline_chin_generated_output",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "source_image": "ComfyUI/input/wave70_mf70_face_identity_source_canny_v3.png",
+  "mask_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_jawline_chin_20260707T160000-0500/wave70_mf70_jawline_chin_overlay.png",
+  "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_jawline_chin_seed210806_20260707T155057-0500/images/codex_wave70_mf70_jawline_chin_seed210806_00001_.png",
+  "generated_output_sha256": "0f7309573088fbfaea28394487721bc0837bc1c95fbe383b7410172844dc0541",
+  "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_jawline_chin_seed210806_20260707T155057-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00012_.png",
+  "diagnostic_mask_preview_sha256": "a3495950246bb09002f882f59b5616bdc5345e3c5070a43b03026867323bc0ed",
+  "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_jawline_chin/qa_comparisons/wave70_mf70_jawline_chin_source_overlay_output_compare.png",
+  "comparison_artifact_sha256": "fe6e4617cc2b2aa682b84bffb2144d7ac1f627dc3f6ac577511fb79511a98adb",
+  "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_JAWLINE_CHIN_SEED210806_EXECUTE_20260707T160500-0500.json",
+  "runtime_evidence_sha256": "1c67752ddfc58fca59e3412c7adee4c358de23f4f8a3170602c0c4b8c5c5f73e",
+  "visual_findings": [
+    "Generated output preserves the source portrait identity, gaze direction, hair silhouette, white blazer, neck, and gray background.",
+    "Jawline/chin pass remains subtle at denoise 0.09; lower-face contour and chin texture are slightly smoothed without a visible hard seam.",
+    "Mouth/lips, neck, hair, and clothing remain stable in the side-by-side comparison.",
+    "No obvious background mutation, new facial hair, mouth deformation, neck deformation, clothing mutation, or jawline boundary seam was observed.",
+    "The mask boundary remains close to the lower lip shadow, so this is pass-with-notes local support and still needs target-runtime proof before final certification."
+  ],
+  "decision": {
+    "generated_output_proof_present": true,
+    "whole_image_visual_qa_passed_with_notes": true,
+    "target_runtime_proof_present": false,
+    "final_certification_allowed": false,
+    "remaining_blockers": [
+      "target_runtime_proof_required_before_final_certification"
+    ]
+  }
+}

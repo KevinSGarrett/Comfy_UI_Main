@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "tracker_evidence_id": "W70_MF70_NOSE_STRICT_REPAIR_GENERATED_OUTPUT_20260707T205000-0500",
+  "created_at": "2026-07-07T20:50:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "tracker_id": "TRK-W70-0017",
+  "item_id": "ITEM-W70-0017",
+  "mask_type_id": "mf70_nose",
+  "status": "Mask_Alignment_Pass_Generated_Output_Safe_Target_Runtime_Pending",
+  "actual_work_performed": [
+    "Revised the Wave70 mf70_nose mask generator after strict overlay audit failure.",
+    "Regenerated strict repaired nose mask, full overlay, source crop, and zoomed overlay crop.",
+    "Changed overlay rendering to outline the final post-protection mask boundary instead of pre-subtraction shortcut polygons.",
+    "Performed strict zoomed overlay review and verified the repaired mask covers visible nose bridge, sidewalls, tip, alae, and nostril region while excluding eye/canthus, philtrum, upper lip, mouth, and broad cheek protections.",
+    "Created a fresh strict-repair inpaint proof profile and run package.",
+    "Executed one bounded local ComfyUI generated-output proof and performed strict whole-image visual QA."
+  ],
+  "evidence": {
+    "generator": "Plan/07_IMPLEMENTATION/scripts/generate_wave70_nose_mask.py",
+    "generator_sha256": "94ec845ebe8d0a21cbbd9c3245d3186ebe6ef37e7a1fb25ed2eeac4319eb729a",
+    "mask_qa": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_nose.json",
+    "mask_qa_sha256_pending_rehash": true,
+    "repaired_mask": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_nose_20260707T204500-0500/wave70_mf70_nose_mask.png",
+    "repaired_mask_sha256": "465674f1583412c62c448efe2528965fa47a6c2729e426771394eed66c708e4b",
+    "repaired_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_nose_20260707T204500-0500/wave70_mf70_nose_overlay.png",
+    "repaired_overlay_sha256": "3057a4e08ee07060e71715b65326ba22709b55c4bc5e40506152983476900032",
+    "zoomed_overlay_crop": "runtime_artifacts/mask_factory/wave70_mf70_nose/visibility_review/mf70_nose_strict_repair_overlay_crop_20260707T204500-0500.png",
+    "zoomed_overlay_crop_sha256": "31528f0ff0e5579f4ee17e50dbdce29ef94899e3d4d7603fa057f0f131063016",
+    "prompt_profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_nose_strict_repair_seed210819.json",
+    "prompt_profile_sha256": "b154c500f89b0275560c792a1f06fe393f2942e1823429022e7baa6bc1a7c8ad",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_nose_strict_repair_seed210819/RUN_PACKAGE_MANIFEST.json",
+    "run_package_sha256": "d5e56566851fa0ddccfb9e691d21c4d58c552bcf00d51140b2ca84f6d2c92427",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_NOSE_STRICT_REPAIR_SEED210819_EXECUTE_20260707T205000-0500.json",
+    "runtime_evidence_sha256": "b9af36317a895f35c85f86da14d421657acda78c866538f135a1aeaa84486bd0",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_nose_strict_repair_seed210819_20260707T201501-0500/images/codex_wave70_mf70_nose_strict_repair_seed210819_00001_.png",
+    "generated_output_sha256": "41a3c99884f108e09d575769a4529af3aa34766dc74a2beff89c6ca4f265b464",
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_NOSE_STRICT_REPAIR_SEED210819_VISUAL_QA_20260707T205000-0500.json",
+    "visual_qa_sha256": "13db48e0200a38b745e47e03e2d046fd1c8fd9ddb4b61fb2dbdf6cdc96b05bcc",
+    "comparison": "runtime_artifacts/mask_factory/wave70_mf70_nose/qa_comparisons/wave70_mf70_nose_strict_repair_source_overlay_output_compare.png",
+    "comparison_sha256": "720879cbb5631a56ea4350ee7118f3a628a03c9681b832a2fb507a064e3716b9"
+  },
+  "qa_decision": {
+    "semantic_mask_alignment_pass": true,
+    "protected_neighbor_check_pass": true,
+    "generated_output_safe_pass": true,
+    "target_runtime_proof_present": false,
+    "final_completion_allowed": false,
+    "remaining_blockers": [
+      "target_runtime_proof_required_before_final_certification"
+    ]
+  },
+  "boundaries": {
+    "local_only": true,
+    "ec2_started": false,
+    "aws_contacted": false,
+    "github_api_contacted": false,
+    "civitai_contacted": false
+  },
+  "next_action": "Continue the strict Wave70 repair queue with the next downgraded mask, or run target-runtime proof only when intentionally selected."
+}

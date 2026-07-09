@@ -1,0 +1,28 @@
+{
+  "lane_id": "sdxl_realesrgan_upscale_polish_lane",
+  "module_id": "MOD-12-UPSCALER-EXPORT-LANE",
+  "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realesrgan_upscale_polish_lane/workflow.api.json",
+  "patch_points": [
+    {
+      "name": "source_image",
+      "required": true,
+      "node_id": "1",
+      "node_type": "LoadImage",
+      "input": "image"
+    },
+    {
+      "name": "upscale_model",
+      "required": true,
+      "node_id": "2",
+      "node_type": "UpscaleModelLoader",
+      "input": "model_name"
+    },
+    {
+      "name": "save_prefix",
+      "required": true,
+      "node_id": "4",
+      "node_type": "SaveImage",
+      "input": "filename_prefix"
+    }
+  ]
+}

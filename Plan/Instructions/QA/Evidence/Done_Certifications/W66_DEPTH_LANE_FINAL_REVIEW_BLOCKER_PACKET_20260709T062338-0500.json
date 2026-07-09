@@ -1,0 +1,201 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "lane_final_review_blocker_packet",
+    "blocker_id":  "BLOCK-W66-SDXL-DEPTH-LANE-FINAL-REVIEW-20260709T062338-0500",
+    "created_at":  "2026-07-09T06:23:38-05:00",
+    "task_tracker_id":  "WO-W66-SDXL_REALVISXL_CONTROLNET_DEPTH_LANE-FINAL-CERTIFICATION-REVIEW",
+    "lane_id":  "sdxl_realvisxl_controlnet_depth_lane",
+    "result":  "fail_depth_lane_final_review_blocker_packet",
+    "final_decision":  "blocked",
+    "local_only":  true,
+    "new_ec2_started":  false,
+    "new_generation_executed":  false,
+    "historical_ec2_started":  false,
+    "historical_generation_executed":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "s3_contacted":  false,
+    "comfyui_contacted":  false,
+    "masks_consumed_as_truth":  false,
+    "masks_promoted":  false,
+    "wave70_hard_gate_rerun":  false,
+    "wave71_plus_activated":  false,
+    "full_project_certification_allowed":  false,
+    "closes_work_order":  false,
+    "artifact_scope":  "Lane-scoped final-review blocker packet for sdxl_realvisxl_controlnet_depth_lane.",
+    "implementation_summary":  "Reviewed local Depth model/input proof, local v2 run-package generation smoke, preferred v2 visual QA, three-sample robustness QA, tracker mirrors, target-runtime plan, and runtime queue promotion rule without rerunning live runtime.",
+    "tests_performed":  [
+                            {
+                                "name":  "final_review_work_order_present",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "work_order_id":  "WO-W66-SDXL_REALVISXL_CONTROLNET_DEPTH_LANE-FINAL-CERTIFICATION-REVIEW",
+                                                 "status":  "blocked_until_lane_evidence_complete"
+                                             },
+                                "expected":  "Depth final-certification-review work order is present"
+                            },
+                            {
+                                "name":  "target_runtime_plan_marks_proof_missing",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "target_runtime_proof_evidence_missing":  true,
+                                                 "selected_by_default":  false,
+                                                 "blocked_by":  [
+                                                                    "git_checkpoint_gate_not_clean_for_ec2_execute",
+                                                                    "runtime_handoff_git_gate_not_passing",
+                                                                    "target_runtime_or_final_certification_not_proven",
+                                                                    "target_runtime_proof_evidence_missing",
+                                                                    "queue_status_not_final_certified:local_depth_v2_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+                                                                    "required_next_runtime_gate_still_requires_target_or_final_review"
+                                                                ]
+                                             },
+                                "expected":  "target-runtime plan records missing proof for the Depth lane"
+                            },
+                            {
+                                "name":  "queue_rule_requires_target_runtime_before_promotion",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "status":  "local_depth_v2_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+                                                 "promotion_rule":  "Do not promote to target-runtime proven or final depth certification from local multisample evidence alone. Target-runtime object_info/path/hash/input proof, bounded target-runtime generation, pullback, technical QA, strict whole-image visual QA, and final certification review remain separate if this lane is selected for promotion."
+                                             },
+                                "expected":  "runtime queue explicitly requires target-runtime proof before final Depth certification"
+                            },
+                            {
+                                "name":  "local_depth_model_and_input_hash_verified",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "result":  "pass_local_depth_controlnet_model_and_input_hash_verified",
+                                                 "local_only":  true,
+                                                 "ec2_started":  false,
+                                                 "model_sha256":  "6f23c58fd632f52238a7b35ebdc02f9f596fd13dbaa121f9b37b9f4689c2b1e9",
+                                                 "input_sha256":  "d9d21c69ea3ea50f3991bd0a420f338c5c7bc3c3450508526a7e9060c0319ef7"
+                                             },
+                                "expected":  "local Depth ControlNet model and paired control image hash proof exist"
+                            },
+                            {
+                                "name":  "local_depth_v2_runtime_smoke_passed",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "result":  "pass_local_run_package_generation_smoke",
+                                                 "local_only":  true,
+                                                 "ec2_started":  false,
+                                                 "generation_executed":  true,
+                                                 "errors":  0
+                                             },
+                                "expected":  "local Depth v2 run package generation smoke passed"
+                            },
+                            {
+                                "name":  "depth_v2_visual_qa_passes_but_disallows_certification",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "qa_result":  "pass_with_notes_promote_as_preferred_local_depth_candidate",
+                                                 "local_only":  true,
+                                                 "ec2_started":  false,
+                                                 "certification_allowed":  false,
+                                                 "blocking_defects":  0,
+                                                 "remaining_risks":  [
+                                                                         "Single local follow-up image is not full depth lane certification.",
+                                                                         "Hands, full-body anatomy, contact points, and multi-seed robustness are not certified.",
+                                                                         "Target-runtime EC2 object_info/path/hash/input proof, bounded generation, pullback, technical QA, and strict whole-image visual QA remain separate gates if depth is selected for promotion."
+                                                                     ]
+                                             },
+                                "expected":  "Depth v2 local visual QA passes with notes but explicitly disallows certification"
+                            },
+                            {
+                                "name":  "depth_v2_multiseed_robustness_passes_but_disallows_certification",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "qa_result":  "pass_with_notes_local_depth_v2_multiseed_robustness",
+                                                 "local_only":  true,
+                                                 "ec2_started":  false,
+                                                 "certification_allowed":  false,
+                                                 "blocking_defects":  0,
+                                                 "remaining_risks":  [
+                                                                         "Local three-sample robustness is not final Depth lane certification.",
+                                                                         "Hands, full-body anatomy, contact points, and broader depth-scene robustness are not certified.",
+                                                                         "Mild to moderate skin polish remains across samples and must be considered in final image-quality certification.",
+                                                                         "Target-runtime EC2 object_info/path/hash/input proof, bounded generation, pullback, technical QA, and strict whole-image visual QA remain separate gates if Depth is selected for promotion."
+                                                                     ]
+                                             },
+                                "expected":  "Depth v2 local robustness passes with notes but explicitly disallows certification"
+                            },
+                            {
+                                "name":  "tracker_records_local_depth_iterations",
+                                "result":  "fail",
+                                "observed":  {
+                                                 "followup_lane":  "sdxl_realvisxl_controlnet_depth_lane",
+                                                 "robustness_lane":  "sdxl_realvisxl_controlnet_depth_lane",
+                                                 "robustness_status":  null
+                                             },
+                                "expected":  "tracker mirrors classify Depth evidence as local pass-with-notes iteration"
+                            }
+                        ],
+    "blocker_summary":  [
+                            "depth_lane_target_runtime_proof_evidence_missing",
+                            "target_runtime_object_info_path_hash_input_proof_missing",
+                            "bounded_target_runtime_output_missing",
+                            "target_runtime_pullback_technical_visual_qa_missing",
+                            "local_three_sample_robustness_not_final_depth_certification",
+                            "hands_full_body_contact_and_broader_depth_scene_robustness_not_certified",
+                            "local_pass_with_notes_not_final_certification",
+                            "explicit_user_target_runtime_selection_required",
+                            "git_checkpoint_gate_not_clean_for_ec2_execute",
+                            "deploy_bundle_source_git_dirty_rebuild_required_before_ec2",
+                            "full_project_certification_allowed_false"
+                        ],
+    "qa_summary":  {
+                       "queue_status":  "local_depth_v2_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+                       "target_runtime_proof_evidence_missing":  true,
+                       "target_candidate_blockers":  [
+                                                         "git_checkpoint_gate_not_clean_for_ec2_execute",
+                                                         "runtime_handoff_git_gate_not_passing",
+                                                         "target_runtime_or_final_certification_not_proven",
+                                                         "target_runtime_proof_evidence_missing",
+                                                         "queue_status_not_final_certified:local_depth_v2_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+                                                         "required_next_runtime_gate_still_requires_target_or_final_review"
+                                                     ],
+                       "model_provisioning_result":  "pass_local_depth_controlnet_model_and_input_hash_verified",
+                       "local_runtime_result":  "pass_local_run_package_generation_smoke",
+                       "visual_qa_result":  "pass_with_notes_promote_as_preferred_local_depth_candidate",
+                       "visual_certification_allowed":  false,
+                       "visual_remaining_risks":  [
+                                                      "Single local follow-up image is not full depth lane certification.",
+                                                      "Hands, full-body anatomy, contact points, and multi-seed robustness are not certified.",
+                                                      "Target-runtime EC2 object_info/path/hash/input proof, bounded generation, pullback, technical QA, and strict whole-image visual QA remain separate gates if depth is selected for promotion."
+                                                  ],
+                       "robustness_qa_result":  "pass_with_notes_local_depth_v2_multiseed_robustness",
+                       "robustness_certification_allowed":  false,
+                       "robustness_scope":  "preferred_v2_candidate_plus_two_seed_only_local_robustness",
+                       "robustness_remaining_risks":  [
+                                                          "Local three-sample robustness is not final Depth lane certification.",
+                                                          "Hands, full-body anatomy, contact points, and broader depth-scene robustness are not certified.",
+                                                          "Mild to moderate skin polish remains across samples and must be considered in final image-quality certification.",
+                                                          "Target-runtime EC2 object_info/path/hash/input proof, bounded generation, pullback, technical QA, and strict whole-image visual QA remain separate gates if Depth is selected for promotion."
+                                                      ]
+                   },
+    "evidence_paths":  {
+                           "work_order":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_20260709T042635-0500.json",
+                           "target_runtime_plan":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_TARGET_RUNTIME_EXECUTION_PLAN_20260709T061756-0500.json",
+                           "runtime_lane_queue":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+                           "model_provisioning":  "Plan/Instructions/QA/Evidence/Model_Registry/W69_LOCAL_CONTROLNET_DEPTH_MODEL_PROVISIONING_20260707T054600-0500.json",
+                           "runtime_execute":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_DEPTH_V2_EYE_FILL_EXECUTE_20260707T073800-0500.json",
+                           "visual_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_DEPTH_V2_EYE_FILL_VISUAL_QA_20260707T073900-0500.json",
+                           "robustness_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_DEPTH_V2_MULTISEED_ROBUSTNESS_VISUAL_QA_20260707T081600-0500.json",
+                           "tracker_followup":  "Plan/Tracker/Evidence/W69_LOCAL_DEPTH_V2_FOLLOWUP_20260707T073900-0500.json",
+                           "tracker_robustness":  "Plan/Tracker/Evidence/W69_LOCAL_DEPTH_V2_MULTISEED_ROBUSTNESS_20260707T081600-0500.json"
+                       },
+    "known_issues":  [
+                         "W69 Depth model provisioning proves local model and paired control image hash only.",
+                         "W69 Depth v2 visual QA passes a head-and-shoulders local candidate with notes, but certification_allowed is false.",
+                         "W69 Depth v2 three-sample robustness passes locally with notes, but hands, full-body anatomy, contact points, broader depth scenes, and target-runtime behavior remain uncertified.",
+                         "The Depth lane promotion rule requires target-runtime object_info/path/hash/input proof, bounded target-runtime generation, pullback, technical QA, strict whole-image visual QA, and final certification review before promotion.",
+                         "This blocker packet does not consume candidate masks as truth, promote masks, rerun Wave70 hard gates, or activate Wave71+."
+                     ],
+    "defects":  [
+                    "check_failed:tracker_records_local_depth_iterations"
+                ],
+    "certifier":  "Codex Desktop autonomous release manager",
+    "certification_boundary":  "Lane-scoped blocker review only. This does not certify full project completion, final Depth lane quality, target-runtime readiness, body-mask readiness, Wave70 mask promotion, or Wave71+ activation.",
+    "next_action":  "Do not close the Depth lane final-review work order from current local evidence. Target-runtime proof must be explicitly selected and pass clean Git, clean deploy-bundle, object_info/path/hash/input, bounded output, pullback, technical QA, strict visual QA, and final certification gates first."
+}

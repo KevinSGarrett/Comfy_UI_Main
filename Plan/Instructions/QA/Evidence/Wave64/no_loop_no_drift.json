@@ -1,0 +1,167 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "NO_LOOP_NO_DRIFT_20260708T235942-0500",
+  "created_iso": "2026-07-08T23:59:42-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-048",
+  "item_id": "ITEM-W64-048",
+  "task": "Validate no-loop/no-drift progress control and stop repeated bookkeeping or blocked-state reruns.",
+  "source_protocol": "Plan/Instructions/NO_LOOP_NO_DRIFT_PROGRESS_CONTROL.md",
+  "completed_proof_no_rerun": {
+    "recent_canonical_evidence": [
+      {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/github_actions_ci_package.json",
+        "exists": true,
+        "tracker_id": "TRK-W64-040",
+        "item_id": "ITEM-W64-040",
+        "qa_decision": "blocked_github_actions_ci_package_model_registry_coverage_gate",
+        "ec2_started": null,
+        "generation_executed": null,
+        "masks_promoted": false,
+        "hard_gates_rerun": false
+      },
+      {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/s3_transfer_cost_control.json",
+        "exists": true,
+        "tracker_id": "TRK-W64-041",
+        "item_id": "ITEM-W64-041",
+        "qa_decision": "s3_transfer_cost_control_ready_local_only_no_secret_print",
+        "ec2_started": null,
+        "generation_executed": null,
+        "masks_promoted": false,
+        "hard_gates_rerun": false
+      },
+      {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json",
+        "exists": true,
+        "tracker_id": "TRK-W64-042",
+        "item_id": "ITEM-W64-042",
+        "qa_decision": "blocked_ec2_ttl_watchdog_live_proof_expired_aws_session",
+        "ec2_started": null,
+        "generation_executed": null,
+        "masks_promoted": false,
+        "hard_gates_rerun": false
+      },
+      {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/artifact_pullback_integrity.json",
+        "exists": true,
+        "tracker_id": "TRK-W64-043",
+        "item_id": "ITEM-W64-043",
+        "qa_decision": "blocked_artifact_pullback_integrity_current_ec2_runtime_artifacts_missing",
+        "ec2_started": null,
+        "generation_executed": null,
+        "masks_promoted": false,
+        "hard_gates_rerun": false
+      },
+      {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/model_registry_governance.json",
+        "exists": true,
+        "tracker_id": "TRK-W64-044",
+        "item_id": "ITEM-W64-044",
+        "qa_decision": "model_registry_governance_passed_local_only",
+        "ec2_started": false,
+        "generation_executed": false,
+        "masks_promoted": false,
+        "hard_gates_rerun": null
+      },
+      {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/civitai_metadata.json",
+        "exists": true,
+        "tracker_id": "TRK-W64-045",
+        "item_id": "ITEM-W64-045",
+        "qa_decision": "civitai_metadata_passed_secret_safe_realvisxl_provenance",
+        "ec2_started": false,
+        "generation_executed": false,
+        "masks_promoted": false,
+        "hard_gates_rerun": null
+      },
+      {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/secret_git_security.json",
+        "exists": true,
+        "tracker_id": "TRK-W64-046",
+        "item_id": "ITEM-W64-046",
+        "qa_decision": "blocked_secret_git_security_dirty_worktree_checkpoint",
+        "ec2_started": false,
+        "generation_executed": false,
+        "masks_promoted": false,
+        "hard_gates_rerun": null
+      },
+      {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/hydration_resume_control.json",
+        "exists": true,
+        "tracker_id": "TRK-W64-047",
+        "item_id": "ITEM-W64-047",
+        "qa_decision": "hydration_resume_control_passed_active_state_with_residual_historical_refs_recorded",
+        "ec2_started": false,
+        "generation_executed": false,
+        "masks_promoted": false,
+        "hard_gates_rerun": false
+      }
+    ],
+    "missing_evidence": [],
+    "previous_row_passed": true,
+    "rerun_completed_proof_required": false
+  },
+  "blocked_state_stop_rule": {
+    "aws_or_ec2_blockers_repeated": false,
+    "ec2_started_in_recent_local_rows": false,
+    "hard_gate_rerun_in_recent_local_rows": false,
+    "mask_promotion_detected": false,
+    "blocked_state_stop_rule_pass": true
+  },
+  "advance_or_report": {
+    "current_row": "TRK-W64-048/ITEM-W64-048",
+    "previous_row": "TRK-W64-047/ITEM-W64-047",
+    "next_row": "TRK-W64-049/ITEM-W64-049",
+    "next_action_top_current_row": true,
+    "advance_to_concrete_project_row": true,
+    "next_row_capability": "blocker and known issue governance with source-cited latest-state precedence"
+  },
+  "scope_drift_check": {
+    "source_protocol_has_stop_rules": true,
+    "current_goal_top_current_row": true,
+    "no_route_loop_allowed": true,
+    "no_coverage_refresh_loop_allowed": true,
+    "no_hydration_refresh_loop_allowed": true,
+    "no_wave71_activation_without_gate_proof": true
+  },
+  "runtime_boundary": {
+    "ec2_started": false,
+    "generation_executed": false,
+    "comfyui_contacted": false,
+    "hard_gates_rerun": false
+  },
+  "gold_mask_dependency_boundary": {
+    "mask_truth_consumed": false,
+    "candidate_masks_consumed_as_truth": false,
+    "masks_promoted": false,
+    "wave71_activation_attempted": false
+  },
+  "errors": [],
+  "qa_decision": "no_loop_no_drift_passed_bounded_advance_to_concrete_next_row",
+  "next_step": "Advance to TRK-W64-049/ITEM-W64-049; do not repeat the just-passed hydration/no-loop evidence unless inputs change.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/no_loop_no_drift.json",
+    "Plan/Instructions/QA/Evidence/Wave64/NO_LOOP_NO_DRIFT_20260708T235942-0500.json",
+    "Plan/Tracker/Evidence/NO_LOOP_NO_DRIFT_20260708T235942-0500.json",
+    "Plan/Instructions/NO_LOOP_NO_DRIFT_PROGRESS_CONTROL.md",
+    "Plan/Instructions/QA/Evidence/Wave64/github_actions_ci_package.json",
+    "Plan/Instructions/QA/Evidence/Wave64/s3_transfer_cost_control.json",
+    "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json",
+    "Plan/Instructions/QA/Evidence/Wave64/artifact_pullback_integrity.json",
+    "Plan/Instructions/QA/Evidence/Wave64/model_registry_governance.json",
+    "Plan/Instructions/QA/Evidence/Wave64/civitai_metadata.json",
+    "Plan/Instructions/QA/Evidence/Wave64/secret_git_security.json",
+    "Plan/Instructions/QA/Evidence/Wave64/hydration_resume_control.json"
+  ],
+  "csv_updates": {
+    "tracker": {
+      "Plan/Tracker/wave64_end_to_end_strict_ai_tracker.csv": 1,
+      "Plan/Tracker/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_TRACKER_ROWS.csv": 1
+    },
+    "items": {
+      "Plan/Items/wave64_end_to_end_strict_ai_itemized_list.csv": 1,
+      "Plan/Items/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_ITEM_ROWS.csv": 1
+    }
+  }
+}

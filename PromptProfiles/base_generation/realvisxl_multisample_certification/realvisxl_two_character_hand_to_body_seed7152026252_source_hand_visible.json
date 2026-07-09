@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "realvisxl_two_character_hand_to_body_seed7152026252_source_hand_visible",
+  "target_lane_id": "sdxl_realvisxl_base_lane",
+  "purpose": "QA-driven minimum rerun after seed 7152026251 produced two people and contact but reversed/missed the intended source-hand-to-target-upper-arm action.",
+  "wave25_dependency": {
+    "interaction_contract": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/WAVE25_INTERACTION_CONTRACT.json",
+    "interaction_validation": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/WAVE25_INTERACTION_VALIDATION.json",
+    "interaction_score": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/WAVE25_INTERACTION_SCORE_REPORT.json",
+    "qa_evidence": "Plan/Instructions/QA/Evidence/Multi_Character_Interaction/W69_LOCAL_WAVE25_TWO_CHARACTER_HAND_TO_BODY_PREFLIGHT_20260707T113500-0500.json"
+  },
+  "source_qa_driver": {
+    "prior_profile": "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_two_character_hand_to_body_seed7152026251.json",
+    "prior_output_sha256": "83b770ac164042fa3d6b533812c35df4ed89cde90164619110d8532d45d25f34",
+    "issue": "The first local pixel attempt generated two distinct people and a contact-like gesture, but the visible hand contact came from the wrong person and looked like gripping cloth rather than an open hand resting on the target upper arm."
+  },
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic editorial studio photograph of exactly two fully clothed adult professionals, medium shot, woman on the left extends her right arm across the center and rests one open relaxed hand flat on the man's upper arm sleeve, man on the right keeps both hands down and away from the contact, clear visible contact shadow under the woman's fingertips on the man's sleeve, two separate bodies, two separate clothing silhouettes, natural skin texture, realistic eyes, detailed hair, crisp fabric weave, respectful non-romantic professional gesture, no merged anatomy, balanced soft studio lighting, lifelike lens rendering",
+    "negative_prompt": "cartoon, anime, illustration, child, nude, lingerie, erotic pose, plastic skin, waxy skin, over-smoothed face, distorted anatomy, merged bodies, fused people, shared torso, extra person, extra arms, extra hands, extra fingers, missing fingers, deformed hands, claw fingers, clenched fist, gripping fabric, pulling sleeve, hand on own chest, man touching woman, hand passing through arm, impossible contact, no contact shadow, crossed eyes, low resolution, blurry, watermark, text",
+    "seed": 7152026252,
+    "sampler_settings": {
+      "steps": 30,
+      "cfg": 5.4,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1
+    },
+    "latent_resolution": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_realvisxl_two_character_hand_to_body_seed7152026252"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_realvisxl_two_character_hand_to_body_seed7152026252"
+  },
+  "qa_focus": [
+    "exactly two distinct adult clothed characters",
+    "woman on left is the source contact owner",
+    "woman's open right hand rests on man's upper arm sleeve",
+    "man's hands are not the contact source",
+    "contact shadow at hand-to-sleeve boundary",
+    "no merged bodies or wrong-character edits",
+    "hands and fingers readable enough for first local pixel attempt",
+    "face and clothing coherence for both visible people"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "minimum_qa_driven_rerun": true,
+    "requires_strict_whole_image_qa": true,
+    "requires_target_runtime_reproof_before_final_certification": true,
+    "does_not_certify_wave25_final_output": true
+  }
+}

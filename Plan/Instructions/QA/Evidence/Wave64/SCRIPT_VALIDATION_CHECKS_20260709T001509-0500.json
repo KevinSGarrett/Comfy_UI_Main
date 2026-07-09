@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "SCRIPT_VALIDATION_CHECKS_20260709T001509-0500",
+  "created_iso": "2026-07-09T00:15:09-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "plan_root": "C:\\Comfy_UI_Main\\Plan",
+  "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+  "scope": {
+    "python_glob": "Plan/**/*.py",
+    "powershell_glob": "Plan/**/*.{ps1,psm1,psd1}",
+    "excluded_parts": [
+      ".git",
+      ".venv",
+      "__pycache__",
+      "node_modules",
+      "venv"
+    ],
+    "helpers_executed": false,
+    "parser_only": true,
+    "ec2_contacted": false,
+    "aws_contacted": false,
+    "comfyui_contacted": false,
+    "runtime_mutation": false
+  },
+  "parser_check": {
+    "pass": true,
+    "python": {
+      "file_count": 349,
+      "parse_error_count": 0,
+      "errors": []
+    },
+    "powershell": {
+      "file_count": 100,
+      "parse_error_count": 0,
+      "errors": [],
+      "process": {
+        "exit_code": 0,
+        "stdout_tail": "{\n    \"file_count\":  100,\n    \"parse_error_count\":  0,\n    \"errors\":  [\n\n               ]\n}\n",
+        "stderr_tail": "",
+        "parser_evidence": "Plan/Instructions/QA/Evidence/Wave64/SCRIPT_VALIDATION_POWERSHELL_PARSE_20260709T001509-0500.json"
+      }
+    }
+  },
+  "local_smoke": {
+    "pass": true,
+    "method": "Parser-only smoke: Python py_compile and PowerShell Language.Parser.ParseFile completed without executing project helper bodies."
+  },
+  "no_live_side_effect_default": {
+    "pass": true,
+    "no_ec2": true,
+    "no_aws": true,
+    "no_comfyui": true,
+    "no_helper_execution": true
+  },
+  "evidence_output_json": {
+    "pass": true,
+    "path": "Plan/Instructions/QA/Evidence/Wave64/SCRIPT_VALIDATION_CHECKS_20260709T001509-0500.json"
+  },
+  "structured_report": {
+    "pass": true
+  }
+}

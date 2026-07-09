@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "normal_v3_robust_oxford_seed711670204",
+  "target_lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+  "purpose": "Bounded local robustness sample for the preferred Normal v3 lower-control oxford texture strategy. This keeps the same request, model, control image, sampler, and ControlNet settings as the preferred v3 candidate and changes only the seed/output prefix.",
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic unretouched editorial portrait, normal-map-guided facial planes and clothing volume, natural skin texture, realistic fine pores, subtle cheek texture, visible skin microcontrast, soft human skin asymmetry, realistic eyes with clean catchlights, clear iris detail, detailed hair strands, dimensional nose cheek jaw and collar geometry, charcoal gray oxford shirt, fine basket-weave cotton texture, visible woven shirt fibers, tailored dark blazer over textured dark shirt, crisp open collar edge, clothed shoulders, quiet neutral studio interior, soft natural fill light, balanced exposure, lifelike lens rendering",
+    "negative_prompt": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, beauty filter skin, airbrushed face, porcelain skin, glossy skin, makeup-ad skin, smeared fabric, smooth fabric, satin shirt, silk shirt, plain white shirt, white dress shirt, blurry collar, distorted anatomy, warped face planes, melted facial geometry, broken collar, deformed shoulders, extra limbs, missing limbs, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text, normal map stains, rainbow surface colors, purple green blue normal-map leakage, control map stains, harsh outlines, bare shoulders, strapless top, nude, unclothed torso",
+    "seed": 711670204,
+    "sampler_settings": {
+      "steps": 24,
+      "cfg": 5.0,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1
+    },
+    "controlnet_settings": {
+      "strength": 0.48,
+      "start_percent": 0,
+      "end_percent": 0.62
+    },
+    "save_prefix": "normal_v3_robust_711670204",
+    "union_control_type": "normal"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "normal_v3_robust_711670204"
+  },
+  "qa_focus": [
+    "seed robustness of skin microtexture",
+    "seed robustness of dark oxford shirt weave",
+    "normal-map leakage or rainbow staining",
+    "face plane and shoulder volume under reduced ControlNet influence",
+    "eye realism",
+    "generation artifacts"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_target_runtime_reproof_before_certification": true,
+    "requires_whole_image_qa_before_promotion": true
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "tracker_evidence_id": "W70-MF70-FACE-IDENTITY-CRITICAL-GENERATED-OUTPUT-20260707T144000-0500",
+  "timestamp": "2026-07-07T14:40:00-05:00",
+  "wave": 70,
+  "task": "Wave70 mf70_face_identity_critical local generated-output proof",
+  "tracker_id": "TRK-W70-0002",
+  "item_id": "ITEM-W70-0002",
+  "status": "pass_with_notes_local_generated_output_final_blocked_target_runtime",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "actual_work_completed": [
+    "Copied the active MOD-17 Canny v3 portrait into ComfyUI input as the Wave70 source image.",
+    "Created a Wave70 inpaint prompt profile using the mf70_face_identity_critical mask at low denoise.",
+    "Built a local run package for sdxl_realvisxl_inpaint_detail_lane with the Wave70 source and mask.",
+    "Executed one bounded local ComfyUI sample through Invoke-LocalComfyUIRunPackageSmoke.ps1 -Execute.",
+    "Pulled back the generated image and diagnostic mask preview.",
+    "Created a source/overlay/output comparison image and completed strict whole-image visual QA."
+  ],
+  "changed_or_generated_files": [
+    "ComfyUI/input/wave70_mf70_face_identity_source_canny_v3.png",
+    "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_face_identity_critical_seed210801.json",
+    "runtime_artifacts/run_packages/wave70_mf70_face_identity_critical_seed210801/RUN_PACKAGE_MANIFEST.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_FACE_IDENTITY_CRITICAL_SEED210801_EXECUTE_20260707T143500-0500.json",
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_face_identity_critical_seed210801_20260707T143500-0500/images/codex_wave70_mf70_face_identity_critical_seed210801_00001_.png",
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_face_identity_critical_seed210801_20260707T143500-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00007_.png",
+    "runtime_artifacts/mask_factory/wave70_mf70_face_identity_critical/qa_comparisons/wave70_mf70_face_identity_source_overlay_output_compare.png",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_FACE_IDENTITY_CRITICAL_SEED210801_VISUAL_QA_20260707T144000-0500.json"
+  ],
+  "key_hashes": {
+    "prompt_profile_sha256": "6b3db637cdaac301b65cf1533d4bf4b0083fcae0aa44c3282aa743ceee1b3fec",
+    "run_package_manifest_sha256": "fbd38366bb20c4bf51ff3ca4e3bb0e83acf0efdbdea185e4a199bceee2349441",
+    "runtime_evidence_sha256": "0836d8c1c4bd42c6946cbc57b0c167a5c0f8b8560f6fabec3047088d0d845a26",
+    "generated_output_sha256": "d9119357b2e681224715f9a6698806fabebe9264f001714104f3268344fe5669",
+    "diagnostic_mask_preview_sha256": "8654e6f022b82ce5229c9d7aee1160e7e48487509cf0062c98689afd0e164aa6",
+    "comparison_sha256": "4500febd702efc4fcbce3dae402392eab417a6de4555fbcaea02990e413aa6d1"
+  },
+  "validation_results": {
+    "run_package_static": "pass",
+    "runtime_generation": "pass_local_run_package_generation_smoke",
+    "output_count": 2,
+    "port_closed_after_stop": true,
+    "visual_qa": "pass_with_notes_local_wave70_face_identity_generated_output",
+    "blocking_visual_defects": 0,
+    "generated_output_proof_present": true,
+    "target_runtime_proof_present": false
+  },
+  "decision": "mf70_face_identity_critical now has local generated-output proof and pass-with-notes whole-image visual QA. Final Wave70 mask certification remains blocked by missing target-runtime proof.",
+  "next_action": "Continue local-first with another Wave70 generated-output proof or a bounded target-runtime proof only when intentionally selected."
+}

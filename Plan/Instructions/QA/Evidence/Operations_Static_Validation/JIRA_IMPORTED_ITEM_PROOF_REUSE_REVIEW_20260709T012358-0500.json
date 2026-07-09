@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "JIRA_IMPORTED_ITEM_PROOF_REUSE_REVIEW_20260709T012358-0500",
+  "created_iso": "2026-07-09T01:23:58-05:00",
+  "review_type": "jira_imported_item_control_plane_proof_reuse_no_recreate",
+  "policy": "Plan/Instructions/JIRA_CONTROL_PLANE_AND_AI_EXECUTION_LEDGER_POLICY.md",
+  "runtime_proof_reuse_protocol": "Plan/Instructions/QA/RUNTIME_PROOF_REUSE_AND_NO_RERUN_PROTOCOL.md",
+  "local_import_state": {
+    "state_dir": "Jira/16_WAVE8_IMPORT_READY_JIRA_PACK/_jira_api_import_state",
+    "issue_map_rows": 7772,
+    "issue_map_by_original_type": {
+      "Initiative": 1,
+      "Epic": 18,
+      "Story": 7751,
+      "Task": 1,
+      "Sub-task": 1
+    },
+    "cleanup_deleted_rows": 3086,
+    "cleanup_deleted_by_jira_type": {
+      "Story": 3084,
+      "Task": 1,
+      "Sub-task": 1
+    },
+    "cleanup_failed_delete_rows": 10,
+    "cleanup_bulk_task_rows": 11,
+    "cleanup_process_observed_running": true,
+    "cleanup_role": "delete_imported_non_control_plane_rows_only"
+  },
+  "importer_guards": {
+    "jira_api_importer_import_issues_blocked_by_default": true,
+    "jira_api_importer_requires_allow_bulk_import_for_issue_creation": true,
+    "jira_full_import_supervisor_aborts": true,
+    "full_import_supervisor_process_observed_running": false,
+    "bulk_cleanup_process_observed_running": true
+  },
+  "automation_review": {
+    "automation_root": "C:/Users/kevin/.codex/automations",
+    "comfy_ui_main_cron_jobs_found": 7,
+    "comfy_ui_main_cron_jobs_reference_jira_policy": true,
+    "direct_automation_rewrite_required": false,
+    "reason": "All active Comfy_UI_Main cron prompts route Jira decisions through the shared policy file; updating the shared policy updates the required operating boundary without duplicating seven large prompt bodies."
+  },
+  "proof_reuse_boundary": {
+    "jira_is_execution_authority": false,
+    "local_ledger_is_execution_authority": true,
+    "jira_rows_can_reopen_completed_local_or_aws_proof": false,
+    "jira_rows_can_trigger_baseline_canny_rerun": false,
+    "jira_rows_can_trigger_wave64_wave65_hygiene_loop": false,
+    "jira_rows_can_trigger_items_tracker_mirror_import": false,
+    "allowed_jira_actions": [
+      "executive visibility",
+      "bounded user-selected coordination tickets",
+      "cleanup drift reporting",
+      "cleanup state audit"
+    ],
+    "disallowed_jira_actions": [
+      "bulk-create Stories Tasks Sub-tasks from local ledger",
+      "recreate completed runtime proof",
+      "rerun baseline Canny local or AWS smoke",
+      "override local evidence status",
+      "interrupt active ComfyUI runtime/orchestration work without explicit user selection"
+    ]
+  },
+  "current_execution_guidance": {
+    "active_project_work_should_continue": "ComfyUI runtime/orchestration lane progress",
+    "latest_known_lane_progress": "sdxl_realvisxl_controlnet_normal_lane local package smoke passed",
+    "next_unproven_lane_hint": "sdxl_realvisxl_controlnet_openpose_lane unless newer evidence supersedes",
+    "jira_cleanup_is_not_active_project_work_unless_user_selects_it": true
+  },
+  "decision": "jira_imported_items_control_plane_only_local_proof_reuse_required_no_duplicate_execution"
+}

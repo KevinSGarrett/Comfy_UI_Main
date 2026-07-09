@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-NOSE-SOURCE-LANDMARK-REPAIR-20260707T212500-0500",
+  "timestamp": "2026-07-07T21:25:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave70_mf70_nose_source_specific_landmark_repair_candidate",
+  "implementation_script": "Plan/07_IMPLEMENTATION/scripts/repair_wave70_nose_source_landmark_mask.py",
+  "implementation_script_sha256": "2787bf0fff1d51aa8e7e87cc70f7d58f578addd035c15641731f3f25d152d13f",
+  "mask_type_id": "mf70_nose",
+  "tracker_id": "TRK-W70-0017",
+  "item_id": "ITEM-W70-0017",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "source_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+  "source_image_sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+  "superseding_user_dispute": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_ALIGNMENT_USER_DISPUTE_GLOBAL_REVIEW_20260707T211000-0500.json",
+  "fail_closed_audit": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_ALIGNMENT_FAIL_CLOSED_AUDIT_20260707T211500-0500.json",
+  "artifacts": {
+    "mask_png": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_nose_source_landmark_20260707T212500-0500/wave70_mf70_nose_mask.png",
+    "overlay_png": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_nose_source_landmark_20260707T212500-0500/wave70_mf70_nose_overlay.png",
+    "landmarks_json": "runtime_artifacts/mask_factory/wave70_mf70_nose/source_landmark_repair/mf70_nose_source_landmarks_20260707T212500-0500.json",
+    "repair_panel": "runtime_artifacts/mask_factory/wave70_mf70_nose/source_landmark_repair/mf70_nose_source_landmark_repair_panel_20260707T212500-0500.png"
+  },
+  "hashes": {
+    "mask_sha256": "15d6dce494c9052fdf59e18abecc2d7a3c18c16e3400fa3ee9129a5e8287d321",
+    "overlay_sha256": "ae82c2954fca830169e32978d21886f5845ce8d158599323b21e7a7c734f2f3e",
+    "landmarks_sha256": "73729056092b69e915158a866030e47a047a892750570f4d5c660ff1a226366b",
+    "repair_panel_sha256": "243f68755c13657a10e90372ff5ca05e09efc49c05ac5051a90b30b2bd0f2518"
+  },
+  "metrics": {
+    "white_pixel_count": 5545,
+    "nonblack_pixel_count": 7177,
+    "coverage_percent": 1.2168,
+    "bbox_pixels": {
+      "x_min": 347,
+      "y_min": 323,
+      "x_max": 434,
+      "y_max": 449
+    }
+  },
+  "repair_candidate": {
+    "candidate_only": true,
+    "semantic_mask_alignment_pass": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": null,
+    "completion_allowed_by_mask_alignment": false,
+    "status": "source_landmark_repair_candidate_pending_strict_overlay_review",
+    "notes": [
+      "Replaces the broad percentage-coordinate nose blob with source-specific pixel landmarks.",
+      "Hard guardrails clip the mask above the mouth/philtrum and away from eye/cheek regions.",
+      "No generated-output proof was run because source-overlay review must pass first."
+    ]
+  },
+  "result": "mf70_nose_source_landmark_repair_candidate_created_pending_strict_overlay_review",
+  "next_required_action": "Visually review repair panel, rerun fail-closed audit against this candidate, and only then consider low-denoise generated-output proof."
+}

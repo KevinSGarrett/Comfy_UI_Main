@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-08T18:39:48-05:00",
+  "task": "Record terminal Wave70 blocker at TRK-W70-0178 / ITEM-W70-0178 without activating Wave71.",
+  "source_evidence": {
+    "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/whole_body_geometry_promotion_integration.json",
+    "evidence_id": "W70_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_20260708T154144-0500",
+    "qa_decision": "blocked_exact_local_whole_body_geometry_authority_not_integrated_ref_images_1_2_context_available",
+    "promotion_decision": "no_mask_promoted_no_active_input_changed_integration_blocked"
+  },
+  "verified_reference_context": {
+    "combined_full_or_near_full_reference_count": 9,
+    "combined_gold_mask_count": 78,
+    "ref_image_2_gold_mask_count": 44,
+    "ref_image_1_limited_reference_policy": "Ref_Image_1/Full/New folder remains knees-to-head only and is excluded from feet/toes/ankles/lower-calf/support proof."
+  },
+  "terminal_blocker": {
+    "tracker_id": "TRK-W70-0178",
+    "item_id": "ITEM-W70-0178",
+    "blocker_status": "Blocked_Body_Geometry_Authority_Not_Integrated",
+    "completion_allowed": false,
+    "fail_closed_policy_confirmed": true,
+    "masks_changed": [],
+    "masks_promoted": [],
+    "next_allowed_state": "Do not activate Wave71+ without explicit activation-gate proof; continue acquiring or integrating canonical whole-body geometry prerequisites."
+  },
+  "wave70_boundary": {
+    "tracker_rows": 166,
+    "item_rows": 166,
+    "final_tracker_id": "TRK-W70-0178",
+    "final_item_id": "ITEM-W70-0178",
+    "known_sequence_gap": "TRK-W70-0173 / ITEM-W70-0173 missing from Wave70 CSVs and already recorded as MILESTONE_SEQUENCE_LEDGER_GAP."
+  },
+  "wave71_deferred_check": {
+    "path": "Plan/Tracker/wave71_soft_body_physics_deformation_map_system_tracker.csv",
+    "row_count": 34,
+    "statuses": [
+      "Deferred_Required_Not_Complete"
+    ]
+  },
+  "gates": {
+    "geometry": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_REF_IMAGES_1_2_20260708T154144-0500.json",
+      "checked": 332,
+      "pass_like": 0,
+      "failures": 0
+    },
+    "promotion": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_REF_IMAGES_1_2_20260708T154144-0500.json",
+      "checked": 332,
+      "pass_like": 0,
+      "failures": 0
+    }
+  },
+  "decision": "wave70_terminal_blocker_recorded_wave71_deferred_no_activation"
+}

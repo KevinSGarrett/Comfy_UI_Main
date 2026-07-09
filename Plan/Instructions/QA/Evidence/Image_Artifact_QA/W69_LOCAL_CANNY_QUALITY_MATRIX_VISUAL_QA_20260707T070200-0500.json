@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-CANNY-QUALITY-MATRIX-VISUAL-QA-20260707T070200-0500",
+  "timestamp": "2026-07-07T07:02:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "runtime_evidence": [
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_MATRIX_BASELINE_SEED711570101_EXECUTE_20260707T070000-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_MATRIX_SOFTER_EDGES_SEED711570102_EXECUTE_20260707T070100-0500.json"
+  ],
+  "matrix_samples": [
+    {
+      "profile_id": "canny_w69_matrix_baseline_seed711570101",
+      "profile_file": "PromptProfiles/base_generation/controlnet_canny_w69_quality_matrix/canny_w69_matrix_baseline_seed711570101.json",
+      "run_package_manifest": "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_w69_matrix_baseline_seed711570101/RUN_PACKAGE_MANIFEST.json",
+      "generated_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_canny_w69_matrix_baseline_seed711570101_20260707T065833-0500/images/codex_sdxl_realvisxl_controlnet_canny_w69_matrix_baseline_seed711570101_00001_.png",
+      "generated_sha256": "ea239a7c3f791e7cb79e59bdb8d6049ee30f58aa271d462fe600c05cd74ac882",
+      "generated_dimensions": "768x768",
+      "diagnostic_control_map": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_canny_w69_matrix_baseline_seed711570101_20260707T065833-0500/images/codex_sdxl_realvisxl_controlnet_canny_control_map_diagnostic_00002_.png",
+      "diagnostic_sha256": "614f959b76fc14e20d459eccee667d3b3838e304ba20c881a29083c3f098dd7f",
+      "diagnostic_dimensions": "1024x1024",
+      "visual_result": "pass_with_notes",
+      "visual_findings": [
+        "Coherent hyperrealistic head-and-shoulders portrait with stable face proportions, aligned eyes, believable hair, and clothed blazer/shirt framing.",
+        "No obvious Canny control-map stains, colored blotches, harsh outline transfer, text, watermark, or edge halo artifacts.",
+        "Jawline and shirt collar boundary are readable and improved versus the earlier v5/v6 concern.",
+        "Eyes remain low-key and slightly shadowed; skin surface is credible but still a little polished."
+      ]
+    },
+    {
+      "profile_id": "canny_w69_matrix_softer_edges_seed711570102",
+      "profile_file": "PromptProfiles/base_generation/controlnet_canny_w69_quality_matrix/canny_w69_matrix_softer_edges_seed711570102.json",
+      "run_package_manifest": "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_w69_matrix_softer_edges_seed711570102/RUN_PACKAGE_MANIFEST.json",
+      "generated_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_canny_w69_matrix_softer_edges_seed711570102_20260707T065920-0500/images/codex_sdxl_realvisxl_controlnet_canny_w69_matrix_softer_edges_seed711570102_00001_.png",
+      "generated_sha256": "b0eb59492ae6e900d9cf9e9502a3c2529a68c2e23ed327f9f7295eae26bbac62",
+      "generated_dimensions": "768x768",
+      "diagnostic_control_map": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_canny_w69_matrix_softer_edges_seed711570102_20260707T065920-0500/images/codex_sdxl_realvisxl_controlnet_canny_control_map_diagnostic_00003_.png",
+      "diagnostic_sha256": "588b58b198150b0aabfe4e48e08dce0c2ca631184f1ef7c347c7400f055a5222",
+      "diagnostic_dimensions": "1024x1024",
+      "visual_result": "preferred_pass_with_notes",
+      "visual_findings": [
+        "Best matrix candidate: warmer, more natural exposure with readable eyes, visible facial detail, believable hair texture, and stable facial proportions.",
+        "Skin texture and beard detail are more natural than the baseline sample, with less beauty-polished surface.",
+        "No obvious Canny/control-map leakage, dark contour stains, edge halos, warped collar edge, text, watermark, or background incoherence.",
+        "Remaining notes: eye sockets are still mildly dim and skin can use a little more fine microtexture without becoming sharpened or gritty."
+      ]
+    }
+  ],
+  "strict_whole_image_checks": {
+    "face_realism": "pass_with_notes",
+    "eyes": "pass_with_notes_mild_dim_eye_sockets",
+    "skin_texture": "pass_with_notes_prefer_softer_edges_sample",
+    "hair": "pass",
+    "hands": "not_visible_not_certified",
+    "body_proportions": "pass_for_head_and_shoulders_crop_only",
+    "clothing_fabric": "pass",
+    "jaw_collar_boundary": "pass",
+    "lighting": "pass_with_notes_low_key_eyes",
+    "background_coherence": "pass",
+    "camera_lens_realism": "pass",
+    "control_map_leakage": "pass_no_visible_leakage",
+    "generation_artifacts": "pass_no_blocking_artifacts",
+    "prompt_compliance": "pass"
+  },
+  "decision": {
+    "matrix_result": "preferred_candidate_selected_with_notes",
+    "preferred_profile_id": "canny_w69_matrix_softer_edges_seed711570102",
+    "qa_driven_followup_required": true,
+    "followup_change": "Use the softer-edge request as the base and add mild frontal eye fill, visible catchlights, and fine skin microtexture wording while explicitly suppressing dim eye sockets, waxy skin, gritty oversharpening, and edge halos.",
+    "certification_boundary": "Local quality-development evidence only. This does not certify target-runtime EC2 behavior, broad multi-seed robustness, hands/full-body anatomy, or final MOD-17 completion."
+  },
+  "result": "pass_with_notes_followup_required"
+}

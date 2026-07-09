@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-CANNY-V5-ROBUSTNESS-VISUAL-QA-20260707T033200-0500",
+  "timestamp": "2026-07-07T03:32:00-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "strict_whole_image_visual_qa_multiseed_local_robustness",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "prompt_profiles": [
+    "PromptProfiles/base_generation/controlnet_canny_v5_robustness/canny_v5_eye_fill_seed711170101.json",
+    "PromptProfiles/base_generation/controlnet_canny_v5_robustness/canny_v5_eye_fill_seed711170102.json"
+  ],
+  "technical_evidence": [
+    {
+      "seed": 711170101,
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_V5_ROBUSTNESS_SEED711170101_EXECUTE_20260707T032900-0500.json",
+      "run_package_manifest": "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_v5_robustness_seed711170101/RUN_PACKAGE_MANIFEST.json",
+      "result": "pass_local_run_package_generation_smoke",
+      "prompt_request_sha256": "8ec1710601f542c98cdf1810336c4cfae626d1fda44322111233b6d1fb1ac686"
+    },
+    {
+      "seed": 711170102,
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_V5_ROBUSTNESS_SEED711170102_EXECUTE_20260707T033100-0500.json",
+      "run_package_manifest": "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_v5_robustness_seed711170102/RUN_PACKAGE_MANIFEST.json",
+      "result": "pass_local_run_package_generation_smoke",
+      "prompt_request_sha256": "06a75f73ef50d4039dd4f870912182ed0b416467f559821101898c8a223348d3"
+    }
+  ],
+  "artifacts_reviewed": [
+    {
+      "seed": 711170101,
+      "image_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_canny_v5_robustness_seed711170101_20260707T032900-0500/images/codex_sdxl_realvisxl_controlnet_canny_v5_seed711170101_00001_.png",
+      "sha256": "553e55fbdb4a06040f7a143014042a334b6daba7fc9c3ae58f9f8b2a7fd759c2",
+      "whole_image_findings": {
+        "prompt_alignment": "Pass: hyperreal editorial head-and-shoulders portrait with blazer and white shirt.",
+        "face": "Pass with notes: face is coherent and proportional, but skin is mildly beauty-smoothed.",
+        "eyes": "Pass with notes: eyes are anatomically coherent with readable irises; right-side eye remains low-key but not blocked.",
+        "mouth_teeth": "Pass: closed mouth and natural lips; no teeth exposure or mouth artifact.",
+        "hands_feet_anatomy": "Not visible: no hands, fingers, feet, toes, or full-body limb anatomy in frame.",
+        "hair": "Pass: believable hair mass and flyaways without severe control artifacts.",
+        "clothing": "Pass: blazer, shirt collar, and clothed shoulders are coherent.",
+        "lighting_background": "Pass with notes: moody side lighting and window/background shapes are coherent; right side remains dark but usable.",
+        "control_adherence": "Pass: portrait crop and silhouette follow the Canny guide without colored control-map staining.",
+        "artifacts": "No blocking artifact observed."
+      },
+      "qa_result": "pass_with_notes"
+    },
+    {
+      "seed": 711170102,
+      "image_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_canny_v5_robustness_seed711170102_20260707T033100-0500/images/codex_sdxl_realvisxl_controlnet_canny_v5_seed711170102_00001_.png",
+      "sha256": "533f6a0871f8f1f1c69389d20d5a270f5eedc11169d1c278daba28cd22c7d1ab",
+      "whole_image_findings": {
+        "prompt_alignment": "Pass: hyperreal editorial portrait remains clothed with blazer and shirt.",
+        "face": "Pass with notes: face is coherent and realistic enough for local iteration; skin remains somewhat smoothed.",
+        "eyes": "Pass: iris readability and catchlights are strong, supporting the v5 eye-fill change.",
+        "mouth_teeth": "Pass: closed mouth, natural lips, no teeth artifact.",
+        "hands_feet_anatomy": "Not visible: no hand, finger, foot, toe, or limb anatomy risks in frame.",
+        "hair": "Pass: hairline and pulled-back hair are coherent with realistic edge detail.",
+        "clothing": "Pass with notes: blazer and shirt are coherent; a faint edge/transition artifact is visible around the lower jaw/collar/neck boundary.",
+        "lighting_background": "Pass: high-contrast window/background lighting is coherent and not muddy.",
+        "control_adherence": "Pass: Canny-guided portrait structure remains stable with no colored control stains.",
+        "artifacts": "Minor non-blocking edge/transition artifact near lower jaw/collar; no blocking generation defects."
+      },
+      "qa_result": "pass_with_notes"
+    }
+  ],
+  "robustness_summary": {
+    "sample_count": 2,
+    "passed_with_notes_count": 2,
+    "blocking_defect_count": 0,
+    "consistent_strengths": [
+      "clothed wardrobe holds across seeds",
+      "eye readability holds across seeds",
+      "no colored Canny control-map staining observed",
+      "portrait composition and clean face hold across seeds"
+    ],
+    "remaining_notes": [
+      "mild beauty smoothing remains",
+      "low-key shadow style still appears in some seeds",
+      "one seed shows a faint lower jaw/collar transition artifact"
+    ]
+  },
+  "overall_result": "pass_with_notes_for_local_robustness",
+  "certification_scope": "local_multiseed_robustness_only",
+  "not_certified_reasons": [
+    "The current v5 prompt candidate still needs target-runtime static proof, bounded target-runtime generation, pullback, technical QA, and strict whole-image visual QA.",
+    "This two-seed robustness check is not full portfolio certification."
+  ],
+  "next_action": "Keep v5 as the preferred local Canny prompt candidate. Do not certify or target-promote until exact v5 target-runtime proof and QA pass."
+}

@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-WAVE25-CONTACT-LOWER-UPPER-ARM-REPOSITION-SEED210705-VISUAL-QA-20260707T130500-0500",
+  "timestamp": "2026-07-07T13:05:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "module_id": "MOD-13-SDXL-INPAINT-DETAIL-LANE",
+  "work_type": "qa_driven_local_contact_placement_shadow_rerun",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "generation_executed": true,
+  "profile": {
+    "path": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave25_contact_lower_upper_arm_reposition_seed210705.json",
+    "sha256": "fa9368cb4eb1431fc75ac8dce8f255c4af906a76fe2a6ec13b56784767d22fe1"
+  },
+  "run_package_manifest": {
+    "path": "runtime_artifacts/run_packages/wave25_contact_lower_upper_arm_reposition_seed210705/RUN_PACKAGE_MANIFEST.json",
+    "sha256": "bc3ab4bed52c230cceefec17fec4232e90f81dadb3324cddb2a8bb3c2787a8d1",
+    "prompt_request_sha256": "779733a75520e861c0113ddc026de645657158c8701b306ad3d6035a19c8a64c"
+  },
+  "runtime_evidence": {
+    "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_WAVE25_CONTACT_LOWER_UPPER_ARM_REPOSITION_SEED210705_EXECUTE_20260707T130000-0500.json",
+    "sha256": "b34a280ece89bf7cbc79a5f70da34f1c06fe8d140d82fa7039e6f0e48c4dc594",
+    "result": "pass_local_run_package_generation_smoke",
+    "port_closed_after_stop": true
+  },
+  "generated_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/images/codex_wave25_contact_lower_upper_arm_reposition_seed210705_00001_.png",
+    "sha256": "033bbcdb1f3be33264fdfc43c342c12f02cb6b90be390bfaaa7e0a59ebcd7831",
+    "width": 1024,
+    "height": 1024,
+    "bytes": 1792085
+  },
+  "mask_preview": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00006_.png",
+    "sha256": "609cf13cf7c9d429e487a459e00ff2c8bab8fbd29ed873839dc753ccb09a33f8",
+    "width": 1024,
+    "height": 1024,
+    "bytes": 10016
+  },
+  "placement_mask": {
+    "path": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/masks/contact_lower_upper_arm_reposition_seed210705_1024.png",
+    "sha256": "219fe5a0a669e57c8dffad937ee705d9ee34f5b218c05bd769bcb2ef1f89603a",
+    "width": 1024,
+    "height": 1024,
+    "purpose": "Broader bounded mask covering the existing hand/contact area plus lower upper sleeve to test whether placement could shift below the shoulder cap."
+  },
+  "comparison_crop": {
+    "path": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/qa_contact_crops/contact_lower_upper_arm_reposition_compare_seed210704_seed210705.png",
+    "sha256": "e2332f39642a41db18e2711f6d83486148acf3e1daf737187cc999170e16d30a",
+    "width": 520,
+    "height": 330,
+    "left_panel": "seed210704 shadow/pressure result",
+    "right_panel": "seed210705 lower-upper-arm reposition attempt"
+  },
+  "qa_driven_change": {
+    "source_note": "Prior hand/contact certification still blocked final certification because contact shadow was subtle-to-moderate and placement read as shoulder_top_upper_sleeve.",
+    "request_change": "Use the seed210704 source, broaden the inpaint mask around the hand plus lower upper sleeve, raise denoise to 0.24, and request a slight lower-upper-arm rest while preserving identity/background.",
+    "minimum_rerun_scope": "one local sample from the changed request only"
+  },
+  "strict_whole_image_checks": {
+    "face_realism": "pass",
+    "eye_quality": "pass",
+    "skin_texture": "pass_with_mild_polish_note",
+    "hands_fingers": "pass_with_notes_visible_hand_preserved_but_not_final_certified",
+    "feet_toes": "not_visible_not_certified",
+    "hair_realism": "pass",
+    "teeth_mouth_quality": "pass_closed_mouth_no_teeth_visible",
+    "body_proportions": "pass",
+    "pose_accuracy": "pass_overall_pose_preserved",
+    "clothing_fabric": "pass_with_notes_sleeve_texture_preserved",
+    "contact_points": "pass_local_support_but_final_blocked_placement_still_shoulder_top_upper_sleeve",
+    "deformation_realism": "pass_with_notes_contact_shadow_subtle_to_moderate",
+    "anatomy_consistency": "pass_with_notes_hand_shape_preserved",
+    "lighting": "pass",
+    "background_coherence": "pass",
+    "camera_lens_realism": "pass",
+    "texture_detail": "pass",
+    "generation_artifacts": "pass_no_blocking_artifacts_observed",
+    "identity_drift": "pass_no_obvious_identity_drift",
+    "prompt_compliance": "mixed_contact_placement_not_cleared",
+    "mask_edge": "pass_no_visible_mask_edge",
+    "source_target_contact_ownership": "pass_woman_left_remains_source_man_right_remains_target"
+  },
+  "comparison_to_seed210704": {
+    "prior_seed_artifact": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_contact_shadow_pressure_seed210704_20260707T122546-0500/images/codex_wave25_contact_shadow_pressure_seed210704_00001_.png",
+    "prior_seed_sha256": "b9a1a02057c99eeabf0d6427c1af0a5e2a5b33195db1b8ebd6866915fafd6321",
+    "improvements": [
+      "Whole image remains stable with no obvious identity, clothing, or background regression.",
+      "The edited contact area retains visible hand-to-sleeve ownership and no visible mask edge.",
+      "Sleeve texture and finger occlusion remain coherent in the comparison crop."
+    ],
+    "regressions_or_limits": [
+      "The hand did not materially move to a lower upper-arm target; it still reads as shoulder/top-upper-sleeve contact.",
+      "Contact shadow remains subtle-to-moderate rather than clearly certified.",
+      "This single local rerun does not supply target-runtime proof or final certification review."
+    ]
+  },
+  "qa_result": "mixed_local_contact_lower_upper_arm_reposition_seed210705_blockers_remain",
+  "certification_scope": "single_local_reposition_attempt_after_QA_blocker",
+  "certification_allowed": false,
+  "remaining_blockers": [
+    "contact_shadow_not_clear:subtle_to_moderate",
+    "contact_placement_not_exact_target:shoulder_top_upper_sleeve",
+    "target_runtime_proof_missing",
+    "final_certification_review_missing"
+  ],
+  "next_action": "Record this as a bounded local attempt that preserved local support but did not clear final contact placement. Switch to another named local implementation/QA gap unless a materially different contact-generation strategy is selected."
+}

@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "WORKFLOW_RUNTIME_SMOKE_20260708T231534-0500",
+  "created_iso": "2026-07-08T23:15:34-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-037",
+  "item_id": "ITEM-W64-037",
+  "lane_id": "sdxl_low_risk_fallback_lane",
+  "task": "Record local bounded ComfyUI workflow runtime smoke proof after exact model provisioning.",
+  "source_smoke_record": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_SDXL_LOW_RISK_FALLBACK_AFTER_MODEL_PROVISION_EXECUTE_20260708T231300-0500.json",
+  "source_prompt_request": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_SDXL_LOW_RISK_FALLBACK_AFTER_MODEL_PROVISION_REQUEST_20260708T231300-0500.json",
+  "static_validation_evidence": "Plan/Instructions/QA/Evidence/Wave64/workflow_static_validation.json",
+  "object_info_evidence": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_LOCAL_OBJECT_INFO_RAW_WORKFLOW_STATIC_AFTER_SDXL_BASE_20260708T231120-0500.json",
+  "model_asset": {
+    "path": "models/checkpoints/sd_xl_base_1.0.safetensors",
+    "exists": true,
+    "bytes": 6938078334,
+    "sha256": "31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b",
+    "expected_sha256": "31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b"
+  },
+  "runtime_execution": {
+    "local_generation_executed": true,
+    "ec2_started": false,
+    "api_base_url": "http://127.0.0.1:8188",
+    "prompt_id": "87385393-d967-454d-b04c-a449de87275e",
+    "history_status": "outputs_found",
+    "output_images": [
+      {
+        "node_id": "9",
+        "filename": "codex_sdxl_low_risk_smoke_00001_.png",
+        "subfolder": "",
+        "type": "output"
+      }
+    ]
+  },
+  "output_artifact": {
+    "path": "ComfyUI/output/codex_sdxl_low_risk_smoke_00001_.png",
+    "exists": true,
+    "bytes": 1639341,
+    "sha256": "ab92ca8bf07233a4a745534a5463af67458b8e3487f4429506ba27edc9ba95c5",
+    "width": 1024,
+    "height": 1024,
+    "format": "png"
+  },
+  "visual_qa": {
+    "reviewed_by": "codex_visual_inspection",
+    "result": "pass_with_scope_notes",
+    "notes": [
+      "Image is a coherent single-subject portrait with complete frame and no obvious corruption.",
+      "Eyes, face, hair, and fabric are readable; no visible watermark, UI text, or blank/partial output.",
+      "This proof covers low-risk portrait workflow runtime only; it does not claim full-body, hand/contact, mask, video, or final portfolio certification."
+    ]
+  },
+  "gold_mask_dependency_boundary": {
+    "mask_truth_consumed": false,
+    "masks_promoted": false,
+    "hard_gates_rerun": false,
+    "wave71_activation_attempted": false
+  },
+  "errors": [],
+  "qa_decision": "workflow_runtime_smoke_passed_local_nonmask_safe",
+  "next_step": "Advance to the next concrete non-mask runtime/QA task; preserve this smoke proof unless workflow inputs, model, or QA threshold changes.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/workflow_runtime_smoke.json",
+    "Plan/Instructions/QA/Evidence/Wave64/WORKFLOW_RUNTIME_SMOKE_20260708T231534-0500.json",
+    "Plan/Tracker/Evidence/WORKFLOW_RUNTIME_SMOKE_20260708T231534-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_SDXL_LOW_RISK_FALLBACK_AFTER_MODEL_PROVISION_EXECUTE_20260708T231300-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_SDXL_LOW_RISK_FALLBACK_AFTER_MODEL_PROVISION_REQUEST_20260708T231300-0500.json",
+    "ComfyUI/output/codex_sdxl_low_risk_smoke_00001_.png"
+  ]
+}

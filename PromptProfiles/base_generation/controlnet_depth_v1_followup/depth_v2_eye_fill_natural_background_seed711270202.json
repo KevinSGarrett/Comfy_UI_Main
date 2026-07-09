@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "depth_v2_eye_fill_natural_background_seed711270202",
+  "target_lane_id": "sdxl_realvisxl_controlnet_depth_lane",
+  "purpose": "Bounded local depth QA iteration from v1 notes: improve eye-shadow readability, reduce beauty-polished skin, and remove dark upper-right foreground/background shapes while keeping the same RealVisXL checkpoint, depth ControlNet model, prepared depth control image, and conservative ControlNet strength.",
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic cinematic editorial portrait, natural skin texture, realistic fine pores, subtle cheek texture, soft human skin asymmetry, realistic eyes with clean catchlights, clear iris detail, gentle eye fill light, open eye shadow detail, balanced cheek exposure, detailed hair, depth-guided composition, coherent face and shoulder volume, natural portrait depth separation, tailored dark blazer over textured shirt, clothed shoulders, quiet neutral interior background, clean upper-right background, soft window fill light, balanced exposure, clean face with no painted marks, lifelike lens rendering",
+    "negative_prompt": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, beauty filter skin, airbrushed face, porcelain skin, glossy skin, distorted anatomy, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text, depth artifacts, flattened face, melted facial volume, harsh outlines, colored blotches, paint marks, over-dark eyes, underexposed eyes, muddy shadows, crushed shadows, dark upper-right foreground shape, black background blob, heavy vignette, control map stains, bare shoulders, strapless top, nude, unclothed torso",
+    "seed": 711270202,
+    "save_prefix": "depth_v2_eye_fill_711270202"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "depth_v2_eye_fill_711270202"
+  },
+  "qa_focus": [
+    "whole-image prompt alignment",
+    "eye readability and shadow detail",
+    "natural skin texture versus beauty smoothing",
+    "upper-right background cleanliness",
+    "depth-map leakage or depth stains",
+    "face and shoulder volume",
+    "clothing and collar realism",
+    "generation artifacts"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_target_runtime_reproof_before_certification": true,
+    "requires_whole_image_qa_before_promotion": true
+  }
+}

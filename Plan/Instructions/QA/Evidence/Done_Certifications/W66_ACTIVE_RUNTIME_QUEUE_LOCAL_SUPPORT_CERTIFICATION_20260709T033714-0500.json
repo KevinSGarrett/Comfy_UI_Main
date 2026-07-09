@@ -1,0 +1,1297 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "active_runtime_queue_local_support_certification",
+    "created_at":  "2026-07-09T03:37:15-05:00",
+    "result":  "fail_local_active_runtime_queue_support_certification",
+    "final_certification_result":  "blocked_final_certification_missing_target_runtime_or_final_review",
+    "local_only":  true,
+    "ec2_started":  false,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "comfyui_contacted":  false,
+    "generation_executed":  false,
+    "runtime_queue":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+    "active_lanes_manifest":  "Workflows/base_generation/ACTIVE_LANES.json",
+    "lane_count":  9,
+    "lanes_checked":  [
+                          {
+                              "lane_id":  "sdxl_low_risk_fallback_lane",
+                              "order":  1,
+                              "status":  "runtime_smoke_proven",
+                              "next_gate":  "completed_first_runtime_proof",
+                              "support_evidence_count":  3,
+                              "blocker_evidence_count":  0,
+                              "checked_evidence":  [
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_POST_LOGIN_RETEST_20260706T104311-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_POST_STATIC_PROOF_RETEST_20260706T110424-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_VISUAL_20260706T122027-0500.json",
+                                                           "result":  null
+                                                       }
+                                                   ],
+                              "local_support_result":  "fail_local_support",
+                              "final_certification_status":  "local_support_failed",
+                              "defects":  [
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_POST_LOGIN_RETEST_20260706T104311-0500.json",
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_POST_STATIC_PROOF_RETEST_20260706T110424-0500.json",
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_VISUAL_20260706T122027-0500.json"
+                                          ],
+                              "final_blockers":  [
+
+                                                 ]
+                          },
+                          {
+                              "lane_id":  "sdxl_realvisxl_base_lane",
+                              "order":  2,
+                              "status":  "runtime_smoke_proven_local_single_hand_contact_closeup_and_two_character_contact_pixel_attempt_pass_with_notes_pending_final_certification",
+                              "next_gate":  "optional_mask_routed_two_character_refine_or_final_base_lane_certification_or_target_runtime_reproof_when_intentionally_selected",
+                              "support_evidence_count":  19,
+                              "blocker_evidence_count":  2,
+                              "checked_evidence":  [
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Model_Registry/W63_EC2_REALVISXL_MODEL_INSTALL_20260706T125425-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_EC2_LANE_STATIC_PROOF_REALVISXL_AFTER_INSTALL_20260706T131129-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_LANE_RUNTIME_READINESS_REALVISXL_AFTER_STATIC_PROOF_20260706T132103-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W63_EC2_WORKFLOW_SMOKE_REALVISXL_AFTER_STATIC_PROOF_20260706T132206-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T132206-0500/PULLBACK_RECORD.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_REALVISXL_IMAGE_QA_VISUAL_20260706T140120-0500.json",
+                                                           "result":  "pass_with_notes_for_runtime_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_single_hand_contact_closeup_v1.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/realvisxl_single_hand_contact_closeup_w69_v1/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_REALVISXL_SINGLE_HAND_CONTACT_CLOSEUP_V1_EXECUTE_20260707T094700-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_SINGLE_HAND_CONTACT_CLOSEUP_V1_VISUAL_QA_20260707T095000-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Tracker/Evidence/W69_LOCAL_REALVISXL_SINGLE_HAND_CONTACT_CLOSEUP_20260707T095000-0500.json",
+                                                           "result":  "pass_with_notes_local_single_hand_contact_closeup"
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_two_character_hand_to_body_seed7152026251.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_two_character_hand_to_body_seed7152026252_source_hand_visible.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/realvisxl_two_character_hand_to_body_w69_seed7152026251/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/realvisxl_two_character_hand_to_body_w69_seed7152026252/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_REALVISXL_TWO_CHARACTER_HAND_TO_BODY_SEED7152026251_EXECUTE_20260707T114000-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_REALVISXL_TWO_CHARACTER_HAND_TO_BODY_SEED7152026252_EXECUTE_20260707T114500-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_TWO_CHARACTER_HAND_TO_BODY_VISUAL_QA_20260707T115000-0500.json",
+                                                           "result":  "pass_with_notes_local_two_character_hand_to_body_first_pixel_attempt_seed7152026252_preferred"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Tracker/Evidence/W69_LOCAL_REALVISXL_TWO_CHARACTER_HAND_TO_BODY_PIXEL_ATTEMPT_20260707T115000-0500.json",
+                                                           "result":  "pass_with_notes_local_iteration"
+                                                       }
+                                                   ],
+                              "local_support_result":  "fail_local_support",
+                              "final_certification_status":  "local_support_failed",
+                              "defects":  [
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Model_Registry/W63_EC2_REALVISXL_MODEL_INSTALL_20260706T125425-0500.json",
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_EC2_LANE_STATIC_PROOF_REALVISXL_AFTER_INSTALL_20260706T131129-0500.json",
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_LANE_RUNTIME_READINESS_REALVISXL_AFTER_STATIC_PROOF_20260706T132103-0500.json",
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Runtime/W63_EC2_WORKFLOW_SMOKE_REALVISXL_AFTER_STATIC_PROOF_20260706T132206-0500.json",
+                                              "evidence_json_parse_failed:Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T132206-0500/PULLBACK_RECORD.json"
+                                          ],
+                              "final_blockers":  [
+                                                     "target_runtime_or_final_certification_not_proven"
+                                                 ]
+                          },
+                          {
+                              "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+                              "order":  3,
+                              "status":  "target_runtime_smoke_proven_canny_v4_plus_local_package_and_multiseed_pass_with_notes_final_certification_pending",
+                              "next_gate":  "do_not_rerun_baseline_canny_local_or_aws_proof; only changed_variant_target_runtime_proof_or_final_canny_certification_when_intentionally_selected",
+                              "support_evidence_count":  46,
+                              "blocker_evidence_count":  0,
+                              "checked_evidence":  [
+                                                       {
+                                                           "path":  "Plan/10_REGISTRIES/wave05_workflow_template_contracts.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/10_REGISTRIES/wave11_control_map_runtime_requirements.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/10_REGISTRIES/wave11_main_flow_control_map_inventory.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Model_Registry/W67_CONTROLNET_CANNY_MODEL_LOCAL_PROVISIONING_20260706T214500-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_input_20260707T000000-0500/CONTROL_IMAGE_INPUT_ASSET_MANIFEST.json",
+                                                           "result":  "prepared_local_input_asset"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W67_LOCAL_OBJECT_INFO_CONTROLNET_CANNY_MODEL_INPUT_20260706T215000-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W67_LOCAL_CONTROLNET_CANNY_RUN_PACKAGE_EXECUTE_20260706T215500-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W67_LOCAL_CONTROLNET_CANNY_IMAGE_QA_VISUAL_20260706T220000-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W68_OPERATIONS_HELPER_W68_CANNY_GATE_CONTRACTS_20260707T011500-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_cleaned_eye_safe_v1_20260707T005200-0500/CONTROL_IMAGE_INPUT_ASSET_MANIFEST.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_CLEAN_CONTROL_WARDROBE_PACKAGE_V3_20260707T011000-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_WARDROBE_PACKAGE_V3_TECHNICAL_20260707T011200-0500.json",
+                                                           "result":  "pass_local_wardrobe_default_package_generation_with_visual_qa_notes"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_LOCAL_CANNY_WARDROBE_PACKAGE_V3_VISUAL_QA_20260707T011200-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_WARDROBE_V3_MULTISEED_TECHNICAL_20260707T011900-0500.json",
+                                                           "result":  "pass_local_multiseed_generation_with_visual_qa_notes"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_LOCAL_CANNY_WARDROBE_V3_MULTISEED_VISUAL_QA_20260707T011900-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Run_Package/W68_CANNY_CLEAN_CONTROL_WARDROBE_CURRENT_PACKAGE_V4_20260707T013600-0500.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_CANNY_QALOOP_EYE_FILL_V5_STATIC_VALIDATION_20260707T032000-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_QALOOP_CURRENT_EXECUTE_20260707T031600-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_QALOOP_EYE_FILL_V5_EXECUTE_20260707T031800-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_QALOOP_EYE_FILL_V5_VISUAL_QA_20260707T031800-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_V5_ROBUSTNESS_SEED711170101_EXECUTE_20260707T032900-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_V5_ROBUSTNESS_SEED711170102_EXECUTE_20260707T033100-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_V5_ROBUSTNESS_VISUAL_QA_20260707T033200-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_V6_MICROTEXTURE_COLLAR_SEED711170102_EXECUTE_20260707T043800-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_V6_MICROTEXTURE_COLLAR_VISUAL_QA_20260707T044200-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_preprocess_module_v1_20260707T051500-0500/CONTROL_MAP_PREPROCESS_MANIFEST.json",
+                                                           "result":  "prepared_local_canny_control_map_module_outputs"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W69_CONTROLNET_CANNY_PREPROCESS_MODULE_V1_20260707T051500-0500.json",
+                                                           "result":  "pass_local_control_map_preprocessing_module_validation"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_CANNY_CONTROL_MAP_DIAGNOSTIC_STATIC_20260707T052500-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_v6_control_map_diagnostic_w69/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_V6_CONTROL_MAP_DIAGNOSTIC_EXECUTE_20260707T052600-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_V6_CONTROL_MAP_DIAGNOSTIC_VISUAL_QA_20260707T051100-0500.json",
+                                                           "result":  "pass_with_notes_for_local_control_map_diagnostic_iteration"
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/controlnet_canny_w69_quality_matrix/canny_w69_eyeonly_robust_seed711570104.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/controlnet_canny_w69_quality_matrix/canny_w69_eyeonly_robust_seed711570105.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/canny_w69_eyeonly_robust_711570104/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/canny_w69_eyeonly_robust_711570105/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_EYEONLY_ROBUST_SEED711570104_EXECUTE_20260707T092200-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_EYEONLY_ROBUST_SEED711570105_EXECUTE_20260707T092300-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_EYEONLY_MULTISEED_ROBUSTNESS_VISUAL_QA_20260707T092500-0500.json",
+                                                           "result":  "pass_with_notes_local_canny_eyeonly_multiseed_robustness"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Tracker/Evidence/W69_LOCAL_CANNY_EYEONLY_MULTISEED_ROBUSTNESS_20260707T092500-0500.json",
+                                                           "result":  "pass_with_notes_local_canny_eyeonly_multiseed_robustness"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W68_EC2_STATIC_PROOF_CANNY_V4_RUNTIME_PASS_20260707T014700-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_EC2_INPUT_ASSET_INSTALL_CANNY_CLEANED_V1_20260707T020300-0500.json",
+                                                           "result":  "input_asset_hash_verified"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_EC2_WORKFLOW_SMOKE_CANNY_V4_HTTP400_MISSING_INPUT_20260707T015600-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_EC2_WORKFLOW_SMOKE_CANNY_V4_AFTER_INPUT_INSTALL_20260707T020800-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260707T021155-0500/PULLBACK_RECORD.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_CANNY_V4_EC2_IMAGE_QA_TECHNICAL_20260707T021700-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_CANNY_V4_EC2_IMAGE_QA_VISUAL_20260707T022300-0500.json",
+                                                           "result":  null
+                                                       }
+                                                   ],
+                              "local_support_result":  "fail_local_support",
+                              "final_certification_status":  "local_support_failed",
+                              "defects":  [
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Model_Registry/W67_CONTROLNET_CANNY_MODEL_LOCAL_PROVISIONING_20260706T214500-0500.json",
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Runtime_Readiness/W67_LOCAL_OBJECT_INFO_CONTROLNET_CANNY_MODEL_INPUT_20260706T215000-0500.json",
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W67_LOCAL_CONTROLNET_CANNY_IMAGE_QA_VISUAL_20260706T220000-0500.json",
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Operations_Static_Validation/W68_OPERATIONS_HELPER_W68_CANNY_GATE_CONTRACTS_20260707T011500-0500.json",
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_CANNY_QALOOP_EYE_FILL_V5_STATIC_VALIDATION_20260707T032000-0500.json",
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_CANNY_CONTROL_MAP_DIAGNOSTIC_STATIC_20260707T052500-0500.json",
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W68_EC2_STATIC_PROOF_CANNY_V4_RUNTIME_PASS_20260707T014700-0500.json",
+                                              "evidence_result_not_pass_like:Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_EC2_INPUT_ASSET_INSTALL_CANNY_CLEANED_V1_20260707T020300-0500.json:input_asset_hash_verified",
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_EC2_WORKFLOW_SMOKE_CANNY_V4_HTTP400_MISSING_INPUT_20260707T015600-0500.json",
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_EC2_WORKFLOW_SMOKE_CANNY_V4_AFTER_INPUT_INSTALL_20260707T020800-0500.json",
+                                              "evidence_json_parse_failed:Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260707T021155-0500/PULLBACK_RECORD.json",
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_CANNY_V4_EC2_IMAGE_QA_TECHNICAL_20260707T021700-0500.json"
+                                          ],
+                              "final_blockers":  [
+                                                     "target_runtime_or_final_certification_not_proven"
+                                                 ]
+                          },
+                          {
+                              "lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+                              "order":  4,
+                              "status":  "local_runtime_smoke_visual_qa_pass_with_notes_plus_wave25_contact_refine_robustness_pass_with_notes_pending_target_runtime",
+                              "next_gate":  "optional_local_robustness_or_target_runtime_object_info_path_hash_input_asset_proof_when_intentionally_selected",
+                              "support_evidence_count":  41,
+                              "blocker_evidence_count":  0,
+                              "checked_evidence":  [
+                                                       {
+                                                           "path":  "Plan/10_REGISTRIES/wave05_workflow_template_contracts.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/10_REGISTRIES/wave05_module_catalog.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/10_REGISTRIES/main_flow_wave04_runtime_lanes.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/07_IMPLEMENTATION/COMFYUI_WIRING_REPAIR_LIST.md",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_face_mask_v1_20260707T024000-0500/INPAINT_INPUT_ASSET_MANIFEST.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_SDXL_REALVISXL_INPAINT_DETAIL_STATIC_VALIDATION_20260707T024200-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_PREFLIGHT_SDXL_REALVISXL_INPAINT_DETAIL_20260707T030000-0500.json",
+                                                           "result":  "pass_local_gpu_generation_candidate"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_SMOKE_EXECUTE_20260707T030000-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_REPAIR_V2_EXECUTE_20260707T031000-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_VISUAL_QA_20260707T031000-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_micro_mask_v2_20260707T032500-0500/INPAINT_MICRO_MASK_INPUT_ASSET_MANIFEST.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_SDXL_REALVISXL_INPAINT_DETAIL_MICRO_V3_STATIC_VALIDATION_20260707T033000-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_MICRO_V3_EXECUTE_20260707T033500-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_MICRO_V3_VISUAL_QA_20260707T033500-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_micro_nomouth_v4_20260707T034500-0500/INPAINT_MICRO_NOMOUTH_INPUT_ASSET_MANIFEST.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_SDXL_REALVISXL_INPAINT_DETAIL_NOMOUTH_V4_STATIC_VALIDATION_20260707T034700-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_EXECUTE_20260707T035000-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_VISUAL_QA_20260707T035000-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_ROBUSTNESS_SEED210501_EXECUTE_20260707T033600-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_ROBUSTNESS_SEED210502_EXECUTE_20260707T033800-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_ROBUSTNESS_VISUAL_QA_20260707T034000-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V5_TEXTURE_SEED210601_EXECUTE_20260707T042700-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V5_TEXTURE_VISUAL_QA_20260707T042900-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_OBJECT_INFO_INPAINT_DETAIL_NOMOUTH_V4_20260707T045500-0500.json",
+                                                           "result":  "pass_local_object_info_model_input_hash_proof"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_MASK_PREVIEW_EXECUTE_20260707T045100-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_MASK_PREVIEW_VISUAL_QA_20260707T045800-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_nomouth_v4_mask_preview_w69_20260707T045056-0500/OUTPUT_HANDOFF_MANIFEST.json",
+                                                           "result":  "pass_local_output_handoff_manifest_created"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W69_INPAINT_DETAIL_NOMOUTH_V4_OUTPUT_HANDOFF_20260707T050500-0500.json",
+                                                           "result":  "pass_local_output_handoff_manifest_validation"
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave25_two_character_contact_refine_seed210701.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/wave25_two_character_contact_refine_seed210701/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_WAVE25_TWO_CHARACTER_CONTACT_REFINE_SEED210701_EXECUTE_20260707T120000-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_WAVE25_TWO_CHARACTER_CONTACT_REFINE_VISUAL_QA_20260707T120500-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Tracker/Evidence/W69_LOCAL_WAVE25_TWO_CHARACTER_CONTACT_REFINE_20260707T120500-0500.json",
+                                                           "result":  "pass_with_notes_local_iteration"
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave25_two_character_contact_refine_seed210702.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave25_two_character_contact_refine_seed210703.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/wave25_two_character_contact_refine_seed210702/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/wave25_two_character_contact_refine_seed210703/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_WAVE25_TWO_CHARACTER_CONTACT_REFINE_SEED210702_EXECUTE_20260707T121000-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_WAVE25_TWO_CHARACTER_CONTACT_REFINE_SEED210703_EXECUTE_20260707T121200-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_WAVE25_TWO_CHARACTER_CONTACT_REFINE_ROBUSTNESS_VISUAL_QA_20260707T121500-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Tracker/Evidence/W69_LOCAL_WAVE25_TWO_CHARACTER_CONTACT_REFINE_ROBUSTNESS_20260707T121500-0500.json",
+                                                           "result":  "pass_with_notes_local_iteration"
+                                                       }
+                                                   ],
+                              "local_support_result":  "fail_local_support",
+                              "final_certification_status":  "local_support_failed",
+                              "defects":  [
+                                              "evidence_json_parse_failed:Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_face_mask_v1_20260707T024000-0500/INPAINT_INPUT_ASSET_MANIFEST.json",
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_SDXL_REALVISXL_INPAINT_DETAIL_STATIC_VALIDATION_20260707T024200-0500.json",
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_SDXL_REALVISXL_INPAINT_DETAIL_MICRO_V3_STATIC_VALIDATION_20260707T033000-0500.json",
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_SDXL_REALVISXL_INPAINT_DETAIL_NOMOUTH_V4_STATIC_VALIDATION_20260707T034700-0500.json"
+                                          ],
+                              "final_blockers":  [
+                                                     "target_runtime_or_final_certification_not_proven",
+                                                     "target_runtime_proof_evidence_missing"
+                                                 ]
+                          },
+                          {
+                              "lane_id":  "sdxl_realvisxl_controlnet_depth_lane",
+                              "order":  5,
+                              "status":  "local_depth_v2_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+                              "next_gate":  "optional_target_runtime_proof_or_final_depth_certification_when_intentionally_selected",
+                              "support_evidence_count":  25,
+                              "blocker_evidence_count":  0,
+                              "checked_evidence":  [
+                                                       {
+                                                           "path":  "Plan/10_REGISTRIES/wave11_control_map_type_registry.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/10_REGISTRIES/wave11_control_map_runtime_requirements.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/10_REGISTRIES/wave11_controlnet_model_router_rules.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_OBJECT_INFO_CONTROL_PREPROCESSORS_AFTER_AUX_INSTALL_20260707T052500-0500.json",
+                                                           "result":  "pass_all_wave11_preprocessors_visible_after_aux_install"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CONTROL_PREPROCESSOR_MAPS_RETRY_EXECUTE_20260707T053300-0500.json",
+                                                           "result":  "pass_local_control_preprocessor_maps_generated"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CONTROL_PREPROCESSOR_MAPS_VISUAL_QA_20260707T053800-0500.json",
+                                                           "result":  "pass_with_notes_for_local_control_preprocessor_artifacts"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Model_Registry/W69_LOCAL_CONTROLNET_DEPTH_MODEL_PROVISIONING_20260707T054600-0500.json",
+                                                           "result":  "pass_local_depth_controlnet_model_and_input_hash_verified"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_DEPTH_LANE_STATIC_20260707T055000-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_depth_w69_v1/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_DEPTH_CONTROLNET_V1_EXECUTE_20260707T055000-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_DEPTH_CONTROLNET_V1_TECHNICAL_QA_20260707T055100-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_DEPTH_CONTROLNET_V1_VISUAL_QA_20260707T055200-0500.json",
+                                                           "result":  "pass_with_notes_for_local_depth_controlnet_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/controlnet_depth_v1_followup/depth_v2_eye_fill_natural_background_seed711270202.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/depth_v2_eye_fill_711270202/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_DEPTH_V2_EYE_FILL_EXECUTE_20260707T073800-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_DEPTH_V2_EYE_FILL_VISUAL_QA_20260707T073900-0500.json",
+                                                           "result":  "pass_with_notes_promote_as_preferred_local_depth_candidate"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Tracker/Evidence/W69_LOCAL_DEPTH_V2_FOLLOWUP_20260707T073900-0500.json",
+                                                           "result":  "pass_with_notes_promote_as_preferred_local_depth_candidate"
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/controlnet_depth_v1_followup/depth_v2_robust_eye_fill_seed711270203.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/controlnet_depth_v1_followup/depth_v2_robust_eye_fill_seed711270204.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/depth_v2_robust_711270203/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/depth_v2_robust_711270204/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_DEPTH_V2_ROBUST_SEED711270203_EXECUTE_20260707T081100-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_DEPTH_V2_ROBUST_SEED711270204_EXECUTE_20260707T081300-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_DEPTH_V2_MULTISEED_ROBUSTNESS_VISUAL_QA_20260707T081600-0500.json",
+                                                           "result":  "pass_with_notes_local_depth_v2_multiseed_robustness"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Tracker/Evidence/W69_LOCAL_DEPTH_V2_MULTISEED_ROBUSTNESS_20260707T081600-0500.json",
+                                                           "result":  "pass_with_notes_local_depth_v2_multiseed_robustness"
+                                                       }
+                                                   ],
+                              "local_support_result":  "fail_local_support",
+                              "final_certification_status":  "local_support_failed",
+                              "defects":  [
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_DEPTH_LANE_STATIC_20260707T055000-0500.json",
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_DEPTH_CONTROLNET_V1_TECHNICAL_QA_20260707T055100-0500.json"
+                                          ],
+                              "final_blockers":  [
+                                                     "target_runtime_or_final_certification_not_proven",
+                                                     "target_runtime_proof_evidence_missing"
+                                                 ]
+                          },
+                          {
+                              "lane_id":  "sdxl_realvisxl_controlnet_lineart_lane",
+                              "order":  6,
+                              "status":  "local_lineart_v4_plain_backdrop_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+                              "next_gate":  "optional_target_runtime_proof_or_final_lineart_certification_when_intentionally_selected",
+                              "support_evidence_count":  43,
+                              "blocker_evidence_count":  0,
+                              "checked_evidence":  [
+                                                       {
+                                                           "path":  "Plan/10_REGISTRIES/wave11_control_map_type_registry.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/10_REGISTRIES/wave11_control_map_runtime_requirements.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/10_REGISTRIES/wave11_controlnet_model_router_rules.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_OBJECT_INFO_CONTROL_PREPROCESSORS_AFTER_AUX_INSTALL_20260707T052500-0500.json",
+                                                           "result":  "pass_all_wave11_preprocessors_visible_after_aux_install"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CONTROL_PREPROCESSOR_MAPS_RETRY_EXECUTE_20260707T053300-0500.json",
+                                                           "result":  "pass_local_control_preprocessor_maps_generated"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CONTROL_PREPROCESSOR_MAPS_VISUAL_QA_20260707T053800-0500.json",
+                                                           "result":  "pass_with_notes_for_local_control_preprocessor_artifacts"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Model_Registry/W69_LOCAL_CONTROLNET_LINEART_MODEL_PROVISIONING_20260707T060000-0500.json",
+                                                           "result":  "pass_local_lineart_controlnet_model_and_input_hash_verified"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_LINEART_LANE_STATIC_20260707T060100-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_lineart_w69_v1/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_LINEART_CONTROLNET_V1_EXECUTE_20260707T060200-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_LINEART_CONTROLNET_V1_TECHNICAL_QA_20260707T060300-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_LINEART_CONTROLNET_V1_VISUAL_QA_20260707T060400-0500.json",
+                                                           "result":  "pass_with_notes_for_local_lineart_controlnet_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/controlnet_lineart_v1_followup/lineart_v2_natural_skin_background_seed711370002.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_lineart_v2_natural_skin_background_w69/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_LINEART_V2_NATURAL_SKIN_BACKGROUND_EXECUTE_20260707T061000-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_LINEART_CONTROLNET_V2_TECHNICAL_QA_20260707T061100-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_LINEART_CONTROLNET_V2_VISUAL_QA_20260707T061200-0500.json",
+                                                           "result":  "pass_with_notes_for_local_lineart_v2_followup"
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/controlnet_lineart_v1_followup/lineart_v2_robust_natural_skin_seed711370003.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/controlnet_lineart_v1_followup/lineart_v2_robust_natural_skin_seed711370004.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/lineart_v2_robust_711370003/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/lineart_v2_robust_711370004/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_LINEART_V2_ROBUST_SEED711370003_EXECUTE_20260707T082300-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_LINEART_V2_ROBUST_SEED711370004_EXECUTE_20260707T082500-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_LINEART_V2_MULTISEED_ROBUSTNESS_VISUAL_QA_20260707T083000-0500.json",
+                                                           "result":  "pass_with_notes_local_lineart_v2_multiseed_functional_but_background_identity_robustness_weaker"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Tracker/Evidence/W69_LOCAL_LINEART_V2_MULTISEED_ROBUSTNESS_20260707T083000-0500.json",
+                                                           "result":  "pass_with_notes_local_lineart_v2_multiseed_functional_but_background_identity_robustness_weaker"
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/controlnet_lineart_v1_followup/lineart_v3_background_identity_seed711370003.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/lineart_v3_background_identity_711370003/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_LINEART_V3_BACKGROUND_IDENTITY_SEED711370003_EXECUTE_20260707T091500-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_LINEART_V3_BACKGROUND_IDENTITY_VISUAL_QA_20260707T091600-0500.json",
+                                                           "result":  "partial_improvement_lineart_v3_background_identity_followup_not_promoted_to_final"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Tracker/Evidence/W69_LOCAL_LINEART_V3_BACKGROUND_IDENTITY_FOLLOWUP_20260707T091600-0500.json",
+                                                           "result":  "partial_improvement_lineart_v3_background_identity_followup_not_promoted_to_final"
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/controlnet_lineart_v1_followup/lineart_v4_plain_backdrop_seed711370003.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/lineart_v4_plain_backdrop_711370003/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_LINEART_V4_PLAIN_BACKDROP_SEED711370003_EXECUTE_20260707T093000-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_LINEART_V4_PLAIN_BACKDROP_VISUAL_QA_20260707T093300-0500.json",
+                                                           "result":  "pass_with_notes_promote_v4_as_preferred_local_lineart_background_candidate"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Tracker/Evidence/W69_LOCAL_LINEART_V4_PLAIN_BACKDROP_FOLLOWUP_20260707T093300-0500.json",
+                                                           "result":  "pass_with_notes_promote_v4_as_preferred_local_lineart_background_candidate"
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/controlnet_lineart_v1_followup/lineart_v4_robust_plain_backdrop_seed711370005.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/controlnet_lineart_v1_followup/lineart_v4_robust_plain_backdrop_seed711370006.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/lineart_v4_robust_plain_711370005/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/lineart_v4_robust_plain_711370006/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_LINEART_V4_ROBUST_SEED711370005_EXECUTE_20260707T093700-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_LINEART_V4_ROBUST_SEED711370006_EXECUTE_20260707T093800-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_LINEART_V4_MULTISEED_ROBUSTNESS_VISUAL_QA_20260707T094200-0500.json",
+                                                           "result":  "pass_with_notes_local_lineart_v4_plain_backdrop_multiseed_robustness"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Tracker/Evidence/W69_LOCAL_LINEART_V4_MULTISEED_ROBUSTNESS_20260707T094200-0500.json",
+                                                           "result":  "pass_with_notes_local_lineart_v4_plain_backdrop_multiseed_robustness"
+                                                       }
+                                                   ],
+                              "local_support_result":  "fail_local_support",
+                              "final_certification_status":  "local_support_failed",
+                              "defects":  [
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_LINEART_LANE_STATIC_20260707T060100-0500.json",
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_LINEART_CONTROLNET_V1_TECHNICAL_QA_20260707T060300-0500.json",
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_LINEART_CONTROLNET_V2_TECHNICAL_QA_20260707T061100-0500.json",
+                                              "evidence_result_not_pass_like:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_LINEART_V3_BACKGROUND_IDENTITY_VISUAL_QA_20260707T091600-0500.json:partial_improvement_lineart_v3_background_identity_followup_not_promoted_to_final",
+                                              "evidence_result_not_pass_like:Plan/Tracker/Evidence/W69_LOCAL_LINEART_V3_BACKGROUND_IDENTITY_FOLLOWUP_20260707T091600-0500.json:partial_improvement_lineart_v3_background_identity_followup_not_promoted_to_final"
+                                          ],
+                              "final_blockers":  [
+                                                     "target_runtime_or_final_certification_not_proven",
+                                                     "target_runtime_proof_evidence_missing"
+                                                 ]
+                          },
+                          {
+                              "lane_id":  "sdxl_realvisxl_controlnet_openpose_lane",
+                              "order":  7,
+                              "status":  "local_openpose_tablehands_multisample_pass_with_notes_pending_target_runtime_and_final_hand_certification",
+                              "next_gate":  "optional_target_runtime_proof_or_stricter_hand_anatomy_certification_when_intentionally_selected",
+                              "support_evidence_count":  39,
+                              "blocker_evidence_count":  0,
+                              "checked_evidence":  [
+                                                       {
+                                                           "path":  "Plan/10_REGISTRIES/wave11_control_map_type_registry.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/10_REGISTRIES/wave11_control_map_runtime_requirements.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/10_REGISTRIES/wave11_controlnet_model_router_rules.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_OBJECT_INFO_CONTROL_PREPROCESSORS_AFTER_AUX_INSTALL_20260707T052500-0500.json",
+                                                           "result":  "pass_all_wave11_preprocessors_visible_after_aux_install"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CONTROL_PREPROCESSOR_MAPS_RETRY_EXECUTE_20260707T053300-0500.json",
+                                                           "result":  "pass_local_control_preprocessor_maps_generated"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CONTROL_PREPROCESSOR_MAPS_VISUAL_QA_20260707T053800-0500.json",
+                                                           "result":  "pass_with_notes_for_local_control_preprocessor_artifacts"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Model_Registry/W69_LOCAL_CONTROLNET_OPENPOSE_MODEL_PROVISIONING_20260707T062100-0500.json",
+                                                           "result":  "pass_local_model_download_hash_verified"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_OPENPOSE_LANE_STATIC_20260707T062200-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_openpose_w69_v1/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_OPENPOSE_CONTROLNET_V1_EXECUTE_20260707T062500-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_CONTROLNET_V1_TECHNICAL_QA_20260707T062700-0500.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_CONTROLNET_V1_VISUAL_QA_20260707T062800-0500.json",
+                                                           "result":  "pass_with_notes_for_local_openpose_controlnet_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/controlnet_openpose_v1_robustness/openpose_v2_upper_body_hands_seed711470101.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_openpose_v2_upper_body_hands_w69/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_OPENPOSE_V2_UPPER_BODY_HANDS_EXECUTE_20260707T064600-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V2_UPPER_BODY_HANDS_TECHNICAL_QA_20260707T064700-0500.json",
+                                                           "result":  "pending_visual_review"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V2_UPPER_BODY_HANDS_VISUAL_QA_20260707T064800-0500.json",
+                                                           "result":  "qa_failed_for_openpose_hands_robustness_target"
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/controlnet_openpose_v1_robustness/openpose_v3_tall_upper_body_hands_seed711470102.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_openpose_v3_tall_upper_body_hands_w69/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_OPENPOSE_V3_TALL_UPPER_BODY_HANDS_EXECUTE_20260707T064900-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V3_TALL_UPPER_BODY_HANDS_TECHNICAL_QA_20260707T065000-0500.json",
+                                                           "result":  "pending_visual_review"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V3_TALL_UPPER_BODY_HANDS_VISUAL_QA_20260707T065100-0500.json",
+                                                           "result":  "partial_improvement_needs_new_openpose_control_source_for_hands_tabletop_certification"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Tracker/Evidence/W69_LOCAL_OPENPOSE_HANDS_ROBUSTNESS_20260707T065100-0500.json",
+                                                           "result":  "partial_improvement_needs_new_openpose_control_source_for_hands_tabletop_certification"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/07_IMPLEMENTATION/scripts/prepare_openpose_tabletop_control_map.py",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_hands_tabletop_w69_v1/OPENPOSE_HANDS_TABLETOP_CONTROL_SOURCE_MANIFEST.json",
+                                                           "result":  "pass_local_openpose_hands_tabletop_control_source_prepared"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_TABLETOP_CONTROL_SOURCE_VISUAL_QA_20260707T072100-0500.json",
+                                                           "result":  "pass_local_openpose_tabletop_control_source_prepared"
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/controlnet_openpose_v1_robustness/openpose_v4_tabletop_hands_new_control_seed711470201.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/openpose_v4_tablehands_711470201/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_OPENPOSE_V4_TABLEHANDS_EXECUTE_20260707T072000-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V4_TABLEHANDS_VISUAL_QA_20260707T072200-0500.json",
+                                                           "result":  "pass_with_notes_local_openpose_tablehands_target_exercised"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Tracker/Evidence/W69_LOCAL_OPENPOSE_TABLEHANDS_V4_20260707T072200-0500.json",
+                                                           "result":  "pass_with_notes_local_openpose_tablehands_target_exercised"
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/controlnet_openpose_v1_robustness/openpose_v5_tablehands_robust_seed711470202.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/controlnet_openpose_v1_robustness/openpose_v5_tablehands_robust_seed711470203.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/op_tablehands_v5_711470202/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/op_tablehands_v5_711470203/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_OPENPOSE_V5_TABLEHANDS_SEED711470202_EXECUTE_20260707T072700-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_OPENPOSE_V5_TABLEHANDS_SEED711470203_EXECUTE_20260707T072800-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V5_TABLEHANDS_ROBUSTNESS_VISUAL_QA_20260707T073000-0500.json",
+                                                           "result":  "pass_with_notes_local_openpose_tablehands_multisample_robustness"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Tracker/Evidence/W69_LOCAL_OPENPOSE_TABLEHANDS_V5_ROBUSTNESS_20260707T073000-0500.json",
+                                                           "result":  "pass_with_notes_local_openpose_tablehands_multisample_robustness"
+                                                       }
+                                                   ],
+                              "local_support_result":  "fail_local_support",
+                              "final_certification_status":  "local_support_failed",
+                              "defects":  [
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_OPENPOSE_LANE_STATIC_20260707T062200-0500.json",
+                                              "evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_CONTROLNET_V1_TECHNICAL_QA_20260707T062700-0500.json",
+                                              "evidence_result_not_pass_like:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V2_UPPER_BODY_HANDS_TECHNICAL_QA_20260707T064700-0500.json:pending_visual_review",
+                                              "evidence_result_not_pass_like:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V2_UPPER_BODY_HANDS_VISUAL_QA_20260707T064800-0500.json:qa_failed_for_openpose_hands_robustness_target",
+                                              "evidence_result_not_pass_like:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V3_TALL_UPPER_BODY_HANDS_TECHNICAL_QA_20260707T065000-0500.json:pending_visual_review",
+                                              "evidence_result_not_pass_like:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V3_TALL_UPPER_BODY_HANDS_VISUAL_QA_20260707T065100-0500.json:partial_improvement_needs_new_openpose_control_source_for_hands_tabletop_certification",
+                                              "evidence_result_not_pass_like:Plan/Tracker/Evidence/W69_LOCAL_OPENPOSE_HANDS_ROBUSTNESS_20260707T065100-0500.json:partial_improvement_needs_new_openpose_control_source_for_hands_tabletop_certification"
+                                          ],
+                              "final_blockers":  [
+                                                     "target_runtime_or_final_certification_not_proven",
+                                                     "target_runtime_proof_evidence_missing"
+                                                 ]
+                          },
+                          {
+                              "lane_id":  "sdxl_realvisxl_controlnet_normal_lane",
+                              "order":  8,
+                              "status":  "local_normal_v3_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+                              "next_gate":  "optional_target_runtime_proof_or_final_normal_certification_when_intentionally_selected",
+                              "support_evidence_count":  30,
+                              "blocker_evidence_count":  0,
+                              "checked_evidence":  [
+                                                       {
+                                                           "path":  "Plan/10_REGISTRIES/wave11_control_map_type_registry.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/10_REGISTRIES/wave11_control_map_runtime_requirements.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/10_REGISTRIES/wave11_controlnet_model_router_rules.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_OBJECT_INFO_CONTROL_PREPROCESSORS_AFTER_AUX_INSTALL_20260707T052500-0500.json",
+                                                           "result":  "pass_all_wave11_preprocessors_visible_after_aux_install"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CONTROL_PREPROCESSOR_NORMAL_RETRY_EXECUTE_20260707T053500-0500.json",
+                                                           "result":  "pass_local_normal_preprocessor_map_generated"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CONTROL_PREPROCESSOR_MAPS_VISUAL_QA_20260707T053800-0500.json",
+                                                           "result":  "pass_with_notes_for_local_control_preprocessor_artifacts"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Model_Registry/W69_LOCAL_CONTROLNET_NORMAL_MODEL_PROVISIONING_20260707T063400-0500.json",
+                                                           "result":  "pass_local_model_download_hash_verified"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_NORMAL_LANE_STATIC_20260707T063600-0500.json",
+                                                           "result":  "pass"
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_normal_w69_v1/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_NORMAL_CONTROLNET_V1_EXECUTE_20260707T063800-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_NORMAL_CONTROLNET_V1_TECHNICAL_QA_20260707T063900-0500.json",
+                                                           "result":  "pending_visual_review"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_NORMAL_CONTROLNET_V1_VISUAL_QA_20260707T064000-0500.json",
+                                                           "result":  "pass_with_notes_for_local_normal_controlnet_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/controlnet_normal_v1_followup/normal_v2_skin_fabric_texture_seed711670202.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/normal_v2_skin_fabric_711670202/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_NORMAL_V2_SKIN_FABRIC_EXECUTE_20260707T074700-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_NORMAL_V2_SKIN_FABRIC_VISUAL_QA_20260707T074900-0500.json",
+                                                           "result":  "mixed_result_geometry_stable_texture_goals_not_improved"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Tracker/Evidence/W69_LOCAL_NORMAL_V2_FOLLOWUP_20260707T074900-0500.json",
+                                                           "result":  "mixed_result_geometry_stable_texture_goals_not_improved"
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/controlnet_normal_v1_followup/normal_v3_lower_control_oxford_texture_seed711670203.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/normal_v3_oxford_711670203/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_NORMAL_V3_OXFORD_EXECUTE_20260707T075400-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_NORMAL_V3_OXFORD_VISUAL_QA_20260707T075600-0500.json",
+                                                           "result":  "pass_with_notes_promote_as_preferred_local_normal_candidate"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Tracker/Evidence/W69_LOCAL_NORMAL_V3_FOLLOWUP_20260707T075600-0500.json",
+                                                           "result":  "pass_with_notes_promote_as_preferred_local_normal_candidate"
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/controlnet_normal_v1_followup/normal_v3_robust_oxford_seed711670204.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "PromptProfiles/base_generation/controlnet_normal_v1_followup/normal_v3_robust_oxford_seed711670205.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/normal_v3_robust_711670204/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/normal_v3_robust_711670205/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_NORMAL_V3_ROBUST_SEED711670204_EXECUTE_20260707T080100-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_NORMAL_V3_ROBUST_SEED711670205_EXECUTE_20260707T080300-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_NORMAL_V3_MULTISEED_ROBUSTNESS_VISUAL_QA_20260707T080600-0500.json",
+                                                           "result":  "pass_with_notes_local_normal_v3_multiseed_robustness"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Tracker/Evidence/W69_LOCAL_NORMAL_V3_MULTISEED_ROBUSTNESS_20260707T080600-0500.json",
+                                                           "result":  "pass_with_notes_local_normal_v3_multiseed_robustness"
+                                                       }
+                                                   ],
+                              "local_support_result":  "fail_local_support",
+                              "final_certification_status":  "local_support_failed",
+                              "defects":  [
+                                              "evidence_result_not_pass_like:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_NORMAL_CONTROLNET_V1_TECHNICAL_QA_20260707T063900-0500.json:pending_visual_review",
+                                              "evidence_result_not_pass_like:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_NORMAL_V2_SKIN_FABRIC_VISUAL_QA_20260707T074900-0500.json:mixed_result_geometry_stable_texture_goals_not_improved",
+                                              "evidence_result_not_pass_like:Plan/Tracker/Evidence/W69_LOCAL_NORMAL_V2_FOLLOWUP_20260707T074900-0500.json:mixed_result_geometry_stable_texture_goals_not_improved"
+                                          ],
+                              "final_blockers":  [
+                                                     "target_runtime_or_final_certification_not_proven",
+                                                     "target_runtime_proof_evidence_missing"
+                                                 ]
+                          },
+                          {
+                              "lane_id":  "sdxl_realesrgan_upscale_polish_lane",
+                              "order":  9,
+                              "status":  "local_upscale_polish_runtime_visual_qa_pass_with_notes_pending_target_runtime_and_final_certification",
+                              "next_gate":  "optional_target_runtime_proof_or_final_upscale_polish_certification_when_intentionally_selected",
+                              "support_evidence_count":  8,
+                              "blocker_evidence_count":  0,
+                              "checked_evidence":  [
+                                                       {
+                                                           "path":  "Plan/07_IMPLEMENTATION/COMFYUI_WIRING_REPAIR_LIST.md",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/10_REGISTRIES/wave14_workflow_patch_targets.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/10_REGISTRIES/wave34_final_integration_inventory.json",
+                                                           "result":  null
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Model_Registry/W69_LOCAL_REALESRGAN_UPSCALE_MODEL_PROVISIONING_20260707T110500-0500.json",
+                                                           "result":  "pass_local_model_present_hash_recorded_and_runtime_loaded"
+                                                       },
+                                                       {
+                                                           "path":  "runtime_artifacts/run_packages/upscale_polish_w69_canny_seed711570105/RUN_PACKAGE_MANIFEST.json",
+                                                           "result":  "pass_local_only"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_UPSCALE_POLISH_REALESRGAN_CANNY_SEED711570105_EXECUTE_20260707T111000-0500.json",
+                                                           "result":  "pass_local_run_package_generation_smoke"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_UPSCALE_POLISH_REALESRGAN_CANNY_SEED711570105_VISUAL_QA_20260707T111500-0500.json",
+                                                           "result":  "pass_with_notes_local_realesrgan_upscale_polish_runtime_and_visual_qa"
+                                                       },
+                                                       {
+                                                           "path":  "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W69_LOCAL_PASS_PLANNER_CANNY_INPAINT_READINESS_P06_BOUND_20260707T112000-0500.json",
+                                                           "result":  "pass_local_pass_planner_contract_p06_upscale_polish_bound_no_warnings"
+                                                       }
+                                                   ],
+                              "local_support_result":  "pass_local_support",
+                              "final_certification_status":  "local_support_pass_final_certification_blocked",
+                              "defects":  [
+
+                                          ],
+                              "final_blockers":  [
+                                                     "target_runtime_or_final_certification_not_proven",
+                                                     "target_runtime_proof_evidence_missing"
+                                                 ]
+                          }
+                      ],
+    "defects":  [
+                    "sdxl_low_risk_fallback_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_POST_LOGIN_RETEST_20260706T104311-0500.json",
+                    "sdxl_low_risk_fallback_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_POST_STATIC_PROOF_RETEST_20260706T110424-0500.json",
+                    "sdxl_low_risk_fallback_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_VISUAL_20260706T122027-0500.json",
+                    "sdxl_realvisxl_base_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Model_Registry/W63_EC2_REALVISXL_MODEL_INSTALL_20260706T125425-0500.json",
+                    "sdxl_realvisxl_base_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_EC2_LANE_STATIC_PROOF_REALVISXL_AFTER_INSTALL_20260706T131129-0500.json",
+                    "sdxl_realvisxl_base_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_LANE_RUNTIME_READINESS_REALVISXL_AFTER_STATIC_PROOF_20260706T132103-0500.json",
+                    "sdxl_realvisxl_base_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Runtime/W63_EC2_WORKFLOW_SMOKE_REALVISXL_AFTER_STATIC_PROOF_20260706T132206-0500.json",
+                    "sdxl_realvisxl_base_lane:evidence_json_parse_failed:Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T132206-0500/PULLBACK_RECORD.json",
+                    "sdxl_realvisxl_controlnet_canny_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Model_Registry/W67_CONTROLNET_CANNY_MODEL_LOCAL_PROVISIONING_20260706T214500-0500.json",
+                    "sdxl_realvisxl_controlnet_canny_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Runtime_Readiness/W67_LOCAL_OBJECT_INFO_CONTROLNET_CANNY_MODEL_INPUT_20260706T215000-0500.json",
+                    "sdxl_realvisxl_controlnet_canny_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W67_LOCAL_CONTROLNET_CANNY_IMAGE_QA_VISUAL_20260706T220000-0500.json",
+                    "sdxl_realvisxl_controlnet_canny_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Operations_Static_Validation/W68_OPERATIONS_HELPER_W68_CANNY_GATE_CONTRACTS_20260707T011500-0500.json",
+                    "sdxl_realvisxl_controlnet_canny_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_CANNY_QALOOP_EYE_FILL_V5_STATIC_VALIDATION_20260707T032000-0500.json",
+                    "sdxl_realvisxl_controlnet_canny_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_CANNY_CONTROL_MAP_DIAGNOSTIC_STATIC_20260707T052500-0500.json",
+                    "sdxl_realvisxl_controlnet_canny_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W68_EC2_STATIC_PROOF_CANNY_V4_RUNTIME_PASS_20260707T014700-0500.json",
+                    "sdxl_realvisxl_controlnet_canny_lane:evidence_result_not_pass_like:Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_EC2_INPUT_ASSET_INSTALL_CANNY_CLEANED_V1_20260707T020300-0500.json:input_asset_hash_verified",
+                    "sdxl_realvisxl_controlnet_canny_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_EC2_WORKFLOW_SMOKE_CANNY_V4_HTTP400_MISSING_INPUT_20260707T015600-0500.json",
+                    "sdxl_realvisxl_controlnet_canny_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_EC2_WORKFLOW_SMOKE_CANNY_V4_AFTER_INPUT_INSTALL_20260707T020800-0500.json",
+                    "sdxl_realvisxl_controlnet_canny_lane:evidence_json_parse_failed:Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260707T021155-0500/PULLBACK_RECORD.json",
+                    "sdxl_realvisxl_controlnet_canny_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_CANNY_V4_EC2_IMAGE_QA_TECHNICAL_20260707T021700-0500.json",
+                    "sdxl_realvisxl_inpaint_detail_lane:evidence_json_parse_failed:Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_face_mask_v1_20260707T024000-0500/INPAINT_INPUT_ASSET_MANIFEST.json",
+                    "sdxl_realvisxl_inpaint_detail_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_SDXL_REALVISXL_INPAINT_DETAIL_STATIC_VALIDATION_20260707T024200-0500.json",
+                    "sdxl_realvisxl_inpaint_detail_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_SDXL_REALVISXL_INPAINT_DETAIL_MICRO_V3_STATIC_VALIDATION_20260707T033000-0500.json",
+                    "sdxl_realvisxl_inpaint_detail_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_SDXL_REALVISXL_INPAINT_DETAIL_NOMOUTH_V4_STATIC_VALIDATION_20260707T034700-0500.json",
+                    "sdxl_realvisxl_controlnet_depth_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_DEPTH_LANE_STATIC_20260707T055000-0500.json",
+                    "sdxl_realvisxl_controlnet_depth_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_DEPTH_CONTROLNET_V1_TECHNICAL_QA_20260707T055100-0500.json",
+                    "sdxl_realvisxl_controlnet_lineart_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_LINEART_LANE_STATIC_20260707T060100-0500.json",
+                    "sdxl_realvisxl_controlnet_lineart_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_LINEART_CONTROLNET_V1_TECHNICAL_QA_20260707T060300-0500.json",
+                    "sdxl_realvisxl_controlnet_lineart_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_LINEART_CONTROLNET_V2_TECHNICAL_QA_20260707T061100-0500.json",
+                    "sdxl_realvisxl_controlnet_lineart_lane:evidence_result_not_pass_like:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_LINEART_V3_BACKGROUND_IDENTITY_VISUAL_QA_20260707T091600-0500.json:partial_improvement_lineart_v3_background_identity_followup_not_promoted_to_final",
+                    "sdxl_realvisxl_controlnet_lineart_lane:evidence_result_not_pass_like:Plan/Tracker/Evidence/W69_LOCAL_LINEART_V3_BACKGROUND_IDENTITY_FOLLOWUP_20260707T091600-0500.json:partial_improvement_lineart_v3_background_identity_followup_not_promoted_to_final",
+                    "sdxl_realvisxl_controlnet_openpose_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_OPENPOSE_LANE_STATIC_20260707T062200-0500.json",
+                    "sdxl_realvisxl_controlnet_openpose_lane:evidence_json_parse_failed:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_CONTROLNET_V1_TECHNICAL_QA_20260707T062700-0500.json",
+                    "sdxl_realvisxl_controlnet_openpose_lane:evidence_result_not_pass_like:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V2_UPPER_BODY_HANDS_TECHNICAL_QA_20260707T064700-0500.json:pending_visual_review",
+                    "sdxl_realvisxl_controlnet_openpose_lane:evidence_result_not_pass_like:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V2_UPPER_BODY_HANDS_VISUAL_QA_20260707T064800-0500.json:qa_failed_for_openpose_hands_robustness_target",
+                    "sdxl_realvisxl_controlnet_openpose_lane:evidence_result_not_pass_like:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V3_TALL_UPPER_BODY_HANDS_TECHNICAL_QA_20260707T065000-0500.json:pending_visual_review",
+                    "sdxl_realvisxl_controlnet_openpose_lane:evidence_result_not_pass_like:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V3_TALL_UPPER_BODY_HANDS_VISUAL_QA_20260707T065100-0500.json:partial_improvement_needs_new_openpose_control_source_for_hands_tabletop_certification",
+                    "sdxl_realvisxl_controlnet_openpose_lane:evidence_result_not_pass_like:Plan/Tracker/Evidence/W69_LOCAL_OPENPOSE_HANDS_ROBUSTNESS_20260707T065100-0500.json:partial_improvement_needs_new_openpose_control_source_for_hands_tabletop_certification",
+                    "sdxl_realvisxl_controlnet_normal_lane:evidence_result_not_pass_like:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_NORMAL_CONTROLNET_V1_TECHNICAL_QA_20260707T063900-0500.json:pending_visual_review",
+                    "sdxl_realvisxl_controlnet_normal_lane:evidence_result_not_pass_like:Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_NORMAL_V2_SKIN_FABRIC_VISUAL_QA_20260707T074900-0500.json:mixed_result_geometry_stable_texture_goals_not_improved",
+                    "sdxl_realvisxl_controlnet_normal_lane:evidence_result_not_pass_like:Plan/Tracker/Evidence/W69_LOCAL_NORMAL_V2_FOLLOWUP_20260707T074900-0500.json:mixed_result_geometry_stable_texture_goals_not_improved"
+                ],
+    "final_blockers":  [
+                           "sdxl_realvisxl_base_lane:target_runtime_or_final_certification_not_proven",
+                           "sdxl_realvisxl_controlnet_canny_lane:target_runtime_or_final_certification_not_proven",
+                           "sdxl_realvisxl_inpaint_detail_lane:target_runtime_or_final_certification_not_proven",
+                           "sdxl_realvisxl_inpaint_detail_lane:target_runtime_proof_evidence_missing",
+                           "sdxl_realvisxl_controlnet_depth_lane:target_runtime_or_final_certification_not_proven",
+                           "sdxl_realvisxl_controlnet_depth_lane:target_runtime_proof_evidence_missing",
+                           "sdxl_realvisxl_controlnet_lineart_lane:target_runtime_or_final_certification_not_proven",
+                           "sdxl_realvisxl_controlnet_lineart_lane:target_runtime_proof_evidence_missing",
+                           "sdxl_realvisxl_controlnet_openpose_lane:target_runtime_or_final_certification_not_proven",
+                           "sdxl_realvisxl_controlnet_openpose_lane:target_runtime_proof_evidence_missing",
+                           "sdxl_realvisxl_controlnet_normal_lane:target_runtime_or_final_certification_not_proven",
+                           "sdxl_realvisxl_controlnet_normal_lane:target_runtime_proof_evidence_missing",
+                           "sdxl_realesrgan_upscale_polish_lane:target_runtime_or_final_certification_not_proven",
+                           "sdxl_realesrgan_upscale_polish_lane:target_runtime_proof_evidence_missing"
+                       ],
+    "certification_boundary":  "Local active runtime queue support only. This does not run ComfyUI, start EC2, upload to S3, rerun Wave70 hard gates, consume candidate masks as truth, promote masks, or certify target-runtime/final image quality.",
+    "next_action":  "Use this as a queue-level local support certification before any explicitly selected target-runtime proof or final certification path."
+}

@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "inpaint_wave70_mf70_pupils_iris_sclera_seed210811",
+  "target_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "purpose": "Generated-output proof for Wave70 mf70_pupils_iris_sclera mask routing using the active MOD-17 Canny v3 portrait as source.",
+  "request_patch_values": {
+    "positive_prompt": "extremely subtle photoreal pupil iris sclera preservation pass, preserve exact person identity, gaze direction, eye symmetry, iris color, pupil size, sclera tone, catchlights, eyelids, eyelashes, eyebrow position, nearby hair occlusion, surrounding skin texture, face lighting, white blazer, background, and portrait composition unchanged",
+    "negative_prompt": "identity change, different person, gaze change, mismatched eyes, crossed eyes, asymmetrical pupils, enlarged pupils, blown catchlights, missing catchlights, iris color change, glassy eyes, doll eyes, anime eyes, red eyes, sclera discoloration, eyelid deformation, eyelash mutation, eyebrow change, hair mutation, visible seam, skin tone change, clothing change, background change, watermark, text",
+    "source_image": "wave70_mf70_face_identity_source_canny_v3.png",
+    "mask_image": "wave70_mf70_pupils_iris_sclera_mask.png",
+    "mask_channel": "red",
+    "seed": 210811,
+    "sampler_settings": {
+      "steps": 18,
+      "cfg": 3.4,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.035
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_wave70_mf70_pupils_iris_sclera_seed210811"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_wave70_mf70_pupils_iris_sclera_seed210811",
+    "diagnostic_output_prefix": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview"
+  },
+  "qa_focus": [
+    "whole-image identity preservation",
+    "pupil and iris symmetry",
+    "sclera tone remains natural",
+    "catchlights remain stable",
+    "nearby hair occlusion remains stable",
+    "no visible seam around tiny eye-core masks"
+  ],
+  "source_qa_driver": {
+    "evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_pupils_iris_sclera.json",
+    "remaining_gap": "generated_output_proof_required_before_item_completion",
+    "change_summary": "Use the Wave70 pupils/iris/sclera mask with extremely low denoise to prove local generated-output routing while minimizing gaze, catchlight, and iris drift."
+  },
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_generated_output_proof_before_item_completion": true,
+    "requires_whole_image_qa_before_promotion": true,
+    "requires_target_runtime_reproof_before_final_certification": true
+  }
+}

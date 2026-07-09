@@ -256,8 +256,235 @@ function Invoke-LocalHelper {
           throw "$Name run package prompt profile id is missing."
         }
       }
+      if ($Name -eq "github_checkpoint_dry_run") {
+        foreach ($required in @("result", "failure_category", "local_only", "clean_worktree", "local_matches_origin", "porcelain_count", "tracked_porcelain_count", "untracked_porcelain_count", "commit_attempted", "push_attempted", "stage_attempted", "reset_attempted", "checkout_attempted", "checkpoint_scope_mode", "checkpoint_include_paths", "checkpoint_exclude_paths", "scope_changed_path_count", "scope_excluded_changed_path_count")) {
+          if (-not (Has-Property -Object $payload -Name $required)) {
+            throw "$Name output is missing top-level field: $required"
+          }
+        }
+        if (-not [bool]$payload.local_only) {
+          throw "$Name must be local_only=true."
+        }
+        if ([bool]$payload.commit_attempted -or [bool]$payload.push_attempted -or [bool]$payload.stage_attempted -or [bool]$payload.reset_attempted -or [bool]$payload.checkout_attempted) {
+          throw "$Name dry run must not attempt stage, reset, checkout, commit, or push."
+        }
+        if ([bool]$payload.ec2_started -or [bool]$payload.generation_executed) {
+          throw "$Name must not start EC2 or run generation."
+        }
+        if ([string]::IsNullOrWhiteSpace([string]$payload.result)) {
+          throw "$Name result must not be empty."
+        }
+        if ([string]$payload.checkpoint_scope_mode -ne "explicit_paths") {
+          throw "$Name must validate explicit checkpoint include/exclude path support."
+        }
+        foreach ($requiredInclude in @("Plan", ".github", "PromptProfiles", "Workflows", "config", "PROJECT_ROOT_MANIFEST.json")) {
+          if ($requiredInclude -notin @($payload.checkpoint_include_paths)) {
+            throw "$Name checkpoint_include_paths is missing $requiredInclude."
+          }
+        }
+        foreach ($requiredExclude in @("runtime_artifacts", "Ref_Image_1", "Ref_Image_2", "Ref_Image_Canonical_Body", "Reference_Images", "masks", "Jira", "Plan.zip", "_ci_w64_20260708T232900-0500")) {
+          if ($requiredExclude -notin @($payload.checkpoint_exclude_paths)) {
+            throw "$Name checkpoint_exclude_paths is missing $requiredExclude."
+          }
+        }
+      }
+      if ($Name -eq "scoped_git_checkpoint_manifest_smoke") {
+        foreach ($required in @("result", "failure_category", "local_only", "github_api_contacted", "aws_contacted", "civitai_contacted", "comfyui_contacted", "s3_contacted", "ec2_started", "generation_executed", "prompt_posted", "active_runtime_marker_written", "stage_attempted", "commit_attempted", "push_attempted", "reset_attempted", "checkout_attempted", "deploy_bundle_rebuilt", "checkpoint_intent_required", "ready_for_checkpoint_execute_after_explicit_intent", "review_resolution_evidence", "checkpoint_dry_run_evidence", "review_result", "review_ready_for_guarded_checkpoint_dry_run", "dry_run_result", "dry_run_checkpoint_scope_mode", "dry_run_scope_changed_path_count", "dry_run_scope_excluded_changed_path_count", "include_paths", "exclude_paths", "missing_required_include_paths", "missing_required_exclude_paths", "blocked_include_paths", "blocked_exclude_paths", "dry_run_command", "execute_command_requires_explicit_user_intent", "checkpoint_boundary", "next_action")) {
+          if (-not (Has-Property -Object $payload -Name $required)) {
+            throw "$Name output is missing top-level field: $required"
+          }
+        }
+        if ([string]$payload.result -ne "scoped_git_checkpoint_manifest_ready_pending_explicit_intent") {
+          throw "$Name result must be scoped_git_checkpoint_manifest_ready_pending_explicit_intent."
+        }
+        if (-not [bool]$payload.local_only -or [bool]$payload.github_api_contacted -or [bool]$payload.aws_contacted -or [bool]$payload.civitai_contacted -or [bool]$payload.comfyui_contacted -or [bool]$payload.s3_contacted) {
+          throw "$Name must be local-only and must not contact external services."
+        }
+        if ([bool]$payload.ec2_started -or [bool]$payload.generation_executed -or [bool]$payload.prompt_posted -or [bool]$payload.active_runtime_marker_written) {
+          throw "$Name must not start EC2, generate, post prompts, or write runtime markers."
+        }
+        if ([bool]$payload.stage_attempted -or [bool]$payload.commit_attempted -or [bool]$payload.push_attempted -or [bool]$payload.reset_attempted -or [bool]$payload.checkout_attempted -or [bool]$payload.deploy_bundle_rebuilt) {
+          throw "$Name must not stage, commit, push, reset, checkout, or rebuild deploy bundles."
+        }
+        if (-not [bool]$payload.checkpoint_intent_required -or -not [bool]$payload.ready_for_checkpoint_execute_after_explicit_intent) {
+          throw "$Name must require explicit checkpoint intent while declaring manifest readiness."
+        }
+        foreach ($requiredInclude in @("Plan", ".github", "PromptProfiles", "Workflows", "config", "PROJECT_ROOT_MANIFEST.json")) {
+          if ($requiredInclude -notin @($payload.include_paths)) {
+            throw "$Name include_paths is missing $requiredInclude."
+          }
+        }
+        foreach ($requiredExclude in @("runtime_artifacts", "Ref_Image_1", "Ref_Image_2", "Ref_Image_Canonical_Body", "Reference_Images", "masks", "Jira", "Plan.zip", "_ci_w64_20260708T232900-0500")) {
+          if ($requiredExclude -notin @($payload.exclude_paths)) {
+            throw "$Name exclude_paths is missing $requiredExclude."
+          }
+        }
+        if (@($payload.missing_required_include_paths).Count -ne 0 -or @($payload.missing_required_exclude_paths).Count -ne 0 -or @($payload.blocked_include_paths).Count -ne 0 -or @($payload.blocked_exclude_paths).Count -ne 0) {
+          throw "$Name must have no missing required or blocked include/exclude roots."
+        }
+        if ([string]$payload.checkpoint_boundary -notmatch "Manifest evidence only") {
+          throw "$Name boundary must explicitly describe manifest-only behavior."
+        }
+        $manifestMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+        if (-not (Test-Path -LiteralPath $manifestMarkdown)) {
+          throw "$Name did not create the expected Markdown manifest: $manifestMarkdown"
+        }
+      }
+      if ($Name -eq "post_checkpoint_runtime_revalidation_plan_smoke") {
+        foreach ($required in @("result", "local_only", "github_api_contacted", "aws_contacted", "civitai_contacted", "s3_contacted", "comfyui_contacted", "ec2_started", "generation_executed", "prompt_posted", "active_runtime_marker_written", "stage_attempted", "commit_attempted", "push_attempted", "reset_attempted", "checkout_attempted", "deploy_bundle_rebuilt", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "full_project_certification_allowed", "post_checkpoint_ready_to_run", "scoped_checkpoint_manifest", "manifest_checkpoint_dry_run", "package_deploy_matrix", "target_runtime_execution_plan", "selected_lane_id", "selected_package_deploy_ready", "selected_deploy_bundle_source_dirty", "manifest_ready", "manifest_checkpoint_dry_run_valid", "manifest_checkpoint_dry_run_non_mutating", "clean_git_after_checkpoint", "blocker_summary", "command_sequence", "checkpoint_boundary", "next_action")) {
+          if (-not (Has-Property -Object $payload -Name $required)) {
+            throw "$Name output is missing top-level field: $required"
+          }
+        }
+        if ([string]$payload.result -ne "blocked_post_checkpoint_runtime_revalidation_waiting_for_manifest_checkpoint") {
+          throw "$Name result must remain blocked until the manifest-scoped checkpoint is actually executed."
+        }
+        if (-not [bool]$payload.local_only -or [bool]$payload.github_api_contacted -or [bool]$payload.aws_contacted -or [bool]$payload.civitai_contacted -or [bool]$payload.s3_contacted -or [bool]$payload.comfyui_contacted) {
+          throw "$Name must be local-only and must not contact external services."
+        }
+        if ([bool]$payload.ec2_started -or [bool]$payload.generation_executed -or [bool]$payload.prompt_posted -or [bool]$payload.active_runtime_marker_written) {
+          throw "$Name must not start EC2, generate, post prompts, or write runtime markers."
+        }
+        if ([bool]$payload.stage_attempted -or [bool]$payload.commit_attempted -or [bool]$payload.push_attempted -or [bool]$payload.reset_attempted -or [bool]$payload.checkout_attempted -or [bool]$payload.deploy_bundle_rebuilt) {
+          throw "$Name must not stage, commit, push, reset, checkout, or rebuild deploy bundles."
+        }
+        if ([bool]$payload.masks_consumed_as_truth -or [bool]$payload.masks_promoted -or [bool]$payload.wave70_hard_gate_rerun -or [bool]$payload.wave71_plus_activated -or [bool]$payload.full_project_certification_allowed) {
+          throw "$Name must not consume/promote masks, rerun Wave70, activate Wave71+, or allow final certification."
+        }
+        if ([bool]$payload.post_checkpoint_ready_to_run -or [bool]$payload.clean_git_after_checkpoint) {
+          throw "$Name must not be ready while the manifest checkpoint has not been executed."
+        }
+        foreach ($requiredBlocker in @("manifest_scoped_checkpoint_not_yet_executed_clean", "explicit_user_target_runtime_selection_required")) {
+          if ($requiredBlocker -notin @($payload.blocker_summary)) {
+            throw "$Name blocker_summary is missing $requiredBlocker."
+          }
+        }
+        foreach ($requiredStep in @("manifest_scoped_checkpoint_execute", "post_checkpoint_git_gate", "active_runtime_queue_package_deploy_matrix_recheck", "selected_lane_deploy_bundle_rebuild", "target_runtime_execution_plan_recheck", "runtime_unblock_handoff_recheck", "ec2_static_proof_execute_still_blocked")) {
+          if ($requiredStep -notin @($payload.command_sequence | ForEach-Object { [string]$_.name })) {
+            throw "$Name command_sequence is missing $requiredStep."
+          }
+        }
+        if ([string]$payload.checkpoint_boundary -notmatch "Post-checkpoint revalidation plan only") {
+          throw "$Name boundary must explicitly describe post-checkpoint-plan-only behavior."
+        }
+        $postCheckpointMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+        if (-not (Test-Path -LiteralPath $postCheckpointMarkdown)) {
+          throw "$Name did not create the expected Markdown plan: $postCheckpointMarkdown"
+        }
+      }
+      if ($Name -eq "selected_deploy_bundle_rebuild_plan_smoke") {
+        foreach ($required in @("result", "local_only", "github_api_contacted", "aws_contacted", "civitai_contacted", "s3_contacted", "comfyui_contacted", "ec2_started", "generation_executed", "prompt_posted", "active_runtime_marker_written", "stage_attempted", "commit_attempted", "push_attempted", "reset_attempted", "checkout_attempted", "deploy_bundle_rebuilt", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "full_project_certification_allowed", "selected_lane_id", "selected_work_order_id", "package_deploy_matrix", "target_runtime_execution_plan", "run_package_manifest", "run_package_exists", "run_package_pass_local_only", "existing_deploy_bundle_manifest", "existing_deploy_bundle_manifest_exists", "existing_deploy_bundle_source_git_clean", "existing_deploy_bundle_source_git_status_count", "current_git_clean", "current_git_status_count", "ready_to_rebuild_after_clean_checkpoint", "rebuild_command", "expected_manifest_after_rebuild", "expected_zip_after_rebuild", "required_post_rebuild_checks", "blockers_before_rebuild", "checkpoint_boundary", "next_action")) {
+          if (-not (Has-Property -Object $payload -Name $required)) {
+            throw "$Name output is missing top-level field: $required"
+          }
+        }
+        if ([string]$payload.result -ne "selected_deploy_bundle_rebuild_plan_ready_after_clean_checkpoint") {
+          throw "$Name result must be selected_deploy_bundle_rebuild_plan_ready_after_clean_checkpoint."
+        }
+        if (-not [bool]$payload.local_only -or [bool]$payload.github_api_contacted -or [bool]$payload.aws_contacted -or [bool]$payload.civitai_contacted -or [bool]$payload.s3_contacted -or [bool]$payload.comfyui_contacted) {
+          throw "$Name must be local-only and must not contact external services."
+        }
+        if ([bool]$payload.ec2_started -or [bool]$payload.generation_executed -or [bool]$payload.prompt_posted -or [bool]$payload.active_runtime_marker_written) {
+          throw "$Name must not start EC2, generate, post prompts, or write runtime markers."
+        }
+        if ([bool]$payload.stage_attempted -or [bool]$payload.commit_attempted -or [bool]$payload.push_attempted -or [bool]$payload.reset_attempted -or [bool]$payload.checkout_attempted -or [bool]$payload.deploy_bundle_rebuilt) {
+          throw "$Name must not stage, commit, push, reset, checkout, or rebuild deploy bundles."
+        }
+        if ([bool]$payload.masks_consumed_as_truth -or [bool]$payload.masks_promoted -or [bool]$payload.wave70_hard_gate_rerun -or [bool]$payload.wave71_plus_activated -or [bool]$payload.full_project_certification_allowed) {
+          throw "$Name must not consume/promote masks, rerun Wave70, activate Wave71+, or allow final certification."
+        }
+        if ([string]$payload.selected_lane_id -ne "sdxl_realvisxl_inpaint_detail_lane") {
+          throw "$Name must plan the current selected inpaint lane."
+        }
+        if (-not [bool]$payload.run_package_exists -or -not [bool]$payload.run_package_pass_local_only) {
+          throw "$Name selected run package must exist and pass local-only checks."
+        }
+        if ([bool]$payload.existing_deploy_bundle_source_git_clean) {
+          throw "$Name should record the current selected deploy bundle source as dirty before rebuild."
+        }
+        if ([bool]$payload.current_git_clean) {
+          throw "$Name current git should still be dirty in this local validation state."
+        }
+        if ("manifest_scoped_checkpoint_not_yet_executed_clean" -notin @($payload.blockers_before_rebuild)) {
+          throw "$Name blockers_before_rebuild must include manifest_scoped_checkpoint_not_yet_executed_clean."
+        }
+        if ([string]$payload.rebuild_command -notmatch "New-EC2DeployBundle.ps1" -or [string]$payload.rebuild_command -notmatch "sdxl_realvisxl_inpaint_detail_lane" -or [string]$payload.rebuild_command -notmatch "RUN_PACKAGE_MANIFEST.json") {
+          throw "$Name rebuild_command must call New-EC2DeployBundle.ps1 for the selected lane and run package."
+        }
+        foreach ($requiredCheck in @("source_git_clean=true", "source_git_status_count=0", "bundle_zip exists", "bundle_zip_sha256 matches actual zip hash")) {
+          if ($requiredCheck -notin @($payload.required_post_rebuild_checks)) {
+            throw "$Name required_post_rebuild_checks is missing $requiredCheck."
+          }
+        }
+        if ([string]$payload.checkpoint_boundary -notmatch "Selected deploy-bundle rebuild plan only") {
+          throw "$Name boundary must explicitly describe selected-rebuild-plan-only behavior."
+        }
+        $selectedRebuildMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+        if (-not (Test-Path -LiteralPath $selectedRebuildMarkdown)) {
+          throw "$Name did not create the expected Markdown plan: $selectedRebuildMarkdown"
+        }
+      }
+      if ($Name -eq "selected_s3_publish_readiness_plan_smoke") {
+        foreach ($required in @("result", "local_only", "github_api_contacted", "aws_contacted", "civitai_contacted", "s3_contacted", "comfyui_contacted", "ec2_started", "generation_executed", "prompt_posted", "active_runtime_marker_written", "stage_attempted", "commit_attempted", "push_attempted", "reset_attempted", "checkout_attempted", "deploy_bundle_rebuilt", "s3_publish_attempted", "s3_upload_execute_allowed", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "full_project_certification_allowed", "selected_lane_id", "selected_deploy_bundle_rebuild_plan", "selected_rebuild_result", "selected_rebuild_ready_after_clean_checkpoint", "selected_rebuild_current_git_clean", "selected_rebuild_command", "run_package_manifest", "expected_manifest_after_rebuild", "expected_zip_after_rebuild", "expected_manifest_exists_now", "expected_zip_exists_now", "s3_runtime_transfer_readiness", "s3_runtime_transfer_readiness_result", "s3_runtime_transfer_ready_local_only", "s3_runtime_transfer_missing_config", "region", "s3_base_uri_present", "ready_for_s3_publish_after_rebuild", "publish_dry_run_command", "publish_execute_command_requires_explicit_user_intent", "required_pre_publish_checks", "blockers_before_publish", "command_sequence", "checkpoint_boundary", "next_action")) {
+          if (-not (Has-Property -Object $payload -Name $required)) {
+            throw "$Name output is missing top-level field: $required"
+          }
+        }
+        if ([string]$payload.result -ne "blocked_selected_s3_publish_readiness_waiting_for_clean_rebuild") {
+          throw "$Name result must stay blocked until clean checkpoint and selected rebuild complete."
+        }
+        if (-not [bool]$payload.local_only -or [bool]$payload.github_api_contacted -or [bool]$payload.aws_contacted -or [bool]$payload.civitai_contacted -or [bool]$payload.s3_contacted -or [bool]$payload.comfyui_contacted) {
+          throw "$Name must be local-only and must not contact external services."
+        }
+        if ([bool]$payload.ec2_started -or [bool]$payload.generation_executed -or [bool]$payload.prompt_posted -or [bool]$payload.active_runtime_marker_written) {
+          throw "$Name must not start EC2, generate, post prompts, or write runtime markers."
+        }
+        if ([bool]$payload.stage_attempted -or [bool]$payload.commit_attempted -or [bool]$payload.push_attempted -or [bool]$payload.reset_attempted -or [bool]$payload.checkout_attempted -or [bool]$payload.deploy_bundle_rebuilt -or [bool]$payload.s3_publish_attempted -or [bool]$payload.s3_upload_execute_allowed) {
+          throw "$Name must not mutate git, rebuild deploy bundles, publish to S3, or allow S3 execute."
+        }
+        if ([bool]$payload.masks_consumed_as_truth -or [bool]$payload.masks_promoted -or [bool]$payload.wave70_hard_gate_rerun -or [bool]$payload.wave71_plus_activated -or [bool]$payload.full_project_certification_allowed) {
+          throw "$Name must not consume/promote masks, rerun Wave70, activate Wave71+, or allow final certification."
+        }
+        if ([string]$payload.selected_lane_id -ne "sdxl_realvisxl_inpaint_detail_lane") {
+          throw "$Name must plan S3 publish readiness for the current selected inpaint lane."
+        }
+        if ([string]$payload.selected_rebuild_result -ne "selected_deploy_bundle_rebuild_plan_ready_after_clean_checkpoint") {
+          throw "$Name must consume the selected deploy-bundle rebuild plan."
+        }
+        if ([bool]$payload.expected_manifest_exists_now -or [bool]$payload.expected_zip_exists_now -or [bool]$payload.ready_for_s3_publish_after_rebuild) {
+          throw "$Name must remain not publish-ready before the concrete rebuilt manifest and zip exist."
+        }
+        foreach ($requiredBlocker in @("manifest_scoped_checkpoint_not_yet_executed_clean", "selected_deploy_bundle_rebuild_not_completed", "selected_deploy_bundle_manifest_missing_until_rebuild", "selected_deploy_bundle_zip_missing_until_rebuild")) {
+          if ($requiredBlocker -notin @($payload.blockers_before_publish)) {
+            throw "$Name blockers_before_publish is missing $requiredBlocker."
+          }
+        }
+        if ([string]$payload.publish_dry_run_command -notmatch "Publish-DeployBundleToS3.ps1" -or [string]$payload.publish_dry_run_command -notmatch "DEPLOY_BUNDLE_MANIFEST.json" -or [string]$payload.publish_dry_run_command -match "\s-Execute(\s|$)") {
+          throw "$Name publish_dry_run_command must call Publish-DeployBundleToS3.ps1 without -Execute."
+        }
+        if ([string]$payload.publish_execute_command_requires_explicit_user_intent -notmatch "\s-Execute(\s|$)") {
+          throw "$Name publish_execute_command_requires_explicit_user_intent must explicitly mark the execute-only command."
+        }
+        foreach ($requiredCheck in @("selected deploy-bundle rebuild completed", "DEPLOY_BUNDLE_MANIFEST.json result=pass_local_only", "bundle_zip exists", "bundle_zip_sha256 matches actual zip hash", "s3_runtime_transfer_readiness result=ready_local_only", "Publish-DeployBundleToS3.ps1 dry-run result=dry_run_ready_to_upload")) {
+          if ($requiredCheck -notin @($payload.required_pre_publish_checks)) {
+            throw "$Name required_pre_publish_checks is missing $requiredCheck."
+          }
+        }
+        foreach ($requiredStep in @("manifest_scoped_checkpoint_execute", "selected_deploy_bundle_rebuild", "package_deploy_matrix_recheck", "s3_runtime_transfer_readiness_recheck", "selected_s3_publish_dry_run", "selected_s3_publish_execute_after_explicit_intent", "ec2_static_proof_execute_still_blocked")) {
+          if ($requiredStep -notin @($payload.command_sequence | ForEach-Object { [string]$_.name })) {
+            throw "$Name command_sequence is missing $requiredStep."
+          }
+        }
+        if ([string]$payload.checkpoint_boundary -notmatch "Selected S3 publish readiness plan only") {
+          throw "$Name boundary must explicitly describe selected-S3-publish-readiness-only behavior."
+        }
+        $selectedS3PublishMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+        if (-not (Test-Path -LiteralPath $selectedS3PublishMarkdown)) {
+          throw "$Name did not create the expected Markdown plan: $selectedS3PublishMarkdown"
+        }
+      }
       if ($Name -eq "runtime_unblock_handoff_smoke") {
-        foreach ($required in @("result", "failure_category", "next_required_action", "local_only", "aws_contacted", "ec2_started", "generation_executed", "safety_invariants", "command_sequence", "markdown_written", "gate_summary")) {
+        foreach ($required in @("result", "failure_category", "next_required_action", "local_only", "aws_contacted", "ec2_started", "generation_executed", "safety_invariants", "command_sequence", "markdown_written", "gate_summary", "latest_evidence")) {
           if (-not (Has-Property -Object $payload -Name $required)) {
             throw "$Name output is missing top-level field: $required"
           }
@@ -280,6 +507,20 @@ function Invoke-LocalHelper {
         if (-not (Has-Property -Object $payload.gate_summary -Name "model_registry_coverage")) {
           throw "$Name gate_summary is missing model_registry_coverage."
         }
+        if (-not (Has-Property -Object $payload.gate_summary -Name "git_checkpoint_gate")) {
+          throw "$Name gate_summary is missing git_checkpoint_gate."
+        }
+        if (-not (Has-Property -Object $payload.latest_evidence -Name "git_checkpoint_gate")) {
+          throw "$Name latest_evidence is missing git_checkpoint_gate."
+        }
+        foreach ($requiredGitGate in @("evidence", "result", "failure_category", "local_matches_origin", "clean_worktree", "commit_attempted", "push_attempted", "passes_for_ec2_execute")) {
+          if (-not (Has-Property -Object $payload.gate_summary.git_checkpoint_gate -Name $requiredGitGate)) {
+            throw "$Name git_checkpoint_gate is missing: $requiredGitGate"
+          }
+        }
+        if ([bool]$payload.gate_summary.git_checkpoint_gate.commit_attempted -or [bool]$payload.gate_summary.git_checkpoint_gate.push_attempted) {
+          throw "$Name git_checkpoint_gate must be sourced from a dry run with no commit or push attempt."
+        }
         if (-not [bool]$payload.gate_summary.model_registry_coverage.coverage_allows_selected_lane_ec2_static_proof) {
           throw "$Name model registry coverage gate must allow selected lane EC2 static proof."
         }
@@ -295,6 +536,13 @@ function Invoke-LocalHelper {
         $modelRegistryStep = @($payload.command_sequence | Where-Object { [string]$_.name -eq "model_registry_coverage_recheck" } | Select-Object -First 1)
         if ($modelRegistryStep.Count -eq 0 -or [string]$modelRegistryStep[0].command -notmatch "Test-WorkflowModelRegistryCoverage.ps1") {
           throw "$Name command_sequence must include model_registry_coverage_recheck."
+        }
+        $gitCheckpointStep = @($payload.command_sequence | Where-Object { [string]$_.name -eq "git_checkpoint_recheck" } | Select-Object -First 1)
+        if ($gitCheckpointStep.Count -eq 0 -or [string]$gitCheckpointStep[0].command -notmatch "Invoke-GitHubCheckpoint.ps1") {
+          throw "$Name command_sequence must include git_checkpoint_recheck."
+        }
+        if ([string]$gitCheckpointStep[0].expected_evidence -notmatch "clean_worktree=true" -or [string]$gitCheckpointStep[0].expected_evidence -notmatch "local_matches_origin=true") {
+          throw "$Name git_checkpoint_recheck expected evidence must require clean_worktree=true and local_matches_origin=true."
         }
         if (-not [bool]$payload.markdown_written) {
           throw "$Name did not write its Markdown handoff."
@@ -324,6 +572,8 @@ function Invoke-LocalHelper {
           "ready_for_ec2_static_proof=true",
           "-RunPackageManifestFile",
           "-DeployBundleS3Uri",
+          "Git checkpoint gate:",
+          "result=pass_git_checkpoint_ready",
           "Install-EC2ModelFromS3.ps1",
           "New-EC2EmergencyStopSchedule.ps1"
         )
@@ -345,6 +595,57 @@ function Invoke-LocalHelper {
         }
         if ([string]$payload.result -like "*blocked*" -and [string]::IsNullOrWhiteSpace([string]$payload.failure_category)) {
           throw "$Name blocked result must include failure_category."
+        }
+      }
+      if ($Name -eq "ec2_runtime_window_marker_plan_smoke") {
+        foreach ($required in @("result", "local_only", "aws_contacted", "ec2_started", "generation_executed", "active_marker_written", "active_marker_path", "marker_template_path", "marker_payload", "checks", "failure_count")) {
+          if (-not (Has-Property -Object $payload -Name $required)) {
+            throw "$Name output is missing top-level field: $required"
+          }
+        }
+        if ([string]$payload.result -ne "pass_local_only_marker_plan_ready") {
+          throw "$Name result must be pass_local_only_marker_plan_ready."
+        }
+        if (-not [bool]$payload.local_only) {
+          throw "$Name must be local_only=true."
+        }
+        if ([bool]$payload.aws_contacted) {
+          throw "$Name must not contact AWS."
+        }
+        if ([bool]$payload.ec2_started) {
+          throw "$Name must not start EC2."
+        }
+        if ([bool]$payload.generation_executed) {
+          throw "$Name must not execute generation."
+        }
+        if ([bool]$payload.active_marker_written) {
+          throw "$Name must not write the active runtime marker."
+        }
+        if ([int]$payload.failure_count -ne 0) {
+          throw "$Name failure_count must be 0."
+        }
+        foreach ($requiredMarker in @("schema_version", "window_id", "status", "expires_at", "instance_id", "region", "expected_account_id", "purpose", "target_lane_id", "command", "max_runtime_minutes", "emergency_stop_evidence_path", "watchdog_evidence_path_or_null", "git_head_or_bundle_sha", "owner_thread_or_automation", "allowed_stop_policy")) {
+          if (-not (Has-Property -Object $payload.marker_payload -Name $requiredMarker)) {
+            throw "$Name marker_payload is missing: $requiredMarker"
+          }
+        }
+        if ([string]$payload.marker_payload.status -ne "ACTIVE") {
+          throw "$Name marker_payload.status must be ACTIVE for the future marker template."
+        }
+        if ([string]::IsNullOrWhiteSpace([string]$payload.marker_payload.command)) {
+          throw "$Name marker_payload.command must not be empty."
+        }
+        $templatePath = [string]$payload.marker_template_path
+        if ([string]::IsNullOrWhiteSpace($templatePath)) {
+          throw "$Name marker_template_path is missing."
+        }
+        $expectedTemplateFile = Join-Path $script:ValidationTempRoot "active_runtime_window.template.json"
+        if (-not (Test-Path -LiteralPath $expectedTemplateFile)) {
+          throw "$Name did not create the expected marker template: $expectedTemplateFile"
+        }
+        $templateJson = Get-Content -LiteralPath $expectedTemplateFile -Raw | ConvertFrom-Json
+        if ([string]$templateJson.window_id -ne [string]$payload.marker_payload.window_id) {
+          throw "$Name marker template window_id does not match marker_payload."
         }
       }
     } catch {
@@ -848,8 +1149,29 @@ $localSmokeResults += Invoke-LocalHelper -Name "model_registry_record_smoke" `
 
 $localSmokeResults += Invoke-LocalHelper -Name "github_checkpoint_dry_run" `
   -ScriptPath (Join-Path $scriptsRoot "Invoke-GitHubCheckpoint.ps1") `
-  -Arguments @("-ProjectRoot", $ProjectRoot, "-Message", "static validation dry run") `
-  -ExpectedOutputFile ""
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-Message", "static validation dry run", "-IncludePath", "Plan,.github,PromptProfiles,Workflows,config,PROJECT_ROOT_MANIFEST.json", "-ExcludePath", "runtime_artifacts,Ref_Image_1,Ref_Image_2,Ref_Image_Canonical_Body,Reference_Images,masks,Jira,Plan.zip,_ci_w64_20260708T232900-0500", "-OutFile", (Join-Path $tempRoot "github_checkpoint_dry_run.json")) `
+  -ExpectedOutputFile (Join-Path $tempRoot "github_checkpoint_dry_run.json")
+
+$scopedGitCheckpointManifestFile = Join-Path $tempRoot "scoped_git_checkpoint_manifest.json"
+$scopedGitCheckpointManifestMarkdown = Join-Path $tempRoot "scoped_git_checkpoint_manifest.md"
+$localSmokeResults += Invoke-LocalHelper -Name "scoped_git_checkpoint_manifest_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-ScopedGitCheckpointManifest.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-GitCheckpointDryRunFile", (Join-Path $tempRoot "github_checkpoint_dry_run.json"), "-OutFile", $scopedGitCheckpointManifestFile, "-MarkdownOutFile", $scopedGitCheckpointManifestMarkdown) `
+  -ExpectedOutputFile $scopedGitCheckpointManifestFile
+
+$postCheckpointRuntimeRevalidationPlanFile = Join-Path $tempRoot "post_checkpoint_runtime_revalidation_plan.json"
+$postCheckpointRuntimeRevalidationPlanMarkdown = Join-Path $tempRoot "post_checkpoint_runtime_revalidation_plan.md"
+$localSmokeResults += Invoke-LocalHelper -Name "post_checkpoint_runtime_revalidation_plan_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-PostCheckpointRuntimeRevalidationPlan.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-ScopedCheckpointManifestFile", $scopedGitCheckpointManifestFile, "-ManifestCheckpointDryRunFile", (Join-Path $tempRoot "github_checkpoint_dry_run.json"), "-OutFile", $postCheckpointRuntimeRevalidationPlanFile, "-MarkdownOutFile", $postCheckpointRuntimeRevalidationPlanMarkdown) `
+  -ExpectedOutputFile $postCheckpointRuntimeRevalidationPlanFile
+
+$selectedDeployBundleRebuildPlanFile = Join-Path $tempRoot "selected_deploy_bundle_rebuild_plan.json"
+$selectedDeployBundleRebuildPlanMarkdown = Join-Path $tempRoot "selected_deploy_bundle_rebuild_plan.md"
+$localSmokeResults += Invoke-LocalHelper -Name "selected_deploy_bundle_rebuild_plan_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-SelectedDeployBundleRebuildPlan.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-OutFile", $selectedDeployBundleRebuildPlanFile, "-MarkdownOutFile", $selectedDeployBundleRebuildPlanMarkdown) `
+  -ExpectedOutputFile $selectedDeployBundleRebuildPlanFile
 
 $publishBundleFile = Join-Path $tempRoot "publish_deploy_bundle_to_s3_dry_run.json"
 $localSmokeResults += Invoke-LocalHelper -Name "publish_deploy_bundle_to_s3_dry_run" `
@@ -862,6 +1184,13 @@ $localSmokeResults += Invoke-LocalHelper -Name "s3_runtime_transfer_readiness_sm
   -ScriptPath (Join-Path $scriptsRoot "Test-S3RuntimeTransferReadiness.ps1") `
   -Arguments @("-ProjectRoot", $ProjectRoot, "-OutFile", $s3TransferReadinessFile) `
   -ExpectedOutputFile $s3TransferReadinessFile
+
+$selectedS3PublishReadinessPlanFile = Join-Path $tempRoot "selected_s3_publish_readiness_plan.json"
+$selectedS3PublishReadinessPlanMarkdown = Join-Path $tempRoot "selected_s3_publish_readiness_plan.md"
+$localSmokeResults += Invoke-LocalHelper -Name "selected_s3_publish_readiness_plan_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-SelectedS3PublishReadinessPlan.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-SelectedDeployBundleRebuildPlanFile", $selectedDeployBundleRebuildPlanFile, "-S3RuntimeTransferReadinessFile", $s3TransferReadinessFile, "-S3BaseUri", "s3://example-bucket/deploy-bundles", "-OutFile", $selectedS3PublishReadinessPlanFile, "-MarkdownOutFile", $selectedS3PublishReadinessPlanMarkdown) `
+  -ExpectedOutputFile $selectedS3PublishReadinessPlanFile
 
 $s3RuntimeConfigPlanFile = Join-Path $tempRoot "s3_runtime_config_plan.json"
 $s3RuntimeConfigPolicyDir = Join-Path $tempRoot "s3_runtime_config_plan_policies"
@@ -893,6 +1222,26 @@ $localSmokeResults += Invoke-LocalHelper -Name "ec2_instance_watchdog_dry_run" `
   -ScriptPath (Join-Path $scriptsRoot "Start-EC2InstanceStopWatchdog.ps1") `
   -Arguments @("-OutFile", $watchdogFile) `
   -ExpectedOutputFile $watchdogFile
+
+$runtimeWindowMarkerPlanFile = Join-Path $tempRoot "ec2_runtime_window_marker_plan.json"
+$runtimeWindowMarkerTemplateFile = Join-Path $tempRoot "active_runtime_window.template.json"
+$localSmokeResults += Invoke-LocalHelper -Name "ec2_runtime_window_marker_plan_smoke" `
+  -ScriptPath (Join-Path $scriptsRoot "New-EC2RuntimeWindowMarkerPlan.ps1") `
+  -Arguments @(
+    "-ProjectRoot", $ProjectRoot,
+    "-WindowId", "validation-window",
+    "-LaneId", "sdxl_realvisxl_base_lane",
+    "-Purpose", "validation_runtime_window_marker_plan",
+    "-Command", "powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -MaxEc2RuntimeMinutes 25",
+    "-DeployBundleS3Uri", "s3://example-bucket/deploy-bundles/example.zip",
+    "-DeployBundleSha256", "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+    "-EmergencyStopEvidencePath", $emergencyStopFile,
+    "-WatchdogEvidencePath", $watchdogFile,
+    "-MaxRuntimeMinutes", "60",
+    "-OutFile", $runtimeWindowMarkerPlanFile,
+    "-MarkerTemplateOutFile", $runtimeWindowMarkerTemplateFile
+  ) `
+  -ExpectedOutputFile $runtimeWindowMarkerPlanFile
 
 $staticProofDryRunFile = Join-Path $tempRoot "ec2_lane_static_proof_dry_run.json"
 $localSmokeResults += Invoke-LocalHelper -Name "ec2_lane_static_proof_dry_run" `

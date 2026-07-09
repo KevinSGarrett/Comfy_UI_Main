@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-EARS-LOCAL-BLOCKER-20260707T161500-0500",
+  "timestamp": "2026-07-07T16:15:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave70_ultimate_mask_factory_local_blocker",
+  "mask_type_id": "mf70_ears",
+  "tracker_id": "TRK-W70-0007",
+  "item_id": "ITEM-W70-0007",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "source_requirements": [
+    "Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_FACTORY_TAXONOMY.md#L15-L31",
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv:TRK-W70-0007",
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv:ITEM-W70-0007"
+  ],
+  "source_image": "ComfyUI/input/wave70_mf70_face_identity_source_canny_v3.png",
+  "source_image_sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+  "blocker": {
+    "result": "blocked_local_source_region_not_visible",
+    "blockers": [
+      "source_portrait_has_no_visible_left_or_right_ear_landmark",
+      "visible_ear_mask_would_hallucinate_through_protected_hair_background_or_jawline"
+    ],
+    "visual_review_findings": [
+      "Direct visual review of the active source portrait shows both ears are fully occluded by hair.",
+      "The Wave70 mf70_ears protected-neighbor list includes hair, jawline, background, and jewelry; creating an ear mask on this source would require editing or hallucinating through protected hair/background instead of masking visible ears.",
+      "No generated-output proof was attempted because there is no source-visible ear region to mask."
+    ]
+  },
+  "result": "blocked_local_source_region_not_visible",
+  "next_action": "Use a source image with visible ears for mf70_ears proof, or continue local-first with the next source-visible Wave70 mask row."
+}

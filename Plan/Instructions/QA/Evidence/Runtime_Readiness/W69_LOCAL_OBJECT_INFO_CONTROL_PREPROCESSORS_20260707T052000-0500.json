@@ -1,0 +1,200 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "W69-LOCAL-OBJECT-INFO-CONTROL-PREPROCESSORS-20260707T052000-0500",
+    "timestamp":  "2026-07-07T05:19:02-05:00",
+    "project_root":  "C:\\Comfy_UI_Main",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "local_comfy":  {
+                        "root":  "C:\\Comfy_UI_Main\\ComfyUI",
+                        "python":  "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe",
+                        "process_id":  90440,
+                        "started_by_probe":  true,
+                        "stopped_by_probe":  true,
+                        "port_closed_after_stop":  true
+                    },
+    "registry_source":  "Plan/10_REGISTRIES/wave11_pose_preprocessor_registry.json",
+    "object_info":  {
+                        "status":  "pass",
+                        "node_count":  791
+                    },
+    "required_runtime_nodes":  {
+                                   "ControlNetLoader":  true,
+                                   "ControlNetApplyAdvanced":  true,
+                                   "LoadImage":  true,
+                                   "SaveImage":  true
+                               },
+    "preprocessor_results":  [
+                                 {
+                                     "preprocessor_id":  "dwpose_wholebody",
+                                     "display_name":  "DWPose Whole Body",
+                                     "expected_node_names":  [
+                                                                 "DWPose_Preprocessor",
+                                                                 "DWPreprocessor",
+                                                                 "AIO Aux Preprocessor: DWPose"
+                                                             ],
+                                     "present_node_names":  [
+
+                                                            ],
+                                     "missing_node_names":  [
+                                                                "DWPose_Preprocessor",
+                                                                "DWPreprocessor",
+                                                                "AIO Aux Preprocessor: DWPose"
+                                                            ],
+                                     "any_expected_node_present":  false,
+                                     "required_outputs":  [
+                                                              "pose_map_image",
+                                                              "optional_openpose_json"
+                                                          ],
+                                     "qa_required":  [
+                                                         "keypoint_visibility",
+                                                         "left_right_limb_consistency",
+                                                         "per_character_assignment"
+                                                     ],
+                                     "runtime_stage":  "planned"
+                                 },
+                                 {
+                                     "preprocessor_id":  "openpose_body",
+                                     "display_name":  "OpenPose Body",
+                                     "expected_node_names":  [
+                                                                 "OpenPosePreprocessor",
+                                                                 "OpenposePreprocessor",
+                                                                 "AIO Aux Preprocessor: OpenPose"
+                                                             ],
+                                     "present_node_names":  [
+
+                                                            ],
+                                     "missing_node_names":  [
+                                                                "OpenPosePreprocessor",
+                                                                "OpenposePreprocessor",
+                                                                "AIO Aux Preprocessor: OpenPose"
+                                                            ],
+                                     "any_expected_node_present":  false,
+                                     "required_outputs":  [
+                                                              "pose_map_image"
+                                                          ],
+                                     "qa_required":  [
+                                                         "body_keypoint_count",
+                                                         "joint_order_validity"
+                                                     ],
+                                     "runtime_stage":  "planned"
+                                 },
+                                 {
+                                     "preprocessor_id":  "depth_anything_or_midas",
+                                     "display_name":  "Depth Estimation",
+                                     "expected_node_names":  [
+                                                                 "DepthAnythingPreprocessor",
+                                                                 "MiDaS-DepthMapPreprocessor",
+                                                                 "AIO Aux Preprocessor: Depth"
+                                                             ],
+                                     "present_node_names":  [
+
+                                                            ],
+                                     "missing_node_names":  [
+                                                                "DepthAnythingPreprocessor",
+                                                                "MiDaS-DepthMapPreprocessor",
+                                                                "AIO Aux Preprocessor: Depth"
+                                                            ],
+                                     "any_expected_node_present":  false,
+                                     "required_outputs":  [
+                                                              "depth_map_image"
+                                                          ],
+                                     "qa_required":  [
+                                                         "depth_gradient_coherence",
+                                                         "foreground_background_order"
+                                                     ],
+                                     "runtime_stage":  "planned"
+                                 },
+                                 {
+                                     "preprocessor_id":  "normal_bae_or_dsine",
+                                     "display_name":  "Normal Map Extraction",
+                                     "expected_node_names":  [
+                                                                 "BAE-NormalMapPreprocessor",
+                                                                 "DSINE-NormalMapPreprocessor",
+                                                                 "AIO Aux Preprocessor: Normal"
+                                                             ],
+                                     "present_node_names":  [
+
+                                                            ],
+                                     "missing_node_names":  [
+                                                                "BAE-NormalMapPreprocessor",
+                                                                "DSINE-NormalMapPreprocessor",
+                                                                "AIO Aux Preprocessor: Normal"
+                                                            ],
+                                     "any_expected_node_present":  false,
+                                     "required_outputs":  [
+                                                              "normal_map_image"
+                                                          ],
+                                     "qa_required":  [
+                                                         "normal_color_validity",
+                                                         "surface_orientation_consistency"
+                                                     ],
+                                     "runtime_stage":  "planned"
+                                 },
+                                 {
+                                     "preprocessor_id":  "canny_edges",
+                                     "display_name":  "Canny Edge",
+                                     "expected_node_names":  [
+                                                                 "Canny",
+                                                                 "CannyEdgePreprocessor",
+                                                                 "AIO Aux Preprocessor: Canny"
+                                                             ],
+                                     "present_node_names":  [
+                                                                "Canny"
+                                                            ],
+                                     "missing_node_names":  [
+                                                                "CannyEdgePreprocessor",
+                                                                "AIO Aux Preprocessor: Canny"
+                                                            ],
+                                     "any_expected_node_present":  true,
+                                     "required_outputs":  [
+                                                              "edge_map_image"
+                                                          ],
+                                     "qa_required":  [
+                                                         "edge_density_range",
+                                                         "no_inverted_wrong_background"
+                                                     ],
+                                     "runtime_stage":  "current_main_flow_uses_static_canny_asset_wired_controlnet"
+                                 },
+                                 {
+                                     "preprocessor_id":  "lineart",
+                                     "display_name":  "Lineart",
+                                     "expected_node_names":  [
+                                                                 "LineArtPreprocessor",
+                                                                 "LineartStandardPreprocessor",
+                                                                 "AIO Aux Preprocessor: Lineart"
+                                                             ],
+                                     "present_node_names":  [
+
+                                                            ],
+                                     "missing_node_names":  [
+                                                                "LineArtPreprocessor",
+                                                                "LineartStandardPreprocessor",
+                                                                "AIO Aux Preprocessor: Lineart"
+                                                            ],
+                                     "any_expected_node_present":  false,
+                                     "required_outputs":  [
+                                                              "lineart_map_image"
+                                                          ],
+                                     "qa_required":  [
+                                                         "line_sparsity",
+                                                         "closed_contour_stability"
+                                                     ],
+                                     "runtime_stage":  "planned"
+                                 }
+                             ],
+    "missing_preprocessor_group_count":  5,
+    "result":  "blocked_missing_wave11_preprocessor_nodes",
+    "failure_category":  "missing_local_comfyui_control_preprocessor_nodes",
+    "blocker":  {
+                    "blocker_id":  "BLOCKER-W69-LOCAL-CONTROL-PREPROCESSORS-001",
+                    "condition":  "Local ComfyUI object_info does not expose any expected DWPose/OpenPose/depth/normal/lineart preprocessor node names from the Wave11 registry.",
+                    "impact":  "Cannot truthfully add or run DWPose/OpenPose/depth/normal/lineart ControlNet branches locally yet; only existing Canny ControlNet path is runnable.",
+                    "required_resolution":  "Install/provision the needed ComfyUI preprocessor custom nodes and matching ControlNet models, then rerun object_info/path/hash proof before generation."
+                },
+    "next_action":  "Do not claim pose/depth/normal/lineart runtime support. Continue local-first with non-blocked control-map asset tooling or exact model/preprocessor provisioning work."
+}

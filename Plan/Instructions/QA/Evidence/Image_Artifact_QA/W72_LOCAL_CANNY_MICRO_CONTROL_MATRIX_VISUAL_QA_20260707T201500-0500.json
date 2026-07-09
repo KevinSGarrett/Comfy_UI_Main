@@ -1,0 +1,148 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W72_LOCAL_CANNY_MICRO_CONTROL_MATRIX_VISUAL_QA_20260707T201500-0500",
+  "created_at": "2026-07-07T20:15:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+  "result": "pass_with_notes_local_canny_micro_control_matrix_followup_neutral_not_promoted",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "strict_whole_image_visual_qa_performed": true,
+  "input_assets_verified_before_run": {
+    "control_image": {
+      "path": "ComfyUI/input/controlnet_canny_cleaned_eye_safe_v3_rightedge_band_masked.png",
+      "sha256": "4b40cdd7386d9287a37d64efafdeb7078a8a9d4160e23e00b5ddc87106a1f870"
+    },
+    "checkpoint": {
+      "path": "models/checkpoints/realvisxlV50_v50Bakedvae.safetensors",
+      "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80"
+    },
+    "controlnet": {
+      "path": "models/controlnet/controlnet-canny-sdxl-1.0-small.safetensors",
+      "sha256": "fde4888a5f0a5648118991cc50e0ac4d60a2356dbaddf5e0649dd69c1119a2f9"
+    }
+  },
+  "test_design": {
+    "baseline_reference": "canny_w71_matrix_preferred_042060_seed711570106",
+    "baseline_reference_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w71_matrix_preferred_042060_seed711570106_20260707T141355-0500/images/canny_w71_matrix_preferred_042060_seed711570106_00001_.png",
+    "fresh_matrix_sample_count": 2,
+    "followup_rerun_count": 1,
+    "constant_values": {
+      "seed": 711570106,
+      "control_image": "controlnet_canny_cleaned_eye_safe_v3_rightedge_band_masked.png",
+      "controlnet_start_percent": 0,
+      "controlnet_end_percent": 0.6,
+      "positive_prompt": "unchanged from retained W71 0.42/0.60 candidate",
+      "negative_prompt": "unchanged from retained W71 0.42/0.60 candidate"
+    },
+    "matrix_variable": "controlnet_strength",
+    "matrix_values": [
+      0.41,
+      0.43
+    ],
+    "qa_driven_followup_change": "Set ControlNet strength to midpoint 0.415 after visual QA found 0.41 slightly softer and 0.43 slightly more rigid/sharpened."
+  },
+  "runtime_summary": {
+    "all_run_packages_static_validated_zero_defects": true,
+    "all_local_comfyui_runs_generated_output": true,
+    "all_local_comfyui_runs_stopped_by_helper": true,
+    "port_8188_closed_after_final_stop": true,
+    "output_image_count": 3,
+    "diagnostic_control_map_count": 3
+  },
+  "samples": [
+    {
+      "profile_id": "canny_w72_matrix_microlow_041060_seed711570106",
+      "profile_path": "PromptProfiles/base_generation/controlnet_canny_w71_local_quality_loop/canny_w72_matrix_microlow_041060_seed711570106.json",
+      "profile_sha256": "581049db2efd2e483aed0359fb64cd817a0ef6e0e0ab4a259468a965710a38fb",
+      "controlnet_strength": 0.41,
+      "run_package": "runtime_artifacts/run_packages/canny_w72_matrix_microlow_041060_seed711570106/RUN_PACKAGE_MANIFEST.json",
+      "run_package_sha256": "70b284727a791719ed706faa19e5d27b8d7d3b9fd066d3682c5770d2cbf41483",
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W72_LOCAL_CANNY_MATRIX_MICROLOW_041060_SEED711570106_EXECUTE_20260707T200000-0500.json",
+      "generated_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w72_matrix_microlow_041060_seed711570106_20260707T195557-0500/images/canny_w72_matrix_microlow_041060_seed711570106_00001_.png",
+      "generated_image_sha256": "14c80e118d688c1295eb5eb6af5196f74da35a545a84eb143424d6a0c5ed1da0",
+      "diagnostic_control_map": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w72_matrix_microlow_041060_seed711570106_20260707T195557-0500/images/codex_sdxl_realvisxl_controlnet_canny_control_map_diagnostic_00019_.png",
+      "diagnostic_control_map_sha256": "aa2a388efc1bdfd76d8eef70a8c312f3cdc26af5581e2b1fcd1cdf9e5519c923",
+      "visual_qa_result": "pass_with_notes_matrix_candidate",
+      "visual_findings": [
+        "Whole image remains a coherent head-and-shoulders editorial portrait.",
+        "Face, hair silhouette, eyes, shirt collar, blazer, and neutral gray background remain close to the retained candidate.",
+        "Right edge remains clean with no obvious vertical band, border strip, or control-map stain.",
+        "Compared with 0.43, this sample is slightly softer and more natural around face and collar edges."
+      ]
+    },
+    {
+      "profile_id": "canny_w72_matrix_microstrong_043060_seed711570106",
+      "profile_path": "PromptProfiles/base_generation/controlnet_canny_w71_local_quality_loop/canny_w72_matrix_microstrong_043060_seed711570106.json",
+      "profile_sha256": "347743ab5d2de49abe880b07628e7dcbbfa352866515cf5ab53681e019f5c1bd",
+      "controlnet_strength": 0.43,
+      "run_package": "runtime_artifacts/run_packages/canny_w72_matrix_microstrong_043060_seed711570106/RUN_PACKAGE_MANIFEST.json",
+      "run_package_sha256": "b5374c273e70fb7e006430a543fcbfecfa158d840f3dd34d996c876dfef5e544",
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W72_LOCAL_CANNY_MATRIX_MICROSTRONG_043060_SEED711570106_EXECUTE_20260707T200500-0500.json",
+      "generated_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w72_matrix_microstrong_043060_seed711570106_20260707T195701-0500/images/canny_w72_matrix_microstrong_043060_seed711570106_00001_.png",
+      "generated_image_sha256": "b0a52e41849544ac20077300dc49fe1171622010f1e01f72f673b3aed17cbad8",
+      "diagnostic_control_map": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w72_matrix_microstrong_043060_seed711570106_20260707T195701-0500/images/codex_sdxl_realvisxl_controlnet_canny_control_map_diagnostic_00020_.png",
+      "diagnostic_control_map_sha256": "047493fa18711bc7bfc541cdfcf7a7eccc81f3e29743c50851b41f46fd0d4909",
+      "visual_qa_result": "pass_with_notes_matrix_candidate_not_preferred",
+      "visual_findings": [
+        "Whole image remains coherent and anatomically plausible.",
+        "Right edge remains clean with no obvious dark band or panel line.",
+        "Eyes, hair, clothing, and background remain close to the retained candidate.",
+        "Face and shirt/collar edges read slightly more sharpened and rigid than the 0.41 sample, so this setting was not selected for the follow-up."
+      ]
+    },
+    {
+      "profile_id": "canny_w72_followup_microbalance_0415_060_seed711570106",
+      "profile_path": "PromptProfiles/base_generation/controlnet_canny_w71_local_quality_loop/canny_w72_followup_microbalance_0415_060_seed711570106.json",
+      "profile_sha256": "1c655217de5da5df5a77b4f85b329bb9ce05e45350f6f0b5932c7e7db1ab4ffe",
+      "controlnet_strength": 0.415,
+      "run_package": "runtime_artifacts/run_packages/canny_w72_followup_microbalance_0415_060_seed711570106/RUN_PACKAGE_MANIFEST.json",
+      "run_package_sha256": "994a86896b8ce224e57d9c0421e7cb9f3722ec4cedc9ead7036a94bf13dad616",
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W72_LOCAL_CANNY_FOLLOWUP_MICROBALANCE_0415_060_SEED711570106_EXECUTE_20260707T201000-0500.json",
+      "generated_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w72_followup_microbalance_0415_060_seed711570106_20260707T195924-0500/images/canny_w72_followup_microbalance_0415_060_seed711570106_00001_.png",
+      "generated_image_sha256": "ff490e701498341394bb829cbccb06f4f41388f3707f4451ff1633fe36c92a81",
+      "diagnostic_control_map": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w72_followup_microbalance_0415_060_seed711570106_20260707T195924-0500/images/codex_sdxl_realvisxl_controlnet_canny_control_map_diagnostic_00021_.png",
+      "diagnostic_control_map_sha256": "7b4ff6a9f799585cc31dfcf4e5453c6d950066537ea490008b049e295a1f96ed",
+      "visual_qa_result": "pass_with_notes_followup_neutral",
+      "visual_findings": [
+        "Whole image remains coherent with stable head, neck, shoulders, blazer, shirt, and gray background.",
+        "Right edge remains clean with no visible vertical seam, border strip, or panel line.",
+        "Eyes remain readable with catchlights; no crossed-eye, dark socket, text, watermark, or control-map stain was observed.",
+        "The 0.415 follow-up is not an obvious quality improvement over the retained 0.42 sample, but it confirms a narrow locally acceptable control-strength band around 0.415 to 0.42."
+      ]
+    }
+  ],
+  "comparison_artifacts": [
+    {
+      "path": "runtime_artifacts/controlnet_canny_w72_quality_loop/qa_comparisons/canny_w72_retained_microlow_microstrong_compare.png"
+    },
+    {
+      "path": "runtime_artifacts/controlnet_canny_w72_quality_loop/qa_comparisons/canny_w72_retained_matrix_followup_compare.png",
+      "sha256": "4cc99c1aa784df0e55e93a797a4d34bc139bd50e67e59984ce5971c59023e199"
+    }
+  ],
+  "qa_decision": {
+    "fresh_matrix_generated": true,
+    "qa_driven_improvement_rerun_generated": true,
+    "improvement_helped": "neutral",
+    "retained_local_candidate": "canny_w71_matrix_preferred_042060_seed711570106",
+    "new_acceptable_local_band": "0.415 to 0.42 strength with 0.60 end percent, same seed/prompt/control image",
+    "promote_over_retained_candidate": false,
+    "decision": "Do not promote 0.415 over the retained 0.42/0.60 candidate. Keep 0.42/0.60 as the named retained candidate; record 0.415 as a locally safe nearby setting. Avoid further prompt-only anti-drift retries without real identity/reference conditioning."
+  },
+  "final_certification_boundary": {
+    "local_generation_evidence_added": true,
+    "target_runtime_proof_present": false,
+    "final_mod17_certification_allowed": false,
+    "remaining_blockers": [
+      "target_runtime_proof_required_before_final_certification",
+      "prompt_only_identity_conditioning_not_robust_for_mod17_canny",
+      "real_ipadapter_identity_conditioning_path_locally_blocked_by_missing_custom_node_and_models"
+    ]
+  }
+}

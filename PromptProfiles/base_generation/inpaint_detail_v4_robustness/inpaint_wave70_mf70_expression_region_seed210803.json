@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "inpaint_wave70_mf70_expression_region_seed210803",
+  "target_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "purpose": "Generated-output proof for Wave70 mf70_expression_region mask routing using the active MOD-17 Canny v3 portrait as source.",
+  "request_patch_values": {
+    "positive_prompt": "very subtle photoreal expression-region preservation pass, preserve exact face identity, preserve both eyes, gaze direction, brow shape, nose bridge and nose tip, cheek structure, lip shape, mouth closure, skin tone, natural skin texture, and consistent portrait lighting, no hair, background, neck, clothing, teeth, or face outline change",
+    "negative_prompt": "identity change, different person, age change, gender presentation change, face shape drift, skin tone change, eye color change, gaze drift, distorted eyes, crossed eyes, asymmetrical eyes, brow deformation, nose deformation, changed lips, open mouth, visible teeth, extra teeth, smile change, hairline change, hair volume change, neck change, clothing change, background change, plastic skin, waxy skin, over-smoothed face, watermark, text",
+    "source_image": "wave70_mf70_face_identity_source_canny_v3.png",
+    "mask_image": "wave70_mf70_expression_region_mask.png",
+    "mask_channel": "red",
+    "seed": 210803,
+    "sampler_settings": {
+      "steps": 18,
+      "cfg": 4.0,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.1
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_wave70_mf70_expression_region_seed210803"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_wave70_mf70_expression_region_seed210803",
+    "diagnostic_output_prefix": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview"
+  },
+  "qa_focus": [
+    "whole-image identity preservation",
+    "eyes, brows, cheeks, nose, and lips preservation",
+    "mouth closure and teeth protection",
+    "skin texture preservation without over-smoothing",
+    "hair, neck, background, and clothing protection",
+    "mask edge blending across expression region"
+  ],
+  "source_qa_driver": {
+    "evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_expression_region.json",
+    "remaining_gap": "generated_output_proof_required_before_item_completion",
+    "change_summary": "Use the Wave70 expression-region mask as the inpaint mask with very low denoise to prove local generated-output routing while minimizing expression and identity drift."
+  },
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_generated_output_proof_before_item_completion": true,
+    "requires_whole_image_qa_before_promotion": true,
+    "requires_target_runtime_reproof_before_final_certification": true
+  }
+}

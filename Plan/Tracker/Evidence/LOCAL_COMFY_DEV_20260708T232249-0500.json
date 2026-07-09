@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "LOCAL_COMFY_DEV_20260708T232249-0500",
+  "created_iso": "2026-07-08T23:22:49-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-039",
+  "item_id": "ITEM-W64-039",
+  "lane_id": "sdxl_low_risk_fallback_lane",
+  "task": "Validate local ComfyUI development lane for low-cost preview work without EC2 equivalence claim.",
+  "source_runbook": "Plan/Instructions/Operations/EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md",
+  "preflight_evidence": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_LOCAL_COMFY_DEV_PREFLIGHT_SDXL_LOW_RISK_20260708T232400-0500.json",
+  "start_dry_run_evidence": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_LOCAL_COMFY_DEV_START_DRY_RUN_LOWVRAM_20260708T232500-0500.json",
+  "runtime_smoke_evidence": "Plan/Instructions/QA/Evidence/Wave64/workflow_runtime_smoke.json",
+  "local_gpu": {
+    "nvidia_smi_found": true,
+    "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+    "memory_total_mib": 8151,
+    "driver_version": "592.01",
+    "raw": "NVIDIA GeForce RTX 5060 Laptop GPU, 8151 MiB, 592.01"
+  },
+  "local_python": {
+    "python": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe",
+    "executable": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe",
+    "torch_imported": true,
+    "torch_version": "2.11.0+cu128",
+    "torch_cuda_available": true,
+    "error": null,
+    "raw": "{\"executable\": \"C:\\\\Comfy_UI_Main\\\\ComfyUI\\\\.venv\\\\Scripts\\\\python.exe\", \"torch_imported\": true, \"torch_version\": \"2.11.0+cu128\", \"torch_cuda_available\": true, \"error\": null}"
+  },
+  "local_comfyui": {
+    "selected_root": "C:\\Comfy_UI_Main\\ComfyUI",
+    "candidates": [
+      {
+        "path": "C:\\Comfy_UI_Main\\ComfyUI",
+        "exists": true,
+        "main_py_exists": true
+      },
+      {
+        "path": "C:\\Comfy_UI\\ComfyUI",
+        "exists": false,
+        "main_py_exists": false
+      },
+      {
+        "path": "C:\\Comfy_UI\\ComfyUI_windows_portable\\ComfyUI",
+        "exists": false,
+        "main_py_exists": false
+      },
+      {
+        "path": "C:\\Comfy_UI\\portable\\ComfyUI",
+        "exists": false,
+        "main_py_exists": false
+      },
+      {
+        "path": "C:\\Comfy_UI\\Runtime\\ComfyUI",
+        "exists": false,
+        "main_py_exists": false
+      },
+      {
+        "path": "C:\\Comfy_UI",
+        "exists": true,
+        "main_py_exists": false
+      },
+      {
+        "path": "C:\\Comfy_UI_Main\\ComfyUI_windows_portable\\ComfyUI",
+        "exists": false,
+        "main_py_exists": false
+      }
+    ]
+  },
+  "local_required_models": [
+    {
+      "role": "checkpoint",
+      "filename": "sd_xl_base_1.0.safetensors",
+      "expected_sha256": "31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b",
+      "candidate_paths": [
+        "ComfyUI/models/checkpoints/sd_xl_base_1.0.safetensors",
+        "models/checkpoints/sd_xl_base_1.0.safetensors",
+        "../Comfy_UI/models/checkpoints/sd_xl_base_1.0.safetensors"
+      ],
+      "exists_locally": true,
+      "existing_path": "models/checkpoints/sd_xl_base_1.0.safetensors"
+    }
+  ],
+  "checks": {
+    "failed_check_count": 0,
+    "local_dev_can_reduce_ec2_starts": true,
+    "local_gpu_generation_candidate": true,
+    "local_dev_replaces_ec2_final_proof": false,
+    "ec2_final_proof_still_required": true,
+    "low_vram_args_enabled": true,
+    "low_vram_command": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe main.py --listen 127.0.0.1 --port 8188 --lowvram",
+    "server_already_verified_by_local_smoke": true
+  },
+  "runtime_boundary": {
+    "local_preview_lane_only": true,
+    "ec2_equivalence_claimed": false,
+    "ec2_final_proof_still_required": true,
+    "ec2_started": false,
+    "generation_executed_by_this_row": false,
+    "local_generation_reused_as_supporting_evidence": true
+  },
+  "gold_mask_dependency_boundary": {
+    "mask_truth_consumed": false,
+    "masks_promoted": false,
+    "hard_gates_rerun": false,
+    "wave71_activation_attempted": false
+  },
+  "errors": [],
+  "qa_decision": "local_comfy_dev_passed_non_ec2_preview_lane",
+  "next_step": "Continue concrete non-EC2 work while EC2 auth/git gates remain blocked; use local ComfyUI only for bounded previews and workflow iteration.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/local_comfy_dev.json",
+    "Plan/Instructions/QA/Evidence/Wave64/LOCAL_COMFY_DEV_20260708T232249-0500.json",
+    "Plan/Tracker/Evidence/LOCAL_COMFY_DEV_20260708T232249-0500.json",
+    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_LOCAL_COMFY_DEV_PREFLIGHT_SDXL_LOW_RISK_20260708T232400-0500.json",
+    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_LOCAL_COMFY_DEV_START_DRY_RUN_LOWVRAM_20260708T232500-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/workflow_runtime_smoke.json"
+  ]
+}

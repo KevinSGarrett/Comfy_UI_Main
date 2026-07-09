@@ -194,7 +194,7 @@ $helperPaths = @(
   (Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\New-ImageArtifactQARecord.ps1")
 )
 
-$workflowStaticValidationFile = Find-LatestJsonByLaneId -Directory $workflowStaticDir -Filter "*WORKFLOW_STATIC_VALIDATION*.json" -ExpectedLaneId $LaneId
+$workflowStaticValidationFile = Find-LatestJsonByLaneId -Directory $workflowStaticDir -Filter "*STATIC_VALIDATION*.json" -ExpectedLaneId $LaneId
 $smokeDryRunFile = Find-LatestJsonByLaneId -Directory $workflowStaticDir -Filter "*WORKFLOW_SMOKE_DRY_RUN*.json" -ExpectedLaneId $LaneId -RequiredProperty "mode" -RequiredValue "dry_run"
 $smokeRequestFile = $null
 if (![string]::IsNullOrWhiteSpace($smokeDryRunFile) -and (Test-Path -LiteralPath $smokeDryRunFile)) {
@@ -259,6 +259,17 @@ foreach ($helper in $helperResults) {
 $evidenceResults = @()
 foreach ($key in $evidenceFiles.Keys) {
   $path = $evidenceFiles[$key]
+  if ([string]::IsNullOrWhiteSpace($path)) {
+    $entry = [ordered]@{
+      name = $key
+      path = $null
+      exists = $false
+      json_valid = $false
+    }
+    $errors += "Missing evidence file path for $key"
+    $evidenceResults += $entry
+    continue
+  }
   $entry = [ordered]@{
     name = $key
     path = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $path

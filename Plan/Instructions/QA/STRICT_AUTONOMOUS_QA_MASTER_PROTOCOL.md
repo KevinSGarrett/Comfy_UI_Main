@@ -118,6 +118,18 @@ Codex must apply QA to the following object types whenever relevant:
 - reviewer notes
 - scorecard result
 - defect log
+
+### Wave70 masks and overlays
+- named `mask_type_id`
+- taxonomy citation and protected regions
+- mask artifact path and preview overlay path
+- semantic mask-alignment result
+- protected-neighbor result
+- generated-output stability result, if a generated output exists
+- explicit separation between `generated_output_safe_pass` and `mask_alignment_semantic_pass`
+- tracker/item status that blocks completion when mask alignment needs revision or fails
+
+For Wave70 masks, generated-output stability cannot override a failed or uncertain overlay/alignment review. Use `Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md` before marking any mask row as locally passed or certification-ready.
 - final disposition
 
 ## 7. Minimal required record per artifact

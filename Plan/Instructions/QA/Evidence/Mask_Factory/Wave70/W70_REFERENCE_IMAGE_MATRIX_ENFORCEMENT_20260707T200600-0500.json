@@ -1,0 +1,64 @@
+{
+  "audit_id": "W70-REFERENCE-IMAGE-MATRIX-ENFORCEMENT-20260707T200600-0500",
+  "created_at_local": "2026-07-07T20:06:00-05:00",
+  "status": "reference_image_matrix_required_for_generalized_mask_completion",
+  "trigger": "User observed that Wave70 was using the same portrait for every mask and questioned whether that can prove universal face, expression, angle, resolution, or future-mask reliability.",
+  "decision": {
+    "single_anchor_image_allowed": true,
+    "single_anchor_scope": "contract_schema_workflow_overlay_smoke_and_low_denoise_runtime_safety_only",
+    "single_anchor_not_allowed_for": [
+      "universal_mask_completion",
+      "generalized_local_pass",
+      "certification_ready_status",
+      "cross_subject_reliability",
+      "cross_angle_reliability",
+      "cross_expression_reliability",
+      "cross_resolution_reliability"
+    ],
+    "reference_image_matrix_required": true,
+    "high_resolution_detail_review_required_for_small_targets": true
+  },
+  "required_protocols": [
+    "Plan/Instructions/QA/WAVE70_REFERENCE_IMAGE_MATRIX_QA_PROTOCOL.md",
+    "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_REFERENCE_IMAGE_MATRIX.md",
+    "Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_FACTORY_PROMOTION_GATES.md",
+    "Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_FACTORY_TAXONOMY.md",
+    "Plan/Instructions/QA/Templates/WAVE70_REFERENCE_IMAGE_MATRIX_MANIFEST_TEMPLATE.json"
+  ],
+  "minimum_face_matrix_slots": [
+    "face_front_neutral_highres",
+    "face_front_smile_teeth",
+    "face_front_open_mouth_inner",
+    "face_three_quarter_left",
+    "face_three_quarter_right",
+    "face_profile_or_near_profile",
+    "face_eye_expression_variant",
+    "face_occlusion_or_hair_variant"
+  ],
+  "current_wave70_status_correction": {
+    "rows_previously_mask_alignment_pass_on_single_portrait": [
+      "mf70_under_eye",
+      "mf70_eyebrows",
+      "mf70_mouth_lips",
+      "mf70_teeth"
+    ],
+    "new_status_for_single_portrait_passes": "Single_Anchor_Mask_Alignment_Pass_Matrix_Required_Target_Runtime_Pending",
+    "meaning": "These rows may retain their local single-image smoke value, but they cannot be used as universal or certification-ready mask evidence until the reference image matrix passes.",
+    "failed_or_needs_revision_rows_remain_blocked": true
+  },
+  "future_mask_policy": {
+    "hardcoded_single_portrait_coordinates": "smoke_scripts_only_not_generalized_generators",
+    "required_generalized_generator_behavior": [
+      "accept_source_image_path",
+      "adapt_boundaries_from_landmarks_segmentation_or_source_specific_geometry",
+      "emit_source_crop_and_zoom_overlay_per_matrix_slot",
+      "record_target_not_visible_or_resolution_too_low_blockers",
+      "preserve_protected_neighbor_contracts"
+    ],
+    "body_clothing_object_video_audio_scope": "same_matrix_principle_applies_with_domain_specific_slots"
+  },
+  "cron_or_scheduled_task_changed": false,
+  "reason_no_cron_change": "No project Wave70 mask QA cron job was found in prior QA enforcement review; enforcement is recorded in Plan, Instructions, Tracker, Items, and QA evidence.",
+  "matrix_manifest_template": "Plan/Instructions/QA/Templates/WAVE70_REFERENCE_IMAGE_MATRIX_MANIFEST_TEMPLATE.json"
+}

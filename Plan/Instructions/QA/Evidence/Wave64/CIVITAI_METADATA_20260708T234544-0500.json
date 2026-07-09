@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "CIVITAI_METADATA_20260708T234544-0500",
+  "created_iso": "2026-07-08T23:45:44-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-045",
+  "item_id": "ITEM-W64-045",
+  "task": "Validate Civitai metadata lookup and provenance for registered RealVisXL checkpoint records.",
+  "source_protocol": "Plan/Instructions/Operations/CIVITAI_API_OPERATING_PROTOCOL.md",
+  "lookup_script": "Plan/Instructions/Operations/Scripts/Invoke-CivitaiModelLookup.ps1",
+  "query_evidence": "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_REALVISXL_QUERY_20260708T234325-0500.json",
+  "detail_summary": "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_REALVISXL_DETAIL_SUMMARY_20260708T234347-0500.json",
+  "model_detail_evidence": "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_MODEL_139562_CLEAN_20260708T234347-0500.json",
+  "version_detail_evidence": "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_MODEL_VERSION_789646_CLEAN_20260708T234347-0500.json",
+  "secret_safety": {
+    "token_loaded_for_clean_lookup": true,
+    "token_printed": false,
+    "evidence_files_contain_secret_markers": false,
+    "secret_marker_paths": []
+  },
+  "metadata_match": {
+    "model_id": 139562,
+    "model_name": "RealVisXL V5.0",
+    "model_type": "Checkpoint",
+    "version_id": 789646,
+    "version_name": "V5.0 (BakedVAE)",
+    "base_model": "SDXL 1.0",
+    "primary_file_name": "realvisxlV50_v50Bakedvae.safetensors",
+    "primary_file_size_kb": 6775454.578125,
+    "primary_sha256": "6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80",
+    "download_url_present": true
+  },
+  "registry_provenance": {
+    "civitai_registry_record_count": 7,
+    "realvisxl_registry_record_count": 7,
+    "registry_record_ids": [
+      "MODEL-REALVISXL-V50-BAKEDVAE-CHECKPOINT-001",
+      "MODEL-REALVISXL-V50-CANNY-LANE-CHECKPOINT-001",
+      "MODEL-REALVISXL-V50-INPAINT-DETAIL-CHECKPOINT-001",
+      "MODEL-REALVISXL-V50-DEPTH-LANE-CHECKPOINT-001",
+      "MODEL-REALVISXL-V50-LINEART-LANE-CHECKPOINT-001",
+      "MODEL-REALVISXL-V50-OPENPOSE-LANE-CHECKPOINT-001",
+      "MODEL-REALVISXL-V50-NORMAL-LANE-CHECKPOINT-001"
+    ],
+    "registry_mismatches": [],
+    "source_url_recorded": true,
+    "version_file_match": true
+  },
+  "download_boundary": {
+    "model_binary_downloaded_by_this_row": false,
+    "unsafe_model_binary_committed": false,
+    "download_url_recorded_as_metadata_only": true
+  },
+  "runtime_boundary": {
+    "ec2_started": false,
+    "generation_executed": false,
+    "comfyui_contacted": false,
+    "target_runtime_promoted": false
+  },
+  "gold_mask_dependency_boundary": {
+    "mask_truth_consumed": false,
+    "masks_promoted": false,
+    "hard_gates_rerun": false,
+    "wave71_activation_attempted": false
+  },
+  "errors": [],
+  "qa_decision": "civitai_metadata_passed_secret_safe_realvisxl_provenance",
+  "next_step": "Advance to TRK-W64-046/ITEM-W64-046.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/civitai_metadata.json",
+    "Plan/Instructions/QA/Evidence/Wave64/CIVITAI_METADATA_20260708T234544-0500.json",
+    "Plan/Tracker/Evidence/CIVITAI_METADATA_20260708T234544-0500.json",
+    "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_REALVISXL_QUERY_20260708T234325-0500.json",
+    "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_REALVISXL_DETAIL_SUMMARY_20260708T234347-0500.json",
+    "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_MODEL_139562_CLEAN_20260708T234347-0500.json",
+    "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_MODEL_VERSION_789646_CLEAN_20260708T234347-0500.json",
+    "Plan/Instructions/Operations/CIVITAI_API_OPERATING_PROTOCOL.md",
+    "Plan/Instructions/Operations/Scripts/Invoke-CivitaiModelLookup.ps1",
+    "Plan/Registries/Models/model_registry.jsonl"
+  ]
+}

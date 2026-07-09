@@ -1,0 +1,868 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_REF_IMAGE_1_BODY_MASK_GOLD_STANDARD_20260708T133309-0500",
+  "created_local": "20260708T133309-0500",
+  "created_iso": "2026-07-08T13:33:09-05:00",
+  "script": "Plan/07_IMPLEMENTATION/scripts/ingest_ref_image_1_body_mask_gold_standard.py",
+  "project_root": "C:\\Comfy_UI_Main",
+  "reference_root": "Ref_Image_1",
+  "main_reference": {
+    "path": "Ref_Image_1/725de85824bbe45ba4601dd4a7aed698.jpg",
+    "runtime_copy": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/725de85824bbe45ba4601dd4a7aed698.jpg",
+    "sha256": "b4876e7415485efc79c2c69a914e3316c8c5f7301dc15a69b039f7515ab36df5",
+    "dimensions": [
+      1684,
+      1124
+    ],
+    "description": "User-provided single-character multi-pose body reference image."
+  },
+  "gold_standard_scope": {
+    "user_asserted_purpose": "gold standard for body masking of this character across multiple poses",
+    "applies_to": [
+      "body-region masks",
+      "limb masks",
+      "hands and fingers",
+      "glutes",
+      "breasts and breast skin",
+      "abdomen and belly button",
+      "thighs",
+      "calves",
+      "feet and toes",
+      "hair"
+    ],
+    "does_not_by_itself_prove": [
+      "target runtime generated-output stability",
+      "non-reference image source visibility",
+      "promotion of unrelated target images without row-level evidence"
+    ]
+  },
+  "overlay_file_count": 34,
+  "extracted_nonzero_mask_count": 34,
+  "missing_mask_type_map_labels": [],
+  "extracted_masks": [
+    {
+      "source_overlay_path": "Ref_Image_1/Abdomen/belly button/ChatGPT Image Jul 8, 2026, 01_01_29 PM (2).png",
+      "source_overlay_sha256": "d6e37170d8bb0fead61dfc5f2f9ab93483339123dc07f38e0db9d4fbc4fb69d3",
+      "label": "abdomen_belly_button",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/abdomen_belly_button.png",
+      "binary_mask_sha256": "ead3f22c370ba47b58daefc9b1b21301e8c4fb7f4ef2f6caa96670edde3a9e78",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/abdomen_belly_button_preview.png",
+      "preview_sha256": "5b22356c79123538997d1a5409a6385da1c06155333e329079458717c2e910fd",
+      "red_overlay_pixel_count": 29015,
+      "red_overlay_coverage_ratio": 0.018457,
+      "mask_type_candidates": [
+        "mf70_belly_button_umbilicus"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/Abdomen/stomach/ChatGPT Image Jul 8, 2026, 01_01_29 PM (1).png",
+      "source_overlay_sha256": "c75507e32600037c1679832a5c00be229a941f75ce7eb12bf4e6b3171e253c92",
+      "label": "abdomen_stomach",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/abdomen_stomach.png",
+      "binary_mask_sha256": "35cd21b1bd61aa9c7be8cfdf32cf1789cce78216bac1247675ec5225974d906f",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/abdomen_stomach_preview.png",
+      "preview_sha256": "f378b4f6217b5a0860180fc280a520b919aed5cc7768c12ac069962923a1f172",
+      "red_overlay_pixel_count": 62729,
+      "red_overlay_coverage_ratio": 0.039903,
+      "mask_type_candidates": [
+        "mf70_abdomen",
+        "mf70_stomach"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/Arms/left lower arm/ChatGPT Image Jul 8, 2026, 01_11_57 PM (6).png",
+      "source_overlay_sha256": "d4c5f01b0cef5ff2549f350117ec011b74da7136739ea39b5bd99bd66c0b8871",
+      "label": "arms_left_lower_arm",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/arms_left_lower_arm.png",
+      "binary_mask_sha256": "d1326ad87d51336173f915d6a7837e85d583e2dd29bbca34fbe455107ab92efa",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/arms_left_lower_arm_preview.png",
+      "preview_sha256": "8ff09d4d05ef229ca31e8554c9b285ce21619ba8edf1dffb3ccb0d1bb5952e5f",
+      "red_overlay_pixel_count": 45372,
+      "red_overlay_coverage_ratio": 0.028862,
+      "mask_type_candidates": [
+        "mf70_left_forearm"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/Arms/left upper arm/ChatGPT Image Jul 8, 2026, 01_11_56 PM (4).png",
+      "source_overlay_sha256": "38339e16515caf96b7033643b082f45129f490fc6da0f0df833a1ffe24826432",
+      "label": "arms_left_upper_arm",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/arms_left_upper_arm.png",
+      "binary_mask_sha256": "115c2a5899eef235d9834ff98a33440a44d28474b5ddda7d4db4c852ce527905",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/arms_left_upper_arm_preview.png",
+      "preview_sha256": "4a3410451cab82077035bf2d43dde353d850db612c0369765518995d894ab462",
+      "red_overlay_pixel_count": 85870,
+      "red_overlay_coverage_ratio": 0.054623,
+      "mask_type_candidates": [
+        "mf70_left_upper_arm"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/Arms/lower arm - fore arms/ChatGPT Image Jul 8, 2026, 01_11_56 PM (2).png",
+      "source_overlay_sha256": "9d69d8b2e20d820d23a980d1fe692e014c17b6e702abc431fe072ab39623777d",
+      "label": "arms_lower_arm_fore_arms",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/arms_lower_arm_fore_arms.png",
+      "binary_mask_sha256": "035aa2ebf2a8637af9fcb9200f44f32113387b996fdff14d8d268ede8df0fbb7",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/arms_lower_arm_fore_arms_preview.png",
+      "preview_sha256": "e8e3df35349320720f0cbfcb2223013924d2dc74283006dc20f15886be09eff0",
+      "red_overlay_pixel_count": 67853,
+      "red_overlay_coverage_ratio": 0.043162,
+      "mask_type_candidates": [
+        "mf70_left_forearm",
+        "mf70_right_forearm",
+        "mf70_forearms"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/Arms/right lower arm/ChatGPT Image Jul 8, 2026, 01_11_56 PM (5).png",
+      "source_overlay_sha256": "c65610dcf54bdf3962e2c0453dff87da40ce372b5c5c57b3544296d8e1d2c164",
+      "label": "arms_right_lower_arm",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/arms_right_lower_arm.png",
+      "binary_mask_sha256": "fcadd0f70b0dcc47059ed2b9cad3891d376db9cbaa3b77f66af8d924c9f9802f",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/arms_right_lower_arm_preview.png",
+      "preview_sha256": "599d0dc971a52ab7cfba6006cae8ac98fecad3ebcf3e77497670137ebca7c4ac",
+      "red_overlay_pixel_count": 47856,
+      "red_overlay_coverage_ratio": 0.030442,
+      "mask_type_candidates": [
+        "mf70_right_forearm"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/Arms/right upper arm/ChatGPT Image Jul 8, 2026, 01_11_56 PM (3).png",
+      "source_overlay_sha256": "0864d19fa56adf84b4fb65791cae1ce1245537ad20f0ed7f07a3e5621a22d048",
+      "label": "arms_right_upper_arm",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/arms_right_upper_arm.png",
+      "binary_mask_sha256": "c1cad9c1fe78dbdbe0fc8a53689c44fe045306de28f83d3fac65615866db76c2",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/arms_right_upper_arm_preview.png",
+      "preview_sha256": "d63e124fd62ac309a2023fddca44761b3a55e61d4b4d51514a71bb732a3d6534",
+      "red_overlay_pixel_count": 79200,
+      "red_overlay_coverage_ratio": 0.05038,
+      "mask_type_candidates": [
+        "mf70_right_upper_arm"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/Arms/upper arms/ChatGPT Image Jul 8, 2026, 01_11_55 PM (1).png",
+      "source_overlay_sha256": "9b387cce13eae49a40dc33d3dd53b2f44f44a244162e3874879158b3f17cb317",
+      "label": "arms_upper_arms",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/arms_upper_arms.png",
+      "binary_mask_sha256": "b76e19fee2554e153a325ac19bbba644ca2cfa6dc8ad73925c7f910420e49460",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/arms_upper_arms_preview.png",
+      "preview_sha256": "1d53880cd46a7066894c09237f24d898b687d581c1baf87e74e1749937817dec",
+      "red_overlay_pixel_count": 89224,
+      "red_overlay_coverage_ratio": 0.056757,
+      "mask_type_candidates": [
+        "mf70_left_upper_arm",
+        "mf70_right_upper_arm",
+        "mf70_upper_arms"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/breasts/both/ChatGPT Image Jul 8, 2026, 12_58_33 PM (6).png",
+      "source_overlay_sha256": "330d0b9d4dbf419337991978a39efa526553f4e19136e8dff17e1872bceb7a92",
+      "label": "breasts_both",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/breasts_both.png",
+      "binary_mask_sha256": "6e1c6499c619d734b5266bb49d91b350dbad972f5cb8ce2e3ec3a5fc981a1497",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/breasts_both_preview.png",
+      "preview_sha256": "d2d6f70951185a526d2e747fcf4a7afbf040dcbe1af035f04a2923eb10616a9a",
+      "red_overlay_pixel_count": 44406,
+      "red_overlay_coverage_ratio": 0.028247,
+      "mask_type_candidates": [
+        "mf70_breasts",
+        "mf70_left_breast",
+        "mf70_right_breast"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/breasts/left breast/ChatGPT Image Jul 8, 2026, 12_58_33 PM (7).png",
+      "source_overlay_sha256": "d9fe8826b00ebac143a62005ed1eec836b552f9b3d45352cffd04ddbd59d5727",
+      "label": "breasts_left_breast",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/breasts_left_breast.png",
+      "binary_mask_sha256": "7eb6bd714a708d490fb2c6cb711a1ac8c43254cc0a43f3aef988d9ad7567401f",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/breasts_left_breast_preview.png",
+      "preview_sha256": "f08ee630884b2ed2ae74656b71d7ab077b34ef06820daaf48d641fc6329ed2ae",
+      "red_overlay_pixel_count": 42371,
+      "red_overlay_coverage_ratio": 0.026953,
+      "mask_type_candidates": [
+        "mf70_left_breast"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/breasts/right/ChatGPT Image Jul 8, 2026, 12_58_34 PM (8).png",
+      "source_overlay_sha256": "3d80374cce0e8cba00e797e2a8f7276db85062f08460293babd2af51b3c9e0ce",
+      "label": "breasts_right",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/breasts_right.png",
+      "binary_mask_sha256": "7a24e8fafac7e012d6ef4b6b2ca7adccb174b584dc6b2ae3ffc780ca35fc70e3",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/breasts_right_preview.png",
+      "preview_sha256": "344d5f27224cb39ba5da28174214369dd2b72b6d5a3a72536f15782ceece4391",
+      "red_overlay_pixel_count": 36618,
+      "red_overlay_coverage_ratio": 0.023293,
+      "mask_type_candidates": [
+        "mf70_right_breast"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/calves/both calves/ChatGPT Image Jul 8, 2026, 01_22_40 PM (1).png",
+      "source_overlay_sha256": "91a925ba63a9a84c18dfc0f88d835db00fcf5b9bb9571702e0b55d7de7a17180",
+      "label": "calves_both_calves",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/calves_both_calves.png",
+      "binary_mask_sha256": "f3b5cb6632987ba667fb3c876821b2c65d6bf287a76c746efb4a5ed088bbda99",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/calves_both_calves_preview.png",
+      "preview_sha256": "428c3d8872a71a523289d994b10285c43f13324d97fb5aacd6a3f9642d02d9c3",
+      "red_overlay_pixel_count": 73496,
+      "red_overlay_coverage_ratio": 0.046737,
+      "mask_type_candidates": [
+        "mf70_left_calf",
+        "mf70_right_calf",
+        "mf70_calves"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/calves/left calf/ChatGPT Image Jul 8, 2026, 01_22_40 PM (2).png",
+      "source_overlay_sha256": "c91fb6989a7b03e8239d2c0cfe3cd46408c5db2266b0a1663d42fd756d35a386",
+      "label": "calves_left_calf",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/calves_left_calf.png",
+      "binary_mask_sha256": "bcae9a72414ebb7c3a7a52f81143c9d6281861020f748cdbd76b4dc4eb084f56",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/calves_left_calf_preview.png",
+      "preview_sha256": "24399730f66dc5efe09219064eb6db66779b8938c28ef0037e3061e61bf48a54",
+      "red_overlay_pixel_count": 42757,
+      "red_overlay_coverage_ratio": 0.02719,
+      "mask_type_candidates": [
+        "mf70_left_calf"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/calves/right calf/ChatGPT Image Jul 8, 2026, 01_22_40 PM (3).png",
+      "source_overlay_sha256": "5835ea7a365ea0fa5fd14c522a1aed4f53bffd54f734b093c952cf8603555c82",
+      "label": "calves_right_calf",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/calves_right_calf.png",
+      "binary_mask_sha256": "151676ee753900ffaf59dbbcafd413dfc646dc8bbd0b639085a998a067ed2cf9",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/calves_right_calf_preview.png",
+      "preview_sha256": "53c0d4357d85834b972d4ed251bf0643519de43c8a66e33511ea61469341ba2e",
+      "red_overlay_pixel_count": 43817,
+      "red_overlay_coverage_ratio": 0.027864,
+      "mask_type_candidates": [
+        "mf70_right_calf"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/Feet/Both Feet/ChatGPT Image Jul 8, 2026, 01_22_40 PM (4).png",
+      "source_overlay_sha256": "08a2e542a1b7efed8062e099d8d4aef0d8962e9a74fa9d4ff6395de34b8ab926",
+      "label": "feet_both_feet",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/feet_both_feet.png",
+      "binary_mask_sha256": "7ffe1314189e310ceb5023142c2de6e5db4593242fda23de990349136e3b8ead",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/feet_both_feet_preview.png",
+      "preview_sha256": "32c4ff7b134a59a092656560349fd18e32e14ec6bb0c1467a21aa2ebe6f0cc1a",
+      "red_overlay_pixel_count": 37255,
+      "red_overlay_coverage_ratio": 0.023691,
+      "mask_type_candidates": [
+        "mf70_left_foot",
+        "mf70_right_foot",
+        "mf70_feet"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/Feet/Left Foot/ChatGPT Image Jul 8, 2026, 01_22_40 PM (5).png",
+      "source_overlay_sha256": "a449549eb82a5f87961ac04ec11c7e9f652d8c57d9f1c1f2bd26f222479b3435",
+      "label": "feet_left_foot",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/feet_left_foot.png",
+      "binary_mask_sha256": "c2168723ca77dd7aa2a5bcbfa49c60a0eca549b624aa4c10bb7dc131c00fa8a1",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/feet_left_foot_preview.png",
+      "preview_sha256": "a64894cdf03de853ca85840a8f8da9fd79e2b9b5e9a7dfc59ec03056a509695c",
+      "red_overlay_pixel_count": 23845,
+      "red_overlay_coverage_ratio": 0.015163,
+      "mask_type_candidates": [
+        "mf70_left_foot"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/Feet/Right Foot/ChatGPT Image Jul 8, 2026, 01_22_40 PM (6).png",
+      "source_overlay_sha256": "1d9461aa40b525cd3b68dae8c8454fa33cb3b1fa9264938fda0c2a94861d5ad1",
+      "label": "feet_right_foot",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/feet_right_foot.png",
+      "binary_mask_sha256": "e047271e2ae21d030f7021746f8c64197ef1b51bfd1f13f50e8ab897c1db4df3",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/feet_right_foot_preview.png",
+      "preview_sha256": "0cc123bd2d523f7c4e8ddb105a73ba16b38bfb5b11077fb330f04f665165a457",
+      "red_overlay_pixel_count": 34881,
+      "red_overlay_coverage_ratio": 0.022181,
+      "mask_type_candidates": [
+        "mf70_right_foot"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/Feet/toes feet/ChatGPT Image Jul 8, 2026, 01_22_41 PM (7).png",
+      "source_overlay_sha256": "2fe600bc50a10fb636c62b483916c40d9e3dca6fcfac4146b2bb6d4f2e253c4a",
+      "label": "feet_toes_feet",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/feet_toes_feet.png",
+      "binary_mask_sha256": "0f45e9bf4df03be882f313c68ed94e734c045155bcc6dd459435240cbd5155a7",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/feet_toes_feet_preview.png",
+      "preview_sha256": "55c629f0cb39cd0df17f4273f6e0cf5cb95071ae865c9dd50bc2abe8fcac378f",
+      "red_overlay_pixel_count": 34519,
+      "red_overlay_coverage_ratio": 0.021951,
+      "mask_type_candidates": [
+        "mf70_toes",
+        "mf70_feet"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/glute/both/ChatGPT Image Jul 8, 2026, 01_07_53 PM (1).png",
+      "source_overlay_sha256": "322dc0bbd50a447b3e5215838f90da2ac2f3846f9db122187cf4763cb7ebe659",
+      "label": "glute_both",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/glute_both.png",
+      "binary_mask_sha256": "3f0a4fbf137e0fb31d509d4972c2235673ef8069dbee86bd3d46e856377dbfcf",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/glute_both_preview.png",
+      "preview_sha256": "b0b8859c229e494f97bbf879418713b2f58b924da60be59640e0aedba59cd0c6",
+      "red_overlay_pixel_count": 50589,
+      "red_overlay_coverage_ratio": 0.03218,
+      "mask_type_candidates": [
+        "mf70_left_glute",
+        "mf70_right_glute",
+        "mf70_glutes"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/glute/left/ChatGPT Image Jul 8, 2026, 01_07_53 PM (2).png",
+      "source_overlay_sha256": "9e49c169036a1a9a5c9a25b8559bbb24eb556b75a8d6d388f80551c1e4e85492",
+      "label": "glute_left",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/glute_left.png",
+      "binary_mask_sha256": "2d197613270728228eed3ddff0cffff3490ee2df427169e1428982b9c05af418",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/glute_left_preview.png",
+      "preview_sha256": "80b5117bbdb2616a4149531b9a7cfb634223faba69540cc690f4630e8aab0288",
+      "red_overlay_pixel_count": 51268,
+      "red_overlay_coverage_ratio": 0.032612,
+      "mask_type_candidates": [
+        "mf70_left_glute"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/glute/right/ChatGPT Image Jul 8, 2026, 01_07_53 PM (3).png",
+      "source_overlay_sha256": "5bacaaf5e9bb73aa5fb57f61097c729aaddd63a80a0f4efe0e057927b368659c",
+      "label": "glute_right",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/glute_right.png",
+      "binary_mask_sha256": "7a38b7c0138588d73f64959651bc5416de8ffe81e8e9452c0ab33a760b7dad33",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/glute_right_preview.png",
+      "preview_sha256": "3b3f2b3af76c903201b7e66629bd683df4666fe362e7668eba8f88725125ff09",
+      "red_overlay_pixel_count": 45875,
+      "red_overlay_coverage_ratio": 0.029182,
+      "mask_type_candidates": [
+        "mf70_right_glute"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/hair/hair/ChatGPT Image Jul 8, 2026, 01_22_41 PM (8).png",
+      "source_overlay_sha256": "d72170dfd3123919acf0677a35fbbdcda2fa7b0a72c20223511234522b0e0cfd",
+      "label": "hair_hair",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/hair_hair.png",
+      "binary_mask_sha256": "bbda593b89823b30999948add0c862eb2c1c623a3fbbc5c84fdbd75744b333df",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/hair_hair_preview.png",
+      "preview_sha256": "660e3f65c188c12e2138346784737c7f3a8fc67f07d25ec4da7cff3abcc75bc2",
+      "red_overlay_pixel_count": 177728,
+      "red_overlay_coverage_ratio": 0.113021,
+      "mask_type_candidates": [
+        "mf70_hair"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/Hands/both hands/ChatGPT Image Jul 8, 2026, 01_11_57 PM (7).png",
+      "source_overlay_sha256": "10b4d4f1ffafe790c3012c3bd6e19ba247621bf859927ea10dda7076fb18500a",
+      "label": "hands_both_hands",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/hands_both_hands.png",
+      "binary_mask_sha256": "4327e9eb744f6b7aa15ec8ad8d551764d0b69c982699881015f1ef6e99a71a19",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/hands_both_hands_preview.png",
+      "preview_sha256": "27d6a134b3601b20b5fd5974800f184586c182d8daab9d03fbc645dbba0ca3db",
+      "red_overlay_pixel_count": 58038,
+      "red_overlay_coverage_ratio": 0.036919,
+      "mask_type_candidates": [
+        "mf70_left_hand",
+        "mf70_right_hand",
+        "mf70_hands"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/Hands/index fingers/ChatGPT Image Jul 8, 2026, 12_58_31 PM (1).png",
+      "source_overlay_sha256": "a55a2be36423780525cd1ef81912ae9830d8996cabe67dc1315a84bc6622a571",
+      "label": "hands_index_fingers",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/hands_index_fingers.png",
+      "binary_mask_sha256": "948d5bd3ed9f6d17be8b1f1737c882d07e994a10420ef7f20296f9cdf5183cca",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/hands_index_fingers_preview.png",
+      "preview_sha256": "7ee2ec3ba286054e2cca76c639049a2c5591a27170dac42ca8c227589b61e7ce",
+      "red_overlay_pixel_count": 76688,
+      "red_overlay_coverage_ratio": 0.048782,
+      "mask_type_candidates": [
+        "mf70_index_fingers"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/Hands/left hand/ChatGPT Image Jul 8, 2026, 01_11_57 PM (8).png",
+      "source_overlay_sha256": "1d5fc5c4cedfd8b8722366f4f642c6e30327c5df45eb180bb0ed02671d106397",
+      "label": "hands_left_hand",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/hands_left_hand.png",
+      "binary_mask_sha256": "c59613cc940e07dcbff0ea1dfaf16142ee5ec4db9e9b03cd03ed0d40abdf0094",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/hands_left_hand_preview.png",
+      "preview_sha256": "4ee6295fdf4bb9eff50ca595ab9ffc29de34291481b8722017db9fc8ece34ef5",
+      "red_overlay_pixel_count": 56050,
+      "red_overlay_coverage_ratio": 0.035654,
+      "mask_type_candidates": [
+        "mf70_left_hand"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/Hands/middle fingers/ChatGPT Image Jul 8, 2026, 12_58_31 PM (2).png",
+      "source_overlay_sha256": "a5623c5a10f588a00a25f3e95a077efd3c89dc7eb3a5a0693536ceae31c695b3",
+      "label": "hands_middle_fingers",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/hands_middle_fingers.png",
+      "binary_mask_sha256": "dcfc173cbabe7c228523724962967222a01b0d29c930067485cb4c06be5dab17",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/hands_middle_fingers_preview.png",
+      "preview_sha256": "2f7ae7a0bbf114ba197541b757e40101006454e1e108013f86cf59fc109b120f",
+      "red_overlay_pixel_count": 44682,
+      "red_overlay_coverage_ratio": 0.028423,
+      "mask_type_candidates": [
+        "mf70_middle_fingers"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/Hands/pinkys/ChatGPT Image Jul 8, 2026, 12_58_32 PM (4).png",
+      "source_overlay_sha256": "1634b58a4e400d89f2ae134174a1f5deb7457eab99920658f1a172eb0e78ad8d",
+      "label": "hands_pinkys",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/hands_pinkys.png",
+      "binary_mask_sha256": "56e3dfbdada2ac016da6f5b28fd2ca0411ca3870c1631fab3345f0cda0012619",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/hands_pinkys_preview.png",
+      "preview_sha256": "03996068ae6a6579b579dfd4f0fb9203060abd3fe3e54752e3c58f345194f49c",
+      "red_overlay_pixel_count": 50735,
+      "red_overlay_coverage_ratio": 0.032273,
+      "mask_type_candidates": [
+        "mf70_pinkies"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/Hands/right hand/ChatGPT Image Jul 8, 2026, 01_11_57 PM (9).png",
+      "source_overlay_sha256": "ef20453c6e3dabc6195c4cded3ea5581812e45fcff7939c2be4006dca5630cea",
+      "label": "hands_right_hand",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/hands_right_hand.png",
+      "binary_mask_sha256": "654512e984fa245db0288cd4415e24f2e9f1a6fb817f86c6fc79df1d74cf8a12",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/hands_right_hand_preview.png",
+      "preview_sha256": "c3a43eeefe3262e8eb59d971106103c9674615303caa0865b1713cc04233ba50",
+      "red_overlay_pixel_count": 31177,
+      "red_overlay_coverage_ratio": 0.019832,
+      "mask_type_candidates": [
+        "mf70_right_hand"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/Hands/ring finger/ChatGPT Image Jul 8, 2026, 12_58_31 PM (3).png",
+      "source_overlay_sha256": "bb862a0306cc8790deb335e75f2a9c5c8d46ae0a12cb225ab65732782dbe3c5c",
+      "label": "hands_ring_finger",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/hands_ring_finger.png",
+      "binary_mask_sha256": "2d5840110195b7cb9115d8cff171e39910da4c05fedb443e16b29a006ea5f6d8",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/hands_ring_finger_preview.png",
+      "preview_sha256": "da38721bdfc68ce6663f4faea5dff3580c5a029cee769d4d445ccec94d59a2ec",
+      "red_overlay_pixel_count": 47627,
+      "red_overlay_coverage_ratio": 0.030296,
+      "mask_type_candidates": [
+        "mf70_ring_fingers"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/Hands/thumbs/ChatGPT Image Jul 8, 2026, 12_58_33 PM (5).png",
+      "source_overlay_sha256": "fe74dd58bf81201bb83bb2b359a4ce3f50a3dc72b09386633870c8bf5160d72b",
+      "label": "hands_thumbs",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/hands_thumbs.png",
+      "binary_mask_sha256": "1f8b3acffd2f040583b4c884d7782d46262f0be2c164888f1f6de039b11383e9",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/hands_thumbs_preview.png",
+      "preview_sha256": "05c319d4fd624e645b82d1696751db31c153a67dedf4a6f092b97ccb096f727d",
+      "red_overlay_pixel_count": 37347,
+      "red_overlay_coverage_ratio": 0.023757,
+      "mask_type_candidates": [
+        "mf70_thumbs"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/Pelvic/pelvic region/ChatGPT Image Jul 8, 2026, 01_01_29 PM (6).png",
+      "source_overlay_sha256": "7d240d08f01fd20fd85cac9fbca64f87ee35fe872e4643e99933a2bb400e64a0",
+      "label": "pelvic_pelvic_region",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/pelvic_pelvic_region.png",
+      "binary_mask_sha256": "f6b994b528bc6b554bfcce95134a3082deee21099949450b199ddb53c2cf69e8",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/pelvic_pelvic_region_preview.png",
+      "preview_sha256": "58f84f273b22a02441d22b7fdf3f41c0c1f1756e5590b51215a8fd6e0bd023e7",
+      "red_overlay_pixel_count": 49184,
+      "red_overlay_coverage_ratio": 0.031287,
+      "mask_type_candidates": [
+        "mf70_pelvic_region"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/Thigh/both thighs/ChatGPT Image Jul 8, 2026, 01_01_29 PM (3).png",
+      "source_overlay_sha256": "cdba6a7b9dfbcde172930b404be5094147e3026c80be6ea9798921e2f2c23f12",
+      "label": "thigh_both_thighs",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/thigh_both_thighs.png",
+      "binary_mask_sha256": "9e6d121e1a0a492a0e8325f41fae78b1696962c818a48ed055d629c865f99ae4",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/thigh_both_thighs_preview.png",
+      "preview_sha256": "3f4dec4c890db7237043a1cd29b316abdc3ece445fa0e25e6a7d47ca93992ddf",
+      "red_overlay_pixel_count": 109742,
+      "red_overlay_coverage_ratio": 0.069808,
+      "mask_type_candidates": [
+        "mf70_left_thigh",
+        "mf70_right_thigh",
+        "mf70_thighs"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/Thigh/left thigh/ChatGPT Image Jul 8, 2026, 01_01_29 PM (4).png",
+      "source_overlay_sha256": "d4eadfb8887291e17d486e679108bda89724ff187bbc839294c5b3d83529cfa2",
+      "label": "thigh_left_thigh",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/thigh_left_thigh.png",
+      "binary_mask_sha256": "660ba2add3d97abae477372a3e21a8526c0a7c4f2359bf2cd01dd106c5b2e74b",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/thigh_left_thigh_preview.png",
+      "preview_sha256": "7afc764c52d38cf138e20022fcaa99ff6cb71c2a474f5bd716b6b87c4743204d",
+      "red_overlay_pixel_count": 67275,
+      "red_overlay_coverage_ratio": 0.042794,
+      "mask_type_candidates": [
+        "mf70_left_thigh"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    },
+    {
+      "source_overlay_path": "Ref_Image_1/Thigh/right thigh/ChatGPT Image Jul 8, 2026, 01_01_29 PM (5).png",
+      "source_overlay_sha256": "b6ce98045ed95eabc7be189141ca255b8e21ed8178dd587c6cfb92ebb563adba",
+      "label": "thigh_right_thigh",
+      "dimensions": [
+        1619,
+        971
+      ],
+      "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/thigh_right_thigh.png",
+      "binary_mask_sha256": "156911601f5f51355a6857b4f4e4f74b08f742d71399655e465c39c1780fa1fa",
+      "preview_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/mask_previews/thigh_right_thigh_preview.png",
+      "preview_sha256": "db755e374a25e91768a86b4d834b7d40f9f82b4109bbde05ad54e0ac74fc7b5b",
+      "red_overlay_pixel_count": 99990,
+      "red_overlay_coverage_ratio": 0.063605,
+      "mask_type_candidates": [
+        "mf70_right_thigh"
+      ],
+      "gold_standard_use": "user_provided_visual_body_part_mask_reference",
+      "binary_mask_extraction_rule": "red overlay threshold: r>=170, g<=150, b<=150, r-g>=45, r-b>=45"
+    }
+  ],
+  "mask_type_index": {
+    "mf70_belly_button_umbilicus": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/abdomen_belly_button.png"
+    ],
+    "mf70_abdomen": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/abdomen_stomach.png"
+    ],
+    "mf70_stomach": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/abdomen_stomach.png"
+    ],
+    "mf70_left_forearm": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/arms_left_lower_arm.png",
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/arms_lower_arm_fore_arms.png"
+    ],
+    "mf70_left_upper_arm": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/arms_left_upper_arm.png",
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/arms_upper_arms.png"
+    ],
+    "mf70_right_forearm": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/arms_lower_arm_fore_arms.png",
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/arms_right_lower_arm.png"
+    ],
+    "mf70_forearms": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/arms_lower_arm_fore_arms.png"
+    ],
+    "mf70_right_upper_arm": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/arms_right_upper_arm.png",
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/arms_upper_arms.png"
+    ],
+    "mf70_upper_arms": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/arms_upper_arms.png"
+    ],
+    "mf70_breasts": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/breasts_both.png"
+    ],
+    "mf70_left_breast": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/breasts_both.png",
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/breasts_left_breast.png"
+    ],
+    "mf70_right_breast": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/breasts_both.png",
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/breasts_right.png"
+    ],
+    "mf70_left_calf": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/calves_both_calves.png",
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/calves_left_calf.png"
+    ],
+    "mf70_right_calf": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/calves_both_calves.png",
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/calves_right_calf.png"
+    ],
+    "mf70_calves": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/calves_both_calves.png"
+    ],
+    "mf70_left_foot": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/feet_both_feet.png",
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/feet_left_foot.png"
+    ],
+    "mf70_right_foot": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/feet_both_feet.png",
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/feet_right_foot.png"
+    ],
+    "mf70_feet": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/feet_both_feet.png",
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/feet_toes_feet.png"
+    ],
+    "mf70_toes": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/feet_toes_feet.png"
+    ],
+    "mf70_left_glute": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/glute_both.png",
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/glute_left.png"
+    ],
+    "mf70_right_glute": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/glute_both.png",
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/glute_right.png"
+    ],
+    "mf70_glutes": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/glute_both.png"
+    ],
+    "mf70_hair": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/hair_hair.png"
+    ],
+    "mf70_left_hand": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/hands_both_hands.png",
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/hands_left_hand.png"
+    ],
+    "mf70_right_hand": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/hands_both_hands.png",
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/hands_right_hand.png"
+    ],
+    "mf70_hands": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/hands_both_hands.png"
+    ],
+    "mf70_index_fingers": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/hands_index_fingers.png"
+    ],
+    "mf70_middle_fingers": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/hands_middle_fingers.png"
+    ],
+    "mf70_pinkies": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/hands_pinkys.png"
+    ],
+    "mf70_ring_fingers": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/hands_ring_finger.png"
+    ],
+    "mf70_thumbs": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/hands_thumbs.png"
+    ],
+    "mf70_pelvic_region": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/pelvic_pelvic_region.png"
+    ],
+    "mf70_left_thigh": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/thigh_both_thighs.png",
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/thigh_left_thigh.png"
+    ],
+    "mf70_right_thigh": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/thigh_both_thighs.png",
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/thigh_right_thigh.png"
+    ],
+    "mf70_thighs": [
+      "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133309-0500/extracted_binary_masks/thigh_both_thighs.png"
+    ]
+  },
+  "qa_decision": "ref_image_1_body_mask_gold_standard_ingested",
+  "next_step": "Re-evaluate Wave70 body mask rows using Ref_Image_1 gold-standard evidence before additional body not-visible blockers."
+}

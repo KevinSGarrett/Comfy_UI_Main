@@ -1,0 +1,52 @@
+{
+  "lane_id": "sdxl_realvisxl_controlnet_lineart_lane",
+  "module_id": "MOD-19-CONTROLNET-LINEART-LANE",
+  "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_lineart_lane/workflow.api.json",
+  "execution_target": "local or EC2 ComfyUI API after model/input provisioning",
+  "api_endpoint": "/prompt",
+  "execution_allowed": false,
+  "execution_allowed_after": [
+    "ControlNet Lineart SDXL model is downloaded or synced and SHA256-recorded",
+    "lineart control image is present in the active ComfyUI input directory",
+    "object_info proof confirms ControlNetLoader and ControlNetApplyAdvanced",
+    "model path/hash proof exists for checkpoint and ControlNet model",
+    "local or EC2 runtime gate allows generation"
+  ],
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic cinematic editorial portrait, natural skin texture, realistic fine skin pores, subtle human skin asymmetry, realistic eyes with clean catchlights, clear iris detail, gentle eye fill light, open shadow detail, detailed hair, contour-guided composition, coherent facial contours, clean jawline and neck separation, crisp shirt collar boundary, tailored dark blazer over textured shirt, clothed shoulders, soft natural fill light, balanced exposure, clean face with no painted marks, lifelike lens rendering",
+    "negative_prompt": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, beauty filter skin, airbrushed face, distorted anatomy, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text, lineart artifacts, ink outlines, harsh black outlines, contour stains, colored blotches, paint marks, over-dark eyes, underexposed eyes, muddy shadows, crushed shadows, smeared jawline, warped collar edge, control map stains, bare shoulders, strapless top, nude, unclothed torso",
+    "seed": 711370001,
+    "sampler_settings": {
+      "steps": 20,
+      "cfg": 5.5,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1
+    },
+    "latent_resolution": {
+      "width": 768,
+      "height": 768,
+      "batch_size": 1
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "controlnet_asset": "controlnet-lineart-sdxl-fp16.safetensors",
+    "control_image": "controlnet_lineart_w69_v1.png",
+    "controlnet_settings": {
+      "strength": 0.45,
+      "start_percent": 0,
+      "end_percent": 0.65
+    },
+    "save_prefix": "codex_sdxl_realvisxl_controlnet_lineart_smoke"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 2,
+    "output_prefix": "codex_sdxl_realvisxl_controlnet_lineart_smoke",
+    "diagnostic_output_prefix": "codex_sdxl_realvisxl_controlnet_lineart_control_map_diagnostic"
+  },
+  "qa_protocols": [
+    "Plan/Instructions/QA/COMFYUI_WORKFLOW_TESTING_PROTOCOL.md",
+    "Plan/Instructions/QA/MODEL_LORA_CHECKPOINT_VALIDATION_PROTOCOL.md",
+    "Plan/Instructions/QA/IMAGE_GENERATION_VISUAL_REVIEW_PROTOCOL.md"
+  ]
+}

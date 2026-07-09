@@ -1,0 +1,377 @@
+{
+  "schema_version": "1.1",
+  "evidence_id": "W70_LIMB_JOINT_REGION_AUTHORITY_20260708T155224-0500",
+  "created_local": "20260708T155224-0500",
+  "task": "Implement limb joint upper arm forearm thigh knee calf ankle authority for TRK-W70-0168 / ITEM-W70-0168 using Ref_Image_1/Full references and Ref_Image_1 gold masks.",
+  "script": "Plan/07_IMPLEMENTATION/scripts/implement_wave70_limb_joint_region_authority.py",
+  "historical_portrait_source": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "exists": true,
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "role": "historical_prior_active_source_not_decisive_for_current_body_reference_evaluation"
+  },
+  "ref_image_1_full_body_references": {
+    "manifest_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+    "manifest_exists": true,
+    "recursive_image_count": 8,
+    "full_body_lower_limb_eligible_reference_count": 7,
+    "near_full_knees_to_head_reference_count": 1,
+    "near_full_limitations": [
+      {
+        "path": "Ref_Image_1/Full/New folder/8ead94ca6f2884fb1ae671fee89e8126.jpg",
+        "relative_to_full_dir": "New folder/8ead94ca6f2884fb1ae671fee89e8126.jpg",
+        "coverage_scope": "near_full_body_knees_to_head_reference",
+        "coverage_limitations": [
+          "user_corrected_not_full_body",
+          "covers_from_knees_to_top_of_head",
+          "do_not_use_as_full_body_feet_toes_ankles_or_lower_calf_proof",
+          "usable_for_torso_head_hair_upper_limb_and_above_knee_body_context_only"
+        ]
+      }
+    ],
+    "contact_sheet": "runtime_artifacts/mask_factory/ref_image_1_full_body_references/20260708T143650-0500/ref_image_1_full_body_references_contact_sheet.png",
+    "references": [
+      {
+        "path": "Ref_Image_1/Full/207c528b1a2e122a64b61f26707e4a7c.jpg",
+        "runtime_copy": "runtime_artifacts/mask_factory/ref_image_1_full_body_references/20260708T143650-0500/images/207c528b1a2e122a64b61f26707e4a7c.jpg",
+        "sha256": "acda2d7860d1f8db323f65f47f80f27702861d4c73bbbcdb8d6a0cc211499076",
+        "byte_length": 20495,
+        "dimensions": [
+          564,
+          705
+        ],
+        "mode": "RGB",
+        "relative_to_full_dir": "207c528b1a2e122a64b61f26707e4a7c.jpg",
+        "coverage_scope": "full_or_near_full_body_reference_user_provided",
+        "coverage_limitations": [],
+        "role": "user_provided_full_or_near_full_body_reference_for_body_part_authority_rows"
+      },
+      {
+        "path": "Ref_Image_1/Full/59bcb65a41a752476c58e9c81f70681a.jpg",
+        "runtime_copy": "runtime_artifacts/mask_factory/ref_image_1_full_body_references/20260708T143650-0500/images/59bcb65a41a752476c58e9c81f70681a.jpg",
+        "sha256": "c74a0fcafc57ebb9db3745de9c1760cd7d722702e34882c314a673fadd18e08f",
+        "byte_length": 18347,
+        "dimensions": [
+          474,
+          711
+        ],
+        "mode": "RGB",
+        "relative_to_full_dir": "59bcb65a41a752476c58e9c81f70681a.jpg",
+        "coverage_scope": "full_or_near_full_body_reference_user_provided",
+        "coverage_limitations": [],
+        "role": "user_provided_full_or_near_full_body_reference_for_body_part_authority_rows"
+      },
+      {
+        "path": "Ref_Image_1/Full/66f519e13bcc5d3dedde0a77eb96bca5.jpg",
+        "runtime_copy": "runtime_artifacts/mask_factory/ref_image_1_full_body_references/20260708T143650-0500/images/66f519e13bcc5d3dedde0a77eb96bca5.jpg",
+        "sha256": "cea6df6f0f1322d7c0ffeda35332f763899b195f6e28846af12d9222e1584152",
+        "byte_length": 223176,
+        "dimensions": [
+          1640,
+          2560
+        ],
+        "mode": "RGB",
+        "relative_to_full_dir": "66f519e13bcc5d3dedde0a77eb96bca5.jpg",
+        "coverage_scope": "full_or_near_full_body_reference_user_provided",
+        "coverage_limitations": [],
+        "role": "user_provided_full_or_near_full_body_reference_for_body_part_authority_rows"
+      },
+      {
+        "path": "Ref_Image_1/Full/78b8e4ca10fd769e0752bd21c3599339.jpg",
+        "runtime_copy": "runtime_artifacts/mask_factory/ref_image_1_full_body_references/20260708T143650-0500/images/78b8e4ca10fd769e0752bd21c3599339.jpg",
+        "sha256": "e20a857f0ac23151ae1b8aa47fb4746c975e522a5598896f747ef08a50cc9336",
+        "byte_length": 350118,
+        "dimensions": [
+          3000,
+          4000
+        ],
+        "mode": "RGB",
+        "relative_to_full_dir": "78b8e4ca10fd769e0752bd21c3599339.jpg",
+        "coverage_scope": "full_or_near_full_body_reference_user_provided",
+        "coverage_limitations": [],
+        "role": "user_provided_full_or_near_full_body_reference_for_body_part_authority_rows"
+      },
+      {
+        "path": "Ref_Image_1/Full/7ab4daaba22dba31ae206dbebd4fa8d3.jpg",
+        "runtime_copy": "runtime_artifacts/mask_factory/ref_image_1_full_body_references/20260708T143650-0500/images/7ab4daaba22dba31ae206dbebd4fa8d3.jpg",
+        "sha256": "236a21d2ae7d3f817380a5367295d841990f185dc6ad7be8cf6be6478509e688",
+        "byte_length": 516473,
+        "dimensions": [
+          2667,
+          4000
+        ],
+        "mode": "RGB",
+        "relative_to_full_dir": "7ab4daaba22dba31ae206dbebd4fa8d3.jpg",
+        "coverage_scope": "full_or_near_full_body_reference_user_provided",
+        "coverage_limitations": [],
+        "role": "user_provided_full_or_near_full_body_reference_for_body_part_authority_rows"
+      },
+      {
+        "path": "Ref_Image_1/Full/97f30ff4819b8b8206e8ce30f2355800.jpg",
+        "runtime_copy": "runtime_artifacts/mask_factory/ref_image_1_full_body_references/20260708T143650-0500/images/97f30ff4819b8b8206e8ce30f2355800.jpg",
+        "sha256": "18957f6de8022e9281142a554d3057d4d387e2c30997ec1f58efa9670f677b62",
+        "byte_length": 157648,
+        "dimensions": [
+          1280,
+          1920
+        ],
+        "mode": "RGB",
+        "relative_to_full_dir": "97f30ff4819b8b8206e8ce30f2355800.jpg",
+        "coverage_scope": "full_or_near_full_body_reference_user_provided",
+        "coverage_limitations": [],
+        "role": "user_provided_full_or_near_full_body_reference_for_body_part_authority_rows"
+      },
+      {
+        "path": "Ref_Image_1/Full/f1efd9d811f143ef4f87542a69b7d961.jpg",
+        "runtime_copy": "runtime_artifacts/mask_factory/ref_image_1_full_body_references/20260708T143650-0500/images/f1efd9d811f143ef4f87542a69b7d961.jpg",
+        "sha256": "6365d79d4282c7b22e2d51356058f05cc6e1f7fafc202dfebe6ad3e71d93d42d",
+        "byte_length": 31113,
+        "dimensions": [
+          736,
+          956
+        ],
+        "mode": "RGB",
+        "relative_to_full_dir": "f1efd9d811f143ef4f87542a69b7d961.jpg",
+        "coverage_scope": "full_or_near_full_body_reference_user_provided",
+        "coverage_limitations": [],
+        "role": "user_provided_full_or_near_full_body_reference_for_body_part_authority_rows"
+      },
+      {
+        "path": "Ref_Image_1/Full/New folder/8ead94ca6f2884fb1ae671fee89e8126.jpg",
+        "runtime_copy": "runtime_artifacts/mask_factory/ref_image_1_full_body_references/20260708T143650-0500/images/New folder/8ead94ca6f2884fb1ae671fee89e8126.jpg",
+        "sha256": "09f4e2074df9578390f4a52f587079632a39756fb2056ce1630a24706df7609e",
+        "byte_length": 460676,
+        "dimensions": [
+          3072,
+          4096
+        ],
+        "mode": "RGB",
+        "relative_to_full_dir": "New folder/8ead94ca6f2884fb1ae671fee89e8126.jpg",
+        "coverage_scope": "near_full_body_knees_to_head_reference",
+        "coverage_limitations": [
+          "user_corrected_not_full_body",
+          "covers_from_knees_to_top_of_head",
+          "do_not_use_as_full_body_feet_toes_ankles_or_lower_calf_proof",
+          "usable_for_torso_head_hair_upper_limb_and_above_knee_body_context_only"
+        ],
+        "role": "user_provided_full_or_near_full_body_reference_for_body_part_authority_rows"
+      }
+    ]
+  },
+  "ref_image_1_limb_gold_masks": {
+    "manifest_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_body_mask_gold_standard.json",
+    "manifest_exists": true,
+    "limb_reference_mask_count": 15,
+    "limb_reference_masks": [
+      {
+        "label": "arms_left_lower_arm",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/arms_left_lower_arm.png",
+        "binary_mask_sha256": "a745787af13cab5cf03c58737d4ea83255c2ba995fc4828db0f656386bcc2d86",
+        "red_overlay_pixel_count": 13537,
+        "mask_type_candidates": [
+          "mf70_left_forearm"
+        ]
+      },
+      {
+        "label": "arms_left_upper_arm",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/arms_left_upper_arm.png",
+        "binary_mask_sha256": "f119a49d4202aeebb90cdc690ce3af1e23d62fa41f34306ee8a184e3f616eb49",
+        "red_overlay_pixel_count": 20305,
+        "mask_type_candidates": [
+          "mf70_left_upper_arm"
+        ]
+      },
+      {
+        "label": "arms_lower_arm_fore_arms",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/arms_lower_arm_fore_arms.png",
+        "binary_mask_sha256": "3c04bf661967d5e3aec1ae50d1870629afb9ccb3bc5be4f657849b77b9c1af16",
+        "red_overlay_pixel_count": 19590,
+        "mask_type_candidates": [
+          "mf70_left_forearm",
+          "mf70_right_forearm",
+          "mf70_forearms"
+        ]
+      },
+      {
+        "label": "arms_right_lower_arm",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/arms_right_lower_arm.png",
+        "binary_mask_sha256": "ac7c87ae8ede264ed52e27ae2dba372b6b8225bd9af4ea85cf0b1755a37e9814",
+        "red_overlay_pixel_count": 12784,
+        "mask_type_candidates": [
+          "mf70_right_forearm"
+        ]
+      },
+      {
+        "label": "arms_right_upper_arm",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/arms_right_upper_arm.png",
+        "binary_mask_sha256": "302105ad5e2f6f55012045e006f34796f1a8fb8dc084bd0698df929a67171450",
+        "red_overlay_pixel_count": 36691,
+        "mask_type_candidates": [
+          "mf70_right_upper_arm"
+        ]
+      },
+      {
+        "label": "arms_upper_arms",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/arms_upper_arms.png",
+        "binary_mask_sha256": "6dea7fce5c3abc037c4d573c3da497a6a312d09ec31d0adb4b3cb039f8a1fc7b",
+        "red_overlay_pixel_count": 40491,
+        "mask_type_candidates": [
+          "mf70_left_upper_arm",
+          "mf70_right_upper_arm",
+          "mf70_upper_arms"
+        ]
+      },
+      {
+        "label": "calves_left_calf",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/calves_left_calf.png",
+        "binary_mask_sha256": "5fba25844768bc0beaa9601b642db931c71f86f3736eca0ac4c8d9bc2f88c04d",
+        "red_overlay_pixel_count": 15265,
+        "mask_type_candidates": [
+          "mf70_left_calf"
+        ]
+      },
+      {
+        "label": "calves_right_calf",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/calves_right_calf.png",
+        "binary_mask_sha256": "0ce21d444b93497d5e14c6c0b212a4f3bd76371be01204bd9c490eebb42c6b1c",
+        "red_overlay_pixel_count": 18534,
+        "mask_type_candidates": [
+          "mf70_right_calf"
+        ]
+      },
+      {
+        "label": "feet_both_feet",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/feet_both_feet.png",
+        "binary_mask_sha256": "838ccaba55506a11cd01c9fbf93e66436afc185e098db443bf505f5083071251",
+        "red_overlay_pixel_count": 11612,
+        "mask_type_candidates": [
+          "mf70_left_foot",
+          "mf70_right_foot",
+          "mf70_feet"
+        ]
+      },
+      {
+        "label": "feet_left_foot",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/feet_left_foot.png",
+        "binary_mask_sha256": "5466c308418e3c03f5c4e39bb4e39d57c4a0e0bb93a1c06491f80ba81ffee430",
+        "red_overlay_pixel_count": 2074,
+        "mask_type_candidates": [
+          "mf70_left_foot"
+        ]
+      },
+      {
+        "label": "feet_right_foot",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/feet_right_foot.png",
+        "binary_mask_sha256": "b66093caef053197868f6f54aaf166fe92d0e064661d1de9379c46233a5c30e3",
+        "red_overlay_pixel_count": 4190,
+        "mask_type_candidates": [
+          "mf70_right_foot"
+        ]
+      },
+      {
+        "label": "feet_toes_feet",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/feet_toes_feet.png",
+        "binary_mask_sha256": "b4760ff23ba2189663ee406f50fb5046519c27bbc51aa8c0c1dfded8b7f7a2c8",
+        "red_overlay_pixel_count": 1952,
+        "mask_type_candidates": [
+          "mf70_toes",
+          "mf70_feet"
+        ]
+      },
+      {
+        "label": "thigh_both_thighs",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/thigh_both_thighs.png",
+        "binary_mask_sha256": "df5502a12503ce76b23d407e4dcd7e071608580ef95e49afdfb564dc259854c4",
+        "red_overlay_pixel_count": 68473,
+        "mask_type_candidates": [
+          "mf70_left_thigh",
+          "mf70_right_thigh",
+          "mf70_thighs"
+        ]
+      },
+      {
+        "label": "thigh_left_thigh",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/thigh_left_thigh.png",
+        "binary_mask_sha256": "9cef67c6e119d6097bb16c30cc712083d2950b2d143de50a1edd9b504dfe9f6c",
+        "red_overlay_pixel_count": 27704,
+        "mask_type_candidates": [
+          "mf70_left_thigh"
+        ]
+      },
+      {
+        "label": "thigh_right_thigh",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/thigh_right_thigh.png",
+        "binary_mask_sha256": "2d7d7d2968c5b3384d70b47fb30daa09d8f9b02bc9abce57e374fb14ff2f62e1",
+        "red_overlay_pixel_count": 40225,
+        "mask_type_candidates": [
+          "mf70_right_thigh"
+        ]
+      }
+    ],
+    "layout_interpretation": {
+      "top_strip": "partial upper-body / one-third-body reference only; absent lower/full-body parts here are not failures",
+      "lower_strip": "primary full-body pose/body-mask validation area"
+    }
+  },
+  "ref_images_1_2_combined_body_reference_matrix": {
+    "manifest_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/body_reference_matrix.json",
+    "manifest_exists": true,
+    "evidence_id": "W70_BODY_REFERENCE_MATRIX_AUTHORITY_20260708T153118-0500",
+    "qa_decision": "ref_images_1_2_body_reference_matrix_context_available_route_not_complete_global_gates_pass",
+    "ref_image_1_gold_mask_count": 34,
+    "ref_image_2_gold_mask_count": 44,
+    "combined_gold_mask_count": 78,
+    "ref_image_1_full_or_near_full_reference_count": 8,
+    "ref_image_2_full_body_reference_count": 1,
+    "combined_full_or_near_full_reference_count": 9,
+    "ref_image_1_limb_categories_present": true,
+    "ref_image_2_limb_categories_present": true,
+    "limited_reference_policy": "Ref_Image_1/Full/New folder is knees-to-head only and remains excluded from feet/toes/ankles/lower-calf proof."
+  },
+  "environment": {
+    "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "cwd": "C:\\Comfy_UI_Main"
+  },
+  "artifacts": {
+    "reference_route_panel": "runtime_artifacts/mask_factory/wave70_limb_joint_region_authority/20260708T155224-0500/limb_joint_region_authority_reference_route_panel.png",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_limb_joint_region_authority/20260708T155224-0500/limb_joint_region_authority.json"
+  },
+  "limb_joint_region_authority": {
+    "result": "required_not_complete",
+    "reference_source_available": true,
+    "limb_gold_masks_available": true,
+    "body_reference_matrix_pass": true,
+    "source_visibility_blocker_superseded": true,
+    "production_route_pass": false,
+    "limb_region_pass": false,
+    "joint_anchor_pass": false,
+    "left_right_side_mapping_pass": false,
+    "whole_body_geometry_authority_pass": false,
+    "pose_hand_dense_landmark_or_segmentation_pass": false,
+    "semantic_human_part_parsing_pass": false,
+    "contact_occlusion_ownership_pass": false,
+    "body_region_geometry_pass": false,
+    "canonical_polygon_export_pass": false,
+    "blocked_reason": "reference_sources_and_gold_limb_masks_available_but_production_route_missing_source_derived_joint_chains_semantic_parser_contact_ownership_canonical_polygons_and_row_level_promotion_evidence",
+    "findings": [
+      "Ref_Image_1/Full is recorded as the primary full/near-full body reference set for limb authority rows.",
+      "Ref_Image_2 is attached through the combined body reference matrix and contributes additional full-body gold mask context.",
+      "The image under Ref_Image_1/Full/New folder is limited to knees-to-head coverage and is excluded from feet/toes/lower-calf proof.",
+      "Ref_Image_1 gold-standard masks include arm, thigh, calf, foot, and toe references.",
+      "The prior portrait-only visibility blocker is superseded for this reference evaluation.",
+      "Reference availability does not by itself create source-derived joint chains, parser output, contact ownership, canonical polygons, generated output, visual QA, or promotion proof.",
+      "No mask geometry was generated, changed, or promoted from this evidence."
+    ]
+  },
+  "qa_decision": "ref_images_1_2_full_body_limb_references_available_route_not_complete",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_limb_joint_route_not_complete",
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  },
+  "next_step": "Run Wave70 geometry and promotion hard gates, attach gate evidence to TRK-W70-0168 / ITEM-W70-0168, then continue to TRK-W70-0169 foot toe region authority using eligible full-body refs only."
+}

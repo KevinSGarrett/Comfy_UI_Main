@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "EC2_TTL_WATCHDOG_20260708T233454-0500",
+  "created_iso": "2026-07-08T23:34:54-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-042",
+  "item_id": "ITEM-W64-042",
+  "task": "Validate EC2 TTL watchdog and emergency stop controls without starting EC2.",
+  "source_runbook": "Plan/Instructions/Operations/EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md",
+  "source_scripts": [
+    "Plan/Instructions/Operations/Scripts/New-EC2EmergencyStopSchedule.ps1",
+    "Plan/Instructions/Operations/Scripts/Start-EC2InstanceStopWatchdog.ps1",
+    "Plan/Instructions/Operations/Scripts/Test-AwsAuthGate.ps1"
+  ],
+  "aws_auth_gate": {
+    "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_AWS_AUTH_GATE_EC2_TTL_WATCHDOG_20260708T233332-0500.json",
+    "result": "blocked_expired_session",
+    "failure_category": "expired_session",
+    "safe_to_start_ec2": false,
+    "generation_allowed": false,
+    "secrets_printed": false,
+    "auth_url_recorded": false
+  },
+  "cloud_side_emergency_stop": {
+    "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_EC2_EMERGENCY_STOP_SCHEDULE_DRY_RUN_20260708T233332-0500.json",
+    "result": "dry_run_emergency_stop_schedule_plan",
+    "stop_after_minutes": 60,
+    "scheduler_role_arn_supplied": true,
+    "execute": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "schedule_expression_present": true,
+    "action_after_completion": "DELETE"
+  },
+  "instance_side_watchdog": {
+    "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_EC2_INSTANCE_WATCHDOG_DRY_RUN_20260708T233332-0500.json",
+    "result": "dry_run_instance_watchdog_plan",
+    "stop_after_minutes": 60,
+    "execute": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "command_status": "not_started",
+    "allow_os_shutdown_fallback": false
+  },
+  "live_runtime_boundary": {
+    "max_runtime_required": true,
+    "cloud_side_schedule_created": false,
+    "instance_watchdog_started": false,
+    "final_state_stopped_verified": false,
+    "blocked_reason": "AWS auth gate is blocked_expired_session, so no live schedule, watchdog, EC2 start, or final-state query was attempted."
+  },
+  "gold_mask_dependency_boundary": {
+    "mask_truth_consumed": false,
+    "masks_promoted": false,
+    "hard_gates_rerun": false,
+    "wave71_activation_attempted": false
+  },
+  "errors": [],
+  "qa_decision": "blocked_ec2_ttl_watchdog_live_proof_expired_aws_session",
+  "next_step": "Do not start EC2. Resolve AWS auth before any live TTL/watchdog/final-state proof; continue only with non-EC2-safe portions of TRK-W64-043/ITEM-W64-043.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json",
+    "Plan/Instructions/QA/Evidence/Wave64/EC2_TTL_WATCHDOG_20260708T233454-0500.json",
+    "Plan/Tracker/Evidence/EC2_TTL_WATCHDOG_20260708T233454-0500.json",
+    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_AWS_AUTH_GATE_EC2_TTL_WATCHDOG_20260708T233332-0500.json",
+    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_EC2_EMERGENCY_STOP_SCHEDULE_DRY_RUN_20260708T233332-0500.json",
+    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_EC2_INSTANCE_WATCHDOG_DRY_RUN_20260708T233332-0500.json",
+    "Plan/Instructions/Operations/Scripts/New-EC2EmergencyStopSchedule.ps1",
+    "Plan/Instructions/Operations/Scripts/Start-EC2InstanceStopWatchdog.ps1",
+    "Plan/Instructions/Operations/Scripts/Test-AwsAuthGate.ps1"
+  ]
+}

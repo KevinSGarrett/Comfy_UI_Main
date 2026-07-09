@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "W69-LOCAL-OPENPOSE-HANDS-TABLETOP-CONTROL-SOURCE-V1",
+  "timestamp": "2026-07-07T07:18:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+  "module_id": "MOD-20-CONTROLNET-OPENPOSE-LANE",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "purpose": "Prepare a new OpenPose control source/map with both hands separated on a tabletop contact line before rerunning OpenPose hands/tabletop robustness.",
+  "assets": [
+    {
+      "role": "source_guide",
+      "path": "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_hands_tabletop_w69_v1/openpose_hands_tabletop_source_guide_w69_v1.png",
+      "sha256": "10c043e120020d3b936ac8bb8f82b605e4899a5c98ca715c995bcd3a9a465dd0",
+      "bytes": 9383,
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "role": "openpose_control_map",
+      "path": "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_hands_tabletop_w69_v1/controlnet_openpose_hands_tabletop_w69_v1.png",
+      "sha256": "071fae66490195443a883b157f68455707be00c6427686a4252dcfd7e6a6019c",
+      "bytes": 7017,
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "role": "active_comfyui_input_copy",
+      "path": "ComfyUI/input/controlnet_openpose_hands_tabletop_w69_v1.png",
+      "sha256": "071fae66490195443a883b157f68455707be00c6427686a4252dcfd7e6a6019c",
+      "bytes": 7017,
+      "width": 768,
+      "height": 1024
+    }
+  ],
+  "intended_next_use": "Patch or profile the OpenPose lane to use ComfyUI/input/controlnet_openpose_hands_tabletop_w69_v1.png for a bounded local hands/tabletop generation retry.",
+  "promotion_boundary": "Prepared local input/control-map artifact only; not a generation pass, not hands/tabletop certification, and not target-runtime proof.",
+  "result": "pass_local_openpose_hands_tabletop_control_source_prepared"
+}

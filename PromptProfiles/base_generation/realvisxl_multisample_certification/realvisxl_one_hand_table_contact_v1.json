@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "realvisxl_one_hand_table_contact_v1",
+  "target_lane_id": "sdxl_realvisxl_base_lane",
+  "purpose": "QA-driven RealVisXL one-hand contact profile after two-hand separated poses repeatedly collapsed into clasped hands or caused crop drift.",
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic centered head-and-shoulders editorial portrait of an adult subject seated at a simple wooden table, full face completely inside the frame with comfortable headroom, both eyes visible, shoulders centered, one right hand fully visible in the lower foreground resting naturally on the tabletop, five readable fingers with natural spacing, accurate knuckles, fingernails, wrist anatomy, realistic skin folds at finger joints, left hand outside the frame, no clasped hands, no interlocked fingers, clean sleeve cuff above the visible wrist, clear contact shadows beneath fingertips and wrist, textured tailored jacket fabric, natural facial asymmetry, lifelike eyes, realistic skin pores, soft studio window lighting, realistic shadows, 70mm portrait lens, photographic color grading",
+    "negative_prompt": "cartoon, anime, illustration, CGI, doll-like face, plastic skin, waxy skin, over-smoothed texture, cropped face, cut off head, face at edge of frame, partial face, hidden eyes, off-center subject, two hands clasped, clasped hands, interlocked fingers, folded hands, second hand covering visible hand, deformed hand, extra fingers, missing fingers, fused fingers, webbed fingers, duplicated thumb, broken wrist, twisted wrist, distorted nails, melted fingertips, warped sleeve, cloth melting into skin, bad anatomy, crossed eyes, low resolution, blurry, watermark, text, logo",
+    "seed": 811006307,
+    "sampler_settings": {
+      "steps": 34,
+      "cfg": 5.1,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1
+    },
+    "latent_resolution": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_realvisxl_one_hand_table_contact"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_realvisxl_one_hand_table_contact"
+  },
+  "qa_focus": [
+    "face fully inside frame",
+    "visible one-hand contact",
+    "five-finger readability",
+    "wrist anatomy",
+    "contact shadows",
+    "sleeve boundary",
+    "portrait composition",
+    "whole-frame defects"
+  ],
+  "source_qa_driver": {
+    "evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_HANDS_CONTACT_COMPOSITION_FIX_V1_VISUAL_QA_20260707T040800-0500.json",
+    "defect_code": "separated_hand_prompt_failed",
+    "change_summary": "Simplifies the objective from two separated hands to one visible tabletop-contact hand while preserving centered portrait framing."
+  },
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_router_gate": true,
+    "requires_ec2_static_proof_before_target_runtime_execution": true,
+    "requires_whole_image_qa_before_promotion": true
+  }
+}

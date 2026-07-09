@@ -1,0 +1,73 @@
+{
+  "deferred_rule": "Do not implement Wave87 until active project priorities and activation gates allow it.",
+  "external_references": [
+    {
+      "name": "AWS G7e production GPU runtime",
+      "url": "https://aws.amazon.com/ec2/instance-types/g7e/",
+      "usage": "Production G7e worker and self-hosted LLM/VLM runtime target with explicit runtime windows and cost controls."
+    },
+    {
+      "name": "AWS Systems Manager Run Command",
+      "url": "https://docs.aws.amazon.com/systems-manager/latest/userguide/run-command.html",
+      "usage": "Primary non-SSH dispatch path for worker commands, status polling, logs, and bounded execution."
+    },
+    {
+      "name": "Amazon DCV",
+      "url": "https://docs.aws.amazon.com/dcv/latest/adminguide/what-is-dcv.html",
+      "usage": "Debug-only remote desktop access for graphics-heavy tools on EC2; normal production execution must remain scripted/headless."
+    },
+    {
+      "name": "EC2 AMIs",
+      "url": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html",
+      "usage": "Worker images should be prebuilt or baked with tool installs, drivers, licenses, smoke tests, and adapter manifests."
+    },
+    {
+      "name": "EC2 instance store and NVMe SSD",
+      "url": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html",
+      "usage": "Temporary high-speed scratch/cache storage for simulation packages, render passes, and transient build products."
+    },
+    {
+      "name": "Amazon FSx for Lustre",
+      "url": "https://docs.aws.amazon.com/fsx/latest/LustreGuide/what-is.html",
+      "usage": "Optional high-performance shared asset/cache tier for larger future simulation farms; S3 remains the default artifact source of truth."
+    },
+    {
+      "name": "Blender command line",
+      "url": "https://docs.blender.org/manual/en/latest/advanced/command_line/arguments.html",
+      "usage": "Blender worker should run headless/background Python for production fitting, rigging, map baking, overlays, and exports."
+    },
+    {
+      "name": "SideFX Houdini batch workflow",
+      "url": "https://www.sidefx.com/docs/houdini/render/batch.html",
+      "usage": "Houdini worker should run hython/hbatch for procedural, SDF, Vellum, tissue, contact, and support-surface simulation packages."
+    },
+    {
+      "name": "Unreal Python automation",
+      "url": "https://dev.epicgames.com/documentation/unreal-engine/scripting-the-unreal-editor-using-python",
+      "usage": "Unreal worker should run Python-driven render-pass, Chaos, Control Rig, Sequencer, and realtime proof automation."
+    },
+    {
+      "name": "Marvelous Designer Python API",
+      "url": "https://developer.marvelousdesigner.com/",
+      "usage": "Marvelous/CLO worker should run clothing, blanket, sheet, fabric tension, and cloth/body collision automation where licensed."
+    }
+  ],
+  "generated_at_utc": "2026-07-08T00:03:02.824559+00:00",
+  "schema_version": "1.0",
+  "status": "Deferred_Required_Not_Complete",
+  "total_row_count": 33,
+  "wave_count": 1,
+  "waves": {
+    "87": {
+      "items_csv": "Plan\\Items\\wave87_ec2_simulation_farm_worker_runtime_artifact_orchestration_itemized_list.csv",
+      "matrix_csv": "Plan\\07_IMPLEMENTATION\\physics_deformation_system\\WAVE87_EC2_SIMULATION_FARM_WORKER_RUNTIME_ARTIFACT_ORCHESTRATION_MATRIX.csv",
+      "plan_md": "Plan\\07_IMPLEMENTATION\\physics_deformation_system\\WAVE87_EC2_SIMULATION_FARM_WORKER_RUNTIME_ARTIFACT_ORCHESTRATION.md",
+      "row_count": 33,
+      "scope_md": "Plan\\Instructions\\Waves\\Wave87\\WAVE87_SCOPE.md",
+      "slug": "ec2_simulation_farm_worker_runtime_artifact_orchestration",
+      "status": "Deferred_Required_Not_Complete",
+      "title": "EC2 Simulation Farm Worker Runtime And Artifact Orchestration",
+      "tracker_csv": "Plan\\Tracker\\wave87_ec2_simulation_farm_worker_runtime_artifact_orchestration_tracker.csv"
+    }
+  }
+}

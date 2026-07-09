@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_TORSO_ABDOMEN_UMBILICUS_AUTHORITY_20260708T040248-0500",
+  "created_local": "20260708T040248-0500",
+  "task": "Implement torso chest abdomen belly-button waist hips and back authority for TRK-W70-0167 / ITEM-W70-0167.",
+  "script": "Plan/07_IMPLEMENTATION/scripts/implement_wave70_torso_abdomen_umbilicus_authority.py",
+  "source_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "exists": true,
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "dimensions": [
+      768,
+      768
+    ]
+  },
+  "environment": {
+    "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "cwd": "C:\\Comfy_UI_Main"
+  },
+  "prerequisite_evidence": [
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_POSE_LANDMARK_AUTHORITY_20260708T024435-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_HUMAN_PART_PARSING_AUTHORITY_20260708T034134-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_HAND_FINGER_LANDMARK_AUTHORITY_20260708T032502-0500.json"
+  ],
+  "source_visibility_analysis": {
+    "active_source_framing": "head_neck_upper_chest_portrait",
+    "image_dimensions": [
+      768,
+      768
+    ],
+    "required_region_results": {
+      "chest": {
+        "visibility": "partial_upper_chest_only",
+        "authority_status": "blocked",
+        "reason": "visible area is clothing-occluded and lacks parser or pose authority for a canonical torso polygon"
+      },
+      "abdomen": {
+        "visibility": "not_visible_in_crop",
+        "authority_status": "blocked",
+        "reason": "the active source crop ends above abdomen landmarks"
+      },
+      "belly_button": {
+        "visibility": "not_visible_in_crop",
+        "authority_status": "blocked",
+        "reason": "the active source crop does not expose the umbilicus region"
+      },
+      "waist": {
+        "visibility": "not_visible_in_crop",
+        "authority_status": "blocked",
+        "reason": "the active source crop does not expose waist boundaries"
+      },
+      "hips": {
+        "visibility": "not_visible_in_crop",
+        "authority_status": "blocked",
+        "reason": "the active source crop does not expose hip boundaries"
+      },
+      "back": {
+        "visibility": "not_visible_front_portrait",
+        "authority_status": "blocked",
+        "reason": "the source is a front-facing portrait and contains no back-facing surface"
+      }
+    },
+    "source_visibility_pass": false,
+    "body_region_geometry_pass": false,
+    "canonical_polygon_export_pass": false,
+    "protected_neighbor_pass": false
+  },
+  "artifacts": {
+    "blocker_panel": "runtime_artifacts/mask_factory/wave70_torso_abdomen_umbilicus_authority/20260708T040248-0500/torso_abdomen_umbilicus_authority_blocker_panel.png",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_torso_abdomen_umbilicus_authority/20260708T040248-0500/torso_abdomen_umbilicus_authority.json"
+  },
+  "torso_abdomen_umbilicus_authority": {
+    "result": "blocked",
+    "torso_region_pass": false,
+    "abdomen_region_pass": false,
+    "belly_button_umbilicus_pass": false,
+    "waist_region_pass": false,
+    "hips_region_pass": false,
+    "back_region_pass": false,
+    "protected_neighbor_pass": false,
+    "whole_body_geometry_authority_pass": false,
+    "pose_hand_dense_landmark_or_segmentation_pass": false,
+    "semantic_human_part_parsing_pass": false,
+    "contact_occlusion_ownership_pass": false,
+    "body_region_geometry_pass": false,
+    "body_reference_matrix_pass": false,
+    "canonical_polygon_export_pass": false,
+    "blocked_reason": "active_source_portrait_crop_does_not_expose_abdomen_umbilicus_waist_hips_or_back; partial_upper_chest_is_clothing_occluded; pose_landmark_and_semantic_human_part_parsing_authority_unavailable",
+    "findings": [
+      "The active source is a head/neck/upper-chest portrait, not a torso or full-body image.",
+      "Abdomen, belly-button, waist, hips, and back regions are not visible in the crop.",
+      "The visible upper-chest area is partial and clothing-occluded, so it cannot define canonical torso boundaries.",
+      "Existing local pose and semantic human-part parsing authority rows are blocked, so no model-backed torso polygon can be exported.",
+      "No mask geometry was generated, changed, or promoted from this evidence."
+    ]
+  },
+  "qa_decision": "blocked_exact_local_source_torso_region_not_visible",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_torso_region_authority_blocked",
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  },
+  "next_step": "Work TRK-W70-0168 limb joint region authority locally, or provide an eligible source/reference slot that visibly exposes the blocked torso regions."
+}

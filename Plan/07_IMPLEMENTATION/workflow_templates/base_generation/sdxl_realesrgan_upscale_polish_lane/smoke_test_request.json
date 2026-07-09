@@ -1,0 +1,28 @@
+{
+  "lane_id": "sdxl_realesrgan_upscale_polish_lane",
+  "module_id": "MOD-12-UPSCALER-EXPORT-LANE",
+  "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realesrgan_upscale_polish_lane/workflow.api.json",
+  "execution_target": "local ComfyUI API for bounded upscale/polish evidence",
+  "api_endpoint": "/prompt",
+  "execution_allowed": false,
+  "execution_allowed_after": [
+    "RealESRGAN_x4plus.pth is present in the local upscale model path and SHA256-recorded",
+    "source_image is present in the active ComfyUI input directory",
+    "object_info proof confirms UpscaleModelLoader, ImageUpscaleWithModel, LoadImage, and SaveImage",
+    "local runtime gate allows bounded generation"
+  ],
+  "request_patch_values": {
+    "source_image": "upscale_polish_source_canny_w69.png",
+    "upscale_model": "RealESRGAN_x4plus.pth",
+    "save_prefix": "upscale_polish_w69_canny_seed711570105"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "upscale_polish_w69_canny_seed711570105"
+  },
+  "qa_protocols": [
+    "Plan/Instructions/QA/COMFYUI_WORKFLOW_TESTING_PROTOCOL.md",
+    "Plan/Instructions/QA/IMAGE_GENERATION_VISUAL_REVIEW_PROTOCOL.md"
+  ]
+}

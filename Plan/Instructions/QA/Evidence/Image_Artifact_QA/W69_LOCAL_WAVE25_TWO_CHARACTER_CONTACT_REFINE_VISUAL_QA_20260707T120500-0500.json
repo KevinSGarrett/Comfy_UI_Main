@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-WAVE25-TWO-CHARACTER-CONTACT-REFINE-VISUAL-QA-20260707T120500-0500",
+  "timestamp": "2026-07-07T12:05:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "module_context": "Wave25 multi-character hand-to-body contact refinement",
+  "qa_subject": {
+    "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_two_character_contact_refine_seed210701_20260707T114731-0500/images/codex_wave25_two_character_contact_refine_seed210701_00001_.png",
+    "sha256": "991ede7b0df2f820d7fbd834a888c1b085958ebf30781840728f190a32e2968c",
+    "bytes": 1794554,
+    "width": 1024,
+    "height": 1024
+  },
+  "source_baseline": {
+    "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_two_character_hand_to_body_w69_seed7152026252_20260707T113434-0500/images/codex_realvisxl_two_character_hand_to_body_seed7152026252_00001_.png",
+    "sha256": "d6ef67713167d55696b1f07e86c88e9ee0a038f946be9cd8cc56810f724b81a7",
+    "qa_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_TWO_CHARACTER_HAND_TO_BODY_VISUAL_QA_20260707T115000-0500.json"
+  },
+  "request_change": {
+    "profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave25_two_character_contact_refine_seed210701.json",
+    "run_package": "runtime_artifacts/run_packages/wave25_two_character_contact_refine_seed210701/RUN_PACKAGE_MANIFEST.json",
+    "run_package_sha256": "ed72a25307a1589679f2657e7c242c590ca0422ab96b09750c353dba96256c8c",
+    "prompt_request_sha256": "a30c9476ca7e764e02d4025b73804ee228aab967fca180cfd1ea5c51d3def7d0",
+    "mask_image": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/masks/contact_edge_hand_to_body_seed7152026252_1024.png",
+    "mask_sha256": "a80d236c890726d3f310fc5d63d1a7a6c20f447694752469deb9bff6f7997f21",
+    "denoise": 0.16,
+    "seed": 210701,
+    "intent": "Low-denoise contact-only inpaint refine for hand-to-sleeve pressure, finger clarity, and contact shadow while preserving the whole image."
+  },
+  "runtime_evidence": {
+    "file": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_WAVE25_TWO_CHARACTER_CONTACT_REFINE_SEED210701_EXECUTE_20260707T120000-0500.json",
+    "sha256": "621e2869550f377e1afecfef6b40840a8d7525510ee33af85e3e2e2bb824781c",
+    "result": "pass_local_run_package_generation_smoke",
+    "local_comfy_stopped": true,
+    "port_8188_closed_after_stop": true
+  },
+  "comparison_artifacts": [
+    {
+      "path": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/qa_contact_crops/source_vs_refine_contact_crop_seed210701.png",
+      "sha256": "70f3776e647ae277dc81ae7fc88e637d80cb0dfad1bd9c20ef027ef42fd369c0",
+      "purpose": "Side-by-side contact-zone crop used for strict contact QA."
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_two_character_contact_refine_seed210701_20260707T114731-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00002_.png",
+      "sha256": "13d6439ba6f29cced17b4c30d6cd229784cd75dbc8872111e6c9b52d814b3964",
+      "purpose": "Pulled-back mask preview output from the inpaint workflow."
+    }
+  ],
+  "whole_image_visual_qa": {
+    "result": "pass_with_notes_local_wave25_contact_refine_seed210701_improved_contact_boundary",
+    "passes": [
+      "two distinct clothed bodys remain separated with no body merge",
+      "woman on the left remains the visible contact source",
+      "open hand remains on the man's left shoulder or upper sleeve",
+      "faces, hair, clothing, and neutral background remain stable outside the masked area",
+      "contact-zone crop shows slightly cleaner fingers and a more believable hand-to-sleeve edge than the baseline"
+    ],
+    "notes": [
+      "contact shadow remains subtle rather than final-certified",
+      "hand is still positioned closer to shoulder/top upper sleeve than a lower upper-arm target",
+      "this is one local refine sample only and does not prove multi-seed robustness or target-runtime behavior"
+    ],
+    "failures": []
+  },
+  "qa_decision": {
+    "promote_over_baseline_for_local_contact_refine": true,
+    "final_certification_allowed": false,
+    "certification_boundary": "Local mask-routed low-denoise refine evidence only; target-runtime proof, robustness, and final Wave25 certification remain separate."
+  },
+  "next_action": "Continue local-first with either a second minimal contact-mask refinement only if QA demands it, a small robustness pair, or another named local Plan/Tracker implementation gap. Do not start EC2 or rerun Wave65 for this local evidence."
+}

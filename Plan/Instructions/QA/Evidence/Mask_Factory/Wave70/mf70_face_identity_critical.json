@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-FACE-IDENTITY-CRITICAL-LOCAL-SUPPORT-20260707T142500-0500",
+  "timestamp": "2026-07-07T14:25:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave70_ultimate_mask_factory_local_artifact_routing_support",
+  "mask_type_id": "mf70_face_identity_critical",
+  "tracker_id": "TRK-W70-0002",
+  "item_id": "ITEM-W70-0002",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "source_requirements": [
+    "Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_FACTORY_TAXONOMY.md#L15-L31",
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv:TRK-W70-0002",
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv:ITEM-W70-0002"
+  ],
+  "artifacts": {
+    "request": "runtime_artifacts/mask_factory/wave70_mf70_face_identity_critical/MASK_FACTORY_REQUEST.json",
+    "contract": "runtime_artifacts/mask_factory/wave70_mf70_face_identity_critical/MASK_FACTORY_CONTRACT.json",
+    "contract_validation": "runtime_artifacts/mask_factory/wave70_mf70_face_identity_critical/MASK_FACTORY_CONTRACT_VALIDATION.json",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_mf70_face_identity_critical/MASK_RUNTIME_EVIDENCE.json",
+    "quality_report": "runtime_artifacts/mask_factory/wave70_mf70_face_identity_critical/MASK_QUALITY_REPORT.json",
+    "patch_manifest": "runtime_artifacts/mask_factory/wave70_mf70_face_identity_critical/MASK_TO_WORKFLOW_PATCH_MANIFEST.csv",
+    "mask_png": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_face_identity_critical_20260707T142500-0500/wave70_mf70_face_identity_critical_mask.png",
+    "comfyui_input_copy": "ComfyUI/input/wave70_mf70_face_identity_critical_mask.png",
+    "preview_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_face_identity_critical_20260707T142500-0500/wave70_mf70_face_identity_critical_overlay.png"
+  },
+  "mask_asset": {
+    "mask_id": "scene_wave70_canny_v3__person_001__mf70_face_identity_critical__minor",
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_face_identity_critical_20260707T142500-0500/wave70_mf70_face_identity_critical_mask.png",
+    "sha256": "367d7d213d2152111fbc80ea7d5e11035296e0e184807a3bcddeba5bf1af473a",
+    "width": 768,
+    "height": 768,
+    "coverage_percent": 20.4608,
+    "person_instance_id": "person_001",
+    "body_region_id": "identity_critical_triangle",
+    "scale": "minor"
+  },
+  "validation": {
+    "contract_valid": true,
+    "contract_errors": [],
+    "contract_warnings": [],
+    "quality_score": 96.25,
+    "minimum_required": 85,
+    "quality_passed": true,
+    "workflow_routing_manifest_present": true,
+    "preview_overlay_generated": true,
+    "protected_neighbor_check_pass": true,
+    "generated_output_proof_present": true,
+    "target_runtime_proof_present": false,
+    "blockers": [
+      "target_runtime_proof_required_before_final_certification",
+      "mask_alignment_strict_review_requires_revision_before_completion"
+    ],
+    "mask_alignment_semantic_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false
+  },
+  "generated_output_proof": {
+    "profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_face_identity_critical_seed210801.json",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_face_identity_critical_seed210801/RUN_PACKAGE_MANIFEST.json",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_FACE_IDENTITY_CRITICAL_SEED210801_EXECUTE_20260707T143500-0500.json",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_face_identity_critical_seed210801_20260707T143500-0500/images/codex_wave70_mf70_face_identity_critical_seed210801_00001_.png",
+    "generated_output_sha256": "d9119357b2e681224715f9a6698806fabebe9264f001714104f3268344fe5669",
+    "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_face_identity_critical_seed210801_20260707T143500-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00007_.png",
+    "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_face_identity_critical/qa_comparisons/wave70_mf70_face_identity_source_overlay_output_compare.png",
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_FACE_IDENTITY_CRITICAL_SEED210801_VISUAL_QA_20260707T144000-0500.json",
+    "visual_qa_result": "pass_with_notes_local_wave70_face_identity_generated_output"
+  },
+  "overlay_visual_review": {
+    "review_method": "direct local image inspection of preview overlay",
+    "result": "pass_local_overlay_region_support_with_completion_gaps",
+    "findings": [
+      "Preview overlay covers the visible identity-critical face region including both eyes, nose bridge/tip, mouth/lips, central cheeks, and upper jaw area.",
+      "Overlay avoids clothing, broad background, and most hair volume while leaving a clear white boundary for target-region review.",
+      "This is support evidence only; a generated inpaint output and strict whole-image QA after use are still required before item completion."
+    ]
+  },
+  "result": "mask_alignment_needs_revision_generated_output_safe_final_blocked_target_runtime",
+  "boundary": "Strict semantic mask-alignment review supersedes earlier generated-output-safe interpretation. Generated-output stability is preserved when present, but mask completion is blocked unless semantic alignment and protected-neighbor review pass.",
+  "strict_semantic_mask_alignment_review": {
+    "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "review_timestamp": "2026-07-07T19:25:00-05:00",
+    "review_id": "W70-MASK-ALIGNMENT-STRICT-VISUAL-REVIEW-20260707T192500-0500",
+    "alignment_result": "needs_revision",
+    "mask_alignment_semantic_pass": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "review_basis": "strict visual review of user-supplied overlays and/or matching project overlay artifacts, separated from generated-output stability",
+    "findings": [
+      "Strict review of the project overlay shows a broad shortcut polygon over the identity triangle that spills into hair/side regions and cannot be certified against the protected-neighbor contract for eyes, nose, mouth, jawline, and hairline.",
+      "Replace with a region-aware identity mask or split into protected submasks; do not certify this polygon as anatomically honest face identity coverage."
+    ]
+  }
+}

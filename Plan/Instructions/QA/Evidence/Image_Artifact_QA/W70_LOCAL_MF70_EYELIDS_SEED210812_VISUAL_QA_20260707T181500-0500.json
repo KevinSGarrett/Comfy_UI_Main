@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-LOCAL-MF70-EYELIDS-VISUAL-QA-20260707T181500-0500",
+  "timestamp": "2026-07-07T18:15:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "strict_whole_image_visual_qa_generated_output",
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "mask_type_id": "mf70_eyelids",
+  "tracker_id": "TRK-W70-0013",
+  "item_id": "ITEM-W70-0013",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "artifacts": {
+    "prompt_profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_eyelids_seed210812.json",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_eyelids_seed210812/RUN_PACKAGE_MANIFEST.json",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_EYELIDS_SEED210812_EXECUTE_20260707T181500-0500.json",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_eyelids_seed210812_20260707T180308-0500/images/codex_wave70_mf70_eyelids_seed210812_00001_.png",
+    "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_eyelids_seed210812_20260707T180308-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00018_.png",
+    "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_eyelids/qa_comparisons/wave70_mf70_eyelids_source_overlay_output_compare.png",
+    "mask_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_eyelids.json"
+  },
+  "artifact_hashes": {
+    "prompt_profile_sha256": "c46c12eeff20f5a7606bd13cdf3154af00d1c84cf8372562a3f23c622434e84f",
+    "run_package_sha256": "ae06f9e6019a303b9df2a030c48c05ad791e8549b522807f624509070451df1b",
+    "runtime_evidence_sha256": "1817b81a72c02d67a41c98a996c080a0796a29cf958183c709814b69bcafe0d6",
+    "generated_output_sha256": "b469732f64c9ae01f399242b207e66bc7b865de36ab90511009b6d9518f532d2",
+    "diagnostic_mask_preview_sha256": "5b2b61eef01f4e555d95b8bd270952c531404a0150f0c727a3d96012d8910f85",
+    "comparison_artifact_sha256": "35bf58858bacd5f8525f286e3b3b2a4dcb3c6b08fef1bab89699974f976b8019"
+  },
+  "review_method": "direct local inspection of source image, revised mask overlay, generated output, and three-panel comparison artifact",
+  "strict_whole_image_findings": {
+    "identity_preserved": true,
+    "gaze_preserved": true,
+    "iris_pupil_sclera_preserved": true,
+    "eyelid_region_result": "pass_with_notes_subtle_microtexture_change_only",
+    "eyelashes_preserved": true,
+    "eyebrows_preserved": true,
+    "hair_occlusion_preserved": true,
+    "skin_texture_preserved": true,
+    "mouth_teeth_preserved": true,
+    "hands_visible": false,
+    "clothing_preserved": true,
+    "background_preserved": true,
+    "lighting_preserved": true,
+    "visible_seam": false,
+    "whole_frame_regression": false
+  },
+  "findings": [
+    "Generated output is visually source-stable against the active local MOD-17 Canny v3 portrait.",
+    "Eyelid-adjacent regions show only very subtle texture/edge refinement; no heavy eyelid, swollen eyelid, makeup, or eyeliner drift is visible.",
+    "Gaze direction, iris size/color, sclera tone, catchlights, eyelashes, and eyebrows remain stable.",
+    "Nearby subject-right hair occlusion, face identity, mouth, blazer, neck, lighting, crop, and gray background remain stable.",
+    "No visible hard seam or unrelated whole-frame mutation was observed."
+  ],
+  "result": "pass_with_notes_local_wave70_eyelids_generated_output",
+  "remaining_blockers": [
+    "target_runtime_proof_required_before_final_certification"
+  ],
+  "boundary": "This approves the local generated-output proof for Wave70 mf70_eyelids only. Final item certification still requires target-runtime proof."
+}

@@ -1,0 +1,228 @@
+from __future__ import annotations
+
+import csv
+import json
+import shutil
+from pathlib import Path
+
+
+PROJECT_ROOT = Path(r"C:\Comfy_UI_Main")
+ISO_TS = "2026-07-08T15:13:01-05:00"
+STAMP = "20260708T151301-0500"
+TRACKER_ID = "TRK-W70-0174"
+ITEM_ID = "ITEM-W70-0174"
+NEXT_TRACKER_ID = "TRK-W70-0175"
+NEXT_ITEM_ID = "ITEM-W70-0175"
+
+QA_DIR = PROJECT_ROOT / "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70"
+TRACKER_EVIDENCE_DIR = PROJECT_ROOT / "Plan/Tracker/Evidence"
+HYDRATION_DIR = PROJECT_ROOT / "Plan/Instructions/Hydration_Rehydration"
+
+SOFT_STAMPED = QA_DIR / f"W70_SOFT_BODY_ANCHOR_GEOMETRY_AUTHORITY_{STAMP}.json"
+SOFT_CANONICAL = QA_DIR / "soft_body_anchor_geometry_authority.json"
+TRACKER_SOFT_STAMPED = TRACKER_EVIDENCE_DIR / SOFT_STAMPED.name
+TRACKER_SOFT_CANONICAL = TRACKER_EVIDENCE_DIR / SOFT_CANONICAL.name
+GEOMETRY_GATE = QA_DIR / f"W70_MASK_GEOMETRY_HARD_GATE_POST_SOFT_BODY_REF_IMAGE_1_{STAMP}.json"
+PROMOTION_GATE = QA_DIR / f"W70_MASK_PROMOTION_HARD_GATE_POST_SOFT_BODY_REF_IMAGE_1_{STAMP}.json"
+TRACKER_GEOMETRY_GATE = TRACKER_EVIDENCE_DIR / GEOMETRY_GATE.name
+TRACKER_PROMOTION_GATE = TRACKER_EVIDENCE_DIR / PROMOTION_GATE.name
+
+CSV_TARGETS = [
+    (PROJECT_ROOT / "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv", "Tracker_ID", TRACKER_ID),
+    (PROJECT_ROOT / "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv", "Tracker_ID", TRACKER_ID),
+    (PROJECT_ROOT / "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv", "Item_ID", ITEM_ID),
+    (PROJECT_ROOT / "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv", "Item_ID", ITEM_ID),
+]
+
+STATUS_DECISION = "ref_image_1_soft_body_anchor_references_available_route_not_complete_global_gates_pass"
+COVERAGE_TOKENS = [
+    "ref_image_1_soft_body_anchor_references_available",
+    "soft_body_anchor_geometry_route_not_complete_no_promotion",
+    "post_soft_body_ref_image_1_geometry_gate_pass",
+    "post_soft_body_ref_image_1_promotion_gate_pass",
+]
+
+
+def rel(path: Path) -> str:
+    return path.resolve().relative_to(PROJECT_ROOT.resolve()).as_posix()
+
+
+def read_json(path: Path) -> dict[str, object]:
+    return json.loads(path.read_text(encoding="utf-8-sig"))
+
+
+def write_json(path: Path, payload: object) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+
+
+def append_unique(existing: str, additions: list[str]) -> str:
+    parts = [part.strip() for part in (existing or "").split(";") if part.strip()]
+    for addition in additions:
+        if addition and addition not in parts:
+            parts.append(addition)
+    return "; ".join(parts)
+
+
+def gate_summary(path: Path) -> dict[str, int]:
+    payload = read_json(path)
+    checked = payload.get("checked_rows") or []
+    failures = payload.get("failures") or []
+    pass_like = [row for row in checked if row.get("pass_like_status")]
+    return {"checked": len(checked), "pass_like": len(pass_like), "failures": len(failures)}
+
+
+def update_payloads(evidence_paths: list[str]) -> dict[str, int]:
+    updates = {}
+    for path in [SOFT_STAMPED, SOFT_CANONICAL, TRACKER_SOFT_STAMPED, TRACKER_SOFT_CANONICAL]:
+        payload = read_json(path)
+        artifacts = payload.setdefault("artifacts", {})
+        artifacts["post_soft_body_geometry_gate"] = rel(GEOMETRY_GATE)
+        artifacts["post_soft_body_promotion_gate"] = rel(PROMOTION_GATE)
+        payload["post_evaluation_hard_gates"] = {
+            "geometry": {"path": rel(GEOMETRY_GATE), **gate_summary(GEOMETRY_GATE)},
+            "promotion": {"path": rel(PROMOTION_GATE), **gate_summary(PROMOTION_GATE)},
+            "tracker_copies": [rel(TRACKER_GEOMETRY_GATE), rel(TRACKER_PROMOTION_GATE)],
+        }
+        payload["evidence_paths"] = evidence_paths
+        payload["qa_decision"] = STATUS_DECISION
+        write_json(path, payload)
+        updates[rel(path)] = 1
+    return updates
+
+
+def update_csvs(evidence_paths: list[str]) -> dict[str, int]:
+    note = (
+        "Soft-body Ref_Image_1 post-evaluation gates 20260708T151301-0500: geometry and promotion hard gates passed "
+        "with 332 checked rows, zero pass-like rows, and zero failures. Row remains Required_Not_Complete; no masks promoted."
+    )
+    updates: dict[str, int] = {}
+    for path, key, target in CSV_TARGETS:
+        with path.open("r", newline="", encoding="utf-8-sig") as handle:
+            reader = csv.DictReader(handle)
+            rows = list(reader)
+            fieldnames = reader.fieldnames or []
+        changed = 0
+        for row in rows:
+            if row.get(key) != target:
+                continue
+            changed += 1
+            row["Status"] = "Required_Not_Complete"
+            if "Status_Decision" in row:
+                row["Status_Decision"] = STATUS_DECISION
+            for field in ("Evidence_Path", "Evidence_Required", "Acceptance_Evidence", "Acceptance_Criteria"):
+                if field in row:
+                    row[field] = append_unique(row.get(field, ""), evidence_paths)
+            if "Coverage_Audit_Status" in row:
+                row["Coverage_Audit_Status"] = append_unique(row.get("Coverage_Audit_Status", ""), COVERAGE_TOKENS)
+            if "Notes" in row:
+                row["Notes"] = append_unique(row.get("Notes", ""), [note])
+        with path.open("w", newline="", encoding="utf-8") as handle:
+            writer = csv.DictWriter(handle, fieldnames=fieldnames, lineterminator="\n")
+            writer.writeheader()
+            writer.writerows(rows)
+        updates[rel(path)] = changed
+    return updates
+
+
+def prepend(path: Path, heading: str, body: str) -> bool:
+    old = path.read_text(encoding="utf-8-sig") if path.exists() else ""
+    if heading in old[:12000]:
+        return False
+    path.write_text(f"{heading}\n\n{body.rstrip()}\n\n{old}", encoding="utf-8", newline="\n")
+    return True
+
+
+def update_hydration(evidence_paths: list[str]) -> dict[str, bool]:
+    evidence_block = "\n".join(f"- `{path}`" for path in evidence_paths)
+    body = f"""Attached post-`{TRACKER_ID}` / `{ITEM_ID}` hard-gate evidence.
+
+Soft-body anchor geometry remains `Required_Not_Complete`: Ref_Image_1 supplies body/soft-body reference context, but dense-pose skeletal anchors, deformation fields, canonical body/clothing/contact polygons, protected-neighbor metrics, generated output, target-runtime proof, visual QA, and promotion evidence are still missing. The `Full/New folder` image remains knees-to-head only and is not used for feet/toes/ankles/lower-calf/support proof.
+
+Post-soft-body gates: geometry and promotion hard gates both passed with 332 checked rows, zero pass-like rows, and zero failures. No masks were promoted.
+
+Evidence:
+
+{evidence_block}"""
+    updates = {
+        "CURRENT_SESSION_STATE.md": prepend(
+            HYDRATION_DIR / "CURRENT_SESSION_STATE.md",
+            f"## Session State Update - 0174 Soft-Body Gates Attached - {ISO_TS}",
+            body + f"\n\nNext local action: `{NEXT_TRACKER_ID}` / `{NEXT_ITEM_ID}` temporal body-part tracking and video mask drift authority.",
+        ),
+        "CURRENT_PURSUING_GOAL.md": prepend(
+            HYDRATION_DIR / "CURRENT_PURSUING_GOAL.md",
+            f"## Current Pursuing Goal Update - 0174 Soft-Body Gates Attached - {ISO_TS}",
+            body,
+        ),
+        "RESUME_HERE_NEXT_CODEX_SESSION.md": prepend(
+            HYDRATION_DIR / "RESUME_HERE_NEXT_CODEX_SESSION.md",
+            f"## Resume Update - 0174 Soft-Body Gates Attached - {ISO_TS}",
+            body + f"\n\nResume at `{NEXT_TRACKER_ID}` / `{NEXT_ITEM_ID}` temporal body-part tracking and video mask drift authority.",
+        ),
+        "NEXT_ACTION.md": prepend(
+            HYDRATION_DIR / "NEXT_ACTION.md",
+            f"## Immediate Next Action - {ISO_TS} - Work TRK-W70-0175 Temporal Body-Part Tracking",
+            body + f"\n\nNext exact local action: implement or exactly block `{NEXT_TRACKER_ID}` / `{NEXT_ITEM_ID}` temporal body-part tracking and video mask drift authority.",
+        ),
+        "QA_EVIDENCE_INDEX.md": prepend(
+            HYDRATION_DIR / "QA_EVIDENCE_INDEX.md",
+            f"## Wave70 0174 Soft-Body Gate Evidence - {ISO_TS}",
+            body,
+        ),
+    }
+    with (HYDRATION_DIR / "PROOF_OF_MOVEMENT_LOG.csv").open("a", newline="", encoding="utf-8") as handle:
+        csv.writer(handle, lineterminator="\n").writerow(
+            [
+                ISO_TS,
+                "70",
+                "Wave70 0174 soft-body hard gates",
+                "Attached post-soft-body geometry/promotion hard gates; both passed fail-closed with 332 checked rows, zero pass-like rows, and zero failures. No masks promoted.",
+                "; ".join(evidence_paths),
+                "Test-Wave70MaskGeometryGate.ps1; Test-Wave70MaskPromotionGate.ps1; JSON summary validation; tracker evidence copy; CSV row verification",
+                "SOFT_BODY_REF_IMAGE_1_ROUTE_NOT_COMPLETE_GATES_PASS",
+                rel(SOFT_CANONICAL),
+                f"Work {NEXT_TRACKER_ID} / {NEXT_ITEM_ID} temporal body-part tracking and video mask drift authority next.",
+            ]
+        )
+    return updates
+
+
+def main() -> None:
+    for gate in [GEOMETRY_GATE, PROMOTION_GATE]:
+        summary = gate_summary(gate)
+        if summary != {"checked": 332, "pass_like": 0, "failures": 0}:
+            raise RuntimeError(f"Unexpected gate summary for {gate}: {summary}")
+    TRACKER_EVIDENCE_DIR.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(GEOMETRY_GATE, TRACKER_GEOMETRY_GATE)
+    shutil.copy2(PROMOTION_GATE, TRACKER_PROMOTION_GATE)
+    evidence_paths = [
+        rel(SOFT_STAMPED),
+        rel(SOFT_CANONICAL),
+        rel(TRACKER_SOFT_STAMPED),
+        rel(TRACKER_SOFT_CANONICAL),
+        rel(GEOMETRY_GATE),
+        rel(PROMOTION_GATE),
+        rel(TRACKER_GEOMETRY_GATE),
+        rel(TRACKER_PROMOTION_GATE),
+    ]
+    payload_updates = update_payloads(evidence_paths)
+    csv_updates = update_csvs(evidence_paths)
+    hydration_updates = update_hydration(evidence_paths)
+    print(
+        json.dumps(
+            {
+                "payload_updates": payload_updates,
+                "csv_updates": csv_updates,
+                "hydration_updates": hydration_updates,
+                "geometry_gate": gate_summary(GEOMETRY_GATE),
+                "promotion_gate": gate_summary(PROMOTION_GATE),
+                "next": f"{NEXT_TRACKER_ID} / {NEXT_ITEM_ID}",
+            },
+            indent=2,
+        )
+    )
+
+
+if __name__ == "__main__":
+    main()

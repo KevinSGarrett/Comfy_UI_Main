@@ -5,7 +5,7 @@ Creates a local-only runtime unblock handoff from the latest gate evidence.
 .DESCRIPTION
 Reads the latest local auth/profile/readiness/project-readiness evidence and
 writes a JSON plus Markdown handoff containing the exact post-auth command
-sequence and EC2 safety gates. This script does not contact AWS, GitHub,
+sequence and EC2 geometry gates. This script does not contact AWS, GitHub,
 Civitai, ComfyUI, or EC2.
 #>
 param(
@@ -415,6 +415,8 @@ $imageArtifactQaDir = Join-Path $qaRoot "Image_Artifact_QA"
 $operationsValidationDir = Join-Path $qaRoot "Operations_Static_Validation"
 $qaValidationDir = Join-Path $qaRoot "QA_Helper_Static_Validation"
 $indexValidationDir = Join-Path $qaRoot "Index_Validation"
+$doneCertificationDir = Join-Path $qaRoot "Done_Certifications"
+$gitVerificationDir = Join-Path $qaRoot "Git_Verification"
 
 if ([string]::IsNullOrWhiteSpace($OutFile)) {
   $OutFile = Join-Path $runtimeReadinessDir "W61_RUNTIME_UNBLOCK_HANDOFF_$stamp.json"
@@ -429,7 +431,9 @@ $latest = [ordered]@{
   lane_readiness = Find-LatestJsonByLaneId -Directory $runtimeReadinessDir -Filter "*LANE_RUNTIME_READINESS*.json" -ExpectedLaneId $LaneId
   project_readiness = Find-LatestJsonByLaneIdAndResult -Directory $projectReadinessDir -Filter "*PROJECT_READINESS*.json" -ExpectedLaneId $LaneId -AcceptableResults @("pass_local_ready_runtime_blocked_auth", "pass_local_ready_runtime_blocked", "pass_local_ready_for_ec2_static_proof", "pass_ready_for_generation", "pass_runtime_smoke_qa_complete")
   runtime_lane_queue = Find-LatestFile -Directory $workflowPrerequisiteDir -Filter "*RUNTIME_LANE_QUEUE*.json"
+  active_runtime_queue_local_support = Find-LatestJsonByResult -Directory $doneCertificationDir -Filter "W66_ACTIVE_RUNTIME_QUEUE_LOCAL_SUPPORT_CERTIFICATION*.json" -AcceptableResults @("pass_local_active_runtime_queue_support_certification")
   model_registry_coverage = Find-LatestFile -Directory $modelRegistryCoverageDir -Filter "*MODEL_REGISTRY_COVERAGE*.json"
+  git_checkpoint_gate = Find-LatestFile -Directory $gitVerificationDir -Filter "W66_GITHUB_CHECKPOINT_DRY_RUN_JSON_GATE_*.json"
   workflow_smoke = Find-LatestJsonByLaneIdAndResult -Directory $workflowRuntimeDir -Filter "*EC2_WORKFLOW_SMOKE*.json" -ExpectedLaneId $LaneId -AcceptableResults @("workflow_smoke_generation_complete")
   operations_validation = Find-LatestJsonByResult -Directory $operationsValidationDir -Filter "W60_OPERATIONS_HELPER_CURRENT_VALIDATION*.json" -AcceptableResults @("pass_local_only")
   qa_validation = Find-LatestJsonByResult -Directory $qaValidationDir -Filter "W61_QA_HELPER_CURRENT_VALIDATION*.json" -AcceptableResults @("pass_local_only")
@@ -461,7 +465,9 @@ if ($null -ne $readinessJson) {
 }
 $projectJson = Read-JsonEvidence -Path $latest.project_readiness
 $queueJson = Read-JsonEvidence -Path $latest.runtime_lane_queue
+$activeRuntimeQueueLocalSupportJson = Read-JsonEvidence -Path $latest.active_runtime_queue_local_support
 $modelRegistryCoverageJson = Read-JsonEvidence -Path $latest.model_registry_coverage
+$gitCheckpointJson = Read-JsonEvidence -Path $latest.git_checkpoint_gate
 $workflowSmokeJson = Read-JsonEvidence -Path $latest.workflow_smoke
 $operationsJson = Read-JsonEvidence -Path $latest.operations_validation
 $qaJson = Read-JsonEvidence -Path $latest.qa_validation
@@ -517,6 +523,29 @@ if (Has-Property -Object $projectJson -Name "secret_private_path_scan") {
   $projectSummary.scan_hit_count = Get-PropertyValue -Object $projectJson.secret_private_path_scan -Name "hit_count" -Default $null
 }
 
+$gitCheckpointSummary = [ordered]@{
+  evidence = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.git_checkpoint_gate
+  result = [string](Get-PropertyValue -Object $gitCheckpointJson -Name "result" -Default "missing_git_checkpoint_gate")
+  failure_category = Get-PropertyValue -Object $gitCheckpointJson -Name "failure_category" -Default "missing_git_checkpoint_gate"
+  head = [string](Get-PropertyValue -Object $gitCheckpointJson -Name "head" -Default "")
+  origin_main = [string](Get-PropertyValue -Object $gitCheckpointJson -Name "origin_main" -Default "")
+  local_matches_origin = Get-BoolPropertyValue -Object $gitCheckpointJson -Name "local_matches_origin" -Default $false
+  clean_worktree = Get-BoolPropertyValue -Object $gitCheckpointJson -Name "clean_worktree" -Default $false
+  porcelain_count = Get-PropertyValue -Object $gitCheckpointJson -Name "porcelain_count" -Default $null
+  tracked_porcelain_count = Get-PropertyValue -Object $gitCheckpointJson -Name "tracked_porcelain_count" -Default $null
+  untracked_porcelain_count = Get-PropertyValue -Object $gitCheckpointJson -Name "untracked_porcelain_count" -Default $null
+  staged_count = Get-PropertyValue -Object $gitCheckpointJson -Name "staged_count" -Default $null
+  blocked_changed_path_count = Get-PropertyValue -Object $gitCheckpointJson -Name "blocked_changed_path_count" -Default $null
+  staged_secret_match_count = Get-PropertyValue -Object $gitCheckpointJson -Name "staged_secret_match_count" -Default $null
+  commit_attempted = Get-BoolPropertyValue -Object $gitCheckpointJson -Name "commit_attempted" -Default $true
+  push_attempted = Get-BoolPropertyValue -Object $gitCheckpointJson -Name "push_attempted" -Default $true
+  passes_for_ec2_execute = (
+    [string](Get-PropertyValue -Object $gitCheckpointJson -Name "result" -Default "") -eq "pass_git_checkpoint_ready" -and
+    (Get-BoolPropertyValue -Object $gitCheckpointJson -Name "clean_worktree" -Default $false) -eq $true -and
+    (Get-BoolPropertyValue -Object $gitCheckpointJson -Name "local_matches_origin" -Default $false) -eq $true
+  )
+}
+
 $queueSummary = [ordered]@{
   evidence = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.runtime_lane_queue
   result = [string](Get-PropertyValue -Object $queueJson -Name "result" -Default "missing_runtime_lane_queue")
@@ -537,7 +566,23 @@ $queueSummary = [ordered]@{
   comfyui_contacted = Get-BoolPropertyValue -Object $queueJson -Name "comfyui_contacted" -Default $true
   ec2_started = Get-BoolPropertyValue -Object $queueJson -Name "ec2_started" -Default $true
   generation_executed = Get-BoolPropertyValue -Object $queueJson -Name "generation_executed" -Default $true
+  queue_complete_sentinel = $false
+  current_runtime_lane_allows_selected_proof = $false
   queue_allows_selected_lane_ec2_static_proof = $false
+}
+
+$activeRuntimeQueueLocalSupportSummary = [ordered]@{
+  evidence = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $latest.active_runtime_queue_local_support
+  result = [string](Get-PropertyValue -Object $activeRuntimeQueueLocalSupportJson -Name "result" -Default "missing_active_runtime_queue_local_support_certification")
+  final_certification_result = [string](Get-PropertyValue -Object $activeRuntimeQueueLocalSupportJson -Name "final_certification_result" -Default "missing_final_certification_result")
+  lane_count = Get-PropertyValue -Object $activeRuntimeQueueLocalSupportJson -Name "lane_count" -Default $null
+  defects_count = @(Get-PropertyValue -Object $activeRuntimeQueueLocalSupportJson -Name "defects" -Default @()).Count
+  final_blocker_count = @(Get-PropertyValue -Object $activeRuntimeQueueLocalSupportJson -Name "final_blockers" -Default @()).Count
+  local_support_pass_lane_count = @(@(Get-PropertyValue -Object $activeRuntimeQueueLocalSupportJson -Name "lanes_checked" -Default @()) | Where-Object { [string]$_.local_support_result -eq "pass_local_support" }).Count
+  passes_for_handoff = (
+    [string](Get-PropertyValue -Object $activeRuntimeQueueLocalSupportJson -Name "result" -Default "") -eq "pass_local_active_runtime_queue_support_certification" -and
+    @(Get-PropertyValue -Object $activeRuntimeQueueLocalSupportJson -Name "defects" -Default @()).Count -eq 0
+  )
 }
 if (Has-Property -Object $queueJson -Name "queued_lanes") {
   $queuedLaneIds = @($queueJson.queued_lanes | ForEach-Object { [string]$_ })
@@ -553,6 +598,13 @@ if (Has-Property -Object $queueJson -Name "lane_queue_results") {
     }
   }
 }
+$queueSummary.queue_complete_sentinel = (
+  $queueSummary.current_runtime_lane_id -eq "none_all_current_local_runtime_proofs_complete"
+)
+$queueSummary.current_runtime_lane_allows_selected_proof = (
+  $queueSummary.current_runtime_lane_match -eq $true -or
+  $queueSummary.queue_complete_sentinel -eq $true
+)
 $queueSummary.queue_allows_selected_lane_ec2_static_proof = (
   $queueSummary.result -eq "pass_local_only" -and
   $queueSummary.failed_check_count -eq 0 -and
@@ -564,7 +616,7 @@ $queueSummary.queue_allows_selected_lane_ec2_static_proof = (
   $queueSummary.ec2_started -eq $false -and
   $queueSummary.generation_executed -eq $false -and
   $queueSummary.selected_lane_in_queue -eq $true -and
-  $queueSummary.current_runtime_lane_match -eq $true
+  $queueSummary.current_runtime_lane_allows_selected_proof -eq $true
 )
 
 $modelRegistryCoverageSummary = [ordered]@{
@@ -744,11 +796,24 @@ $runPackageCommandArg = ""
 if ($runPackageSummary.supplied) {
   $runPackageCommandArg = " -RunPackageManifestFile `"$((Resolve-ProjectPath -Path $RunPackageManifestFile))`""
 }
+$activeRuntimeQueueLocalSupportReady = [bool]$activeRuntimeQueueLocalSupportSummary.passes_for_handoff
+$runtimeLaneQueueExpectedEvidence = "result=pass_local_only, current_runtime_lane_id=$LaneId, selected lane in queue, failed_check_count=0."
+$runtimeLaneQueueSafetyInvariant = "Test-RuntimeLaneQueue.ps1 must report current_runtime_lane_id=$LaneId, selected lane in queue, and failed_check_count=0."
+$runtimeLaneQueueMarkdownCondition = "current_runtime_lane_id=$LaneId"
+if ($queueSummary.queue_complete_sentinel) {
+  $runtimeLaneQueueExpectedEvidence = "result=pass_local_only, current_runtime_lane_id=none_all_current_local_runtime_proofs_complete queue-complete sentinel, selected lane in queue, failed_check_count=0."
+  $runtimeLaneQueueSafetyInvariant = "Test-RuntimeLaneQueue.ps1 must report current_runtime_lane_id=$LaneId for an active queue or current_runtime_lane_id=none_all_current_local_runtime_proofs_complete for a completed queue, selected lane in queue, and failed_check_count=0."
+  $runtimeLaneQueueMarkdownCondition = "current_runtime_lane_id=$LaneId or current_runtime_lane_id=none_all_current_local_runtime_proofs_complete"
+}
 
 $result = "handoff_failed_local_readiness"
 $failureCategory = "local_project_readiness_failed"
 $nextRequiredAction = "inspect_local_readiness_evidence"
-if ($runtimeSmokeQaComplete) {
+if (-not $activeRuntimeQueueLocalSupportReady) {
+  $result = "handoff_active_queue_local_support_blocked"
+  $failureCategory = "active_runtime_queue_local_support_certification_missing_or_failed"
+  $nextRequiredAction = "rerun_active_runtime_queue_local_support_certification"
+} elseif ($runtimeSmokeQaComplete) {
   $result = "handoff_runtime_smoke_qa_complete"
   $failureCategory = $null
   $nextRequiredAction = "checkpoint_runtime_smoke_evidence_and_advance_next_goal"
@@ -760,6 +825,10 @@ if ($runtimeSmokeQaComplete) {
   $result = "handoff_ready_runtime_blocked_auth"
   $failureCategory = $(if (![string]::IsNullOrWhiteSpace([string]$authSummary.failure_category)) { [string]$authSummary.failure_category } else { "aws_auth_blocked" })
   $nextRequiredAction = "complete_aws_browser_sso_login"
+} elseif ($projectSummary.local_ready -and $authSummary.safe_to_start_ec2 -and -not $gitCheckpointSummary.passes_for_ec2_execute) {
+  $result = "handoff_git_checkpoint_blocked"
+  $failureCategory = $(if (![string]::IsNullOrWhiteSpace([string]$gitCheckpointSummary.failure_category)) { [string]$gitCheckpointSummary.failure_category } else { "local_git_checkpoint_invalid" })
+  $nextRequiredAction = "checkpoint_worktree_clean_to_origin_main"
 } elseif ($projectSummary.local_ready -and $authSummary.safe_to_start_ec2 -and -not $queueSummary.queue_allows_selected_lane_ec2_static_proof) {
   $result = "handoff_lane_queue_order_blocked"
   $failureCategory = "runtime_lane_queue_order_blocked"
@@ -786,12 +855,13 @@ $commandSequence = @(
   (New-CommandStep -Name "aws_browser_sso_login" -Gate "external_interactive_browser_required" -Command "aws login --remote" -ExpectedEvidence "AWS CLI login refreshed for account 029530099913" -WhenToRun "Only while EC2 gates remain blocked by expired AWS auth."),
   (New-CommandStep -Name "auth_gate_recheck" -Gate "after_aws_login" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-AwsAuthGate.ps1 -AttemptRemoteLogin -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W60_W61_AWS_AUTH_GATE_<timestamp>.json" -ExpectedEvidence "result=pass, ec2_work_allowed=true, safe_to_start_ec2=true, account_match=true" -WhenToRun "Immediately after AWS browser/SSO login."),
   (New-CommandStep -Name "profile_matrix_recheck" -Gate "after_auth_gate_or_for_diagnosis" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-AwsProfileAuthMatrix.ps1 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W60_W61_AWS_PROFILE_AUTH_MATRIX_<timestamp>.json" -ExpectedEvidence "At least one profile authenticates to account 029530099913, or a clear diagnostic if not." -WhenToRun "After auth refresh or when account/profile mismatch is suspected."),
-  (New-CommandStep -Name "runtime_lane_queue_recheck" -Gate "before_any_ec2_execute" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\Scripts\Test-RuntimeLaneQueue.ps1 -ProjectRoot C:\Comfy_UI_Main -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Prerequisite_Matching\W63_RUNTIME_LANE_QUEUE_VALIDATION_<timestamp>.json" -ExpectedEvidence "result=pass_local_only, current_runtime_lane_id=$LaneId, selected lane in queue, failed_check_count=0." -WhenToRun "Immediately before EC2 static proof if queue files or evidence changed."),
+  (New-CommandStep -Name "runtime_lane_queue_recheck" -Gate "before_any_ec2_execute" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\Scripts\Test-RuntimeLaneQueue.ps1 -ProjectRoot C:\Comfy_UI_Main -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Prerequisite_Matching\W63_RUNTIME_LANE_QUEUE_VALIDATION_<timestamp>.json" -ExpectedEvidence $runtimeLaneQueueExpectedEvidence -WhenToRun "Immediately before EC2 static proof if queue files or evidence changed."),
+  (New-CommandStep -Name "active_runtime_queue_local_support_recheck" -Gate "before_any_ec2_execute" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\Scripts\Test-ActiveRuntimeQueueLocalSupportCertification.ps1 -ProjectRoot C:\Comfy_UI_Main -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Done_Certifications\W66_ACTIVE_RUNTIME_QUEUE_LOCAL_SUPPORT_CERTIFICATION_<timestamp>.json" -ExpectedEvidence "result=pass_local_active_runtime_queue_support_certification, lane_count=9, defects=0, and all active lanes pass local support." -WhenToRun "Immediately before any explicitly selected target-runtime proof if queue files, lane exports, evidence paths, or local support certification changed."),
   (New-CommandStep -Name "model_registry_coverage_recheck" -Gate "before_any_ec2_execute" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\QA\Scripts\Test-WorkflowModelRegistryCoverage.ps1 -ProjectRoot C:\Comfy_UI_Main -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Model_Registry\W61_MODEL_REGISTRY_COVERAGE_<timestamp>.json" -ExpectedEvidence "result=pass_local_only, selected lane $LaneId has result=pass, failed_check_count=0, registry records and runtime-validation queue rows exist." -WhenToRun "Immediately before EC2 static proof if model registry, runtime requirements, or queue files changed."),
   (New-CommandStep -Name "local_comfyui_dev_preflight" -Gate "before_optional_local_iteration" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\Test-LocalComfyUIDevPreflight.ps1 -ProjectRoot C:\Comfy_UI_Main -LaneId $LaneId -LocalComfyRoot <path-to-local-ComfyUI>" -ExpectedEvidence "Local dev candidate status recorded without claiming EC2 equivalence." -WhenToRun "Use while EC2 is stopped for prompt or workflow iteration when a local ComfyUI checkout exists."),
   (New-CommandStep -Name "deploy_bundle_build" -Gate "before_ec2_sync_or_execute" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\tools\New-EC2DeployBundle.ps1 -ProjectRoot C:\Comfy_UI_Main -LaneId $LaneId -RunPackageManifestFile <run-package-manifest>" -ExpectedEvidence "DEPLOY_BUNDLE_MANIFEST.json and bundle zip created while EC2 is stopped." -WhenToRun "After run package creation and before any EC2 runtime window."),
   (New-CommandStep -Name "deploy_bundle_s3_publish" -Gate "before_ec2_sync_or_execute" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Publish-DeployBundleToS3.ps1 -BundleManifestFile <deploy-bundle-manifest> -S3BaseUri s3://<bucket>/<deploy-bundle-prefix>" -ExpectedEvidence "s3_bundle_uri and bundle_zip_sha256 recorded before EC2 starts." -WhenToRun "Add -Execute only after AWS auth and S3 bundle-prefix permissions are verified."),
-  (New-CommandStep -Name "git_checkpoint_recheck" -Gate "before_any_ec2_execute" -Command "git -C C:\Comfy_UI_Main status --short --branch; git -C C:\Comfy_UI_Main rev-parse HEAD; git -C C:\Comfy_UI_Main rev-parse origin/main" -ExpectedEvidence "Working tree clean and local HEAD equals origin/main before any EC2 helper runs with -Execute." -WhenToRun "Immediately before EC2 static proof or workflow smoke execution."),
+  (New-CommandStep -Name "git_checkpoint_recheck" -Gate "before_any_ec2_execute" -Command "powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-GitHubCheckpoint.ps1 -ProjectRoot C:\Comfy_UI_Main -Message `"pre-ec2 checkpoint gate dry run`" -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Git_Verification\W66_GITHUB_CHECKPOINT_DRY_RUN_JSON_GATE_<timestamp>.json" -ExpectedEvidence "result=pass_git_checkpoint_ready, clean_worktree=true, local_matches_origin=true, commit_attempted=false, push_attempted=false before any EC2 helper runs with -Execute." -WhenToRun "Immediately before EC2 static proof or workflow smoke execution; use -Execute/-Push only when an explicit checkpoint is selected."),
   (New-CommandStep -Name "emergency_stop_schedule" -Gate "before_any_ec2_execute" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\New-EC2EmergencyStopSchedule.ps1 -SchedulerRoleArn arn:aws:iam::<account-id>:role/<scheduler-stop-role> -StopAfterMinutes 60 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W63_EC2_EMERGENCY_STOP_SCHEDULE_<timestamp>.json" -ExpectedEvidence "One-time EventBridge Scheduler stop created or explicit missing-role blocker recorded." -WhenToRun "Before a live EC2 window when the scheduler role exists."),
   (New-CommandStep -Name "realvisxl_model_s3_install" -Gate "before_realvisxl_static_proof" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Install-EC2ModelFromS3.ps1 -SourceS3Uri s3://<bucket>/<model-cache-prefix>/realvisxlV50_v50Bakedvae.safetensors -ExpectedSha256 6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80 -MaxEc2RuntimeMinutes 20 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Model_Registry\W63_EC2_REALVISXL_MODEL_INSTALL_<timestamp>.json" -ExpectedEvidence "result=install_model_hash_verified, final_state=stopped, generation_executed=false." -WhenToRun "For RealVisXL only, after the checkpoint exists in an approved S3 model-cache prefix."),
   (New-CommandStep -Name "lane_readiness_recheck" -Gate "auth_gate_safe_to_start_ec2_true" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-LaneRuntimeReadiness.ps1 -LaneId $LaneId -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_LANE_RUNTIME_READINESS_<timestamp>.json" -ExpectedEvidence "local_pre_ec2_ready=true, lane_id=$LaneId, and ready_for_ec2_static_proof=true before EC2 static proof." -WhenToRun "Only after auth gate reports safe_to_start_ec2=true."),
@@ -806,9 +876,10 @@ $safetyInvariants = [ordered]@{
   expected_aws_account = "029530099913"
   expected_idle_state = "stopped"
   do_not_start_ec2_unless_auth_safe = "Test-AwsAuthGate.ps1 must report ec2_work_allowed=true and safe_to_start_ec2=true."
-  do_not_start_ec2_unless_runtime_lane_queue_allows = "Test-RuntimeLaneQueue.ps1 must report current_runtime_lane_id=$LaneId, selected lane in queue, and failed_check_count=0."
+  do_not_start_ec2_unless_runtime_lane_queue_allows = $runtimeLaneQueueSafetyInvariant
+  do_not_start_ec2_unless_active_queue_local_support_certified = "Test-ActiveRuntimeQueueLocalSupportCertification.ps1 must report pass_local_active_runtime_queue_support_certification with zero defects for the active 9-lane queue before any explicitly selected target-runtime proof."
   do_not_start_ec2_unless_model_registry_coverage_passes = "Test-WorkflowModelRegistryCoverage.ps1 must report result=pass_local_only, selected lane $LaneId result=pass, and failed_check_count=0."
-  do_not_start_ec2_unless_git_checkpoint_clean = "EC2 execution helpers must see local HEAD equal origin/main with a clean working tree so remote git pull can reproduce the intended commit."
+  do_not_start_ec2_unless_git_checkpoint_clean = "Invoke-GitHubCheckpoint.ps1 dry-run JSON must report result=pass_git_checkpoint_ready, clean_worktree=true, local_matches_origin=true, commit_attempted=false, and push_attempted=false immediately before any EC2 execute path; EC2 execution helpers must also see local HEAD equal origin/main with a clean working tree."
   do_not_start_ec2_unless_lane_ready = "Test-LaneRuntimeReadiness.ps1 must report lane_id=$LaneId and ready_for_ec2_static_proof=true."
   prepare_deploy_bundle_before_ec2 = "Build and upload a deploy bundle to S3 before EC2 starts whenever S3 is available; EC2 helpers should prefer -DeployBundleS3Uri and -DeployBundleSha256."
   do_not_use_git_lfs_for_model_binaries = "Model checkpoints must be provisioned through S3/model-cache or another approved non-Git path, never through Git LFS as the default."
@@ -850,7 +921,9 @@ $record = [ordered]@{
     lane_readiness = $laneSummary.evidence
     project_readiness = $projectSummary.evidence
     runtime_lane_queue = $queueSummary.evidence
+    active_runtime_queue_local_support = $activeRuntimeQueueLocalSupportSummary.evidence
     model_registry_coverage = $modelRegistryCoverageSummary.evidence
+    git_checkpoint_gate = $gitCheckpointSummary.evidence
     workflow_smoke = $workflowSmokeSummary.evidence
     pullback_record = $pullbackSummary.evidence
     image_qa_technical = $imageQaTechnicalSummary.evidence
@@ -866,7 +939,9 @@ $record = [ordered]@{
     lane_readiness = $laneSummary
     project_readiness = $projectSummary
     runtime_lane_queue = $queueSummary
+    active_runtime_queue_local_support = $activeRuntimeQueueLocalSupportSummary
     model_registry_coverage = $modelRegistryCoverageSummary
+    git_checkpoint_gate = $gitCheckpointSummary
     workflow_smoke = $workflowSmokeSummary
     pullback_record = $pullbackSummary
     image_qa_technical = $imageQaTechnicalSummary
@@ -907,13 +982,17 @@ $mdApprovedInstanceId = New-MarkdownCode "i-0560bf8d143f93bb1"
 $mdExpectedAwsAccount = New-MarkdownCode "029530099913"
 $mdAuthEc2Allowed = New-MarkdownCode "ec2_work_allowed=true"
 $mdAuthSafeToStart = New-MarkdownCode "safe_to_start_ec2=true"
-$mdCurrentRuntimeLane = New-MarkdownCode "current_runtime_lane_id=$LaneId"
+$mdCurrentRuntimeLane = New-MarkdownCode $runtimeLaneQueueMarkdownCondition
 $mdFailedCheckZero = New-MarkdownCode "0"
+$mdQueueSupportPass = New-MarkdownCode "pass_local_active_runtime_queue_support_certification"
 $mdCoverageResult = New-MarkdownCode "result=pass_local_only"
 $mdCoverageLane = New-MarkdownCode $LaneId
 $mdCoveragePass = New-MarkdownCode "pass"
 $mdHead = New-MarkdownCode "HEAD"
 $mdOriginMain = New-MarkdownCode "origin/main"
+$mdGitCheckpointReady = New-MarkdownCode "result=pass_git_checkpoint_ready"
+$mdCleanWorktree = New-MarkdownCode "clean_worktree=true"
+$mdLocalMatchesOrigin = New-MarkdownCode "local_matches_origin=true"
 $mdLaneReadyId = New-MarkdownCode "lane_id=$LaneId"
 $mdReadyForStaticProof = New-MarkdownCode "ready_for_ec2_static_proof=true"
 $mdStopped = New-MarkdownCode "stopped"
@@ -937,8 +1016,10 @@ $markdown = @"
 - Profile matrix: $($profileSummary.result), matching profiles=$($profileSummary.profiles_matching_expected_count), expected account=$($profileSummary.expected_account)
 - Lane readiness: $($laneSummary.result), lane_id=$($laneSummary.lane_id), lane_match=$($laneSummary.lane_match), local_pre_ec2_ready=$($laneSummary.local_pre_ec2_ready), ready_for_ec2_static_proof=$($laneSummary.ready_for_ec2_static_proof), ready_for_generation=$($laneSummary.ready_for_generation)
 - Project readiness: $($projectSummary.result), lane_id=$($projectSummary.lane_id), lane_match=$($projectSummary.lane_match), local_ready=$($projectSummary.local_ready), ec2_start_allowed=$($projectSummary.ec2_start_allowed), generation_allowed=$($projectSummary.generation_allowed), scan_hit_count=$($projectSummary.scan_hit_count)
-- Runtime lane queue: $($queueSummary.result), first_runtime_lane_id=$($queueSummary.first_runtime_lane_id), current_runtime_lane_id=$($queueSummary.current_runtime_lane_id), current_runtime_lane_match=$($queueSummary.current_runtime_lane_match), selected_lane_order=$($queueSummary.selected_lane_order), queue_allows_selected_lane_ec2_static_proof=$($queueSummary.queue_allows_selected_lane_ec2_static_proof)
+- Runtime lane queue: $($queueSummary.result), first_runtime_lane_id=$($queueSummary.first_runtime_lane_id), current_runtime_lane_id=$($queueSummary.current_runtime_lane_id), current_runtime_lane_match=$($queueSummary.current_runtime_lane_match), queue_complete_sentinel=$($queueSummary.queue_complete_sentinel), selected_lane_order=$($queueSummary.selected_lane_order), queue_allows_selected_lane_ec2_static_proof=$($queueSummary.queue_allows_selected_lane_ec2_static_proof)
+- Active runtime queue local support: $($activeRuntimeQueueLocalSupportSummary.result), lane_count=$($activeRuntimeQueueLocalSupportSummary.lane_count), local_support_pass_lane_count=$($activeRuntimeQueueLocalSupportSummary.local_support_pass_lane_count), defects=$($activeRuntimeQueueLocalSupportSummary.defects_count), final_blockers=$($activeRuntimeQueueLocalSupportSummary.final_blocker_count), passes_for_handoff=$($activeRuntimeQueueLocalSupportSummary.passes_for_handoff)
 - Model registry coverage: $($modelRegistryCoverageSummary.result), selected_lane_covered=$($modelRegistryCoverageSummary.selected_lane_covered), selected_lane_result=$($modelRegistryCoverageSummary.selected_lane_result), failed_check_count=$($modelRegistryCoverageSummary.failed_check_count), coverage_allows_selected_lane_ec2_static_proof=$($modelRegistryCoverageSummary.coverage_allows_selected_lane_ec2_static_proof)
+- Git checkpoint gate: $($gitCheckpointSummary.result), clean_worktree=$($gitCheckpointSummary.clean_worktree), local_matches_origin=$($gitCheckpointSummary.local_matches_origin), porcelain_count=$($gitCheckpointSummary.porcelain_count), passes_for_ec2_execute=$($gitCheckpointSummary.passes_for_ec2_execute)
 - Workflow smoke: $($workflowSmokeSummary.result), run_id=$($workflowSmokeSummary.run_id), complete=$($workflowSmokeSummary.complete), final_state=$($workflowSmokeSummary.final_state), local_pullback_status=$($workflowSmokeSummary.local_pullback_status)
 - Pullback record: $($pullbackSummary.status), hashes_verified=$($pullbackSummary.hashes_verified), complete=$($pullbackSummary.complete), file_count_remote=$($pullbackSummary.file_count_remote), file_count_local=$($pullbackSummary.file_count_local)
 - Image QA technical: $($imageQaTechnicalSummary.qa_status), technical_integrity=$($imageQaTechnicalSummary.technical_integrity), resolution_check=$($imageQaTechnicalSummary.resolution_check), complete=$($imageQaTechnicalSummary.complete)
@@ -951,8 +1032,9 @@ $markdown = @"
 - Expected AWS account is $mdExpectedAwsAccount.
 - Do not start EC2 unless auth gate reports $mdAuthEc2Allowed and $mdAuthSafeToStart.
 - Do not start EC2 unless runtime lane queue validation reports $mdCurrentRuntimeLane, selected lane in queue, and failed check count $mdFailedCheckZero.
+- Do not start EC2 unless active queue local support certification reports $mdQueueSupportPass with zero defects.
 - Do not start EC2 unless model registry coverage reports $mdCoverageResult, selected lane $mdCoverageLane result $mdCoveragePass, and failed check count $mdFailedCheckZero.
-- Do not start EC2 unless local Git is clean and $mdHead equals $mdOriginMain.
+- Do not start EC2 unless Git checkpoint dry-run evidence reports $mdGitCheckpointReady, $mdCleanWorktree, and $mdLocalMatchesOrigin, and local $mdHead equals $mdOriginMain.
 - Do not run EC2 static proof unless lane readiness reports $mdLaneReadyId and $mdReadyForStaticProof.
 - Do not run generation until object-info, checkpoint path, and checkpoint hash proof exists.
 - Stop EC2 after runtime work and verify final state $mdStopped.

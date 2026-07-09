@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-LOCAL-MF70-NOSE-VISUAL-QA-20260707T191500-0500",
+  "timestamp": "2026-07-07T19:15:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "strict_whole_image_visual_qa_generated_output",
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "mask_type_id": "mf70_nose",
+  "tracker_id": "TRK-W70-0017",
+  "item_id": "ITEM-W70-0017",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "artifacts": {
+    "prompt_profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_nose_seed210816.json",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_nose_seed210816/RUN_PACKAGE_MANIFEST.json",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_NOSE_SEED210816_EXECUTE_20260707T191500-0500.json",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_nose_seed210816_20260707T190003-0500/images/codex_wave70_mf70_nose_seed210816_00001_.png",
+    "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_nose_seed210816_20260707T190003-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00022_.png",
+    "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_nose/qa_comparisons/wave70_mf70_nose_source_overlay_output_compare.png",
+    "mask_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_nose.json"
+  },
+  "artifact_hashes": {
+    "prompt_profile_sha256": "ef48cab45484195e39d1b277b5515c5b5037199729148e0e83f3f1da7eaa63ea",
+    "run_package_sha256": "7a8e532009e903343ba4391b28fb370ce98ba38421e703d1b51e8aec08172e3c",
+    "runtime_evidence_sha256": "ae5b080647bfe6ebf9b23118ce2fcaebfacc65792d6ff42b53b78b5e6452054c",
+    "generated_output_sha256": "21f061b0de6ae58cebfcc2f7037c274b14990a0834d00cb6f4e4f65c653af058",
+    "diagnostic_mask_preview_sha256": "75df1701696ffe322bf36235102556a3df884ba3b67d35deb63c50fbfaac3074",
+    "comparison_artifact_sha256": "1f2924f1cfef639ff7bcf4ffc921dbab0fbc62415827c7c9594a8331b5174c5a"
+  },
+  "review_method": "direct local inspection of source image, nose mask overlay, generated output, and three-panel comparison artifact",
+  "strict_whole_image_findings": {
+    "identity_preserved": true,
+    "expression_preserved": true,
+    "gaze_preserved": true,
+    "iris_pupil_sclera_preserved": true,
+    "nose_region_result": "pass_with_notes_subtle_nose_texture_contour_preservation_only",
+    "nose_shape_preserved": true,
+    "bridge_tip_nostrils_preserved": true,
+    "nostril_symmetry_preserved": true,
+    "philtrum_lips_mouth_preserved": true,
+    "cheeks_preserved": true,
+    "skin_texture_preserved": true,
+    "hair_preserved": true,
+    "hands_visible": false,
+    "clothing_preserved": true,
+    "background_preserved": true,
+    "lighting_preserved": true,
+    "visible_seam": false,
+    "whole_frame_regression": false
+  },
+  "findings": [
+    "Generated output is visually source-stable against the active local MOD-17 Canny v3 portrait.",
+    "Nose bridge, tip, nostril wings, and nostril symmetry remain natural; no enlarged, narrowed, crooked, melted, or duplicated nose shape is visible.",
+    "Philtrum, lips, mouth line, cheeks, eye cores, gaze, iris/sclera/catchlights, eyebrows, hair, blazer, neck, lighting, crop, and gray background remain stable.",
+    "The lower mask boundary was close to the philtrum/lip area, but the generated output does not show visible lip, mouth, or philtrum mutation.",
+    "No visible hard seam, over-smoothed nose patch, color mismatch, or unrelated whole-frame mutation was observed."
+  ],
+  "result": "pass_with_notes_local_wave70_nose_generated_output",
+  "remaining_blockers": [
+    "target_runtime_proof_required_before_final_certification"
+  ],
+  "boundary": "Generated-output stability only; semantic mask alignment for mf70_nose failed in strict review.",
+  "mask_alignment_context": {
+    "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "strict_review_timestamp": "2026-07-07T19:25:00-05:00",
+    "mask_alignment_result": "fail",
+    "generated_output_visual_result_preserved": true,
+    "interpretation": "This generated-output visual QA may show the output stayed stable, but it must not be used as mf70_nose mask completion because the overlay fails semantic mask alignment and protected-neighbor review."
+  }
+}

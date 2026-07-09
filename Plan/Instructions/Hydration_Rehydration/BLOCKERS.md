@@ -1,3 +1,674 @@
+## Selected S3 Publish Blocked Until Clean Rebuild Produces Concrete Bundle - 2026-07-09T09:37:06-05:00
+
+S3 runtime transfer config is locally ready, but selected S3 publish is correctly blocked because the clean-checkpoint rebuild has not run and the concrete `DEPLOY_BUNDLE_MANIFEST.json` plus zip do not exist yet. Required blockers: manifest-scoped checkpoint not executed cleanly, selected deploy-bundle rebuild not completed, selected deploy-bundle manifest missing until rebuild, selected deploy-bundle zip missing until rebuild, and explicit target-runtime selection still required.
+
+Evidence:
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_S3_RUNTIME_TRANSFER_READINESS_20260709T093623-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_S3_PUBLISH_READINESS_PLAN_20260709T093656-0500.json
+- Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_20260709T093706-0500.json
+
+## Selected Inpaint Deploy Bundle Requires Clean-Checkpoint Rebuild - 2026-07-09T09:28:34-05:00
+
+The selected inpaint run package is identified and ready, but the existing deploy bundle was built from dirty source and must not be used for EC2. Rebuild is planned only after explicit manifest-scoped checkpoint execution and clean Git proof.
+
+Evidence:
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_DEPLOY_BUNDLE_REBUILD_PLAN_20260709T092809-0500.json
+- Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_20260709T092833-0500.json
+
+## Runtime Revalidation Blocked Until Manifest Checkpoint Is Executed - 2026-07-09T09:22:50-05:00
+
+The post-checkpoint runtime revalidation sequence is now defined and QA-covered, but it is not ready to run. Current plan result: `blocked_post_checkpoint_runtime_revalidation_waiting_for_manifest_checkpoint`. Exact blockers include manifest-scoped checkpoint not executed cleanly, selected deploy bundle source dirty, explicit target-runtime selection required, and Git checkpoint gate not clean for EC2 execute.
+
+Evidence:
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_POST_CHECKPOINT_RUNTIME_REVALIDATION_PLAN_20260709T092234-0500.json
+- Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_20260709T092250-0500.json
+
+## Dirty Git Still Blocks Runtime; Manifest Checkpoint Requires Explicit Intent - 2026-07-09T09:16:48-05:00
+
+The manifest-scoped checkpoint path is ready and validated, but runtime/deploy remains blocked by dirty Git until an explicit checkpoint execute decision is made. Current manifest dry-run result: `blocked_git_checkpoint_dirty_worktree`; checkpoint_scope_mode `explicit_manifest`; checkpoint_scope_manifest_valid `true`; no stage/commit/push/reset/checkout occurred.
+
+Evidence:
+- Plan/Instructions/QA/Evidence/Git_Verification/W66_SCOPED_GIT_CHECKPOINT_MANIFEST_20260709T091648-0500.json
+- Plan/Instructions/QA/Evidence/Git_Verification/W66_GITHUB_CHECKPOINT_MANIFEST_SCOPE_DRY_RUN_20260709T091648-0500.json
+- Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_20260709T091341-0500.json
+- Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_20260709T091412-0500.json
+
+## Dirty Git Still Blocks Runtime Until Explicit Checkpoint - 2026-07-09T08:30:07-05:00
+
+The checkpoint workflow gap is resolved, but the runtime/deploy path is still blocked by dirty Git until an explicit checkpoint is selected and completed. Current explicit dry-run result: `blocked_git_checkpoint_dirty_worktree`. The dry-run validated explicit include/exclude roots and did not stage, commit, push, reset, checkout, contact services, start EC2, or generate.
+
+Evidence:
+- Plan/Instructions/QA/Evidence/Git_Verification/W66_DIRTY_GIT_CHECKPOINT_REVIEW_RESOLUTION_20260709T082734-0500.json
+- Plan/Instructions/QA/Evidence/Git_Verification/W66_GITHUB_CHECKPOINT_EXPLICIT_SCOPE_DRY_RUN_20260709T083007-0500.json
+- Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_20260709T082527-0500.json
+- Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_20260709T082751-0500.json
+
+## Dirty Git Review Resolved, Checkpoint Workflow Gap Remains - 2026-07-09T08:16:28-05:00
+
+The dirty Git review groups are now explicitly resolved, but the worktree is still not checkpoint-ready. Current review result: `checkpoint_review_resolved_workflow_gap_remaining`. All known review/defer groups have actions and unresolved_path_count is `0`, but 30 runtime-orchestration include candidates require guarded checkpoint workflow support for non-Plan paths. Until that workflow gap is fixed and revalidated, do not run an automatic checkpoint or rebuild deploy bundles.
+
+Evidence:
+- Plan/Instructions/QA/Evidence/Git_Verification/W66_DIRTY_GIT_CHECKPOINT_REVIEW_RESOLUTION_20260709T081413-0500.json
+- Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_20260709T081628-0500.json
+
+## Dirty Git Scope Plan Requires Review Before Checkpoint - 2026-07-09T08:06:33-05:00
+
+The dirty Git blocker is now scoped but still not resolved. Current scope plan result: `checkpoint_scope_review_required`. Include candidates total `1266`, but review/defer groups remain: `runtime_artifacts_review` 31, `reference_or_mask_asset_review` 5, `jira_control_plane_review` 1, and `archive_or_temp_defer` 2. Until those groups are explicitly handled, do not run an automatic checkpoint or rebuild deploy bundles.
+
+Evidence:
+- Plan/Instructions/QA/Evidence/Git_Verification/W66_DIRTY_GIT_CHECKPOINT_SCOPE_PLAN_20260709T080515-0500.json
+- Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_20260709T080633-0500.json
+
+## Dirty Git Inventory Complete, Checkpoint Scope Still Required - 2026-07-09T07:55:16-05:00
+
+The dirty Git blocker is now classified by local evidence. Current inventory: porcelain_count `1299`, tracked `186`, untracked `1113`, staged `0`, blocked_changed_path_count `0`, local_matches_origin `true`. This does not remove the Git blocker; it makes the next checkpoint decision auditable.
+
+Evidence:
+- Plan/Instructions/QA/Evidence/Git_Verification/W66_DIRTY_GIT_CHECKPOINT_INVENTORY_20260709T075456-0500.json
+- Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_20260709T075516-0500.json
+
+## Selected Inpaint Project Readiness Current, Runtime Still Blocked - 2026-07-09T07:43:13-05:00
+
+The selected inpaint project-readiness blocker is resolved for the current local evidence set. Runtime execution remains blocked, but the current exact blockers are now: `git_checkpoint_gate_not_clean_for_ec2_execute`, `deploy_bundle_source_git_dirty_rebuild_required_before_ec2`, `project_readiness_runtime_lane_queue_order_blocked`, and `target_runtime_proof_evidence_missing`.
+
+Evidence:
+- Plan/Instructions/QA/Evidence/Project_Readiness/W66_PROJECT_READINESS_SELECTED_INPAINT_20260709T073541-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_RUNTIME_UNBLOCK_HANDOFF_sdxl_realvisxl_inpaint_detail_lane_20260709T073556-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LOCAL_RECHECK_LEDGER_20260709T074010-0500.json
+- Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_20260709T074313-0500.json
+
+## Selected Inpaint Local Rechecks Accounted, Project Readiness Missing - 2026-07-09T07:27:42-05:00
+
+The selected inpaint local recheck ledger is complete and QA-covered, but it does not authorize live runtime execution. Current blockers remain: `explicit_user_target_runtime_selection_required`, `git_checkpoint_gate_not_clean_for_ec2_execute`, `deploy_bundle_source_git_dirty_rebuild_required_before_ec2`, `runtime_handoff_project_readiness_missing`, and `target_runtime_proof_evidence_missing`.
+
+Evidence:
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LOCAL_RECHECK_LEDGER_20260709T072624-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_RUNTIME_UNBLOCK_HANDOFF_sdxl_realvisxl_inpaint_detail_lane_20260709T072131-0500.json
+- Plan/Instructions/QA/Evidence/Git_Verification/W66_GITHUB_CHECKPOINT_DRY_RUN_JSON_GATE_20260709T072131-0500.json
+- Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_20260709T072741-0500.json
+
+## Selected Inpaint Handoff Ready, Target Runtime Still Blocked - 2026-07-09T07:14:58-05:00
+
+The selected inpaint pre-EC2 handoff bundle is complete and QA-covered, but it does not authorize live runtime execution. Current blockers remain: `explicit_user_target_runtime_selection_required`, `git_checkpoint_gate_not_clean_for_ec2_execute`, `deploy_bundle_source_git_dirty_rebuild_required_before_ec2`, `runtime_handoff_git_gate_not_passing`, `target_runtime_or_final_certification_not_proven`, `target_runtime_proof_evidence_missing`, and `required_next_runtime_gate_still_requires_target_or_final_review`.
+
+Evidence:
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_PRE_EC2_HANDOFF_BUNDLE_20260709T071135-0500.json
+- Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_20260709T071458-0500.json
+
+## Final Review Evidence Coverage Complete, Target Runtime Still Blocked - 2026-07-09T07:01:52-05:00
+
+The W66 final-review evidence sweep is fully accounted for. Coverage matrix counts: final_review_work_order_count `9`, closure_packet_count `2`, blocker_packet_count `7`, missing_review_evidence_count `0`. This prevents repeating the lane-by-lane blocker accounting loop.
+
+Remaining blockers are not missing final-review accounting; they are target-runtime and certification blockers: explicit user target-runtime selection required, dirty Git checkpoint not passing for EC2 execute, clean deploy-bundle rebuild/revalidation needed, target-runtime object_info/path/hash/input proof missing for selected lanes, bounded target-runtime output/pullback/technical QA/strict visual QA missing, and full project certification still disallowed. EC2 must stay stopped.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_FINAL_REVIEW_EVIDENCE_COVERAGE_20260709T070139-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_20260709T070152-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_TARGET_RUNTIME_EXECUTION_PLAN_20260709T065516-0500.json`
+
+Non-blocked local orchestration/runtime/harness work may continue. Do not start EC2, write ACTIVE_EC2_RUNTIME_WINDOW.json, run live upload, promote masks, rerun hard gates, switch to Jira, or activate Wave71+ unless explicitly selected and gated.
+
+## Normal Final Review Target-Runtime Proof Blocker - 2026-07-09T06:55:16-05:00
+
+The ControlNet Normal lane final-review work order remains open. Current evidence proves local model hash verification, local V3 generation smoke, preferred V3 visual QA, and V3 three-sample local robustness, but those records explicitly do not certify target-runtime readiness or final Normal quality. Missing scope: target-runtime object_info/path/hash/input proof, bounded target-runtime output, pullback, technical QA, strict whole-image visual QA, final certification review, hands/full-body anatomy/contact points, broader surface robustness, and final image-quality certification.
+
+Exact blockers: `normal_lane_target_runtime_proof_evidence_missing`, `target_runtime_object_info_path_hash_input_proof_missing`, `bounded_target_runtime_output_missing`, `target_runtime_pullback_technical_visual_qa_missing`, `local_three_sample_robustness_not_final_normal_certification`, `full_body_hands_contact_and_broader_surface_robustness_not_certified`, `mild_skin_polish_and_small_artifact_notes_not_final_certification`, `local_pass_with_notes_not_final_certification`, `explicit_user_target_runtime_selection_required`, `git_checkpoint_gate_not_clean_for_ec2_execute`, `deploy_bundle_source_git_dirty_rebuild_required_before_ec2`, and `full_project_certification_allowed_false`. EC2 must stay stopped.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Done_Certifications/W66_NORMAL_LANE_FINAL_REVIEW_BLOCKER_PACKET_20260709T065242-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_CLOSURE_ROLLUP_20260709T065510-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_TARGET_RUNTIME_EXECUTION_PLAN_20260709T065516-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_20260709T065251-0500.json`
+
+Non-blocked local orchestration/runtime/harness work may continue. Do not start EC2, write ACTIVE_EC2_RUNTIME_WINDOW.json, run live upload, promote masks, rerun hard gates, switch to Jira, or activate Wave71+ unless explicitly selected and gated.
+
+## OpenPose Final Review Target-Runtime Proof Blocker - 2026-07-09T06:46:44-05:00
+
+The ControlNet OpenPose lane final-review work order remains open. Current evidence proves local model hash verification, local V4 table-hands generation smoke, local V4 visual QA, and V5 table-hands multisample robustness, but those records explicitly do not certify target-runtime readiness or final OpenPose hand anatomy quality. Missing scope: target-runtime object_info/path/hash/input proof, bounded target-runtime output, pullback, technical QA, strict whole-image visual QA, strict final hand-anatomy QA, final certification review, full-body pose variety, and broader contact robustness.
+
+Exact blockers: `openpose_lane_target_runtime_proof_evidence_missing`, `target_runtime_object_info_path_hash_input_proof_missing`, `bounded_target_runtime_output_missing`, `target_runtime_pullback_technical_visual_qa_missing`, `local_three_sample_tablehands_robustness_not_final_openpose_certification`, `strict_final_hand_anatomy_qa_missing`, `full_body_pose_variety_and_contact_robustness_not_certified`, `local_pass_with_notes_not_final_certification`, `explicit_user_target_runtime_selection_required`, `git_checkpoint_gate_not_clean_for_ec2_execute`, `deploy_bundle_source_git_dirty_rebuild_required_before_ec2`, and `full_project_certification_allowed_false`. EC2 must stay stopped.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Done_Certifications/W66_OPENPOSE_LANE_FINAL_REVIEW_BLOCKER_PACKET_20260709T064431-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_CLOSURE_ROLLUP_20260709T064634-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_TARGET_RUNTIME_EXECUTION_PLAN_20260709T064644-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_20260709T064440-0500.json`
+
+Non-blocked local orchestration/runtime/harness work may continue. Do not start EC2, write ACTIVE_EC2_RUNTIME_WINDOW.json, run live upload, promote masks, rerun hard gates, switch to Jira, or activate Wave71+ unless explicitly selected and gated.
+
+## Lineart Final Review Target-Runtime Proof Blocker - 2026-07-09T06:37:15-05:00
+
+The ControlNet Lineart lane final-review work order remains open. Current evidence proves local model/input hash verification, local v4 plain-backdrop generation smoke, preferred v4 visual QA, and three-sample local robustness, but those records explicitly do not certify target-runtime readiness or final Lineart quality. Missing scope: target-runtime object_info/path/hash/input proof, bounded target-runtime output, pullback, technical QA, strict whole-image visual QA, final certification review, exact identity, hands/full-body anatomy/contact points, and broader scene-background robustness.
+
+Exact blockers: `lineart_lane_target_runtime_proof_evidence_missing`, `target_runtime_object_info_path_hash_input_proof_missing`, `bounded_target_runtime_output_missing`, `target_runtime_pullback_technical_visual_qa_missing`, `local_three_sample_robustness_not_final_lineart_certification`, `full_body_hands_contact_and_exact_identity_not_certified`, `local_pass_with_notes_not_final_certification`, `explicit_user_target_runtime_selection_required`, `git_checkpoint_gate_not_clean_for_ec2_execute`, `deploy_bundle_source_git_dirty_rebuild_required_before_ec2`, and `full_project_certification_allowed_false`. EC2 must stay stopped.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Done_Certifications/W66_LINEART_LANE_FINAL_REVIEW_BLOCKER_PACKET_20260709T063504-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_CLOSURE_ROLLUP_20260709T063701-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_TARGET_RUNTIME_EXECUTION_PLAN_20260709T063715-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_20260709T063512-0500.json`
+
+Non-blocked local orchestration/runtime/harness work may continue. Do not start EC2, write ACTIVE_EC2_RUNTIME_WINDOW.json, run live upload, promote masks, rerun hard gates, switch to Jira, or activate Wave71+ unless explicitly selected and gated.
+
+## Depth Final Review Target-Runtime Proof Blocker - 2026-07-09T06:26:17-05:00
+
+The ControlNet Depth lane final-review work order remains open. Current evidence proves local model/input hash verification, local v2 generation smoke, preferred v2 visual QA, and three-sample local robustness, but those records explicitly do not certify target-runtime readiness or final Depth quality. Missing scope: target-runtime object_info/path/hash/input proof, bounded target-runtime output, pullback, technical QA, strict whole-image visual QA, final certification review, and broader hands/full-body/contact/depth-scene robustness.
+
+Exact blockers: `depth_lane_target_runtime_proof_evidence_missing`, `target_runtime_object_info_path_hash_input_proof_missing`, `bounded_target_runtime_output_missing`, `target_runtime_pullback_technical_visual_qa_missing`, `local_three_sample_robustness_not_final_depth_certification`, `hands_full_body_contact_and_broader_depth_scene_robustness_not_certified`, `local_pass_with_notes_not_final_certification`, `explicit_user_target_runtime_selection_required`, `git_checkpoint_gate_not_clean_for_ec2_execute`, `deploy_bundle_source_git_dirty_rebuild_required_before_ec2`, and `full_project_certification_allowed_false`. EC2 must stay stopped.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Done_Certifications/W66_DEPTH_LANE_FINAL_REVIEW_BLOCKER_PACKET_20260709T062408-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_CLOSURE_ROLLUP_20260709T062610-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_TARGET_RUNTIME_EXECUTION_PLAN_20260709T062617-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_20260709T062420-0500.json`
+
+Non-blocked local orchestration/runtime/harness work may continue. Do not start EC2, write ACTIVE_EC2_RUNTIME_WINDOW.json, run live upload, promote masks, rerun hard gates, switch to Jira, or activate Wave71+ unless explicitly selected and gated.
+
+## RealESRGAN Final Review Target-Runtime Proof Blocker - 2026-07-09T06:17:56-05:00
+
+The RealESRGAN upscale/polish lane final-review work order remains open. Current evidence proves local model provisioning, one local run-package generation smoke, strict local visual QA, and local p06 pass-planner binding, but those records explicitly do not certify target-runtime readiness or final upscale/polish quality. Missing scope: target-runtime object_info/path/hash proof, bounded target-runtime output, pullback, technical QA, strict whole-image visual QA, broader robustness/final-review basis, explicit user target-runtime selection, clean Git checkpoint, and clean deploy-bundle rebuild/revalidation.
+
+Exact blockers: `realesrgan_lane_target_runtime_proof_evidence_missing`, `target_runtime_object_info_path_hash_proof_missing`, `bounded_target_runtime_output_missing`, `target_runtime_pullback_technical_visual_qa_missing`, `single_local_upscale_sample_not_broad_robustness_matrix`, `local_pass_with_notes_not_final_certification`, `explicit_user_target_runtime_selection_required`, `git_checkpoint_gate_not_clean_for_ec2_execute`, `deploy_bundle_source_git_dirty_rebuild_required_before_ec2`, and `full_project_certification_allowed_false`. EC2 must stay stopped.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Done_Certifications/W66_REALESRGAN_LANE_FINAL_REVIEW_BLOCKER_PACKET_20260709T061548-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_CLOSURE_ROLLUP_20260709T061750-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_TARGET_RUNTIME_EXECUTION_PLAN_20260709T061756-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_20260709T061559-0500.json`
+
+Non-blocked local orchestration/runtime/harness work may continue. Do not start EC2, write ACTIVE_EC2_RUNTIME_WINDOW.json, run live upload, promote masks, rerun hard gates, switch to Jira, or activate Wave71+ unless explicitly selected and gated.
+
+## Inpaint Final Review Target-Runtime Proof Blocker - 2026-07-09T06:03:56-05:00
+
+The RealVisXL inpaint/detail lane final-review work order remains open. Current evidence proves local no-mouth v4 iteration, local robustness, local object-info/hash proof, local mask preview, and Wave25 contact refine/robustness context, but those records explicitly do not certify target-runtime readiness or final inpaint/detail quality. Missing scope: target-runtime object_info/path/hash/input proof, bounded target-runtime output, pullback, technical QA, strict whole-image visual QA, explicit user target-runtime selection, clean Git checkpoint, and clean deploy-bundle rebuild/revalidation.
+
+Exact blockers: `inpaint_lane_target_runtime_proof_evidence_missing`, `target_runtime_object_info_path_hash_input_proof_missing`, `bounded_target_runtime_output_missing`, `target_runtime_pullback_technical_visual_qa_missing`, `local_pass_with_notes_not_final_certification`, `explicit_user_target_runtime_selection_required`, `git_checkpoint_gate_not_clean_for_ec2_execute`, `deploy_bundle_source_git_dirty_rebuild_required_before_ec2`, and `full_project_certification_allowed_false`. EC2 must stay stopped.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Done_Certifications/W66_INPAINT_LANE_FINAL_REVIEW_BLOCKER_PACKET_20260709T060050-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_CLOSURE_ROLLUP_20260709T060347-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_TARGET_RUNTIME_EXECUTION_PLAN_20260709T060356-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_INPAINT_LANE_FINAL_REVIEW_BLOCKER_PACKET_20260709T060155-0500.json`
+
+Non-blocked local orchestration/runtime/harness work may continue. Do not start EC2, write ACTIVE_EC2_RUNTIME_WINDOW.json, run live upload, promote masks, rerun hard gates, switch to Jira, or activate Wave71+ unless explicitly selected and gated.
+
+## Base Lane Final Review Blocker - 2026-07-09T05:55:12-05:00
+
+The RealVisXL base lane final-review work order remains open. Current evidence proves W63 generic target-runtime smoke and W69 local contact attempts, but those records explicitly do not certify final base-lane quality. Missing scope: candidate-appropriate target-runtime proof for the contact/refine candidate, mask-routed refine or small robustness pair for the base contact scope, and final review evidence that allows closure.
+
+Exact blockers: `base_lane_final_review_candidate_scope_mismatch`, `generic_w63_target_runtime_smoke_does_not_certify_current_single_hand_or_two_character_contact_candidates`, `single_hand_contact_closeup_final_decision_allowed_false`, `two_character_hand_to_body_certification_allowed_false`, `mask_routed_refine_or_small_robustness_pair_missing_for_base_contact_scope`, and `full_project_certification_allowed_false`. EC2 must stay stopped.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Done_Certifications/W66_BASE_LANE_FINAL_REVIEW_BLOCKER_PACKET_20260709T055223-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_CLOSURE_ROLLUP_20260709T055501-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_TARGET_RUNTIME_EXECUTION_PLAN_20260709T055511-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_BASE_LANE_FINAL_REVIEW_BLOCKER_PACKET_20260709T055307-0500.json`
+
+Non-blocked local orchestration/runtime/harness work may continue. Do not start EC2, write ACTIVE_EC2_RUNTIME_WINDOW.json, run live upload, promote masks, rerun hard gates, switch to Jira, or activate Wave71+ unless explicitly selected and gated.
+
+## Canny Final Review Closed; Remaining Target-Runtime Blockers - 2026-07-09T05:45:43-05:00
+
+The Canny lane final-review work order is closed locally from existing W68 target-runtime proof plus W69/W72 local robustness context. Closure rollup now reports 2 closed work orders and 16 open work orders. This does not remove target-runtime or global blockers for the remaining lanes and does not certify the full project.
+
+Remaining blockers: `git_checkpoint_gate_not_clean_for_ec2_execute`, `explicit_user_target_runtime_selection_required`, `deploy_bundle_source_git_dirty_rebuild_required_before_ec2`, and remaining open target-runtime/final-review work orders. EC2 must stay stopped.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Done_Certifications/W66_CANNY_LANE_FINAL_REVIEW_PACKET_20260709T054130-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_CLOSURE_ROLLUP_20260709T054531-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_TARGET_RUNTIME_EXECUTION_PLAN_20260709T054543-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_CANNY_FINAL_REVIEW_PACKET_20260709T054341-0500.json`
+
+Non-blocked local orchestration/runtime/harness work may continue. Do not start EC2, write ACTIVE_EC2_RUNTIME_WINDOW.json, run live upload, promote masks, rerun hard gates, switch to Jira, or activate Wave71+ unless explicitly selected and gated.
+
+## Active Queue Package Deploy Matrix Target-Runtime Blockers - 2026-07-09T05:34:15-05:00
+
+All nine active runtime queue lanes have local pass_local_only run packages and deploy bundles with matching bundle ZIP hashes, but all nine deploy bundles were built from a dirty source state. Latest matrix evidence reports local_package_deploy_ready_count=9, dirty_source_bundle_count=9, clean_source_bundle_count=0, target_runtime_launch_allowed=false, and failed_check_count=0.
+
+Remaining blockers: `deploy_bundle_source_git_dirty_rebuild_required_before_ec2`, `explicit_user_target_runtime_selection_required`, and `git_checkpoint_gate_not_clean_for_ec2_execute`. EC2 must stay stopped.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_PACKAGE_DEPLOY_MATRIX_20260709T053152-0500.json`
+- `Plan/Tracker/Evidence/W66_ACTIVE_RUNTIME_QUEUE_PACKAGE_DEPLOY_MATRIX_20260709T053152-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_ACTIVE_RUNTIME_QUEUE_PACKAGE_DEPLOY_MATRIX_20260709T053159-0500.json`
+- `Plan/Tracker/Evidence/W66_QA_HELPER_ACTIVE_RUNTIME_QUEUE_PACKAGE_DEPLOY_MATRIX_20260709T053159-0500.json`
+
+Non-blocked local orchestration/runtime/harness work may continue. Do not start EC2, write ACTIVE_EC2_RUNTIME_WINDOW.json, run live upload, promote masks, rerun hard gates, switch to Jira, or activate Wave71+ unless explicitly selected and gated.
+
+## Selected Inpaint Launch Gate Target-Runtime Blockers - 2026-07-09T05:27:05-05:00
+
+The selected inpaint package is locally ready, but target-runtime launch remains blocked. Latest launch-gate evidence reports local_package_ready=true, target_runtime_launch_allowed=false, and failed_check_count=0.
+
+Remaining blockers: `git_checkpoint_gate_not_clean_for_ec2_execute`, `explicit_user_target_runtime_selection_required`, and `deploy_bundle_source_git_dirty_rebuild_required_before_ec2`. EC2 must stay stopped.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LAUNCH_GATE_20260709T052434-0500.json`
+- `Plan/Tracker/Evidence/W66_SELECTED_TARGET_RUNTIME_LAUNCH_GATE_20260709T052434-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_SELECTED_TARGET_RUNTIME_LAUNCH_GATE_20260709T052441-0500.json`
+- `Plan/Tracker/Evidence/W66_QA_HELPER_SELECTED_TARGET_RUNTIME_LAUNCH_GATE_20260709T052441-0500.json`
+
+Non-blocked local orchestration/runtime/harness work may continue. Do not start EC2, write ACTIVE_EC2_RUNTIME_WINDOW.json, run live upload, promote masks, rerun hard gates, switch to Jira, or activate Wave71+ unless explicitly selected and gated.
+
+## Selected Inpaint Package Readiness Remaining Target-Runtime Blockers - 2026-07-09T05:17:05-05:00
+
+The previous local object-info blocker `local_object_info_evidence_missing_runtime_required_node:MaskToImage` is resolved. Refreshed local object-info evidence proves `MaskToImage` plus the other 11 required inpaint/detail nodes, and the selected-lane package readiness packet now reports `package_readiness_pass=true`.
+
+Remaining blockers: `git_checkpoint_gate_not_clean_for_ec2_execute`, `explicit_user_target_runtime_selection_required`, and `deploy_bundle_source_git_dirty_rebuild_required_before_ec2`. EC2 must stay stopped.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_OBJECT_INFO_INPAINT_DETAIL_MASKTOIMAGE_REFRESH_20260709T051205-0500.json`
+- `Plan/Tracker/Evidence/W66_LOCAL_OBJECT_INFO_INPAINT_DETAIL_MASKTOIMAGE_REFRESH_20260709T051205-0500.json`
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LANE_PACKAGE_READINESS_20260709T051227-0500.json`
+- `Plan/Tracker/Evidence/W66_SELECTED_TARGET_RUNTIME_LANE_PACKAGE_READINESS_20260709T051227-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_SELECTED_TARGET_RUNTIME_LANE_PACKAGE_READINESS_MASKTOIMAGE_REFRESH_20260709T051520-0500.json`
+- `Plan/Tracker/Evidence/W66_QA_HELPER_SELECTED_TARGET_RUNTIME_LANE_PACKAGE_READINESS_MASKTOIMAGE_REFRESH_20260709T051520-0500.json`
+
+Non-blocked local orchestration/runtime/harness work may continue. Do not start EC2, write ACTIVE_EC2_RUNTIME_WINDOW.json, run live upload, promote masks, rerun hard gates, switch to Jira, or activate Wave71+ unless explicitly selected and gated.
+
+## Selected Inpaint Package Readiness Object Info Blocker - 2026-07-09T05:06:10-05:00
+
+The selected inpaint target-runtime lane package readiness is blocked because current runtime requirements include `MaskToImage`, but the referenced local object-info evidence does not prove that node. The helper also preserved the dirty Git checkpoint blocker, explicit target-runtime selection requirement, and dirty-source deploy bundle rebuild requirement. EC2 must stay stopped.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LANE_PACKAGE_READINESS_20260709T050404-0500.json`
+- `Plan/Tracker/Evidence/W66_SELECTED_TARGET_RUNTIME_LANE_PACKAGE_READINESS_20260709T050404-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_SELECTED_TARGET_RUNTIME_LANE_PACKAGE_READINESS_20260709T050411-0500.json`
+- `Plan/Tracker/Evidence/W66_QA_HELPER_SELECTED_TARGET_RUNTIME_LANE_PACKAGE_READINESS_20260709T050411-0500.json`
+
+Resolution evidence required: refreshed local object-info evidence for `sdxl_realvisxl_inpaint_detail_lane` proving `MaskToImage` plus the existing required nodes, then a rerun of the selected-lane package readiness packet. Non-blocked local orchestration/runtime/harness work may continue. Do not start EC2, write ACTIVE_EC2_RUNTIME_WINDOW.json, run live upload, promote masks, rerun hard gates, switch to Jira, or activate Wave71+ unless explicitly selected and gated.
+
+## Target Runtime Execution Plan Blocked By Explicit Selection And Git Gate - 2026-07-09T04:57:13-05:00
+
+The active target-runtime execution plan selected `sdxl_realvisxl_inpaint_detail_lane` as the first runtime-queue-order lane still missing target-runtime proof, but execution is explicitly not allowed now. Blockers are explicit user target-runtime selection, the dirty Git checkpoint gate, and the lane's remaining target-runtime/final-certification blockers. EC2 must stay stopped.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_TARGET_RUNTIME_EXECUTION_PLAN_20260709T045509-0500.json`
+- `Plan/Tracker/Evidence/W66_ACTIVE_RUNTIME_QUEUE_TARGET_RUNTIME_EXECUTION_PLAN_20260709T045509-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_ACTIVE_RUNTIME_QUEUE_TARGET_RUNTIME_EXECUTION_PLAN_20260709T045518-0500.json`
+- `Plan/Tracker/Evidence/W66_QA_HELPER_ACTIVE_RUNTIME_QUEUE_TARGET_RUNTIME_EXECUTION_PLAN_20260709T045518-0500.json`
+
+Non-blocked local orchestration/runtime/harness work may continue. Do not start EC2, write ACTIVE_EC2_RUNTIME_WINDOW.json, run live upload, promote masks, rerun hard gates, switch to Jira, or activate Wave71+ unless explicitly selected and gated.
+
+## Active Runtime Queue Work-Order Closure Update - 2026-07-09T04:48:41-05:00
+
+The low-risk lane local review packet is now closed in the final-certification closure rollup. Full active-runtime final certification remains blocked, but there are no remaining local-ready review packets in the current work-order manifest. Remaining blockers are one global Git preflight work order, eight target-runtime proof work orders, and eight final-review work orders.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_CLOSURE_ROLLUP_20260709T044638-0500.json`
+- `Plan/Tracker/Evidence/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_CLOSURE_ROLLUP_20260709T044638-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_CLOSURE_ROLLUP_20260709T044646-0500.json`
+- `Plan/Tracker/Evidence/W66_QA_HELPER_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_CLOSURE_ROLLUP_20260709T044646-0500.json`
+
+Non-blocked local orchestration/runtime/harness work may continue. Do not start EC2, run live upload, promote masks, rerun hard gates, switch to Jira, or activate Wave71+ unless explicitly selected and gated.
+
+## Active Runtime Queue Final Certification Blocker Update - 2026-07-09T04:37:50-05:00
+
+The low-risk lane local final-review packet is now closed with result `pass_low_risk_lane_final_review_packet_ready` and `final_decision=done_with_non_blocking_notes`, but full active-runtime final certification remains blocked. The blocker scope is now reduced by one local-ready work order; remaining blockers are the target-runtime/final-review work orders for other lanes plus the fail-closed Git checkpoint gate for EC2 execution.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Done_Certifications/W66_LOW_RISK_LANE_FINAL_REVIEW_PACKET_20260709T043340-0500.json`
+- `Plan/Tracker/Evidence/W66_LOW_RISK_LANE_FINAL_REVIEW_PACKET_20260709T043340-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_LOW_RISK_LANE_FINAL_REVIEW_PACKET_20260709T043349-0500.json`
+- `Plan/Tracker/Evidence/W66_QA_HELPER_LOW_RISK_LANE_FINAL_REVIEW_PACKET_20260709T043349-0500.json`
+
+Non-blocked local orchestration/runtime/harness work may continue. Do not start EC2, run live upload, promote masks, rerun hard gates, switch to Jira, or activate Wave71+ unless explicitly selected and gated.
+
+## Active Runtime Queue Final Certification Blocked - 2026-07-09T04:20:26-05:00
+
+Final certification for the active 9-lane runtime queue remains blocked, but the blocker is now machine-readable and scoped. Latest readiness evidence reports result `blocked_final_certification_target_runtime_or_final_review_missing`, `lane_count=9`, `final_ready_lane_count=1`, `blocked_lane_count=8`, `final_blocker_count=32`, `defects=0`, and Git checkpoint gate `passes_for_ec2_execute=false`.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_20260709T042016-0500.json`
+- `Plan/Tracker/Evidence/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_20260709T042016-0500.json`
+- `Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_20260709T042026-0500.json`
+- `Plan/Tracker/Evidence/W66_QA_HELPER_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_20260709T042026-0500.json`
+
+Resolution evidence required: intentionally selected target-runtime proof/final review for the blocked lanes, clean Git checkpoint gate immediately before any EC2 execute path, and lane-specific remaining certification gates. Non-mask local orchestration/runtime work may continue while final certification remains blocked.
+
+## Git Checkpoint Gate Structured Evidence Update - 2026-07-09T04:04:28-05:00
+
+`BLOCKER-W64-GIT-DIRTY-WORKTREE-001` remains active for EC2 checkpoint, commit/push checkpoint, and target-runtime starts. Latest direct structured gate evidence reports `blocked_git_checkpoint_dirty_worktree`, `clean_worktree=false`, `local_matches_origin=true`, `porcelain_count=1144`, `tracked_porcelain_count=185`, `untracked_porcelain_count=959`, `staged_count=0`, `unstaged_count=185`, `blocked_changed_path_count=0`, `staged_secret_match_count=0`, `commit_attempted=false`, and `push_attempted=false`.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Git_Verification/W66_GITHUB_CHECKPOINT_DRY_RUN_JSON_GATE_20260709T040418-0500.json`
+- `Plan/Tracker/Evidence/W66_GITHUB_CHECKPOINT_DRY_RUN_JSON_GATE_20260709T040418-0500.json`
+- `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_OPERATIONS_HELPER_GITHUB_CHECKPOINT_JSON_DRY_RUN_20260709T040428-0500.json`
+- `Plan/Tracker/Evidence/W66_OPERATIONS_HELPER_GITHUB_CHECKPOINT_JSON_DRY_RUN_20260709T040428-0500.json`
+
+No commit, push, cleanup, reset, revert, GitHub API contact, AWS contact, EC2 start, or generation occurred. Non-blocked local work may continue when it does not require a clean Git checkpoint or target-runtime execution.
+
+## AWS Auth And Canny Proof Reuse Update - 2026-07-09T01:18:29-05:00
+
+Latest live AWS auth check passed for account `029530099913` in `us-east-1`. Therefore older `BLOCKER-W64-AWS-EXPIRED-SESSION-001` text is superseded for authentication status. EC2/GPU execution still requires explicit task selection, cost/runtime gates, instance-state checks, and lane-specific proof requirements; do not start EC2 merely to re-prove existing baseline Canny work.
+
+Current observed AWS state: `ComfyUI-LoRA-GPU-Server` (`i-0560bf8d143f93bb1`, `g5.xlarge`) is stopped; `NocoDB` (`i-04b3b893c360b6d8a`, `t3.small`) is running and unrelated to ComfyUI GPU runtime; `InfinityWindow` (`i-067237569a445fd1f`, `t3.medium`) is stopped.
+
+Completed Canny baseline proof must be reused, not rerun: W68 EC2 Canny v4 target-runtime smoke completed with generation, S3 sync, local pullback/hash verification, technical QA, and visual QA. The 20260709 local Canny package smoke also passed with two outputs: generated image plus diagnostic control map. Final Canny certification and changed-variant target proof remain separate only when intentionally selected.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Operations_Static_Validation/AWS_AUTH_AND_CANNY_PROOF_REUSE_REVIEW_20260709T011829-0500.json`
+- `Plan/Tracker/Evidence/AWS_AUTH_AND_CANNY_PROOF_REUSE_REVIEW_20260709T011829-0500.json`
+- `Plan/Instructions/QA/RUNTIME_PROOF_REUSE_AND_NO_RERUN_PROTOCOL.md`
+
+## Wave64 Active Blocker Register - 2026-07-09T00:01:53-05:00
+
+This is the latest active blocker register for the live transferred session. Older blocker prose below remains historical/source context and cannot supersede this register without newer structured evidence.
+
+| Blocker ID | Status | Scope | Source Evidence | Resolution Evidence Required |
+| --- | --- | --- | --- | --- |
+| `BLOCKER-W64-GIT-DIRTY-WORKTREE-001` | active | EC2 checkpoint, commit/push checkpoint, target-runtime starts | `Plan/Instructions/QA/Evidence/Wave64/secret_git_security.json` | New secret/Git evidence with `clean_worktree=true` and intentional handling of existing dirty changes |
+| `BLOCKER-W64-AWS-EXPIRED-SESSION-001` | superseded_for_auth_20260709T011829-0500; EC2 execution still explicit-gated | live AWS/EC2 proof and target-runtime execution | `Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json`; `Plan/Instructions/QA/Evidence/Operations_Static_Validation/AWS_AUTH_AND_CANNY_PROOF_REUSE_REVIEW_20260709T011829-0500.json` | Fresh AWS auth/account gate is current; bounded EC2 command evidence is required only for an intentionally selected new/changed target-runtime task, not to rerun completed Canny baseline proof |
+| `BLOCKER-W64-CURRENT-EC2-ARTIFACTS-MISSING-001` | active for current-run pullback integrity | current-run artifact pullback certification | `Plan/Instructions/QA/Evidence/Wave64/artifact_pullback_integrity.json` | Bounded EC2 runtime artifact set plus pullback manifest/hash evidence |
+| `BLOCKER-GOLD-MASK-DEPENDENCY-001` | active for mask-dependent rows only | mask promotion, geometry authority, body/hand/contact validation, final mask QA, certification-ready claims, Wave71+ mask-proof activation | `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/GOLD_MASK_DEPENDENCY_BOUNDARY_20260708T222123-0500.json` | Manual gold-mask intake validation and strict mask QA pass records |
+
+Non-blocked work may continue when it reuses completed AWS/runtime proof, does not start EC2 without an explicit selected task, does not require a clean Git checkpoint, does not consume candidate masks as truth, and does not claim mask certification.
+
+Evidence for this register:
+- `Plan/Instructions/QA/Evidence/Wave64/blocker_known_issue_control.json`
+- `Plan/Instructions/QA/Evidence/Wave64/BLOCKER_KNOWN_ISSUE_CONTROL_20260709T000153-0500.json`
+- `Plan/Tracker/Evidence/BLOCKER_KNOWN_ISSUE_CONTROL_20260709T000153-0500.json`
+
+
+## Gold Standard Mask Dependency Boundary - 2026-07-08T22:21:23-05:00
+
+Status: `Manual_Gold_Mask_Work_In_Progress`.
+
+Mask-dependent blocker: use `Blocked_Gold_Mask_Dependency_Missing` only for rows, gates, artifacts, or certification claims that require trusted manual gold masks.
+
+Boundary: this blocker does not stop unrelated workflow structure, orchestration, evidence/logging, automation/session cleanup, dataset organization, validation scaffolding, tracker hygiene, ComfyUI wiring that does not claim final mask truth, or non-mask asset work.
+
+Policy source: `Plan/Instructions/QA/GOLD_STANDARD_MASK_DEPENDENCY_GATE_PROTOCOL.md`.
+
+## Wave70 0169 Feet Toes Exact Blocker - 2026-07-08T18:58:25-05:00
+
+Re-entered `TRK-W70-0169` / `ITEM-W70-0169` after the two-hour supervisor correction and recorded an exact foot/toe authority blocker.
+
+Ref_Image_1+Ref_Image_2 feet/toe reference context is available: Ref_Image_1 has `4` foot/toe gold masks, Ref_Image_2 has `4` foot/toe overlays, and the combined body matrix records `9` full/near-full references plus `78` gold masks. `Ref_Image_1/Full/New folder` remains excluded from feet/toes/ankles/lower-calf proof because it is knees-to-head only.
+
+The row remains `Required_Not_Complete`: body reference matrix pass is false, whole-body authority pass is false, canonical polygon export pass is false, and foot/toe contact/support ownership is not proved. No mask was changed or promoted. No hard-gate rerun was performed in this re-entry step.
+
+Evidence:
+
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_0169_FEET_TOES_REENTRY_BLOCKER_20260708T185825-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/feet_toes_reentry_blocker.json`
+- `Plan/Tracker/Evidence/W70_0169_FEET_TOES_REENTRY_BLOCKER_20260708T185825-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/feet_toes_authority.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/body_reference_matrix.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_body_mask_gold_standard.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_2_body_reference.json`
+- `Plan/Instructions/QA/Evidence/Milestone_Progress_Audit/TWO_HOUR_SUPERVISOR_ROUTE_LOOP_CORRECTION_20260708T185529-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/available_route_runtime_validation_alignment.json`
+- `runtime_artifacts/mask_factory/wave70_0169_feet_toes_reentry_blocker/20260708T185825-0500/feet_toes_reentry_blocker_panel.png`
+
+Next exact local action: run Wave70 hard gates only after this row-level blocker, then continue active Wave70 sequence without returning to generic route-loop work.
+
+## Wave70 Available Route Runtime Validation Still Blocked - 2026-07-08T18:51:04-05:00
+
+Recorded available-route runtime validation alignment for Wave70 whole-body geometry.
+
+Local available routes are runtime-executed but not authority-complete: pose produced partial source-derived landmarks on the active portrait, hand landmarking executed but detected zero hands on the active source, and SAM2 promptable refinement executed for face refinement but remains pending consensus/canonical polygon evidence.
+
+The whole-body stack is still blocked by missing required routes: `human_part_parsing_route`, `person_instance_segmentation_route`, `temporal_propagation_route`, and `contact_occlusion_ownership_route`. Therefore `TRK-W70-0162` / `ITEM-W70-0162` stays `Blocked_Body_Geometry_Dependency_Missing`; no body, hand, contact, support, soft-body, or temporal mask was changed or promoted.
+
+Evidence:
+
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_AVAILABLE_ROUTE_RUNTIME_VALIDATION_ALIGNMENT_20260708T185104-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/available_route_runtime_validation_alignment.json`
+- `Plan/Tracker/Evidence/W70_AVAILABLE_ROUTE_RUNTIME_VALIDATION_ALIGNMENT_20260708T185104-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/dependency_probe_refresh_alignment.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/pose_landmark_authority.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/hand_finger_landmark_authority.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/segmentation_refinement_authority.json`
+
+Next exact local action: resolve/register human parsing, person-instance segmentation, temporal propagation, and contact ownership routes, then rerun dependency probe and hard gates before canonical polygon work.
+
+## Wave70 Whole Body Dependency Route Blocker - 2026-07-08T18:47:29-05:00
+
+Refreshed the Wave70 whole-body dependency/model probe and aligned it with the current Ref_Image_1+2 canonical body-geometry prerequisite gap.
+
+Exact local route state: missing required routes are `human_part_parsing_route`, `person_instance_segmentation_route`, `temporal_propagation_route`, and `contact_occlusion_ownership_route`. Local `pose_landmark_route`, `hand_landmark_route`, and `promptable_segmentation_refinement_route` are present only as available-but-runtime-unvalidated routes, so they cannot yet provide canonical polygons or mask promotion authority.
+
+`TRK-W70-0162` / `ITEM-W70-0162` remains `Blocked_Body_Geometry_Dependency_Missing`. Ref_Image_1+2 still provide 9 full/near-full references and 78 gold masks as calibration/reference context, but static overlays are not canonical body geometry authority.
+
+Post-refresh Wave70 hard gates passed fail-closed: geometry and promotion each checked 332 rows with zero pass-like rows and zero failures. No masks were changed or promoted, and Wave71+ remains deferred.
+
+Evidence:
+
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_DEPENDENCY_PROBE_REFRESH_ALIGNMENT_20260708T184729-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/dependency_probe_refresh_alignment.json`
+- `Plan/Tracker/Evidence/W70_DEPENDENCY_PROBE_REFRESH_ALIGNMENT_20260708T184729-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/body_geometry_dependency_probe.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/canonical_body_geometry_prerequisite_gap.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_WHOLE_BODY_DEPENDENCY_PROBE_REFRESH_20260708T184528-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_WHOLE_BODY_DEPENDENCY_PROBE_REFRESH_20260708T184528-0500.json`
+- `Plan/Tracker/Evidence/W70_MASK_GEOMETRY_HARD_GATE_POST_WHOLE_BODY_DEPENDENCY_PROBE_REFRESH_20260708T184528-0500.json`
+- `Plan/Tracker/Evidence/W70_MASK_PROMOTION_HARD_GATE_POST_WHOLE_BODY_DEPENDENCY_PROBE_REFRESH_20260708T184528-0500.json`
+
+Next exact local action: resolve or register local human parsing, person-instance segmentation, temporal propagation, and contact ownership routes; then runtime-validate pose, hand, and promptable segmentation routes before deriving canonical polygons.
+
+## Wave70 Canonical Body Geometry Prerequisite Gap - 2026-07-08T18:44:18-05:00
+
+Recorded the canonical whole-body geometry prerequisite gap after Ref_Image_1+Ref_Image_2 ingestion.
+
+Current usable context remains `9` combined full/near-full references and `78` combined gold masks. This is enough calibration/reference context to supersede the old missing-full-body-reference blocker, but not enough to pass canonical whole-body geometry authority. Static overlays remain calibration evidence, not canonical polygon authority.
+
+Required next evidence before body/hand/contact/support/soft-body promotion: left side/profile full body, right side/profile full body, back full body, 3/4 left and right, contact/support or occlusion cases, optional multi-person owner-separation case for multi-character/contact scope, and a local model-backed geometry stack with pose, hands, human parsing, promptable refinement, contact ownership, canonical polygons, and coordinate transforms.
+
+Clarifications preserved: `Ref_Image_1/Full/New folder` is knees-to-head only and excluded from feet/toes/ankles/lower-calf/support proof; the top portion of the Ref_Image_1 composite contains partial 1/3-body references and is not expected to mask all body parts.
+
+Wave70 remains fail-closed. No masks were changed or promoted. Post-0178 geometry and promotion gates remain 332 checked, zero pass-like rows, and zero failures.
+
+Evidence:
+
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_CANONICAL_BODY_GEOMETRY_PREREQUISITE_GAP_20260708T184418-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/canonical_body_geometry_prerequisite_gap.json`
+- `Plan/Tracker/Evidence/W70_CANONICAL_BODY_GEOMETRY_PREREQUISITE_GAP_20260708T184418-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/body_reference_matrix.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_TERMINAL_BLOCKER_20260708T183948-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_REF_IMAGES_1_2_20260708T154144-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_REF_IMAGES_1_2_20260708T154144-0500.json`
+
+Next exact local action: acquire or integrate the missing canonical whole-body geometry prerequisites, then rerun body reference matrix, whole-body authority, geometry gate, and promotion gate before any Wave71+ activation.
+
+## Wave70 0158 Ref_Image_1 Remaining Route Blocker - 2026-07-08T13:54:36-05:00
+
+Post-Ref_Image_1 evaluation Wave70 hard gates passed for `TRK-W70-0158` / `ITEM-W70-0158` while the row remains fail-closed as `Required_Not_Complete`.
+
+The corrected Ref_Image_1 right-forearm gold mask is available, and the top-strip/lower-strip interpretation is recorded. These gates prove the current ledger has no pass-like unsupported mask claims; they do not promote the row or certify the production mask route.
+
+Gate evidence:
+
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_MF70_RIGHT_FOREARM_REF_IMAGE_1_20260708T135350-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_MF70_RIGHT_FOREARM_REF_IMAGE_1_20260708T135350-0500.json`
+- `Plan/Tracker/Evidence/W70_MASK_GEOMETRY_HARD_GATE_POST_MF70_RIGHT_FOREARM_REF_IMAGE_1_20260708T135350-0500.json`
+- `Plan/Tracker/Evidence/W70_MASK_PROMOTION_HARD_GATE_POST_MF70_RIGHT_FOREARM_REF_IMAGE_1_20260708T135350-0500.json`
+
+Next local action: identify and work the next required Wave70 mask-factory row using Ref_Image_1 gold masks where applicable, under the same non-promotional rules.
+
+## Wave70 0157 Ref_Image_1 Remaining Route Blocker - 2026-07-08T13:47:57-05:00
+
+Post-Ref_Image_1 evaluation Wave70 hard gates passed for `TRK-W70-0157` / `ITEM-W70-0157` while the row remains fail-closed as `Required_Not_Complete`.
+
+The corrected Ref_Image_1 left-forearm gold mask is available, and the top-strip/lower-strip interpretation is recorded. These gates prove the current ledger has no pass-like unsupported mask claims; they do not promote the row or certify the production mask route.
+
+Gate evidence:
+
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_MF70_LEFT_FOREARM_REF_IMAGE_1_20260708T134712-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_MF70_LEFT_FOREARM_REF_IMAGE_1_20260708T134712-0500.json`
+- `Plan/Tracker/Evidence/W70_MASK_GEOMETRY_HARD_GATE_POST_MF70_LEFT_FOREARM_REF_IMAGE_1_20260708T134712-0500.json`
+- `Plan/Tracker/Evidence/W70_MASK_PROMOTION_HARD_GATE_POST_MF70_LEFT_FOREARM_REF_IMAGE_1_20260708T134712-0500.json`
+
+Next local action: work `TRK-W70-0158` / `ITEM-W70-0158`, `mf70_right_forearm`, using Ref_Image_1 gold masks under the same non-promotional rules.
+
+## Wave70 Left Forearm Blocker - 2026-07-08T12:37:09-05:00
+
+TRK-W70-0157 / ITEM-W70-0157: Blocked_Body_Part_Not_Visible / blocked_exact_local_left_forearm_not_source_visible.
+
+- Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_LEFT_FOREARM_20260708T123709-0500.json
+- Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_left_forearm.json
+- Plan/Tracker/Evidence/W70_MF70_LEFT_FOREARM_20260708T123709-0500.json
+- Plan/Tracker/Evidence/mf70_left_forearm.json
+- runtime_artifacts/mask_factory/wave70_mf70_left_forearm/20260708T123709-0500/mf70_left_forearm.json
+- runtime_artifacts/mask_factory/wave70_mf70_left_forearm/20260708T123709-0500/mf70_left_forearm_blocker_panel.png
+
+## Session Transfer Visibility Correction - 2026-07-08T12:33:36-05:00
+
+The active Codex pursuing goal and active cron automation fleet have been verified in current thread `019f422f-88b1-7382-872b-21de2089e983`. The dead thread `019f35e8-7e15-7c72-8ffb-66f6f9b246a0` appears only in historical hydration/audit records, not in active cron config.
+
+Visible blocker/steering issue corrected: automation-prepended `0151/0152` historical blocker sections had become the top of several hydration files even though the current work state had already advanced through `TRK-W70-0156`. The active blocker frontier is now explicitly recorded as `TRK-W70-0157` / `ITEM-W70-0157`, `mf70_left_forearm`, to implement or exactly block locally.
+
+## Wave70 Reference Matrix Validation Blocker - 2026-07-08T10:33:09-05:00
+
+`TRK-W70-0152` / `ITEM-W70-0152`: `Blocked_Reference_Matrix_Not_Run` / `blocked_exact_local_reference_matrix_not_runnable`. The gold trace set is registered, but no model-backed geometry route can be evaluated across it.
+
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MODEL_GEOMETRY_REFERENCE_MATRIX_20260708T103309-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/model_geometry_reference_matrix.json`
+- `Plan/Tracker/Evidence/W70_MODEL_GEOMETRY_REFERENCE_MATRIX_20260708T103309-0500.json`
+- `Plan/Tracker/Evidence/model_geometry_reference_matrix.json`
+- `runtime_artifacts/mask_factory/wave70_model_geometry_reference_matrix/20260708T103309-0500/model_geometry_reference_matrix.json`
+- `runtime_artifacts/mask_factory/wave70_model_geometry_reference_matrix/20260708T103309-0500/model_geometry_reference_matrix_blocker_panel.png`
+
+## Wave70 Body Hand Contact Authority Blocker - 2026-07-08T10:33:08-05:00
+
+`TRK-W70-0151` / `ITEM-W70-0151`: `Blocked_Model_Geometry_Dependency_Missing` / `blocked_exact_local_body_hand_contact_authority_unavailable`. Existing body/hand/contact masks remain fail-closed and untrusted.
+
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_BODY_HAND_CONTACT_GEOMETRY_AUTHORITY_20260708T103308-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/body_hand_contact_geometry_authority.json`
+- `Plan/Tracker/Evidence/W70_BODY_HAND_CONTACT_GEOMETRY_AUTHORITY_20260708T103308-0500.json`
+- `Plan/Tracker/Evidence/body_hand_contact_geometry_authority.json`
+- `runtime_artifacts/mask_factory/wave70_body_hand_contact_geometry_authority/20260708T103308-0500/body_hand_contact_geometry_authority.json`
+- `runtime_artifacts/mask_factory/wave70_body_hand_contact_geometry_authority/20260708T103308-0500/body_hand_contact_geometry_authority_blocker_panel.png`
+
+## Wave70 Right Upper Arm Gates Passed - 2026-07-08T10:32:21-05:00
+
+TRK-W70-0156 / ITEM-W70-0156 remains Blocked_Body_Part_Not_Visible. Fresh post-blocker geometry and promotion hard gates passed with 332 checked rows, zero pass-like rows, and zero failures. No masks were promoted.
+
+## Wave70 Right Upper Arm Blocker - 2026-07-08T10:31:47-05:00
+
+TRK-W70-0156 / ITEM-W70-0156: Blocked_Body_Part_Not_Visible / blocked_exact_local_right_upper_arm_not_source_visible.
+
+- Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_RIGHT_UPPER_ARM_20260708T103147-0500.json
+- Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_right_upper_arm.json
+- Plan/Tracker/Evidence/W70_MF70_RIGHT_UPPER_ARM_20260708T103147-0500.json
+- Plan/Tracker/Evidence/mf70_right_upper_arm.json
+- runtime_artifacts/mask_factory/wave70_mf70_right_upper_arm/20260708T103147-0500/mf70_right_upper_arm.json
+- runtime_artifacts/mask_factory/wave70_mf70_right_upper_arm/20260708T103147-0500/mf70_right_upper_arm_blocker_panel.png
+
+## Wave70 0142 Producer Patched And 0155 Gates Passed - 2026-07-08T10:27:11-05:00
+
+TRK-W70-0142 / ITEM-W70-0142 dependency-probe producer now writes Blocked_Model_Geometry_Dependency_Missing instead of pass-like wording while downstream authority remains unproven. This prevents recurring hard-gate failures caused by Model_Geometry_Dependency_Probe_Complete_With_Blockers.
+
+TRK-W70-0155 / ITEM-W70-0155 remains Blocked_Body_Part_Not_Visible. Fresh post-blocker geometry and promotion hard gates passed after normalization with 332 checked rows, zero pass-like rows, and zero failures. No masks were promoted.
+
+## Wave70 Left Upper Arm Blocker - 2026-07-08T10:25:02-05:00
+
+TRK-W70-0155 / ITEM-W70-0155: Blocked_Body_Part_Not_Visible / blocked_exact_local_left_upper_arm_not_source_visible.
+
+- Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_LEFT_UPPER_ARM_20260708T102502-0500.json
+- Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_left_upper_arm.json
+- Plan/Tracker/Evidence/W70_MF70_LEFT_UPPER_ARM_20260708T102502-0500.json
+- Plan/Tracker/Evidence/mf70_left_upper_arm.json
+- runtime_artifacts/mask_factory/wave70_mf70_left_upper_arm/20260708T102502-0500/mf70_left_upper_arm.json
+- runtime_artifacts/mask_factory/wave70_mf70_left_upper_arm/20260708T102502-0500/mf70_left_upper_arm_blocker_panel.png
+
+## Wave70 0142 Dependency Status Normalized And 0154 Gates Passed - 2026-07-08T10:17:40-05:00
+
+TRK-W70-0142 / ITEM-W70-0142 was normalized to Blocked_Model_Geometry_Dependency_Missing because dependency probing has not produced passing model-backed geometry authority, whole-body authority, geometry-gate evidence, or promotion-gate evidence. This removed stale pass-like wording that correctly caused the first 0154 post-blocker hard-gate run to fail.
+
+TRK-W70-0154 / ITEM-W70-0154 remains Blocked_Body_Part_Not_Visible. Fresh post-blocker geometry and promotion hard gates passed after normalization with 332 checked rows, zero pass-like rows, and zero failures. No masks were promoted.
+
+## Wave70 Belly Button Umbilicus Blocker - 2026-07-08T10:12:57-05:00
+
+TRK-W70-0154 / ITEM-W70-0154: Blocked_Body_Part_Not_Visible / blocked_exact_local_belly_button_umbilicus_not_visible.
+
+- Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_BELLY_BUTTON_UMBILICUS_20260708T101257-0500.json
+- Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_belly_button_umbilicus.json
+- Plan/Tracker/Evidence/W70_MF70_BELLY_BUTTON_UMBILICUS_20260708T101257-0500.json
+- Plan/Tracker/Evidence/mf70_belly_button_umbilicus.json
+- runtime_artifacts/mask_factory/wave70_mf70_belly_button_umbilicus/20260708T101257-0500/mf70_belly_button_umbilicus.json
+- runtime_artifacts/mask_factory/wave70_mf70_belly_button_umbilicus/20260708T101257-0500/mf70_belly_button_umbilicus_blocker_panel.png
+
+## Wave70 Model-Backed Promotion Integration Blocker - 2026-07-08T10:08:01-05:00
+
+TRK-W70-0153 / ITEM-W70-0153: Blocked_Model_Geometry_Authority_Not_Integrated. The Wave70 promotion gate must remain fail-closed until exact model-backed authority evidence passes.
+
+- Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MODEL_BACKED_GEOMETRY_PROMOTION_INTEGRATION_20260708T100801-0500.json
+- Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/model_backed_geometry_promotion_integration.json
+- Plan/Tracker/Evidence/W70_MODEL_BACKED_GEOMETRY_PROMOTION_INTEGRATION_20260708T100801-0500.json
+- Plan/Tracker/Evidence/model_backed_geometry_promotion_integration.json
+- runtime_artifacts/mask_factory/wave70_model_backed_geometry_promotion_integration/20260708T100801-0500/model_backed_geometry_promotion_integration.json
+- runtime_artifacts/mask_factory/wave70_model_backed_geometry_promotion_integration/20260708T100801-0500/model_backed_geometry_promotion_integration_blocker_panel.png
+
+## Wave70 Reference Matrix Blocker - 2026-07-08T10:03:56-05:00
+
+TRK-W70-0152 / ITEM-W70-0152: blocked because reference matrix validation cannot run until model-backed geometry prerequisites pass. No masks promoted.
+
+- Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MODEL_GEOMETRY_REFERENCE_MATRIX_20260708T100110-0500.json
+- Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/model_geometry_reference_matrix.json
+- Plan/Tracker/Evidence/W70_MODEL_GEOMETRY_REFERENCE_MATRIX_20260708T100110-0500.json
+- Plan/Tracker/Evidence/model_geometry_reference_matrix.json
+- runtime_artifacts/mask_factory/wave70_model_geometry_reference_matrix/20260708T100110-0500/model_geometry_reference_matrix.json
+- runtime_artifacts/mask_factory/wave70_model_geometry_reference_matrix/20260708T100110-0500/model_geometry_reference_matrix_blocker_panel.png
+- Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_MODEL_GEOMETRY_REFERENCE_MATRIX_20260708T100146-0500.json
+- Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_MODEL_GEOMETRY_REFERENCE_MATRIX_20260708T100146-0500.json
+- Plan/Tracker/Evidence/W70_MASK_GEOMETRY_HARD_GATE_POST_MODEL_GEOMETRY_REFERENCE_MATRIX_20260708T100146-0500.json
+- Plan/Tracker/Evidence/W70_MASK_PROMOTION_HARD_GATE_POST_MODEL_GEOMETRY_REFERENCE_MATRIX_20260708T100146-0500.json
+
+## Wave70 Reference Matrix Validation Blocker - 2026-07-08T10:01:10-05:00
+
+`TRK-W70-0152` / `ITEM-W70-0152`: `Blocked_Reference_Matrix_Not_Run` / `blocked_exact_local_reference_matrix_not_runnable`. The gold trace set is registered, but no model-backed geometry route can be evaluated across it.
+
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MODEL_GEOMETRY_REFERENCE_MATRIX_20260708T100110-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/model_geometry_reference_matrix.json`
+- `Plan/Tracker/Evidence/W70_MODEL_GEOMETRY_REFERENCE_MATRIX_20260708T100110-0500.json`
+- `Plan/Tracker/Evidence/model_geometry_reference_matrix.json`
+- `runtime_artifacts/mask_factory/wave70_model_geometry_reference_matrix/20260708T100110-0500/model_geometry_reference_matrix.json`
+- `runtime_artifacts/mask_factory/wave70_model_geometry_reference_matrix/20260708T100110-0500/model_geometry_reference_matrix_blocker_panel.png`
+
+## Wave70 Body Hand Contact Authority Blocker - 2026-07-08T08:14:23-05:00
+
+`TRK-W70-0151` / `ITEM-W70-0151`: `Blocked_Model_Geometry_Dependency_Missing` / `blocked_exact_local_body_hand_contact_authority_unavailable`. Existing body/hand/contact masks remain fail-closed and untrusted.
+
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_BODY_HAND_CONTACT_GEOMETRY_AUTHORITY_20260708T081423-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/body_hand_contact_geometry_authority.json`
+- `Plan/Tracker/Evidence/W70_BODY_HAND_CONTACT_GEOMETRY_AUTHORITY_20260708T081423-0500.json`
+- `Plan/Tracker/Evidence/body_hand_contact_geometry_authority.json`
+- `runtime_artifacts/mask_factory/wave70_body_hand_contact_geometry_authority/20260708T081423-0500/body_hand_contact_geometry_authority.json`
+- `runtime_artifacts/mask_factory/wave70_body_hand_contact_geometry_authority/20260708T081423-0500/body_hand_contact_geometry_authority_blocker_panel.png`
+
+## Wave70 Canonical Mask Generator Blocker - 2026-07-08T08:00:58-05:00
+
+`TRK-W70-0150` / `ITEM-W70-0150`: `Blocked_Wave70_Mask_Geometry_Gate_Not_Passed` / `blocked_exact_local_no_canonical_geometry_for_mask_generation`. `mask_from_canonical_geometry_pass` and `geometry_gate_pass` remain false.
+
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_CANONICAL_POLYGON_MASK_GENERATOR_20260708T080058-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/canonical_polygon_mask_generator.json`
+- `Plan/Tracker/Evidence/W70_CANONICAL_POLYGON_MASK_GENERATOR_20260708T080058-0500.json`
+- `Plan/Tracker/Evidence/canonical_polygon_mask_generator.json`
+- `runtime_artifacts/mask_factory/wave70_canonical_polygon_mask_generator/20260708T080058-0500/canonical_polygon_mask_generator.json`
+- `runtime_artifacts/mask_factory/wave70_canonical_polygon_mask_generator/20260708T080058-0500/canonical_polygon_mask_generator_blocker_panel.png`
+
+## Wave70 Canonical Polygon Export Blocker - 2026-07-08T07:48:08-05:00
+
+`TRK-W70-0149` / `ITEM-W70-0149`: `Blocked_Canonical_Boundary_Not_Available` / `blocked_exact_local_canonical_boundary_not_available`. Canonical polygon schema, coordinate-space, and protected-neighbor gates remain false until source-derived consensus geometry exists.
+
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_CANONICAL_GEOMETRY_POLYGON_EXPORT_20260708T074808-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/canonical_geometry_polygon_export.json`
+- `Plan/Tracker/Evidence/W70_CANONICAL_GEOMETRY_POLYGON_EXPORT_20260708T074808-0500.json`
+- `Plan/Tracker/Evidence/canonical_geometry_polygon_export.json`
+- `runtime_artifacts/mask_factory/wave70_canonical_geometry_polygon_export/20260708T074808-0500/canonical_geometry_polygon_export.json`
+- `runtime_artifacts/mask_factory/wave70_canonical_geometry_polygon_export/20260708T074808-0500/canonical_geometry_polygon_export_blocker_panel.png`
+
+## Wave70 Model Consensus Validator Blocker - 2026-07-08T07:29:33-05:00
+
+`TRK-W70-0148` / `ITEM-W70-0148`: `Blocked_Model_Geometry_Disagreement` / `blocked_exact_local_model_consensus_not_computable`. The validator cannot emit IoU, boundary, center-drift, or protected-overlap metrics until source-derived landmark/parsing/refinement/visibility geometry records exist.
+
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MODEL_CONSENSUS_GEOMETRY_VALIDATOR_20260708T072933-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/model_consensus_geometry_validator.json`
+- `Plan/Tracker/Evidence/W70_MODEL_CONSENSUS_GEOMETRY_VALIDATOR_20260708T072933-0500.json`
+- `Plan/Tracker/Evidence/model_consensus_geometry_validator.json`
+- `runtime_artifacts/mask_factory/wave70_model_consensus_geometry_validator/20260708T072933-0500/model_consensus_geometry_validator.json`
+- `runtime_artifacts/mask_factory/wave70_model_consensus_geometry_validator/20260708T072933-0500/model_consensus_geometry_validator_blocker_panel.png`
+
 # Blockers
 
 No packaging blockers known.
@@ -8,9 +679,149 @@ None for Wave 59 live local directory/index validation. `ISSUE-W59-INDEX-001` wa
 
 ## Active blockers
 
-None currently active for local Wave 58-62 static and packaging validation.
+- `BLOCKER-W70-VISIBILITY-OCCLUSION-CONFIDENCE-001`
+  - status: active as of 2026-07-08T07:04:00-05:00 for `TRK-W70-0146` / `ITEM-W70-0146` and any Wave70 mask depending on source-derived visibility/occlusion confidence.
+  - blocker type: local_visibility_occlusion_confidence_low_confidence
+  - failed condition: visibility and occlusion confidence cannot be computed because landmark, semantic parsing, promptable refinement, consensus, and canonical polygon prerequisite authority remains blocked or missing.
+  - safe current work: resolve prerequisite authority evidence, or continue to `TRK-W70-0147` gold trace dataset registration using existing user-provided references if suitable. Keep all masks fail-closed.
+  - evidence: `Plan/07_IMPLEMENTATION/scripts/implement_wave70_visibility_occlusion_confidence.py`; `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_VISIBILITY_OCCLUSION_CONFIDENCE_20260708T070201-0500.json`; `Plan/Tracker/Evidence/W70_VISIBILITY_OCCLUSION_CONFIDENCE_20260708T070201-0500.json`; `runtime_artifacts/mask_factory/wave70_visibility_occlusion_confidence/20260708T070201-0500/visibility_occlusion_confidence_blocker_panel.png`
+
+- `BLOCKER-W70-SEGMENTATION-REFINEMENT-AUTHORITY-001`
+  - status: active as of 2026-07-08T06:53:00-05:00 for `TRK-W70-0145` / `ITEM-W70-0145` and any Wave70 mask depending on promptable segmentation refinement.
+  - blocker type: local_promptable_segmentation_route_unavailable
+  - failed condition: no compatible SAM/SAM2 or equivalent promptable segmentation runtime/model route loaded and executed; local scan found one wrapper/code match and zero likely promptable segmentation checkpoints. Wrapper code alone is not refinement evidence.
+  - safe current work: resolve a compatible local promptable segmentation model route, or continue to `TRK-W70-0146` visibility and occlusion confidence locally with exact blocker evidence if prerequisites remain blocked. Keep all masks fail-closed.
+  - evidence: `Plan/07_IMPLEMENTATION/scripts/implement_wave70_segmentation_refinement_authority.py`; `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_SEGMENTATION_REFINEMENT_AUTHORITY_20260708T065027-0500.json`; `Plan/Tracker/Evidence/W70_SEGMENTATION_REFINEMENT_AUTHORITY_20260708T065027-0500.json`; `runtime_artifacts/mask_factory/wave70_segmentation_refinement_authority/20260708T065027-0500/segmentation_refinement_authority_blocker_panel.png`
+
+- `BLOCKER-W70-FACE-PARSING-AUTHORITY-001`
+  - status: active as of 2026-07-08T06:39:00-05:00 for `TRK-W70-0144` / `ITEM-W70-0144` and any Wave70 face-region mask depending on semantic face parsing.
+  - blocker type: local_semantic_face_parsing_route_unavailable
+  - failed condition: no compatible semantic face parsing runtime/model route loaded and executed; local scan found 62 face/parsing keyword matches but zero likely semantic face parsing checkpoints. Code/config-only routes and non-semantic face detection files are not geometry authority.
+  - safe current work: resolve a compatible local semantic face parser route, or continue to `TRK-W70-0145` promptable segmentation refinement locally with exact blocker evidence if no compatible route can load and execute. Keep all masks fail-closed.
+  - evidence: `Plan/07_IMPLEMENTATION/scripts/implement_wave70_face_parsing_authority.py`; `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACE_PARSING_AUTHORITY_20260708T063501-0500.json`; `Plan/Tracker/Evidence/W70_FACE_PARSING_AUTHORITY_20260708T063501-0500.json`; `runtime_artifacts/mask_factory/wave70_face_parsing_authority/20260708T063501-0500/face_parsing_authority_blocker_panel.png`
+
+- `BLOCKER-W70-WHOLE-BODY-PROMOTION-INTEGRATION-001`
+  - status: active as of 2026-07-08T06:07:00-05:00 for `TRK-W70-0178` / `ITEM-W70-0178` and any Wave70 promotion/scheduled-QA path depending on passing whole-body geometry authority.
+  - blocker type: local_whole_body_geometry_authority_not_integrated
+  - failed condition: prerequisite whole-body authority gates remain blocked, the body reference matrix is blocked, and canonical body redo is blocked. Whole-body promotion integration cannot be marked pass.
+  - safe current work: resolve the prerequisite authority blockers, or continue to `TRK-W70-0144` semantic face parsing authority locally with exact blocker evidence if no compatible route can load and execute. Keep all masks fail-closed.
+  - evidence: `Plan/07_IMPLEMENTATION/scripts/implement_wave70_whole_body_geometry_promotion_integration.py`; `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_20260708T060457-0500.json`; `Plan/Tracker/Evidence/W70_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_20260708T060457-0500.json`; `runtime_artifacts/mask_factory/wave70_whole_body_geometry_promotion_integration/20260708T060457-0500/whole_body_geometry_promotion_integration_blocker_panel.png`
+
+- `BLOCKER-W70-REDO-EXISTING-BODY-HAND-CONTACT-MASKS-001`
+  - status: active as of 2026-07-08T05:56:00-05:00 for `TRK-W70-0177` / `ITEM-W70-0177` and any existing Wave70 body, hand, hand-interaction, contact, support, or soft-body mask redo depending on canonical body geometry.
+  - blocker type: local_canonical_body_geometry_unavailable
+  - failed condition: canonical body polygons, a passing body reference matrix, pose/hand/parser/contact/body authority, and canonical segmentation maps are unavailable, so existing masks cannot be redone safely from source-derived canonical body geometry.
+  - safe current work: resolve canonical body geometry and body reference matrix prerequisites, or continue to `TRK-W70-0178` whole-body authority promotion integration locally with exact blocker evidence if prerequisite authority remains blocked. Do not redraw or promote body/hand/contact/support/soft-body masks from guessed geometry or generated-output stability.
+  - evidence: `Plan/07_IMPLEMENTATION/scripts/implement_wave70_redo_existing_body_hand_contact_masks.py`; `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_REDO_EXISTING_BODY_HAND_CONTACT_MASKS_20260708T055358-0500.json`; `Plan/Tracker/Evidence/W70_REDO_EXISTING_BODY_HAND_CONTACT_MASKS_20260708T055358-0500.json`; `runtime_artifacts/mask_factory/wave70_redo_existing_body_hand_contact_masks/20260708T055358-0500/redo_existing_body_hand_contact_masks_blocker_panel.png`
+
+- `BLOCKER-W70-BODY-REFERENCE-MATRIX-001`
+  - status: active as of 2026-07-08T05:45:00-05:00 for `TRK-W70-0176` / `ITEM-W70-0176` and any Wave70 body, hand, contact, support, soft-body, temporal, or generalized body mask depending on a body reference matrix.
+  - blocker type: local_body_reference_matrix_not_run
+  - failed condition: no eligible filled body-reference matrix manifest was found for required pose, angle, body-size, skin, hair, clothing, hand, foot, contact, occlusion, and regression slots. The active source is a single still portrait anchor, and upstream whole-body geometry dependencies remain blocked.
+  - safe current work: build/provide an eligible body reference matrix manifest with source-derived slot artifacts and body-part geometry, or continue to `TRK-W70-0177` locally with exact blocker evidence because canonical body geometry is unavailable. Do not draw or promote body, hand, contact, support, or soft-body masks from guessed geometry.
+  - evidence: `Plan/07_IMPLEMENTATION/scripts/implement_wave70_body_reference_matrix_authority.py`; `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_BODY_REFERENCE_MATRIX_AUTHORITY_20260708T054328-0500.json`; `Plan/Tracker/Evidence/W70_BODY_REFERENCE_MATRIX_AUTHORITY_20260708T054328-0500.json`; `runtime_artifacts/mask_factory/wave70_body_reference_matrix_authority/20260708T054328-0500/body_reference_matrix_authority_blocker_panel.png`
+
+- `BLOCKER-W70-TEMPORAL-BODY-PART-TRACKING-001`
+  - status: active as of 2026-07-08T05:27:00-05:00 for `TRK-W70-0175` / `ITEM-W70-0175` and any Wave70 temporal body-part tracking, video mask drift, frame-grid review, per-frame propagated mask, or temporal continuity mask depending on the current active portrait source.
+  - blocker type: local_temporal_reference_matrix_not_run
+  - failed condition: the active source is a single still portrait, no eligible local video/GIF/frame-grid source was found outside excluded model/cache paths, and body-part geometry dependencies remain blocked.
+  - safe current work: build/provide an eligible video or frame-grid reference slot with source-derived body-part geometry before proving temporal tracking, or continue to `TRK-W70-0176` body reference matrix locally with exact blocker evidence if reference slots or dependencies are insufficient. Do not draw or promote temporal masks from a still image.
+  - evidence: `Plan/07_IMPLEMENTATION/scripts/implement_wave70_temporal_body_part_tracking_authority.py`; `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_TEMPORAL_BODY_PART_TRACKING_AUTHORITY_20260708T052438-0500.json`; `Plan/Tracker/Evidence/W70_TEMPORAL_BODY_PART_TRACKING_AUTHORITY_20260708T052438-0500.json`; `runtime_artifacts/mask_factory/wave70_temporal_body_part_tracking_authority/20260708T052438-0500/temporal_body_part_tracking_authority_blocker_panel.png`
+
+- `BLOCKER-W70-SOFT-BODY-ANCHOR-GEOMETRY-001`
+  - status: active as of 2026-07-08T05:16:00-05:00 for `TRK-W70-0174` / `ITEM-W70-0174` and any Wave70 soft-body deformation, skeletal anchor, protected hand/finger anchor, protected clothing seam anchor, or deformation protected-neighbor mask depending on the current active portrait source.
+  - blocker type: local_soft_body_anchor_geometry_low_confidence
+  - failed condition: pose/skeletal anchor authority, hand/finger authority, semantic human-part parsing, contact ownership, and body-region geometry are blocked for the active portrait. No torso/limb/contact deformation fields or protected anchor polygons can be exported.
+  - safe current work: use a reference-matrix/source image or video slot with visible deformation/contact/body regions and parser-backed owner geometry before proving soft-body anchors, or continue to `TRK-W70-0175` temporal body-part tracking locally with exact blocker evidence if video/source/dependency inputs are insufficient. Do not draw or promote soft-body anchors from guessed geometry.
+  - evidence: `Plan/07_IMPLEMENTATION/scripts/implement_wave70_soft_body_anchor_geometry_authority.py`; `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_SOFT_BODY_ANCHOR_GEOMETRY_AUTHORITY_20260708T051417-0500.json`; `Plan/Tracker/Evidence/W70_SOFT_BODY_ANCHOR_GEOMETRY_AUTHORITY_20260708T051417-0500.json`; `runtime_artifacts/mask_factory/wave70_soft_body_anchor_geometry_authority/20260708T051417-0500/soft_body_anchor_geometry_authority_blocker_panel.png`
+
+- `BLOCKER-W70-BODY-REGION-GEOMETRY-001`
+  - status: active as of 2026-07-08T05:07:00-05:00 for `TRK-W70-0172` / `ITEM-W70-0172` and any Wave70 body-region geometry or body/clothing ownership mask depending on the current active portrait source.
+  - blocker type: local_body_region_geometry_low_confidence
+  - failed condition: the active portrait exposes only head, neck, blazer, and partial upper chest. It does not expose full body silhouette, torso, abdomen, waist, hips, back, arms, hands, legs, feet, support regions, contact regions, or parser-backed clothing/body ownership.
+  - safe current work: use a reference-matrix/source image with visible body regions and parser-backed owner geometry before proving body-region geometry, or continue to `TRK-W70-0174` soft-body protected anchor authority locally with exact blocker evidence if source visibility or dependencies are insufficient. Do not draw or promote body-region masks from guessed geometry.
+  - evidence: `Plan/07_IMPLEMENTATION/scripts/implement_wave70_body_region_geometry_authority.py`; `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_BODY_REGION_GEOMETRY_AUTHORITY_20260708T050511-0500.json`; `Plan/Tracker/Evidence/W70_BODY_REGION_GEOMETRY_AUTHORITY_20260708T050511-0500.json`; `runtime_artifacts/mask_factory/wave70_body_region_geometry_authority/20260708T050511-0500/body_region_geometry_authority_blocker_panel.png`
+
+- `BLOCKER-W70-CONTACT-OCCLUSION-OWNERSHIP-001`
+  - status: active as of 2026-07-08T04:54:00-05:00 for `TRK-W70-0171` / `ITEM-W70-0171` and any Wave70 contact, hand/body, object/body, support-contact, or ownership-overlap mask depending on the current active portrait source.
+  - blocker type: local_contact_occlusion_ownership_unresolved
+  - failed condition: the active portrait crop does not expose hands, wrists, fingers, props, floor, support surfaces, or hand/body/support contact boundaries. The visible blazer/body boundary cannot satisfy contact ownership because semantic human-part parsing and owner separation remain unavailable.
+  - safe current work: use a reference-matrix/source image with visible contact actors and parser-backed owner geometry before proving contact ownership, or continue to `TRK-W70-0172` body region geometry resolver locally with exact blocker evidence if source visibility or dependencies are insufficient. Do not draw or promote contact/body/object/support masks from guessed geometry.
+  - evidence: `Plan/07_IMPLEMENTATION/scripts/implement_wave70_contact_occlusion_ownership_authority.py`; `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_CONTACT_OCCLUSION_OWNERSHIP_AUTHORITY_20260708T045251-0500.json`; `Plan/Tracker/Evidence/W70_CONTACT_OCCLUSION_OWNERSHIP_AUTHORITY_20260708T045251-0500.json`; `runtime_artifacts/mask_factory/wave70_contact_occlusion_ownership_authority/20260708T045251-0500/contact_occlusion_ownership_authority_blocker_panel.png`
+
+- `BLOCKER-W70-HUMAN-PART-PARSING-AUTHORITY-001`
+  - status: active as of 2026-07-08T03:43:00-05:00 for `TRK-W70-0166` / `ITEM-W70-0166` and any Wave70 skin, hair, clothing, torso, limb, feet, or background mask depending on semantic human-part parsing.
+  - blocker type: local_human_part_parsing_route_unavailable
+  - failed condition: local ControlNet Aux parser code paths exist, but no compatible semantic human-part parsing runtime/model loaded and executed. OneFormer fails through the local Transformers/HuggingFace stack, Uniformer is missing `addict`, DensePose is missing `einops`, MMDetection/MMSeg/Detectron2 are unavailable, and SAM/SAM2 does not provide semantic human-part class labels by itself.
+  - safe current work: resolve a compatible local human-part parser route, or continue to `TRK-W70-0167` torso-region authority locally with exact blocker evidence if source visibility or dependencies are insufficient. Do not promote body/skin/clothing masks from guessed geometry.
+  - evidence: `Plan/07_IMPLEMENTATION/scripts/implement_wave70_human_part_parsing_authority.py`; `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_HUMAN_PART_PARSING_AUTHORITY_20260708T034134-0500.json`; `Plan/Tracker/Evidence/W70_HUMAN_PART_PARSING_AUTHORITY_20260708T034134-0500.json`; `runtime_artifacts/mask_factory/wave70_human_part_parsing_authority/20260708T034134-0500/human_part_parsing_authority_blocker_panel.png`
+
+- `BLOCKER-W70-HAND-FINGER-AUTHORITY-001`
+  - status: active as of 2026-07-08T03:26:00-05:00 for `TRK-W70-0165` / `ITEM-W70-0165` and any Wave70 hand, finger, palm, knuckle, fingertip, or fingernail mask depending on the current active portrait source.
+  - blocker type: local_source_hand_region_not_visible
+  - failed condition: the local MediaPipe HandLandmarker runtime and local hand task model executed against the active source image, but detected zero hands; the active portrait crop has no usable hand/finger geometry to authorize.
+  - safe current work: use a reference-matrix/source image with visible hands before proving hand/finger geometry, or continue to `TRK-W70-0166` human part parsing authority locally. Do not draw or promote hand/finger masks from guessed geometry.
+  - evidence: `Plan/07_IMPLEMENTATION/scripts/implement_wave70_hand_finger_landmark_authority.py`; `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_HAND_FINGER_LANDMARK_AUTHORITY_20260708T032502-0500.json`; `Plan/Tracker/Evidence/W70_HAND_FINGER_LANDMARK_AUTHORITY_20260708T032502-0500.json`; `runtime_artifacts/mask_factory/wave70_hand_finger_landmark_authority/20260708T032502-0500/hand_finger_landmark_authority_panel.png`
+
+- `BLOCKER-W70-FACE-LANDMARK-AUTHORITY-001`
+  - status: active as of 2026-07-08T00:45:00-05:00 for `TRK-W70-0143` / `ITEM-W70-0143` and any Wave70 face-mask geometry depending on source-derived face landmarks.
+  - blocker type: missing_local_face_landmark_runtime_model_route
+  - failed condition: the installed MediaPipe package exposes `mediapipe.tasks` but not `mediapipe.solutions.face_mesh`; no proven local FaceLandmarker task model route was available, so no source-derived face landmarks were produced.
+  - safe current work: do not draw face masks from guessed geometry. Continue local non-promotional dependency probes such as `TRK-W70-0162`, or resolve an approved local face-landmark model route before rerunning `TRK-W70-0143`.
+  - evidence: `Plan/07_IMPLEMENTATION/scripts/implement_wave70_face_landmark_authority.py`; `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACE_LANDMARK_AUTHORITY_20260708T003733-0500.json`; `Plan/Tracker/Evidence/W70_FACE_LANDMARK_AUTHORITY_20260708T003733-0500.json`
+
+- `BLOCKER-W70-MODEL-GEOMETRY-DEPENDENCY-001`
+  - status: active as of 2026-07-08T00:40:00-05:00 for full Wave70 model-backed geometry authority and any mask promotion depending on semantic face parsing or promptable segmentation refinement.
+  - blocker type: missing_local_model_backed_geometry_dependencies_or_model_files
+  - failed condition: `TRK-W70-0142` found base CV/image support and an available MediaPipe landmark route, but missing required `semantic_face_parsing_route` and `promptable_segmentation_refinement_route`; no local face-parsing model files and no SAM/SAM2 checkpoint files were found by the dependency/model-file scan.
+  - safe current work: continue `TRK-W70-0143` / `ITEM-W70-0143` face landmark authority using the available MediaPipe route, or write one exact face-landmark blocker if that route fails on the active source. Keep all Wave70 masks fail-closed.
+  - evidence: `Plan/07_IMPLEMENTATION/scripts/probe_wave70_model_geometry_dependencies.py`; `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MODEL_GEOMETRY_DEPENDENCY_PROBE_20260708T004000-0500.json`; `Plan/Tracker/Evidence/W70_MODEL_GEOMETRY_DEPENDENCY_PROBE_20260708T004000-0500.json`; `runtime_artifacts/mask_factory/wave70_model_geometry_dependency_probe/20260708T004000-0500/model_geometry_dependency_probe.json`
+
+- `BLOCKER-W70-PROTECTED-BOUNDARY-REGISTRY-001`
+  - status: active as of 2026-07-07T20:37:00-05:00 for any Wave70 local pass, generalized pass, or certification-ready mask claim until canonical boundary registry and protected-overlap proof exist.
+  - blocker type: missing_canonical_protected_boundary_registry_and_overlap_matrix
+  - failed condition: current mask scripts use a mix of rough manual exclusion boxes and hand-tuned polygons. They do not yet provide a universal source-derived canonical boundary registry proving that target masks avoid protected eyes, cheeks, nose, mouth, jaw, eyelids, hairline, clothing, and other neighbors across source/matrix slots.
+  - important boundary: a failed or unreviewed mask must not become the protected boundary source for another mask. If `mf70_nose` crosses into mouth, `mf70_mouth_lips` must be created against canonical nose/mouth boundaries, not against the bad nose mask.
+  - safe current work: build source-derived or manually reviewed canonical boundary layers, write protected-overlap matrix evidence, then regenerate/review masks. If boundaries cannot be established, write `Blocked_Canonical_Boundary_Not_Available`, `Blocked_Source_Resolution_Too_Low`, or `Blocked_Local_Source_Region_Not_Visible`.
+  - evidence: `Plan/Instructions/QA/WAVE70_PROTECTED_BOUNDARY_REGISTRY_PROTOCOL.md`; `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_PROTECTED_BOUNDARY_REGISTRY_ENFORCEMENT_20260707T203700-0500.json`; `Plan/Tracker/Evidence/W70_PROTECTED_BOUNDARY_REGISTRY_ENFORCEMENT_20260707T203700-0500.json`
+
+- `BLOCKER-W70-REFERENCE-IMAGE-MATRIX-001`
+  - status: active as of 2026-07-07T20:06:00-05:00 for generalized, universal, or certification-ready Wave70 mask claims; this is not a ComfyUI runtime, EC2, AWS auth, GitHub token, Civitai key, `.env`, `.git`, or SSH key blocker.
+  - blocker type: missing_reference_image_matrix_for_generalized_mask_validation
+  - failed condition: prior Wave70 mask work reused the same active MOD-17 portrait for multiple masks. That can prove only source-specific local smoke behavior, not universal mask reliability across faces, expressions, angles, occlusion, resolution, body regions, clothing, hands, video, or audio-linked mask types.
+  - affected rows: any Wave70 row attempting generalized, universal, or certification-ready status; current single-portrait pass rows `mf70_under_eye`, `mf70_eyebrows`, `mf70_mouth_lips`, and `mf70_teeth` are now `Single_Anchor_Mask_Alignment_Pass_Matrix_Required_Target_Runtime_Pending`.
+  - safe current work: build/select the reference image matrix, record source IDs and hashes, target visibility, source resolution, target crops, zoom overlays, protected-neighbor review, and generated-output proof where eligible; then repair masks source-adaptively. For hidden or too-small targets, write `Blocked_Local_Source_Region_Not_Visible` or `Blocked_Source_Resolution_Too_Low` instead of drawing shortcut masks.
+  - evidence: `Plan/Instructions/QA/WAVE70_REFERENCE_IMAGE_MATRIX_QA_PROTOCOL.md`; `Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_REFERENCE_IMAGE_MATRIX.md`; `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_REFERENCE_IMAGE_MATRIX_ENFORCEMENT_20260707T200600-0500.json`; `Plan/Tracker/Evidence/W70_REFERENCE_IMAGE_MATRIX_ENFORCEMENT_20260707T200600-0500.json`
+
+- `BLOCKER-W70-MASK-ALIGNMENT-SEMANTIC-QA-001`
+  - status: active as of 2026-07-07T19:25:00-05:00 for Wave70 mask final certification; this is a semantic QA blocker, not a ComfyUI runtime, EC2, AWS auth, GitHub token, Civitai key, `.env`, `.git`, or SSH key blocker.
+  - blocker type: semantic_mask_alignment_needs_revision_or_reaudit
+  - failed condition: generated-output-safe evidence was present for several Wave70 masks, but the mask overlays did not always match the named anatomical target closely enough for mask completion.
+  - affected rows: `mf70_face_identity_critical`, `mf70_expression_region`, `mf70_forehead_skin`, `mf70_cheeks_skin`, `mf70_jawline_chin`, `mf70_left_eye`, `mf70_right_eye`, `mf70_eyelids`, and `mf70_eyelashes` need revision; `mf70_skin_tone_continuity`, `mf70_pupils_iris_sclera`, and `mf70_nose` fail alignment; `mf70_eyes_full` remains generated-output stable but alignment-unreviewed.
+  - safe current work: continue local-first Wave70 work only under `Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md`; for new masks, record semantic alignment, protected-neighbor review, and generated-output stability separately before any local pass status.
+  - evidence: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_ALIGNMENT_STRICT_VISUAL_REVIEW_20260707T192500-0500.json`; `Plan/Tracker/Evidence/W70_MASK_ALIGNMENT_STRICT_VISUAL_REVIEW_20260707T192500-0500.json`; historical softer audit `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_ALIGNMENT_RETRO_AUDIT_20260707T184000-0500.json`
+
+No active blockers remain for local Wave 58-62 static and packaging validation; the active Wave70 semantic QA blocker is listed above.
 
 ## Active runtime blockers
+
+- `BLOCKER-W71-LOCAL-CANNY-IPADAPTER-IDENTITY-PATH-001`
+  - status: active as of 2026-07-07T18:10:00-05:00 for local MOD-17 Canny reference/identity-conditioning work; not an EC2 stopped-state, AWS auth, GitHub token, Civitai key, `.env`, `.git`, or SSH key blocker.
+  - blocker type: missing_local_ipadapter_identity_conditioning_assets
+  - failed condition: the exported Canny workflow source includes IPAdapter wiring, but local ComfyUI lacks the required IPAdapter runtime implementation/assets. `ComfyUI/custom_nodes` does not contain `ComfyUI_IPAdapter_plus`; `ComfyUI/models/clip_vision` contains only the placeholder; no usable local `models/ipadapter` assets were found; and `config/comfyui_extra_model_paths.yaml` does not map IPAdapter or CLIP-vision roots.
+  - impact: do not continue prompt-only MOD-17 Canny anti-drift retries as the primary identity path; real identity conditioning needs the missing local assets installed/synced and proven first.
+  - route: install/sync `ComfyUI_IPAdapter_plus`, an SDXL-compatible IPAdapter model, and a CLIP-vision model, then prove local `object_info` support for `IPAdapterUnifiedLoader` and `IPAdapter` before attempting a Canny identity-conditioned runtime proof.
+  - safe current work: continue named local-first Wave70/Plan/Tracker tasks that do not require IPAdapter, or explicitly perform the local IPAdapter asset installation/proof task.
+  - evidence: `Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W71_LOCAL_CANNY_IPADAPTER_IDENTITY_PATH_BLOCKER_20260707T181000-0500.json`; `Plan/Tracker/Evidence/W71_LOCAL_CANNY_IPADAPTER_IDENTITY_PATH_BLOCKER_20260707T181000-0500.json`
+
+- `BLOCKER-W69-LOCAL-CONTROL-GENERATION-MODELS-001`
+  - status: resolved locally as of 2026-07-07T06:40:00-05:00 for first-smoke coverage; preprocessor nodes and preprocessor map artifacts are proven, and the depth, lineart, OpenPose, and normal branches now each have local generation smoke evidence with notes.
+  - blocker type: missing_local_controlnet_generation_models_for_pose_depth_normal_lineart
+  - failed condition: before the local non-Canny recovery, `C:\Comfy_UI_Main\models\controlnet` contained only `.gitkeep` and `controlnet-canny-sdxl-1.0-small.safetensors`. It now also contains `controlnet-depth-sdxl-1.0-small.safetensors`, `controlnet-lineart-sdxl-fp16.safetensors`, `OpenPoseXL2.safetensors`, and `controlnet-union-sdxl-1.0.safetensors` with local hash proof and bounded local generation/QA evidence for the corresponding branches.
+  - not the cause: EC2, AWS auth, GitHub token, Civitai key, `.env`, `.git`, the private PEM file, or missing preprocessor nodes.
+  - remaining boundary: resolved for first local smoke coverage only. Depth, lineart, OpenPose, and normal are local-smoke-proven with notes, not final certified and not target-runtime certified. Multi-sample robustness, full-body/hands where relevant, and EC2 target-runtime proof remain separate work.
+  - safe current work: run targeted robustness/certification sampling for selected local branches, or intentionally move to target-runtime proof with the required clean/pushed-head and stop controls.
+  - evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_OBJECT_INFO_CONTROL_PREPROCESSORS_AFTER_AUX_INSTALL_20260707T052500-0500.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CONTROL_PREPROCESSOR_MAPS_VISUAL_QA_20260707T053800-0500.json`; `Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_maps_w69_v2_20260707T053300-0500/CONTROL_PREPROCESSOR_MAPS_MANIFEST.json`; `Plan/Instructions/QA/Evidence/Model_Registry/W69_LOCAL_CONTROLNET_DEPTH_MODEL_PROVISIONING_20260707T054600-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_DEPTH_CONTROLNET_V1_EXECUTE_20260707T055000-0500.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_DEPTH_CONTROLNET_V1_VISUAL_QA_20260707T055200-0500.json`; `Plan/Instructions/QA/Evidence/Model_Registry/W69_LOCAL_CONTROLNET_LINEART_MODEL_PROVISIONING_20260707T060000-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_LINEART_CONTROLNET_V1_EXECUTE_20260707T060200-0500.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_LINEART_CONTROLNET_V1_VISUAL_QA_20260707T060400-0500.json`; `Plan/Instructions/QA/Evidence/Model_Registry/W69_LOCAL_CONTROLNET_OPENPOSE_MODEL_PROVISIONING_20260707T062100-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_OPENPOSE_CONTROLNET_V1_EXECUTE_20260707T062500-0500.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_CONTROLNET_V1_VISUAL_QA_20260707T062800-0500.json`; `Plan/Instructions/QA/Evidence/Model_Registry/W69_LOCAL_CONTROLNET_NORMAL_MODEL_PROVISIONING_20260707T063400-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_NORMAL_CONTROLNET_V1_EXECUTE_20260707T063800-0500.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_NORMAL_CONTROLNET_V1_VISUAL_QA_20260707T064000-0500.json`
 
 - `BLOCKER-W68-CANNY-V4-BUNDLE-HEAD-MISMATCH-001`
   - status: resolved 2026-07-07T01:54:44-05:00; procedural, not a model, AWS auth, GitHub token, `.env`, Civitai key, or EC2 stopped-state blocker.
@@ -93,6 +904,15 @@ None currently active for local Wave 58-62 static and packaging validation.
 
 ## Resolved blockers
 
+- `BLOCKER-W69-LOCAL-CONTROL-PREPROCESSORS-001`
+  - status: resolved 2026-07-07T05:38:00-05:00 after local `comfyui_controlnet_aux` provisioning, dependency recovery, object_info recheck, preprocessor map generation, and strict visual QA.
+  - blocker type: missing_local_comfyui_control_preprocessor_nodes
+  - failed condition: local ComfyUI `/object_info` returned 791 node classes and includes `ControlNetLoader`, `ControlNetApplyAdvanced`, `LoadImage`, `SaveImage`, and built-in `Canny`, but exposes no expected DWPose, OpenPose, depth, normal, or lineart preprocessor node names from `Plan/10_REGISTRIES/wave11_pose_preprocessor_registry.json`.
+  - resolution: installed the auxiliary preprocessor custom node stack into ignored local runtime path `ComfyUI/custom_nodes/comfyui_controlnet_aux`, installed required Python dependencies including `timm-1.0.27` after the first BAE normal attempt exposed the missing module, reran `/object_info`, and proved the expected DWPose/OpenPose/depth/normal/lineart preprocessor classes are visible. Then generated and QA-reviewed OpenPose, DepthAnything, LineartStandard, and BAE normal preprocessor maps from the local source image.
+  - not the cause: EC2, AWS auth, GitHub token, Civitai key, `.env`, `.git`, the private PEM file, the local Canny ControlNet model, or the current Canny workflow.
+  - remaining boundary: this resolves preprocessor availability and preprocessor artifact generation only. Matching non-Canny SDXL ControlNet generation models remain a separate active local blocker before pose/depth/normal/lineart generation lanes can be claimed ready.
+  - evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_OBJECT_INFO_CONTROL_PREPROCESSORS_20260707T052000-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_CONTROLNET_AUX_PREPROCESSOR_INSTALL_20260707T052400-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_OBJECT_INFO_CONTROL_PREPROCESSORS_AFTER_AUX_INSTALL_20260707T052500-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_CONTROL_PREPROCESSOR_NODE_SCHEMAS_20260707T052700-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CONTROL_PREPROCESSOR_MAPS_RETRY_EXECUTE_20260707T053300-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CONTROL_PREPROCESSOR_NORMAL_RETRY_EXECUTE_20260707T053500-0500.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CONTROL_PREPROCESSOR_MAPS_VISUAL_QA_20260707T053800-0500.json`
+
 - `BLOCKER-W59-GIT-001` - resolved/stale for active root 2026-07-07T01:20:00-05:00
   - blocker type: stale_wrong_root_git_detection
   - resolution: `C:\Comfy_UI_Main` is the active project root and contains `.git`, `.env`, `comfyui-lora-key.pem`, `Plan`, `Workflows`, `models`, `ComfyUI`, and the expected project file structure. Git status/head checks confirm the active repo root is `C:/Comfy_UI_Main`; do not recreate Git metadata and do not switch back to historical `C:\Comfy_UI`.
@@ -144,3 +964,59 @@ None currently active for local Wave 58-62 static and packaging validation.
 - Civitai API access unavailable
 - Required model files missing
 - ComfyUI runtime path mismatch
+
+## Active local blockers
+
+- `BLOCKER-W70-HAIR-BODY-SKIN-MARKS-AUTHORITY-001`
+  - status: active
+  - blocker type: hair_body_skin_marks_authority_unavailable
+  - failed condition: `TRK-W70-0170` / `ITEM-W70-0170` requires hair, body hair, scalp, skin marks, and body skin authority. The active source has visible head hair and partial face/neck skin, but semantic human-part parsing remains unavailable, scalp is not directly visible under hair, body-hair regions are not visible, and skin-mark/body-skin boundary ownership cannot be exported as canonical polygons.
+  - affected rows: `TRK-W70-0170` / `ITEM-W70-0170`.
+  - evidence: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_HAIR_BODY_SKIN_MARKS_AUTHORITY_20260708T043800-0500.json`; tracker evidence `Plan/Tracker/Evidence/W70_HAIR_BODY_SKIN_MARKS_AUTHORITY_20260708T043800-0500.json`; panel `runtime_artifacts/mask_factory/wave70_hair_body_skin_marks_authority/20260708T043800-0500/hair_body_skin_marks_authority_blocker_panel.png`.
+  - gate evidence: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_HAIR_BODY_SKIN_MARKS_AUTHORITY_20260708T044000-0500.json`; `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_HAIR_BODY_SKIN_MARKS_AUTHORITY_20260708T044000-0500.json`.
+  - not acceptable: promoting hair/body-skin masks from visible broad regions, guessed hair outlines, generated-output stability, or partial portrait crop evidence without parser-backed ownership.
+  - required fix: use an executable source-derived semantic parsing/segmentation authority or an eligible reference-matrix slot with sufficient visible regions, then rerun the row.
+
+- `BLOCKER-W70-FEET-TOES-CONTACT-AUTHORITY-001`
+  - status: active
+  - blocker type: local_source_feet_toes_contact_not_visible
+  - failed condition: `TRK-W70-0169` / `ITEM-W70-0169` requires feet, toes, toenails, shoe, sock, and floor contact authority, but the active source is a head/neck/upper-chest portrait. Feet, toes, toenails, shoes, socks, and support-contact boundaries are not visible. Existing pose, semantic human-part parsing, limb-joint, and contact ownership authority are also blocked or unavailable.
+  - affected rows: `TRK-W70-0169` / `ITEM-W70-0169`.
+  - evidence: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FEET_TOES_CONTACT_AUTHORITY_20260708T042452-0500.json`; tracker evidence `Plan/Tracker/Evidence/W70_FEET_TOES_CONTACT_AUTHORITY_20260708T042452-0500.json`; panel `runtime_artifacts/mask_factory/wave70_feet_toes_contact_authority/20260708T042452-0500/feet_toes_contact_authority_blocker_panel.png`.
+  - gate evidence: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_FEET_TOES_CONTACT_AUTHORITY_20260708T042600-0500.json`; `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_FEET_TOES_CONTACT_AUTHORITY_20260708T042600-0500.json`.
+  - not acceptable: generating or promoting foot/toe/contact masks from guessed geometry, generated-output stability, clothing/body extrapolation, or the partial portrait crop.
+  - required fix: use an eligible source/reference slot that visibly exposes the target foot/contact regions and has executable local pose/part/contact authority, or keep this row blocked.
+
+- `BLOCKER-W70-LIMB-JOINT-AUTHORITY-001`
+  - status: active
+  - blocker type: local_source_limb_joint_region_not_visible
+  - failed condition: `TRK-W70-0168` / `ITEM-W70-0168` requires limb joint upper arm, forearm, thigh, knee, calf, and ankle authority, but the active source is a head/neck/upper-chest portrait. Forearms, thighs, knees, calves, and ankles are not visible, and blazer shoulders do not provide source-derived upper-arm or joint-chain geometry. Existing pose and semantic human-part parsing authority rows are also blocked.
+  - affected rows: `TRK-W70-0168` / `ITEM-W70-0168`.
+  - evidence: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_LIMB_JOINT_REGION_AUTHORITY_20260708T041257-0500.json`; tracker evidence `Plan/Tracker/Evidence/W70_LIMB_JOINT_REGION_AUTHORITY_20260708T041257-0500.json`; panel `runtime_artifacts/mask_factory/wave70_limb_joint_region_authority/20260708T041257-0500/limb_joint_region_authority_blocker_panel.png`.
+  - gate evidence: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_LIMB_JOINT_AUTHORITY_20260708T041400-0500.json`; `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_LIMB_JOINT_AUTHORITY_20260708T041400-0500.json`.
+  - not acceptable: generating or promoting limb/joint masks from guessed geometry, clothing surfaces, generated-output stability, or the partial portrait crop.
+  - required fix: use an eligible source/reference slot that visibly exposes the target limb/joint regions and has executable local pose/part authority, or keep this row blocked.
+
+- `BLOCKER-W70-TORSO-REGION-AUTHORITY-001`
+  - status: active
+  - blocker type: local_source_torso_region_not_visible
+  - failed condition: `TRK-W70-0167` / `ITEM-W70-0167` requires torso, chest, abdomen, belly-button, waist, hips, and back authority, but the active source is a head/neck/upper-chest portrait. Abdomen, belly-button, waist, hips, and back are not visible, and the partial upper-chest area is clothing-occluded. Existing pose and semantic human-part parsing authority rows are also blocked, so no canonical torso polygon can be exported.
+  - affected rows: `TRK-W70-0167` / `ITEM-W70-0167`.
+  - evidence: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_TORSO_ABDOMEN_UMBILICUS_AUTHORITY_20260708T040248-0500.json`; tracker evidence `Plan/Tracker/Evidence/W70_TORSO_ABDOMEN_UMBILICUS_AUTHORITY_20260708T040248-0500.json`; panel `runtime_artifacts/mask_factory/wave70_torso_abdomen_umbilicus_authority/20260708T040248-0500/torso_abdomen_umbilicus_authority_blocker_panel.png`.
+  - gate evidence: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_TORSO_REGION_AUTHORITY_20260708T040400-0500.json`; `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_TORSO_REGION_AUTHORITY_20260708T040400-0500.json`.
+  - not acceptable: generating or promoting torso/body masks from guessed geometry, clothing boundaries, generated-output stability, or the partial portrait crop.
+  - required fix: use an eligible source/reference slot that visibly exposes the target torso regions and has executable local pose/part authority, or keep this row blocked.
+
+- `BLOCKER-W70-EYE-BOUNDARY-GEOMETRY-001`
+  - status: active
+  - blocker type: source_eye_boundary_geometry_untrusted
+  - failed condition: User review correctly identified that the current eye/eyebrow/eyelid review geometry is still wrong: the visible viewer-left eye and brow boundaries drift outward into the hair mass, and the eyelid mask/review panel still cannot be trusted as anatomically aligned.
+  - affected rows: `TRK-W70-0010` / `ITEM-W70-0010` (`mf70_left_eye`), `TRK-W70-0011` / `ITEM-W70-0011` (`mf70_right_eye`), `TRK-W70-0012` / `ITEM-W70-0012` (`mf70_pupils_iris_sclera`), `TRK-W70-0013` / `ITEM-W70-0013` (`mf70_eyelids`), `TRK-W70-0014` / `ITEM-W70-0014` (`mf70_eyelashes`), `TRK-W70-0016` / `ITEM-W70-0016` (`mf70_eyebrows`).
+  - failed evidence: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_SOURCE_ALIGNMENT_FAIL_CLOSED_VALIDATION_20260708T000000-0500.json`; panel `runtime_artifacts/mask_factory/wave70_source_alignment_fail_closed_20260708T000000-0500/mf70_eyelids_source_alignment_fail_closed_panel.png`; repair panel `runtime_artifacts/mask_factory/wave70_mf70_eyelids/source_landmark_repair_v2/20260707T235500-0500/mf70_eyelids_v2_source_landmark_panel.png`.
+  - latest diagnostic evidence: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_EYE_BOUNDARY_TRACE_TEMPLATE_20260707T230633-0500.json`; tracker evidence `Plan/Tracker/Evidence/W70_EYE_BOUNDARY_TRACE_TEMPLATE_20260707T230633-0500.json`; source trace panel `runtime_artifacts/mask_factory/wave70_eye_boundary_trace_template_20260707T230633-0500/wave70_eye_boundary_source_trace_template_panel.png`; current disputed overlay panel `runtime_artifacts/mask_factory/wave70_eye_boundary_trace_template_20260707T230633-0500/wave70_eye_family_current_disputed_mask_overlays.png`.
+  - latest diagnostic result: `blocked_manual_or_better_source_derived_trace_required`; OpenCV Haar detected only one eye and the viewer-left eye/brow side is hair-occluded, so symmetry/rectangle/polygon inference is unsafe.
+  - latest manual trace evidence: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_EYE_BOUNDARY_MANUAL_TRACE_V1_20260707T233500-0500.json`; tracker evidence `Plan/Tracker/Evidence/W70_EYE_BOUNDARY_MANUAL_TRACE_V1_20260707T233500-0500.json`; trace panel `runtime_artifacts/mask_factory/wave70_eye_boundary_manual_trace_v1/20260707T233500-0500/wave70_eye_boundary_manual_trace_v1_panel.png`; trace JSON `runtime_artifacts/mask_factory/wave70_eye_boundary_manual_trace_v1/20260707T233500-0500/wave70_eye_boundary_manual_trace_v1.json`.
+  - manual trace boundary: evidence only, not mask approval. It excludes the viewer-left far hair mass and records an explicit hair-occlusion boundary before any future candidate-mask derivation.
+  - not acceptable: more hand-guessed rectangles or polygons for eye/eyebrow/eyelid boundaries, generated-output proof, or row promotion.
+  - required fix: build source-derived eye/brow/hair-occlusion boundary layers from segmentation/landmark extraction or a manual trace artifact reviewed at high zoom before any eye-family mask row can move toward acceptance. The visible hair-occluded side must be represented as occluded/partially visible rather than extending eye or brow geometry into hair.
+  - current route: leave eye-family masks hard-gate blocked; either implement a reliable local source-boundary extraction/manual trace tool next, or switch temporarily to a non-eye mask whose visible anatomy is not hair-occluded.

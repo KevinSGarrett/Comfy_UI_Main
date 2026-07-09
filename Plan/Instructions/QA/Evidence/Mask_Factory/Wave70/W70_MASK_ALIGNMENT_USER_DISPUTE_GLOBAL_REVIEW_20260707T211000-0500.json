@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MASK-ALIGNMENT-USER-DISPUTE-GLOBAL-REVIEW-20260707T211000-0500",
+  "timestamp": "2026-07-07T21:10:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave70_global_user_dispute_mask_alignment_review",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "user_dispute": {
+    "scope": "all_generated_wave70_masks_reviewed_in_current_mask_factory_pass",
+    "summary": "User reports that every generated mask is visibly way off from the actual picture, with the nose example covering the mouth and not matching the source anatomy.",
+    "correction": "All prior Wave70 mask-alignment pass or single-anchor pass claims are frozen and treated as untrusted pending strict source-overlay rework. Generated-output stability is not accepted as mask-alignment proof."
+  },
+  "supersedes_or_freezes": [
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_under_eye.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_eyebrows.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_nose.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_mouth_lips.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_teeth.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_NOSE_STRICT_REPAIR_USER_DISPUTE_20260707T210000-0500.json"
+  ],
+  "affected_rows": [
+    {
+      "mask_type_id": "mf70_under_eye",
+      "tracker_id": "TRK-W70-0015",
+      "item_id": "ITEM-W70-0015",
+      "previous_status": "Single_Anchor_Mask_Alignment_Pass_Matrix_Required_Target_Runtime_Pending",
+      "corrected_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+      "reason": "User global dispute invalidates the single-anchor alignment pass claim pending stricter source-overlay review."
+    },
+    {
+      "mask_type_id": "mf70_eyebrows",
+      "tracker_id": "TRK-W70-0016",
+      "item_id": "ITEM-W70-0016",
+      "previous_status": "Single_Anchor_Mask_Alignment_Pass_Matrix_Required_Target_Runtime_Pending",
+      "corrected_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+      "reason": "User global dispute invalidates the single-anchor alignment pass claim pending stricter source-overlay review."
+    },
+    {
+      "mask_type_id": "mf70_nose",
+      "tracker_id": "TRK-W70-0017",
+      "item_id": "ITEM-W70-0017",
+      "previous_status": "Mask_Alignment_Fail_Generated_Output_Safe_Target_Runtime_Pending",
+      "corrected_status": "Mask_Alignment_Fail_Generated_Output_Safe_Target_Runtime_Pending",
+      "reason": "User-specific nose dispute confirms the repair attempt is still anatomically misaligned and may intrude on protected mouth/philtrum regions."
+    },
+    {
+      "mask_type_id": "mf70_mouth_lips",
+      "tracker_id": "TRK-W70-0018",
+      "item_id": "ITEM-W70-0018",
+      "previous_status": "Single_Anchor_Mask_Alignment_Pass_Matrix_Required_Target_Runtime_Pending",
+      "corrected_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+      "reason": "User global dispute invalidates the single-anchor alignment pass claim pending stricter source-overlay review."
+    },
+    {
+      "mask_type_id": "mf70_teeth",
+      "tracker_id": "TRK-W70-0019",
+      "item_id": "ITEM-W70-0019",
+      "previous_status": "Single_Anchor_Mask_Alignment_Pass_Matrix_Required_Target_Runtime_Pending",
+      "corrected_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+      "reason": "User global dispute invalidates the single-anchor alignment pass claim pending stricter source-overlay review."
+    }
+  ],
+  "corrected_policy": {
+    "generated_output_safe_pass_can_remain_recorded": true,
+    "generated_output_safe_pass_proves_mask_alignment": false,
+    "single_anchor_overlay_pass_allowed_for_certification": false,
+    "require_source_overlay_rebuild": true,
+    "require_zoom_crop_review": true,
+    "require_protected_neighbor_review": true,
+    "require_reference_image_matrix_before_universal_claims": true
+  },
+  "next_required_action": "Stop promoting individual Wave70 masks from these generated-output proofs. Rebuild or audit masks from source image geometry with strict overlay crops, protected-neighbor exclusions, and explicit fail/needs-revision evidence before any new generated-output proof.",
+  "result": "global_user_dispute_all_wave70_generated_masks_untrusted_pending_rebuild"
+}

@@ -1,0 +1,135 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "W69-LOCAL-NORMAL-V3-MULTISEED-ROBUSTNESS-VISUAL-QA-20260707T080600-0500",
+    "timestamp":  "2026-07-07T08:06:00-05:00",
+    "project_root":  "C:\\Comfy_UI_Main",
+    "local_only":  true,
+    "ec2_started":  false,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "generation_executed":  true,
+    "lane_id":  "sdxl_realvisxl_controlnet_normal_lane",
+    "module_id":  "MOD-21-CONTROLNET-NORMAL-LANE",
+    "profiles":  [
+                     "PromptProfiles/base_generation/controlnet_normal_v1_followup/normal_v3_lower_control_oxford_texture_seed711670203.json",
+                     "PromptProfiles/base_generation/controlnet_normal_v1_followup/normal_v3_robust_oxford_seed711670204.json",
+                     "PromptProfiles/base_generation/controlnet_normal_v1_followup/normal_v3_robust_oxford_seed711670205.json"
+                 ],
+    "run_packages":  [
+                         "runtime_artifacts/run_packages/normal_v3_oxford_711670203/RUN_PACKAGE_MANIFEST.json",
+                         "runtime_artifacts/run_packages/normal_v3_robust_711670204/RUN_PACKAGE_MANIFEST.json",
+                         "runtime_artifacts/run_packages/normal_v3_robust_711670205/RUN_PACKAGE_MANIFEST.json"
+                     ],
+    "runtime_evidence":  [
+                             "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_NORMAL_V3_OXFORD_EXECUTE_20260707T075400-0500.json",
+                             "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_NORMAL_V3_ROBUST_SEED711670204_EXECUTE_20260707T080100-0500.json",
+                             "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_NORMAL_V3_ROBUST_SEED711670205_EXECUTE_20260707T080300-0500.json"
+                         ],
+    "previous_candidate_visual_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_NORMAL_V3_OXFORD_VISUAL_QA_20260707T075600-0500.json",
+    "generated_artifacts":  [
+                                {
+                                    "seed":  711670203,
+                                    "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v3_oxford_711670203_20260707T075249-0500/images/normal_v3_oxford_711670203_00001_.png",
+                                    "sha256":  "5de4177f7a25d90692784891c6d6ea82c2e8e39c81ce56ba091508d80845d45f",
+                                    "width":  768,
+                                    "height":  768,
+                                    "role":  "preferred_candidate"
+                                },
+                                {
+                                    "seed":  711670204,
+                                    "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v3_robust_711670204_20260707T080034-0500/images/normal_v3_robust_711670204_00001_.png",
+                                    "sha256":  "d94ca6562a7febafbf8087ec77e1d76194cfb21f88daf87f3fcb81d92fc25257",
+                                    "width":  768,
+                                    "height":  768,
+                                    "role":  "robustness_seed"
+                                },
+                                {
+                                    "seed":  711670205,
+                                    "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v3_robust_711670205_20260707T080140-0500/images/normal_v3_robust_711670205_00001_.png",
+                                    "sha256":  "65ba501b8a875aa55d7501f1bf3d57b92456a570daeb4eee5d4ef19b04e2e27d",
+                                    "width":  768,
+                                    "height":  768,
+                                    "role":  "robustness_seed"
+                                }
+                            ],
+    "control_map_diagnostics":  [
+                                    {
+                                        "seed":  711670204,
+                                        "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v3_robust_711670204_20260707T080034-0500/images/codex_sdxl_realvisxl_controlnet_normal_control_map_diagnostic_00004_.png",
+                                        "sha256":  "e3d427b6fa9703cf64c4241e5ea7f788b1317cad0486d611c80cdadd4f9fed61",
+                                        "width":  512,
+                                        "height":  512
+                                    },
+                                    {
+                                        "seed":  711670205,
+                                        "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v3_robust_711670205_20260707T080140-0500/images/codex_sdxl_realvisxl_controlnet_normal_control_map_diagnostic_00005_.png",
+                                        "sha256":  "53f4a1d91b37315a4c32017398a6160ea9f974100e695d0ce67d9192179dd420",
+                                        "width":  512,
+                                        "height":  512
+                                    }
+                                ],
+    "robustness_scope":  "preferred_v3_candidate_plus_two_seed_only_local_robustness",
+    "whole_image_review":  {
+                               "face_realism":  "pass_across_three_samples",
+                               "eye_quality":  "pass_across_three_samples_with_minor_seed_variation",
+                               "skin_texture":  "pass_with_notes_across_three_samples_mild_polish_persists",
+                               "hands_fingers":  "not_visible_not_scored",
+                               "feet_toes":  "not_visible_not_scored",
+                               "hair_realism":  "pass_across_three_samples",
+                               "teeth_mouth_quality":  "pass_no_teeth_visible",
+                               "body_proportions":  "pass_for_head_shoulders_crop",
+                               "pose_accuracy":  "pass",
+                               "clothing_fabric":  "pass_with_notes_dark_shirt_blazer_texture_holds_across_three_samples",
+                               "contact_points":  "not_visible_not_scored",
+                               "deformation_realism":  "pass",
+                               "anatomy_consistency":  "pass_for_visible_crop",
+                               "lighting":  "pass_with_notes_seed_variation",
+                               "background_coherence":  "pass",
+                               "camera_lens_realism":  "pass",
+                               "texture_detail":  "pass_with_notes",
+                               "generation_artifacts":  "pass_with_notes_seed_711670205_has_small_light_fleck_on_lower_left_blazer",
+                               "identity_drift":  "not_certified_beyond_same_prompt_seed_variation",
+                               "prompt_compliance":  "pass_with_notes",
+                               "control_adherence":  "pass_across_three_samples",
+                               "control_map_leakage":  "pass_no_visible_rainbow_or_normal_map_stains_across_three_samples"
+                           },
+    "qa_findings":  [
+                        "Across the preferred v3 candidate and two additional seeds, the reduced/shortened normal ControlNet strategy keeps stable face planes, coherent shoulder/collar geometry, and readable eyes.",
+                        "Dark oxford shirt and blazer texture hold across all three samples, resolving the v2 smooth-white-shirt failure mode for this local robustness scope.",
+                        "No visible RGB normal-map leakage, rainbow staining, or surface-vector artifacts appear in any reviewed portrait; both new diagnostics remain expected BAE normal maps.",
+                        "Skin microtexture is more natural than v2 overall, but mild beauty-polished smoothness persists and remains a note before final quality certification.",
+                        "Seed 711670205 has a small light fleck/artifact on the lower-left blazer and slightly glossier skin; it is nonblocking for local robustness but should be watched in final QA.",
+                        "This robustness check remains head-and-shoulders only; hands, full-body anatomy, contact points, and target-runtime behavior are not certified."
+                    ],
+    "sample_results":  [
+                           {
+                               "seed":  711670203,
+                               "result":  "pass_with_notes_preferred_local_candidate",
+                               "notes":  "Best balance of dark fabric texture, skin microcontrast, clean geometry, and no normal leakage."
+                           },
+                           {
+                               "seed":  711670204,
+                               "result":  "pass_with_notes_robustness_sample",
+                               "notes":  "Holds v3 direction with readable fabric and stable geometry; mild skin polish remains."
+                           },
+                           {
+                               "seed":  711670205,
+                               "result":  "pass_with_notes_robustness_sample",
+                               "notes":  "Holds geometry/fabric and no leakage; small lower-left blazer fleck and glossier skin noted."
+                           }
+                       ],
+    "blocking_defects":  [
+
+                         ],
+    "qa_result":  "pass_with_notes_local_normal_v3_multiseed_robustness",
+    "certification_scope":  "local_normal_v3_three_sample_robustness_only",
+    "certification_allowed":  false,
+    "remaining_risks":  [
+                            "Local three-sample robustness is not final Normal lane certification.",
+                            "Hands, full-body anatomy, contact points, and broader surface robustness are not certified.",
+                            "Mild skin polish remains across samples and must be considered in final image-quality certification.",
+                            "Target-runtime EC2 object_info/path/hash/input proof, bounded generation, pullback, technical QA, and strict whole-image visual QA remain separate gates if Normal is selected for promotion."
+                        ],
+    "next_action":  "Update Normal lane state to local v3 multisample robustness passed with notes, then continue local-first on another named gap or target-runtime proof only when intentionally selected."
+}

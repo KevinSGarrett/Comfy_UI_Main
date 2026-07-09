@@ -1,0 +1,409 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_MODEL_GEOMETRY_DEPENDENCY_PROBE_20260708T004000-0500",
+  "created_local": "20260708T004000-0500",
+  "task": "Probe local model-backed geometry dependencies and model files for TRK-W70-0142 / ITEM-W70-0142.",
+  "source_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "exists": true,
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+  },
+  "environment": {
+    "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "cwd": "C:\\Comfy_UI_Main"
+  },
+  "imports": {
+    "python_numpy": {
+      "module": "numpy",
+      "available": true,
+      "version": "1.26.4",
+      "error": null
+    },
+    "python_pil": {
+      "module": "PIL",
+      "available": true,
+      "version": "12.3.0",
+      "error": null
+    },
+    "python_cv2": {
+      "module": "cv2",
+      "available": true,
+      "version": "4.11.0",
+      "error": null
+    },
+    "python_torch": {
+      "module": "torch",
+      "available": true,
+      "version": "2.12.1+cpu",
+      "error": null
+    },
+    "python_torchvision": {
+      "module": "torchvision",
+      "available": true,
+      "version": "0.27.1+cpu",
+      "error": null
+    },
+    "python_mediapipe": {
+      "module": "mediapipe",
+      "available": true,
+      "version": "0.10.35",
+      "error": null
+    },
+    "python_dlib": {
+      "module": "dlib",
+      "available": false,
+      "version": null,
+      "error": "module_spec_not_found"
+    },
+    "python_onnxruntime": {
+      "module": "onnxruntime",
+      "available": true,
+      "version": "1.27.0",
+      "error": null
+    },
+    "python_transformers": {
+      "module": "transformers",
+      "available": false,
+      "version": null,
+      "error": "ImportError: cannot import name 'is_offline_mode' from 'huggingface_hub' (C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\huggingface_hub\\__init__.py)"
+    },
+    "python_diffusers": {
+      "module": "diffusers",
+      "available": false,
+      "version": null,
+      "error": "module_spec_not_found"
+    },
+    "python_segment_anything": {
+      "module": "segment_anything",
+      "available": false,
+      "version": null,
+      "error": "module_spec_not_found"
+    },
+    "python_sam2": {
+      "module": "sam2",
+      "available": true,
+      "version": null,
+      "error": null
+    },
+    "python_ultralytics": {
+      "module": "ultralytics",
+      "available": true,
+      "version": "8.4.87",
+      "error": null
+    },
+    "python_insightface": {
+      "module": "insightface",
+      "available": false,
+      "version": null,
+      "error": "module_spec_not_found"
+    },
+    "python_face_alignment": {
+      "module": "face_alignment",
+      "available": false,
+      "version": null,
+      "error": "module_spec_not_found"
+    },
+    "python_skimage": {
+      "module": "skimage",
+      "available": true,
+      "version": "0.26.0",
+      "error": null
+    },
+    "python_scipy": {
+      "module": "scipy",
+      "available": true,
+      "version": "1.17.1",
+      "error": null
+    }
+  },
+  "model_file_scan": {
+    "roots": [
+      {
+        "root": "C:\\Comfy_UI_Main\\models",
+        "exists": true,
+        "scanned": true,
+        "matched_count": 7
+      },
+      {
+        "root": "C:\\Comfy_UI_Main\\ComfyUI\\models",
+        "exists": true,
+        "scanned": true,
+        "matched_count": 0
+      },
+      {
+        "root": "C:\\Comfy_UI\\models",
+        "exists": true,
+        "scanned": true,
+        "matched_count": 0
+      },
+      {
+        "root": "C:\\Comfy_UI\\ComfyUI\\models",
+        "exists": false,
+        "scanned": false,
+        "matched_count": 0
+      },
+      {
+        "root": "C:\\Comfy_UI_Main\\tools",
+        "exists": true,
+        "scanned": true,
+        "matched_count": 0
+      },
+      {
+        "root": "C:\\Users\\kevin\\.cache",
+        "exists": true,
+        "scanned": true,
+        "matched_count": 9
+      }
+    ],
+    "matched_model_files": [
+      {
+        "path": "C:\\Comfy_UI_Main\\models\\checkpoints\\realvisxlV50_v50Bakedvae.safetensors",
+        "name": "realvisxlV50_v50Bakedvae.safetensors",
+        "suffix": ".safetensors",
+        "size_bytes": 6938065488,
+        "sha256": "skipped_large_file"
+      },
+      {
+        "path": "C:\\Comfy_UI_Main\\models\\controlnet\\controlnet-canny-sdxl-1.0-small.safetensors",
+        "name": "controlnet-canny-sdxl-1.0-small.safetensors",
+        "suffix": ".safetensors",
+        "size_bytes": 320237179,
+        "sha256": "fde4888a5f0a5648118991cc50e0ac4d60a2356dbaddf5e0649dd69c1119a2f9"
+      },
+      {
+        "path": "C:\\Comfy_UI_Main\\models\\controlnet\\controlnet-depth-sdxl-1.0-small.safetensors",
+        "name": "controlnet-depth-sdxl-1.0-small.safetensors",
+        "suffix": ".safetensors",
+        "size_bytes": 320237179,
+        "sha256": "6f23c58fd632f52238a7b35ebdc02f9f596fd13dbaa121f9b37b9f4689c2b1e9"
+      },
+      {
+        "path": "C:\\Comfy_UI_Main\\models\\controlnet\\controlnet-lineart-sdxl-fp16.safetensors",
+        "name": "controlnet-lineart-sdxl-fp16.safetensors",
+        "suffix": ".safetensors",
+        "size_bytes": 158060440,
+        "sha256": "c19e9e1038c7c53b238185d8dc9fad87f95aa3124d211e19f39f1165bfb7230f"
+      },
+      {
+        "path": "C:\\Comfy_UI_Main\\models\\controlnet\\controlnet-union-sdxl-1.0.safetensors",
+        "name": "controlnet-union-sdxl-1.0.safetensors",
+        "suffix": ".safetensors",
+        "size_bytes": 2512030408,
+        "sha256": "skipped_large_file"
+      },
+      {
+        "path": "C:\\Comfy_UI_Main\\models\\controlnet\\OpenPoseXL2.safetensors",
+        "name": "OpenPoseXL2.safetensors",
+        "suffix": ".safetensors",
+        "size_bytes": 5004167829,
+        "sha256": "skipped_large_file"
+      },
+      {
+        "path": "C:\\Comfy_UI_Main\\models\\upscale_models\\RealESRGAN_x4plus.pth",
+        "name": "RealESRGAN_x4plus.pth",
+        "suffix": ".pth",
+        "size_bytes": 67040989,
+        "sha256": "4fa0d38905f75ac06eb49a7951b426670021be3018265fd191d2125df9d682f1"
+      },
+      {
+        "path": "C:\\Users\\kevin\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\Lib\\site-packages\\distutils-precedence.pth",
+        "name": "distutils-precedence.pth",
+        "suffix": ".pth",
+        "size_bytes": 151,
+        "sha256": "2638ce9e2500e572a5e0de7faed6661eb569d1b696fcba07b0dd223da5f5d224"
+      },
+      {
+        "path": "C:\\Users\\kevin\\.cache\\huggingface\\hub\\models--LiheYoung--depth-anything-small-hf\\snapshots\\25216a913fa218ccb7d58cce818d52b728b6c1f6\\model.safetensors",
+        "name": "model.safetensors",
+        "suffix": ".safetensors",
+        "size_bytes": 99173660,
+        "sha256": "7997c812d8964a741eec21e6816ec2db1e442b5109ea2e7db26dcb03c9060ef0"
+      },
+      {
+        "path": "C:\\Users\\kevin\\.cache\\huggingface\\hub\\models--Systran--faster-whisper-small\\snapshots\\536b0662742c02347bc0e980a01041f333bce120\\model.bin",
+        "name": "model.bin",
+        "suffix": ".bin",
+        "size_bytes": 483546902,
+        "sha256": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+      },
+      {
+        "path": "C:\\Users\\kevin\\.cache\\pre-commit\\repo13h2h8nr\\py_env-python3\\Lib\\site-packages\\_virtualenv.pth",
+        "name": "_virtualenv.pth",
+        "suffix": ".pth",
+        "size_bytes": 18,
+        "sha256": "69ac3d8f27e679c81b94ab30b3b56e9cd138219b1ba94a1fa3606d5a76a1433d"
+      },
+      {
+        "path": "C:\\Users\\kevin\\.cache\\pre-commit\\repopebvpee0\\py_env-python3\\Lib\\site-packages\\_virtualenv.pth",
+        "name": "_virtualenv.pth",
+        "suffix": ".pth",
+        "size_bytes": 18,
+        "sha256": "69ac3d8f27e679c81b94ab30b3b56e9cd138219b1ba94a1fa3606d5a76a1433d"
+      },
+      {
+        "path": "C:\\Users\\kevin\\.cache\\puppeteer\\chrome\\win64-149.0.7827.22\\chrome-win64\\v8_context_snapshot.bin",
+        "name": "v8_context_snapshot.bin",
+        "suffix": ".bin",
+        "size_bytes": 740912,
+        "sha256": "2e3a3d051dbe42bd9378aa571ea2e145ce9ce1cd3b79efbd30163d339ba0c4dc"
+      },
+      {
+        "path": "C:\\Users\\kevin\\.cache\\puppeteer\\chrome-headless-shell\\win64-149.0.7827.22\\chrome-headless-shell-win64\\v8_context_snapshot.bin",
+        "name": "v8_context_snapshot.bin",
+        "suffix": ".bin",
+        "size_bytes": 740912,
+        "sha256": "2e3a3d051dbe42bd9378aa571ea2e145ce9ce1cd3b79efbd30163d339ba0c4dc"
+      },
+      {
+        "path": "C:\\Users\\kevin\\.cache\\torch\\hub\\checkpoints\\rtmdet_m_8xb32-100e_coco-obj365-person-235e8209.pth",
+        "name": "rtmdet_m_8xb32-100e_coco-obj365-person-235e8209.pth",
+        "suffix": ".pth",
+        "size_bytes": 99013732,
+        "sha256": "35b0c7406499e0d141dd6a0235db07c10d2bee8f891f8f4e353c16a009de30e8"
+      },
+      {
+        "path": "C:\\Users\\kevin\\.cache\\torch\\hub\\checkpoints\\rtmpose-m_simcc-coco-wholebody_pt-aic-coco_270e-256x192-cd5e845c_20230123.pth",
+        "name": "rtmpose-m_simcc-coco-wholebody_pt-aic-coco_270e-256x192-cd5e845c_20230123.pth",
+        "suffix": ".pth",
+        "size_bytes": 72010049,
+        "sha256": "3da02694cd6479d3b333ff42ebd0723f96bfa06adac1db1e2e815ed2e9e1b02d"
+      }
+    ],
+    "keyword_groups": {
+      "mediapipe_task_models": [],
+      "face_parsing_models": [],
+      "sam_promptable_segmentation_models": [],
+      "pose_hand_models": [
+        {
+          "path": "C:\\Comfy_UI_Main\\models\\controlnet\\OpenPoseXL2.safetensors",
+          "name": "OpenPoseXL2.safetensors",
+          "suffix": ".safetensors",
+          "size_bytes": 5004167829,
+          "sha256": "skipped_large_file"
+        },
+        {
+          "path": "C:\\Users\\kevin\\.cache\\torch\\hub\\checkpoints\\rtmpose-m_simcc-coco-wholebody_pt-aic-coco_270e-256x192-cd5e845c_20230123.pth",
+          "name": "rtmpose-m_simcc-coco-wholebody_pt-aic-coco_270e-256x192-cd5e845c_20230123.pth",
+          "suffix": ".pth",
+          "size_bytes": 72010049,
+          "sha256": "3da02694cd6479d3b333ff42ebd0723f96bfa06adac1db1e2e815ed2e9e1b02d"
+        }
+      ],
+      "face_landmark_models": []
+    }
+  },
+  "route_evaluation": {
+    "routes": {
+      "base_image_io_and_cv": {
+        "available": true,
+        "evidence": [
+          "numpy",
+          "PIL",
+          "cv2"
+        ]
+      },
+      "face_landmark_authority_route": {
+        "available": true,
+        "evidence": [
+          "mediapipe import",
+          "dlib plus landmark model",
+          "face_alignment import",
+          "insightface import"
+        ]
+      },
+      "semantic_face_parsing_route": {
+        "available": false,
+        "evidence": [
+          "face parsing model file",
+          "torch or onnxruntime"
+        ]
+      },
+      "promptable_segmentation_refinement_route": {
+        "available": false,
+        "evidence": [
+          "segment_anything/sam2 import",
+          "SAM/SAM2 model file",
+          "torch"
+        ]
+      },
+      "pose_hand_body_extension_route": {
+        "available": true,
+        "evidence": [
+          "mediapipe import",
+          "pose/hand model files"
+        ]
+      }
+    },
+    "missing_required_routes": [
+      "semantic_face_parsing_route",
+      "promptable_segmentation_refinement_route"
+    ],
+    "required_stack_available": false
+  },
+  "model_backed_geometry_authority": {
+    "result": "blocked",
+    "model_backed_geometry_authority_pass": false,
+    "source_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "source_sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "source_dimensions": [
+      768,
+      768
+    ],
+    "mask_type_id": "MBGA-001",
+    "matrix_slot_id": "TRK-W70-0142",
+    "models_attempted": [],
+    "models_available": [
+      "base_image_io_and_cv",
+      "face_landmark_authority_route",
+      "pose_hand_body_extension_route"
+    ],
+    "model_versions": {
+      "python_numpy": "1.26.4",
+      "python_pil": "12.3.0",
+      "python_cv2": "4.11.0",
+      "python_torch": "2.12.1+cpu",
+      "python_torchvision": "0.27.1+cpu",
+      "python_mediapipe": "0.10.35",
+      "python_onnxruntime": "1.27.0",
+      "python_sam2": null,
+      "python_ultralytics": "8.4.87",
+      "python_skimage": "0.26.0",
+      "python_scipy": "1.17.1"
+    },
+    "landmark_record_path": "",
+    "semantic_parsing_record_path": "",
+    "sam_refinement_record_path": "",
+    "visibility_occlusion_record_path": "",
+    "canonical_polygon_path": "",
+    "coordinate_transform_manifest_path": "",
+    "gold_trace_comparison_path": "",
+    "consensus_metrics": {
+      "iou_against_gold_or_prior": null,
+      "mean_boundary_error_px": null,
+      "max_boundary_error_px": null,
+      "center_drift_px": null,
+      "protected_overlap_ratio": null
+    },
+    "confidence": {
+      "landmark_confidence": null,
+      "parsing_confidence": null,
+      "refinement_confidence": null,
+      "visibility_confidence": null,
+      "overall_confidence": null
+    },
+    "dependency_probe_completed": true,
+    "model_geometry_dependency_probe_pass": false,
+    "blocked_reason": "Blocked_Model_Geometry_Dependency_Missing",
+    "findings": [
+      "Active Wave70 source image exists for future model-backed geometry probes.",
+      "Required local route unavailable or incomplete: semantic_face_parsing_route.",
+      "Required local route unavailable or incomplete: promptable_segmentation_refinement_route.",
+      "TRK-W70-0142 cannot pass; exact dependency/model blocker is required before mask derivation resumes."
+    ]
+  },
+  "qa_decision": "blocked_model_geometry_dependency_missing",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_no_W70_MODEL_BACKED_GEOMETRY_AUTHORITY_ROW_GATE_PASS_TRUE",
+  "next_step": "Write exact blocker and keep Wave70 masks fail-closed until missing local model-backed geometry routes are installed/registered."
+}

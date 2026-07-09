@@ -1,0 +1,23 @@
+﻿{
+    "artifact_id":  "SIX_HOUR_MILESTONE_PROGRESS_FINDING_20260708T011317-0500",
+    "created_at":  "2026-07-08T01:16:48.3671465-05:00",
+    "audit_path":  "C:\\Users\\kevin\\.codex\\automations\\comfy-ui-main-six-hour-milestone-progress-auditor\\audits\\SIX_HOUR_MILESTONE_PROGRESS_20260708T011317-0500.json",
+    "classification":  "MILESTONE_ADVANCING_WITH_LEDGER_GAP",
+    "finding":  "Wave70 advanced with proper fail-closed gates, but TRK-W70-0162 / ITEM-W70-0162 are marked Blocked_Body_Geometry_Dependency_Missing while cited W70_WHOLE_BODY_GEOMETRY_DEPENDENCY_PROBE_20260708T010313-0500 artifacts were not found by bounded search under Plan or runtime_artifacts.",
+    "affected_rows":  [
+                          "TRK-W70-0162",
+                          "ITEM-W70-0162"
+                      ],
+    "evidence_gap":  [
+                         "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_WHOLE_BODY_GEOMETRY_DEPENDENCY_PROBE_20260708T010313-0500.json",
+                         "Plan/Tracker/Evidence/W70_WHOLE_BODY_GEOMETRY_DEPENDENCY_PROBE_20260708T010313-0500.json"
+                     ],
+    "allowed_next_action":  "Do not continue to TRK-W70-0163 as if 0162 is cleanly evidenced. First restore/recreate the missing dependency-probe evidence and post-probe hard-gate evidence, or correct the ledger references to existing artifacts with matching hashes/results.",
+    "forbidden_actions":  [
+                              "do_not_start_ec2",
+                              "do_not_wave65_refresh_as_substitute",
+                              "do_not_promote_body_hand_contact_masks",
+                              "do_not_commit_or_stage_from_audit"
+                          ],
+    "correction_lock":  "C:\\Users\\kevin\\.codex\\automations\\comfy-ui-main-shared-correction-lock.json"
+}

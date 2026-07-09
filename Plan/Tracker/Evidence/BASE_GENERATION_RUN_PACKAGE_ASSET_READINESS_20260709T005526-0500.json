@@ -1,0 +1,497 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "BASE_GENERATION_RUN_PACKAGE_ASSET_READINESS_20260709T005526-0500",
+  "created_iso": "2026-07-09T00:55:26-05:00",
+  "run_package_matrix_root": "runtime_artifacts/run_package_matrices/base_generation_smoke_prompts_20260709T005518-0500",
+  "run_package_matrix_manifest": "runtime_artifacts/run_package_matrices/base_generation_smoke_prompts_20260709T005518-0500/RUN_PACKAGE_MATRIX_MANIFEST.json",
+  "model_root": "models",
+  "comfyui_input_root": "ComfyUI/input",
+  "counts": {
+    "packages_declared": 8,
+    "packages_checked": 8,
+    "failed_packages": 0,
+    "unique_required_model_files": 7,
+    "unique_required_input_files": 7,
+    "unique_files_hashed": 22
+  },
+  "unique_required_model_files": [
+    "models/checkpoints/realvisxlV50_v50Bakedvae.safetensors",
+    "models/checkpoints/sd_xl_base_1.0.safetensors",
+    "models/controlnet/OpenPoseXL2.safetensors",
+    "models/controlnet/controlnet-canny-sdxl-1.0-small.safetensors",
+    "models/controlnet/controlnet-depth-sdxl-1.0-small.safetensors",
+    "models/controlnet/controlnet-lineart-sdxl-fp16.safetensors",
+    "models/controlnet/controlnet-union-sdxl-1.0.safetensors"
+  ],
+  "unique_required_input_files": [
+    "ComfyUI/input/controlnet_canny_cleaned_eye_safe_v3_rightedge_band_masked.png",
+    "ComfyUI/input/controlnet_depth_anything_w69_v1.png",
+    "ComfyUI/input/controlnet_lineart_w69_v1.png",
+    "ComfyUI/input/controlnet_normal_bae_w69_v1.png",
+    "ComfyUI/input/controlnet_openpose_w69_v1.png",
+    "ComfyUI/input/sdxl_inpaint_detail_micro_nomouth_v4.png",
+    "ComfyUI/input/sdxl_inpaint_detail_source_canny_v1.png"
+  ],
+  "matrix_errors": [],
+  "package_reports": [
+    {
+      "lane_id": "sdxl_low_risk_fallback_lane",
+      "package_root": "runtime_artifacts/run_package_matrices/base_generation_smoke_prompts_20260709T005518-0500/sdxl_low_risk_fallback_lane",
+      "manifest": "runtime_artifacts/run_package_matrices/base_generation_smoke_prompts_20260709T005518-0500/sdxl_low_risk_fallback_lane/RUN_PACKAGE_MANIFEST.json",
+      "expected_manifest_sha256": "29584a7f32d2661ce5577f4e3be3f5dfb03208103d2fc8b5291ec153ae1ce193",
+      "actual_manifest_sha256": "b47e2b5218825d70cc9b47907792316ab86af969466d4c451ef01bb58668feb5",
+      "required_model_count": 1,
+      "required_input_asset_count": 0,
+      "model_reports": [
+        {
+          "path": "models/checkpoints/sd_xl_base_1.0.safetensors",
+          "exists": true,
+          "bytes": 6938078334,
+          "expected_sha256": "31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b",
+          "actual_sha256": "31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b",
+          "hash_match": true,
+          "errors": [],
+          "role": "checkpoint",
+          "model_type": null,
+          "comfyui_model_subdir": "checkpoints",
+          "filename": "sd_xl_base_1.0.safetensors",
+          "node_id": null,
+          "node_class": null
+        }
+      ],
+      "input_asset_reports": [],
+      "warnings": [
+        "matrix_manifest_sha256_mismatch_self_referential_manifest_hash"
+      ],
+      "errors": [],
+      "pass": true
+    },
+    {
+      "lane_id": "sdxl_realvisxl_base_lane",
+      "package_root": "runtime_artifacts/run_package_matrices/base_generation_smoke_prompts_20260709T005518-0500/sdxl_realvisxl_base_lane",
+      "manifest": "runtime_artifacts/run_package_matrices/base_generation_smoke_prompts_20260709T005518-0500/sdxl_realvisxl_base_lane/RUN_PACKAGE_MANIFEST.json",
+      "expected_manifest_sha256": "8c6abbd99c8b20bc6f5196972719231ece334fb767d33843c3e44f0d4d8798cf",
+      "actual_manifest_sha256": "4bf649f80b1c61d4118f574527856588b2dec240a9c88bc4396136206431ad52",
+      "required_model_count": 1,
+      "required_input_asset_count": 0,
+      "model_reports": [
+        {
+          "path": "models/checkpoints/realvisxlV50_v50Bakedvae.safetensors",
+          "exists": true,
+          "bytes": 6938065488,
+          "expected_sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "actual_sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "hash_match": true,
+          "errors": [],
+          "role": "checkpoint",
+          "model_type": null,
+          "comfyui_model_subdir": "checkpoints",
+          "filename": "realvisxlV50_v50Bakedvae.safetensors",
+          "node_id": null,
+          "node_class": null
+        }
+      ],
+      "input_asset_reports": [],
+      "warnings": [
+        "matrix_manifest_sha256_mismatch_self_referential_manifest_hash"
+      ],
+      "errors": [],
+      "pass": true
+    },
+    {
+      "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+      "package_root": "runtime_artifacts/run_package_matrices/base_generation_smoke_prompts_20260709T005518-0500/sdxl_realvisxl_controlnet_canny_lane",
+      "manifest": "runtime_artifacts/run_package_matrices/base_generation_smoke_prompts_20260709T005518-0500/sdxl_realvisxl_controlnet_canny_lane/RUN_PACKAGE_MANIFEST.json",
+      "expected_manifest_sha256": "a73559611a147b5c6c6c559480b928f174aeabda93ce14985c588c3085df7d92",
+      "actual_manifest_sha256": "853ef877f6a79bdd02466ed17f5b3e7c4fe8ca9d25ccb60337bf583c95ebf54b",
+      "required_model_count": 2,
+      "required_input_asset_count": 1,
+      "model_reports": [
+        {
+          "path": "models/checkpoints/realvisxlV50_v50Bakedvae.safetensors",
+          "exists": true,
+          "bytes": 6938065488,
+          "expected_sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "actual_sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "hash_match": true,
+          "errors": [],
+          "role": "checkpoint",
+          "model_type": "Checkpoint",
+          "comfyui_model_subdir": "checkpoints",
+          "filename": "realvisxlV50_v50Bakedvae.safetensors",
+          "node_id": "4",
+          "node_class": "CheckpointLoaderSimple"
+        },
+        {
+          "path": "models/controlnet/controlnet-canny-sdxl-1.0-small.safetensors",
+          "exists": true,
+          "bytes": 320237179,
+          "expected_sha256": "fde4888a5f0a5648118991cc50e0ac4d60a2356dbaddf5e0649dd69c1119a2f9",
+          "actual_sha256": "fde4888a5f0a5648118991cc50e0ac4d60a2356dbaddf5e0649dd69c1119a2f9",
+          "hash_match": true,
+          "errors": [],
+          "role": "controlnet",
+          "model_type": "ControlNet",
+          "comfyui_model_subdir": "controlnet",
+          "filename": "controlnet-canny-sdxl-1.0-small.safetensors",
+          "node_id": "10",
+          "node_class": "ControlNetLoader"
+        }
+      ],
+      "input_asset_reports": [
+        {
+          "path": "ComfyUI/input/controlnet_canny_cleaned_eye_safe_v3_rightedge_band_masked.png",
+          "exists": true,
+          "bytes": 26730,
+          "expected_sha256": "4b40cdd7386d9287a37d64efafdeb7078a8a9d4160e23e00b5ddc87106a1f870",
+          "actual_sha256": "4b40cdd7386d9287a37d64efafdeb7078a8a9d4160e23e00b5ddc87106a1f870",
+          "hash_match": true,
+          "errors": [],
+          "role": "control_image",
+          "control_map_type": null,
+          "filename": "controlnet_canny_cleaned_eye_safe_v3_rightedge_band_masked.png",
+          "comfyui_input_path": "ComfyUI/input/controlnet_canny_cleaned_eye_safe_v3_rightedge_band_masked.png",
+          "node_id": "11",
+          "node_class": "LoadImage"
+        }
+      ],
+      "warnings": [
+        "matrix_manifest_sha256_mismatch_self_referential_manifest_hash"
+      ],
+      "errors": [],
+      "pass": true
+    },
+    {
+      "lane_id": "sdxl_realvisxl_controlnet_depth_lane",
+      "package_root": "runtime_artifacts/run_package_matrices/base_generation_smoke_prompts_20260709T005518-0500/sdxl_realvisxl_controlnet_depth_lane",
+      "manifest": "runtime_artifacts/run_package_matrices/base_generation_smoke_prompts_20260709T005518-0500/sdxl_realvisxl_controlnet_depth_lane/RUN_PACKAGE_MANIFEST.json",
+      "expected_manifest_sha256": "c6793494a217ba95a6ebe8b6b05abbc29d8f62fc080a6f04e9f2d3e18238f8b7",
+      "actual_manifest_sha256": "bca0e4334002aba9847d263f90d7c04299a740c169d6fd1c74c9618aa0269af4",
+      "required_model_count": 2,
+      "required_input_asset_count": 1,
+      "model_reports": [
+        {
+          "path": "models/checkpoints/realvisxlV50_v50Bakedvae.safetensors",
+          "exists": true,
+          "bytes": 6938065488,
+          "expected_sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "actual_sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "hash_match": true,
+          "errors": [],
+          "role": "checkpoint",
+          "model_type": "Checkpoint",
+          "comfyui_model_subdir": "checkpoints",
+          "filename": "realvisxlV50_v50Bakedvae.safetensors",
+          "node_id": "4",
+          "node_class": "CheckpointLoaderSimple"
+        },
+        {
+          "path": "models/controlnet/controlnet-depth-sdxl-1.0-small.safetensors",
+          "exists": true,
+          "bytes": 320237179,
+          "expected_sha256": "6f23c58fd632f52238a7b35ebdc02f9f596fd13dbaa121f9b37b9f4689c2b1e9",
+          "actual_sha256": "6f23c58fd632f52238a7b35ebdc02f9f596fd13dbaa121f9b37b9f4689c2b1e9",
+          "hash_match": true,
+          "errors": [],
+          "role": "controlnet",
+          "model_type": "ControlNet",
+          "comfyui_model_subdir": "controlnet",
+          "filename": "controlnet-depth-sdxl-1.0-small.safetensors",
+          "node_id": "10",
+          "node_class": "ControlNetLoader"
+        }
+      ],
+      "input_asset_reports": [
+        {
+          "path": "ComfyUI/input/controlnet_depth_anything_w69_v1.png",
+          "exists": true,
+          "bytes": 54373,
+          "expected_sha256": "d9d21c69ea3ea50f3991bd0a420f338c5c7bc3c3450508526a7e9060c0319ef7",
+          "actual_sha256": "d9d21c69ea3ea50f3991bd0a420f338c5c7bc3c3450508526a7e9060c0319ef7",
+          "hash_match": true,
+          "errors": [],
+          "role": "control_image",
+          "control_map_type": "depth",
+          "filename": "controlnet_depth_anything_w69_v1.png",
+          "comfyui_input_path": "ComfyUI/input/controlnet_depth_anything_w69_v1.png",
+          "node_id": "11",
+          "node_class": "LoadImage"
+        }
+      ],
+      "warnings": [
+        "matrix_manifest_sha256_mismatch_self_referential_manifest_hash"
+      ],
+      "errors": [],
+      "pass": true
+    },
+    {
+      "lane_id": "sdxl_realvisxl_controlnet_lineart_lane",
+      "package_root": "runtime_artifacts/run_package_matrices/base_generation_smoke_prompts_20260709T005518-0500/sdxl_realvisxl_controlnet_lineart_lane",
+      "manifest": "runtime_artifacts/run_package_matrices/base_generation_smoke_prompts_20260709T005518-0500/sdxl_realvisxl_controlnet_lineart_lane/RUN_PACKAGE_MANIFEST.json",
+      "expected_manifest_sha256": "228af6ad35961e7ae7ca3d897cc0f45a74ffaf453334206e7aebf66b0ab11ef6",
+      "actual_manifest_sha256": "afe3ccfec26752c790e2bd352c6bdbaeee17a1c2a768d86e5ad60cb4fe9d07da",
+      "required_model_count": 2,
+      "required_input_asset_count": 1,
+      "model_reports": [
+        {
+          "path": "models/checkpoints/realvisxlV50_v50Bakedvae.safetensors",
+          "exists": true,
+          "bytes": 6938065488,
+          "expected_sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "actual_sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "hash_match": true,
+          "errors": [],
+          "role": "checkpoint",
+          "model_type": "Checkpoint",
+          "comfyui_model_subdir": "checkpoints",
+          "filename": "realvisxlV50_v50Bakedvae.safetensors",
+          "node_id": "4",
+          "node_class": "CheckpointLoaderSimple"
+        },
+        {
+          "path": "models/controlnet/controlnet-lineart-sdxl-fp16.safetensors",
+          "exists": true,
+          "bytes": 158060440,
+          "expected_sha256": "c19e9e1038c7c53b238185d8dc9fad87f95aa3124d211e19f39f1165bfb7230f",
+          "actual_sha256": "c19e9e1038c7c53b238185d8dc9fad87f95aa3124d211e19f39f1165bfb7230f",
+          "hash_match": true,
+          "errors": [],
+          "role": "controlnet",
+          "model_type": "ControlNet",
+          "comfyui_model_subdir": "controlnet",
+          "filename": "controlnet-lineart-sdxl-fp16.safetensors",
+          "node_id": "10",
+          "node_class": "ControlNetLoader"
+        }
+      ],
+      "input_asset_reports": [
+        {
+          "path": "ComfyUI/input/controlnet_lineart_w69_v1.png",
+          "exists": true,
+          "bytes": 158803,
+          "expected_sha256": "1994c628abb6df5abda27e61b1e17dd32f0f3cf50993d1ca795c89de4ef7ff46",
+          "actual_sha256": "1994c628abb6df5abda27e61b1e17dd32f0f3cf50993d1ca795c89de4ef7ff46",
+          "hash_match": true,
+          "errors": [],
+          "role": "control_image",
+          "control_map_type": "lineart",
+          "filename": "controlnet_lineart_w69_v1.png",
+          "comfyui_input_path": "ComfyUI/input/controlnet_lineart_w69_v1.png",
+          "node_id": "11",
+          "node_class": "LoadImage"
+        }
+      ],
+      "warnings": [
+        "matrix_manifest_sha256_mismatch_self_referential_manifest_hash"
+      ],
+      "errors": [],
+      "pass": true
+    },
+    {
+      "lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+      "package_root": "runtime_artifacts/run_package_matrices/base_generation_smoke_prompts_20260709T005518-0500/sdxl_realvisxl_controlnet_normal_lane",
+      "manifest": "runtime_artifacts/run_package_matrices/base_generation_smoke_prompts_20260709T005518-0500/sdxl_realvisxl_controlnet_normal_lane/RUN_PACKAGE_MANIFEST.json",
+      "expected_manifest_sha256": "b3041bd3a830d4eaff1bb3bd3dacd522faf6a5157f75db83221769d8e8db894b",
+      "actual_manifest_sha256": "1bc6454c023cd26fc691cb4e4c40cdaf092410c44b75843f8228009843614ca5",
+      "required_model_count": 2,
+      "required_input_asset_count": 1,
+      "model_reports": [
+        {
+          "path": "models/checkpoints/realvisxlV50_v50Bakedvae.safetensors",
+          "exists": true,
+          "bytes": 6938065488,
+          "expected_sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "actual_sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "hash_match": true,
+          "errors": [],
+          "role": "checkpoint",
+          "model_type": "Checkpoint",
+          "comfyui_model_subdir": "checkpoints",
+          "filename": "realvisxlV50_v50Bakedvae.safetensors",
+          "node_id": "4",
+          "node_class": "CheckpointLoaderSimple"
+        },
+        {
+          "path": "models/controlnet/controlnet-union-sdxl-1.0.safetensors",
+          "exists": true,
+          "bytes": 2512030408,
+          "expected_sha256": "a9e13fd61f3193887791c8a0dd07a07202174dc47d5ddaea94ea1344f07c7467",
+          "actual_sha256": "a9e13fd61f3193887791c8a0dd07a07202174dc47d5ddaea94ea1344f07c7467",
+          "hash_match": true,
+          "errors": [],
+          "role": "controlnet",
+          "model_type": "ControlNet",
+          "comfyui_model_subdir": "controlnet",
+          "filename": "controlnet-union-sdxl-1.0.safetensors",
+          "node_id": "10",
+          "node_class": "ControlNetLoader"
+        }
+      ],
+      "input_asset_reports": [
+        {
+          "path": "ComfyUI/input/controlnet_normal_bae_w69_v1.png",
+          "exists": true,
+          "bytes": 161483,
+          "expected_sha256": "1a0526da325d7fb29986b8de017ba9af7c43e1b328d51da5afa7c6bf84863139",
+          "actual_sha256": "1a0526da325d7fb29986b8de017ba9af7c43e1b328d51da5afa7c6bf84863139",
+          "hash_match": true,
+          "errors": [],
+          "role": "control_image",
+          "control_map_type": "normal_bae",
+          "filename": "controlnet_normal_bae_w69_v1.png",
+          "comfyui_input_path": "ComfyUI/input/controlnet_normal_bae_w69_v1.png",
+          "node_id": "11",
+          "node_class": "LoadImage"
+        }
+      ],
+      "warnings": [
+        "matrix_manifest_sha256_mismatch_self_referential_manifest_hash"
+      ],
+      "errors": [],
+      "pass": true
+    },
+    {
+      "lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+      "package_root": "runtime_artifacts/run_package_matrices/base_generation_smoke_prompts_20260709T005518-0500/sdxl_realvisxl_controlnet_openpose_lane",
+      "manifest": "runtime_artifacts/run_package_matrices/base_generation_smoke_prompts_20260709T005518-0500/sdxl_realvisxl_controlnet_openpose_lane/RUN_PACKAGE_MANIFEST.json",
+      "expected_manifest_sha256": "4f90addb4f0bf403917fac9288b45cfc333a41c2b690cbc7f7dfd05fcbe02ddc",
+      "actual_manifest_sha256": "2e1dce8b3ce9021d67a228908001d33a5706501d26ca73fe3108191a98d5bd23",
+      "required_model_count": 2,
+      "required_input_asset_count": 1,
+      "model_reports": [
+        {
+          "path": "models/checkpoints/realvisxlV50_v50Bakedvae.safetensors",
+          "exists": true,
+          "bytes": 6938065488,
+          "expected_sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "actual_sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "hash_match": true,
+          "errors": [],
+          "role": "checkpoint",
+          "model_type": "Checkpoint",
+          "comfyui_model_subdir": "checkpoints",
+          "filename": "realvisxlV50_v50Bakedvae.safetensors",
+          "node_id": "4",
+          "node_class": "CheckpointLoaderSimple"
+        },
+        {
+          "path": "models/controlnet/OpenPoseXL2.safetensors",
+          "exists": true,
+          "bytes": 5004167829,
+          "expected_sha256": "5a4b928cb1e93748217900cb66d4135bf70d932d2924232f925910fad9e43a92",
+          "actual_sha256": "5a4b928cb1e93748217900cb66d4135bf70d932d2924232f925910fad9e43a92",
+          "hash_match": true,
+          "errors": [],
+          "role": "controlnet",
+          "model_type": "ControlNet",
+          "comfyui_model_subdir": "controlnet",
+          "filename": "OpenPoseXL2.safetensors",
+          "node_id": "10",
+          "node_class": "ControlNetLoader"
+        }
+      ],
+      "input_asset_reports": [
+        {
+          "path": "ComfyUI/input/controlnet_openpose_w69_v1.png",
+          "exists": true,
+          "bytes": 6040,
+          "expected_sha256": "709ff1ace4607afa6f3b8d188faea2d6ce7757927e3456b3553e40c39c59bfc7",
+          "actual_sha256": "709ff1ace4607afa6f3b8d188faea2d6ce7757927e3456b3553e40c39c59bfc7",
+          "hash_match": true,
+          "errors": [],
+          "role": "control_image",
+          "control_map_type": "openpose",
+          "filename": "controlnet_openpose_w69_v1.png",
+          "comfyui_input_path": "ComfyUI/input/controlnet_openpose_w69_v1.png",
+          "node_id": "11",
+          "node_class": "LoadImage"
+        }
+      ],
+      "warnings": [
+        "matrix_manifest_sha256_mismatch_self_referential_manifest_hash"
+      ],
+      "errors": [],
+      "pass": true
+    },
+    {
+      "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+      "package_root": "runtime_artifacts/run_package_matrices/base_generation_smoke_prompts_20260709T005518-0500/sdxl_realvisxl_inpaint_detail_lane",
+      "manifest": "runtime_artifacts/run_package_matrices/base_generation_smoke_prompts_20260709T005518-0500/sdxl_realvisxl_inpaint_detail_lane/RUN_PACKAGE_MANIFEST.json",
+      "expected_manifest_sha256": "6925348b2c6070eb919fb7cbfff1fd79ed34b7d24db9289dd3c5433a1f221357",
+      "actual_manifest_sha256": "0fbdc3693b211fa07ad400fe57fb72cabec0230883ba564e4c70ebcc9038a737",
+      "required_model_count": 1,
+      "required_input_asset_count": 2,
+      "model_reports": [
+        {
+          "path": "models/checkpoints/realvisxlV50_v50Bakedvae.safetensors",
+          "exists": true,
+          "bytes": 6938065488,
+          "expected_sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "actual_sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "hash_match": true,
+          "errors": [],
+          "role": "checkpoint",
+          "model_type": "Checkpoint",
+          "comfyui_model_subdir": "checkpoints",
+          "filename": "realvisxlV50_v50Bakedvae.safetensors",
+          "node_id": null,
+          "node_class": null
+        }
+      ],
+      "input_asset_reports": [
+        {
+          "path": "ComfyUI/input/sdxl_inpaint_detail_source_canny_v1.png",
+          "exists": true,
+          "bytes": 581287,
+          "expected_sha256": "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523",
+          "actual_sha256": "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523",
+          "hash_match": true,
+          "errors": [],
+          "role": "source_image",
+          "control_map_type": null,
+          "filename": "sdxl_inpaint_detail_source_canny_v1.png",
+          "comfyui_input_path": "ComfyUI/input/sdxl_inpaint_detail_source_canny_v1.png",
+          "node_id": null,
+          "node_class": null
+        },
+        {
+          "path": "ComfyUI/input/sdxl_inpaint_detail_micro_nomouth_v4.png",
+          "exists": true,
+          "bytes": 6702,
+          "expected_sha256": "9bfbbda24b0f4915282649bb8c2b3e5a39b5a057dacbce6278683e9b531ec92d",
+          "actual_sha256": "9bfbbda24b0f4915282649bb8c2b3e5a39b5a057dacbce6278683e9b531ec92d",
+          "hash_match": true,
+          "errors": [],
+          "role": "mask_image",
+          "control_map_type": null,
+          "filename": "sdxl_inpaint_detail_micro_nomouth_v4.png",
+          "comfyui_input_path": "ComfyUI/input/sdxl_inpaint_detail_micro_nomouth_v4.png",
+          "node_id": null,
+          "node_class": null
+        }
+      ],
+      "warnings": [
+        "matrix_manifest_sha256_mismatch_self_referential_manifest_hash"
+      ],
+      "errors": [],
+      "pass": true
+    }
+  ],
+  "runtime_boundary": {
+    "local_file_readiness_only": true,
+    "comfyui_contacted": false,
+    "object_info_contacted": false,
+    "prompt_submitted": false,
+    "generation_executed": false,
+    "history_polled": false,
+    "ec2_started": false,
+    "aws_contacted": false,
+    "hard_gates_rerun": false,
+    "mask_truth_consumed": false,
+    "candidate_masks_consumed_as_truth": false,
+    "masks_promoted": false,
+    "wave71_activation_attempted": false
+  },
+  "pass": true,
+  "decision": "base_generation_run_package_asset_readiness_passed"
+}

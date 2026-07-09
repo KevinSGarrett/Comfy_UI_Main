@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_MF70_NOSE_STRICT_REPAIR_USER_DISPUTE_20260707T210000-0500",
+  "created_at": "2026-07-07T21:00:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "mask_type_id": "mf70_nose",
+  "tracker_id": "TRK-W70-0017",
+  "item_id": "ITEM-W70-0017",
+  "trigger": "User challenged the claimed repaired nose-mask pass, noting that the mask appears to cover the mouth and does not line up with the actual nose.",
+  "supersedes": [
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_NOSE_STRICT_REPAIR_SEED210819_VISUAL_QA_20260707T205000-0500.json",
+    "Plan/Tracker/Evidence/W70_MF70_NOSE_STRICT_REPAIR_GENERATED_OUTPUT_20260707T205000-0500.json",
+    "the pass-with-notes semantic alignment fields in Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_nose.json as written before this dispute"
+  ],
+  "reviewed_artifacts": {
+    "strict_repair_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_nose_20260707T204500-0500/wave70_mf70_nose_overlay.png",
+    "strict_repair_zoom_overlay": "runtime_artifacts/mask_factory/wave70_mf70_nose/visibility_review/mf70_nose_strict_repair_overlay_crop_20260707T204500-0500.png",
+    "strict_repair_comparison": "runtime_artifacts/mask_factory/wave70_mf70_nose/qa_comparisons/wave70_mf70_nose_strict_repair_source_overlay_output_compare.png"
+  },
+  "corrected_findings": [
+    "The repaired mask still rides too low into the philtrum/upper-lip area and is visually too close to the mouth boundary for strict protected-neighbor pass.",
+    "The mask boundary is still a coarse polygonal approximation rather than an anatomically faithful full visible nose boundary.",
+    "Generated-output stability does not prove mask alignment and must not be used to promote this mask.",
+    "The tracker/item CSV rows were already still set to Mask_Alignment_Fail_Generated_Output_Safe_Target_Runtime_Pending and should remain failed until a visibly correct overlay is produced."
+  ],
+  "corrected_decision": {
+    "semantic_mask_alignment_pass": false,
+    "protected_neighbor_check_pass": false,
+    "generated_output_safe_pass": true,
+    "status": "Mask_Alignment_Fail_Generated_Output_Safe_Target_Runtime_Pending",
+    "completion_allowed": false,
+    "generated_output_proof_valid_for_safety_only": true
+  },
+  "required_fix": [
+    "Regenerate mf70_nose with a visibly anatomical nose boundary, not a shortcut trapezoid/polygon.",
+    "Keep clear separation from philtrum, upper lip, mouth, inner canthus, lower eyelids, and broad cheeks.",
+    "Use zoomed source/overlay review as the gate before any generated-output proof.",
+    "Do not mark pass unless the overlay itself, without considering generated-output stability, matches the named full_nose_bridge_tip_nostrils target."
+  ],
+  "result": "superseding_user_dispute_mask_alignment_fail_generated_output_safe_target_runtime_pending"
+}

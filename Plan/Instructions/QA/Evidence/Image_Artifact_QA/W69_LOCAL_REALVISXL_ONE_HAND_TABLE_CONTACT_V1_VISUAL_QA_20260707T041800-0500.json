@@ -1,0 +1,99 @@
+{
+  "evidence_id": "W69-LOCAL-REALVISXL-ONE-HAND-TABLE-CONTACT-V1-VISUAL-QA-20260707T041800-0500",
+  "artifact_type": "image_artifact_visual_qa",
+  "lane_id": "sdxl_realvisxl_base_lane",
+  "module_id": "MOD-BASE-REALVISXL-LANE",
+  "task_id": "ITEM-W64-009",
+  "tracker_id": "TRK-W64-009",
+  "reviewer": "Codex Desktop autonomous QA",
+  "timestamp": "2026-07-07T04:18:00-05:00",
+  "scope": "Local RealVisXL one-hand visible table-contact fallback after two-hand separation repeatedly failed prompt compliance.",
+  "source_qa_driver": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_HANDS_CONTACT_COMPOSITION_FIX_V1_VISUAL_QA_20260707T040800-0500.json",
+  "profile_reference": "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_one_hand_table_contact_v1.json",
+  "run_package_manifest": "runtime_artifacts/run_packages/realvisxl_one_hand_table_contact_w69_v1/RUN_PACKAGE_MANIFEST.json",
+  "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_REALVISXL_ONE_HAND_TABLE_CONTACT_V1_EXECUTE_20260707T041600-0500.json",
+  "workflow_reference": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/workflow.api.json",
+  "overall_result": "pass_with_notes_for_local_one_hand_contact_iteration",
+  "certification_status": "not_certified_prompt_compliance_incomplete",
+  "runtime_boundaries": {
+    "local_comfyui_used": true,
+    "ec2_started": false,
+    "aws_contacted": false,
+    "github_api_contacted": false,
+    "civitai_contacted": false,
+    "generation_executed": true,
+    "comfyui_port_closed_after_run": true
+  },
+  "technical_checks": {
+    "file_exists": true,
+    "file_decodes": true,
+    "extension_expected": true,
+    "minimum_resolution": "512x512",
+    "meets_minimum_resolution": true,
+    "width": 1024,
+    "height": 1024,
+    "pixel_format": "Format24bppRgb",
+    "bytes": 1393232,
+    "sha256": "ca94d25d71b473e11febf3026fc32149b047b0964d79c62eed434ee0fcc6bacb"
+  },
+  "sample": {
+    "sample_id": "realvisxl_one_hand_table_contact_v1",
+    "output_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_one_hand_table_contact_v1_20260707T041600-0500/images/codex_realvisxl_one_hand_table_contact_00001_.png",
+    "visual_result": "pass_with_notes",
+    "improvement_observed": [
+      "Portrait composition is centered and stable with full face inside the frame, both eyes visible, coherent hair, wardrobe, lighting, and background.",
+      "Hands are in the lower frame with plausible table contact, believable skin texture, clear wrist accessories, and usable contact shadows.",
+      "The image avoids the severe face crop seen in the object-contact robustness sample."
+    ],
+    "remaining_notes": [
+      "The fallback prompt requested one visible right hand with the left hand outside frame, but the output includes two overlapping hands.",
+      "Finger/contact detail is acceptable for local iteration, but prompt compliance is still incomplete for a one-hand certification target.",
+      "This supports using simpler contact targets but does not yet certify RealVisXL hand/contact robustness."
+    ],
+    "defects": [
+      {
+        "severity": "minor",
+        "code": "one_hand_prompt_drift_two_hands_visible",
+        "message": "The output shows two overlapping hands instead of one isolated visible right hand."
+      }
+    ]
+  },
+  "strict_whole_image_categories_reviewed": [
+    "face_realism",
+    "eye_quality",
+    "skin_texture",
+    "hands_fingers",
+    "feet_toes_when_visible",
+    "hair_realism",
+    "teeth_mouth_quality",
+    "body_proportions",
+    "pose_accuracy",
+    "clothing_fabric",
+    "contact_points",
+    "object_body_collisions",
+    "deformation_realism",
+    "soft_body_cues",
+    "anatomy_consistency",
+    "lighting",
+    "shadows",
+    "reflections",
+    "background_coherence",
+    "camera_lens_realism",
+    "texture_detail",
+    "generation_artifacts",
+    "identity_drift",
+    "over_smoothing",
+    "plastic_skin",
+    "waxy_faces",
+    "distorted_limbs",
+    "prompt_compliance",
+    "unwanted_style_contamination"
+  ],
+  "qa_decision": {
+    "previous_issue_status": "composition_stable_contact_usable_prompt_compliance_still_partial",
+    "promotion_allowed": false,
+    "reason": "The sample is a good local portrait/contact iteration, but it did not obey the one-hand-only target and therefore cannot certify hand/contact prompt robustness.",
+    "recommended_next_action": "Either accept RealVisXL hands/contact as local pass-with-notes only, or move to a different local-first lane where certification criteria are not blocked by repeated hand-pose prompt drift."
+  },
+  "final_decision_allowed": false
+}

@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "tracker_evidence_id": "W70_MF70_MOUTH_LIPS_GENERATED_OUTPUT_20260707T193000-0500",
+  "created_at": "2026-07-07T19:30:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "tracker_id": "TRK-W70-0018",
+  "item_id": "ITEM-W70-0018",
+  "mask_type_id": "mf70_mouth_lips",
+  "status": "single_anchor_generated_output_safe_reference_matrix_required_target_runtime_pending",
+  "actual_work_performed": [
+    "Created a dedicated deterministic local mouth/lips mask generator.",
+    "Generated local mask, overlay, contract, quality report, runtime evidence, and routing manifest.",
+    "Performed direct overlay visual review, found the first polygon too broad into perioral skin, tightened the mask, and regenerated the artifacts before runtime proof.",
+    "Created a very-low-denoise inpaint prompt profile for generated-output proof.",
+    "Built a static-validated local run package with zero workflow defects and normalized generated JSON BOM.",
+    "Executed one bounded local ComfyUI run package.",
+    "Pulled back generated portrait and diagnostic mask preview.",
+    "Created a source/overlay/output comparison artifact.",
+    "Performed strict whole-image visual QA and recorded pass-with-notes generated-output proof.",
+    "Applied Wave70 semantic mask-alignment gate and classified mouth/lips overlay as pass-with-notes while preserving generated-output stability as a separate gate."
+  ],
+  "evidence": {
+    "generator": "Plan/07_IMPLEMENTATION/scripts/generate_wave70_mouth_lips_mask.py",
+    "mask_png": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_mouth_lips_20260707T193000-0500/wave70_mf70_mouth_lips_mask.png",
+    "overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_mouth_lips_20260707T193000-0500/wave70_mf70_mouth_lips_overlay.png",
+    "prompt_profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_mouth_lips_seed210817.json",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_mouth_lips_seed210817/RUN_PACKAGE_MANIFEST.json",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_MOUTH_LIPS_SEED210817_EXECUTE_20260707T193000-0500.json",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_mouth_lips_seed210817_20260707T191423-0500/images/codex_wave70_mf70_mouth_lips_seed210817_00001_.png",
+    "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_mouth_lips_seed210817_20260707T191423-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00023_.png",
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_MOUTH_LIPS_SEED210817_VISUAL_QA_20260707T193000-0500.json",
+    "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_mouth_lips/qa_comparisons/wave70_mf70_mouth_lips_source_overlay_output_compare.png",
+    "mask_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_mouth_lips.json"
+  },
+  "boundaries": {
+    "local_only": true,
+    "ec2_started": false,
+    "generated_output_proof_present": true,
+    "target_runtime_proof_present": false,
+    "final_completion_allowed": false,
+    "semantic_mask_alignment_pass": true,
+    "protected_neighbor_pass": true,
+    "generated_output_safe_pass": true,
+    "reference_image_matrix_pass": false,
+    "single_anchor_only": true,
+    "generalized_completion_allowed": false
+  },
+  "next_action": "Before generalized or certification-ready status, run the required reference-image matrix with source-specific overlays, zoom crops, protected-neighbor review, and generated-output proof where eligible.",
+  "evidence_hashes": {
+    "generator_sha256": "299530e54ab85a8f4894f5dd2db9a1a165d2813dc85f504610a1c03b795750a9",
+    "mask_png_sha256": "e739b48be26463f5e991524c3faf63bb9d646146c01d019ae0b6bcf01ab674d0",
+    "overlay_sha256": "9c3f6f34fcf14287c109c79ab12fc737654f4178435055a63e9f06c929bd41b8",
+    "prompt_profile_sha256": "842e5a789d0fa9e1486df943343036f9da6629ab2cd79f2cc28433141b7333ee",
+    "run_package_sha256": "30adc464bd399259fd6af6742b6e6aeeff2f501cae757479662c12c2a34f3f71",
+    "runtime_evidence_sha256": "23f5af4291df817330686ea3dc698dbc0f4c697b14ed8e018f169bf378293ef1",
+    "generated_output_sha256": "60ffde4a69ad5a67194c2f53d7f62fe63db6a6415b48877c81004ea93e00d1dc",
+    "diagnostic_mask_preview_sha256": "7b7196f32ece3335b79256fe0129caf8fab71f20c14ab9e04d406b9fa4bd78e9",
+    "comparison_artifact_sha256": "5f4a80c87b0036c7b13e26a1c0aff25a364eb356bad588df7f7fb26436a95c3e",
+    "visual_qa_sha256": "6bf7b0b0f48143b18d71cf953081b3cd4d6d43cf9ed01f19978766b9c8eaed8d",
+    "mask_evidence_sha256": "b1c3c53d7df35ec0c648de2e13aef5c587672bf7b90e328b74fc17030a171385"
+  },
+  "reference_image_matrix_review": {
+    "result": "required_not_run",
+    "single_anchor_only": true,
+    "completion_allowed": false,
+    "minimum_resolution_pass": false,
+    "high_resolution_detail_review_pass": false,
+    "cross_subject_generalization_pass": false,
+    "matrix_manifest_path": null,
+    "required_protocol": "Plan/Instructions/QA/WAVE70_REFERENCE_IMAGE_MATRIX_QA_PROTOCOL.md",
+    "policy_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_REFERENCE_IMAGE_MATRIX_ENFORCEMENT_20260707T200600-0500.json",
+    "reason": "Existing evidence used the active local MOD-17 portrait as one source image. It remains useful single-anchor smoke evidence but does not prove generalized or universal mask reliability."
+  },
+  "single_anchor_boundary": {
+    "status": "Single_Anchor_Mask_Alignment_Pass_Matrix_Required_Target_Runtime_Pending",
+    "tracker_status_updated": true,
+    "generalized_completion_blocked_until_reference_matrix_passes": true,
+    "target_runtime_still_pending": true
+  }
+}

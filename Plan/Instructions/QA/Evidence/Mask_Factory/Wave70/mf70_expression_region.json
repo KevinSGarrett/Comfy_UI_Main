@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-EXPRESSION-REGION-LOCAL-SUPPORT-20260707T151500-0500",
+  "timestamp": "2026-07-07T14:55:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave70_ultimate_mask_factory_local_artifact_routing_support",
+  "mask_type_id": "mf70_expression_region",
+  "tracker_id": "TRK-W70-0003",
+  "item_id": "ITEM-W70-0003",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "source_requirements": [
+    "Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_FACTORY_TAXONOMY.md#L23-L31",
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv:TRK-W70-0003",
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv:ITEM-W70-0003"
+  ],
+  "artifacts": {
+    "request": "runtime_artifacts/mask_factory/wave70_mf70_expression_region/MASK_FACTORY_REQUEST.json",
+    "contract": "runtime_artifacts/mask_factory/wave70_mf70_expression_region/MASK_FACTORY_CONTRACT.json",
+    "contract_validation": "runtime_artifacts/mask_factory/wave70_mf70_expression_region/MASK_FACTORY_CONTRACT_VALIDATION.json",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_mf70_expression_region/MASK_RUNTIME_EVIDENCE.json",
+    "quality_report": "runtime_artifacts/mask_factory/wave70_mf70_expression_region/MASK_QUALITY_REPORT.json",
+    "patch_manifest": "runtime_artifacts/mask_factory/wave70_mf70_expression_region/MASK_TO_WORKFLOW_PATCH_MANIFEST.csv",
+    "mask_png": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_expression_region_20260707T151500-0500/wave70_mf70_expression_region_mask.png",
+    "comfyui_input_copy": "ComfyUI/input/wave70_mf70_expression_region_mask.png",
+    "preview_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_expression_region_20260707T151500-0500/wave70_mf70_expression_region_overlay.png"
+  },
+  "mask_asset": {
+    "mask_id": "scene_wave70_canny_v3__person_001__mf70_expression_region__minor",
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_expression_region_20260707T151500-0500/wave70_mf70_expression_region_mask.png",
+    "sha256": "90092e845099ca51143dc678c3376cb3ce9bca047337aeed92406ec52116f39b",
+    "width": 768,
+    "height": 768,
+    "coverage_percent": 11.6674,
+    "person_instance_id": "person_001",
+    "body_region_id": "brows_eyes_cheeks_mouth_expression",
+    "scale": "minor"
+  },
+  "validation": {
+    "contract_valid": true,
+    "contract_errors": [],
+    "contract_warnings": [],
+    "quality_score": 93.0,
+    "minimum_required": 85,
+    "quality_passed": true,
+    "workflow_routing_manifest_present": true,
+    "preview_overlay_generated": true,
+    "protected_neighbor_check_pass": true,
+    "generated_output_proof_present": true,
+    "target_runtime_proof_present": false,
+    "blockers": [
+      "mask_alignment_revision_required_before_completion",
+      "target_runtime_proof_required_before_final_certification",
+      "mask_alignment_strict_review_requires_revision_before_completion"
+    ],
+    "mask_alignment_semantic_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false
+  },
+  "overlay_visual_review": {
+    "review_method": "direct local image inspection via Codex view_image",
+    "result": "pass_with_notes_expression_region_overlay",
+    "findings": [
+      "Mask covers both brows, eyes, central cheeks, nose bridge/tip, and lips/expression area.",
+      "Mask avoids clothing, neck, teeth, and background.",
+      "Small right-side hair contact remains at the face boundary; acceptable for low-denoise local generated-output proof but not final certification."
+    ]
+  },
+  "result": "mask_alignment_needs_revision_generated_output_safe_final_blocked_target_runtime",
+  "boundary": "Strict semantic mask-alignment review supersedes earlier generated-output-safe interpretation. Generated-output stability is preserved when present, but mask completion is blocked unless semantic alignment and protected-neighbor review pass.",
+  "generated_output_proof": {
+    "profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_expression_region_seed210803.json",
+    "profile_sha256": "9a3bd981553806bafb274766666f6dec3ac0b8954646bd89c10bf346ed148831",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_expression_region_seed210803/RUN_PACKAGE_MANIFEST.json",
+    "run_package_sha256": "6ddb9201da19f9416d175dff9bffe30fd02c42cd2ee147fe782285731ff072c1",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_EXPRESSION_REGION_SEED210803_EXECUTE_20260707T152000-0500.json",
+    "runtime_evidence_sha256": "7833c14ee342a580c19243702c16c25a9950fdad91422799e536ae8f2924a4d4",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_expression_region_seed210803_20260707T151012-0500/images/codex_wave70_mf70_expression_region_seed210803_00001_.png",
+    "generated_output_sha256": "880505d922c71895bec90c10774c9568e157962ebb1f01cf1b3d175e631c80e8",
+    "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_expression_region_seed210803_20260707T151012-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00009_.png",
+    "diagnostic_mask_preview_sha256": "9a925e603311edf56134548c0e80b4ced9dd60d69233e3194522b7134d3224f9",
+    "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_expression_region/qa_comparisons/wave70_mf70_expression_region_source_overlay_output_compare.png",
+    "comparison_artifact_sha256": "d5b7acd380f4a99f56e2553b54558723a70eeceedf939030b58aa605667879b7",
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_EXPRESSION_REGION_SEED210803_VISUAL_QA_20260707T151500-0500.json",
+    "visual_qa_result": "pass_with_notes_local_wave70_expression_region_generated_output"
+  },
+  "semantic_mask_alignment_reaudit": {
+    "audit_id": "W70-MASK-ALIGNMENT-RETRO-AUDIT-20260707T184000-0500",
+    "timestamp": "2026-07-07T18:40:00-05:00",
+    "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "result": "needs_revision",
+    "named_target_match": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed": false,
+    "findings": [
+      "Retro audit from user-supplied overlay review found the expression-region mask is too broad for the named brows/eyes/cheeks/mouth expression target.",
+      "Generated-output geometry evidence may remain useful, but semantic mask alignment must be revised before completion or certification.",
+      "Future expression-region masks must separate target expression features from broad face-identity coverage."
+    ],
+    "policy": "Generated-output stability is preserved where applicable, but it does not override semantic mask-alignment defects."
+  },
+  "strict_semantic_mask_alignment_review": {
+    "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "review_timestamp": "2026-07-07T19:25:00-05:00",
+    "review_id": "W70-MASK-ALIGNMENT-STRICT-VISUAL-REVIEW-20260707T192500-0500",
+    "alignment_result": "needs_revision",
+    "mask_alignment_semantic_pass": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "review_basis": "strict visual review of user-supplied overlays and/or matching project overlay artifacts, separated from generated-output stability",
+    "findings": [
+      "Project overlay is a broad face polygon, not a region-aware brows/eyes/cheeks/mouth expression mask; it includes identity-sensitive neighbors and hair/side-face context.",
+      "Split expression-region coverage into precise brow, eye-adjacent, cheek-motion, and mouth-expression zones with protected teeth/hairline/background exclusions."
+    ]
+  }
+}

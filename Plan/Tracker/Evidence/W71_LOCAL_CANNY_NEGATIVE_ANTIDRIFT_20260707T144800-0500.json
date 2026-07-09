@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "tracker_evidence_id": "W71_LOCAL_CANNY_NEGATIVE_ANTIDRIFT_20260707T144800-0500",
+  "created_at": "2026-07-07T14:48:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+  "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "status": "local_negative_antidrift_generated_but_failed_retained_seed_gate",
+  "actual_work_performed": [
+    "Created one negative-prompt-only anti-drift profile while keeping positive prompt, seed, control image, ControlNet strength, and ControlNet end percent unchanged.",
+    "Packaged the profile through New-WorkflowRunPackage.ps1 with static validation passing at zero defects.",
+    "Executed one bounded local ComfyUI sample and pulled back generated portrait plus diagnostic control-map outputs.",
+    "Performed strict whole-image visual QA against the retained seed 711570106 candidate.",
+    "Created a side-by-side comparison artifact and skipped the planned robustness rerun because the retained-seed gate failed."
+  ],
+  "profile_id": "canny_w71_negative_antidrift_seed711570106",
+  "result": "rejected_negative_prompt_antidrift",
+  "rejection_reason": "The negative-only prompt avoided facial hair but still changed retained identity, gender presentation, and background tone too much to justify robustness testing.",
+  "evidence": {
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W71_LOCAL_CANNY_NEGATIVE_ANTIDRIFT_VISUAL_QA_20260707T144800-0500.json",
+    "comparison": "runtime_artifacts/controlnet_canny_w71_quality_loop/qa_comparisons/canny_w71_negative_antidrift_vs_retained_seed711570106_compare.png",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W71_LOCAL_CANNY_NEGATIVE_ANTIDRIFT_SEED711570106_EXECUTE_20260707T144500-0500.json",
+    "run_package": "runtime_artifacts/run_packages/canny_w71_negative_antidrift_seed711570106/RUN_PACKAGE_MANIFEST.json",
+    "prompt_profile": "PromptProfiles/base_generation/controlnet_canny_w71_local_quality_loop/canny_w71_negative_antidrift_seed711570106.json"
+  },
+  "boundaries": {
+    "local_only": true,
+    "ec2_started": false,
+    "aws_contacted": false,
+    "github_api_contacted": false,
+    "civitai_contacted": false,
+    "robustness_seed_rerun_executed": false,
+    "target_runtime_proof_present": false,
+    "final_certification_allowed": false
+  },
+  "next_action": "Do not continue prompt-only anti-drift tweaks for MOD-17 Canny without a new identity/reference conditioning strategy. Consider another named local Plan task if no reference strategy is ready."
+}

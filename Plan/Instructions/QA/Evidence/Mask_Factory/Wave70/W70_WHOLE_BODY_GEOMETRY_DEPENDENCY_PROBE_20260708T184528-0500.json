@@ -1,0 +1,1195 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_WHOLE_BODY_GEOMETRY_DEPENDENCY_PROBE_20260708T184528-0500",
+  "created_local": "20260708T184528-0500",
+  "task": "Probe local whole-body geometry dependencies and model files for TRK-W70-0162 / ITEM-W70-0162.",
+  "script": "Plan/07_IMPLEMENTATION/scripts/probe_wave70_whole_body_geometry_dependencies.py",
+  "source_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "exists": true,
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+  },
+  "ref_image_1": {
+    "path": "Ref_Image_1/725de85824bbe45ba4601dd4a7aed698.jpg",
+    "exists": true,
+    "sha256": "b4876e7415485efc79c2c69a914e3316c8c5f7301dc15a69b039f7515ab36df5",
+    "layout_interpretation": {
+      "top_strip": "partial upper-body / one-third-body reference only; missing lower/full-body parts here are not failures",
+      "lower_strip": "primary full-body pose and body-mask validation region"
+    }
+  },
+  "environment": {
+    "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "cwd": "C:\\Comfy_UI_Main"
+  },
+  "imports": {
+    "python_numpy": {
+      "module": "numpy",
+      "available": true,
+      "version": "1.26.4",
+      "error": null
+    },
+    "python_pil": {
+      "module": "PIL",
+      "available": true,
+      "version": "12.3.0",
+      "error": null
+    },
+    "python_cv2": {
+      "module": "cv2",
+      "available": true,
+      "version": "4.11.0",
+      "error": null
+    },
+    "python_imageio": {
+      "module": "imageio",
+      "available": true,
+      "version": "2.37.3",
+      "error": null
+    },
+    "python_torch": {
+      "module": "torch",
+      "available": true,
+      "version": "2.12.1+cpu",
+      "error": null
+    },
+    "python_torchvision": {
+      "module": "torchvision",
+      "available": true,
+      "version": "0.27.1+cpu",
+      "error": null
+    },
+    "python_mediapipe": {
+      "module": "mediapipe",
+      "available": true,
+      "version": "0.10.35",
+      "error": null
+    },
+    "python_onnxruntime": {
+      "module": "onnxruntime",
+      "available": true,
+      "version": "1.27.0",
+      "error": null
+    },
+    "python_ultralytics": {
+      "module": "ultralytics",
+      "available": true,
+      "version": "8.4.87",
+      "error": null
+    },
+    "python_segment_anything": {
+      "module": "segment_anything",
+      "available": false,
+      "version": null,
+      "error": "module_spec_not_found"
+    },
+    "python_sam2": {
+      "module": "sam2",
+      "available": true,
+      "version": null,
+      "error": null
+    },
+    "python_skimage": {
+      "module": "skimage",
+      "available": true,
+      "version": "0.26.0",
+      "error": null
+    },
+    "python_scipy": {
+      "module": "scipy",
+      "available": true,
+      "version": "1.17.1",
+      "error": null
+    },
+    "python_mmpose": {
+      "module": "mmpose",
+      "available": false,
+      "version": null,
+      "error": "module_spec_not_found"
+    },
+    "python_mmseg": {
+      "module": "mmseg",
+      "available": false,
+      "version": null,
+      "error": "module_spec_not_found"
+    },
+    "python_detectron2": {
+      "module": "detectron2",
+      "available": false,
+      "version": null,
+      "error": "module_spec_not_found"
+    }
+  },
+  "mediapipe_runtime_surface": {
+    "available": true,
+    "version": "0.10.35",
+    "has_solutions": false,
+    "has_solutions_pose": false,
+    "has_solutions_hands": false,
+    "has_solutions_selfie_segmentation": false,
+    "has_tasks": true,
+    "tasks_surface": [
+      "BaseOptions",
+      "audio",
+      "components",
+      "genai",
+      "text",
+      "vision"
+    ]
+  },
+  "model_file_scan": {
+    "roots": [
+      {
+        "root": "C:\\Comfy_UI_Main\\models",
+        "exists": true,
+        "scanned": true,
+        "matched_count": 7
+      },
+      {
+        "root": "C:\\Comfy_UI_Main\\ComfyUI\\models",
+        "exists": true,
+        "scanned": true,
+        "matched_count": 0
+      },
+      {
+        "root": "C:\\Comfy_UI\\models",
+        "exists": true,
+        "scanned": true,
+        "matched_count": 0
+      },
+      {
+        "root": "C:\\Comfy_UI\\ComfyUI\\models",
+        "exists": false,
+        "scanned": false,
+        "matched_count": 0
+      },
+      {
+        "root": "C:\\Comfy_UI_Main\\tools",
+        "exists": true,
+        "scanned": true,
+        "matched_count": 0
+      },
+      {
+        "root": "C:\\Comfy_UI_Lora\\OpenPose\\models",
+        "exists": true,
+        "scanned": true,
+        "matched_count": 11
+      },
+      {
+        "root": "C:\\Users\\kevin\\.cache",
+        "exists": true,
+        "scanned": true,
+        "matched_count": 10
+      }
+    ],
+    "matched_model_files": [
+      {
+        "path": "C:\\Comfy_UI_Main\\models\\checkpoints\\realvisxlV50_v50Bakedvae.safetensors",
+        "name": "realvisxlV50_v50Bakedvae.safetensors",
+        "suffix": ".safetensors",
+        "size_bytes": 6938065488,
+        "sha256": "skipped_large_file"
+      },
+      {
+        "path": "C:\\Comfy_UI_Main\\models\\controlnet\\controlnet-canny-sdxl-1.0-small.safetensors",
+        "name": "controlnet-canny-sdxl-1.0-small.safetensors",
+        "suffix": ".safetensors",
+        "size_bytes": 320237179,
+        "sha256": "skipped_large_file"
+      },
+      {
+        "path": "C:\\Comfy_UI_Main\\models\\controlnet\\controlnet-depth-sdxl-1.0-small.safetensors",
+        "name": "controlnet-depth-sdxl-1.0-small.safetensors",
+        "suffix": ".safetensors",
+        "size_bytes": 320237179,
+        "sha256": "skipped_large_file"
+      },
+      {
+        "path": "C:\\Comfy_UI_Main\\models\\controlnet\\controlnet-lineart-sdxl-fp16.safetensors",
+        "name": "controlnet-lineart-sdxl-fp16.safetensors",
+        "suffix": ".safetensors",
+        "size_bytes": 158060440,
+        "sha256": "c19e9e1038c7c53b238185d8dc9fad87f95aa3124d211e19f39f1165bfb7230f"
+      },
+      {
+        "path": "C:\\Comfy_UI_Main\\models\\controlnet\\controlnet-union-sdxl-1.0.safetensors",
+        "name": "controlnet-union-sdxl-1.0.safetensors",
+        "suffix": ".safetensors",
+        "size_bytes": 2512030408,
+        "sha256": "skipped_large_file"
+      },
+      {
+        "path": "C:\\Comfy_UI_Main\\models\\controlnet\\OpenPoseXL2.safetensors",
+        "name": "OpenPoseXL2.safetensors",
+        "suffix": ".safetensors",
+        "size_bytes": 5004167829,
+        "sha256": "skipped_large_file"
+      },
+      {
+        "path": "C:\\Comfy_UI_Main\\models\\upscale_models\\RealESRGAN_x4plus.pth",
+        "name": "RealESRGAN_x4plus.pth",
+        "suffix": ".pth",
+        "size_bytes": 67040989,
+        "sha256": "4fa0d38905f75ac06eb49a7951b426670021be3018265fd191d2125df9d682f1"
+      },
+      {
+        "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\dw-ll_ucoco_384.onnx",
+        "name": "dw-ll_ucoco_384.onnx",
+        "suffix": ".onnx",
+        "size_bytes": 134399116,
+        "sha256": "724f4ff2439ed61afb86fb8a1951ec39c6220682803b4a8bd4f598cd913b1843"
+      },
+      {
+        "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\yolox_l.onnx",
+        "name": "yolox_l.onnx",
+        "suffix": ".onnx",
+        "size_bytes": 216746733,
+        "sha256": "7860ae79de6c89a3c1eb72ae9a2756c0ccfbe04b7791bb5880afabd97855a411"
+      },
+      {
+        "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\envs\\mmpose\\Lib\\site-packages\\distutils-precedence.pth",
+        "name": "distutils-precedence.pth",
+        "suffix": ".pth",
+        "size_bytes": 151,
+        "sha256": "2638ce9e2500e572a5e0de7faed6661eb569d1b696fcba07b0dd223da5f5d224"
+      },
+      {
+        "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\envs\\mmpose\\Lib\\site-packages\\pywin32.pth",
+        "name": "pywin32.pth",
+        "suffix": ".pth",
+        "size_bytes": 185,
+        "sha256": "e7cd73df98b91c407dfd96d1f4dd18b7f9a60f29902b92cf5ece79b6eb637b81"
+      },
+      {
+        "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\face_parsing\\79999_iter.pth",
+        "name": "79999_iter.pth",
+        "suffix": ".pth",
+        "size_bytes": 53289463,
+        "sha256": "468e13ca13a9b43cc0881a9f99083a430e9c0a38abd935431d1c28ee94b26567"
+      },
+      {
+        "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\face_landmarker.task",
+        "name": "face_landmarker.task",
+        "suffix": ".task",
+        "size_bytes": 3758596,
+        "sha256": "64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff"
+      },
+      {
+        "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\hand_landmarker.task",
+        "name": "hand_landmarker.task",
+        "suffix": ".task",
+        "size_bytes": 7819105,
+        "sha256": "fbc2a30080c3c557093b5ddfc334698132eb341044ccee322ccf8bcf3607cde1"
+      },
+      {
+        "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\pose_landmarker_heavy.task",
+        "name": "pose_landmarker_heavy.task",
+        "suffix": ".task",
+        "size_bytes": 30664242,
+        "sha256": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b"
+      },
+      {
+        "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt",
+        "name": "sam2.1_hiera_tiny.pt",
+        "suffix": ".pt",
+        "size_bytes": 156008466,
+        "sha256": "7402e0d864fa82708a20fbd15bc84245c2f26dff0eb43a4b5b93452deb34be69"
+      },
+      {
+        "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\schp\\exp-schp-201908261155-lip.pth",
+        "name": "exp-schp-201908261155-lip.pth",
+        "suffix": ".pth",
+        "size_bytes": 267449349,
+        "sha256": "24fa3254ceeb74c8435458994a64b522fb439a3635b7b86ff470457e0413da00"
+      },
+      {
+        "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\ultralytics\\yolo11x-pose.pt",
+        "name": "yolo11x-pose.pt",
+        "suffix": ".pt",
+        "size_bytes": 118481010,
+        "sha256": "013c43543b0751b8918486ba96e01ee44a59040683a07f96cc22bcc2cb7785f8"
+      },
+      {
+        "path": "C:\\Users\\kevin\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\Lib\\site-packages\\distutils-precedence.pth",
+        "name": "distutils-precedence.pth",
+        "suffix": ".pth",
+        "size_bytes": 151,
+        "sha256": "2638ce9e2500e572a5e0de7faed6661eb569d1b696fcba07b0dd223da5f5d224"
+      },
+      {
+        "path": "C:\\Users\\kevin\\.cache\\huggingface\\hub\\models--LiheYoung--depth-anything-small-hf\\snapshots\\25216a913fa218ccb7d58cce818d52b728b6c1f6\\model.safetensors",
+        "name": "model.safetensors",
+        "suffix": ".safetensors",
+        "size_bytes": 99173660,
+        "sha256": "7997c812d8964a741eec21e6816ec2db1e442b5109ea2e7db26dcb03c9060ef0"
+      },
+      {
+        "path": "C:\\Users\\kevin\\.cache\\huggingface\\hub\\models--Systran--faster-whisper-small\\snapshots\\536b0662742c02347bc0e980a01041f333bce120\\model.bin",
+        "name": "model.bin",
+        "suffix": ".bin",
+        "size_bytes": 483546902,
+        "sha256": "skipped_large_file"
+      },
+      {
+        "path": "C:\\Users\\kevin\\.cache\\pre-commit\\repo13h2h8nr\\py_env-python3\\Lib\\site-packages\\_virtualenv.pth",
+        "name": "_virtualenv.pth",
+        "suffix": ".pth",
+        "size_bytes": 18,
+        "sha256": "69ac3d8f27e679c81b94ab30b3b56e9cd138219b1ba94a1fa3606d5a76a1433d"
+      },
+      {
+        "path": "C:\\Users\\kevin\\.cache\\pre-commit\\repopebvpee0\\py_env-python3\\Lib\\site-packages\\_virtualenv.pth",
+        "name": "_virtualenv.pth",
+        "suffix": ".pth",
+        "size_bytes": 18,
+        "sha256": "69ac3d8f27e679c81b94ab30b3b56e9cd138219b1ba94a1fa3606d5a76a1433d"
+      },
+      {
+        "path": "C:\\Users\\kevin\\.cache\\puppeteer\\chrome\\win64-149.0.7827.22\\chrome-win64\\v8_context_snapshot.bin",
+        "name": "v8_context_snapshot.bin",
+        "suffix": ".bin",
+        "size_bytes": 740912,
+        "sha256": "2e3a3d051dbe42bd9378aa571ea2e145ce9ce1cd3b79efbd30163d339ba0c4dc"
+      },
+      {
+        "path": "C:\\Users\\kevin\\.cache\\puppeteer\\chrome-headless-shell\\win64-149.0.7827.22\\chrome-headless-shell-win64\\v8_context_snapshot.bin",
+        "name": "v8_context_snapshot.bin",
+        "suffix": ".bin",
+        "size_bytes": 740912,
+        "sha256": "2e3a3d051dbe42bd9378aa571ea2e145ce9ce1cd3b79efbd30163d339ba0c4dc"
+      },
+      {
+        "path": "C:\\Users\\kevin\\.cache\\torch\\hub\\checkpoints\\resnet18-5c106cde.pth",
+        "name": "resnet18-5c106cde.pth",
+        "suffix": ".pth",
+        "size_bytes": 46827520,
+        "sha256": "5c106cde386e87d4033832f2996f5493238eda96ccf559d1d62760c4de0613f8"
+      },
+      {
+        "path": "C:\\Users\\kevin\\.cache\\torch\\hub\\checkpoints\\rtmdet_m_8xb32-100e_coco-obj365-person-235e8209.pth",
+        "name": "rtmdet_m_8xb32-100e_coco-obj365-person-235e8209.pth",
+        "suffix": ".pth",
+        "size_bytes": 99013732,
+        "sha256": "35b0c7406499e0d141dd6a0235db07c10d2bee8f891f8f4e353c16a009de30e8"
+      },
+      {
+        "path": "C:\\Users\\kevin\\.cache\\torch\\hub\\checkpoints\\rtmpose-m_simcc-coco-wholebody_pt-aic-coco_270e-256x192-cd5e845c_20230123.pth",
+        "name": "rtmpose-m_simcc-coco-wholebody_pt-aic-coco_270e-256x192-cd5e845c_20230123.pth",
+        "suffix": ".pth",
+        "size_bytes": 72010049,
+        "sha256": "3da02694cd6479d3b333ff42ebd0723f96bfa06adac1db1e2e815ed2e9e1b02d"
+      }
+    ],
+    "keyword_groups": {
+      "mediapipe_task_models": [
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\face_landmarker.task",
+          "name": "face_landmarker.task",
+          "suffix": ".task",
+          "size_bytes": 3758596,
+          "sha256": "64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff"
+        },
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\hand_landmarker.task",
+          "name": "hand_landmarker.task",
+          "suffix": ".task",
+          "size_bytes": 7819105,
+          "sha256": "fbc2a30080c3c557093b5ddfc334698132eb341044ccee322ccf8bcf3607cde1"
+        },
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\pose_landmarker_heavy.task",
+          "name": "pose_landmarker_heavy.task",
+          "suffix": ".task",
+          "size_bytes": 30664242,
+          "sha256": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b"
+        }
+      ],
+      "pose_hand_models": [
+        {
+          "path": "C:\\Comfy_UI_Main\\models\\controlnet\\OpenPoseXL2.safetensors",
+          "name": "OpenPoseXL2.safetensors",
+          "suffix": ".safetensors",
+          "size_bytes": 5004167829,
+          "sha256": "skipped_large_file"
+        },
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\dw-ll_ucoco_384.onnx",
+          "name": "dw-ll_ucoco_384.onnx",
+          "suffix": ".onnx",
+          "size_bytes": 134399116,
+          "sha256": "724f4ff2439ed61afb86fb8a1951ec39c6220682803b4a8bd4f598cd913b1843"
+        },
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\yolox_l.onnx",
+          "name": "yolox_l.onnx",
+          "suffix": ".onnx",
+          "size_bytes": 216746733,
+          "sha256": "7860ae79de6c89a3c1eb72ae9a2756c0ccfbe04b7791bb5880afabd97855a411"
+        },
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\envs\\mmpose\\Lib\\site-packages\\distutils-precedence.pth",
+          "name": "distutils-precedence.pth",
+          "suffix": ".pth",
+          "size_bytes": 151,
+          "sha256": "2638ce9e2500e572a5e0de7faed6661eb569d1b696fcba07b0dd223da5f5d224"
+        },
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\envs\\mmpose\\Lib\\site-packages\\pywin32.pth",
+          "name": "pywin32.pth",
+          "suffix": ".pth",
+          "size_bytes": 185,
+          "sha256": "e7cd73df98b91c407dfd96d1f4dd18b7f9a60f29902b92cf5ece79b6eb637b81"
+        },
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\face_parsing\\79999_iter.pth",
+          "name": "79999_iter.pth",
+          "suffix": ".pth",
+          "size_bytes": 53289463,
+          "sha256": "468e13ca13a9b43cc0881a9f99083a430e9c0a38abd935431d1c28ee94b26567"
+        },
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\face_landmarker.task",
+          "name": "face_landmarker.task",
+          "suffix": ".task",
+          "size_bytes": 3758596,
+          "sha256": "64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff"
+        },
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\hand_landmarker.task",
+          "name": "hand_landmarker.task",
+          "suffix": ".task",
+          "size_bytes": 7819105,
+          "sha256": "fbc2a30080c3c557093b5ddfc334698132eb341044ccee322ccf8bcf3607cde1"
+        },
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\pose_landmarker_heavy.task",
+          "name": "pose_landmarker_heavy.task",
+          "suffix": ".task",
+          "size_bytes": 30664242,
+          "sha256": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b"
+        },
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt",
+          "name": "sam2.1_hiera_tiny.pt",
+          "suffix": ".pt",
+          "size_bytes": 156008466,
+          "sha256": "7402e0d864fa82708a20fbd15bc84245c2f26dff0eb43a4b5b93452deb34be69"
+        },
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\schp\\exp-schp-201908261155-lip.pth",
+          "name": "exp-schp-201908261155-lip.pth",
+          "suffix": ".pth",
+          "size_bytes": 267449349,
+          "sha256": "24fa3254ceeb74c8435458994a64b522fb439a3635b7b86ff470457e0413da00"
+        },
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\ultralytics\\yolo11x-pose.pt",
+          "name": "yolo11x-pose.pt",
+          "suffix": ".pt",
+          "size_bytes": 118481010,
+          "sha256": "013c43543b0751b8918486ba96e01ee44a59040683a07f96cc22bcc2cb7785f8"
+        },
+        {
+          "path": "C:\\Users\\kevin\\.cache\\torch\\hub\\checkpoints\\rtmpose-m_simcc-coco-wholebody_pt-aic-coco_270e-256x192-cd5e845c_20230123.pth",
+          "name": "rtmpose-m_simcc-coco-wholebody_pt-aic-coco_270e-256x192-cd5e845c_20230123.pth",
+          "suffix": ".pth",
+          "size_bytes": 72010049,
+          "sha256": "3da02694cd6479d3b333ff42ebd0723f96bfa06adac1db1e2e815ed2e9e1b02d"
+        }
+      ],
+      "human_part_parsing_models": [
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\face_parsing\\79999_iter.pth",
+          "name": "79999_iter.pth",
+          "suffix": ".pth",
+          "size_bytes": 53289463,
+          "sha256": "468e13ca13a9b43cc0881a9f99083a430e9c0a38abd935431d1c28ee94b26567"
+        },
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\schp\\exp-schp-201908261155-lip.pth",
+          "name": "exp-schp-201908261155-lip.pth",
+          "suffix": ".pth",
+          "size_bytes": 267449349,
+          "sha256": "24fa3254ceeb74c8435458994a64b522fb439a3635b7b86ff470457e0413da00"
+        }
+      ],
+      "person_instance_segmentation_models": [
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\dw-ll_ucoco_384.onnx",
+          "name": "dw-ll_ucoco_384.onnx",
+          "suffix": ".onnx",
+          "size_bytes": 134399116,
+          "sha256": "724f4ff2439ed61afb86fb8a1951ec39c6220682803b4a8bd4f598cd913b1843"
+        },
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\yolox_l.onnx",
+          "name": "yolox_l.onnx",
+          "suffix": ".onnx",
+          "size_bytes": 216746733,
+          "sha256": "7860ae79de6c89a3c1eb72ae9a2756c0ccfbe04b7791bb5880afabd97855a411"
+        },
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\ultralytics\\yolo11x-pose.pt",
+          "name": "yolo11x-pose.pt",
+          "suffix": ".pt",
+          "size_bytes": 118481010,
+          "sha256": "013c43543b0751b8918486ba96e01ee44a59040683a07f96cc22bcc2cb7785f8"
+        },
+        {
+          "path": "C:\\Users\\kevin\\.cache\\torch\\hub\\checkpoints\\rtmdet_m_8xb32-100e_coco-obj365-person-235e8209.pth",
+          "name": "rtmdet_m_8xb32-100e_coco-obj365-person-235e8209.pth",
+          "suffix": ".pth",
+          "size_bytes": 99013732,
+          "sha256": "35b0c7406499e0d141dd6a0235db07c10d2bee8f891f8f4e353c16a009de30e8"
+        },
+        {
+          "path": "C:\\Users\\kevin\\.cache\\torch\\hub\\checkpoints\\rtmpose-m_simcc-coco-wholebody_pt-aic-coco_270e-256x192-cd5e845c_20230123.pth",
+          "name": "rtmpose-m_simcc-coco-wholebody_pt-aic-coco_270e-256x192-cd5e845c_20230123.pth",
+          "suffix": ".pth",
+          "size_bytes": 72010049,
+          "sha256": "3da02694cd6479d3b333ff42ebd0723f96bfa06adac1db1e2e815ed2e9e1b02d"
+        }
+      ],
+      "sam_promptable_segmentation_models": [
+        {
+          "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt",
+          "name": "sam2.1_hiera_tiny.pt",
+          "suffix": ".pt",
+          "size_bytes": 156008466,
+          "sha256": "7402e0d864fa82708a20fbd15bc84245c2f26dff0eb43a4b5b93452deb34be69"
+        }
+      ],
+      "temporal_video_models": []
+    },
+    "known_assets": {
+      "mediapipe_pose_landmarker_task": {
+        "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\pose_landmarker_heavy.task",
+        "candidates": [
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\pose_landmarker_heavy.task",
+            "exists": true,
+            "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\pose_landmarker_heavy.task",
+            "name": "pose_landmarker_heavy.task",
+            "suffix": ".task",
+            "size_bytes": 30664242,
+            "sha256": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b"
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\ComfyUI\\models\\mediapipe\\pose_landmarker_heavy.task",
+            "exists": false,
+            "relative_path": "C:\\Comfy_UI_Main\\ComfyUI\\models\\mediapipe\\pose_landmarker_heavy.task"
+          }
+        ]
+      },
+      "mediapipe_hand_landmarker_task": {
+        "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\hand_landmarker.task",
+        "candidates": [
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\hand_landmarker.task",
+            "exists": true,
+            "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\hand_landmarker.task",
+            "name": "hand_landmarker.task",
+            "suffix": ".task",
+            "size_bytes": 7819105,
+            "sha256": "fbc2a30080c3c557093b5ddfc334698132eb341044ccee322ccf8bcf3607cde1"
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\ComfyUI\\models\\mediapipe\\hand_landmarker.task",
+            "exists": false,
+            "relative_path": "C:\\Comfy_UI_Main\\ComfyUI\\models\\mediapipe\\hand_landmarker.task"
+          }
+        ]
+      },
+      "dwpose_detector_onnx": {
+        "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\yolox_l.onnx",
+        "candidates": [
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\yolox_l.onnx",
+            "exists": true,
+            "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\yolox_l.onnx",
+            "name": "yolox_l.onnx",
+            "suffix": ".onnx",
+            "size_bytes": 216746733,
+            "sha256": "7860ae79de6c89a3c1eb72ae9a2756c0ccfbe04b7791bb5880afabd97855a411"
+          }
+        ]
+      },
+      "dwpose_pose_onnx": {
+        "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\dw-ll_ucoco_384.onnx",
+        "candidates": [
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\dw-ll_ucoco_384.onnx",
+            "exists": true,
+            "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\dw-ll_ucoco_384.onnx",
+            "name": "dw-ll_ucoco_384.onnx",
+            "suffix": ".onnx",
+            "size_bytes": 134399116,
+            "sha256": "724f4ff2439ed61afb86fb8a1951ec39c6220682803b4a8bd4f598cd913b1843"
+          }
+        ]
+      },
+      "sam2_hiera_tiny_checkpoint": {
+        "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt",
+        "candidates": [
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt",
+            "exists": true,
+            "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt",
+            "name": "sam2.1_hiera_tiny.pt",
+            "suffix": ".pt",
+            "size_bytes": 156008466,
+            "sha256": "7402e0d864fa82708a20fbd15bc84245c2f26dff0eb43a4b5b93452deb34be69"
+          }
+        ]
+      },
+      "ultralytics_yolo_pose": {
+        "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\ultralytics\\yolo11x-pose.pt",
+        "candidates": [
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\ultralytics\\yolo11x-pose.pt",
+            "exists": true,
+            "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\ultralytics\\yolo11x-pose.pt",
+            "name": "yolo11x-pose.pt",
+            "suffix": ".pt",
+            "size_bytes": 118481010,
+            "sha256": "013c43543b0751b8918486ba96e01ee44a59040683a07f96cc22bcc2cb7785f8"
+          }
+        ]
+      },
+      "bisenet_face_parsing_checkpoint": {
+        "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\face_parsing\\79999_iter.pth",
+        "candidates": [
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\face_parsing\\79999_iter.pth",
+            "exists": true,
+            "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\face_parsing\\79999_iter.pth",
+            "name": "79999_iter.pth",
+            "suffix": ".pth",
+            "size_bytes": 53289463,
+            "sha256": "468e13ca13a9b43cc0881a9f99083a430e9c0a38abd935431d1c28ee94b26567"
+          }
+        ]
+      },
+      "schp_lip_checkpoint": {
+        "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\schp\\exp-schp-201908261155-lip.pth",
+        "candidates": [
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\schp\\exp-schp-201908261155-lip.pth",
+            "exists": true,
+            "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\schp\\exp-schp-201908261155-lip.pth",
+            "name": "exp-schp-201908261155-lip.pth",
+            "suffix": ".pth",
+            "size_bytes": 267449349,
+            "sha256": "24fa3254ceeb74c8435458994a64b522fb439a3635b7b86ff470457e0413da00"
+          }
+        ]
+      }
+    }
+  },
+  "route_evaluation": {
+    "routes": {
+      "base_image_video_io": {
+        "available": true,
+        "evidence": [
+          "numpy",
+          "PIL",
+          "cv2"
+        ]
+      },
+      "pose_landmark_route": {
+        "available": true,
+        "runtime_validated": false,
+        "evidence": [
+          "mediapipe pose task",
+          "DWPose ONNX pair",
+          "YOLO pose"
+        ],
+        "known_assets": {
+          "mediapipe_pose_landmarker_task": {
+            "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\pose_landmarker_heavy.task",
+            "candidates": [
+              {
+                "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\pose_landmarker_heavy.task",
+                "exists": true,
+                "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\pose_landmarker_heavy.task",
+                "name": "pose_landmarker_heavy.task",
+                "suffix": ".task",
+                "size_bytes": 30664242,
+                "sha256": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b"
+              },
+              {
+                "path": "C:\\Comfy_UI_Main\\ComfyUI\\models\\mediapipe\\pose_landmarker_heavy.task",
+                "exists": false,
+                "relative_path": "C:\\Comfy_UI_Main\\ComfyUI\\models\\mediapipe\\pose_landmarker_heavy.task"
+              }
+            ]
+          },
+          "dwpose_detector_onnx": {
+            "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\yolox_l.onnx",
+            "candidates": [
+              {
+                "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\yolox_l.onnx",
+                "exists": true,
+                "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\yolox_l.onnx",
+                "name": "yolox_l.onnx",
+                "suffix": ".onnx",
+                "size_bytes": 216746733,
+                "sha256": "7860ae79de6c89a3c1eb72ae9a2756c0ccfbe04b7791bb5880afabd97855a411"
+              }
+            ]
+          },
+          "dwpose_pose_onnx": {
+            "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\dw-ll_ucoco_384.onnx",
+            "candidates": [
+              {
+                "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\dw-ll_ucoco_384.onnx",
+                "exists": true,
+                "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\dw-ll_ucoco_384.onnx",
+                "name": "dw-ll_ucoco_384.onnx",
+                "suffix": ".onnx",
+                "size_bytes": 134399116,
+                "sha256": "724f4ff2439ed61afb86fb8a1951ec39c6220682803b4a8bd4f598cd913b1843"
+              }
+            ]
+          },
+          "ultralytics_yolo_pose": {
+            "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\ultralytics\\yolo11x-pose.pt",
+            "candidates": [
+              {
+                "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\ultralytics\\yolo11x-pose.pt",
+                "exists": true,
+                "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\ultralytics\\yolo11x-pose.pt",
+                "name": "yolo11x-pose.pt",
+                "suffix": ".pt",
+                "size_bytes": 118481010,
+                "sha256": "013c43543b0751b8918486ba96e01ee44a59040683a07f96cc22bcc2cb7785f8"
+              }
+            ]
+          }
+        },
+        "available_but_unproven_model_files": [
+          {
+            "path": "C:\\Comfy_UI_Main\\models\\controlnet\\OpenPoseXL2.safetensors",
+            "name": "OpenPoseXL2.safetensors",
+            "suffix": ".safetensors",
+            "size_bytes": 5004167829,
+            "sha256": "skipped_large_file"
+          },
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\dw-ll_ucoco_384.onnx",
+            "name": "dw-ll_ucoco_384.onnx",
+            "suffix": ".onnx",
+            "size_bytes": 134399116,
+            "sha256": "724f4ff2439ed61afb86fb8a1951ec39c6220682803b4a8bd4f598cd913b1843"
+          },
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\yolox_l.onnx",
+            "name": "yolox_l.onnx",
+            "suffix": ".onnx",
+            "size_bytes": 216746733,
+            "sha256": "7860ae79de6c89a3c1eb72ae9a2756c0ccfbe04b7791bb5880afabd97855a411"
+          },
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\envs\\mmpose\\Lib\\site-packages\\distutils-precedence.pth",
+            "name": "distutils-precedence.pth",
+            "suffix": ".pth",
+            "size_bytes": 151,
+            "sha256": "2638ce9e2500e572a5e0de7faed6661eb569d1b696fcba07b0dd223da5f5d224"
+          },
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\envs\\mmpose\\Lib\\site-packages\\pywin32.pth",
+            "name": "pywin32.pth",
+            "suffix": ".pth",
+            "size_bytes": 185,
+            "sha256": "e7cd73df98b91c407dfd96d1f4dd18b7f9a60f29902b92cf5ece79b6eb637b81"
+          },
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\face_parsing\\79999_iter.pth",
+            "name": "79999_iter.pth",
+            "suffix": ".pth",
+            "size_bytes": 53289463,
+            "sha256": "468e13ca13a9b43cc0881a9f99083a430e9c0a38abd935431d1c28ee94b26567"
+          },
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\face_landmarker.task",
+            "name": "face_landmarker.task",
+            "suffix": ".task",
+            "size_bytes": 3758596,
+            "sha256": "64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff"
+          },
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\hand_landmarker.task",
+            "name": "hand_landmarker.task",
+            "suffix": ".task",
+            "size_bytes": 7819105,
+            "sha256": "fbc2a30080c3c557093b5ddfc334698132eb341044ccee322ccf8bcf3607cde1"
+          },
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\pose_landmarker_heavy.task",
+            "name": "pose_landmarker_heavy.task",
+            "suffix": ".task",
+            "size_bytes": 30664242,
+            "sha256": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b"
+          },
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt",
+            "name": "sam2.1_hiera_tiny.pt",
+            "suffix": ".pt",
+            "size_bytes": 156008466,
+            "sha256": "7402e0d864fa82708a20fbd15bc84245c2f26dff0eb43a4b5b93452deb34be69"
+          },
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\schp\\exp-schp-201908261155-lip.pth",
+            "name": "exp-schp-201908261155-lip.pth",
+            "suffix": ".pth",
+            "size_bytes": 267449349,
+            "sha256": "24fa3254ceeb74c8435458994a64b522fb439a3635b7b86ff470457e0413da00"
+          },
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\ultralytics\\yolo11x-pose.pt",
+            "name": "yolo11x-pose.pt",
+            "suffix": ".pt",
+            "size_bytes": 118481010,
+            "sha256": "013c43543b0751b8918486ba96e01ee44a59040683a07f96cc22bcc2cb7785f8"
+          },
+          {
+            "path": "C:\\Users\\kevin\\.cache\\torch\\hub\\checkpoints\\rtmpose-m_simcc-coco-wholebody_pt-aic-coco_270e-256x192-cd5e845c_20230123.pth",
+            "name": "rtmpose-m_simcc-coco-wholebody_pt-aic-coco_270e-256x192-cd5e845c_20230123.pth",
+            "suffix": ".pth",
+            "size_bytes": 72010049,
+            "sha256": "3da02694cd6479d3b333ff42ebd0723f96bfa06adac1db1e2e815ed2e9e1b02d"
+          }
+        ]
+      },
+      "hand_landmark_route": {
+        "available": true,
+        "runtime_validated": false,
+        "evidence": [
+          "mediapipe hand task"
+        ],
+        "known_assets": {
+          "mediapipe_hand_landmarker_task": {
+            "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\hand_landmarker.task",
+            "candidates": [
+              {
+                "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\hand_landmarker.task",
+                "exists": true,
+                "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\hand_landmarker.task",
+                "name": "hand_landmarker.task",
+                "suffix": ".task",
+                "size_bytes": 7819105,
+                "sha256": "fbc2a30080c3c557093b5ddfc334698132eb341044ccee322ccf8bcf3607cde1"
+              },
+              {
+                "path": "C:\\Comfy_UI_Main\\ComfyUI\\models\\mediapipe\\hand_landmarker.task",
+                "exists": false,
+                "relative_path": "C:\\Comfy_UI_Main\\ComfyUI\\models\\mediapipe\\hand_landmarker.task"
+              }
+            ]
+          }
+        },
+        "available_but_unproven_model_files": [
+          {
+            "path": "C:\\Comfy_UI_Main\\models\\controlnet\\OpenPoseXL2.safetensors",
+            "name": "OpenPoseXL2.safetensors",
+            "suffix": ".safetensors",
+            "size_bytes": 5004167829,
+            "sha256": "skipped_large_file"
+          },
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\dw-ll_ucoco_384.onnx",
+            "name": "dw-ll_ucoco_384.onnx",
+            "suffix": ".onnx",
+            "size_bytes": 134399116,
+            "sha256": "724f4ff2439ed61afb86fb8a1951ec39c6220682803b4a8bd4f598cd913b1843"
+          },
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\yolox_l.onnx",
+            "name": "yolox_l.onnx",
+            "suffix": ".onnx",
+            "size_bytes": 216746733,
+            "sha256": "7860ae79de6c89a3c1eb72ae9a2756c0ccfbe04b7791bb5880afabd97855a411"
+          },
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\envs\\mmpose\\Lib\\site-packages\\distutils-precedence.pth",
+            "name": "distutils-precedence.pth",
+            "suffix": ".pth",
+            "size_bytes": 151,
+            "sha256": "2638ce9e2500e572a5e0de7faed6661eb569d1b696fcba07b0dd223da5f5d224"
+          },
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\envs\\mmpose\\Lib\\site-packages\\pywin32.pth",
+            "name": "pywin32.pth",
+            "suffix": ".pth",
+            "size_bytes": 185,
+            "sha256": "e7cd73df98b91c407dfd96d1f4dd18b7f9a60f29902b92cf5ece79b6eb637b81"
+          },
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\face_parsing\\79999_iter.pth",
+            "name": "79999_iter.pth",
+            "suffix": ".pth",
+            "size_bytes": 53289463,
+            "sha256": "468e13ca13a9b43cc0881a9f99083a430e9c0a38abd935431d1c28ee94b26567"
+          },
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\face_landmarker.task",
+            "name": "face_landmarker.task",
+            "suffix": ".task",
+            "size_bytes": 3758596,
+            "sha256": "64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff"
+          },
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\hand_landmarker.task",
+            "name": "hand_landmarker.task",
+            "suffix": ".task",
+            "size_bytes": 7819105,
+            "sha256": "fbc2a30080c3c557093b5ddfc334698132eb341044ccee322ccf8bcf3607cde1"
+          },
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\pose_landmarker_heavy.task",
+            "name": "pose_landmarker_heavy.task",
+            "suffix": ".task",
+            "size_bytes": 30664242,
+            "sha256": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b"
+          },
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt",
+            "name": "sam2.1_hiera_tiny.pt",
+            "suffix": ".pt",
+            "size_bytes": 156008466,
+            "sha256": "7402e0d864fa82708a20fbd15bc84245c2f26dff0eb43a4b5b93452deb34be69"
+          },
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\schp\\exp-schp-201908261155-lip.pth",
+            "name": "exp-schp-201908261155-lip.pth",
+            "suffix": ".pth",
+            "size_bytes": 267449349,
+            "sha256": "24fa3254ceeb74c8435458994a64b522fb439a3635b7b86ff470457e0413da00"
+          },
+          {
+            "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\ultralytics\\yolo11x-pose.pt",
+            "name": "yolo11x-pose.pt",
+            "suffix": ".pt",
+            "size_bytes": 118481010,
+            "sha256": "013c43543b0751b8918486ba96e01ee44a59040683a07f96cc22bcc2cb7785f8"
+          },
+          {
+            "path": "C:\\Users\\kevin\\.cache\\torch\\hub\\checkpoints\\rtmpose-m_simcc-coco-wholebody_pt-aic-coco_270e-256x192-cd5e845c_20230123.pth",
+            "name": "rtmpose-m_simcc-coco-wholebody_pt-aic-coco_270e-256x192-cd5e845c_20230123.pth",
+            "suffix": ".pth",
+            "size_bytes": 72010049,
+            "sha256": "3da02694cd6479d3b333ff42ebd0723f96bfa06adac1db1e2e815ed2e9e1b02d"
+          }
+        ]
+      },
+      "human_part_parsing_route": {
+        "available": false,
+        "runtime_validated": false,
+        "evidence": [
+          "full-body human parsing/body-part model file",
+          "torch or onnxruntime"
+        ],
+        "not_counted_as_full_body": {
+          "bisenet_face_parsing_checkpoint": {
+            "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\face_parsing\\79999_iter.pth",
+            "candidates": [
+              {
+                "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\face_parsing\\79999_iter.pth",
+                "exists": true,
+                "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\face_parsing\\79999_iter.pth",
+                "name": "79999_iter.pth",
+                "suffix": ".pth",
+                "size_bytes": 53289463,
+                "sha256": "468e13ca13a9b43cc0881a9f99083a430e9c0a38abd935431d1c28ee94b26567"
+              }
+            ]
+          },
+          "schp_lip_checkpoint": {
+            "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\schp\\exp-schp-201908261155-lip.pth",
+            "candidates": [
+              {
+                "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\schp\\exp-schp-201908261155-lip.pth",
+                "exists": true,
+                "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\schp\\exp-schp-201908261155-lip.pth",
+                "name": "exp-schp-201908261155-lip.pth",
+                "suffix": ".pth",
+                "size_bytes": 267449349,
+                "sha256": "24fa3254ceeb74c8435458994a64b522fb439a3635b7b86ff470457e0413da00"
+              }
+            ]
+          }
+        }
+      },
+      "person_instance_segmentation_route": {
+        "available": false,
+        "runtime_validated": false,
+        "evidence": [
+          "person instance segmentation model file",
+          "ultralytics/detectron2/torch/onnxruntime"
+        ],
+        "available_but_not_instance_segmentation": {
+          "ultralytics_yolo_pose": {
+            "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\ultralytics\\yolo11x-pose.pt",
+            "candidates": [
+              {
+                "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\ultralytics\\yolo11x-pose.pt",
+                "exists": true,
+                "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\ultralytics\\yolo11x-pose.pt",
+                "name": "yolo11x-pose.pt",
+                "suffix": ".pt",
+                "size_bytes": 118481010,
+                "sha256": "013c43543b0751b8918486ba96e01ee44a59040683a07f96cc22bcc2cb7785f8"
+              }
+            ]
+          }
+        }
+      },
+      "promptable_segmentation_refinement_route": {
+        "available": true,
+        "runtime_validated": false,
+        "evidence": [
+          "SAM/SAM2 model file",
+          "segment_anything or sam2 import",
+          "torch"
+        ],
+        "known_assets": {
+          "sam2_hiera_tiny_checkpoint": {
+            "selected_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt",
+            "candidates": [
+              {
+                "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt",
+                "exists": true,
+                "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt",
+                "name": "sam2.1_hiera_tiny.pt",
+                "suffix": ".pt",
+                "size_bytes": 156008466,
+                "sha256": "7402e0d864fa82708a20fbd15bc84245c2f26dff0eb43a4b5b93452deb34be69"
+              }
+            ]
+          }
+        }
+      },
+      "temporal_propagation_route": {
+        "available": false,
+        "runtime_validated": false,
+        "evidence": [
+          "tracking/propagation/optical-flow model file"
+        ]
+      },
+      "contact_occlusion_ownership_route": {
+        "available": false,
+        "evidence": [
+          "pose route",
+          "hand route",
+          "person instance route",
+          "human parsing route"
+        ]
+      }
+    },
+    "required_route_names": [
+      "base_image_video_io",
+      "pose_landmark_route",
+      "hand_landmark_route",
+      "human_part_parsing_route",
+      "person_instance_segmentation_route",
+      "promptable_segmentation_refinement_route",
+      "temporal_propagation_route",
+      "contact_occlusion_ownership_route"
+    ],
+    "missing_required_routes": [
+      "human_part_parsing_route",
+      "person_instance_segmentation_route",
+      "temporal_propagation_route",
+      "contact_occlusion_ownership_route"
+    ],
+    "available_but_unvalidated_routes": [
+      "pose_landmark_route",
+      "hand_landmark_route",
+      "promptable_segmentation_refinement_route"
+    ],
+    "required_stack_available": false
+  },
+  "whole_body_geometry_authority": {
+    "result": "blocked",
+    "whole_body_geometry_authority_pass": false,
+    "pose_hand_dense_landmark_or_segmentation_pass": false,
+    "semantic_human_part_parsing_pass": false,
+    "contact_occlusion_ownership_pass": false,
+    "body_region_geometry_pass": false,
+    "body_reference_matrix_pass": false,
+    "source_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "source_sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "ref_image_1_path": "Ref_Image_1/725de85824bbe45ba4601dd4a7aed698.jpg",
+    "ref_image_1_sha256": "b4876e7415485efc79c2c69a914e3316c8c5f7301dc15a69b039f7515ab36df5",
+    "source_dimensions": [
+      768,
+      768
+    ],
+    "mask_type_id": "whole_body_geometry_authority",
+    "matrix_slot_id": "TRK-W70-0162",
+    "person_instance_id": "",
+    "subject_side_mapping": {},
+    "models_attempted": [],
+    "models_available": [
+      "base_image_video_io",
+      "pose_landmark_route",
+      "hand_landmark_route",
+      "promptable_segmentation_refinement_route"
+    ],
+    "models_available_but_runtime_unvalidated": [
+      "pose_landmark_route",
+      "hand_landmark_route",
+      "promptable_segmentation_refinement_route"
+    ],
+    "pose_landmark_record_path": "",
+    "hand_landmark_record_path": "",
+    "human_part_parsing_record_path": "",
+    "sam_refinement_record_path": "",
+    "contact_occlusion_record_path": "",
+    "visibility_occlusion_record_path": "",
+    "canonical_polygon_path": "",
+    "coordinate_transform_manifest_path": "",
+    "consensus_metrics": {
+      "iou_against_gold_or_prior": null,
+      "mean_boundary_error_px": null,
+      "max_boundary_error_px": null,
+      "center_drift_px": null,
+      "protected_overlap_ratio": null,
+      "owner_overlap_error_ratio": null
+    },
+    "confidence": {
+      "pose_confidence": null,
+      "hand_confidence": null,
+      "human_parsing_confidence": null,
+      "refinement_confidence": null,
+      "contact_ownership_confidence": null,
+      "visibility_confidence": null,
+      "overall_confidence": null
+    },
+    "blocked_reason": "Blocked_Body_Geometry_Dependency_Missing",
+    "findings": [
+      "Active Wave70 source image exists for whole-body geometry dependency probing.",
+      "Base local image/CV stack is available.",
+      "Required whole-body route unavailable or incomplete: human_part_parsing_route.",
+      "Required whole-body route unavailable or incomplete: person_instance_segmentation_route.",
+      "Required whole-body route unavailable or incomplete: temporal_propagation_route.",
+      "Required whole-body route unavailable or incomplete: contact_occlusion_ownership_route.",
+      "Required whole-body route has local assets but still needs runtime validation: pose_landmark_route.",
+      "Required whole-body route has local assets but still needs runtime validation: hand_landmark_route.",
+      "Required whole-body route has local assets but still needs runtime validation: promptable_segmentation_refinement_route.",
+      "No body, hand, contact, soft-body, or temporal mask may be promoted from broad boxes, Canny edges, generated-output stability, or manual single-image geometry."
+    ]
+  },
+  "qa_decision": "blocked_body_geometry_dependency_missing",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_no_whole_body_geometry_authority_pass",
+  "next_step": "Install/register approved local pose, hand, human parsing, person-instance, SAM/SAM2, temporal propagation, and contact ownership routes before whole-body masks can pass.",
+  "panel_path": "runtime_artifacts/mask_factory/wave70_whole_body_geometry_dependency_probe/20260708T184528-0500/body_geometry_dependency_probe_panel.png",
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  }
+}

@@ -1,0 +1,1626 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_FULL_FACE_SCAFFOLD_FROM_USER_REFERENCE_20260708T001500-0500",
+  "created_local": "20260708T001500-0500",
+  "task": "Extract a full visible-face scaffold from the user annotated references before deriving any more Wave70 subregion masks.",
+  "source_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "dimensions": [
+      768,
+      768
+    ]
+  },
+  "user_references": {
+    "full_face_geometry_scaffold": {
+      "path": "runtime_artifacts/mask_factory/wave70_user_geometry_reference_20260707T235800-0500/user_reference_full_face_geometry_scaffold.png",
+      "sha256": "1b1219b0fe05529ad5626dbdee9007864453ea5db5addd630ae16dbdd104d070",
+      "dimensions": [
+        768,
+        768
+      ]
+    },
+    "semantic_mask_regions": {
+      "path": "runtime_artifacts/mask_factory/wave70_user_geometry_reference_20260707T235800-0500/user_reference_semantic_mask_regions.png",
+      "sha256": "bf6bda044cfe2dc30eeba9c7074a07c8012a97e848c0824ac53fff8ee21bc269",
+      "dimensions": [
+        768,
+        768
+      ]
+    }
+  },
+  "runtime_artifacts": {
+    "runtime_dir": "runtime_artifacts/mask_factory/wave70_full_face_scaffold_from_user_reference/20260708T001500-0500",
+    "panel": "runtime_artifacts/mask_factory/wave70_full_face_scaffold_from_user_reference/20260708T001500-0500/wave70_full_face_scaffold_from_user_reference_panel.png",
+    "manifest": "runtime_artifacts/mask_factory/wave70_full_face_scaffold_from_user_reference/20260708T001500-0500/wave70_full_face_scaffold_from_user_reference_manifest.json"
+  },
+  "extraction_method": [
+    "All layers are extracted from changed pixels between the clean source and user annotated reference images.",
+    "Scaffold line layers use nearest-color extraction against the user drawing colors.",
+    "Semantic layers use quantized changed-color groups plus bounded anatomical regions to keep face, neck, eyes, brows, nose, and lips separated.",
+    "This scaffold is reference evidence only. It is not a promoted ComfyUI input mask and does not satisfy any row promotion gate by itself."
+  ],
+  "scaffold_layers": {
+    "visible_face_contour": {
+      "meaning": "user red visible-face contour excluding hair mass and defining forehead, cheek, jaw, and chin envelope",
+      "overlay_rgb": [
+        255,
+        0,
+        32
+      ],
+      "mask_path": "runtime_artifacts/mask_factory/wave70_full_face_scaffold_from_user_reference/20260708T001500-0500/masks/scaffold/visible_face_contour.png",
+      "mask_sha256": "da6787c80aa4234996351d8e7d5c13b094e1c134b84587a0cdeb90782fcca2fd",
+      "stats": {
+        "pixel_count": 4506,
+        "coverage_percent": 0.76396,
+        "bbox_xyxy": [
+          203,
+          167,
+          474,
+          544
+        ],
+        "connected_component_count": 28,
+        "largest_components": [
+          {
+            "component_id": 1,
+            "bbox_xyxy": [
+              203,
+              167,
+              474,
+              544
+            ],
+            "area_pixels": 4225
+          },
+          {
+            "component_id": 25,
+            "bbox_xyxy": [
+              288,
+              461,
+              324,
+              487
+            ],
+            "area_pixels": 213
+          },
+          {
+            "component_id": 27,
+            "bbox_xyxy": [
+              355,
+              466,
+              363,
+              467
+            ],
+            "area_pixels": 15
+          },
+          {
+            "component_id": 18,
+            "bbox_xyxy": [
+              426,
+              347,
+              428,
+              349
+            ],
+            "area_pixels": 5
+          },
+          {
+            "component_id": 23,
+            "bbox_xyxy": [
+              357,
+              456,
+              359,
+              457
+            ],
+            "area_pixels": 5
+          },
+          {
+            "component_id": 24,
+            "bbox_xyxy": [
+              362,
+              457,
+              364,
+              459
+            ],
+            "area_pixels": 5
+          },
+          {
+            "component_id": 3,
+            "bbox_xyxy": [
+              455,
+              299,
+              457,
+              301
+            ],
+            "area_pixels": 4
+          },
+          {
+            "component_id": 17,
+            "bbox_xyxy": [
+              421,
+              347,
+              422,
+              348
+            ],
+            "area_pixels": 4
+          },
+          {
+            "component_id": 20,
+            "bbox_xyxy": [
+              370,
+              412,
+              372,
+              413
+            ],
+            "area_pixels": 4
+          },
+          {
+            "component_id": 16,
+            "bbox_xyxy": [
+              417,
+              347,
+              419,
+              348
+            ],
+            "area_pixels": 3
+          },
+          {
+            "component_id": 2,
+            "bbox_xyxy": [
+              451,
+              297,
+              452,
+              297
+            ],
+            "area_pixels": 2
+          },
+          {
+            "component_id": 7,
+            "bbox_xyxy": [
+              447,
+              334,
+              448,
+              334
+            ],
+            "area_pixels": 2
+          }
+        ]
+      },
+      "extraction": {
+        "method": "source_reference_difference_plus_nearest_annotation_color",
+        "target_rgb": [
+          128,
+          0,
+          16
+        ],
+        "rgb_distance_threshold": 78,
+        "changed_pixel_threshold": 35
+      }
+    },
+    "eye_band": {
+      "meaning": "user yellow bilateral eye band and bridge-level eye-plane scaffold",
+      "overlay_rgb": [
+        255,
+        245,
+        0
+      ],
+      "mask_path": "runtime_artifacts/mask_factory/wave70_full_face_scaffold_from_user_reference/20260708T001500-0500/masks/scaffold/eye_band.png",
+      "mask_sha256": "dce0814466b03c672e0b727d5bfaaa55d4e8ab4497a2b33209067705abcd8735",
+      "stats": {
+        "pixel_count": 2249,
+        "coverage_percent": 0.3813,
+        "bbox_xyxy": [
+          247,
+          296,
+          457,
+          358
+        ],
+        "connected_component_count": 5,
+        "largest_components": [
+          {
+            "component_id": 3,
+            "bbox_xyxy": [
+              391,
+              306,
+              457,
+              358
+            ],
+            "area_pixels": 810
+          },
+          {
+            "component_id": 1,
+            "bbox_xyxy": [
+              247,
+              296,
+              333,
+              339
+            ],
+            "area_pixels": 605
+          },
+          {
+            "component_id": 4,
+            "bbox_xyxy": [
+              259,
+              340,
+              324,
+              349
+            ],
+            "area_pixels": 323
+          },
+          {
+            "component_id": 5,
+            "bbox_xyxy": [
+              329,
+              346,
+              385,
+              353
+            ],
+            "area_pixels": 278
+          },
+          {
+            "component_id": 2,
+            "bbox_xyxy": [
+              339,
+              302,
+              385,
+              309
+            ],
+            "area_pixels": 233
+          }
+        ]
+      },
+      "extraction": {
+        "method": "source_reference_difference_plus_nearest_annotation_color",
+        "target_rgb": [
+          240,
+          240,
+          0
+        ],
+        "rgb_distance_threshold": 82,
+        "changed_pixel_threshold": 35
+      }
+    },
+    "nose_guides": {
+      "meaning": "user green nose axis and side guide strokes",
+      "overlay_rgb": [
+        0,
+        220,
+        90
+      ],
+      "mask_path": "runtime_artifacts/mask_factory/wave70_full_face_scaffold_from_user_reference/20260708T001500-0500/masks/scaffold/nose_guides.png",
+      "mask_sha256": "9dc0d0acee7089fe9f0be9b880e2cb33b039fa66fab482fe4f0ec70aaa24f929",
+      "stats": {
+        "pixel_count": 1634,
+        "coverage_percent": 0.27703,
+        "bbox_xyxy": [
+          312,
+          281,
+          390,
+          425
+        ],
+        "connected_component_count": 3,
+        "largest_components": [
+          {
+            "component_id": 1,
+            "bbox_xyxy": [
+              312,
+              281,
+              342,
+              409
+            ],
+            "area_pixels": 661
+          },
+          {
+            "component_id": 2,
+            "bbox_xyxy": [
+              386,
+              287,
+              390,
+              411
+            ],
+            "area_pixels": 621
+          },
+          {
+            "component_id": 3,
+            "bbox_xyxy": [
+              318,
+              418,
+              389,
+              425
+            ],
+            "area_pixels": 352
+          }
+        ]
+      },
+      "extraction": {
+        "method": "source_reference_difference_plus_nearest_annotation_color",
+        "target_rgb": [
+          32,
+          176,
+          64
+        ],
+        "rgb_distance_threshold": 76,
+        "changed_pixel_threshold": 35
+      }
+    },
+    "mouth_lip_guides": {
+      "meaning": "user cyan mouth/lip polygon and associated guide strokes",
+      "overlay_rgb": [
+        0,
+        190,
+        255
+      ],
+      "mask_path": "runtime_artifacts/mask_factory/wave70_full_face_scaffold_from_user_reference/20260708T001500-0500/masks/scaffold/mouth_lip_guides.png",
+      "mask_sha256": "780fa75c2cf2a22dec80304b897e6a96c05d061c33001df9a9492dab0a2c3e3c",
+      "stats": {
+        "pixel_count": 1778,
+        "coverage_percent": 0.30145,
+        "bbox_xyxy": [
+          251,
+          270,
+          411,
+          491
+        ],
+        "connected_component_count": 2,
+        "largest_components": [
+          {
+            "component_id": 2,
+            "bbox_xyxy": [
+              289,
+              438,
+              411,
+              491
+            ],
+            "area_pixels": 1671
+          },
+          {
+            "component_id": 1,
+            "bbox_xyxy": [
+              251,
+              270,
+              272,
+              276
+            ],
+            "area_pixels": 107
+          }
+        ]
+      },
+      "extraction": {
+        "method": "source_reference_difference_plus_nearest_annotation_color",
+        "target_rgb": [
+          0,
+          160,
+          224
+        ],
+        "rgb_distance_threshold": 86,
+        "changed_pixel_threshold": 35
+      }
+    },
+    "brow_forehead_separator": {
+      "meaning": "user pink brow/forehead separator guide",
+      "overlay_rgb": [
+        255,
+        160,
+        210
+      ],
+      "mask_path": "runtime_artifacts/mask_factory/wave70_full_face_scaffold_from_user_reference/20260708T001500-0500/masks/scaffold/brow_forehead_separator.png",
+      "mask_sha256": "e7d219cd84140cf778b4dddb027afce3c887dc8ad6599c2f9e4ed507cf11a338",
+      "stats": {
+        "pixel_count": 1321,
+        "coverage_percent": 0.22397,
+        "bbox_xyxy": [
+          247,
+          270,
+          469,
+          476
+        ],
+        "connected_component_count": 5,
+        "largest_components": [
+          {
+            "component_id": 1,
+            "bbox_xyxy": [
+              267,
+              270,
+              469,
+              315
+            ],
+            "area_pixels": 1140
+          },
+          {
+            "component_id": 2,
+            "bbox_xyxy": [
+              248,
+              272,
+              254,
+              297
+            ],
+            "area_pixels": 117
+          },
+          {
+            "component_id": 3,
+            "bbox_xyxy": [
+              247,
+              340,
+              259,
+              344
+            ],
+            "area_pixels": 61
+          },
+          {
+            "component_id": 4,
+            "bbox_xyxy": [
+              374,
+              473,
+              375,
+              474
+            ],
+            "area_pixels": 2
+          },
+          {
+            "component_id": 5,
+            "bbox_xyxy": [
+              379,
+              476,
+              379,
+              476
+            ],
+            "area_pixels": 1
+          }
+        ]
+      },
+      "extraction": {
+        "method": "source_reference_difference_plus_nearest_annotation_color",
+        "target_rgb": [
+          240,
+          160,
+          192
+        ],
+        "rgb_distance_threshold": 78,
+        "changed_pixel_threshold": 35
+      }
+    }
+  },
+  "semantic_layers": {
+    "semantic_visible_face_skin_region": {
+      "meaning": "large translucent face-skin/facial-contour region from user semantic reference",
+      "overlay_rgb": [
+        230,
+        150,
+        170
+      ],
+      "mask_path": "runtime_artifacts/mask_factory/wave70_full_face_scaffold_from_user_reference/20260708T001500-0500/masks/semantic/semantic_visible_face_skin_region.png",
+      "mask_sha256": "d9d285fbd5b353b71b483798372ebab898b8cf372afc631c3fc00535714f36cf",
+      "stats": {
+        "pixel_count": 12757,
+        "coverage_percent": 2.16285,
+        "bbox_xyxy": [
+          192,
+          167,
+          474,
+          564
+        ],
+        "connected_component_count": 16,
+        "largest_components": [
+          {
+            "component_id": 1,
+            "bbox_xyxy": [
+              192,
+              167,
+              474,
+              564
+            ],
+            "area_pixels": 9919
+          },
+          {
+            "component_id": 3,
+            "bbox_xyxy": [
+              385,
+              282,
+              463,
+              307
+            ],
+            "area_pixels": 1313
+          },
+          {
+            "component_id": 2,
+            "bbox_xyxy": [
+              282,
+              271,
+              338,
+              298
+            ],
+            "area_pixels": 1044
+          },
+          {
+            "component_id": 10,
+            "bbox_xyxy": [
+              340,
+              465,
+              394,
+              485
+            ],
+            "area_pixels": 438
+          },
+          {
+            "component_id": 8,
+            "bbox_xyxy": [
+              357,
+              461,
+              363,
+              462
+            ],
+            "area_pixels": 12
+          },
+          {
+            "component_id": 9,
+            "bbox_xyxy": [
+              348,
+              462,
+              354,
+              462
+            ],
+            "area_pixels": 7
+          },
+          {
+            "component_id": 7,
+            "bbox_xyxy": [
+              374,
+              394,
+              375,
+              396
+            ],
+            "area_pixels": 5
+          },
+          {
+            "component_id": 11,
+            "bbox_xyxy": [
+              337,
+              467,
+              338,
+              470
+            ],
+            "area_pixels": 5
+          },
+          {
+            "component_id": 5,
+            "bbox_xyxy": [
+              388,
+              332,
+              390,
+              335
+            ],
+            "area_pixels": 4
+          },
+          {
+            "component_id": 4,
+            "bbox_xyxy": [
+              423,
+              327,
+              424,
+              327
+            ],
+            "area_pixels": 2
+          },
+          {
+            "component_id": 14,
+            "bbox_xyxy": [
+              369,
+              474,
+              370,
+              475
+            ],
+            "area_pixels": 2
+          },
+          {
+            "component_id": 16,
+            "bbox_xyxy": [
+              351,
+              476,
+              351,
+              477
+            ],
+            "area_pixels": 2
+          }
+        ]
+      },
+      "extraction": {
+        "method": "source_reference_difference_plus_quantized_annotation_color_groups",
+        "quantized_targets": [
+          [
+            112,
+            80,
+            96
+          ],
+          [
+            128,
+            80,
+            96
+          ],
+          [
+            128,
+            96,
+            96
+          ],
+          [
+            144,
+            96,
+            96
+          ],
+          [
+            144,
+            96,
+            112
+          ],
+          [
+            160,
+            96,
+            112
+          ],
+          [
+            160,
+            112,
+            112
+          ],
+          [
+            176,
+            112,
+            112
+          ],
+          [
+            176,
+            128,
+            128
+          ],
+          [
+            176,
+            128,
+            144
+          ],
+          [
+            192,
+            128,
+            128
+          ],
+          [
+            192,
+            128,
+            144
+          ],
+          [
+            192,
+            144,
+            144
+          ]
+        ],
+        "quantized_distance_threshold": 28,
+        "changed_pixel_threshold": 35,
+        "bounds_xyxy": [
+          185,
+          160,
+          485,
+          565
+        ]
+      }
+    },
+    "semantic_neck_region": {
+      "meaning": "translucent neck and lower exposed-skin region from user semantic reference",
+      "overlay_rgb": [
+        240,
+        155,
+        175
+      ],
+      "mask_path": "runtime_artifacts/mask_factory/wave70_full_face_scaffold_from_user_reference/20260708T001500-0500/masks/semantic/semantic_neck_region.png",
+      "mask_sha256": "751e6cffa0b44c709603a7fe7bed7d5a8336c3eb280120f6a321f301ea646e37",
+      "stats": {
+        "pixel_count": 28149,
+        "coverage_percent": 4.77244,
+        "bbox_xyxy": [
+          199,
+          456,
+          408,
+          767
+        ],
+        "connected_component_count": 27,
+        "largest_components": [
+          {
+            "component_id": 14,
+            "bbox_xyxy": [
+              199,
+              479,
+              407,
+              767
+            ],
+            "area_pixels": 27720
+          },
+          {
+            "component_id": 16,
+            "bbox_xyxy": [
+              391,
+              572,
+              406,
+              682
+            ],
+            "area_pixels": 369
+          },
+          {
+            "component_id": 26,
+            "bbox_xyxy": [
+              407,
+              700,
+              408,
+              713
+            ],
+            "area_pixels": 15
+          },
+          {
+            "component_id": 1,
+            "bbox_xyxy": [
+              211,
+              456,
+              214,
+              460
+            ],
+            "area_pixels": 5
+          },
+          {
+            "component_id": 2,
+            "bbox_xyxy": [
+              215,
+              462,
+              219,
+              466
+            ],
+            "area_pixels": 5
+          },
+          {
+            "component_id": 7,
+            "bbox_xyxy": [
+              373,
+              473,
+              375,
+              475
+            ],
+            "area_pixels": 4
+          },
+          {
+            "component_id": 8,
+            "bbox_xyxy": [
+              380,
+              473,
+              382,
+              474
+            ],
+            "area_pixels": 3
+          },
+          {
+            "component_id": 19,
+            "bbox_xyxy": [
+              269,
+              599,
+              270,
+              600
+            ],
+            "area_pixels": 3
+          },
+          {
+            "component_id": 10,
+            "bbox_xyxy": [
+              364,
+              475,
+              365,
+              476
+            ],
+            "area_pixels": 2
+          },
+          {
+            "component_id": 11,
+            "bbox_xyxy": [
+              369,
+              474,
+              370,
+              475
+            ],
+            "area_pixels": 2
+          },
+          {
+            "component_id": 12,
+            "bbox_xyxy": [
+              370,
+              477,
+              370,
+              478
+            ],
+            "area_pixels": 2
+          },
+          {
+            "component_id": 22,
+            "bbox_xyxy": [
+              264,
+              612,
+              264,
+              613
+            ],
+            "area_pixels": 2
+          }
+        ]
+      },
+      "extraction": {
+        "method": "source_reference_difference_plus_quantized_annotation_color_groups",
+        "quantized_targets": [
+          [
+            176,
+            112,
+            112
+          ],
+          [
+            176,
+            128,
+            128
+          ],
+          [
+            192,
+            128,
+            128
+          ],
+          [
+            192,
+            128,
+            144
+          ],
+          [
+            192,
+            144,
+            144
+          ],
+          [
+            208,
+            144,
+            160
+          ],
+          [
+            224,
+            144,
+            160
+          ]
+        ],
+        "quantized_distance_threshold": 30,
+        "changed_pixel_threshold": 35,
+        "bounds_xyxy": [
+          180,
+          430,
+          430,
+          768
+        ]
+      }
+    },
+    "semantic_nose_region": {
+      "meaning": "red nose mask region from user semantic reference",
+      "overlay_rgb": [
+        210,
+        10,
+        45
+      ],
+      "mask_path": "runtime_artifacts/mask_factory/wave70_full_face_scaffold_from_user_reference/20260708T001500-0500/masks/semantic/semantic_nose_region.png",
+      "mask_sha256": "d580619fb9835c5b72b94daa59c07c9548ad180191a88a723c5e6ce20a64a49a",
+      "stats": {
+        "pixel_count": 4222,
+        "coverage_percent": 0.71581,
+        "bbox_xyxy": [
+          317,
+          312,
+          394,
+          418
+        ],
+        "connected_component_count": 17,
+        "largest_components": [
+          {
+            "component_id": 1,
+            "bbox_xyxy": [
+              317,
+              312,
+              394,
+              418
+            ],
+            "area_pixels": 4194
+          },
+          {
+            "component_id": 6,
+            "bbox_xyxy": [
+              356,
+              327,
+              357,
+              329
+            ],
+            "area_pixels": 4
+          },
+          {
+            "component_id": 10,
+            "bbox_xyxy": [
+              374,
+              353,
+              376,
+              355
+            ],
+            "area_pixels": 4
+          },
+          {
+            "component_id": 5,
+            "bbox_xyxy": [
+              356,
+              324,
+              357,
+              325
+            ],
+            "area_pixels": 3
+          },
+          {
+            "component_id": 14,
+            "bbox_xyxy": [
+              379,
+              375,
+              380,
+              376
+            ],
+            "area_pixels": 3
+          },
+          {
+            "component_id": 9,
+            "bbox_xyxy": [
+              355,
+              353,
+              356,
+              353
+            ],
+            "area_pixels": 2
+          },
+          {
+            "component_id": 13,
+            "bbox_xyxy": [
+              385,
+              369,
+              385,
+              370
+            ],
+            "area_pixels": 2
+          },
+          {
+            "component_id": 2,
+            "bbox_xyxy": [
+              352,
+              313,
+              352,
+              313
+            ],
+            "area_pixels": 1
+          },
+          {
+            "component_id": 3,
+            "bbox_xyxy": [
+              360,
+              314,
+              360,
+              314
+            ],
+            "area_pixels": 1
+          },
+          {
+            "component_id": 4,
+            "bbox_xyxy": [
+              362,
+              321,
+              362,
+              321
+            ],
+            "area_pixels": 1
+          },
+          {
+            "component_id": 7,
+            "bbox_xyxy": [
+              359,
+              329,
+              359,
+              329
+            ],
+            "area_pixels": 1
+          },
+          {
+            "component_id": 8,
+            "bbox_xyxy": [
+              353,
+              339,
+              353,
+              339
+            ],
+            "area_pixels": 1
+          }
+        ]
+      },
+      "extraction": {
+        "method": "source_reference_difference_plus_quantized_annotation_color_groups",
+        "quantized_targets": [
+          [
+            64,
+            0,
+            16
+          ],
+          [
+            80,
+            0,
+            16
+          ],
+          [
+            96,
+            0,
+            16
+          ],
+          [
+            96,
+            16,
+            16
+          ],
+          [
+            112,
+            0,
+            16
+          ],
+          [
+            112,
+            32,
+            32
+          ],
+          [
+            128,
+            16,
+            16
+          ],
+          [
+            128,
+            16,
+            32
+          ],
+          [
+            128,
+            32,
+            32
+          ],
+          [
+            144,
+            32,
+            32
+          ]
+        ],
+        "quantized_distance_threshold": 24,
+        "changed_pixel_threshold": 35,
+        "bounds_xyxy": [
+          300,
+          300,
+          405,
+          430
+        ]
+      }
+    },
+    "semantic_eye_regions": {
+      "meaning": "user semantic eye-region colors constrained to the shared eye band",
+      "overlay_rgb": [
+        0,
+        185,
+        255
+      ],
+      "mask_path": "runtime_artifacts/mask_factory/wave70_full_face_scaffold_from_user_reference/20260708T001500-0500/masks/semantic/semantic_eye_regions.png",
+      "mask_sha256": "0b44b5128a25d3ad39395e993309f4f57b3348ffe733e2f3eca1caf583415754",
+      "stats": {
+        "pixel_count": 2263,
+        "coverage_percent": 0.38367,
+        "bbox_xyxy": [
+          270,
+          302,
+          450,
+          352
+        ],
+        "connected_component_count": 8,
+        "largest_components": [
+          {
+            "component_id": 2,
+            "bbox_xyxy": [
+              388,
+              312,
+              450,
+              352
+            ],
+            "area_pixels": 1132
+          },
+          {
+            "component_id": 1,
+            "bbox_xyxy": [
+              270,
+              302,
+              329,
+              343
+            ],
+            "area_pixels": 1105
+          },
+          {
+            "component_id": 8,
+            "bbox_xyxy": [
+              406,
+              338,
+              413,
+              340
+            ],
+            "area_pixels": 9
+          },
+          {
+            "component_id": 3,
+            "bbox_xyxy": [
+              422,
+              322,
+              429,
+              323
+            ],
+            "area_pixels": 8
+          },
+          {
+            "component_id": 7,
+            "bbox_xyxy": [
+              270,
+              338,
+              273,
+              339
+            ],
+            "area_pixels": 4
+          },
+          {
+            "component_id": 4,
+            "bbox_xyxy": [
+              298,
+              327,
+              299,
+              328
+            ],
+            "area_pixels": 2
+          },
+          {
+            "component_id": 5,
+            "bbox_xyxy": [
+              395,
+              333,
+              396,
+              333
+            ],
+            "area_pixels": 2
+          },
+          {
+            "component_id": 6,
+            "bbox_xyxy": [
+              425,
+              337,
+              425,
+              337
+            ],
+            "area_pixels": 1
+          }
+        ]
+      },
+      "extraction": {
+        "method": "source_reference_difference_plus_quantized_annotation_color_groups",
+        "quantized_targets": [
+          [
+            0,
+            80,
+            112
+          ],
+          [
+            16,
+            80,
+            112
+          ],
+          [
+            16,
+            128,
+            176
+          ],
+          [
+            32,
+            96,
+            32
+          ],
+          [
+            32,
+            96,
+            48
+          ],
+          [
+            32,
+            96,
+            112
+          ],
+          [
+            32,
+            96,
+            128
+          ],
+          [
+            32,
+            128,
+            48
+          ],
+          [
+            32,
+            128,
+            64
+          ],
+          [
+            32,
+            144,
+            64
+          ],
+          [
+            48,
+            112,
+            48
+          ],
+          [
+            48,
+            112,
+            64
+          ],
+          [
+            48,
+            112,
+            128
+          ],
+          [
+            176,
+            176,
+            0
+          ],
+          [
+            192,
+            176,
+            0
+          ]
+        ],
+        "quantized_distance_threshold": 26,
+        "changed_pixel_threshold": 35,
+        "bounds_xyxy": [
+          260,
+          295,
+          465,
+          355
+        ]
+      }
+    },
+    "semantic_brow_regions": {
+      "meaning": "pink brow regions from user semantic reference, bounded above the eye band",
+      "overlay_rgb": [
+        255,
+        135,
+        210
+      ],
+      "mask_path": "runtime_artifacts/mask_factory/wave70_full_face_scaffold_from_user_reference/20260708T001500-0500/masks/semantic/semantic_brow_regions.png",
+      "mask_sha256": "9298a2cb90dc7af4874ab3c1b897ceec25fe4e5111e7bcae4003a6fec6e1ae9a",
+      "stats": {
+        "pixel_count": 1186,
+        "coverage_percent": 0.20108,
+        "bbox_xyxy": [
+          285,
+          273,
+          463,
+          307
+        ],
+        "connected_component_count": 10,
+        "largest_components": [
+          {
+            "component_id": 3,
+            "bbox_xyxy": [
+              385,
+              282,
+              463,
+              307
+            ],
+            "area_pixels": 992
+          },
+          {
+            "component_id": 2,
+            "bbox_xyxy": [
+              293,
+              273,
+              335,
+              291
+            ],
+            "area_pixels": 127
+          },
+          {
+            "component_id": 4,
+            "bbox_xyxy": [
+              297,
+              288,
+              320,
+              294
+            ],
+            "area_pixels": 43
+          },
+          {
+            "component_id": 7,
+            "bbox_xyxy": [
+              336,
+              295,
+              338,
+              297
+            ],
+            "area_pixels": 9
+          },
+          {
+            "component_id": 1,
+            "bbox_xyxy": [
+              285,
+              273,
+              290,
+              273
+            ],
+            "area_pixels": 6
+          },
+          {
+            "component_id": 8,
+            "bbox_xyxy": [
+              423,
+              294,
+              425,
+              295
+            ],
+            "area_pixels": 4
+          },
+          {
+            "component_id": 5,
+            "bbox_xyxy": [
+              324,
+              295,
+              325,
+              295
+            ],
+            "area_pixels": 2
+          },
+          {
+            "component_id": 6,
+            "bbox_xyxy": [
+              333,
+              295,
+              333,
+              295
+            ],
+            "area_pixels": 1
+          },
+          {
+            "component_id": 9,
+            "bbox_xyxy": [
+              403,
+              301,
+              403,
+              301
+            ],
+            "area_pixels": 1
+          },
+          {
+            "component_id": 10,
+            "bbox_xyxy": [
+              405,
+              300,
+              405,
+              300
+            ],
+            "area_pixels": 1
+          }
+        ]
+      },
+      "extraction": {
+        "method": "source_reference_difference_plus_quantized_annotation_color_groups",
+        "quantized_targets": [
+          [
+            176,
+            112,
+            128
+          ],
+          [
+            176,
+            112,
+            144
+          ],
+          [
+            192,
+            128,
+            144
+          ],
+          [
+            208,
+            128,
+            144
+          ],
+          [
+            224,
+            144,
+            160
+          ]
+        ],
+        "quantized_distance_threshold": 24,
+        "changed_pixel_threshold": 35,
+        "bounds_xyxy": [
+          250,
+          260,
+          490,
+          315
+        ]
+      }
+    },
+    "semantic_lip_regions": {
+      "meaning": "upper/lower lip regions from user semantic reference",
+      "overlay_rgb": [
+        225,
+        35,
+        80
+      ],
+      "mask_path": "runtime_artifacts/mask_factory/wave70_full_face_scaffold_from_user_reference/20260708T001500-0500/masks/semantic/semantic_lip_regions.png",
+      "mask_sha256": "5825f8fc282e15d1d834a20c0964d35b52da202f7adad72472dbc65651b6f417",
+      "stats": {
+        "pixel_count": 2735,
+        "coverage_percent": 0.4637,
+        "bbox_xyxy": [
+          300,
+          440,
+          398,
+          485
+        ],
+        "connected_component_count": 5,
+        "largest_components": [
+          {
+            "component_id": 1,
+            "bbox_xyxy": [
+              300,
+              440,
+              398,
+              485
+            ],
+            "area_pixels": 2731
+          },
+          {
+            "component_id": 2,
+            "bbox_xyxy": [
+              358,
+              472,
+              358,
+              472
+            ],
+            "area_pixels": 1
+          },
+          {
+            "component_id": 3,
+            "bbox_xyxy": [
+              359,
+              475,
+              359,
+              475
+            ],
+            "area_pixels": 1
+          },
+          {
+            "component_id": 4,
+            "bbox_xyxy": [
+              369,
+              474,
+              369,
+              474
+            ],
+            "area_pixels": 1
+          },
+          {
+            "component_id": 5,
+            "bbox_xyxy": [
+              377,
+              475,
+              377,
+              475
+            ],
+            "area_pixels": 1
+          }
+        ]
+      },
+      "extraction": {
+        "method": "source_reference_difference_plus_quantized_annotation_color_groups",
+        "quantized_targets": [
+          [
+            96,
+            32,
+            80
+          ],
+          [
+            112,
+            48,
+            80
+          ],
+          [
+            112,
+            48,
+            96
+          ],
+          [
+            128,
+            48,
+            96
+          ],
+          [
+            128,
+            64,
+            96
+          ],
+          [
+            128,
+            64,
+            112
+          ],
+          [
+            128,
+            64,
+            128
+          ],
+          [
+            144,
+            16,
+            16
+          ],
+          [
+            144,
+            64,
+            112
+          ],
+          [
+            144,
+            64,
+            128
+          ],
+          [
+            144,
+            80,
+            128
+          ],
+          [
+            160,
+            32,
+            32
+          ],
+          [
+            176,
+            16,
+            16
+          ],
+          [
+            176,
+            48,
+            48
+          ],
+          [
+            192,
+            32,
+            32
+          ]
+        ],
+        "quantized_distance_threshold": 26,
+        "changed_pixel_threshold": 35,
+        "bounds_xyxy": [
+          290,
+          430,
+          410,
+          495
+        ]
+      }
+    }
+  },
+  "qa_position": {
+    "status": "extracted_pending_strict_visual_review",
+    "promotion_decision": "no_mask_promoted_no_active_input_changed_no_W70_MASK_PROMOTION_ROW_GATE_PASS_TRUE",
+    "must_not_use_as": "automatic pass mask or replacement for row-specific geometry/protected-overlap/generated-output QA",
+    "next_use": "Use the visually reviewed scaffold to derive future face-detail candidate masks from the full visible-face geometry first."
+  },
+  "correction_rules_applied": [
+    "Visible face contour and hair occlusion must be established before eye/brow/nose/mouth subregions.",
+    "Eye and brow rows must be constrained by the shared bilateral eye band instead of isolated local crop boxes.",
+    "Nose rows must be constrained by the face centerline and side guides.",
+    "Mouth/lip rows must be constrained by the mouth plane/lip polygon.",
+    "Face/neck rows must preserve the face-neck separation visible in the semantic reference."
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "tracker_evidence_id": "W70_MF70_MOUTH_LIPS_V4_GENERATED_OUTPUT_20260707T225000-0500",
+  "created_at": "2026-07-07T22:50:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "tracker_id": "TRK-W70-0018",
+  "item_id": "ITEM-W70-0018",
+  "mask_type_id": "mf70_mouth_lips",
+  "status": "Mask_Alignment_Candidate_Pass_Generated_Output_Safe_Target_Runtime_Pending",
+  "status_decision": "mouth_lips_v4_candidate_strict_visual_alignment_pass_generated_output_safe_target_runtime_pending_reference_matrix_pending",
+  "actual_work_performed": [
+    "Executed one bounded local ComfyUI generated-output proof for accepted mf70_mouth_lips V4 source-landmark mask.",
+    "Pulled back generated portrait and diagnostic mask preview.",
+    "Created source/overlay/output comparison panel.",
+    "Completed strict whole-image visual QA and kept target-runtime/reference-matrix gates pending."
+  ],
+  "evidence": {
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_MOUTH_LIPS_V4_SEED210821_VISUAL_QA_20260707T225000-0500.json",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_MOUTH_LIPS_V4_SEED210821_EXECUTE_20260707T224500-0500.json",
+    "comparison": "runtime_artifacts/mask_factory/wave70_mf70_mouth_lips/qa_comparisons/wave70_mf70_mouth_lips_v4_source_landmark_source_overlay_output_compare.png",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_mouth_lips_v4_seed210821_20260707T213044-0500/images/codex_wave70_mf70_mouth_lips_v4_seed210821_00001_.png",
+    "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_mouth_lips_v4_seed210821_20260707T213044-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00027_.png",
+    "prompt_profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_mouth_lips_v4_seed210821.json",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_mouth_lips_v4_seed210821/RUN_PACKAGE_MANIFEST.json"
+  },
+  "qa_decision": {
+    "semantic_mask_alignment_candidate_pass": true,
+    "generated_output_safe_pass": true,
+    "target_runtime_proof_present": false,
+    "reference_image_matrix_pass": false,
+    "final_completion_allowed": false
+  },
+  "boundaries": {
+    "local_only": true,
+    "ec2_started": false,
+    "aws_contacted": false,
+    "github_api_contacted": false,
+    "civitai_contacted": false
+  },
+  "result": "pass_with_notes_local_wave70_mouth_lips_v4_generated_output",
+  "next_action": "Repair the next downgraded Wave70 mask with the same fail-closed standard or run target-runtime proof only when intentionally selected."
+}

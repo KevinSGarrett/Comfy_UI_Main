@@ -1,0 +1,200 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_HAND_FINGER_LANDMARK_AUTHORITY_20260708T142210-0500",
+  "created_local": "20260708T142210-0500",
+  "task": "Implement hand/finger landmark authority for TRK-W70-0165 / ITEM-W70-0165.",
+  "script": "Plan/07_IMPLEMENTATION/scripts/implement_wave70_hand_finger_landmark_authority.py",
+  "source_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "exists": true,
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "dimensions": [
+      768,
+      768
+    ]
+  },
+  "ref_image_1": {
+    "manifest_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_body_mask_gold_standard.json",
+    "manifest_exists": true,
+    "main_reference_path": "Ref_Image_1/725de85824bbe45ba4601dd4a7aed698.jpg",
+    "main_reference_exists": true,
+    "main_reference_sha256": "b4876e7415485efc79c2c69a914e3316c8c5f7301dc15a69b039f7515ab36df5",
+    "layout_interpretation": {
+      "top_strip": "partial upper-body / one-third-body reference only; absent lower/full-body masks here are not failures",
+      "lower_strip": "primary full-body pose and body-mask validation area"
+    },
+    "scope": "reference_gold_masks_only_not_active_source_visibility_or_promotion_proof",
+    "hand_finger_mask_count": 8,
+    "hand_finger_masks": [
+      {
+        "label": "hands_both_hands",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/hands_both_hands.png",
+        "binary_mask_exists": true,
+        "binary_mask_sha256": "f920a72fe9d88768184385d2fa16080335b1d6888d716d4f468e651ec15e130f",
+        "red_overlay_pixel_count": 12838,
+        "mask_type_candidates": [
+          "mf70_left_hand",
+          "mf70_right_hand",
+          "mf70_hands"
+        ],
+        "gold_standard_use": "user_provided_visual_body_part_mask_reference"
+      },
+      {
+        "label": "hands_index_fingers",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/hands_index_fingers.png",
+        "binary_mask_exists": true,
+        "binary_mask_sha256": "72cdc3ba6cd0288bf2d90a90c44d06923ad1993766b62a906b408ed4b5bfd3cb",
+        "red_overlay_pixel_count": 1950,
+        "mask_type_candidates": [
+          "mf70_index_fingers"
+        ],
+        "gold_standard_use": "user_provided_visual_body_part_mask_reference"
+      },
+      {
+        "label": "hands_left_hand",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/hands_left_hand.png",
+        "binary_mask_exists": true,
+        "binary_mask_sha256": "3fe2a7aa77b1dafe147057cd7bbb318ef3531cf4b03b56794b26828013ecd0a0",
+        "red_overlay_pixel_count": 5769,
+        "mask_type_candidates": [
+          "mf70_left_hand"
+        ],
+        "gold_standard_use": "user_provided_visual_body_part_mask_reference"
+      },
+      {
+        "label": "hands_middle_fingers",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/hands_middle_fingers.png",
+        "binary_mask_exists": true,
+        "binary_mask_sha256": "f42714cacb443cd42d2e01bac4790b64bc54c5e2abb6a1969e34b93f72efc26c",
+        "red_overlay_pixel_count": 1991,
+        "mask_type_candidates": [
+          "mf70_middle_fingers"
+        ],
+        "gold_standard_use": "user_provided_visual_body_part_mask_reference"
+      },
+      {
+        "label": "hands_pinkys",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/hands_pinkys.png",
+        "binary_mask_exists": true,
+        "binary_mask_sha256": "6f6b63f5af852bc1474455cee17142d91bbb63f040bb24858d3d4925b5a039bb",
+        "red_overlay_pixel_count": 1157,
+        "mask_type_candidates": [
+          "mf70_pinkies"
+        ],
+        "gold_standard_use": "user_provided_visual_body_part_mask_reference"
+      },
+      {
+        "label": "hands_right_hand",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/hands_right_hand.png",
+        "binary_mask_exists": true,
+        "binary_mask_sha256": "ace8c39f8e8765308f1d8f6c78fc9f51876229eb24cc179797a1968346178b7d",
+        "red_overlay_pixel_count": 5283,
+        "mask_type_candidates": [
+          "mf70_right_hand"
+        ],
+        "gold_standard_use": "user_provided_visual_body_part_mask_reference"
+      },
+      {
+        "label": "hands_ring_finger",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/hands_ring_finger.png",
+        "binary_mask_exists": true,
+        "binary_mask_sha256": "70b9624093574c106afa209fec345922d749fca3d12f626503dfdba8451f6677",
+        "red_overlay_pixel_count": 1611,
+        "mask_type_candidates": [
+          "mf70_ring_fingers"
+        ],
+        "gold_standard_use": "user_provided_visual_body_part_mask_reference"
+      },
+      {
+        "label": "hands_thumbs",
+        "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/hands_thumbs.png",
+        "binary_mask_exists": true,
+        "binary_mask_sha256": "ac350a8f29e69116491e87f9b6e9c567ff1ce97a4c4b9dad471c6668d22d8812",
+        "red_overlay_pixel_count": 4231,
+        "mask_type_candidates": [
+          "mf70_thumbs"
+        ],
+        "gold_standard_use": "user_provided_visual_body_part_mask_reference"
+      }
+    ]
+  },
+  "environment": {
+    "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "cwd": "C:\\Comfy_UI_Main",
+    "modules": {
+      "mediapipe": {
+        "module": "mediapipe",
+        "available": true,
+        "version": "0.10.35"
+      },
+      "cv2": {
+        "module": "cv2",
+        "available": true,
+        "version": "4.11.0"
+      },
+      "numpy": {
+        "module": "numpy",
+        "available": true,
+        "version": "1.26.4"
+      },
+      "PIL": {
+        "module": "PIL",
+        "available": true,
+        "version": "12.3.0"
+      }
+    }
+  },
+  "model": {
+    "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\mesh_graphormer\\hand_landmarker.task",
+    "exists": true,
+    "size_bytes": 7819105,
+    "sha256": "fbc2a30080c3c557093b5ddfc334698132eb341044ccee322ccf8bcf3607cde1"
+  },
+  "runtime_attempts": {
+    "mediapipe_hand_landmarker": {
+      "runtime": "mediapipe.tasks.vision.HandLandmarker",
+      "module_available": true,
+      "hand_task_model_available": true,
+      "attempted": true,
+      "inference_pass": false,
+      "hand_count": 0,
+      "hands": [],
+      "error": null,
+      "mediapipe_version": "0.10.35",
+      "vision_has_hand_landmarker": true
+    }
+  },
+  "artifacts": {
+    "review_panel": "runtime_artifacts/mask_factory/wave70_hand_finger_landmark_authority/20260708T142210-0500/hand_finger_landmark_authority_panel.png",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_hand_finger_landmark_authority/20260708T142210-0500/hand_finger_landmark_authority.json"
+  },
+  "hand_finger_landmark_authority": {
+    "result": "blocked",
+    "hand_landmark_pass": false,
+    "finger_joint_chain_pass": false,
+    "hand_side_mapping_pass": false,
+    "source_derived_landmark_or_segmentation_pass": false,
+    "detected_hand_count": 0,
+    "detected_hands": [],
+    "blocked_reason": "local_hand_landmarker_executed_detected_zero_hands_on_active_source",
+    "findings": [
+      "Local MediaPipe HandLandmarker runtime executed against the active source image.",
+      "Detected hand count: 0.",
+      "Ref_Image_1 hand/finger gold mask count: 8.",
+      "Ref_Image_1 hand/finger masks are reference/gold-standard assets only; they do not prove active portrait hand visibility.",
+      "No active ComfyUI input masks were changed.",
+      "No hand, finger, palm, knuckle, fingertip, or fingernail mask was promoted."
+    ]
+  },
+  "qa_decision": "blocked_exact_local_hand_finger_source_region_not_visible",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_hand_finger_authority_blocked",
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  },
+  "next_step": "Use a reference/source image with visible hands or a reference-matrix slot containing hands before hand/finger masks can receive source-derived geometry authority."
+}

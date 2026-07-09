@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_FULL_FACE_SCAFFOLD_VISUAL_REVIEW_20260708T001700-0500",
+  "created_local": "20260708T001700-0500",
+  "task": "Strict visual review of the full-face scaffold extracted from user annotated geometry references.",
+  "reviewed_artifacts": {
+    "scaffold_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FULL_FACE_SCAFFOLD_FROM_USER_REFERENCE_20260708T001500-0500.json",
+    "tracker_scaffold_evidence": "Plan/Tracker/Evidence/W70_FULL_FACE_SCAFFOLD_FROM_USER_REFERENCE_20260708T001500-0500.json",
+    "panel": {
+      "path": "runtime_artifacts/mask_factory/wave70_full_face_scaffold_from_user_reference/20260708T001500-0500/wave70_full_face_scaffold_from_user_reference_panel.png",
+      "sha256": "9B00945A0E8C9EC861E34BCD5E36D1E2CAACEC9BEA2503A2F9C5BD6D2F12A7A8"
+    },
+    "manifest": "runtime_artifacts/mask_factory/wave70_full_face_scaffold_from_user_reference/20260708T001500-0500/wave70_full_face_scaffold_from_user_reference_manifest.json"
+  },
+  "visual_review_findings": [
+    "The extracted scaffold overlay matches the user-provided red visible-face contour, yellow shared eye band, pink brow/forehead separator, green nose guides, and cyan mouth/lip guide positions on the clean source image.",
+    "The red face contour now provides the missing global reference frame that previous isolated eye and eyelid traces did not have.",
+    "The yellow shared eye band correctly records the user's intended bilateral eye-plane scaffold, but it is still a guide band, not an accepted eye mask.",
+    "The semantic extraction panel separates nose, lips, eyes, brows, neck, and face/skin evidence enough for reference use, but these translucent semantic regions are not final masks and must not be promoted.",
+    "No active ComfyUI/input mask was changed. No generated-output proof was run. No row received W70_MASK_PROMOTION_ROW_GATE_PASS_TRUE."
+  ],
+  "qa_decision": "scaffold_reference_artifact_usable_for_next_derivation_step_semantic_masks_not_promotable",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_no_W70_MASK_PROMOTION_ROW_GATE_PASS_TRUE",
+  "required_next_step": "Derive one future candidate mask from this full-face scaffold, then render a row-specific source/mask/overlay/protected-boundary panel before any generated-output or promotion work.",
+  "blocked_uses": [
+    "Do not treat the scaffold as a final segmentation mask.",
+    "Do not use the extracted semantic fills as active ComfyUI masks.",
+    "Do not mark eye, brow, nose, mouth, face, jaw, or neck rows pass-like from this evidence alone."
+  ]
+}

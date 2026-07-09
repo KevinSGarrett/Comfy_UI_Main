@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "inpaint_wave70_mf70_under_eye_seed210814",
+  "target_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "purpose": "Generated-output proof for Wave70 mf70_under_eye mask routing using the active MOD-17 Canny v3 portrait as source.",
+  "request_patch_values": {
+    "positive_prompt": "extremely subtle photoreal under-eye skin texture preservation pass, preserve exact person identity, gaze direction, eye shape, lower eyelid edge, natural under-eye skin texture, iris color, pupil size, sclera tone, catchlights, eyelashes, eyebrows, nose bridge, cheeks, nearby hair occlusion, face lighting, white blazer, background, and portrait composition unchanged",
+    "negative_prompt": "identity change, different person, gaze change, mismatched eyes, crossed eyes, asymmetrical eyes, heavy bags, swollen under eyes, dark circles, plastic skin, waxy skin, over-smoothed skin, lower eyelid deformation, eyelash mutation, eyebrow change, iris color change, glassy eyes, sclera discoloration, catchlight change, nose bridge change, cheek shape change, skin tone change, visible seam, hair mutation, clothing change, background change, watermark, text",
+    "source_image": "wave70_mf70_face_identity_source_canny_v3.png",
+    "mask_image": "wave70_mf70_under_eye_mask.png",
+    "mask_channel": "red",
+    "seed": 210814,
+    "sampler_settings": {
+      "steps": 18,
+      "cfg": 3.3,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.045
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_wave70_mf70_under_eye_seed210814"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_wave70_mf70_under_eye_seed210814",
+    "diagnostic_output_prefix": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview"
+  },
+  "qa_focus": [
+    "whole-image identity preservation",
+    "under-eye skin remains natural and not over-smoothed",
+    "no dark-circle, swollen-eye, or lower-lid deformation",
+    "gaze, pupil, iris, sclera, and catchlights remain stable",
+    "cheeks and nose bridge do not mutate",
+    "nearby hair occlusion remains stable",
+    "no visible seam around under-eye masks"
+  ],
+  "source_qa_driver": {
+    "evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_under_eye.json",
+    "remaining_gap": "generated_output_proof_required_before_item_completion",
+    "change_summary": "Use the Wave70 under-eye skin mask with low denoise to prove local generated-output routing while minimizing lower-lid, gaze, cheek, nose, skin-tone, and identity drift."
+  },
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_generated_output_proof_before_item_completion": true,
+    "requires_whole_image_qa_before_promotion": true,
+    "requires_target_runtime_reproof_before_final_certification": true
+  }
+}

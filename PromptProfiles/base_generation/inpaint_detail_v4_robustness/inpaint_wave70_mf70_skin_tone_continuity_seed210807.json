@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "inpaint_wave70_mf70_skin_tone_continuity_seed210807",
+  "target_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "purpose": "Generated-output proof for Wave70 mf70_skin_tone_continuity mask routing using the active MOD-17 Canny v3 portrait as source.",
+  "request_patch_values": {
+    "positive_prompt": "extremely subtle photoreal visible skin tone continuity preservation pass, preserve exact face identity, skin tone, pore texture, eyes, gaze direction, nose, mouth, jawline, hair, neck contour, exposed chest skin, white blazer, background, lighting, and portrait composition unchanged",
+    "negative_prompt": "identity change, different person, age change, gender presentation change, face shape drift, skin tone change, blotchy skin, plastic skin, waxy skin, over-smoothed skin, makeup change, eye change, nose deformation, mouth change, jawline change, neck change, chest change, clothing change, blazer mutation, background change, visible seam, watermark, text",
+    "source_image": "wave70_mf70_face_identity_source_canny_v3.png",
+    "mask_image": "wave70_mf70_skin_tone_continuity_mask.png",
+    "mask_channel": "red",
+    "seed": 210807,
+    "sampler_settings": {
+      "steps": 18,
+      "cfg": 3.8,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.06
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_wave70_mf70_skin_tone_continuity_seed210807"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_wave70_mf70_skin_tone_continuity_seed210807",
+    "diagnostic_output_prefix": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview"
+  },
+  "qa_focus": [
+    "whole-image identity preservation",
+    "skin tone continuity without identity drift",
+    "no clothing or background mutation near mask boundaries",
+    "face, neck, and exposed chest texture stability",
+    "no visible seam around global visible-skin mask boundary"
+  ],
+  "source_qa_driver": {
+    "evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_skin_tone_continuity.json",
+    "remaining_gap": "generated_output_proof_required_before_item_completion",
+    "change_summary": "Use the Wave70 visible-skin tone-continuity mask as the inpaint mask with extremely low denoise to prove local generated-output routing while minimizing identity, clothing, and background drift."
+  },
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_generated_output_proof_before_item_completion": true,
+    "requires_whole_image_qa_before_promotion": true,
+    "requires_target_runtime_reproof_before_final_certification": true
+  }
+}

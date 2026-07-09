@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-WAVE25-CONTACT-LOWER-UPPER-ARM-REPOSITION-SEED210705-20260707T130500-0500",
+  "timestamp": "2026-07-07T13:05:00-05:00",
+  "work_type": "qa_driven_local_contact_placement_shadow_rerun",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "generation_executed": true,
+  "mask": {
+    "path": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/masks/contact_lower_upper_arm_reposition_seed210705_1024.png",
+    "sha256": "219fe5a0a669e57c8dffad937ee705d9ee34f5b218c05bd769bcb2ef1f89603a"
+  },
+  "comfyui_inputs": [
+    {
+      "path": "ComfyUI/input/wave25_contact_lower_upper_arm_reposition_seed210705_1024.png",
+      "sha256": "219fe5a0a669e57c8dffad937ee705d9ee34f5b218c05bd769bcb2ef1f89603a"
+    },
+    {
+      "path": "ComfyUI/input/wave25_contact_shadow_pressure_seed210704_source.png",
+      "sha256": "b9a1a02057c99eeabf0d6427c1af0a5e2a5b33195db1b8ebd6866915fafd6321"
+    }
+  ],
+  "profile": {
+    "path": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave25_contact_lower_upper_arm_reposition_seed210705.json",
+    "sha256": "fa9368cb4eb1431fc75ac8dce8f255c4af906a76fe2a6ec13b56784767d22fe1"
+  },
+  "run_package": {
+    "path": "runtime_artifacts/run_packages/wave25_contact_lower_upper_arm_reposition_seed210705/RUN_PACKAGE_MANIFEST.json",
+    "sha256": "bc3ab4bed52c230cceefec17fec4232e90f81dadb3324cddb2a8bb3c2787a8d1",
+    "prompt_request_sha256": "779733a75520e861c0113ddc026de645657158c8701b306ad3d6035a19c8a64c",
+    "static_result": "pass_local_only"
+  },
+  "runtime_evidence": {
+    "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_WAVE25_CONTACT_LOWER_UPPER_ARM_REPOSITION_SEED210705_EXECUTE_20260707T130000-0500.json",
+    "sha256": "b34a280ece89bf7cbc79a5f70da34f1c06fe8d140d82fa7039e6f0e48c4dc594",
+    "result": "pass_local_run_package_generation_smoke",
+    "port_closed_after_stop": true
+  },
+  "generated_artifacts": [
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/images/codex_wave25_contact_lower_upper_arm_reposition_seed210705_00001_.png",
+      "sha256": "033bbcdb1f3be33264fdfc43c342c12f02cb6b90be390bfaaa7e0a59ebcd7831",
+      "dimensions": "1024x1024"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00006_.png",
+      "sha256": "609cf13cf7c9d429e487a459e00ff2c8bab8fbd29ed873839dc753ccb09a33f8",
+      "dimensions": "1024x1024"
+    },
+    {
+      "path": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/qa_contact_crops/contact_lower_upper_arm_reposition_compare_seed210704_seed210705.png",
+      "sha256": "e2332f39642a41db18e2711f6d83486148acf3e1daf737187cc999170e16d30a",
+      "dimensions": "520x330"
+    }
+  ],
+  "visual_qa": {
+    "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_WAVE25_CONTACT_LOWER_UPPER_ARM_REPOSITION_SEED210705_VISUAL_QA_20260707T130500-0500.json",
+    "sha256": "d2439f6a4d8bbec9ce48fdaa27c19805e8ef85f1088eef86816d2aa84ebef00e",
+    "result": "mixed_local_contact_lower_upper_arm_reposition_seed210705_blockers_remain"
+  },
+  "certification_gate": {
+    "request": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/HAND_CONTACT_VISUAL_CERTIFICATION_REQUEST_SEED210705.json",
+    "request_sha256": "8d95d30baa199c850edf1cca8f6aff310a7a3b83c0467ed1e78ab6d1da291619",
+    "evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_HAND_CONTACT_VISUAL_CERTIFICATION_LOWER_UPPER_ARM_REPOSITION_SEED210705_20260707T130500-0500.json",
+    "evidence_sha256": "ba5a67e59e9c90e8e51c044f25f225f4ebebfd1c88d35d60eaafc88d017aaf1d",
+    "result": "pass_local_support_block_final_hand_contact_certification"
+  },
+  "qa_summary": "Seed210705 preserved scene stability, identities, source/target ownership, hand visibility, and no visible mask edge, but the broader lower-upper-arm placement mask did not materially move the hand. Contact still reads as shoulder/top-upper-sleeve and shadow remains subtle-to-moderate.",
+  "result": "mixed_local_reposition_attempt_final_blockers_remain",
+  "final_blockers": [
+    "contact_shadow_not_clear:subtle_to_moderate",
+    "contact_placement_not_exact_target:shoulder_top_upper_sleeve",
+    "target_runtime_proof_missing",
+    "final_certification_review_missing"
+  ],
+  "next_action": "Do not keep squeezing the same local contact image with similar masks. Continue local-first with another named implementation/QA gap unless a materially different contact-generation strategy is intentionally selected."
+}

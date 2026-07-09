@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-EYELASHES-LOCAL-SUPPORT-20260707T183000-0500",
+  "timestamp": "2026-07-07T18:30:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave70_ultimate_mask_factory_local_artifact_routing_support",
+  "mask_type_id": "mf70_eyelashes",
+  "tracker_id": "TRK-W70-0014",
+  "item_id": "ITEM-W70-0014",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "source_requirements": [
+    "Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_FACTORY_TAXONOMY.md#L45",
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv:TRK-W70-0014",
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv:ITEM-W70-0014"
+  ],
+  "artifacts": {
+    "request": "runtime_artifacts/mask_factory/wave70_mf70_eyelashes/MASK_FACTORY_REQUEST.json",
+    "contract": "runtime_artifacts/mask_factory/wave70_mf70_eyelashes/MASK_FACTORY_CONTRACT.json",
+    "contract_validation": "runtime_artifacts/mask_factory/wave70_mf70_eyelashes/MASK_FACTORY_CONTRACT_VALIDATION.json",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_mf70_eyelashes/MASK_RUNTIME_EVIDENCE.json",
+    "quality_report": "runtime_artifacts/mask_factory/wave70_mf70_eyelashes/MASK_QUALITY_REPORT.json",
+    "patch_manifest": "runtime_artifacts/mask_factory/wave70_mf70_eyelashes/MASK_TO_WORKFLOW_PATCH_MANIFEST.csv",
+    "mask_png": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_eyelashes_20260707T183000-0500/wave70_mf70_eyelashes_mask.png",
+    "comfyui_input_copy": "ComfyUI/input/wave70_mf70_eyelashes_mask.png",
+    "preview_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_eyelashes_20260707T183000-0500/wave70_mf70_eyelashes_overlay.png"
+  },
+  "mask_asset": {
+    "mask_id": "scene_wave70_canny_v3__person_001__mf70_eyelashes__minor",
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_eyelashes_20260707T183000-0500/wave70_mf70_eyelashes_mask.png",
+    "sha256": "9437f87962b09df1e0f69f89ae771a242a1d5be2ffb50bd04e816882d1216051",
+    "width": 768,
+    "height": 768,
+    "coverage_percent": 0.1946,
+    "person_instance_id": "person_001",
+    "body_region_id": "upper_lower_eyelashes",
+    "scale": "minor"
+  },
+  "validation": {
+    "contract_valid": true,
+    "contract_errors": [],
+    "contract_warnings": [],
+    "quality_score": 87.0,
+    "minimum_required": 85,
+    "quality_passed": true,
+    "workflow_routing_manifest_present": true,
+    "preview_overlay_generated": true,
+    "protected_neighbor_check_pass": true,
+    "generated_output_proof_present": true,
+    "target_runtime_proof_present": false,
+    "blockers": [
+      "target_runtime_proof_required_before_final_certification",
+      "mask_alignment_strict_review_requires_revision_before_completion"
+    ],
+    "mask_alignment_semantic_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false
+  },
+  "overlay_visual_review": {
+    "review_method": "direct local image inspection after generation",
+    "result": "pass_with_notes_direct_overlay_visual_review",
+    "findings": [
+      "Overlay targets very thin upper and lower lash-line bands on both visible eyes.",
+      "Iris, pupil, and sclera cores remain excluded by explicit protected apertures.",
+      "No broad eyelid, cheek, nose bridge, hair mass, clothing, or background coverage is visible.",
+      "Lashes are subpixel-fine in the source, so generated-output proof requires extremely low denoise and strict gaze/catchlight/identity QA."
+    ]
+  },
+  "result": "mask_alignment_needs_revision_generated_output_safe_final_blocked_target_runtime",
+  "boundary": "Strict semantic mask-alignment review supersedes earlier generated-output-safe interpretation. Generated-output stability is preserved when present, but mask completion is blocked unless semantic alignment and protected-neighbor review pass.",
+  "generated_output_proof": {
+    "profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_eyelashes_seed210813.json",
+    "profile_sha256": "0a8d5940463ce4a1bff51d554c6b6a56721976bf5671a523392a9a535d6837d9",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_eyelashes_seed210813/RUN_PACKAGE_MANIFEST.json",
+    "run_package_sha256": "1a1f25888b2090620502c821c2cf42d88227bb75509d4485631df7fea9515314",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_EYELASHES_SEED210813_EXECUTE_20260707T183000-0500.json",
+    "runtime_evidence_sha256": "ff9034f0d20b0f058de9430e8238d05d85fc11bbbd28736be55c060ee7ab9d7f",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_eyelashes_seed210813_20260707T181631-0500/images/codex_wave70_mf70_eyelashes_seed210813_00001_.png",
+    "generated_output_sha256": "73d9ec3ac001ff0f54ba1dd011ce6da28c33ea27fdffcd812fde2c9b0e064e9d",
+    "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_eyelashes_seed210813_20260707T181631-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00019_.png",
+    "diagnostic_mask_preview_sha256": "44ed9bafd38bc0521841baac39331c492aa1d400c5c78282301b07b02d09fa7d",
+    "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_eyelashes/qa_comparisons/wave70_mf70_eyelashes_source_overlay_output_compare.png",
+    "comparison_artifact_sha256": "cb7fad7ce7680ec55fa70c46fccc73e25c84e7faec05352d13077542e8f6d7e2",
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_EYELASHES_SEED210813_VISUAL_QA_20260707T183000-0500.json",
+    "visual_qa_result": "pass_with_notes_local_wave70_eyelashes_generated_output",
+    "visual_qa_sha256": "304345510b4b1303cd1d244db59c3f71f8f977661e2a059e01ee308f86aadb70"
+  },
+  "semantic_mask_alignment_reaudit": {
+    "audit_id": "W70-MASK-ALIGNMENT-RETRO-AUDIT-20260707T184000-0500",
+    "timestamp": "2026-07-07T18:40:00-05:00",
+    "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "result": "pass_with_notes",
+    "named_target_match": true,
+    "protected_neighbor_pass": true,
+    "generated_output_safe_pass": true,
+    "completion_allowed": true,
+    "findings": [
+      "Retro audit classified the eyelash mask as acceptable with notes: it hugs visible lash-line bands and avoids broad protected regions.",
+      "Completion still requires target-runtime proof before final certification."
+    ],
+    "policy": "Generated-output stability is preserved where applicable, but it does not override semantic mask-alignment defects."
+  },
+  "strict_semantic_mask_alignment_review": {
+    "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "review_timestamp": "2026-07-07T19:25:00-05:00",
+    "review_id": "W70-MASK-ALIGNMENT-STRICT-VISUAL-REVIEW-20260707T192500-0500",
+    "alignment_result": "needs_revision",
+    "mask_alignment_semantic_pass": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "review_basis": "strict visual review of user-supplied overlays and/or matching project overlay artifacts, separated from generated-output stability",
+    "findings": [
+      "Eyelash overlay is a pair of shortcut strokes near the eyes, not anatomically reliable upper/lower eyelash coverage, and may cross eyelid/eye-aperture protected regions.",
+      "Use lash-line edge detection or landmark-following thin masks that trace actual visible lashes while excluding eyelid, iris, skin, and background."
+    ]
+  }
+}

@@ -1,0 +1,92 @@
+﻿{
+    "evidence_id":  "EVID-W66-GITHUB-ACTIONS-PREFLIGHT-9LANE-QUEUE-GATES-20260709T025759-0500",
+    "created_at":  "2026-07-09T02:59:29-05:00",
+    "artifact_type":  "github_actions_preflight_9lane_queue_gate_hardening",
+    "tracker_ids":  [
+                        "TRK-W66-RUNTIME-ORCHESTRATION"
+                    ],
+    "item_ids":  [
+                     "ITEM-W66-RUNTIME-ORCHESTRATION"
+                 ],
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "masks_promoted":  false,
+    "wave71_activated":  false,
+    "jira_updated":  false,
+    "workflow_file":  ".github/workflows/preflight-package.yml",
+    "change_summary":  [
+                           "GitHub Actions preflight now runs authored lane evidence coverage before packaging.",
+                           "GitHub Actions preflight now runs runtime lane queue validation against the exact authored coverage JSON produced in the same workflow.",
+                           "Workflow prerequisite JSONs are uploaded with the deploy bundle artifact."
+                       ],
+    "validation_inputs":  {
+                              "authored_lane_evidence_coverage":  "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W66_GHA_PREFLIGHT_AUTHORED_LANE_EVIDENCE_COVERAGE_20260709T025759-0500.json",
+                              "runtime_lane_queue":  "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W66_GHA_PREFLIGHT_RUNTIME_LANE_QUEUE_20260709T025759-0500.json"
+                          },
+    "checks":  [
+                   {
+                       "name":  "workflow_file_exists",
+                       "result":  "pass",
+                       "observed":  "C:\\Comfy_UI_Main\\.github\\workflows\\preflight-package.yml"
+                   },
+                   {
+                       "name":  "artifact_folder_created",
+                       "result":  "pass",
+                       "observed":  "ci_artifacts\\workflow_prerequisite_matching"
+                   },
+                   {
+                       "name":  "authored_lane_gate_wired",
+                       "result":  "pass",
+                       "observed":  "Test-AuthoredLaneEvidenceCoverage.ps1"
+                   },
+                   {
+                       "name":  "runtime_queue_gate_wired",
+                       "result":  "pass",
+                       "observed":  "Test-RuntimeLaneQueue.ps1"
+                   },
+                   {
+                       "name":  "runtime_queue_consumes_exact_authored_output",
+                       "result":  "pass",
+                       "observed":  "-CoverageFile ci_artifacts workflow authored_lane_evidence_coverage.json"
+                   },
+                   {
+                       "name":  "prerequisite_json_uploaded",
+                       "result":  "pass",
+                       "observed":  "ci_artifacts/workflow_prerequisite_matching/*.json"
+                   },
+                   {
+                       "name":  "local_authored_gate_passed",
+                       "result":  "pass",
+                       "observed":  "result=pass_local_only; failed_lane_count=0; queued_lane_count=9"
+                   },
+                   {
+                       "name":  "local_runtime_queue_gate_passed",
+                       "result":  "pass",
+                       "observed":  "result=pass_local_only; failed_check_count=0; queued_lane_count=9"
+                   },
+                   {
+                       "name":  "runtime_queue_used_fresh_coverage_file",
+                       "result":  "pass",
+                       "observed":  "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W66_GHA_PREFLIGHT_AUTHORED_LANE_EVIDENCE_COVERAGE_20260709T025759-0500.json"
+                   },
+                   {
+                       "name":  "local_run_no_aws_ec2_generation",
+                       "result":  "pass",
+                       "observed":  "aws_contacted=false; ec2_started=false; generation_executed=false"
+                   }
+               ],
+    "failed_check_count":  0,
+    "result":  "pass_local_only",
+    "known_limits":  [
+                         "This does not run GitHub Actions remotely.",
+                         "This does not contact AWS or upload to S3.",
+                         "This does not start EC2 or execute generation.",
+                         "This does not promote masks, certify gold masks, or activate Wave71+."
+                     ],
+    "next_action":  "Continue concrete non-mask runtime/orchestration work; use explicit live-window approval before any EC2 or S3 action."
+}

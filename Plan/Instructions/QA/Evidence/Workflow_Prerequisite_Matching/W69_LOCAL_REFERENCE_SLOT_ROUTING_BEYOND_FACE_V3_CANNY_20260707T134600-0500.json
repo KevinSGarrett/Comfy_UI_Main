@@ -1,0 +1,298 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "W69-LOCAL-REFERENCE-SLOT-ROUTING-BEYOND-FACE-20260707T124000-0500",
+    "created_at":  "2026-07-07T12:40:00-05:00",
+    "artifact_type":  "workflow_prerequisite_matching",
+    "work_type":  "local_reference_slot_routing_contract_beyond_face_reference",
+    "request_path":  "C:\\Comfy_UI_Main\\runtime_artifacts\\reference_slot_routing\\w69_beyond_face_reference\\REFERENCE_SLOT_ROUTING_REQUEST.json",
+    "local_only":  true,
+    "ec2_started":  false,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "comfyui_contacted":  false,
+    "generation_executed":  false,
+    "minimum_required_non_face_slots":  2,
+    "non_face_slots_verified":  5,
+    "source_requirements":  [
+                                {
+                                    "path":  "Plan/01_CURRENT_SYSTEM_REVIEW/WAVE04_NOTE_ONLY_AND_STAGED_BOUNDARY_REVIEW.md",
+                                    "lines":  "9-24",
+                                    "requirement":  "Convert staged reference/control lanes into named modules with runtime input contracts, control map generation, QA, and evidence output."
+                                },
+                                {
+                                    "path":  "Plan/01_CURRENT_SYSTEM_REVIEW/WAVE04_NOTE_ONLY_AND_STAGED_BOUNDARY_REVIEW.md",
+                                    "lines":  "38-48",
+                                    "requirement":  "Require explicit reference image input and reference image hash before treating image-reference conditioning as proven."
+                                },
+                                {
+                                    "path":  "Plan/07_IMPLEMENTATION/COMFYUI_WIRING_REPAIR_LIST.md",
+                                    "lines":  "14-18",
+                                    "requirement":  "Convert additional reference-slot routes beyond face reference and DWPose/OpenPose/depth/normal/tile ControlNet lanes from notes into executable modules."
+                                }
+                            ],
+    "bindings_checked":  [
+                             {
+                                 "semantic_slot":  "edge_reference",
+                                 "slot_family":  "controlnet_canny",
+                                 "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+                                 "module_id":  "MOD-17-CONTROLNET-CANNY-LANE",
+                                 "patch_points_path":  "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/patch_points.json",
+                                 "workflow_path":  "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+                                 "control_image_path":  "ComfyUI/input/controlnet_canny_cleaned_eye_safe_v3_rightedge_band_masked.png",
+                                 "control_image_sha256":  "4b40cdd7386d9287a37d64efafdeb7078a8a9d4160e23e00b5ddc87106a1f870",
+                                 "control_image_size_bytes":  26730,
+                                 "control_image_dimensions":  {
+                                                                  "width":  1024,
+                                                                  "height":  1024,
+                                                                  "pixel_format":  "Format24bppRgb"
+                                                              },
+                                 "required_patch_points_verified":  [
+                                                                        {
+                                                                            "name":  "control_image",
+                                                                            "node_id":  "11",
+                                                                            "node_type":  "LoadImage",
+                                                                            "input":  "image",
+                                                                            "inputs":  null
+                                                                        },
+                                                                        {
+                                                                            "name":  "controlnet_asset",
+                                                                            "node_id":  "10",
+                                                                            "node_type":  "ControlNetLoader",
+                                                                            "input":  "control_net_name",
+                                                                            "inputs":  null
+                                                                        },
+                                                                        {
+                                                                            "name":  "controlnet_settings",
+                                                                            "node_id":  "12",
+                                                                            "node_type":  "ControlNetApplyAdvanced",
+                                                                            "input":  null,
+                                                                            "inputs":  [
+                                                                                           "strength",
+                                                                                           "start_percent",
+                                                                                           "end_percent"
+                                                                                       ]
+                                                                        }
+                                                                    ],
+                                 "runtime_or_qa_evidence":  [
+                                                                "Plan/Tracker/Evidence/W69_LOCAL_CANNY_RIGHTEDGE_MASKED_V3_20260707T133500-0500.json"
+                                                            ],
+                                 "result":  "pass",
+                                 "defects":  [
+
+                                             ]
+                             },
+                             {
+                                 "semantic_slot":  "depth_reference",
+                                 "slot_family":  "controlnet_depth",
+                                 "lane_id":  "sdxl_realvisxl_controlnet_depth_lane",
+                                 "module_id":  "MOD-18-CONTROLNET-DEPTH-LANE",
+                                 "patch_points_path":  "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/patch_points.json",
+                                 "workflow_path":  "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/workflow.api.json",
+                                 "control_image_path":  "ComfyUI/input/controlnet_depth_anything_w69_v1.png",
+                                 "control_image_sha256":  "d9d21c69ea3ea50f3991bd0a420f338c5c7bc3c3450508526a7e9060c0319ef7",
+                                 "control_image_size_bytes":  54373,
+                                 "control_image_dimensions":  {
+                                                                  "width":  512,
+                                                                  "height":  512,
+                                                                  "pixel_format":  "Format24bppRgb"
+                                                              },
+                                 "required_patch_points_verified":  [
+                                                                        {
+                                                                            "name":  "control_image",
+                                                                            "node_id":  "11",
+                                                                            "node_type":  "LoadImage",
+                                                                            "input":  "image",
+                                                                            "inputs":  null
+                                                                        },
+                                                                        {
+                                                                            "name":  "controlnet_asset",
+                                                                            "node_id":  "10",
+                                                                            "node_type":  "ControlNetLoader",
+                                                                            "input":  "control_net_name",
+                                                                            "inputs":  null
+                                                                        },
+                                                                        {
+                                                                            "name":  "controlnet_settings",
+                                                                            "node_id":  "12",
+                                                                            "node_type":  "ControlNetApplyAdvanced",
+                                                                            "input":  null,
+                                                                            "inputs":  [
+                                                                                           "strength",
+                                                                                           "start_percent",
+                                                                                           "end_percent"
+                                                                                       ]
+                                                                        }
+                                                                    ],
+                                 "runtime_or_qa_evidence":  [
+                                                                "Plan/Tracker/Evidence/W69_LOCAL_DEPTH_V2_MULTISEED_ROBUSTNESS_20260707T081600-0500.json"
+                                                            ],
+                                 "result":  "pass",
+                                 "defects":  [
+
+                                             ]
+                             },
+                             {
+                                 "semantic_slot":  "lineart_reference",
+                                 "slot_family":  "controlnet_lineart",
+                                 "lane_id":  "sdxl_realvisxl_controlnet_lineart_lane",
+                                 "module_id":  "MOD-19-CONTROLNET-LINEART-LANE",
+                                 "patch_points_path":  "Workflows/base_generation/sdxl_realvisxl_controlnet_lineart_lane/patch_points.json",
+                                 "workflow_path":  "Workflows/base_generation/sdxl_realvisxl_controlnet_lineart_lane/workflow.api.json",
+                                 "control_image_path":  "ComfyUI/input/controlnet_lineart_w69_v1.png",
+                                 "control_image_sha256":  "1994c628abb6df5abda27e61b1e17dd32f0f3cf50993d1ca795c89de4ef7ff46",
+                                 "control_image_size_bytes":  158803,
+                                 "control_image_dimensions":  {
+                                                                  "width":  512,
+                                                                  "height":  512,
+                                                                  "pixel_format":  "Format24bppRgb"
+                                                              },
+                                 "required_patch_points_verified":  [
+                                                                        {
+                                                                            "name":  "control_image",
+                                                                            "node_id":  "11",
+                                                                            "node_type":  "LoadImage",
+                                                                            "input":  "image",
+                                                                            "inputs":  null
+                                                                        },
+                                                                        {
+                                                                            "name":  "controlnet_asset",
+                                                                            "node_id":  "10",
+                                                                            "node_type":  "ControlNetLoader",
+                                                                            "input":  "control_net_name",
+                                                                            "inputs":  null
+                                                                        },
+                                                                        {
+                                                                            "name":  "controlnet_settings",
+                                                                            "node_id":  "12",
+                                                                            "node_type":  "ControlNetApplyAdvanced",
+                                                                            "input":  null,
+                                                                            "inputs":  [
+                                                                                           "strength",
+                                                                                           "start_percent",
+                                                                                           "end_percent"
+                                                                                       ]
+                                                                        }
+                                                                    ],
+                                 "runtime_or_qa_evidence":  [
+                                                                "Plan/Tracker/Evidence/W69_LOCAL_LINEART_V4_MULTISEED_ROBUSTNESS_20260707T094200-0500.json"
+                                                            ],
+                                 "result":  "pass",
+                                 "defects":  [
+
+                                             ]
+                             },
+                             {
+                                 "semantic_slot":  "pose_reference",
+                                 "slot_family":  "controlnet_openpose",
+                                 "lane_id":  "sdxl_realvisxl_controlnet_openpose_lane",
+                                 "module_id":  "MOD-20-CONTROLNET-OPENPOSE-LANE",
+                                 "patch_points_path":  "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/patch_points.json",
+                                 "workflow_path":  "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/workflow.api.json",
+                                 "control_image_path":  "ComfyUI/input/controlnet_openpose_hands_tabletop_w69_v1.png",
+                                 "control_image_sha256":  "071fae66490195443a883b157f68455707be00c6427686a4252dcfd7e6a6019c",
+                                 "control_image_size_bytes":  7017,
+                                 "control_image_dimensions":  {
+                                                                  "width":  768,
+                                                                  "height":  1024,
+                                                                  "pixel_format":  "Format24bppRgb"
+                                                              },
+                                 "required_patch_points_verified":  [
+                                                                        {
+                                                                            "name":  "control_image",
+                                                                            "node_id":  "11",
+                                                                            "node_type":  "LoadImage",
+                                                                            "input":  "image",
+                                                                            "inputs":  null
+                                                                        },
+                                                                        {
+                                                                            "name":  "controlnet_asset",
+                                                                            "node_id":  "10",
+                                                                            "node_type":  "ControlNetLoader",
+                                                                            "input":  "control_net_name",
+                                                                            "inputs":  null
+                                                                        },
+                                                                        {
+                                                                            "name":  "controlnet_settings",
+                                                                            "node_id":  "12",
+                                                                            "node_type":  "ControlNetApplyAdvanced",
+                                                                            "input":  null,
+                                                                            "inputs":  [
+                                                                                           "strength",
+                                                                                           "start_percent",
+                                                                                           "end_percent"
+                                                                                       ]
+                                                                        }
+                                                                    ],
+                                 "runtime_or_qa_evidence":  [
+                                                                "Plan/Tracker/Evidence/W69_LOCAL_OPENPOSE_TABLEHANDS_V5_ROBUSTNESS_20260707T073000-0500.json"
+                                                            ],
+                                 "result":  "pass",
+                                 "defects":  [
+
+                                             ]
+                             },
+                             {
+                                 "semantic_slot":  "normal_reference",
+                                 "slot_family":  "controlnet_normal",
+                                 "lane_id":  "sdxl_realvisxl_controlnet_normal_lane",
+                                 "module_id":  "MOD-21-CONTROLNET-NORMAL-LANE",
+                                 "patch_points_path":  "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/patch_points.json",
+                                 "workflow_path":  "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/workflow.api.json",
+                                 "control_image_path":  "ComfyUI/input/controlnet_normal_bae_w69_v1.png",
+                                 "control_image_sha256":  "1a0526da325d7fb29986b8de017ba9af7c43e1b328d51da5afa7c6bf84863139",
+                                 "control_image_size_bytes":  161483,
+                                 "control_image_dimensions":  {
+                                                                  "width":  512,
+                                                                  "height":  512,
+                                                                  "pixel_format":  "Format24bppRgb"
+                                                              },
+                                 "required_patch_points_verified":  [
+                                                                        {
+                                                                            "name":  "control_image",
+                                                                            "node_id":  "11",
+                                                                            "node_type":  "LoadImage",
+                                                                            "input":  "image",
+                                                                            "inputs":  null
+                                                                        },
+                                                                        {
+                                                                            "name":  "controlnet_asset",
+                                                                            "node_id":  "10",
+                                                                            "node_type":  "ControlNetLoader",
+                                                                            "input":  "control_net_name",
+                                                                            "inputs":  null
+                                                                        },
+                                                                        {
+                                                                            "name":  "controlnet_settings",
+                                                                            "node_id":  "12",
+                                                                            "node_type":  "ControlNetApplyAdvanced",
+                                                                            "input":  null,
+                                                                            "inputs":  [
+                                                                                           "strength",
+                                                                                           "start_percent",
+                                                                                           "end_percent"
+                                                                                       ]
+                                                                        },
+                                                                        {
+                                                                            "name":  "union_control_type",
+                                                                            "node_id":  "14",
+                                                                            "node_type":  "SetUnionControlNetType",
+                                                                            "input":  "type",
+                                                                            "inputs":  null
+                                                                        }
+                                                                    ],
+                                 "runtime_or_qa_evidence":  [
+                                                                "Plan/Tracker/Evidence/W69_LOCAL_NORMAL_V3_MULTISEED_ROBUSTNESS_20260707T080600-0500.json"
+                                                            ],
+                                 "result":  "pass",
+                                 "defects":  [
+
+                                             ]
+                             }
+                         ],
+    "result":  "pass_local_reference_slot_routing_beyond_face",
+    "defects":  [
+
+                ],
+    "promotion_boundary":  "This proves local routing contracts and asset bindings for non-face reference/control slots. It does not claim target-runtime generation proof or final visual certification for any lane."
+}

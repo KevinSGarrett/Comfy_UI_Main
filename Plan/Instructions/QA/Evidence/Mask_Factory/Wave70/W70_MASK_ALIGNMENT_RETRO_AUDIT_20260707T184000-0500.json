@@ -1,0 +1,189 @@
+{
+  "schema_version": "1.0",
+  "audit_id": "W70-MASK-ALIGNMENT-RETRO-AUDIT-20260707T184000-0500",
+  "timestamp": "2026-07-07T18:40:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "reason": "User observed that several Wave70 masks passed generated-output QA despite questionable anatomical alignment. This audit separates generated-output stability from semantic mask alignment.",
+  "protocol_added": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+  "policy": "Generated-output stable does not equal mask-alignment pass. Final completion requires semantic mask alignment, protected-neighbor pass, generated-output stability, and target-runtime proof.",
+  "items": [
+    {
+      "mask_type_id": "mf70_expression_region",
+      "tracker_id": "TRK-W70-0003",
+      "item_id": "ITEM-W70-0003",
+      "new_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+      "alignment_result": "needs_revision",
+      "generated_output_safe_pass": true,
+      "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_expression_region.json",
+      "qa_evidence_sha256": "9902fb976c86831262efd09e2f59d1e1d37aa2afb9c48816887ceb190ddc2503",
+      "findings": [
+        "Retro audit from user-supplied overlay review found the expression-region mask is too broad for the named brows/eyes/cheeks/mouth expression target.",
+        "Generated-output geometry evidence may remain useful, but semantic mask alignment must be revised before completion or certification.",
+        "Future expression-region masks must separate target expression features from broad face-identity coverage."
+      ]
+    },
+    {
+      "mask_type_id": "mf70_forehead_skin",
+      "tracker_id": "TRK-W70-0004",
+      "item_id": "ITEM-W70-0004",
+      "new_status": "Mask_Alignment_Pass_Generated_Output_Safe_Target_Runtime_Pending",
+      "alignment_result": "pass_with_notes",
+      "generated_output_safe_pass": true,
+      "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_forehead_skin.json",
+      "qa_evidence_sha256": "9a570c5ff7a5eea25b3e6a9d9aea95db55e3756909d5327c72a0d65e31d1cca1",
+      "findings": [
+        "Retro audit classified the forehead overlay as acceptable with notes for the named forehead-skin target.",
+        "Completion still requires target-runtime proof before final certification."
+      ]
+    },
+    {
+      "mask_type_id": "mf70_cheeks_skin",
+      "tracker_id": "TRK-W70-0005",
+      "item_id": "ITEM-W70-0005",
+      "new_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+      "alignment_result": "needs_revision",
+      "generated_output_safe_pass": true,
+      "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_cheeks_skin.json",
+      "qa_evidence_sha256": "8433acf2b3f799e29980eea698e23e54551dbb20168fc545f003ff0ffe05599a",
+      "findings": [
+        "Retro audit from user-supplied overlay review found the cheek masks too loose/polygonal for precise left/right cheek-skin coverage.",
+        "Generated output may remain safe at low denoise, but cheek semantic alignment needs revision before row completion.",
+        "Future cheek masks must better follow cheek anatomy while avoiding protected eyes, nose, mouth, hairline, and jawline."
+      ]
+    },
+    {
+      "mask_type_id": "mf70_jawline_chin",
+      "tracker_id": "TRK-W70-0006",
+      "item_id": "ITEM-W70-0006",
+      "new_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+      "alignment_result": "needs_revision",
+      "generated_output_safe_pass": true,
+      "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_jawline_chin.json",
+      "qa_evidence_sha256": "ac3449f5e30ea77a8e850b521b92f8d3dc61e24cdd06ad461bc4517e412c3a79",
+      "findings": [
+        "Retro audit found the jaw/chin mask does not follow the jawline/chin contour tightly enough for the named target.",
+        "Generated output may remain safe, but mask alignment must be revised before completion or certification.",
+        "Future jaw/chin masks must avoid mouth, broad neck, hair, and clothing while tracing the actual contour."
+      ]
+    },
+    {
+      "mask_type_id": "mf70_skin_tone_continuity",
+      "tracker_id": "TRK-W70-0008",
+      "item_id": "ITEM-W70-0008",
+      "new_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+      "alignment_result": "needs_revision",
+      "generated_output_safe_pass": true,
+      "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_skin_tone_continuity.json",
+      "qa_evidence_sha256": "20883b84f0e190980f7d1a4484b33c543622aec9fbf5471463d9de642e2e1f2d",
+      "findings": [
+        "Retro audit found the broad skin-continuity mask includes an overextended neck/chest/clothing-shaped region risk.",
+        "Generated output safety at low denoise does not prove the global visible-skin mask is semantically correct.",
+        "Future skin-continuity masks must exclude clothing and background and distinguish face/neck/chest skin boundaries."
+      ]
+    },
+    {
+      "mask_type_id": "mf70_eyes_full",
+      "tracker_id": "TRK-W70-0009",
+      "item_id": "ITEM-W70-0009",
+      "new_status": "Generated_Output_Safe_Mask_Alignment_Unreviewed_Target_Runtime_Pending",
+      "alignment_result": "unreviewed",
+      "generated_output_safe_pass": true,
+      "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_eyes_full.json",
+      "qa_evidence_sha256": "0e02780fb6193befcee52c4de3598d2763264cefcde6316fc414695e03c195f8",
+      "findings": [
+        "Retro policy update did not receive enough explicit overlay review evidence to certify semantic alignment for the both-eyes full-region mask.",
+        "Generated-output stability may remain recorded, but semantic mask-alignment must be re-reviewed under the new protocol before completion."
+      ]
+    },
+    {
+      "mask_type_id": "mf70_left_eye",
+      "tracker_id": "TRK-W70-0010",
+      "item_id": "ITEM-W70-0010",
+      "new_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+      "alignment_result": "needs_revision",
+      "generated_output_safe_pass": true,
+      "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_left_eye.json",
+      "qa_evidence_sha256": "4a629d7c0ebaaa6ee005b5e3bf2dd1d7a394e8d512b4b71b5761433c8e3ee4dd",
+      "findings": [
+        "Retro audit from user-supplied overlay review found the single-eye mask too loose/shifted for precise full-eye semantic coverage.",
+        "Generated output may remain safe, but semantic alignment must be revised before completion or certification.",
+        "Future single-eye masks must align to the visible eye aperture/associated full-eye region and avoid unrelated skin or brow coverage."
+      ]
+    },
+    {
+      "mask_type_id": "mf70_right_eye",
+      "tracker_id": "TRK-W70-0011",
+      "item_id": "ITEM-W70-0011",
+      "new_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+      "alignment_result": "needs_revision",
+      "generated_output_safe_pass": true,
+      "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_right_eye.json",
+      "qa_evidence_sha256": "ff6d3c0f83f68bfc5c1e521a2569e9bc83756d3e3037d47545acd4b5402cec5a",
+      "findings": [
+        "Retro audit from user-supplied overlay review found the single-eye mask too loose/shifted for precise full-eye semantic coverage.",
+        "Generated output may remain safe, but semantic alignment must be revised before completion or certification.",
+        "Future single-eye masks must align to the visible eye aperture/associated full-eye region and avoid unrelated skin or brow coverage."
+      ]
+    },
+    {
+      "mask_type_id": "mf70_pupils_iris_sclera",
+      "tracker_id": "TRK-W70-0012",
+      "item_id": "ITEM-W70-0012",
+      "new_status": "Mask_Alignment_Fail_Generated_Output_Safe_Target_Runtime_Pending",
+      "alignment_result": "fail",
+      "generated_output_safe_pass": true,
+      "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_pupils_iris_sclera.json",
+      "qa_evidence_sha256": "831c5ca8c7dfe1e3dfea9afc51e9d81659b38fb0f9910417daace5e06571e183",
+      "findings": [
+        "Retro audit from user-supplied overlay review found the mask covers mostly iris/pupil cores and does not honestly represent pupils_iris_sclera.",
+        "The sclera component is not adequately covered, so semantic mask alignment fails even if low-denoise generated output was stable.",
+        "Future pupils/iris/sclera masks must explicitly include the visible sclera while protecting eyelids, eyelashes, catchlights, and surrounding skin."
+      ]
+    },
+    {
+      "mask_type_id": "mf70_eyelids",
+      "tracker_id": "TRK-W70-0013",
+      "item_id": "ITEM-W70-0013",
+      "new_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+      "alignment_result": "needs_revision",
+      "generated_output_safe_pass": true,
+      "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_eyelids.json",
+      "qa_evidence_sha256": "1bc643247abcf457a908a8e699685ece515948fbe645dd38711b049bb8be5f7e",
+      "findings": [
+        "Retro audit from user-supplied overlay review found the eyelid mask is still questionable/too loose for upper/lower eyelid semantic alignment.",
+        "Generated output may remain safe, but mask alignment needs revision before completion or certification.",
+        "Future eyelid masks must follow actual lid folds/bands while avoiding iris, sclera, lashes, and broad skin."
+      ]
+    },
+    {
+      "mask_type_id": "mf70_eyelashes",
+      "tracker_id": "TRK-W70-0014",
+      "item_id": "ITEM-W70-0014",
+      "new_status": "Mask_Alignment_Pass_Generated_Output_Safe_Target_Runtime_Pending",
+      "alignment_result": "pass_with_notes",
+      "generated_output_safe_pass": true,
+      "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_eyelashes.json",
+      "qa_evidence_sha256": "c332a2b836d480cee29c7c99e00b54134cdd9f81a8e125a452a5201fb43fd2f1",
+      "findings": [
+        "Retro audit classified the eyelash mask as acceptable with notes: it hugs visible lash-line bands and avoids broad protected regions.",
+        "Completion still requires target-runtime proof before final certification."
+      ]
+    },
+    {
+      "mask_type_id": "mf70_under_eye",
+      "tracker_id": "TRK-W70-0015",
+      "item_id": "ITEM-W70-0015",
+      "new_status": "Mask_Alignment_Pass_Generated_Output_Safe_Target_Runtime_Pending",
+      "alignment_result": "pass_with_notes",
+      "generated_output_safe_pass": true,
+      "qa_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_under_eye.json",
+      "qa_evidence_sha256": "ff6b748f05e4e5302bf5aa65a64c812f0b504524c094cb4f1c0d6b51bc53804f",
+      "findings": [
+        "Retro audit classified the under-eye mask as acceptable with notes: it sits below the lower lids and avoids eye cores, broad cheeks, nose, and background.",
+        "Completion still requires target-runtime proof before final certification."
+      ]
+    }
+  ],
+  "scheduler_or_cron_changes": "none_required_no_project_cron_job_found_for_wave70_mask_qa",
+  "result": "retroactive_alignment_gate_enforced_for_existing_wave70_local_generated_output_rows"
+}

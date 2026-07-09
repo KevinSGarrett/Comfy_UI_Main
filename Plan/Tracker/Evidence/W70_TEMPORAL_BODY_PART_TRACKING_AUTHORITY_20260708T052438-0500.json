@@ -1,0 +1,144 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_TEMPORAL_BODY_PART_TRACKING_AUTHORITY_20260708T052438-0500",
+  "created_local": "20260708T052438-0500",
+  "task": "Implement temporal body-part tracking and video mask drift authority for TRK-W70-0175 / ITEM-W70-0175.",
+  "script": "Plan/07_IMPLEMENTATION/scripts/implement_wave70_temporal_body_part_tracking_authority.py",
+  "source_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "exists": true,
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "dimensions": [
+      768,
+      768
+    ]
+  },
+  "environment": {
+    "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "cwd": "C:\\Comfy_UI_Main"
+  },
+  "prerequisite_evidence": [
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_POSE_LANDMARK_AUTHORITY_20260708T024435-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_HUMAN_PART_PARSING_AUTHORITY_20260708T034134-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_CONTACT_OCCLUSION_OWNERSHIP_AUTHORITY_20260708T045251-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_BODY_REGION_GEOMETRY_AUTHORITY_20260708T050511-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_SOFT_BODY_ANCHOR_GEOMETRY_AUTHORITY_20260708T051417-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_REFERENCE_IMAGE_MATRIX_ENFORCEMENT_20260707T200600-0500.json"
+  ],
+  "temporal_tracking_analysis": {
+    "active_source_framing": "single_still_head_neck_upper_chest_portrait",
+    "image_dimensions": [
+      768,
+      768
+    ],
+    "eligible_video_assets_found": [
+      "ComfyUI/.venv/Lib/site-packages/comfyui_frontend_package/static/assets/images/cloud-subscription.webm",
+      "ComfyUI/.venv/Lib/site-packages/comfyui_frontend_package/static/assets/video-BvOHf4P9.mp4",
+      "ComfyUI/.venv/Lib/site-packages/skimage/data/no_time_for_that_tiny.gif",
+      "ComfyUI/.venv/Lib/site-packages/win32com/HTML/image/BTN_HomePage.gif",
+      "ComfyUI/.venv/Lib/site-packages/win32com/HTML/image/BTN_ManualTop.gif",
+      "ComfyUI/.venv/Lib/site-packages/win32com/HTML/image/BTN_NextPage.gif",
+      "ComfyUI/.venv/Lib/site-packages/win32com/HTML/image/BTN_PrevPage.gif",
+      "ComfyUI/.venv/Lib/site-packages/win32com/HTML/image/blank.gif",
+      "ComfyUI/.venv/Lib/site-packages/win32com/HTML/image/pycom_blowing.gif",
+      "ComfyUI/.venv/Lib/site-packages/win32com/HTML/image/pythoncom.gif",
+      "ComfyUI/.venv/Lib/site-packages/win32com/HTML/image/www_icon.gif",
+      "ComfyUI/.venv/Lib/site-packages/win32comext/axscript/demos/client/ie/pycom_blowing.gif"
+    ],
+    "reference_docs_found": [
+      "Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_REFERENCE_IMAGE_MATRIX.md",
+      "Plan/06_QA_TESTING/WAVE26_REFERENCE_VIDEO_FRAME_EXTRACTION_TEST_MATRIX.md",
+      "Plan/06_QA_TESTING/WAVE08_REFERENCE_PACK_TEST_MATRIX.md",
+      "Plan/Tracker/Evidence/W70_REFERENCE_IMAGE_MATRIX_ENFORCEMENT_20260707T200600-0500.json",
+      "Plan/Instructions/QA/WAVE70_REFERENCE_IMAGE_MATRIX_QA_PROTOCOL.md",
+      "Plan/Instructions/QA/Templates/WAVE70_REFERENCE_IMAGE_MATRIX_MANIFEST_TEMPLATE.json"
+    ],
+    "required_temporal_results": {
+      "video_or_frame_grid_source": {
+        "availability": "not_available",
+        "authority_status": "blocked",
+        "reason": "no eligible local video/GIF/frame-grid artifact was found for this authority row"
+      },
+      "per_frame_body_part_tracking": {
+        "availability": "not_runnable",
+        "authority_status": "blocked",
+        "reason": "temporal tracking requires multiple frames plus body-part geometry; the active source is one still portrait"
+      },
+      "mask_drift_detection": {
+        "availability": "not_runnable",
+        "authority_status": "blocked",
+        "reason": "mask drift cannot be measured without sequential frames and canonical per-frame body polygons"
+      },
+      "frame_grid_review": {
+        "availability": "not_available",
+        "authority_status": "blocked",
+        "reason": "no source-derived frame grid exists for visual temporal QA"
+      },
+      "body_part_dependencies": {
+        "availability": "blocked",
+        "authority_status": "blocked",
+        "reason": "pose, semantic human-part parsing, contact ownership, body-region geometry, and soft-body anchor authority are blocked"
+      }
+    },
+    "temporal_tracking_pass": false,
+    "mask_drift_detection_pass": false,
+    "frame_grid_review_pass": false,
+    "body_reference_matrix_pass": false,
+    "canonical_polygon_export_pass": false
+  },
+  "reference_image_matrix": {
+    "result": "required_not_run",
+    "single_anchor_only": true,
+    "matrix_manifest_path": "",
+    "slots_required": [
+      "video_or_gif_frame_grid_with_body_parts"
+    ],
+    "slots_passed": [],
+    "slots_blocked": [
+      "active_single_still_portrait"
+    ],
+    "slots_failed": [],
+    "minimum_resolution_pass": false,
+    "high_resolution_detail_review_pass": false,
+    "cross_subject_generalization_pass": false,
+    "completion_allowed": false
+  },
+  "artifacts": {
+    "blocker_panel": "runtime_artifacts/mask_factory/wave70_temporal_body_part_tracking_authority/20260708T052438-0500/temporal_body_part_tracking_authority_blocker_panel.png",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_temporal_body_part_tracking_authority/20260708T052438-0500/temporal_body_part_tracking_authority.json"
+  },
+  "temporal_body_part_tracking_authority": {
+    "result": "blocked",
+    "temporal_tracking_pass": false,
+    "mask_drift_detection_pass": false,
+    "frame_grid_review_pass": false,
+    "whole_body_geometry_authority_pass": false,
+    "pose_hand_dense_landmark_or_segmentation_pass": false,
+    "semantic_human_part_parsing_pass": false,
+    "contact_occlusion_ownership_pass": false,
+    "body_region_geometry_pass": false,
+    "body_reference_matrix_pass": false,
+    "source_derived_landmark_or_segmentation_pass": false,
+    "visibility_occlusion_confidence_pass": false,
+    "canonical_polygon_export_pass": false,
+    "blocked_reason": "blocked_reference_matrix_not_run; no_eligible_video_or_frame_grid_source_found; active_source_is_single_still_portrait; body_part_geometry_dependencies_blocked",
+    "findings": [
+      "The active source is a single still portrait, not a video or frame-grid sequence.",
+      "No eligible local video/GIF/frame-grid media source was found outside excluded model/cache paths.",
+      "Temporal body-part tracking cannot run without sequential frames and canonical per-frame body-part polygons.",
+      "Mask drift detection cannot be measured without a temporal frame grid and source-derived body regions.",
+      "No temporal tracking, drift detection, frame-grid review, segmentation map, or mask promotion was produced from this evidence."
+    ]
+  },
+  "qa_decision": "blocked_exact_local_temporal_body_part_tracking_reference_matrix_not_run",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_temporal_tracking_blocked",
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  },
+  "next_step": "Work TRK-W70-0176 body reference matrix locally."
+}

@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W71_LOCAL_CANNY_IPADAPTER_IDENTITY_PATH_BLOCKER_20260707T181000-0500",
+  "created_at": "2026-07-07T18:10:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+  "scope": "local feasibility gate for adding a real reference/identity-conditioning path after prompt-only MOD-17 Canny retries failed or mixed",
+  "result": "blocked_local_ipadapter_identity_conditioning_assets_missing",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "source_evidence": {
+    "main_flow_snapshot": "Plan/12_SOURCE_SUMMARIES/source_snapshots/WAVE42_MAIN_FLOW_20260702_WAVE13_SOURCE.json",
+    "main_flow_ipadapter_nodes": [
+      {
+        "node_id": 110,
+        "class_type": "IPAdapterUnifiedLoader",
+        "observed_role": "loads PLUS FACE portrait preset and outputs model plus ipadapter"
+      },
+      {
+        "node_id": 111,
+        "class_type": "LoadImage",
+        "observed_role": "loads face reference image"
+      },
+      {
+        "node_id": 112,
+        "class_type": "IPAdapter",
+        "observed_role": "applies reference image to model with weight/start/end/weight_type controls"
+      },
+      {
+        "node_id": 116,
+        "class_type": "KSampler",
+        "observed_role": "samples from IPAdapter-conditioned model"
+      }
+    ],
+    "main_flow_link_inventory": "Plan/10_REGISTRIES/main_flow_link_inventory.csv",
+    "observed_links": [
+      "CheckpointLoaderSimple node 10 MODEL -> IPAdapterUnifiedLoader node 110",
+      "IPAdapterUnifiedLoader node 110 MODEL/IPADAPTER -> IPAdapter node 112",
+      "LoadImage node 111 IMAGE -> IPAdapter node 112",
+      "IPAdapter node 112 MODEL -> KSampler node 116"
+    ]
+  },
+  "local_preflight_findings": {
+    "custom_node_directory_present": false,
+    "expected_custom_node_directory": "ComfyUI/custom_nodes/ComfyUI_IPAdapter_plus",
+    "observed_matching_custom_node_directories": [
+      "ComfyUI/custom_nodes/comfyui_controlnet_aux"
+    ],
+    "ipadapter_model_files_present": false,
+    "clip_vision_model_files_present": false,
+    "local_model_scan_summary": [
+      "ComfyUI/models/clip_vision contains only placeholder file put_clip_vision_models_here",
+      "ComfyUI/models/clip contains only placeholder/config support, not a CLIP-vision IPAdapter model",
+      "No ComfyUI/models/ipadapter directory with usable model files was present",
+      "config/comfyui_extra_model_paths.yaml maps only checkpoints, controlnet, and upscale_models under C:\\Comfy_UI_Main\\models"
+    ]
+  },
+  "decision": {
+    "candidate_path_structurally_plausible": true,
+    "candidate_path_summary": "A hybrid identity-aware MOD-17 path should apply IPAdapter face-reference conditioning to the RealVisXL model first, then apply ControlNet Canny to the text conditioning before KSampler. The main-flow source already proves this wiring pattern exists separately.",
+    "local_runtime_execution_allowed_now": false,
+    "blocker": "Local ComfyUI does not currently have the IPAdapter custom node plus required IPAdapter and CLIP-vision model files, so a real local identity-conditioned generation would fail or be only a paper claim.",
+    "required_unblock_work": [
+      "Install or sync ComfyUI_IPAdapter_plus into C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes",
+      "Install or sync the required SDXL-compatible IPAdapter model into a ComfyUI model path",
+      "Install or sync the required CLIP-vision model into ComfyUI/models/clip_vision or an extra model path",
+      "Run local object_info proof for IPAdapterUnifiedLoader and IPAdapter",
+      "Only then build and execute a hybrid Canny+IPAdapter run package"
+    ],
+    "next_action": "Do not continue prompt-only MOD-17 Canny retries. Switch to the next named local Plan/Tracker task while this exact local IPAdapter identity-conditioning blocker remains open."
+  }
+}

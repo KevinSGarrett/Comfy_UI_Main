@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-INPAINT-DETAIL-NOMOUTH-V4-OUTPUT-HANDOFF-20260707T050500-0500",
+  "timestamp": "2026-07-07T05:05:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "module_id": "MOD-13-SDXL-INPAINT-DETAIL-LANE",
+  "qa_type": "local_output_handoff_manifest_validation",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "source_requirement": "Plan/07_IMPLEMENTATION/COMFYUI_WIRING_REPAIR_LIST.md Priority 1: Add output handoff path to next pass.",
+  "handoff_manifest": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_nomouth_v4_mask_preview_w69_20260707T045056-0500/OUTPUT_HANDOFF_MANIFEST.json",
+  "source_evidence": [
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_MASK_PREVIEW_EXECUTE_20260707T045100-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_MASK_PREVIEW_VISUAL_QA_20260707T045800-0500.json"
+  ],
+  "validated_artifacts": [
+    {
+      "role": "next_pass_source_image",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_nomouth_v4_mask_preview_w69_20260707T045056-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_00002_.png",
+      "sha256": "96f99f258ceaaa8174a9847737626c27286849a36a82d181fca6a7b029f0fabe",
+      "width": 768,
+      "height": 768,
+      "exists": true,
+      "hash_match": true,
+      "dimension_match": true
+    },
+    {
+      "role": "diagnostic_mask_preview",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_nomouth_v4_mask_preview_w69_20260707T045056-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00001_.png",
+      "sha256": "8f59a4e7f9bea2644f00e2462aba359cbe5fa8dfd78b5166da91349187a65360",
+      "width": 768,
+      "height": 768,
+      "exists": true,
+      "hash_match": true,
+      "dimension_match": true
+    }
+  ],
+  "local_artifact_manifest_alignment": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_nomouth_v4_mask_preview_w69_20260707T045056-0500/LOCAL_ARTIFACT_MANIFEST.json",
+    "corrected_stop_flags_to_match_runtime_evidence": true,
+    "port_closed_after_stop": true
+  },
+  "result": "pass_local_output_handoff_manifest_validation",
+  "certification_scope": "local_handoff_manifest_only",
+  "not_certified_reasons": [
+    "Local handoff does not prove target-runtime behavior.",
+    "Inpaint still requires target-runtime object_info/path/hash/input proof, bounded generation, pullback, technical QA, and strict whole-image visual QA before promotion."
+  ],
+  "next_action": "Use the handoff manifest as the explicit previous-pass output contract for the next local inpaint/upscale/detail task or target-runtime reproof planning."
+}

@@ -1,0 +1,214 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_HUMAN_PART_PARSING_AUTHORITY_20260708T034134-0500",
+  "created_local": "20260708T034134-0500",
+  "task": "Implement human part parsing authority for TRK-W70-0166 / ITEM-W70-0166.",
+  "script": "Plan/07_IMPLEMENTATION/scripts/implement_wave70_human_part_parsing_authority.py",
+  "source_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "exists": true,
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "dimensions": [
+      768,
+      768
+    ]
+  },
+  "environment": {
+    "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "cwd": "C:\\Comfy_UI_Main",
+    "modules": {
+      "transformers": {
+        "module": "transformers",
+        "available": true,
+        "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\transformers\\__init__.py",
+        "imported": false,
+        "version": null,
+        "error": "ImportError: cannot import name 'is_offline_mode' from 'huggingface_hub' (C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\huggingface_hub\\__init__.py)"
+      },
+      "mmdet": {
+        "module": "mmdet",
+        "available": false,
+        "origin": null,
+        "imported": false,
+        "version": null,
+        "error": null
+      },
+      "mmseg": {
+        "module": "mmseg",
+        "available": false,
+        "origin": null,
+        "imported": false,
+        "version": null,
+        "error": null
+      },
+      "detectron2": {
+        "module": "detectron2",
+        "available": false,
+        "origin": null,
+        "imported": false,
+        "version": null,
+        "error": null
+      },
+      "segment_anything": {
+        "module": "segment_anything",
+        "available": false,
+        "origin": null,
+        "imported": false,
+        "version": null,
+        "error": null
+      },
+      "sam2": {
+        "module": "sam2",
+        "available": true,
+        "origin": "C:\\Comfy_UI_Lora\\OpenPose\\models\\external\\sam2\\sam2\\__init__.py",
+        "imported": true,
+        "version": null,
+        "error": null
+      },
+      "onnxruntime": {
+        "module": "onnxruntime",
+        "available": true,
+        "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\onnxruntime\\__init__.py",
+        "imported": true,
+        "version": "1.27.0",
+        "error": null
+      },
+      "torch": {
+        "module": "torch",
+        "available": true,
+        "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\torch\\__init__.py",
+        "imported": true,
+        "version": "2.12.1+cpu",
+        "error": null
+      },
+      "cv2": {
+        "module": "cv2",
+        "available": true,
+        "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\cv2\\__init__.py",
+        "imported": true,
+        "version": "4.11.0",
+        "error": null
+      }
+    }
+  },
+  "local_model_candidates": [
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\oneformer\\configs\\ade20k\\Base-ADE20K-UnifiedSegmentation.yaml",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/oneformer/configs/ade20k/Base-ADE20K-UnifiedSegmentation.yaml",
+      "size_bytes": 1746,
+      "suffix": ".yaml"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\oneformer\\configs\\ade20k\\oneformer_R50_bs16_160k.yaml",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/oneformer/configs/ade20k/oneformer_R50_bs16_160k.yaml",
+      "size_bytes": 1606,
+      "suffix": ".yaml"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\oneformer\\configs\\ade20k\\oneformer_swin_large_IN21k_384_bs16_160k.yaml",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/oneformer/configs/ade20k/oneformer_swin_large_IN21k_384_bs16_160k.yaml",
+      "size_bytes": 1044,
+      "suffix": ".yaml"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\oneformer\\configs\\coco\\Base-COCO-UnifiedSegmentation.yaml",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/oneformer/configs/coco/Base-COCO-UnifiedSegmentation.yaml",
+      "size_bytes": 1402,
+      "suffix": ".yaml"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\oneformer\\configs\\coco\\oneformer_R50_bs16_50ep.yaml",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/oneformer/configs/coco/oneformer_R50_bs16_50ep.yaml",
+      "size_bytes": 1629,
+      "suffix": ".yaml"
+    },
+    {
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\oneformer\\configs\\coco\\oneformer_swin_large_IN21k_384_bs16_100ep.yaml",
+      "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/src/custom_controlnet_aux/oneformer/configs/coco/oneformer_swin_large_IN21k_384_bs16_100ep.yaml",
+      "size_bytes": 589,
+      "suffix": ".yaml"
+    }
+  ],
+  "runtime_attempts": {
+    "controlnet_aux_routes": {
+      "sys_path_added": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src",
+      "routes": {
+        "custom_controlnet_aux.oneformer": {
+          "module": "custom_controlnet_aux.oneformer",
+          "available": true,
+          "origin": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\oneformer\\__init__.py",
+          "imported": true,
+          "version": null,
+          "error": "ImportError: cannot import name 'is_offline_mode' from 'huggingface_hub' (C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\huggingface_hub\\__init__.py)",
+          "load_attempted": true,
+          "inference_pass": false,
+          "loaded": false
+        },
+        "custom_controlnet_aux.uniformer": {
+          "module": "custom_controlnet_aux.uniformer",
+          "available": true,
+          "origin": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\uniformer\\__init__.py",
+          "imported": false,
+          "version": null,
+          "error": "ModuleNotFoundError: No module named 'addict'",
+          "load_attempted": false,
+          "inference_pass": false
+        },
+        "custom_controlnet_aux.densepose": {
+          "module": "custom_controlnet_aux.densepose",
+          "available": true,
+          "origin": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\densepose\\__init__.py",
+          "imported": false,
+          "version": null,
+          "error": "ModuleNotFoundError: No module named 'einops'",
+          "load_attempted": false,
+          "inference_pass": false
+        },
+        "custom_controlnet_aux.sam": {
+          "module": "custom_controlnet_aux.sam",
+          "available": true,
+          "origin": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\src\\custom_controlnet_aux\\sam\\__init__.py",
+          "imported": true,
+          "version": null,
+          "error": "sam_route_imports_but_is_promptable_segmentation_not_semantic_human_part_parsing",
+          "load_attempted": false,
+          "inference_pass": false,
+          "loaded": true
+        }
+      }
+    }
+  },
+  "artifacts": {
+    "blocker_panel": "runtime_artifacts/mask_factory/wave70_human_part_parsing_authority/20260708T034134-0500/human_part_parsing_authority_blocker_panel.png",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_human_part_parsing_authority/20260708T034134-0500/human_part_parsing_authority.json"
+  },
+  "human_part_parsing_authority": {
+    "result": "blocked",
+    "semantic_human_part_parsing_pass": false,
+    "skin_hair_clothing_boundary_pass": false,
+    "model_confidence_recorded": false,
+    "source_derived_landmark_or_segmentation_pass": false,
+    "class_map": [],
+    "segmentation_map_path": "",
+    "blocked_reason": "transformers_import_broken; oneformer_hf_model_not_loadable_offline; uniformer_missing_addict; densepose_missing_einops; mmdet_mmseg_detectron2_missing; no_local_human_part_parsing_checkpoint_found; sam_route_not_semantic_human_part_parsing",
+    "findings": [
+      "ControlNet Aux contains OneFormer, Uniformer, DensePose, and SAM code paths.",
+      "OneFormer import succeeds, but loading fails because the installed transformers/huggingface stack is broken locally.",
+      "Uniformer import fails because addict is missing.",
+      "DensePose import fails because einops is missing.",
+      "SAM/SAM2-style routes do not provide semantic human-part class labels by themselves.",
+      "No local human-part parsing checkpoint for skin, hair, clothing, torso, limbs, feet, and background was found."
+    ]
+  },
+  "qa_decision": "blocked_exact_local_human_part_parsing_route_unavailable",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_human_part_parsing_blocked",
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  },
+  "next_step": "Resolve a compatible local human-part parsing runtime/model or continue to the next whole-body authority row with exact local evidence."
+}

@@ -1,0 +1,692 @@
+﻿{
+    "evidence_id":  "EVID-W61-AUTHORED-LANE-EVIDENCE-COVERAGE-20260709T021101-0500",
+    "created_at":  "2026-07-09T02:11:01-05:00",
+    "artifact_id":  "TRK-W61-006",
+    "artifact_type":  "authored_lane_local_pre_ec2_evidence_coverage",
+    "tracker_ids":  [
+                        "TRK-W61-006",
+                        "TRK-W61-011"
+                    ],
+    "item_ids":  [
+                     "ITEM-W61-006",
+                     "ITEM-W61-011"
+                 ],
+    "qa_protocol_used":  [
+                             "README_QA_WAVE61.md",
+                             "COMFYUI_WORKFLOW_TESTING_PROTOCOL.md",
+                             "QA_EVIDENCE_LOG_PROTOCOL.md"
+                         ],
+    "scope":  [
+                  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+                  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/*/workflow.api.json",
+                  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/*/patch_points.json",
+                  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/*/runtime_requirements.json",
+                  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/*/smoke_test_request.json",
+                  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/*.json",
+                  "Plan/Instructions/QA/Evidence/Workflow_Runtime/*.json",
+                  "Plan/Instructions/QA/Evidence/Runtime_Readiness/*.json"
+              ],
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "queue_file":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+    "scoped_to_runtime_queue":  true,
+    "queued_lane_count":  8,
+    "queued_lanes":  [
+                         "sdxl_low_risk_fallback_lane",
+                         "sdxl_realvisxl_base_lane",
+                         "sdxl_realvisxl_controlnet_canny_lane",
+                         "sdxl_realvisxl_inpaint_detail_lane",
+                         "sdxl_realvisxl_controlnet_depth_lane",
+                         "sdxl_realvisxl_controlnet_lineart_lane",
+                         "sdxl_realvisxl_controlnet_openpose_lane",
+                         "sdxl_realvisxl_controlnet_normal_lane"
+                     ],
+    "excluded_authored_lanes_not_in_queue":  [
+                                                 "sdxl_realesrgan_upscale_polish_lane"
+                                             ],
+    "local_package_smoke_matrix":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/BASE_GENERATION_REPAIRED_PACKAGE_LOCAL_SMOKE_MATRIX_COMPLETION_20260709T013348-0500.json",
+    "authored_base_generation_lane_count":  8,
+    "authored_base_generation_lanes":  [
+                                           "sdxl_low_risk_fallback_lane",
+                                           "sdxl_realvisxl_base_lane",
+                                           "sdxl_realvisxl_controlnet_canny_lane",
+                                           "sdxl_realvisxl_controlnet_depth_lane",
+                                           "sdxl_realvisxl_controlnet_lineart_lane",
+                                           "sdxl_realvisxl_controlnet_normal_lane",
+                                           "sdxl_realvisxl_controlnet_openpose_lane",
+                                           "sdxl_realvisxl_inpaint_detail_lane"
+                                       ],
+    "lane_results":  [
+                         {
+                             "lane_id":  "sdxl_low_risk_fallback_lane",
+                             "lane_dir":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane",
+                             "authored_contract_files":  [
+                                                             "workflow.api.json",
+                                                             "patch_points.json",
+                                                             "runtime_requirements.json",
+                                                             "smoke_test_request.json"
+                                                         ],
+                             "coverage_mode":  "legacy_pre_ec2_readiness",
+                             "required_evidence_checks":  [
+                                                              {
+                                                                  "name":  "workflow_static_validation",
+                                                                  "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_STATIC_GENERIC_MODEL_REFERENCES_sdxl_low_risk_fallback_lane_20260706T144819-0500.json",
+                                                                  "found":  true,
+                                                                  "passed":  true,
+                                                                  "expected":  "qa_status=pass",
+                                                                  "observed":  "pass",
+                                                                  "details":  {
+                                                                                  "lane_match":  true,
+                                                                                  "workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
+                                                                                  "node_count":  7,
+                                                                                  "defect_count":  0
+                                                                              }
+                                                              },
+                                                              {
+                                                                  "name":  "workflow_smoke_dry_run",
+                                                                  "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_COMFY_WORKFLOW_SMOKE_DRY_RUN_20260706T025536-0500.json",
+                                                                  "found":  true,
+                                                                  "passed":  true,
+                                                                  "expected":  "dry_run; request body exists; execution_allowed=false; generation_executed=false",
+                                                                  "observed":  "mode=dry_run; request_body_written=True; execution_allowed=False; generation_executed=False",
+                                                                  "details":  {
+                                                                                  "lane_match":  true,
+                                                                                  "request_body_path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_COMFY_WORKFLOW_SMOKE_REQUEST_20260706T025536-0500.json",
+                                                                                  "request_body_exists":  true,
+                                                                                  "request_body_json_valid":  true,
+                                                                                  "request_body_has_prompt":  true,
+                                                                                  "request_body_error":  null
+                                                                              }
+                                                              },
+                                                              {
+                                                                  "name":  "lane_runtime_readiness",
+                                                                  "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_AFTER_STATIC_PROOF_20260706T105156-0500.json",
+                                                                  "found":  true,
+                                                                  "passed":  true,
+                                                                  "expected":  "local_pre_ec2_ready=true; recognized readiness result",
+                                                                  "observed":  "result=ready_for_generation; local_pre_ec2_ready=True",
+                                                                  "details":  {
+                                                                                  "lane_match":  true,
+                                                                                  "failure_category":  "",
+                                                                                  "ready_for_ec2_static_proof":  true,
+                                                                                  "ready_for_generation":  true,
+                                                                                  "ec2_started":  null,
+                                                                                  "generation_executed":  null
+                                                                              }
+                                                              },
+                                                              {
+                                                                  "name":  "local_package_smoke_matrix",
+                                                                  "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/BASE_GENERATION_REPAIRED_PACKAGE_LOCAL_SMOKE_MATRIX_COMPLETION_20260709T013348-0500.json",
+                                                                  "found":  true,
+                                                                  "passed":  true,
+                                                                  "expected":  "lane is listed in repaired local package-smoke matrix",
+                                                                  "observed":  "lane_passed_with_limitations",
+                                                                  "details":  {
+                                                                                  "matrix_decision":  "base_generation_repaired_package_local_smoke_matrix_complete",
+                                                                                  "claim_boundaries":  [
+                                                                                                           "This summary certifies only bounded local ComfyUI package smoke execution for the repaired base-generation package matrix.",
+                                                                                                           "This is not final image quality certification.",
+                                                                                                           "This is not exact character/reference identity certification.",
+                                                                                                           "This is not full-body composition certification.",
+                                                                                                           "This is not gold-standard body-mask proof.",
+                                                                                                           "This is not body/hand/contact geometry authority.",
+                                                                                                           "This is not target-runtime EC2 proof.",
+                                                                                                           "This does not activate Wave71 or any later wave."
+                                                                                                       ]
+                                                                              }
+                                                              }
+                                                          ],
+                             "required_evidence_failures":  0,
+                             "result":  "pass"
+                         },
+                         {
+                             "lane_id":  "sdxl_realvisxl_base_lane",
+                             "lane_dir":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane",
+                             "authored_contract_files":  [
+                                                             "workflow.api.json",
+                                                             "patch_points.json",
+                                                             "runtime_requirements.json",
+                                                             "smoke_test_request.json"
+                                                         ],
+                             "coverage_mode":  "legacy_pre_ec2_readiness",
+                             "required_evidence_checks":  [
+                                                              {
+                                                                  "name":  "workflow_static_validation",
+                                                                  "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_STATIC_GENERIC_MODEL_REFERENCES_sdxl_realvisxl_base_lane_20260706T144819-0500.json",
+                                                                  "found":  true,
+                                                                  "passed":  true,
+                                                                  "expected":  "qa_status=pass",
+                                                                  "observed":  "pass",
+                                                                  "details":  {
+                                                                                  "lane_match":  true,
+                                                                                  "workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/workflow.api.json",
+                                                                                  "node_count":  7,
+                                                                                  "defect_count":  0
+                                                                              }
+                                                              },
+                                                              {
+                                                                  "name":  "workflow_smoke_dry_run",
+                                                                  "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_SDXL_REALVISXL_WORKFLOW_SMOKE_DRY_RUN_20260706T064900-0500.json",
+                                                                  "found":  true,
+                                                                  "passed":  true,
+                                                                  "expected":  "dry_run; request body exists; execution_allowed=false; generation_executed=false",
+                                                                  "observed":  "mode=dry_run; request_body_written=True; execution_allowed=False; generation_executed=False",
+                                                                  "details":  {
+                                                                                  "lane_match":  true,
+                                                                                  "request_body_path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_SDXL_REALVISXL_WORKFLOW_SMOKE_REQUEST_20260706T064900-0500.json",
+                                                                                  "request_body_exists":  true,
+                                                                                  "request_body_json_valid":  true,
+                                                                                  "request_body_has_prompt":  true,
+                                                                                  "request_body_error":  null
+                                                                              }
+                                                              },
+                                                              {
+                                                                  "name":  "lane_runtime_readiness",
+                                                                  "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LANE_RUNTIME_READINESS_REALVISXL_MATRIX_QUALITY_20260706T182127-0500.json",
+                                                                  "found":  true,
+                                                                  "passed":  true,
+                                                                  "expected":  "local_pre_ec2_ready=true; recognized readiness result",
+                                                                  "observed":  "result=ready_for_generation; local_pre_ec2_ready=True",
+                                                                  "details":  {
+                                                                                  "lane_match":  true,
+                                                                                  "failure_category":  "",
+                                                                                  "ready_for_ec2_static_proof":  true,
+                                                                                  "ready_for_generation":  true,
+                                                                                  "ec2_started":  null,
+                                                                                  "generation_executed":  null
+                                                                              }
+                                                              },
+                                                              {
+                                                                  "name":  "local_package_smoke_matrix",
+                                                                  "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/BASE_GENERATION_REPAIRED_PACKAGE_LOCAL_SMOKE_MATRIX_COMPLETION_20260709T013348-0500.json",
+                                                                  "found":  true,
+                                                                  "passed":  true,
+                                                                  "expected":  "lane is listed in repaired local package-smoke matrix",
+                                                                  "observed":  "lane_passed_with_limitations",
+                                                                  "details":  {
+                                                                                  "matrix_decision":  "base_generation_repaired_package_local_smoke_matrix_complete",
+                                                                                  "claim_boundaries":  [
+                                                                                                           "This summary certifies only bounded local ComfyUI package smoke execution for the repaired base-generation package matrix.",
+                                                                                                           "This is not final image quality certification.",
+                                                                                                           "This is not exact character/reference identity certification.",
+                                                                                                           "This is not full-body composition certification.",
+                                                                                                           "This is not gold-standard body-mask proof.",
+                                                                                                           "This is not body/hand/contact geometry authority.",
+                                                                                                           "This is not target-runtime EC2 proof.",
+                                                                                                           "This does not activate Wave71 or any later wave."
+                                                                                                       ]
+                                                                              }
+                                                              }
+                                                          ],
+                             "required_evidence_failures":  0,
+                             "result":  "pass"
+                         },
+                         {
+                             "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+                             "lane_dir":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane",
+                             "authored_contract_files":  [
+                                                             "workflow.api.json",
+                                                             "patch_points.json",
+                                                             "runtime_requirements.json",
+                                                             "smoke_test_request.json"
+                                                         ],
+                             "coverage_mode":  "legacy_pre_ec2_readiness",
+                             "required_evidence_checks":  [
+                                                              {
+                                                                  "name":  "workflow_static_validation",
+                                                                  "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_CANNY_V3_CONTROL_INPUT_STATIC_RECHECK_20260707T134500-0500.json",
+                                                                  "found":  true,
+                                                                  "passed":  true,
+                                                                  "expected":  "qa_status=pass",
+                                                                  "observed":  "pass",
+                                                                  "details":  {
+                                                                                  "lane_match":  true,
+                                                                                  "workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+                                                                                  "node_count":  11,
+                                                                                  "defect_count":  0
+                                                                              }
+                                                              },
+                                                              {
+                                                                  "name":  "workflow_smoke_dry_run",
+                                                                  "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_WORKFLOW_SMOKE_DRY_RUN_SDXL_REALVISXL_CONTROLNET_CANNY_20260706T212030-0500.json",
+                                                                  "found":  true,
+                                                                  "passed":  true,
+                                                                  "expected":  "dry_run; request body exists; execution_allowed=false; generation_executed=false",
+                                                                  "observed":  "mode=dry_run; request_body_written=True; execution_allowed=False; generation_executed=False",
+                                                                  "details":  {
+                                                                                  "lane_match":  true,
+                                                                                  "request_body_path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_WORKFLOW_SMOKE_REQUEST_SDXL_REALVISXL_CONTROLNET_CANNY_20260706T212030-0500.json",
+                                                                                  "request_body_exists":  true,
+                                                                                  "request_body_json_valid":  true,
+                                                                                  "request_body_has_prompt":  true,
+                                                                                  "request_body_error":  null
+                                                                              }
+                                                              },
+                                                              {
+                                                                  "name":  "lane_runtime_readiness",
+                                                                  "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_LANE_RUNTIME_READINESS_CANNY_AFTER_STATIC_PROOF_20260707T012158-0500.json",
+                                                                  "found":  true,
+                                                                  "passed":  true,
+                                                                  "expected":  "local_pre_ec2_ready=true; recognized readiness result",
+                                                                  "observed":  "result=ready_for_generation; local_pre_ec2_ready=True",
+                                                                  "details":  {
+                                                                                  "lane_match":  true,
+                                                                                  "failure_category":  "",
+                                                                                  "ready_for_ec2_static_proof":  true,
+                                                                                  "ready_for_generation":  true,
+                                                                                  "ec2_started":  null,
+                                                                                  "generation_executed":  null
+                                                                              }
+                                                              },
+                                                              {
+                                                                  "name":  "local_package_smoke_matrix",
+                                                                  "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/BASE_GENERATION_REPAIRED_PACKAGE_LOCAL_SMOKE_MATRIX_COMPLETION_20260709T013348-0500.json",
+                                                                  "found":  true,
+                                                                  "passed":  true,
+                                                                  "expected":  "lane is listed in repaired local package-smoke matrix",
+                                                                  "observed":  "lane_passed_with_limitations",
+                                                                  "details":  {
+                                                                                  "matrix_decision":  "base_generation_repaired_package_local_smoke_matrix_complete",
+                                                                                  "claim_boundaries":  [
+                                                                                                           "This summary certifies only bounded local ComfyUI package smoke execution for the repaired base-generation package matrix.",
+                                                                                                           "This is not final image quality certification.",
+                                                                                                           "This is not exact character/reference identity certification.",
+                                                                                                           "This is not full-body composition certification.",
+                                                                                                           "This is not gold-standard body-mask proof.",
+                                                                                                           "This is not body/hand/contact geometry authority.",
+                                                                                                           "This is not target-runtime EC2 proof.",
+                                                                                                           "This does not activate Wave71 or any later wave."
+                                                                                                       ]
+                                                                              }
+                                                              }
+                                                          ],
+                             "required_evidence_failures":  0,
+                             "result":  "pass"
+                         },
+                         {
+                             "lane_id":  "sdxl_realvisxl_controlnet_depth_lane",
+                             "lane_dir":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_depth_lane",
+                             "authored_contract_files":  [
+                                                             "workflow.api.json",
+                                                             "patch_points.json",
+                                                             "runtime_requirements.json",
+                                                             "smoke_test_request.json"
+                                                         ],
+                             "coverage_mode":  "local_package_smoke_matrix",
+                             "required_evidence_checks":  [
+                                                              {
+                                                                  "name":  "workflow_static_validation",
+                                                                  "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_DEPTH_LANE_STATIC_20260707T055000-0500.json",
+                                                                  "found":  true,
+                                                                  "passed":  true,
+                                                                  "expected":  "qa_status=pass",
+                                                                  "observed":  "pass",
+                                                                  "details":  {
+                                                                                  "lane_match":  true,
+                                                                                  "workflow_path":  "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/workflow.api.json",
+                                                                                  "node_count":  11,
+                                                                                  "defect_count":  0
+                                                                              }
+                                                              },
+                                                              {
+                                                                  "name":  "workflow_smoke_dry_run",
+                                                                  "path":  null,
+                                                                  "found":  false,
+                                                                  "passed":  false,
+                                                                  "expected":  "lane-matched dry_run with request_body_written=true, execution_allowed=false, generation_executed=false",
+                                                                  "observed":  "missing",
+                                                                  "details":  {
+
+                                                                              }
+                                                              },
+                                                              {
+                                                                  "name":  "lane_runtime_readiness",
+                                                                  "path":  null,
+                                                                  "found":  false,
+                                                                  "passed":  false,
+                                                                  "expected":  "lane-matched local_pre_ec2_ready=true with recognized readiness result",
+                                                                  "observed":  "missing",
+                                                                  "details":  {
+
+                                                                              }
+                                                              },
+                                                              {
+                                                                  "name":  "local_package_smoke_matrix",
+                                                                  "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/BASE_GENERATION_REPAIRED_PACKAGE_LOCAL_SMOKE_MATRIX_COMPLETION_20260709T013348-0500.json",
+                                                                  "found":  true,
+                                                                  "passed":  true,
+                                                                  "expected":  "lane is listed in repaired local package-smoke matrix",
+                                                                  "observed":  "lane_passed_with_limitations",
+                                                                  "details":  {
+                                                                                  "matrix_decision":  "base_generation_repaired_package_local_smoke_matrix_complete",
+                                                                                  "claim_boundaries":  [
+                                                                                                           "This summary certifies only bounded local ComfyUI package smoke execution for the repaired base-generation package matrix.",
+                                                                                                           "This is not final image quality certification.",
+                                                                                                           "This is not exact character/reference identity certification.",
+                                                                                                           "This is not full-body composition certification.",
+                                                                                                           "This is not gold-standard body-mask proof.",
+                                                                                                           "This is not body/hand/contact geometry authority.",
+                                                                                                           "This is not target-runtime EC2 proof.",
+                                                                                                           "This does not activate Wave71 or any later wave."
+                                                                                                       ]
+                                                                              }
+                                                              }
+                                                          ],
+                             "required_evidence_failures":  0,
+                             "result":  "pass"
+                         },
+                         {
+                             "lane_id":  "sdxl_realvisxl_controlnet_lineart_lane",
+                             "lane_dir":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_lineart_lane",
+                             "authored_contract_files":  [
+                                                             "workflow.api.json",
+                                                             "patch_points.json",
+                                                             "runtime_requirements.json",
+                                                             "smoke_test_request.json"
+                                                         ],
+                             "coverage_mode":  "local_package_smoke_matrix",
+                             "required_evidence_checks":  [
+                                                              {
+                                                                  "name":  "workflow_static_validation",
+                                                                  "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_LINEART_LANE_STATIC_20260707T060100-0500.json",
+                                                                  "found":  true,
+                                                                  "passed":  true,
+                                                                  "expected":  "qa_status=pass",
+                                                                  "observed":  "pass",
+                                                                  "details":  {
+                                                                                  "lane_match":  true,
+                                                                                  "workflow_path":  "Workflows/base_generation/sdxl_realvisxl_controlnet_lineart_lane/workflow.api.json",
+                                                                                  "node_count":  11,
+                                                                                  "defect_count":  0
+                                                                              }
+                                                              },
+                                                              {
+                                                                  "name":  "workflow_smoke_dry_run",
+                                                                  "path":  null,
+                                                                  "found":  false,
+                                                                  "passed":  false,
+                                                                  "expected":  "lane-matched dry_run with request_body_written=true, execution_allowed=false, generation_executed=false",
+                                                                  "observed":  "missing",
+                                                                  "details":  {
+
+                                                                              }
+                                                              },
+                                                              {
+                                                                  "name":  "lane_runtime_readiness",
+                                                                  "path":  null,
+                                                                  "found":  false,
+                                                                  "passed":  false,
+                                                                  "expected":  "lane-matched local_pre_ec2_ready=true with recognized readiness result",
+                                                                  "observed":  "missing",
+                                                                  "details":  {
+
+                                                                              }
+                                                              },
+                                                              {
+                                                                  "name":  "local_package_smoke_matrix",
+                                                                  "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/BASE_GENERATION_REPAIRED_PACKAGE_LOCAL_SMOKE_MATRIX_COMPLETION_20260709T013348-0500.json",
+                                                                  "found":  true,
+                                                                  "passed":  true,
+                                                                  "expected":  "lane is listed in repaired local package-smoke matrix",
+                                                                  "observed":  "lane_passed_with_limitations",
+                                                                  "details":  {
+                                                                                  "matrix_decision":  "base_generation_repaired_package_local_smoke_matrix_complete",
+                                                                                  "claim_boundaries":  [
+                                                                                                           "This summary certifies only bounded local ComfyUI package smoke execution for the repaired base-generation package matrix.",
+                                                                                                           "This is not final image quality certification.",
+                                                                                                           "This is not exact character/reference identity certification.",
+                                                                                                           "This is not full-body composition certification.",
+                                                                                                           "This is not gold-standard body-mask proof.",
+                                                                                                           "This is not body/hand/contact geometry authority.",
+                                                                                                           "This is not target-runtime EC2 proof.",
+                                                                                                           "This does not activate Wave71 or any later wave."
+                                                                                                       ]
+                                                                              }
+                                                              }
+                                                          ],
+                             "required_evidence_failures":  0,
+                             "result":  "pass"
+                         },
+                         {
+                             "lane_id":  "sdxl_realvisxl_controlnet_normal_lane",
+                             "lane_dir":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_normal_lane",
+                             "authored_contract_files":  [
+                                                             "workflow.api.json",
+                                                             "patch_points.json",
+                                                             "runtime_requirements.json",
+                                                             "smoke_test_request.json"
+                                                         ],
+                             "coverage_mode":  "local_package_smoke_matrix",
+                             "required_evidence_checks":  [
+                                                              {
+                                                                  "name":  "workflow_static_validation",
+                                                                  "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_NORMAL_LANE_STATIC_20260707T063600-0500.json",
+                                                                  "found":  true,
+                                                                  "passed":  true,
+                                                                  "expected":  "qa_status=pass",
+                                                                  "observed":  "pass",
+                                                                  "details":  {
+                                                                                  "lane_match":  true,
+                                                                                  "workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_normal_lane/workflow.api.json",
+                                                                                  "node_count":  12,
+                                                                                  "defect_count":  0
+                                                                              }
+                                                              },
+                                                              {
+                                                                  "name":  "workflow_smoke_dry_run",
+                                                                  "path":  null,
+                                                                  "found":  false,
+                                                                  "passed":  false,
+                                                                  "expected":  "lane-matched dry_run with request_body_written=true, execution_allowed=false, generation_executed=false",
+                                                                  "observed":  "missing",
+                                                                  "details":  {
+
+                                                                              }
+                                                              },
+                                                              {
+                                                                  "name":  "lane_runtime_readiness",
+                                                                  "path":  null,
+                                                                  "found":  false,
+                                                                  "passed":  false,
+                                                                  "expected":  "lane-matched local_pre_ec2_ready=true with recognized readiness result",
+                                                                  "observed":  "missing",
+                                                                  "details":  {
+
+                                                                              }
+                                                              },
+                                                              {
+                                                                  "name":  "local_package_smoke_matrix",
+                                                                  "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/BASE_GENERATION_REPAIRED_PACKAGE_LOCAL_SMOKE_MATRIX_COMPLETION_20260709T013348-0500.json",
+                                                                  "found":  true,
+                                                                  "passed":  true,
+                                                                  "expected":  "lane is listed in repaired local package-smoke matrix",
+                                                                  "observed":  "lane_passed_with_limitations",
+                                                                  "details":  {
+                                                                                  "matrix_decision":  "base_generation_repaired_package_local_smoke_matrix_complete",
+                                                                                  "claim_boundaries":  [
+                                                                                                           "This summary certifies only bounded local ComfyUI package smoke execution for the repaired base-generation package matrix.",
+                                                                                                           "This is not final image quality certification.",
+                                                                                                           "This is not exact character/reference identity certification.",
+                                                                                                           "This is not full-body composition certification.",
+                                                                                                           "This is not gold-standard body-mask proof.",
+                                                                                                           "This is not body/hand/contact geometry authority.",
+                                                                                                           "This is not target-runtime EC2 proof.",
+                                                                                                           "This does not activate Wave71 or any later wave."
+                                                                                                       ]
+                                                                              }
+                                                              }
+                                                          ],
+                             "required_evidence_failures":  0,
+                             "result":  "pass"
+                         },
+                         {
+                             "lane_id":  "sdxl_realvisxl_controlnet_openpose_lane",
+                             "lane_dir":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_openpose_lane",
+                             "authored_contract_files":  [
+                                                             "workflow.api.json",
+                                                             "patch_points.json",
+                                                             "runtime_requirements.json",
+                                                             "smoke_test_request.json"
+                                                         ],
+                             "coverage_mode":  "local_package_smoke_matrix",
+                             "required_evidence_checks":  [
+                                                              {
+                                                                  "name":  "workflow_static_validation",
+                                                                  "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_OPENPOSE_LANE_STATIC_20260707T062200-0500.json",
+                                                                  "found":  true,
+                                                                  "passed":  true,
+                                                                  "expected":  "qa_status=pass",
+                                                                  "observed":  "pass",
+                                                                  "details":  {
+                                                                                  "lane_match":  true,
+                                                                                  "workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_openpose_lane/workflow.api.json",
+                                                                                  "node_count":  11,
+                                                                                  "defect_count":  0
+                                                                              }
+                                                              },
+                                                              {
+                                                                  "name":  "workflow_smoke_dry_run",
+                                                                  "path":  null,
+                                                                  "found":  false,
+                                                                  "passed":  false,
+                                                                  "expected":  "lane-matched dry_run with request_body_written=true, execution_allowed=false, generation_executed=false",
+                                                                  "observed":  "missing",
+                                                                  "details":  {
+
+                                                                              }
+                                                              },
+                                                              {
+                                                                  "name":  "lane_runtime_readiness",
+                                                                  "path":  null,
+                                                                  "found":  false,
+                                                                  "passed":  false,
+                                                                  "expected":  "lane-matched local_pre_ec2_ready=true with recognized readiness result",
+                                                                  "observed":  "missing",
+                                                                  "details":  {
+
+                                                                              }
+                                                              },
+                                                              {
+                                                                  "name":  "local_package_smoke_matrix",
+                                                                  "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/BASE_GENERATION_REPAIRED_PACKAGE_LOCAL_SMOKE_MATRIX_COMPLETION_20260709T013348-0500.json",
+                                                                  "found":  true,
+                                                                  "passed":  true,
+                                                                  "expected":  "lane is listed in repaired local package-smoke matrix",
+                                                                  "observed":  "lane_passed_with_limitations",
+                                                                  "details":  {
+                                                                                  "matrix_decision":  "base_generation_repaired_package_local_smoke_matrix_complete",
+                                                                                  "claim_boundaries":  [
+                                                                                                           "This summary certifies only bounded local ComfyUI package smoke execution for the repaired base-generation package matrix.",
+                                                                                                           "This is not final image quality certification.",
+                                                                                                           "This is not exact character/reference identity certification.",
+                                                                                                           "This is not full-body composition certification.",
+                                                                                                           "This is not gold-standard body-mask proof.",
+                                                                                                           "This is not body/hand/contact geometry authority.",
+                                                                                                           "This is not target-runtime EC2 proof.",
+                                                                                                           "This does not activate Wave71 or any later wave."
+                                                                                                       ]
+                                                                              }
+                                                              }
+                                                          ],
+                             "required_evidence_failures":  0,
+                             "result":  "pass"
+                         },
+                         {
+                             "lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+                             "lane_dir":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane",
+                             "authored_contract_files":  [
+                                                             "workflow.api.json",
+                                                             "patch_points.json",
+                                                             "runtime_requirements.json",
+                                                             "smoke_test_request.json"
+                                                         ],
+                             "coverage_mode":  "legacy_pre_ec2_readiness",
+                             "required_evidence_checks":  [
+                                                              {
+                                                                  "name":  "workflow_static_validation",
+                                                                  "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_SDXL_REALVISXL_INPAINT_DETAIL_NOMOUTH_V4_STATIC_VALIDATION_20260707T034700-0500.json",
+                                                                  "found":  true,
+                                                                  "passed":  true,
+                                                                  "expected":  "qa_status=pass",
+                                                                  "observed":  "pass",
+                                                                  "details":  {
+                                                                                  "lane_match":  true,
+                                                                                  "workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/workflow.api.json",
+                                                                                  "node_count":  12,
+                                                                                  "defect_count":  0
+                                                                              }
+                                                              },
+                                                              {
+                                                                  "name":  "workflow_smoke_dry_run",
+                                                                  "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_WORKFLOW_SMOKE_DRY_RUN_SDXL_REALVISXL_INPAINT_DETAIL_20260707T024800-0500.json",
+                                                                  "found":  true,
+                                                                  "passed":  true,
+                                                                  "expected":  "dry_run; request body exists; execution_allowed=false; generation_executed=false",
+                                                                  "observed":  "mode=dry_run; request_body_written=True; execution_allowed=False; generation_executed=False",
+                                                                  "details":  {
+                                                                                  "lane_match":  true,
+                                                                                  "request_body_path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_WORKFLOW_SMOKE_REQUEST_SDXL_REALVISXL_INPAINT_DETAIL_20260707T024800-0500.json",
+                                                                                  "request_body_exists":  true,
+                                                                                  "request_body_json_valid":  true,
+                                                                                  "request_body_has_prompt":  true,
+                                                                                  "request_body_error":  null
+                                                                              }
+                                                              },
+                                                              {
+                                                                  "name":  "lane_runtime_readiness",
+                                                                  "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LANE_RUNTIME_READINESS_INPAINT_DETAIL_NOMOUTH_V4_20260707T035300-0500.json",
+                                                                  "found":  true,
+                                                                  "passed":  true,
+                                                                  "expected":  "local_pre_ec2_ready=true; recognized readiness result",
+                                                                  "observed":  "result=ready_for_ec2_static_proof; local_pre_ec2_ready=True",
+                                                                  "details":  {
+                                                                                  "lane_match":  true,
+                                                                                  "failure_category":  "ec2_static_proof_object_info_incomplete",
+                                                                                  "ready_for_ec2_static_proof":  true,
+                                                                                  "ready_for_generation":  false,
+                                                                                  "ec2_started":  null,
+                                                                                  "generation_executed":  null
+                                                                              }
+                                                              },
+                                                              {
+                                                                  "name":  "local_package_smoke_matrix",
+                                                                  "path":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/BASE_GENERATION_REPAIRED_PACKAGE_LOCAL_SMOKE_MATRIX_COMPLETION_20260709T013348-0500.json",
+                                                                  "found":  true,
+                                                                  "passed":  true,
+                                                                  "expected":  "lane is listed in repaired local package-smoke matrix",
+                                                                  "observed":  "lane_passed_with_limitations",
+                                                                  "details":  {
+                                                                                  "matrix_decision":  "base_generation_repaired_package_local_smoke_matrix_complete",
+                                                                                  "claim_boundaries":  [
+                                                                                                           "This summary certifies only bounded local ComfyUI package smoke execution for the repaired base-generation package matrix.",
+                                                                                                           "This is not final image quality certification.",
+                                                                                                           "This is not exact character/reference identity certification.",
+                                                                                                           "This is not full-body composition certification.",
+                                                                                                           "This is not gold-standard body-mask proof.",
+                                                                                                           "This is not body/hand/contact geometry authority.",
+                                                                                                           "This is not target-runtime EC2 proof.",
+                                                                                                           "This does not activate Wave71 or any later wave."
+                                                                                                       ]
+                                                                              }
+                                                              }
+                                                          ],
+                             "required_evidence_failures":  0,
+                             "result":  "pass"
+                         }
+                     ],
+    "failed_lane_count":  0,
+    "result":  "pass_local_only",
+    "known_limits":  [
+                         "Does not prove ComfyUI object_info compatibility.",
+                         "Does not prove checkpoint path/hash on EC2.",
+                         "Does not load models or execute generation.",
+                         "Does not perform generated artifact visual QA.",
+                         "When coverage_mode is local_package_smoke_matrix, the lane is covered only by repaired local package-smoke evidence with limitations; this is not final quality certification or target-runtime EC2 proof."
+                     ],
+    "next_action":  "Use this queued-lane coverage with runtime lane queue validation before any future EC2 proof; nonqueued authored lanes require explicit queue selection and their own evidence coverage."
+}

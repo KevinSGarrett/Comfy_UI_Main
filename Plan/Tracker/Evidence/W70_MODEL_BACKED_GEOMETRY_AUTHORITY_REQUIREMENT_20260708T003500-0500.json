@@ -1,0 +1,56 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "W70-MODEL-BACKED-GEOMETRY-AUTHORITY-REQUIREMENT-20260708T003500-0500",
+    "timestamp":  "2026-07-08T00:35:00-05:00",
+    "project_root":  "C:\\Comfy_UI_Main",
+    "qa_type":  "wave70_model_backed_geometry_authority_requirement_lockdown",
+    "result":  "model_backed_geometry_authority_required_before_mask_promotion",
+    "promotes_any_mask":  false,
+    "generated_output_executed":  false,
+    "ec2_executed":  false,
+    "row_state":  {
+                      "tracker_row_count":  153,
+                      "item_row_count":  153,
+                      "new_autonomous_authority_rows":  "TRK-W70-0142..TRK-W70-0153 / ITEM-W70-0142..ITEM-W70-0153",
+                      "status_summary":  {
+                                             "Blocked_Local_Source_Region_Not_Visible":  2,
+                                             "Required_Not_Complete":  134,
+                                             "Blocked_Wave70_Mask_Promotion_Gate_Not_Passed":  17
+                                         },
+                      "model_backed_geometry_authority_pass_token_count":  1484,
+                      "source_derived_landmark_or_segmentation_pass_token_count":  636,
+                      "model_consensus_geometry_pass_token_count":  636,
+                      "visibility_occlusion_confidence_pass_token_count":  636,
+                      "model_backed_geometry_approval_token_count":  0
+                  },
+    "required_protocols":  [
+                               "Plan/Instructions/QA/MODEL_BACKED_GEOMETRY_AUTHORITY_PROTOCOL.md",
+                               "Plan/07_IMPLEMENTATION/mask_factory/WAVE70_MODEL_BACKED_GEOMETRY_AUTHORITY.md",
+                               "Plan/07_IMPLEMENTATION/mask_factory/WAVE70_MODEL_BACKED_GEOMETRY_AUTHORITY_MATRIX.csv",
+                               "Plan/Instructions/QA/MASK_GEOMETRY_HARD_GATE_PROTOCOL.md",
+                               "Plan/Instructions/QA/MASK_PROMOTION_HARD_GATE_PROTOCOL.md"
+                           ],
+    "hard_rule":  "No Wave70 mask may be accepted, candidate-passed, locally passed, generated-output promoted, reference-matrix promoted, generalized, universal, certification-ready, or target-runtime-ready until exact source/matrix evidence contains model_backed_geometry_authority_pass, source_derived_landmark_or_segmentation_pass, model_consensus_geometry_pass, visibility_occlusion_confidence_pass, no_symmetry_guessing_pass, wave70_mask_geometry_gate_pass, and wave70_mask_promotion_gate_pass. Haar, Canny, broad rectangles, one-image hand-tuned coordinates, and stable low-denoise output are diagnostic only.",
+    "autonomous_scope":  [
+                             "dependency/model probe",
+                             "face landmark authority",
+                             "semantic face parsing authority",
+                             "promptable segmentation refinement authority",
+                             "visibility/occlusion confidence",
+                             "gold/reference trace dataset",
+                             "model consensus validator",
+                             "canonical source-derived polygon export",
+                             "mask generation from canonical polygons only",
+                             "body/hand/clothing/contact/video extension",
+                             "reference image matrix validation",
+                             "promotion gate integration"
+                         ],
+    "blockers":  [
+                     "Blocked_Model_Geometry_Dependency_Missing",
+                     "Blocked_Model_Geometry_Low_Confidence",
+                     "Blocked_Model_Geometry_Disagreement",
+                     "Blocked_Source_Region_Occluded",
+                     "Blocked_Source_Resolution_Too_Low",
+                     "Blocked_Wave70_Mask_Geometry_Gate_Not_Passed"
+                 ]
+}

@@ -329,6 +329,7 @@ if (-not $Execute) {
     readiness_gate = $readinessGate
     execute_gates_pass = $executeGatesPass
     blocked_reasons = $blockedReasons
+    ec2_started = $false
     actions = @(
       "Verify AWS account and EC2 identity.",
       "Require auth gate safe_to_start_ec2=true before EC2 start.",
@@ -342,6 +343,7 @@ if (-not $Execute) {
       "Stop EC2 and verify stopped."
     )
     generation_executed = $false
+    active_runtime_marker_written = $false
   }
   if (![string]::IsNullOrWhiteSpace($OutFile)) {
     $outDir = Split-Path -Parent $OutFile

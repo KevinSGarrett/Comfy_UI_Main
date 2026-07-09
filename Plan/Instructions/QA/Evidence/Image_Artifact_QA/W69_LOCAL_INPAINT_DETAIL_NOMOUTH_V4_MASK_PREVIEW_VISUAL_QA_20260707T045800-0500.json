@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-INPAINT-DETAIL-NOMOUTH-V4-MASK-PREVIEW-VISUAL-QA-20260707T045800-0500",
+  "timestamp": "2026-07-07T04:58:00-05:00",
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "module_id": "MOD-13-SDXL-INPAINT-DETAIL-LANE",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "strict_whole_image_visual_qa_and_mask_preview_diagnostic_review",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "implementation_change": {
+    "change_type": "workflow_diagnostic_output",
+    "source_requirement": "Plan/07_IMPLEMENTATION/COMFYUI_WIRING_REPAIR_LIST.md Priority 1: Add mask preview outputs.",
+    "nodes_added": [
+      {
+        "node_id": "15",
+        "class_type": "MaskToImage",
+        "purpose": "Convert the feathered inpaint mask from node 13 into a previewable image."
+      },
+      {
+        "node_id": "16",
+        "class_type": "SaveImage",
+        "purpose": "Save the mask preview alongside the normal inpaint composite output."
+      }
+    ],
+    "generation_path_changed": false,
+    "composite_output_node_unchanged": "11",
+    "mask_preview_output_node": "16"
+  },
+  "technical_evidence": {
+    "run_package_manifest": "runtime_artifacts/run_packages/sdxl_realvisxl_inpaint_detail_nomouth_v4_mask_preview_w69/RUN_PACKAGE_MANIFEST.json",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_MASK_PREVIEW_EXECUTE_20260707T045100-0500.json",
+    "runtime_result": "pass_local_run_package_generation_smoke",
+    "prompt_request_sha256": "0e199349facb0b3726f177a363eb601f67c2c7d679e00e523b43f649c25fc8a2",
+    "output_count": 2,
+    "port_closed_after_stop": true
+  },
+  "artifacts_reviewed": [
+    {
+      "role": "mask_preview",
+      "node_id": "16",
+      "image_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_nomouth_v4_mask_preview_w69_20260707T045056-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00001_.png",
+      "sha256": "8f59a4e7f9bea2644f00e2462aba359cbe5fa8dfd78b5166da91349187a65360",
+      "width": 768,
+      "height": 768,
+      "findings": {
+        "mask_localization": "Pass: mask preview is localized to small facial detail regions and excludes the background, hair mass, clothing, and frame edges.",
+        "protected_regions": "Pass: visible eyes and mouth are not covered by the active white mask regions, matching the no-mouth v4 intent.",
+        "mask_shape": "Pass with notes: mask covers forehead and cheek/nose-adjacent detail zones with simple rounded regions; it is diagnostic and intentionally narrow rather than a semantic full-face mask.",
+        "preview_integrity": "Pass: preview output is a valid 768x768 PNG and was emitted by the new MaskToImage/SaveImage branch."
+      },
+      "qa_result": "pass_with_notes_mask_preview_diagnostic"
+    },
+    {
+      "role": "composite_output",
+      "node_id": "11",
+      "image_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_nomouth_v4_mask_preview_w69_20260707T045056-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_00002_.png",
+      "sha256": "96f99f258ceaaa8174a9847737626c27286849a36a82d181fca6a7b029f0fabe",
+      "width": 768,
+      "height": 768,
+      "whole_image_findings": {
+        "prompt_alignment": "Pass: subtle photoreal skin-detail refinement with preserved portrait composition.",
+        "face_identity": "Pass with notes: identity, face shape, gaze, and lip color remain stable for local iteration; edited skin remains slightly polished.",
+        "eyes": "Pass: eyes remain coherent and are not overwritten by the mask-preview workflow change.",
+        "mouth_teeth": "Pass: closed mouth remains natural; no teeth artifacts or mouth-region overwrite.",
+        "hair_clothing_background": "Pass: hair mass, blazer, shirt, and background remain stable and outside the mask edit.",
+        "mask_boundary_effect": "Pass with notes: no gray-mask or full-face replacement regression; mask-region skin is still slightly smoother than surrounding skin.",
+        "artifacts": "No blocking image artifact observed in the local diagnostic run."
+      },
+      "qa_result": "pass_with_notes_local_mask_preview_iteration"
+    }
+  ],
+  "overall_result": "pass_with_notes_for_local_mask_preview_workflow_iteration",
+  "certification_scope": "local_workflow_diagnostic_output_and_visual_qa_only",
+  "not_certified_reasons": [
+    "This local run proves the mask preview branch and local composite output only.",
+    "Target-runtime object_info/path/hash/input proof, bounded generation, pullback, technical QA, and strict whole-image visual QA remain required before promotion.",
+    "The remaining local quality note is slightly smoother skin in the edited mask region."
+  ],
+  "next_action": "Keep the mask preview branch in the inpaint lane. Continue local-first with output handoff path work or another named implementation/QA task; do not certify inpaint until target-runtime proof passes."
+}

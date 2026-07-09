@@ -1,0 +1,66 @@
+﻿{
+    "evidence_id":  "LOCAL-COMFY-WORKFLOW-STATIC-20260707T054530-0500",
+    "timestamp":  "2026-07-07T05:45:30-05:00",
+    "lane_dir":  "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane",
+    "workflow_path":  "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/workflow.api.json",
+    "lane_id":  "sdxl_realvisxl_controlnet_depth_lane",
+    "qa_status":  "pass",
+    "node_count":  11,
+    "link_count":  15,
+    "class_counts":  {
+                         "ControlNetLoader":  1,
+                         "ControlNetApplyAdvanced":  1,
+                         "EmptyLatentImage":  1,
+                         "SaveImage":  2,
+                         "LoadImage":  1,
+                         "VAEDecode":  1,
+                         "CLIPTextEncode":  2,
+                         "KSampler":  1,
+                         "CheckpointLoaderSimple":  1
+                     },
+    "checkpoint_nodes":  [
+                             {
+                                 "node_id":  "4",
+                                 "ckpt_name":  "realvisxlV50_v50Bakedvae.safetensors"
+                             }
+                         ],
+    "model_reference_checks":  [
+                                   {
+                                       "role":  "checkpoint",
+                                       "filename":  "realvisxlV50_v50Bakedvae.safetensors",
+                                       "node_id":  "4",
+                                       "node_class":  "CheckpointLoaderSimple",
+                                       "input":  "ckpt_name",
+                                       "observed":  [
+                                                        "4.ckpt_name=realvisxlV50_v50Bakedvae.safetensors"
+                                                    ],
+                                       "matched":  true
+                                   },
+                                   {
+                                       "role":  "controlnet",
+                                       "filename":  "controlnet-depth-sdxl-1.0-small.safetensors",
+                                       "node_id":  "10",
+                                       "node_class":  "ControlNetLoader",
+                                       "input":  "control_net_name",
+                                       "observed":  [
+                                                        "10.control_net_name=controlnet-depth-sdxl-1.0-small.safetensors"
+                                                    ],
+                                       "matched":  true
+                                   }
+                               ],
+    "defects":  [
+
+                ],
+    "warnings":  [
+
+                 ],
+    "runtime_gates_not_proven_by_static_validation":  [
+                                                          "ComfyUI object_info node compatibility",
+                                                          "model path resolution",
+                                                          "model sha256/hash proof",
+                                                          "model load validation",
+                                                          "runtime execution output",
+                                                          "generated artifact QA"
+                                                      ],
+    "next_action":  "Refresh AWS auth, run EC2 static proof for object_info/path/hash, then run bounded smoke execution."
+}

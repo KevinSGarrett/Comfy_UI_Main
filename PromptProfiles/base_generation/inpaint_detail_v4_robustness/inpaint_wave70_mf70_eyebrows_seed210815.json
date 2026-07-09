@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "inpaint_wave70_mf70_eyebrows_seed210815",
+  "target_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "purpose": "Generated-output proof for Wave70 mf70_eyebrows mask routing using the active MOD-17 Canny v3 portrait as source.",
+  "request_patch_values": {
+    "positive_prompt": "extremely subtle photoreal eyebrow texture preservation pass, preserve exact person identity, neutral expression, gaze direction, eyebrow shape, brow thickness, brow color, forehead skin texture, eye shape, eyelid fold placement, eyelashes, iris color, pupil size, sclera tone, catchlights, hairline, nearby hair occlusion, face lighting, white blazer, background, and portrait composition unchanged",
+    "negative_prompt": "identity change, different person, expression change, angry brows, surprised brows, arched brows, thick eyebrows, thin eyebrows, missing eyebrows, mismatched eyebrows, eyebrow color change, makeup change, forehead mutation, hairline mutation, gaze change, mismatched eyes, crossed eyes, eyelid deformation, eyelash mutation, iris color change, glassy eyes, sclera discoloration, catchlight change, skin tone change, visible seam, hair mutation, clothing change, background change, watermark, text",
+    "source_image": "wave70_mf70_face_identity_source_canny_v3.png",
+    "mask_image": "wave70_mf70_eyebrows_mask.png",
+    "mask_channel": "red",
+    "seed": 210815,
+    "sampler_settings": {
+      "steps": 18,
+      "cfg": 3.25,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.04
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_wave70_mf70_eyebrows_seed210815"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_wave70_mf70_eyebrows_seed210815",
+    "diagnostic_output_prefix": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview"
+  },
+  "qa_focus": [
+    "whole-image identity preservation",
+    "eyebrow shape, color, and symmetry remain natural",
+    "no expression drift through brow reshaping",
+    "gaze, pupil, iris, sclera, and catchlights remain stable",
+    "forehead and hairline do not mutate",
+    "nearby hair occlusion remains stable",
+    "no visible seam around eyebrow masks"
+  ],
+  "source_qa_driver": {
+    "evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_eyebrows.json",
+    "remaining_gap": "generated_output_proof_required_before_item_completion",
+    "change_summary": "Use the Wave70 eyebrow mask with low denoise to prove local generated-output routing while minimizing expression, brow-shape, forehead, eye, hairline, and identity drift."
+  },
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_generated_output_proof_before_item_completion": true,
+    "requires_whole_image_qa_before_promotion": true,
+    "requires_target_runtime_reproof_before_final_certification": true
+  }
+}

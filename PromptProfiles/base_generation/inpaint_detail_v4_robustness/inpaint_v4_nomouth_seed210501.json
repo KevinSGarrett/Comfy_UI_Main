@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "inpaint_v4_nomouth_seed210501",
+  "target_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "purpose": "Local inpaint no-mouth v4 robustness sample using the current identity-preserving micro-mask workflow with a distinct seed.",
+  "request_patch_values": {
+    "seed": 210501,
+    "save_prefix": "codex_sdxl_realvisxl_inpaint_detail_nomouth_v4_seed210501"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_sdxl_realvisxl_inpaint_detail_nomouth_v4_seed210501"
+  },
+  "qa_focus": [
+    "whole-image identity preservation",
+    "eye color and gaze preservation",
+    "lip color preservation",
+    "mask edge blending",
+    "skin texture realism",
+    "background and clothing stability"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_target_runtime_reproof_before_certification": true,
+    "requires_whole_image_qa_before_promotion": true
+  }
+}

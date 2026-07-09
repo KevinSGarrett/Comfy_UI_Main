@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "inpaint_wave70_mf70_jawline_chin_seed210806",
+  "target_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "purpose": "Generated-output proof for Wave70 mf70_jawline_chin mask routing using the active MOD-17 Canny v3 portrait as source.",
+  "request_patch_values": {
+    "positive_prompt": "very subtle photoreal jawline and chin contour preservation pass, preserve exact face identity, preserve chin skin tone, jawline contour, lower face lighting continuity, mouth and lip shape, neck, hair, clothing, eyes, nose, cheeks, background, and portrait composition unchanged",
+    "negative_prompt": "identity change, different person, age change, gender presentation change, face shape drift, jawline change, chin deformation, double chin, neck change, mouth change, changed lips, open mouth, visible teeth, hair change, clothing change, background change, plastic skin, waxy skin, over-smoothed chin, visible seam, blotchy skin, watermark, text",
+    "source_image": "wave70_mf70_face_identity_source_canny_v3.png",
+    "mask_image": "wave70_mf70_jawline_chin_mask.png",
+    "mask_channel": "red",
+    "seed": 210806,
+    "sampler_settings": {
+      "steps": 18,
+      "cfg": 4.0,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.09
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_wave70_mf70_jawline_chin_seed210806"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_wave70_mf70_jawline_chin_seed210806",
+    "diagnostic_output_prefix": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview"
+  },
+  "qa_focus": [
+    "whole-image identity preservation",
+    "jawline and chin contour stability",
+    "mouth, neck, hair, and clothing protection",
+    "no visible seam around the jawline/chin mask boundary",
+    "background and portrait composition stability"
+  ],
+  "source_qa_driver": {
+    "evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_jawline_chin.json",
+    "remaining_gap": "generated_output_proof_required_before_item_completion",
+    "change_summary": "Use the Wave70 jawline/chin mask as the inpaint mask with very low denoise to prove local generated-output routing while minimizing mouth, neck, clothing, and identity drift."
+  },
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_generated_output_proof_before_item_completion": true,
+    "requires_whole_image_qa_before_promotion": true,
+    "requires_target_runtime_reproof_before_final_certification": true
+  }
+}

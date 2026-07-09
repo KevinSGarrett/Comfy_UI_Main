@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-NOSE-SOURCE-LANDMARK-PROTECTED-OVERLAP-AUDIT-20260707T213500-0500",
+  "timestamp": "2026-07-07T21:35:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave70_mf70_nose_candidate_protected_boundary_overlap_audit",
+  "implementation_script": "Plan/07_IMPLEMENTATION/scripts/audit_wave70_nose_candidate_protected_overlap.py",
+  "implementation_script_sha256": "83bb3147d13c1bb98b3a6e519f2e6f68e593b4d0eaf45d2dd36323cc4de44e6b",
+  "mask_type_id": "mf70_nose",
+  "tracker_id": "TRK-W70-0017",
+  "item_id": "ITEM-W70-0017",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "source_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+  "source_image_sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+  "candidate_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_NOSE_SOURCE_LANDMARK_REPAIR_20260707T212500-0500.json",
+  "candidate_mask": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_nose_source_landmark_20260707T212500-0500/wave70_mf70_nose_mask.png",
+  "candidate_mask_sha256": "15d6dce494c9052fdf59e18abecc2d7a3c18c16e3400fa3ee9129a5e8287d321",
+  "candidate_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_nose_source_landmark_20260707T212500-0500/wave70_mf70_nose_overlay.png",
+  "boundary_protocol": "Plan/Instructions/QA/WAVE70_PROTECTED_BOUNDARY_REGISTRY_PROTOCOL.md",
+  "boundary_registry_manifest": "runtime_artifacts/mask_factory/wave70_mf70_nose/protected_boundary_audit/20260707T213500-0500/BOUNDARY_REGISTRY_MANIFEST.json",
+  "boundary_registry_manifest_sha256": "0205845c75773091da2bc0e75a017bfd1ad3bd2ffd58adbff947fff25a301f2c",
+  "protected_overlap_matrix": "runtime_artifacts/mask_factory/wave70_mf70_nose/protected_boundary_audit/20260707T213500-0500/mf70_nose_source_landmark_protected_overlap_matrix.csv",
+  "protected_overlap_matrix_sha256": "9138673e9823b1f1a854f5337df87580f66a98c39f556a80570d0d7f18f8c059",
+  "boundary_overlay": "runtime_artifacts/mask_factory/wave70_mf70_nose/protected_boundary_audit/20260707T213500-0500/mf70_nose_candidate_boundary_overlay.png",
+  "boundary_overlay_sha256": "001571db409a043d414fcf5205734b8f46773272edf13c05458264ba6d092100",
+  "review_panel": "runtime_artifacts/mask_factory/wave70_mf70_nose/protected_boundary_audit/20260707T213500-0500/mf70_nose_candidate_protected_overlap_panel.png",
+  "review_panel_sha256": "a7c57ff911d026fcc714c49a3589019b7849d08a108966e210d839a350f8096b",
+  "candidate_pixels": 6840,
+  "protected_overlap_rows": [
+    {
+      "target_mask_type_id": "mf70_nose",
+      "protected_region_id": "mouth_lips",
+      "overlap_pixels": 673,
+      "overlap_percent_of_candidate": 9.8392,
+      "allowed_overlap_pixels": 0,
+      "pass": false
+    },
+    {
+      "target_mask_type_id": "mf70_nose",
+      "protected_region_id": "upper_lip",
+      "overlap_pixels": 886,
+      "overlap_percent_of_candidate": 12.9532,
+      "allowed_overlap_pixels": 0,
+      "pass": false
+    },
+    {
+      "target_mask_type_id": "mf70_nose",
+      "protected_region_id": "philtrum",
+      "overlap_pixels": 1443,
+      "overlap_percent_of_candidate": 21.0965,
+      "allowed_overlap_pixels": 0,
+      "pass": false
+    },
+    {
+      "target_mask_type_id": "mf70_nose",
+      "protected_region_id": "left_eye_canthus_lower_lid",
+      "overlap_pixels": 0,
+      "overlap_percent_of_candidate": 0.0,
+      "allowed_overlap_pixels": 12,
+      "pass": true
+    },
+    {
+      "target_mask_type_id": "mf70_nose",
+      "protected_region_id": "right_eye_canthus_lower_lid",
+      "overlap_pixels": 2,
+      "overlap_percent_of_candidate": 0.0292,
+      "allowed_overlap_pixels": 12,
+      "pass": true
+    },
+    {
+      "target_mask_type_id": "mf70_nose",
+      "protected_region_id": "left_cheek",
+      "overlap_pixels": 74,
+      "overlap_percent_of_candidate": 1.0819,
+      "allowed_overlap_pixels": 12,
+      "pass": false
+    },
+    {
+      "target_mask_type_id": "mf70_nose",
+      "protected_region_id": "right_cheek",
+      "overlap_pixels": 127,
+      "overlap_percent_of_candidate": 1.8567,
+      "allowed_overlap_pixels": 12,
+      "pass": false
+    }
+  ],
+  "protected_overlap_failures": [
+    "mouth_lips",
+    "upper_lip",
+    "philtrum",
+    "left_cheek",
+    "right_cheek"
+  ],
+  "protected_overlap_matrix_pass": false,
+  "canonical_boundary_layer_pass": false,
+  "completion_allowed_by_boundary_registry": false,
+  "result": "fail_candidate_protected_overlap_requires_geometry_revision",
+  "boundary": "Candidate protected-overlap audit only. Even if overlap passes, canonical boundary layers are not promoted and mf70_nose remains failed until strict visual review/fail-closed audit accepts the candidate."
+}

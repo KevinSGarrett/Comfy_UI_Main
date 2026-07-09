@@ -1,0 +1,51 @@
+﻿{
+    "evidence_id":  "WEEKLY_PLAN_CONSISTENCY_FINDINGS_20260708T091826Z",
+    "created_at":  "2026-07-08T09:18:26.5895265Z",
+    "source_audit":  "C:\\Users\\kevin\\.codex\\automations\\comfy-ui-main-weekly-plan-instructions-consistency-audit\\audits\\WEEKLY_PLAN_INSTRUCTIONS_CONSISTENCY_20260708T091357Z.json",
+    "classification":  "CONSISTENCY_FINDINGS_EXTERNAL_AUDIT_ONLY",
+    "correction_needed":  false,
+    "corrections_made":  [
+
+                         ],
+    "actionable_findings":  [
+                                {
+                                    "severity":  "medium",
+                                    "file":  "C:\\Comfy_UI_Main\\Plan\\Items\\Manifests\\items_package_manifest.json",
+                                    "finding":  "current_ultimate_mask_factory_row_count is 141, but Plan\\Items\\wave70_ultimate_mask_factory_itemized_list.csv currently has 166 rows.",
+                                    "recommended_action":  "Refresh package manifest metadata from current Wave70 ledgers without rerunning Wave65 unless Plan source additions/renames require it."
+                                },
+                                {
+                                    "severity":  "medium",
+                                    "file":  "C:\\Comfy_UI_Main\\Plan\\Tracker\\Manifests\\tracker_package_manifest.json",
+                                    "finding":  "current_ultimate_mask_factory_row_count is 141, but Plan\\Tracker\\wave70_ultimate_mask_factory_tracker.csv currently has 166 rows.",
+                                    "recommended_action":  "Refresh package manifest metadata from current Wave70 ledgers without treating Wave70 row count as completion proof."
+                                },
+                                {
+                                    "severity":  "low",
+                                    "file":  "C:\\Comfy_UI_Main\\Plan\\PROJECT_MANIFEST.json",
+                                    "finding":  "Top-level wave_current=25 and latest_wave=34 remain legacy metadata while Wave64/Wave65/Wave70 are current and Waves71-87 are deferred in Items/Tracker.",
+                                    "recommended_action":  "Mark legacy top-level wave fields as historical or refresh them when doing a deliberate manifest maintenance pass."
+                                },
+                                {
+                                    "severity":  "low",
+                                    "file":  "C:\\Comfy_UI_Main\\Plan\\Instructions\\Hydration_Rehydration\\BLOCKERS.md",
+                                    "finding":  "Some older active-blocker safe-current-work bullets still mention completed/blocked rows such as TRK-W70-0143, 0166, and 0167, although the newest active-local-blocker section and top steering are current.",
+                                    "recommended_action":  "Clean stale safe-current-work bullets during the next targeted hydration maintenance pass; not urgent because top steering points to TRK-W70-0169."
+                                },
+                                {
+                                    "severity":  "low",
+                                    "file":  "C:\\Comfy_UI_Main\\Plan\\PROJECT_MANIFEST.json",
+                                    "finding":  "Legacy wave_current/latest_wave can contradict current Wave70 active state if read without the Wave70 extension and PROJECT_ROOT_MANIFEST.",
+                                    "recommended_action":  "Prefer PROJECT_ROOT_MANIFEST active_waves and current hydration steering until Plan/PROJECT_MANIFEST is deliberately refreshed."
+                                },
+                                {
+                                    "severity":  "medium",
+                                    "finding":  "Items/Tracker readmes and reports include current waves, but Items/Tracker package manifests have stale Wave70 row_count=141 versus 166 current rows.",
+                                    "files":  [
+                                                  "C:\\Comfy_UI_Main\\Plan\\Items\\Manifests\\items_package_manifest.json",
+                                                  "C:\\Comfy_UI_Main\\Plan\\Tracker\\Manifests\\tracker_package_manifest.json"
+                                              ]
+                                }
+                            ],
+    "next_recommended_action":  "Continue Wave70 at TRK-W70-0169. Separately refresh stale Items/Tracker package manifest Wave70 row counts and mark Plan/PROJECT_MANIFEST wave_current/latest_wave as legacy during targeted manifest maintenance."
+}

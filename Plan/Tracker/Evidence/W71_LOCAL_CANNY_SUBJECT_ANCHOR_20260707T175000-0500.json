@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "tracker_evidence_id": "W71_LOCAL_CANNY_SUBJECT_ANCHOR_20260707T175000-0500",
+  "created_at": "2026-07-07T17:50:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+  "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "status": "local_subject_anchor_generated_mixed_not_promoted",
+  "actual_work_performed": [
+    "Created one subject-anchor prompt profile while preserving seed 711570106, the v3 right-edge-masked control image, ControlNet strength 0.42, and ControlNet end percent 0.60.",
+    "Packaged the profile through New-WorkflowRunPackage.ps1 with static validation passing at zero defects.",
+    "Executed one bounded local ComfyUI sample and pulled back generated portrait plus diagnostic control-map outputs.",
+    "Created a side-by-side comparison against the retained local candidate.",
+    "Performed strict whole-image visual QA and rejected promotion because the retry did not beat the retained candidate."
+  ],
+  "profile_id": "canny_w71_subject_anchor_seed711570106",
+  "result": "mixed_retry_not_promoted",
+  "qa_summary": "The retry improved gender presentation and short black hair anchoring compared with the prior negative-only anti-drift sample, but changed face identity, eye styling, hair texture, crop, and background enough that the retained 0.42/0.60 preferred candidate remains better.",
+  "evidence": {
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W71_LOCAL_CANNY_SUBJECT_ANCHOR_VISUAL_QA_20260707T175000-0500.json",
+    "comparison": "runtime_artifacts/controlnet_canny_w71_quality_loop/qa_comparisons/canny_w71_subject_anchor_vs_retained_seed711570106_compare.png",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W71_LOCAL_CANNY_SUBJECT_ANCHOR_SEED711570106_EXECUTE_20260707T175000-0500.json",
+    "run_package": "runtime_artifacts/run_packages/canny_w71_subject_anchor_seed711570106/RUN_PACKAGE_MANIFEST.json",
+    "prompt_profile": "PromptProfiles/base_generation/controlnet_canny_w71_local_quality_loop/canny_w71_subject_anchor_seed711570106.json",
+    "generated_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w71_subject_anchor_seed711570106_20260707T174709-0500/images/canny_w71_subject_anchor_seed711570106_00001_.png",
+    "diagnostic_control_map": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w71_subject_anchor_seed711570106_20260707T174709-0500/images/codex_sdxl_realvisxl_controlnet_canny_control_map_diagnostic_00018_.png"
+  },
+  "boundaries": {
+    "local_only": true,
+    "ec2_started": false,
+    "aws_contacted": false,
+    "github_api_contacted": false,
+    "civitai_contacted": false,
+    "s3_published": false,
+    "git_checkpointed": false,
+    "target_runtime_proof_present": false,
+    "final_certification_allowed": false
+  },
+  "next_action": "Do not continue prompt-only anti-drift retries for MOD-17 Canny. Either implement a real reference/identity-conditioning workflow path for the lane or switch to the next named local Plan/Tracker task."
+}

@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-IMAGE-QA-SUPERSESSION-MAP-20260707T103500-0500",
+  "timestamp": "2026-07-07T10:35:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "artifact_type": "qa_evidence_supersession_map",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "purpose": "Keep historical failed QA rows visible while preventing later-superseded local failures from counting as current unresolved promotion blockers.",
+  "supersessions": [
+    {
+      "superseded_evidence_id": "W69-LOCAL-INPAINT-DETAIL-VISUAL-QA-20260707T031000-0500",
+      "superseded_source_file": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_VISUAL_QA_20260707T031000-0500.json",
+      "superseded_result": "fail_with_improvement",
+      "superseded_reason": "The early v1/v2 inpaint attempts proved the lane could run but still had gray-mask, identity-drift, synthetic-eye, and mask-boundary failures.",
+      "superseded_by_evidence_id": "W69-LOCAL-INPAINT-DETAIL-NOMOUTH-V4-ROBUSTNESS-VISUAL-QA-20260707T034000-0500",
+      "superseded_by_source_file": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_ROBUSTNESS_VISUAL_QA_20260707T034000-0500.json",
+      "supporting_evidence": [
+        "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_VISUAL_QA_20260707T035000-0500.json",
+        "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V5_TEXTURE_VISUAL_QA_20260707T042900-0500.json",
+        "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_MASK_PREVIEW_VISUAL_QA_20260707T045800-0500.json"
+      ],
+      "current_result": "pass_with_notes_for_local_robustness",
+      "supersession_result": "accepted_local_supersession_with_notes",
+      "remaining_boundary": "Local inpaint candidate remains target-runtime blocked and not final certified; the historical local failure is no longer a current local blocker."
+    },
+    {
+      "superseded_evidence_id": "W69-LOCAL-OPENPOSE-V2-UPPER-BODY-HANDS-VISUAL-QA-20260707T064800-0500",
+      "superseded_source_file": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V2_UPPER_BODY_HANDS_VISUAL_QA_20260707T064800-0500.json",
+      "superseded_result": "qa_failed_for_openpose_hands_robustness_target",
+      "superseded_reason": "The V2 OpenPose prompt-only attempt generated a valid portrait but did not exercise visible separated hands or tabletop contact.",
+      "superseded_by_evidence_id": "W69-LOCAL-OPENPOSE-V5-TABLEHANDS-ROBUSTNESS-VISUAL-QA-20260707T073000-0500",
+      "superseded_by_source_file": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V5_TABLEHANDS_ROBUSTNESS_VISUAL_QA_20260707T073000-0500.json",
+      "supporting_evidence": [
+        "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V3_TALL_UPPER_BODY_HANDS_VISUAL_QA_20260707T065100-0500.json",
+        "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V4_TABLEHANDS_VISUAL_QA_20260707T072200-0500.json"
+      ],
+      "current_result": "pass_with_notes_local_openpose_tablehands_multisample_robustness",
+      "supersession_result": "accepted_local_supersession_with_notes",
+      "remaining_boundary": "Local OpenPose table-hands robustness remains target-runtime blocked and not final hand certification; the old V2 missed-target row is no longer a current local blocker."
+    }
+  ],
+  "boundary": "This map does not erase failed evidence or certify final promotion. It only records that later local QA evidence supersedes two older local failure rows for current local blocking-row accounting."
+}

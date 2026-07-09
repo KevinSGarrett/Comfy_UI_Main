@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "lineart_v4_robust_plain_backdrop_seed711370006",
+  "target_lane_id": "sdxl_realvisxl_controlnet_lineart_lane",
+  "purpose": "Bounded local robustness sample for the preferred Lineart v4 plain-backdrop strategy. This keeps the same request, model, control image, sampler, and ControlNet settings as lineart_v4_plain_backdrop_seed711370003 and changes only the seed/output prefix.",
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic cinematic editorial portrait of an adult woman, auburn brown hair in a neat swept-back professional style, natural skin texture, realistic fine pores, subtle cheek texture, soft human skin asymmetry, realistic eyes with clean catchlights, clear iris detail, gentle eye fill light, open shadow detail, detailed hair, contour-guided facial composition, coherent facial contours, clean jawline and neck separation, crisp shirt collar boundary, tailored dark blazer over white collared shirt, clothed shoulders, plain matte neutral gray studio backdrop, seamless uncluttered background, no window, no visible panels, no light bars, even diffused softbox lighting, balanced exposure, clean face with no painted marks, lifelike lens rendering",
+    "negative_prompt": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, beauty filter skin, airbrushed face, porcelain skin, glossy skin, distorted anatomy, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text, lineart artifacts, ink outlines, harsh black outlines, contour stains, colored blotches, paint marks, over-dark eyes, underexposed eyes, muddy shadows, crushed shadows, diagonal light strip, diagonal bright bar, fluorescent strip, glowing light strips, vertical light bars, window, window panes, window bands, window bars, background panel, bright panel, studio light columns, harsh top-left light beam, office background, interior background clutter, male subject, beard, heavy stubble, masculine presentation, smeared jawline, warped collar edge, control map stains, bare shoulders, strapless top, nude, unclothed torso",
+    "seed": 711370006,
+    "controlnet_settings": {
+      "strength": 0.34,
+      "start_percent": 0,
+      "end_percent": 0.5
+    },
+    "save_prefix": "lineart_v4_robust_plain_711370006"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "lineart_v4_robust_plain_711370006"
+  },
+  "qa_focus": [
+    "v4 plain-backdrop seed robustness",
+    "plain matte background without panels or window bands",
+    "subject presentation consistency",
+    "lineart leakage or contour staining",
+    "skin texture versus beauty smoothing",
+    "eye realism",
+    "clothing and collar edges"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_target_runtime_reproof_before_certification": true,
+    "requires_whole_image_qa_before_promotion": true
+  }
+}

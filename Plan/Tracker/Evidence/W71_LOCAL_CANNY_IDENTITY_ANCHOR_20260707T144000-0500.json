@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "tracker_evidence_id": "W71_LOCAL_CANNY_IDENTITY_ANCHOR_20260707T144000-0500",
+  "created_at": "2026-07-07T14:40:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+  "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "status": "local_prompt_identity_anchor_generated_but_failed_retained_seed_gate",
+  "actual_work_performed": [
+    "Created one prompt-only identity anchoring profile while keeping seed, control image, ControlNet strength, and ControlNet end percent unchanged.",
+    "Packaged the profile through New-WorkflowRunPackage.ps1 with static validation passing at zero defects.",
+    "Executed one bounded local ComfyUI sample and pulled back generated portrait plus diagnostic control-map outputs.",
+    "Performed strict whole-image visual QA against the retained seed 711570106 candidate.",
+    "Created a side-by-side comparison artifact and skipped the planned robustness rerun because the retained-seed gate failed."
+  ],
+  "profile_id": "canny_w71_identity_anchor_seed711570106",
+  "result": "rejected_prompt_identity_anchor",
+  "rejection_reason": "The anchor preserved broad subject category but changed the retained face and introduced facial hair, so it was not identity-preserving enough to justify a robustness seed rerun.",
+  "evidence": {
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W71_LOCAL_CANNY_IDENTITY_ANCHOR_VISUAL_QA_20260707T144000-0500.json",
+    "comparison": "runtime_artifacts/controlnet_canny_w71_quality_loop/qa_comparisons/canny_w71_identity_anchor_vs_retained_seed711570106_compare.png",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W71_LOCAL_CANNY_IDENTITY_ANCHOR_SEED711570106_EXECUTE_20260707T143800-0500.json",
+    "run_package": "runtime_artifacts/run_packages/canny_w71_identity_anchor_seed711570106/RUN_PACKAGE_MANIFEST.json",
+    "prompt_profile": "PromptProfiles/base_generation/controlnet_canny_w71_local_quality_loop/canny_w71_identity_anchor_seed711570106.json"
+  },
+  "boundaries": {
+    "local_only": true,
+    "ec2_started": false,
+    "aws_contacted": false,
+    "github_api_contacted": false,
+    "civitai_contacted": false,
+    "robustness_seed_rerun_executed": false,
+    "target_runtime_proof_present": false,
+    "final_certification_allowed": false
+  },
+  "next_action": "Do not promote this prompt-only identity anchor. If continuing MOD-17 Canny locally, try a lighter anti-drift prompt or reference-based identity strategy before another seed sweep."
+}

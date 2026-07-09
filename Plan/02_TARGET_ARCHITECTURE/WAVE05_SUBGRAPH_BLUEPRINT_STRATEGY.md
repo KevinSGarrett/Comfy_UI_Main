@@ -28,7 +28,7 @@ Subgraphs should make complex reusable node groups manageable. They should not h
 
 - The entire current Main Flow
 - The disabled LoRA library
-- Experimental adult/model catalogs
+- Experimental body/model catalogs
 - Any module with missing object_info proof
 - Any module whose model references are not registry-resolved
 - Any branch represented only by notes

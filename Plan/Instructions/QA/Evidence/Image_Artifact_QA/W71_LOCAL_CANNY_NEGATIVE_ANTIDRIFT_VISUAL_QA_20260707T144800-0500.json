@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W71_LOCAL_CANNY_NEGATIVE_ANTIDRIFT_VISUAL_QA_20260707T144800-0500",
+  "created_at": "2026-07-07T14:48:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+  "result": "qa_regression_negative_antidrift_retained_seed_failed_no_seed_rerun",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "strict_whole_image_visual_qa_performed": true,
+  "test_design": {
+    "baseline_profile": "canny_w71_matrix_preferred_042060_seed711570106",
+    "variation_type": "negative_prompt_only_antidrift",
+    "unchanged_positive_prompt": true,
+    "unchanged_seed": 711570106,
+    "unchanged_control_image": "controlnet_canny_cleaned_eye_safe_v3_rightedge_band_masked.png",
+    "unchanged_controlnet_strength": 0.42,
+    "unchanged_controlnet_end_percent": 0.60,
+    "robustness_seed_rerun_allowed_only_if_retained_seed_holds": true
+  },
+  "profile": {
+    "profile_id": "canny_w71_negative_antidrift_seed711570106",
+    "profile_path": "PromptProfiles/base_generation/controlnet_canny_w71_local_quality_loop/canny_w71_negative_antidrift_seed711570106.json",
+    "profile_sha256": "4e8aa4d069c57e70e54174e10ee24f39f4192dc6abc95fd2477344c4cb7e4df8"
+  },
+  "run_package": {
+    "path": "runtime_artifacts/run_packages/canny_w71_negative_antidrift_seed711570106/RUN_PACKAGE_MANIFEST.json",
+    "sha256": "46a317a914b6711990fa7247ac128185db12e9eaf36cc9c866e576844889380b",
+    "static_validation": "pass_zero_defects"
+  },
+  "runtime_evidence": {
+    "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W71_LOCAL_CANNY_NEGATIVE_ANTIDRIFT_SEED711570106_EXECUTE_20260707T144500-0500.json",
+    "sha256": "aece199af7114572b640650f8a4a3decb67c1cb17a2308f1c742fdc6f4b3fdaf",
+    "result": "pass_local_run_package_generation_smoke",
+    "local_comfy_stopped": true,
+    "port_8188_closed": true
+  },
+  "artifacts": {
+    "generated_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w71_negative_antidrift_seed711570106_20260707T144239-0500/images/canny_w71_negative_antidrift_seed711570106_00001_.png",
+    "generated_image_sha256": "d1cc5495d44acddfe4050766b03e1099856085bad81d603a463281ab0059c9f1",
+    "diagnostic_control_map": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w71_negative_antidrift_seed711570106_20260707T144239-0500/images/codex_sdxl_realvisxl_controlnet_canny_control_map_diagnostic_00017_.png",
+    "diagnostic_control_map_sha256": "43ca27d6efc29f4aee55edb53751d58760b8db242706679a9b0876722ec6307a",
+    "comparison": "runtime_artifacts/controlnet_canny_w71_quality_loop/qa_comparisons/canny_w71_negative_antidrift_vs_retained_seed711570106_compare.png",
+    "comparison_sha256": "c2d876a9042dd386889995015615c7bb37527635dfe93309f0b796dbee1e33b8"
+  },
+  "visual_findings": [
+    "The output is coherent as a standalone portrait and avoids the facial-hair regression from the prior identity-anchor test.",
+    "It does not preserve the retained seed identity: face shape, expression, eye styling, and gender presentation drift materially.",
+    "The background shifts from neutral gray to warmer beige, weakening continuity with the retained candidate.",
+    "The retained-seed gate failed, so no robustness seed rerun was executed."
+  ],
+  "qa_decision": {
+    "retained_seed_gate_passed": false,
+    "robustness_seed_rerun_executed": false,
+    "robustness_seed_rerun_skipped_reason": "Negative-only anti-drift prompt regressed retained-seed identity and background before robustness testing.",
+    "promotion_allowed_from_this_evidence": false,
+    "decision": "Reject the negative-only anti-drift profile. Prompt-only anti-drift terms are not sufficient for MOD-17 Canny identity stability in this setup.",
+    "next_local_recommendation": "If continuing MOD-17 Canny, move to an actual reference/identity conditioning strategy or choose another named local Plan task; repeated prompt-only tweaks are now low-value."
+  },
+  "final_certification_boundary": {
+    "local_generation_evidence_added": true,
+    "target_runtime_proof_present": false,
+    "final_mod17_certification_allowed": false,
+    "remaining_blockers": [
+      "negative_prompt_antidrift_retained_seed_gate_failed",
+      "prompt_identity_anchor_retained_seed_gate_failed",
+      "seed_robustness_failed_for_current_prompt_control_settings",
+      "target_runtime_proof_required_before_final_certification",
+      "broader MOD-17 certification gates remain separate from this local QA"
+    ]
+  }
+}

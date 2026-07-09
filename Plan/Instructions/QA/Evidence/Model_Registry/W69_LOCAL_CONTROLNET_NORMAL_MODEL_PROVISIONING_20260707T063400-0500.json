@@ -1,0 +1,40 @@
+{
+    "evidence_id":  "W69-LOCAL-CONTROLNET-NORMAL-MODEL-PROVISIONING-20260707T063400-0500",
+    "timestamp":  "2026-07-07T06:34:00-05:00",
+    "result":  "pass_local_model_download_hash_verified",
+    "local_only":  true,
+    "ec2_started":  false,
+    "aws_contacted":  false,
+    "github_contacted":  false,
+    "lane_id":  "sdxl_realvisxl_controlnet_normal_lane",
+    "module_id":  "MOD-21-CONTROLNET-NORMAL-LANE",
+    "model":  {
+                  "source":  "huggingface",
+                  "sha256":  "a9e13fd61f3193887791c8a0dd07a07202174dc47d5ddaea94ea1344f07c7467",
+                  "union_control_type":  "normal",
+                  "ignored_by_git":  true,
+                  "file_name":  "controlnet-union-sdxl-1.0.safetensors",
+                  "role":  "controlnet",
+                  "source_url":  "https://huggingface.co/xinsir/controlnet-union-sdxl-1.0/resolve/main/diffusion_pytorch_model.safetensors",
+                  "file_size_bytes":  2512030408,
+                  "local_path":  "models/controlnet/controlnet-union-sdxl-1.0.safetensors",
+                  "base_model":  "sdxl",
+                  "source_model_id":  "xinsir/controlnet-union-sdxl-1.0",
+                  "model_type":  "ControlNet"
+              },
+    "input_asset":  {
+                        "status":  "present_local_hash_verified",
+                        "active_input":  "ComfyUI/input/controlnet_normal_bae_w69_v1.png",
+                        "sha256":  "1a0526da325d7fb29986b8de017ba9af7c43e1b328d51da5afa7c6bf84863139",
+                        "source_artifact":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_normal_w69_v3_20260707T053500-0500/images/codex_control_preprocessor_normal_bae_w69_00001_.png",
+                        "role":  "normal_bae_map"
+                    },
+    "source_model_card_notes":  [
+                                    "Xinsir ControlNet Union SDXL model card lists Normal support.",
+                                    "Local ComfyUI has SetUnionControlNetType with normal mapped to control type 4."
+                                ],
+    "boundaries":  [
+                       "Model provisioning and input hash proof only; does not prove generation quality until local runtime and QA pass.",
+                       "Target-runtime EC2 proof remains separate."
+                   ]
+}

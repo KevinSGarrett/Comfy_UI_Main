@@ -1,0 +1,529 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "GITHUB_ACTIONS_CI_PACKAGE_20260708T232951-0500",
+  "created_iso": "2026-07-08T23:29:51-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-040",
+  "item_id": "ITEM-W64-040",
+  "task": "Validate GitHub Actions preflight/package lane locally without EC2 or external service contact.",
+  "source_runbook": "Plan/Instructions/Operations/EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md",
+  "workflow_file": ".github/workflows/preflight-package.yml",
+  "local_ci_mirror_summary": "_ci_w64_20260708T232900-0500/LOCAL_CI_PACKAGE_MIRROR_SUMMARY.json",
+  "model_registry_coverage_evidence": "_ci_w64_20260708T232900-0500/model_registry/model_registry_coverage.json",
+  "ci_contract": {
+    "workflow_exists": true,
+    "checkout_without_lfs": true,
+    "artifact_retention_days": 7,
+    "optional_s3_upload_config_gated": true,
+    "matrix_lane_ids": [
+      "sdxl_low_risk_fallback_lane",
+      "sdxl_realvisxl_base_lane"
+    ],
+    "live_github_ci_status_checked": false,
+    "live_github_ci_status_blocked_reason": "No push/live CI run was triggered by this row; local mirror is the bounded evidence while worktree remains dirty."
+  },
+  "local_mirror": {
+    "ci_root": "_ci_w64_20260708T232900-0500",
+    "local_only": true,
+    "ec2_started": false,
+    "aws_contacted": false,
+    "github_api_contacted": false,
+    "civitai_contacted": false,
+    "comfyui_contacted": false,
+    "failed_step_count": 1,
+    "steps": [
+      {
+        "name": "sync_workflow_exports",
+        "status": "pass",
+        "exit_code": 0,
+        "error": null,
+        "duration_seconds": 0.85
+      },
+      {
+        "name": "model_registry_coverage_gate",
+        "status": "fail",
+        "exit_code": 1,
+        "error": "exit_code=2",
+        "duration_seconds": 0.702
+      },
+      {
+        "name": "build_run_package_low_risk",
+        "status": "pass",
+        "exit_code": 0,
+        "error": null,
+        "duration_seconds": 1.696
+      },
+      {
+        "name": "build_deploy_bundle_low_risk",
+        "status": "pass",
+        "exit_code": 0,
+        "error": null,
+        "duration_seconds": 1.632
+      },
+      {
+        "name": "build_run_package_realvisxl",
+        "status": "pass",
+        "exit_code": 0,
+        "error": null,
+        "duration_seconds": 1.664
+      },
+      {
+        "name": "build_deploy_bundle_realvisxl",
+        "status": "pass",
+        "exit_code": 0,
+        "error": null,
+        "duration_seconds": 1.576
+      }
+    ]
+  },
+  "model_registry_coverage_gate": {
+    "result": "fail",
+    "failed_check_count": 6,
+    "registry_record_count": 9,
+    "runtime_validation_queue_row_count": 5,
+    "workflow_runtime_lane_count": 8,
+    "active_lane_ids": [
+      "sdxl_low_risk_fallback_lane",
+      "sdxl_realvisxl_base_lane",
+      "sdxl_realvisxl_controlnet_canny_lane",
+      "sdxl_realvisxl_inpaint_detail_lane",
+      "sdxl_realvisxl_controlnet_depth_lane",
+      "sdxl_realvisxl_controlnet_lineart_lane",
+      "sdxl_realvisxl_controlnet_openpose_lane",
+      "sdxl_realvisxl_controlnet_normal_lane"
+    ],
+    "failed_lanes": [
+      {
+        "lane_id": "sdxl_realvisxl_base_lane",
+        "result": "fail",
+        "failed_check_count": 6,
+        "failed_checks": [
+          {
+            "name": "registry_compatibility_status_matches_lane_state",
+            "expected": "needs_runtime_validation",
+            "observed": "runtime_validated"
+          },
+          {
+            "name": "registry_runtime_validation_status_matches_lane_state",
+            "expected": "queued",
+            "observed": "runtime_smoke_complete"
+          },
+          {
+            "name": "registry_qa_status_matches_lane_state",
+            "expected": "not_tested",
+            "observed": "pass_with_notes_for_runtime_smoke"
+          },
+          {
+            "name": "requirements_hash_status_matches_lane_state",
+            "expected": "pending_ec2_static_match",
+            "observed": "ec2_static_match_verified"
+          },
+          {
+            "name": "requirements_path_status_matches_lane_state",
+            "expected": "pending_ec2_static_match",
+            "observed": "ec2_static_match_verified"
+          },
+          {
+            "name": "runtime_validation_queue_status_matches_lane_state",
+            "expected": "queued",
+            "observed": "runtime_smoke_complete"
+          }
+        ]
+      },
+      {
+        "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+        "result": "fail",
+        "failed_check_count": 12,
+        "failed_checks": [
+          {
+            "name": "registry_compatibility_status_matches_lane_state",
+            "expected": "needs_runtime_validation",
+            "observed": "runtime_smoke_validated"
+          },
+          {
+            "name": "registry_runtime_validation_status_matches_lane_state",
+            "expected": "queued",
+            "observed": "runtime_smoke_complete"
+          },
+          {
+            "name": "registry_qa_status_matches_lane_state",
+            "expected": "not_tested",
+            "observed": "pass_with_notes_for_runtime_smoke"
+          },
+          {
+            "name": "requirements_hash_status_matches_lane_state",
+            "expected": "pending_ec2_static_match",
+            "observed": "ec2_static_match_verified"
+          },
+          {
+            "name": "requirements_path_status_matches_lane_state",
+            "expected": "pending_ec2_static_match",
+            "observed": "ec2_static_match_verified"
+          },
+          {
+            "name": "runtime_validation_queue_status_matches_lane_state",
+            "expected": "queued",
+            "observed": "runtime_smoke_complete"
+          },
+          {
+            "name": "registry_compatibility_status_matches_lane_state",
+            "expected": "needs_runtime_validation",
+            "observed": "runtime_smoke_validated"
+          },
+          {
+            "name": "registry_runtime_validation_status_matches_lane_state",
+            "expected": "queued",
+            "observed": "runtime_smoke_complete"
+          },
+          {
+            "name": "registry_qa_status_matches_lane_state",
+            "expected": "not_tested",
+            "observed": "pass_with_notes_for_runtime_smoke"
+          },
+          {
+            "name": "requirements_hash_status_matches_lane_state",
+            "expected": "pending_ec2_static_match",
+            "observed": "ec2_static_match_verified"
+          },
+          {
+            "name": "requirements_path_status_matches_lane_state",
+            "expected": "pending_ec2_static_match",
+            "observed": "ec2_static_match_verified"
+          },
+          {
+            "name": "runtime_validation_queue_status_matches_lane_state",
+            "expected": "queued",
+            "observed": "runtime_smoke_complete"
+          }
+        ]
+      },
+      {
+        "lane_id": "sdxl_realvisxl_controlnet_depth_lane",
+        "result": "fail",
+        "failed_check_count": 11,
+        "failed_checks": [
+          {
+            "name": "registry_record_found_for_required_model",
+            "expected": "registry record for realvisxlV50_v50Bakedvae.safetensors",
+            "observed": "missing"
+          },
+          {
+            "name": "single_registry_record_for_required_model",
+            "expected": "exactly one matching registry record",
+            "observed": "0 matching records"
+          },
+          {
+            "name": "requirements_hash_status_matches_lane_state",
+            "expected": "pending_ec2_static_match",
+            "observed": ""
+          },
+          {
+            "name": "requirements_path_status_matches_lane_state",
+            "expected": "pending_ec2_static_match",
+            "observed": ""
+          },
+          {
+            "name": "runtime_validation_queue_row_found",
+            "expected": "one queue row for required model",
+            "observed": "0 matching rows"
+          },
+          {
+            "name": "registry_compatibility_status_matches_lane_state",
+            "expected": "needs_runtime_validation",
+            "observed": "local_runtime_smoke_validated_with_notes"
+          },
+          {
+            "name": "registry_runtime_validation_status_matches_lane_state",
+            "expected": "queued",
+            "observed": "local_generation_smoke_complete"
+          },
+          {
+            "name": "registry_qa_status_matches_lane_state",
+            "expected": "not_tested",
+            "observed": "pass_with_notes_for_local_depth_smoke"
+          },
+          {
+            "name": "requirements_hash_status_matches_lane_state",
+            "expected": "pending_ec2_static_match",
+            "observed": ""
+          },
+          {
+            "name": "requirements_path_status_matches_lane_state",
+            "expected": "pending_ec2_static_match",
+            "observed": ""
+          },
+          {
+            "name": "runtime_validation_queue_row_found",
+            "expected": "one queue row for required model",
+            "observed": "0 matching rows"
+          }
+        ]
+      },
+      {
+        "lane_id": "sdxl_realvisxl_controlnet_lineart_lane",
+        "result": "fail",
+        "failed_check_count": 11,
+        "failed_checks": [
+          {
+            "name": "registry_record_found_for_required_model",
+            "expected": "registry record for realvisxlV50_v50Bakedvae.safetensors",
+            "observed": "missing"
+          },
+          {
+            "name": "single_registry_record_for_required_model",
+            "expected": "exactly one matching registry record",
+            "observed": "0 matching records"
+          },
+          {
+            "name": "requirements_hash_status_matches_lane_state",
+            "expected": "pending_ec2_static_match",
+            "observed": ""
+          },
+          {
+            "name": "requirements_path_status_matches_lane_state",
+            "expected": "pending_ec2_static_match",
+            "observed": ""
+          },
+          {
+            "name": "runtime_validation_queue_row_found",
+            "expected": "one queue row for required model",
+            "observed": "0 matching rows"
+          },
+          {
+            "name": "registry_compatibility_status_matches_lane_state",
+            "expected": "needs_runtime_validation",
+            "observed": "local_runtime_followup_validated_with_notes"
+          },
+          {
+            "name": "registry_runtime_validation_status_matches_lane_state",
+            "expected": "queued",
+            "observed": "local_generation_followup_complete"
+          },
+          {
+            "name": "registry_qa_status_matches_lane_state",
+            "expected": "not_tested",
+            "observed": "pass_with_notes_for_local_lineart_v2_followup"
+          },
+          {
+            "name": "requirements_hash_status_matches_lane_state",
+            "expected": "pending_ec2_static_match",
+            "observed": ""
+          },
+          {
+            "name": "requirements_path_status_matches_lane_state",
+            "expected": "pending_ec2_static_match",
+            "observed": ""
+          },
+          {
+            "name": "runtime_validation_queue_row_found",
+            "expected": "one queue row for required model",
+            "observed": "0 matching rows"
+          }
+        ]
+      },
+      {
+        "lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+        "result": "fail",
+        "failed_check_count": 11,
+        "failed_checks": [
+          {
+            "name": "registry_record_found_for_required_model",
+            "expected": "registry record for realvisxlV50_v50Bakedvae.safetensors",
+            "observed": "missing"
+          },
+          {
+            "name": "single_registry_record_for_required_model",
+            "expected": "exactly one matching registry record",
+            "observed": "0 matching records"
+          },
+          {
+            "name": "requirements_hash_status_matches_lane_state",
+            "expected": "pending_ec2_static_match",
+            "observed": ""
+          },
+          {
+            "name": "requirements_path_status_matches_lane_state",
+            "expected": "pending_ec2_static_match",
+            "observed": ""
+          },
+          {
+            "name": "runtime_validation_queue_row_found",
+            "expected": "one queue row for required model",
+            "observed": "0 matching rows"
+          },
+          {
+            "name": "registry_compatibility_status_matches_lane_state",
+            "expected": "needs_runtime_validation",
+            "observed": "local_runtime_smoke_validated_with_notes"
+          },
+          {
+            "name": "registry_runtime_validation_status_matches_lane_state",
+            "expected": "queued",
+            "observed": "local_generation_smoke_complete"
+          },
+          {
+            "name": "registry_qa_status_matches_lane_state",
+            "expected": "not_tested",
+            "observed": "pass_with_notes_for_local_openpose_controlnet_smoke"
+          },
+          {
+            "name": "requirements_hash_status_matches_lane_state",
+            "expected": "pending_ec2_static_match",
+            "observed": ""
+          },
+          {
+            "name": "requirements_path_status_matches_lane_state",
+            "expected": "pending_ec2_static_match",
+            "observed": ""
+          },
+          {
+            "name": "runtime_validation_queue_row_found",
+            "expected": "one queue row for required model",
+            "observed": "0 matching rows"
+          }
+        ]
+      },
+      {
+        "lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+        "result": "fail",
+        "failed_check_count": 11,
+        "failed_checks": [
+          {
+            "name": "registry_record_found_for_required_model",
+            "expected": "registry record for realvisxlV50_v50Bakedvae.safetensors",
+            "observed": "missing"
+          },
+          {
+            "name": "single_registry_record_for_required_model",
+            "expected": "exactly one matching registry record",
+            "observed": "0 matching records"
+          },
+          {
+            "name": "requirements_hash_status_matches_lane_state",
+            "expected": "pending_ec2_static_match",
+            "observed": ""
+          },
+          {
+            "name": "requirements_path_status_matches_lane_state",
+            "expected": "pending_ec2_static_match",
+            "observed": ""
+          },
+          {
+            "name": "runtime_validation_queue_row_found",
+            "expected": "one queue row for required model",
+            "observed": "0 matching rows"
+          },
+          {
+            "name": "registry_compatibility_status_matches_lane_state",
+            "expected": "needs_runtime_validation",
+            "observed": "local_runtime_smoke_validated_with_notes"
+          },
+          {
+            "name": "registry_runtime_validation_status_matches_lane_state",
+            "expected": "queued",
+            "observed": "local_generation_smoke_complete"
+          },
+          {
+            "name": "registry_qa_status_matches_lane_state",
+            "expected": "not_tested",
+            "observed": "pass_with_notes_for_local_normal_controlnet_smoke"
+          },
+          {
+            "name": "requirements_hash_status_matches_lane_state",
+            "expected": "pending_ec2_static_match",
+            "observed": ""
+          },
+          {
+            "name": "requirements_path_status_matches_lane_state",
+            "expected": "pending_ec2_static_match",
+            "observed": ""
+          },
+          {
+            "name": "runtime_validation_queue_row_found",
+            "expected": "one queue row for required model",
+            "observed": "0 matching rows"
+          }
+        ]
+      }
+    ]
+  },
+  "run_package_manifests": [
+    {
+      "path": "_ci_w64_20260708T232900-0500/run_packages/sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1/RUN_PACKAGE_MANIFEST.json",
+      "exists": true,
+      "result": "pass_local_only",
+      "lane_id": "sdxl_low_risk_fallback_lane",
+      "run_id": "sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1",
+      "file_count": null,
+      "bundle_zip": null,
+      "bundle_zip_sha256": null,
+      "source_git_clean": null,
+      "source_git_status_count": null
+    },
+    {
+      "path": "_ci_w64_20260708T232900-0500/run_packages/sdxl_realvisxl_base_lane_ci_preflight/RUN_PACKAGE_MANIFEST.json",
+      "exists": true,
+      "result": "pass_local_only",
+      "lane_id": "sdxl_realvisxl_base_lane",
+      "run_id": "sdxl_realvisxl_base_lane_ci_preflight",
+      "file_count": null,
+      "bundle_zip": null,
+      "bundle_zip_sha256": null,
+      "source_git_clean": null,
+      "source_git_status_count": null
+    }
+  ],
+  "deploy_bundle_manifests": [
+    {
+      "path": "_ci_w64_20260708T232900-0500/deploy_bundle/sdxl_low_risk/DEPLOY_BUNDLE_MANIFEST.json",
+      "exists": true,
+      "result": "pass_local_only",
+      "lane_id": "sdxl_low_risk_fallback_lane",
+      "run_id": null,
+      "file_count": 30,
+      "bundle_zip": "sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1.zip",
+      "bundle_zip_sha256": "912f7a8bf3133098520515423caa868e50df0bd83eebb380ebaea764824a1676",
+      "source_git_clean": false,
+      "source_git_status_count": 954
+    },
+    {
+      "path": "_ci_w64_20260708T232900-0500/deploy_bundle/realvisxl/DEPLOY_BUNDLE_MANIFEST.json",
+      "exists": true,
+      "result": "pass_local_only",
+      "lane_id": "sdxl_realvisxl_base_lane",
+      "run_id": null,
+      "file_count": 29,
+      "bundle_zip": "sdxl_realvisxl_base_lane_ci_preflight.zip",
+      "bundle_zip_sha256": "76024e2df9da4dcaa9cfc53738d6a9ac3c04b497d5b0a525a22ece1411370491",
+      "source_git_clean": false,
+      "source_git_status_count": 954
+    }
+  ],
+  "blocker": {
+    "reason": "Model registry coverage gate fails for RealVisXL/ControlNet lane registry, queue, and lane-state alignment.",
+    "coverage_gate_failed": true,
+    "package_builds_preserved": true,
+    "coverage_refresh_loop_allowed": false,
+    "next_allowed_action": "Advance to TRK-W64-041/ITEM-W64-041 unless model registry sources are intentionally changed."
+  },
+  "gold_mask_dependency_boundary": {
+    "mask_truth_consumed": false,
+    "masks_promoted": false,
+    "hard_gates_rerun": false,
+    "wave71_activation_attempted": false
+  },
+  "errors": [],
+  "qa_decision": "blocked_github_actions_ci_package_model_registry_coverage_gate",
+  "next_step": "Advance to TRK-W64-041/ITEM-W64-041 S3 deploy bundle/model cache readiness; do not rerun coverage for this row unless source/config changes.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/github_actions_ci_package.json",
+    "Plan/Instructions/QA/Evidence/Wave64/GITHUB_ACTIONS_CI_PACKAGE_20260708T232951-0500.json",
+    "Plan/Tracker/Evidence/GITHUB_ACTIONS_CI_PACKAGE_20260708T232951-0500.json",
+    "_ci_w64_20260708T232900-0500/LOCAL_CI_PACKAGE_MIRROR_SUMMARY.json",
+    "_ci_w64_20260708T232900-0500/model_registry/model_registry_coverage.json",
+    "_ci_w64_20260708T232900-0500/run_packages/sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1/RUN_PACKAGE_MANIFEST.json",
+    "_ci_w64_20260708T232900-0500/run_packages/sdxl_realvisxl_base_lane_ci_preflight/RUN_PACKAGE_MANIFEST.json",
+    "_ci_w64_20260708T232900-0500/deploy_bundle/sdxl_low_risk/DEPLOY_BUNDLE_MANIFEST.json",
+    "_ci_w64_20260708T232900-0500/deploy_bundle/realvisxl/DEPLOY_BUNDLE_MANIFEST.json"
+  ]
+}

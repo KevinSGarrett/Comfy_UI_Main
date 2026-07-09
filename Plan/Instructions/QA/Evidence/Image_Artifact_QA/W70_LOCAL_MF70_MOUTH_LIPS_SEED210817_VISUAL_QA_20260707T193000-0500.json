@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-LOCAL-MF70-MOUTH-LIPS-VISUAL-QA-20260707T193000-0500",
+  "timestamp": "2026-07-07T19:30:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "strict_whole_image_visual_qa_generated_output",
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "mask_type_id": "mf70_mouth_lips",
+  "tracker_id": "TRK-W70-0018",
+  "item_id": "ITEM-W70-0018",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "artifacts": {
+    "prompt_profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_mouth_lips_seed210817.json",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_mouth_lips_seed210817/RUN_PACKAGE_MANIFEST.json",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_MOUTH_LIPS_SEED210817_EXECUTE_20260707T193000-0500.json",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_mouth_lips_seed210817_20260707T191423-0500/images/codex_wave70_mf70_mouth_lips_seed210817_00001_.png",
+    "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_mouth_lips_seed210817_20260707T191423-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00023_.png",
+    "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_mouth_lips/qa_comparisons/wave70_mf70_mouth_lips_source_overlay_output_compare.png",
+    "mask_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_mouth_lips.json"
+  },
+  "artifact_hashes": {
+    "prompt_profile_sha256": "842e5a789d0fa9e1486df943343036f9da6629ab2cd79f2cc28433141b7333ee",
+    "run_package_sha256": "30adc464bd399259fd6af6742b6e6aeeff2f501cae757479662c12c2a34f3f71",
+    "runtime_evidence_sha256": "23f5af4291df817330686ea3dc698dbc0f4c697b14ed8e018f169bf378293ef1",
+    "generated_output_sha256": "60ffde4a69ad5a67194c2f53d7f62fe63db6a6415b48877c81004ea93e00d1dc",
+    "diagnostic_mask_preview_sha256": "7b7196f32ece3335b79256fe0129caf8fab71f20c14ab9e04d406b9fa4bd78e9",
+    "comparison_artifact_sha256": "5f4a80c87b0036c7b13e26a1c0aff25a364eb356bad588df7f7fb26436a95c3e"
+  },
+  "review_method": "direct local inspection of source image, revised mouth/lips mask overlay, generated output, and three-panel comparison artifact",
+  "strict_whole_image_findings": {
+    "identity_preserved": true,
+    "expression_preserved": true,
+    "gaze_preserved": true,
+    "iris_pupil_sclera_preserved": true,
+    "mouth_lips_region_result": "pass_with_notes_subtle_outer_lip_texture_contour_preservation_only",
+    "upper_lip_preserved": true,
+    "lower_lip_preserved": true,
+    "mouth_line_preserved": true,
+    "teeth_unchanged_or_not_introduced": true,
+    "tongue_not_introduced": true,
+    "philtrum_preserved": true,
+    "nose_preserved": true,
+    "chin_preserved": true,
+    "cheeks_preserved": true,
+    "skin_texture_preserved": true,
+    "hair_preserved": true,
+    "hands_visible": false,
+    "clothing_preserved": true,
+    "background_preserved": true,
+    "lighting_preserved": true,
+    "visible_seam": false,
+    "whole_frame_regression": false
+  },
+  "findings": [
+    "Generated output is visually source-stable against the active local MOD-17 Canny v3 portrait.",
+    "Upper lip, lower lip, and central mouth line remain natural; no smile, frown, open-mouth, swollen-lip, thin-lip, lipstick, or gloss drift is visible.",
+    "Teeth and tongue are not introduced or mutated; the protected inner-mouth slit remains stable.",
+    "Philtrum, nose, chin, cheeks, surrounding skin, eye cores, gaze, iris/sclera/catchlights, eyebrows, hair, blazer, neck, lighting, crop, and gray background remain stable.",
+    "No visible hard seam, color mismatch, over-smoothed mouth patch, or unrelated whole-frame mutation was observed."
+  ],
+  "result": "pass_with_notes_local_wave70_mouth_lips_generated_output",
+  "remaining_blockers": [
+    "target_runtime_proof_required_before_final_certification"
+  ],
+  "boundary": "This approves the local generated-output proof for Wave70 mf70_mouth_lips only. Final Wave70 item certification still requires target-runtime proof."
+}

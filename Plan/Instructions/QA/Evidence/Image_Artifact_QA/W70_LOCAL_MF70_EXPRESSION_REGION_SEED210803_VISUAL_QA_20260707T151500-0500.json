@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_LOCAL_MF70_EXPRESSION_REGION_SEED210803_VISUAL_QA_20260707T151500-0500",
+  "created_at": "2026-07-07T15:15:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "mask_type_id": "mf70_expression_region",
+  "tracker_id": "TRK-W70-0003",
+  "item_id": "ITEM-W70-0003",
+  "qa_type": "strict_whole_image_visual_qa",
+  "result": "pass_with_notes_local_wave70_expression_region_generated_output",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "source_image": "ComfyUI/input/wave70_mf70_face_identity_source_canny_v3.png",
+  "mask_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_expression_region_20260707T151500-0500/wave70_mf70_expression_region_overlay.png",
+  "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_expression_region_seed210803_20260707T151012-0500/images/codex_wave70_mf70_expression_region_seed210803_00001_.png",
+  "generated_output_sha256": "880505d922c71895bec90c10774c9568e157962ebb1f01cf1b3d175e631c80e8",
+  "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_expression_region_seed210803_20260707T151012-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00009_.png",
+  "diagnostic_mask_preview_sha256": "9a925e603311edf56134548c0e80b4ced9dd60d69233e3194522b7134d3224f9",
+  "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_expression_region/qa_comparisons/wave70_mf70_expression_region_source_overlay_output_compare.png",
+  "comparison_artifact_sha256": "d5b7acd380f4a99f56e2553b54558723a70eeceedf939030b58aa605667879b7",
+  "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_EXPRESSION_REGION_SEED210803_EXECUTE_20260707T152000-0500.json",
+  "runtime_evidence_sha256": "7833c14ee342a580c19243702c16c25a9950fdad91422799e536ae8f2924a4d4",
+  "visual_findings": [
+    "Generated output preserves the source portrait identity, gaze direction, hair silhouette, white blazer, neck, and gray background.",
+    "Expression-region pass remains subtle at denoise 0.10; eyes, brows, cheeks, nose, and mouth stay anatomically coherent.",
+    "Compared with the source, the generated face/expression region is slightly darker and sharper, with small lip and eye-contrast shifts.",
+    "No visible teeth, new facial hair, clothing mutation, background mutation, obvious edge seam, or plastic-skin failure was observed.",
+    "Small right-side hair contact from the expression mask remains a local-support note and requires target-runtime reproof before final certification."
+  ],
+  "decision": {
+    "generated_output_proof_present": true,
+    "whole_image_visual_qa_passed_with_notes": true,
+    "target_runtime_proof_present": false,
+    "final_certification_allowed": false,
+    "remaining_blockers": [
+      "target_runtime_proof_required_before_final_certification"
+    ]
+  }
+}

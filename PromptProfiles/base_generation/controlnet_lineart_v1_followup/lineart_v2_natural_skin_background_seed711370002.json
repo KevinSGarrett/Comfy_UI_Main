@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "lineart_v2_natural_skin_background_seed711370002",
+  "target_lane_id": "sdxl_realvisxl_controlnet_lineart_lane",
+  "purpose": "Bounded local lineart QA iteration from v1 notes: reduce slight skin polish and replace stylized vertical background light strips with a quieter natural interior background while keeping the same model, control image, and ControlNet strength.",
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic cinematic editorial portrait, natural skin texture, realistic fine pores, subtle cheek texture, soft human skin asymmetry, realistic eyes with clean catchlights, clear iris detail, gentle eye fill light, open shadow detail, detailed hair, contour-guided composition, coherent facial contours, clean jawline and neck separation, crisp shirt collar boundary, tailored dark blazer over textured shirt, clothed shoulders, quiet neutral interior background, soft window fill light, balanced exposure, clean face with no painted marks, lifelike lens rendering",
+    "negative_prompt": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, beauty filter skin, airbrushed face, porcelain skin, glossy skin, distorted anatomy, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text, lineart artifacts, ink outlines, harsh black outlines, contour stains, colored blotches, paint marks, over-dark eyes, underexposed eyes, muddy shadows, crushed shadows, vertical light bars, glowing light strips, studio light columns, smeared jawline, warped collar edge, control map stains, bare shoulders, strapless top, nude, unclothed torso",
+    "seed": 711370002,
+    "save_prefix": "codex_sdxl_realvisxl_controlnet_lineart_v2_natural_skin_background_seed711370002"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_sdxl_realvisxl_controlnet_lineart_v2_natural_skin_background_seed711370002"
+  },
+  "qa_focus": [
+    "whole-image prompt alignment",
+    "skin texture versus beauty smoothing",
+    "background coherence without vertical light bars",
+    "lineart leakage or contour staining",
+    "eye realism",
+    "clothing and collar edges",
+    "generation artifacts"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_target_runtime_reproof_before_certification": true,
+    "requires_whole_image_qa_before_promotion": true
+  }
+}

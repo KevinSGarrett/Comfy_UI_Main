@@ -1,0 +1,299 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-NOSE-STRICT-REPAIR-LOCAL-SUPPORT-20260707T204500-0500",
+  "timestamp": "2026-07-07T20:50:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave70_ultimate_mask_factory_strict_overlay_repair_artifact_routing_support",
+  "mask_type_id": "mf70_nose",
+  "tracker_id": "TRK-W70-0017",
+  "item_id": "ITEM-W70-0017",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "source_requirements": [
+    "Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_FACTORY_TAXONOMY.md#L50",
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv:TRK-W70-0017",
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv:ITEM-W70-0017",
+    "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_ALIGNMENT_STRICT_VISUAL_REVIEW_20260707T192500-0500.json"
+  ],
+  "artifacts": {
+    "request": "runtime_artifacts/mask_factory/wave70_mf70_nose/MASK_FACTORY_REQUEST.json",
+    "contract": "runtime_artifacts/mask_factory/wave70_mf70_nose/MASK_FACTORY_CONTRACT.json",
+    "contract_validation": "runtime_artifacts/mask_factory/wave70_mf70_nose/MASK_FACTORY_CONTRACT_VALIDATION.json",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_mf70_nose/MASK_RUNTIME_EVIDENCE.json",
+    "quality_report": "runtime_artifacts/mask_factory/wave70_mf70_nose/MASK_QUALITY_REPORT.json",
+    "patch_manifest": "runtime_artifacts/mask_factory/wave70_mf70_nose/MASK_TO_WORKFLOW_PATCH_MANIFEST.csv",
+    "mask_png": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_nose_20260707T204500-0500/wave70_mf70_nose_mask.png",
+    "comfyui_input_copy": "ComfyUI/input/wave70_mf70_nose_mask.png",
+    "preview_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_nose_20260707T204500-0500/wave70_mf70_nose_overlay.png",
+    "source_crop": "runtime_artifacts/mask_factory/wave70_mf70_nose/visibility_review/mf70_nose_strict_repair_source_crop_20260707T204500-0500.png",
+    "zoomed_overlay_crop": "runtime_artifacts/mask_factory/wave70_mf70_nose/visibility_review/mf70_nose_strict_repair_overlay_crop_20260707T204500-0500.png"
+  },
+  "mask_asset": {
+    "mask_id": "scene_wave70_canny_v3__person_001__mf70_nose__minor",
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_nose_20260707T204500-0500/wave70_mf70_nose_mask.png",
+    "sha256": "465674f1583412c62c448efe2528965fa47a6c2729e426771394eed66c708e4b",
+    "width": 768,
+    "height": 768,
+    "coverage_percent": 1.8848,
+    "person_instance_id": "person_001",
+    "body_region_id": "full_nose_bridge_tip_nostrils",
+    "scale": "minor"
+  },
+  "validation": {
+    "contract_valid": true,
+    "contract_errors": [],
+    "contract_warnings": [],
+    "quality_score": 90.0,
+    "minimum_required": 85,
+    "quality_passed": true,
+    "workflow_routing_manifest_present": true,
+    "preview_overlay_generated": true,
+    "zoomed_overlay_crop_generated": true,
+    "protected_neighbor_check_pass": false,
+    "generated_output_proof_present": true,
+    "target_runtime_proof_present": false,
+    "blockers": [
+      "target_runtime_proof_required_before_final_certification",
+      "user_disputed_mask_alignment_requires_source_overlay_rebuild",
+      "user_disputed_v2_mask_alignment_false_positive_requires_new_geometry",
+      "wave70_mask_promotion_gate_not_passed",
+      "unresolved_user_global_mask_alignment_dispute_requires_row_level_zoom_proof",
+      "reference_image_matrix_required_before_generalized_completion"
+    ],
+    "mask_alignment_semantic_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "reference_image_matrix_pass": false,
+    "generalized_completion_allowed": false
+  },
+  "overlay_visual_review": {
+    "review_method": "direct local inspection of source image, repaired full overlay, and zoomed overlay crop before generated-output proof",
+    "result": "pass_with_notes_strict_overlay_visual_review",
+    "findings": [
+      "Repaired mask covers the full visible nose bridge, sidewalls, tip, alae, and nostril region more honestly than the superseded narrow mask.",
+      "The mask uses final post-protection boundary overlay, not pre-subtraction shortcut polygon outlines.",
+      "Zoomed overlay review shows clearance from eye cores, inner canthus regions, philtrum, upper lip, and mouth; closest protected neighbors are near but not covered.",
+      "Lower boundary stays above the upper lip/mouth while retaining visible nostril and ala regions."
+    ]
+  },
+  "semantic_mask_alignment": {
+    "result": "fail_user_disputed_v2_false_positive",
+    "named_target_match": false,
+    "full_visible_target_covered": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed": false,
+    "findings": [
+      "User-supplied v2 panel shows the candidate shifted toward viewer-right cheek/under-eye region rather than centered on the visible nose.",
+      "The candidate misses meaningful full-nose anatomy and does not provide trustworthy sidewall/ala/nostril coverage.",
+      "Protected-neighbor clearance from eye/canthus, cheek, philtrum, upper lip, and mouth is not proven.",
+      "Generated-output stability remains separate output-geometry evidence only."
+    ],
+    "mask_alignment_semantic_pass": false,
+    "completion_allowed_by_mask_alignment": false
+  },
+  "result": "blocked_wave70_mask_promotion_gate_not_passed_nose_v3_repair_evidence_only",
+  "boundary": "Current mf70_nose v2 candidate is fail-closed after user visual dispute; generated-output stability is retained only as output-geometry evidence and does not promote mask alignment.",
+  "generated_output_proof": {
+    "prompt_profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_nose_strict_repair_seed210819.json",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_nose_strict_repair_seed210819/RUN_PACKAGE_MANIFEST.json",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_NOSE_STRICT_REPAIR_SEED210819_EXECUTE_20260707T205000-0500.json",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_nose_strict_repair_seed210819_20260707T201501-0500/images/codex_wave70_mf70_nose_strict_repair_seed210819_00001_.png",
+    "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_nose_strict_repair_seed210819_20260707T201501-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00025_.png",
+    "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_nose/qa_comparisons/wave70_mf70_nose_strict_repair_source_overlay_output_compare.png",
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_NOSE_STRICT_REPAIR_SEED210819_VISUAL_QA_20260707T205000-0500.json",
+    "result": "pass_with_notes_local_wave70_nose_strict_repair_generated_output",
+    "hashes": {
+      "prompt_profile_sha256": "b154c500f89b0275560c792a1f06fe393f2942e1823429022e7baa6bc1a7c8ad",
+      "run_package_sha256": "d5e56566851fa0ddccfb9e691d21c4d58c552bcf00d51140b2ca84f6d2c92427",
+      "runtime_evidence_sha256": "b9af36317a895f35c85f86da14d421657acda78c866538f135a1aeaa84486bd0",
+      "generated_output_sha256": "41a3c99884f108e09d575769a4529af3aa34766dc74a2beff89c6ca4f265b464",
+      "diagnostic_mask_preview_sha256": "e3eb935444f11cb4a9c738abfe49239a9c982f2784c344f4deaca9815d6ec55c",
+      "comparison_artifact_sha256": "720879cbb5631a56ea4350ee7118f3a628a03c9681b832a2fb507a064e3716b9",
+      "visual_qa_sha256": "13db48e0200a38b745e47e03e2d046fd1c8fd9ddb4b61fb2dbdf6cdc96b05bcc"
+    }
+  },
+  "user_global_mask_alignment_dispute": {
+    "review_id": "W70-MASK-ALIGNMENT-USER-DISPUTE-GLOBAL-REVIEW-20260707T211000-0500",
+    "timestamp": "2026-07-07T21:10:00-05:00",
+    "evidence": "Plan\\Instructions\\QA\\Evidence\\Mask_Factory\\Wave70\\W70_MASK_ALIGNMENT_USER_DISPUTE_GLOBAL_REVIEW_20260707T211000-0500.json",
+    "user_report": "Every generated mask appears visibly off from the actual picture; the nose case specifically appears to cover the mouth and not match source anatomy.",
+    "corrected_status": "Mask_Alignment_Fail_Generated_Output_Safe_Target_Runtime_Pending",
+    "mask_alignment_semantic_pass": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "prior_pass_claim_frozen": true,
+    "required_next_action": "Rebuild or re-audit the mask from source image geometry with zoomed overlay review and protected-neighbor exclusions before any generated-output proof is used for advancement."
+  },
+  "fail_closed_alignment_audit": {
+    "audit_id": "W70-MASK-ALIGNMENT-FAIL-CLOSED-AUDIT-20260707T211500-0500",
+    "timestamp": "2026-07-07T21:15:00-05:00",
+    "evidence": "Plan\\Instructions\\QA\\Evidence\\Mask_Factory\\Wave70\\W70_MASK_ALIGNMENT_FAIL_CLOSED_AUDIT_20260707T211500-0500.json",
+    "audit_panel": "runtime_artifacts/mask_factory/wave70_alignment_audit_20260707T211500-0500/mf70_nose_source_mask_alignment_panel.png",
+    "audit_panel_sha256": "f713158006097eb21b1638dff1578f1e6cb35975f58fad092c05fd8f67f92647",
+    "decision": "fail_user_disputed",
+    "corrected_status": "Mask_Alignment_Fail_Generated_Output_Safe_Target_Runtime_Pending",
+    "semantic_mask_alignment_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "fail_closed_until_source_geometry_rebuilt": true
+  },
+  "source_landmark_repair_candidate": {
+    "evidence": "Plan\\Instructions\\QA\\Evidence\\Mask_Factory\\Wave70\\W70_MF70_NOSE_SOURCE_LANDMARK_REPAIR_20260707T212500-0500.json",
+    "tracker_evidence": "Plan\\Tracker\\Evidence\\W70_MF70_NOSE_SOURCE_LANDMARK_REPAIR_20260707T212500-0500.json",
+    "timestamp": "2026-07-07T21:25:00-05:00",
+    "result": "mf70_nose_source_landmark_repair_candidate_created_pending_strict_overlay_review",
+    "status": "source_landmark_repair_candidate_pending_strict_overlay_review",
+    "candidate_mask": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_nose_source_landmark_20260707T212500-0500/wave70_mf70_nose_mask.png",
+    "candidate_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_nose_source_landmark_20260707T212500-0500/wave70_mf70_nose_overlay.png",
+    "candidate_panel": "runtime_artifacts/mask_factory/wave70_mf70_nose/source_landmark_repair/mf70_nose_source_landmark_repair_panel_20260707T212500-0500.png",
+    "landmark_manifest": "runtime_artifacts/mask_factory/wave70_mf70_nose/source_landmark_repair/mf70_nose_source_landmarks_20260707T212500-0500.json",
+    "coverage_percent": 1.2168,
+    "previous_failed_coverage_percent": 1.8848,
+    "semantic_mask_alignment_pass": false,
+    "protected_neighbor_pass": false,
+    "completion_allowed_by_mask_alignment": false,
+    "generated_output_executed": false,
+    "notes": [
+      "Candidate is tighter and uses source-specific pixel landmarks plus mouth/eye/cheek guardrails. It is not promoted to pass until strict overlay review and fail-closed audit accept it."
+    ]
+  },
+  "source_landmark_repair_v2_candidate": {
+    "v2_evidence": "Plan\\Instructions\\QA\\Evidence\\Mask_Factory\\Wave70\\W70_MF70_NOSE_SOURCE_LANDMARK_REPAIR_V2_20260707T214500-0500.json",
+    "v2_tracker_evidence": "Plan\\Tracker\\Evidence\\W70_MF70_NOSE_SOURCE_LANDMARK_REPAIR_V2_20260707T214500-0500.json",
+    "overlap_evidence": "Plan\\Instructions\\QA\\Evidence\\Mask_Factory\\Wave70\\W70_MF70_NOSE_SOURCE_LANDMARK_V2_PROTECTED_OVERLAP_AUDIT_20260707T214800-0500.json",
+    "overlap_tracker_evidence": "Plan\\Tracker\\Evidence\\W70_MF70_NOSE_SOURCE_LANDMARK_V2_PROTECTED_OVERLAP_AUDIT_20260707T214800-0500.json",
+    "timestamp": "2026-07-07T21:48:00-05:00",
+    "v2_result": "mf70_nose_source_landmark_repair_v2_candidate_created_pending_protected_overlap_audit",
+    "protected_overlap_result": "superseded_user_disputed_overlap_evidence_insufficient",
+    "candidate_mask": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_nose_source_landmark_v2_20260707T214500-0500/wave70_mf70_nose_mask.png",
+    "candidate_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_nose_source_landmark_v2_20260707T214500-0500/wave70_mf70_nose_overlay.png",
+    "candidate_panel": "runtime_artifacts/mask_factory/wave70_mf70_nose/source_landmark_repair_v2/mf70_nose_source_landmark_repair_v2_panel_20260707T214500-0500.png",
+    "protected_overlap_panel": "runtime_artifacts/mask_factory/wave70_mf70_nose/protected_boundary_audit/20260707T214800-0500/mf70_nose_v2_candidate_protected_overlap_panel.png",
+    "protected_overlap_matrix": "runtime_artifacts/mask_factory/wave70_mf70_nose/protected_boundary_audit/20260707T214800-0500/mf70_nose_source_landmark_v2_protected_overlap_matrix.csv",
+    "boundary_registry_manifest": "runtime_artifacts/mask_factory/wave70_mf70_nose/protected_boundary_audit/20260707T214800-0500/BOUNDARY_REGISTRY_MANIFEST.json",
+    "coverage_percent": 0.933,
+    "previous_v1_coverage_percent": 1.2168,
+    "protected_overlap_matrix_pass": false,
+    "canonical_boundary_layer_pass": false,
+    "semantic_mask_alignment_pass": false,
+    "completion_allowed_by_mask_alignment": false,
+    "generated_output_executed": true,
+    "status": "fail_closed_user_disputed_v2_mask_alignment_needs_revision_generated_output_safe_target_runtime_pending_reference_matrix_pending",
+    "notes": [
+      "V2 candidate passes protected-overlap matrix with zero overlap against mouth/lips, upper lip, philtrum, eye/canthus/lower-lid, and cheek candidate boundaries. It is not promoted because canonical boundary layers and strict visual review remain pending.",
+      "User visual dispute supersedes v2 candidate acceptance: the panel shows the mask shifted off the nose and not safely separated from protected neighbors."
+    ],
+    "strict_visual_review_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_NOSE_V2_STRICT_VISUAL_ACCEPTANCE_20260707T215500-0500.json",
+    "strict_visual_review_tracker_evidence": "Plan/Tracker/Evidence/W70_MF70_NOSE_V2_STRICT_VISUAL_ACCEPTANCE_20260707T215500-0500.json",
+    "strict_visual_result": "superseded_fail_closed_user_disputed",
+    "semantic_mask_alignment_candidate_pass": false,
+    "generated_output_safe_pass": true,
+    "generated_output_visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_NOSE_V2_SOURCE_LANDMARK_SEED210820_VISUAL_QA_20260707T220500-0500.json"
+  },
+  "strict_visual_acceptance_v2": {
+    "evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_NOSE_V2_STRICT_VISUAL_ACCEPTANCE_20260707T215500-0500.json",
+    "tracker_evidence": "Plan/Tracker/Evidence/W70_MF70_NOSE_V2_STRICT_VISUAL_ACCEPTANCE_20260707T215500-0500.json",
+    "timestamp": "2026-07-07T21:55:00-05:00",
+    "result": "superseded_fail_closed_user_disputed",
+    "status": "fail_closed_user_disputed_v2_mask_alignment_needs_revision_generated_output_safe_target_runtime_pending_reference_matrix_pending",
+    "semantic_mask_alignment_candidate_pass": false,
+    "protected_overlap_matrix_pass": false,
+    "canonical_boundary_layer_pass": false,
+    "generated_output_executed_for_v2": false,
+    "target_runtime_proof_present": false,
+    "reference_image_matrix_pass": false,
+    "completion_allowed_by_mask_alignment": false,
+    "artifacts": {
+      "source_crop": "runtime_artifacts/mask_factory/wave70_mf70_nose/strict_visual_acceptance/20260707T215500-0500/mf70_nose_v2_strict_source_crop.png",
+      "mask_only_crop": "runtime_artifacts/mask_factory/wave70_mf70_nose/strict_visual_acceptance/20260707T215500-0500/mf70_nose_v2_strict_mask_only_crop.png",
+      "candidate_overlay_crop": "runtime_artifacts/mask_factory/wave70_mf70_nose/strict_visual_acceptance/20260707T215500-0500/mf70_nose_v2_strict_candidate_overlay_crop.png",
+      "boundary_overlay_crop": "runtime_artifacts/mask_factory/wave70_mf70_nose/strict_visual_acceptance/20260707T215500-0500/mf70_nose_v2_strict_boundary_overlay_crop.png",
+      "strict_visual_acceptance_panel": "runtime_artifacts/mask_factory/wave70_mf70_nose/strict_visual_acceptance/20260707T215500-0500/mf70_nose_v2_strict_visual_acceptance_panel.png"
+    },
+    "findings": [
+      "V2 candidate no longer covers the mouth or lips and stays above the philtrum/upper-lip protected boundary.",
+      "V2 candidate covers the visible nose bridge, sidewalls, tip, alae, and nostril base on the active source crop.",
+      "Boundary overlay and protected-overlap matrix show zero overlap with mouth/lips, upper lip, philtrum, cheek, and eye/canthus protected regions.",
+      "This acceptance applies only to the v2 candidate on the active single-anchor source image; it does not rehabilitate earlier masks or certify generalized Wave70 readiness.",
+      "Superseded: user-provided panel shows the v2 candidate is still visibly off-target and cannot pass semantic nose-mask alignment."
+    ],
+    "superseded_by_user_dispute": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_NOSE_V2_USER_DISPUTE_FAIL_CLOSED_20260707T211900-0500.json"
+  },
+  "source_landmark_repair_v2_generated_output_proof": {
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_NOSE_V2_SOURCE_LANDMARK_SEED210820_VISUAL_QA_20260707T220500-0500.json",
+    "tracker_evidence": "Plan/Tracker/Evidence/W70_MF70_NOSE_V2_GENERATED_OUTPUT_20260707T220500-0500.json",
+    "timestamp": "2026-07-07T22:05:00-05:00",
+    "result": "generated_output_safe_only_mask_alignment_fail_closed_user_disputed",
+    "status": "fail_closed_user_disputed_v2_mask_alignment_needs_revision_generated_output_safe_target_runtime_pending_reference_matrix_pending",
+    "generated_output_safe_pass": true,
+    "semantic_mask_alignment_candidate_pass": false,
+    "target_runtime_proof_present": false,
+    "reference_image_matrix_pass": false,
+    "final_completion_allowed": false,
+    "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_nose/qa_comparisons/wave70_mf70_nose_v2_source_landmark_source_overlay_output_compare.png",
+    "notes": [
+      "Local generated-output proof used the accepted v2 source-landmark mask.",
+      "Whole-image QA did not find nose shape mutation, mouth/lip/philtrum drift, eye/gaze drift, cheek deformation, visible edge, clothing drift, or background regression.",
+      "This proof does not certify other disputed masks and does not replace target-runtime or reference-matrix proof.",
+      "Generated output may remain visually safe, but the user-disputed v2 mask is not a semantic alignment pass."
+    ],
+    "superseded_by_user_dispute": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_NOSE_V2_USER_DISPUTE_FAIL_CLOSED_20260707T211900-0500.json"
+  },
+  "user_v2_visual_dispute_fail_closed": {
+    "evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_NOSE_V2_USER_DISPUTE_FAIL_CLOSED_20260707T211900-0500.json",
+    "tracker_evidence": "Plan/Tracker/Evidence/W70_MF70_NOSE_V2_USER_DISPUTE_FAIL_CLOSED_20260707T211900-0500.json",
+    "timestamp": "2026-07-07T21:19:00-05:00",
+    "result": "fail_closed_user_disputed_v2_mask_alignment_needs_revision_generated_output_safe_target_runtime_pending_reference_matrix_pending",
+    "corrected_status": "User_Disputed_Mask_Alignment_Fail_Generated_Output_Safe_Target_Runtime_Pending",
+    "semantic_mask_alignment_candidate_pass": false,
+    "protected_neighbor_pass": false,
+    "protected_overlap_matrix_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "required_next_action": "Regenerate mf70_nose geometry and re-run source-overlay QA before any additional runtime or promotion proof."
+  },
+  "source_landmark_repair_v3": {
+    "evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_NOSE_SOURCE_LANDMARK_REPAIR_V3_20260707T225500-0500.json",
+    "tracker_evidence": "Plan/Tracker/Evidence/W70_MF70_NOSE_SOURCE_LANDMARK_REPAIR_V3_20260707T225500-0500.json",
+    "source_alignment_validator_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_SOURCE_ALIGNMENT_FAIL_CLOSED_VALIDATION_20260707T230000-0500.json",
+    "source_alignment_validator_tracker_evidence": "Plan/Tracker/Evidence/W70_SOURCE_ALIGNMENT_FAIL_CLOSED_VALIDATION_20260707T230000-0500.json",
+    "timestamp": "2026-07-07T22:55:00-05:00",
+    "result": "mf70_nose_v3_source_landmark_repair_metrics_clean_but_hard_gate_blocked",
+    "status": "Blocked_Wave70_Mask_Promotion_Gate_Not_Passed",
+    "candidate_mask": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_nose_source_landmark_v3_20260707T225500-0500/wave70_mf70_nose_mask.png",
+    "candidate_panel": "runtime_artifacts/mask_factory/wave70_mf70_nose/source_landmark_repair_v3/20260707T225500-0500/mf70_nose_v3_source_landmark_panel.png",
+    "validator_panel": "runtime_artifacts/mask_factory/wave70_source_alignment_fail_closed_20260707T230000-0500/mf70_nose_source_alignment_fail_closed_panel.png",
+    "validator_metrics": {
+      "mask_bbox": [
+        344,
+        298,
+        423,
+        410
+      ],
+      "mask_pixels": 5645,
+      "outside_allowed_ratio": 0.0,
+      "bbox_inside_allowed_ratio": 1.0,
+      "protected_zone_hits": {},
+      "remaining_findings": [
+        "unresolved_user_global_mask_alignment_dispute_requires_row_level_zoom_proof"
+      ]
+    },
+    "generated_output_executed": false,
+    "generated_output_safe_pass": false,
+    "semantic_mask_alignment_promoted": false,
+    "wave70_mask_promotion_gate_pass": false,
+    "completion_allowed_by_mask_alignment": false,
+    "notes": [
+      "V3 repair tightens bottom boundary above philtrum/upper-lip guardrail and separates eye aperture guardrails left/right.",
+      "Source-alignment validator no longer reports mouth, philtrum, or eye aperture protected-zone hits for mf70_nose.",
+      "Row remains blocked because global user dispute is unresolved and no W70_MASK_PROMOTION_ROW_GATE_PASS_TRUE evidence exists."
+    ]
+  }
+}

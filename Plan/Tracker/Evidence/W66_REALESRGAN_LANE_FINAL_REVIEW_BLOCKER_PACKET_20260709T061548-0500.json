@@ -1,0 +1,202 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "lane_final_review_blocker_packet",
+    "blocker_id":  "BLOCK-W66-SDXL-REALESRGAN-LANE-FINAL-REVIEW-20260709T061548-0500",
+    "created_at":  "2026-07-09T06:15:48-05:00",
+    "task_tracker_id":  "WO-W66-SDXL_REALESRGAN_UPSCALE_POLISH_LANE-FINAL-CERTIFICATION-REVIEW",
+    "lane_id":  "sdxl_realesrgan_upscale_polish_lane",
+    "result":  "blocked_realesrgan_lane_final_review_target_runtime_proof_missing",
+    "final_decision":  "blocked",
+    "local_only":  true,
+    "new_ec2_started":  false,
+    "new_generation_executed":  false,
+    "historical_ec2_started":  false,
+    "historical_generation_executed":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "s3_contacted":  false,
+    "comfyui_contacted":  false,
+    "masks_consumed_as_truth":  false,
+    "masks_promoted":  false,
+    "wave70_hard_gate_rerun":  false,
+    "wave71_plus_activated":  false,
+    "full_project_certification_allowed":  false,
+    "closes_work_order":  false,
+    "artifact_scope":  "Lane-scoped final-review blocker packet for sdxl_realesrgan_upscale_polish_lane.",
+    "implementation_summary":  "Reviewed local RealESRGAN model provisioning, local run-package generation smoke, strict visual QA, p06 pass-planner binding, target-runtime plan, and runtime queue promotion rule without rerunning live runtime.",
+    "tests_performed":  [
+                            {
+                                "name":  "final_review_work_order_present",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "work_order_id":  "WO-W66-SDXL_REALESRGAN_UPSCALE_POLISH_LANE-FINAL-CERTIFICATION-REVIEW",
+                                                 "status":  "blocked_until_lane_evidence_complete"
+                                             },
+                                "expected":  "RealESRGAN final-certification-review work order is present"
+                            },
+                            {
+                                "name":  "target_runtime_plan_marks_proof_missing",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "target_runtime_proof_evidence_missing":  true,
+                                                 "selected_by_default":  false,
+                                                 "blocked_by":  [
+                                                                    "git_checkpoint_gate_not_clean_for_ec2_execute",
+                                                                    "runtime_handoff_git_gate_not_passing",
+                                                                    "target_runtime_or_final_certification_not_proven",
+                                                                    "target_runtime_proof_evidence_missing",
+                                                                    "queue_status_not_final_certified:local_upscale_polish_runtime_visual_qa_pass_with_notes_pending_target_runtime_and_final_certification",
+                                                                    "required_next_runtime_gate_still_requires_target_or_final_review"
+                                                                ]
+                                             },
+                                "expected":  "target-runtime plan records missing proof for the RealESRGAN lane"
+                            },
+                            {
+                                "name":  "queue_rule_requires_target_runtime_before_promotion",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "status":  "local_upscale_polish_runtime_visual_qa_pass_with_notes_pending_target_runtime_and_final_certification",
+                                                 "promotion_rule":  "Do not promote to final upscale/polish certification from this single local sample alone. Target-runtime object_info/path/hash proof, bounded target-runtime generation, pullback, technical QA, strict whole-image visual QA, and final certification review remain separate if this lane is selected for promotion."
+                                             },
+                                "expected":  "runtime queue explicitly requires target-runtime proof before final upscale/polish certification"
+                            },
+                            {
+                                "name":  "local_model_provisioning_passed_but_not_certifying",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "qa_result":  "pass_local_model_present_hash_recorded_and_runtime_loaded",
+                                                 "local_only":  true,
+                                                 "ec2_started":  false,
+                                                 "certification_allowed":  false
+                                             },
+                                "expected":  "local RealESRGAN model provisioning passed but does not certify target runtime"
+                            },
+                            {
+                                "name":  "local_runtime_smoke_passed",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "result":  "pass_local_run_package_generation_smoke",
+                                                 "local_only":  true,
+                                                 "ec2_started":  false,
+                                                 "generation_executed":  true,
+                                                 "errors":  0
+                                             },
+                                "expected":  "local upscale/polish run package generation smoke passed"
+                            },
+                            {
+                                "name":  "visual_qa_passes_with_notes_but_disallows_certification",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "qa_result":  "pass_with_notes_local_realesrgan_upscale_polish_runtime_and_visual_qa",
+                                                 "local_only":  true,
+                                                 "ec2_started":  false,
+                                                 "certification_allowed":  false,
+                                                 "remaining_risks":  [
+                                                                         "This is local runtime evidence only and does not prove target-runtime EC2 readiness.",
+                                                                         "The upscale lane improves resolution and validates local model integration, but final hyperrealism still needs downstream target-runtime proof and final promotion QA.",
+                                                                         "No broad multi-image upscale robustness matrix was run."
+                                                                     ],
+                                                 "tradeoffs":  [
+                                                                   "RealESRGAN preserves a smooth portrait look and does not reconstruct convincing pore-level skin texture from the source.",
+                                                                   "Some hair-edge strands remain soft or painterly at full-image scale.",
+                                                                   "Hands, feet, full-body anatomy, and contact points are outside this crop and remain uncertified."
+                                                               ]
+                                             },
+                                "expected":  "local visual QA passes with notes but explicitly disallows certification"
+                            },
+                            {
+                                "name":  "pass_planner_p06_bound_but_target_runtime_unbound",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "qa_result":  "pass_local_pass_planner_contract_p06_upscale_polish_bound_no_warnings",
+                                                 "local_only":  true,
+                                                 "target_runtime_proof_bound":  false,
+                                                 "certification_allowed":  false,
+                                                 "remaining_gaps":  [
+                                                                        "The plan is dry-run-first and did not execute ComfyUI during planner validation.",
+                                                                        "Target-runtime EC2 proof remains separate.",
+                                                                        "The plan does not promote final output or certify release readiness."
+                                                                    ]
+                                             },
+                                "expected":  "p06 evidence binding is cleared locally but target-runtime proof remains unbound"
+                            },
+                            {
+                                "name":  "run_package_matches_lane",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "lane_id":  "sdxl_realesrgan_upscale_polish_lane",
+                                                 "result":  "pass_local_only"
+                                             },
+                                "expected":  "run package manifest belongs to the RealESRGAN lane and passed local package validation"
+                            }
+                        ],
+    "blocker_summary":  [
+                            "realesrgan_lane_target_runtime_proof_evidence_missing",
+                            "target_runtime_object_info_path_hash_proof_missing",
+                            "bounded_target_runtime_output_missing",
+                            "target_runtime_pullback_technical_visual_qa_missing",
+                            "single_local_upscale_sample_not_broad_robustness_matrix",
+                            "local_pass_with_notes_not_final_certification",
+                            "explicit_user_target_runtime_selection_required",
+                            "git_checkpoint_gate_not_clean_for_ec2_execute",
+                            "deploy_bundle_source_git_dirty_rebuild_required_before_ec2",
+                            "full_project_certification_allowed_false"
+                        ],
+    "qa_summary":  {
+                       "queue_status":  "local_upscale_polish_runtime_visual_qa_pass_with_notes_pending_target_runtime_and_final_certification",
+                       "target_runtime_proof_evidence_missing":  true,
+                       "target_candidate_blockers":  [
+                                                         "git_checkpoint_gate_not_clean_for_ec2_execute",
+                                                         "runtime_handoff_git_gate_not_passing",
+                                                         "target_runtime_or_final_certification_not_proven",
+                                                         "target_runtime_proof_evidence_missing",
+                                                         "queue_status_not_final_certified:local_upscale_polish_runtime_visual_qa_pass_with_notes_pending_target_runtime_and_final_certification",
+                                                         "required_next_runtime_gate_still_requires_target_or_final_review"
+                                                     ],
+                       "model_provisioning_result":  "pass_local_model_present_hash_recorded_and_runtime_loaded",
+                       "local_runtime_result":  "pass_local_run_package_generation_smoke",
+                       "visual_qa_result":  "pass_with_notes_local_realesrgan_upscale_polish_runtime_and_visual_qa",
+                       "visual_certification_allowed":  false,
+                       "visual_remaining_risks":  [
+                                                      "This is local runtime evidence only and does not prove target-runtime EC2 readiness.",
+                                                      "The upscale lane improves resolution and validates local model integration, but final hyperrealism still needs downstream target-runtime proof and final promotion QA.",
+                                                      "No broad multi-image upscale robustness matrix was run."
+                                                  ],
+                       "visual_tradeoffs_or_notes":  [
+                                                         "RealESRGAN preserves a smooth portrait look and does not reconstruct convincing pore-level skin texture from the source.",
+                                                         "Some hair-edge strands remain soft or painterly at full-image scale.",
+                                                         "Hands, feet, full-body anatomy, and contact points are outside this crop and remain uncertified."
+                                                     ],
+                       "planner_binding_result":  "pass_local_pass_planner_contract_p06_upscale_polish_bound_no_warnings",
+                       "planner_target_runtime_proof_bound":  false,
+                       "planner_remaining_gaps":  [
+                                                      "The plan is dry-run-first and did not execute ComfyUI during planner validation.",
+                                                      "Target-runtime EC2 proof remains separate.",
+                                                      "The plan does not promote final output or certify release readiness."
+                                                  ]
+                   },
+    "evidence_paths":  {
+                           "work_order":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_20260709T042635-0500.json",
+                           "target_runtime_plan":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_TARGET_RUNTIME_EXECUTION_PLAN_20260709T060356-0500.json",
+                           "runtime_lane_queue":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+                           "model_provisioning":  "Plan/Instructions/QA/Evidence/Model_Registry/W69_LOCAL_REALESRGAN_UPSCALE_MODEL_PROVISIONING_20260707T110500-0500.json",
+                           "runtime_execute":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_UPSCALE_POLISH_REALESRGAN_CANNY_SEED711570105_EXECUTE_20260707T111000-0500.json",
+                           "visual_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_UPSCALE_POLISH_REALESRGAN_CANNY_SEED711570105_VISUAL_QA_20260707T111500-0500.json",
+                           "planner_binding":  "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W69_LOCAL_PASS_PLANNER_CANNY_INPAINT_READINESS_P06_BOUND_20260707T112000-0500.json",
+                           "run_package":  "runtime_artifacts/run_packages/upscale_polish_w69_canny_seed711570105/RUN_PACKAGE_MANIFEST.json"
+                       },
+    "known_issues":  [
+                         "W69 RealESRGAN model provisioning proves local model presence and local runtime loading only.",
+                         "W69 local upscale/polish generation smoke proves one local source-image pass only and explicitly keeps EC2 target-runtime proof separate.",
+                         "W69 local visual QA passes with notes but certification_allowed is false and no broad multi-image upscale robustness matrix was run.",
+                         "Wave14 pass-planner p06 evidence binding is cleared locally, but target_runtime_proof_bound remains false.",
+                         "The RealESRGAN lane promotion rule requires target-runtime object_info/path/hash proof, bounded target-runtime generation, pullback, technical QA, strict whole-image visual QA, and final certification review before promotion."
+                     ],
+    "defects":  [
+
+                ],
+    "certifier":  "Codex Desktop autonomous release manager",
+    "certification_boundary":  "Lane-scoped blocker review only. This does not certify full project completion, final RealESRGAN upscale/polish quality, target-runtime readiness, body-mask readiness, Wave70 mask promotion, or Wave71+ activation.",
+    "next_action":  "Do not close the RealESRGAN lane final-review work order from current local evidence. Target-runtime proof must be explicitly selected and pass clean Git, clean deploy-bundle, object_info/path/hash, bounded output, pullback, technical QA, strict visual QA, and robustness/final-review gates first."
+}

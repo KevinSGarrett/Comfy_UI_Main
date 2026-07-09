@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_HAIR_BODY_SKIN_MARKS_AUTHORITY_20260708T043800-0500",
+  "created_local": "20260708T043800-0500",
+  "task": "Implement hair body hair scalp skin marks and body skin authority for TRK-W70-0170 / ITEM-W70-0170.",
+  "script": "Plan/07_IMPLEMENTATION/scripts/implement_wave70_hair_body_skin_marks_authority.py",
+  "source_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "exists": true,
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "dimensions": [
+      768,
+      768
+    ]
+  },
+  "environment": {
+    "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "cwd": "C:\\Comfy_UI_Main"
+  },
+  "prerequisite_evidence": [
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_HUMAN_PART_PARSING_AUTHORITY_20260708T034134-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_POSE_LANDMARK_AUTHORITY_20260708T024435-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_TORSO_ABDOMEN_UMBILICUS_AUTHORITY_20260708T040248-0500.json"
+  ],
+  "source_visibility_analysis": {
+    "active_source_framing": "head_neck_upper_chest_portrait",
+    "image_dimensions": [
+      768,
+      768
+    ],
+    "required_region_results": {
+      "head_hair": {
+        "visibility": "visible_but_parser_unavailable",
+        "authority_status": "blocked",
+        "reason": "hair is visible, but no compatible semantic parser or landmark/refinement authority is available to export protected hair boundaries"
+      },
+      "scalp": {
+        "visibility": "not_directly_visible_under_hair",
+        "authority_status": "blocked",
+        "reason": "scalp surface is hidden by hair and cannot be inferred as a canonical polygon"
+      },
+      "body_hair": {
+        "visibility": "not_visible_in_crop",
+        "authority_status": "blocked",
+        "reason": "the active source does not expose body-hair regions"
+      },
+      "skin_marks": {
+        "visibility": "not_authoritatively_detected",
+        "authority_status": "blocked",
+        "reason": "no local skin-mark detector/parser evidence exists and manual visual hints cannot satisfy row authority"
+      },
+      "body_skin": {
+        "visibility": "partial_face_neck_upper_chest_only",
+        "authority_status": "blocked",
+        "reason": "visible skin is partial and lacks parser-backed separation from hair, clothing, and occluded regions"
+      }
+    },
+    "source_visibility_pass": false,
+    "hair_skin_region_pass": false,
+    "body_hair_region_pass": false,
+    "skin_mark_boundary_pass": false,
+    "semantic_human_part_parsing_pass": false,
+    "canonical_polygon_export_pass": false
+  },
+  "artifacts": {
+    "blocker_panel": "runtime_artifacts/mask_factory/wave70_hair_body_skin_marks_authority/20260708T043800-0500/hair_body_skin_marks_authority_blocker_panel.png",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_hair_body_skin_marks_authority/20260708T043800-0500/hair_body_skin_marks_authority.json"
+  },
+  "hair_body_skin_marks_authority": {
+    "result": "blocked",
+    "hair_skin_region_pass": false,
+    "body_hair_region_pass": false,
+    "skin_mark_boundary_pass": false,
+    "whole_body_geometry_authority_pass": false,
+    "pose_hand_dense_landmark_or_segmentation_pass": false,
+    "semantic_human_part_parsing_pass": false,
+    "contact_occlusion_ownership_pass": false,
+    "body_region_geometry_pass": false,
+    "body_reference_matrix_pass": false,
+    "canonical_polygon_export_pass": false,
+    "blocked_reason": "semantic_human_part_parsing_authority_unavailable; scalp_body_hair_and_skin_marks_not_authoritatively_visible_or_detected; partial_visible_skin_lacks_model_backed_boundary_ownership",
+    "findings": [
+      "Head hair and partial face/neck skin are visible in the active source.",
+      "Visible hair/skin alone is insufficient for this authority row because parser-backed boundaries are required before promotion.",
+      "Scalp is not directly visible under hair, and body-hair regions are not visible in the crop.",
+      "No local skin-mark detector or semantic part parser evidence exists for canonical region ownership.",
+      "No mask geometry was generated, changed, or promoted from this evidence."
+    ]
+  },
+  "qa_decision": "blocked_exact_local_hair_body_skin_marks_authority_unavailable",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_hair_body_skin_marks_authority_blocked",
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  },
+  "next_step": "Work TRK-W70-0171 contact occlusion ownership authority locally."
+}

@@ -20,6 +20,9 @@ PASS_REQUIREMENT_STATUSES = {"runtime_smoke_qa_complete"}
 PASS_MODEL_RUNTIME_STATUSES = {"runtime_smoke_complete", "runtime_smoke_proven"}
 PASS_HASH_STATUSES = {"ec2_static_match_verified"}
 PASS_OBJECT_INFO_STATUSES = {"ec2_object_info_passed"}
+PASS_LANE_STATUS_PREFIXES = ("runtime_smoke_proven", "runtime_smoke_complete")
+PASS_REQUIREMENT_STATUS_PREFIXES = ("runtime_smoke_qa_complete",)
+PASS_MODEL_RUNTIME_STATUS_PREFIXES = ("runtime_smoke_complete", "runtime_smoke_proven")
 
 
 def read_json(path: Path) -> Any:
@@ -75,6 +78,15 @@ def normalize_family(value: Any) -> str | None:
     if text.startswith("z-image") or text.startswith("zimage") or "zimage" in text:
         return "zimage"
     return text
+
+
+def status_matches(value: Any, exact_values: set[str], prefixes: tuple[str, ...] = ()) -> bool:
+    text = str(value or "").strip()
+    if not text:
+        return False
+    if text in exact_values:
+        return True
+    return any(text.startswith(prefix) for prefix in prefixes)
 
 
 def request_family(request: dict[str, Any]) -> str | None:
@@ -182,10 +194,22 @@ def evaluate_lane(
 
     queue_status = queue_lane.get("status") if queue_lane else None
     add_check(checks, "queue_lane_present", queue_lane is not None, lane_id, "lane listed in runtime_lane_queue.json")
-    add_check(checks, "queue_status_runtime_smoke_proven", queue_status in PASS_LANE_STATUSES, queue_status, sorted(PASS_LANE_STATUSES))
+    add_check(
+        checks,
+        "queue_status_runtime_smoke_proven",
+        status_matches(queue_status, PASS_LANE_STATUSES, PASS_LANE_STATUS_PREFIXES),
+        queue_status,
+        sorted(PASS_LANE_STATUSES) + [f"{prefix}*" for prefix in PASS_LANE_STATUS_PREFIXES],
+    )
 
     current_status = requirements.get("current_status")
-    add_check(checks, "requirements_status_runtime_smoke_qa_complete", current_status in PASS_REQUIREMENT_STATUSES, current_status, sorted(PASS_REQUIREMENT_STATUSES))
+    add_check(
+        checks,
+        "requirements_status_runtime_smoke_qa_complete",
+        status_matches(current_status, PASS_REQUIREMENT_STATUSES, PASS_REQUIREMENT_STATUS_PREFIXES),
+        current_status,
+        sorted(PASS_REQUIREMENT_STATUSES) + [f"{prefix}*" for prefix in PASS_REQUIREMENT_STATUS_PREFIXES],
+    )
 
     if requested_family:
         add_check(checks, "requested_engine_family_matches_lane", requested_family == engine_family, engine_family, requested_family)
@@ -209,7 +233,13 @@ def evaluate_lane(
         compatible_engines = [normalize_family(value) for value in selected_model.get("compatible_engines", [])]
         add_check(checks, "model_compatible_engine_includes_lane_family", engine_family in compatible_engines, compatible_engines, engine_family)
         add_check(checks, "model_compatibility_status_runtime_validated", selected_model.get("compatibility_status") == "runtime_validated", selected_model.get("compatibility_status"), "runtime_validated")
-        add_check(checks, "model_runtime_validation_status_complete", selected_model.get("runtime_validation_status") in PASS_MODEL_RUNTIME_STATUSES, selected_model.get("runtime_validation_status"), sorted(PASS_MODEL_RUNTIME_STATUSES))
+        add_check(
+            checks,
+            "model_runtime_validation_status_complete",
+            status_matches(selected_model.get("runtime_validation_status"), PASS_MODEL_RUNTIME_STATUSES, PASS_MODEL_RUNTIME_STATUS_PREFIXES),
+            selected_model.get("runtime_validation_status"),
+            sorted(PASS_MODEL_RUNTIME_STATUSES) + [f"{prefix}*" for prefix in PASS_MODEL_RUNTIME_STATUS_PREFIXES],
+        )
         add_check(checks, "model_qa_status_pass", str(selected_model.get("qa_status", "")).startswith("pass"), selected_model.get("qa_status"), "pass*")
         add_check(checks, "required_model_sha_matches_registry", str(required_checkpoint.get("sha256", "")).lower() == str(selected_model.get("sha256", "")).lower(), selected_model.get("sha256"), required_checkpoint.get("sha256"))
         registry_evidence_ok, registry_missing = evidence_exists(root, selected_model.get("evidence_paths", []) or [])

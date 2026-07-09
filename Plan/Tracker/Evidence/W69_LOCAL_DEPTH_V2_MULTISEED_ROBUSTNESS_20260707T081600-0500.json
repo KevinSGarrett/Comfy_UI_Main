@@ -1,0 +1,38 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "W69-LOCAL-DEPTH-V2-MULTISEED-ROBUSTNESS-20260707T081600-0500",
+    "timestamp":  "2026-07-07T08:16:00-05:00",
+    "lane_id":  "sdxl_realvisxl_controlnet_depth_lane",
+    "module_id":  "MOD-18-CONTROLNET-DEPTH-LANE",
+    "work_type":  "bounded_local_depth_v2_multiseed_robustness",
+    "local_only":  true,
+    "ec2_started":  false,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "profiles":  [
+                     "PromptProfiles/base_generation/controlnet_depth_v1_followup/depth_v2_eye_fill_natural_background_seed711270202.json",
+                     "PromptProfiles/base_generation/controlnet_depth_v1_followup/depth_v2_robust_eye_fill_seed711270203.json",
+                     "PromptProfiles/base_generation/controlnet_depth_v1_followup/depth_v2_robust_eye_fill_seed711270204.json"
+                 ],
+    "run_package_manifests":  [
+                                  "runtime_artifacts/run_packages/depth_v2_eye_fill_711270202/RUN_PACKAGE_MANIFEST.json",
+                                  "runtime_artifacts/run_packages/depth_v2_robust_711270203/RUN_PACKAGE_MANIFEST.json",
+                                  "runtime_artifacts/run_packages/depth_v2_robust_711270204/RUN_PACKAGE_MANIFEST.json"
+                              ],
+    "runtime_evidence":  [
+                             "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_DEPTH_V2_EYE_FILL_EXECUTE_20260707T073800-0500.json",
+                             "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_DEPTH_V2_ROBUST_SEED711270203_EXECUTE_20260707T081100-0500.json",
+                             "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_DEPTH_V2_ROBUST_SEED711270204_EXECUTE_20260707T081300-0500.json"
+                         ],
+    "generated_images":  [
+                             "Plan/Instructions/Operations/Pulled_Back_Artifacts/depth_v2_eye_fill_711270202_20260707T073630-0500/images/depth_v2_eye_fill_711270202_00001_.png",
+                             "Plan/Instructions/Operations/Pulled_Back_Artifacts/depth_v2_robust_711270203_20260707T081010-0500/images/depth_v2_robust_711270203_00001_.png",
+                             "Plan/Instructions/Operations/Pulled_Back_Artifacts/depth_v2_robust_711270204_20260707T081109-0500/images/depth_v2_robust_711270204_00001_.png"
+                         ],
+    "visual_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_DEPTH_V2_MULTISEED_ROBUSTNESS_VISUAL_QA_20260707T081600-0500.json",
+    "result":  "pass_with_notes_local_depth_v2_multiseed_robustness",
+    "preferred_local_candidate":  "depth_v2_eye_fill_natural_background_seed711270202",
+    "robustness_summary":  "Preferred v2 candidate plus two additional seeds retain improved eye readability, coherent depth-separated background, and no visible depth leakage. Mild to moderate skin polish persists; seed 711270203 is the smoothest sample.",
+    "remaining_boundary":  "Not target-runtime proof, not full body/hands/contact certification, and not final Depth lane certification."
+}

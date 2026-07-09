@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-CANNY-V6-MICROTEXTURE-COLLAR-VISUAL-QA-20260707T044200-0500",
+  "timestamp": "2026-07-07T04:42:00-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "strict_whole_image_visual_qa_and_qa_driven_prompt_iteration",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "prompt_profile": "PromptProfiles/base_generation/controlnet_canny_v5_robustness/canny_v6_microtexture_collar_seed711170102.json",
+  "run_package_manifest": "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_v6_microtexture_collar_seed711170102/RUN_PACKAGE_MANIFEST.json",
+  "technical_evidence": {
+    "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_V6_MICROTEXTURE_COLLAR_SEED711170102_EXECUTE_20260707T043800-0500.json",
+    "result": "pass_local_run_package_generation_smoke",
+    "prompt_request_sha256": "18a11d704f5a49eefd4872aa141d4ebb0b6adedce922e8c5b0b2a7fd9be84c9c",
+    "port_closed_after_stop": true
+  },
+  "artifact_reviewed": {
+    "image_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_canny_v6_microtexture_collar_seed711170102_20260707T043739-0500/images/codex_sdxl_realvisxl_controlnet_canny_v6_microtexture_collar_seed711170102_00001_.png",
+    "sha256": "bb352fa8f01437e1d2d6dba8cf3d6ba9b2bd6152dcdebd9cbe1bfb75b9a72eba",
+    "whole_image_findings": {
+      "prompt_alignment": "Pass: hyperreal cinematic editorial portrait with clothed blazer, shirt collar, clean face, and controlled head-and-shoulders framing.",
+      "face": "Pass with notes: facial structure is coherent and realistic; skin has slightly more texture and natural variation than the beauty-smoothed v5 note, though still polished.",
+      "eyes": "Pass: irises, catchlights, gaze direction, and eyelid anatomy are readable without the underexposed-eye issue seen before v5.",
+      "mouth_teeth": "Pass: closed lips are natural; no teeth exposure or mouth artifact.",
+      "hands_feet_anatomy": "Not visible: no hands, fingers, feet, toes, or full-body limb anatomy in frame.",
+      "hair": "Pass: hair volume, hairline, and edge detail are coherent with no blocking Canny artifacts.",
+      "clothing": "Pass: blazer texture and white shirt collar are coherent; collar and neck separation are cleaner than the v5 seed 711170102 note.",
+      "lighting_background": "Pass with notes: moody side lighting remains coherent and controlled; right-side background remains dark but not muddy or blocking.",
+      "control_adherence": "Pass: silhouette, crop, hair mass, shoulder line, and vertical background structure follow the cleaned Canny guide without colored control-map staining.",
+      "artifacts": "No blocking artifacts observed. Minor remaining note is a polished/retouched portrait finish rather than fully raw skin texture."
+    },
+    "qa_result": "pass_with_notes"
+  },
+  "qa_driven_change": {
+    "change_type": "prompt_request_update",
+    "reason": "V5 robustness QA still noted mild beauty smoothing and one faint lower jaw/collar transition artifact.",
+    "positive_prompt_added_terms": [
+      "realistic fine skin pores",
+      "subtle human skin asymmetry",
+      "clean jawline and neck separation",
+      "crisp shirt collar boundary"
+    ],
+    "negative_prompt_added_terms": [
+      "over-smoothed skin",
+      "beauty filter skin",
+      "airbrushed face",
+      "smeared jawline",
+      "warped collar edge"
+    ],
+    "model_changed": false,
+    "control_image_changed": false,
+    "controlnet_strength_changed": false,
+    "seed_changed_from_comparison": false,
+    "result": "Small local improvement to collar/jaw separation and skin texture without reintroducing bare shoulders, colored control-map stains, or eye underexposure."
+  },
+  "overall_result": "pass_with_notes_for_local_iteration",
+  "certification_scope": "local_quality_development_only",
+  "not_certified_reasons": [
+    "This v6 prompt changed after the prior Canny target-runtime smoke, so target-runtime proof must be rerun before certification.",
+    "This is a bounded one-sample local QA iteration, not full portfolio or target-runtime certification."
+  ],
+  "next_action": "Treat v6 as the current local Canny request candidate. Do not certify until exact v6 target-runtime static proof, bounded generation, pullback, technical QA, and whole-image visual QA pass."
+}

@@ -49,6 +49,11 @@ def compile_contract(request: Dict[str, Any]) -> Dict[str, Any]:
 
     contract_id = request.get("contract_id") or f"mask_contract_{request.get('request_id', 'manual')}"
     scene_id = request.get("scene_id") or request.get("scene_director_plan_id") or "scene_manual"
+    supplied_people = request.get("person_instances")
+    if isinstance(supplied_people, list) and supplied_people:
+        person_instances = supplied_people
+    else:
+        person_instances = build_person_instances(expected_count)
 
     contract: Dict[str, Any] = {
         "contract_id": contract_id,
@@ -56,7 +61,7 @@ def compile_contract(request: Dict[str, Any]) -> Dict[str, Any]:
         "character_count_expected": expected_count,
         "mask_factory_mode": "runtime_plan",
         "required_mask_scales": scales,
-        "person_instances": build_person_instances(expected_count),
+        "person_instances": person_instances,
         "requested_mask_types": required_masks,
         "mask_layers": [],
         "fabric_masks": [],
@@ -69,32 +74,39 @@ def compile_contract(request: Dict[str, Any]) -> Dict[str, Any]:
         ],
     }
 
-    for person in contract["person_instances"]:
-        pid = person["person_instance_id"]
-        contract["mask_layers"].append(
-            {
-                "mask_id": f"{pid}__whole_person",
-                "scale": "major",
-                "target_type": "person_instance",
-                "person_instance_id": pid,
-                "source": "planned",
-                "required_evidence": ["mask_png_path", "bbox_normalized", "coverage_percent"],
-            }
-        )
-        for region in person["required_masks"][1:]:
+    supplied_layers = request.get("mask_layers")
+    if isinstance(supplied_layers, list) and supplied_layers:
+        contract["mask_layers"] = supplied_layers
+    else:
+        for person in contract["person_instances"]:
+            pid = person["person_instance_id"]
             contract["mask_layers"].append(
                 {
-                    "mask_id": f"{pid}__{region}",
-                    "scale": "minor" if region != "body_outline_edge" else "nano",
-                    "target_type": "body_part",
+                    "mask_id": f"{pid}__whole_person",
+                    "scale": "major",
+                    "target_type": "person_instance",
                     "person_instance_id": pid,
-                    "body_region_id": region,
                     "source": "planned",
-                    "required_evidence": ["mask_png_path", "edge_quality_score"],
+                    "required_evidence": ["mask_png_path", "bbox_normalized", "coverage_percent"],
                 }
             )
+            for region in person["required_masks"][1:]:
+                contract["mask_layers"].append(
+                    {
+                        "mask_id": f"{pid}__{region}",
+                        "scale": "minor" if region != "body_outline_edge" else "nano",
+                        "target_type": "body_part",
+                        "person_instance_id": pid,
+                        "body_region_id": region,
+                        "source": "planned",
+                        "required_evidence": ["mask_png_path", "edge_quality_score"],
+                    }
+                )
 
-    if "fabric" in " ".join(required_masks).lower():
+    supplied_fabric_masks = request.get("fabric_masks")
+    if isinstance(supplied_fabric_masks, list):
+        contract["fabric_masks"] = supplied_fabric_masks
+    elif "fabric" in " ".join(required_masks).lower():
         contract["fabric_masks"].append(
             {
                 "mask_id": "fabric_001",
@@ -105,7 +117,10 @@ def compile_contract(request: Dict[str, Any]) -> Dict[str, Any]:
             }
         )
 
-    if "contact" in " ".join(required_masks).lower() or expected_count > 1:
+    supplied_contact_masks = request.get("contact_masks")
+    if isinstance(supplied_contact_masks, list):
+        contract["contact_masks"] = supplied_contact_masks
+    elif "contact" in " ".join(required_masks).lower() or expected_count > 1:
         contract["contact_masks"].append(
             {
                 "mask_id": "contact_001",

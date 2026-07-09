@@ -1,4 +1,4 @@
-﻿{
+{
     "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
     "module_id":  "MOD-17-CONTROLNET-CANNY-LANE",
     "engine_family":  "sdxl",
@@ -37,8 +37,8 @@
                                 "node_id":  "4",
                                 "node_class":  "CheckpointLoaderSimple",
                                 "input":  "ckpt_name",
-                                "hash_status":  "pending_ec2_static_match",
-                                "path_status":  "pending_ec2_static_match"
+                                "hash_status":  "ec2_static_match_verified",
+                                "path_status":  "ec2_static_match_verified"
                             },
                             {
                                 "role":  "controlnet",
@@ -56,8 +56,8 @@
                                 "node_id":  "10",
                                 "node_class":  "ControlNetLoader",
                                 "input":  "control_net_name",
-                                "hash_status":  "pending_ec2_static_match",
-                                "path_status":  "pending_ec2_static_match",
+                                "hash_status":  "ec2_static_match_verified",
+                                "path_status":  "ec2_static_match_verified",
                                 "local_hash_status":  "verified_local",
                                 "local_path_status":  "present_local_ignored_model_path"
                             }
@@ -65,15 +65,18 @@
     "required_input_assets":  [
                                   {
                                       "role":  "control_image",
-            "filename":  "controlnet_canny_cleaned_eye_safe_v1.png",
+                                      "filename":  "controlnet_canny_cleaned_eye_safe_v3_rightedge_band_masked.png",
                                       "comfyui_input_subdir":  "",
                                       "node_id":  "11",
                                       "node_class":  "LoadImage",
                                       "input":  "image",
-            "status":  "prepared_local_comfyui_input_cleaned_eye_safe",
-            "sha256":  "d2f09161928d6efa1c724aafd6798ab597f8cfa0e12dcb4db61203c6b4e74bd0",
-            "comfyui_input_path":  "ComfyUI/input/controlnet_canny_cleaned_eye_safe_v1.png",
-            "evidence_path":  "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_cleaned_eye_safe_v1_20260707T005200-0500/CONTROL_IMAGE_INPUT_ASSET_MANIFEST.json"
+                                      "status":  "ec2_input_asset_hash_verified",
+                                      "sha256":  "4b40cdd7386d9287a37d64efafdeb7078a8a9d4160e23e00b5ddc87106a1f870",
+                                      "comfyui_input_path":  "ComfyUI/input/controlnet_canny_cleaned_eye_safe_v3_rightedge_band_masked.png",
+                                      "evidence_path":  "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_rightedge_masked_v3_20260707T132800-0500/CONTROL_IMAGE_INPUT_ASSET_MANIFEST.json",
+                                      "preprocessing_module":  "Plan/07_IMPLEMENTATION/scripts/prepare_canny_control_map.py",
+                                      "preprocessing_manifest":  "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_preprocess_module_v1_20260707T051500-0500/CONTROL_MAP_PREPROCESS_MANIFEST.json",
+                                      "preprocessing_validation_evidence":  "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W69_CONTROLNET_CANNY_PREPROCESS_MODULE_V1_20260707T051500-0500.json"
                                   }
                               ],
     "optional_models":  [
@@ -86,11 +89,11 @@
     "runtime_output_required":  true,
     "qa_report_required":  true,
     "promotion_allowed_without_evidence":  false,
-    "current_status":  "queued_pending_ec2_static_proof_and_generation_after_local_clean_control_package_v4",
+    "current_status":  "local_canny_eyeonly_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
     "known_blockers":  [
-                           "Current cleaned-control wardrobe v4 package still requires EC2 static proof before target-runtime generation.",
-                           "EC2 bounded generation, pullback, technical image QA, and whole-image visual QA remain pending.",
-                           "Final portfolio certification remains pending."
+                           "Canny eye-only local robustness passed with notes, but seed 711570105 has a faint right-edge seam/background artifact that prevents clean final quality certification.",
+                           "Target-runtime EC2 proof for the current candidate remains separate from local robustness evidence.",
+                           "Hands, full-body anatomy, contact points, and broader scene complexity are not certified by the head-and-shoulders samples."
                        ],
     "evidence_paths":  [
                            "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_WORKFLOW_STATIC_VALIDATION_SDXL_REALVISXL_CONTROLNET_CANNY_20260706T212030-0500.json",
@@ -107,7 +110,7 @@
                            "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W67_LOCAL_CONTROLNET_CANNY_IMAGE_QA_TECHNICAL_20260706T215800-0500.json",
                            "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W67_LOCAL_CONTROLNET_CANNY_IMAGE_QA_VISUAL_20260706T220000-0500.json",
                            "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W68_EC2_STATIC_PROOF_CANNY_DEPLOY_BUNDLE_BOM_FIX_20260707T034500-0500.json",
-                           "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_cleaned_eye_safe_v1_20260707T005200-0500/CONTROL_IMAGE_INPUT_ASSET_MANIFEST.json",
+                           "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_rightedge_masked_v3_20260707T132800-0500/CONTROL_IMAGE_INPUT_ASSET_MANIFEST.json",
                            "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_CLEAN_CONTROL_PACKAGE_V2_DEFAULT_20260707T010000-0500.json",
                            "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_LOCAL_CANNY_CLEAN_CONTROL_PACKAGE_V2_DEFAULT_TECHNICAL_20260707T010200-0500.json",
                            "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_LOCAL_CANNY_CLEAN_CONTROL_PACKAGE_V2_DEFAULT_VISUAL_QA_20260707T010200-0500.json",
@@ -121,7 +124,37 @@
                            "Plan/Instructions/QA/Evidence/Run_Package/W68_CANNY_CLEAN_CONTROL_WARDROBE_CURRENT_PACKAGE_V4_20260707T013600-0500.json",
                            "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W68_RUNTIME_LANE_QUEUE_CANNY_V4_PACKAGE_LOCAL_RETEST_20260707T014000-0500.json",
                            "Plan/Instructions/QA/Evidence/Engine_Router/W68_CANNY_V4_ROUTE_DECISION_20260707T014500-0500.json",
-                           "Plan/Instructions/QA/Evidence/Run_Package/W68_CANNY_V4_ROUTE_GATED_PACKAGE_BLOCK_20260707T014500-0500.json"
+                           "Plan/Instructions/QA/Evidence/Run_Package/W68_CANNY_V4_ROUTE_GATED_PACKAGE_BLOCK_20260707T014500-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W68_EC2_STATIC_PROOF_CANNY_V4_RUNTIME_PASS_20260707T014700-0500.json",
+                           "Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_EC2_INPUT_ASSET_INSTALL_CANNY_CLEANED_V1_20260707T020300-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_EC2_WORKFLOW_SMOKE_CANNY_V4_AFTER_INPUT_INSTALL_20260707T020800-0500.json",
+                           "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260707T021155-0500/PULLBACK_RECORD.json",
+                           "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_CANNY_V4_EC2_IMAGE_QA_TECHNICAL_20260707T021700-0500.json",
+                           "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_CANNY_V4_EC2_IMAGE_QA_VISUAL_20260707T022300-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_CANNY_QALOOP_EYE_FILL_V5_STATIC_VALIDATION_20260707T032000-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_QALOOP_CURRENT_EXECUTE_20260707T031600-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_QALOOP_EYE_FILL_V5_EXECUTE_20260707T031800-0500.json",
+                           "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_QALOOP_EYE_FILL_V5_VISUAL_QA_20260707T031800-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_V5_ROBUSTNESS_SEED711170101_EXECUTE_20260707T032900-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_V5_ROBUSTNESS_SEED711170102_EXECUTE_20260707T033100-0500.json",
+                           "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_V5_ROBUSTNESS_VISUAL_QA_20260707T033200-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_V6_MICROTEXTURE_COLLAR_SEED711170102_EXECUTE_20260707T043800-0500.json",
+                           "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_V6_MICROTEXTURE_COLLAR_VISUAL_QA_20260707T044200-0500.json",
+                           "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_preprocess_module_v1_20260707T051500-0500/CONTROL_MAP_PREPROCESS_MANIFEST.json",
+                           "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_preprocess_module_v1_20260707T051500-0500/CONTROL_MAP_ASSET_MANIFEST.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W69_CONTROLNET_CANNY_PREPROCESS_MODULE_V1_20260707T051500-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_LOCAL_CANNY_CONTROL_MAP_DIAGNOSTIC_STATIC_20260707T052500-0500.json",
+                           "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_v6_control_map_diagnostic_w69/RUN_PACKAGE_MANIFEST.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_V6_CONTROL_MAP_DIAGNOSTIC_EXECUTE_20260707T052600-0500.json",
+                           "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_V6_CONTROL_MAP_DIAGNOSTIC_VISUAL_QA_20260707T051100-0500.json",
+                           "PromptProfiles/base_generation/controlnet_canny_w69_quality_matrix/canny_w69_eyeonly_robust_seed711570104.json",
+                           "PromptProfiles/base_generation/controlnet_canny_w69_quality_matrix/canny_w69_eyeonly_robust_seed711570105.json",
+                           "runtime_artifacts/run_packages/canny_w69_eyeonly_robust_711570104/RUN_PACKAGE_MANIFEST.json",
+                           "runtime_artifacts/run_packages/canny_w69_eyeonly_robust_711570105/RUN_PACKAGE_MANIFEST.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_EYEONLY_ROBUST_SEED711570104_EXECUTE_20260707T092200-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_EYEONLY_ROBUST_SEED711570105_EXECUTE_20260707T092300-0500.json",
+                           "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_RIGHTEDGE_MASKED_V3_VISUAL_QA_20260707T133500-0500.json",
+                           "Plan/Tracker/Evidence/W69_LOCAL_CANNY_RIGHTEDGE_MASKED_V3_20260707T133500-0500.json"
                        ],
-    "status_notes":  "ControlNet model and cleaned eye-safe control image are locally provisioned. The regenerated clean-control wardrobe package v3 produced local 768x768 clothed editorial portraits across three seeds that passed technical QA and whole-image visual QA with notes. Current package v4 was rebuilt from the updated exported lane and passed local static validation plus dry-run prompt construction. Route-gated package promotion correctly blocks until Canny has target-runtime proof. Current v4 package still requires EC2 static proof, bounded generation, pullback, technical image QA, and whole-image visual QA before target-runtime certification."
+    "status_notes":  "Current preferred Canny eye-only candidate now has local three-sample robustness evidence: preferred seed 711570102 plus seed-only robustness samples 711570104 and 711570105. Eye readability, clean Canny guidance, natural edge behavior, and stable jaw/collar boundaries hold. The v3 right-edge-band-masked control input removes the seed 711570105 right-edge band artifact locally. This remains pass-with-notes local support only, not final Canny certification or target-runtime proof."
 }

@@ -1,0 +1,74 @@
+{
+    "schema_version":  "1.0",
+    "manifest_id":  "W69-LOCAL-CONTROL-PREPROCESSOR-MAPS-MANIFEST-20260707T053800-0500",
+    "timestamp":  "2026-07-07T05:30:23-05:00",
+    "source_input":  "ComfyUI/input/sdxl_inpaint_detail_source_canny_v1.png",
+    "local_only":  true,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "preprocessor_execution_only":  true,
+    "runtime_evidence":  [
+                             "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CONTROL_PREPROCESSOR_MAPS_RETRY_EXECUTE_20260707T053300-0500.json",
+                             "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CONTROL_PREPROCESSOR_NORMAL_RETRY_EXECUTE_20260707T053500-0500.json"
+                         ],
+    "qa_evidence":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CONTROL_PREPROCESSOR_MAPS_VISUAL_QA_20260707T053800-0500.json",
+    "assets":  [
+                   {
+                       "role":  "openpose_pose_map",
+                       "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_maps_w69_v2_20260707T053300-0500/images/codex_control_preprocessor_openpose_w69_00001_.png",
+                       "sha256":  "709ff1ace4607afa6f3b8d188faea2d6ce7757927e3456b3553e40c39c59bfc7",
+                       "bytes":  6040,
+                       "width":  512,
+                       "height":  512,
+                       "qa_status":  "pass_with_notes_for_local_pose_preprocessor_artifact",
+                       "allowed_next_pass_uses":  [
+                                                      "control_map_input_candidate",
+                                                      "preprocessor_QA_reference"
+                                                  ],
+                       "promotion_boundary":  "local_preprocessor_artifact_only_not_generation_lane_certification"
+                   },
+                   {
+                       "role":  "depth_anything_map",
+                       "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_maps_w69_v2_20260707T053300-0500/images/codex_control_preprocessor_depth_anything_w69_00001_.png",
+                       "sha256":  "d9d21c69ea3ea50f3991bd0a420f338c5c7bc3c3450508526a7e9060c0319ef7",
+                       "bytes":  54373,
+                       "width":  512,
+                       "height":  512,
+                       "qa_status":  "pass_local_depth_preprocessor_artifact",
+                       "allowed_next_pass_uses":  [
+                                                      "control_map_input_candidate",
+                                                      "preprocessor_QA_reference"
+                                                  ],
+                       "promotion_boundary":  "local_preprocessor_artifact_only_not_generation_lane_certification"
+                   },
+                   {
+                       "role":  "lineart_map",
+                       "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_maps_w69_v2_20260707T053300-0500/images/codex_control_preprocessor_lineart_w69_00001_.png",
+                       "sha256":  "1994c628abb6df5abda27e61b1e17dd32f0f3cf50993d1ca795c89de4ef7ff46",
+                       "bytes":  158803,
+                       "width":  512,
+                       "height":  512,
+                       "qa_status":  "pass_with_notes_for_local_lineart_preprocessor_artifact",
+                       "allowed_next_pass_uses":  [
+                                                      "control_map_input_candidate",
+                                                      "preprocessor_QA_reference"
+                                                  ],
+                       "promotion_boundary":  "local_preprocessor_artifact_only_not_generation_lane_certification"
+                   },
+                   {
+                       "role":  "normal_bae_map",
+                       "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_normal_w69_v3_20260707T053500-0500/images/codex_control_preprocessor_normal_bae_w69_00001_.png",
+                       "sha256":  "1a0526da325d7fb29986b8de017ba9af7c43e1b328d51da5afa7c6bf84863139",
+                       "bytes":  161483,
+                       "width":  512,
+                       "height":  512,
+                       "qa_status":  "pass_local_normal_preprocessor_artifact",
+                       "allowed_next_pass_uses":  [
+                                                      "control_map_input_candidate",
+                                                      "preprocessor_QA_reference"
+                                                  ],
+                       "promotion_boundary":  "local_preprocessor_artifact_only_not_generation_lane_certification"
+                   }
+               ],
+    "result":  "pass_local_control_preprocessor_maps_manifest"
+}

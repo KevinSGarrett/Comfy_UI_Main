@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "inpaint_wave25_contact_lower_upper_arm_reposition_seed210705",
+  "target_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "purpose": "QA-driven local attempt to address the remaining Wave25 contact placement blocker by allowing a slight lower-upper-arm rest while preserving the already-supported two-character identity, pose, and contact ownership.",
+  "request_patch_values": {
+    "positive_prompt": "photoreal targeted hand contact placement refinement only, preserve exact two adult identities and all faces, preserve woman on left and man on right, preserve studio background and clothing, woman's open hand rests slightly lower on the man's upper sleeve below the shoulder cap, natural relaxed fingers drape over textured knit sleeve, clear soft contact shadow under fingertips, subtle sleeve compression and fabric pressure at contact point, believable occlusion edge, realistic finger pads and fingernails, no global style drift",
+    "negative_prompt": "identity change, face change, hair change, clothing change, background change, body pose change, arm length change, new arm, extra hand, duplicate hand, missing hand, extra fingers, missing fingers, fused fingers, elongated fingers, claw hand, rubber hand, grabbing, gripping, sleeve pull, man touching woman, merged bodies, merged arms, shoulder deformation, hard black shadow, dirty stain, visible mask edge, plastic skin, waxy skin, text, watermark",
+    "source_image": "wave25_contact_shadow_pressure_seed210704_source.png",
+    "mask_image": "wave25_contact_lower_upper_arm_reposition_seed210705_1024.png",
+    "mask_channel": "red",
+    "seed": 210705,
+    "sampler_settings": {
+      "steps": 22,
+      "cfg": 4.0,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.24
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_wave25_contact_lower_upper_arm_reposition_seed210705"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_wave25_contact_lower_upper_arm_reposition_seed210705"
+  },
+  "qa_focus": [
+    "whether the hand reads lower on the target upper arm instead of shoulder top",
+    "contact shadow clarity under fingers",
+    "fabric pressure/compression on sleeve",
+    "no hand anatomy regression",
+    "source/target contact ownership preservation",
+    "whole-image identity, clothing, and background preservation"
+  ],
+  "source_qa_driver": {
+    "blocking_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_HAND_CONTACT_VISUAL_CERTIFICATION_SHADOW_PRESSURE_SEED210704_20260707T125000-0500.json",
+    "current_blockers": [
+      "contact_shadow_not_clear:subtle_to_moderate",
+      "contact_placement_not_exact_target:shoulder_top_upper_sleeve"
+    ],
+    "change_summary": "Use the supported seed210704 shadow/pressure output as source, broaden the mask to include the hand plus lower upper sleeve, raise denoise to 0.24, and request a slight lower-upper-arm placement while forbidding identity/background drift."
+  },
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_whole_image_qa_before_promotion": true,
+    "requires_certification_gate_rerun_before_unblocking": true,
+    "requires_target_runtime_reproof_before_final_certification": true
+  }
+}

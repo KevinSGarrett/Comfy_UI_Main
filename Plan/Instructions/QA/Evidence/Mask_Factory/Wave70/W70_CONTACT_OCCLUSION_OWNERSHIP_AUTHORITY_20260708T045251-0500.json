@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_CONTACT_OCCLUSION_OWNERSHIP_AUTHORITY_20260708T045251-0500",
+  "created_local": "20260708T045251-0500",
+  "task": "Implement contact occlusion ownership resolver for TRK-W70-0171 / ITEM-W70-0171.",
+  "script": "Plan/07_IMPLEMENTATION/scripts/implement_wave70_contact_occlusion_ownership_authority.py",
+  "source_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "exists": true,
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "dimensions": [
+      768,
+      768
+    ]
+  },
+  "environment": {
+    "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "cwd": "C:\\Comfy_UI_Main"
+  },
+  "prerequisite_evidence": [
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_PERSON_INSTANCE_OWNER_AUTHORITY_20260708T022207-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_POSE_LANDMARK_AUTHORITY_20260708T024435-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_HAND_FINGER_LANDMARK_AUTHORITY_20260708T032425-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_HUMAN_PART_PARSING_AUTHORITY_20260708T034134-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_LIMB_JOINT_REGION_AUTHORITY_20260708T041257-0500.json"
+  ],
+  "source_contact_analysis": {
+    "active_source_framing": "head_neck_upper_chest_portrait",
+    "image_dimensions": [
+      768,
+      768
+    ],
+    "required_contact_results": {
+      "hands": {
+        "visibility": "not_visible_in_crop",
+        "authority_status": "blocked",
+        "reason": "no hand, wrist, finger, or palm surface exists in the active source crop"
+      },
+      "hand_body_contact": {
+        "visibility": "not_visible_in_crop",
+        "authority_status": "blocked",
+        "reason": "no hand-to-body contact boundary can be measured without visible hands"
+      },
+      "body_object_contact": {
+        "visibility": "not_authoritatively_resolvable",
+        "authority_status": "blocked",
+        "reason": "the blazer is visible but no model-backed body/object owner separation or contact boundary is available"
+      },
+      "support_surface_contact": {
+        "visibility": "not_visible_in_crop",
+        "authority_status": "blocked",
+        "reason": "no floor, chair, prop, table, or support surface contact is visible"
+      },
+      "occluded_owner_transfer": {
+        "visibility": "not_authoritatively_resolvable",
+        "authority_status": "blocked",
+        "reason": "pose/hand landmarks and semantic human-part parsing remain unavailable, so ownership cannot transfer across occlusions"
+      }
+    },
+    "source_visibility_pass": false,
+    "hand_contact_visibility_pass": false,
+    "body_object_support_contact_visibility_pass": false,
+    "protected_overlap_threshold_pass": false,
+    "owner_overlap_error_pass": false,
+    "contact_occlusion_ownership_pass": false,
+    "canonical_polygon_export_pass": false
+  },
+  "artifacts": {
+    "blocker_panel": "runtime_artifacts/mask_factory/wave70_contact_occlusion_ownership_authority/20260708T045251-0500/contact_occlusion_ownership_authority_blocker_panel.png",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_contact_occlusion_ownership_authority/20260708T045251-0500/contact_occlusion_ownership_authority.json"
+  },
+  "contact_occlusion_ownership_authority": {
+    "result": "blocked",
+    "contact_occlusion_ownership_pass": false,
+    "protected_overlap_threshold_pass": false,
+    "owner_overlap_error_pass": false,
+    "whole_body_geometry_authority_pass": false,
+    "pose_hand_dense_landmark_or_segmentation_pass": false,
+    "semantic_human_part_parsing_pass": false,
+    "body_region_geometry_pass": false,
+    "body_reference_matrix_pass": false,
+    "source_derived_landmark_or_segmentation_pass": false,
+    "model_consensus_geometry_pass": false,
+    "visibility_occlusion_confidence_pass": false,
+    "no_symmetry_guessing_pass": true,
+    "canonical_polygon_export_pass": false,
+    "blocked_reason": "active_source_portrait_crop_does_not_expose_hand_body_object_or_support_contact; pose_hand_landmark_semantic_human_part_parsing_and_body_object_owner_separation_authority_unavailable",
+    "findings": [
+      "The active source is a head/neck/upper-chest portrait.",
+      "Hands, wrists, fingers, props, support surfaces, and floor contact regions are not visible in the crop.",
+      "The visible blazer/body boundary cannot satisfy contact ownership because semantic part parsing and owner separation are unavailable.",
+      "Protected-overlap and owner-overlap metrics cannot be computed without source-derived contact actors and owner polygons.",
+      "No contact, hand, body, object, support, or broad mask geometry was generated, changed, or promoted from this evidence."
+    ]
+  },
+  "qa_decision": "blocked_exact_local_contact_occlusion_ownership_unresolved",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_contact_occlusion_ownership_blocked",
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  },
+  "next_step": "Work TRK-W70-0172 body region geometry resolver with blockers locally."
+}

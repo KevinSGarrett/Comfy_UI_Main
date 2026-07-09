@@ -1,0 +1,178 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "W66-9LANE-RUNTIME-UNBLOCK-HANDOFF-20260709T024027-0500",
+    "created_at":  "2026-07-09T02:40:27-05:00",
+    "artifact_type":  "nine_lane_runtime_unblock_handoff_local_only",
+    "current_thread_id":  "019f422f-88b1-7382-872b-21de2089e983",
+    "transferred_from_disconnected_thread":  "019f35e8-7e15-7c72-8ffb-66f6f9b246a0",
+    "active_goal_status":  "active",
+    "active_goal_policy":  "Continue local-first verified ComfyUI project progress; do not mark complete until implementation/testing/QA/evidence/tracker/items/certification are all complete.",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "comfyui_contacted":  false,
+    "live_s3_upload_executed":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "hard_gate_rerun":  false,
+    "candidate_masks_consumed_as_truth":  false,
+    "gold_masks_consumed":  false,
+    "mask_promotion_attempted":  false,
+    "jira_bookkeeping_lane_selected":  false,
+    "wave71_activation_attempted":  false,
+    "result":  "handoff_local_only_ready_pending_explicit_live_window",
+    "failure_count":  0,
+    "bundle":  {
+                   "bundle_id":  "rvxl_mx_9lane_20260709T0235",
+                   "bundle_manifest":  "runtime_artifacts/deploy_bundles/rvxl_mx_9lane_20260709T0235/DEPLOY_BUNDLE_MATRIX_MANIFEST.json",
+                   "bundle_zip":  "runtime_artifacts/deploy_bundles/rvxl_mx_9lane_20260709T0235/rvxl_mx_9lane_20260709T0235.zip",
+                   "bundle_zip_sha256":  "3dd302fe3603d25d51ac2049de61015ac15cb6ba7891b23a9b293e5ce5188dee",
+                   "source_git_head":  "7e30bf1fb4ca3176aa98fe427e6a247d0129f5c2",
+                   "source_git_clean":  false,
+                   "source_git_status_count":  1083,
+                   "sample_count":  3
+               },
+    "dry_run_publish":  {
+                            "evidence":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_MATRIX_DEPLOY_BUNDLE_S3_DRY_RUN_9LANE_ACTIVE_QUEUE_20260709T023500-0500.json",
+                            "result":  "dry_run_ready_to_upload",
+                            "s3_bundle_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/rvxl_mx_9lane_20260709T0235/rvxl_mx_9lane_20260709T0235.zip",
+                            "bundle_zip_sha256":  "3dd302fe3603d25d51ac2049de61015ac15cb6ba7891b23a9b293e5ce5188dee",
+                            "aws_contacted":  false
+                        },
+    "quality_run_plan":  {
+                             "evidence":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_MATRIX_QUALITY_RUN_PLAN_9LANE_ACTIVE_QUEUE_20260709T023500-0500.json",
+                             "validation_evidence":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_MATRIX_QUALITY_RUN_PLAN_9LANE_ACTIVE_QUEUE_VALIDATION_20260709T023500-0500.json",
+                             "result":  "pass_local_only",
+                             "validation_result":  "pass_local_only",
+                             "sample_count":  3,
+                             "execution_ready":  false,
+                             "execution_ready_reason":  "This record is a local-only plan. Live execution still requires AWS auth, clean pushed Git, S3 bundle publish, static proof/readiness gates, artifact pullback, and whole-image QA."
+                         },
+    "readiness_and_content":  {
+                                  "s3_runtime_transfer_readiness_evidence":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_RUNTIME_TRANSFER_READINESS_9LANE_ACTIVE_QUEUE_20260709T023500-0500.json",
+                                  "s3_runtime_transfer_readiness_result":  "ready_local_only",
+                                  "bundle_content_qa_evidence":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_DEPLOY_BUNDLE_9LANE_ACTIVE_QUEUE_CONTENT_QA_20260709T023500-0500.json",
+                                  "bundle_content_qa_result":  "pass_local_only",
+                                  "packaged_active_lanes":  [
+                                                                "sdxl_low_risk_fallback_lane",
+                                                                "sdxl_realvisxl_base_lane",
+                                                                "sdxl_realvisxl_controlnet_canny_lane",
+                                                                "sdxl_realvisxl_inpaint_detail_lane",
+                                                                "sdxl_realvisxl_controlnet_depth_lane",
+                                                                "sdxl_realvisxl_controlnet_lineart_lane",
+                                                                "sdxl_realvisxl_controlnet_openpose_lane",
+                                                                "sdxl_realvisxl_controlnet_normal_lane",
+                                                                "sdxl_realesrgan_upscale_polish_lane"
+                                                            ],
+                                  "packaged_runtime_queue_lanes":  [
+                                                                       "sdxl_low_risk_fallback_lane",
+                                                                       "sdxl_realvisxl_base_lane",
+                                                                       "sdxl_realvisxl_controlnet_canny_lane",
+                                                                       "sdxl_realvisxl_inpaint_detail_lane",
+                                                                       "sdxl_realvisxl_controlnet_depth_lane",
+                                                                       "sdxl_realvisxl_controlnet_lineart_lane",
+                                                                       "sdxl_realvisxl_controlnet_openpose_lane",
+                                                                       "sdxl_realvisxl_controlnet_normal_lane",
+                                                                       "sdxl_realesrgan_upscale_polish_lane"
+                                                                   ],
+                                  "current_runtime_lane_id":  "none_all_current_local_runtime_proofs_complete"
+                              },
+    "emergency_stop_dry_run":  {
+                                   "evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_EC2_EMERGENCY_STOP_SCHEDULE_9LANE_ACTIVE_QUEUE_20260709T023840-0500.json",
+                                   "result":  "dry_run_emergency_stop_schedule_plan",
+                                   "scheduler_role_arn_supplied":  true,
+                                   "schedule_expression":  "at(2026-07-09T08:38:41)",
+                                   "execute":  false,
+                                   "aws_contacted":  false,
+                                   "next_action":  "Dry-run schedule plan is ready; run with -Execute only immediately before an approved bounded EC2 runtime window after AWS auth and Git cleanliness checks pass."
+                               },
+    "required_before_live_execution":  [
+                                           "explicit_user_selection_of_live_upload_or_ec2_window",
+                                           "fresh_aws_auth_gate_with_safe_to_start_ec2_true",
+                                           "clean_pushed_git_checkpoint_or_explicit approved deploy-bundle-only execution policy",
+                                           "live S3 publish with matching bundle SHA256",
+                                           "emergency stop schedule created with -Execute immediately before the bounded EC2 window",
+                                           "target EC2 static proof before any generation",
+                                           "artifact pullback hash verification and whole-image QA after generation"
+                                       ],
+    "blocked_or_deferred_boundaries":  [
+                                           "manual gold masks are still pending and block mask promotion/body geometry authority/final mask QA only",
+                                           "candidate_mask_batch_20260708T192941 remains not ready",
+                                           "do not activate Wave71+ from candidate or guarded masks",
+                                           "do not bulk-create Jira work from local Plan/Items/Tracker"
+                                       ],
+    "checks":  [
+                   {
+                       "name":  "bundle_manifest_exists",
+                       "result":  "pass",
+                       "evidence":  "runtime_artifacts/deploy_bundles/rvxl_mx_9lane_20260709T0235/DEPLOY_BUNDLE_MATRIX_MANIFEST.json"
+                   },
+                   {
+                       "name":  "bundle_zip_sha_matches_s3_dry_run",
+                       "result":  "pass",
+                       "observed":  "3dd302fe3603d25d51ac2049de61015ac15cb6ba7891b23a9b293e5ce5188dee",
+                       "expected":  "3dd302fe3603d25d51ac2049de61015ac15cb6ba7891b23a9b293e5ce5188dee"
+                   },
+                   {
+                       "name":  "s3_publish_is_dry_run_ready",
+                       "result":  "pass",
+                       "observed":  "dry_run_ready_to_upload",
+                       "aws_contacted":  false
+                   },
+                   {
+                       "name":  "quality_run_plan_passes_local_only",
+                       "result":  "pass",
+                       "observed":  "pass_local_only"
+                   },
+                   {
+                       "name":  "quality_run_plan_validation_passes",
+                       "result":  "pass",
+                       "observed":  "pass_local_only"
+                   },
+                   {
+                       "name":  "s3_runtime_transfer_readiness_ready_local_only",
+                       "result":  "pass",
+                       "observed":  "ready_local_only"
+                   },
+                   {
+                       "name":  "bundle_content_qa_passes_9lane",
+                       "result":  "pass",
+                       "active_lanes":  9,
+                       "queue_lanes":  9
+                   },
+                   {
+                       "name":  "runtime_queue_completion_sentinel_preserved",
+                       "result":  "pass",
+                       "observed":  "none_all_current_local_runtime_proofs_complete"
+                   },
+                   {
+                       "name":  "emergency_stop_plan_is_dry_run",
+                       "result":  "pass",
+                       "observed":  "dry_run_emergency_stop_schedule_plan",
+                       "execute":  false,
+                       "aws_contacted":  false
+                   },
+                   {
+                       "name":  "prior_9lane_rollup_passes",
+                       "result":  "pass",
+                       "observed":  "pass_local_only"
+                   },
+                   {
+                       "name":  "mask_and_wave71_boundaries_preserved",
+                       "result":  "pass",
+                       "mask_truth_consumed":  false,
+                       "mask_promotion_attempted":  false,
+                       "wave71_activation_attempted":  false
+                   },
+                   {
+                       "name":  "jira_control_plane_not_selected",
+                       "result":  "pass",
+                       "jira_bookkeeping_lane_selected":  false
+                   }
+               ],
+    "evidence_inputs":  [
+                            "runtime_artifacts/deploy_bundles/rvxl_mx_9lane_20260709T0235/DEPLOY_BUNDLE_MATRIX_MANIFEST.json Rel"
+                        ],
+    "next_action":  "Continue concrete non-mask ComfyUI orchestration/runtime work locally, or hold this 9-lane bundle URI/SHA for an explicit future live-upload/EC2 window after AWS auth and Git cleanliness checks."
+}

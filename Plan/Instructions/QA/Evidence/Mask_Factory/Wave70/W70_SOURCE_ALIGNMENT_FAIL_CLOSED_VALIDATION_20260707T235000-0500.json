@@ -1,0 +1,760 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_SOURCE_ALIGNMENT_FAIL_CLOSED_VALIDATION_20260707T235000-0500",
+  "timestamp_local": "20260707T235000-0500",
+  "project_root": "C:\\Comfy_UI_Main",
+  "source_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+  "source_sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+  "validator": "Plan/07_IMPLEMENTATION/scripts/validate_wave70_source_alignment_fail_closed.py",
+  "qa_type": "wave70_source_alignment_fail_closed_validator",
+  "result": "fail_closed_current_masks_not_promotable",
+  "mask_count": 18,
+  "missing_mask_count": 0,
+  "failing_mask_count": 18,
+  "missing_masks": [],
+  "user_dispute_state": "unresolved_global_mask_alignment_dispute",
+  "promotion_policy": "No row may be promoted without exact W70_MASK_PROMOTION_ROW_GATE_PASS_TRUE evidence and no unresolved user visual dispute.",
+  "generated_output_policy": "Generated-output stability is output-geometry evidence only; it is not source-alignment proof.",
+  "records": [
+    {
+      "mask_type_id": "mf70_cheeks_skin",
+      "mask_path": "ComfyUI/input/wave70_mf70_cheeks_skin_mask.png",
+      "mask_sha256": "683a1a19e75ae18cc385ecbfc49916ec3cb33efcba88d64039bd844129c73bc0",
+      "target_definition": "visible cheek-skin regions only; excludes nose, mouth, eyes, brows, hair, jaw/neck",
+      "allowed_bbox": [
+        215,
+        325,
+        535,
+        475
+      ],
+      "protected_zones_checked": [
+        "eyes_full",
+        "mouth_lips",
+        "nose_core",
+        "hair_left"
+      ],
+      "mask_bbox": [
+        241,
+        334,
+        517,
+        463
+      ],
+      "mask_pixels": 19141,
+      "inside_allowed_pixels": 19141,
+      "outside_allowed_pixels": 0,
+      "outside_allowed_ratio": 0.0,
+      "bbox_inside_allowed_ratio": 1.0,
+      "protected_zone_hits": {
+        "eyes_full": 2678,
+        "mouth_lips": 1363,
+        "nose_core": 3765
+      },
+      "findings": [
+        "protected_zone_overlap:eyes_full:2678",
+        "protected_zone_overlap:mouth_lips:1363",
+        "protected_zone_overlap:nose_core:3765",
+        "unresolved_user_global_mask_alignment_dispute_requires_row_level_zoom_proof"
+      ],
+      "decision": "fail_closed_source_alignment_not_promotable",
+      "promotion_decision": "blocked_no_wave70_mask_promotion_row_gate_pass_true",
+      "panel": "runtime_artifacts/mask_factory/wave70_source_alignment_fail_closed_20260707T235000-0500/mf70_cheeks_skin_source_alignment_fail_closed_panel.png",
+      "panel_sha256": "50f32cf1c9d8d8e4dfa1acdb0b55d3025eb5ab3c7ee0961fae7d31b3e172d3fa"
+    },
+    {
+      "mask_type_id": "mf70_expression_region",
+      "mask_path": "ComfyUI/input/wave70_mf70_expression_region_mask.png",
+      "mask_sha256": "90092e845099ca51143dc678c3376cb3ce9bca047337aeed92406ec52116f39b",
+      "target_definition": "compound expression regions must be split or explicitly bounded; broad face shortcut polygons fail closed",
+      "allowed_bbox": [
+        220,
+        265,
+        535,
+        485
+      ],
+      "protected_zones_checked": [
+        "hair_left",
+        "hair_right",
+        "neck_collar",
+        "background_right"
+      ],
+      "mask_bbox": [
+        243,
+        224,
+        536,
+        525
+      ],
+      "mask_pixels": 65831,
+      "inside_allowed_pixels": 55289,
+      "outside_allowed_pixels": 10542,
+      "outside_allowed_ratio": 0.160137,
+      "bbox_inside_allowed_ratio": 0.728402,
+      "protected_zone_hits": {},
+      "findings": [
+        "area_too_large:65831>max:56000",
+        "outside_allowed_region_ratio_too_high:0.1601>max:0.1",
+        "broad expression-region masks require subpart decomposition before row promotion",
+        "unresolved_user_global_mask_alignment_dispute_requires_row_level_zoom_proof"
+      ],
+      "decision": "fail_closed_source_alignment_not_promotable",
+      "promotion_decision": "blocked_no_wave70_mask_promotion_row_gate_pass_true",
+      "panel": "runtime_artifacts/mask_factory/wave70_source_alignment_fail_closed_20260707T235000-0500/mf70_expression_region_source_alignment_fail_closed_panel.png",
+      "panel_sha256": "f624857020d120d7563923e182a3c7d396b33532a213bc65ec4f731a5f06c67b"
+    },
+    {
+      "mask_type_id": "mf70_eyebrows",
+      "mask_path": "ComfyUI/input/wave70_mf70_eyebrows_mask.png",
+      "mask_sha256": "f6aac06704808dd70814d78317db320afc460b2159c6c88140794d6dcf986b6a",
+      "target_definition": "visible eyebrow hair bands only; excludes eyelids, forehead slabs, hair, eyes",
+      "allowed_bbox": [
+        215,
+        268,
+        540,
+        306
+      ],
+      "protected_zones_checked": [
+        "eyes_full",
+        "forehead_center"
+      ],
+      "mask_bbox": [
+        226,
+        282,
+        542,
+        304
+      ],
+      "mask_pixels": 2423,
+      "inside_allowed_pixels": 2421,
+      "outside_allowed_pixels": 2,
+      "outside_allowed_ratio": 0.000825,
+      "bbox_inside_allowed_ratio": 0.993671,
+      "protected_zone_hits": {
+        "eyes_full": 997,
+        "forehead_center": 277
+      },
+      "findings": [
+        "protected_zone_overlap:eyes_full:997",
+        "protected_zone_overlap:forehead_center:277",
+        "unresolved_user_global_mask_alignment_dispute_requires_row_level_zoom_proof"
+      ],
+      "decision": "fail_closed_source_alignment_not_promotable",
+      "promotion_decision": "blocked_no_wave70_mask_promotion_row_gate_pass_true",
+      "panel": "runtime_artifacts/mask_factory/wave70_source_alignment_fail_closed_20260707T235000-0500/mf70_eyebrows_source_alignment_fail_closed_panel.png",
+      "panel_sha256": "aa0d16787a58e14d5fa46c155029e08ab4e552a9b34f1c9807e207f3920ae7eb"
+    },
+    {
+      "mask_type_id": "mf70_eyelashes",
+      "mask_path": "ComfyUI/input/wave70_mf70_eyelashes_mask.png",
+      "mask_sha256": "9437f87962b09df1e0f69f89ae771a242a1d5be2ffb50bd04e816882d1216051",
+      "target_definition": "visible lash-line strokes only; excludes eyelid skin and eye aperture",
+      "allowed_bbox": [
+        230,
+        300,
+        515,
+        350
+      ],
+      "protected_zones_checked": [
+        "brows_band",
+        "nose_core",
+        "mouth_lips"
+      ],
+      "mask_bbox": [
+        285,
+        312,
+        466,
+        350
+      ],
+      "mask_pixels": 793,
+      "inside_allowed_pixels": 793,
+      "outside_allowed_pixels": 0,
+      "outside_allowed_ratio": 0.0,
+      "bbox_inside_allowed_ratio": 1.0,
+      "protected_zone_hits": {
+        "nose_core": 476
+      },
+      "findings": [
+        "protected_zone_overlap:nose_core:476",
+        "lash-line masks require per-eye zoom and strand/lid boundary proof before promotion",
+        "unresolved_user_global_mask_alignment_dispute_requires_row_level_zoom_proof"
+      ],
+      "decision": "fail_closed_source_alignment_not_promotable",
+      "promotion_decision": "blocked_no_wave70_mask_promotion_row_gate_pass_true",
+      "panel": "runtime_artifacts/mask_factory/wave70_source_alignment_fail_closed_20260707T235000-0500/mf70_eyelashes_source_alignment_fail_closed_panel.png",
+      "panel_sha256": "4d3faef510fd8cabdca8fdfdd995453e5d24953cf43d0451272b6e374a23dbfa"
+    },
+    {
+      "mask_type_id": "mf70_eyelids",
+      "mask_path": "ComfyUI/input/wave70_mf70_eyelids_mask.png",
+      "mask_sha256": "65fed55192b96ba2b513d36bfbb65d3e38a57f9a7c9647796f74165c1e57108d",
+      "target_definition": "thin upper and lower eyelid bands only; excludes eye aperture, eyebrows, broad orbital skin, nose",
+      "allowed_bbox": [
+        276,
+        304,
+        508,
+        351
+      ],
+      "protected_zones_checked": [
+        "viewer_left_eye_aperture_poly",
+        "viewer_right_eye_aperture_poly",
+        "viewer_left_brow_poly",
+        "viewer_right_brow_poly",
+        "viewer_left_hair_occlusion_poly",
+        "nose_bridge_poly"
+      ],
+      "mask_bbox": [
+        282,
+        306,
+        504,
+        351
+      ],
+      "mask_pixels": 1136,
+      "inside_allowed_pixels": 1009,
+      "outside_allowed_pixels": 127,
+      "outside_allowed_ratio": 0.111796,
+      "bbox_inside_allowed_ratio": 1.0,
+      "protected_zone_hits": {
+        "viewer_left_eye_aperture_poly": 106,
+        "viewer_right_eye_aperture_poly": 176
+      },
+      "findings": [
+        "outside_allowed_region_ratio_too_high:0.1118>max:0.06",
+        "protected_zone_overlap:viewer_left_eye_aperture_poly:106",
+        "protected_zone_overlap:viewer_right_eye_aperture_poly:176",
+        "unresolved_user_global_mask_alignment_dispute_requires_row_level_zoom_proof"
+      ],
+      "decision": "fail_closed_source_alignment_not_promotable",
+      "promotion_decision": "blocked_no_wave70_mask_promotion_row_gate_pass_true",
+      "panel": "runtime_artifacts/mask_factory/wave70_source_alignment_fail_closed_20260707T235000-0500/mf70_eyelids_source_alignment_fail_closed_panel.png",
+      "panel_sha256": "42cfebd3f0930a523ef13f6d520622e8d2869aa6eaea68014d5524ed695660ae"
+    },
+    {
+      "mask_type_id": "mf70_eyes_full",
+      "mask_path": "ComfyUI/input/wave70_mf70_eyes_full_mask.png",
+      "mask_sha256": "f976cdfaea79f0be01dbca5886c51f358140a1cb1d949a8a07fbd9371eb03dae",
+      "target_definition": "visible full eye regions only; excludes broad orbital skin and eyebrows",
+      "allowed_bbox": [
+        235,
+        292,
+        515,
+        352
+      ],
+      "protected_zones_checked": [
+        "brows_band",
+        "nose_core",
+        "mouth_lips"
+      ],
+      "mask_bbox": [
+        276,
+        292,
+        473,
+        355
+      ],
+      "mask_pixels": 7541,
+      "inside_allowed_pixels": 7478,
+      "outside_allowed_pixels": 63,
+      "outside_allowed_ratio": 0.008354,
+      "bbox_inside_allowed_ratio": 0.952381,
+      "protected_zone_hits": {
+        "brows_band": 1441,
+        "nose_core": 4452
+      },
+      "findings": [
+        "area_too_large:7541>max:7400",
+        "protected_zone_overlap:brows_band:1441",
+        "protected_zone_overlap:nose_core:4452",
+        "unresolved_user_global_mask_alignment_dispute_requires_row_level_zoom_proof"
+      ],
+      "decision": "fail_closed_source_alignment_not_promotable",
+      "promotion_decision": "blocked_no_wave70_mask_promotion_row_gate_pass_true",
+      "panel": "runtime_artifacts/mask_factory/wave70_source_alignment_fail_closed_20260707T235000-0500/mf70_eyes_full_source_alignment_fail_closed_panel.png",
+      "panel_sha256": "1fa633325699ea8f93409d2e284142d8dcc7a207f37236683822b9f0eff113e1"
+    },
+    {
+      "mask_type_id": "mf70_face_full_instance",
+      "mask_path": "ComfyUI/input/wave70_mf70_face_full_instance_mask.png",
+      "mask_sha256": "dd6857bdbd32a7b26b0aca6454418753f19440295bc81edbe7b28845c8212895",
+      "target_definition": "visible face skin instance; excludes hair, background, neck, collar",
+      "allowed_bbox": [
+        205,
+        168,
+        535,
+        548
+      ],
+      "protected_zones_checked": [
+        "hair_left",
+        "hair_right",
+        "neck_collar",
+        "background_right"
+      ],
+      "mask_bbox": [
+        238,
+        159,
+        552,
+        562
+      ],
+      "mask_pixels": 91921,
+      "inside_allowed_pixels": 90178,
+      "outside_allowed_pixels": 1743,
+      "outside_allowed_ratio": 0.018962,
+      "bbox_inside_allowed_ratio": 0.891878,
+      "protected_zone_hits": {
+        "hair_right": 3421
+      },
+      "findings": [
+        "protected_zone_overlap:hair_right:3421",
+        "full-face instance requires source contour trace and hair/neck protected-boundary proof",
+        "unresolved_user_global_mask_alignment_dispute_requires_row_level_zoom_proof"
+      ],
+      "decision": "fail_closed_source_alignment_not_promotable",
+      "promotion_decision": "blocked_no_wave70_mask_promotion_row_gate_pass_true",
+      "panel": "runtime_artifacts/mask_factory/wave70_source_alignment_fail_closed_20260707T235000-0500/mf70_face_full_instance_source_alignment_fail_closed_panel.png",
+      "panel_sha256": "7be7e9fc6dcc52faabbe8d4d1e5644ced3d18abf777344d9b8d87f5852a09b7b"
+    },
+    {
+      "mask_type_id": "mf70_face_identity_critical",
+      "mask_path": "ComfyUI/input/wave70_mf70_face_identity_critical_mask.png",
+      "mask_sha256": "367d7d213d2152111fbc80ea7d5e11035296e0e184807a3bcddeba5bf1af473a",
+      "target_definition": "identity-critical visible face zones; excludes hair/background and must not be a broad shortcut polygon",
+      "allowed_bbox": [
+        205,
+        168,
+        535,
+        542
+      ],
+      "protected_zones_checked": [
+        "hair_left",
+        "hair_right",
+        "neck_collar",
+        "background_right"
+      ],
+      "mask_bbox": [
+        174,
+        163,
+        594,
+        537
+      ],
+      "mask_pixels": 116583,
+      "inside_allowed_pixels": 104456,
+      "outside_allowed_pixels": 12127,
+      "outside_allowed_ratio": 0.10402,
+      "bbox_inside_allowed_ratio": 0.77521,
+      "protected_zone_hits": {
+        "hair_left": 12857,
+        "hair_right": 13430,
+        "background_right": 6615
+      },
+      "findings": [
+        "area_too_large:116583>max:92000",
+        "outside_allowed_region_ratio_too_high:0.1040>max:0.08",
+        "protected_zone_overlap:hair_left:12857",
+        "protected_zone_overlap:hair_right:13430",
+        "protected_zone_overlap:background_right:6615",
+        "identity-critical region must be decomposed or source-contour-traced before promotion",
+        "unresolved_user_global_mask_alignment_dispute_requires_row_level_zoom_proof"
+      ],
+      "decision": "fail_closed_source_alignment_not_promotable",
+      "promotion_decision": "blocked_no_wave70_mask_promotion_row_gate_pass_true",
+      "panel": "runtime_artifacts/mask_factory/wave70_source_alignment_fail_closed_20260707T235000-0500/mf70_face_identity_critical_source_alignment_fail_closed_panel.png",
+      "panel_sha256": "8a7fe5c4fe9364e1865ef6110df8792fec08ae11007fe1b1d79576274e81d3d2"
+    },
+    {
+      "mask_type_id": "mf70_forehead_skin",
+      "mask_path": "ComfyUI/input/wave70_mf70_forehead_skin_mask.png",
+      "mask_sha256": "ad925d9a2f8f7df8f4628d690d7bd78efccef2fd7ae43c61046bd2bea136c506",
+      "target_definition": "visible forehead skin between hairline and brows only",
+      "allowed_bbox": [
+        250,
+        178,
+        505,
+        295
+      ],
+      "protected_zones_checked": [
+        "brows_band",
+        "hair_top",
+        "eyes_full"
+      ],
+      "mask_bbox": [
+        298,
+        193,
+        479,
+        301
+      ],
+      "mask_pixels": 15368,
+      "inside_allowed_pixels": 14825,
+      "outside_allowed_pixels": 543,
+      "outside_allowed_ratio": 0.035333,
+      "bbox_inside_allowed_ratio": 0.944444,
+      "protected_zone_hits": {
+        "brows_band": 4205,
+        "hair_top": 890,
+        "eyes_full": 867
+      },
+      "findings": [
+        "protected_zone_overlap:brows_band:4205",
+        "protected_zone_overlap:hair_top:890",
+        "protected_zone_overlap:eyes_full:867",
+        "unresolved_user_global_mask_alignment_dispute_requires_row_level_zoom_proof"
+      ],
+      "decision": "fail_closed_source_alignment_not_promotable",
+      "promotion_decision": "blocked_no_wave70_mask_promotion_row_gate_pass_true",
+      "panel": "runtime_artifacts/mask_factory/wave70_source_alignment_fail_closed_20260707T235000-0500/mf70_forehead_skin_source_alignment_fail_closed_panel.png",
+      "panel_sha256": "ad0d129939a983766e5dd27d2f6385901957073a81e5cc2f1bb26dc594174901"
+    },
+    {
+      "mask_type_id": "mf70_jawline_chin",
+      "mask_path": "ComfyUI/input/wave70_mf70_jawline_chin_mask.png",
+      "mask_sha256": "d3360c3ceca5ec738ea51bcd5dbe6f21029f859b2e97500b3baa3b2593fdcdd2",
+      "target_definition": "visible jawline and chin skin contour only; excludes neck/collar and mouth",
+      "allowed_bbox": [
+        250,
+        438,
+        500,
+        560
+      ],
+      "protected_zones_checked": [
+        "mouth_lips",
+        "neck_collar"
+      ],
+      "mask_bbox": [
+        296,
+        467,
+        482,
+        553
+      ],
+      "mask_pixels": 9031,
+      "inside_allowed_pixels": 9031,
+      "outside_allowed_pixels": 0,
+      "outside_allowed_ratio": 0.0,
+      "bbox_inside_allowed_ratio": 1.0,
+      "protected_zone_hits": {
+        "mouth_lips": 983,
+        "neck_collar": 1131
+      },
+      "findings": [
+        "protected_zone_overlap:mouth_lips:983",
+        "protected_zone_overlap:neck_collar:1131",
+        "unresolved_user_global_mask_alignment_dispute_requires_row_level_zoom_proof"
+      ],
+      "decision": "fail_closed_source_alignment_not_promotable",
+      "promotion_decision": "blocked_no_wave70_mask_promotion_row_gate_pass_true",
+      "panel": "runtime_artifacts/mask_factory/wave70_source_alignment_fail_closed_20260707T235000-0500/mf70_jawline_chin_source_alignment_fail_closed_panel.png",
+      "panel_sha256": "7aa3145c5fcb23018f5a0ad8f68f68680d8be4486313b1e54f2db6def1a9b572"
+    },
+    {
+      "mask_type_id": "mf70_left_eye",
+      "mask_path": "ComfyUI/input/wave70_mf70_left_eye_mask.png",
+      "mask_sha256": "2b81866c1d683823234eed50bb9b922991947fe71bede620b4ab2aaf53c5331c",
+      "target_definition": "source subject left eye / viewer-right visible eye region only",
+      "allowed_bbox": [
+        405,
+        292,
+        518,
+        350
+      ],
+      "protected_zones_checked": [
+        "brows_right",
+        "nose_core"
+      ],
+      "mask_bbox": [
+        388,
+        292,
+        473,
+        351
+      ],
+      "mask_pixels": 3835,
+      "inside_allowed_pixels": 3295,
+      "outside_allowed_pixels": 540,
+      "outside_allowed_ratio": 0.140808,
+      "bbox_inside_allowed_ratio": 0.786441,
+      "protected_zone_hits": {
+        "brows_right": 825,
+        "nose_core": 3306
+      },
+      "findings": [
+        "outside_allowed_region_ratio_too_high:0.1408>max:0.08",
+        "protected_zone_overlap:brows_right:825",
+        "protected_zone_overlap:nose_core:3306",
+        "unresolved_user_global_mask_alignment_dispute_requires_row_level_zoom_proof"
+      ],
+      "decision": "fail_closed_source_alignment_not_promotable",
+      "promotion_decision": "blocked_no_wave70_mask_promotion_row_gate_pass_true",
+      "panel": "runtime_artifacts/mask_factory/wave70_source_alignment_fail_closed_20260707T235000-0500/mf70_left_eye_source_alignment_fail_closed_panel.png",
+      "panel_sha256": "701c8aef6f4903d199272bc1fbc730a485b0f45d6033a5c069ca92b3724dc52d"
+    },
+    {
+      "mask_type_id": "mf70_mouth_lips",
+      "mask_path": "ComfyUI/input/wave70_mf70_mouth_lips_mask.png",
+      "mask_sha256": "af3aa21d71625a68087440874afbf30e060a813f218265054a7cce79fee6f0d9",
+      "target_definition": "visible upper and lower lip surfaces; excludes philtrum, teeth, chin, cheeks",
+      "allowed_bbox": [
+        290,
+        430,
+        455,
+        488
+      ],
+      "protected_zones_checked": [
+        "nose_core",
+        "teeth_inner",
+        "chin_skin"
+      ],
+      "mask_bbox": [
+        303,
+        443,
+        440,
+        478
+      ],
+      "mask_pixels": 1470,
+      "inside_allowed_pixels": 1470,
+      "outside_allowed_pixels": 0,
+      "outside_allowed_ratio": 0.0,
+      "bbox_inside_allowed_ratio": 1.0,
+      "protected_zone_hits": {
+        "teeth_inner": 207
+      },
+      "findings": [
+        "protected_zone_overlap:teeth_inner:207",
+        "current mouth/lips mask is not proven as full-region mouth/lip coverage by row-level zoom proof",
+        "unresolved_user_global_mask_alignment_dispute_requires_row_level_zoom_proof"
+      ],
+      "decision": "fail_closed_source_alignment_not_promotable",
+      "promotion_decision": "blocked_no_wave70_mask_promotion_row_gate_pass_true",
+      "panel": "runtime_artifacts/mask_factory/wave70_source_alignment_fail_closed_20260707T235000-0500/mf70_mouth_lips_source_alignment_fail_closed_panel.png",
+      "panel_sha256": "31ff619edd7cb9e823af502daaee78ce312fe3d63185c183ea673863f08f37de"
+    },
+    {
+      "mask_type_id": "mf70_nose",
+      "mask_path": "ComfyUI/input/wave70_mf70_nose_mask.png",
+      "mask_sha256": "69791305492b8a76ee77940f7c642c6ac6ea74a5fb560d5a194796f492acf4ee",
+      "target_definition": "visible nose bridge, sidewalls, tip, alae, nostrils; excludes philtrum and lips",
+      "allowed_bbox": [
+        330,
+        270,
+        455,
+        430
+      ],
+      "protected_zones_checked": [
+        "mouth_lips",
+        "upper_lip_philtrum",
+        "viewer_left_eye_aperture",
+        "viewer_right_eye_aperture"
+      ],
+      "mask_bbox": [
+        344,
+        298,
+        423,
+        410
+      ],
+      "mask_pixels": 5645,
+      "inside_allowed_pixels": 5645,
+      "outside_allowed_pixels": 0,
+      "outside_allowed_ratio": 0.0,
+      "bbox_inside_allowed_ratio": 1.0,
+      "protected_zone_hits": {},
+      "findings": [
+        "unresolved_user_global_mask_alignment_dispute_requires_row_level_zoom_proof"
+      ],
+      "decision": "fail_closed_source_alignment_not_promotable",
+      "promotion_decision": "blocked_no_wave70_mask_promotion_row_gate_pass_true",
+      "panel": "runtime_artifacts/mask_factory/wave70_source_alignment_fail_closed_20260707T235000-0500/mf70_nose_source_alignment_fail_closed_panel.png",
+      "panel_sha256": "ecddfb992e9f46028cd11c7a09224a7c8cc66519d53afdac2732775981802164"
+    },
+    {
+      "mask_type_id": "mf70_pupils_iris_sclera",
+      "mask_path": "ComfyUI/input/wave70_mf70_pupils_iris_sclera_mask.png",
+      "mask_sha256": "41a38bdf59632005231828cdc3ba6d2ac8da913787b1fd30759a1e00ac39f82d",
+      "target_definition": "visible eye apertures containing pupil/iris/sclera per eye; excludes skin bands between eyes",
+      "allowed_bbox": [
+        245,
+        306,
+        515,
+        335
+      ],
+      "protected_zones_checked": [
+        "between_eyes_bridge",
+        "brows_band"
+      ],
+      "mask_bbox": [
+        258,
+        310,
+        504,
+        331
+      ],
+      "mask_pixels": 1768,
+      "inside_allowed_pixels": 1768,
+      "outside_allowed_pixels": 0,
+      "outside_allowed_ratio": 0.0,
+      "bbox_inside_allowed_ratio": 1.0,
+      "protected_zone_hits": {},
+      "findings": [
+        "must be separated into per-eye apertures; a cross-face strip fails closed",
+        "unresolved_user_global_mask_alignment_dispute_requires_row_level_zoom_proof"
+      ],
+      "decision": "fail_closed_source_alignment_not_promotable",
+      "promotion_decision": "blocked_no_wave70_mask_promotion_row_gate_pass_true",
+      "panel": "runtime_artifacts/mask_factory/wave70_source_alignment_fail_closed_20260707T235000-0500/mf70_pupils_iris_sclera_source_alignment_fail_closed_panel.png",
+      "panel_sha256": "bda5654f4c899d184f5270ad466b6eb29d9f8a55b7d18be69cd00b37c690ff31"
+    },
+    {
+      "mask_type_id": "mf70_right_eye",
+      "mask_path": "ComfyUI/input/wave70_mf70_right_eye_mask.png",
+      "mask_sha256": "8bde85884cc71767086d561a8f3ca831d43237bed6da78c8cf6a336c32fbe66c",
+      "target_definition": "source subject right eye / viewer-left visible eye region only",
+      "allowed_bbox": [
+        235,
+        292,
+        355,
+        352
+      ],
+      "protected_zones_checked": [
+        "brows_left",
+        "hair_left"
+      ],
+      "mask_bbox": [
+        276,
+        297,
+        359,
+        355
+      ],
+      "mask_pixels": 3706,
+      "inside_allowed_pixels": 3585,
+      "outside_allowed_pixels": 121,
+      "outside_allowed_ratio": 0.03265,
+      "bbox_inside_allowed_ratio": 0.902576,
+      "protected_zone_hits": {
+        "brows_left": 469
+      },
+      "findings": [
+        "protected_zone_overlap:brows_left:469",
+        "unresolved_user_global_mask_alignment_dispute_requires_row_level_zoom_proof"
+      ],
+      "decision": "fail_closed_source_alignment_not_promotable",
+      "promotion_decision": "blocked_no_wave70_mask_promotion_row_gate_pass_true",
+      "panel": "runtime_artifacts/mask_factory/wave70_source_alignment_fail_closed_20260707T235000-0500/mf70_right_eye_source_alignment_fail_closed_panel.png",
+      "panel_sha256": "12e6790f5c9f78d14fd979f255d0fce0abed985d283202d6ce509c1bb522e6e9"
+    },
+    {
+      "mask_type_id": "mf70_skin_tone_continuity",
+      "mask_path": "ComfyUI/input/wave70_mf70_skin_tone_continuity_mask.png",
+      "mask_sha256": "c3aa10d3cb9f23e5a7b256eec8b266d805cb23a291eb3f1ff54f31f820ab8d03",
+      "target_definition": "explicit skin-tone continuity zones; broad whole-face/neck shortcuts fail closed",
+      "allowed_bbox": [
+        205,
+        175,
+        535,
+        540
+      ],
+      "protected_zones_checked": [
+        "hair_left",
+        "hair_right",
+        "neck_collar",
+        "background_right"
+      ],
+      "mask_bbox": [
+        239,
+        187,
+        536,
+        768
+      ],
+      "mask_pixels": 114703,
+      "inside_allowed_pixels": 78800,
+      "outside_allowed_pixels": 35903,
+      "outside_allowed_ratio": 0.313008,
+      "bbox_inside_allowed_ratio": 0.605527,
+      "protected_zone_hits": {
+        "neck_collar": 36352
+      },
+      "findings": [
+        "area_too_large:114703>max:95000",
+        "outside_allowed_region_ratio_too_high:0.3130>max:0.08",
+        "bbox_not_source_target_aligned:0.6055<0.65",
+        "protected_zone_overlap:neck_collar:36352",
+        "skin-tone continuity requires subregion definitions and protected hair/neck exclusion proof",
+        "unresolved_user_global_mask_alignment_dispute_requires_row_level_zoom_proof"
+      ],
+      "decision": "fail_closed_source_alignment_not_promotable",
+      "promotion_decision": "blocked_no_wave70_mask_promotion_row_gate_pass_true",
+      "panel": "runtime_artifacts/mask_factory/wave70_source_alignment_fail_closed_20260707T235000-0500/mf70_skin_tone_continuity_source_alignment_fail_closed_panel.png",
+      "panel_sha256": "a47ddb275f24ababd890984d48f52920de10314927cf7983057b20e4ba733c70"
+    },
+    {
+      "mask_type_id": "mf70_teeth",
+      "mask_path": "ComfyUI/input/wave70_mf70_teeth_mask.png",
+      "mask_sha256": "f2bc7f635a41035e37602f219997d34b24e8dcf481847a51aa42c4adecb9053e",
+      "target_definition": "visible teeth enamel strip only; excludes lips, tongue, inner mouth, skin",
+      "allowed_bbox": [
+        334,
+        456,
+        405,
+        469
+      ],
+      "protected_zones_checked": [
+        "upper_lip_philtrum",
+        "lip_surfaces"
+      ],
+      "mask_bbox": [
+        340,
+        454,
+        403,
+        463
+      ],
+      "mask_pixels": 380,
+      "inside_allowed_pixels": 339,
+      "outside_allowed_pixels": 41,
+      "outside_allowed_ratio": 0.107895,
+      "bbox_inside_allowed_ratio": 0.777778,
+      "protected_zone_hits": {
+        "upper_lip_philtrum": 209,
+        "lip_surfaces": 380
+      },
+      "findings": [
+        "protected_zone_overlap:upper_lip_philtrum:209",
+        "protected_zone_overlap:lip_surfaces:380",
+        "teeth mask requires row-level zoom proof; full contact sheet is insufficient for promotion",
+        "unresolved_user_global_mask_alignment_dispute_requires_row_level_zoom_proof"
+      ],
+      "decision": "fail_closed_source_alignment_not_promotable",
+      "promotion_decision": "blocked_no_wave70_mask_promotion_row_gate_pass_true",
+      "panel": "runtime_artifacts/mask_factory/wave70_source_alignment_fail_closed_20260707T235000-0500/mf70_teeth_source_alignment_fail_closed_panel.png",
+      "panel_sha256": "015b4978dd6e427795dc3c2dfe2f224f5bf71331e7ae0ded420708cf459edd31"
+    },
+    {
+      "mask_type_id": "mf70_under_eye",
+      "mask_path": "ComfyUI/input/wave70_mf70_under_eye_mask.png",
+      "mask_sha256": "60d2a5697f7d594f4265ff061192dd97fcddd3d1252d73574c2ea0b563edd30e",
+      "target_definition": "under-eye skin/tear-trough zones below lower lids; excludes eye apertures, nose bridge, broad cheek band",
+      "allowed_bbox": [
+        235,
+        328,
+        515,
+        376
+      ],
+      "protected_zones_checked": [
+        "eye_apertures",
+        "nose_core",
+        "mouth_lips"
+      ],
+      "mask_bbox": [
+        246,
+        371,
+        507,
+        396
+      ],
+      "mask_pixels": 2029,
+      "inside_allowed_pixels": 165,
+      "outside_allowed_pixels": 1864,
+      "outside_allowed_ratio": 0.918679,
+      "bbox_inside_allowed_ratio": 0.2,
+      "protected_zone_hits": {
+        "nose_core": 378
+      },
+      "findings": [
+        "outside_allowed_region_ratio_too_high:0.9187>max:0.08",
+        "bbox_not_source_target_aligned:0.2000<0.65",
+        "protected_zone_overlap:nose_core:378",
+        "unresolved_user_global_mask_alignment_dispute_requires_row_level_zoom_proof"
+      ],
+      "decision": "fail_closed_source_alignment_not_promotable",
+      "promotion_decision": "blocked_no_wave70_mask_promotion_row_gate_pass_true",
+      "panel": "runtime_artifacts/mask_factory/wave70_source_alignment_fail_closed_20260707T235000-0500/mf70_under_eye_source_alignment_fail_closed_panel.png",
+      "panel_sha256": "3e8102083b712b7aa7aa89188e8fe5be8395d190c1d77b1c4d9a23f4b63ec3ba"
+    }
+  ]
+}

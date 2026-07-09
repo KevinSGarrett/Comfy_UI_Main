@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ITEMS_TRACKER_COVERAGE_20260709T000816-0500",
+  "created_iso": "2026-07-09T00:08:16-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-050",
+  "item_id": "ITEM-W64-050",
+  "source_script": "Plan/Instructions/QA/Scripts/Test-ItemsTrackerPackageStatic.ps1",
+  "pre_repair_verifier": "Plan/Instructions/QA/Evidence/Wave64/ITEMS_TRACKER_COVERAGE_VERIFIER_20260709T000220-0500.json",
+  "single_key_repair": "Plan/Instructions/QA/Evidence/Wave64/SINGLE_MISSING_ULTRA_SOURCE_KEY_REPAIR_20260709T000530-0500.json",
+  "post_repair_verifier": "Plan/Instructions/QA/Evidence/Wave64/ITEMS_TRACKER_COVERAGE_VERIFIER_POST_REPAIR_20260709T000611-0500.json",
+  "exact_repair": {
+    "source_key": "c45e2efa43da01fd",
+    "source_file": "03_IMAGE_SYSTEM/SOFT_BODY_MECHANICS_ULTIMATE_SPEC.md",
+    "citation_section": "Soft-body region profiles",
+    "tracker_id_added": "TRK-051560",
+    "item_id_added": "ITEM-051584"
+  },
+  "checks": {
+    "previous_row_passed": true,
+    "pre_verifier_failed_expected_single_key": true,
+    "single_key_repair_changed_tracker": true,
+    "single_key_repair_changed_items": true,
+    "post_verifier_passed": true,
+    "tracker_rows_present": true,
+    "items_rows_present": true,
+    "citation_required": true,
+    "domain_required": true,
+    "coverage_report_pass": true
+  },
+  "post_repair_counts": {
+    "tracker_row_count": 54694,
+    "tracker_missing_ultra_source_keys": 0,
+    "items_row_count": 54646,
+    "items_missing_ultra_source_keys": 0,
+    "wave64_item_rows": 66,
+    "wave64_tracker_rows": 66,
+    "wave65_missing_after_count": 0
+  },
+  "bounded_coverage_policy": {
+    "pre_repair_verifier_runs": 1,
+    "narrow_repair_passes": 1,
+    "post_repair_verifier_runs": 1,
+    "stop_coverage_refreshes_now": true,
+    "next_coverage_refresh_allowed_only_if": "new Plan file added/renamed or explicit user request"
+  },
+  "runtime_boundary": {
+    "ec2_started": false,
+    "generation_executed": false,
+    "comfyui_contacted": false,
+    "hard_gates_rerun": false
+  },
+  "gold_mask_dependency_boundary": {
+    "mask_truth_consumed": false,
+    "candidate_masks_consumed_as_truth": false,
+    "masks_promoted": false,
+    "wave71_activation_attempted": false
+  },
+  "errors": [],
+  "qa_decision": "items_tracker_coverage_passed_single_key_repair_then_post_verifier_pass",
+  "next_step": "Advance to TRK-W64-051/ITEM-W64-051; do not perform more coverage refreshes in this sequence.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/items_tracker_coverage.json",
+    "Plan/Instructions/QA/Evidence/Wave64/ITEMS_TRACKER_COVERAGE_20260709T000816-0500.json",
+    "Plan/Tracker/Evidence/ITEMS_TRACKER_COVERAGE_20260709T000816-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/ITEMS_TRACKER_COVERAGE_VERIFIER_20260709T000220-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/SINGLE_MISSING_ULTRA_SOURCE_KEY_REPAIR_20260709T000530-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/ITEMS_TRACKER_COVERAGE_VERIFIER_POST_REPAIR_20260709T000611-0500.json",
+    "Plan/Instructions/QA/Scripts/Test-ItemsTrackerPackageStatic.ps1"
+  ],
+  "csv_updates": {
+    "tracker": {
+      "Plan/Tracker/wave64_end_to_end_strict_ai_tracker.csv": 1,
+      "Plan/Tracker/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_TRACKER_ROWS.csv": 1
+    },
+    "items": {
+      "Plan/Items/wave64_end_to_end_strict_ai_itemized_list.csv": 1,
+      "Plan/Items/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_ITEM_ROWS.csv": 1
+    }
+  }
+}

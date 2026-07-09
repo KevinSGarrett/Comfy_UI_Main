@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_LOCAL_MF70_EYES_FULL_SEED210808_VISUAL_QA_20260707T171500-0500",
+  "created_at": "2026-07-07T17:15:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "mask_type_id": "mf70_eyes_full",
+  "tracker_id": "TRK-W70-0009",
+  "item_id": "ITEM-W70-0009",
+  "qa_type": "strict_whole_image_visual_qa",
+  "result": "pass_with_notes_local_wave70_eyes_full_generated_output",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "source_image": "ComfyUI/input/wave70_mf70_face_identity_source_canny_v3.png",
+  "mask_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_eyes_full_20260707T171500-0500/wave70_mf70_eyes_full_overlay.png",
+  "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_eyes_full_seed210808_20260707T170742-0500/images/codex_wave70_mf70_eyes_full_seed210808_00001_.png",
+  "generated_output_sha256": "1cf2ab9f043944ecebd795176d46774f98f8a4d580af3003b8a761c31b444a86",
+  "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_eyes_full_seed210808_20260707T170742-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00014_.png",
+  "diagnostic_mask_preview_sha256": "b42856f5242f9e7ad4b1b34d10822a8ae097e65e3d3bfe4abbdb11c4300beb86",
+  "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_eyes_full/qa_comparisons/wave70_mf70_eyes_full_source_overlay_output_compare.png",
+  "comparison_artifact_sha256": "7d38828287bdcb8a0626cdb7b60adf104e387917eb23abe0520fddab83afb224",
+  "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_EYES_FULL_SEED210808_EXECUTE_20260707T171500-0500.json",
+  "runtime_evidence_sha256": "9900fb1f3c524e29e5fec82f6bbd48b823bc170a3f4a22c333f8f6ac6abaea2e",
+  "visual_findings": [
+    "Generated output preserves recognizable source portrait identity, face shape, hair silhouette, white blazer, neck shape, and gray background.",
+    "Gaze direction and eye symmetry remain stable; eye-region change is subtle at denoise 0.07.",
+    "Iris/catchlight appearance remains coherent without obvious doll-eye, glass-eye, or crossed-eye artifact.",
+    "Hair occlusion near the subject-right eye remains stable enough for local pass-with-notes proof.",
+    "No obvious clothing mutation, background mutation, visible hard mask boundary, or whole-frame regression was observed.",
+    "Because this edits an identity-critical eye region, this is pass-with-notes local support and still needs target-runtime proof before final certification."
+  ],
+  "decision": {
+    "generated_output_proof_present": true,
+    "whole_image_visual_qa_passed_with_notes": true,
+    "target_runtime_proof_present": false,
+    "final_certification_allowed": false,
+    "remaining_blockers": [
+      "target_runtime_proof_required_before_final_certification"
+    ]
+  }
+}

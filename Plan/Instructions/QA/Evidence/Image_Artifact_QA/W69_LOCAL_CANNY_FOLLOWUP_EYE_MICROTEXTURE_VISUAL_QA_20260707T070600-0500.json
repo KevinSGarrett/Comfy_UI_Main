@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-CANNY-FOLLOWUP-EYE-MICROTEXTURE-VISUAL-QA-20260707T070600-0500",
+  "timestamp": "2026-07-07T07:06:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_FOLLOWUP_EYE_MICROTEXTURE_SEED711570103_EXECUTE_20260707T070300-0500.json",
+  "pullback_recovery_manifest": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_followup_eye_microtexture_20260707T070138-0500/LOCAL_ARTIFACT_MANIFEST.json",
+  "profile": "PromptProfiles/base_generation/controlnet_canny_w69_quality_matrix/canny_w69_followup_eye_microtexture_seed711570103.json",
+  "run_package_manifest": "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_w69_followup_eye_microtexture_seed711570103/RUN_PACKAGE_MANIFEST.json",
+  "generated_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_followup_eye_microtexture_20260707T070138-0500/images/canny_w69_followup_eye_microtexture_seed711570103.png",
+    "sha256": "662928170295aa69b891c3d32524f9d57676f63eff3726da6df8705b07a3ceed",
+    "dimensions": "768x768",
+    "bytes": 619199
+  },
+  "diagnostic_control_map": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_followup_eye_microtexture_20260707T070138-0500/images/canny_w69_followup_control_map_diagnostic_00004.png",
+    "sha256": "84783956cc3286568660e8d082459c8063f1dc79a3cd757233f3114cb1bcb373",
+    "dimensions": "1024x1024",
+    "bytes": 33623
+  },
+  "whole_image_visual_findings": [
+    "The follow-up produced a coherent hyperrealistic head-and-shoulders portrait with stable facial proportions, aligned eyes, clean lips, believable hair shape, clothed shoulders, and a simple coherent background.",
+    "Eye readability improved compared with the matrix baseline and remains clear enough for local quality-development use.",
+    "No visible Canny/control-map leakage, colored stains, dark edge halos, harsh line transfer, text, watermark, or malformed collar/jaw boundary appeared.",
+    "The follow-up regressed on the skin-texture goal: the face reads more smooth/editorial and beauty-polished than the preferred softer-edge matrix sample, with less visible pore and beard/stubble detail.",
+    "Hands and full body are not visible and remain outside this Canny local crop certification boundary."
+  ],
+  "strict_whole_image_checks": {
+    "face_realism": "pass_with_notes",
+    "eyes": "improved_pass",
+    "skin_texture": "mixed_regression_more_polished_than_preferred_matrix_sample",
+    "hair": "pass",
+    "hands": "not_visible_not_certified",
+    "body_proportions": "pass_for_head_and_shoulders_crop_only",
+    "clothing_fabric": "pass_with_notes_light_blazer_texture_soft",
+    "jaw_collar_boundary": "pass",
+    "lighting": "pass",
+    "background_coherence": "pass",
+    "camera_lens_realism": "pass",
+    "control_map_leakage": "pass_no_visible_leakage",
+    "generation_artifacts": "pass_no_blocking_artifacts",
+    "prompt_compliance": "pass_with_notes"
+  },
+  "comparison_to_matrix_winner": {
+    "matrix_winner": "canny_w69_matrix_softer_edges_seed711570102",
+    "matrix_winner_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_canny_w69_matrix_softer_edges_seed711570102_20260707T065920-0500/images/codex_sdxl_realvisxl_controlnet_canny_w69_matrix_softer_edges_seed711570102_00001_.png",
+    "followup_helped": [
+      "Eye visibility and catchlight readability improved."
+    ],
+    "followup_regressed": [
+      "Skin surface became smoother and less naturally textured than the preferred softer-edge sample.",
+      "Overall image reads more studio-beauty polished, which is not the desired direction for hyperreal material realism."
+    ],
+    "promotion_decision": "do_not_promote_followup_over_matrix_winner"
+  },
+  "result": "mixed_result_eye_improved_skin_texture_regressed",
+  "next_action": "Use canny_w69_matrix_softer_edges_seed711570102 as the preferred local Canny candidate for now. If continuing local Canny quality work, make the next change conservative: retain the softer-edge prompt, improve eyes with less beauty-language pressure, and avoid terms that over-smooth skin. Do not claim final MOD-17 certification without target-runtime proof and broader robustness QA."
+}

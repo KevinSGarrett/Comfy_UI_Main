@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "inpaint_wave25_contact_shadow_pressure_seed210704",
+  "target_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "purpose": "Targeted local attempt to address the remaining hand/contact certification blockers for subtle contact shadow and weak sleeve pressure while preserving the already-supported Wave25 two-character contact.",
+  "request_patch_values": {
+    "positive_prompt": "photoreal close contact shadow refinement only, preserve exact two adult identities and all faces, preserve woman on left and man on right, preserve exact pose and hand placement, clear soft contact shadow directly under the woman's fingers on the man's textured sleeve, subtle fabric pressure and compression under fingertips, natural occlusion edge where hand rests on sleeve, realistic finger pads, coherent fingernails, no global style drift",
+    "negative_prompt": "identity change, face change, hair change, clothing change, background change, pose change, hand moved, arm moved, new hand position, hand morph, extra fingers, missing fingers, fused fingers, elongated fingers, claw hand, rubber hand, gripping, grabbing, sleeve pull, man touching woman, merged bodies, merged arms, duplicate hand, hard black shadow, dirty stain, visible mask edge, overpainted shoulder, plastic skin, waxy skin, text, watermark",
+    "source_image": "wave25_contact_refine_seed210701_source.png",
+    "mask_image": "wave25_contact_shadow_pressure_seed210701_1024.png",
+    "mask_channel": "red",
+    "seed": 210704,
+    "sampler_settings": {
+      "steps": 20,
+      "cfg": 4.2,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.18
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_wave25_contact_shadow_pressure_seed210704"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_wave25_contact_shadow_pressure_seed210704"
+  },
+  "qa_focus": [
+    "contact shadow clarity under fingers",
+    "fabric pressure/compression on sleeve",
+    "no hand movement or anatomy regression",
+    "source/target contact ownership preservation",
+    "whole-image identity, clothing, and background preservation"
+  ],
+  "source_qa_driver": {
+    "blocking_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_HAND_CONTACT_VISUAL_CERTIFICATION_TWO_CHARACTER_HAND_TO_BODY_20260707T123500-0500.json",
+    "current_blockers": [
+      "contact_shadow_not_clear:subtle",
+      "contact_placement_not_exact_target:shoulder_top_upper_sleeve"
+    ],
+    "change_summary": "Use the supported seed210701 refine as source, apply a narrower pressure/shadow mask, slightly raise denoise to 0.18, and strengthen contact shadow/fabric pressure terms while forbidding hand movement."
+  },
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_whole_image_qa_before_promotion": true,
+    "requires_certification_gate_rerun_before_unblocking": true,
+    "requires_target_runtime_reproof_before_final_certification": true
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-JAWLINE-CHIN-LOCAL-SUPPORT-20260707T160000-0500",
+  "timestamp": "2026-07-07T16:00:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave70_ultimate_mask_factory_local_artifact_routing_support",
+  "mask_type_id": "mf70_jawline_chin",
+  "tracker_id": "TRK-W70-0006",
+  "item_id": "ITEM-W70-0006",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "source_requirements": [
+    "Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_FACTORY_TAXONOMY.md#L15-L31",
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv:TRK-W70-0006",
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv:ITEM-W70-0006"
+  ],
+  "artifacts": {
+    "request": "runtime_artifacts/mask_factory/wave70_mf70_jawline_chin/MASK_FACTORY_REQUEST.json",
+    "contract": "runtime_artifacts/mask_factory/wave70_mf70_jawline_chin/MASK_FACTORY_CONTRACT.json",
+    "contract_validation": "runtime_artifacts/mask_factory/wave70_mf70_jawline_chin/MASK_FACTORY_CONTRACT_VALIDATION.json",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_mf70_jawline_chin/MASK_RUNTIME_EVIDENCE.json",
+    "quality_report": "runtime_artifacts/mask_factory/wave70_mf70_jawline_chin/MASK_QUALITY_REPORT.json",
+    "patch_manifest": "runtime_artifacts/mask_factory/wave70_mf70_jawline_chin/MASK_TO_WORKFLOW_PATCH_MANIFEST.csv",
+    "mask_png": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_jawline_chin_20260707T160000-0500/wave70_mf70_jawline_chin_mask.png",
+    "comfyui_input_copy": "ComfyUI/input/wave70_mf70_jawline_chin_mask.png",
+    "preview_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_jawline_chin_20260707T160000-0500/wave70_mf70_jawline_chin_overlay.png"
+  },
+  "mask_asset": {
+    "mask_id": "scene_wave70_canny_v3__person_001__mf70_jawline_chin__minor",
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_jawline_chin_20260707T160000-0500/wave70_mf70_jawline_chin_mask.png",
+    "sha256": "d3360c3ceca5ec738ea51bcd5dbe6f21029f859b2e97500b3baa3b2593fdcdd2",
+    "width": 768,
+    "height": 768,
+    "coverage_percent": 1.8216,
+    "person_instance_id": "person_001",
+    "body_region_id": "jawline_chin_contour",
+    "scale": "minor"
+  },
+  "validation": {
+    "contract_valid": true,
+    "contract_errors": [],
+    "contract_warnings": [],
+    "quality_score": 91.0,
+    "minimum_required": 85,
+    "quality_passed": true,
+    "workflow_routing_manifest_present": true,
+    "preview_overlay_generated": true,
+    "protected_neighbor_check_pass": true,
+    "generated_output_proof_present": true,
+    "target_runtime_proof_present": false,
+    "blockers": [
+      "mask_alignment_revision_required_before_completion",
+      "target_runtime_proof_required_before_final_certification",
+      "mask_alignment_strict_review_requires_revision_before_completion"
+    ],
+    "mask_alignment_semantic_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false
+  },
+  "overlay_visual_review": {
+    "review_method": "direct local image inspection via Codex view_image",
+    "result": "pass_with_notes_jawline_chin_overlay",
+    "findings": [
+      "Initial jawline/chin polygon was rejected because the upper edge sat too close to the protected mouth/lip region.",
+      "Revised mask covers a narrow chin and jawline contour band below the mouth.",
+      "Overlay avoids clothing and broad neck area; soft-boundary proximity remains near the lower lip shadow and upper chin, acceptable only for low-denoise local generated-output proof."
+    ]
+  },
+  "result": "mask_alignment_needs_revision_generated_output_safe_final_blocked_target_runtime",
+  "boundary": "Strict semantic mask-alignment review supersedes earlier generated-output-safe interpretation. Generated-output stability is preserved when present, but mask completion is blocked unless semantic alignment and protected-neighbor review pass.",
+  "generated_output_proof": {
+    "profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_jawline_chin_seed210806.json",
+    "profile_sha256": "1793f074f0360abd662bc5c9e343bbce79ff71d0f677f75902e60d8bd5123cff",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_jawline_chin_seed210806/RUN_PACKAGE_MANIFEST.json",
+    "run_package_sha256": "365bd2a7384a2c167343d988dde4eaccfc5f90111404f2233705ec5d284c2f9b",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_JAWLINE_CHIN_SEED210806_EXECUTE_20260707T160500-0500.json",
+    "runtime_evidence_sha256": "1c67752ddfc58fca59e3412c7adee4c358de23f4f8a3170602c0c4b8c5c5f73e",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_jawline_chin_seed210806_20260707T155057-0500/images/codex_wave70_mf70_jawline_chin_seed210806_00001_.png",
+    "generated_output_sha256": "0f7309573088fbfaea28394487721bc0837bc1c95fbe383b7410172844dc0541",
+    "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_jawline_chin_seed210806_20260707T155057-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00012_.png",
+    "diagnostic_mask_preview_sha256": "a3495950246bb09002f882f59b5616bdc5345e3c5070a43b03026867323bc0ed",
+    "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_jawline_chin/qa_comparisons/wave70_mf70_jawline_chin_source_overlay_output_compare.png",
+    "comparison_artifact_sha256": "fe6e4617cc2b2aa682b84bffb2144d7ac1f627dc3f6ac577511fb79511a98adb",
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_JAWLINE_CHIN_SEED210806_VISUAL_QA_20260707T160000-0500.json",
+    "visual_qa_result": "pass_with_notes_local_wave70_jawline_chin_generated_output"
+  },
+  "semantic_mask_alignment_reaudit": {
+    "audit_id": "W70-MASK-ALIGNMENT-RETRO-AUDIT-20260707T184000-0500",
+    "timestamp": "2026-07-07T18:40:00-05:00",
+    "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "result": "needs_revision",
+    "named_target_match": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed": false,
+    "findings": [
+      "Retro audit found the jaw/chin mask does not follow the jawline/chin contour tightly enough for the named target.",
+      "Generated output may remain safe, but mask alignment must be revised before completion or certification.",
+      "Future jaw/chin masks must avoid mouth, broad neck, hair, and clothing while tracing the actual contour."
+    ],
+    "policy": "Generated-output stability is preserved where applicable, but it does not override semantic mask-alignment defects."
+  },
+  "strict_semantic_mask_alignment_review": {
+    "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "review_timestamp": "2026-07-07T19:25:00-05:00",
+    "review_id": "W70-MASK-ALIGNMENT-STRICT-VISUAL-REVIEW-20260707T192500-0500",
+    "alignment_result": "needs_revision",
+    "mask_alignment_semantic_pass": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "review_basis": "strict visual review of user-supplied overlays and/or matching project overlay artifacts, separated from generated-output stability",
+    "findings": [
+      "Jaw/chin overlay is a V-shaped shortcut under/around the mouth, not a faithful jawline/chin contour, and it risks mouth/lip neighbor intrusion.",
+      "Trace the visible chin and jaw contour with explicit mouth, neck, hair, and clothing exclusion margins."
+    ]
+  }
+}

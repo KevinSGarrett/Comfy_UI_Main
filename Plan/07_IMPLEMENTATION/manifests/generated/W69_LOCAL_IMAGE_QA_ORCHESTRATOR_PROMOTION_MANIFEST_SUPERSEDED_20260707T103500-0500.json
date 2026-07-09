@@ -1,0 +1,45 @@
+{
+    "schema_version":  "1.0",
+    "manifest_type":  "orchestrator_promotion_manifest",
+    "run_id":  "w69_local_image_qa_promotion_gate_superseded_20260707T103500-0500",
+    "generated_at":  "2026-07-07T10:14:02-05:00",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "ec2_started":  false,
+    "promotion_status":  "block_final_promotion_missing_target_runtime",
+    "promotion_allowed":  false,
+    "qa_promotion_gate":  "Plan/Instructions/QA/Evidence/QA_Sheets/W69_LOCAL_IMAGE_QA_PROMOTION_GATE_SUPERSEDED_20260707T103500-0500.json",
+    "run_manifest":  null,
+    "passed_passes":  [
+                          {
+                              "pass_id":  "qa_sheet_export",
+                              "status":  "completed",
+                              "evidence":  "Plan/Instructions/QA/Evidence/QA_Sheets/W69_LOCAL_IMAGE_QA_SHEET_SUPERSEDED_20260707T103500-0500.csv"
+                          },
+                          {
+                              "pass_id":  "qa_gate_parse_check",
+                              "status":  "passed",
+                              "evidence":  "Plan/Instructions/QA/Evidence/QA_Sheets/W69_LOCAL_IMAGE_QA_PROMOTION_GATE_SUPERSEDED_20260707T103500-0500.json"
+                          }
+                      ],
+    "failed_passes":  [
+
+                      ],
+    "promoted_outputs":  [
+
+                         ],
+    "blocking_reasons":  [
+                             "Target-runtime proof was required for promotion, but one or more rows lack EC2/target-runtime evidence.",
+                             "qa_gate_target_runtime_blocks_present"
+                         ],
+    "gate_summary":  {
+                         "exported_row_count":  47,
+                         "parse_error_count":  0,
+                         "blocking_row_count":  0,
+                         "target_runtime_block_count":  45,
+                         "gate_decision":  "block_final_promotion_missing_target_runtime"
+                     },
+    "boundary":  "Promotion manifest generated from existing local QA gate evidence only. It blocks final promotion unless all required runtime, QA, and certification gates are independently proven."
+}

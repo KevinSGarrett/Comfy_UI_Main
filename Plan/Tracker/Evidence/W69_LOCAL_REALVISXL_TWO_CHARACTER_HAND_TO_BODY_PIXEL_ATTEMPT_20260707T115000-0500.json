@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "tracker_evidence_id": "W69-LOCAL-REALVISXL-TWO-CHARACTER-HAND-TO-BODY-PIXEL-ATTEMPT-20260707T115000-0500",
+  "timestamp": "2026-07-07T11:50:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "item_or_module": "Wave25 multi-character interaction first local pixel attempt",
+  "lane_id": "sdxl_realvisxl_base_lane",
+  "work_type": "bounded_local_realvisxl_two_character_contact_generation_and_qa_driven_rerun",
+  "status": "pass_with_notes_local_iteration",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "generated_artifacts": [
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_two_character_hand_to_body_w69_seed7152026251_20260707T113218-0500/images/codex_realvisxl_two_character_hand_to_body_seed7152026251_00001_.png",
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_two_character_hand_to_body_w69_seed7152026252_20260707T113434-0500/images/codex_realvisxl_two_character_hand_to_body_seed7152026252_00001_.png"
+  ],
+  "implementation_files": [
+    "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_two_character_hand_to_body_seed7152026251.json",
+    "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_two_character_hand_to_body_seed7152026252_source_hand_visible.json",
+    "runtime_artifacts/run_packages/realvisxl_two_character_hand_to_body_w69_seed7152026251/RUN_PACKAGE_MANIFEST.json",
+    "runtime_artifacts/run_packages/realvisxl_two_character_hand_to_body_w69_seed7152026252/RUN_PACKAGE_MANIFEST.json"
+  ],
+  "runtime_evidence": [
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_REALVISXL_TWO_CHARACTER_HAND_TO_BODY_SEED7152026251_EXECUTE_20260707T114000-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_REALVISXL_TWO_CHARACTER_HAND_TO_BODY_SEED7152026252_EXECUTE_20260707T114500-0500.json"
+  ],
+  "visual_qa_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_TWO_CHARACTER_HAND_TO_BODY_VISUAL_QA_20260707T115000-0500.json",
+  "wave25_dependency": "Plan/Instructions/QA/Evidence/Multi_Character_Interaction/W69_LOCAL_WAVE25_TWO_CHARACTER_HAND_TO_BODY_PREFLIGHT_20260707T113500-0500.json",
+  "qa_decision": {
+    "result": "pass_with_notes_local_two_character_hand_to_body_first_pixel_attempt_seed7152026252_preferred",
+    "first_attempt_issue": "wrong source/target contact ownership and sleeve-grip gesture",
+    "rerun_improvement": "woman on left became the visible contact source, hand rests plausibly on man's shoulder/upper-arm area, two bodies remain distinct",
+    "certification_allowed": false,
+    "certification_boundary": "local first pixel attempt only; no target-runtime proof, no mask-routed refine pass, no final Wave25 certification"
+  },
+  "next_action": "Route the Wave25 contact mask into low-denoise/inpaint refinement or run a small local robustness pair before target-runtime proof."
+}

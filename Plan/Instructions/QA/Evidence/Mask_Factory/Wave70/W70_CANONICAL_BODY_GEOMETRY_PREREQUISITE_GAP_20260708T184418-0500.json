@@ -1,0 +1,211 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_CANONICAL_BODY_GEOMETRY_PREREQUISITE_GAP_20260708T184418-0500",
+  "created_iso": "2026-07-08T18:44:18-05:00",
+  "task": "Record exact Wave70 canonical whole-body geometry prerequisite gap after Ref_Image_1 and Ref_Image_2 ingestion.",
+  "source_evidence": {
+    "body_reference_matrix": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/body_reference_matrix.json",
+      "evidence_id": "W70_BODY_REFERENCE_MATRIX_AUTHORITY_20260708T153118-0500",
+      "qa_decision": "ref_images_1_2_body_reference_matrix_context_available_route_not_complete_global_gates_pass"
+    },
+    "ref_image_1_full_body_references": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_full_body_references.json",
+      "evidence_id": "W70_REF_IMAGE_1_FULL_BODY_REFERENCES_20260708T143650-0500",
+      "count": 8
+    },
+    "ref_image_1_gold_masks": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_body_mask_gold_standard.json",
+      "evidence_id": "W70_REF_IMAGE_1_BODY_MASK_GOLD_STANDARD_20260708T133754-0500",
+      "extracted_nonzero_mask_count": 34
+    },
+    "ref_image_2_body_reference": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_2_body_reference.json",
+      "evidence_id": "W70_REF_IMAGE_2_BODY_REFERENCE_20260708T153111-0500",
+      "manifest_row_count": 44,
+      "located_overlay_count": 44
+    },
+    "wave70_terminal_blocker": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_TERMINAL_BLOCKER_20260708T183948-0500.json",
+      "decision": "wave70_terminal_blocker_recorded_wave71_deferred_no_activation"
+    }
+  },
+  "provided_reference_context": {
+    "combined_full_or_near_full_reference_count": 9,
+    "combined_gold_mask_count": 78,
+    "source_visibility_slots_available_count": 10,
+    "ref_image_1_limited_reference_policy": "Ref_Image_1/Full/New folder/8ead94ca6f2884fb1ae671fee89e8126.jpg is knees-to-head only and excluded from feet/toes/ankles/lower-calf/support proof.",
+    "main_reference_layout_note": "Ref_Image_1 main composite has partial 1/3-body images in the top section and full body-part mask panels in the lower section; the top section is not expected to contain all body-part masks.",
+    "gold_overlays_are_calibration_not_authority": true
+  },
+  "matrix_gap_summary": {
+    "required_body_matrix_slots": [
+      "pose_front_standing_or_neutral",
+      "pose_three_quarter_left",
+      "pose_three_quarter_right",
+      "pose_profile_or_near_profile",
+      "body_size_variation",
+      "skin_tone_variation",
+      "hair_and_body_hair_case",
+      "clothing_state_upper_lower_boundary",
+      "hand_finger_configuration_visible",
+      "feet_toe_visibility",
+      "contact_support_surface",
+      "occlusion_or_multi_person_case",
+      "body_region_regression_case"
+    ],
+    "slots_required_count": 13,
+    "slots_blocked_count": 3,
+    "source_visibility_matrix_pass": true,
+    "body_reference_matrix_pass": false,
+    "cross_subject_generalization_pass": false,
+    "whole_body_geometry_authority_pass": false,
+    "canonical_polygon_export_pass": false,
+    "by_status": {
+      "reference_available_route_not_complete": 8,
+      "blocked": 3,
+      "required_not_complete": 2
+    },
+    "blocked_slots": [
+      {
+        "slot_id": "body_size_variation",
+        "status": "blocked",
+        "reason": "Single-character reference set does not prove cross-body-size generalization."
+      },
+      {
+        "slot_id": "skin_tone_variation",
+        "status": "blocked",
+        "reason": "Single-character reference set does not prove skin-tone variation."
+      },
+      {
+        "slot_id": "occlusion_or_multi_person_case",
+        "status": "blocked",
+        "reason": "No multi-person or occlusion matrix slot is filled by Ref_Image_1."
+      }
+    ],
+    "route_not_complete_slots": [
+      {
+        "slot_id": "pose_front_standing_or_neutral",
+        "status": "reference_available_route_not_complete",
+        "reason": "Ref_Image_1 and Ref_Image_2 static references/gold masks provide reference context, but production/generalization proof is incomplete."
+      },
+      {
+        "slot_id": "pose_three_quarter_left",
+        "status": "reference_available_route_not_complete",
+        "reason": "Ref_Image_1 and Ref_Image_2 static references/gold masks provide reference context, but production/generalization proof is incomplete."
+      },
+      {
+        "slot_id": "pose_three_quarter_right",
+        "status": "reference_available_route_not_complete",
+        "reason": "Ref_Image_1 and Ref_Image_2 static references/gold masks provide reference context, but production/generalization proof is incomplete."
+      },
+      {
+        "slot_id": "pose_profile_or_near_profile",
+        "status": "reference_available_route_not_complete",
+        "reason": "Ref_Image_1 and Ref_Image_2 static references/gold masks provide reference context, but production/generalization proof is incomplete."
+      },
+      {
+        "slot_id": "hair_and_body_hair_case",
+        "status": "reference_available_route_not_complete",
+        "reason": "Ref_Image_1 and Ref_Image_2 static references/gold masks provide reference context, but production/generalization proof is incomplete."
+      },
+      {
+        "slot_id": "clothing_state_upper_lower_boundary",
+        "status": "required_not_complete",
+        "reason": "Body masks exist, but parser-backed clothing/body boundary ownership is not complete."
+      },
+      {
+        "slot_id": "hand_finger_configuration_visible",
+        "status": "reference_available_route_not_complete",
+        "reason": "Ref_Image_1 and Ref_Image_2 static references/gold masks provide reference context, but production/generalization proof is incomplete."
+      },
+      {
+        "slot_id": "feet_toe_visibility",
+        "status": "reference_available_route_not_complete",
+        "reason": "Ref_Image_1 and Ref_Image_2 static references/gold masks provide reference context, but production/generalization proof is incomplete."
+      },
+      {
+        "slot_id": "contact_support_surface",
+        "status": "required_not_complete",
+        "reason": "Static references include foot/body context but do not prove support/contact ownership or generated-output contact behavior."
+      },
+      {
+        "slot_id": "body_region_regression_case",
+        "status": "reference_available_route_not_complete",
+        "reason": "Ref_Image_1 and Ref_Image_2 static references/gold masks provide reference context, but production/generalization proof is incomplete."
+      }
+    ]
+  },
+  "required_reference_package": [
+    {
+      "requirement_id": "front_full_body_with_feet_visible",
+      "priority": "already_partially_satisfied",
+      "needed": "Keep at least one clean front full-body source with head through feet visible and matching masks.",
+      "current_status": "covered by Ref_Image_1 and Ref_Image_2 context, but not enough for canonical pass without model-backed geometry."
+    },
+    {
+      "requirement_id": "left_side_or_left_profile_full_body",
+      "priority": "required_next",
+      "needed": "Full body left-side or near-profile view with feet, hands, torso, pelvis, calves, and hair visible where possible, plus organized masks.",
+      "current_status": "not proven as a distinct side/profile canonical slot."
+    },
+    {
+      "requirement_id": "right_side_or_right_profile_full_body",
+      "priority": "required_next",
+      "needed": "Full body right-side or near-profile view with feet, hands, torso, pelvis, calves, and hair visible where possible, plus organized masks.",
+      "current_status": "not proven as a distinct side/profile canonical slot."
+    },
+    {
+      "requirement_id": "back_full_body",
+      "priority": "required_next",
+      "needed": "Back-view full body source and masks for hair/back/shoulders/arms/glutes/thighs/calves/feet boundaries.",
+      "current_status": "missing; back geometry cannot be inferred from front references."
+    },
+    {
+      "requirement_id": "three_quarter_left_and_right",
+      "priority": "high",
+      "needed": "3/4 left and 3/4 right full-body views to validate side transitions, limb overlap, and protected neighbors.",
+      "current_status": "static context exists but cross-angle canonical evidence is not passed."
+    },
+    {
+      "requirement_id": "occlusion_contact_support_case",
+      "priority": "required_next",
+      "needed": "One or more full-body cases with hands crossing body, limb-over-limb, body on support surface, or object/contact boundary, with owner/contact masks.",
+      "current_status": "blocked; current matrix does not prove contact/support ownership."
+    },
+    {
+      "requirement_id": "multi_person_or_owner_separation_case",
+      "priority": "required_for_generalization",
+      "needed": "At least one multi-person or clear foreground/background owner-separation case with masks if multi-character/contact masks are in scope.",
+      "current_status": "blocked; no occlusion or multi-person slot is filled."
+    },
+    {
+      "requirement_id": "model_backed_geometry_stack",
+      "priority": "required_before_promotion",
+      "needed": "Local pose, hand, human parsing, promptable refinement, contact ownership, canonical polygon export, and coordinate transform evidence.",
+      "current_status": "blocked locally; static gold overlays are calibration evidence, not canonical polygon authority."
+    }
+  ],
+  "promotion_policy": {
+    "masks_changed": [],
+    "masks_promoted": [],
+    "completion_allowed": false,
+    "next_allowed_state": "Keep Wave70 fail-closed until canonical whole-body geometry prerequisites are acquired or integrated and hard gates pass."
+  },
+  "gates": {
+    "geometry": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_REF_IMAGES_1_2_20260708T154144-0500.json",
+      "checked": 332,
+      "pass_like": 0,
+      "failures": 0
+    },
+    "promotion": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_WHOLE_BODY_GEOMETRY_PROMOTION_INTEGRATION_REF_IMAGES_1_2_20260708T154144-0500.json",
+      "checked": 332,
+      "pass_like": 0,
+      "failures": 0
+    }
+  },
+  "qa_decision": "canonical_body_geometry_prerequisite_gap_recorded_ref_images_1_2_context_available_no_promotion",
+  "next_step": "Acquire or integrate side, back, contact/occlusion, and model-backed canonical body geometry prerequisites before any body/hand/contact/support/soft-body promotion or Wave71+ activation."
+}

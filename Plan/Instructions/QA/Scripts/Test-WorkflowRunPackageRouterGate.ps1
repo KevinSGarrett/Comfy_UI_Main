@@ -116,6 +116,8 @@ New-Item -ItemType Directory -Force -Path $tempRoot | Out-Null
 
 $packageScript = Join-Path $ProjectRoot "tools\New-WorkflowRunPackage.ps1"
 $routeRequest = Join-Path $ProjectRoot "Plan\09_EXAMPLES\wave64_image_engine_route_realvisxl_request.example.json"
+$positiveLaneId = "sdxl_realvisxl_base_lane"
+$negativeLaneId = "sdxl_low_risk_fallback_lane"
 $positiveRunId = "router_gate_positive_realvisxl_$stamp"
 $negativeRunId = "router_gate_negative_low_risk_$stamp"
 
@@ -130,7 +132,7 @@ $positiveRun = Invoke-ProcessCapture -FileName "powershell" -Arguments @(
   "-PackageRoot",
   $tempRoot,
   "-LaneId",
-  "sdxl_realvisxl_base_lane",
+  $positiveLaneId,
   "-AllowNonFirstLane",
   "-RouteRequestFile",
   $routeRequest,
@@ -139,7 +141,10 @@ $positiveRun = Invoke-ProcessCapture -FileName "powershell" -Arguments @(
 )
 
 $positiveManifestPath = Join-Path $tempRoot "$positiveRunId\RUN_PACKAGE_MANIFEST.json"
-$positiveManifest = Read-JsonFile -Path $positiveManifestPath
+$positiveManifest = $null
+if (Test-Path -LiteralPath $positiveManifestPath) {
+  $positiveManifest = Read-JsonFile -Path $positiveManifestPath
+}
 
 $negativeRun = Invoke-ProcessCapture -FileName "powershell" -Arguments @(
   "-NoProfile",
@@ -152,7 +157,7 @@ $negativeRun = Invoke-ProcessCapture -FileName "powershell" -Arguments @(
   "-PackageRoot",
   $tempRoot,
   "-LaneId",
-  "sdxl_low_risk_fallback_lane",
+  $negativeLaneId,
   "-RouteRequestFile",
   $routeRequest,
   "-RunId",
@@ -162,13 +167,14 @@ $negativeRun = Invoke-ProcessCapture -FileName "powershell" -Arguments @(
 $negativeText = (($negativeRun.stdout, $negativeRun.stderr) -join "`n")
 $checks = @()
 $checks += New-Check -Name "positive_package_exit_zero" -Passed ($positiveRun.exit_code -eq 0) -Observed $positiveRun.exit_code -Expected 0
-$checks += New-Check -Name "positive_manifest_passes" -Passed ([string]$positiveManifest.result -eq "pass_local_only") -Observed $positiveManifest.result -Expected "pass_local_only"
-$checks += New-Check -Name "positive_route_gate_supplied" -Passed ($positiveManifest.route_gate.supplied -eq $true) -Observed $positiveManifest.route_gate.supplied -Expected $true
-$checks += New-Check -Name "positive_route_gate_passes" -Passed ([string]$positiveManifest.route_gate.result -eq "pass_local_only") -Observed $positiveManifest.route_gate.result -Expected "pass_local_only"
-$checks += New-Check -Name "positive_route_gate_matches_lane" -Passed ([string]$positiveManifest.route_gate.selected_lane_id -eq "sdxl_realvisxl_base_lane") -Observed $positiveManifest.route_gate.selected_lane_id -Expected "sdxl_realvisxl_base_lane"
-$checks += New-Check -Name "positive_package_no_external_contact" -Passed ($positiveManifest.local_only -eq $true -and $positiveManifest.aws_contacted -eq $false -and $positiveManifest.github_api_contacted -eq $false -and $positiveManifest.civitai_contacted -eq $false -and $positiveManifest.comfyui_contacted -eq $false -and $positiveManifest.ec2_started -eq $false -and $positiveManifest.generation_executed -eq $false) -Observed ([ordered]@{ local_only = $positiveManifest.local_only; aws = $positiveManifest.aws_contacted; github_api = $positiveManifest.github_api_contacted; civitai = $positiveManifest.civitai_contacted; comfyui = $positiveManifest.comfyui_contacted; ec2_started = $positiveManifest.ec2_started; generation_executed = $positiveManifest.generation_executed }) -Expected "local only; all contacts false; no EC2/generation"
+$checks += New-Check -Name "positive_manifest_created" -Passed ($null -ne $positiveManifest) -Observed $(if ($null -ne $positiveManifest) { $positiveManifestPath } else { (($positiveRun.stdout, $positiveRun.stderr) -join "`n") }) -Expected "positive RUN_PACKAGE_MANIFEST.json exists"
+$checks += New-Check -Name "positive_manifest_passes" -Passed ($null -ne $positiveManifest -and [string]$positiveManifest.result -eq "pass_local_only") -Observed $(if ($null -ne $positiveManifest) { $positiveManifest.result } else { $null }) -Expected "pass_local_only"
+$checks += New-Check -Name "positive_route_gate_supplied" -Passed ($null -ne $positiveManifest -and $positiveManifest.route_gate.supplied -eq $true) -Observed $(if ($null -ne $positiveManifest) { $positiveManifest.route_gate.supplied } else { $null }) -Expected $true
+$checks += New-Check -Name "positive_route_gate_passes" -Passed ($null -ne $positiveManifest -and [string]$positiveManifest.route_gate.result -eq "pass_local_only") -Observed $(if ($null -ne $positiveManifest) { $positiveManifest.route_gate.result } else { $null }) -Expected "pass_local_only"
+$checks += New-Check -Name "positive_route_gate_matches_lane" -Passed ($null -ne $positiveManifest -and [string]$positiveManifest.route_gate.selected_lane_id -eq $positiveLaneId) -Observed $(if ($null -ne $positiveManifest) { $positiveManifest.route_gate.selected_lane_id } else { $null }) -Expected $positiveLaneId
+$checks += New-Check -Name "positive_package_no_external_contact" -Passed ($null -ne $positiveManifest -and $positiveManifest.local_only -eq $true -and $positiveManifest.aws_contacted -eq $false -and $positiveManifest.github_api_contacted -eq $false -and $positiveManifest.civitai_contacted -eq $false -and $positiveManifest.comfyui_contacted -eq $false -and $positiveManifest.ec2_started -eq $false -and $positiveManifest.generation_executed -eq $false) -Observed ([ordered]@{ local_only = $(if ($null -ne $positiveManifest) { $positiveManifest.local_only } else { $null }); aws = $(if ($null -ne $positiveManifest) { $positiveManifest.aws_contacted } else { $null }); github_api = $(if ($null -ne $positiveManifest) { $positiveManifest.github_api_contacted } else { $null }); civitai = $(if ($null -ne $positiveManifest) { $positiveManifest.civitai_contacted } else { $null }); comfyui = $(if ($null -ne $positiveManifest) { $positiveManifest.comfyui_contacted } else { $null }); ec2_started = $(if ($null -ne $positiveManifest) { $positiveManifest.ec2_started } else { $null }); generation_executed = $(if ($null -ne $positiveManifest) { $positiveManifest.generation_executed } else { $null }) }) -Expected "local only; all contacts false; no EC2/generation"
 $checks += New-Check -Name "negative_package_exit_nonzero" -Passed ($negativeRun.exit_code -ne 0) -Observed $negativeRun.exit_code -Expected "nonzero"
-$checks += New-Check -Name "negative_blocks_lane_mismatch" -Passed ($negativeText -match "Route gate selected 'sdxl_realvisxl_base_lane' but package lane is 'sdxl_low_risk_fallback_lane'") -Observed (Get-OutputTail -Text $negativeText) -Expected "router lane mismatch error"
+$checks += New-Check -Name "negative_blocks_lane_mismatch" -Passed ($negativeText -match "Route gate selected '$positiveLaneId' but package lane is '$negativeLaneId'") -Observed (Get-OutputTail -Text $negativeText) -Expected "router lane mismatch error"
 
 $failures = @($checks | Where-Object { $_.result -ne "pass" })
 $record = [ordered]@{
@@ -188,9 +194,9 @@ $record = [ordered]@{
   positive = [ordered]@{
     exit_code = $positiveRun.exit_code
     manifest_path = "[VALIDATION_TEMP_ROOT]/$positiveRunId/RUN_PACKAGE_MANIFEST.json"
-    selected_lane_id = [string]$positiveManifest.route_gate.selected_lane_id
-    selected_model_file = [string]$positiveManifest.route_gate.selected_model_file
-    result = [string]$positiveManifest.result
+    selected_lane_id = $(if ($null -ne $positiveManifest) { [string]$positiveManifest.route_gate.selected_lane_id } else { $null })
+    selected_model_file = $(if ($null -ne $positiveManifest) { [string]$positiveManifest.route_gate.selected_model_file } else { $null })
+    result = $(if ($null -ne $positiveManifest) { [string]$positiveManifest.result } else { "missing_manifest" })
   }
   negative = [ordered]@{
     exit_code = $negativeRun.exit_code

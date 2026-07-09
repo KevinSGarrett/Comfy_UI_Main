@@ -1,0 +1,32 @@
+﻿{
+    "schema_version":  "1.0",
+    "evidence_id":  "DAILY_ARTIFACT_QA_LEDGER_GAP_20260708_192300",
+    "created_at":  "2026-07-08T19:20:25.2881047-05:00",
+    "classification":  "QA_LEDGER_GAP",
+    "source_audit":  "C:\\Users\\kevin\\.codex\\automations\\comfy-ui-main-daily-artifact-qa-integrity-audit\\audits\\DAILY_ARTIFACT_QA_INTEGRITY_20260708_191639.json",
+    "finding":  "Wave70 Tracker and Items CSVs contain 166 unique rows each, but both Wave70 requirements JSON manifests still report row_count 141.",
+    "affected_files":  [
+                           "C:\\Comfy_UI_Main\\Plan\\Tracker\\Waves\\Wave70\\WAVE70_ULTIMATE_MASK_FACTORY_REQUIREMENTS.json",
+                           "C:\\Comfy_UI_Main\\Plan\\Items\\Waves\\Wave70\\WAVE70_ULTIMATE_MASK_FACTORY_REQUIREMENTS.json"
+                       ],
+    "verified_counts":  {
+                            "tracker_csv_rows":  166,
+                            "tracker_csv_unique_ids":  166,
+                            "item_csv_rows":  166,
+                            "item_csv_unique_ids":  166,
+                            "tracker_manifest_row_count":  141,
+                            "item_manifest_row_count":  141
+                        },
+    "pass_like_status_scan":  {
+                                  "tracker_promotion_pass_like_rows":  0,
+                                  "note":  "No accepted/candidate/complete/certification-ready Wave70 Tracker rows were found in the tightened status scan."
+                              },
+    "fail_closed_state":  {
+                              "mask_promotion_allowed":  false,
+                              "wave71_activation_allowed":  false,
+                              "body_reference_matrix_pass":  false,
+                              "whole_body_geometry_authority_pass":  false,
+                              "latest_reference_intake":  "canonical_reference_package_intake_blocked_missing_required_slots_no_promotion"
+                          },
+    "correction_required":  "Update the two Wave70 requirements manifests to row_count 166, preserving fail-closed statuses and without treating generated-output or reference intake evidence as mask correctness."
+}

@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "handoff_id": "W69-INPAINT-DETAIL-NOMOUTH-V4-MASK-PREVIEW-OUTPUT-HANDOFF-20260707T050500-0500",
+  "timestamp": "2026-07-07T05:05:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "module_id": "MOD-13-SDXL-INPAINT-DETAIL-LANE",
+  "source_requirement": "Plan/07_IMPLEMENTATION/COMFYUI_WIRING_REPAIR_LIST.md Priority 1: Add output handoff path to next pass.",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed_by_handoff": false,
+  "source_run": {
+    "run_id": "sdxl_realvisxl_inpaint_detail_nomouth_v4_mask_preview_w69",
+    "run_package_manifest": "runtime_artifacts/run_packages/sdxl_realvisxl_inpaint_detail_nomouth_v4_mask_preview_w69/RUN_PACKAGE_MANIFEST.json",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_MASK_PREVIEW_EXECUTE_20260707T045100-0500.json",
+    "local_artifact_manifest": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_nomouth_v4_mask_preview_w69_20260707T045056-0500/LOCAL_ARTIFACT_MANIFEST.json",
+    "visual_qa_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_MASK_PREVIEW_VISUAL_QA_20260707T045800-0500.json"
+  },
+  "handoff_artifacts": [
+    {
+      "role": "next_pass_source_image",
+      "node_id": "11",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_nomouth_v4_mask_preview_w69_20260707T045056-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_00002_.png",
+      "sha256": "96f99f258ceaaa8174a9847737626c27286849a36a82d181fca6a7b029f0fabe",
+      "bytes": 588067,
+      "width": 768,
+      "height": 768,
+      "qa_result": "pass_with_notes_local_mask_preview_iteration",
+      "allowed_next_pass_use": [
+        "local_upscale_or_detail_retest_input",
+        "target_runtime_reproof_input_after_ec2_gate",
+        "qa_comparison_baseline"
+      ],
+      "promotion_boundary": "Not certified for final promotion; local pass-with-notes only."
+    },
+    {
+      "role": "diagnostic_mask_preview",
+      "node_id": "16",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_nomouth_v4_mask_preview_w69_20260707T045056-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00001_.png",
+      "sha256": "8f59a4e7f9bea2644f00e2462aba359cbe5fa8dfd78b5166da91349187a65360",
+      "bytes": 7123,
+      "width": 768,
+      "height": 768,
+      "qa_result": "pass_with_notes_mask_preview_diagnostic",
+      "allowed_next_pass_use": [
+        "mask_boundary_audit",
+        "qa_comparison_baseline"
+      ],
+      "promotion_boundary": "Diagnostic artifact only; not a generated media candidate."
+    }
+  ],
+  "next_pass_contract": {
+    "source_image_binding": "Use handoff_artifacts role=next_pass_source_image as the explicit previous-pass image input.",
+    "mask_preview_binding": "Use handoff_artifacts role=diagnostic_mask_preview only for QA/mask-boundary review.",
+    "required_before_target_promotion": [
+      "target-runtime object_info/path/hash/input proof",
+      "bounded target-runtime generation",
+      "artifact pullback",
+      "technical image QA",
+      "strict whole-image visual QA"
+    ],
+    "known_quality_notes_to_preserve": [
+      "identity, gaze, lip color, clothing, hair, and background are stable",
+      "edited mask-region skin is slightly smoother than surrounding skin"
+    ]
+  },
+  "result": "pass_local_output_handoff_manifest_created",
+  "next_action": "Use this manifest as the local previous-pass handoff record for any inpaint follow-up, upscale/detail retest, or target-runtime reproof planning."
+}

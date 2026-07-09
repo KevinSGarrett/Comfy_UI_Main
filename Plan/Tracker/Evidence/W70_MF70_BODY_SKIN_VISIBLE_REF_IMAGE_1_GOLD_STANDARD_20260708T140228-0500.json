@@ -1,0 +1,220 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_MF70_BODY_SKIN_VISIBLE_REF_IMAGE_1_GOLD_STANDARD_20260708T140228-0500",
+  "created_local": "20260708T140228-0500",
+  "created_iso": "2026-07-08T14:02:28-05:00",
+  "script": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave70_mf70_body_skin_visible_ref_image_1_gold_standard.py",
+  "task": "Re-evaluate mf70_body_skin_visible for TRK-W70-0159 / ITEM-W70-0159 using Ref_Image_1 gold-standard body masks.",
+  "environment": {
+    "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]"
+  },
+  "ref_image_1_manifest": {
+    "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/ref_image_1_body_mask_gold_standard.json",
+    "sha256": "08aae0b644cbd3b8a07f056058582ed1a18600f13c4b96044bb6a728a743249a",
+    "runtime_copy": "runtime_artifacts/mask_factory/wave70_mf70_body_skin_visible_ref_image_1/20260708T140228-0500/ref_image_1_body_mask_gold_standard.json",
+    "evidence_id": "W70_REF_IMAGE_1_BODY_MASK_GOLD_STANDARD_20260708T133754-0500",
+    "created_local": "20260708T133754-0500"
+  },
+  "layout_interpretation": {
+    "top_strip": {
+      "description": "partial upper-body / one-third-body pose reference strip",
+      "expected_body_part_completeness": "partial",
+      "absence_of_lower_body_masks_means": "not_applicable_to_top_strip_not_a_mask_failure"
+    },
+    "lower_strip": {
+      "description": "full-body pose strip with body-part mask overlays",
+      "expected_body_part_completeness": "primary_full_body_mask_reference_area",
+      "use_for_full_body_validation": true
+    },
+    "validation_rule": "Do not mark a body part missing because it is absent from the top partial-body strip; evaluate full body-part coverage primarily against the lower full-body strip and the labeled part overlay files."
+  },
+  "body_skin_gold_reference": {
+    "direct_all_visible_body_skin_overlay_exists": false,
+    "composite_body_skin_reference_built": true,
+    "composite_layout_group_count": 2,
+    "composite_layout_rule": "Component overlays have different dimensions; composites are built per matching overlay layout instead of forcing incompatible pixel spaces together.",
+    "excluded_regions": [
+      "face_detail",
+      "hair",
+      "clothing",
+      "background"
+    ],
+    "component_labels": [
+      "arms_upper_arms",
+      "arms_lower_arm_fore_arms",
+      "hands_both_hands",
+      "breasts_both",
+      "abdomen_stomach",
+      "pelvic_pelvic_region",
+      "glute_both",
+      "thigh_both_thighs",
+      "calves_both_calves",
+      "feet_both_feet",
+      "feet_toes_feet"
+    ],
+    "composites": [
+      {
+        "composite_mask_path": "runtime_artifacts/mask_factory/wave70_mf70_body_skin_visible_ref_image_1/20260708T140228-0500/mf70_body_skin_visible_ref_image_1_layout_1_1448x1086_composite_mask.png",
+        "composite_mask_sha256": "d4030b30b21af8c04b039e501d9d754a2f7afdd644a2dae3c06385a1870d5cf7",
+        "dimensions": [
+          1448,
+          1086
+        ],
+        "composite_pixel_count": 55918,
+        "composite_coverage_ratio": 0.035559,
+        "components": [
+          {
+            "label": "calves_both_calves",
+            "source_overlay_path": "Ref_Image_1/calves/both calves/ChatGPT Image Jul 8, 2026, 01_22_40 PM (1).png",
+            "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/calves_both_calves.png",
+            "binary_mask_sha256": "1cf6c28c5ee306eb839fcbd54c04b33429617bad3ea328c6b4af0b68234157ca",
+            "component_pixel_count": 42623,
+            "component_coverage_ratio": 0.027105
+          },
+          {
+            "label": "feet_both_feet",
+            "source_overlay_path": "Ref_Image_1/Feet/Both Feet/ChatGPT Image Jul 8, 2026, 01_22_40 PM (4).png",
+            "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/feet_both_feet.png",
+            "binary_mask_sha256": "838ccaba55506a11cd01c9fbf93e66436afc185e098db443bf505f5083071251",
+            "component_pixel_count": 11612,
+            "component_coverage_ratio": 0.007384
+          },
+          {
+            "label": "feet_toes_feet",
+            "source_overlay_path": "Ref_Image_1/Feet/toes feet/ChatGPT Image Jul 8, 2026, 01_22_41 PM (7).png",
+            "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/feet_toes_feet.png",
+            "binary_mask_sha256": "b4760ff23ba2189663ee406f50fb5046519c27bbc51aa8c0c1dfded8b7f7a2c8",
+            "component_pixel_count": 1952,
+            "component_coverage_ratio": 0.001241
+          }
+        ],
+        "layout_group": "layout_1",
+        "layout_dimensions": [
+          1448,
+          1086
+        ],
+        "layout_component_count": 3
+      },
+      {
+        "composite_mask_path": "runtime_artifacts/mask_factory/wave70_mf70_body_skin_visible_ref_image_1/20260708T140228-0500/mf70_body_skin_visible_ref_image_1_layout_2_1619x971_composite_mask.png",
+        "composite_mask_sha256": "e0f1b9fd027fb2f1ff2a9c095c9b491e61e51e744e7e53c75f2008704f699b6c",
+        "dimensions": [
+          1619,
+          971
+        ],
+        "composite_pixel_count": 184317,
+        "composite_coverage_ratio": 0.117246,
+        "components": [
+          {
+            "label": "arms_upper_arms",
+            "source_overlay_path": "Ref_Image_1/Arms/upper arms/ChatGPT Image Jul 8, 2026, 01_11_55 PM (1).png",
+            "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/arms_upper_arms.png",
+            "binary_mask_sha256": "6dea7fce5c3abc037c4d573c3da497a6a312d09ec31d0adb4b3cb039f8a1fc7b",
+            "component_pixel_count": 40491,
+            "component_coverage_ratio": 0.025757
+          },
+          {
+            "label": "arms_lower_arm_fore_arms",
+            "source_overlay_path": "Ref_Image_1/Arms/lower arm - fore arms/ChatGPT Image Jul 8, 2026, 01_11_56 PM (2).png",
+            "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/arms_lower_arm_fore_arms.png",
+            "binary_mask_sha256": "3c04bf661967d5e3aec1ae50d1870629afb9ccb3bc5be4f657849b77b9c1af16",
+            "component_pixel_count": 19590,
+            "component_coverage_ratio": 0.012461
+          },
+          {
+            "label": "hands_both_hands",
+            "source_overlay_path": "Ref_Image_1/Hands/both hands/ChatGPT Image Jul 8, 2026, 01_11_57 PM (7).png",
+            "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/hands_both_hands.png",
+            "binary_mask_sha256": "f920a72fe9d88768184385d2fa16080335b1d6888d716d4f468e651ec15e130f",
+            "component_pixel_count": 12838,
+            "component_coverage_ratio": 0.008166
+          },
+          {
+            "label": "breasts_both",
+            "source_overlay_path": "Ref_Image_1/breasts/both/ChatGPT Image Jul 8, 2026, 12_58_33 PM (6).png",
+            "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/breasts_both.png",
+            "binary_mask_sha256": "4c8011f5ea27fa8b4b561f9e137787519aa5e2caab214945486f253dbf5b2d01",
+            "component_pixel_count": 16704,
+            "component_coverage_ratio": 0.010626
+          },
+          {
+            "label": "abdomen_stomach",
+            "source_overlay_path": "Ref_Image_1/Abdomen/stomach/ChatGPT Image Jul 8, 2026, 01_01_29 PM (1).png",
+            "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/abdomen_stomach.png",
+            "binary_mask_sha256": "6007b764d261eb007527f14e4243673070b016fe15e30400e2d814b57029e6f3",
+            "component_pixel_count": 29761,
+            "component_coverage_ratio": 0.018931
+          },
+          {
+            "label": "pelvic_pelvic_region",
+            "source_overlay_path": "Ref_Image_1/Pelvic/pelvic region/ChatGPT Image Jul 8, 2026, 01_01_29 PM (6).png",
+            "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/pelvic_pelvic_region.png",
+            "binary_mask_sha256": "0865d45ee2e110ee572fd098e492f7c11831847005076b195b5f38f3b40aa067",
+            "component_pixel_count": 7566,
+            "component_coverage_ratio": 0.004813
+          },
+          {
+            "label": "glute_both",
+            "source_overlay_path": "Ref_Image_1/glute/both/ChatGPT Image Jul 8, 2026, 01_07_53 PM (1).png",
+            "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/glute_both.png",
+            "binary_mask_sha256": "b7bdc2d147eeadb6bf7dfac1f5d270a7abee019a3eb2b326b446ea95e5295ce8",
+            "component_pixel_count": 14320,
+            "component_coverage_ratio": 0.009109
+          },
+          {
+            "label": "thigh_both_thighs",
+            "source_overlay_path": "Ref_Image_1/Thigh/both thighs/ChatGPT Image Jul 8, 2026, 01_01_29 PM (3).png",
+            "binary_mask_path": "runtime_artifacts/mask_factory/ref_image_1_body_mask_gold_standard/20260708T133754-0500/extracted_binary_masks/thigh_both_thighs.png",
+            "binary_mask_sha256": "df5502a12503ce76b23d407e4dcd7e071608580ef95e49afdfb564dc259854c4",
+            "component_pixel_count": 68473,
+            "component_coverage_ratio": 0.043557
+          }
+        ],
+        "layout_group": "layout_2",
+        "layout_dimensions": [
+          1619,
+          971
+        ],
+        "layout_component_count": 8
+      }
+    ],
+    "primary_panel_composite": "layout_2",
+    "preview_path": "runtime_artifacts/mask_factory/wave70_mf70_body_skin_visible_ref_image_1/20260708T140228-0500/mf70_body_skin_visible_ref_image_1_layout_2_composite_preview.png",
+    "preview_sha256": "4c1abcfc2fa37ddee211c5c0413e7db5e15619bcbd89fae498ac46d92793857a"
+  },
+  "artifacts": {
+    "panel": "runtime_artifacts/mask_factory/wave70_mf70_body_skin_visible_ref_image_1/20260708T140228-0500/mf70_body_skin_visible_ref_image_1_gold_standard_panel.png",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_mf70_body_skin_visible_ref_image_1/20260708T140228-0500/mf70_body_skin_visible_ref_image_1_gold_standard.json",
+    "runtime_manifest_copy": "runtime_artifacts/mask_factory/wave70_mf70_body_skin_visible_ref_image_1/20260708T140228-0500/ref_image_1_body_mask_gold_standard.json"
+  },
+  "row_evaluation": {
+    "tracker_id": "TRK-W70-0159",
+    "item_id": "ITEM-W70-0159",
+    "mask_type_id": "mf70_body_skin_visible",
+    "ref_image_1_gold_standard_available_pass": true,
+    "direct_body_skin_overlay_exists_pass": false,
+    "composite_body_skin_gold_mask_exists_pass": true,
+    "top_strip_partial_body_rule_pass": true,
+    "lower_strip_primary_validation_area_pass": true,
+    "row_status": "Required_Not_Complete",
+    "row_completion_allowed": false,
+    "row_promotion_allowed": false,
+    "remaining_required_evidence": [
+      "direct or accepted composite body-skin route integration",
+      "strict visual QA against source and protected neighbors",
+      "generated-output proof",
+      "target-runtime evidence",
+      "explicit Wave70 geometry row-gate approval",
+      "explicit Wave70 promotion row-gate approval"
+    ],
+    "current_decision": "ref_image_1_body_skin_composite_gold_mask_available_route_not_complete"
+  },
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  },
+  "next_step": "Identify and work the next required Wave70 mask-factory row using Ref_Image_1 gold masks under non-promotional rules."
+}

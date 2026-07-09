@@ -1,0 +1,237 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "S3_TRANSFER_COST_CONTROL_20260708T233214-0500",
+  "created_iso": "2026-07-08T23:32:14-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-041",
+  "item_id": "ITEM-W64-041",
+  "task": "Validate S3 deploy bundle, model cache, artifact transfer, GitHub OIDC, and scheduler stop readiness locally.",
+  "source_script": "Plan/Instructions/Operations/Scripts/Test-S3RuntimeTransferReadiness.ps1",
+  "source_runbook": "Plan/Instructions/Operations/EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md",
+  "readiness_evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_S3_RUNTIME_TRANSFER_READINESS_20260708T233036-0500.json",
+  "readiness_result": {
+    "result": "ready_local_only",
+    "failure_category": null,
+    "local_only": true,
+    "aws_contacted": false,
+    "github_api_contacted": false,
+    "civitai_contacted": false,
+    "comfyui_contacted": false,
+    "ec2_started": false,
+    "generation_executed": false,
+    "secrets_printed": false
+  },
+  "config_shape": {
+    "env_file_present": true,
+    "region_present_without_value_disclosure": true,
+    "env_checks_no_values": [
+      {
+        "name": "AWS_REGION",
+        "exists": true,
+        "has_value": true
+      },
+      {
+        "name": "EC2_REGION",
+        "exists": true,
+        "has_value": true
+      },
+      {
+        "name": "S3_MODEL_BUCKET",
+        "exists": true,
+        "has_value": true
+      },
+      {
+        "name": "S3_MODEL_PREFIX",
+        "exists": true,
+        "has_value": true
+      },
+      {
+        "name": "S3_RENDER_OUTPUT_PREFIX",
+        "exists": true,
+        "has_value": true
+      },
+      {
+        "name": "S3_MANIFEST_PREFIX",
+        "exists": true,
+        "has_value": true
+      },
+      {
+        "name": "COMFY_DEPLOY_BUNDLE_S3_URI",
+        "exists": true,
+        "has_value": true
+      },
+      {
+        "name": "AWS_ROLE_TO_ASSUME",
+        "exists": true,
+        "has_value": true
+      },
+      {
+        "name": "COMFY_SCHEDULER_STOP_ROLE_ARN",
+        "exists": true,
+        "has_value": true
+      }
+    ],
+    "resolved_config": {
+      "deploy_bundle_s3_uri_present": true,
+      "model_cache_s3_uri_present": true,
+      "artifact_s3_uri_present": true,
+      "github_role_arn_present": true,
+      "scheduler_role_arn_present": true
+    },
+    "missing_config": []
+  },
+  "policy_template_checks": [
+    {
+      "path": "configs/aws/ec2-runtime-s3-policy.template.json",
+      "exists": true,
+      "json_valid": true,
+      "placeholder_count": 4,
+      "placeholders": [
+        "<artifact-prefix>",
+        "<bucket-name>",
+        "<deploy-bundle-prefix>",
+        "<model-cache-prefix>"
+      ],
+      "result": "pass",
+      "error": null
+    },
+    {
+      "path": "configs/aws/github-actions-oidc-deploy-bundle-policy.template.json",
+      "exists": true,
+      "json_valid": true,
+      "placeholder_count": 2,
+      "placeholders": [
+        "<bucket-name>",
+        "<deploy-bundle-prefix>"
+      ],
+      "result": "pass",
+      "error": null
+    },
+    {
+      "path": "configs/aws/github-actions-oidc-trust-policy.template.json",
+      "exists": true,
+      "json_valid": true,
+      "placeholder_count": 3,
+      "placeholders": [
+        "<account-id>",
+        "<github-owner>",
+        "<github-repo>"
+      ],
+      "result": "pass",
+      "error": null
+    },
+    {
+      "path": "configs/aws/eventbridge-scheduler-stop-role-policy.template.json",
+      "exists": true,
+      "json_valid": true,
+      "placeholder_count": 3,
+      "placeholders": [
+        "<account-id>",
+        "<instance-id>",
+        "<region>"
+      ],
+      "result": "pass",
+      "error": null
+    },
+    {
+      "path": "configs/aws/eventbridge-scheduler-stop-role-trust-policy.template.json",
+      "exists": true,
+      "json_valid": true,
+      "placeholder_count": 0,
+      "placeholders": [],
+      "result": "pass",
+      "error": null
+    }
+  ],
+  "least_privilege_static_summary": [
+    {
+      "path": "configs/aws/ec2-runtime-s3-policy.template.json",
+      "json_valid": true,
+      "actions": [
+        "s3:GetObject",
+        "s3:ListBucket",
+        "s3:PutObject",
+        "s3:PutObjectTagging"
+      ],
+      "resource_count": 4,
+      "wildcard_actions": [],
+      "wildcard_resources": [],
+      "least_privilege_static_pass": true
+    },
+    {
+      "path": "configs/aws/eventbridge-scheduler-stop-role-policy.template.json",
+      "json_valid": true,
+      "actions": [
+        "ec2:StopInstances"
+      ],
+      "resource_count": 1,
+      "wildcard_actions": [],
+      "wildcard_resources": [],
+      "least_privilege_static_pass": true
+    },
+    {
+      "path": "configs/aws/eventbridge-scheduler-stop-role-trust-policy.template.json",
+      "json_valid": true,
+      "actions": [
+        "sts:AssumeRole"
+      ],
+      "resource_count": 0,
+      "wildcard_actions": [],
+      "wildcard_resources": [],
+      "least_privilege_static_pass": true
+    },
+    {
+      "path": "configs/aws/github-actions-oidc-deploy-bundle-policy.template.json",
+      "json_valid": true,
+      "actions": [
+        "s3:ListBucket",
+        "s3:PutObject",
+        "s3:PutObjectTagging"
+      ],
+      "resource_count": 2,
+      "wildcard_actions": [],
+      "wildcard_resources": [],
+      "least_privilege_static_pass": true
+    },
+    {
+      "path": "configs/aws/github-actions-oidc-trust-policy.template.json",
+      "json_valid": true,
+      "actions": [
+        "sts:AssumeRoleWithWebIdentity"
+      ],
+      "resource_count": 0,
+      "wildcard_actions": [],
+      "wildcard_resources": [],
+      "least_privilege_static_pass": true
+    }
+  ],
+  "live_aws_boundary": {
+    "iam_policy_applied": false,
+    "bucket_permissions_live_tested": false,
+    "s3_publish_execute_run": false,
+    "scheduler_role_live_tested": false,
+    "reason": "This row is local-only by tracker definition; live AWS application requires fresh auth and a separate bounded operation."
+  },
+  "gold_mask_dependency_boundary": {
+    "mask_truth_consumed": false,
+    "masks_promoted": false,
+    "hard_gates_rerun": false,
+    "wave71_activation_attempted": false
+  },
+  "errors": [],
+  "qa_decision": "s3_transfer_cost_control_ready_local_only_no_secret_print",
+  "next_step": "Advance to TRK-W64-042/ITEM-W64-042 EC2 TTL watchdog row; keep EC2 start gated by current AWS auth and Git checkpoint state.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/s3_transfer_cost_control.json",
+    "Plan/Instructions/QA/Evidence/Wave64/S3_TRANSFER_COST_CONTROL_20260708T233214-0500.json",
+    "Plan/Tracker/Evidence/S3_TRANSFER_COST_CONTROL_20260708T233214-0500.json",
+    "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_S3_RUNTIME_TRANSFER_READINESS_20260708T233036-0500.json",
+    "Plan/Instructions/Operations/Scripts/Test-S3RuntimeTransferReadiness.ps1",
+    "Plan/Instructions/Operations/EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md",
+    "configs/aws/ec2-runtime-s3-policy.template.json",
+    "configs/aws/eventbridge-scheduler-stop-role-policy.template.json",
+    "configs/aws/eventbridge-scheduler-stop-role-trust-policy.template.json",
+    "configs/aws/github-actions-oidc-deploy-bundle-policy.template.json",
+    "configs/aws/github-actions-oidc-trust-policy.template.json"
+  ]
+}

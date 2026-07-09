@@ -1,0 +1,203 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-TEETH-LOCAL-SUPPORT-20260707T194500-0500",
+  "timestamp": "2026-07-07T19:45:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave70_ultimate_mask_factory_local_artifact_routing_support",
+  "mask_type_id": "mf70_teeth",
+  "tracker_id": "TRK-W70-0019",
+  "item_id": "ITEM-W70-0019",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "source_requirements": [
+    "Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_FACTORY_TAXONOMY.md#L52",
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv:TRK-W70-0019",
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv:ITEM-W70-0019"
+  ],
+  "source_visibility_review": {
+    "result": "visible_small_teeth_band_present",
+    "crop": "runtime_artifacts/mask_factory/wave70_mf70_teeth/visibility_review/mf70_teeth_source_mouth_crop.png",
+    "finding": "The active portrait exposes a small central teeth band, enough for a narrow visible-teeth mask but not enough for a broad dental-region edit."
+  },
+  "artifacts": {
+    "request": "runtime_artifacts/mask_factory/wave70_mf70_teeth/MASK_FACTORY_REQUEST.json",
+    "contract": "runtime_artifacts/mask_factory/wave70_mf70_teeth/MASK_FACTORY_CONTRACT.json",
+    "contract_validation": "runtime_artifacts/mask_factory/wave70_mf70_teeth/MASK_FACTORY_CONTRACT_VALIDATION.json",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_mf70_teeth/MASK_RUNTIME_EVIDENCE.json",
+    "quality_report": "runtime_artifacts/mask_factory/wave70_mf70_teeth/MASK_QUALITY_REPORT.json",
+    "patch_manifest": "runtime_artifacts/mask_factory/wave70_mf70_teeth/MASK_TO_WORKFLOW_PATCH_MANIFEST.csv",
+    "mask_png": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_teeth_20260707T194500-0500/wave70_mf70_teeth_mask.png",
+    "comfyui_input_copy": "ComfyUI/input/wave70_mf70_teeth_mask.png",
+    "preview_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_teeth_20260707T194500-0500/wave70_mf70_teeth_overlay.png"
+  },
+  "mask_asset": {
+    "mask_id": "scene_wave70_canny_v3__person_001__mf70_teeth__minor",
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_teeth_20260707T194500-0500/wave70_mf70_teeth_mask.png",
+    "sha256": "f2bc7f635a41035e37602f219997d34b24e8dcf481847a51aa42c4adecb9053e",
+    "width": 768,
+    "height": 768,
+    "coverage_percent": 0.0644,
+    "person_instance_id": "person_001",
+    "body_region_id": "visible_teeth",
+    "scale": "minor"
+  },
+  "validation": {
+    "contract_valid": true,
+    "contract_errors": [],
+    "contract_warnings": [
+      "visible_teeth_region_is_small"
+    ],
+    "quality_score": 88.0,
+    "minimum_required": 85,
+    "quality_passed": true,
+    "workflow_routing_manifest_present": true,
+    "preview_overlay_generated": true,
+    "protected_neighbor_check_pass": false,
+    "generated_output_proof_present": true,
+    "target_runtime_proof_present": false,
+    "blockers": [
+      "target_runtime_proof_required_before_final_certification",
+      "user_disputed_mask_alignment_requires_source_overlay_rebuild"
+    ],
+    "mask_alignment_semantic_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "reference_image_matrix_pass": false,
+    "single_anchor_only": true,
+    "generalized_completion_allowed": false
+  },
+  "overlay_visual_review": {
+    "review_method": "direct local image inspection after two QA-driven polygon tightening passes and zoomed overlay crop review",
+    "result": "pass_with_notes_direct_overlay_visual_review",
+    "findings": [
+      "Initial teeth overlay was too broad into the lips and failed semantic review; it was tightened twice before runtime proof.",
+      "Revised overlay targets the small visible central teeth band in the closed-mouth portrait.",
+      "The mask avoids broad lips, tongue, inner mouth, face skin, chin, cheeks, clothing, and background; edge proximity to the lip boundary is unavoidable because the visible teeth band is tiny."
+    ]
+  },
+  "result": "teeth_strict_visual_alignment_pass_generated_output_safe_target_runtime_pending_reference_matrix_pending",
+  "boundary": "Superseded by user global mask-alignment dispute: generated-output stability may remain useful, but this mask is not accepted as source-aligned. Rebuild or re-audit from strict source overlay/zoom crop/protected-neighbor evidence before any pass or certification claim.",
+  "generated_output_proof": {
+    "prompt_profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_teeth_seed210818.json",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_teeth_seed210818/RUN_PACKAGE_MANIFEST.json",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_TEETH_SEED210818_EXECUTE_20260707T194500-0500.json",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_teeth_seed210818_20260707T193049-0500/images/codex_wave70_mf70_teeth_seed210818_00001_.png",
+    "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_teeth_seed210818_20260707T193049-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00024_.png",
+    "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_teeth/qa_comparisons/wave70_mf70_teeth_source_overlay_output_compare.png",
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_TEETH_SEED210818_VISUAL_QA_20260707T194500-0500.json",
+    "result": "pass_with_notes_local_wave70_teeth_generated_output",
+    "hashes": {
+      "prompt_profile_sha256": "c046134af61d437d19287c39d4eded83a6ebbe74e4ba0fb677ea7eb3a4bd779b",
+      "run_package_sha256": "56dfeda7c8f11d9962b0b52ab3aceb6c0357f7208e1ee826adf328463201d9b5",
+      "runtime_evidence_sha256": "1e586ae22d6cac3958667e32b097ca77fb52c1de716c34a82058c842099d1edf",
+      "generated_output_sha256": "7b76125f737ae1fe2ebcc3bf0846d948e06b100015c2112c0105740a6185470b",
+      "diagnostic_mask_preview_sha256": "4be55e1335a3ee55753840f4d2d2fcef483e7b8d59dcd56e124f3eced3fbef05",
+      "comparison_artifact_sha256": "c8467a3687af11958f20d1712a5a3366ee427aef1c98257e3a68d93a8017b5d7",
+      "visual_qa_sha256": "31c7b666cc308f15a75ccde4b1b8914532aaa3a2b2026c602bb494b5ce0acba7"
+    }
+  },
+  "semantic_mask_alignment_review": {
+    "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "review_timestamp": "2026-07-07T19:45:00-05:00",
+    "alignment_result": "needs_revision_user_disputed",
+    "mask_alignment_semantic_pass": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "findings": [
+      "The revised teeth overlay targets the named visible teeth region rather than a broad mouth/lip area.",
+      "Protected lips, tongue, inner mouth, face skin, chin, cheeks, clothing, and background remain excluded or stable; source visibility is limited to a small teeth band.",
+      "Generated-output stability passed locally after overlay tightening; final certification still requires target-runtime proof."
+    ],
+    "named_target_match": false,
+    "full_visible_target_covered": false,
+    "completion_allowed": false
+  },
+  "reference_image_matrix_review": {
+    "result": "required_not_run",
+    "single_anchor_only": true,
+    "completion_allowed": false,
+    "minimum_resolution_pass": false,
+    "high_resolution_detail_review_pass": false,
+    "cross_subject_generalization_pass": false,
+    "matrix_manifest_path": null,
+    "required_protocol": "Plan/Instructions/QA/WAVE70_REFERENCE_IMAGE_MATRIX_QA_PROTOCOL.md",
+    "policy_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_REFERENCE_IMAGE_MATRIX_ENFORCEMENT_20260707T200600-0500.json",
+    "reason": "Existing evidence used the active local MOD-17 portrait as one source image. It remains useful single-anchor smoke evidence but does not prove generalized or universal mask reliability."
+  },
+  "single_anchor_boundary": {
+    "status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+    "single_source_local_overlay_or_generated_output_may_remain_valid": false,
+    "generalized_completion_blocked_until_reference_matrix_passes": true,
+    "target_runtime_still_pending": true
+  },
+  "user_global_mask_alignment_dispute": {
+    "review_id": "W70-MASK-ALIGNMENT-USER-DISPUTE-GLOBAL-REVIEW-20260707T211000-0500",
+    "timestamp": "2026-07-07T21:10:00-05:00",
+    "evidence": "Plan\\Instructions\\QA\\Evidence\\Mask_Factory\\Wave70\\W70_MASK_ALIGNMENT_USER_DISPUTE_GLOBAL_REVIEW_20260707T211000-0500.json",
+    "user_report": "Every generated mask appears visibly off from the actual picture; the nose case specifically appears to cover the mouth and not match source anatomy.",
+    "corrected_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+    "mask_alignment_semantic_pass": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "prior_pass_claim_frozen": true,
+    "required_next_action": "Rebuild or re-audit the mask from source image geometry with zoomed overlay review and protected-neighbor exclusions before any generated-output proof is used for advancement."
+  },
+  "fail_closed_alignment_audit": {
+    "audit_id": "W70-MASK-ALIGNMENT-FAIL-CLOSED-AUDIT-20260707T211500-0500",
+    "timestamp": "2026-07-07T21:15:00-05:00",
+    "evidence": "Plan\\Instructions\\QA\\Evidence\\Mask_Factory\\Wave70\\W70_MASK_ALIGNMENT_FAIL_CLOSED_AUDIT_20260707T211500-0500.json",
+    "audit_panel": "runtime_artifacts/mask_factory/wave70_alignment_audit_20260707T211500-0500/mf70_teeth_source_mask_alignment_panel.png",
+    "audit_panel_sha256": "680af1c4b271336d239fac05588b83f72d9226094e9d00503e87986b55da0a29",
+    "decision": "needs_revision_user_disputed",
+    "corrected_status": "Mask_Alignment_Needs_Revision_Generated_Output_Safe_Target_Runtime_Pending",
+    "semantic_mask_alignment_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "fail_closed_until_source_geometry_rebuilt": true
+  },
+  "strict_visual_acceptance": {
+    "evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_TEETH_STRICT_VISUAL_ACCEPTANCE_20260707T230500-0500.json",
+    "tracker_evidence": "Plan/Tracker/Evidence/W70_MF70_TEETH_STRICT_VISUAL_ACCEPTANCE_20260707T230500-0500.json",
+    "timestamp": "2026-07-07T23:05:00-05:00",
+    "result": "pass_candidate_strict_visual_alignment_generated_output_safe_pending_target_runtime",
+    "status": "teeth_strict_visual_alignment_pass_generated_output_safe_target_runtime_pending_reference_matrix_pending",
+    "semantic_mask_alignment_candidate_pass": true,
+    "protected_overlap_matrix_pass": true,
+    "generated_output_safe_pass_reused_for_same_mask": true,
+    "generated_output_proof_reused": {
+      "prompt_profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_teeth_seed210818.json",
+      "run_package": "runtime_artifacts/run_packages/wave70_mf70_teeth_seed210818/RUN_PACKAGE_MANIFEST.json",
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_TEETH_SEED210818_EXECUTE_20260707T194500-0500.json",
+      "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_teeth_seed210818_20260707T193049-0500/images/codex_wave70_mf70_teeth_seed210818_00001_.png",
+      "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_teeth_seed210818_20260707T193049-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00024_.png",
+      "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_teeth/qa_comparisons/wave70_mf70_teeth_source_overlay_output_compare.png",
+      "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_TEETH_SEED210818_VISUAL_QA_20260707T194500-0500.json",
+      "result": "pass_with_notes_local_wave70_teeth_generated_output",
+      "hashes": {
+        "prompt_profile_sha256": "c046134af61d437d19287c39d4eded83a6ebbe74e4ba0fb677ea7eb3a4bd779b",
+        "run_package_sha256": "56dfeda7c8f11d9962b0b52ab3aceb6c0357f7208e1ee826adf328463201d9b5",
+        "runtime_evidence_sha256": "1e586ae22d6cac3958667e32b097ca77fb52c1de716c34a82058c842099d1edf",
+        "generated_output_sha256": "7b76125f737ae1fe2ebcc3bf0846d948e06b100015c2112c0105740a6185470b",
+        "diagnostic_mask_preview_sha256": "4be55e1335a3ee55753840f4d2d2fcef483e7b8d59dcd56e124f3eced3fbef05",
+        "comparison_artifact_sha256": "c8467a3687af11958f20d1712a5a3366ee427aef1c98257e3a68d93a8017b5d7",
+        "visual_qa_sha256": "31c7b666cc308f15a75ccde4b1b8914532aaa3a2b2026c602bb494b5ce0acba7"
+      }
+    },
+    "target_runtime_proof_present": false,
+    "reference_image_matrix_pass": false,
+    "completion_allowed_by_mask_alignment": false,
+    "findings": [
+      "Accepted: mask targets the tiny central visible teeth band visible in the active closed-mouth source crop.",
+      "Accepted: mask does not behave like a broad mouth/lips mask and has no right-side speckle fragments.",
+      "Accepted: protected-overlap audit clears non-teeth inner mouth, tongue/inner-mouth, philtrum, chin skin, and lip boundaries within tight local tolerances.",
+      "Accepted with boundary: source only exposes a tiny teeth band; this is single-anchor candidate evidence only and does not prove generalized teeth masking.",
+      "Generated-output stability is reused only because the old local proof used this same mask hash and already passed whole-image QA; target-runtime/reference-matrix proof remains pending."
+    ]
+  }
+}

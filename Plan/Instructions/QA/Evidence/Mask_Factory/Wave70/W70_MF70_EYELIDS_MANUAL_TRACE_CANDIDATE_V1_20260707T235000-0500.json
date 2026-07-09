@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_MF70_EYELIDS_MANUAL_TRACE_CANDIDATE_V1_20260707T235000-0500",
+  "created_local": "20260707T235000-0500",
+  "mask_type_id": "mf70_eyelids",
+  "tracker_id": "TRK-W70-0013",
+  "item_id": "ITEM-W70-0013",
+  "task": "derive one conservative mf70_eyelids candidate from corrected manual eye-boundary trace",
+  "source_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+  "source_sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+  "result": "candidate_created_for_high_zoom_review_not_promoted",
+  "promotion_decision": "no_active_mask_replaced_no_generated_output_no_W70_MASK_PROMOTION_ROW_GATE_PASS_TRUE",
+  "geometry_gate": {
+    "result": "not_requested_candidate_review_pending",
+    "wave70_mask_geometry_gate_pass": false,
+    "approval_token": "",
+    "source_dimensions": [
+      768,
+      768
+    ],
+    "mask_dimensions": [
+      768,
+      768
+    ],
+    "source_sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "mask_sha256": "1a81d0575b2c6df6198cb303aa6f975a766ea240c9afdbdeab8eec758ca118c7",
+    "crop_rect_full_image_xyxy": [
+      235,
+      268,
+      505,
+      355
+    ],
+    "panel_scale": 3,
+    "coordinate_transform_manifest_pass": true,
+    "allowed_geometry_source_derived_pass": true,
+    "protected_geometry_source_derived_pass": true,
+    "green_amber_conflict_pass": true,
+    "debug_rectangle_only": false,
+    "panel_readable_pass": true,
+    "findings": [
+      "Candidate is derived from corrected manual trace polylines, not old debug rectangles.",
+      "Eye aperture and brow polygons are carved out as protected zones.",
+      "This evidence intentionally withholds approval token pending strict high-zoom review."
+    ]
+  },
+  "artifacts": {
+    "candidate_mask": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_eyelids_manual_trace_candidate_v1_20260707T235000-0500/wave70_mf70_eyelids_manual_trace_candidate_v1_mask.png",
+    "candidate_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_eyelids_manual_trace_candidate_v1_20260707T235000-0500/wave70_mf70_eyelids_manual_trace_candidate_v1_overlay.png",
+    "candidate_panel": "runtime_artifacts/mask_factory/wave70_mf70_eyelids/manual_trace_candidate_v1/20260707T235000-0500/wave70_mf70_eyelids_manual_trace_candidate_v1_panel.png",
+    "candidate_manifest": "runtime_artifacts/mask_factory/wave70_mf70_eyelids/manual_trace_candidate_v1/20260707T235000-0500/wave70_mf70_eyelids_manual_trace_candidate_v1_manifest.json"
+  },
+  "metrics": {
+    "nonzero_pixels": 1332,
+    "coverage_percent": 0.22583,
+    "bbox": [
+      279,
+      303,
+      472,
+      345
+    ],
+    "protected_overlap_pixels": {
+      "eye_apertures": 0,
+      "brow_hair": 0
+    }
+  },
+  "active_comfyui_input_changed": false,
+  "generated_output_proof_run": false,
+  "next_step": "Inspect candidate panel; if acceptable, run row-level geometry review evidence, still without generated-output proof."
+}

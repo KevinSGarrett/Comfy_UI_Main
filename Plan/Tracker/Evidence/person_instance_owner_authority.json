@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_PERSON_INSTANCE_OWNER_AUTHORITY_20260708T022107-0500",
+  "created_local": "20260708T022107-0500",
+  "task": "Implement person instance and owner separation authority for TRK-W70-0163 / ITEM-W70-0163.",
+  "script": "Plan/07_IMPLEMENTATION/scripts/implement_wave70_person_instance_owner_authority.py",
+  "source_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+    "exists": true,
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+    "dimensions": [
+      768,
+      768
+    ]
+  },
+  "environment": {
+    "python_executable": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "cwd": "C:\\Comfy_UI_Main",
+    "modules": {
+      "ultralytics": {
+        "module": "ultralytics",
+        "available": true,
+        "version": "8.4.87"
+      },
+      "torch": {
+        "module": "torch",
+        "available": true,
+        "version": "2.12.1+cpu"
+      },
+      "torchvision": {
+        "module": "torchvision",
+        "available": true,
+        "version": "0.27.1+cpu"
+      },
+      "mmdet": {
+        "module": "mmdet",
+        "available": false,
+        "version": null
+      },
+      "mmengine": {
+        "module": "mmengine",
+        "available": false,
+        "version": null
+      },
+      "mmcv": {
+        "module": "mmcv",
+        "available": false,
+        "version": null
+      },
+      "cv2": {
+        "module": "cv2",
+        "available": true,
+        "version": "4.11.0"
+      }
+    }
+  },
+  "model": {
+    "path": "C:\\Users\\kevin\\.cache\\torch\\hub\\checkpoints\\rtmdet_m_8xb32-100e_coco-obj365-person-235e8209.pth",
+    "exists": true,
+    "size_bytes": 99013732,
+    "sha256": "35b0c7406499e0d141dd6a0235db07c10d2bee8f891f8f4e353c16a009de30e8"
+  },
+  "runtime_attempts": {
+    "ultralytics": {
+      "runtime": "ultralytics.YOLO",
+      "attempted": true,
+      "loaded": true,
+      "inference_pass": false,
+      "error": "AssertionError: C:\\Users\\kevin\\.cache\\torch\\hub\\checkpoints\\rtmdet_m_8xb32-100e_coco-obj365-person-235e8209.pth acceptable suffix is {'.pt'}, not .pth",
+      "detections": []
+    },
+    "mmdet_mmengine_available": false
+  },
+  "artifacts": {
+    "blocker_panel": "runtime_artifacts/mask_factory/wave70_person_instance_owner_authority/20260708T022107-0500/person_instance_owner_authority_blocker_panel.png",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_person_instance_owner_authority/20260708T022107-0500/person_instance_owner_authority.json"
+  },
+  "person_instance_owner_authority": {
+    "result": "blocked",
+    "person_instance_pass": false,
+    "owner_assignment_pass": false,
+    "multi_person_overlap_check_pass": false,
+    "source_derived_landmark_or_segmentation_pass": false,
+    "detected_person_instance_count": 0,
+    "person_instances": [],
+    "owner_map_path": "",
+    "confidence_threshold": 0.25,
+    "blocked_reason": "mmdet_mmengine_runtime_not_installed_for_rtmdet_checkpoint; ultralytics_inference_failed_for_local_checkpoint; no_person_instance_detection_produced",
+    "findings": [
+      "A local person checkpoint exists, but it is an RTMDet .pth checkpoint.",
+      "MMDetection/MMEngine runtime is not installed in the local environment.",
+      "Ultralytics cannot run inference from the local .pth checkpoint in this environment.",
+      "No trustworthy person instance or owner assignment was produced."
+    ]
+  },
+  "qa_decision": "blocked_person_instance_owner_route_unloadable",
+  "promotion_decision": "no_mask_promoted_no_active_input_changed_person_instance_owner_blocked",
+  "tracker_item_updates": {
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv": 1,
+    "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv": 1,
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv": 1,
+    "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv": 1
+  },
+  "next_step": "Install/register a compatible local person-instance runtime for the existing RTMDet checkpoint or provide an approved YOLO/instance model that can run locally."
+}

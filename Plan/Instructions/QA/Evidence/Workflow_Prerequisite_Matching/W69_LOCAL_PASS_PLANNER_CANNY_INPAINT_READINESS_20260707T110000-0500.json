@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-PASS-PLANNER-CANNY-INPAINT-READINESS-20260707T110000-0500",
+  "timestamp": "2026-07-07T11:00:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "wave": "Wave14",
+  "component": "Pass Planner",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "comfyui_generation_executed": false,
+  "implementation_changes": [
+    "Plan/07_IMPLEMENTATION/scripts/compile_orchestrator_run_plan.py now preserves ruleset/router/api-contract metadata, global evidence dependencies, execution_mode, and pass-level evidence dependency bindings.",
+    "Plan/07_IMPLEMENTATION/scripts/validate_orchestrator_run_plan.py now validates dry_run_first, registry/route-contract paths, pass QA gates, pass evidence dependency shape, and evidence path existence under the project root.",
+    "The validator now warns when a required pass has no evidence dependency binding, exposing missing local proof rather than silently treating a generic pass as ready."
+  ],
+  "request": "runtime_artifacts/pass_planner/w69_local_canny_inpaint_readiness/PASS_PLANNER_REQUEST.json",
+  "compiled_plan": "runtime_artifacts/pass_planner/w69_local_canny_inpaint_readiness/ORCHESTRATOR_RUN_PLAN.json",
+  "validation": "runtime_artifacts/pass_planner/w69_local_canny_inpaint_readiness/ORCHESTRATOR_RUN_PLAN_VALIDATION.json",
+  "compiled_plan_summary": {
+    "run_id": "wave14_w69_local_canny_inpaint_readiness",
+    "status": "compiled",
+    "execution_mode": "dry_run_plan_only",
+    "dry_run_first": true,
+    "pass_count": 7,
+    "passes": [
+      "p00_preflight",
+      "p01_base",
+      "p03_pose_control",
+      "p04_mask_factory",
+      "p05_regional_detail",
+      "p06_upscale_polish",
+      "p99_promotion"
+    ]
+  },
+  "validation_summary": {
+    "status": "PASS",
+    "error_count": 0,
+    "warning_count": 1,
+    "warnings": [
+      "p06_upscale_polish is required but has no evidence dependency binding yet"
+    ],
+    "checked_evidence_path_count": 15
+  },
+  "evidence_boundaries": {
+    "bound_local_canny_evidence": true,
+    "bound_mask_factory_evidence": true,
+    "bound_inpaint_detail_evidence": true,
+    "bound_promotion_gate_evidence": true,
+    "upscale_polish_evidence_bound": false,
+    "target_runtime_proof_bound": false
+  },
+  "qa_result": "pass_local_pass_planner_contract_with_upscale_evidence_gap",
+  "certification_allowed": false,
+  "remaining_gaps": [
+    "Required p06_upscale_polish has no local evidence dependency binding yet.",
+    "The plan is dry-run-first and did not execute ComfyUI.",
+    "Target-runtime EC2 proof remains separate.",
+    "The plan does not promote final output or certify release readiness."
+  ],
+  "next_action": "Use the planner warning to choose a local upscale/polish implementation or evidence task, or continue with another named local implementation gap. Do not start EC2 or rerun Git/Wave65 housekeeping for this planner step."
+}

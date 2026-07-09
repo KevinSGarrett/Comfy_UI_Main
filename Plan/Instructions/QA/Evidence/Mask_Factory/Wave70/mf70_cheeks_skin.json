@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-CHEEKS-SKIN-LOCAL-SUPPORT-20260707T154500-0500",
+  "timestamp": "2026-07-07T15:45:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave70_ultimate_mask_factory_local_artifact_routing_support",
+  "mask_type_id": "mf70_cheeks_skin",
+  "tracker_id": "TRK-W70-0005",
+  "item_id": "ITEM-W70-0005",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "source_requirements": [
+    "Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_FACTORY_TAXONOMY.md#L15-L31",
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv:TRK-W70-0005",
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv:ITEM-W70-0005"
+  ],
+  "artifacts": {
+    "request": "runtime_artifacts/mask_factory/wave70_mf70_cheeks_skin/MASK_FACTORY_REQUEST.json",
+    "contract": "runtime_artifacts/mask_factory/wave70_mf70_cheeks_skin/MASK_FACTORY_CONTRACT.json",
+    "contract_validation": "runtime_artifacts/mask_factory/wave70_mf70_cheeks_skin/MASK_FACTORY_CONTRACT_VALIDATION.json",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_mf70_cheeks_skin/MASK_RUNTIME_EVIDENCE.json",
+    "quality_report": "runtime_artifacts/mask_factory/wave70_mf70_cheeks_skin/MASK_QUALITY_REPORT.json",
+    "patch_manifest": "runtime_artifacts/mask_factory/wave70_mf70_cheeks_skin/MASK_TO_WORKFLOW_PATCH_MANIFEST.csv",
+    "mask_png": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_cheeks_skin_20260707T154500-0500/wave70_mf70_cheeks_skin_mask.png",
+    "comfyui_input_copy": "ComfyUI/input/wave70_mf70_cheeks_skin_mask.png",
+    "preview_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_cheeks_skin_20260707T154500-0500/wave70_mf70_cheeks_skin_overlay.png"
+  },
+  "mask_asset": {
+    "mask_id": "scene_wave70_canny_v3__person_001__mf70_cheeks_skin__minor",
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_cheeks_skin_20260707T154500-0500/wave70_mf70_cheeks_skin_mask.png",
+    "sha256": "683a1a19e75ae18cc385ecbfc49916ec3cb33efcba88d64039bd844129c73bc0",
+    "width": 768,
+    "height": 768,
+    "coverage_percent": 3.6414,
+    "person_instance_id": "person_001",
+    "body_region_id": "left_right_cheeks_skin",
+    "scale": "minor"
+  },
+  "validation": {
+    "contract_valid": true,
+    "contract_errors": [],
+    "contract_warnings": [],
+    "quality_score": 91.0,
+    "minimum_required": 85,
+    "quality_passed": true,
+    "workflow_routing_manifest_present": true,
+    "preview_overlay_generated": true,
+    "protected_neighbor_check_pass": true,
+    "generated_output_proof_present": true,
+    "target_runtime_proof_present": false,
+    "blockers": [
+      "mask_alignment_revision_required_before_completion",
+      "target_runtime_proof_required_before_final_certification",
+      "mask_alignment_strict_review_requires_revision_before_completion"
+    ],
+    "mask_alignment_semantic_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false
+  },
+  "overlay_visual_review": {
+    "review_method": "direct local image inspection via Codex view_image",
+    "result": "pass_with_notes_cheeks_skin_overlay",
+    "findings": [
+      "Initial cheek polygons were rejected because they came too close to the protected nose, mouth, and eye regions.",
+      "Revised mask covers conservative visible left and right cheek-skin regions.",
+      "Overlay avoids the nose bridge/tip, mouth/lips, eye centers, jawline contour, and broad hairline mass; soft-boundary proximity remains near adjacent cheek shadows."
+    ]
+  },
+  "result": "mask_alignment_needs_revision_generated_output_safe_final_blocked_target_runtime",
+  "boundary": "Strict semantic mask-alignment review supersedes earlier generated-output-safe interpretation. Generated-output stability is preserved when present, but mask completion is blocked unless semantic alignment and protected-neighbor review pass.",
+  "generated_output_proof": {
+    "profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_cheeks_skin_seed210805.json",
+    "profile_sha256": "6b267c0279dc468d55872140b3a21c2339850ded18307f5fe002a6d24f80d71e",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_cheeks_skin_seed210805/RUN_PACKAGE_MANIFEST.json",
+    "run_package_sha256": "ffc2b7089155e1c1fe69b5fb0c62746925fd6824312412481e7bcdbe7e018e19",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_CHEEKS_SKIN_SEED210805_EXECUTE_20260707T155000-0500.json",
+    "runtime_evidence_sha256": "e72e695779e8e86a27bdaf8777b0fec65c8f0d3f8fc835c2a9032e493677609a",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_cheeks_skin_seed210805_20260707T153720-0500/images/codex_wave70_mf70_cheeks_skin_seed210805_00001_.png",
+    "generated_output_sha256": "ca492acd7d6a4966a5e932d7ea4a6baaea5cd9e5e23b1936e1dfe96e9cbe710e",
+    "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_cheeks_skin_seed210805_20260707T153720-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00011_.png",
+    "diagnostic_mask_preview_sha256": "2f2bb69a07d45ea132e9cf0fb19147bab382d26f7d76b857df5066d2fcd73bec",
+    "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_cheeks_skin/qa_comparisons/wave70_mf70_cheeks_skin_source_overlay_output_compare.png",
+    "comparison_artifact_sha256": "367eceeb3604457193164355c05eb921e51fafcb3c828dc25cd232a4d5532ec3",
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_CHEEKS_SKIN_SEED210805_VISUAL_QA_20260707T154500-0500.json",
+    "visual_qa_result": "pass_with_notes_local_wave70_cheeks_skin_generated_output"
+  },
+  "semantic_mask_alignment_reaudit": {
+    "audit_id": "W70-MASK-ALIGNMENT-RETRO-AUDIT-20260707T184000-0500",
+    "timestamp": "2026-07-07T18:40:00-05:00",
+    "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "result": "needs_revision",
+    "named_target_match": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed": false,
+    "findings": [
+      "Retro audit from user-supplied overlay review found the cheek masks too loose/polygonal for precise left/right cheek-skin coverage.",
+      "Generated output may remain safe at low denoise, but cheek semantic alignment needs revision before row completion.",
+      "Future cheek masks must better follow cheek anatomy while avoiding protected eyes, nose, mouth, hairline, and jawline."
+    ],
+    "policy": "Generated-output stability is preserved where applicable, but it does not override semantic mask-alignment defects."
+  },
+  "strict_semantic_mask_alignment_review": {
+    "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "review_timestamp": "2026-07-07T19:25:00-05:00",
+    "review_id": "W70-MASK-ALIGNMENT-STRICT-VISUAL-REVIEW-20260707T192500-0500",
+    "alignment_result": "needs_revision",
+    "mask_alignment_semantic_pass": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "review_basis": "strict visual review of user-supplied overlays and/or matching project overlay artifacts, separated from generated-output stability",
+    "findings": [
+      "Original side-by-side cheek masks are geometric cheekbone patches, too close to eyes/nose and not faithful left/right cheek-skin coverage.",
+      "Use cheek landmarks/contours that cover the cheek surface while excluding eyes, nose, mouth, hairline, and jawline."
+    ]
+  }
+}

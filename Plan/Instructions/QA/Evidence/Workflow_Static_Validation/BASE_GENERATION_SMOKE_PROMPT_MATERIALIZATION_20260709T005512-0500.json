@@ -1,0 +1,1532 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "BASE_GENERATION_SMOKE_PROMPT_MATERIALIZATION_20260709T005512-0500",
+  "created_iso": "2026-07-09T00:55:12-05:00",
+  "active_lanes_path": "Workflows/base_generation/ACTIVE_LANES.json",
+  "runtime_artifact_root": "runtime_artifacts/base_generation_smoke_prompt_materialization/20260709T005512-0500",
+  "counts": {
+    "lanes_materialized": 8,
+    "failed_lanes": 0,
+    "prompt_requests_written": 8
+  },
+  "lane_reports": [
+    {
+      "schema_version": "1.0",
+      "lane_id": "sdxl_low_risk_fallback_lane",
+      "created_iso": "2026-07-09T00:55:12-05:00",
+      "workflow": "Workflows/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
+      "smoke_request": "Workflows/base_generation/sdxl_low_risk_fallback_lane/smoke_test_request.json",
+      "patch_points": "Workflows/base_generation/sdxl_low_risk_fallback_lane/patch_points.json",
+      "runtime_requirements": "Workflows/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
+      "prompt_request": "runtime_artifacts/base_generation_smoke_prompt_materialization/20260709T005512-0500/sdxl_low_risk_fallback_lane/prompt_request.json",
+      "prompt_only": "runtime_artifacts/base_generation_smoke_prompt_materialization/20260709T005512-0500/sdxl_low_risk_fallback_lane/prompt_only.json",
+      "workflow_sha256": "ef6f4383eb7b31a8b00b895a16eae70ab4ee50023d2daf48eb679351bce62a20",
+      "smoke_request_sha256": "112b63b48c194241fc82d689927ae2a0843f82f00aeaa99824d25bc815296d6f",
+      "patch_points_sha256": "bd7c7fae0c0e6b5389c1b52383739d0de8fed628c254d92bf1c5c816432b8574",
+      "runtime_requirements_sha256": "e9a5b4b3d80fc7f4c17ebcdf66a51dd97a82a98ce278f86892216a6686aa3424",
+      "prompt_request_sha256": "9c4300d0012adcf5dd28442aa141b68e072f02b9b6ee681cf61a6d0789b21019",
+      "patches_applied": 13,
+      "applied_patch_records": [
+        {
+          "name": "positive_prompt",
+          "node_id": "6",
+          "input": "text",
+          "before": "hyperrealistic editorial portrait, natural skin texture, balanced lighting, realistic eyes, detailed fabric, neutral studio background",
+          "after": "hyperrealistic editorial portrait, natural skin texture, balanced lighting, realistic eyes, detailed fabric, neutral studio background"
+        },
+        {
+          "name": "negative_prompt",
+          "node_id": "7",
+          "input": "text",
+          "before": "cartoon, anime, illustration, plastic skin, distorted anatomy, extra fingers, missing fingers, deformed hands, low resolution, blurry, watermark, text",
+          "after": "cartoon, anime, illustration, plastic skin, distorted anatomy, extra fingers, missing fingers, deformed hands, low resolution, blurry, watermark, text"
+        },
+        {
+          "name": "seed",
+          "node_id": "3",
+          "input": "seed",
+          "before": 6100610061,
+          "after": 6100610061
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "steps",
+          "before": 20,
+          "after": 20
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "cfg",
+          "before": 6.5,
+          "after": 6.5
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "sampler_name",
+          "before": "euler",
+          "after": "euler"
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "scheduler",
+          "before": "normal",
+          "after": "normal"
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "denoise",
+          "before": 1,
+          "after": 1
+        },
+        {
+          "name": "latent_resolution",
+          "node_id": "5",
+          "input": "width",
+          "before": 1024,
+          "after": 1024
+        },
+        {
+          "name": "latent_resolution",
+          "node_id": "5",
+          "input": "height",
+          "before": 1024,
+          "after": 1024
+        },
+        {
+          "name": "latent_resolution",
+          "node_id": "5",
+          "input": "batch_size",
+          "before": 1,
+          "after": 1
+        },
+        {
+          "name": "model_asset",
+          "node_id": "4",
+          "input": "ckpt_name",
+          "before": "sd_xl_base_1.0.safetensors",
+          "after": "sd_xl_base_1.0.safetensors"
+        },
+        {
+          "name": "save_prefix",
+          "node_id": "9",
+          "input": "filename_prefix",
+          "before": "codex_sdxl_low_risk_smoke",
+          "after": "codex_sdxl_low_risk_smoke"
+        }
+      ],
+      "expected_outputs": {
+        "artifact_type": "image",
+        "minimum_output_count": 1,
+        "output_prefix": "codex_sdxl_low_risk_smoke"
+      },
+      "required_models": [
+        {
+          "role": "checkpoint",
+          "comfyui_model_subdir": "checkpoints",
+          "filename": "sd_xl_base_1.0.safetensors",
+          "sha256": "31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b",
+          "hash_status": "ec2_static_match_verified",
+          "path_status": "ec2_static_match_verified"
+        }
+      ],
+      "required_input_assets": [],
+      "errors": [],
+      "pass": true,
+      "manifest_path": "runtime_artifacts/base_generation_smoke_prompt_materialization/20260709T005512-0500/sdxl_low_risk_fallback_lane/PROMPT_MATERIALIZATION_MANIFEST.json",
+      "manifest_sha256": "104499dd638aad2400ba915b3857615848e8345eaad4bc4e3800484eddcd0e42"
+    },
+    {
+      "schema_version": "1.0",
+      "lane_id": "sdxl_realvisxl_base_lane",
+      "created_iso": "2026-07-09T00:55:12-05:00",
+      "workflow": "Workflows/base_generation/sdxl_realvisxl_base_lane/workflow.api.json",
+      "smoke_request": "Workflows/base_generation/sdxl_realvisxl_base_lane/smoke_test_request.json",
+      "patch_points": "Workflows/base_generation/sdxl_realvisxl_base_lane/patch_points.json",
+      "runtime_requirements": "Workflows/base_generation/sdxl_realvisxl_base_lane/runtime_requirements.json",
+      "prompt_request": "runtime_artifacts/base_generation_smoke_prompt_materialization/20260709T005512-0500/sdxl_realvisxl_base_lane/prompt_request.json",
+      "prompt_only": "runtime_artifacts/base_generation_smoke_prompt_materialization/20260709T005512-0500/sdxl_realvisxl_base_lane/prompt_only.json",
+      "workflow_sha256": "eae060a1c3351db8b851506926e7fc24b59c9b5a5467e116f766c0f7f81fe988",
+      "smoke_request_sha256": "8e3cace86e785cef9c80cae6169b23603de94b50f0cb1d05240e8610a547a404",
+      "patch_points_sha256": "3527286351e3a9849ceb99b37b197ba31300bb59f5520cec9e2e01c68c45ce57",
+      "runtime_requirements_sha256": "eca3a44301c6580c7a7c019c3f72fecc263f418b7fb5a96c66bf3831305ab69e",
+      "prompt_request_sha256": "866b1873ab96490e97e26bc76aa505cd7b476a9d372e921743cf10121962c1a3",
+      "patches_applied": 13,
+      "applied_patch_records": [
+        {
+          "name": "positive_prompt",
+          "node_id": "6",
+          "input": "text",
+          "before": "hyperrealistic cinematic portrait, natural skin texture, subtle face asymmetry, realistic eyes, detailed hair, textile microfibers, balanced studio lighting, lifelike lens rendering",
+          "after": "hyperrealistic cinematic portrait, natural skin texture, subtle face asymmetry, realistic eyes, detailed hair, textile microfibers, balanced studio lighting, lifelike lens rendering"
+        },
+        {
+          "name": "negative_prompt",
+          "node_id": "7",
+          "input": "text",
+          "before": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed face, distorted anatomy, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text",
+          "after": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed face, distorted anatomy, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text"
+        },
+        {
+          "name": "seed",
+          "node_id": "3",
+          "input": "seed",
+          "before": 7152026061,
+          "after": 7152026061
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "steps",
+          "before": 30,
+          "after": 30
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "cfg",
+          "before": 5.5,
+          "after": 5.5
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "sampler_name",
+          "before": "dpmpp_2m",
+          "after": "dpmpp_2m"
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "scheduler",
+          "before": "karras",
+          "after": "karras"
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "denoise",
+          "before": 1,
+          "after": 1
+        },
+        {
+          "name": "latent_resolution",
+          "node_id": "5",
+          "input": "width",
+          "before": 1024,
+          "after": 1024
+        },
+        {
+          "name": "latent_resolution",
+          "node_id": "5",
+          "input": "height",
+          "before": 1024,
+          "after": 1024
+        },
+        {
+          "name": "latent_resolution",
+          "node_id": "5",
+          "input": "batch_size",
+          "before": 1,
+          "after": 1
+        },
+        {
+          "name": "model_asset",
+          "node_id": "4",
+          "input": "ckpt_name",
+          "before": "realvisxlV50_v50Bakedvae.safetensors",
+          "after": "realvisxlV50_v50Bakedvae.safetensors"
+        },
+        {
+          "name": "save_prefix",
+          "node_id": "9",
+          "input": "filename_prefix",
+          "before": "codex_sdxl_realvisxl_base_smoke",
+          "after": "codex_sdxl_realvisxl_base_smoke"
+        }
+      ],
+      "expected_outputs": {
+        "artifact_type": "image",
+        "minimum_output_count": 1,
+        "output_prefix": "codex_sdxl_realvisxl_base_smoke"
+      },
+      "required_models": [
+        {
+          "role": "checkpoint",
+          "comfyui_model_subdir": "checkpoints",
+          "filename": "realvisxlV50_v50Bakedvae.safetensors",
+          "source_model": "RealVisXL V5.0",
+          "source_model_id": "civitai:139562",
+          "source_version_hint": "v5.0 baked VAE",
+          "source_urls": [
+            "https://civitai.com/models/139562",
+            "https://huggingface.co/SG161222/RealVisXL_V5.0"
+          ],
+          "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "hash_status": "ec2_static_match_verified",
+          "path_status": "ec2_static_match_verified"
+        }
+      ],
+      "required_input_assets": [],
+      "errors": [],
+      "pass": true,
+      "manifest_path": "runtime_artifacts/base_generation_smoke_prompt_materialization/20260709T005512-0500/sdxl_realvisxl_base_lane/PROMPT_MATERIALIZATION_MANIFEST.json",
+      "manifest_sha256": "f10373cb0a67c18a58274e45437e8039333cc54b2f2e9185a42d55ce475aa411"
+    },
+    {
+      "schema_version": "1.0",
+      "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+      "created_iso": "2026-07-09T00:55:12-05:00",
+      "workflow": "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/workflow.api.json",
+      "smoke_request": "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/smoke_test_request.json",
+      "patch_points": "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/patch_points.json",
+      "runtime_requirements": "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json",
+      "prompt_request": "runtime_artifacts/base_generation_smoke_prompt_materialization/20260709T005512-0500/sdxl_realvisxl_controlnet_canny_lane/prompt_request.json",
+      "prompt_only": "runtime_artifacts/base_generation_smoke_prompt_materialization/20260709T005512-0500/sdxl_realvisxl_controlnet_canny_lane/prompt_only.json",
+      "workflow_sha256": "0edc8a46365fd8067327e40260aeb8121146f2b3c5a0d680a8773ce5031effb8",
+      "smoke_request_sha256": "25758d68f3bcf4c8f0fe10a5b269109ed12c77162cfd44790f7c587046d20007",
+      "patch_points_sha256": "97c27280877cc8811d0a2c8c547789e066c78220154df8a1b22fa39b618850a9",
+      "runtime_requirements_sha256": "1a5b3723bfca7977b85443c104e1a634d3628b4ab16433280699eb7d895cf310",
+      "prompt_request_sha256": "32f99a7ef43c9996cdee96a825a64bf5be4461b649e525224cd535b4f6fdd276",
+      "patches_applied": 18,
+      "applied_patch_records": [
+        {
+          "name": "positive_prompt",
+          "node_id": "6",
+          "input": "text",
+          "before": "hyperrealistic cinematic editorial portrait, natural skin texture, realistic eyes with clean catchlights, clear iris detail, gentle eye fill light, open shadow detail, detailed hair, edge-guided composition, coherent silhouette, tailored dark blazer over textured shirt, clothed shoulders, soft natural fill light, balanced exposure, clean face with no painted marks, lifelike lens rendering",
+          "after": "hyperrealistic cinematic editorial portrait, natural skin texture, realistic fine skin pores, subtle human skin asymmetry, realistic eyes with clean catchlights, clear iris detail, gentle eye fill light, open shadow detail, detailed hair, edge-guided composition, coherent silhouette, clean jawline and neck separation, crisp shirt collar boundary, tailored dark blazer over textured shirt, clothed shoulders, soft natural fill light, balanced exposure, clean face with no painted marks, lifelike lens rendering"
+        },
+        {
+          "name": "negative_prompt",
+          "node_id": "7",
+          "input": "text",
+          "before": "cartoon, anime, illustration, plastic skin, waxy skin, distorted anatomy, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text, edge artifacts, harsh outlines, colored blotches, paint marks, over-dark eyes, underexposed eyes, muddy shadows, crushed shadows, control map stains, bare shoulders, strapless top, nude, unclothed torso",
+          "after": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, beauty filter skin, airbrushed face, distorted anatomy, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text, edge artifacts, harsh outlines, colored blotches, paint marks, over-dark eyes, underexposed eyes, muddy shadows, crushed shadows, smeared jawline, warped collar edge, control map stains, bare shoulders, strapless top, nude, unclothed torso"
+        },
+        {
+          "name": "seed",
+          "node_id": "3",
+          "input": "seed",
+          "before": 711170001,
+          "after": 711170001
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "steps",
+          "before": 20,
+          "after": 20
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "cfg",
+          "before": 5.5,
+          "after": 5.5
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "sampler_name",
+          "before": "dpmpp_2m_sde",
+          "after": "dpmpp_2m_sde"
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "scheduler",
+          "before": "karras",
+          "after": "karras"
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "denoise",
+          "before": 1,
+          "after": 1
+        },
+        {
+          "name": "latent_resolution",
+          "node_id": "5",
+          "input": "width",
+          "before": 768,
+          "after": 768
+        },
+        {
+          "name": "latent_resolution",
+          "node_id": "5",
+          "input": "height",
+          "before": 768,
+          "after": 768
+        },
+        {
+          "name": "latent_resolution",
+          "node_id": "5",
+          "input": "batch_size",
+          "before": 1,
+          "after": 1
+        },
+        {
+          "name": "model_asset",
+          "node_id": "4",
+          "input": "ckpt_name",
+          "before": "realvisxlV50_v50Bakedvae.safetensors",
+          "after": "realvisxlV50_v50Bakedvae.safetensors"
+        },
+        {
+          "name": "controlnet_asset",
+          "node_id": "10",
+          "input": "control_net_name",
+          "before": "controlnet-canny-sdxl-1.0-small.safetensors",
+          "after": "controlnet-canny-sdxl-1.0-small.safetensors"
+        },
+        {
+          "name": "control_image",
+          "node_id": "11",
+          "input": "image",
+          "before": "controlnet_canny_cleaned_eye_safe_v3_rightedge_band_masked.png",
+          "after": "controlnet_canny_cleaned_eye_safe_v3_rightedge_band_masked.png"
+        },
+        {
+          "name": "controlnet_settings",
+          "node_id": "12",
+          "input": "strength",
+          "before": 0.45,
+          "after": 0.45
+        },
+        {
+          "name": "controlnet_settings",
+          "node_id": "12",
+          "input": "start_percent",
+          "before": 0,
+          "after": 0
+        },
+        {
+          "name": "controlnet_settings",
+          "node_id": "12",
+          "input": "end_percent",
+          "before": 0.65,
+          "after": 0.65
+        },
+        {
+          "name": "save_prefix",
+          "node_id": "9",
+          "input": "filename_prefix",
+          "before": "codex_sdxl_realvisxl_controlnet_canny_smoke",
+          "after": "codex_sdxl_realvisxl_controlnet_canny_smoke"
+        }
+      ],
+      "expected_outputs": {
+        "artifact_type": "image",
+        "minimum_output_count": 2,
+        "output_prefix": "codex_sdxl_realvisxl_controlnet_canny_smoke",
+        "diagnostic_output_prefix": "codex_sdxl_realvisxl_controlnet_canny_control_map_diagnostic"
+      },
+      "required_models": [
+        {
+          "role": "checkpoint",
+          "model_type": "Checkpoint",
+          "comfyui_model_subdir": "checkpoints",
+          "filename": "realvisxlV50_v50Bakedvae.safetensors",
+          "source_model": "RealVisXL V5.0",
+          "source_model_id": "civitai:139562",
+          "source_version_hint": "v5.0 baked VAE",
+          "source_urls": [
+            "https://civitai.com/models/139562"
+          ],
+          "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "node_id": "4",
+          "node_class": "CheckpointLoaderSimple",
+          "input": "ckpt_name",
+          "hash_status": "ec2_static_match_verified",
+          "path_status": "ec2_static_match_verified"
+        },
+        {
+          "role": "controlnet",
+          "model_type": "ControlNet",
+          "comfyui_model_subdir": "controlnet",
+          "filename": "controlnet-canny-sdxl-1.0-small.safetensors",
+          "source_model": "SDXL Canny ControlNet small",
+          "source_model_id": "diffusers/controlnet-canny-sdxl-1.0-small",
+          "source_version_hint": "fp16 small SDXL Canny ControlNet",
+          "source_urls": [
+            "https://huggingface.co/diffusers/controlnet-canny-sdxl-1.0-small",
+            "https://huggingface.co/diffusers/controlnet-canny-sdxl-1.0-small/resolve/main/diffusion_pytorch_model.fp16.safetensors"
+          ],
+          "sha256": "fde4888a5f0a5648118991cc50e0ac4d60a2356dbaddf5e0649dd69c1119a2f9",
+          "node_id": "10",
+          "node_class": "ControlNetLoader",
+          "input": "control_net_name",
+          "hash_status": "ec2_static_match_verified",
+          "path_status": "ec2_static_match_verified",
+          "local_hash_status": "verified_local",
+          "local_path_status": "present_local_ignored_model_path"
+        }
+      ],
+      "required_input_assets": [
+        {
+          "role": "control_image",
+          "filename": "controlnet_canny_cleaned_eye_safe_v3_rightedge_band_masked.png",
+          "comfyui_input_subdir": "",
+          "node_id": "11",
+          "node_class": "LoadImage",
+          "input": "image",
+          "status": "ec2_input_asset_hash_verified",
+          "sha256": "4b40cdd7386d9287a37d64efafdeb7078a8a9d4160e23e00b5ddc87106a1f870",
+          "comfyui_input_path": "ComfyUI/input/controlnet_canny_cleaned_eye_safe_v3_rightedge_band_masked.png",
+          "evidence_path": "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_rightedge_masked_v3_20260707T132800-0500/CONTROL_IMAGE_INPUT_ASSET_MANIFEST.json",
+          "preprocessing_module": "Plan/07_IMPLEMENTATION/scripts/prepare_canny_control_map.py",
+          "preprocessing_manifest": "Plan/Instructions/Operations/Prepared_Input_Assets/controlnet_canny_preprocess_module_v1_20260707T051500-0500/CONTROL_MAP_PREPROCESS_MANIFEST.json",
+          "preprocessing_validation_evidence": "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W69_CONTROLNET_CANNY_PREPROCESS_MODULE_V1_20260707T051500-0500.json"
+        }
+      ],
+      "errors": [],
+      "pass": true,
+      "manifest_path": "runtime_artifacts/base_generation_smoke_prompt_materialization/20260709T005512-0500/sdxl_realvisxl_controlnet_canny_lane/PROMPT_MATERIALIZATION_MANIFEST.json",
+      "manifest_sha256": "e31d5e5f2dd3f3e3616e0df967bb5c910ab5d9a4790187c904eca52f79a15cd0"
+    },
+    {
+      "schema_version": "1.0",
+      "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+      "created_iso": "2026-07-09T00:55:12-05:00",
+      "workflow": "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/workflow.api.json",
+      "smoke_request": "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/smoke_test_request.json",
+      "patch_points": "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/patch_points.json",
+      "runtime_requirements": "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/runtime_requirements.json",
+      "prompt_request": "runtime_artifacts/base_generation_smoke_prompt_materialization/20260709T005512-0500/sdxl_realvisxl_inpaint_detail_lane/prompt_request.json",
+      "prompt_only": "runtime_artifacts/base_generation_smoke_prompt_materialization/20260709T005512-0500/sdxl_realvisxl_inpaint_detail_lane/prompt_only.json",
+      "workflow_sha256": "b9ebd765e53bfb8586b741785796578e219eddb68d54a6a852e46e7dd5d38b15",
+      "smoke_request_sha256": "b33e459179e5b51a89a479e7c349d401fc406dd313b4ef64cac6c9e061cd1e37",
+      "patch_points_sha256": "2bf318506b2a2e9dcf7f5adc20bdef61ddd699cabcf8ff5fbf68488bfd0289ae",
+      "runtime_requirements_sha256": "9d00c7c225ada267eeda9dccc20af20b65af3c5e9c0c34ee88ff8ff5abd14230",
+      "prompt_request_sha256": "6f6528adc0313e00e4fd297a85e5b95ca58fca28c389a77eeb352bb501015b15",
+      "patches_applied": 13,
+      "applied_patch_records": [
+        {
+          "name": "positive_prompt",
+          "node_id": "8",
+          "input": "text",
+          "before": "subtle photoreal skin texture refinement, preserve exact identity, preserve original eye color gaze and lip color, natural skin pores, consistent portrait lighting, no global style drift",
+          "after": "subtle photoreal skin texture refinement, preserve exact identity, preserve original eye color gaze and lip color, natural skin pores, consistent portrait lighting, no global style drift"
+        },
+        {
+          "name": "negative_prompt",
+          "node_id": "9",
+          "input": "text",
+          "before": "blank face, gray mask, identity change, eye color change, lip color change, gaze drift, face shape drift, plastic skin, waxy skin, over-smoothed face, distorted eyes, crossed eyes, extra teeth, deformed mouth, new jewelry, new clothing, background change, watermark, text",
+          "after": "blank face, gray mask, identity change, eye color change, lip color change, gaze drift, face shape drift, plastic skin, waxy skin, over-smoothed face, distorted eyes, crossed eyes, extra teeth, deformed mouth, new jewelry, new clothing, background change, watermark, text"
+        },
+        {
+          "name": "source_image",
+          "node_id": "5",
+          "input": "image",
+          "before": "sdxl_inpaint_detail_source_canny_v1.png",
+          "after": "sdxl_inpaint_detail_source_canny_v1.png"
+        },
+        {
+          "name": "mask_image",
+          "node_id": "6",
+          "input": "image",
+          "before": "sdxl_inpaint_detail_micro_nomouth_v4.png",
+          "after": "sdxl_inpaint_detail_micro_nomouth_v4.png"
+        },
+        {
+          "name": "mask_channel",
+          "node_id": "6",
+          "input": "channel",
+          "before": "red",
+          "after": "red"
+        },
+        {
+          "name": "seed",
+          "node_id": "3",
+          "input": "seed",
+          "before": 210422,
+          "after": 210422
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "steps",
+          "before": 20,
+          "after": 20
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "cfg",
+          "before": 5,
+          "after": 5
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "sampler_name",
+          "before": "euler",
+          "after": "euler"
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "scheduler",
+          "before": "normal",
+          "after": "normal"
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "denoise",
+          "before": 0.24,
+          "after": 0.24
+        },
+        {
+          "name": "model_asset",
+          "node_id": "4",
+          "input": "ckpt_name",
+          "before": "realvisxlV50_v50Bakedvae.safetensors",
+          "after": "realvisxlV50_v50Bakedvae.safetensors"
+        },
+        {
+          "name": "save_prefix",
+          "node_id": "11",
+          "input": "filename_prefix",
+          "before": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4",
+          "after": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4"
+        }
+      ],
+      "expected_outputs": {
+        "artifact_type": "image",
+        "minimum_output_count": 2,
+        "output_prefix": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4",
+        "diagnostic_output_prefix": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview"
+      },
+      "required_models": [
+        {
+          "role": "checkpoint",
+          "model_type": "Checkpoint",
+          "comfyui_model_subdir": "checkpoints",
+          "filename": "realvisxlV50_v50Bakedvae.safetensors",
+          "source_model": "RealVisXL V5.0",
+          "source_model_id": "civitai:139562",
+          "source_version_hint": "v5.0 baked VAE",
+          "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "hash_status": "pending_ec2_static_match",
+          "path_status": "pending_ec2_static_match",
+          "local_hash_status": "verified_local",
+          "local_path_status": "verified_local",
+          "local_evidence_path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_OBJECT_INFO_INPAINT_DETAIL_NOMOUTH_V4_20260707T045500-0500.json"
+        }
+      ],
+      "required_input_assets": [
+        {
+          "role": "source_image",
+          "filename": "sdxl_inpaint_detail_source_canny_v1.png",
+          "sha256": "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523",
+          "source_manifest": "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_face_mask_v1_20260707T024000-0500/INPAINT_INPUT_ASSET_MANIFEST.json",
+          "status": "verified_local_input_hash",
+          "comfyui_input_path": "ComfyUI/input/sdxl_inpaint_detail_source_canny_v1.png",
+          "evidence_path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_OBJECT_INFO_INPAINT_DETAIL_NOMOUTH_V4_20260707T045500-0500.json"
+        },
+        {
+          "role": "mask_image",
+          "filename": "sdxl_inpaint_detail_micro_nomouth_v4.png",
+          "sha256": "9bfbbda24b0f4915282649bb8c2b3e5a39b5a057dacbce6278683e9b531ec92d",
+          "source_manifest": "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_micro_nomouth_v4_20260707T034500-0500/INPAINT_MICRO_NOMOUTH_INPUT_ASSET_MANIFEST.json",
+          "status": "verified_local_input_hash",
+          "comfyui_input_path": "ComfyUI/input/sdxl_inpaint_detail_micro_nomouth_v4.png",
+          "evidence_path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_OBJECT_INFO_INPAINT_DETAIL_NOMOUTH_V4_20260707T045500-0500.json"
+        }
+      ],
+      "errors": [],
+      "pass": true,
+      "manifest_path": "runtime_artifacts/base_generation_smoke_prompt_materialization/20260709T005512-0500/sdxl_realvisxl_inpaint_detail_lane/PROMPT_MATERIALIZATION_MANIFEST.json",
+      "manifest_sha256": "9a58b85335935518685249475010c44f146aed158bbab22069a76efed7868953"
+    },
+    {
+      "schema_version": "1.0",
+      "lane_id": "sdxl_realvisxl_controlnet_depth_lane",
+      "created_iso": "2026-07-09T00:55:12-05:00",
+      "workflow": "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/workflow.api.json",
+      "smoke_request": "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/smoke_test_request.json",
+      "patch_points": "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/patch_points.json",
+      "runtime_requirements": "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/runtime_requirements.json",
+      "prompt_request": "runtime_artifacts/base_generation_smoke_prompt_materialization/20260709T005512-0500/sdxl_realvisxl_controlnet_depth_lane/prompt_request.json",
+      "prompt_only": "runtime_artifacts/base_generation_smoke_prompt_materialization/20260709T005512-0500/sdxl_realvisxl_controlnet_depth_lane/prompt_only.json",
+      "workflow_sha256": "57094ed6991b51f29555e59cdb4169d2a353c32937c0627aa51505b378641d47",
+      "smoke_request_sha256": "38690766cd07dc0675eef27c1d7ae18819da328ecef84b52d845364153f8c3db",
+      "patch_points_sha256": "c351233052f2812dc85c4346751d0fc8836166ebaae964aa4f7a702a0ee44867",
+      "runtime_requirements_sha256": "85678f851615e64626aaaf2d7f9f5588b1757c6a7c233ce363e0b4db5fc8bd86",
+      "prompt_request_sha256": "ef89855d2a1beee8aa16261046365a26caefb09941b142d6f37fb48af982b13d",
+      "patches_applied": 18,
+      "applied_patch_records": [
+        {
+          "name": "positive_prompt",
+          "node_id": "6",
+          "input": "text",
+          "before": "hyperrealistic cinematic editorial portrait, natural skin texture, realistic eyes with clean catchlights, clear iris detail, gentle eye fill light, open shadow detail, detailed hair, depth-guided composition, coherent face and shoulder volume, natural portrait depth separation, tailored dark blazer over textured shirt, clothed shoulders, soft natural fill light, balanced exposure, clean face with no painted marks, lifelike lens rendering",
+          "after": "hyperrealistic cinematic editorial portrait, natural skin texture, realistic fine skin pores, subtle human skin asymmetry, realistic eyes with clean catchlights, clear iris detail, gentle eye fill light, open shadow detail, detailed hair, depth-guided composition, coherent face and shoulder volume, natural portrait depth separation, clean jawline and neck separation, crisp shirt collar boundary, tailored dark blazer over textured shirt, clothed shoulders, soft natural fill light, balanced exposure, clean face with no painted marks, lifelike lens rendering"
+        },
+        {
+          "name": "negative_prompt",
+          "node_id": "7",
+          "input": "text",
+          "before": "cartoon, anime, illustration, plastic skin, waxy skin, distorted anatomy, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text, depth artifacts, flattened face, melted facial volume, harsh outlines, colored blotches, paint marks, over-dark eyes, underexposed eyes, muddy shadows, crushed shadows, control map stains, bare shoulders, strapless top, nude, unclothed torso",
+          "after": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, beauty filter skin, airbrushed face, distorted anatomy, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text, depth artifacts, flattened face, melted facial volume, harsh outlines, colored blotches, paint marks, over-dark eyes, underexposed eyes, muddy shadows, crushed shadows, smeared jawline, warped collar edge, control map stains, bare shoulders, strapless top, nude, unclothed torso"
+        },
+        {
+          "name": "seed",
+          "node_id": "3",
+          "input": "seed",
+          "before": 711170001,
+          "after": 711270001
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "steps",
+          "before": 20,
+          "after": 20
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "cfg",
+          "before": 5.5,
+          "after": 5.5
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "sampler_name",
+          "before": "dpmpp_2m_sde",
+          "after": "dpmpp_2m_sde"
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "scheduler",
+          "before": "karras",
+          "after": "karras"
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "denoise",
+          "before": 1,
+          "after": 1
+        },
+        {
+          "name": "latent_resolution",
+          "node_id": "5",
+          "input": "width",
+          "before": 768,
+          "after": 768
+        },
+        {
+          "name": "latent_resolution",
+          "node_id": "5",
+          "input": "height",
+          "before": 768,
+          "after": 768
+        },
+        {
+          "name": "latent_resolution",
+          "node_id": "5",
+          "input": "batch_size",
+          "before": 1,
+          "after": 1
+        },
+        {
+          "name": "model_asset",
+          "node_id": "4",
+          "input": "ckpt_name",
+          "before": "realvisxlV50_v50Bakedvae.safetensors",
+          "after": "realvisxlV50_v50Bakedvae.safetensors"
+        },
+        {
+          "name": "controlnet_asset",
+          "node_id": "10",
+          "input": "control_net_name",
+          "before": "controlnet-depth-sdxl-1.0-small.safetensors",
+          "after": "controlnet-depth-sdxl-1.0-small.safetensors"
+        },
+        {
+          "name": "control_image",
+          "node_id": "11",
+          "input": "image",
+          "before": "controlnet_depth_anything_w69_v1.png",
+          "after": "controlnet_depth_anything_w69_v1.png"
+        },
+        {
+          "name": "controlnet_settings",
+          "node_id": "12",
+          "input": "strength",
+          "before": 0.55,
+          "after": 0.55
+        },
+        {
+          "name": "controlnet_settings",
+          "node_id": "12",
+          "input": "start_percent",
+          "before": 0,
+          "after": 0
+        },
+        {
+          "name": "controlnet_settings",
+          "node_id": "12",
+          "input": "end_percent",
+          "before": 0.7,
+          "after": 0.7
+        },
+        {
+          "name": "save_prefix",
+          "node_id": "9",
+          "input": "filename_prefix",
+          "before": "codex_sdxl_realvisxl_controlnet_depth_smoke",
+          "after": "codex_sdxl_realvisxl_controlnet_depth_smoke"
+        }
+      ],
+      "expected_outputs": {
+        "artifact_type": "image",
+        "minimum_output_count": 2,
+        "output_prefix": "codex_sdxl_realvisxl_controlnet_depth_smoke",
+        "diagnostic_output_prefix": "codex_sdxl_realvisxl_controlnet_depth_control_map_diagnostic"
+      },
+      "required_models": [
+        {
+          "role": "checkpoint",
+          "model_type": "Checkpoint",
+          "comfyui_model_subdir": "checkpoints",
+          "filename": "realvisxlV50_v50Bakedvae.safetensors",
+          "source_model": "RealVisXL V5.0",
+          "source_model_id": "civitai:139562",
+          "source_version_hint": "v5.0 baked VAE",
+          "source_urls": [
+            "https://civitai.com/models/139562"
+          ],
+          "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "node_id": "4",
+          "node_class": "CheckpointLoaderSimple",
+          "input": "ckpt_name",
+          "local_hash_status": "verified_local",
+          "local_path_status": "present_local_ignored_model_path",
+          "hash_status": "pending_ec2_static_match",
+          "path_status": "pending_ec2_static_match"
+        },
+        {
+          "role": "controlnet",
+          "model_type": "ControlNet",
+          "comfyui_model_subdir": "controlnet",
+          "filename": "controlnet-depth-sdxl-1.0-small.safetensors",
+          "source_model": "SDXL Depth ControlNet small",
+          "source_model_id": "diffusers/controlnet-depth-sdxl-1.0-small",
+          "source_version_hint": "fp16 small SDXL Depth ControlNet",
+          "source_urls": [
+            "https://huggingface.co/diffusers/controlnet-depth-sdxl-1.0-small",
+            "https://huggingface.co/diffusers/controlnet-depth-sdxl-1.0-small/resolve/main/diffusion_pytorch_model.fp16.safetensors"
+          ],
+          "sha256": "6f23c58fd632f52238a7b35ebdc02f9f596fd13dbaa121f9b37b9f4689c2b1e9",
+          "node_id": "10",
+          "node_class": "ControlNetLoader",
+          "input": "control_net_name",
+          "local_hash_status": "verified_local",
+          "local_path_status": "present_local_ignored_model_path",
+          "hash_status": "pending_ec2_static_match",
+          "path_status": "pending_ec2_static_match"
+        }
+      ],
+      "required_input_assets": [
+        {
+          "role": "control_image",
+          "filename": "controlnet_depth_anything_w69_v1.png",
+          "control_map_type": "depth",
+          "comfyui_input_subdir": "",
+          "node_id": "11",
+          "node_class": "LoadImage",
+          "input": "image",
+          "status": "present_local_hash_verified",
+          "sha256": "d9d21c69ea3ea50f3991bd0a420f338c5c7bc3c3450508526a7e9060c0319ef7",
+          "comfyui_input_path": "ComfyUI/input/controlnet_depth_anything_w69_v1.png",
+          "source_artifact": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_maps_w69_v2_20260707T053300-0500/images/codex_control_preprocessor_depth_anything_w69_00001_.png",
+          "source_manifest": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_maps_w69_v2_20260707T053300-0500/CONTROL_PREPROCESSOR_MAPS_MANIFEST.json",
+          "source_qa_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CONTROL_PREPROCESSOR_MAPS_VISUAL_QA_20260707T053800-0500.json"
+        }
+      ],
+      "errors": [],
+      "pass": true,
+      "manifest_path": "runtime_artifacts/base_generation_smoke_prompt_materialization/20260709T005512-0500/sdxl_realvisxl_controlnet_depth_lane/PROMPT_MATERIALIZATION_MANIFEST.json",
+      "manifest_sha256": "43b0f2276942bd3c4306a6dc5fb4c77b6f6bef95f9fe661b87ffff1fcd24a16d"
+    },
+    {
+      "schema_version": "1.0",
+      "lane_id": "sdxl_realvisxl_controlnet_lineart_lane",
+      "created_iso": "2026-07-09T00:55:12-05:00",
+      "workflow": "Workflows/base_generation/sdxl_realvisxl_controlnet_lineart_lane/workflow.api.json",
+      "smoke_request": "Workflows/base_generation/sdxl_realvisxl_controlnet_lineart_lane/smoke_test_request.json",
+      "patch_points": "Workflows/base_generation/sdxl_realvisxl_controlnet_lineart_lane/patch_points.json",
+      "runtime_requirements": "Workflows/base_generation/sdxl_realvisxl_controlnet_lineart_lane/runtime_requirements.json",
+      "prompt_request": "runtime_artifacts/base_generation_smoke_prompt_materialization/20260709T005512-0500/sdxl_realvisxl_controlnet_lineart_lane/prompt_request.json",
+      "prompt_only": "runtime_artifacts/base_generation_smoke_prompt_materialization/20260709T005512-0500/sdxl_realvisxl_controlnet_lineart_lane/prompt_only.json",
+      "workflow_sha256": "ae36350813cc1cb44dbd7a60572cc9ba939b87aa500d49a89bef38cd7ceb3d3c",
+      "smoke_request_sha256": "519c425c3a5180fefd4536a3bdc9d73df81214d0b029bd42954432e65307cf2f",
+      "patch_points_sha256": "240a5cfb79b83a5787d8a121283e00cfb09121b0d678fc82654c57476c008c51",
+      "runtime_requirements_sha256": "8dc758ca39e701e66bc88a358f5c8fcb6cb1b5ef7ed89d893534928449e0fd60",
+      "prompt_request_sha256": "f55ff83acbc57379516f7d6239e845aeb94c4190496f7eb0d317f7ef8da961ea",
+      "patches_applied": 18,
+      "applied_patch_records": [
+        {
+          "name": "positive_prompt",
+          "node_id": "6",
+          "input": "text",
+          "before": "hyperrealistic cinematic editorial portrait, natural skin texture, realistic eyes with clean catchlights, clear iris detail, gentle eye fill light, open shadow detail, detailed hair, contour-guided composition, coherent facial contours, clean jawline and shirt collar edges, tailored dark blazer over textured shirt, clothed shoulders, soft natural fill light, balanced exposure, clean face with no painted marks, lifelike lens rendering",
+          "after": "hyperrealistic cinematic editorial portrait, natural skin texture, realistic fine skin pores, subtle human skin asymmetry, realistic eyes with clean catchlights, clear iris detail, gentle eye fill light, open shadow detail, detailed hair, contour-guided composition, coherent facial contours, clean jawline and neck separation, crisp shirt collar boundary, tailored dark blazer over textured shirt, clothed shoulders, soft natural fill light, balanced exposure, clean face with no painted marks, lifelike lens rendering"
+        },
+        {
+          "name": "negative_prompt",
+          "node_id": "7",
+          "input": "text",
+          "before": "cartoon, anime, illustration, plastic skin, waxy skin, distorted anatomy, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text, lineart artifacts, ink outlines, harsh black outlines, contour stains, colored blotches, paint marks, over-dark eyes, underexposed eyes, muddy shadows, crushed shadows, control map stains, bare shoulders, strapless top, nude, unclothed torso",
+          "after": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, beauty filter skin, airbrushed face, distorted anatomy, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text, lineart artifacts, ink outlines, harsh black outlines, contour stains, colored blotches, paint marks, over-dark eyes, underexposed eyes, muddy shadows, crushed shadows, smeared jawline, warped collar edge, control map stains, bare shoulders, strapless top, nude, unclothed torso"
+        },
+        {
+          "name": "seed",
+          "node_id": "3",
+          "input": "seed",
+          "before": 711170001,
+          "after": 711370001
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "steps",
+          "before": 20,
+          "after": 20
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "cfg",
+          "before": 5.5,
+          "after": 5.5
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "sampler_name",
+          "before": "dpmpp_2m_sde",
+          "after": "dpmpp_2m_sde"
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "scheduler",
+          "before": "karras",
+          "after": "karras"
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "denoise",
+          "before": 1,
+          "after": 1
+        },
+        {
+          "name": "latent_resolution",
+          "node_id": "5",
+          "input": "width",
+          "before": 768,
+          "after": 768
+        },
+        {
+          "name": "latent_resolution",
+          "node_id": "5",
+          "input": "height",
+          "before": 768,
+          "after": 768
+        },
+        {
+          "name": "latent_resolution",
+          "node_id": "5",
+          "input": "batch_size",
+          "before": 1,
+          "after": 1
+        },
+        {
+          "name": "model_asset",
+          "node_id": "4",
+          "input": "ckpt_name",
+          "before": "realvisxlV50_v50Bakedvae.safetensors",
+          "after": "realvisxlV50_v50Bakedvae.safetensors"
+        },
+        {
+          "name": "controlnet_asset",
+          "node_id": "10",
+          "input": "control_net_name",
+          "before": "controlnet-lineart-sdxl-fp16.safetensors",
+          "after": "controlnet-lineart-sdxl-fp16.safetensors"
+        },
+        {
+          "name": "control_image",
+          "node_id": "11",
+          "input": "image",
+          "before": "controlnet_lineart_w69_v1.png",
+          "after": "controlnet_lineart_w69_v1.png"
+        },
+        {
+          "name": "controlnet_settings",
+          "node_id": "12",
+          "input": "strength",
+          "before": 0.45,
+          "after": 0.45
+        },
+        {
+          "name": "controlnet_settings",
+          "node_id": "12",
+          "input": "start_percent",
+          "before": 0,
+          "after": 0
+        },
+        {
+          "name": "controlnet_settings",
+          "node_id": "12",
+          "input": "end_percent",
+          "before": 0.65,
+          "after": 0.65
+        },
+        {
+          "name": "save_prefix",
+          "node_id": "9",
+          "input": "filename_prefix",
+          "before": "codex_sdxl_realvisxl_controlnet_lineart_smoke",
+          "after": "codex_sdxl_realvisxl_controlnet_lineart_smoke"
+        }
+      ],
+      "expected_outputs": {
+        "artifact_type": "image",
+        "minimum_output_count": 2,
+        "output_prefix": "codex_sdxl_realvisxl_controlnet_lineart_smoke",
+        "diagnostic_output_prefix": "codex_sdxl_realvisxl_controlnet_lineart_control_map_diagnostic"
+      },
+      "required_models": [
+        {
+          "role": "checkpoint",
+          "model_type": "Checkpoint",
+          "comfyui_model_subdir": "checkpoints",
+          "filename": "realvisxlV50_v50Bakedvae.safetensors",
+          "source_model": "RealVisXL V5.0",
+          "source_model_id": "civitai:139562",
+          "source_version_hint": "v5.0 baked VAE",
+          "source_urls": [
+            "https://civitai.com/models/139562"
+          ],
+          "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "node_id": "4",
+          "node_class": "CheckpointLoaderSimple",
+          "input": "ckpt_name",
+          "local_hash_status": "verified_local",
+          "local_path_status": "present_local_ignored_model_path",
+          "hash_status": "pending_ec2_static_match",
+          "path_status": "pending_ec2_static_match"
+        },
+        {
+          "role": "controlnet",
+          "model_type": "ControlNet",
+          "comfyui_model_subdir": "controlnet",
+          "filename": "controlnet-lineart-sdxl-fp16.safetensors",
+          "source_model": "Lineart SDXL ControlNet fp16",
+          "source_model_id": "OreX/ControlNet",
+          "source_version_hint": "SDXL ControlNet Lineart fp16 safetensors",
+          "source_urls": [
+            "https://huggingface.co/OreX/ControlNet/blob/main/SDXL%20ControlNet/Lineart-SDXL-fp16.safetensors",
+            "https://huggingface.co/OreX/ControlNet/resolve/main/SDXL%20ControlNet/Lineart-SDXL-fp16.safetensors"
+          ],
+          "sha256": "c19e9e1038c7c53b238185d8dc9fad87f95aa3124d211e19f39f1165bfb7230f",
+          "node_id": "10",
+          "node_class": "ControlNetLoader",
+          "input": "control_net_name",
+          "local_hash_status": "verified_local",
+          "local_path_status": "present_local_ignored_model_path",
+          "hash_status": "pending_ec2_static_match",
+          "path_status": "pending_ec2_static_match"
+        }
+      ],
+      "required_input_assets": [
+        {
+          "role": "control_image",
+          "filename": "controlnet_lineart_w69_v1.png",
+          "control_map_type": "lineart",
+          "comfyui_input_subdir": "",
+          "node_id": "11",
+          "node_class": "LoadImage",
+          "input": "image",
+          "status": "present_local_hash_verified",
+          "sha256": "1994c628abb6df5abda27e61b1e17dd32f0f3cf50993d1ca795c89de4ef7ff46",
+          "comfyui_input_path": "ComfyUI/input/controlnet_lineart_w69_v1.png",
+          "source_artifact": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_maps_w69_v2_20260707T053300-0500/images/codex_control_preprocessor_lineart_w69_00001_.png",
+          "source_manifest": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_maps_w69_v2_20260707T053300-0500/CONTROL_PREPROCESSOR_MAPS_MANIFEST.json",
+          "source_qa_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CONTROL_PREPROCESSOR_MAPS_VISUAL_QA_20260707T053800-0500.json"
+        }
+      ],
+      "errors": [],
+      "pass": true,
+      "manifest_path": "runtime_artifacts/base_generation_smoke_prompt_materialization/20260709T005512-0500/sdxl_realvisxl_controlnet_lineart_lane/PROMPT_MATERIALIZATION_MANIFEST.json",
+      "manifest_sha256": "ac4be94b70745d4b12602e4339bc0a332c584c52cc40bee8039396b3208c65f2"
+    },
+    {
+      "schema_version": "1.0",
+      "lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+      "created_iso": "2026-07-09T00:55:12-05:00",
+      "workflow": "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/workflow.api.json",
+      "smoke_request": "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/smoke_test_request.json",
+      "patch_points": "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/patch_points.json",
+      "runtime_requirements": "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/runtime_requirements.json",
+      "prompt_request": "runtime_artifacts/base_generation_smoke_prompt_materialization/20260709T005512-0500/sdxl_realvisxl_controlnet_openpose_lane/prompt_request.json",
+      "prompt_only": "runtime_artifacts/base_generation_smoke_prompt_materialization/20260709T005512-0500/sdxl_realvisxl_controlnet_openpose_lane/prompt_only.json",
+      "workflow_sha256": "6d2fab05f2c4390643ef75c3e9923bedc028ed3df8ab9f0b97e09e0aaaf9c0ed",
+      "smoke_request_sha256": "c0fd565ef57d9710bf0c920b27ced421db2b9aae61c22e0d41d0fa0d416dc43b",
+      "patch_points_sha256": "178e2c8b1670e11c48e67884802cbf506396706eb45ac01f10c24239aaf2df9c",
+      "runtime_requirements_sha256": "b45f0a6395914a9664d1fdfe7bcd911838032b71311176bfc2d58657e023fb9b",
+      "prompt_request_sha256": "625846df37bee2378490efa9712a4b06c8dc44e1d73372339256e847a949e096",
+      "patches_applied": 18,
+      "applied_patch_records": [
+        {
+          "name": "positive_prompt",
+          "node_id": "6",
+          "input": "text",
+          "before": "hyperrealistic cinematic editorial portrait, pose-guided head-and-shoulders composition, natural human posture, realistic neck and shoulder alignment, natural skin texture, realistic fine pores, realistic eyes with clean catchlights, detailed hair, tailored dark blazer over textured shirt, clothed shoulders, soft natural fill light, balanced exposure, clean face with no painted marks, lifelike lens rendering",
+          "after": "hyperrealistic cinematic editorial portrait, pose-guided head-and-shoulders composition, natural human posture, realistic neck and shoulder alignment, natural skin texture, realistic fine pores, realistic eyes with clean catchlights, detailed hair, tailored dark blazer over textured shirt, clothed shoulders, soft natural fill light, balanced exposure, clean face with no painted marks, lifelike lens rendering"
+        },
+        {
+          "name": "negative_prompt",
+          "node_id": "7",
+          "input": "text",
+          "before": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, distorted anatomy, twisted neck, broken shoulders, extra limbs, missing limbs, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text, openpose skeleton overlay, pose map stains, colored bones, colored dots, control map stains, harsh outlines, bare shoulders, strapless top, nude, unclothed torso",
+          "after": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, distorted anatomy, twisted neck, broken shoulders, extra limbs, missing limbs, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text, openpose skeleton overlay, pose map stains, colored bones, colored dots, control map stains, harsh outlines, bare shoulders, strapless top, nude, unclothed torso"
+        },
+        {
+          "name": "seed",
+          "node_id": "3",
+          "input": "seed",
+          "before": 711470001,
+          "after": 711470001
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "steps",
+          "before": 20,
+          "after": 20
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "cfg",
+          "before": 5.5,
+          "after": 5.5
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "sampler_name",
+          "before": "dpmpp_2m_sde",
+          "after": "dpmpp_2m_sde"
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "scheduler",
+          "before": "karras",
+          "after": "karras"
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "denoise",
+          "before": 1,
+          "after": 1
+        },
+        {
+          "name": "latent_resolution",
+          "node_id": "5",
+          "input": "width",
+          "before": 768,
+          "after": 768
+        },
+        {
+          "name": "latent_resolution",
+          "node_id": "5",
+          "input": "height",
+          "before": 768,
+          "after": 768
+        },
+        {
+          "name": "latent_resolution",
+          "node_id": "5",
+          "input": "batch_size",
+          "before": 1,
+          "after": 1
+        },
+        {
+          "name": "model_asset",
+          "node_id": "4",
+          "input": "ckpt_name",
+          "before": "realvisxlV50_v50Bakedvae.safetensors",
+          "after": "realvisxlV50_v50Bakedvae.safetensors"
+        },
+        {
+          "name": "controlnet_asset",
+          "node_id": "10",
+          "input": "control_net_name",
+          "before": "OpenPoseXL2.safetensors",
+          "after": "OpenPoseXL2.safetensors"
+        },
+        {
+          "name": "control_image",
+          "node_id": "11",
+          "input": "image",
+          "before": "controlnet_openpose_w69_v1.png",
+          "after": "controlnet_openpose_w69_v1.png"
+        },
+        {
+          "name": "controlnet_settings",
+          "node_id": "12",
+          "input": "strength",
+          "before": 0.75,
+          "after": 0.75
+        },
+        {
+          "name": "controlnet_settings",
+          "node_id": "12",
+          "input": "start_percent",
+          "before": 0,
+          "after": 0
+        },
+        {
+          "name": "controlnet_settings",
+          "node_id": "12",
+          "input": "end_percent",
+          "before": 1,
+          "after": 1
+        },
+        {
+          "name": "save_prefix",
+          "node_id": "9",
+          "input": "filename_prefix",
+          "before": "codex_sdxl_realvisxl_controlnet_openpose_smoke",
+          "after": "codex_sdxl_realvisxl_controlnet_openpose_smoke"
+        }
+      ],
+      "expected_outputs": {
+        "artifact_type": "image",
+        "minimum_output_count": 2,
+        "output_prefix": "codex_sdxl_realvisxl_controlnet_openpose_smoke",
+        "diagnostic_output_prefix": "codex_sdxl_realvisxl_controlnet_openpose_control_map_diagnostic"
+      },
+      "required_models": [
+        {
+          "role": "checkpoint",
+          "model_type": "Checkpoint",
+          "comfyui_model_subdir": "checkpoints",
+          "filename": "realvisxlV50_v50Bakedvae.safetensors",
+          "source_model": "RealVisXL V5.0",
+          "source_model_id": "civitai:139562",
+          "source_version_hint": "v5.0 baked VAE",
+          "source_urls": [
+            "https://civitai.com/models/139562"
+          ],
+          "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "node_id": "4",
+          "node_class": "CheckpointLoaderSimple",
+          "input": "ckpt_name",
+          "local_hash_status": "verified_local",
+          "local_path_status": "present_local_ignored_model_path",
+          "hash_status": "pending_ec2_static_match",
+          "path_status": "pending_ec2_static_match"
+        },
+        {
+          "role": "controlnet",
+          "model_type": "ControlNet",
+          "comfyui_model_subdir": "controlnet",
+          "filename": "OpenPoseXL2.safetensors",
+          "source_model": "OpenPoseXL2 SDXL ControlNet",
+          "source_model_id": "thibaud/controlnet-openpose-sdxl-1.0",
+          "source_version_hint": "OpenPoseXL2.safetensors",
+          "source_urls": [
+            "https://huggingface.co/thibaud/controlnet-openpose-sdxl-1.0/blob/main/OpenPoseXL2.safetensors",
+            "https://huggingface.co/thibaud/controlnet-openpose-sdxl-1.0/resolve/main/OpenPoseXL2.safetensors"
+          ],
+          "sha256": "5a4b928cb1e93748217900cb66d4135bf70d932d2924232f925910fad9e43a92",
+          "node_id": "10",
+          "node_class": "ControlNetLoader",
+          "input": "control_net_name",
+          "local_hash_status": "verified_local",
+          "local_path_status": "present_local_ignored_model_path",
+          "hash_status": "pending_ec2_static_match",
+          "path_status": "pending_ec2_static_match"
+        }
+      ],
+      "required_input_assets": [
+        {
+          "role": "control_image",
+          "filename": "controlnet_openpose_w69_v1.png",
+          "control_map_type": "openpose",
+          "comfyui_input_subdir": "",
+          "node_id": "11",
+          "node_class": "LoadImage",
+          "input": "image",
+          "status": "present_local_hash_verified",
+          "sha256": "709ff1ace4607afa6f3b8d188faea2d6ce7757927e3456b3553e40c39c59bfc7",
+          "comfyui_input_path": "ComfyUI/input/controlnet_openpose_w69_v1.png",
+          "source_artifact": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_maps_w69_v2_20260707T053300-0500/images/codex_control_preprocessor_openpose_w69_00001_.png",
+          "source_manifest": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_maps_w69_v2_20260707T053300-0500/CONTROL_PREPROCESSOR_MAPS_MANIFEST.json",
+          "source_qa_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CONTROL_PREPROCESSOR_MAPS_VISUAL_QA_20260707T053800-0500.json"
+        }
+      ],
+      "errors": [],
+      "pass": true,
+      "manifest_path": "runtime_artifacts/base_generation_smoke_prompt_materialization/20260709T005512-0500/sdxl_realvisxl_controlnet_openpose_lane/PROMPT_MATERIALIZATION_MANIFEST.json",
+      "manifest_sha256": "7349c2ed864d3ae00b5838f412bd469e8b83bf786079904ede1eb3a5dc34366d"
+    },
+    {
+      "schema_version": "1.0",
+      "lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+      "created_iso": "2026-07-09T00:55:12-05:00",
+      "workflow": "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/workflow.api.json",
+      "smoke_request": "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/smoke_test_request.json",
+      "patch_points": "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/patch_points.json",
+      "runtime_requirements": "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/runtime_requirements.json",
+      "prompt_request": "runtime_artifacts/base_generation_smoke_prompt_materialization/20260709T005512-0500/sdxl_realvisxl_controlnet_normal_lane/prompt_request.json",
+      "prompt_only": "runtime_artifacts/base_generation_smoke_prompt_materialization/20260709T005512-0500/sdxl_realvisxl_controlnet_normal_lane/prompt_only.json",
+      "workflow_sha256": "472715e830586ad4fd9e88183ab59cee7bfdf8d813b4e9eadbeaa1a6092ac3ff",
+      "smoke_request_sha256": "91d1803e0b3bc4f324d4c75ec59e282da893e2b2cd787a44409b71afb6342a41",
+      "patch_points_sha256": "8d93ad166653aaa6023eed56eaa3ffc11e74e467ca128665b31470eb940c3593",
+      "runtime_requirements_sha256": "ba4ac165527d8f7ea46e1189be2bd5a2ec4c11008a242da950a13181435f4c6f",
+      "prompt_request_sha256": "88ee3a8a866862b0e9af482c55b348cfcedc4e2e9d3e89b221919131f920198e",
+      "patches_applied": 19,
+      "applied_patch_records": [
+        {
+          "name": "positive_prompt",
+          "node_id": "6",
+          "input": "text",
+          "before": "hyperrealistic cinematic editorial portrait, normal-map-guided facial planes and clothing volume, natural skin texture, realistic fine pores, realistic eyes with clean catchlights, detailed hair, dimensional nose cheek jaw and collar geometry, tailored dark blazer over textured shirt, clothed shoulders, soft natural fill light, balanced exposure, lifelike lens rendering",
+          "after": "hyperrealistic cinematic editorial portrait, normal-map-guided facial planes and clothing volume, natural skin texture, realistic fine pores, realistic eyes with clean catchlights, detailed hair, dimensional nose cheek jaw and collar geometry, tailored dark blazer over textured shirt, clothed shoulders, soft natural fill light, balanced exposure, lifelike lens rendering"
+        },
+        {
+          "name": "negative_prompt",
+          "node_id": "7",
+          "input": "text",
+          "before": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, distorted anatomy, warped face planes, melted facial geometry, broken collar, deformed shoulders, extra limbs, missing limbs, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text, normal map stains, rainbow surface colors, purple green blue normal-map leakage, control map stains, harsh outlines, bare shoulders, strapless top, nude, unclothed torso",
+          "after": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, distorted anatomy, warped face planes, melted facial geometry, broken collar, deformed shoulders, extra limbs, missing limbs, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text, normal map stains, rainbow surface colors, purple green blue normal-map leakage, control map stains, harsh outlines, bare shoulders, strapless top, nude, unclothed torso"
+        },
+        {
+          "name": "seed",
+          "node_id": "3",
+          "input": "seed",
+          "before": 711570001,
+          "after": 711570001
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "steps",
+          "before": 20,
+          "after": 20
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "cfg",
+          "before": 5.5,
+          "after": 5.5
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "sampler_name",
+          "before": "dpmpp_2m_sde",
+          "after": "dpmpp_2m_sde"
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "scheduler",
+          "before": "karras",
+          "after": "karras"
+        },
+        {
+          "name": "sampler_settings",
+          "node_id": "3",
+          "input": "denoise",
+          "before": 1,
+          "after": 1
+        },
+        {
+          "name": "latent_resolution",
+          "node_id": "5",
+          "input": "width",
+          "before": 768,
+          "after": 768
+        },
+        {
+          "name": "latent_resolution",
+          "node_id": "5",
+          "input": "height",
+          "before": 768,
+          "after": 768
+        },
+        {
+          "name": "latent_resolution",
+          "node_id": "5",
+          "input": "batch_size",
+          "before": 1,
+          "after": 1
+        },
+        {
+          "name": "model_asset",
+          "node_id": "4",
+          "input": "ckpt_name",
+          "before": "realvisxlV50_v50Bakedvae.safetensors",
+          "after": "realvisxlV50_v50Bakedvae.safetensors"
+        },
+        {
+          "name": "controlnet_asset",
+          "node_id": "10",
+          "input": "control_net_name",
+          "before": "controlnet-union-sdxl-1.0.safetensors",
+          "after": "controlnet-union-sdxl-1.0.safetensors"
+        },
+        {
+          "name": "control_image",
+          "node_id": "11",
+          "input": "image",
+          "before": "controlnet_normal_bae_w69_v1.png",
+          "after": "controlnet_normal_bae_w69_v1.png"
+        },
+        {
+          "name": "controlnet_settings",
+          "node_id": "12",
+          "input": "strength",
+          "before": 0.55,
+          "after": 0.55
+        },
+        {
+          "name": "controlnet_settings",
+          "node_id": "12",
+          "input": "start_percent",
+          "before": 0,
+          "after": 0
+        },
+        {
+          "name": "controlnet_settings",
+          "node_id": "12",
+          "input": "end_percent",
+          "before": 0.75,
+          "after": 0.75
+        },
+        {
+          "name": "save_prefix",
+          "node_id": "9",
+          "input": "filename_prefix",
+          "before": "codex_sdxl_realvisxl_controlnet_normal_smoke",
+          "after": "codex_sdxl_realvisxl_controlnet_normal_smoke"
+        },
+        {
+          "name": "union_control_type",
+          "node_id": "14",
+          "input": "type",
+          "before": "normal",
+          "after": "normal"
+        }
+      ],
+      "expected_outputs": {
+        "artifact_type": "image",
+        "minimum_output_count": 2,
+        "output_prefix": "codex_sdxl_realvisxl_controlnet_normal_smoke",
+        "diagnostic_output_prefix": "codex_sdxl_realvisxl_controlnet_normal_control_map_diagnostic"
+      },
+      "required_models": [
+        {
+          "role": "checkpoint",
+          "model_type": "Checkpoint",
+          "comfyui_model_subdir": "checkpoints",
+          "filename": "realvisxlV50_v50Bakedvae.safetensors",
+          "source_model": "RealVisXL V5.0",
+          "source_model_id": "civitai:139562",
+          "source_version_hint": "v5.0 baked VAE",
+          "source_urls": [
+            "https://civitai.com/models/139562"
+          ],
+          "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "node_id": "4",
+          "node_class": "CheckpointLoaderSimple",
+          "input": "ckpt_name",
+          "local_hash_status": "verified_local",
+          "local_path_status": "present_local_ignored_model_path",
+          "hash_status": "pending_ec2_static_match",
+          "path_status": "pending_ec2_static_match"
+        },
+        {
+          "role": "controlnet",
+          "model_type": "ControlNet",
+          "comfyui_model_subdir": "controlnet",
+          "filename": "controlnet-union-sdxl-1.0.safetensors",
+          "source_model": "ControlNet Union SDXL 1.0",
+          "source_model_id": "xinsir/controlnet-union-sdxl-1.0",
+          "source_version_hint": "diffusion_pytorch_model.safetensors standard union model, normal control type",
+          "source_urls": [
+            "https://huggingface.co/xinsir/controlnet-union-sdxl-1.0/blob/main/diffusion_pytorch_model.safetensors",
+            "https://huggingface.co/xinsir/controlnet-union-sdxl-1.0/resolve/main/diffusion_pytorch_model.safetensors"
+          ],
+          "sha256": "a9e13fd61f3193887791c8a0dd07a07202174dc47d5ddaea94ea1344f07c7467",
+          "node_id": "10",
+          "node_class": "ControlNetLoader",
+          "input": "control_net_name",
+          "local_hash_status": "verified_local",
+          "local_path_status": "present_local_ignored_model_path",
+          "hash_status": "pending_ec2_static_match",
+          "path_status": "pending_ec2_static_match"
+        }
+      ],
+      "required_input_assets": [
+        {
+          "role": "control_image",
+          "filename": "controlnet_normal_bae_w69_v1.png",
+          "control_map_type": "normal_bae",
+          "comfyui_input_subdir": "",
+          "node_id": "11",
+          "node_class": "LoadImage",
+          "input": "image",
+          "status": "present_local_hash_verified",
+          "sha256": "1a0526da325d7fb29986b8de017ba9af7c43e1b328d51da5afa7c6bf84863139",
+          "comfyui_input_path": "ComfyUI/input/controlnet_normal_bae_w69_v1.png",
+          "source_artifact": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_normal_w69_v3_20260707T053500-0500/images/codex_control_preprocessor_normal_bae_w69_00001_.png",
+          "source_manifest": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_maps_w69_v2_20260707T053300-0500/CONTROL_PREPROCESSOR_MAPS_MANIFEST.json",
+          "source_qa_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CONTROL_PREPROCESSOR_MAPS_VISUAL_QA_20260707T053800-0500.json"
+        }
+      ],
+      "errors": [],
+      "pass": true,
+      "manifest_path": "runtime_artifacts/base_generation_smoke_prompt_materialization/20260709T005512-0500/sdxl_realvisxl_controlnet_normal_lane/PROMPT_MATERIALIZATION_MANIFEST.json",
+      "manifest_sha256": "3bdda0a5023925f5e453b8a2efb42d0bc7cc1aff3ef7377a3e7041abf8a593c7"
+    }
+  ],
+  "runtime_boundary": {
+    "dry_run_only": true,
+    "ec2_started": false,
+    "aws_contacted": false,
+    "generation_executed": false,
+    "comfyui_contacted": false,
+    "hard_gates_rerun": false,
+    "mask_truth_consumed": false,
+    "candidate_masks_consumed_as_truth": false,
+    "masks_promoted": false,
+    "wave71_activation_attempted": false
+  },
+  "pass": true,
+  "decision": "base_generation_smoke_prompt_materialization_passed"
+}

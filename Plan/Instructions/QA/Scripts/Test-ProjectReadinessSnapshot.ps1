@@ -504,10 +504,10 @@ $evidenceChecks = @(
 )
 
 $optionalEvidenceChecks = @(
-  (Test-JsonEvidence -Name "runtime_unblock_handoff" -Path $latest.runtime_unblock_handoff -AcceptableResults @("handoff_ready_runtime_blocked_auth", "handoff_auth_ready_lane_not_ready", "handoff_lane_queue_order_blocked", "handoff_model_registry_blocked", "handoff_ready_for_ec2_static_proof", "handoff_ready_for_generation", "handoff_ready_for_pullback_qa", "handoff_runtime_smoke_qa_complete")),
+  (Test-JsonEvidence -Name "runtime_unblock_handoff" -Path $latest.runtime_unblock_handoff -AcceptableResults @("handoff_failed_local_readiness", "handoff_ready_runtime_blocked_auth", "handoff_auth_ready_lane_not_ready", "handoff_lane_queue_order_blocked", "handoff_model_registry_blocked", "handoff_ready_for_ec2_static_proof", "handoff_ready_for_generation", "handoff_ready_for_pullback_qa", "handoff_runtime_smoke_qa_complete")),
   (Test-JsonEvidence -Name "workflow_smoke" -Path $latest.workflow_smoke -AcceptableResults @("workflow_smoke_generation_complete")),
-  (Test-JsonEvidence -Name "ec2_static_proof_blocked_execute" -Path $latest.ec2_static_proof_blocked -AcceptableResults @("blocked_before_ec2_start")),
-  (Test-JsonEvidence -Name "ec2_workflow_smoke_blocked_execute" -Path $latest.ec2_workflow_smoke_blocked -AcceptableResults @("blocked_before_ec2_start"))
+  (Test-JsonEvidence -Name "ec2_static_proof_blocked_execute" -Path $latest.ec2_static_proof_blocked -AcceptableResults @("blocked_before_ec2_start", "dry_run_blocked_before_ec2_start")),
+  (Test-JsonEvidence -Name "ec2_workflow_smoke_blocked_execute" -Path $latest.ec2_workflow_smoke_blocked -AcceptableResults @("blocked_before_ec2_start", "dry_run_blocked_before_ec2_start"))
 )
 
 foreach ($check in $evidenceChecks) {
@@ -953,18 +953,18 @@ if ($hasWorkflowBlocked) {
   if (Has-Property -Object $workflowBlocked -Name "generation_executed") { $coordinatorSummary.workflow_smoke_generation_executed = [bool]$workflowBlocked.generation_executed }
 }
 $coordinatorSummary.blocked_execute_records_safe = (
-  $coordinatorSummary.static_proof_result -eq "blocked_before_ec2_start" -and
+  @("blocked_before_ec2_start", "dry_run_blocked_before_ec2_start") -contains $coordinatorSummary.static_proof_result -and
   $coordinatorSummary.static_proof_ec2_started -eq $false -and
-  $coordinatorSummary.workflow_smoke_result -eq "blocked_before_ec2_start" -and
+  @("blocked_before_ec2_start", "dry_run_blocked_before_ec2_start") -contains $coordinatorSummary.workflow_smoke_result -and
   $coordinatorSummary.workflow_smoke_ec2_started -eq $false -and
   $coordinatorSummary.workflow_smoke_generation_executed -eq $false
 )
 if ($hasStaticBlocked -and $hasWorkflowBlocked) {
   if (!$coordinatorSummary.blocked_execute_records_safe) {
-  $errors += "Blocked coordinator safety evidence is not complete."
+  $errors += "Blocked coordinator geometry evidence is not complete."
   }
 } else {
-  $warnings += "Complete blocked coordinator safety evidence is not present for this lane yet."
+  $warnings += "Complete blocked coordinator geometry evidence is not present for this lane yet."
 }
 
 $generatedIndexParity = Get-GeneratedIndexParity -GeneratedIndexDir $generatedIndexDir
@@ -1126,7 +1126,7 @@ $outDir = Split-Path -Parent $OutFile
 if (![string]::IsNullOrWhiteSpace($outDir)) {
   $null = New-Item -ItemType Directory -Force -Path $outDir
 }
-$record | ConvertTo-Json -Depth 40 | Set-Content -LiteralPath $OutFile -Encoding UTF8
+[System.IO.File]::WriteAllText($OutFile, ($record | ConvertTo-Json -Depth 40), (New-Object System.Text.UTF8Encoding($false)))
 Write-Host "Wrote project readiness snapshot: $OutFile"
 $record | ConvertTo-Json -Depth 40
 

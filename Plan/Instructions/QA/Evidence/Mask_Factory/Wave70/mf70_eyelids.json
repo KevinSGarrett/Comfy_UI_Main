@@ -1,0 +1,124 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-EYELIDS-LOCAL-SUPPORT-20260707T181500-0500",
+  "timestamp": "2026-07-07T18:15:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave70_ultimate_mask_factory_local_artifact_routing_support",
+  "mask_type_id": "mf70_eyelids",
+  "tracker_id": "TRK-W70-0013",
+  "item_id": "ITEM-W70-0013",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "source_requirements": [
+    "Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_FACTORY_TAXONOMY.md#L44",
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv:TRK-W70-0013",
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv:ITEM-W70-0013"
+  ],
+  "artifacts": {
+    "request": "runtime_artifacts/mask_factory/wave70_mf70_eyelids/MASK_FACTORY_REQUEST.json",
+    "contract": "runtime_artifacts/mask_factory/wave70_mf70_eyelids/MASK_FACTORY_CONTRACT.json",
+    "contract_validation": "runtime_artifacts/mask_factory/wave70_mf70_eyelids/MASK_FACTORY_CONTRACT_VALIDATION.json",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_mf70_eyelids/MASK_RUNTIME_EVIDENCE.json",
+    "quality_report": "runtime_artifacts/mask_factory/wave70_mf70_eyelids/MASK_QUALITY_REPORT.json",
+    "patch_manifest": "runtime_artifacts/mask_factory/wave70_mf70_eyelids/MASK_TO_WORKFLOW_PATCH_MANIFEST.csv",
+    "mask_png": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_eyelids_20260707T181500-0500/wave70_mf70_eyelids_mask.png",
+    "comfyui_input_copy": "ComfyUI/input/wave70_mf70_eyelids_mask.png",
+    "preview_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_eyelids_20260707T181500-0500/wave70_mf70_eyelids_overlay.png"
+  },
+  "mask_asset": {
+    "mask_id": "scene_wave70_canny_v3__person_001__mf70_eyelids__minor",
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_eyelids_20260707T181500-0500/wave70_mf70_eyelids_mask.png",
+    "sha256": "d24720d764255ee2eef0b2e3c00cf47220323c27eb2cd6090c551e5de43ac6c6",
+    "width": 768,
+    "height": 768,
+    "coverage_percent": 0.7977,
+    "person_instance_id": "person_001",
+    "body_region_id": "upper_lower_eyelids",
+    "scale": "minor"
+  },
+  "validation": {
+    "contract_valid": true,
+    "contract_errors": [],
+    "contract_warnings": [],
+    "quality_score": 89.0,
+    "minimum_required": 85,
+    "quality_passed": true,
+    "workflow_routing_manifest_present": true,
+    "preview_overlay_generated": true,
+    "protected_neighbor_check_pass": true,
+    "generated_output_proof_present": true,
+    "target_runtime_proof_present": false,
+    "blockers": [
+      "mask_alignment_revision_required_before_completion",
+      "target_runtime_proof_required_before_final_certification",
+      "mask_alignment_strict_review_requires_revision_before_completion"
+    ],
+    "mask_alignment_semantic_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false
+  },
+  "overlay_visual_review": {
+    "review_method": "direct local image inspection after generation",
+    "result": "pass_with_notes_direct_overlay_visual_review",
+    "findings": [
+      "Revised overlay targets narrow upper and lower eyelid bands on both eyes.",
+      "Iris, pupil, and sclera cores remain excluded by explicit protected apertures.",
+      "No broad cheek, nose bridge, hair mass, clothing, or background coverage is visible.",
+      "Subject-right hair occlusion near the viewer-left eye requires very low denoise and strict whole-image QA."
+    ]
+  },
+  "result": "mask_alignment_needs_revision_generated_output_safe_final_blocked_target_runtime",
+  "boundary": "Strict semantic mask-alignment review supersedes earlier generated-output-safe interpretation. Generated-output stability is preserved when present, but mask completion is blocked unless semantic alignment and protected-neighbor review pass.",
+  "generated_output_proof": {
+    "profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_eyelids_seed210812.json",
+    "profile_sha256": "c46c12eeff20f5a7606bd13cdf3154af00d1c84cf8372562a3f23c622434e84f",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_eyelids_seed210812/RUN_PACKAGE_MANIFEST.json",
+    "run_package_sha256": "ae06f9e6019a303b9df2a030c48c05ad791e8549b522807f624509070451df1b",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_EYELIDS_SEED210812_EXECUTE_20260707T181500-0500.json",
+    "runtime_evidence_sha256": "1817b81a72c02d67a41c98a996c080a0796a29cf958183c709814b69bcafe0d6",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_eyelids_seed210812_20260707T180308-0500/images/codex_wave70_mf70_eyelids_seed210812_00001_.png",
+    "generated_output_sha256": "b469732f64c9ae01f399242b207e66bc7b865de36ab90511009b6d9518f532d2",
+    "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_eyelids_seed210812_20260707T180308-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00018_.png",
+    "diagnostic_mask_preview_sha256": "5b2b61eef01f4e555d95b8bd270952c531404a0150f0c727a3d96012d8910f85",
+    "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_eyelids/qa_comparisons/wave70_mf70_eyelids_source_overlay_output_compare.png",
+    "comparison_artifact_sha256": "35bf58858bacd5f8525f286e3b3b2a4dcb3c6b08fef1bab89699974f976b8019",
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_EYELIDS_SEED210812_VISUAL_QA_20260707T181500-0500.json",
+    "visual_qa_result": "pass_with_notes_local_wave70_eyelids_generated_output",
+    "visual_qa_sha256": "a2d32214c06c0b5753a5791cf132f1fc14868a9ce8ac32fee48e67e58c52bbec"
+  },
+  "semantic_mask_alignment_reaudit": {
+    "audit_id": "W70-MASK-ALIGNMENT-RETRO-AUDIT-20260707T184000-0500",
+    "timestamp": "2026-07-07T18:40:00-05:00",
+    "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "result": "needs_revision",
+    "named_target_match": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed": false,
+    "findings": [
+      "Retro audit from user-supplied overlay review found the eyelid mask is still questionable/too loose for upper/lower eyelid semantic alignment.",
+      "Generated output may remain safe, but mask alignment needs revision before completion or certification.",
+      "Future eyelid masks must follow actual lid folds/bands while avoiding iris, sclera, lashes, and broad skin."
+    ],
+    "policy": "Generated-output stability is preserved where applicable, but it does not override semantic mask-alignment defects."
+  },
+  "strict_semantic_mask_alignment_review": {
+    "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "review_timestamp": "2026-07-07T19:25:00-05:00",
+    "review_id": "W70-MASK-ALIGNMENT-STRICT-VISUAL-REVIEW-20260707T192500-0500",
+    "alignment_result": "needs_revision",
+    "mask_alignment_semantic_pass": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "review_basis": "strict visual review of user-supplied overlays and/or matching project overlay artifacts, separated from generated-output stability",
+    "findings": [
+      "Eyelid overlay is mostly upper-orbital/brow-adjacent polygons and does not represent upper/lower eyelid bands; it intrudes into protected neighboring regions.",
+      "Generate narrow upper and lower eyelid bands from lid-fold/aperture landmarks and exclude iris, sclera, eyelashes, broad skin, and brows."
+    ]
+  }
+}

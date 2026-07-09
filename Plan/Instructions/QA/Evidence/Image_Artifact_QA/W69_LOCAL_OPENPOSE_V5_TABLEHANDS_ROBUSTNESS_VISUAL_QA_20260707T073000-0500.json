@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-OPENPOSE-V5-TABLEHANDS-ROBUSTNESS-VISUAL-QA-20260707T073000-0500",
+  "timestamp": "2026-07-07T07:30:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+  "module_id": "MOD-20-CONTROLNET-OPENPOSE-LANE",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "source_control_manifest": "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_hands_tabletop_w69_v1/OPENPOSE_HANDS_TABLETOP_CONTROL_SOURCE_MANIFEST.json",
+  "samples": [
+    {
+      "profile_id": "openpose_v5_tablehands_robust_seed711470202",
+      "profile": "PromptProfiles/base_generation/controlnet_openpose_v1_robustness/openpose_v5_tablehands_robust_seed711470202.json",
+      "run_package_manifest": "runtime_artifacts/run_packages/op_tablehands_v5_711470202/RUN_PACKAGE_MANIFEST.json",
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_OPENPOSE_V5_TABLEHANDS_SEED711470202_EXECUTE_20260707T072700-0500.json",
+      "generated_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/op_tablehands_v5_711470202_20260707T072534-0500/images/op_tablehands_v5_711470202_00001_.png",
+      "generated_sha256": "82887f2fb837ca6a0e7eb7cda624a27d477d7f7e6fd29877e85806d01583a238",
+      "generated_dimensions": "768x1024",
+      "diagnostic_control_map": "Plan/Instructions/Operations/Pulled_Back_Artifacts/op_tablehands_v5_711470202_20260707T072534-0500/images/codex_sdxl_realvisxl_controlnet_openpose_control_map_diagnostic_00005_.png",
+      "diagnostic_sha256": "b43ef892a8a741680207010106b3ad7daa3e1f44fe1ca1138cb3cda2eac14196",
+      "visual_result": "pass_with_notes",
+      "visual_findings": [
+        "Both hands are visible, separated left/right, and resting on the tabletop.",
+        "Finger detail is clearer than the V4 sample, especially on the right hand; the left hand remains a little simplified but readable.",
+        "Face, suit, table, background, and pose are coherent, with no visible OpenPose skeleton or color leakage.",
+        "This sample supports local robustness for the table-hands target, but does not prove final hand anatomy certification."
+      ]
+    },
+    {
+      "profile_id": "openpose_v5_tablehands_robust_seed711470203",
+      "profile": "PromptProfiles/base_generation/controlnet_openpose_v1_robustness/openpose_v5_tablehands_robust_seed711470203.json",
+      "run_package_manifest": "runtime_artifacts/run_packages/op_tablehands_v5_711470203/RUN_PACKAGE_MANIFEST.json",
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_OPENPOSE_V5_TABLEHANDS_SEED711470203_EXECUTE_20260707T072800-0500.json",
+      "generated_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/op_tablehands_v5_711470203_20260707T072646-0500/images/op_tablehands_v5_711470203_00001_.png",
+      "generated_sha256": "ab6bbee5a1e284e6abc3288cb453955c23116da67cbf377152ab243ca0237e56",
+      "generated_dimensions": "768x1024",
+      "diagnostic_control_map": "Plan/Instructions/Operations/Pulled_Back_Artifacts/op_tablehands_v5_711470203_20260707T072646-0500/images/codex_sdxl_realvisxl_controlnet_openpose_control_map_diagnostic_00006_.png",
+      "diagnostic_sha256": "da94776af4fc1b8e3688f18ad1ccc6701b841cdfebb789d92cd442b590dcfacf",
+      "visual_result": "pass_with_notes",
+      "visual_findings": [
+        "Both hands are visible, separated left/right, and resting on the tabletop.",
+        "Finger readability is acceptable and more clearly separated than the V4 sample, though still not high-confidence final hand certification.",
+        "The table plane and forearm/wrist placement are coherent; no visible OpenPose skeleton or color leakage appears.",
+        "The image is coherent overall, but the pose remains a single seated/tabletop framing and does not prove broader body or hand-pose variety."
+      ]
+    }
+  ],
+  "cross_sample_assessment": {
+    "hands_visible_all_samples": true,
+    "hands_separated_all_samples": true,
+    "hands_on_tabletop_all_samples": true,
+    "pose_map_leakage_visible": false,
+    "finger_detail_improved_over_v4": true,
+    "final_hand_certification": false,
+    "sample_count_for_tablehands_target": 3,
+    "samples_counted": [
+      "openpose_v4_tabletop_hands_new_control_seed711470201",
+      "openpose_v5_tablehands_robust_seed711470202",
+      "openpose_v5_tablehands_robust_seed711470203"
+    ]
+  },
+  "strict_whole_image_checks": {
+    "face_realism": "pass",
+    "eyes": "pass",
+    "skin_texture": "pass_with_notes",
+    "hair": "pass",
+    "hands_visible": "pass_all_samples",
+    "hands_separated": "pass_all_samples",
+    "hands_on_tabletop": "pass_all_samples",
+    "finger_anatomy": "pass_with_notes_improved_not_final_certified",
+    "forearm_wrist_continuity": "pass_with_notes",
+    "body_proportions": "pass_for_seated_upper_body_samples",
+    "clothing_fabric": "pass",
+    "contact_points": "pass_with_notes",
+    "lighting": "pass",
+    "background_coherence": "pass",
+    "camera_lens_realism": "pass",
+    "control_map_leakage": "pass_no_visible_leakage",
+    "generation_artifacts": "pass_no_blocking_artifacts",
+    "prompt_compliance": "pass"
+  },
+  "decision": {
+    "result": "pass_with_notes_local_openpose_tablehands_multisample_robustness",
+    "preferred_local_tablehands_candidate": "openpose_v5_tablehands_robust_seed711470202",
+    "robustness_summary": "Across V4 plus two V5 robustness seeds, the new OpenPose control source consistently produces visible separated hands on a tabletop without visible pose-map leakage.",
+    "remaining_boundary": "Local multisample robustness only. Final OpenPose hands certification still needs stricter hand anatomy review criteria and target-runtime proof if selected."
+  }
+}

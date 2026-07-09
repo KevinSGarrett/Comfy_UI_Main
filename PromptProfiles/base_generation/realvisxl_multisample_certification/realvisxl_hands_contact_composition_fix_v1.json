@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "realvisxl_hands_contact_composition_fix_v1",
+  "target_lane_id": "sdxl_realvisxl_base_lane",
+  "purpose": "QA-driven RealVisXL corrective profile after robustness retest found partial hand-pose noncompliance and a severe face crop.",
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic centered head-and-shoulders editorial portrait of an adult subject seated at a simple wooden table, full face completely inside the frame with comfortable headroom, both eyes visible, shoulders centered, both hands separated and fully visible in the lower third of the image, palms resting naturally on the tabletop with relaxed readable fingers, ten clear fingers, accurate knuckles and fingernails, believable wrist anatomy, clean sleeve cuffs above the wrists, clear contact shadows under fingertips and wrists, textured tailored jacket fabric, natural facial asymmetry, lifelike eyes, realistic skin pores, soft studio window lighting, realistic shadows, 70mm portrait lens, photographic color grading",
+    "negative_prompt": "cartoon, anime, illustration, CGI, doll-like face, plastic skin, waxy skin, over-smoothed texture, cropped face, cut off head, face at edge of frame, partial face, hidden eyes, off-center subject, cropped hands, hidden hands, clasped hands, interlocked fingers, folded hands, pen, notebook, book, writing, deformed hands, extra fingers, missing fingers, fused fingers, webbed fingers, duplicated thumb, broken wrist, twisted wrist, distorted nails, melted fingertips, warped sleeves, cloth melting into skin, bad anatomy, crossed eyes, low resolution, blurry, watermark, text, logo",
+    "seed": 811006306,
+    "sampler_settings": {
+      "steps": 34,
+      "cfg": 5.2,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1
+    },
+    "latent_resolution": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_realvisxl_hands_contact_composition_fix"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_realvisxl_hands_contact_composition_fix"
+  },
+  "qa_focus": [
+    "face fully inside frame",
+    "centered portrait composition",
+    "hands/fingers",
+    "wrist anatomy",
+    "finger count and separation",
+    "contact shadows",
+    "prompt compliance",
+    "whole-frame defects"
+  ],
+  "source_qa_driver": {
+    "evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_HANDS_CONTACT_ROBUSTNESS_VISUAL_QA_20260707T040500-0500.json",
+    "defect_codes": [
+      "partial_hand_pose_noncompliance",
+      "face_severely_cropped",
+      "object_contact_prompt_drift"
+    ],
+    "change_summary": "Removes object-contact complexity and explicitly constrains portrait framing: full centered face plus both separated hands visible in the lower third."
+  },
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_router_gate": true,
+    "requires_ec2_static_proof_before_target_runtime_execution": true,
+    "requires_whole_image_qa_before_promotion": true
+  }
+}

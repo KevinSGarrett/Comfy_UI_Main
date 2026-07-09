@@ -1,0 +1,150 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-PUPILS-IRIS-SCLERA-LOCAL-SUPPORT-20260707T180000-0500",
+  "timestamp": "2026-07-07T18:00:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave70_ultimate_mask_factory_local_artifact_routing_support",
+  "mask_type_id": "mf70_pupils_iris_sclera",
+  "tracker_id": "TRK-W70-0012",
+  "item_id": "ITEM-W70-0012",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "source_requirements": [
+    "Plan/07_IMPLEMENTATION/mask_factory/ULTIMATE_MASK_FACTORY_TAXONOMY.md#L43",
+    "Plan/Tracker/wave70_ultimate_mask_factory_tracker.csv:TRK-W70-0012",
+    "Plan/Items/wave70_ultimate_mask_factory_itemized_list.csv:ITEM-W70-0012"
+  ],
+  "artifacts": {
+    "request": "runtime_artifacts/mask_factory/wave70_mf70_pupils_iris_sclera/MASK_FACTORY_REQUEST.json",
+    "contract": "runtime_artifacts/mask_factory/wave70_mf70_pupils_iris_sclera/MASK_FACTORY_CONTRACT.json",
+    "contract_validation": "runtime_artifacts/mask_factory/wave70_mf70_pupils_iris_sclera/MASK_FACTORY_CONTRACT_VALIDATION.json",
+    "runtime_evidence": "runtime_artifacts/mask_factory/wave70_mf70_pupils_iris_sclera/MASK_RUNTIME_EVIDENCE.json",
+    "quality_report": "runtime_artifacts/mask_factory/wave70_mf70_pupils_iris_sclera/MASK_QUALITY_REPORT.json",
+    "patch_manifest": "runtime_artifacts/mask_factory/wave70_mf70_pupils_iris_sclera/MASK_TO_WORKFLOW_PATCH_MANIFEST.csv",
+    "mask_png": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_pupils_iris_sclera_20260707T180000-0500/wave70_mf70_pupils_iris_sclera_mask.png",
+    "comfyui_input_copy": "ComfyUI/input/wave70_mf70_pupils_iris_sclera_mask.png",
+    "preview_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_pupils_iris_sclera_20260707T180000-0500/wave70_mf70_pupils_iris_sclera_overlay.png"
+  },
+  "mask_asset": {
+    "mask_id": "scene_wave70_canny_v3__person_001__mf70_pupils_iris_sclera__minor",
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_pupils_iris_sclera_20260707T180000-0500/wave70_mf70_pupils_iris_sclera_mask.png",
+    "sha256": "091056c530b3c18d86aabcf61d3a11509a43634b0bb2ed027d4a8ace248550e3",
+    "width": 768,
+    "height": 768,
+    "coverage_percent": 0.4415,
+    "person_instance_id": "person_001",
+    "body_region_id": "pupils_iris_sclera",
+    "scale": "minor"
+  },
+  "validation": {
+    "contract_valid": true,
+    "contract_errors": [],
+    "contract_warnings": [],
+    "quality_score": 90.0,
+    "minimum_required": 85,
+    "quality_passed": true,
+    "workflow_routing_manifest_present": true,
+    "preview_overlay_generated": true,
+    "protected_neighbor_check_pass": true,
+    "generated_output_proof_present": true,
+    "target_runtime_proof_present": false,
+    "blockers": [
+      "mask_alignment_failed_requires_new_mask_before_completion",
+      "target_runtime_proof_required_before_final_certification",
+      "mask_alignment_strict_review_requires_revision_before_completion"
+    ],
+    "mask_alignment_semantic_pass": true,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false
+  },
+  "overlay_visual_review": {
+    "review_method": "direct local image inspection of generated preview overlay",
+    "result": "pass_with_notes_pupils_iris_sclera_overlay",
+    "findings": [
+      "Overlay covers the visible pupil/iris/sclera cores of both eyes.",
+      "Overlay avoids broad eyelid, eyebrow, cheek, nose bridge, background, and clothing regions.",
+      "Subject-right eye still has nearby hair occlusion, so generated-output proof must use extremely low denoise and strict catchlight/gaze/hair QA."
+    ]
+  },
+  "result": "pupils_iris_sclera_v3_generated_output_safe_hard_gate_blocked",
+  "boundary": "Strict semantic mask-alignment review supersedes earlier generated-output-safe interpretation. Generated-output stability is preserved when present, but mask completion is blocked unless semantic alignment and protected-neighbor review pass.",
+  "generated_output_proof": {
+    "profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_pupils_iris_sclera_seed210811.json",
+    "profile_sha256": "1c57ca4a699a5d152616b8e3cad67a7f9835e6688fda361e4258b978c536acbd",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_pupils_iris_sclera_seed210811/RUN_PACKAGE_MANIFEST.json",
+    "run_package_sha256": "8769ce73db2679ffef130e7ac4ff33c0d85a8b0ae23caa470371482ff1294b76",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_PUPILS_IRIS_SCLERA_SEED210811_EXECUTE_20260707T180000-0500.json",
+    "runtime_evidence_sha256": "fe007e82caa795c0dbec81adae88e1ba034783db7e432e95ae1f3e853c85fcdf",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_pupils_iris_sclera_seed210811_20260707T173741-0500/images/codex_wave70_mf70_pupils_iris_sclera_seed210811_00001_.png",
+    "generated_output_sha256": "47e437d1c3fdd86447dcb462cfb18e16094ac71316d33f8248fef10e7efe162b",
+    "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_pupils_iris_sclera_seed210811_20260707T173741-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00017_.png",
+    "diagnostic_mask_preview_sha256": "2fe0462966862bc0e7a568b55ca19532db30a3adad2855899ade9f3e6e8db37f",
+    "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_pupils_iris_sclera/qa_comparisons/wave70_mf70_pupils_iris_sclera_source_overlay_output_compare.png",
+    "comparison_artifact_sha256": "150c5ff9ef71776e48fa02ab9aad35f982bbd1f74095bbfece290d5d6d763560",
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_PUPILS_IRIS_SCLERA_SEED210811_VISUAL_QA_20260707T180000-0500.json",
+    "visual_qa_result": "pass_with_notes_local_wave70_pupils_iris_sclera_generated_output",
+    "visual_qa_sha256": "b205d54bc7fa1006ac1857dbefc2024648d222b77591448696a5f1c300416f0d"
+  },
+  "semantic_mask_alignment_reaudit": {
+    "audit_id": "W70-MASK-ALIGNMENT-RETRO-AUDIT-20260707T184000-0500",
+    "timestamp": "2026-07-07T18:40:00-05:00",
+    "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "result": "fail",
+    "named_target_match": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed": false,
+    "findings": [
+      "Retro audit from user-supplied overlay review found the mask covers mostly iris/pupil cores and does not honestly represent pupils_iris_sclera.",
+      "The sclera component is not adequately covered, so semantic mask alignment fails even if low-denoise generated output was stable.",
+      "Future pupils/iris/sclera masks must explicitly include the visible sclera while protecting eyelids, eyelashes, catchlights, and surrounding skin."
+    ],
+    "policy": "Generated-output stability is preserved where applicable, but it does not override semantic mask-alignment defects."
+  },
+  "strict_semantic_mask_alignment_review": {
+    "protocol": "Plan/Instructions/QA/WAVE70_MASK_ALIGNMENT_QA_PROTOCOL.md",
+    "review_timestamp": "2026-07-07T19:25:00-05:00",
+    "review_id": "W70-MASK-ALIGNMENT-STRICT-VISUAL-REVIEW-20260707T192500-0500",
+    "alignment_result": "fail",
+    "mask_alignment_semantic_pass": false,
+    "protected_neighbor_pass": false,
+    "generated_output_safe_pass": true,
+    "completion_allowed_by_mask_alignment": false,
+    "review_basis": "strict visual review of user-supplied overlays and/or matching project overlay artifacts, separated from generated-output stability",
+    "findings": [
+      "Eye ovals do not precisely isolate pupils, irises, and visible sclera; they include eyelid/skin context and do not clearly cover sclera correctly.",
+      "Use eye-aperture segmentation with separate pupil/iris/sclera components and subtract eyelids, lashes, catchlights, and skin."
+    ]
+  },
+  "source_aperture_v3_repair": {
+    "timestamp": "2026-07-08T00:50:00-05:00",
+    "status": "pupils_iris_sclera_v3_generated_output_safe_hard_gate_blocked",
+    "hard_gate_status": "Blocked_Wave70_Mask_Promotion_Gate_Not_Passed",
+    "evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_PUPILS_IRIS_SCLERA_V3_SOURCE_APERTURE_REPAIR_20260708T005000-0500.json",
+    "tracker_evidence": "Plan/Tracker/Evidence/W70_MF70_PUPILS_IRIS_SCLERA_V3_SOURCE_APERTURE_REPAIR_20260708T005000-0500.json",
+    "mask_path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_pupils_iris_sclera_v3_20260708T005000-0500/wave70_mf70_pupils_iris_sclera_v3_mask.png",
+    "mask_sha256": "41a38bdf59632005231828cdc3ba6d2ac8da913787b1fd30759a1e00ac39f82d",
+    "overlay_path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_pupils_iris_sclera_v3_20260708T005000-0500/wave70_mf70_pupils_iris_sclera_v3_overlay.png",
+    "overlay_sha256": "5ae4d15294731d8bce5907ee79f74c2a4f6b5d87ac3c92938f2b85abbd843454",
+    "protected_overlap_matrix": "runtime_artifacts/mask_factory/wave70_mf70_pupils_iris_sclera/source_aperture_repair_v3/20260708T005000-0500/mf70_pupils_iris_sclera_v3_protected_overlap_matrix.csv",
+    "protected_overlap_matrix_pass": true,
+    "generated_output_proof_valid_for_this_mask": true,
+    "findings": [
+      "Accepted repair: v3 mask covers the visible eye apertures rather than only iris/pupil ellipses, so visible sclera is included.",
+      "Accepted repair: small catchlight holes are preserved inside the mask to reduce catchlight mutation risk.",
+      "Accepted repair: protected-overlap matrix clears eyebrow, under-eye, nose, hair-occlusion, and eyelid-skin boundaries within declared tolerances.",
+      "Hard promotion gate remains blocked; this evidence is repair/proof input, not row promotion or certification."
+    ],
+    "generated_output_visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_PUPILS_IRIS_SCLERA_V3_SEED210811_VISUAL_QA_20260708T010000-0500.json",
+    "generated_output_tracker_evidence": "Plan/Tracker/Evidence/W70_MF70_PUPILS_IRIS_SCLERA_V3_GENERATED_OUTPUT_20260708T010000-0500.json",
+    "generated_output_safe_pass": true,
+    "generated_output_comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_pupils_iris_sclera/qa_comparisons/wave70_mf70_pupils_iris_sclera_v3_source_aperture_output_compare.png"
+  },
+  "single_anchor_boundary": {
+    "status": "Blocked_Wave70_Mask_Promotion_Gate_Not_Passed"
+  }
+}

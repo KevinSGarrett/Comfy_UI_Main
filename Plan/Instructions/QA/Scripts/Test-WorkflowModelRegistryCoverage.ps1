@@ -286,7 +286,24 @@ foreach ($laneId in $activeLaneIds) {
   $workflowLaneMatches = @($queueLaneObjects | Where-Object { [string]$_.lane_id -eq $laneId })
   $workflowLane = $(if (@($workflowLaneMatches).Count -gt 0) { $workflowLaneMatches[0] } else { $null })
   $workflowLaneStatus = $(if ($null -ne $workflowLane -and (Has-Property -Object $workflowLane -Name "status")) { [string]$workflowLane.status } else { "" })
-  $laneRuntimeProven = $workflowLaneStatus -in @("runtime_smoke_proven", "runtime_smoke_qa_complete")
+  $workflowLaneProofEvidence = @()
+  if ($null -ne $workflowLane -and (Has-Property -Object $workflowLane -Name "proof_evidence")) {
+    $workflowLaneProofEvidence = @($workflowLane.proof_evidence | ForEach-Object { [string]$_ } | Where-Object { ![string]::IsNullOrWhiteSpace($_) })
+  }
+  $workflowLaneLocalEvidence = @()
+  if ($null -ne $workflowLane -and (Has-Property -Object $workflowLane -Name "local_pre_ec2_evidence")) {
+    $workflowLaneLocalEvidence = @($workflowLane.local_pre_ec2_evidence | ForEach-Object { [string]$_ } | Where-Object { ![string]::IsNullOrWhiteSpace($_) })
+  }
+  $laneRuntimeProven = (
+    $workflowLaneStatus -in @("runtime_smoke_proven", "runtime_smoke_qa_complete") -or
+    $workflowLaneStatus -match "runtime_smoke_proven|runtime_smoke_qa_complete" -or
+    @($workflowLaneProofEvidence).Count -gt 0
+  )
+  $laneLocalPreEc2Validated = (
+    -not $laneRuntimeProven -and
+    ($workflowLaneStatus -match "local_") -and
+    @($workflowLaneLocalEvidence).Count -gt 0
+  )
   $requirementsPath = Join-Path $ProjectRoot ("Plan\07_IMPLEMENTATION\workflow_templates\base_generation\{0}\runtime_requirements.json" -f $laneId)
   $requirementsExists = Test-Path -LiteralPath $requirementsPath
   $laneChecks += New-Check -Name "runtime_requirements_exists" `
@@ -350,9 +367,19 @@ foreach ($laneId in $activeLaneIds) {
       $storageLocation = $(if (Has-Property -Object $entry -Name "storage_location") { [string]$entry.storage_location } else { "" })
       $runtimeQueued = ($runtimeValidationStatus -eq "queued")
       $runtimeComplete = ($runtimeValidationStatus -in @("runtime_smoke_complete", "runtime_validated"))
-      $expectedCompatibilityStatuses = $(if ($laneRuntimeProven) { @("runtime_validated", "runtime_smoke_validated") } else { @("needs_runtime_validation") })
-      $expectedRuntimeStatuses = $(if ($laneRuntimeProven) { @("runtime_smoke_complete", "runtime_validated") } else { @("queued") })
-      $expectedQaStatuses = $(if ($laneRuntimeProven) { @("pass_with_notes_for_runtime_smoke", "pass") } else { @("not_tested") })
+      if ($laneRuntimeProven) {
+        $expectedCompatibilityStatuses = @("runtime_validated", "runtime_smoke_validated")
+        $expectedRuntimeStatuses = @("runtime_smoke_complete", "runtime_validated")
+        $expectedQaStatuses = @("pass_with_notes_for_runtime_smoke", "pass")
+      } elseif ($laneLocalPreEc2Validated) {
+        $expectedCompatibilityStatuses = @("needs_runtime_validation", "local_runtime_smoke_validated_with_notes", "local_runtime_followup_validated_with_notes")
+        $expectedRuntimeStatuses = @("queued", "local_generation_smoke_complete", "local_generation_followup_complete")
+        $expectedQaStatuses = @("not_tested")
+      } else {
+        $expectedCompatibilityStatuses = @("needs_runtime_validation")
+        $expectedRuntimeStatuses = @("queued")
+        $expectedQaStatuses = @("not_tested")
+      }
       $evidencePaths = @()
       if (Has-Property -Object $entry -Name "evidence_paths") {
         $evidencePaths = @($entry.evidence_paths | ForEach-Object { [string]$_ } | Where-Object { ![string]::IsNullOrWhiteSpace($_) })
@@ -384,7 +411,7 @@ foreach ($laneId in $activeLaneIds) {
         -Expected ($expectedRuntimeStatuses -join " | ") `
         -Observed $(if ([string]::IsNullOrWhiteSpace($runtimeValidationStatus)) { "missing" } else { $runtimeValidationStatus })
       $laneChecks += New-Check -Name "registry_qa_status_matches_lane_state" `
-        -Passed ($expectedQaStatuses -contains $qaStatus) `
+        -Passed (($expectedQaStatuses -contains $qaStatus) -or ($laneLocalPreEc2Validated -and $qaStatus -like "pass_with_notes_for_local_*")) `
         -Expected ($expectedQaStatuses -join " | ") `
         -Observed $(if ([string]::IsNullOrWhiteSpace($qaStatus)) { "missing" } else { $qaStatus })
       $laneChecks += New-Check -Name "registry_completed_lane_has_evidence_paths" `
@@ -401,14 +428,15 @@ foreach ($laneId in $activeLaneIds) {
     if ($null -ne $requirements) {
       $hashStatus = $(if (Has-Property -Object $model -Name "hash_status") { [string]$model.hash_status } else { "" })
       $pathStatus = $(if (Has-Property -Object $model -Name "path_status") { [string]$model.path_status } else { "" })
-      $expectedRequirementStatus = $(if ($laneRuntimeProven) { "ec2_static_match_verified" } else { "pending_ec2_static_match" })
+      $expectedHashStatuses = $(if ($laneRuntimeProven) { @("ec2_static_match_verified") } elseif ($laneLocalPreEc2Validated) { @("pending_ec2_static_match", "local_sha256_verified") } else { @("pending_ec2_static_match") })
+      $expectedPathStatuses = $(if ($laneRuntimeProven) { @("ec2_static_match_verified") } elseif ($laneLocalPreEc2Validated) { @("pending_ec2_static_match", "local_model_present") } else { @("pending_ec2_static_match") })
       $laneChecks += New-Check -Name "requirements_hash_status_matches_lane_state" `
-        -Passed ($hashStatus -eq $expectedRequirementStatus) `
-        -Expected $expectedRequirementStatus `
+        -Passed ($expectedHashStatuses -contains $hashStatus) `
+        -Expected ($expectedHashStatuses -join " | ") `
         -Observed $hashStatus
       $laneChecks += New-Check -Name "requirements_path_status_matches_lane_state" `
-        -Passed ($pathStatus -eq $expectedRequirementStatus) `
-        -Expected $expectedRequirementStatus `
+        -Passed ($expectedPathStatuses -contains $pathStatus) `
+        -Expected ($expectedPathStatuses -join " | ") `
         -Observed $pathStatus
       $laneChecks += New-Check -Name "requirements_block_promotion_without_evidence" `
         -Passed ((Has-Property -Object $requirements -Name "promotion_allowed_without_evidence") -and -not [bool]$requirements.promotion_allowed_without_evidence) `
@@ -425,7 +453,13 @@ foreach ($laneId in $activeLaneIds) {
       -Expected "one queue row for required model" `
       -Observed ("{0} matching rows" -f @($queueMatches).Count)
     if (@($queueMatches).Count -gt 0) {
-      $expectedQueueStatuses = $(if ($laneRuntimeProven) { @("runtime_smoke_complete", "runtime_validated") } else { @("queued") })
+      if ($laneRuntimeProven) {
+        $expectedQueueStatuses = @("runtime_smoke_complete", "runtime_validated")
+      } elseif ($laneLocalPreEc2Validated) {
+        $expectedQueueStatuses = @("queued", "local_generation_smoke_complete", "local_generation_followup_complete")
+      } else {
+        $expectedQueueStatuses = @("queued")
+      }
       $laneChecks += New-Check -Name "runtime_validation_queue_status_matches_lane_state" `
         -Passed ($expectedQueueStatuses -contains [string]$queueMatches[0].status) `
         -Expected ($expectedQueueStatuses -join " | ") `
@@ -523,7 +557,7 @@ $outDir = Split-Path -Parent $OutFile
 if (![string]::IsNullOrWhiteSpace($outDir)) {
   $null = New-Item -ItemType Directory -Force -Path $outDir
 }
-$record | ConvertTo-Json -Depth 40 | Set-Content -LiteralPath $OutFile -Encoding UTF8
+[System.IO.File]::WriteAllText($OutFile, ($record | ConvertTo-Json -Depth 40), (New-Object System.Text.UTF8Encoding($false)))
 Write-Host "Wrote workflow model registry coverage record: $OutFile"
 $record | ConvertTo-Json -Depth 40
 

@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W69-LOCAL-CANNY-EDGE-NATURALNESS-SEED711570105-VISUAL-QA-20260707T131500-0500",
+  "timestamp": "2026-07-07T13:15:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "generation_executed": true,
+  "qa_result": "qa_regression_local_canny_edge_naturalness_right_edge_band_reintroduced",
+  "runtime_evidence": {
+    "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_EDGE_NATURALNESS_SEED711570105_EXECUTE_20260707T131200-0500.json",
+    "sha256": "33984d5b6327a3679884a8a32da19c5f0a07cb4c054355054f67bf3105696342",
+    "result": "pass_local_run_package_generation_smoke",
+    "local_comfy_stopped": true,
+    "port_8188_closed_after_stop": true
+  },
+  "profile": {
+    "path": "PromptProfiles/base_generation/controlnet_canny_w69_quality_matrix/canny_w69_edge_naturalness_seed711570105.json",
+    "sha256": "0975c9d3ea0e4af709d2c36fc14637b9e086dea1e4c0708930b718b8752910fe",
+    "change_summary": "Retested seed 711570105 with Canny strength lowered from 0.42 to 0.38 and end_percent shortened from 0.60 to 0.55, while keeping continuous-background and artifact-negative wording."
+  },
+  "run_package_manifest": {
+    "path": "runtime_artifacts/run_packages/canny_w69_edge_naturalness_seed711570105/RUN_PACKAGE_MANIFEST.json",
+    "sha256": "08668429ca6b3d2658a6bf0e9be04794a319b0429cf98aa05db654a45de21371",
+    "workflow_static_status": "pass",
+    "static_defect_count": 0,
+    "prompt_request_sha256": "336d632eb65e1f5e37a4502a3bd3f165b4d33f4ab5914bda90ed42fc6a167a8d"
+  },
+  "generated_artifacts": [
+    {
+      "artifact_id": "portrait",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_edge_naturalness_seed711570105_20260707T131058-0500/images/canny_w69_edge_naturalness_seed711570105_00001_.png",
+      "sha256": "fbc88110451d16edf94a658881a6e68727fb2501f5af3c102d235c656cde572e",
+      "width": 768,
+      "height": 768,
+      "bytes": 659872
+    },
+    {
+      "artifact_id": "diagnostic_control_map",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_edge_naturalness_seed711570105_20260707T131058-0500/images/codex_sdxl_realvisxl_controlnet_canny_control_map_diagnostic_00009_.png",
+      "sha256": "e3db6902988d6d3a7d25ef08836c5c6933b0411eb484be50b7b497d32d3815d2",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 33680
+    },
+    {
+      "artifact_id": "right_edge_comparison",
+      "path": "runtime_artifacts/controlnet_canny_w69_quality_matrix/qa_comparisons/canny_seed711570105_seam_vs_edge_naturalness_right_edge_compare.png",
+      "sha256": "db6a28cbf24e9894ccee3189ccdf5dab8c618578f5ca4b2813677b6dd3196f87",
+      "bytes": 305230
+    }
+  ],
+  "strict_whole_image_qa": {
+    "portrait": {
+      "face_realism": "pass",
+      "eye_quality": "pass_readable_but_left_eye_partly_hair_shadowed",
+      "skin_texture": "pass_with_mild_polish_note",
+      "hands_fingers": "not_visible_not_certified",
+      "feet_toes": "not_visible_not_certified",
+      "hair_realism": "pass",
+      "teeth_mouth_quality": "pass_closed_mouth_no_teeth_visible",
+      "body_proportions": "pass_for_head_and_shoulders_crop_only",
+      "pose_accuracy": "pass",
+      "clothing_fabric": "pass_white_blazer_texture_readable",
+      "contact_points": "not_visible_not_certified",
+      "object_body_collisions": "pass_no_visible_collision",
+      "deformation_realism": "pass",
+      "anatomy_consistency": "pass_for_visible_crop",
+      "lighting": "pass_soft_fill",
+      "shadows": "pass",
+      "background_coherence": "fail_right_edge_vertical_band_panel_artifact_reintroduced",
+      "camera_lens_realism": "pass",
+      "texture_detail": "pass_with_notes",
+      "generation_artifacts": "fail_visible_right_edge_vertical_band",
+      "identity_drift": "not_certified_beyond_same_seed_iteration",
+      "over_smoothing": "note_mild_skin_polish",
+      "prompt_compliance": "pass_clothed_editorial_portrait",
+      "control_adherence": "pass",
+      "canny_leakage": "mixed_no_face_contour_leakage_but_right_edge_band_matches_control_map_border_risk"
+    },
+    "diagnostic_control_map": {
+      "artifact_type": "control_map_diagnostic",
+      "qa_status": "pass_as_diagnostic_with_risk_note",
+      "observed": "The Canny diagnostic contains a bright vertical border/edge at the far right. This is useful evidence because the rerun portrait reintroduced a matching right-edge band.",
+      "promotion_note": "Do not lower Canny strength further on this control image without cropping/cleaning the far-right control-map edge or masking the right border."
+    }
+  },
+  "comparison_to_prior_candidate": {
+    "prior_candidate": {
+      "profile": "PromptProfiles/base_generation/controlnet_canny_w69_quality_matrix/canny_w69_eyeonly_seam_suppression_seed711570105.json",
+      "artifact": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_eyeonly_seam_suppression_711570105_20260707T104736-0500/images/canny_w69_eyeonly_seam_suppression_711570105_00001_.png",
+      "sha256": "4119997a991d443c17e2a9b26fad775a179c5ee11d060c730eb64c81e50f728e",
+      "controlnet_strength": 0.42,
+      "controlnet_end_percent": 0.6,
+      "qa_result": "pass_with_notes_local_canny_seed711570105_seam_suppression_improved"
+    },
+    "new_candidate": {
+      "controlnet_strength": 0.38,
+      "controlnet_end_percent": 0.55,
+      "finding": "Not preferred. It preserves face, eyes, hair, clothing, and natural edge softness, but reintroduces a visible right-edge vertical panel/band artifact."
+    },
+    "decision": "Keep the 0.42 strength / 0.60 end_percent seam-suppression run as the better local Canny candidate. Treat 0.38 / 0.55 as negative QA evidence for this control image."
+  },
+  "qa_driven_change_result": {
+    "change_tested": "Lower/shorter Canny guidance for more natural edges.",
+    "helped": false,
+    "useful_signal": "The right-edge artifact appears tied to the diagnostic control-map border and can resurface when guidance is reduced too far.",
+    "recommended_next_local_change": "Clean or crop the far-right control image edge before another Canny prompt/strength retry, or retain the prior 0.42/0.60 candidate."
+  },
+  "certification_scope": "local_minimum_rerun_after_qa_note_only",
+  "certification_allowed": false,
+  "remaining_risks": [
+    "Single local rerun only; not final MOD-17 certification.",
+    "Target-runtime EC2 proof remains separate and was intentionally not run.",
+    "Full-body anatomy, hands, contact points, and wider prompt robustness are not certified by this portrait crop."
+  ],
+  "next_action": "Do not promote the 0.38/0.55 edge-naturalness profile. Continue local-first with either control-image right-edge cleanup for MOD-17 or another named local implementation/QA gap."
+}

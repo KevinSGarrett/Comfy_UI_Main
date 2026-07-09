@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "tracker_evidence_id": "W69-LOCAL-PASS-PLANNER-CANNY-V3-READINESS-CERTIFICATION-20260707T141500-0500",
+  "timestamp": "2026-07-07T14:15:00-05:00",
+  "wave": 69,
+  "task": "Wave14 Pass Planner local readiness certification refreshed to active MOD-17 Canny v3 lane surface",
+  "status": "pass_local_pass_planner_readiness_final_blocked_target_runtime",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "actual_work_completed": [
+    "Updated runtime_artifacts/pass_planner/w69_local_canny_inpaint_readiness/PASS_PLANNER_REQUEST.json from superseded eye-only/seam-suppression Canny bindings to the active v3 right-edge-band-masked Canny lane surface.",
+    "Recompiled runtime_artifacts/pass_planner/w69_local_canny_inpaint_readiness/ORCHESTRATOR_RUN_PLAN.json from the refreshed request.",
+    "Reran validate_orchestrator_run_plan.py against the compiled plan with project root C:\\Comfy_UI_Main.",
+    "Added and ran Test-PassPlannerLocalCertification.ps1 to check the seven-pass dry-run shape, v3 Canny evidence bindings, checked evidence count, no stale Canny v1/eye-only references, and final target-runtime boundary.",
+    "Generated local Done_Certifications evidence for pass-planner readiness."
+  ],
+  "changed_or_generated_files": [
+    "runtime_artifacts/pass_planner/w69_local_canny_inpaint_readiness/PASS_PLANNER_REQUEST.json",
+    "runtime_artifacts/pass_planner/w69_local_canny_inpaint_readiness/ORCHESTRATOR_RUN_PLAN.json",
+    "runtime_artifacts/pass_planner/w69_local_canny_inpaint_readiness/ORCHESTRATOR_RUN_PLAN_VALIDATION.json",
+    "Plan/Instructions/QA/Scripts/Test-PassPlannerLocalCertification.ps1",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W69_LOCAL_PASS_PLANNER_CANNY_INPAINT_READINESS_CERTIFICATION_20260707T141500-0500.json"
+  ],
+  "key_hashes": {
+    "pass_planner_request_sha256": "ced10712c0bbba5918f3f9a311d3b6ae7487e80e93dc743a6efc1764c15f60e0",
+    "compiled_plan_sha256": "e8da2625121dc8e7d2ff80c7941486a1547300ab416d91d190c75876b5e22776",
+    "validation_sha256": "b94ff332bfa2a634ca39ab3352e10ab9575f86179f7d1d45023bdfcf3d28dbd5",
+    "certification_script_sha256": "2f15510828ba8f111d1d8f033bd063c78d7e95b124e492ae8a839c65665cb340",
+    "done_certification_sha256": "603dc627760c77dfd14de51ee2471f8e3cd52f6a84e7fe5c38fa09de91abe592"
+  },
+  "validation_results": {
+    "compile_status": "PASS",
+    "validation_status": "PASS",
+    "validation_errors": 0,
+    "validation_warnings": 0,
+    "pass_count": 7,
+    "checked_evidence_path_count": 21,
+    "certification_result": "pass_local_pass_planner_readiness_final_blocked_target_runtime",
+    "certification_defects": 0,
+    "final_certification_result": "blocked_final_promotion_missing_target_runtime"
+  },
+  "active_canny_surface": {
+    "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+    "module_id": "MOD-17-CONTROLNET-CANNY-LANE",
+    "candidate": "canny_w69_rightedge_masked_v3_seed711570105",
+    "active_control_image": "ComfyUI/input/controlnet_canny_cleaned_eye_safe_v3_rightedge_band_masked.png"
+  },
+  "decision": "The Wave14 Canny/inpaint Pass Planner readiness package is now aligned to the active local MOD-17 Canny v3 lane surface and passes local dry-run-first readiness certification. Final promotion remains blocked until target-runtime proof exists.",
+  "next_action": "Continue local-first with another named implementation or QA gap. Do not start EC2, run AWS auth checks, rerun Wave65, or use Git/GitHub checkpointing as substitute project work."
+}

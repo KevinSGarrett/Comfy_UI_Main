@@ -1,0 +1,168 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "lane_final_review_blocker_packet",
+    "blocker_id":  "BLOCK-W66-SDXL-BASE-LANE-FINAL-REVIEW-20260709T055224-0500",
+    "created_at":  "2026-07-09T05:52:24-05:00",
+    "task_tracker_id":  "WO-W66-SDXL_REALVISXL_BASE_LANE-FINAL-CERTIFICATION-REVIEW",
+    "lane_id":  "sdxl_realvisxl_base_lane",
+    "result":  "blocked_base_lane_final_review_candidate_scope_mismatch",
+    "final_decision":  "blocked",
+    "local_only":  true,
+    "new_ec2_started":  false,
+    "new_generation_executed":  false,
+    "historical_ec2_started":  true,
+    "historical_generation_executed":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "s3_contacted":  false,
+    "comfyui_contacted":  false,
+    "masks_consumed_as_truth":  false,
+    "masks_promoted":  false,
+    "wave70_hard_gate_rerun":  false,
+    "wave71_plus_activated":  false,
+    "full_project_certification_allowed":  false,
+    "closes_work_order":  false,
+    "artifact_scope":  "Lane-scoped final-review blocker packet for sdxl_realvisxl_base_lane.",
+    "implementation_summary":  "Reviewed W63 target-runtime smoke, pullback, W63 visual QA, W69 single-hand contact close-up QA, W69 two-character hand-to-body QA, tracker mirrors, and runtime queue promotion rule without rerunning live runtime.",
+    "tests_performed":  [
+                            {
+                                "name":  "final_review_work_order_present",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "work_order_id":  "WO-W66-SDXL_REALVISXL_BASE_LANE-FINAL-CERTIFICATION-REVIEW",
+                                                 "status":  "blocked_until_lane_evidence_complete"
+                                             },
+                                "expected":  "Base lane final-certification-review work order is present"
+                            },
+                            {
+                                "name":  "generic_target_runtime_smoke_exists",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "static_result":  "ec2_static_proof_recorded",
+                                                 "smoke_result":  "workflow_smoke_generation_complete",
+                                                 "static_lane":  "sdxl_realvisxl_base_lane",
+                                                 "smoke_lane":  "sdxl_realvisxl_base_lane",
+                                                 "static_final_state":  "stopped",
+                                                 "smoke_final_state":  "stopped"
+                                             },
+                                "expected":  "W63 base target-runtime static proof and smoke exist and stopped EC2"
+                            },
+                            {
+                                "name":  "generic_pullback_hashes_verified",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "status":  "pullback_hashes_verified",
+                                                 "hashes_verified":  true,
+                                                 "errors":  0
+                                             },
+                                "expected":  "W63 pullback hashes verified"
+                            },
+                            {
+                                "name":  "runtime_visual_qa_scope_is_smoke_only",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "result":  "pass_with_notes_for_runtime_smoke",
+                                                 "qa_score":  88,
+                                                 "pass_threshold":  80,
+                                                 "decision":  "RealVisXL runtime smoke image QA passed. This proves the target runtime can generate and return a coherent image, but it is not final portfolio/style certification.",
+                                                 "defect_count":  2
+                                             },
+                                "expected":  "W63 visual QA passes runtime smoke but explicitly excludes final certification"
+                            },
+                            {
+                                "name":  "single_hand_local_qa_disallows_final",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "overall_result":  "pass_with_notes_local_single_hand_contact_closeup",
+                                                 "final_decision_allowed":  false,
+                                                 "promotion_allowed":  false,
+                                                 "reason":  "The sample passes the local single-hand tabletop-contact close-up target, but final RealVisXL certification requires broader portrait/full-image scope and target-runtime proof."
+                                             },
+                                "expected":  "single-hand local QA passes with notes but blocks final decision/promotion"
+                            },
+                            {
+                                "name":  "two_character_local_qa_disallows_final",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "qa_result":  "pass_with_notes_local_two_character_hand_to_body_first_pixel_attempt_seed7152026252_preferred",
+                                                 "certification_allowed":  false,
+                                                 "remaining_risks":  [
+                                                                         "This is one local preferred sample after one local QA-driven rerun, not multi-seed robustness.",
+                                                                         "This does not use the deterministic Wave25 contact mask as an inpaint/refine mask yet.",
+                                                                         "This does not prove target-runtime EC2 behavior.",
+                                                                         "This does not certify final multi-character contact, contact shadows, pixel-level ownership, or no-merge behavior across prompts."
+                                                                     ]
+                                             },
+                                "expected":  "two-character local QA passes with notes but disallows final certification"
+                            },
+                            {
+                                "name":  "queue_rule_requires_no_final_promotion_from_local_samples",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "status":  "runtime_smoke_proven_local_single_hand_contact_closeup_and_two_character_contact_pixel_attempt_pass_with_notes_pending_final_certification",
+                                                 "promotion_rule":  "Do not promote to final RealVisXL certification from the close-up or two-character local samples alone. They prove local single-hand tabletop-contact close-up quality and a first Wave25-linked two-character contact pixel attempt only; mask-routed refine, robustness, target-runtime proof, and final certification remain separate."
+                                             },
+                                "expected":  "runtime queue explicitly prevents final promotion from current local samples alone"
+                            }
+                        ],
+    "blocker_summary":  [
+                            "base_lane_final_review_candidate_scope_mismatch",
+                            "generic_w63_target_runtime_smoke_does_not_certify_current_single_hand_or_two_character_contact_candidates",
+                            "single_hand_contact_closeup_final_decision_allowed_false",
+                            "two_character_hand_to_body_certification_allowed_false",
+                            "mask_routed_refine_or_small_robustness_pair_missing_for_base_contact_scope",
+                            "full_project_certification_allowed_false"
+                        ],
+    "qa_summary":  {
+                       "runtime_visual_result":  "pass_with_notes_for_runtime_smoke",
+                       "runtime_visual_decision":  "RealVisXL runtime smoke image QA passed. This proves the target runtime can generate and return a coherent image, but it is not final portfolio/style certification.",
+                       "runtime_visual_defects":  [
+                                                      "Minor beauty-retouch smoothness in skin texture; acceptable for runtime smoke but not a final hyperreal quality bar by itself.",
+                                                      "The close crop prevents evaluation of hands, body proportions, clothing, and background, so this proof should not be overextended beyond image-generation/runtime viability."
+                                                  ],
+                       "single_hand_result":  "pass_with_notes_local_single_hand_contact_closeup",
+                       "single_hand_final_decision_allowed":  false,
+                       "single_hand_promotion_allowed":  false,
+                       "single_hand_remaining_notes":  [
+                                                           "This certifies a local close-up contact target only; it does not certify portrait-with-hands composition, two-hand separation, full-body anatomy, or final RealVisXL image quality.",
+                                                           "The wrist enters from the frame edge by design for the close-up composition, so full-arm anatomy is not scored.",
+                                                           "Target-runtime proof remains separate."
+                                                       ],
+                       "two_character_result":  "pass_with_notes_local_two_character_hand_to_body_first_pixel_attempt_seed7152026252_preferred",
+                       "two_character_certification_allowed":  false,
+                       "two_character_remaining_risks":  [
+                                                             "This is one local preferred sample after one local QA-driven rerun, not multi-seed robustness.",
+                                                             "This does not use the deterministic Wave25 contact mask as an inpaint/refine mask yet.",
+                                                             "This does not prove target-runtime EC2 behavior.",
+                                                             "This does not certify final multi-character contact, contact shadows, pixel-level ownership, or no-merge behavior across prompts."
+                                                         ],
+                       "tracker_single_hand_result":  "pass_with_notes_local_single_hand_contact_closeup",
+                       "tracker_two_character_status":  "pass_with_notes_local_iteration"
+                   },
+    "evidence_paths":  {
+                           "work_order":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_20260709T042635-0500.json",
+                           "runtime_lane_queue":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+                           "static_proof":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_EC2_LANE_STATIC_PROOF_REALVISXL_AFTER_INSTALL_20260706T131129-0500.json",
+                           "workflow_smoke":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W63_EC2_WORKFLOW_SMOKE_REALVISXL_AFTER_STATIC_PROOF_20260706T132206-0500.json",
+                           "pullback_record":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T132206-0500/PULLBACK_RECORD.json",
+                           "runtime_visual_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_REALVISXL_IMAGE_QA_VISUAL_20260706T140120-0500.json",
+                           "single_hand_visual_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_SINGLE_HAND_CONTACT_CLOSEUP_V1_VISUAL_QA_20260707T095000-0500.json",
+                           "single_hand_tracker":  "Plan/Tracker/Evidence/W69_LOCAL_REALVISXL_SINGLE_HAND_CONTACT_CLOSEUP_20260707T095000-0500.json",
+                           "two_character_visual_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_TWO_CHARACTER_HAND_TO_BODY_VISUAL_QA_20260707T115000-0500.json",
+                           "two_character_tracker":  "Plan/Tracker/Evidence/W69_LOCAL_REALVISXL_TWO_CHARACTER_HAND_TO_BODY_PIXEL_ATTEMPT_20260707T115000-0500.json"
+                       },
+    "known_issues":  [
+                         "W63 proves the base lane can run on target runtime and return a coherent close-face smoke image, but that QA explicitly says it is not final portfolio/style certification.",
+                         "W69 single-hand evidence passes only an isolated tabletop-contact close-up and explicitly blocks final decision/promotion.",
+                         "W69 two-character evidence is a first pixel-facing attempt after one QA-driven rerun, not multi-seed robustness or mask-routed refine.",
+                         "The base lane runtime queue promotion rule explicitly says not to promote final RealVisXL certification from the current local samples alone.",
+                         "This blocker packet does not consume candidate masks as truth, promote masks, rerun Wave70 hard gates, or activate Wave71+."
+                     ],
+    "defects":  [
+
+                ],
+    "certifier":  "Codex Desktop autonomous release manager",
+    "certification_boundary":  "Lane-scoped blocker review only. This does not certify full project completion, final RealVisXL base-lane quality, body-mask readiness, Wave70 mask promotion, or Wave71+ activation.",
+    "next_action":  "Do not close the base lane final-review work order from current evidence. Add mask-routed refine or a small robustness pair for the base contact scope, then obtain candidate-appropriate target-runtime proof before final-review closure."
+}

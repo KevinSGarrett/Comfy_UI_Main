@@ -1,0 +1,36 @@
+﻿{
+    "status":  "completed",
+    "created_at":  "2026-07-08T17:17:17.2378551-05:00",
+    "purpose":  "Tighten six-hour milestone auditor sequence classification and fix stale Wave70 package manifest row counts.",
+    "protocol_added":  "Plan/Instructions/TECHNICAL_PROJECT_PLAN_SEQUENCE_AUDIT_PROTOCOL.md",
+    "sequence_control_updated":  "Plan/Instructions/WAVE_NAMESPACE_AND_SEQUENCE_CONTROL.md",
+    "automation_updated":  "comfy-ui-main-six-hour-milestone-progress-auditor",
+    "manifest_corrections":  [
+                                 {
+                                     "file":  "Plan/Items/Manifests/items_package_manifest.json",
+                                     "field":  "current_ultimate_mask_factory_row_count",
+                                     "old_value":  141,
+                                     "new_value":  166,
+                                     "count_source":  "Plan/Items/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_ITEM_ROWS.csv"
+                                 },
+                                 {
+                                     "file":  "Plan/Tracker/Manifests/tracker_package_manifest.json",
+                                     "field":  "current_ultimate_mask_factory_row_count",
+                                     "old_value":  141,
+                                     "new_value":  166,
+                                     "count_source":  "Plan/Tracker/Waves/Wave70/WAVE70_ULTIMATE_MASK_FACTORY_TRACKER_ROWS.csv"
+                                 }
+                             ],
+    "audit_behavior_changes":  [
+                                   "Wrong-sequence work inside the audit window is now classified as MILESTONE_SEQUENCE_DRIFT or MILESTONE_SEQUENCE_LEDGER_GAP even if later corrected.",
+                                   "Audit JSON must include current_state_aligned, recent_sequence_drift_detected, drift_corrected, residual_ledger_or_manifest_gap, actionable_manifest_maintenance_needed, and target_thread_update_needed.",
+                                   "Stale package manifest metadata is actionable manifest maintenance when proven by parsed CSV counts.",
+                                   "Future six-hour audits must perform a manifest-driven technical project plan review across Plan, Instructions, Items, Tracker, active rows, deferred gates, hydration, proof logs, and evidence indexes."
+                               ],
+    "forbidden_actions_preserved":  [
+                                        "No broad Wave65/index refresh",
+                                        "No whole package rewrite",
+                                        "No Wave71+ activation without activation-gate proof",
+                                        "No Git stage/commit/push/reset/checkout"
+                                    ]
+}

@@ -1,0 +1,198 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "lane_final_review_blocker_packet",
+    "blocker_id":  "BLOCK-W66-SDXL-OPENPOSE-LANE-FINAL-REVIEW-20260709T064431-0500",
+    "created_at":  "2026-07-09T06:44:31-05:00",
+    "task_tracker_id":  "WO-W66-SDXL_REALVISXL_CONTROLNET_OPENPOSE_LANE-FINAL-CERTIFICATION-REVIEW",
+    "lane_id":  "sdxl_realvisxl_controlnet_openpose_lane",
+    "result":  "blocked_openpose_lane_final_review_target_runtime_proof_missing",
+    "final_decision":  "blocked",
+    "local_only":  true,
+    "new_ec2_started":  false,
+    "new_generation_executed":  false,
+    "historical_ec2_started":  false,
+    "historical_generation_executed":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "s3_contacted":  false,
+    "comfyui_contacted":  false,
+    "masks_consumed_as_truth":  false,
+    "masks_promoted":  false,
+    "wave70_hard_gate_rerun":  false,
+    "wave71_plus_activated":  false,
+    "full_project_certification_allowed":  false,
+    "closes_work_order":  false,
+    "artifact_scope":  "Lane-scoped final-review blocker packet for sdxl_realvisxl_controlnet_openpose_lane.",
+    "implementation_summary":  "Reviewed local OpenPose model hash proof, local V4 table-hands run-package generation smoke, V4 visual QA, V5 table-hands robustness QA, tracker mirrors, target-runtime plan, and runtime queue promotion rule without rerunning live runtime.",
+    "tests_performed":  [
+                            {
+                                "name":  "final_review_work_order_present",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "work_order_id":  "WO-W66-SDXL_REALVISXL_CONTROLNET_OPENPOSE_LANE-FINAL-CERTIFICATION-REVIEW",
+                                                 "status":  "blocked_until_lane_evidence_complete"
+                                             },
+                                "expected":  "OpenPose final-certification-review work order is present"
+                            },
+                            {
+                                "name":  "target_runtime_plan_marks_proof_missing",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "target_runtime_proof_evidence_missing":  true,
+                                                 "selected_by_default":  false,
+                                                 "blocked_by":  [
+                                                                    "git_checkpoint_gate_not_clean_for_ec2_execute",
+                                                                    "runtime_handoff_git_gate_not_passing",
+                                                                    "target_runtime_or_final_certification_not_proven",
+                                                                    "target_runtime_proof_evidence_missing",
+                                                                    "queue_status_not_final_certified:local_openpose_tablehands_multisample_pass_with_notes_pending_target_runtime_and_final_hand_certification",
+                                                                    "required_next_runtime_gate_still_requires_target_or_final_review"
+                                                                ]
+                                             },
+                                "expected":  "target-runtime plan records missing proof for the OpenPose lane"
+                            },
+                            {
+                                "name":  "queue_rule_requires_target_runtime_and_final_hand_qa",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "status":  "local_openpose_tablehands_multisample_pass_with_notes_pending_target_runtime_and_final_hand_certification",
+                                                 "promotion_rule":  "Do not promote to final OpenPose certification from local multisample alone. Target-runtime object_info/path/hash/input proof, bounded target-runtime generation, pullback, technical QA, and strict final hand-anatomy QA remain separate if selected."
+                                             },
+                                "expected":  "runtime queue explicitly requires target-runtime proof and strict final hand-anatomy QA before final OpenPose certification"
+                            },
+                            {
+                                "name":  "local_openpose_model_hash_verified",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "result":  "pass_local_model_download_hash_verified",
+                                                 "local_only":  true,
+                                                 "ec2_started":  false,
+                                                 "model_sha256":  "5a4b928cb1e93748217900cb66d4135bf70d932d2924232f925910fad9e43a92",
+                                                 "model_path":  null
+                                             },
+                                "expected":  "local OpenPose ControlNet model hash proof exists"
+                            },
+                            {
+                                "name":  "local_openpose_v4_runtime_smoke_passed",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "result":  "pass_local_run_package_generation_smoke",
+                                                 "local_only":  true,
+                                                 "ec2_started":  false,
+                                                 "generation_executed":  true,
+                                                 "errors":  0,
+                                                 "run_package_lane":  "sdxl_realvisxl_controlnet_openpose_lane"
+                                             },
+                                "expected":  "local OpenPose V4 table-hands run package generation smoke passed"
+                            },
+                            {
+                                "name":  "openpose_v4_visual_qa_passes_but_disallows_final_certification",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "decision_result":  "pass_with_notes_local_openpose_tablehands_target_exercised",
+                                                 "local_only":  true,
+                                                 "ec2_started":  false,
+                                                 "remaining_boundary":  "Single local sample only. Finger anatomy and multi-seed robustness are not final-certified. Target-runtime EC2 proof remains separate.",
+                                                 "findings":  [
+                                                                  "The generated image is a coherent seated/tabletop composition with an upper body, a visible table plane, and both hands visible, separated left/right, and resting on the tabletop.",
+                                                                  "This materially resolves the previous OpenPose V2/V3 target failure where hands and table contact were absent or incomplete.",
+                                                                  "No visible OpenPose skeleton, colored bones, colored dots, pose-map stains, text, watermark, or obvious control-map leakage appears in the generated image.",
+                                                                  "Face, hair, suit jacket, tie, shirt, background window, and table are coherent and plausibly lit.",
+                                                                  "Hands are target-present but not final-certified: fingers are somewhat simplified and soft, with mild fingertip/detail uncertainty, especially at the left hand; broader hand anatomy robustness needs more than one sample."
+                                                              ]
+                                             },
+                                "expected":  "OpenPose V4 visual QA exercises table-hands locally but leaves final certification and target-runtime proof open"
+                            },
+                            {
+                                "name":  "openpose_v5_multisample_robustness_passes_but_disallows_final_certification",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "decision_result":  "pass_with_notes_local_openpose_tablehands_multisample_robustness",
+                                                 "local_only":  true,
+                                                 "ec2_started":  false,
+                                                 "final_hand_certification":  false,
+                                                 "sample_count":  3,
+                                                 "pose_map_leakage_visible":  false,
+                                                 "sample_results":  [
+                                                                        "pass_with_notes",
+                                                                        "pass_with_notes"
+                                                                    ],
+                                                 "remaining_boundary":  "Local multisample robustness only. Final OpenPose hands certification still needs stricter hand anatomy review criteria and target-runtime proof if selected."
+                                             },
+                                "expected":  "OpenPose V5 table-hands robustness passes locally but explicitly leaves final hand certification open"
+                            },
+                            {
+                                "name":  "tracker_records_local_openpose_iterations",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "followup_lane":  "sdxl_realvisxl_controlnet_openpose_lane",
+                                                 "followup_result":  "pass_with_notes_local_openpose_tablehands_target_exercised",
+                                                 "followup_boundary":  "Not final OpenPose certification, not multi-seed hand robustness, and not target-runtime proof.",
+                                                 "robustness_lane":  "sdxl_realvisxl_controlnet_openpose_lane",
+                                                 "robustness_result":  "pass_with_notes_local_openpose_tablehands_multisample_robustness",
+                                                 "robustness_boundary":  "Not final target-runtime proof and not final hand anatomy certification."
+                                             },
+                                "expected":  "tracker mirrors classify OpenPose evidence as local pass-with-notes table-hands iteration"
+                            }
+                        ],
+    "blocker_summary":  [
+                            "openpose_lane_target_runtime_proof_evidence_missing",
+                            "target_runtime_object_info_path_hash_input_proof_missing",
+                            "bounded_target_runtime_output_missing",
+                            "target_runtime_pullback_technical_visual_qa_missing",
+                            "local_three_sample_tablehands_robustness_not_final_openpose_certification",
+                            "strict_final_hand_anatomy_qa_missing",
+                            "full_body_pose_variety_and_contact_robustness_not_certified",
+                            "local_pass_with_notes_not_final_certification",
+                            "explicit_user_target_runtime_selection_required",
+                            "git_checkpoint_gate_not_clean_for_ec2_execute",
+                            "deploy_bundle_source_git_dirty_rebuild_required_before_ec2",
+                            "full_project_certification_allowed_false"
+                        ],
+    "qa_summary":  {
+                       "queue_status":  "local_openpose_tablehands_multisample_pass_with_notes_pending_target_runtime_and_final_hand_certification",
+                       "target_runtime_proof_evidence_missing":  true,
+                       "target_candidate_blockers":  [
+                                                         "git_checkpoint_gate_not_clean_for_ec2_execute",
+                                                         "runtime_handoff_git_gate_not_passing",
+                                                         "target_runtime_or_final_certification_not_proven",
+                                                         "target_runtime_proof_evidence_missing",
+                                                         "queue_status_not_final_certified:local_openpose_tablehands_multisample_pass_with_notes_pending_target_runtime_and_final_hand_certification",
+                                                         "required_next_runtime_gate_still_requires_target_or_final_review"
+                                                     ],
+                       "model_provisioning_result":  "pass_local_model_download_hash_verified",
+                       "local_runtime_result":  "pass_local_run_package_generation_smoke",
+                       "visual_decision_result":  "pass_with_notes_local_openpose_tablehands_target_exercised",
+                       "visual_remaining_boundary":  "Single local sample only. Finger anatomy and multi-seed robustness are not final-certified. Target-runtime EC2 proof remains separate.",
+                       "robustness_decision_result":  "pass_with_notes_local_openpose_tablehands_multisample_robustness",
+                       "robustness_summary":  "Across V4 plus two V5 robustness seeds, the new OpenPose control source consistently produces visible separated hands on a tabletop without visible pose-map leakage.",
+                       "final_hand_certification":  false,
+                       "sample_count_for_tablehands_target":  3,
+                       "robustness_remaining_boundary":  "Local multisample robustness only. Final OpenPose hands certification still needs stricter hand anatomy review criteria and target-runtime proof if selected."
+                   },
+    "evidence_paths":  {
+                           "work_order":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_20260709T042635-0500.json",
+                           "target_runtime_plan":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_TARGET_RUNTIME_EXECUTION_PLAN_20260709T063715-0500.json",
+                           "runtime_lane_queue":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+                           "model_provisioning":  "Plan/Instructions/QA/Evidence/Model_Registry/W69_LOCAL_CONTROLNET_OPENPOSE_MODEL_PROVISIONING_20260707T062100-0500.json",
+                           "runtime_execute":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_OPENPOSE_V4_TABLEHANDS_EXECUTE_20260707T072000-0500.json",
+                           "visual_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V4_TABLEHANDS_VISUAL_QA_20260707T072200-0500.json",
+                           "robustness_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V5_TABLEHANDS_ROBUSTNESS_VISUAL_QA_20260707T073000-0500.json",
+                           "tracker_followup":  "Plan/Tracker/Evidence/W69_LOCAL_OPENPOSE_TABLEHANDS_V4_20260707T072200-0500.json",
+                           "tracker_robustness":  "Plan/Tracker/Evidence/W69_LOCAL_OPENPOSE_TABLEHANDS_V5_ROBUSTNESS_20260707T073000-0500.json"
+                       },
+    "known_issues":  [
+                         "W69 OpenPose model provisioning proves local model hash only.",
+                         "W69 OpenPose V4 table-hands visual QA exercises visible separated hands on tabletop locally, but remains a pass-with-notes sample.",
+                         "W69 OpenPose V5 table-hands robustness records three local samples with no visible pose-map leakage, but final_hand_certification is false.",
+                         "The OpenPose lane promotion rule requires target-runtime object_info/path/hash/input proof, bounded target-runtime generation, pullback, technical QA, and strict final hand-anatomy QA before promotion.",
+                         "This blocker packet does not consume candidate masks as truth, promote masks, rerun Wave70 hard gates, or activate Wave71+."
+                     ],
+    "defects":  [
+
+                ],
+    "certifier":  "Codex Desktop autonomous release manager",
+    "certification_boundary":  "Lane-scoped blocker review only. This does not certify full project completion, final OpenPose lane quality, target-runtime readiness, body-mask readiness, Wave70 mask promotion, or Wave71+ activation.",
+    "next_action":  "Do not close the OpenPose lane final-review work order from current local evidence. Target-runtime proof and strict final hand-anatomy QA must be explicitly selected and pass clean Git, clean deploy-bundle, object_info/path/hash/input, bounded output, pullback, technical QA, strict visual QA, and final certification gates first."
+}

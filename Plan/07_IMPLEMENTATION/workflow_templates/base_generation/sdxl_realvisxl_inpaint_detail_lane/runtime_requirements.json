@@ -1,0 +1,113 @@
+{
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "module_id": "MOD-13-SDXL-INPAINT-DETAIL-LANE",
+  "engine_family": "sdxl",
+  "checkpoint_family": "RealVisXL",
+  "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/workflow.api.json",
+  "source_contracts": [
+    "Plan/10_REGISTRIES/wave05_workflow_template_contracts.json",
+    "Plan/10_REGISTRIES/wave05_module_catalog.json",
+    "Plan/10_REGISTRIES/main_flow_wave04_runtime_lanes.json",
+    "Plan/07_IMPLEMENTATION/COMFYUI_WIRING_REPAIR_LIST.md"
+  ],
+  "required_nodes": [
+    "CheckpointLoaderSimple",
+    "LoadImage",
+    "LoadImageMask",
+    "VAEEncode",
+    "SetLatentNoiseMask",
+    "FeatherMask",
+    "MaskToImage",
+    "ImageCompositeMasked",
+    "CLIPTextEncode",
+    "KSampler",
+    "VAEDecode",
+    "SaveImage"
+  ],
+  "required_models": [
+    {
+      "role": "checkpoint",
+      "model_type": "Checkpoint",
+      "comfyui_model_subdir": "checkpoints",
+      "filename": "realvisxlV50_v50Bakedvae.safetensors",
+      "source_model": "RealVisXL V5.0",
+      "source_model_id": "civitai:139562",
+      "source_version_hint": "v5.0 baked VAE",
+      "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+      "hash_status": "pending_ec2_static_match",
+      "path_status": "pending_ec2_static_match",
+      "local_hash_status": "verified_local",
+      "local_path_status": "verified_local",
+      "local_evidence_path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_OBJECT_INFO_INPAINT_DETAIL_NOMOUTH_V4_20260707T045500-0500.json"
+    }
+  ],
+  "required_input_assets": [
+    {
+      "role": "source_image",
+      "filename": "sdxl_inpaint_detail_source_canny_v1.png",
+      "sha256": "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523",
+      "source_manifest": "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_face_mask_v1_20260707T024000-0500/INPAINT_INPUT_ASSET_MANIFEST.json",
+      "status": "verified_local_input_hash",
+      "comfyui_input_path": "ComfyUI/input/sdxl_inpaint_detail_source_canny_v1.png",
+      "evidence_path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_OBJECT_INFO_INPAINT_DETAIL_NOMOUTH_V4_20260707T045500-0500.json"
+    },
+    {
+      "role": "mask_image",
+      "filename": "sdxl_inpaint_detail_micro_nomouth_v4.png",
+      "sha256": "9bfbbda24b0f4915282649bb8c2b3e5a39b5a057dacbce6278683e9b531ec92d",
+      "source_manifest": "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_micro_nomouth_v4_20260707T034500-0500/INPAINT_MICRO_NOMOUTH_INPUT_ASSET_MANIFEST.json",
+      "status": "verified_local_input_hash",
+      "comfyui_input_path": "ComfyUI/input/sdxl_inpaint_detail_micro_nomouth_v4.png",
+      "evidence_path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_OBJECT_INFO_INPAINT_DETAIL_NOMOUTH_V4_20260707T045500-0500.json"
+    }
+  ],
+  "object_info_required": true,
+  "object_info_status": "local_object_info_model_input_hash_proof_passed_identity_preserving_inpaint_nodes",
+  "model_hash_required": true,
+  "input_asset_hash_required": true,
+  "path_resolution_required": true,
+  "runtime_output_required": true,
+  "qa_report_required": true,
+  "promotion_allowed_without_evidence": false,
+  "current_status": "local_nomouth_v4_mask_preview_handoff_runtime_visual_qa_and_readiness_pass_with_notes_pending_target_runtime",
+  "known_blockers": [
+    "Full face VAEEncodeForInpaint v1/v2 local outputs failed strict visual QA.",
+    "Local micro-mask SetLatentNoiseMask v3 passed strict whole-image visual QA with notes.",
+    "No-mouth v4 local retest reduced the v3 lip saturation note while preserving identity.",
+    "No-mouth v4 two-seed local robustness passed strict whole-image QA with notes.",
+    "V5 texture-preserve local retest safely preserved identity but did not materially improve the remaining slight smooth-skin note.",
+    "Local object_info, model hash, source input hash, and mask input hash proof passed for the no-mouth v4 identity-preserving inpaint lane.",
+    "Requires target-runtime object_info/path/hash/input proof, output, pullback, technical image QA, and whole-image visual QA before promotion."
+  ],
+  "repair_notes": [
+    "Replaced Wave04 incompatible flux1-dev-fp8.safetensors checkpoint reference with RealVisXL.",
+    "Removed incompatible body LoRA stack from the extracted inpaint runtime lane.",
+    "Replaced fixed LoadImage/LoadImageMask concept with explicit prepared source and mask assets that can be pass-planner supplied.",
+    "After v1 gray-mask failure and v2 identity drift, switched to VAEEncode plus SetLatentNoiseMask and ImageCompositeMasked with a narrower micro-detail mask.",
+    "V4 excludes mouth/eyes from the mask and lowers denoise to 0.24 to preserve lip color and identity.",
+    "Two additional v4 robustness seeds generated locally with stable identity, eyes, lips, clothing, background, and mask blending; the remaining note is slightly smooth masked skin.",
+    "Local object_info proof confirmed CheckpointLoaderSimple, LoadImage, LoadImageMask, VAEEncode, SetLatentNoiseMask, FeatherMask, ImageCompositeMasked, CLIPTextEncode, KSampler, VAEDecode, and SaveImage are available; RealVisXL checkpoint plus source/mask inputs hash-match locally."
+    ,
+    "Added MaskToImage plus a diagnostic SaveImage node for the feathered inpaint mask preview so QA can inspect the exact active mask boundary alongside generated output."
+    ,
+    "Added a structured local output handoff manifest that identifies the composite image as next_pass_source_image and the mask preview as diagnostic_mask_preview with hash/dimension validation."
+  ],
+  "evidence_paths": [
+    "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_micro_nomouth_v4_20260707T034500-0500/INPAINT_MICRO_NOMOUTH_INPUT_ASSET_MANIFEST.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_SDXL_REALVISXL_INPAINT_DETAIL_NOMOUTH_V4_STATIC_VALIDATION_20260707T034700-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_EXECUTE_20260707T035000-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_VISUAL_QA_20260707T035000-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_ROBUSTNESS_SEED210501_EXECUTE_20260707T033600-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_ROBUSTNESS_SEED210502_EXECUTE_20260707T033800-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_ROBUSTNESS_VISUAL_QA_20260707T034000-0500.json",
+    "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_v5_nomouth_texture_preserve_seed210601.json",
+    "runtime_artifacts/run_packages/sdxl_realvisxl_inpaint_detail_nomouth_v5_texture_seed210601/RUN_PACKAGE_MANIFEST.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V5_TEXTURE_SEED210601_EXECUTE_20260707T042700-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V5_TEXTURE_VISUAL_QA_20260707T042900-0500.json",
+    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_OBJECT_INFO_INPAINT_DETAIL_NOMOUTH_V4_20260707T045500-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_MASK_PREVIEW_EXECUTE_20260707T045100-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_MASK_PREVIEW_VISUAL_QA_20260707T045800-0500.json",
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_nomouth_v4_mask_preview_w69_20260707T045056-0500/OUTPUT_HANDOFF_MANIFEST.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W69_INPAINT_DETAIL_NOMOUTH_V4_OUTPUT_HANDOFF_20260707T050500-0500.json"
+  ]
+}

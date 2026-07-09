@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "inpaint_wave70_mf70_eyes_full_seed210808",
+  "target_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "purpose": "Generated-output proof for Wave70 mf70_eyes_full mask routing using the active MOD-17 Canny v3 portrait as source.",
+  "request_patch_values": {
+    "positive_prompt": "extremely subtle photoreal eye detail preservation pass, preserve exact person identity, gaze direction, eye shape, eyelids, eyelashes, iris color, catchlights, eyebrow position, surrounding skin texture, hair occlusion, nose bridge, face lighting, white blazer, background, and portrait composition unchanged",
+    "negative_prompt": "identity change, different person, gaze change, crossed eyes, asymmetrical eyes, enlarged eyes, anime eyes, doll eyes, glassy eyes, iris color change, eyelid deformation, eyelash mutation, eyebrow change, hair mutation, nose bridge change, face shape drift, skin tone change, plastic skin, waxy skin, over-sharpened eyes, visible seam, clothing change, background change, watermark, text",
+    "source_image": "wave70_mf70_face_identity_source_canny_v3.png",
+    "mask_image": "wave70_mf70_eyes_full_mask.png",
+    "mask_channel": "red",
+    "seed": 210808,
+    "sampler_settings": {
+      "steps": 18,
+      "cfg": 3.6,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.07
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_wave70_mf70_eyes_full_seed210808"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_wave70_mf70_eyes_full_seed210808",
+    "diagnostic_output_prefix": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview"
+  },
+  "qa_focus": [
+    "whole-image identity preservation",
+    "gaze direction and eye symmetry",
+    "no iris/catchlight or eyelid deformation",
+    "hair occlusion near subject-right eye remains stable",
+    "no visible seam around the eye masks"
+  ],
+  "source_qa_driver": {
+    "evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_eyes_full.json",
+    "remaining_gap": "generated_output_proof_required_before_item_completion",
+    "change_summary": "Use the Wave70 both-eyes mask as the inpaint mask with very low denoise to prove local generated-output routing while minimizing gaze, identity, hair, and skin drift."
+  },
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_generated_output_proof_before_item_completion": true,
+    "requires_whole_image_qa_before_promotion": true,
+    "requires_target_runtime_reproof_before_final_certification": true
+  }
+}

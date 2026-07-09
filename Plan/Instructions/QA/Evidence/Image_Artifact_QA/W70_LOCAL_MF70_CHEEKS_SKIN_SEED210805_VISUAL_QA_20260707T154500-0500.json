@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70_LOCAL_MF70_CHEEKS_SKIN_SEED210805_VISUAL_QA_20260707T154500-0500",
+  "created_at": "2026-07-07T15:45:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "mask_type_id": "mf70_cheeks_skin",
+  "tracker_id": "TRK-W70-0005",
+  "item_id": "ITEM-W70-0005",
+  "qa_type": "strict_whole_image_visual_qa",
+  "result": "pass_with_notes_local_wave70_cheeks_skin_generated_output",
+  "local_only": true,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "ec2_started": false,
+  "generation_executed": true,
+  "source_image": "ComfyUI/input/wave70_mf70_face_identity_source_canny_v3.png",
+  "mask_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_cheeks_skin_20260707T154500-0500/wave70_mf70_cheeks_skin_overlay.png",
+  "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_cheeks_skin_seed210805_20260707T153720-0500/images/codex_wave70_mf70_cheeks_skin_seed210805_00001_.png",
+  "generated_output_sha256": "ca492acd7d6a4966a5e932d7ea4a6baaea5cd9e5e23b1936e1dfe96e9cbe710e",
+  "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_cheeks_skin_seed210805_20260707T153720-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00011_.png",
+  "diagnostic_mask_preview_sha256": "2f2bb69a07d45ea132e9cf0fb19147bab382d26f7d76b857df5066d2fcd73bec",
+  "comparison_artifact": "runtime_artifacts/mask_factory/wave70_mf70_cheeks_skin/qa_comparisons/wave70_mf70_cheeks_skin_source_overlay_output_compare.png",
+  "comparison_artifact_sha256": "367eceeb3604457193164355c05eb921e51fafcb3c828dc25cd232a4d5532ec3",
+  "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_CHEEKS_SKIN_SEED210805_EXECUTE_20260707T155000-0500.json",
+  "runtime_evidence_sha256": "e72e695779e8e86a27bdaf8777b0fec65c8f0d3f8fc835c2a9032e493677609a",
+  "visual_findings": [
+    "Generated output preserves the source portrait identity, gaze direction, hair silhouette, white blazer, neck, and gray background.",
+    "Cheek-only pass remains subtle at denoise 0.09; cheek tone and texture are slightly smoothed without visible hard seams.",
+    "Eyes, nose, mouth/lips, jawline contour, hairline, and clothing remain stable in the side-by-side comparison.",
+    "No obvious background mutation, new facial hair, protected-feature deformation, plastic-skin failure, or cheek boundary seam was observed.",
+    "The cheek masks remain close to adjacent nose and mouth protected regions, so this is pass-with-notes local support and still needs target-runtime proof before final certification."
+  ],
+  "decision": {
+    "generated_output_proof_present": true,
+    "whole_image_visual_qa_passed_with_notes": true,
+    "target_runtime_proof_present": false,
+    "final_certification_allowed": false,
+    "remaining_blockers": [
+      "target_runtime_proof_required_before_final_certification"
+    ]
+  }
+}

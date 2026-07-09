@@ -118,7 +118,7 @@ Then:
 ```powershell
 git status
 git add .
-git commit -m "Wave 01 local repo structure and safety gates"
+git commit -m "Wave 01 local repo structure and geometry gates"
 ```
 
 ## Step 8 — Push

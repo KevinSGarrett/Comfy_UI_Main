@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "tracker_evidence_id": "W69-LOCAL-WAVE25-TWO-CHARACTER-CONTACT-REFINE-20260707T120500-0500",
+  "timestamp": "2026-07-07T12:05:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "item_or_module": "Wave25 multi-character interaction contact refine",
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "work_type": "bounded_local_mask_routed_low_denoise_inpaint_contact_refinement",
+  "status": "pass_with_notes_local_iteration",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "github_api_contacted": false,
+  "civitai_contacted": false,
+  "generated_artifacts": [
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_two_character_contact_refine_seed210701_20260707T114731-0500/images/codex_wave25_two_character_contact_refine_seed210701_00001_.png",
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_two_character_contact_refine_seed210701_20260707T114731-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00002_.png",
+    "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/qa_contact_crops/source_vs_refine_contact_crop_seed210701.png"
+  ],
+  "implementation_files": [
+    "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave25_two_character_contact_refine_seed210701.json",
+    "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/masks/contact_edge_hand_to_body_seed7152026252_1024.png",
+    "runtime_artifacts/run_packages/wave25_two_character_contact_refine_seed210701/RUN_PACKAGE_MANIFEST.json",
+    "runtime_artifacts/run_packages/wave25_two_character_contact_refine_seed210701/prompt_request.json"
+  ],
+  "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_WAVE25_TWO_CHARACTER_CONTACT_REFINE_SEED210701_EXECUTE_20260707T120000-0500.json",
+  "visual_qa_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_WAVE25_TWO_CHARACTER_CONTACT_REFINE_VISUAL_QA_20260707T120500-0500.json",
+  "source_dependency": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_TWO_CHARACTER_HAND_TO_BODY_VISUAL_QA_20260707T115000-0500.json",
+  "qa_decision": {
+    "result": "pass_with_notes_local_wave25_contact_refine_seed210701_improved_contact_boundary",
+    "improvement": "contact-zone crop shows slightly cleaner fingers and a more believable hand-to-sleeve edge without whole-image drift",
+    "remaining_notes": "contact shadow remains subtle; one local refine sample only; no target-runtime proof",
+    "certification_allowed": false
+  },
+  "next_action": "Continue local-first with a robustness pair, a second targeted refine only if QA demands it, or another named local implementation gap."
+}

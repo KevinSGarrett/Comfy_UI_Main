@@ -1,0 +1,136 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "W69-LOCAL-LINEART-V2-MULTISEED-ROBUSTNESS-VISUAL-QA-20260707T083000-0500",
+    "timestamp":  "2026-07-07T08:30:00-05:00",
+    "project_root":  "C:\\Comfy_UI_Main",
+    "local_only":  true,
+    "ec2_started":  false,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "generation_executed":  true,
+    "lane_id":  "sdxl_realvisxl_controlnet_lineart_lane",
+    "module_id":  "MOD-19-CONTROLNET-LINEART-LANE",
+    "profiles":  [
+                     "PromptProfiles/base_generation/controlnet_lineart_v1_followup/lineart_v2_natural_skin_background_seed711370002.json",
+                     "PromptProfiles/base_generation/controlnet_lineart_v1_followup/lineart_v2_robust_natural_skin_seed711370003.json",
+                     "PromptProfiles/base_generation/controlnet_lineart_v1_followup/lineart_v2_robust_natural_skin_seed711370004.json"
+                 ],
+    "run_packages":  [
+                         "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_lineart_v2_natural_skin_background_w69/RUN_PACKAGE_MANIFEST.json",
+                         "runtime_artifacts/run_packages/lineart_v2_robust_711370003/RUN_PACKAGE_MANIFEST.json",
+                         "runtime_artifacts/run_packages/lineart_v2_robust_711370004/RUN_PACKAGE_MANIFEST.json"
+                     ],
+    "runtime_evidence":  [
+                             "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_LINEART_V2_NATURAL_SKIN_BACKGROUND_EXECUTE_20260707T061000-0500.json",
+                             "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_LINEART_V2_ROBUST_SEED711370003_EXECUTE_20260707T082300-0500.json",
+                             "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_LINEART_V2_ROBUST_SEED711370004_EXECUTE_20260707T082500-0500.json"
+                         ],
+    "previous_candidate_visual_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_LINEART_CONTROLNET_V2_VISUAL_QA_20260707T061200-0500.json",
+    "generated_artifacts":  [
+                                {
+                                    "seed":  711370002,
+                                    "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_lineart_v2_natural_skin_background_w69_20260707T061000-0500/images/codex_sdxl_realvisxl_controlnet_lineart_v2_natural_skin_background_seed711370002_00001_.png",
+                                    "sha256":  "d34f5609695bd518ce44334167a882d1ad7a3cf7e74f625cd837e65212ecdd76",
+                                    "width":  768,
+                                    "height":  768,
+                                    "role":  "preferred_candidate"
+                                },
+                                {
+                                    "seed":  711370003,
+                                    "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/lineart_v2_robust_711370003_20260707T082132-0500/images/lineart_v2_robust_711370003_00001_.png",
+                                    "sha256":  "f2cd6769456bb1bb76ee65c20c63aba3e4711ed2ec087d68d0d144f3149cc1cd",
+                                    "width":  768,
+                                    "height":  768,
+                                    "role":  "robustness_seed"
+                                },
+                                {
+                                    "seed":  711370004,
+                                    "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/lineart_v2_robust_711370004_20260707T082228-0500/images/lineart_v2_robust_711370004_00001_.png",
+                                    "sha256":  "211bfe325a36a8897f7a218e89ebba1c285578386e6302e6b77ec11ea67be30a",
+                                    "width":  768,
+                                    "height":  768,
+                                    "role":  "robustness_seed"
+                                }
+                            ],
+    "control_map_diagnostics":  [
+                                    {
+                                        "seed":  711370003,
+                                        "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/lineart_v2_robust_711370003_20260707T082132-0500/images/codex_sdxl_realvisxl_controlnet_lineart_control_map_diagnostic_00003_.png",
+                                        "sha256":  "232a19a6c78287e504752d88a4a2a74eb32450ce85af2b6760ac7e1b7e90f146",
+                                        "width":  512,
+                                        "height":  512
+                                    },
+                                    {
+                                        "seed":  711370004,
+                                        "path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/lineart_v2_robust_711370004_20260707T082228-0500/images/codex_sdxl_realvisxl_controlnet_lineart_control_map_diagnostic_00004_.png",
+                                        "sha256":  "920736bfe0e5200360717b0e2f02b034527ed7e088917dfdd6c798d22c9a972d",
+                                        "width":  512,
+                                        "height":  512
+                                    }
+                                ],
+    "robustness_scope":  "preferred_v2_candidate_plus_two_seed_only_local_robustness",
+    "whole_image_review":  {
+                               "face_realism":  "pass_across_three_samples_with_notes",
+                               "eye_quality":  "pass_across_three_samples",
+                               "skin_texture":  "pass_with_notes_mild_polish_persists",
+                               "hands_fingers":  "not_visible_not_scored",
+                               "feet_toes":  "not_visible_not_scored",
+                               "hair_realism":  "pass_across_three_samples",
+                               "teeth_mouth_quality":  "pass_no_teeth_visible",
+                               "body_proportions":  "pass_for_head_shoulders_crop",
+                               "pose_accuracy":  "pass",
+                               "clothing_fabric":  "pass_with_notes_seed_variation",
+                               "contact_points":  "not_visible_not_scored",
+                               "deformation_realism":  "pass",
+                               "anatomy_consistency":  "pass_for_visible_crop",
+                               "lighting":  "pass_with_notes_background_light_strip_regression_in_seed_711370003",
+                               "background_coherence":  "mixed_pass_with_notes_not_robust_seed_711370003_diagonal_strip_seed_711370004_vertical_window_bands",
+                               "camera_lens_realism":  "pass",
+                               "texture_detail":  "pass_with_notes",
+                               "generation_artifacts":  "pass_with_notes_no_blocking_artifacts",
+                               "identity_drift":  "weak_seed_711370004_changes_identity_and_presentation_substantially",
+                               "prompt_compliance":  "pass_with_notes",
+                               "control_adherence":  "pass_across_three_samples",
+                               "lineart_leakage":  "pass_no_visible_ink_outline_contour_stain_or_lineart_map_leakage"
+                           },
+    "qa_findings":  [
+                        "Across the preferred v2 candidate and two additional seed-only robustness samples, Lineart control remains clean: no visible ink outlines, contour stains, lineart-map leakage, harsh edge halos, or facial/collar outline corruption were observed.",
+                        "Seed 711370003 is a coherent realistic portrait and keeps clean lineart guidance, but it regresses the background objective with a strong diagonal light strip and darker overall exposure than the preferred v2 sample.",
+                        "Seed 711370004 is technically coherent and lineart-clean, but it changes identity/presentation substantially and retains vertical window bands; this makes identity and background robustness weaker than Depth/Normal robustness results.",
+                        "Skin remains mildly beauty-polished across the set. No hand, full-body, contact-point, or broader scene anatomy claims are made because the samples are head-and-shoulders portraits.",
+                        "The lane is locally functional and clean enough for pass-with-notes local robustness, but the preferred candidate remains seed 711370002 and final Lineart certification is not allowed from this local three-sample set alone."
+                    ],
+    "sample_results":  [
+                           {
+                               "seed":  711370002,
+                               "result":  "pass_with_notes_preferred_local_candidate",
+                               "notes":  "Best balanced local Lineart candidate: natural windowed background, clean face/collar guidance, no visible lineart leakage, mild skin polish."
+                           },
+                           {
+                               "seed":  711370003,
+                               "result":  "pass_with_notes_robustness_sample_background_regression",
+                               "notes":  "Coherent portrait and no lineart leakage, but darker exposure and a strong diagonal light strip weaken background robustness."
+                           },
+                           {
+                               "seed":  711370004,
+                               "result":  "pass_with_notes_robustness_sample_identity_background_weak",
+                               "notes":  "No visible lineart leakage and coherent image, but identity/presentation changes substantially and vertical window bands persist."
+                           }
+                       ],
+    "blocking_defects":  [
+
+                         ],
+    "qa_result":  "pass_with_notes_local_lineart_v2_multiseed_functional_but_background_identity_robustness_weaker",
+    "preferred_local_candidate":  "lineart_v2_natural_skin_background_seed711370002",
+    "certification_scope":  "local_lineart_v2_three_sample_functional_robustness_only",
+    "certification_allowed":  false,
+    "remaining_risks":  [
+                            "Local three-sample robustness is not final Lineart lane certification.",
+                            "Background naturalness is not robust across seeds; seed 711370003 has a diagonal light strip and seed 711370004 retains vertical window bands.",
+                            "Identity/presentation robustness is weak because seed 711370004 changes the subject substantially.",
+                            "Hands, full-body anatomy, contact points, and wider scene complexity are not certified.",
+                            "Target-runtime EC2 object_info/path/hash/input proof, bounded generation, pullback, technical QA, and strict whole-image visual QA remain separate gates if Lineart is selected for promotion."
+                        ],
+    "next_action":  "Keep seed 711370002 as the preferred local Lineart candidate, record this pass-with-notes robustness boundary, then continue local-first on another named gap or make a targeted Lineart background/identity strategy change only if Lineart quality is intentionally selected again."
+}

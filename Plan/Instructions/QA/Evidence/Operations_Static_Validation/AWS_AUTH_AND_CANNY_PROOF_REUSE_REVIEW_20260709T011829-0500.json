@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "AWS_AUTH_AND_CANNY_PROOF_REUSE_REVIEW_20260709T011829-0500",
+  "created_iso": "2026-07-09T01:18:29-05:00",
+  "review_type": "aws_auth_canny_runtime_proof_reuse_no_rerun",
+  "aws_review": {
+    "sts_get_caller_identity_passed": true,
+    "account": "029530099913",
+    "arn": "arn:aws:iam::029530099913:root",
+    "region": "us-east-1",
+    "s3_bucket_checked": "s3://comfy-ui-main-runtime-029530099913-us-east-1/",
+    "s3_top_level_prefixes_seen": [
+      "deploy-bundles/",
+      "model-cache/",
+      "render-outputs/"
+    ],
+    "canny_static_proof_prefixes_seen": [
+      "deploy-bundles/canny-static-proof/canny_static_deploy_20260707T025000-0500/",
+      "deploy-bundles/canny-static-proof/canny_static_deploy_20260707T030500-0500/",
+      "deploy-bundles/canny-static-proof/canny_static_deploy_20260707T032000-0500/",
+      "deploy-bundles/canny-static-proof/canny_static_deploy_20260707T034000-0500/",
+      "deploy-bundles/canny-static-proof/canny_v4_clean_head_deploy_20260707T013125-0500/",
+      "deploy-bundles/canny-static-proof/canny_v4_runtime_deploy_20260707T014527-0500/"
+    ],
+    "ec2_instances_observed": [
+      {
+        "instance_id": "i-067237569a445fd1f",
+        "name": "InfinityWindow",
+        "instance_type": "t3.medium",
+        "state": "stopped"
+      },
+      {
+        "instance_id": "i-04b3b893c360b6d8a",
+        "name": "NocoDB",
+        "instance_type": "t3.small",
+        "state": "running",
+        "scope": "unrelated_to_comfyui_gpu_runtime"
+      },
+      {
+        "instance_id": "i-0560bf8d143f93bb1",
+        "name": "ComfyUI-LoRA-GPU-Server",
+        "instance_type": "g5.xlarge",
+        "state": "stopped"
+      }
+    ],
+    "ec2_started_by_this_review": false,
+    "generation_executed_by_this_review": false
+  },
+  "canny_baseline_proof_reuse": {
+    "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+    "baseline_status": "completed_reuse_do_not_rerun_by_default",
+    "aws_target_runtime_smoke": {
+      "result": "workflow_smoke_generation_complete",
+      "run_id": "aws_gpu_workflow_smoke_20260707T021155-0500",
+      "instance_id": "i-0560bf8d143f93bb1",
+      "final_state": "stopped",
+      "command_status": "Success",
+      "s3_render_output_prefix": "s3://comfy-ui-main-runtime-029530099913-us-east-1/render-outputs/aws_gpu_workflow_smoke_20260707T021155-0500/",
+      "s3_render_output_files_seen": [
+        "REMOTE_ARTIFACT_MANIFEST.json",
+        "images/9_codex_sdxl_realvisxl_controlnet_canny_smoke_00001_.png",
+        "logs/comfyui.log",
+        "reports/history.json",
+        "workflows/prompt_request.json"
+      ],
+      "local_pullback_hashes_verified": true,
+      "technical_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_CANNY_V4_EC2_IMAGE_QA_TECHNICAL_20260707T021700-0500.json",
+      "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_CANNY_V4_EC2_IMAGE_QA_VISUAL_20260707T022300-0500.json",
+      "visual_decision": "pass_with_notes_for_runtime_smoke",
+      "final_certification_allowed_by_visual_qa": false
+    },
+    "local_package_smoke_20260709": {
+      "result": "base_generation_local_package_smoke_passed",
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/BASE_GENERATION_LOCAL_PACKAGE_SMOKE_sdxl_realvisxl_controlnet_canny_lane_20260709T010946-0500.json",
+      "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/BASE_GENERATION_CANNY_LOCAL_PACKAGE_SMOKE_VISUAL_QA_20260709T011030-0500.json",
+      "returned_outputs": [
+        "generated image",
+        "diagnostic control map"
+      ],
+      "limits": [
+        "not final quality certification",
+        "not identity/reference certification",
+        "not mask correctness proof",
+        "not Wave70 gate proof"
+      ]
+    },
+    "required_next_behavior": "reuse_completed_canny_baseline_proof_and_move_to_next_unproven_or_changed_task"
+  },
+  "blocker_updates": {
+    "BLOCKER-W64-AWS-EXPIRED-SESSION-001": "superseded_for_auth_20260709T011829-0500",
+    "ec2_execution": "still_requires_explicit_selected_task_and_gates",
+    "canny_baseline_rerun": "disallowed_without_change_or_explicit_final_certification_selection"
+  },
+  "no_rerun_policy": {
+    "protocol": "Plan/Instructions/QA/RUNTIME_PROOF_REUSE_AND_NO_RERUN_PROTOCOL.md",
+    "disallow_reasons": [
+      "stale hydration text",
+      "ambiguous pending status contradicted by pass evidence",
+      "available AWS auth",
+      "bookkeeping sequence pressure"
+    ],
+    "allowed_rerun_reasons": [
+      "workflow_request_input_or_model_route_changed",
+      "artifact_missing_corrupt_or_hash_mismatch",
+      "wrong-lane evidence discovered",
+      "explicit user-selected final certification or changed target-runtime variant"
+    ]
+  },
+  "decision": "aws_auth_current_canny_baseline_runtime_proof_reuse_required_no_baseline_rerun"
+}

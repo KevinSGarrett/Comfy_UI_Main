@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "openpose_v3_tall_upper_body_hands_seed711470102",
+  "target_lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+  "purpose": "Minimum follow-up after v2 failed to exercise visible hands/tabletop contact. Use taller framing plus anti-close-up terms while keeping the same OpenPose model and control map.",
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic cinematic editorial waist-up portrait, seated person at a simple table, camera framed from head to hands, both hands visible in the lower third of the image, left hand and right hand separated on the tabletop, natural wrist alignment, realistic fingers, visible forearms, natural human posture, realistic neck and shoulder alignment, tailored dark blazer over textured shirt, clothed shoulders, natural skin texture, realistic fine pores, realistic eyes with clean catchlights, detailed hair, soft natural fill light, balanced exposure, clean face with no painted marks, lifelike lens rendering",
+    "negative_prompt": "cartoon, anime, illustration, close-up headshot, face-only crop, bust-only portrait, cropped hands, hidden hands, hands out of frame, no hands, plastic skin, waxy skin, over-smoothed skin, distorted anatomy, twisted neck, broken shoulders, extra arms, missing arms, merged hands, fused fingers, extra fingers, missing fingers, deformed hands, crossed wrists, crossed eyes, low resolution, blurry, watermark, text, openpose skeleton overlay, pose map stains, colored bones, colored dots, control map stains, harsh outlines, bare shoulders, strapless top, nude, unclothed torso",
+    "seed": 711470102,
+    "latent_resolution": {
+      "width": 768,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "controlnet_settings": {
+      "strength": 0.85,
+      "start_percent": 0,
+      "end_percent": 1
+    },
+    "save_prefix": "codex_sdxl_realvisxl_controlnet_openpose_v3_tall_upper_body_hands_seed711470102"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_sdxl_realvisxl_controlnet_openpose_v3_tall_upper_body_hands_seed711470102"
+  },
+  "qa_focus": [
+    "visible separated hands in lower third",
+    "finger count and wrist plausibility",
+    "tabletop contact plausibility",
+    "OpenPose skeleton or color leakage",
+    "face and eye realism",
+    "neck and shoulder pose stability",
+    "generation artifacts"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_target_runtime_reproof_before_certification": true,
+    "requires_whole_image_qa_before_promotion": true
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "REGISTRY_INTEGRITY_20260709T002835-0500",
+  "created_iso": "2026-07-09T00:28:35-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-054",
+  "item_id": "ITEM-W64-054",
+  "source_registry_root": "Plan/10_REGISTRIES",
+  "check_script": "Plan/07_IMPLEMENTATION/scripts/run_wave64_registry_integrity_checks.py",
+  "latest_check_evidence": "Plan/Instructions/QA/Evidence/Wave64/REGISTRY_INTEGRITY_CHECKS_20260709T002712-0500.json",
+  "validator_correction_boundary": {
+    "changed_validator": true,
+    "reason": "Narrowed ID uniqueness to actual row identifiers so foreign keys, package IDs, and taxonomy value lists are not false failures.",
+    "registry_data_changed": false
+  },
+  "checks": {
+    "previous_row_passed": true,
+    "parse_check": true,
+    "unique_ids": true,
+    "cross_reference_check": true,
+    "stale_status_scan": true,
+    "missing_file_check": true,
+    "structured_report": true,
+    "registry_root_exists": true
+  },
+  "counts": {
+    "files": 378,
+    "json_files": 355,
+    "json_parsed": 355,
+    "json_parse_errors": 0,
+    "csv_files": 23,
+    "csv_parse_errors": 0,
+    "other_files": 0,
+    "plan_path_references": 0,
+    "missing_plan_references": 0,
+    "duplicate_id_findings": 0,
+    "stale_status_findings": 0
+  },
+  "runtime_boundary": {
+    "ec2_started": false,
+    "aws_contacted": false,
+    "generation_executed": false,
+    "comfyui_contacted": false,
+    "hard_gates_rerun": false,
+    "runtime_mutation": false
+  },
+  "gold_mask_dependency_boundary": {
+    "mask_truth_consumed": false,
+    "candidate_masks_consumed_as_truth": false,
+    "masks_promoted": false,
+    "wave71_activation_attempted": false
+  },
+  "errors": [],
+  "qa_decision": "registry_integrity_passed_local_structural_reference_scan",
+  "next_step": "Advance to TRK-W64-055/ITEM-W64-055.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/registry_integrity.json",
+    "Plan/Instructions/QA/Evidence/Wave64/REGISTRY_INTEGRITY_20260709T002835-0500.json",
+    "Plan/Tracker/Evidence/REGISTRY_INTEGRITY_20260709T002835-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/REGISTRY_INTEGRITY_CHECKS_20260709T002712-0500.json",
+    "Plan/07_IMPLEMENTATION/scripts/run_wave64_registry_integrity_checks.py",
+    "Plan/10_REGISTRIES"
+  ],
+  "csv_updates": {
+    "tracker": {
+      "Plan/Tracker/wave64_end_to_end_strict_ai_tracker.csv": 1,
+      "Plan/Tracker/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_TRACKER_ROWS.csv": 1
+    },
+    "items": {
+      "Plan/Items/wave64_end_to_end_strict_ai_itemized_list.csv": 1,
+      "Plan/Items/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_ITEM_ROWS.csv": 1
+    }
+  }
+}

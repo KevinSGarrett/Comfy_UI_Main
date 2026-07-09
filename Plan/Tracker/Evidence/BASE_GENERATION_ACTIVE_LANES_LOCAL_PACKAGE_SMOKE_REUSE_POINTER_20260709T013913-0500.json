@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "BASE_GENERATION_ACTIVE_LANES_LOCAL_PACKAGE_SMOKE_REUSE_POINTER_20260709T013913-0500",
+  "created_iso": "2026-07-09T01:39:13-05:00",
+  "decision": "base_generation_active_lane_manifests_updated_for_repaired_package_smoke_reuse",
+  "source_completion_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/BASE_GENERATION_REPAIRED_PACKAGE_LOCAL_SMOKE_MATRIX_COMPLETION_20260709T013348-0500.json",
+  "tracker_source_completion_evidence": "Plan/Tracker/Evidence/BASE_GENERATION_REPAIRED_PACKAGE_LOCAL_SMOKE_MATRIX_COMPLETION_20260709T013348-0500.json",
+  "files_updated": [
+    {
+      "path": "Workflows/base_generation/ACTIVE_LANES.json",
+      "change": "Added local_package_smoke_matrix completion pointer, eight passed lanes, evidence paths, reuse rule, and claim boundary."
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+      "change": "Added local_package_smoke_matrix completion pointer, updated completed_runtime_lane_ids to all eight lanes, and set current_runtime_lane_id to none_local_package_smoke_matrix_complete."
+    }
+  ],
+  "validation": {
+    "json_validation_passed": true,
+    "active_lanes_passed_count": 8,
+    "queue_lanes_passed_count": 8,
+    "summary_lanes_passed_count": 8,
+    "lane_sets_match_completion_summary": true,
+    "queue_current_runtime_lane_id": "none_local_package_smoke_matrix_complete",
+    "tracker_completion_copy_exists": true
+  },
+  "runtime_boundary": {
+    "local_comfyui_only": true,
+    "ec2_started": false,
+    "aws_contacted": false,
+    "hard_gates_rerun": false,
+    "generation_executed_by_this_manifest_update": false,
+    "gold_body_mask_truth_consumed": false,
+    "candidate_body_masks_consumed_as_truth": false,
+    "body_masks_promoted": false,
+    "wave71_activation_attempted": false
+  },
+  "reuse_rule": "Do not rerun the repaired local package smoke matrix by default. Reuse the completion evidence unless a workflow, prompt request, package manifest, model/input asset, or QA threshold changes.",
+  "claim_boundary": "This manifest update makes the completed local package smoke matrix discoverable for orchestration only. It is not final quality certification, exact character/reference identity proof, full-body proof, gold body-mask proof, body/hand/contact geometry authority, target-runtime EC2 proof, or Wave71+ activation.",
+  "next_recommended_action": "Run the next local-only non-mask orchestration validation, preferably deploy-bundle or matrix quality-run planning, without starting EC2 or promoting masks."
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MASK-GEOMETRY-HARD-GATE-LOCKDOWN-20260707T230000-0500",
+  "timestamp": "2026-07-07T23:00:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "qa_type": "wave70_mask_geometry_hard_gate_lockdown",
+  "result": "blocked_existing_masks_until_geometry_gate_passes",
+  "trigger": "User visual review showed that the green allowed and amber protected geometry panel itself can be wrong, broad, conflicting, or untrustworthy even before semantic mask QA.",
+  "governing_protocol": "Plan/Instructions/QA/MASK_GEOMETRY_HARD_GATE_PROTOCOL.md",
+  "governing_validator": "Plan/Instructions/QA/Scripts/Test-Wave70MaskGeometryGate.ps1",
+  "required_tokens": {
+    "geometry_boolean": "wave70_mask_geometry_gate_pass == true",
+    "row_approval_token": "W70_MASK_GEOMETRY_ROW_GATE_PASS_TRUE"
+  },
+  "non_negotiable_rule": "No Wave70 mask can be accepted, candidate-passed, locally passed, complete, generalized, certification-ready, target-runtime-ready, or used as canonical protected geometry unless the exact row has a passing geometry gate with the required approval token.",
+  "geometry_fail_examples": [
+    "green allowed and amber protected regions overlap in a confusing or contradictory way",
+    "green allowed region is a broad rectangle that does not trace the named anatomical target",
+    "amber protected region is a broad rectangle that does not trace real protected anatomy",
+    "mask is considered valid because it sits inside a green box while missing the actual body part",
+    "full-image, crop, mask, and panel coordinate transforms are missing or unproven",
+    "panel is too small, cluttered, or low-resolution to inspect",
+    "rectangle-only or hardcoded one-image geometry is treated as proof instead of debug"
+  ],
+  "current_status": "Existing worked Wave70 masks remain untrusted. Generated-output stability remains output-geometry evidence only and cannot promote geometry, mask alignment, boundary correctness, or completion.",
+  "applies_to": [
+    "mf70_face_identity_critical",
+    "mf70_expression_region",
+    "mf70_forehead_skin",
+    "mf70_cheeks_skin",
+    "mf70_jawline_chin",
+    "mf70_skin_tone_continuity",
+    "mf70_eyes_full",
+    "mf70_left_eye",
+    "mf70_right_eye",
+    "mf70_pupils_iris_sclera",
+    "mf70_eyelids",
+    "mf70_eyelashes",
+    "mf70_under_eye",
+    "mf70_eyebrows",
+    "mf70_nose",
+    "mf70_mouth_lips",
+    "mf70_teeth",
+    "future neck, ears, hairline, hair, hands, fingers, fingernails, skin, clothing, contact, body-part, video, audio, and deformation masks"
+  ],
+  "required_status_when_geometry_unproven": "Blocked_Wave70_Mask_Geometry_Gate_Not_Passed",
+  "allowed_observation_only_result": "generated_output_safe_only_mask_geometry_and_promotion_blocked",
+  "statement": "This evidence does not pass any mask. It locks in the rule that geometry correctness is a separate prerequisite gate before semantic mask alignment, protected-neighbor QA, generated-output QA, reference-matrix QA, target-runtime proof, or certification."
+}
