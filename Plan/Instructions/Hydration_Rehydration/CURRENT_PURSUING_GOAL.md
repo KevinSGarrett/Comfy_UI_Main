@@ -1,3 +1,9 @@
+## Current Pursuing Goal - Selected Inpaint Pre-EC2 Launch Chain Fixed - 2026-07-09T18:06:00-05:00
+
+Keep pursuing the selected-inpaint target-runtime path from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a refreshed pre-EC2 launch chain that carries the current handoff bundle through project readiness, live runbook, execution-readiness snapshot, and launch gate without starting EC2 or using candidate masks as truth.
+
+Current validation anchors: `W66_SELECTED_TARGET_RUNTIME_LIVE_EXECUTION_RUNBOOK_CURRENT_PRE_EC2_HANDOFF_FIXED_20260709T180300-0500.json`, `W66_SELECTED_TARGET_RUNTIME_EXECUTION_READINESS_SNAPSHOT_CURRENT_PRE_EC2_HANDOFF_FIXED_20260709T180400-0500.json`, `W66_SELECTED_TARGET_RUNTIME_LAUNCH_GATE_CURRENT_PRE_EC2_HANDOFF_FIXED_20260709T180500-0500.json`, and operations helper validation `W60_OPERATIONS_HELPER_AFTER_SELECTED_PRE_EC2_HANDOFF_CHAIN_FIX_20260709T180600-0500.json` (`pass_local_only`). Live execution remains unauthorized until explicit target-runtime/live intent, refreshed AWS auth, S3 Execute proofs, EC2 input/model install proof, EC2 static proof, and EC2 start authorization are present. Gold-mask-dependent promotion/body authority work remains blocked outside this non-mask runtime lane.
+
 ## Current Pursuing Goal - Selected Inpaint Pre-EC2 Handoff Bundle Current - 2026-07-09T17:55:00-05:00
 
 Keep pursuing the selected-inpaint target-runtime path from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a current local pre-EC2 handoff bundle that binds selected deploy-bundle, input-asset, and RealVisXL model publish dry-runs into one fail-closed handoff for `sdxl_realvisxl_inpaint_detail_lane`.

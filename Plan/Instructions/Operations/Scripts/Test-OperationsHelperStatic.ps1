@@ -721,11 +721,15 @@ function Invoke-LocalHelper {
         if (-not [bool]$payload.ready_for_input_asset_publish -or -not [bool]$payload.ready_for_model_cache_publish) {
           throw "$Name must preserve the local-ready input/model evidence."
         }
-        if (-not [bool]$payload.project_local_ready -or [string]$payload.project_readiness_result -ne "pass_local_ready_for_ec2_static_proof" -or [string]$payload.project_readiness_failure_category -ne "missing_ec2_static_proof") {
-          throw "$Name must record the selected project-readiness snapshot as local-ready for EC2 static proof while generation remains blocked."
+        $projectReadinessAccepted = (
+          ([string]$payload.project_readiness_result -eq "pass_local_ready_for_ec2_static_proof" -and [string]$payload.project_readiness_failure_category -eq "missing_ec2_static_proof") -or
+          ([string]$payload.project_readiness_result -in @("pass_local_ready_runtime_blocked", "pass_local_ready_runtime_blocked_auth") -and [string]$payload.project_readiness_failure_category -eq "expired_session")
+        )
+        if (-not [bool]$payload.project_local_ready -or -not $projectReadinessAccepted) {
+          throw "$Name must record the selected project-readiness snapshot as local-ready and either static-proof-ready or correctly fail-closed by expired auth while generation remains blocked."
         }
-        if ([bool]$payload.git_local_matches_origin) {
-          throw "$Name must record the current local/origin divergence gate."
+        if ($null -eq $payload.git_local_matches_origin) {
+          throw "$Name must record the local/origin Git gate state."
         }
         if ([int]$payload.ordered_step_count -lt 17 -or @($payload.ordered_live_execution_steps).Count -ne [int]$payload.ordered_step_count) {
           throw "$Name must emit the full ordered live execution sequence."
@@ -785,8 +789,8 @@ function Invoke-LocalHelper {
         if ([bool]$payload.ec2_started -or [bool]$payload.generation_executed -or [bool]$payload.prompt_posted -or [bool]$payload.active_runtime_marker_written) {
           throw "$Name must not start EC2, generate, post prompts, or write runtime markers."
         }
-        if ([bool]$payload.stage_attempted -or [bool]$payload.commit_attempted -or [bool]$payload.push_attempted -or [bool]$payload.reset_attempted -or [bool]$payload.checkout_attempted -or [bool]$payload.s3_upload_attempted -or [bool]$payload.model_install_attempted -or [bool]$payload.input_asset_install_attempted) {
-          throw "$Name must not mutate git, upload to S3, or install remote assets/models."
+        if ([bool]$payload.stage_attempted -or [bool]$payload.commit_attempted -or [bool]$payload.push_attempted -or [bool]$payload.reset_attempted -or [bool]$payload.checkout_attempted -or [bool]$payload.deploy_bundle_rebuilt -or [bool]$payload.s3_upload_attempted -or [bool]$payload.model_install_attempted -or [bool]$payload.input_asset_install_attempted) {
+          throw "$Name must not mutate git, rebuild deploy bundles, upload to S3, or install remote assets/models."
         }
         if ([bool]$payload.masks_consumed_as_truth -or [bool]$payload.masks_promoted -or [bool]$payload.wave70_hard_gate_rerun -or [bool]$payload.wave71_plus_activated -or [bool]$payload.jira_mutated -or [bool]$payload.full_project_certification_allowed) {
           throw "$Name must not consume/promote masks, rerun Wave70, activate Wave71+, mutate Jira, or allow final certification."
@@ -810,8 +814,8 @@ function Invoke-LocalHelper {
             throw "$Name local_install_dry_run_proofs is missing $requiredProof."
           }
         }
-        if ([int]$payload.runbook_ordered_step_count -lt 17 -or [int]$payload.runbook_failed_check_count -ne 0 -or [bool]$payload.runbook_git_local_matches_origin) {
-          throw "$Name must preserve the fail-closed runbook sequence and local/origin divergence gate."
+        if ([int]$payload.runbook_ordered_step_count -lt 17 -or [int]$payload.runbook_failed_check_count -ne 0 -or $null -eq $payload.runbook_git_local_matches_origin) {
+          throw "$Name must preserve the fail-closed runbook sequence and recorded local/origin gate."
         }
         if (-not [bool]$payload.runbook_ready_for_input_asset_publish -or -not [bool]$payload.runbook_ready_for_model_cache_publish) {
           throw "$Name must preserve local publish-readiness for selected input assets and model cache."

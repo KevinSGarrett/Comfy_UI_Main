@@ -1,3 +1,11 @@
+## Immediate Next Action - Selected Inpaint Pre-EC2 Launch Chain Fixed - 2026-07-09T18:06:00-05:00
+
+Continue selected-inpaint runtime/orchestration from the refreshed local pre-EC2 launch chain. The project readiness snapshot, live execution runbook, execution-readiness snapshot, and launch gate now align to the current local pre-EC2 handoff bundle and correctly accept the clean/synced Git state while preserving fail-closed expired-auth live gates.
+
+Current evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_PROJECT_READINESS_SNAPSHOT_SELECTED_INPAINT_CURRENT_PRE_EC2_HANDOFF_20260709T180100-0500.json`, `W66_SELECTED_TARGET_RUNTIME_LIVE_EXECUTION_RUNBOOK_CURRENT_PRE_EC2_HANDOFF_FIXED_20260709T180300-0500.json`, `W66_SELECTED_TARGET_RUNTIME_EXECUTION_READINESS_SNAPSHOT_CURRENT_PRE_EC2_HANDOFF_FIXED_20260709T180400-0500.json`, and `W66_SELECTED_TARGET_RUNTIME_LAUNCH_GATE_CURRENT_PRE_EC2_HANDOFF_FIXED_20260709T180500-0500.json`. Operations helper validation `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_AFTER_SELECTED_PRE_EC2_HANDOFF_CHAIN_FIX_20260709T180600-0500.json` reports `pass_local_only`, 36 scripts parsed, 28 local smokes, 10 evidence contract checks, and 0 failures. Tracker mirrors exist.
+
+Remaining live blockers are unchanged: explicit target-runtime/live intent, refreshed AWS auth, S3 Execute proofs for deploy bundle/input/model assets, EC2 input/model install execute proof, EC2 object-info/path/hash static proof, and EC2 start authorization. Do not write `ACTIVE_EC2_RUNTIME_WINDOW.json`, start EC2, upload to S3, post ComfyUI prompts, promote masks, rerun Wave70 hard gates, activate Wave71+, or switch to Jira bookkeeping without explicit live/gate conditions.
+
 ## Immediate Next Action - Selected Inpaint Pre-EC2 Handoff Bundle Current - 2026-07-09T17:55:00-05:00
 
 Continue selected-inpaint runtime/orchestration from the current local pre-EC2 handoff bundle. The bundle explicitly ties the selected deploy-bundle S3 dry-run, selected input-asset publish dry-runs, and refreshed RealVisXL model publish dry-run to the selected inpaint target-runtime lane without contacting AWS/S3/EC2/ComfyUI or running generation.
