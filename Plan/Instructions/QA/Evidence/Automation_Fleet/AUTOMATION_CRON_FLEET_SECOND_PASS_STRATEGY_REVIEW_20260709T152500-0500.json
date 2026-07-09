@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "AUTOMATION_CRON_FLEET_SECOND_PASS_STRATEGY_REVIEW_20260709T152500-0500",
+  "created_at": "2026-07-09T15:25:00-05:00",
+  "classification": "FLEET_STRATEGY_OPTIMAL_WITH_MONITORING_WINDOW",
+  "overall_confidence": 0.91,
+  "active_cron_jobs_after_review": 9,
+  "paused_legacy_heartbeat_count": 1,
+  "deleted_redundant_heartbeat": "review-cursor-handoffs-after-bookmark",
+  "reason_deleted": "The one-shot worker-handoff bookmark review had already been performed and recorded; leaving it active could create unnecessary side-session interruption.",
+  "schedule_assessment": {
+    "ec2_cost_sentinel_hourly": "correct; GPU spend safety needs frequent independent checks",
+    "two_hour_supervisor": "correct; primary progress and anti-loop watchdog",
+    "cursor_worker_monitor_two_hour": "correct; monitors usage-reduction lane without becoming project manager",
+    "claude_subscription_monitor_four_hour": "correct; lower cadence is enough for high-effort synthesis lane health",
+    "six_hour_milestone_auditor": "correct; sequence drift should be checked less often than progress",
+    "daily_artifact_qa": "correct as external-audit-only unless blocking",
+    "daily_cost_local_first": "correct as external-audit-only unless blocking",
+    "fleet_health_daily": "correct; verify automation health and stale finalization without steering routine work",
+    "weekly_consistency": "correct; low-frequency structural review"
+  },
+  "strategy_assessment": {
+    "default_cron_behavior": "observe_classify_external_audit_only",
+    "main_session_interruption": "only_blocking_or_safety_critical",
+    "routine_progress_steering_owner": "two_hour_supervisor_only",
+    "worker_offload_target": "at_least_50_percent_active_codex_desktop_usage_reduction",
+    "mandatory_prework_delegation_gate": "active",
+    "cursor_role": "mechanical scans, evidence extraction, validator triage, path/hash summaries, first-pass drafts",
+    "claude_role": "high-effort synthesis, contradiction review, architecture/routing critique",
+    "codex_role": "final authority, live runtime decisions, visual QA, Git/AWS/S3/Jira/mask decisions, validation"
+  },
+  "recent_health_findings": {
+    "main_session": "ADVANCING_WITH_REPO_SYNC_BLOCKER",
+    "gpu_instance_state": "stopped",
+    "cursor_enforcement_latest": "AI_WORKER_DELEGATION_HEALTHY",
+    "claude_verifier": "PASS",
+    "worker_usage_reduction_state": "configured_not_yet_proven_post_enforcement",
+    "stale_in_progress_stubs": "superseded_or_external_findings; do_not_clean_as_project_work"
+  },
+  "remaining_watch_items": [
+    "Let the combined Cursor/Claude monitor run for 2-3 cycles to prove estimated usage reduction.",
+    "Let the Claude subscription monitor produce its first scheduled audit at its next cadence.",
+    "Fleet health should classify superseded stale IN_PROGRESS stubs without creating cleanup churn.",
+    "If CODEX_USAGE_DRIFT appears, steer by delegating the next suitable task rather than interrupting with bookkeeping."
+  ],
+  "no_additional_schedule_changes_recommended": true,
+  "next_recommended_action": "Keep the nine active cron jobs and one paused legacy heartbeat as-is; continue selected-inpaint ComfyUI runtime/orchestration work while worker monitors measure actual Codex usage reduction."
+}
