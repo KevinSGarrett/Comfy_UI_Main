@@ -81,8 +81,12 @@ function New-Check {
 
 $qaRoot = Resolve-ProjectPath -Path "Plan\Instructions\QA\Evidence"
 $runtimeReadinessDir = Join-Path $qaRoot "Runtime_Readiness"
+$doneCertificationsDir = Join-Path $qaRoot "Done_Certifications"
 if ([string]::IsNullOrWhiteSpace($WorkOrderFile)) {
-  $WorkOrderFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_*.json"
+  $WorkOrderFile = Find-LatestFile -Directory $doneCertificationsDir -Filter "W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_*.json"
+  if ([string]::IsNullOrWhiteSpace($WorkOrderFile)) {
+    $WorkOrderFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_*.json"
+  }
 }
 if ([string]::IsNullOrWhiteSpace($TargetRuntimePlanFile)) {
   $TargetRuntimePlanFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W66_ACTIVE_RUNTIME_QUEUE_TARGET_RUNTIME_EXECUTION_PLAN_*.json"
@@ -133,6 +137,7 @@ $plannerBinding = Read-JsonFile -Path $plannerBindingPath
 $runPackage = Read-JsonFile -Path $runPackagePath
 
 $workOrder = @(Convert-ToArray -Value $workOrderRecord.work_orders | Where-Object { [string]$_.lane_id -eq $LaneId -and [string]$_.work_order_type -eq "final_certification_review_required" } | Select-Object -First 1)
+$targetProofWorkOrder = @(Convert-ToArray -Value $workOrderRecord.work_orders | Where-Object { [string]$_.lane_id -eq $LaneId -and [string]$_.work_order_type -eq "target_runtime_proof_required" } | Select-Object -First 1)
 $queueLane = @(Convert-ToArray -Value $queue.lanes | Where-Object { [string]$_.lane_id -eq $LaneId } | Select-Object -First 1)
 $targetCandidate = @(Convert-ToArray -Value $targetRuntimePlan.target_candidates | Where-Object { [string]$_.lane_id -eq $LaneId } | Select-Object -First 1)
 
@@ -141,6 +146,18 @@ $targetCandidateBlockers = if ($targetCandidate.Count -gt 0) { @(Convert-ToArray
 $remainingRisks = @(Convert-ToArray -Value $visualQa.remaining_risks)
 $plannerRemainingGaps = @(Convert-ToArray -Value $plannerBinding.remaining_gaps)
 $tradeoffs = @(Convert-ToArray -Value $visualQa.comparison_to_source.tradeoffs_or_notes)
+$workOrderBlockerList = New-Object System.Collections.Generic.List[string]
+if ($workOrder.Count -gt 0) {
+  foreach ($blocker in @(Convert-ToArray -Value $workOrder[0].blocked_by)) {
+    if (-not [string]::IsNullOrWhiteSpace([string]$blocker)) { Add-Text -List $workOrderBlockerList -Text ([string]$blocker) }
+  }
+}
+if ($targetProofWorkOrder.Count -gt 0) {
+  foreach ($blocker in @(Convert-ToArray -Value $targetProofWorkOrder[0].blocked_by)) {
+    if (-not [string]::IsNullOrWhiteSpace([string]$blocker)) { Add-Text -List $workOrderBlockerList -Text ([string]$blocker) }
+  }
+}
+$workOrderBlockers = @($workOrderBlockerList | Select-Object -Unique)
 
 $checks = @(
   (New-Check -Name "final_review_work_order_present" -Passed ($workOrder.Count -gt 0 -and [string]$workOrder[0].work_order_id -eq "WO-W66-SDXL_REALESRGAN_UPSCALE_POLISH_LANE-FINAL-CERTIFICATION-REVIEW") -Observed $(if ($workOrder.Count -gt 0) { [ordered]@{ work_order_id = [string]$workOrder[0].work_order_id; status = [string]$workOrder[0].status } } else { "missing" }) -Expected "RealESRGAN final-certification-review work order is present"),
@@ -159,7 +176,8 @@ foreach ($check in $checks) {
   if ([string]$check.result -ne "pass") { Add-Text -List $reviewDefects -Text "check_failed:$($check.name)" }
 }
 
-$blockers = @(
+$blockerList = New-Object System.Collections.Generic.List[string]
+foreach ($blocker in @(
   "realesrgan_lane_target_runtime_proof_evidence_missing",
   "target_runtime_object_info_path_hash_proof_missing",
   "bounded_target_runtime_output_missing",
@@ -167,10 +185,14 @@ $blockers = @(
   "single_local_upscale_sample_not_broad_robustness_matrix",
   "local_pass_with_notes_not_final_certification",
   "explicit_user_target_runtime_selection_required",
-  "git_checkpoint_gate_not_clean_for_ec2_execute",
-  "deploy_bundle_source_git_dirty_rebuild_required_before_ec2",
   "full_project_certification_allowed_false"
-)
+)) {
+  Add-Text -List $blockerList -Text $blocker
+}
+foreach ($blocker in $workOrderBlockers) {
+  Add-Text -List $blockerList -Text $blocker
+}
+$blockers = @($blockerList | Select-Object -Unique)
 
 $knownIssues = @(
   "W69 RealESRGAN model provisioning proves local model presence and local runtime loading only.",
