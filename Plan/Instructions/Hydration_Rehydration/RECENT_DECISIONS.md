@@ -1,3 +1,9 @@
+## Selected Inpaint Post-Rebuild Chain Is Local-Ready But Live-Blocked - 2026-07-09T15:35:00-05:00
+
+Decision: use the post-rebuild selected-inpaint package readiness, launch gate, pre-EC2 handoff, live runbook, and execution-readiness snapshot as the current local authority for the selected runtime lane. These artifacts point at rebuilt bundle SHA256 089a7a411f9380c4f737a8d246d1ade29799d59c1fcba95aaf4dde4bcbd68bcb and preserve fail-closed live gates.
+
+Decision boundary: this is not authorization for S3 Execute, EC2 start, EC2 install, ComfyUI generation, final certification, mask promotion, Wave70 hard gates, Wave71+ activation, or Jira mutation. Continue local source-of-truth project work and require explicit live intent before any external/runtime action.
+
 ## Local Source Of Truth Overrides Stale EC2 Workspace - 2026-07-09T12:28:07-05:00
 
 Decision: local `C:\Comfy_UI_Main` is the authoritative execution ledger for Items, Tracker, hydration, runtime-lane queue, selected next action, and completed-work status. EC2 `/home/ubuntu/Comfy_UI_Main` is runtime/cache state only and cannot reopen completed work or override local evidence.

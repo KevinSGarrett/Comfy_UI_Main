@@ -1,3 +1,9 @@
+## Current Blocker - Selected Inpaint Live Gates Remain Closed After Post-Rebuild Runbook Refresh - 2026-07-09T15:35:00-05:00
+
+The selected-inpaint local chain is ready only up to dry-run/readiness state. Live target-runtime execution remains blocked by git_checkpoint_gate_not_clean_for_ec2_execute, explicit_user_target_runtime_selection_required, selected_s3_publish_proof_missing_for_deploy_bundle, selected_input_asset_s3_publish_proof_missing_for_live_install, selected_model_s3_publish_proof_missing_for_live_install, explicit_live_execution_intent_required, and ec2_start_not_authorized.
+
+Do not upload to S3 with Execute, start EC2, install EC2 assets/models, write active runtime markers, post ComfyUI prompts, run generation, consume/promote masks, rerun Wave70 hard gates, mutate Jira, or activate Wave71+ from this state. Evidence: Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_EXECUTION_READINESS_SNAPSHOT_POST_REBUILD_RUNBOOK_REFRESH_20260709T153500-0500.json.
+
 ## Immediate Next Action - Selected Inpaint Deploy Bundle Rebuilt And S3 Dry-Run Ready - 2026-07-09T15:18:00-05:00
 
 The selected-inpaint deploy bundle was rebuilt locally from clean source at runtime_artifacts/deploy_bundles/deploy_bundle_sdxl_realvisxl_inpaint_detail_lane_20260709T151500-0500/DEPLOY_BUNDLE_MANIFEST.json. The manifest reports result=pass_local_only, source_git_head=3bea5a3ace95c19f54f7344ab294fc00ea90660d, source_git_clean=true, source_git_status_count=0, preserve-local roots recorded, EC2 not started, and generation not executed. Bundle zip hash: 089a7a411f9380c4f737a8d246d1ade29799d59c1fcba95aaf4dde4bcbd68bcb.
