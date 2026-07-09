@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "CRON_LOW_INTERRUPTION_WORKER_USAGE_REDUCTION_POLICY_20260709T151500-0500",
+  "created_at": "2026-07-09T15:15:00-05:00",
+  "classification": "LOW_INTERRUPTION_WORKER_USAGE_REDUCTION_POLICY_ACTIVE",
+  "user_intent": "Cursor and Claude subscription are installed so Codex Desktop can delegate worker tasks, reduce weekly Codex Desktop usage by at least half, and sustain autonomous ComfyUI work without constant usage exhaustion.",
+  "policy_summary": {
+    "cron_default": "Observe, classify, and write compact external audits without interrupting the main session.",
+    "interrupt_only_when": [
+      "EC2/GPU spend or runtime safety risk",
+      "main session is looping or performing repeated non-progress",
+      "automation is missing, paused, broken, or not finalizing and affects safety/progress",
+      "sequence drift would activate deferred work or repeat completed work",
+      "repo/deploy/live gate is about to be violated",
+      "worker-lane failure causes Codex Desktop to absorb long delegated tasks"
+    ],
+    "cursor_role": "Cursor-first for broad mechanical local reads, inventories, file/path/hash summaries, validator triage, repetitive evidence extraction, and first-pass drafts.",
+    "claude_role": "Claude subscription for high-effort Sonnet synthesis, contradiction review, architecture/routing critique, and difficult strategy review.",
+    "codex_role": "Codex keeps final authority for project steering, live runtime, visual QA, Git/AWS/S3/Jira/mask authority, final validation, and user-facing conclusions."
+  },
+  "updated_files": [
+    "C:\\Comfy_UI_Main\\Plan\\Instructions\\AUTOMATION_CRON_FLEET_SUPERVISION_STRATEGY.md",
+    "C:\\Comfy_UI_Main\\Plan\\Instructions\\AI_WORKER_LANE_ROUTING_POLICY.md",
+    "C:\\Users\\kevin\\.codex\\cursor_handoff\\CURSOR_DELEGATION_POLICY.md",
+    "C:\\Users\\kevin\\.codex\\claude_subscription_handoff\\CLAUDE_SUBSCRIPTION_DELEGATION_POLICY.md"
+  ],
+  "new_classification": "CODEX_USAGE_DRIFT",
+  "usage_reduction_target": "at_least_50_percent_less_active_codex_desktop_time_for_worker_suitable_tasks",
+  "main_session_rule": "Keep the main session on selected-inpaint ComfyUI runtime/orchestration unless a blocking or safety-critical finding requires interruption.",
+  "next_recommended_action": "Let cron jobs audit independently; let Cursor/Claude absorb worker-suitable scans and synthesis; only the two-hour supervisor should routinely steer progress."
+}

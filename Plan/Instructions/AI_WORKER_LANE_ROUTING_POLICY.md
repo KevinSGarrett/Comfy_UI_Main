@@ -8,6 +8,8 @@ This policy defines how Codex Desktop, Cursor CLI, and Claude Code subscription 
 
 Reduce Codex Desktop usage by moving bounded worker tasks to Cursor and high-effort synthesis tasks to Claude Code subscription while keeping Codex as final project authority.
 
+Target outcome: reduce active Codex Desktop usage by at least 50% for this 24/7 autonomous ComfyUI build. Cursor and Claude are not extra project managers; they are worker lanes that absorb work Codex Desktop would otherwise spend long turns doing.
+
 Current usage baseline:
 
 ```text
@@ -31,6 +33,23 @@ Local `C:\Comfy_UI_Main` is the authoritative execution ledger. EC2 `/home/ubunt
 Do not count worker handoffs, hydration, proof-log, tracker, manifest, index, Git, or audit updates as real progress unless they directly follow a concrete ComfyUI runtime/orchestration/QA artifact. The selected-inpaint runtime/orchestration path remains the active local-first work lane unless the user explicitly selects another lane.
 
 Workers and worker-health monitors must not rerun completed fallback/base/Canny/local-smoke proofs from stale EC2 or old ledger state.
+
+## Usage Reduction Rule
+
+Before Codex Desktop performs any broad local scan, repetitive evidence extraction, first-pass helper/script drafting, long contradiction review, or high-effort strategy synthesis, it should ask:
+
+```text
+Can Cursor or Claude produce compact evidence for this while Codex waits?
+```
+
+If yes, route the work out:
+
+- Cursor first for mechanical local work, inventories, path/hash/file summaries, validator triage, and bounded first drafts.
+- Claude subscription for hard synthesis, contradiction review, architecture/routing critique, or high-effort Sonnet review.
+
+Codex should then review the compact result, make final decisions, apply any final patches, and validate. Codex should not live-tail worker output or redo the worker task unless the worker handoff is incomplete or unsafe.
+
+Worker delegation does not replace progress. A worker handoff counts only when it returns compact evidence that advances a concrete ComfyUI runtime/orchestration/QA task or materially reduces Codex active reasoning.
 
 ## Lane 1: Codex Desktop Final Authority
 

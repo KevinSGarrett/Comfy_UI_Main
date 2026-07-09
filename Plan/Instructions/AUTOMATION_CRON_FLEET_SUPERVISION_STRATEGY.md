@@ -26,6 +26,18 @@ Do not rerun completed EC2/local work as new work: low-risk fallback first runti
 
 The fleet exists to keep the main session making concrete ComfyUI progress. Cron jobs must not become a parallel bookkeeping project.
 
+Cron jobs are supervisors, not parallel project managers. Their default behavior is to observe, classify, and write compact external audits without interrupting the main session.
+
+Main-session interruption is allowed only when the finding is blocking or safety-critical:
+- EC2/GPU spend risk, expired runtime window, or unsafe running instance;
+- main session classified as `LOOPING_BOOKKEEPING` or equivalent repeated non-progress;
+- missing, paused, broken, or non-finalizing automation that affects safety/progress;
+- sequence drift that would activate deferred waves or repeat completed work;
+- repo/deploy/live-gate defect that the main session is about to violate;
+- worker-lane failure that is causing Codex Desktop to absorb long delegated tasks.
+
+Routine QA gaps, consistency findings, stale-but-superseded audit stubs, Jira control-plane notes, and non-blocking ledger mismatches should be written to external audit/evidence only. They should not message or redirect the main session unless they become blocking.
+
 Concrete progress means one of:
 - selected inpaint/runtime lane implementation or workflow wiring;
 - deploy-bundle rebuild/revalidation planning or proof;
@@ -36,6 +48,19 @@ Concrete progress means one of:
 - narrow validator/helper work that directly unblocks runtime/QA/cost safety.
 
 Hydration, proof-log, tracker, manifest, index, Git, or audit updates do not count as progress unless they follow a concrete ComfyUI runtime/orchestration/QA artifact.
+
+## Codex Desktop Usage Reduction
+
+The Cursor and Claude subscription lanes exist to reduce Codex Desktop usage so the autonomous ComfyUI build can run longer without exhausting weekly limits.
+
+Expected reduction target: at least 50% less active Codex Desktop time for broad local scanning, repetitive evidence extraction, first-pass helper/script drafting, long contradiction review, and high-effort synthesis.
+
+Cron jobs should reinforce this division:
+- Use Cursor-first for broad mechanical local reads, inventories, parser/validator triage, file/path/hash summaries, and first-pass drafts.
+- Use Claude subscription for high-effort Sonnet synthesis, contradiction review, or strategy critique after Cursor extraction or when synthesis is the main task.
+- Keep Codex Desktop on final authority: project steering, live runtime decisions, visual QA, Git/AWS/S3/Jira/mask authority, final validation, and user-facing conclusions.
+
+A cron audit should classify `CODEX_USAGE_DRIFT` only when the main session repeatedly performs long worker-suitable scans or synthesis directly in Codex while worker lanes are healthy. The first correction should be a compact recommendation to delegate the next suitable task, not a broad interruption or new bookkeeping task.
 
 ## Worker Lane Policy
 
@@ -108,6 +133,13 @@ Monitor Scoring fields for worker-aware audits:
 - The weekly consistency audit owns Plan/Instructions/Items/Tracker consistency only.
 
 Specialist jobs may report drift, but they should not all steer the main session. Use the shared correction lock before any steering message or project file edit.
+
+Main-session steering ownership:
+- The two-hour supervisor is the only routine progress-steering job.
+- EC2 sentinel may interrupt only for EC2/GPU safety.
+- Fleet health may interrupt only for missing/broken/non-finalizing automations or worker-lane health failure.
+- Daily artifact, daily cost, six-hour milestone, and weekly consistency audits should default to external audit-only unless their finding is blocking or safety-critical.
+- Cursor/Claude monitors should not steer project work; they may steer only worker-lane repair or usage-reduction drift.
 
 ## Audit Finalization And Stale Stub Handling
 
