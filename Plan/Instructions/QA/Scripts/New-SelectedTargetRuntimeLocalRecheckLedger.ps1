@@ -207,8 +207,22 @@ if ((Has-Property -Object $runtimeHandoff -Name "gate_summary") -and (Has-Proper
   $runtimeHandoffProjectReadiness = $runtimeHandoff.gate_summary.project_readiness
 }
 
+$gitGatePasses = (
+  [string]$gitGate.result -eq "pass_git_checkpoint_ready" -and
+  [bool]$gitGate.clean_worktree -and
+  [bool]$gitGate.local_matches_origin -and
+  -not [bool]$gitGate.commit_attempted -and
+  -not [bool]$gitGate.push_attempted
+)
+$gitGateDirtyBlocker = (
+  [string]$gitGate.result -eq "blocked_git_checkpoint_dirty_worktree" -and
+  -not [bool]$gitGate.clean_worktree -and
+  -not [bool]$gitGate.commit_attempted -and
+  -not [bool]$gitGate.push_attempted
+)
+
 $exactBlockers = New-Object System.Collections.Generic.List[string]
-if ([string]$gitGate.result -eq "blocked_git_checkpoint_dirty_worktree") {
+if ($gitGateDirtyBlocker) {
   [void]$exactBlockers.Add("git_checkpoint_gate_not_clean_for_ec2_execute")
 }
 if ([string]$runtimeHandoff.failure_category -eq "local_git_worktree_dirty" -and -not $handoffMaterializedBundle) {
@@ -230,7 +244,7 @@ $checks = @(
   (New-Check -Name "materialized_bundle_commands_preserved_when_available" -Passed ((-not $handoffMaterializedBundle) -or (-not [string]::IsNullOrWhiteSpace([string]$handoffBundle.selected_deploy_bundle_s3_bundle_uri) -and -not [string]::IsNullOrWhiteSpace([string]$handoffBundle.selected_deploy_bundle_s3_bundle_sha256))) -Observed ([ordered]@{ materialized = $handoffMaterializedBundle; uri = [string]$handoffBundle.selected_deploy_bundle_s3_bundle_uri; sha = [string]$handoffBundle.selected_deploy_bundle_s3_bundle_sha256; s3_upload_execute_allowed = $handoffBundle.selected_deploy_bundle_s3_upload_execute_allowed }) -Expected "materialized selected bundle evidence carries URI/SHA while upload execute remains blocked"),
   (New-Check -Name "six_recheck_rows_accounted" -Passed (@($rows).Count -eq 6 -and $allRowsAccepted -and $allRowsSideEffectFree -and $unexpectedRows.Count -eq 0) -Observed ([ordered]@{ row_count = @($rows).Count; accepted = $allRowsAccepted; side_effect_free = $allRowsSideEffectFree; unexpected_count = $unexpectedRows.Count }) -Expected "six accepted local-only recheck rows with no live side effects"),
   (New-Check -Name "closure_rollup_keeps_final_certification_blocked" -Passed ([int]$closure.closed_work_order_count -eq 2 -and [int]$closure.open_work_order_count -eq 16 -and [int]$closure.remaining_target_runtime_count -eq 8 -and [int]$closure.remaining_final_review_count -eq 7 -and -not [bool]$closure.full_project_certification_allowed) -Observed ([ordered]@{ closed = $closure.closed_work_order_count; open = $closure.open_work_order_count; target_runtime = $closure.remaining_target_runtime_count; final_review = $closure.remaining_final_review_count; full_project_certification_allowed = $closure.full_project_certification_allowed }) -Expected "closure rollup remains 2 closed / 16 open and full certification blocked"),
-  (New-Check -Name "git_checkpoint_dry_run_blocks_ec2_without_commit_or_push" -Passed ([string]$gitGate.result -eq "blocked_git_checkpoint_dirty_worktree" -and -not [bool]$gitGate.clean_worktree -and -not [bool]$gitGate.commit_attempted -and -not [bool]$gitGate.push_attempted) -Observed ([ordered]@{ result = $gitGate.result; clean_worktree = $gitGate.clean_worktree; local_matches_origin = $gitGate.local_matches_origin; porcelain_count = $gitGate.porcelain_count; commit_attempted = $gitGate.commit_attempted; push_attempted = $gitGate.push_attempted }) -Expected "dirty Git dry-run blocker with no commit or push; local/origin mismatch is allowed as additional checkpoint context while EC2 remains blocked"),
+  (New-Check -Name "git_checkpoint_dry_run_accounted_without_commit_or_push" -Passed ($gitGatePasses -or $gitGateDirtyBlocker) -Observed ([ordered]@{ result = $gitGate.result; clean_worktree = $gitGate.clean_worktree; local_matches_origin = $gitGate.local_matches_origin; porcelain_count = $gitGate.porcelain_count; commit_attempted = $gitGate.commit_attempted; push_attempted = $gitGate.push_attempted; passes_for_ec2_execute = $gitGatePasses; dirty_blocker = $gitGateDirtyBlocker }) -Expected "clean/synced pass gate or dirty Git blocker, always with no commit or push"),
   (New-Check -Name "runtime_unblock_handoff_records_expected_blocker" -Passed ([string]$runtimeHandoff.lane_id -eq $laneId -and (@("handoff_failed_local_readiness", "handoff_git_checkpoint_blocked") -contains [string]$runtimeHandoff.result) -and $null -ne $runtimeHandoffProjectReadiness -and (@("missing_project_readiness", "pass_local_ready_runtime_blocked", "pass_local_ready_for_ec2_static_proof") -contains [string]$runtimeHandoffProjectReadiness.result)) -Observed ([ordered]@{ result = $runtimeHandoff.result; failure_category = $runtimeHandoff.failure_category; project_readiness = $(if ($null -ne $runtimeHandoffProjectReadiness) { $runtimeHandoffProjectReadiness.result } else { $null }) }) -Expected "selected inpaint runtime handoff fail-closes on an expected local blocker"),
   (New-Check -Name "local_support_queue_and_model_rechecks_pass" -Passed ([string]$localSupport.result -eq "pass_local_active_runtime_queue_support_certification" -and [int]$localSupport.lane_count -eq 9 -and [string]$runtimeQueue.result -eq "pass_local_only" -and [int]$runtimeQueue.failed_check_count -eq 0 -and [string]$modelCoverage.result -eq "pass_local_only" -and [int]$modelCoverage.failed_check_count -eq 0) -Observed ([ordered]@{ local_support = $localSupport.result; lane_count = $localSupport.lane_count; runtime_queue = $runtimeQueue.result; runtime_queue_failed = $runtimeQueue.failed_check_count; model_coverage = $modelCoverage.result; model_coverage_failed = $modelCoverage.failed_check_count }) -Expected "local support, runtime queue, and model registry rechecks pass locally")
 )
