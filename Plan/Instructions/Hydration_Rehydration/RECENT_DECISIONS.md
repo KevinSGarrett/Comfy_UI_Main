@@ -1,3 +1,9 @@
+## Checkpoint Evidence Must Use Post-Commit Git Snapshot - 2026-07-09T15:42:24-05:00
+
+Decision: checkpoint evidence emitted after Execute/Push must recompute every Git status-derived counter, preview, and scope field from the post-commit/post-push worktree. Stale pre-commit porcelain counts must not coexist with clean_worktree=true because those records can mis-gate selected runtime orchestration.
+
+Decision boundary: this is a local operations-helper correctness fix only. It does not authorize S3 Execute, EC2 start, ComfyUI generation, mask promotion, Wave70 hard gates, Wave71+ activation, or Jira mutation.
+
 ## Selected Inpaint Post-Rebuild Chain Is Local-Ready But Live-Blocked - 2026-07-09T15:35:00-05:00
 
 Decision: use the post-rebuild selected-inpaint package readiness, launch gate, pre-EC2 handoff, live runbook, and execution-readiness snapshot as the current local authority for the selected runtime lane. These artifacts point at rebuilt bundle SHA256 089a7a411f9380c4f737a8d246d1ade29799d59c1fcba95aaf4dde4bcbd68bcb and preserve fail-closed live gates.

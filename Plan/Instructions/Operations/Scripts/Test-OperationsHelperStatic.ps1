@@ -351,13 +351,20 @@ function Invoke-LocalHelper {
         if ([bool]$payload.masks_consumed_as_truth -or [bool]$payload.masks_promoted -or [bool]$payload.wave70_hard_gate_rerun -or [bool]$payload.wave71_plus_activated -or [bool]$payload.full_project_certification_allowed) {
           throw "$Name must not consume/promote masks, rerun Wave70, activate Wave71+, or allow final certification."
         }
-        if ([bool]$payload.post_checkpoint_ready_to_run -or [bool]$payload.clean_git_after_checkpoint) {
-          throw "$Name must not be ready while the manifest checkpoint has not been executed."
+        if ([bool]$payload.post_checkpoint_ready_to_run) {
+          throw "$Name must not be ready while selected deploy/runtime live gates remain blocked."
         }
-        foreach ($requiredBlocker in @("manifest_scoped_checkpoint_not_yet_executed_clean", "explicit_user_target_runtime_selection_required")) {
+        foreach ($requiredBlocker in @("explicit_user_target_runtime_selection_required")) {
           if ($requiredBlocker -notin @($payload.blocker_summary)) {
             throw "$Name blocker_summary is missing $requiredBlocker."
           }
+        }
+        if (
+          "manifest_scoped_checkpoint_not_yet_executed_clean" -notin @($payload.blocker_summary) -and
+          "manifest_checkpoint_dry_run_not_valid" -notin @($payload.blocker_summary) -and
+          "git_checkpoint_gate_not_clean_for_ec2_execute" -notin @($payload.blocker_summary)
+        ) {
+          throw "$Name blocker_summary must preserve a Git/manifest checkpoint blocker while live gates remain closed."
         }
         foreach ($requiredStep in @("manifest_scoped_checkpoint_execute", "post_checkpoint_git_gate", "active_runtime_queue_package_deploy_matrix_recheck", "selected_lane_deploy_bundle_rebuild", "target_runtime_execution_plan_recheck", "runtime_unblock_handoff_recheck", "ec2_static_proof_execute_still_blocked")) {
           if ($requiredStep -notin @($payload.command_sequence | ForEach-Object { [string]$_.name })) {
@@ -402,11 +409,14 @@ function Invoke-LocalHelper {
         if ([bool]$payload.existing_deploy_bundle_source_git_clean) {
           throw "$Name should record the current selected deploy bundle source as dirty before rebuild."
         }
-        if ([bool]$payload.current_git_clean) {
-          throw "$Name current git should still be dirty in this local validation state."
+        if (
+          -not [bool]$payload.current_git_clean -and
+          "manifest_scoped_checkpoint_not_yet_executed_clean" -notin @($payload.blockers_before_rebuild)
+        ) {
+          throw "$Name blockers_before_rebuild must include manifest_scoped_checkpoint_not_yet_executed_clean when current Git is dirty."
         }
-        if ("manifest_scoped_checkpoint_not_yet_executed_clean" -notin @($payload.blockers_before_rebuild)) {
-          throw "$Name blockers_before_rebuild must include manifest_scoped_checkpoint_not_yet_executed_clean."
+        if ("explicit_user_target_runtime_selection_required" -notin @($payload.blockers_before_rebuild)) {
+          throw "$Name blockers_before_rebuild must preserve explicit_user_target_runtime_selection_required."
         }
         if ([string]$payload.rebuild_command -notmatch "New-EC2DeployBundle.ps1" -or [string]$payload.rebuild_command -notmatch "sdxl_realvisxl_inpaint_detail_lane" -or [string]$payload.rebuild_command -notmatch "RUN_PACKAGE_MANIFEST.json") {
           throw "$Name rebuild_command must call New-EC2DeployBundle.ps1 for the selected lane and run package."
@@ -454,10 +464,16 @@ function Invoke-LocalHelper {
         if ([bool]$payload.expected_manifest_exists_now -or [bool]$payload.expected_zip_exists_now -or [bool]$payload.ready_for_s3_publish_after_rebuild) {
           throw "$Name must remain not publish-ready before the concrete rebuilt manifest and zip exist."
         }
-        foreach ($requiredBlocker in @("manifest_scoped_checkpoint_not_yet_executed_clean", "selected_deploy_bundle_rebuild_not_completed", "selected_deploy_bundle_manifest_missing_until_rebuild", "selected_deploy_bundle_zip_missing_until_rebuild")) {
+        foreach ($requiredBlocker in @("selected_deploy_bundle_rebuild_not_completed", "selected_deploy_bundle_manifest_missing_until_rebuild", "selected_deploy_bundle_zip_missing_until_rebuild")) {
           if ($requiredBlocker -notin @($payload.blockers_before_publish)) {
             throw "$Name blockers_before_publish is missing $requiredBlocker."
           }
+        }
+        if (
+          "manifest_scoped_checkpoint_not_yet_executed_clean" -notin @($payload.blockers_before_publish) -and
+          "deploy_bundle_source_git_dirty_rebuild_required_before_ec2" -notin @($payload.blockers_before_publish)
+        ) {
+          throw "$Name blockers_before_publish must include either manifest checkpoint or dirty deploy-bundle-source blocker before publish."
         }
         if ([string]$payload.publish_dry_run_command -notmatch "Publish-DeployBundleToS3.ps1" -or [string]$payload.publish_dry_run_command -notmatch "DEPLOY_BUNDLE_MANIFEST.json" -or [string]$payload.publish_dry_run_command -match "\s-Execute(\s|$)") {
           throw "$Name publish_dry_run_command must call Publish-DeployBundleToS3.ps1 without -Execute."

@@ -1,3 +1,11 @@
+## Immediate Next Action - Checkpoint Gate Evidence Recompute Fixed - 2026-07-09T15:42:24-05:00
+
+The Git checkpoint helper now recomputes all status-derived evidence fields after Execute/Push, so committed checkpoint evidence no longer reports clean_worktree=true while retaining stale pre-commit porcelain counts or dirty previews. The fix was committed as 1ea87ce310631ca512bff92e80329eb51ae7641e and validated by a temp-output checkpoint run that reported pass_git_checkpoint_committed, clean_worktree=true, porcelain_count=0, scope_changed_path_count=0, and local_matches_origin=true.
+
+Operations helper validation was updated for the clean-git path and rerun: Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_AFTER_CHECKPOINT_RECOMPUTE_FIX_20260709T154100-0500.json reports pass_local_only, 36 scripts parsed, 0 parse failures, 28 local smokes, 0 smoke failures, 10 evidence contract checks, and 0 evidence contract failures. No AWS/S3 execute, EC2 start, ComfyUI prompt, generation, mask promotion, Wave70 hard gate, Wave71+ activation, Jira mutation, reset, or checkout occurred.
+
+Next concrete project state remains selected-inpaint local runtime/orchestration: live S3/EC2 work is still blocked until explicit live intent and S3/input/model/EC2 gates are satisfied.
+
 ## Immediate Next Action - Selected Inpaint Post-Rebuild Runbook Chain Current - 2026-07-09T15:35:00-05:00
 
 Continue from the selected-inpaint post-rebuild local runtime chain. The package readiness, launch gate, pre-EC2 handoff, live execution runbook, and final execution-readiness snapshot were refreshed against the rebuilt deploy bundle at runtime_artifacts/deploy_bundles/deploy_bundle_sdxl_realvisxl_inpaint_detail_lane_20260709T151500-0500/DEPLOY_BUNDLE_MANIFEST.json with zip SHA256 089a7a411f9380c4f737a8d246d1ade29799d59c1fcba95aaf4dde4bcbd68bcb.
