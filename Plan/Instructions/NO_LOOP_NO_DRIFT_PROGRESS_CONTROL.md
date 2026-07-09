@@ -130,6 +130,7 @@ Before broad local reasoning, Codex must write one gate classification:
 CODEX_ONLY_AUTHORITY
 CURSOR_FIRST_REQUIRED
 CLAUDE_HEAVY_REVIEW_REQUIRED
+GIT_GITHUB_WORKER_ANALYSIS_REQUIRED
 NO_WORKER_NEEDED_UNDER_THRESHOLD
 ```
 
@@ -143,8 +144,9 @@ Hard thresholds:
 - More than one validator/parser triage pass: Cursor first.
 - More than 3 minutes active Codex reasoning: Cursor or Claude.
 - Strategy/contradiction review: Claude Sonnet unless final authority applies.
+- Git/GitHub investigation with More than 5 changed files, more than one failure source, long CI logs, unclear checkpoint boundaries, branch/upstream ambiguity, or PR/review triage over 3 minutes: Git/GitHub worker analysis first.
 
-Monitor Scoring for worker-aware audits should include `worker_eligible_tasks_detected`, `worker_handoffs_attempted`, `successful_compact_handoffs`, `incomplete_or_failed_handoffs`, `codex_fallback_cases`, `direct_codex_worker_lane_violations`, `estimated_codex_work_avoided_minutes`, `estimated_usage_reduction_percent`, and `usage_reduction_confidence`.
+Monitor Scoring for worker-aware audits should include `worker_eligible_tasks_detected`, `worker_handoffs_attempted`, `successful_compact_handoffs`, `incomplete_or_failed_handoffs`, `codex_fallback_cases`, `direct_codex_worker_lane_violations`, `git_github_worker_analysis_tasks_detected`, `git_github_analysis_handoffs_attempted`, `git_github_direct_codex_analysis_violations`, `git_github_worker_mutation_attempts_detected`, `estimated_codex_work_avoided_minutes`, `estimated_usage_reduction_percent`, and `usage_reduction_confidence`.
 
 ## 7. Drift recovery sequence
 
@@ -344,11 +346,14 @@ Do not attempt to rebuild, rerun, or promote the full old workflow system merely
 
 ## 14b. Worker Lane Ownership
 
-The current project now uses three worker lanes for local reasoning:
+The current project now uses four worker/authority lanes for local reasoning:
 
 - Codex-only: final authority, gated decisions, and live-state mutation.
 - Cursor-first: bounded local scans, inventories, parser triage, and helper drafting.
 - Claude subscription: optional high-effort Sonnet synthesis, contradiction review, or strategy critique after Cursor extraction through `C:\Users\kevin\.codex\claude_subscription_handoff\Invoke-ClaudeSubscriptionHandoff.ps1`.
+- Git/GitHub worker analysis: read-only diff/status/CI/PR/issue/branch investigation and draft preparation through Cursor or Claude; all Git and GitHub mutations remain Codex-only.
+
+Git/GitHub worker-analysis handoffs must preserve `mutation_boundary: Codex-only`.
 
 Do not treat a delegated lane as duplicate work if it is operating on a smaller, explicit work order that was created to reduce Codex Desktop load. Duplicate work is only a loop if Codex redoes the same broad scan instead of reviewing the delegated output.
 

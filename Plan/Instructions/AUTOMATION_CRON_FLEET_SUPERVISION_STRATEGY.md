@@ -64,7 +64,7 @@ A cron audit should classify `CODEX_USAGE_DRIFT` only when the main session repe
 
 ## Worker Lane Policy
 
-Use three explicit lanes:
+Use four explicit lanes:
 
 1. Codex-only
    - final authority for runtime, mask, Git, Jira, AWS, EC2, S3, and visual QA decisions
@@ -80,6 +80,11 @@ Use three explicit lanes:
    - long contradiction review
    - difficult strategy critique when no live authority is required
    - heavy reasoning tasks that would otherwise consume a long Codex Desktop turn
+4. Git/GitHub worker analysis
+   - read-only dirty-worktree, diff, CI, PR, issue, and branch-state investigation
+   - Cursor first for mechanical extraction
+   - Claude for checkpoint, branch, PR, or push-risk synthesis
+   - Codex-only for all Git and GitHub mutations
 
 Claude Desktop/subscription is available through:
 
@@ -96,6 +101,7 @@ Before any cron job performs a broad scan, audit, helper draft, multi-file diagn
 - `CODEX_ONLY_AUTHORITY`
 - `CURSOR_FIRST_REQUIRED`
 - `CLAUDE_HEAVY_REVIEW_REQUIRED`
+- `GIT_GITHUB_WORKER_ANALYSIS_REQUIRED`
 - `NO_WORKER_NEEDED_UNDER_THRESHOLD`
 
 Hard thresholds:
@@ -106,6 +112,7 @@ Hard thresholds:
 - More than one validator/parser triage pass: Cursor first.
 - More than 3 minutes active Codex reasoning: Cursor or Claude.
 - Strategy/contradiction review: Claude Sonnet unless final authority applies.
+- More than 5 changed files, more than one Git/GitHub failure source, long CI logs, unclear checkpoint boundaries, branch/upstream divergence analysis, or PR/review triage over 3 minutes: Git/GitHub worker analysis first.
 - Failed worker output: retry once with a narrower work order before Codex absorbs the task.
 
 Each cron audit that touches worker-eligible work should record the selected gate, the worker handoff path if used, and any fallback reason.
@@ -118,6 +125,10 @@ Monitor Scoring fields for worker-aware audits:
 - `incomplete_or_failed_handoffs`
 - `codex_fallback_cases`
 - `direct_codex_worker_lane_violations`
+- `git_github_worker_analysis_tasks_detected`
+- `git_github_analysis_handoffs_attempted`
+- `git_github_direct_codex_analysis_violations`
+- `git_github_worker_mutation_attempts_detected`
 - `estimated_codex_work_avoided_minutes`
 - `estimated_usage_reduction_percent`
 - `usage_reduction_confidence`
@@ -152,6 +163,10 @@ Cron jobs must not repeatedly regenerate audits just to clean historical stubs. 
 ## Repo Cleanliness
 
 Cron jobs may inspect repository state but must not mutate it. They must not run git add, commit, push, reset, checkout, restore, clean, or destructive cleanup.
+
+When repo or GitHub investigation exceeds a tiny check, use `GIT_GITHUB_WORKER_ANALYSIS_REQUIRED` before Codex spends a long turn on diff, CI, PR, issue, or branch-state analysis. Workers may produce read-only evidence and draft recommended Codex commands. Codex alone may execute Git/GitHub mutations.
+
+Git/GitHub worker-analysis handoffs must preserve `mutation_boundary: Codex-only`.
 
 Use these classifications where applicable:
 - REPO_SYNC_BLOCKER: repo or origin state blocks live deploy/EC2 gates, but local ComfyUI work can continue.
