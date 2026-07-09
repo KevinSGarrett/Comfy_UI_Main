@@ -1,3 +1,11 @@
+## Immediate Next Action - Low-Risk Lane Final Review Packet Current - 2026-07-09T18:33:00-05:00
+
+Continue final-certification work from the current low-risk lane final-review packet. The packet now consumes the current selected-inpaint final-certification work-order map, closes only the low-risk lane-local review packet, and keeps full-project certification blocked.
+
+Current evidence: `Plan/Instructions/QA/Evidence/Done_Certifications/W66_LOW_RISK_LANE_FINAL_REVIEW_PACKET_SELECTED_CHAIN_20260709T183200-0500.json` reports `pass_low_risk_lane_final_review_packet_ready`, `final_decision=done_with_non_blocking_notes`, `closes_work_order=true`, `defects=0`, 0 failed checks, `full_project_certification_allowed=false`, `new_ec2_started=false`, and `new_generation_executed=false`. QA helper validation `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_QA_HELPER_AFTER_LOW_RISK_FINAL_REVIEW_SELECTED_CHAIN_20260709T183300-0500.json` reports `pass_local_only`, 57 local smokes, and 0 failures. Tracker mirrors exist.
+
+Remaining project blockers are unchanged: other lane target-runtime/final-review work orders, explicit target-runtime/live intent, refreshed AWS auth, S3 Execute proofs, EC2 install/static proof, EC2 start authorization, and gold-mask-dependent gates. Do not start EC2, upload to S3, post ComfyUI prompts, promote masks, rerun Wave70 hard gates, activate Wave71+, or switch to Jira bookkeeping without explicit live/gate conditions.
+
 ## Immediate Next Action - Selected Inpaint Final Review Blocker Packet Current - 2026-07-09T18:26:00-05:00
 
 Continue selected-inpaint runtime/orchestration from the current inpaint lane final-review blocker packet. The packet now consumes the current final-certification work-order map and clean target-runtime plan summary, removes stale dirty-Git/deploy-bundle blockers, and keeps the lane blocked only on target-runtime/live proof and final-review evidence gaps.

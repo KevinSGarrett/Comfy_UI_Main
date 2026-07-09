@@ -79,8 +79,12 @@ function New-Check {
 
 $qaRoot = Resolve-ProjectPath -Path "Plan\Instructions\QA\Evidence"
 $runtimeReadinessDir = Join-Path $qaRoot "Runtime_Readiness"
+$doneCertificationsDir = Join-Path $qaRoot "Done_Certifications"
 if ([string]::IsNullOrWhiteSpace($WorkOrderFile)) {
-  $WorkOrderFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_*.json"
+  $WorkOrderFile = Find-LatestFile -Directory $doneCertificationsDir -Filter "W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_*.json"
+  if ([string]::IsNullOrWhiteSpace($WorkOrderFile)) {
+    $WorkOrderFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_*.json"
+  }
 }
 if ([string]::IsNullOrWhiteSpace($OutFile)) {
   $stamp = Get-Date -Format "yyyyMMddTHHmmss-0500"
@@ -154,7 +158,7 @@ foreach ($check in $checks) {
 $knownIssues = @(
   "Visual QA notes minor beauty-retouch softness, slightly synthetic hair flyaways, and soft blazer/lapel edges.",
   "This packet certifies only the low-risk lane runtime-smoke artifact scope, not final portfolio quality.",
-  "Project-level final certification remains blocked by other lane target-runtime/final-review work orders and global Git/handoff blockers."
+  "Project-level final certification remains blocked by other lane target-runtime/final-review work orders, live gates, and gold-mask-dependent gates."
 )
 
 $result = if ($defects.Count -eq 0) { "pass_low_risk_lane_final_review_packet_ready" } else { "fail_low_risk_lane_final_review_packet" }
@@ -184,6 +188,7 @@ $record = [ordered]@{
   wave70_hard_gate_rerun = $false
   wave71_plus_activated = $false
   full_project_certification_allowed = $false
+  closes_work_order = $true
   artifact_scope = "Lane-scoped final review packet for the completed sdxl_low_risk_fallback_lane runtime smoke proof only."
   implementation_summary = "Reviewed existing lane workflow, EC2 static proof, bounded workflow smoke, pullback/hash evidence, and visual QA evidence without rerunning live runtime."
   tests_performed = @($checks)

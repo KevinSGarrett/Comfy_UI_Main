@@ -1,0 +1,126 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "lane_final_review_packet",
+    "certification_id":  "CERT-W66-SDXL-LOW-RISK-LANE-FINAL-REVIEW-20260709T183018-0500",
+    "created_at":  "2026-07-09T18:30:18-05:00",
+    "task_tracker_id":  "WO-W66-SDXL_LOW_RISK_FALLBACK_LANE-FINAL-REVIEW-PACKET",
+    "lane_id":  "sdxl_low_risk_fallback_lane",
+    "result":  "pass_low_risk_lane_final_review_packet_ready",
+    "final_decision":  "done_with_non_blocking_notes",
+    "local_only":  true,
+    "new_ec2_started":  false,
+    "new_generation_executed":  false,
+    "historical_ec2_started":  true,
+    "historical_generation_executed":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "s3_contacted":  false,
+    "comfyui_contacted":  false,
+    "masks_consumed_as_truth":  false,
+    "masks_promoted":  false,
+    "wave70_hard_gate_rerun":  false,
+    "wave71_plus_activated":  false,
+    "full_project_certification_allowed":  false,
+    "closes_work_order":  true,
+    "artifact_scope":  "Lane-scoped final review packet for the completed sdxl_low_risk_fallback_lane runtime smoke proof only.",
+    "implementation_summary":  "Reviewed existing lane workflow, EC2 static proof, bounded workflow smoke, pullback/hash evidence, and visual QA evidence without rerunning live runtime.",
+    "tests_performed":  [
+                            {
+                                "name":  "work_order_ready_for_local_review",
+                                "result":  "pass",
+                                "observed":  "ready_local_review_only_global_project_still_blocked",
+                                "expected":  "ready_local_review_only_global_project_still_blocked"
+                            },
+                            {
+                                "name":  "static_proof_passed_and_stopped",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "result":  "ec2_static_proof_recorded",
+                                                 "lane_id":  "sdxl_low_risk_fallback_lane",
+                                                 "final_state":  "stopped",
+                                                 "generation_executed":  false
+                                             },
+                                "expected":  "static proof recorded for lane, EC2 stopped, no generation"
+                            },
+                            {
+                                "name":  "workflow_smoke_generated_and_stopped",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "result":  "workflow_smoke_generation_complete",
+                                                 "lane_id":  "sdxl_low_risk_fallback_lane",
+                                                 "final_state":  "stopped",
+                                                 "generation_executed":  true
+                                             },
+                                "expected":  "workflow smoke completed one generation and stopped"
+                            },
+                            {
+                                "name":  "run_record_matches_workflow_smoke",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "result":  "workflow_smoke_generation_complete",
+                                                 "lane_id":  "sdxl_low_risk_fallback_lane",
+                                                 "final_state":  "stopped"
+                                             },
+                                "expected":  "run record matches completed stopped workflow smoke"
+                            },
+                            {
+                                "name":  "pullback_hashes_verified",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "status":  "pullback_hashes_verified",
+                                                 "hashes_verified":  true,
+                                                 "errors":  0
+                                             },
+                                "expected":  "pullback hashes verified with no errors"
+                            },
+                            {
+                                "name":  "image_hash_matches_pullback",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "image_hash":  "c6ebdf0d8eb904ed297e06ef36e93c6c6e0251ddf49ff1408a252ed21eacac54",
+                                                 "pullback_hash":  "c6ebdf0d8eb904ed297e06ef36e93c6c6e0251ddf49ff1408a252ed21eacac54"
+                                             },
+                                "expected":  "visual QA image hash matches pullback record"
+                            },
+                            {
+                                "name":  "visual_qa_passed_with_notes",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "result":  "pass_with_notes_for_runtime_smoke",
+                                                 "qa_score":  86,
+                                                 "pass_threshold":  80
+                                             },
+                                "expected":  "visual QA pass_with_notes_for_runtime_smoke at or above threshold"
+                            }
+                        ],
+    "qa_summary":  {
+                       "visual_qa_result":  "pass_with_notes_for_runtime_smoke",
+                       "qa_score":  86,
+                       "pass_threshold":  80,
+                       "defects":  [
+                                       "Minor beauty-retouch softness in skin texture; acceptable for first runtime smoke but not final hyperreal certification by itself.",
+                                       "A few hair flyaways and blazer/lapel edges read slightly synthetic under close inspection."
+                                   ]
+                   },
+    "evidence_paths":  {
+                           "work_order":  "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_SELECTED_INPAINT_CHAIN_20260709T182000-0500.json",
+                           "static_proof":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_POST_LOGIN_RETEST_20260706T104311-0500.json",
+                           "workflow_smoke":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_POST_STATIC_PROOF_RETEST_20260706T110424-0500.json",
+                           "run_record":  "Plan/Instructions/Operations/Run_Records/aws_gpu_workflow_smoke_20260706T110424-0500.json",
+                           "pullback_record":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/PULLBACK_RECORD.json",
+                           "visual_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_VISUAL_20260706T122027-0500.json",
+                           "reviewed_image":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/images/9_codex_hyperreal_editorial_portrait_00002_.png"
+                       },
+    "known_issues":  [
+                         "Visual QA notes minor beauty-retouch softness, slightly synthetic hair flyaways, and soft blazer/lapel edges.",
+                         "This packet certifies only the low-risk lane runtime-smoke artifact scope, not final portfolio quality.",
+                         "Project-level final certification remains blocked by other lane target-runtime/final-review work orders, live gates, and gold-mask-dependent gates."
+                     ],
+    "defects":  [
+
+                ],
+    "certifier":  "Codex Desktop autonomous release manager",
+    "certification_boundary":  "Lane-scoped runtime-smoke final review only. This does not certify full project completion, final portfolio quality, video/audio/deformation quality, body-mask readiness, Wave70 mask promotion, or Wave71+ activation.",
+    "next_action":  "Use this packet as the local review closure for the low-risk lane work order; continue with other final-certification work orders or explicitly gated target-runtime proof."
+}
