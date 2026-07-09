@@ -970,8 +970,8 @@ function Invoke-LocalHelper {
           throw "$Name output is missing top-level field: $required"
         }
       }
-      if ([string]$payload.result -ne "blocked_target_runtime_execution_plan_waiting_for_explicit_selection_and_clean_git") {
-        throw "$Name result must be blocked_target_runtime_execution_plan_waiting_for_explicit_selection_and_clean_git."
+      if ([string]$payload.result -notin @("blocked_target_runtime_execution_plan_waiting_for_explicit_selection", "blocked_target_runtime_execution_plan_waiting_for_explicit_selection_and_clean_git")) {
+        throw "$Name result must be a blocked selected target-runtime execution plan state."
       }
       if (-not [bool]$payload.local_only -or [bool]$payload.execute_allowed_now -or -not [bool]$payload.explicit_user_selection_required) {
         throw "$Name must be local-only, blocked from execution now, and require explicit user selection."
@@ -997,11 +997,12 @@ function Invoke-LocalHelper {
       if (@($payload.blocker_summary | Where-Object { [string]$_ -eq "explicit_user_target_runtime_selection_required" }).Count -eq 0) {
         throw "$Name must require explicit user target-runtime selection."
       }
-      if (@($payload.blocker_summary | Where-Object { [string]$_ -eq "git_checkpoint_gate_not_clean_for_ec2_execute" }).Count -eq 0) {
-        throw "$Name must preserve the dirty Git checkpoint blocker."
+      $hasGitBlocker = @($payload.blocker_summary | Where-Object { [string]$_ -eq "git_checkpoint_gate_not_clean_for_ec2_execute" }).Count -gt 0
+      if ([bool]$payload.git_checkpoint_summary.passes_for_ec2_execute -and $hasGitBlocker) {
+        throw "$Name must not preserve the dirty Git checkpoint blocker after the Git checkpoint gate passes."
       }
-      if ([bool]$payload.git_checkpoint_summary.passes_for_ec2_execute) {
-        throw "$Name must not mark the Git checkpoint gate as passing for EC2."
+      if (-not [bool]$payload.git_checkpoint_summary.passes_for_ec2_execute -and -not $hasGitBlocker) {
+        throw "$Name must preserve the dirty Git checkpoint blocker when the Git checkpoint gate is not passing."
       }
       if ([int]$payload.command_step_count -lt 10 -or @($payload.command_sequence).Count -lt 10) {
         throw "$Name must emit a complete gated command sequence."
@@ -1054,8 +1055,8 @@ function Invoke-LocalHelper {
       if (-not [bool]$payload.package_readiness_pass) {
         throw "$Name must pass local package readiness after object_info proves MaskToImage."
       }
-      if (-not [bool]$payload.explicit_user_selection_required -or [bool]$payload.git_checkpoint_passes_for_ec2) {
-        throw "$Name must require explicit selection and preserve the failed Git EC2 gate."
+      if (-not [bool]$payload.explicit_user_selection_required) {
+        throw "$Name must require explicit selection."
       }
       if (-not [bool]$payload.source_git_clean_in_bundle -and @($payload.exact_blockers | Where-Object { [string]$_ -eq "deploy_bundle_source_git_dirty_rebuild_required_before_ec2" }).Count -eq 0) {
         throw "$Name must include the dirty deploy-bundle source blocker when the bundle source is not scoped-clean."
@@ -1071,8 +1072,12 @@ function Invoke-LocalHelper {
       if ([string]$payload.local_object_info_evidence -notmatch "W66_LOCAL_OBJECT_INFO_INPAINT_DETAIL_MASKTOIMAGE_REFRESH_") {
         throw "$Name must use the refreshed W66 MaskToImage object_info evidence."
       }
-      if (@($payload.exact_blockers | Where-Object { [string]$_ -eq "git_checkpoint_gate_not_clean_for_ec2_execute" }).Count -eq 0) {
-        throw "$Name must preserve the dirty Git EC2 blocker."
+      $hasPackageGitBlocker = @($payload.exact_blockers | Where-Object { [string]$_ -eq "git_checkpoint_gate_not_clean_for_ec2_execute" }).Count -gt 0
+      if ([bool]$payload.git_checkpoint_passes_for_ec2 -and $hasPackageGitBlocker) {
+        throw "$Name must not preserve the dirty Git EC2 blocker after the Git checkpoint gate passes."
+      }
+      if (-not [bool]$payload.git_checkpoint_passes_for_ec2 -and -not $hasPackageGitBlocker) {
+        throw "$Name must preserve the dirty Git EC2 blocker when the Git checkpoint gate is not passing."
       }
       if (@($payload.exact_blockers | Where-Object { [string]$_ -eq "explicit_user_target_runtime_selection_required" }).Count -eq 0) {
         throw "$Name must preserve explicit target-runtime selection as a blocker."
@@ -1125,8 +1130,8 @@ function Invoke-LocalHelper {
       if (-not [bool]$payload.local_package_ready) {
         throw "$Name must recognize the selected package as locally ready."
       }
-      if (-not [bool]$payload.explicit_user_selection_required -or [bool]$payload.git_checkpoint_passes_for_ec2) {
-        throw "$Name must preserve explicit selection and dirty Git blockers."
+      if (-not [bool]$payload.explicit_user_selection_required) {
+        throw "$Name must preserve explicit selection."
       }
       if (-not [bool]$payload.s3_transfer_ready_local_only) {
         throw "$Name must preserve the current local S3 transfer readiness."
@@ -1134,7 +1139,10 @@ function Invoke-LocalHelper {
       if ([int]$payload.failed_check_count -ne 0 -or @($payload.checks | Where-Object { [string]$_.result -ne "pass" }).Count -ne 0) {
         throw "$Name must pass all launch-gate state checks while still blocking launch through exact blockers."
       }
-      $requiredLaunchBlockers = @("git_checkpoint_gate_not_clean_for_ec2_execute", "explicit_user_target_runtime_selection_required", "selected_s3_publish_proof_missing_for_deploy_bundle", "selected_input_asset_s3_publish_proof_missing_for_live_install", "selected_model_s3_publish_proof_missing_for_live_install", "explicit_live_execution_intent_required", "ec2_start_not_authorized")
+      $requiredLaunchBlockers = @("explicit_user_target_runtime_selection_required", "selected_s3_publish_proof_missing_for_deploy_bundle", "selected_input_asset_s3_publish_proof_missing_for_live_install", "selected_model_s3_publish_proof_missing_for_live_install", "explicit_live_execution_intent_required", "ec2_start_not_authorized")
+      if (-not [bool]$payload.git_checkpoint_passes_for_ec2) {
+        $requiredLaunchBlockers += "git_checkpoint_gate_not_clean_for_ec2_execute"
+      }
       if (-not [bool]$payload.source_git_clean_in_bundle) {
         $requiredLaunchBlockers += "deploy_bundle_source_git_dirty_rebuild_required_before_ec2"
       }
@@ -1286,7 +1294,11 @@ function Invoke-LocalHelper {
           }
         }
       }
-      $requiredHandoffBlockers = @("explicit_user_target_runtime_selection_required", "git_checkpoint_gate_not_clean_for_ec2_execute")
+      $gitCheckpointPassesForHandoff = -not (@($payload.exact_blockers | Where-Object { [string]$_ -eq "git_checkpoint_gate_not_clean_for_ec2_execute" }).Count -gt 0)
+      $requiredHandoffBlockers = @("explicit_user_target_runtime_selection_required")
+      if (-not $gitCheckpointPassesForHandoff) {
+        $requiredHandoffBlockers += "git_checkpoint_gate_not_clean_for_ec2_execute"
+      }
       if (-not [bool]$payload.ready_for_s3_publish_now_local_dry_run) {
         $requiredHandoffBlockers += "deploy_bundle_source_git_dirty_rebuild_required_before_ec2"
       }

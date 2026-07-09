@@ -1,3 +1,11 @@
+## Immediate Next Action - Selected Inpaint Clean-Git Gate Chain Refreshed - 2026-07-09T17:08:00-05:00
+
+Continue selected-inpaint runtime/orchestration from the refreshed clean-git local chain. The target-runtime plan now reports `blocked_target_runtime_execution_plan_waiting_for_explicit_selection` with `git_checkpoint_summary.passes_for_ec2_execute=true`; package readiness, input-asset readiness, model-cache readiness, pre-EC2 handoff, live runbook, execution-readiness snapshot, and final launch gate were regenerated against the rebuilt selected-inpaint bundle `089a7a411f9380c4f737a8d246d1ade29799d59c1fcba95aaf4dde4bcbd68bcb`.
+
+Current launch gate: `W66_SELECTED_TARGET_RUNTIME_LAUNCH_GATE_CLEAN_CURRENT_REFRESH_FINAL_20260709T170800-0500.json` reports `blocked_selected_target_runtime_launch_gate_local_proofs_ready_waiting_for_live_gates`, `local_package_ready=true`, `local_install_dry_run_proofs_complete=true`, `git_checkpoint_passes_for_ec2=true`, `source_git_clean_in_bundle=true`, `failed_check_count=0`. Remaining blockers are only explicit target-runtime selection, deploy-bundle/input/model S3 Execute proofs, explicit live execution intent, and EC2 start authorization. Operations helper and QA helper both report `pass_local_only`.
+
+No AWS/S3 Execute, EC2 start, SSM command, ComfyUI prompt post, generation, artifact pullback, mask consumption/promotion, Wave70 hard-gate rerun, Wave71+ activation, Jira mutation, active marker write, reset, or checkout occurred. Next concrete step is scoped checkpoint/push of this refreshed Plan evidence; after that, do real selected-inpaint runtime work only if explicit live intent is provided.
+
 ## Immediate Next Action - Checkpoint Gate Evidence Recompute Fixed - 2026-07-09T15:42:24-05:00
 
 The Git checkpoint helper now recomputes all status-derived evidence fields after Execute/Push, so committed checkpoint evidence no longer reports clean_worktree=true while retaining stale pre-commit porcelain counts or dirty previews. The fix was committed as 1ea87ce310631ca512bff92e80329eb51ae7641e and validated by a temp-output checkpoint run that reported pass_git_checkpoint_committed, clean_worktree=true, porcelain_count=0, scope_changed_path_count=0, and local_matches_origin=true.

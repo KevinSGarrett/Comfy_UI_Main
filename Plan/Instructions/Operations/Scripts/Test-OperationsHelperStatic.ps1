@@ -500,7 +500,7 @@ function Invoke-LocalHelper {
         }
       }
       if ($Name -eq "selected_input_asset_install_readiness_plan_smoke") {
-        foreach ($required in @("result", "local_only", "github_api_contacted", "aws_contacted", "civitai_contacted", "s3_contacted", "comfyui_contacted", "ec2_started", "generation_executed", "prompt_posted", "active_runtime_marker_written", "stage_attempted", "commit_attempted", "push_attempted", "reset_attempted", "checkout_attempted", "deploy_bundle_rebuilt", "s3_upload_attempted", "input_asset_install_attempted", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "full_project_certification_allowed", "selected_lane_id", "selected_work_order_id", "selected_package_readiness", "selected_package_readiness_result", "selected_package_ready_local_only", "runtime_requirements", "required_input_asset_count", "input_asset_plans", "input_asset_local_hash_all_pass", "s3_runtime_transfer_readiness", "s3_runtime_transfer_readiness_result", "s3_runtime_transfer_ready_local_only", "input_asset_s3_base_uri_present", "region", "ready_for_input_asset_publish", "ready_for_ec2_input_asset_install_execute", "exact_blockers", "required_before_ec2_input_install", "command_sequence", "boundary", "next_action")) {
+        foreach ($required in @("result", "local_only", "github_api_contacted", "aws_contacted", "civitai_contacted", "s3_contacted", "comfyui_contacted", "ec2_started", "generation_executed", "prompt_posted", "active_runtime_marker_written", "stage_attempted", "commit_attempted", "push_attempted", "reset_attempted", "checkout_attempted", "deploy_bundle_rebuilt", "s3_upload_attempted", "input_asset_install_attempted", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "full_project_certification_allowed", "selected_lane_id", "selected_work_order_id", "selected_package_readiness", "selected_package_readiness_result", "selected_package_ready_local_only", "selected_package_git_checkpoint_passes_for_ec2", "runtime_requirements", "required_input_asset_count", "input_asset_plans", "input_asset_local_hash_all_pass", "s3_runtime_transfer_readiness", "s3_runtime_transfer_readiness_result", "s3_runtime_transfer_ready_local_only", "input_asset_s3_base_uri_present", "region", "ready_for_input_asset_publish", "ready_for_ec2_input_asset_install_execute", "exact_blockers", "required_before_ec2_input_install", "command_sequence", "boundary", "next_action")) {
           if (-not (Has-Property -Object $payload -Name $required)) {
             throw "$Name output is missing top-level field: $required"
           }
@@ -551,7 +551,10 @@ function Invoke-LocalHelper {
             throw "$Name install execute command must explicitly include -Execute."
           }
         }
-        $requiredInputAssetBlockers = @("git_checkpoint_gate_not_clean_for_ec2_execute", "explicit_user_target_runtime_selection_required", "input_assets_not_yet_published_to_s3_for_selected_lane", "ec2_input_asset_install_execute_requires_explicit_intent")
+        $requiredInputAssetBlockers = @("explicit_user_target_runtime_selection_required", "input_assets_not_yet_published_to_s3_for_selected_lane", "ec2_input_asset_install_execute_requires_explicit_intent")
+        if (-not [bool]$payload.selected_package_git_checkpoint_passes_for_ec2) {
+          $requiredInputAssetBlockers += "git_checkpoint_gate_not_clean_for_ec2_execute"
+        }
         if (-not [bool]$payload.ready_for_input_asset_publish) {
           $requiredInputAssetBlockers += "deploy_bundle_source_git_dirty_rebuild_required_before_ec2"
         }
@@ -618,7 +621,7 @@ function Invoke-LocalHelper {
         }
       }
       if ($Name -eq "selected_model_cache_readiness_plan_smoke") {
-        foreach ($required in @("result", "local_only", "github_api_contacted", "aws_contacted", "civitai_contacted", "s3_contacted", "comfyui_contacted", "ec2_started", "generation_executed", "prompt_posted", "active_runtime_marker_written", "stage_attempted", "commit_attempted", "push_attempted", "reset_attempted", "checkout_attempted", "deploy_bundle_rebuilt", "s3_upload_attempted", "model_install_attempted", "git_lfs_used", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "full_project_certification_allowed", "selected_lane_id", "selected_work_order_id", "selected_package_readiness", "selected_package_ready_local_only", "runtime_requirements", "local_object_info_evidence", "required_model_count", "model_cache_plans", "model_local_hash_all_pass_from_object_info", "s3_runtime_transfer_readiness", "s3_runtime_transfer_readiness_result", "s3_runtime_transfer_ready_local_only", "model_cache_s3_base_uri_present", "region", "ready_for_model_cache_publish", "ready_for_ec2_model_install_execute", "exact_blockers", "required_before_ec2_model_install", "command_sequence", "boundary", "next_action")) {
+        foreach ($required in @("result", "local_only", "github_api_contacted", "aws_contacted", "civitai_contacted", "s3_contacted", "comfyui_contacted", "ec2_started", "generation_executed", "prompt_posted", "active_runtime_marker_written", "stage_attempted", "commit_attempted", "push_attempted", "reset_attempted", "checkout_attempted", "deploy_bundle_rebuilt", "s3_upload_attempted", "model_install_attempted", "git_lfs_used", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "full_project_certification_allowed", "selected_lane_id", "selected_work_order_id", "selected_package_readiness", "selected_package_ready_local_only", "selected_package_git_checkpoint_passes_for_ec2", "runtime_requirements", "local_object_info_evidence", "required_model_count", "model_cache_plans", "model_local_hash_all_pass_from_object_info", "s3_runtime_transfer_readiness", "s3_runtime_transfer_readiness_result", "s3_runtime_transfer_ready_local_only", "model_cache_s3_base_uri_present", "region", "ready_for_model_cache_publish", "ready_for_ec2_model_install_execute", "exact_blockers", "required_before_ec2_model_install", "command_sequence", "boundary", "next_action")) {
           if (-not (Has-Property -Object $payload -Name $required)) {
             throw "$Name output is missing top-level field: $required"
           }
@@ -663,7 +666,10 @@ function Invoke-LocalHelper {
         if ([string]$modelPlan.install_execute_command_requires_explicit_user_intent -notmatch "\s-Execute(\s|$)") {
           throw "$Name install execute command must explicitly include -Execute."
         }
-        $requiredModelCacheBlockers = @("git_checkpoint_gate_not_clean_for_ec2_execute", "explicit_user_target_runtime_selection_required", "model_not_yet_published_to_s3_for_selected_lane", "ec2_model_install_execute_requires_explicit_intent")
+        $requiredModelCacheBlockers = @("explicit_user_target_runtime_selection_required", "model_not_yet_published_to_s3_for_selected_lane", "ec2_model_install_execute_requires_explicit_intent")
+        if (-not [bool]$payload.selected_package_git_checkpoint_passes_for_ec2) {
+          $requiredModelCacheBlockers += "git_checkpoint_gate_not_clean_for_ec2_execute"
+        }
         if (-not [bool]$payload.ready_for_model_cache_publish) {
           $requiredModelCacheBlockers += "deploy_bundle_source_git_dirty_rebuild_required_before_ec2"
         }
@@ -691,8 +697,8 @@ function Invoke-LocalHelper {
             throw "$Name output is missing top-level field: $required"
           }
         }
-        if ([string]$payload.result -ne "blocked_selected_target_runtime_live_execution_runbook_waiting_for_clean_git_and_explicit_live_intent") {
-          throw "$Name must remain blocked until clean Git and explicit live intent."
+        if ([string]$payload.result -notin @("blocked_selected_target_runtime_live_execution_runbook_waiting_for_clean_git_and_explicit_live_intent", "blocked_selected_target_runtime_live_execution_runbook_waiting_for_explicit_live_intent")) {
+          throw "$Name must remain blocked until explicit live intent, and clean Git when the Git gate has not passed."
         }
         if (-not [bool]$payload.local_only -or [bool]$payload.github_api_contacted -or [bool]$payload.aws_contacted -or [bool]$payload.civitai_contacted -or [bool]$payload.s3_contacted -or [bool]$payload.comfyui_contacted) {
           throw "$Name must be local-only and must not contact external services."
@@ -741,7 +747,10 @@ function Invoke-LocalHelper {
             throw "$Name ordered_live_execution_steps is missing pattern $requiredPattern."
           }
         }
-        $requiredRunbookBlockers = @("git_checkpoint_gate_not_clean_for_ec2_execute", "explicit_user_target_runtime_selection_required", "explicit_live_execution_intent_required", "live_s3_uploads_not_authorized", "ec2_start_not_authorized")
+        $requiredRunbookBlockers = @("explicit_user_target_runtime_selection_required", "explicit_live_execution_intent_required", "live_s3_uploads_not_authorized", "ec2_start_not_authorized")
+        if ([string]$payload.result -eq "blocked_selected_target_runtime_live_execution_runbook_waiting_for_clean_git_and_explicit_live_intent") {
+          $requiredRunbookBlockers += "git_checkpoint_gate_not_clean_for_ec2_execute"
+        }
         if (-not [bool]$payload.ready_for_s3_publish_after_rebuild) {
           $requiredRunbookBlockers += "deploy_bundle_source_git_dirty_rebuild_required_before_ec2"
         }

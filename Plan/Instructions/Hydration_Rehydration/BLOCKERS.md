@@ -1,3 +1,7 @@
+## Current Blocker - Selected Inpaint Live Gates Remain Closed After Clean-Git Refresh - 2026-07-09T17:08:00-05:00
+
+The selected-inpaint local chain no longer carries the stale dirty-Git blocker: final launch gate has `git_checkpoint_passes_for_ec2=true`, `source_git_clean_in_bundle=true`, and `failed_check_count=0`. Live work remains blocked only by explicit target-runtime selection, deploy-bundle/input/model S3 Execute proofs, explicit live execution intent, and EC2 start authorization.
+
 ## Current Blocker - Selected Inpaint Live Gates Remain Closed After Post-Rebuild Runbook Refresh - 2026-07-09T15:35:00-05:00
 
 The selected-inpaint local chain is ready only up to dry-run/readiness state. Live target-runtime execution remains blocked by git_checkpoint_gate_not_clean_for_ec2_execute, explicit_user_target_runtime_selection_required, selected_s3_publish_proof_missing_for_deploy_bundle, selected_input_asset_s3_publish_proof_missing_for_live_install, selected_model_s3_publish_proof_missing_for_live_install, explicit_live_execution_intent_required, and ec2_start_not_authorized.

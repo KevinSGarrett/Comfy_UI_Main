@@ -204,7 +204,14 @@ $blockers = New-Object System.Collections.Generic.List[string]
 if (-not $gitGatePasses) { [void]$blockers.Add("git_checkpoint_gate_not_clean_for_ec2_execute") }
 if (-not $s3Ready) { [void]$blockers.Add("s3_runtime_transfer_readiness_not_ready") }
 foreach ($blocker in $selectedBlockedBy) {
+  if ($gitGatePasses -and [string]$blocker -eq "git_checkpoint_gate_not_clean_for_ec2_execute") { continue }
+  if ($gitGatePasses -and [string]$blocker -eq "runtime_handoff_git_gate_not_passing") { continue }
   if (-not [string]::IsNullOrWhiteSpace($blocker)) { [void]$blockers.Add($blocker) }
+}
+$result = if ($gitGatePasses) {
+  "blocked_target_runtime_execution_plan_waiting_for_explicit_selection"
+} else {
+  "blocked_target_runtime_execution_plan_waiting_for_explicit_selection_and_clean_git"
 }
 
 $commandSequence = @(
@@ -227,7 +234,7 @@ $record = [ordered]@{
   schema_version = "1.0"
   artifact_type = "active_runtime_queue_target_runtime_execution_plan"
   created_at = (Get-Date -Format "yyyy-MM-ddTHH:mm:sszzz")
-  result = "blocked_target_runtime_execution_plan_waiting_for_explicit_selection_and_clean_git"
+  result = $result
   local_only = $true
   aws_contacted = $false
   github_api_contacted = $false
@@ -274,7 +281,7 @@ $record = [ordered]@{
   command_sequence = @($commandSequence)
   command_step_count = @($commandSequence).Count
   certification_boundary = "Local target-runtime execution planning only. This does not authorize or perform live upload, marker write, EC2 start, generation, final certification, mask promotion, Wave70 hard-gate rerun, Jira bookkeeping, or Wave71+ activation."
-  next_action = "Keep EC2 stopped. If the user explicitly selects this target-runtime lane, rerun the listed gates in order and require clean Git plus AWS/S3/runtime proof before any -Execute command."
+  next_action = $(if ($gitGatePasses) { "Keep EC2 stopped. If the user explicitly selects this target-runtime lane, rerun the listed gates in order and require AWS/S3/runtime proof before any -Execute command." } else { "Keep EC2 stopped. If the user explicitly selects this target-runtime lane, rerun the listed gates in order and require clean Git plus AWS/S3/runtime proof before any -Execute command." })
 }
 
 $outDir = Split-Path -Path $outFileResolved -Parent

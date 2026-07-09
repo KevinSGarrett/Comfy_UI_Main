@@ -257,6 +257,7 @@ $record = [ordered]@{
   selected_package_readiness = ConvertTo-ProjectRelativePath -Path $selectedReadinessResolved
   selected_package_readiness_result = [string]$selectedReadiness.result
   selected_package_ready_local_only = [bool]$selectedReadiness.package_readiness_pass
+  selected_package_git_checkpoint_passes_for_ec2 = [bool]$selectedReadiness.git_checkpoint_passes_for_ec2
   runtime_requirements = ConvertTo-ProjectRelativePath -Path $runtimeRequirementsPath
   required_input_asset_count = @($assetPlans).Count
   input_asset_plans = $assetPlans

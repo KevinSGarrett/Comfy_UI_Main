@@ -254,6 +254,7 @@ if ($s3PublishDryRunReady) {
   )
   $allBlockers = @($allBlockers | Where-Object { $supersededDeployBundleBlockers -notcontains [string]$_ })
 }
+$gitCheckpointStillBlocked = @($allBlockers | Where-Object { [string]$_ -eq "git_checkpoint_gate_not_clean_for_ec2_execute" }).Count -gt 0
 
 $checks = @(
   (New-Check -Name "pre_ec2_handoff_passes_and_blocks_execution" -Passed ([string]$handoff.result -eq "pass_local_only_selected_target_runtime_pre_ec2_handoff_bundle_ready_ec2_blocked" -and -not [bool]$handoff.target_runtime_launch_allowed -and -not [bool]$handoff.execute_allowed_now) -Observed ([ordered]@{ result = $handoff.result; target_runtime_launch_allowed = $handoff.target_runtime_launch_allowed; execute_allowed_now = $handoff.execute_allowed_now }) -Expected "pre-EC2 handoff passes locally while blocking launch and execute"),
@@ -266,7 +267,11 @@ $checks = @(
 
 $failedChecks = @($checks | Where-Object { [string]$_.result -ne "pass" })
 $result = if ($failedChecks.Count -eq 0) {
-  "blocked_selected_target_runtime_live_execution_runbook_waiting_for_clean_git_and_explicit_live_intent"
+  if ($gitCheckpointStillBlocked) {
+    "blocked_selected_target_runtime_live_execution_runbook_waiting_for_clean_git_and_explicit_live_intent"
+  } else {
+    "blocked_selected_target_runtime_live_execution_runbook_waiting_for_explicit_live_intent"
+  }
 } else {
   "fail_selected_target_runtime_live_execution_runbook"
 }

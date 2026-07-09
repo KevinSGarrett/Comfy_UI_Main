@@ -1,0 +1,163 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "selected_target_runtime_launch_gate",
+    "created_at":  "2026-07-09T17:01:53-05:00",
+    "result":  "blocked_selected_target_runtime_launch_gate_local_proofs_ready_waiting_for_live_gates",
+    "lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+    "selected_work_order_id":  "WO-W66-SDXL_REALVISXL_INPAINT_DETAIL_LANE-TARGET-RUNTIME-PROOF",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "s3_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "prompt_posted":  false,
+    "active_runtime_marker_written":  false,
+    "masks_consumed_as_truth":  false,
+    "masks_promoted":  false,
+    "wave70_hard_gate_rerun":  false,
+    "wave71_plus_activated":  false,
+    "full_project_certification_allowed":  false,
+    "local_package_ready":  true,
+    "local_install_dry_run_proofs_complete":  true,
+    "target_runtime_launch_allowed":  false,
+    "explicit_user_selection_required":  true,
+    "git_checkpoint_passes_for_ec2":  true,
+    "source_git_clean_in_bundle":  true,
+    "s3_transfer_ready_local_only":  true,
+    "ready_for_live_execution":  false,
+    "execute_allowed_now":  false,
+    "runbook_ordered_step_count":  20,
+    "local_install_dry_run_proof_count":  3,
+    "runbook_ready_for_input_asset_publish":  true,
+    "runbook_ready_for_model_cache_publish":  true,
+    "target_runtime_plan":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_TARGET_RUNTIME_EXECUTION_PLAN_CLEAN_CURRENT_REFRESH_20260709T170100-0500.json",
+    "selected_package_readiness":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LANE_PACKAGE_READINESS_CLEAN_CURRENT_REFRESH_20260709T170200-0500.json",
+    "execution_readiness_snapshot":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_EXECUTION_READINESS_SNAPSHOT_POST_REBUILD_RUNBOOK_REFRESH_20260709T153500-0500.json",
+    "local_object_info_evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_OBJECT_INFO_INPAINT_DETAIL_MASKTOIMAGE_REFRESH_20260709T051205-0500.json",
+    "git_checkpoint_gate":  "Plan/Instructions/QA/Evidence/Git_Verification/W66_GITHUB_CHECKPOINT_GATE_SELECTED_INPAINT_CLEAN_CURRENT_20260709T165000-0500.json",
+    "s3_transfer_readiness":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_RUNTIME_TRANSFER_READINESS_CURRENT_ACTIVE_LANES_20260709T014300-0500.json",
+    "deploy_bundle_manifest":  "runtime_artifacts/deploy_bundles/deploy_bundle_sdxl_realvisxl_inpaint_detail_lane_20260709T151500-0500/DEPLOY_BUNDLE_MANIFEST.json",
+    "deploy_bundle_zip":  "runtime_artifacts/deploy_bundles/deploy_bundle_sdxl_realvisxl_inpaint_detail_lane_20260709T151500-0500/deploy_bundle_sdxl_realvisxl_inpaint_detail_lane_20260709T151500-0500.zip",
+    "deploy_bundle_zip_sha256":  "089a7a411f9380c4f737a8d246d1ade29799d59c1fcba95aaf4dde4bcbd68bcb",
+    "checks":  [
+                   {
+                       "name":  "target_plan_still_selects_inpaint_lane",
+                       "result":  "pass",
+                       "observed":  {
+                                        "result":  "blocked_target_runtime_execution_plan_waiting_for_explicit_selection",
+                                        "lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+                                        "work_order_id":  "WO-W66-SDXL_REALVISXL_INPAINT_DETAIL_LANE-TARGET-RUNTIME-PROOF",
+                                        "execute_allowed_now":  false
+                                    },
+                       "expected":  "selected inpaint target-runtime work order with execute_allowed_now=false"
+                   },
+                   {
+                       "name":  "selected_package_readiness_passes_local_only",
+                       "result":  "pass",
+                       "observed":  {
+                                        "result":  "pass_local_only_selected_target_runtime_lane_package_ready_ec2_blocked",
+                                        "package_readiness_pass":  true,
+                                        "failed_check_count":  0,
+                                        "target_runtime_execution_allowed":  false
+                                    },
+                       "expected":  "package readiness passes locally but does not allow target-runtime execution"
+                   },
+                   {
+                       "name":  "local_package_uses_refreshed_masktoimage_object_info",
+                       "result":  "pass",
+                       "observed":  {
+                                        "local_object_info_evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_OBJECT_INFO_INPAINT_DETAIL_MASKTOIMAGE_REFRESH_20260709T051205-0500.json",
+                                        "exact_blockers":  [
+                                                               "explicit_user_target_runtime_selection_required"
+                                                           ]
+                                    },
+                       "expected":  "refreshed MaskToImage object_info evidence and no stale MaskToImage blocker"
+                   },
+                   {
+                       "name":  "s3_transfer_readiness_is_local_ready",
+                       "result":  "pass",
+                       "observed":  {
+                                        "result":  "ready_local_only",
+                                        "local_only":  true,
+                                        "aws_contacted":  false,
+                                        "ec2_started":  false
+                                    },
+                       "expected":  "S3 transfer readiness planner is ready_local_only without external contact"
+                   },
+                   {
+                       "name":  "execution_readiness_has_local_install_proofs_and_blocks_live",
+                       "result":  "pass",
+                       "observed":  {
+                                        "result":  "blocked_selected_target_runtime_execution_readiness_local_proofs_complete_live_gates_closed",
+                                        "failed_check_count":  0,
+                                        "local_install_dry_run_proof_count":  3,
+                                        "runbook_ordered_step_count":  20,
+                                        "ready_for_live_execution":  false,
+                                        "execute_allowed_now":  false,
+                                        "target_runtime_launch_allowed":  false,
+                                        "runbook_ready_for_input_asset_publish":  true,
+                                        "runbook_ready_for_model_cache_publish":  true
+                                    },
+                       "expected":  "execution-readiness snapshot has three local install dry-run proofs, publish readiness, no failed checks, and live execution closed"
+                   },
+                   {
+                       "name":  "git_checkpoint_state_is_accounted",
+                       "result":  "pass",
+                       "observed":  {
+                                        "result":  "pass_git_checkpoint_ready",
+                                        "clean_worktree":  true,
+                                        "local_matches_origin":  true,
+                                        "passes_for_ec2_execute":  true
+                                    },
+                       "expected":  "Git checkpoint either passes clean/synced local readiness or remains represented as a launch blocker"
+                   },
+                   {
+                       "name":  "explicit_selection_blocks_launch",
+                       "result":  "pass",
+                       "observed":  {
+                                        "explicit_user_selection_required":  true,
+                                        "execute_allowed_now":  false
+                                    },
+                       "expected":  "explicit user target-runtime selection is still required"
+                   },
+                   {
+                       "name":  "source_bundle_state_is_accounted",
+                       "result":  "pass",
+                       "observed":  {
+                                        "source_git_clean_in_bundle":  true,
+                                        "deploy_bundle_manifest":  "runtime_artifacts/deploy_bundles/deploy_bundle_sdxl_realvisxl_inpaint_detail_lane_20260709T151500-0500/DEPLOY_BUNDLE_MANIFEST.json",
+                                        "deploy_bundle_zip_sha256":  "089a7a411f9380c4f737a8d246d1ade29799d59c1fcba95aaf4dde4bcbd68bcb",
+                                        "exact_blockers":  [
+                                                               "explicit_user_target_runtime_selection_required"
+                                                           ]
+                                    },
+                       "expected":  "selected deploy bundle source is either scoped-clean or fail-closed with the dirty-source blocker"
+                   }
+               ],
+    "failed_check_count":  0,
+    "exact_blockers":  [
+                           "explicit_user_target_runtime_selection_required",
+                           "selected_s3_publish_proof_missing_for_deploy_bundle",
+                           "selected_input_asset_s3_publish_proof_missing_for_live_install",
+                           "selected_model_s3_publish_proof_missing_for_live_install",
+                           "explicit_live_execution_intent_required",
+                           "ec2_start_not_authorized"
+                       ],
+    "next_live_gate_sequence":  [
+                                    "explicit_user_target_runtime_selection",
+                                    "clean_git_checkpoint_gate",
+                                    "deploy_bundle_s3_execute_proof",
+                                    "input_asset_s3_execute_proofs",
+                                    "model_s3_execute_proof",
+                                    "ec2_model_and_input_install_hash_proofs",
+                                    "ec2_static_proof",
+                                    "bounded_workflow_smoke",
+                                    "artifact_pullback_hash_qa",
+                                    "strict_whole_image_visual_qa"
+                                ],
+    "certification_boundary":  "Local selected target-runtime launch gate only. This does not authorize or perform live upload, marker write, EC2 start, generation, target-runtime proof, final certification, mask promotion, Wave70 hard-gate rerun, Jira bookkeeping, or Wave71+ activation.",
+    "next_action":  "Keep EC2 stopped. Git is clean/synced for the local gate; future live execution still requires explicit live intent, S3 Execute proofs for deploy bundle/input/model assets, EC2 install hash proof, EC2 start authorization, and selected target-runtime gates."
+}

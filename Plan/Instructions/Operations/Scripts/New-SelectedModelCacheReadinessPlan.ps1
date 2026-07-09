@@ -230,6 +230,7 @@ $record = [ordered]@{
   selected_work_order_id = [string]$selectedReadiness.selected_work_order_id
   selected_package_readiness = ConvertTo-ProjectRelativePath -Path $selectedReadinessResolved
   selected_package_ready_local_only = [bool]$selectedReadiness.package_readiness_pass
+  selected_package_git_checkpoint_passes_for_ec2 = [bool]$selectedReadiness.git_checkpoint_passes_for_ec2
   runtime_requirements = ConvertTo-ProjectRelativePath -Path $runtimeRequirementsPath
   local_object_info_evidence = ConvertTo-ProjectRelativePath -Path $objectInfoPath
   required_model_count = @($modelPlans).Count

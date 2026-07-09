@@ -167,7 +167,7 @@ $proofs = @(
 
 $checks = @(
   (New-Check -Name "runbook_is_current_selected_lane_and_fail_closed" -Passed (
-      [string]$runbook.result -eq "blocked_selected_target_runtime_live_execution_runbook_waiting_for_clean_git_and_explicit_live_intent" -and
+      [string]$runbook.result -in @("blocked_selected_target_runtime_live_execution_runbook_waiting_for_clean_git_and_explicit_live_intent", "blocked_selected_target_runtime_live_execution_runbook_waiting_for_explicit_live_intent") -and
       [string]$runbook.selected_lane_id -eq "sdxl_realvisxl_inpaint_detail_lane" -and
       [string]$runbook.selected_work_order_id -eq "WO-W66-SDXL_REALVISXL_INPAINT_DETAIL_LANE-TARGET-RUNTIME-PROOF" -and
       -not [bool]$runbook.ready_for_live_execution -and
