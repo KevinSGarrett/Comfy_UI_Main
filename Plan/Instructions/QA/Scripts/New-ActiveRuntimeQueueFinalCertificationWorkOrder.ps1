@@ -124,7 +124,7 @@ if (-not $gitPasses) {
     -NextAction "Do not start EC2; intentionally checkpoint or otherwise resolve the dirty worktree only when a target-runtime task is selected."))
 }
 
-if ([string]$readiness.handoff_summary.git_checkpoint_gate_passes_for_ec2_execute -ne "True") {
+if (-not $gitPasses -and [string]$readiness.handoff_summary.git_checkpoint_gate_passes_for_ec2_execute -ne "True") {
   [void]$globalBlockers.Add("runtime_handoff_git_gate_not_passing")
 }
 

@@ -462,12 +462,13 @@ function Invoke-LocalHelper {
       if ([int]$payload.work_order_count -lt 1 -or @($payload.work_orders).Count -lt 1) {
         throw "$Name must produce at least one work order from the blocked readiness state."
       }
-      if (@($payload.global_blockers).Count -lt 1) {
-        throw "$Name must preserve global blockers from the current blocked readiness state."
-      }
       $targetRuntimeOrders = @($payload.work_orders | Where-Object { [string]$_.work_order_type -eq "target_runtime_proof_required" })
       if ($targetRuntimeOrders.Count -lt 1) {
         throw "$Name must include target_runtime_proof_required work orders for blocked lanes."
+      }
+      $blockedOrders = @($payload.work_orders | Where-Object { @($_.blocked_by).Count -gt 0 })
+      if ($blockedOrders.Count -lt 1) {
+        throw "$Name must preserve lane/live blockers in generated work orders."
       }
       $workOrderMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
       if (-not (Test-Path -LiteralPath $workOrderMarkdown)) {

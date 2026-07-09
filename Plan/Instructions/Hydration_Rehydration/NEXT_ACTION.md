@@ -1,3 +1,11 @@
+## Immediate Next Action - Selected Inpaint Final Certification Work Orders Current - 2026-07-09T18:21:00-05:00
+
+Continue selected-inpaint runtime/orchestration from the current active-runtime final-certification work-order map. The work-order record consumes the current selected-inpaint final-certification readiness evidence, removes the stale nested-handoff Git blocker when current Git is clean/synced, and keeps target-runtime/live evidence gaps explicit.
+
+Current evidence: `Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_SELECTED_INPAINT_CHAIN_20260709T182000-0500.json` reports `pass_local_only_final_certification_work_order_ready`, `work_order_count=17`, `global_blockers=0`, `target_runtime_orders=8`, `final_review_orders=8`, and `ready_review_orders=1`. QA helper validation `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_QA_HELPER_AFTER_FINAL_CERT_WORK_ORDER_SELECTED_CHAIN_20260709T182100-0500.json` reports `pass_local_only`, 57 local smokes, and 0 failures. Tracker mirrors exist.
+
+Remaining live/certification blockers are unchanged: explicit target-runtime/live intent, refreshed AWS auth, S3 Execute proofs for deploy bundle/input/model assets, EC2 input/model install execute proof, EC2 object-info/path/hash static proof, EC2 start authorization, and lane-specific final review for lanes still lacking final certification. Do not start EC2, upload to S3, post ComfyUI prompts, promote masks, rerun Wave70 hard gates, activate Wave71+, or switch to Jira bookkeeping without explicit live/gate conditions.
+
 ## Immediate Next Action - Selected Inpaint Final Certification Readiness Current - 2026-07-09T18:11:00-05:00
 
 Continue selected-inpaint runtime/orchestration from the current local final-certification readiness boundary. The active runtime queue final-certification readiness now consumes the current selected-inpaint launch gate and execution-readiness snapshot, accepts the clean/synced Git checkpoint gate, and still blocks certification on target-runtime/live proof gaps.

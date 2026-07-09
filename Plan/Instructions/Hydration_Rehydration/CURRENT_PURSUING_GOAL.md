@@ -1,3 +1,9 @@
+## Current Pursuing Goal - Selected Inpaint Final Certification Work Orders Current - 2026-07-09T18:21:00-05:00
+
+Keep pursuing the selected-inpaint target-runtime path from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a current final-certification work-order map generated from the selected-inpaint readiness chain, with clean Git accepted and target-runtime/live proof gaps preserved as lane work orders.
+
+Current validation anchors: `W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_SELECTED_INPAINT_CHAIN_20260709T182000-0500.json` (`pass_local_only_final_certification_work_order_ready`, `work_order_count=17`, `global_blockers=0`) and QA helper validation `W66_QA_HELPER_AFTER_FINAL_CERT_WORK_ORDER_SELECTED_CHAIN_20260709T182100-0500.json` (`pass_local_only`, 57 local smokes, 0 failures). Live execution remains unauthorized until explicit target-runtime/live intent, refreshed AWS auth, S3 Execute proofs, EC2 install/static proof, and EC2 start authorization are present. Gold-mask-dependent promotion/body authority work remains blocked outside this non-mask runtime lane.
+
 ## Current Pursuing Goal - Selected Inpaint Final Certification Readiness Current - 2026-07-09T18:11:00-05:00
 
 Keep pursuing the selected-inpaint target-runtime path from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a current active-runtime final-certification readiness record that binds the selected-inpaint launch gate and execution-readiness snapshot into the certification boundary without starting EC2 or using candidate masks as truth.
