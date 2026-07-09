@@ -138,6 +138,11 @@ $resolutionRows = foreach ($category in $categoryRows) {
     }
   }
 }
+if (@($resolutionRows).Count -eq 0) {
+  $resolutionRows = @(
+    (New-ResolutionRow -Category "clean_worktree_noop" -Count 0 -SourceDisposition "no_dirty_paths" -Resolution "no_checkpoint_review_needed" -CheckpointAction "no_action_required" -Reason "The current scope plan has no dirty path categories to resolve." -SamplePaths @())
+  )
+}
 
 $includeRows = @($resolutionRows | Where-Object { [string]$_["checkpoint_action"] -match "^include" })
 $preserveRows = @($resolutionRows | Where-Object { [string]$_["checkpoint_action"] -eq "preserve_local_do_not_stage" })
