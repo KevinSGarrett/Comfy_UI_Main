@@ -1,0 +1,241 @@
+﻿{
+    "evidence_id":  "LANE-RUNTIME-READINESS-20260709T141511-0500",
+    "timestamp":  "2026-07-09T14:15:12-05:00",
+    "lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+    "lane_dir":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane",
+    "lane_files":  [
+                       {
+                           "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/workflow.api.json",
+                           "exists":  true,
+                           "json_valid":  true
+                       },
+                       {
+                           "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/patch_points.json",
+                           "exists":  true,
+                           "json_valid":  true
+                       },
+                       {
+                           "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/runtime_requirements.json",
+                           "exists":  true,
+                           "json_valid":  true
+                       },
+                       {
+                           "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/smoke_test_request.json",
+                           "exists":  true,
+                           "json_valid":  true
+                       }
+                   ],
+    "runtime_requirements_summary":  {
+                                         "required_nodes":  [
+                                                                "CheckpointLoaderSimple",
+                                                                "LoadImage",
+                                                                "LoadImageMask",
+                                                                "VAEEncode",
+                                                                "SetLatentNoiseMask",
+                                                                "FeatherMask",
+                                                                "MaskToImage",
+                                                                "ImageCompositeMasked",
+                                                                "CLIPTextEncode",
+                                                                "KSampler",
+                                                                "VAEDecode",
+                                                                "SaveImage"
+                                                            ],
+                                         "required_model_count":  1
+                                     },
+    "helper_scripts":  [
+                           {
+                               "path":  "Plan/Instructions/QA/Scripts/Test-ComfyWorkflowStatic.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/QA/Scripts/Test-WorkflowModelRegistryCoverage.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/Operations/Scripts/Invoke-EC2LaneStaticProof.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/Operations/Scripts/Invoke-ComfyWorkflowSmoke.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/Operations/Scripts/Invoke-EC2WorkflowSmokeRun.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/Operations/Scripts/Test-AwsAuthGate.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/Operations/Scripts/Test-AwsProfileAuthMatrix.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/Operations/Scripts/New-EC2PullbackRecord.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/QA/Scripts/New-ImageArtifactQARecord.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           }
+                       ],
+    "evidence_files":  [
+                           {
+                               "name":  "workflow_static_validation",
+                               "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_SDXL_REALVISXL_INPAINT_DETAIL_NOMOUTH_V4_STATIC_VALIDATION_20260707T034700-0500.json",
+                               "exists":  true,
+                               "json_valid":  true
+                           },
+                           {
+                               "name":  "smoke_dry_run",
+                               "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_WORKFLOW_SMOKE_DRY_RUN_SDXL_REALVISXL_INPAINT_DETAIL_20260707T024800-0500.json",
+                               "exists":  true,
+                               "json_valid":  true
+                           },
+                           {
+                               "name":  "smoke_request",
+                               "path":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_WORKFLOW_SMOKE_REQUEST_SDXL_REALVISXL_INPAINT_DETAIL_20260707T024800-0500.json",
+                               "exists":  true,
+                               "json_valid":  true
+                           },
+                           {
+                               "name":  "model_registry_coverage",
+                               "path":  "Plan/Instructions/QA/Evidence/Model_Registry/W66_MODEL_REGISTRY_COVERAGE_20260709T072150-0500.json",
+                               "exists":  true,
+                               "json_valid":  true
+                           },
+                           {
+                               "name":  "image_qa_dry_run",
+                               "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_DRY_RUN_20260706T030037-0500.json",
+                               "exists":  true,
+                               "json_valid":  true
+                           },
+                           {
+                               "name":  "pullback_dry_run",
+                               "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_EC2_PULLBACK_RECORD_DRY_RUN_20260706T031758-0500.json",
+                               "exists":  true,
+                               "json_valid":  true
+                           }
+                       ],
+    "lane_evidence_selection":  {
+                                    "workflow_static_validation":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_SDXL_REALVISXL_INPAINT_DETAIL_NOMOUTH_V4_STATIC_VALIDATION_20260707T034700-0500.json",
+                                    "smoke_dry_run":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_WORKFLOW_SMOKE_DRY_RUN_SDXL_REALVISXL_INPAINT_DETAIL_20260707T024800-0500.json",
+                                    "smoke_request":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_WORKFLOW_SMOKE_REQUEST_SDXL_REALVISXL_INPAINT_DETAIL_20260707T024800-0500.json",
+                                    "lane_specific":  true
+                                },
+    "auth_gate":  {
+                      "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_AWS_AUTH_GATE_EC2_TTL_WATCHDOG_20260708T233332-0500.json",
+                      "found":  true,
+                      "ec2_work_allowed":  false,
+                      "safe_to_start_ec2":  false,
+                      "generation_allowed":  false,
+                      "result":  "blocked_expired_session",
+                      "failure_category":  "expired_session",
+                      "account_match":  false,
+                      "remote_login_status":  "not_attempted",
+                      "status":  "blocked",
+                      "sts_failure_category":  "expired_session"
+                  },
+    "profile_matrix":  {
+                           "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_AWS_PROFILE_AUTH_MATRIX_CONTROLNET_CANNY_STATIC_REAUTH_20260707T024000-0500.json",
+                           "found":  true,
+                           "expected_account":  "029530099913",
+                           "active_env_profile_name":  "default",
+                           "profile_count":  15,
+                           "profiles_matching_expected_count":  2,
+                           "ec2_work_allowed":  true,
+                           "safe_to_start_ec2":  true,
+                           "result":  "pass_profile_available",
+                           "status":  "pass"
+                       },
+    "model_registry_coverage":  {
+                                    "file":  "Plan/Instructions/QA/Evidence/Model_Registry/W66_MODEL_REGISTRY_COVERAGE_20260709T072150-0500.json",
+                                    "found":  true,
+                                    "result":  "pass_local_only",
+                                    "failed_check_count":  0,
+                                    "registry_record_count":  14,
+                                    "runtime_validation_queue_row_count":  14,
+                                    "active_lane_ids":  [
+                                                            "sdxl_low_risk_fallback_lane",
+                                                            "sdxl_realvisxl_base_lane",
+                                                            "sdxl_realvisxl_controlnet_canny_lane",
+                                                            "sdxl_realvisxl_inpaint_detail_lane",
+                                                            "sdxl_realvisxl_controlnet_depth_lane",
+                                                            "sdxl_realvisxl_controlnet_lineart_lane",
+                                                            "sdxl_realvisxl_controlnet_openpose_lane",
+                                                            "sdxl_realvisxl_controlnet_normal_lane",
+                                                            "sdxl_realesrgan_upscale_polish_lane"
+                                                        ],
+                                    "selected_lane_covered":  true,
+                                    "selected_lane_result":  "pass",
+                                    "local_only":  true,
+                                    "aws_contacted":  false,
+                                    "github_api_contacted":  false,
+                                    "civitai_contacted":  false,
+                                    "comfyui_contacted":  false,
+                                    "ec2_started":  false,
+                                    "generation_executed":  false,
+                                    "coverage_allows_selected_lane_ec2_static_proof":  true
+                                },
+    "ec2_static_proof":  {
+                             "file":  null,
+                             "found":  false,
+                             "object_info_pass":  false,
+                             "model_hashes_present":  false,
+                             "model_proof_count":  0,
+                             "model_missing_count":  0,
+                             "model_hash_missing_count":  0,
+                             "generation_allowed":  false,
+                             "status":  "missing_ec2_static_proof"
+                         },
+    "result":  "local_pre_ec2_ready_runtime_blocked_auth",
+    "failure_category":  "expired_session",
+    "local_pre_ec2_ready":  true,
+    "ready_for_ec2_static_proof":  false,
+    "ready_for_generation":  false,
+    "errors":  [
+
+               ],
+    "warnings":  [
+                     "AWS auth gate does not allow EC2 start.",
+                     "Generation remains blocked until EC2 object-info/path/hash proof passes."
+                 ],
+    "next_action":  "Complete AWS remote browser login and rerun Test-AwsAuthGate.ps1."
+}

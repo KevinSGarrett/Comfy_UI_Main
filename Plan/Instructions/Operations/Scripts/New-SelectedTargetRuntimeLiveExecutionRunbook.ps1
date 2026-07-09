@@ -162,6 +162,15 @@ $inputPlan = Read-JsonFile -Path $inputResolved
 $modelPlan = Read-JsonFile -Path $modelResolved
 $handoff = Read-JsonFile -Path $handoffResolved
 $snapshot = Read-JsonFile -Path $snapshotResolved
+$s3PublishDryRunReady = (
+  [string]$s3Plan.result -eq "pass_local_only_selected_s3_publish_readiness_dry_run_ready_execute_blocked" -and
+  [bool]$s3Plan.ready_for_s3_publish_now_local_dry_run -and
+  -not [bool]$s3Plan.s3_upload_execute_allowed
+)
+$s3PublishWaitingForRebuild = (
+  [string]$s3Plan.result -eq "blocked_selected_s3_publish_readiness_waiting_for_clean_rebuild" -and
+  -not [bool]$s3Plan.ready_for_s3_publish_after_rebuild
+)
 
 $laneId = [string]$handoff.lane_id
 if ([string]::IsNullOrWhiteSpace($laneId)) { $laneId = [string]$inputPlan.selected_lane_id }
@@ -235,11 +244,21 @@ $allBlockers = @(
   "live_s3_uploads_not_authorized"
   "ec2_start_not_authorized"
 ) | ForEach-Object { [string]$_ } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) } | Select-Object -Unique
+if ($s3PublishDryRunReady) {
+  $supersededDeployBundleBlockers = @(
+    "deploy_bundle_source_git_dirty_rebuild_required_before_ec2",
+    "manifest_scoped_checkpoint_not_yet_executed_clean",
+    "selected_deploy_bundle_rebuild_not_completed",
+    "selected_deploy_bundle_manifest_missing_until_rebuild",
+    "selected_deploy_bundle_zip_missing_until_rebuild"
+  )
+  $allBlockers = @($allBlockers | Where-Object { $supersededDeployBundleBlockers -notcontains [string]$_ })
+}
 
 $checks = @(
   (New-Check -Name "pre_ec2_handoff_passes_and_blocks_execution" -Passed ([string]$handoff.result -eq "pass_local_only_selected_target_runtime_pre_ec2_handoff_bundle_ready_ec2_blocked" -and -not [bool]$handoff.target_runtime_launch_allowed -and -not [bool]$handoff.execute_allowed_now) -Observed ([ordered]@{ result = $handoff.result; target_runtime_launch_allowed = $handoff.target_runtime_launch_allowed; execute_allowed_now = $handoff.execute_allowed_now }) -Expected "pre-EC2 handoff passes locally while blocking launch and execute"),
   (New-Check -Name "project_readiness_snapshot_targets_selected_lane_and_is_static_proof_ready" -Passed ([string]$snapshot.lane_id -eq $laneId -and [string]$snapshot.result -eq "pass_local_ready_for_ec2_static_proof" -and [bool]$snapshot.local_ready -and [bool]$snapshot.runtime_gates.ec2_start_allowed -and -not [bool]$snapshot.runtime_gates.generation_allowed -and [string]$snapshot.git.result -eq "pass" -and -not [bool]$snapshot.git.local_matches_origin) -Observed ([ordered]@{ result = $snapshot.result; failure_category = $snapshot.failure_category; lane_id = $snapshot.lane_id; local_ready = $snapshot.local_ready; ec2_start_allowed = $snapshot.runtime_gates.ec2_start_allowed; generation_allowed = $snapshot.runtime_gates.generation_allowed; git_result = $snapshot.git.result; git_local_matches_origin = $snapshot.git.local_matches_origin; errors = @($snapshot.errors); warnings = @($snapshot.warnings) }) -Expected "selected project readiness snapshot targets selected lane, passes local readiness for EC2 static proof, and keeps generation blocked until static proof exists"),
-  (New-Check -Name "selected_s3_publish_waits_for_rebuild" -Passed ([string]$s3Plan.result -eq "blocked_selected_s3_publish_readiness_waiting_for_clean_rebuild" -and -not [bool]$s3Plan.ready_for_s3_publish_after_rebuild) -Observed ([ordered]@{ result = $s3Plan.result; ready_for_s3_publish_after_rebuild = $s3Plan.ready_for_s3_publish_after_rebuild }) -Expected "deploy bundle S3 publish remains blocked until clean rebuild"),
+  (New-Check -Name "selected_s3_publish_is_fail_closed_local_state" -Passed ($s3PublishWaitingForRebuild -or $s3PublishDryRunReady) -Observed ([ordered]@{ result = $s3Plan.result; ready_for_s3_publish_after_rebuild = $s3Plan.ready_for_s3_publish_after_rebuild; ready_for_s3_publish_now_local_dry_run = $s3Plan.ready_for_s3_publish_now_local_dry_run; s3_upload_execute_allowed = $s3Plan.s3_upload_execute_allowed }) -Expected "deploy bundle S3 publish is either waiting for rebuild or locally dry-run ready with upload execute blocked"),
   (New-Check -Name "input_assets_publish_ready_but_install_blocked" -Passed ([bool]$inputPlan.ready_for_input_asset_publish -and -not [bool]$inputPlan.ready_for_ec2_input_asset_install_execute -and [int]$inputPlan.required_input_asset_count -eq 2) -Observed ([ordered]@{ ready_for_input_asset_publish = $inputPlan.ready_for_input_asset_publish; ready_for_ec2_input_asset_install_execute = $inputPlan.ready_for_ec2_input_asset_install_execute; required_input_asset_count = $inputPlan.required_input_asset_count }) -Expected "input assets are locally publish-ready but EC2 install execute is blocked"),
   (New-Check -Name "model_cache_publish_ready_but_install_blocked" -Passed ([bool]$modelPlan.ready_for_model_cache_publish -and -not [bool]$modelPlan.ready_for_ec2_model_install_execute -and [int]$modelPlan.required_model_count -eq 1) -Observed ([ordered]@{ ready_for_model_cache_publish = $modelPlan.ready_for_model_cache_publish; ready_for_ec2_model_install_execute = $modelPlan.ready_for_ec2_model_install_execute; required_model_count = $modelPlan.required_model_count }) -Expected "model cache is locally publish-ready but EC2 install execute is blocked"),
   (New-Check -Name "runbook_sequence_is_complete_and_fail_closed" -Passed (@($steps).Count -ge 17 -and @($steps | Where-Object { [bool]$_.execute_allowed_now }).Count -eq 0 -and @($steps.name) -contains "ec2_static_proof_execute_blocked" -and @($steps.name) -contains "workflow_smoke_execute_blocked") -Observed ([ordered]@{ step_count = @($steps).Count; execute_allowed_now_count = @($steps | Where-Object { [bool]$_.execute_allowed_now }).Count; step_names = @($steps.name) }) -Expected "runbook has the selected live path and no currently executable live steps")
@@ -297,6 +316,9 @@ $record = [ordered]@{
   git_local_matches_origin = [bool]$snapshot.git.local_matches_origin
   ready_for_live_execution = $false
   ready_for_s3_publish_after_rebuild = [bool]$s3Plan.ready_for_s3_publish_after_rebuild
+  ready_for_s3_publish_now_local_dry_run = [bool]$s3Plan.ready_for_s3_publish_now_local_dry_run
+  selected_deploy_bundle_s3_publish_dry_run_ready = [bool]$s3Plan.selected_deploy_bundle_s3_publish_dry_run_ready
+  selected_deploy_bundle_s3_upload_execute_allowed = [bool]$s3Plan.s3_upload_execute_allowed
   ready_for_input_asset_publish = [bool]$inputPlan.ready_for_input_asset_publish
   ready_for_ec2_input_asset_install_execute = [bool]$inputPlan.ready_for_ec2_input_asset_install_execute
   ready_for_model_cache_publish = [bool]$modelPlan.ready_for_model_cache_publish
@@ -309,7 +331,7 @@ $record = [ordered]@{
   checks = @($checks)
   failed_check_count = $failedChecks.Count
   boundary = "Selected target-runtime live execution runbook only. This artifact is local-only and does not rebuild deploy bundles, upload to S3, install assets or models, start EC2, post prompts, run generation, contact external services, mutate Git, consume or promote masks, rerun Wave70 hard gates, mutate Jira, or activate Wave71+."
-  next_action = "Keep EC2 stopped. Use this runbook only after explicit live-window selection, viable clean Git/origin gate, clean selected deploy-bundle rebuild, S3 publish proof for bundle/input/model assets, EC2 install hash proof, and selected target-runtime gates pass."
+  next_action = $(if ($s3PublishDryRunReady) { "Keep EC2 stopped. The selected deploy bundle is locally dry-run ready for S3, but actual upload, input/model publish, EC2 install, and runtime proof still require explicit live execution intent and live gates." } else { "Keep EC2 stopped. Use this runbook only after explicit live-window selection, viable clean Git/origin gate, clean selected deploy-bundle rebuild, S3 publish proof for bundle/input/model assets, EC2 install hash proof, and selected target-runtime gates pass." })
 }
 
 [System.IO.Directory]::CreateDirectory((Split-Path -Path $outFileResolved -Parent)) | Out-Null
@@ -329,6 +351,7 @@ $markdown = @"
 - selected_lane_id: $($record.selected_lane_id)
 - selected_work_order_id: $($record.selected_work_order_id)
 - ready_for_live_execution: $($record.ready_for_live_execution)
+- ready_for_s3_publish_now_local_dry_run: $($record.ready_for_s3_publish_now_local_dry_run)
 - git_local_matches_origin: $($record.git_local_matches_origin)
 - ordered_step_count: $($record.ordered_step_count)
 - failed_check_count: $($record.failed_check_count)

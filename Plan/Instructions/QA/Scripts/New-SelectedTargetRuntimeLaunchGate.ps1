@@ -4,10 +4,10 @@ Creates a local-only launch gate for the selected target-runtime lane.
 
 .DESCRIPTION
 Combines the target-runtime execution plan, selected-lane package readiness,
-Git checkpoint gate, and S3 transfer readiness into one fail-closed launch
-decision. This helper never contacts AWS, GitHub, Civitai, S3, ComfyUI, or EC2,
-does not post prompts, does not generate images, and does not write an active
-runtime marker.
+Git checkpoint gate, S3 transfer readiness, and selected execution-readiness
+snapshot into one fail-closed launch decision. This helper never contacts AWS,
+GitHub, Civitai, S3, ComfyUI, or EC2, does not post prompts, does not generate
+images, and does not write an active runtime marker.
 #>
 param(
   [string]$ProjectRoot = "C:\Comfy_UI_Main",
@@ -15,6 +15,7 @@ param(
   [string]$SelectedPackageReadinessFile = "",
   [string]$GitCheckpointGateFile = "",
   [string]$S3TransferReadinessFile = "",
+  [string]$ExecutionReadinessSnapshotFile = "",
   [string]$OutFile = "",
   [string]$MarkdownOutFile = ""
 )
@@ -91,6 +92,9 @@ if ([string]::IsNullOrWhiteSpace($GitCheckpointGateFile)) {
 if ([string]::IsNullOrWhiteSpace($S3TransferReadinessFile)) {
   $S3TransferReadinessFile = Find-LatestFile -Directory $operationsStaticDir -Filter "W66_S3_RUNTIME_TRANSFER_READINESS_CURRENT_ACTIVE_LANES_*.json"
 }
+if ([string]::IsNullOrWhiteSpace($ExecutionReadinessSnapshotFile)) {
+  $ExecutionReadinessSnapshotFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W66_SELECTED_TARGET_RUNTIME_EXECUTION_READINESS_SNAPSHOT_*.json"
+}
 if ([string]::IsNullOrWhiteSpace($OutFile)) {
   $stamp = Get-Date -Format "yyyyMMddTHHmmss-0500"
   $OutFile = "Plan\Instructions\QA\Evidence\Runtime_Readiness\W66_SELECTED_TARGET_RUNTIME_LAUNCH_GATE_$stamp.json"
@@ -103,6 +107,7 @@ $targetPlanResolved = Resolve-ProjectPath -Path $TargetRuntimePlanFile
 $readinessResolved = Resolve-ProjectPath -Path $SelectedPackageReadinessFile
 $gitGateResolved = Resolve-ProjectPath -Path $GitCheckpointGateFile
 $s3ReadinessResolved = Resolve-ProjectPath -Path $S3TransferReadinessFile
+$executionReadinessResolved = Resolve-ProjectPath -Path $ExecutionReadinessSnapshotFile
 $outFileResolved = Resolve-ProjectPath -Path $OutFile
 $markdownResolved = Resolve-ProjectPath -Path $MarkdownOutFile
 
@@ -110,7 +115,8 @@ foreach ($required in @(
   @{ label = "target_runtime_plan"; path = $targetPlanResolved },
   @{ label = "selected_package_readiness"; path = $readinessResolved },
   @{ label = "git_checkpoint_gate"; path = $gitGateResolved },
-  @{ label = "s3_transfer_readiness"; path = $s3ReadinessResolved }
+  @{ label = "s3_transfer_readiness"; path = $s3ReadinessResolved },
+  @{ label = "execution_readiness_snapshot"; path = $executionReadinessResolved }
 )) {
   if ([string]::IsNullOrWhiteSpace([string]$required.path) -or -not (Test-Path -LiteralPath $required.path -PathType Leaf)) {
     throw "Required input missing: $($required.label)"
@@ -121,6 +127,7 @@ $targetPlan = Read-JsonFile -Path $targetPlanResolved
 $readiness = Read-JsonFile -Path $readinessResolved
 $gitGate = Read-JsonFile -Path $gitGateResolved
 $s3Readiness = Read-JsonFile -Path $s3ReadinessResolved
+$executionReadiness = Read-JsonFile -Path $executionReadinessResolved
 
 $laneId = [string]$targetPlan.selected_lane_id
 $workOrderId = [string]$targetPlan.selected_work_order_id
@@ -139,27 +146,45 @@ $localPackageReady = (
 )
 $explicitSelectionPresent = (-not [bool]$targetPlan.explicit_user_selection_required)
 $bundleClean = [bool]$readiness.source_git_clean_in_bundle
+$localInstallProofsComplete = (
+  [string]$executionReadiness.result -eq "blocked_selected_target_runtime_execution_readiness_local_proofs_complete_live_gates_closed" -and
+  [int]$executionReadiness.failed_check_count -eq 0 -and
+  [int]$executionReadiness.local_install_dry_run_proof_count -eq 3 -and
+  [int]$executionReadiness.runbook_ordered_step_count -ge 20 -and
+  [bool]$executionReadiness.runbook_ready_for_input_asset_publish -and
+  [bool]$executionReadiness.runbook_ready_for_model_cache_publish -and
+  -not [bool]$executionReadiness.ready_for_live_execution -and
+  -not [bool]$executionReadiness.execute_allowed_now -and
+  -not [bool]$executionReadiness.target_runtime_launch_allowed
+)
 
 $checks = @(
   (New-Check -Name "target_plan_still_selects_inpaint_lane" -Passed ([string]$targetPlan.result -eq "blocked_target_runtime_execution_plan_waiting_for_explicit_selection_and_clean_git" -and $laneId -eq "sdxl_realvisxl_inpaint_detail_lane" -and $workOrderId -eq "WO-W66-SDXL_REALVISXL_INPAINT_DETAIL_LANE-TARGET-RUNTIME-PROOF" -and -not [bool]$targetPlan.execute_allowed_now) -Observed ([ordered]@{ result = $targetPlan.result; lane_id = $laneId; work_order_id = $workOrderId; execute_allowed_now = $targetPlan.execute_allowed_now }) -Expected "selected inpaint target-runtime work order with execute_allowed_now=false"),
   (New-Check -Name "selected_package_readiness_passes_local_only" -Passed $localPackageReady -Observed ([ordered]@{ result = $readiness.result; package_readiness_pass = $readiness.package_readiness_pass; failed_check_count = $readiness.failed_check_count; target_runtime_execution_allowed = $readiness.target_runtime_execution_allowed }) -Expected "package readiness passes locally but does not allow target-runtime execution"),
   (New-Check -Name "local_package_uses_refreshed_masktoimage_object_info" -Passed ([string]$readiness.local_object_info_evidence -match "W66_LOCAL_OBJECT_INFO_INPAINT_DETAIL_MASKTOIMAGE_REFRESH_" -and @($readiness.exact_blockers | Where-Object { [string]$_ -eq "local_object_info_evidence_missing_runtime_required_node:MaskToImage" }).Count -eq 0) -Observed ([ordered]@{ local_object_info_evidence = $readiness.local_object_info_evidence; exact_blockers = @($readiness.exact_blockers) }) -Expected "refreshed MaskToImage object_info evidence and no stale MaskToImage blocker"),
   (New-Check -Name "s3_transfer_readiness_is_local_ready" -Passed $s3ReadyLocalOnly -Observed ([ordered]@{ result = $s3Readiness.result; local_only = $s3Readiness.local_only; aws_contacted = $s3Readiness.aws_contacted; ec2_started = $s3Readiness.ec2_started }) -Expected "S3 transfer readiness planner is ready_local_only without external contact"),
+  (New-Check -Name "execution_readiness_has_local_install_proofs_and_blocks_live" -Passed $localInstallProofsComplete -Observed ([ordered]@{ result = $executionReadiness.result; failed_check_count = $executionReadiness.failed_check_count; local_install_dry_run_proof_count = $executionReadiness.local_install_dry_run_proof_count; runbook_ordered_step_count = $executionReadiness.runbook_ordered_step_count; ready_for_live_execution = $executionReadiness.ready_for_live_execution; execute_allowed_now = $executionReadiness.execute_allowed_now; target_runtime_launch_allowed = $executionReadiness.target_runtime_launch_allowed; runbook_ready_for_input_asset_publish = $executionReadiness.runbook_ready_for_input_asset_publish; runbook_ready_for_model_cache_publish = $executionReadiness.runbook_ready_for_model_cache_publish }) -Expected "execution-readiness snapshot has three local install dry-run proofs, publish readiness, no failed checks, and live execution closed"),
   (New-Check -Name "git_checkpoint_blocks_ec2_execute" -Passed (-not $gitGatePasses) -Observed ([ordered]@{ result = $gitGate.result; clean_worktree = $gitGate.clean_worktree; local_matches_origin = $gitGate.local_matches_origin; passes_for_ec2_execute = $gitGatePasses }) -Expected "dirty Git gate remains fail-closed for EC2"),
   (New-Check -Name "explicit_selection_blocks_launch" -Passed (-not $explicitSelectionPresent) -Observed ([ordered]@{ explicit_user_selection_required = $targetPlan.explicit_user_selection_required; execute_allowed_now = $targetPlan.execute_allowed_now }) -Expected "explicit user target-runtime selection is still required"),
-  (New-Check -Name "dirty_source_bundle_blocks_launch" -Passed (-not $bundleClean) -Observed ([ordered]@{ source_git_clean_in_bundle = $readiness.source_git_clean_in_bundle; deploy_bundle_manifest = $readiness.deploy_bundle_manifest }) -Expected "deploy bundle source is dirty and must be rebuilt or revalidated from clean checkpoint")
+  (New-Check -Name "source_bundle_state_is_accounted" -Passed ($bundleClean -or @($readiness.exact_blockers | Where-Object { [string]$_ -eq "deploy_bundle_source_git_dirty_rebuild_required_before_ec2" }).Count -gt 0) -Observed ([ordered]@{ source_git_clean_in_bundle = $readiness.source_git_clean_in_bundle; deploy_bundle_manifest = $readiness.deploy_bundle_manifest; deploy_bundle_zip_sha256 = $readiness.deploy_bundle_zip_sha256; exact_blockers = @($readiness.exact_blockers) }) -Expected "selected deploy bundle source is either scoped-clean or fail-closed with the dirty-source blocker")
 )
 
 $failedChecks = @($checks | Where-Object { [string]$_.result -ne "pass" })
 $exactBlockers = @(
   if (-not $localPackageReady) { "selected_package_readiness_not_passed" }
   if (-not $s3ReadyLocalOnly) { "s3_runtime_transfer_readiness_not_ready" }
+  if (-not $localInstallProofsComplete) { "selected_execution_readiness_local_install_proofs_missing" }
   if (-not $gitGatePasses) { "git_checkpoint_gate_not_clean_for_ec2_execute" }
   if (-not $explicitSelectionPresent) { "explicit_user_target_runtime_selection_required" }
   if (-not $bundleClean) { "deploy_bundle_source_git_dirty_rebuild_required_before_ec2" }
+  "selected_s3_publish_proof_missing_for_deploy_bundle"
+  "selected_input_asset_s3_publish_proof_missing_for_live_install"
+  "selected_model_s3_publish_proof_missing_for_live_install"
+  "explicit_live_execution_intent_required"
+  "ec2_start_not_authorized"
 )
 $launchAllowed = ($exactBlockers.Count -eq 0 -and $failedChecks.Count -eq 0)
-$result = if ($launchAllowed) { "pass_selected_target_runtime_launch_gate_ready_for_explicit_execute" } elseif ($localPackageReady) { "blocked_selected_target_runtime_launch_gate_package_ready_waiting_for_selection_and_clean_git" } else { "blocked_selected_target_runtime_launch_gate_package_not_ready" }
+$result = if ($launchAllowed) { "pass_selected_target_runtime_launch_gate_ready_for_explicit_execute" } elseif ($localPackageReady -and $localInstallProofsComplete) { "blocked_selected_target_runtime_launch_gate_local_proofs_ready_waiting_for_live_gates" } elseif ($localPackageReady) { "blocked_selected_target_runtime_launch_gate_package_ready_waiting_for_selection_and_clean_git" } else { "blocked_selected_target_runtime_launch_gate_package_not_ready" }
 
 $record = [ordered]@{
   schema_version = "1.0"
@@ -184,13 +209,21 @@ $record = [ordered]@{
   wave71_plus_activated = $false
   full_project_certification_allowed = $false
   local_package_ready = $localPackageReady
+  local_install_dry_run_proofs_complete = $localInstallProofsComplete
   target_runtime_launch_allowed = $launchAllowed
   explicit_user_selection_required = [bool]$targetPlan.explicit_user_selection_required
   git_checkpoint_passes_for_ec2 = $gitGatePasses
   source_git_clean_in_bundle = $bundleClean
   s3_transfer_ready_local_only = $s3ReadyLocalOnly
+  ready_for_live_execution = [bool]$executionReadiness.ready_for_live_execution
+  execute_allowed_now = [bool]$executionReadiness.execute_allowed_now
+  runbook_ordered_step_count = [int]$executionReadiness.runbook_ordered_step_count
+  local_install_dry_run_proof_count = [int]$executionReadiness.local_install_dry_run_proof_count
+  runbook_ready_for_input_asset_publish = [bool]$executionReadiness.runbook_ready_for_input_asset_publish
+  runbook_ready_for_model_cache_publish = [bool]$executionReadiness.runbook_ready_for_model_cache_publish
   target_runtime_plan = ConvertTo-ProjectRelativePath -Path $targetPlanResolved
   selected_package_readiness = ConvertTo-ProjectRelativePath -Path $readinessResolved
+  execution_readiness_snapshot = ConvertTo-ProjectRelativePath -Path $executionReadinessResolved
   local_object_info_evidence = [string]$readiness.local_object_info_evidence
   git_checkpoint_gate = ConvertTo-ProjectRelativePath -Path $gitGateResolved
   s3_transfer_readiness = ConvertTo-ProjectRelativePath -Path $s3ReadinessResolved
@@ -203,8 +236,10 @@ $record = [ordered]@{
   next_live_gate_sequence = @(
     "explicit_user_target_runtime_selection",
     "clean_git_checkpoint_gate",
-    "rebuild_or_revalidate_deploy_bundle_from_clean_checkpoint",
-    "s3_publish_proof",
+    "deploy_bundle_s3_execute_proof",
+    "input_asset_s3_execute_proofs",
+    "model_s3_execute_proof",
+    "ec2_model_and_input_install_hash_proofs",
     "ec2_static_proof",
     "bounded_workflow_smoke",
     "artifact_pullback_hash_qa",
@@ -230,7 +265,10 @@ $markdown = @"
 - lane_id: $laneId
 - selected_work_order_id: $workOrderId
 - local_package_ready: $localPackageReady
+- local_install_dry_run_proofs_complete: $localInstallProofsComplete
 - target_runtime_launch_allowed: $launchAllowed
+- runbook_ordered_step_count: $($record.runbook_ordered_step_count)
+- local_install_dry_run_proof_count: $($record.local_install_dry_run_proof_count)
 - exact_blockers: $($record.exact_blockers -join ", ")
 
 ## Checks
@@ -245,6 +283,7 @@ $($record.certification_boundary)
 
 - $($record.target_runtime_plan)
 - $($record.selected_package_readiness)
+- $($record.execution_readiness_snapshot)
 - $($record.local_object_info_evidence)
 - $($record.git_checkpoint_gate)
 - $($record.s3_transfer_readiness)

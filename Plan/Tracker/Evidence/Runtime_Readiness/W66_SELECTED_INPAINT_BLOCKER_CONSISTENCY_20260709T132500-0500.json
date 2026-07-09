@@ -1,0 +1,68 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "selected_inpaint_blocker_consistency",
+    "created_at":  "2026-07-09T13:26:22-05:00",
+    "result":  "fail_selected_inpaint_blocker_consistency",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "s3_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "masks_promoted":  false,
+    "wave70_hard_gate_rerun":  false,
+    "wave71_plus_activated":  false,
+    "jira_mutated":  false,
+    "ledger":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LOCAL_RECHECK_LEDGER_QUEUE_SENTINEL_CURRENT_20260709T132000-0500.json",
+    "qa_validation":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_QA_HELPER_SELECTED_QUEUE_SENTINEL_CURRENT_CONTRACT_FIXED_20260709T132000-0500.json",
+    "current_blockers":  [
+                             "git_checkpoint_gate_not_clean_for_ec2_execute",
+                             "target_runtime_proof_evidence_missing"
+                         ],
+    "checks":  [
+                   {
+                       "name":  "ledger_has_current_expected_blockers",
+                       "result":  "pass",
+                       "observed":  "git_checkpoint_gate_not_clean_for_ec2_execute, target_runtime_proof_evidence_missing",
+                       "expected":  "git checkpoint and target runtime proof blockers present"
+                   },
+                   {
+                       "name":  "ledger_removed_stale_queue_order_blocker",
+                       "result":  "pass",
+                       "observed":  "git_checkpoint_gate_not_clean_for_ec2_execute, target_runtime_proof_evidence_missing",
+                       "expected":  "project_readiness_runtime_lane_queue_order_blocked absent"
+                   },
+                   {
+                       "name":  "ledger_removed_dirty_bundle_blocker",
+                       "result":  "pass",
+                       "observed":  "git_checkpoint_gate_not_clean_for_ec2_execute, target_runtime_proof_evidence_missing",
+                       "expected":  "dirty selected deploy bundle blocker absent after scoped-clean bundle"
+                   },
+                   {
+                       "name":  "qa_helper_passes_current_contract",
+                       "result":  "pass",
+                       "observed":  "result=pass_local_only; script_parse=0; json_parse=0; smoke_failures=0",
+                       "expected":  "QA helper pass_local_only with zero parse/json/smoke failures"
+                   },
+                   {
+                       "name":  "blockers_top_marks_missing_bundle_blocker_superseded",
+                       "result":  "pass",
+                       "observed":  "top BLOCKERS section inspected",
+                       "expected":  "missing-bundle blocker marked superseded"
+                   },
+                   {
+                       "name":  "blockers_top_marks_dirty_bundle_blocker_superseded",
+                       "result":  "fail",
+                       "observed":  "top BLOCKERS section inspected",
+                       "expected":  "dirty deploy-bundle blocker marked superseded"
+                   },
+                   {
+                       "name":  "hydration_tops_publish_current_blockers",
+                       "result":  "pass",
+                       "observed":  "NEXT_ACTION/CURRENT_PURSUING_GOAL/RESUME top blocks inspected",
+                       "expected":  "current blockers published in hydration tops"
+                   }
+               ],
+    "failed_check_count":  1,
+    "boundary":  "Focused local consistency check only. No live S3/AWS/EC2/generation/mask/Jira action.",
+    "next_action":  "Continue selected-inpaint local orchestration; live execution still requires clean Git checkpoint gate for EC2 execute and target-runtime proof evidence."
+}

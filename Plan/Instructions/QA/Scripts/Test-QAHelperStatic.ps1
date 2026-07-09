@@ -1057,8 +1057,8 @@ function Invoke-LocalHelper {
       if (-not [bool]$payload.explicit_user_selection_required -or [bool]$payload.git_checkpoint_passes_for_ec2) {
         throw "$Name must require explicit selection and preserve the failed Git EC2 gate."
       }
-      if ([bool]$payload.source_git_clean_in_bundle) {
-        throw "$Name must record that the existing bundle was built from a dirty local source state."
+      if (-not [bool]$payload.source_git_clean_in_bundle -and @($payload.exact_blockers | Where-Object { [string]$_ -eq "deploy_bundle_source_git_dirty_rebuild_required_before_ec2" }).Count -eq 0) {
+        throw "$Name must include the dirty deploy-bundle source blocker when the bundle source is not scoped-clean."
       }
       if ([int]$payload.failed_check_count -ne 0 -or @($payload.checks | Where-Object { [string]$_.result -ne "pass" }).Count -ne 0) {
         throw "$Name must pass all selected package readiness checks."
@@ -1077,8 +1077,8 @@ function Invoke-LocalHelper {
       if (@($payload.exact_blockers | Where-Object { [string]$_ -eq "explicit_user_target_runtime_selection_required" }).Count -eq 0) {
         throw "$Name must preserve explicit target-runtime selection as a blocker."
       }
-      if (@($payload.exact_blockers | Where-Object { [string]$_ -eq "deploy_bundle_source_git_dirty_rebuild_required_before_ec2" }).Count -eq 0) {
-        throw "$Name must preserve the dirty deploy-bundle source blocker."
+      if (-not [bool]$payload.source_git_clean_in_bundle -and @($payload.exact_blockers | Where-Object { [string]$_ -eq "deploy_bundle_source_git_dirty_rebuild_required_before_ec2" }).Count -eq 0) {
+        throw "$Name must preserve the dirty deploy-bundle source blocker when source_git_clean_in_bundle=false."
       }
       if ([string]$payload.certification_boundary -notmatch "Local selected-lane package readiness") {
         throw "$Name certification boundary must describe local selected-lane package readiness."
@@ -1099,13 +1099,13 @@ function Invoke-LocalHelper {
       if ($null -eq $payload) {
         $payload = Get-Content -LiteralPath $ExpectedOutputFile -Raw | ConvertFrom-Json
       }
-      foreach ($required in @("result", "lane_id", "selected_work_order_id", "local_only", "aws_contacted", "s3_contacted", "ec2_started", "generation_executed", "prompt_posted", "active_runtime_marker_written", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "full_project_certification_allowed", "local_package_ready", "target_runtime_launch_allowed", "explicit_user_selection_required", "git_checkpoint_passes_for_ec2", "source_git_clean_in_bundle", "s3_transfer_ready_local_only", "target_runtime_plan", "selected_package_readiness", "local_object_info_evidence", "git_checkpoint_gate", "s3_transfer_readiness", "deploy_bundle_manifest", "deploy_bundle_zip", "checks", "failed_check_count", "exact_blockers", "next_live_gate_sequence", "certification_boundary")) {
+      foreach ($required in @("result", "lane_id", "selected_work_order_id", "local_only", "aws_contacted", "s3_contacted", "ec2_started", "generation_executed", "prompt_posted", "active_runtime_marker_written", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "full_project_certification_allowed", "local_package_ready", "local_install_dry_run_proofs_complete", "target_runtime_launch_allowed", "explicit_user_selection_required", "git_checkpoint_passes_for_ec2", "source_git_clean_in_bundle", "s3_transfer_ready_local_only", "ready_for_live_execution", "execute_allowed_now", "runbook_ordered_step_count", "local_install_dry_run_proof_count", "runbook_ready_for_input_asset_publish", "runbook_ready_for_model_cache_publish", "target_runtime_plan", "selected_package_readiness", "execution_readiness_snapshot", "local_object_info_evidence", "git_checkpoint_gate", "s3_transfer_readiness", "deploy_bundle_manifest", "deploy_bundle_zip", "checks", "failed_check_count", "exact_blockers", "next_live_gate_sequence", "certification_boundary")) {
         if (-not (Test-JsonProperty -Object $payload -Name $required)) {
           throw "$Name output is missing top-level field: $required"
         }
       }
-      if ([string]$payload.result -ne "blocked_selected_target_runtime_launch_gate_package_ready_waiting_for_selection_and_clean_git") {
-        throw "$Name result must be blocked_selected_target_runtime_launch_gate_package_ready_waiting_for_selection_and_clean_git."
+      if ([string]$payload.result -notin @("blocked_selected_target_runtime_launch_gate_local_proofs_ready_waiting_for_live_gates", "blocked_selected_target_runtime_launch_gate_package_ready_waiting_for_selection_and_clean_git")) {
+        throw "$Name result must be a blocked selected target-runtime launch gate state."
       }
       if ([string]$payload.lane_id -ne "sdxl_realvisxl_inpaint_detail_lane") {
         throw "$Name lane_id must be sdxl_realvisxl_inpaint_detail_lane."
@@ -1125,8 +1125,8 @@ function Invoke-LocalHelper {
       if (-not [bool]$payload.local_package_ready) {
         throw "$Name must recognize the selected package as locally ready."
       }
-      if (-not [bool]$payload.explicit_user_selection_required -or [bool]$payload.git_checkpoint_passes_for_ec2 -or [bool]$payload.source_git_clean_in_bundle) {
-        throw "$Name must preserve explicit selection, dirty Git, and dirty bundle-source blockers."
+      if (-not [bool]$payload.explicit_user_selection_required -or [bool]$payload.git_checkpoint_passes_for_ec2) {
+        throw "$Name must preserve explicit selection and dirty Git blockers."
       }
       if (-not [bool]$payload.s3_transfer_ready_local_only) {
         throw "$Name must preserve the current local S3 transfer readiness."
@@ -1134,7 +1134,11 @@ function Invoke-LocalHelper {
       if ([int]$payload.failed_check_count -ne 0 -or @($payload.checks | Where-Object { [string]$_.result -ne "pass" }).Count -ne 0) {
         throw "$Name must pass all launch-gate state checks while still blocking launch through exact blockers."
       }
-      foreach ($blocker in @("git_checkpoint_gate_not_clean_for_ec2_execute", "explicit_user_target_runtime_selection_required", "deploy_bundle_source_git_dirty_rebuild_required_before_ec2")) {
+      $requiredLaunchBlockers = @("git_checkpoint_gate_not_clean_for_ec2_execute", "explicit_user_target_runtime_selection_required", "selected_s3_publish_proof_missing_for_deploy_bundle", "selected_input_asset_s3_publish_proof_missing_for_live_install", "selected_model_s3_publish_proof_missing_for_live_install", "explicit_live_execution_intent_required", "ec2_start_not_authorized")
+      if (-not [bool]$payload.source_git_clean_in_bundle) {
+        $requiredLaunchBlockers += "deploy_bundle_source_git_dirty_rebuild_required_before_ec2"
+      }
+      foreach ($blocker in $requiredLaunchBlockers) {
         if (@($payload.exact_blockers | Where-Object { [string]$_ -eq $blocker }).Count -eq 0) {
           throw "$Name must preserve exact blocker: $blocker"
         }
@@ -1187,8 +1191,8 @@ function Invoke-LocalHelper {
       if ([int]$payload.local_package_deploy_ready_count -ne 9) {
         throw "$Name must show all nine lanes locally package/deploy ready."
       }
-      if ([int]$payload.dirty_source_bundle_count -ne 9 -or [int]$payload.clean_source_bundle_count -ne 0) {
-        throw "$Name must preserve dirty-source deploy bundle blockers for all nine lanes."
+      if (([int]$payload.dirty_source_bundle_count + [int]$payload.clean_source_bundle_count) -ne 9) {
+        throw "$Name must account for clean and dirty deploy-bundle source states across all nine lanes."
       }
       if ([int]$payload.failed_check_count -ne 0 -or @($payload.checks | Where-Object { [string]$_.result -ne "pass" }).Count -ne 0) {
         throw "$Name must pass all package/deploy matrix checks."
@@ -1197,11 +1201,15 @@ function Invoke-LocalHelper {
         if (-not [bool]$row.run_package_pass -or -not [bool]$row.deploy_bundle_pass -or -not [bool]$row.local_package_deploy_ready) {
           throw "$Name row must have passing run package and deploy bundle: $($row.lane_id)"
         }
-        if ([bool]$row.source_git_clean_in_bundle -or [bool]$row.target_runtime_launch_allowed) {
-          throw "$Name row must retain dirty source and disallow launch: $($row.lane_id)"
+        if ([bool]$row.target_runtime_launch_allowed) {
+          throw "$Name row must disallow launch: $($row.lane_id)"
         }
       }
-      foreach ($blocker in @("deploy_bundle_source_git_dirty_rebuild_required_before_ec2", "explicit_user_target_runtime_selection_required", "git_checkpoint_gate_not_clean_for_ec2_execute")) {
+      $requiredMatrixBlockers = @("explicit_user_target_runtime_selection_required", "git_checkpoint_gate_not_clean_for_ec2_execute")
+      if ([int]$payload.dirty_source_bundle_count -gt 0) {
+        $requiredMatrixBlockers += "deploy_bundle_source_git_dirty_rebuild_required_before_ec2"
+      }
+      foreach ($blocker in $requiredMatrixBlockers) {
         if (@($payload.exact_blockers | Where-Object { [string]$_ -eq $blocker }).Count -eq 0) {
           throw "$Name must preserve exact blocker: $blocker"
         }
@@ -1264,7 +1272,25 @@ function Invoke-LocalHelper {
           throw "$Name missing blocked live step: $stepName"
         }
       }
-      foreach ($blocker in @("explicit_user_target_runtime_selection_required", "git_checkpoint_gate_not_clean_for_ec2_execute", "deploy_bundle_source_git_dirty_rebuild_required_before_ec2")) {
+      if ([bool]$payload.selected_deploy_bundle_live_commands_materialized) {
+        if ([string]::IsNullOrWhiteSpace([string]$payload.selected_deploy_bundle_s3_bundle_uri) -or [string]::IsNullOrWhiteSpace([string]$payload.selected_deploy_bundle_s3_bundle_sha256)) {
+          throw "$Name materialized command state requires selected deploy bundle S3 URI and SHA256."
+        }
+        foreach ($stepName in @("ec2_static_proof_execute", "workflow_smoke_execute")) {
+          $step = @($payload.blocked_live_steps | Where-Object { [string]$_.name -eq $stepName }) | Select-Object -First 1
+          if ([string]$step.command -match "<s3-bundle-uri>|<bundle-sha256>") {
+            throw "$Name must materialize bundle URI/SHA placeholders for blocked step: $stepName"
+          }
+          if ([string]$step.command -notmatch [regex]::Escape([string]$payload.selected_deploy_bundle_s3_bundle_uri) -or [string]$step.command -notmatch [regex]::Escape([string]$payload.selected_deploy_bundle_s3_bundle_sha256)) {
+            throw "$Name materialized blocked step must include selected bundle URI and SHA256: $stepName"
+          }
+        }
+      }
+      $requiredHandoffBlockers = @("explicit_user_target_runtime_selection_required", "git_checkpoint_gate_not_clean_for_ec2_execute")
+      if (-not [bool]$payload.ready_for_s3_publish_now_local_dry_run) {
+        $requiredHandoffBlockers += "deploy_bundle_source_git_dirty_rebuild_required_before_ec2"
+      }
+      foreach ($blocker in $requiredHandoffBlockers) {
         if (@($payload.exact_blockers | Where-Object { [string]$_ -eq $blocker }).Count -eq 0) {
           throw "$Name must preserve exact blocker: $blocker"
         }
@@ -1333,7 +1359,11 @@ function Invoke-LocalHelper {
           throw "$Name missing recheck row: $rowName"
         }
       }
-      foreach ($blocker in @("git_checkpoint_gate_not_clean_for_ec2_execute", "deploy_bundle_source_git_dirty_rebuild_required_before_ec2", "project_readiness_runtime_lane_queue_order_blocked", "target_runtime_proof_evidence_missing")) {
+      $requiredLedgerBlockers = @("git_checkpoint_gate_not_clean_for_ec2_execute", "target_runtime_proof_evidence_missing")
+      if (-not [bool]$payload.selected_deploy_bundle_live_commands_materialized) {
+        $requiredLedgerBlockers += "deploy_bundle_source_git_dirty_rebuild_required_before_ec2"
+      }
+      foreach ($blocker in $requiredLedgerBlockers) {
         if (@($payload.exact_blockers | Where-Object { [string]$_ -eq $blocker }).Count -eq 0) {
           throw "$Name must preserve exact blocker: $blocker"
         }

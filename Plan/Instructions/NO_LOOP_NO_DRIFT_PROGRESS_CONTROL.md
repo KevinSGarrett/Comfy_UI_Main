@@ -118,6 +118,10 @@ Does the tracker/item list support this action?
 
 If the answer is no, Codex must not proceed unless it updates the pursuing goal and logs a scope-change decision.
 
+### Lane-aware drift exception
+
+If a task is explicitly routed to Cursor-first or Claude-second-pass, the current Codex turn does not need to own the broad scan itself. In that case, Codex must still preserve final authority and bounded scope, but it should treat the delegated lane as the active worker for the scan/synthesis portion instead of redoing the same work locally.
+
 ## 7. Drift recovery sequence
 
 When drift is detected:
@@ -313,6 +317,16 @@ C:\Comfy_UI_Main\Workflows\base_generation
 Current active runtime work means the simplified first-proof API lanes exported from validated Plan templates, with `sdxl_low_risk_fallback_lane` first and `sdxl_realvisxl_base_lane` second. This is not yet the full old `C:\Comfy_UI` workflow system and not the full Wave42/Main Flow graph.
 
 Do not attempt to rebuild, rerun, or promote the full old workflow system merely because Wave42/Main Flow files exist in `Plan`. Main Flow material becomes executable only after it is extracted into a concrete lane/module, statically validated, registered, queued, packaged, and passed the current auth, queue, model-registry, Git, readiness, static-proof, pullback, and QA gates.
+
+## 14b. Worker Lane Ownership
+
+The current project now uses three worker lanes for local reasoning:
+
+- Codex-only: final authority, gated decisions, and live-state mutation.
+- Cursor-first: bounded local scans, inventories, parser triage, and helper drafting.
+- Claude subscription: optional high-effort Sonnet synthesis, contradiction review, or strategy critique after Cursor extraction through `C:\Users\kevin\.codex\claude_subscription_handoff\Invoke-ClaudeSubscriptionHandoff.ps1`.
+
+Do not treat a delegated lane as duplicate work if it is operating on a smaller, explicit work order that was created to reduce Codex Desktop load. Duplicate work is only a loop if Codex redoes the same broad scan instead of reviewing the delegated output.
 
 ## 15. End-of-session anti-loop requirement
 

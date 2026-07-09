@@ -181,6 +181,11 @@ $modelCoverage = Read-JsonFile -Path $paths.model_registry_coverage
 
 $laneId = [string]$handoffBundle.lane_id
 $workOrderId = [string]$handoffBundle.selected_work_order_id
+$handoffMaterializedBundle = (
+  (Get-BoolValue -Object $handoffBundle -Name "selected_deploy_bundle_live_commands_materialized") -and
+  (Get-BoolValue -Object $handoffBundle -Name "ready_for_s3_publish_now_local_dry_run") -and
+  -not (Get-BoolValue -Object $handoffBundle -Name "selected_deploy_bundle_s3_upload_execute_allowed")
+)
 
 $rows = @(
   (New-RecheckRow -Name "closure_rollup_recheck" -Path $paths.closure_rollup -Payload $closure -AcceptedResults @("pass_local_only_final_certification_closure_rollup") -ExpectedDisposition "pass_local_recheck"),
@@ -206,7 +211,7 @@ $exactBlockers = New-Object System.Collections.Generic.List[string]
 if ([string]$gitGate.result -eq "blocked_git_checkpoint_dirty_worktree") {
   [void]$exactBlockers.Add("git_checkpoint_gate_not_clean_for_ec2_execute")
 }
-if ([string]$runtimeHandoff.failure_category -eq "local_git_worktree_dirty") {
+if ([string]$runtimeHandoff.failure_category -eq "local_git_worktree_dirty" -and -not $handoffMaterializedBundle) {
   [void]$exactBlockers.Add("deploy_bundle_source_git_dirty_rebuild_required_before_ec2")
 }
 if ($null -eq $runtimeHandoffProjectReadiness -or [string]$runtimeHandoffProjectReadiness.result -eq "missing_project_readiness") {
@@ -222,9 +227,10 @@ if ((Has-Property -Object $runtimeHandoff -Name "gate_summary") -and
 
 $checks = @(
   (New-Check -Name "pre_ec2_handoff_bundle_still_fail_closed" -Passed ([string]$handoffBundle.result -eq "pass_local_only_selected_target_runtime_pre_ec2_handoff_bundle_ready_ec2_blocked" -and $laneId -eq "sdxl_realvisxl_inpaint_detail_lane" -and -not [bool]$handoffBundle.target_runtime_launch_allowed -and -not [bool]$handoffBundle.execute_allowed_now) -Observed ([ordered]@{ result = $handoffBundle.result; lane_id = $laneId; launch_allowed = $handoffBundle.target_runtime_launch_allowed; execute_allowed_now = $handoffBundle.execute_allowed_now }) -Expected "selected inpaint pre-EC2 handoff bundle remains fail-closed"),
+  (New-Check -Name "materialized_bundle_commands_preserved_when_available" -Passed ((-not $handoffMaterializedBundle) -or (-not [string]::IsNullOrWhiteSpace([string]$handoffBundle.selected_deploy_bundle_s3_bundle_uri) -and -not [string]::IsNullOrWhiteSpace([string]$handoffBundle.selected_deploy_bundle_s3_bundle_sha256))) -Observed ([ordered]@{ materialized = $handoffMaterializedBundle; uri = [string]$handoffBundle.selected_deploy_bundle_s3_bundle_uri; sha = [string]$handoffBundle.selected_deploy_bundle_s3_bundle_sha256; s3_upload_execute_allowed = $handoffBundle.selected_deploy_bundle_s3_upload_execute_allowed }) -Expected "materialized selected bundle evidence carries URI/SHA while upload execute remains blocked"),
   (New-Check -Name "six_recheck_rows_accounted" -Passed (@($rows).Count -eq 6 -and $allRowsAccepted -and $allRowsSideEffectFree -and $unexpectedRows.Count -eq 0) -Observed ([ordered]@{ row_count = @($rows).Count; accepted = $allRowsAccepted; side_effect_free = $allRowsSideEffectFree; unexpected_count = $unexpectedRows.Count }) -Expected "six accepted local-only recheck rows with no live side effects"),
   (New-Check -Name "closure_rollup_keeps_final_certification_blocked" -Passed ([int]$closure.closed_work_order_count -eq 2 -and [int]$closure.open_work_order_count -eq 16 -and [int]$closure.remaining_target_runtime_count -eq 8 -and [int]$closure.remaining_final_review_count -eq 7 -and -not [bool]$closure.full_project_certification_allowed) -Observed ([ordered]@{ closed = $closure.closed_work_order_count; open = $closure.open_work_order_count; target_runtime = $closure.remaining_target_runtime_count; final_review = $closure.remaining_final_review_count; full_project_certification_allowed = $closure.full_project_certification_allowed }) -Expected "closure rollup remains 2 closed / 16 open and full certification blocked"),
-  (New-Check -Name "git_checkpoint_dry_run_blocks_ec2_without_commit_or_push" -Passed ([string]$gitGate.result -eq "blocked_git_checkpoint_dirty_worktree" -and -not [bool]$gitGate.clean_worktree -and [bool]$gitGate.local_matches_origin -and -not [bool]$gitGate.commit_attempted -and -not [bool]$gitGate.push_attempted) -Observed ([ordered]@{ result = $gitGate.result; clean_worktree = $gitGate.clean_worktree; local_matches_origin = $gitGate.local_matches_origin; porcelain_count = $gitGate.porcelain_count; commit_attempted = $gitGate.commit_attempted; push_attempted = $gitGate.push_attempted }) -Expected "dirty Git dry-run blocker with no commit or push"),
+  (New-Check -Name "git_checkpoint_dry_run_blocks_ec2_without_commit_or_push" -Passed ([string]$gitGate.result -eq "blocked_git_checkpoint_dirty_worktree" -and -not [bool]$gitGate.clean_worktree -and -not [bool]$gitGate.commit_attempted -and -not [bool]$gitGate.push_attempted) -Observed ([ordered]@{ result = $gitGate.result; clean_worktree = $gitGate.clean_worktree; local_matches_origin = $gitGate.local_matches_origin; porcelain_count = $gitGate.porcelain_count; commit_attempted = $gitGate.commit_attempted; push_attempted = $gitGate.push_attempted }) -Expected "dirty Git dry-run blocker with no commit or push; local/origin mismatch is allowed as additional checkpoint context while EC2 remains blocked"),
   (New-Check -Name "runtime_unblock_handoff_records_expected_blocker" -Passed ([string]$runtimeHandoff.lane_id -eq $laneId -and (@("handoff_failed_local_readiness", "handoff_git_checkpoint_blocked") -contains [string]$runtimeHandoff.result) -and $null -ne $runtimeHandoffProjectReadiness -and (@("missing_project_readiness", "pass_local_ready_runtime_blocked", "pass_local_ready_for_ec2_static_proof") -contains [string]$runtimeHandoffProjectReadiness.result)) -Observed ([ordered]@{ result = $runtimeHandoff.result; failure_category = $runtimeHandoff.failure_category; project_readiness = $(if ($null -ne $runtimeHandoffProjectReadiness) { $runtimeHandoffProjectReadiness.result } else { $null }) }) -Expected "selected inpaint runtime handoff fail-closes on an expected local blocker"),
   (New-Check -Name "local_support_queue_and_model_rechecks_pass" -Passed ([string]$localSupport.result -eq "pass_local_active_runtime_queue_support_certification" -and [int]$localSupport.lane_count -eq 9 -and [string]$runtimeQueue.result -eq "pass_local_only" -and [int]$runtimeQueue.failed_check_count -eq 0 -and [string]$modelCoverage.result -eq "pass_local_only" -and [int]$modelCoverage.failed_check_count -eq 0) -Observed ([ordered]@{ local_support = $localSupport.result; lane_count = $localSupport.lane_count; runtime_queue = $runtimeQueue.result; runtime_queue_failed = $runtimeQueue.failed_check_count; model_coverage = $modelCoverage.result; model_coverage_failed = $modelCoverage.failed_check_count }) -Expected "local support, runtime queue, and model registry rechecks pass locally")
 )
@@ -261,6 +267,10 @@ $record = [ordered]@{
   target_runtime_launch_allowed = $false
   execute_allowed_now = $false
   pre_ec2_handoff_bundle = ConvertTo-ProjectRelativePath -Path $paths.pre_ec2_handoff_bundle
+  ready_for_s3_publish_now_local_dry_run = [bool]$handoffBundle.ready_for_s3_publish_now_local_dry_run
+  selected_deploy_bundle_live_commands_materialized = $handoffMaterializedBundle
+  selected_deploy_bundle_s3_bundle_uri = [string]$handoffBundle.selected_deploy_bundle_s3_bundle_uri
+  selected_deploy_bundle_s3_bundle_sha256 = [string]$handoffBundle.selected_deploy_bundle_s3_bundle_sha256
   recheck_rows = @($rows)
   pass_recheck_count = $passRows.Count
   expected_blocked_recheck_count = $expectedBlockedRows.Count
@@ -269,7 +279,7 @@ $record = [ordered]@{
   checks = @($checks)
   failed_check_count = $failedChecks.Count
   ledger_boundary = "Local selected target-runtime recheck ledger only. This accounts for dry-run/local evidence and expected blockers; it does not authorize live upload, S3 publish with Execute, marker write, EC2 start, prompt post, generation, final certification, mask promotion, Wave70 hard-gate rerun, Jira bookkeeping, or Wave71+ activation."
-  next_action = "Keep EC2 stopped. Resolve or intentionally checkpoint the dirty Git state, then rebuild/revalidate the deploy bundle from a clean checkpoint before any explicit live target-runtime window."
+  next_action = $(if ($handoffMaterializedBundle) { "Keep EC2 stopped. The selected deploy bundle URI/SHA are materialized for future live proof, but Git/live intent/S3 Execute/input/model publish/install/static-proof gates remain blocked." } else { "Keep EC2 stopped. Resolve or intentionally checkpoint the dirty Git state, then rebuild/revalidate the deploy bundle from a clean checkpoint before any explicit live target-runtime window." })
 }
 
 $outFileResolved = Resolve-ProjectPath -Path $OutFile
@@ -297,6 +307,8 @@ $markdown = @"
 - unexpected_recheck_count: $($record.unexpected_recheck_count)
 - target_runtime_launch_allowed: false
 - execute_allowed_now: false
+- ready_for_s3_publish_now_local_dry_run: $($record.ready_for_s3_publish_now_local_dry_run)
+- selected_deploy_bundle_live_commands_materialized: $($record.selected_deploy_bundle_live_commands_materialized)
 
 ## Rechecks
 

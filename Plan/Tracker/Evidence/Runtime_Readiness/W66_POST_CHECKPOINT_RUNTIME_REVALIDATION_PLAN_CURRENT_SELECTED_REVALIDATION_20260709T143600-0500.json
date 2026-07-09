@@ -1,0 +1,118 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "post_checkpoint_runtime_revalidation_plan",
+    "created_at":  "2026-07-09T14:36:23-05:00",
+    "result":  "blocked_post_checkpoint_runtime_revalidation_waiting_for_manifest_checkpoint",
+    "local_only":  true,
+    "github_api_contacted":  false,
+    "aws_contacted":  false,
+    "civitai_contacted":  false,
+    "s3_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "prompt_posted":  false,
+    "active_runtime_marker_written":  false,
+    "stage_attempted":  false,
+    "commit_attempted":  false,
+    "push_attempted":  false,
+    "reset_attempted":  false,
+    "checkout_attempted":  false,
+    "deploy_bundle_rebuilt":  false,
+    "masks_consumed_as_truth":  false,
+    "masks_promoted":  false,
+    "wave70_hard_gate_rerun":  false,
+    "wave71_plus_activated":  false,
+    "full_project_certification_allowed":  false,
+    "post_checkpoint_ready_to_run":  false,
+    "scoped_checkpoint_manifest":  "Plan/Instructions/QA/Evidence/Git_Verification/W66_SCOPED_GIT_CHECKPOINT_MANIFEST_TOOLS_SCOPED_FIXED_20260709T123136-0500.json",
+    "manifest_checkpoint_dry_run":  "Plan/Instructions/QA/Evidence/Git_Verification/W66_GITHUB_CHECKPOINT_MANIFEST_SCOPE_DRY_RUN_SELECTED_CURRENT_20260709T133200-0500.json",
+    "package_deploy_matrix":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_PACKAGE_DEPLOY_MATRIX_CURRENT_SELECTED_REVALIDATION_20260709T143600-0500.json",
+    "target_runtime_execution_plan":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_TARGET_RUNTIME_EXECUTION_PLAN_20260709T143000-0500.json",
+    "selected_lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+    "selected_package_deploy_ready":  true,
+    "selected_deploy_bundle_source_dirty":  true,
+    "manifest_ready":  true,
+    "manifest_checkpoint_dry_run_valid":  true,
+    "manifest_checkpoint_dry_run_non_mutating":  true,
+    "clean_git_after_checkpoint":  false,
+    "blocker_summary":  [
+                            "manifest_scoped_checkpoint_not_yet_executed_clean",
+                            "selected_deploy_bundle_source_git_dirty_rebuild_required_before_ec2",
+                            "explicit_user_target_runtime_selection_required",
+                            "git_checkpoint_gate_not_clean_for_ec2_execute",
+                            "runtime_handoff_git_gate_not_passing",
+                            "target_runtime_or_final_certification_not_proven",
+                            "target_runtime_proof_evidence_missing",
+                            "queue_status_not_final_certified:local_runtime_smoke_visual_qa_pass_with_notes_plus_wave25_contact_refine_robustness_pass_with_notes_pending_target_runtime",
+                            "required_next_runtime_gate_still_requires_target_or_final_review"
+                        ],
+    "command_sequence":  [
+                             {
+                                 "name":  "manifest_scoped_checkpoint_execute",
+                                 "gate":  "explicit_checkpoint_intent_required",
+                                 "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Invoke-GitHubCheckpoint.ps1 -ProjectRoot C:\\Comfy_UI_Main -ScopeManifestFile C:\\Comfy_UI_Main\\Plan/Instructions/QA/Evidence/Git_Verification/W66_SCOPED_GIT_CHECKPOINT_MANIFEST_TOOLS_SCOPED_FIXED_20260709T123136-0500.json -Message \"Wave66: manifest-scoped runtime checkpoint\" -Execute",
+                                 "expected_evidence":  "Checkpoint evidence with no blocked paths, expected include/exclude manifest, and a post-execute clean or explicitly inspected worktree state.",
+                                 "when_to_run":  "Only after explicit checkpoint intent is selected.",
+                                 "execute_allowed_now":  false
+                             },
+                             {
+                                 "name":  "post_checkpoint_git_gate",
+                                 "gate":  "after_checkpoint_execute",
+                                 "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Invoke-GitHubCheckpoint.ps1 -ProjectRoot C:\\Comfy_UI_Main -ScopeManifestFile C:\\Comfy_UI_Main\\Plan/Instructions/QA/Evidence/Git_Verification/W66_SCOPED_GIT_CHECKPOINT_MANIFEST_TOOLS_SCOPED_FIXED_20260709T123136-0500.json -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Git_Verification\\W66_GITHUB_CHECKPOINT_POST_MANIFEST_GATE_\u003ctimestamp\u003e.json",
+                                 "expected_evidence":  "result=pass_git_checkpoint_ready, clean_worktree=true, local_matches_origin=true, commit_attempted=false, push_attempted=false.",
+                                 "when_to_run":  "Immediately after checkpoint execute and before any deploy-bundle rebuild.",
+                                 "execute_allowed_now":  false
+                             },
+                             {
+                                 "name":  "active_runtime_queue_package_deploy_matrix_recheck",
+                                 "gate":  "post_checkpoint_clean_git",
+                                 "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Scripts\\New-ActiveRuntimeQueuePackageDeployMatrix.ps1 -ProjectRoot C:\\Comfy_UI_Main -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W66_ACTIVE_RUNTIME_QUEUE_PACKAGE_DEPLOY_MATRIX_\u003ctimestamp\u003e.json",
+                                 "expected_evidence":  "Selected lane package/deploy row exists; any dirty source bundle blocker remains explicit until bundle rebuild.",
+                                 "when_to_run":  "After clean Git checkpoint and before any deploy-bundle rebuild or S3 publish.",
+                                 "execute_allowed_now":  false
+                             },
+                             {
+                                 "name":  "selected_lane_deploy_bundle_rebuild",
+                                 "gate":  "post_checkpoint_clean_git",
+                                 "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\tools\\New-EC2DeployBundle.ps1 -ProjectRoot C:\\Comfy_UI_Main -LaneId sdxl_realvisxl_inpaint_detail_lane -RunPackageManifestFile \u003cselected-run-package-manifest\u003e",
+                                 "expected_evidence":  "Deploy bundle manifest and zip built from clean checkpoint source for lane sdxl_realvisxl_inpaint_detail_lane.",
+                                 "when_to_run":  "After checkpoint clean gate and selected lane/run package are confirmed.",
+                                 "execute_allowed_now":  false
+                             },
+                             {
+                                 "name":  "s3_runtime_transfer_readiness_recheck",
+                                 "gate":  "before_s3_publish",
+                                 "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Test-S3RuntimeTransferReadiness.ps1 -ProjectRoot C:\\Comfy_UI_Main -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Operations_Static_Validation\\W66_S3_RUNTIME_TRANSFER_READINESS_POST_CHECKPOINT_\u003ctimestamp\u003e.json",
+                                 "expected_evidence":  "S3 runtime transfer readiness result allows deploy-bundle publish without starting EC2.",
+                                 "when_to_run":  "After bundle rebuild, before S3 publish.",
+                                 "execute_allowed_now":  false
+                             },
+                             {
+                                 "name":  "target_runtime_execution_plan_recheck",
+                                 "gate":  "post_checkpoint_and_bundle_rebuild",
+                                 "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Scripts\\New-ActiveRuntimeQueueTargetRuntimeExecutionPlan.ps1 -ProjectRoot C:\\Comfy_UI_Main -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W66_ACTIVE_RUNTIME_QUEUE_TARGET_RUNTIME_EXECUTION_PLAN_\u003ctimestamp\u003e.json",
+                                 "expected_evidence":  "Selected lane remains sdxl_realvisxl_inpaint_detail_lane or newer queue policy explains the next selected target-runtime lane.",
+                                 "when_to_run":  "After Git, package/deploy, and S3 readiness are rechecked.",
+                                 "execute_allowed_now":  false
+                             },
+                             {
+                                 "name":  "runtime_unblock_handoff_recheck",
+                                 "gate":  "before_any_live_ec2",
+                                 "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\New-RuntimeUnblockHandoff.ps1 -ProjectRoot C:\\Comfy_UI_Main -LaneId sdxl_realvisxl_inpaint_detail_lane -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W66_RUNTIME_UNBLOCK_HANDOFF_sdxl_realvisxl_inpaint_detail_lane_\u003ctimestamp\u003e.json",
+                                 "expected_evidence":  "Handoff shows selected lane, clean Git, deploy bundle path, S3 readiness, and exact live EC2 blockers.",
+                                 "when_to_run":  "After post-checkpoint local gates pass, before EC2 execute.",
+                                 "execute_allowed_now":  false
+                             },
+                             {
+                                 "name":  "ec2_static_proof_execute_still_blocked",
+                                 "gate":  "explicit_live_window_and_all_gates",
+                                 "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_realvisxl_inpaint_detail_lane -Execute -SkipGitLfsPull -DeployBundleS3Uri \u003cs3-bundle-uri\u003e -DeployBundleSha256 \u003cbundle-sha256\u003e -MaxEc2RuntimeMinutes 25",
+                                 "expected_evidence":  "Object-info, model path/hash, bundle hash verification, lane match, and final EC2 stopped state.",
+                                 "when_to_run":  "Only after explicit live EC2 selection and all revalidation gates pass.",
+                                 "execute_allowed_now":  false
+                             }
+                         ],
+    "checkpoint_boundary":  "Post-checkpoint revalidation plan only. This artifact does not stage, commit, push, reset, checkout, rebuild deploy bundles, upload to S3, start EC2, post prompts, generate, write runtime markers, promote masks, rerun Wave70 gates, switch to Jira bookkeeping, or activate Wave71+.",
+    "next_action":  "Keep EC2 stopped. After explicit manifest-scoped checkpoint execute and clean Git proof, rerun package/deploy matrix, rebuild the selected deploy bundle from clean source, recheck S3/runtime gates, and only then consider bounded EC2 static proof."
+}

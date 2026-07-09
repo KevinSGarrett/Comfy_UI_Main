@@ -193,6 +193,18 @@ $modelCacheReadiness = Read-JsonFile -Path $modelCacheReadinessResolved
 $modelS3PublishDryRun = Read-JsonFile -Path $modelS3PublishDryRunResolved
 $inputAssetSourceS3PublishDryRun = Read-JsonFile -Path $inputAssetSourceS3PublishDryRunResolved
 $inputAssetMaskS3PublishDryRun = Read-JsonFile -Path $inputAssetMaskS3PublishDryRunResolved
+$s3PublishDryRunReady = (
+  [string]$s3PublishReadiness.result -eq "pass_local_only_selected_s3_publish_readiness_dry_run_ready_execute_blocked" -and
+  [bool]$s3PublishReadiness.ready_for_s3_publish_now_local_dry_run -and
+  -not [bool]$s3PublishReadiness.s3_upload_execute_allowed
+)
+$selectedDeployBundleS3Uri = if ($s3PublishDryRunReady) { [string]$s3PublishReadiness.selected_deploy_bundle_s3_bundle_uri } else { "" }
+$selectedDeployBundleSha256 = if ($s3PublishDryRunReady) { [string]$s3PublishReadiness.selected_deploy_bundle_manifest_hash } else { "" }
+$selectedDeployBundlePublishExecuteCommand = if ($s3PublishDryRunReady) { [string]$s3PublishReadiness.publish_execute_command_requires_explicit_user_intent } else { "" }
+$s3PublishWaitingForRebuild = (
+  [string]$s3PublishReadiness.result -eq "blocked_selected_s3_publish_readiness_waiting_for_clean_rebuild" -and
+  -not [bool]$s3PublishReadiness.ready_for_s3_publish_after_rebuild
+)
 
 $laneId = [string]$targetPlan.selected_lane_id
 $workOrderId = [string]$targetPlan.selected_work_order_id
@@ -226,6 +238,25 @@ foreach ($step in @(Convert-ToArray -Value $targetPlan.command_sequence)) {
   $commandSteps += New-HandoffStep -SourceStep $step -Order $index -AllowedInCurrentLocalSession $allowed
 }
 
+if ($s3PublishDryRunReady) {
+  foreach ($step in $commandSteps) {
+    if ([string]$step.name -eq "deploy_bundle_s3_publish" -and -not [string]::IsNullOrWhiteSpace($selectedDeployBundlePublishExecuteCommand)) {
+      $step.command = $selectedDeployBundlePublishExecuteCommand
+      $step.expected_evidence = "S3 Execute proof records deploy_bundle_uploaded_to_s3 for bundle URI $selectedDeployBundleS3Uri and SHA256 $selectedDeployBundleSha256."
+    } elseif ([string]$step.name -eq "ec2_static_proof_execute") {
+      $step.command = ([string]$step.command).
+        Replace("<s3-bundle-uri>", $selectedDeployBundleS3Uri).
+        Replace("<bundle-sha256>", $selectedDeployBundleSha256)
+      $step.expected_evidence = "object_info, checkpoint path/hash, lane match, S3 bundle verification for $selectedDeployBundleS3Uri / $selectedDeployBundleSha256, and final EC2 stopped state."
+    } elseif ([string]$step.name -eq "workflow_smoke_execute") {
+      $step.command = ([string]$step.command).
+        Replace("<s3-bundle-uri>", $selectedDeployBundleS3Uri).
+        Replace("<bundle-sha256>", $selectedDeployBundleSha256)
+      $step.expected_evidence = "bounded generation using verified deploy bundle $selectedDeployBundleS3Uri / $selectedDeployBundleSha256, artifact pullback plan, technical QA, visual QA, and final EC2 stopped state."
+    }
+  }
+}
+
 $allowedLocalRecheckSteps = @($commandSteps | Where-Object { [bool]$_.allowed_in_current_local_session })
 $blockedLiveSteps = @($commandSteps | Where-Object { -not [bool]$_.allowed_in_current_local_session })
 $missingAllowedLocalSteps = @($allowedLocalStepNames | Where-Object { @($commandSteps.name) -notcontains $_ })
@@ -242,26 +273,38 @@ $modelCacheBlockers = @(Convert-ToArray -Value $modelCacheReadiness.exact_blocke
 $exactBlockers = @($launchBlockers + $targetBlockers + $readinessBlockers + $matrixBlockers + $s3PublishBlockers + $inputAssetBlockers + $modelCacheBlockers |
   Where-Object { -not [string]::IsNullOrWhiteSpace($_) } |
   Select-Object -Unique)
+if ($s3PublishDryRunReady) {
+  $supersededDeployBundleBlockers = @(
+    "deploy_bundle_source_git_dirty_rebuild_required_before_ec2",
+    "manifest_scoped_checkpoint_not_yet_executed_clean",
+    "selected_deploy_bundle_rebuild_not_completed",
+    "selected_deploy_bundle_manifest_missing_until_rebuild",
+    "selected_deploy_bundle_zip_missing_until_rebuild"
+  )
+  $exactBlockers = @($exactBlockers | Where-Object { $supersededDeployBundleBlockers -notcontains [string]$_ })
+}
 
 $requiredBlockers = @(
   "explicit_user_target_runtime_selection_required",
-  "git_checkpoint_gate_not_clean_for_ec2_execute",
-  "deploy_bundle_source_git_dirty_rebuild_required_before_ec2"
+  "git_checkpoint_gate_not_clean_for_ec2_execute"
 )
+if (-not $s3PublishDryRunReady) {
+  $requiredBlockers += "deploy_bundle_source_git_dirty_rebuild_required_before_ec2"
+}
 $missingRequiredBlockers = @($requiredBlockers | Where-Object { $exactBlockers -notcontains $_ })
 
 $checks = @(
   (New-Check -Name "target_plan_is_latest_authority_for_selected_inpaint_lane" -Passed ([string]$targetPlan.result -eq "blocked_target_runtime_execution_plan_waiting_for_explicit_selection_and_clean_git" -and $laneId -eq "sdxl_realvisxl_inpaint_detail_lane" -and $workOrderId -eq "WO-W66-SDXL_REALVISXL_INPAINT_DETAIL_LANE-TARGET-RUNTIME-PROOF" -and -not [bool]$targetPlan.execute_allowed_now) -Observed ([ordered]@{ result = $targetPlan.result; lane_id = $laneId; work_order_id = $workOrderId; execute_allowed_now = $targetPlan.execute_allowed_now }) -Expected "latest target plan selects blocked inpaint target-runtime proof"),
   (New-Check -Name "selected_package_ready_but_execution_blocked" -Passed ([string]$readiness.lane_id -eq $laneId -and [bool]$readiness.package_readiness_pass -and -not [bool]$readiness.target_runtime_execution_allowed -and [int]$readiness.failed_check_count -eq 0) -Observed ([ordered]@{ lane_id = $readiness.lane_id; package_readiness_pass = $readiness.package_readiness_pass; target_runtime_execution_allowed = $readiness.target_runtime_execution_allowed; failed_check_count = $readiness.failed_check_count }) -Expected "selected package is locally ready but does not authorize execution"),
   (New-Check -Name "launch_gate_blocks_target_runtime_launch" -Passed ([string]$launchGate.lane_id -eq $laneId -and [bool]$launchGate.local_package_ready -and -not [bool]$launchGate.target_runtime_launch_allowed -and [int]$launchGate.failed_check_count -eq 0) -Observed ([ordered]@{ lane_id = $launchGate.lane_id; local_package_ready = $launchGate.local_package_ready; target_runtime_launch_allowed = $launchGate.target_runtime_launch_allowed; failed_check_count = $launchGate.failed_check_count }) -Expected "launch gate blocks target runtime while package is locally ready"),
-  (New-Check -Name "package_deploy_matrix_has_selected_lane_dirty_bundle" -Passed ($null -ne $selectedMatrixRow -and [bool]$selectedMatrixRow.local_package_deploy_ready -and -not [bool]$selectedMatrixRow.target_runtime_launch_allowed -and -not [bool]$selectedMatrixRow.source_git_clean_in_bundle) -Observed ([ordered]@{ selected_row_found = ($null -ne $selectedMatrixRow); lane_id = if ($null -ne $selectedMatrixRow) { $selectedMatrixRow.lane_id } else { $null }; local_package_deploy_ready = if ($null -ne $selectedMatrixRow) { $selectedMatrixRow.local_package_deploy_ready } else { $null }; target_runtime_launch_allowed = if ($null -ne $selectedMatrixRow) { $selectedMatrixRow.target_runtime_launch_allowed } else { $null }; source_git_clean_in_bundle = if ($null -ne $selectedMatrixRow) { $selectedMatrixRow.source_git_clean_in_bundle } else { $null } }) -Expected "selected lane exists in package/deploy matrix with dirty source launch blocker"),
-  (New-Check -Name "selected_s3_publish_waits_for_clean_rebuild" -Passed ([string]$s3PublishReadiness.result -eq "blocked_selected_s3_publish_readiness_waiting_for_clean_rebuild" -and [string]$s3PublishReadiness.selected_lane_id -eq $laneId -and [bool]$s3PublishReadiness.s3_runtime_transfer_ready_local_only -and [bool]$s3PublishReadiness.selected_rebuild_ready_after_clean_checkpoint -and -not [bool]$s3PublishReadiness.selected_rebuild_current_git_clean -and -not [bool]$s3PublishReadiness.ready_for_s3_publish_after_rebuild) -Observed ([ordered]@{ result = $s3PublishReadiness.result; selected_lane_id = $s3PublishReadiness.selected_lane_id; s3_runtime_transfer_ready_local_only = $s3PublishReadiness.s3_runtime_transfer_ready_local_only; selected_rebuild_ready_after_clean_checkpoint = $s3PublishReadiness.selected_rebuild_ready_after_clean_checkpoint; selected_rebuild_current_git_clean = $s3PublishReadiness.selected_rebuild_current_git_clean; ready_for_s3_publish_after_rebuild = $s3PublishReadiness.ready_for_s3_publish_after_rebuild }) -Expected "deploy bundle S3 publish remains blocked until clean checkpoint and clean rebuild"),
+  (New-Check -Name "package_deploy_matrix_has_selected_lane_fail_closed_state" -Passed ($null -ne $selectedMatrixRow -and [bool]$selectedMatrixRow.local_package_deploy_ready -and -not [bool]$selectedMatrixRow.target_runtime_launch_allowed -and ($s3PublishDryRunReady -or -not [bool]$selectedMatrixRow.source_git_clean_in_bundle)) -Observed ([ordered]@{ selected_row_found = ($null -ne $selectedMatrixRow); lane_id = if ($null -ne $selectedMatrixRow) { $selectedMatrixRow.lane_id } else { $null }; local_package_deploy_ready = if ($null -ne $selectedMatrixRow) { $selectedMatrixRow.local_package_deploy_ready } else { $null }; target_runtime_launch_allowed = if ($null -ne $selectedMatrixRow) { $selectedMatrixRow.target_runtime_launch_allowed } else { $null }; source_git_clean_in_bundle = if ($null -ne $selectedMatrixRow) { $selectedMatrixRow.source_git_clean_in_bundle } else { $null }; selected_s3_publish_dry_run_ready = $s3PublishDryRunReady }) -Expected "selected lane exists in package/deploy matrix and remains fail-closed for target-runtime launch"),
+  (New-Check -Name "selected_s3_publish_fail_closed_state" -Passed (($s3PublishWaitingForRebuild -or $s3PublishDryRunReady) -and [string]$s3PublishReadiness.selected_lane_id -eq $laneId -and [bool]$s3PublishReadiness.s3_runtime_transfer_ready_local_only) -Observed ([ordered]@{ result = $s3PublishReadiness.result; selected_lane_id = $s3PublishReadiness.selected_lane_id; s3_runtime_transfer_ready_local_only = $s3PublishReadiness.s3_runtime_transfer_ready_local_only; selected_rebuild_ready_after_clean_checkpoint = $s3PublishReadiness.selected_rebuild_ready_after_clean_checkpoint; selected_rebuild_current_git_clean = $s3PublishReadiness.selected_rebuild_current_git_clean; ready_for_s3_publish_after_rebuild = $s3PublishReadiness.ready_for_s3_publish_after_rebuild; ready_for_s3_publish_now_local_dry_run = $s3PublishReadiness.ready_for_s3_publish_now_local_dry_run; s3_upload_execute_allowed = $s3PublishReadiness.s3_upload_execute_allowed }) -Expected "deploy bundle S3 publish is either waiting for rebuild or locally dry-run ready with upload execute blocked"),
   (New-Check -Name "selected_input_assets_publish_ready_install_execute_blocked" -Passed ([string]$inputAssetInstallReadiness.result -eq "blocked_selected_input_asset_install_readiness_waiting_for_s3_publish_and_live_gates" -and [string]$inputAssetInstallReadiness.selected_lane_id -eq $laneId -and [string]$inputAssetInstallReadiness.selected_work_order_id -eq $workOrderId -and [bool]$inputAssetInstallReadiness.ready_for_input_asset_publish -and -not [bool]$inputAssetInstallReadiness.ready_for_ec2_input_asset_install_execute -and [bool]$inputAssetInstallReadiness.input_asset_local_hash_all_pass -and [int]$inputAssetInstallReadiness.required_input_asset_count -eq 2) -Observed ([ordered]@{ result = $inputAssetInstallReadiness.result; selected_lane_id = $inputAssetInstallReadiness.selected_lane_id; selected_work_order_id = $inputAssetInstallReadiness.selected_work_order_id; ready_for_input_asset_publish = $inputAssetInstallReadiness.ready_for_input_asset_publish; ready_for_ec2_input_asset_install_execute = $inputAssetInstallReadiness.ready_for_ec2_input_asset_install_execute; input_asset_local_hash_all_pass = $inputAssetInstallReadiness.input_asset_local_hash_all_pass; required_input_asset_count = $inputAssetInstallReadiness.required_input_asset_count }) -Expected "selected input assets are hash-verified and publish-ready, but EC2 install execute is blocked"),
   (New-Check -Name "selected_model_cache_publish_ready_install_execute_blocked" -Passed ([string]$modelCacheReadiness.result -eq "blocked_selected_model_cache_readiness_waiting_for_s3_publish_and_live_gates" -and [string]$modelCacheReadiness.selected_lane_id -eq $laneId -and [string]$modelCacheReadiness.selected_work_order_id -eq $workOrderId -and [bool]$modelCacheReadiness.ready_for_model_cache_publish -and -not [bool]$modelCacheReadiness.ready_for_ec2_model_install_execute -and [bool]$modelCacheReadiness.model_local_hash_all_pass_from_object_info -and [int]$modelCacheReadiness.required_model_count -eq 1) -Observed ([ordered]@{ result = $modelCacheReadiness.result; selected_lane_id = $modelCacheReadiness.selected_lane_id; selected_work_order_id = $modelCacheReadiness.selected_work_order_id; ready_for_model_cache_publish = $modelCacheReadiness.ready_for_model_cache_publish; ready_for_ec2_model_install_execute = $modelCacheReadiness.ready_for_ec2_model_install_execute; model_local_hash_all_pass_from_object_info = $modelCacheReadiness.model_local_hash_all_pass_from_object_info; required_model_count = $modelCacheReadiness.required_model_count }) -Expected "RealVisXL model cache is hash-verified and publish-ready, but EC2 install execute is blocked"),
   (New-Check -Name "selected_model_s3_dry_run_hash_verified_no_live_contact" -Passed ([string]$modelS3PublishDryRun.result -eq "dry_run_ready_to_upload_model" -and [bool]$modelS3PublishDryRun.local_hash_match -and [bool]$modelS3PublishDryRun.local_only -and -not [bool]$modelS3PublishDryRun.aws_contacted -and -not [bool]$modelS3PublishDryRun.s3_contacted -and -not [bool]$modelS3PublishDryRun.git_lfs_used -and [string]$modelS3PublishDryRun.expected_sha256 -eq [string]$modelS3PublishDryRun.observed_sha256) -Observed ([ordered]@{ result = $modelS3PublishDryRun.result; file_name = $modelS3PublishDryRun.file_name; local_only = $modelS3PublishDryRun.local_only; aws_contacted = $modelS3PublishDryRun.aws_contacted; s3_contacted = $modelS3PublishDryRun.s3_contacted; git_lfs_used = $modelS3PublishDryRun.git_lfs_used; local_hash_match = $modelS3PublishDryRun.local_hash_match; expected_sha256 = $modelS3PublishDryRun.expected_sha256; observed_sha256 = $modelS3PublishDryRun.observed_sha256 }) -Expected "RealVisXL model S3 publish dry-run is hash-verified and made no live contact"),
   (New-Check -Name "selected_input_asset_s3_dry_runs_hash_verified_no_live_contact" -Passed ([string]$inputAssetSourceS3PublishDryRun.result -eq "dry_run_ready_to_upload_input_asset" -and [string]$inputAssetMaskS3PublishDryRun.result -eq "dry_run_ready_to_upload_input_asset" -and [bool]$inputAssetSourceS3PublishDryRun.local_hash_match -and [bool]$inputAssetMaskS3PublishDryRun.local_hash_match -and [bool]$inputAssetSourceS3PublishDryRun.local_only -and [bool]$inputAssetMaskS3PublishDryRun.local_only -and -not [bool]$inputAssetSourceS3PublishDryRun.aws_contacted -and -not [bool]$inputAssetMaskS3PublishDryRun.aws_contacted -and -not [bool]$inputAssetSourceS3PublishDryRun.s3_contacted -and -not [bool]$inputAssetMaskS3PublishDryRun.s3_contacted -and [string]$inputAssetSourceS3PublishDryRun.expected_sha256 -eq [string]$inputAssetSourceS3PublishDryRun.observed_sha256 -and [string]$inputAssetMaskS3PublishDryRun.expected_sha256 -eq [string]$inputAssetMaskS3PublishDryRun.observed_sha256) -Observed ([ordered]@{ source = [ordered]@{ result = $inputAssetSourceS3PublishDryRun.result; file_name = $inputAssetSourceS3PublishDryRun.file_name; local_only = $inputAssetSourceS3PublishDryRun.local_only; aws_contacted = $inputAssetSourceS3PublishDryRun.aws_contacted; s3_contacted = $inputAssetSourceS3PublishDryRun.s3_contacted; local_hash_match = $inputAssetSourceS3PublishDryRun.local_hash_match; expected_sha256 = $inputAssetSourceS3PublishDryRun.expected_sha256; observed_sha256 = $inputAssetSourceS3PublishDryRun.observed_sha256 }; mask = [ordered]@{ result = $inputAssetMaskS3PublishDryRun.result; file_name = $inputAssetMaskS3PublishDryRun.file_name; local_only = $inputAssetMaskS3PublishDryRun.local_only; aws_contacted = $inputAssetMaskS3PublishDryRun.aws_contacted; s3_contacted = $inputAssetMaskS3PublishDryRun.s3_contacted; local_hash_match = $inputAssetMaskS3PublishDryRun.local_hash_match; expected_sha256 = $inputAssetMaskS3PublishDryRun.expected_sha256; observed_sha256 = $inputAssetMaskS3PublishDryRun.observed_sha256 } }) -Expected "both selected input asset S3 publish dry-runs are hash-verified and made no live contact"),
   (New-Check -Name "handoff_command_partition_is_fail_closed" -Passed ($missingAllowedLocalSteps.Count -eq 0 -and $missingLiveBlockedSteps.Count -eq 0 -and $unexpectedAllowedLiveSteps.Count -eq 0 -and $allowedLocalRecheckSteps.Count -eq 6 -and $blockedLiveSteps.Count -eq 7) -Observed ([ordered]@{ allowed_local_recheck_count = $allowedLocalRecheckSteps.Count; blocked_live_step_count = $blockedLiveSteps.Count; missing_allowed_local_steps = @($missingAllowedLocalSteps); missing_live_blocked_steps = @($missingLiveBlockedSteps); unexpected_allowed_live_steps = @($unexpectedAllowedLiveSteps | ForEach-Object { [string]$_.name }) }) -Expected "six local rechecks allowed and all seven live/marker/S3/EC2/generation steps blocked"),
-  (New-Check -Name "required_blockers_are_preserved" -Passed ($missingRequiredBlockers.Count -eq 0) -Observed ([ordered]@{ required_blockers = @($requiredBlockers); missing_required_blockers = @($missingRequiredBlockers); exact_blockers = @($exactBlockers) }) -Expected "explicit selection, dirty Git, and dirty bundle blockers preserved")
+  (New-Check -Name "required_blockers_are_preserved" -Passed ($missingRequiredBlockers.Count -eq 0) -Observed ([ordered]@{ required_blockers = @($requiredBlockers); missing_required_blockers = @($missingRequiredBlockers); exact_blockers = @($exactBlockers) }) -Expected "explicit selection and Git/live blockers are preserved; dirty deploy-bundle blockers are removed only after concrete dry-run-ready evidence")
 )
 
 $failedChecks = @($checks | Where-Object { [string]$_.result -ne "pass" })
@@ -306,11 +349,17 @@ $record = [ordered]@{
   selected_input_asset_source_s3_publish_dry_run = ConvertTo-ProjectRelativePath -Path $inputAssetSourceS3PublishDryRunResolved
   selected_input_asset_mask_s3_publish_dry_run = ConvertTo-ProjectRelativePath -Path $inputAssetMaskS3PublishDryRunResolved
   run_package_manifest = [string]$readiness.run_package_manifest
-  deploy_bundle_manifest = [string]$readiness.deploy_bundle_manifest
-  deploy_bundle_zip = [string]$readiness.deploy_bundle_zip
-  deploy_bundle_zip_sha256 = [string]$readiness.deploy_bundle_zip_sha256
+  deploy_bundle_manifest = $(if ($s3PublishDryRunReady) { [string]$s3PublishReadiness.selected_deploy_bundle_manifest } else { [string]$readiness.deploy_bundle_manifest })
+  deploy_bundle_zip = $(if ($s3PublishDryRunReady) { [string]$s3PublishReadiness.expected_zip_after_rebuild } else { [string]$readiness.deploy_bundle_zip })
+  deploy_bundle_zip_sha256 = $(if ($s3PublishDryRunReady) { [string]$s3PublishReadiness.selected_deploy_bundle_manifest_hash } else { [string]$readiness.deploy_bundle_zip_sha256 })
   local_object_info_evidence = [string]$readiness.local_object_info_evidence
   ready_for_s3_publish_after_rebuild = [bool]$s3PublishReadiness.ready_for_s3_publish_after_rebuild
+  ready_for_s3_publish_now_local_dry_run = [bool]$s3PublishReadiness.ready_for_s3_publish_now_local_dry_run
+  selected_deploy_bundle_s3_publish_dry_run_ready = [bool]$s3PublishReadiness.selected_deploy_bundle_s3_publish_dry_run_ready
+  selected_deploy_bundle_s3_upload_execute_allowed = [bool]$s3PublishReadiness.s3_upload_execute_allowed
+  selected_deploy_bundle_s3_bundle_uri = $selectedDeployBundleS3Uri
+  selected_deploy_bundle_s3_bundle_sha256 = $selectedDeployBundleSha256
+  selected_deploy_bundle_live_commands_materialized = $s3PublishDryRunReady
   ready_for_input_asset_publish = [bool]$inputAssetInstallReadiness.ready_for_input_asset_publish
   ready_for_ec2_input_asset_install_execute = [bool]$inputAssetInstallReadiness.ready_for_ec2_input_asset_install_execute
   ready_for_model_cache_publish = [bool]$modelCacheReadiness.ready_for_model_cache_publish
@@ -326,7 +375,7 @@ $record = [ordered]@{
   checks = @($checks)
   failed_check_count = $failedChecks.Count
   handoff_boundary = "Local pre-EC2 handoff bundle only. Allowed local rechecks are listed, but live upload, S3 publish with Execute, marker write, EC2 start, prompt post, generation, final certification, mask promotion, Wave70 hard-gate rerun, Jira bookkeeping, and Wave71+ activation remain blocked."
-  next_action = "Keep EC2 stopped. Use this bundle as the selected inpaint target-runtime handoff anchor only after explicit live-window selection; then rerun the allowed local rechecks, require a clean Git checkpoint, rebuild or revalidate the deploy bundle from that clean checkpoint, publish the selected deploy bundle, input assets, and RealVisXL model through explicit Execute-only S3 steps, and proceed to EC2 install/launch only after all live gates pass."
+  next_action = $(if ($s3PublishDryRunReady) { "Keep EC2 stopped. Use this bundle as the selected inpaint target-runtime handoff anchor only after explicit live-window selection; the selected deploy bundle is locally dry-run ready for S3, but S3 Execute, input/model publish, EC2 install, marker write, static proof, and workflow smoke remain blocked by live gates." } else { "Keep EC2 stopped. Use this bundle as the selected inpaint target-runtime handoff anchor only after explicit live-window selection; then rerun the allowed local rechecks, require a clean Git checkpoint, rebuild or revalidate the deploy bundle from that clean checkpoint, publish the selected deploy bundle, input assets, and RealVisXL model through explicit Execute-only S3 steps, and proceed to EC2 install/launch only after all live gates pass." })
 }
 
 [System.IO.Directory]::CreateDirectory((Split-Path -Path $outFileResolved -Parent)) | Out-Null
@@ -353,6 +402,7 @@ $markdown = @"
 - target_runtime_launch_allowed: false
 - execute_allowed_now: false
 - ready_for_s3_publish_after_rebuild: $($record.ready_for_s3_publish_after_rebuild)
+- ready_for_s3_publish_now_local_dry_run: $($record.ready_for_s3_publish_now_local_dry_run)
 - ready_for_input_asset_publish: $($record.ready_for_input_asset_publish)
 - ready_for_ec2_input_asset_install_execute: $($record.ready_for_ec2_input_asset_install_execute)
 - ready_for_model_cache_publish: $($record.ready_for_model_cache_publish)

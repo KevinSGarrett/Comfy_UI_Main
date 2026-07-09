@@ -12,6 +12,8 @@ bundles, upload to S3, contact AWS, start EC2, stage, commit, push, or generate.
 param(
   [string]$ProjectRoot = "C:\Comfy_UI_Main",
   [string]$SelectedDeployBundleRebuildPlanFile = "",
+  [string]$SelectedDeployBundleManifestFile = "",
+  [string]$SelectedDeployBundleS3PublishDryRunFile = "",
   [string]$S3RuntimeTransferReadinessFile = "",
   [string]$S3BaseUri = "",
   [string]$Region = "",
@@ -102,6 +104,9 @@ if ([string]::IsNullOrWhiteSpace($SelectedDeployBundleRebuildPlanFile)) {
 if ([string]::IsNullOrWhiteSpace($S3RuntimeTransferReadinessFile)) {
   $S3RuntimeTransferReadinessFile = Find-LatestFile -Directory $runtimeDir -Filter "W66_S3_RUNTIME_TRANSFER_READINESS_*.json"
 }
+if ([string]::IsNullOrWhiteSpace($SelectedDeployBundleS3PublishDryRunFile)) {
+  $SelectedDeployBundleS3PublishDryRunFile = Find-LatestFile -Directory $runtimeDir -Filter "W66_SELECTED_DEPLOY_BUNDLE_S3_PUBLISH_DRY_RUN_*.json"
+}
 if ([string]::IsNullOrWhiteSpace($OutFile)) {
   $stamp = Get-Date -Format "yyyyMMddTHHmmss-0500"
   $OutFile = "Plan\Instructions\QA\Evidence\Runtime_Readiness\W66_SELECTED_S3_PUBLISH_READINESS_PLAN_$stamp.json"
@@ -111,6 +116,8 @@ if ([string]::IsNullOrWhiteSpace($MarkdownOutFile)) {
 }
 
 $selectedRebuildResolved = Resolve-ProjectPath -Path $SelectedDeployBundleRebuildPlanFile
+$selectedManifestResolved = Resolve-ProjectPath -Path $SelectedDeployBundleManifestFile
+$selectedPublishDryRunResolved = Resolve-ProjectPath -Path $SelectedDeployBundleS3PublishDryRunFile
 $s3ReadinessResolved = Resolve-ProjectPath -Path $S3RuntimeTransferReadinessFile
 $outFileResolved = Resolve-ProjectPath -Path $OutFile
 $markdownResolved = Resolve-ProjectPath -Path $MarkdownOutFile
@@ -120,6 +127,10 @@ if ([string]::IsNullOrWhiteSpace($selectedRebuildResolved) -or -not (Test-Path -
 }
 
 $selectedRebuild = Read-JsonFile -Path $selectedRebuildResolved
+$selectedManifestExists = (![string]::IsNullOrWhiteSpace($selectedManifestResolved) -and (Test-Path -LiteralPath $selectedManifestResolved -PathType Leaf))
+$selectedManifest = if ($selectedManifestExists) { Read-JsonFile -Path $selectedManifestResolved } else { $null }
+$selectedPublishDryRunExists = (![string]::IsNullOrWhiteSpace($selectedPublishDryRunResolved) -and (Test-Path -LiteralPath $selectedPublishDryRunResolved -PathType Leaf))
+$selectedPublishDryRun = if ($selectedPublishDryRunExists) { Read-JsonFile -Path $selectedPublishDryRunResolved } else { $null }
 $s3ReadinessExists = (![string]::IsNullOrWhiteSpace($s3ReadinessResolved) -and (Test-Path -LiteralPath $s3ReadinessResolved -PathType Leaf))
 $s3Readiness = if ($s3ReadinessExists) { Read-JsonFile -Path $s3ReadinessResolved } else { $null }
 
@@ -138,6 +149,13 @@ if ([string]::IsNullOrWhiteSpace($S3BaseUri)) {
 }
 
 $selectedLaneId = [string]$selectedRebuild.selected_lane_id
+$concreteBundleZipPath = $null
+$concreteBundleHash = $null
+if ($selectedManifestExists) {
+  $selectedLaneId = [string]$selectedManifest.lane_id
+  $concreteBundleZipPath = Join-Path (Split-Path -Parent $selectedManifestResolved) ([string]$selectedManifest.bundle_zip)
+  $concreteBundleHash = ([string]$selectedManifest.bundle_zip_sha256).ToLowerInvariant()
+}
 $expectedManifestRel = [string]$selectedRebuild.expected_manifest_after_rebuild
 $expectedZipRel = [string]$selectedRebuild.expected_zip_after_rebuild
 $expectedManifestPath = Convert-PlaceholderProjectPathToAbsoluteText -Path $expectedManifestRel
@@ -146,18 +164,60 @@ $expectedManifestConcrete = ($expectedManifestPath -notmatch '<timestamp>')
 $expectedZipConcrete = ($expectedZipPath -notmatch '<timestamp>')
 $expectedManifestExists = ($expectedManifestConcrete -and (Test-Path -LiteralPath $expectedManifestPath -PathType Leaf))
 $expectedZipExists = ($expectedZipConcrete -and (Test-Path -LiteralPath $expectedZipPath -PathType Leaf))
+if ($selectedManifestExists) {
+  $expectedManifestRel = ConvertTo-ProjectRelativePath -Path $selectedManifestResolved
+  $expectedZipRel = ConvertTo-ProjectRelativePath -Path $concreteBundleZipPath
+  $expectedManifestPath = $selectedManifestResolved
+  $expectedZipPath = $concreteBundleZipPath
+  $expectedManifestConcrete = $true
+  $expectedZipConcrete = $true
+  $expectedManifestExists = $true
+  $expectedZipExists = (Test-Path -LiteralPath $concreteBundleZipPath -PathType Leaf)
+}
 
 $s3ReadinessResult = if ($s3ReadinessExists) { [string]$s3Readiness.result } else { "missing" }
 $s3ReadinessReady = ($s3ReadinessExists -and [string]$s3Readiness.result -eq "ready_local_only")
 $s3BaseUriValid = Test-S3BaseUriShape -Uri $S3BaseUri
+$selectedManifestResult = if ($selectedManifestExists) { [string]$selectedManifest.result } else { "missing" }
+$selectedManifestHashMatchesDryRun = $false
+$selectedManifestScopedClean = $false
+if ($selectedManifestExists) {
+  $selectedManifestScopedClean = (
+    [string]$selectedManifest.result -eq "pass_local_only" -and
+    [bool]$selectedManifest.source_git_clean -and
+    [int]$selectedManifest.source_git_status_count -eq 0 -and
+    $expectedZipExists
+  )
+}
+$selectedPublishDryRunResult = if ($selectedPublishDryRunExists) { [string]$selectedPublishDryRun.result } else { "missing" }
+$selectedPublishDryRunReady = $false
+if ($selectedPublishDryRunExists) {
+  $selectedManifestHashMatchesDryRun = (
+    -not [string]::IsNullOrWhiteSpace($concreteBundleHash) -and
+    [string]$selectedPublishDryRun.bundle_zip_sha256 -eq $concreteBundleHash
+  )
+  $selectedPublishDryRunReady = (
+    [string]$selectedPublishDryRun.result -eq "dry_run_ready_to_upload" -and
+    [bool]$selectedPublishDryRun.local_only -and
+    -not [bool]$selectedPublishDryRun.aws_contacted -and
+    -not [bool]$selectedPublishDryRun.upload.attempted -and
+    [string]$selectedPublishDryRun.lane_id -eq $selectedLaneId -and
+    $selectedManifestHashMatchesDryRun
+  )
+}
+$concreteBundleReady = ($selectedManifestScopedClean -and $selectedPublishDryRunReady)
 
 $blockers = @(
-  if ([string]$selectedRebuild.result -ne "selected_deploy_bundle_rebuild_plan_ready_after_clean_checkpoint") { "selected_deploy_bundle_rebuild_plan_not_ready" }
-  if (-not [bool]$selectedRebuild.current_git_clean) { "manifest_scoped_checkpoint_not_yet_executed_clean" }
-  if (-not [bool]$selectedRebuild.deploy_bundle_rebuilt) { "selected_deploy_bundle_rebuild_not_completed" }
+  if (-not $concreteBundleReady -and [string]$selectedRebuild.result -ne "selected_deploy_bundle_rebuild_plan_ready_after_clean_checkpoint") { "selected_deploy_bundle_rebuild_plan_not_ready" }
+  if (-not $concreteBundleReady -and -not [bool]$selectedRebuild.existing_deploy_bundle_source_git_clean) { "deploy_bundle_source_git_dirty_rebuild_required_before_ec2" }
+  if (-not $concreteBundleReady -and -not [bool]$selectedRebuild.current_git_clean) { "manifest_scoped_checkpoint_not_yet_executed_clean" }
+  if (-not $concreteBundleReady -and -not [bool]$selectedRebuild.deploy_bundle_rebuilt) { "selected_deploy_bundle_rebuild_not_completed" }
   if (-not $expectedManifestExists) { "selected_deploy_bundle_manifest_missing_until_rebuild" }
   if (-not $expectedZipExists) { "selected_deploy_bundle_zip_missing_until_rebuild" }
-  if ("explicit_user_target_runtime_selection_required" -in @($selectedRebuild.blockers_before_rebuild)) { "explicit_user_target_runtime_selection_required" }
+  if ($selectedManifestExists -and -not $selectedManifestScopedClean) { "selected_deploy_bundle_manifest_not_scoped_clean_pass" }
+  if (-not $selectedPublishDryRunExists) { "selected_deploy_bundle_s3_publish_dry_run_missing" }
+  elseif (-not $selectedPublishDryRunReady) { "selected_deploy_bundle_s3_publish_dry_run_not_ready" }
+  if (-not $concreteBundleReady -and "explicit_user_target_runtime_selection_required" -in @($selectedRebuild.blockers_before_rebuild)) { "explicit_user_target_runtime_selection_required" }
   if (-not $s3ReadinessExists) { "s3_runtime_transfer_readiness_not_available" }
   elseif (-not $s3ReadinessReady) { "s3_runtime_transfer_readiness_not_ready" }
   if (-not $s3BaseUriValid) { "approved_s3_base_uri_required" }
@@ -168,12 +228,23 @@ $publishOutFile = "C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readin
 $publishS3BaseArg = if ($s3BaseUriValid) { $S3BaseUri } else { "<approved-s3-base-uri>" }
 $publishDryRunCommand = "powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Publish-DeployBundleToS3.ps1 -BundleManifestFile $publishManifestArg -S3BaseUri $publishS3BaseArg -Region $Region -OutFile $publishOutFile"
 $publishExecuteCommand = "$publishDryRunCommand -Execute"
+$readyForS3PublishDryRun = ($concreteBundleReady -and $s3ReadinessReady -and $s3BaseUriValid)
+$result = if ($readyForS3PublishDryRun) {
+  "pass_local_only_selected_s3_publish_readiness_dry_run_ready_execute_blocked"
+} else {
+  "blocked_selected_s3_publish_readiness_waiting_for_clean_rebuild"
+}
+$nextAction = if ($readyForS3PublishDryRun) {
+  "Deploy-bundle S3 publish is locally dry-run ready. Actual S3 upload, EC2 install, and runtime proof remain blocked until explicit live execution intent and live gates."
+} else {
+  "After explicit manifest-scoped checkpoint and selected deploy-bundle rebuild, rerun S3 runtime transfer readiness and then run Publish-DeployBundleToS3.ps1 dry-run against the concrete rebuilt manifest before any upload execute or EC2 proof."
+}
 
 $record = [ordered]@{
   schema_version = "1.0"
   artifact_type = "selected_s3_publish_readiness_plan"
   created_at = (Get-Date -Format "yyyy-MM-ddTHH:mm:sszzz")
-  result = "blocked_selected_s3_publish_readiness_waiting_for_clean_rebuild"
+  result = $result
   local_only = $true
   github_api_contacted = $false
   aws_contacted = $false
@@ -189,7 +260,7 @@ $record = [ordered]@{
   push_attempted = $false
   reset_attempted = $false
   checkout_attempted = $false
-  deploy_bundle_rebuilt = $false
+  deploy_bundle_rebuilt = $concreteBundleReady
   s3_publish_attempted = $false
   s3_upload_execute_allowed = $false
   masks_consumed_as_truth = $false
@@ -203,6 +274,16 @@ $record = [ordered]@{
   selected_rebuild_ready_after_clean_checkpoint = [bool]$selectedRebuild.ready_to_rebuild_after_clean_checkpoint
   selected_rebuild_current_git_clean = [bool]$selectedRebuild.current_git_clean
   selected_rebuild_command = [string]$selectedRebuild.rebuild_command
+  selected_deploy_bundle_manifest = $(if ($selectedManifestExists) { ConvertTo-ProjectRelativePath -Path $selectedManifestResolved } else { $null })
+  selected_deploy_bundle_manifest_result = $selectedManifestResult
+  selected_deploy_bundle_manifest_scoped_clean = $selectedManifestScopedClean
+  selected_deploy_bundle_manifest_hash = $concreteBundleHash
+  selected_deploy_bundle_s3_publish_dry_run = $(if ($selectedPublishDryRunExists) { ConvertTo-ProjectRelativePath -Path $selectedPublishDryRunResolved } else { $null })
+  selected_deploy_bundle_s3_publish_dry_run_result = $selectedPublishDryRunResult
+  selected_deploy_bundle_s3_publish_dry_run_ready = $selectedPublishDryRunReady
+  selected_deploy_bundle_s3_publish_dry_run_hash_matches_manifest = $selectedManifestHashMatchesDryRun
+  selected_deploy_bundle_s3_bundle_uri = $(if ($selectedPublishDryRunExists) { [string]$selectedPublishDryRun.s3_bundle_uri } else { $null })
+  selected_deploy_bundle_s3_manifest_uri = $(if ($selectedPublishDryRunExists) { [string]$selectedPublishDryRun.s3_manifest_uri } else { $null })
   run_package_manifest = [string]$selectedRebuild.run_package_manifest
   expected_manifest_after_rebuild = $expectedManifestRel
   expected_zip_after_rebuild = $expectedZipRel
@@ -211,11 +292,12 @@ $record = [ordered]@{
   s3_runtime_transfer_readiness = $(if ($s3ReadinessExists) { ConvertTo-ProjectRelativePath -Path $s3ReadinessResolved } else { $null })
   s3_runtime_transfer_readiness_result = $s3ReadinessResult
   s3_runtime_transfer_ready_local_only = $s3ReadinessReady
-  s3_runtime_transfer_missing_config = $(if ($s3ReadinessExists -and $null -ne $s3Readiness.missing_config) { @($s3Readiness.missing_config) } else { @() })
+  s3_runtime_transfer_missing_config = @($(if ($s3ReadinessExists -and $null -ne $s3Readiness.missing_config) { @($s3Readiness.missing_config) } else { @() }))
   region = $Region
   s3_base_uri_present = $s3BaseUriValid
   s3_base_uri_source = $(if ($s3BaseUriValid) { if (![string]::IsNullOrWhiteSpace($envMap["COMFY_DEPLOY_BUNDLE_S3_URI"]) -and $S3BaseUri -eq [string]$envMap["COMFY_DEPLOY_BUNDLE_S3_URI"]) { ".env:COMFY_DEPLOY_BUNDLE_S3_URI" } else { "parameter" } } else { $null })
-  ready_for_s3_publish_after_rebuild = $false
+  ready_for_s3_publish_after_rebuild = $readyForS3PublishDryRun
+  ready_for_s3_publish_now_local_dry_run = $readyForS3PublishDryRun
   publish_dry_run_command = $publishDryRunCommand
   publish_execute_command_requires_explicit_user_intent = $publishExecuteCommand
   required_pre_publish_checks = @(
@@ -229,7 +311,7 @@ $record = [ordered]@{
     "s3_runtime_transfer_readiness result=ready_local_only",
     "Publish-DeployBundleToS3.ps1 dry-run result=dry_run_ready_to_upload"
   )
-  blockers_before_publish = $blockers
+  blockers_before_publish = @($blockers)
   command_sequence = @(
     [ordered]@{ name = "manifest_scoped_checkpoint_execute"; command = "Requires explicit user checkpoint intent before staging/commit/push."; mutates_git = $true; external_contact = $true }
     [ordered]@{ name = "selected_deploy_bundle_rebuild"; command = [string]$selectedRebuild.rebuild_command; mutates_git = $false; external_contact = $false }
@@ -240,7 +322,7 @@ $record = [ordered]@{
     [ordered]@{ name = "ec2_static_proof_execute_still_blocked"; command = "Remain blocked until S3 publish proof and runtime lane gates pass."; mutates_git = $false; external_contact = $false }
   )
   checkpoint_boundary = "Selected S3 publish readiness plan only. This artifact does not stage, commit, push, reset, checkout, rebuild deploy bundles, upload to S3, contact AWS, start EC2, post prompts, generate, write runtime markers, promote masks, rerun Wave70 gates, switch to Jira bookkeeping, or activate Wave71+."
-  next_action = "After explicit manifest-scoped checkpoint and selected deploy-bundle rebuild, rerun S3 runtime transfer readiness and then run Publish-DeployBundleToS3.ps1 dry-run against the concrete rebuilt manifest before any upload execute or EC2 proof."
+  next_action = $nextAction
 }
 
 [System.IO.Directory]::CreateDirectory((Split-Path -Path $outFileResolved -Parent)) | Out-Null
@@ -257,9 +339,11 @@ $markdown = @"
 - selected_rebuild_ready_after_clean_checkpoint: $($record.selected_rebuild_ready_after_clean_checkpoint)
 - expected_manifest_exists_now: $expectedManifestExists
 - expected_zip_exists_now: $expectedZipExists
+- selected_deploy_bundle_s3_publish_dry_run_result: $selectedPublishDryRunResult
 - s3_runtime_transfer_readiness_result: $s3ReadinessResult
 - s3_base_uri_present: $s3BaseUriValid
 - ready_for_s3_publish_after_rebuild: $($record.ready_for_s3_publish_after_rebuild)
+- ready_for_s3_publish_now_local_dry_run: $($record.ready_for_s3_publish_now_local_dry_run)
 
 ## Publish Dry Run Command
 

@@ -1,3 +1,69 @@
+## Current Blocker - Selected Inpaint Launch Gate Waiting For Live Gates After S3 Revalidation - 2026-07-09T14:52:00-05:00
+
+The selected inpaint launch gate is current and locally validated, but live target-runtime launch remains blocked. Evidence `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LAUNCH_GATE_CURRENT_S3_REVALIDATION_FIXED_20260709T145300-0500.json` reports `blocked_selected_target_runtime_launch_gate_local_proofs_ready_waiting_for_live_gates`, `local_package_ready=true`, `local_install_dry_run_proofs_complete=true`, `target_runtime_launch_allowed=false`, and `failed_check_count=0`.
+
+Current blockers include `git_checkpoint_gate_not_clean_for_ec2_execute`, explicit target-runtime/live intent required, missing S3 publish proofs for deploy bundle/input/model assets, selected deploy-bundle rebuild/S3 dry-run still blocked upstream, and EC2 start not authorized. Do not publish to S3, write an active runtime marker, start EC2, or execute workflow smoke until explicit checkpoint/live intent, clean/synced Git, selected bundle rebuild, post-rebuild S3 dry-run, S3 Execute proofs, refreshed AWS auth, EC2 static proof, and live gates pass.
+
+## Current Blocker - Selected Inpaint S3 Publish Waiting For Clean Rebuild - 2026-07-09T14:47:00-05:00
+
+The selected deploy-bundle S3 publish path is configured locally but remains blocked before any upload or EC2 proof. Evidence `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_S3_PUBLISH_READINESS_PLAN_CURRENT_SELECTED_REVALIDATION_FIXED_20260709T144600-0500.json` reports `blocked_selected_s3_publish_readiness_waiting_for_clean_rebuild`, `s3_runtime_transfer_ready_local_only=true`, `s3_base_uri_present=true`, and `ready_for_s3_publish_now_local_dry_run=false`.
+
+Current blockers: `deploy_bundle_source_git_dirty_rebuild_required_before_ec2`, `manifest_scoped_checkpoint_not_yet_executed_clean`, `selected_deploy_bundle_rebuild_not_completed`, post-rebuild manifest/zip missing, selected deploy-bundle S3 publish dry-run missing, and explicit target-runtime selection required. Do not publish to S3, write an active runtime marker, start EC2, or execute workflow smoke until explicit checkpoint/live intent, clean/synced Git, selected bundle rebuild, post-rebuild S3 dry-run, and live gates pass.
+
+## Current Blocker - Selected Inpaint Revalidation Waiting For Clean Manifest Checkpoint - 2026-07-09T14:37:00-05:00
+
+The selected inpaint deploy/revalidation path is now planned, but it remains blocked before rebuild or live proof. Evidence `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_POST_CHECKPOINT_RUNTIME_REVALIDATION_PLAN_CURRENT_SELECTED_REVALIDATION_20260709T143600-0500.json` reports `blocked_post_checkpoint_runtime_revalidation_waiting_for_manifest_checkpoint`, `manifest_checkpoint_dry_run_valid=true`, `clean_git_after_checkpoint=false`, and `selected_deploy_bundle_source_dirty=true`.
+
+Current blockers: `manifest_scoped_checkpoint_not_yet_executed_clean`, `selected_deploy_bundle_source_git_dirty_rebuild_required_before_ec2`, `explicit_user_target_runtime_selection_required`, `git_checkpoint_gate_not_clean_for_ec2_execute`, target-runtime proof missing, and final review not certified. Do not rebuild the selected deploy bundle, publish to S3, write an active runtime marker, start EC2, or execute workflow smoke until explicit checkpoint/live intent and clean/synced Git plus all live gates pass.
+
+## Current Blocker - Selected Inpaint Final Review Still Blocked By Missing Target-Runtime Proof - 2026-07-09T14:31:00-05:00
+
+The selected inpaint lane now has a current local final-review blocker packet, but it does not close the final-review work order. Evidence `Plan/Instructions/QA/Evidence/Done_Certifications/W66_INPAINT_LANE_FINAL_REVIEW_BLOCKER_PACKET_20260709T143000-0500.json` reports `blocked_inpaint_lane_final_review_target_runtime_proof_missing`, `closes_work_order=false`, and `full_project_certification_allowed=false`.
+
+Current blockers: `inpaint_lane_target_runtime_proof_evidence_missing`, target-runtime object-info/path/hash/input proof missing, bounded target-runtime output missing, pullback/technical/strict visual QA missing, explicit user target-runtime selection required, Git checkpoint not clean for EC2 execute, and deploy-bundle source must be rebuilt/revalidated from a clean gate before live EC2. No live S3 upload, EC2 start, SSM command, install execute, prompt post, generation, artifact pullback, mask promotion, Wave70 hard gate, Wave71+ activation, Jira mutation, commit, push, reset, checkout, or active marker write occurred.
+
+## Current Blocker - Selected Inpaint Workflow Smoke Blocked Before EC2 Start - 2026-07-09T14:24:00-05:00
+
+The selected workflow smoke request is locally built, but workflow execution remains blocked before EC2 start. Evidence `Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_SMOKE_DRY_RUN_GATED_sdxl_realvisxl_inpaint_detail_lane_CURRENT_PRE_EC2_20260709T142300-0500.json` reports `dry_run_blocked_before_ec2_start`, `execute_gates_pass=false`, `ec2_started=false`, `generation_executed=false`, and `command_status=not_started`.
+
+Current no-start reasons: local Git checkpoint is dirty/not synced to origin, AWS auth gate is expired, readiness gate does not allow generation, the supplied EC2 static proof is only a dry-run plan, and no real object-info/path/hash static proof exists yet. No live S3 upload, EC2 start, SSM command, install execute, prompt post, generation, artifact pullback, mask promotion, Wave70 hard gate, Wave71+ activation, Jira mutation, commit, push, reset, checkout, or active marker write occurred.
+
+## Current Blocker - Selected Inpaint Marker Is Template Only - 2026-07-09T14:20:00-05:00
+
+The selected runtime-window marker plan is ready locally, but the active marker remains intentionally unwritten. Evidence `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_EC2_RUNTIME_WINDOW_MARKER_PLAN_SELECTED_INPAINT_CURRENT_20260709T141900-0500.json` reports `pass_local_only_marker_plan_ready`, `failure_count=0`, `active_marker_written=false`, `ec2_started=false`, and `generation_executed=false`.
+
+Do not write `runtime_artifacts/ec2_runtime_windows/ACTIVE_EC2_RUNTIME_WINDOW.json` until an explicit live EC2 window is selected and actually starting after Git/auth/S3/input/model/EC2 gates pass. No live S3 upload, EC2 start, SSM command, install execute, prompt post, generation, mask promotion, Wave70 hard gate, Wave71+ activation, Jira mutation, commit, push, reset, checkout, or active marker write occurred.
+
+## Current Blocker - Selected Inpaint EC2 Static Proof Blocked Before Start - 2026-07-09T14:17:00-05:00
+
+The selected inpaint lane is locally pre-EC2 ready, but EC2 static proof remains blocked before start. Evidence `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LANE_RUNTIME_READINESS_sdxl_realvisxl_inpaint_detail_lane_CURRENT_PRE_EC2_20260709T141500-0500.json` reports `local_pre_ec2_ready=true`, `ready_for_ec2_static_proof=false`, and `failure_category=expired_session`. Evidence `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_EC2_LANE_STATIC_PROOF_DRY_RUN_GATED_sdxl_realvisxl_inpaint_detail_lane_CURRENT_PRE_EC2_20260709T141600-0500.json` reports `dry_run_blocked_before_ec2_start`, `execute_gates_pass=false`, and `ec2_started=false`.
+
+Current exact no-start reasons: local Git checkpoint is not clean/synced to `origin/main`, AWS auth gate does not allow EC2 start because the session is expired, and lane readiness does not allow EC2 static proof while auth is blocked. No live S3 upload, EC2 start, SSM command, install execute, prompt post, generation, mask promotion, Wave70 hard gate, Wave71+ activation, Jira mutation, commit, push, reset, or checkout occurred.
+
+## Current Blocker - Selected Inpaint Pre-EC2 Handoff Still Live-Gated - 2026-07-09T14:10:00-05:00
+
+The selected-inpaint pre-EC2 handoff and local recheck ledger are current and pass locally, but live target-runtime execution remains blocked. Evidence `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_PRE_EC2_HANDOFF_BUNDLE_CURRENT_LAUNCH_GATE_20260709T140600-0500.json` and `W66_SELECTED_TARGET_RUNTIME_LOCAL_RECHECK_LEDGER_CURRENT_LAUNCH_GATE_20260709T140700-0500.json` both report `failed_check_count=0`, `target_runtime_launch_allowed=false`, and `execute_allowed_now=false`.
+
+Current ledger exact blockers are `git_checkpoint_gate_not_clean_for_ec2_execute` and `target_runtime_proof_evidence_missing`; the handoff also preserves `explicit_user_target_runtime_selection_required`, missing S3 Execute proofs for deploy bundle/input/model assets, explicit live intent, EC2 authorization, input/model install execute blockers, and certification-not-proven blockers. No live S3 upload, EC2 start, SSM command, install execute, prompt post, generation, mask promotion, Wave70 hard gate, Wave71+ activation, Jira mutation, commit, push, reset, or checkout occurred.
+
+## Current Blocker - Selected Inpaint Launch Gate Waiting For Live Gates - 2026-07-09T14:03:00-05:00
+
+The selected-inpaint launch gate is locally ready but still fail-closed for live execution. Evidence `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LAUNCH_GATE_CURRENT_INPUT_MODEL_DRY_RUNS_20260709T140000-0500.json` reports `local_package_ready=true`, `local_install_dry_run_proofs_complete=true`, `failed_check_count=0`, and `target_runtime_launch_allowed=false`.
+
+Remaining exact blockers are `git_checkpoint_gate_not_clean_for_ec2_execute`, `explicit_user_target_runtime_selection_required`, `selected_s3_publish_proof_missing_for_deploy_bundle`, `selected_input_asset_s3_publish_proof_missing_for_live_install`, `selected_model_s3_publish_proof_missing_for_live_install`, `explicit_live_execution_intent_required`, and `ec2_start_not_authorized`. No live S3 upload, EC2 start, SSM command, install execute, prompt post, generation, mask promotion, Wave70 hard gate, Wave71+ activation, Jira mutation, commit, push, reset, or checkout occurred.
+
+## Current Blocker - Selected Inpaint Live Gates Closed After Local Input/Model Proofs - 2026-07-09T13:52:12-05:00
+
+Selected-inpaint local input/model proofs are current, but live target-runtime execution remains blocked. Pinned snapshot `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_EXECUTION_READINESS_SNAPSHOT_CURRENT_INPUT_MODEL_DRY_RUNS_PINNED_20260709T135100-0500.json` reports local proofs complete with `failed_check_count=0`, but `ready_for_live_execution=false`, `execute_allowed_now=false`, and `target_runtime_launch_allowed=false`.
+
+Remaining live blockers include `git_checkpoint_gate_not_clean_for_ec2_execute`, `explicit_user_target_runtime_selection_required`, `selected_s3_publish_proof_missing_for_deploy_bundle`, `selected_input_asset_s3_publish_proof_missing_for_live_install`, `selected_model_s3_publish_proof_missing_for_live_install`, `explicit_live_execution_intent_required`, and `ec2_start_not_authorized`. No live S3 upload, EC2 start, SSM command, install execute, prompt post, generation, mask promotion, Wave70 hard gate, Wave71+ activation, Jira mutation, commit, push, reset, or checkout occurred.
+
+## Current Blocker - Selected Inpaint Manifest-Scoped Gate Still Blocks EC2 Execute - 2026-07-09T13:38:41-05:00
+
+The selected-inpaint manifest-scoped checkpoint dry run is valid but still fail-closed for live EC2 execution. Evidence `Plan/Instructions/QA/Evidence/Git_Verification/W66_GITHUB_CHECKPOINT_MANIFEST_SCOPE_DRY_RUN_SELECTED_CURRENT_20260709T133200-0500.json` reports `checkpoint_scope_manifest_valid=true`, `blocked_changed_path_count=0`, `commit_attempted=false`, `push_attempted=false`, and `result=blocked_git_checkpoint_dirty_worktree`. Local recheck ledger `W66_SELECTED_TARGET_RUNTIME_LOCAL_RECHECK_LEDGER_MANIFEST_SCOPE_DRY_RUN_CURRENT_20260709T133200-0500.json` accepts the gate as an expected blocker with `failed_check_count=0`.
+
+Current exact blockers: `git_checkpoint_gate_not_clean_for_ec2_execute` and `target_runtime_proof_evidence_missing`. Preserve-local roots remain excluded by policy; do not destructively clean or stage reference/artifact roots. No S3 upload, AWS/EC2/SSM live action, prompt post, generation, mask promotion, Wave70 hard gate, Wave71+ activation, Jira mutation, reset, checkout, or push occurred.
+
 ## EC2 Workspace Is Stale And Not Planning Authority - 2026-07-09T12:28:07-05:00
 
 Blocker classification: `EC2_WORKSPACE_STALE_NOT_AUTHORITY`.
@@ -9,30 +75,52 @@ Evidence:
 - Plan/Instructions/QA/Evidence/Runtime_Readiness/LOCAL_SOURCE_OF_TRUTH_EC2_STALE_WORKSPACE_BOUNDARY_20260709T122807-0500.json
 - Plan/Tracker/Evidence/LOCAL_SOURCE_OF_TRUTH_EC2_STALE_WORKSPACE_BOUNDARY_20260709T122807-0500.json
 
-## Selected S3 Publish Blocked Until Clean Rebuild Produces Concrete Bundle - 2026-07-09T09:37:06-05:00
+## Selected Inpaint Runtime Still Blocked, Queue-Order Blocker Cleared - 2026-07-09T13:20:00-05:00
 
-S3 runtime transfer config is locally ready, but selected S3 publish is correctly blocked because the clean-checkpoint rebuild has not run and the concrete `DEPLOY_BUNDLE_MANIFEST.json` plus zip do not exist yet. Required blockers: manifest-scoped checkpoint not executed cleanly, selected deploy-bundle rebuild not completed, selected deploy-bundle manifest missing until rebuild, selected deploy-bundle zip missing until rebuild, and explicit target-runtime selection still required.
+Blocker classification: `SELECTED_INPAINT_TARGET_RUNTIME_NOT_DUPLICATE`.
 
-Evidence:
-- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_S3_RUNTIME_TRANSFER_READINESS_20260709T093623-0500.json
-- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_S3_PUBLISH_READINESS_PLAN_20260709T093656-0500.json
-- Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_20260709T093706-0500.json
+The selected-inpaint handoff chain has been regenerated from current queue-sentinel readiness. The stale `project_readiness_runtime_lane_queue_order_blocked` blocker is cleared for the current local evidence chain. Runtime execution remains blocked by `git_checkpoint_gate_not_clean_for_ec2_execute` and `target_runtime_proof_evidence_missing`; live S3/EC2/generation still require explicit live intent and passing gates.
 
-## Selected Inpaint Deploy Bundle Requires Clean-Checkpoint Rebuild - 2026-07-09T09:28:34-05:00
-
-The selected inpaint run package is identified and ready, but the existing deploy bundle was built from dirty source and must not be used for EC2. Rebuild is planned only after explicit manifest-scoped checkpoint execution and clean Git proof.
+Current Git gate refresh: `W66_GITHUB_CHECKPOINT_DRY_RUN_JSON_GATE_SELECTED_CURRENT_20260709T132800-0500.json` reports `blocked_git_checkpoint_dirty_worktree`, `clean_worktree=false`, `local_matches_origin=false`, `porcelain_count=107`, `commit_attempted=false`, and `push_attempted=false`. The current selected ledger `W66_SELECTED_TARGET_RUNTIME_LOCAL_RECHECK_LEDGER_CURRENT_GIT_GATE_FIXED_20260709T132800-0500.json` accepts this as an expected blocker and passes with `failed_check_count=0`.
 
 Evidence:
-- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_DEPLOY_BUNDLE_REBUILD_PLAN_20260709T092809-0500.json
-- Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_20260709T092833-0500.json
+- Plan/Instructions/QA/Evidence/Project_Readiness/W66_PROJECT_READINESS_SELECTED_INPAINT_QUEUE_SENTINEL_CURRENT_20260709T132000-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_RUNTIME_UNBLOCK_HANDOFF_sdxl_realvisxl_inpaint_detail_lane_QUEUE_SENTINEL_CURRENT_20260709T132000-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LOCAL_RECHECK_LEDGER_QUEUE_SENTINEL_CURRENT_20260709T132000-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_QA_HELPER_SELECTED_QUEUE_SENTINEL_CURRENT_CONTRACT_FIXED_20260709T132000-0500.json
+- Plan/Instructions/QA/Evidence/Git_Verification/W66_GITHUB_CHECKPOINT_DRY_RUN_JSON_GATE_SELECTED_CURRENT_20260709T132800-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LOCAL_RECHECK_LEDGER_CURRENT_GIT_GATE_FIXED_20260709T132800-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_QA_HELPER_SELECTED_CURRENT_GIT_GATE_FIXED_20260709T132800-0500.json
+- Plan/Tracker/Evidence/Runtime_Readiness mirrored copies
 
-## Runtime Revalidation Blocked Until Manifest Checkpoint Is Executed - 2026-07-09T09:22:50-05:00
+## Superseded - Selected S3 Publish Missing-Bundle Blocker - 2026-07-09T09:37:06-05:00
 
-The post-checkpoint runtime revalidation sequence is now defined and QA-covered, but it is not ready to run. Current plan result: `blocked_post_checkpoint_runtime_revalidation_waiting_for_manifest_checkpoint`. Exact blockers include manifest-scoped checkpoint not executed cleanly, selected deploy bundle source dirty, explicit target-runtime selection required, and Git checkpoint gate not clean for EC2 execute.
+Superseded by the selected scoped-clean bundle and queue-sentinel-current handoff chain. The concrete selected deploy-bundle manifest and zip now exist at `runtime_artifacts/deploy_bundles/si_sc_20260709T123317/DEPLOY_BUNDLE_MANIFEST.json` and `runtime_artifacts/deploy_bundles/si_sc_20260709T123317/si_sc_20260709T123317.zip`, with zip SHA `4301f6d80f8bfefa724e896967d63dc1890b967aa8b625dd4c84e062db800162`. S3 publish execute remains blocked, but no longer because the selected bundle is missing.
+
+Current blockers are recorded in the 2026-07-09T13:20:00-05:00 selected-inpaint queue-sentinel handoff section above: `git_checkpoint_gate_not_clean_for_ec2_execute` and `target_runtime_proof_evidence_missing`, plus the live-window requirement for explicit live intent and passing S3/EC2/generation gates.
 
 Evidence:
-- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_POST_CHECKPOINT_RUNTIME_REVALIDATION_PLAN_20260709T092234-0500.json
-- Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_CURRENT_VALIDATION_20260709T092250-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_DEPLOY_BUNDLE_SCOPED_CLEAN_BUILD_20260709T123318-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_DEPLOY_BUNDLE_S3_PUBLISH_DRY_RUN_SCOPED_CLEAN_20260709T123735-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LOCAL_RECHECK_LEDGER_QUEUE_SENTINEL_CURRENT_20260709T132000-0500.json
+
+## Superseded - Selected Inpaint Dirty Deploy-Bundle Rebuild Blocker - 2026-07-09T09:28:34-05:00
+
+Superseded by the scoped-clean selected deploy-bundle build and dry-run S3 publish evidence. The selected bundle is now materialized and referenced by the blocked live runbook. It still must not be used for live EC2 until current live gates pass, but the blocker is no longer “selected bundle built from dirty source.” Current live blockers are `git_checkpoint_gate_not_clean_for_ec2_execute` and `target_runtime_proof_evidence_missing`.
+
+Evidence:
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_DEPLOY_BUNDLE_SCOPED_CLEAN_BUILD_20260709T123318-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_PRE_EC2_HANDOFF_BUNDLE_QUEUE_SENTINEL_CURRENT_20260709T132000-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LOCAL_RECHECK_LEDGER_QUEUE_SENTINEL_CURRENT_20260709T132000-0500.json
+
+## Superseded - Runtime Revalidation Waiting For Manifest Checkpoint - 2026-07-09T09:22:50-05:00
+
+Superseded by the scoped checkpoint, selected scoped-clean deploy bundle, materialized S3 dry-run chain, and queue-sentinel-current handoff chain. Runtime revalidation is still fail-closed for live execution, but no longer because the manifest checkpoint or selected deploy-bundle rebuild is missing. The current selected-inpaint blockers are `git_checkpoint_gate_not_clean_for_ec2_execute` and `target_runtime_proof_evidence_missing`.
+
+Evidence:
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_EXECUTION_READINESS_SNAPSHOT_QUEUE_SENTINEL_CURRENT_20260709T132000-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LOCAL_RECHECK_LEDGER_QUEUE_SENTINEL_CURRENT_20260709T132000-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_QA_HELPER_SELECTED_QUEUE_SENTINEL_CURRENT_CONTRACT_FIXED_20260709T132000-0500.json
 
 ## Dirty Git Still Blocks Runtime; Manifest Checkpoint Requires Explicit Intent - 2026-07-09T09:16:48-05:00
 

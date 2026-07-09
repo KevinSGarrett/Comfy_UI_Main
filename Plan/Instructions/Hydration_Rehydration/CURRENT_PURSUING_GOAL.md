@@ -1,3 +1,69 @@
+## Current Pursuing Goal - Selected Inpaint Runbook Snapshot Launch Gate Current - 2026-07-09T14:52:00-05:00
+
+Keep pursuing the selected-inpaint target-runtime path from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is the current S3-revalidation-backed selected live runbook, execution-readiness snapshot, and launch gate: local proofs are complete enough for the launch gate to be well-formed, but target-runtime launch remains blocked by Git/live/S3/rebuild/EC2 gates.
+
+Current validation anchors: `W60_OPERATIONS_HELPER_AFTER_SELECTED_RUNBOOK_SNAPSHOT_S3_FIXED_20260709T145100-0500.json` (`pass_local_only`, 36 scripts, 0 parse failures, 28 local smokes, 0 smoke failures) and `W66_QA_HELPER_AFTER_SELECTED_RUNBOOK_SNAPSHOT_LAUNCH_GATE_S3_FIXED_20260709T145400-0500.json` (`pass_local_only`, 52 scripts, 0 parse failures, 57 local smokes, 0 smoke failures). Gold-mask-dependent promotion/body authority work remains blocked outside this non-mask runtime lane.
+
+## Current Pursuing Goal - Selected Inpaint S3 Publish Readiness Plan Current - 2026-07-09T14:47:00-05:00
+
+Keep pursuing the selected-inpaint target-runtime path from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a current selected S3 publish readiness plan: S3 runtime transfer configuration is ready locally, but selected deploy-bundle S3 publish remains blocked until clean manifest-scoped checkpoint, selected bundle rebuild, concrete manifest/zip creation, and post-rebuild publish dry-run.
+
+Current validation anchor: `W60_OPERATIONS_HELPER_AFTER_SELECTED_S3_PUBLISH_READINESS_PLAN_FIXED_20260709T144700-0500.json` (`pass_local_only`, 36 scripts, 0 parse failures, 28 local smokes, 0 smoke failures). Live execution remains unauthorized until Git checkpoint/live gates pass, AWS auth is refreshed, S3 Execute proofs for deploy bundle/input/model assets exist, EC2 install/static-proof gates are satisfied, and explicit live intent is present. Gold-mask-dependent promotion/body authority work remains blocked outside this non-mask runtime lane.
+
+## Current Pursuing Goal - Selected Inpaint Post-Checkpoint Revalidation Plan Current - 2026-07-09T14:37:00-05:00
+
+Keep pursuing the selected-inpaint target-runtime path from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a current package/deploy matrix plus selected deploy-bundle rebuild and post-checkpoint revalidation plan. The selected lane is still `sdxl_realvisxl_inpaint_detail_lane`; the bundle rebuild is ready after a clean manifest-scoped checkpoint, but post-checkpoint runtime revalidation remains blocked until that checkpoint is explicitly executed and proves clean/synced Git.
+
+Current validation anchor: `W60_OPERATIONS_HELPER_AFTER_SELECTED_REVALIDATION_PLANS_20260709T143700-0500.json` (`pass_local_only`, 36 scripts, 0 parse failures, 28 local smokes, 0 smoke failures). Live execution remains unauthorized until Git checkpoint/live gates pass, AWS auth is refreshed, S3 Execute proofs for deploy bundle/input/model assets exist, EC2 install/static-proof gates are satisfied, and explicit live intent is present. Gold-mask-dependent promotion/body authority work remains blocked outside this non-mask runtime lane.
+
+## Current Pursuing Goal - Selected Inpaint Final Review Blocker Packet Current - 2026-07-09T14:31:00-05:00
+
+Keep pursuing the selected-inpaint target-runtime path from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a refreshed local-only final-certification work-order chain and inpaint lane final-review blocker packet: the selected target-runtime execution plan points at `sdxl_realvisxl_inpaint_detail_lane`, but the lane remains blocked from final review because target-runtime proof and live gates are missing.
+
+Current validation anchor: `W66_QA_HELPER_AFTER_INPAINT_FINAL_REVIEW_BLOCKER_PACKET_20260709T143100-0500.json` (`pass_local_only`, 52 scripts, 0 parse failures, 57 local smokes, 0 smoke failures). Live execution remains unauthorized until Git checkpoint/live gates pass, AWS auth is refreshed, S3 Execute proofs for deploy bundle/input/model assets exist, EC2 install/static-proof gates are satisfied, and explicit live intent is present. Gold-mask-dependent promotion/body authority work remains blocked outside this non-mask runtime lane.
+
+## Current Pursuing Goal - Selected Inpaint Workflow Smoke Dry-Run Current - 2026-07-09T14:24:00-05:00
+
+Keep pursuing the selected-inpaint target-runtime path from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a gated workflow-smoke dry-run and local request JSON for the selected lane, proving the workflow smoke step is wired but blocked before EC2/generation until live gates and real static proof pass.
+
+Current validation anchor: `W60_OPERATIONS_HELPER_AFTER_SELECTED_WORKFLOW_SMOKE_DRY_RUN_20260709T142400-0500.json` (`pass_local_only`). Live execution remains unauthorized until Git checkpoint/live gates pass, AWS auth is refreshed, S3 Execute proofs for deploy bundle/input/model assets exist, EC2 install/static-proof gates are satisfied, and explicit live intent is present. Gold-mask-dependent promotion/body authority work remains blocked outside this non-mask runtime lane.
+
+## Current Pursuing Goal - Selected Inpaint Runtime Marker Plan Current - 2026-07-09T14:20:00-05:00
+
+Keep pursuing the selected-inpaint target-runtime path from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a selected runtime-window marker plan template for the future EC2 static-proof command, proving the active-window payload, selected bundle identity, emergency-stop evidence, and watchdog evidence are locally assembled while the actual active marker remains unwritten.
+
+Current validation anchor: `W60_OPERATIONS_HELPER_AFTER_SELECTED_MARKER_PLAN_20260709T142000-0500.json` (`pass_local_only`). Live execution remains unauthorized until Git checkpoint/live gates pass, AWS auth is refreshed, S3 Execute proofs for deploy bundle/input/model assets exist, EC2 install/static-proof gates are satisfied, and explicit live intent is present. Gold-mask-dependent promotion/body authority work remains blocked outside this non-mask runtime lane.
+
+## Current Pursuing Goal - Selected Inpaint Pre-EC2 Readiness Current - 2026-07-09T14:17:00-05:00
+
+Keep pursuing the selected-inpaint target-runtime path from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is current lane-runtime readiness plus a gated EC2 static-proof dry-run for the selected inpaint lane, proving local pre-EC2 readiness while preserving no-start blockers.
+
+Current validation anchor: `W60_OPERATIONS_HELPER_AFTER_SELECTED_LANE_PRE_EC2_STATIC_DRY_RUN_20260709T141700-0500.json` (`pass_local_only`, 36 scripts, 0 parse failures, 28 local smokes). Live execution remains unauthorized until Git checkpoint/live gates pass, AWS auth is refreshed, S3 Execute proofs for deploy bundle/input/model assets exist, EC2 install/static-proof gates are satisfied, and explicit live intent is present. Gold-mask-dependent promotion/body authority work remains blocked outside this non-mask runtime lane.
+
+## Current Pursuing Goal - Selected Inpaint Pre-EC2 Handoff Current - 2026-07-09T14:10:00-05:00
+
+Keep pursuing the selected-inpaint target-runtime path from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a current pre-EC2 handoff bundle plus local recheck ledger that carry the current launch gate, selected bundle URI/SHA, input/model dry-run readiness, and fail-closed live gate partition.
+
+Current validation anchor: `W66_QA_HELPER_SELECTED_CURRENT_PRE_EC2_LEDGER_20260709T141000-0500.json` (`pass_local_only`, 52 scripts, 0 parse failures, 57 local smokes, 0 smoke failures). Live execution remains unauthorized until a deliberate live window is selected, Git checkpoint/live gates pass, and S3 Execute proofs for deploy bundle/input/model assets plus EC2 install/static-proof gates are satisfied. Gold-mask-dependent promotion/body authority work remains blocked outside this non-mask runtime lane.
+
+## Current Pursuing Goal - Selected Inpaint Launch Gate Current - 2026-07-09T14:03:00-05:00
+
+Keep pursuing the selected-inpaint target-runtime path from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a current selected target-runtime launch gate that recognizes local package readiness plus the three local install dry-run proofs, while keeping all live gates closed.
+
+Current validation anchor: `W66_QA_HELPER_SELECTED_LAUNCH_GATE_CURRENT_INPUT_MODEL_DRY_RUNS_20260709T140300-0500.json` (`pass_local_only`, 52 scripts, 0 parse failures, 57 local smokes, 0 smoke failures). Live execution remains unauthorized until a deliberate live window is selected, Git checkpoint/live gates pass, and S3 Execute proofs for deploy bundle/input/model assets plus EC2 install/static-proof gates are satisfied. Gold-mask-dependent promotion/body authority work remains blocked outside this non-mask runtime lane.
+
+## Current Pursuing Goal - Selected Inpaint Input/Model Dry-Run Proofs Current - 2026-07-09T13:52:12-05:00
+
+Keep pursuing the selected-inpaint target-runtime path from local source-of-truth state. The latest concrete progress is current local readiness for input assets and model cache: source/mask assets and RealVisXL checkpoint are hash-proven locally, local S3 publish dry-runs are ready, EC2 install dry-runs are recorded as no-execute proofs, and the pinned execution-readiness snapshot is fail-closed with local proofs complete.
+
+Current validation anchor: `W60_OPERATIONS_HELPER_AFTER_SELECTED_INPUT_MODEL_CURRENT_CONTRACT_FIXED_20260709T135600-0500.json` (`pass_local_only`, 36 scripts, 0 parse failures, 28 local smokes, 0 smoke failures). Live execution remains unauthorized until deliberate checkpoint/live gates are selected and S3 Execute proofs for deploy bundle/input/model assets plus EC2 install/static-proof gates are satisfied. Gold-mask-dependent promotion/body authority work remains blocked outside this non-mask runtime lane.
+
+## Current Pursuing Goal - Selected Inpaint Manifest-Scoped Gate Current - 2026-07-09T13:38:41-05:00
+
+Pursue the selected-inpaint runtime/orchestration lane from local source-of-truth state while gold-mask-dependent work remains blocked. Current evidence has advanced to a valid manifest-scoped checkpoint dry run plus local recheck ledger: `W66_GITHUB_CHECKPOINT_MANIFEST_SCOPE_DRY_RUN_SELECTED_CURRENT_20260709T133200-0500.json`, `W66_SELECTED_TARGET_RUNTIME_LOCAL_RECHECK_LEDGER_MANIFEST_SCOPE_DRY_RUN_CURRENT_20260709T133200-0500.json`, and `W66_QA_HELPER_SELECTED_MANIFEST_SCOPE_DRY_RUN_CURRENT_20260709T133200-0500.json`.
+
+The selected deploy bundle URI/SHA remain materialized for future live proof, but EC2/live execution is not authorized. Current exact blockers are `git_checkpoint_gate_not_clean_for_ec2_execute` and `target_runtime_proof_evidence_missing`. Keep working on concrete non-mask runtime/orchestration only; do not consume candidate masks as truth, promote masks, rerun Wave70 hard gates, activate Wave71+, switch to Jira bookkeeping, or use stale EC2 workspace state as planning authority.
+
 ## Current Pursuing Goal Update - Local Source Of Truth / EC2 Stale Workspace Guard Active - 2026-07-09T12:28:07-05:00
 
 The active pursuing goal remains selected local-first ComfyUI runtime/orchestration progress from local `C:\Comfy_UI_Main`. The EC2 copy `/home/ubuntu/Comfy_UI_Main` is not planning authority because inspection found it stale against local 2026-07-09 readiness/queue state.
@@ -5,6 +71,58 @@ The active pursuing goal remains selected local-first ComfyUI runtime/orchestrat
 Current boundary: use `Plan/Instructions/LOCAL_SOURCE_OF_TRUTH_AND_EC2_STALE_WORKSPACE_PROTOCOL.md` before runtime, EC2, S3, deploy-bundle, artifact pullback, Items, Tracker, or hydration steering. Evidence is recorded at `Plan/Instructions/QA/Evidence/Runtime_Readiness/LOCAL_SOURCE_OF_TRUTH_EC2_STALE_WORKSPACE_BOUNDARY_20260709T122807-0500.json` and mirrored under Tracker evidence.
 
 Do not duplicate completed low-risk fallback, RealVisXL base, Canny baseline/v4, prior RealVisXL certification sample, or 2026-07-09 local package smoke/visual QA work. Valid future work remains selected-inpaint deploy-bundle rebuild/revalidation, S3 publish proof, EC2 input/model install hash proof, selected target-runtime proof, and final certification after local gates pass.
+
+## Current Pursuing Goal Update - Selected Inpaint Queue-Sentinel Handoff Current - 2026-07-09T13:20:00-05:00
+
+The active pursuing goal remains the transferred end-to-end ComfyUI project objective in this session (`019f422f-88b1-7382-872b-21de2089e983`), operating local-first from `C:\Comfy_UI_Main`. Current concrete lane remains selected-inpaint runtime/orchestration; manual gold masks remain outside Codex-controlled promotion authority.
+
+Latest concrete progress: regenerated the selected-inpaint readiness and handoff chain from current queue-sentinel evidence, then updated the QA helper contract so stale queue-order blockers are not required once selected readiness reports `pass_local_ready_for_ec2_static_proof`. The current local recheck ledger narrows the selected-inpaint blockers to dirty Git checkpoint for EC2 execute and missing target-runtime proof.
+
+Current evidence:
+- Plan/Instructions/QA/Evidence/Project_Readiness/W66_PROJECT_READINESS_SELECTED_INPAINT_QUEUE_SENTINEL_CURRENT_20260709T132000-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_RUNTIME_UNBLOCK_HANDOFF_sdxl_realvisxl_inpaint_detail_lane_QUEUE_SENTINEL_CURRENT_20260709T132000-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_PRE_EC2_HANDOFF_BUNDLE_QUEUE_SENTINEL_CURRENT_20260709T132000-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LIVE_EXECUTION_RUNBOOK_QUEUE_SENTINEL_CURRENT_20260709T132000-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_EXECUTION_READINESS_SNAPSHOT_QUEUE_SENTINEL_CURRENT_20260709T132000-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LOCAL_RECHECK_LEDGER_QUEUE_SENTINEL_CURRENT_20260709T132000-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_QA_HELPER_SELECTED_QUEUE_SENTINEL_CURRENT_CONTRACT_FIXED_20260709T132000-0500.json
+- Mirrored copies under Plan/Tracker/Evidence/Runtime_Readiness
+
+Boundary: no S3 upload, AWS contact, EC2 start, SSM command, prompt post, generation, mask promotion, Wave70 hard-gate rerun, Wave71+ activation, or Jira mutation occurred. Remaining blockers are `git_checkpoint_gate_not_clean_for_ec2_execute` and `target_runtime_proof_evidence_missing`; continue local-safe selected-inpaint orchestration unless the user explicitly selects a live execution window and gates pass.
+
+Current-Git refresh: dry-run checkpoint evidence `Plan/Instructions/QA/Evidence/Git_Verification/W66_GITHUB_CHECKPOINT_DRY_RUN_JSON_GATE_SELECTED_CURRENT_20260709T132800-0500.json` now records the live EC2 Git blocker as current: `blocked_git_checkpoint_dirty_worktree`, `clean_worktree=false`, `local_matches_origin=false`, and `porcelain_count=107`, with no commit or push attempted. `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LOCAL_RECHECK_LEDGER_CURRENT_GIT_GATE_FIXED_20260709T132800-0500.json` passes against that current gate, and `W66_QA_HELPER_SELECTED_CURRENT_GIT_GATE_FIXED_20260709T132800-0500.json` validates the contract with 52 scripts and 57 local smokes passing.
+
+## Current Pursuing Goal Update - Selected Inpaint Local Recheck Ledger Materialized - 2026-07-09T13:10:30-05:00
+
+The active pursuing goal remains the transferred end-to-end ComfyUI project objective in this session (`019f422f-88b1-7382-872b-21de2089e983`), operating local-first from `C:\Comfy_UI_Main`. Current concrete lane is selected-inpaint runtime/orchestration; manual gold masks remain outside Codex-controlled promotion authority.
+
+Latest concrete progress: the selected target-runtime local recheck ledger now consumes the materialized selected deploy-bundle URI/SHA and records local rechecks as accounted while keeping live execution blocked. This prevents the current session from sliding back to stale dirty-bundle blockers after the scoped-clean bundle and S3 dry-run proof were already recorded.
+
+Current evidence:
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LOCAL_RECHECK_LEDGER_MATERIALIZED_BUNDLE_URI_20260709T131000-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LOCAL_RECHECK_LEDGER_MATERIALIZED_BUNDLE_URI_20260709T131000-0500.md
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_QA_HELPER_SELECTED_LOCAL_RECHECK_LEDGER_MATERIALIZED_20260709T131030-0500.json
+- Mirrored copies under Plan/Tracker/Evidence/Runtime_Readiness
+
+Boundary: no S3 upload, AWS contact, EC2 start, SSM command, prompt post, generation, mask promotion, Wave70 hard-gate rerun, Wave71+ activation, or Jira mutation occurred. Superseded by the 2026-07-09T13:20:00-05:00 queue-sentinel-current handoff chain: remaining blockers are `git_checkpoint_gate_not_clean_for_ec2_execute` and `target_runtime_proof_evidence_missing`; continue local-safe selected-inpaint orchestration unless the user explicitly selects a live execution window and gates pass.
+
+## Current Pursuing Goal Update - Selected Inpaint Dry-Run-Ready Chain Corrected - 2026-07-09T12:55:00-05:00
+
+The active pursuing goal remains the transferred end-to-end ComfyUI project objective in this session (`019f422f-88b1-7382-872b-21de2089e983`), operating local-first from `C:\Comfy_UI_Main`. Current work posture is selected-inpaint runtime/orchestration while manual gold masks remain outside Codex-controlled promotion authority.
+
+Latest concrete progress: the selected scoped-clean bundle and S3 publish dry-run are now first-class inputs to the S3 readiness plan, pre-EC2 handoff, live runbook, and execution snapshot. Dirty/missing deploy-bundle blockers are removed only when concrete dry-run-ready evidence is present; live upload/EC2/generation gates remain closed.
+
+Current evidence:
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_S3_PUBLISH_READINESS_PLAN_SCOPED_CLEAN_DRY_RUN_READY_20260709T124900-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_PRE_EC2_HANDOFF_BUNDLE_SCOPED_CLEAN_DRY_RUN_READY_20260709T125130-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LIVE_EXECUTION_RUNBOOK_SCOPED_CLEAN_DRY_RUN_READY_20260709T125330-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_EXECUTION_READINESS_SNAPSHOT_SCOPED_CLEAN_DRY_RUN_READY_20260709T125500-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_QA_HELPER_SELECTED_RUNTIME_DRY_RUN_READY_20260709T125900-0500.json
+- Mirrored copies under Plan/Tracker/Evidence/Runtime_Readiness
+
+Boundary: no S3 upload, AWS contact, EC2 start, prompt post, generation, mask promotion, Wave70 hard-gate rerun, Wave71+ activation, or Jira mutation occurred. Continue local-safe selected-inpaint orchestration only unless the user explicitly selects a live execution window and gates pass.
+
+Materialized-command progress: blocked S3/EC2 proof commands now include the concrete selected deploy-bundle S3 URI and SHA instead of placeholders, with QA helper regression coverage. This advances live-readiness orchestration without authorizing live execution.
 
 ## Current Pursuing Goal Update - Selected Inpaint Scoped-Clean Bundle Ready For S3 Dry-Run - 2026-07-09T12:37:36-05:00
 

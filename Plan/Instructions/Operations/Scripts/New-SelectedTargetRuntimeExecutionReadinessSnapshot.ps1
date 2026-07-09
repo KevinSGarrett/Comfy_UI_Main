@@ -153,6 +153,11 @@ $runbook = Read-JsonFile -Path $runbookResolved
 $modelInstall = Read-JsonFile -Path $modelResolved
 $sourceInstall = Read-JsonFile -Path $sourceResolved
 $maskInstall = Read-JsonFile -Path $maskResolved
+$deployBundleDryRunReady = (
+  [bool]$runbook.ready_for_s3_publish_now_local_dry_run -and
+  [bool]$runbook.selected_deploy_bundle_s3_publish_dry_run_ready -and
+  -not [bool]$runbook.selected_deploy_bundle_s3_upload_execute_allowed
+)
 
 $proofs = @(
   (New-Proof -Name "realvisxl_model_install_dry_run" -EvidencePath $modelResolved -Payload $modelInstall -ExpectedResult "dry_run_model_install_plan"),
@@ -217,7 +222,7 @@ $checks = @(
 $failedChecks = @($checks | Where-Object { [string]$_.result -ne "pass" })
 $exactBlockers = @(
   Convert-ToArray -Value $runbook.exact_blockers
-  "selected_deploy_bundle_not_rebuilt_after_clean_checkpoint"
+  $(if (-not $deployBundleDryRunReady) { "selected_deploy_bundle_not_rebuilt_after_clean_checkpoint" } else { $null })
   "selected_s3_publish_proof_missing_for_deploy_bundle"
   "selected_input_asset_s3_publish_proof_missing_for_live_install"
   "selected_model_s3_publish_proof_missing_for_live_install"
@@ -251,7 +256,7 @@ $record = [ordered]@{
   push_attempted = $false
   reset_attempted = $false
   checkout_attempted = $false
-  deploy_bundle_rebuilt = $false
+  deploy_bundle_rebuilt = $deployBundleDryRunReady
   s3_upload_attempted = $false
   model_install_attempted = $false
   input_asset_install_attempted = $false
@@ -275,6 +280,9 @@ $record = [ordered]@{
   runbook_ordered_step_count = [int]$runbook.ordered_step_count
   runbook_failed_check_count = [int]$runbook.failed_check_count
   runbook_git_local_matches_origin = [bool]$runbook.git_local_matches_origin
+  runbook_ready_for_s3_publish_now_local_dry_run = [bool]$runbook.ready_for_s3_publish_now_local_dry_run
+  runbook_selected_deploy_bundle_s3_publish_dry_run_ready = [bool]$runbook.selected_deploy_bundle_s3_publish_dry_run_ready
+  runbook_selected_deploy_bundle_s3_upload_execute_allowed = [bool]$runbook.selected_deploy_bundle_s3_upload_execute_allowed
   runbook_ready_for_input_asset_publish = [bool]$runbook.ready_for_input_asset_publish
   runbook_ready_for_model_cache_publish = [bool]$runbook.ready_for_model_cache_publish
   runbook_ready_for_ec2_input_asset_install_execute = [bool]$runbook.ready_for_ec2_input_asset_install_execute
@@ -283,7 +291,7 @@ $record = [ordered]@{
   checks = @($checks)
   failed_check_count = $failedChecks.Count
   boundary = "Selected target-runtime execution readiness snapshot only. This artifact is local-only and does not rebuild deploy bundles, upload to S3, install assets or models, start EC2, post prompts, run generation, contact external services, mutate Git, consume or promote masks, rerun Wave70 hard gates, mutate Jira, or activate Wave71+."
-  next_action = "Keep EC2 stopped. Future live execution still requires explicit live intent, viable clean Git/origin gate or approved release-path exception, clean selected deploy-bundle rebuild, S3 publish proof for deploy bundle/input/model assets, EC2 install hash proof, EC2 start authorization, and selected target-runtime gates."
+  next_action = $(if ($deployBundleDryRunReady) { "Keep EC2 stopped. The selected deploy bundle is locally dry-run ready for S3; future live execution still requires explicit live intent, S3 Execute proof for deploy bundle/input/model assets, EC2 install hash proof, EC2 start authorization, and selected target-runtime gates." } else { "Keep EC2 stopped. Future live execution still requires explicit live intent, viable clean Git/origin gate or approved release-path exception, clean selected deploy-bundle rebuild, S3 publish proof for deploy bundle/input/model assets, EC2 install hash proof, EC2 start authorization, and selected target-runtime gates." })
 }
 
 [System.IO.Directory]::CreateDirectory((Split-Path -Path $outFileResolved -Parent)) | Out-Null
@@ -304,6 +312,7 @@ $markdown = @"
 - selected_lane_id: $($record.selected_lane_id)
 - selected_work_order_id: $($record.selected_work_order_id)
 - ready_for_live_execution: $($record.ready_for_live_execution)
+- runbook_ready_for_s3_publish_now_local_dry_run: $($record.runbook_ready_for_s3_publish_now_local_dry_run)
 - execute_allowed_now: $($record.execute_allowed_now)
 - target_runtime_launch_allowed: $($record.target_runtime_launch_allowed)
 - local_install_dry_run_proof_count: $($record.local_install_dry_run_proof_count)

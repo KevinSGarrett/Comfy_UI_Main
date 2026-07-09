@@ -1,0 +1,104 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "W66-EC2-RUNTIME-WINDOW-MARKER-PLAN-20260709T141909-0500",
+    "created_at":  "2026-07-09T14:19:09-05:00",
+    "artifact_type":  "ec2_runtime_window_marker_plan",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "active_marker_written":  false,
+    "active_marker_path":  "runtime_artifacts/ec2_runtime_windows/ACTIVE_EC2_RUNTIME_WINDOW.json",
+    "marker_template_path":  "runtime_artifacts/ec2_runtime_windows/ACTIVE_EC2_RUNTIME_WINDOW.template.selected_inpaint_20260709T141900-0500.json",
+    "marker_payload":  {
+                           "schema_version":  "1.0",
+                           "window_id":  "selected-inpaint-static-proof-plan-20260709T141900-0500",
+                           "status":  "ACTIVE",
+                           "created_at":  "\u003cwrite-actual-window-start-time\u003e",
+                           "expires_at":  "2026-07-09T19:44:09Z",
+                           "instance_id":  "i-0560bf8d143f93bb1",
+                           "region":  "us-east-1",
+                           "expected_account_id":  "029530099913",
+                           "purpose":  "selected_inpaint_static_proof_preflight",
+                           "target_lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+                           "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_realvisxl_inpaint_detail_lane -Execute -SkipGitLfsPull -DeployBundleS3Uri s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/si_sc_20260709T123317/si_sc_20260709T123317.zip -DeployBundleSha256 4301f6d80f8bfefa724e896967d63dc1890b967aa8b625dd4c84e062db800162 -MaxEc2RuntimeMinutes 25 -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Static_Validation\\W66_EC2_LANE_STATIC_PROOF_sdxl_realvisxl_inpaint_detail_lane_\u003ctimestamp\u003e.json",
+                           "max_runtime_minutes":  25,
+                           "emergency_stop_evidence_path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_EC2_EMERGENCY_STOP_SCHEDULE_9LANE_ACTIVE_QUEUE_20260709T023840-0500.json",
+                           "watchdog_evidence_path_or_null":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_EC2_INSTANCE_WATCHDOG_9LANE_ACTIVE_QUEUE_20260709T024751-0500.json",
+                           "git_head_or_bundle_sha":  "4301f6d80f8bfefa724e896967d63dc1890b967aa8b625dd4c84e062db800162",
+                           "owner_thread_or_automation":  "019f422f-88b1-7382-872b-21de2089e983",
+                           "allowed_stop_policy":  "stop_when_expired_or_unapproved"
+                       },
+    "deploy_bundle_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/si_sc_20260709T123317/si_sc_20260709T123317.zip",
+    "deploy_bundle_sha256":  "4301f6d80f8bfefa724e896967d63dc1890b967aa8b625dd4c84e062db800162",
+    "emergency_stop_result":  "dry_run_emergency_stop_schedule_plan",
+    "watchdog_result":  "dry_run_instance_watchdog_plan",
+    "checks":  [
+                   {
+                       "name":  "project_root_exists",
+                       "result":  "pass",
+                       "observed":  "C:\\Comfy_UI_Main",
+                       "expected":  "existing project root"
+                   },
+                   {
+                       "name":  "active_marker_not_written",
+                       "result":  "pass",
+                       "observed":  false,
+                       "expected":  false
+                   },
+                   {
+                       "name":  "lane_id_supplied",
+                       "result":  "pass",
+                       "observed":  "sdxl_realvisxl_inpaint_detail_lane",
+                       "expected":  "non-empty lane id"
+                   },
+                   {
+                       "name":  "command_supplied",
+                       "result":  "pass",
+                       "observed":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_realvisxl_inpaint_detail_lane -Execute -SkipGitLfsPull -DeployBundleS3Uri s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/si_sc_20260709T123317/si_sc_20260709T123317.zip -DeployBundleSha256 4301f6d80f8bfefa724e896967d63dc1890b967aa8b625dd4c84e062db800162 -MaxEc2RuntimeMinutes 25 -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Workflow_Static_Validation\\W66_EC2_LANE_STATIC_PROOF_sdxl_realvisxl_inpaint_detail_lane_\u003ctimestamp\u003e.json",
+                       "expected":  "future live command string"
+                   },
+                   {
+                       "name":  "deploy_bundle_uri_supplied",
+                       "result":  "pass",
+                       "observed":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/si_sc_20260709T123317/si_sc_20260709T123317.zip",
+                       "expected":  "s3:// deploy bundle URI"
+                   },
+                   {
+                       "name":  "deploy_bundle_sha_supplied",
+                       "result":  "pass",
+                       "observed":  "4301f6d80f8bfefa724e896967d63dc1890b967aa8b625dd4c84e062db800162",
+                       "expected":  "64 character SHA256"
+                   },
+                   {
+                       "name":  "max_runtime_minutes_bounded",
+                       "result":  "pass",
+                       "observed":  25,
+                       "expected":  "5..240"
+                   },
+                   {
+                       "name":  "emergency_stop_evidence_parsed",
+                       "result":  "pass",
+                       "observed":  "dry_run_emergency_stop_schedule_plan",
+                       "expected":  "dry-run or created emergency-stop evidence"
+                   },
+                   {
+                       "name":  "watchdog_evidence_optional_or_parsed",
+                       "result":  "pass",
+                       "observed":  "dry_run_instance_watchdog_plan",
+                       "expected":  "empty, dry-run, or started watchdog evidence"
+                   },
+                   {
+                       "name":  "owner_thread_current",
+                       "result":  "pass",
+                       "observed":  "019f422f-88b1-7382-872b-21de2089e983",
+                       "expected":  "019f422f-88b1-7382-872b-21de2089e983"
+                   }
+               ],
+    "failure_count":  0,
+    "result":  "pass_local_only_marker_plan_ready",
+    "next_action":  "Write this marker payload to runtime_artifacts/ec2_runtime_windows/ACTIVE_EC2_RUNTIME_WINDOW.json only after an explicit live EC2 window is selected and actually starting; remove or mark ENDED after final stopped-state verification."
+}

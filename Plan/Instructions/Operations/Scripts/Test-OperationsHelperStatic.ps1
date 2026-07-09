@@ -535,7 +535,11 @@ function Invoke-LocalHelper {
             throw "$Name install execute command must explicitly include -Execute."
           }
         }
-        foreach ($requiredBlocker in @("git_checkpoint_gate_not_clean_for_ec2_execute", "explicit_user_target_runtime_selection_required", "deploy_bundle_source_git_dirty_rebuild_required_before_ec2", "input_assets_not_yet_published_to_s3_for_selected_lane", "ec2_input_asset_install_execute_requires_explicit_intent")) {
+        $requiredInputAssetBlockers = @("git_checkpoint_gate_not_clean_for_ec2_execute", "explicit_user_target_runtime_selection_required", "input_assets_not_yet_published_to_s3_for_selected_lane", "ec2_input_asset_install_execute_requires_explicit_intent")
+        if (-not [bool]$payload.ready_for_input_asset_publish) {
+          $requiredInputAssetBlockers += "deploy_bundle_source_git_dirty_rebuild_required_before_ec2"
+        }
+        foreach ($requiredBlocker in $requiredInputAssetBlockers) {
           if ($requiredBlocker -notin @($payload.exact_blockers)) {
             throw "$Name exact_blockers is missing $requiredBlocker."
           }
@@ -643,7 +647,11 @@ function Invoke-LocalHelper {
         if ([string]$modelPlan.install_execute_command_requires_explicit_user_intent -notmatch "\s-Execute(\s|$)") {
           throw "$Name install execute command must explicitly include -Execute."
         }
-        foreach ($requiredBlocker in @("git_checkpoint_gate_not_clean_for_ec2_execute", "explicit_user_target_runtime_selection_required", "deploy_bundle_source_git_dirty_rebuild_required_before_ec2", "model_not_yet_published_to_s3_for_selected_lane", "ec2_model_install_execute_requires_explicit_intent")) {
+        $requiredModelCacheBlockers = @("git_checkpoint_gate_not_clean_for_ec2_execute", "explicit_user_target_runtime_selection_required", "model_not_yet_published_to_s3_for_selected_lane", "ec2_model_install_execute_requires_explicit_intent")
+        if (-not [bool]$payload.ready_for_model_cache_publish) {
+          $requiredModelCacheBlockers += "deploy_bundle_source_git_dirty_rebuild_required_before_ec2"
+        }
+        foreach ($requiredBlocker in $requiredModelCacheBlockers) {
           if ($requiredBlocker -notin @($payload.exact_blockers)) {
             throw "$Name exact_blockers is missing $requiredBlocker."
           }
@@ -685,7 +693,7 @@ function Invoke-LocalHelper {
         if ([string]$payload.selected_lane_id -ne "sdxl_realvisxl_inpaint_detail_lane" -or [string]$payload.selected_work_order_id -ne "WO-W66-SDXL_REALVISXL_INPAINT_DETAIL_LANE-TARGET-RUNTIME-PROOF") {
           throw "$Name must target the selected inpaint target-runtime work order."
         }
-        if ([bool]$payload.ready_for_live_execution -or [bool]$payload.execute_allowed_now -or [bool]$payload.target_runtime_launch_allowed -or [bool]$payload.ready_for_s3_publish_after_rebuild -or [bool]$payload.ready_for_ec2_input_asset_install_execute -or [bool]$payload.ready_for_ec2_model_install_execute) {
+        if ([bool]$payload.ready_for_live_execution -or [bool]$payload.execute_allowed_now -or [bool]$payload.target_runtime_launch_allowed -or [bool]$payload.ready_for_ec2_input_asset_install_execute -or [bool]$payload.ready_for_ec2_model_install_execute) {
           throw "$Name must keep all live execution gates blocked."
         }
         if (-not [bool]$payload.ready_for_input_asset_publish -or -not [bool]$payload.ready_for_model_cache_publish) {
@@ -717,7 +725,11 @@ function Invoke-LocalHelper {
             throw "$Name ordered_live_execution_steps is missing pattern $requiredPattern."
           }
         }
-        foreach ($requiredBlocker in @("git_checkpoint_gate_not_clean_for_ec2_execute", "explicit_user_target_runtime_selection_required", "deploy_bundle_source_git_dirty_rebuild_required_before_ec2", "explicit_live_execution_intent_required", "live_s3_uploads_not_authorized", "ec2_start_not_authorized")) {
+        $requiredRunbookBlockers = @("git_checkpoint_gate_not_clean_for_ec2_execute", "explicit_user_target_runtime_selection_required", "explicit_live_execution_intent_required", "live_s3_uploads_not_authorized", "ec2_start_not_authorized")
+        if (-not [bool]$payload.ready_for_s3_publish_after_rebuild) {
+          $requiredRunbookBlockers += "deploy_bundle_source_git_dirty_rebuild_required_before_ec2"
+        }
+        foreach ($requiredBlocker in $requiredRunbookBlockers) {
           if ($requiredBlocker -notin @($payload.exact_blockers)) {
             throw "$Name exact_blockers is missing $requiredBlocker."
           }
@@ -748,8 +760,8 @@ function Invoke-LocalHelper {
         if ([bool]$payload.ec2_started -or [bool]$payload.generation_executed -or [bool]$payload.prompt_posted -or [bool]$payload.active_runtime_marker_written) {
           throw "$Name must not start EC2, generate, post prompts, or write runtime markers."
         }
-        if ([bool]$payload.stage_attempted -or [bool]$payload.commit_attempted -or [bool]$payload.push_attempted -or [bool]$payload.reset_attempted -or [bool]$payload.checkout_attempted -or [bool]$payload.deploy_bundle_rebuilt -or [bool]$payload.s3_upload_attempted -or [bool]$payload.model_install_attempted -or [bool]$payload.input_asset_install_attempted) {
-          throw "$Name must not mutate git, rebuild deploy bundles, upload to S3, or install remote assets/models."
+        if ([bool]$payload.stage_attempted -or [bool]$payload.commit_attempted -or [bool]$payload.push_attempted -or [bool]$payload.reset_attempted -or [bool]$payload.checkout_attempted -or [bool]$payload.s3_upload_attempted -or [bool]$payload.model_install_attempted -or [bool]$payload.input_asset_install_attempted) {
+          throw "$Name must not mutate git, upload to S3, or install remote assets/models."
         }
         if ([bool]$payload.masks_consumed_as_truth -or [bool]$payload.masks_promoted -or [bool]$payload.wave70_hard_gate_rerun -or [bool]$payload.wave71_plus_activated -or [bool]$payload.jira_mutated -or [bool]$payload.full_project_certification_allowed) {
           throw "$Name must not consume/promote masks, rerun Wave70, activate Wave71+, mutate Jira, or allow final certification."
@@ -779,7 +791,11 @@ function Invoke-LocalHelper {
         if (-not [bool]$payload.runbook_ready_for_input_asset_publish -or -not [bool]$payload.runbook_ready_for_model_cache_publish) {
           throw "$Name must preserve local publish-readiness for selected input assets and model cache."
         }
-        foreach ($requiredBlocker in @("selected_deploy_bundle_not_rebuilt_after_clean_checkpoint", "selected_s3_publish_proof_missing_for_deploy_bundle", "selected_input_asset_s3_publish_proof_missing_for_live_install", "selected_model_s3_publish_proof_missing_for_live_install", "explicit_live_execution_intent_required", "ec2_start_not_authorized")) {
+        $requiredSnapshotBlockers = @("selected_s3_publish_proof_missing_for_deploy_bundle", "selected_input_asset_s3_publish_proof_missing_for_live_install", "selected_model_s3_publish_proof_missing_for_live_install", "explicit_live_execution_intent_required", "ec2_start_not_authorized")
+        if (-not [bool]$payload.runbook_ready_for_s3_publish_now_local_dry_run) {
+          $requiredSnapshotBlockers += "selected_deploy_bundle_not_rebuilt_after_clean_checkpoint"
+        }
+        foreach ($requiredBlocker in $requiredSnapshotBlockers) {
           if ($requiredBlocker -notin @($payload.exact_blockers)) {
             throw "$Name exact_blockers is missing $requiredBlocker."
           }

@@ -4,6 +4,12 @@ Updated: 2026-07-09
 
 This protocol defines the Comfy_UI_Main scheduled automation fleet posture while the main Codex session advances the ComfyUI project autonomously.
 
+All automation routing must also follow:
+
+```text
+C:\Comfy_UI_Main\Plan\Instructions\AI_WORKER_LANE_ROUTING_POLICY.md
+```
+
 ## Local Source Of Truth And EC2 Stale Workspace Guard
 
 All cron jobs must read `C:\Comfy_UI_Main\Plan\Instructions\LOCAL_SOURCE_OF_TRUTH_AND_EC2_STALE_WORKSPACE_PROTOCOL.md` before steering runtime, EC2, S3, deploy-bundle, artifact pullback, Items, Tracker, or hydration work.
@@ -30,6 +36,33 @@ Concrete progress means one of:
 - narrow validator/helper work that directly unblocks runtime/QA/cost safety.
 
 Hydration, proof-log, tracker, manifest, index, Git, or audit updates do not count as progress unless they follow a concrete ComfyUI runtime/orchestration/QA artifact.
+
+## Worker Lane Policy
+
+Use three explicit lanes:
+
+1. Codex-only
+   - final authority for runtime, mask, Git, Jira, AWS, EC2, S3, and visual QA decisions
+   - any gated action or project-state mutation
+2. Cursor-first
+   - broad inventories
+   - read-only evidence extraction
+   - helper/script first drafts
+   - parser/validator triage
+   - bookmark/task split diagnosis
+3. Claude subscription
+   - high-effort Sonnet synthesis after Cursor extraction
+   - long contradiction review
+   - difficult strategy critique when no live authority is required
+   - heavy reasoning tasks that would otherwise consume a long Codex Desktop turn
+
+Claude Desktop/subscription is available through:
+
+```text
+C:\Users\kevin\.codex\claude_subscription_handoff\Invoke-ClaudeSubscriptionHandoff.ps1
+```
+
+Use the Claude subscription lane only when `Test-ClaudeSubscriptionHandoff.ps1` passes or the latest successful probe is fresh. It must use `claude.ai` subscription auth and must not fall back to Anthropic API keys or Console PAYG billing.
 
 ## Role Ownership
 
@@ -63,6 +96,10 @@ When correction is needed, steer toward one concrete next ComfyUI task:
 - live-gated target-runtime preparation after explicit user authorization.
 
 Do not steer to broad Wave65 refreshes, generic manifest hygiene, repeated hydration rewrites, Jira bookkeeping, or deferred Wave71+ work unless the user explicitly selects that lane.
+
+When the main session needs broad local scanning, manifest reconciliation, or repetitive evidence extraction, route that work to Cursor first and keep Codex on the final judgment and bounded correction pass.
+
+Use Claude as the high-effort Sonnet lane after Cursor has extracted raw evidence, or when the task is a difficult synthesis that does not require live authority. Do not route mask, EC2, S3, Jira, Git, Items/Tracker authority, or final visual QA decisions to Claude.
 
 ## Cursor, Jira, And Masks
 
