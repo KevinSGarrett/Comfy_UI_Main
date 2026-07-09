@@ -1,3 +1,11 @@
+## Immediate Next Action - Selected Inpaint Final Review Blocker Packet Current - 2026-07-09T18:26:00-05:00
+
+Continue selected-inpaint runtime/orchestration from the current inpaint lane final-review blocker packet. The packet now consumes the current final-certification work-order map and clean target-runtime plan summary, removes stale dirty-Git/deploy-bundle blockers, and keeps the lane blocked only on target-runtime/live proof and final-review evidence gaps.
+
+Current evidence: `Plan/Instructions/QA/Evidence/Done_Certifications/W66_INPAINT_LANE_FINAL_REVIEW_BLOCKER_PACKET_SELECTED_CHAIN_20260709T182500-0500.json` reports `blocked_inpaint_lane_final_review_target_runtime_proof_missing`, `defects=0`, 0 failed checks, `closes_work_order=false`, `full_project_certification_allowed=false`, `new_ec2_started=false`, and `new_generation_executed=false`. QA helper validation `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_QA_HELPER_AFTER_INPAINT_BLOCKER_PACKET_SELECTED_CHAIN_20260709T182600-0500.json` reports `pass_local_only`, 57 local smokes, and 0 failures. Tracker mirrors exist.
+
+Remaining inpaint/live blockers are target-runtime proof evidence, target-runtime object_info/path/hash/input proof, bounded target-runtime output, pullback/technical/strict visual QA, explicit target-runtime selection, refreshed AWS/live gates, S3 Execute proofs, EC2 install/static proof, and EC2 start authorization. Do not close the inpaint final-review work order, start EC2, upload to S3, post ComfyUI prompts, promote masks, rerun Wave70 hard gates, activate Wave71+, or switch to Jira bookkeeping without explicit live/gate conditions.
+
 ## Immediate Next Action - Selected Inpaint Final Certification Work Orders Current - 2026-07-09T18:21:00-05:00
 
 Continue selected-inpaint runtime/orchestration from the current active-runtime final-certification work-order map. The work-order record consumes the current selected-inpaint final-certification readiness evidence, removes the stale nested-handoff Git blocker when current Git is clean/synced, and keeps target-runtime/live evidence gaps explicit.

@@ -1,3 +1,9 @@
+## Current Pursuing Goal - Selected Inpaint Final Review Blocker Packet Current - 2026-07-09T18:26:00-05:00
+
+Keep pursuing the selected-inpaint target-runtime path from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a current lane-scoped inpaint final-review blocker packet generated from the current work-order map, with stale dirty-Git/deploy-bundle blockers removed and target-runtime proof gaps preserved.
+
+Current validation anchors: `W66_INPAINT_LANE_FINAL_REVIEW_BLOCKER_PACKET_SELECTED_CHAIN_20260709T182500-0500.json` (`blocked_inpaint_lane_final_review_target_runtime_proof_missing`, `defects=0`, 0 failed checks, `closes_work_order=false`) and QA helper validation `W66_QA_HELPER_AFTER_INPAINT_BLOCKER_PACKET_SELECTED_CHAIN_20260709T182600-0500.json` (`pass_local_only`, 57 local smokes, 0 failures). Live execution remains unauthorized until explicit target-runtime/live intent, refreshed AWS auth, S3 Execute proofs, EC2 install/static proof, and EC2 start authorization are present. Gold-mask-dependent promotion/body authority work remains blocked outside this non-mask runtime lane.
+
 ## Current Pursuing Goal - Selected Inpaint Final Certification Work Orders Current - 2026-07-09T18:21:00-05:00
 
 Keep pursuing the selected-inpaint target-runtime path from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a current final-certification work-order map generated from the selected-inpaint readiness chain, with clean Git accepted and target-runtime/live proof gaps preserved as lane work orders.

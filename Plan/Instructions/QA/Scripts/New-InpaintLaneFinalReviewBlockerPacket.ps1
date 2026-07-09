@@ -142,11 +142,33 @@ $contactTracker = Read-JsonFile -Path $contactTrackerPath
 $contactRobustnessTracker = Read-JsonFile -Path $contactRobustnessTrackerPath
 
 $workOrder = @(Convert-ToArray -Value $workOrderRecord.work_orders | Where-Object { [string]$_.lane_id -eq $LaneId -and [string]$_.work_order_type -eq "final_certification_review_required" } | Select-Object -First 1)
+$targetProofWorkOrder = @(Convert-ToArray -Value $workOrderRecord.work_orders | Where-Object { [string]$_.lane_id -eq $LaneId -and [string]$_.work_order_type -eq "target_runtime_proof_required" } | Select-Object -First 1)
 $queueLane = @(Convert-ToArray -Value $queue.lanes | Where-Object { [string]$_.lane_id -eq $LaneId } | Select-Object -First 1)
 $targetCandidate = @(Convert-ToArray -Value $targetRuntimePlan.target_candidates | Where-Object { [string]$_.lane_id -eq $LaneId } | Select-Object -First 1)
 
 $queuePromotionRule = if ($queueLane.Count -gt 0) { [string]$queueLane[0].promotion_rule } else { "" }
 $targetCandidateBlockers = if ($targetCandidate.Count -gt 0) { @(Convert-ToArray -Value $targetCandidate[0].blocked_by) } else { @() }
+$workOrderBlockerList = New-Object System.Collections.Generic.List[string]
+if ($workOrder.Count -gt 0) {
+  foreach ($blocker in @(Convert-ToArray -Value $workOrder[0].blocked_by)) {
+    if (-not [string]::IsNullOrWhiteSpace([string]$blocker)) { Add-Text -List $workOrderBlockerList -Text ([string]$blocker) }
+  }
+}
+if ($targetProofWorkOrder.Count -gt 0) {
+  foreach ($blocker in @(Convert-ToArray -Value $targetProofWorkOrder[0].blocked_by)) {
+    if (-not [string]::IsNullOrWhiteSpace([string]$blocker)) { Add-Text -List $workOrderBlockerList -Text ([string]$blocker) }
+  }
+}
+foreach ($blocker in @(Convert-ToArray -Value $workOrderRecord.global_blockers)) {
+  if (-not [string]::IsNullOrWhiteSpace([string]$blocker)) { Add-Text -List $workOrderBlockerList -Text ([string]$blocker) }
+}
+$workOrderBlockers = @($workOrderBlockerList | Select-Object -Unique)
+$targetPlanGitPasses = (
+  [string]$targetRuntimePlan.git_checkpoint_summary.result -eq "pass_git_checkpoint_ready" -and
+  [bool]$targetRuntimePlan.git_checkpoint_summary.clean_worktree -and
+  [bool]$targetRuntimePlan.git_checkpoint_summary.local_matches_origin -and
+  [bool]$targetRuntimePlan.git_checkpoint_summary.passes_for_ec2_execute
+)
 $contactFailures = @(Convert-ToArray -Value $contactRefineQa.whole_image_visual_qa.failures)
 $contactRobustnessFailures = @(Convert-ToArray -Value $contactRobustnessQa.whole_image_visual_qa.failures)
 $contactRobustnessNotes = @(Convert-ToArray -Value $contactRobustnessQa.whole_image_visual_qa.notes)
@@ -169,23 +191,31 @@ foreach ($check in $checks) {
   if ([string]$check.result -ne "pass") { Add-Text -List $reviewDefects -Text "check_failed:$($check.name)" }
 }
 
-$blockers = @(
+$blockerList = New-Object System.Collections.Generic.List[string]
+foreach ($blocker in @(
   "inpaint_lane_target_runtime_proof_evidence_missing",
   "target_runtime_object_info_path_hash_input_proof_missing",
   "bounded_target_runtime_output_missing",
   "target_runtime_pullback_technical_visual_qa_missing",
   "local_pass_with_notes_not_final_certification",
   "explicit_user_target_runtime_selection_required",
-  "git_checkpoint_gate_not_clean_for_ec2_execute",
-  "deploy_bundle_source_git_dirty_rebuild_required_before_ec2",
   "full_project_certification_allowed_false"
-)
+)) {
+  Add-Text -List $blockerList -Text $blocker
+}
+foreach ($blocker in $workOrderBlockers) {
+  Add-Text -List $blockerList -Text $blocker
+}
+if (-not $targetPlanGitPasses) {
+  Add-Text -List $blockerList -Text "git_checkpoint_gate_not_clean_for_ec2_execute"
+}
+$blockers = @($blockerList | Select-Object -Unique)
 
 $knownIssues = @(
   "W69 no-mouth v4 and mask preview evidence are local iterations and explicitly not target-runtime certification.",
   "W69 Wave25 contact refine and robustness evidence pass local-only with notes but explicitly keep final certification disabled.",
   "The inpaint lane promotion rule requires target-runtime object_info/path/hash/input proof, bounded target-runtime output, pullback, technical QA, and strict whole-image visual QA.",
-  "The current target-runtime execution plan marks inpaint target-runtime proof evidence as missing and execution blocked by explicit selection plus dirty Git/deploy bundle gates.",
+  "The current target-runtime execution plan marks inpaint target-runtime proof evidence as missing; current Git is clean/synced, so final review remains blocked by target-runtime/live proof gaps rather than dirty Git.",
   "This blocker packet does not consume candidate masks as truth, promote masks, rerun Wave70 hard gates, or activate Wave71+."
 )
 

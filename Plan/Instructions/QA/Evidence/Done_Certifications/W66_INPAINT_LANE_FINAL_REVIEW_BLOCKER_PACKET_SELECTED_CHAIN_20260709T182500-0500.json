@@ -1,0 +1,197 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "lane_final_review_blocker_packet",
+    "blocker_id":  "BLOCK-W66-SDXL-INPAINT-LANE-FINAL-REVIEW-20260709T182438-0500",
+    "created_at":  "2026-07-09T18:24:38-05:00",
+    "task_tracker_id":  "WO-W66-SDXL_REALVISXL_INPAINT_DETAIL_LANE-FINAL-CERTIFICATION-REVIEW",
+    "lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+    "result":  "blocked_inpaint_lane_final_review_target_runtime_proof_missing",
+    "final_decision":  "blocked",
+    "local_only":  true,
+    "new_ec2_started":  false,
+    "new_generation_executed":  false,
+    "historical_ec2_started":  false,
+    "historical_generation_executed":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "s3_contacted":  false,
+    "comfyui_contacted":  false,
+    "masks_consumed_as_truth":  false,
+    "masks_promoted":  false,
+    "wave70_hard_gate_rerun":  false,
+    "wave71_plus_activated":  false,
+    "full_project_certification_allowed":  false,
+    "closes_work_order":  false,
+    "artifact_scope":  "Lane-scoped final-review blocker packet for sdxl_realvisxl_inpaint_detail_lane.",
+    "implementation_summary":  "Reviewed local inpaint/detail no-mouth v4, local object-info, mask preview, Wave25 contact refine, contact robustness, tracker mirrors, target-runtime plan, and runtime queue promotion rule without rerunning live runtime.",
+    "tests_performed":  [
+                            {
+                                "name":  "final_review_work_order_present",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "work_order_id":  "WO-W66-SDXL_REALVISXL_INPAINT_DETAIL_LANE-FINAL-CERTIFICATION-REVIEW",
+                                                 "status":  "blocked_until_lane_evidence_complete"
+                                             },
+                                "expected":  "Inpaint final-certification-review work order is present"
+                            },
+                            {
+                                "name":  "target_runtime_plan_marks_proof_missing",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "target_runtime_proof_evidence_missing":  true,
+                                                 "selected_by_default":  true,
+                                                 "blocked_by":  [
+                                                                    "git_checkpoint_gate_not_clean_for_ec2_execute",
+                                                                    "runtime_handoff_git_gate_not_passing",
+                                                                    "target_runtime_or_final_certification_not_proven",
+                                                                    "target_runtime_proof_evidence_missing",
+                                                                    "queue_status_not_final_certified:local_runtime_smoke_visual_qa_pass_with_notes_plus_wave25_contact_refine_robustness_pass_with_notes_pending_target_runtime",
+                                                                    "required_next_runtime_gate_still_requires_target_or_final_review"
+                                                                ]
+                                             },
+                                "expected":  "target-runtime plan records missing proof for the inpaint lane"
+                            },
+                            {
+                                "name":  "queue_rule_requires_target_runtime_before_promotion",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "status":  "local_runtime_smoke_visual_qa_pass_with_notes_plus_wave25_contact_refine_robustness_pass_with_notes_pending_target_runtime",
+                                                 "promotion_rule":  "Do not promote to target-runtime proven until target-runtime object_info/path/hash/input proof, bounded target-runtime output, pullback, technical QA, and strict whole-image visual QA pass. Local pass-with-notes and local readiness proof are iteration/readiness evidence only."
+                                             },
+                                "expected":  "runtime queue explicitly requires target-runtime proof before promotion"
+                            },
+                            {
+                                "name":  "nomouth_v4_local_iteration_passed",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "strict_qa_result":  "pass_with_notes_for_local_iteration",
+                                                 "certification_status":  "local_iteration_pass_with_notes_not_target_runtime_certified",
+                                                 "local_only":  true,
+                                                 "ec2_started":  false
+                                             },
+                                "expected":  "local no-mouth v4 passes as local iteration only"
+                            },
+                            {
+                                "name":  "nomouth_v4_local_robustness_passed_with_notes",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "overall_result":  "pass_with_notes_for_local_robustness",
+                                                 "local_only":  true,
+                                                 "ec2_started":  false
+                                             },
+                                "expected":  "local no-mouth robustness passes with notes only"
+                            },
+                            {
+                                "name":  "local_object_info_passed_but_local_only",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "result":  "pass_local_object_info_model_input_hash_proof",
+                                                 "local_only":  true,
+                                                 "ec2_started":  false,
+                                                 "generation_executed":  false
+                                             },
+                                "expected":  "local object-info/hash proof exists but is local-only"
+                            },
+                            {
+                                "name":  "contact_refine_passed_local_only_no_final_cert",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "result":  "pass_with_notes_local_wave25_contact_refine_seed210701_improved_contact_boundary",
+                                                 "local_only":  true,
+                                                 "ec2_started":  false,
+                                                 "final_certification_allowed":  false,
+                                                 "failures":  0
+                                             },
+                                "expected":  "contact refine passes local-only but blocks final certification"
+                            },
+                            {
+                                "name":  "contact_refine_robustness_passed_local_only_no_final_cert",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "result":  "pass_with_notes_local_wave25_contact_refine_robustness_pair_stable",
+                                                 "local_only":  true,
+                                                 "ec2_started":  false,
+                                                 "final_certification_allowed":  false,
+                                                 "failures":  0,
+                                                 "notes":  [
+                                                               "contact shadow remains subtle across all three refine seeds",
+                                                               "the hand still reads closer to shoulder/top upper sleeve than a lower upper-arm target",
+                                                               "this proves a small local robustness pair only; target-runtime proof and final Wave25 certification remain separate"
+                                                           ]
+                                             },
+                                "expected":  "contact robustness passes local-only but blocks final certification"
+                            },
+                            {
+                                "name":  "tracker_records_local_iterations_only",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "contact_status":  "pass_with_notes_local_iteration",
+                                                 "robustness_status":  "pass_with_notes_local_iteration"
+                                             },
+                                "expected":  "tracker mirrors classify contact refine evidence as local iterations"
+                            }
+                        ],
+    "blocker_summary":  [
+                            "inpaint_lane_target_runtime_proof_evidence_missing",
+                            "target_runtime_object_info_path_hash_input_proof_missing",
+                            "bounded_target_runtime_output_missing",
+                            "target_runtime_pullback_technical_visual_qa_missing",
+                            "local_pass_with_notes_not_final_certification",
+                            "explicit_user_target_runtime_selection_required",
+                            "full_project_certification_allowed_false",
+                            "target_runtime_or_final_certification_not_proven",
+                            "target_runtime_proof_evidence_missing",
+                            "queue_status_not_final_certified:local_runtime_smoke_visual_qa_pass_with_notes_plus_wave25_contact_refine_robustness_pass_with_notes_pending_target_runtime",
+                            "required_next_runtime_gate_still_requires_target_or_final_review"
+                        ],
+    "qa_summary":  {
+                       "queue_status":  "local_runtime_smoke_visual_qa_pass_with_notes_plus_wave25_contact_refine_robustness_pass_with_notes_pending_target_runtime",
+                       "target_runtime_proof_evidence_missing":  true,
+                       "target_candidate_blockers":  [
+                                                         "git_checkpoint_gate_not_clean_for_ec2_execute",
+                                                         "runtime_handoff_git_gate_not_passing",
+                                                         "target_runtime_or_final_certification_not_proven",
+                                                         "target_runtime_proof_evidence_missing",
+                                                         "queue_status_not_final_certified:local_runtime_smoke_visual_qa_pass_with_notes_plus_wave25_contact_refine_robustness_pass_with_notes_pending_target_runtime",
+                                                         "required_next_runtime_gate_still_requires_target_or_final_review"
+                                                     ],
+                       "nomouth_v4_strict_qa_result":  "pass_with_notes_for_local_iteration",
+                       "nomouth_v4_certification_status":  "local_iteration_pass_with_notes_not_target_runtime_certified",
+                       "contact_refine_result":  "pass_with_notes_local_wave25_contact_refine_seed210701_improved_contact_boundary",
+                       "contact_refine_final_certification_allowed":  false,
+                       "contact_robustness_result":  "pass_with_notes_local_wave25_contact_refine_robustness_pair_stable",
+                       "contact_robustness_final_certification_allowed":  false,
+                       "contact_robustness_notes":  [
+                                                        "contact shadow remains subtle across all three refine seeds",
+                                                        "the hand still reads closer to shoulder/top upper sleeve than a lower upper-arm target",
+                                                        "this proves a small local robustness pair only; target-runtime proof and final Wave25 certification remain separate"
+                                                    ]
+                   },
+    "evidence_paths":  {
+                           "work_order":  "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_SELECTED_INPAINT_CHAIN_20260709T182000-0500.json",
+                           "target_runtime_plan":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_TARGET_RUNTIME_EXECUTION_PLAN_CLEAN_CURRENT_REFRESH_20260709T170100-0500.json",
+                           "runtime_lane_queue":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+                           "nomouth_visual_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_VISUAL_QA_20260707T035000-0500.json",
+                           "nomouth_robustness_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_ROBUSTNESS_VISUAL_QA_20260707T034000-0500.json",
+                           "mask_preview_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_MASK_PREVIEW_VISUAL_QA_20260707T045800-0500.json",
+                           "object_info":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_OBJECT_INFO_INPAINT_DETAIL_NOMOUTH_V4_20260707T045500-0500.json",
+                           "contact_refine_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_WAVE25_TWO_CHARACTER_CONTACT_REFINE_VISUAL_QA_20260707T120500-0500.json",
+                           "contact_robustness_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_WAVE25_TWO_CHARACTER_CONTACT_REFINE_ROBUSTNESS_VISUAL_QA_20260707T121500-0500.json",
+                           "contact_tracker":  "Plan/Tracker/Evidence/W69_LOCAL_WAVE25_TWO_CHARACTER_CONTACT_REFINE_20260707T120500-0500.json",
+                           "contact_robustness_tracker":  "Plan/Tracker/Evidence/W69_LOCAL_WAVE25_TWO_CHARACTER_CONTACT_REFINE_ROBUSTNESS_20260707T121500-0500.json"
+                       },
+    "known_issues":  [
+                         "W69 no-mouth v4 and mask preview evidence are local iterations and explicitly not target-runtime certification.",
+                         "W69 Wave25 contact refine and robustness evidence pass local-only with notes but explicitly keep final certification disabled.",
+                         "The inpaint lane promotion rule requires target-runtime object_info/path/hash/input proof, bounded target-runtime output, pullback, technical QA, and strict whole-image visual QA.",
+                         "The current target-runtime execution plan marks inpaint target-runtime proof evidence as missing; current Git is clean/synced, so final review remains blocked by target-runtime/live proof gaps rather than dirty Git.",
+                         "This blocker packet does not consume candidate masks as truth, promote masks, rerun Wave70 hard gates, or activate Wave71+."
+                     ],
+    "defects":  [
+
+                ],
+    "certifier":  "Codex Desktop autonomous release manager",
+    "certification_boundary":  "Lane-scoped blocker review only. This does not certify full project completion, final inpaint/detail quality, body-mask readiness, Wave70 mask promotion, or Wave71+ activation.",
+    "next_action":  "Do not close the inpaint lane final-review work order from current local evidence. Target-runtime proof must be explicitly selected and pass clean Git, clean deploy-bundle, object_info/path/hash/input, bounded output, pullback, technical QA, and strict visual QA gates first."
+}
