@@ -79,8 +79,12 @@ function New-Check {
 
 $qaRoot = Resolve-ProjectPath -Path "Plan\Instructions\QA\Evidence"
 $runtimeReadinessDir = Join-Path $qaRoot "Runtime_Readiness"
+$doneCertificationsDir = Join-Path $qaRoot "Done_Certifications"
 if ([string]::IsNullOrWhiteSpace($WorkOrderFile)) {
-  $WorkOrderFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_*.json"
+  $WorkOrderFile = Find-LatestFile -Directory $doneCertificationsDir -Filter "W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_*.json"
+  if ([string]::IsNullOrWhiteSpace($WorkOrderFile)) {
+    $WorkOrderFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_*.json"
+  }
 }
 if ([string]::IsNullOrWhiteSpace($OutFile)) {
   $stamp = Get-Date -Format "yyyyMMddTHHmmss-0500"
@@ -172,7 +176,7 @@ $knownIssues = @(
   "W68 target-runtime proof is a single bounded smoke sample. W69/W72 add local robustness and micro-control context but do not replace broad final image-quality certification.",
   "Canny evidence is head-and-shoulders/portrait scoped. Hands, feet, full-body anatomy, contact points, body masks, and gold-mask-dependent geometry remain outside this packet.",
   "W72 retained the prior local candidate and explicitly did not promote the neutral 0.415 follow-up over the retained 0.42/0.60 candidate.",
-  "Project-level final certification remains blocked by remaining lane target-runtime/final-review work orders, clean Git/deploy-bundle gates, and manual gold-mask-dependent gates."
+  "Project-level final certification remains blocked by remaining lane target-runtime/final-review work orders, live gates, and manual gold-mask-dependent gates."
 )
 
 $result = if ($defects.Count -eq 0) { "pass_canny_lane_final_review_packet_ready" } else { "fail_canny_lane_final_review_packet" }
@@ -202,6 +206,7 @@ $record = [ordered]@{
   wave70_hard_gate_rerun = $false
   wave71_plus_activated = $false
   full_project_certification_allowed = $false
+  closes_work_order = $true
   artifact_scope = "Lane-scoped final review packet for the sdxl_realvisxl_controlnet_canny_lane target-runtime smoke proof plus local Canny robustness evidence."
   implementation_summary = "Reviewed existing W68 Canny static proof, bounded target-runtime smoke, pullback/hash evidence, technical QA, visual QA, W69 local multiseed robustness, and W72 local micro-control follow-up without rerunning live runtime."
   tests_performed = @($checks)

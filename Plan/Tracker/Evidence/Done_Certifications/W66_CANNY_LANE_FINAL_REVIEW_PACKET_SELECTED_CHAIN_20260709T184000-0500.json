@@ -1,0 +1,178 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "lane_final_review_packet",
+    "certification_id":  "CERT-W66-SDXL-CANNY-LANE-FINAL-REVIEW-20260709T183605-0500",
+    "created_at":  "2026-07-09T18:36:05-05:00",
+    "task_tracker_id":  "WO-W66-SDXL_REALVISXL_CONTROLNET_CANNY_LANE-FINAL-CERTIFICATION-REVIEW",
+    "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+    "result":  "pass_canny_lane_final_review_packet_ready",
+    "final_decision":  "done_with_non_blocking_notes",
+    "local_only":  true,
+    "new_ec2_started":  false,
+    "new_generation_executed":  false,
+    "historical_ec2_started":  true,
+    "historical_generation_executed":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "s3_contacted":  false,
+    "comfyui_contacted":  false,
+    "masks_consumed_as_truth":  false,
+    "masks_promoted":  false,
+    "wave70_hard_gate_rerun":  false,
+    "wave71_plus_activated":  false,
+    "full_project_certification_allowed":  false,
+    "closes_work_order":  true,
+    "artifact_scope":  "Lane-scoped final review packet for the sdxl_realvisxl_controlnet_canny_lane target-runtime smoke proof plus local Canny robustness evidence.",
+    "implementation_summary":  "Reviewed existing W68 Canny static proof, bounded target-runtime smoke, pullback/hash evidence, technical QA, visual QA, W69 local multiseed robustness, and W72 local micro-control follow-up without rerunning live runtime.",
+    "tests_performed":  [
+                            {
+                                "name":  "final_review_work_order_present",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "work_order_id":  "WO-W66-SDXL_REALVISXL_CONTROLNET_CANNY_LANE-FINAL-CERTIFICATION-REVIEW",
+                                                 "status":  "blocked_until_lane_evidence_complete"
+                                             },
+                                "expected":  "Canny final-certification-review work order is present"
+                            },
+                            {
+                                "name":  "static_proof_passed_and_stopped",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "result":  "ec2_static_proof_recorded",
+                                                 "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+                                                 "final_state":  "stopped",
+                                                 "generation_executed":  false,
+                                                 "static_pass":  true,
+                                                 "object_info_pass":  true
+                                             },
+                                "expected":  "W68 Canny static proof pass, EC2 stopped, no generation"
+                            },
+                            {
+                                "name":  "workflow_smoke_generated_and_stopped",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "result":  "workflow_smoke_generation_complete",
+                                                 "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+                                                 "final_state":  "stopped",
+                                                 "generation_executed":  true,
+                                                 "local_pullback_status":  "pullback_record_created"
+                                             },
+                                "expected":  "W68 bounded workflow smoke completed one generation, stopped, and recorded pullback"
+                            },
+                            {
+                                "name":  "pullback_hashes_verified",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "status":  "pullback_hashes_verified",
+                                                 "hashes_verified":  true,
+                                                 "errors":  0
+                                             },
+                                "expected":  "pullback hashes verified with no errors"
+                            },
+                            {
+                                "name":  "image_hash_matches_pullback_and_qa",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "image_hash":  "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523",
+                                                 "pullback_hash":  "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523",
+                                                 "technical_qa_hash":  "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523",
+                                                 "visual_qa_hash":  "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523"
+                                             },
+                                "expected":  "review image hash matches pullback, technical QA, and visual QA"
+                            },
+                            {
+                                "name":  "technical_qa_integrity_passed",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "technical_integrity":  "pass",
+                                                 "resolution_check":  "pass",
+                                                 "defects":  0,
+                                                 "image_exists":  true
+                                             },
+                                "expected":  "technical integrity and resolution pass with no defects"
+                            },
+                            {
+                                "name":  "target_runtime_visual_qa_passed_with_notes",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "decision":  "pass_with_notes_for_runtime_smoke",
+                                                 "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+                                                 "defects":  0,
+                                                 "final_certification_allowed":  false
+                                             },
+                                "expected":  "target-runtime visual QA pass_with_notes with no defects and no full certification claim"
+                            },
+                            {
+                                "name":  "local_multiseed_robustness_passed_with_notes",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "result":  "pass_with_notes_local_canny_eyeonly_multiseed_robustness",
+                                                 "visual_qa_result":  "pass_with_notes_local_canny_eyeonly_multiseed_robustness",
+                                                 "blocking_defects":  0,
+                                                 "certification_allowed":  false
+                                             },
+                                "expected":  "local three-sample robustness passes with notes and no blocking defects"
+                            },
+                            {
+                                "name":  "local_micro_control_followup_recorded_not_promoted",
+                                "result":  "pass",
+                                "observed":  {
+                                                 "result":  "pass_with_notes_local_canny_micro_control_matrix_followup_neutral_not_promoted",
+                                                 "lane_id":  "sdxl_realvisxl_controlnet_canny_lane",
+                                                 "local_only":  true,
+                                                 "final_mod17_certification_allowed":  false,
+                                                 "promote_over_retained_candidate":  false,
+                                                 "remaining_blockers":  [
+                                                                            "target_runtime_proof_required_before_final_certification",
+                                                                            "prompt_only_identity_conditioning_not_robust_for_mod17_canny",
+                                                                            "real_ipadapter_identity_conditioning_path_locally_blocked_by_missing_custom_node_and_models"
+                                                                        ]
+                                             },
+                                "expected":  "local micro-control follow-up recorded as neutral/not promoted with final certification still disallowed"
+                            }
+                        ],
+    "qa_summary":  {
+                       "target_runtime_visual_decision":  "pass_with_notes_for_runtime_smoke",
+                       "target_runtime_defects":  [
+
+                                                  ],
+                       "local_robustness_result":  "pass_with_notes_local_canny_eyeonly_multiseed_robustness",
+                       "local_robustness_visual_result":  "pass_with_notes_local_canny_eyeonly_multiseed_robustness",
+                       "local_robustness_blocking_defects":  [
+
+                                                             ],
+                       "micro_control_result":  "pass_with_notes_local_canny_micro_control_matrix_followup_neutral_not_promoted",
+                       "retained_local_candidate":  "canny_w71_matrix_preferred_042060_seed711570106",
+                       "micro_control_remaining_blockers":  [
+                                                                "target_runtime_proof_required_before_final_certification",
+                                                                "prompt_only_identity_conditioning_not_robust_for_mod17_canny",
+                                                                "real_ipadapter_identity_conditioning_path_locally_blocked_by_missing_custom_node_and_models"
+                                                            ]
+                   },
+    "evidence_paths":  {
+                           "work_order":  "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_SELECTED_INPAINT_CHAIN_20260709T182000-0500.json",
+                           "static_proof":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W68_EC2_STATIC_PROOF_CANNY_V4_RUNTIME_PASS_20260707T014700-0500.json",
+                           "workflow_smoke":  "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_EC2_WORKFLOW_SMOKE_CANNY_V4_AFTER_INPUT_INSTALL_20260707T020800-0500.json",
+                           "pullback_record":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260707T021155-0500/PULLBACK_RECORD.json",
+                           "technical_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_CANNY_V4_EC2_IMAGE_QA_TECHNICAL_20260707T021700-0500.json",
+                           "visual_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_CANNY_V4_EC2_IMAGE_QA_VISUAL_20260707T022300-0500.json",
+                           "local_robustness":  "Plan/Tracker/Evidence/W69_LOCAL_CANNY_EYEONLY_MULTISEED_ROBUSTNESS_20260707T092500-0500.json",
+                           "local_robustness_visual_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_EYEONLY_MULTISEED_ROBUSTNESS_VISUAL_QA_20260707T092500-0500.json",
+                           "local_micro_control_visual_qa":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W72_LOCAL_CANNY_MICRO_CONTROL_MATRIX_VISUAL_QA_20260707T201500-0500.json",
+                           "reviewed_image":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260707T021155-0500/images/9_codex_sdxl_realvisxl_controlnet_canny_smoke_00001_.png"
+                       },
+    "known_issues":  [
+                         "This packet closes only the Canny lane final-review work order from existing evidence; it does not certify full-project completion.",
+                         "W68 target-runtime proof is a single bounded smoke sample. W69/W72 add local robustness and micro-control context but do not replace broad final image-quality certification.",
+                         "Canny evidence is head-and-shoulders/portrait scoped. Hands, feet, full-body anatomy, contact points, body masks, and gold-mask-dependent geometry remain outside this packet.",
+                         "W72 retained the prior local candidate and explicitly did not promote the neutral 0.415 follow-up over the retained 0.42/0.60 candidate.",
+                         "Project-level final certification remains blocked by remaining lane target-runtime/final-review work orders, live gates, and manual gold-mask-dependent gates."
+                     ],
+    "defects":  [
+
+                ],
+    "certifier":  "Codex Desktop autonomous release manager",
+    "certification_boundary":  "Lane-scoped final review only. This does not certify full project completion, final portfolio quality, video/audio/deformation quality, body-mask readiness, Wave70 mask promotion, or Wave71+ activation.",
+    "next_action":  "Use this packet as the local review closure for the Canny lane final-review work order; continue remaining non-mask runtime/orchestration work or explicitly gated target-runtime proof only after live gates pass."
+}
