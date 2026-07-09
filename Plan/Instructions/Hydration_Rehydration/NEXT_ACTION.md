@@ -6,6 +6,18 @@ Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/LOCAL_SOURCE_OF_TRUTH
 
 Do not rerun completed EC2/local work as new work: low-risk fallback first runtime proof, RealVisXL base smoke/proof and prior certification samples, Canny baseline/v4 target-runtime smoke proof, or 2026-07-09 active-lane local package smoke/visual QA matrix. Still-open selected-inpaint work is not duplicate only when selected and gated: deploy-bundle rebuild/revalidation, S3 publish proof, EC2 input/model install hash proof, selected target-runtime proof, and final certification.
 
+## Immediate Next Action - Selected Inpaint Scoped-Clean Bundle Ready For S3 Dry-Run - 2026-07-09T12:37:36-05:00
+
+Executed the guarded scoped checkpoint locally with manifest `W66_SCOPED_GIT_CHECKPOINT_MANIFEST_TOOLS_SCOPED_FIXED_20260709T123136-0500.json`; local HEAD is now `f438b36d9851f4253c21e393e0eb66c1ebb3758b`. Push was not retried because the prior GitHub LFS remote reset blocker remains recorded. Preserve-local roots remain untracked by design.
+
+Built the selected inpaint deploy bundle from local authoritative state using approved preserve-local source-status excludes: `runtime_artifacts/deploy_bundles/si_sc_20260709T123317/DEPLOY_BUNDLE_MANIFEST.json`. Mirrored evidence `W66_SELECTED_DEPLOY_BUNDLE_SCOPED_CLEAN_BUILD_20260709T123318-0500.json` reports `source_git_clean=true`, `source_git_status_count=0`, `source_git_status_all_count=40`, `source_git_status_excluded_count=40`, `bundle_zip_sha256=4301f6d80f8bfefa724e896967d63dc1890b967aa8b625dd4c84e062db800162`, `ec2_started=false`, and `generation_executed=false`.
+
+Selected package readiness evidence `W66_SELECTED_TARGET_RUNTIME_LANE_PACKAGE_READINESS_SCOPED_CLEAN_BUNDLE_20260709T123409-0500.json` reports `pass_local_only_selected_target_runtime_lane_package_ready_ec2_blocked`, `failed_check_count=0`, and `source_git_clean_in_bundle=true`. Remaining blockers are `git_checkpoint_gate_not_clean_for_ec2_execute` and `explicit_user_target_runtime_selection_required`. QA helper evidence `W66_QA_HELPER_SELECTED_PACKAGE_SCOPED_CLEAN_BUNDLE_20260709T123410-0500.json` reports `pass_local_only`, 52 scripts parsed, 0 parse failures, and 0 smoke failures.
+
+S3 publish dry-run evidence `W66_SELECTED_DEPLOY_BUNDLE_S3_PUBLISH_DRY_RUN_SCOPED_CLEAN_20260709T123735-0500.json` reports `dry_run_ready_to_upload`, selected lane `sdxl_realvisxl_inpaint_detail_lane`, bundle id `si_sc_20260709T123317`, S3 bundle URI `s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/si_sc_20260709T123317/si_sc_20260709T123317.zip`, upload attempted `false`, `aws_contacted=false`, `ec2_started=false`, and `generation_executed=false`.
+
+Continue from local `C:\Comfy_UI_Main` as the source of truth. Do not use stale EC2 workspace queue state, upload to S3, start EC2, run generation, promote masks, rerun completed runtime proofs, activate Wave71+, mutate Jira, reset, checkout, or destructively clean local artifact/reference roots without explicit selection and passing live gates.
+
 ## Immediate Next Action - Selected Deploy Bundle Rebuild Plan Refreshed - 2026-07-09T12:24:49-05:00
 
 Generated the selected deploy-bundle rebuild plan for `sdxl_realvisxl_inpaint_detail_lane` after the queue-sentinel readiness fix. This is a local-only plan; it did not rebuild the bundle, stage, commit, push, contact AWS/S3, start EC2, post prompts, generate, promote masks, rerun Wave70 hard gates, activate Wave71+, mutate Jira, reset, checkout, or destructively clean local artifact/reference roots.

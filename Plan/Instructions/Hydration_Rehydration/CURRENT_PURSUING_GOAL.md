@@ -6,6 +6,21 @@ Current boundary: use `Plan/Instructions/LOCAL_SOURCE_OF_TRUTH_AND_EC2_STALE_WOR
 
 Do not duplicate completed low-risk fallback, RealVisXL base, Canny baseline/v4, prior RealVisXL certification sample, or 2026-07-09 local package smoke/visual QA work. Valid future work remains selected-inpaint deploy-bundle rebuild/revalidation, S3 publish proof, EC2 input/model install hash proof, selected target-runtime proof, and final certification after local gates pass.
 
+## Current Pursuing Goal Update - Selected Inpaint Scoped-Clean Bundle Ready For S3 Dry-Run - 2026-07-09T12:37:36-05:00
+
+The active pursuing goal remains the transferred end-to-end ComfyUI project objective in this session (`019f422f-88b1-7382-872b-21de2089e983`). Local `C:\Comfy_UI_Main` is the authoritative execution ledger; EC2 `/home/ubuntu/Comfy_UI_Main` is stale runtime/cache state and must not reopen completed rows or override local queue evidence.
+
+Latest concrete progress: completed a local scoped checkpoint commit, rebuilt the selected inpaint deploy bundle with scoped-clean source status, regenerated selected package readiness against that clean bundle, and produced a dry-run S3 publish record with the concrete bundle URI/hash. No push, S3 upload, AWS contact, EC2 start, prompt post, generation, mask promotion, Wave70 hard-gate rerun, Wave71+ activation, Jira mutation, reset, checkout, or destructive cleanup occurred.
+
+Current evidence:
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_DEPLOY_BUNDLE_SCOPED_CLEAN_BUILD_20260709T123318-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LANE_PACKAGE_READINESS_SCOPED_CLEAN_BUNDLE_20260709T123409-0500.json
+- Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_DEPLOY_BUNDLE_S3_PUBLISH_DRY_RUN_SCOPED_CLEAN_20260709T123735-0500.json
+- Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W66_QA_HELPER_SELECTED_PACKAGE_SCOPED_CLEAN_BUNDLE_20260709T123410-0500.json
+- Mirrored copies under Plan/Tracker/Evidence
+
+Boundary: selected live execution remains not authorized. Upload execute and EC2 static proof require explicit live intent plus the remaining live gates; use the local selected-inpaint evidence, not stale EC2 queue state.
+
 ## Current Pursuing Goal Update - Selected Deploy Bundle Rebuild Plan Refreshed - 2026-07-09T12:24:49-05:00
 
 The active pursuing goal remains the transferred end-to-end ComfyUI project objective in this session (`019f422f-88b1-7382-872b-21de2089e983`). Current work posture remains local-first non-mask runtime/orchestration while manual gold masks are still outside Codex-controlled promotion authority.
