@@ -406,12 +406,44 @@ if ($Push) {
   $record.push_attempted = $true
   git push origin main
 }
+
+$postChanged = @(git status --porcelain 2>$null)
+$postChangedPaths = @($postChanged | ForEach-Object { Get-PorcelainPath -Line $_ } | Where-Object { ![string]::IsNullOrWhiteSpace($_) })
+$postScopeChangedPaths = @($postChangedPaths | Where-Object { Test-InCheckpointScope -Path $_ -Includes @($scope.include_paths) -Excludes @($scope.exclude_paths) })
+$postScopeExcludedChangedPaths = @($postChangedPaths | Where-Object { -not (Test-InCheckpointScope -Path $_ -Includes @($scope.include_paths) -Excludes @($scope.exclude_paths)) })
+$postBranchStatus = [string](@(git status --short --branch 2>$null | Select-Object -First 1) | Select-Object -First 1)
+$postUntracked = @($postChanged | Where-Object { $_ -match "^\?\?" })
+$postTrackedPorcelain = @($postChanged | Where-Object { $_ -notmatch "^\?\?" })
+$postStaged = @($postTrackedPorcelain | Where-Object { $_.Length -gt 0 -and $_.Substring(0, 1) -ne " " })
+$postUnstaged = @($postTrackedPorcelain | Where-Object { $_.Length -gt 1 -and $_.Substring(1, 1) -ne " " })
+$postBlockedChangedPaths = @($postChanged | ForEach-Object {
+  if ($_.Length -gt 3) { $_.Substring(3).Trim() } else { $_.Trim() }
+} | Where-Object { ![string]::IsNullOrWhiteSpace($_) -and (Test-BlockedPath -Path $_) })
+$postStagedSecretMatches = @(Find-StagedSecretMatch -Files (Get-StagedContentFiles))
+$postCleanWorktree = (@($postChanged).Count -eq 0)
+
+$record.scope_changed_path_count = @($postScopeChangedPaths).Count
+$record.scope_excluded_changed_path_count = @($postScopeExcludedChangedPaths).Count
+$record.scope_changed_preview = @($postScopeChangedPaths | Select-Object -First 80)
+$record.scope_excluded_changed_preview = @($postScopeExcludedChangedPaths | Select-Object -First 80)
 $record.head = Get-GitValue -Arguments @("rev-parse", "HEAD")
 $record.origin_main = Get-GitValue -Arguments @("rev-parse", "origin/main")
 $record.local_matches_origin = (![string]::IsNullOrWhiteSpace($record.head) -and ![string]::IsNullOrWhiteSpace($record.origin_main) -and $record.head -eq $record.origin_main)
-$record.clean_worktree = (@(git status --porcelain).Count -eq 0)
+$record.clean_worktree = $postCleanWorktree
+$record.porcelain_count = @($postChanged).Count
+$record.tracked_porcelain_count = @($postTrackedPorcelain).Count
+$record.untracked_porcelain_count = @($postUntracked).Count
+$record.staged_count = @($postStaged).Count
+$record.unstaged_count = @($postUnstaged).Count
+$record.blocked_changed_path_count = @($postBlockedChangedPaths).Count
+$record.staged_secret_match_count = @($postStagedSecretMatches).Count
+$record.branch_status = $postBranchStatus
+$record.changed_preview = @($postChanged | Select-Object -First 80)
+$record.blocked_changed_paths = @($postBlockedChangedPaths | Select-Object -First 80)
+$record.staged_secret_matches = $postStagedSecretMatches
 $record.result = $(if ($record.clean_worktree -and $record.local_matches_origin) { "pass_git_checkpoint_committed" } elseif ($record.clean_worktree) { "checkpoint_committed_not_pushed" } else { "checkpoint_committed_worktree_still_dirty" })
 $record.failure_category = $(if ($record.clean_worktree -and $record.local_matches_origin) { $null } elseif (-not $record.clean_worktree) { "local_git_worktree_dirty" } else { "local_git_not_synced_to_origin" })
+$record.next_action = $(if ($record.clean_worktree -and $record.local_matches_origin) { "Use this gate immediately before any explicitly selected EC2 execute path." } else { "Do not start EC2 or run target-runtime execution until the worktree is intentionally checkpointed clean and local HEAD equals origin/main." })
 if (![string]::IsNullOrWhiteSpace($OutFile)) {
   Write-JsonNoBom -Value $record -Path $OutFile -Depth 40
   Write-Host "Wrote GitHub checkpoint evidence: $OutFile"
