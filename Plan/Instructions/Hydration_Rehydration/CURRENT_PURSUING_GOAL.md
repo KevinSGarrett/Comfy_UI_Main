@@ -1,3 +1,9 @@
+## Current Pursuing Goal - Depth Lane Final Review Blocker Packet Current - 2026-07-09T19:02:00-05:00
+
+Keep pursuing final certification from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a current ControlNet Depth lane final-review blocker packet generated from the current Done_Certifications work-order map; it preserves the Depth target-runtime blocker honestly and no longer reports stale dirty-Git/deploy-bundle blockers as current actionable blockers.
+
+Current validation anchors: `W66_DEPTH_LANE_FINAL_REVIEW_BLOCKER_PACKET_SELECTED_CHAIN_20260709T190100-0500.json` (`blocked_depth_lane_final_review_target_runtime_proof_missing`, `closes_work_order=false`, `defects=0`, 0 failed checks) and QA helper validation `W66_QA_HELPER_AFTER_DEPTH_BLOCKER_PACKET_SELECTED_CHAIN_20260709T190200-0500.json` (`pass_local_only`, 52 scripts parsed, 57 local smokes, 0 failures). Live execution remains unauthorized until explicit target-runtime/live intent, refreshed AWS auth, S3 Execute proofs, EC2 install/static proof, and EC2 start authorization are present. Gold-mask-dependent promotion/body authority work remains blocked outside this non-mask runtime lane.
+
 ## Current Pursuing Goal - RealESRGAN Lane Final Review Blocker Packet Current - 2026-07-09T18:54:00-05:00
 
 Keep pursuing final certification from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a current RealESRGAN upscale/polish lane final-review blocker packet generated from the current Done_Certifications work-order map; it preserves the RealESRGAN target-runtime blocker honestly and no longer reports stale dirty-Git/deploy-bundle blockers as current actionable blockers.
