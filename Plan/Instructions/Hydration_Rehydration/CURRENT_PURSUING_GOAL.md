@@ -1,3 +1,9 @@
+## Current Pursuing Goal - Selected Inpaint Pre-EC2 Handoff Bundle Current - 2026-07-09T17:55:00-05:00
+
+Keep pursuing the selected-inpaint target-runtime path from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a current local pre-EC2 handoff bundle that binds selected deploy-bundle, input-asset, and RealVisXL model publish dry-runs into one fail-closed handoff for `sdxl_realvisxl_inpaint_detail_lane`.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_PRE_EC2_HANDOFF_BUNDLE_CURRENT_LOCAL_PUBLISH_PROOFS_20260709T175500-0500.json`, result `pass_local_only_selected_target_runtime_pre_ec2_handoff_bundle_ready_ec2_blocked`, `failed_check_count=0`, `selected_deploy_bundle_s3_publish_dry_run_ready=true`, `selected_input_asset_count=2`, `selected_model_cache_count=1`, `allowed_local_recheck_step_count=6`, and `blocked_live_step_count=7`. Live execution remains unauthorized until explicit target-runtime/live intent, refreshed AWS auth, S3 Execute proofs, EC2 input/model install proof, EC2 static proof, and EC2 start authorization are present. Gold-mask-dependent promotion/body authority work remains blocked outside this non-mask runtime lane.
+
 ## Current Pursuing Goal - Selected Inpaint Clean Local Recheck Ledger Current - 2026-07-09T17:50:00-05:00
 
 Keep pursuing the selected-inpaint target-runtime path from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a current local recheck ledger that accounts for clean Git, selected-inpaint runtime handoff, active queue local support, runtime queue, and model registry coverage while preserving fail-closed live execution boundaries.

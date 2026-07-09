@@ -1,3 +1,11 @@
+## Immediate Next Action - Selected Inpaint Pre-EC2 Handoff Bundle Current - 2026-07-09T17:55:00-05:00
+
+Continue selected-inpaint runtime/orchestration from the current local pre-EC2 handoff bundle. The bundle explicitly ties the selected deploy-bundle S3 dry-run, selected input-asset publish dry-runs, and refreshed RealVisXL model publish dry-run to the selected inpaint target-runtime lane without contacting AWS/S3/EC2/ComfyUI or running generation.
+
+Current evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_PRE_EC2_HANDOFF_BUNDLE_CURRENT_LOCAL_PUBLISH_PROOFS_20260709T175500-0500.json`. It reports `pass_local_only_selected_target_runtime_pre_ec2_handoff_bundle_ready_ec2_blocked`, `failed_check_count=0`, `selected_deploy_bundle_s3_publish_dry_run_ready=true`, `selected_input_asset_count=2`, `selected_model_cache_count=1`, `allowed_local_recheck_step_count=6`, `blocked_live_step_count=7`, `aws_contacted=false`, `s3_contacted=false`, `ec2_started=false`, and `generation_executed=false`. Tracker mirror exists under `Plan/Tracker/Evidence/Runtime_Readiness`.
+
+Remaining live blockers are unchanged: explicit target-runtime/live intent, refreshed AWS auth, S3 Execute proofs for deploy bundle/input/model assets, EC2 input/model install execute proof, EC2 object-info/path/hash static proof, and EC2 start authorization. Do not write `ACTIVE_EC2_RUNTIME_WINDOW.json`, start EC2, upload to S3, post ComfyUI prompts, promote masks, rerun Wave70 hard gates, activate Wave71+, or switch to Jira bookkeeping without explicit live/gate conditions.
+
 ## Immediate Next Action - Selected Inpaint Local Publish/Final Review Coverage Accounted - 2026-07-09T17:45:00-05:00
 
 Continue selected-inpaint runtime/orchestration from the local-only live-boundary chain. A bounded final-review evidence coverage matrix now accounts for all 9 active final-review work orders with 2 closed review packets, 7 open blocker packets, and 0 missing review-evidence rows. A refreshed selected RealVisXL model S3 publish dry-run also passed locally with SHA256 match and no AWS/S3 contact.
