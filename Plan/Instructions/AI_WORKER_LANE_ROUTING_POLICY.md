@@ -134,6 +134,8 @@ Use Claude for:
 - contradiction review across local evidence, Git state, GitHub Actions, and project policy;
 - deciding whether Git/GitHub state is a true blocker after Cursor extraction.
 
+For GitHub PR, issue, comment, label, reaction, review, release, and metadata reads, prefer the connected GitHub app/connector when available. Use local `gh` mainly for current-branch PR discovery, GitHub Actions logs, and local checkout correlation.
+
 Reference:
 
 ```text

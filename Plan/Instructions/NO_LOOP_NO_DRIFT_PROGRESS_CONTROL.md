@@ -356,6 +356,8 @@ The current project now uses four worker/authority lanes for local reasoning:
 
 Git/GitHub worker-analysis handoffs must preserve `mutation_boundary: Codex-only`.
 
+For GitHub PR, issue, comment, label, reaction, review, release, and metadata reads, prefer the connected GitHub app/connector when available. Use local `gh` mainly for current-branch PR discovery, GitHub Actions logs, and local checkout correlation.
+
 Do not treat a delegated lane as duplicate work if it is operating on a smaller, explicit work order that was created to reduce Codex Desktop load. Duplicate work is only a loop if Codex redoes the same broad scan instead of reviewing the delegated output.
 
 If Cursor or Claude output is incomplete, Codex must retry once with a narrower work order or record why direct fallback is necessary. Absorbing the original broad task into Codex without a narrow retry is a loop-risk event.

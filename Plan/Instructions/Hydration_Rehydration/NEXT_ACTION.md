@@ -1,3 +1,11 @@
+## Immediate Next Action - Selected Inpaint Current-Bundle Runtime Window Safety Plan Ready - 2026-07-09T17:30:00-05:00
+
+Continue selected-inpaint runtime/orchestration from the current rebuilt bundle safety chain. A fresh local-only emergency-stop dry-run, instance watchdog dry-run, and active runtime-window marker plan were generated for `sdxl_realvisxl_inpaint_detail_lane` using deploy bundle SHA256 `089a7a411f9380c4f737a8d246d1ade29799d59c1fcba95aaf4dde4bcbd68bcb`.
+
+Current evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_EC2_EMERGENCY_STOP_SCHEDULE_SELECTED_INPAINT_CURRENT_BUNDLE_DRY_RUN_20260709T173000-0500.json`, `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_EC2_INSTANCE_WATCHDOG_SELECTED_INPAINT_CURRENT_BUNDLE_DRY_RUN_20260709T173000-0500.json`, and `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_EC2_RUNTIME_WINDOW_MARKER_PLAN_SELECTED_INPAINT_CURRENT_BUNDLE_20260709T173000-0500.json`. Marker result is `pass_local_only_marker_plan_ready`, `failure_count=0`, `active_marker_written=false`, `aws_contacted=false`, `ec2_started=false`, and `generation_executed=false`. Tracker mirrors exist under `Plan/Tracker/Evidence/Runtime_Readiness`.
+
+Remaining blockers are still the real live gates only: refreshed AWS auth, S3 Execute proofs for deploy bundle/input/model assets, EC2 object-info/path/hash static proof, explicit live execution intent, and EC2 start authorization. Do not write `ACTIVE_EC2_RUNTIME_WINDOW.json`, start EC2, upload to S3, post ComfyUI prompts, promote masks, rerun Wave70 hard gates, activate Wave71+, or switch to Jira bookkeeping without the explicit live/gate conditions.
+
 ## Immediate Next Action - Selected Inpaint Static And Workflow Smoke Dry-Runs Current - 2026-07-09T17:18:00-05:00
 
 Continue selected-inpaint runtime/orchestration from the clean local source-of-truth chain. The selected EC2 lane static-proof dry-run and workflow-smoke dry-run now both run from clean Git without starting EC2 or executing generation. The workflow-smoke helper lane-match bug for static dry-run records was fixed and committed as `390715372f5e7bb59ef3a6511576b7437231f303`.

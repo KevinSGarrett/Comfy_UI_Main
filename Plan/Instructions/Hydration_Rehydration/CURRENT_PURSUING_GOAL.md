@@ -1,3 +1,9 @@
+## Current Pursuing Goal - Selected Inpaint Current-Bundle Runtime Window Safety Plan Ready - 2026-07-09T17:30:00-05:00
+
+Keep pursuing the selected-inpaint target-runtime path from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a refreshed current-bundle runtime-window safety chain: emergency stop dry-run, instance watchdog dry-run, and marker template plan all align to `sdxl_realvisxl_inpaint_detail_lane` and bundle SHA256 `089a7a411f9380c4f737a8d246d1ade29799d59c1fcba95aaf4dde4bcbd68bcb`.
+
+Current validation anchors: `W66_EC2_EMERGENCY_STOP_SCHEDULE_SELECTED_INPAINT_CURRENT_BUNDLE_DRY_RUN_20260709T173000-0500.json`, `W66_EC2_INSTANCE_WATCHDOG_SELECTED_INPAINT_CURRENT_BUNDLE_DRY_RUN_20260709T173000-0500.json`, and `W66_EC2_RUNTIME_WINDOW_MARKER_PLAN_SELECTED_INPAINT_CURRENT_BUNDLE_20260709T173000-0500.json` (`pass_local_only_marker_plan_ready`, `failure_count=0`). Live execution remains unauthorized until refreshed AWS auth, S3 Execute proofs for deploy bundle/input/model assets, EC2 object-info/path/hash static proof, explicit live intent, and EC2 start authorization are present. Gold-mask-dependent promotion/body authority work remains blocked outside this non-mask runtime lane.
+
 ## Current Pursuing Goal - Selected Inpaint Static And Workflow Smoke Dry-Runs Current - 2026-07-09T17:18:00-05:00
 
 Keep pursuing the selected-inpaint target-runtime path from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is clean-current static-proof and workflow-smoke dry-run evidence for `sdxl_realvisxl_inpaint_detail_lane`; both fail closed before EC2 start because live auth/static-proof gates are not satisfied, but the local request path and lane matching are now verified.
