@@ -1,0 +1,383 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "controlnet_lane_asset_transfer_dry_run_bundle",
+    "created_at":  "2026-07-10T12:32:16-05:00",
+    "tracker_id":  "WO-W66-SDXL-REALVISXL-CONTROLNET-LINEART-LANE-TARGET-RUNTIME-PROOF",
+    "lane_id":  "sdxl_realvisxl_controlnet_lineart_lane",
+    "control_map_type":  "lineart",
+    "result":  "pass_local_only_controlnet_asset_transfer_dry_run_bundle_validated",
+    "failure_category":  null,
+    "local_only":  true,
+    "aws_contacted":  false,
+    "s3_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "prompt_posted":  false,
+    "active_runtime_marker_written":  false,
+    "masks_consumed_as_truth":  false,
+    "masks_promoted":  false,
+    "wave70_hard_gate_rerun":  false,
+    "wave71_plus_activated":  false,
+    "jira_mutated":  false,
+    "target_runtime_proof":  false,
+    "certification_claimed":  false,
+    "promotion_allowed":  false,
+    "execute_allowed_now":  false,
+    "lane_runtime_requirements":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_lineart_lane/runtime_requirements.json",
+    "checkpoint_file":  "models/checkpoints/realvisxlV50_v50Bakedvae.safetensors",
+    "controlnet_file":  "models/controlnet/controlnet-lineart-sdxl-fp16.safetensors",
+    "control_image_file":  "ComfyUI/input/controlnet_lineart_w69_v1.png",
+    "source_artifact_file":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_maps_w69_v2_20260707T053300-0500/images/codex_control_preprocessor_lineart_w69_00001_.png",
+    "checkpoint_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/checkpoints/realvisxlV50_v50Bakedvae.safetensors",
+    "controlnet_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/controlnet/controlnet-lineart-sdxl-fp16.safetensors",
+    "input_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets/sdxl_realvisxl_controlnet_lineart_lane/controlnet_lineart_w69_v1.png",
+    "expected_checkpoint_sha256":  "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+    "observed_checkpoint_sha256":  "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+    "expected_controlnet_sha256":  "c19e9e1038c7c53b238185d8dc9fad87f95aa3124d211e19f39f1165bfb7230f",
+    "observed_controlnet_sha256":  "c19e9e1038c7c53b238185d8dc9fad87f95aa3124d211e19f39f1165bfb7230f",
+    "expected_input_sha256":  "1994c628abb6df5abda27e61b1e17dd32f0f3cf50993d1ca795c89de4ef7ff46",
+    "observed_input_sha256":  "1994c628abb6df5abda27e61b1e17dd32f0f3cf50993d1ca795c89de4ef7ff46",
+    "observed_source_artifact_sha256":  "1994c628abb6df5abda27e61b1e17dd32f0f3cf50993d1ca795c89de4ef7ff46",
+    "child_artifact_count":  6,
+    "artifacts":  [
+                      {
+                          "name":  "checkpoint_s3_publish_dry_run",
+                          "result":  "dry_run_ready_to_upload_model",
+                          "evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_CONTROLNET_LINEART_CHECKPOINT_S3_PUBLISH_DRY_RUN_20260710T123201-0500.json"
+                      },
+                      {
+                          "name":  "controlnet_s3_publish_dry_run",
+                          "result":  "dry_run_ready_to_upload_model",
+                          "evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_CONTROLNET_LINEART_MODEL_S3_PUBLISH_DRY_RUN_20260710T123201-0500.json"
+                      },
+                      {
+                          "name":  "input_s3_publish_dry_run",
+                          "result":  "dry_run_ready_to_upload_input_asset",
+                          "evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_CONTROLNET_LINEART_INPUT_S3_PUBLISH_DRY_RUN_20260710T123201-0500.json"
+                      },
+                      {
+                          "name":  "checkpoint_ec2_install_dry_run",
+                          "result":  "dry_run_model_install_plan",
+                          "evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_CONTROLNET_LINEART_CHECKPOINT_EC2_INSTALL_DRY_RUN_20260710T123201-0500.json"
+                      },
+                      {
+                          "name":  "controlnet_ec2_install_dry_run",
+                          "result":  "dry_run_model_install_plan",
+                          "evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_CONTROLNET_LINEART_MODEL_EC2_INSTALL_DRY_RUN_20260710T123201-0500.json"
+                      },
+                      {
+                          "name":  "input_ec2_install_dry_run",
+                          "result":  "dry_run_input_asset_install_plan",
+                          "evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_CONTROLNET_LINEART_INPUT_EC2_INSTALL_DRY_RUN_20260710T123201-0500.json"
+                      }
+                  ],
+    "checks":  [
+                   {
+                       "name":  "supported_controlnet_lane",
+                       "result":  "pass",
+                       "observed":  "sdxl_realvisxl_controlnet_lineart_lane",
+                       "expected":  [
+                                        "sdxl_realvisxl_controlnet_depth_lane",
+                                        "sdxl_realvisxl_controlnet_lineart_lane",
+                                        "sdxl_realvisxl_controlnet_openpose_lane",
+                                        "sdxl_realvisxl_controlnet_normal_lane"
+                                    ]
+                   },
+                   {
+                       "name":  "requirements_lane_matches",
+                       "result":  "pass",
+                       "observed":  "sdxl_realvisxl_controlnet_lineart_lane",
+                       "expected":  "sdxl_realvisxl_controlnet_lineart_lane"
+                   },
+                   {
+                       "name":  "required_asset_contracts",
+                       "result":  "pass",
+                       "observed":  {
+                                        "checkpoint_count":  1,
+                                        "controlnet_count":  1,
+                                        "control_image_count":  1
+                                    },
+                       "expected":  "one hash-bound checkpoint, ControlNet, and control image"
+                   },
+                   {
+                       "name":  "control_map_type_matches_lane",
+                       "result":  "pass",
+                       "observed":  "lineart",
+                       "expected":  "lineart"
+                   },
+                   {
+                       "name":  "local_asset_files_present",
+                       "result":  "pass",
+                       "observed":  {
+                                        "checkpoint":  "models/checkpoints/realvisxlV50_v50Bakedvae.safetensors",
+                                        "controlnet":  "models/controlnet/controlnet-lineart-sdxl-fp16.safetensors",
+                                        "control_image":  "ComfyUI/input/controlnet_lineart_w69_v1.png",
+                                        "source_artifact":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_maps_w69_v2_20260707T053300-0500/images/codex_control_preprocessor_lineart_w69_00001_.png"
+                                    },
+                       "expected":  "all four selected-lane local files exist"
+                   },
+                   {
+                       "name":  "checkpoint_hash_matches",
+                       "result":  "pass",
+                       "observed":  "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+                       "expected":  "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80"
+                   },
+                   {
+                       "name":  "controlnet_hash_matches",
+                       "result":  "pass",
+                       "observed":  "c19e9e1038c7c53b238185d8dc9fad87f95aa3124d211e19f39f1165bfb7230f",
+                       "expected":  "c19e9e1038c7c53b238185d8dc9fad87f95aa3124d211e19f39f1165bfb7230f"
+                   },
+                   {
+                       "name":  "control_image_hash_matches",
+                       "result":  "pass",
+                       "observed":  "1994c628abb6df5abda27e61b1e17dd32f0f3cf50993d1ca795c89de4ef7ff46",
+                       "expected":  "1994c628abb6df5abda27e61b1e17dd32f0f3cf50993d1ca795c89de4ef7ff46"
+                   },
+                   {
+                       "name":  "source_artifact_hash_matches",
+                       "result":  "pass",
+                       "observed":  "1994c628abb6df5abda27e61b1e17dd32f0f3cf50993d1ca795c89de4ef7ff46",
+                       "expected":  "1994c628abb6df5abda27e61b1e17dd32f0f3cf50993d1ca795c89de4ef7ff46"
+                   },
+                   {
+                       "name":  "s3_base_uris_valid",
+                       "result":  "pass",
+                       "observed":  {
+                                        "model":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache",
+                                        "input":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets"
+                                    },
+                       "expected":  "two non-root s3://bucket/prefix URIs without trailing slash"
+                   },
+                   {
+                       "name":  "checkpoint_publish_dry_run",
+                       "result":  "pass",
+                       "observed":  {
+                                        "schema_version":  "1.0",
+                                        "timestamp":  "2026-07-10T12:32:14-05:00",
+                                        "operation":  "publish_model_to_s3",
+                                        "local_only":  true,
+                                        "aws_contacted":  false,
+                                        "s3_contacted":  false,
+                                        "ec2_started":  false,
+                                        "generation_executed":  false,
+                                        "prompt_posted":  false,
+                                        "active_runtime_marker_written":  false,
+                                        "git_lfs_used":  false,
+                                        "region":  "us-east-1",
+                                        "model_file":  "C:\\Comfy_UI_Main\\models\\checkpoints\\realvisxlV50_v50Bakedvae.safetensors",
+                                        "file_name":  "realvisxlV50_v50Bakedvae.safetensors",
+                                        "size_bytes":  6938065488,
+                                        "expected_sha256":  "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+                                        "observed_sha256":  "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+                                        "local_hash_match":  true,
+                                        "s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/checkpoints/realvisxlV50_v50Bakedvae.safetensors",
+                                        "result":  "dry_run_ready_to_upload_model",
+                                        "failure_category":  null,
+                                        "upload":  {
+                                                       "attempted":  false,
+                                                       "rc":  null
+                                                   },
+                                        "errors":  [
+
+                                                   ],
+                                        "next_action":  "Use Install-EC2ModelFromS3.ps1 with this s3_uri and observed_sha256 after live gates pass."
+                                    },
+                       "expected":  "dry_run_ready_to_upload_model with no external contact or execution"
+                   },
+                   {
+                       "name":  "controlnet_publish_dry_run",
+                       "result":  "pass",
+                       "observed":  {
+                                        "schema_version":  "1.0",
+                                        "timestamp":  "2026-07-10T12:32:15-05:00",
+                                        "operation":  "publish_model_to_s3",
+                                        "local_only":  true,
+                                        "aws_contacted":  false,
+                                        "s3_contacted":  false,
+                                        "ec2_started":  false,
+                                        "generation_executed":  false,
+                                        "prompt_posted":  false,
+                                        "active_runtime_marker_written":  false,
+                                        "git_lfs_used":  false,
+                                        "region":  "us-east-1",
+                                        "model_file":  "C:\\Comfy_UI_Main\\models\\controlnet\\controlnet-lineart-sdxl-fp16.safetensors",
+                                        "file_name":  "controlnet-lineart-sdxl-fp16.safetensors",
+                                        "size_bytes":  158060440,
+                                        "expected_sha256":  "c19e9e1038c7c53b238185d8dc9fad87f95aa3124d211e19f39f1165bfb7230f",
+                                        "observed_sha256":  "c19e9e1038c7c53b238185d8dc9fad87f95aa3124d211e19f39f1165bfb7230f",
+                                        "local_hash_match":  true,
+                                        "s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/controlnet/controlnet-lineart-sdxl-fp16.safetensors",
+                                        "result":  "dry_run_ready_to_upload_model",
+                                        "failure_category":  null,
+                                        "upload":  {
+                                                       "attempted":  false,
+                                                       "rc":  null
+                                                   },
+                                        "errors":  [
+
+                                                   ],
+                                        "next_action":  "Use Install-EC2ModelFromS3.ps1 with this s3_uri and observed_sha256 after live gates pass."
+                                    },
+                       "expected":  "dry_run_ready_to_upload_model with no external contact or execution"
+                   },
+                   {
+                       "name":  "input_publish_dry_run",
+                       "result":  "pass",
+                       "observed":  {
+                                        "schema_version":  "1.0",
+                                        "timestamp":  "2026-07-10T12:32:15-05:00",
+                                        "operation":  "publish_input_asset_to_s3",
+                                        "local_only":  true,
+                                        "aws_contacted":  false,
+                                        "s3_contacted":  false,
+                                        "ec2_started":  false,
+                                        "generation_executed":  false,
+                                        "prompt_posted":  false,
+                                        "active_runtime_marker_written":  false,
+                                        "region":  "us-east-1",
+                                        "asset_file":  "C:\\Comfy_UI_Main\\ComfyUI\\input\\controlnet_lineart_w69_v1.png",
+                                        "file_name":  "controlnet_lineart_w69_v1.png",
+                                        "size_bytes":  158803,
+                                        "expected_sha256":  "1994c628abb6df5abda27e61b1e17dd32f0f3cf50993d1ca795c89de4ef7ff46",
+                                        "observed_sha256":  "1994c628abb6df5abda27e61b1e17dd32f0f3cf50993d1ca795c89de4ef7ff46",
+                                        "local_hash_match":  true,
+                                        "s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets/sdxl_realvisxl_controlnet_lineart_lane/controlnet_lineart_w69_v1.png",
+                                        "result":  "dry_run_ready_to_upload_input_asset",
+                                        "failure_category":  null,
+                                        "upload":  {
+                                                       "attempted":  false,
+                                                       "rc":  null
+                                                   },
+                                        "errors":  [
+
+                                                   ],
+                                        "next_action":  "Use Install-EC2InputAssetFromS3.ps1 with this s3_uri and observed_sha256 after live gates pass."
+                                    },
+                       "expected":  "dry_run_ready_to_upload_input_asset with no external contact or execution"
+                   },
+                   {
+                       "name":  "checkpoint_install_dry_run",
+                       "result":  "pass",
+                       "observed":  {
+                                        "schema_version":  "1.0",
+                                        "evidence_id":  "EC2-MODEL-INSTALL-20260710T123215-0500",
+                                        "timestamp":  "2026-07-10T12:32:15-05:00",
+                                        "operation":  "install_ec2_model_from_s3",
+                                        "instance_id":  "i-0560bf8d143f93bb1",
+                                        "region":  "us-east-1",
+                                        "source_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/checkpoints/realvisxlV50_v50Bakedvae.safetensors",
+                                        "remote_comfy_root":  "/home/ubuntu/ComfyUI",
+                                        "remote_model_path":  "/home/ubuntu/ComfyUI/models/checkpoints/realvisxlV50_v50Bakedvae.safetensors",
+                                        "model_subdir":  "checkpoints",
+                                        "model_file_name":  "realvisxlV50_v50Bakedvae.safetensors",
+                                        "expected_sha256":  "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+                                        "max_ec2_runtime_minutes":  20,
+                                        "execute":  false,
+                                        "ec2_started":  false,
+                                        "ssm_available":  false,
+                                        "command_id":  null,
+                                        "command_status":  "not_started",
+                                        "start_state":  null,
+                                        "final_state":  null,
+                                        "remote_result":  null,
+                                        "generation_executed":  false,
+                                        "git_lfs_used":  false,
+                                        "result":  "dry_run_model_install_plan",
+                                        "failure_category":  null,
+                                        "errors":  [
+
+                                                   ],
+                                        "next_action":  "After install_model_hash_verified, rerun EC2 static proof with -SkipGitLfsPull and -MaxEc2RuntimeMinutes."
+                                    },
+                       "expected":  "dry_run_model_install_plan with no external contact or execution"
+                   },
+                   {
+                       "name":  "controlnet_install_dry_run",
+                       "result":  "pass",
+                       "observed":  {
+                                        "schema_version":  "1.0",
+                                        "evidence_id":  "EC2-MODEL-INSTALL-20260710T123216-0500",
+                                        "timestamp":  "2026-07-10T12:32:16-05:00",
+                                        "operation":  "install_ec2_model_from_s3",
+                                        "instance_id":  "i-0560bf8d143f93bb1",
+                                        "region":  "us-east-1",
+                                        "source_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/controlnet/controlnet-lineart-sdxl-fp16.safetensors",
+                                        "remote_comfy_root":  "/home/ubuntu/ComfyUI",
+                                        "remote_model_path":  "/home/ubuntu/ComfyUI/models/controlnet/controlnet-lineart-sdxl-fp16.safetensors",
+                                        "model_subdir":  "controlnet",
+                                        "model_file_name":  "controlnet-lineart-sdxl-fp16.safetensors",
+                                        "expected_sha256":  "c19e9e1038c7c53b238185d8dc9fad87f95aa3124d211e19f39f1165bfb7230f",
+                                        "max_ec2_runtime_minutes":  20,
+                                        "execute":  false,
+                                        "ec2_started":  false,
+                                        "ssm_available":  false,
+                                        "command_id":  null,
+                                        "command_status":  "not_started",
+                                        "start_state":  null,
+                                        "final_state":  null,
+                                        "remote_result":  null,
+                                        "generation_executed":  false,
+                                        "git_lfs_used":  false,
+                                        "result":  "dry_run_model_install_plan",
+                                        "failure_category":  null,
+                                        "errors":  [
+
+                                                   ],
+                                        "next_action":  "After install_model_hash_verified, rerun EC2 static proof with -SkipGitLfsPull and -MaxEc2RuntimeMinutes."
+                                    },
+                       "expected":  "dry_run_model_install_plan with no external contact or execution"
+                   },
+                   {
+                       "name":  "input_install_dry_run",
+                       "result":  "pass",
+                       "observed":  {
+                                        "schema_version":  "1.0",
+                                        "evidence_id":  "EC2-INPUT-ASSET-INSTALL-20260710T123216-0500",
+                                        "timestamp":  "2026-07-10T12:32:16-05:00",
+                                        "operation":  "install_ec2_input_asset_from_s3",
+                                        "instance_id":  "i-0560bf8d143f93bb1",
+                                        "region":  "us-east-1",
+                                        "source_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets/sdxl_realvisxl_controlnet_lineart_lane/controlnet_lineart_w69_v1.png",
+                                        "remote_comfy_root":  "/home/ubuntu/ComfyUI",
+                                        "remote_input_path":  "/home/ubuntu/ComfyUI/input/controlnet_lineart_w69_v1.png",
+                                        "input_subdir":  "",
+                                        "file_name":  "controlnet_lineart_w69_v1.png",
+                                        "expected_sha256":  "1994c628abb6df5abda27e61b1e17dd32f0f3cf50993d1ca795c89de4ef7ff46",
+                                        "max_ec2_runtime_minutes":  15,
+                                        "execute":  false,
+                                        "ec2_started":  false,
+                                        "ssm_available":  false,
+                                        "command_id":  null,
+                                        "command_status":  "not_started",
+                                        "start_state":  null,
+                                        "final_state":  null,
+                                        "remote_result":  null,
+                                        "generation_executed":  false,
+                                        "git_lfs_used":  false,
+                                        "result":  "dry_run_input_asset_install_plan",
+                                        "failure_category":  null,
+                                        "errors":  [
+
+                                                   ],
+                                        "next_action":  "After input_asset_hash_verified, run EC2 workflow smoke that uses LoadImage."
+                                    },
+                       "expected":  "dry_run_input_asset_install_plan with no external contact or execution"
+                   }
+               ],
+    "failed_check_count":  0,
+    "exact_blockers":  [
+                           "explicit_live_execution_intent_required",
+                           "checkpoint_s3_publish_execute_proof_missing",
+                           "controlnet_s3_publish_execute_proof_missing",
+                           "control_image_s3_publish_execute_proof_missing",
+                           "ec2_checkpoint_install_hash_proof_missing",
+                           "ec2_controlnet_install_hash_proof_missing",
+                           "ec2_control_image_install_hash_proof_missing",
+                           "target_runtime_static_proof_missing",
+                           "bounded_target_runtime_output_and_strict_visual_qa_missing"
+                       ],
+    "boundary":  "Local ControlNet asset-transfer dry-run bundle only. This does not upload assets, start EC2, install remotely, contact ComfyUI, execute generation, prove target runtime, promote the lane, complete Items/Tracker rows, or claim certification.",
+    "next_action":  "Keep EC2 stopped. Use these pinned URIs and hashes only after explicit live intent, current AWS auth, clean Git/deploy gates, and bounded target-runtime authorization."
+}

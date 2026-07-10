@@ -1,3 +1,9 @@
+## Active Runtime/Orchestration Posture - Four ControlNet Asset Paths Pinned - 2026-07-10T12:38:40-05:00
+
+Continue the full ComfyUI project from `C:\Comfy_UI_Main`. The selected-lane ControlNet transfer helper now verifies checkpoint, ControlNet, active control image, cited source artifact, canonical map type, S3 URI layout, and six publish/install dry-run children before any lane can advance. Across depth, lineart, openpose, and normal, all declared assets are present and hash-matched.
+
+Authority evidence is `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_CONTROLNET_FOUR_LANE_ASSET_TRANSFER_DRY_RUN_MATRIX_20260710T124500-0500.json`. This closes only local asset-transfer planning gaps. Upload, remote install, target-runtime proof, strict visual QA, final certification, and Item/Tracker completion remain incomplete. Keep EC2 stopped and preserve mask, Wave70/Wave71+, Jira, and local-source-of-truth boundaries.
+
 ## Active Runtime/Orchestration Posture - Four ControlNet Lanes Locally Bound - 2026-07-10T12:16:17-05:00
 
 Continue the full ComfyUI project from `C:\Comfy_UI_Main`. The reusable selected-lane ControlNet validator is now empirically proven across depth, lineart, openpose, and normal. Each current package has five source-hash-matched files; each clean deploy bundle has 26 files, zero recorded Git status entries, and a verified ZIP hash; each lane passes all 10 composed generic and lane-specific checks.

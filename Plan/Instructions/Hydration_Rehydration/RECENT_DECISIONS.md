@@ -1,3 +1,7 @@
+## Decision - ControlNet Transfer Bundles Remain Lane-Self-Contained - 2026-07-10T12:38:40-05:00
+
+Each ControlNet lane transfer bundle carries its own six-child contract even though all four share the same checkpoint URI and SHA256. The matrix verifies that shared identity while retaining lane-independent ControlNet and input URIs. This makes later explicit live selection auditable without allowing one lane's proof to imply another lane's runtime completion.
+
 ## Decision - Canonical Normal Control Map Is normal_bae - 2026-07-10T12:16:17-05:00
 
 For `sdxl_realvisxl_controlnet_normal_lane`, validate `required_input_assets.control_map_type` exactly as `normal_bae` while matching `control_family` with the broader `normal` token. Do not normalize the asset contract down to `normal`; the four-lane matrix proves the exact current schema across depth, lineart, openpose, and normal.

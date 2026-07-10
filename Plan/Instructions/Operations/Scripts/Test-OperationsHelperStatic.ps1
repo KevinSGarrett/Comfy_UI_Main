@@ -1562,6 +1562,8 @@ $runPackageDeployConsistencyScript = Join-Path $ProjectRoot "Plan\Instructions\Q
 $scriptParseResults += Test-PowerShellParser -Path $runPackageDeployConsistencyScript
 $controlNetPackageDeployConsistencyScript = Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\Test-ControlNetSelectedLanePackageDeployConsistency.ps1"
 $scriptParseResults += Test-PowerShellParser -Path $controlNetPackageDeployConsistencyScript
+$controlNetAssetTransferScript = Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\Test-ControlNetLaneAssetTransferDryRunBundle.ps1"
+$scriptParseResults += Test-PowerShellParser -Path $controlNetAssetTransferScript
 
 $jsonParseResults = @()
 foreach ($json in @(
@@ -1915,6 +1917,7 @@ $record = [ordered]@{
     "tools/Invoke-SelectedInpaintPreEC2Refresh.ps1",
     "Plan/Instructions/QA/Scripts/Test-RunPackageDeployBundleConsistency.ps1",
     "Plan/Instructions/QA/Scripts/Test-ControlNetSelectedLanePackageDeployConsistency.ps1",
+    "Plan/Instructions/QA/Scripts/Test-ControlNetLaneAssetTransferDryRunBundle.ps1",
     "latest selected-lane runtime gate evidence",
     "runtime unblock handoff smoke"
   )

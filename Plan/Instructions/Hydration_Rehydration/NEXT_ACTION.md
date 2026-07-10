@@ -1,3 +1,9 @@
+## Immediate Next Action - Four ControlNet Asset Transfer Dry Runs Validated - 2026-07-10T12:38:40-05:00
+
+Depth, lineart, openpose, and normal now have hash-bound local asset-transfer dry-run bundles. Authority evidence `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_CONTROLNET_FOUR_LANE_ASSET_TRANSFER_DRY_RUN_MATRIX_20260710T124500-0500.json`, mirrored under `Plan/Tracker/Evidence/Runtime_Readiness`, reports `pass_local_only`: four of four lanes pass, 24 publish/install child plans are present, the shared checkpoint URI/hash is consistent, four ControlNet and four input URIs are unique, and all five fail-closed tests create zero child files.
+
+Next exact action: keep EC2 stopped. Link each current clean deploy bundle to a deploy-bundle S3 publish dry run, then consolidate package, deploy, and asset-transfer state into a four-lane pre-EC2 handoff matrix. Do not use `-Execute`, upload, start EC2, install remotely, generate, claim target-runtime proof, certify lanes, or complete Items/Tracker rows.
+
 ## Immediate Next Action - Four ControlNet Clean Package Contracts Validated - 2026-07-10T12:16:17-05:00
 
 Depth, lineart, openpose, and normal now have empirically validated current run packages and clean deploy bundles. Authority evidence `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_CONTROLNET_FOUR_LANE_CURRENT_PACKAGE_DEPLOY_MATRIX_20260710T121800-0500.json`, mirrored under `Plan/Tracker/Evidence/Operations_Static_Validation`, reports `pass_local_only`: four of four lanes pass 10 checks each, canonical normal uses `normal_bae`, all four fail-closed tests pass, and the current operations harness is green.
