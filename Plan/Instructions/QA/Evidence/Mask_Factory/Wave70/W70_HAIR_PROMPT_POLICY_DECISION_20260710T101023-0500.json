@@ -1,0 +1,104 @@
+{
+  "active_input_mask_overwritten": false,
+  "current_hair_routes_pass": false,
+  "decision": "Do not promote or target-proof mf70_hair from the current foreground-ownership route or current SAM2 bbox/point prompt policy. The current SAM2 prompt policy is exhausted for promotion purposes; resume hair only with a stronger non-oracle owner/person prompt authority, person-instance segmentation, or another registered hair segmentation authority.",
+  "ec2_started": false,
+  "evidence_id": "W70_HAIR_PROMPT_POLICY_DECISION_20260710T101023-0500",
+  "foreground_ownership_summary": {
+    "best_failed_reasons": [
+      "mean_iou_below_0.85"
+    ],
+    "best_pass_gate": false,
+    "best_route": "erode_split4_owner_r16_c0.02",
+    "best_summary": {
+      "mean_dice": 0.773869,
+      "mean_false_negative_ratio_vs_gold": 0.120188,
+      "mean_false_positive_ratio_vs_gold": 0.137742,
+      "mean_iou": 0.739039,
+      "sample_count": 11
+    }
+  },
+  "generation_executed": false,
+  "gold_mask_authority": {
+    "masked_warehouse": "C:\\Comfy_UI_Main\\MaskedWarehouse",
+    "single_generated_portrait_is_pass_authority": false
+  },
+  "local_only": true,
+  "mask_promoted": false,
+  "next_required_action": "Switch to another local gold-backed blocked row, or introduce a stronger hair owner/person-instance prompt authority before any new hair proof.",
+  "ownership_policy_pass": false,
+  "policy_options": [
+    {
+      "decision": "rejected",
+      "policy": "promote_current_foreground_ownership_route",
+      "reason": "The best foreground ownership route still fails the gold IoU gate."
+    },
+    {
+      "decision": "rejected",
+      "policy": "promote_current_sam2_bbox_point_prompt_policy",
+      "reason": "The bounded SAM2 promptability probe found no non-oracle promotable candidate and the best route remains the parser baseline."
+    },
+    {
+      "decision": "rejected",
+      "policy": "dataset_runtime_split_for_hair_edge_cases",
+      "reason": "No evidence currently justifies excluding LaPa owner/tiny-hair edge cases from the Wave70 hair row; the row remains governed by gold-backed masks."
+    },
+    {
+      "decision": "selected",
+      "policy": "fail_closed_until_stronger_person_instance_or_owner_prompt_authority",
+      "reason": "SAM2 is available locally, but the current automatic bbox/point prompt policy is not a valid hair authority. Hair needs a stronger non-oracle owner/person prompt route, person-instance segmentation, or another registered authority."
+    }
+  ],
+  "region": "mf70_hair",
+  "result": "mf70_hair_prompt_policy_fail_closed_no_promotion",
+  "sam2_authority_findings": {
+    "background_removal_nonempty_model_count": 0,
+    "rembg_available": false,
+    "sam2_checkpoint_exists": true,
+    "sam2_importable": true,
+    "segment_anything_available": false
+  },
+  "sam2_available_local": true,
+  "sam2_best_is_diagnostic_oracle": false,
+  "sam2_checkpoint": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt",
+  "sam2_prompt_policy_pass": false,
+  "sam2_promptability_summary": {
+    "best_failed_reasons": [
+      "mean_iou_below_0.85",
+      "false_positive_ratio_above_0.15"
+    ],
+    "best_pass_gate": false,
+    "best_route": "baseline_pred",
+    "best_summary": {
+      "mean_dice": 0.711746,
+      "mean_false_negative_ratio_vs_gold": 0.01799,
+      "mean_false_positive_ratio_vs_gold": 0.501776,
+      "mean_iou": 0.666388,
+      "sample_count": 6
+    }
+  },
+  "sam2_route_count": 5,
+  "scope": "Wave70 mf70_hair prompt-policy decision from current gold-backed ownership and SAM2 evidence",
+  "selected_policy": "fail_closed_until_stronger_person_instance_or_owner_prompt_authority",
+  "source_evidence": [
+    {
+      "name": "hair_foreground_ownership_route_search",
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_HAIR_FOREGROUND_OWNERSHIP_ROUTE_SEARCH_20260710T064132-0500.json",
+      "result": "mf70_hair_foreground_ownership_routes_blocked_no_promotion",
+      "sha256": "a14de8f8eb6158cf006c25211faab0e7dae83f01cfe8952e84370d64ab3ba42f"
+    },
+    {
+      "name": "hair_person_segmentation_authority_audit",
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_HAIR_PERSON_SEGMENTATION_AUTHORITY_AUDIT_20260710T065241-0500.json",
+      "result": "hair_person_segmentation_authority_audit_sam2_candidate_checkpoint_present",
+      "sha256": "313b11e58c08f15ebfc7c3137d0fd24959a9b857356d40bc9b3a4ca91b9c18cf"
+    },
+    {
+      "name": "sam2_hair_promptability_probe",
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_SAM2_HAIR_PROMPTABILITY_PROBE_20260710T070819-0500.json",
+      "result": "sam2_hair_promptability_probe_no_promotable_candidate",
+      "sha256": "347b163fba5a05063acae4d25005a8d7c16b3eb567dfdd822f4a78d5bcf248d6"
+    }
+  ],
+  "timestamp": "20260710T101023-0500"
+}

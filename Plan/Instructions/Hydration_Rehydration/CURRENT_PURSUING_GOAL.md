@@ -1,3 +1,11 @@
+## Current Pursuing Goal - Hair Prompt Policy Closed Current SAM2 Loop - 2026-07-10T10:10:23-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with Wave70 facial masks governed by gold-backed evidence before any target-portrait proof. The latest concrete progress is an explicit `mf70_hair` prompt-policy decision: SAM2 exists locally, but the current bbox/point prompt policy and foreground-ownership route cannot be promoted.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_HAIR_PROMPT_POLICY_DECISION_20260710T101023-0500.json` reports `mf70_hair_prompt_policy_fail_closed_no_promotion`, selected policy `fail_closed_until_stronger_person_instance_or_owner_prompt_authority`, `sam2_available_local=true`, `sam2_prompt_policy_pass=false`, `ownership_policy_pass=false`, and `current_hair_routes_pass=false`. Tracker mirror exists at `Plan/Tracker/Evidence/W70_HAIR_PROMPT_POLICY_DECISION_20260710T101023-0500.json`.
+
+No active ComfyUI input overwrite, mask promotion, row completion, EC2, AWS, S3, Civitai, Wave71 activation, Jira mutation, generated-portrait-only proof, or certification occurred. Next work should switch rows or bring a stronger hair owner/person-instance authority, not retry the same SAM2 prompt policy.
+
 ## Current Pursuing Goal - Eye Route Policy Closed Current InsightFace Loop - 2026-07-10T10:07:29-05:00
 
 Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with Wave70 facial masks governed by gold-backed evidence before any target-portrait proof. The latest concrete progress is an explicit `mf70_eyes_full` policy decision: the current InsightFace 106 route family is fail-closed after the bounded shifted-route expansion did not improve the best route.
