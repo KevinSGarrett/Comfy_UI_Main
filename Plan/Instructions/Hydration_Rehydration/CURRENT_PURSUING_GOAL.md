@@ -1,3 +1,11 @@
+## Current Pursuing Goal - Lips-Bottom Authority Policy Closed Current Route Families - 2026-07-10T10:29:00-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with Wave70 facial/body masks governed by gold-backed evidence before any target-portrait proof. The latest concrete progress is an explicit `mf70_lips_bottom` authority-policy decision: the current LaPa, combined-gold postprocess, and MediaPipe landmark route families all fail.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_LIPS_BOTTOM_AUTHORITY_POLICY_DECISION_20260710T102900-0500.json` reports `mf70_lips_bottom_authority_policy_fail_closed_no_promotion`, selected policy `fail_closed_until_boundary_aware_bottom_lip_authority_or_explicit_row_policy`, `lapa_lips_bottom_policy_pass=false`, `combined_gold_postprocess_policy_pass=false`, `mediapipe_lips_bottom_policy_pass=false`, and `current_lips_bottom_policy_pass=false`. Tracker mirror exists at `Plan/Tracker/Evidence/W70_LIPS_BOTTOM_AUTHORITY_POLICY_DECISION_20260710T102900-0500.json`.
+
+No active ComfyUI input overwrite, mask promotion, row completion, EC2, AWS, S3, Civitai, Wave71 activation, Jira mutation, generated-portrait-only proof, or certification occurred. Next work should switch rows or bring a boundary-aware bottom-lip authority / explicit row policy, not retry the same LaPa, postprocess, or MediaPipe route families.
+
 ## Current Pursuing Goal - Lips-Combined Authority Policy Closed Current Route Families - 2026-07-10T10:26:02-05:00
 
 Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with Wave70 facial/body masks governed by gold-backed evidence before any target-portrait proof. The latest concrete progress is an explicit `mf70_lips_combined` authority-policy decision: the current LaPa, combined-gold postprocess, and MediaPipe landmark route families all fail.

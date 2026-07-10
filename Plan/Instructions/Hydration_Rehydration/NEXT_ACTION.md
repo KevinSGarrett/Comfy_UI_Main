@@ -1,3 +1,9 @@
+## Immediate Next Action - Switch Row After Lips-Bottom Authority Policy - 2026-07-10T10:29:00-05:00
+
+The current `mf70_lips_bottom` LaPa route, combined-gold postprocess route, and MediaPipe landmark route are now fail-closed. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_LIPS_BOTTOM_AUTHORITY_POLICY_DECISION_20260710T102900-0500.json` selects `fail_closed_until_boundary_aware_bottom_lip_authority_or_explicit_row_policy`: `lapa_lips_bottom_policy_pass=false`, `combined_gold_postprocess_policy_pass=false`, `mediapipe_lips_bottom_policy_pass=false`, and `current_lips_bottom_policy_pass=false`.
+
+Next exact action: switch to another local gold-backed blocked row, or introduce a boundary-aware bottom-lip authority / explicit row policy before any new lips-bottom proof. Do not retry the same LaPa, postprocess, or MediaPipe families, promote masks, overwrite active inputs, use generated-portrait-only proof, start EC2, activate Wave71+, use Jira bookkeeping as the active lane, or use `C:\Comfy_UI`.
+
 ## Immediate Next Action - Switch Row After Lips-Combined Authority Policy - 2026-07-10T10:26:02-05:00
 
 The current `mf70_lips_combined` LaPa route, combined-gold postprocess route, and MediaPipe landmark route are now fail-closed. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_LIPS_COMBINED_AUTHORITY_POLICY_DECISION_20260710T102602-0500.json` selects `fail_closed_until_boundary_aware_combined_lip_authority_or_explicit_row_policy`: `lapa_lips_combined_policy_pass=false`, `combined_gold_postprocess_policy_pass=false`, `mediapipe_lips_combined_policy_pass=false`, and `current_lips_combined_policy_pass=false`.
