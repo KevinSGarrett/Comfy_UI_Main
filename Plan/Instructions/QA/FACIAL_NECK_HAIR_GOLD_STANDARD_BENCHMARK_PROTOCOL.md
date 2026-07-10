@@ -27,6 +27,8 @@ gold truth.
 ## Evaluator Contract
 
 - Evaluator: `Plan/07_IMPLEMENTATION/scripts/benchmark_wave70_facial_gold_evaluator.py`
+- Originals-only producer: `Plan/07_IMPLEMENTATION/scripts/produce_wave70_facial_original_predictions.py`
+- Metric gate and visual panel: `Plan/07_IMPLEMENTATION/scripts/gate_wave70_facial_originals_benchmark.py`
 - Prediction manifest schema: `Plan/08_SCHEMAS/facial_gold_prediction_manifest.schema.json`
 - LaPa taxonomy schema: `Plan/08_SCHEMAS/lapa_taxonomy_binding.schema.json`
 - Disposable regression: `Plan/Instructions/QA/Scripts/test_wave70_facial_gold_evaluator.py`
@@ -37,6 +39,27 @@ requires a separately supplied, hashed, authoritative taxonomy binding;
 landmark-only evaluation still requires authoritative interocular
 normalization metadata. Legacy split-specific benchmark scripts are historical
 diagnostics and fail closed before execution because they predate this contract.
+
+### Celeb Gate Rules
+
+The bounded route gate requires at least three eligible originals per class,
+aggregate IoU of at least `0.85`, aggregate false-positive pixels divided by
+gold pixels no greater than `0.15`, and aggregate false-negative pixels divided
+by gold pixels no greater than `0.15`. A class that is gold-empty across every
+selected sample is exempt from ratio math but passes only when its aggregate
+false-positive count is zero. Counts are summed before ratios are computed.
+
+Celeb binary masks intentionally overlap for nested anatomy and accessories.
+The producer therefore records an explicit reviewed protected-neighbor list for
+every class instead of treating all other classes as protected. Skin overlap
+with brows, eyes, nose, mouth, lips, neck, and hair is not automatically
+leakage; `neck_l`, `ear_r`, and `eye_g` likewise remain separate overlays rather
+than replacements for their underlying anatomy.
+
+The first production run on eligible original IDs `0`, `1`, and `2` passed the
+evaluator contract but failed the quality gate. Only `hair`, `mouth`, `nose`,
+and correctly empty `eye_g` passed; fourteen classes remain blocked. This is a
+route-repair result, not promotion or certification evidence.
 
 ## CelebAMask-HQ Pairing
 
