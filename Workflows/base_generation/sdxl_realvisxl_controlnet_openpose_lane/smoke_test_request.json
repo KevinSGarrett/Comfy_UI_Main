@@ -13,9 +13,9 @@
                                     "local or EC2 runtime gate allows generation"
                                 ],
     "request_patch_values":  {
-                                 "positive_prompt":  "hyperrealistic cinematic editorial portrait, pose-guided head-and-shoulders composition, natural human posture, realistic neck and shoulder alignment, natural skin texture, realistic fine pores, realistic eyes with clean catchlights, detailed hair, tailored dark blazer over textured shirt, clothed shoulders, soft natural fill light, balanced exposure, clean face with no painted marks, lifelike lens rendering",
-                                 "negative_prompt":  "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, distorted anatomy, twisted neck, broken shoulders, extra limbs, missing limbs, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text, openpose skeleton overlay, pose map stains, colored bones, colored dots, control map stains, harsh outlines, bare shoulders, strapless top, nude, unclothed torso",
-                                 "seed":  711470001,
+                                 "positive_prompt":  "hyperrealistic cinematic editorial portrait, seated upper-body composition at a wooden table, both hands visible and separated, both hands resting naturally on the tabletop, wrists visible, natural forearms, realistic fingers, natural human posture, pose-guided composition, realistic neck and shoulder alignment, natural skin texture, realistic fine pores, realistic eyes with clean catchlights, detailed hair, tailored blazer over textured shirt, clothed shoulders and torso, soft natural window light, balanced exposure, coherent interior background, lifelike lens rendering",
+                                 "negative_prompt":  "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, beauty filter skin, airbrushed face, distorted anatomy, twisted neck, broken shoulders, extra limbs, missing limbs, extra fingers, missing fingers, fused fingers, deformed hands, hidden hands, cropped hands, hands out of frame, close-up portrait, face-only crop, no table, floating hands, crossed eyes, low resolution, blurry, watermark, text, openpose skeleton overlay, pose map stains, colored bones, colored dots, control map stains, harsh outlines, bare shoulders, strapless top, nude, unclothed torso",
+                                 "seed":  711470201,
                                  "sampler_settings":  {
                                                           "steps":  20,
                                                           "cfg":  5.5,
@@ -25,24 +25,24 @@
                                                       },
                                  "latent_resolution":  {
                                                            "width":  768,
-                                                           "height":  768,
+                                                           "height":  1024,
                                                            "batch_size":  1
                                                        },
                                  "model_asset":  "realvisxlV50_v50Bakedvae.safetensors",
                                  "controlnet_asset":  "OpenPoseXL2.safetensors",
-                                 "control_image":  "controlnet_openpose_w69_v1.png",
+                                 "control_image":  "controlnet_openpose_hands_tabletop_w69_v1.png",
                                  "controlnet_settings":  {
-                                                             "strength":  0.75,
+                                                             "strength":  0.85,
                                                              "start_percent":  0,
                                                              "end_percent":  1
                                                          },
-                                 "save_prefix":  "codex_sdxl_realvisxl_controlnet_openpose_smoke"
+                                 "save_prefix":  "codex_sdxl_realvisxl_controlnet_openpose_tablehands_smoke"
                              },
     "expected_outputs":  {
                              "artifact_type":  "image",
                              "minimum_output_count":  2,
-                             "output_prefix":  "codex_sdxl_realvisxl_controlnet_openpose_smoke",
-                             "diagnostic_output_prefix":  "codex_sdxl_realvisxl_controlnet_openpose_control_map_diagnostic"
+                             "output_prefix":  "codex_sdxl_realvisxl_controlnet_openpose_tablehands_smoke",
+                             "diagnostic_output_prefix":  "codex_sdxl_realvisxl_controlnet_openpose_tablehands_control_map_diagnostic"
                          },
     "qa_protocols":  [
                          "Plan/Instructions/QA/COMFYUI_WORKFLOW_TESTING_PROTOCOL.md",
