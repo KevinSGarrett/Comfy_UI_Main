@@ -1,3 +1,9 @@
+## Active Runtime/Orchestration Posture - Local GPU Iteration Candidate Proven - 2026-07-10T14:47:26-05:00
+
+Continue the full ComfyUI project from `C:\Comfy_UI_Main`. Local ComfyUI readiness can no longer pass its model gate with zero verified models or an empty model contract: runtime requirements must exist, parse, declare at least one hash-bound model, and map every valid declaration to a present local file. Seven disposable requirement/model-placement cases pass.
+
+The actual low-risk lane currently passes the runnable local preflight with CUDA-enabled Torch, static workflow validity, and its required model present. This can reduce EC2 starts for future intentional local iteration, but `generation_executed=false`, `local_dev_replaces_ec2_final_proof=false`, and `ec2_final_proof_still_required=true`. Keep all live-runtime, mask, Wave70/Wave71+, Jira, and certification boundaries intact.
+
 ## Active Runtime/Orchestration Posture - Root Preflight Contract Hardened - 2026-07-10T14:28:34-05:00
 
 Continue the full ComfyUI project from `C:\Comfy_UI_Main`. The local root preflight now produces auditable JSON for incomplete and non-Git roots instead of terminating before evidence, and its clean, dirty, divergent, missing-manifest, malformed-lanes, empty-lanes, and missing-model-coverage behavior is exercised with disposable Git fixtures.

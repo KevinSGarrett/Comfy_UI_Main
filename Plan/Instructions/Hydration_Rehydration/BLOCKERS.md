@@ -1,3 +1,7 @@
+## Local Model-Readiness Fail-Open Resolved; Generated Proof Still Missing - 2026-07-10T14:47:26-05:00
+
+Missing, malformed, empty, or invalid model declarations no longer yield `local_required_models_present=pass`; every declaration must have a nonempty filename/subdirectory, a 64-character SHA256, and resolve locally. The current low-risk lane is a valid local GPU generation candidate, but no generation was launched and readiness alone is not visual QA, target-runtime proof, or certification. EC2 remains stopped and final EC2 equivalence remains required where specified.
+
 ## Root Preflight Evidence-Loss Defect Resolved; Global Work Order Remains Open - 2026-07-10T14:28:34-05:00
 
 Non-Git roots, unavailable Git metadata, and empty active-lane manifests now fail with structured JSON instead of an unhandled path/index error or a false clean status. `WO-W66-GLOBAL-GIT-CHECKPOINT-CLEAN` is not closed by fixture regression; it still requires the actual repository to be intentionally checkpointed clean with local `HEAD == origin/main`. Live-runtime and final-certification blockers remain separate.

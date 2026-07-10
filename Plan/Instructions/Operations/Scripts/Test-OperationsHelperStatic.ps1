@@ -1562,6 +1562,10 @@ $rootProjectPreflightScript = Join-Path $ProjectRoot "tools\Test-RootProjectPref
 $scriptParseResults += Test-PowerShellParser -Path $rootProjectPreflightScript
 $rootProjectPreflightRegressionScript = Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\Test-RootProjectPreflightRegression.ps1"
 $scriptParseResults += Test-PowerShellParser -Path $rootProjectPreflightRegressionScript
+$localComfyDevPreflightScript = Join-Path $ProjectRoot "tools\Test-LocalComfyUIDevPreflight.ps1"
+$scriptParseResults += Test-PowerShellParser -Path $localComfyDevPreflightScript
+$localComfyDevPreflightRegressionScript = Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\Test-LocalComfyUIDevPreflightRegression.ps1"
+$scriptParseResults += Test-PowerShellParser -Path $localComfyDevPreflightRegressionScript
 $runPackageDeployConsistencyScript = Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\Test-RunPackageDeployBundleConsistency.ps1"
 $scriptParseResults += Test-PowerShellParser -Path $runPackageDeployConsistencyScript
 $runPackageDeployConsistencyRegressionScript = Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\Test-RunPackageDeployBundleConsistencyRegression.ps1"
@@ -1925,6 +1929,8 @@ $record = [ordered]@{
     "tools/Invoke-SelectedInpaintPreEC2Refresh.ps1",
     "tools/Test-RootProjectPreflight.ps1",
     "Plan/Instructions/QA/Scripts/Test-RootProjectPreflightRegression.ps1",
+    "tools/Test-LocalComfyUIDevPreflight.ps1",
+    "Plan/Instructions/QA/Scripts/Test-LocalComfyUIDevPreflightRegression.ps1",
     "Plan/Instructions/QA/Scripts/Test-RunPackageDeployBundleConsistency.ps1",
     "Plan/Instructions/QA/Scripts/Test-RunPackageDeployBundleConsistencyRegression.ps1",
     "Plan/Instructions/QA/Scripts/Test-ControlNetSelectedLanePackageDeployConsistency.ps1",

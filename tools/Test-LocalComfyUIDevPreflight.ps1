@@ -77,6 +77,15 @@ function Add-Check {
   })
 }
 
+function Has-Property {
+  param(
+    [AllowNull()][object]$Object,
+    [Parameter(Mandatory=$true)][string]$Name
+  )
+  if ($null -eq $Object) { return $false }
+  return $null -ne $Object.PSObject.Properties[$Name]
+}
+
 if (!(Test-Path -LiteralPath $ProjectRoot)) {
   throw "Project root not found: $ProjectRoot"
 }
@@ -166,7 +175,7 @@ Add-Check -Checks $checks -Name "python_torch_imports" -Passed ([bool]$pythonRec
 Add-Check -Checks $checks -Name "python_torch_cuda_available" -Passed ([bool]$pythonRecord.torch_cuda_available) -Observed $pythonRecord -Message "CUDA-enabled Torch is required for useful local GPU generation; CPU Torch can still support limited CLI/import checks."
 
 $modelRoots = @(
-  "C:\Comfy_UI_Main\models"
+  (Join-Path $ProjectRoot "models")
 ) | ForEach-Object {
   [ordered]@{
     path = $_
@@ -175,34 +184,82 @@ $modelRoots = @(
 }
 Add-Check -Checks $checks -Name "local_model_directory_candidate_exists" -Passed (@($modelRoots | Where-Object { $_.exists }).Count -gt 0) -Observed $modelRoots
 
+$runtimeRequirementsPath = Join-Path $ProjectRoot "Workflows\base_generation\$LaneId\runtime_requirements.json"
+$runtimeRequirementsRecord = [ordered]@{
+  path = ConvertTo-ProjectRelativePath -Path $runtimeRequirementsPath
+  found = $false
+  parsed = $false
+  status = "missing"
+  required_model_count = 0
+  invalid_model_declaration_count = 0
+  error = $null
+}
+$runtimeRequirements = $null
 $requiredModelChecks = @()
 try {
-  $runtimeRequirementsPath = Join-Path $ProjectRoot "Workflows\base_generation\$LaneId\runtime_requirements.json"
-  if (Test-Path -LiteralPath $runtimeRequirementsPath) {
+  $runtimeRequirementsRecord.found = Test-Path -LiteralPath $runtimeRequirementsPath -PathType Leaf
+  if ($runtimeRequirementsRecord.found) {
     $runtimeRequirements = Get-Content -Raw -LiteralPath $runtimeRequirementsPath | ConvertFrom-Json
+    if ($null -eq $runtimeRequirements -or -not (Has-Property -Object $runtimeRequirements -Name "required_models")) {
+      throw "runtime_requirements.json must contain required_models."
+    }
+    $runtimeRequirementsRecord.parsed = $true
+    $runtimeRequirementsRecord.required_model_count = @($runtimeRequirements.required_models).Count
+    $runtimeRequirementsRecord.status = $(if ($runtimeRequirementsRecord.required_model_count -gt 0) { "ready" } else { "empty_required_models" })
     foreach ($requiredModel in @($runtimeRequirements.required_models)) {
       $subdir = [string]$requiredModel.comfyui_model_subdir
       $filename = [string]$requiredModel.filename
-      $candidatePaths = @()
-      if ($localComfy.Count -gt 0) {
-        $candidatePaths += (Join-Path ([string]$localComfy[0].path) (Join-Path "models" (Join-Path $subdir $filename)))
+      $expectedSha256 = [string]$requiredModel.sha256
+      $modelContractValid = (
+        -not [string]::IsNullOrWhiteSpace($subdir) -and
+        -not [string]::IsNullOrWhiteSpace($filename) -and
+        $expectedSha256 -match '^[0-9a-fA-F]{64}$'
+      )
+      if (-not $modelContractValid) {
+        $runtimeRequirementsRecord.invalid_model_declaration_count += 1
       }
-      $candidatePaths += (Join-Path $ProjectRoot (Join-Path "models" (Join-Path $subdir $filename)))
+      $candidatePaths = @()
+      if ($modelContractValid) {
+        if ($localComfy.Count -gt 0) {
+          $candidatePaths += (Join-Path ([string]$localComfy[0].path) (Join-Path "models" (Join-Path $subdir $filename)))
+        }
+        $candidatePaths += (Join-Path $ProjectRoot (Join-Path "models" (Join-Path $subdir $filename)))
+      }
       $existingPath = @($candidatePaths | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1)
       $requiredModelChecks += [ordered]@{
         role = [string]$requiredModel.role
         filename = $filename
-        expected_sha256 = $requiredModel.sha256
+        comfyui_model_subdir = $subdir
+        expected_sha256 = $expectedSha256
+        contract_valid = $modelContractValid
         candidate_paths = @($candidatePaths | ForEach-Object { ConvertTo-ProjectRelativePath -Path $_ })
         exists_locally = ($existingPath.Count -gt 0)
         existing_path = $(if ($existingPath.Count -gt 0) { ConvertTo-ProjectRelativePath -Path ([string]$existingPath[0]) } else { $null })
       }
     }
+    if ($runtimeRequirementsRecord.invalid_model_declaration_count -gt 0) {
+      $runtimeRequirementsRecord.status = "invalid_model_contract"
+    }
+  } else {
+    $runtimeRequirementsRecord.error = "runtime_requirements.json is missing."
+    [void]$errors.Add("required model local check failed: $($runtimeRequirementsRecord.error)")
   }
 } catch {
+  $runtimeRequirementsRecord.status = "invalid_json_or_contract"
+  $runtimeRequirementsRecord.error = $_.Exception.Message
   [void]$errors.Add("required model local check failed: $($_.Exception.Message)")
 }
-$requiredModelsPresent = ($requiredModelChecks.Count -eq 0 -or @($requiredModelChecks | Where-Object { -not $_.exists_locally }).Count -eq 0)
+$runtimeRequirementsValid = ($runtimeRequirementsRecord.found -and $runtimeRequirementsRecord.parsed)
+$requiredModelsDeclared = ($runtimeRequirementsValid -and $runtimeRequirementsRecord.required_model_count -gt 0)
+$requiredModelContractsValid = ($requiredModelsDeclared -and $runtimeRequirementsRecord.invalid_model_declaration_count -eq 0)
+Add-Check -Checks $checks -Name "selected_lane_runtime_requirements_valid" -Passed $runtimeRequirementsValid -Observed $runtimeRequirementsRecord
+Add-Check -Checks $checks -Name "selected_lane_required_models_declared" -Passed $requiredModelsDeclared -Observed $runtimeRequirementsRecord.required_model_count
+Add-Check -Checks $checks -Name "selected_lane_required_model_contracts_valid" -Passed $requiredModelContractsValid -Observed $requiredModelChecks
+$requiredModelsPresent = (
+  $requiredModelContractsValid -and
+  $requiredModelChecks.Count -eq $runtimeRequirementsRecord.required_model_count -and
+  @($requiredModelChecks | Where-Object { -not $_.contract_valid -or -not $_.exists_locally }).Count -eq 0
+)
 Add-Check -Checks $checks -Name "local_required_models_present" -Passed $requiredModelsPresent -Observed $requiredModelChecks -Message "Local generation needs required model files in the selected ComfyUI models tree, project models tree, or configured shared model root."
 
 $staticValidation = [ordered]@{
@@ -234,6 +291,7 @@ $runnableLocalDev = (
   (($gpuRecord.memory_total_mib -as [int]) -ge 7000) -and
   ($localComfy.Count -gt 0) -and
   [bool]$pythonRecord.torch_imported -and
+  $requiredModelContractsValid -and
   ([string]$staticValidation.qa_status -eq "pass")
 )
 $localGpuGenerationCandidate = ($runnableLocalDev -and [bool]$pythonRecord.torch_cuda_available -and $requiredModelsPresent)
@@ -266,6 +324,7 @@ $record = [ordered]@{
     candidates = $comfyCandidates
   }
   local_model_roots = $modelRoots
+  runtime_requirements = $runtimeRequirementsRecord
   local_required_models = $requiredModelChecks
   static_validation = $staticValidation
   checks = @($checks)
@@ -288,6 +347,6 @@ if (![string]::IsNullOrWhiteSpace($OutFile)) {
 }
 
 $record | ConvertTo-Json -Depth 30
-if ($RequireRunnableComfyUI -and $record.result -ne "pass_local_dev_candidate") {
+if ($RequireRunnableComfyUI -and $record.result -notin @("pass_local_dev_candidate", "pass_local_gpu_generation_candidate")) {
   exit 1
 }

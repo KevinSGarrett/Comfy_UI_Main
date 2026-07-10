@@ -1,3 +1,7 @@
+## Decision - Zero Verified Models Can Never Pass Local Generation Readiness - 2026-07-10T14:47:26-05:00
+
+Require selected-lane runtime requirements to exist, parse, and declare at least one model with a nonempty filename/subdirectory and valid SHA256; require every declaration to resolve in the selected ComfyUI or project model tree before `local_required_models_present` or local GPU generation candidacy can pass. A runnable local GPU candidate is a cost-control option only and does not replace generated artifact review or EC2 final proof.
+
 ## Decision - Root Preflight Must Always Emit Structured Evidence - 2026-07-10T14:28:34-05:00
 
 Treat missing Git metadata, unavailable status, and empty lane arrays as ordinary failing checks, not exceptional termination paths. Git root/HEAD/origin availability is determined from returned values because successful Windows `git rev-parse` calls can leave `$LASTEXITCODE=-1`; worktree cleanliness still requires a successful `git status`. Disposable fixture success does not close the actual global Git checkpoint work order.

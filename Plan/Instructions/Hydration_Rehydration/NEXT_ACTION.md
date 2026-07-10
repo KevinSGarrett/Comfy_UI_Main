@@ -1,3 +1,9 @@
+## Immediate Next Action - Local ComfyUI Model Requirements Fail Closed - 2026-07-10T14:47:26-05:00
+
+`tools/Test-LocalComfyUIDevPreflight.ps1` now treats missing, malformed, empty, and invalid-model selected-lane runtime requirements as explicit failures, requires at least one hash-bound declaration before local models can pass, resolves the project model root from `-ProjectRoot`, and accepts the stronger `pass_local_gpu_generation_candidate` result under `-RequireRunnableComfyUI`. Regression evidence `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_LOCAL_COMFYUI_DEV_PREFLIGHT_MODEL_REQUIREMENTS_REGRESSION_20260710T144600-0500.json` passes all seven cases.
+
+Current local proof `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_COMFYUI_DEV_PREFLIGHT_REQUIRE_RUNNABLE_CURRENT_20260710T144600-0500.json` reports an RTX 5060 Laptop GPU with 8151 MiB VRAM, CUDA Torch, one required low-risk model present, static validation pass, and `pass_local_gpu_generation_candidate`. No generation ran. Next exact action: keep EC2 stopped and use this local path only for intentionally selected low-cost workflow iteration; do not treat readiness as generated-output proof or EC2 equivalence.
+
 ## Immediate Next Action - Root Project Preflight Fails Closed - 2026-07-10T14:28:34-05:00
 
 `tools/Test-RootProjectPreflight.ps1` now writes structured failure evidence for non-Git/incomplete roots, treats unavailable Git status as not clean, handles empty active-lane manifests without indexing failure, and records Git availability plus failed-check names. Disposable regression evidence `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_ROOT_PROJECT_PREFLIGHT_FAIL_CLOSED_REGRESSION_20260710T142800-0500.json` passes all eight clean and negative cases; the shared operations harness passes with 44 parsed scripts and zero failures.
