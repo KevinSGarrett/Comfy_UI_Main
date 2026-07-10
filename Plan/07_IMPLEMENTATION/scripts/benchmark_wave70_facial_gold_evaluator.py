@@ -15,6 +15,7 @@ from scipy import ndimage
 
 ALLOWED_TRANSFORMS = ("identity", "resize", "pad", "crop", "horizontal_flip")
 LAPA_REQUIRED_IDS = {str(index) for index in range(11)}
+CELEB_SKIN_UNION_SOURCES = ("skin", "l_brow", "r_brow", "l_eye", "r_eye", "nose", "mouth", "u_lip", "l_lip")
 
 
 def sha256_file(path: Path) -> str:
@@ -413,6 +414,46 @@ def detect_gold_leakage_strings(data: Any, gold_roots: list[Path]) -> list[str]:
     return sorted(set(hits))
 
 
+def validate_celeb_composition(project_root: Path, sample: dict[str, Any], pred_dir: Path) -> None:
+    composition = sample.get("composition")
+    if composition is None:
+        return
+    if not isinstance(composition, dict) or composition.get("enabled") is not True:
+        raise ValueError("composition_contract_invalid")
+    if composition.get("composition_rule_id") != "celeb_skin_nested_union_v1":
+        raise ValueError("composition_rule_unknown")
+    if composition.get("target_class") != "skin":
+        raise ValueError("composition_target_invalid")
+    if tuple(composition.get("union_sources", [])) != CELEB_SKIN_UNION_SOURCES:
+        raise ValueError("composition_union_sources_invalid")
+    base_dir = to_abs_path(project_root, str(composition.get("base_prediction_path", "")))
+    if not base_dir.is_dir() or sha256_path(base_dir) != composition.get("base_prediction_sha256"):
+        raise ValueError("composition_base_prediction_hash_mismatch")
+    input_hashes = composition.get("composition_input_hashes")
+    if not isinstance(input_hashes, dict) or set(input_hashes) != set(CELEB_SKIN_UNION_SOURCES):
+        raise ValueError("composition_input_hashes_invalid")
+    union: np.ndarray | None = None
+    for class_name in CELEB_SKIN_UNION_SOURCES:
+        base_path = base_dir / f"{class_name}.png"
+        if not base_path.is_file() or sha256_file(base_path) != input_hashes[class_name]:
+            raise ValueError(f"composition_input_hash_mismatch:{class_name}")
+        mask = image_to_bool_mask(base_path)
+        union = mask if union is None else np.logical_or(union, mask)
+    if input_hashes["skin"] != composition.get("base_skin_sha256_preserved"):
+        raise ValueError("composition_base_skin_hash_mismatch")
+    composed_path = pred_dir / "skin.png"
+    if not composed_path.is_file() or sha256_file(composed_path) != composition.get("composition_output_sha256"):
+        raise ValueError("composition_output_hash_mismatch")
+    if union is None or not np.array_equal(union, image_to_bool_mask(composed_path)):
+        raise ValueError("composition_output_not_reproducible")
+    for base_path in base_dir.glob("*.png"):
+        if base_path.stem == "skin":
+            continue
+        output_path = pred_dir / base_path.name
+        if not output_path.is_file() or sha256_file(base_path) != sha256_file(output_path):
+            raise ValueError(f"composition_non_target_class_changed:{base_path.stem}")
+
+
 def evaluate_celeb_sample(
     sample: dict[str, Any],
     source_path: Path,
@@ -451,6 +492,7 @@ def evaluate_celeb_sample(
             }
         )
         return result
+    validate_celeb_composition(project_root, sample, pred_dir)
     classes = sample.get("classes")
     if not isinstance(classes, list) or not classes:
         fail_events.append(

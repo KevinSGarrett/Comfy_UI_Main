@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-07-10T18:30:00-05:00",
+  "classification": [
+    "LOCAL_SOURCE_OF_TRUTH_ACTIVE",
+    "NO_NEWER_REMOTE_WORK_TO_IMPORT",
+    "LEGACY_WORK_REPRESENTED_NOT_RUNTIME_AUTHORITY",
+    "NO_DUPLICATE_RECREATION_REQUIRED"
+  ],
+  "authoritative_project_root": "C:\\Comfy_UI_Main",
+  "legacy_project_root": "C:\\Comfy_UI",
+  "aws": {
+    "authentication_verified": true,
+    "identity_redacted": true,
+    "approved_instance_id": "i-0560bf8d143f93bb1",
+    "instance_state": "stopped",
+    "instance_started_for_this_reconciliation": false,
+    "live_remote_runtime_summary": {
+      "runtime_bucket_newest_relevant_date": "2026-07-07",
+      "production_bucket_newest_project_date": "2026-07-05",
+      "lora_output_bucket_has_objects": false,
+      "newer_than_local_authority_state": false
+    },
+    "decision": "Do not start EC2 or import its stale project tree. No live S3 project artifact is newer than the authoritative 2026-07-09 through 2026-07-10 local state."
+  },
+  "legacy_local_reconciliation": {
+    "scope": "Canonical Wave42 workflow and its directly referenced authored implementation helpers",
+    "canonical_workflow_represented_in_main": true,
+    "representation": [
+      "Plan/12_SOURCE_SUMMARIES/source_snapshots/WAVE42_MAIN_FLOW_20260702.runtime_bound_snapshot.json",
+      "Plan/12_SOURCE_SUMMARIES/source_snapshots/WAVE42_MAIN_FLOW_20260702_WAVE13_SOURCE.json",
+      "Plan/Tracker/Source_Citations/tracker_source_citation_index.csv",
+      "Plan/Items/Source_Citations/items_source_citation_index.csv",
+      "Wave48 and Wave55 tracker/item rows"
+    ],
+    "historical_helpers_not_physically_migrated": [
+      "export_wave42_main_flow_image_evidence.py",
+      "promote_wave42_main_flow_after_runtime_proof.py"
+    ],
+    "historical_helpers_explicitly_cited_in_main": true,
+    "unique_newer_uncited_canonical_candidates": [],
+    "bulk_copy_performed": false,
+    "decision": "Keep raw one-off helpers, backups, and inactive legacy runtime state historical. Check Main snapshots and citations before implementing related work; extract only a newly proven uncited capability."
+  },
+  "supporting_evidence": {
+    "ec2_stale_workspace_boundary": {
+      "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/LOCAL_SOURCE_OF_TRUTH_EC2_STALE_WORKSPACE_BOUNDARY_20260709T122807-0500.json",
+      "sha256": "9ec67d42aeb89572c0eec934a822d5b3804bc0062fe506b4ef508fc08c94fd7b"
+    },
+    "cursor_handoff": {
+      "path": "runtime_artifacts/agent_handoffs/cursor/20260710T182654-0500_legacy_comfy_ui_narrow_authority_reconciliation/handoff_record.json",
+      "status": "PASS",
+      "classification": "CURSOR_HANDOFF_COMPLETED"
+    }
+  },
+  "limits": [
+    "This is a bounded canonical-workflow reconciliation, not a claim that every historical file was byte-for-byte copied into Main.",
+    "EC2 remained stopped, so the live check used instance state, S3 inventory, and the prior recorded idle/stale-workspace inspection.",
+    "C:\\Comfy_UI and EC2 remain source/runtime context only and cannot override C:\\Comfy_UI_Main."
+  ]
+}

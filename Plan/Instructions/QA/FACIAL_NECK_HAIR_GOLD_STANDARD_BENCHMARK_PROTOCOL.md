@@ -94,6 +94,27 @@ not be selected for production, promotion, or certification. Repeating or
 tuning this candidate against the same gold samples is prohibited without a
 new implementation hypothesis.
 
+### Accepted Overlapping Skin Composition
+
+Celeb skin truth is an overlapping binary region, while BiSeNet argmax output
+is mutually exclusive. The optional `skin_nested_union_v1` composition restores
+the dataset semantics by deriving `skin` as the union of predicted skin,
+left/right brows, left/right eyes, nose, mouth, upper lip, and lower lip.
+
+Composition occurs after route normalization. Immutable base masks remain
+stored and hash-bound; every operand hash, base-directory hash, preserved base
+skin hash, rule ID, and composed output hash is recorded in the prediction
+manifest. The evaluator recomputes the union, rejects changed non-skin masks,
+and fails closed on missing operands, hash drift, unknown rules, or a
+non-reproducible output.
+
+Controlled IDs `0`, `1`, and `2` improve from nine to ten passing classes with
+no prior pass regression. Skin IoU improves from `0.815` to `0.973`. Fresh
+held-out IDs `6`, `7`, and `8` independently pass skin at `0.946` IoU with
+false-positive/gold `0.0020` and false-negative/gold `0.0518`. This accepts the
+skin composition as candidate route behavior only; the overall facial route
+remains blocked by other class failures and is not promoted or certified.
+
 ## CelebAMask-HQ Pairing
 
 - Originals: `C:\Comfy_UI_Main\MaskedWarehouse\CelebAMask-HQ\CelebA-HQ-img`

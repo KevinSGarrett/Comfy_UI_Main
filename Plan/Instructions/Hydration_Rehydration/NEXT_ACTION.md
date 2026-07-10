@@ -1,3 +1,9 @@
+## Immediate Next Action - Overlapping Skin Composition Accepted, Remaining Facial Classes Blocked - 2026-07-10T18:20:00-05:00
+
+The hash-bound `skin_nested_union_v1` derived overlay is implemented, evaluator-recomputed, and visually reviewed across controlled IDs `0,1,2` plus fresh held-out IDs `6,7,8`. Controlled skin IoU improves from `0.815` to `0.973`, held-out skin passes at `0.946`, and no controlled passing class regresses. Fifty-five producer/evaluator/gate/comparison/panel regressions pass.
+
+The facial route remains unpromoted and blocked on non-skin classes. Next exact action: investigate one fixed semantic reconstruction or model-backed repair for ears/ear accessories or neck, selected from route outputs and dataset taxonomy before evaluation. Do not alter the accepted skin rule, rerun rejected flip TTA, tune against the same control IDs, promote the full route, clear body-gold dependencies, run Wave70 hard gates, or activate Wave71+.
+
 ## Immediate Next Action - Produce Originals-Only Facial Predictions - 2026-07-10T17:00:00-05:00
 
 The manifest-driven facial gold evaluator is implemented at `Plan/07_IMPLEMENTATION/scripts/benchmark_wave70_facial_gold_evaluator.py`. Twenty-one disposable cases pass, including shard eligibility, absent classes, neck/accessory separation, transform inversion, dimension/hash failures, exact route inputs, gold leakage, separate LaPa taxonomy binding, split mismatch, protected-neighbor leakage, empty accounting, and landmark NME. Both older split-specific benchmark entry points now fail closed before execution.

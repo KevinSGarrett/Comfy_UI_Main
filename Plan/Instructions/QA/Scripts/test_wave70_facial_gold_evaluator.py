@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import subprocess
 import sys
@@ -10,11 +11,16 @@ import traceback
 from datetime import datetime, timezone
 from pathlib import Path
 
+import pytest
 from PIL import Image
 
 
 ROOT = Path(__file__).resolve().parents[4]
 EVALUATOR = ROOT / "Plan/07_IMPLEMENTATION/scripts/benchmark_wave70_facial_gold_evaluator.py"
+EVALUATOR_SPEC = importlib.util.spec_from_file_location("facial_evaluator", EVALUATOR)
+assert EVALUATOR_SPEC and EVALUATOR_SPEC.loader
+evaluator_module = importlib.util.module_from_spec(EVALUATOR_SPEC)
+EVALUATOR_SPEC.loader.exec_module(evaluator_module)
 
 
 def sha256_file(path: Path) -> str:
@@ -52,6 +58,63 @@ def save_mask(path: Path, pixels: list[list[int]]) -> None:
 def save_rgb(path: Path, width: int = 4, height: int = 4) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     Image.new("RGB", (width, height), color=(32, 64, 96)).save(path)
+
+
+CELEB_CLASSES = (
+    "skin", "l_brow", "r_brow", "l_eye", "r_eye", "eye_g", "l_ear", "r_ear", "ear_r",
+    "nose", "mouth", "u_lip", "l_lip", "neck", "neck_l", "cloth", "hair", "hat",
+)
+
+
+def composition_fixture(project: Path) -> tuple[dict, Path, Path]:
+    base = project / "base"
+    output = project / "output"
+    zero = [[0, 0], [0, 0]]
+    for class_name in CELEB_CLASSES:
+        save_mask(base / f"{class_name}.png", zero)
+        save_mask(output / f"{class_name}.png", zero)
+    save_mask(base / "nose.png", [[255, 0], [0, 0]])
+    save_mask(output / "nose.png", [[255, 0], [0, 0]])
+    save_mask(output / "skin.png", [[255, 0], [0, 0]])
+    inputs = {
+        class_name: sha256_file(base / f"{class_name}.png")
+        for class_name in evaluator_module.CELEB_SKIN_UNION_SOURCES
+    }
+    composition = {
+        "enabled": True,
+        "composition_rule_id": "celeb_skin_nested_union_v1",
+        "target_class": "skin",
+        "union_sources": list(evaluator_module.CELEB_SKIN_UNION_SOURCES),
+        "base_prediction_path": str(base),
+        "base_prediction_sha256": sha256_path(base),
+        "composition_input_hashes": inputs,
+        "base_skin_sha256_preserved": inputs["skin"],
+        "composition_output_sha256": sha256_file(output / "skin.png"),
+    }
+    return {"composition": composition}, base, output
+
+
+def test_composition_contract_recomputes_union_and_preserves_non_target(tmp_path: Path) -> None:
+    project = tmp_path / "project"
+    sample, _, output = composition_fixture(project)
+    evaluator_module.validate_celeb_composition(project, sample, output)
+
+
+def test_composition_contract_rejects_changed_non_target(tmp_path: Path) -> None:
+    project = tmp_path / "project"
+    sample, _, output = composition_fixture(project)
+    save_mask(output / "nose.png", [[0, 0], [0, 0]])
+    with pytest.raises(ValueError, match="composition_non_target_class_changed:nose"):
+        evaluator_module.validate_celeb_composition(project, sample, output)
+
+
+def test_composition_contract_rejects_nonreproducible_skin(tmp_path: Path) -> None:
+    project = tmp_path / "project"
+    sample, _, output = composition_fixture(project)
+    save_mask(output / "skin.png", [[255, 255], [0, 0]])
+    sample["composition"]["composition_output_sha256"] = sha256_file(output / "skin.png")
+    with pytest.raises(ValueError, match="composition_output_not_reproducible"):
+        evaluator_module.validate_celeb_composition(project, sample, output)
 
 
 def run_eval(

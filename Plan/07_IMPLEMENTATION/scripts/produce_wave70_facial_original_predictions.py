@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import shutil
 import subprocess
 import sys
 from datetime import datetime
@@ -11,7 +12,7 @@ from pathlib import Path
 from typing import Any
 from zoneinfo import ZoneInfo
 
-from PIL import Image
+from PIL import Image, ImageChops
 
 from wave70_model_registry import COMFYUI_VENV_PYTHON, first_existing_asset
 
@@ -23,6 +24,7 @@ CLASS_ORDER = (
 CLASS_INDEX = {class_name: index for index, class_name in enumerate(CLASS_ORDER, start=1)}
 ROUTE_INPUT_SIZE = (512, 512)
 TTA_RUNNER = Path(__file__).resolve().with_name("run_wave70_facial_bisenet_inference.py")
+SKIN_UNION_SOURCES = ("skin", "l_brow", "r_brow", "l_eye", "r_eye", "nose", "mouth", "u_lip", "l_lip")
 # Celeb annotations intentionally overlap nested anatomy and accessories. These
 # lists contain only regions where prediction overlap is unambiguously leakage.
 PROTECTED_NEIGHBORS = {
@@ -139,6 +141,47 @@ def normalize_predictions(raw_sample_dir: Path, normalized_dir: Path) -> tuple[l
     return list(CLASS_ORDER), output_size, materialized_empty
 
 
+def materialize_composition(base_dir: Path, output_dir: Path, mode: str) -> dict[str, Any] | None:
+    output_dir.mkdir(parents=True, exist_ok=True)
+    for class_name in CLASS_ORDER:
+        source = base_dir / f"{class_name}.png"
+        if not source.is_file():
+            raise FileNotFoundError(f"base_prediction_class_missing:{class_name}")
+        shutil.copy2(source, output_dir / source.name)
+    if mode == "none":
+        return None
+    if mode != "skin_nested_union_v1":
+        raise ValueError(f"unsupported_mask_composition:{mode}")
+    union: Image.Image | None = None
+    input_hashes: dict[str, str] = {}
+    expected_size: tuple[int, int] | None = None
+    for class_name in SKIN_UNION_SOURCES:
+        path = base_dir / f"{class_name}.png"
+        input_hashes[class_name] = sha256_file(path)
+        with Image.open(path) as image:
+            mask = image.convert("L").point(lambda value: 255 if value else 0)
+            if expected_size is None:
+                expected_size = mask.size
+            elif mask.size != expected_size:
+                raise ValueError(f"composition_input_dimension_mismatch:{class_name}")
+            union = mask.copy() if union is None else ImageChops.lighter(union, mask)
+    if union is None:
+        raise ValueError("composition_sources_empty")
+    output_path = output_dir / "skin.png"
+    union.save(output_path)
+    return {
+        "enabled": True,
+        "composition_rule_id": "celeb_skin_nested_union_v1",
+        "target_class": "skin",
+        "union_sources": list(SKIN_UNION_SOURCES),
+        "base_prediction_path": str(base_dir),
+        "base_prediction_sha256": sha256_directory(base_dir),
+        "composition_input_hashes": input_hashes,
+        "base_skin_sha256_preserved": input_hashes["skin"],
+        "composition_output_sha256": sha256_file(output_path),
+    }
+
+
 def build_route_spec(inference_mode: str, input_dir: Path, output_dir: Path, checkpoint: Path) -> dict[str, Any]:
     producer_path = Path(__file__).resolve()
     if inference_mode == "single_pass":
@@ -189,6 +232,7 @@ def main() -> int:
     parser.add_argument("--runtime-root")
     parser.add_argument("--timeout-seconds", type=int, default=300)
     parser.add_argument("--inference-mode", choices=("single_pass", "hflip_logit_mean"), default="single_pass")
+    parser.add_argument("--mask-composition", choices=("none", "skin_nested_union_v1"), default="none")
     args = parser.parse_args()
 
     project_root = Path(args.project_root).resolve()
@@ -201,6 +245,7 @@ def main() -> int:
     )
     input_dir = runtime_root / "original_inputs"
     raw_output_dir = runtime_root / "route_output"
+    base_predictions_root = runtime_root / "base_predictions"
     normalized_root = runtime_root / "normalized_predictions"
     input_dir.mkdir(parents=True, exist_ok=True)
     original_root = project_root / "MaskedWarehouse/CelebAMask-HQ/CelebA-HQ-img"
@@ -245,8 +290,10 @@ def main() -> int:
     for source_record in sources:
         sample_id = source_record["sample_id"]
         raw_sample_dir = raw_output_dir / "masks" / sample_id
+        base_dir = base_predictions_root / sample_id
         normalized_dir = normalized_root / sample_id
-        classes, output_size, materialized_empty = normalize_predictions(raw_sample_dir, normalized_dir)
+        classes, output_size, materialized_empty = normalize_predictions(raw_sample_dir, base_dir)
+        composition = materialize_composition(base_dir, normalized_dir, args.mask_composition)
         source_size = source_record["source_size"]
         route_input_size = source_record["route_input_size"]
         if output_size != route_input_size:
@@ -258,8 +305,7 @@ def main() -> int:
         protected = {class_name: list(PROTECTED_NEIGHBORS[class_name]) for class_name in classes}
         source_path = relative(project_root, source_record["source"])
         route_input_paths.append(source_path)
-        samples.append(
-            {
+        sample_manifest = {
                 "sample_id": sample_id,
                 "source_path": source_path,
                 "source_sha256": source_record["source_sha256"],
@@ -274,7 +320,10 @@ def main() -> int:
                 "transforms": transforms,
                 "materialized_empty_route_classes": materialized_empty,
             }
-        )
+        if composition is not None:
+            composition["base_prediction_path"] = relative(project_root, base_dir)
+            sample_manifest["composition"] = composition
+        samples.append(sample_manifest)
 
     manifest = {
         "schema_version": "1.0",
@@ -296,6 +345,11 @@ def main() -> int:
             "authority": "face_parsing.segment.vis_parsing_maps 512x512 input contract",
         },
         "route_inference": route_spec["inference_metadata"],
+        "route_mask_composition": {
+            "mode": args.mask_composition,
+            "derived_overlay": args.mask_composition != "none",
+            "base_masks_preserved": True,
+        },
         "dataset_id": "celebamask_hq_shard_0",
         "run_id": f"facial-original-predictions-{stamp}",
         "boundary_tolerance_pixels": 1,

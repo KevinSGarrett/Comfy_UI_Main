@@ -58,6 +58,37 @@
           "mode": {"enum": ["semantic", "landmarks", "semantic_and_landmarks"]},
           "classes": {"type": "array", "items": {"type": "string"}},
           "protected_neighbors": {"type": "object"},
+          "composition": {
+            "type": "object",
+            "required": ["enabled", "composition_rule_id", "target_class", "union_sources", "base_prediction_path", "base_prediction_sha256", "composition_input_hashes", "base_skin_sha256_preserved", "composition_output_sha256"],
+            "properties": {
+              "enabled": {"const": true},
+              "composition_rule_id": {"const": "celeb_skin_nested_union_v1"},
+              "target_class": {"const": "skin"},
+              "union_sources": {"type": "array", "minItems": 9, "maxItems": 9, "items": {"type": "string"}},
+              "base_prediction_path": {"type": "string", "minLength": 1},
+              "base_prediction_sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
+              "composition_input_hashes": {
+                "type": "object",
+                "required": ["skin", "l_brow", "r_brow", "l_eye", "r_eye", "nose", "mouth", "u_lip", "l_lip"],
+                "properties": {
+                  "skin": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
+                  "l_brow": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
+                  "r_brow": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
+                  "l_eye": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
+                  "r_eye": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
+                  "nose": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
+                  "mouth": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
+                  "u_lip": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
+                  "l_lip": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"}
+                },
+                "additionalProperties": false
+              },
+              "base_skin_sha256_preserved": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
+              "composition_output_sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"}
+            },
+            "additionalProperties": false
+          },
           "transforms": {
             "type": "array",
             "minItems": 1,

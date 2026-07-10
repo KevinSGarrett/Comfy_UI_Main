@@ -1,3 +1,9 @@
+## Active Mask QA Posture - Overlapping Skin Reconstructed And Held-Out Verified - 2026-07-10T18:20:00-05:00
+
+Continue the full ComfyUI project from `C:\Comfy_UI_Main`. The native-512 single-pass face parser now supports an explicit overlapping skin overlay while preserving and hashing every base mask. The evaluator independently reconstructs the union and rejects provenance, hash, reproducibility, or non-target-mutation failures. Controlled and fresh held-out skin both pass, with dedicated six-sample visual QA.
+
+This advances only the facial skin class. The full facial route remains blocked on sample-dependent ear/accessory, neck, cloth/hat, upper-lip, and other feature failures; no route promotion or certification is authorized. Manual body/body-part gold masks remain pending, and no result clears body/hand/contact geometry, Wave70 hard gates, Wave71+, or full Mask Factory certification.
+
 ## Active Mask QA Posture - Facial Evaluator Ready, Production Predictions Pending - 2026-07-10T17:00:00-05:00
 
 Continue the full ComfyUI project from `C:\Comfy_UI_Main`. The new evaluator enforces originals-only producer provenance, source/prediction hashes, source-coordinate transform inversion, Celeb shard/neck separation, external LaPa taxonomy authority, split roles, segmentation metrics, leakage, empty classes, and landmark NME. Fixture regression is 21/21; legacy noncompliant entry points are blocked.

@@ -71,6 +71,29 @@ def test_prediction_directory_hash_is_stable(tmp_path: Path) -> None:
     assert producer.sha256_directory(tmp_path) == producer.sha256_directory(tmp_path)
 
 
+def test_skin_composition_unions_nested_classes_and_preserves_sources(tmp_path: Path) -> None:
+    base = tmp_path / "base"
+    for class_name in producer.CLASS_ORDER:
+        save_mask(base / f"{class_name}.png", 0)
+    save_mask(base / "nose.png", 255)
+    output = tmp_path / "output"
+    record = producer.materialize_composition(base, output, "skin_nested_union_v1")
+    assert record is not None
+    assert record["union_sources"] == list(producer.SKIN_UNION_SOURCES)
+    assert Image.open(output / "skin.png").getbbox() == (0, 0, 8, 6)
+    assert producer.sha256_file(base / "nose.png") == producer.sha256_file(output / "nose.png")
+    assert producer.sha256_file(base / "skin.png") == record["base_skin_sha256_preserved"]
+
+
+def test_skin_composition_fails_when_base_class_is_missing(tmp_path: Path) -> None:
+    base = tmp_path / "base"
+    for class_name in producer.CLASS_ORDER:
+        if class_name != "hat":
+            save_mask(base / f"{class_name}.png", 0)
+    with pytest.raises(FileNotFoundError, match="base_prediction_class_missing:hat"):
+        producer.materialize_composition(base, tmp_path / "output", "skin_nested_union_v1")
+
+
 def test_configuration_hash_binds_component_order_and_content(tmp_path: Path) -> None:
     first = tmp_path / "first.py"
     second = tmp_path / "second.py"
