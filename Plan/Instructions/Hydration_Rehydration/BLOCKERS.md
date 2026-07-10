@@ -1,3 +1,7 @@
+## ControlNet Depth Local Contract Ready; Live Proof Still Required - 2026-07-10T12:10:17-05:00
+
+The depth lane no longer has a stale-package or unvalidated package/deploy contract blocker. It remains blocked from target-runtime and final-certification claims by explicit live-window selection, AWS/auth and S3 execute gates if used, EC2 object-info/model/path/input hash proof, bounded generation, pullback, strict whole-image QA, and final review. Lineart, openpose, and normal remain unverified against the new current-package validator until their own clean packages and bundles are built.
+
 ## RealESRGAN Live Proof Still Required After Local Transfer Bundle - 2026-07-10T11:36:07-05:00
 
 The RealESRGAN lane's local asset-transfer gap is resolved: model/input hashes, S3 publish dry-runs, and EC2 install dry-runs pass together in `W66_SDXL_REALESRGAN_UPSCALE_ASSET_TRANSFER_DRY_RUN_BUNDLE_20260710T113605-0500.json`. Remaining blockers are explicit live intent, S3 Execute proofs, EC2 model/input hash-verified install, target-runtime static proof, bounded output, pullback, strict visual QA, and final certification review. Classification remains live-gated; the work order is not closed.

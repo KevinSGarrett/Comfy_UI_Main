@@ -1,3 +1,7 @@
+## Decision - Use Composed ControlNet Package Validation Before Live Selection - 2026-07-10T12:10:17-05:00
+
+Use `Test-ControlNetSelectedLanePackageDeployConsistency.ps1` for depth, lineart, openpose, and normal package/deploy preparation. It must compose the generic validator and pass lane identity, required model, control family, control image, smoke binding, and packaged contract hashes. A local pass does not authorize upload, EC2, generation, promotion, certification, or Item/Tracker completion.
+
 ## Decision - mf70_teeth_mouth_area Morphology-Only Repair Is Blocked - 2026-07-10T06:19:25-05:00
 
 Use `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_TEETH_MOUTH_AREA_ANISOTROPIC_ROUTE_SEARCH_20260710T061925-0500.json` as the current teeth-mouth route-family decision. A 6,471-route anisotropic morphology/shift search did not produce a combined-gold pass. Stop morphology-only tuning for this row; use a non-morphology boundary route, explicit row policy, or another blocked row.

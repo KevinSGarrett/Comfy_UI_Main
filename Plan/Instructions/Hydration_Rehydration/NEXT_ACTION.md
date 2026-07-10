@@ -1,3 +1,9 @@
+## Immediate Next Action - ControlNet Depth Clean Package Contract Validated - 2026-07-10T12:10:17-05:00
+
+The first remaining ControlNet lane now has a current local run package and clean deploy bundle bound by the reusable `Plan/Instructions/QA/Scripts/Test-ControlNetSelectedLanePackageDeployConsistency.ps1`. Evidence `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_CONTROLNET_SELECTED_LANE_PACKAGE_DEPLOY_VALIDATOR_REGRESSION_20260710T120900-0500.json`, mirrored under `Plan/Tracker/Evidence/Operations_Static_Validation`, reports `pass_local_only`: depth passes 10 checks, the composed generic validator has zero failures, and all four negative cases fail with their expected categories.
+
+Next exact action: keep EC2 stopped. Do not rebuild the depth package or bundle unless a source contract changes. Apply the same validator to the remaining allowlisted lineart, openpose, and normal lanes using current clean packages/bundles, or obtain explicit live-window selection before any S3 `-Execute`, EC2 proof, or generation. This is local preparation only; no target-runtime proof, certification, promotion, Item completion, or Tracker completion is claimed.
+
 ## Immediate Next Action - RealESRGAN Asset Transfer Dry-Run Bundle Ready - 2026-07-10T11:36:07-05:00
 
 The first open Wave66 target-runtime work order, `WO-W66-SDXL_REALESRGAN_UPSCALE_POLISH_LANE-TARGET-RUNTIME-PROOF`, now has a lane-scoped local asset-transfer bundle. Evidence `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SDXL_REALESRGAN_UPSCALE_ASSET_TRANSFER_DRY_RUN_BUNDLE_20260710T113605-0500.json`, mirrored under `Plan/Tracker/Evidence/Runtime_Readiness`, passes with both local hashes matched, four dry-run child artifacts, and failed checks `0`.

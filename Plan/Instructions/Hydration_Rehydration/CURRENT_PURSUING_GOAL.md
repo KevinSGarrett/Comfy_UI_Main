@@ -1,3 +1,9 @@
+## Active Runtime/Orchestration Posture - ControlNet Clean Package Validation Active - 2026-07-10T12:10:17-05:00
+
+Continue the full ComfyUI project from authoritative local state at `C:\Comfy_UI_Main`. A reusable selected-lane ControlNet validator now composes generic package/deploy integrity with lane-specific checkpoint, ControlNet, control-map, smoke-binding, and packaged-contract checks. The current depth package `depth_target_prep_current_43638e6` and clean bundle `depth_current_43638e6` pass all 10 checks.
+
+Authority evidence is `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_CONTROLNET_SELECTED_LANE_PACKAGE_DEPLOY_VALIDATOR_REGRESSION_20260710T120900-0500.json`. The four negative cases also pass fail-closed regression. The full project goal remains active; depth target-runtime proof and final certification remain incomplete, and lineart/openpose/normal still need empirical current-package validation. Keep EC2 stopped and preserve mask, Wave70/Wave71+, Jira, and local-source-of-truth boundaries.
+
 ## Active Runtime/Orchestration Posture - RealESRGAN Transfer Preflight Bound - 2026-07-10T11:36:07-05:00
 
 Continue the full ComfyUI project from `C:\Comfy_UI_Main`. RealESRGAN target-runtime preparation now binds the verified local `RealESRGAN_x4plus.pth` model and Canny-derived source image to explicit model/input S3 URIs plus model/input EC2 install dry-run plans in one fail-closed artifact.
