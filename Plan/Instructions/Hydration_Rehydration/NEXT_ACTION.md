@@ -1,3 +1,11 @@
+## Immediate Next Action - Normal Lane Final Review Blocker Packet Current - 2026-07-09T19:17:00-05:00
+
+Continue final-certification work from the current ControlNet Normal lane final-review blocker packet. The packet now consumes the current selected-inpaint final-certification work-order map from Done_Certifications, carries both final-review and target-runtime work-order blockers, and removes stale dirty-Git/deploy-bundle blockers from the actionable blocker summary.
+
+Current evidence: `Plan/Instructions/QA/Evidence/Done_Certifications/W66_NORMAL_LANE_FINAL_REVIEW_BLOCKER_PACKET_SELECTED_CHAIN_20260709T191600-0500.json` reports `blocked_normal_lane_final_review_target_runtime_proof_missing`, `defects=0`, 0 failed checks, `closes_work_order=false`, `full_project_certification_allowed=false`, and current work-order blockers including `target_runtime_or_final_certification_not_proven`, `target_runtime_proof_evidence_missing`, `queue_status_not_final_certified:local_normal_v3_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification`, and `required_next_runtime_gate_still_requires_target_or_final_review`. QA helper validation `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_QA_HELPER_AFTER_NORMAL_BLOCKER_PACKET_SELECTED_CHAIN_20260709T191700-0500.json` reports `pass_local_only`, 52 scripts parsed, 57 local smokes, and 0 failures. Tracker mirrors exist.
+
+Remaining project blockers are unchanged: other lane target-runtime/final-review work orders, explicit target-runtime/live intent, refreshed AWS auth, S3 Execute proofs, EC2 install/static proof, EC2 start authorization, and gold-mask-dependent gates. Do not start EC2, upload to S3, post ComfyUI prompts, promote masks, rerun Wave70 hard gates, activate Wave71+, or switch to Jira bookkeeping without explicit live/gate conditions.
+
 ## Immediate Next Action - Lineart Lane Final Review Blocker Packet Current - 2026-07-09T19:10:00-05:00
 
 Continue final-certification work from the current ControlNet Lineart lane final-review blocker packet. The packet now consumes the current selected-inpaint final-certification work-order map from Done_Certifications, carries both final-review and target-runtime work-order blockers, and removes stale dirty-Git/deploy-bundle blockers from the actionable blocker summary.
