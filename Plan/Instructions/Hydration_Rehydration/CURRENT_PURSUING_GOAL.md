@@ -1,3 +1,9 @@
+## Immediate Next Action - Nose Candidate Policy Recorded - 2026-07-10T10:43:20-05:00
+
+The current `mf70_nose` route is now explicitly recorded as a gold-supported candidate only, not a promotion or certification-ready mask. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_NOSE_CANDIDATE_POLICY_DECISION_20260710T104320-0500.json` selects `candidate_supported_no_promotion_until_target_runtime_and_reference_matrix_proof`: combined CelebAMask-HQ+LaPa gate passes, combined postprocess route `open_r4` passes, and the local v5 generated-output visual QA passes with notes, while `mask_promoted=false`, `active_input_mask_overwritten=false`, `target_runtime_proof_present=false`, and `reference_image_matrix_pass=false`.
+
+Next exact action: continue concrete non-mask ComfyUI runtime/orchestration work or another gold-backed row that does not consume candidate masks as truth. Do not promote `mf70_nose`, overwrite active inputs, claim Wave70 certification, start EC2, activate Wave71+, switch to Jira bookkeeping, or use `C:\Comfy_UI`.
+
 ## Current Pursuing Goal - Face-Skin Dataset Runtime Policy Boundary - 2026-07-10T10:38:23-05:00
 
 Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with Wave70 facial/body masks governed by gold-backed evidence before any target-portrait proof. The latest concrete progress is an explicit `mf70_face_skin` policy decision: LaPa supports the current face-skin route, but combined gold blocks it through CelebAMask-HQ, hull v2 is runtime-unsafe over identity-critical features, and protected v3 is runtime-safer but below the current gold gate.

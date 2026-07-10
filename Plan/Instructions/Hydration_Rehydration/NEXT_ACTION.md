@@ -1,3 +1,9 @@
+## Immediate Next Action - Nose Candidate Policy Recorded - 2026-07-10T10:43:20-05:00
+
+The current `mf70_nose` route is now explicitly recorded as a gold-supported candidate only, not a promotion or certification-ready mask. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_NOSE_CANDIDATE_POLICY_DECISION_20260710T104320-0500.json` selects `candidate_supported_no_promotion_until_target_runtime_and_reference_matrix_proof`: combined CelebAMask-HQ+LaPa gate passes, combined postprocess route `open_r4` passes, and the local v5 generated-output visual QA passes with notes, while `mask_promoted=false`, `active_input_mask_overwritten=false`, `target_runtime_proof_present=false`, and `reference_image_matrix_pass=false`.
+
+Next exact action: continue concrete non-mask ComfyUI runtime/orchestration work or another gold-backed row that does not consume candidate masks as truth. Do not promote `mf70_nose`, overwrite active inputs, claim Wave70 certification, start EC2, activate Wave71+, switch to Jira bookkeeping, or use `C:\Comfy_UI`.
+
 ## Immediate Next Action - Switch Row After Face-Skin Policy - 2026-07-10T10:38:23-05:00
 
 The current `mf70_face_skin` route family is now policy-blocked for promotion. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACE_SKIN_POLICY_DECISION_20260710T103823-0500.json` selects `fail_closed_until_dataset_vs_runtime_face_skin_policy_or_safer_gold_supported_route`: `combined_all_gold_policy_pass=false`, `lapa_face_skin_policy_pass=true`, `hull_v2_runtime_safe=false`, `protected_v3_gold_policy_pass=false`, and `current_face_skin_promotion_ready=false`.
