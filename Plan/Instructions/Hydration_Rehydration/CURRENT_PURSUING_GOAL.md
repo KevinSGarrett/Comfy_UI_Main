@@ -1,3 +1,11 @@
+## Current Pursuing Goal - Teeth-Mouth Authority Policy Closed Morphology Loop - 2026-07-10T10:17:34-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with Wave70 facial/body masks governed by gold-backed evidence before any target-portrait proof. The latest concrete progress is an explicit `mf70_teeth_mouth_area` authority-policy decision: v2 is not combined-gold supported and the broader morphology/shift family remains blocked.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_TEETH_MOUTH_AUTHORITY_POLICY_DECISION_20260710T101734-0500.json` reports `mf70_teeth_mouth_area_authority_policy_fail_closed_no_promotion`, selected policy `fail_closed_until_non_morphology_mouth_boundary_authority_or_explicit_row_policy`, `v2_combined_policy_pass=false`, `anisotropic_morphology_policy_pass=false`, and `morphology_family_policy_pass=false`. Tracker mirror exists at `Plan/Tracker/Evidence/W70_TEETH_MOUTH_AUTHORITY_POLICY_DECISION_20260710T101734-0500.json`.
+
+No active ComfyUI input overwrite, mask promotion, row completion, EC2, AWS, S3, Civitai, Wave71 activation, Jira mutation, generated-portrait-only proof, or certification occurred. Next work should switch rows or bring a non-morphology mouth-interior boundary authority / explicit row policy, not retry the same v2 or morphology family.
+
 ## Current Pursuing Goal - Neck Authority Policy Closed Current Boundary Loop - 2026-07-10T10:14:49-05:00
 
 Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with Wave70 facial/body masks governed by gold-backed evidence before any target-portrait proof. The latest concrete progress is an explicit `mf70_neck` authority-policy decision: the current boundary route family fails the gold gate, and audited body sources do not provide a direct explicit neck label.

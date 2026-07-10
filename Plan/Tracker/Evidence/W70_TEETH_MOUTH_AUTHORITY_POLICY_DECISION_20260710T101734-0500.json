@@ -1,0 +1,164 @@
+{
+  "active_input_mask_overwritten": false,
+  "anisotropic_morphology_policy_pass": false,
+  "anisotropic_route_summary": {
+    "best_dataset_summaries": {
+      "CelebAMask-HQ": {
+        "failed_reasons": [],
+        "pass_gate": true,
+        "summary": {
+          "mean_dice": 0.92527,
+          "mean_false_negative_ratio_vs_gold": 0.060502,
+          "mean_false_positive_ratio_vs_gold": 0.087514,
+          "mean_iou": 0.862826,
+          "sample_count": 3
+        }
+      },
+      "LaPa": {
+        "failed_reasons": [
+          "mean_iou_below_0.85",
+          "false_positive_ratio_above_0.15",
+          "false_negative_ratio_above_0.15"
+        ],
+        "pass_gate": false,
+        "summary": {
+          "mean_dice": 0.759771,
+          "mean_false_negative_ratio_vs_gold": 0.200474,
+          "mean_false_positive_ratio_vs_gold": 0.166489,
+          "mean_iou": 0.67455,
+          "sample_count": 8
+        }
+      }
+    },
+    "best_failed_reasons": [
+      "mean_iou_below_0.85",
+      "false_negative_ratio_above_0.15"
+    ],
+    "best_pass_gate": false,
+    "best_route": "dilate_w9_h5_shifty1",
+    "best_summary": {
+      "mean_dice": 0.804907,
+      "mean_false_negative_ratio_vs_gold": 0.1623,
+      "mean_false_positive_ratio_vs_gold": 0.14495,
+      "mean_iou": 0.725898,
+      "sample_count": 11
+    },
+    "route_count": 6471
+  },
+  "decision": "Do not promote or target-proof mf70_teeth_mouth_area from v2 or the current morphology/shift route family. Resume this row only with a non-morphology mouth-interior boundary authority, stronger semantic parser/landmark route, or an explicit dataset/runtime row policy backed by gold evidence.",
+  "ec2_started": false,
+  "evidence_id": "W70_TEETH_MOUTH_AUTHORITY_POLICY_DECISION_20260710T101734-0500",
+  "generation_executed": false,
+  "gold_mask_authority": {
+    "masked_warehouse": "C:\\Comfy_UI_Main\\MaskedWarehouse",
+    "primary_datasets": [
+      "CelebAMask-HQ",
+      "LaPa"
+    ],
+    "single_generated_portrait_is_pass_authority": false
+  },
+  "local_only": true,
+  "mask_promoted": false,
+  "morphology_family_policy_pass": false,
+  "next_required_action": "Switch to another local gold-backed blocked row, or introduce a non-morphology mouth-interior boundary authority / explicit row policy before any new teeth-mouth proof.",
+  "policy_options": [
+    {
+      "decision": "rejected",
+      "policy": "promote_v2_current_route",
+      "reason": "The v2 route fails the combined gold gate and cannot use target-specific proof as gold support."
+    },
+    {
+      "decision": "rejected",
+      "policy": "promote_best_anisotropic_morphology_route",
+      "reason": "The 6,471-route anisotropic morphology/shift search still fails the combined gold IoU/FN gates."
+    },
+    {
+      "decision": "rejected",
+      "policy": "dataset_split_use_celeba_v2_only",
+      "reason": "v2 passes CelebAMask-HQ but fails LaPa; no current evidence justifies excluding LaPa from this row."
+    },
+    {
+      "decision": "selected",
+      "policy": "fail_closed_until_non_morphology_mouth_boundary_authority_or_explicit_row_policy",
+      "reason": "Both the existing v2 route and the broader morphology/shift family are exhausted under current gold evidence. The row needs a non-morphology mouth-interior boundary authority, or an explicit dataset/runtime policy before target proof."
+    }
+  ],
+  "region": "mf70_teeth_mouth_area",
+  "result": "mf70_teeth_mouth_area_authority_policy_fail_closed_no_promotion",
+  "scope": "Wave70 mf70_teeth_mouth_area authority-policy decision from current combined-gold route evidence",
+  "selected_policy": "fail_closed_until_non_morphology_mouth_boundary_authority_or_explicit_row_policy",
+  "source_evidence": [
+    {
+      "name": "teeth_mouth_v2_combined_gold_eval",
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_TEETH_MOUTH_AREA_V2_COMBINED_GOLD_EVAL_20260710T061135-0500.json",
+      "result": "mf70_teeth_mouth_area_v2_combined_gold_blocked_no_promotion",
+      "sha256": "60c13423da0afe7d0cce30c9ea1df356637691587c7e094def3f73530e80e144"
+    },
+    {
+      "name": "teeth_mouth_anisotropic_route_search",
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_TEETH_MOUTH_AREA_ANISOTROPIC_ROUTE_SEARCH_20260710T061925-0500.json",
+      "result": "mf70_teeth_mouth_area_anisotropic_routes_blocked_no_promotion",
+      "sha256": "0e5eb5c9c3ada1d2797e399316f71f63d06a3ed74982cceff4468a53972368a3"
+    }
+  ],
+  "timestamp": "20260710T101734-0500",
+  "v2_celeba_pass": true,
+  "v2_combined_gold_summary": {
+    "combined_failed_reasons": [
+      "mean_iou_below_0.85",
+      "false_positive_ratio_above_0.15",
+      "false_negative_ratio_above_0.15"
+    ],
+    "combined_pass_gate": false,
+    "combined_summary": {
+      "mean_dice": 0.778307,
+      "mean_false_negative_ratio_vs_gold": 0.198752,
+      "mean_false_positive_ratio_vs_gold": 0.158085,
+      "mean_iou": 0.688057,
+      "sample_count": 11
+    },
+    "dataset_summaries": {
+      "CelebAMask-HQ": {
+        "failed_reasons": [],
+        "pass_gate": true,
+        "summary": {
+          "mean_dice": 0.93121,
+          "mean_false_negative_ratio_vs_gold": 0.065565,
+          "mean_false_positive_ratio_vs_gold": 0.069764,
+          "mean_iou": 0.872362,
+          "sample_count": 3
+        }
+      },
+      "LaPa": {
+        "failed_reasons": [
+          "mean_iou_below_0.85",
+          "false_positive_ratio_above_0.15",
+          "false_negative_ratio_above_0.15"
+        ],
+        "pass_gate": false,
+        "summary": {
+          "mean_dice": 0.720968,
+          "mean_false_negative_ratio_vs_gold": 0.248697,
+          "mean_false_positive_ratio_vs_gold": 0.191206,
+          "mean_iou": 0.618942,
+          "sample_count": 8
+        }
+      }
+    },
+    "route": {
+      "name": "teeth_mouth_area_v2_erode7x3_dilate11x7",
+      "operations": [
+        {
+          "kernel": "ellipse_7x3",
+          "op": "erode"
+        },
+        {
+          "kernel": "ellipse_11x7",
+          "op": "dilate"
+        }
+      ]
+    }
+  },
+  "v2_combined_policy_pass": false,
+  "v2_lapa_pass": false
+}

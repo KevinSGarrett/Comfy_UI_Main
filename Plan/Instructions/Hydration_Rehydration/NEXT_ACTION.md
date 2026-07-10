@@ -1,3 +1,9 @@
+## Immediate Next Action - Switch Row After Teeth-Mouth Authority Policy - 2026-07-10T10:17:34-05:00
+
+The current `mf70_teeth_mouth_area` v2 and morphology/shift route family is now fail-closed. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_TEETH_MOUTH_AUTHORITY_POLICY_DECISION_20260710T101734-0500.json` selects `fail_closed_until_non_morphology_mouth_boundary_authority_or_explicit_row_policy`: `v2_combined_policy_pass=false`, `anisotropic_morphology_policy_pass=false`, and `morphology_family_policy_pass=false`; v2 passes CelebAMask-HQ but fails LaPa.
+
+Next exact action: switch to another local gold-backed blocked row, or introduce a non-morphology mouth-interior boundary authority / explicit row policy before any new teeth-mouth proof. Do not retry the same v2 or morphology/shift family, promote masks, overwrite active inputs, use generated-portrait-only proof, start EC2, activate Wave71+, use Jira bookkeeping as the active lane, or use `C:\Comfy_UI`.
+
 ## Immediate Next Action - Switch Row After Neck Authority Policy - 2026-07-10T10:14:49-05:00
 
 The current `mf70_neck` boundary route and body-source authority path is now fail-closed. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_NECK_AUTHORITY_POLICY_DECISION_20260710T101449-0500.json` selects `fail_closed_until_explicit_neck_authority_or_gold_reviewed_policy`: `boundary_policy_pass=false`, `direct_neck_authority_available=false`, and `current_neck_authority_policy_pass=false`.
