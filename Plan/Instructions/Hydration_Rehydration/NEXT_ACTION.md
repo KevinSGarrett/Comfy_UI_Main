@@ -1,3 +1,9 @@
+## Immediate Next Action - Selected Inpaint Clean Launch Gate Current - 2026-07-09T19:48:00-05:00
+
+Continue selected-inpaint pre-EC2 handoff/S3-live-gate orchestration from the clean local launch gate. The current launch gate binds the explicit inpaint target-runtime plan, clean-bundle package readiness, current clean Git gate, S3 transfer readiness planner, and selected execution-readiness snapshot.
+
+Current evidence: `Plan/Instructions/QA/Evidence/Git_Verification/W66_GITHUB_CHECKPOINT_DRY_RUN_JSON_GATE_SELECTED_INPAINT_CLEAN_BUNDLE_20260709T194700-0500.json` reports `pass_git_checkpoint_ready`, `clean_worktree=true`, and `local_matches_origin=true`. `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LAUNCH_GATE_CLEAN_BUNDLE_SELECTED_CHAIN_20260709T194800-0500.json` reports `blocked_selected_target_runtime_launch_gate_local_proofs_ready_waiting_for_live_gates`, `failed_check_count=0`, `local_package_ready=true`, `local_install_dry_run_proofs_complete=true`, `git_checkpoint_passes_for_ec2=true`, `source_git_clean_in_bundle=true`, and `target_runtime_launch_allowed=false`. Remaining blockers are live-gate only: explicit target-runtime/live intent, deploy bundle/input/model S3 Execute proofs, and EC2 start authorization. Keep EC2 stopped.
+
 ## Immediate Next Action - Selected Inpaint Clean Bundle Package Current - 2026-07-09T19:45:00-05:00
 
 Continue selected-inpaint launch-gate orchestration from the clean local deploy-bundle rebuild. A short-path local bundle was rebuilt at `runtime_artifacts/deploy_bundles/sel_inpaint_clean_1944/DEPLOY_BUNDLE_MANIFEST.json` to avoid Windows long-path copy failure; the manifest reports `pass_local_only`, `source_git_clean=true`, `source_git_status_count=0`, 27 files, and bundle SHA256 `5634b1bf07060982351c5537dd1c667f4748220ce9f82c0171298dc59a8469f7`.

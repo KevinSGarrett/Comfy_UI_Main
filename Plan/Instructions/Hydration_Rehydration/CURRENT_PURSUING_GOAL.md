@@ -1,3 +1,9 @@
+## Current Pursuing Goal - Selected Inpaint Clean Launch Gate Current - 2026-07-09T19:48:00-05:00
+
+Keep pursuing selected-inpaint target-runtime readiness from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a clean selected target-runtime launch gate: local package readiness, local install dry-run proofs, clean Git, and clean-source deploy bundle are all accounted, while live execution remains blocked.
+
+Current validation anchors: `W66_GITHUB_CHECKPOINT_DRY_RUN_JSON_GATE_SELECTED_INPAINT_CLEAN_BUNDLE_20260709T194700-0500.json` (`pass_git_checkpoint_ready`, `clean_worktree=true`, `local_matches_origin=true`) and `W66_SELECTED_TARGET_RUNTIME_LAUNCH_GATE_CLEAN_BUNDLE_SELECTED_CHAIN_20260709T194800-0500.json` (`blocked_selected_target_runtime_launch_gate_local_proofs_ready_waiting_for_live_gates`, `failed_check_count=0`, `local_package_ready=true`, `local_install_dry_run_proofs_complete=true`, `git_checkpoint_passes_for_ec2=true`, `source_git_clean_in_bundle=true`). Live execution remains unauthorized until explicit target-runtime/live intent, S3 Execute proofs for deploy bundle/input/model assets, EC2 install/static proof, and EC2 start authorization are present. Gold-mask-dependent promotion/body authority work remains blocked outside this non-mask runtime lane.
+
 ## Current Pursuing Goal - Selected Inpaint Clean Bundle Package Current - 2026-07-09T19:45:00-05:00
 
 Keep pursuing selected-inpaint target-runtime readiness from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a clean-source local deploy-bundle rebuild and package-readiness refresh for the selected inpaint lane; the previous deploy-bundle dirty-source blocker is cleared in the refreshed package evidence.
