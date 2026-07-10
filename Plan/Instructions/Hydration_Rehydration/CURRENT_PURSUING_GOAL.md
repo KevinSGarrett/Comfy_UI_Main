@@ -1,3 +1,11 @@
+## Current Pursuing Goal - Neck Authority Policy Closed Current Boundary Loop - 2026-07-10T10:14:49-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with Wave70 facial/body masks governed by gold-backed evidence before any target-portrait proof. The latest concrete progress is an explicit `mf70_neck` authority-policy decision: the current boundary route family fails the gold gate, and audited body sources do not provide a direct explicit neck label.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_NECK_AUTHORITY_POLICY_DECISION_20260710T101449-0500.json` reports `mf70_neck_authority_policy_fail_closed_no_promotion`, selected policy `fail_closed_until_explicit_neck_authority_or_gold_reviewed_policy`, `boundary_policy_pass=false`, `direct_neck_authority_available=false`, and `current_neck_authority_policy_pass=false`. Tracker mirror exists at `Plan/Tracker/Evidence/W70_NECK_AUTHORITY_POLICY_DECISION_20260710T101449-0500.json`.
+
+No active ComfyUI input overwrite, mask promotion, row completion, EC2, AWS, S3, Civitai, Wave71 activation, Jira mutation, generated-portrait-only proof, or certification occurred. Next work should switch rows or bring an explicit neck-label authority / gold-reviewed neck policy, not retry the same boundary family.
+
 ## Current Pursuing Goal - Hair Prompt Policy Closed Current SAM2 Loop - 2026-07-10T10:10:23-05:00
 
 Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with Wave70 facial masks governed by gold-backed evidence before any target-portrait proof. The latest concrete progress is an explicit `mf70_hair` prompt-policy decision: SAM2 exists locally, but the current bbox/point prompt policy and foreground-ownership route cannot be promoted.

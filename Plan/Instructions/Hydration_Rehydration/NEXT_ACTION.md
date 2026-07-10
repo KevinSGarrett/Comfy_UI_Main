@@ -1,3 +1,9 @@
+## Immediate Next Action - Switch Row After Neck Authority Policy - 2026-07-10T10:14:49-05:00
+
+The current `mf70_neck` boundary route and body-source authority path is now fail-closed. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_NECK_AUTHORITY_POLICY_DECISION_20260710T101449-0500.json` selects `fail_closed_until_explicit_neck_authority_or_gold_reviewed_policy`: `boundary_policy_pass=false`, `direct_neck_authority_available=false`, and `current_neck_authority_policy_pass=false`.
+
+Next exact action: switch to another local gold-backed blocked row, or register an explicit neck-label authority / gold-reviewed neck policy before any new neck proof. Do not retry the same boundary-route family, promote masks, overwrite active inputs, use generated-portrait-only proof, start EC2, activate Wave71+, use Jira bookkeeping as the active lane, or use `C:\Comfy_UI`.
+
 ## Immediate Next Action - Switch Row After Hair Prompt Policy - 2026-07-10T10:10:23-05:00
 
 The current `mf70_hair` foreground-ownership and SAM2 bbox/point prompt policy is now fail-closed. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_HAIR_PROMPT_POLICY_DECISION_20260710T101023-0500.json` selects `fail_closed_until_stronger_person_instance_or_owner_prompt_authority`: SAM2 is available locally, but `sam2_prompt_policy_pass=false`, `ownership_policy_pass=false`, and `current_hair_routes_pass=false`.
