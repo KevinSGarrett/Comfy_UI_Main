@@ -1,3 +1,9 @@
+## Immediate Next Action - Switch Row After Eye Policy Decision - 2026-07-10T10:07:29-05:00
+
+The current `mf70_eyes_full` InsightFace 106 route family is now policy-blocked, not just route-blocked. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_INSIGHTFACE_EYE_ROUTE_POLICY_DECISION_20260710T100729-0500.json` selects `fail_closed_until_new_eye_authority_or_switch_row` after the latest shifted-family evaluation still failed with `best_pass_gate=false`, route count `4861`, and failed reasons `mean_iou_below_0.85`, `false_positive_ratio_above_0.15`, and `false_negative_ratio_above_0.15`.
+
+Next exact action: switch to another local gold-backed blocked row or introduce a genuinely new eye segmentation/landmark authority. Do not run another same-family InsightFace 106 retuning pass, promote masks, overwrite active inputs, use generated-portrait-only proof, start EC2, activate Wave71+, use Jira bookkeeping as the active lane, or use `C:\Comfy_UI`.
+
 ## Immediate Next Action - Stop Current InsightFace Eye Route Family - 2026-07-10T10:00:36-05:00
 
 The bounded InsightFace 106-point eye-route improvement pass is complete and remains fail-closed. `Plan/07_IMPLEMENTATION/scripts/evaluate_wave70_insightface_106_eye_routes.py` now includes a landmark-scaled x/y shifted union route family, but evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_INSIGHTFACE_106_EYE_ROUTE_EVAL_20260710T100036-0500.json` reports the best route is still `eye106_all10_anis_heY1_union_parser_pdY1` with mean IoU `0.730961`, FP `0.152127`, and FN `0.1557`; `best_pass_gate=false`.

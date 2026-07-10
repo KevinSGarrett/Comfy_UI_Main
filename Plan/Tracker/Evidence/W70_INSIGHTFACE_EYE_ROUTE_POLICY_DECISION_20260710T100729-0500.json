@@ -1,0 +1,99 @@
+{
+  "active_input_mask_overwritten": false,
+  "best_failed_reasons": [
+    "mean_iou_below_0.85",
+    "false_positive_ratio_above_0.15",
+    "false_negative_ratio_above_0.15"
+  ],
+  "best_pass_gate": false,
+  "best_route": "eye106_all10_anis_heY1_union_parser_pdY1",
+  "best_summary": {
+    "mean_dice": 0.840457,
+    "mean_false_negative_ratio_vs_gold": 0.1557,
+    "mean_false_positive_ratio_vs_gold": 0.152127,
+    "mean_iou": 0.730961,
+    "sample_count": 8
+  },
+  "decision": "Do not promote, target-proof, or keep retuning mf70_eyes_full from the current InsightFace 106 route family. The route remains below the gold gate after the bounded shifted-family pass. Resume this row only after introducing a genuinely new eye authority, corrected 106-point index map, or explicit non-runtime diagnostic policy.",
+  "ec2_started": false,
+  "evidence_id": "W70_INSIGHTFACE_EYE_ROUTE_POLICY_DECISION_20260710T100729-0500",
+  "generation_executed": false,
+  "gold_mask_authority": {
+    "masked_warehouse": "C:\\Comfy_UI_Main\\MaskedWarehouse",
+    "primary_dataset_for_current_route": "LaPa",
+    "single_generated_portrait_is_pass_authority": false
+  },
+  "lapa_supplied_landmark_eye_record": {
+    "best_pass_gate": true,
+    "best_route": "eye_hull_d0",
+    "best_summary": {
+      "mean_dice": 0.948301,
+      "mean_false_negative_ratio_vs_gold": 0.069341,
+      "mean_false_positive_ratio_vs_gold": 0.031708,
+      "mean_iou": 0.902138,
+      "sample_count": 8
+    },
+    "decision": "lapa_supplied_landmark_candidate_found_no_promotion"
+  },
+  "latest_eye_eval_result": "insightface_106_eye_routes_blocked_no_promotion",
+  "local_only": true,
+  "mask_promoted": false,
+  "next_required_action": "Switch to another local gold-backed blocked row or introduce a genuinely new eye segmentation/landmark authority; do not run another same-family InsightFace 106 retuning pass.",
+  "policy_options": [
+    {
+      "decision": "rejected",
+      "policy": "promote_current_insightface_106_eye_route",
+      "reason": "The latest InsightFace 106 route evaluation fails the gold gate and must not be promoted."
+    },
+    {
+      "decision": "rejected",
+      "policy": "continue_retuning_current_106_index_shift_window_family",
+      "reason": "The bounded shifted union expansion has already been tested and did not improve the best route; more tuning of the same family is now a loop, not progress."
+    },
+    {
+      "decision": "rejected",
+      "policy": "use_lapa_supplied_landmarks_as_runtime_authority",
+      "reason": "LaPa supplied landmarks remain diagnostic only because target/runtime portraits do not supply those labels."
+    },
+    {
+      "decision": "selected",
+      "policy": "fail_closed_until_new_eye_authority_or_switch_row",
+      "reason": "A model-backed runtime 106-point source exists, but the current automatic InsightFace eye route family does not pass gold-backed IoU, false-positive, or false-negative gates."
+    }
+  ],
+  "region": "mf70_eyes_full",
+  "result": "mf70_eyes_full_insightface_policy_fail_closed_no_promotion",
+  "route_count": 4861,
+  "runtime_106_authority": "insightface buffalo_l landmark_2d_106 runtime detection",
+  "runtime_106_authority_available": true,
+  "scope": "Wave70 mf70_eyes_full InsightFace 106 route policy decision from current gold-backed evidence",
+  "selected_policy": "fail_closed_until_new_eye_authority_or_switch_row",
+  "shifted_family_improved_best": false,
+  "shifted_family_tested": true,
+  "source_evidence": [
+    {
+      "name": "latest_insightface_106_eye_route_eval",
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_INSIGHTFACE_106_EYE_ROUTE_EVAL_20260710T100036-0500.json",
+      "result": "insightface_106_eye_routes_blocked_no_promotion",
+      "sha256": "13f58a41f38ebb8f8530385e4faa277590626a3ba6a8c191ca8f4b4d5d8a7795"
+    },
+    {
+      "name": "runtime_106_landmark_source_audit",
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_RUNTIME_106_LANDMARK_SOURCE_AUDIT_20260710T080700-0500.json",
+      "result": "runtime_106_landmark_source_available_pending_gold_route_validation",
+      "sha256": "0e45d58364159e2ab7b388a2a549111e323a1e8eb085456e181f231f411dc4d9"
+    },
+    {
+      "name": "lapa_supplied_landmark_eye_brow_eval",
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_LAPA_SUPPLIED_LANDMARK_EYE_BROW_ROUTE_EVAL_20260710T052514-0500.json",
+      "result": "lapa_supplied_landmark_candidates_found_no_promotion",
+      "sha256": "73d274ccbd7cfe31c615c43834d3e7065e6f44755d827ec675129ed1ddee0e9e"
+    }
+  ],
+  "thresholds": {
+    "max_false_negative_ratio_vs_gold": 0.15,
+    "max_false_positive_ratio_vs_gold": 0.15,
+    "min_mean_iou": 0.85
+  },
+  "timestamp": "20260710T100729-0500"
+}

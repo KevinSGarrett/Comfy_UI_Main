@@ -1,3 +1,11 @@
+## Current Pursuing Goal - Eye Route Policy Closed Current InsightFace Loop - 2026-07-10T10:07:29-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with Wave70 facial masks governed by gold-backed evidence before any target-portrait proof. The latest concrete progress is an explicit `mf70_eyes_full` policy decision: the current InsightFace 106 route family is fail-closed after the bounded shifted-route expansion did not improve the best route.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_INSIGHTFACE_EYE_ROUTE_POLICY_DECISION_20260710T100729-0500.json` reports `mf70_eyes_full_insightface_policy_fail_closed_no_promotion`, selected policy `fail_closed_until_new_eye_authority_or_switch_row`, `best_pass_gate=false`, `route_count=4861`, and `shifted_family_improved_best=false`. Tracker mirror exists at `Plan/Tracker/Evidence/W70_INSIGHTFACE_EYE_ROUTE_POLICY_DECISION_20260710T100729-0500.json`.
+
+No active ComfyUI input overwrite, mask promotion, row completion, EC2, AWS, S3, Civitai, Wave71 activation, Jira mutation, generated-portrait-only proof, or certification occurred. Next work should switch to another local gold-backed row or bring a genuinely new eye authority, not retune the same InsightFace family again.
+
 ## Current Pursuing Goal - InsightFace Eye Shift Family Exhausted - 2026-07-10T10:00:36-05:00
 
 Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with Wave70 facial masks governed by MaskedWarehouse gold originals and masks before target-portrait proof. The latest concrete progress is a bounded improvement attempt for `mf70_eyes_full`: the InsightFace 106-point evaluator now tests landmark-scaled x/y shifted 106-parser union masks, but the best route did not improve beyond the previous family.
