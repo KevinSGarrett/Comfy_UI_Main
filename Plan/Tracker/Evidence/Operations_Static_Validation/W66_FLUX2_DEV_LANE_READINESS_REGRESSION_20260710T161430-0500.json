@@ -1,0 +1,88 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "flux2_dev_lane_readiness_regression",
+    "created_at":  "2026-07-10T16:14:34-05:00",
+    "result":  "pass_local_only",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "promotion_claimed":  false,
+    "test_count":  6,
+    "passing_test_count":  6,
+    "failed_test_count":  0,
+    "tests":  [
+                  {
+                      "name":  "complete_fixture_passes_static_candidate",
+                      "result":  "pass",
+                      "expected_ready":  true,
+                      "actual_ready":  true,
+                      "classification":  "FLUX2_DEV_LOCAL_READINESS_CANDIDATE",
+                      "failed_check_names":  [
+
+                                             ],
+                      "safety_pass":  true
+                  },
+                  {
+                      "name":  "disabled_fails_closed",
+                      "result":  "pass",
+                      "expected_ready":  false,
+                      "actual_ready":  false,
+                      "classification":  "BLOCKED_FLUX2_DEV_ASSET_OR_RUNTIME_PROOF_MISSING",
+                      "failed_check_names":  [
+                                                 "flux2_enabled"
+                                             ],
+                      "safety_pass":  true
+                  },
+                  {
+                      "name":  "missing_manifest_fails_closed",
+                      "result":  "pass",
+                      "expected_ready":  false,
+                      "actual_ready":  false,
+                      "classification":  "BLOCKED_FLUX2_DEV_ASSET_OR_RUNTIME_PROOF_MISSING",
+                      "failed_check_names":  [
+                                                 "asset_manifest_parses",
+                                                 "all_asset_manifest_entries_complete",
+                                                 "all_asset_files_present",
+                                                 "all_asset_hashes_match",
+                                                 "runtime_contract_complete"
+                                             ],
+                      "safety_pass":  true
+                  },
+                  {
+                      "name":  "hash_mismatch_fails_closed",
+                      "result":  "pass",
+                      "expected_ready":  false,
+                      "actual_ready":  false,
+                      "classification":  "BLOCKED_FLUX2_DEV_ASSET_OR_RUNTIME_PROOF_MISSING",
+                      "failed_check_names":  [
+                                                 "all_asset_hashes_match"
+                                             ],
+                      "safety_pass":  true
+                  },
+                  {
+                      "name":  "missing_object_info_fails_closed",
+                      "result":  "pass",
+                      "expected_ready":  false,
+                      "actual_ready":  false,
+                      "classification":  "BLOCKED_FLUX2_DEV_ASSET_OR_RUNTIME_PROOF_MISSING",
+                      "failed_check_names":  [
+                                                 "object_info_proof_present_and_passed"
+                                             ],
+                      "safety_pass":  true
+                  },
+                  {
+                      "name":  "missing_smoke_output_fails_closed",
+                      "result":  "pass",
+                      "expected_ready":  false,
+                      "actual_ready":  false,
+                      "classification":  "BLOCKED_FLUX2_DEV_ASSET_OR_RUNTIME_PROOF_MISSING",
+                      "failed_check_names":  [
+                                                 "smoke_output_proof_present_and_passed"
+                                             ],
+                      "safety_pass":  true
+                  }
+              ],
+    "boundary":  "Disposable static fixtures only; no model download, ComfyUI execution, generation, promotion, or live service access."
+}

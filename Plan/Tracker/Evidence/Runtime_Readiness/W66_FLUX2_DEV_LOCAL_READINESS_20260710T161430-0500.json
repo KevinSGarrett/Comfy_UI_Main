@@ -1,0 +1,268 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "flux2_dev_lane_local_readiness",
+    "created_at":  "2026-07-10T16:14:35-05:00",
+    "result":  "blocked_flux2_dev_prerequisites_missing",
+    "classification":  "BLOCKED_FLUX2_DEV_ASSET_OR_RUNTIME_PROOF_MISSING",
+    "lane_id":  "flux2_dev_primary_base",
+    "engine_id":  "flux2_dev_local",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "s3_contacted":  false,
+    "github_api_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "mask_consumed_as_truth":  false,
+    "target_runtime_proof":  false,
+    "certification_claimed":  false,
+    "promotion_claimed":  false,
+    "config_path":  "C:\\Comfy_UI_Main\\Plan\\07_IMPLEMENTATION\\templates\\repo\\.env.example",
+    "asset_manifest_path":  "C:\\Comfy_UI_Main\\models\\flux2\\dev\\manifests\\flux2_dev_asset_manifest.json",
+    "workflow_root":  "C:\\Comfy_UI_Main\\Plan\\07_IMPLEMENTATION\\workflow_templates\\base_generation\\flux2_dev_primary_base",
+    "asset_results":  [
+                          {
+                              "role":  "diffusion_model",
+                              "manifest_entry_valid":  false,
+                              "path":  null,
+                              "exists":  false,
+                              "expected_sha256":  "",
+                              "observed_sha256":  "",
+                              "hash_match":  false
+                          },
+                          {
+                              "role":  "text_encoder",
+                              "manifest_entry_valid":  false,
+                              "path":  null,
+                              "exists":  false,
+                              "expected_sha256":  "",
+                              "observed_sha256":  "",
+                              "hash_match":  false
+                          },
+                          {
+                              "role":  "vae",
+                              "manifest_entry_valid":  false,
+                              "path":  null,
+                              "exists":  false,
+                              "expected_sha256":  "",
+                              "observed_sha256":  "",
+                              "hash_match":  false
+                          }
+                      ],
+    "check_count":  14,
+    "failed_check_count":  12,
+    "failed_check_names":  [
+                               "flux2_enabled",
+                               "exact_asset_config_complete",
+                               "asset_config_hashes_valid",
+                               "asset_manifest_parses",
+                               "all_asset_manifest_entries_complete",
+                               "all_asset_files_present",
+                               "all_asset_hashes_match",
+                               "runtime_contract_complete",
+                               "workflow_api_present_and_passed",
+                               "smoke_request_present_and_passed",
+                               "object_info_proof_present_and_passed",
+                               "smoke_output_proof_present_and_passed"
+                           ],
+    "checks":  [
+                   {
+                       "name":  "authoritative_flux2_contracts_parse",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  null,
+                       "message":  ""
+                   },
+                   {
+                       "name":  "promotion_remains_fail_closed",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  null,
+                       "message":  ""
+                   },
+                   {
+                       "name":  "flux2_enabled",
+                       "passed":  false,
+                       "result":  "fail",
+                       "observed":  "false",
+                       "message":  "Flux2 must remain disabled until all readiness checks pass and promotion is separately approved."
+                   },
+                   {
+                       "name":  "exact_asset_config_complete",
+                       "passed":  false,
+                       "result":  "fail",
+                       "observed":  [
+                                        "FLUX2_DEV_MODEL_FILENAME",
+                                        "FLUX2_DEV_MODEL_SHA256",
+                                        "FLUX2_TEXT_ENCODER_FILENAME",
+                                        "FLUX2_TEXT_ENCODER_SHA256",
+                                        "FLUX2_VAE_FILENAME",
+                                        "FLUX2_VAE_SHA256",
+                                        "FLUX2_MIN_COMFYUI_VERSION"
+                                    ],
+                       "message":  ""
+                   },
+                   {
+                       "name":  "asset_config_hashes_valid",
+                       "passed":  false,
+                       "result":  "fail",
+                       "observed":  [
+
+                                    ],
+                       "message":  ""
+                   },
+                   {
+                       "name":  "asset_manifest_parses",
+                       "passed":  false,
+                       "result":  "fail",
+                       "observed":  "C:\\Comfy_UI_Main\\models\\flux2\\dev\\manifests\\flux2_dev_asset_manifest.json",
+                       "message":  ""
+                   },
+                   {
+                       "name":  "all_asset_manifest_entries_complete",
+                       "passed":  false,
+                       "result":  "fail",
+                       "observed":  [
+                                        {
+                                            "role":  "diffusion_model",
+                                            "manifest_entry_valid":  false,
+                                            "path":  null,
+                                            "exists":  false,
+                                            "expected_sha256":  "",
+                                            "observed_sha256":  "",
+                                            "hash_match":  false
+                                        },
+                                        {
+                                            "role":  "text_encoder",
+                                            "manifest_entry_valid":  false,
+                                            "path":  null,
+                                            "exists":  false,
+                                            "expected_sha256":  "",
+                                            "observed_sha256":  "",
+                                            "hash_match":  false
+                                        },
+                                        {
+                                            "role":  "vae",
+                                            "manifest_entry_valid":  false,
+                                            "path":  null,
+                                            "exists":  false,
+                                            "expected_sha256":  "",
+                                            "observed_sha256":  "",
+                                            "hash_match":  false
+                                        }
+                                    ],
+                       "message":  ""
+                   },
+                   {
+                       "name":  "all_asset_files_present",
+                       "passed":  false,
+                       "result":  "fail",
+                       "observed":  [
+                                        {
+                                            "role":  "diffusion_model",
+                                            "manifest_entry_valid":  false,
+                                            "path":  null,
+                                            "exists":  false,
+                                            "expected_sha256":  "",
+                                            "observed_sha256":  "",
+                                            "hash_match":  false
+                                        },
+                                        {
+                                            "role":  "text_encoder",
+                                            "manifest_entry_valid":  false,
+                                            "path":  null,
+                                            "exists":  false,
+                                            "expected_sha256":  "",
+                                            "observed_sha256":  "",
+                                            "hash_match":  false
+                                        },
+                                        {
+                                            "role":  "vae",
+                                            "manifest_entry_valid":  false,
+                                            "path":  null,
+                                            "exists":  false,
+                                            "expected_sha256":  "",
+                                            "observed_sha256":  "",
+                                            "hash_match":  false
+                                        }
+                                    ],
+                       "message":  ""
+                   },
+                   {
+                       "name":  "all_asset_hashes_match",
+                       "passed":  false,
+                       "result":  "fail",
+                       "observed":  [
+                                        {
+                                            "role":  "diffusion_model",
+                                            "manifest_entry_valid":  false,
+                                            "path":  null,
+                                            "exists":  false,
+                                            "expected_sha256":  "",
+                                            "observed_sha256":  "",
+                                            "hash_match":  false
+                                        },
+                                        {
+                                            "role":  "text_encoder",
+                                            "manifest_entry_valid":  false,
+                                            "path":  null,
+                                            "exists":  false,
+                                            "expected_sha256":  "",
+                                            "observed_sha256":  "",
+                                            "hash_match":  false
+                                        },
+                                        {
+                                            "role":  "vae",
+                                            "manifest_entry_valid":  false,
+                                            "path":  null,
+                                            "exists":  false,
+                                            "expected_sha256":  "",
+                                            "observed_sha256":  "",
+                                            "hash_match":  false
+                                        }
+                                    ],
+                       "message":  ""
+                   },
+                   {
+                       "name":  "runtime_contract_complete",
+                       "passed":  false,
+                       "result":  "fail",
+                       "observed":  {
+                                        "required_comfyui_version":  null,
+                                        "required_node_classes":  [
+                                                                      null
+                                                                  ]
+                                    },
+                       "message":  ""
+                   },
+                   {
+                       "name":  "workflow_api_present_and_passed",
+                       "passed":  false,
+                       "result":  "fail",
+                       "observed":  "C:\\Comfy_UI_Main\\Plan\\07_IMPLEMENTATION\\workflow_templates\\base_generation\\flux2_dev_primary_base\\workflow.api.json",
+                       "message":  ""
+                   },
+                   {
+                       "name":  "smoke_request_present_and_passed",
+                       "passed":  false,
+                       "result":  "fail",
+                       "observed":  "C:\\Comfy_UI_Main\\Plan\\07_IMPLEMENTATION\\workflow_templates\\base_generation\\flux2_dev_primary_base\\smoke_request.json",
+                       "message":  ""
+                   },
+                   {
+                       "name":  "object_info_proof_present_and_passed",
+                       "passed":  false,
+                       "result":  "fail",
+                       "observed":  "C:\\Comfy_UI_Main\\Plan\\07_IMPLEMENTATION\\workflow_templates\\base_generation\\flux2_dev_primary_base\\object_info_proof.json",
+                       "message":  ""
+                   },
+                   {
+                       "name":  "smoke_output_proof_present_and_passed",
+                       "passed":  false,
+                       "result":  "fail",
+                       "observed":  "C:\\Comfy_UI_Main\\Plan\\07_IMPLEMENTATION\\workflow_templates\\base_generation\\flux2_dev_primary_base\\smoke_output_proof.json",
+                       "message":  ""
+                   }
+               ],
+    "next_action":  "Obtain authoritative licensed Flux2 Dev asset identities, hashes, sources, and compatible ComfyUI requirements; then install and produce the missing API/object_info/smoke proofs without promoting from documentation alone."
+}
