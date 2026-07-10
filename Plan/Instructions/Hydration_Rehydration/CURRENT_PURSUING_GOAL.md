@@ -1,3 +1,11 @@
+## Current Pursuing Goal - Face-Skin Dataset Runtime Policy Boundary - 2026-07-10T10:38:23-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with Wave70 facial/body masks governed by gold-backed evidence before any target-portrait proof. The latest concrete progress is an explicit `mf70_face_skin` policy decision: LaPa supports the current face-skin route, but combined gold blocks it through CelebAMask-HQ, hull v2 is runtime-unsafe over identity-critical features, and protected v3 is runtime-safer but below the current gold gate.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACE_SKIN_POLICY_DECISION_20260710T103823-0500.json` reports `mf70_face_skin_policy_fail_closed_no_promotion`, selected policy `fail_closed_until_dataset_vs_runtime_face_skin_policy_or_safer_gold_supported_route`, `combined_all_gold_policy_pass=false`, `lapa_face_skin_policy_pass=true`, `hull_v2_runtime_safe=false`, `protected_v3_gold_policy_pass=false`, and `current_face_skin_promotion_ready=false`. Tracker mirror exists at `Plan/Tracker/Evidence/W70_FACE_SKIN_POLICY_DECISION_20260710T103823-0500.json`.
+
+No active ComfyUI input overwrite, mask promotion, row completion, EC2, AWS, S3, Civitai, Wave71 activation, Jira mutation, generated-portrait-only proof, or certification occurred. Next work should switch rows or define a face-skin dataset-vs-runtime policy / safer gold-supported protected route before any new face-skin proof.
+
 ## Current Pursuing Goal - Lips-Bottom Authority Policy Closed Current Route Families - 2026-07-10T10:29:00-05:00
 
 Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with Wave70 facial/body masks governed by gold-backed evidence before any target-portrait proof. The latest concrete progress is an explicit `mf70_lips_bottom` authority-policy decision: the current LaPa, combined-gold postprocess, and MediaPipe landmark route families all fail.

@@ -1,3 +1,9 @@
+## Immediate Next Action - Switch Row After Face-Skin Policy - 2026-07-10T10:38:23-05:00
+
+The current `mf70_face_skin` route family is now policy-blocked for promotion. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACE_SKIN_POLICY_DECISION_20260710T103823-0500.json` selects `fail_closed_until_dataset_vs_runtime_face_skin_policy_or_safer_gold_supported_route`: `combined_all_gold_policy_pass=false`, `lapa_face_skin_policy_pass=true`, `hull_v2_runtime_safe=false`, `protected_v3_gold_policy_pass=false`, and `current_face_skin_promotion_ready=false`.
+
+Next exact action: switch to another local gold-backed row or define a face-skin dataset-vs-runtime policy / safer gold-supported protected route before any new face-skin proof. Do not promote masks, overwrite active inputs, use generated-portrait-only proof, start EC2, activate Wave71+, use Jira bookkeeping as the active lane, or use `C:\Comfy_UI`.
+
 ## Immediate Next Action - Switch Row After Lips-Bottom Authority Policy - 2026-07-10T10:29:00-05:00
 
 The current `mf70_lips_bottom` LaPa route, combined-gold postprocess route, and MediaPipe landmark route are now fail-closed. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_LIPS_BOTTOM_AUTHORITY_POLICY_DECISION_20260710T102900-0500.json` selects `fail_closed_until_boundary_aware_bottom_lip_authority_or_explicit_row_policy`: `lapa_lips_bottom_policy_pass=false`, `combined_gold_postprocess_policy_pass=false`, `mediapipe_lips_bottom_policy_pass=false`, and `current_lips_bottom_policy_pass=false`.
