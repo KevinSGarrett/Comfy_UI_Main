@@ -24,6 +24,20 @@ gold truth.
 8. Fail closed on missing pairs, unknown label taxonomy, dimension ambiguity,
    transforms that cannot be inverted, or prediction/gold leakage.
 
+## Evaluator Contract
+
+- Evaluator: `Plan/07_IMPLEMENTATION/scripts/benchmark_wave70_facial_gold_evaluator.py`
+- Prediction manifest schema: `Plan/08_SCHEMAS/facial_gold_prediction_manifest.schema.json`
+- LaPa taxonomy schema: `Plan/08_SCHEMAS/lapa_taxonomy_binding.schema.json`
+- Disposable regression: `Plan/Instructions/QA/Scripts/test_wave70_facial_gold_evaluator.py`
+
+The evaluator never invokes a model. A separate producer must first write a
+hash-bound prediction manifest from originals only. LaPa semantic evaluation
+requires a separately supplied, hashed, authoritative taxonomy binding;
+landmark-only evaluation still requires authoritative interocular
+normalization metadata. Legacy split-specific benchmark scripts are historical
+diagnostics and fail closed before execution because they predate this contract.
+
 ## CelebAMask-HQ Pairing
 
 - Originals: `C:\Comfy_UI_Main\MaskedWarehouse\CelebAMask-HQ\CelebA-HQ-img`

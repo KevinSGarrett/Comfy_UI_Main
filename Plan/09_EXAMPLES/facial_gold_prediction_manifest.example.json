@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "created_at": "2026-07-10T00:00:00-05:00",
+  "route_id": "face_parsing.segment.evaluate",
+  "route_model_identity": {
+    "model_id": "registered_face_parser_checkpoint",
+    "model_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "route_configuration_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "dataset_id": "celebamask_hq_shard_0",
+  "run_id": "replace_with_prediction_run_id",
+  "boundary_tolerance_pixels": 1,
+  "producer_contract": {
+    "originals_only": true,
+    "gold_paths_exposed_to_route": false,
+    "prediction_generated_before_evaluation": true,
+    "route_input_image_paths": ["MaskedWarehouse/CelebAMask-HQ/CelebA-HQ-img/0.jpg"]
+  },
+  "samples": [
+    {
+      "sample_id": "0",
+      "source_path": "MaskedWarehouse/CelebAMask-HQ/CelebA-HQ-img/0.jpg",
+      "source_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source_size": [1024, 1024],
+      "prediction_path": "runtime_artifacts/replace_with_originals_only_prediction_dir/0",
+      "prediction_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "classes": ["skin", "hair", "nose", "neck", "neck_l"],
+      "protected_neighbors": {
+        "skin": ["hair", "neck"],
+        "hair": ["skin"],
+        "nose": ["skin"],
+        "neck": ["skin", "neck_l"],
+        "neck_l": ["neck"]
+      },
+      "transforms": [
+        {"op": "resize", "from_size": [1024, 1024], "to_size": [512, 512]}
+      ]
+    }
+  ]
+}

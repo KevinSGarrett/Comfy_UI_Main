@@ -362,6 +362,19 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
 
 
 def main() -> int:
+    print(
+        json.dumps(
+            {
+                "result": "blocked_legacy_benchmark_not_protocol_compliant",
+                "replacement": "Plan/07_IMPLEMENTATION/scripts/benchmark_wave70_facial_gold_evaluator.py",
+                "reason": "Legacy script predates shard-0 eligibility, neck_l separation, prediction-manifest leakage controls, and source-coordinate transform auditing.",
+            },
+            indent=2,
+        )
+    )
+    return 2
+
+    # Historical implementation retained below for evidence reproducibility only.
     RUNTIME_DIR.mkdir(parents=True, exist_ok=True)
     QA_DIR.mkdir(parents=True, exist_ok=True)
     TRACKER_DIR.mkdir(parents=True, exist_ok=True)

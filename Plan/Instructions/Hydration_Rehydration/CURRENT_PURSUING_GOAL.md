@@ -1,3 +1,9 @@
+## Active Mask QA Posture - Facial Evaluator Ready, Production Predictions Pending - 2026-07-10T17:00:00-05:00
+
+Continue the full ComfyUI project from `C:\Comfy_UI_Main`. The new evaluator enforces originals-only producer provenance, source/prediction hashes, source-coordinate transform inversion, Celeb shard/neck separation, external LaPa taxonomy authority, split roles, segmentation metrics, leakage, empty classes, and landmark NME. Fixture regression is 21/21; legacy noncompliant entry points are blocked.
+
+This completes evaluator infrastructure only. A compliant production prediction manifest has not yet been generated or scored, LaPa taxonomy authority is still unavailable locally, and no route, mask, geometry, Wave70/Wave71+, body-gold, promotion, or certification gate is complete from this work.
+
 ## Active Mask QA Posture - Facial Gold Benchmark Truth Available - 2026-07-10T16:37:00-05:00
 
 Continue the full ComfyUI project from `C:\Comfy_UI_Main`. CelebAMask-HQ shard-0 and LaPa now provide paired evaluator truth for their actual facial, anatomical-neck, hair, accessory, and landmark labels. Production routes must receive originals only; gold data remains evaluator-only, and LaPa test stays reporting-only.

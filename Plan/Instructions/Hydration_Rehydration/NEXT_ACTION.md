@@ -1,3 +1,9 @@
+## Immediate Next Action - Produce Originals-Only Facial Predictions - 2026-07-10T17:00:00-05:00
+
+The manifest-driven facial gold evaluator is implemented at `Plan/07_IMPLEMENTATION/scripts/benchmark_wave70_facial_gold_evaluator.py`. Twenty-one disposable cases pass, including shard eligibility, absent classes, neck/accessory separation, transform inversion, dimension/hash failures, exact route inputs, gold leakage, separate LaPa taxonomy binding, split mismatch, protected-neighbor leakage, empty accounting, and landmark NME. Both older split-specific benchmark entry points now fail closed before execution.
+
+Next exact action: build and run a bounded prediction producer that feeds only eligible Celeb shard-0 originals to the registered production face parser, records model/config/source/prediction hashes and transforms in the new schema, and only then invokes the evaluator. No production score, promotion, certification, body-gold clearance, or Wave71+ claim exists yet.
+
 ## Immediate Next Action - Facial Gold Benchmark Available For Evaluator Implementation - 2026-07-10T16:37:00-05:00
 
 Paired CelebAMask-HQ shard-0 and LaPa originals/annotations are now registered for evaluator-only facial, supported neck, hair, and landmark benchmarking. Authority is `Plan/10_REGISTRIES/facial_neck_hair_gold_standard_dataset_registry.json` and `Plan/Instructions/QA/FACIAL_NECK_HAIR_GOLD_STANDARD_BENCHMARK_PROTOCOL.md`; intake evidence confirms 2,000 paired Celeb identities, 24,796 binary class masks, and 22,168 exact LaPa image/label/landmark triplets with zero unpaired files.

@@ -1,0 +1,64 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "FACIAL_GOLD_EVALUATOR_IMPLEMENTATION_20260710T165800-0500",
+    "created_at":  "2026-07-10T17:03:58-05:00",
+    "result":  "pass_evaluator_implemented_fixture_validated_production_manifest_pending",
+    "classification":  "FACIAL_GOLD_EVALUATOR_READY_PRODUCTION_ROUTE_BENCHMARK_NOT_YET_RUN",
+    "scope":  "Manifest-driven evaluator infrastructure for CelebAMask-HQ shard-0 and LaPa facial/neck/hair/landmark gold truth",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "comfyui_contacted":  false,
+    "model_route_executed":  false,
+    "production_prediction_manifest_evaluated":  false,
+    "gold_annotations_exposed_to_production_route":  false,
+    "body_gold_dependency_cleared":  false,
+    "wave71_activated":  false,
+    "promotion_claimed":  false,
+    "certification_claimed":  false,
+    "files":  {
+                  "evaluator":  "Plan/07_IMPLEMENTATION/scripts/benchmark_wave70_facial_gold_evaluator.py",
+                  "regression":  "Plan/Instructions/QA/Scripts/test_wave70_facial_gold_evaluator.py",
+                  "manifest_schema":  "Plan/08_SCHEMAS/facial_gold_prediction_manifest.schema.json",
+                  "taxonomy_schema":  "Plan/08_SCHEMAS/lapa_taxonomy_binding.schema.json",
+                  "example":  "Plan/09_EXAMPLES/facial_gold_prediction_manifest.example.json",
+                  "legacy_celeb":  "Plan/07_IMPLEMENTATION/scripts/benchmark_wave70_facial_gold_masks.py",
+                  "legacy_lapa":  "Plan/07_IMPLEMENTATION/scripts/benchmark_wave70_facial_lapa_gold_labels.py"
+              },
+    "sha256":  {
+                   "evaluator":  "44a18937c64c1285c0420c7d980f2ea2e7cb669ca5dc151cd45112f76225aa75",
+                   "regression":  "9574ec73255b77ab246fc0ebfb1b3d0ae597ae8abf8c66d260710bf2597628cb",
+                   "manifest_schema":  "73984a732aa288cb1dc3efd73f667f30c7f0120d0b209b6155af0e1b632b3364",
+                   "taxonomy_schema":  "a67f419fd88e32d4b225187ac6b48c3985f1ba610d1b078d6d5c1bc710037c1f",
+                   "example":  "52d03539b59b18837c91351af2bb52beb10a832ed3ec4df88474244a90303021",
+                   "legacy_celeb":  "a1968bc8740f06266c66026ca9d99c5d9fa6b57fc6d02e94abd596388f7d77ad",
+                   "legacy_lapa":  "a99c5217fabc8870c9813349ba00006d22b6999c81e608dacae8c5d59162c175"
+               },
+    "verification":  {
+                         "fixture_regression":  "21/21 pass",
+                         "manifest_schema_example":  "pass",
+                         "python_compile":  "pass",
+                         "legacy_celeb_entrypoint":  "blocked_legacy_benchmark_not_protocol_compliant",
+                         "legacy_lapa_entrypoint":  "blocked_legacy_benchmark_not_protocol_compliant",
+                         "final_worker_review_findings":  "all addressed"
+                     },
+    "implemented_controls":  [
+                                 "originals-only producer contract and exact route input set",
+                                 "gold-path leakage rejection",
+                                 "source prediction and landmark hash verification",
+                                 "strict prediction dimension validation",
+                                 "Celeb shard-0 pairing and neck/neck_l path plus pixel separation",
+                                 "LaPa split discipline and external taxonomy binding",
+                                 "ordered source-coordinate transform-chain validation and inversion",
+                                 "IoU Dice precision recall boundary F-score union-based protected-neighbor leakage and explicit empty-class accounting",
+                                 "LaPa landmark NME with authoritative interocular normalization metadata",
+                                 "per-class landmark split and leakage rollups",
+                                 "fail-closed structured evidence"
+                             ],
+    "known_limits":  [
+                         "No production originals-only prediction manifest has been evaluated by this implementation evidence.",
+                         "No authoritative LaPa semantic taxonomy binding has been supplied locally.",
+                         "No runtime route, mask promotion, body/hand/contact gate, Wave71 activation, or certification is proven."
+                     ],
+    "next_action":  "Build an originals-only prediction producer manifest for a bounded eligible Celeb shard-0 sample, run the production face parser without gold access, then evaluate predictions with this harness.",
+    "claim_boundary":  "Evaluator implementation and disposable regression only; not a production route score, mask promotion, geometry authority, or certification."
+}

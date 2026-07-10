@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "facial_gold_prediction_manifest.schema.json",
+  "title": "Facial Gold Prediction Manifest",
+  "type": "object",
+  "required": ["schema_version", "created_at", "route_id", "route_model_identity", "route_configuration_sha256", "dataset_id", "run_id", "producer_contract", "samples"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "created_at": {"type": "string", "minLength": 1},
+    "route_id": {"type": "string", "minLength": 1},
+    "route_model_identity": {
+      "type": "object",
+      "required": ["model_id", "model_sha256"],
+      "properties": {
+        "model_id": {"type": "string", "minLength": 1},
+        "model_sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"}
+      }
+    },
+    "route_configuration_sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
+    "dataset_id": {"enum": ["celebamask_hq_shard_0", "lapa"]},
+    "split": {"enum": ["train", "val", "test"]},
+    "run_id": {"type": "string", "minLength": 1},
+    "boundary_tolerance_pixels": {"type": "integer", "minimum": 0, "maximum": 10},
+    "producer_contract": {
+      "type": "object",
+      "required": ["originals_only", "gold_paths_exposed_to_route", "prediction_generated_before_evaluation", "route_input_image_paths"],
+      "properties": {
+        "originals_only": {"const": true},
+        "gold_paths_exposed_to_route": {"const": false},
+        "prediction_generated_before_evaluation": {"const": true},
+        "route_input_image_paths": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "landmark_normalization": {
+      "type": "object",
+      "required": ["method", "indices", "authority_source"],
+      "properties": {
+        "method": {"const": "interocular_index_pair"},
+        "indices": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "integer", "minimum": 0}},
+        "authority_source": {"type": "string", "minLength": 1}
+      }
+    },
+    "samples": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["sample_id", "source_path", "source_sha256", "source_size", "prediction_path", "prediction_sha256", "transforms"],
+        "properties": {
+          "sample_id": {"type": "string", "minLength": 1},
+          "source_path": {"type": "string", "minLength": 1},
+          "source_sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
+          "source_size": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "integer", "minimum": 1}},
+          "prediction_path": {"type": "string", "minLength": 1},
+          "prediction_sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
+          "prediction_landmarks_path": {"type": "string"},
+          "prediction_landmarks_sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
+          "mode": {"enum": ["semantic", "landmarks", "semantic_and_landmarks"]},
+          "classes": {"type": "array", "items": {"type": "string"}},
+          "protected_neighbors": {"type": "object"},
+          "transforms": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["op"],
+              "properties": {
+                "op": {"enum": ["identity", "resize", "pad", "crop", "horizontal_flip"]},
+                "from_size": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "integer", "minimum": 1}},
+                "to_size": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "integer", "minimum": 1}},
+                "size": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "integer", "minimum": 1}},
+                "left": {"type": "integer", "minimum": 0},
+                "top": {"type": "integer", "minimum": 0},
+                "right": {"type": "integer", "minimum": 0},
+                "bottom": {"type": "integer", "minimum": 0},
+                "x": {"type": "integer", "minimum": 0},
+                "y": {"type": "integer", "minimum": 0}
+              },
+              "allOf": [
+                {"if": {"properties": {"op": {"const": "horizontal_flip"}}}, "then": {"required": ["size"]}},
+                {"if": {"properties": {"op": {"enum": ["identity", "resize"]}}}, "then": {"required": ["from_size", "to_size"]}},
+                {"if": {"properties": {"op": {"const": "pad"}}}, "then": {"required": ["from_size", "to_size", "left", "top", "right", "bottom"]}},
+                {"if": {"properties": {"op": {"const": "crop"}}}, "then": {"required": ["from_size", "to_size", "x", "y"]}}
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}
