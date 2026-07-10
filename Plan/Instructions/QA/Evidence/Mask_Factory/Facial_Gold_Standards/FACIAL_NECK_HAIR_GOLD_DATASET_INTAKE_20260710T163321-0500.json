@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "FACIAL_NECK_HAIR_GOLD_DATASET_INTAKE_20260710T163321-0500",
+  "created_at": "2026-07-10T16:33:21-05:00",
+  "result": "pass_dataset_presence_pairing_inventory_not_route_certification",
+  "classification": "FACIAL_NECK_HAIR_GOLD_BENCHMARK_AVAILABLE_BODY_GOLD_STILL_PENDING",
+  "registry": "Plan/10_REGISTRIES/facial_neck_hair_gold_standard_dataset_registry.json",
+  "protocol": "Plan/Instructions/QA/FACIAL_NECK_HAIR_GOLD_STANDARD_BENCHMARK_PROTOCOL.md",
+  "inventory": {
+    "celebamask_hq_shard_0": {
+      "original_image_count": 30000,
+      "gold_mask_file_count": 24796,
+      "annotated_identity_count": 2000,
+      "eligible_id_range": [0, 1999],
+      "missing_original_count": 0,
+      "malformed_mask_filename_count": 0,
+      "observed_binary_mask_mode": "RGB",
+      "observed_binary_values": [[0, 0, 0], [255, 255, 255]],
+      "observed_mask_size": [512, 512]
+    },
+    "lapa": {
+      "train_complete_triplets": 18168,
+      "val_complete_triplets": 2000,
+      "test_complete_triplets": 2000,
+      "unpaired_file_count": 0,
+      "observed_label_mode": "L",
+      "observed_label_values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    }
+  },
+  "required_use": "Run the production mask route on original images, keep gold annotations evaluator-only, normalize predictions to source coordinates, and compare with per-class and boundary metrics.",
+  "rights_boundary": {
+    "celebamask_hq": "Local README restricts image use to non-commercial research and education.",
+    "lapa": "No license file found in supplied local root; verify upstream terms before external or commercial use.",
+    "redistribution_allowed_by_this_evidence": false
+  },
+  "claim_boundary": {
+    "dataset_presence_and_pairing_inventory_passed": true,
+    "facial_gold_benchmark_available": true,
+    "neck_gold_benchmark_available": true,
+    "hair_gold_benchmark_available": true,
+    "body_gold_masks_ready": false,
+    "production_mask_route_tested_by_this_evidence": false,
+    "mask_route_promoted": false,
+    "mask_factory_certified": false,
+    "wave71_activation_authorized": false
+  }
+}

@@ -1,3 +1,9 @@
+## Active Mask QA Posture - Facial Gold Benchmark Truth Available - 2026-07-10T16:37:00-05:00
+
+Continue the full ComfyUI project from `C:\Comfy_UI_Main`. CelebAMask-HQ shard-0 and LaPa now provide paired evaluator truth for their actual facial, anatomical-neck, hair, accessory, and landmark labels. Production routes must receive originals only; gold data remains evaluator-only, and LaPa test stays reporting-only.
+
+This is benchmark availability, not route certification. Manual body/body-part masks remain pending, `neck_l` remains necklace/accessory rather than anatomical neck, LaPa semantics remain unpublished until authoritative taxonomy binding, and no facial result clears body/hand/contact geometry, full Mask Factory promotion, or Wave71+.
+
 ## Active Runtime/Orchestration Posture - Flux1 Dev Static Lane Implemented - 2026-07-10T16:27:00-05:00
 
 Continue the full ComfyUI project from `C:\Comfy_UI_Main`. The first fallback after blocked Flux2, `flux1_dev_primary_base`, is now a real mirrored API workflow instead of a placeholder. Static graph, input-schema, patch, queue, registry, mirror-hash, saved-object-info, 10-lane prompt-materialization, Wave15, and operations checks pass; the lane remains unpromoted and its smoke request remains disabled.

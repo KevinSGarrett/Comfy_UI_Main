@@ -1,3 +1,9 @@
+## Immediate Next Action - Facial Gold Benchmark Available For Evaluator Implementation - 2026-07-10T16:37:00-05:00
+
+Paired CelebAMask-HQ shard-0 and LaPa originals/annotations are now registered for evaluator-only facial, supported neck, hair, and landmark benchmarking. Authority is `Plan/10_REGISTRIES/facial_neck_hair_gold_standard_dataset_registry.json` and `Plan/Instructions/QA/FACIAL_NECK_HAIR_GOLD_STANDARD_BENCHMARK_PROTOCOL.md`; intake evidence confirms 2,000 paired Celeb identities, 24,796 binary class masks, and 22,168 exact LaPa image/label/landmark triplets with zero unpaired files.
+
+Next exact action: implement a bounded originals-first evaluator that never exposes gold annotations to the production route, records/inverts transforms, computes the required segmentation and landmark metrics, preserves LaPa splits, and fails closed on taxonomy/pairing/dimension/leakage ambiguity. Keep all body/hand/contact gold-mask, Wave70/Wave71+, promotion, rights, Jira, and live-runtime boundaries unchanged.
+
 ## Immediate Next Action - Flux1 Dev Workflow Implemented, Asset Gated - 2026-07-10T16:27:00-05:00
 
 `flux1_dev_primary_base` now has byte-identical executable API workflow, patch-point, runtime-requirement, and smoke-request contracts under both `Plan/07_IMPLEMENTATION/workflow_templates/base_generation` and `Workflows/base_generation`. The native eight-node Flux graph passes static validation in both mirrors; every workflow input matches saved local `object_info`; the 19-check contract validator, Wave15 scan of 4,277 JSON files, 10-lane smoke-prompt materialization, and operations harness all pass.

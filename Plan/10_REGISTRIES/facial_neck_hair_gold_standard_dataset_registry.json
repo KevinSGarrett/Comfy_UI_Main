@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.0",
+  "registry_id": "facial_neck_hair_gold_standard_dataset_registry",
+  "created_at": "2026-07-10T16:33:21-05:00",
+  "purpose": "Source-paired gold-standard evaluation of facial parsing, neck, landmarks, and supported hair masks.",
+  "evaluation_rule": "Run the production masking route on an original image without exposing its annotation, normalize the prediction to source coordinates, then compare it with the paired gold annotation.",
+  "datasets": [
+    {
+      "dataset_id": "celebamask_hq_shard_0",
+      "original_images_root": "C:/Comfy_UI_Main/MaskedWarehouse/CelebAMask-HQ/CelebA-HQ-img",
+      "gold_annotations_root": "C:/Comfy_UI_Main/MaskedWarehouse/CelebAMask-HQ/CelebAMask-HQ-mask-anno/0",
+      "original_image_count": 30000,
+      "eligible_annotated_image_count": 2000,
+      "eligible_id_min": 0,
+      "eligible_id_max": 1999,
+      "gold_mask_file_count": 24796,
+      "pairing_rule": "Parse the zero-padded integer before the first underscore in <00000>_<class>.png and pair it with the unpadded <integer>.jpg original.",
+      "annotation_format": "separate RGB binary PNG per class; black=0 and white=255",
+      "supported_evaluation_scope": [
+        "facial_skin_and_features",
+        "ears",
+        "neck",
+        "hair",
+        "face_accessories_as_separate_classes"
+      ],
+      "class_file_counts": {
+        "cloth": 997,
+        "ear_r": 709,
+        "eye_g": 58,
+        "hair": 1979,
+        "hat": 63,
+        "l_brow": 1943,
+        "l_ear": 989,
+        "l_eye": 1968,
+        "l_lip": 1993,
+        "mouth": 1223,
+        "neck": 1975,
+        "neck_l": 114,
+        "nose": 2000,
+        "r_brow": 1948,
+        "r_ear": 879,
+        "r_eye": 1964,
+        "skin": 2000,
+        "u_lip": 1994
+      },
+      "semantic_notes": [
+        "Use neck as the anatomical neck class.",
+        "Treat neck_l as necklace/accessory, not as anatomical neck and not as a lateral-neck class.",
+        "A missing class file for an otherwise eligible annotated image represents an empty class only under the dataset convention; never treat an image outside IDs 0-1999 as annotated by shard 0."
+      ],
+      "local_usage_boundary": "The local README restricts images to non-commercial research and educational use. Do not redistribute or use commercially without separate rights review."
+    },
+    {
+      "dataset_id": "lapa",
+      "splits": {
+        "train": {
+          "images_root": "C:/Comfy_UI_Main/MaskedWarehouse/LaPa/train/images",
+          "labels_root": "C:/Comfy_UI_Main/MaskedWarehouse/LaPa/train/labels",
+          "landmarks_root": "C:/Comfy_UI_Main/MaskedWarehouse/LaPa/train/landmarks",
+          "complete_triplet_count": 18168
+        },
+        "val": {
+          "images_root": "C:/Comfy_UI_Main/MaskedWarehouse/LaPa/val/images",
+          "labels_root": "C:/Comfy_UI_Main/MaskedWarehouse/LaPa/val/labels",
+          "landmarks_root": "C:/Comfy_UI_Main/MaskedWarehouse/LaPa/val/landmarks",
+          "complete_triplet_count": 2000
+        },
+        "test": {
+          "images_root": "C:/Comfy_UI_Main/MaskedWarehouse/LaPa/test/images",
+          "labels_root": "C:/Comfy_UI_Main/MaskedWarehouse/LaPa/test/labels",
+          "landmarks_root": "C:/Comfy_UI_Main/MaskedWarehouse/LaPa/test/landmarks",
+          "complete_triplet_count": 2000
+        }
+      },
+      "pairing_rule": "Pair image, indexed label PNG, and landmark TXT by exact filename stem within the same split.",
+      "annotation_format": "single-channel indexed PNG with observed label values 0 through 10 plus landmark TXT",
+      "supported_evaluation_scope": [
+        "facial_skin_and_features",
+        "hair",
+        "facial_landmarks"
+      ],
+      "semantic_notes": [
+        "LaPa does not provide a body/body-part gold standard and must not clear body-mask gates.",
+        "Validate the numeric label-to-class taxonomy against authoritative LaPa metadata before publishing per-class semantic scores.",
+        "Keep train, validation, and test roles separate; do not tune thresholds or prompts on test."
+      ],
+      "local_usage_boundary": "No LaPa license file was found in the supplied local dataset root. Verify upstream license and redistribution terms before any use beyond local evaluation."
+    }
+  ],
+  "required_metrics": [
+    "per_class_iou",
+    "per_class_dice",
+    "precision_recall",
+    "boundary_f_score",
+    "protected_neighbor_leakage",
+    "empty_class_policy_accounting",
+    "landmark_normalized_mean_error_for_lapa"
+  ],
+  "claim_boundary": {
+    "facial_gold_benchmark_available": true,
+    "neck_gold_benchmark_available": true,
+    "hair_gold_benchmark_available": true,
+    "body_or_body_part_gold_benchmark_available_from_these_datasets": false,
+    "mask_route_certified": false,
+    "wave71_activation_authorized": false
+  }
+}

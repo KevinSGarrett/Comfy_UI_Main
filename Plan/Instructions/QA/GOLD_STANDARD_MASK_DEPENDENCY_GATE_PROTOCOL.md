@@ -57,6 +57,20 @@ Manual masks become eligible for gold-standard intake only after all of the foll
 2. The masks are routed through the canonical intake manifest or equivalent source-of-truth mapping.
 3. Strict QA, protected-neighbor review, geometry/promotion gates, and required evidence pass for the exact mask label and source image or reference-matrix slot.
 
+## Facial, Neck, And Hair Dataset Exception
+
+The paired CelebAMask-HQ shard-0 and LaPa datasets registered in
+`Plan/10_REGISTRIES/facial_neck_hair_gold_standard_dataset_registry.json` are
+available for source-paired facial parsing, supported neck, hair, and landmark
+benchmarking under
+`Plan/Instructions/QA/FACIAL_NECK_HAIR_GOLD_STANDARD_BENCHMARK_PROTOCOL.md`.
+
+This availability removes the missing-gold dependency only for the exact
+facial/neck/hair classes represented by those datasets. It does not itself
+promote or certify any masking route. Manual body and body-part masks remain in
+progress, and the existing blocker continues to apply to body, hand, finger,
+contact, whole-body geometry, body-mask promotion, and dependent Wave71+ gates.
+
 ## Status Taxonomy
 
 Use these statuses where helpful:
@@ -69,4 +83,3 @@ Gold_Mask_Ready_For_Intake_Validation
 Gold_Mask_Intake_Validated_Not_Promoted
 Gold_Mask_Gate_Passed_Promotable
 ```
-
