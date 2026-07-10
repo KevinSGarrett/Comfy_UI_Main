@@ -16,6 +16,7 @@ param(
   [string]$ActiveLanesFile = "Workflows\base_generation\ACTIVE_LANES.json",
   [string]$GitCheckpointGateFile = "",
   [string]$S3TransferReadinessFile = "",
+  [string]$UserSelectedLaneId = "",
   [string]$OutFile = "",
   [string]$MarkdownOutFile = ""
 )
@@ -164,16 +165,33 @@ $targetCandidates = foreach ($entry in @(Convert-ToArray -Value $closure.rollup_
     target_runtime_proof_evidence_missing = $requiresMissingTargetProof
     blocked_by = @($blockedBy)
     selected_by_default = $false
+    selected_by_user_request = $false
   }
 }
 
-$selected = @($targetCandidates |
-  Where-Object { [bool]$_.target_runtime_proof_evidence_missing } |
-  Sort-Object queue_order, lane_id |
-  Select-Object -First 1)
+$requestedLaneId = $UserSelectedLaneId.Trim()
+$selectionMode = "runtime_queue_default"
+$selected = @()
 
-if ($selected.Count -eq 0) {
-  $selected = @($targetCandidates | Sort-Object queue_order, lane_id | Select-Object -First 1)
+if (-not [string]::IsNullOrWhiteSpace($requestedLaneId)) {
+  $selectionMode = "explicit_user_selected_lane"
+  $selected = @($targetCandidates |
+    Where-Object { [string]$_.lane_id -eq $requestedLaneId } |
+    Sort-Object queue_order, lane_id |
+    Select-Object -First 1)
+
+  if ($selected.Count -eq 0) {
+    throw "UserSelectedLaneId '$requestedLaneId' does not match an open target-runtime proof work order in the closure rollup."
+  }
+} else {
+  $selected = @($targetCandidates |
+    Where-Object { [bool]$_.target_runtime_proof_evidence_missing } |
+    Sort-Object queue_order, lane_id |
+    Select-Object -First 1)
+
+  if ($selected.Count -eq 0) {
+    $selected = @($targetCandidates | Sort-Object queue_order, lane_id | Select-Object -First 1)
+  }
 }
 if ($selected.Count -eq 0) {
   throw "No open target-runtime proof work order found in closure rollup."
@@ -186,6 +204,9 @@ $selectedBlockedBy = @($selected[0].blocked_by)
 foreach ($candidate in $targetCandidates) {
   if ([string]$candidate.work_order_id -eq $selectedWorkOrderId) {
     $candidate.selected_by_default = $true
+    if ($selectionMode -eq "explicit_user_selected_lane") {
+      $candidate.selected_by_user_request = $true
+    }
   }
 }
 
@@ -260,7 +281,9 @@ $record = [ordered]@{
   selected_work_order_id = $selectedWorkOrderId
   selected_lane_id = $selectedLaneId
   selected_lane_queue_order = $selectedQueueOrder
-  selection_policy = "First open target-runtime proof work order with target_runtime_proof_evidence_missing, sorted by runtime queue order; already-proven or reuse-bound lanes are not selected by default."
+  user_selected_lane_id = $(if ([string]::IsNullOrWhiteSpace($requestedLaneId)) { $null } else { $requestedLaneId })
+  selection_mode = $selectionMode
+  selection_policy = $(if ($selectionMode -eq "explicit_user_selected_lane") { "Use the explicitly selected open target-runtime lane, then keep all live execution blocked until the live-window gates pass." } else { "First open target-runtime proof work order with target_runtime_proof_evidence_missing, sorted by runtime queue order; already-proven or reuse-bound lanes are not selected by default." })
   target_candidate_count = @($targetCandidates).Count
   target_candidates = @($targetCandidates | Sort-Object queue_order, lane_id)
   blocker_summary = @($blockers | Select-Object -Unique)
@@ -305,6 +328,8 @@ $markdown = @"
 - selected_lane_id: $selectedLaneId
 - selected_work_order_id: $selectedWorkOrderId
 - selected_lane_queue_order: $selectedQueueOrder
+- selection_mode: $selectionMode
+- user_selected_lane_id: $($record.user_selected_lane_id)
 - execute_allowed_now: false
 - explicit_user_selection_required: true
 - full_project_certification_allowed: false

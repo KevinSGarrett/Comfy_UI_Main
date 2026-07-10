@@ -2174,7 +2174,7 @@ $activeRuntimeQueueTargetRuntimePlanFile = Join-Path $tempRoot "active_runtime_q
 $activeRuntimeQueueTargetRuntimePlanMarkdown = Join-Path $tempRoot "active_runtime_queue_target_runtime_execution_plan.md"
 $localSmokeResults += Invoke-LocalHelper -Name "active_runtime_queue_target_runtime_execution_plan_smoke" `
   -ScriptPath (Join-Path $scriptsRoot "New-ActiveRuntimeQueueTargetRuntimeExecutionPlan.ps1") `
-  -Arguments @("-ProjectRoot", $ProjectRoot, "-ClosureRollupFile", $activeRuntimeQueueClosureRollupFile, "-OutFile", $activeRuntimeQueueTargetRuntimePlanFile, "-MarkdownOutFile", $activeRuntimeQueueTargetRuntimePlanMarkdown) `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-ClosureRollupFile", $activeRuntimeQueueClosureRollupFile, "-UserSelectedLaneId", "sdxl_realvisxl_inpaint_detail_lane", "-OutFile", $activeRuntimeQueueTargetRuntimePlanFile, "-MarkdownOutFile", $activeRuntimeQueueTargetRuntimePlanMarkdown) `
   -ExpectedOutputFile $activeRuntimeQueueTargetRuntimePlanFile `
   -ExpectedOutputType "json"
 

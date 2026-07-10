@@ -1,3 +1,11 @@
+## Immediate Next Action - Selected Target Runtime Plan And Package Current - 2026-07-09T19:40:00-05:00
+
+Continue selected-inpaint target-runtime orchestration from the current local-only plan/package chain. `New-ActiveRuntimeQueueTargetRuntimeExecutionPlan.ps1` now accepts `-UserSelectedLaneId` so the execution plan honors the explicit selected-inpaint lane instead of falling back to earlier runtime queue order when base/Canny target-runtime rows are present.
+
+Current evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_TARGET_RUNTIME_EXECUTION_PLAN_SELECTED_CHAIN_20260709T193800-0500.json` selects `sdxl_realvisxl_inpaint_detail_lane` with `selection_mode=explicit_user_selected_lane`, `execute_allowed_now=false`, and 13 gated command steps. `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LANE_PACKAGE_READINESS_SELECTED_CHAIN_20260709T193900-0500.json` reports `pass_local_only_selected_target_runtime_lane_package_ready_ec2_blocked`, `failed_check_count=0`, and exact blockers `explicit_user_target_runtime_selection_required` and `deploy_bundle_source_git_dirty_rebuild_required_before_ec2`. QA helper validation `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_QA_HELPER_AFTER_SELECTED_TARGET_RUNTIME_PLAN_PACKAGE_SELECTED_CHAIN_20260709T194000-0500.json` reports `pass_local_only`, 52 scripts parsed, 57 local smokes, and 0 failures. Tracker mirrors exist.
+
+Next concrete non-mask runtime task after checkpoint cleanliness: rebuild or revalidate the selected-inpaint deploy bundle from clean source, then refresh selected package/launch/pre-EC2 handoff evidence. Keep EC2 stopped and do not upload to S3, post ComfyUI prompts, promote masks, rerun Wave70 hard gates, activate Wave71+, or switch to Jira bookkeeping without explicit live/gate conditions.
+
 ## Immediate Next Action - Selected Recheck Ledger Current - 2026-07-09T19:37:00-05:00
 
 Continue selected-inpaint target-runtime orchestration from the current local recheck ledger. The ledger now consumes the selected-chain closure rollup and confirms the local pre-EC2 recheck set is accounted while EC2/live execution remains blocked.
