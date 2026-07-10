@@ -1,3 +1,11 @@
+## Current Pursuing Goal - Lips-Top Authority Policy Closed Simple-Expansion Loop - 2026-07-10T10:22:25-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with Wave70 facial/body masks governed by gold-backed evidence before any target-portrait proof. The latest concrete progress is an explicit `mf70_lips_top` authority-policy decision: the current LaPa lips-top route fails the gate and the simple-expansion repair family is not sufficient.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_LIPS_TOP_AUTHORITY_POLICY_DECISION_20260710T102225-0500.json` reports `mf70_lips_top_authority_policy_fail_closed_no_promotion`, selected policy `fail_closed_until_boundary_aware_lip_authority_or_explicit_row_policy`, `lapa_lips_top_policy_pass=false`, `simple_expansion_policy_pass=false`, and `current_lips_top_policy_pass=false`. Tracker mirror exists at `Plan/Tracker/Evidence/W70_LIPS_TOP_AUTHORITY_POLICY_DECISION_20260710T102225-0500.json`.
+
+No active ComfyUI input overwrite, mask promotion, row completion, EC2, AWS, S3, Civitai, Wave71 activation, Jira mutation, generated-portrait-only proof, or certification occurred. Next work should switch rows or bring a boundary-aware lip authority / explicit row policy, not retry the same simple-expansion family.
+
 ## Current Pursuing Goal - Teeth-Mouth Authority Policy Closed Morphology Loop - 2026-07-10T10:17:34-05:00
 
 Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with Wave70 facial/body masks governed by gold-backed evidence before any target-portrait proof. The latest concrete progress is an explicit `mf70_teeth_mouth_area` authority-policy decision: v2 is not combined-gold supported and the broader morphology/shift family remains blocked.
