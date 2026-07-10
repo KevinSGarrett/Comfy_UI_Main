@@ -79,6 +79,21 @@ The route still fails overall on `cloth`, `ear_r`, `hat`, `l_ear`, `neck`,
 `neck_l`, `r_ear`, `skin`, and `u_lip`, so this repair remains candidate route
 evidence only.
 
+### Rejected Horizontal-Flip TTA Experiment
+
+The optional `hflip_logit_mean` experiment runs original and horizontally
+flipped inputs, spatially unflips the second logits tensor, swaps left/right
+brow, eye, and ear channels, averages logits, and performs argmax only after
+fusion. It is an experimental diagnostic mode; `single_pass` remains the
+production default.
+
+On controlled IDs `0`, `1`, and `2`, flip TTA reduced passing classes from nine
+to five and regressed both eyes and both brows. It therefore failed the
+no-regression acceptance rule, was not run on fresh held-out images, and must
+not be selected for production, promotion, or certification. Repeating or
+tuning this candidate against the same gold samples is prohibited without a
+new implementation hypothesis.
+
 ## CelebAMask-HQ Pairing
 
 - Originals: `C:\Comfy_UI_Main\MaskedWarehouse\CelebAMask-HQ\CelebA-HQ-img`

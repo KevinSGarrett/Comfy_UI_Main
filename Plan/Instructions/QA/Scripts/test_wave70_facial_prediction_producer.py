@@ -71,6 +71,38 @@ def test_prediction_directory_hash_is_stable(tmp_path: Path) -> None:
     assert producer.sha256_directory(tmp_path) == producer.sha256_directory(tmp_path)
 
 
+def test_configuration_hash_binds_component_order_and_content(tmp_path: Path) -> None:
+    first = tmp_path / "first.py"
+    second = tmp_path / "second.py"
+    first.write_text("a", encoding="utf-8")
+    second.write_text("b", encoding="utf-8")
+    baseline = producer.sha256_files([first, second])
+    assert baseline != producer.sha256_files([second, first])
+    second.write_text("changed", encoding="utf-8")
+    assert baseline != producer.sha256_files([first, second])
+
+
+def test_route_specs_keep_single_pass_default_separate_from_tta(tmp_path: Path) -> None:
+    checkpoint = tmp_path / "model.pth"
+    single = producer.build_route_spec("single_pass", tmp_path / "input", tmp_path / "output", checkpoint)
+    tta = producer.build_route_spec("hflip_logit_mean", tmp_path / "input", tmp_path / "output", checkpoint)
+    assert single["route_id"] == "face_parsing.segment.evaluate"
+    assert single["inference_metadata"] == {
+        "mode": "single_pass", "logit_fusion": "none", "spatial_unflip": False, "semantic_channel_swaps": []
+    }
+    assert len(single["configuration_components"]) == 1
+    assert tta["route_id"] == "run_wave70_facial_bisenet_inference"
+    assert tta["inference_metadata"]["mode"] == "hflip_logit_mean"
+    assert tta["inference_metadata"]["spatial_unflip"] is True
+    assert len(tta["configuration_components"]) == 2
+    assert str(producer.TTA_RUNNER) in tta["command"]
+
+
+def test_route_spec_rejects_unknown_mode(tmp_path: Path) -> None:
+    with pytest.raises(ValueError, match="unsupported_inference_mode"):
+        producer.build_route_spec("unknown", tmp_path / "input", tmp_path / "output", tmp_path / "model")
+
+
 def test_protected_neighbors_are_explicit_and_anatomy_aware() -> None:
     assert set(producer.PROTECTED_NEIGHBORS) == set(producer.CLASS_ORDER)
     for class_name, neighbors in producer.PROTECTED_NEIGHBORS.items():

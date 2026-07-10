@@ -22,6 +22,7 @@ CLASS_ORDER = (
 )
 CLASS_INDEX = {class_name: index for index, class_name in enumerate(CLASS_ORDER, start=1)}
 ROUTE_INPUT_SIZE = (512, 512)
+TTA_RUNNER = Path(__file__).resolve().with_name("run_wave70_facial_bisenet_inference.py")
 # Celeb annotations intentionally overlap nested anatomy and accessories. These
 # lists contain only regions where prediction overlap is unambiguously leakage.
 PROTECTED_NEIGHBORS = {
@@ -62,6 +63,16 @@ def sha256_directory(path: Path) -> str:
         digest.update(child.relative_to(path).as_posix().encode("utf-8"))
         digest.update(b"\0")
         digest.update(sha256_file(child).encode("ascii"))
+        digest.update(b"\n")
+    return digest.hexdigest()
+
+
+def sha256_files(paths: list[Path]) -> str:
+    digest = hashlib.sha256()
+    for path in paths:
+        digest.update(path.name.encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(sha256_file(path).encode("ascii"))
         digest.update(b"\n")
     return digest.hexdigest()
 
@@ -128,6 +139,48 @@ def normalize_predictions(raw_sample_dir: Path, normalized_dir: Path) -> tuple[l
     return list(CLASS_ORDER), output_size, materialized_empty
 
 
+def build_route_spec(inference_mode: str, input_dir: Path, output_dir: Path, checkpoint: Path) -> dict[str, Any]:
+    producer_path = Path(__file__).resolve()
+    if inference_mode == "single_pass":
+        code = (
+            "from face_parsing.segment import evaluate\n"
+            f"evaluate(r'{input_dir}', r'{output_dir}', r'{checkpoint}', [], False, 'face-parsing-style')\n"
+        )
+        return {
+            "command": [str(COMFYUI_VENV_PYTHON), "-c", code],
+            "route_id": "face_parsing.segment.evaluate",
+            "configuration_components": [producer_path],
+            "inference_metadata": {
+                "mode": "single_pass",
+                "logit_fusion": "none",
+                "spatial_unflip": False,
+                "semantic_channel_swaps": [],
+            },
+        }
+    if inference_mode != "hflip_logit_mean":
+        raise ValueError(f"unsupported_inference_mode:{inference_mode}")
+    if not TTA_RUNNER.is_file():
+        raise FileNotFoundError(f"facial_tta_runner_missing:{TTA_RUNNER}")
+    return {
+        "command": [
+            str(COMFYUI_VENV_PYTHON), str(TTA_RUNNER),
+            "--input-dir", str(input_dir),
+            "--output-dir", str(output_dir),
+            "--checkpoint", str(checkpoint),
+            "--mode", inference_mode,
+            "--device", "cuda",
+        ],
+        "route_id": "run_wave70_facial_bisenet_inference",
+        "configuration_components": [producer_path, TTA_RUNNER],
+        "inference_metadata": {
+            "mode": "hflip_logit_mean",
+            "logit_fusion": "mean",
+            "spatial_unflip": True,
+            "semantic_channel_swaps": [["l_brow", "r_brow"], ["l_eye", "r_eye"], ["l_ear", "r_ear"]],
+        },
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Run face parsing on eligible originals without reading evaluator truth.")
     parser.add_argument("--project-root", default=r"C:\Comfy_UI_Main")
@@ -135,6 +188,7 @@ def main() -> int:
     parser.add_argument("--out-manifest", required=True)
     parser.add_argument("--runtime-root")
     parser.add_argument("--timeout-seconds", type=int, default=300)
+    parser.add_argument("--inference-mode", choices=("single_pass", "hflip_logit_mean"), default="single_pass")
     args = parser.parse_args()
 
     project_root = Path(args.project_root).resolve()
@@ -174,12 +228,9 @@ def main() -> int:
     if not COMFYUI_VENV_PYTHON.is_file():
         raise FileNotFoundError(f"comfyui_python_missing:{COMFYUI_VENV_PYTHON}")
     raw_output_dir.mkdir(parents=True, exist_ok=True)
-    code = (
-        "from face_parsing.segment import evaluate\n"
-        f"evaluate(r'{input_dir}', r'{raw_output_dir}', r'{checkpoint}', [], False, 'face-parsing-style')\n"
-    )
+    route_spec = build_route_spec(args.inference_mode, input_dir, raw_output_dir, checkpoint)
     process = subprocess.run(
-        [str(COMFYUI_VENV_PYTHON), "-c", code],
+        route_spec["command"],
         cwd=str(project_root),
         check=False,
         capture_output=True,
@@ -225,22 +276,26 @@ def main() -> int:
             }
         )
 
-    script_path = Path(__file__).resolve()
     manifest = {
         "schema_version": "1.0",
         "created_at": datetime.now(ZoneInfo("America/Chicago")).isoformat(),
-        "route_id": "face_parsing.segment.evaluate",
+        "route_id": route_spec["route_id"],
         "route_model_identity": {
             "model_id": checkpoint.name,
             "model_sha256": sha256_file(checkpoint),
             "model_path": str(checkpoint),
         },
-        "route_configuration_sha256": sha256_file(script_path),
+        "route_configuration_sha256": sha256_files(route_spec["configuration_components"]),
+        "route_configuration_components": [
+            {"path": relative(project_root, path), "sha256": sha256_file(path)}
+            for path in route_spec["configuration_components"]
+        ],
         "route_preprocessing": {
             "operation": "bilinear_resize",
             "native_input_size": list(ROUTE_INPUT_SIZE),
             "authority": "face_parsing.segment.vis_parsing_maps 512x512 input contract",
         },
+        "route_inference": route_spec["inference_metadata"],
         "dataset_id": "celebamask_hq_shard_0",
         "run_id": f"facial-original-predictions-{stamp}",
         "boundary_tolerance_pixels": 1,
