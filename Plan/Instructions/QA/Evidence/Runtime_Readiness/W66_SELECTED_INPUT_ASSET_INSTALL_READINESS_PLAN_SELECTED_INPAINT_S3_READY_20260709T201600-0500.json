@@ -1,0 +1,130 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "selected_input_asset_install_readiness_plan",
+    "created_at":  "2026-07-09T20:15:42-05:00",
+    "result":  "blocked_selected_input_asset_install_readiness_waiting_for_s3_publish_and_live_gates",
+    "local_only":  true,
+    "github_api_contacted":  false,
+    "aws_contacted":  false,
+    "civitai_contacted":  false,
+    "s3_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "prompt_posted":  false,
+    "active_runtime_marker_written":  false,
+    "stage_attempted":  false,
+    "commit_attempted":  false,
+    "push_attempted":  false,
+    "reset_attempted":  false,
+    "checkout_attempted":  false,
+    "deploy_bundle_rebuilt":  false,
+    "s3_upload_attempted":  false,
+    "input_asset_install_attempted":  false,
+    "masks_consumed_as_truth":  false,
+    "masks_promoted":  false,
+    "wave70_hard_gate_rerun":  false,
+    "wave71_plus_activated":  false,
+    "full_project_certification_allowed":  false,
+    "selected_lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+    "selected_work_order_id":  "WO-W66-SDXL_REALVISXL_INPAINT_DETAIL_LANE-TARGET-RUNTIME-PROOF",
+    "selected_package_readiness":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LANE_PACKAGE_READINESS_CLEAN_BUNDLE_SELECTED_CHAIN_20260709T194500-0500.json",
+    "selected_package_readiness_result":  "pass_local_only_selected_target_runtime_lane_package_ready_ec2_blocked",
+    "selected_package_ready_local_only":  true,
+    "selected_package_git_checkpoint_passes_for_ec2":  true,
+    "runtime_requirements":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_inpaint_detail_lane/runtime_requirements.json",
+    "required_input_asset_count":  2,
+    "input_asset_plans":  [
+                              {
+                                  "role":  "source_image",
+                                  "filename":  "sdxl_inpaint_detail_source_canny_v1.png",
+                                  "expected_sha256":  "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523",
+                                  "source_manifest":  "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_face_mask_v1_20260707T024000-0500/INPAINT_INPUT_ASSET_MANIFEST.json",
+                                  "source_file":  "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_face_mask_v1_20260707T024000-0500/sdxl_inpaint_detail_source_canny_v1.png",
+                                  "source_file_exists":  true,
+                                  "observed_sha256":  "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523",
+                                  "local_hash_match":  true,
+                                  "comfyui_input_path":  "ComfyUI/input/sdxl_inpaint_detail_source_canny_v1.png",
+                                  "source_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets/sdxl_inpaint_detail_source_canny_v1.png",
+                                  "s3_source_uri_ready_after_asset_publish":  true,
+                                  "publish_dry_run_command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Publish-InputAssetToS3.ps1 -AssetFile C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Prepared_Input_Assets\\sdxl_inpaint_detail_face_mask_v1_20260707T024000-0500\\sdxl_inpaint_detail_source_canny_v1.png -S3Uri s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets/sdxl_inpaint_detail_source_canny_v1.png -ExpectedSha256 7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523 -Region us-east-1 -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W66_SELECTED_INPUT_ASSET_S3_PUBLISH_DRY_RUN_sdxl_inpaint_detail_source_canny_v1.png_\u003ctimestamp\u003e.json",
+                                  "publish_execute_command_requires_explicit_user_intent":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Publish-InputAssetToS3.ps1 -AssetFile C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Prepared_Input_Assets\\sdxl_inpaint_detail_face_mask_v1_20260707T024000-0500\\sdxl_inpaint_detail_source_canny_v1.png -S3Uri s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets/sdxl_inpaint_detail_source_canny_v1.png -ExpectedSha256 7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523 -Region us-east-1 -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W66_SELECTED_INPUT_ASSET_S3_PUBLISH_DRY_RUN_sdxl_inpaint_detail_source_canny_v1.png_\u003ctimestamp\u003e.json -Execute",
+                                  "install_dry_run_command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Install-EC2InputAssetFromS3.ps1 -SourceS3Uri s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets/sdxl_inpaint_detail_source_canny_v1.png -FileName sdxl_inpaint_detail_source_canny_v1.png -ExpectedSha256 7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523 -Region us-east-1 -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W66_SELECTED_INPUT_ASSET_INSTALL_DRY_RUN_sdxl_inpaint_detail_source_canny_v1.png_\u003ctimestamp\u003e.json",
+                                  "install_execute_command_requires_explicit_user_intent":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Install-EC2InputAssetFromS3.ps1 -SourceS3Uri s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets/sdxl_inpaint_detail_source_canny_v1.png -FileName sdxl_inpaint_detail_source_canny_v1.png -ExpectedSha256 7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523 -Region us-east-1 -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W66_SELECTED_INPUT_ASSET_INSTALL_DRY_RUN_sdxl_inpaint_detail_source_canny_v1.png_\u003ctimestamp\u003e.json -Execute"
+                              },
+                              {
+                                  "role":  "mask_image",
+                                  "filename":  "sdxl_inpaint_detail_micro_nomouth_v4.png",
+                                  "expected_sha256":  "9bfbbda24b0f4915282649bb8c2b3e5a39b5a057dacbce6278683e9b531ec92d",
+                                  "source_manifest":  "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_micro_nomouth_v4_20260707T034500-0500/INPAINT_MICRO_NOMOUTH_INPUT_ASSET_MANIFEST.json",
+                                  "source_file":  "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_micro_nomouth_v4_20260707T034500-0500/sdxl_inpaint_detail_micro_nomouth_v4.png",
+                                  "source_file_exists":  true,
+                                  "observed_sha256":  "9bfbbda24b0f4915282649bb8c2b3e5a39b5a057dacbce6278683e9b531ec92d",
+                                  "local_hash_match":  true,
+                                  "comfyui_input_path":  "ComfyUI/input/sdxl_inpaint_detail_micro_nomouth_v4.png",
+                                  "source_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets/sdxl_inpaint_detail_micro_nomouth_v4.png",
+                                  "s3_source_uri_ready_after_asset_publish":  true,
+                                  "publish_dry_run_command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Publish-InputAssetToS3.ps1 -AssetFile C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Prepared_Input_Assets\\sdxl_inpaint_detail_micro_nomouth_v4_20260707T034500-0500\\sdxl_inpaint_detail_micro_nomouth_v4.png -S3Uri s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets/sdxl_inpaint_detail_micro_nomouth_v4.png -ExpectedSha256 9bfbbda24b0f4915282649bb8c2b3e5a39b5a057dacbce6278683e9b531ec92d -Region us-east-1 -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W66_SELECTED_INPUT_ASSET_S3_PUBLISH_DRY_RUN_sdxl_inpaint_detail_micro_nomouth_v4.png_\u003ctimestamp\u003e.json",
+                                  "publish_execute_command_requires_explicit_user_intent":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Publish-InputAssetToS3.ps1 -AssetFile C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Prepared_Input_Assets\\sdxl_inpaint_detail_micro_nomouth_v4_20260707T034500-0500\\sdxl_inpaint_detail_micro_nomouth_v4.png -S3Uri s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets/sdxl_inpaint_detail_micro_nomouth_v4.png -ExpectedSha256 9bfbbda24b0f4915282649bb8c2b3e5a39b5a057dacbce6278683e9b531ec92d -Region us-east-1 -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W66_SELECTED_INPUT_ASSET_S3_PUBLISH_DRY_RUN_sdxl_inpaint_detail_micro_nomouth_v4.png_\u003ctimestamp\u003e.json -Execute",
+                                  "install_dry_run_command":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Install-EC2InputAssetFromS3.ps1 -SourceS3Uri s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets/sdxl_inpaint_detail_micro_nomouth_v4.png -FileName sdxl_inpaint_detail_micro_nomouth_v4.png -ExpectedSha256 9bfbbda24b0f4915282649bb8c2b3e5a39b5a057dacbce6278683e9b531ec92d -Region us-east-1 -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W66_SELECTED_INPUT_ASSET_INSTALL_DRY_RUN_sdxl_inpaint_detail_micro_nomouth_v4.png_\u003ctimestamp\u003e.json",
+                                  "install_execute_command_requires_explicit_user_intent":  "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Install-EC2InputAssetFromS3.ps1 -SourceS3Uri s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets/sdxl_inpaint_detail_micro_nomouth_v4.png -FileName sdxl_inpaint_detail_micro_nomouth_v4.png -ExpectedSha256 9bfbbda24b0f4915282649bb8c2b3e5a39b5a057dacbce6278683e9b531ec92d -Region us-east-1 -OutFile C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Runtime_Readiness\\W66_SELECTED_INPUT_ASSET_INSTALL_DRY_RUN_sdxl_inpaint_detail_micro_nomouth_v4.png_\u003ctimestamp\u003e.json -Execute"
+                              }
+                          ],
+    "input_asset_local_hash_all_pass":  true,
+    "s3_runtime_transfer_readiness":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_S3_RUNTIME_TRANSFER_READINESS_SELECTED_INPAINT_LIVE_RUNBOOK_20260709T201300-0500.json",
+    "s3_runtime_transfer_readiness_result":  "ready_local_only",
+    "s3_runtime_transfer_ready_local_only":  true,
+    "input_asset_s3_base_uri_present":  true,
+    "input_asset_s3_base_uri_source":  ".env:S3_MODEL_BUCKET/S3_MODEL_PREFIX/input-assets",
+    "region":  "us-east-1",
+    "ready_for_input_asset_publish":  true,
+    "ready_for_ec2_input_asset_install_execute":  false,
+    "exact_blockers":  [
+                           "explicit_user_target_runtime_selection_required",
+                           "input_assets_not_yet_published_to_s3_for_selected_lane",
+                           "ec2_input_asset_install_execute_requires_explicit_intent"
+                       ],
+    "required_before_ec2_input_install":  [
+                                              "input assets uploaded to source_s3_uri values",
+                                              "Publish-InputAssetToS3.ps1 dry-run plans pass for each asset",
+                                              "selected deploy bundle rebuilt or revalidated from clean checkpoint",
+                                              "clean Git checkpoint gate passes for EC2",
+                                              "explicit target-runtime selection exists",
+                                              "S3 runtime transfer readiness remains ready_local_only",
+                                              "Install-EC2InputAssetFromS3.ps1 dry-run plans pass for each asset"
+                                          ],
+    "command_sequence":  [
+                             {
+                                 "name":  "input_asset_publish_dry_runs",
+                                 "command":  "Run each publish_dry_run_command from input_asset_plans.",
+                                 "external_contact":  false,
+                                 "mutates_git":  false
+                             },
+                             {
+                                 "name":  "publish_input_assets_to_s3_after_explicit_intent",
+                                 "command":  "Run each publish_execute_command_requires_explicit_user_intent only after explicit publish intent and approved AWS auth.",
+                                 "external_contact":  true,
+                                 "mutates_git":  false
+                             },
+                             {
+                                 "name":  "input_asset_install_dry_runs",
+                                 "command":  "Run each install_dry_run_command from input_asset_plans.",
+                                 "external_contact":  false,
+                                 "mutates_git":  false
+                             },
+                             {
+                                 "name":  "input_asset_install_execute_after_live_gates",
+                                 "command":  "Run each install_execute_command_requires_explicit_user_intent only after clean Git, explicit selection, S3 proof, and EC2 static proof gates pass.",
+                                 "external_contact":  true,
+                                 "mutates_git":  false
+                             },
+                             {
+                                 "name":  "target_runtime_workflow_smoke_still_blocked",
+                                 "command":  "Remain blocked until input asset install hash verification, model path/hash proof, deploy bundle proof, and EC2 static proof all pass.",
+                                 "external_contact":  false,
+                                 "mutates_git":  false
+                             }
+                         ],
+    "boundary":  "Selected input-asset install readiness plan only. This artifact does not upload assets, contact AWS/S3, start EC2, post prompts, run generation, stage, commit, push, reset, checkout, rebuild deploy bundles, consume or promote masks, rerun Wave70 gates, switch to Jira bookkeeping, or activate Wave71+.",
+    "next_action":  "When live gates are later selected and clean, run publish dry-runs for the listed source/mask assets, publish them to the recorded S3 URIs after explicit intent, run dry-run install plans, then run Install-EC2InputAssetFromS3.ps1 -Execute for each asset before bounded workflow smoke."
+}
