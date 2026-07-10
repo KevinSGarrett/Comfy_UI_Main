@@ -5,7 +5,7 @@ from pathlib import Path
 
 DIMENSIONS = [
     'schema_validity','registry_validity','script_validity','app_mode_mapping',
-    'orchestrator_route_integrity','preview_gate_integrity','state_diff_integrity',
+    'orchestrator_route_integrity','pruntime_gate_integrity','state_diff_integrity',
     'local_proof','manifest_completeness','release_decision_consistency'
 ]
 

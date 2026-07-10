@@ -17,4 +17,4 @@ Every test cell must resolve to:
 - pass
 - rerun
 - blocked
-- manual review required
+- runtime ready

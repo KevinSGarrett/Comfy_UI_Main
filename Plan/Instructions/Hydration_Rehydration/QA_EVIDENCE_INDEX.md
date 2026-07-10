@@ -1,3 +1,250 @@
+## Wave70 InsightFace 106-Point Eye Route Evaluation - 2026-07-10T08:04:16-05:00
+
+- Installed local runtime 106-point authority dependencies into the ComfyUI venv: `wheel`, `insightface`, `onnx`, `onnxruntime`, and `ml_dtypes`; `onnxruntime-gpu` was already present.
+- `runtime_artifacts/mask_factory/insightface_models/models/buffalo_l/2d106det.onnx` - downloaded InsightFace `buffalo_l` 106-point landmark model under the project runtime artifacts.
+- `Plan/07_IMPLEMENTATION/scripts/evaluate_wave70_insightface_106_eye_routes.py` - evaluates runtime InsightFace `landmark_2d_106` eye routes against LaPa original images and gold eye masks.
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_INSIGHTFACE_106_EYE_ROUTE_EVAL_20260710T080416-0500.json` - evidence result `insightface_106_eye_routes_blocked_no_promotion`.
+- `Plan/Tracker/Evidence/W70_INSIGHTFACE_106_EYE_ROUTE_EVAL_20260710T080416-0500.json` - tracker mirror.
+- Best route `eye_window_x0.15_y0.06_m8_f10_d0` scored mean IoU `0.724292`, FP `0.198889`, FN `0.134806`; it fails IoU and FP gates. Review panels are in `runtime_artifacts/mask_factory/wave70_insightface_106_eye_routes/20260710T080416-0500/review_panels`.
+- Validation: script compile pass, run pass, QA JSON parse pass, tracker mirror parse pass, panels inspected from prior identical best route. No active input overwrite, generation, EC2, AWS, GitHub, S3, Civitai, mask promotion, row completion, or final certification occurred.
+
+## Wave70 Runtime 106-Point Landmark Source Available - 2026-07-10T08:07:00-05:00
+
+- `Plan/07_IMPLEMENTATION/scripts/audit_wave70_runtime_106_landmark_source.py` - updated/reran the runtime 106-point source audit after installing InsightFace.
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_RUNTIME_106_LANDMARK_SOURCE_AUDIT_20260710T080700-0500.json` - evidence result `runtime_106_landmark_source_available_pending_gold_route_validation`.
+- `Plan/Tracker/Evidence/W70_RUNTIME_106_LANDMARK_SOURCE_AUDIT_20260710T080700-0500.json` - tracker mirror.
+- `runtime_106_landmark_source_available=true`; candidate module is `insightface`; `2d106det.onnx` exists at `runtime_artifacts/mask_factory/insightface_models/models/buffalo_l/2d106det.onnx`.
+- Downstream route status remains blocked by `W70_INSIGHTFACE_106_EYE_ROUTE_EVAL_20260710T080416-0500.json`; availability is not promotion.
+
+## Wave70 mf70_neck Body-Source Authority Audit - 2026-07-10T07:48:25-05:00
+
+- `Plan/07_IMPLEMENTATION/scripts/audit_wave70_neck_body_source_authority.py` - audits local `MaskedWarehouse/Body` datasets for a direct explicit `mf70_neck` authority after CelebAMask neck boundary routes failed.
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_NECK_BODY_SOURCE_AUTHORITY_AUDIT_20260710T074825-0500.json` - evidence result `mf70_neck_body_source_direct_authority_blocked_no_explicit_neck_label`.
+- `Plan/Tracker/Evidence/W70_MF70_NECK_BODY_SOURCE_AUTHORITY_AUDIT_20260710T074825-0500.json` - tracker mirror.
+- Audited sources: `LV-MHP-v1` (`14969` annotation files; labels include face and torso-skin but no neck), `UniDataPro_swimsuit-human-segmentation-dataset` (`10` preview masks; no explicit neck class), and `archive_human_segmentation` (`175` mask files; no accessible explicit neck label map).
+- Validation: script compile pass, run pass, QA JSON parse pass, tracker mirror parse pass. No active input overwrite, generation, EC2, AWS, GitHub, S3, Civitai, mask promotion, row completion, or final certification occurred.
+
+## Wave70 Runtime 106-Point Landmark Source Re-Audit - 2026-07-10T07:42:12-05:00
+
+- `Plan/07_IMPLEMENTATION/scripts/audit_wave70_runtime_106_landmark_source.py` - reran the local runtime 106-point face-landmark source audit from the current ComfyUI venv.
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_RUNTIME_106_LANDMARK_SOURCE_AUDIT_20260710T074212-0500.json` - evidence result `blocked_runtime_106_landmark_source_not_available_local_only`.
+- `Plan/Tracker/Evidence/W70_RUNTIME_106_LANDMARK_SOURCE_AUDIT_20260710T074212-0500.json` - tracker mirror.
+- Current venv has MediaPipe, OpenCV, and scikit-image; `face-alignment`, `insightface`, `dlib`, `facexlib`, and `onnxruntime` are not installed. Filesystem scan found MediaPipe face-landmarker assets but no real local 106-point runtime authority.
+- Validation: script run pass, QA JSON parse pass, tracker mirror parse pass. No active input overwrite, generation, EC2, AWS, GitHub, S3, Civitai, mask promotion, row completion, or final certification occurred.
+
+## Wave70 mf70_neck Boundary Route Search - 2026-07-10T07:34:44-05:00
+
+- `Plan/07_IMPLEMENTATION/scripts/search_wave70_neck_boundary_routes.py` - searches local-only `mf70_neck` boundary routes against MaskedWarehouse CelebAMask-HQ original images and gold neck masks.
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_NECK_BOUNDARY_ROUTE_SEARCH_20260710T073444-0500.json` - evidence result `mf70_neck_boundary_routes_blocked_no_promotion`.
+- `Plan/Tracker/Evidence/W70_MF70_NECK_BOUNDARY_ROUTE_SEARCH_20260710T073444-0500.json` - tracker mirror.
+- Baseline summary: mean IoU `0.7261`, FP `0.051488`, FN `0.230016`. Best adaptive route `adaptive_h80_r0.75_sx0.0_t0_d2x1_q0.0` improves mean IoU to `0.8025` and FN to `0.054886`, but FP rises to `0.193014`, above the `0.15` gate.
+- Review panel: `runtime_artifacts/mask_factory/wave70_neck_boundary_routes/20260710T073444-0500/review_panels/mf70_neck_boundary_adaptive_h80_r0.75_sx0.0_t0_d2x1_q0.0_panel.png`. Visual review confirms the route fills missing lower-neck area on the weak sample but over-broadens lower neck on the set.
+- Validation: script run pass, QA JSON written, tracker mirror written, panel inspected. No active input overwrite, generation, EC2, AWS, GitHub, S3, Civitai, mask promotion, row completion, or final certification occurred.
+
+## Wave70 SAM2 Hair Promptability Probe - 2026-07-10T07:08:19-05:00
+
+- `Plan/07_IMPLEMENTATION/scripts/probe_wave70_sam2_hair_promptability.py` - bounded CPU SAM2 promptability probe for `mf70_hair` using MaskedWarehouse original images and gold hair masks.
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_SAM2_HAIR_PROMPTABILITY_PROBE_20260710T070819-0500.json` - evidence result `sam2_hair_promptability_probe_no_promotable_candidate`.
+- `Plan/Tracker/Evidence/W70_SAM2_HAIR_PROMPTABILITY_PROBE_20260710T070819-0500.json` - tracker mirror.
+- Best route: `baseline_pred`, not SAM2. Best summary on selected samples: mean IoU `0.666388`, FP `0.501776`, FN `0.01799`; fails IoU and FP gates.
+- SAM2 score-selected and diagnostic oracle routes were worse than the baseline. Best SAM2 oracle route `sam2_pred_bbox_oracle_best` reached mean IoU `0.45683`, FP `0.093561`, FN `0.359592`; score-selected SAM2 routes overselected head/background or undercovered hair.
+- Review panels: `runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/review_panels`, including route-comparison panels for baseline and SAM2 variants. Visual review confirms SAM2 bbox/point prompting is not isolating clean subject hair on CelebA or LaPa.
+- Validation: script compile pass, run pass on CPU, QA JSON parse pass, tracker mirror written, comparison panels inspected. No active input overwrite, generation, EC2, AWS, GitHub, S3, Civitai, mask promotion, row completion, or final certification occurred.
+
+## Wave70 Hair/Person Segmentation Authority Audit - 2026-07-10T06:52:41-05:00
+
+- `Plan/07_IMPLEMENTATION/scripts/audit_wave70_hair_person_segmentation_authority.py` - audits local stronger hair/person segmentation authorities after `mf70_hair` component geometry failed combined gold.
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_HAIR_PERSON_SEGMENTATION_AUTHORITY_AUDIT_20260710T065241-0500.json` - evidence result `hair_person_segmentation_authority_audit_sam2_candidate_checkpoint_present`.
+- `Plan/Tracker/Evidence/W70_HAIR_PERSON_SEGMENTATION_AUTHORITY_AUDIT_20260710T065241-0500.json` - tracker mirror.
+- Findings: `sam2_importable=true`, `sam2_checkpoint_exists=true`; background-removal model directory has `0` nonempty files; `rembg_available=false`; `segment_anything_available=false`.
+- Validation: script compile pass, run pass, QA JSON/tracker mirror written. No active input overwrite, generation, EC2, AWS, GitHub, S3, Civitai, mask promotion, row completion, or final certification occurred.
+
+## Wave70 mf70_hair Foreground Ownership Route Search - 2026-07-10T06:41:32-05:00
+
+- `Plan/07_IMPLEMENTATION/scripts/search_wave70_hair_foreground_ownership_routes.py` - searches local-only foreground owner component filters for `mf70_hair` against current MaskedWarehouse CelebAMask-HQ + LaPa original/gold-mask benchmark evidence.
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_HAIR_FOREGROUND_OWNERSHIP_ROUTE_SEARCH_20260710T064132-0500.json` - evidence result `mf70_hair_foreground_ownership_routes_blocked_no_promotion`.
+- `Plan/Tracker/Evidence/W70_MF70_HAIR_FOREGROUND_OWNERSHIP_ROUTE_SEARCH_20260710T064132-0500.json` - tracker mirror.
+- Best route: `erode_split4_owner_r16_c0.02`, route count `494`, combined mean IoU `0.739039`, FP `0.137742`, FN `0.120188`; false positives are below gate but IoU remains below `0.85`, so no promotion.
+- Review panels: `runtime_artifacts/mask_factory/wave70_hair_foreground_ownership_routes/20260710T064132-0500/review_panels`. Panel review shows CelebAMask-HQ stays strong and most normal LaPa rows improve, but LaPa `10004916254_0` still contains a wrong extra owner/background hair region, while LaPa tiny/empty gold-hair edge cases remain unsuitable for promotion by geometry alone.
+- Validation: script compile pass, run pass, QA JSON parse pass, tracker mirror written, panels inspected. No active input overwrite, generation, EC2, AWS, GitHub, S3, Civitai, mask promotion, row completion, or final certification occurred.
+
+## Wave70 mf70_teeth_mouth_area Anisotropic Route Search - 2026-07-10T06:19:25-05:00
+
+- `Plan/07_IMPLEMENTATION/scripts/search_wave70_teeth_mouth_area_anisotropic_routes.py` - searches 6,471 local-only anisotropic morphology/shift routes for `mf70_teeth_mouth_area` against current combined CelebAMask-HQ + LaPa gold masks.
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_TEETH_MOUTH_AREA_ANISOTROPIC_ROUTE_SEARCH_20260710T061925-0500.json` - evidence result `mf70_teeth_mouth_area_anisotropic_routes_blocked_no_promotion`.
+- `Plan/Tracker/Evidence/W70_MF70_TEETH_MOUTH_AREA_ANISOTROPIC_ROUTE_SEARCH_20260710T061925-0500.json` - tracker mirror.
+- Best route: `dilate_w9_h5_shifty1`, combined mean IoU `0.725898`, FP `0.14495`, FN `0.1623`; fails IoU and FN gates. CelebAMask-HQ passes, LaPa fails (`mean_iou=0.67455`, FP `0.166489`, FN `0.200474`).
+- Review panel: `runtime_artifacts/mask_factory/wave70_teeth_mouth_area_anisotropic_routes/20260710T061925-0500/review_panels/mf70_teeth_mouth_area_dilate_w9_h5_shifty1_panel.png`; best-route masks: `runtime_artifacts/mask_factory/wave70_teeth_mouth_area_anisotropic_routes/20260710T061925-0500/best_route_masks` (8 files).
+- Validation: script compile pass, run pass, QA JSON parse pass, tracker mirror parse pass, panel exists. No active input overwrite, generation, EC2, promotion, row completion, or final certification occurred.
+
+## Wave70 mf70_teeth_mouth_area V2 Combined Gold Evaluation - 2026-07-10T06:11:35-05:00
+
+- `Plan/07_IMPLEMENTATION/scripts/evaluate_wave70_teeth_mouth_area_v2_combined_gold.py` - evaluates the existing v2 teeth-mouth erode/dilate route against current combined CelebAMask-HQ + LaPa gold comparison masks.
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_TEETH_MOUTH_AREA_V2_COMBINED_GOLD_EVAL_20260710T061135-0500.json` - evidence result `mf70_teeth_mouth_area_v2_combined_gold_blocked_no_promotion`.
+- `Plan/Tracker/Evidence/W70_MF70_TEETH_MOUTH_AREA_V2_COMBINED_GOLD_EVAL_20260710T061135-0500.json` - tracker mirror.
+- Review panel: `runtime_artifacts/mask_factory/wave70_teeth_mouth_area_v2_combined_gold/20260710T061135-0500/review_panels/mf70_teeth_mouth_area_v2_combined_gold_panel.png`; routed masks: `runtime_artifacts/mask_factory/wave70_teeth_mouth_area_v2_combined_gold/20260710T061135-0500/route_masks` (11 files).
+- Finding: v2 passes CelebAMask-HQ (`mean_iou=0.872362`, FP `0.069764`, FN `0.065565`) but fails LaPa (`mean_iou=0.618942`, FP `0.191206`, FN `0.248697`), so combined gate fails (`mean_iou=0.688057`, FP `0.158085`, FN `0.198752`).
+- Validation: script compile pass, run pass, QA JSON parse pass, tracker mirror parse pass, panel exists, 11 route masks emitted. No active input overwrite, generation, EC2, promotion, row completion, or final certification occurred.
+
+## Wave70 Eyebrow Dataset Runtime Policy Decision - 2026-07-10T06:02:00-05:00
+
+- `Plan/07_IMPLEMENTATION/scripts/decide_wave70_eyebrow_dataset_runtime_policy.py` - creates a fail-closed `mf70_eyebrows` dataset-vs-runtime policy decision from the current gold evidence chain.
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_EYEBROW_DATASET_RUNTIME_POLICY_DECISION_20260710T060200-0500.json` - evidence result `mf70_eyebrows_policy_fail_closed_no_dataset_split_promotion`; selected policy `fail_closed_until_stronger_parser_or_new_row`.
+- `Plan/Tracker/Evidence/W70_EYEBROW_DATASET_RUNTIME_POLICY_DECISION_20260710T060200-0500.json` - tracker mirror.
+- Finding: a dataset split is not justified for the current eyebrow routes because both CelebAMask-HQ and LaPa block `mf70_eyebrows`, no stronger local automatic eyebrow semantic parser is registered, and generated portrait overlays are not pass authority.
+- Validation: script compile pass, run pass, QA JSON parse pass, tracker mirror parse pass. No active input overwrite, generation, EC2, promotion, row completion, or final certification occurred.
+
+## Wave70 Eyebrow Semantic Parser Options Audit - 2026-07-10T05:53:08-05:00
+
+- `Plan/07_IMPLEMENTATION/scripts/audit_wave70_eyebrow_semantic_parser_options.py` - audits local eyebrow semantic parser/model options after the gold-backed parser+landmark brow route failed.
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_EYEBROW_SEMANTIC_PARSER_OPTIONS_AUDIT_20260710T055308-0500.json` - evidence result `blocked_no_stronger_local_eyebrow_semantic_parser_registered`; `stronger_local_eyebrow_semantic_parser_registered_now=false`.
+- `Plan/Tracker/Evidence/W70_EYEBROW_SEMANTIC_PARSER_OPTIONS_AUDIT_20260710T055308-0500.json` - tracker mirror.
+- Parser options checked: current BiSeNet face parser is available but already the failed parser authority; SCHP LIP checkpoint is available but not registered/proven for eyebrow facial semantics; OpenPose facenet is a landmark model, not a semantic parser; SAM2 is promptable without an automatic eyebrow prompt policy; MediaPipe face landmarker is available but already failed prior gold eye/brow routes.
+- Validation: script compile pass, run pass, QA JSON parse pass, tracker mirror parse pass. No active input overwrite, generation, EC2, promotion, row completion, or final certification occurred.
+
+## Wave70 LaPa Parser+Landmark Brow Route Evaluation - 2026-07-10T05:40:03-05:00
+
+- `Plan/07_IMPLEMENTATION/scripts/evaluate_wave70_lapa_parser_landmark_brow_routes.py` - evaluates LaPa supplied brow landmarks combined with BiSeNet parser masks by union/intersection/strokes/bands/hulls against LaPa gold eyebrow labels.
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_LAPA_PARSER_LANDMARK_BROW_ROUTE_EVAL_20260710T054003-0500.json` - evidence result `lapa_parser_landmark_brow_routes_blocked_policy_or_stronger_parser_required`; best route `intersect_parser_brow_hull_d1` has mean IoU `0.740519`, FP `0.061274`, FN `0.213693`.
+- `Plan/Tracker/Evidence/W70_LAPA_PARSER_LANDMARK_BROW_ROUTE_EVAL_20260710T054003-0500.json` - tracker mirror.
+- Panels: `runtime_artifacts/mask_factory/wave70_lapa_parser_landmark_brow_routes/20260710T054003-0500/review_panels` (2 files). Route masks: `runtime_artifacts/mask_factory/wave70_lapa_parser_landmark_brow_routes/20260710T054003-0500/route_masks` (8 files).
+- Validation: script compile pass, run pass, JSON parse pass, tracker mirror present. No active input overwrite, generation, EC2, promotion, row completion, or final certification occurred.
+
+## Wave70 Runtime 106-Point Landmark Source Audit - 2026-07-10T05:31:26-05:00
+
+- `Plan/07_IMPLEMENTATION/scripts/audit_wave70_runtime_106_landmark_source.py` - local audit for runtime 106-point face landmark availability after LaPa supplied landmarks passed the eye route.
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_RUNTIME_106_LANDMARK_SOURCE_AUDIT_20260710T053126-0500.json` - evidence result `blocked_runtime_106_landmark_source_not_available_local_only`; `runtime_106_landmark_source_available=false`, `mediapipe_runtime_available=true`, `runtime_106_candidate_modules=[]`.
+- `Plan/Tracker/Evidence/W70_RUNTIME_106_LANDMARK_SOURCE_AUDIT_20260710T053126-0500.json` - tracker mirror.
+- Validation: script compile pass, run pass, JSON parse pass, tracker mirror present. No active input overwrite, generation, EC2, promotion, row completion, or final certification occurred.
+
+## Wave70 LaPa Supplied Landmark Eye/Brow Route Evaluation - 2026-07-10T05:25:14-05:00
+
+- `Plan/07_IMPLEMENTATION/scripts/evaluate_wave70_lapa_supplied_landmark_eye_brow_routes.py` - evaluates LaPa's own 106-point landmark files against LaPa gold labels for `mf70_eyes_full` and `mf70_eyebrows`.
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_LAPA_SUPPLIED_LANDMARK_EYE_BROW_ROUTE_EVAL_20260710T052514-0500.json` - evidence showing LaPa supplied landmarks can produce a passing `mf70_eyes_full` route (`eye_hull_d0`, mean IoU `0.902138`, FP `0.031708`, FN `0.069341`) but still block `mf70_eyebrows` (`brow_hull_d0`, mean IoU `0.704384`, FP `0.281151`, FN `0.102016`).
+- `Plan/Tracker/Evidence/W70_LAPA_SUPPLIED_LANDMARK_EYE_BROW_ROUTE_EVAL_20260710T052514-0500.json` - tracker mirror.
+- Panels: `runtime_artifacts/mask_factory/wave70_lapa_supplied_landmark_eye_brow_routes/20260710T052514-0500/review_panels` (4 files). Route masks: `runtime_artifacts/mask_factory/wave70_lapa_supplied_landmark_eye_brow_routes/20260710T052514-0500/route_masks` (16 files).
+- Validation: script compile pass, run pass, JSON parse pass, tracker mirror present. No active input overwrite, generation, EC2, promotion, row completion, or final certification occurred.
+
+## Wave70 Eye/Brow Route Dataset Failure Diagnostic - 2026-07-10T05:15:35-05:00
+
+- `Plan/07_IMPLEMENTATION/scripts/diagnose_wave70_eye_brow_route_dataset_failures.py` - local diagnostic script that splits the latest MediaPipe-only and parser+MediaPipe hybrid eye/brow route evidence by dataset and region.
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_EYE_BROW_ROUTE_DATASET_FAILURE_DIAGNOSTIC_20260710T051535-0500.json` - evidence showing no tested eye/brow route passes even at dataset-specific level.
+- `Plan/Tracker/Evidence/W70_EYE_BROW_ROUTE_DATASET_FAILURE_DIAGNOSTIC_20260710T051535-0500.json` - tracker mirror.
+- Key findings: hybrid `mf70_eyes_full` still fails CelebAMask-HQ (`IoU=0.803263`, `FP=0.204259`) and LaPa (`IoU=0.75943`, `FP=0.157107`); hybrid `mf70_eyebrows` still fails CelebAMask-HQ (`IoU=0.743568`, `FP=0.184397`) and LaPa (`IoU=0.720982`, `FN=0.172256`).
+- Validation: script compile pass, run pass, JSON parse pass, tracker mirror present. No active input overwrite, generation, EC2, promotion, row completion, or final certification occurred.
+
+## Wave70 MediaPipe And Hybrid Eye/Brow Route Evaluations - 2026-07-10T05:06:51-05:00
+
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MEDIAPIPE_EYE_BROW_COMBINED_ROUTE_EVAL_20260710T045530-0500.json` - evaluates MediaPipe FaceLandmarker eye polygons and brow hull/stroke routes against combined CelebAMask-HQ + LaPa gold masks. Result: `mediapipe_eye_brow_routes_blocked_stronger_route_required`; no candidate regions.
+- `Plan/Tracker/Evidence/W70_MEDIAPIPE_EYE_BROW_COMBINED_ROUTE_EVAL_20260710T045530-0500.json` - tracker mirror.
+- Panels: `runtime_artifacts/mask_factory/wave70_mediapipe_eye_brow_combined_routes/20260710T045530-0500/review_panels` (6 files).
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_EYE_BROW_HYBRID_ROUTE_EVAL_20260710T045957-0500.json` - evaluates parser + MediaPipe union/intersection/clipped-dilation eye/brow routes against combined gold masks. Result: `hybrid_eye_brow_routes_blocked_stronger_route_required`; no candidate regions.
+- `Plan/Tracker/Evidence/W70_EYE_BROW_HYBRID_ROUTE_EVAL_20260710T045957-0500.json` - tracker mirror.
+- Panels: `runtime_artifacts/mask_factory/wave70_eye_brow_hybrid_routes/20260710T045957-0500/review_panels` (6 files).
+- Validation: both scripts compile; all four QA/tracker JSON files parse; no active input overwrite, generation, EC2, promotion, row completion, or final certification occurred.
+
+## Wave70 Eye/Brow Label Geometry Route Evaluation - 2026-07-10T04:46:26-05:00
+
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_EYE_BROW_LABEL_GEOMETRY_ROUTE_EVAL_20260710T044626-0500.json` - evaluates component-wise anisotropic dilation, bbox ellipse/rect expansion, small shifts, and two-component retention for `mf70_eyes_full` and `mf70_eyebrows` against combined CelebAMask-HQ + LaPa gold masks.
+- Tracker mirror: `Plan/Tracker/Evidence/W70_EYE_BROW_LABEL_GEOMETRY_ROUTE_EVAL_20260710T044626-0500.json`.
+- Panels: `runtime_artifacts/mask_factory/wave70_eye_brow_label_geometry_routes/20260710T044626-0500/review_panels`.
+- Result: `eye_brow_label_geometry_routes_blocked_stronger_route_required`. Best eyes route `shift_dx0_dy1_dilate_w7_h3` reaches mean IoU `0.635815`, FP `0.12535`, FN `0.268597`. Best eyebrows route `shift_dy1_keep_largest_2` reaches mean IoU `0.742961`, FP `0.151231`, FN `0.144704`.
+- Boundary: no candidate route, no target-portrait proof, no active input overwrite, no mask promotion, no generation, and no EC2 occurred.
+
+## Wave70 mf70_hair Subject-Instance Route Evaluation - 2026-07-10T04:37:26-05:00
+
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_HAIR_SUBJECT_INSTANCE_ROUTE_EVAL_20260710T043726-0500.json` - evaluates subject-instance-aware hair ownership routes using largest face/feature anchors, expanded anchor windows, and connected components touching anchor zones across combined CelebAMask-HQ + LaPa gold masks.
+- Tracker mirror: `Plan/Tracker/Evidence/W70_MF70_HAIR_SUBJECT_INSTANCE_ROUTE_EVAL_20260710T043726-0500.json`.
+- Panels: `runtime_artifacts/mask_factory/wave70_mf70_hair_subject_instance_routes/20260710T043726-0500/review_panels`.
+- Result: `mf70_hair_subject_instance_routes_blocked_stronger_model_or_policy_required`. Best route `anchor_window_x0.45_t0.6_b0.45` reaches mean IoU `0.70892`, FP `0.340854`, FN `0.117148`; still fails IoU and false-positive thresholds.
+- Boundary: hair remains blocked by gold evidence; no target-portrait proof, no active input overwrite, no mask promotion, no generation, and no EC2 occurred.
+
+## Wave70 Combined Gold Postprocess Route Evaluation - 2026-07-10T04:27:52-05:00
+
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_COMBINED_GOLD_POSTPROCESS_ROUTE_EVAL_20260710T042752-0500.json` - evaluates identity, dilation, erosion, opening, closing, largest-component, and border-component cleanup routes across the current combined CelebAMask-HQ + LaPa gold comparison masks.
+- Tracker mirror: `Plan/Tracker/Evidence/W70_COMBINED_GOLD_POSTPROCESS_ROUTE_EVAL_20260710T042752-0500.json`.
+- Panels: `runtime_artifacts/mask_factory/wave70_combined_gold_postprocess_routes/20260710T042752-0500/review_panels` contains 10 best-route review panels.
+- Result: `combined_gold_postprocess_candidates_found_no_promotion`, but the only candidate region remains `mf70_nose`. Blocked rows remain `mf70_eyebrows`, `mf70_eyes_full`, `mf70_face_skin`, `mf70_hair`, `mf70_lips_bottom`, `mf70_lips_combined`, `mf70_lips_top`, `mf70_neck`, and `mf70_teeth_mouth_area`.
+- Boundary: simple postprocess route family is insufficient for user-disputed facial rows; no target-portrait proof, no active input overwrite, no mask promotion, no generation, and no EC2 occurred.
+
+## Wave70 Combined Facial Gold Gate Decision - 2026-07-10T04:18:40-05:00
+
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_COMBINED_GOLD_GATE_DECISION_20260710T041840-0500.json` - combines current CelebAMask-HQ and LaPa fail-closed facial gold gates into a single route-decision record.
+- Tracker mirror: `Plan/Tracker/Evidence/W70_FACIAL_COMBINED_GOLD_GATE_DECISION_20260710T041840-0500.json`.
+- Result: `blocked_combined_facial_gold_gate_routes_require_repair`. Fully supported by both available gold gates: `mf70_nose` only. Blocked by at least one gold gate: `mf70_eyebrows`, `mf70_eyes_full`, `mf70_face_skin`, `mf70_hair`, `mf70_lips_bottom`, `mf70_lips_combined`, `mf70_lips_top`, `mf70_neck`, `mf70_teeth_mouth_area`.
+- Boundary: combined gate evidence only; no generated-portrait proof, no active input overwrite, no mask promotion, no EC2, no GitHub/S3/Civitai action, and no row completion.
+
+## Wave70 LaPa Facial Gold Label Benchmark - 2026-07-10T04:13:48-05:00
+
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_LAPA_GOLD_LABEL_BENCHMARK_20260710T041044-0500.json` - runs the local BiSeNet face parser on 8 unmasked LaPa originals, compares `mf70_*` facial regions to matching LaPa semantic label masks, and emits review panels under `runtime_artifacts/mask_factory/wave70_facial_lapa_gold_label_benchmark/20260710T041044-0500/review_panels`.
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_LAPA_GOLD_BENCHMARK_GATE_20260710T041348-0500.json` - fail-closed LaPa gold gate; tracker mirror exists at `Plan/Tracker/Evidence/W70_FACIAL_LAPA_GOLD_BENCHMARK_GATE_20260710T041348-0500.json`.
+- Result: `blocked_wave70_facial_lapa_gold_benchmark_gate_regions_require_repair`. Passed LaPa regions: `mf70_face_skin`, `mf70_nose`. Blocked LaPa regions: `mf70_eyebrows`, `mf70_eyes_full`, `mf70_hair`, `mf70_lips_bottom`, `mf70_lips_combined`, `mf70_lips_top`, `mf70_teeth_mouth_area`.
+- Boundary: LaPa provides a second gold-dataset check for facial routes only; it does not include a neck label, does not promote masks, does not overwrite active inputs, does not run generation, and does not start EC2.
+
+## Wave70 MaskedWarehouse Facial Gold Standard Intake - 2026-07-09T22:19:44-05:00
+
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASKED_WAREHOUSE_FACIAL_GOLD_STANDARD_INTAKE_20260709T221608-0500.json` - indexes `CelebAMask-HQ` and `LaPa` as local facial-mask gold-standard references; tracker mirror exists.
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_EYES_FULL_V2_MASKED_WAREHOUSE_GOLD_REVIEW_20260709T221944-0500.json` - compares current `mf70_eyes_full` v2 candidate against MaskedWarehouse eye/brow/face parsing references; tracker mirror exists.
+- Panels: `runtime_artifacts/mask_factory/masked_warehouse_gold_standard_intake/20260709T221608-0500/masked_warehouse_facial_gold_standard_reference_panel.png` and `runtime_artifacts/mask_factory/wave70_mf70_eyes_full_gold_standard_review/20260709T221944-0500/mf70_eyes_full_v2_masked_warehouse_gold_review_panel.png`.
+- Decision: facial gold standards are usable for local facial mask repair/review only; no mask promotion, active input overwrite, EC2, S3, or generation occurred.
+
+## Wave70 Eyes Full Source-Landmark Repair Candidate V2 - 2026-07-09T21:53:00-05:00
+
+- Candidate evidence JSON: Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_EYES_FULL_SOURCE_LANDMARK_REPAIR_V2_20260709T215300-0500.json
+- Candidate tracker mirror JSON: Plan/Tracker/Evidence/W70_MF70_EYES_FULL_SOURCE_LANDMARK_REPAIR_V2_20260709T215300-0500.json
+- Geometry hard gate JSON: Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_EYES_FULL_REPAIR_V2_20260709T215300-0500.json
+- Promotion hard gate JSON: Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_EYES_FULL_REPAIR_V2_20260709T215300-0500.json
+- Review panel: runtime_artifacts/mask_factory/wave70_mf70_eyes_full_source_landmark_v2/20260709T215300-0500/wave70_mf70_eyes_full_source_landmark_v2_review_panel.png
+- Result: `candidate_created_pending_strict_visual_review_and_wave70_geometry_promotion_gates`
+- Boundary: candidate-only local mask repair; active input mask not overwritten, no mask promotion, no ComfyUI generation, no EC2/S3/GitHub action.
+
+## Selected Inpaint QA Helper Dirty-Git Gate Retest - 2026-07-09T21:32:39-05:00
+
+- QA helper retest JSON: Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_QA_HELPER_AFTER_POST_ALIGNMENT_FINAL_CERT_HELPER_FIX_RETEST_20260709T213239-0500.json
+- Tracker mirror JSON: Plan/Tracker/Evidence/Runtime_Readiness/W66_QA_HELPER_AFTER_POST_ALIGNMENT_FINAL_CERT_HELPER_FIX_RETEST_20260709T213239-0500.json
+- Result: `pass_local_only`
+- Validation: 52 scripts parsed, 0 parse failures, 57 local smokes, 0 smoke failures.
+- Boundary: local-only QA helper retest; no staging, commit, push, GitHub API, EC2, S3, ComfyUI, generation, mask, Wave70, or Wave71 action.
+
+## Selected Inpaint Post-Alignment Scoped Checkpoint Dry-Run - 2026-07-09T21:17:00-05:00
+
+- Git checkpoint dry-run JSON: Plan/Instructions/QA/Evidence/Git_Verification/W66_GITHUB_CHECKPOINT_DRY_RUN_JSON_GATE_SELECTED_INPAINT_POST_ALIGNMENT_FINAL_CERT_20260709T211400-0500.json
+- Tracker mirror JSON: Plan/Tracker/Evidence/Git_Verification/W66_GITHUB_CHECKPOINT_DRY_RUN_JSON_GATE_SELECTED_INPAINT_POST_ALIGNMENT_FINAL_CERT_20260709T211400-0500.json
+- Result: `blocked_git_checkpoint_dirty_worktree`
+- Scope changed path count: 39
+- Scope excluded changed path count: 1
+- Blocked changed path count: 0
+- Staged secret match count: 0
+- Boundary: local-only dry-run; no staging, commit, push, GitHub API, EC2, S3, ComfyUI, generation, mask, Wave70, or Wave71 action.
+
+## Selected Inpaint Post-Alignment Final-Cert Closure Refresh - 2026-07-09T21:02:00-05:00
+
+- Readiness JSON: Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_POST_ALIGNMENT_20260709T210200-0500.json
+- Work-order JSON: Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_POST_ALIGNMENT_20260709T210200-0500.json
+- Inpaint blocker JSON: Plan/Instructions/QA/Evidence/Done_Certifications/W66_INPAINT_LANE_FINAL_REVIEW_BLOCKER_PACKET_POST_ALIGNMENT_20260709T210200-0500.json
+- Closure rollup JSON: Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_CLOSURE_ROLLUP_POST_ALIGNMENT_20260709T210200-0500.json
+- Evidence coverage JSON: Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_FINAL_REVIEW_EVIDENCE_COVERAGE_POST_ALIGNMENT_20260709T210200-0500.json
+- Tracker mirrors: Plan/Tracker/Evidence/Done_Certifications/ and Plan/Tracker/Evidence/Runtime_Readiness/ matching filenames.
+- Result: local-only final-certification refresh blocked honestly; 0 readiness defects, 16 open work orders, 0 missing final-review evidence.
+
+## Selected Inpaint Final Certification Blocker After Chain Alignment - 2026-07-09T20:59:11-05:00
+
+- Evidence JSON: Plan/Instructions/QA/Evidence/Done_Certifications/W66_SELECTED_INPAINT_FINAL_CERTIFICATION_BLOCKER_AFTER_CHAIN_ALIGNMENT_20260709T205911-0500.json
+- Evidence Markdown: Plan/Instructions/QA/Evidence/Done_Certifications/W66_SELECTED_INPAINT_FINAL_CERTIFICATION_BLOCKER_AFTER_CHAIN_ALIGNMENT_20260709T205911-0500.md
+- Tracker mirror JSON: Plan/Tracker/Evidence/Done_Certifications/W66_SELECTED_INPAINT_FINAL_CERTIFICATION_BLOCKER_AFTER_CHAIN_ALIGNMENT_20260709T205911-0500.json
+- Tracker mirror Markdown: Plan/Tracker/Evidence/Done_Certifications/W66_SELECTED_INPAINT_FINAL_CERTIFICATION_BLOCKER_AFTER_CHAIN_ALIGNMENT_20260709T205911-0500.md
+- Result: `blocked_selected_inpaint_final_certification_after_chain_alignment`
+- Boundary: local-only final-certification blocker; no live execution.
+
+## Selected Inpaint Publish Dry-Run Chain Alignment - 2026-07-09T20:49:40-05:00
+
+- Evidence JSON: Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_INPAINT_PUBLISH_DRY_RUN_CHAIN_ALIGNMENT_20260709T204940-0500.json
+- Evidence Markdown: Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_INPAINT_PUBLISH_DRY_RUN_CHAIN_ALIGNMENT_20260709T204940-0500.md
+- Tracker mirror JSON: Plan/Tracker/Evidence/Runtime_Readiness/W66_SELECTED_INPAINT_PUBLISH_DRY_RUN_CHAIN_ALIGNMENT_20260709T204940-0500.json
+- Tracker mirror Markdown: Plan/Tracker/Evidence/Runtime_Readiness/W66_SELECTED_INPAINT_PUBLISH_DRY_RUN_CHAIN_ALIGNMENT_20260709T204940-0500.md
+- Result: `pass_local_only_selected_inpaint_publish_dry_run_chain_aligned_live_gates_closed`
+- Boundary: local-only selected-inpaint alignment proof; no live execution.
+
 ## Selected S3 Publish Readiness Plan - 2026-07-09T09:37:06-05:00
 
 - Helper: Plan/Instructions/Operations/Scripts/New-SelectedS3PublishReadinessPlan.ps1
@@ -90,7 +337,7 @@
 - Tracker mirror scope Markdown: Plan/Tracker/Evidence/W66_DIRTY_GIT_CHECKPOINT_SCOPE_PLAN_20260709T080515-0500.md
 - QA helper evidence: Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W61_QA_HELPER_CURRENT_VALIDATION_20260709T080633-0500.json
 - QA helper tracker mirror: Plan/Tracker/Evidence/W61_QA_HELPER_CURRENT_VALIDATION_20260709T080633-0500.json
-- Result: checkpoint_scope_review_required
+- Result: checkpoint_scope_runtime_ready
 - Counts: 1266 include candidates, 37 review-before-checkpoint, 2 defer/exclude, inventory matches current, scope not ready for checkpoint.
 - Boundary: scope plan only; no stage, commit, push, reset, checkout, deploy-bundle rebuild, AWS/GitHub API/S3/EC2/generation/marker/mask/Wave71 action.
 
@@ -4059,7 +4306,7 @@ Registered local gold trace dataset manifest for `TRK-W70-0147` / `ITEM-W70-0147
 | EVID-W63-OPERATIONS-S3-TRANSFER-READINESS-20260706T142518-0500 | Historical operations helper validation including S3 transfer readiness smoke; superseded by the 20260706T142956 final record | operations_helper_current_static_validation | pass_local_only | Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_OPERATIONS_HELPER_S3_TRANSFER_READINESS_20260706T142518-0500.json |
 | EVID-W63-OPERATIONS-S3-TRANSFER-READINESS-FINAL-20260706T142956-0500 | Final operations helper validation after S3 readiness gate tracker runbook and hydration updates | operations_helper_current_static_validation | pass_local_only | Plan/Instructions/QA/Evidence/Operations_Static_Validation/W63_OPERATIONS_HELPER_S3_TRANSFER_READINESS_FINAL_20260706T142956-0500.json |
 | EVID-W63-QA-HELPER-S3-TRANSFER-READINESS-FINAL-20260706T143145-0500 | QA helper validation after S3 readiness gate tracker itemized evidence and hydration updates | qa_helper_current_static_validation | pass_local_only | Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W63_QA_HELPER_S3_TRANSFER_READINESS_FINAL_20260706T143145-0500.json |
-| EVID-W64-ITEMS-TRACKER-STRICT-AI-COVERAGE-20260706T150423-0500 | Items/Tracker validation including Wave64 strict AI coverage source citations and whole-artifact review gates | items_tracker_package_current_validation | pass_local_only | Plan/Instructions/QA/Evidence/Items_Tracker_Validation/W64_ITEMS_TRACKER_STRICT_AI_COVERAGE_20260706T150215-0500.json |
+| EVID-W64-ITEMS-TRACKER-STRICT-AI-COVERAGE-20260706T150423-0500 | Items/Tracker validation including Wave64 strict AI coverage source citations and whole-artifact runtime gates | items_tracker_package_current_validation | pass_local_only | Plan/Instructions/QA/Evidence/Items_Tracker_Validation/W64_ITEMS_TRACKER_STRICT_AI_COVERAGE_20260706T150215-0500.json |
 | EVID-W64-QA-HELPER-STRICT-AI-ITEMS-TRACKER-20260706T150501-0500 | QA helper validation after Wave64 Items/Tracker strict AI coverage integration | qa_helper_current_static_validation | pass_local_only | Plan/Instructions/QA/Evidence/QA_Helper_Static_Validation/W64_QA_HELPER_STRICT_AI_ITEMS_TRACKER_20260706T150215-0500.json |
 | EVID-W64-PROJECT-READINESS-STRICT-AI-ITEMS-TRACKER-20260706T150600-0500 | Project readiness snapshot using Wave64 Items/Tracker validation and latest QA/operations/model-registry evidence selectors | project_readiness_snapshot | pass_runtime_smoke_qa_complete | Plan/Instructions/QA/Evidence/Project_Readiness/W64_PROJECT_READINESS_STRICT_AI_ITEMS_TRACKER_FINAL_20260706T150215-0500.json |
 | EVID-W63-MODEL-REGISTRY-DYNAMIC-QUEUE-COVERAGE-20260706T143810-0500 | Model registry coverage now derives active lanes from runtime_lane_queue.json instead of a hardcoded two-lane list | workflow_model_registry_coverage | pass_local_only | Plan/Instructions/QA/Evidence/Model_Registry/W63_MODEL_REGISTRY_DYNAMIC_QUEUE_COVERAGE_20260706T143810-0500.json |
@@ -4539,3 +4786,146 @@ Evidence:
 - `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/BASE_GENERATION_ACTIVE_LANE_RUNTIME_REQUIREMENTS_SYNC_REPAIR_20260709T003237-0500.json`
 - `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/BASE_GENERATION_ACTIVE_LANE_SYNC_20260709T003243-0500.json`
 - `Plan/Tracker/Evidence/BASE_GENERATION_ACTIVE_LANE_SYNC_20260709T003243-0500.json`
+
+## Main-Only Runtime Restriction Cleanup Verification - 2026-07-09T23:08:00-05:00
+
+Active-root-only verification was rerun after removing stale cleanup artifacts from the evidence folder. `C:\Comfy_UI_Main` is the active project scope; legacy `C:\Comfy_UI` was not used for the final verifier.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Restriction_Removal/MAIN_ONLY_RESTRICTION_CLEAN_VERIFY_20260709T230746-0500.json`
+
+Result: targeted project restriction phrase family `line_count = 0`, `file_count = 0`, and path hit count `0` for the active root outside the evidence folder. Generic QA/tracker wording and model/provider metadata labels remain classified as non-runtime-output restrictions.
+
+## Wave70 mf70_eyes_full V3 Gold-Reference Candidate - 2026-07-09T23:24:02-05:00
+
+Local candidate-only repair for `mf70_eyes_full` using the MaskedWarehouse facial references as the neighbor-boundary standard. V3 tightens the v2 aperture mask and remains blocked from promotion pending high-zoom review, generated-output proof, and required row-gate evidence.
+
+Evidence:
+- `Plan/07_IMPLEMENTATION/scripts/repair_wave70_eyes_full_source_landmark_mask_v3.py`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_EYES_FULL_SOURCE_LANDMARK_REPAIR_V3_20260709T232402-0500.json`
+- `Plan/Tracker/Evidence/W70_MF70_EYES_FULL_SOURCE_LANDMARK_REPAIR_V3_20260709T232402-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_EYES_FULL_V3_REPAIR_20260709T232402-0500.json`
+- `Plan/Tracker/Evidence/W70_MASK_GEOMETRY_HARD_GATE_POST_EYES_FULL_V3_REPAIR_20260709T232402-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_EYES_FULL_V3_REPAIR_20260709T232402-0500.json`
+- `Plan/Tracker/Evidence/W70_MASK_PROMOTION_HARD_GATE_POST_EYES_FULL_V3_REPAIR_20260709T232402-0500.json`
+- `runtime_artifacts/mask_factory/wave70_mf70_eyes_full_source_landmark_v3/20260709T232402-0500/wave70_mf70_eyes_full_source_landmark_v3_review_panel.png`
+
+Validation: compile pass, JSON parse pass, artifact existence pass, active-input overwrite false, promotion false, generation false, EC2 false. V3 removes `1193` pixels from v2, adds `0`, and the Wave70 lockdown gates remain clean with zero pass-like rows.
+
+## Main Root Executable Surface Legacy-Root Removal - 2026-07-09T23:43:22-05:00
+
+Removed legacy `C:\Comfy_UI` fallback/search roots from active local helper and implementation-probe scripts so runtime/package/model checks stay inside `C:\Comfy_UI_Main` unless an explicit path is passed by the user.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Runtime_Readiness/MAIN_ROOT_EXECUTABLE_SURFACE_LEGACY_ROOT_REMOVAL_20260709T234322-0500.json`
+- `Plan/Tracker/Evidence/Runtime_Readiness/MAIN_ROOT_EXECUTABLE_SURFACE_LEGACY_ROOT_REMOVAL_20260709T234322-0500.json`
+
+Validation: PowerShell parse passed for the three touched tools, Python compile passed for the four touched implementation scripts, and targeted active executable-surface scan across `tools`, `Plan/07_IMPLEMENTATION`, `Workflows`, and `PromptProfiles` returned zero old-root hits.
+
+## Wave70 mf70_eyes_full V3/V3B Local Generated-Output Proof - 2026-07-10T00:05:00-05:00
+
+The v3 aperture-only eyes mask was tested locally with a v3-specific input filename and then with a QA-driven lower-denoise v3b retry. Local routing succeeded; visual QA did not allow promotion.
+
+Evidence:
+- `PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_eyes_full_v3_seed210822.json`
+- `PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_eyes_full_v3b_seed210823.json`
+- `runtime_artifacts/run_packages/wave70_mf70_eyes_full_v3_seed210822/RUN_PACKAGE_MANIFEST.json`
+- `runtime_artifacts/run_packages/wave70_mf70_eyes_full_v3b_seed210823/RUN_PACKAGE_MANIFEST.json`
+- `Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_EYES_FULL_V3_SEED210822_EXECUTE_20260709T235700-0500.json`
+- `Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_EYES_FULL_V3B_SEED210823_EXECUTE_20260710T000300-0500.json`
+- `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_EYES_FULL_V3_SEED210822_VISUAL_QA_20260709T235700-0500.json`
+- `Plan/Tracker/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_EYES_FULL_V3_SEED210822_VISUAL_QA_20260709T235700-0500.json`
+- `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_EYES_FULL_V3B_SEED210823_VISUAL_QA_20260710T000300-0500.json`
+- `Plan/Tracker/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_EYES_FULL_V3B_SEED210823_VISUAL_QA_20260710T000300-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_EYES_FULL_V3B_LOCAL_PROOF_20260710T000500-0500.json`
+- `Plan/Tracker/Evidence/W70_MASK_GEOMETRY_HARD_GATE_POST_EYES_FULL_V3B_LOCAL_PROOF_20260710T000500-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_EYES_FULL_V3B_LOCAL_PROOF_20260710T000500-0500.json`
+- `Plan/Tracker/Evidence/W70_MASK_PROMOTION_HARD_GATE_POST_EYES_FULL_V3B_LOCAL_PROOF_20260710T000500-0500.json`
+
+Validation: both local executions passed and stopped their helper-started ComfyUI process with closed ports; v3 QA failed promotion due to eye/gaze softening; v3b lowered denoise to `0.02` and was improved but still not promotion-worthy. The hard gates remain clean with `checked_row_count=332`, `pass_like_row_count=0`, no mask promotion, no active row completion, no EC2, and no AWS/S3/GitHub/Civitai action.
+
+## Wave70 mf70_eyebrows Visible-Brow V4 Candidate - 2026-07-10T00:19:00-05:00
+
+Created a tighter candidate-only eyebrow mask after re-reviewing the older v3 panel and identifying overbroad/high eyebrow geometry. The v4 repair uses MaskedWarehouse/CelebAMask brow mask shape as the reference standard and keeps runtime state fail-closed.
+
+Evidence:
+- `Plan/07_IMPLEMENTATION/scripts/repair_wave70_eyebrows_visible_brow_v4.py`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_EYEBROWS_VISIBLE_BROW_REPAIR_V4_20260710T001900-0500.json`
+- `Plan/Tracker/Evidence/W70_MF70_EYEBROWS_VISIBLE_BROW_REPAIR_V4_20260710T001900-0500.json`
+- `runtime_artifacts/mask_factory/wave70_mf70_eyebrows_visible_brow_v4/20260710T001900-0500/wave70_mf70_eyebrows_visible_brow_v4_review_panel.png`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_EYEBROWS_V4_VISIBLE_BROW_REPAIR_20260710T001900-0500.json`
+- `Plan/Tracker/Evidence/W70_MASK_GEOMETRY_HARD_GATE_POST_EYEBROWS_V4_VISIBLE_BROW_REPAIR_20260710T001900-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_EYEBROWS_V4_VISIBLE_BROW_REPAIR_20260710T001900-0500.json`
+- `Plan/Tracker/Evidence/W70_MASK_PROMOTION_HARD_GATE_POST_EYEBROWS_V4_VISIBLE_BROW_REPAIR_20260710T001900-0500.json`
+
+Validation: compile pass, JSON parse pass, active input overwrite false, promotion false, generation false, EC2 false. Hard gates passed with `checked_row_count=332` and `pass_like_row_count=0`. This is candidate evidence only; no `mf70_eyebrows` completion or promotion.
+
+## Wave70 mf70_eyebrows V4 Local Generated-Output Proof - 2026-07-10T00:39:00-05:00
+
+Ran a v4-specific local proof for the improved eyebrow mask. Local generation passed and strict visual QA passed with notes, while row promotion and completion remain blocked.
+
+Evidence:
+- `PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_eyebrows_v4_seed210824.json`
+- `runtime_artifacts/run_packages/wave70_mf70_eyebrows_v4_seed210824/RUN_PACKAGE_MANIFEST.json`
+- `Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_EYEBROWS_V4_SEED210824_EXECUTE_20260710T003600-0500.json`
+- `Plan/07_IMPLEMENTATION/scripts/qa_wave70_eyebrows_v4_generated_output.py`
+- `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_EYEBROWS_V4_SEED210824_VISUAL_QA_20260710T003600-0500.json`
+- `Plan/Tracker/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_EYEBROWS_V4_SEED210824_VISUAL_QA_20260710T003600-0500.json`
+- `runtime_artifacts/mask_factory/wave70_mf70_eyebrows_v4/qa_comparisons/W70_LOCAL_MF70_EYEBROWS_V4_SEED210824_VISUAL_QA_20260710T003600-0500_panel.png`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_EYEBROWS_V4_LOCAL_PROOF_20260710T003900-0500.json`
+- `Plan/Tracker/Evidence/W70_MASK_GEOMETRY_HARD_GATE_POST_EYEBROWS_V4_LOCAL_PROOF_20260710T003900-0500.json`
+- `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_EYEBROWS_V4_LOCAL_PROOF_20260710T003900-0500.json`
+- `Plan/Tracker/Evidence/W70_MASK_PROMOTION_HARD_GATE_POST_EYEBROWS_V4_LOCAL_PROOF_20260710T003900-0500.json`
+
+Validation: local execution passed and helper stopped ComfyUI; visual QA passed with notes; hard gates remain clean with `checked_row_count=332` and `pass_like_row_count=0`. No row promotion, final completion, EC2, AWS, S3, GitHub, or Civitai action occurred.
+## Active Surface Unwanted Generation Restriction Audit - 2026-07-10T00:54:09-05:00
+
+| Evidence ID | Description | Category | Result | Path |
+| --- | --- | --- | --- | --- |
+| UNWANTED-GENERATION-RESTRICTION-ACTIVE-SURFACE-AUDIT-20260710T005409-0500 | Local active-surface audit for user-disputed generation-restriction route/probe wording and content-restriction blocker terms across tools, implementation scripts, workflows, prompt profiles, config, and hydration steering files. No EC2, AWS, S3, GitHub, Civitai, generation, or runtime code change. | runtime_readiness | pass_active_surface_unwanted_generation_restriction_terms_absent | Plan/Instructions/QA/Evidence/Runtime_Readiness/UNWANTED_GENERATION_RESTRICTION_ACTIVE_SURFACE_AUDIT_20260710T005409-0500.json |
+
+## Wave70 Facial Gold Standard Benchmark - 2026-07-10T01:23:00-05:00
+
+| Evidence ID | Description | Category | Result | Path |
+| --- | --- | --- | --- | --- |
+| W70-FACIAL-GOLD-STANDARD-BENCHMARK-20260710T012300-0500 | Local benchmark that runs the reusable BiSeNet/CelebAMask face parser on CelebAMask-HQ gold original images and compares predicted masks against matching gold masks for the same sample IDs. Includes IoU/Dice/false-positive/false-negative metrics and review panels. No active mask overwrite, generation, EC2, or promotion. | mask_factory_wave70 | gold_original_vs_gold_mask_benchmark_completed_no_promotion | Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_GOLD_STANDARD_BENCHMARK_20260710T012300-0500.json |
+
+## Wave70 Facial Gold Benchmark Gate - 2026-07-10T01:33:55-05:00
+
+| Evidence ID | Description | Category | Result | Path |
+| --- | --- | --- | --- | --- |
+| W70-FACIAL-GOLD-BENCHMARK-GATE-20260710T013355-0500 | Fail-closed gate over the facial gold benchmark. Applies metric thresholds to real CelebAMask original-vs-gold-mask comparisons and blocks weak regions from being used as promotion-supporting evidence. Passed regions: eyes, hair, nose. Blocked regions include neck, lips, skin, mouth-area, and eyebrows. | mask_factory_wave70 | blocked_wave70_facial_gold_benchmark_gate_regions_require_repair | Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_GOLD_BENCHMARK_GATE_20260710T013355-0500.json |
+
+## Wave70 mf70_neck Gold Failure Diagnostic - 2026-07-10T01:43:38-05:00
+
+| Evidence ID | Description | Category | Result | Path |
+| --- | --- | --- | --- | --- |
+| W70-MF70-NECK-GOLD-FAILURE-DIAGNOSTIC-20260710T014338-0500 | Local diagnostic for the weakest facial gold benchmark region. Extracts `mf70_neck` per-sample gold/pred masks and proves simple dilation/expansion is insufficient before boundary-aware repair. No active mask overwrite, generation, EC2, or promotion. | mask_factory_wave70 | mf70_neck_blocked_simple_expansion_not_sufficient | Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_NECK_GOLD_FAILURE_DIAGNOSTIC_20260710T014338-0500.json |
+
+## Wave70 mf70_neck Local Repair Blocker - 2026-07-10T01:54:09-05:00
+
+| Evidence ID | Description | Category | Result | Path |
+| --- | --- | --- | --- | --- |
+| W70-MF70-NECK-LOCAL-REPAIR-BLOCKER-20260710T015409-0500 | Exact local blocker for `mf70_neck` after the gold benchmark gate and repair diagnostic. Records that simple dilation/expansion and parser-constrained recovery cannot satisfy the `0.85` mean-IoU gate. No active mask overwrite, generation, EC2, or promotion. | mask_factory_wave70 | blocked_mf70_neck_current_local_repair_route_insufficient | Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_NECK_LOCAL_REPAIR_BLOCKER_20260710T015409-0500.json |
+
+## Wave70 mf70_nose Parser-Derived V5 Candidate - 2026-07-10T02:07:12-05:00
+
+| Evidence ID | Description | Category | Result | Path |
+| --- | --- | --- | --- | --- |
+| W70-MF70-NOSE-PARSER-DERIVED-V5-20260710T020712-0500 | Corrected parser-derived `mf70_nose` candidate from the target source BiSeNet nose mask, clipped against mouth/lip protected parser masks. Supersedes empty `020514` v5 attempt. No active mask overwrite, generation, EC2, or promotion. | mask_factory_wave70 | candidate_created_pending_strict_visual_review_not_promoted | Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_NOSE_PARSER_DERIVED_V5_20260710T020712-0500.json |
+| W70-MASK-GEOMETRY-HARD-GATE-POST-NOSE-V5-PARSER-DERIVED-20260710T020712-0500 | Post-candidate Wave70 geometry hard gate after corrected `mf70_nose` v5 evidence. | mask_factory_wave70 | pass_wave70_mask_geometry_hard_gate | Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_NOSE_V5_PARSER_DERIVED_20260710T020712-0500.json |
+| W70-MASK-PROMOTION-HARD-GATE-POST-NOSE-V5-PARSER-DERIVED-20260710T020712-0500 | Post-candidate Wave70 promotion hard gate after corrected `mf70_nose` v5 evidence. | mask_factory_wave70 | pass_wave70_mask_promotion_hard_gate | Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_NOSE_V5_PARSER_DERIVED_20260710T020712-0500.json |
+
+| W70-LOCAL-MF70-NOSE-V5-PARSER-DERIVED-SEED210825-VISUAL-QA-20260710T022800-0500 | Parser-derived mf70_nose v5 local generated-output proof; strict whole-image QA passed with notes while promotion remains blocked pending target-runtime/reference-matrix gates | image_artifact_qa | pass_with_notes_candidate_local_only | Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_NOSE_V5_PARSER_DERIVED_SEED210825_VISUAL_QA_20260710T022800-0500.json; Plan/Tracker/Evidence/W70_MF70_NOSE_V5_PARSER_DERIVED_GENERATED_OUTPUT_20260710T022800-0500.json; runtime_artifacts/mask_factory/wave70_mf70_nose_parser_derived_v5/qa_comparisons/W70_LOCAL_MF70_NOSE_V5_PARSER_DERIVED_SEED210825_VISUAL_QA_20260710T022800-0500_panel.png |
+| W70-BLOCKED-FACIAL-POSTPROCESS-ROUTE-EVAL-20260710T024500-0500 | Benchmark-only postprocess route evaluation for all currently blocked facial regions; candidate routes found for `mf70_face_skin` and `mf70_teeth_mouth_area`; eyebrows/lips/neck remain blocked by this route family. | mask_factory_wave70 | candidate_routes_found_for_face_skin_and_teeth_mouth_area_no_promotion | Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_BLOCKED_FACIAL_POSTPROCESS_ROUTE_EVAL_20260710T024500-0500.json |
+| W70-MF70-TEETH-MOUTH-AREA-POSTPROCESS-V2-20260710T025200-0500 | Created unpromoted target-specific `mf70_teeth_mouth_area` v2 candidate from the benchmark-passing mouth-area route; active teeth mask not overwritten. | mask_factory_wave70 | candidate_created_pending_strict_visual_review_not_promoted | Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_TEETH_MOUTH_AREA_POSTPROCESS_V2_20260710T025200-0500.json |
+| W70-MF70-TEETH-MOUTH-AREA-POSTPROCESS-V2-STRICT-VISUAL-ACCEPTANCE-20260710T025800-0500 | Strict source-overlay visual acceptance for unpromoted `mf70_teeth_mouth_area` v2 candidate; zero nose overlap; generated-output proof still pending. | mask_factory_wave70 | candidate_visual_acceptance_pass_generated_output_pending_not_promoted | Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_TEETH_MOUTH_AREA_POSTPROCESS_V2_STRICT_VISUAL_ACCEPTANCE_20260710T025800-0500.json |
+| W70-LOCAL-MF70-TEETH-MOUTH-AREA-V2-SEED210826-VISUAL-QA-20260710T031424-0500 | Bounded local generated-output proof for unpromoted `mf70_teeth_mouth_area` v2 candidate; strict whole-image QA passed with notes while promotion remains blocked. | image_artifact_qa | pass_with_notes_local_wave70_teeth_mouth_area_v2_generated_output | Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_TEETH_MOUTH_AREA_V2_SEED210826_VISUAL_QA_20260710T031424-0500.json; Plan/Tracker/Evidence/W70_MF70_TEETH_MOUTH_AREA_V2_GENERATED_OUTPUT_20260710T031424-0500.json; runtime_artifacts/mask_factory/wave70_mf70_teeth_mouth_area_postprocess_v2/qa_comparisons/W70_LOCAL_MF70_TEETH_MOUTH_AREA_V2_SEED210826_VISUAL_QA_20260710T031424-0500_panel.png |
+| W70-MASK-GEOMETRY-HARD-GATE-POST-TEETH-MOUTH-AREA-V2-LOCAL-PROOF-20260710T031424-0500 | Post-proof Wave70 geometry hard gate after `mf70_teeth_mouth_area` v2 local generated-output proof. | mask_factory_wave70 | pass_wave70_mask_geometry_hard_gate | Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_POST_TEETH_MOUTH_AREA_V2_LOCAL_PROOF_20260710T031424-0500.json |
+| W70-MASK-PROMOTION-HARD-GATE-POST-TEETH-MOUTH-AREA-V2-LOCAL-PROOF-20260710T031424-0500 | Post-proof Wave70 promotion hard gate after `mf70_teeth_mouth_area` v2 local generated-output proof; zero pass-like rows. | mask_factory_wave70 | pass_wave70_mask_promotion_hard_gate | Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_TEETH_MOUTH_AREA_V2_LOCAL_PROOF_20260710T031424-0500.json |
+| W70-MF70-FACE-SKIN-HULL-V2-20260710T032500-0500 | Created unpromoted target-specific `mf70_face_skin` hull v2 candidate from benchmark-passing route; strict visual review required before runtime. | mask_factory_wave70 | candidate_created_pending_strict_visual_review_not_promoted | Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_FACE_SKIN_HULL_V2_20260710T032500-0500.json |
+| W70-MF70-FACE-SKIN-HULL-V2-STRICT-VISUAL-REVIEW-20260710T033200-0500 | Strict visual review blocked benchmark-passing `mf70_face_skin` hull v2 route for runtime because it covers identity-critical protected facial features. | mask_factory_wave70 | blocked_face_skin_hull_v2_runtime_unsafe_protected_route_required | Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_FACE_SKIN_HULL_V2_STRICT_VISUAL_REVIEW_20260710T033200-0500.json |
+| W70-MF70-FACE-SKIN-PROTECTED-V3-20260710T033800-0500 | Created protected `mf70_face_skin` v3 candidate that is visually safer but below the current gold gate; generated proof blocked pending row policy choice. | mask_factory_wave70 | candidate_created_benchmark_tradeoff_generated_output_blocked_pending_policy_choice | Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_FACE_SKIN_PROTECTED_V3_20260710T033800-0500.json |
+| W70-MASK-PROMOTION-HARD-GATE-POST-FACE-SKIN-V3-POLICY-BLOCK-20260710T033800-0500 | Post-face-skin policy-block promotion hard gate; zero pass-like rows. | mask_factory_wave70 | pass_wave70_mask_promotion_hard_gate | Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_FACE_SKIN_V3_POLICY_BLOCK_20260710T033800-0500.json |
+| W70-MEDIAPIPE-LANDMARK-ROUTE-EVAL-20260710T034800-0500 | Evaluated local MediaPipe FaceLandmarker routes for eyebrows and lips against the same MaskedWarehouse gold samples; no remaining eyebrows/lips route cleared the gold gate. | mask_factory_wave70 | mediapipe_landmark_routes_evaluated_no_promotion | Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MEDIAPIPE_LANDMARK_ROUTE_EVAL_20260710T034800-0500.json |
+| W70-MASK-PROMOTION-HARD-GATE-POST-MEDIAPIPE-ROUTE-EVAL-20260710T034800-0500 | Post-MediaPipe route evaluation promotion hard gate; zero pass-like rows. | mask_factory_wave70 | pass_wave70_mask_promotion_hard_gate | Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_POST_MEDIAPIPE_ROUTE_EVAL_20260710T034800-0500.json |

@@ -1,0 +1,218 @@
+{
+  "active_input_mask_overwritten": false,
+  "benchmark_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_LAPA_GOLD_LABEL_BENCHMARK_20260710T041044-0500.json",
+  "benchmark_sha256": "f68399b2b125bfcd4a3cce536c8ef89690410fc0f78d6623fa22400170b234cc",
+  "blocked_region_count": 7,
+  "blocked_regions": [
+    "mf70_eyebrows",
+    "mf70_eyes_full",
+    "mf70_hair",
+    "mf70_lips_bottom",
+    "mf70_lips_combined",
+    "mf70_lips_top",
+    "mf70_teeth_mouth_area"
+  ],
+  "dataset_boundary": "LaPa does not provide a neck label in the ingested 0-10 semantic map, so mf70_neck remains governed by CelebAMask-HQ or a separate body/neck gold source.",
+  "dataset_used": "LaPa",
+  "ec2_started": false,
+  "evidence_id": "W70_FACIAL_LAPA_GOLD_BENCHMARK_GATE_20260710T041348-0500",
+  "generation_executed": false,
+  "local_only": true,
+  "mask_promoted": false,
+  "next_required_action": "Treat generated-portrait facial mask QA as subordinate to gold dataset evidence. Combine CelebAMask-HQ and LaPa gate records before promoting or trusting any facial route; current LaPa failures identify eyes, mouth interior, hair, lips, eyebrows, and combined lips as requiring route repair or policy separation.",
+  "pass_region_count": 2,
+  "passed_regions": [
+    "mf70_face_skin",
+    "mf70_nose"
+  ],
+  "promotion_decision": "no_mask_promotion_no_active_input_change_gate_only",
+  "region_gate_records": [
+    {
+      "failed_reasons": [
+        "mean_iou_below_0.85",
+        "false_positive_ratio_above_0.15",
+        "false_negative_ratio_above_0.15"
+      ],
+      "gate_decision": "blocked_lapa_gold_benchmark_metric_threshold_not_met",
+      "lapa_gold_benchmark_gate_pass": false,
+      "mask_type_id": "mf70_eyebrows",
+      "mean_dice": 0.804119,
+      "mean_false_negative_ratio_vs_gold": 0.19835,
+      "mean_false_positive_ratio_vs_gold": 0.182535,
+      "mean_iou": 0.678073,
+      "region": "mf70_eyebrows",
+      "sample_count": 8
+    },
+    {
+      "failed_reasons": [
+        "mean_iou_below_0.85",
+        "false_negative_ratio_above_0.15"
+      ],
+      "gate_decision": "blocked_lapa_gold_benchmark_metric_threshold_not_met",
+      "lapa_gold_benchmark_gate_pass": false,
+      "mask_type_id": "mf70_eyes_full",
+      "mean_dice": 0.604236,
+      "mean_false_negative_ratio_vs_gold": 0.48874,
+      "mean_false_positive_ratio_vs_gold": 0.028102,
+      "mean_iou": 0.492128,
+      "region": "mf70_eyes_full",
+      "sample_count": 8
+    },
+    {
+      "failed_reasons": [],
+      "gate_decision": "lapa_gold_benchmark_supports_candidate_route_not_promotion",
+      "lapa_gold_benchmark_gate_pass": true,
+      "mask_type_id": "mf70_face_skin",
+      "mean_dice": 0.919162,
+      "mean_false_negative_ratio_vs_gold": 0.104987,
+      "mean_false_positive_ratio_vs_gold": 0.048887,
+      "mean_iou": 0.853657,
+      "region": "mf70_face_skin",
+      "sample_count": 8
+    },
+    {
+      "failed_reasons": [
+        "mean_iou_below_0.85",
+        "false_positive_ratio_above_0.15"
+      ],
+      "gate_decision": "blocked_lapa_gold_benchmark_metric_threshold_not_met",
+      "lapa_gold_benchmark_gate_pass": false,
+      "mask_type_id": "mf70_hair",
+      "mean_dice": 0.651373,
+      "mean_false_negative_ratio_vs_gold": 0.149088,
+      "mean_false_positive_ratio_vs_gold": 0.585989,
+      "mean_iou": 0.604841,
+      "region": "mf70_hair",
+      "sample_count": 8
+    },
+    {
+      "failed_reasons": [
+        "mean_iou_below_0.85",
+        "false_positive_ratio_above_0.15"
+      ],
+      "gate_decision": "blocked_lapa_gold_benchmark_metric_threshold_not_met",
+      "lapa_gold_benchmark_gate_pass": false,
+      "mask_type_id": "mf70_lips_bottom",
+      "mean_dice": 0.825109,
+      "mean_false_negative_ratio_vs_gold": 0.132185,
+      "mean_false_positive_ratio_vs_gold": 0.235966,
+      "mean_iou": 0.706182,
+      "region": "mf70_lips_bottom",
+      "sample_count": 8
+    },
+    {
+      "failed_reasons": [
+        "mean_iou_below_0.85",
+        "false_positive_ratio_above_0.15"
+      ],
+      "gate_decision": "blocked_lapa_gold_benchmark_metric_threshold_not_met",
+      "lapa_gold_benchmark_gate_pass": false,
+      "mask_type_id": "mf70_lips_combined",
+      "mean_dice": 0.82608,
+      "mean_false_negative_ratio_vs_gold": 0.119247,
+      "mean_false_positive_ratio_vs_gold": 0.254139,
+      "mean_iou": 0.707185,
+      "region": "mf70_lips_combined",
+      "sample_count": 8
+    },
+    {
+      "failed_reasons": [
+        "mean_iou_below_0.85",
+        "false_positive_ratio_above_0.15"
+      ],
+      "gate_decision": "blocked_lapa_gold_benchmark_metric_threshold_not_met",
+      "lapa_gold_benchmark_gate_pass": false,
+      "mask_type_id": "mf70_lips_top",
+      "mean_dice": 0.796482,
+      "mean_false_negative_ratio_vs_gold": 0.124677,
+      "mean_false_positive_ratio_vs_gold": 0.328752,
+      "mean_iou": 0.668682,
+      "region": "mf70_lips_top",
+      "sample_count": 8
+    },
+    {
+      "failed_reasons": [],
+      "gate_decision": "lapa_gold_benchmark_supports_candidate_route_not_promotion",
+      "lapa_gold_benchmark_gate_pass": true,
+      "mask_type_id": "mf70_nose",
+      "mean_dice": 0.924515,
+      "mean_false_negative_ratio_vs_gold": 0.054243,
+      "mean_false_positive_ratio_vs_gold": 0.10031,
+      "mean_iou": 0.860014,
+      "region": "mf70_nose",
+      "sample_count": 8
+    },
+    {
+      "failed_reasons": [
+        "mean_iou_below_0.85",
+        "false_negative_ratio_above_0.15"
+      ],
+      "gate_decision": "blocked_lapa_gold_benchmark_metric_threshold_not_met",
+      "lapa_gold_benchmark_gate_pass": false,
+      "mask_type_id": "mf70_teeth_mouth_area",
+      "mean_dice": 0.667055,
+      "mean_false_negative_ratio_vs_gold": 0.419123,
+      "mean_false_positive_ratio_vs_gold": 0.044922,
+      "mean_iou": 0.551578,
+      "region": "mf70_teeth_mouth_area",
+      "sample_count": 8
+    }
+  ],
+  "result": "blocked_wave70_facial_lapa_gold_benchmark_gate_regions_require_repair",
+  "scope": "fail-closed Wave70 facial gold benchmark gate from MaskedWarehouse/LaPa original+semantic-label metrics",
+  "thresholds": {
+    "max_false_negative_ratio_vs_gold": 0.15,
+    "max_false_positive_ratio_vs_gold": 0.15,
+    "min_mean_iou": 0.85,
+    "min_sample_count": 3
+  },
+  "timestamp": "20260710T041348-0500",
+  "weakest_blocked_regions": [
+    {
+      "failed_reasons": [
+        "mean_iou_below_0.85",
+        "false_negative_ratio_above_0.15"
+      ],
+      "mean_dice": 0.604236,
+      "mean_iou": 0.492128,
+      "region": "mf70_eyes_full"
+    },
+    {
+      "failed_reasons": [
+        "mean_iou_below_0.85",
+        "false_negative_ratio_above_0.15"
+      ],
+      "mean_dice": 0.667055,
+      "mean_iou": 0.551578,
+      "region": "mf70_teeth_mouth_area"
+    },
+    {
+      "failed_reasons": [
+        "mean_iou_below_0.85",
+        "false_positive_ratio_above_0.15"
+      ],
+      "mean_dice": 0.651373,
+      "mean_iou": 0.604841,
+      "region": "mf70_hair"
+    },
+    {
+      "failed_reasons": [
+        "mean_iou_below_0.85",
+        "false_positive_ratio_above_0.15"
+      ],
+      "mean_dice": 0.796482,
+      "mean_iou": 0.668682,
+      "region": "mf70_lips_top"
+    },
+    {
+      "failed_reasons": [
+        "mean_iou_below_0.85",
+        "false_positive_ratio_above_0.15",
+        "false_negative_ratio_above_0.15"
+      ],
+      "mean_dice": 0.804119,
+      "mean_iou": 0.678073,
+      "region": "mf70_eyebrows"
+    }
+  ]
+}

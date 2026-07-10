@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-FACE-SKIN-PROTECTED-V3-20260710T033800-0500",
+  "timestamp": "2026-07-10T03:38:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "scope": "target_specific_protected_candidate_creation_benchmark_tradeoff_recorded",
+  "mask_type_id": "mf70_face_skin",
+  "hull_runtime_blocker": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_FACE_SKIN_HULL_V2_STRICT_VISUAL_REVIEW_20260710T033200-0500.json",
+  "candidate_mask": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_face_skin_protected_v3_20260710T033800-0500/wave70_mf70_face_skin_protected_v3_mask.png",
+  "candidate_mask_sha256": "a637ab9a6626fd85ceb86c799d75dd6ab6a3933be497fd335c25027fb84fd6d2",
+  "candidate_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_face_skin_protected_v3_20260710T033800-0500/wave70_mf70_face_skin_protected_v3_overlay.png",
+  "protected_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_face_skin_protected_v3_20260710T033800-0500/wave70_mf70_face_skin_protected_v3_protected_overlay.png",
+  "review_panel": "runtime_artifacts/mask_factory/wave70_mf70_face_skin_protected_v3/20260710T033800-0500/wave70_mf70_face_skin_protected_v3_review_panel.png",
+  "review_panel_sha256": "efb1b56ffdf3b431c89463ef024027810a262123fe04c7c0af5d855559b93fe6",
+  "protected_route_gold_benchmark_tradeoff": {
+    "mean_iou": 0.821973,
+    "mean_false_positive_ratio_vs_gold": 0.000662,
+    "mean_false_negative_ratio_vs_gold": 0.177463,
+    "passes_current_gold_gate": false,
+    "reason": "Feature-protection removes pixels that the current CelebAMask-HQ skin benchmark counts as skin, so the route is safer for runtime but below the current gold gate."
+  },
+  "stats": {
+    "parser_skin": {
+      "pixels": 50348,
+      "bbox": [
+        214,
+        177,
+        469,
+        543
+      ],
+      "width": 768,
+      "height": 768
+    },
+    "protected_exclusions": {
+      "pixels": 263483,
+      "bbox": [
+        0,
+        36,
+        632,
+        767
+      ],
+      "width": 768,
+      "height": 768
+    },
+    "candidate": {
+      "pixels": 55639,
+      "bbox": [
+        214,
+        177,
+        469,
+        543
+      ],
+      "width": 768,
+      "height": 768
+    }
+  },
+  "decision": "candidate_created_benchmark_tradeoff_generated_output_blocked_pending_policy_choice",
+  "active_input_mask_overwritten": false,
+  "mask_promoted": false,
+  "generation_executed": false,
+  "ec2_started": false,
+  "result": "candidate_created_benchmark_tradeoff_generated_output_blocked_pending_policy_choice",
+  "next_required_action": "Choose whether mf70_face_skin should follow dataset skin benchmark or runtime-protected feature-safe mask before any generated-output proof."
+}

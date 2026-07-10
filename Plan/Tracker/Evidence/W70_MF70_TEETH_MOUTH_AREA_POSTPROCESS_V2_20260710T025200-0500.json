@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-TEETH-MOUTH-AREA-POSTPROCESS-V2-20260710T025200-0500",
+  "timestamp": "2026-07-10T02:52:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "scope": "target_specific_unpromoted_candidate_creation",
+  "mask_type_id": "mf70_teeth_mouth_area",
+  "route_source_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_BLOCKED_FACIAL_POSTPROCESS_ROUTE_EVAL_20260710T024500-0500.json",
+  "route_source_evidence_sha256": "8b100b4599ca2593e4c230fc0ab00b584b204572ee4bca65908a4643a05d73da",
+  "route": [
+    "erode_dilate",
+    7,
+    3,
+    11,
+    7
+  ],
+  "route_gold_benchmark_summary": {
+    "mean_iou": 0.872362,
+    "mean_dice": 0.93121,
+    "mean_false_positive_ratio_vs_gold": 0.069764,
+    "mean_false_negative_ratio_vs_gold": 0.065565,
+    "sample_count": 3
+  },
+  "source_image": "ComfyUI/input/wave70_mf70_face_identity_source_canny_v3.png",
+  "parser_mouth_mask": "runtime_artifacts/mask_factory/wave70_face_parsing_authority/20260708T102325-0500/face_parsing_bisenet/output/masks/source/11_mouth.png",
+  "active_teeth_mask_compared_not_overwritten": "ComfyUI/input/wave70_mf70_teeth_mask.png",
+  "candidate_mask": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_teeth_mouth_area_postprocess_v2_20260710T025200-0500/wave70_mf70_teeth_mouth_area_postprocess_v2_mask.png",
+  "candidate_mask_sha256": "ac9e1a0782f0ba1887bcba356540f67bc1f70f874544e568f648287e9911e038",
+  "candidate_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_teeth_mouth_area_postprocess_v2_20260710T025200-0500/wave70_mf70_teeth_mouth_area_postprocess_v2_overlay.png",
+  "candidate_overlay_sha256": "aee66df5fc7634e53e11d4378ab2dc2fdb588ffb2bde7f12b7a081c5d4ae789f",
+  "protected_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_teeth_mouth_area_postprocess_v2_20260710T025200-0500/wave70_mf70_teeth_mouth_area_postprocess_v2_protected_overlay.png",
+  "protected_overlay_sha256": "ae0a40a444e6418fc9c70958d175b6893b276228f9fe53617f9041c0f7ac5257",
+  "review_panel": "runtime_artifacts/mask_factory/wave70_mf70_teeth_mouth_area_postprocess_v2/20260710T025200-0500/wave70_mf70_teeth_mouth_area_postprocess_v2_review_panel.png",
+  "review_panel_sha256": "529e97a1e8e66a27b6bdf488f3d30d0e1e88604c09976698cb7f91f8de3c4d14",
+  "stats": {
+    "parser_mouth": {
+      "pixels": 293,
+      "bbox": [
+        321,
+        457,
+        372,
+        465
+      ],
+      "width": 768,
+      "height": 768
+    },
+    "old_active_teeth": {
+      "pixels": 380,
+      "bbox": [
+        340,
+        454,
+        402,
+        462
+      ],
+      "width": 768,
+      "height": 768
+    },
+    "candidate": {
+      "pixels": 511,
+      "bbox": [
+        321,
+        455,
+        374,
+        467
+      ],
+      "width": 768,
+      "height": 768
+    },
+    "candidate_overlap_with_predicted_lips_pixels": 218,
+    "candidate_overlap_with_predicted_nose_pixels": 0
+  },
+  "finding": "Candidate is broader than the old active teeth-only mask because the gold benchmark region maps to CelebAMask-HQ mouth, not just visible teeth. It is suitable only for strict source-overlay review before any runtime proof.",
+  "decision": "candidate_created_pending_strict_visual_review_not_promoted",
+  "active_input_mask_overwritten": false,
+  "mask_promoted": false,
+  "generation_executed": false,
+  "ec2_started": false,
+  "result": "candidate_created_pending_strict_visual_review_not_promoted",
+  "next_required_action": "Strictly review the panel and protected overlay. If acceptable, copy to a v2-specific ComfyUI input filename and run one bounded local proof; do not overwrite wave70_mf70_teeth_mask.png."
+}

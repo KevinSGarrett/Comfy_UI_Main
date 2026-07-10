@@ -134,7 +134,7 @@ $localRobustness = Read-JsonFile -Path $localRobustnessPath
 $localRobustnessVisual = Read-JsonFile -Path $localRobustnessVisualPath
 $microControlVisual = Read-JsonFile -Path $microControlVisualPath
 
-$workOrder = @(Convert-ToArray -Value $workOrderRecord.work_orders | Where-Object { [string]$_.lane_id -eq $LaneId -and [string]$_.work_order_type -eq "final_certification_review_required" } | Select-Object -First 1)
+$workOrder = @(Convert-ToArray -Value $workOrderRecord.work_orders | Where-Object { [string]$_.lane_id -eq $LaneId -and [string]$_.work_order_type -eq "final_certification_runtime_ready" } | Select-Object -First 1)
 if ($workOrder.Count -eq 0) {
   Add-Text -List $defects -Text "final_certification_review_work_order_missing:$LaneId"
 }

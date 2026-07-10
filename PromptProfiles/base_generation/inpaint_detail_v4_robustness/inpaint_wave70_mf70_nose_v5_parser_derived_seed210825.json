@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "inpaint_wave70_mf70_nose_v5_parser_derived_seed210825",
+  "target_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "purpose": "Bounded local generated-output proof for the Wave70 mf70_nose v5 parser-derived candidate mask using a v5-specific input filename.",
+  "request_patch_values": {
+    "positive_prompt": "preserve exact original nose appearance, person identity, neutral expression, gaze direction, eye shape, iris color, catchlights, eyebrows, cheeks, philtrum, lips, mouth shape, skin texture, hairline, nearby hair occlusion, lighting, white blazer, background, and portrait composition unchanged; only microscopic photoreal blending inside the parser-derived nose mask",
+    "negative_prompt": "identity change, different person, expression change, nose shape change, enlarged nose, narrowed nose, crooked nose, changed nostrils, asymmetrical nostrils, bulbous nose, pinched nose, bridge mutation, sidewall mutation, nose tip mutation, nostril mutation, cheek mutation, philtrum mutation, mouth change, lip change, upper lip mutation, lower lip mutation, smile change, gaze change, softened eyes, mismatched eyes, iris color change, glassy eyes, catchlight change, skin tone change, visible seam, hair mutation, clothing change, background change, watermark, text",
+    "source_image": "wave70_mf70_face_identity_source_canny_v3.png",
+    "mask_image": "wave70_mf70_nose_v5_mask.png",
+    "mask_channel": "red",
+    "seed": 210825,
+    "sampler_settings": {
+      "steps": 14,
+      "cfg": 3.0,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.02
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_wave70_mf70_nose_v5_parser_derived_seed210825"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_wave70_mf70_nose_v5_parser_derived_seed210825",
+    "diagnostic_output_prefix": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview"
+  },
+  "qa_focus": [
+    "whole-image identity preservation",
+    "nose bridge, sidewalls, tip, alae, and nostrils remain natural",
+    "no mouth, lip, philtrum, cheek, eye, or identity drift",
+    "no visible seam around parser-derived v5 nose mask boundary",
+    "do not promote other disputed masks from this single mask proof"
+  ],
+  "source_qa_driver": {
+    "evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_NOSE_PARSER_DERIVED_V5_20260710T020712-0500.json",
+    "mask_input": "ComfyUI/input/wave70_mf70_nose_v5_mask.png",
+    "remaining_gap": "generated_output_proof_required_before_item_completion",
+    "change_summary": "Use the corrected parser-derived v5 nose candidate with low denoise and a v5-specific input filename to test local routing without overwriting the older active nose mask."
+  },
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "candidate_mask_not_promoted": true,
+    "active_nose_input_not_overwritten": true,
+    "requires_generated_output_proof_before_item_completion": true,
+    "requires_whole_image_qa_before_promotion": true,
+    "requires_target_runtime_reproof_before_final_certification": true
+  }
+}

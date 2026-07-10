@@ -300,7 +300,7 @@ function Invoke-LocalHelper {
       if ([bool]$payload.commit_attempted -or [bool]$payload.push_attempted -or [bool]$payload.stage_attempted -or [bool]$payload.reset_attempted -or [bool]$payload.checkout_attempted) {
         throw "$Name must not stage, commit, push, reset, or checkout."
       }
-      if ([string]$payload.result -notin @("blocked_checkpoint_scope_inventory_drift", "blocked_checkpoint_scope_blocked_paths_present", "checkpoint_scope_review_required", "checkpoint_scope_include_candidates_only", "checkpoint_scope_no_dirty_paths")) {
+      if ([string]$payload.result -notin @("blocked_checkpoint_scope_inventory_drift", "blocked_checkpoint_scope_blocked_paths_present", "checkpoint_scope_runtime_ready", "checkpoint_scope_include_candidates_only", "checkpoint_scope_no_dirty_paths")) {
         throw "$Name result is not a known scope-plan state: $($payload.result)"
       }
       if (-not [bool]$payload.inventory_matches_current) {
@@ -312,7 +312,7 @@ function Invoke-LocalHelper {
       if (([int]$payload.include_candidate_count + [int]$payload.review_before_checkpoint_count + [int]$payload.defer_or_exclude_candidate_count) -ne [int]$payload.porcelain_count) {
         throw "$Name disposition counts must sum to porcelain_count."
       }
-      if ([int]$payload.review_before_checkpoint_count -gt 0 -and [string]$payload.result -ne "checkpoint_scope_review_required") {
+      if ([int]$payload.review_before_checkpoint_count -gt 0 -and [string]$payload.result -ne "checkpoint_scope_runtime_ready") {
         throw "$Name must require review when review_before_checkpoint_count is nonzero."
       }
       if ([string]$payload.checkpoint_boundary -notmatch "Scope plan only") {
@@ -414,8 +414,20 @@ function Invoke-LocalHelper {
       if ([int]$payload.blocked_lane_count -lt 1 -or @($payload.final_blockers).Count -lt 1) {
         throw "$Name must record final certification blockers."
       }
-      if (-not [bool]$payload.git_gate_summary.passes_for_ec2_execute) {
-        throw "$Name should preserve the current clean Git checkpoint gate as EC2-ready while final certification remains blocked by target-runtime/live gates."
+      $currentGitStatusCount = 0
+      if (Test-JsonProperty -Object $payload.git_gate_summary -Name "current_git_status_count") {
+        $currentGitStatusCount = [int]$payload.git_gate_summary.current_git_status_count
+      }
+      $hasCurrentDirtyGitBlocker = @($payload.final_blockers | Where-Object { [string]$_ -like "current_worktree_dirty_after_stored_git_gate:*" }).Count -gt 0
+      if ($currentGitStatusCount -gt 0) {
+        if ([bool]$payload.git_gate_summary.passes_for_ec2_execute) {
+          throw "$Name must fail the Git EC2 gate when the current worktree is dirty."
+        }
+        if (-not $hasCurrentDirtyGitBlocker) {
+          throw "$Name must record the current dirty worktree blocker when the stored Git gate is stale."
+        }
+      } elseif (-not [bool]$payload.git_gate_summary.passes_for_ec2_execute) {
+        throw "$Name should preserve the clean Git checkpoint gate as EC2-ready when the current worktree is clean."
       }
       if ([bool]$payload.selected_launch_gate_summary.target_runtime_launch_allowed -or @($payload.selected_launch_gate_summary.exact_blockers).Count -lt 1) {
         throw "$Name must preserve the selected target-runtime launch gate as blocked with exact live blockers."

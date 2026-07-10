@@ -1,0 +1,293 @@
+{
+  "active_input_mask_overwritten": false,
+  "combined_failed_reasons": [
+    "mean_iou_below_0.85",
+    "false_positive_ratio_above_0.15",
+    "false_negative_ratio_above_0.15"
+  ],
+  "combined_pass_gate": false,
+  "combined_summary": {
+    "mean_dice": 0.778307,
+    "mean_false_negative_ratio_vs_gold": 0.198752,
+    "mean_false_positive_ratio_vs_gold": 0.158085,
+    "mean_iou": 0.688057,
+    "sample_count": 11
+  },
+  "dataset_summaries": {
+    "CelebAMask-HQ": {
+      "failed_reasons": [],
+      "pass_gate": true,
+      "summary": {
+        "mean_dice": 0.93121,
+        "mean_false_negative_ratio_vs_gold": 0.065565,
+        "mean_false_positive_ratio_vs_gold": 0.069764,
+        "mean_iou": 0.872362,
+        "sample_count": 3
+      }
+    },
+    "LaPa": {
+      "failed_reasons": [
+        "mean_iou_below_0.85",
+        "false_positive_ratio_above_0.15",
+        "false_negative_ratio_above_0.15"
+      ],
+      "pass_gate": false,
+      "summary": {
+        "mean_dice": 0.720968,
+        "mean_false_negative_ratio_vs_gold": 0.248697,
+        "mean_false_positive_ratio_vs_gold": 0.191206,
+        "mean_iou": 0.618942,
+        "sample_count": 8
+      }
+    }
+  },
+  "decision": "Do not promote or treat the v2 target proof as gold-supported; repair or policy work is still required.",
+  "ec2_started": false,
+  "evidence_id": "W70_MF70_TEETH_MOUTH_AREA_V2_COMBINED_GOLD_EVAL_20260710T061135-0500",
+  "generation_executed": false,
+  "local_only": true,
+  "mask_promoted": false,
+  "next_required_action": "If pass, keep candidate unpromoted and require target-specific strict visual/runtime proof before any active-input change. If blocked, stop using v2 as a gold-backed route and design a stronger mouth-interior boundary route.",
+  "region": "mf70_teeth_mouth_area",
+  "result": "mf70_teeth_mouth_area_v2_combined_gold_blocked_no_promotion",
+  "review_panel": {
+    "panel_path": "runtime_artifacts/mask_factory/wave70_teeth_mouth_area_v2_combined_gold/20260710T061135-0500/review_panels/mf70_teeth_mouth_area_v2_combined_gold_panel.png",
+    "panel_sha256": "d30d9c647931ecfb02e1583da8bc58fc1578e0b125f550044a928e6a9b1ffb08"
+  },
+  "route": {
+    "name": "teeth_mouth_area_v2_erode7x3_dilate11x7",
+    "operations": [
+      {
+        "kernel": "ellipse_7x3",
+        "op": "erode"
+      },
+      {
+        "kernel": "ellipse_11x7",
+        "op": "dilate"
+      }
+    ]
+  },
+  "sample_metrics": [
+    {
+      "dataset": "CelebAMask-HQ",
+      "metrics": {
+        "dice": 0.959831,
+        "false_negative_pixels": 5,
+        "false_negative_ratio_vs_gold": 0.00088,
+        "false_positive_pixels": 470,
+        "false_positive_ratio_vs_gold": 0.082746,
+        "gold_pixels": 5680,
+        "intersection_pixels": 5675,
+        "iou": 0.922764,
+        "pred_pixels": 6145,
+        "union_pixels": 6150
+      },
+      "routed_mask": "runtime_artifacts/mask_factory/wave70_teeth_mouth_area_v2_combined_gold/20260710T061135-0500/route_masks/CelebAMask-HQ_0_mf70_teeth_mouth_area_v2.png",
+      "routed_mask_sha256": "6e9ea89204eec2401cf8e416739e8de1ae1fdc1690d30bddcaf87b772e9a063c",
+      "sample_key": "0",
+      "source_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_GOLD_STANDARD_BENCHMARK_20260710T012300-0500.json"
+    },
+    {
+      "dataset": "CelebAMask-HQ",
+      "metrics": {
+        "dice": 0.897224,
+        "false_negative_pixels": 360,
+        "false_negative_ratio_vs_gold": 0.167131,
+        "false_positive_pixels": 51,
+        "false_positive_ratio_vs_gold": 0.023677,
+        "gold_pixels": 2154,
+        "intersection_pixels": 1794,
+        "iou": 0.813605,
+        "pred_pixels": 1845,
+        "union_pixels": 2205
+      },
+      "routed_mask": "runtime_artifacts/mask_factory/wave70_teeth_mouth_area_v2_combined_gold/20260710T061135-0500/route_masks/CelebAMask-HQ_18000_mf70_teeth_mouth_area_v2.png",
+      "routed_mask_sha256": "e7f24d42352e9f6b1cc653b33661d7d42be7a315a0315c680d225a2da3ca2eb2",
+      "sample_key": "18000",
+      "source_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_GOLD_STANDARD_BENCHMARK_20260710T012300-0500.json"
+    },
+    {
+      "dataset": "CelebAMask-HQ",
+      "metrics": {
+        "dice": 0.936576,
+        "false_negative_pixels": 29,
+        "false_negative_ratio_vs_gold": 0.028684,
+        "false_positive_pixels": 104,
+        "false_positive_ratio_vs_gold": 0.102868,
+        "gold_pixels": 1011,
+        "intersection_pixels": 982,
+        "iou": 0.880717,
+        "pred_pixels": 1086,
+        "union_pixels": 1115
+      },
+      "routed_mask": "runtime_artifacts/mask_factory/wave70_teeth_mouth_area_v2_combined_gold/20260710T061135-0500/route_masks/CelebAMask-HQ_1_mf70_teeth_mouth_area_v2.png",
+      "routed_mask_sha256": "edad35ffb2753178eb94cdb1c479822a07be4e39d067403a13a14c4e91d4efac",
+      "sample_key": "1",
+      "source_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_GOLD_STANDARD_BENCHMARK_20260710T012300-0500.json"
+    },
+    {
+      "dataset": "LaPa",
+      "metrics": {
+        "dice": 0.688207,
+        "false_negative_pixels": 164,
+        "false_negative_ratio_vs_gold": 0.435013,
+        "false_positive_pixels": 29,
+        "false_positive_ratio_vs_gold": 0.076923,
+        "gold_pixels": 377,
+        "intersection_pixels": 213,
+        "iou": 0.524631,
+        "pred_pixels": 242,
+        "union_pixels": 406
+      },
+      "routed_mask": "runtime_artifacts/mask_factory/wave70_teeth_mouth_area_v2_combined_gold/20260710T061135-0500/route_masks/LaPa_10004916254_0_mf70_teeth_mouth_area_v2.png",
+      "routed_mask_sha256": "a4a48255649db2cb2758ce889af910e36fa4fa57e23513047020a159991ab044",
+      "sample_key": "10004916254_0",
+      "source_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_LAPA_GOLD_LABEL_BENCHMARK_20260710T041044-0500.json"
+    },
+    {
+      "dataset": "LaPa",
+      "metrics": {
+        "dice": 0.904385,
+        "false_negative_pixels": 43,
+        "false_negative_ratio_vs_gold": 0.047831,
+        "false_positive_pixels": 138,
+        "false_positive_ratio_vs_gold": 0.153504,
+        "gold_pixels": 899,
+        "intersection_pixels": 856,
+        "iou": 0.825458,
+        "pred_pixels": 994,
+        "union_pixels": 1037
+      },
+      "routed_mask": "runtime_artifacts/mask_factory/wave70_teeth_mouth_area_v2_combined_gold/20260710T061135-0500/route_masks/LaPa_10012551673_2_mf70_teeth_mouth_area_v2.png",
+      "routed_mask_sha256": "1ba82ea651c70abb418c4ce58523ea1ec03b4c1562bcab0a821829fa0a4c21a6",
+      "sample_key": "10012551673_2",
+      "source_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_LAPA_GOLD_LABEL_BENCHMARK_20260710T041044-0500.json"
+    },
+    {
+      "dataset": "LaPa",
+      "metrics": {
+        "dice": 0.882322,
+        "false_negative_pixels": 67,
+        "false_negative_ratio_vs_gold": 0.072985,
+        "false_positive_pixels": 160,
+        "false_positive_ratio_vs_gold": 0.174292,
+        "gold_pixels": 918,
+        "intersection_pixels": 851,
+        "iou": 0.789425,
+        "pred_pixels": 1011,
+        "union_pixels": 1078
+      },
+      "routed_mask": "runtime_artifacts/mask_factory/wave70_teeth_mouth_area_v2_combined_gold/20260710T061135-0500/route_masks/LaPa_10012551673_3_mf70_teeth_mouth_area_v2.png",
+      "routed_mask_sha256": "f0ac210b37456f920e46949ef0e687b57a24ed25bf57b80873a93b75d6fc19f1",
+      "sample_key": "10012551673_3",
+      "source_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_LAPA_GOLD_LABEL_BENCHMARK_20260710T041044-0500.json"
+    },
+    {
+      "dataset": "LaPa",
+      "metrics": {
+        "dice": 0.894014,
+        "false_negative_pixels": 58,
+        "false_negative_ratio_vs_gold": 0.059856,
+        "false_positive_pixels": 158,
+        "false_positive_ratio_vs_gold": 0.163055,
+        "gold_pixels": 969,
+        "intersection_pixels": 911,
+        "iou": 0.808341,
+        "pred_pixels": 1069,
+        "union_pixels": 1127
+      },
+      "routed_mask": "runtime_artifacts/mask_factory/wave70_teeth_mouth_area_v2_combined_gold/20260710T061135-0500/route_masks/LaPa_10013147224_0_mf70_teeth_mouth_area_v2.png",
+      "routed_mask_sha256": "3f6bc0d27ed9325fce00f86d269c1431dfff4e0b40acbe67ff48136a42ba6438",
+      "sample_key": "10013147224_0",
+      "source_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_LAPA_GOLD_LABEL_BENCHMARK_20260710T041044-0500.json"
+    },
+    {
+      "dataset": "LaPa",
+      "metrics": {
+        "dice": 0.853639,
+        "false_negative_pixels": 83,
+        "false_negative_ratio_vs_gold": 0.13719,
+        "false_positive_pixels": 96,
+        "false_positive_ratio_vs_gold": 0.158678,
+        "gold_pixels": 605,
+        "intersection_pixels": 522,
+        "iou": 0.74465,
+        "pred_pixels": 618,
+        "union_pixels": 701
+      },
+      "routed_mask": "runtime_artifacts/mask_factory/wave70_teeth_mouth_area_v2_combined_gold/20260710T061135-0500/route_masks/LaPa_1001715601_0_mf70_teeth_mouth_area_v2.png",
+      "routed_mask_sha256": "0f909a71d9afd2105a907612f57b7bb823440120b0357fa045ee66ded2ae12f2",
+      "sample_key": "1001715601_0",
+      "source_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_LAPA_GOLD_LABEL_BENCHMARK_20260710T041044-0500.json"
+    },
+    {
+      "dataset": "LaPa",
+      "metrics": {
+        "dice": 0.0,
+        "false_negative_pixels": 30,
+        "false_negative_ratio_vs_gold": 1.0,
+        "false_positive_pixels": 0,
+        "false_positive_ratio_vs_gold": 0.0,
+        "gold_pixels": 30,
+        "intersection_pixels": 0,
+        "iou": 0.0,
+        "pred_pixels": 0,
+        "union_pixels": 30
+      },
+      "routed_mask": "runtime_artifacts/mask_factory/wave70_teeth_mouth_area_v2_combined_gold/20260710T061135-0500/route_masks/LaPa_10021549135_0_mf70_teeth_mouth_area_v2.png",
+      "routed_mask_sha256": "65795a5b91030a2a433dae510d1edf494082a9cfa1153cd94f3797759f68f257",
+      "sample_key": "10021549135_0",
+      "source_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_LAPA_GOLD_LABEL_BENCHMARK_20260710T041044-0500.json"
+    },
+    {
+      "dataset": "LaPa",
+      "metrics": {
+        "dice": 0.764352,
+        "false_negative_pixels": 73,
+        "false_negative_ratio_vs_gold": 0.09456,
+        "false_positive_pixels": 358,
+        "false_positive_ratio_vs_gold": 0.463731,
+        "gold_pixels": 772,
+        "intersection_pixels": 699,
+        "iou": 0.618584,
+        "pred_pixels": 1057,
+        "union_pixels": 1130
+      },
+      "routed_mask": "runtime_artifacts/mask_factory/wave70_teeth_mouth_area_v2_combined_gold/20260710T061135-0500/route_masks/LaPa_10023147796_0_mf70_teeth_mouth_area_v2.png",
+      "routed_mask_sha256": "e34b43c135dff3a5c15e31d9439a7d5b9b971b600ad26e9b84c4cf8d2cf7a4b5",
+      "sample_key": "10023147796_0",
+      "source_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_LAPA_GOLD_LABEL_BENCHMARK_20260710T041044-0500.json"
+    },
+    {
+      "dataset": "LaPa",
+      "metrics": {
+        "dice": 0.780822,
+        "false_negative_pixels": 85,
+        "false_negative_ratio_vs_gold": 0.14214,
+        "false_positive_pixels": 203,
+        "false_positive_ratio_vs_gold": 0.339465,
+        "gold_pixels": 598,
+        "intersection_pixels": 513,
+        "iou": 0.640449,
+        "pred_pixels": 716,
+        "union_pixels": 801
+      },
+      "routed_mask": "runtime_artifacts/mask_factory/wave70_teeth_mouth_area_v2_combined_gold/20260710T061135-0500/route_masks/LaPa_10024390903_0_mf70_teeth_mouth_area_v2.png",
+      "routed_mask_sha256": "758a638e183284b8121d75db299603ec3111b9eb649697078265d6277cf484dc",
+      "sample_key": "10024390903_0",
+      "source_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_LAPA_GOLD_LABEL_BENCHMARK_20260710T041044-0500.json"
+    }
+  ],
+  "scope": "combined CelebAMask-HQ plus LaPa gold evaluation for mf70_teeth_mouth_area v2 erode/dilate route",
+  "source_evidence": {
+    "celeba": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_GOLD_STANDARD_BENCHMARK_20260710T012300-0500.json",
+    "lapa": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_LAPA_GOLD_LABEL_BENCHMARK_20260710T041044-0500.json"
+  },
+  "thresholds": {
+    "max_false_negative_ratio_vs_gold": 0.15,
+    "max_false_positive_ratio_vs_gold": 0.15,
+    "min_mean_iou": 0.85,
+    "min_sample_count": 3
+  },
+  "timestamp": "20260710T061135-0500"
+}

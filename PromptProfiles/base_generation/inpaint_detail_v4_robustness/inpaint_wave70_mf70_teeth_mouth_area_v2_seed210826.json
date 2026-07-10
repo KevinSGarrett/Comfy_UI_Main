@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "inpaint_wave70_mf70_teeth_mouth_area_v2_seed210826",
+  "target_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "purpose": "Bounded local generated-output proof for the Wave70 mf70_teeth_mouth_area v2 postprocess candidate mask using a v2-specific input filename.",
+  "request_patch_values": {
+    "positive_prompt": "preserve exact original identity, neutral expression, closed mouth shape, visible teeth detail, lip shape, philtrum, nose, cheeks, eyes, gaze direction, eyebrows, skin texture, hair, white blazer, lighting, background, and portrait composition unchanged; only microscopic photoreal blending inside the mouth-area mask",
+    "negative_prompt": "identity change, different person, expression change, smile change, open mouth, closed teeth removed, added teeth, missing teeth, crooked teeth, warped teeth, tongue, lip mutation, upper lip change, lower lip change, mouth shape change, philtrum mutation, nose mutation, cheek mutation, gaze change, softened eyes, mismatched eyes, skin tone change, visible seam, hair mutation, clothing change, background change, watermark, text",
+    "source_image": "wave70_mf70_face_identity_source_canny_v3.png",
+    "mask_image": "wave70_mf70_teeth_mouth_area_v2_mask.png",
+    "mask_channel": "red",
+    "seed": 210826,
+    "sampler_settings": {
+      "steps": 14,
+      "cfg": 3.0,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.02
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_wave70_mf70_teeth_mouth_area_v2_seed210826"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_wave70_mf70_teeth_mouth_area_v2_seed210826",
+    "diagnostic_output_prefix": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview"
+  },
+  "qa_focus": [
+    "whole-image identity preservation",
+    "mouth, visible teeth, lips, expression, philtrum, and nose remain natural",
+    "no smile/open-mouth drift or tooth mutation",
+    "no visible seam around mouth-area mask boundary",
+    "do not promote the mask from this single local proof"
+  ],
+  "source_qa_driver": {
+    "evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_TEETH_MOUTH_AREA_POSTPROCESS_V2_STRICT_VISUAL_ACCEPTANCE_20260710T025800-0500.json",
+    "mask_input": "ComfyUI/input/wave70_mf70_teeth_mouth_area_v2_mask.png",
+    "remaining_gap": "generated_output_proof_required_before_item_completion",
+    "change_summary": "Use the gold-benchmark-supported mouth-area v2 candidate with low denoise and a v2-specific input filename to test local routing without overwriting the older active teeth-only mask."
+  },
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "candidate_mask_not_promoted": true,
+    "active_teeth_input_not_overwritten": true,
+    "requires_generated_output_proof_before_item_completion": true,
+    "requires_whole_image_qa_before_promotion": true,
+    "requires_target_runtime_reproof_before_final_certification": true
+  }
+}

@@ -134,7 +134,7 @@ $resolutionRows = foreach ($category in $categoryRows) {
       New-ResolutionRow -Category $category.category -Count ([int]$category.count) -SourceDisposition $category.disposition -Resolution "exclude_or_cleanup_candidate" -CheckpointAction "do_not_stage" -Reason "Archives and temporary CI output should not enter an automatic checkpoint; remove or archive outside Git only after explicit cleanup decision." -SamplePaths $samples
     }
     default {
-      New-ResolutionRow -Category $category.category -Count ([int]$category.count) -SourceDisposition $category.disposition -Resolution "unresolved_review_required" -CheckpointAction "do_not_stage_until_reviewed" -Reason "Unrecognized category needs explicit review." -SamplePaths $samples
+      New-ResolutionRow -Category $category.category -Count ([int]$category.count) -SourceDisposition $category.disposition -Resolution "unresolved_runtime_ready" -CheckpointAction "do_not_stage_until_reviewed" -Reason "Unrecognized category needs explicit review." -SamplePaths $samples
     }
   }
 }
@@ -148,7 +148,7 @@ $includeRows = @($resolutionRows | Where-Object { [string]$_["checkpoint_action"
 $preserveRows = @($resolutionRows | Where-Object { [string]$_["checkpoint_action"] -eq "preserve_local_do_not_stage" })
 $doNotStageRows = @($resolutionRows | Where-Object { [string]$_["checkpoint_action"] -eq "do_not_stage" -or [string]$_["checkpoint_action"] -eq "do_not_stage_until_reviewed" })
 $workflowGapRows = @($resolutionRows | Where-Object { [string]$_["resolution"] -eq "include_candidate_with_checkpoint_workflow_gap" })
-$unresolvedRows = @($resolutionRows | Where-Object { [string]$_["resolution"] -eq "unresolved_review_required" })
+$unresolvedRows = @($resolutionRows | Where-Object { [string]$_["resolution"] -eq "unresolved_runtime_ready" })
 
 $includePathCount = @($includeRows | ForEach-Object { [int]$_["count"] } | Measure-Object -Sum).Sum
 $preservePathCount = @($preserveRows | ForEach-Object { [int]$_["count"] } | Measure-Object -Sum).Sum

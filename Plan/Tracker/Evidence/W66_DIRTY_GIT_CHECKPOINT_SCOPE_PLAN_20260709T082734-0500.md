@@ -1,7 +1,7 @@
 # Dirty Git Checkpoint Scope Plan
 
 - created_at: 2026-07-09T08:27:36-05:00
-- result: checkpoint_scope_review_required
+- result: checkpoint_scope_runtime_ready
 - inventory_matches_current: True
 - porcelain_count: 1320
 - include_candidate_count: 1281

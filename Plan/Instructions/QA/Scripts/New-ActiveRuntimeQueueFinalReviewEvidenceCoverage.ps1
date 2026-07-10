@@ -108,7 +108,7 @@ $workOrderRecord = Read-JsonFile -Path $workOrderResolved
 $closureRollup = Read-JsonFile -Path $closureRollupResolved
 $reviewWorkOrders = @(
   Convert-ToArray -Value $workOrderRecord.work_orders |
-    Where-Object { [string]$_.work_order_type -in @("local_final_review_packet", "final_certification_review_required") } |
+    Where-Object { [string]$_.work_order_type -in @("local_final_review_packet", "final_certification_runtime_ready") } |
     Sort-Object priority, lane_id, work_order_id
 )
 

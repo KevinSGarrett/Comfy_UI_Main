@@ -1,0 +1,80 @@
+{
+  "evidence_id": "UNWANTED_GENERATION_RESTRICTION_ACTIVE_SURFACE_AUDIT_20260710T005409-0500",
+  "created_at": "2026-07-10T00:54:09-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "result": "pass_active_surface_unwanted_generation_restriction_terms_absent",
+  "local_only": true,
+  "ec2_started": false,
+  "aws_contacted": false,
+  "s3_contacted": false,
+  "github_contacted": false,
+  "civitai_contacted": false,
+  "generation_executed": false,
+  "active_surface_scope": [
+    "tools",
+    "Plan\\07_IMPLEMENTATION\\scripts",
+    "Workflows",
+    "PromptProfiles",
+    "config",
+    "Plan\\Instructions\\Hydration_Rehydration"
+  ],
+  "excluded_noise_classes": [
+    "ComfyUI tokenizer vocabularies",
+    "model metadata snapshots",
+    "old generated runtime_artifacts",
+    "model binary/cache directories",
+    "legacy broad coverage snapshots"
+  ],
+  "scan_results": {
+    "user_disputed_route_or_probe_terms": {
+      "patterns_recorded_in_this_file": false,
+      "matches_in_active_surface_before_this_evidence_write": 0
+    },
+    "content_restriction_blocker_terms": {
+      "patterns_recorded_in_this_file": false,
+      "matches_in_active_surface_before_this_evidence_write": 0
+    },
+    "legacy_root_active_surface_references": {
+      "pattern_summary": "legacy C drive ComfyUI root references excluding the active main root",
+      "matches": [
+        {
+          "path": "README.md",
+          "line": 42,
+          "classification": "documentation warning that the old runtime tree is not active runtime"
+        },
+        {
+          "path": "Plan\\07_IMPLEMENTATION\\scripts\\probe_wave70_whole_body_geometry_dependencies.py",
+          "line": 20,
+          "classification": "separate LoRA/OpenPose model-cache path, not old project root"
+        },
+        {
+          "path": "Plan\\07_IMPLEMENTATION\\scripts\\wave70_model_registry.py",
+          "line": 15,
+          "classification": "separate LoRA/OpenPose model-cache path, not old project root"
+        }
+      ],
+      "old_project_root_executable_fallback_matches": 0
+    }
+  },
+  "commands": [
+    {
+      "name": "user-disputed route/probe wording scan",
+      "command_summary": "ripgrep scan over active scripts, workflows, prompt profiles, config, and hydration steering files for the exact user-disputed route/probe wording",
+      "exit_code": 1,
+      "interpretation": "ripgrep exit 1 means no matches before this evidence write"
+    },
+    {
+      "name": "active content-restriction blocker scan",
+      "command_summary": "ripgrep scan over active scripts, workflows, prompt profiles, config, and hydration steering files for content-restriction blocker implementation wording",
+      "exit_code": 1,
+      "interpretation": "ripgrep exit 1 means no matches before this evidence write"
+    },
+    {
+      "name": "active legacy-root reference scan",
+      "command_summary": "ripgrep PCRE scan over active scripts, workflows, prompt profiles, config, and README for legacy-root references excluding the active main root",
+      "exit_code": 0,
+      "interpretation": "only documentation warning and separate LoRA/OpenPose cache references remain; no old project-root executable fallback"
+    }
+  ],
+  "conclusion": "No active script, workflow, prompt profile, config, or hydration steering file contained the user-disputed route/probe wording or content-restriction blocker wording before this neutral evidence packet was written. The active project root remains C:\\Comfy_UI_Main."
+}

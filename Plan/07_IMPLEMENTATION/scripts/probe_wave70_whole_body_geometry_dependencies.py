@@ -65,8 +65,6 @@ MODEL_EXTENSIONS = {".task", ".tflite", ".onnx", ".pt", ".pth", ".safetensors", 
 MODEL_SEARCH_ROOTS = [
     PROJECT_ROOT / "models",
     PROJECT_ROOT / "ComfyUI/models",
-    Path(r"C:\Comfy_UI\models"),
-    Path(r"C:\Comfy_UI\ComfyUI\models"),
     PROJECT_ROOT / "tools",
     LORA_OPENPOSE_MODELS,
     Path.home() / ".cache",

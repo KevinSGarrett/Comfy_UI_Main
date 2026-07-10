@@ -1,0 +1,370 @@
+{
+  "active_input_mask_overwritten": false,
+  "any_dataset_level_pass": false,
+  "diagnostics": [
+    {
+      "blocking_patterns": [
+        {
+          "blocking_datasets": [
+            "CelebAMask-HQ",
+            "LaPa"
+          ],
+          "passing_datasets": [],
+          "region": "mf70_eyebrows",
+          "requires_policy_or_stronger_route": true
+        },
+        {
+          "blocking_datasets": [
+            "CelebAMask-HQ",
+            "LaPa"
+          ],
+          "passing_datasets": [],
+          "region": "mf70_eyes_full",
+          "requires_policy_or_stronger_route": true
+        }
+      ],
+      "dataset_results": [
+        {
+          "best_route": "brow_hull_d0",
+          "dataset": "CelebAMask-HQ",
+          "region": "mf70_eyebrows",
+          "summary": {
+            "failed_reasons": [
+              "mean_iou_below_gate",
+              "false_positive_ratio_above_gate",
+              "false_negative_ratio_above_gate"
+            ],
+            "mean_dice": 0.669958,
+            "mean_false_negative_ratio_vs_gold": 0.158708,
+            "mean_false_positive_ratio_vs_gold": 0.673989,
+            "mean_iou": 0.505692,
+            "pass_gate": false,
+            "sample_count": 3
+          },
+          "worst_samples": [
+            {
+              "false_negative_ratio_vs_gold": 0.121076,
+              "false_positive_ratio_vs_gold": 0.887332,
+              "iou": 0.465696,
+              "sample_key": "1"
+            },
+            {
+              "false_negative_ratio_vs_gold": 0.255701,
+              "false_positive_ratio_vs_gold": 0.59215,
+              "iou": 0.467481,
+              "sample_key": "0"
+            },
+            {
+              "false_negative_ratio_vs_gold": 0.099346,
+              "false_positive_ratio_vs_gold": 0.542484,
+              "iou": 0.583898,
+              "sample_key": "18000"
+            }
+          ]
+        },
+        {
+          "best_route": "brow_hull_d0",
+          "dataset": "LaPa",
+          "region": "mf70_eyebrows",
+          "summary": {
+            "failed_reasons": [
+              "mean_iou_below_gate",
+              "false_positive_ratio_above_gate"
+            ],
+            "mean_dice": 0.721253,
+            "mean_false_negative_ratio_vs_gold": 0.128053,
+            "mean_false_positive_ratio_vs_gold": 0.580027,
+            "mean_iou": 0.572549,
+            "pass_gate": false,
+            "sample_count": 8
+          },
+          "worst_samples": [
+            {
+              "false_negative_ratio_vs_gold": 0.256618,
+              "false_positive_ratio_vs_gold": 0.597515,
+              "iou": 0.465336,
+              "sample_key": "10013147224_0"
+            },
+            {
+              "false_negative_ratio_vs_gold": 0.061299,
+              "false_positive_ratio_vs_gold": 1.006404,
+              "iou": 0.467852,
+              "sample_key": "10024390903_0"
+            },
+            {
+              "false_negative_ratio_vs_gold": 0.10754,
+              "false_positive_ratio_vs_gold": 0.888752,
+              "iou": 0.472513,
+              "sample_key": "10004916254_0"
+            }
+          ]
+        },
+        {
+          "best_route": "eye_polygon_d0",
+          "dataset": "CelebAMask-HQ",
+          "region": "mf70_eyes_full",
+          "summary": {
+            "failed_reasons": [
+              "mean_iou_below_gate",
+              "false_positive_ratio_above_gate"
+            ],
+            "mean_dice": 0.841248,
+            "mean_false_negative_ratio_vs_gold": 0.135022,
+            "mean_false_positive_ratio_vs_gold": 0.188589,
+            "mean_iou": 0.728941,
+            "pass_gate": false,
+            "sample_count": 3
+          },
+          "worst_samples": [
+            {
+              "false_negative_ratio_vs_gold": 0.24893,
+              "false_positive_ratio_vs_gold": 0.176147,
+              "iou": 0.638586,
+              "sample_key": "0"
+            },
+            {
+              "false_negative_ratio_vs_gold": 0.063251,
+              "false_positive_ratio_vs_gold": 0.273018,
+              "iou": 0.735849,
+              "sample_key": "1"
+            },
+            {
+              "false_negative_ratio_vs_gold": 0.092885,
+              "false_positive_ratio_vs_gold": 0.116601,
+              "iou": 0.812389,
+              "sample_key": "18000"
+            }
+          ]
+        },
+        {
+          "best_route": "eye_polygon_d0",
+          "dataset": "LaPa",
+          "region": "mf70_eyes_full",
+          "summary": {
+            "failed_reasons": [
+              "mean_iou_below_gate"
+            ],
+            "mean_dice": 0.854101,
+            "mean_false_negative_ratio_vs_gold": 0.145475,
+            "mean_false_positive_ratio_vs_gold": 0.144972,
+            "mean_iou": 0.74909,
+            "pass_gate": false,
+            "sample_count": 8
+          },
+          "worst_samples": [
+            {
+              "false_negative_ratio_vs_gold": 0.314241,
+              "false_positive_ratio_vs_gold": 0.091331,
+              "iou": 0.628369,
+              "sample_key": "1001715601_0"
+            },
+            {
+              "false_negative_ratio_vs_gold": 0.23994,
+              "false_positive_ratio_vs_gold": 0.147541,
+              "iou": 0.662338,
+              "sample_key": "10012551673_3"
+            },
+            {
+              "false_negative_ratio_vs_gold": 0.107143,
+              "false_positive_ratio_vs_gold": 0.24812,
+              "iou": 0.715361,
+              "sample_key": "10004916254_0"
+            }
+          ]
+        }
+      ],
+      "source_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MEDIAPIPE_EYE_BROW_COMBINED_ROUTE_EVAL_20260710T045530-0500.json",
+      "source_result": "mediapipe_eye_brow_routes_blocked_stronger_route_required",
+      "source_route_family": "MediaPipe FaceLandmarker eye contours, brow strokes/hulls, dilation and small vertical shifts"
+    },
+    {
+      "blocking_patterns": [
+        {
+          "blocking_datasets": [
+            "CelebAMask-HQ",
+            "LaPa"
+          ],
+          "passing_datasets": [],
+          "region": "mf70_eyebrows",
+          "requires_policy_or_stronger_route": true
+        },
+        {
+          "blocking_datasets": [
+            "CelebAMask-HQ",
+            "LaPa"
+          ],
+          "passing_datasets": [],
+          "region": "mf70_eyes_full",
+          "requires_policy_or_stronger_route": true
+        }
+      ],
+      "dataset_results": [
+        {
+          "best_route": "intersect_parser_d1_mp_hull_d1",
+          "dataset": "CelebAMask-HQ",
+          "region": "mf70_eyebrows",
+          "summary": {
+            "failed_reasons": [
+              "mean_iou_below_gate",
+              "false_positive_ratio_above_gate"
+            ],
+            "mean_dice": 0.852831,
+            "mean_false_negative_ratio_vs_gold": 0.119158,
+            "mean_false_positive_ratio_vs_gold": 0.184397,
+            "mean_iou": 0.743568,
+            "pass_gate": false,
+            "sample_count": 3
+          },
+          "worst_samples": [
+            {
+              "false_negative_ratio_vs_gold": 0.070588,
+              "false_positive_ratio_vs_gold": 0.271024,
+              "iou": 0.731231,
+              "sample_key": "18000"
+            },
+            {
+              "false_negative_ratio_vs_gold": 0.210093,
+              "false_positive_ratio_vs_gold": 0.077009,
+              "iou": 0.733426,
+              "sample_key": "0"
+            },
+            {
+              "false_negative_ratio_vs_gold": 0.076794,
+              "false_positive_ratio_vs_gold": 0.205157,
+              "iou": 0.766047,
+              "sample_key": "1"
+            }
+          ]
+        },
+        {
+          "best_route": "intersect_parser_d1_mp_hull_d1",
+          "dataset": "LaPa",
+          "region": "mf70_eyebrows",
+          "summary": {
+            "failed_reasons": [
+              "mean_iou_below_gate",
+              "false_negative_ratio_above_gate"
+            ],
+            "mean_dice": 0.835202,
+            "mean_false_negative_ratio_vs_gold": 0.172256,
+            "mean_false_positive_ratio_vs_gold": 0.149385,
+            "mean_iou": 0.720982,
+            "pass_gate": false,
+            "sample_count": 8
+          },
+          "worst_samples": [
+            {
+              "false_negative_ratio_vs_gold": 0.355995,
+              "false_positive_ratio_vs_gold": 0.169345,
+              "iou": 0.55074,
+              "sample_key": "10004916254_0"
+            },
+            {
+              "false_negative_ratio_vs_gold": 0.167183,
+              "false_positive_ratio_vs_gold": 0.229102,
+              "iou": 0.677582,
+              "sample_key": "10023147796_0"
+            },
+            {
+              "false_negative_ratio_vs_gold": 0.257703,
+              "false_positive_ratio_vs_gold": 0.065126,
+              "iou": 0.69691,
+              "sample_key": "10012551673_3"
+            }
+          ]
+        },
+        {
+          "best_route": "union_parser_d0_mp_poly_d0",
+          "dataset": "CelebAMask-HQ",
+          "region": "mf70_eyes_full",
+          "summary": {
+            "failed_reasons": [
+              "mean_iou_below_gate",
+              "false_positive_ratio_above_gate"
+            ],
+            "mean_dice": 0.890325,
+            "mean_false_negative_ratio_vs_gold": 0.03478,
+            "mean_false_positive_ratio_vs_gold": 0.204259,
+            "mean_iou": 0.803263,
+            "pass_gate": false,
+            "sample_count": 3
+          },
+          "worst_samples": [
+            {
+              "false_negative_ratio_vs_gold": 0.032826,
+              "false_positive_ratio_vs_gold": 0.278623,
+              "iou": 0.756418,
+              "sample_key": "1"
+            },
+            {
+              "false_negative_ratio_vs_gold": 0.055046,
+              "false_positive_ratio_vs_gold": 0.185933,
+              "iou": 0.796802,
+              "sample_key": "0"
+            },
+            {
+              "false_negative_ratio_vs_gold": 0.016469,
+              "false_positive_ratio_vs_gold": 0.148221,
+              "iou": 0.856569,
+              "sample_key": "18000"
+            }
+          ]
+        },
+        {
+          "best_route": "union_parser_d0_mp_poly_d0",
+          "dataset": "LaPa",
+          "region": "mf70_eyes_full",
+          "summary": {
+            "failed_reasons": [
+              "mean_iou_below_gate",
+              "false_positive_ratio_above_gate"
+            ],
+            "mean_dice": 0.861109,
+            "mean_false_negative_ratio_vs_gold": 0.123502,
+            "mean_false_positive_ratio_vs_gold": 0.157107,
+            "mean_iou": 0.75943,
+            "pass_gate": false,
+            "sample_count": 8
+          },
+          "worst_samples": [
+            {
+              "false_negative_ratio_vs_gold": 0.314241,
+              "false_positive_ratio_vs_gold": 0.091331,
+              "iou": 0.628369,
+              "sample_key": "1001715601_0"
+            },
+            {
+              "false_negative_ratio_vs_gold": 0.183308,
+              "false_positive_ratio_vs_gold": 0.154993,
+              "iou": 0.707097,
+              "sample_key": "10012551673_3"
+            },
+            {
+              "false_negative_ratio_vs_gold": 0.033708,
+              "false_positive_ratio_vs_gold": 0.357303,
+              "iou": 0.711921,
+              "sample_key": "10023147796_0"
+            }
+          ]
+        }
+      ],
+      "source_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_EYE_BROW_HYBRID_ROUTE_EVAL_20260710T045957-0500.json",
+      "source_result": "hybrid_eye_brow_routes_blocked_stronger_route_required",
+      "source_route_family": "parser masks combined with MediaPipe eye polygons/hulls and brow strokes/hulls by union/intersection/clipped dilation"
+    }
+  ],
+  "ec2_started": false,
+  "evidence_id": "W70_EYE_BROW_ROUTE_DATASET_FAILURE_DIAGNOSTIC_20260710T051535-0500",
+  "generation_executed": false,
+  "local_only": true,
+  "mask_promoted": false,
+  "next_required_action": "Use the dataset-level blocking patterns to decide whether eyes/brows need a stronger segmentation route or an explicit dataset-policy split before target-portrait proof.",
+  "result": "eye_brow_dataset_failure_diagnostic_completed_no_promotion",
+  "scope": "dataset-level failure diagnostic for MediaPipe and hybrid eye/brow route evidence",
+  "thresholds": {
+    "max_false_negative_ratio_vs_gold": 0.15,
+    "max_false_positive_ratio_vs_gold": 0.15,
+    "min_mean_iou": 0.85
+  },
+  "timestamp": "20260710T051535-0500"
+}

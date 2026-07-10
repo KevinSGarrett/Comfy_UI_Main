@@ -1,0 +1,44 @@
+{
+  "active_input_mask_overwritten": false,
+  "aws_contacted": false,
+  "comparison_panel": "runtime_artifacts/mask_factory/wave70_mf70_eyes_full_v3/qa_comparisons/W70_LOCAL_MF70_EYES_FULL_V3_SEED210822_VISUAL_QA_20260709T235700-0500_panel.png",
+  "created_at": "2026-07-10T00:01:04.075786-05:00",
+  "difference_metrics": {
+    "full_image_diff_bbox": [
+      291,
+      318,
+      457,
+      343
+    ],
+    "full_image_diff_rms_sum": 1.0723
+  },
+  "ec2_started": false,
+  "evidence_id": "W70_LOCAL_MF70_EYES_FULL_V3_SEED210822_VISUAL_QA_20260709T235700-0500",
+  "generated_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_eyes_full_v3_seed210822_20260709T235700-0500/images/codex_wave70_mf70_eyes_full_v3_seed210822_00001_.png",
+  "generation_executed": true,
+  "local_only": true,
+  "mask_candidate_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_EYES_FULL_SOURCE_LANDMARK_REPAIR_V3_20260709T232402-0500.json",
+  "mask_image": "ComfyUI/input/wave70_mf70_eyes_full_v3_mask.png",
+  "mask_promoted": false,
+  "next_required_action": "Create a lower-denoise v3b request and rerun the minimum local sample to see whether eye/gaze preservation improves.",
+  "preview_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_eyes_full_v3_seed210822_20260709T235700-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00032_.png",
+  "qa_decision": "do_not_promote_retry_with_lower_denoise",
+  "result": "fail_local_wave70_eyes_full_v3_generated_output_visual_qa_iteration_required",
+  "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_EYES_FULL_V3_SEED210822_EXECUTE_20260709T235700-0500.json",
+  "schema_version": "1.0",
+  "sha256": {
+    "generated": "d602c38888775b0f8c3f2c1ffcabfdcac59a8abc584d020e340d2bde37915d90",
+    "mask": "0dca8d1b1320cd324fad7e42f242e57642f3e8160942ec862bd56fbbe3e6a586",
+    "panel": "02c6ba7de635aec7559c0d74807b0c2265b2e93338edf52b0daf08873614c4ec",
+    "preview": "825d0b9ae7f849076e6afb2b7f9c217f013c095feaf587106013b220325bf32d",
+    "source": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+  },
+  "source_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+  "strict_whole_image_findings": [
+    "Generated output proves the v3-specific local route executed and used the aperture-only mask preview.",
+    "Identity, face outline, hair volume, blazer, lighting, and background remain broadly stable.",
+    "Eye region is not acceptable for promotion: both eyes appear softened and the gaze/eye character is subtly changed versus the source.",
+    "No large eyebrow or hair-region overwrite is visible, which supports the v3 geometry direction.",
+    "Because the eye quality changed, this remains an iteration artifact and does not close TRK/ITEM-W70-0009."
+  ]
+}

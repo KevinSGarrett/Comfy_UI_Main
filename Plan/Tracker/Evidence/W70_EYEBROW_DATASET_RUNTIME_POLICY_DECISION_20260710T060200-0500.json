@@ -1,0 +1,425 @@
+{
+  "active_input_mask_overwritten": false,
+  "all_current_gold_datasets_block": true,
+  "any_combined_dataset_pass": false,
+  "combined_gold_brow_record": {
+    "blocked_by": [
+      "CelebAMask-HQ",
+      "LaPa"
+    ],
+    "combined_route_decision": "blocked_combined_gold_gate_requires_repair_or_policy_split",
+    "dataset_records": {
+      "CelebAMask-HQ": {
+        "covered": true,
+        "failed_reasons": [
+          "mean_iou_below_0.85"
+        ],
+        "false_negative_ratio_vs_gold": 0.071249,
+        "false_positive_ratio_vs_gold": 0.146991,
+        "gate_decision": "blocked_gold_benchmark_metric_threshold_not_met",
+        "mean_dice": 0.895862,
+        "mean_iou": 0.81238,
+        "pass": false,
+        "region": "mf70_eyebrows",
+        "sample_count": 3
+      },
+      "LaPa": {
+        "covered": true,
+        "failed_reasons": [
+          "mean_iou_below_0.85",
+          "false_positive_ratio_above_0.15",
+          "false_negative_ratio_above_0.15"
+        ],
+        "false_negative_ratio_vs_gold": 0.19835,
+        "false_positive_ratio_vs_gold": 0.182535,
+        "gate_decision": "blocked_lapa_gold_benchmark_metric_threshold_not_met",
+        "mean_dice": 0.804119,
+        "mean_iou": 0.678073,
+        "pass": false,
+        "region": "mf70_eyebrows",
+        "sample_count": 8
+      }
+    },
+    "missing_from": [],
+    "passed_by": [],
+    "promotion_decision": "no_promotion_combined_gate_only",
+    "region": "mf70_eyebrows"
+  },
+  "dataset_failure_records": [
+    {
+      "best_route": "brow_hull_d0",
+      "dataset": "CelebAMask-HQ",
+      "source_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MEDIAPIPE_EYE_BROW_COMBINED_ROUTE_EVAL_20260710T045530-0500.json",
+      "source_route_family": "MediaPipe FaceLandmarker eye contours, brow strokes/hulls, dilation and small vertical shifts",
+      "summary": {
+        "failed_reasons": [
+          "mean_iou_below_gate",
+          "false_positive_ratio_above_gate",
+          "false_negative_ratio_above_gate"
+        ],
+        "mean_dice": 0.669958,
+        "mean_false_negative_ratio_vs_gold": 0.158708,
+        "mean_false_positive_ratio_vs_gold": 0.673989,
+        "mean_iou": 0.505692,
+        "pass_gate": false,
+        "sample_count": 3
+      }
+    },
+    {
+      "best_route": "brow_hull_d0",
+      "dataset": "LaPa",
+      "source_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MEDIAPIPE_EYE_BROW_COMBINED_ROUTE_EVAL_20260710T045530-0500.json",
+      "source_route_family": "MediaPipe FaceLandmarker eye contours, brow strokes/hulls, dilation and small vertical shifts",
+      "summary": {
+        "failed_reasons": [
+          "mean_iou_below_gate",
+          "false_positive_ratio_above_gate"
+        ],
+        "mean_dice": 0.721253,
+        "mean_false_negative_ratio_vs_gold": 0.128053,
+        "mean_false_positive_ratio_vs_gold": 0.580027,
+        "mean_iou": 0.572549,
+        "pass_gate": false,
+        "sample_count": 8
+      }
+    },
+    {
+      "best_route": "intersect_parser_d1_mp_hull_d1",
+      "dataset": "CelebAMask-HQ",
+      "source_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_EYE_BROW_HYBRID_ROUTE_EVAL_20260710T045957-0500.json",
+      "source_route_family": "parser masks combined with MediaPipe eye polygons/hulls and brow strokes/hulls by union/intersection/clipped dilation",
+      "summary": {
+        "failed_reasons": [
+          "mean_iou_below_gate",
+          "false_positive_ratio_above_gate"
+        ],
+        "mean_dice": 0.852831,
+        "mean_false_negative_ratio_vs_gold": 0.119158,
+        "mean_false_positive_ratio_vs_gold": 0.184397,
+        "mean_iou": 0.743568,
+        "pass_gate": false,
+        "sample_count": 3
+      }
+    },
+    {
+      "best_route": "intersect_parser_d1_mp_hull_d1",
+      "dataset": "LaPa",
+      "source_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_EYE_BROW_HYBRID_ROUTE_EVAL_20260710T045957-0500.json",
+      "source_route_family": "parser masks combined with MediaPipe eye polygons/hulls and brow strokes/hulls by union/intersection/clipped dilation",
+      "summary": {
+        "failed_reasons": [
+          "mean_iou_below_gate",
+          "false_negative_ratio_above_gate"
+        ],
+        "mean_dice": 0.835202,
+        "mean_false_negative_ratio_vs_gold": 0.172256,
+        "mean_false_positive_ratio_vs_gold": 0.149385,
+        "mean_iou": 0.720982,
+        "pass_gate": false,
+        "sample_count": 8
+      }
+    }
+  ],
+  "dataset_passes": {
+    "CelebAMask-HQ": false,
+    "LaPa": false
+  },
+  "decision": "Do not promote or target-proof mf70_eyebrows from current routes. A dataset-vs-runtime split is not justified because current evidence blocks eyebrows on both CelebAMask-HQ and LaPa, and no stronger local automatic eyebrow parser is registered.",
+  "ec2_started": false,
+  "evidence_id": "W70_EYEBROW_DATASET_RUNTIME_POLICY_DECISION_20260710T060200-0500",
+  "generation_executed": false,
+  "gold_mask_authority": {
+    "masked_warehouse": "C:\\Comfy_UI_Main\\MaskedWarehouse",
+    "primary_datasets": [
+      "CelebAMask-HQ",
+      "LaPa"
+    ],
+    "single_generated_portrait_is_pass_authority": false
+  },
+  "lapa_supplied_landmark_brow_record": {
+    "best_pass_gate": false,
+    "best_route": "brow_hull_d0",
+    "best_summary": {
+      "mean_dice": 0.825484,
+      "mean_false_negative_ratio_vs_gold": 0.102016,
+      "mean_false_positive_ratio_vs_gold": 0.281151,
+      "mean_iou": 0.704384,
+      "sample_count": 8
+    }
+  },
+  "local_only": true,
+  "mask_promoted": false,
+  "next_required_action": "Register/validate a stronger eyebrow semantic parser, or switch to another blocked facial/body row with a genuinely new gold-backed route.",
+  "parser_landmark_brow_record": {
+    "best_failed_reasons": [
+      "mean_iou_below_0.85",
+      "false_negative_ratio_above_0.15"
+    ],
+    "best_pass_gate": false,
+    "best_route": "intersect_parser_brow_hull_d1",
+    "best_summary": {
+      "mean_dice": 0.84675,
+      "mean_false_negative_ratio_vs_gold": 0.213693,
+      "mean_false_positive_ratio_vs_gold": 0.061274,
+      "mean_iou": 0.740519,
+      "sample_count": 8
+    },
+    "decision": "lapa_parser_landmark_brow_routes_blocked_policy_or_stronger_parser_required",
+    "region": "mf70_eyebrows",
+    "top_routes": [
+      {
+        "failed_reasons": [
+          "mean_iou_below_0.85",
+          "false_negative_ratio_above_0.15"
+        ],
+        "pass_gate": false,
+        "route": "intersect_parser_brow_hull_d1",
+        "score": 0.724596,
+        "summary": {
+          "mean_dice": 0.84675,
+          "mean_false_negative_ratio_vs_gold": 0.213693,
+          "mean_false_positive_ratio_vs_gold": 0.061274,
+          "mean_iou": 0.740519,
+          "sample_count": 8
+        }
+      },
+      {
+        "failed_reasons": [
+          "mean_iou_below_0.85",
+          "false_positive_ratio_above_0.15"
+        ],
+        "pass_gate": false,
+        "route": "union_parser_stroke_t2_y-1",
+        "score": 0.709775,
+        "summary": {
+          "mean_dice": 0.848578,
+          "mean_false_negative_ratio_vs_gold": 0.0695,
+          "mean_false_positive_ratio_vs_gold": 0.262372,
+          "mean_iou": 0.737868,
+          "sample_count": 8
+        }
+      },
+      {
+        "failed_reasons": [
+          "mean_iou_below_0.85",
+          "false_negative_ratio_above_0.15"
+        ],
+        "pass_gate": false,
+        "route": "intersect_parser_brow_hull_d2",
+        "score": 0.704245,
+        "summary": {
+          "mean_dice": 0.83077,
+          "mean_false_negative_ratio_vs_gold": 0.200089,
+          "mean_false_positive_ratio_vs_gold": 0.115558,
+          "mean_iou": 0.716767,
+          "sample_count": 8
+        }
+      },
+      {
+        "failed_reasons": [
+          "mean_iou_below_0.85",
+          "false_negative_ratio_above_0.15"
+        ],
+        "pass_gate": false,
+        "route": "intersect_parser_brow_hull_d0",
+        "score": 0.696939,
+        "summary": {
+          "mean_dice": 0.836231,
+          "mean_false_negative_ratio_vs_gold": 0.257213,
+          "mean_false_positive_ratio_vs_gold": 0.025338,
+          "mean_iou": 0.723742,
+          "sample_count": 8
+        }
+      },
+      {
+        "failed_reasons": [
+          "mean_iou_below_0.85",
+          "false_negative_ratio_above_0.15"
+        ],
+        "pass_gate": false,
+        "route": "intersect_parser_band_u1_d9_r1",
+        "score": 0.691243,
+        "summary": {
+          "mean_dice": 0.824679,
+          "mean_false_negative_ratio_vs_gold": 0.213771,
+          "mean_false_positive_ratio_vs_gold": 0.111266,
+          "mean_iou": 0.707186,
+          "sample_count": 8
+        }
+      },
+      {
+        "failed_reasons": [
+          "mean_iou_below_0.85",
+          "false_negative_ratio_above_0.15"
+        ],
+        "pass_gate": false,
+        "route": "intersect_parser_brow_hull_d3",
+        "score": 0.685104,
+        "summary": {
+          "mean_dice": 0.817736,
+          "mean_false_negative_ratio_vs_gold": 0.198485,
+          "mean_false_positive_ratio_vs_gold": 0.148501,
+          "mean_iou": 0.697225,
+          "sample_count": 8
+        }
+      },
+      {
+        "failed_reasons": [
+          "mean_iou_below_0.85",
+          "false_negative_ratio_above_0.15"
+        ],
+        "pass_gate": false,
+        "route": "intersect_parser_band_u1_d9_r2",
+        "score": 0.680858,
+        "summary": {
+          "mean_dice": 0.815676,
+          "mean_false_negative_ratio_vs_gold": 0.202382,
+          "mean_false_positive_ratio_vs_gold": 0.148148,
+          "mean_iou": 0.693953,
+          "sample_count": 8
+        }
+      },
+      {
+        "failed_reasons": [
+          "mean_iou_below_0.85",
+          "false_positive_ratio_above_0.15"
+        ],
+        "pass_gate": false,
+        "route": "union_parser_stroke_t2_y0",
+        "score": 0.680315,
+        "summary": {
+          "mean_dice": 0.834453,
+          "mean_false_negative_ratio_vs_gold": 0.073538,
+          "mean_false_positive_ratio_vs_gold": 0.294672,
+          "mean_iou": 0.716483,
+          "sample_count": 8
+        }
+      },
+      {
+        "failed_reasons": [
+          "mean_iou_below_0.85",
+          "false_negative_ratio_above_0.15"
+        ],
+        "pass_gate": false,
+        "route": "intersect_parser_band_u15_d1_r2",
+        "score": 0.675991,
+        "summary": {
+          "mean_dice": 0.814393,
+          "mean_false_negative_ratio_vs_gold": 0.212997,
+          "mean_false_positive_ratio_vs_gold": 0.137314,
+          "mean_iou": 0.69174,
+          "sample_count": 8
+        }
+      },
+      {
+        "failed_reasons": [
+          "mean_iou_below_0.85",
+          "false_positive_ratio_above_0.15"
+        ],
+        "pass_gate": false,
+        "route": "union_parser_band_u1_d1_r0",
+        "score": 0.675765,
+        "summary": {
+          "mean_dice": 0.830624,
+          "mean_false_negative_ratio_vs_gold": 0.083787,
+          "mean_false_positive_ratio_vs_gold": 0.290296,
+          "mean_iou": 0.710839,
+          "sample_count": 8
+        }
+      },
+      {
+        "failed_reasons": [
+          "mean_iou_below_0.85",
+          "false_positive_ratio_above_0.15",
+          "false_negative_ratio_above_0.15"
+        ],
+        "pass_gate": false,
+        "route": "intersect_parser_brow_hull_d4",
+        "score": 0.672058,
+        "summary": {
+          "mean_dice": 0.811259,
+          "mean_false_negative_ratio_vs_gold": 0.19835,
+          "mean_false_positive_ratio_vs_gold": 0.164447,
+          "mean_iou": 0.687757,
+          "sample_count": 8
+        }
+      },
+      {
+        "failed_reasons": [
+          "mean_iou_below_0.85",
+          "false_negative_ratio_above_0.15"
+        ],
+        "pass_gate": false,
+        "route": "intersect_parser_band_u1_d7_r2",
+        "score": 0.671977,
+        "summary": {
+          "mean_dice": 0.811055,
+          "mean_false_negative_ratio_vs_gold": 0.209972,
+          "mean_false_positive_ratio_vs_gold": 0.148661,
+          "mean_iou": 0.68697,
+          "sample_count": 8
+        }
+      }
+    ]
+  },
+  "policy_options": [
+    {
+      "decision": "rejected",
+      "policy": "promote_runtime_brow_from_current_route",
+      "reason": "No current eyebrow route passes the combined gold gate or dataset-level route diagnostics."
+    },
+    {
+      "decision": "rejected",
+      "policy": "dataset_split_use_celeba_or_lapa_current_route",
+      "reason": "The current combined gate blocks mf70_eyebrows in both CelebAMask-HQ and LaPa, so a dataset split would not be evidence-backed."
+    },
+    {
+      "decision": "rejected",
+      "policy": "single_generated_portrait_visual_override",
+      "reason": "MaskedWarehouse gold originals and masks are the authority; generated portrait overlays are downstream sanity checks only."
+    },
+    {
+      "decision": "selected",
+      "policy": "fail_closed_until_stronger_parser_or_new_row",
+      "reason": "Both gold datasets block current eyebrow routes and no stronger local automatic eyebrow parser is registered."
+    }
+  ],
+  "region": "mf70_eyebrows",
+  "result": "mf70_eyebrows_policy_fail_closed_no_dataset_split_promotion",
+  "scope": "Wave70 mf70_eyebrows dataset-vs-runtime policy decision from current gold-backed evidence",
+  "selected_policy": "fail_closed_until_stronger_parser_or_new_row",
+  "source_evidence": [
+    {
+      "name": "combined_gold_gate",
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_COMBINED_GOLD_GATE_DECISION_20260710T041840-0500.json",
+      "result": "blocked_combined_facial_gold_gate_routes_require_repair",
+      "sha256": "3b616704485040fc1dad56f5c243843229238e0fc2ab3a960189034dc4e18ff0"
+    },
+    {
+      "name": "dataset_failure_diagnostic",
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_EYE_BROW_ROUTE_DATASET_FAILURE_DIAGNOSTIC_20260710T051535-0500.json",
+      "result": "eye_brow_dataset_failure_diagnostic_completed_no_promotion",
+      "sha256": "3f7cd648aea511b0bef871e32e07f89089922ab8ced93486957418bbb6e0a5a5"
+    },
+    {
+      "name": "supplied_landmark_eye_brow",
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_LAPA_SUPPLIED_LANDMARK_EYE_BROW_ROUTE_EVAL_20260710T052514-0500.json",
+      "result": "lapa_supplied_landmark_candidates_found_no_promotion",
+      "sha256": "73d274ccbd7cfe31c615c43834d3e7065e6f44755d827ec675129ed1ddee0e9e"
+    },
+    {
+      "name": "parser_landmark_brow",
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_LAPA_PARSER_LANDMARK_BROW_ROUTE_EVAL_20260710T054003-0500.json",
+      "result": "lapa_parser_landmark_brow_routes_blocked_policy_or_stronger_parser_required",
+      "sha256": "0ec1a718ed8b405f9a9d21f0255060af323813db16903ea623e08416e29e42e9"
+    },
+    {
+      "name": "parser_options_audit",
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_EYEBROW_SEMANTIC_PARSER_OPTIONS_AUDIT_20260710T055308-0500.json",
+      "result": "blocked_no_stronger_local_eyebrow_semantic_parser_registered",
+      "sha256": "c49ca6475095fb82578ba9660e266a9d4ee40099cb32b38a94b3c424227e16e5"
+    }
+  ],
+  "stronger_local_eyebrow_semantic_parser_registered_now": false,
+  "timestamp": "20260710T060200-0500"
+}

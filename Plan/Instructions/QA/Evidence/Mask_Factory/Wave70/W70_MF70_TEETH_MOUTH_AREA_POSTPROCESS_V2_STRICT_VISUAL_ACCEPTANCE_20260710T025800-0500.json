@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-TEETH-MOUTH-AREA-POSTPROCESS-V2-STRICT-VISUAL-ACCEPTANCE-20260710T025800-0500",
+  "timestamp": "2026-07-10T02:58:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "scope": "strict_source_overlay_visual_review_no_generation",
+  "mask_type_id": "mf70_teeth_mouth_area",
+  "candidate_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_TEETH_MOUTH_AREA_POSTPROCESS_V2_20260710T025200-0500.json",
+  "candidate_evidence_sha256": "e855cc70f8e95764fbdc8027c538c621f86632b27d0146cabaa200f67586c496",
+  "candidate_mask": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_teeth_mouth_area_postprocess_v2_20260710T025200-0500/wave70_mf70_teeth_mouth_area_postprocess_v2_mask.png",
+  "candidate_mask_sha256": "ac9e1a0782f0ba1887bcba356540f67bc1f70f874544e568f648287e9911e038",
+  "review_panel": "runtime_artifacts/mask_factory/wave70_mf70_teeth_mouth_area_postprocess_v2/20260710T025200-0500/wave70_mf70_teeth_mouth_area_postprocess_v2_review_panel.png",
+  "review_panel_sha256": "529e97a1e8e66a27b6bdf488f3d30d0e1e88604c09976698cb7f91f8de3c4d14",
+  "protected_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_teeth_mouth_area_postprocess_v2_20260710T025200-0500/wave70_mf70_teeth_mouth_area_postprocess_v2_protected_overlay.png",
+  "protected_overlay_sha256": "ae0a40a444e6418fc9c70958d175b6893b276228f9fe53617f9041c0f7ac5257",
+  "visual_findings": [
+    "The v2 candidate sits on the visible mouth/teeth opening and does not drift into hair, cheeks, nose, eyes, chin, or background.",
+    "The v2 candidate is intentionally broader than the old active teeth-only strip because the gold benchmark row maps to CelebAMask-HQ mouth area, not just visible teeth.",
+    "Protected overlay reports zero nose overlap and 218 pixels of lip-boundary overlap; the lip-boundary overlap is expected for the benchmark-passing mouth-area route and must be checked again in generated-output QA.",
+    "The old active teeth mask remains useful only for a teeth-only row; it is not sufficient evidence for the broader mf70_teeth_mouth_area benchmark target."
+  ],
+  "strict_review": {
+    "source_aligned_for_mouth_area": true,
+    "not_a_teeth_only_mask": true,
+    "nose_overlap_pixels": 0,
+    "lip_boundary_overlap_pixels": 218,
+    "requires_generated_output_proof": true,
+    "requires_target_runtime_or_reference_matrix_before_final": true
+  },
+  "decision": "candidate_visual_acceptance_pass_generated_output_pending_not_promoted",
+  "active_input_mask_overwritten": false,
+  "mask_promoted": false,
+  "generation_executed": false,
+  "ec2_started": false,
+  "result": "candidate_visual_acceptance_pass_generated_output_pending_not_promoted",
+  "next_required_action": "Copy the candidate to a v2-specific ComfyUI input filename and run one bounded local generated-output proof with strict whole-image QA. Do not overwrite ComfyUI/input/wave70_mf70_teeth_mask.png."
+}

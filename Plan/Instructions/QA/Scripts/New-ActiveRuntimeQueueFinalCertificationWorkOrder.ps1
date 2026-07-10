@@ -165,7 +165,7 @@ foreach ($lane in $laneRows) {
       -Id ("WO-W66-{0}-FINAL-CERTIFICATION-REVIEW" -f $laneId.ToUpperInvariant()) `
       -LaneId $laneId `
       -Priority 50 `
-      -Type "final_certification_review_required" `
+      -Type "final_certification_runtime_ready" `
       -Status "blocked_until_lane_evidence_complete" `
       -BlockedBy @($laneBlockers) `
       -RequiredEvidence @("lane-specific final review", "all target-runtime and QA gates required by lane status", "done certification record") `

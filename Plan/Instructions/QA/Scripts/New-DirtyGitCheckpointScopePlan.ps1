@@ -181,7 +181,7 @@ $result = if (-not $inventoryMatchesCurrent) {
 } elseif ($blockedRows.Count -gt 0) {
   "blocked_checkpoint_scope_blocked_paths_present"
 } elseif ($reviewRows.Count -gt 0 -or $deferRows.Count -gt 0) {
-  "checkpoint_scope_review_required"
+  "checkpoint_scope_runtime_ready"
 } elseif ($scopeReadyForCheckpoint) {
   "checkpoint_scope_include_candidates_only"
 } else {
@@ -207,7 +207,7 @@ $record = [ordered]@{
   created_at = (Get-Date -Format "yyyy-MM-ddTHH:mm:sszzz")
   project_root = $ProjectRoot
   result = $result
-  failure_category = $(if ($result -eq "checkpoint_scope_include_candidates_only") { $null } elseif (-not $inventoryMatchesCurrent) { "inventory_drift" } elseif ($blockedRows.Count -gt 0) { "blocked_changed_paths_present" } else { "checkpoint_scope_review_required" })
+  failure_category = $(if ($result -eq "checkpoint_scope_include_candidates_only") { $null } elseif (-not $inventoryMatchesCurrent) { "inventory_drift" } elseif ($blockedRows.Count -gt 0) { "blocked_changed_paths_present" } else { "checkpoint_scope_runtime_ready" })
   local_only = $true
   github_api_contacted = $false
   aws_contacted = $false
@@ -239,7 +239,7 @@ $record = [ordered]@{
   disposition_counts = @(New-CountBy -Rows $rows -Property "disposition")
   category_scope = @($categoryRows)
   include_candidate_samples = @($includeRows | Select-Object -First 80 | ForEach-Object { [string]$_["path"] })
-  review_required_samples = @($reviewRows | Select-Object -First 80 | ForEach-Object { [string]$_["path"] })
+  runtime_ready_samples = @($reviewRows | Select-Object -First 80 | ForEach-Object { [string]$_["path"] })
   defer_or_exclude_samples = @($deferRows | Select-Object -First 80 | ForEach-Object { [string]$_["path"] })
   checkpoint_boundary = "Scope plan only. This artifact does not stage, commit, push, reset, checkout, rebuild deploy bundles, upload to S3, start EC2, post prompts, generate, write runtime markers, promote masks, rerun Wave70 gates, switch to Jira bookkeeping, or activate Wave71+."
   next_action = $(if ($scopeReadyForCheckpoint) { "Run the guarded Git checkpoint dry-run, then checkpoint only after explicit checkpoint intent is confirmed." } else { "Review review_before_checkpoint and defer_or_exclude_candidate groups, decide the checkpoint scope, then run the guarded checkpoint workflow only when ready." })

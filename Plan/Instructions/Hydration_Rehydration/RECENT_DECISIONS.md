@@ -1,3 +1,83 @@
+## Decision - mf70_teeth_mouth_area Morphology-Only Repair Is Blocked - 2026-07-10T06:19:25-05:00
+
+Use `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_TEETH_MOUTH_AREA_ANISOTROPIC_ROUTE_SEARCH_20260710T061925-0500.json` as the current teeth-mouth route-family decision. A 6,471-route anisotropic morphology/shift search did not produce a combined-gold pass. Stop morphology-only tuning for this row; use a non-morphology boundary route, explicit row policy, or another blocked row.
+
+## Decision - mf70_teeth_mouth_area V2 Is Not Combined-Gold Supported - 2026-07-10T06:11:35-05:00
+
+Use `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_TEETH_MOUTH_AREA_V2_COMBINED_GOLD_EVAL_20260710T061135-0500.json` as the current teeth-mouth v2 decision. The route passes CelebAMask-HQ but fails LaPa, so it is blocked by combined gold and must not be promoted. Earlier target-specific/local generated proof remains useful only as downstream evidence, not as gold route support.
+
+## Decision - mf70_eyebrows Policy Is Fail-Closed Under Current Evidence - 2026-07-10T06:02:00-05:00
+
+Use `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_EYEBROW_DATASET_RUNTIME_POLICY_DECISION_20260710T060200-0500.json` as the current eyebrow policy decision. `mf70_eyebrows` cannot be promoted through dataset-vs-runtime policy because both CelebAMask-HQ and LaPa block the current eyebrow routes, and no stronger local automatic eyebrow parser is registered. Switch to another blocked row or register a new parser before resuming eyebrow work.
+
+## Decision - No Stronger Local Eyebrow Parser Is Registered - 2026-07-10T05:53:08-05:00
+
+Use `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_EYEBROW_SEMANTIC_PARSER_OPTIONS_AUDIT_20260710T055308-0500.json` as the current eyebrow parser-options decision. The local registered assets do not currently provide a stronger automatic eyebrow semantic parser than the failed BiSeNet-backed route. Do not continue eyebrow parser/landmark band tuning with these same assets; next work must be an explicit eyebrow policy, a newly registered stronger face parser, or a different blocked row with a new gold-backed route.
+
+## Decision - Eyebrows Are Not Solved By Parser+Landmark Band Tuning - 2026-07-10T05:40:03-05:00
+
+Use `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_LAPA_PARSER_LANDMARK_BROW_ROUTE_EVAL_20260710T054003-0500.json` as the current brow route decision. Parser+LaPa-landmark combinations do not clear LaPa gold labels: conservative intersections miss too much brow, while broader unions exceed false positives. Continue with stronger semantic parsing, an explicit eyebrow policy split, or another blocked row; do not keep retuning brow landmark bands as-is.
+
+## Decision - LaPa Eye Pass Is Diagnostic Until Runtime 106-Point Source Exists - 2026-07-10T05:31:26-05:00
+
+Use `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_RUNTIME_106_LANDMARK_SOURCE_AUDIT_20260710T053126-0500.json` as the local runtime landmark-source decision. No LaPa-compatible 106-point runtime route is currently available, so the LaPa supplied-landmark `mf70_eyes_full` pass cannot support target-portrait promotion. Register a 106-point runtime route or use a different segmentation authority before any eye-mask promotion.
+
+## Decision - LaPa Eye Target Is Reachable With Supplied 106-Point Landmarks - 2026-07-10T05:25:14-05:00
+
+Use `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_LAPA_SUPPLIED_LANDMARK_EYE_BROW_ROUTE_EVAL_20260710T052514-0500.json` as the current eye/brow landmark diagnostic. LaPa supplied landmarks pass `mf70_eyes_full`, so the eye issue is the available runtime landmark/route source, not an impossible gold target. `mf70_eyebrows` remains blocked even with supplied landmarks, so brow work needs semantic parsing or a policy split rather than another landmark hull.
+
+## Decision - Eye/Brow Route Failure Is Not Just Combined-Gate Aggregation - 2026-07-10T05:15:35-05:00
+
+Use `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_EYE_BROW_ROUTE_DATASET_FAILURE_DIAGNOSTIC_20260710T051535-0500.json` as the current eye/brow route diagnostic. The tested MediaPipe-only and parser+MediaPipe hybrid families do not pass even when split by CelebAMask-HQ versus LaPa. Do not keep tuning this route family as-is; use stronger segmentation, a policy split, or a different blocked row.
+
+## Decision - MediaPipe And Hybrid Eye/Brow Routes Are Still Not Enough - 2026-07-10T05:06:51-05:00
+
+Do not promote or target-proof `mf70_eyes_full` or `mf70_eyebrows` from the tested MediaPipe-only or parser+MediaPipe hybrid route families. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MEDIAPIPE_EYE_BROW_COMBINED_ROUTE_EVAL_20260710T045530-0500.json` and `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_EYE_BROW_HYBRID_ROUTE_EVAL_20260710T045957-0500.json` shows no candidate clears the combined gold gate. Continue with stronger segmentation, explicit dataset-policy work, or another blocked row rather than repeating these route families.
+
+## Decision - Eye/Brow Label Geometry Is Not Sufficient - 2026-07-10T04:46:26-05:00
+
+Do not continue simple eye/brow geometry tweaks as-is. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_EYE_BROW_LABEL_GEOMETRY_ROUTE_EVAL_20260710T044626-0500.json` shows eyes remain under-covered and eyebrows remain below the combined gold IoU gate. Future eye/brow repair needs a stronger landmark/model-backed aperture and brow route or an explicit dataset-policy split.
+
+## Decision - mf70_hair Needs Stronger Person-Instance Authority - 2026-07-10T04:37:26-05:00
+
+Do not continue anchor-window/component-only `mf70_hair` repairs as-is. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_HAIR_SUBJECT_INSTANCE_ROUTE_EVAL_20260710T043726-0500.json` shows the best route still fails combined gold gates, primarily due to LaPa false positives from neighboring/background hair. Hair needs stronger person-instance/foreground segmentation or an explicit dataset policy split before target-portrait proof.
+
+## Decision - Stop Simple Facial Postprocess Repairs For Blocked Rows - 2026-07-10T04:27:52-05:00
+
+Use `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_COMBINED_GOLD_POSTPROCESS_ROUTE_EVAL_20260710T042752-0500.json` as the blocker for simple morphology/component cleanup on the disputed facial rows. Dilation/erosion/open/close/largest-component cleanup is not enough for eyes, eyebrows, hair, lips, teeth-mouth, face-skin, or neck across combined gold evidence. Continue with model-backed, label-aware, subject-instance-aware, or explicit policy-split routes only.
+
+## Decision - Combined Gold Gate Is Required Before Facial Target Proof - 2026-07-10T04:18:40-05:00
+
+Use `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_COMBINED_GOLD_GATE_DECISION_20260710T041840-0500.json` as the current facial route decision record. Only `mf70_nose` is supported by both current gold gates; all other checked facial rows require repair or policy separation before generated target-portrait proof can mean anything.
+
+## Decision - Wave70 Facial Masks Require Combined Gold-Dataset Evidence - 2026-07-10T04:13:48-05:00
+
+Do not treat the generated target portrait as the primary facial-mask proof. Use CelebAMask-HQ and LaPa gold benchmarks first, then use target-portrait overlays and generated-output QA only as downstream sanity checks. Current LaPa gate evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_LAPA_GOLD_BENCHMARK_GATE_20260710T041348-0500.json` blocks 7 of 9 LaPa-covered facial regions, so remaining facial repair work must be route/policy driven rather than single-image hand tuning.
+
+## Decision - Wave70 Eyes Full Source-Landmark Repair Candidate V2 - 2026-07-09T21:53:00-05:00
+
+For the user-disputed eye/eyebrow drift, do not reuse the broad oval `mf70_eyes_full` mask. Use the v2 source-landmark repair candidate as the current review target, but keep it candidate-only until strict visual QA and Wave70 geometry/promotion evidence explicitly support promotion. The failed v1 panel is retained only as local evidence of the correction loop.
+
+## Decision - Selected Inpaint QA Helper Dirty-Git Gate Retest - 2026-07-09T21:32:39-05:00
+
+QA helper smoke tests must validate the corrected current-worktree gate behavior. If `Test-ActiveRuntimeQueueFinalCertificationReadiness.ps1` reports a dirty current worktree after a stored clean Git gate, `git_gate_summary.passes_for_ec2_execute` must be false and final blockers must include `current_worktree_dirty_after_stored_git_gate:*`.
+
+## Decision - Selected Inpaint Post-Alignment Scoped Checkpoint Dry-Run - 2026-07-09T21:17:00-05:00
+
+Use a scoped checkpoint boundary for the selected-inpaint post-alignment evidence slice. Do not include unrelated `FLEET_HEALTH_AUDIT_20260709T000000-0500.json` in this slice. The dry-run did not stage, commit, or push; it only proves the scope and secret/blocked-path checks.
+
+## Decision - Selected Inpaint Post-Alignment Final-Cert Closure Refresh - 2026-07-09T21:02:00-05:00
+
+Final-certification readiness must use current local Git status, not only the latest stored dry-run gate. `Test-ActiveRuntimeQueueFinalCertificationReadiness.ps1` was updated to record current `git status --porcelain` and force EC2/final readiness closed when current local evidence makes the worktree dirty. Continue local-only closure work; do not treat this as live runtime proof.
+
+## Decision - Selected Inpaint Final Certification Blocker After Chain Alignment - 2026-07-09T20:59:11-05:00
+
+Do not use pre-alignment final-review closure or stale clean-gate evidence as proof of final readiness. Treat selected-inpaint final certification as blocked until the local final-certification closure is refreshed from the aligned chain and live/runtime QA evidence exists.
+
+## Decision - Selected Inpaint Publish Dry-Run Chain Alignment Current - 2026-07-09T20:49:40-05:00
+
+Treat the selected-inpaint publish dry-run chain as locally aligned but not live-authorized. Preserve the fail-closed boundary and continue only local certification/blocker work until explicit live intent and live-gate proofs exist.
+
 ## Final Review Coverage Is Accounted, Do Not Loop Packets - 2026-07-09T17:45:00-05:00
 
 Decision: use `W66_ACTIVE_RUNTIME_QUEUE_FINAL_REVIEW_EVIDENCE_COVERAGE_20260709T174241-0500.json` as the current local accounting record for final-review packet coverage. It has 0 missing review-evidence rows, so do not regenerate final-review blocker packets unless a new lane/work-order/evidence file changes the coverage inputs.

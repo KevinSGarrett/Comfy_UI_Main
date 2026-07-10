@@ -213,6 +213,10 @@ Temporary tightened triggers:
 - More than 2 minutes of active strategy or contradiction reasoning: Claude subscription when auth is healthy.
 - Any incomplete worker output: one narrower retry is required before direct Codex fallback.
 
+Claude adoption floor: if the latest monitor window shows zero useful Claude handoffs while Claude subscription auth is healthy, the next eligible high-effort synthesis, contradiction review, routing critique, checkpoint-risk synthesis, or strategy review expected to take more than 2 minutes must use `CLAUDE_HEAVY_REVIEW_REQUIRED` before Codex absorbs it. Do not route mechanical extraction, final authority, live runtime, visual QA, Git/GitHub mutation, AWS, Jira, masks, or tracker mutation to Claude.
+
+Cursor friction retry discipline: if Cursor fails because of wrapper invocation, parser, environment, or lock friction, retry once with the smallest safe work order: ask mode, supplied file/status list, no worker-side broad Git discovery, no file edits, no mutation authority, and PowerShell execution-policy bypass only for the child wrapper process when needed. If the retry fails, classify `CURSOR_WRAPPER_FRICTION_COMPACT_FALLBACK`, record the failure evidence, and fall back compactly instead of live-tailing or absorbing a long task silently.
+
 Exit recovery mode only after at least two useful compact worker handoffs occur in real project work, or after one audit window reports `usage_reduction_confidence=MEDIUM` or better with no direct-Codex worker-lane violations.
 
 The monitor should classify continued direct Codex analysis during recovery mode as `AI_WORKER_DELEGATION_DRIFT`.

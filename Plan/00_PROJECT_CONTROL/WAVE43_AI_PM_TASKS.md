@@ -1,7 +1,7 @@
 # WAVE43 AI PM Tasks — Local, EC2, and Runtime Proof Integration
 
 ## Goal
-Combine local execution, EC2 sync, runtime proof, preview gates, and release proof boundaries.
+Combine local execution, EC2 sync, runtime proof, pruntime gates, and release proof boundaries.
 
 ## Tasks
 1. Read the current cumulative system as the implementation baseline.

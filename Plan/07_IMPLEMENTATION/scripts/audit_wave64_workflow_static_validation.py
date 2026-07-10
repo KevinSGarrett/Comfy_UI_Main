@@ -189,11 +189,11 @@ def validate_runtime_requirements(workflow: dict[str, object], runtime_req: dict
 
 def model_local_hits(model_refs: list[str]) -> dict[str, str]:
     roots = [
-        Path(r"C:\Comfy_UI\Runtime_Data\models\checkpoints"),
-        Path(r"C:\Comfy_UI\Runtime_Data\models\controlnet"),
-        Path(r"C:\Comfy_UI\Runtime_Data\models\loras"),
-        Path(r"C:\Comfy_UI\Runtime_Data\models\upscale_models"),
-        Path(r"C:\Comfy_UI\Runtime_Data\models\vae"),
+        PROJECT_ROOT / "Runtime_Data/models/checkpoints",
+        PROJECT_ROOT / "Runtime_Data/models/controlnet",
+        PROJECT_ROOT / "Runtime_Data/models/loras",
+        PROJECT_ROOT / "Runtime_Data/models/upscale_models",
+        PROJECT_ROOT / "Runtime_Data/models/vae",
         PROJECT_ROOT / "models/checkpoints",
         PROJECT_ROOT / "models/controlnet",
         PROJECT_ROOT / "models/loras",

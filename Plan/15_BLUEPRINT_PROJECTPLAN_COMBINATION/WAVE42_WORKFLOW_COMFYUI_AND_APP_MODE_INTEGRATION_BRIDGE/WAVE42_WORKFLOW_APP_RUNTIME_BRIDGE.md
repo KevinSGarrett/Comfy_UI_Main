@@ -9,7 +9,7 @@
 - hidden controls
 - input assets
 - output prefixes
-- preview gate
+- pruntime gate
 - final render gate
 - QA evidence path
 - release proof path

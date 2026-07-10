@@ -1,0 +1,213 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MEDIAPIPE-LANDMARK-ROUTE-EVAL-20260710T034800-0500",
+  "timestamp": "2026-07-10T03:48:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "scope": "local_gold_benchmark_mediapipe_landmark_route_evaluation_only",
+  "benchmark_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_GOLD_STANDARD_BENCHMARK_20260710T012300-0500.json",
+  "benchmark_sha256": "e3ad18c256f235ce2b0b14db8c041e2af639635191a0d290abe8e933f51f47aa",
+  "mediapipe_model": "runtime_artifacts/mask_factory/mediapipe_models/face_landmarker_float16_latest.task",
+  "mediapipe_model_sha256": "64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff",
+  "thresholds": {
+    "mean_iou": 0.85,
+    "mean_false_positive_ratio_vs_gold": 0.15,
+    "mean_false_negative_ratio_vs_gold": 0.15
+  },
+  "target_regions": [
+    "mf70_eyebrows",
+    "mf70_lips_top",
+    "mf70_lips_bottom",
+    "mf70_lips_combined"
+  ],
+  "route_records": [
+    {
+      "region": "mf70_eyebrows",
+      "route": "mediapipe_face_mesh_landmarks",
+      "best_param": 7,
+      "postprocess_summary": {
+        "mean_iou": 0.456149,
+        "mean_dice": 0.625141,
+        "mean_false_positive_ratio_vs_gold": 1.089899,
+        "mean_false_negative_ratio_vs_gold": 0.05992,
+        "sample_count": 3
+      },
+      "sample_records": [
+        {
+          "sample_id": 0,
+          "iou": 0.490508,
+          "dice": 0.658175,
+          "pred_pixels": 4548,
+          "gold_pixels": 2675,
+          "false_positive_ratio_vs_gold": 0.811589,
+          "false_negative_ratio_vs_gold": 0.111402
+        },
+        {
+          "sample_id": 18000,
+          "iou": 0.486108,
+          "dice": 0.654203,
+          "pred_pixels": 4391,
+          "gold_pixels": 2295,
+          "false_positive_ratio_vs_gold": 0.960349,
+          "false_negative_ratio_vs_gold": 0.047059
+        },
+        {
+          "sample_id": 1,
+          "iou": 0.391831,
+          "dice": 0.563044,
+          "pred_pixels": 4418,
+          "gold_pixels": 1784,
+          "false_positive_ratio_vs_gold": 1.497758,
+          "false_negative_ratio_vs_gold": 0.0213
+        }
+      ],
+      "passes_current_gold_gate": false,
+      "diagnostic_panel": "runtime_artifacts/mask_factory/wave70_mediapipe_landmark_routes/20260710T034800-0500/mf70_eyebrows_mediapipe_route_panel.png",
+      "decision": "blocked_mediapipe_route_not_sufficient"
+    },
+    {
+      "region": "mf70_lips_top",
+      "route": "mediapipe_face_mesh_landmarks",
+      "best_param": 1,
+      "postprocess_summary": {
+        "mean_iou": 0.657471,
+        "mean_dice": 0.784501,
+        "mean_false_positive_ratio_vs_gold": 0.203756,
+        "mean_false_negative_ratio_vs_gold": 0.214676,
+        "sample_count": 3
+      },
+      "sample_records": [
+        {
+          "sample_id": 0,
+          "iou": 0.79224,
+          "dice": 0.884078,
+          "pred_pixels": 1921,
+          "gold_pixels": 1728,
+          "false_positive_ratio_vs_gold": 0.178241,
+          "false_negative_ratio_vs_gold": 0.066551
+        },
+        {
+          "sample_id": 18000,
+          "iou": 0.467715,
+          "dice": 0.637337,
+          "pred_pixels": 1212,
+          "gold_pixels": 1402,
+          "false_positive_ratio_vs_gold": 0.270328,
+          "false_negative_ratio_vs_gold": 0.405849
+        },
+        {
+          "sample_id": 1,
+          "iou": 0.712457,
+          "dice": 0.832088,
+          "pred_pixels": 999,
+          "gold_pixels": 1008,
+          "false_positive_ratio_vs_gold": 0.162698,
+          "false_negative_ratio_vs_gold": 0.171627
+        }
+      ],
+      "passes_current_gold_gate": false,
+      "diagnostic_panel": "runtime_artifacts/mask_factory/wave70_mediapipe_landmark_routes/20260710T034800-0500/mf70_lips_top_mediapipe_route_panel.png",
+      "decision": "blocked_mediapipe_route_not_sufficient"
+    },
+    {
+      "region": "mf70_lips_bottom",
+      "route": "mediapipe_face_mesh_landmarks",
+      "best_param": 0,
+      "postprocess_summary": {
+        "mean_iou": 0.727479,
+        "mean_dice": 0.839157,
+        "mean_false_positive_ratio_vs_gold": 0.146504,
+        "mean_false_negative_ratio_vs_gold": 0.168723,
+        "sample_count": 3
+      },
+      "sample_records": [
+        {
+          "sample_id": 0,
+          "iou": 0.610136,
+          "dice": 0.757869,
+          "pred_pixels": 2739,
+          "gold_pixels": 3043,
+          "false_positive_ratio_vs_gold": 0.180085,
+          "false_negative_ratio_vs_gold": 0.279987
+        },
+        {
+          "sample_id": 18000,
+          "iou": 0.822849,
+          "dice": 0.902816,
+          "pred_pixels": 1810,
+          "gold_pixels": 1812,
+          "false_positive_ratio_vs_gold": 0.096578,
+          "false_negative_ratio_vs_gold": 0.097682
+        },
+        {
+          "sample_id": 1,
+          "iou": 0.749453,
+          "dice": 0.856785,
+          "pred_pixels": 1626,
+          "gold_pixels": 1572,
+          "false_positive_ratio_vs_gold": 0.16285,
+          "false_negative_ratio_vs_gold": 0.128499
+        }
+      ],
+      "passes_current_gold_gate": false,
+      "diagnostic_panel": "runtime_artifacts/mask_factory/wave70_mediapipe_landmark_routes/20260710T034800-0500/mf70_lips_bottom_mediapipe_route_panel.png",
+      "decision": "blocked_mediapipe_route_not_sufficient"
+    },
+    {
+      "region": "mf70_lips_combined",
+      "route": "mediapipe_face_mesh_landmarks",
+      "best_param": 5,
+      "postprocess_summary": {
+        "mean_iou": 0.492786,
+        "mean_dice": 0.654942,
+        "mean_false_positive_ratio_vs_gold": 0.882783,
+        "mean_false_negative_ratio_vs_gold": 0.098394,
+        "sample_count": 3
+      },
+      "sample_records": [
+        {
+          "sample_id": 0,
+          "iou": 0.365679,
+          "dice": 0.535526,
+          "pred_pixels": 10092,
+          "gold_pixels": 4742,
+          "false_positive_ratio_vs_gold": 1.290595,
+          "false_negative_ratio_vs_gold": 0.162379
+        },
+        {
+          "sample_id": 18000,
+          "iou": 0.533272,
+          "dice": 0.6956,
+          "pred_pixels": 5136,
+          "gold_pixels": 3205,
+          "false_positive_ratio_vs_gold": 0.697348,
+          "false_negative_ratio_vs_gold": 0.094852
+        },
+        {
+          "sample_id": 1,
+          "iou": 0.579406,
+          "dice": 0.733701,
+          "pred_pixels": 4147,
+          "gold_pixels": 2556,
+          "false_positive_ratio_vs_gold": 0.660407,
+          "false_negative_ratio_vs_gold": 0.03795
+        }
+      ],
+      "passes_current_gold_gate": false,
+      "diagnostic_panel": "runtime_artifacts/mask_factory/wave70_mediapipe_landmark_routes/20260710T034800-0500/mf70_lips_combined_mediapipe_route_panel.png",
+      "decision": "blocked_mediapipe_route_not_sufficient"
+    }
+  ],
+  "candidate_routes_found": [],
+  "still_blocked_after_mediapipe": [
+    "mf70_eyebrows",
+    "mf70_lips_top",
+    "mf70_lips_bottom",
+    "mf70_lips_combined"
+  ],
+  "active_input_mask_overwritten": false,
+  "mask_promoted": false,
+  "generation_executed": false,
+  "ec2_started": false,
+  "result": "mediapipe_landmark_routes_evaluated_no_promotion",
+  "next_required_action": "Use only regions that pass the gold benchmark for target-specific candidate creation; record blockers for the rest."
+}

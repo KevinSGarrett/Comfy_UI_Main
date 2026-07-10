@@ -1,0 +1,800 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-BLOCKED-FACIAL-POSTPROCESS-ROUTE-EVAL-20260710T024500-0500",
+  "timestamp": "2026-07-10T02:45:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "scope": "local_gold_benchmark_postprocess_route_evaluation_only",
+  "benchmark_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_GOLD_STANDARD_BENCHMARK_20260710T012300-0500.json",
+  "benchmark_sha256": "e3ad18c256f235ce2b0b14db8c041e2af639635191a0d290abe8e933f51f47aa",
+  "gate_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_GOLD_BENCHMARK_GATE_20260710T013355-0500.json",
+  "gate_sha256": "3113fe1ae28467f445efee6c8da0ec0c9c940c9be7a4c06e52783231006f69ef",
+  "thresholds": {
+    "mean_iou": 0.85,
+    "mean_false_positive_ratio_vs_gold": 0.15,
+    "mean_false_negative_ratio_vs_gold": 0.15
+  },
+  "route_records": [
+    {
+      "region": "mf70_eyebrows",
+      "route": [
+        "erode_dilate",
+        3,
+        5,
+        7,
+        3
+      ],
+      "baseline_summary": {
+        "mean_iou": 0.81238,
+        "mean_dice": 0.895862,
+        "mean_false_positive_ratio_vs_gold": 0.146991,
+        "mean_false_negative_ratio_vs_gold": 0.071249,
+        "sample_count": 3
+      },
+      "postprocess_summary": {
+        "mean_iou": 0.826166,
+        "mean_dice": 0.904798,
+        "mean_false_positive_ratio_vs_gold": 0.07885,
+        "mean_false_negative_ratio_vs_gold": 0.108935,
+        "sample_count": 3
+      },
+      "sample_records": [
+        {
+          "sample_id": 0,
+          "baseline": {
+            "iou": 0.85635,
+            "dice": 0.922617,
+            "intersection_pixels": 2468,
+            "union_pixels": 2882,
+            "pred_pixels": 2675,
+            "gold_pixels": 2675,
+            "false_positive_pixels": 207,
+            "false_negative_pixels": 207,
+            "false_positive_ratio_vs_gold": 0.077383,
+            "false_negative_ratio_vs_gold": 0.077383
+          },
+          "postprocess": {
+            "iou": 0.83232,
+            "dice": 0.908488,
+            "intersection_pixels": 2328,
+            "union_pixels": 2797,
+            "pred_pixels": 2450,
+            "gold_pixels": 2675,
+            "false_positive_pixels": 122,
+            "false_negative_pixels": 347,
+            "false_positive_ratio_vs_gold": 0.045607,
+            "false_negative_ratio_vs_gold": 0.12972
+          }
+        },
+        {
+          "sample_id": 18000,
+          "baseline": {
+            "iou": 0.754724,
+            "dice": 0.860219,
+            "intersection_pixels": 2157,
+            "union_pixels": 2858,
+            "pred_pixels": 2720,
+            "gold_pixels": 2295,
+            "false_positive_pixels": 563,
+            "false_negative_pixels": 138,
+            "false_positive_ratio_vs_gold": 0.245316,
+            "false_negative_ratio_vs_gold": 0.060131
+          },
+          "postprocess": {
+            "iou": 0.818077,
+            "dice": 0.899937,
+            "intersection_pixels": 2136,
+            "union_pixels": 2611,
+            "pred_pixels": 2452,
+            "gold_pixels": 2295,
+            "false_positive_pixels": 316,
+            "false_negative_pixels": 159,
+            "false_positive_ratio_vs_gold": 0.137691,
+            "false_negative_ratio_vs_gold": 0.069281
+          }
+        },
+        {
+          "sample_id": 1,
+          "baseline": {
+            "iou": 0.826065,
+            "dice": 0.904749,
+            "intersection_pixels": 1648,
+            "union_pixels": 1995,
+            "pred_pixels": 1859,
+            "gold_pixels": 1784,
+            "false_positive_pixels": 211,
+            "false_negative_pixels": 136,
+            "false_positive_ratio_vs_gold": 0.118274,
+            "false_negative_ratio_vs_gold": 0.076233
+          },
+          "postprocess": {
+            "iou": 0.8281,
+            "dice": 0.905968,
+            "intersection_pixels": 1556,
+            "union_pixels": 1879,
+            "pred_pixels": 1651,
+            "gold_pixels": 1784,
+            "false_positive_pixels": 95,
+            "false_negative_pixels": 228,
+            "false_positive_ratio_vs_gold": 0.053251,
+            "false_negative_ratio_vs_gold": 0.127803
+          }
+        }
+      ],
+      "diagnostic_panel": "runtime_artifacts/mask_factory/wave70_blocked_facial_postprocess_routes/20260710T024500-0500/mf70_eyebrows_postprocess_route_panel.png",
+      "passes_current_gold_gate": false,
+      "decision": "blocked_postprocess_route_not_sufficient"
+    },
+    {
+      "region": "mf70_face_skin",
+      "route": [
+        "hull"
+      ],
+      "baseline_summary": {
+        "mean_iou": 0.76305,
+        "mean_dice": 0.864153,
+        "mean_false_positive_ratio_vs_gold": 0.000466,
+        "mean_false_negative_ratio_vs_gold": 0.236585,
+        "sample_count": 3
+      },
+      "postprocess_summary": {
+        "mean_iou": 0.937518,
+        "mean_dice": 0.966845,
+        "mean_false_positive_ratio_vs_gold": 0.002786,
+        "mean_false_negative_ratio_vs_gold": 0.05977,
+        "sample_count": 3
+      },
+      "sample_records": [
+        {
+          "sample_id": 0,
+          "baseline": {
+            "iou": 0.761278,
+            "dice": 0.864461,
+            "intersection_pixels": 71618,
+            "union_pixels": 94076,
+            "pred_pixels": 71688,
+            "gold_pixels": 94006,
+            "false_positive_pixels": 70,
+            "false_negative_pixels": 22388,
+            "false_positive_ratio_vs_gold": 0.000745,
+            "false_negative_ratio_vs_gold": 0.238155
+          },
+          "postprocess": {
+            "iou": 0.975343,
+            "dice": 0.987518,
+            "intersection_pixels": 92246,
+            "union_pixels": 94578,
+            "pred_pixels": 92818,
+            "gold_pixels": 94006,
+            "false_positive_pixels": 572,
+            "false_negative_pixels": 1760,
+            "false_positive_ratio_vs_gold": 0.006085,
+            "false_negative_ratio_vs_gold": 0.018722
+          }
+        },
+        {
+          "sample_id": 18000,
+          "baseline": {
+            "iou": 0.686785,
+            "dice": 0.814313,
+            "intersection_pixels": 63950,
+            "union_pixels": 93115,
+            "pred_pixels": 63962,
+            "gold_pixels": 93103,
+            "false_positive_pixels": 12,
+            "false_negative_pixels": 29153,
+            "false_positive_ratio_vs_gold": 0.000129,
+            "false_negative_ratio_vs_gold": 0.313126
+          },
+          "postprocess": {
+            "iou": 0.857229,
+            "dice": 0.923127,
+            "intersection_pixels": 79826,
+            "union_pixels": 93121,
+            "pred_pixels": 79844,
+            "gold_pixels": 93103,
+            "false_positive_pixels": 18,
+            "false_negative_pixels": 13277,
+            "false_positive_ratio_vs_gold": 0.000193,
+            "false_negative_ratio_vs_gold": 0.142606
+          }
+        },
+        {
+          "sample_id": 1,
+          "baseline": {
+            "iou": 0.841088,
+            "dice": 0.913686,
+            "intersection_pixels": 69219,
+            "union_pixels": 82297,
+            "pred_pixels": 69262,
+            "gold_pixels": 82254,
+            "false_positive_pixels": 43,
+            "false_negative_pixels": 13035,
+            "false_positive_ratio_vs_gold": 0.000523,
+            "false_negative_ratio_vs_gold": 0.158473
+          },
+          "postprocess": {
+            "iou": 0.979982,
+            "dice": 0.98989,
+            "intersection_pixels": 80775,
+            "union_pixels": 82425,
+            "pred_pixels": 80946,
+            "gold_pixels": 82254,
+            "false_positive_pixels": 171,
+            "false_negative_pixels": 1479,
+            "false_positive_ratio_vs_gold": 0.002079,
+            "false_negative_ratio_vs_gold": 0.017981
+          }
+        }
+      ],
+      "diagnostic_panel": "runtime_artifacts/mask_factory/wave70_blocked_facial_postprocess_routes/20260710T024500-0500/mf70_face_skin_postprocess_route_panel.png",
+      "passes_current_gold_gate": true,
+      "decision": "candidate_route_found_pending_target_specific_qa"
+    },
+    {
+      "region": "mf70_lips_bottom",
+      "route": [
+        "close_open",
+        15,
+        3,
+        1,
+        3
+      ],
+      "baseline_summary": {
+        "mean_iou": 0.8044,
+        "mean_dice": 0.890563,
+        "mean_false_positive_ratio_vs_gold": 0.124503,
+        "mean_false_negative_ratio_vs_gold": 0.098943,
+        "sample_count": 3
+      },
+      "postprocess_summary": {
+        "mean_iou": 0.805229,
+        "mean_dice": 0.891105,
+        "mean_false_positive_ratio_vs_gold": 0.124164,
+        "mean_false_negative_ratio_vs_gold": 0.0982,
+        "sample_count": 3
+      },
+      "sample_records": [
+        {
+          "sample_id": 0,
+          "baseline": {
+            "iou": 0.874685,
+            "dice": 0.933154,
+            "intersection_pixels": 2778,
+            "union_pixels": 3176,
+            "pred_pixels": 2911,
+            "gold_pixels": 3043,
+            "false_positive_pixels": 133,
+            "false_negative_pixels": 265,
+            "false_positive_ratio_vs_gold": 0.043707,
+            "false_negative_ratio_vs_gold": 0.087085
+          },
+          "postprocess": {
+            "iou": 0.875315,
+            "dice": 0.933512,
+            "intersection_pixels": 2780,
+            "union_pixels": 3176,
+            "pred_pixels": 2913,
+            "gold_pixels": 3043,
+            "false_positive_pixels": 133,
+            "false_negative_pixels": 263,
+            "false_positive_ratio_vs_gold": 0.043707,
+            "false_negative_ratio_vs_gold": 0.086428
+          }
+        },
+        {
+          "sample_id": 18000,
+          "baseline": {
+            "iou": 0.739751,
+            "dice": 0.85041,
+            "intersection_pixels": 1606,
+            "union_pixels": 2171,
+            "pred_pixels": 1965,
+            "gold_pixels": 1812,
+            "false_positive_pixels": 359,
+            "false_negative_pixels": 206,
+            "false_positive_ratio_vs_gold": 0.198124,
+            "false_negative_ratio_vs_gold": 0.113687
+          },
+          "postprocess": {
+            "iou": 0.74262,
+            "dice": 0.852303,
+            "intersection_pixels": 1610,
+            "union_pixels": 2168,
+            "pred_pixels": 1966,
+            "gold_pixels": 1812,
+            "false_positive_pixels": 356,
+            "false_negative_pixels": 202,
+            "false_positive_ratio_vs_gold": 0.196468,
+            "false_negative_ratio_vs_gold": 0.111479
+          }
+        },
+        {
+          "sample_id": 1,
+          "baseline": {
+            "iou": 0.798763,
+            "dice": 0.888125,
+            "intersection_pixels": 1421,
+            "union_pixels": 1779,
+            "pred_pixels": 1628,
+            "gold_pixels": 1572,
+            "false_positive_pixels": 207,
+            "false_negative_pixels": 151,
+            "false_positive_ratio_vs_gold": 0.131679,
+            "false_negative_ratio_vs_gold": 0.096056
+          },
+          "postprocess": {
+            "iou": 0.797753,
+            "dice": 0.8875,
+            "intersection_pixels": 1420,
+            "union_pixels": 1780,
+            "pred_pixels": 1628,
+            "gold_pixels": 1572,
+            "false_positive_pixels": 208,
+            "false_negative_pixels": 152,
+            "false_positive_ratio_vs_gold": 0.132316,
+            "false_negative_ratio_vs_gold": 0.096692
+          }
+        }
+      ],
+      "diagnostic_panel": "runtime_artifacts/mask_factory/wave70_blocked_facial_postprocess_routes/20260710T024500-0500/mf70_lips_bottom_postprocess_route_panel.png",
+      "passes_current_gold_gate": false,
+      "decision": "blocked_postprocess_route_not_sufficient"
+    },
+    {
+      "region": "mf70_lips_combined",
+      "route": [
+        "close",
+        13,
+        5
+      ],
+      "baseline_summary": {
+        "mean_iou": 0.798972,
+        "mean_dice": 0.886219,
+        "mean_false_positive_ratio_vs_gold": 0.090522,
+        "mean_false_negative_ratio_vs_gold": 0.132229,
+        "sample_count": 3
+      },
+      "postprocess_summary": {
+        "mean_iou": 0.799532,
+        "mean_dice": 0.886575,
+        "mean_false_positive_ratio_vs_gold": 0.094757,
+        "mean_false_negative_ratio_vs_gold": 0.128459,
+        "sample_count": 3
+      },
+      "sample_records": [
+        {
+          "sample_id": 0,
+          "baseline": {
+            "iou": 0.887871,
+            "dice": 0.940606,
+            "intersection_pixels": 4363,
+            "union_pixels": 4914,
+            "pred_pixels": 4535,
+            "gold_pixels": 4742,
+            "false_positive_pixels": 172,
+            "false_negative_pixels": 379,
+            "false_positive_ratio_vs_gold": 0.036272,
+            "false_negative_ratio_vs_gold": 0.079924
+          },
+          "postprocess": {
+            "iou": 0.888505,
+            "dice": 0.940961,
+            "intersection_pixels": 4367,
+            "union_pixels": 4915,
+            "pred_pixels": 4540,
+            "gold_pixels": 4742,
+            "false_positive_pixels": 173,
+            "false_negative_pixels": 375,
+            "false_positive_ratio_vs_gold": 0.036482,
+            "false_negative_ratio_vs_gold": 0.079081
+          }
+        },
+        {
+          "sample_id": 18000,
+          "baseline": {
+            "iou": 0.700978,
+            "dice": 0.824206,
+            "intersection_pixels": 2581,
+            "union_pixels": 3682,
+            "pred_pixels": 3058,
+            "gold_pixels": 3205,
+            "false_positive_pixels": 477,
+            "false_negative_pixels": 624,
+            "false_positive_ratio_vs_gold": 0.14883,
+            "false_negative_ratio_vs_gold": 0.194696
+          },
+          "postprocess": {
+            "iou": 0.701915,
+            "dice": 0.824853,
+            "intersection_pixels": 2602,
+            "union_pixels": 3707,
+            "pred_pixels": 3104,
+            "gold_pixels": 3205,
+            "false_positive_pixels": 502,
+            "false_negative_pixels": 603,
+            "false_positive_ratio_vs_gold": 0.15663,
+            "false_negative_ratio_vs_gold": 0.188144
+          }
+        },
+        {
+          "sample_id": 1,
+          "baseline": {
+            "iou": 0.808066,
+            "dice": 0.893846,
+            "intersection_pixels": 2244,
+            "union_pixels": 2777,
+            "pred_pixels": 2465,
+            "gold_pixels": 2556,
+            "false_positive_pixels": 221,
+            "false_negative_pixels": 312,
+            "false_positive_ratio_vs_gold": 0.086463,
+            "false_negative_ratio_vs_gold": 0.122066
+          },
+          "postprocess": {
+            "iou": 0.808175,
+            "dice": 0.893912,
+            "intersection_pixels": 2254,
+            "union_pixels": 2789,
+            "pred_pixels": 2487,
+            "gold_pixels": 2556,
+            "false_positive_pixels": 233,
+            "false_negative_pixels": 302,
+            "false_positive_ratio_vs_gold": 0.091158,
+            "false_negative_ratio_vs_gold": 0.118153
+          }
+        }
+      ],
+      "diagnostic_panel": "runtime_artifacts/mask_factory/wave70_blocked_facial_postprocess_routes/20260710T024500-0500/mf70_lips_combined_postprocess_route_panel.png",
+      "passes_current_gold_gate": false,
+      "decision": "blocked_postprocess_route_not_sufficient"
+    },
+    {
+      "region": "mf70_lips_top",
+      "route": [
+        "erode_dilate",
+        9,
+        3,
+        9,
+        5
+      ],
+      "baseline_summary": {
+        "mean_iou": 0.758103,
+        "mean_dice": 0.85818,
+        "mean_false_positive_ratio_vs_gold": 0.054078,
+        "mean_false_negative_ratio_vs_gold": 0.204154,
+        "sample_count": 3
+      },
+      "postprocess_summary": {
+        "mean_iou": 0.786095,
+        "mean_dice": 0.876636,
+        "mean_false_positive_ratio_vs_gold": 0.122455,
+        "mean_false_negative_ratio_vs_gold": 0.12096,
+        "sample_count": 3
+      },
+      "sample_records": [
+        {
+          "sample_id": 0,
+          "baseline": {
+            "iou": 0.862222,
+            "dice": 0.926014,
+            "intersection_pixels": 1552,
+            "union_pixels": 1800,
+            "pred_pixels": 1624,
+            "gold_pixels": 1728,
+            "false_positive_pixels": 72,
+            "false_negative_pixels": 176,
+            "false_positive_ratio_vs_gold": 0.041667,
+            "false_negative_ratio_vs_gold": 0.101852
+          },
+          "postprocess": {
+            "iou": 0.870748,
+            "dice": 0.930909,
+            "intersection_pixels": 1664,
+            "union_pixels": 1911,
+            "pred_pixels": 1847,
+            "gold_pixels": 1728,
+            "false_positive_pixels": 183,
+            "false_negative_pixels": 64,
+            "false_positive_ratio_vs_gold": 0.105903,
+            "false_negative_ratio_vs_gold": 0.037037
+          }
+        },
+        {
+          "sample_id": 18000,
+          "baseline": {
+            "iou": 0.613842,
+            "dice": 0.760721,
+            "intersection_pixels": 949,
+            "union_pixels": 1546,
+            "pred_pixels": 1093,
+            "gold_pixels": 1402,
+            "false_positive_pixels": 144,
+            "false_negative_pixels": 453,
+            "false_positive_ratio_vs_gold": 0.10271,
+            "false_negative_ratio_vs_gold": 0.32311
+          },
+          "postprocess": {
+            "iou": 0.646772,
+            "dice": 0.785503,
+            "intersection_pixels": 1062,
+            "union_pixels": 1642,
+            "pred_pixels": 1302,
+            "gold_pixels": 1402,
+            "false_positive_pixels": 240,
+            "false_negative_pixels": 340,
+            "false_positive_ratio_vs_gold": 0.171184,
+            "false_negative_ratio_vs_gold": 0.242511
+          }
+        },
+        {
+          "sample_id": 1,
+          "baseline": {
+            "iou": 0.798246,
+            "dice": 0.887805,
+            "intersection_pixels": 819,
+            "union_pixels": 1026,
+            "pred_pixels": 837,
+            "gold_pixels": 1008,
+            "false_positive_pixels": 18,
+            "false_negative_pixels": 189,
+            "false_positive_ratio_vs_gold": 0.017857,
+            "false_negative_ratio_vs_gold": 0.1875
+          },
+          "postprocess": {
+            "iou": 0.840764,
+            "dice": 0.913495,
+            "intersection_pixels": 924,
+            "union_pixels": 1099,
+            "pred_pixels": 1015,
+            "gold_pixels": 1008,
+            "false_positive_pixels": 91,
+            "false_negative_pixels": 84,
+            "false_positive_ratio_vs_gold": 0.090278,
+            "false_negative_ratio_vs_gold": 0.083333
+          }
+        }
+      ],
+      "diagnostic_panel": "runtime_artifacts/mask_factory/wave70_blocked_facial_postprocess_routes/20260710T024500-0500/mf70_lips_top_postprocess_route_panel.png",
+      "passes_current_gold_gate": false,
+      "decision": "blocked_postprocess_route_not_sufficient"
+    },
+    {
+      "region": "mf70_neck",
+      "route": [
+        "erode_dilate",
+        1,
+        9,
+        11,
+        11
+      ],
+      "baseline_summary": {
+        "mean_iou": 0.7261,
+        "mean_dice": 0.829693,
+        "mean_false_positive_ratio_vs_gold": 0.051488,
+        "mean_false_negative_ratio_vs_gold": 0.230016,
+        "sample_count": 3
+      },
+      "postprocess_summary": {
+        "mean_iou": 0.771163,
+        "mean_dice": 0.861634,
+        "mean_false_positive_ratio_vs_gold": 0.083957,
+        "mean_false_negative_ratio_vs_gold": 0.157677,
+        "sample_count": 3
+      },
+      "sample_records": [
+        {
+          "sample_id": 0,
+          "baseline": {
+            "iou": 0.83156,
+            "dice": 0.908035,
+            "intersection_pixels": 2814,
+            "union_pixels": 3384,
+            "pred_pixels": 2877,
+            "gold_pixels": 3321,
+            "false_positive_pixels": 63,
+            "false_negative_pixels": 507,
+            "false_positive_ratio_vs_gold": 0.01897,
+            "false_negative_ratio_vs_gold": 0.152665
+          },
+          "postprocess": {
+            "iou": 0.922835,
+            "dice": 0.959869,
+            "intersection_pixels": 3229,
+            "union_pixels": 3499,
+            "pred_pixels": 3407,
+            "gold_pixels": 3321,
+            "false_positive_pixels": 178,
+            "false_negative_pixels": 92,
+            "false_positive_ratio_vs_gold": 0.053598,
+            "false_negative_ratio_vs_gold": 0.027702
+          }
+        },
+        {
+          "sample_id": 18000,
+          "baseline": {
+            "iou": 0.491507,
+            "dice": 0.659075,
+            "intersection_pixels": 9231,
+            "union_pixels": 18781,
+            "pred_pixels": 9231,
+            "gold_pixels": 18781,
+            "false_positive_pixels": 0,
+            "false_negative_pixels": 9550,
+            "false_positive_ratio_vs_gold": 0.0,
+            "false_negative_ratio_vs_gold": 0.508493
+          },
+          "postprocess": {
+            "iou": 0.55819,
+            "dice": 0.71646,
+            "intersection_pixels": 10523,
+            "union_pixels": 18852,
+            "pred_pixels": 10594,
+            "gold_pixels": 18781,
+            "false_positive_pixels": 71,
+            "false_negative_pixels": 8258,
+            "false_positive_ratio_vs_gold": 0.00378,
+            "false_negative_ratio_vs_gold": 0.4397
+          }
+        },
+        {
+          "sample_id": 1,
+          "baseline": {
+            "iou": 0.855232,
+            "dice": 0.921968,
+            "intersection_pixels": 14320,
+            "union_pixels": 16744,
+            "pred_pixels": 16318,
+            "gold_pixels": 14746,
+            "false_positive_pixels": 1998,
+            "false_negative_pixels": 426,
+            "false_positive_ratio_vs_gold": 0.135494,
+            "false_negative_ratio_vs_gold": 0.028889
+          },
+          "postprocess": {
+            "iou": 0.832463,
+            "dice": 0.908573,
+            "intersection_pixels": 14663,
+            "union_pixels": 17614,
+            "pred_pixels": 17531,
+            "gold_pixels": 14746,
+            "false_positive_pixels": 2868,
+            "false_negative_pixels": 83,
+            "false_positive_ratio_vs_gold": 0.194493,
+            "false_negative_ratio_vs_gold": 0.005629
+          }
+        }
+      ],
+      "diagnostic_panel": "runtime_artifacts/mask_factory/wave70_blocked_facial_postprocess_routes/20260710T024500-0500/mf70_neck_postprocess_route_panel.png",
+      "passes_current_gold_gate": false,
+      "decision": "blocked_postprocess_route_not_sufficient"
+    },
+    {
+      "region": "mf70_teeth_mouth_area",
+      "route": [
+        "erode_dilate",
+        7,
+        3,
+        11,
+        7
+      ],
+      "baseline_summary": {
+        "mean_iou": 0.776611,
+        "mean_dice": 0.869355,
+        "mean_false_positive_ratio_vs_gold": 0.005047,
+        "mean_false_negative_ratio_vs_gold": 0.218667,
+        "sample_count": 3
+      },
+      "postprocess_summary": {
+        "mean_iou": 0.872362,
+        "mean_dice": 0.93121,
+        "mean_false_positive_ratio_vs_gold": 0.069764,
+        "mean_false_negative_ratio_vs_gold": 0.065565,
+        "sample_count": 3
+      },
+      "sample_records": [
+        {
+          "sample_id": 0,
+          "baseline": {
+            "iou": 0.935657,
+            "dice": 0.966759,
+            "intersection_pixels": 5395,
+            "union_pixels": 5766,
+            "pred_pixels": 5481,
+            "gold_pixels": 5680,
+            "false_positive_pixels": 86,
+            "false_negative_pixels": 285,
+            "false_positive_ratio_vs_gold": 0.015141,
+            "false_negative_ratio_vs_gold": 0.050176
+          },
+          "postprocess": {
+            "iou": 0.922764,
+            "dice": 0.959831,
+            "intersection_pixels": 5675,
+            "union_pixels": 6150,
+            "pred_pixels": 6145,
+            "gold_pixels": 5680,
+            "false_positive_pixels": 470,
+            "false_negative_pixels": 5,
+            "false_positive_ratio_vs_gold": 0.082746,
+            "false_negative_ratio_vs_gold": 0.00088
+          }
+        },
+        {
+          "sample_id": 18000,
+          "baseline": {
+            "iou": 0.651346,
+            "dice": 0.788867,
+            "intersection_pixels": 1403,
+            "union_pixels": 2154,
+            "pred_pixels": 1403,
+            "gold_pixels": 2154,
+            "false_positive_pixels": 0,
+            "false_negative_pixels": 751,
+            "false_positive_ratio_vs_gold": 0.0,
+            "false_negative_ratio_vs_gold": 0.348654
+          },
+          "postprocess": {
+            "iou": 0.813605,
+            "dice": 0.897224,
+            "intersection_pixels": 1794,
+            "union_pixels": 2205,
+            "pred_pixels": 1845,
+            "gold_pixels": 2154,
+            "false_positive_pixels": 51,
+            "false_negative_pixels": 360,
+            "false_positive_ratio_vs_gold": 0.023677,
+            "false_negative_ratio_vs_gold": 0.167131
+          }
+        },
+        {
+          "sample_id": 1,
+          "baseline": {
+            "iou": 0.742829,
+            "dice": 0.85244,
+            "intersection_pixels": 751,
+            "union_pixels": 1011,
+            "pred_pixels": 751,
+            "gold_pixels": 1011,
+            "false_positive_pixels": 0,
+            "false_negative_pixels": 260,
+            "false_positive_ratio_vs_gold": 0.0,
+            "false_negative_ratio_vs_gold": 0.257171
+          },
+          "postprocess": {
+            "iou": 0.880717,
+            "dice": 0.936576,
+            "intersection_pixels": 982,
+            "union_pixels": 1115,
+            "pred_pixels": 1086,
+            "gold_pixels": 1011,
+            "false_positive_pixels": 104,
+            "false_negative_pixels": 29,
+            "false_positive_ratio_vs_gold": 0.102868,
+            "false_negative_ratio_vs_gold": 0.028684
+          }
+        }
+      ],
+      "diagnostic_panel": "runtime_artifacts/mask_factory/wave70_blocked_facial_postprocess_routes/20260710T024500-0500/mf70_teeth_mouth_area_postprocess_route_panel.png",
+      "passes_current_gold_gate": true,
+      "decision": "candidate_route_found_pending_target_specific_qa"
+    }
+  ],
+  "candidate_routes_found": [
+    "mf70_face_skin",
+    "mf70_teeth_mouth_area"
+  ],
+  "still_blocked_after_postprocess": [
+    "mf70_eyebrows",
+    "mf70_lips_bottom",
+    "mf70_lips_combined",
+    "mf70_lips_top",
+    "mf70_neck"
+  ],
+  "finding": "Benchmark-only postprocess route evaluation found candidate routes for mf70_face_skin and mf70_teeth_mouth_area. Eyebrows, lips, and neck still require stronger boundary-aware/model-backed routes.",
+  "active_input_mask_overwritten": false,
+  "mask_promoted": false,
+  "generation_executed": false,
+  "ec2_started": false,
+  "result": "candidate_routes_found_for_face_skin_and_teeth_mouth_area_no_promotion",
+  "next_required_action": "Create target-specific unpromoted candidates for mf70_face_skin and/or mf70_teeth_mouth_area, then run source-overlay/protected-region QA before any generated-output proof."
+}

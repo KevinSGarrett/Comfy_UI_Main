@@ -1,0 +1,30 @@
+{
+    "evidence_id":  "MAIN_ROOT_EXECUTABLE_SURFACE_LEGACY_ROOT_REMOVAL_20260709T234322-0500",
+    "created_at":  "2026-07-09T23:43:22.7486208-05:00",
+    "result":  "pass_main_root_executable_surface_legacy_root_removed",
+    "active_project_root":  "C:\\Comfy_UI_Main",
+    "legacy_root":  "C:\\Comfy_UI",
+    "legacy_root_policy":  "not_used_by_active_tooling_or_implementation_probe_search_paths",
+    "files_changed":  [
+                          "tools/Invoke-LocalComfyUIRunPackageSmoke.ps1",
+                          "tools/Start-LocalComfyUIDev.ps1",
+                          "tools/Test-LocalComfyUIDevPreflight.ps1",
+                          "Plan/07_IMPLEMENTATION/scripts/audit_wave64_workflow_static_validation.py",
+                          "Plan/07_IMPLEMENTATION/scripts/probe_wave70_model_geometry_dependencies.py",
+                          "Plan/07_IMPLEMENTATION/scripts/probe_wave70_whole_body_geometry_dependencies.py",
+                          "Plan/07_IMPLEMENTATION/scripts/wave70_model_registry.py"
+                      ],
+    "validation":  {
+                       "powershell_parse":  "pass",
+                       "python_py_compile":  "pass",
+                       "executable_surface_legacy_root_scan":  "pass_zero_hits",
+                       "scanned_paths":  [
+                                             "tools",
+                                             "Plan/07_IMPLEMENTATION",
+                                             "Workflows",
+                                             "PromptProfiles"
+                                         ],
+                       "scan_pattern":  "C:\\\\Comfy_UI(?!_Main)(?:\\\\|$|\\b)"
+                   },
+    "note":  "Hydration notes that explicitly say not to switch to C:\\Comfy_UI were left intact as guardrails; active script/tool search roots were removed or Main-scoped."
+}

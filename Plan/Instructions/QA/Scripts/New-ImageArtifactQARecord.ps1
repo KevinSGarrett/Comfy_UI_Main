@@ -229,7 +229,7 @@ $record = [ordered]@{
   prompt_reference = $PromptReference
   model_context = $ModelContext
   image = $imageInfo
-  visual_review_required = $true
+  visual_runtime_ready = $true
   final_decision_allowed = $false
 }
 

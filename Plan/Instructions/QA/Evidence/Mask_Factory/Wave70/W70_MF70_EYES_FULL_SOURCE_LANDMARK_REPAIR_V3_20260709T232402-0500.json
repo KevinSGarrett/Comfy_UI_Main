@@ -1,0 +1,97 @@
+{
+  "active_input_mask_overwritten": false,
+  "artifacts": {
+    "coordinate_manifest": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_eyes_full_source_landmark_v3_20260709T232402-0500/wave70_mf70_eyes_full_source_landmark_v3_coordinates.json",
+    "coordinate_manifest_sha256": "29fd3da5ee73e506d19e991f2bb2b004b3f4bd920175e3a3d89d8971a41ea9e7",
+    "mask": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_eyes_full_source_landmark_v3_20260709T232402-0500/wave70_mf70_eyes_full_source_landmark_v3_mask.png",
+    "mask_sha256": "0dca8d1b1320cd324fad7e42f242e57642f3e8160942ec862bd56fbbe3e6a586",
+    "overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_eyes_full_source_landmark_v3_20260709T232402-0500/wave70_mf70_eyes_full_source_landmark_v3_overlay.png",
+    "overlay_sha256": "aa9d78dacb059c6ef3c986825019b64229d8d7c90061e9a203d7266584e0cf6b",
+    "review_panel": "runtime_artifacts/mask_factory/wave70_mf70_eyes_full_source_landmark_v3/20260709T232402-0500/wave70_mf70_eyes_full_source_landmark_v3_review_panel.png",
+    "review_panel_sha256": "3788f03cca31d686def000604841c16b0284a84530dcff21f16ec6088bf71542"
+  },
+  "aws_contacted": false,
+  "civitai_contacted": false,
+  "comfyui_contacted": false,
+  "created_local": "20260709T232402-0500",
+  "ec2_started": false,
+  "evidence_id": "W70_MF70_EYES_FULL_SOURCE_LANDMARK_REPAIR_V3_20260709T232402-0500",
+  "generation_executed": false,
+  "github_api_contacted": false,
+  "gold_standard_inputs": {
+    "intake_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASKED_WAREHOUSE_FACIAL_GOLD_STANDARD_INTAKE_20260709T221608-0500.json",
+    "rule_applied": "eye masks must be small visible aperture masks separate from brow, eyelid-skin, and hair regions"
+  },
+  "implementation_script": "Plan/07_IMPLEMENTATION/scripts/repair_wave70_eyes_full_source_landmark_mask_v3.py",
+  "implementation_script_sha256": "bcb44eb1ab1e4896832f23913fe33c44318a3eb545ff18709e6620e325605745",
+  "local_only": true,
+  "mask_promoted": false,
+  "next_required_action": "Review the v3 panel at high zoom; if visually accepted, run the focused Wave70 geometry/promotion lockdown checks and then one bounded local generated-output proof.",
+  "promotion_decision": "not_promoted_no_active_input_changed_no_W70_MASK_PROMOTION_ROW_GATE_PASS_TRUE",
+  "qa_decision": "candidate_created_pending_strict_visual_review_and_reference_matrix_validation",
+  "schema_version": "1.0",
+  "source_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+  "source_sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+  "strict_visual_findings": [
+    "V3 reduces the viewer-left eye mask away from the hair edge and upper-lid skin compared with v2.",
+    "V3 keeps both eyes as small filled aperture regions rather than rectangular or brow-inclusive masks.",
+    "V3 still remains candidate-only because this is one source-anchor repair, not matrix-wide proof.",
+    "No active ComfyUI input mask was overwritten and no generated-output proof was run."
+  ],
+  "supersedes_candidate": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_EYES_FULL_SOURCE_LANDMARK_REPAIR_V2_20260709T215300-0500.json",
+  "task": "Create a tighter gold-reference-backed mf70_eyes_full v3 candidate after v2 remained candidate-only.",
+  "v2_stats": {
+    "bbox": [
+      285,
+      315,
+      460,
+      345
+    ],
+    "image_size": [
+      768,
+      768
+    ],
+    "nonzero_pixels": 2544,
+    "nonzero_ratio": 0.004313
+  },
+  "v2_to_v3_delta": {
+    "added_pixels": 0,
+    "area_change_ratio": -0.468947,
+    "net_pixel_change": -1193,
+    "removed_pixels": 1193
+  },
+  "v3_component_stats": {
+    "viewer_left": {
+      "bbox": [
+        292,
+        322,
+        336,
+        339
+      ],
+      "nonzero_pixels": 528
+    },
+    "viewer_right": {
+      "bbox": [
+        400,
+        320,
+        456,
+        341
+      ],
+      "nonzero_pixels": 823
+    }
+  },
+  "v3_stats": {
+    "bbox": [
+      292,
+      320,
+      456,
+      341
+    ],
+    "image_size": [
+      768,
+      768
+    ],
+    "nonzero_pixels": 1351,
+    "nonzero_ratio": 0.002291
+  }
+}

@@ -1,0 +1,37 @@
+# Active Runtime Queue Final Certification Work Orders
+
+- created_at: 2026-07-09T21:02:57-05:00
+- result: pass_local_only_final_certification_work_order_ready
+- readiness_result: blocked_final_certification_target_runtime_or_final_review_missing
+- work_order_count: 18
+- global_blockers: git_checkpoint_gate_not_clean_for_ec2_execute, runtime_handoff_git_gate_not_passing
+
+## Work Orders
+
+- WO-W66-GLOBAL-GIT-CHECKPOINT-CLEAN: blocked_by_dirty_worktree; lane=; type=global_preflight_gate
+- WO-W66-SDXL_LOW_RISK_FALLBACK_LANE-FINAL-REVIEW-PACKET: ready_local_review_only_global_project_still_blocked; lane=sdxl_low_risk_fallback_lane; type=local_final_review_packet
+- WO-W66-SDXL_REALESRGAN_UPSCALE_POLISH_LANE-TARGET-RUNTIME-PROOF: blocked_until_explicit_live_window_and_gates; lane=sdxl_realesrgan_upscale_polish_lane; type=target_runtime_proof_required
+- WO-W66-SDXL_REALVISXL_BASE_LANE-TARGET-RUNTIME-PROOF: blocked_until_explicit_live_window_and_gates; lane=sdxl_realvisxl_base_lane; type=target_runtime_proof_required
+- WO-W66-SDXL_REALVISXL_CONTROLNET_CANNY_LANE-TARGET-RUNTIME-PROOF: blocked_until_explicit_live_window_and_gates; lane=sdxl_realvisxl_controlnet_canny_lane; type=target_runtime_proof_required
+- WO-W66-SDXL_REALVISXL_CONTROLNET_DEPTH_LANE-TARGET-RUNTIME-PROOF: blocked_until_explicit_live_window_and_gates; lane=sdxl_realvisxl_controlnet_depth_lane; type=target_runtime_proof_required
+- WO-W66-SDXL_REALVISXL_CONTROLNET_LINEART_LANE-TARGET-RUNTIME-PROOF: blocked_until_explicit_live_window_and_gates; lane=sdxl_realvisxl_controlnet_lineart_lane; type=target_runtime_proof_required
+- WO-W66-SDXL_REALVISXL_CONTROLNET_NORMAL_LANE-TARGET-RUNTIME-PROOF: blocked_until_explicit_live_window_and_gates; lane=sdxl_realvisxl_controlnet_normal_lane; type=target_runtime_proof_required
+- WO-W66-SDXL_REALVISXL_CONTROLNET_OPENPOSE_LANE-TARGET-RUNTIME-PROOF: blocked_until_explicit_live_window_and_gates; lane=sdxl_realvisxl_controlnet_openpose_lane; type=target_runtime_proof_required
+- WO-W66-SDXL_REALVISXL_INPAINT_DETAIL_LANE-TARGET-RUNTIME-PROOF: blocked_until_explicit_live_window_and_gates; lane=sdxl_realvisxl_inpaint_detail_lane; type=target_runtime_proof_required
+- WO-W66-SDXL_REALESRGAN_UPSCALE_POLISH_LANE-FINAL-CERTIFICATION-REVIEW: blocked_until_lane_evidence_complete; lane=sdxl_realesrgan_upscale_polish_lane; type=final_certification_runtime_ready
+- WO-W66-SDXL_REALVISXL_BASE_LANE-FINAL-CERTIFICATION-REVIEW: blocked_until_lane_evidence_complete; lane=sdxl_realvisxl_base_lane; type=final_certification_runtime_ready
+- WO-W66-SDXL_REALVISXL_CONTROLNET_CANNY_LANE-FINAL-CERTIFICATION-REVIEW: blocked_until_lane_evidence_complete; lane=sdxl_realvisxl_controlnet_canny_lane; type=final_certification_runtime_ready
+- WO-W66-SDXL_REALVISXL_CONTROLNET_DEPTH_LANE-FINAL-CERTIFICATION-REVIEW: blocked_until_lane_evidence_complete; lane=sdxl_realvisxl_controlnet_depth_lane; type=final_certification_runtime_ready
+- WO-W66-SDXL_REALVISXL_CONTROLNET_LINEART_LANE-FINAL-CERTIFICATION-REVIEW: blocked_until_lane_evidence_complete; lane=sdxl_realvisxl_controlnet_lineart_lane; type=final_certification_runtime_ready
+- WO-W66-SDXL_REALVISXL_CONTROLNET_NORMAL_LANE-FINAL-CERTIFICATION-REVIEW: blocked_until_lane_evidence_complete; lane=sdxl_realvisxl_controlnet_normal_lane; type=final_certification_runtime_ready
+- WO-W66-SDXL_REALVISXL_CONTROLNET_OPENPOSE_LANE-FINAL-CERTIFICATION-REVIEW: blocked_until_lane_evidence_complete; lane=sdxl_realvisxl_controlnet_openpose_lane; type=final_certification_runtime_ready
+- WO-W66-SDXL_REALVISXL_INPAINT_DETAIL_LANE-FINAL-CERTIFICATION-REVIEW: blocked_until_lane_evidence_complete; lane=sdxl_realvisxl_inpaint_detail_lane; type=final_certification_runtime_ready
+
+## Boundary
+
+Local work-order orchestration only. This does not contact external services, start EC2, execute generation, certify final quality, promote masks, consume candidate masks as truth, rerun Wave70 hard gates, or activate Wave71+.
+
+## Evidence
+
+- Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_POST_ALIGNMENT_20260709T210200-0500.json
+- Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_POST_ALIGNMENT_20260709T210200-0500.json

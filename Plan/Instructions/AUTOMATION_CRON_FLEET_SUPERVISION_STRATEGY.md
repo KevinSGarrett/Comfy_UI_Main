@@ -131,6 +131,10 @@ Use tightened temporary triggers until adoption recovers:
 - Any dirty-worktree, checkpoint-boundary, GitHub warning, CI/log, PR/comment, or branch/upstream analysis: Git/GitHub worker analysis first.
 - More than 2 minutes strategy/contradiction reasoning: Claude subscription when healthy.
 
+Claude adoption floor: if the latest audit window shows zero useful Claude handoffs while Claude subscription auth is healthy, the monitor should require the next eligible high-effort synthesis, contradiction review, routing critique, checkpoint-risk synthesis, or strategy review to use `CLAUDE_HEAVY_REVIEW_REQUIRED` before Codex absorbs it. This floor does not apply to mechanical extraction, final authority, live runtime, visual QA, Git/GitHub mutation, AWS, Jira, masks, or tracker mutation.
+
+Cursor friction retry discipline: wrapper invocation, parser, environment, or lock friction should be followed by one narrow retry before Codex fallback. The retry should use ask mode, a supplied file/status list, no worker-side broad Git discovery, no file edits, no mutation authority, and child-process execution-policy bypass only when needed. If the retry fails, classify `CURSOR_WRAPPER_FRICTION_COMPACT_FALLBACK` and record the fallback reason.
+
 Exit recovery mode only after two useful compact real worker handoffs or one audit window with `usage_reduction_confidence=MEDIUM` or better and no direct-Codex worker-lane violations.
 
 Monitor Scoring fields for worker-aware audits:
@@ -146,6 +150,8 @@ Monitor Scoring fields for worker-aware audits:
 - `git_github_direct_codex_analysis_violations`
 - `git_github_worker_mutation_attempts_detected`
 - `git_github_connector_first_compliance`
+- `claude_adoption_floor_active`
+- `cursor_wrapper_friction_retry_attempted`
 - `estimated_codex_work_avoided_minutes`
 - `estimated_usage_reduction_percent`
 - `usage_reduction_confidence`

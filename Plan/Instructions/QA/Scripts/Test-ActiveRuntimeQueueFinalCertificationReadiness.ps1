@@ -170,6 +170,17 @@ $gitClean = [bool](Get-PropertyValue -Object $gitGate -Name "clean_worktree" -De
 $gitMatchesOrigin = [bool](Get-PropertyValue -Object $gitGate -Name "local_matches_origin" -Default $false)
 $gitCommitAttempted = [bool](Get-PropertyValue -Object $gitGate -Name "commit_attempted" -Default $false)
 $gitPushAttempted = [bool](Get-PropertyValue -Object $gitGate -Name "push_attempted" -Default $false)
+$currentGitStatus = @()
+try {
+  $currentGitStatus = @(git -C $ProjectRoot status --porcelain)
+} catch {
+  $currentGitStatus = @("git_status_failed:$($_.Exception.Message)")
+}
+$currentGitDirty = ($currentGitStatus.Count -gt 0)
+if ($currentGitDirty) {
+  $gitClean = $false
+  Add-Text -List $finalBlockers -Text "current_worktree_dirty_after_stored_git_gate:$($currentGitStatus.Count)"
+}
 $gitPassesForEc2 = ($gitGateResult -eq "pass_git_checkpoint_ready" -and $gitClean -and $gitMatchesOrigin -and -not $gitCommitAttempted -and -not $gitPushAttempted)
 if (-not $gitPassesForEc2) {
   Add-Text -List $finalBlockers -Text "git_checkpoint_gate_not_clean_for_ec2_execute:$gitGateResult"
@@ -318,6 +329,8 @@ $evidence = [ordered]@{
     commit_attempted = $gitCommitAttempted
     push_attempted = $gitPushAttempted
     passes_for_ec2_execute = $gitPassesForEc2
+    current_git_status_count = $currentGitStatus.Count
+    current_git_dirty_preview = @($currentGitStatus | Select-Object -First 20)
   }
   handoff_summary = [ordered]@{
     result = [string](Get-PropertyValue -Object $handoff -Name "result" -Default "")

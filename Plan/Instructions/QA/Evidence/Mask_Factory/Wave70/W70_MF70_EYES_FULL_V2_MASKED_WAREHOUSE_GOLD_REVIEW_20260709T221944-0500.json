@@ -1,0 +1,58 @@
+{
+  "active_input_mask_overwritten": false,
+  "current_artifacts": {
+    "mask": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_eyes_full_source_landmark_v2_20260709T215300-0500/wave70_mf70_eyes_full_source_landmark_v2_mask.png",
+    "mask_sha256": "a5025985391ed2c0151c90ff793bdd12787fb051a6e7e966fd0f513d3b968f13",
+    "overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_eyes_full_source_landmark_v2_20260709T215300-0500/wave70_mf70_eyes_full_source_landmark_v2_overlay.png",
+    "overlay_sha256": "a43d3f70da6e7820ad714ac238334212502a08f31b69a509436fdc046d873039",
+    "review_panel": "runtime_artifacts/mask_factory/wave70_mf70_eyes_full_source_landmark_v2/20260709T215300-0500/wave70_mf70_eyes_full_source_landmark_v2_review_panel.png"
+  },
+  "current_candidate_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_EYES_FULL_SOURCE_LANDMARK_REPAIR_V2_20260709T215300-0500.json",
+  "current_mask_stats": {
+    "bbox": [
+      284,
+      314,
+      461,
+      347
+    ],
+    "bbox_ratio": [
+      0.369792,
+      0.408854,
+      0.60026,
+      0.451823
+    ],
+    "image_size": [
+      768,
+      768
+    ],
+    "nonzero_pixels": 2864,
+    "nonzero_ratio": 0.004856
+  },
+  "decision": "gold_standard_bridge_review_created_current_eyes_full_v2_remains_candidate_not_promoted",
+  "ec2_started": false,
+  "evidence_id": "W70_MF70_EYES_FULL_V2_MASKED_WAREHOUSE_GOLD_REVIEW_20260709T221944-0500",
+  "generation_executed": false,
+  "gold_artifacts_used": {
+    "celeba_image": "C:\\Comfy_UI_Main\\MaskedWarehouse\\CelebAMask-HQ\\CelebA-HQ-img\\0.jpg",
+    "celeba_left_brow": "C:\\Comfy_UI_Main\\MaskedWarehouse\\CelebAMask-HQ\\CelebAMask-HQ-mask-anno\\0\\00000_l_brow.png",
+    "celeba_left_eye": "C:\\Comfy_UI_Main\\MaskedWarehouse\\CelebAMask-HQ\\CelebAMask-HQ-mask-anno\\0\\00000_l_eye.png",
+    "celeba_right_brow": "C:\\Comfy_UI_Main\\MaskedWarehouse\\CelebAMask-HQ\\CelebAMask-HQ-mask-anno\\0\\00000_r_brow.png",
+    "celeba_right_eye": "C:\\Comfy_UI_Main\\MaskedWarehouse\\CelebAMask-HQ\\CelebAMask-HQ-mask-anno\\0\\00000_r_eye.png",
+    "lapa_image": "C:\\Comfy_UI_Main\\MaskedWarehouse\\LaPa\\train\\images\\10001436895_0.jpg",
+    "lapa_label": "C:\\Comfy_UI_Main\\MaskedWarehouse\\LaPa\\train\\labels\\10001436895_0.png"
+  },
+  "gold_standard_intake_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASKED_WAREHOUSE_FACIAL_GOLD_STANDARD_INTAKE_20260709T221608-0500.json",
+  "local_only": true,
+  "mask_promoted": false,
+  "next_required_action": "Use the MaskedWarehouse gold references to produce the next facial-mask repair/review packet, starting with eyes/eyebrows separation and then nose/lips/hair/skin neighbor boundaries.",
+  "panel_path": "runtime_artifacts/mask_factory/wave70_mf70_eyes_full_gold_standard_review/20260709T221944-0500/mf70_eyes_full_v2_masked_warehouse_gold_review_panel.png",
+  "panel_sha256": "f4602b616c58029e422ca2fd0be2096ee8e78e10f0ca4b48c6fad37dd208fe18",
+  "scope": "local strict visual bridge review of mf70_eyes_full v2 against MaskedWarehouse facial gold-standard datasets",
+  "strict_visual_findings": [
+    "Gold references confirm eyes_full should hug visible eye apertures and stay separate from eyebrow and hair regions.",
+    "Gold brow references confirm eyebrows are separate narrow regions above the eyes, not part of the eyes_full mask.",
+    "The current v2 eyes_full candidate is materially better than the old broad eye block, but this bridge review is not a promotion proof.",
+    "Future facial-mask repair must use MaskedWarehouse references for eye, brow, nose, lip, mouth, hair, skin, and neck neighbor boundaries before promotion."
+  ],
+  "timestamp": "20260709T221944-0500"
+}

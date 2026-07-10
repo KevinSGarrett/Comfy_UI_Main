@@ -1,0 +1,237 @@
+{
+  "active_input_mask_overwritten": false,
+  "decision": "Do not keep tuning eyebrow landmark bands or use the generated portrait as pass evidence. The registered local assets do not currently provide a stronger automatic eyebrow semantic parser than the failed BiSeNet-backed route.",
+  "ec2_started": false,
+  "evidence_id": "W70_EYEBROW_SEMANTIC_PARSER_OPTIONS_AUDIT_20260710T055308-0500",
+  "generation_executed": false,
+  "gold_mask_authority": {
+    "datasets": [
+      "CelebAMask-HQ",
+      "LaPa"
+    ],
+    "masked_warehouse": "C:\\Comfy_UI_Main\\MaskedWarehouse",
+    "single_generated_portrait_is_pass_authority": false
+  },
+  "local_only": true,
+  "mask_promoted": false,
+  "module_probe": [
+    {
+      "available": true,
+      "module": "torch",
+      "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\torch\\__init__.py"
+    },
+    {
+      "available": true,
+      "module": "cv2",
+      "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\cv2\\__init__.py"
+    },
+    {
+      "available": true,
+      "module": "mediapipe",
+      "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\mediapipe\\__init__.py"
+    },
+    {
+      "available": true,
+      "module": "onnxruntime",
+      "origin": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\onnxruntime\\__init__.py"
+    },
+    {
+      "available": false,
+      "module": "face_alignment",
+      "origin": null
+    },
+    {
+      "available": false,
+      "module": "insightface",
+      "origin": null
+    },
+    {
+      "available": false,
+      "module": "dlib",
+      "origin": null
+    },
+    {
+      "available": false,
+      "module": "facexlib",
+      "origin": null
+    }
+  ],
+  "next_required_action": "Register and validate a stronger face parser with eyebrow labels, define an explicit eyebrow dataset-vs-runtime policy, or switch to another blocked facial/body row with a genuinely new gold-backed route.",
+  "parser_options": [
+    {
+      "asset": {
+        "bytes": 53289463,
+        "exists": true,
+        "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\face_parsing\\79999_iter.pth",
+        "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\face_parsing\\79999_iter.pth",
+        "sha256": "468e13ca13a9b43cc0881a9f99083a430e9c0a38abd935431d1c28ee94b26567"
+      },
+      "asset_id": "bisenet_face_parsing_checkpoint",
+      "classification": "available_but_already_current_parser_authority",
+      "option": "current_bisenet_face_parser",
+      "reason": "BiSeNet face parsing is the parser already used in the latest parser+landmark brow route, which failed the LaPa gold gate.",
+      "role": "current semantic face parser with eyebrow classes used by prior gold brow routes",
+      "usable_as_stronger_eyebrow_parser_now": false
+    },
+    {
+      "asset": {
+        "bytes": 267449349,
+        "exists": true,
+        "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\schp\\exp-schp-201908261155-lip.pth",
+        "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\schp\\exp-schp-201908261155-lip.pth",
+        "sha256": "24fa3254ceeb74c8435458994a64b522fb439a3635b7b86ff470457e0413da00"
+      },
+      "asset_id": "schp_lip_checkpoint",
+      "classification": "available_but_not_registered_for_eyebrow_semantics",
+      "option": "schp_lip_human_parser",
+      "reason": "The registered SCHP asset is a LIP human-parsing checkpoint and is not currently proven or wired as a face eyebrow semantic-label parser.",
+      "role": "human parsing checkpoint; local asset is not proven to expose facial eyebrow semantic labels",
+      "usable_as_stronger_eyebrow_parser_now": false
+    },
+    {
+      "asset": {
+        "bytes": 153718792,
+        "exists": true,
+        "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\ckpts\\lllyasviel\\Annotators\\facenet.pth",
+        "relative_path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/lllyasviel/Annotators/facenet.pth",
+        "sha256": "8beb52e548624ffcc4aed12af7aee7dcbfaeea420c75609fee999fe7add79d43"
+      },
+      "asset_id": "openpose_face_model",
+      "classification": "available_landmark_model_not_semantic_parser",
+      "option": "openpose_face_model",
+      "reason": "OpenPose facenet is a landmark/pose asset, not an eyebrow segmentation authority; landmark-band repair already failed the gold gate.",
+      "role": "face landmark/pose model, not a semantic eyebrow segmentation parser",
+      "usable_as_stronger_eyebrow_parser_now": false
+    },
+    {
+      "asset": {
+        "bytes": 156008466,
+        "exists": true,
+        "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt",
+        "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt",
+        "sha256": "7402e0d864fa82708a20fbd15bc84245c2f26dff0eb43a4b5b93452deb34be69"
+      },
+      "asset_id": "sam2_hiera_tiny_checkpoint",
+      "classification": "available_promptable_segmenter_without_automatic_brow_prompt_policy",
+      "option": "sam2_promptable_segmenter",
+      "reason": "SAM2 can refine prompted regions, but no automatic eyebrow prompt source or gold-backed route is registered for Mask Factory promotion.",
+      "role": "promptable segmentation/refinement model; no automatic eyebrow prompt authority is registered",
+      "usable_as_stronger_eyebrow_parser_now": false
+    },
+    {
+      "asset": {
+        "bytes": 3758596,
+        "exists": true,
+        "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\face_landmarker.task",
+        "relative_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\mediapipe\\face_landmarker.task",
+        "sha256": "64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff"
+      },
+      "asset_id": "mediapipe_face_landmarker_task",
+      "classification": "available_landmarker_already_failed_prior_route_family",
+      "option": "mediapipe_face_landmarker",
+      "reason": "MediaPipe landmarks are available, but MediaPipe-only and hybrid eye/brow routes failed combined gold gates.",
+      "role": "runtime face landmarks; prior MediaPipe eye/brow route family failed combined gold gates",
+      "usable_as_stronger_eyebrow_parser_now": false
+    }
+  ],
+  "project_root": "C:\\Comfy_UI_Main",
+  "registered_stronger_options": [],
+  "result": "blocked_no_stronger_local_eyebrow_semantic_parser_registered",
+  "scope": "local Wave70 eyebrow semantic parser options audit after gold-backed eyebrow route failure",
+  "source_evidence": [
+    {
+      "exists": true,
+      "name": "combined_gold_gate",
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_COMBINED_GOLD_GATE_DECISION_20260710T041840-0500.json",
+      "result": "blocked_combined_facial_gold_gate_routes_require_repair",
+      "summary": {
+        "blocked_regions": [
+          "mf70_eyebrows",
+          "mf70_eyes_full",
+          "mf70_face_skin",
+          "mf70_hair",
+          "mf70_lips_bottom",
+          "mf70_lips_combined",
+          "mf70_lips_top",
+          "mf70_neck",
+          "mf70_teeth_mouth_area"
+        ],
+        "supported_regions": null
+      }
+    },
+    {
+      "exists": true,
+      "name": "eye_brow_dataset_failure_diagnostic",
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_EYE_BROW_ROUTE_DATASET_FAILURE_DIAGNOSTIC_20260710T051535-0500.json",
+      "result": "eye_brow_dataset_failure_diagnostic_completed_no_promotion",
+      "summary": {
+        "any_dataset_level_pass": false
+      }
+    },
+    {
+      "exists": true,
+      "name": "runtime_106_landmark_source_audit",
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_RUNTIME_106_LANDMARK_SOURCE_AUDIT_20260710T053126-0500.json",
+      "result": "blocked_runtime_106_landmark_source_not_available_local_only",
+      "summary": {
+        "mediapipe_runtime_available": true,
+        "runtime_106_candidate_modules": [],
+        "runtime_106_landmark_source_available": false
+      }
+    },
+    {
+      "exists": true,
+      "name": "lapa_supplied_landmark_eye_brow_routes",
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_LAPA_SUPPLIED_LANDMARK_EYE_BROW_ROUTE_EVAL_20260710T052514-0500.json",
+      "result": "lapa_supplied_landmark_candidates_found_no_promotion",
+      "summary": {
+        "mf70_eyebrows": {
+          "best_pass_gate": false,
+          "best_route": "brow_hull_d0",
+          "best_summary": {
+            "mean_dice": 0.825484,
+            "mean_false_negative_ratio_vs_gold": 0.102016,
+            "mean_false_positive_ratio_vs_gold": 0.281151,
+            "mean_iou": 0.704384,
+            "sample_count": 8
+          }
+        },
+        "mf70_eyes_full": {
+          "best_pass_gate": true,
+          "best_route": "eye_hull_d0",
+          "best_summary": {
+            "mean_dice": 0.948301,
+            "mean_false_negative_ratio_vs_gold": 0.069341,
+            "mean_false_positive_ratio_vs_gold": 0.031708,
+            "mean_iou": 0.902138,
+            "sample_count": 8
+          }
+        }
+      }
+    },
+    {
+      "exists": true,
+      "name": "lapa_parser_landmark_brow_routes",
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_LAPA_PARSER_LANDMARK_BROW_ROUTE_EVAL_20260710T054003-0500.json",
+      "result": "lapa_parser_landmark_brow_routes_blocked_policy_or_stronger_parser_required",
+      "summary": {
+        "best_failed_reasons": [
+          "mean_iou_below_0.85",
+          "false_negative_ratio_above_0.15"
+        ],
+        "best_pass_gate": false,
+        "best_route": "intersect_parser_brow_hull_d1",
+        "best_summary": {
+          "mean_dice": 0.84675,
+          "mean_false_negative_ratio_vs_gold": 0.213693,
+          "mean_false_positive_ratio_vs_gold": 0.061274,
+          "mean_iou": 0.740519,
+          "sample_count": 8
+        },
+        "region": "mf70_eyebrows"
+      }
+    }
+  ],
+  "stronger_local_eyebrow_semantic_parser_registered_now": false,
+  "timestamp": "20260710T055308-0500"
+}

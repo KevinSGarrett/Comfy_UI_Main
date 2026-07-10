@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "tracker_evidence_id": "W70_MF70_NOSE_V5_PARSER_DERIVED_GENERATED_OUTPUT_20260710T022800-0500",
+  "created_at": "2026-07-10T02:28:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "tracker_id": "TRK-W70-0017",
+  "item_id": "ITEM-W70-0017",
+  "mask_type_id": "mf70_nose",
+  "result": "pass_with_notes_local_wave70_nose_v5_parser_derived_generated_output",
+  "status": "Candidate_Local_Proof_Pass_With_Notes_Promotion_Blocked",
+  "actual_work_performed": [
+    "Executed one bounded local ComfyUI generated-output proof for the parser-derived mf70_nose v5 candidate.",
+    "Pulled back generated portrait and diagnostic mask preview.",
+    "Created source/candidate/output comparison panel.",
+    "Completed strict whole-image visual QA while keeping promotion and final completion blocked."
+  ],
+  "evidence": {
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_NOSE_V5_PARSER_DERIVED_SEED210825_VISUAL_QA_20260710T022800-0500.json",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_NOSE_V5_PARSER_DERIVED_SEED210825_EXECUTE_20260710T022800-0500.json",
+    "comparison": "runtime_artifacts/mask_factory/wave70_mf70_nose_parser_derived_v5/qa_comparisons/W70_LOCAL_MF70_NOSE_V5_PARSER_DERIVED_SEED210825_VISUAL_QA_20260710T022800-0500_panel.png",
+    "generated_output": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_nose_v5_parser_derived_seed210825_20260710T022800-0500/images/codex_wave70_mf70_nose_v5_parser_derived_seed210825_00001_.png",
+    "diagnostic_mask_preview": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave70_mf70_nose_v5_parser_derived_seed210825_20260710T022800-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00035_.png",
+    "prompt_profile": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_nose_v5_parser_derived_seed210825.json",
+    "run_package": "runtime_artifacts/run_packages/wave70_mf70_nose_v5_parser_derived_seed210825/RUN_PACKAGE_MANIFEST.json",
+    "gold_benchmark_gate": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_GOLD_BENCHMARK_GATE_20260710T013355-0500.json"
+  },
+  "qa_decision": {
+    "semantic_mask_alignment_candidate_pass": true,
+    "generated_output_safe_pass": true,
+    "target_runtime_proof_present": false,
+    "reference_image_matrix_pass": false,
+    "final_completion_allowed": false,
+    "promotion_allowed": false
+  },
+  "boundaries": {
+    "local_only": true,
+    "ec2_started": false,
+    "aws_contacted": false,
+    "github_api_contacted": false,
+    "civitai_contacted": false,
+    "mask_promoted": false,
+    "active_input_mask_overwritten": false
+  },
+  "next_action": "Run post-proof Wave70 hard gates, then continue gold-benchmark-driven facial mask repair."
+}

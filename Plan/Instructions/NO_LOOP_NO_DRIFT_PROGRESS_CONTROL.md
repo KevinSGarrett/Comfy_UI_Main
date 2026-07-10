@@ -173,6 +173,10 @@ Recovery-mode tightened triggers:
 - More than 2 minutes strategy/contradiction reasoning: Claude subscription when healthy.
 - Any dirty-worktree, checkpoint-boundary, GitHub warning, CI/log, PR/comment, or branch/upstream analysis: Git/GitHub worker analysis first.
 
+If the latest worker monitor shows zero useful Claude handoffs while Claude subscription auth is healthy, the next eligible high-effort synthesis, contradiction review, routing critique, checkpoint-risk synthesis, or strategy review must use `CLAUDE_HEAVY_REVIEW_REQUIRED` before Codex absorbs it. Bypassing this floor during recovery mode is drift unless final authority applies.
+
+If Cursor wrapper, parser, environment, or lock friction blocks a handoff, Codex must make one narrow retry with ask mode, a supplied file/status list, no worker-side broad Git discovery, no file edits, and no mutation authority before falling back. A failed retry should be recorded as `CURSOR_WRAPPER_FRICTION_COMPACT_FALLBACK`.
+
 Exit recovery mode only after two useful compact real worker handoffs, or one audit window with `usage_reduction_confidence=MEDIUM` or better and no direct-Codex worker-lane violations.
 
 ## 7. Drift recovery sequence

@@ -1,0 +1,441 @@
+{
+  "active_input_mask_overwritten": false,
+  "blocked_regions": [
+    "mf70_eyebrows",
+    "mf70_eyes_full",
+    "mf70_face_skin",
+    "mf70_hair",
+    "mf70_lips_bottom",
+    "mf70_lips_combined",
+    "mf70_lips_top",
+    "mf70_neck",
+    "mf70_teeth_mouth_area"
+  ],
+  "ec2_started": false,
+  "evidence_id": "W70_FACIAL_COMBINED_GOLD_GATE_DECISION_20260710T041840-0500",
+  "finding": "Only facial routes supported by both available gold datasets should advance toward target-portrait proof. Rows blocked by either dataset require repair or a named policy split; rows missing a dataset label need a separate authority.",
+  "fully_supported_regions": [
+    "mf70_nose"
+  ],
+  "generation_executed": false,
+  "local_only": true,
+  "mask_promoted": false,
+  "missing_coverage_regions": [],
+  "next_required_action": "Do not return to single generated-portrait mask tuning. Select the next repair from blocked combined-gate rows, or create a separate policy/authority record for rows whose dataset definitions intentionally differ.",
+  "region_decisions": [
+    {
+      "blocked_by": [
+        "CelebAMask-HQ",
+        "LaPa"
+      ],
+      "combined_route_decision": "blocked_combined_gold_gate_requires_repair_or_policy_split",
+      "dataset_records": {
+        "CelebAMask-HQ": {
+          "covered": true,
+          "failed_reasons": [
+            "mean_iou_below_0.85"
+          ],
+          "false_negative_ratio_vs_gold": 0.071249,
+          "false_positive_ratio_vs_gold": 0.146991,
+          "gate_decision": "blocked_gold_benchmark_metric_threshold_not_met",
+          "mean_dice": 0.895862,
+          "mean_iou": 0.81238,
+          "pass": false,
+          "region": "mf70_eyebrows",
+          "sample_count": 3
+        },
+        "LaPa": {
+          "covered": true,
+          "failed_reasons": [
+            "mean_iou_below_0.85",
+            "false_positive_ratio_above_0.15",
+            "false_negative_ratio_above_0.15"
+          ],
+          "false_negative_ratio_vs_gold": 0.19835,
+          "false_positive_ratio_vs_gold": 0.182535,
+          "gate_decision": "blocked_lapa_gold_benchmark_metric_threshold_not_met",
+          "mean_dice": 0.804119,
+          "mean_iou": 0.678073,
+          "pass": false,
+          "region": "mf70_eyebrows",
+          "sample_count": 8
+        }
+      },
+      "missing_from": [],
+      "passed_by": [],
+      "promotion_decision": "no_promotion_combined_gate_only",
+      "region": "mf70_eyebrows"
+    },
+    {
+      "blocked_by": [
+        "LaPa"
+      ],
+      "combined_route_decision": "blocked_combined_gold_gate_requires_repair_or_policy_split",
+      "dataset_records": {
+        "CelebAMask-HQ": {
+          "covered": true,
+          "failed_reasons": [],
+          "false_negative_ratio_vs_gold": 0.107249,
+          "false_positive_ratio_vs_gold": 0.023299,
+          "gate_decision": "parser_route_gold_benchmark_supports_candidate_evidence_not_promotion",
+          "mean_dice": 0.93155,
+          "mean_iou": 0.872174,
+          "pass": true,
+          "region": "mf70_eyes_full",
+          "sample_count": 3
+        },
+        "LaPa": {
+          "covered": true,
+          "failed_reasons": [
+            "mean_iou_below_0.85",
+            "false_negative_ratio_above_0.15"
+          ],
+          "false_negative_ratio_vs_gold": 0.48874,
+          "false_positive_ratio_vs_gold": 0.028102,
+          "gate_decision": "blocked_lapa_gold_benchmark_metric_threshold_not_met",
+          "mean_dice": 0.604236,
+          "mean_iou": 0.492128,
+          "pass": false,
+          "region": "mf70_eyes_full",
+          "sample_count": 8
+        }
+      },
+      "missing_from": [],
+      "passed_by": [
+        "CelebAMask-HQ"
+      ],
+      "promotion_decision": "no_promotion_combined_gate_only",
+      "region": "mf70_eyes_full"
+    },
+    {
+      "blocked_by": [
+        "CelebAMask-HQ"
+      ],
+      "combined_route_decision": "blocked_combined_gold_gate_requires_repair_or_policy_split",
+      "dataset_records": {
+        "CelebAMask-HQ": {
+          "covered": true,
+          "failed_reasons": [
+            "mean_iou_below_0.85",
+            "false_negative_ratio_above_0.15"
+          ],
+          "false_negative_ratio_vs_gold": 0.236585,
+          "false_positive_ratio_vs_gold": 0.000466,
+          "gate_decision": "blocked_gold_benchmark_metric_threshold_not_met",
+          "mean_dice": 0.864153,
+          "mean_iou": 0.76305,
+          "pass": false,
+          "region": "mf70_face_skin",
+          "sample_count": 3
+        },
+        "LaPa": {
+          "covered": true,
+          "failed_reasons": [],
+          "false_negative_ratio_vs_gold": 0.104987,
+          "false_positive_ratio_vs_gold": 0.048887,
+          "gate_decision": "lapa_gold_benchmark_supports_candidate_route_not_promotion",
+          "mean_dice": 0.919162,
+          "mean_iou": 0.853657,
+          "pass": true,
+          "region": "mf70_face_skin",
+          "sample_count": 8
+        }
+      },
+      "missing_from": [],
+      "passed_by": [
+        "LaPa"
+      ],
+      "promotion_decision": "no_promotion_combined_gate_only",
+      "region": "mf70_face_skin"
+    },
+    {
+      "blocked_by": [
+        "LaPa"
+      ],
+      "combined_route_decision": "blocked_combined_gold_gate_requires_repair_or_policy_split",
+      "dataset_records": {
+        "CelebAMask-HQ": {
+          "covered": true,
+          "failed_reasons": [],
+          "false_negative_ratio_vs_gold": 0.018654,
+          "false_positive_ratio_vs_gold": 0.02154,
+          "gate_decision": "parser_route_gold_benchmark_supports_candidate_evidence_not_promotion",
+          "mean_dice": 0.979945,
+          "mean_iou": 0.960774,
+          "pass": true,
+          "region": "mf70_hair",
+          "sample_count": 3
+        },
+        "LaPa": {
+          "covered": true,
+          "failed_reasons": [
+            "mean_iou_below_0.85",
+            "false_positive_ratio_above_0.15"
+          ],
+          "false_negative_ratio_vs_gold": 0.149088,
+          "false_positive_ratio_vs_gold": 0.585989,
+          "gate_decision": "blocked_lapa_gold_benchmark_metric_threshold_not_met",
+          "mean_dice": 0.651373,
+          "mean_iou": 0.604841,
+          "pass": false,
+          "region": "mf70_hair",
+          "sample_count": 8
+        }
+      },
+      "missing_from": [],
+      "passed_by": [
+        "CelebAMask-HQ"
+      ],
+      "promotion_decision": "no_promotion_combined_gate_only",
+      "region": "mf70_hair"
+    },
+    {
+      "blocked_by": [
+        "CelebAMask-HQ",
+        "LaPa"
+      ],
+      "combined_route_decision": "blocked_combined_gold_gate_requires_repair_or_policy_split",
+      "dataset_records": {
+        "CelebAMask-HQ": {
+          "covered": true,
+          "failed_reasons": [
+            "mean_iou_below_0.85"
+          ],
+          "false_negative_ratio_vs_gold": 0.098943,
+          "false_positive_ratio_vs_gold": 0.124503,
+          "gate_decision": "blocked_gold_benchmark_metric_threshold_not_met",
+          "mean_dice": 0.890563,
+          "mean_iou": 0.8044,
+          "pass": false,
+          "region": "mf70_lips_bottom",
+          "sample_count": 3
+        },
+        "LaPa": {
+          "covered": true,
+          "failed_reasons": [
+            "mean_iou_below_0.85",
+            "false_positive_ratio_above_0.15"
+          ],
+          "false_negative_ratio_vs_gold": 0.132185,
+          "false_positive_ratio_vs_gold": 0.235966,
+          "gate_decision": "blocked_lapa_gold_benchmark_metric_threshold_not_met",
+          "mean_dice": 0.825109,
+          "mean_iou": 0.706182,
+          "pass": false,
+          "region": "mf70_lips_bottom",
+          "sample_count": 8
+        }
+      },
+      "missing_from": [],
+      "passed_by": [],
+      "promotion_decision": "no_promotion_combined_gate_only",
+      "region": "mf70_lips_bottom"
+    },
+    {
+      "blocked_by": [
+        "CelebAMask-HQ",
+        "LaPa"
+      ],
+      "combined_route_decision": "blocked_combined_gold_gate_requires_repair_or_policy_split",
+      "dataset_records": {
+        "CelebAMask-HQ": {
+          "covered": true,
+          "failed_reasons": [
+            "mean_iou_below_0.85"
+          ],
+          "false_negative_ratio_vs_gold": 0.132229,
+          "false_positive_ratio_vs_gold": 0.090522,
+          "gate_decision": "blocked_gold_benchmark_metric_threshold_not_met",
+          "mean_dice": 0.886219,
+          "mean_iou": 0.798972,
+          "pass": false,
+          "region": "mf70_lips_combined",
+          "sample_count": 3
+        },
+        "LaPa": {
+          "covered": true,
+          "failed_reasons": [
+            "mean_iou_below_0.85",
+            "false_positive_ratio_above_0.15"
+          ],
+          "false_negative_ratio_vs_gold": 0.119247,
+          "false_positive_ratio_vs_gold": 0.254139,
+          "gate_decision": "blocked_lapa_gold_benchmark_metric_threshold_not_met",
+          "mean_dice": 0.82608,
+          "mean_iou": 0.707185,
+          "pass": false,
+          "region": "mf70_lips_combined",
+          "sample_count": 8
+        }
+      },
+      "missing_from": [],
+      "passed_by": [],
+      "promotion_decision": "no_promotion_combined_gate_only",
+      "region": "mf70_lips_combined"
+    },
+    {
+      "blocked_by": [
+        "CelebAMask-HQ",
+        "LaPa"
+      ],
+      "combined_route_decision": "blocked_combined_gold_gate_requires_repair_or_policy_split",
+      "dataset_records": {
+        "CelebAMask-HQ": {
+          "covered": true,
+          "failed_reasons": [
+            "mean_iou_below_0.85",
+            "false_negative_ratio_above_0.15"
+          ],
+          "false_negative_ratio_vs_gold": 0.204154,
+          "false_positive_ratio_vs_gold": 0.054078,
+          "gate_decision": "blocked_gold_benchmark_metric_threshold_not_met",
+          "mean_dice": 0.85818,
+          "mean_iou": 0.758103,
+          "pass": false,
+          "region": "mf70_lips_top",
+          "sample_count": 3
+        },
+        "LaPa": {
+          "covered": true,
+          "failed_reasons": [
+            "mean_iou_below_0.85",
+            "false_positive_ratio_above_0.15"
+          ],
+          "false_negative_ratio_vs_gold": 0.124677,
+          "false_positive_ratio_vs_gold": 0.328752,
+          "gate_decision": "blocked_lapa_gold_benchmark_metric_threshold_not_met",
+          "mean_dice": 0.796482,
+          "mean_iou": 0.668682,
+          "pass": false,
+          "region": "mf70_lips_top",
+          "sample_count": 8
+        }
+      },
+      "missing_from": [],
+      "passed_by": [],
+      "promotion_decision": "no_promotion_combined_gate_only",
+      "region": "mf70_lips_top"
+    },
+    {
+      "blocked_by": [
+        "CelebAMask-HQ"
+      ],
+      "combined_route_decision": "blocked_combined_gold_gate_requires_repair_or_policy_split",
+      "dataset_records": {
+        "CelebAMask-HQ": {
+          "covered": true,
+          "failed_reasons": [
+            "mean_iou_below_0.85",
+            "false_negative_ratio_above_0.15"
+          ],
+          "false_negative_ratio_vs_gold": 0.230016,
+          "false_positive_ratio_vs_gold": 0.051488,
+          "gate_decision": "blocked_gold_benchmark_metric_threshold_not_met",
+          "mean_dice": 0.829693,
+          "mean_iou": 0.7261,
+          "pass": false,
+          "region": "mf70_neck",
+          "sample_count": 3
+        },
+        "LaPa": {
+          "covered": false
+        }
+      },
+      "missing_from": [
+        "LaPa"
+      ],
+      "passed_by": [],
+      "promotion_decision": "no_promotion_combined_gate_only",
+      "region": "mf70_neck"
+    },
+    {
+      "blocked_by": [],
+      "combined_route_decision": "supported_by_all_current_gold_gates_candidate_only_not_promotion",
+      "dataset_records": {
+        "CelebAMask-HQ": {
+          "covered": true,
+          "failed_reasons": [],
+          "false_negative_ratio_vs_gold": 0.034535,
+          "false_positive_ratio_vs_gold": 0.094594,
+          "gate_decision": "parser_route_gold_benchmark_supports_candidate_evidence_not_promotion",
+          "mean_dice": 0.937387,
+          "mean_iou": 0.882195,
+          "pass": true,
+          "region": "mf70_nose",
+          "sample_count": 3
+        },
+        "LaPa": {
+          "covered": true,
+          "failed_reasons": [],
+          "false_negative_ratio_vs_gold": 0.054243,
+          "false_positive_ratio_vs_gold": 0.10031,
+          "gate_decision": "lapa_gold_benchmark_supports_candidate_route_not_promotion",
+          "mean_dice": 0.924515,
+          "mean_iou": 0.860014,
+          "pass": true,
+          "region": "mf70_nose",
+          "sample_count": 8
+        }
+      },
+      "missing_from": [],
+      "passed_by": [
+        "CelebAMask-HQ",
+        "LaPa"
+      ],
+      "promotion_decision": "no_promotion_combined_gate_only",
+      "region": "mf70_nose"
+    },
+    {
+      "blocked_by": [
+        "CelebAMask-HQ",
+        "LaPa"
+      ],
+      "combined_route_decision": "blocked_combined_gold_gate_requires_repair_or_policy_split",
+      "dataset_records": {
+        "CelebAMask-HQ": {
+          "covered": true,
+          "failed_reasons": [
+            "mean_iou_below_0.85",
+            "false_negative_ratio_above_0.15"
+          ],
+          "false_negative_ratio_vs_gold": 0.218667,
+          "false_positive_ratio_vs_gold": 0.005047,
+          "gate_decision": "blocked_gold_benchmark_metric_threshold_not_met",
+          "mean_dice": 0.869355,
+          "mean_iou": 0.776611,
+          "pass": false,
+          "region": "mf70_teeth_mouth_area",
+          "sample_count": 3
+        },
+        "LaPa": {
+          "covered": true,
+          "failed_reasons": [
+            "mean_iou_below_0.85",
+            "false_negative_ratio_above_0.15"
+          ],
+          "false_negative_ratio_vs_gold": 0.419123,
+          "false_positive_ratio_vs_gold": 0.044922,
+          "gate_decision": "blocked_lapa_gold_benchmark_metric_threshold_not_met",
+          "mean_dice": 0.667055,
+          "mean_iou": 0.551578,
+          "pass": false,
+          "region": "mf70_teeth_mouth_area",
+          "sample_count": 8
+        }
+      },
+      "missing_from": [],
+      "passed_by": [],
+      "promotion_decision": "no_promotion_combined_gate_only",
+      "region": "mf70_teeth_mouth_area"
+    }
+  ],
+  "result": "blocked_combined_facial_gold_gate_routes_require_repair",
+  "scope": "combined fail-closed Wave70 facial route decision from current CelebAMask-HQ and LaPa gold gates",
+  "source_gates": {
+    "celeba_gate": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_GOLD_BENCHMARK_GATE_20260710T013355-0500.json",
+    "celeba_gate_sha256": "3113fe1ae28467f445efee6c8da0ec0c9c940c9be7a4c06e52783231006f69ef",
+    "lapa_gate": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_LAPA_GOLD_BENCHMARK_GATE_20260710T041348-0500.json",
+    "lapa_gate_sha256": "8ac419a7e8afd5b8aae0834ee088ba6d76c643cdeb9d1a87aa6dce61b94c1705"
+  },
+  "timestamp": "20260710T041840-0500"
+}

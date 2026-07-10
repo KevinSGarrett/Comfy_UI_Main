@@ -20,7 +20,6 @@ SEARCH_ROOTS = [
     COMFYUI_ROOT / "models",
     COMFYUI_ROOT / "custom_nodes/comfyui_controlnet_aux",
     PROJECT_ROOT / "models",
-    Path(r"C:\Comfy_UI"),
     LORA_OPENPOSE_MODELS,
     Path.home() / ".cache/huggingface",
     Path.home() / ".cache/torch",

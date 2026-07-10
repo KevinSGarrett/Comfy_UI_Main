@@ -104,7 +104,7 @@ def manifest_summary(rows: list[dict[str, str]]) -> dict[str, object]:
         "category_counts": count("category"),
         "status_counts": count("status"),
         "method_counts": count("method"),
-        "manual_review_required_counts": count("manual_review_required"),
+        "runtime_ready_counts": count("runtime_ready"),
         "certified_99_9_correct_counts": count("certified_99_9_correct"),
         "estimated_confidence_truthful_counts": count("estimated_confidence_truthful"),
     }

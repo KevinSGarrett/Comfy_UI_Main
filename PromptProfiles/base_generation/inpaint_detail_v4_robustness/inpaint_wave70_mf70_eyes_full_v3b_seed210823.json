@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "inpaint_wave70_mf70_eyes_full_v3b_seed210823",
+  "target_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "purpose": "QA-driven lower-denoise retry for the Wave70 mf70_eyes_full v3 aperture-only candidate after seed210822 softened eye/gaze character.",
+  "request_patch_values": {
+    "positive_prompt": "preserve exact original eye appearance, gaze direction, eye shape, eyelids, eyelashes, iris color, catchlights, eyebrow position, skin texture, hair occlusion, person identity, lighting, clothing, background, and portrait composition unchanged; only microscopic photoreal blending inside the eye aperture mask",
+    "negative_prompt": "identity change, different person, gaze change, softened eyes, blurry eyes, crossed eyes, asymmetrical eyes, enlarged eyes, anime eyes, doll eyes, glassy eyes, iris color change, catchlight change, eyelid deformation, eyelash mutation, eyebrow change, hair mutation, nose bridge change, face shape drift, skin tone change, plastic skin, waxy skin, over-sharpened eyes, visible seam, clothing change, background change, watermark, text",
+    "source_image": "wave70_mf70_face_identity_source_canny_v3.png",
+    "mask_image": "wave70_mf70_eyes_full_v3_mask.png",
+    "mask_channel": "red",
+    "seed": 210823,
+    "sampler_settings": {
+      "steps": 14,
+      "cfg": 3.0,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.02
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_wave70_mf70_eyes_full_v3b_seed210823"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_wave70_mf70_eyes_full_v3b_seed210823",
+    "diagnostic_output_prefix": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview"
+  },
+  "qa_focus": [
+    "strict gaze preservation versus source",
+    "no additional eye softening versus source",
+    "aperture-only edit remains separate from eyebrows and hair",
+    "no seam or skin drift around the eyes",
+    "whole-image identity, hair, blazer, lighting, and background remain unchanged"
+  ],
+  "source_qa_driver": {
+    "previous_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_EYES_FULL_V3_SEED210822_VISUAL_QA_20260709T235700-0500.json",
+    "change_summary": "Lower denoise to 0.02, reduce CFG to 3.0, and reduce steps to 14 after the first v3 local proof softened the eyes and subtly changed gaze character."
+  },
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "candidate_mask_not_promoted": true,
+    "requires_generated_output_proof_before_item_completion": true,
+    "requires_whole_image_qa_before_promotion": true,
+    "requires_target_runtime_reproof_before_final_certification": true
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "inpaint_wave70_mf70_eyebrows_v4_seed210824",
+  "target_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "purpose": "Bounded local generated-output proof for the Wave70 mf70_eyebrows v4 visible-brow candidate mask using a v4-specific input filename.",
+  "request_patch_values": {
+    "positive_prompt": "preserve exact original eyebrow appearance, brow color, brow shape, person identity, neutral expression, gaze direction, eye shape, eyelid folds, eyelashes, iris color, catchlights, forehead skin texture, hairline, nearby hair occlusion, lighting, white blazer, background, and portrait composition unchanged; only microscopic photoreal blending inside the eyebrow mask",
+    "negative_prompt": "identity change, different person, expression change, angry brows, surprised brows, arched brows, thick eyebrows, thin eyebrows, missing eyebrows, mismatched eyebrows, eyebrow color change, makeup change, forehead mutation, hairline mutation, gaze change, softened eyes, mismatched eyes, crossed eyes, eyelid deformation, eyelash mutation, iris color change, glassy eyes, sclera discoloration, catchlight change, skin tone change, visible seam, hair mutation, clothing change, background change, watermark, text",
+    "source_image": "wave70_mf70_face_identity_source_canny_v3.png",
+    "mask_image": "wave70_mf70_eyebrows_v4_mask.png",
+    "mask_channel": "red",
+    "seed": 210824,
+    "sampler_settings": {
+      "steps": 14,
+      "cfg": 3.0,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.02
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "codex_wave70_mf70_eyebrows_v4_seed210824"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "codex_wave70_mf70_eyebrows_v4_seed210824",
+    "diagnostic_output_prefix": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview"
+  },
+  "qa_focus": [
+    "whole-image identity preservation",
+    "eyebrow shape, color, and symmetry remain natural",
+    "no expression drift through brow reshaping",
+    "gaze, eyelids, iris, sclera, and catchlights remain stable",
+    "forehead and hairline do not mutate",
+    "nearby hair occlusion remains stable",
+    "no visible seam around eyebrow masks"
+  ],
+  "source_qa_driver": {
+    "evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_EYEBROWS_VISIBLE_BROW_REPAIR_V4_20260710T001900-0500.json",
+    "remaining_gap": "generated_output_proof_required_before_item_completion",
+    "change_summary": "Use the v4 visible-brow candidate mask with low denoise and a v4-specific input filename to test local routing without reusing the older active eyebrow mask."
+  },
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "candidate_mask_not_promoted": true,
+    "requires_generated_output_proof_before_item_completion": true,
+    "requires_whole_image_qa_before_promotion": true,
+    "requires_target_runtime_reproof_before_final_certification": true
+  }
+}

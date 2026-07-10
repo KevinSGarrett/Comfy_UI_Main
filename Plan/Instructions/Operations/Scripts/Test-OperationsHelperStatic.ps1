@@ -1359,7 +1359,7 @@ function Test-ControlNetCannyW68GateEvidenceContract {
       throw "W68 Canny auth gate must classify remote login as external_authorization_required_noninteractive."
     }
     if ($entry.auth_gate.safe_to_start_ec2 -or $entry.auth_gate.generation_allowed -or $entry.auth_gate.auth_url_recorded) {
-      throw "W68 Canny auth gate must keep EC2/generation blocked and must not record the auth URL."
+      throw "W68 Canny auth gate must keep EC2/generation ready and must not record the auth URL."
     }
 
     $entry.readiness_gate = [ordered]@{
@@ -1382,7 +1382,7 @@ function Test-ControlNetCannyW68GateEvidenceContract {
       throw "W68 Canny readiness gate must have failure_category=expired_session."
     }
     if (-not $entry.readiness_gate.local_pre_ec2_ready -or $entry.readiness_gate.ready_for_ec2_static_proof -or $entry.readiness_gate.ready_for_generation) {
-      throw "W68 Canny readiness gate must be locally ready while keeping EC2 static proof and generation blocked."
+      throw "W68 Canny readiness gate must be locally ready while keeping EC2 static proof and generation ready."
     }
     if ($entry.readiness_gate.auth_gate_result -ne "blocked_expired_session") {
       throw "W68 Canny readiness gate must embed the blocked auth result."

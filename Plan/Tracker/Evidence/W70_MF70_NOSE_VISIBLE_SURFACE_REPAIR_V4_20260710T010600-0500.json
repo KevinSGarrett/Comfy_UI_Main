@@ -1,0 +1,77 @@
+{
+  "active_input_mask_overwritten": false,
+  "artifacts": {
+    "coordinate_manifest": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_nose_visible_surface_v4_20260710T010600-0500/wave70_mf70_nose_visible_surface_v4_coordinates.json",
+    "coordinate_manifest_sha256": "f682eb0f86f14434ac1f3553906daeb6c985966b36c29ef7c491c6226141d064",
+    "mask": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_nose_visible_surface_v4_20260710T010600-0500/wave70_mf70_nose_visible_surface_v4_mask.png",
+    "mask_sha256": "1b360f533f3479ccb6f3dde55ec89cd9b6076db32282f3fd2973de234818cbd5",
+    "overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_nose_visible_surface_v4_20260710T010600-0500/wave70_mf70_nose_visible_surface_v4_overlay.png",
+    "overlay_sha256": "ff575398d9e11e45a19d853bdbd4e71be12c2dc91860375afefc567db4be8860",
+    "review_panel": "runtime_artifacts/mask_factory/wave70_mf70_nose_visible_surface_v4/20260710T010600-0500/wave70_mf70_nose_visible_surface_v4_review_panel.png",
+    "review_panel_sha256": "a528b23e439fb3f65f3e4b9db3ceb264c11e3c6d9f5fceffdad3c36d5cec0349"
+  },
+  "aws_contacted": false,
+  "civitai_contacted": false,
+  "created_at": "2026-07-10T01:07:53.814055-05:00",
+  "ec2_started": false,
+  "evidence_id": "W70_MF70_NOSE_VISIBLE_SURFACE_REPAIR_V4_20260710T010600-0500",
+  "generation_executed": false,
+  "github_api_contacted": false,
+  "gold_standard_inputs": {
+    "celebamask_image": "MaskedWarehouse/CelebAMask-HQ/CelebA-HQ-img/18000.jpg",
+    "celebamask_mouth": "MaskedWarehouse/CelebAMask-HQ/CelebAMask-HQ-mask-anno/9/18000_mouth.png",
+    "celebamask_nose": "MaskedWarehouse/CelebAMask-HQ/CelebAMask-HQ-mask-anno/9/18000_nose.png",
+    "intake_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASKED_WAREHOUSE_FACIAL_GOLD_STANDARD_INTAKE_20260709T221608-0500.json",
+    "rule_applied": "nose mask is an isolated bridge/tip/alae region and must not include mouth, lips, teeth, or philtrum plane."
+  },
+  "local_only": true,
+  "mask_promoted": false,
+  "next_required_action": "High-zoom review the v4 panel; if acceptable, run one bounded local proof with a v4-specific input filename or continue adjacent facial row repair.",
+  "protected_region_hits": {},
+  "qa_decision": "candidate_only_continue_review_before_any_runtime_or_promotion",
+  "result": "candidate_created_pending_strict_visual_review_not_promoted",
+  "schema_version": "1.0",
+  "source_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_rightedge_masked_v3_seed711570105_20260707T132203-0500/images/canny_w69_rightedge_masked_v3_seed711570105_00001_.png",
+  "source_sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d",
+  "strict_visual_findings": [
+    "V4 remains inside the visible nose bridge/tip/alae surface and keeps the lower boundary above the philtrum/lip plane.",
+    "Gold reference panel shows nose and mouth as separate regions; v4 follows that hierarchy for this source.",
+    "No active ComfyUI input mask was overwritten, no generation ran, and no row was completed."
+  ],
+  "supersedes_candidate": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_NOSE_SOURCE_LANDMARK_REPAIR_V3_20260707T225500-0500.json",
+  "task": "Repair mf70_nose with gold-reference-informed nose/mouth separation after user flagged nose masks covering mouth/philtrum.",
+  "v3_stats": {
+    "bbox": [
+      344,
+      298,
+      423,
+      410
+    ],
+    "image_size": [
+      768,
+      768
+    ],
+    "nonzero_pixels": 5645,
+    "nonzero_ratio": 0.009571
+  },
+  "v3_to_v4_delta": {
+    "added_pixels": 0,
+    "area_change_ratio": -0.114438,
+    "net_pixel_change": -646,
+    "removed_pixels": 646
+  },
+  "v4_stats": {
+    "bbox": [
+      345,
+      300,
+      422,
+      407
+    ],
+    "image_size": [
+      768,
+      768
+    ],
+    "nonzero_pixels": 4999,
+    "nonzero_ratio": 0.008475
+  }
+}

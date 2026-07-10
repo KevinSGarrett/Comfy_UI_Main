@@ -1,0 +1,135 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "selected_inpaint_final_certification_blocker_packet",
+  "evidence_id": "W66_SELECTED_INPAINT_FINAL_CERTIFICATION_BLOCKER_AFTER_CHAIN_ALIGNMENT_20260709T205911-0500",
+  "timestamp": "2026-07-09T20:59:11-05:00",
+  "wave": "66",
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "result": "blocked_selected_inpaint_final_certification_after_chain_alignment",
+  "final_decision": "blocked",
+  "local_only": true,
+  "aws_contacted": false,
+  "s3_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "prompt_posted": false,
+  "active_runtime_marker_written": false,
+  "mask_promoted": false,
+  "wave70_gate_rerun": false,
+  "wave71_activated": false,
+  "full_project_certification_allowed": false,
+  "closes_work_order": false,
+  "failed_check_count": 0,
+  "tests_performed": [
+    {
+      "name": "chain_alignment_is_current_local_pass",
+      "result": "pass",
+      "observed": {
+        "result": "pass_local_only_selected_inpaint_publish_dry_run_chain_aligned_live_gates_closed",
+        "failed_check_count": 0,
+        "local_only": true,
+        "ec2_started": false,
+        "generation_executed": false
+      },
+      "expected": "aligned local pass, no EC2/generation"
+    },
+    {
+      "name": "current_worktree_is_not_clean_for_final_or_live_gate",
+      "result": "pass",
+      "observed": {
+        "changed_path_count": 14,
+        "sample": [
+          " M Plan/Instructions/Hydration_Rehydration/BLOCKERS.md",
+          " M Plan/Instructions/Hydration_Rehydration/CURRENT_PURSUING_GOAL.md",
+          " M Plan/Instructions/Hydration_Rehydration/CURRENT_SESSION_STATE.md",
+          " M Plan/Instructions/Hydration_Rehydration/NEXT_ACTION.md",
+          " M Plan/Instructions/Hydration_Rehydration/PROOF_OF_MOVEMENT_LOG.csv",
+          " M Plan/Instructions/Hydration_Rehydration/QA_EVIDENCE_INDEX.md",
+          " M Plan/Instructions/Hydration_Rehydration/RECENT_DECISIONS.md",
+          " M Plan/Instructions/Hydration_Rehydration/RESUME_HERE_NEXT_CODEX_SESSION.md",
+          "?? Plan/07_IMPLEMENTATION/scripts/record_selected_inpaint_final_certification_blocker_after_alignment.py",
+          "?? Plan/07_IMPLEMENTATION/scripts/record_selected_inpaint_publish_dry_run_chain_alignment.py",
+          "?? Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_INPAINT_PUBLISH_DRY_RUN_CHAIN_ALIGNMENT_20260709T204940-0500.json",
+          "?? Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_INPAINT_PUBLISH_DRY_RUN_CHAIN_ALIGNMENT_20260709T204940-0500.md"
+        ]
+      },
+      "expected": "dirty worktree must block live/final certification"
+    },
+    {
+      "name": "existing_final_review_sources_need_post_alignment_refresh",
+      "result": "pass",
+      "observed": [
+        "work_order:older_than_chain_alignment",
+        "closure_rollup:older_than_chain_alignment",
+        "evidence_coverage:older_than_chain_alignment",
+        "inpaint_blocker_packet:older_than_chain_alignment"
+      ],
+      "expected": "at least one final-review source is missing or older than the chain alignment, so final closure must be refreshed before any claim"
+    },
+    {
+      "name": "no_target_runtime_generation_or_strict_visual_qa_present",
+      "result": "pass",
+      "observed": [
+        "explicit_target_runtime_live_intent_missing",
+        "deploy_bundle_s3_execute_proof_missing",
+        "input_asset_s3_execute_proofs_missing",
+        "model_s3_execute_proof_missing",
+        "ec2_install_hash_proof_missing",
+        "ec2_start_authorization_missing",
+        "target_runtime_static_proof_missing",
+        "target_runtime_generation_and_strict_visual_qa_missing"
+      ],
+      "expected": "target-runtime generation and strict visual QA remain missing"
+    }
+  ],
+  "source_evidence": {
+    "chain_alignment": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_INPAINT_PUBLISH_DRY_RUN_CHAIN_ALIGNMENT_20260709T204940-0500.json",
+    "work_order": "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_SELECTED_INPAINT_CHAIN_20260709T182000-0500.json",
+    "closure_rollup": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_CLOSURE_ROLLUP_SELECTED_CHAIN_20260709T193000-0500.json",
+    "evidence_coverage": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_FINAL_REVIEW_EVIDENCE_COVERAGE_SELECTED_CHAIN_20260709T193100-0500.json",
+    "inpaint_blocker_packet": "Plan/Instructions/QA/Evidence/Done_Certifications/W66_INPAINT_LANE_FINAL_REVIEW_BLOCKER_PACKET_SELECTED_CHAIN_20260709T182500-0500.json"
+  },
+  "current_git_state": {
+    "clean_worktree": false,
+    "changed_path_count": 14,
+    "changed_paths": [
+      "Plan/Instructions/Hydration_Rehydration/BLOCKERS.md",
+      "Plan/Instructions/Hydration_Rehydration/CURRENT_PURSUING_GOAL.md",
+      "Plan/Instructions/Hydration_Rehydration/CURRENT_SESSION_STATE.md",
+      "Plan/Instructions/Hydration_Rehydration/NEXT_ACTION.md",
+      "Plan/Instructions/Hydration_Rehydration/PROOF_OF_MOVEMENT_LOG.csv",
+      "Plan/Instructions/Hydration_Rehydration/QA_EVIDENCE_INDEX.md",
+      "Plan/Instructions/Hydration_Rehydration/RECENT_DECISIONS.md",
+      "Plan/Instructions/Hydration_Rehydration/RESUME_HERE_NEXT_CODEX_SESSION.md",
+      "Plan/07_IMPLEMENTATION/scripts/record_selected_inpaint_final_certification_blocker_after_alignment.py",
+      "Plan/07_IMPLEMENTATION/scripts/record_selected_inpaint_publish_dry_run_chain_alignment.py",
+      "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_INPAINT_PUBLISH_DRY_RUN_CHAIN_ALIGNMENT_20260709T204940-0500.json",
+      "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_INPAINT_PUBLISH_DRY_RUN_CHAIN_ALIGNMENT_20260709T204940-0500.md",
+      "Plan/Tracker/Evidence/Runtime_Readiness/W66_SELECTED_INPAINT_PUBLISH_DRY_RUN_CHAIN_ALIGNMENT_20260709T204940-0500.json",
+      "Plan/Tracker/Evidence/Runtime_Readiness/W66_SELECTED_INPAINT_PUBLISH_DRY_RUN_CHAIN_ALIGNMENT_20260709T204940-0500.md"
+    ]
+  },
+  "final_review_state": {
+    "work_order_count": 17,
+    "open_work_order_count": 15,
+    "closed_work_order_count": 2,
+    "final_review_work_order_count": 9,
+    "missing_review_evidence_count": 0,
+    "inpaint_blocker_result": "blocked_inpaint_lane_final_review_target_runtime_proof_missing",
+    "stale_or_missing_sources_after_alignment": [
+      "work_order:older_than_chain_alignment",
+      "closure_rollup:older_than_chain_alignment",
+      "evidence_coverage:older_than_chain_alignment",
+      "inpaint_blocker_packet:older_than_chain_alignment"
+    ]
+  },
+  "exact_blockers": [
+    "current_worktree_dirty_with_uncheckpointed_local_evidence",
+    "post_alignment_final_certification_work_order_refresh_missing",
+    "post_alignment_closure_rollup_refresh_missing",
+    "target_runtime_generation_and_strict_visual_qa_missing",
+    "explicit_target_runtime_live_intent_missing",
+    "s3_execute_and_ec2_runtime_proofs_missing"
+  ],
+  "next_action": "Continue local-only final-certification closure refresh from the chain-aligned state, or explicitly satisfy live gates before any EC2/S3/generation step."
+}

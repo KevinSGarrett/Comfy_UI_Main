@@ -302,7 +302,7 @@ def item_row(index: int, source_path: Path) -> dict[str, str]:
     )
     qa = (
         "source_file_read|citation_file_section_line_excerpt_present|requirements_extracted|implementation_or_blocker_recorded|"
-        "test_or_review_gate_recorded|whole_artifact_visual_audio_regression_if_media|evidence_path_recorded"
+        "test_or_runtime_gate_recorded|whole_artifact_visual_audio_regression_if_media|evidence_path_recorded"
     )
     row = {
         "Item_ID": safe_id,

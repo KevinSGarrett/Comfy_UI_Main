@@ -138,7 +138,7 @@ $robustnessQa = Read-JsonFile -Path $robustnessQaPath
 $trackerFollowup = Read-JsonFile -Path $trackerFollowupPath
 $trackerRobustness = Read-JsonFile -Path $trackerRobustnessPath
 
-$workOrder = @(Convert-ToArray -Value $workOrderRecord.work_orders | Where-Object { [string]$_.lane_id -eq $LaneId -and [string]$_.work_order_type -eq "final_certification_review_required" } | Select-Object -First 1)
+$workOrder = @(Convert-ToArray -Value $workOrderRecord.work_orders | Where-Object { [string]$_.lane_id -eq $LaneId -and [string]$_.work_order_type -eq "final_certification_runtime_ready" } | Select-Object -First 1)
 $targetProofWorkOrder = @(Convert-ToArray -Value $workOrderRecord.work_orders | Where-Object { [string]$_.lane_id -eq $LaneId -and [string]$_.work_order_type -eq "target_runtime_proof_required" } | Select-Object -First 1)
 $queueLane = @(Convert-ToArray -Value $queue.lanes | Where-Object { [string]$_.lane_id -eq $LaneId } | Select-Object -First 1)
 $targetCandidate = @(Convert-ToArray -Value $targetRuntimePlan.target_candidates | Where-Object { [string]$_.lane_id -eq $LaneId } | Select-Object -First 1)

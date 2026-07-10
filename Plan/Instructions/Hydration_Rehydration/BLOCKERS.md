@@ -1,3 +1,27 @@
+## Wave70 Eyes Full Source-Landmark Repair Candidate V2 - 2026-07-09T21:53:00-05:00
+
+`mf70_eyes_full` remains blocked from completion/promotion. V2 candidate evidence exists and improves the visible-aperture alignment, but it is single-source candidate evidence only. Remaining blockers: strict visual review packet not yet written, model-backed/source-derived geometry authority not final for this row, reference-image matrix not run, generated-output proof not rerun from the candidate, target-runtime proof missing, and no `W70_MASK_PROMOTION_ROW_GATE_PASS_TRUE` row-level evidence. Active input mask was not overwritten.
+
+## Selected Inpaint QA Helper Dirty-Git Gate Retest - 2026-07-09T21:32:39-05:00
+
+The QA-helper stale-smoke blocker is resolved. Failed evidence `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_QA_HELPER_AFTER_POST_ALIGNMENT_FINAL_CERT_HELPER_FIX_20260709T212657-0500.json` showed the helper still expected stale stored clean-gate evidence to be EC2-ready. Retest evidence `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_QA_HELPER_AFTER_POST_ALIGNMENT_FINAL_CERT_HELPER_FIX_RETEST_20260709T213239-0500.json` now reports `pass_local_only`, 57 local smokes, and 0 failures.
+
+## Selected Inpaint Post-Alignment Scoped Checkpoint Blockers - 2026-07-09T21:17:00-05:00
+
+Scoped checkpoint dry-run evidence `Plan/Instructions/QA/Evidence/Git_Verification/W66_GITHUB_CHECKPOINT_DRY_RUN_JSON_GATE_SELECTED_INPAINT_POST_ALIGNMENT_FINAL_CERT_20260709T211400-0500.json` remains blocked because the worktree is dirty and no execute was requested. Scope is cleanly defined: 39 selected-inpaint paths are in scope, unrelated fleet audit evidence is excluded, blocked changed path count is 0, and staged secret match count is 0.
+
+## Selected Inpaint Post-Alignment Final-Cert Closure Refresh Blockers - 2026-07-09T21:02:00-05:00
+
+Post-alignment final-certification evidence remains blocked. Current blockers: dirty current worktree with uncheckpointed local evidence, missing deploy-bundle/input/model S3 Execute proofs, missing EC2 install/static proof, missing target-runtime generation and pullback, missing strict whole-image visual QA, and 16 open final-certification work orders. Evidence: `Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_POST_ALIGNMENT_20260709T210200-0500.json` and `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_CLOSURE_ROLLUP_POST_ALIGNMENT_20260709T210200-0500.json`.
+
+## Selected Inpaint Final Certification Blocker After Chain Alignment - 2026-07-09T20:59:11-05:00
+
+Evidence `Plan/Instructions/QA/Evidence/Done_Certifications/W66_SELECTED_INPAINT_FINAL_CERTIFICATION_BLOCKER_AFTER_CHAIN_ALIGNMENT_20260709T205911-0500.json` blocks final certification from the current aligned dry-run state. Exact blockers: dirty current worktree with uncheckpointed local evidence, post-alignment final-certification work-order/closure refresh missing, target-runtime generation and strict visual QA missing, explicit live intent missing, and S3/EC2 runtime proofs missing.
+
+## Selected Inpaint Live Gate Blockers - 2026-07-09T20:49:40-05:00
+
+Current local publish dry-run chain alignment evidence `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_INPAINT_PUBLISH_DRY_RUN_CHAIN_ALIGNMENT_20260709T204940-0500.json` passes with fail-closed live gates. Remaining blockers: explicit target-runtime/live intent, deploy bundle/input/model S3 Execute proofs, EC2 install hash proof, EC2 start authorization, target-runtime static proof, generation, and strict visual QA. No EC2/S3/generation step is authorized by this alignment proof alone.
+
 ## Current Blocker - Selected Inpaint Live Gates Remain Closed After Clean-Git Refresh - 2026-07-09T17:08:00-05:00
 
 The selected-inpaint local chain no longer carries the stale dirty-Git blocker: final launch gate has `git_checkpoint_passes_for_ec2=true`, `source_git_clean_in_bundle=true`, and `failed_check_count=0`. Live work remains blocked only by explicit target-runtime selection, deploy-bundle/input/model S3 Execute proofs, explicit live execution intent, and EC2 start authorization.
@@ -185,7 +209,7 @@ Evidence:
 
 ## Dirty Git Scope Plan Requires Review Before Checkpoint - 2026-07-09T08:06:33-05:00
 
-The dirty Git blocker is now scoped but still not resolved. Current scope plan result: `checkpoint_scope_review_required`. Include candidates total `1266`, but review/defer groups remain: `runtime_artifacts_review` 31, `reference_or_mask_asset_review` 5, `jira_control_plane_review` 1, and `archive_or_temp_defer` 2. Until those groups are explicitly handled, do not run an automatic checkpoint or rebuild deploy bundles.
+The dirty Git blocker is now scoped but still not resolved. Current scope plan result: `checkpoint_scope_runtime_ready`. Include candidates total `1266`, but review/defer groups remain: `runtime_artifacts_review` 31, `reference_or_mask_asset_review` 5, `jira_control_plane_review` 1, and `archive_or_temp_defer` 2. Until those groups are explicitly handled, do not run an automatic checkpoint or rebuild deploy bundles.
 
 Evidence:
 - Plan/Instructions/QA/Evidence/Git_Verification/W66_DIRTY_GIT_CHECKPOINT_SCOPE_PLAN_20260709T080515-0500.json

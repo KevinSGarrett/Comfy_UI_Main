@@ -175,7 +175,7 @@ $closedEntries = @($rollupEntries | Where-Object { [bool]$_.closed })
 $openEntries = @($rollupEntries | Where-Object { -not [bool]$_.closed })
 $remainingLocalReady = @($openEntries | Where-Object { [string]$_.status -eq "ready_local_review_only_global_project_still_blocked" })
 $remainingTargetRuntime = @($openEntries | Where-Object { [string]$_.work_order_type -eq "target_runtime_proof_required" })
-$remainingFinalReview = @($openEntries | Where-Object { [string]$_.work_order_type -eq "final_certification_review_required" })
+$remainingFinalReview = @($openEntries | Where-Object { [string]$_.work_order_type -eq "final_certification_runtime_ready" })
 $remainingGlobal = @($openEntries | Where-Object { [string]$_.work_order_type -eq "global_preflight_gate" })
 
 $result = if ($closedEntries.Count -gt 0) {

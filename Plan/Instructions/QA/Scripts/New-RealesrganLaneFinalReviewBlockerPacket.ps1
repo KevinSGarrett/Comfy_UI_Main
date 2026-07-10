@@ -136,7 +136,7 @@ $visualQa = Read-JsonFile -Path $visualQaPath
 $plannerBinding = Read-JsonFile -Path $plannerBindingPath
 $runPackage = Read-JsonFile -Path $runPackagePath
 
-$workOrder = @(Convert-ToArray -Value $workOrderRecord.work_orders | Where-Object { [string]$_.lane_id -eq $LaneId -and [string]$_.work_order_type -eq "final_certification_review_required" } | Select-Object -First 1)
+$workOrder = @(Convert-ToArray -Value $workOrderRecord.work_orders | Where-Object { [string]$_.lane_id -eq $LaneId -and [string]$_.work_order_type -eq "final_certification_runtime_ready" } | Select-Object -First 1)
 $targetProofWorkOrder = @(Convert-ToArray -Value $workOrderRecord.work_orders | Where-Object { [string]$_.lane_id -eq $LaneId -and [string]$_.work_order_type -eq "target_runtime_proof_required" } | Select-Object -First 1)
 $queueLane = @(Convert-ToArray -Value $queue.lanes | Where-Object { [string]$_.lane_id -eq $LaneId } | Select-Object -First 1)
 $targetCandidate = @(Convert-ToArray -Value $targetRuntimePlan.target_candidates | Where-Object { [string]$_.lane_id -eq $LaneId } | Select-Object -First 1)
@@ -262,7 +262,7 @@ $record = [ordered]@{
   defects = @($reviewDefects)
   certifier = "Codex Desktop autonomous release manager"
   certification_boundary = "Lane-scoped blocker review only. This does not certify full project completion, final RealESRGAN upscale/polish quality, target-runtime readiness, body-mask readiness, Wave70 mask promotion, or Wave71+ activation."
-  next_action = "Do not close the RealESRGAN lane final-review work order from current local evidence. Target-runtime proof must be explicitly selected and pass clean Git, clean deploy-bundle, object_info/path/hash, bounded output, pullback, technical QA, strict visual QA, and robustness/final-review gates first."
+  next_action = "Do not close the RealESRGAN lane final-review work order from current local evidence. Target-runtime proof must be explicitly selected and pass clean Git, clean deploy-bundle, object_info/path/hash, bounded output, pullback, technical QA, strict visual QA, and robustness/final-runtime gates first."
 }
 
 $outDir = Split-Path -Path $outFileResolved -Parent

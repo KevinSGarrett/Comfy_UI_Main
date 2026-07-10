@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-MF70-FACE-SKIN-HULL-V2-20260710T032500-0500",
+  "timestamp": "2026-07-10T03:25:00-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "scope": "target_specific_unpromoted_candidate_creation",
+  "mask_type_id": "mf70_face_skin",
+  "route_source_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_BLOCKED_FACIAL_POSTPROCESS_ROUTE_EVAL_20260710T024500-0500.json",
+  "route_source_evidence_sha256": "8b100b4599ca2593e4c230fc0ab00b584b204572ee4bca65908a4643a05d73da",
+  "route": [
+    "hull"
+  ],
+  "route_gold_benchmark_summary": {
+    "mean_iou": 0.937518,
+    "mean_dice": 0.966845,
+    "mean_false_positive_ratio_vs_gold": 0.002786,
+    "mean_false_negative_ratio_vs_gold": 0.05977,
+    "sample_count": 3
+  },
+  "source_image": "ComfyUI/input/wave70_mf70_face_identity_source_canny_v3.png",
+  "parser_skin_mask": "runtime_artifacts/mask_factory/wave70_face_parsing_authority/20260708T102325-0500/face_parsing_bisenet/output/masks/source/01_skin.png",
+  "candidate_mask": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_face_skin_hull_v2_20260710T032500-0500/wave70_mf70_face_skin_hull_v2_mask.png",
+  "candidate_mask_sha256": "5e586deca399a75c86d6c75fb532ddef76ada50bab4baf0bb9bf7b538c041677",
+  "candidate_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_face_skin_hull_v2_20260710T032500-0500/wave70_mf70_face_skin_hull_v2_overlay.png",
+  "candidate_overlay_sha256": "cdca7b7e20149b445ed33b18c2a305500b3028df64f655e9e0e16e1f1ea23dca",
+  "protected_overlay": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_face_skin_hull_v2_20260710T032500-0500/wave70_mf70_face_skin_hull_v2_protected_overlay.png",
+  "protected_overlay_sha256": "5a804bcc1aaca17a8952669d9869c04a552f1f27a6a4607aef880dc275abb62a",
+  "review_panel": "runtime_artifacts/mask_factory/wave70_mf70_face_skin_hull_v2/20260710T032500-0500/wave70_mf70_face_skin_hull_v2_review_panel.png",
+  "review_panel_sha256": "9a6cde32c4c4d70f4471ad444d3b37586e2af8ec64b447a1187b01d2d43a043d",
+  "stats": {
+    "parser_skin": {
+      "pixels": 50348,
+      "bbox": [
+        214,
+        177,
+        469,
+        543
+      ],
+      "width": 768,
+      "height": 768
+    },
+    "candidate": {
+      "pixels": 67721,
+      "bbox": [
+        214,
+        177,
+        469,
+        543
+      ],
+      "width": 768,
+      "height": 768
+    },
+    "candidate_overlap_with_eye_brow_pixels": 3272,
+    "candidate_overlap_with_lips_mouth_pixels": 3430,
+    "candidate_overlap_with_nose_pixels": 5219,
+    "candidate_overlap_with_hair_cloth_pixels": 5380
+  },
+  "finding": "Hull route matches the gold skin benchmark but target-specific protected overlay must be reviewed carefully because face-skin masks can cover nose and facial feature boundaries by design.",
+  "decision": "candidate_created_pending_strict_visual_review_not_promoted",
+  "active_input_mask_overwritten": false,
+  "mask_promoted": false,
+  "generation_executed": false,
+  "ec2_started": false,
+  "result": "candidate_created_pending_strict_visual_review_not_promoted",
+  "next_required_action": "Strictly review protected overlay before any generated-output proof; do not overwrite active inputs."
+}

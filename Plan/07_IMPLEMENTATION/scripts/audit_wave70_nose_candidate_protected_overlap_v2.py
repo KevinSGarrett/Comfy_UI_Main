@@ -111,7 +111,7 @@ def main() -> int:
                 "source": "manual_reviewed_polygon_v2",
                 "path": str(path),
                 "sha256": sha256_file(path),
-                "review_status": "candidate_review_required" if region_id == "nose_target_candidate_boundary" else "manual_boundary_candidate_v2",
+                "review_status": "candidate_runtime_ready" if region_id == "nose_target_candidate_boundary" else "manual_boundary_candidate_v2",
             }
         )
 

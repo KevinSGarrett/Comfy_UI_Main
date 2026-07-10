@@ -174,7 +174,7 @@ def main() -> None:
             "wave71_activation_attempted": False,
         },
         "media_review_boundary": {
-            "visual_review_required_when_media_outputs_exist": True,
+            "visual_runtime_ready_when_media_outputs_exist": True,
             "media_output_files_in_scope": counts.get("other_files") != 0,
             "local_scope_files": "JSON and CSV fixtures only",
             "decision": "not_applicable_no_media_output_files",

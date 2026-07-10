@@ -1,0 +1,110 @@
+{
+  "active_input_mask_overwritten": false,
+  "assets": [
+    {
+      "asset": "mediapipe_face_landmarker_runtime_task",
+      "bytes": 3758596,
+      "exists": true,
+      "path": "runtime_artifacts/mask_factory/mediapipe_models/face_landmarker_float16_latest.task",
+      "sha256": "64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff"
+    },
+    {
+      "asset": "comfyui_mediapipe_face_landmarker_code",
+      "bytes": 34630,
+      "exists": true,
+      "path": "ComfyUI/comfy_extras/mediapipe/face_landmarker.py",
+      "sha256": "691842a8028cc8b2836335eaccc3c823376f93b79a7944ae588fb2ef1437d32d"
+    },
+    {
+      "asset": "comfyui_openpose_face_facenet_model",
+      "bytes": 153718792,
+      "exists": true,
+      "path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/lllyasviel/Annotators/facenet.pth",
+      "sha256": "8beb52e548624ffcc4aed12af7aee7dcbfaeea420c75609fee999fe7add79d43"
+    },
+    {
+      "asset": "latest_face_landmark_authority",
+      "bytes": 5184,
+      "exists": true,
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/face_landmark_authority.json",
+      "sha256": "15d223b5d3eafebc16c20587b50a5d5269b64d859ab23e48ef1ecaea167cd22e"
+    },
+    {
+      "asset": "lapa_supplied_landmark_route_eval",
+      "bytes": 22225,
+      "exists": true,
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_LAPA_SUPPLIED_LANDMARK_EYE_BROW_ROUTE_EVAL_20260710T052514-0500.json",
+      "sha256": "73d274ccbd7cfe31c615c43834d3e7065e6f44755d827ec675129ed1ddee0e9e"
+    }
+  ],
+  "ec2_started": false,
+  "evidence_id": "W70_RUNTIME_106_LANDMARK_SOURCE_AUDIT_20260710T080700-0500",
+  "existing_face_landmark_authority": {
+    "evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/face_landmark_authority.json",
+    "landmark_count": 478,
+    "model_backed_geometry_authority_pass": false,
+    "models_available": [
+      "mediapipe_face_landmarker_task"
+    ],
+    "result": "face_landmark_authority_implemented_pending_model_consensus_and_downstream_authority"
+  },
+  "generation_executed": false,
+  "lapa_supplied_landmark_finding": {
+    "evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_LAPA_SUPPLIED_LANDMARK_EYE_BROW_ROUTE_EVAL_20260710T052514-0500.json",
+    "is_runtime_source": false,
+    "mf70_eyes_full_lapa_pass": true
+  },
+  "local_only": true,
+  "mask_promoted": false,
+  "mediapipe_runtime_available": true,
+  "modules": [
+    {
+      "available": false,
+      "module": "face_alignment",
+      "origin": null
+    },
+    {
+      "available": true,
+      "module": "insightface",
+      "origin": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\insightface\\__init__.py"
+    },
+    {
+      "available": false,
+      "module": "dlib",
+      "origin": null
+    },
+    {
+      "available": false,
+      "module": "facexlib",
+      "origin": null
+    },
+    {
+      "available": true,
+      "module": "mediapipe",
+      "origin": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\mediapipe\\__init__.py"
+    },
+    {
+      "available": true,
+      "module": "cv2",
+      "origin": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\cv2\\__init__.py"
+    },
+    {
+      "available": true,
+      "module": "onnxruntime",
+      "origin": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\onnxruntime\\__init__.py"
+    },
+    {
+      "available": true,
+      "module": "skimage",
+      "origin": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Lib\\site-packages\\skimage\\__init__.py"
+    }
+  ],
+  "next_required_action": "Run gold-backed downstream route validation for the available runtime 106-point landmark source.",
+  "result": "runtime_106_landmark_source_available_pending_gold_route_validation",
+  "runtime_106_candidate_modules": [
+    "insightface"
+  ],
+  "runtime_106_landmark_source_available": true,
+  "scope": "local runtime 106-point face landmark source audit after LaPa supplied-landmark eye pass",
+  "timestamp": "20260710T080700-0500"
+}

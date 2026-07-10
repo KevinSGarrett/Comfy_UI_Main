@@ -110,11 +110,6 @@ Add-Check -Checks $checks -Name "gpu_memory_suitable_for_low_res_sdxl_dev" -Pass
 $candidateRoots = New-Object System.Collections.ArrayList
 if (![string]::IsNullOrWhiteSpace($LocalComfyRoot)) { [void]$candidateRoots.Add($LocalComfyRoot) }
 foreach ($candidate in @(
-  "C:\Comfy_UI\ComfyUI",
-  "C:\Comfy_UI\ComfyUI_windows_portable\ComfyUI",
-  "C:\Comfy_UI\portable\ComfyUI",
-  "C:\Comfy_UI\Runtime\ComfyUI",
-  "C:\Comfy_UI",
   "C:\Comfy_UI_Main\ComfyUI",
   "C:\Comfy_UI_Main\ComfyUI_windows_portable\ComfyUI"
 )) {
@@ -171,8 +166,6 @@ Add-Check -Checks $checks -Name "python_torch_imports" -Passed ([bool]$pythonRec
 Add-Check -Checks $checks -Name "python_torch_cuda_available" -Passed ([bool]$pythonRecord.torch_cuda_available) -Observed $pythonRecord -Message "CUDA-enabled Torch is required for useful local GPU generation; CPU Torch can still support limited CLI/import checks."
 
 $modelRoots = @(
-  "C:\Comfy_UI\models",
-  "C:\Comfy_UI\ComfyUI\models",
   "C:\Comfy_UI_Main\models"
 ) | ForEach-Object {
   [ordered]@{
@@ -195,7 +188,6 @@ try {
         $candidatePaths += (Join-Path ([string]$localComfy[0].path) (Join-Path "models" (Join-Path $subdir $filename)))
       }
       $candidatePaths += (Join-Path $ProjectRoot (Join-Path "models" (Join-Path $subdir $filename)))
-      $candidatePaths += (Join-Path "C:\Comfy_UI\models" (Join-Path $subdir $filename))
       $existingPath = @($candidatePaths | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1)
       $requiredModelChecks += [ordered]@{
         role = [string]$requiredModel.role

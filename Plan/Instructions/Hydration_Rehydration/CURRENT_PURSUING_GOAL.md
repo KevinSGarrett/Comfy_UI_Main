@@ -1,3 +1,319 @@
+## Current Pursuing Goal - Wave70 InsightFace 106 Installed, Eye Route Blocked - 2026-07-10T08:07:00-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with facial masks governed by MaskedWarehouse gold originals and masks before any target-portrait proof. A local runtime 106-point authority is now installed and model-backed, but the first gold-backed InsightFace eye route does not pass LaPa gold.
+
+Current validation anchors: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_RUNTIME_106_LANDMARK_SOURCE_AUDIT_20260710T080700-0500.json` reports `runtime_106_landmark_source_available_pending_gold_route_validation`, and `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_INSIGHTFACE_106_EYE_ROUTE_EVAL_20260710T080416-0500.json` reports `insightface_106_eye_routes_blocked_no_promotion`.
+
+Next work should improve the InsightFace eye route with explicit 106-point landmark index mapping or switch to another local gold-backed row. Do not promote masks, overwrite active inputs, use generated portrait overlays as pass evidence, start EC2, or use `C:\Comfy_UI`.
+
+## Current Pursuing Goal - Wave70 Neck And Runtime-106 Authorities Still Missing - 2026-07-10T07:48:25-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with facial masks governed by MaskedWarehouse gold originals and masks before any target-portrait proof. After `mf70_neck` boundary routes failed the gold gate, local authority audits show no direct body-source neck label and no runtime 106-point face-landmark source.
+
+Current validation anchors: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_NECK_BODY_SOURCE_AUTHORITY_AUDIT_20260710T074825-0500.json` reports `mf70_neck_body_source_direct_authority_blocked_no_explicit_neck_label`, and `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_RUNTIME_106_LANDMARK_SOURCE_AUDIT_20260710T074212-0500.json` reports `blocked_runtime_106_landmark_source_not_available_local_only`.
+
+Next work should either acquire/register a stronger body/neck parser, register/install a runtime 106-point face-landmark route for eyes, or switch to another local gold-backed blocked row. Do not promote masks, overwrite active inputs, use generated portrait overlays as pass evidence, start EC2, or use `C:\Comfy_UI`.
+
+## Current Pursuing Goal - Wave70 Neck Boundary Routes Blocked - 2026-07-10T07:34:44-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with facial masks governed by MaskedWarehouse gold originals and masks before any target-portrait proof. A focused `mf70_neck` boundary route search improved recall but still failed the gold gate.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_NECK_BOUNDARY_ROUTE_SEARCH_20260710T073444-0500.json` reports `mf70_neck_boundary_routes_blocked_no_promotion`. Best route `adaptive_h80_r0.75_sx0.0_t0_d2x1_q0.0` improves mean IoU from `0.7261` to `0.8025` and FN from `0.230016` to `0.054886`, but FP rises to `0.193014`, above the `0.15` gate.
+
+Next work should keep `mf70_neck` unpromoted and use a stronger body/neck parsing authority or a separate body-source neck gold policy. Do not promote masks, overwrite active inputs, use generated portrait overlays as pass evidence, start EC2, or use `C:\Comfy_UI`.
+
+## Current Pursuing Goal - Wave70 SAM2 Hair Probe Blocks Current Prompt Policy - 2026-07-10T07:08:19-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with facial masks governed by MaskedWarehouse gold originals and masks before any target-portrait proof. The bounded SAM2 hair promptability probe found no promotable candidate from the tested bbox/point prompt policy.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_SAM2_HAIR_PROMPTABILITY_PROBE_20260710T070819-0500.json` reports `sam2_hair_promptability_probe_no_promotable_candidate`. Best route is still `baseline_pred`; SAM2 score-selected and oracle-selected routes underperform the baseline and fail gold metrics and visual review.
+
+Next work should not promote SAM2 hair masks from this policy. Either design a stronger non-oracle SAM2 prompt policy with real owner/person prompts, write an explicit `mf70_hair` dataset/runtime policy, or switch to another local gold-backed blocked row such as neck/body-source authority or runtime 106-point eyes. Do not promote masks, overwrite active inputs, use generated portrait overlays as pass evidence, start EC2, or use `C:\Comfy_UI`.
+
+## Current Pursuing Goal - Wave70 SAM2 Hair Probe Is Next Local Route - 2026-07-10T06:52:41-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with facial masks governed by MaskedWarehouse gold originals and masks before any target-portrait proof. After `mf70_hair` foreground ownership geometry failed combined gold, a local authority audit found a SAM2 candidate route.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_HAIR_PERSON_SEGMENTATION_AUTHORITY_AUDIT_20260710T065241-0500.json` reports `hair_person_segmentation_authority_audit_sam2_candidate_checkpoint_present`: `sam2_importable=true`, `sam2_checkpoint_exists=true`, `background_removal_nonempty_model_count=0`, `rembg_available=false`, `segment_anything_available=false`.
+
+Next work should run a bounded SAM2 hair/person promptability probe against MaskedWarehouse gold hair/person samples before any target portrait use. Do not promote masks, overwrite active inputs, use generated portrait overlays as pass evidence, start EC2, or use `C:\Comfy_UI`.
+
+## Current Pursuing Goal - Wave70 Hair Foreground Ownership Routes Blocked - 2026-07-10T06:41:32-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with facial masks governed by MaskedWarehouse gold originals and masks before any target-portrait proof. A focused `mf70_hair` foreground ownership route search improved false positives but still failed the combined gold gate.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_HAIR_FOREGROUND_OWNERSHIP_ROUTE_SEARCH_20260710T064132-0500.json` reports `mf70_hair_foreground_ownership_routes_blocked_no_promotion`. Best route `erode_split4_owner_r16_c0.02` has combined mean IoU `0.739039`, FP `0.137742`, and FN `0.120188`; the FP/FN gates pass but IoU fails. Visual panel review confirms remaining LaPa hair-owner mismatch and tiny/empty gold-hair edge cases.
+
+Next work should stop simple hair component/window geometry and either use a stronger person-instance/foreground segmentation authority, write an explicit hair-row dataset/runtime policy if justified, or switch to another blocked local-first row such as neck/body-source authority or runtime 106-point eyes. Do not promote masks, overwrite active inputs, use generated portrait overlays as pass evidence, start EC2, or use `C:\Comfy_UI`.
+
+## Current Pursuing Goal - Wave70 Teeth-Mouth Morphology Routes Blocked - 2026-07-10T06:19:25-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with facial masks governed by MaskedWarehouse gold originals and masks. After the existing v2 route failed combined gold, a broader anisotropic morphology/shift route search for `mf70_teeth_mouth_area` also failed.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_TEETH_MOUTH_AREA_ANISOTROPIC_ROUTE_SEARCH_20260710T061925-0500.json` reports `mf70_teeth_mouth_area_anisotropic_routes_blocked_no_promotion`. Best route `dilate_w9_h5_shifty1` fails combined gold with IoU `0.725898` and FN `0.1623`; LaPa remains the blocking source.
+
+Next work should stop morphology-only teeth-mouth tuning and either use a non-morphology mouth-interior boundary model/landmark route, write an explicit row policy if the runtime target intentionally differs from LaPa/CelebAMask definitions, or switch to another blocked facial/body row. Do not promote masks, overwrite active inputs, use generated portrait overlays as pass evidence, start EC2, or use `C:\Comfy_UI`.
+
+## Current Pursuing Goal - Wave70 Teeth-Mouth V2 Fails Combined Gold - 2026-07-10T06:11:35-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with facial masks governed by MaskedWarehouse gold originals and masks. After switching away from fail-closed eyebrows, the existing `mf70_teeth_mouth_area` v2 route was evaluated against current combined gold evidence and is blocked.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_TEETH_MOUTH_AREA_V2_COMBINED_GOLD_EVAL_20260710T061135-0500.json` reports `mf70_teeth_mouth_area_v2_combined_gold_blocked_no_promotion`. v2 passes CelebAMask-HQ but fails LaPa, so the prior target-specific local proof cannot be used as combined-gold support.
+
+Next work should design a stronger mouth-interior boundary route for `mf70_teeth_mouth_area`, define a justified dataset/runtime policy for this row, or switch to another blocked facial/body row with a new gold-backed route. Do not promote masks, overwrite active inputs, use generated portrait overlays as pass evidence, start EC2, or use `C:\Comfy_UI`.
+
+## Current Pursuing Goal - Wave70 Eyebrows Fail-Closed Pending New Parser; Switch Row - 2026-07-10T06:02:00-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with facial masks governed by MaskedWarehouse gold originals and masks. `mf70_eyebrows` is now fail-closed under current evidence: a dataset-vs-runtime policy split is not justified because both current gold datasets block the current eyebrow route families.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_EYEBROW_DATASET_RUNTIME_POLICY_DECISION_20260710T060200-0500.json` reports `mf70_eyebrows_policy_fail_closed_no_dataset_split_promotion` with selected policy `fail_closed_until_stronger_parser_or_new_row`. This follows the parser-options audit showing no stronger local automatic eyebrow parser is registered.
+
+Next work should switch to another blocked facial/body row with a genuinely new gold-backed route, or only resume eyebrows after registering and validating a stronger eyebrow semantic parser. Do not promote masks, overwrite active inputs, use generated portrait overlays as pass evidence, start EC2, or use `C:\Comfy_UI`.
+
+## Current Pursuing Goal - Wave70 Eyebrows Need Policy Or New Parser Registration - 2026-07-10T05:53:08-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with facial masks governed by MaskedWarehouse gold originals and masks. The local eyebrow semantic parser options audit now proves there is no currently registered stronger automatic eyebrow parser available beyond the failed BiSeNet-backed route.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_EYEBROW_SEMANTIC_PARSER_OPTIONS_AUDIT_20260710T055308-0500.json` reports `blocked_no_stronger_local_eyebrow_semantic_parser_registered`. The audit checked BiSeNet, SCHP LIP, OpenPose facenet, SAM2, and MediaPipe; none is currently usable as a stronger gold-backed automatic eyebrow semantic parser.
+
+Next work should either define an explicit eyebrow dataset-vs-runtime policy, register and validate a stronger face parser with eyebrow labels, or move to another blocked facial/body row with a genuinely new gold-backed route. Do not promote masks, overwrite active inputs, use generated portrait overlays as pass evidence, start EC2, or use `C:\Comfy_UI`.
+
+## Current Pursuing Goal - Wave70 Eyebrows Need Stronger Parser Or Policy Decision - 2026-07-10T05:40:03-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with facial masks governed by MaskedWarehouse gold originals and masks. The current eyebrow repair route family has now tested parser-only, supplied landmark-only, and parser+supplied-landmark combinations against LaPa gold labels, and none pass.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_LAPA_PARSER_LANDMARK_BROW_ROUTE_EVAL_20260710T054003-0500.json` reports `lapa_parser_landmark_brow_routes_blocked_policy_or_stronger_parser_required`. Best route `intersect_parser_brow_hull_d1` has low FP but FN `0.213693`; routes that cover missing brow exceed FP. This blocks landmark-band style brow repair.
+
+Next work should switch `mf70_eyebrows` to a stronger semantic face parser, define an explicit dataset-vs-runtime eyebrow policy, or choose another blocked row with a genuinely new route. Do not promote masks, overwrite active inputs, use generated portrait overlays as pass evidence, or start EC2.
+
+## Current Pursuing Goal - Wave70 Runtime 106-Point Landmark Source Missing Locally - 2026-07-10T05:31:26-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with facial masks governed by MaskedWarehouse gold originals and masks. The LaPa supplied-landmark diagnostic proves `mf70_eyes_full` is reachable with 106-point geometry, but the local runtime does not currently have a LaPa-compatible 106-point landmark source.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_RUNTIME_106_LANDMARK_SOURCE_AUDIT_20260710T053126-0500.json` reports `blocked_runtime_106_landmark_source_not_available_local_only` with `runtime_106_landmark_source_available=false` and `mediapipe_runtime_available=true`. This blocks promotion of the LaPa eye-landmark route to target portraits; it does not block other local project work.
+
+Next work should either register/install a local runtime 106-point face-landmark route, switch `mf70_eyes_full` to a different segmentation authority, or continue `mf70_eyebrows` via semantic parsing/policy repair. Do not promote masks, overwrite active inputs, use generated portrait overlays as pass evidence, or start EC2.
+
+## Current Pursuing Goal - Wave70 LaPa Landmarks Prove Eye Route Reachable, Brows Still Blocked - 2026-07-10T05:25:14-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with facial masks governed by MaskedWarehouse gold originals and masks before target-portrait proof. A LaPa-supplied 106-point landmark diagnostic now proves `mf70_eyes_full` can pass LaPa gold labels when the landmark geometry is strong enough, while `mf70_eyebrows` remains blocked even with supplied landmarks.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_LAPA_SUPPLIED_LANDMARK_EYE_BROW_ROUTE_EVAL_20260710T052514-0500.json` reports `lapa_supplied_landmark_candidates_found_no_promotion`. `mf70_eyes_full` candidate region passes LaPa only with `eye_hull_d0`; `mf70_eyebrows` remains blocked with high FP.
+
+Next work should either find/register a runtime 106-point landmark source that can match LaPa eye behavior on target portraits, or switch eyebrows to a semantic parsing/policy route. Do not promote masks, do not overwrite active inputs, do not use target portrait overlays as pass evidence, and do not start EC2.
+
+## Current Pursuing Goal - Wave70 Eye/Brow Routes Fail Per-Dataset Gold Diagnostic - 2026-07-10T05:15:35-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with facial masks governed by MaskedWarehouse gold originals and masks. The latest diagnostic proves the tested MediaPipe-only and parser+MediaPipe hybrid routes fail not only at combined-gate level but also when split by dataset.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_EYE_BROW_ROUTE_DATASET_FAILURE_DIAGNOSTIC_20260710T051535-0500.json` reports `eye_brow_dataset_failure_diagnostic_completed_no_promotion` with `any_dataset_level_pass=false`. Hybrid eyes remain close but below gate on both CelebAMask-HQ and LaPa; brows remain structurally blocked with CelebAMask-HQ FP and LaPa FN issues.
+
+Next work should stop tuning the tested MediaPipe/hybrid family and either use a stronger segmentation authority, write an explicit eye/brow dataset-policy split, or switch to another combined-gate blocked row. Do not use target portrait overlays as pass evidence, do not promote masks, do not overwrite active inputs, and do not start EC2.
+
+## Current Pursuing Goal - Wave70 Eye/Brow MediaPipe Hybrid Routes Still Blocked - 2026-07-10T05:06:51-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with facial masks governed by MaskedWarehouse gold original-plus-mask evidence before generated target-portrait proof. MediaPipe-only and parser+MediaPipe hybrid routes were tested for `mf70_eyes_full` and `mf70_eyebrows`, but neither cleared the combined CelebAMask-HQ + LaPa gold gate.
+
+Current validation anchors: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MEDIAPIPE_EYE_BROW_COMBINED_ROUTE_EVAL_20260710T045530-0500.json` reports `mediapipe_eye_brow_routes_blocked_stronger_route_required`; `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_EYE_BROW_HYBRID_ROUTE_EVAL_20260710T045957-0500.json` reports `hybrid_eye_brow_routes_blocked_stronger_route_required`. The hybrid eye route improved FN but still has mean IoU `0.771384` and FP `0.169967`; the best brow route still has mean IoU `0.727142`, FP `0.158934`, and FN `0.157775`.
+
+Next work should use a stronger face-parsing/segmentation route, dataset-policy split, or switch to another combined-gate blocked row. Do not use target portrait overlays as pass evidence, do not promote masks, do not overwrite active inputs, do not start EC2, and do not use `C:\Comfy_UI`.
+
+## Current Pursuing Goal - Wave70 Eye/Brow Label Geometry Routes Still Blocked - 2026-07-10T04:46:26-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with eye and brow masks governed by combined gold data. A label-aware geometry route family was tested for `mf70_eyes_full` and `mf70_eyebrows`, but no candidate cleared the combined gold gate.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_EYE_BROW_LABEL_GEOMETRY_ROUTE_EVAL_20260710T044626-0500.json` reports `eye_brow_label_geometry_routes_blocked_stronger_route_required`. Eyes remain under-covered (`FN=0.268597` best route), and eyebrows remain below IoU with FP just over threshold (`FP=0.151231` best route).
+
+Next work should use a stronger landmark/model route for eye apertures/brows or switch to another combined-gate blocked row. Do not use target portrait overlays as pass evidence, do not promote masks, do not overwrite active inputs, do not start EC2, and do not use `C:\Comfy_UI`.
+
+## Current Pursuing Goal - Wave70 mf70_hair Needs Stronger Person-Instance Authority - 2026-07-10T04:37:26-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with hair masking governed by combined gold data. A stronger subject-instance-aware route was tested for `mf70_hair`, but it still fails because background/neighbor hair false positives remain too high on LaPa.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_HAIR_SUBJECT_INSTANCE_ROUTE_EVAL_20260710T043726-0500.json` reports `mf70_hair_subject_instance_routes_blocked_stronger_model_or_policy_required`. Best route is `anchor_window_x0.45_t0.6_b0.45`, mean IoU `0.70892`, FP `0.340854`, FN `0.117148`.
+
+Next work should either implement a stronger person-instance segmentation/foreground ownership source for hair or switch to another combined-gate blocked row. Do not use target portrait overlays as pass evidence, do not promote hair, do not overwrite active inputs, do not start EC2, and do not use `C:\Comfy_UI`.
+
+## Current Pursuing Goal - Wave70 Simple Postprocess Route Family Blocked For Disputed Facial Rows - 2026-07-10T04:27:52-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with facial-mask work governed by combined gold data. A combined gold postprocess route search now proves that simple morphology/component cleanup cannot repair the disputed facial rows across the current CelebAMask-HQ + LaPa evidence.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_COMBINED_GOLD_POSTPROCESS_ROUTE_EVAL_20260710T042752-0500.json` reports `combined_gold_postprocess_candidates_found_no_promotion`, but only `mf70_nose` passes. `mf70_eyes_full`, `mf70_eyebrows`, `mf70_hair`, `mf70_teeth_mouth_area`, lips, face-skin, and neck remain blocked by strict combined-gold thresholds.
+
+Next work must use a stronger model-backed, label-aware, or explicit row-policy route. Do not continue hand-dilation/hand-expansion or target-portrait single-image tuning for these blocked facial rows. Do not promote masks, overwrite active inputs, run EC2/Git/Wave65 housekeeping, or use `C:\Comfy_UI`.
+
+## Current Pursuing Goal - Wave70 Combined Facial Gold Gate Blocks All But Nose - 2026-07-10T04:18:40-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with facial-mask work governed by combined MaskedWarehouse gold evidence rather than a single generated portrait. `Plan/07_IMPLEMENTATION/scripts/combine_wave70_facial_gold_gate_decisions.py` now combines CelebAMask-HQ and LaPa gate results.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_COMBINED_GOLD_GATE_DECISION_20260710T041840-0500.json` reports `blocked_combined_facial_gold_gate_routes_require_repair`. Only `mf70_nose` is supported by both current gold gates. The combined gate blocks `mf70_eyebrows`, `mf70_eyes_full`, `mf70_face_skin`, `mf70_hair`, `mf70_lips_bottom`, `mf70_lips_combined`, `mf70_lips_top`, `mf70_neck`, and `mf70_teeth_mouth_area` until repaired or given an explicit policy split.
+
+Next work should choose a blocked row and create a stronger route/policy evidence packet before any target-portrait proof. Do not use target portrait overlays as pass evidence, do not promote masks, do not overwrite active inputs, do not run EC2/Git/Wave65 housekeeping, and do not use `C:\Comfy_UI`.
+
+## Current Pursuing Goal - Wave70 LaPa Gold Benchmark Added, Facial Routes Still Fail-Closed - 2026-07-10T04:13:48-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, using MaskedWarehouse gold original-plus-mask/label datasets as the facial-mask authority before any generated-portrait runtime proof. LaPa is now an active second gold benchmark source alongside the earlier CelebAMask-HQ benchmark.
+
+Current validation anchors: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_LAPA_GOLD_LABEL_BENCHMARK_20260710T041044-0500.json` reports `lapa_gold_original_vs_label_benchmark_completed_no_promotion`; `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_LAPA_GOLD_BENCHMARK_GATE_20260710T041348-0500.json` reports `blocked_wave70_facial_lapa_gold_benchmark_gate_regions_require_repair`. The gate passes only `mf70_face_skin` and `mf70_nose`; it blocks `mf70_eyebrows`, `mf70_eyes_full`, `mf70_hair`, `mf70_lips_bottom`, `mf70_lips_combined`, `mf70_lips_top`, and `mf70_teeth_mouth_area`. LaPa does not provide a neck label, so `mf70_neck` remains governed by CelebAMask-HQ or a separate body/neck gold source.
+
+Do not use single generated-portrait overlays as facial-mask pass evidence. Next work should combine CelebAMask-HQ and LaPa gate findings to choose a stronger route or policy split before any target-portrait proof. No mask promotion, active input overwrite, generation, EC2, AWS, GitHub, S3, Civitai, row completion, or final certification occurred.
+
+## Current Pursuing Goal - Wave70 MediaPipe Landmark Route Evaluated, Remaining Lips/Eyebrows Still Blocked - 2026-07-10T03:48:00-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, using gold benchmark evidence before target runtime work. Local MediaPipe support was inspected and the installed package uses the tasks API, so the official FaceLandmarker task model was downloaded to `runtime_artifacts/mask_factory/mediapipe_models/face_landmarker_float16_latest.task` with SHA256 `64184E229B263107BC2B804C6625DB1341FF2BB731874B0BCC2FE6544E0BC9FF`.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MEDIAPIPE_LANDMARK_ROUTE_EVAL_20260710T034800-0500.json` reports `mediapipe_landmark_routes_evaluated_no_promotion`. MediaPipe routes did not clear the current gold gate for `mf70_eyebrows`, `mf70_lips_top`, `mf70_lips_bottom`, or `mf70_lips_combined`. Post-route hard gates `W70_MASK_GEOMETRY_HARD_GATE_POST_MEDIAPIPE_ROUTE_EVAL_20260710T034800-0500.json` and `W70_MASK_PROMOTION_HARD_GATE_POST_MEDIAPIPE_ROUTE_EVAL_20260710T034800-0500.json` pass with `checked_row_count=332` and `pass_like_row_count=0`.
+
+Do not rerun MediaPipe unless the landmark construction changes. Remaining eyebrows/lips/neck need a stronger route family or explicit row-policy decisions; face-skin is separately blocked by dataset-vs-runtime-protected policy.
+
+## Current Pursuing Goal - Wave70 mf70_face_skin Policy Blocker Recorded - 2026-07-10T03:38:00-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, using gold benchmark evidence while also protecting identity-critical facial features during runtime proofs. `mf70_face_skin` now has an explicit benchmark-vs-runtime-safety conflict recorded.
+
+Current validation anchors: hull candidate evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_FACE_SKIN_HULL_V2_20260710T032500-0500.json` reports `candidate_created_pending_strict_visual_review_not_promoted`; strict review `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_FACE_SKIN_HULL_V2_STRICT_VISUAL_REVIEW_20260710T033200-0500.json` reports `blocked_face_skin_hull_v2_runtime_unsafe_protected_route_required`; protected candidate evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_FACE_SKIN_PROTECTED_V3_20260710T033800-0500.json` reports `candidate_created_benchmark_tradeoff_generated_output_blocked_pending_policy_choice`.
+
+The hull route passes the current gold benchmark but covers eyes/eyebrows, lips/mouth, nose, and touches hair/clothing boundaries on the target portrait. The protected v3 route is visually safer but has mean IoU `0.821973`, below the current `0.85` gate. Do not run generated-output proof for face-skin until this row is defined as dataset-style skin versus runtime-protected skin. Post-policy-block gates pass with `checked_row_count=332` and `pass_like_row_count=0`.
+
+## Current Pursuing Goal - Wave70 mf70_teeth_mouth_area V2 Local Proof Complete - 2026-07-10T03:14:24-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with facial masks governed by MaskedWarehouse gold benchmark evidence and strict local generated-output QA. The `mf70_teeth_mouth_area` v2 candidate has now completed one bounded local ComfyUI generated-output proof and remains unpromoted.
+
+Current validation anchors: runtime evidence `Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_TEETH_MOUTH_AREA_V2_SEED210826_EXECUTE_20260710T031424-0500.json` reports `pass_local_run_package_generation_smoke`; visual QA `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_TEETH_MOUTH_AREA_V2_SEED210826_VISUAL_QA_20260710T031424-0500.json` reports `pass_with_notes_local_wave70_teeth_mouth_area_v2_generated_output`; tracker mirror `Plan/Tracker/Evidence/W70_MF70_TEETH_MOUTH_AREA_V2_GENERATED_OUTPUT_20260710T031424-0500.json`; comparison panel `runtime_artifacts/mask_factory/wave70_mf70_teeth_mouth_area_postprocess_v2/qa_comparisons/W70_LOCAL_MF70_TEETH_MOUTH_AREA_V2_SEED210826_VISUAL_QA_20260710T031424-0500_panel.png`.
+
+Post-proof geometry and promotion gates `W70_MASK_GEOMETRY_HARD_GATE_POST_TEETH_MOUTH_AREA_V2_LOCAL_PROOF_20260710T031424-0500.json` and `W70_MASK_PROMOTION_HARD_GATE_POST_TEETH_MOUTH_AREA_V2_LOCAL_PROOF_20260710T031424-0500.json` pass with `checked_row_count=332` and `pass_like_row_count=0`. No active teeth input overwrite, final certification, row promotion, EC2, AWS, GitHub, S3, or Civitai action occurred.
+
+## Current Pursuing Goal - Wave70 mf70_teeth_mouth_area V2 Candidate Accepted Pending Local Proof - 2026-07-10T02:58:00-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, using MaskedWarehouse gold benchmark evidence before target-portrait runtime proof. The blocked facial postprocess route evaluation found a valid benchmark route for `mf70_teeth_mouth_area`, and the route has now been applied to the target portrait as an unpromoted v2 candidate.
+
+Current validation anchors: route evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_BLOCKED_FACIAL_POSTPROCESS_ROUTE_EVAL_20260710T024500-0500.json` reports `candidate_routes_found_for_face_skin_and_teeth_mouth_area_no_promotion`; candidate evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_TEETH_MOUTH_AREA_POSTPROCESS_V2_20260710T025200-0500.json` reports `candidate_created_pending_strict_visual_review_not_promoted`; strict visual acceptance `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_TEETH_MOUTH_AREA_POSTPROCESS_V2_STRICT_VISUAL_ACCEPTANCE_20260710T025800-0500.json` reports `candidate_visual_acceptance_pass_generated_output_pending_not_promoted`.
+
+The candidate is a broader mouth-area mask, not the old teeth-only strip. It has zero predicted-nose overlap and expected lip-boundary overlap; generated-output QA must verify no expression/lip/mouth drift before any further promotion consideration. Post-candidate geometry and promotion gates pass with `checked_row_count=332` and `pass_like_row_count=0`. No active ComfyUI input was overwritten, no generation ran for this candidate yet, and no EC2/AWS/GitHub/S3/Civitai action occurred.
+
+## Current Pursuing Goal - Wave70 Stronger Gold-Benchmark Facial Repair Route Needed - 2026-07-10T02:35:00-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with facial-mask work governed by MaskedWarehouse gold original+mask benchmark evidence. After the `mf70_nose` v5 local proof passed with notes and remained unpromoted, `mf70_lips_top` was diagnosed as the next weakest non-neck blocked row.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_LIPS_TOP_GOLD_FAILURE_DIAGNOSTIC_20260710T023500-0500.json` reports `mf70_lips_top_blocked_simple_expansion_not_sufficient`. Best simple expansion radius `1` reaches only mean IoU `0.776182`, false-positive ratio `0.159959`, and false-negative ratio `0.101485`; this does not clear the gate. Tracker mirror: `Plan/Tracker/Evidence/W70_MF70_LIPS_TOP_GOLD_FAILURE_DIAGNOSTIC_20260710T023500-0500.json`. Panel: `runtime_artifacts/mask_factory/wave70_mf70_lips_top_gold_failure/W70_MF70_LIPS_TOP_GOLD_FAILURE_DIAGNOSTIC_20260710T023500-0500_panel.png`.
+
+Do not continue simple dilation/hand expansion for `mf70_lips_top` or `mf70_neck`. Next progress should use a stronger boundary-aware/model-backed repair route or move to another blocked gold-benchmark row with a diagnostic first. No active input, mask promotion, generation, EC2, AWS, GitHub, S3, or Civitai action occurred for the lips-top diagnostic.
+
+## Current Pursuing Goal - Wave70 mf70_nose V5 Local Proof Complete, Continue Gold-Benchmark Facial Repair - 2026-07-10T02:28:00-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main` using MaskedWarehouse gold originals/masks as the facial-mask benchmark authority before trusting any single generated target portrait. The parser-derived `mf70_nose` v5 candidate has now completed one bounded local ComfyUI generated-output proof without promotion.
+
+Current validation anchors: runtime evidence `Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_NOSE_V5_PARSER_DERIVED_SEED210825_EXECUTE_20260710T022800-0500.json` reports `pass_local_run_package_generation_smoke`; strict visual QA `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_NOSE_V5_PARSER_DERIVED_SEED210825_VISUAL_QA_20260710T022800-0500.json` reports `pass_with_notes_local_wave70_nose_v5_parser_derived_generated_output`; tracker mirror is `Plan/Tracker/Evidence/W70_MF70_NOSE_V5_PARSER_DERIVED_GENERATED_OUTPUT_20260710T022800-0500.json`; comparison panel is `runtime_artifacts/mask_factory/wave70_mf70_nose_parser_derived_v5/qa_comparisons/W70_LOCAL_MF70_NOSE_V5_PARSER_DERIVED_SEED210825_VISUAL_QA_20260710T022800-0500_panel.png`.
+
+Post-proof hard gates `W70_MASK_GEOMETRY_HARD_GATE_POST_NOSE_V5_LOCAL_PROOF_20260710T022800-0500.json` and `W70_MASK_PROMOTION_HARD_GATE_POST_NOSE_V5_LOCAL_PROOF_20260710T022800-0500.json` both pass with `checked_row_count=332` and `pass_like_row_count=0`, proving no accidental row promotion. `mf70_nose` remains local-candidate-only; target-runtime/reference-matrix proof and other disputed facial-mask repairs remain pending. Do not rerun this same local proof unless a changed mask/workflow/runtime input requires it.
+
+## Current Pursuing Goal - Wave70 mf70_nose Parser-Derived V5 Candidate - 2026-07-10T02:07:12-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main` by moving user-disputed facial masks onto gold-benchmark-supported parser routes. After `mf70_neck` was locally blocked, `mf70_nose` was selected because the gold benchmark gate supports it and the user had specifically disputed nose/mouth alignment. Added and ran `Plan/07_IMPLEMENTATION/scripts/repair_wave70_nose_parser_derived_v5.py`.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_NOSE_PARSER_DERIVED_V5_20260710T020712-0500.json` reports `candidate_created_pending_strict_visual_review_not_promoted`. Tracker mirror: `Plan/Tracker/Evidence/W70_MF70_NOSE_PARSER_DERIVED_V5_20260710T020712-0500.json`. Review panel: `runtime_artifacts/mask_factory/wave70_mf70_nose_parser_derived_v5/20260710T020712-0500/wave70_mf70_nose_parser_derived_v5_review_panel.png`.
+
+Key findings: prior v4 hand candidate had zero mouth/lip overlap but low parser alignment (`v4_vs_parser_nose.iou=0.262573`) and was visually shifted. Corrected v5 is source-derived from the local BiSeNet parser nose mask, has `5219` pixels, `v5_vs_parser_nose.iou=1.0`, and `v5_mouth_lip_overlap_pixels=0`. The earlier `W70_MF70_NOSE_PARSER_DERIVED_V5_20260710T020514-0500.json` is superseded/rejected because exclusive-label skin clipping made the candidate empty (`pixels=0`).
+
+Post-candidate hard gates `W70_MASK_GEOMETRY_HARD_GATE_POST_NOSE_V5_PARSER_DERIVED_20260710T020712-0500.json` and `W70_MASK_PROMOTION_HARD_GATE_POST_NOSE_V5_PARSER_DERIVED_20260710T020712-0500.json` both pass with `checked_row_count=332` and `pass_like_row_count=0`, proving no accidental row promotion. No active ComfyUI input was overwritten, no generation ran, no EC2 started, and no GitHub/AWS/S3/Civitai action occurred.
+
+## Current Pursuing Goal - Wave70 mf70_neck Local Repair Blocker - 2026-07-10T01:54:09-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, but do not continue the current simple-postprocess `mf70_neck` repair path. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_NECK_LOCAL_REPAIR_BLOCKER_20260710T015409-0500.json` records the exact local blocker: the current parser/simple-expansion route cannot advance `mf70_neck` because the gold benchmark gate blocks it at baseline mean IoU `0.7261`, and the best measured simple dilation reaches only `0.745391`, below the required `0.85` threshold. The tracker mirror is `Plan/Tracker/Evidence/W70_MF70_NECK_LOCAL_REPAIR_BLOCKER_20260710T015409-0500.json`.
+
+No mask, active input, workflow, generation output, EC2 state, AWS/S3/GitHub/Civitai state, or tracker row status was changed. Next work should switch to a local facial row with benchmark-supported parser evidence (`mf70_nose`, `mf70_hair`, or `mf70_eyes_full`) or implement a stronger model-backed neck/body parser route before rerunning the neck benchmark.
+
+## Current Pursuing Goal - Wave70 mf70_neck Gold Failure Diagnostic - 2026-07-10T01:43:38-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main` by repairing the weakest facial/body-adjacent mask route using gold original+gold mask evidence. Added and ran `Plan/07_IMPLEMENTATION/scripts/analyze_wave70_neck_gold_failure.py` after the facial gold benchmark gate selected `mf70_neck` as the next local target.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_NECK_GOLD_FAILURE_DIAGNOSTIC_20260710T014338-0500.json` reports `mf70_neck_blocked_simple_expansion_not_sufficient`. The tracker mirror is `Plan/Tracker/Evidence/W70_MF70_NECK_GOLD_FAILURE_DIAGNOSTIC_20260710T014338-0500.json`. The diagnostic confirms baseline `mf70_neck` mean IoU `0.7261` and false-negative ratio `0.230016`; the best simple dilation improved mean IoU only to `0.745391` and still failed the `0.85` gate, while larger expansion increased false positives and degraded score.
+
+Next work must create a boundary-aware `mf70_neck` repair candidate using neighboring face/skin/hair/clothing boundaries and the gold error panels, then rerun the gold benchmark/gate. Do not promote `mf70_neck`, overwrite active inputs, run generation, start EC2, or return to broad hand-tuned expansion.
+
+## Current Pursuing Goal - Wave70 Facial Gold Benchmark Gate Fail-Closed - 2026-07-10T01:33:55-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with Wave70 facial-mask progress now governed by a real gold original-vs-gold mask benchmark gate. Added and ran `Plan/07_IMPLEMENTATION/scripts/gate_wave70_facial_gold_benchmark.py`, which consumes `W70_FACIAL_GOLD_STANDARD_BENCHMARK_20260710T012300-0500.json`, applies explicit thresholds (`mean_iou >= 0.85`, `sample_count >= 3`, false-positive and false-negative ratios <= `0.15`), and records row-level pass/block decisions without changing masks or runtime inputs.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_GOLD_BENCHMARK_GATE_20260710T013355-0500.json` reports `blocked_wave70_facial_gold_benchmark_gate_regions_require_repair`. Passed benchmark regions are `mf70_eyes_full`, `mf70_hair`, and `mf70_nose`. Blocked regions are `mf70_eyebrows`, `mf70_face_skin`, `mf70_lips_bottom`, `mf70_lips_combined`, `mf70_lips_top`, `mf70_neck`, and `mf70_teeth_mouth_area`. The tracker mirror is `Plan/Tracker/Evidence/W70_FACIAL_GOLD_BENCHMARK_GATE_20260710T013355-0500.json`.
+
+Next best local repair target is `mf70_neck`, because it is the weakest blocked region (`mean_iou=0.7261`, `mean_dice=0.829693`, failed for IoU and false-negative ratio). Do not promote any facial mask from single-target portrait evidence; use gold benchmark, source-target alignment, local generated-output QA, and hard gates together.
+
+## Current Pursuing Goal - Wave70 Facial Gold Standard Benchmark Pivot - 2026-07-10T01:23:00-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, but pivot the Wave70 facial-mask path onto real gold-standard validation instead of treating the active generated portrait as the only authority. In response to the user's correction, `Plan/07_IMPLEMENTATION/scripts/benchmark_wave70_facial_gold_masks.py` now stages original CelebAMask-HQ gold images, runs the local BiSeNet/CelebAMask face parser through the ComfyUI venv, compares predicted masks against the matching gold masks for the same image IDs, and records IoU/Dice/false-positive/false-negative metrics plus review panels.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_GOLD_STANDARD_BENCHMARK_20260710T012300-0500.json` reports `gold_original_vs_gold_mask_benchmark_completed_no_promotion` over sample IDs `0`, `18000`, and `1`, with `30` region comparisons and review panels under `runtime_artifacts/mask_factory/wave70_facial_gold_standard_benchmark/20260710T012300-0500/review_panels`. The tracker mirror is `Plan/Tracker/Evidence/W70_FACIAL_GOLD_STANDARD_BENCHMARK_20260710T012300-0500.json`.
+
+Initial benchmark findings: strongest mean IoU regions were `mf70_hair` (`0.960774`), `mf70_nose` (`0.882195`), and `mf70_eyes_full` (`0.872174`). Weakest mean IoU regions were `mf70_neck` (`0.7261`), `mf70_lips_top` (`0.758103`), `mf70_face_skin` (`0.76305`), `mf70_teeth_mouth_area` (`0.776611`), and `mf70_lips_combined` (`0.798972`). This proves the gold original+gold mask route is now measuring real parser behavior and expression/pose sensitivity; it does not promote any active mask, complete any row, start EC2, run generation, or overwrite ComfyUI inputs.
+
+Next work must use this benchmark path as the facial-mask proof standard before returning changes to the generated target portrait.
+
+## Current Pursuing Goal - Active Surface Unwanted Generation Restriction Audit Complete - 2026-07-10T00:54:09-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`. In response to the user's concern about unwanted generation-restriction route/probe language, the active executable/steering surface was audited across `tools`, `Plan\07_IMPLEMENTATION\scripts`, `Workflows`, `PromptProfiles`, `config`, and hydration files. Evidence `Plan/Instructions/QA/Evidence/Runtime_Readiness/UNWANTED_GENERATION_RESTRICTION_ACTIVE_SURFACE_AUDIT_20260710T005409-0500.json` reports zero active-surface matches for the disputed route/probe wording and zero active-surface matches for content-restriction blocker patterns before the neutral evidence packet was written.
+
+No ComfyUI runtime code, workflow, prompt profile, config, active input, mask, generation output, EC2 state, GitHub state, S3 state, AWS state, Civitai state, or mask promotion was changed by this audit. The current working root remains `C:\Comfy_UI_Main`; `C:\Comfy_UI` remains legacy/out of active scope. Return to the local Wave70 facial-mask path from MaskedWarehouse references, with eyebrow v4 pass-with-notes still unpromoted and neighboring rows still requiring strict review.
+
+## Current Pursuing Goal - Wave70 Eyebrows V4 Local Proof Pass With Notes - 2026-07-10T00:39:00-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally by converting the improved `mf70_eyebrows` v4 candidate into a bounded local generated-output proof without promoting the row. The latest concrete progress is a v4-specific local proof chain: `ComfyUI/input/wave70_mf70_eyebrows_v4_mask.png` was created from the v4 candidate SHA, `PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_wave70_mf70_eyebrows_v4_seed210824.json` and `runtime_artifacts/run_packages/wave70_mf70_eyebrows_v4_seed210824/RUN_PACKAGE_MANIFEST.json` were built, local ComfyUI execution passed, and strict visual QA passed with notes while keeping promotion blocked.
+
+Current validation anchors: runtime evidence `Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_EYEBROWS_V4_SEED210824_EXECUTE_20260710T003600-0500.json` reports `pass_local_run_package_generation_smoke`, `generation_executed=true`, `ec2_started=false`, helper stop success, and closed port. Visual QA `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_EYEBROWS_V4_SEED210824_VISUAL_QA_20260710T003600-0500.json` reports `pass_with_notes_local_wave70_eyebrows_v4_generated_output_hard_gate_blocked`: identity, expression, gaze, eyebrows, eyes, hair, blazer, lighting, and background remain stable in the local proof. Post-proof hard gates `W70_MASK_GEOMETRY_HARD_GATE_POST_EYEBROWS_V4_LOCAL_PROOF_20260710T003900-0500.json` and `W70_MASK_PROMOTION_HARD_GATE_POST_EYEBROWS_V4_LOCAL_PROOF_20260710T003900-0500.json` both pass with `checked_row_count=332` and `pass_like_row_count=0`, proving no accidental promotion or row completion occurred.
+
+No EC2, AWS, GitHub API, Civitai, S3, active runtime marker, final certification, or row completion occurred. Next best work is continue local facial rows from MaskedWarehouse references or prepare reference-matrix/target-runtime gates for eyebrow v4; do not mark `TRK/ITEM-W70-0016` complete from this local proof alone.
+
+## Current Pursuing Goal - Wave70 Eyebrows Visible-Brow V4 Candidate - 2026-07-10T00:19:00-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally by correcting the facial mask geometry issues the user identified. The latest concrete progress is a `mf70_eyebrows` v4 visible-brow candidate created after re-reviewing the older v3 eyebrow panel and finding that v3 was still too broad/high and extended beyond visible brow strokes. V4 uses MaskedWarehouse/CelebAMask brow masks as the shape standard and trims the current source polygons to narrow visible eyebrow strokes separate from eyes, eyelids, forehead skin, and hair.
+
+Current validation anchors: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_EYEBROWS_VISIBLE_BROW_REPAIR_V4_20260710T001900-0500.json` reports `candidate_created_pending_strict_visual_review_not_promoted`, `active_input_mask_overwritten=false`, `mask_promoted=false`, `generation_executed=false`, and `ec2_started=false`. Review panel: `runtime_artifacts/mask_factory/wave70_mf70_eyebrows_visible_brow_v4/20260710T001900-0500/wave70_mf70_eyebrows_visible_brow_v4_review_panel.png`. The active ComfyUI eyebrow mask remains the earlier v3 SHA, so v4 did not silently replace runtime input. Post-v4 hard gates `W70_MASK_GEOMETRY_HARD_GATE_POST_EYEBROWS_V4_VISIBLE_BROW_REPAIR_20260710T001900-0500.json` and `W70_MASK_PROMOTION_HARD_GATE_POST_EYEBROWS_V4_VISIBLE_BROW_REPAIR_20260710T001900-0500.json` both pass with `checked_row_count=332` and `pass_like_row_count=0`, preserving fail-closed status.
+
+No EC2, AWS, GitHub API, Civitai, S3, active runtime marker, mask promotion, or row completion occurred. Next best work is high-zoom review of the eyebrow v4 panel, then either a v4-specific local proof with a separate input filename or continued neighboring facial row repair from MaskedWarehouse references.
+
+## Current Pursuing Goal - Wave70 Eyes Full V3/V3B Local Proof Iteration - 2026-07-10T00:05:00-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally by reducing the facial mask geometry/runtime-quality blocker the user identified. The latest concrete progress is a v3-specific `mf70_eyes_full` local proof chain that avoids stale active-mask reuse: `wave70_mf70_eyes_full_v3_mask.png` was copied into `ComfyUI/input`, v3 and v3b run packages were built, both local ComfyUI executions succeeded, pulled-back images were reviewed, and strict QA kept the mask unpromoted.
+
+Current validation anchors: runtime evidence `Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_EYES_FULL_V3_SEED210822_EXECUTE_20260709T235700-0500.json` and `Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_EYES_FULL_V3B_SEED210823_EXECUTE_20260710T000300-0500.json` both report `pass_local_run_package_generation_smoke`, `generation_executed=true`, `ec2_started=false`, and helper stop/port-close success. Strict visual QA evidence `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_EYES_FULL_V3_SEED210822_VISUAL_QA_20260709T235700-0500.json` fails promotion because the first local proof softened/changed eye character; v3b evidence `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_EYES_FULL_V3B_SEED210823_VISUAL_QA_20260710T000300-0500.json` reports lower-denoise improvement but still not promotion-worthy. Post-proof hard gates `W70_MASK_GEOMETRY_HARD_GATE_POST_EYES_FULL_V3B_LOCAL_PROOF_20260710T000500-0500.json` and `W70_MASK_PROMOTION_HARD_GATE_POST_EYES_FULL_V3B_LOCAL_PROOF_20260710T000500-0500.json` pass with `checked_row_count=332` and `pass_like_row_count=0`, confirming the ledger remains fail-closed.
+
+No EC2, AWS, GitHub API, Civitai, S3, active runtime marker, mask promotion, or active row completion occurred. Next best work is continue local facial-mask repair from MaskedWarehouse references and either refine the request/mask further with a lower-impact/no-op comparison or move to adjacent facial rows while `TRK/ITEM-W70-0009` remains blocked from completion.
+
+## Current Pursuing Goal - Wave70 Eyes Full Source-Landmark Repair Candidate V2 - 2026-07-09T21:53:00-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally by reducing the mask-geometry blocker the user identified. The latest concrete progress is a source-aware `mf70_eyes_full` repair candidate that narrows the prior broad oval eye mask into visible eye apertures and clips away from the viewer-left hair occlusion/brow region. The first v1 candidate was visually rejected because it still rode too high over the eyelid/brow area; v2 supersedes it.
+
+Current validation anchors: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_EYES_FULL_SOURCE_LANDMARK_REPAIR_V2_20260709T215300-0500.json` reports `candidate_created_pending_strict_visual_review_and_wave70_geometry_promotion_gates`, `ec2_started=false`, `generation_executed=false`, `mask_promoted=false`; hard gates `W70_MASK_GEOMETRY_HARD_GATE_POST_EYES_FULL_REPAIR_V2_20260709T215300-0500.json` and `W70_MASK_PROMOTION_HARD_GATE_POST_EYES_FULL_REPAIR_V2_20260709T215300-0500.json` both pass, confirming no unsupported pass/promotion state was introduced. Tracker mirrors exist. This is candidate evidence only, not final mask completion.
+
+## Current Pursuing Goal - Selected Inpaint QA Helper Dirty-Git Gate Retest - 2026-07-09T21:32:39-05:00
+
+Keep pursuing selected-inpaint target-runtime/final-certification readiness locally. The latest concrete progress is a QA-helper contract fix and retest for the post-alignment final-certification readiness gate: `Test-QAHelperStatic.ps1` now accepts the corrected behavior where a current dirty worktree forces `git_gate_summary.passes_for_ec2_execute=false` and requires a `current_worktree_dirty_after_stored_git_gate:*` blocker instead of preserving stale stored clean-gate evidence.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_QA_HELPER_AFTER_POST_ALIGNMENT_FINAL_CERT_HELPER_FIX_RETEST_20260709T213239-0500.json` reports `pass_local_only`, 52 scripts parsed, 0 parse failures, 57 local smokes, and 0 local smoke failures. Tracker mirror: `Plan/Tracker/Evidence/Runtime_Readiness/W66_QA_HELPER_AFTER_POST_ALIGNMENT_FINAL_CERT_HELPER_FIX_RETEST_20260709T213239-0500.json`. Live execution remains unauthorized until explicit live intent and live-gate proofs exist.
+
+## Current Pursuing Goal - Selected Inpaint Post-Alignment Scoped Checkpoint Dry-Run - 2026-07-09T21:17:00-05:00
+
+Keep pursuing selected-inpaint target-runtime/final-certification readiness locally. The latest concrete progress is a guarded scoped checkpoint dry-run that identifies exactly which selected-inpaint evidence/hydration/helper paths belong to the current checkpoint scope while excluding an unrelated fleet audit artifact.
+
+Current validation anchor: `W66_GITHUB_CHECKPOINT_DRY_RUN_JSON_GATE_SELECTED_INPAINT_POST_ALIGNMENT_FINAL_CERT_20260709T211400-0500.json` reports `blocked_git_checkpoint_dirty_worktree`, explicit path scope, 39 scoped changed paths, 1 excluded changed path, 0 blocked changed paths, 0 staged secret matches, and no staging/commit/push. This is checkpoint readiness evidence only; live execution remains unauthorized until explicit live intent, S3 Execute proofs, EC2 install/static proof, generation, pullback, and strict visual QA exist.
+
+## Current Pursuing Goal - Selected Inpaint Post-Alignment Final-Cert Closure Refresh - 2026-07-09T21:02:00-05:00
+
+Keep pursuing selected-inpaint target-runtime/final-certification readiness locally. The latest concrete progress is a post-alignment final-certification refresh that updates readiness, work orders, inpaint blocker evidence, closure rollup, and evidence coverage from the aligned dry-run chain while preserving live-gate blockers.
+
+Current validation anchors: `W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_POST_ALIGNMENT_20260709T210200-0500.json` (`blocked_final_certification_target_runtime_or_final_review_missing`, defects 0, current Git status count 19, EC2 execute false), `W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_POST_ALIGNMENT_20260709T210200-0500.json` (18 work orders), `W66_INPAINT_LANE_FINAL_REVIEW_BLOCKER_PACKET_POST_ALIGNMENT_20260709T210200-0500.json` (`blocked_inpaint_lane_final_review_target_runtime_proof_missing`, all tests pass), `W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_CLOSURE_ROLLUP_POST_ALIGNMENT_20260709T210200-0500.json` (16 open / 2 closed), and `W66_ACTIVE_RUNTIME_QUEUE_FINAL_REVIEW_EVIDENCE_COVERAGE_POST_ALIGNMENT_20260709T210200-0500.json` (0 missing review evidence). Live execution remains unauthorized until explicit live intent, S3 Execute proofs, EC2 install/static proof, generation, pullback, and strict visual QA exist.
+
+## Current Pursuing Goal - Selected Inpaint Final Certification Blocker After Chain Alignment - 2026-07-09T20:59:11-05:00
+
+Keep pursuing selected-inpaint target-runtime/final-certification readiness locally. The latest concrete progress is a blocker packet that prevents stale clean-gate or pre-alignment final-review evidence from being treated as final certification proof.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Done_Certifications/W66_SELECTED_INPAINT_FINAL_CERTIFICATION_BLOCKER_AFTER_CHAIN_ALIGNMENT_20260709T205911-0500.json` reports `blocked_selected_inpaint_final_certification_after_chain_alignment` with `failed_check_count=0`, `full_project_certification_allowed=false`, `closes_work_order=false`, current dirty worktree count `14`, and live/runtime QA blockers still present.
+
+## Current Pursuing Goal - Selected Inpaint Publish Dry-Run Chain Alignment Current - 2026-07-09T20:49:40-05:00
+
+Keep pursuing selected-inpaint target-runtime readiness from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a local-only alignment proof for the current publish dry-run handoff chain, proving the model/input dry-runs, pre-EC2 handoff, runbook, and execution-readiness snapshot agree while all live gates remain closed.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_INPAINT_PUBLISH_DRY_RUN_CHAIN_ALIGNMENT_20260709T204940-0500.json` reports `pass_local_only_selected_inpaint_publish_dry_run_chain_aligned_live_gates_closed` with `failed_check_count=0`, no AWS/S3 contact, no EC2 start, no generation, no prompt post, no active runtime marker write, and no mask promotion. Live execution remains unauthorized until explicit target-runtime/live intent, S3 Execute proofs for deploy bundle/input/model assets, EC2 install hash proof, EC2 start authorization, static proof, generation, and strict visual QA are present.
+
 ## Current Pursuing Goal - Selected Inpaint Publish Dry-Run Handoff Current - 2026-07-09T20:28:00-05:00
 
 Keep pursuing selected-inpaint target-runtime readiness from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a local-only publish dry-run proof chain for the selected inpaint live path: RealVisXL model publish dry-run, source/mask input-asset publish dry-runs, refreshed pre-EC2 handoff, refreshed live execution runbook, and refreshed execution-readiness snapshot.
@@ -5666,3 +5982,49 @@ The row remains `Blocked_Wave70_Mask_Promotion_Gate_Not_Passed` by design until 
 Ran one bounded local ComfyUI generated-output proof for the repaired `mf70_pupils_iris_sclera` v3 eye-aperture mask. Runtime evidence is `Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_PUPILS_IRIS_SCLERA_V3_SEED210811_EXECUTE_20260708T005500-0500.json`. Strict visual QA is `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_PUPILS_IRIS_SCLERA_V3_SEED210811_VISUAL_QA_20260708T010000-0500.json`, tracker evidence is `Plan/Tracker/Evidence/W70_MF70_PUPILS_IRIS_SCLERA_V3_GENERATED_OUTPUT_20260708T010000-0500.json`, and comparison panel is `runtime_artifacts/mask_factory/wave70_mf70_pupils_iris_sclera/qa_comparisons/wave70_mf70_pupils_iris_sclera_v3_source_aperture_output_compare.png`.
 
 Result: pass with notes for local output safety. The row remains `Blocked_Wave70_Mask_Promotion_Gate_Not_Passed`; this proof is evidence for the repair queue, not row promotion, target-runtime proof, reference-matrix proof, or certification.
+
+## Wave70 mf70_nose V5 Parser-Derived Local Generated-Output Proof - 2026-07-10T02:28:00-05:00
+
+Ran one bounded local ComfyUI generated-output proof for the parser-derived `mf70_nose` v5 candidate. Runtime evidence is `Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_NOSE_V5_PARSER_DERIVED_SEED210825_EXECUTE_20260710T022800-0500.json`. Strict whole-image visual QA is `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_NOSE_V5_PARSER_DERIVED_SEED210825_VISUAL_QA_20260710T022800-0500.json`, tracker mirror evidence is `Plan/Tracker/Evidence/W70_MF70_NOSE_V5_PARSER_DERIVED_GENERATED_OUTPUT_20260710T022800-0500.json`, and comparison panel is `runtime_artifacts/mask_factory/wave70_mf70_nose_parser_derived_v5/qa_comparisons/W70_LOCAL_MF70_NOSE_V5_PARSER_DERIVED_SEED210825_VISUAL_QA_20260710T022800-0500_panel.png`.
+
+Result: pass with notes for local candidate proof only. The runtime mask preview matches the v5 parser-derived nose region, mouth/lips are not included, and the generated output preserves the source portrait at whole-image scale without visible nose-edge artifacts. This does not promote `mf70_nose`, does not overwrite the older active nose input, and does not certify other disputed masks.
+
+## Wave70 mf70_lips_top Gold Failure Diagnostic - 2026-07-10T02:35:00-05:00
+
+Ran a local gold-benchmark diagnostic for `mf70_lips_top` after `mf70_nose` v5 local proof completed. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_LIPS_TOP_GOLD_FAILURE_DIAGNOSTIC_20260710T023500-0500.json` reports `mf70_lips_top_blocked_simple_expansion_not_sufficient`. Baseline failure is under-masking, especially sample `18000`; diagnostic panel is `runtime_artifacts/mask_factory/wave70_mf70_lips_top_gold_failure/W70_MF70_LIPS_TOP_GOLD_FAILURE_DIAGNOSTIC_20260710T023500-0500_panel.png`. No active input, mask promotion, generation, EC2, AWS, GitHub, S3, or Civitai action occurred.
+
+## Wave70 Blocked Facial Postprocess Route Evaluation - 2026-07-10T02:45:00-05:00
+
+Evaluated stronger local postprocess routes for all current gold-benchmark-blocked facial regions. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_BLOCKED_FACIAL_POSTPROCESS_ROUTE_EVAL_20260710T024500-0500.json` reports `candidate_routes_found_for_face_skin_and_teeth_mouth_area_no_promotion`: `mf70_face_skin` passes with hull completion (`mean_iou=0.937518`) and `mf70_teeth_mouth_area` passes with erode/dilate (`mean_iou=0.872362`). `mf70_eyebrows`, `mf70_lips_bottom`, `mf70_lips_combined`, `mf70_lips_top`, and `mf70_neck` remain blocked by this postprocess family. No active input, mask promotion, generation, EC2, AWS, GitHub, S3, or Civitai action occurred.
+
+## Wave70 mf70_teeth_mouth_area Postprocess V2 Candidate - 2026-07-10T02:52:00-05:00
+
+Created an unpromoted target-specific `mf70_teeth_mouth_area` candidate from the gold-benchmark-passing mouth-area postprocess route. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_TEETH_MOUTH_AREA_POSTPROCESS_V2_20260710T025200-0500.json` reports `candidate_created_pending_strict_visual_review_not_promoted`; review panel `runtime_artifacts/mask_factory/wave70_mf70_teeth_mouth_area_postprocess_v2/20260710T025200-0500/wave70_mf70_teeth_mouth_area_postprocess_v2_review_panel.png` compares the target source, old active teeth-only mask, parser mouth baseline, v2 candidate, and protected lip/nose overlay. The active `ComfyUI/input/wave70_mf70_teeth_mask.png` was not overwritten. No generation, EC2, AWS, GitHub, S3, Civitai, final certification, or mask promotion occurred.
+
+## Wave70 mf70_teeth_mouth_area Postprocess V2 Strict Visual Acceptance - 2026-07-10T02:58:00-05:00
+
+Strictly reviewed the unpromoted `mf70_teeth_mouth_area` v2 postprocess candidate. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_TEETH_MOUTH_AREA_POSTPROCESS_V2_STRICT_VISUAL_ACCEPTANCE_20260710T025800-0500.json` reports `candidate_visual_acceptance_pass_generated_output_pending_not_promoted`: the mask is aligned to the visible mouth/teeth opening, has zero nose overlap, and is explicitly a broader mouth-area mask rather than the old teeth-only strip. No active input, mask promotion, generation, EC2, AWS, GitHub, S3, Civitai, final certification, or row completion occurred.
+
+## Wave70 mf70_teeth_mouth_area V2 Local Generated-Output Proof - 2026-07-10T03:14:24-05:00
+
+Ran one bounded local ComfyUI generated-output proof for the unpromoted `mf70_teeth_mouth_area` v2 candidate. Runtime evidence `Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_TEETH_MOUTH_AREA_V2_SEED210826_EXECUTE_20260710T031424-0500.json` reports `pass_local_run_package_generation_smoke`; strict visual QA `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_TEETH_MOUTH_AREA_V2_SEED210826_VISUAL_QA_20260710T031424-0500.json` reports `pass_with_notes_local_wave70_teeth_mouth_area_v2_generated_output`; tracker mirror `Plan/Tracker/Evidence/W70_MF70_TEETH_MOUTH_AREA_V2_GENERATED_OUTPUT_20260710T031424-0500.json` and comparison panel `runtime_artifacts/mask_factory/wave70_mf70_teeth_mouth_area_postprocess_v2/qa_comparisons/W70_LOCAL_MF70_TEETH_MOUTH_AREA_V2_SEED210826_VISUAL_QA_20260710T031424-0500_panel.png` were written. No active teeth input overwrite, mask promotion, EC2, AWS, GitHub, S3, Civitai, final certification, or row completion occurred.
+
+## Wave70 mf70_teeth_mouth_area V2 Local Generated-Output Proof - 2026-07-10T03:14:24-05:00
+
+Ran one bounded local ComfyUI generated-output proof for the unpromoted `mf70_teeth_mouth_area` v2 candidate. Runtime evidence `Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_MF70_TEETH_MOUTH_AREA_V2_SEED210826_EXECUTE_20260710T031424-0500.json` reports `pass_local_run_package_generation_smoke`; strict visual QA `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_TEETH_MOUTH_AREA_V2_SEED210826_VISUAL_QA_20260710T031424-0500.json` reports `pass_with_notes_local_wave70_teeth_mouth_area_v2_generated_output`; tracker mirror `Plan/Tracker/Evidence/W70_MF70_TEETH_MOUTH_AREA_V2_GENERATED_OUTPUT_20260710T031424-0500.json` and comparison panel `runtime_artifacts/mask_factory/wave70_mf70_teeth_mouth_area_postprocess_v2/qa_comparisons/W70_LOCAL_MF70_TEETH_MOUTH_AREA_V2_SEED210826_VISUAL_QA_20260710T031424-0500_panel.png` were written. No active teeth input overwrite, mask promotion, EC2, AWS, GitHub, S3, Civitai, final certification, or row completion occurred.
+
+## Wave70 mf70_face_skin Hull V2 Candidate - 2026-07-10T03:25:00-05:00
+
+Created an unpromoted target-specific `mf70_face_skin` hull v2 candidate from the gold-benchmark-passing route. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_FACE_SKIN_HULL_V2_20260710T032500-0500.json` reports `candidate_created_pending_strict_visual_review_not_promoted`; review panel `runtime_artifacts/mask_factory/wave70_mf70_face_skin_hull_v2/20260710T032500-0500/wave70_mf70_face_skin_hull_v2_review_panel.png` includes protected overlays for eye/brow, lips/mouth, nose, hair, and clothing. No active input, mask promotion, generation, EC2, AWS, GitHub, S3, Civitai, final certification, or row completion occurred.
+
+## Wave70 mf70_face_skin Hull V2 Strict Visual Review - 2026-07-10T03:32:00-05:00
+
+Strict visual review blocked the benchmark-passing `mf70_face_skin` hull v2 candidate for runtime use. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_FACE_SKIN_HULL_V2_STRICT_VISUAL_REVIEW_20260710T033200-0500.json` reports `blocked_face_skin_hull_v2_runtime_unsafe_protected_route_required`: the target overlay fills eyes/eyebrows, lips/mouth, nose, and touches hair/clothing boundaries. Do not run generated-output proof for this hull mask; create a protected route instead. No active input, mask promotion, generation, EC2, AWS, GitHub, S3, Civitai, final certification, or row completion occurred.
+
+## Wave70 mf70_face_skin Protected V3 Candidate - 2026-07-10T03:38:00-05:00
+
+Created protected `mf70_face_skin` v3 candidate after hull v2 passed the benchmark but failed runtime visual safety. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_FACE_SKIN_PROTECTED_V3_20260710T033800-0500.json` reports `candidate_created_benchmark_tradeoff_generated_output_blocked_pending_policy_choice`: protected v3 excludes feature/hair/clothing regions and is visually safer, but its measured gold benchmark tradeoff is mean IoU `0.821973`, below the current `0.85` gate. Do not run generated-output proof until the face-skin row policy is clarified as dataset-skin benchmark versus runtime-protected skin mask. No active input, generation, EC2, AWS, GitHub, S3, Civitai, promotion, or row completion occurred.
+
+## Wave70 MediaPipe Landmark Route Evaluation - 2026-07-10T03:48:00-05:00
+
+Evaluated local MediaPipe FaceMesh landmark routes for remaining eyebrows/lip rows against the same MaskedWarehouse gold samples. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MEDIAPIPE_LANDMARK_ROUTE_EVAL_20260710T034800-0500.json` reports `mediapipe_landmark_routes_evaluated_no_promotion`. Candidate routes found: `none`. Still blocked after MediaPipe: `mf70_eyebrows, mf70_lips_top, mf70_lips_bottom, mf70_lips_combined`. No active input, mask promotion, generation, EC2, AWS, GitHub, S3, Civitai, row completion, or certification occurred.

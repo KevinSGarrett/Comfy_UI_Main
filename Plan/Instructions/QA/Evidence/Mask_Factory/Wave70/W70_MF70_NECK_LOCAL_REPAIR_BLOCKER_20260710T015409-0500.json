@@ -1,0 +1,28 @@
+{
+  "active_input_mask_overwritten": false,
+  "benchmark_gate_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_GOLD_BENCHMARK_GATE_20260710T013355-0500.json",
+  "blocked_region": "mf70_neck",
+  "blocker_id": "W70_MF70_NECK_LOCAL_REPAIR_BLOCKER_20260710T015409-0500",
+  "blocker_type": "local_gold_benchmark_metric_blocker",
+  "diagnostic_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MF70_NECK_GOLD_FAILURE_DIAGNOSTIC_20260710T014338-0500.json",
+  "ec2_started": false,
+  "evidence_id": "W70_MF70_NECK_LOCAL_REPAIR_BLOCKER_20260710T015409-0500",
+  "exact_blocker": "mf70_neck cannot be advanced or promoted from the current local parser/simple-postprocess route. The gold benchmark gate blocks mf70_neck with baseline mean_iou 0.7261, and the best measured simple dilation reaches only mean_iou 0.745391, below the required 0.85 threshold. Additional parser-constrained foreground/skin recovery experiments did not improve the gate enough. A boundary-aware or stronger model-backed neck/body parser route is required before mf70_neck can proceed.",
+  "generation_executed": false,
+  "local_only": true,
+  "mask_promoted": false,
+  "measured_baseline": {
+    "mean_false_negative_ratio_vs_gold": 0.230016,
+    "mean_false_positive_ratio_vs_gold": 0.051488,
+    "mean_iou": 0.7261
+  },
+  "measured_best_simple_dilation": {
+    "mean_false_negative_ratio_vs_gold": 0.197139,
+    "mean_false_positive_ratio_vs_gold": 0.067217,
+    "mean_iou": 0.745391,
+    "radius": 1
+  },
+  "next_allowed_action": "Switch to the next local facial row with benchmark-supported parser evidence, or implement a stronger boundary-aware/model-backed neck route before rerunning the gold benchmark gate.",
+  "result": "blocked_mf70_neck_current_local_repair_route_insufficient",
+  "timestamp": "20260710T015409-0500"
+}

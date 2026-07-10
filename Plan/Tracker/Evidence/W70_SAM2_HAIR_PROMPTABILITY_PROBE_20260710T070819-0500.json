@@ -1,0 +1,664 @@
+{
+  "active_input_mask_overwritten": false,
+  "best_failed_reasons": [
+    "mean_iou_below_0.85",
+    "false_positive_ratio_above_0.15"
+  ],
+  "best_is_diagnostic_oracle": false,
+  "best_pass_gate": false,
+  "best_route": "baseline_pred",
+  "best_summary": {
+    "mean_dice": 0.711746,
+    "mean_false_negative_ratio_vs_gold": 0.01799,
+    "mean_false_positive_ratio_vs_gold": 0.501776,
+    "mean_iou": 0.666388,
+    "sample_count": 6
+  },
+  "device": "cpu",
+  "ec2_started": false,
+  "evidence_id": "W70_SAM2_HAIR_PROMPTABILITY_PROBE_20260710T070819-0500",
+  "generation_executed": false,
+  "local_only": true,
+  "mask_promoted": false,
+  "next_required_action": "If no promotable score-selected candidate exists, do not promote SAM2 hair masks. Either design a non-oracle automatic SAM2 prompt policy with stronger owner prompts, write a hair-row policy, or switch to another local gold-backed blocked row.",
+  "result": "sam2_hair_promptability_probe_no_promotable_candidate",
+  "review_panels": [
+    {
+      "panel_index": 1,
+      "panel_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/review_panels/sam2_hair_promptability_baseline_pred_panel_1.png",
+      "panel_sha256": "3e0484a64593e8752cf3acdfa4f88ac5d29318518b07c8d488d90e41f3016d84",
+      "panel_type": "best_route"
+    },
+    {
+      "panel_index": 2,
+      "panel_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/review_panels/sam2_hair_promptability_baseline_pred_panel_2.png",
+      "panel_sha256": "53a3f3b799c1e92d64a2003132bdcd6c60666ce6fb5c2caeded82cd5141fc25e",
+      "panel_type": "best_route"
+    },
+    {
+      "panel_index": 1,
+      "panel_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/review_panels/sam2_hair_promptability_route_compare_panel_1.png",
+      "panel_sha256": "f32486a1b5e2704dc53eb4b970cb893aa5d13cdab9a47f6610da819ee94051bc",
+      "panel_type": "route_comparison"
+    },
+    {
+      "panel_index": 2,
+      "panel_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/review_panels/sam2_hair_promptability_route_compare_panel_2.png",
+      "panel_sha256": "b76e85360fb46c71664259979258859d3275558f2124fe07cd2aaf5d7f8cd1d7",
+      "panel_type": "route_comparison"
+    }
+  ],
+  "route_family": "SAM2 tiny image predictor with automatic baseline-hair bounding boxes, optional positive hair points, negative face/feature anchor points, score-selected masks, and diagnostic-only oracle mask selection",
+  "route_records": [
+    {
+      "diagnostic_oracle_route": false,
+      "failed_reasons": [
+        "mean_iou_below_0.85",
+        "false_positive_ratio_above_0.15"
+      ],
+      "pass_gate": false,
+      "route": "baseline_pred",
+      "score": 0.578444,
+      "summary": {
+        "mean_dice": 0.711746,
+        "mean_false_negative_ratio_vs_gold": 0.01799,
+        "mean_false_positive_ratio_vs_gold": 0.501776,
+        "mean_iou": 0.666388,
+        "sample_count": 6
+      }
+    },
+    {
+      "diagnostic_oracle_route": true,
+      "failed_reasons": [
+        "mean_iou_below_0.85",
+        "false_negative_ratio_above_0.15"
+      ],
+      "pass_gate": false,
+      "route": "sam2_pred_bbox_oracle_best",
+      "score": 0.414912,
+      "summary": {
+        "mean_dice": 0.503162,
+        "mean_false_negative_ratio_vs_gold": 0.359592,
+        "mean_false_positive_ratio_vs_gold": 0.093561,
+        "mean_iou": 0.45683,
+        "sample_count": 6
+      }
+    },
+    {
+      "diagnostic_oracle_route": true,
+      "failed_reasons": [
+        "mean_iou_below_0.85",
+        "false_positive_ratio_above_0.15",
+        "false_negative_ratio_above_0.15"
+      ],
+      "pass_gate": false,
+      "route": "sam2_pred_bbox_points_oracle_best",
+      "score": 0.221379,
+      "summary": {
+        "mean_dice": 0.541646,
+        "mean_false_negative_ratio_vs_gold": 0.226822,
+        "mean_false_positive_ratio_vs_gold": 1.006399,
+        "mean_iou": 0.450843,
+        "sample_count": 6
+      }
+    },
+    {
+      "diagnostic_oracle_route": false,
+      "failed_reasons": [
+        "mean_iou_below_0.85",
+        "false_positive_ratio_above_0.15",
+        "false_negative_ratio_above_0.15"
+      ],
+      "pass_gate": false,
+      "route": "sam2_pred_bbox_points_score_best",
+      "score": 0.115341,
+      "summary": {
+        "mean_dice": 0.461813,
+        "mean_false_negative_ratio_vs_gold": 0.284766,
+        "mean_false_positive_ratio_vs_gold": 1.015678,
+        "mean_iou": 0.358714,
+        "sample_count": 6
+      }
+    },
+    {
+      "diagnostic_oracle_route": false,
+      "failed_reasons": [
+        "mean_iou_below_0.85",
+        "false_positive_ratio_above_0.15",
+        "false_negative_ratio_above_0.15"
+      ],
+      "pass_gate": false,
+      "route": "sam2_pred_bbox_score_best",
+      "score": 0.032941,
+      "summary": {
+        "mean_dice": 0.377388,
+        "mean_false_negative_ratio_vs_gold": 0.33191,
+        "mean_false_positive_ratio_vs_gold": 1.039006,
+        "mean_iou": 0.291575,
+        "sample_count": 6
+      }
+    }
+  ],
+  "sam2_checkpoint": "C:\\Comfy_UI_Lora\\OpenPose\\models\\sam2\\sam2.1_hiera_tiny.pt",
+  "sam2_config": "configs/sam2.1/sam2.1_hiera_t.yaml",
+  "sample_count": 6,
+  "sample_results": [
+    {
+      "dataset": "CelebAMask-HQ",
+      "image_path": "MaskedWarehouse/CelebAMask-HQ/CelebA-HQ-img/0.jpg",
+      "metrics_by_route": {
+        "baseline_pred": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/CelebAMask-HQ_0_baseline_pred.png",
+          "metrics": {
+            "dice": 0.970366,
+            "false_negative_pixels": 3263,
+            "false_negative_ratio_vs_gold": 0.025208,
+            "false_positive_pixels": 4444,
+            "false_positive_ratio_vs_gold": 0.034331,
+            "gold_pixels": 129444,
+            "intersection_pixels": 126181,
+            "iou": 0.942437,
+            "pred_pixels": 130625,
+            "union_pixels": 133888
+          }
+        },
+        "sam2_pred_bbox_oracle_best": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/CelebAMask-HQ_0_sam2_pred_bbox_oracle_best.png",
+          "metrics": {
+            "dice": 0.896785,
+            "false_negative_pixels": 23635,
+            "false_negative_ratio_vs_gold": 0.182589,
+            "false_positive_pixels": 721,
+            "false_positive_ratio_vs_gold": 0.00557,
+            "gold_pixels": 129444,
+            "intersection_pixels": 105809,
+            "iou": 0.812884,
+            "pred_pixels": 106530,
+            "union_pixels": 130165
+          }
+        },
+        "sam2_pred_bbox_points_oracle_best": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/CelebAMask-HQ_0_sam2_pred_bbox_points_oracle_best.png",
+          "metrics": {
+            "dice": 0.71557,
+            "false_negative_pixels": 1469,
+            "false_negative_ratio_vs_gold": 0.011349,
+            "false_positive_pixels": 100268,
+            "false_positive_ratio_vs_gold": 0.774605,
+            "gold_pixels": 129444,
+            "intersection_pixels": 127975,
+            "iou": 0.557111,
+            "pred_pixels": 228243,
+            "union_pixels": 229712
+          }
+        },
+        "sam2_pred_bbox_points_score_best": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/CelebAMask-HQ_0_sam2_pred_bbox_points_score_best.png",
+          "metrics": {
+            "dice": 0.71557,
+            "false_negative_pixels": 1469,
+            "false_negative_ratio_vs_gold": 0.011349,
+            "false_positive_pixels": 100268,
+            "false_positive_ratio_vs_gold": 0.774605,
+            "gold_pixels": 129444,
+            "intersection_pixels": 127975,
+            "iou": 0.557111,
+            "pred_pixels": 228243,
+            "union_pixels": 229712
+          }
+        },
+        "sam2_pred_bbox_score_best": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/CelebAMask-HQ_0_sam2_pred_bbox_score_best.png",
+          "metrics": {
+            "dice": 0.716554,
+            "false_negative_pixels": 1115,
+            "false_negative_ratio_vs_gold": 0.008614,
+            "false_positive_pixels": 100411,
+            "false_positive_ratio_vs_gold": 0.77571,
+            "gold_pixels": 129444,
+            "intersection_pixels": 128329,
+            "iou": 0.558304,
+            "pred_pixels": 228740,
+            "union_pixels": 229855
+          }
+        }
+      },
+      "sample_key": "0",
+      "split": null
+    },
+    {
+      "dataset": "CelebAMask-HQ",
+      "image_path": "MaskedWarehouse/CelebAMask-HQ/CelebA-HQ-img/1.jpg",
+      "metrics_by_route": {
+        "baseline_pred": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/CelebAMask-HQ_1_baseline_pred.png",
+          "metrics": {
+            "dice": 0.987429,
+            "false_negative_pixels": 1535,
+            "false_negative_ratio_vs_gold": 0.011974,
+            "false_positive_pixels": 1690,
+            "false_positive_ratio_vs_gold": 0.013183,
+            "gold_pixels": 128195,
+            "intersection_pixels": 126660,
+            "iou": 0.97517,
+            "pred_pixels": 128350,
+            "union_pixels": 129885
+          }
+        },
+        "sam2_pred_bbox_oracle_best": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/CelebAMask-HQ_1_sam2_pred_bbox_oracle_best.png",
+          "metrics": {
+            "dice": 0.957907,
+            "false_negative_pixels": 9302,
+            "false_negative_ratio_vs_gold": 0.072561,
+            "false_positive_pixels": 1147,
+            "false_positive_ratio_vs_gold": 0.008947,
+            "gold_pixels": 128195,
+            "intersection_pixels": 118893,
+            "iou": 0.919214,
+            "pred_pixels": 120040,
+            "union_pixels": 129342
+          }
+        },
+        "sam2_pred_bbox_points_oracle_best": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/CelebAMask-HQ_1_sam2_pred_bbox_points_oracle_best.png",
+          "metrics": {
+            "dice": 0.916314,
+            "false_negative_pixels": 19779,
+            "false_negative_ratio_vs_gold": 0.154288,
+            "false_positive_pixels": 24,
+            "false_positive_ratio_vs_gold": 0.000187,
+            "gold_pixels": 128195,
+            "intersection_pixels": 108416,
+            "iou": 0.845553,
+            "pred_pixels": 108440,
+            "union_pixels": 128219
+          }
+        },
+        "sam2_pred_bbox_points_score_best": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/CelebAMask-HQ_1_sam2_pred_bbox_points_score_best.png",
+          "metrics": {
+            "dice": 0.700081,
+            "false_negative_pixels": 3099,
+            "false_negative_ratio_vs_gold": 0.024174,
+            "false_positive_pixels": 104085,
+            "false_positive_ratio_vs_gold": 0.811927,
+            "gold_pixels": 128195,
+            "intersection_pixels": 125096,
+            "iou": 0.538557,
+            "pred_pixels": 229181,
+            "union_pixels": 232280
+          }
+        },
+        "sam2_pred_bbox_score_best": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/CelebAMask-HQ_1_sam2_pred_bbox_score_best.png",
+          "metrics": {
+            "dice": 0.70039,
+            "false_negative_pixels": 3065,
+            "false_negative_ratio_vs_gold": 0.023909,
+            "false_positive_pixels": 103990,
+            "false_positive_ratio_vs_gold": 0.811186,
+            "gold_pixels": 128195,
+            "intersection_pixels": 125130,
+            "iou": 0.538924,
+            "pred_pixels": 229120,
+            "union_pixels": 232185
+          }
+        }
+      },
+      "sample_key": "1",
+      "split": null
+    },
+    {
+      "dataset": "CelebAMask-HQ",
+      "image_path": "MaskedWarehouse/CelebAMask-HQ/CelebA-HQ-img/18000.jpg",
+      "metrics_by_route": {
+        "baseline_pred": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/CelebAMask-HQ_18000_baseline_pred.png",
+          "metrics": {
+            "dice": 0.982041,
+            "false_negative_pixels": 2570,
+            "false_negative_ratio_vs_gold": 0.018781,
+            "false_positive_pixels": 2341,
+            "false_positive_ratio_vs_gold": 0.017107,
+            "gold_pixels": 136842,
+            "intersection_pixels": 134272,
+            "iou": 0.964716,
+            "pred_pixels": 136613,
+            "union_pixels": 139183
+          }
+        },
+        "sam2_pred_bbox_oracle_best": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/CelebAMask-HQ_18000_sam2_pred_bbox_oracle_best.png",
+          "metrics": {
+            "dice": 0.942181,
+            "false_negative_pixels": 6022,
+            "false_negative_ratio_vs_gold": 0.044007,
+            "false_positive_pixels": 10034,
+            "false_positive_ratio_vs_gold": 0.073325,
+            "gold_pixels": 136842,
+            "intersection_pixels": 130820,
+            "iou": 0.890683,
+            "pred_pixels": 140854,
+            "union_pixels": 146876
+          }
+        },
+        "sam2_pred_bbox_points_oracle_best": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/CelebAMask-HQ_18000_sam2_pred_bbox_points_oracle_best.png",
+          "metrics": {
+            "dice": 0.915527,
+            "false_negative_pixels": 21265,
+            "false_negative_ratio_vs_gold": 0.155398,
+            "false_positive_pixels": 63,
+            "false_positive_ratio_vs_gold": 0.00046,
+            "gold_pixels": 136842,
+            "intersection_pixels": 115577,
+            "iou": 0.844213,
+            "pred_pixels": 115640,
+            "union_pixels": 136905
+          }
+        },
+        "sam2_pred_bbox_points_score_best": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/CelebAMask-HQ_18000_sam2_pred_bbox_points_score_best.png",
+          "metrics": {
+            "dice": 0.81391,
+            "false_negative_pixels": 12820,
+            "false_negative_ratio_vs_gold": 0.093685,
+            "false_positive_pixels": 43892,
+            "false_positive_ratio_vs_gold": 0.320749,
+            "gold_pixels": 136842,
+            "intersection_pixels": 124022,
+            "iou": 0.686213,
+            "pred_pixels": 167914,
+            "union_pixels": 180734
+          }
+        },
+        "sam2_pred_bbox_score_best": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/CelebAMask-HQ_18000_sam2_pred_bbox_score_best.png",
+          "metrics": {
+            "dice": 0.751422,
+            "false_negative_pixels": 2038,
+            "false_negative_ratio_vs_gold": 0.014893,
+            "false_positive_pixels": 87151,
+            "false_positive_ratio_vs_gold": 0.636873,
+            "gold_pixels": 136842,
+            "intersection_pixels": 134804,
+            "iou": 0.601822,
+            "pred_pixels": 221955,
+            "union_pixels": 223993
+          }
+        }
+      },
+      "sample_key": "18000",
+      "split": null
+    },
+    {
+      "dataset": "LaPa",
+      "image_path": "MaskedWarehouse/LaPa/val/images/10004916254_0.jpg",
+      "metrics_by_route": {
+        "baseline_pred": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/LaPa_10004916254_0_baseline_pred.png",
+          "metrics": {
+            "dice": 0.404458,
+            "false_negative_pixels": 522,
+            "false_negative_ratio_vs_gold": 0.03518,
+            "false_positive_pixels": 41637,
+            "false_positive_ratio_vs_gold": 2.806106,
+            "gold_pixels": 14838,
+            "intersection_pixels": 14316,
+            "iou": 0.253493,
+            "pred_pixels": 55953,
+            "union_pixels": 56475
+          }
+        },
+        "sam2_pred_bbox_oracle_best": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/LaPa_10004916254_0_sam2_pred_bbox_oracle_best.png",
+          "metrics": {
+            "dice": 0.078746,
+            "false_negative_pixels": 14009,
+            "false_negative_ratio_vs_gold": 0.94413,
+            "false_positive_pixels": 5388,
+            "false_positive_ratio_vs_gold": 0.363122,
+            "gold_pixels": 14838,
+            "intersection_pixels": 829,
+            "iou": 0.040987,
+            "pred_pixels": 6217,
+            "union_pixels": 20226
+          }
+        },
+        "sam2_pred_bbox_points_oracle_best": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/LaPa_10004916254_0_sam2_pred_bbox_points_oracle_best.png",
+          "metrics": {
+            "dice": 0.162745,
+            "false_negative_pixels": 6773,
+            "false_negative_ratio_vs_gold": 0.456463,
+            "false_positive_pixels": 76209,
+            "false_positive_ratio_vs_gold": 5.13607,
+            "gold_pixels": 14838,
+            "intersection_pixels": 8065,
+            "iou": 0.088581,
+            "pred_pixels": 84274,
+            "union_pixels": 91047
+          }
+        },
+        "sam2_pred_bbox_points_score_best": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/LaPa_10004916254_0_sam2_pred_bbox_points_score_best.png",
+          "metrics": {
+            "dice": 0.001597,
+            "false_negative_pixels": 14778,
+            "false_negative_ratio_vs_gold": 0.995956,
+            "false_positive_pixels": 60238,
+            "false_positive_ratio_vs_gold": 4.059712,
+            "gold_pixels": 14838,
+            "intersection_pixels": 60,
+            "iou": 0.000799,
+            "pred_pixels": 60298,
+            "union_pixels": 75076
+          }
+        },
+        "sam2_pred_bbox_score_best": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/LaPa_10004916254_0_sam2_pred_bbox_score_best.png",
+          "metrics": {
+            "dice": 0.0,
+            "false_negative_pixels": 14838,
+            "false_negative_ratio_vs_gold": 1.0,
+            "false_positive_pixels": 57868,
+            "false_positive_ratio_vs_gold": 3.899987,
+            "gold_pixels": 14838,
+            "intersection_pixels": 0,
+            "iou": 0.0,
+            "pred_pixels": 57868,
+            "union_pixels": 72706
+          }
+        }
+      },
+      "sample_key": "10004916254_0",
+      "split": "val"
+    },
+    {
+      "dataset": "LaPa",
+      "image_path": "MaskedWarehouse/LaPa/val/images/10012551673_2.jpg",
+      "metrics_by_route": {
+        "baseline_pred": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/LaPa_10012551673_2_baseline_pred.png",
+          "metrics": {
+            "dice": 0.926182,
+            "false_negative_pixels": 401,
+            "false_negative_ratio_vs_gold": 0.016795,
+            "false_positive_pixels": 3341,
+            "false_positive_ratio_vs_gold": 0.139931,
+            "gold_pixels": 23876,
+            "intersection_pixels": 23475,
+            "iou": 0.862512,
+            "pred_pixels": 26816,
+            "union_pixels": 27217
+          }
+        },
+        "sam2_pred_bbox_oracle_best": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/LaPa_10012551673_2_sam2_pred_bbox_oracle_best.png",
+          "metrics": {
+            "dice": 0.143352,
+            "false_negative_pixels": 21829,
+            "false_negative_ratio_vs_gold": 0.914265,
+            "false_positive_pixels": 2636,
+            "false_positive_ratio_vs_gold": 0.110404,
+            "gold_pixels": 23876,
+            "intersection_pixels": 2047,
+            "iou": 0.07721,
+            "pred_pixels": 4683,
+            "union_pixels": 26512
+          }
+        },
+        "sam2_pred_bbox_points_oracle_best": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/LaPa_10012551673_2_sam2_pred_bbox_points_oracle_best.png",
+          "metrics": {
+            "dice": 0.539722,
+            "false_negative_pixels": 13930,
+            "false_negative_ratio_vs_gold": 0.583431,
+            "false_positive_pixels": 3034,
+            "false_positive_ratio_vs_gold": 0.127073,
+            "gold_pixels": 23876,
+            "intersection_pixels": 9946,
+            "iou": 0.369602,
+            "pred_pixels": 12980,
+            "union_pixels": 26910
+          }
+        },
+        "sam2_pred_bbox_points_score_best": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/LaPa_10012551673_2_sam2_pred_bbox_points_score_best.png",
+          "metrics": {
+            "dice": 0.539722,
+            "false_negative_pixels": 13930,
+            "false_negative_ratio_vs_gold": 0.583431,
+            "false_positive_pixels": 3034,
+            "false_positive_ratio_vs_gold": 0.127073,
+            "gold_pixels": 23876,
+            "intersection_pixels": 9946,
+            "iou": 0.369602,
+            "pred_pixels": 12980,
+            "union_pixels": 26910
+          }
+        },
+        "sam2_pred_bbox_score_best": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/LaPa_10012551673_2_sam2_pred_bbox_score_best.png",
+          "metrics": {
+            "dice": 0.09596,
+            "false_negative_pixels": 22540,
+            "false_negative_ratio_vs_gold": 0.944044,
+            "false_positive_pixels": 2633,
+            "false_positive_ratio_vs_gold": 0.110278,
+            "gold_pixels": 23876,
+            "intersection_pixels": 1336,
+            "iou": 0.050398,
+            "pred_pixels": 3969,
+            "union_pixels": 26509
+          }
+        }
+      },
+      "sample_key": "10012551673_2",
+      "split": "val"
+    },
+    {
+      "dataset": "LaPa",
+      "image_path": "MaskedWarehouse/LaPa/val/images/10023147796_0.jpg",
+      "metrics_by_route": {
+        "baseline_pred": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/LaPa_10023147796_0_baseline_pred.png",
+          "metrics": {
+            "dice": 0.0,
+            "false_negative_pixels": 0,
+            "false_negative_ratio_vs_gold": null,
+            "false_positive_pixels": 3261,
+            "false_positive_ratio_vs_gold": null,
+            "gold_pixels": 0,
+            "intersection_pixels": 0,
+            "iou": 0.0,
+            "pred_pixels": 3261,
+            "union_pixels": 3261
+          }
+        },
+        "sam2_pred_bbox_oracle_best": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/LaPa_10023147796_0_sam2_pred_bbox_oracle_best.png",
+          "metrics": {
+            "dice": 0.0,
+            "false_negative_pixels": 0,
+            "false_negative_ratio_vs_gold": null,
+            "false_positive_pixels": 96316,
+            "false_positive_ratio_vs_gold": null,
+            "gold_pixels": 0,
+            "intersection_pixels": 0,
+            "iou": 0.0,
+            "pred_pixels": 96316,
+            "union_pixels": 96316
+          }
+        },
+        "sam2_pred_bbox_points_oracle_best": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/LaPa_10023147796_0_sam2_pred_bbox_points_oracle_best.png",
+          "metrics": {
+            "dice": 0.0,
+            "false_negative_pixels": 0,
+            "false_negative_ratio_vs_gold": null,
+            "false_positive_pixels": 73118,
+            "false_positive_ratio_vs_gold": null,
+            "gold_pixels": 0,
+            "intersection_pixels": 0,
+            "iou": 0.0,
+            "pred_pixels": 73118,
+            "union_pixels": 73118
+          }
+        },
+        "sam2_pred_bbox_points_score_best": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/LaPa_10023147796_0_sam2_pred_bbox_points_score_best.png",
+          "metrics": {
+            "dice": 0.0,
+            "false_negative_pixels": 0,
+            "false_negative_ratio_vs_gold": null,
+            "false_positive_pixels": 55376,
+            "false_positive_ratio_vs_gold": null,
+            "gold_pixels": 0,
+            "intersection_pixels": 0,
+            "iou": 0.0,
+            "pred_pixels": 55376,
+            "union_pixels": 55376
+          }
+        },
+        "sam2_pred_bbox_score_best": {
+          "mask_path": "runtime_artifacts/mask_factory/wave70_sam2_hair_promptability/20260710T070819-0500/route_masks/LaPa_10023147796_0_sam2_pred_bbox_score_best.png",
+          "metrics": {
+            "dice": 0.0,
+            "false_negative_pixels": 0,
+            "false_negative_ratio_vs_gold": null,
+            "false_positive_pixels": 54493,
+            "false_positive_ratio_vs_gold": null,
+            "gold_pixels": 0,
+            "intersection_pixels": 0,
+            "iou": 0.0,
+            "pred_pixels": 54493,
+            "union_pixels": 54493
+          }
+        }
+      },
+      "sample_key": "10023147796_0",
+      "split": "val"
+    }
+  ],
+  "scope": "bounded SAM2 hair promptability probe against MaskedWarehouse gold original images and hair masks",
+  "selected_sample_keys": [
+    "CelebAMask-HQ:0",
+    "CelebAMask-HQ:1",
+    "CelebAMask-HQ:18000",
+    "LaPa:10004916254_0",
+    "LaPa:10012551673_2",
+    "LaPa:10023147796_0"
+  ],
+  "source_evidence": {
+    "celeba": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_GOLD_STANDARD_BENCHMARK_20260710T012300-0500.json",
+    "lapa": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_FACIAL_LAPA_GOLD_LABEL_BENCHMARK_20260710T041044-0500.json"
+  },
+  "thresholds": {
+    "max_false_negative_ratio_vs_gold": 0.15,
+    "max_false_positive_ratio_vs_gold": 0.15,
+    "min_mean_iou": 0.85
+  },
+  "timestamp": "20260710T070819-0500"
+}

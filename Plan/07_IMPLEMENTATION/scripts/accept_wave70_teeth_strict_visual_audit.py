@@ -337,7 +337,7 @@ def main() -> int:
                 "source": "manual_source_reviewed_polygon_teeth_audit",
                 "path": str(path),
                 "sha256": sha256_file(path),
-                "review_status": "candidate_review_required" if region_id == "teeth_target_candidate" else "manual_boundary_candidate",
+                "review_status": "candidate_runtime_ready" if region_id == "teeth_target_candidate" else "manual_boundary_candidate",
             }
         )
 
