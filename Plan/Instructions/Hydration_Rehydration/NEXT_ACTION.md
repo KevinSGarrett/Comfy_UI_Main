@@ -1,3 +1,9 @@
+## Immediate Next Action - Stop Current InsightFace Eye Route Family - 2026-07-10T10:00:36-05:00
+
+The bounded InsightFace 106-point eye-route improvement pass is complete and remains fail-closed. `Plan/07_IMPLEMENTATION/scripts/evaluate_wave70_insightface_106_eye_routes.py` now includes a landmark-scaled x/y shifted union route family, but evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_INSIGHTFACE_106_EYE_ROUTE_EVAL_20260710T100036-0500.json` reports the best route is still `eye106_all10_anis_heY1_union_parser_pdY1` with mean IoU `0.730961`, FP `0.152127`, and FN `0.1557`; `best_pass_gate=false`.
+
+Next exact action: stop retuning the current InsightFace 106 eye route family unless a genuinely new eye authority/index map is introduced. Switch to another local gold-backed blocked row with a new route or write an explicit fail-closed policy for the current eye route. Keep work local and gold-backed; do not promote masks, overwrite active inputs, use generated-portrait-only proof, start EC2, activate Wave71+, or use `C:\Comfy_UI`.
+
 ## Immediate Next Action - Improve InsightFace Eye Mapping Or Switch Row - 2026-07-10T08:07:00-05:00
 
 Runtime 106-point authority is now available: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_RUNTIME_106_LANDMARK_SOURCE_AUDIT_20260710T080700-0500.json` reports `runtime_106_candidate_modules=["insightface"]`. Downstream eye-route evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_INSIGHTFACE_106_EYE_ROUTE_EVAL_20260710T080416-0500.json` remains blocked: best route `eye_window_x0.15_y0.06_m8_f10_d0` has mean IoU `0.724292`, FP `0.198889`, FN `0.134806`.

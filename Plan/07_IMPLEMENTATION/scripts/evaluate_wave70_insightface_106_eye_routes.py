@@ -308,6 +308,22 @@ def anisotropic_morph(mask: np.ndarray, *, dilate_x: int = 0, dilate_y: int = 0,
     return out
 
 
+def shift_mask(mask: np.ndarray, *, dx: int, dy: int) -> np.ndarray:
+    if dx == 0 and dy == 0:
+        return (mask > 0).astype(np.uint8)
+    height, width = mask.shape
+    matrix = np.float32([[1, 0, dx], [0, 1, dy]])
+    shifted = cv2.warpAffine(
+        (mask > 0).astype(np.uint8),
+        matrix,
+        (width, height),
+        flags=cv2.INTER_NEAREST,
+        borderMode=cv2.BORDER_CONSTANT,
+        borderValue=0,
+    )
+    return (shifted > 0).astype(np.uint8)
+
+
 def eye_index_anisotropic_parser_union_mask(
     sample: dict[str, Any],
     *,
@@ -327,6 +343,31 @@ def eye_index_anisotropic_parser_union_mask(
     landmark = anisotropic_morph(landmark, erode_y=landmark_erode_y)
     parser = anisotropic_morph(sample["pred"], dilate_y=parser_dilate_y)
     return np.logical_or(landmark, parser).astype(np.uint8)
+
+
+def eye_index_shifted_union_mask(
+    sample: dict[str, Any],
+    *,
+    left_indices: tuple[int, ...],
+    right_indices: tuple[int, ...],
+    landmark_erode_y: int,
+    parser_dilate_y: int,
+    shift_x_frac: float,
+    shift_y_frac: float,
+) -> np.ndarray:
+    base = eye_index_anisotropic_parser_union_mask(
+        sample,
+        left_indices=left_indices,
+        right_indices=right_indices,
+        landmark_erode_y=landmark_erode_y,
+        parser_dilate_y=parser_dilate_y,
+    )
+    eye_distance = max(1.0, float(np.linalg.norm(sample["kps"][0] - sample["kps"][1])))
+    return shift_mask(
+        base,
+        dx=int(round(eye_distance * shift_x_frac)),
+        dy=int(round(eye_distance * shift_y_frac)),
+    )
 
 
 Route = Callable[[dict[str, Any]], np.ndarray]
@@ -440,6 +481,32 @@ def make_routes() -> dict[str, Route]:
                         parser_dilate_y=parser_dilate_y,
                     )
                 )
+    for group_name, (left_indices, right_indices) in {
+        "eye106_all10": (tuple(range(33, 43)), tuple(range(87, 97))),
+        "eye106_contour8": ((33, 35, 36, 37, 39, 40, 41, 42), (87, 89, 90, 91, 93, 94, 95, 96)),
+    }.items():
+        for landmark_erode_y in (0, 1):
+            for parser_dilate_y in (0, 1, 2):
+                for shift_x_frac in (-0.045, -0.03, -0.015, 0.0, 0.015, 0.03, 0.045):
+                    for shift_y_frac in (-0.03, -0.015, 0.0, 0.015, 0.03):
+                        name = (
+                            f"{group_name}_shifted_heY{landmark_erode_y}"
+                            f"_pdY{parser_dilate_y}_sx{shift_x_frac}_sy{shift_y_frac}"
+                        )
+                        routes[name] = (
+                            lambda sample, left_indices=left_indices, right_indices=right_indices,
+                            landmark_erode_y=landmark_erode_y, parser_dilate_y=parser_dilate_y,
+                            shift_x_frac=shift_x_frac, shift_y_frac=shift_y_frac:
+                            eye_index_shifted_union_mask(
+                                sample,
+                                left_indices=left_indices,
+                                right_indices=right_indices,
+                                landmark_erode_y=landmark_erode_y,
+                                parser_dilate_y=parser_dilate_y,
+                                shift_x_frac=shift_x_frac,
+                                shift_y_frac=shift_y_frac,
+                            )
+                        )
     return routes
 
 

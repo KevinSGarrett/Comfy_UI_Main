@@ -1,3 +1,11 @@
+## Current Pursuing Goal - InsightFace Eye Shift Family Exhausted - 2026-07-10T10:00:36-05:00
+
+Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with Wave70 facial masks governed by MaskedWarehouse gold originals and masks before target-portrait proof. The latest concrete progress is a bounded improvement attempt for `mf70_eyes_full`: the InsightFace 106-point evaluator now tests landmark-scaled x/y shifted 106-parser union masks, but the best route did not improve beyond the previous family.
+
+Current validation anchor: `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_INSIGHTFACE_106_EYE_ROUTE_EVAL_20260710T100036-0500.json` reports `insightface_106_eye_routes_blocked_no_promotion`, `route_count=4861`, `best_route=eye106_all10_anis_heY1_union_parser_pdY1`, `mean_iou=0.730961`, `mean_false_positive_ratio_vs_gold=0.152127`, `mean_false_negative_ratio_vs_gold=0.1557`, and `best_pass_gate=false`. Tracker mirror exists at `Plan/Tracker/Evidence/W70_INSIGHTFACE_106_EYE_ROUTE_EVAL_20260710T100036-0500.json`.
+
+No active ComfyUI input overwrite, mask promotion, row completion, EC2, AWS, S3, Civitai, Wave71 activation, Jira mutation, generated-portrait-only proof, or certification occurred. Current local Git is clean except for future work; the prior LFS CSV residue was preserved in stash `defer LFS tracker CSV snapshots blocked by GitHub LFS upload`.
+
 ## Current Pursuing Goal - Wave70 InsightFace 106 Installed, Eye Route Blocked - 2026-07-10T08:07:00-05:00
 
 Keep pursuing the full ComfyUI hyperrealism project locally from `C:\Comfy_UI_Main`, with facial masks governed by MaskedWarehouse gold originals and masks before any target-portrait proof. A local runtime 106-point authority is now installed and model-backed, but the first gold-backed InsightFace eye route does not pass LaPa gold.
