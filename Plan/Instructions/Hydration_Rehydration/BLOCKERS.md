@@ -1,3 +1,7 @@
+## Four ControlNet Local Handoffs Ready; Explicit Live Window Still Required - 2026-07-10T12:49:30-05:00
+
+No known local package, deploy, publish-dry-run, asset-transfer-dry-run, or clean-Git handoff blocker remains for depth, lineart, openpose, or normal. Live progression remains blocked by explicit user-selected live intent, deploy/model/input S3 `-Execute` proofs, EC2 install hash proofs, object-info/path/static proof, bounded generation, pullback, strict whole-image visual QA, and final lane review. The same live boundary applies independently to each lane.
+
 ## Four ControlNet Transfer Plans Ready; Execute Proofs Still Required - 2026-07-10T12:38:40-05:00
 
 Depth, lineart, openpose, and normal no longer have missing local model/control-image hash or dry-run transfer-plan blockers. They remain blocked from target-runtime and final-certification claims by explicit live intent, deploy/checkpoint/ControlNet/input S3 publish `-Execute` proofs, EC2 install hash proofs, object-info/path/static proof, bounded generation, artifact pullback, strict whole-image visual QA, and final review. No work order is closed by the dry-run matrix.

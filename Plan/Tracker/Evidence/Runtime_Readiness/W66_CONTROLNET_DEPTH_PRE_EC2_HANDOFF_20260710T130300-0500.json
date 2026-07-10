@@ -1,0 +1,156 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "controlnet_lane_pre_ec2_handoff_bundle",
+    "created_at":  "2026-07-10T12:47:18-05:00",
+    "tracker_id":  "WO-W66-SDXL-REALVISXL-CONTROLNET-DEPTH-LANE-TARGET-RUNTIME-PROOF",
+    "lane_id":  "sdxl_realvisxl_controlnet_depth_lane",
+    "result":  "pass_local_only_controlnet_pre_ec2_handoff_ready_live_blocked",
+    "failure_category":  null,
+    "local_only":  true,
+    "aws_contacted":  false,
+    "s3_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "prompt_posted":  false,
+    "active_runtime_marker_written":  false,
+    "masks_consumed_as_truth":  false,
+    "masks_promoted":  false,
+    "wave70_hard_gate_rerun":  false,
+    "wave71_plus_activated":  false,
+    "jira_mutated":  false,
+    "target_runtime_proof":  false,
+    "certification_claimed":  false,
+    "promotion_allowed":  false,
+    "execute_allowed_now":  false,
+    "target_runtime_launch_allowed":  false,
+    "current_git_head":  "054e27885704adcd80f5957ed72257a51ade7bdd",
+    "current_origin_main":  "054e27885704adcd80f5957ed72257a51ade7bdd",
+    "current_porcelain_count":  0,
+    "run_package_manifest":  "runtime_artifacts/run_packages/depth_target_prep_current_43638e6/RUN_PACKAGE_MANIFEST.json",
+    "deploy_bundle_manifest":  "runtime_artifacts/deploy_bundles/depth_current_43638e6/DEPLOY_BUNDLE_MANIFEST.json",
+    "package_deploy_evidence":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_CONTROLNET_DEPTH_CURRENT_PACKAGE_DEPLOY_CONSISTENCY_20260710T121600-0500.json",
+    "deploy_publish_evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_CONTROLNET_DEPTH_DEPLOY_BUNDLE_S3_PUBLISH_DRY_RUN_20260710T125000-0500.json",
+    "asset_transfer_evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_CONTROLNET_DEPTH_ASSET_TRANSFER_DRY_RUN_BUNDLE_20260710T123100-0500.json",
+    "git_gate_evidence":  "runtime_artifacts/git_checkpoints/W66_CONTROLNET_PRE_EC2_VALIDATOR_FINAL_GATE_20260710T130200-0500.json",
+    "bundle_id":  "depth_current_43638e6",
+    "bundle_zip_sha256":  "afbbf6ce2f8bb6bab8b79ca1d2b2b8ce35b37b7dd46fa99c1b817eaac26ad258",
+    "deploy_bundle_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/depth_current_43638e6/depth_current_43638e6.zip",
+    "checkpoint_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/checkpoints/realvisxlV50_v50Bakedvae.safetensors",
+    "controlnet_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/controlnet/controlnet-depth-sdxl-1.0-small.safetensors",
+    "input_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets/sdxl_realvisxl_controlnet_depth_lane/controlnet_depth_anything_w69_v1.png",
+    "check_count":  7,
+    "checks":  [
+                   {
+                       "name":  "supported_controlnet_lane",
+                       "result":  "pass",
+                       "observed":  "sdxl_realvisxl_controlnet_depth_lane",
+                       "expected":  [
+                                        "sdxl_realvisxl_controlnet_depth_lane",
+                                        "sdxl_realvisxl_controlnet_lineart_lane",
+                                        "sdxl_realvisxl_controlnet_openpose_lane",
+                                        "sdxl_realvisxl_controlnet_normal_lane"
+                                    ],
+                       "failure_category":  null
+                   },
+                   {
+                       "name":  "lane_identity_alignment",
+                       "result":  "pass",
+                       "observed":  {
+                                        "requested":  "sdxl_realvisxl_controlnet_depth_lane",
+                                        "run_manifest":  "sdxl_realvisxl_controlnet_depth_lane",
+                                        "deploy_manifest":  "sdxl_realvisxl_controlnet_depth_lane",
+                                        "package_deploy_evidence":  "sdxl_realvisxl_controlnet_depth_lane",
+                                        "deploy_publish_evidence":  "sdxl_realvisxl_controlnet_depth_lane",
+                                        "asset_transfer_evidence":  "sdxl_realvisxl_controlnet_depth_lane"
+                                    },
+                       "expected":  "all lane_id values equal requested lane",
+                       "failure_category":  null
+                   },
+                   {
+                       "name":  "package_deploy_contract",
+                       "result":  "pass",
+                       "observed":  {
+                                        "result":  "pass_local_only",
+                                        "failed_check_count":  0,
+                                        "run_package_manifest":  "runtime_artifacts/run_packages/depth_target_prep_current_43638e6/RUN_PACKAGE_MANIFEST.json",
+                                        "deploy_bundle_manifest":  "runtime_artifacts/deploy_bundles/depth_current_43638e6/DEPLOY_BUNDLE_MANIFEST.json"
+                                    },
+                       "expected":  "matching pass_local_only package/deploy evidence with zero failures",
+                       "failure_category":  null
+                   },
+                   {
+                       "name":  "deploy_bundle_contract",
+                       "result":  "pass",
+                       "observed":  {
+                                        "result":  "pass_local_only",
+                                        "bundle_id":  "depth_current_43638e6",
+                                        "source_git_head":  "43638e60b3925b51a5fb9261447ab7b582361521",
+                                        "source_git_clean":  true,
+                                        "source_git_status_count":  0,
+                                        "bundle_zip_sha256":  "afbbf6ce2f8bb6bab8b79ca1d2b2b8ce35b37b7dd46fa99c1b817eaac26ad258"
+                                    },
+                       "expected":  "clean local deploy bundle with current ZIP hash",
+                       "failure_category":  null
+                   },
+                   {
+                       "name":  "deploy_publish_dry_run_contract",
+                       "result":  "pass",
+                       "observed":  {
+                                        "result":  "dry_run_ready_to_upload",
+                                        "bundle_id":  "depth_current_43638e6",
+                                        "bundle_zip_sha256":  "afbbf6ce2f8bb6bab8b79ca1d2b2b8ce35b37b7dd46fa99c1b817eaac26ad258",
+                                        "upload_attempted":  false,
+                                        "s3_bundle_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/depth_current_43638e6/depth_current_43638e6.zip"
+                                    },
+                       "expected":  "matching no-upload deploy-bundle publish dry run",
+                       "failure_category":  null
+                   },
+                   {
+                       "name":  "asset_transfer_dry_run_contract",
+                       "result":  "pass",
+                       "observed":  {
+                                        "result":  "pass_local_only_controlnet_asset_transfer_dry_run_bundle_validated",
+                                        "child_artifact_count":  6,
+                                        "failed_check_count":  0,
+                                        "checkpoint_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/checkpoints/realvisxlV50_v50Bakedvae.safetensors",
+                                        "controlnet_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/controlnet/controlnet-depth-sdxl-1.0-small.safetensors",
+                                        "input_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets/sdxl_realvisxl_controlnet_depth_lane/controlnet_depth_anything_w69_v1.png"
+                                    },
+                       "expected":  "matching six-child local-only asset-transfer dry-run bundle",
+                       "failure_category":  null
+                   },
+                   {
+                       "name":  "current_clean_git_gate",
+                       "result":  "pass",
+                       "observed":  {
+                                        "gate_result":  "pass_git_checkpoint_ready",
+                                        "gate_head":  "054e27885704adcd80f5957ed72257a51ade7bdd",
+                                        "gate_origin_main":  "054e27885704adcd80f5957ed72257a51ade7bdd",
+                                        "current_head":  "054e27885704adcd80f5957ed72257a51ade7bdd",
+                                        "current_origin_main":  "054e27885704adcd80f5957ed72257a51ade7bdd",
+                                        "gate_clean_worktree":  true,
+                                        "current_porcelain_count":  0,
+                                        "blocked_changed_path_count":  0,
+                                        "staged_secret_match_count":  0
+                                    },
+                       "expected":  "supplied clean gate and current repository both clean at identical HEAD/origin",
+                       "failure_category":  null
+                   }
+               ],
+    "failed_check_count":  0,
+    "failure_categories":  [
+
+                           ],
+    "exact_blockers":  [
+                           "explicit_live_execution_intent_required",
+                           "deploy_and_asset_s3_publish_execute_proofs_missing",
+                           "ec2_asset_install_hash_proofs_missing",
+                           "target_runtime_object_info_and_static_proof_missing",
+                           "bounded_target_runtime_generation_missing",
+                           "artifact_pullback_and_strict_visual_qa_missing",
+                           "final_lane_certification_review_missing"
+                       ],
+    "boundary":  "Local ControlNet pre-EC2 handoff validation only. This does not upload, start EC2, install remotely, write active markers, execute generation, prove target runtime, promote the lane, complete Items/Tracker rows, or claim certification.",
+    "next_action":  "Keep EC2 stopped. Use this handoff only after explicit live-window selection and fresh live gates; otherwise continue local orchestration for another lane."
+}

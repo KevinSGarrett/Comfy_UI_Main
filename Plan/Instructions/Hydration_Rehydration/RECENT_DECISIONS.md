@@ -1,3 +1,7 @@
+## Decision - Freeze Local ControlNet Readiness Until Inputs Or Live Selection Change - 2026-07-10T12:49:30-05:00
+
+Do not rerun package, deploy, publish-dry-run, asset-transfer, or pre-EC2 handoff generation for depth, lineart, openpose, or normal unless a source contract, local asset, bundle, helper, Git authority, or explicit live selection changes. The current matrix is the local handoff authority; further repetition would be bookkeeping, not implementation progress.
+
 ## Decision - ControlNet Transfer Bundles Remain Lane-Self-Contained - 2026-07-10T12:38:40-05:00
 
 Each ControlNet lane transfer bundle carries its own six-child contract even though all four share the same checkpoint URI and SHA256. The matrix verifies that shared identity while retaining lane-independent ControlNet and input URIs. This makes later explicit live selection auditable without allowing one lane's proof to imply another lane's runtime completion.

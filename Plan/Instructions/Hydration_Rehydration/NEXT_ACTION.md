@@ -1,3 +1,9 @@
+## Immediate Next Action - Four ControlNet Pre-EC2 Handoffs Ready And Live-Blocked - 2026-07-10T12:49:30-05:00
+
+Depth, lineart, openpose, and normal now have consolidated pre-EC2 handoff bundles that bind current package/deploy evidence, deploy-bundle publish dry runs, asset-transfer dry runs, and the exact clean Git gate at `054e278`. Authority evidence `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_CONTROLNET_FOUR_LANE_PRE_EC2_HANDOFF_MATRIX_20260710T130500-0500.json`, mirrored under `Plan/Tracker/Evidence/Runtime_Readiness`, reports all four lanes pass seven checks and all five corruption tests fail closed.
+
+Next exact action: keep EC2 stopped and do not regenerate this ControlNet chain unless an input, bundle, helper contract, or Git authority changes. Any ControlNet upload, install, static proof, or generation now requires explicit live-window selection and fresh gates. Without that selection, switch to another concrete unfinished non-mask project task rather than looping on ControlNet readiness evidence. No lane, Item, Tracker row, target-runtime proof, or certification is complete.
+
 ## Immediate Next Action - Four ControlNet Asset Transfer Dry Runs Validated - 2026-07-10T12:38:40-05:00
 
 Depth, lineart, openpose, and normal now have hash-bound local asset-transfer dry-run bundles. Authority evidence `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_CONTROLNET_FOUR_LANE_ASSET_TRANSFER_DRY_RUN_MATRIX_20260710T124500-0500.json`, mirrored under `Plan/Tracker/Evidence/Runtime_Readiness`, reports `pass_local_only`: four of four lanes pass, 24 publish/install child plans are present, the shared checkpoint URI/hash is consistent, four ControlNet and four input URIs are unique, and all five fail-closed tests create zero child files.

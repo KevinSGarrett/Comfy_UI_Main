@@ -1,3 +1,9 @@
+## Active Runtime/Orchestration Posture - Four ControlNet Handoffs Locally Complete - 2026-07-10T12:49:30-05:00
+
+Continue the full ComfyUI project from `C:\Comfy_UI_Main`. The local preparation chain for depth, lineart, openpose, and normal now reaches a strict pre-EC2 handoff boundary: package/deploy consistency, deploy publish dry run, six-child asset-transfer dry run, and current clean Git authority are aligned for each lane.
+
+Authority evidence is `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_CONTROLNET_FOUR_LANE_PRE_EC2_HANDOFF_MATRIX_20260710T130500-0500.json`. The full goal remains active. These handoffs set `execute_allowed_now=false`, `target_runtime_launch_allowed=false`, `target_runtime_proof=false`, and `certification_claimed=false`. Keep EC2 stopped and preserve mask, Wave70/Wave71+, Jira, and local-source-of-truth boundaries.
+
 ## Active Runtime/Orchestration Posture - Four ControlNet Asset Paths Pinned - 2026-07-10T12:38:40-05:00
 
 Continue the full ComfyUI project from `C:\Comfy_UI_Main`. The selected-lane ControlNet transfer helper now verifies checkpoint, ControlNet, active control image, cited source artifact, canonical map type, S3 URI layout, and six publish/install dry-run children before any lane can advance. Across depth, lineart, openpose, and normal, all declared assets are present and hash-matched.
