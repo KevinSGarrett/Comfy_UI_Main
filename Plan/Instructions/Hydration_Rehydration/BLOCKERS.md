@@ -1180,3 +1180,6 @@ No active blockers remain for local Wave 58-62 static and packaging validation; 
   - not acceptable: more hand-guessed rectangles or polygons for eye/eyebrow/eyelid boundaries, generated-output proof, or row promotion.
   - required fix: build source-derived eye/brow/hair-occlusion boundary layers from segmentation/landmark extraction or a manual trace artifact reviewed at high zoom before any eye-family mask row can move toward acceptance. The visible hair-occluded side must be represented as occluded/partially visible rather than extending eye or brow geometry into hair.
   - current route: leave eye-family masks hard-gate blocked; either implement a reliable local source-boundary extraction/manual trace tool next, or switch temporarily to a non-eye mask whose visible anatomy is not hair-occluded.
+## RealESRGAN Local Package Drift Resolved; Live Gates Remain - 2026-07-10T11:46:52-05:00
+
+The stale-package/clean-bundle contradiction is resolved locally. The current package and bundle pass 40 consistency checks and the deploy-bundle S3 plan is `dry_run_ready_to_upload`; no upload occurred. Remaining blockers are explicit live intent, deploy/model/input S3 Execute proofs, EC2 hash-verified install, target-runtime static proof, bounded output, pullback, strict visual QA, and final certification review. The work order remains open.

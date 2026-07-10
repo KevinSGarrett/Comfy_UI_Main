@@ -693,3 +693,6 @@ Registered the user's existing annotated references as durable calibration/evalu
 ## Decision - Clean Git Removes Only Git Blockers, Not Live Gates - 2026-07-09T17:08:00-05:00
 
 The selected-inpaint runtime chain now treats the clean/synced Git checkpoint gate as satisfied when evidence reports `passes_for_ec2_execute=true`. This removes stale dirty-Git blocker strings from target plan, pre-EC2 handoff, runbook, execution snapshot, and final launch gate, but does not authorize S3 Execute, EC2 start, ComfyUI prompts, generation, final certification, mask promotion, Wave70 hard gates, Wave71+, or Jira mutation.
+## Decision - Supersede Stale RealESRGAN Package Before Any Upload - 2026-07-10T11:46:52-05:00
+
+Do not publish or execute from `runtime_artifacts/run_packages/upscale_polish_w69_canny_seed711570105/RUN_PACKAGE_MANIFEST.json`; it is retained only as historical regression evidence and fails `stale_clean_git_metadata`. Use the current package `upscale_polish_w69_canny_seed711570105_current_3e4207a` and clean bundle `realesrgan_current_3e4207a`, validated by `W66_REALESRGAN_CURRENT_RUN_PACKAGE_DEPLOY_BUNDLE_CONSISTENCY_20260710T114200-0500.json`.

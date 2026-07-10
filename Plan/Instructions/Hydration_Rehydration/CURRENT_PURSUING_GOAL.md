@@ -6130,3 +6130,8 @@ Created protected `mf70_face_skin` v3 candidate after hull v2 passed the benchma
 ## Wave70 MediaPipe Landmark Route Evaluation - 2026-07-10T03:48:00-05:00
 
 Evaluated local MediaPipe FaceMesh landmark routes for remaining eyebrows/lip rows against the same MaskedWarehouse gold samples. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MEDIAPIPE_LANDMARK_ROUTE_EVAL_20260710T034800-0500.json` reports `mediapipe_landmark_routes_evaluated_no_promotion`. Candidate routes found: `none`. Still blocked after MediaPipe: `mf70_eyebrows, mf70_lips_top, mf70_lips_bottom, mf70_lips_combined`. No active input, mask promotion, generation, EC2, AWS, GitHub, S3, Civitai, row completion, or certification occurred.
+## Active Runtime/Orchestration Posture - RealESRGAN Clean Deploy Chain Current - 2026-07-10T11:46:52-05:00
+
+Continue the full ComfyUI project from `C:\Comfy_UI_Main`. The current RealESRGAN run package, clean-source deploy bundle, and deploy-bundle S3 publish dry run are now linked and locally validated. The generic validator passes all 40 checks for the current pair and rejects the superseded stale pair as `stale_clean_git_metadata`.
+
+Authority evidence is `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_REALESRGAN_CURRENT_RUN_PACKAGE_DEPLOY_BUNDLE_CONSISTENCY_20260710T114200-0500.json`; fail-closed regression evidence is `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_REALESRGAN_STALE_RUN_PACKAGE_NEGATIVE_20260710T114300-0500.json`. The target-runtime work order remains open: `target_runtime_proof=false`, `certification_claimed=false`, and no AWS/S3/EC2/ComfyUI live action occurred. Keep the manual-gold-mask dependency boundary and all Wave70/Wave71+/Jira restrictions active.
