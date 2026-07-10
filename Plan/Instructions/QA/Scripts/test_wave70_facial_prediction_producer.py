@@ -33,6 +33,7 @@ def test_parse_ids_rejects_outside_shard() -> None:
 
 def test_normalize_materializes_explicit_empty_classes(tmp_path: Path) -> None:
     raw = tmp_path / "raw"
+    save_mask(raw / "00_background.png", 0)
     save_mask(raw / "01_skin.png", 255)
     save_mask(raw / "14_neck.png", 255)
     destination = tmp_path / "normalized"
@@ -42,6 +43,26 @@ def test_normalize_materializes_explicit_empty_classes(tmp_path: Path) -> None:
     assert "neck_l" in empty
     assert all((destination / f"{name}.png").is_file() for name in producer.CLASS_ORDER)
     assert Image.open(destination / "neck_l.png").getbbox() is None
+
+
+def test_normalize_rejects_index_name_mismatch(tmp_path: Path) -> None:
+    raw = tmp_path / "raw"
+    save_mask(raw / "00_background.png", 0)
+    save_mask(raw / "02_skin.png", 255)
+    with pytest.raises(ValueError, match="route_taxonomy_binding_mismatch"):
+        producer.normalize_predictions(raw, tmp_path / "normalized")
+
+
+def test_prepare_route_input_uses_native_parser_size(tmp_path: Path) -> None:
+    source = tmp_path / "source.jpg"
+    Image.new("RGB", (1024, 1024), (50, 100, 150)).save(source)
+    destination = tmp_path / "route.png"
+    source_size, route_size = producer.prepare_route_input(source, destination)
+    assert source_size == (1024, 1024)
+    assert route_size == producer.ROUTE_INPUT_SIZE == (512, 512)
+    with Image.open(destination) as prepared:
+        assert prepared.size == (512, 512)
+        assert prepared.format == "PNG"
 
 
 def test_prediction_directory_hash_is_stable(tmp_path: Path) -> None:

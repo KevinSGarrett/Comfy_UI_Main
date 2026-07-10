@@ -4,7 +4,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import shutil
 import subprocess
 import sys
 from datetime import datetime
@@ -21,6 +20,8 @@ CLASS_ORDER = (
     "skin", "l_brow", "r_brow", "l_eye", "r_eye", "eye_g", "l_ear", "r_ear", "ear_r",
     "nose", "mouth", "u_lip", "l_lip", "neck", "neck_l", "cloth", "hair", "hat",
 )
+CLASS_INDEX = {class_name: index for index, class_name in enumerate(CLASS_ORDER, start=1)}
+ROUTE_INPUT_SIZE = (512, 512)
 # Celeb annotations intentionally overlap nested anatomy and accessories. These
 # lists contain only regions where prediction overlap is unambiguously leakage.
 PROTECTED_NEIGHBORS = {
@@ -87,18 +88,36 @@ def parse_ids(raw: str) -> list[int]:
     return values
 
 
+def prepare_route_input(source: Path, destination: Path) -> tuple[tuple[int, int], tuple[int, int]]:
+    with Image.open(source) as image:
+        source_size = image.size
+        prepared = image.convert("RGB").resize(ROUTE_INPUT_SIZE, Image.Resampling.BILINEAR)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        prepared.save(destination, format="PNG")
+    return source_size, ROUTE_INPUT_SIZE
+
+
 def normalize_predictions(raw_sample_dir: Path, normalized_dir: Path) -> tuple[list[str], tuple[int, int], list[str]]:
     emitted = sorted(raw_sample_dir.glob("??_*.png"))
     if not emitted:
         raise ValueError(f"route_emitted_no_class_masks:{raw_sample_dir}")
+    expected_names = {"00_background.png"}
+    expected_names.update(f"{index:02d}_{class_name}.png" for class_name, index in CLASS_INDEX.items())
+    unexpected = [path.name for path in emitted if path.name not in expected_names]
+    if unexpected:
+        raise ValueError(f"route_taxonomy_binding_mismatch:{','.join(unexpected)}")
     with Image.open(emitted[0]) as probe:
         output_size = probe.size
     normalized_dir.mkdir(parents=True, exist_ok=True)
     materialized_empty: list[str] = []
     for class_name in CLASS_ORDER:
+        expected_name = f"{CLASS_INDEX[class_name]:02d}_{class_name}.png"
         matches = sorted(raw_sample_dir.glob(f"??_{class_name}.png"))
         destination = normalized_dir / f"{class_name}.png"
         if matches:
+            if len(matches) != 1 or matches[0].name != expected_name:
+                observed = ",".join(path.name for path in matches)
+                raise ValueError(f"route_class_index_name_mismatch:{class_name}:{observed}")
             with Image.open(matches[0]) as image:
                 if image.size != output_size:
                     raise ValueError(f"route_output_dimension_mismatch:{matches[0].name}")
@@ -136,18 +155,15 @@ def main() -> int:
         source = original_root / f"{sample_id}.jpg"
         if not source.is_file():
             raise FileNotFoundError(f"eligible_original_missing:{source}")
-        isolated = input_dir / f"{sample_id}.jpg"
-        shutil.copy2(source, isolated)
-        if sha256_file(source) != sha256_file(isolated):
-            raise ValueError(f"isolated_original_hash_mismatch:{sample_id}")
-        with Image.open(source) as image:
-            source_size = image.size
+        isolated = input_dir / f"{sample_id}.png"
+        source_size, route_input_size = prepare_route_input(source, isolated)
         sources.append(
             {
                 "sample_id": str(sample_id),
                 "source": source,
                 "isolated": isolated,
                 "source_size": source_size,
+                "route_input_size": route_input_size,
                 "source_sha256": sha256_file(source),
             }
         )
@@ -181,11 +197,13 @@ def main() -> int:
         normalized_dir = normalized_root / sample_id
         classes, output_size, materialized_empty = normalize_predictions(raw_sample_dir, normalized_dir)
         source_size = source_record["source_size"]
-        transforms = (
-            [{"op": "identity", "from_size": list(source_size), "to_size": list(source_size)}]
-            if output_size == source_size
-            else [{"op": "resize", "from_size": list(source_size), "to_size": list(output_size)}]
-        )
+        route_input_size = source_record["route_input_size"]
+        if output_size != route_input_size:
+            raise ValueError(
+                f"route_output_size_mismatch:{sample_id}:{output_size[0]}x{output_size[1]}"
+                f"!={route_input_size[0]}x{route_input_size[1]}"
+            )
+        transforms = [{"op": "resize", "from_size": list(source_size), "to_size": list(route_input_size)}]
         protected = {class_name: list(PROTECTED_NEIGHBORS[class_name]) for class_name in classes}
         source_path = relative(project_root, source_record["source"])
         route_input_paths.append(source_path)
@@ -197,6 +215,7 @@ def main() -> int:
                 "source_size": list(source_size),
                 "isolated_route_input_path": relative(project_root, source_record["isolated"]),
                 "isolated_route_input_sha256": sha256_file(source_record["isolated"]),
+                "isolated_route_input_size": list(route_input_size),
                 "prediction_path": relative(project_root, normalized_dir),
                 "prediction_sha256": sha256_directory(normalized_dir),
                 "classes": classes,
@@ -217,6 +236,11 @@ def main() -> int:
             "model_path": str(checkpoint),
         },
         "route_configuration_sha256": sha256_file(script_path),
+        "route_preprocessing": {
+            "operation": "bilinear_resize",
+            "native_input_size": list(ROUTE_INPUT_SIZE),
+            "authority": "face_parsing.segment.vis_parsing_maps 512x512 input contract",
+        },
         "dataset_id": "celebamask_hq_shard_0",
         "run_id": f"facial-original-predictions-{stamp}",
         "boundary_tolerance_pixels": 1,

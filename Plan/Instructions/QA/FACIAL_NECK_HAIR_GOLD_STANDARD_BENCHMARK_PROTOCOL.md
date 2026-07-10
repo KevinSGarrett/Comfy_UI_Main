@@ -61,6 +61,24 @@ evaluator contract but failed the quality gate. Only `hair`, `mouth`, `nose`,
 and correctly empty `eye_g` passed; fourteen classes remain blocked. This is a
 route-repair result, not promotion or certification evidence.
 
+### Native Parser Scale Repair
+
+The packaged `face_parsing.segment` implementation documents a `512x512`
+input/parsing contract. Production preprocessing must therefore resize the
+original RGB image to `512x512` with bilinear sampling before inference, retain
+the original source hash, hash the isolated route input separately, and record
+the source-to-route resize for nearest-neighbor inversion of predicted masks.
+Raw output filenames must match the fixed `01_skin` through `18_hat` index/name
+binding; an unknown or mismatched index/name pair fails closed.
+
+A controlled comparison on identical original IDs `0`, `1`, and `2` improved
+the gate from four passing classes to nine with no previously passing class
+regression. `l_brow`, `r_brow`, `l_eye`, `r_eye`, and `l_lip` newly pass; right
+eye IoU increased from `0.257` to `0.879` and left eye from `0.529` to `0.864`.
+The route still fails overall on `cloth`, `ear_r`, `hat`, `l_ear`, `neck`,
+`neck_l`, `r_ear`, `skin`, and `u_lip`, so this repair remains candidate route
+evidence only.
+
 ## CelebAMask-HQ Pairing
 
 - Originals: `C:\Comfy_UI_Main\MaskedWarehouse\CelebAMask-HQ\CelebA-HQ-img`
