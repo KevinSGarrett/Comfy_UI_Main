@@ -1,6 +1,6 @@
 {
     "schema_version":  "1.0",
-    "timestamp":  "2026-07-10T14:52:19-05:00",
+    "timestamp":  "2026-07-10T16:02:54-05:00",
     "project_root":  "C:\\Comfy_UI_Main",
     "lane_id":  "sdxl_low_risk_fallback_lane",
     "local_only":  true,
@@ -52,6 +52,8 @@
                                  "status":  "ready",
                                  "required_model_count":  1,
                                  "invalid_model_declaration_count":  0,
+                                 "hash_verified_model_count":  1,
+                                 "hash_mismatch_count":  0,
                                  "error":  null
                              },
     "local_required_models":  [
@@ -66,7 +68,9 @@
                                                               "models/checkpoints/sd_xl_base_1.0.safetensors"
                                                           ],
                                       "exists_locally":  true,
-                                      "existing_path":  "models/checkpoints/sd_xl_base_1.0.safetensors"
+                                      "existing_path":  "models/checkpoints/sd_xl_base_1.0.safetensors",
+                                      "observed_sha256":  "31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b",
+                                      "hash_match":  true
                                   }
                               ],
     "static_validation":  {
@@ -164,6 +168,8 @@
                                         "status":  "ready",
                                         "required_model_count":  1,
                                         "invalid_model_declaration_count":  0,
+                                        "hash_verified_model_count":  1,
+                                        "hash_mismatch_count":  0,
                                         "error":  null
                                     },
                        "message":  "",
@@ -191,7 +197,32 @@
                                                                     "models/checkpoints/sd_xl_base_1.0.safetensors"
                                                                 ],
                                             "exists_locally":  true,
-                                            "existing_path":  "models/checkpoints/sd_xl_base_1.0.safetensors"
+                                            "existing_path":  "models/checkpoints/sd_xl_base_1.0.safetensors",
+                                            "observed_sha256":  "31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b",
+                                            "hash_match":  true
+                                        }
+                                    ],
+                       "message":  "",
+                       "result":  "pass"
+                   },
+                   {
+                       "name":  "local_required_model_hashes_match",
+                       "passed":  true,
+                       "observed":  [
+                                        {
+                                            "role":  "checkpoint",
+                                            "filename":  "sd_xl_base_1.0.safetensors",
+                                            "comfyui_model_subdir":  "checkpoints",
+                                            "expected_sha256":  "31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b",
+                                            "contract_valid":  true,
+                                            "candidate_paths":  [
+                                                                    "ComfyUI/models/checkpoints/sd_xl_base_1.0.safetensors",
+                                                                    "models/checkpoints/sd_xl_base_1.0.safetensors"
+                                                                ],
+                                            "exists_locally":  true,
+                                            "existing_path":  "models/checkpoints/sd_xl_base_1.0.safetensors",
+                                            "observed_sha256":  "31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b",
+                                            "hash_match":  true
                                         }
                                     ],
                        "message":  "",
@@ -212,7 +243,9 @@
                                                                     "models/checkpoints/sd_xl_base_1.0.safetensors"
                                                                 ],
                                             "exists_locally":  true,
-                                            "existing_path":  "models/checkpoints/sd_xl_base_1.0.safetensors"
+                                            "existing_path":  "models/checkpoints/sd_xl_base_1.0.safetensors",
+                                            "observed_sha256":  "31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b",
+                                            "hash_match":  true
                                         }
                                     ],
                        "message":  "Local generation needs required model files in the selected ComfyUI models tree, project models tree, or configured shared model root.",

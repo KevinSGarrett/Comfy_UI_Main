@@ -59,6 +59,17 @@ function Write-TextNoBom {
   [System.IO.File]::WriteAllText($Path, $Value, $encoding)
 }
 
+function Get-StringSha256 {
+  param([Parameter(Mandatory=$true)][string]$Value)
+  $bytes = [System.Text.Encoding]::UTF8.GetBytes($Value)
+  $sha = [System.Security.Cryptography.SHA256]::Create()
+  try {
+    return (($sha.ComputeHash($bytes) | ForEach-Object { $_.ToString("x2") }) -join "")
+  } finally {
+    $sha.Dispose()
+  }
+}
+
 function Get-Check {
   param(
     [AllowNull()][object]$Payload,
@@ -75,7 +86,7 @@ function Invoke-RegressionCase {
     [Parameter(Mandatory=$true)][string]$ExpectedStatus,
     [Parameter(Mandatory=$true)][int]$ExpectedModelCount,
     [Parameter(Mandatory=$true)][bool]$ExpectedModelsPresent,
-    [ValidateSet("none", "project", "comfy")][string]$ModelPlacement = "none"
+    [ValidateSet("none", "project", "comfy", "mismatch_project")][string]$ModelPlacement = "none"
   )
 
   $caseRoot = Join-Path $tempRoot $Name
@@ -87,11 +98,13 @@ function Invoke-RegressionCase {
   [System.IO.Directory]::CreateDirectory((Join-Path $comfyFixture "models\checkpoints")) | Out-Null
   Write-TextNoBom -Value "# disposable ComfyUI main fixture`n" -Path (Join-Path $comfyFixture "main.py")
 
+  $matchingModelContent = "fixture model`n"
+  $matchingModelSha256 = Get-StringSha256 -Value $matchingModelContent
   $model = [ordered]@{
     role = "checkpoint"
     filename = "fixture_model.safetensors"
     comfyui_model_subdir = "checkpoints"
-    sha256 = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    sha256 = $matchingModelSha256
   }
   $requirementsPath = Join-Path $laneDir "runtime_requirements.json"
   switch ($RequirementMode) {
@@ -103,9 +116,11 @@ function Invoke-RegressionCase {
     default { throw "Unsupported requirement mode: $RequirementMode" }
   }
   if ($ModelPlacement -eq "project") {
-    Write-TextNoBom -Value "fixture model`n" -Path (Join-Path $projectFixture "models\checkpoints\fixture_model.safetensors")
+    Write-TextNoBom -Value $matchingModelContent -Path (Join-Path $projectFixture "models\checkpoints\fixture_model.safetensors")
   } elseif ($ModelPlacement -eq "comfy") {
-    Write-TextNoBom -Value "fixture model`n" -Path (Join-Path $comfyFixture "models\checkpoints\fixture_model.safetensors")
+    Write-TextNoBom -Value $matchingModelContent -Path (Join-Path $comfyFixture "models\checkpoints\fixture_model.safetensors")
+  } elseif ($ModelPlacement -eq "mismatch_project") {
+    Write-TextNoBom -Value "wrong model content`n" -Path (Join-Path $projectFixture "models\checkpoints\fixture_model.safetensors")
   }
 
   $childOut = Join-Path $resultsRoot "$Name.json"
@@ -123,6 +138,7 @@ function Invoke-RegressionCase {
   $declaredCheck = Get-Check -Payload $payload -Name "selected_lane_required_models_declared"
   $contractsCheck = Get-Check -Payload $payload -Name "selected_lane_required_model_contracts_valid"
   $modelsCheck = Get-Check -Payload $payload -Name "local_required_models_present"
+  $hashesCheck = Get-Check -Payload $payload -Name "local_required_model_hashes_match"
   $requirementsStatePass = (
     $null -ne $payload -and
     [string]$payload.runtime_requirements.status -eq $ExpectedStatus -and
@@ -131,6 +147,8 @@ function Invoke-RegressionCase {
   $modelsStatePass = (
     $null -ne $modelsCheck -and @($modelsCheck).Count -gt 0 -and
     [bool]$modelsCheck[0].passed -eq $ExpectedModelsPresent -and
+    $null -ne $hashesCheck -and @($hashesCheck).Count -gt 0 -and
+    [bool]$hashesCheck[0].passed -eq $ExpectedModelsPresent -and
     [bool]$payload.local_gpu_generation_candidate -eq $false
   )
   $contractCheckPass = if ($RequirementMode -eq "one_model") {
@@ -171,6 +189,8 @@ function Invoke-RegressionCase {
     observed_model_count = $(if ($null -ne $payload) { [int]$payload.runtime_requirements.required_model_count } else { $null })
     expected_model_count = $ExpectedModelCount
     models_present = $(if ($null -ne $modelsCheck -and @($modelsCheck).Count -gt 0) { [bool]$modelsCheck[0].passed } else { $null })
+    hashes_match = $(if ($null -ne $hashesCheck -and @($hashesCheck).Count -gt 0) { [bool]$hashesCheck[0].passed } else { $null })
+    observed_sha256 = $(if ($null -ne $payload -and @($payload.local_required_models).Count -gt 0) { [string]$payload.local_required_models[0].observed_sha256 } else { $null })
     expected_models_present = $ExpectedModelsPresent
     local_gpu_generation_candidate = $(if ($null -ne $payload) { [bool]$payload.local_gpu_generation_candidate } else { $null })
     requirements_state_pass = $requirementsStatePass
@@ -199,6 +219,7 @@ $tests += Invoke-RegressionCase -Name "malformed_requirements_fail_closed" -Requ
 $tests += Invoke-RegressionCase -Name "empty_requirements_fail_closed" -RequirementMode "empty" -ExpectedStatus "empty_required_models" -ExpectedModelCount 0 -ExpectedModelsPresent $false
 $tests += Invoke-RegressionCase -Name "invalid_model_declaration_fails" -RequirementMode "invalid_model" -ExpectedStatus "invalid_model_contract" -ExpectedModelCount 1 -ExpectedModelsPresent $false
 $tests += Invoke-RegressionCase -Name "declared_model_missing_fails" -RequirementMode "one_model" -ExpectedStatus "ready" -ExpectedModelCount 1 -ExpectedModelsPresent $false
+$tests += Invoke-RegressionCase -Name "model_hash_mismatch_fails" -RequirementMode "one_model" -ExpectedStatus "ready" -ExpectedModelCount 1 -ExpectedModelsPresent $false -ModelPlacement "mismatch_project"
 $tests += Invoke-RegressionCase -Name "project_model_present_passes" -RequirementMode "one_model" -ExpectedStatus "ready" -ExpectedModelCount 1 -ExpectedModelsPresent $true -ModelPlacement "project"
 $tests += Invoke-RegressionCase -Name "comfy_model_present_passes" -RequirementMode "one_model" -ExpectedStatus "ready" -ExpectedModelCount 1 -ExpectedModelsPresent $true -ModelPlacement "comfy"
 

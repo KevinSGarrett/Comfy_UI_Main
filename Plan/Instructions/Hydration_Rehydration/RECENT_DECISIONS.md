@@ -1,6 +1,6 @@
-## Decision - Zero Verified Models Can Never Pass Local Generation Readiness - 2026-07-10T14:47:26-05:00
+## Decision - Zero Verified Models Can Never Pass Local Generation Readiness - 2026-07-10T16:03:05-05:00
 
-Require selected-lane runtime requirements to exist, parse, and declare at least one model with a nonempty filename/subdirectory and valid SHA256; require every declaration to resolve in the selected ComfyUI or project model tree before `local_required_models_present` or local GPU generation candidacy can pass. A runnable local GPU candidate is a cost-control option only and does not replace generated artifact review or EC2 final proof.
+Require selected-lane runtime requirements to exist, parse, and declare at least one model with a nonempty filename/subdirectory and valid SHA256; require every declaration to resolve in the selected ComfyUI or project model tree and match the observed file SHA256 before `local_required_models_present` or local GPU generation candidacy can pass. A runnable local GPU candidate is a cost-control option only and does not replace generated artifact review or EC2 final proof.
 
 ## Decision - Root Preflight Must Always Emit Structured Evidence - 2026-07-10T14:28:34-05:00
 

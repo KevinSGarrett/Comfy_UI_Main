@@ -1,6 +1,6 @@
-## Local Model-Readiness Fail-Open Resolved; Generated Proof Still Missing - 2026-07-10T14:47:26-05:00
+## Local Model-Readiness Fail-Open Resolved; Generated Proof Still Missing - 2026-07-10T16:03:05-05:00
 
-Missing, malformed, empty, or invalid model declarations no longer yield `local_required_models_present=pass`; every declaration must have a nonempty filename/subdirectory, a 64-character SHA256, and resolve locally. The current low-risk lane is a valid local GPU generation candidate, but no generation was launched and readiness alone is not visual QA, target-runtime proof, or certification. EC2 remains stopped and final EC2 equivalence remains required where specified.
+Missing, malformed, empty, invalid, absent, or hash-mismatched model declarations no longer yield `local_required_models_present=pass`; every declaration must have a nonempty filename/subdirectory, a 64-character SHA256, resolve locally, and match observed bytes. The current low-risk lane is a valid local GPU generation candidate, but no generation was launched and readiness alone is not visual QA, target-runtime proof, or certification. EC2 remains stopped and final EC2 equivalence remains required where specified.
 
 ## Root Preflight Evidence-Loss Defect Resolved; Global Work Order Remains Open - 2026-07-10T14:28:34-05:00
 

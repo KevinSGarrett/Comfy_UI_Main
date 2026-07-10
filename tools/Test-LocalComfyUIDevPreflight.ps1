@@ -86,6 +86,12 @@ function Has-Property {
   return $null -ne $Object.PSObject.Properties[$Name]
 }
 
+function Get-Sha256 {
+  param([Parameter(Mandatory=$true)][string]$Path)
+  if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) { return "" }
+  return (Get-FileHash -Algorithm SHA256 -LiteralPath $Path).Hash.ToLowerInvariant()
+}
+
 if (!(Test-Path -LiteralPath $ProjectRoot)) {
   throw "Project root not found: $ProjectRoot"
 }
@@ -192,6 +198,8 @@ $runtimeRequirementsRecord = [ordered]@{
   status = "missing"
   required_model_count = 0
   invalid_model_declaration_count = 0
+  hash_verified_model_count = 0
+  hash_mismatch_count = 0
   error = $null
 }
 $runtimeRequirements = $null
@@ -226,6 +234,13 @@ try {
         $candidatePaths += (Join-Path $ProjectRoot (Join-Path "models" (Join-Path $subdir $filename)))
       }
       $existingPath = @($candidatePaths | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1)
+      $observedSha256 = if ($existingPath.Count -gt 0) { Get-Sha256 -Path ([string]$existingPath[0]) } else { "" }
+      $hashMatch = ($modelContractValid -and $existingPath.Count -gt 0 -and $observedSha256 -eq $expectedSha256.ToLowerInvariant())
+      if ($hashMatch) {
+        $runtimeRequirementsRecord.hash_verified_model_count += 1
+      } elseif ($existingPath.Count -gt 0) {
+        $runtimeRequirementsRecord.hash_mismatch_count += 1
+      }
       $requiredModelChecks += [ordered]@{
         role = [string]$requiredModel.role
         filename = $filename
@@ -235,6 +250,8 @@ try {
         candidate_paths = @($candidatePaths | ForEach-Object { ConvertTo-ProjectRelativePath -Path $_ })
         exists_locally = ($existingPath.Count -gt 0)
         existing_path = $(if ($existingPath.Count -gt 0) { ConvertTo-ProjectRelativePath -Path ([string]$existingPath[0]) } else { $null })
+        observed_sha256 = $observedSha256
+        hash_match = $hashMatch
       }
     }
     if ($runtimeRequirementsRecord.invalid_model_declaration_count -gt 0) {
@@ -255,10 +272,16 @@ $requiredModelContractsValid = ($requiredModelsDeclared -and $runtimeRequirement
 Add-Check -Checks $checks -Name "selected_lane_runtime_requirements_valid" -Passed $runtimeRequirementsValid -Observed $runtimeRequirementsRecord
 Add-Check -Checks $checks -Name "selected_lane_required_models_declared" -Passed $requiredModelsDeclared -Observed $runtimeRequirementsRecord.required_model_count
 Add-Check -Checks $checks -Name "selected_lane_required_model_contracts_valid" -Passed $requiredModelContractsValid -Observed $requiredModelChecks
-$requiredModelsPresent = (
+$requiredModelHashesMatch = (
   $requiredModelContractsValid -and
+  $runtimeRequirementsRecord.hash_verified_model_count -eq $runtimeRequirementsRecord.required_model_count -and
+  $runtimeRequirementsRecord.hash_mismatch_count -eq 0
+)
+Add-Check -Checks $checks -Name "local_required_model_hashes_match" -Passed $requiredModelHashesMatch -Observed $requiredModelChecks
+$requiredModelsPresent = (
+  $requiredModelHashesMatch -and
   $requiredModelChecks.Count -eq $runtimeRequirementsRecord.required_model_count -and
-  @($requiredModelChecks | Where-Object { -not $_.contract_valid -or -not $_.exists_locally }).Count -eq 0
+  @($requiredModelChecks | Where-Object { -not $_.contract_valid -or -not $_.exists_locally -or -not $_.hash_match }).Count -eq 0
 )
 Add-Check -Checks $checks -Name "local_required_models_present" -Passed $requiredModelsPresent -Observed $requiredModelChecks -Message "Local generation needs required model files in the selected ComfyUI models tree, project models tree, or configured shared model root."
 
