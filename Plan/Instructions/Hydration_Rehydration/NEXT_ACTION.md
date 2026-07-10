@@ -1,3 +1,9 @@
+## Immediate Next Action - Selected-Inpaint Pre-EC2 Handoff Refreshed - 2026-07-10T10:49:49-05:00
+
+The selected-inpaint runtime/orchestration lane now has a refreshed local-only pre-EC2 handoff bundle at `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_PRE_EC2_HANDOFF_BUNDLE_20260710T104949-0500.json`, with tracker mirror `Plan/Tracker/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_PRE_EC2_HANDOFF_BUNDLE_20260710T104949-0500.json`. Result: `pass_local_only_selected_target_runtime_pre_ec2_handoff_bundle_ready_ec2_blocked`, lane `sdxl_realvisxl_inpaint_detail_lane`, failed checks `0`, deploy bundle S3 dry-run ready, input/model publish ready, but `target_runtime_launch_allowed=false`, `execute_allowed_now=false`, `ec2_started=false`, `generation_executed=false`, and S3/EC2 live steps remain blocked.
+
+Next exact action: keep EC2 stopped and continue only local selected-inpaint orchestration rechecks or ask the user for explicit live-window target-runtime selection before any S3 `-Execute`, EC2 static proof, marker write, or workflow smoke. Do not promote masks, rerun Wave70 hard gates, activate Wave71+, switch to Jira bookkeeping, or use `C:\Comfy_UI`.
+
 ## Immediate Next Action - Nose Candidate Policy Recorded - 2026-07-10T10:43:20-05:00
 
 The current `mf70_nose` route is now explicitly recorded as a gold-supported candidate only, not a promotion or certification-ready mask. Evidence `Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_NOSE_CANDIDATE_POLICY_DECISION_20260710T104320-0500.json` selects `candidate_supported_no_promotion_until_target_runtime_and_reference_matrix_proof`: combined CelebAMask-HQ+LaPa gate passes, combined postprocess route `open_r4` passes, and the local v5 generated-output visual QA passes with notes, while `mask_promoted=false`, `active_input_mask_overwritten=false`, `target_runtime_proof_present=false`, and `reference_image_matrix_pass=false`.
