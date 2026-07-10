@@ -1,12 +1,12 @@
 {
     "schema_version":  "1.0",
-    "updated_at":  "2026-07-09T02:24:00-05:00",
+    "updated_at":  "2026-07-10T16:27:00-05:00",
     "artifact_id":  "TRK-W61-006",
     "purpose":  "Local queue for base-generation lane runtime proof order before EC2 execution resumes.",
     "local_only":  true,
     "selection_policy":  {
                              "first_runtime_lane_id":  "sdxl_low_risk_fallback_lane",
-                             "current_runtime_lane_id":  "none_all_current_local_runtime_proofs_complete",
+                            "current_runtime_lane_id":  "flux1_dev_primary_base",
                              "completed_runtime_lane_ids":  [
                                                                 "sdxl_low_risk_fallback_lane",
                                                                 "sdxl_realvisxl_base_lane",
@@ -446,6 +446,23 @@
                                                      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_UPSCALE_POLISH_REALESRGAN_CANNY_SEED711570105_VISUAL_QA_20260707T111500-0500.json",
                                                      "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W69_LOCAL_PASS_PLANNER_CANNY_INPAINT_READINESS_P06_BOUND_20260707T112000-0500.json"
                                                  ],
+                      "proof_evidence":  [
+
+                                         ]
+                  },
+                  {
+                      "order":  10,
+                      "lane_id":  "flux1_dev_primary_base",
+                      "role":  "next_flux_first_primary_base_static_implementation_pending_asset_and_runtime_proof",
+                      "workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux1_dev_primary_base/workflow.api.json",
+                      "requirements_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux1_dev_primary_base/runtime_requirements.json",
+                      "status":  "static_workflow_implemented_blocked_asset_hash_and_runtime_proof",
+                      "required_next_runtime_gate":  "record_authoritative_licensed_checkpoint_sha256_then_verify_local_path_hash_and_lane_runtime",
+                      "promotion_rule":  "Do not execute or promote until the exact licensed model source and SHA256 are recorded, the installed file hash matches, object_info passes, and output technical and visual QA pass.",
+                      "source_evidence":  [
+                                              "Plan/10_REGISTRIES/wave15_main_flow_base_lane_inventory.json",
+                                              "Plan/12_SOURCE_SUMMARIES/source_snapshots/WAVE42_MAIN_FLOW_20260702.runtime_bound_snapshot.json"
+                                          ],
                       "proof_evidence":  [
 
                                          ]

@@ -1,3 +1,13 @@
+## Immediate Next Action - Flux1 Dev Workflow Implemented, Asset Gated - 2026-07-10T16:27:00-05:00
+
+`flux1_dev_primary_base` now has byte-identical executable API workflow, patch-point, runtime-requirement, and smoke-request contracts under both `Plan/07_IMPLEMENTATION/workflow_templates/base_generation` and `Workflows/base_generation`. The native eight-node Flux graph passes static validation in both mirrors; every workflow input matches saved local `object_info`; the 19-check contract validator, Wave15 scan of 4,277 JSON files, 10-lane smoke-prompt materialization, and operations harness all pass.
+
+Current local preflight remains correctly blocked because `flux1-dev-fp8.safetensors` has no authoritative licensed source metadata or SHA256 and is not installed locally. Do not download, execute, promote, or substitute assets. Next exact Flux1 action is to record the authoritative licensed source and hash, then verify installed bytes before object-info/model-load/output/technical/visual QA. Otherwise continue another concrete non-mask task with EC2 stopped.
+
+## Immediate Next Action - Flux2 Dev Readiness Fails Closed - 2026-07-10T16:15:25-05:00
+
+`tools/Test-Flux2DevLaneReadiness.ps1` enforces the planned-primary Flux2 Dev boundary without contacting ComfyUI, AWS, S3, or any model source. Current evidence `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_FLUX2_DEV_LOCAL_READINESS_20260710T161430-0500.json` is correctly blocked on missing exact licensed assets and workflow/runtime proofs. Do not guess, download, promote, or substitute Flux1 for Flux2.
+
 ## Immediate Next Action - Local ComfyUI Model Requirements Fail Closed - 2026-07-10T16:03:05-05:00
 
 `tools/Test-LocalComfyUIDevPreflight.ps1` now treats missing, malformed, empty, invalid-model, absent-model, and hash-mismatched selected-lane requirements as explicit failures, requires every local model file to match its declared SHA256, resolves the project model root from `-ProjectRoot`, and accepts the stronger `pass_local_gpu_generation_candidate` result under `-RequireRunnableComfyUI`. Regression evidence `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_LOCAL_COMFYUI_DEV_PREFLIGHT_MODEL_REQUIREMENTS_REGRESSION_20260710T144600-0500.json` passes all eight cases.
@@ -8236,8 +8246,3 @@ Evaluated local MediaPipe FaceMesh landmark routes for remaining eyebrows/lip ro
 The stale RealESRGAN run package was detected before upload and superseded by `runtime_artifacts/run_packages/upscale_polish_w69_canny_seed711570105_current_3e4207a/RUN_PACKAGE_MANIFEST.json`. Its clean deploy bundle `realesrgan_current_3e4207a` passes all 40 generic consistency checks, including current source hashes, exact run-manifest linkage, bundle content hashes, and ZIP SHA256 `c1e7d32ab2b185bcec4e2842887ce61f0e909036c0e568a0c897a2ec16b18dc6`. Evidence is `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_REALESRGAN_CURRENT_RUN_PACKAGE_DEPLOY_BUNDLE_CONSISTENCY_20260710T114200-0500.json`.
 
 Next exact action: keep EC2 stopped. The bundle publish plan is dry-run ready at `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_REALESRGAN_DEPLOY_BUNDLE_S3_PUBLISH_DRY_RUN_CURRENT_20260710T114100-0500.json`, but no S3 `-Execute`, EC2 install, static proof, generation, or certification is authorized. Do not rebuild or revalidate this package unless a packaged source changes; live work still requires explicit intent and current gates.
-## Immediate Next Action - Flux2 Dev Readiness Fails Closed - 2026-07-10T16:15:25-05:00
-
-`tools/Test-Flux2DevLaneReadiness.ps1` now enforces the planned-primary Flux2 Dev boundary without contacting ComfyUI, AWS, S3, or any model source. The six-case disposable regression passes, and the shared operations harness passes with 48 parsed scripts, 30 local smokes, and zero failures.
-
-Current evidence `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_FLUX2_DEV_LOCAL_READINESS_20260710T161430-0500.json` is correctly blocked: Flux2 is disabled; exact licensed diffusion/text-encoder/VAE filenames, SHA256 values, source and license metadata, files, and runtime requirements are absent; API workflow, smoke request, object-info proof, and output proof are absent. Do not guess, download, promote, or substitute Flux1 for Flux2. Next exact Flux2 action requires authoritative asset metadata first; otherwise continue a different concrete non-mask implementation task with EC2 stopped.

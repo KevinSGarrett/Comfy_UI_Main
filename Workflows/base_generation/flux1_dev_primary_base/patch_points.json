@@ -1,0 +1,16 @@
+{
+  "lane_id": "flux1_dev_primary_base",
+  "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux1_dev_primary_base/workflow.api.json",
+  "workflow_path_policy": "canonical_plan_authority_with_byte_identical_runtime_mirror",
+  "patch_points": [
+    {"name": "positive_prompt", "required": true, "node_id": "3", "node_type": "CLIPTextEncodeFlux", "inputs": ["clip_l", "t5xxl"]},
+    {"name": "negative_prompt", "required": true, "node_id": "4", "node_type": "CLIPTextEncodeFlux", "inputs": ["clip_l", "t5xxl"]},
+    {"name": "seed", "required": true, "node_id": "6", "node_type": "KSampler", "input": "seed"},
+    {"name": "sampler_settings", "required": true, "node_id": "6", "node_type": "KSampler", "inputs": ["steps", "cfg", "sampler_name", "scheduler", "denoise"]},
+    {"name": "flux_sampling_settings", "required": true, "node_id": "2", "node_type": "ModelSamplingFlux", "inputs": ["max_shift", "base_shift", "width", "height"]},
+    {"name": "latent_resolution", "required": true, "node_id": "5", "node_type": "EmptySD3LatentImage", "inputs": ["width", "height", "batch_size"]},
+    {"name": "model_asset", "required": true, "node_id": "1", "node_type": "CheckpointLoaderSimple", "input": "ckpt_name"},
+    {"name": "lora_stack_profile", "required": false, "node_id": null, "node_type": "LoraLoader_or_stack_profile", "input": null, "status": "not_enabled_until_flux1_compatibility_proof"},
+    {"name": "save_prefix", "required": true, "node_id": "8", "node_type": "SaveImage", "input": "filename_prefix"}
+  ]
+}

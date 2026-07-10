@@ -1,3 +1,13 @@
+## Active Runtime/Orchestration Posture - Flux1 Dev Static Lane Implemented - 2026-07-10T16:27:00-05:00
+
+Continue the full ComfyUI project from `C:\Comfy_UI_Main`. The first fallback after blocked Flux2, `flux1_dev_primary_base`, is now a real mirrored API workflow instead of a placeholder. Static graph, input-schema, patch, queue, registry, mirror-hash, saved-object-info, 10-lane prompt-materialization, Wave15, and operations checks pass; the lane remains unpromoted and its smoke request remains disabled.
+
+The exact remaining Flux1 boundary is authoritative licensed checkpoint source metadata, SHA256, and installed bytes for `flux1-dev-fp8.safetensors`, followed by lane-specific object-info, model-load, output, technical QA, and visual QA. This lane blocker does not block other non-mask work. Keep EC2 stopped and preserve all gold-mask, Wave70/Wave71+, Jira, live-runtime, and certification boundaries.
+
+## Active Runtime/Orchestration Posture - Flux2 Dev Prerequisites Precisely Blocked - 2026-07-10T16:15:25-05:00
+
+The first-priority Flux2 Dev lane has a reusable local readiness validator and six-case fail-closed regression, but it is not runtime ready, promoted, completed, or the default. Do not invent Flux2 metadata, silently substitute Flux1, download assets, or infer promotion from routing priority.
+
 ## Active Runtime/Orchestration Posture - Local GPU Iteration Candidate Proven - 2026-07-10T16:03:05-05:00
 
 Continue the full ComfyUI project from `C:\Comfy_UI_Main`. Local ComfyUI readiness can no longer pass its model gate with zero verified models, an empty/invalid contract, or wrong model bytes: runtime requirements must exist, parse, declare at least one hash-bound model, and map every declaration to a present file whose observed SHA256 matches. Eight disposable requirement/model-placement cases pass.
@@ -6183,8 +6193,3 @@ Evaluated local MediaPipe FaceMesh landmark routes for remaining eyebrows/lip ro
 Continue the full ComfyUI project from `C:\Comfy_UI_Main`. The current RealESRGAN run package, clean-source deploy bundle, and deploy-bundle S3 publish dry run are now linked and locally validated. The generic validator passes all 40 checks for the current pair and rejects the superseded stale pair as `stale_clean_git_metadata`.
 
 Authority evidence is `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_REALESRGAN_CURRENT_RUN_PACKAGE_DEPLOY_BUNDLE_CONSISTENCY_20260710T114200-0500.json`; fail-closed regression evidence is `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_REALESRGAN_STALE_RUN_PACKAGE_NEGATIVE_20260710T114300-0500.json`. The target-runtime work order remains open: `target_runtime_proof=false`, `certification_claimed=false`, and no AWS/S3/EC2/ComfyUI live action occurred. Keep the manual-gold-mask dependency boundary and all Wave70/Wave71+/Jira restrictions active.
-## Active Runtime/Orchestration Posture - Flux2 Dev Prerequisites Precisely Blocked - 2026-07-10T16:15:25-05:00
-
-Continue the full ComfyUI project from `C:\Comfy_UI_Main`. The first-priority Flux2 Dev lane now has a reusable local readiness validator and six-case fail-closed regression, but it is not runtime ready, promoted, completed, or the default. The blocker is exact: authoritative licensed asset identities/hashes/sources, installed files, ComfyUI requirements, API workflow, smoke request, object-info proof, and output proof are missing.
-
-Do not invent Flux2 metadata, silently substitute Flux1, download assets, or infer promotion from routing priority. This blocker applies only to Flux2 readiness; continue other concrete non-mask runtime/orchestration work while keeping EC2 stopped and preserving all gold-mask, Wave70/Wave71+, Jira, live-runtime, and certification boundaries.

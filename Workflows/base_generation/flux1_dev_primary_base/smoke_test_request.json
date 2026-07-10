@@ -1,0 +1,36 @@
+{
+  "lane_id": "flux1_dev_primary_base",
+  "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux1_dev_primary_base/workflow.api.json",
+  "workflow_path_policy": "canonical_plan_authority_with_byte_identical_runtime_mirror",
+  "execution_target": "local_or_ec2_comfyui_api_after_gates",
+  "api_endpoint": "/prompt",
+  "execution_allowed": false,
+  "execution_allowed_after": [
+    "authoritative licensed model source and SHA256 are recorded",
+    "checkpoint file exists and observed SHA256 matches",
+    "object_info confirms every required node class",
+    "clean scoped Git checkpoint and selected runtime authorization pass"
+  ],
+  "request_patch_values": {
+    "positive_prompt": {
+      "clip_l": "hyperreal full-body editorial photograph, anatomically coherent adult subject, natural skin microtexture, realistic hands and feet, detailed fabric, balanced studio lighting, neutral seamless background",
+      "t5xxl": "hyperreal full-body editorial photograph, anatomically coherent adult subject, natural skin microtexture, realistic hands and feet, detailed fabric, balanced studio lighting, neutral seamless background"
+    },
+    "negative_prompt": {
+      "clip_l": "cartoon, anime, illustration, plastic skin, distorted anatomy, extra limbs, extra fingers, missing fingers, fused hands, malformed feet, low resolution, blurry, watermark, text",
+      "t5xxl": "cartoon, anime, illustration, plastic skin, distorted anatomy, extra limbs, extra fingers, missing fingers, fused hands, malformed feet, low resolution, blurry, watermark, text"
+    },
+    "seed": 6150615061,
+    "sampler_settings": {"steps": 20, "cfg": 1.0, "sampler_name": "euler", "scheduler": "simple", "denoise": 1.0},
+    "flux_sampling_settings": {"max_shift": 1.15, "base_shift": 0.5, "width": 1024, "height": 1024},
+    "latent_resolution": {"width": 1024, "height": 1024, "batch_size": 1},
+    "model_asset": "flux1-dev-fp8.safetensors",
+    "save_prefix": "codex_flux1_dev_primary_base"
+  },
+  "expected_outputs": {"artifact_type": "image", "minimum_output_count": 1, "output_prefix": "codex_flux1_dev_primary_base"},
+  "qa_protocols": [
+    "Plan/Instructions/QA/COMFYUI_WORKFLOW_TESTING_PROTOCOL.md",
+    "Plan/Instructions/QA/MODEL_LORA_CHECKPOINT_VALIDATION_PROTOCOL.md",
+    "Plan/Instructions/QA/IMAGE_GENERATION_VISUAL_REVIEW_PROTOCOL.md"
+  ]
+}

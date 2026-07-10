@@ -1,0 +1,41 @@
+{
+  "lane_id": "flux1_dev_primary_base",
+  "engine_family": "flux1",
+  "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux1_dev_primary_base/workflow.api.json",
+  "workflow_path_policy": "canonical_plan_authority_with_byte_identical_runtime_mirror",
+  "required_nodes": ["CheckpointLoaderSimple", "ModelSamplingFlux", "CLIPTextEncodeFlux", "EmptySD3LatentImage", "KSampler", "VAEDecode", "SaveImage"],
+  "required_models": [
+    {
+      "role": "checkpoint",
+      "node_id": "1",
+      "node_class": "CheckpointLoaderSimple",
+      "input": "ckpt_name",
+      "comfyui_model_subdir": "checkpoints",
+      "filename": "flux1-dev-fp8.safetensors",
+      "sha256": "",
+      "source_status": "declared_by_authoritative_main_flow_inventory",
+      "hash_status": "blocked_missing_authoritative_sha256",
+      "path_status": "blocked_model_not_present_locally"
+    }
+  ],
+  "optional_models": [],
+  "object_info_required": true,
+  "object_info_status": "node_classes_present_in_saved_local_snapshot_not_lane_runtime_proof",
+  "model_hash_required": true,
+  "asset_contract_complete": false,
+  "path_resolution_required": true,
+  "runtime_output_required": true,
+  "qa_report_required": true,
+  "promotion_allowed_without_evidence": false,
+  "current_status": "static_workflow_implemented_blocked_asset_hash_and_runtime_proof",
+  "known_blockers": [
+    "Authoritative SHA256 and licensed source metadata for flux1-dev-fp8.safetensors are not recorded.",
+    "The declared checkpoint is not present in the local ComfyUI or project model roots.",
+    "Lane-specific object_info, model-load, output, technical QA, and visual QA evidence do not exist."
+  ],
+  "source_evidence": [
+    "Plan/10_REGISTRIES/wave15_main_flow_base_lane_inventory.json",
+    "Plan/12_SOURCE_SUMMARIES/source_snapshots/WAVE42_MAIN_FLOW_20260702.runtime_bound_snapshot.json",
+    "Plan/Instructions/QA/Evidence/Runtime_Readiness/BASE_GENERATION_RUN_PACKAGE_OBJECT_INFO_SNAPSHOT_20260709T005603-0500.json"
+  ]
+}

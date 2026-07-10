@@ -1,0 +1,73 @@
+{
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "flux1-dev-fp8.safetensors"
+    }
+  },
+  "2": {
+    "class_type": "ModelSamplingFlux",
+    "inputs": {
+      "model": ["1", 0],
+      "max_shift": 1.15,
+      "base_shift": 0.5,
+      "width": 1024,
+      "height": 1024
+    }
+  },
+  "3": {
+    "class_type": "CLIPTextEncodeFlux",
+    "inputs": {
+      "clip": ["1", 1],
+      "clip_l": "hyperreal full-body editorial photograph, anatomically coherent adult subject, natural skin microtexture, realistic hands and feet, detailed fabric, balanced studio lighting, neutral seamless background",
+      "t5xxl": "hyperreal full-body editorial photograph, anatomically coherent adult subject, natural skin microtexture, realistic hands and feet, detailed fabric, balanced studio lighting, neutral seamless background",
+      "guidance": 3.5
+    }
+  },
+  "4": {
+    "class_type": "CLIPTextEncodeFlux",
+    "inputs": {
+      "clip": ["1", 1],
+      "clip_l": "cartoon, anime, illustration, plastic skin, distorted anatomy, extra limbs, extra fingers, missing fingers, fused hands, malformed feet, low resolution, blurry, watermark, text",
+      "t5xxl": "cartoon, anime, illustration, plastic skin, distorted anatomy, extra limbs, extra fingers, missing fingers, fused hands, malformed feet, low resolution, blurry, watermark, text",
+      "guidance": 3.5
+    }
+  },
+  "5": {
+    "class_type": "EmptySD3LatentImage",
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    }
+  },
+  "6": {
+    "class_type": "KSampler",
+    "inputs": {
+      "seed": 6150615061,
+      "steps": 20,
+      "cfg": 1.0,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1.0,
+      "model": ["2", 0],
+      "positive": ["3", 0],
+      "negative": ["4", 0],
+      "latent_image": ["5", 0]
+    }
+  },
+  "7": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": ["6", 0],
+      "vae": ["1", 2]
+    }
+  },
+  "8": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "filename_prefix": "codex_flux1_dev_primary_base",
+      "images": ["7", 0]
+    }
+  }
+}

@@ -1,6 +1,6 @@
 {
     "schema_version":  "1.0",
-    "updated_at":  "2026-07-09T03:14:14-05:00",
+    "updated_at":  "2026-07-10T16:27:00-05:00",
     "source_queue":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
     "lanes":  [
                   {
@@ -92,6 +92,16 @@
                       "patch_points":  "Workflows/base_generation/sdxl_realesrgan_upscale_polish_lane/patch_points.json",
                       "status":  "local_upscale_polish_runtime_visual_qa_pass_with_notes_pending_target_runtime_and_final_certification",
                       "next_gate":  "optional_target_runtime_proof_or_final_upscale_polish_certification_when_intentionally_selected"
+                  },
+                  {
+                      "order":  10,
+                      "lane_id":  "flux1_dev_primary_base",
+                      "workflow":  "Workflows/base_generation/flux1_dev_primary_base/workflow.api.json",
+                      "smoke_request":  "Workflows/base_generation/flux1_dev_primary_base/smoke_test_request.json",
+                      "runtime_requirements":  "Workflows/base_generation/flux1_dev_primary_base/runtime_requirements.json",
+                      "patch_points":  "Workflows/base_generation/flux1_dev_primary_base/patch_points.json",
+                      "status":  "static_workflow_implemented_blocked_asset_hash_and_runtime_proof",
+                      "next_gate":  "record_authoritative_licensed_checkpoint_sha256_then_verify_local_path_hash_and_lane_runtime"
                   }
               ],
     "runtime_boundaries":  {
