@@ -32,6 +32,7 @@ param(
   [string]$ModelInstallDryRunFile = "",
   [string]$SourceInputInstallDryRunFile = "",
   [string]$MaskInputInstallDryRunFile = "",
+  [string]$ArtifactOutputDirectory = "",
   [string]$OutFile = "",
   [string]$MarkdownOutFile = ""
 )
@@ -178,7 +179,11 @@ if ($LaneId -ne "sdxl_realvisxl_inpaint_detail_lane") {
   throw "This wrapper is scoped to sdxl_realvisxl_inpaint_detail_lane; received: $LaneId"
 }
 
-$runtimeEvidenceDir = Resolve-ProjectPath -Path "Plan\Instructions\QA\Evidence\Runtime_Readiness"
+$runtimeEvidenceDir = if ([string]::IsNullOrWhiteSpace($ArtifactOutputDirectory)) {
+  Resolve-ProjectPath -Path "Plan\Instructions\QA\Evidence\Runtime_Readiness"
+} else {
+  Resolve-ProjectPath -Path $ArtifactOutputDirectory
+}
 $preJson = Join-Path $runtimeEvidenceDir "W66_SELECTED_TARGET_RUNTIME_PRE_EC2_HANDOFF_BUNDLE_$SessionStamp.json"
 $preMarkdown = [System.IO.Path]::ChangeExtension($preJson, ".md")
 $ledgerJson = Join-Path $runtimeEvidenceDir "W66_SELECTED_TARGET_RUNTIME_LOCAL_RECHECK_LEDGER_$SessionStamp.json"

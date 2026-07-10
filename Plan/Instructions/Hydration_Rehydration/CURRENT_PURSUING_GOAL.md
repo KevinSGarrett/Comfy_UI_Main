@@ -1,3 +1,9 @@
+## Active Runtime/Orchestration Posture - Orchestrator Regression Harness Added - 2026-07-10T11:25:34-05:00
+
+Continue the full ComfyUI project from `C:\Comfy_UI_Main`. Wave66 runtime orchestration now includes reusable positive and fail-closed regression coverage for the selected-inpaint pre-EC2 refresh wrapper. The wrapper supports a temp artifact directory for clean testing, and the shared harness validates all four synchronized child contracts, local-only safety flags, invalid-lane rejection, and absence of forbidden output.
+
+Authority evidence is `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_SELECTED_INPAINT_REFRESH_ORCHESTRATOR_TEST_HARNESS_20260710T112400-0500.json`, tagged to `TRK-W66-RUNTIME-ORCHESTRATION` and `ITEM-W66-RUNTIME-ORCHESTRATION`. Live target-runtime work remains blocked; no Item/Tracker row or certification is marked complete.
+
 ## Active Runtime/Orchestration Posture - Deterministic Selected-Inpaint Refresh Ready - 2026-07-10T11:02:48-05:00
 
 Continue the full ComfyUI project from authoritative local state at `C:\Comfy_UI_Main`. The selected-inpaint lane now has a reusable local-only refresh orchestrator at `tools/Invoke-SelectedInpaintPreEC2Refresh.ps1`; evidence `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_INPAINT_PRE_EC2_REFRESH_ORCHESTRATION_20260710T110209-0500.json` proves the four-artifact chain completed under one stamp with zero failed child contracts.

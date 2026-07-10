@@ -840,6 +840,52 @@ function Invoke-LocalHelper {
           throw "$Name did not create the expected Markdown snapshot: $selectedSnapshotMarkdown"
         }
       }
+      if ($Name -eq "selected_inpaint_pre_ec2_refresh_orchestration_smoke") {
+        foreach ($required in @("result", "lane_id", "session_stamp", "local_only", "github_api_contacted", "aws_contacted", "civitai_contacted", "s3_contacted", "comfyui_contacted", "ec2_started", "generation_executed", "prompt_posted", "active_runtime_marker_written", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "jira_mutated", "execute_allowed_now", "target_runtime_launch_allowed", "child_artifact_count", "child_artifacts", "failed_child_contract_count", "boundary", "next_action")) {
+          if (-not (Has-Property -Object $payload -Name $required)) {
+            throw "$Name output is missing top-level field: $required"
+          }
+        }
+        if ([string]$payload.result -ne "pass_local_only_selected_inpaint_pre_ec2_refresh_orchestrated_live_gates_closed") {
+          throw "$Name must pass the local-only selected-inpaint refresh contract."
+        }
+        if ([string]$payload.lane_id -ne "sdxl_realvisxl_inpaint_detail_lane") {
+          throw "$Name must remain scoped to the selected inpaint lane."
+        }
+        if (-not [bool]$payload.local_only -or [bool]$payload.execute_allowed_now -or [bool]$payload.target_runtime_launch_allowed) {
+          throw "$Name must remain local-only with live execution gates closed."
+        }
+        foreach ($flag in @("github_api_contacted", "aws_contacted", "civitai_contacted", "s3_contacted", "comfyui_contacted", "ec2_started", "generation_executed", "prompt_posted", "active_runtime_marker_written", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated", "jira_mutated")) {
+          if ([bool]$payload.$flag) {
+            throw "$Name side-effect flag must remain false: $flag"
+          }
+        }
+        if ([int]$payload.child_artifact_count -ne 4 -or @($payload.child_artifacts).Count -ne 4 -or [int]$payload.failed_child_contract_count -ne 0) {
+          throw "$Name must emit exactly four passing child artifacts."
+        }
+        $expectedChildren = @("pre_ec2_handoff_bundle", "local_recheck_ledger", "live_execution_runbook", "execution_readiness_snapshot")
+        $actualChildren = @($payload.child_artifacts | ForEach-Object { [string]$_.name })
+        foreach ($expectedChild in $expectedChildren) {
+          if ($expectedChild -notin $actualChildren) {
+            throw "$Name child_artifacts is missing $expectedChild."
+          }
+        }
+        foreach ($child in @($payload.child_artifacts)) {
+          if (-not [bool]$child.contract_pass -or -not [bool]$child.local_only -or [bool]$child.execute_allowed_now -or [bool]$child.target_runtime_launch_allowed -or [bool]$child.live_side_effects_detected) {
+            throw "$Name child contract is not local-only and fail-closed: $($child.name)"
+          }
+          foreach ($pathField in @("json", "markdown")) {
+            $childPath = [string]$child.$pathField
+            if ([string]::IsNullOrWhiteSpace($childPath) -or $childPath -notmatch [regex]::Escape([string]$payload.session_stamp)) {
+              throw "$Name child $($child.name) $pathField path must include the shared session stamp."
+            }
+          }
+        }
+        $selectedOrchestrationMarkdown = [System.IO.Path]::ChangeExtension($ExpectedOutputFile, ".md")
+        if (-not (Test-Path -LiteralPath $selectedOrchestrationMarkdown)) {
+          throw "$Name did not create the expected orchestration Markdown: $selectedOrchestrationMarkdown"
+        }
+      }
       if ($Name -eq "runtime_unblock_handoff_smoke") {
         foreach ($required in @("result", "failure_category", "next_required_action", "local_only", "aws_contacted", "ec2_started", "generation_executed", "safety_invariants", "command_sequence", "markdown_written", "gate_summary", "latest_evidence")) {
           if (-not (Has-Property -Object $payload -Name $required)) {
@@ -1011,6 +1057,51 @@ function Invoke-LocalHelper {
     }
   }
   return $entry
+}
+
+function Invoke-ExpectedFailureHelper {
+  param(
+    [Parameter(Mandatory=$true)][string]$Name,
+    [Parameter(Mandatory=$true)][string]$ScriptPath,
+    [string[]]$Arguments = @(),
+    [Parameter(Mandatory=$true)][string]$ExpectedMessagePattern,
+    [string]$ForbiddenOutputFile = ""
+  )
+
+  $previousErrorActionPreference = $ErrorActionPreference
+  try {
+    $ErrorActionPreference = "Continue"
+    $output = & powershell -NoProfile -ExecutionPolicy Bypass -File $ScriptPath @Arguments 2>&1
+    $exitCode = $LASTEXITCODE
+  } finally {
+    $ErrorActionPreference = $previousErrorActionPreference
+  }
+  $text = (($output | ForEach-Object { $_.ToString() }) -join "`n").Trim()
+  $text = ConvertTo-RedactedEvidenceText -Text $text -TempRoot $script:ValidationTempRoot
+  $outputExists = (-not [string]::IsNullOrWhiteSpace($ForbiddenOutputFile) -and (Test-Path -LiteralPath $ForbiddenOutputFile))
+  $messageMatched = $text -match $ExpectedMessagePattern
+  $passed = ($exitCode -ne 0 -and $messageMatched -and -not $outputExists)
+
+  return [ordered]@{
+    name = $Name
+    script = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $ScriptPath
+    exit_code = $exitCode
+    result = $(if ($passed) { "pass" } else { "fail" })
+    output_tail = $(if ($text.Length -gt 1000) { $text.Substring($text.Length - 1000) } else { $text })
+    expected_output_file = $null
+    expected_output_file_exists = $false
+    expected_output_json_valid = $true
+    expected_output_error = $(if ($passed) { $null } else { "Expected non-zero exit, matching rejection message, and no output artifact." })
+    expected_failure = $true
+    expected_message_matched = $messageMatched
+    forbidden_output_file = ConvertTo-EvidencePath -BasePath $ProjectRoot -TargetPath $ForbiddenOutputFile -TempRoot $script:ValidationTempRoot
+    forbidden_output_file_exists = $outputExists
+    top_level_result = $null
+    top_level_failure_category = $null
+    execute_gates_pass = $null
+    generation_executed = $false
+    ec2_started = $false
+  }
 }
 
 function Invoke-PullbackManifestVerificationSmoke {
@@ -1465,6 +1556,8 @@ $scriptParseResults = @()
 foreach ($script in Get-ChildItem -LiteralPath $scriptsRoot -Filter "*.ps1" -File | Sort-Object Name) {
   $scriptParseResults += Test-PowerShellParser -Path $script.FullName
 }
+$selectedInpaintRefreshScript = Join-Path $ProjectRoot "tools\Invoke-SelectedInpaintPreEC2Refresh.ps1"
+$scriptParseResults += Test-PowerShellParser -Path $selectedInpaintRefreshScript
 
 $jsonParseResults = @()
 foreach ($json in @(
@@ -1594,6 +1687,21 @@ $localSmokeResults += Invoke-LocalHelper -Name "selected_target_runtime_executio
   -ScriptPath (Join-Path $scriptsRoot "New-SelectedTargetRuntimeExecutionReadinessSnapshot.ps1") `
   -Arguments @("-ProjectRoot", $ProjectRoot, "-LiveExecutionRunbookFile", $selectedTargetRuntimeLiveExecutionRunbookFile, "-OutFile", $selectedTargetRuntimeExecutionReadinessSnapshotFile, "-MarkdownOutFile", $selectedTargetRuntimeExecutionReadinessSnapshotMarkdown) `
   -ExpectedOutputFile $selectedTargetRuntimeExecutionReadinessSnapshotFile
+
+$selectedInpaintRefreshStamp = "20990101T000000-0500"
+$selectedInpaintRefreshFile = Join-Path $tempRoot "selected_inpaint_pre_ec2_refresh_orchestration.json"
+$selectedInpaintRefreshMarkdown = Join-Path $tempRoot "selected_inpaint_pre_ec2_refresh_orchestration.md"
+$localSmokeResults += Invoke-LocalHelper -Name "selected_inpaint_pre_ec2_refresh_orchestration_smoke" `
+  -ScriptPath $selectedInpaintRefreshScript `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-SessionStamp", $selectedInpaintRefreshStamp, "-ArtifactOutputDirectory", $tempRoot, "-OutFile", $selectedInpaintRefreshFile, "-MarkdownOutFile", $selectedInpaintRefreshMarkdown) `
+  -ExpectedOutputFile $selectedInpaintRefreshFile
+
+$selectedInpaintInvalidLaneFile = Join-Path $tempRoot "selected_inpaint_pre_ec2_refresh_invalid_lane.json"
+$localSmokeResults += Invoke-ExpectedFailureHelper -Name "selected_inpaint_pre_ec2_refresh_invalid_lane_rejection" `
+  -ScriptPath $selectedInpaintRefreshScript `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-LaneId", "sdxl_realvisxl_base_lane", "-SessionStamp", $selectedInpaintRefreshStamp, "-ArtifactOutputDirectory", $tempRoot, "-OutFile", $selectedInpaintInvalidLaneFile) `
+  -ExpectedMessagePattern "This wrapper is scoped to sdxl_realvisxl_inpaint_detail_lane" `
+  -ForbiddenOutputFile $selectedInpaintInvalidLaneFile
 
 $s3RuntimeConfigPlanFile = Join-Path $tempRoot "s3_runtime_config_plan.json"
 $s3RuntimeConfigPolicyDir = Join-Path $tempRoot "s3_runtime_config_plan_policies"
@@ -1788,8 +1896,8 @@ $record = [ordered]@{
   created_at = $createdAt
   artifact_id = "TRK-W60-010"
   artifact_type = "operations_helper_current_static_validation"
-  tracker_ids = @("TRK-W60-010", "TRK-W61-006", "TRK-W61-007")
-  item_ids = @("W60-010", "ITEM-W61-006", "ITEM-W61-007")
+  tracker_ids = @("TRK-W60-010", "TRK-W61-006", "TRK-W61-007", "TRK-W66-RUNTIME-ORCHESTRATION")
+  item_ids = @("W60-010", "ITEM-W61-006", "ITEM-W61-007", "ITEM-W66-RUNTIME-ORCHESTRATION")
   qa_protocol_used = @(
     "README_OPERATIONS_WAVE60.md",
     "OPERATIONAL_DONE_GATES.md",
@@ -1800,6 +1908,7 @@ $record = [ordered]@{
     "Plan/Instructions/Operations/Scripts/*.ps1",
     "Plan/Instructions/Operations/Schemas/*.json",
     "Plan/Instructions/Operations/Templates/*.json",
+    "tools/Invoke-SelectedInpaintPreEC2Refresh.ps1",
     "latest selected-lane runtime gate evidence",
     "runtime unblock handoff smoke"
   )

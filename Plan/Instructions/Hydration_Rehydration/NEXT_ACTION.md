@@ -1,3 +1,9 @@
+## Immediate Next Action - Selected-Inpaint Orchestrator Harness Coverage Passed - 2026-07-10T11:25:34-05:00
+
+The reusable operations-helper harness now directly covers `tools/Invoke-SelectedInpaintPreEC2Refresh.ps1`. Evidence `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_SELECTED_INPAINT_REFRESH_ORCHESTRATOR_TEST_HARNESS_20260710T112400-0500.json`, mirrored under `Plan/Tracker/Evidence/Operations_Static_Validation`, reports `pass_local_only`, script parse failures `0`, local smoke failures `0`, evidence failures `0`, and evidence-contract failures `0`. The positive orchestration smoke and invalid-lane rejection both pass.
+
+Next exact action: do not rerun this harness unless an operations helper or the selected-inpaint wrapper changes. Keep EC2 stopped. Continue a different concrete non-mask local implementation task, or obtain explicit live-window selection before any S3 `-Execute`, marker write, EC2 proof, or workflow smoke. No Wave66 row completion or final certification is claimed.
+
 ## Immediate Next Action - Selected-Inpaint Pre-EC2 Refresh Orchestrated - 2026-07-10T11:02:48-05:00
 
 Added `tools/Invoke-SelectedInpaintPreEC2Refresh.ps1`, a deterministic local-only wrapper for the selected-inpaint pre-EC2 handoff bundle, local recheck ledger, live execution runbook, and execution readiness snapshot. The synchronized authority record is `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_INPAINT_PRE_EC2_REFRESH_ORCHESTRATION_20260710T110209-0500.json`, mirrored at `Plan/Tracker/Evidence/Runtime_Readiness/W66_SELECTED_INPAINT_PRE_EC2_REFRESH_ORCHESTRATION_20260710T110209-0500.json`. All four child contracts pass with failed checks `0`; live execution remains fail-closed.
