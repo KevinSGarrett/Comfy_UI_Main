@@ -1,3 +1,9 @@
+## Immediate Next Action - Selected Inpaint S3 Runtime Config Current - 2026-07-09T20:13:00-05:00
+
+Continue selected-inpaint live-gate orchestration from the current local-only S3 runtime config/readiness refresh. The S3 config planner rendered policy previews under `runtime_artifacts` and produced a ready local plan for the initialized runtime bucket and roles; the transfer readiness check then confirmed the deploy-bundle, model-cache, artifact, GitHub OIDC role, and emergency-stop scheduler role inputs are present without contacting AWS.
+
+Current evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_S3_RUNTIME_CONFIG_PLAN_SELECTED_INPAINT_LIVE_RUNBOOK_20260709T201100-0500.json` reports `ready_to_apply_local_plan`, `missing_config=[]`, `github_role_arn_configured=true`, `scheduler_role_arn_configured=true`, and rendered policy results all `pass`. `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_S3_RUNTIME_TRANSFER_READINESS_SELECTED_INPAINT_LIVE_RUNBOOK_20260709T201300-0500.json` reports `ready_local_only`, `missing_config=[]`, and all policy template checks pass. Tracker mirrors exist. Keep EC2 stopped; S3 Execute, input/model publish, EC2 install/static proof, marker write, prompt post, workflow smoke, mask promotion, Wave70 hard gates, Wave71 activation, and Jira mutation remain blocked until explicit gates are satisfied.
+
 ## Immediate Next Action - Selected Inpaint Live Runbook Snapshot Current - 2026-07-09T20:01:00-05:00
 
 Continue selected-inpaint live-gate orchestration from the current clean-bundle live execution runbook and execution-readiness snapshot. The current runbook contains 20 ordered steps and keeps live execution blocked while confirming the clean bundle S3 dry-run path is ready. The current snapshot confirms the local proof set is complete for the non-live handoff and that remaining blockers are live-gate only.

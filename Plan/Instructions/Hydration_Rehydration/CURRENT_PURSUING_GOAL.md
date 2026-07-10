@@ -1,3 +1,9 @@
+## Current Pursuing Goal - Selected Inpaint S3 Runtime Config Current - 2026-07-09T20:13:00-05:00
+
+Keep pursuing selected-inpaint target-runtime readiness from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a local-only S3 runtime config/readiness refresh for the selected inpaint live runbook: runtime bucket/prefixes, GitHub OIDC deploy role, emergency-stop scheduler role, rendered policy previews, and transfer readiness all validate locally while live execution remains blocked.
+
+Current validation anchors: `W66_S3_RUNTIME_CONFIG_PLAN_SELECTED_INPAINT_LIVE_RUNBOOK_20260709T201100-0500.json` (`ready_to_apply_local_plan`, `missing_config=[]`, `github_role_arn_configured=true`, `scheduler_role_arn_configured=true`) and `W66_S3_RUNTIME_TRANSFER_READINESS_SELECTED_INPAINT_LIVE_RUNBOOK_20260709T201300-0500.json` (`ready_local_only`, `missing_config=[]`, all policy templates pass). Live execution remains unauthorized until explicit target-runtime/live intent, S3 Execute proofs for deploy bundle/input/model assets, EC2 install/static proof, and EC2 start authorization are present. Gold-mask-dependent promotion/body authority work remains blocked outside this non-mask runtime lane.
+
 ## Current Pursuing Goal - Selected Inpaint Live Runbook Snapshot Current - 2026-07-09T20:01:00-05:00
 
 Keep pursuing selected-inpaint target-runtime readiness from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a clean-bundle live execution runbook plus execution-readiness snapshot for the selected inpaint lane; local dry-run proof is complete for the non-live handoff, while all live execution remains blocked pending explicit authorization and live-gate proofs.
