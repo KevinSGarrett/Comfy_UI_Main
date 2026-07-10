@@ -1,3 +1,11 @@
+## Immediate Next Action - Selected Recheck Ledger Current - 2026-07-09T19:37:00-05:00
+
+Continue selected-inpaint target-runtime orchestration from the current local recheck ledger. The ledger now consumes the selected-chain closure rollup and confirms the local pre-EC2 recheck set is accounted while EC2/live execution remains blocked.
+
+Current evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LOCAL_RECHECK_LEDGER_SELECTED_CHAIN_20260709T193600-0500.json` reports `pass_local_only_selected_target_runtime_local_rechecks_accounted_ec2_blocked`, `failed_check_count=0`, `pass_recheck_count=5`, `unexpected_recheck_count=0`, `target_runtime_launch_allowed=false`, `execute_allowed_now=false`, and exact blockers `aws_auth_expired_session` and `target_runtime_proof_evidence_missing`. QA helper validation `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_QA_HELPER_AFTER_SELECTED_RECHECK_LEDGER_SELECTED_CHAIN_20260709T193700-0500.json` reports `pass_local_only`, 52 scripts parsed, 57 local smokes, and 0 failures. Tracker mirrors exist.
+
+Remaining project blockers are unchanged: selected-inpaint target-runtime/live intent, refreshed AWS auth, S3 Execute proofs, EC2 install/static proof, EC2 start authorization, full-project final certification closure, and gold-mask-dependent gates. Do not start EC2, upload to S3, post ComfyUI prompts, promote masks, rerun Wave70 hard gates, activate Wave71+, or switch to Jira bookkeeping without explicit live/gate conditions.
+
 ## Immediate Next Action - Final Review Coverage Rollup Current - 2026-07-09T19:34:00-05:00
 
 Continue selected-inpaint/final-certification orchestration from the current local final-review closure rollup and evidence coverage matrix. The rollup and coverage helpers now prefer the current Done_Certifications work-order map before older Runtime_Readiness maps, and the selected target-runtime local recheck ledger now derives the open-work-order count from the active rollup instead of a stale hard-coded value.

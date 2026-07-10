@@ -1,0 +1,177 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "selected_target_runtime_local_recheck_ledger",
+    "created_at":  "2026-07-09T19:28:20-05:00",
+    "result":  "pass_local_only_selected_target_runtime_local_rechecks_accounted_ec2_blocked",
+    "lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+    "selected_work_order_id":  "WO-W66-SDXL_REALVISXL_INPAINT_DETAIL_LANE-TARGET-RUNTIME-PROOF",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "s3_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "prompt_posted":  false,
+    "active_runtime_marker_written":  false,
+    "masks_consumed_as_truth":  false,
+    "masks_promoted":  false,
+    "wave70_hard_gate_rerun":  false,
+    "wave71_plus_activated":  false,
+    "full_project_certification_allowed":  false,
+    "target_runtime_launch_allowed":  false,
+    "execute_allowed_now":  false,
+    "pre_ec2_handoff_bundle":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_PRE_EC2_HANDOFF_BUNDLE_CURRENT_LOCAL_PUBLISH_PROOFS_20260709T175500-0500.json",
+    "ready_for_s3_publish_now_local_dry_run":  true,
+    "selected_deploy_bundle_live_commands_materialized":  true,
+    "selected_deploy_bundle_s3_bundle_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/deploy_bundle_sdxl_realvisxl_inpaint_detail_lane_20260709T151500-0500/deploy_bundle_sdxl_realvisxl_inpaint_detail_lane_20260709T151500-0500.zip",
+    "selected_deploy_bundle_s3_bundle_sha256":  "089a7a411f9380c4f737a8d246d1ade29799d59c1fcba95aaf4dde4bcbd68bcb",
+    "recheck_rows":  [
+                         {
+                             "name":  "closure_rollup_recheck",
+                             "evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_CLOSURE_ROLLUP_SELECTED_CHAIN_20260709T193000-0500.json",
+                             "result":  "pass_local_only_final_certification_closure_rollup",
+                             "disposition":  "pass_local_recheck",
+                             "result_accepted":  true,
+                             "no_live_side_effects":  true
+                         },
+                         {
+                             "name":  "git_checkpoint_recheck",
+                             "evidence":  "Plan/Instructions/QA/Evidence/Git_Verification/W66_GITHUB_CHECKPOINT_DRY_RUN_JSON_GATE_SELECTED_INPAINT_CLEAN_RECHECK_20260709T175000-0500.json",
+                             "result":  "pass_git_checkpoint_ready",
+                             "disposition":  "pass_local_recheck",
+                             "result_accepted":  true,
+                             "no_live_side_effects":  true
+                         },
+                         {
+                             "name":  "runtime_unblock_handoff_recheck",
+                             "evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_RUNTIME_UNBLOCK_HANDOFF_sdxl_realvisxl_inpaint_detail_lane_CLEAN_RECHECK_20260709T175000-0500.json",
+                             "result":  "handoff_ready_runtime_blocked_auth",
+                             "disposition":  "pass_or_blocked_local_handoff",
+                             "result_accepted":  true,
+                             "no_live_side_effects":  true
+                         },
+                         {
+                             "name":  "active_runtime_queue_local_support_recheck",
+                             "evidence":  "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_LOCAL_SUPPORT_CERTIFICATION_20260709T072131-0500.json",
+                             "result":  "pass_local_active_runtime_queue_support_certification",
+                             "disposition":  "pass_local_recheck",
+                             "result_accepted":  true,
+                             "no_live_side_effects":  true
+                         },
+                         {
+                             "name":  "runtime_lane_queue_recheck",
+                             "evidence":  "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W66_RUNTIME_LANE_QUEUE_20260709T072149-0500.json",
+                             "result":  "pass_local_only",
+                             "disposition":  "pass_local_recheck",
+                             "result_accepted":  true,
+                             "no_live_side_effects":  true
+                         },
+                         {
+                             "name":  "model_registry_coverage_recheck",
+                             "evidence":  "Plan/Instructions/QA/Evidence/Model_Registry/W66_MODEL_REGISTRY_COVERAGE_20260709T072150-0500.json",
+                             "result":  "pass_local_only",
+                             "disposition":  "pass_local_recheck",
+                             "result_accepted":  true,
+                             "no_live_side_effects":  true
+                         }
+                     ],
+    "pass_recheck_count":  5,
+    "expected_blocked_recheck_count":  0,
+    "unexpected_recheck_count":  0,
+    "exact_blockers":  [
+                           "aws_auth_expired_session",
+                           "target_runtime_proof_evidence_missing"
+                       ],
+    "checks":  [
+                   {
+                       "name":  "pre_ec2_handoff_bundle_still_fail_closed",
+                       "result":  "pass",
+                       "observed":  {
+                                        "result":  "pass_local_only_selected_target_runtime_pre_ec2_handoff_bundle_ready_ec2_blocked",
+                                        "lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+                                        "launch_allowed":  false,
+                                        "execute_allowed_now":  false
+                                    },
+                       "expected":  "selected inpaint pre-EC2 handoff bundle remains fail-closed"
+                   },
+                   {
+                       "name":  "materialized_bundle_commands_preserved_when_available",
+                       "result":  "pass",
+                       "observed":  {
+                                        "materialized":  true,
+                                        "uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/deploy_bundle_sdxl_realvisxl_inpaint_detail_lane_20260709T151500-0500/deploy_bundle_sdxl_realvisxl_inpaint_detail_lane_20260709T151500-0500.zip",
+                                        "sha":  "089a7a411f9380c4f737a8d246d1ade29799d59c1fcba95aaf4dde4bcbd68bcb",
+                                        "s3_upload_execute_allowed":  false
+                                    },
+                       "expected":  "materialized selected bundle evidence carries URI/SHA while upload execute remains blocked"
+                   },
+                   {
+                       "name":  "six_recheck_rows_accounted",
+                       "result":  "pass",
+                       "observed":  {
+                                        "row_count":  6,
+                                        "accepted":  true,
+                                        "side_effect_free":  true,
+                                        "unexpected_count":  0
+                                    },
+                       "expected":  "six accepted local-only recheck rows with no live side effects"
+                   },
+                   {
+                       "name":  "closure_rollup_keeps_final_certification_blocked",
+                       "result":  "pass",
+                       "observed":  {
+                                        "source_work_orders":  17,
+                                        "closed":  2,
+                                        "open":  15,
+                                        "expected_open":  15,
+                                        "target_runtime":  8,
+                                        "final_review":  7,
+                                        "full_project_certification_allowed":  false
+                                    },
+                       "expected":  "closure rollup keeps two local review closures, all target-runtime/final-review blockers open, and full certification blocked"
+                   },
+                   {
+                       "name":  "git_checkpoint_dry_run_accounted_without_commit_or_push",
+                       "result":  "pass",
+                       "observed":  {
+                                        "result":  "pass_git_checkpoint_ready",
+                                        "clean_worktree":  true,
+                                        "local_matches_origin":  true,
+                                        "porcelain_count":  0,
+                                        "commit_attempted":  false,
+                                        "push_attempted":  false,
+                                        "passes_for_ec2_execute":  true,
+                                        "dirty_blocker":  false
+                                    },
+                       "expected":  "clean/synced pass gate or dirty Git blocker, always with no commit or push"
+                   },
+                   {
+                       "name":  "runtime_unblock_handoff_records_expected_blocker",
+                       "result":  "pass",
+                       "observed":  {
+                                        "result":  "handoff_ready_runtime_blocked_auth",
+                                        "failure_category":  "expired_session",
+                                        "project_readiness":  "pass_local_ready_for_ec2_static_proof"
+                                    },
+                       "expected":  "selected inpaint runtime handoff fail-closes on an expected local blocker or remains ready for the next gated runtime step"
+                   },
+                   {
+                       "name":  "local_support_queue_and_model_rechecks_pass",
+                       "result":  "pass",
+                       "observed":  {
+                                        "local_support":  "pass_local_active_runtime_queue_support_certification",
+                                        "lane_count":  9,
+                                        "runtime_queue":  "pass_local_only",
+                                        "runtime_queue_failed":  0,
+                                        "model_coverage":  "pass_local_only",
+                                        "model_coverage_failed":  0
+                                    },
+                       "expected":  "local support, runtime queue, and model registry rechecks pass locally"
+                   }
+               ],
+    "failed_check_count":  0,
+    "ledger_boundary":  "Local selected target-runtime recheck ledger only. This accounts for dry-run/local evidence and expected blockers; it does not authorize live upload, S3 publish with Execute, marker write, EC2 start, prompt post, generation, final certification, mask promotion, Wave70 hard-gate rerun, Jira bookkeeping, or Wave71+ activation.",
+    "next_action":  "Keep EC2 stopped. The selected deploy bundle URI/SHA are materialized for future live proof, but Git/live intent/S3 Execute/input/model publish/install/static-proof gates remain blocked."
+}
