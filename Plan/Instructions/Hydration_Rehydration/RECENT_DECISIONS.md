@@ -1,3 +1,7 @@
+## Decision - Canonical OpenPose Uses The Tabletop-Hands Source - 2026-07-10T13:18:52-05:00
+
+Use `controlnet_openpose_hands_tabletop_w69_v1.png`, not `controlnet_openpose_w69_v1.png`, as the canonical OpenPose control image. Its source manifest, active input copy, workflow default, runtime requirements, smoke request, package, transfer URI, and pre-EC2 handoff now agree. Do not regress to the older head-and-shoulders map or treat this local canonicalization as target-runtime proof or final hand certification.
+
 ## Decision - Freeze Local ControlNet Readiness Until Inputs Or Live Selection Change - 2026-07-10T12:49:30-05:00
 
 Do not rerun package, deploy, publish-dry-run, asset-transfer, or pre-EC2 handoff generation for depth, lineart, openpose, or normal unless a source contract, local asset, bundle, helper, Git authority, or explicit live selection changes. The current matrix is the local handoff authority; further repetition would be bookkeeping, not implementation progress.

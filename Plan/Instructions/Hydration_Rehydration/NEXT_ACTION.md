@@ -1,3 +1,9 @@
+## Immediate Next Action - Canonical OpenPose Tabletop-Hands Contract Implemented - 2026-07-10T13:18:52-05:00
+
+`ITEM-W65-0209` / `TRK-W65-0209` are now completed within their source-coverage scope. The planned tabletop-hands control source is canonical in both OpenPose workflow mirrors, runtime requirements, and smoke requests. Authority evidence `Plan/Instructions/QA/Evidence/Wave65/ITEM-W65-0209.json` passes source citation, requirement extraction, implementation, static/package testing, hash checks, whole-image QA review, and evidence gates.
+
+The refreshed four-lane handoff authority is `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_CONTROLNET_FOUR_LANE_PRE_EC2_HANDOFF_MATRIX_TABLEHANDS_CANONICAL_20260710T133400-0500.json`, with all four lanes passing at Git `58dbda2`. Next exact action: keep EC2 stopped and freeze this changed ControlNet chain again. OpenPose target-runtime proof and strict final hand certification remain live-gated and incomplete; continue another concrete non-mask local implementation task unless an explicit live window is selected.
+
 ## Immediate Next Action - Four ControlNet Pre-EC2 Handoffs Ready And Live-Blocked - 2026-07-10T12:49:30-05:00
 
 Depth, lineart, openpose, and normal now have consolidated pre-EC2 handoff bundles that bind current package/deploy evidence, deploy-bundle publish dry runs, asset-transfer dry runs, and the exact clean Git gate at `054e278`. Authority evidence `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_CONTROLNET_FOUR_LANE_PRE_EC2_HANDOFF_MATRIX_20260710T130500-0500.json`, mirrored under `Plan/Tracker/Evidence/Runtime_Readiness`, reports all four lanes pass seven checks and all five corruption tests fail closed.

@@ -1,3 +1,9 @@
+## Active Runtime/Orchestration Posture - OpenPose Tabletop Source Is Canonical - 2026-07-10T13:18:52-05:00
+
+Continue the full ComfyUI project from `C:\Comfy_UI_Main`. The explicit tabletop-hands OpenPose source is no longer only a prepared/profile artifact: it now drives the canonical workflow LoadImage node, runtime hash contract, 768x1024 smoke composition, prompts, ControlNet strength, and output prefixes in both authoritative mirrors.
+
+Authority evidence is `Plan/Instructions/QA/Evidence/Wave65/ITEM-W65-0209.json`; current four-lane local handoff evidence is `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_CONTROLNET_FOUR_LANE_PRE_EC2_HANDOFF_MATRIX_TABLEHANDS_CANONICAL_20260710T133400-0500.json`. Only the Wave65 source-coverage Item/Tracker rows are completed. The OpenPose lane still has `target_runtime_proof=false` and `certification_claimed=false`. Keep EC2 stopped and preserve mask, Wave70/Wave71+, Jira, and local-source-of-truth boundaries.
+
 ## Active Runtime/Orchestration Posture - Four ControlNet Handoffs Locally Complete - 2026-07-10T12:49:30-05:00
 
 Continue the full ComfyUI project from `C:\Comfy_UI_Main`. The local preparation chain for depth, lineart, openpose, and normal now reaches a strict pre-EC2 handoff boundary: package/deploy consistency, deploy publish dry run, six-child asset-transfer dry run, and current clean Git authority are aligned for each lane.

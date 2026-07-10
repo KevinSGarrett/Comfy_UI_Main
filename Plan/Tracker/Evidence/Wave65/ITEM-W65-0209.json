@@ -1,0 +1,148 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "ITEM-W65-0209-SOURCE-CLOSURE",
+    "created_at":  "2026-07-10T13:17:24-05:00",
+    "item_id":  "ITEM-W65-0209",
+    "tracker_id":  "TRK-W65-0209",
+    "source_file":  "Plan\\Instructions\\Operations\\Prepared_Input_Assets\\openpose_hands_tabletop_w69_v1\\OPENPOSE_HANDS_TABLETOP_CONTROL_SOURCE_MANIFEST.json",
+    "source_citation":  "W65:instructions:Plan/Instructions/Operations/Prepared_Input_Assets/openpose_hands_tabletop_w69_v1/OPENPOSE_HANDS_TABLETOP_CONTROL_SOURCE_MANIFEST.json#L1-L13",
+    "source_manifest_id":  "W69-LOCAL-OPENPOSE-HANDS-TABLETOP-CONTROL-SOURCE-V1",
+    "result":  "pass_source_requirements_implemented_tested_reviewed_evidenced",
+    "status_decision":  "Completed_Evidence_Passed",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "s3_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "requirements_extracted":  [
+                                   {
+                                       "requirement":  "Prepare a new OpenPose control source/map with both hands separated on a tabletop contact line.",
+                                       "implementation":  "Prepared source manifest and three hash-bound assets verified."
+                                   },
+                                   {
+                                       "requirement":  "Patch or profile the OpenPose lane to use controlnet_openpose_hands_tabletop_w69_v1.png.",
+                                       "implementation":  "Canonical workflow, runtime requirements, and smoke request mirrors now use the tabletop-hands image, 768x1024 composition, and table-hands prompt contract."
+                                   },
+                                   {
+                                       "requirement":  "Do not treat preparation as generation pass, certification, or target-runtime proof.",
+                                       "implementation":  "All new package, asset, and handoff evidence remains local-only and live-blocked."
+                                   }
+                               ],
+    "asset_checks":  [
+                         {
+                             "role":  "source_guide",
+                             "path":  "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_hands_tabletop_w69_v1/openpose_hands_tabletop_source_guide_w69_v1.png",
+                             "expected_sha256":  "10c043e120020d3b936ac8bb8f82b605e4899a5c98ca715c995bcd3a9a465dd0",
+                             "observed_sha256":  "10c043e120020d3b936ac8bb8f82b605e4899a5c98ca715c995bcd3a9a465dd0",
+                             "hash_match":  true,
+                             "expected_bytes":  9383,
+                             "observed_bytes":  9383,
+                             "bytes_match":  true
+                         },
+                         {
+                             "role":  "openpose_control_map",
+                             "path":  "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_hands_tabletop_w69_v1/controlnet_openpose_hands_tabletop_w69_v1.png",
+                             "expected_sha256":  "071fae66490195443a883b157f68455707be00c6427686a4252dcfd7e6a6019c",
+                             "observed_sha256":  "071fae66490195443a883b157f68455707be00c6427686a4252dcfd7e6a6019c",
+                             "hash_match":  true,
+                             "expected_bytes":  7017,
+                             "observed_bytes":  7017,
+                             "bytes_match":  true
+                         },
+                         {
+                             "role":  "active_comfyui_input_copy",
+                             "path":  "ComfyUI/input/controlnet_openpose_hands_tabletop_w69_v1.png",
+                             "expected_sha256":  "071fae66490195443a883b157f68455707be00c6427686a4252dcfd7e6a6019c",
+                             "observed_sha256":  "071fae66490195443a883b157f68455707be00c6427686a4252dcfd7e6a6019c",
+                             "hash_match":  true,
+                             "expected_bytes":  7017,
+                             "observed_bytes":  7017,
+                             "bytes_match":  true
+                         }
+                     ],
+    "mirror_checks":  [
+                          {
+                              "file":  "workflow.api.json",
+                              "workflow_sha256":  "7976895e0274c260b7c45eb5595137b64c9867c24c562ec9a9e2324807228ea1",
+                              "plan_sha256":  "7976895e0274c260b7c45eb5595137b64c9867c24c562ec9a9e2324807228ea1",
+                              "match":  true
+                          },
+                          {
+                              "file":  "runtime_requirements.json",
+                              "workflow_sha256":  "e24b3e516b406ef0e651a60f777a0fcae8be92eaa0c298bc11322e5a08460ecb",
+                              "plan_sha256":  "e24b3e516b406ef0e651a60f777a0fcae8be92eaa0c298bc11322e5a08460ecb",
+                              "match":  true
+                          },
+                          {
+                              "file":  "smoke_test_request.json",
+                              "workflow_sha256":  "0ba8ac1852b53a8e7c83cefddbae28162a50d27e1c3b6757954cb9450a6eab7c",
+                              "plan_sha256":  "0ba8ac1852b53a8e7c83cefddbae28162a50d27e1c3b6757954cb9450a6eab7c",
+                              "match":  true
+                          }
+                      ],
+    "implementation_files":  [
+                                 "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/workflow.api.json",
+                                 "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/runtime_requirements.json",
+                                 "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/smoke_test_request.json",
+                                 "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_openpose_lane/workflow.api.json",
+                                 "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_openpose_lane/runtime_requirements.json",
+                                 "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_openpose_lane/smoke_test_request.json"
+                             ],
+    "test_evidence":  [
+                          {
+                              "name":  "canonical_run_package_static_and_smoke_dry_run",
+                              "result":  "pass_local_only",
+                              "run_package":  "runtime_artifacts/run_packages/openpose_tablehands_canonical_ab5365c/RUN_PACKAGE_MANIFEST.json",
+                              "generation_executed":  false
+                          },
+                          {
+                              "name":  "package_deploy_consistency",
+                              "result":  "pass_local_only",
+                              "failed_check_count":  0,
+                              "evidence":  "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_CONTROLNET_OPENPOSE_TABLEHANDS_CANONICAL_PACKAGE_DEPLOY_CONSISTENCY_20260710T132400-0500.json"
+                          },
+                          {
+                              "name":  "asset_transfer",
+                              "result":  "pass_local_only_controlnet_asset_transfer_dry_run_bundle_validated",
+                              "failed_check_count":  0,
+                              "child_artifact_count":  6,
+                              "evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_CONTROLNET_OPENPOSE_TABLEHANDS_CANONICAL_ASSET_TRANSFER_DRY_RUN_BUNDLE_20260710T132500-0500.json"
+                          },
+                          {
+                              "name":  "four_lane_pre_ec2_handoff",
+                              "result":  "pass_local_only_controlnet_four_lane_pre_ec2_handoffs_ready_live_blocked",
+                              "passing_lane_count":  4,
+                              "evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_CONTROLNET_FOUR_LANE_PRE_EC2_HANDOFF_MATRIX_TABLEHANDS_CANONICAL_20260710T133400-0500.json"
+                          }
+                      ],
+    "qa_review":  [
+                      {
+                          "name":  "prepared_control_source_visual_qa",
+                          "result":  "pass_local_openpose_tabletop_control_source_prepared",
+                          "evidence":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_TABLETOP_CONTROL_SOURCE_VISUAL_QA_20260707T072100-0500.json"
+                      },
+                      {
+                          "name":  "whole_image_multisample_robustness",
+                          "result":  "pass_with_notes_local_openpose_tablehands_multisample_robustness",
+                          "notes":  "Local multisample robustness only. Final OpenPose hands certification still needs stricter hand anatomy review criteria and target-runtime proof if selected.",
+                          "evidence":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V5_TABLEHANDS_ROBUSTNESS_VISUAL_QA_20260707T073000-0500.json"
+                      }
+                  ],
+    "acceptance":  {
+                       "source_file_read":  true,
+                       "citation_present":  true,
+                       "requirements_extracted":  true,
+                       "implementation_recorded":  true,
+                       "test_or_runtime_gate_recorded":  true,
+                       "whole_artifact_visual_review_recorded":  true,
+                       "evidence_path_recorded":  true,
+                       "no_loop_compliance":  true,
+                       "source_coverage_completion_allowed":  true
+                   },
+    "target_runtime_proof":  false,
+    "lane_certification_claimed":  false,
+    "item_completion_scope":  "ITEM-W65-0209 source-coverage row only",
+    "tracker_completion_scope":  "TRK-W65-0209 source-coverage row only",
+    "remaining_boundary":  "OpenPose target-runtime proof and final strict hand-anatomy certification remain incomplete and live-gated."
+}

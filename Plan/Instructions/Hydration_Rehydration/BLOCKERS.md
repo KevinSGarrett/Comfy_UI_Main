@@ -1,3 +1,7 @@
+## OpenPose Canonical Input Gap Resolved; Final Hand Proof Still Required - 2026-07-10T13:18:52-05:00
+
+The stale canonical OpenPose control-image blocker is resolved: workflow, smoke, runtime requirements, package, deploy, asset transfer, and handoff evidence all use the explicit tabletop-hands source. Remaining OpenPose blockers are explicit live intent, S3/EC2 execute proofs, target-runtime object-info/path/hash/static proof, bounded generation, pullback, stricter hand-anatomy QA, and final lane review. Local visual evidence remains pass-with-notes, not certification.
+
 ## Four ControlNet Local Handoffs Ready; Explicit Live Window Still Required - 2026-07-10T12:49:30-05:00
 
 No known local package, deploy, publish-dry-run, asset-transfer-dry-run, or clean-Git handoff blocker remains for depth, lineart, openpose, or normal. Live progression remains blocked by explicit user-selected live intent, deploy/model/input S3 `-Execute` proofs, EC2 install hash proofs, object-info/path/static proof, bounded generation, pullback, strict whole-image visual QA, and final lane review. The same live boundary applies independently to each lane.
