@@ -4,6 +4,7 @@ import importlib.util
 import sys
 from pathlib import Path
 
+import numpy as np
 import pytest
 from PIL import Image
 
@@ -15,6 +16,12 @@ spec = importlib.util.spec_from_file_location("facial_prediction_producer", SCRI
 assert spec and spec.loader
 producer = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(producer)
+
+RUNNER_SCRIPT = ROOT / "Plan/07_IMPLEMENTATION/scripts/run_wave70_facial_bisenet_inference.py"
+runner_spec = importlib.util.spec_from_file_location("facial_bisenet_runner", RUNNER_SCRIPT)
+assert runner_spec and runner_spec.loader
+runner = importlib.util.module_from_spec(runner_spec)
+runner_spec.loader.exec_module(runner)
 
 
 def save_mask(path: Path, value: int = 0, size: tuple[int, int] = (8, 6)) -> None:
@@ -119,6 +126,59 @@ def test_route_specs_keep_single_pass_default_separate_from_tta(tmp_path: Path) 
     assert tta["inference_metadata"]["spatial_unflip"] is True
     assert len(tta["configuration_components"]) == 2
     assert str(producer.TTA_RUNNER) in tta["command"]
+
+
+def test_ear_multiscale_route_is_fixed_and_ear_only(tmp_path: Path) -> None:
+    route = producer.build_route_spec(
+        "ear_multiscale_union_v1", tmp_path / "input", tmp_path / "output", tmp_path / "model.pth"
+    )
+    metadata = route["inference_metadata"]
+    assert metadata["scales"] == [384, 512, 640]
+    assert metadata["canonical_grid"] == [512, 512]
+    assert metadata["target_classes"] == ["l_ear", "r_ear", "ear_r"]
+    assert metadata["non_target_masks_preserved_from_scale"] == 512
+    assert metadata["gold_exposed_to_route"] is False
+    assert "ear_multiscale_union_v1" in route["command"]
+
+
+def test_ear_overrides_preserve_non_target_masks(tmp_path: Path) -> None:
+    parsing = np.array([[1, 1, 7], [17, 8, 0]], dtype=np.uint8)
+    overrides = {
+        7: np.array([[False, True, True], [False, False, False]]),
+        8: np.array([[False, False, False], [False, True, True]]),
+        9: np.array([[False, False, False], [True, False, False]]),
+    }
+    runner.save_masks(parsing, tmp_path, "sample", overrides)
+    sample = tmp_path / "masks/sample"
+    assert np.array_equal(np.asarray(Image.open(sample / "01_skin.png")) > 0, parsing == 1)
+    assert np.array_equal(np.asarray(Image.open(sample / "17_hair.png")) > 0, parsing == 17)
+    assert np.array_equal(np.asarray(Image.open(sample / "07_l_ear.png")) > 0, overrides[7])
+    assert np.array_equal(np.asarray(Image.open(sample / "09_ear_r.png")) > 0, overrides[9])
+
+
+def test_ear_multiscale_inference_returns_canonical_non_target_logits() -> None:
+    class ScaleTaggedNet(runner.torch.nn.Module):
+        def forward(self, tensor):
+            size = tensor.shape[-1]
+            logits = runner.torch.zeros((1, len(runner.CLASS_NAMES), size, size), dtype=tensor.dtype)
+            tagged_class = {384: 7, 512: 1, 640: 8}[size]
+            logits[:, tagged_class] = 2.0
+            return (logits,)
+
+    tensor = runner.torch.zeros((1, 3, 512, 512), dtype=runner.torch.float32)
+    canonical_logits, ear_masks = runner.infer_ear_multiscale_masks(ScaleTaggedNet(), tensor)
+    canonical_parsing = canonical_logits.argmax(dim=1).squeeze(0).numpy()
+    assert canonical_logits.shape == (1, len(runner.CLASS_NAMES), 512, 512)
+    assert np.all(canonical_parsing == 1)
+    assert np.all(ear_masks[7])
+    assert np.all(ear_masks[8])
+    assert not np.any(ear_masks[9])
+
+
+def test_ear_override_rejects_wrong_shape(tmp_path: Path) -> None:
+    parsing = np.zeros((2, 3), dtype=np.uint8)
+    with pytest.raises(ValueError, match="override_mask_shape_mismatch"):
+        runner.save_masks(parsing, tmp_path, "sample", {7: np.zeros((3, 2), dtype=bool)})
 
 
 def test_route_spec_rejects_unknown_mode(tmp_path: Path) -> None:

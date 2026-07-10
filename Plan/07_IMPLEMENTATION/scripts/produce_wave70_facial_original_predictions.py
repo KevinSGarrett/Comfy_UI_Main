@@ -200,7 +200,7 @@ def build_route_spec(inference_mode: str, input_dir: Path, output_dir: Path, che
                 "semantic_channel_swaps": [],
             },
         }
-    if inference_mode != "hflip_logit_mean":
+    if inference_mode not in ("hflip_logit_mean", "ear_multiscale_union_v1"):
         raise ValueError(f"unsupported_inference_mode:{inference_mode}")
     if not TTA_RUNNER.is_file():
         raise FileNotFoundError(f"facial_tta_runner_missing:{TTA_RUNNER}")
@@ -215,12 +215,24 @@ def build_route_spec(inference_mode: str, input_dir: Path, output_dir: Path, che
         ],
         "route_id": "run_wave70_facial_bisenet_inference",
         "configuration_components": [producer_path, TTA_RUNNER],
-        "inference_metadata": {
-            "mode": "hflip_logit_mean",
-            "logit_fusion": "mean",
-            "spatial_unflip": True,
-            "semantic_channel_swaps": [["l_brow", "r_brow"], ["l_eye", "r_eye"], ["l_ear", "r_ear"]],
-        },
+        "inference_metadata": (
+            {
+                "mode": "hflip_logit_mean",
+                "logit_fusion": "mean",
+                "spatial_unflip": True,
+                "semantic_channel_swaps": [["l_brow", "r_brow"], ["l_eye", "r_eye"], ["l_ear", "r_ear"]],
+            }
+            if inference_mode == "hflip_logit_mean"
+            else {
+                "mode": "ear_multiscale_union_v1",
+                "scales": [384, 512, 640],
+                "canonical_grid": [512, 512],
+                "fusion": "binary_union_after_per_scale_argmax",
+                "target_classes": ["l_ear", "r_ear", "ear_r"],
+                "non_target_masks_preserved_from_scale": 512,
+                "gold_exposed_to_route": False,
+            }
+        ),
     }
 
 
@@ -231,7 +243,11 @@ def main() -> int:
     parser.add_argument("--out-manifest", required=True)
     parser.add_argument("--runtime-root")
     parser.add_argument("--timeout-seconds", type=int, default=300)
-    parser.add_argument("--inference-mode", choices=("single_pass", "hflip_logit_mean"), default="single_pass")
+    parser.add_argument(
+        "--inference-mode",
+        choices=("single_pass", "hflip_logit_mean", "ear_multiscale_union_v1"),
+        default="single_pass",
+    )
     parser.add_argument("--mask-composition", choices=("none", "skin_nested_union_v1"), default="none")
     args = parser.parse_args()
 

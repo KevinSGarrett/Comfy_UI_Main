@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-07-10T18:50:00-05:00",
+  "classification": "FACIAL_EAR_MULTISCALE_CANDIDATE_REJECTED_CONTROLLED_GATE",
+  "candidate": {
+    "route_mode": "ear_multiscale_union_v1",
+    "scales": [384, 512, 640],
+    "canonical_grid": [512, 512],
+    "fusion": "binary_union_after_per_scale_argmax",
+    "target_classes": ["l_ear", "r_ear", "ear_r"],
+    "accepted_skin_composition": "skin_nested_union_v1",
+    "fixed_before_evaluation": true,
+    "gold_exposed_to_route": false
+  },
+  "controlled_sample_ids": ["0", "1", "2"],
+  "target_gate_comparison": {
+    "l_ear": {
+      "baseline_aggregate_iou": 0.18672,
+      "candidate_aggregate_iou": 0.20129576615940936,
+      "baseline_false_negative_ratio_vs_gold": 0.8102439024390244,
+      "candidate_false_negative_ratio_vs_gold": 0.7827642276422764,
+      "baseline_false_positive_ratio_vs_gold": 0.016260162601626018,
+      "candidate_false_positive_ratio_vs_gold": 0.0791869918699187,
+      "gate_pass": false
+    },
+    "r_ear": {
+      "baseline_aggregate_iou": 0.222496299950666,
+      "candidate_aggregate_iou": 0.24197983501374887,
+      "baseline_false_negative_ratio_vs_gold": 0.7773938795656465,
+      "candidate_false_negative_ratio_vs_gold": 0.7393879565646594,
+      "baseline_false_positive_ratio_vs_gold": 0.0004935834155972359,
+      "candidate_false_positive_ratio_vs_gold": 0.0769990128331688,
+      "gate_pass": false
+    },
+    "ear_r": {
+      "baseline_aggregate_iou": 0.0,
+      "candidate_aggregate_iou": 0.0017766497461928934,
+      "baseline_false_negative_ratio_vs_gold": 1.0,
+      "candidate_false_negative_ratio_vs_gold": 0.9982204143892208,
+      "baseline_false_positive_ratio_vs_gold": 0.0,
+      "candidate_false_positive_ratio_vs_gold": 0.001652472352866404,
+      "gate_pass": false
+    }
+  },
+  "gate_thresholds": {
+    "min_aggregate_iou": 0.85,
+    "max_false_negative_ratio_vs_gold": 0.15,
+    "max_false_positive_ratio_vs_gold": 0.15,
+    "gold_empty_rule": "pass_only_when_fp_sum_is_zero"
+  },
+  "invariants": {
+    "non_target_base_mask_hash_matches": 45,
+    "non_target_base_mask_hash_mismatches": 0,
+    "accepted_skin_output_hash_matches": 3,
+    "accepted_skin_output_hash_mismatches": 0,
+    "mask_promoted": false,
+    "heldout_candidate_run_performed": false,
+    "ec2_started": false,
+    "s3_mutated": false,
+    "wave70_hard_gate_rerun": false,
+    "wave71_activated": false
+  },
+  "visual_review": {
+    "performed": true,
+    "result": "reject",
+    "notes": [
+      "Additional multiscale ear regions do not provide trustworthy anatomical ear authority.",
+      "Recall gains are small and accompanied by visibly broader false-positive regions.",
+      "The accessory class remains effectively missed on the nonempty controlled sample."
+    ]
+  },
+  "decision": {
+    "candidate_accepted": false,
+    "reason": "All three target classes remain far below the existing aggregate-IoU and false-negative gates; spending fresh held-out identities cannot rescue a controlled-gate failure.",
+    "next_action": "Do not rerun ear multiscale union. Investigate one fixed neck-specific model-backed route or register a genuinely ear-specialized model before another ear candidate."
+  },
+  "evidence_hashes": {
+    "baseline_prediction_manifest_sha256": "f5498ce57d2d4275a7723bc07c7c9570f76a2712666746ec9ad6fab61672e728",
+    "candidate_prediction_manifest_sha256": "48f9028bbae857eaaee70721159fe2bbeaa6586f64236d248c9da106b2f0fb3b",
+    "baseline_gate_sha256": "2343aad2c2a099733a1a955bcc226e6f5ee4fdab22a299fd0c91bd168dcb3fa3",
+    "candidate_benchmark_sha256": "2f2fe22c5626f86c638820362851fc7a834ba9effbe18c4fd5b7ec895ea78b81",
+    "candidate_gate_sha256": "4070ff67166285cba4719421fd9f9defdc9bc985dfdb0872d8607422be39ee3f",
+    "candidate_visual_panel_sha256": "7264bb4021da6b2fc865b087af8bb46ca8f5f03f19fb76a12d2085205ab4da44"
+  }
+}
