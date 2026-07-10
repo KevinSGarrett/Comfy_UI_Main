@@ -117,6 +117,22 @@ Hard thresholds:
 
 Each cron audit that touches worker-eligible work should record the selected gate, the worker handoff path if used, and any fallback reason.
 
+## Delegation Adoption Recovery Mode
+
+If the combined worker monitor reports `usage_reduction_confidence=LOW`, estimated reduction below 40%, no useful Cursor/Claude/GitHub worker-analysis handoff in the last 4 hours, or repeated `AI_WORKER_DELEGATION_DRIFT`, treat the main session as being in `DELEGATION_ADOPTION_RECOVERY_MODE`.
+
+In recovery mode, cron jobs should not simply report that delegation is available. They should verify whether the next worker-eligible main-session task was actually delegated. The next broad scan, multi-file diagnosis, QA helper interpretation, Git/GitHub analysis, or >2 minute synthesis task should use Cursor, Claude, or `GIT_GITHUB_WORKER_ANALYSIS_REQUIRED` unless final authority applies.
+
+Use tightened temporary triggers until adoption recovers:
+
+- More than 3 files: Cursor first.
+- More than one script/helper: Cursor first.
+- Any long QA/validation-result interpretation: Cursor extraction first.
+- Any dirty-worktree, checkpoint-boundary, GitHub warning, CI/log, PR/comment, or branch/upstream analysis: Git/GitHub worker analysis first.
+- More than 2 minutes strategy/contradiction reasoning: Claude subscription when healthy.
+
+Exit recovery mode only after two useful compact real worker handoffs or one audit window with `usage_reduction_confidence=MEDIUM` or better and no direct-Codex worker-lane violations.
+
 Monitor Scoring fields for worker-aware audits:
 
 - `worker_eligible_tasks_detected`

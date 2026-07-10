@@ -198,6 +198,25 @@ When Codex performs fallback work directly, it must record:
 - narrower retry attempted yes/no;
 - why direct Codex work was necessary.
 
+## Delegation Adoption Recovery Mode
+
+Use `DELEGATION_ADOPTION_RECOVERY_MODE` when the combined worker monitor reports `usage_reduction_confidence=LOW`, estimated usage reduction below 40%, no useful Cursor/Claude/GitHub worker-analysis handoff in the last 4 hours, or repeated `AI_WORKER_DELEGATION_DRIFT`.
+
+While this mode is active, Codex must not wait passively for behavior to improve. The next worker-eligible task must be delegated before Codex absorbs it, unless it is clearly final authority.
+
+Temporary tightened triggers:
+
+- More than 3 files to inspect: Cursor first.
+- More than one script/helper to inspect or patch-plan: Cursor first.
+- Any QA helper failure or long validation-result interpretation: Cursor first for extraction, then Codex final judgment.
+- Any dirty-worktree grouping, checkpoint-boundary review, GitHub warning analysis, CI/log read, PR/comment inventory, or branch/upstream ambiguity: `GIT_GITHUB_WORKER_ANALYSIS_REQUIRED`.
+- More than 2 minutes of active strategy or contradiction reasoning: Claude subscription when auth is healthy.
+- Any incomplete worker output: one narrower retry is required before direct Codex fallback.
+
+Exit recovery mode only after at least two useful compact worker handoffs occur in real project work, or after one audit window reports `usage_reduction_confidence=MEDIUM` or better with no direct-Codex worker-lane violations.
+
+The monitor should classify continued direct Codex analysis during recovery mode as `AI_WORKER_DELEGATION_DRIFT`.
+
 ## Monitor Scoring
 
 The combined AI worker monitor must score each audit window with:

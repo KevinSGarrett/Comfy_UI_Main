@@ -149,6 +149,32 @@ Hard thresholds:
 
 Monitor Scoring for worker-aware audits should include `worker_eligible_tasks_detected`, `worker_handoffs_attempted`, `successful_compact_handoffs`, `incomplete_or_failed_handoffs`, `codex_fallback_cases`, `direct_codex_worker_lane_violations`, `git_github_worker_analysis_tasks_detected`, `git_github_analysis_handoffs_attempted`, `git_github_direct_codex_analysis_violations`, `git_github_worker_mutation_attempts_detected`, `git_github_connector_first_compliance`, `estimated_codex_work_avoided_minutes`, `estimated_usage_reduction_percent`, and `usage_reduction_confidence`.
 
+### Delegation Adoption Recovery Mode
+
+When the worker monitor reports `DELEGATION_ADOPTION_RECOVERY_MODE`, Codex must treat direct broad analysis as loop-risk behavior. The next worker-eligible task must be routed out unless it is final authority.
+
+Recovery-mode direct-Codex work is allowed only for:
+
+```text
+Final Git/GitHub mutation review/execution
+Final visual QA
+AWS/EC2/S3 authority
+Jira/mask/tracker authority
+Tiny checks below tightened thresholds
+Emergency blocker recording
+```
+
+If Codex performs direct worker-eligible analysis during recovery mode, it must record the bypass reason and why Cursor, Claude, or Git/GitHub worker analysis could not be used.
+
+Recovery-mode tightened triggers:
+
+- More than 3 files: Cursor first.
+- More than one script/helper: Cursor first.
+- More than 2 minutes strategy/contradiction reasoning: Claude subscription when healthy.
+- Any dirty-worktree, checkpoint-boundary, GitHub warning, CI/log, PR/comment, or branch/upstream analysis: Git/GitHub worker analysis first.
+
+Exit recovery mode only after two useful compact real worker handoffs, or one audit window with `usage_reduction_confidence=MEDIUM` or better and no direct-Codex worker-lane violations.
+
 ## 7. Drift recovery sequence
 
 When drift is detected:
