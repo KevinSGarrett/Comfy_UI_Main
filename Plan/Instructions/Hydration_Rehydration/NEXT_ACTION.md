@@ -1,3 +1,9 @@
+## Immediate Next Action - Four ControlNet Clean Package Contracts Validated - 2026-07-10T12:16:17-05:00
+
+Depth, lineart, openpose, and normal now have empirically validated current run packages and clean deploy bundles. Authority evidence `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_CONTROLNET_FOUR_LANE_CURRENT_PACKAGE_DEPLOY_MATRIX_20260710T121800-0500.json`, mirrored under `Plan/Tracker/Evidence/Operations_Static_Validation`, reports `pass_local_only`: four of four lanes pass 10 checks each, canonical normal uses `normal_bae`, all four fail-closed tests pass, and the current operations harness is green.
+
+Next exact action: keep EC2 stopped and do not rebuild these packages unless a source contract changes. The next concrete local orchestration gap is hash-bound model/control-image S3 publish and EC2 install dry-run preparation for these ControlNet lanes, without `-Execute`. Any upload, EC2 proof, generation, target-runtime claim, final certification, Item completion, or Tracker completion remains separate and live-gated.
+
 ## Immediate Next Action - ControlNet Depth Clean Package Contract Validated - 2026-07-10T12:10:17-05:00
 
 The first remaining ControlNet lane now has a current local run package and clean deploy bundle bound by the reusable `Plan/Instructions/QA/Scripts/Test-ControlNetSelectedLanePackageDeployConsistency.ps1`. Evidence `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_CONTROLNET_SELECTED_LANE_PACKAGE_DEPLOY_VALIDATOR_REGRESSION_20260710T120900-0500.json`, mirrored under `Plan/Tracker/Evidence/Operations_Static_Validation`, reports `pass_local_only`: depth passes 10 checks, the composed generic validator has zero failures, and all four negative cases fail with their expected categories.

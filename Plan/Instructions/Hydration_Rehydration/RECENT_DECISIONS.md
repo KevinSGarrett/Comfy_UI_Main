@@ -1,3 +1,7 @@
+## Decision - Canonical Normal Control Map Is normal_bae - 2026-07-10T12:16:17-05:00
+
+For `sdxl_realvisxl_controlnet_normal_lane`, validate `required_input_assets.control_map_type` exactly as `normal_bae` while matching `control_family` with the broader `normal` token. Do not normalize the asset contract down to `normal`; the four-lane matrix proves the exact current schema across depth, lineart, openpose, and normal.
+
 ## Decision - Use Composed ControlNet Package Validation Before Live Selection - 2026-07-10T12:10:17-05:00
 
 Use `Test-ControlNetSelectedLanePackageDeployConsistency.ps1` for depth, lineart, openpose, and normal package/deploy preparation. It must compose the generic validator and pass lane identity, required model, control family, control image, smoke binding, and packaged contract hashes. A local pass does not authorize upload, EC2, generation, promotion, certification, or Item/Tracker completion.

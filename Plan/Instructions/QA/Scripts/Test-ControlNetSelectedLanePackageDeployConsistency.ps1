@@ -87,10 +87,17 @@ $laneMapTypes = [ordered]@{
   sdxl_realvisxl_controlnet_depth_lane = "depth"
   sdxl_realvisxl_controlnet_lineart_lane = "lineart"
   sdxl_realvisxl_controlnet_openpose_lane = "openpose"
+  sdxl_realvisxl_controlnet_normal_lane = "normal_bae"
+}
+$laneFamilyTokens = [ordered]@{
+  sdxl_realvisxl_controlnet_depth_lane = "depth"
+  sdxl_realvisxl_controlnet_lineart_lane = "lineart"
+  sdxl_realvisxl_controlnet_openpose_lane = "openpose"
   sdxl_realvisxl_controlnet_normal_lane = "normal"
 }
 $supportedLane = $laneMapTypes.Contains($LaneId)
 $expectedMapType = if ($supportedLane) { [string]$laneMapTypes[$LaneId] } else { "" }
+$expectedFamilyToken = if ($supportedLane) { [string]$laneFamilyTokens[$LaneId] } else { "" }
 
 $runPath = Resolve-ProjectPath -Path $RunPackageManifestFile
 $deployPath = Resolve-ProjectPath -Path $DeployBundleManifestFile
@@ -160,8 +167,8 @@ $modelContractPass = ((Test-HashContract -Row $checkpointRow) -and (Test-HashCon
 }) -Expected "one hash-bound checkpoint and one hash-bound ControlNet model" -FailureCategory "required_model_contract_invalid"))
 
 $controlFamily = if ($null -ne $requirements) { [string]$requirements.control_family } else { "" }
-$familyPass = ($supportedLane -and -not [string]::IsNullOrWhiteSpace($controlFamily) -and $controlFamily.ToLowerInvariant().Contains($expectedMapType))
-[void]$checks.Add((New-Check -Name "control_family_matches_lane" -Passed $familyPass -Observed $controlFamily -Expected $expectedMapType -FailureCategory "control_family_mismatch"))
+$familyPass = ($supportedLane -and -not [string]::IsNullOrWhiteSpace($controlFamily) -and $controlFamily.ToLowerInvariant().Contains($expectedFamilyToken))
+[void]$checks.Add((New-Check -Name "control_family_matches_lane" -Passed $familyPass -Observed $controlFamily -Expected $expectedFamilyToken -FailureCategory "control_family_mismatch"))
 
 $inputAssets = if ($null -ne $requirements) { @($requirements.required_input_assets) } else { @() }
 $controlImages = @($inputAssets | Where-Object { [string]$_.role -eq "control_image" })

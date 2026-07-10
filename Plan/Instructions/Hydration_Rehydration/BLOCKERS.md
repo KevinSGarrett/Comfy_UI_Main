@@ -1,3 +1,7 @@
+## Four ControlNet Local Package Contracts Ready; Runtime Proof Still Required - 2026-07-10T12:16:17-05:00
+
+Depth, lineart, openpose, and normal no longer have unvalidated current package/deploy contract blockers. They remain blocked from target-runtime and final-certification claims by lane-specific model/control-image publish and install proof if used, explicit live-window selection, AWS/auth gates, EC2 object-info/path/hash/input proof, bounded generation, artifact pullback, strict whole-image visual QA, and final review. Local matrix success does not close those work orders.
+
 ## ControlNet Depth Local Contract Ready; Live Proof Still Required - 2026-07-10T12:10:17-05:00
 
 The depth lane no longer has a stale-package or unvalidated package/deploy contract blocker. It remains blocked from target-runtime and final-certification claims by explicit live-window selection, AWS/auth and S3 execute gates if used, EC2 object-info/model/path/input hash proof, bounded generation, pullback, strict whole-image QA, and final review. Lineart, openpose, and normal remain unverified against the new current-package validator until their own clean packages and bundles are built.

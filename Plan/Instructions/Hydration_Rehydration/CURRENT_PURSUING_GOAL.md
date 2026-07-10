@@ -1,3 +1,9 @@
+## Active Runtime/Orchestration Posture - Four ControlNet Lanes Locally Bound - 2026-07-10T12:16:17-05:00
+
+Continue the full ComfyUI project from `C:\Comfy_UI_Main`. The reusable selected-lane ControlNet validator is now empirically proven across depth, lineart, openpose, and normal. Each current package has five source-hash-matched files; each clean deploy bundle has 26 files, zero recorded Git status entries, and a verified ZIP hash; each lane passes all 10 composed generic and lane-specific checks.
+
+Authority evidence is `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_CONTROLNET_FOUR_LANE_CURRENT_PACKAGE_DEPLOY_MATRIX_20260710T121800-0500.json`. The full project goal remains active. These results close only local package/deploy contract gaps; target-runtime proof, strict visual QA, final certification, and any Item/Tracker completion remain incomplete. Keep EC2 stopped and preserve mask, Wave70/Wave71+, Jira, and local-source-of-truth boundaries.
+
 ## Active Runtime/Orchestration Posture - ControlNet Clean Package Validation Active - 2026-07-10T12:10:17-05:00
 
 Continue the full ComfyUI project from authoritative local state at `C:\Comfy_UI_Main`. A reusable selected-lane ControlNet validator now composes generic package/deploy integrity with lane-specific checkpoint, ControlNet, control-map, smoke-binding, and packaged-contract checks. The current depth package `depth_target_prep_current_43638e6` and clean bundle `depth_current_43638e6` pass all 10 checks.

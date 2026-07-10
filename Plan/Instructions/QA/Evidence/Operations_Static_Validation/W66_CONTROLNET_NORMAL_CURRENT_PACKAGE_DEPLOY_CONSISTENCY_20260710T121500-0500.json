@@ -1,0 +1,207 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "controlnet_selected_lane_package_deploy_consistency_validation",
+    "created_at":  "2026-07-10T12:14:10-05:00",
+    "result":  "pass_local_only",
+    "failure_category":  null,
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "s3_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "lane_id":  "sdxl_realvisxl_controlnet_normal_lane",
+    "expected_control_map_type":  "normal_bae",
+    "run_id":  "normal_target_prep_current_3801c87",
+    "bundle_id":  "normal_current_3801c87",
+    "run_package_manifest":  "runtime_artifacts/run_packages/normal_target_prep_current_3801c87/RUN_PACKAGE_MANIFEST.json",
+    "deploy_bundle_manifest":  "runtime_artifacts/deploy_bundles/normal_current_3801c87/DEPLOY_BUNDLE_MANIFEST.json",
+    "runtime_requirements":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_normal_lane/runtime_requirements.json",
+    "smoke_test_request":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_normal_lane/smoke_test_request.json",
+    "generic_validator_result":  "pass_local_only",
+    "generic_validator_failure_category":  null,
+    "generic_validator_failed_check_count":  0,
+    "check_count":  10,
+    "checks":  [
+                   {
+                       "name":  "supported_controlnet_lane",
+                       "result":  "pass",
+                       "observed":  "sdxl_realvisxl_controlnet_normal_lane",
+                       "expected":  [
+                                        "sdxl_realvisxl_controlnet_depth_lane",
+                                        "sdxl_realvisxl_controlnet_lineart_lane",
+                                        "sdxl_realvisxl_controlnet_openpose_lane",
+                                        "sdxl_realvisxl_controlnet_normal_lane"
+                                    ],
+                       "failure_category":  null
+                   },
+                   {
+                       "name":  "required_input_files",
+                       "result":  "pass",
+                       "observed":  [
+
+                                    ],
+                       "expected":  "all required JSON inputs exist",
+                       "failure_category":  null
+                   },
+                   {
+                       "name":  "required_input_json",
+                       "result":  "pass",
+                       "observed":  {
+                                        "run_manifest_parsed":  true,
+                                        "deploy_manifest_parsed":  true,
+                                        "runtime_requirements_parsed":  true,
+                                        "smoke_request_parsed":  true
+                                    },
+                       "expected":  "all required JSON inputs parse",
+                       "failure_category":  null
+                   },
+                   {
+                       "name":  "generic_package_deploy_consistency",
+                       "result":  "pass",
+                       "observed":  {
+                                        "script_exists":  true,
+                                        "exit_code":  0,
+                                        "result":  "pass_local_only",
+                                        "failure_category":  null,
+                                        "failed_check_count":  0
+                                    },
+                       "expected":  "generic validator returns pass_local_only with zero failed checks",
+                       "failure_category":  null
+                   },
+                   {
+                       "name":  "selected_lane_identity",
+                       "result":  "pass",
+                       "observed":  {
+                                        "requested":  "sdxl_realvisxl_controlnet_normal_lane",
+                                        "run_manifest":  "sdxl_realvisxl_controlnet_normal_lane",
+                                        "deploy_manifest":  "sdxl_realvisxl_controlnet_normal_lane",
+                                        "runtime_requirements":  "sdxl_realvisxl_controlnet_normal_lane",
+                                        "smoke_request":  "sdxl_realvisxl_controlnet_normal_lane"
+                                    },
+                       "expected":  "every input lane_id equals requested lane",
+                       "failure_category":  null
+                   },
+                   {
+                       "name":  "required_model_contracts",
+                       "result":  "pass",
+                       "observed":  {
+                                        "required_model_count":  2,
+                                        "checkpoint":  {
+                                                           "role":  "checkpoint",
+                                                           "model_type":  "Checkpoint",
+                                                           "comfyui_model_subdir":  "checkpoints",
+                                                           "filename":  "realvisxlV50_v50Bakedvae.safetensors",
+                                                           "source_model":  "RealVisXL V5.0",
+                                                           "source_model_id":  "civitai:139562",
+                                                           "source_version_hint":  "v5.0 baked VAE",
+                                                           "source_urls":  [
+                                                                               "https://civitai.com/models/139562"
+                                                                           ],
+                                                           "sha256":  "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+                                                           "node_id":  "4",
+                                                           "node_class":  "CheckpointLoaderSimple",
+                                                           "input":  "ckpt_name",
+                                                           "local_hash_status":  "verified_local",
+                                                           "local_path_status":  "present_local_ignored_model_path",
+                                                           "hash_status":  "pending_ec2_static_match",
+                                                           "path_status":  "pending_ec2_static_match"
+                                                       },
+                                        "controlnet":  {
+                                                           "role":  "controlnet",
+                                                           "model_type":  "ControlNet",
+                                                           "comfyui_model_subdir":  "controlnet",
+                                                           "filename":  "controlnet-union-sdxl-1.0.safetensors",
+                                                           "source_model":  "ControlNet Union SDXL 1.0",
+                                                           "source_model_id":  "xinsir/controlnet-union-sdxl-1.0",
+                                                           "source_version_hint":  "diffusion_pytorch_model.safetensors standard union model, normal control type",
+                                                           "source_urls":  [
+                                                                               "https://huggingface.co/xinsir/controlnet-union-sdxl-1.0/blob/main/diffusion_pytorch_model.safetensors",
+                                                                               "https://huggingface.co/xinsir/controlnet-union-sdxl-1.0/resolve/main/diffusion_pytorch_model.safetensors"
+                                                                           ],
+                                                           "sha256":  "a9e13fd61f3193887791c8a0dd07a07202174dc47d5ddaea94ea1344f07c7467",
+                                                           "node_id":  "10",
+                                                           "node_class":  "ControlNetLoader",
+                                                           "input":  "control_net_name",
+                                                           "local_hash_status":  "verified_local",
+                                                           "local_path_status":  "present_local_ignored_model_path",
+                                                           "hash_status":  "pending_ec2_static_match",
+                                                           "path_status":  "pending_ec2_static_match"
+                                                       }
+                                    },
+                       "expected":  "one hash-bound checkpoint and one hash-bound ControlNet model",
+                       "failure_category":  null
+                   },
+                   {
+                       "name":  "control_family_matches_lane",
+                       "result":  "pass",
+                       "observed":  "ControlNet Union SDXL Normal",
+                       "expected":  "normal",
+                       "failure_category":  null
+                   },
+                   {
+                       "name":  "control_image_contract",
+                       "result":  "pass",
+                       "observed":  {
+                                        "role":  "control_image",
+                                        "filename":  "controlnet_normal_bae_w69_v1.png",
+                                        "control_map_type":  "normal_bae",
+                                        "comfyui_input_subdir":  "",
+                                        "node_id":  "11",
+                                        "node_class":  "LoadImage",
+                                        "input":  "image",
+                                        "status":  "present_local_hash_verified",
+                                        "sha256":  "1a0526da325d7fb29986b8de017ba9af7c43e1b328d51da5afa7c6bf84863139",
+                                        "comfyui_input_path":  "ComfyUI/input/controlnet_normal_bae_w69_v1.png",
+                                        "source_artifact":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_normal_w69_v3_20260707T053500-0500/images/codex_control_preprocessor_normal_bae_w69_00001_.png",
+                                        "source_manifest":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_maps_w69_v2_20260707T053300-0500/CONTROL_PREPROCESSOR_MAPS_MANIFEST.json",
+                                        "source_qa_evidence":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CONTROL_PREPROCESSOR_MAPS_VISUAL_QA_20260707T053800-0500.json"
+                                    },
+                       "expected":  "one hash-bound control_image with control_map_type normal_bae",
+                       "failure_category":  null
+                   },
+                   {
+                       "name":  "smoke_request_asset_bindings",
+                       "result":  "pass",
+                       "observed":  {
+                                        "model_asset":  "realvisxlV50_v50Bakedvae.safetensors",
+                                        "expected_model_asset":  "realvisxlV50_v50Bakedvae.safetensors",
+                                        "controlnet_asset":  "controlnet-union-sdxl-1.0.safetensors",
+                                        "expected_controlnet_asset":  "controlnet-union-sdxl-1.0.safetensors",
+                                        "control_image":  "controlnet_normal_bae_w69_v1.png",
+                                        "expected_control_image":  "controlnet_normal_bae_w69_v1.png"
+                                    },
+                       "expected":  "smoke request binds checkpoint, ControlNet, and control image filenames",
+                       "failure_category":  null
+                   },
+                   {
+                       "name":  "packaged_lane_contract_hashes",
+                       "result":  "pass",
+                       "observed":  {
+                                        "runtime_requirements_source":  "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/runtime_requirements.json",
+                                        "runtime_requirements_row_count":  1,
+                                        "runtime_requirements_input_sha256":  "ba4ac165527d8f7ea46e1189be2bd5a2ec4c11008a242da950a13181435f4c6f",
+                                        "runtime_requirements_packaged_sha256":  "ba4ac165527d8f7ea46e1189be2bd5a2ec4c11008a242da950a13181435f4c6f",
+                                        "smoke_request_source":  "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/smoke_test_request.json",
+                                        "smoke_request_row_count":  1,
+                                        "smoke_request_input_sha256":  "91d1803e0b3bc4f324d4c75ec59e282da893e2b2cd787a44409b71afb6342a41",
+                                        "smoke_request_packaged_sha256":  "91d1803e0b3bc4f324d4c75ec59e282da893e2b2cd787a44409b71afb6342a41"
+                                    },
+                       "expected":  "selected runtime requirements and smoke request appear once and match packaged source hashes",
+                       "failure_category":  null
+                   }
+               ],
+    "failed_check_count":  0,
+    "failure_categories":  [
+
+                           ],
+    "warnings":  [
+
+                 ],
+    "target_runtime_proof":  false,
+    "certification_claimed":  false,
+    "promotion_allowed":  false,
+    "boundary":  "Local ControlNet package, deploy, and selected-lane contract validation only. No external service was contacted and no target-runtime, promotion, or certification claim is made."
+}
