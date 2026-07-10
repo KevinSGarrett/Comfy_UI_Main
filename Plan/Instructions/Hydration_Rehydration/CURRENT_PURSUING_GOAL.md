@@ -1,3 +1,9 @@
+## Active Runtime/Orchestration Posture - Deterministic Selected-Inpaint Refresh Ready - 2026-07-10T11:02:48-05:00
+
+Continue the full ComfyUI project from authoritative local state at `C:\Comfy_UI_Main`. The selected-inpaint lane now has a reusable local-only refresh orchestrator at `tools/Invoke-SelectedInpaintPreEC2Refresh.ps1`; evidence `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_INPAINT_PRE_EC2_REFRESH_ORCHESTRATION_20260710T110209-0500.json` proves the four-artifact chain completed under one stamp with zero failed child contracts.
+
+Current posture: lane `sdxl_realvisxl_inpaint_detail_lane` is locally assembled and dry-run ready as a handoff anchor, while `execute_allowed_now=false`, `target_runtime_launch_allowed=false`, and all AWS/S3/EC2/ComfyUI/generation flags remain false. Do not loop this refresh without changed upstream inputs. Keep EC2 stopped and continue other concrete non-mask local work until explicit live-window authorization is supplied.
+
 ## Active Runtime/Orchestration Posture - Selected-Inpaint Pre-EC2 Handoff Refreshed - 2026-07-10T10:49:49-05:00
 
 After the clean checkpoint at `0ce9270`, a Cursor-first read-only triage selected the smallest non-mask runtime/orchestration step, and Codex ran the local-only selected-inpaint pre-EC2 handoff refresh. Evidence `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_PRE_EC2_HANDOFF_BUNDLE_20260710T104949-0500.json` and tracker mirror `Plan/Tracker/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_PRE_EC2_HANDOFF_BUNDLE_20260710T104949-0500.json` pass with failed checks `0`.
