@@ -1,0 +1,267 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "realesrgan_lane_asset_transfer_dry_run_bundle",
+    "created_at":  "2026-07-10T11:36:07-05:00",
+    "tracker_id":  "WO-W66-SDXL_REALESRGAN_UPSCALE_POLISH_LANE-TARGET-RUNTIME-PROOF",
+    "lane_id":  "sdxl_realesrgan_upscale_polish_lane",
+    "result":  "pass_local_only_realesrgan_asset_transfer_dry_run_bundle_validated",
+    "failure_category":  null,
+    "local_only":  true,
+    "aws_contacted":  false,
+    "s3_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "prompt_posted":  false,
+    "active_runtime_marker_written":  false,
+    "masks_consumed_as_truth":  false,
+    "masks_promoted":  false,
+    "wave70_hard_gate_rerun":  false,
+    "wave71_plus_activated":  false,
+    "jira_mutated":  false,
+    "target_runtime_proof":  false,
+    "certification_claimed":  false,
+    "promotion_allowed":  false,
+    "execute_allowed_now":  false,
+    "lane_runtime_requirements":  "Workflows/base_generation/sdxl_realesrgan_upscale_polish_lane/runtime_requirements.json",
+    "model_provisioning_evidence":  "Plan/Instructions/QA/Evidence/Model_Registry/W69_LOCAL_REALESRGAN_UPSCALE_MODEL_PROVISIONING_20260707T110500-0500.json",
+    "model_file":  "models/upscale_models/RealESRGAN_x4plus.pth",
+    "input_asset_file":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_eyeonly_seam_suppression_711570105_20260707T104736-0500/images/canny_w69_eyeonly_seam_suppression_711570105_00001_.png",
+    "model_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/RealESRGAN_x4plus.pth",
+    "input_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets/upscale_polish_source_canny_w69.png",
+    "expected_model_sha256":  "4fa0d38905f75ac06eb49a7951b426670021be3018265fd191d2125df9d682f1",
+    "observed_model_sha256":  "4fa0d38905f75ac06eb49a7951b426670021be3018265fd191d2125df9d682f1",
+    "expected_input_sha256":  "4119997a991d443c17e2a9b26fad775a179c5ee11d060c730eb64c81e50f728e",
+    "observed_input_sha256":  "4119997a991d443c17e2a9b26fad775a179c5ee11d060c730eb64c81e50f728e",
+    "child_artifact_count":  4,
+    "artifacts":  [
+                      {
+                          "name":  "model_s3_publish_dry_run",
+                          "result":  "dry_run_ready_to_upload_model",
+                          "evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_REALESRGAN_MODEL_S3_PUBLISH_DRY_RUN_20260710T113605-0500.json"
+                      },
+                      {
+                          "name":  "input_s3_publish_dry_run",
+                          "result":  "dry_run_ready_to_upload_input_asset",
+                          "evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_REALESRGAN_INPUT_S3_PUBLISH_DRY_RUN_20260710T113605-0500.json"
+                      },
+                      {
+                          "name":  "model_ec2_install_dry_run",
+                          "result":  "dry_run_model_install_plan",
+                          "evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_REALESRGAN_MODEL_EC2_INSTALL_DRY_RUN_20260710T113605-0500.json"
+                      },
+                      {
+                          "name":  "input_ec2_install_dry_run",
+                          "result":  "dry_run_input_asset_install_plan",
+                          "evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_REALESRGAN_INPUT_EC2_INSTALL_DRY_RUN_20260710T113605-0500.json"
+                      }
+                  ],
+    "checks":  [
+                   {
+                       "name":  "lane_is_realesrgan_upscale",
+                       "result":  "pass",
+                       "observed":  "sdxl_realesrgan_upscale_polish_lane",
+                       "expected":  "sdxl_realesrgan_upscale_polish_lane"
+                   },
+                   {
+                       "name":  "model_filename_matches_requirements",
+                       "result":  "pass",
+                       "observed":  "RealESRGAN_x4plus.pth",
+                       "expected":  "RealESRGAN_x4plus.pth"
+                   },
+                   {
+                       "name":  "input_filename_matches_requirements",
+                       "result":  "pass",
+                       "observed":  "upscale_polish_source_canny_w69.png",
+                       "expected":  "upscale_polish_source_canny_w69.png"
+                   },
+                   {
+                       "name":  "model_hash_matches_requirements",
+                       "result":  "pass",
+                       "observed":  "4fa0d38905f75ac06eb49a7951b426670021be3018265fd191d2125df9d682f1",
+                       "expected":  "4fa0d38905f75ac06eb49a7951b426670021be3018265fd191d2125df9d682f1"
+                   },
+                   {
+                       "name":  "input_hash_matches_requirements",
+                       "result":  "pass",
+                       "observed":  "4119997a991d443c17e2a9b26fad775a179c5ee11d060c730eb64c81e50f728e",
+                       "expected":  "4119997a991d443c17e2a9b26fad775a179c5ee11d060c730eb64c81e50f728e"
+                   },
+                   {
+                       "name":  "provisioning_evidence_matches_model_hash",
+                       "result":  "pass",
+                       "observed":  {
+                                        "lane_id":  "sdxl_realesrgan_upscale_polish_lane",
+                                        "sha256":  "4fa0d38905f75ac06eb49a7951b426670021be3018265fd191d2125df9d682f1"
+                                    },
+                       "expected":  "matching lane and model SHA256"
+                   },
+                   {
+                       "name":  "model_s3_uri_valid",
+                       "result":  "pass",
+                       "observed":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/RealESRGAN_x4plus.pth",
+                       "expected":  "s3://bucket/model-cache/file"
+                   },
+                   {
+                       "name":  "input_s3_uri_valid",
+                       "result":  "pass",
+                       "observed":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets/upscale_polish_source_canny_w69.png",
+                       "expected":  "s3://bucket/input-prefix/file"
+                   },
+                   {
+                       "name":  "model_publish_dry_run_pass",
+                       "result":  "pass",
+                       "observed":  {
+                                        "schema_version":  "1.0",
+                                        "timestamp":  "2026-07-10T11:36:06-05:00",
+                                        "operation":  "publish_model_to_s3",
+                                        "local_only":  true,
+                                        "aws_contacted":  false,
+                                        "s3_contacted":  false,
+                                        "ec2_started":  false,
+                                        "generation_executed":  false,
+                                        "prompt_posted":  false,
+                                        "active_runtime_marker_written":  false,
+                                        "git_lfs_used":  false,
+                                        "region":  "us-east-1",
+                                        "model_file":  "C:\\Comfy_UI_Main\\models\\upscale_models\\RealESRGAN_x4plus.pth",
+                                        "file_name":  "RealESRGAN_x4plus.pth",
+                                        "size_bytes":  67040989,
+                                        "expected_sha256":  "4fa0d38905f75ac06eb49a7951b426670021be3018265fd191d2125df9d682f1",
+                                        "observed_sha256":  "4fa0d38905f75ac06eb49a7951b426670021be3018265fd191d2125df9d682f1",
+                                        "local_hash_match":  true,
+                                        "s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/RealESRGAN_x4plus.pth",
+                                        "result":  "dry_run_ready_to_upload_model",
+                                        "failure_category":  null,
+                                        "upload":  {
+                                                       "attempted":  false,
+                                                       "rc":  null
+                                                   },
+                                        "errors":  [
+
+                                                   ],
+                                        "next_action":  "Use Install-EC2ModelFromS3.ps1 with this s3_uri and observed_sha256 after live gates pass."
+                                    },
+                       "expected":  "hash-matched local dry-run publish with no contact"
+                   },
+                   {
+                       "name":  "input_publish_dry_run_pass",
+                       "result":  "pass",
+                       "observed":  {
+                                        "schema_version":  "1.0",
+                                        "timestamp":  "2026-07-10T11:36:06-05:00",
+                                        "operation":  "publish_input_asset_to_s3",
+                                        "local_only":  true,
+                                        "aws_contacted":  false,
+                                        "s3_contacted":  false,
+                                        "ec2_started":  false,
+                                        "generation_executed":  false,
+                                        "prompt_posted":  false,
+                                        "active_runtime_marker_written":  false,
+                                        "region":  "us-east-1",
+                                        "asset_file":  "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\canny_w69_eyeonly_seam_suppression_711570105_20260707T104736-0500\\images\\canny_w69_eyeonly_seam_suppression_711570105_00001_.png",
+                                        "file_name":  "canny_w69_eyeonly_seam_suppression_711570105_00001_.png",
+                                        "size_bytes":  779332,
+                                        "expected_sha256":  "4119997a991d443c17e2a9b26fad775a179c5ee11d060c730eb64c81e50f728e",
+                                        "observed_sha256":  "4119997a991d443c17e2a9b26fad775a179c5ee11d060c730eb64c81e50f728e",
+                                        "local_hash_match":  true,
+                                        "s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets/upscale_polish_source_canny_w69.png",
+                                        "result":  "dry_run_ready_to_upload_input_asset",
+                                        "failure_category":  null,
+                                        "upload":  {
+                                                       "attempted":  false,
+                                                       "rc":  null
+                                                   },
+                                        "errors":  [
+
+                                                   ],
+                                        "next_action":  "Use Install-EC2InputAssetFromS3.ps1 with this s3_uri and observed_sha256 after live gates pass."
+                                    },
+                       "expected":  "hash-matched local dry-run publish with no contact"
+                   },
+                   {
+                       "name":  "model_install_dry_run_pass",
+                       "result":  "pass",
+                       "observed":  {
+                                        "schema_version":  "1.0",
+                                        "evidence_id":  "EC2-MODEL-INSTALL-20260710T113607-0500",
+                                        "timestamp":  "2026-07-10T11:36:07-05:00",
+                                        "operation":  "install_ec2_model_from_s3",
+                                        "instance_id":  "i-0560bf8d143f93bb1",
+                                        "region":  "us-east-1",
+                                        "source_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/RealESRGAN_x4plus.pth",
+                                        "remote_comfy_root":  "/home/ubuntu/ComfyUI",
+                                        "remote_model_path":  "/home/ubuntu/ComfyUI/models/upscale_models/RealESRGAN_x4plus.pth",
+                                        "model_subdir":  "upscale_models",
+                                        "model_file_name":  "RealESRGAN_x4plus.pth",
+                                        "expected_sha256":  "4fa0d38905f75ac06eb49a7951b426670021be3018265fd191d2125df9d682f1",
+                                        "max_ec2_runtime_minutes":  20,
+                                        "execute":  false,
+                                        "ec2_started":  false,
+                                        "ssm_available":  false,
+                                        "command_id":  null,
+                                        "command_status":  "not_started",
+                                        "start_state":  null,
+                                        "final_state":  null,
+                                        "remote_result":  null,
+                                        "generation_executed":  false,
+                                        "git_lfs_used":  false,
+                                        "result":  "dry_run_model_install_plan",
+                                        "failure_category":  null,
+                                        "errors":  [
+
+                                                   ],
+                                        "next_action":  "After install_model_hash_verified, rerun EC2 static proof with -SkipGitLfsPull and -MaxEc2RuntimeMinutes."
+                                    },
+                       "expected":  "dry-run model install plan with no EC2 start"
+                   },
+                   {
+                       "name":  "input_install_dry_run_pass",
+                       "result":  "pass",
+                       "observed":  {
+                                        "schema_version":  "1.0",
+                                        "evidence_id":  "EC2-INPUT-ASSET-INSTALL-20260710T113607-0500",
+                                        "timestamp":  "2026-07-10T11:36:07-05:00",
+                                        "operation":  "install_ec2_input_asset_from_s3",
+                                        "instance_id":  "i-0560bf8d143f93bb1",
+                                        "region":  "us-east-1",
+                                        "source_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets/upscale_polish_source_canny_w69.png",
+                                        "remote_comfy_root":  "/home/ubuntu/ComfyUI",
+                                        "remote_input_path":  "/home/ubuntu/ComfyUI/input/upscale_polish_source_canny_w69.png",
+                                        "input_subdir":  "",
+                                        "file_name":  "upscale_polish_source_canny_w69.png",
+                                        "expected_sha256":  "4119997a991d443c17e2a9b26fad775a179c5ee11d060c730eb64c81e50f728e",
+                                        "max_ec2_runtime_minutes":  15,
+                                        "execute":  false,
+                                        "ec2_started":  false,
+                                        "ssm_available":  false,
+                                        "command_id":  null,
+                                        "command_status":  "not_started",
+                                        "start_state":  null,
+                                        "final_state":  null,
+                                        "remote_result":  null,
+                                        "generation_executed":  false,
+                                        "git_lfs_used":  false,
+                                        "result":  "dry_run_input_asset_install_plan",
+                                        "failure_category":  null,
+                                        "errors":  [
+
+                                                   ],
+                                        "next_action":  "After input_asset_hash_verified, run EC2 workflow smoke that uses LoadImage."
+                                    },
+                       "expected":  "dry-run input install plan with no EC2 start"
+                   }
+               ],
+    "failed_check_count":  0,
+    "exact_blockers":  [
+                           "explicit_live_execution_intent_required",
+                           "model_s3_publish_execute_proof_missing",
+                           "input_s3_publish_execute_proof_missing",
+                           "ec2_model_install_hash_proof_missing",
+                           "ec2_input_install_hash_proof_missing",
+                           "target_runtime_static_proof_missing",
+                           "bounded_target_runtime_output_and_strict_visual_qa_missing"
+                       ],
+    "boundary":  "Local RealESRGAN asset-transfer dry-run bundle only. This does not upload assets, start EC2, install remotely, contact ComfyUI, execute generation, prove target runtime, promote the lane, or claim certification.",
+    "next_action":  "Keep EC2 stopped. Use these pinned model/input URIs and hashes only after explicit live intent, current AWS auth, clean Git/deploy gates, and bounded target-runtime authorization."
+}

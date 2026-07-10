@@ -1,3 +1,9 @@
+## Active Runtime/Orchestration Posture - RealESRGAN Transfer Preflight Bound - 2026-07-10T11:36:07-05:00
+
+Continue the full ComfyUI project from `C:\Comfy_UI_Main`. RealESRGAN target-runtime preparation now binds the verified local `RealESRGAN_x4plus.pth` model and Canny-derived source image to explicit model/input S3 URIs plus model/input EC2 install dry-run plans in one fail-closed artifact.
+
+Authority evidence is `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SDXL_REALESRGAN_UPSCALE_ASSET_TRANSFER_DRY_RUN_BUNDLE_20260710T113605-0500.json`. It records `target_runtime_proof=false`, `certification_claimed=false`, `promotion_allowed=false`, and no AWS/S3/EC2/ComfyUI contact. The work order remains open until live proof and strict QA pass.
+
 ## Active Runtime/Orchestration Posture - Orchestrator Regression Harness Added - 2026-07-10T11:25:34-05:00
 
 Continue the full ComfyUI project from `C:\Comfy_UI_Main`. Wave66 runtime orchestration now includes reusable positive and fail-closed regression coverage for the selected-inpaint pre-EC2 refresh wrapper. The wrapper supports a temp artifact directory for clean testing, and the shared harness validates all four synchronized child contracts, local-only safety flags, invalid-lane rejection, and absence of forbidden output.

@@ -1,3 +1,7 @@
+## RealESRGAN Transfer Preflight Known-Issue Review - 2026-07-10T11:36:07-05:00
+
+The former split-artifact issue is resolved by one lane-scoped local-only bundle. This does not resolve the remaining live target-runtime and final-certification gates. The bundle intentionally leaves `target_runtime_proof=false`, `certification_claimed=false`, and `promotion_allowed=false`; no AWS, S3, EC2, or ComfyUI contact occurred.
+
 ## Selected S3 Publish Waiting On Concrete Clean-Rebuilt Bundle - 2026-07-09T09:37:06-05:00
 
 S3 runtime-transfer configuration is locally ready, but the selected publish helper cannot be treated as upload-ready until the selected inpaint deploy bundle is rebuilt from a clean manifest-scoped checkpoint. The future manifest and zip paths still contain the `<timestamp>` placeholder and do not exist yet.

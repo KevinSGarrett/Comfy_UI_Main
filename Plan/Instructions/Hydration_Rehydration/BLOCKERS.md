@@ -1,3 +1,7 @@
+## RealESRGAN Live Proof Still Required After Local Transfer Bundle - 2026-07-10T11:36:07-05:00
+
+The RealESRGAN lane's local asset-transfer gap is resolved: model/input hashes, S3 publish dry-runs, and EC2 install dry-runs pass together in `W66_SDXL_REALESRGAN_UPSCALE_ASSET_TRANSFER_DRY_RUN_BUNDLE_20260710T113605-0500.json`. Remaining blockers are explicit live intent, S3 Execute proofs, EC2 model/input hash-verified install, target-runtime static proof, bounded output, pullback, strict visual QA, and final certification review. Classification remains live-gated; the work order is not closed.
+
 ## Wave70 Eyes Full Source-Landmark Repair Candidate V2 - 2026-07-09T21:53:00-05:00
 
 `mf70_eyes_full` remains blocked from completion/promotion. V2 candidate evidence exists and improves the visible-aperture alignment, but it is single-source candidate evidence only. Remaining blockers: strict visual review packet not yet written, model-backed/source-derived geometry authority not final for this row, reference-image matrix not run, generated-output proof not rerun from the candidate, target-runtime proof missing, and no `W70_MASK_PROMOTION_ROW_GATE_PASS_TRUE` row-level evidence. Active input mask was not overwritten.

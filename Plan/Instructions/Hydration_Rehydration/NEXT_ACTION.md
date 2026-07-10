@@ -1,3 +1,9 @@
+## Immediate Next Action - RealESRGAN Asset Transfer Dry-Run Bundle Ready - 2026-07-10T11:36:07-05:00
+
+The first open Wave66 target-runtime work order, `WO-W66-SDXL_REALESRGAN_UPSCALE_POLISH_LANE-TARGET-RUNTIME-PROOF`, now has a lane-scoped local asset-transfer bundle. Evidence `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SDXL_REALESRGAN_UPSCALE_ASSET_TRANSFER_DRY_RUN_BUNDLE_20260710T113605-0500.json`, mirrored under `Plan/Tracker/Evidence/Runtime_Readiness`, passes with both local hashes matched, four dry-run child artifacts, and failed checks `0`.
+
+Next exact action: keep EC2 stopped and do not rerun this bundle unless the RealESRGAN model, source input, URI, or helper contract changes. Live S3 publish, EC2 model/input install, static proof, bounded target-runtime output, pullback, strict visual QA, and final review still require explicit live intent and current gates. This does not close the target-runtime work order or claim certification.
+
 ## Immediate Next Action - Selected-Inpaint Orchestrator Harness Coverage Passed - 2026-07-10T11:25:34-05:00
 
 The reusable operations-helper harness now directly covers `tools/Invoke-SelectedInpaintPreEC2Refresh.ps1`. Evidence `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_SELECTED_INPAINT_REFRESH_ORCHESTRATOR_TEST_HARNESS_20260710T112400-0500.json`, mirrored under `Plan/Tracker/Evidence/Operations_Static_Validation`, reports `pass_local_only`, script parse failures `0`, local smoke failures `0`, evidence failures `0`, and evidence-contract failures `0`. The positive orchestration smoke and invalid-lane rejection both pass.
