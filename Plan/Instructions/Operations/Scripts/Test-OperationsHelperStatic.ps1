@@ -1558,6 +1558,10 @@ foreach ($script in Get-ChildItem -LiteralPath $scriptsRoot -Filter "*.ps1" -Fil
 }
 $selectedInpaintRefreshScript = Join-Path $ProjectRoot "tools\Invoke-SelectedInpaintPreEC2Refresh.ps1"
 $scriptParseResults += Test-PowerShellParser -Path $selectedInpaintRefreshScript
+$rootProjectPreflightScript = Join-Path $ProjectRoot "tools\Test-RootProjectPreflight.ps1"
+$scriptParseResults += Test-PowerShellParser -Path $rootProjectPreflightScript
+$rootProjectPreflightRegressionScript = Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\Test-RootProjectPreflightRegression.ps1"
+$scriptParseResults += Test-PowerShellParser -Path $rootProjectPreflightRegressionScript
 $runPackageDeployConsistencyScript = Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\Test-RunPackageDeployBundleConsistency.ps1"
 $scriptParseResults += Test-PowerShellParser -Path $runPackageDeployConsistencyScript
 $runPackageDeployConsistencyRegressionScript = Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\Test-RunPackageDeployBundleConsistencyRegression.ps1"
@@ -1919,6 +1923,8 @@ $record = [ordered]@{
     "Plan/Instructions/Operations/Schemas/*.json",
     "Plan/Instructions/Operations/Templates/*.json",
     "tools/Invoke-SelectedInpaintPreEC2Refresh.ps1",
+    "tools/Test-RootProjectPreflight.ps1",
+    "Plan/Instructions/QA/Scripts/Test-RootProjectPreflightRegression.ps1",
     "Plan/Instructions/QA/Scripts/Test-RunPackageDeployBundleConsistency.ps1",
     "Plan/Instructions/QA/Scripts/Test-RunPackageDeployBundleConsistencyRegression.ps1",
     "Plan/Instructions/QA/Scripts/Test-ControlNetSelectedLanePackageDeployConsistency.ps1",

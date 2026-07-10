@@ -1,3 +1,9 @@
+## Immediate Next Action - Root Project Preflight Fails Closed - 2026-07-10T14:28:34-05:00
+
+`tools/Test-RootProjectPreflight.ps1` now writes structured failure evidence for non-Git/incomplete roots, treats unavailable Git status as not clean, handles empty active-lane manifests without indexing failure, and records Git availability plus failed-check names. Disposable regression evidence `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_ROOT_PROJECT_PREFLIGHT_FAIL_CLOSED_REGRESSION_20260710T142800-0500.json` passes all eight clean and negative cases; the shared operations harness passes with 44 parsed scripts and zero failures.
+
+Next exact action: keep EC2 stopped and freeze this preflight contract unless its schema or checks change. This regression supports but does not close `WO-W66-GLOBAL-GIT-CHECKPOINT-CLEAN`; real-repository clean/origin proof still comes from the guarded checkpoint gate. Continue another concrete non-mask local implementation task unless an explicit live window is selected.
+
 ## Immediate Next Action - RealESRGAN Publish Evidence Validator Hardened - 2026-07-10T13:46:46-05:00
 
 `Test-RunPackageDeployBundleConsistency.ps1` now emits structured fail-closed evidence when a supplied deploy-bundle publish record is missing, invalid JSON, or not a JSON object, while preserving strict omission and parsed-linkage behavior. Reusable regression evidence `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_REALESRGAN_PACKAGE_DEPLOY_PUBLISH_EVIDENCE_STRICT_REGRESSION_20260710T134600-0500.json` passes all six cases; the shared operations harness also passes with 42 parsed scripts and zero parser, local-smoke, evidence, or evidence-contract failures.

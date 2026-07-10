@@ -1,3 +1,7 @@
+## Decision - Root Preflight Must Always Emit Structured Evidence - 2026-07-10T14:28:34-05:00
+
+Treat missing Git metadata, unavailable status, and empty lane arrays as ordinary failing checks, not exceptional termination paths. Git root/HEAD/origin availability is determined from returned values because successful Windows `git rev-parse` calls can leave `$LASTEXITCODE=-1`; worktree cleanliness still requires a successful `git status`. Disposable fixture success does not close the actual global Git checkpoint work order.
+
 ## Decision - Supplied Publish Evidence Must Fail With Structured Records - 2026-07-10T13:46:46-05:00
 
 Treat omitted publish evidence, a supplied missing path, invalid JSON, a non-object JSON payload, and parsed linkage mismatch as distinct validator states. Strict omission remains `strict_warning_failure`; supplied missing, malformed, and non-object records use `publish_evidence_missing`, `publish_evidence_json_invalid`, and `publish_evidence_payload_invalid`; parsed contract drift uses `publish_linkage_mismatch`. Do not accept an exception or null payload without a durable failing JSON result as adequate fail-closed evidence.

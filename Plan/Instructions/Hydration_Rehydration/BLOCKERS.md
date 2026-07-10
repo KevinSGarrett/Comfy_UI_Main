@@ -1,3 +1,7 @@
+## Root Preflight Evidence-Loss Defect Resolved; Global Work Order Remains Open - 2026-07-10T14:28:34-05:00
+
+Non-Git roots, unavailable Git metadata, and empty active-lane manifests now fail with structured JSON instead of an unhandled path/index error or a false clean status. `WO-W66-GLOBAL-GIT-CHECKPOINT-CLEAN` is not closed by fixture regression; it still requires the actual repository to be intentionally checkpointed clean with local `HEAD == origin/main`. Live-runtime and final-certification blockers remain separate.
+
 ## RealESRGAN Publish-Evidence Failure Classification Resolved; Live Proof Still Required - 2026-07-10T13:46:46-05:00
 
 The local package/deploy validator no longer loses evidence when a supplied publish record is missing, invalid JSON, or not a JSON object; all six strict regression paths now pass their expected behavior. Remaining RealESRGAN blockers are explicit live intent, S3 `-Execute` proofs, EC2 model/input install hashes, target-runtime static proof and bounded output, pullback, strict whole-image visual QA, and final certification review. The target-runtime work order remains open.

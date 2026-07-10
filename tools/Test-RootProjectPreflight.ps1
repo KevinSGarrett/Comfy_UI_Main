@@ -117,10 +117,6 @@ $checks = New-Object System.Collections.ArrayList
 $workflowResults = New-Object System.Collections.ArrayList
 $errors = New-Object System.Collections.ArrayList
 
-if (!(Test-Path -LiteralPath $ProjectRoot)) {
-  throw "Project root not found: $ProjectRoot"
-}
-
 $rootManifestPath = Join-Path $ProjectRoot "PROJECT_ROOT_MANIFEST.json"
 $activeLanesPath = Join-Path $ProjectRoot "Workflows\base_generation\ACTIVE_LANES.json"
 $modelRegistryCoverageDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Model_Registry"
@@ -132,18 +128,34 @@ Add-Check -Checks $checks -Name "git_directory_exists" -Passed (Test-Path -Liter
 $gitRoot = $null
 $gitHead = $null
 $gitOrigin = $null
-$gitStatus = $null
+$gitStatus = @()
+$gitRootAvailable = $false
+$gitHeadAvailable = $false
+$gitOriginAvailable = $false
+$gitStatusAvailable = $false
 try {
   $gitRoot = (git -C $ProjectRoot rev-parse --show-toplevel 2>$null | Select-Object -First 1)
+  $gitRootAvailable = -not [string]::IsNullOrWhiteSpace([string]$gitRoot)
   $gitHead = (git -C $ProjectRoot rev-parse HEAD 2>$null | Select-Object -First 1)
+  $gitHeadAvailable = -not [string]::IsNullOrWhiteSpace([string]$gitHead)
   $gitOrigin = (git -C $ProjectRoot rev-parse origin/main 2>$null | Select-Object -First 1)
+  $gitOriginAvailable = -not [string]::IsNullOrWhiteSpace([string]$gitOrigin)
   $gitStatus = @(git -C $ProjectRoot status --porcelain)
+  $gitStatusAvailable = ($LASTEXITCODE -eq 0)
 } catch {
   [void]$errors.Add([ordered]@{ check = "git"; error = $_.Exception.Message })
 }
-Add-Check -Checks $checks -Name "git_root_is_project_root" -Passed ([System.IO.Path]::GetFullPath($gitRoot) -eq [System.IO.Path]::GetFullPath($ProjectRoot)) -Observed $gitRoot
-Add-Check -Checks $checks -Name "git_head_matches_origin_main" -Passed (($gitHead -ne $null) -and ($gitHead -eq $gitOrigin)) -Observed ([ordered]@{ head = $gitHead; origin_main = $gitOrigin })
-Add-Check -Checks $checks -Name "git_worktree_clean" -Passed (@($gitStatus).Count -eq 0) -Observed @($gitStatus)
+$gitRootMatches = $false
+if ($gitRootAvailable) {
+  try {
+    $gitRootMatches = ([System.IO.Path]::GetFullPath([string]$gitRoot) -eq [System.IO.Path]::GetFullPath($ProjectRoot))
+  } catch {
+    $gitRootMatches = $false
+  }
+}
+Add-Check -Checks $checks -Name "git_root_is_project_root" -Passed $gitRootMatches -Observed $gitRoot
+Add-Check -Checks $checks -Name "git_head_matches_origin_main" -Passed ($gitHeadAvailable -and $gitOriginAvailable -and ($gitHead -eq $gitOrigin)) -Observed ([ordered]@{ head = $gitHead; origin_main = $gitOrigin })
+Add-Check -Checks $checks -Name "git_worktree_clean" -Passed ($gitStatusAvailable -and @($gitStatus).Count -eq 0) -Observed @($gitStatus)
 
 $envIgnored = $false
 try {
@@ -207,8 +219,9 @@ if ($rootManifest -ne $null) {
 if ($activeLanes -ne $null) {
   $laneCount = @($activeLanes.lanes).Count
   Add-Check -Checks $checks -Name "active_lane_count_at_least_two" -Passed ($laneCount -ge 2) -Observed $laneCount
-  $firstLane = @($activeLanes.lanes | Sort-Object order | Select-Object -First 1)[0]
-  Add-Check -Checks $checks -Name "first_lane_is_low_risk" -Passed ([string]$firstLane.lane_id -eq "sdxl_low_risk_fallback_lane") -Observed ([string]$firstLane.lane_id)
+  $firstLane = @($activeLanes.lanes | Sort-Object order | Select-Object -First 1)
+  $firstLaneId = if ($firstLane.Count -gt 0) { [string]$firstLane[0].lane_id } else { "" }
+  Add-Check -Checks $checks -Name "first_lane_is_low_risk" -Passed ($firstLaneId -eq "sdxl_low_risk_fallback_lane") -Observed $firstLaneId
 
   foreach ($lane in @($activeLanes.lanes)) {
     $laneId = [string]$lane.lane_id
@@ -371,10 +384,15 @@ $record = [ordered]@{
     root = $gitRoot
     head = $gitHead
     origin_main = $gitOrigin
-    worktree_clean = (@($gitStatus).Count -eq 0)
+    root_available = $gitRootAvailable
+    head_available = $gitHeadAvailable
+    origin_main_available = $gitOriginAvailable
+    status_available = $gitStatusAvailable
+    worktree_clean = ($gitStatusAvailable -and @($gitStatus).Count -eq 0)
   }
   checks = @($checks)
   failed_check_count = @($failedChecks).Count
+  failed_check_names = @($failedChecks | ForEach-Object { [string]$_.name })
   workflow_static_results = @($workflowResults)
   model_registry_coverage = $modelRegistryCoverage
   errors = @($errors)

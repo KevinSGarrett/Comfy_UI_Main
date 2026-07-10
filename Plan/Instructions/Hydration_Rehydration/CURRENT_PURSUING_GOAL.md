@@ -1,3 +1,9 @@
+## Active Runtime/Orchestration Posture - Root Preflight Contract Hardened - 2026-07-10T14:28:34-05:00
+
+Continue the full ComfyUI project from `C:\Comfy_UI_Main`. The local root preflight now produces auditable JSON for incomplete and non-Git roots instead of terminating before evidence, and its clean, dirty, divergent, missing-manifest, malformed-lanes, empty-lanes, and missing-model-coverage behavior is exercised with disposable Git fixtures.
+
+Authority evidence is `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_ROOT_PROJECT_PREFLIGHT_FAIL_CLOSED_REGRESSION_20260710T142800-0500.json`; operations-harness evidence is `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_OPERATIONS_HELPER_AFTER_ROOT_PROJECT_PREFLIGHT_HARDENING_20260710T142900-0500.json`. This improves global local-preflight reliability only. Keep the full goal active, EC2 stopped, and all mask, Wave70/Wave71+, Jira, live-runtime, and certification boundaries intact.
+
 ## Active Runtime/Orchestration Posture - Publish Evidence Fails Closed - 2026-07-10T13:46:46-05:00
 
 Continue the full ComfyUI project from `C:\Comfy_UI_Main`. The shared run-package/deploy validator now distinguishes omitted publish evidence from a supplied path that is missing, malformed, or not a JSON object, records `strict`, parse status, and a redacted read error, and returns durable failure categories instead of terminating before evidence is written.
