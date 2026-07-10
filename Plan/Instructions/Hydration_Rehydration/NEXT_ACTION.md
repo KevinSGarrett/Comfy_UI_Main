@@ -1,3 +1,9 @@
+## Immediate Next Action - Selected Inpaint Clean Bundle Package Current - 2026-07-09T19:45:00-05:00
+
+Continue selected-inpaint launch-gate orchestration from the clean local deploy-bundle rebuild. A short-path local bundle was rebuilt at `runtime_artifacts/deploy_bundles/sel_inpaint_clean_1944/DEPLOY_BUNDLE_MANIFEST.json` to avoid Windows long-path copy failure; the manifest reports `pass_local_only`, `source_git_clean=true`, `source_git_status_count=0`, 27 files, and bundle SHA256 `5634b1bf07060982351c5537dd1c667f4748220ce9f82c0171298dc59a8469f7`.
+
+Current evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_TARGET_RUNTIME_LANE_PACKAGE_READINESS_CLEAN_BUNDLE_SELECTED_CHAIN_20260709T194500-0500.json` reports `pass_local_only_selected_target_runtime_lane_package_ready_ec2_blocked`, `failed_check_count=0`, `source_git_clean_in_bundle=true`, and exact blocker `explicit_user_target_runtime_selection_required`. Tracker mirror exists. Next concrete non-mask runtime task: after this evidence is checkpointed clean, write a current clean Git gate and refresh the selected target-runtime launch gate/pre-EC2 handoff against the clean bundle. Keep EC2 stopped.
+
 ## Immediate Next Action - Selected Target Runtime Plan And Package Current - 2026-07-09T19:40:00-05:00
 
 Continue selected-inpaint target-runtime orchestration from the current local-only plan/package chain. `New-ActiveRuntimeQueueTargetRuntimeExecutionPlan.ps1` now accepts `-UserSelectedLaneId` so the execution plan honors the explicit selected-inpaint lane instead of falling back to earlier runtime queue order when base/Canny target-runtime rows are present.

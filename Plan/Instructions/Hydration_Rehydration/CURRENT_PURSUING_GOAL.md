@@ -1,3 +1,9 @@
+## Current Pursuing Goal - Selected Inpaint Clean Bundle Package Current - 2026-07-09T19:45:00-05:00
+
+Keep pursuing selected-inpaint target-runtime readiness from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a clean-source local deploy-bundle rebuild and package-readiness refresh for the selected inpaint lane; the previous deploy-bundle dirty-source blocker is cleared in the refreshed package evidence.
+
+Current validation anchor: `W66_SELECTED_TARGET_RUNTIME_LANE_PACKAGE_READINESS_CLEAN_BUNDLE_SELECTED_CHAIN_20260709T194500-0500.json` (`pass_local_only_selected_target_runtime_lane_package_ready_ec2_blocked`, `failed_check_count=0`, `source_git_clean_in_bundle=true`, deploy bundle SHA256 `5634b1bf07060982351c5537dd1c667f4748220ce9f82c0171298dc59a8469f7`, exact blocker `explicit_user_target_runtime_selection_required`). Live execution remains unauthorized until this evidence is checkpointed clean, selected launch/pre-EC2 evidence is refreshed, explicit target-runtime/live intent, refreshed AWS auth, S3 Execute proofs, EC2 install/static proof, and EC2 start authorization are present. Gold-mask-dependent promotion/body authority work remains blocked outside this non-mask runtime lane.
+
 ## Current Pursuing Goal - Selected Target Runtime Plan And Package Current - 2026-07-09T19:40:00-05:00
 
 Keep pursuing selected-inpaint target-runtime readiness from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a current selected target-runtime execution plan that honors the explicit inpaint lane selection and a selected-lane package readiness packet proving local package/object-info/input-asset checks while keeping EC2 blocked.
