@@ -716,3 +716,6 @@ The selected-inpaint runtime chain now treats the clean/synced Git checkpoint ga
 ## Decision - Supersede Stale RealESRGAN Package Before Any Upload - 2026-07-10T11:46:52-05:00
 
 Do not publish or execute from `runtime_artifacts/run_packages/upscale_polish_w69_canny_seed711570105/RUN_PACKAGE_MANIFEST.json`; it is retained only as historical regression evidence and fails `stale_clean_git_metadata`. Use the current package `upscale_polish_w69_canny_seed711570105_current_3e4207a` and clean bundle `realesrgan_current_3e4207a`, validated by `W66_REALESRGAN_CURRENT_RUN_PACKAGE_DEPLOY_BUNDLE_CONSISTENCY_20260710T114200-0500.json`.
+## Decision - Supplied Publish Evidence Must Fail With Structured Records - 2026-07-10T13:46:46-05:00
+
+Treat omitted publish evidence, a supplied missing path, invalid JSON, a non-object JSON payload, and parsed linkage mismatch as distinct validator states. Strict omission remains `strict_warning_failure`; supplied missing, malformed, and non-object records use `publish_evidence_missing`, `publish_evidence_json_invalid`, and `publish_evidence_payload_invalid`; parsed contract drift uses `publish_linkage_mismatch`. Do not accept an exception or null payload without a durable failing JSON result as adequate fail-closed evidence.

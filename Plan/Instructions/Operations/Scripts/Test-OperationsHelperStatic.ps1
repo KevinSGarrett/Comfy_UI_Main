@@ -1560,6 +1560,8 @@ $selectedInpaintRefreshScript = Join-Path $ProjectRoot "tools\Invoke-SelectedInp
 $scriptParseResults += Test-PowerShellParser -Path $selectedInpaintRefreshScript
 $runPackageDeployConsistencyScript = Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\Test-RunPackageDeployBundleConsistency.ps1"
 $scriptParseResults += Test-PowerShellParser -Path $runPackageDeployConsistencyScript
+$runPackageDeployConsistencyRegressionScript = Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\Test-RunPackageDeployBundleConsistencyRegression.ps1"
+$scriptParseResults += Test-PowerShellParser -Path $runPackageDeployConsistencyRegressionScript
 $controlNetPackageDeployConsistencyScript = Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\Test-ControlNetSelectedLanePackageDeployConsistency.ps1"
 $scriptParseResults += Test-PowerShellParser -Path $controlNetPackageDeployConsistencyScript
 $controlNetAssetTransferScript = Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\Test-ControlNetLaneAssetTransferDryRunBundle.ps1"
@@ -1918,6 +1920,7 @@ $record = [ordered]@{
     "Plan/Instructions/Operations/Templates/*.json",
     "tools/Invoke-SelectedInpaintPreEC2Refresh.ps1",
     "Plan/Instructions/QA/Scripts/Test-RunPackageDeployBundleConsistency.ps1",
+    "Plan/Instructions/QA/Scripts/Test-RunPackageDeployBundleConsistencyRegression.ps1",
     "Plan/Instructions/QA/Scripts/Test-ControlNetSelectedLanePackageDeployConsistency.ps1",
     "Plan/Instructions/QA/Scripts/Test-ControlNetLaneAssetTransferDryRunBundle.ps1",
     "Plan/Instructions/QA/Scripts/New-ControlNetLanePreEC2HandoffBundle.ps1",

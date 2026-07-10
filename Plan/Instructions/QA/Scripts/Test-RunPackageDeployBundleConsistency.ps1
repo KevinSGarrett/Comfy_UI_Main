@@ -71,17 +71,37 @@ foreach ($required in @($runManifestPath, $deployManifestPath)) {
     throw "Required manifest missing: $required"
   }
 }
+$publishEvidenceSupplied = -not [string]::IsNullOrWhiteSpace($PublishEvidenceFile)
 $publishPath = $null
-if (-not [string]::IsNullOrWhiteSpace($PublishEvidenceFile)) {
+$publishInputStatus = "not_supplied"
+$publishReadError = $null
+if ($publishEvidenceSupplied) {
   $publishPath = Resolve-ProjectPath -Path $PublishEvidenceFile
   if (-not (Test-Path -LiteralPath $publishPath -PathType Leaf)) {
-    throw "Publish evidence missing: $publishPath"
+    $publishInputStatus = "missing"
+  } else {
+    $publishInputStatus = "present"
   }
 }
 
 $run = Get-Content -LiteralPath $runManifestPath -Raw | ConvertFrom-Json
 $deploy = Get-Content -LiteralPath $deployManifestPath -Raw | ConvertFrom-Json
-$publish = if ($null -ne $publishPath) { Get-Content -LiteralPath $publishPath -Raw | ConvertFrom-Json } else { $null }
+$publish = $null
+if ($publishInputStatus -eq "present") {
+  try {
+    $parsedPublish = Get-Content -LiteralPath $publishPath -Raw | ConvertFrom-Json
+    if ($null -eq $parsedPublish -or $parsedPublish -isnot [pscustomobject]) {
+      $publishInputStatus = "invalid_payload"
+      $publishReadError = "Publish evidence JSON must contain one object."
+    } else {
+      $publish = $parsedPublish
+      $publishInputStatus = "parsed"
+    }
+  } catch {
+    $publishInputStatus = "invalid_json"
+    $publishReadError = "Publish evidence is not valid JSON."
+  }
+}
 $runDir = Split-Path -Parent $runManifestPath
 $deployDir = Split-Path -Parent $deployManifestPath
 $contentRoot = Join-Path $deployDir "content"
@@ -194,6 +214,19 @@ $zipSize = if ($zipExists) { (Get-Item -LiteralPath $zipPath).Length } else { 0 
   $zipSize -eq [int64]$deploy.bundle_zip_size_bytes -and (Split-Path -Leaf $zipPath) -eq [string]$deploy.bundle_zip
 ) -Observed ([ordered]@{ exists=$zipExists; path=$zipPath; observed_sha256=$zipHash; expected_sha256=$deploy.bundle_zip_sha256; observed_size=$zipSize; expected_size=$deploy.bundle_zip_size_bytes }) -Expected "ZIP exists and filename/hash/size match deploy manifest" -FailureCategory "zip_hash_mismatch"))
 
+if ($publishEvidenceSupplied) {
+  $publishInputFailureCategory = switch ($publishInputStatus) {
+    "missing" { "publish_evidence_missing" }
+    "invalid_payload" { "publish_evidence_payload_invalid" }
+    default { "publish_evidence_json_invalid" }
+  }
+  [void]$checks.Add((New-Check -Name "publish_evidence_input" -Passed ($publishInputStatus -eq "parsed") -Observed ([ordered]@{
+    status = $publishInputStatus
+    path = ConvertTo-ProjectRelativePath -Path $publishPath
+    read_error = $publishReadError
+  }) -Expected "supplied publish evidence exists and parses as JSON" -FailureCategory $publishInputFailureCategory))
+}
+
 if ($null -ne $publish) {
   $bundleUriLeaf = [System.IO.Path]::GetFileName(([string]$publish.s3_bundle_uri).Replace("/", "\"))
   $manifestUriLeaf = [System.IO.Path]::GetFileName(([string]$publish.s3_manifest_uri).Replace("/", "\"))
@@ -208,7 +241,7 @@ if ($null -ne $publish) {
     $bundleUriLeaf -eq [string]$deploy.bundle_zip -and
     $manifestUriLeaf -eq (Split-Path -Leaf $deployManifestPath)
   ) -Observed ([ordered]@{ result=$publish.result; bundle_id=$publish.bundle_id; lane_id=$publish.lane_id; bundle_sha=$publish.bundle_zip_sha256; bundle_uri=$publish.s3_bundle_uri; manifest_uri=$publish.s3_manifest_uri; upload_attempted=$publish.upload.attempted }) -Expected "matching local-only publish dry-run with no upload" -FailureCategory "publish_linkage_mismatch"))
-} else {
+} elseif (-not $publishEvidenceSupplied) {
   [void]$warnings.Add("publish_evidence_not_supplied")
 }
 
@@ -234,11 +267,15 @@ $record = [ordered]@{
   comfyui_contacted = $false
   ec2_started = $false
   generation_executed = $false
+  strict = [bool]$Strict
   lane_id = [string]$run.lane_id
   run_id = [string]$run.run_id
   run_package_manifest = ConvertTo-ProjectRelativePath -Path $runManifestPath
   deploy_bundle_manifest = ConvertTo-ProjectRelativePath -Path $deployManifestPath
   publish_evidence = $(if ($null -ne $publishPath) { ConvertTo-ProjectRelativePath -Path $publishPath } else { $null })
+  publish_evidence_supplied = $publishEvidenceSupplied
+  publish_evidence_status = $publishInputStatus
+  publish_evidence_read_error = $publishReadError
   bundle_id = [string]$deploy.bundle_id
   bundle_zip = ConvertTo-ProjectRelativePath -Path $zipPath
   bundle_zip_sha256 = $zipHash

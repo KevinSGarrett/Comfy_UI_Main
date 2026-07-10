@@ -1203,3 +1203,6 @@ No active blockers remain for local Wave 58-62 static and packaging validation; 
 ## RealESRGAN Local Package Drift Resolved; Live Gates Remain - 2026-07-10T11:46:52-05:00
 
 The stale-package/clean-bundle contradiction is resolved locally. The current package and bundle pass 40 consistency checks and the deploy-bundle S3 plan is `dry_run_ready_to_upload`; no upload occurred. Remaining blockers are explicit live intent, deploy/model/input S3 Execute proofs, EC2 hash-verified install, target-runtime static proof, bounded output, pullback, strict visual QA, and final certification review. The work order remains open.
+## RealESRGAN Publish-Evidence Failure Classification Resolved; Live Proof Still Required - 2026-07-10T13:46:46-05:00
+
+The local package/deploy validator no longer loses evidence when a supplied publish record is missing, invalid JSON, or not a JSON object; all six strict regression paths now pass their expected behavior. Remaining RealESRGAN blockers are explicit live intent, S3 `-Execute` proofs, EC2 model/input install hashes, target-runtime static proof and bounded output, pullback, strict whole-image visual QA, and final certification review. The target-runtime work order remains open.

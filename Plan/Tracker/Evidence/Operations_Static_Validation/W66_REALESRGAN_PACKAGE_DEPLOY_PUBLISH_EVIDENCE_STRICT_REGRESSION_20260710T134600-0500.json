@@ -1,0 +1,140 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "run_package_deploy_bundle_consistency_regression",
+    "created_at":  "2026-07-10T13:49:14-05:00",
+    "result":  "pass_local_only",
+    "failure_category":  null,
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "s3_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "validator":  "Plan/Instructions/QA/Scripts/Test-RunPackageDeployBundleConsistency.ps1",
+    "run_package_manifest":  "runtime_artifacts/run_packages/upscale_polish_w69_canny_seed711570105_current_3e4207a/RUN_PACKAGE_MANIFEST.json",
+    "deploy_bundle_manifest":  "runtime_artifacts/deploy_bundles/realesrgan_current_3e4207a/DEPLOY_BUNDLE_MANIFEST.json",
+    "publish_evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_REALESRGAN_DEPLOY_BUNDLE_S3_PUBLISH_DRY_RUN_CURRENT_20260710T114100-0500.json",
+    "lane_id":  "sdxl_realesrgan_upscale_polish_lane",
+    "test_count":  6,
+    "passing_test_count":  6,
+    "failed_test_count":  0,
+    "tests":  [
+                  {
+                      "name":  "valid_publish_strict_pass",
+                      "result":  "pass",
+                      "exit_code":  0,
+                      "expected_exit_code":  0,
+                      "child_result":  "pass_local_only",
+                      "expected_result":  "pass_local_only",
+                      "failure_category":  null,
+                      "expected_failure_category":  "",
+                      "publish_evidence_status":  "parsed",
+                      "expected_publish_evidence_status":  "parsed",
+                      "warnings":  {
+
+                                   },
+                      "expected_warnings":  [
+
+                                            ],
+                      "safety_pass":  true
+                  },
+                  {
+                      "name":  "omitted_publish_strict_failure",
+                      "result":  "pass",
+                      "exit_code":  1,
+                      "expected_exit_code":  1,
+                      "child_result":  "fail",
+                      "expected_result":  "fail",
+                      "failure_category":  "strict_warning_failure",
+                      "expected_failure_category":  "strict_warning_failure",
+                      "publish_evidence_status":  "not_supplied",
+                      "expected_publish_evidence_status":  "not_supplied",
+                      "warnings":  "publish_evidence_not_supplied",
+                      "expected_warnings":  [
+                                                "publish_evidence_not_supplied"
+                                            ],
+                      "safety_pass":  true
+                  },
+                  {
+                      "name":  "missing_publish_structured_failure",
+                      "result":  "pass",
+                      "exit_code":  1,
+                      "expected_exit_code":  1,
+                      "child_result":  "fail",
+                      "expected_result":  "fail",
+                      "failure_category":  "publish_evidence_missing",
+                      "expected_failure_category":  "publish_evidence_missing",
+                      "publish_evidence_status":  "missing",
+                      "expected_publish_evidence_status":  "missing",
+                      "warnings":  {
+
+                                   },
+                      "expected_warnings":  [
+
+                                            ],
+                      "safety_pass":  true
+                  },
+                  {
+                      "name":  "invalid_publish_json_structured_failure",
+                      "result":  "pass",
+                      "exit_code":  1,
+                      "expected_exit_code":  1,
+                      "child_result":  "fail",
+                      "expected_result":  "fail",
+                      "failure_category":  "publish_evidence_json_invalid",
+                      "expected_failure_category":  "publish_evidence_json_invalid",
+                      "publish_evidence_status":  "invalid_json",
+                      "expected_publish_evidence_status":  "invalid_json",
+                      "warnings":  {
+
+                                   },
+                      "expected_warnings":  [
+
+                                            ],
+                      "safety_pass":  true
+                  },
+                  {
+                      "name":  "invalid_publish_payload_structured_failure",
+                      "result":  "pass",
+                      "exit_code":  1,
+                      "expected_exit_code":  1,
+                      "child_result":  "fail",
+                      "expected_result":  "fail",
+                      "failure_category":  "publish_evidence_payload_invalid",
+                      "expected_failure_category":  "publish_evidence_payload_invalid",
+                      "publish_evidence_status":  "invalid_payload",
+                      "expected_publish_evidence_status":  "invalid_payload",
+                      "warnings":  {
+
+                                   },
+                      "expected_warnings":  [
+
+                                            ],
+                      "safety_pass":  true
+                  },
+                  {
+                      "name":  "mismatched_publish_linkage_failure",
+                      "result":  "pass",
+                      "exit_code":  1,
+                      "expected_exit_code":  1,
+                      "child_result":  "fail",
+                      "expected_result":  "fail",
+                      "failure_category":  "publish_linkage_mismatch",
+                      "expected_failure_category":  "publish_linkage_mismatch",
+                      "publish_evidence_status":  "parsed",
+                      "expected_publish_evidence_status":  "parsed",
+                      "warnings":  {
+
+                                   },
+                      "expected_warnings":  [
+
+                                            ],
+                      "safety_pass":  true
+                  }
+              ],
+    "target_runtime_proof":  false,
+    "certification_claimed":  false,
+    "boundary":  "Local validator regression only. No upload, EC2, ComfyUI generation, target-runtime proof, or certification occurred."
+}
