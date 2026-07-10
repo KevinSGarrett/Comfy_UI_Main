@@ -69,7 +69,10 @@ $runtimeReadinessDir = Join-Path $qaRoot "Runtime_Readiness"
 $doneDirDefault = Join-Path $qaRoot "Done_Certifications"
 
 if ([string]::IsNullOrWhiteSpace($WorkOrderFile)) {
-  $WorkOrderFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_*.json"
+  $WorkOrderFile = Find-LatestFile -Directory $doneDirDefault -Filter "W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_*.json"
+  if ([string]::IsNullOrWhiteSpace($WorkOrderFile)) {
+    $WorkOrderFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_WORK_ORDER_*.json"
+  }
 }
 if ([string]::IsNullOrWhiteSpace($ClosureRollupFile)) {
   $ClosureRollupFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_CLOSURE_ROLLUP_*.json"

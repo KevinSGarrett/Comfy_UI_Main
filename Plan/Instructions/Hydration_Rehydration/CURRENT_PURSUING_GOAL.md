@@ -1,3 +1,9 @@
+## Current Pursuing Goal - Final Review Coverage Rollup Current - 2026-07-09T19:34:00-05:00
+
+Keep pursuing final certification from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a current final-review closure rollup and coverage matrix generated from the selected-chain work-order map and the refreshed lane review packets; it accounts for all final-review evidence without closing target-runtime-gated work.
+
+Current validation anchors: `W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_CLOSURE_ROLLUP_SELECTED_CHAIN_20260709T193000-0500.json` (`pass_local_only_final_certification_closure_rollup`, 2 closed, 15 open, 8 target-runtime blockers, 7 final-review blockers), `W66_ACTIVE_RUNTIME_QUEUE_FINAL_REVIEW_EVIDENCE_COVERAGE_SELECTED_CHAIN_20260709T193100-0500.json` (`pass_local_only_final_review_evidence_coverage_complete`, 2 closure packets, 7 blocker packets, 0 missing review evidence), and QA helper validation `W66_QA_HELPER_AFTER_FINAL_REVIEW_COVERAGE_ROLLUP_SELECTED_CHAIN_FIX_20260709T193400-0500.json` (`pass_local_only`, 52 scripts parsed, 57 local smokes, 0 failures). Live execution remains unauthorized until explicit target-runtime/live intent, refreshed AWS auth, S3 Execute proofs, EC2 install/static proof, and EC2 start authorization are present. Gold-mask-dependent promotion/body authority work remains blocked outside this non-mask runtime lane.
+
 ## Current Pursuing Goal - Openpose Lane Final Review Blocker Packet Current - 2026-07-09T19:24:00-05:00
 
 Keep pursuing final certification from local `C:\Comfy_UI_Main` source-of-truth state. The latest concrete progress is a current ControlNet Openpose lane final-review blocker packet generated from the current Done_Certifications work-order map; it preserves the Openpose target-runtime and final hand-anatomy blockers honestly and no longer reports stale dirty-Git/deploy-bundle blockers as current actionable blockers.
