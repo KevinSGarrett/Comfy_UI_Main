@@ -1,0 +1,36 @@
+{
+  "evidence_id": "W66-NORMAL-TARGET-RUNTIME-EC2-CAPACITY-BLOCKER-20260711T014800-0500",
+  "timestamp": "2026-07-11T01:48:00-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+  "classification": "BLOCKED_EC2_INSUFFICIENT_INSTANCE_CAPACITY",
+  "decision": "fail_closed_before_static_proof_and_generation",
+  "source_git_head": "6e3468750ceb0da45d1fb6011d9bf8e9ecf7ad66",
+  "completed_prerequisites": {
+    "clean_head_profiled_run_package": true,
+    "package_deploy_consistency_checks": "10/10",
+    "asset_transfer_dry_run_children": "6/6",
+    "pre_ec2_handoff_checks": "7/7",
+    "deploy_bundle_uploaded": true,
+    "normal_controlnet_uploaded_and_metadata_hash_verified": true,
+    "normal_control_image_uploaded_and_metadata_hash_verified": true,
+    "normal_controlnet_installed_on_ec2_and_hash_verified": true,
+    "normal_control_image_installed_on_ec2_and_hash_verified": true,
+    "existing_realvisxl_checkpoint_reused": true,
+    "aws_auth_gate_pass": true
+  },
+  "assets": {
+    "deploy_bundle_sha256": "16e504102bfa57d3217fc7b1df600ab6cb0acc54afd01b01e90634555b0c4f50",
+    "controlnet_sha256": "a9e13fd61f3193887791c8a0dd07a07202174dc47d5ddaea94ea1344f07c7467",
+    "control_image_sha256": "1a0526da325d7fb29986b8de017ba9af7c43e1b328d51da5afa7c6bf84863139",
+    "prompt_request_sha256": "ae75e3bbb09257e8025ec20ff166ac4ba7c3037472ecd67cd4f3ac11ac000126"
+  },
+  "exact_blocker": "AWS EC2 StartInstances returned InsufficientInstanceCapacity for i-0560bf8d143f93bb1; the instance remained stopped.",
+  "diagnostic_stderr": "runtime_artifacts/normal_target_runtime/normal_6e34687_static_diagnostic_stderr.txt",
+  "target_runtime_static_proof": false,
+  "generation_executed": false,
+  "target_runtime_proof": false,
+  "certification_claimed": false,
+  "final_ec2_state": "stopped",
+  "no_retry_loop": "Do not repeat Normal static proof until AWS capacity state changes or the lane is explicitly revisited after other local work.",
+  "next_action": "Checkpoint the fail-fast helper repair and continue a different concrete non-mask local lane while EC2 capacity is unavailable."
+}

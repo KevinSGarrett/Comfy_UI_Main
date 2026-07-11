@@ -1,0 +1,25 @@
+{
+  "evidence_id": "W66-EC2-STATIC-PROOF-START-FAILURE-EVIDENCE-FIX-20260711T014800-0500",
+  "timestamp": "2026-07-11T01:48:00-05:00",
+  "script": "Plan/Instructions/Operations/Scripts/Invoke-EC2LaneStaticProof.ps1",
+  "decision": "pass_local_implementation_with_live_capacity_blocker",
+  "defect": "A failed native aws ec2 start-instances command did not stop execution; the helper waited 80 polls for running and then threw before writing its evidence record.",
+  "fix": [
+    "Capture start-instances output and exit code.",
+    "Classify InsufficientInstanceCapacity as ec2_insufficient_instance_capacity.",
+    "Catch execution exceptions so the helper can write fail-closed evidence.",
+    "Skip stop-instances when the instance is already stopped.",
+    "Carry the execution exception into the static-proof errors and failure category."
+  ],
+  "validation": {
+    "powershell_parse_errors": 0,
+    "operations_script_parse_results": "50/50 pass",
+    "operations_json_parse_failures": 0,
+    "operations_evidence_contract_failures": 0,
+    "operations_harness_overall": "fail_only_because_the_intentional_uncommitted_script_change_makes_the_git_checkpoint_smoke_fail_closed"
+  },
+  "live_failure_observed": "InsufficientInstanceCapacity",
+  "generation_executed": false,
+  "final_ec2_state": "stopped",
+  "next_action": "Commit the helper fix before any later capacity retry; do not rerun Normal in a capacity loop."
+}

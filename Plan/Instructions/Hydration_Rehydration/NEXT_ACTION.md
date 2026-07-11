@@ -1,3 +1,9 @@
+## Immediate Next Action - Normal Ready, EC2 Capacity Blocked, OpenPose Local Next - 2026-07-11T01:48:00-05:00
+
+`sdxl_realvisxl_controlnet_normal_lane` now has a clean-head profiled package/deploy chain, 10/10 package consistency, 6/6 asset-transfer dry-run children, 7/7 pre-EC2 handoff checks, exact S3 uploads, and hash-verified EC2 installs for the Normal union model and control image. The existing RealVisXL checkpoint was reused. AWS then rejected static-proof startup with `InsufficientInstanceCapacity`; no object-info proof or generation occurred, and EC2 is stopped.
+
+Do not loop on Normal capacity retries. The static helper now fails fast and preserves evidence for rejected starts. Checkpoint that repair and continue `sdxl_realvisxl_controlnet_openpose_lane` locally; revisit Normal target-runtime proof only after capacity changes.
+
 ## Immediate Next Action - Lineart Target Runtime Certified, No Rerun - 2026-07-11T00:47:00-05:00
 
 `sdxl_realvisxl_controlnet_lineart_lane` now has a passing clean-head profiled package/deploy chain, exact S3 asset identity with RealVisXL reuse, EC2 object-info and model/input hash proof, one successful bounded 768x768 portrait generation, 5/5 hash-verified pullback, technical QA, visual QA, and final lane certification with notes. EC2 `i-0560bf8d143f93bb1` is stopped. Do not rerun this unchanged lineart portrait proof.

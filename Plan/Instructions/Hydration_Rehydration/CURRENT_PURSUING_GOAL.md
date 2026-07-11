@@ -1,3 +1,9 @@
+## Active Runtime Posture - Normal Prepared, Capacity Blocked, OpenPose Local Next - 2026-07-11T01:48:00-05:00
+
+Continue from authoritative `C:\Comfy_UI_Main`. Normal target-runtime prerequisites and remote asset installs are complete, but AWS capacity prevented the approved instance from starting for static proof. Preserve `BLOCKED_EC2_INSUFFICIENT_INSTANCE_CAPACITY`, do not claim Normal target-runtime proof or certification, and do not retry in a loop. EC2 is stopped.
+
+Continue concrete non-mask work on `sdxl_realvisxl_controlnet_openpose_lane` using local clean-head packaging and orchestration while capacity is unavailable. Preserve completed depth/lineart no-rerun boundaries and all mask, Wave70/Wave71+, Flux1-license, and Jira boundaries.
+
 ## Active Runtime Posture - Bounded Lineart Lane Certified, Normal Next - 2026-07-11T00:47:00-05:00
 
 Continue the full autonomous ComfyUI project from authoritative `C:\Comfy_UI_Main`. The RealVisXL SDXL Lineart lane is target-runtime certified for one bounded head-and-shoulders plain-backdrop profile with passing static, runtime, pullback, technical, and visual evidence. Preserve its no-rerun boundary and keep EC2 stopped unless the Normal lane's gated runtime proof truly requires it.

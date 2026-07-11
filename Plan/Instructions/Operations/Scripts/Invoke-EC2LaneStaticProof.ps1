@@ -422,6 +422,8 @@ $started = $false
 $ssmAvailable = $false
 $startState = ""
 $finalState = ""
+$executionErrorMessage = ""
+$executionFailureCategory = $null
 $expectedRemoteGitHead = [string]$localGitGate.expected_remote_head
 $ssmExecutionTimeoutSeconds = [Math]::Max(600, $MaxEc2RuntimeMinutes * 60)
 
@@ -690,7 +692,13 @@ try {
   $startState = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
   if ($startState -ne "running") {
     Write-Host "Starting EC2 instance $InstanceId from state $startState"
-    aws ec2 start-instances --region $Region --instance-ids $InstanceId --output json | Out-Null
+    $startOutput = @(aws ec2 start-instances --region $Region --instance-ids $InstanceId --output json 2>&1)
+    $startExitCode = $LASTEXITCODE
+    if ($startExitCode -ne 0) {
+      $startText = (($startOutput | ForEach-Object { [string]$_ }) -join [Environment]::NewLine).Trim()
+      $executionFailureCategory = $(if ($startText -match "InsufficientInstanceCapacity") { "ec2_insufficient_instance_capacity" } else { "ec2_start_failed" })
+      throw "EC2 start-instances failed with exit code $startExitCode. $startText"
+    }
     $started = $true
   }
   $null = Wait-InstanceState -DesiredState "running"
@@ -734,10 +742,19 @@ try {
   $stdout = aws ssm get-command-invocation --region $Region --instance-id $InstanceId --command-id $commandId --query "StandardOutputContent" --output text
   $stderr = aws ssm get-command-invocation --region $Region --instance-id $InstanceId --command-id $commandId --query "StandardErrorContent" --output text
 }
+catch {
+  $executionErrorMessage = $_.Exception.Message
+  if ([string]::IsNullOrWhiteSpace([string]$executionFailureCategory)) {
+    $executionFailureCategory = "ec2_static_proof_exception"
+  }
+}
 finally {
-  Write-Host "Stopping EC2 instance $InstanceId after static proof attempt"
-  aws ec2 stop-instances --region $Region --instance-ids $InstanceId --output json | Out-Null
-  $null = Wait-InstanceState -DesiredState "stopped" -MaxAttempts 120 -SleepSeconds 5
+  $currentState = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
+  if ($currentState -ne "stopped") {
+    Write-Host "Stopping EC2 instance $InstanceId after static proof attempt"
+    aws ec2 stop-instances --region $Region --instance-ids $InstanceId --output json | Out-Null
+    $null = Wait-InstanceState -DesiredState "stopped" -MaxAttempts 120 -SleepSeconds 5
+  }
   $finalState = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
 }
 
@@ -772,8 +789,12 @@ $record = [ordered]@{
 }
 
 $staticProofErrors = @()
-$staticProofFailureCategory = $null
+$staticProofFailureCategory = $executionFailureCategory
 $remoteProofPayload = $null
+
+if (![string]::IsNullOrWhiteSpace($executionErrorMessage)) {
+  $staticProofErrors += $executionErrorMessage
+}
 
 if ($commandStatus -ne "Success") {
   $staticProofErrors += "SSM command status was $commandStatus."
