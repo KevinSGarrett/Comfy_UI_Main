@@ -8294,3 +8294,8 @@ Next exact action: leave facial ear/neck promotion blocked and move to the next 
 The bounded remaining AI-worker delegation change set passes Windows-native validation: five PowerShell files parse, the project manifest parses, scope-packet regression passes `4/4`, usage-reduction regression passes `4/4`, and the disposable usage-snapshot normalization test passes. Cursor found coherent scoped references but was blocked from repo-wide certainty by WSL Git-LFS status noise; Claude found no policy contradictions but omitted one required output label, so it is not counted as a completed handoff. Codex direct validation remains final authority.
 
 Next exact action: checkpoint this exact reviewed set, verify a clean worktree and `HEAD == origin/main`, then return to the selected-inpaint target-runtime launch gate. Do not refresh manifests or repeat completed local smoke/visual QA.
+## Immediate Next Action - Selected Inpaint S3 And EC2 Install Proofs Complete - 2026-07-10T20:20:00-05:00
+
+The selected-inpaint deploy bundle, source input, mask input, and RealVisXL checkpoint were published to previously absent exact S3 keys. The model and both inputs were installed on approved instance `i-0560bf8d143f93bb1` with exact remote SHA256 matches; every helper verified final EC2 state `stopped`, and no generation ran. The first static-proof attempt failed closed before EC2 start because the newly written evidence made Git dirty and stored auth/readiness evidence was expired.
+
+Next exact action: checkpoint these publish/install/fail-closed records, refresh `Test-AwsAuthGate.ps1` and `Test-LaneRuntimeReadiness.ps1`, then rerun selected-inpaint static proof from clean synced Git. Do not repeat uploads or installs whose hashes already passed.

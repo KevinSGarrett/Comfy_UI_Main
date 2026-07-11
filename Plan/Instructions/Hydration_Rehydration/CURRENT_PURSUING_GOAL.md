@@ -6235,3 +6235,6 @@ Continue the full ComfyUI hyperrealism project from `C:\Comfy_UI_Main`. The acce
 ## Current Pursuing Goal - Clear Final Git Gate Then Resume Target Runtime - 2026-07-10T19:14:00-05:00
 
 Continue the full ComfyUI hyperrealism project from `C:\Comfy_UI_Main`. The final concurrent AI-worker change set is validated for an exact checkpoint. After clean/synced Git is proven, resume the selected-inpaint target-runtime gate without regenerating completed local proofs, starting stale EC2 planning, promoting masks, or activating Wave71+.
+## Current Pursuing Goal - Selected Inpaint Ready For Auth And Static Reproof - 2026-07-10T20:20:00-05:00
+
+Continue the full ComfyUI hyperrealism project from `C:\Comfy_UI_Main`. Selected-inpaint S3 bundle/model/input publication and EC2 model/input hash installation are complete, with EC2 stopped. Checkpoint current evidence, refresh the expired AWS auth and lane-readiness gates, then run static proof and bounded workflow smoke without repeating completed transfers.
