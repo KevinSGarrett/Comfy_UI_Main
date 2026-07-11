@@ -48,16 +48,17 @@
                   {
                       "order":  1,
                       "lane_id":  "sdxl_low_risk_fallback_lane",
-                      "role":  "first_ec2_static_proof_and_bounded_smoke_generation",
+    "role":  "first_ec2_static_proof_and_bounded_smoke_final_review_complete_with_notes",
                       "workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/workflow.api.json",
                       "requirements_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
-                      "status":  "runtime_smoke_proven",
-                      "required_next_runtime_gate":  "completed_first_runtime_proof",
-                      "promotion_rule":  "Do not rerun solely to re-prove the path; use as the completed first runtime proof lane unless a user-approved change requires retest.",
+    "status":  "bounded_first_runtime_smoke_final_review_complete_with_notes",
+    "required_next_runtime_gate":  "changed_workflow_model_or_broader_quality_scope_only_if_intentionally_selected",
+    "promotion_rule":  "The first runtime-smoke final review is complete with notes. Do not rerun solely to re-prove the path or generalize the 86/100 portrait sample to final hyperreal portfolio quality.",
                       "proof_evidence":  [
                                              "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_POST_LOGIN_RETEST_20260706T104311-0500.json",
                                              "Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_POST_STATIC_PROOF_RETEST_20260706T110424-0500.json",
-                                             "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_VISUAL_20260706T122027-0500.json"
+                           "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_VISUAL_20260706T122027-0500.json",
+                           "Plan/Instructions/QA/Evidence/Done_Certifications/W66_LOW_RISK_LANE_FINAL_REVIEW_PACKET_SELECTED_CHAIN_20260709T183200-0500.json"
                                          ]
                   },
                   {

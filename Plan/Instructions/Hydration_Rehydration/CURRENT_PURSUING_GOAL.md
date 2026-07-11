@@ -6332,3 +6332,8 @@ This does not certify depth behavior for hands, full body, contact, or broader s
 Continue from authoritative `C:\Comfy_UI_Main`. Inpaint no-mouth v4 has one target-runtime smoke certificate with notes, not full-lane certification. The exact run must not be repeated; broader or changed scopes require new lane-matched proof. Base remains scope-blocked, Canny remains bounded-certified, and Normal/OpenPose/RealESRGAN retain their capacity-limited staged states.
 
 Do not treat the inpaint diagnostic mask as gold truth or use it to clear body/hand/contact, mask promotion, Wave70 hard gates, or Wave71+. Continue concrete non-mask runtime/orchestration progress without bookkeeping loops.
+## Active Runtime Posture - Completed Proofs Reconciled, Facial Benchmark Implementation Next - 2026-07-11T03:20:00-05:00
+
+Continue from authoritative `C:\Comfy_UI_Main`. Low-risk fallback, Canny, Depth, Lineart, and bounded Inpaint proof now have aligned completion states; Base remains correctly scope-blocked; OpenPose, Normal, and RealESRGAN remain staged pending available AWS capacity/authentication. Do not rerun completed proof or duplicate existing EC2/S3 artifacts.
+
+Advance the local facial/neck/hair benchmark evaluator against the registered CelebAMask-HQ and LaPa gold datasets. Gold labels remain evaluator-only, body gold masks remain unavailable, and all mask-promotion/Wave71+ boundaries stay closed.

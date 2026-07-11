@@ -8399,3 +8399,8 @@ The certification is intentionally narrow: hands, full-body anatomy, contact own
 `sdxl_realvisxl_inpaint_detail_lane` now has a strictly bounded single-sample target-runtime smoke certificate from the existing July 10 static, execution, hash-verified pullback, technical, and visual chain. Codex reinspected the output, source, and mask preview: identity is preserved and no gross artifact is present, but the output is effectively unchanged from the source, so no material detail-improvement or broad robustness claim is allowed.
 
 Do not rerun this exact smoke. Keep full-lane certification, mask promotion, body/hand/contact authority, Wave71+, and changed variants fail-closed. Continue with the next concrete non-mask lane audit or prepared runtime task while AWS capacity/authentication state is handled separately.
+## Immediate Next Action - Low-Risk Closure Reconciled, Facial Evaluator Next - 2026-07-11T03:20:00-05:00
+
+The low-risk fallback lane already had a July 9 final-review packet closing its bounded first-runtime-smoke work order. Its stale queue label is now reconciled without creating another certificate or rerunning generation. The 86/100 portrait retains beauty-retouch softness plus synthetic hair and lapel-edge notes and is not final portfolio-quality authority.
+
+Next implement a bounded facial/neck/hair gold-standard evaluator scaffold from the registered CelebAMask-HQ and LaPa datasets. Keep gold labels evaluator-only, preserve split/taxonomy rules, and do not claim production-route certification until real original-image predictions are available.
