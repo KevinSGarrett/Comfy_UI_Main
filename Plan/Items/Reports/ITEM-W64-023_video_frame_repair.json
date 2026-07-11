@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0",
+  "report_id": "ITEM-W64-023-VIDEO-FRAME-REPAIR-20260711T152500-0500",
+  "timestamp": "2026-07-11T15:25:00-05:00",
+  "item_id": "ITEM-W64-023",
+  "tracker_id": "TRK-W64-023",
+  "workstream": "video_frame_repair",
+  "status": "Blocked_Video_Frame_Repair_Artifacts_Missing",
+  "row_complete": false,
+  "implementation": {
+    "frame_level_defect_planner_ready": true,
+    "contiguous_span_router_ready": true,
+    "original_and_preserved_hash_ledger_ready": true,
+    "candidate_delta_verifier_ready": true,
+    "passing_metadata_preservation_ready": true,
+    "target_metadata_delta_audit_ready": true,
+    "transactional_output_ready": true,
+    "final_acceptance_claim_forbidden": true
+  },
+  "validation": {
+    "unit_tests_passed": 15,
+    "unit_test_failures": 0,
+    "python_compile": "pass",
+    "schema_check": "pass",
+    "synthetic_planning_probe": "pass_expected_exit_2",
+    "synthetic_route": "short_span_repair",
+    "synthetic_failed_frames": [2, 3, 4],
+    "synthetic_preserved_frames": [0, 1, 5],
+    "claude_medium_findings_remediated": 2,
+    "remaining_high_or_medium_findings": 0
+  },
+  "acceptance_gates": {
+    "defect_localization": true,
+    "targeted_repair_record": true,
+    "candidate_rerun_delta_verifier": true,
+    "preserve_passed_frames_verifier": true,
+    "real_repaired_candidate": false,
+    "before_after_visual_review": false,
+    "runtime_repair_proof": false,
+    "final_temporal_acceptance": false
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Video_Frame_Repair_Artifacts_Missing",
+      "reason": "No real repaired candidate frames or candidate manifest exists for technical delta verification."
+    },
+    {
+      "classification": "Blocked_Video_Frame_Repair_Visual_Proof_Missing",
+      "reason": "No before/after repair playback or frame review proves identity, environment, motion, and temporal preservation."
+    },
+    {
+      "classification": "Blocked_Gold_Mask_Dependency_Missing",
+      "reason": "Only contact/deformation repair subgates remain blocked by unavailable manual body gold masks."
+    }
+  ],
+  "evidence": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/video_frame_repair.json",
+      "sha256": "be73af1970eb80227f2d7ea8f38b2e4e2ba68b0aae83ccf666c3701e5bbda2c3"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/video_frame_repair_test_log.json",
+      "sha256": "365648ac509b57294c12e4b7944c68af008b9608b8b5cef21b96eb5d0667df15"
+    }
+  ],
+  "runtime": {
+    "repair_execution_count": 0,
+    "candidate_frame_count": 0,
+    "visual_review_count": 0,
+    "comfyui_started": false,
+    "aws_contacted": false,
+    "ec2_started": false
+  },
+  "next_action": "Keep row 023 blocked without candidate-repair, before/after visual, runtime, or final claims. Continue TRK-W64-024 / ITEM-W64-024 by duplicate-checking the existing Wave26 GIF loop/export lane and selecting one bounded offline export-manifest or loop-boundary implementation gap; do not fabricate final loop certification."
+}

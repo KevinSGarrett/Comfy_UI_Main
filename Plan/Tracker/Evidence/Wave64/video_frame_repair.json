@@ -1,0 +1,131 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-VIDEO-FRAME-REPAIR",
+  "timestamp": "2026-07-11T15:25:00-05:00",
+  "tracker_id": "TRK-W64-023",
+  "item_id": "ITEM-W64-023",
+  "source_citation": "Plan/04_VIDEO_GIF_SYSTEM/WAVE27_FRAME_REPAIR_PIPELINE.md",
+  "implementation": {
+    "existing_wave27_lane_extended": true,
+    "source_manifest_and_evidence_reused": true,
+    "repair_policy_registry_reused": true,
+    "strict_defect_report_binding": true,
+    "contiguous_span_grouping": true,
+    "frame_local_short_span_and_rerun_routing": true,
+    "failed_frame_original_hash_ledger": true,
+    "passing_frame_preservation_ledger": true,
+    "candidate_manifest_hash_and_sequence_binding": true,
+    "target_before_after_delta_audit": true,
+    "passing_artifact_and_metadata_delta_rejection": true,
+    "target_protected_metadata_delta_rejection": true,
+    "non_destructive_transactional_output": true,
+    "visual_runtime_and_final_claims_forbidden": true
+  },
+  "implementation_artifacts": [
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/plan_wave27_frame_repair_ledger.py",
+      "sha256": "5bf86afdf823b285d713d1d6b5cce622275b9823a5d84604311d4a1d6d69ca9a"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave27_frame_repair_ledger.schema.json",
+      "sha256": "f294896e079c7d9da90ae9b8226127c5e493d4a5746573e56e4f3a88909af6f0"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_wave27_frame_repair_ledger_strict.py",
+      "sha256": "c8bceb9e17b0b139aaf8dd19d03df3b5330e196189f0c2acc123577a4c7d83a7"
+    }
+  ],
+  "offline_validation": {
+    "test_log": "Plan/Instructions/QA/Evidence/Wave64/video_frame_repair_test_log.json",
+    "test_log_sha256": "365648ac509b57294c12e4b7944c68af008b9608b8b5cef21b96eb5d0667df15",
+    "tests_run": 15,
+    "test_failures": 0,
+    "test_errors": 0,
+    "python_compile": "pass",
+    "draft_2020_12_schema_check": "pass",
+    "git_diff_check": "pass",
+    "technical_offline_pass": true
+  },
+  "synthetic_planning_probe": {
+    "production_evidence": false,
+    "fixture_type": "synthetic_hash_only_frame_packet_not_decodable_production_video",
+    "manifest": "runtime_artifacts/wave64_video_frame_repair/synthetic_plan_20260711T152400-0500/packet/manifest.json",
+    "manifest_sha256": "fe29ef9e9e14d69436ddf2b445175d369a27bcc87277b851e988d64e3bc9f69b",
+    "temporal_evidence": "runtime_artifacts/wave64_video_frame_repair/synthetic_plan_20260711T152400-0500/packet/evidence.json",
+    "temporal_evidence_sha256": "d71c3eb1d635e8236cea24f6c248ca8fd57f581b122cfc2bb2002961c7a883f6",
+    "defect_report": "runtime_artifacts/wave64_video_frame_repair/synthetic_plan_20260711T152400-0500/packet/defects.json",
+    "defect_report_sha256": "9272e8d574af1e5b1cdf2af9199ba0ed287198e2d392651182e8faafc6ba25b8",
+    "repair_ledger": "runtime_artifacts/wave64_video_frame_repair/synthetic_plan_20260711T152400-0500/packet/repair_ledger.json",
+    "repair_ledger_sha256": "9e56764806d3ec6fbb4d2ed8be82820dad8a394d1b9b51f3e407c4af7d65fe6a",
+    "expected_exit_code": 2,
+    "planning_status": "repair_plan_pending_candidate",
+    "failed_frame_indices": [2, 3, 4],
+    "preserved_frame_indices": [0, 1, 5],
+    "repair_span_action": "short_span_repair",
+    "candidate_manifest_provided": false,
+    "schema_validation": "pass",
+    "all_visual_runtime_final_flags_false": true
+  },
+  "acceptance_gates": {
+    "defect_localization_planner": true,
+    "targeted_repair_ledger": true,
+    "repair_policy_route_selection": true,
+    "candidate_delta_verifier": true,
+    "passed_frame_preservation_verifier": true,
+    "real_repaired_candidate_frames_present": false,
+    "before_after_frame_repair_review": false,
+    "identity_environment_visual_preservation": false,
+    "runtime_repair_proof": false,
+    "final_temporal_acceptance": false,
+    "final_promotion": false
+  },
+  "review": {
+    "cursor_gap_review": "runtime_artifacts/agent_handoffs/cursor/20260711T145643-0500_wave64_video_frame_repair_gap_review/handoff_record.json",
+    "cursor_initial_implementation": "runtime_artifacts/agent_handoffs/cursor/20260711T145801-0500_wave64_video_frame_repair_ledger_implementation/handoff_record.json",
+    "cursor_audit_correction": "runtime_artifacts/agent_handoffs/cursor/20260711T150427-0500_wave64_video_frame_repair_ledger_correction/handoff_record.json",
+    "claude_initial_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T151446-0500_wave64_video_frame_repair_ledger_final_review/handoff_record.json",
+    "claude_medium_findings_remediated": 2,
+    "claude_confirmation": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T152212-0500_wave64_video_frame_repair_ledger_review_confirmation/handoff_record.json",
+    "remaining_high_or_medium_findings": 0
+  },
+  "runtime": {
+    "repair_executed": false,
+    "candidate_frames_generated": false,
+    "comfyui_started": false,
+    "generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "mask_promotion_executed": false
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Video_Frame_Repair_Artifacts_Missing",
+      "scope": "primary_row_blocker",
+      "reason": "The strict planner and candidate verifier pass offline, but no real repaired candidate frames or technically verified candidate manifest exists."
+    },
+    {
+      "classification": "Blocked_Video_Frame_Repair_Visual_Proof_Missing",
+      "scope": "before_after_and_preservation_review",
+      "reason": "No real before/after frame repair review proves identity, environment, motion, or temporal continuity preservation."
+    },
+    {
+      "classification": "Blocked_Gold_Mask_Dependency_Missing",
+      "scope": "contact_and_deformation_repair_subgates_only",
+      "reason": "Contact/deformation repair cannot use candidate masks as truth while manual body gold masks remain unavailable."
+    }
+  ],
+  "result": "blocked_video_frame_repair_artifacts_missing",
+  "overall_pass": false,
+  "status_decision": "Blocked_Video_Frame_Repair_Artifacts_Missing",
+  "strict_decision": {
+    "row_complete": false,
+    "offline_planner_verifier_pass": true,
+    "planning_probe_pass": true,
+    "repair_execution_claimed": false,
+    "candidate_verification_claimed": false,
+    "visual_preservation_claimed": false,
+    "runtime_repair_claimed": false,
+    "final_promotion_claimed": false,
+    "wave71_activation_claimed": false
+  }
+}

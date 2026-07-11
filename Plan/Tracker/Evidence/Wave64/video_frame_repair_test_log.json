@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-VIDEO-FRAME-REPAIR-TEST-LOG-20260711T152500-0500",
+  "timestamp": "2026-07-11T15:25:00-05:00",
+  "tracker_id": "TRK-W64-023",
+  "item_id": "ITEM-W64-023",
+  "command": "python Plan/Instructions/QA/Scripts/test_wave27_frame_repair_ledger_strict.py",
+  "result": "pass",
+  "exit_code": 0,
+  "tests_run": 15,
+  "failures": 0,
+  "errors": 0,
+  "elapsed_seconds": 98.513,
+  "transcript": "runtime_artifacts/wave64_video_frame_repair/unit_tests_20260711T152500-0500.stderr.txt",
+  "transcript_sha256": "de71f29fb28b7934f9d7d20e75b20769ab78af9eda1a3cacbd4f6cf9b42ab546",
+  "covered_files": [
+    "Plan/07_IMPLEMENTATION/scripts/plan_wave27_frame_repair_ledger.py",
+    "Plan/08_SCHEMAS/wave27_frame_repair_ledger.schema.json",
+    "Plan/Instructions/QA/Scripts/test_wave27_frame_repair_ledger_strict.py"
+  ],
+  "positive_contracts_covered": [
+    "existing Wave27 manifest, evidence, and repair-policy reuse",
+    "deterministic defect normalization and contiguous-span grouping",
+    "single-frame identity and visual repair routing",
+    "2-5 frame short-span routing and greater-than-5/persistent rerun escalation",
+    "source manifest, temporal evidence, defect report, and policy SHA256 binding",
+    "candidate manifest hash/sequence and target before-after delta audit",
+    "passing-frame artifact and protected-metadata preservation",
+    "zero-defect no-repair-required semantics",
+    "non-destructive transactional ledger publication"
+  ],
+  "negative_contracts_covered": [
+    "invalid defect taxonomy, index, binding, duplicate, or artifact hash",
+    "unchanged repair target",
+    "changed passing-frame artifact or metadata",
+    "target timestamp, shot, character, or camera drift",
+    "candidate frame-count, dimension, timestamp, or artifact tamper",
+    "contradictory planning and candidate schema states",
+    "existing output preservation and publish-failure temp cleanup",
+    "before-after visual, runtime, temporal acceptance, and promotion flags remain false"
+  ]
+}

@@ -1,0 +1,652 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave27 Frame Repair Ledger",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_name",
+    "ledger_version",
+    "planning_status",
+    "frame_count",
+    "source_bindings",
+    "failed_frames",
+    "passing_frames",
+    "repair_spans",
+    "candidate_validation",
+    "final_flags"
+  ],
+  "properties": {
+    "schema_name": {
+      "type": "string",
+      "const": "wave27_frame_repair_ledger"
+    },
+    "ledger_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "planning_status": {
+      "type": "string",
+      "enum": [
+        "repair_plan_pending_candidate",
+        "repair_plan_candidate_verified",
+        "repair_not_required"
+      ]
+    },
+    "frame_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "source_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "manifest_path",
+        "manifest_sha256",
+        "manifest_sequence_sha256",
+        "temporal_evidence_path",
+        "temporal_evidence_sha256",
+        "defect_report_path",
+        "defect_report_sha256",
+        "normalized_defects_sha256",
+        "repair_policy_path",
+        "repair_policy_sha256"
+      ],
+      "properties": {
+        "manifest_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "manifest_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "manifest_sequence_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "temporal_evidence_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "temporal_evidence_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "defect_report_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "defect_report_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "normalized_defects_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "repair_policy_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "repair_policy_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "failed_frames": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "frame_index",
+          "time_seconds",
+          "original_artifact_path",
+          "original_artifact_bytes",
+          "original_artifact_sha256",
+          "failures",
+          "policy_actions"
+        ],
+        "properties": {
+          "frame_index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "time_seconds": {
+            "type": "number",
+            "minimum": 0
+          },
+          "original_artifact_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "original_artifact_bytes": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "original_artifact_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "failures": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "policy_actions": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "notes": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "passing_frames": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "frame_index",
+          "time_seconds",
+          "original_artifact_path",
+          "original_artifact_bytes",
+          "original_artifact_sha256"
+        ],
+        "properties": {
+          "frame_index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "time_seconds": {
+            "type": "number",
+            "minimum": 0
+          },
+          "original_artifact_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "original_artifact_bytes": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "original_artifact_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "repair_spans": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "start_frame_index",
+          "end_frame_index",
+          "span_length",
+          "frame_indices",
+          "failures",
+          "recommended_action",
+          "reason"
+        ],
+        "properties": {
+          "start_frame_index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "end_frame_index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "span_length": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "frame_indices": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "failures": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "recommended_action": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "candidate_validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "candidate_manifest_path",
+        "candidate_manifest_sha256",
+        "candidate_manifest_sequence_sha256",
+        "candidate_manifest_provided",
+        "target_frame_deltas",
+        "target_frame_delta_count",
+        "preserved_frame_verifications",
+        "preserved_frame_verification_count"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "blocked_pending_repair_artifacts",
+            "candidate_verified_technical_only",
+            "no_repair_required"
+          ]
+        },
+        "candidate_manifest_path": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1
+            }
+          ]
+        },
+        "candidate_manifest_sha256": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          ]
+        },
+        "candidate_manifest_sequence_sha256": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          ]
+        },
+        "candidate_manifest_provided": {
+          "type": "boolean"
+        },
+        "target_frame_deltas": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "frame_index",
+              "time_seconds",
+              "shot_id",
+              "visible_characters",
+              "camera_state",
+              "protected_metadata_unchanged",
+              "original_artifact_path",
+              "original_artifact_bytes",
+              "original_artifact_sha256",
+              "candidate_artifact_path",
+              "candidate_artifact_bytes",
+              "candidate_artifact_sha256",
+              "artifact_changed",
+              "original_source_route",
+              "candidate_source_route",
+              "source_route_changed",
+              "original_engine_name",
+              "candidate_engine_name",
+              "engine_name_changed",
+              "original_qa_scores",
+              "candidate_qa_scores",
+              "qa_scores_changed",
+              "original_repair_status",
+              "candidate_repair_status",
+              "repair_status_changed"
+            ],
+            "properties": {
+              "frame_index": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "time_seconds": {
+                "type": "number",
+                "minimum": 0
+              },
+              "shot_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "visible_characters": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "camera_state": {
+                "type": "object"
+              },
+              "protected_metadata_unchanged": {
+                "type": "boolean",
+                "const": true
+              },
+              "original_artifact_path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "original_artifact_bytes": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "original_artifact_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "candidate_artifact_path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "candidate_artifact_bytes": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "candidate_artifact_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "artifact_changed": {
+                "type": "boolean",
+                "const": true
+              },
+              "original_source_route": {
+                "type": "string",
+                "minLength": 1
+              },
+              "candidate_source_route": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source_route_changed": {
+                "type": "boolean"
+              },
+              "original_engine_name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "candidate_engine_name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "engine_name_changed": {
+                "type": "boolean"
+              },
+              "original_qa_scores": {
+                "type": "object"
+              },
+              "candidate_qa_scores": {
+                "type": "object"
+              },
+              "qa_scores_changed": {
+                "type": "boolean"
+              },
+              "original_repair_status": {
+                "type": "string",
+                "minLength": 1
+              },
+              "candidate_repair_status": {
+                "type": "string",
+                "minLength": 1
+              },
+              "repair_status_changed": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "target_frame_delta_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "preserved_frame_verifications": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "frame_index",
+              "source_route_unchanged",
+              "engine_name_unchanged",
+              "shot_id_unchanged",
+              "visible_characters_unchanged",
+              "camera_state_unchanged",
+              "qa_scores_unchanged",
+              "repair_status_unchanged",
+              "time_seconds_unchanged",
+              "artifact_sha256_unchanged",
+              "artifact_bytes_unchanged",
+              "artifact_path_relocated",
+              "all_protected_metadata_unchanged",
+              "preserved_artifact_unchanged"
+            ],
+            "properties": {
+              "frame_index": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "source_route_unchanged": {
+                "type": "boolean",
+                "const": true
+              },
+              "engine_name_unchanged": {
+                "type": "boolean",
+                "const": true
+              },
+              "shot_id_unchanged": {
+                "type": "boolean",
+                "const": true
+              },
+              "visible_characters_unchanged": {
+                "type": "boolean",
+                "const": true
+              },
+              "camera_state_unchanged": {
+                "type": "boolean",
+                "const": true
+              },
+              "qa_scores_unchanged": {
+                "type": "boolean",
+                "const": true
+              },
+              "repair_status_unchanged": {
+                "type": "boolean",
+                "const": true
+              },
+              "time_seconds_unchanged": {
+                "type": "boolean",
+                "const": true
+              },
+              "artifact_sha256_unchanged": {
+                "type": "boolean",
+                "const": true
+              },
+              "artifact_bytes_unchanged": {
+                "type": "boolean",
+                "const": true
+              },
+              "artifact_path_relocated": {
+                "type": "boolean"
+              },
+              "all_protected_metadata_unchanged": {
+                "type": "boolean",
+                "const": true
+              },
+              "preserved_artifact_unchanged": {
+                "type": "boolean",
+                "const": true
+              }
+            }
+          }
+        },
+        "preserved_frame_verification_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "final_flags": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "before_after_visual_review",
+        "identity_environment_preservation_visual_pass",
+        "runtime_repair_proof",
+        "final_temporal_acceptance",
+        "final_promotion"
+      ],
+      "properties": {
+        "before_after_visual_review": {
+          "type": "boolean",
+          "const": false
+        },
+        "identity_environment_preservation_visual_pass": {
+          "type": "boolean",
+          "const": false
+        },
+        "runtime_repair_proof": {
+          "type": "boolean",
+          "const": false
+        },
+        "final_temporal_acceptance": {
+          "type": "boolean",
+          "const": false
+        },
+        "final_promotion": {
+          "type": "boolean",
+          "const": false
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "planning_status": {
+            "const": "repair_plan_pending_candidate"
+          }
+        },
+        "required": ["planning_status"]
+      },
+      "then": {
+        "properties": {
+          "failed_frames": {"minItems": 1},
+          "repair_spans": {"minItems": 1},
+          "candidate_validation": {
+            "properties": {
+              "status": {"const": "blocked_pending_repair_artifacts"},
+              "candidate_manifest_path": {"type": "null"},
+              "candidate_manifest_sha256": {"type": "null"},
+              "candidate_manifest_sequence_sha256": {"type": "null"},
+              "candidate_manifest_provided": {"const": false},
+              "target_frame_deltas": {"maxItems": 0},
+              "target_frame_delta_count": {"const": 0},
+              "preserved_frame_verifications": {"maxItems": 0},
+              "preserved_frame_verification_count": {"const": 0}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "planning_status": {
+            "const": "repair_plan_candidate_verified"
+          }
+        },
+        "required": ["planning_status"]
+      },
+      "then": {
+        "properties": {
+          "failed_frames": {"minItems": 1},
+          "repair_spans": {"minItems": 1},
+          "candidate_validation": {
+            "properties": {
+              "status": {"const": "candidate_verified_technical_only"},
+              "candidate_manifest_path": {"type": "string", "minLength": 1},
+              "candidate_manifest_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "candidate_manifest_sequence_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "candidate_manifest_provided": {"const": true},
+              "target_frame_deltas": {"minItems": 1},
+              "target_frame_delta_count": {"minimum": 1}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "planning_status": {
+            "const": "repair_not_required"
+          }
+        },
+        "required": ["planning_status"]
+      },
+      "then": {
+        "properties": {
+          "failed_frames": {"maxItems": 0},
+          "repair_spans": {"maxItems": 0},
+          "candidate_validation": {
+            "properties": {
+              "status": {"const": "no_repair_required"},
+              "target_frame_deltas": {"maxItems": 0},
+              "target_frame_delta_count": {"const": 0}
+            }
+          }
+        }
+      }
+    }
+  ]
+}
