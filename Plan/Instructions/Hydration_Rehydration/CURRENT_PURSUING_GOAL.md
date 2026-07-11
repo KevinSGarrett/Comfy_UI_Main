@@ -6241,3 +6241,6 @@ Continue the full ComfyUI hyperrealism project from `C:\Comfy_UI_Main`. Selected
 ## Current Pursuing Goal - Rebuild Selected Inpaint Bundle At Current Head - 2026-07-10T20:30:00-05:00
 
 Continue the selected-inpaint target-runtime proof from `C:\Comfy_UI_Main`. All model/input transfer and install proofs remain valid. Rebuild only the deploy bundle because its source-head contract is stale, then rerun static proof from clean synced Git with EC2 bounded and stopped afterward.
+## Current Pursuing Goal - Selected Inpaint Ready For Bounded EC2 Smoke - 2026-07-10T21:00:00-05:00
+
+Continue the selected-inpaint target-runtime proof from `C:\Comfy_UI_Main`. S3 transfer, EC2 install, and EC2 static object-info/model-hash proof now pass. Checkpoint this authority, then execute one bounded workflow smoke with the current-head bundle, pullback/hash QA, strict whole-image visual review, and verified final EC2 stop.

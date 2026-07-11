@@ -8304,3 +8304,8 @@ Next exact action: checkpoint these publish/install/fail-closed records, refresh
 Current AWS auth, lane readiness, clean Git, S3, and EC2 identity gates passed. The selected-inpaint static proof reached SSM but failed closed because deploy bundle `sel_inpaint_clean_1944` records source head `995b89d`, while current synced authority is `693643b`. EC2 returned to `stopped`; object-info was not run and no generation occurred.
 
 Next exact action: checkpoint this failure record, rebuild the selected-inpaint deploy bundle from current clean head, publish the new hash-bound bundle under a new S3 key, then rerun static proof. Do not repeat model or input uploads/installations.
+## Immediate Next Action - Selected Inpaint EC2 Static Proof Passed - 2026-07-10T21:00:00-05:00
+
+The selected-inpaint marked runtime window completed successfully. Current-head deploy bundle SHA256 verified on EC2, all 12 required ComfyUI nodes were present, object-info passed with 1,915 nodes, and remote RealVisXL checkpoint SHA256 matched `6a35a785...5643b80`. Final EC2 state is `stopped`; no generation ran. The active runtime marker was removed after final-state verification.
+
+Next exact action: checkpoint static proof and runtime-window evidence, rebuild/publish the deploy bundle once at the resulting clean head, then run one bounded selected-inpaint workflow smoke under a fresh active marker. Do not repeat model/input transfer or static proof unless an input contract changes.
