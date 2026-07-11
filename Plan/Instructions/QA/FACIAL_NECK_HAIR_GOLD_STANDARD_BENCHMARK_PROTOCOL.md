@@ -205,3 +205,22 @@ from `0.8198` to `0.8186` on held-out IDs `6,7,8`. Visual QA confirmed an
 overexpanded upper-lip boundary. Do not tune or repeat this dilation candidate.
 Another `u_lip` evaluation requires a distinct model-backed route or an
 independently justified non-morphological fixed implementation.
+
+## InsightFace 106-Point LaPa Boundary
+
+The local InsightFace `buffalo_l/2d106det.onnx` route may be evaluated against
+LaPa landmarks only through an originals-only, hash-bound prediction manifest.
+The producer must verify the registered ONNX assets and official InsightFace
+106-point markup before inference, emit source-coordinate points, and never
+read LaPa gold landmark files. Gold is loaded only by the evaluator or visual
+QA renderer after prediction hashes exist.
+
+Equal point counts do not establish equal landmark semantics. The bounded
+three-image validation run localized faces correctly but produced mean NME
+`0.499254` and maximum NME `0.529605`; same-index visual comparison shows that
+LaPa and InsightFace use incompatible point ordering/anatomical assignments.
+Do not promote this route as LaPa-compatible, learn a correspondence from the
+validation or test gold, or reuse same-index NME as an accuracy claim. A future
+attempt requires an authoritative published LaPa-to-route correspondence or a
+route trained/documented with the LaPa ordering. LaPa test remains reporting
+only, and no landmark result authorizes a segmentation mask or certification.

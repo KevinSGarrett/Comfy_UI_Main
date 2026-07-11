@@ -1,3 +1,9 @@
+## Immediate Next Action - LaPa/InsightFace 106 Ordering Mismatch Closed - 2026-07-10T22:13:49-05:00
+
+The originals-only InsightFace `buffalo_l` route executed locally on three LaPa validation images with verified model hashes, identity source transforms, no gold exposure, and one detected face per sample. The evaluator contract passes structurally, but mean same-index NME is `0.499254` and direct visual QA confirms that LaPa and InsightFace assign different anatomy to the same numeric indices.
+
+Do not tune a correspondence from validation/test gold or rerun this same-index route. Continue a different concrete non-mask implementation task; a future LaPa landmark route requires an authoritative published correspondence or a route documented/trained with LaPa ordering. No mask was produced or promoted, and EC2 remains stopped.
+
 ## Immediate Next Action - Upper-Lip Fixed Dilation Rejected - 2026-07-10T22:20:00-05:00
 
 The gold-blind `u_lip_dilate_exclusive_v1` candidate was composed from existing hash-verified skin-union predictions without rerunning BiSeNet. Producer/evaluator/composer contracts pass 54 disposable tests; controlled and held-out evaluator runs pass structurally, but the class gate fails. Upper-lip IoU decreases from `0.8435` to `0.8307` on IDs `0,1,2` and from `0.8198` to `0.8186` on IDs `6,7,8`; visual QA confirms overexpansion and increased false positives. No non-target class changed.

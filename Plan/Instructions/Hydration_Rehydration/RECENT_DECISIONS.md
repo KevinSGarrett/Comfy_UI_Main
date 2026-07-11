@@ -1,3 +1,7 @@
+## Decision - Equal 106-Point Counts Do Not Establish LaPa Compatibility - 2026-07-10T22:13:49-05:00
+
+Treat the completed InsightFace run as route-execution proof and a closed incompatibility diagnosis, not as LaPa landmark authority. The face geometry is visually plausible, but same-index NME is invalidated by incompatible anatomical ordering. Do not learn a correspondence from validation/test labels; require published correspondence authority or a LaPa-order runtime route before another compatibility evaluation.
+
 ## Decision - Zero Verified Models Can Never Pass Local Generation Readiness - 2026-07-10T16:03:05-05:00
 
 Require selected-lane runtime requirements to exist, parse, and declare at least one model with a nonempty filename/subdirectory and valid SHA256; require every declaration to resolve in the selected ComfyUI or project model tree and match the observed file SHA256 before `local_required_models_present` or local GPU generation candidacy can pass. A runnable local GPU candidate is a cost-control option only and does not replace generated artifact review or EC2 final proof.

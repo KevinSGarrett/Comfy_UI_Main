@@ -1,0 +1,203 @@
+{
+  "claim_boundary": "Originals-only local landmark production. Gold landmark files were not read by this producer; no segmentation mask, route promotion, or certification is claimed.",
+  "created_at": "2026-07-10T22:10:06.207633-05:00",
+  "dataset_id": "lapa",
+  "landmark_normalization": {
+    "authority_source": "LaPa official README confirms 106 points (https://github.com/jd-opensource/lapa-dataset/blob/master/README.md); InsightFace official ordered 106-point markup identifies outer eye corners 35 and 93 (https://github.com/nttstar/insightface-resources/blob/master/alignment/images/2d106markup.jpg); local markup SHA256 4292c0db899a701e512ff1d724d6fc6070676e9d8cc00e1bb7f7be0252cf75ce.",
+    "indices": [
+      35,
+      93
+    ],
+    "method": "interocular_index_pair"
+  },
+  "license_boundary": "LaPa and InsightFace supplied/pretrained assets remain local evaluation inputs; verify upstream rights before redistribution or commercial use.",
+  "producer_contract": {
+    "gold_paths_exposed_to_route": false,
+    "originals_only": true,
+    "prediction_generated_before_evaluation": true,
+    "route_input_image_paths": [
+      "MaskedWarehouse/LaPa/val/images/10004916254_0.jpg",
+      "MaskedWarehouse/LaPa/val/images/10012551673_2.jpg",
+      "MaskedWarehouse/LaPa/val/images/10012551673_3.jpg"
+    ]
+  },
+  "route_configuration": {
+    "ctx_id": -1,
+    "det_size": [
+      640,
+      640
+    ],
+    "primary_face_selection": "largest_bbox_then_highest_detection_score",
+    "providers": [
+      "CPUExecutionProvider"
+    ],
+    "script_path": "Plan/07_IMPLEMENTATION/scripts/produce_wave70_lapa_insightface_landmarks.py",
+    "script_sha256": "4690a9e5d4587ea2dfd0db17aa364d078a4433dc426329c802226e4411af51c8"
+  },
+  "route_configuration_sha256": "abd9ee4cfb023788514d8a321fec95d22b87dbb9d3f9629ea25db0522d363e4e",
+  "route_execution": {
+    "model_route_executed": true,
+    "provider": "CPUExecutionProvider",
+    "runtime": "ComfyUI/.venv",
+    "sample_count": 3
+  },
+  "route_id": "insightface.FaceAnalysis.buffalo_l.landmark_2d_106",
+  "route_model_assets": [
+    {
+      "bytes": 143607619,
+      "name": "1k3d68.onnx",
+      "path": "runtime_artifacts/mask_factory/insightface_models/models/buffalo_l/1k3d68.onnx",
+      "sha256": "df5c06b8a0c12e422b2ed8947b8869faa4105387f199c477af038aa01f9a45cc"
+    },
+    {
+      "bytes": 5030888,
+      "name": "2d106det.onnx",
+      "path": "runtime_artifacts/mask_factory/insightface_models/models/buffalo_l/2d106det.onnx",
+      "sha256": "f001b856447c413801ef5c42091ed0cd516fcd21f2d6b79635b1e733a7109dbf"
+    },
+    {
+      "bytes": 16923827,
+      "name": "det_10g.onnx",
+      "path": "runtime_artifacts/mask_factory/insightface_models/models/buffalo_l/det_10g.onnx",
+      "sha256": "5838f7fe053675b1c7a08b633df49e7af5495cee0493c7dcf6697200b85b5b91"
+    },
+    {
+      "bytes": 1322532,
+      "name": "genderage.onnx",
+      "path": "runtime_artifacts/mask_factory/insightface_models/models/buffalo_l/genderage.onnx",
+      "sha256": "4fde69b1c810857b88c64a335084f1c3fe8f01246c9a191b48c7bb756d6652fb"
+    },
+    {
+      "bytes": 174383860,
+      "name": "w600k_r50.onnx",
+      "path": "runtime_artifacts/mask_factory/insightface_models/models/buffalo_l/w600k_r50.onnx",
+      "sha256": "4c06341c33c2ca1f86781dab0e829f88ad5b64be9fba56e56bc9ebdefc619e43"
+    }
+  ],
+  "route_model_identity": {
+    "model_id": "buffalo_l/2d106det.onnx",
+    "model_sha256": "f001b856447c413801ef5c42091ed0cd516fcd21f2d6b79635b1e733a7109dbf"
+  },
+  "run_id": "lapa-insightface-106-val-20260710T221006-0500",
+  "samples": [
+    {
+      "mode": "landmarks",
+      "prediction_landmarks_path": "runtime_artifacts/mask_factory/lapa_insightface_106/20260710T223000-0500/predicted_points/10004916254_0.json",
+      "prediction_landmarks_sha256": "70319e1b425da09fd094dc54d6846a323a786a9f449815794bda8ebbea770874",
+      "prediction_path": "runtime_artifacts/mask_factory/lapa_insightface_106/20260710T223000-0500/predicted_points/10004916254_0.json",
+      "prediction_sha256": "70319e1b425da09fd094dc54d6846a323a786a9f449815794bda8ebbea770874",
+      "route_observation": {
+        "detected_face_count": 1,
+        "out_of_bounds_point_count": 0,
+        "point_count": 106,
+        "selected_bbox": [
+          110.63628387451172,
+          80.08316040039062,
+          266.5969543457031,
+          285.71142578125
+        ],
+        "selected_detection_score": 0.8109743595123291
+      },
+      "sample_id": "10004916254_0",
+      "source_path": "MaskedWarehouse/LaPa/val/images/10004916254_0.jpg",
+      "source_sha256": "d0b0cbe22da7cd58b249c6b4c7d27b13c49a35223e6b7eff77253458a156bbcc",
+      "source_size": [
+        406,
+        370
+      ],
+      "transforms": [
+        {
+          "from_size": [
+            406,
+            370
+          ],
+          "op": "identity",
+          "to_size": [
+            406,
+            370
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "landmarks",
+      "prediction_landmarks_path": "runtime_artifacts/mask_factory/lapa_insightface_106/20260710T223000-0500/predicted_points/10012551673_2.json",
+      "prediction_landmarks_sha256": "2f071e5917f7e22016806b1d5dda75849f07c77634e33eec40824bbf5968e163",
+      "prediction_path": "runtime_artifacts/mask_factory/lapa_insightface_106/20260710T223000-0500/predicted_points/10012551673_2.json",
+      "prediction_sha256": "2f071e5917f7e22016806b1d5dda75849f07c77634e33eec40824bbf5968e163",
+      "route_observation": {
+        "detected_face_count": 1,
+        "out_of_bounds_point_count": 0,
+        "point_count": 106,
+        "selected_bbox": [
+          150.03884887695312,
+          103.43441772460938,
+          338.22314453125,
+          355.65283203125
+        ],
+        "selected_detection_score": 0.8576504588127136
+      },
+      "sample_id": "10012551673_2",
+      "source_path": "MaskedWarehouse/LaPa/val/images/10012551673_2.jpg",
+      "source_sha256": "77f1ed2d22633fe300870eaaf14c60de05f9ca9d90cf3eb06c5ab12e15144d83",
+      "source_size": [
+        490,
+        470
+      ],
+      "transforms": [
+        {
+          "from_size": [
+            490,
+            470
+          ],
+          "op": "identity",
+          "to_size": [
+            490,
+            470
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "landmarks",
+      "prediction_landmarks_path": "runtime_artifacts/mask_factory/lapa_insightface_106/20260710T223000-0500/predicted_points/10012551673_3.json",
+      "prediction_landmarks_sha256": "d6d1696ab34373f6c4d5acad9e9d9a1749da926ad19ec6a4124e69ec72a8589f",
+      "prediction_path": "runtime_artifacts/mask_factory/lapa_insightface_106/20260710T223000-0500/predicted_points/10012551673_3.json",
+      "prediction_sha256": "d6d1696ab34373f6c4d5acad9e9d9a1749da926ad19ec6a4124e69ec72a8589f",
+      "route_observation": {
+        "detected_face_count": 1,
+        "out_of_bounds_point_count": 0,
+        "point_count": 106,
+        "selected_bbox": [
+          128.02346801757812,
+          90.43022918701172,
+          314.4304504394531,
+          356.41156005859375
+        ],
+        "selected_detection_score": 0.8712276220321655
+      },
+      "sample_id": "10012551673_3",
+      "source_path": "MaskedWarehouse/LaPa/val/images/10012551673_3.jpg",
+      "source_sha256": "3f84bf23571ebcaedcbce28c891ddcc019362b8396bec39dcfc8898fd3b993f6",
+      "source_size": [
+        456,
+        456
+      ],
+      "transforms": [
+        {
+          "from_size": [
+            456,
+            456
+          ],
+          "op": "identity",
+          "to_size": [
+            456,
+            456
+          ]
+        }
+      ]
+    }
+  ],
+  "schema_version": "1.0",
+  "split": "val"
+}

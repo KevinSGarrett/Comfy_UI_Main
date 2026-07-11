@@ -1,3 +1,7 @@
+## LaPa-Compatible Runtime 106-Point Authority Missing - 2026-07-10T22:13:49-05:00
+
+InsightFace `buffalo_l/2d106det.onnx` executes and localizes faces, but its ordered 106 points are not semantically aligned with LaPa's ordered 106 points. Three validation samples have mean same-index NME `0.499254` and maximum `0.529605`; visual QA confirms widespread cross-anatomy index displacement. The exact blocker is an authoritative published LaPa-to-runtime correspondence or a route documented/trained with LaPa ordering. Gold-derived remapping from validation/test is prohibited. This blocks LaPa-compatible runtime landmark claims only and does not block unrelated non-mask project work.
+
 ## Local Model-Readiness Fail-Open Resolved; Generated Proof Still Missing - 2026-07-10T16:03:05-05:00
 
 Missing, malformed, empty, invalid, absent, or hash-mismatched model declarations no longer yield `local_required_models_present=pass`; every declaration must have a nonempty filename/subdirectory, a 64-character SHA256, resolve locally, and match observed bytes. The current low-risk lane is a valid local GPU generation candidate, but no generation was launched and readiness alone is not visual QA, target-runtime proof, or certification. EC2 remains stopped and final EC2 equivalence remains required where specified.

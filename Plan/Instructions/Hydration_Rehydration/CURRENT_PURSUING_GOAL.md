@@ -1,3 +1,9 @@
+## Active Facial Benchmark Posture - LaPa/InsightFace Ordering Fail-Closed - 2026-07-10T22:13:49-05:00
+
+Continue the full ComfyUI project from `C:\Comfy_UI_Main`. The production InsightFace 106-point route now has a real originals-only execution manifest and evaluator/visual evidence, but it is not a LaPa-compatible landmark authority: the point sets fit faces while their same-numbered points represent different anatomy.
+
+Preserve this as completed route diagnosis, not a promotion candidate. Do not infer or tune a mapping from LaPa validation/test gold. Continue another concrete non-mask task or introduce a genuinely authoritative LaPa-order route; manual body gold, body/hand/contact, Wave70/Wave71+, Jira, certification, and EC2-stopped boundaries remain intact.
+
 ## Active Facial Benchmark Posture - Upper-Lip Dilation Rejected - 2026-07-10T22:20:00-05:00
 
 Continue the full ComfyUI project from `C:\Comfy_UI_Main`. A reusable, hash-bound candidate composer and independently recomputed upper-lip composition contract now exist, but the first fixed dilation candidate is rejected on both controlled and held-out metrics plus direct visual QA. It remains a regression fixture only and must not be promoted or tuned against the same sets.

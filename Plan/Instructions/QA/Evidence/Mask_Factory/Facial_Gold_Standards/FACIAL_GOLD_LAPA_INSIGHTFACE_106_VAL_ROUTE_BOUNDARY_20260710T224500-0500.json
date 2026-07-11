@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "FACIAL-GOLD-LAPA-INSIGHTFACE-106-VAL-ROUTE-BOUNDARY-20260710T224500-0500",
+  "timestamp": "2026-07-10T22:13:49-05:00",
+  "result": "insightface_106_route_executed_lapa_ordering_incompatible_no_promotion",
+  "route_id": "insightface.FaceAnalysis.buffalo_l.landmark_2d_106",
+  "dataset": "LaPa",
+  "split": "val",
+  "sample_ids": [
+    "10004916254_0",
+    "10012551673_2",
+    "10012551673_3"
+  ],
+  "execution": {
+    "model_route_executed": true,
+    "provider": "CPUExecutionProvider",
+    "runtime": "ComfyUI/.venv",
+    "originals_only": true,
+    "gold_exposed_to_producer": false,
+    "identity_source_transforms": true,
+    "detected_face_count_per_sample": [1, 1, 1]
+  },
+  "evaluation": {
+    "contract_status": "pass",
+    "fail_closed_events": [],
+    "sample_nme": [
+      0.5296053557006352,
+      0.5002749024716031,
+      0.46788252295304866
+    ],
+    "mean_nme": 0.4992542603750956,
+    "max_nme": 0.5296053557006352,
+    "visual_qa": "fail_same_numeric_indices_connect_different_anatomical_points"
+  },
+  "classification": {
+    "runtime_route_available": true,
+    "lapa_compatible_landmark_authority": false,
+    "exact_blocker": "authoritative published LaPa-to-InsightFace correspondence or a runtime route documented/trained with LaPa point ordering is missing",
+    "gold_derived_mapping_allowed": false,
+    "same_index_rerun_allowed": false
+  },
+  "authority_sources": [
+    "https://github.com/jd-opensource/lapa-dataset/blob/master/README.md",
+    "https://github.com/deepinsight/insightface/blob/master/alignment/coordinate_reg/README.md",
+    "https://github.com/nttstar/insightface-resources/blob/master/alignment/images/2d106markup.jpg"
+  ],
+  "evidence": {
+    "prediction_manifest": "Plan/Instructions/QA/Evidence/Mask_Factory/Facial_Gold_Standards/Prediction_Manifests/FACIAL_GOLD_LAPA_INSIGHTFACE_106_VAL_PREDICTION_MANIFEST_20260710T223000-0500.json",
+    "prediction_manifest_sha256": "c9597902e68293b689b92a0a47a3b3bf70c4acc26b509b3e5e6a72f512ef7e48",
+    "benchmark": "Plan/Instructions/QA/Evidence/Mask_Factory/Facial_Gold_Standards/FACIAL_GOLD_LAPA_INSIGHTFACE_106_VAL_BENCHMARK_20260710T223500-0500.json",
+    "benchmark_sha256": "3b3ebc35f8b2c71a9474d3b55ec06a392767a6bc61c64b8078fb979a77c1976d",
+    "visual_qa": "Plan/Instructions/QA/Evidence/Mask_Factory/Facial_Gold_Standards/FACIAL_GOLD_LAPA_INSIGHTFACE_106_VAL_VISUAL_QA_20260710T224000-0500.json",
+    "visual_qa_sha256": "60eaeeeb040f3a30eec398ea111eaf2f28b89b3ee815b1341d40a99e7e4df11a",
+    "panel": "Plan/Instructions/QA/Evidence/Mask_Factory/Facial_Gold_Standards/Panels/FACIAL_GOLD_LAPA_INSIGHTFACE_106_VAL_COMPARISON_PANEL_20260710T224000-0500.png",
+    "panel_sha256": "458f45754784ef5c41be50320c0b7a47444d15bb8cdeeefebdf91dabcabaa295"
+  },
+  "claim_boundary": {
+    "mask_produced": false,
+    "mask_promoted": false,
+    "landmark_route_promoted": false,
+    "certification_authorized": false,
+    "wave70_hard_gate_rerun": false,
+    "wave71_activated": false,
+    "ec2_started": false,
+    "test_split_used": false
+  },
+  "rights_boundary": "Keep LaPa and InsightFace evaluation assets local; verify upstream rights before redistribution or commercial use."
+}
