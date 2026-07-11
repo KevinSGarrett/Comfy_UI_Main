@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "evidence_id": "LOCAL-LEGACY-AWS-RECONCILIATION-20260710T231700-0500",
+  "generated_at": "2026-07-10T23:17:00-05:00",
+  "status": "pass_with_authority_boundaries",
+  "classifications": [
+    "LOCAL_SOURCE_OF_TRUTH_ACTIVE",
+    "LEGACY_SOURCE_ARCHIVES_PRESERVED_NOT_RUNTIME_AUTHORITY",
+    "AWS_REMOTE_WORK_RECONCILED_NO_DUPLICATE",
+    "EC2_OUTPUT_PULLBACK_HASH_VERIFIED",
+    "EC2_WORKSPACE_STALE_NOT_AUTHORITY",
+    "NO_RERUN_COMPLETED_EC2_PROOF"
+  ],
+  "authoritative_project": {
+    "root": "C:\\Comfy_UI_Main",
+    "git_head": "c03b0cc5d211a499517a84b23ac3d2928ce953f7",
+    "origin_main": "c03b0cc5d211a499517a84b23ac3d2928ce953f7",
+    "clean_before_reconciliation": true
+  },
+  "legacy_local_reconciliation": {
+    "source_root": "C:\\Comfy_UI",
+    "cursor_handoffs": [
+      {
+        "record": "runtime_artifacts/agent_handoffs/cursor/20260710T225442-0500_legacy_main_completed_work_reconciliation/handoff_record.json",
+        "status": "PASS",
+        "classification": "CURSOR_HANDOFF_COMPLETED"
+      },
+      {
+        "record": "runtime_artifacts/agent_handoffs/cursor/20260710T225755-0500_legacy_candidate_curated_mapping/handoff_record.json",
+        "status": "PASS",
+        "classification": "CURSOR_HANDOFF_COMPLETED"
+      }
+    ],
+    "plans": {
+      "source_file_count": 4870,
+      "source_size_bytes": 37574583,
+      "preserved_file_count": 4241,
+      "preserved_size_bytes": 35696390,
+      "excluded_file_count": 629,
+      "excluded_size_bytes": 1878193,
+      "archive": "Plan/15_BLUEPRINT_PROJECTPLAN_COMBINATION/00_SOURCE_IMPORTS/Legacy_Source_Archives/Plans_legacy_source_sanitized_20260710.zip",
+      "archive_sha256": "e665c3826999a3a4f6c9a5118eb4c20cc26a683400e0b3d410900be55ddf9c0f",
+      "included_tree_sha256": "eb5f111a72511e304e6f12fc8f7c9fe1f5660e533123616c29688a494e4f4533",
+      "manifest": "Plan/15_BLUEPRINT_PROJECTPLAN_COMBINATION/00_SOURCE_IMPORTS/Legacy_Source_Archives/Plans_legacy_source_sanitized_20260710.manifest.json"
+    },
+    "tech_plan_additions": {
+      "source_file_count": 8620,
+      "source_size_bytes": 81697372,
+      "preserved_file_count": 8615,
+      "preserved_size_bytes": 81592173,
+      "excluded_file_count": 5,
+      "excluded_size_bytes": 105199,
+      "archive": "Plan/15_BLUEPRINT_PROJECTPLAN_COMBINATION/00_SOURCE_IMPORTS/Legacy_Source_Archives/Tech_Plan_Additions_legacy_source_sanitized_20260710.zip",
+      "archive_sha256": "0a3c0b881532f2c8b71ee0a3675ce914f6492db882c67e0b4b221194d68329ff",
+      "included_tree_sha256": "f37b958d7b6655996c60dd64b16d4c5af751351e4cd809264457f31786755f1f",
+      "manifest": "Plan/15_BLUEPRINT_PROJECTPLAN_COMBINATION/00_SOURCE_IMPORTS/Legacy_Source_Archives/Tech_Plan_Additions_legacy_source_sanitized_20260710.manifest.json"
+    },
+    "exclusion_boundary": {
+      "excluded_classes": [
+        "python bytecode and __pycache__",
+        "environment files",
+        "credential or private-key file types",
+        "cache/temp/private/secrets directories"
+      ],
+      "source_files_modified": false,
+      "legacy_active_authority": false
+    },
+    "legacy_preset_registry": {
+      "preset_count": 7,
+      "file": "Plan/15_BLUEPRINT_PROJECTPLAN_COMBINATION/00_SOURCE_IMPORTS/Legacy_Source_Archives/legacy_sdxl_generation_presets.registry.json",
+      "active_config": false,
+      "reason": "The originals bind obsolete C:\\Comfy_UI\\EC2_Mirror and Implementation paths. Values and source hashes are preserved, but activation requires rebasing and runtime validation."
+    }
+  },
+  "aws_reconciliation": {
+    "account": "029530099913",
+    "region": "us-east-1",
+    "aws_auth_verified": true,
+    "instance": {
+      "instance_id": "i-0560bf8d143f93bb1",
+      "state": "stopped",
+      "volume_id": "vol-0eb9b2c6d3d2706d6",
+      "volume_size_gib": 1024,
+      "known_good_ami": "ami-0f89db134323b0bc0",
+      "known_good_ami_state": "available"
+    },
+    "legacy_production_bucket": {
+      "bucket": "comfyui-prod-20260702-012020",
+      "object_count": 547,
+      "total_bytes": 121626522098,
+      "latest_object_at": "2026-07-05T21:25:22+00:00",
+      "boundary": "The latest object predates the 2026-07-06 Main source intake and remains remote asset/runtime history, not current planning authority."
+    },
+    "current_runtime_bucket": {
+      "bucket": "comfy-ui-main-runtime-029530099913-us-east-1",
+      "object_count": 62,
+      "total_bytes": 7266516388,
+      "deploy_object_count": 30,
+      "model_cache_object_count": 6,
+      "render_output_object_count": 26,
+      "render_run_prefix_count": 5,
+      "render_run_prefixes_with_local_pullback_and_manifest": 5,
+      "versioning": "Enabled",
+      "public_access_blocked": true,
+      "encryption": "AES256"
+    },
+    "latest_completed_ec2_run": {
+      "run_id": "aws_gpu_workflow_smoke_20260710T210240-0500",
+      "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+      "remote_file_count": 5,
+      "local_file_count": 5,
+      "all_sha256_verified": true,
+      "local_root": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260710T210240-0500",
+      "pullback_record": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260710T210240-0500/PULLBACK_RECORD.json",
+      "technical_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_SELECTED_INPAINT_TARGET_RUNTIME_TECHNICAL_QA_20260710T222500-0500.json",
+      "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_SELECTED_INPAINT_TARGET_RUNTIME_VISUAL_QA_20260710T212500-0500.json",
+      "rerun_allowed_without_contract_change": false
+    },
+    "next_depth_lane_duplicate_guard": {
+      "checkpoint": {
+        "filename": "realvisxlV50_v50Bakedvae.safetensors",
+        "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+        "local_present": true,
+        "s3_present_with_matching_metadata_sha256": true,
+        "upload_again": false
+      },
+      "controlnet": {
+        "filename": "controlnet-depth-sdxl-1.0-small.safetensors",
+        "sha256": "6f23c58fd632f52238a7b35ebdc02f9f596fd13dbaa121f9b37b9f4689c2b1e9",
+        "local_present": true,
+        "legacy_local_present": false,
+        "current_runtime_s3_present": false,
+        "legacy_production_s3_present": false
+      },
+      "control_image": {
+        "filename": "controlnet_depth_anything_w69_v1.png",
+        "sha256": "d9d21c69ea3ea50f3991bd0a420f338c5c7bc3c3450508526a7e9060c0319ef7",
+        "local_present": true,
+        "legacy_local_present": false,
+        "current_runtime_s3_present": false,
+        "legacy_production_s3_present": false
+      }
+    }
+  },
+  "mutations_during_reconciliation": {
+    "ec2_started": false,
+    "s3_uploaded": false,
+    "generation_executed": false,
+    "masks_promoted": false,
+    "wave70_hard_gate_rerun": false,
+    "wave71_activated": false,
+    "jira_mutated": false
+  },
+  "next_action": "Validate the preserved archives and registry, checkpoint this reconciliation, then build the exact clean-head depth run package. Reuse the existing RealVisXL S3 object and publish only the missing depth ControlNet and control image if all local and live gates pass."
+}

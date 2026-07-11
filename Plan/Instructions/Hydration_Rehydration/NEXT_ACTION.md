@@ -1,3 +1,9 @@
+## Immediate Next Action - Legacy And AWS Reconciled, Depth Lane Next - 2026-07-10T23:17:00-05:00
+
+`C:\Comfy_UI_Main` remains authoritative and now physically preserves the previously unmapped substantive legacy corpora as two sanitized, hash-bound source archives: 4,241 `Plans` files and 8,615 `Tech_Plan_Additions` files. Python caches and one environment example were excluded; seven legacy SDXL preset values and source hashes are preserved in an inactive registry because their absolute paths are obsolete. These archives are source history only and cannot reopen completed work or override current tracker/hydration state.
+
+AWS authentication and inventory are verified. EC2 `i-0560bf8d143f93bb1` is stopped; all five runtime-bucket render prefixes have matching local pullbacks/manifests, and the newest selected-inpaint run is 5/5 SHA256 verified with completed QA. Do not rerun selected-inpaint, Canny, or other completed EC2 proof. Resume `sdxl_realvisxl_controlnet_depth_lane`: rebuild the run package/deploy bundle at the current clean head, reuse the existing exact RealVisXL S3 object, and publish only the missing depth ControlNet/control image if all gates pass.
+
 ## Immediate Next Action - Flux1 Licensed Installer Ready, Acceptance Still External - 2026-07-10T22:45:00-05:00
 
 The new local `Install-LicensedModelFromHttp.ps1` is dry-run by default and now has a passing 14-check disposable HTTP regression. It rejects missing or mismatched license acceptance before network contact, validates immutable source metadata, prevents destination traversal and credential-bearing source queries, downloads through a resumable `.partial` file, verifies exact byte count/SHA256, refuses overwrite, and atomically installs only after validation. The real Flux1 dry run is hash-bound to the final script and requirements, reports `ready_dry_run`, confirms sufficient disk, and contacted no network.

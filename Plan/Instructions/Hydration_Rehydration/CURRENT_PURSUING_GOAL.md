@@ -1,3 +1,9 @@
+## Active Runtime Posture - Reconciled Source Of Truth, Depth Target Proof Next - 2026-07-10T23:17:00-05:00
+
+Continue the full autonomous ComfyUI project from `C:\Comfy_UI_Main`. Legacy `C:\Comfy_UI` substantive source material is now preserved inside Main as quarantined hash-bound archives and an inactive legacy preset registry; it is provenance, not active runtime authority. AWS is authenticated, the approved EC2 instance is stopped, all remote render-run prefixes are locally represented, and the newest selected-inpaint artifact set re-verifies 5/5 hashes. Preserve all no-rerun boundaries.
+
+The next concrete lane is `sdxl_realvisxl_controlnet_depth_lane`, selected because its local/package proof exists but EC2 static/path/hash/input proof, bounded target-runtime output, pullback, technical QA, visual QA, and final certification remain genuinely open. Build a clean-head package first. Reuse the exact RealVisXL checkpoint already in S3; only the depth ControlNet and control image are new remote transfers after gates pass. Keep Flux1 blocked on legal acceptance/model absence and preserve all manual-gold, mask-promotion, Wave70/Wave71+, and Jira boundaries.
+
 ## Active Runtime Posture - Flux1 Installer Implemented And Proven Dry-Run Safe - 2026-07-10T22:45:00-05:00
 
 Continue the full ComfyUI project from `C:\Comfy_UI_Main`. Flux1 now has not only immutable source/hash authority but a tested local installation path. The installer and regression are integrated into operations static validation, and the real lane dry-run is exact-hash bound with no network, AWS, EC2, S3, ComfyUI, or generation contact.

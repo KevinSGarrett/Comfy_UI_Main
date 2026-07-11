@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "evidence_id": "LOCAL-LEGACY-AWS-RECONCILIATION-20260710T231700-0500",
+  "generated_at": "2026-07-10T23:17:00-05:00",
+  "status": "pass_with_authority_boundaries",
+  "classifications": [
+    "LOCAL_SOURCE_OF_TRUTH_ACTIVE",
+    "LEGACY_SOURCE_ARCHIVES_PRESERVED_NOT_RUNTIME_AUTHORITY",
+    "AWS_REMOTE_WORK_RECONCILED_NO_DUPLICATE",
+    "EC2_OUTPUT_PULLBACK_HASH_VERIFIED",
+    "EC2_WORKSPACE_STALE_NOT_AUTHORITY",
+    "NO_RERUN_COMPLETED_EC2_PROOF"
+  ],
+  "authoritative_project": {
+    "root": "C:\\Comfy_UI_Main",
+    "git_head": "c03b0cc5d211a499517a84b23ac3d2928ce953f7",
+    "origin_main": "c03b0cc5d211a499517a84b23ac3d2928ce953f7",
+    "clean_before_reconciliation": true
+  },
+  "legacy_local_reconciliation": {
+    "source_root": "C:\\Comfy_UI",
+    "plans": {
+      "source_file_count": 4870,
+      "preserved_file_count": 4241,
+      "excluded_file_count": 629,
+      "archive": "Plan/15_BLUEPRINT_PROJECTPLAN_COMBINATION/00_SOURCE_IMPORTS/Legacy_Source_Archives/Plans_legacy_source_sanitized_20260710.zip",
+      "archive_sha256": "e665c3826999a3a4f6c9a5118eb4c20cc26a683400e0b3d410900be55ddf9c0f"
+    },
+    "tech_plan_additions": {
+      "source_file_count": 8620,
+      "preserved_file_count": 8615,
+      "excluded_file_count": 5,
+      "archive": "Plan/15_BLUEPRINT_PROJECTPLAN_COMBINATION/00_SOURCE_IMPORTS/Legacy_Source_Archives/Tech_Plan_Additions_legacy_source_sanitized_20260710.zip",
+      "archive_sha256": "0a3c0b881532f2c8b71ee0a3675ce914f6492db882c67e0b4b221194d68329ff"
+    },
+    "legacy_preset_registry": {
+      "preset_count": 7,
+      "file": "Plan/15_BLUEPRINT_PROJECTPLAN_COMBINATION/00_SOURCE_IMPORTS/Legacy_Source_Archives/legacy_sdxl_generation_presets.registry.json",
+      "active_config": false
+    }
+  },
+  "aws_reconciliation": {
+    "account": "029530099913",
+    "instance_id": "i-0560bf8d143f93bb1",
+    "instance_state": "stopped",
+    "legacy_production_bucket_object_count": 547,
+    "current_runtime_bucket_object_count": 62,
+    "render_run_prefix_count": 5,
+    "render_run_prefixes_with_local_pullback_and_manifest": 5,
+    "latest_completed_run": "aws_gpu_workflow_smoke_20260710T210240-0500",
+    "latest_completed_run_hashes_verified": true,
+    "realvisxl_checkpoint_reupload_required": false,
+    "depth_controlnet_new_upload_required_after_gates": true,
+    "depth_control_image_new_upload_required_after_gates": true
+  },
+  "mutations_during_reconciliation": {
+    "ec2_started": false,
+    "s3_uploaded": false,
+    "generation_executed": false
+  },
+  "next_action": "Validate and checkpoint this reconciliation, then resume the clean-head depth target-runtime lane without rerunning completed selected-inpaint or Canny proof."
+}
