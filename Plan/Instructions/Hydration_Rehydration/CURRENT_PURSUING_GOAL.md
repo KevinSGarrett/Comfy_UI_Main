@@ -6460,3 +6460,8 @@ Preserve `TRK-W64-020` / `ITEM-W64-020` as `Blocked_Video_Engine_Runtime_Evidenc
 Continue the full autonomous project goal from authoritative `C:\Comfy_UI_Main`. Preserve `TRK-W64-021` / `ITEM-W64-021` as `Blocked_Video_Temporal_Visual_Proof_Missing`: preparation tooling is implemented and reviewed, but no production frame sequence or temporal visual proof exists. Do not turn test fixtures into production evidence or use candidate masks for body/hand/contact truth.
 
 Proceed to `TRK-W64-022` / `ITEM-W64-022` for one duplicate-checked, concrete reference-video-input implementation gap. Keep EC2 stopped and AWS untouched while authentication is expired; retain local-source, no-duplicate, manual-mask, Wave70/Wave71+, Flux1-license, and Jira boundaries.
+## Active Runtime Posture - Wave64 Reference Video Ingest Implemented, Row Still Blocked - 2026-07-11T14:50:00-05:00
+
+Continue the full autonomous project goal from authoritative `C:\Comfy_UI_Main`. Preserve `TRK-W64-022` / `ITEM-W64-022` as `Blocked_Reference_Video_Production_Proof_Missing`: actual local file decode/extraction tooling passes, but the only runtime packet is synthetic and all production, normalization, semantic timeline, shot matching, visual review, and promotion claims remain false. Mask/contact timeline authority retains the manual gold-mask boundary.
+
+Proceed to `TRK-W64-023` / `ITEM-W64-023` for one duplicate-checked frame-repair implementation gap. Keep EC2 stopped and retain local-source, no-duplicate, manual-mask, Wave70/Wave71+, Flux1-license, and Jira boundaries.

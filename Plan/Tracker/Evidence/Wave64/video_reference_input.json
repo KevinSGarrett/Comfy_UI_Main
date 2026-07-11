@@ -1,0 +1,146 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-VIDEO-REFERENCE-INPUT",
+  "timestamp": "2026-07-11T14:50:00-05:00",
+  "tracker_id": "TRK-W64-022",
+  "item_id": "ITEM-W64-022",
+  "source_citation": "Plan/04_VIDEO_GIF_SYSTEM/WAVE26_REFERENCE_VIDEO_INPUT_PIPELINE.md",
+  "implementation": {
+    "existing_wave26_lane_extended": true,
+    "opencv_real_file_decode": true,
+    "all_frames_short_clip_profile": true,
+    "sample_every_n_profile": true,
+    "semantic_profiles_fail_closed": true,
+    "input_format_registry_enforced": true,
+    "extraction_profile_registry_enforced": true,
+    "draft_2020_12_schema_validation": true,
+    "source_and_frame_sha256_binding": true,
+    "manifest_and_frame_manifest_sha256_binding": true,
+    "container_frame_count_tolerance_recorded": true,
+    "non_destructive_transactional_publication": true,
+    "powershell_structural_claim_bounded": true,
+    "final_promotion_claim_forbidden": true
+  },
+  "implementation_artifacts": [
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/ingest_wave26_reference_video.py",
+      "sha256": "c250cac4a3eb54935f3d42052727652de22ce04966e1c135f2a68bf8706fe63d"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave26_reference_video_ingest_evidence.schema.json",
+      "sha256": "6e62838d818f5d8d1e04114c4fd87c10d3ab995667c40a5183fa8147312f768e"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_ingest_wave26_reference_video.py",
+      "sha256": "fc690ac33be4ee2562bd27f4d15a1d6c86a83aab7a27e65cdb82704bcde33d77"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/templates/powershell/Run-Wave26-ReferenceVideoValidation.ps1",
+      "sha256": "3281d880ae906c02e0764f84a656090b3742fc1516d0529eed9c2d788d4ba9f8"
+    }
+  ],
+  "offline_validation": {
+    "test_log": "Plan/Instructions/QA/Evidence/Wave64/video_reference_input_test_log.json",
+    "test_log_sha256": "1aa2bc1e937be883eb1648fa7e6084a2806032347067289c05fcd2a145fa3976",
+    "tests_run": 28,
+    "tests_skipped": 0,
+    "test_failures": 0,
+    "test_errors": 0,
+    "python_compile": "pass",
+    "schema_check": "pass",
+    "powershell_parse": "pass",
+    "powershell_structural_mode": "pass_claim_bounded",
+    "git_diff_check": "pass",
+    "technical_offline_pass": true
+  },
+  "synthetic_local_runtime_probe": {
+    "production_evidence": false,
+    "source_video": "runtime_artifacts/wave64_reference_video_input/synthetic_reference_20260711T144600-0500.avi",
+    "source_sha256": "17b2cb451944e2917d21a7464329c3dca73b2f5294f8b1d264ab793e69446e84",
+    "source_bytes": 10498,
+    "output_dir": "runtime_artifacts/wave64_reference_video_input/synthetic_ingest_20260711T144600-0500",
+    "ingest_evidence": "runtime_artifacts/wave64_reference_video_input/synthetic_ingest_20260711T144600-0500/wave26_reference_video_ingest_evidence.json",
+    "ingest_evidence_sha256": "86b5ad227cc65ff958ed1f18de1e8b54ab1861bf69f801c74c91046e6f170212",
+    "manifest_sha256": "10c14fe9d0c58f7a122ccd1eba60787a58ce331091c85a2f233a192b960638ed",
+    "frame_manifest_sha256": "baa82c9790108ed5e297fe694c49826bfc1e6738f117f3d8a0c975f46a3edf00",
+    "profile": "sample_every_n",
+    "sample_stride": 3,
+    "decoded_frame_count": 12,
+    "reported_frame_count": 12,
+    "frame_count_consistency": "exact",
+    "fps": 6.0,
+    "decoded_width": 96,
+    "decoded_height": 64,
+    "extracted_frame_count": 4,
+    "extracted_frame_indices": [0, 3, 6, 9],
+    "full_schema_validation": "pass",
+    "all_artifact_hashes_verified": true,
+    "all_claim_flags_false": true
+  },
+  "acceptance_gates": {
+    "reference_video_ingest_implementation": true,
+    "synthetic_local_decode_and_extract": true,
+    "production_reference_video_supplied": false,
+    "production_reference_video_runtime_proof": false,
+    "orientation_normalization_verified": false,
+    "fps_normalization_verified": false,
+    "audio_presence_verified": false,
+    "semantic_frame_qa": false,
+    "pose_timeline_generated": false,
+    "depth_timeline_generated": false,
+    "mask_timeline_generated": false,
+    "contact_timeline_generated": false,
+    "shot_matching_performed": false,
+    "loop_extraction_performed": false,
+    "source_reference_visual_review": false,
+    "final_promotion_ready": false
+  },
+  "review": {
+    "cursor_gap_review": "runtime_artifacts/agent_handoffs/cursor/20260711T141434-0500_wave64_reference_video_input_gap_review/handoff_record.json",
+    "cursor_initial_implementation": "runtime_artifacts/agent_handoffs/cursor/20260711T141757-0500_wave64_reference_video_ingest_implementation/handoff_record.json",
+    "cursor_safety_correction": "runtime_artifacts/agent_handoffs/cursor/20260711T142526-0500_wave64_reference_video_ingest_correction/handoff_record.json",
+    "claude_initial_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T143725-0500_wave64_reference_video_ingest_final_review/handoff_record.json",
+    "claude_medium_findings_remediated": 1,
+    "claude_confirmation": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T144451-0500_wave64_reference_video_ingest_review_confirmation/handoff_record.json",
+    "remaining_high_or_medium_findings": 0
+  },
+  "runtime": {
+    "synthetic_video_created": true,
+    "production_video_used": false,
+    "comfyui_started": false,
+    "generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "mask_promotion_executed": false
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Reference_Video_Production_Proof_Missing",
+      "scope": "primary_row_blocker",
+      "reason": "No user or production reference video has been supplied and evaluated through source-to-output comparison. Synthetic local extraction proves tooling only."
+    },
+    {
+      "classification": "Blocked_Reference_Video_Semantic_Analyzers_Missing",
+      "scope": "motion_contact_shot_loop_profiles",
+      "reason": "Motion-peak, contact-phase, shot-boundary, and loop-candidate profiles require analyzers and derived timeline proof that are not implemented or verified."
+    },
+    {
+      "classification": "Blocked_Gold_Mask_Dependency_Missing",
+      "scope": "mask_and_contact_timeline_subgates_only",
+      "reason": "Candidate masks cannot certify mask/contact timeline alignment while manual body gold masks remain unavailable."
+    }
+  ],
+  "result": "blocked_reference_video_production_proof_missing",
+  "overall_pass": false,
+  "status_decision": "Blocked_Reference_Video_Production_Proof_Missing",
+  "strict_decision": {
+    "row_complete": false,
+    "offline_ingest_implementation_pass": true,
+    "synthetic_runtime_probe_pass": true,
+    "production_runtime_claimed": false,
+    "derived_timeline_claimed": false,
+    "source_reference_visual_pass_claimed": false,
+    "final_promotion_claimed": false,
+    "wave71_activation_claimed": false
+  }
+}

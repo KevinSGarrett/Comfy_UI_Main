@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "report_id": "ITEM-W64-022-VIDEO-REFERENCE-INPUT-20260711T145000-0500",
+  "timestamp": "2026-07-11T14:50:00-05:00",
+  "item_id": "ITEM-W64-022",
+  "tracker_id": "TRK-W64-022",
+  "workstream": "video_reference_input",
+  "status": "Blocked_Reference_Video_Production_Proof_Missing",
+  "row_complete": false,
+  "implementation": {
+    "real_file_decode_and_extraction_ready": true,
+    "two_nonsemantic_profiles_ready": true,
+    "semantic_profiles_fail_closed": true,
+    "strict_schema_and_registry_checks_ready": true,
+    "source_frame_and_manifest_hash_binding_ready": true,
+    "transactional_non_destructive_output_ready": true,
+    "powershell_entrypoint_claim_bounded": true,
+    "final_promotion_claim_forbidden": true
+  },
+  "validation": {
+    "pytest_passed": 28,
+    "pytest_skipped": 0,
+    "pytest_failures": 0,
+    "python_compile": "pass",
+    "schema_check": "pass",
+    "powershell_parse_and_wrapper": "pass",
+    "synthetic_local_decode": "pass",
+    "synthetic_decoded_frames": 12,
+    "synthetic_extracted_frames": 4,
+    "synthetic_claim_flags_all_false": true,
+    "claude_medium_findings_remediated": 1,
+    "remaining_high_or_medium_findings": 0
+  },
+  "acceptance_gates": {
+    "offline_ingest_implementation": true,
+    "synthetic_local_runtime": true,
+    "production_reference_video_runtime": false,
+    "pose_depth_mask_contact_timeline": false,
+    "shot_matching_and_loop_extraction": false,
+    "source_reference_visual_review": false,
+    "final_promotion": false
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Reference_Video_Production_Proof_Missing",
+      "reason": "No production reference video or source-to-output comparison exists; synthetic decode/extraction is tool proof only."
+    },
+    {
+      "classification": "Blocked_Reference_Video_Semantic_Analyzers_Missing",
+      "reason": "Motion/contact/shot/loop sampling and derived timeline analyzers remain unavailable."
+    },
+    {
+      "classification": "Blocked_Gold_Mask_Dependency_Missing",
+      "reason": "Only mask/contact timeline authority remains blocked by unavailable manual body gold masks."
+    }
+  ],
+  "evidence": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/video_reference_input.json",
+      "sha256": "a2bd2a4fe876e1c7ad50c7f49c63eab778a40198032ec938ad41fe9a182894ea"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/video_reference_input_test_log.json",
+      "sha256": "1aa2bc1e937be883eb1648fa7e6084a2806032347067289c05fcd2a145fa3976"
+    }
+  ],
+  "runtime": {
+    "synthetic_video_count": 1,
+    "production_video_count": 0,
+    "comfyui_started": false,
+    "generation_count": 0,
+    "aws_contacted": false,
+    "ec2_started": false
+  },
+  "next_action": "Keep row 022 blocked without production-video, derived-timeline, visual-review, or promotion claims. Continue TRK-W64-023 / ITEM-W64-023 by duplicate-checking the existing Wave27 frame-repair lane and selecting one bounded offline defect-localization or repair-ledger gap; do not fabricate before/after repair proof or use candidate masks as truth."
+}

@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-VIDEO-REFERENCE-INPUT-TEST-LOG-20260711T145000-0500",
+  "timestamp": "2026-07-11T14:50:00-05:00",
+  "tracker_id": "TRK-W64-022",
+  "item_id": "ITEM-W64-022",
+  "command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_ingest_wave26_reference_video.py",
+  "result": "pass",
+  "exit_code": 0,
+  "tests_run": 28,
+  "tests_skipped": 0,
+  "failures": 0,
+  "errors": 0,
+  "elapsed_seconds": 63.480,
+  "transcript": "runtime_artifacts/wave64_reference_video_input/pytest_20260711T145000-0500.txt",
+  "transcript_sha256": "3c0ce04c3c6d36c7d5d31a0121d8ce94509f1f126c11b7ac6fc624524461ef1a",
+  "covered_files": [
+    "Plan/07_IMPLEMENTATION/scripts/ingest_wave26_reference_video.py",
+    "Plan/08_SCHEMAS/wave26_reference_video_ingest_evidence.schema.json",
+    "Plan/Instructions/QA/Scripts/test_ingest_wave26_reference_video.py",
+    "Plan/07_IMPLEMENTATION/templates/powershell/Run-Wave26-ReferenceVideoValidation.ps1"
+  ],
+  "positive_contracts_covered": [
+    "real OpenCV video decode and all-frame extraction",
+    "deterministic stride sampling and ordered JSONL records",
+    "source, frame, manifest, and frame-manifest SHA256 binding",
+    "full Draft 2020-12 manifest, frame-record, and evidence validation",
+    "explicit unverified audio declaration propagation",
+    "orientation and FPS assumptions recorded without normalization claims",
+    "container frame-count exact and within-tolerance handling",
+    "Windows PowerShell structural and source-video modes",
+    "same-volume staged publication"
+  ],
+  "negative_contracts_covered": [
+    "unknown or semantic-analyzer-dependent extraction profiles",
+    "unsupported extension and corrupt video",
+    "missing audio declaration and invalid stride",
+    "all-frames short-clip duration overflow",
+    "large container-versus-decoded frame-count drift",
+    "non-finite registry or schema JSON",
+    "existing output file or directory preservation",
+    "decode failure capture release and staging cleanup",
+    "pose, depth, mask, contact, shot, visual, production, and final claims remain false"
+  ]
+}

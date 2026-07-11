@@ -1,0 +1,412 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave26 Reference Video Ingest Evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "source_video",
+    "ingest",
+    "assumptions",
+    "blocked_profiles",
+    "unsupported_semantic_analyzers",
+    "claims",
+    "artifacts",
+    "determinism",
+    "registry_checks"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "success"
+      ]
+    },
+    "source_video": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "bytes",
+        "extension"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "extension": {
+          "type": "string",
+          "pattern": "^\\.[a-z0-9]+$"
+        }
+      }
+    },
+    "ingest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_video_id",
+        "extraction_profile_id",
+        "sample_stride",
+        "frames_extracted",
+        "decoded_frame_count",
+        "reported_frame_count",
+        "frame_count_consistency",
+        "frame_count_delta",
+        "frame_count_tolerance_frames",
+        "duration_seconds",
+        "fps",
+        "width",
+        "height",
+        "strict_short_clip_gate",
+        "max_recommended_seconds",
+        "audio_present",
+        "audio_evidence_provenance",
+        "reported_width",
+        "reported_height",
+        "decoded_width",
+        "decoded_height",
+        "orientation_metadata_degrees_reported_by_opencv",
+        "orientation_auto_flag_reported_by_opencv"
+      ],
+      "properties": {
+        "source_video_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "extraction_profile_id": {
+          "type": "string",
+          "enum": [
+            "all_frames_short_clip",
+            "sample_every_n"
+          ]
+        },
+        "sample_stride": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "frames_extracted": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "decoded_frame_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "reported_frame_count": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "frame_count_consistency": {
+          "type": "string",
+          "enum": [
+            "exact",
+            "within_tolerance",
+            "metadata_unavailable"
+          ]
+        },
+        "frame_count_delta": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "frame_count_tolerance_frames": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "duration_seconds": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "fps": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "strict_short_clip_gate": {
+          "type": "boolean"
+        },
+        "max_recommended_seconds": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "audio_present": {
+          "type": "boolean"
+        },
+        "audio_evidence_provenance": {
+          "type": "string",
+          "const": "explicit_cli_declaration_not_verified_by_opencv"
+        },
+        "reported_width": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "reported_height": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "decoded_width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "decoded_height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "orientation_metadata_degrees_reported_by_opencv": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "orientation_auto_flag_reported_by_opencv": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      }
+    },
+    "assumptions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "orientation",
+        "fps",
+        "audio"
+      ],
+      "properties": {
+        "orientation": {
+          "type": "string",
+          "const": "opencv_properties_recorded_no_explicit_ingest_rotation"
+        },
+        "fps": {
+          "type": "string",
+          "const": "opencv_container_reported_fps_unverified"
+        },
+        "audio": {
+          "type": "string",
+          "const": "explicit_cli_declaration_not_verified_by_opencv"
+        }
+      }
+    },
+    "blocked_profiles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "contains": {
+        "const": "motion_peak_sampling"
+      },
+      "minItems": 4,
+      "uniqueItems": true
+    },
+    "unsupported_semantic_analyzers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 4,
+      "uniqueItems": true
+    },
+    "claims": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pose_timeline_generated",
+        "depth_timeline_generated",
+        "mask_timeline_generated",
+        "contact_timeline_generated",
+        "shot_matching_performed",
+        "visual_qa_complete",
+        "orientation_normalization_verified",
+        "fps_normalization_verified",
+        "production_proof_complete",
+        "final_promotion_ready"
+      ],
+      "properties": {
+        "pose_timeline_generated": {
+          "type": "boolean",
+          "const": false
+        },
+        "depth_timeline_generated": {
+          "type": "boolean",
+          "const": false
+        },
+        "mask_timeline_generated": {
+          "type": "boolean",
+          "const": false
+        },
+        "contact_timeline_generated": {
+          "type": "boolean",
+          "const": false
+        },
+        "shot_matching_performed": {
+          "type": "boolean",
+          "const": false
+        },
+        "visual_qa_complete": {
+          "type": "boolean",
+          "const": false
+        },
+        "orientation_normalization_verified": {
+          "type": "boolean",
+          "const": false
+        },
+        "fps_normalization_verified": {
+          "type": "boolean",
+          "const": false
+        },
+        "production_proof_complete": {
+          "type": "boolean",
+          "const": false
+        },
+        "final_promotion_ready": {
+          "type": "boolean",
+          "const": false
+        }
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "manifest_path",
+        "frame_manifest_path",
+        "frames_dir",
+        "evidence_path",
+        "manifest_sha256",
+        "manifest_bytes",
+        "frame_manifest_sha256",
+        "frame_manifest_bytes"
+      ],
+      "properties": {
+        "manifest_path": {
+          "type": "string",
+          "const": "reference_video_manifest.json"
+        },
+        "frame_manifest_path": {
+          "type": "string",
+          "const": "frame_manifest.jsonl"
+        },
+        "frames_dir": {
+          "type": "string",
+          "const": "frames"
+        },
+        "evidence_path": {
+          "type": "string",
+          "const": "wave26_reference_video_ingest_evidence.json"
+        },
+        "manifest_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "manifest_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "frame_manifest_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "frame_manifest_bytes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "determinism": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id_strategy",
+        "timestamp_strategy",
+        "record_ordering",
+        "jsonl_serialization"
+      ],
+      "properties": {
+        "id_strategy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "timestamp_strategy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "record_ordering": {
+          "type": "string",
+          "const": "ascending_frame_index"
+        },
+        "jsonl_serialization": {
+          "type": "string",
+          "const": "sorted_keys_compact"
+        }
+      }
+    },
+    "registry_checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "input_format_registry",
+        "extraction_profile_registry",
+        "supported_video_extensions",
+        "required_metadata_fields"
+      ],
+      "properties": {
+        "input_format_registry": {
+          "type": "string",
+          "minLength": 1
+        },
+        "extraction_profile_registry": {
+          "type": "string",
+          "minLength": 1
+        },
+        "supported_video_extensions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^\\.[a-z0-9]+$"
+          },
+          "minItems": 1
+        },
+        "required_metadata_fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
+      }
+    }
+  }
+}
