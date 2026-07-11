@@ -1,3 +1,9 @@
+## Active Runtime Posture - Main Reconciled Without Recreating Legacy Or Cloud Work - 2026-07-11T06:54:00-05:00
+
+Continue the full autonomous project goal from authoritative `C:\Comfy_UI_Main`. Legacy plans, implementation sources, evidence, reports, root regional configs, and architecture diagrams are now either already represented or preserved in quarantined source archives. No confirmed approved legacy generation is missing. AWS post-baseline work is represented lane by lane: Depth and Lineart are completed at their bounded scopes; Normal resumes at generation only; OpenPose resumes at EC2 install plus generation; RealESRGAN resumes at EC2 install plus generation. Never re-upload or rerun their completed steps.
+
+The seven core cron jobs are active against Main and the dead-session ID is absent. Live AWS state is currently blocked by an expired CLI session, so do not infer authentication, start EC2, or claim current bucket counts. Finish one guarded checkpoint, then return directly to a concrete non-mask local implementation task. Preserve manual-mask, Wave70 hard-gate, Wave71+, Flux1-license, Jira, and no-duplicate boundaries.
+
 ## Active Runtime Posture - RealESRGAN Export Selection Policy Complete - 2026-07-11T04:50:18-05:00
 
 Continue from authoritative `C:\Comfy_UI_Main`. The RealESRGAN local source-selection/export policy, normalized candidate registry, fail-closed evaluator, QA evidence, Item report, Tracker mirrors, and bounded Done_Certification are complete. All eight decision fixtures and seven strict evidence-binding fixtures pass. The selector rejects the older Canny upscale on strict SSIM, permits the Normal full-body upscale only for conditional resolution delivery with source retention, and rejects the technically valid two-character upscale as preferred because of visual regressions.

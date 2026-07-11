@@ -1,6 +1,6 @@
 {
     "schema_version":  "1.0",
-    "updated_at":  "2026-07-10T16:27:00-05:00",
+    "updated_at":  "2026-07-11T06:25:00-05:00",
     "artifact_id":  "TRK-W61-006",
     "purpose":  "Local queue for base-generation lane runtime proof order before EC2 execution resumes.",
     "local_only":  true,
@@ -18,6 +18,31 @@
                                                                 "sdxl_realvisxl_inpaint_detail_lane",
                                                                 "sdxl_realesrgan_upscale_polish_lane"
                                                             ],
+                             "completed_runtime_lane_ids_scope":  "Local package/runtime progression is complete for these lanes. This field does not by itself mean target-runtime proof or final lane certification.",
+                             "target_runtime_proof_present_lane_ids":  [
+                                                                            "sdxl_low_risk_fallback_lane",
+                                                                            "sdxl_realvisxl_base_lane",
+                                                                            "sdxl_realvisxl_controlnet_canny_lane",
+                                                                            "sdxl_realvisxl_inpaint_detail_lane",
+                                                                            "sdxl_realvisxl_controlnet_depth_lane",
+                                                                            "sdxl_realvisxl_controlnet_lineart_lane"
+                                                                        ],
+                             "bounded_certification_present_lane_ids":  [
+                                                                              "sdxl_low_risk_fallback_lane",
+                                                                              "sdxl_realvisxl_controlnet_canny_lane",
+                                                                              "sdxl_realvisxl_inpaint_detail_lane",
+                                                                              "sdxl_realvisxl_controlnet_depth_lane",
+                                                                              "sdxl_realvisxl_controlnet_lineart_lane"
+                                                                          ],
+                             "remote_assets_staged_without_target_runtime_proof_lane_ids":  [
+                                                                                                  "sdxl_realvisxl_controlnet_normal_lane",
+                                                                                                  "sdxl_realvisxl_controlnet_openpose_lane",
+                                                                                                  "sdxl_realesrgan_upscale_polish_lane"
+                                                                                              ],
+                             "runtime_not_started_lane_ids":  [
+                                                                    "flux1_dev_primary_base"
+                                                                ],
+                             "proof_scope_note":  "Always read each lane status, promotion rule, proof evidence, and required next runtime gate. Base proof is for an older generic scope; Inpaint certification is a bounded single-sample target-runtime smoke; remote-staged lanes must resume from their recorded missing step without re-uploading completed assets.",
                              "do_not_promote_later_lanes_before_first_lane_runtime_proof":  true,
                              "later_lane_promotion_allowed_after_first_lane_runtime_proof":  true,
                              "requires_aws_auth_gate_before_ec2":  true,

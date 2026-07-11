@@ -1,3 +1,7 @@
+## Live AWS Authentication Expired; Recorded Remote State Preserved - 2026-07-11T06:54:00-05:00
+
+`aws sts get-caller-identity` currently returns `Your session has expired. Please reauthenticate using 'aws login'.` The hourly sentinel independently records `UNKNOWN_AWS_AUTH_OR_CONFIG` with no active runtime marker. This blocks current EC2-state and S3-inventory assertions and all live cloud execution. It does not erase prior hash-verified evidence: Depth and Lineart are complete at their bounded scopes; Normal, OpenPose, and RealESRGAN retain exact staged resume points. Do not re-upload or rerun completed steps while authentication is unavailable.
+
 ## Flux1 License Acceptance Is The Remaining Install Gate - 2026-07-10T22:45:00-05:00
 
 The licensed-model installer is implemented, hardened, and regression-proven, and the machine has enough disk for the expected `17246524772` bytes. Execute mode still requires both an explicit switch and a JSON acceptance record bound to the exact noncommercial license, repository, revision, and filename. No such project record exists, and automation does not create or infer legal acceptance. This blocks download/install only; the dry-run and unrelated local work remain available.

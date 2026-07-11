@@ -1,0 +1,231 @@
+{
+  "schema_version": 1,
+  "evidence_id": "LOCAL-LEGACY-AWS-DUPLICATE-RECONCILIATION-20260711T065400-0500",
+  "generated_at": "2026-07-11T06:54:00-05:00",
+  "status": "pass_with_live_aws_auth_blocker",
+  "classifications": [
+    "LOCAL_SOURCE_OF_TRUTH_ACTIVE",
+    "LEGACY_IMPLEMENTATION_CORE_ARCHIVED_NOT_ACTIVATED",
+    "LEGACY_EVIDENCE_CORE_ARCHIVED_NOT_ACTIVATED",
+    "LEGACY_GENERATED_MEDIA_NO_APPROVED_OUTPUT_MISSING",
+    "AWS_POST_BASELINE_WORK_REPRESENTED_IN_MAIN",
+    "AWS_AUTH_EXPIRED_LIVE_STATE_UNVERIFIED",
+    "NO_RERUN_COMPLETED_EC2_PROOF",
+    "AUTOMATION_FLEET_TRANSFER_VERIFIED"
+  ],
+  "authoritative_project": {
+    "root": "C:\\Comfy_UI_Main",
+    "local_source_of_truth": true,
+    "git_head_before_checkpoint": "66c9525ef339ba4a3028f1ea736b43babb909111",
+    "origin_main_before_checkpoint": "66c9525ef339ba4a3028f1ea736b43babb909111",
+    "checkpoint_pending": true,
+    "legacy_root_is_runtime_authority": false,
+    "ec2_workspace_is_planning_authority": false
+  },
+  "worker_audit": {
+    "cursor": [
+      {
+        "record": "runtime_artifacts/agent_handoffs/cursor/20260711T055349-0500_legacy_main_completed_work_reconciliation/handoff_record.json",
+        "status": "PASS",
+        "classification": "CURSOR_HANDOFF_COMPLETED",
+        "scope": "narrow root comparison"
+      },
+      {
+        "record": "runtime_artifacts/agent_handoffs/cursor/20260711T060733-0500_legacy_main_explicit_directory_reconciliation/handoff_record.json",
+        "status": "FAIL",
+        "classification": "CURSOR_HANDOFF_WRAPPER_FAILED",
+        "issue": "Cursor handoff timed out after 900 seconds."
+      },
+      {
+        "record": "runtime_artifacts/agent_handoffs/cursor/20260711T062258-0500_legacy_main_implementation_surface_reconciliation_retry/handoff_record.json",
+        "status": "FAIL",
+        "classification": "CURSOR_HANDOFF_WRAPPER_FAILED",
+        "issue": "Required narrower retry timed out after 900 seconds; Codex used one compact bounded fallback."
+      }
+    ],
+    "claude": [
+      {
+        "record": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T060813-0500_main_cloud_evidence_post_reconciliation_audit/handoff_record.json",
+        "status": "PASS",
+        "classification": "CLAUDE_SUBSCRIPTION_HANDOFF_COMPLETED"
+      },
+      {
+        "record": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T062442-0500_legacy_generated_artifact_reconciliation/handoff_record.json",
+        "status": "PASS",
+        "classification": "CLAUDE_SUBSCRIPTION_HANDOFF_COMPLETED"
+      },
+      {
+        "record": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T070018-0500_legacy_aws_reconciliation_checkpoint_review/handoff_record.json",
+        "status": "PASS",
+        "classification": "CLAUDE_SUBSCRIPTION_HANDOFF_COMPLETED",
+        "scope": "final guarded checkpoint contradiction and risk review"
+      }
+    ]
+  },
+  "legacy_local_reconciliation": {
+    "source_root": "C:\\Comfy_UI",
+    "source_modified": false,
+    "already_preserved_source_history": {
+      "plans_archive": "Plan/15_BLUEPRINT_PROJECTPLAN_COMBINATION/00_SOURCE_IMPORTS/Legacy_Source_Archives/Plans_legacy_source_sanitized_20260710.zip",
+      "plans_preserved_files": 4241,
+      "tech_plan_additions_archive": "Plan/15_BLUEPRINT_PROJECTPLAN_COMBINATION/00_SOURCE_IMPORTS/Legacy_Source_Archives/Tech_Plan_Additions_legacy_source_sanitized_20260710.zip",
+      "tech_plan_additions_preserved_files": 8615,
+      "regional_inpaint_config": {
+        "legacy_path": "C:\\Comfy_UI\\regional_inpaint_config.json",
+        "sha256": "9d097426d58d0d8b815438eac9dfff01f7c2812fd1f90e2b10e9c1f376b1ecc8",
+        "exact_archive_entry": "Plans/07_CONFIG/regional_inpaint_detail/regional_inpaint_config.json"
+      },
+      "regional_prompt_composition": {
+        "legacy_path": "C:\\Comfy_UI\\regional_prompt_composition.json",
+        "sha256": "0efa2d167f5f90f7e2ac29651866060d5fb825a14a7a05cccb0d49fbd8e785dc",
+        "exact_archive_entry": "Plans/07_CONFIG/multi_character_reference_layout/regional_prompt_composition.json"
+      }
+    },
+    "implementation_core_archive": {
+      "selection_scope": [
+        "Implementation/scripts",
+        "Implementation/workflows",
+        "Implementation/config",
+        "Implementation/configs",
+        "Implementation/profiles",
+        "Implementation/presets",
+        "Implementation/deployment",
+        "Implementation/qa",
+        "API",
+        "configs"
+      ],
+      "legacy_safe_file_count": 1279,
+      "exact_sha256_matches_in_tracked_main": 0,
+      "same_basename_matches_in_tracked_main": 0,
+      "archive": "Plan/15_BLUEPRINT_PROJECTPLAN_COMBINATION/00_SOURCE_IMPORTS/Legacy_Source_Archives/Legacy_Implementation_Core_sanitized_20260711.zip",
+      "manifest": "Plan/15_BLUEPRINT_PROJECTPLAN_COMBINATION/00_SOURCE_IMPORTS/Legacy_Source_Archives/Legacy_Implementation_Core_sanitized_20260711.zip.manifest.json",
+      "included_file_count": 1279,
+      "included_size_bytes": 43456043,
+      "archive_size_bytes": 5334747,
+      "archive_sha256": "95553ae3b996f8b3010be4936feaba79746f280b8f3eb01ac773fcb14bfbda13",
+      "included_tree_sha256": "cca88e13d757f929cc692c9658dd0e33c44cab2cea9e3c893d914747712ab4fe",
+      "secret_pattern_scan": {
+        "scanned_file_count": 1279,
+        "match_count": 0,
+        "result": "pass"
+      },
+      "activation_allowed": false,
+      "curated_review_required_before_reuse": true
+    },
+    "evidence_core_archive": {
+      "all_json_count_considered": 7252,
+      "all_json_size_bytes_considered": 606455152,
+      "curated_candidate_count": 4916,
+      "secret_pattern_blocked_count": 4,
+      "archive": "Plan/15_BLUEPRINT_PROJECTPLAN_COMBINATION/00_SOURCE_IMPORTS/Legacy_Source_Archives/Legacy_Implementation_Evidence_Core_sanitized_20260711.zip",
+      "manifest": "Plan/15_BLUEPRINT_PROJECTPLAN_COMBINATION/00_SOURCE_IMPORTS/Legacy_Source_Archives/Legacy_Implementation_Evidence_Core_sanitized_20260711.zip.manifest.json",
+      "included_file_count": 4912,
+      "included_size_bytes": 125740754,
+      "archive_size_bytes": 14015655,
+      "archive_sha256": "1b1a29c42629d344234cedf01444058043e79c8bc7f7229101caeb5a1563bdd7",
+      "included_tree_sha256": "97d3e4011bdb77c6b15d432b1008646b4f677ad1d6d149e8d3c4daebe7bc5f13",
+      "blocked_relative_paths": [
+        "Implementation/evidence/ec2_live_commands/20260630_114614/package_presigned_chunk_manifest.json",
+        "Implementation/evidence/ec2_returned_runtime/20260630_080226/remote_artifacts/Implementation/manifests/ec2_deployment/wave42_ec2_resume_deploy_20260630_074532.json",
+        "Implementation/evidence/ec2_returned_runtime/20260701_101322_final_runtime/remote_artifacts/Implementation/manifests/ec2_deployment/wave42_ec2_resume_deploy_20260630_074532.json",
+        "Implementation/evidence/ec2_returned_runtime/20260701_104720_final_runtime/remote_artifacts/Implementation/manifests/ec2_deployment/wave42_ec2_resume_deploy_20260630_074532.json"
+      ],
+      "activation_allowed": false,
+      "completion_claims_require_main_ledger_corroboration": true
+    },
+    "generated_artifact_review": {
+      "inventoried_files": 943,
+      "confirmed_approved_output_uniquely_missing_from_main": 0,
+      "wave36_keyframes": {
+        "classification": "PROVISIONAL_INPUT_NOT_FINAL_RENDER",
+        "reason": "Each keyframe identifies itself as a procedural provisional input for a later EC2 video render."
+      },
+      "reference1_cropped_masks": {
+        "classification": "UNTRUSTED_CANDIDATE_DO_NOT_IMPORT_OR_PROMOTE",
+        "visual_review_complete": true
+      },
+      "architecture_diagrams": {
+        "classification": "LEGACY_ARCHITECTURE_DOCUMENTATION_PRESERVED_NOT_RUNTIME_AUTHORITY",
+        "canonical_source": "C:\\Comfy_UI\\LayoutImages",
+        "duplicate_source": "C:\\Comfy_UI\\Layout_Images",
+        "page_count": 10,
+        "all_duplicate_sha256_pairs_match": true,
+        "all_pages_visually_reviewed": true,
+        "manifest": "Plan/15_BLUEPRINT_PROJECTPLAN_COMBINATION/00_SOURCE_IMPORTS/Legacy_Source_Archives/Legacy_Architecture_Diagrams_20260627/MANIFEST.json"
+      }
+    }
+  },
+  "aws_reconciliation": {
+    "account_from_last_verified_baseline": "029530099913",
+    "region": "us-east-1",
+    "approved_instance_id": "i-0560bf8d143f93bb1",
+    "live_probe": {
+      "command": "aws sts get-caller-identity --output json",
+      "result": "session_expired",
+      "message": "Your session has expired. Please reauthenticate using 'aws login'.",
+      "aws_auth_verified_now": false,
+      "current_ec2_state_verified_now": false,
+      "current_s3_inventory_verified_now": false
+    },
+    "latest_sentinel": {
+      "record": "C:\\Users\\kevin\\.codex\\automations\\comfy-ui-main-ec2-cost-safety-sentinel-2\\audits\\comfy-ui-main-ec2-cost-safety-sentinel-2_20260711T110750Z.json",
+      "classification": "UNKNOWN_AWS_AUTH_OR_CONFIG",
+      "active_runtime_marker_present": false
+    },
+    "last_live_baseline": {
+      "record": "Plan/Instructions/QA/Evidence/Runtime_Readiness/LOCAL_LEGACY_AWS_RECONCILIATION_20260710T231700-0500.json",
+      "instance_state_at_that_probe": "stopped",
+      "current_runtime_bucket_object_count_at_that_probe": 62,
+      "legacy_production_bucket_object_count_at_that_probe": 547,
+      "historical_counts_are_not_current_live_claims": true
+    },
+    "post_baseline_cloud_work_represented_in_main": {
+      "depth": "S3 publish, EC2 install, target-runtime generation, 5/5 hash pullback, and bounded certification represented; do not rerun.",
+      "lineart": "Target-runtime generation, 5/5 hash pullback, and bounded certification represented; do not rerun.",
+      "normal": "S3 publish and EC2 model/input install are hash represented; generation stopped at capacity blocker. Resume generation only after fresh auth/capacity selection.",
+      "openpose": "Model, input, and deploy bundle are hash staged in S3; EC2 install and generation are not represented. Do not re-upload.",
+      "realesrgan": "Model, input, and deploy bundle are hash staged in S3; EC2 install is dry-run only and generation is not represented. Do not re-upload.",
+      "missing_local_pullback_or_evidence_candidates": 0,
+      "duplicate_rerun_or_reupload_candidates": 0
+    },
+    "runtime_queue_disambiguation": {
+      "queue": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+      "completed_runtime_lane_ids_scope_added": true,
+      "target_runtime_proof_lane_ids_explicit": true,
+      "bounded_certification_lane_ids_explicit": true,
+      "remote_staged_without_target_proof_lane_ids_explicit": true,
+      "runtime_not_started_lane_ids_explicit": true
+    }
+  },
+  "automation_fleet": {
+    "core_cron_count": 7,
+    "all_toml_status_active": true,
+    "all_scheduler_cards_rendered": true,
+    "all_working_directories": "C:\\Comfy_UI_Main",
+    "main_thread_id": "019f422f-88b1-7382-872b-21de2089e983",
+    "dead_thread_id_present": false,
+    "dead_thread_id_checked": "019f35e8-7e15-7c72-8ffb-66f6f9b246a0",
+    "automation_ids": [
+      "comfy-ui-main-automation-fleet-health-supervisor-2",
+      "comfy-ui-main-daily-artifact-qa-integrity-audit-2",
+      "comfy-ui-main-daily-cost-control-local-first-audit-2",
+      "comfy-ui-main-ec2-cost-safety-sentinel-2",
+      "comfy-ui-main-six-hour-milestone-progress-auditor-2",
+      "comfy-ui-main-timed-probe-anti-loop-supervisor",
+      "comfy-ui-main-weekly-plan-instructions-consistency-audit-2"
+    ]
+  },
+  "mutations_during_reconciliation": {
+    "legacy_source_modified": false,
+    "aws_authenticated": false,
+    "ec2_started": false,
+    "s3_uploaded": false,
+    "generation_executed": false,
+    "candidate_mask_consumed_as_truth": false,
+    "mask_promoted": false,
+    "wave70_hard_gate_rerun": false,
+    "wave71_activated": false,
+    "jira_mutated": false
+  },
+  "next_action": "Validate and checkpoint this reconciliation once. Then stop reconciliation refreshes and continue a concrete non-mask local implementation task. Live Normal, OpenPose, or RealESRGAN work may resume only from its recorded missing step after AWS authentication and a fresh capacity gate; completed uploads, installs, generations, pullbacks, and certifications must not be recreated."
+}

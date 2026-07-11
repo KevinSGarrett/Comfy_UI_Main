@@ -1,3 +1,13 @@
+## 2026-07-11T06:54:00-05:00 - Preserve legacy work without making stale work authoritative
+
+- `C:\Comfy_UI_Main` remains the only execution ledger; legacy and EC2 workspaces are discovery/runtime inputs.
+- Preserve unique safe legacy code and evidence in sanitized source archives so it can be reviewed and reused without reopening completed rows.
+- Do not activate archived code, accept archived completion claims, or promote archived masks without current Main validation.
+- Treat Wave36 keyframes as provisional render inputs and `reference1_cropped` masks as untrusted candidates.
+- Keep Depth and Lineart no-rerun boundaries; resume Normal, OpenPose, and RealESRGAN only from their exact missing cloud step.
+- Treat AWS live state as unknown while the CLI session is expired, even though the last verified state was stopped.
+- Keep the seven core cron jobs on Main; do not recreate or retarget them to the dead task.
+
 ## 2026-07-11T04:50:18-05:00 - RealESRGAN export selection is fail-closed and source-specific
 
 - Exact 4x dimensions and preservation metrics do not establish hyperrealism preference; source-bound explicit visual review is mandatory.
