@@ -1,0 +1,211 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-LOCAL-OPENPOSE-V6-FULL-BODY-MULTISEED-ROBUSTNESS-QA-20260711T045000-0500",
+  "timestamp": "2026-07-11T04:35:38-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+  "result": "pass_with_notes_local_openpose_v6_fullbody_multiseed_robustness_footwear_drift",
+  "pass": true,
+  "scope": "three_seed_local_openpose_v6_fullbody_walking_pose_robustness",
+  "source": {
+    "path": "Ref_Image_1/Full/59bcb65a41a752476c58e9c81f70681a.jpg",
+    "sha256": "c74a0fcafc57ebb9db3745de9c1760cd7d722702e34882c314a673fadd18e08f"
+  },
+  "control_map": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_full_body_walking_w70_v1/controlnet_openpose_full_body_walking_w70_v1.png",
+    "sha256": "146ad56249d441e3580c5f9a6dbe8ab41024fbb12af3109c581fba50517029fe"
+  },
+  "samples": [
+    {
+      "seed": 711470301,
+      "profile": "PromptProfiles/base_generation/controlnet_openpose_v1_robustness/openpose_v6_full_body_walking_seed711470301.json",
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_OPENPOSE_V6_FULL_BODY_WALKING_RUNTIME_20260711T034000-0500.json",
+      "image": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/openpose_v6_full_body_walking_seed711470301_20260711T033754-0500/images/op_fullbody_walk_v6_711470301_00001_.png",
+        "sha256": "c3b25b322dcf155a88fb72a33a3058f8615161941223389187b0aee62ab108fc",
+        "width": 704,
+        "height": 1056
+      },
+      "diagnostic": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/openpose_v6_full_body_walking_seed711470301_20260711T033754-0500/images/codex_sdxl_realvisxl_controlnet_openpose_control_map_diagnostic_00008_.png",
+        "sha256": "78959622d1be037ec922704c49cf77a235788473765bc3a01aeab9f850303c12"
+      },
+      "keypoints": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/openpose_v6_full_body_walking_seed711470301_20260711T033754-0500/qa_openpose_keypoints.json",
+        "sha256": "589595300e2d232db5e88fca289193b2867291594d17b3521cd753ca9dc9033f"
+      },
+      "metrics": {
+        "common_body_landmarks": 18,
+        "mean_normalized_landmark_error": 0.009679678370168027,
+        "max_normalized_landmark_error": 0.022681848340867703,
+        "crossed_leg_topology": true
+      },
+      "seed_only_checks": {
+        "positive_prompt_unchanged": true,
+        "negative_prompt_unchanged": true,
+        "sampler_settings_unchanged": true,
+        "latent_resolution_unchanged": true,
+        "model_asset_unchanged": true,
+        "controlnet_asset_unchanged": true,
+        "control_image_unchanged": true,
+        "controlnet_settings_unchanged": true,
+        "expected_seed_applied": true
+      },
+      "checks": {
+        "runtime_passed": true,
+        "request_hash_matched": true,
+        "server_stopped_and_port_closed": true,
+        "output_is_704x1056": true,
+        "diagnostic_pixels_match_control_map": true,
+        "exactly_one_person_detected": true,
+        "all_18_body_landmarks_common": true,
+        "mean_normalized_landmark_error_lte_0_06": true,
+        "max_normalized_landmark_error_lte_0_12": true,
+        "crossed_leg_topology_preserved": true,
+        "visual_fullbody_hands_and_shoes_in_frame": true,
+        "visual_no_blocking_limb_hand_or_shoe_defect": true,
+        "visual_no_control_map_leakage": true,
+        "all_seed_only_contract_checks_pass": true
+      },
+      "visual_result": "pass_with_notes_fullbody_walking_baseline",
+      "footwear_contract": "pass_white_sneakers"
+    },
+    {
+      "seed": 711470302,
+      "profile": "PromptProfiles/base_generation/controlnet_openpose_v1_robustness/openpose_v6_full_body_walking_robustness_seed711470302.json",
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_OPENPOSE_V6_FULL_BODY_ROBUSTNESS_SEED711470302_20260711T044500-0500.json",
+      "image": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/openpose_v6_full_body_walking_robustness_seed711470302_20260711T042929-0500/images/op_fullbody_walk_v6_robust_711470302_00001_.png",
+        "sha256": "69a8ff4fd9054d234a104c0cb949ae8dbb53c8d288c0073df7b5f10915a27485",
+        "width": 704,
+        "height": 1056
+      },
+      "diagnostic": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/openpose_v6_full_body_walking_robustness_seed711470302_20260711T042929-0500/images/codex_sdxl_realvisxl_controlnet_openpose_control_map_diagnostic_00009_.png",
+        "sha256": "8c1942b1b9a2971b575bc3228a454b88ff5694b4d9e9ed4374de8f89a461be6b"
+      },
+      "keypoints": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/openpose_v6_full_body_walking_robustness_seed711470302_20260711T042929-0500/qa_openpose_keypoints.json",
+        "sha256": "be1e5bda2ced9c5c07840be7429a1d15a2111fcaf367f774f1b6c2bf2fe37ab3"
+      },
+      "metrics": {
+        "common_body_landmarks": 18,
+        "mean_normalized_landmark_error": 0.010613880410080807,
+        "max_normalized_landmark_error": 0.02900298042500333,
+        "crossed_leg_topology": true
+      },
+      "seed_only_checks": {
+        "positive_prompt_unchanged": true,
+        "negative_prompt_unchanged": true,
+        "sampler_settings_unchanged": true,
+        "latent_resolution_unchanged": true,
+        "model_asset_unchanged": true,
+        "controlnet_asset_unchanged": true,
+        "control_image_unchanged": true,
+        "controlnet_settings_unchanged": true,
+        "expected_seed_applied": true
+      },
+      "checks": {
+        "runtime_passed": true,
+        "request_hash_matched": true,
+        "server_stopped_and_port_closed": true,
+        "output_is_704x1056": true,
+        "diagnostic_pixels_match_control_map": true,
+        "exactly_one_person_detected": true,
+        "all_18_body_landmarks_common": true,
+        "mean_normalized_landmark_error_lte_0_06": true,
+        "max_normalized_landmark_error_lte_0_12": true,
+        "crossed_leg_topology_preserved": true,
+        "visual_fullbody_hands_and_shoes_in_frame": true,
+        "visual_no_blocking_limb_hand_or_shoe_defect": true,
+        "visual_no_control_map_leakage": true,
+        "all_seed_only_contract_checks_pass": true
+      },
+      "visual_result": "pass_with_notes_fullbody_walking_robustness",
+      "footwear_contract": "pass_white_sneakers"
+    },
+    {
+      "seed": 711470303,
+      "profile": "PromptProfiles/base_generation/controlnet_openpose_v1_robustness/openpose_v6_full_body_walking_robustness_seed711470303.json",
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_OPENPOSE_V6_FULL_BODY_ROBUSTNESS_SEED711470303_20260711T044500-0500.json",
+      "image": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/openpose_v6_full_body_walking_robustness_seed711470303_20260711T043017-0500/images/op_fullbody_walk_v6_robust_711470303_00001_.png",
+        "sha256": "02202208eb27a57f7c09c4cf61d5ffb4c42955f42e9f0d73480e2b03acaaec69",
+        "width": 704,
+        "height": 1056
+      },
+      "diagnostic": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/openpose_v6_full_body_walking_robustness_seed711470303_20260711T043017-0500/images/codex_sdxl_realvisxl_controlnet_openpose_control_map_diagnostic_00010_.png",
+        "sha256": "6f190dbda2216513be2dc43aed786c8484ba8c36b230ee77aa3fc405e77b70c7"
+      },
+      "keypoints": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/openpose_v6_full_body_walking_robustness_seed711470303_20260711T043017-0500/qa_openpose_keypoints.json",
+        "sha256": "c576dc5063bc12cdc16a5f3aa1d52bdd4f8b63d30c5f57cead686674cfe3ffc1"
+      },
+      "metrics": {
+        "common_body_landmarks": 18,
+        "mean_normalized_landmark_error": 0.01268152761250971,
+        "max_normalized_landmark_error": 0.03574305132099772,
+        "crossed_leg_topology": true
+      },
+      "seed_only_checks": {
+        "positive_prompt_unchanged": true,
+        "negative_prompt_unchanged": true,
+        "sampler_settings_unchanged": true,
+        "latent_resolution_unchanged": true,
+        "model_asset_unchanged": true,
+        "controlnet_asset_unchanged": true,
+        "control_image_unchanged": true,
+        "controlnet_settings_unchanged": true,
+        "expected_seed_applied": true
+      },
+      "checks": {
+        "runtime_passed": true,
+        "request_hash_matched": true,
+        "server_stopped_and_port_closed": true,
+        "output_is_704x1056": true,
+        "diagnostic_pixels_match_control_map": true,
+        "exactly_one_person_detected": true,
+        "all_18_body_landmarks_common": true,
+        "mean_normalized_landmark_error_lte_0_06": true,
+        "max_normalized_landmark_error_lte_0_12": true,
+        "crossed_leg_topology_preserved": true,
+        "visual_fullbody_hands_and_shoes_in_frame": true,
+        "visual_no_blocking_limb_hand_or_shoe_defect": true,
+        "visual_no_control_map_leakage": true,
+        "all_seed_only_contract_checks_pass": true
+      },
+      "visual_result": "pass_with_notes_fullbody_walking_footwear_color_drift",
+      "footwear_contract": "fail_black_sneakers_instead_of_white"
+    }
+  ],
+  "aggregate": {
+    "sample_count": 3,
+    "runtime_pass_count": 3,
+    "pose_scope_pass_count": 3,
+    "footwear_color_contract_pass_count": 2,
+    "footwear_color_drift_count": 1
+  },
+  "quality_decision": {
+    "fullbody_walking_pose_robustness_pass": true,
+    "strict_footwear_color_prompt_robustness_pass": false,
+    "footwear_drift": "Seed 711470303 generated black sneakers rather than white sneakers."
+  },
+  "known_issue_review": [
+    "One of three samples changed the requested white sneakers to black sneakers.",
+    "OpenPose body topology ends at ankle landmarks; detailed foot/toe keypoint control remains unproven.",
+    "Visible hands are coherent at whole-image scale, but detailed finger geometry authority is not established.",
+    "The matrix is local-only and does not prove target-runtime behavior or final lane certification."
+  ],
+  "boundaries": {
+    "local_only": true,
+    "gold_masks_consumed": false,
+    "body_mask_or_geometry_authority": false,
+    "target_runtime_proof": false,
+    "final_lane_certification": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "mask_promotion": false,
+    "wave70_hard_gate_rerun": false,
+    "wave71_activated": false
+  }
+}

@@ -79,6 +79,21 @@
       "source_artifact": "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_hands_tabletop_w69_v1/controlnet_openpose_hands_tabletop_w69_v1.png",
       "source_manifest": "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_hands_tabletop_w69_v1/OPENPOSE_HANDS_TABLETOP_CONTROL_SOURCE_MANIFEST.json",
       "source_qa_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_TABLETOP_CONTROL_SOURCE_VISUAL_QA_20260707T072100-0500.json"
+    },
+    {
+      "role": "profile_scoped_fullbody_walking_control_image",
+      "filename": "controlnet_openpose_full_body_walking_w70_v1.png",
+      "control_map_type": "dwpose_openpose_body_hands_face",
+      "comfyui_input_subdir": "",
+      "node_id": "11",
+      "node_class": "LoadImage",
+      "input": "image",
+      "status": "present_local_hash_verified_profile_scoped",
+      "sha256": "146ad56249d441e3580c5f9a6dbe8ab41024fbb12af3109c581fba50517029fe",
+      "comfyui_input_path": "ComfyUI/input/controlnet_openpose_full_body_walking_w70_v1.png",
+      "source_artifact": "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_full_body_walking_w70_v1/controlnet_openpose_full_body_walking_w70_v1.png",
+      "source_manifest": "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_full_body_walking_w70_v1/PREPARATION_MANIFEST.json",
+      "source_qa_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_OPENPOSE_V6_FULL_BODY_MULTISEED_ROBUSTNESS_QA_20260711T045000-0500.json"
     }
   ],
   "object_info_required": true,
@@ -87,10 +102,12 @@
   "runtime_output_required": true,
   "qa_report_required": true,
   "promotion_allowed_without_evidence": false,
-  "current_status": "local_openpose_tablehands_multisample_pass_with_notes_pending_target_runtime_and_final_hand_certification",
+  "current_status": "local_openpose_tablehands_and_fullbody_walking_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
   "known_blockers": [
     "Target-runtime EC2 proof is still separate from this local proof.",
-    "OpenPose table-hands local multisample robustness passed with notes, but target-runtime proof and final strict hand anatomy certification remain incomplete."
+    "OpenPose table-hands and full-body walking local multisample robustness pass with notes; target-runtime proof and final lane review remain incomplete.",
+    "OpenPose body topology ends at ankle landmarks, so detailed foot/toe control remains unproven; whole-image hands are coherent but detailed finger geometry is not authority.",
+    "One full-body seed generated black sneakers instead of the requested white sneakers."
   ],
   "evidence_paths": [
     "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_OBJECT_INFO_CONTROL_PREPROCESSORS_AFTER_AUX_INSTALL_20260707T052500-0500.json",
@@ -128,7 +145,16 @@
     "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_OPENPOSE_V5_TABLEHANDS_SEED711470202_EXECUTE_20260707T072700-0500.json",
     "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_OPENPOSE_V5_TABLEHANDS_SEED711470203_EXECUTE_20260707T072800-0500.json",
     "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V5_TABLEHANDS_ROBUSTNESS_VISUAL_QA_20260707T073000-0500.json",
-    "Plan/Tracker/Evidence/W69_LOCAL_OPENPOSE_TABLEHANDS_V5_ROBUSTNESS_20260707T073000-0500.json"
+    "Plan/Tracker/Evidence/W69_LOCAL_OPENPOSE_TABLEHANDS_V5_ROBUSTNESS_20260707T073000-0500.json",
+    "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_full_body_walking_w70_v1/PREPARATION_MANIFEST.json",
+    "PromptProfiles/base_generation/controlnet_openpose_v1_robustness/openpose_v6_full_body_walking_seed711470301.json",
+    "PromptProfiles/base_generation/controlnet_openpose_v1_robustness/openpose_v6_full_body_walking_robustness_seed711470302.json",
+    "PromptProfiles/base_generation/controlnet_openpose_v1_robustness/openpose_v6_full_body_walking_robustness_seed711470303.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_OPENPOSE_V6_FULL_BODY_WALKING_RUNTIME_20260711T034000-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_OPENPOSE_V6_FULL_BODY_ROBUSTNESS_SEED711470302_20260711T044500-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_OPENPOSE_V6_FULL_BODY_ROBUSTNESS_SEED711470303_20260711T044500-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_OPENPOSE_V6_FULL_BODY_MULTISEED_ROBUSTNESS_QA_20260711T045000-0500.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W70_OPENPOSE_V6_FULL_BODY_MULTISEED_ROBUSTNESS_DONE_20260711T045000-0500.json"
   ],
-  "status_notes": "OpenPose V4 plus two V5 robustness seeds used the explicit tabletop-hands control source and consistently produced visible separated hands on a tabletop with no visible pose-map leakage. Finger detail improved versus V4 but remains pass-with-notes; target-runtime proof and final hand anatomy certification remain separate."
+  "status_notes": "OpenPose V4/V5 tabletop-hands robustness remains passed with notes. V6 adds three-seed true full-body walking robustness from a hash-recorded DWPose map: runtime and pose scope pass 3/3, all samples retain 18 common landmarks, crossed-leg topology, visible hands/shoes, coherent limbs, and no control-map leakage. Seed 711470303 drifted to black sneakers. Detailed finger/foot geometry, target-runtime proof, and final lane certification remain separate."
 }

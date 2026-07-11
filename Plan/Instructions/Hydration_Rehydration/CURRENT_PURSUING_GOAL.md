@@ -1,3 +1,9 @@
+## Active Runtime Posture - OpenPose Full-Body Local Robustness Complete With Notes - 2026-07-11T04:50:00-05:00
+
+Continue from authoritative `C:\Comfy_UI_Main`. OpenPose V6 now has three-seed local full-body walking runtime, metric, topology, and original-resolution visual robustness: `3/3` pose-scope passes with complete framing, hands, shoes, coherent limbs, all 18 common landmarks, crossed legs, and no control-map leakage. Profile comparison proves only seeds/output names changed. Seed `711470303` retains a footwear-color note because it generated black sneakers.
+
+The Item, Tracker mirrors, known-issue review, and bounded multiseed Done_Certification are complete. Do not run more OpenPose V6 seeds or claim detailed finger/foot authority, target-runtime proof, final lane certification, body-mask authority, Wave70 hard-gate passage, or Wave71+ activation. Continue another concrete local non-mask implementation task with EC2 stopped.
+
 ## Active Runtime Posture - Normal Full-Body Local Robustness Complete With Notes - 2026-07-11T04:35:00-05:00
 
 Continue from authoritative `C:\Comfy_UI_Main`. Normal V4 now has three-seed local full-body runtime, metric, and original-resolution visual robustness: `3/3` geometry-scope passes with complete framing, hands, shoes, coherent limbs, all 18 common landmarks, and no control-map leakage. The profile comparison proves only seeds/output names changed. Seed `711670302` retains a wardrobe-compliance note because it generated fitted shorts.

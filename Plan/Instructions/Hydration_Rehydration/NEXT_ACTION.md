@@ -1,3 +1,9 @@
+## Immediate Next Action - OpenPose V6 Full-Body Multiseed Robustness Passed - 2026-07-11T04:50:00-05:00
+
+OpenPose V6 full-body walking robustness is complete across baseline seed `711470301` and seed-only variants `711470302`/`711470303`. All three current-head local samples passed runtime, request hashes, pixel-identical control diagnostics, 704x1056 framing, one-person detection, all 18 common body landmarks, pose-error thresholds, crossed-leg topology, visible hands/shoes, limb continuity, and no pose-map leakage. Strict visual QA records `3/3` pose-scope passes and one footwear-color drift: seed `303` produced black rather than white sneakers.
+
+Preserve the three-seed matrix without replay. The bounded local full-body walking robustness item is done with notes; detailed finger/foot geometry, target-runtime proof, and final OpenPose review remain separate. Continue another concrete non-mask implementation task rather than running more OpenPose seeds. Manual masks, Wave70 hard gates, Wave71+, Flux1 licensing, Jira, and AWS-authentication boundaries are unchanged.
+
 ## Immediate Next Action - Normal V4 Full-Body Multiseed Robustness Passed - 2026-07-11T04:35:00-05:00
 
 Normal V4 full-body robustness is now complete across baseline seed `711670301` and seed-only variants `711670302`/`711670303`. All three current-head local samples passed runtime, request hashes, pixel-identical normal diagnostics, 768x1024 framing, one-person detection, all 18 common body landmarks, pose-error thresholds, visible hands/shoes, limb continuity, and no normal-map leakage. Strict visual QA records `3/3` full-body geometry/runtime passes and one wardrobe drift: seed `302` produced fitted shorts rather than full-length black leggings.

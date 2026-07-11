@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "openpose_v6_full_body_walking_robustness_seed711470303",
+  "target_lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+  "purpose": "Second seed-only robustness sample for the passed OpenPose V6 full-body walking contract.",
+  "source_profile": "PromptProfiles/base_generation/controlnet_openpose_v1_robustness/openpose_v6_full_body_walking_seed711470301.json",
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic full-length editorial fitness photograph, one adult woman walking forward in a studio, entire person visible from head to shoes, dynamic crossed-leg walking stance, both arms relaxed at her sides, both hands visible, realistic hands and fingers, natural shoulders and hips, coherent leg anatomy, realistic knees and ankles, athletic top and full-length leggings, clean white sneakers, natural skin texture, detailed face and hair, soft studio lighting, balanced exposure, uncluttered muted green studio background, lifelike lens rendering",
+    "negative_prompt": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, distorted anatomy, extra person, duplicate body, extra limbs, missing limbs, fused legs, broken knees, twisted ankles, extra fingers, missing fingers, fused fingers, deformed hands, hidden hands, cropped head, cropped feet, person out of frame, close-up portrait, seated pose, crossed eyes, low resolution, blurry, watermark, text, logo, openpose skeleton overlay, pose map stains, colored bones, colored dots, control map stains, nude, unclothed torso",
+    "seed": 711470303,
+    "sampler_settings": {
+      "steps": 20,
+      "cfg": 5.5,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1
+    },
+    "latent_resolution": {
+      "width": 704,
+      "height": 1056,
+      "batch_size": 1
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "controlnet_asset": "OpenPoseXL2.safetensors",
+    "control_image": "controlnet_openpose_full_body_walking_w70_v1.png",
+    "controlnet_settings": {
+      "strength": 0.85,
+      "start_percent": 0,
+      "end_percent": 1
+    },
+    "save_prefix": "op_fullbody_walk_v6_robust_711470303"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "op_fullbody_walk_v6_robust_711470303"
+  },
+  "qa_focus": [
+    "single full-length subject",
+    "walking-pose adherence",
+    "head and both shoes remain in frame",
+    "bilateral arm and leg continuity",
+    "absence of skeleton or color leakage",
+    "whole-image prompt alignment"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "seed_only_variation": true,
+    "gold_masks_consumed": false,
+    "body_mask_or_geometry_authority_claimed": false,
+    "requires_comparative_qa": true,
+    "requires_target_runtime_reproof_before_certification": true
+  }
+}
