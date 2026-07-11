@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave30 Voice Dialogue Continuity Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_name",
+    "request_version",
+    "run_id",
+    "is_synthetic",
+    "voice_profile_binding",
+    "dialogue_contract_binding",
+    "line_audio_bindings",
+    "proof_bindings"
+  ],
+  "properties": {
+    "schema_name": {
+      "type": "string",
+      "const": "wave30_voice_dialogue_continuity_request"
+    },
+    "request_version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "is_synthetic": {
+      "type": "boolean"
+    },
+    "voice_profile_binding": {
+      "$ref": "#/$defs/path_sha_binding"
+    },
+    "dialogue_contract_binding": {
+      "$ref": "#/$defs/path_sha_binding"
+    },
+    "line_audio_bindings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/line_audio_binding"
+      }
+    },
+    "proof_bindings": {
+      "$ref": "#/$defs/proof_bindings"
+    },
+    "thresholds": {
+      "$ref": "#/$defs/thresholds"
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "path_sha_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "line_audio_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "line_id",
+        "path",
+        "sha256",
+        "bytes"
+      ],
+      "properties": {
+        "line_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "nullable_path_sha_binding": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/path_sha_binding"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "proof_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "asr_proof": {
+          "$ref": "#/$defs/nullable_path_sha_binding"
+        },
+        "speaker_proof": {
+          "$ref": "#/$defs/nullable_path_sha_binding"
+        },
+        "emotion_proof": {
+          "$ref": "#/$defs/nullable_path_sha_binding"
+        },
+        "playback_review_proof": {
+          "$ref": "#/$defs/nullable_path_sha_binding"
+        },
+        "production_runtime_proof": {
+          "$ref": "#/$defs/nullable_path_sha_binding"
+        },
+        "production_proof_bundle_binding": {
+          "$ref": "#/$defs/nullable_path_sha_binding"
+        }
+      },
+      "required": [
+        "asr_proof",
+        "speaker_proof",
+        "emotion_proof",
+        "playback_review_proof",
+        "production_runtime_proof",
+        "production_proof_bundle_binding"
+      ]
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max_line_duration_delta_seconds": {
+          "type": "number",
+          "exclusiveMinimum": 0.0,
+          "maximum": 5.0
+        },
+        "max_asr_segment_timing_delta_seconds": {
+          "type": "number",
+          "exclusiveMinimum": 0.0,
+          "maximum": 5.0
+        },
+        "max_normalized_wer": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "min_speaker_similarity": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "min_cross_line_continuity": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "min_emotion_confidence": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "min_intensity_score": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "max_clipping_ratio": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "max_silence_ratio": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "min_rms_ratio": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        }
+      }
+    }
+  }
+}

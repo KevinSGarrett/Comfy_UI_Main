@@ -1,0 +1,377 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave30 Voice Dialogue Continuity Evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_name",
+    "evidence_version",
+    "run_id",
+    "is_synthetic",
+    "request_binding",
+    "artifact_bindings",
+    "metrics",
+    "gates",
+    "blockers",
+    "overall_pass"
+  ],
+  "properties": {
+    "schema_name": {
+      "type": "string",
+      "const": "wave30_voice_dialogue_continuity_evidence"
+    },
+    "evidence_version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "is_synthetic": {
+      "type": "boolean"
+    },
+    "request_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "artifact_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "voice_profile",
+        "dialogue_contract",
+        "line_audio",
+        "proofs"
+      ],
+      "properties": {
+        "voice_profile": {
+          "$ref": "#/$defs/path_sha_binding"
+        },
+        "dialogue_contract": {
+          "$ref": "#/$defs/path_sha_binding"
+        },
+        "line_audio": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/line_audio_binding"
+          }
+        },
+        "proofs": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "asr_proof",
+            "speaker_proof",
+            "emotion_proof",
+            "playback_review_proof",
+            "production_runtime_proof"
+            ,"production_proof_bundle_binding"
+            ,"authority_registry"
+          ],
+          "properties": {
+            "asr_proof": {
+              "$ref": "#/$defs/nullable_path_sha_binding"
+            },
+            "speaker_proof": {
+              "$ref": "#/$defs/nullable_path_sha_binding"
+            },
+            "emotion_proof": {
+              "$ref": "#/$defs/nullable_path_sha_binding"
+            },
+            "playback_review_proof": {
+              "$ref": "#/$defs/nullable_path_sha_binding"
+            },
+            "production_runtime_proof": {
+              "$ref": "#/$defs/nullable_path_sha_binding"
+            },
+            "production_proof_bundle_binding": {
+              "$ref": "#/$defs/nullable_path_sha_binding"
+            },
+            "authority_registry": {
+              "$ref": "#/$defs/path_sha_binding"
+            }
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "line_count",
+        "normalized_wer",
+        "empty_expected_line_count",
+        "empty_asr_line_count",
+        "line_audio_metrics"
+      ],
+      "properties": {
+        "line_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "normalized_wer": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "empty_expected_line_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "empty_asr_line_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "line_audio_metrics": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "line_id",
+              "path",
+              "sha256",
+              "bytes",
+              "frames",
+              "sample_rate_hz",
+              "channels",
+              "sample_width_bytes",
+              "duration_seconds",
+              "peak_ratio",
+              "rms_ratio",
+              "silence_ratio",
+              "clipping_sample_count"
+              ,"clipping_ratio"
+            ],
+            "properties": {
+              "line_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sha256": {
+                "$ref": "#/$defs/sha256"
+              },
+              "bytes": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "frames": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "sample_rate_hz": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "channels": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "sample_width_bytes": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 4
+              },
+              "duration_seconds": {
+                "type": "number",
+                "minimum": 0.0
+              },
+              "peak_ratio": {
+                "type": "number",
+                "minimum": 0.0,
+                "maximum": 1.0
+              },
+              "rms_ratio": {
+                "type": "number",
+                "minimum": 0.0,
+                "maximum": 1.0
+              },
+              "silence_ratio": {
+                "type": "number",
+                "minimum": 0.0,
+                "maximum": 1.0
+              },
+              "clipping_sample_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "clipping_ratio": {
+                "type": "number",
+                "minimum": 0.0,
+                "maximum": 1.0
+              }
+            }
+          }
+        }
+      }
+    },
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "voice_profile_match",
+        "dialogue_timing",
+        "intelligibility_score",
+        "emotional_tone",
+        "voice_continuity",
+        "audio_review_record",
+        "production_runtime_proof",
+        "production_proof_authority",
+        "overall_pass"
+      ],
+      "properties": {
+        "voice_profile_match": {
+          "$ref": "#/$defs/gate_result"
+        },
+        "dialogue_timing": {
+          "$ref": "#/$defs/gate_result"
+        },
+        "intelligibility_score": {
+          "$ref": "#/$defs/gate_result"
+        },
+        "emotional_tone": {
+          "$ref": "#/$defs/gate_result"
+        },
+        "voice_continuity": {
+          "$ref": "#/$defs/gate_result"
+        },
+        "audio_review_record": {
+          "$ref": "#/$defs/gate_result"
+        },
+        "production_runtime_proof": {
+          "$ref": "#/$defs/gate_result"
+        },
+        "production_proof_authority": {
+          "$ref": "#/$defs/gate_result"
+        },
+        "overall_pass": {
+          "$ref": "#/$defs/gate_result"
+        }
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "overall_pass": {
+      "type": "boolean"
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "path_sha_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "line_audio_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "line_id",
+        "path",
+        "sha256",
+        "bytes"
+      ],
+      "properties": {
+        "line_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "nullable_path_sha_binding": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/path_sha_binding"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "gate_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "blockers",
+        "artifact_bindings"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "PASS",
+            "BLOCKED",
+            "FAIL"
+          ]
+        },
+        "blockers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "artifact_bindings": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,201 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-AUDIO-VOICE-DIALOGUE-20260711T174717-0500",
+  "timestamp": "2026-07-11T17:47:17-05:00",
+  "tracker_id": "TRK-W64-027",
+  "item_id": "ITEM-W64-027",
+  "source_citation": "Plan/05_AUDIO_SYSTEM/WAVE30_DIALOGUE_AND_VOICE_PROFILE_PLAN.md",
+  "implementation": {
+    "dedicated_voice_dialogue_continuity_evaluator_added": true,
+    "actual_pcm_wav_decode": true,
+    "pcm_8_16_24_32_bit_support": true,
+    "duration_peak_rms_silence_and_clipping_metrics": true,
+    "computed_word_error_rate": true,
+    "exact_voice_profile_character_and_line_ownership": true,
+    "asr_timing_evaluated_before_timing_gate_status": true,
+    "speaker_identity_and_cross_line_continuity_checks": true,
+    "emotion_and_intensity_checks": true,
+    "playback_review_and_runtime_proof_checks": true,
+    "exact_proof_file_hash_and_model_hash_checks": true,
+    "canonical_root_containment": true,
+    "output_collision_rejection": true,
+    "transactional_output": true,
+    "synthetic_runtime_and_authority_blocking": true,
+    "immutable_production_proof_bundle_allowlist_gate": true,
+    "current_allowlist_intentionally_empty": true
+  },
+  "implementation_artifacts": [
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave30_voice_dialogue_continuity.py",
+      "sha256": "96fdc020617e76b1d5d271cd511ea5e9e4a86e60f8a71e591d67c8239066a395"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave30_voice_dialogue_continuity_request.schema.json",
+      "sha256": "f3263c55200f943d865b256a80e47af7631afb14ae39f644d0dc936183a102df"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave30_voice_dialogue_continuity_evidence.schema.json",
+      "sha256": "5b258d0730fcb2893bdedc636b4acf9dc48908e2cf0f4c4b93f15e56a01b088c"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave30_voice_proof_authority_registry.json",
+      "sha256": "18c2b9972c7c54c0eaef21466155b08dd80b125a222d46f7fc02c0c7697a2a50"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_wave30_voice_dialogue_continuity_strict.py",
+      "sha256": "c4be74d39bc746397ed98112e488abdb0c9339207b3ce45a4b7619ecc5d79220"
+    }
+  ],
+  "authority_bindings": {
+    "wave30_voice_plan": {
+      "path": "Plan/05_AUDIO_SYSTEM/WAVE30_DIALOGUE_AND_VOICE_PROFILE_PLAN.md",
+      "sha256": "bb43a6f8aebf969a8f71aecf71cb45b769a1a067271030f9530ef58feb482fc0"
+    },
+    "wave08_voice_interface": {
+      "path": "Plan/05_AUDIO_SYSTEM/WAVE08_VOICE_CHARACTER_CONTINUITY_INTERFACE.md",
+      "sha256": "8cd69f14f094f34244c32a10083daa11d5913cc2d3f372afb63638e75202eaa6"
+    },
+    "wave30_audio_qa_gates": {
+      "path": "Plan/06_QA_TESTING/WAVE30_AUDIO_QA_GATES.md",
+      "sha256": "ecec1e57d5dcb02ae8d8d8538e3b808f06fad92e3716516f075c7d53a36dfe9d"
+    },
+    "audio_review_protocol": {
+      "path": "Plan/Instructions/QA/AUDIO_GENERATION_REVIEW_PROTOCOL.md",
+      "sha256": "c017a64f5946f493f1217f450dad80fd7816399a178891b11fe6b37fcf72d848"
+    }
+  },
+  "offline_validation": {
+    "test_log": "Plan/Instructions/QA/Evidence/Wave64/audio_voice_dialogue_test_log.json",
+    "test_log_sha256": "25a4ed8b8783a5eee4363e564232955024336701a5a82faad9012f31d1466804",
+    "tests_run": 33,
+    "test_failures": 0,
+    "test_errors": 0,
+    "test_skips": 0,
+    "python_compile": "pass",
+    "draft_2020_12_request_schema": "pass",
+    "draft_2020_12_evidence_schema": "pass",
+    "authority_registry_unchanged_by_tests": true,
+    "technical_offline_pass": true
+  },
+  "retained_probes": {
+    "synthetic_technical_probe": {
+      "fixture_origin": true,
+      "production_evidence": false,
+      "request": "runtime_artifacts/wave64_voice_dialogue_continuity/20260711T174717-0500/synthetic_technical_probe/request.json",
+      "request_sha256": "2f8b1a5d9b75dce2873ad41c1ac561698d610a9c6c5991ca941f492ca9a71089",
+      "evidence": "runtime_artifacts/wave64_voice_dialogue_continuity/20260711T174717-0500/synthetic_technical_probe/evidence.json",
+      "evidence_sha256": "d76e4cf2967c84f12a87ee40428f874f483739e181ce25b74a8ac60a1270350f",
+      "expected_exit_code": 2,
+      "overall_pass": false,
+      "technical_gate_pass_count": 6,
+      "production_runtime_proof_status": "BLOCKED",
+      "production_proof_authority_status": "BLOCKED",
+      "overall_status": "BLOCKED",
+      "blockers": [
+        "synthetic input cannot pass overall gate",
+        "synthetic input cannot satisfy production proof authority gate",
+        "synthetic input cannot satisfy production runtime proof gate"
+      ]
+    },
+    "adversarial_relabel_probe": {
+      "fixture_origin": true,
+      "declared_is_synthetic": false,
+      "production_evidence": false,
+      "purpose": "prove that internally consistent hand-authored proof JSON cannot impersonate approved production evidence",
+      "request": "runtime_artifacts/wave64_voice_dialogue_continuity/20260711T174717-0500/adversarial_relabel_probe/request.json",
+      "request_sha256": "2030712be56d8f1ec8efe20729d7d48935a4880511d39e4f183851a9e68b67f0",
+      "evidence": "runtime_artifacts/wave64_voice_dialogue_continuity/20260711T174717-0500/adversarial_relabel_probe/evidence.json",
+      "evidence_sha256": "b7008fef6298be82441d3e95a5442670eed842105667f70bfb698eb6b0c48807",
+      "expected_exit_code": 2,
+      "overall_pass": false,
+      "technical_gate_pass_count": 7,
+      "production_runtime_proof_status": "PASS",
+      "production_proof_authority_status": "BLOCKED",
+      "overall_status": "BLOCKED",
+      "blockers": [
+        "production proof bundle not allowlisted in authority registry"
+      ]
+    }
+  },
+  "current_authority": {
+    "approved_proof_bundle_count": 0,
+    "approved_production_voice_run_count": 0,
+    "approved_production_playback_review_count": 0,
+    "genuine_asr_speaker_emotion_runtime_proof_set_count": 0,
+    "production_pass_reachable_from_fixture_only_evidence": false
+  },
+  "acceptance_gates": {
+    "voice_profile_match_contract_ready": true,
+    "dialogue_timing_contract_ready": true,
+    "intelligibility_score_contract_ready": true,
+    "audio_review_record_contract_ready": true,
+    "emotional_tone_contract_ready": true,
+    "voice_continuity_contract_ready": true,
+    "strict_offline_validation_passed": true,
+    "genuine_production_voice_audio_present": false,
+    "genuine_production_asr_speaker_emotion_proofs_present": false,
+    "genuine_production_playback_review_present": false,
+    "genuine_production_runtime_proof_present": false,
+    "production_proof_bundle_allowlisted": false,
+    "row_complete": false
+  },
+  "review": {
+    "cursor_initial_implementation": {
+      "path": "runtime_artifacts/agent_handoffs/cursor/20260711T171742-0500_wave64_voice_dialogue_continuity_implementation/handoff_record.json",
+      "sha256": "5c90873c7c6d9b9eba73eb28776c9bd47c0533ee82eb519279663666237fb213"
+    },
+    "claude_initial_review": {
+      "path": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T172321-0500_wave64_voice_dialogue_continuity_final_review/handoff_record.json",
+      "sha256": "8a59cc9c823aed7b4d9463f4098701379aa61670636e4f1e953597bf14cf11b1",
+      "high_findings": 4,
+      "medium_findings": 5,
+      "low_findings": 1
+    },
+    "cursor_hardening": {
+      "path": "runtime_artifacts/agent_handoffs/cursor/20260711T173051-0500_wave64_voice_dialogue_continuity_hardening/handoff_record.json",
+      "sha256": "5094c31ff641007141aa4c8736facb139f5f5c536198678f3fac16bb556f4be0"
+    },
+    "claude_confirmation": {
+      "path": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T174251-0500_wave64_voice_dialogue_continuity_review_confirmation/handoff_record.json",
+      "sha256": "1c3f1a464d315d65bd7739a4802e6f097273f2986e88ca0544d7db9be693b846",
+      "remaining_remediable_high_or_medium_findings": 0,
+      "remaining_low_observability_findings": 1
+    }
+  },
+  "runtime": {
+    "production_voice_generation_count": 0,
+    "production_voice_evaluation_count": 0,
+    "production_playback_review_count": 0,
+    "approved_proof_bundle_count": 0,
+    "comfyui_started": false,
+    "generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "mask_promotion_executed": false
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Voice_Dialogue_Production_Proof_Missing",
+      "scope": "primary_row_blocker",
+      "reason": "No genuine production voice audio with independently generated ASR, speaker, emotion, playback-review, and runtime proof set exists for this row."
+    },
+    {
+      "classification": "Blocked_Voice_Production_Proof_Authority_Missing",
+      "scope": "production_proof_authority",
+      "reason": "The canonical proof-bundle authority registry is intentionally empty, so no synthetic or locally authored packet can reach production PASS."
+    }
+  ],
+  "result": "blocked_voice_dialogue_production_proof_missing",
+  "overall_pass": false,
+  "status_decision": "Blocked_Voice_Dialogue_Production_Proof_Missing",
+  "strict_decision": {
+    "row_complete": false,
+    "offline_evaluator_and_schema_pass": true,
+    "synthetic_fail_closed_probe_pass": true,
+    "adversarial_relabel_fail_closed_probe_pass": true,
+    "production_voice_or_playback_claimed": false,
+    "proof_bundle_approved": false,
+    "certification_claimed": false,
+    "wave71_activation_claimed": false
+  }
+}

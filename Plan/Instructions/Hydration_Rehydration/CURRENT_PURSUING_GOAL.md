@@ -1,3 +1,9 @@
+## Active Runtime Posture - Wave64 Voice Dialogue Offline Green, Production Authority Empty - 2026-07-11T17:47:17-05:00
+
+Continue the full autonomous project goal from authoritative `C:\Comfy_UI_Main`. Preserve `TRK-W64-027` / `ITEM-W64-027` as `Blocked_Voice_Dialogue_Production_Proof_Missing`: the strict voice/dialogue evaluator and schemas pass 33/33 Windows tests, but no genuine production voice, ASR, speaker, emotion, playback, runtime, or allowlisted proof-bundle evidence exists. Synthetic and hand-authored relabel fixtures cannot reach overall PASS.
+
+Proceed to `TRK-W64-028` / `ITEM-W64-028` for one duplicate-checked Foley/force-event alignment implementation gap. Keep EC2 stopped and retain local-source, no-duplicate, manual-mask, Wave70/Wave71+, Flux1-license, expired-AWS-authentication, and Jira boundaries.
+
 ## Active Runtime Posture - Wave64 Audio Router Strict, Current Authority Unapproved - 2026-07-11T17:05:00-05:00
 
 Continue the full autonomous project goal from authoritative `C:\Comfy_UI_Main`. Preserve `TRK-W64-026` / `ITEM-W64-026` as `Blocked_Audio_Engine_Authority_Not_Approved`: current authority discovers LTX-2 as the sole audio candidate but explicitly permits no production selection; capability, license document, asset bundle, runtime, and QA proofs are independently required and synthetic proofs remain non-authoritative.

@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0",
+  "report_id": "ITEM-W64-027-AUDIO-VOICE-DIALOGUE-20260711T174717-0500",
+  "timestamp": "2026-07-11T17:47:17-05:00",
+  "item_id": "ITEM-W64-027",
+  "tracker_id": "TRK-W64-027",
+  "workstream": "audio_voice_dialogue",
+  "status": "Blocked_Voice_Dialogue_Production_Proof_Missing",
+  "row_complete": false,
+  "implementation": {
+    "pcm_voice_artifact_decode_ready": true,
+    "voice_profile_character_and_line_binding_ready": true,
+    "computed_wer_and_asr_timing_ready": true,
+    "speaker_emotion_and_continuity_checks_ready": true,
+    "computed_rms_silence_and_clipping_checks_ready": true,
+    "playback_and_runtime_proof_verifiers_ready": true,
+    "canonical_root_and_transactional_output_ready": true,
+    "immutable_production_proof_bundle_allowlist_ready": true,
+    "synthetic_and_local_relabel_promotion_forbidden": true
+  },
+  "validation": {
+    "unit_tests_passed": 33,
+    "unit_test_failures": 0,
+    "unit_test_skips": 0,
+    "python_compile": "pass",
+    "request_schema_check": "pass",
+    "evidence_schema_check": "pass",
+    "synthetic_technical_probe": "expected_exit_2",
+    "adversarial_relabel_probe": "expected_exit_2",
+    "authority_registry_unchanged_by_tests": true,
+    "remaining_remediable_high_or_medium_findings": 0
+  },
+  "acceptance_gates": {
+    "voice_profile_match_contract": true,
+    "dialogue_timing_contract": true,
+    "intelligibility_score_contract": true,
+    "emotional_tone_contract": true,
+    "voice_continuity_contract": true,
+    "audio_review_record_contract": true,
+    "genuine_production_voice_audio_present": false,
+    "genuine_production_proof_set_present": false,
+    "production_proof_bundle_allowlisted": false,
+    "final_voice_continuity_certification_allowed": false
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Voice_Dialogue_Production_Proof_Missing",
+      "reason": "No genuine production voice audio with independent ASR, speaker, emotion, playback-review, and runtime proofs exists."
+    },
+    {
+      "classification": "Blocked_Voice_Production_Proof_Authority_Missing",
+      "reason": "The canonical production proof-bundle allowlist contains zero approved bundles."
+    }
+  ],
+  "evidence": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/audio_voice_dialogue.json",
+      "sha256": "f5bcc4ed7b186ec5ce9f76005181e30d7028c7327886dba934a0a5a9fe89a4fb"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/audio_voice_dialogue_test_log.json",
+      "sha256": "25a4ed8b8783a5eee4363e564232955024336701a5a82faad9012f31d1466804"
+    }
+  ],
+  "runtime": {
+    "production_voice_generation_count": 0,
+    "production_voice_evaluation_count": 0,
+    "production_playback_review_count": 0,
+    "approved_proof_bundle_count": 0,
+    "comfyui_started": false,
+    "aws_contacted": false,
+    "ec2_started": false
+  },
+  "next_action": "Keep row 027 blocked without genuine production voice, ASR, speaker, emotion, playback, runtime, and allowlisted proof-bundle evidence. Continue TRK-W64-028 / ITEM-W64-028 with one duplicate-checked bounded Foley/force-event alignment implementation gap; do not fabricate contact, visual, audio, runtime, or playback proof."
+}
