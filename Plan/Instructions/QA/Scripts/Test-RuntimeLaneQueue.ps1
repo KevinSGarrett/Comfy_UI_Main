@@ -216,6 +216,7 @@ $allowedPendingStatuses = @(
   "local_runtime_smoke_visual_qa_failed_with_improvement",
   "local_runtime_smoke_visual_qa_pass_with_notes_pending_target_runtime",
   "local_pre_ec2_ready_runtime_blocked_auth",
+  "asset_authority_recorded_blocked_local_install_and_runtime_proof",
   "pending_ec2_static_proof",
   "pending_target_runtime_proof"
 )

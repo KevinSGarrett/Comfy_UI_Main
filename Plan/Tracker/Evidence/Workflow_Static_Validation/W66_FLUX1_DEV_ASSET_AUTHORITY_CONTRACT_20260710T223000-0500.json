@@ -1,0 +1,309 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "flux1_dev_workflow_contract_validation",
+    "created_at":  "2026-07-10T22:25:40-05:00",
+    "result":  "pass_asset_authority_recorded_local_model_blocked",
+    "classification":  "FLUX1_DEV_ASSET_AUTHORITY_RECORDED_LOCAL_MODEL_BLOCKED",
+    "lane_id":  "flux1_dev_primary_base",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "s3_contacted":  false,
+    "github_api_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "mask_consumed_as_truth":  false,
+    "target_runtime_proof":  false,
+    "certification_claimed":  false,
+    "promotion_claimed":  false,
+    "check_count":  21,
+    "failed_check_count":  0,
+    "failed_check_names":  [
+
+                           ],
+    "checks":  [
+                   {
+                       "name":  "workflow.api.json_both_mirrors_exist",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  {
+                                        "plan":  true,
+                                        "workflows":  true
+                                    }
+                   },
+                   {
+                       "name":  "workflow.api.json_mirror_hash_matches",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  null
+                   },
+                   {
+                       "name":  "patch_points.json_both_mirrors_exist",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  {
+                                        "plan":  true,
+                                        "workflows":  true
+                                    }
+                   },
+                   {
+                       "name":  "patch_points.json_mirror_hash_matches",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  null
+                   },
+                   {
+                       "name":  "runtime_requirements.json_both_mirrors_exist",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  {
+                                        "plan":  true,
+                                        "workflows":  true
+                                    }
+                   },
+                   {
+                       "name":  "runtime_requirements.json_mirror_hash_matches",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  null
+                   },
+                   {
+                       "name":  "smoke_test_request.json_both_mirrors_exist",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  {
+                                        "plan":  true,
+                                        "workflows":  true
+                                    }
+                   },
+                   {
+                       "name":  "smoke_test_request.json_mirror_hash_matches",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  null
+                   },
+                   {
+                       "name":  "both_mirrors_pass_workflow_static",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  [
+                                        {
+                                            "mirror":  "plan",
+                                            "exit_code":  0,
+                                            "qa_status":  "pass",
+                                            "defect_count":  0,
+                                            "node_count":  8
+                                        },
+                                        {
+                                            "mirror":  "workflows",
+                                            "exit_code":  0,
+                                            "qa_status":  "pass",
+                                            "defect_count":  0,
+                                            "node_count":  8
+                                        }
+                                    ]
+                   },
+                   {
+                       "name":  "required_nodes_present_in_workflow",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  [
+
+                                    ]
+                   },
+                   {
+                       "name":  "required_nodes_present_in_saved_object_info",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  [
+
+                                    ]
+                   },
+                   {
+                       "name":  "workflow_inputs_match_saved_object_info",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  [
+
+                                    ]
+                   },
+                   {
+                       "name":  "flux1_dev_loader_is_canonical",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  {
+                                        "class_type":  "CheckpointLoaderSimple",
+                                        "inputs":  {
+                                                       "ckpt_name":  "flux1-dev-fp8.safetensors"
+                                                   }
+                                    }
+                   },
+                   {
+                       "name":  "asset_contract_fails_closed",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  [
+                                        {
+                                            "role":  "checkpoint",
+                                            "node_id":  "1",
+                                            "node_class":  "CheckpointLoaderSimple",
+                                            "input":  "ckpt_name",
+                                            "comfyui_model_subdir":  "checkpoints",
+                                            "filename":  "flux1-dev-fp8.safetensors",
+                                            "sha256":  "8e91b68084b53a7fc44ed2a3756d821e355ac1a7b6fe29be760c1db532f3d88a",
+                                            "bytes":  17246524772,
+                                            "source_status":  "authoritative_source_metadata_and_sha256_recorded",
+                                            "hash_status":  "authoritative_remote_sha256_recorded_local_verification_pending",
+                                            "path_status":  "blocked_model_not_present_locally"
+                                        }
+                                    ]
+                   },
+                   {
+                       "name":  "licensed_source_authority_is_immutable",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  {
+                                        "provider":  "Hugging Face",
+                                        "repository":  "Comfy-Org/flux1-dev",
+                                        "revision":  "0f6b956e6e2e041fb73d079b72ec0e761506f601",
+                                        "filename":  "flux1-dev-fp8.safetensors",
+                                        "immutable_file_url":  "https://huggingface.co/Comfy-Org/flux1-dev/blob/0f6b956e6e2e041fb73d079b72ec0e761506f601/flux1-dev-fp8.safetensors",
+                                        "api_url":  "https://huggingface.co/api/models/Comfy-Org/flux1-dev/revision/0f6b956e6e2e041fb73d079b72ec0e761506f601?blobs=true",
+                                        "upstream_license_url":  "https://huggingface.co/black-forest-labs/FLUX.1-dev/blob/main/LICENSE.md",
+                                        "license_id":  "flux-1-dev-non-commercial-license",
+                                        "license_boundary":  "Non-commercial model license applies; automation does not assert acceptance or commercial-use rights."
+                                    }
+                   },
+                   {
+                       "name":  "asset_authority_evidence_matches_requirements",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  {
+                                        "schema_version":  "1.0",
+                                        "evidence_id":  "W66-FLUX1-DEV-ASSET-AUTHORITY-20260710T222500-0500",
+                                        "timestamp":  "2026-07-10T22:25:00-05:00",
+                                        "lane_id":  "flux1_dev_primary_base",
+                                        "result":  "asset_authority_recorded_blocked_local_install_and_runtime_proof",
+                                        "classification":  "FLUX1_DEV_ASSET_AUTHORITY_RECORDED_LOCAL_MODEL_BLOCKED",
+                                        "authority":  {
+                                                          "provider":  "Hugging Face",
+                                                          "repository":  "Comfy-Org/flux1-dev",
+                                                          "revision":  "0f6b956e6e2e041fb73d079b72ec0e761506f601",
+                                                          "filename":  "flux1-dev-fp8.safetensors",
+                                                          "blob_id":  "03afa77d936188e779009ed94c61f3365e9b9303",
+                                                          "sha256":  "8e91b68084b53a7fc44ed2a3756d821e355ac1a7b6fe29be760c1db532f3d88a",
+                                                          "bytes":  17246524772,
+                                                          "immutable_file_url":  "https://huggingface.co/Comfy-Org/flux1-dev/blob/0f6b956e6e2e041fb73d079b72ec0e761506f601/flux1-dev-fp8.safetensors",
+                                                          "api_url":  "https://huggingface.co/api/models/Comfy-Org/flux1-dev/revision/0f6b956e6e2e041fb73d079b72ec0e761506f601?blobs=true",
+                                                          "comfyui_installation_documentation":  "https://docs.comfy.org/tutorials/flux/flux-1-text-to-image"
+                                                      },
+                                        "license":  {
+                                                        "id":  "flux-1-dev-non-commercial-license",
+                                                        "upstream_url":  "https://huggingface.co/black-forest-labs/FLUX.1-dev/blob/main/LICENSE.md",
+                                                        "non_commercial_model_use":  true,
+                                                        "acceptance_asserted_by_automation":  false,
+                                                        "commercial_model_use_authorized":  false,
+                                                        "installation_performed":  false
+                                                    },
+                                        "local_inventory":  {
+                                                                "roots_checked":  [
+                                                                                      "C:/Comfy_UI_Main/ComfyUI/models/checkpoints",
+                                                                                      "C:/Comfy_UI_Main/models",
+                                                                                      "C:/Comfy_UI/ComfyUI/models/checkpoints",
+                                                                                      "C:/Comfy_UI/models"
+                                                                                  ],
+                                                                "present":  false,
+                                                                "observed_sha256":  null
+                                                            },
+                                        "s3_inventory":  {
+                                                             "buckets_checked":  [
+                                                                                     "comfy-ui-main-runtime-029530099913-us-east-1",
+                                                                                     "comfyui-prod-20260702-012020"
+                                                                                 ],
+                                                             "matching_object_keys":  [
+
+                                                                                      ],
+                                                             "present":  false
+                                                         },
+                                        "next_gate":  "authorized_local_checkpoint_install_then_verify_observed_sha256_and_lane_runtime",
+                                        "claim_boundary":  {
+                                                               "asset_downloaded":  false,
+                                                               "runtime_generation_executed":  false,
+                                                               "object_info_runtime_proven":  false,
+                                                               "model_load_proven":  false,
+                                                               "promotion_claimed":  false,
+                                                               "ec2_started":  false,
+                                                               "s3_mutated":  false
+                                                           }
+                                    }
+                   },
+                   {
+                       "name":  "canonical_plan_path_policy_explicit",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  null
+                   },
+                   {
+                       "name":  "model_absence_matches_blocker",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  [
+
+                                    ]
+                   },
+                   {
+                       "name":  "smoke_execution_remains_disabled",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  false
+                   },
+                   {
+                       "name":  "active_and_queue_state_aligned",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  {
+                                        "active_count":  1,
+                                        "queue_count":  1,
+                                        "current_lane":  "flux1_dev_primary_base"
+                                    }
+                   },
+                   {
+                       "name":  "registry_remains_not_promoted",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  [
+                                        {
+                                            "lane_id":  "flux1_dev_primary_base",
+                                            "display_name":  "Flux1 Dev primary base lane",
+                                            "engine_family":  "flux1",
+                                            "role":  "current_flux_first_base",
+                                            "status":  "planned_from_current_assets_requires_runtime_proof",
+                                            "default_priority":  20,
+                                            "recommended_use":  [
+                                                                    "default base image generation when Flux2 is not yet proven",
+                                                                    "general photoreal composition and prompt adherence",
+                                                                    "image-first scenes that later receive SDXL regional detail or video handoff"
+                                                                ],
+                                            "blocked_until":  [
+                                                                  "Flux1 workflow JSON exists in API executable form",
+                                                                  "model loader compatibility is verified",
+                                                                  "base image output evidence passes"
+                                                              ],
+                                            "allowed_lora_families":  [
+                                                                          "flux1"
+                                                                      ],
+                                            "forbidden_lora_families":  [
+                                                                            "sdxl",
+                                                                            "pony",
+                                                                            "sd15",
+                                                                            "flux2_unless_proven"
+                                                                        ],
+                                            "bridge_policy":  "image_bridge_only_to_sdxl_refine_or_inpaint",
+                                            "promotion_state":  "not_promoted"
+                                        }
+                                    ]
+                   }
+               ],
+    "blocker":  "The authoritative source and SHA256 are recorded, but the licensed checkpoint is not installed locally and automation does not assert license acceptance.",
+    "next_action":  "After explicit license-authorized installation, verify observed SHA256, then run lane object_info, output, technical QA, and visual QA gates."
+}

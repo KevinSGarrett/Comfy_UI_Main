@@ -1,3 +1,9 @@
+## Flux1 Dev Checkpoint Install/License Boundary - 2026-07-10T22:25:00-05:00
+
+The authoritative Comfy-Org revision, size, SHA256, and upstream FLUX.1 Dev non-commercial license are recorded. `flux1-dev-fp8.safetensors` is absent from the project and legacy local model roots and from both relevant project S3 buckets. Automation cannot assert license acceptance and did not download the 17.2 GB asset. This blocks observed-hash, model-load, output, and visual proof for `flux1_dev_primary_base`; it does not block unrelated local non-mask work.
+
+The bounded coverage refresh now counts all 10 authored lanes but reports Flux1 as the only failed lane with five missing evidence categories: workflow-static format recognized by the coverage selector, disabled smoke dry-run, local runtime readiness, package-smoke matrix membership, and local runtime visual QA. The queue rerun has three derived coverage failures and no queue-status failure. Do not loop on coverage; resolve these only after a real asset/install evidence change.
+
 ## LaPa-Compatible Runtime 106-Point Authority Missing - 2026-07-10T22:13:49-05:00
 
 InsightFace `buffalo_l/2d106det.onnx` executes and localizes faces, but its ordered 106 points are not semantically aligned with LaPa's ordered 106 points. Three validation samples have mean same-index NME `0.499254` and maximum `0.529605`; visual QA confirms widespread cross-anatomy index displacement. The exact blocker is an authoritative published LaPa-to-runtime correspondence or a route documented/trained with LaPa ordering. Gold-derived remapping from validation/test is prohibited. This blocks LaPa-compatible runtime landmark claims only and does not block unrelated non-mask project work.

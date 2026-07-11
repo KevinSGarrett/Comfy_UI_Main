@@ -1,3 +1,9 @@
+## Decision - Bind Flux1 To Immutable Source Before Installation - 2026-07-10T22:25:00-05:00
+
+Use Comfy-Org revision `0f6b956e6e2e041fb73d079b72ec0e761506f601` and SHA256 `8e91b68084b53a7fc44ed2a3756d821e355ac1a7b6fe29be760c1db532f3d88a` as the only accepted `flux1-dev-fp8.safetensors` authority for this lane. Keep execution disabled until a license-authorized local file matches. Do not infer acceptance, silently download the asset, substitute a legacy/EC2 copy, or treat remote metadata as model-load proof.
+
+The one-pass coverage rule has been consumed for this change: all 10 lanes are enumerated, Flux1 remains the sole failed coverage lane, and its queue status itself is accepted. Do not regenerate coverage again without a new asset/evidence change or explicit user instruction.
+
 ## Decision - Equal 106-Point Counts Do Not Establish LaPa Compatibility - 2026-07-10T22:13:49-05:00
 
 Treat the completed InsightFace run as route-execution proof and a closed incompatibility diagnosis, not as LaPa landmark authority. The face geometry is visually plausible, but same-index NME is invalidated by incompatible anatomical ordering. Do not learn a correspondence from validation/test labels; require published correspondence authority or a LaPa-order runtime route before another compatibility evaluation.

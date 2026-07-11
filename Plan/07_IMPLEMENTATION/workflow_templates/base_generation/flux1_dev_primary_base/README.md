@@ -7,9 +7,10 @@ Flux1 Dev checkpoint with higher-quality static settings.
 
 ## Current blocker
 
-The workflow is statically implemented, but the exact checkpoint SHA256 and a
-matching local model file are not available. `runtime_requirements.json` keeps
-the lane fail-closed until both are recorded and verified.
+The workflow is statically implemented. The immutable Comfy-Org revision,
+licensed source, byte count, and checkpoint SHA256 are recorded, but a matching
+local model file is not present. `runtime_requirements.json` keeps the lane
+fail-closed until license-authorized installation and observed-hash validation.
 
 Both checked-in mirrors intentionally use the canonical Plan workflow path in
 their metadata. `Workflows/base_generation/ACTIVE_LANES.json` exposes the

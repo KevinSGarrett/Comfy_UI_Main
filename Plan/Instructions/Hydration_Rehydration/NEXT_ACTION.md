@@ -1,3 +1,11 @@
+## Immediate Next Action - Flux1 Asset Authority Recorded, Install Still Blocked - 2026-07-10T22:25:00-05:00
+
+`flux1_dev_primary_base` now binds `flux1-dev-fp8.safetensors` to immutable Comfy-Org revision `0f6b956e6e2e041fb73d079b72ec0e761506f601`, size `17246524772`, and SHA256 `8e91b68084b53a7fc44ed2a3756d821e355ac1a7b6fe29be760c1db532f3d88a`. The 21-check workflow/authority contract passes and local preflight now recognizes a valid model declaration. Both authorized project roots, both legacy roots, and the two project S3 buckets contain no matching file.
+
+Keep execution disabled. The next Flux1 gate is license-authorized local installation followed by observed SHA256, object-info, model-load, output, technical QA, and visual QA proof. Automation does not assert FLUX.1 Dev license acceptance and did not download the 17.2 GB checkpoint, mutate S3, or start EC2. Continue another local non-mask task until that installation boundary changes.
+
+One bounded authored-lane coverage refresh and one queue rerun are complete. Coverage now enumerates all 10 lanes and the new Flux1 pending status passes, but Flux1 remains the sole failed coverage lane because static-smoke, runtime-readiness, package-smoke, and visual-runtime evidence cannot exist without the checkpoint. Do not refresh coverage again until the asset is installed, new lane evidence is added, or the user explicitly requests it.
+
 ## Immediate Next Action - LaPa/InsightFace 106 Ordering Mismatch Closed - 2026-07-10T22:13:49-05:00
 
 The originals-only InsightFace `buffalo_l` route executed locally on three LaPa validation images with verified model hashes, identity source transforms, no gold exposure, and one detected face per sample. The evaluator contract passes structurally, but mean same-index NME is `0.499254` and direct visual QA confirms that LaPa and InsightFace assign different anatomy to the same numeric indices.

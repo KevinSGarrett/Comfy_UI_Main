@@ -1,0 +1,277 @@
+{
+    "schema_version":  "1.0",
+    "timestamp":  "2026-07-10T22:24:36-05:00",
+    "project_root":  "C:\\Comfy_UI_Main",
+    "lane_id":  "flux1_dev_primary_base",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "local_gpu":  {
+                      "nvidia_smi_found":  true,
+                      "name":  "NVIDIA GeForce RTX 5060 Laptop GPU",
+                      "memory_total_mib":  8151,
+                      "driver_version":  "592.01",
+                      "raw":  "NVIDIA GeForce RTX 5060 Laptop GPU, 8151 MiB, 592.01"
+                  },
+    "local_python":  {
+                         "python":  "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe",
+                         "executable":  "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe",
+                         "torch_imported":  true,
+                         "torch_version":  "2.11.0+cu128",
+                         "torch_cuda_available":  true,
+                         "error":  null,
+                         "raw":  "{\"executable\": \"C:\\\\Comfy_UI_Main\\\\ComfyUI\\\\.venv\\\\Scripts\\\\python.exe\", \"torch_imported\": true, \"torch_version\": \"2.11.0+cu128\", \"torch_cuda_available\": true, \"error\": null}"
+                     },
+    "local_comfyui":  {
+                          "selected_root":  "C:\\Comfy_UI_Main\\ComfyUI",
+                          "candidates":  [
+                                             {
+                                                 "path":  "C:\\Comfy_UI_Main\\ComfyUI",
+                                                 "exists":  true,
+                                                 "main_py_exists":  true
+                                             },
+                                             {
+                                                 "path":  "C:\\Comfy_UI_Main\\ComfyUI_windows_portable\\ComfyUI",
+                                                 "exists":  false,
+                                                 "main_py_exists":  false
+                                             }
+                                         ]
+                      },
+    "local_model_roots":  {
+                              "path":  "C:\\Comfy_UI_Main\\models",
+                              "exists":  true
+                          },
+    "runtime_requirements":  {
+                                 "path":  "Workflows/base_generation/flux1_dev_primary_base/runtime_requirements.json",
+                                 "found":  true,
+                                 "parsed":  true,
+                                 "status":  "ready",
+                                 "required_model_count":  1,
+                                 "invalid_model_declaration_count":  0,
+                                 "hash_verified_model_count":  0,
+                                 "hash_mismatch_count":  0,
+                                 "error":  null
+                             },
+    "local_required_models":  [
+                                  {
+                                      "role":  "checkpoint",
+                                      "filename":  "flux1-dev-fp8.safetensors",
+                                      "comfyui_model_subdir":  "checkpoints",
+                                      "expected_sha256":  "8e91b68084b53a7fc44ed2a3756d821e355ac1a7b6fe29be760c1db532f3d88a",
+                                      "contract_valid":  true,
+                                      "candidate_paths":  [
+                                                              "ComfyUI/models/checkpoints/flux1-dev-fp8.safetensors",
+                                                              "models/checkpoints/flux1-dev-fp8.safetensors"
+                                                          ],
+                                      "exists_locally":  false,
+                                      "existing_path":  null,
+                                      "observed_sha256":  "",
+                                      "hash_match":  false
+                                  }
+                              ],
+    "static_validation":  {
+                              "attempted":  true,
+                              "qa_status":  "pass",
+                              "defect_count":  0,
+                              "error":  null
+                          },
+    "checks":  [
+                   {
+                       "name":  "nvidia_gpu_available",
+                       "passed":  true,
+                       "observed":  {
+                                        "nvidia_smi_found":  true,
+                                        "name":  "NVIDIA GeForce RTX 5060 Laptop GPU",
+                                        "memory_total_mib":  8151,
+                                        "driver_version":  "592.01",
+                                        "raw":  "NVIDIA GeForce RTX 5060 Laptop GPU, 8151 MiB, 592.01"
+                                    },
+                       "message":  "",
+                       "result":  "pass"
+                   },
+                   {
+                       "name":  "gpu_memory_suitable_for_low_res_sdxl_dev",
+                       "passed":  true,
+                       "observed":  8151,
+                       "message":  "Use low resolution, batch size 1, low steps, and low-VRAM settings for local development.",
+                       "result":  "pass"
+                   },
+                   {
+                       "name":  "local_comfyui_main_py_found",
+                       "passed":  true,
+                       "observed":  [
+                                        {
+                                            "path":  "C:\\Comfy_UI_Main\\ComfyUI",
+                                            "exists":  true,
+                                            "main_py_exists":  true
+                                        },
+                                        {
+                                            "path":  "C:\\Comfy_UI_Main\\ComfyUI_windows_portable\\ComfyUI",
+                                            "exists":  false,
+                                            "main_py_exists":  false
+                                        }
+                                    ],
+                       "message":  "Provide -LocalComfyRoot if ComfyUI is installed outside the standard candidate paths.",
+                       "result":  "pass"
+                   },
+                   {
+                       "name":  "python_torch_imports",
+                       "passed":  true,
+                       "observed":  {
+                                        "python":  "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe",
+                                        "executable":  "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe",
+                                        "torch_imported":  true,
+                                        "torch_version":  "2.11.0+cu128",
+                                        "torch_cuda_available":  true,
+                                        "error":  null,
+                                        "raw":  "{\"executable\": \"C:\\\\Comfy_UI_Main\\\\ComfyUI\\\\.venv\\\\Scripts\\\\python.exe\", \"torch_imported\": true, \"torch_version\": \"2.11.0+cu128\", \"torch_cuda_available\": true, \"error\": null}"
+                                    },
+                       "message":  "",
+                       "result":  "pass"
+                   },
+                   {
+                       "name":  "python_torch_cuda_available",
+                       "passed":  true,
+                       "observed":  {
+                                        "python":  "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe",
+                                        "executable":  "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe",
+                                        "torch_imported":  true,
+                                        "torch_version":  "2.11.0+cu128",
+                                        "torch_cuda_available":  true,
+                                        "error":  null,
+                                        "raw":  "{\"executable\": \"C:\\\\Comfy_UI_Main\\\\ComfyUI\\\\.venv\\\\Scripts\\\\python.exe\", \"torch_imported\": true, \"torch_version\": \"2.11.0+cu128\", \"torch_cuda_available\": true, \"error\": null}"
+                                    },
+                       "message":  "CUDA-enabled Torch is required for useful local GPU generation; CPU Torch can still support limited CLI/import checks.",
+                       "result":  "pass"
+                   },
+                   {
+                       "name":  "local_model_directory_candidate_exists",
+                       "passed":  true,
+                       "observed":  {
+                                        "path":  "C:\\Comfy_UI_Main\\models",
+                                        "exists":  true
+                                    },
+                       "message":  "",
+                       "result":  "pass"
+                   },
+                   {
+                       "name":  "selected_lane_runtime_requirements_valid",
+                       "passed":  true,
+                       "observed":  {
+                                        "path":  "Workflows/base_generation/flux1_dev_primary_base/runtime_requirements.json",
+                                        "found":  true,
+                                        "parsed":  true,
+                                        "status":  "ready",
+                                        "required_model_count":  1,
+                                        "invalid_model_declaration_count":  0,
+                                        "hash_verified_model_count":  0,
+                                        "hash_mismatch_count":  0,
+                                        "error":  null
+                                    },
+                       "message":  "",
+                       "result":  "pass"
+                   },
+                   {
+                       "name":  "selected_lane_required_models_declared",
+                       "passed":  true,
+                       "observed":  1,
+                       "message":  "",
+                       "result":  "pass"
+                   },
+                   {
+                       "name":  "selected_lane_required_model_contracts_valid",
+                       "passed":  true,
+                       "observed":  [
+                                        {
+                                            "role":  "checkpoint",
+                                            "filename":  "flux1-dev-fp8.safetensors",
+                                            "comfyui_model_subdir":  "checkpoints",
+                                            "expected_sha256":  "8e91b68084b53a7fc44ed2a3756d821e355ac1a7b6fe29be760c1db532f3d88a",
+                                            "contract_valid":  true,
+                                            "candidate_paths":  [
+                                                                    "ComfyUI/models/checkpoints/flux1-dev-fp8.safetensors",
+                                                                    "models/checkpoints/flux1-dev-fp8.safetensors"
+                                                                ],
+                                            "exists_locally":  false,
+                                            "existing_path":  null,
+                                            "observed_sha256":  "",
+                                            "hash_match":  false
+                                        }
+                                    ],
+                       "message":  "",
+                       "result":  "pass"
+                   },
+                   {
+                       "name":  "local_required_model_hashes_match",
+                       "passed":  false,
+                       "observed":  [
+                                        {
+                                            "role":  "checkpoint",
+                                            "filename":  "flux1-dev-fp8.safetensors",
+                                            "comfyui_model_subdir":  "checkpoints",
+                                            "expected_sha256":  "8e91b68084b53a7fc44ed2a3756d821e355ac1a7b6fe29be760c1db532f3d88a",
+                                            "contract_valid":  true,
+                                            "candidate_paths":  [
+                                                                    "ComfyUI/models/checkpoints/flux1-dev-fp8.safetensors",
+                                                                    "models/checkpoints/flux1-dev-fp8.safetensors"
+                                                                ],
+                                            "exists_locally":  false,
+                                            "existing_path":  null,
+                                            "observed_sha256":  "",
+                                            "hash_match":  false
+                                        }
+                                    ],
+                       "message":  "",
+                       "result":  "fail"
+                   },
+                   {
+                       "name":  "local_required_models_present",
+                       "passed":  false,
+                       "observed":  [
+                                        {
+                                            "role":  "checkpoint",
+                                            "filename":  "flux1-dev-fp8.safetensors",
+                                            "comfyui_model_subdir":  "checkpoints",
+                                            "expected_sha256":  "8e91b68084b53a7fc44ed2a3756d821e355ac1a7b6fe29be760c1db532f3d88a",
+                                            "contract_valid":  true,
+                                            "candidate_paths":  [
+                                                                    "ComfyUI/models/checkpoints/flux1-dev-fp8.safetensors",
+                                                                    "models/checkpoints/flux1-dev-fp8.safetensors"
+                                                                ],
+                                            "exists_locally":  false,
+                                            "existing_path":  null,
+                                            "observed_sha256":  "",
+                                            "hash_match":  false
+                                        }
+                                    ],
+                       "message":  "Local generation needs required model files in the selected ComfyUI models tree, project models tree, or configured shared model root.",
+                       "result":  "fail"
+                   },
+                   {
+                       "name":  "selected_lane_static_valid",
+                       "passed":  true,
+                       "observed":  {
+                                        "attempted":  true,
+                                        "qa_status":  "pass",
+                                        "defect_count":  0,
+                                        "error":  null
+                                    },
+                       "message":  "",
+                       "result":  "pass"
+                   }
+               ],
+    "failed_check_count":  2,
+    "local_dev_can_reduce_ec2_starts":  true,
+    "local_gpu_generation_candidate":  false,
+    "local_dev_replaces_ec2_final_proof":  false,
+    "ec2_final_proof_still_required":  true,
+    "result":  "pass_local_dev_candidate",
+    "next_action":  "Use local ComfyUI only for low-cost prompt/workflow iteration. Reserve EC2 for target-runtime object-info, model path/hash, generation, pullback, and QA proof.",
+    "errors":  [
+
+               ]
+}

@@ -1,3 +1,9 @@
+## Active Runtime Posture - Flux1 Source/Hash Authority Complete - 2026-07-10T22:25:00-05:00
+
+Continue the full ComfyUI project from `C:\Comfy_UI_Main`. The current Flux1 lane has advanced from an invalid empty-hash asset declaration to an immutable licensed-source authority with exact byte count and SHA256. Static workflow, mirrors, queue state, saved object-info compatibility, and source/evidence binding pass; local generation remains unavailable because the checkpoint is absent.
+
+Do not recreate or redownload from legacy/AWS: the exact filename was checked in `C:\Comfy_UI_Main`, `C:\Comfy_UI`, and both project S3 buckets and was not present. Keep smoke execution disabled and EC2 stopped. The next Flux1 action requires license-authorized installation; meanwhile continue concrete local non-mask work without reopening completed runtime lanes.
+
 ## Active Facial Benchmark Posture - LaPa/InsightFace Ordering Fail-Closed - 2026-07-10T22:13:49-05:00
 
 Continue the full ComfyUI project from `C:\Comfy_UI_Main`. The production InsightFace 106-point route now has a real originals-only execution manifest and evaluator/visual evidence, but it is not a LaPa-compatible landmark authority: the point sets fit faces while their same-numbered points represent different anatomy.

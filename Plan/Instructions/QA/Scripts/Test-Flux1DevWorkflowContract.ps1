@@ -33,6 +33,7 @@ $planLane = Join-Path $ProjectRoot "Plan\07_IMPLEMENTATION\workflow_templates\ba
 $runtimeLane = Join-Path $ProjectRoot "Workflows\base_generation\flux1_dev_primary_base"
 $staticValidator = Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\Test-ComfyWorkflowStatic.ps1"
 $objectInfoPath = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Runtime_Readiness\BASE_GENERATION_RUN_PACKAGE_OBJECT_INFO_SNAPSHOT_20260709T005603-0500.json"
+$assetEvidencePath = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Runtime_Readiness\W66_FLUX1_DEV_ASSET_AUTHORITY_20260710T222500-0500.json"
 $activePath = Join-Path $ProjectRoot "Workflows\base_generation\ACTIVE_LANES.json"
 $queuePath = Join-Path $ProjectRoot "Plan\07_IMPLEMENTATION\workflow_templates\base_generation\runtime_lane_queue.json"
 $registryPath = Join-Path $ProjectRoot "Plan\10_REGISTRIES\wave15_image_base_lane_registry.json"
@@ -71,6 +72,7 @@ $active = Read-Json $activePath
 $queue = Read-Json $queuePath
 $registry = Read-Json $registryPath
 $objectInfoRecord = Read-Json $objectInfoPath
+$assetEvidence = Read-Json $assetEvidencePath
 $requiredNodes = @($runtime.required_nodes)
 $workflowNodeClasses = @($workflow.PSObject.Properties | ForEach-Object { [string]$_.Value.class_type })
 $missingWorkflowNodes = @($requiredNodes | Where-Object { $_ -notin $workflowNodeClasses })
@@ -120,8 +122,14 @@ Add-Check $checks "workflow_inputs_match_saved_object_info" ($incompatibleInputs
 $model = @($runtime.required_models | Select-Object -First 1)
 $loaderMatches = $null -ne $workflow.'1' -and [string]$workflow.'1'.class_type -eq "CheckpointLoaderSimple" -and [string]$workflow.'1'.inputs.ckpt_name -eq "flux1-dev-fp8.safetensors"
 Add-Check $checks "flux1_dev_loader_is_canonical" $loaderMatches $workflow.'1'
-$assetBoundary = $model.Count -eq 1 -and [string]$model[0].filename -eq "flux1-dev-fp8.safetensors" -and [string]::IsNullOrWhiteSpace([string]$model[0].sha256) -and -not [bool]$runtime.asset_contract_complete -and [string]$runtime.current_status -eq "static_workflow_implemented_blocked_asset_hash_and_runtime_proof"
+$expectedSha256 = "8e91b68084b53a7fc44ed2a3756d821e355ac1a7b6fe29be760c1db532f3d88a"
+$expectedRevision = "0f6b956e6e2e041fb73d079b72ec0e761506f601"
+$assetBoundary = $model.Count -eq 1 -and [string]$model[0].filename -eq "flux1-dev-fp8.safetensors" -and [string]$model[0].sha256 -eq $expectedSha256 -and [int64]$model[0].bytes -eq 17246524772 -and [bool]$runtime.asset_authority_complete -and -not [bool]$runtime.asset_contract_complete -and [string]$runtime.current_status -eq "asset_authority_recorded_blocked_local_install_and_runtime_proof"
 Add-Check $checks "asset_contract_fails_closed" $assetBoundary $model
+$sourceAuthorityPass = [string]$runtime.licensed_source.repository -eq "Comfy-Org/flux1-dev" -and [string]$runtime.licensed_source.revision -eq $expectedRevision -and [string]$runtime.licensed_source.license_id -eq "flux-1-dev-non-commercial-license"
+Add-Check $checks "licensed_source_authority_is_immutable" $sourceAuthorityPass $runtime.licensed_source
+$evidenceBindingPass = $null -ne $assetEvidence -and [string]$assetEvidence.authority.revision -eq $expectedRevision -and [string]$assetEvidence.authority.sha256 -eq $expectedSha256 -and -not [bool]$assetEvidence.local_inventory.present -and -not [bool]$assetEvidence.s3_inventory.present
+Add-Check $checks "asset_authority_evidence_matches_requirements" $evidenceBindingPass $assetEvidence
 $canonicalWorkflowPath = "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux1_dev_primary_base/workflow.api.json"
 $canonicalPathPolicy = "canonical_plan_authority_with_byte_identical_runtime_mirror"
 $pathPolicyPass = @($runtime, $smoke, (Read-Json (Join-Path $planLane "patch_points.json"))) | Where-Object { [string]$_.workflow_path -ne $canonicalWorkflowPath -or [string]$_.workflow_path_policy -ne $canonicalPathPolicy }
@@ -146,8 +154,8 @@ $record = [ordered]@{
   schema_version = "1.0"
   artifact_type = "flux1_dev_workflow_contract_validation"
   created_at = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
-  result = $(if ($failed.Count -eq 0) { "pass_static_workflow_asset_blocked" } else { "fail" })
-  classification = $(if ($failed.Count -eq 0) { "FLUX1_DEV_STATIC_IMPLEMENTED_ASSET_BLOCKED" } else { "FLUX1_DEV_WORKFLOW_CONTRACT_INVALID" })
+  result = $(if ($failed.Count -eq 0) { "pass_asset_authority_recorded_local_model_blocked" } else { "fail" })
+  classification = $(if ($failed.Count -eq 0) { "FLUX1_DEV_ASSET_AUTHORITY_RECORDED_LOCAL_MODEL_BLOCKED" } else { "FLUX1_DEV_WORKFLOW_CONTRACT_INVALID" })
   lane_id = "flux1_dev_primary_base"
   local_only = $true
   aws_contacted = $false
@@ -164,8 +172,8 @@ $record = [ordered]@{
   failed_check_count = $failed.Count
   failed_check_names = @($failed | ForEach-Object { $_.name })
   checks = @($checks)
-  blocker = "Authoritative licensed source metadata, SHA256, and local file for flux1-dev-fp8.safetensors are required before execution."
-  next_action = "Record the authoritative licensed checkpoint source and SHA256, install only after authorization, then rerun path/hash, object_info, output, technical QA, and visual QA gates."
+  blocker = "The authoritative source and SHA256 are recorded, but the licensed checkpoint is not installed locally and automation does not assert license acceptance."
+  next_action = "After explicit license-authorized installation, verify observed SHA256, then run lane object_info, output, technical QA, and visual QA gates."
 }
 
 if ([string]::IsNullOrWhiteSpace($OutFile)) {
