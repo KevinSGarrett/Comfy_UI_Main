@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave64 Video Engine Route Decision",
+  "type": "object",
+  "required": [
+    "selected_engine",
+    "result",
+    "decision_scope",
+    "runtime_ready",
+    "final_promotion_ready",
+    "request_sha256",
+    "registry_sha256",
+    "rules_sha256",
+    "matched_rule_ids",
+    "required_features",
+    "candidate_order",
+    "engine_evaluations",
+    "blocked_reasons",
+    "required_proof"
+  ],
+  "properties": {
+    "selected_engine": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "compatible",
+        "blocked"
+      ]
+    },
+    "decision_scope": {
+      "const": "offline_routing_only"
+    },
+    "runtime_ready": {
+      "type": "boolean"
+    },
+    "final_promotion_ready": {
+      "const": false
+    },
+    "request_sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "registry_sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "rules_sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "matched_rule_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "required_features": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "candidate_order": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "engine_evaluations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "engine_id",
+          "compatibility_passed",
+          "resource_passed",
+          "availability_passed",
+          "promotion_passed",
+          "can_select",
+          "blocked_reasons",
+          "required_proof"
+        ],
+        "properties": {
+          "engine_id": {
+            "type": "string"
+          },
+          "compatibility_passed": {
+            "type": "boolean"
+          },
+          "resource_passed": {
+            "type": "boolean"
+          },
+          "availability_passed": {
+            "type": "boolean"
+          },
+          "promotion_passed": {
+            "type": "boolean"
+          },
+          "can_select": {
+            "type": "boolean"
+          },
+          "blocked_reasons": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "required_proof": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "blocked_reasons": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "required_proof": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    }
+  },
+  "additionalProperties": false
+}

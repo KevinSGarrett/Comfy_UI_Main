@@ -1,24 +1,92 @@
 {
   "rules": [
     {
-      "if": "reference_video_present and motion fidelity is high priority",
-      "route": "ltxv"
+      "id": "isolated_frame_repair",
+      "priority": 10,
+      "route": "frame_repair_lane",
+      "all": [
+        {
+          "field": "isolated_frame_failure",
+          "op": "eq",
+          "value": true
+        }
+      ]
     },
     {
-      "if": "planned keyframes and moderate motion complexity",
-      "route": "wan"
+      "id": "failed_generation_with_frame_sequence",
+      "priority": 20,
+      "route": "animatediff_fallback",
+      "all": [
+        {
+          "field": "prior_generation_failed",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "field": "frame_sequence_available",
+          "op": "eq",
+          "value": true
+        }
+      ]
     },
     {
-      "if": "structured linear shot with explicit guidance",
-      "route": "hunyuan_video"
+      "id": "ltx_audio_preference",
+      "priority": 30,
+      "route": "ltxv",
+      "all": [
+        {
+          "field": "audio_required",
+          "op": "eq",
+          "value": true
+        }
+      ]
     },
     {
-      "if": "video generation failed but frame sequence exists",
-      "route": "animatediff_fallback"
+      "id": "reference_video_priority",
+      "priority": 40,
+      "route": "ltxv",
+      "all": [
+        {
+          "field": "reference_video_present",
+          "op": "eq",
+          "value": true
+        }
+      ]
     },
     {
-      "if": "isolated frame failures after generation",
-      "route": "frame_repair_lane"
+      "id": "structured_linear_guidance",
+      "priority": 50,
+      "route": "hunyuan_video",
+      "all": [
+        {
+          "field": "structured_linear_guidance",
+          "op": "eq",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "keyframe_moderate_motion",
+      "priority": 60,
+      "route": "wan",
+      "all": [
+        {
+          "field": "keyframe_count",
+          "op": "gte",
+          "value": 1
+        },
+        {
+          "field": "motion_complexity",
+          "op": "eq",
+          "value": "moderate"
+        }
+      ]
+    },
+    {
+      "id": "default_primary_candidate_wan",
+      "priority": 70,
+      "route": "wan",
+      "all": []
     }
   ]
 }

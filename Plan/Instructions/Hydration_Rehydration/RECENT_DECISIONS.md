@@ -812,3 +812,10 @@ Retain `u_lip_dilate_exclusive_v1` only as a tested negative fixture. Controlled
 - Require real frame artifacts, final export, repair-effectiveness evidence, and strict visual review before video runtime certification.
 - Keep body/contact video proof blocked on trusted manual gold masks and never use candidate masks as truth.
 - Continue `TRK-W64-020` / `ITEM-W64-020` with one concrete resource-aware routing implementation gap, not a generic route-alignment loop.
+## 2026-07-11T13:24:00-05:00 - Keep video routing separate and canonical facts unverified
+
+- Leave the general/image Wave06 router unchanged and add a distinct video router.
+- Encode every unknown canonical capability, resource limit, model link, object_info record, runtime proof, and availability state explicitly; unknown means blocked.
+- Use temporary verified registries only for unit behavior, never as production evidence.
+- Preserve repair/fallback precedence, deterministic candidate/hash traces, and `final_promotion_ready=false` under every path.
+- Continue `TRK-W64-021` / `ITEM-W64-021` without fabricating temporal visual review before real frames exist.

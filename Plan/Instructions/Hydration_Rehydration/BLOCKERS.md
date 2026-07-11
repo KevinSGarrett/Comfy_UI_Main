@@ -1250,3 +1250,6 @@ The stale-package/clean-bundle contradiction is resolved locally. The current pa
 ## Wave64 Video Runtime, Export, Visual, And Mask Proof Missing - 2026-07-11T12:55:00-05:00
 
 `TRK-W64-019` / `ITEM-W64-019` has passing offline implementation proof but no production video-engine frame sequence, repaired-frame result, final GIF/MP4/WebM export, or temporal visual review. Classification: `Blocked_Video_Runtime_Visual_Proof_Missing`. The blueprint's body/contact and soft-body keyframes also remain subject to `Blocked_Gold_Mask_Dependency_Missing` until trusted manual body gold masks are ready. Do not infer certification from the structural unit packet.
+## Wave64 Canonical Video Engine Runtime Evidence Missing - 2026-07-11T13:24:00-05:00
+
+`TRK-W64-020` / `ITEM-W64-020` has passing offline router implementation proof, but all canonical video engines remain unverified for model-registry linkage, ComfyUI object_info, runtime output, supported outputs/features, resource limits, execution/cost targets, availability, and promotion proof. Classification: `Blocked_Video_Engine_Runtime_Evidence_Missing`. Do not infer compatibility or populate limits from temporary unit fixtures or guesses.

@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-VIDEO-ENGINE-ROUTING",
+  "timestamp": "2026-07-11T13:24:00-05:00",
+  "tracker_id": "TRK-W64-020",
+  "item_id": "ITEM-W64-020",
+  "source_citation": "Plan/04_VIDEO_GIF_SYSTEM/WAVE06_VIDEO_ENGINE_ROUTING_STRATEGY.md",
+  "implementation": {
+    "video_router_separate_from_image_router": true,
+    "general_route_engine_candidate_unchanged": true,
+    "strict_request_schema": true,
+    "strict_decision_schema": true,
+    "machine_readable_video_engine_registry": true,
+    "deterministic_prioritized_rules": true,
+    "repair_and_fallback_precedence": true,
+    "candidate_deduplication": true,
+    "canonical_unknowns_fail_closed": true,
+    "final_promotion_claim_forbidden": true
+  },
+  "implementation_artifacts": [
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/route_video_engine_candidate.py",
+      "sha256": "4708b6a23112989947c6f2cafceba0977626a4928924581c958f32581b7a56d0"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/video_engine_route_request.schema.json",
+      "sha256": "424328c21e29e1cab036ae3f7280952e620bde824f332b087a67b709a7701061"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/video_engine_route_decision.schema.json",
+      "sha256": "3f46ebe173ba46d19050a32154ddd4051d8340f2298ba914f870181e829f6b5f"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave27_video_engine_registry.json",
+      "sha256": "ec1d11a4b44d926227c216b3138b294416e4bea980579d3f7b1203b76cc083a1"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave27_video_route_selection_rules.json",
+      "sha256": "de46655a6e1e3737eae1e92af7cb651cb169e14993109d051c6beb515a2fd8ca"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_route_video_engine_candidate.py",
+      "sha256": "0079b00fd2e0a404856fa959f09c5b78019e6cc801526ba51372cda1a5538a70"
+    }
+  ],
+  "offline_validation": {
+    "test_log": "Plan/Instructions/QA/Evidence/Wave64/video_engine_routing_test_log.json",
+    "test_log_sha256": "8cc607c0f99f2b31542b3b61fb021d71d74311f67c330de22ad82a1198dda598",
+    "tests_run": 23,
+    "test_failures": 0,
+    "test_errors": 0,
+    "python_compile": "pass",
+    "schema_and_registry_json_parse": "pass",
+    "temporary_verified_fixtures_are_production_evidence": false,
+    "technical_offline_pass": true
+  },
+  "canonical_route_probe": {
+    "request": "runtime_artifacts/wave64_video_engine_routing/canonical_request.json",
+    "request_file_sha256": "e775d0a0b673f28e4a106b5c531c22f66dc19f63e9e2499b4059d8eed873348d",
+    "decision": "runtime_artifacts/wave64_video_engine_routing/canonical_decision.json",
+    "decision_file_sha256": "b4bdd0f3691bec066ab604263ef79d96a32f275a0d1613d7992f9af6fe11bcc7",
+    "request_object_sha256": "a2e2e7772fd47a24452811fe1dd8e77ae509a65ccd704e379ad22ed2a11644d7",
+    "registry_object_sha256": "9ff8ee716923c2d8437f60addc1db1e8e793acf36e227368c0012e983092c930",
+    "rules_object_sha256": "397483e0977df4910afc94d2a70e892f636a3924c9a434a1a883603ec2011768",
+    "result": "blocked",
+    "selected_engine": null,
+    "candidate_order": [
+      "wan"
+    ],
+    "matched_rule_ids": [
+      "default_primary_candidate_wan"
+    ],
+    "runtime_ready": false,
+    "final_promotion_ready": false,
+    "blocked_reason_count": 10,
+    "required_proof_count": 10
+  },
+  "acceptance_gates": {
+    "engine_compatibility": false,
+    "engine_compatibility_router_ready": true,
+    "runtime_object_info": false,
+    "model_registry_link": false,
+    "resource_budget_check": false,
+    "resource_budget_logic_ready": true,
+    "runtime_proof": false,
+    "final_promotion_ready": false
+  },
+  "runtime": {
+    "generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "comfyui_started": false,
+    "reason": "All five canonical video engine entries remain explicitly unverified for model link, object_info, runtime proof, outputs/features, resource limits, execution target, cost tier, availability, and promotion evidence."
+  },
+  "review": {
+    "cursor_gap_review": "runtime_artifacts/agent_handoffs/cursor/20260711T130316-0500_wave64_video_engine_routing_gap_review/handoff_record.json",
+    "cursor_implementation": "runtime_artifacts/agent_handoffs/cursor/20260711T130516-0500_wave64_video_engine_router_implementation/handoff_record.json",
+    "cursor_correction": "runtime_artifacts/agent_handoffs/cursor/20260711T131003-0500_wave64_video_engine_router_correction/handoff_record.json",
+    "claude_initial_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T131635-0500_wave64_video_engine_router_final_review/handoff_record.json",
+    "claude_medium_findings_remediated": 2,
+    "claude_confirmation": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T132110-0500_wave64_video_engine_router_review_confirmation/handoff_record.json",
+    "remaining_high_or_medium_findings": 0
+  },
+  "blocker": {
+    "classification": "Blocked_Video_Engine_Runtime_Evidence_Missing",
+    "reason": "The offline router and resource-budget logic are strict, but canonical engines have no verified model-registry link, ComfyUI object_info, runtime proof, output/feature support, resource limits, execution/cost support, availability, or promotion proof. No compatibility or runtime-ready engine can be selected truthfully."
+  },
+  "result": "blocked_video_engine_runtime_evidence_missing",
+  "overall_pass": false,
+  "status_decision": "Blocked_Video_Engine_Runtime_Evidence_Missing",
+  "strict_decision": {
+    "row_complete": false,
+    "offline_implementation_pass": true,
+    "engine_compatibility_claimed": false,
+    "runtime_ready_claimed": false,
+    "final_promotion_claimed": false,
+    "mask_or_geometry_authority_claimed": false
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "report_id": "ITEM-W64-020-VIDEO-ENGINE-ROUTING-20260711T132400-0500",
+  "timestamp": "2026-07-11T13:24:00-05:00",
+  "item_id": "ITEM-W64-020",
+  "tracker_id": "TRK-W64-020",
+  "workstream": "video_engine_routing",
+  "status": "Blocked_Video_Engine_Runtime_Evidence_Missing",
+  "row_complete": false,
+  "implementation": {
+    "separate_video_router_added": true,
+    "general_image_router_unchanged": true,
+    "request_and_decision_schemas_strict": true,
+    "canonical_unknowns_explicit": true,
+    "resource_budget_logic_ready": true,
+    "recovery_route_precedence_ready": true,
+    "deterministic_hash_trace_ready": true,
+    "final_promotion_claim_forbidden": true
+  },
+  "validation": {
+    "unit_tests_passed": 23,
+    "unit_test_failures": 0,
+    "python_compile": "pass",
+    "schema_and_registry_json_parse": "pass",
+    "canonical_probe": "blocked_as_expected",
+    "canonical_selected_engine": null,
+    "canonical_runtime_ready": false,
+    "canonical_final_promotion_ready": false,
+    "claude_medium_findings_remediated": 2,
+    "remaining_high_or_medium_findings": 0
+  },
+  "acceptance_gates": {
+    "engine_compatibility": false,
+    "engine_compatibility_router_ready": true,
+    "runtime_object_info": false,
+    "model_registry_link": false,
+    "resource_budget_check": false,
+    "resource_budget_logic_ready": true,
+    "runtime_proof": false
+  },
+  "blocker": {
+    "classification": "Blocked_Video_Engine_Runtime_Evidence_Missing",
+    "reason": "Canonical video engines remain unverified across model link, object_info, runtime, capability, resource, execution, cost, availability, and promotion evidence. Temporary test fixtures are not production proof."
+  },
+  "evidence": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/video_engine_routing.json",
+      "sha256": "e8bfbf07dd5e2f87344259f933e9ccca4259f9de947a11d921079cafbed346da"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/video_engine_routing_test_log.json",
+      "sha256": "8cc607c0f99f2b31542b3b61fb021d71d74311f67c330de22ad82a1198dda598"
+    }
+  ],
+  "runtime": {
+    "generation_count": 0,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "comfyui_started": false
+  },
+  "next_action": "Keep row 020 blocked without engine compatibility or runtime claims. Continue TRK-W64-021 / ITEM-W64-021 by inspecting the existing temporal visual-QA surface; do not fabricate a video review without a real frame sequence."
+}

@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave64 Video Engine Route Request",
+  "type": "object",
+  "required": [
+    "output_type",
+    "width",
+    "height",
+    "duration_seconds",
+    "fps",
+    "character_count",
+    "camera_movement",
+    "motion_complexity",
+    "reference_video_present",
+    "keyframe_count",
+    "identity_lock_required",
+    "contact_deformation_required",
+    "audio_required",
+    "prior_generation_failed",
+    "frame_sequence_available",
+    "isolated_frame_failure",
+    "structured_linear_guidance",
+    "execution_target",
+    "available_vram_gb",
+    "cost_tier",
+    "requested_engine",
+    "promotion_required"
+  ],
+  "properties": {
+    "output_type": {
+      "type": "string",
+      "enum": [
+        "gif",
+        "mp4",
+        "webm",
+        "image_sequence"
+      ]
+    },
+    "width": {
+      "type": "integer",
+      "minimum": 1,
+      "not": {
+        "type": "boolean"
+      }
+    },
+    "height": {
+      "type": "integer",
+      "minimum": 1,
+      "not": {
+        "type": "boolean"
+      }
+    },
+    "duration_seconds": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "not": {
+        "type": "boolean"
+      }
+    },
+    "fps": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "not": {
+        "type": "boolean"
+      }
+    },
+    "character_count": {
+      "type": "integer",
+      "minimum": 0,
+      "not": {
+        "type": "boolean"
+      }
+    },
+    "camera_movement": {
+      "type": "string",
+      "enum": [
+        "none",
+        "low",
+        "moderate",
+        "high"
+      ]
+    },
+    "motion_complexity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "moderate",
+        "high"
+      ]
+    },
+    "reference_video_present": {
+      "type": "boolean"
+    },
+    "keyframe_count": {
+      "type": "integer",
+      "minimum": 0,
+      "not": {
+        "type": "boolean"
+      }
+    },
+    "identity_lock_required": {
+      "type": "boolean"
+    },
+    "contact_deformation_required": {
+      "type": "boolean"
+    },
+    "audio_required": {
+      "type": "boolean"
+    },
+    "prior_generation_failed": {
+      "type": "boolean"
+    },
+    "frame_sequence_available": {
+      "type": "boolean"
+    },
+    "isolated_frame_failure": {
+      "type": "boolean"
+    },
+    "structured_linear_guidance": {
+      "type": "boolean"
+    },
+    "execution_target": {
+      "type": "string",
+      "enum": [
+        "local",
+        "ec2"
+      ]
+    },
+    "available_vram_gb": {
+      "type": "number",
+      "minimum": 0,
+      "not": {
+        "type": "boolean"
+      }
+    },
+    "cost_tier": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "requested_engine": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "promotion_required": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false
+}

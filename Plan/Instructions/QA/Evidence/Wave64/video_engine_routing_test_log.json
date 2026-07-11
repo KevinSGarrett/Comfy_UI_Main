@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-VIDEO-ENGINE-ROUTING-TEST-LOG-20260711T132300-0500",
+  "timestamp": "2026-07-11T13:23:00-05:00",
+  "tracker_id": "TRK-W64-020",
+  "item_id": "ITEM-W64-020",
+  "command": "python -m unittest Plan.Instructions.QA.Scripts.test_route_video_engine_candidate -v",
+  "result": "pass",
+  "exit_code": 0,
+  "tests_run": 23,
+  "failures": 0,
+  "errors": 0,
+  "elapsed_seconds": 2.952,
+  "transcript": "runtime_artifacts/wave64_video_engine_routing/unit_tests_20260711T132300-0500.txt",
+  "transcript_sha256": "81b91e5e14fdae112e04b9e75a9558991f7b2bbff0d8dd2e5174e9c900129bd5",
+  "covered_files": [
+    "Plan/07_IMPLEMENTATION/scripts/route_video_engine_candidate.py",
+    "Plan/08_SCHEMAS/video_engine_route_request.schema.json",
+    "Plan/08_SCHEMAS/video_engine_route_decision.schema.json",
+    "Plan/10_REGISTRIES/wave27_video_engine_registry.json",
+    "Plan/10_REGISTRIES/wave27_video_route_selection_rules.json",
+    "Plan/Instructions/QA/Scripts/test_route_video_engine_candidate.py"
+  ],
+  "positive_contracts_covered": [
+    "deterministic video-only rule priority and candidate deduplication",
+    "repair and failed-generation fallback precedence",
+    "default Wan candidate trace without compatibility claim",
+    "temporary verified-fixture compatibility and resource selection",
+    "canonical request, registry, and rules object hashing",
+    "schema-complete structured CLI failure",
+    "safe output-parent creation"
+  ],
+  "negative_contracts_covered": [
+    "canonical all-unverified registry blocks selection",
+    "boolean-as-number and non-finite input rejection",
+    "unknown fields and requested engines",
+    "duplicate engine and rule identifiers",
+    "malformed verified resource limits",
+    "unverified scalar evidence carrying hidden values",
+    "unsupported resource, cost, feature, model, object_info, runtime, availability, output, and promotion proof",
+    "unwritable output path",
+    "final promotion readiness can never become true"
+  ]
+}
