@@ -1,3 +1,9 @@
+## Immediate Next Action - Normal V4 Full-Body Multiseed Robustness Passed - 2026-07-11T04:35:00-05:00
+
+Normal V4 full-body robustness is now complete across baseline seed `711670301` and seed-only variants `711670302`/`711670303`. All three current-head local samples passed runtime, request hashes, pixel-identical normal diagnostics, 768x1024 framing, one-person detection, all 18 common body landmarks, pose-error thresholds, visible hands/shoes, limb continuity, and no normal-map leakage. Strict visual QA records `3/3` full-body geometry/runtime passes and one wardrobe drift: seed `302` produced fitted shorts rather than full-length black leggings.
+
+Preserve this three-seed matrix without replay. The bounded full-body local robustness item is done with notes; detailed hand/contact geometry, target-runtime proof, and final Normal lane review remain separate. Continue another concrete local non-mask task rather than running more Normal seeds. Manual masks, Wave70 hard gates, Wave71+, Flux1 licensing, Jira, and AWS-authentication boundaries are unchanged.
+
 ## Immediate Next Action - RealESRGAN Multisource Runtime Passed With Quality Limits - 2026-07-11T04:20:00-05:00
 
 RealESRGAN local evidence now spans three source classes instead of one: the completed Canny portrait plus new tracked Normal full-body and two-character contact outputs. Both new current-head packages generated exact 4x images and shut ComfyUI down cleanly. Strict preservation gates passed `2/2`: full-body SSIM/PSNR were `0.9816`/`41.03 dB`; two-character SSIM/PSNR were `0.9530`/`29.63 dB`. Whole-image composition, anatomy, identities, and contact ownership remained stable.

@@ -104,11 +104,11 @@
   "runtime_output_required": true,
   "qa_report_required": true,
   "promotion_allowed_without_evidence": false,
-  "current_status": "local_normal_v3_portrait_multiseed_plus_v4_fullbody_single_sample_pass_with_notes_pending_fullbody_robustness_target_runtime_and_final_certification",
+  "current_status": "local_normal_v3_portrait_and_v4_fullbody_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
   "known_blockers": [
     "Normal lane has local v3 three-sample robustness with notes, but is not final-certified until target-runtime gates and broader final QA pass if promotion is selected.",
     "Target-runtime EC2 proof is still separate from this local proof.",
-    "One local V4 sample now proves bounded full-body framing, visible hands/feet, and coherent standing surface structure; full-body multiseed robustness, detailed hand geometry, and contact points remain unproven.",
+    "Normal V4 full-body geometry/runtime robustness passes across three seeds, but one seed drifted from full-length leggings to fitted shorts and detailed hand/contact geometry remains unproven.",
     "Mild beauty-polished skin persists across samples; final image-quality certification must account for this note."
   ],
   "evidence_paths": [
@@ -143,8 +143,14 @@
     "PromptProfiles/base_generation/controlnet_normal_v1_followup/normal_v4_full_body_standing_seed711670301.json",
     "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_NORMAL_V4_FULL_BODY_STANDING_RUNTIME_20260711T040500-0500.json",
     "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_NORMAL_V4_FULL_BODY_STANDING_QA_20260711T041000-0500.json",
-    "Plan/Instructions/QA/Evidence/Done_Certifications/W70_NORMAL_V4_FULL_BODY_LOCAL_SCOPE_DONE_20260711T041000-0500.json"
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W70_NORMAL_V4_FULL_BODY_LOCAL_SCOPE_DONE_20260711T041000-0500.json",
+    "PromptProfiles/base_generation/controlnet_normal_v1_followup/normal_v4_full_body_robustness_seed711670302.json",
+    "PromptProfiles/base_generation/controlnet_normal_v1_followup/normal_v4_full_body_robustness_seed711670303.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_NORMAL_V4_FULL_BODY_ROBUSTNESS_SEED711670302_20260711T043000-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_NORMAL_V4_FULL_BODY_ROBUSTNESS_SEED711670303_20260711T043000-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_NORMAL_V4_FULL_BODY_MULTISEED_ROBUSTNESS_QA_20260711T043500-0500.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W70_NORMAL_V4_FULL_BODY_MULTISEED_ROBUSTNESS_DONE_20260711T043500-0500.json"
   ],
-  "status_notes": "Normal v3 portrait multisample robustness remains passed with notes. V4 adds one true full-body standing local sample from a hash-recorded BAE map: all 18 body landmarks were common, mean/max normalized landmark errors were 0.00781/0.01444, hands and shoes stayed visible, and no normal-map leakage appeared. This closes the bounded single-sample local full-body scope only; full-body multiseed robustness, detailed hand/contact geometry, target-runtime proof, and final lane certification remain separate.",
+  "status_notes": "Normal v3 portrait multisample robustness remains passed with notes. Normal V4 now adds three-seed true full-body local robustness from one hash-recorded BAE map: runtime and geometry scope pass 3/3, all samples retain 18 common landmarks, visible hands/shoes, coherent limbs, and no normal-map leakage. Seed 711670302 drifted to fitted shorts instead of full-length leggings. Detailed hand/contact geometry, target-runtime proof, and final lane certification remain separate.",
   "union_controlnet_type": "normal"
 }

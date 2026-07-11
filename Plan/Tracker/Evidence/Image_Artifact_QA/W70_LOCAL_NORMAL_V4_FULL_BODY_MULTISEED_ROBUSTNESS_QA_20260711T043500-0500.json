@@ -1,0 +1,207 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-LOCAL-NORMAL-V4-FULL-BODY-MULTISEED-ROBUSTNESS-QA-20260711T043500-0500",
+  "timestamp": "2026-07-11T04:25:32-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+  "result": "pass_with_notes_local_normal_v4_fullbody_multiseed_robustness_wardrobe_drift",
+  "pass": true,
+  "scope": "three_seed_local_normal_v4_fullbody_geometry_runtime_robustness",
+  "source": {
+    "path": "Ref_Image_1/Full/78b8e4ca10fd769e0752bd21c3599339.jpg",
+    "sha256": "e20a857f0ac23151ae1b8aa47fb4746c975e522a5598896f747ef08a50cc9336"
+  },
+  "control_map": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/normal_full_body_standing_w70_v1/controlnet_normal_bae_full_body_standing_w70_v1.png",
+    "sha256": "ff7695e83c73dc53025a7ab960a11d6e46299dcde546d26a5d46bce8637dc6fd"
+  },
+  "samples": [
+    {
+      "seed": 711670301,
+      "profile": "PromptProfiles/base_generation/controlnet_normal_v1_followup/normal_v4_full_body_standing_seed711670301.json",
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_NORMAL_V4_FULL_BODY_STANDING_RUNTIME_20260711T040500-0500.json",
+      "image": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/images/normal_v4_fullbody_standing_711670301_00001_.png",
+        "sha256": "b01b694125e08027195baf3c5a4eeac472eba242bfb4bbe69473625844134fc1",
+        "width": 768,
+        "height": 1024
+      },
+      "diagnostic": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/images/codex_sdxl_realvisxl_controlnet_normal_control_map_diagnostic_00007_.png",
+        "sha256": "06295eadc687183c86c48b9ff2cc1446d2daae3510c6a785cc2cd3f8322664f3"
+      },
+      "keypoints": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/qa_openpose_keypoints.json",
+        "sha256": "ba405549f23254419effebc97c1bb55fc028059ab330461023cd2eb71d20f0bb"
+      },
+      "metrics": {
+        "common_body_landmarks": 18,
+        "mean_normalized_landmark_error": 0.007810963554062921,
+        "max_normalized_landmark_error": 0.01444398412507871
+      },
+      "seed_only_checks": {
+        "positive_prompt_unchanged": true,
+        "negative_prompt_unchanged": true,
+        "sampler_settings_unchanged": true,
+        "latent_resolution_unchanged": true,
+        "model_asset_unchanged": true,
+        "controlnet_asset_unchanged": true,
+        "control_image_unchanged": true,
+        "controlnet_settings_unchanged": true,
+        "union_control_type_unchanged": true,
+        "expected_seed_applied": true
+      },
+      "checks": {
+        "runtime_passed": true,
+        "request_hash_matched": true,
+        "server_stopped_and_port_closed": true,
+        "output_is_768x1024": true,
+        "diagnostic_pixels_match_control_map": true,
+        "exactly_one_person_detected": true,
+        "all_18_body_landmarks_common": true,
+        "mean_normalized_landmark_error_lte_0_08": true,
+        "max_normalized_landmark_error_lte_0_16": true,
+        "visual_fullbody_hands_and_shoes_in_frame": true,
+        "visual_no_blocking_limb_or_hand_defect": true,
+        "visual_no_normal_map_leakage": true,
+        "all_seed_only_contract_checks_pass": true
+      },
+      "visual_result": "pass_with_notes_fullbody_scope_baseline",
+      "wardrobe_contract": "pass_with_notes_two_tone_full_length_athletic_outfit"
+    },
+    {
+      "seed": 711670302,
+      "profile": "PromptProfiles/base_generation/controlnet_normal_v1_followup/normal_v4_full_body_robustness_seed711670302.json",
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_NORMAL_V4_FULL_BODY_ROBUSTNESS_SEED711670302_20260711T043000-0500.json",
+      "image": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_robustness_seed711670302_20260711T041948-0500/images/normal_v4_fullbody_robust_711670302_00001_.png",
+        "sha256": "3c27d34c794ab02f1ee5c5d2968cbbaf422173687f34ddd4c1ea48ab235049a5",
+        "width": 768,
+        "height": 1024
+      },
+      "diagnostic": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_robustness_seed711670302_20260711T041948-0500/images/codex_sdxl_realvisxl_controlnet_normal_control_map_diagnostic_00008_.png",
+        "sha256": "aac2994bc6d998ef34bf0102ea181a9afebeb650a0e7815a3e683b5fc8c9a3c8"
+      },
+      "keypoints": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_robustness_seed711670302_20260711T041948-0500/qa_openpose_keypoints.json",
+        "sha256": "f49cd7060735a6ba0ba8f37ad69da9d8feeb03bbc72ead7261b4661116d9f890"
+      },
+      "metrics": {
+        "common_body_landmarks": 18,
+        "mean_normalized_landmark_error": 0.0053831360319370365,
+        "max_normalized_landmark_error": 0.010927026890000507
+      },
+      "seed_only_checks": {
+        "positive_prompt_unchanged": true,
+        "negative_prompt_unchanged": true,
+        "sampler_settings_unchanged": true,
+        "latent_resolution_unchanged": true,
+        "model_asset_unchanged": true,
+        "controlnet_asset_unchanged": true,
+        "control_image_unchanged": true,
+        "controlnet_settings_unchanged": true,
+        "union_control_type_unchanged": true,
+        "expected_seed_applied": true
+      },
+      "checks": {
+        "runtime_passed": true,
+        "request_hash_matched": true,
+        "server_stopped_and_port_closed": true,
+        "output_is_768x1024": true,
+        "diagnostic_pixels_match_control_map": true,
+        "exactly_one_person_detected": true,
+        "all_18_body_landmarks_common": true,
+        "mean_normalized_landmark_error_lte_0_08": true,
+        "max_normalized_landmark_error_lte_0_16": true,
+        "visual_fullbody_hands_and_shoes_in_frame": true,
+        "visual_no_blocking_limb_or_hand_defect": true,
+        "visual_no_normal_map_leakage": true,
+        "all_seed_only_contract_checks_pass": true
+      },
+      "visual_result": "pass_with_notes_fullbody_geometry_wardrobe_drift",
+      "wardrobe_contract": "fail_generated_fitted_shorts_instead_of_full_length_black_leggings"
+    },
+    {
+      "seed": 711670303,
+      "profile": "PromptProfiles/base_generation/controlnet_normal_v1_followup/normal_v4_full_body_robustness_seed711670303.json",
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_NORMAL_V4_FULL_BODY_ROBUSTNESS_SEED711670303_20260711T043000-0500.json",
+      "image": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_robustness_seed711670303_20260711T042034-0500/images/normal_v4_fullbody_robust_711670303_00001_.png",
+        "sha256": "76c94b356935a07fcf9861820aac4b1b14e5f5cf57e10aa59ede6100b6146bf4",
+        "width": 768,
+        "height": 1024
+      },
+      "diagnostic": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_robustness_seed711670303_20260711T042034-0500/images/codex_sdxl_realvisxl_controlnet_normal_control_map_diagnostic_00009_.png",
+        "sha256": "83de9baf3f2a8301301da8d50ecfeefcdd2d06b5222fc690febdacb835301bee"
+      },
+      "keypoints": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_robustness_seed711670303_20260711T042034-0500/qa_openpose_keypoints.json",
+        "sha256": "d1ebcd1d6d459ec99eec32bda6e3e82b2a9f46d010307f338bfbbc3ddd2dc5a0"
+      },
+      "metrics": {
+        "common_body_landmarks": 18,
+        "mean_normalized_landmark_error": 0.005480511797242406,
+        "max_normalized_landmark_error": 0.010119123167105202
+      },
+      "seed_only_checks": {
+        "positive_prompt_unchanged": true,
+        "negative_prompt_unchanged": true,
+        "sampler_settings_unchanged": true,
+        "latent_resolution_unchanged": true,
+        "model_asset_unchanged": true,
+        "controlnet_asset_unchanged": true,
+        "control_image_unchanged": true,
+        "controlnet_settings_unchanged": true,
+        "union_control_type_unchanged": true,
+        "expected_seed_applied": true
+      },
+      "checks": {
+        "runtime_passed": true,
+        "request_hash_matched": true,
+        "server_stopped_and_port_closed": true,
+        "output_is_768x1024": true,
+        "diagnostic_pixels_match_control_map": true,
+        "exactly_one_person_detected": true,
+        "all_18_body_landmarks_common": true,
+        "mean_normalized_landmark_error_lte_0_08": true,
+        "max_normalized_landmark_error_lte_0_16": true,
+        "visual_fullbody_hands_and_shoes_in_frame": true,
+        "visual_no_blocking_limb_or_hand_defect": true,
+        "visual_no_normal_map_leakage": true,
+        "all_seed_only_contract_checks_pass": true
+      },
+      "visual_result": "pass_with_notes_fullbody_geometry_and_wardrobe",
+      "wardrobe_contract": "pass_full_length_black_leggings"
+    }
+  ],
+  "aggregate": {
+    "sample_count": 3,
+    "runtime_pass_count": 3,
+    "geometry_scope_pass_count": 3,
+    "wardrobe_contract_pass_with_notes_count": 2,
+    "wardrobe_contract_drift_count": 1
+  },
+  "quality_decision": {
+    "fullbody_geometry_runtime_robustness_pass": true,
+    "strict_wardrobe_prompt_robustness_pass": false,
+    "garment_drift": "Seed 711670302 generated fitted shorts rather than full-length black leggings."
+  },
+  "known_issue_review": [
+    "One of three samples drifted from the requested full-length leggings to fitted shorts.",
+    "BAE normal control preserves broad body planes but does not establish detailed finger, face, or contact geometry authority.",
+    "The matrix is local-only and does not prove target-runtime behavior or final lane certification."
+  ],
+  "boundaries": {
+    "local_only": true,
+    "gold_masks_consumed": false,
+    "body_mask_or_geometry_authority": false,
+    "target_runtime_proof": false,
+    "final_lane_certification": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "mask_promotion": false,
+    "wave70_hard_gate_rerun": false,
+    "wave71_activated": false
+  }
+}

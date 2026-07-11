@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "normal_v4_full_body_robustness_seed711670302",
+  "target_lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+  "purpose": "First seed-only robustness sample for the passed Normal V4 full-body standing contract.",
+  "source_profile": "PromptProfiles/base_generation/controlnet_normal_v1_followup/normal_v4_full_body_standing_seed711670301.json",
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic full-length editorial fitness photograph of one fully clothed adult woman standing in a clean studio, entire person visible from head to shoes, natural asymmetric standing pose, both arms relaxed at her sides, both hands visible with realistic fingers, coherent shoulders torso hips knees and ankles, fitted sleeveless athletic top with full-length black leggings, clean white low-profile sneakers, normal-map-guided body planes and clothing volume, natural skin texture, realistic face and eyes, detailed hair, crisp fabric texture, soft balanced studio lighting, neutral pale gray background, lifelike lens rendering",
+    "negative_prompt": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, beauty filter, distorted anatomy, warped body planes, melted geometry, extra person, extra limbs, missing limbs, extra arms, missing arms, extra fingers, missing fingers, fused fingers, deformed hands, fused legs, broken knees, twisted ankles, cropped head, cropped hands, cropped feet, close-up portrait, seated pose, low resolution, blurry, watermark, text, normal map stains, rainbow surface colors, purple green blue normal-map leakage, control map stains, nude, lingerie, bikini, swimsuit, unclothed torso",
+    "seed": 711670302,
+    "sampler_settings": {
+      "steps": 22,
+      "cfg": 5.4,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1
+    },
+    "latent_resolution": {
+      "width": 768,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "controlnet_asset": "controlnet-union-sdxl-1.0.safetensors",
+    "control_image": "controlnet_normal_bae_full_body_standing_w70_v1.png",
+    "controlnet_settings": {
+      "strength": 0.45,
+      "start_percent": 0,
+      "end_percent": 0.7
+    },
+    "save_prefix": "normal_v4_fullbody_robust_711670302",
+    "union_control_type": "normal"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "normal_v4_fullbody_robust_711670302"
+  },
+  "qa_focus": [
+    "one full-length subject",
+    "head both hands and both feet in frame",
+    "bilateral arm and leg continuity",
+    "coherent clothing volume and body planes",
+    "readable hands without severe finger defects",
+    "absence of normal-map color leakage"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "seed_only_variation": true,
+    "gold_masks_consumed": false,
+    "body_mask_or_geometry_authority_claimed": false,
+    "requires_comparative_qa": true,
+    "requires_target_runtime_reproof_before_final_certification": true
+  }
+}

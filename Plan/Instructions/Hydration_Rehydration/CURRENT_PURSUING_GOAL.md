@@ -1,3 +1,9 @@
+## Active Runtime Posture - Normal Full-Body Local Robustness Complete With Notes - 2026-07-11T04:35:00-05:00
+
+Continue from authoritative `C:\Comfy_UI_Main`. Normal V4 now has three-seed local full-body runtime, metric, and original-resolution visual robustness: `3/3` geometry-scope passes with complete framing, hands, shoes, coherent limbs, all 18 common landmarks, and no control-map leakage. The profile comparison proves only seeds/output names changed. Seed `711670302` retains a wardrobe-compliance note because it generated fitted shorts.
+
+The Item, Tracker mirrors, known-issue review, and bounded multiseed Done_Certification are complete. Do not run more Normal V4 seeds or claim detailed hand/contact authority, target-runtime proof, final lane certification, body-mask authority, Wave70 hard-gate passage, or Wave71+ activation. Continue another concrete local non-mask implementation task with EC2 stopped.
+
 ## Active Runtime Posture - RealESRGAN Multisource Local Robustness Passed With Notes - 2026-07-11T04:20:00-05:00
 
 Continue from authoritative `C:\Comfy_UI_Main`. RealESRGAN_x4plus now has local runtime and preservation QA across Canny portrait, Normal full-body, and two-character contact source classes. The two new samples passed exact 4x, request/hash, shutdown, SSIM, PSNR, MAE, color-shift, whole-image, Item, Tracker, known-issue, and bounded Done_Certification checks without regenerating or reclassifying either source lane.
