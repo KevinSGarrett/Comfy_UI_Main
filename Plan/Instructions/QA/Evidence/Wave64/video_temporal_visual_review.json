@@ -1,0 +1,129 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-VIDEO-TEMPORAL-VISUAL-REVIEW",
+  "timestamp": "2026-07-11T14:03:00-05:00",
+  "tracker_id": "TRK-W64-021",
+  "item_id": "ITEM-W64-021",
+  "source_citation": "Plan/04_VIDEO_GIF_SYSTEM/TEMPORAL_QA_AND_KEYFRAME_SYSTEM.md",
+  "source_requirements": [
+    "identity and face consistency",
+    "body silhouette and hand/finger consistency",
+    "contact-zone consistency",
+    "no unplanned flicker or body morph",
+    "no character merge or split",
+    "no object, background, or camera drift",
+    "audio target consistency when audio exists"
+  ],
+  "implementation": {
+    "strict_wave27_packet_gate_reused": true,
+    "deterministic_frame_grid_ready": true,
+    "deterministic_review_playback_ready": true,
+    "source_dimensions_retained": true,
+    "preview_downscale_bounded": true,
+    "per_frame_adjacency_records_ready": true,
+    "prerequisite_evidence_file_binding_strict": true,
+    "prerequisite_sha256_binding_strict": true,
+    "prerequisite_category_binding_strict": true,
+    "manifest_sequence_binding_strict": true,
+    "transactional_output_publication": true,
+    "final_acceptance_claim_forbidden": true
+  },
+  "implementation_artifacts": [
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/prepare_wave27_strict_visual_review_packet.py",
+      "sha256": "8f9af73222ecb45185720d05c4258750b2982e691e4a8bbd90b314cabeeaa6a6"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave27_visual_review_prerequisites.schema.json",
+      "sha256": "4eb28a6e1d1cb0b711d0afa3ebc679f4e0425f1119282f10fe2b0586a50751fc"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave27_visual_review_packet.schema.json",
+      "sha256": "5179fe4e6a2b125109be04ef117da8a597144d85ed270eb9ef5c21c91a560c4b"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_prepare_wave27_strict_visual_review_packet.py",
+      "sha256": "7ca8e870cbf236408bae11b6aae1db5a8e2c53381fd09a623e8802cc99840c66"
+    }
+  ],
+  "offline_validation": {
+    "test_log": "Plan/Instructions/QA/Evidence/Wave64/video_temporal_visual_review_test_log.json",
+    "test_log_sha256": "9a209495be8aff62ce30aca0701279bbacb8abce0916628a12ce10bbb31fc704",
+    "tests_run": 16,
+    "test_failures": 0,
+    "test_errors": 0,
+    "python_compile": "pass",
+    "schema_json_parse": "pass",
+    "git_diff_check": "pass",
+    "temporary_test_frames_are_production_evidence": false,
+    "technical_offline_pass": true
+  },
+  "production_evidence_inventory": {
+    "production_wave27_frame_manifest_present": false,
+    "production_wave27_temporal_evidence_present": false,
+    "production_frame_grid_present": false,
+    "production_review_playback_present": false,
+    "production_detector_evidence_present": false,
+    "production_motion_analysis_present": false,
+    "production_codex_visual_verdict_present": false,
+    "search_scope": "runtime_artifacts filename inventory for Wave27 manifests, temporal evidence, visual review packets, frame grids, and playback artifacts",
+    "test_and_worker_handoff_artifacts_excluded_from_production_proof": true
+  },
+  "acceptance_gates": {
+    "packet_preparation_implementation": true,
+    "per_frame_qa": false,
+    "temporal_identity_check": false,
+    "face_consistency_check": false,
+    "body_silhouette_check": false,
+    "hand_finger_check": false,
+    "contact_zone_check": false,
+    "flicker_detection": false,
+    "motion_consistency": false,
+    "object_background_camera_consistency": false,
+    "frame_grid_and_playback_visual_review": false,
+    "runtime_proof": false,
+    "final_temporal_visual_pass": false
+  },
+  "review": {
+    "cursor_gap_review": "runtime_artifacts/agent_handoffs/cursor/20260711T132935-0500_wave64_temporal_visual_qa_gap_review/handoff_record.json",
+    "cursor_initial_implementation": "runtime_artifacts/agent_handoffs/cursor/20260711T133402-0500_wave64_temporal_visual_review_packet_prep/handoff_record.json",
+    "cursor_evidence_binding_correction": "runtime_artifacts/agent_handoffs/cursor/20260711T134043-0500_wave64_temporal_visual_review_packet_correction/handoff_record.json",
+    "claude_initial_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T135125-0500_wave64_temporal_visual_packet_final_review/handoff_record.json",
+    "claude_review_findings_remediated": 3,
+    "claude_confirmation": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T135902-0500_wave64_temporal_visual_packet_remediation_confirmation/handoff_record.json",
+    "remaining_high_or_medium_findings": 0
+  },
+  "runtime": {
+    "generation_executed": false,
+    "production_packet_generated": false,
+    "visual_review_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "comfyui_started": false,
+    "reason": "No production Wave27 frame sequence or bound detector, motion, contact, and visual-verdict evidence exists. Test fixtures prove tool behavior only."
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Video_Temporal_Visual_Proof_Missing",
+      "scope": "primary_row_blocker",
+      "reason": "The strict review-packet preparation path passes offline, but no production frame sequence, temporal detector evidence, frame grid, playback artifact, or Codex visual verdict exists for review."
+    },
+    {
+      "classification": "Blocked_Gold_Mask_Dependency_Missing",
+      "scope": "body_hand_contact_subgates_only",
+      "reason": "Body silhouette, hand/finger, and contact-zone continuity cannot be certified from candidate masks while manual body gold masks remain unavailable."
+    }
+  ],
+  "result": "blocked_video_temporal_visual_proof_missing",
+  "overall_pass": false,
+  "status_decision": "Blocked_Video_Temporal_Visual_Proof_Missing",
+  "strict_decision": {
+    "row_complete": false,
+    "offline_implementation_pass": true,
+    "production_visual_review_claimed": false,
+    "runtime_proof_claimed": false,
+    "final_temporal_visual_pass_claimed": false,
+    "mask_or_geometry_authority_claimed": false,
+    "wave71_activation_claimed": false
+  }
+}

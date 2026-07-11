@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "report_id": "ITEM-W64-021-VIDEO-TEMPORAL-VISUAL-REVIEW-20260711T140300-0500",
+  "timestamp": "2026-07-11T14:03:00-05:00",
+  "item_id": "ITEM-W64-021",
+  "tracker_id": "TRK-W64-021",
+  "workstream": "video_temporal_visual_review",
+  "status": "Blocked_Video_Temporal_Visual_Proof_Missing",
+  "row_complete": false,
+  "implementation": {
+    "strict_packet_preparation_added": true,
+    "frame_grid_and_playback_generation_ready": true,
+    "per_frame_adjacency_records_ready": true,
+    "strict_prerequisite_evidence_binding_ready": true,
+    "transactional_output_ready": true,
+    "final_acceptance_claim_forbidden": true
+  },
+  "validation": {
+    "unit_tests_passed": 16,
+    "unit_test_failures": 0,
+    "python_compile": "pass",
+    "schema_json_parse": "pass",
+    "git_diff_check": "pass",
+    "claude_review_findings_remediated": 3,
+    "remaining_high_or_medium_findings": 0,
+    "production_frame_sequence_present": false,
+    "production_visual_review_executed": false
+  },
+  "acceptance_gates": {
+    "packet_preparation_implementation": true,
+    "per_frame_qa": false,
+    "temporal_identity_check": false,
+    "flicker_detection": false,
+    "motion_consistency": false,
+    "body_hand_contact_consistency": false,
+    "frame_grid_and_playback_visual_review": false,
+    "runtime_proof": false
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Video_Temporal_Visual_Proof_Missing",
+      "reason": "No production Wave27 frame sequence, detector/motion evidence, frame grid, playback artifact, or Codex visual verdict exists. Test fixtures prove preparation behavior only."
+    },
+    {
+      "classification": "Blocked_Gold_Mask_Dependency_Missing",
+      "reason": "Only body silhouette, hand/finger, and contact-zone subgates are blocked by the unavailable manual body gold masks."
+    }
+  ],
+  "evidence": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/video_temporal_visual_review.json",
+      "sha256": "99ca595eea94142607abd61dc1c0e4a0d0dfff236619f3ff43747e24e870bf85"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/video_temporal_visual_review_test_log.json",
+      "sha256": "9a209495be8aff62ce30aca0701279bbacb8abce0916628a12ce10bbb31fc704"
+    }
+  ],
+  "runtime": {
+    "generation_count": 0,
+    "production_packet_count": 0,
+    "visual_review_count": 0,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "comfyui_started": false
+  },
+  "next_action": "Keep row 021 blocked without a production visual-pass claim. Continue TRK-W64-022 / ITEM-W64-022 by duplicate-checking the existing Wave26 reference-video input lane and selecting one bounded offline implementation gap; do not invent a reference video, consume candidate masks as truth, or contact AWS while authentication remains expired."
+}

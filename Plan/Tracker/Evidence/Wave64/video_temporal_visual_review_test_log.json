@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-VIDEO-TEMPORAL-VISUAL-REVIEW-TEST-LOG-20260711T140300-0500",
+  "timestamp": "2026-07-11T14:03:00-05:00",
+  "tracker_id": "TRK-W64-021",
+  "item_id": "ITEM-W64-021",
+  "command": "python -m unittest Plan.Instructions.QA.Scripts.test_prepare_wave27_strict_visual_review_packet -v",
+  "result": "pass",
+  "exit_code": 0,
+  "tests_run": 16,
+  "failures": 0,
+  "errors": 0,
+  "elapsed_seconds": 68.489,
+  "transcript": "runtime_artifacts/wave64_temporal_visual_review/unit_tests_20260711T140300-0500.txt",
+  "transcript_sha256": "2187e3e47e91de2f2ff6021ccd08ad5ab83689abd504ce94666e04aa7c96691b",
+  "covered_files": [
+    "Plan/07_IMPLEMENTATION/scripts/prepare_wave27_strict_visual_review_packet.py",
+    "Plan/08_SCHEMAS/wave27_visual_review_prerequisites.schema.json",
+    "Plan/08_SCHEMAS/wave27_visual_review_packet.schema.json",
+    "Plan/Instructions/QA/Scripts/test_prepare_wave27_strict_visual_review_packet.py"
+  ],
+  "positive_contracts_covered": [
+    "strict Wave27 manifest and temporal-evidence gate reuse",
+    "deterministic frame grid and review playback generation",
+    "source-dimension retention with bounded preview downscaling",
+    "single-frame playback duration",
+    "real prerequisite evidence file, SHA256, category, and sequence binding",
+    "recorded Codex pass, fail, or blocked verdict without final acceptance",
+    "fresh nested output creation and transactional publication"
+  ],
+  "negative_contracts_covered": [
+    "missing, empty, tampered, or malformed verified evidence",
+    "wrong evidence category or sequence SHA256",
+    "detector failure blocks with exit code 2",
+    "detector failure takes precedence over a recorded visual verdict",
+    "manifest frame-count mismatch",
+    "undecodable or dimension-mismatched frame artifacts",
+    "invalid audio not-required semantics",
+    "pre-existing output file or non-empty output directory",
+    "final temporal visual pass and final acceptance remain false"
+  ]
+}

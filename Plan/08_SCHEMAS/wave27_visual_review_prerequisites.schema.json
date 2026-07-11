@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave27 Visual Review Prerequisites",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "identity_detector",
+    "face_detector",
+    "body_silhouette_evidence",
+    "hand_finger_evidence",
+    "trusted_contact_mask_evidence",
+    "motion_analysis",
+    "object_background_camera_analysis",
+    "audio_required",
+    "audio_asset_evidence",
+    "audio_timing_evidence"
+  ],
+  "properties": {
+    "identity_detector": {
+      "$ref": "#/$defs/verified_or_missing_ref"
+    },
+    "face_detector": {
+      "$ref": "#/$defs/verified_or_missing_ref"
+    },
+    "body_silhouette_evidence": {
+      "$ref": "#/$defs/verified_or_missing_ref"
+    },
+    "hand_finger_evidence": {
+      "$ref": "#/$defs/verified_or_missing_ref"
+    },
+    "trusted_contact_mask_evidence": {
+      "$ref": "#/$defs/verified_or_missing_ref"
+    },
+    "motion_analysis": {
+      "$ref": "#/$defs/verified_or_missing_ref"
+    },
+    "object_background_camera_analysis": {
+      "$ref": "#/$defs/verified_or_missing_ref"
+    },
+    "audio_required": {
+      "type": "boolean"
+    },
+    "audio_asset_evidence": {
+      "$ref": "#/$defs/audio_ref"
+    },
+    "audio_timing_evidence": {
+      "$ref": "#/$defs/audio_ref"
+    },
+    "codex_visual_verdict": {
+      "$ref": "#/$defs/optional_verdict_ref"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "audio_required": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "audio_asset_evidence": {
+            "$ref": "#/$defs/verified_or_missing_ref"
+          },
+          "audio_timing_evidence": {
+            "$ref": "#/$defs/verified_or_missing_ref"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "verified_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "const": "verified"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "missing_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reason"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "const": "missing"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "not_required_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reason"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "const": "not_required"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "verified_or_missing_ref": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/verified_ref"
+        },
+        {
+          "$ref": "#/$defs/missing_ref"
+        }
+      ]
+    },
+    "audio_ref": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/verified_ref"
+        },
+        {
+          "$ref": "#/$defs/missing_ref"
+        },
+        {
+          "$ref": "#/$defs/not_required_ref"
+        }
+      ]
+    },
+    "optional_verdict_ref": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/verified_ref"
+        },
+        {
+          "$ref": "#/$defs/missing_ref"
+        },
+        {
+          "$ref": "#/$defs/not_required_ref"
+        }
+      ]
+    }
+  }
+}
