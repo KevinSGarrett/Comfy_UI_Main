@@ -89,12 +89,12 @@
     "runtime_output_required":  true,
     "qa_report_required":  true,
     "promotion_allowed_without_evidence":  false,
-    "current_status":  "local_canny_eyeonly_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
-    "known_blockers":  [
-                           "Canny eye-only local robustness passed with notes, but seed 711570105 has a faint right-edge seam/background artifact that prevents clean final quality certification.",
-                           "Target-runtime EC2 proof for the current candidate remains separate from local robustness evidence.",
-                           "Hands, full-body anatomy, contact points, and broader scene complexity are not certified by the head-and-shoulders samples."
-                       ],
+    "current_status":  "target_runtime_canny_v4_bounded_portrait_certified_with_notes_plus_local_variant_robustness",
+    "known_limits":  [
+                         "Seed 711570105 has a faint right-edge seam/background artifact; it is nonblocking for the bounded portrait certification.",
+                         "The W68 target-runtime proof certifies the Canny v4 portrait request; later local variants were not target-runtime re-proven.",
+                         "Hands, feet, full-body anatomy, contact points, masks, and broader scene complexity remain outside certified scope."
+                     ],
     "evidence_paths":  [
                            "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_WORKFLOW_STATIC_VALIDATION_SDXL_REALVISXL_CONTROLNET_CANNY_20260706T212030-0500.json",
                            "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_WORKFLOW_SMOKE_DRY_RUN_SDXL_REALVISXL_CONTROLNET_CANNY_20260706T212030-0500.json",
@@ -154,7 +154,8 @@
                            "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_EYEONLY_ROBUST_SEED711570104_EXECUTE_20260707T092200-0500.json",
                            "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_EYEONLY_ROBUST_SEED711570105_EXECUTE_20260707T092300-0500.json",
                            "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_RIGHTEDGE_MASKED_V3_VISUAL_QA_20260707T133500-0500.json",
-                           "Plan/Tracker/Evidence/W69_LOCAL_CANNY_RIGHTEDGE_MASKED_V3_20260707T133500-0500.json"
+                           "Plan/Tracker/Evidence/W69_LOCAL_CANNY_RIGHTEDGE_MASKED_V3_20260707T133500-0500.json",
+                           "Plan/Instructions/QA/Evidence/Done_Certifications/W66_CANNY_LANE_FINAL_CERTIFICATION_20260711T024500-0500.json"
                        ],
-    "status_notes":  "Current preferred Canny eye-only candidate now has local three-sample robustness evidence: preferred seed 711570102 plus seed-only robustness samples 711570104 and 711570105. Eye readability, clean Canny guidance, natural edge behavior, and stable jaw/collar boundaries hold. The v3 right-edge-band-masked control input removes the seed 711570105 right-edge band artifact locally. This remains pass-with-notes local support only, not final Canny certification or target-runtime proof."
+    "status_notes":  "Canny v4 has bounded target-runtime portrait certification with notes from W68 static proof, one generation, hash-verified pullback, technical QA, and visual QA. W69 local multiseed work adds portrait robustness context. The faint seed 711570105 right-edge seam remains a nonblocking note; later local variants and broader anatomy/scene scopes are not target-runtime certified."
 }

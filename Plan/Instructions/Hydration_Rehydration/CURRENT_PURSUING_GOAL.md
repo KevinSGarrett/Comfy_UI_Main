@@ -1,3 +1,9 @@
+## Active Runtime Posture - Canny Bounded Certified, Base Review Next - 2026-07-11T02:45:00-05:00
+
+Continue from authoritative `C:\Comfy_UI_Main`. Canny v4 is now finally certified for a bounded portrait target-runtime scope with notes; later local variants remain local-only context. Preserve its no-rerun boundary. Normal, OpenPose, and RealESRGAN remain prepared at their recorded capacity-limited stages, and EC2 is stopped.
+
+Use the capacity interval for a no-rerun evidence audit of `sdxl_realvisxl_base_lane`. Any certificate must distinguish target-runtime proof from later local contact/two-character attempts and must retain all observed visual limitations and mask-dependent exclusions.
+
 ## Active Runtime Posture - Three Lanes Prepared Around Capacity Block, Canny Review Next - 2026-07-11T02:30:00-05:00
 
 Continue from authoritative `C:\Comfy_UI_Main`. Normal is remotely installed but capacity-blocked before static proof; OpenPose and RealESRGAN are clean-head packaged and remotely staged with exact hashes but not installed or executed. EC2 remains stopped and no capacity retry loop is allowed.

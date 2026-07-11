@@ -1,0 +1,86 @@
+{
+  "certification_id": "CERT-W66-CANNY-LANE-FINAL-20260711T024500-0500",
+  "timestamp": "2026-07-11T02:45:00-05:00",
+  "task_tracker_id": "WO-W66-SDXL_REALVISXL_CONTROLNET_CANNY_LANE-FINAL-CERTIFICATION",
+  "title": "Bounded SDXL RealVisXL ControlNet Canny portrait lane final certification",
+  "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "artifact_scope": "Existing Canny v4 target-runtime portrait proof plus local Canny portrait robustness evidence",
+  "implementation_summary": "Certifies the already implemented Canny lane for a bounded head-and-shoulders portrait scope from existing W68 target-runtime static/generation/pullback evidence and W69 local multiseed robustness. No new generation or EC2 work was performed.",
+  "tests_performed": [
+    {
+      "name": "target_runtime_static_proof",
+      "result": "pass",
+      "evidence": "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W68_EC2_STATIC_PROOF_CANNY_V4_RUNTIME_PASS_20260707T014700-0500.json"
+    },
+    {
+      "name": "bounded_target_runtime_generation",
+      "result": "pass",
+      "evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_EC2_WORKFLOW_SMOKE_CANNY_V4_AFTER_INPUT_INSTALL_20260707T020800-0500.json"
+    },
+    {
+      "name": "pullback_hash_integrity",
+      "result": "pass_4_of_4",
+      "evidence": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260707T021155-0500/PULLBACK_RECORD.json"
+    },
+    {
+      "name": "technical_qa",
+      "result": "pass",
+      "evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_CANNY_V4_EC2_IMAGE_QA_TECHNICAL_20260707T021700-0500.json"
+    },
+    {
+      "name": "strict_visual_qa",
+      "result": "pass_with_notes",
+      "evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_CANNY_V4_EC2_IMAGE_QA_VISUAL_20260707T022300-0500.json"
+    },
+    {
+      "name": "local_multiseed_robustness",
+      "result": "pass_with_notes",
+      "evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_EYEONLY_MULTISEED_ROBUSTNESS_VISUAL_QA_20260707T092500-0500.json"
+    },
+    {
+      "name": "independent_contradiction_audit",
+      "result": "pass_no_substantive_contradictions",
+      "evidence": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T021832-0500_canny_bounded_final_certification_contradiction_audit/handoff_record.json"
+    }
+  ],
+  "qa_summary": {
+    "target_runtime_visual_decision": "pass_with_notes_for_runtime_smoke",
+    "technical_defects": 0,
+    "local_robustness_blocking_defects": 0,
+    "reviewed_image_sha256": "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523",
+    "final_visual_reinspection": "pass_with_notes"
+  },
+  "evidence_paths": {
+    "prior_final_review_packet": "Plan/Instructions/QA/Evidence/Done_Certifications/W66_CANNY_LANE_FINAL_REVIEW_PACKET_SELECTED_CHAIN_20260709T184000-0500.json",
+    "tracker_closure_rollup": "Plan/Tracker/Evidence/Runtime_Readiness/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_CLOSURE_ROLLUP_SELECTED_CHAIN_20260709T193000-0500.json",
+    "itemized_list_record": "Plan/Items/Reports/W66_CANNY_LANE_FINAL_CERTIFICATION_ITEMIZED_LIST_20260711T024500-0500.json",
+    "runtime_requirements": "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json",
+    "active_lanes": "Workflows/base_generation/ACTIVE_LANES.json",
+    "runtime_lane_queue": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json"
+  },
+  "known_issues": [
+    "Seed 711570105 has a faint right-edge seam/background artifact; this is unresolved but nonblocking for the bounded portrait lane.",
+    "The target-runtime evidence is a single Canny v4 portrait sample. Later local Canny variants provide local robustness context but are not target-runtime certified.",
+    "The older CERT_W69 local-support record's target_runtime_evidence_missing blocker is superseded by the dated W68 target-runtime proof and this certificate."
+  ],
+  "certified_scope": "SDXL RealVisXL plus ControlNet Canny for bounded head-and-shoulders portrait geometry and edge guidance",
+  "excluded_scope": [
+    "hands",
+    "feet",
+    "full-body anatomy",
+    "contact points",
+    "body masks and mask-dependent geometry",
+    "broader scene classes",
+    "video, audio, or deformation quality",
+    "changed local variants without target-runtime reproof",
+    "full-project certification"
+  ],
+  "target_runtime_proof": true,
+  "final_lane_certification": true,
+  "full_project_certification": false,
+  "new_ec2_started": false,
+  "new_generation_executed": false,
+  "final_decision": "done_with_non_blocking_notes",
+  "certifier": "Codex Desktop autonomous release manager",
+  "no_rerun_boundary": "Do not rerun baseline Canny v4 local or AWS proof. New execution requires a changed workflow, request, control image, model route, artifact integrity state, or intentionally selected broader scope."
+}

@@ -1,3 +1,9 @@
+## Immediate Next Action - Canny Bounded Lane Certified, Base Lane Review Next - 2026-07-11T02:45:00-05:00
+
+`sdxl_realvisxl_controlnet_canny_lane` now has an explicitly named bounded final lane certification from existing W68 target-runtime proof and W69 local portrait robustness. The certificate retains the faint seed 711570105 right-edge seam as a nonblocking note and excludes changed variants, hands, feet, full body, contact, masks, broader scenes, and full-project claims. No Canny generation or EC2 work was rerun.
+
+Next, audit `sdxl_realvisxl_base_lane` for a similarly bounded final certification from its existing runtime, contact-closeup, and two-character evidence. Keep EC2 stopped and do not use local variant evidence to overstate target-runtime or broader anatomy scope.
+
 ## Immediate Next Action - Upscale Remotely Staged, Canny Final Review Next - 2026-07-11T02:30:00-05:00
 
 `sdxl_realesrgan_upscale_polish_lane` now has a clean-head four-node run package and deploy bundle, passing package/deploy consistency with zero failures or warnings, exact S3 objects for RealESRGAN_x4plus, its source image, and the deploy bundle, plus validated no-execute EC2 install plans. EC2 was not started and remains stopped because the current capacity window is blocked.

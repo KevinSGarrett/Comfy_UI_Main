@@ -1,3 +1,12 @@
+## 2026-07-11T02:45:00-05:00 - Canny bounded final lane certification issued without rerun
+
+- Existing W68 static proof, one target-runtime Canny v4 generation, 4/4 pullback integrity, technical QA, and visual QA pass with notes.
+- W69 local multiseed evidence supplies bounded portrait robustness context but does not target-runtime certify later variants.
+- The faint seed 711570105 right-edge seam remains a nonblocking known issue.
+- Hands, feet, full body, contact, masks, broader scenes, changed variants, and full-project certification remain excluded.
+- The older local-support `target_runtime_evidence_missing` statement is superseded by dated W68 proof and `W66_CANNY_LANE_FINAL_CERTIFICATION_20260711T024500-0500.json`.
+- No EC2 start, generation, mask action, Wave70/Wave71+ action, Jira mutation, or baseline Canny rerun occurred.
+
 ## Decision - Licensed Model Installation Must Be Hash-Bound And Pre-Network Gated - 2026-07-10T22:45:00-05:00
 
 Use `Install-LicensedModelFromHttp.ps1` for the Flux1 local checkpoint when acceptance exists. Require exact acceptance binding before network contact, immutable HTTPS, contained destination paths, resumable partial download, exact size/SHA verification, and non-overwriting atomic install. Dry-run is the only authorized current mode.
