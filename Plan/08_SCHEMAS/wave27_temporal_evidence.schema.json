@@ -1,18 +1,230 @@
 {
-  "schema_name": "wave27_temporal_evidence",
-  "required_fields": [
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave27 Temporal Evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_name",
+    "evidence_version",
     "run_id",
     "engine_name",
     "frame_count",
+    "loop_profile",
     "identity_drift_score",
     "flicker_score",
+    "pose_continuity_score",
+    "depth_continuity_score",
+    "contact_continuity_score",
+    "export_integrity_score",
+    "dimension_scores",
+    "overall_temporal_score",
+    "hard_failures",
     "repair_events",
-    "promotion_decision"
+    "repair_policy_consistent",
+    "promotion_decision",
+    "loop_export"
   ],
-  "promotion_decisions": [
-    "promote",
-    "repair",
-    "rerun",
-    "block"
-  ]
+  "properties": {
+    "schema_name": {
+      "type": "string",
+      "const": "wave27_temporal_evidence"
+    },
+    "evidence_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "engine_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "frame_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "loop_profile": {
+      "type": "string",
+      "minLength": 1
+    },
+    "identity_drift_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "flicker_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "pose_continuity_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "depth_continuity_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "contact_continuity_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "export_integrity_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "dimension_scores": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identity_drift",
+        "flicker",
+        "pose_continuity",
+        "depth_continuity",
+        "contact_continuity",
+        "export_integrity"
+      ],
+      "properties": {
+        "identity_drift": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "flicker": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "pose_continuity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "depth_continuity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "contact_continuity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "export_integrity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "overall_temporal_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "hard_failures": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "repair_events": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "frame_index",
+          "action",
+          "event_type",
+          "status"
+        ],
+        "properties": {
+          "frame_index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "action": {
+            "type": "string",
+            "minLength": 1
+          },
+          "event_type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "applied",
+              "skipped",
+              "failed",
+              "not_needed"
+            ]
+          }
+        }
+      }
+    },
+    "repair_policy_consistent": {
+      "type": "boolean"
+    },
+    "promotion_decision": {
+      "type": "string",
+      "enum": [
+        "promote",
+        "repair",
+        "rerun",
+        "block"
+      ]
+    },
+    "loop_export": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "structural_gate_passed",
+        "decision_scope",
+        "final_export_ready",
+        "final_export_passed",
+        "reason"
+      ],
+      "properties": {
+        "structural_gate_passed": {
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        "decision_scope": {
+          "type": "string",
+          "enum": [
+            "offline_structural_only"
+          ]
+        },
+        "final_export_ready": {
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        },
+        "final_export_passed": {
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
 }

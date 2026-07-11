@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "report_id": "ITEM-W64-019-VIDEO-PIPELINE-BUILD-20260711T125500-0500",
+  "timestamp": "2026-07-11T12:55:00-05:00",
+  "item_id": "ITEM-W64-019",
+  "tracker_id": "TRK-W64-019",
+  "workstream": "video_pipeline_build",
+  "status": "Blocked_Video_Runtime_Visual_Proof_Missing",
+  "row_complete": false,
+  "implementation": {
+    "existing_lane_extended_in_place": true,
+    "duplicate_framework_created": false,
+    "strict_sequence_manifest_compiler": true,
+    "registry_derived_temporal_scorer": true,
+    "artifact_hash_size_and_sequence_validation": true,
+    "pack_integrity_compatibility_preserved": true,
+    "offline_final_export_claim_forbidden": true
+  },
+  "validation": {
+    "unit_tests_passed": 16,
+    "unit_test_failures": 0,
+    "python_compile": "pass",
+    "schema_json_parse": "pass",
+    "repository_root_pack_integrity": "pass",
+    "plan_root_pack_integrity": "pass",
+    "strict_valid_packet": "pass",
+    "strict_negative_contracts": "pass",
+    "claude_high_or_medium_findings": 0
+  },
+  "acceptance_gates": {
+    "video_workflow_valid": false,
+    "keyframe_manifest": false,
+    "frame_sequence_manifest": false,
+    "frame_sequence_manifest_structural_validator_ready": true,
+    "loop_export_gate": false,
+    "loop_export_structural_gate_ready": true,
+    "artifact_evidence": false,
+    "frame_repair_effectiveness": false,
+    "strict_frame_sequence_visual_review": false
+  },
+  "runtime": {
+    "generation_count": 0,
+    "export_count": 0,
+    "visual_review_count": 0,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "comfyui_started": false
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Video_Runtime_Visual_Proof_Missing",
+      "reason": "A production video route has not produced and exported a hash-bound frame sequence for temporal and visual review."
+    },
+    {
+      "classification": "Blocked_Gold_Mask_Dependency_Missing",
+      "reason": "Trusted body/contact masks remain unavailable for the blueprint's contact and soft-body keyframe proof."
+    }
+  ],
+  "evidence": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build.json",
+      "sha256": "e9bfb3fe9018a9c7b8cab1e7cd6c1b84e452a25e86385c3a1b01aa302fe6d0ca"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build_test_log.json",
+      "sha256": "b10aeb303180d628ce6a56430e0baa9392e3c1b923bcfa5d8ec5918230aa14fd"
+    }
+  ],
+  "review": {
+    "cursor_worker_first_used": true,
+    "cursor_write_scope_violation": false,
+    "claude_final_review": "pass",
+    "codex_final_tests_and_acceptance_review": "pass_offline_blocked_runtime"
+  },
+  "next_action": "Keep this row blocked without runtime or visual certification. Continue the next concrete non-mask implementation row; revisit only when a production video engine can generate a real frame sequence and final export, and revisit contact/body proof only after trusted manual gold masks are ready."
+}

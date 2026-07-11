@@ -1247,3 +1247,6 @@ The stale-package/clean-bundle contradiction is resolved locally. The current pa
 ## Wave64 Camera Visual Runtime Mismatch - 2026-07-11T11:45:00-05:00
 
 `TRK-W64-011` / `ITEM-W64-011` pass compiler, unit, schema, package, graph, local runtime, hash, nonblank, and DWPose technical checks, but fail strict original-resolution visual readiness. Both hands are partly hidden in trouser pockets instead of fully open and inspectable. Classification: `Blocked_Visual_Runtime_Composition_Mismatch`. No retry was performed; this does not block unrelated non-mask project work.
+## Wave64 Video Runtime, Export, Visual, And Mask Proof Missing - 2026-07-11T12:55:00-05:00
+
+`TRK-W64-019` / `ITEM-W64-019` has passing offline implementation proof but no production video-engine frame sequence, repaired-frame result, final GIF/MP4/WebM export, or temporal visual review. Classification: `Blocked_Video_Runtime_Visual_Proof_Missing`. The blueprint's body/contact and soft-body keyframes also remain subject to `Blocked_Gold_Mask_Dependency_Missing` until trusted manual body gold masks are ready. Do not infer certification from the structural unit packet.

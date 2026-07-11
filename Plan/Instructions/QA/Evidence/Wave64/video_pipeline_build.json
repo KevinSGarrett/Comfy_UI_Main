@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-VIDEO-PIPELINE-BUILD",
+  "timestamp": "2026-07-11T12:55:00-05:00",
+  "tracker_id": "TRK-W64-019",
+  "item_id": "ITEM-W64-019",
+  "source_citation": "Plan/04_VIDEO_GIF_SYSTEM/VIDEO_GIF_PIPELINE_BLUEPRINT.md",
+  "implementation": {
+    "existing_wave26_wave27_lane_extended_in_place": true,
+    "parallel_video_framework_created": false,
+    "strict_frame_sequence_compiler": true,
+    "strict_temporal_evidence_scorer": true,
+    "strict_packet_and_pack_integrity_validator": true,
+    "registry_bound_engine_loop_repair_and_hard_failure_taxonomies": true,
+    "offline_final_export_claim_forbidden": true
+  },
+  "implementation_artifacts": [
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/compile_wave27_frame_manifest.py",
+      "sha256": "149c3bbd9a4e4b160b66ffe755c91bb161f13873c16cf89a7aeb571e3b33b9c0"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/score_wave27_temporal_evidence.py",
+      "sha256": "1109e69d3e7921981ac9be8f89c5979262837a9af1653ff41cdc87fd13fcda69"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/run_wave27_local_validation.py",
+      "sha256": "a3b986b8957937d1962a21b12f3b2165f5aafb17b72e38bbcf537e4191bc0917"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave27_frame_manifest.schema.json",
+      "sha256": "d897b82d0e47d7df1d9fb4d4011b9fd3051f61b4845f2824cbfabcfa0a2c2735"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave27_temporal_evidence.schema.json",
+      "sha256": "3c3892cefde63cfa029ce43720d48d7ab530868dbc99373e9729c195e7c1e86d"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_wave27_video_pipeline_strict.py",
+      "sha256": "2b945c78ab88be5f6e70913fa72bb7367612b2a00396f530c5fac9c5c25260a8"
+    }
+  ],
+  "offline_validation": {
+    "test_log": "Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build_test_log.json",
+    "test_log_sha256": "b10aeb303180d628ce6a56430e0baa9392e3c1b923bcfa5d8ec5918230aa14fd",
+    "tests_run": 16,
+    "test_failures": 0,
+    "test_errors": 0,
+    "pack_integrity_wrapper_pass": true,
+    "repository_root_mode_pass": true,
+    "plan_root_mode_pass": true,
+    "strict_valid_packet_pass": true,
+    "strict_negative_cases_fail_closed": true,
+    "technical_offline_pass": true
+  },
+  "acceptance_gates": {
+    "video_workflow_valid": false,
+    "keyframe_manifest": false,
+    "frame_sequence_manifest": false,
+    "frame_sequence_manifest_structural_validator_ready": true,
+    "loop_export_gate": false,
+    "loop_export_structural_gate_ready": true,
+    "artifact_evidence": false,
+    "frame_repair_effectiveness": false,
+    "strict_frame_sequence_visual_review": false
+  },
+  "runtime": {
+    "generation_executed": false,
+    "generated_frame_count": 0,
+    "video_or_gif_export_count": 0,
+    "visual_review_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "comfyui_started": false,
+    "reason": "This bounded packet closed the existing local sequence-validation gap. No production video-engine frame sequence, repaired span, or final GIF/MP4/WebM export was produced, and AWS authentication remains expired."
+  },
+  "review": {
+    "cursor_authority_inventory": "runtime_artifacts/agent_handoffs/cursor/20260711T121527-0500_wave64_video_authority_inventory/handoff_record.json",
+    "cursor_implementation_discovery": "runtime_artifacts/agent_handoffs/cursor/20260711T122039-0500_wave64_video_implementation_surface_discovery/handoff_record.json",
+    "cursor_gap_review": "runtime_artifacts/agent_handoffs/cursor/20260711T122529-0500_wave64_video_existing_lane_gap_review/handoff_record.json",
+    "cursor_implementation": "runtime_artifacts/agent_handoffs/cursor/20260711T122748-0500_wave64_video_strict_sequence_patch/handoff_record.json",
+    "cursor_correction": "runtime_artifacts/agent_handoffs/cursor/20260711T123451-0500_wave64_video_strict_sequence_correction/handoff_record.json",
+    "claude_final_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T124725-0500_wave64_video_final_contradiction_review/handoff_record.json",
+    "claude_high_or_medium_findings": 0
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Video_Runtime_Visual_Proof_Missing",
+      "reason": "No production route has produced a hash-bound frame sequence, repaired-frame result, temporal visual review, or final GIF/MP4/WebM export for this row. Offline structural proof cannot certify video runtime or visual quality."
+    },
+    {
+      "classification": "Blocked_Gold_Mask_Dependency_Missing",
+      "reason": "The blueprint's body/contact keyframe states require trusted body and contact masks. Manual body gold masks are not ready, so mask-dependent contact and soft-body video proof remains blocked."
+    }
+  ],
+  "result": "blocked_video_runtime_visual_and_gold_mask_proof_missing",
+  "overall_pass": false,
+  "status_decision": "Blocked_Video_Runtime_Visual_Proof_Missing",
+  "strict_decision": {
+    "row_complete": false,
+    "offline_implementation_pass": true,
+    "runtime_or_visual_certification_claimed": false,
+    "mask_or_geometry_authority_claimed": false,
+    "wave71_activation_claimed": false,
+    "reason": "The existing local Wave27 sequence lane is now strict and fail-closed, but production runtime, export, visual, repair-effectiveness, and mask-dependent proof are still absent."
+  }
+}

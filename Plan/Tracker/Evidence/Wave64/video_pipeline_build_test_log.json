@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-VIDEO-PIPELINE-BUILD-TEST-LOG-20260711T125400-0500",
+  "timestamp": "2026-07-11T12:54:00-05:00",
+  "tracker_id": "TRK-W64-019",
+  "item_id": "ITEM-W64-019",
+  "commands": [
+    {
+      "command": "python -m unittest Plan.Instructions.QA.Scripts.test_wave27_video_pipeline_strict -v",
+      "result": "pass",
+      "exit_code": 0,
+      "tests_run": 16,
+      "failures": 0,
+      "errors": 0,
+      "elapsed_seconds": 24.974,
+      "transcript": "runtime_artifacts/wave64_video_pipeline_build/unit_tests_20260711T125400-0500.txt",
+      "transcript_sha256": "f151aed412762dfe4ea3d0b41292dcbea470d57523279eaa3817e1cc663d8c7f"
+    },
+    {
+      "command": "Run-Wave27-VideoRoutingTemporalQAValidation.ps1 -Root C:\\Comfy_UI_Main\\Plan",
+      "result": "pass",
+      "exit_code": 0,
+      "transcript": "runtime_artifacts/wave64_video_pipeline_build/pack_wrapper_20260711T125226-0500.txt",
+      "transcript_sha256": "2de9ba82a2885cfb4bddfba4c09ba278eb0d704f1ad87bb17d4d157c3b3db3ff"
+    }
+  ],
+  "covered_files": [
+    "Plan/07_IMPLEMENTATION/scripts/compile_wave27_frame_manifest.py",
+    "Plan/07_IMPLEMENTATION/scripts/score_wave27_temporal_evidence.py",
+    "Plan/07_IMPLEMENTATION/scripts/run_wave27_local_validation.py",
+    "Plan/08_SCHEMAS/wave27_frame_manifest.schema.json",
+    "Plan/08_SCHEMAS/wave27_temporal_evidence.schema.json",
+    "Plan/Instructions/QA/Scripts/test_wave27_video_pipeline_strict.py"
+  ],
+  "positive_contracts_covered": [
+    "repository-root and Plan-root pack-integrity compatibility",
+    "six-dimension registry-derived temporal scoring",
+    "deterministic ordered frame-sequence manifest and sequence hash",
+    "applied repair history may pass the offline decision gate",
+    "offline loop structure cannot claim final export readiness"
+  ],
+  "negative_contracts_covered": [
+    "duplicate or gapped frame indexes",
+    "empty, missing, overwritten, mutated, or hash-mismatched frame artifacts",
+    "frame-count, order, timestamp, and sequence-hash mismatch",
+    "non-finite JSON and malformed strict packets",
+    "unknown engine, loop profile, repair action, hard-failure taxonomy, or input field",
+    "mismatched repair action aliases",
+    "failed repair and hard-fail conditions",
+    "false structural gate or unsupported final export pass"
+  ]
+}

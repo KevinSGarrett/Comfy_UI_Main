@@ -805,3 +805,10 @@ Retain `u_lip_dilate_exclusive_v1` only as a tested negative fixture. Controlled
 - Reject visual readiness because both hands are partly hidden in pockets and cannot be fully inspected.
 - Stop after the one bounded sample; do not seed-loop or claim Base-lane certification.
 - Continue with a duplicate-checked non-mask implementation candidate at `TRK-W64-019` / `ITEM-W64-019` after checkpointing.
+## 2026-07-11T12:55:00-05:00 - Harden the existing video lane and keep runtime claims blocked
+
+- Extend the existing Wave26/Wave27 compiler, scorer, schemas, and validator; do not create a parallel video framework.
+- Treat `16/16` tests and pack-wrapper passage as offline structural proof only.
+- Require real frame artifacts, final export, repair-effectiveness evidence, and strict visual review before video runtime certification.
+- Keep body/contact video proof blocked on trusted manual gold masks and never use candidate masks as truth.
+- Continue `TRK-W64-020` / `ITEM-W64-020` with one concrete resource-aware routing implementation gap, not a generic route-alignment loop.
