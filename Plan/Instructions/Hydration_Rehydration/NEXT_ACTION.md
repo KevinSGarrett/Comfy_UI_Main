@@ -1,3 +1,9 @@
+## Immediate Next Action - Normal V4 Full-Body Local Scope Passed - 2026-07-11T04:10:00-05:00
+
+The Normal lane now extends beyond its completed V1-V3 portrait evidence. A real BAE normal map was derived from the true full-body original `Ref_Image_1/Full/78b8e4ca10fd769e0752bd21c3599339.jpg` with the cached `scannet.pt` hash recorded, then used in one current-head 768x1024 local RealVisXL/ControlNet Union Normal generation. Runtime, diagnostic pixel identity, technical QA, metric QA, and original-resolution visual review passed: all 18 body landmarks were common, mean/max normalized errors were `0.00781`/`0.01444`, the head, both hands, and both shoes stayed in frame, and no normal-map colors leaked.
+
+The bounded single-sample full-body local scope is done with notes and must not be rerun unchanged. This is not full-body multiseed robustness, detailed hand/contact geometry authority, target-runtime proof, final Normal lane certification, body-mask authority, or Wave71+ activation. Continue another genuinely open local non-mask implementation task; preserve the Base seed-loop stop and every existing no-rerun boundary.
+
 ## Immediate Next Action - Base Two-Character Seed Robustness Failed - 2026-07-11T03:55:00-05:00
 
 The required bounded Base-lane robustness pair was executed from the corrected preferred `7152026252` contract with only seeds changed to `7152026253` and `7152026254`. Both current-head packages and local 1024x1024 generations passed technically, hash-matched their requests, pulled back successfully, and stopped ComfyUI with port 8188 closed. Strict visual QA failed both: each changed the requested woman's open hand on the man's upper-arm sleeve into a mutual hand clasp/handshake, so robustness compliance is `0/2`.

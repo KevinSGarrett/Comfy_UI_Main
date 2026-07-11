@@ -1,3 +1,9 @@
+## Active Runtime Posture - Normal Full-Body Single Sample Passed Locally - 2026-07-11T04:10:00-05:00
+
+Continue from authoritative `C:\Comfy_UI_Main`. Normal V4 now has a hash-recorded full-body BAE control source, one clean current-head local generation, pixel-identical diagnostic proof, all 18 common body landmarks, mean/max normalized landmark errors `0.00781`/`0.01444`, coherent full-length framing, readable hands, visible shoes, and no normal-map leakage. The Item, Tracker mirrors, known-issue review, and bounded local-scope Done_Certification are recorded.
+
+Preserve this sample without replay. It closes only one local full-body scope item; full-body multiseed robustness, detailed hand/contact geometry, target-runtime proof, final lane certification, manual-mask authority, Wave70 hard gates, and Wave71+ remain separate. Continue a different concrete non-mask implementation task and keep EC2 stopped unless a later genuinely required runtime gate is intentionally selected.
+
 ## Active Runtime Posture - Base Robustness Attempt Failed, No Seed Loop - 2026-07-11T03:55:00-05:00
 
 Continue from authoritative `C:\Comfy_UI_Main`. The Base lane's corrected two-character preferred seed was tested with two unchanged-contract adjacent seeds. Both local runs passed runtime integrity and whole-image coherence, but neither preserved the requested source/target contact: both became mutual hand clasps. The bounded robustness result is `0/2`, the experiment is complete, and Base final certification remains blocked.

@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "created_at": "2026-07-11T03:57:49-05:00",
+  "result": "pass_local_bae_normal_full_body_control_map_prepared",
+  "pass": true,
+  "scope": "single_original_full_body_normal_control_map",
+  "source": {
+    "path": "Ref_Image_1/Full/78b8e4ca10fd769e0752bd21c3599339.jpg",
+    "sha256": "e20a857f0ac23151ae1b8aa47fb4746c975e522a5598896f747ef08a50cc9336",
+    "width": 3000,
+    "height": 4000,
+    "selection_reason": "true full body with head, both hands, both legs, and both feet visible against a clean studio background"
+  },
+  "model": {
+    "path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/lllyasviel/Annotators/scannet.pt",
+    "sha256": "03dbf1600c51ee3d45c29f77b77bf1a3b7a24c3452dba62a4ae658f37330c209",
+    "size_bytes": 290767728,
+    "device": "cuda"
+  },
+  "outputs": {
+    "source_copy": {
+      "path": "Plan/Instructions/Operations/Prepared_Input_Assets/normal_full_body_standing_w70_v1/source_original.jpg",
+      "sha256": "0d12b226b78d2713c95ca86169505fcc7baa51c2ffc56e3145f3b8d1b73c76a2"
+    },
+    "control_map": {
+      "path": "Plan/Instructions/Operations/Prepared_Input_Assets/normal_full_body_standing_w70_v1/controlnet_normal_bae_full_body_standing_w70_v1.png",
+      "sha256": "ff7695e83c73dc53025a7ab960a11d6e46299dcde546d26a5d46bce8637dc6fd",
+      "width": 768,
+      "height": 1024,
+      "global_std": 67.51802825927734,
+      "channel_std": [
+        20.82246971130371,
+        17.081838607788086,
+        7.091310501098633
+      ],
+      "non_black_pixel_ratio": 1.0
+    }
+  },
+  "checks": {
+    "control_map_nonempty": true,
+    "portrait_output": true,
+    "normal_map_not_flat": true,
+    "all_color_channels_vary": true,
+    "non_black_pixel_ratio_gte_0_50": true,
+    "source_outside_excluded_new_folder": true,
+    "gold_masks_not_consumed": true
+  },
+  "limitations": [
+    "This is local control-map preparation, not body-mask or geometry authority.",
+    "One BAE map does not certify full-body Normal ControlNet output or target-runtime behavior.",
+    "No gold mask was read, compared, promoted, or treated as truth."
+  ]
+}

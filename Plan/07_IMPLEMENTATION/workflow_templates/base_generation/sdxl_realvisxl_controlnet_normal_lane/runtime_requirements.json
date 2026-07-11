@@ -80,6 +80,22 @@
       "source_artifact": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_normal_w69_v3_20260707T053500-0500/images/codex_control_preprocessor_normal_bae_w69_00001_.png",
       "source_manifest": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_maps_w69_v2_20260707T053300-0500/CONTROL_PREPROCESSOR_MAPS_MANIFEST.json",
       "source_qa_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CONTROL_PREPROCESSOR_MAPS_VISUAL_QA_20260707T053800-0500.json"
+    },
+    {
+      "role": "profile_scoped_fullbody_control_image",
+      "filename": "controlnet_normal_bae_full_body_standing_w70_v1.png",
+      "control_map_type": "normal_bae",
+      "comfyui_input_subdir": "",
+      "node_id": "11",
+      "node_class": "LoadImage",
+      "input": "image",
+      "status": "present_local_hash_verified_profile_scoped",
+      "sha256": "ff7695e83c73dc53025a7ab960a11d6e46299dcde546d26a5d46bce8637dc6fd",
+      "comfyui_input_path": "ComfyUI/input/controlnet_normal_bae_full_body_standing_w70_v1.png",
+      "source_artifact": "Plan/Instructions/Operations/Prepared_Input_Assets/normal_full_body_standing_w70_v1/controlnet_normal_bae_full_body_standing_w70_v1.png",
+      "source_manifest": "Plan/Instructions/Operations/Prepared_Input_Assets/normal_full_body_standing_w70_v1/PREPARATION_MANIFEST.json",
+      "source_qa_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_NORMAL_V4_FULL_BODY_STANDING_QA_20260711T041000-0500.json",
+      "profile": "PromptProfiles/base_generation/controlnet_normal_v1_followup/normal_v4_full_body_standing_seed711670301.json"
     }
   ],
   "object_info_required": true,
@@ -88,11 +104,11 @@
   "runtime_output_required": true,
   "qa_report_required": true,
   "promotion_allowed_without_evidence": false,
-  "current_status": "local_normal_v3_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+  "current_status": "local_normal_v3_portrait_multiseed_plus_v4_fullbody_single_sample_pass_with_notes_pending_fullbody_robustness_target_runtime_and_final_certification",
   "known_blockers": [
     "Normal lane has local v3 three-sample robustness with notes, but is not final-certified until target-runtime gates and broader final QA pass if promotion is selected.",
     "Target-runtime EC2 proof is still separate from this local proof.",
-    "The local samples are head-and-shoulders only; hands, full-body anatomy, and contact points remain unproven.",
+    "One local V4 sample now proves bounded full-body framing, visible hands/feet, and coherent standing surface structure; full-body multiseed robustness, detailed hand geometry, and contact points remain unproven.",
     "Mild beauty-polished skin persists across samples; final image-quality certification must account for this note."
   ],
   "evidence_paths": [
@@ -122,8 +138,13 @@
     "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_NORMAL_V3_ROBUST_SEED711670204_EXECUTE_20260707T080100-0500.json",
     "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_NORMAL_V3_ROBUST_SEED711670205_EXECUTE_20260707T080300-0500.json",
     "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_NORMAL_V3_MULTISEED_ROBUSTNESS_VISUAL_QA_20260707T080600-0500.json",
-    "Plan/Tracker/Evidence/W69_LOCAL_NORMAL_V3_MULTISEED_ROBUSTNESS_20260707T080600-0500.json"
+    "Plan/Tracker/Evidence/W69_LOCAL_NORMAL_V3_MULTISEED_ROBUSTNESS_20260707T080600-0500.json",
+    "Plan/Instructions/Operations/Prepared_Input_Assets/normal_full_body_standing_w70_v1/PREPARATION_MANIFEST.json",
+    "PromptProfiles/base_generation/controlnet_normal_v1_followup/normal_v4_full_body_standing_seed711670301.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_NORMAL_V4_FULL_BODY_STANDING_RUNTIME_20260711T040500-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_NORMAL_V4_FULL_BODY_STANDING_QA_20260711T041000-0500.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W70_NORMAL_V4_FULL_BODY_LOCAL_SCOPE_DONE_20260711T041000-0500.json"
   ],
-  "status_notes": "Normal v3 local multisample robustness passed with notes across preferred candidate seed 711670203 plus robustness seeds 711670204 and 711670205. The lowered/shortened normal ControlNet strategy holds stable geometry, dark oxford/blazer texture, and no visible normal-map leakage across samples. Mild skin polish persists; this remains local robustness evidence only, not final normal certification or target-runtime proof.",
+  "status_notes": "Normal v3 portrait multisample robustness remains passed with notes. V4 adds one true full-body standing local sample from a hash-recorded BAE map: all 18 body landmarks were common, mean/max normalized landmark errors were 0.00781/0.01444, hands and shoes stayed visible, and no normal-map leakage appeared. This closes the bounded single-sample local full-body scope only; full-body multiseed robustness, detailed hand/contact geometry, target-runtime proof, and final lane certification remain separate.",
   "union_controlnet_type": "normal"
 }
