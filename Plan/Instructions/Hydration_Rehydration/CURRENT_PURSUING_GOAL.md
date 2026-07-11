@@ -1,3 +1,9 @@
+## Active Runtime Posture - Base Remediation Route Exists, Ownership Still Separate - 2026-07-11T07:43:00-05:00
+
+Continue from authoritative `C:\Comfy_UI_Main`. The canonical Base lane still has a `0/2` adjacent-seed robustness failure, but its missing materially different composition-control option is now resolved locally through the existing OpenPose lane. The fixed two-seed remediation pair passes technical and strict visual QA `2/2`, with exact control-map traversal and no mutual clasp. Preserve the results without replay.
+
+Do not assign OpenPose evidence to Base certification or claim final OpenPose scope. Base route adoption, scope-matched target-runtime proof, and final reviews remain separate. Continue another concrete non-mask task with AWS, body-mask, Wave70 hard-gate, Wave71+, Flux1-license, Jira, and no-duplicate boundaries intact.
+
 ## Active Runtime Posture - Main Reconciled Without Recreating Legacy Or Cloud Work - 2026-07-11T06:54:00-05:00
 
 Continue the full autonomous project goal from authoritative `C:\Comfy_UI_Main`. Legacy plans, implementation sources, evidence, reports, root regional configs, and architecture diagrams are now either already represented or preserved in quarantined source archives. No confirmed approved legacy generation is missing. AWS post-baseline work is represented lane by lane: Depth and Lineart are completed at their bounded scopes; Normal resumes at generation only; OpenPose resumes at EC2 install plus generation; RealESRGAN resumes at EC2 install plus generation. Never re-upload or rerun their completed steps.

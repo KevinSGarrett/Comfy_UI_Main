@@ -1,3 +1,7 @@
+## Canonical Base Robustness Still Failed; OpenPose Remediation Is Local-Only - 2026-07-11T07:43:00-05:00
+
+The missing materially different composition-control route is resolved locally: OpenPose passes the same two formerly failing seeds `2/2`. This does not rewrite the canonical Base lane's unconditioned `0/2` robustness result, transfer OpenPose evidence into Base ownership, establish target-runtime behavior, or authorize final Base/OpenPose certification. Seed `7152026254` retains mild contact-wrist stiffness. Any final route adoption requires an explicit ownership decision and scope-matched target-runtime proof.
+
 ## Live AWS Authentication Expired; Recorded Remote State Preserved - 2026-07-11T06:54:00-05:00
 
 `aws sts get-caller-identity` currently returns `Your session has expired. Please reauthenticate using 'aws login'.` The hourly sentinel independently records `UNKNOWN_AWS_AUTH_OR_CONFIG` with no active runtime marker. This blocks current EC2-state and S3-inventory assertions and all live cloud execution. It does not erase prior hash-verified evidence: Depth and Lineart are complete at their bounded scopes; Normal, OpenPose, and RealESRGAN retain exact staged resume points. Do not re-upload or rerun completed steps while authentication is unavailable.

@@ -1,0 +1,31 @@
+{
+  "item_id": "ITEM-W70-BASE-REMEDIATION-OPENPOSE-CONTACT-PAIR-20260711T074300-0500",
+  "timestamp": "2026-07-11T07:43:00-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+  "remediates_lane_id": "sdxl_realvisxl_base_lane",
+  "title": "Two-seed OpenPose composition-control remediation for Base contact failure",
+  "status": "complete_pass_with_notes_local_composition_control",
+  "implementation_complete": true,
+  "runtime_test_complete": true,
+  "technical_qa_complete": true,
+  "visual_qa_complete": true,
+  "tracker_update_complete": true,
+  "itemized_list_update_complete": true,
+  "known_issue_review_complete": true,
+  "bounded_done_certification_allowed": true,
+  "base_final_certification_allowed": false,
+  "openpose_final_certification_allowed": false,
+  "control_preparation": "Plan/Instructions/Operations/Prepared_Input_Assets/base_two_character_openpose_contact_w70_v1/PREPARATION_MANIFEST.json",
+  "runtime_evidence": [
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_BASE_REMEDIATION_OPENPOSE_CONTACT_SEED7152026253_20260711T073400-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_BASE_REMEDIATION_OPENPOSE_CONTACT_SEED7152026254_20260711T073600-0500.json"
+  ],
+  "qa_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_BASE_REMEDIATION_OPENPOSE_CONTACT_PAIR_QA_20260711T073700-0500.json",
+  "result_summary": "The canonical OpenPose lane preserved woman-owned shoulder/upper-arm contact without a clasp or handshake for both formerly failing seeds. Technical QA, diagnostic control pixel identity, and strict visual QA passed 2/2.",
+  "known_issues": [
+    "Seed 7152026254 has a mildly stiff contact wrist, but hand ownership and placement remain clear.",
+    "The canonical Base lane's unconditioned adjacent-seed robustness result remains 0/2 and is not rewritten by this cross-lane remediation.",
+    "The result is local-only and does not establish target-runtime behavior or final certification for Base or OpenPose.",
+    "No gold mask, candidate mask, or mask promotion was used."
+  ]
+}

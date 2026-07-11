@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "realvisxl_two_character_openpose_contact_robustness_seed7152026254",
+  "target_lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+  "remediates_lane_id": "sdxl_realvisxl_base_lane",
+  "composition_control_route": {
+    "workflow": "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/workflow.api.json",
+    "prepared_control_manifest": "Plan/Instructions/Operations/Prepared_Input_Assets/base_two_character_openpose_contact_w70_v1/PREPARATION_MANIFEST.json",
+    "base_failure_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_LOCAL_BASE_TWO_CHARACTER_CONTACT_ROBUSTNESS_QA_20260711T035500-0500.json"
+  },
+  "source_profile": "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_two_character_hand_to_body_seed7152026252_source_hand_visible.json",
+  "purpose": "Bounded Base-remediation sample using the existing OpenPose lane with a deterministic two-person control map derived from preferred seed 7152026252.",
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic editorial studio photograph of exactly two fully clothed adult professionals, medium shot, woman on the left extends her right arm across the center and rests one open relaxed hand flat on the man's upper arm sleeve, man on the right keeps both hands down and away from the contact, clear visible contact shadow under the woman's fingertips on the man's sleeve, two separate bodies, two separate clothing silhouettes, natural skin texture, realistic eyes, detailed hair, crisp fabric weave, respectful non-romantic professional gesture, no merged anatomy, balanced soft studio lighting, lifelike lens rendering",
+    "negative_prompt": "cartoon, anime, illustration, child, nude, lingerie, erotic pose, plastic skin, waxy skin, over-smoothed face, distorted anatomy, merged bodies, fused people, shared torso, extra person, extra arms, extra hands, extra fingers, missing fingers, deformed hands, claw fingers, clenched fist, gripping fabric, pulling sleeve, hand on own chest, man touching woman, hand passing through arm, impossible contact, no contact shadow, crossed eyes, low resolution, blurry, watermark, text",
+    "seed": 7152026254,
+    "sampler_settings": {
+      "steps": 30,
+      "cfg": 5.4,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1
+    },
+    "latent_resolution": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "controlnet_asset": "OpenPoseXL2.safetensors",
+    "control_image": "controlnet_openpose_two_character_contact_w70_v1.png",
+    "controlnet_settings": {
+      "strength": 0.75,
+      "start_percent": 0,
+      "end_percent": 1
+    },
+    "save_prefix": "rvxl_twochar_openpose_contact_7152026254"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "rvxl_twochar_openpose_contact_7152026254"
+  },
+  "qa_focus": [
+    "exactly two distinct clothed adults",
+    "woman on left owns contact hand placement",
+    "open right hand rests on man's upper-arm sleeve",
+    "man's hands remain away from contact",
+    "control image and controlnet model bindings are exact",
+    "visual disposition remains manual for ownership and contact judgment"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "seed_only_variation_from_pose_guided_contract": true,
+    "requires_runtime_hash_and_binding_evidence": true,
+    "requires_manual_visual_contact_disposition": true,
+    "does_not_certify_final_base_lane": true,
+    "does_not_certify_final_openpose_lane": true
+  }
+}

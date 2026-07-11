@@ -1,3 +1,11 @@
+## 2026-07-11T07:43:00-05:00 - Reuse the canonical OpenPose lane for Base contact remediation
+
+- Do not create a duplicate Base-plus-OpenPose workflow when the canonical OpenPose lane already exposes all required profile patch points.
+- Treat the `2/2` contact pair as a bounded local OpenPose remediation pass with one mild wrist-stiffness note.
+- Keep the canonical Base `0/2` seed-robustness failure historically true.
+- Clear only the absence of a materially different composition-control option; do not clear Base ownership, target-runtime, or final-certification gates.
+- Stop after the fixed two seeds and do not start another seed loop.
+
 ## 2026-07-11T06:54:00-05:00 - Preserve legacy work without making stale work authoritative
 
 - `C:\Comfy_UI_Main` remains the only execution ledger; legacy and EC2 workspaces are discovery/runtime inputs.

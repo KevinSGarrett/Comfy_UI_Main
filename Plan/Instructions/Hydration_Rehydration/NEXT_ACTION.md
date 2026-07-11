@@ -1,3 +1,9 @@
+## Immediate Next Action - OpenPose Composition Remediation Passed 2/2 Locally - 2026-07-11T07:43:00-05:00
+
+The materially different composition-control route for the failed Base two-character contact scene is implemented and bounded-complete. A hash-locked DWPose map detected exactly two people with 14 and 13 visible body keypoints. The canonical OpenPose lane then passed both formerly failing seeds `7152026253` and `7152026254`: runtime, graph binding, request hashes, diagnostic control pixel identity, 1024 pullbacks, shutdown, and strict original-resolution visual QA all passed. Both images preserve woman-owned shoulder/upper-arm contact with the man's hands away and no handshake.
+
+Stop this pair at `2/2`; do not run more seeds. This proves a local OpenPose remediation path, not canonical Base robustness, target-runtime behavior, or final Base/OpenPose certification. Seed `7152026254` retains a mild contact-wrist stiffness note. Continue another concrete non-mask local implementation task while AWS authentication remains expired and preserve every mask, Wave70 hard-gate, Wave71+, Flux1-license, Jira, and no-duplicate boundary.
+
 ## Immediate Next Action - Legacy And AWS Reconciliation Preserved, Live Auth Expired - 2026-07-11T06:54:00-05:00
 
 `C:\Comfy_UI_Main` remains authoritative. The bounded reconciliation found no uniquely missing approved generated output. It preserved 1,279 safe legacy implementation files, 4,912 sanitized evidence/report files, and one deduplicated 10-page architecture set as quarantined source history; none is active runtime authority. Post-baseline Depth and Lineart completion evidence is already in Main, while Normal, OpenPose, and RealESRGAN retain exact staged-state boundaries so completed uploads or installs are not repeated. The runtime queue now separates local progression, target-runtime proof, bounded certification, remote staging, and not-started scope.

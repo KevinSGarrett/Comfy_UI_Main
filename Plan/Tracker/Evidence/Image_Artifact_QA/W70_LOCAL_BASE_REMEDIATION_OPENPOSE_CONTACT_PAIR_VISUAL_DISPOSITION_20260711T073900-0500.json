@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-LOCAL-BASE-REMEDIATION-OPENPOSE-CONTACT-PAIR-VISUAL-DISPOSITION-20260711T073900-0500",
+  "timestamp": "2026-07-11T07:39:00-05:00",
+  "reviewer": "Codex Desktop original-resolution visual review",
+  "review_scope": "two fixed Base-remediation seeds through the canonical OpenPose lane",
+  "samples": {
+    "7152026253": {
+      "result": "pass",
+      "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/base_remediation_openpose_contact_seed7152026253_20260711T073400-0500/images/rvxl_twochar_openpose_contact_7152026253_00001_.png",
+      "sha256": "4b2bd7ace92c5a5f76565de736e18b70f0daf3909ad8793797ebfd2d5c5706b5",
+      "checks": {
+        "exactly_two_distinct_adults": true,
+        "woman_left_contact_owner": true,
+        "open_hand_on_upper_arm_sleeve": true,
+        "man_hands_away_from_contact": true,
+        "no_mutual_clasp_or_handshake": true,
+        "whole_image_coherent": true
+      },
+      "findings": [
+        "The woman is clearly the contact owner and remains on the left.",
+        "Her open hand rests across the man's shoulder and upper-arm sleeve seam.",
+        "The man's hands remain at his waist and hip, away from the contact.",
+        "The woman's secondary hand touches the sleeve area but does not form a mutual clasp.",
+        "Faces, clothing, body separation, and the overall composition remain coherent."
+      ]
+    },
+    "7152026254": {
+      "result": "pass",
+      "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/base_remediation_openpose_contact_seed7152026254_20260711T073600-0500/images/rvxl_twochar_openpose_contact_7152026254_00001_.png",
+      "sha256": "a1c3bb81e16b25ae295c7818268306a1116e189db443e0721c4077a3e51e96fb",
+      "checks": {
+        "exactly_two_distinct_adults": true,
+        "woman_left_contact_owner": true,
+        "open_hand_on_upper_arm_sleeve": true,
+        "man_hands_away_from_contact": true,
+        "no_mutual_clasp_or_handshake": true,
+        "whole_image_coherent": true
+      },
+      "findings": [
+        "The woman remains the sole contact owner on the left.",
+        "Her open hand lands on the man's shoulder and upper-arm sleeve with readable fingers.",
+        "The man's hands remain down at his hips and do not participate in the contact.",
+        "The woman's secondary hand stays near her chest rather than clasping the man.",
+        "The contact wrist is mildly stiff, but ownership, placement, anatomy, and whole-image coherence remain acceptable for this bounded interaction test."
+      ]
+    }
+  },
+  "all_samples_pass": true,
+  "strict_decision": {
+    "bounded_pair_complete": true,
+    "stop_further_seed_retries": true,
+    "materially_different_composition_control_demonstrated": true,
+    "base_canonical_robustness_failure_cleared": false,
+    "base_lane_final_certification_allowed": false,
+    "openpose_lane_final_certification_allowed": false,
+    "target_runtime_proof_added": false
+  },
+  "boundaries": {
+    "local_only": true,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "gold_masks_consumed": false,
+    "mask_promotion_performed": false,
+    "wave70_hard_gate_rerun": false,
+    "wave71_activated": false
+  }
+}
