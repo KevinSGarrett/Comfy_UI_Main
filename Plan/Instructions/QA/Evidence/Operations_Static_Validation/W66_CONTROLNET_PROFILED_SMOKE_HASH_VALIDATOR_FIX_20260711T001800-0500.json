@@ -1,0 +1,32 @@
+{
+  "evidence_id": "W66-CONTROLNET-PROFILED-SMOKE-HASH-VALIDATOR-FIX-20260711T001800-0500",
+  "timestamp": "2026-07-11T00:18:00-05:00",
+  "artifact_type": "controlnet_selected_lane_validator_regression",
+  "script": "Plan/Instructions/QA/Scripts/Test-ControlNetSelectedLanePackageDeployConsistency.ps1",
+  "decision": "pass",
+  "defect_fixed": "A profile-modified packaged smoke request was correctly declared modified but was still compared to the unmodified source smoke-request hash.",
+  "corrected_contract": {
+    "runtime_requirements": "must match source bytes",
+    "unprofiled_smoke_request": "must declare source_hash_match and match source bytes",
+    "profiled_smoke_request": "must declare profile_modified, bind an applied profile, declare source_hash_match false, and match its actual packaged bytes"
+  },
+  "profiled_case": {
+    "lane_id": "sdxl_realvisxl_controlnet_lineart_lane",
+    "run_package": "runtime_artifacts/run_packages/lineart_target_prep_031fbfe/RUN_PACKAGE_MANIFEST.json",
+    "profile_id": "lineart_v4_plain_backdrop_seed711370003",
+    "result": "pass_local_only",
+    "check_count": 10,
+    "failed_check_count": 0,
+    "packaged_smoke_sha256": "289bb242d19ef23848e02ff37a770ce2128ce1bc101572939c9de0734960af45"
+  },
+  "historical_unprofiled_case": {
+    "run_package": "runtime_artifacts/run_packages/lineart_target_prep_current_3801c87/RUN_PACKAGE_MANIFEST.json",
+    "packaged_lane_contract_hashes": "pass",
+    "overall_result": "fail_expected_stale_clean_git_metadata",
+    "interpretation": "The unchanged smoke-request hash contract still passes; the historical bundle remains correctly unusable as a current deploy bundle."
+  },
+  "external_contact": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "next_action": "Checkpoint the validator fix, then rebuild the selected lineart package and deploy bundle once at the new clean head."
+}

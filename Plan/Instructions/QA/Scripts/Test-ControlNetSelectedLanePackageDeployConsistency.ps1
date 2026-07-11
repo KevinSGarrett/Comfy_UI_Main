@@ -205,6 +205,12 @@ $requirementsRows = @($packagedRows | Where-Object { [string]$_.source -eq $requ
 $smokeRows = @($packagedRows | Where-Object { [string]$_.source -eq $smokeSource })
 $requirementsHash = Get-Sha256 -Path $requirementsPath
 $smokeHash = Get-Sha256 -Path $smokePath
+$smokePackagedPath = if ($smokeRows.Count -eq 1 -and -not [string]::IsNullOrWhiteSpace([string]$smokeRows[0].packaged)) {
+  Resolve-ProjectPath -Path ([string]$smokeRows[0].packaged)
+} else {
+  ""
+}
+$smokePackagedHash = Get-Sha256 -Path $smokePackagedPath
 $smokeProfileModified = (
   $smokeRows.Count -eq 1 -and
   $null -ne $smokeRows[0].PSObject.Properties["profile_modified"] -and
@@ -219,15 +225,18 @@ $promptProfileApplied = (
 $smokeSourceDeclarationPass = if ($smokeRows.Count -ne 1) {
   $false
 } elseif ($smokeProfileModified) {
-  $promptProfileApplied -and -not [bool]$smokeRows[0].source_hash_match
+  $promptProfileApplied -and -not [bool]$smokeRows[0].source_hash_match -and
+  -not [string]::IsNullOrWhiteSpace($smokePackagedHash) -and
+  ([string]$smokeRows[0].sha256).ToLowerInvariant() -eq $smokePackagedHash
 } else {
-  [bool]$smokeRows[0].source_hash_match
+  [bool]$smokeRows[0].source_hash_match -and
+  ([string]$smokeRows[0].sha256).ToLowerInvariant() -eq $smokeHash
 }
 $packagedContractPass = (
   $requirementsRows.Count -eq 1 -and $smokeRows.Count -eq 1 -and
   [bool]$requirementsRows[0].source_hash_match -and $smokeSourceDeclarationPass -and
   ([string]$requirementsRows[0].sha256).ToLowerInvariant() -eq $requirementsHash -and
-  ([string]$smokeRows[0].sha256).ToLowerInvariant() -eq $smokeHash
+  $smokeSourceDeclarationPass
 )
 [void]$checks.Add((New-Check -Name "packaged_lane_contract_hashes" -Passed $packagedContractPass -Observed ([ordered]@{
   runtime_requirements_source = $requirementsSource
@@ -238,10 +247,11 @@ $packagedContractPass = (
   smoke_request_row_count = $smokeRows.Count
   smoke_request_input_sha256 = $smokeHash
   smoke_request_packaged_sha256 = $(if ($smokeRows.Count -eq 1) { $smokeRows[0].sha256 } else { $null })
+  smoke_request_observed_packaged_sha256 = $smokePackagedHash
   smoke_request_profile_modified = $smokeProfileModified
   prompt_profile_applied = $promptProfileApplied
   smoke_source_hash_match_declared = $(if ($smokeRows.Count -eq 1) { [bool]$smokeRows[0].source_hash_match } else { $null })
-}) -Expected "selected runtime requirements and smoke request appear once and match packaged hashes, with explicit applied-profile modification allowed" -FailureCategory "packaged_lane_contract_mismatch"))
+}) -Expected "runtime requirements match source; unprofiled smoke matches source; profiled smoke matches its declared packaged bytes" -FailureCategory "packaged_lane_contract_mismatch"))
 
 $failedChecks = @($checks | Where-Object { [string]$_.result -ne "pass" })
 $failureCategories = @($failedChecks | ForEach-Object { [string]$_.failure_category } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) } | Select-Object -Unique)
