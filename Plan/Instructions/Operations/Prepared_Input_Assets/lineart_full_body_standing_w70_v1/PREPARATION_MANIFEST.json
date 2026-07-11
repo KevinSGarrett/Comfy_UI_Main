@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "W70-LOCAL-LINEART-FULL-BODY-STANDING-CONTROL-MAP-V1",
+  "timestamp": "2026-07-11T08:29:47-05:00",
+  "pass": true,
+  "result": "pass_local_lineart_full_body_control_map_prepared",
+  "target_lane_id": "sdxl_realvisxl_controlnet_lineart_lane",
+  "scope": "single_original_full_body_lineart_control_map",
+  "source": {
+    "path": "Ref_Image_1/Full/78b8e4ca10fd769e0752bd21c3599339.jpg",
+    "sha256": "e20a857f0ac23151ae1b8aa47fb4746c975e522a5598896f747ef08a50cc9336",
+    "expected_sha256": "e20a857f0ac23151ae1b8aa47fb4746c975e522a5598896f747ef08a50cc9336",
+    "width": 3000,
+    "height": 4000,
+    "selection_boundary": "Ref_Image_1/Full source only; excludes Ref_Image_1/Full/New folder; requires head, both hands, both legs, and both feet visible.",
+    "selection_reason": "True full-body standing source visually verified with head, both hands, both legs, and both bare feet inside the frame.",
+    "selection_checks": {
+      "source_is_ref_image_1_full": true,
+      "source_outside_excluded_new_folder": true,
+      "source_sha256_matches_expected": true
+    }
+  },
+  "models": {
+    "provider": "comfyui_controlnet_aux LineartDetector",
+    "checkpoint_root": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/lllyasviel/Annotators",
+    "required_files": [
+      {
+        "path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/lllyasviel/Annotators/sk_model.pth",
+        "filename": "sk_model.pth",
+        "exists": true,
+        "sha256": "c686ced2a666b4850b4bb6ccf0748031c3eda9f822de73a34b8979970d90f0c6",
+        "expected_sha256": "c686ced2a666b4850b4bb6ccf0748031c3eda9f822de73a34b8979970d90f0c6",
+        "sha256_matches_expected": true,
+        "size_bytes": 17173511
+      },
+      {
+        "path": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/lllyasviel/Annotators/sk_model2.pth",
+        "filename": "sk_model2.pth",
+        "exists": true,
+        "sha256": "30a534781061f34e83bb9406b4335da4ff2616c95d22a585c1245aa8363e74e0",
+        "expected_sha256": "30a534781061f34e83bb9406b4335da4ff2616c95d22a585c1245aa8363e74e0",
+        "sha256_matches_expected": true,
+        "size_bytes": 17173511
+      }
+    ],
+    "bootstrap_download_allowed": false,
+    "bootstrap_download_performed": false,
+    "network_contacted_for_model_bootstrap": false,
+    "device": "cuda"
+  },
+  "inference": {
+    "detector_variant": "lineart_realistic",
+    "coarse": false,
+    "detect_resolution": 1024
+  },
+  "outputs": {
+    "source_copy": {
+      "path": "Plan/Instructions/Operations/Prepared_Input_Assets/lineart_full_body_standing_w70_v1/source_original.jpg",
+      "sha256": "e20a857f0ac23151ae1b8aa47fb4746c975e522a5598896f747ef08a50cc9336",
+      "size_bytes": 350118
+    },
+    "control_map": {
+      "path": "Plan/Instructions/Operations/Prepared_Input_Assets/lineart_full_body_standing_w70_v1/controlnet_lineart_full_body_standing_w70_v1.png",
+      "sha256": "ada4b48817762b00799b0510408534ea4ba03336b8f081bb1478cef395aa92df",
+      "size_bytes": 276096,
+      "width": 1024,
+      "height": 1365,
+      "pixel_stats": {
+        "min": 0.0,
+        "max": 252.0,
+        "mean": 3.9179394245147705,
+        "std": 18.271486282348633,
+        "bright_contour_pixel_ratio": 0.028200835622710623,
+        "high_confidence_contour_pixel_ratio": 0.012547218406593407,
+        "dark_background_pixel_ratio": 0.9673470409798535
+      }
+    },
+    "active_input_copy": {
+      "path": "ComfyUI/input/controlnet_lineart_full_body_standing_w70_v1.png",
+      "written": true,
+      "sha256": "ada4b48817762b00799b0510408534ea4ba03336b8f081bb1478cef395aa92df"
+    }
+  },
+  "checks": {
+    "control_map_nonempty": true,
+    "control_map_aspect_ratio_matches_source": true,
+    "portrait_orientation_preserved": true,
+    "line_map_not_blank_by_std": true,
+    "bright_contour_ratio_gte_0_01": true,
+    "high_confidence_contour_ratio_gte_0_002": true,
+    "dark_background_ratio_gte_0_85": true,
+    "required_lineart_models_hash_trusted": true,
+    "source_selection_boundary_pass": true
+  },
+  "boundaries": {
+    "local_only": true,
+    "generation_executed": false,
+    "gold_masks_consumed": false,
+    "mask_promotion_performed": false,
+    "target_runtime_proof": false,
+    "final_lane_certification": false,
+    "aws_contacted": false,
+    "ec2_started": false
+  }
+}

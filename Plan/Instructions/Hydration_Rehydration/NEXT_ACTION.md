@@ -1,3 +1,9 @@
+## Immediate Next Action - Preserve Lineart Full-Body Matrix And Continue - 2026-07-11T08:42:00-05:00
+
+Start from `Plan/Instructions/QA/Evidence/Done_Certifications/W70_LINEART_FULL_BODY_MULTISEED_ROBUSTNESS_DONE_20260711T083600-0500.json`. The prepared Lineart map and all three fixed local seeds pass runtime, technical geometry, and strict visual QA. Do not run more Lineart full-body seeds or reinterpret this as target-runtime, detailed finger/contact, body-mask, or universal Lineart authority.
+
+After the guarded checkpoint, select the next concrete non-mask implementation/runtime task from local authority. AWS profile checks all failed and the browser login window expired, so do not claim live EC2/S3 reconciliation or start EC2 until authentication is genuinely restored. Preserve the 2026-07-11 legacy/cloud reconciliation and every recorded no-rerun boundary.
+
 ## Immediate Next Action - OpenPose Composition Remediation Passed 2/2 Locally - 2026-07-11T07:43:00-05:00
 
 The materially different composition-control route for the failed Base two-character contact scene is implemented and bounded-complete. A hash-locked DWPose map detected exactly two people with 14 and 13 visible body keypoints. The canonical OpenPose lane then passed both formerly failing seeds `7152026253` and `7152026254`: runtime, graph binding, request hashes, diagnostic control pixel identity, 1024 pullbacks, shutdown, and strict original-resolution visual QA all passed. Both images preserve woman-owned shoulder/upper-arm contact with the man's hands away and no handshake.

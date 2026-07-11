@@ -1,3 +1,9 @@
+## Active Runtime Posture - Lineart Full-Body Local Robustness Complete - 2026-07-11T08:42:00-05:00
+
+Continue the full autonomous project goal from authoritative `C:\Comfy_UI_Main`. The canonical Lineart lane now has a fixed three-seed local full-body matrix passing technical and strict visual QA `3/3`, with pinned preparation/model hashes and no control-map leakage. Preserve seeds `711370301`, `711370302`, and `711370303` without replay.
+
+Keep scope ownership explicit: the existing target-runtime/final Lineart certificate covers only its bounded portrait proof, while the new full-body matrix is local-only. Full-body target-runtime expansion requires intentional selection after real AWS authentication. Continue another concrete non-mask implementation task without recreating legacy/cloud work, consuming candidate body masks as truth, rerunning Wave70 hard gates, activating Wave71+, inferring Flux1 license acceptance, or switching to Jira bookkeeping.
+
 ## Active Runtime Posture - Base Remediation Route Exists, Ownership Still Separate - 2026-07-11T07:43:00-05:00
 
 Continue from authoritative `C:\Comfy_UI_Main`. The canonical Base lane still has a `0/2` adjacent-seed robustness failure, but its missing materially different composition-control option is now resolved locally through the existing OpenPose lane. The fixed two-seed remediation pair passes technical and strict visual QA `2/2`, with exact control-map traversal and no mutual clasp. Preserve the results without replay.

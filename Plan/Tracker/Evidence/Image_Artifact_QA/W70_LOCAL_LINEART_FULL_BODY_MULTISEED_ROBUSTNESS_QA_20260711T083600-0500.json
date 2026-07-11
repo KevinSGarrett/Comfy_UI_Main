@@ -1,0 +1,356 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-LOCAL-LINEART-FULL-BODY-MULTISEED-ROBUSTNESS-QA",
+  "timestamp": "2026-07-11T08:56:59-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_lineart_lane",
+  "result": "pass_local_lineart_full_body_multiseed_strict_visual_qa",
+  "technical_pass": true,
+  "profile_invariance_pass": true,
+  "profile_invariance_scope": "Profiles are identical except profile_id, seed, save_prefix, and output_prefix.",
+  "dwpose_model_authority": {
+    "supplied_directory": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose",
+    "required_files": [
+      {
+        "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\yolox_l.onnx",
+        "filename": "yolox_l.onnx",
+        "exists": true,
+        "sha256": "7860ae79de6c89a3c1eb72ae9a2756c0ccfbe04b7791bb5880afabd97855a411",
+        "expected_sha256": "7860ae79de6c89a3c1eb72ae9a2756c0ccfbe04b7791bb5880afabd97855a411",
+        "sha256_matches_expected": true,
+        "size_bytes": 216746733
+      },
+      {
+        "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\dw-ll_ucoco_384.onnx",
+        "filename": "dw-ll_ucoco_384.onnx",
+        "exists": true,
+        "sha256": "724f4ff2439ed61afb86fb8a1951ec39c6220682803b4a8bd4f598cd913b1843",
+        "expected_sha256": "724f4ff2439ed61afb86fb8a1951ec39c6220682803b4a8bd4f598cd913b1843",
+        "sha256_matches_expected": true,
+        "size_bytes": 134399116
+      }
+    ],
+    "all_hashes_trusted": true
+  },
+  "preparation_manifest": "Plan/Instructions/Operations/Prepared_Input_Assets/lineart_full_body_standing_w70_v1/PREPARATION_MANIFEST.json",
+  "preparation_manifest_sha256": "77a2ee7b211aa1fe0086c74c4181e26e598adea9644e675cd83a214419e5c1a7",
+  "preparation_checks": {
+    "preparation_passed": true,
+    "source_hash_matches_expected": true,
+    "control_map_exists": true,
+    "active_input_exists": true,
+    "control_map_hash_matches_manifest": true,
+    "active_input_hash_matches_manifest": true,
+    "active_input_matches_control_map": true
+  },
+  "control_binding_contract": {
+    "controlnet_asset": "controlnet-lineart-sdxl-fp16.safetensors",
+    "control_image": "controlnet_lineart_full_body_standing_w70_v1.png",
+    "preparation_result": "pass_local_lineart_full_body_control_map_prepared",
+    "prepared_control_sha256": "ada4b48817762b00799b0510408534ea4ba03336b8f081bb1478cef395aa92df"
+  },
+  "records": [
+    {
+      "seed": 711370301,
+      "profile": "PromptProfiles/base_generation/controlnet_lineart_v1_followup/lineart_full_body_standing_robustness_seed711370301.json",
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_LINEART_FULL_BODY_SEED711370301_20260711T083200-0500.json",
+      "run_package_manifest": "runtime_artifacts/run_packages/lineart_full_body_standing_seed711370301_w70_v1/RUN_PACKAGE_MANIFEST.json",
+      "prompt_request": "runtime_artifacts/run_packages/lineart_full_body_standing_seed711370301_w70_v1/prompt_request.json",
+      "prompt_request_sha256": "6be9f098750e671b01f2797b202232f87cf542a0b23e57c454bfb4bd3249564d",
+      "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/lineart_full_body_seed711370301_20260711T083200-0500/images/lineart_fullbody_standing_711370301_00001_.png",
+      "image_sha256": "c0f3cc09f8f33c9d354f432f69fc3edd472b512555fefa9d06c2091c638382cd",
+      "diagnostic_control_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/lineart_full_body_seed711370301_20260711T083200-0500/images/codex_sdxl_realvisxl_controlnet_lineart_control_map_diagnostic_00010_.png",
+      "diagnostic_control_image_sha256": "1991e87ecd1211194b610147c6b5f8fa5bb9b72d373ab728f9c859215dceba36",
+      "output_dimensions": {
+        "width": 704,
+        "height": 1056
+      },
+      "output_nonblank_metrics": {
+        "std": 34.54057312011719,
+        "nonwhite_ratio": 0.9999946194903582,
+        "nonblack_ratio": 0.9983643250688705
+      },
+      "keypoints": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/lineart_full_body_seed711370301_20260711T083200-0500/qa_openpose_keypoints.json",
+        "sha256": "d3104c255a5def63c0c12ffe174ef0379669614900fd9d8baf600ca58b90186b"
+      },
+      "geometry_metrics": {
+        "common_body_landmarks": 18,
+        "mean_normalized_landmark_error": 0.021302948397596156,
+        "max_normalized_landmark_error": 0.05371494746645196,
+        "framing_points_present": true
+      },
+      "checks": {
+        "runtime_passed": true,
+        "generation_executed": true,
+        "request_hash_matched_by_runtime": true,
+        "request_hash_matches_package": true,
+        "request_hash_matches_runtime": true,
+        "server_stopped_and_port_closed": true,
+        "package_lane_is_canonical_lineart": true,
+        "profile_lane_is_canonical_lineart": true,
+        "package_profile_matches": true,
+        "profile_seed_expected": true,
+        "output_is_704x1056": true,
+        "output_nonblank": true,
+        "image_pullback_hash_bound": true,
+        "diagnostic_pullback_hash_bound": true,
+        "diagnostic_control_pixels_match_prepared_input": true,
+        "exactly_one_person_detected": true,
+        "all_18_body_landmarks_common": true,
+        "mean_normalized_landmark_error_lte_0_10": true,
+        "max_normalized_landmark_error_lte_0_20": true,
+        "full_body_framing_preserved": true,
+        "model_asset_bound": true,
+        "controlnet_asset_bound": true,
+        "control_image_bound": true,
+        "control_strength_bound": true,
+        "control_start_bound": true,
+        "control_end_bound": true,
+        "seed_bound": true,
+        "sampler_bound": true,
+        "scheduler_bound": true,
+        "steps_bound": true,
+        "cfg_bound": true,
+        "latent_width_bound": true,
+        "latent_height_bound": true,
+        "positive_prompt_bound": true,
+        "negative_prompt_bound": true,
+        "save_prefix_bound": true
+      }
+    },
+    {
+      "seed": 711370302,
+      "profile": "PromptProfiles/base_generation/controlnet_lineart_v1_followup/lineart_full_body_standing_robustness_seed711370302.json",
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_LINEART_FULL_BODY_SEED711370302_20260711T083400-0500.json",
+      "run_package_manifest": "runtime_artifacts/run_packages/lineart_full_body_standing_seed711370302_w70_v1/RUN_PACKAGE_MANIFEST.json",
+      "prompt_request": "runtime_artifacts/run_packages/lineart_full_body_standing_seed711370302_w70_v1/prompt_request.json",
+      "prompt_request_sha256": "77ca7c4333e8c128ae6b26bfad8fe9458f9f768f984fbae2af4dcb4f6f6617a8",
+      "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/lineart_full_body_seed711370302_20260711T083400-0500/images/lineart_fullbody_standing_711370302_00001_.png",
+      "image_sha256": "4bb36f4a5f87323d1d9265684118f8351d307b2e33de1df68f151dc940e4de79",
+      "diagnostic_control_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/lineart_full_body_seed711370302_20260711T083400-0500/images/codex_sdxl_realvisxl_controlnet_lineart_control_map_diagnostic_00011_.png",
+      "diagnostic_control_image_sha256": "812011773f61e126f7ffb2c1bef3acd39c212fac86db56318bf51e8f135cd06b",
+      "output_dimensions": {
+        "width": 704,
+        "height": 1056
+      },
+      "output_nonblank_metrics": {
+        "std": 46.079593658447266,
+        "nonwhite_ratio": 1.0,
+        "nonblack_ratio": 0.9987988012224518
+      },
+      "keypoints": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/lineart_full_body_seed711370302_20260711T083400-0500/qa_openpose_keypoints.json",
+        "sha256": "8f5a64a7255daae54610d74a77194056cb4e43de07b0df63e34d5b911c7a47c0"
+      },
+      "geometry_metrics": {
+        "common_body_landmarks": 18,
+        "mean_normalized_landmark_error": 0.023419706382622956,
+        "max_normalized_landmark_error": 0.049447373848980354,
+        "framing_points_present": true
+      },
+      "checks": {
+        "runtime_passed": true,
+        "generation_executed": true,
+        "request_hash_matched_by_runtime": true,
+        "request_hash_matches_package": true,
+        "request_hash_matches_runtime": true,
+        "server_stopped_and_port_closed": true,
+        "package_lane_is_canonical_lineart": true,
+        "profile_lane_is_canonical_lineart": true,
+        "package_profile_matches": true,
+        "profile_seed_expected": true,
+        "output_is_704x1056": true,
+        "output_nonblank": true,
+        "image_pullback_hash_bound": true,
+        "diagnostic_pullback_hash_bound": true,
+        "diagnostic_control_pixels_match_prepared_input": true,
+        "exactly_one_person_detected": true,
+        "all_18_body_landmarks_common": true,
+        "mean_normalized_landmark_error_lte_0_10": true,
+        "max_normalized_landmark_error_lte_0_20": true,
+        "full_body_framing_preserved": true,
+        "model_asset_bound": true,
+        "controlnet_asset_bound": true,
+        "control_image_bound": true,
+        "control_strength_bound": true,
+        "control_start_bound": true,
+        "control_end_bound": true,
+        "seed_bound": true,
+        "sampler_bound": true,
+        "scheduler_bound": true,
+        "steps_bound": true,
+        "cfg_bound": true,
+        "latent_width_bound": true,
+        "latent_height_bound": true,
+        "positive_prompt_bound": true,
+        "negative_prompt_bound": true,
+        "save_prefix_bound": true
+      }
+    },
+    {
+      "seed": 711370303,
+      "profile": "PromptProfiles/base_generation/controlnet_lineart_v1_followup/lineart_full_body_standing_robustness_seed711370303.json",
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_LINEART_FULL_BODY_SEED711370303_20260711T083600-0500.json",
+      "run_package_manifest": "runtime_artifacts/run_packages/lineart_full_body_standing_seed711370303_w70_v1/RUN_PACKAGE_MANIFEST.json",
+      "prompt_request": "runtime_artifacts/run_packages/lineart_full_body_standing_seed711370303_w70_v1/prompt_request.json",
+      "prompt_request_sha256": "7cf223d6acd3f41d30463028b7b46ee14494c1be61b8662e922a827281c3da24",
+      "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/lineart_full_body_seed711370303_20260711T083600-0500/images/lineart_fullbody_standing_711370303_00001_.png",
+      "image_sha256": "0cd883c146545ee7192aab60cb929455312e635d48dc4db926305d99fb4b97b1",
+      "diagnostic_control_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/lineart_full_body_seed711370303_20260711T083600-0500/images/codex_sdxl_realvisxl_controlnet_lineart_control_map_diagnostic_00012_.png",
+      "diagnostic_control_image_sha256": "02fc0a6b3d26b2b647d90648b902f21f20f18120d9fc42b979ee205e3168b4de",
+      "output_dimensions": {
+        "width": 704,
+        "height": 1056
+      },
+      "output_nonblank_metrics": {
+        "std": 55.45140838623047,
+        "nonwhite_ratio": 0.9999206374827824,
+        "nonblack_ratio": 0.9982311574552342
+      },
+      "keypoints": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/lineart_full_body_seed711370303_20260711T083600-0500/qa_openpose_keypoints.json",
+        "sha256": "ca11fed0402993e983570d8a7ee769f3e4ff11f5f077e940d7951eaacd49e23e"
+      },
+      "geometry_metrics": {
+        "common_body_landmarks": 18,
+        "mean_normalized_landmark_error": 0.02828777429299308,
+        "max_normalized_landmark_error": 0.07214361383398053,
+        "framing_points_present": true
+      },
+      "checks": {
+        "runtime_passed": true,
+        "generation_executed": true,
+        "request_hash_matched_by_runtime": true,
+        "request_hash_matches_package": true,
+        "request_hash_matches_runtime": true,
+        "server_stopped_and_port_closed": true,
+        "package_lane_is_canonical_lineart": true,
+        "profile_lane_is_canonical_lineart": true,
+        "package_profile_matches": true,
+        "profile_seed_expected": true,
+        "output_is_704x1056": true,
+        "output_nonblank": true,
+        "image_pullback_hash_bound": true,
+        "diagnostic_pullback_hash_bound": true,
+        "diagnostic_control_pixels_match_prepared_input": true,
+        "exactly_one_person_detected": true,
+        "all_18_body_landmarks_common": true,
+        "mean_normalized_landmark_error_lte_0_10": true,
+        "max_normalized_landmark_error_lte_0_20": true,
+        "full_body_framing_preserved": true,
+        "model_asset_bound": true,
+        "controlnet_asset_bound": true,
+        "control_image_bound": true,
+        "control_strength_bound": true,
+        "control_start_bound": true,
+        "control_end_bound": true,
+        "seed_bound": true,
+        "sampler_bound": true,
+        "scheduler_bound": true,
+        "steps_bound": true,
+        "cfg_bound": true,
+        "latent_width_bound": true,
+        "latent_height_bound": true,
+        "positive_prompt_bound": true,
+        "negative_prompt_bound": true,
+        "save_prefix_bound": true
+      }
+    }
+  ],
+  "strict_visual_disposition": {
+    "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_LINEART_FULL_BODY_MULTISEED_VISUAL_DISPOSITION_20260711T083600-0500.json",
+    "sha256": "d37155fcb38c030784ff96c80e269bcfc32df4f8dc7e6ef2c2d2fc7c1eb6f4f7",
+    "contract_valid": true,
+    "all_samples_pass": true,
+    "payload": {
+      "schema_version": "1.0",
+      "evidence_id": "W70-LOCAL-LINEART-FULL-BODY-MULTISEED-VISUAL-DISPOSITION-20260711T083600-0500",
+      "timestamp": "2026-07-11T08:36:00-05:00",
+      "lane_id": "sdxl_realvisxl_controlnet_lineart_lane",
+      "scope": "strict_original_resolution_visual_review_of_three_fixed_local_full_body_seeds",
+      "review_method": "Codex inspected each 704x1056 pullback at original resolution after independent technical QA passed.",
+      "samples": {
+        "711370301": {
+          "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/lineart_full_body_seed711370301_20260711T083200-0500/images/lineart_fullbody_standing_711370301_00001_.png",
+          "sha256": "c0f3cc09f8f33c9d354f432f69fc3edd472b512555fefa9d06c2091c638382cd",
+          "checks": {
+            "exactly_one_adult": true,
+            "full_body_in_frame": true,
+            "both_hands_visible": true,
+            "both_feet_visible": true,
+            "coherent_limbs": true,
+            "no_lineart_leakage_or_ink_staining": true,
+            "natural_skin_and_clothing_backdrop_coherence": true
+          },
+          "result": "pass",
+          "notes": "Clean studio render with coherent hands and black closed-toe shoes; garment pinstripes read as natural fabric rather than control-map leakage."
+        },
+        "711370302": {
+          "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/lineart_full_body_seed711370302_20260711T083400-0500/images/lineart_fullbody_standing_711370302_00001_.png",
+          "sha256": "4bb36f4a5f87323d1d9265684118f8351d307b2e33de1df68f151dc940e4de79",
+          "checks": {
+            "exactly_one_adult": true,
+            "full_body_in_frame": true,
+            "both_hands_visible": true,
+            "both_feet_visible": true,
+            "coherent_limbs": true,
+            "no_lineart_leakage_or_ink_staining": true,
+            "natural_skin_and_clothing_backdrop_coherence": true
+          },
+          "result": "pass",
+          "notes": "Clean studio render with both white shoes and both hands readable; cardigan and trouser lines remain plausible textile detail."
+        },
+        "711370303": {
+          "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/lineart_full_body_seed711370303_20260711T083600-0500/images/lineart_fullbody_standing_711370303_00001_.png",
+          "sha256": "0cd883c146545ee7192aab60cb929455312e635d48dc4db926305d99fb4b97b1",
+          "checks": {
+            "exactly_one_adult": true,
+            "full_body_in_frame": true,
+            "both_hands_visible": true,
+            "both_feet_visible": true,
+            "coherent_limbs": true,
+            "no_lineart_leakage_or_ink_staining": true,
+            "natural_skin_and_clothing_backdrop_coherence": true
+          },
+          "result": "pass",
+          "notes": "Clean studio render with coherent hands, legs, and black closed-toe footwear; dense trouser texture is internally consistent fabric detail."
+        }
+      },
+      "all_samples_pass": true,
+      "decision": "pass_local_lineart_full_body_three_seed_visual_robustness",
+      "bounded_notes": [
+        "Clothing patterns and shoe colors vary across seeds while remaining within the fully clothed prompt contract.",
+        "This visual disposition does not establish detailed finger geometry, identity preservation, contact ownership, body-mask authority, or target-runtime behavior."
+      ],
+      "boundaries": {
+        "local_only": true,
+        "gold_masks_consumed": false,
+        "mask_promotion_performed": false,
+        "wave70_hard_gate_rerun": false,
+        "wave71_activated": false,
+        "target_runtime_proof": false,
+        "final_lane_certification": false,
+        "aws_contacted": false,
+        "ec2_started": false
+      }
+    }
+  },
+  "strict_decision": {
+    "bounded_sample_count": 3,
+    "stop_after_this_three_seed_matrix": true,
+    "technical_only_mode": false,
+    "strict_visual_required_for_scope_clearance": true,
+    "full_body_contract_cleared": true,
+    "lineart_final_certification_allowed": false,
+    "target_runtime_proof_added": false
+  },
+  "boundaries": {
+    "local_only": true,
+    "gold_masks_consumed": false,
+    "mask_promotion_performed": false,
+    "target_runtime_proof": false,
+    "final_lane_certification": false,
+    "wave70_hard_gate_rerun": false,
+    "wave71_activated": false
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "lineart_full_body_standing_robustness_seed711370302",
+  "target_lane_id": "sdxl_realvisxl_controlnet_lineart_lane",
+  "purpose": "Bounded local three-seed Lineart full-body robustness sample. The canonical lineart lane request remains invariant except seed and output identity.",
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic full-length studio fashion photograph of one fully clothed adult woman, entire body in frame from head to both feet, both hands visible, both legs visible, coherent shoulders elbows wrists hips knees and ankles, natural skin texture, realistic face and eyes, detailed hair, structured long-sleeve top with full-length tailored pants and closed-toe shoes, clean seamless neutral studio backdrop, soft balanced studio lighting, lineart-guided contour fidelity, lifelike lens rendering",
+    "negative_prompt": "cartoon, anime, illustration, child, teen, extra person, duplicate body, distorted anatomy, extra limbs, missing limbs, extra fingers, missing fingers, fused fingers, deformed hands, cropped head, cropped hands, cropped legs, cropped feet, close-up portrait, seated pose, low resolution, blurry, watermark, text, logo, lineart leakage, heavy ink stains, black contour smears, scribble artifacts, sketch overlay, unnatural skin, waxy skin, plastic skin, nudity, lingerie, bikini, unclothed torso",
+    "seed": 711370302,
+    "sampler_settings": {
+      "steps": 24,
+      "cfg": 5.5,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1
+    },
+    "latent_resolution": {
+      "width": 704,
+      "height": 1056,
+      "batch_size": 1
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "controlnet_asset": "controlnet-lineart-sdxl-fp16.safetensors",
+    "control_image": "controlnet_lineart_full_body_standing_w70_v1.png",
+    "controlnet_settings": {
+      "strength": 0.45,
+      "start_percent": 0,
+      "end_percent": 0.65
+    },
+    "save_prefix": "lineart_fullbody_standing_711370302"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "lineart_fullbody_standing_711370302"
+  },
+  "qa_focus": [
+    "exactly one full-body adult",
+    "head both hands both legs and both feet remain in frame",
+    "lineart control consistency across seeds",
+    "absence of lineart leakage or ink staining",
+    "natural skin rendering",
+    "coherent clothing and studio backdrop"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "gold_masks_consumed": false,
+    "body_mask_or_geometry_authority_claimed": false,
+    "identity_matching_claimed": false,
+    "requires_target_runtime_reproof_before_final_certification": true
+  }
+}
