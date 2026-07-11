@@ -1,3 +1,9 @@
+## Immediate Next Action - Base Certification Refused, Inpaint Evidence Audit Next - 2026-07-11T03:00:00-05:00
+
+Base lane final certification remains blocked after a fresh contradiction audit. Its W63 target-runtime evidence proves only a generic close-crop portrait smoke, while current single-hand and two-character candidates are local-only, pass with notes, explicitly non-certifying, and lack scope-matched target-runtime and robustness/mask-routed proof. No Base generation was rerun and the existing generic smoke must not be repeated as a substitute.
+
+Next audit `sdxl_realvisxl_inpaint_detail_lane` against its existing selected-inpaint target-runtime/pullback evidence and later local contact-refine evidence. Keep target-runtime and local variant scopes separate, and keep EC2 stopped.
+
 ## Immediate Next Action - Canny Bounded Lane Certified, Base Lane Review Next - 2026-07-11T02:45:00-05:00
 
 `sdxl_realvisxl_controlnet_canny_lane` now has an explicitly named bounded final lane certification from existing W68 target-runtime proof and W69 local portrait robustness. The certificate retains the faint seed 711570105 right-edge seam as a nonblocking note and excludes changed variants, hands, feet, full body, contact, masks, broader scenes, and full-project claims. No Canny generation or EC2 work was rerun.

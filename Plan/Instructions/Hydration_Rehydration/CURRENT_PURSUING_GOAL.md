@@ -1,3 +1,9 @@
+## Active Runtime Posture - Canny Certified, Base Scope-Blocked, Inpaint Audit Next - 2026-07-11T03:00:00-05:00
+
+Continue from authoritative `C:\Comfy_UI_Main`. Canny is bounded-certified; Base remains correctly blocked because its generic runtime proof does not match its current contact candidates. Normal, OpenPose, and RealESRGAN retain their recorded capacity-limited staging states. EC2 is stopped.
+
+Use the capacity interval to audit the Inpaint lane's existing target-runtime and local candidate evidence without generation. Do not borrow evidence across Base/Inpaint ownership boundaries or weaken manual-mask, Wave70/Wave71+, Flux1-license, or Jira gates.
+
 ## Active Runtime Posture - Canny Bounded Certified, Base Review Next - 2026-07-11T02:45:00-05:00
 
 Continue from authoritative `C:\Comfy_UI_Main`. Canny v4 is now finally certified for a bounded portrait target-runtime scope with notes; later local variants remain local-only context. Preserve its no-rerun boundary. Normal, OpenPose, and RealESRGAN remain prepared at their recorded capacity-limited stages, and EC2 is stopped.

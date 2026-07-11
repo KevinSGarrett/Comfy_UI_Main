@@ -1,0 +1,63 @@
+{
+  "evidence_id": "W66-BASE-LANE-FINAL-CERTIFICATION-BLOCKER-RECONFIRMATION-20260711T030000-0500",
+  "timestamp": "2026-07-11T03:00:00-05:00",
+  "task_tracker_id": "WO-W66-SDXL_REALVISXL_BASE_LANE-FINAL-CERTIFICATION",
+  "lane_id": "sdxl_realvisxl_base_lane",
+  "result": "blocked_base_lane_final_certification_candidate_scope_mismatch_reconfirmed",
+  "final_decision": "blocked",
+  "closes_work_order": false,
+  "implementation_summary": "Re-audited the existing generic target-runtime Base proof and later local single-hand/two-character candidate evidence without generation. The evidence remains scope-mismatched and cannot support final lane certification.",
+  "tests_performed": [
+    {
+      "name": "generic_target_runtime_static_smoke_pullback_chain",
+      "result": "pass_for_generic_close_crop_runtime_smoke_only",
+      "evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W63_EC2_WORKFLOW_SMOKE_REALVISXL_AFTER_STATIC_PROOF_20260706T132206-0500.json"
+    },
+    {
+      "name": "single_hand_contact_local_visual_qa",
+      "result": "pass_with_notes_non_certifying",
+      "evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_SINGLE_HAND_CONTACT_CLOSEUP_V1_VISUAL_QA_20260707T095000-0500.json"
+    },
+    {
+      "name": "two_character_contact_local_visual_qa",
+      "result": "pass_with_notes_non_certifying_single_preferred_sample",
+      "evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_TWO_CHARACTER_HAND_TO_BODY_VISUAL_QA_20260707T115000-0500.json"
+    },
+    {
+      "name": "independent_contradiction_audit",
+      "result": "pass_no_contradictions_insufficient_for_certificate",
+      "evidence": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T023220-0500_base_lane_certificate_audit_narrow_retry/handoff_record.json"
+    }
+  ],
+  "qa_summary": {
+    "generic_target_runtime_visual": "pass_with_notes_for_runtime_smoke",
+    "generic_target_runtime_scope": "single close-crop face image without hand/body evaluation",
+    "single_hand_candidate": "local_pass_with_notes_final_decision_disallowed",
+    "two_character_candidate": "local_pass_with_notes_certification_disallowed",
+    "substantive_contradictions": 0
+  },
+  "exact_blockers": [
+    "scope_matched_target_runtime_static_smoke_pullback_technical_visual_proof_missing_for_single_hand_candidate",
+    "scope_matched_target_runtime_static_smoke_pullback_technical_visual_proof_missing_for_two_character_candidate",
+    "two_character_multiseed_robustness_missing",
+    "mask_routed_refine_or_small_robustness_pair_missing",
+    "local_candidate_qa_explicitly_disallows_final_certification"
+  ],
+  "known_issues": [
+    "Later two-character refine evidence belongs to the inpaint-detail lane and cannot be reassigned to the Base lane.",
+    "The current EC2 capacity window is unavailable, but capacity is not used to excuse or weaken the scope requirement.",
+    "Manual gold masks remain unavailable for mask-routed final authority."
+  ],
+  "evidence_paths": {
+    "prior_blocker_packet": "Plan/Instructions/QA/Evidence/Done_Certifications/W66_BASE_LANE_FINAL_REVIEW_BLOCKER_PACKET_SELECTED_CHAIN_20260709T184600-0500.json",
+    "itemized_list_record": "Plan/Items/Reports/W66_BASE_LANE_FINAL_CERTIFICATION_BLOCKER_ITEMIZED_LIST_20260711T030000-0500.json",
+    "runtime_requirements": "Workflows/base_generation/sdxl_realvisxl_base_lane/runtime_requirements.json"
+  },
+  "new_ec2_started": false,
+  "new_generation_executed": false,
+  "target_runtime_proof_for_current_candidates": false,
+  "final_lane_certification": false,
+  "full_project_certification": false,
+  "certifier": "Codex Desktop autonomous release manager",
+  "next_action": "Do not certify or rerun the generic Base smoke. Revisit only with scope-matched candidate proof and the required robustness/mask-routed evidence."
+}
