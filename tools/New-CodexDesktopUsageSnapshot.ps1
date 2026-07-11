@@ -11,7 +11,7 @@ declare whether the UI reports used or remaining quota.
 param(
   [Parameter(Mandatory = $true)]
   [ValidateRange(0, 100)]
-  [int]$UsagePercent,
+  [double]$UsagePercent,
 
   [Parameter(Mandatory = $true)]
   [ValidateSet("UsedPercent", "RemainingPercent")]
@@ -25,6 +25,7 @@ param(
   [string]$BaselinePath = "",
   [string]$ObservedAt = "",
   [string]$Source = "user_observed_codex_desktop_ui",
+  [string]$EvidenceNote = "",
   [string]$OutputDirectory = ""
 )
 
@@ -73,6 +74,7 @@ $record = [ordered]@{
   source = $Source
   baseline_path = [System.IO.Path]::GetFullPath($BaselinePath)
   target_reduction_percent = 50
+  evidence_note = $EvidenceNote
   note = "The displayed percentage and semantics were supplied explicitly; no UI value was inferred."
 }
 

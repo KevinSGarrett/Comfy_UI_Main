@@ -1,6 +1,6 @@
 # AI Worker Lane Routing Policy
 
-Updated: 2026-07-10
+Updated: 2026-07-11
 
 This policy defines how Codex Desktop, Cursor CLI, and Claude Code subscription work together for Comfy_UI_Main.
 
@@ -23,9 +23,12 @@ Use these deterministic tools for comparable measurements:
 ```text
 C:\Comfy_UI_Main\tools\New-CodexDesktopUsageSnapshot.ps1
 C:\Comfy_UI_Main\tools\Measure-AIWorkerCodexUsageReduction.ps1
+C:\Comfy_UI_Main\tools\Measure-AIWorkerNetUsageReductionProxy.ps1
 ```
 
-The monitor must prefer measured weekly quota burn-rate reduction over an unaudited estimate whenever a finalized second snapshot exists. A snapshot must record the displayed percentage and whether it means `UsedPercent` or `RemainingPercent`; never infer the UI semantics.
+The monitor must prefer measured weekly quota burn-rate reduction over an unaudited estimate whenever finalized post-baseline snapshots exist. A snapshot must record the displayed percentage and whether it means `UsedPercent` or `RemainingPercent`; never infer the UI semantics. One post-baseline snapshot is capped at `MEDIUM`. `HIGH_TWO_MEASURED_PERIODS` requires two post-baseline measurements that both meet the 50% target, span at least 24 hours from baseline, and are at least 6 hours apart.
+
+Proxy estimates must use the net tool and include final-authority work, Codex review/validation, failed-handoff recovery, worker orchestration, direct eligible work absorbed by Codex, and incremental scheduled-Codex overhead. Worker-eligible avoided minutes alone are not an estimate of total Codex Desktop reduction. Every proxy result is capped at `MEDIUM`.
 
 ## Shared Project Boundaries
 
@@ -68,7 +71,9 @@ Before a broad worker scan, create a bounded scope packet when authoritative fil
 C:\Comfy_UI_Main\tools\New-AIWorkerScopePacket.ps1
 ```
 
-The normal path is deterministic shortlist first, then narrow worker review. A worker-side whole-tree task-selection scan is allowed only when current hydration, work-order, queue, or manifest authority cannot produce a bounded candidate list; record that reason in the work order.
+The normal path is deterministic shortlist first, then narrow worker review. Pass the packet to the Cursor wrapper with `-ScopePacketPath`. The wrapper validates repository containment, the 1-12 file limit, and current SHA-256 hashes before launching Cursor. A worker-side whole-tree task-selection scan is allowed only with `-AllowBroadDiscovery -BroadDiscoveryReason <reason>` when current hydration, work-order, queue, or manifest authority cannot produce a bounded candidate list.
+
+Cursor's normal timeout ceiling is 600 seconds. A timeout above 600 seconds is allowed only with the explicit broad-discovery exception and may never exceed 900 seconds. A broad reconciliation or inventory must not use a 900-second first attempt without that exception.
 
 ## Lane 1: Codex Desktop Final Authority
 
@@ -249,7 +254,7 @@ Temporary tightened triggers:
 
 Claude adoption floor: if the latest monitor window shows zero useful Claude handoffs while Claude subscription auth is healthy, the next eligible high-effort synthesis, contradiction review, routing critique, checkpoint-risk synthesis, or strategy review expected to take more than 2 minutes must use `CLAUDE_HEAVY_REVIEW_REQUIRED` before Codex absorbs it. Do not route mechanical extraction, final authority, live runtime, visual QA, Git/GitHub mutation, AWS, Jira, masks, or tracker mutation to Claude.
 
-Cursor friction retry discipline: if Cursor fails because of wrapper invocation, parser, environment, or lock friction, retry once with the smallest safe work order: ask mode, supplied file/status list, no worker-side broad Git discovery, no file edits, no mutation authority, and PowerShell execution-policy bypass only for the child wrapper process when needed. If the retry fails, classify `CURSOR_WRAPPER_FRICTION_COMPACT_FALLBACK`, record the failure evidence, and fall back compactly instead of live-tailing or absorbing a long task silently.
+Cursor friction retry discipline: if Cursor fails because of wrapper invocation, parser, environment, or lock friction, retry once with the smallest safe work order: ask mode, a validated scope packet or supplied file/status list, no worker-side broad Git discovery, no file edits, and no mutation authority. The wrapper applies process-local PowerShell execution-policy bypass internally. If the retry fails, classify `CURSOR_WRAPPER_FRICTION_COMPACT_FALLBACK`, record the failure evidence, and fall back compactly instead of live-tailing or absorbing a long task silently.
 
 Exit recovery mode only after at least two useful compact worker handoffs occur in real project work, or after one audit window reports `usage_reduction_confidence=MEDIUM` or better with no direct-Codex worker-lane violations.
 
@@ -265,10 +270,6 @@ The combined AI worker monitor must score each audit window with:
 - incomplete or failed handoffs;
 - Codex fallback cases;
 - direct-Codex violations where eligible work was done without a worker handoff;
-- Git/GitHub worker-analysis tasks detected;
-- Git/GitHub analysis handoffs attempted;
-- Git/GitHub direct-Codex analysis violations;
-- worker mutation attempts detected;
 - `git_github_worker_analysis_tasks_detected`
 - `git_github_analysis_handoffs_attempted`
 - `git_github_direct_codex_analysis_violations`
@@ -276,15 +277,25 @@ The combined AI worker monitor must score each audit window with:
 - `git_github_connector_first_compliance`
 - estimated Codex work avoided;
 - usage reduction confidence.
+- Codex final-authority minutes.
+- Codex review and validation minutes.
+- Codex failed-handoff recovery minutes.
+- Codex worker-orchestration minutes.
+- direct Codex worker-eligible minutes.
+- incremental scheduled Codex minutes.
+- scope-packet compliance percentage.
+- malformed-path or write-scope violations.
+- stale or interrupted worker records.
+
+The monitor may recommend 95% confidence only after the measured tool returns `HIGH_TWO_MEASURED_PERIODS`, at least 25 substantive handoffs have an 85% or better success rate, scope-packet compliance is at least 90%, and direct-Codex routing, malformed-path/write-scope, and stale/interrupted-record counts are all zero for the qualification window.
 
 Usage reduction confidence should be reported as:
 
-- `LOW`: less than 40% estimated reduction or repeated direct-Codex violations.
-- `MEDIUM`: 40-60% estimated reduction with some worker success and limited fallback.
-- `HIGH`: 60%+ estimated reduction with successful worker-first behavior and no major violations.
-- `PROVEN`: multiple consecutive audit windows show 50%+ estimated reduction and worker outputs are used in practice.
+- `LOW`: net proxy is below 50%, operational thresholds fail, or direct-Codex violations repeat.
+- `MEDIUM`: net proxy meets 50% or one direct measurement meets 50%, but the two-measurement qualification gate is incomplete.
+- `HIGH_TWO_MEASURED_PERIODS`: two qualifying post-baseline measurements meet 50% and all operational thresholds above pass.
 
-When finalized baseline and current usage snapshots exist, replace the estimated percentage with the result from `Measure-AIWorkerCodexUsageReduction.ps1`. `HIGH` requires at least 24 post-baseline hours, a measurable quota delta, 50% or greater burn-rate reduction, and no major worker-authority violation. `PROVEN` additionally requires two consecutive measured windows meeting the target.
+Estimated audit windows can demonstrate adoption but can never produce `HIGH` or `PROVEN`. When finalized snapshots exist, use `Measure-AIWorkerCodexUsageReduction.ps1`; do not replace a direct result with a more favorable proxy.
 
 ## Output Contract
 

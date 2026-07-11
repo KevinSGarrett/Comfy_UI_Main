@@ -1,6 +1,6 @@
 # Automation Cron Fleet Supervision Strategy
 
-Updated: 2026-07-10
+Updated: 2026-07-11
 
 This protocol defines the Comfy_UI_Main scheduled automation fleet posture while the main Codex session advances the ComfyUI project autonomously.
 
@@ -60,9 +60,10 @@ Usage-reduction scoring must use the deterministic snapshot and burn-rate tools 
 ```text
 C:\Comfy_UI_Main\tools\New-CodexDesktopUsageSnapshot.ps1
 C:\Comfy_UI_Main\tools\Measure-AIWorkerCodexUsageReduction.ps1
+C:\Comfy_UI_Main\tools\Measure-AIWorkerNetUsageReductionProxy.ps1
 ```
 
-Without a second comparable snapshot, the monitor may report only a proxy estimate and must cap confidence at `MEDIUM`.
+Without two comparable post-baseline measurements, the monitor may report only a proxy estimate or a single measured result and must cap confidence at `MEDIUM`. Proxy scoring must include final-authority minutes, review/validation, failed-handoff recovery, orchestration, direct eligible Codex work, and incremental scheduled-automation overhead.
 
 Cron jobs should reinforce this division:
 - Use Cursor-first for broad mechanical local reads, inventories, parser/validator triage, file/path/hash summaries, and first-pass drafts.
@@ -142,7 +143,9 @@ Use tightened temporary triggers until adoption recovers:
 
 Claude adoption floor: if the latest audit window shows zero useful Claude handoffs while Claude subscription auth is healthy, the monitor should require the next eligible high-effort synthesis, contradiction review, routing critique, checkpoint-risk synthesis, or strategy review to use `CLAUDE_HEAVY_REVIEW_REQUIRED` before Codex absorbs it. This floor does not apply to mechanical extraction, final authority, live runtime, visual QA, Git/GitHub mutation, AWS, Jira, masks, or tracker mutation.
 
-Cursor friction retry discipline: wrapper invocation, parser, environment, or lock friction should be followed by one narrow retry before Codex fallback. The retry should use ask mode, a supplied file/status list, no worker-side broad Git discovery, no file edits, no mutation authority, and child-process execution-policy bypass only when needed. If the retry fails, classify `CURSOR_WRAPPER_FRICTION_COMPACT_FALLBACK` and record the fallback reason.
+Cursor friction retry discipline: wrapper invocation, parser, environment, or lock friction should be followed by one narrow retry before Codex fallback. The retry should use ask mode, a hash-validated scope packet or supplied file/status list, no worker-side broad Git discovery, no file edits, and no mutation authority. The wrapper owns process-local execution-policy bypass. If the retry fails, classify `CURSOR_WRAPPER_FRICTION_COMPACT_FALLBACK` and record the fallback reason.
+
+Broad Cursor discovery must pass `-ScopePacketPath` or use the explicit `-AllowBroadDiscovery -BroadDiscoveryReason` exception. The normal timeout ceiling is 600 seconds; only an explicit broad-discovery exception may use up to 900 seconds.
 
 Exit recovery mode only after two useful compact real worker handoffs or one audit window with `usage_reduction_confidence=MEDIUM` or better and no direct-Codex worker-lane violations.
 
@@ -164,8 +167,18 @@ Monitor Scoring fields for worker-aware audits:
 - `estimated_codex_work_avoided_minutes`
 - `estimated_usage_reduction_percent`
 - `usage_reduction_confidence`
+- `codex_final_authority_minutes`
+- `codex_review_and_validation_minutes`
+- `codex_failed_handoff_recovery_minutes`
+- `codex_worker_orchestration_minutes`
+- `direct_codex_worker_eligible_minutes`
+- `incremental_scheduled_codex_minutes`
+- `net_estimated_usage_reduction_percent`
+- `scope_packet_compliance_percent`
+- `malformed_path_or_write_scope_violations`
+- `stale_or_interrupted_worker_records`
 
-The combined worker monitor is the sole recurring Cursor/Claude/GitHub delegation-health authority. A separate Claude-only monitor is redundant once the combined monitor verifies subscription auth, the Claude adoption floor, and substantive Claude handoffs. Keep ordinary monitor runs small-model, low-effort, and bounded; use a heavyweight model only for an explicitly requested deep effectiveness review.
+The combined worker monitor is the sole recurring Cursor/Claude/GitHub delegation-health authority. A separate Claude-only monitor is redundant once the combined monitor verifies subscription auth, the Claude adoption floor, and substantive Claude handoffs. Keep ordinary monitor and deterministic supervisor runs on the smallest model that passes their contract, low-effort, and bounded; use a heavyweight model only for an explicitly requested deep effectiveness review or a documented non-deterministic synthesis need.
 
 ## Role Ownership
 

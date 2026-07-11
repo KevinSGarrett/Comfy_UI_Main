@@ -32,6 +32,8 @@ tools/New-AIWorkerScopePacket.ps1
 
 Normal worker scope is at most 12 explicit files derived from current hydration, an active work order, queue rows, or manifest links. If broader discovery is unavoidable, state why.
 
+Cursor must receive the packet through `-ScopePacketPath`. Whole-tree discovery requires `-AllowBroadDiscovery` plus a recorded reason. Normal Cursor timeout is at most 600 seconds.
+
 ## Canonical Policies
 
 - `Plan/Instructions/AI_WORKER_LANE_ROUTING_POLICY.md`
@@ -60,4 +62,4 @@ Do not return future-intention narration. If blocked, return `status: blocked` a
 
 ## Usage Measurement
 
-Use `tools/New-CodexDesktopUsageSnapshot.ps1` and `tools/Measure-AIWorkerCodexUsageReduction.ps1`. Never infer whether the UI percentage means used or remaining quota.
+Use `tools/New-CodexDesktopUsageSnapshot.ps1`, `tools/Measure-AIWorkerCodexUsageReduction.ps1`, and `tools/Measure-AIWorkerNetUsageReductionProxy.ps1`. Never infer whether the UI percentage means used or remaining quota. One post-baseline measurement or any proxy is capped at MEDIUM; HIGH requires two qualifying measured observations.

@@ -17,7 +17,7 @@ Apply the smallest safe lane before starting broad work. Keep output bounded and
    - `CLAUDE_HEAVY_REVIEW_REQUIRED`
    - `GIT_GITHUB_WORKER_ANALYSIS_REQUIRED`
    - `NO_WORKER_NEEDED_UNDER_THRESHOLD`
-4. If a worker is needed and paths are known, create a packet with `tools/New-AIWorkerScopePacket.ps1`. Keep the normal scope at 12 files or fewer.
+4. If a worker is needed and paths are known, create a packet with `tools/New-AIWorkerScopePacket.ps1`. Keep the normal scope at 12 files or fewer and pass it to Cursor with `-ScopePacketPath`.
 5. Execute only the assigned worker responsibility. Do not rediscover unrelated trees.
 6. Return completed compact evidence. Codex reviews, patches, validates, and performs any mutation.
 
@@ -34,7 +34,9 @@ Use `KNOWN_SCOPE_GIT_FAST_PATH` only when the current implementation has an exac
 ## Failure Handling
 
 - Retry incomplete output once with a narrower packet.
-- Use process-local PowerShell execution-policy bypass only when wrapper loading is blocked.
+- Let the Cursor wrapper apply process-local PowerShell execution-policy bypass internally.
+- Require `-AllowBroadDiscovery -BroadDiscoveryReason` for any whole-tree exception; otherwise the wrapper must reject it.
+- Keep normal Cursor timeouts at 600 seconds or less.
 - Do not repeatedly poll or narrate worker progress.
 - After one failed narrow retry, return the failure record and a compact fallback recommendation.
 
