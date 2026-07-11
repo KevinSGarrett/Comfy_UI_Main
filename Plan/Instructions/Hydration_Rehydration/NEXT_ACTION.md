@@ -1,3 +1,9 @@
+## Immediate Next Action - Upscale Remotely Staged, Canny Final Review Next - 2026-07-11T02:30:00-05:00
+
+`sdxl_realesrgan_upscale_polish_lane` now has a clean-head four-node run package and deploy bundle, passing package/deploy consistency with zero failures or warnings, exact S3 objects for RealESRGAN_x4plus, its source image, and the deploy bundle, plus validated no-execute EC2 install plans. EC2 was not started and remains stopped because the current capacity window is blocked.
+
+Do not claim target-runtime upscale proof or certification. While capacity is unavailable, perform the bounded final-certification review for `sdxl_realvisxl_controlnet_canny_lane` from its existing target-runtime and local robustness evidence only; do not rerun Canny generation.
+
 ## Immediate Next Action - OpenPose Remotely Staged, Await Capacity Without Loop - 2026-07-11T02:10:00-05:00
 
 `sdxl_realvisxl_controlnet_openpose_lane` now has a clean-head preferred-table-hands package, 10/10 package consistency, 6/6 asset-transfer dry-run children, 7/7 pre-EC2 handoff checks, and exact S3 objects for the 5.0 GB OpenPoseXL2 model, control image, and deploy bundle. RealVisXL was reused without duplicate upload. EC2 was not started for OpenPose because the current capacity window already failed on Normal.

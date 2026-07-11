@@ -1,3 +1,9 @@
+## Active Runtime Posture - Three Lanes Prepared Around Capacity Block, Canny Review Next - 2026-07-11T02:30:00-05:00
+
+Continue from authoritative `C:\Comfy_UI_Main`. Normal is remotely installed but capacity-blocked before static proof; OpenPose and RealESRGAN are clean-head packaged and remotely staged with exact hashes but not installed or executed. EC2 remains stopped and no capacity retry loop is allowed.
+
+Use the capacity interval for the Canny lane's bounded final-certification review from existing target-runtime proof, pullback, technical/visual QA, and local robustness. Do not rerun Canny, broaden its certification beyond proven scope, or disturb any mask/Wave70/Wave71+/Flux1/Jira boundary.
+
 ## Active Runtime Posture - Normal Capacity Blocked, OpenPose Remotely Staged - 2026-07-11T02:10:00-05:00
 
 Continue from authoritative `C:\Comfy_UI_Main`. Normal remains prepared but blocked before static proof by AWS capacity. OpenPose is now additionally packaged and staged in S3 with exact hashes, but has not been installed or executed on EC2. Preserve both fail-closed boundaries and keep the instance stopped.

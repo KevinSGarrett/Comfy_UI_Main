@@ -1,0 +1,54 @@
+{
+  "evidence_id": "W66-REALESRGAN-TARGET-RUNTIME-REMOTE-STAGING-20260711T023000-0500",
+  "timestamp": "2026-07-11T02:30:00-05:00",
+  "lane_id": "sdxl_realesrgan_upscale_polish_lane",
+  "decision": "pass_remote_staging_pending_ec2_capacity",
+  "source_git_head": "bbb510ba6c8eb5098890ba6be55960e8a25561f1",
+  "local_handoff": {
+    "run_package_result": "pass_local_only",
+    "deploy_bundle_result": "pass_local_only",
+    "package_deploy_consistency": "pass_local_only",
+    "failed_check_count": 0,
+    "warnings": 0,
+    "git_gate_clean_and_synced": true
+  },
+  "s3_assets": {
+    "upscale_model": {
+      "uri": "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/upscale_models/RealESRGAN_x4plus.pth",
+      "bytes": 67040989,
+      "sha256": "4fa0d38905f75ac06eb49a7951b426670021be3018265fd191d2125df9d682f1",
+      "metadata_hash_verified": true
+    },
+    "source_image": {
+      "uri": "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets/sdxl_realesrgan_upscale_polish_lane/upscale_polish_source_canny_w69.png",
+      "bytes": 779332,
+      "sha256": "4119997a991d443c17e2a9b26fad775a179c5ee11d060c730eb64c81e50f728e",
+      "metadata_hash_verified": true
+    },
+    "deploy_bundle": {
+      "uri": "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/upscale_bbb510b/upscale_bbb510b.zip",
+      "bytes": 65188,
+      "sha256": "e926c2db327c2841e81b57b3a77cb1bed3a6836d53c803c09c6e904cfce4e511"
+    }
+  },
+  "prompt_request_sha256": "53113f2ef86b951093b252dadbac52e113e657222790fec6b3bb74ab08f8edfd",
+  "ec2_install_plans": {
+    "model": "dry_run_model_install_plan",
+    "input": "dry_run_input_asset_install_plan"
+  },
+  "ec2_install_proof": false,
+  "target_runtime_static_proof": false,
+  "generation_executed": false,
+  "target_runtime_proof": false,
+  "certification_claimed": false,
+  "final_ec2_state": "stopped",
+  "capacity_boundary": "The current EC2 capacity window is blocked by InsufficientInstanceCapacity. This lane does not retry the instance in that window.",
+  "remaining_scope": [
+    "EC2 model and input install hash proof",
+    "target-runtime object_info and model hash proof",
+    "one bounded upscale output",
+    "pullback technical and strict visual QA",
+    "broader robustness or explicitly bounded final certification"
+  ],
+  "next_action": "While EC2 capacity is unavailable, review the already target-proven Canny lane for final bounded certification without rerunning generation."
+}
