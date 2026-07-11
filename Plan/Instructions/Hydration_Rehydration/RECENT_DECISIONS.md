@@ -1,3 +1,12 @@
+## 2026-07-11T04:50:18-05:00 - RealESRGAN export selection is fail-closed and source-specific
+
+- Exact 4x dimensions and preservation metrics do not establish hyperrealism preference; source-bound explicit visual review is mandatory.
+- The older Canny upscale is rejected by strict SSIM `0.93165 < 0.95`.
+- The Normal full-body upscale is conditional resolution-only and must retain its source master.
+- The two-character upscale is not a preferred export because of waxy-skin amplification and dense-pattern oversharpening, despite technical preservation passing.
+- No current candidate is explicitly preferred over its source, and no local decision authorizes final production export without target-runtime proof.
+- Completed source/output pairs must not be replayed; future candidates must pass the same selector.
+
 ## 2026-07-11T02:45:00-05:00 - Canny bounded final lane certification issued without rerun
 
 - Existing W68 static proof, one target-runtime Canny v4 generation, 4/4 pullback integrity, technical QA, and visual QA pass with notes.

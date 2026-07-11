@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "registry_id": "REALESRGAN-EXPORT-CANDIDATES-20260711",
+  "policy": "Plan/10_REGISTRIES/realesrgan_export_selection_policy.json",
+  "lane_id": "sdxl_realesrgan_upscale_polish_lane",
+  "candidates": [
+    {
+      "candidate_id": "canny_portrait_seed711570105",
+      "source_class": "canny_corrected_head_shoulders_portrait",
+      "runtime_scope": "local",
+      "source": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_eyeonly_seam_suppression_711570105_20260707T104736-0500/images/canny_w69_eyeonly_seam_suppression_711570105_00001_.png",
+        "sha256": "4119997a991d443c17e2a9b26fad775a179c5ee11d060c730eb64c81e50f728e"
+      },
+      "output": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/upscale_polish_w69_canny_seed711570105_20260707T110600-0500/images/upscale_polish_w69_canny_seed711570105_00001_.png",
+        "sha256": "71205ac2e9811bf9d41939fc51fc0219de377bde16bcd6e5af264a23c635d5da"
+      },
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_UPSCALE_POLISH_REALESRGAN_CANNY_SEED711570105_EXECUTE_20260707T111000-0500.json",
+      "visual_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_UPSCALE_POLISH_REALESRGAN_CANNY_SEED711570105_VISUAL_QA_20260707T111500-0500.json",
+      "visual_evidence_binding": {
+        "schema": "singleton_source_generated"
+      },
+      "visual_review": {
+        "review_complete": true,
+        "reviewer": "Codex Desktop autonomous release manager",
+        "reviewed_at": "2026-07-07T11:15:00-05:00",
+        "disposition": "conditional_resolution_export",
+        "preferred_over_source": null,
+        "blocking_regressions": [],
+        "advisories": [
+          "smooth_portrait_skin_is_preserved_not_reconstructed",
+          "some_hair_edges_remain_soft_or_painterly",
+          "scope_is_head_and_shoulders_only"
+        ]
+      }
+    },
+    {
+      "candidate_id": "normal_fullbody_seed711670301",
+      "source_class": "fullbody_portrait_normal_control_output",
+      "runtime_scope": "local",
+      "source": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/images/normal_v4_fullbody_standing_711670301_00001_.png",
+        "sha256": "b01b694125e08027195baf3c5a4eeac472eba242bfb4bbe69473625844134fc1"
+      },
+      "output": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realesrgan_normal_fullbody_w70_v1_20260711T040825-0500/images/realesrgan_normal_fullbody_w70_v1_00001_.png",
+        "sha256": "1724ed736087ee3394063de10f228db39a753c8bf71583a04c855bd544db682c"
+      },
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_REALESRGAN_NORMAL_FULLBODY_RUNTIME_20260711T041500-0500.json",
+      "visual_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_REALESRGAN_MULTISOURCE_ROBUSTNESS_QA_20260711T042000-0500.json",
+      "visual_evidence_binding": {
+        "schema": "multisource_sample",
+        "sample_id": "normal_fullbody"
+      },
+      "visual_review": {
+        "review_complete": true,
+        "reviewer": "Codex Desktop autonomous release manager",
+        "reviewed_at": "2026-07-11T04:20:00-05:00",
+        "disposition": "conditional_resolution_export",
+        "preferred_over_source": null,
+        "blocking_regressions": [],
+        "advisories": [
+          "smooth_skin_and_clothing_surfaces_are_amplified",
+          "upscale_is_not_true_detail_reconstruction"
+        ]
+      }
+    },
+    {
+      "candidate_id": "two_character_contact_seed7152026252",
+      "source_class": "square_two_character_contact_output",
+      "runtime_scope": "local",
+      "source": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_two_character_hand_to_body_w69_seed7152026252_20260707T113434-0500/images/codex_realvisxl_two_character_hand_to_body_seed7152026252_00001_.png",
+        "sha256": "d6ef67713167d55696b1f07e86c88e9ee0a038f946be9cd8cc56810f724b81a7"
+      },
+      "output": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realesrgan_two_character_contact_w70_v1_20260711T040856-0500/images/realesrgan_twochar_contact_w70_v1_00001_.png",
+        "sha256": "88ffb99111f3187f76dbfe54d285c7a2a646d4ce5ac25255d154e242a647939e"
+      },
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_REALESRGAN_TWO_CHARACTER_CONTACT_RUNTIME_20260711T041500-0500.json",
+      "visual_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_REALESRGAN_MULTISOURCE_ROBUSTNESS_QA_20260711T042000-0500.json",
+      "visual_evidence_binding": {
+        "schema": "multisource_sample",
+        "sample_id": "two_character_contact"
+      },
+      "visual_review": {
+        "review_complete": true,
+        "reviewer": "Codex Desktop autonomous release manager",
+        "reviewed_at": "2026-07-11T04:20:00-05:00",
+        "disposition": "retain_source",
+        "preferred_over_source": false,
+        "blocking_regressions": [
+          "waxy_skin_amplification",
+          "dense_pattern_oversharpening"
+        ],
+        "advisories": [
+          "composition_and_contact_are_preserved",
+          "technical_4x_preservation_still_passes"
+        ]
+      }
+    }
+  ]
+}

@@ -1,3 +1,9 @@
+## Active Runtime Posture - RealESRGAN Export Selection Policy Complete - 2026-07-11T04:50:18-05:00
+
+Continue from authoritative `C:\Comfy_UI_Main`. The RealESRGAN local source-selection/export policy, normalized candidate registry, fail-closed evaluator, QA evidence, Item report, Tracker mirrors, and bounded Done_Certification are complete. All eight decision fixtures and seven strict evidence-binding fixtures pass. The selector rejects the older Canny upscale on strict SSIM, permits the Normal full-body upscale only for conditional resolution delivery with source retention, and rejects the technically valid two-character upscale as preferred because of visual regressions.
+
+Do not replay these samples or claim universal quality improvement, target-runtime proof, final RealESRGAN certification, or final production export. The only remaining RealESRGAN lane gate is target-runtime proof plus final review when intentionally selected. Continue another concrete non-mask implementation task with EC2 stopped; preserve the local-source-of-truth, no-duplicate, manual-mask, Wave70/Wave71+, Flux1-license, and Jira boundaries.
+
 ## Active Runtime Posture - OpenPose Full-Body Local Robustness Complete With Notes - 2026-07-11T04:50:00-05:00
 
 Continue from authoritative `C:\Comfy_UI_Main`. OpenPose V6 now has three-seed local full-body walking runtime, metric, topology, and original-resolution visual robustness: `3/3` pose-scope passes with complete framing, hands, shoes, coherent limbs, all 18 common landmarks, crossed legs, and no control-map leakage. Profile comparison proves only seeds/output names changed. Seed `711470303` retains a footwear-color note because it generated black sneakers.

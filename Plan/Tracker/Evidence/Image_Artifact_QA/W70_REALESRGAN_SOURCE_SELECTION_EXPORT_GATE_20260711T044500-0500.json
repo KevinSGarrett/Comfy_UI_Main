@@ -1,0 +1,337 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-REALESRGAN-SOURCE-SELECTION-EXPORT-GATE-20260711T044500-0500",
+  "timestamp": "2026-07-11T04:54:29-05:00",
+  "lane_id": "sdxl_realesrgan_upscale_polish_lane",
+  "result": "pass_realesrgan_export_selection_policy_enforced",
+  "pass": true,
+  "scope": "local_three_source_class_export_selection_policy_and_negative_fixture_validation",
+  "policy": {
+    "path": "Plan/10_REGISTRIES/realesrgan_export_selection_policy.json",
+    "sha256": "cdbb310b3845217249fb55962bcb2d11a6c2491531bbb87ec977312ab566da6b"
+  },
+  "candidate_registry": {
+    "path": "Plan/10_REGISTRIES/realesrgan_export_candidate_registry.json",
+    "sha256": "769906559b8b59f724359fd11c0eafea5be17e27c86632a823fc61700bcfccd3"
+  },
+  "policy_errors": [],
+  "negative_fixture_tests": [
+    {
+      "fixture_id": "missing_evidence",
+      "expected": "hold_fail_closed_missing_or_invalid_evidence",
+      "actual": "hold_fail_closed_missing_or_invalid_evidence",
+      "pass": true
+    },
+    {
+      "fixture_id": "technical_failure",
+      "expected": "reject_upscale_technical_failure",
+      "actual": "reject_upscale_technical_failure",
+      "pass": true
+    },
+    {
+      "fixture_id": "missing_visual_review",
+      "expected": "hold_fail_closed_missing_or_invalid_evidence",
+      "actual": "hold_fail_closed_missing_or_invalid_evidence",
+      "pass": true
+    },
+    {
+      "fixture_id": "blocking_visual_regression",
+      "expected": "retain_source_reject_upscale_as_preferred",
+      "actual": "retain_source_reject_upscale_as_preferred",
+      "pass": true
+    },
+    {
+      "fixture_id": "explicit_retain_source",
+      "expected": "retain_source_reject_upscale_as_preferred",
+      "actual": "retain_source_reject_upscale_as_preferred",
+      "pass": true
+    },
+    {
+      "fixture_id": "conditional_resolution_export",
+      "expected": "conditional_resolution_export_retain_source_master",
+      "actual": "conditional_resolution_export_retain_source_master",
+      "pass": true
+    },
+    {
+      "fixture_id": "explicit_preference",
+      "expected": "prefer_upscale_export",
+      "actual": "prefer_upscale_export",
+      "pass": true
+    },
+    {
+      "fixture_id": "inconsistent_preference",
+      "expected": "hold_fail_closed_missing_or_invalid_evidence",
+      "actual": "hold_fail_closed_missing_or_invalid_evidence",
+      "pass": true
+    }
+  ],
+  "binding_fixture_tests": [
+    {
+      "fixture_id": "singleton_exact_fields",
+      "expected": true,
+      "actual": true,
+      "pass": true
+    },
+    {
+      "fixture_id": "singleton_hashes_only_in_unrelated_fields",
+      "expected": false,
+      "actual": false,
+      "pass": true
+    },
+    {
+      "fixture_id": "singleton_wrong_output_hash",
+      "expected": false,
+      "actual": false,
+      "pass": true
+    },
+    {
+      "fixture_id": "multisource_exact_sample",
+      "expected": true,
+      "actual": true,
+      "pass": true
+    },
+    {
+      "fixture_id": "multisource_hashes_on_wrong_sample",
+      "expected": false,
+      "actual": false,
+      "pass": true
+    },
+    {
+      "fixture_id": "multisource_duplicate_sample_id",
+      "expected": false,
+      "actual": false,
+      "pass": true
+    },
+    {
+      "fixture_id": "unknown_binding_schema",
+      "expected": false,
+      "actual": false,
+      "pass": true
+    }
+  ],
+  "candidates": [
+    {
+      "candidate_id": "canny_portrait_seed711570105",
+      "source_class": "canny_corrected_head_shoulders_portrait",
+      "runtime_scope": "local",
+      "source": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_eyeonly_seam_suppression_711570105_20260707T104736-0500/images/canny_w69_eyeonly_seam_suppression_711570105_00001_.png",
+        "sha256": "4119997a991d443c17e2a9b26fad775a179c5ee11d060c730eb64c81e50f728e",
+        "width": 768,
+        "height": 768
+      },
+      "output": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/upscale_polish_w69_canny_seed711570105_20260707T110600-0500/images/upscale_polish_w69_canny_seed711570105_00001_.png",
+        "sha256": "71205ac2e9811bf9d41939fc51fc0219de377bde16bcd6e5af264a23c635d5da",
+        "width": 3072,
+        "height": 3072
+      },
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_UPSCALE_POLISH_REALESRGAN_CANNY_SEED711570105_EXECUTE_20260707T111000-0500.json",
+      "visual_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_UPSCALE_POLISH_REALESRGAN_CANNY_SEED711570105_VISUAL_QA_20260707T111500-0500.json",
+      "technical_pass": false,
+      "failed_technical_checks": [
+        "downsample_ssim_pass"
+      ],
+      "evidence_valid": true,
+      "metrics": {
+        "downsample_ssim": 0.9316499522393804,
+        "downsample_psnr_db": 34.734189860373824,
+        "downsample_mae": 2.930964231491089,
+        "mean_color_shift": 1.1631622314453125
+      },
+      "checks": {
+        "required_fields_present": true,
+        "source_class_registered": true,
+        "source_exists": true,
+        "output_exists": true,
+        "runtime_evidence_exists": true,
+        "visual_evidence_exists": true,
+        "source_sha256_matches": true,
+        "output_sha256_matches": true,
+        "exact_scale_dimensions": true,
+        "downsample_ssim_pass": false,
+        "downsample_psnr_pass": true,
+        "downsample_mae_pass": true,
+        "mean_color_shift_pass": true,
+        "runtime_result_accepted": true,
+        "generation_executed": true,
+        "request_hash_matched": true,
+        "server_stopped_and_port_closed": true,
+        "visual_evidence_bound_to_source_and_output": true
+      },
+      "visual_review_valid": true,
+      "quality_preferred": false,
+      "export_recommendation": "reject_upscale_technical_failure",
+      "local_export_allowed": false,
+      "source_master_retention_required": true,
+      "final_production_export_allowed": false,
+      "rejection_reasons": [
+        "technical_preservation_or_runtime_gate_failed"
+      ],
+      "advisories": [
+        "smooth_portrait_skin_is_preserved_not_reconstructed",
+        "some_hair_edges_remain_soft_or_painterly",
+        "scope_is_head_and_shoulders_only"
+      ],
+      "errors": []
+    },
+    {
+      "candidate_id": "normal_fullbody_seed711670301",
+      "source_class": "fullbody_portrait_normal_control_output",
+      "runtime_scope": "local",
+      "source": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/images/normal_v4_fullbody_standing_711670301_00001_.png",
+        "sha256": "b01b694125e08027195baf3c5a4eeac472eba242bfb4bbe69473625844134fc1",
+        "width": 768,
+        "height": 1024
+      },
+      "output": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realesrgan_normal_fullbody_w70_v1_20260711T040825-0500/images/realesrgan_normal_fullbody_w70_v1_00001_.png",
+        "sha256": "1724ed736087ee3394063de10f228db39a753c8bf71583a04c855bd544db682c",
+        "width": 3072,
+        "height": 4096
+      },
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_REALESRGAN_NORMAL_FULLBODY_RUNTIME_20260711T041500-0500.json",
+      "visual_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_REALESRGAN_MULTISOURCE_ROBUSTNESS_QA_20260711T042000-0500.json",
+      "technical_pass": true,
+      "failed_technical_checks": [],
+      "evidence_valid": true,
+      "metrics": {
+        "downsample_ssim": 0.9816330744033922,
+        "downsample_psnr_db": 41.025828591820606,
+        "downsample_mae": 1.205689787864685,
+        "mean_color_shift": 0.2083333283662796
+      },
+      "checks": {
+        "required_fields_present": true,
+        "source_class_registered": true,
+        "source_exists": true,
+        "output_exists": true,
+        "runtime_evidence_exists": true,
+        "visual_evidence_exists": true,
+        "source_sha256_matches": true,
+        "output_sha256_matches": true,
+        "exact_scale_dimensions": true,
+        "downsample_ssim_pass": true,
+        "downsample_psnr_pass": true,
+        "downsample_mae_pass": true,
+        "mean_color_shift_pass": true,
+        "runtime_result_accepted": true,
+        "generation_executed": true,
+        "request_hash_matched": true,
+        "server_stopped_and_port_closed": true,
+        "visual_evidence_bound_to_source_and_output": true
+      },
+      "visual_review_valid": true,
+      "quality_preferred": false,
+      "export_recommendation": "conditional_resolution_export_retain_source_master",
+      "local_export_allowed": true,
+      "source_master_retention_required": true,
+      "final_production_export_allowed": false,
+      "rejection_reasons": [],
+      "advisories": [
+        "smooth_skin_and_clothing_surfaces_are_amplified",
+        "upscale_is_not_true_detail_reconstruction"
+      ],
+      "errors": []
+    },
+    {
+      "candidate_id": "two_character_contact_seed7152026252",
+      "source_class": "square_two_character_contact_output",
+      "runtime_scope": "local",
+      "source": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_two_character_hand_to_body_w69_seed7152026252_20260707T113434-0500/images/codex_realvisxl_two_character_hand_to_body_seed7152026252_00001_.png",
+        "sha256": "d6ef67713167d55696b1f07e86c88e9ee0a038f946be9cd8cc56810f724b81a7",
+        "width": 1024,
+        "height": 1024
+      },
+      "output": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realesrgan_two_character_contact_w70_v1_20260711T040856-0500/images/realesrgan_twochar_contact_w70_v1_00001_.png",
+        "sha256": "88ffb99111f3187f76dbfe54d285c7a2a646d4ce5ac25255d154e242a647939e",
+        "width": 4096,
+        "height": 4096
+      },
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_REALESRGAN_TWO_CHARACTER_CONTACT_RUNTIME_20260711T041500-0500.json",
+      "visual_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_REALESRGAN_MULTISOURCE_ROBUSTNESS_QA_20260711T042000-0500.json",
+      "technical_pass": true,
+      "failed_technical_checks": [],
+      "evidence_valid": true,
+      "metrics": {
+        "downsample_ssim": 0.9530110626812167,
+        "downsample_psnr_db": 29.627742706452945,
+        "downsample_mae": 4.617269992828369,
+        "mean_color_shift": 2.634852170944214
+      },
+      "checks": {
+        "required_fields_present": true,
+        "source_class_registered": true,
+        "source_exists": true,
+        "output_exists": true,
+        "runtime_evidence_exists": true,
+        "visual_evidence_exists": true,
+        "source_sha256_matches": true,
+        "output_sha256_matches": true,
+        "exact_scale_dimensions": true,
+        "downsample_ssim_pass": true,
+        "downsample_psnr_pass": true,
+        "downsample_mae_pass": true,
+        "mean_color_shift_pass": true,
+        "runtime_result_accepted": true,
+        "generation_executed": true,
+        "request_hash_matched": true,
+        "server_stopped_and_port_closed": true,
+        "visual_evidence_bound_to_source_and_output": true
+      },
+      "visual_review_valid": true,
+      "quality_preferred": false,
+      "export_recommendation": "retain_source_reject_upscale_as_preferred",
+      "local_export_allowed": false,
+      "source_master_retention_required": true,
+      "final_production_export_allowed": false,
+      "rejection_reasons": [
+        "waxy_skin_amplification",
+        "dense_pattern_oversharpening"
+      ],
+      "advisories": [
+        "composition_and_contact_are_preserved",
+        "technical_4x_preservation_still_passes"
+      ],
+      "errors": []
+    }
+  ],
+  "aggregate": {
+    "candidate_count": 3,
+    "technical_pass_count": 2,
+    "technical_reject_count": 1,
+    "evidence_valid_count": 3,
+    "conditional_resolution_export_count": 1,
+    "preferred_upscale_count": 0,
+    "retain_source_count": 1,
+    "final_production_export_allowed_count": 0,
+    "negative_fixture_pass_count": 8,
+    "negative_fixture_count": 8,
+    "binding_fixture_pass_count": 7,
+    "binding_fixture_count": 7
+  },
+  "quality_decision": {
+    "universal_upscale_preference_claimed": false,
+    "source_master_retention_required": true,
+    "canny_upscale_rejected_by_strict_ssim": true,
+    "two_character_upscale_rejected_as_preferred": true,
+    "final_production_export_allowed": false,
+    "reason": "The Normal full-body output passes strict preservation for conditional resolution delivery. The older Canny upscale misses the strict SSIM threshold, and the two-character upscale is retained only as technical evidence because skin and dense fabric regress."
+  },
+  "boundaries": {
+    "new_generation_executed": false,
+    "source_or_output_replayed": false,
+    "local_only": true,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "target_runtime_proven_by_this_gate": false,
+    "final_lane_certification": false,
+    "gold_masks_consumed": false,
+    "mask_promotion": false,
+    "wave70_hard_gate_rerun": false,
+    "wave71_activated": false
+  }
+}

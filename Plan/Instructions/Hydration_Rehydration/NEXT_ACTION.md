@@ -1,3 +1,9 @@
+## Immediate Next Action - RealESRGAN Export Selection Gate Enforced - 2026-07-11T04:50:18-05:00
+
+The fail-closed RealESRGAN source-selection gate is implemented and tested against all three existing hash-bound local candidates, eight decision fixtures, and seven strict evidence-binding fixtures. Evidence integrity is `3/3`; strict technical preservation is `2/3`. The Normal full-body upscale is allowed only as a conditional resolution export with its source master retained. The older Canny portrait is rejected because SSIM `0.93165` is below the strict `0.95` threshold. The two-character upscale passes technical preservation but is rejected as preferred because skin becomes waxier and patterned fabric is over-sharpened. No current upscale is explicitly preferred over its source.
+
+Preserve all three source/output pairs without replay. Future RealESRGAN candidates must use the selector, and final production export remains blocked until target-runtime proof and final lane review are intentionally selected. Continue another concrete non-mask local task; do not start AWS/EC2 while authentication is expired, recreate legacy/cloud work, consume candidate masks as truth, rerun Wave70 hard gates, activate Wave71+, infer Flux1 license acceptance, or switch to Jira bookkeeping.
+
 ## Immediate Next Action - OpenPose V6 Full-Body Multiseed Robustness Passed - 2026-07-11T04:50:00-05:00
 
 OpenPose V6 full-body walking robustness is complete across baseline seed `711470301` and seed-only variants `711470302`/`711470303`. All three current-head local samples passed runtime, request hashes, pixel-identical control diagnostics, 704x1056 framing, one-person detection, all 18 common body landmarks, pose-error thresholds, crossed-leg topology, visible hands/shoes, limb continuity, and no pose-map leakage. Strict visual QA records `3/3` pose-scope passes and one footwear-color drift: seed `303` produced black rather than white sneakers.

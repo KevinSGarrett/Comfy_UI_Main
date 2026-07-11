@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0",
+  "policy_id": "REALESRGAN-EXPORT-SELECTION-V1",
+  "lane_id": "sdxl_realesrgan_upscale_polish_lane",
+  "purpose": "Separate exact-4x technical success from source-specific hyperrealism export preference.",
+  "technical_thresholds": {
+    "scale_factor": 4,
+    "minimum_downsample_ssim": 0.95,
+    "minimum_downsample_psnr_db": 29.0,
+    "maximum_downsample_mae": 5.0,
+    "maximum_mean_color_shift": 3.0
+  },
+  "accepted_runtime_results": [
+    "pass_local_run_package_generation_smoke"
+  ],
+  "required_runtime_checks": [
+    "generation_executed",
+    "request_hash_matched",
+    "server_stopped_and_port_closed"
+  ],
+  "visual_review": {
+    "required": true,
+    "allowed_dispositions": [
+      "prefer_upscale",
+      "conditional_resolution_export",
+      "retain_source"
+    ],
+    "blocking_regression_flags": [
+      "waxy_skin_amplification",
+      "dense_pattern_oversharpening",
+      "ringing_or_halo",
+      "blocking_anatomy_regression",
+      "blocking_composition_regression",
+      "identity_regression",
+      "color_contamination",
+      "panel_or_tile_seam"
+    ],
+    "rule": "Scalar preservation metrics cannot establish hyperrealism preference. A source-bound explicit visual review is mandatory."
+  },
+  "decision_contract": {
+    "technical_failure": "reject_upscale_technical_failure",
+    "missing_or_invalid_evidence": "hold_fail_closed_missing_or_invalid_evidence",
+    "visual_regression_or_explicit_retain": "retain_source_reject_upscale_as_preferred",
+    "conditional_resolution_use": "conditional_resolution_export_retain_source_master",
+    "explicit_preference": "prefer_upscale_export",
+    "final_production_export_requires_target_runtime": true
+  },
+  "source_classes": {
+    "canny_corrected_head_shoulders_portrait": {
+      "technical_threshold_profile": "default_strict_preservation",
+      "required_visual_focus": [
+        "skin_texture",
+        "hair_edges",
+        "edge_halos",
+        "identity"
+      ]
+    },
+    "fullbody_portrait_normal_control_output": {
+      "technical_threshold_profile": "default_strict_preservation",
+      "required_visual_focus": [
+        "full_body_anatomy",
+        "skin_texture",
+        "clothing_surface",
+        "hands_and_feet"
+      ]
+    },
+    "square_two_character_contact_output": {
+      "technical_threshold_profile": "default_strict_preservation",
+      "required_visual_focus": [
+        "both_identities",
+        "contact_ownership",
+        "skin_texture",
+        "dense_patterned_fabric"
+      ]
+    }
+  },
+  "boundaries": {
+    "automatic_visual_quality_inference_allowed": false,
+    "source_master_deletion_allowed": false,
+    "universal_hyperrealism_improvement_claim_allowed": false,
+    "local_pass_implies_target_runtime_pass": false,
+    "body_mask_or_geometry_claims_allowed": false
+  }
+}
