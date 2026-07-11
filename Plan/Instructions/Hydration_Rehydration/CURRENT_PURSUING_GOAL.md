@@ -6291,3 +6291,8 @@ Continue the selected-inpaint target-runtime proof from `C:\Comfy_UI_Main`. S3 t
 Continue the full autonomous ComfyUI project from authoritative `C:\Comfy_UI_Main`. The RealVisXL SDXL Depth ControlNet lane is now target-runtime certified for one bounded head-and-shoulders portrait profile with passing static, runtime, pullback, technical, and visual evidence. Preserve its no-rerun boundary and keep EC2 stopped unless a different genuinely open runtime proof requires it.
 
 This does not certify depth behavior for hands, full body, contact, or broader scenes and does not clear any manual gold-mask, Wave70, Wave71+, Jira, or full-project certification gate. Select the next concrete non-mask implementation/runtime task from current local state without using stale legacy or EC2 planning state.
+## Active Runtime Posture - Bounded Lineart Lane Certified - 2026-07-11T00:47:00-05:00
+
+Continue the full autonomous ComfyUI project from authoritative `C:\Comfy_UI_Main`. The RealVisXL SDXL Lineart lane is target-runtime certified for one bounded head-and-shoulders plain-backdrop profile with passing static, runtime, pullback, technical, and visual evidence. Preserve its no-rerun boundary and keep EC2 stopped unless a different genuinely open runtime proof requires it.
+
+This does not certify exact identity, strict silhouette adherence, hands, full body, contact, broader scenes, or any mask-dependent gate. Select the next concrete non-mask implementation/runtime lane from current local state without using stale legacy or EC2 planning state.

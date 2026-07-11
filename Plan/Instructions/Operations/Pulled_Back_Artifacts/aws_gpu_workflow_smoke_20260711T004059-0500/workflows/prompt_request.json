@@ -1,0 +1,140 @@
+{
+    "prompt":  {
+                   "3":  {
+                             "class_type":  "KSampler",
+                             "inputs":  {
+                                            "seed":  711370003,
+                                            "steps":  20,
+                                            "cfg":  5.5,
+                                            "sampler_name":  "dpmpp_2m_sde",
+                                            "scheduler":  "karras",
+                                            "denoise":  1,
+                                            "model":  [
+                                                          "4",
+                                                          0
+                                                      ],
+                                            "positive":  [
+                                                             "12",
+                                                             0
+                                                         ],
+                                            "negative":  [
+                                                             "12",
+                                                             1
+                                                         ],
+                                            "latent_image":  [
+                                                                 "5",
+                                                                 0
+                                                             ]
+                                        }
+                         },
+                   "4":  {
+                             "class_type":  "CheckpointLoaderSimple",
+                             "inputs":  {
+                                            "ckpt_name":  "realvisxlV50_v50Bakedvae.safetensors"
+                                        }
+                         },
+                   "5":  {
+                             "class_type":  "EmptyLatentImage",
+                             "inputs":  {
+                                            "width":  768,
+                                            "height":  768,
+                                            "batch_size":  1
+                                        }
+                         },
+                   "6":  {
+                             "class_type":  "CLIPTextEncode",
+                             "inputs":  {
+                                            "text":  "hyperrealistic cinematic editorial portrait of an adult woman, auburn brown hair in a neat swept-back professional style, natural skin texture, realistic fine pores, subtle cheek texture, soft human skin asymmetry, realistic eyes with clean catchlights, clear iris detail, gentle eye fill light, open shadow detail, detailed hair, contour-guided facial composition, coherent facial contours, clean jawline and neck separation, crisp shirt collar boundary, tailored dark blazer over white collared shirt, clothed shoulders, plain matte neutral gray studio backdrop, seamless uncluttered background, no window, no visible panels, no light bars, even diffused softbox lighting, balanced exposure, clean face with no painted marks, lifelike lens rendering",
+                                            "clip":  [
+                                                         "4",
+                                                         1
+                                                     ]
+                                        }
+                         },
+                   "7":  {
+                             "class_type":  "CLIPTextEncode",
+                             "inputs":  {
+                                            "text":  "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, beauty filter skin, airbrushed face, porcelain skin, glossy skin, distorted anatomy, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text, lineart artifacts, ink outlines, harsh black outlines, contour stains, colored blotches, paint marks, over-dark eyes, underexposed eyes, muddy shadows, crushed shadows, diagonal light strip, diagonal bright bar, fluorescent strip, glowing light strips, vertical light bars, window, window panes, window bands, window bars, background panel, bright panel, studio light columns, harsh top-left light beam, office background, interior background clutter, male subject, beard, heavy stubble, masculine presentation, smeared jawline, warped collar edge, control map stains, bare shoulders, strapless top, nude, unclothed torso",
+                                            "clip":  [
+                                                         "4",
+                                                         1
+                                                     ]
+                                        }
+                         },
+                   "10":  {
+                              "class_type":  "ControlNetLoader",
+                              "inputs":  {
+                                             "control_net_name":  "controlnet-lineart-sdxl-fp16.safetensors"
+                                         }
+                          },
+                   "11":  {
+                              "class_type":  "LoadImage",
+                              "inputs":  {
+                                             "image":  "controlnet_lineart_w69_v1.png",
+                                             "upload":  "image"
+                                         }
+                          },
+                   "12":  {
+                              "class_type":  "ControlNetApplyAdvanced",
+                              "inputs":  {
+                                             "strength":  0.34,
+                                             "start_percent":  0,
+                                             "end_percent":  0.5,
+                                             "positive":  [
+                                                              "6",
+                                                              0
+                                                          ],
+                                             "negative":  [
+                                                              "7",
+                                                              0
+                                                          ],
+                                             "control_net":  [
+                                                                 "10",
+                                                                 0
+                                                             ],
+                                             "image":  [
+                                                           "11",
+                                                           0
+                                                       ],
+                                             "vae":  [
+                                                         "4",
+                                                         2
+                                                     ]
+                                         }
+                          },
+                   "8":  {
+                             "class_type":  "VAEDecode",
+                             "inputs":  {
+                                            "samples":  [
+                                                            "3",
+                                                            0
+                                                        ],
+                                            "vae":  [
+                                                        "4",
+                                                        2
+                                                    ]
+                                        }
+                         },
+                   "9":  {
+                             "class_type":  "SaveImage",
+                             "inputs":  {
+                                            "filename_prefix":  "lineart_v4_plain_backdrop_711370003",
+                                            "images":  [
+                                                           "8",
+                                                           0
+                                                       ]
+                                        }
+                         },
+                   "13":  {
+                              "class_type":  "SaveImage",
+                              "inputs":  {
+                                             "filename_prefix":  "codex_sdxl_realvisxl_controlnet_lineart_control_map_diagnostic",
+                                             "images":  [
+                                                            "11",
+                                                            0
+                                                        ]
+                                         }
+                          }
+               },
+    "client_id":  "codex-root-run-package"
+}

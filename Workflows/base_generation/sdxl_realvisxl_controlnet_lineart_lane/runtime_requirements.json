@@ -39,8 +39,8 @@
       "input": "ckpt_name",
       "local_hash_status": "verified_local",
       "local_path_status": "present_local_ignored_model_path",
-      "hash_status": "pending_ec2_static_match",
-      "path_status": "pending_ec2_static_match"
+      "hash_status": "verified_ec2_static_match",
+      "path_status": "verified_ec2_static_match"
     },
     {
       "role": "controlnet",
@@ -60,8 +60,8 @@
       "input": "control_net_name",
       "local_hash_status": "verified_local",
       "local_path_status": "present_local_ignored_model_path",
-      "hash_status": "pending_ec2_static_match",
-      "path_status": "pending_ec2_static_match"
+      "hash_status": "verified_ec2_static_match",
+      "path_status": "verified_ec2_static_match"
     }
   ],
   "required_input_assets": [
@@ -87,11 +87,11 @@
   "runtime_output_required": true,
   "qa_report_required": true,
   "promotion_allowed_without_evidence": false,
-  "current_status": "local_lineart_v4_plain_backdrop_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
-  "known_blockers": [
-    "Lineart v4 local robustness passed with notes, but target-runtime EC2 proof is still separate from this local proof.",
+  "current_status": "target_runtime_lineart_v4_bounded_portrait_certified_with_notes",
+  "known_limits": [
+    "Bounded target-runtime portrait proof and final lane certification are complete; this is not universal Lineart certification.",
     "Exact identity consistency, hands, full-body anatomy, contact points, and broader scene backgrounds are not certified by the head-and-shoulders plain-backdrop samples.",
-    "Final Lineart certification still requires target-runtime proof, pullback, technical QA, strict whole-image visual QA, and final certification review."
+    "Hairstyle and outer silhouette adherence remain loose at the configured low control strength."
   ],
   "evidence_paths": [
     "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_OBJECT_INFO_CONTROL_PREPROCESSORS_AFTER_AUX_INSTALL_20260707T052500-0500.json",
@@ -133,7 +133,12 @@
     "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_LINEART_V4_ROBUST_SEED711370005_EXECUTE_20260707T093700-0500.json",
     "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_LINEART_V4_ROBUST_SEED711370006_EXECUTE_20260707T093800-0500.json",
     "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_LINEART_V4_MULTISEED_ROBUSTNESS_VISUAL_QA_20260707T094200-0500.json",
-    "Plan/Tracker/Evidence/W69_LOCAL_LINEART_V4_MULTISEED_ROBUSTNESS_20260707T094200-0500.json"
+    "Plan/Tracker/Evidence/W69_LOCAL_LINEART_V4_MULTISEED_ROBUSTNESS_20260707T094200-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_EC2_LANE_STATIC_PROOF_LINEART_20260711T004700-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_SMOKE_LINEART_20260711T004700-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_LINEART_TARGET_RUNTIME_TECHNICAL_QA_20260711T004700-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_LINEART_TARGET_RUNTIME_VISUAL_QA_20260711T004700-0500.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W66_LINEART_LANE_FINAL_CERTIFICATION_20260711T004700-0500.json"
   ],
-  "status_notes": "Local Lineart v4 plain-backdrop now has three-sample local robustness evidence: preferred seed 711370003 plus seed-only samples 711370005 and 711370006. The plain matte background holds without window bands, bright panels, or diagonal strips; clean Lineart control holds with no visible ink/contour leakage. Mild skin polish and exact identity continuity remain notes. This is local robustness only, not target-runtime proof or final certification."
+  "status_notes": "Lineart v4 local three-sample robustness and one hash-bound EC2 target-runtime portrait run passed with notes. Object-info, model/input hashes, generation history, pullback hashes, technical QA, and visual QA passed. Mild skin polish and loose outer-silhouette adherence remain notes; exact identity, hands, full body, contact, and broader scenes remain outside scope."
 }

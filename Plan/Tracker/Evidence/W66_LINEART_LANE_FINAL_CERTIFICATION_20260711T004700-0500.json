@@ -1,0 +1,44 @@
+{
+  "evidence_id": "W66-LINEART-LANE-FINAL-CERTIFICATION-20260711T004700-0500",
+  "timestamp": "2026-07-11T00:47:00-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_lineart_lane",
+  "decision": "pass_bounded_lineart_portrait_lane_target_runtime_certified_with_notes",
+  "checks": {
+    "clean_head_package_and_deploy_consistency": true,
+    "exact_s3_asset_identity_and_checkpoint_reuse": true,
+    "ec2_object_info_and_required_nodes": true,
+    "ec2_model_and_input_hashes": true,
+    "bounded_generation_success": true,
+    "pullback_hash_integrity": true,
+    "technical_qa": true,
+    "visual_qa": true,
+    "ec2_stopped": true
+  },
+  "target_runtime_proof": true,
+  "final_lane_certification": true,
+  "full_project_certification": false,
+  "universal_lineart_generalization": false,
+  "certified_scope": "RealVisXL plus SDXL Lineart ControlNet for one 768x768 head-and-shoulders portrait using the lineart_v4 plain-backdrop profile",
+  "notes": [
+    "Skin remains mildly beauty-polished.",
+    "Hairstyle and outer silhouette adherence are loose at the configured low control strength.",
+    "Runtime emitted non-output-impacting optional-optimization, DRM inspection, database-lock, and torchsde warnings."
+  ],
+  "excluded_scope": [
+    "hands",
+    "full-body anatomy",
+    "contact ownership",
+    "broader scene backgrounds",
+    "exact identity preservation",
+    "body-part masking",
+    "Wave70 mask authority",
+    "Wave71 activation"
+  ],
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_EC2_LANE_STATIC_PROOF_LINEART_20260711T004700-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_SMOKE_LINEART_20260711T004700-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_LINEART_TARGET_RUNTIME_TECHNICAL_QA_20260711T004700-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_LINEART_TARGET_RUNTIME_VISUAL_QA_20260711T004700-0500.json"
+  ],
+  "no_rerun_boundary": "Do not rerun this unchanged bounded lineart portrait proof. New execution requires an intentionally expanded scope or changed workflow, model, input, request, or runtime integrity state."
+}
