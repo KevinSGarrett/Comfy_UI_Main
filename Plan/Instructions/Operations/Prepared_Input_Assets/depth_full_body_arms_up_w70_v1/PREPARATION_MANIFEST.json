@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "created_at": "2026-07-11T05:24:16-05:00",
+  "result": "pass_local_depth_anything_full_body_control_map_prepared",
+  "pass": true,
+  "scope": "single_original_full_body_depth_control_map",
+  "source": {
+    "path": "Ref_Image_1/Full/7ab4daaba22dba31ae206dbebd4fa8d3.jpg",
+    "sha256": "236a21d2ae7d3f817380a5367295d841990f185dc6ad7be8cf6be6478509e688",
+    "width": 2667,
+    "height": 4000,
+    "selection_reason": "true full body with head, both hands, both legs, and both bare feet visible in a clean studio pose"
+  },
+  "model_snapshot": {
+    "path": "C:\\Users\\kevin\\.cache\\huggingface\\hub\\models--LiheYoung--depth-anything-small-hf\\snapshots\\25216a913fa218ccb7d58cce818d52b728b6c1f6",
+    "component_count": 3,
+    "components": [
+      {
+        "path": "config.json",
+        "sha256": "5f6dc7e8173d30d32c9e033e8e7c67236416d69b6e35b1bad374a1a4fa78fef5",
+        "size_bytes": 954
+      },
+      {
+        "path": "model.safetensors",
+        "sha256": "7997c812d8964a741eec21e6816ec2db1e442b5109ea2e7db26dcb03c9060ef0",
+        "size_bytes": 99173660
+      },
+      {
+        "path": "preprocessor_config.json",
+        "sha256": "533b16a60445d7cab5086d39b45f92be45624b977972c62d5984d93e98366063",
+        "size_bytes": 437
+      }
+    ],
+    "device": "cuda",
+    "local_only": true
+  },
+  "inference": {
+    "detect_resolution": 768,
+    "inference_width": 512,
+    "inference_height": 768,
+    "preserve_aspect_ratio": true,
+    "loader_configuration": {
+      "pretrained_source": "C:\\Users\\kevin\\.cache\\huggingface\\hub\\models--LiheYoung--depth-anything-small-hf\\snapshots\\25216a913fa218ccb7d58cce818d52b728b6c1f6",
+      "source_is_local_directory": true,
+      "local_files_only": true,
+      "remote_model_id_used": false
+    }
+  },
+  "outputs": {
+    "source_copy": {
+      "path": "Plan/Instructions/Operations/Prepared_Input_Assets/depth_full_body_arms_up_w70_v1/source_original.jpg",
+      "sha256": "fb5268168feb95845bc58f3b8656b102355c86f9d94033a0f462f76ab7cb51bc",
+      "size_bytes": 1309025
+    },
+    "control_map": {
+      "path": "Plan/Instructions/Operations/Prepared_Input_Assets/depth_full_body_arms_up_w70_v1/controlnet_depth_anything_full_body_arms_up_w70_v1.png",
+      "sha256": "7ef5e4bf7d2200630afa6f835329c3e70ff9d09e834d4191b40f6ae84cb98e67",
+      "size_bytes": 609545,
+      "width": 2667,
+      "height": 4000,
+      "min": 0.0,
+      "max": 255.0,
+      "mean": 100.74385833740234,
+      "std": 75.55754852294922
+    }
+  },
+  "checks": {
+    "control_map_nonempty": true,
+    "portrait_output": true,
+    "depth_map_not_flat": true,
+    "depth_dynamic_range_gte_12": true,
+    "source_outside_excluded_new_folder": true,
+    "gold_masks_not_consumed": true,
+    "required_model_components_present": true,
+    "local_files_only_enabled": true,
+    "network_fallback_disabled": true
+  },
+  "local_only_boundaries": [
+    "Model loader uses local_files_only=True for processor and model.",
+    "Model path is an explicit local snapshot directory, not a remote id.",
+    "No network fallback path is configured."
+  ],
+  "limitations": [
+    "This prepares a local depth control map only.",
+    "No gold mask was read, compared, promoted, or treated as truth.",
+    "No runtime generation, hard gate, or Wave71+ activation is performed."
+  ]
+}

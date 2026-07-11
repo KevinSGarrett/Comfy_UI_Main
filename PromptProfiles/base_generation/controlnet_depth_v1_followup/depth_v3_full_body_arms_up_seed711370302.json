@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "depth_v3_full_body_arms_up_seed711370302",
+  "target_lane_id": "sdxl_realvisxl_controlnet_depth_lane",
+  "purpose": "Seed-only local robustness sample for the Depth V3 full-body arms-up request. Model, prompts, control image, sampler, resolution, and ControlNet settings match seed 711370301.",
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic full-length studio fitness photograph, one adult woman standing front-facing with both arms raised and both hands resting behind her head, entire person visible from head to bare feet, both elbows visible, both hands visible, coherent shoulders and arms, natural waist and hips, both legs fully visible, realistic knees and ankles, realistic bare feet and toes on the studio floor, fitted dark teal short-sleeve athletic shirt, high-waisted full-length charcoal leggings, natural skin texture, realistic face and hair, soft balanced studio lighting, clean light gray seamless background, depth-guided body volume, lifelike 50mm lens rendering",
+    "negative_prompt": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, distorted anatomy, extra person, duplicate body, extra arms, missing arms, fused arms, broken elbows, hands merged into hair, hidden hands, extra fingers, missing fingers, deformed hands, extra legs, missing legs, fused legs, broken knees, twisted ankles, missing feet, cropped head, cropped elbows, cropped hands, cropped feet, close-up portrait, seated pose, shoes, socks, crossed eyes, low resolution, blurry, watermark, text, logo, depth map overlay, grayscale depth stains, contour bands, control map leakage, nude, unclothed torso",
+    "seed": 711370302,
+    "sampler_settings": {
+      "steps": 24,
+      "cfg": 5.5,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1
+    },
+    "latent_resolution": {
+      "width": 704,
+      "height": 1056,
+      "batch_size": 1
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "controlnet_asset": "controlnet-depth-sdxl-1.0-small.safetensors",
+    "control_image": "controlnet_depth_anything_full_body_arms_up_w70_v1.png",
+    "controlnet_settings": {
+      "strength": 0.65,
+      "start_percent": 0,
+      "end_percent": 0.85
+    },
+    "save_prefix": "depth_v3_fullbody_armsup_711370302"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "depth_v3_fullbody_armsup_711370302"
+  },
+  "qa_focus": [
+    "seed-only full-body pose robustness",
+    "head, elbows, hands, and both feet remain in frame",
+    "bilateral arm and leg continuity",
+    "bare-foot anatomy remains readable",
+    "absence of depth-map bands or grayscale leakage",
+    "wardrobe consistency"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "original_image_used_only_to_derive_control_map": true,
+    "gold_masks_consumed": false,
+    "body_mask_or_geometry_authority_claimed": false,
+    "requires_target_runtime_reproof_before_broader_scope_certification": true
+  }
+}

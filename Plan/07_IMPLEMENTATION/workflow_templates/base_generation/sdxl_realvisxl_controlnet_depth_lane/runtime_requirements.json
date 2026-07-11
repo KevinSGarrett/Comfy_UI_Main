@@ -79,6 +79,20 @@
       "source_artifact": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_maps_w69_v2_20260707T053300-0500/images/codex_control_preprocessor_depth_anything_w69_00001_.png",
       "source_manifest": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_control_preprocessor_maps_w69_v2_20260707T053300-0500/CONTROL_PREPROCESSOR_MAPS_MANIFEST.json",
       "source_qa_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CONTROL_PREPROCESSOR_MAPS_VISUAL_QA_20260707T053800-0500.json"
+    },
+    {
+      "role": "control_image",
+      "filename": "controlnet_depth_anything_full_body_arms_up_w70_v1.png",
+      "control_map_type": "depth",
+      "comfyui_input_subdir": "",
+      "node_id": "11",
+      "node_class": "LoadImage",
+      "input": "image",
+      "status": "present_local_hash_verified_profile_scoped",
+      "sha256": "7ef5e4bf7d2200630afa6f835329c3e70ff9d09e834d4191b40f6ae84cb98e67",
+      "comfyui_input_path": "ComfyUI/input/controlnet_depth_anything_full_body_arms_up_w70_v1.png",
+      "source_artifact": "Ref_Image_1/Full/7ab4daaba22dba31ae206dbebd4fa8d3.jpg",
+      "source_manifest": "Plan/Instructions/Operations/Prepared_Input_Assets/depth_full_body_arms_up_w70_v1/PREPARATION_MANIFEST.json"
     }
   ],
   "object_info_required": true,
@@ -87,11 +101,11 @@
   "runtime_output_required": true,
   "qa_report_required": true,
   "promotion_allowed_without_evidence": false,
-  "current_status": "target_runtime_depth_v2_bounded_portrait_certified_with_notes",
+  "current_status": "target_runtime_depth_v2_bounded_portrait_certified_with_notes_plus_local_v3_fullbody_multiseed_robustness_pass_with_notes",
   "known_limits": [
-    "Bounded target-runtime portrait proof and final lane certification are complete; this is not universal depth-lane certification.",
-    "The local samples are head-and-shoulders only; hands, full-body anatomy, and contact points remain unproven.",
-    "Mild to moderate beauty-polished skin persists across samples; final image-quality certification must account for this note."
+    "Bounded target-runtime portrait proof remains complete; this is not universal depth-lane or project certification.",
+    "Local Depth v3 full-body robustness evidence is lane-local only and does not replace scope-matched target-runtime proof for full-body scenarios.",
+    "Strict wardrobe exact pass is 0/3 (advisory only: crop tops/cropped or ankle-length leggings), mild beauty-polished skin persists, and one plantar-flexed foot appears; do not claim detailed hand/foot geometry authority from this set."
   ],
   "evidence_paths": [
     "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_OBJECT_INFO_CONTROL_PREPROCESSORS_AFTER_AUX_INSTALL_20260707T052500-0500.json",
@@ -116,11 +130,22 @@
     "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_DEPTH_V2_ROBUST_SEED711270204_EXECUTE_20260707T081300-0500.json",
     "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_DEPTH_V2_MULTISEED_ROBUSTNESS_VISUAL_QA_20260707T081600-0500.json",
     "Plan/Tracker/Evidence/W69_LOCAL_DEPTH_V2_MULTISEED_ROBUSTNESS_20260707T081600-0500.json",
+    "Plan/Instructions/Operations/Prepared_Input_Assets/depth_full_body_arms_up_w70_v1/PREPARATION_MANIFEST.json",
+    "PromptProfiles/base_generation/controlnet_depth_v1_followup/depth_v3_full_body_arms_up_seed711370301.json",
+    "PromptProfiles/base_generation/controlnet_depth_v1_followup/depth_v3_full_body_arms_up_seed711370302.json",
+    "PromptProfiles/base_generation/controlnet_depth_v1_followup/depth_v3_full_body_arms_up_seed711370303.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_DEPTH_V3_FULL_BODY_ARMS_UP_RUNTIME_20260711T052700-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_DEPTH_V3_FULL_BODY_ROBUSTNESS_SEED711370302_20260711T053300-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_DEPTH_V3_FULL_BODY_ROBUSTNESS_SEED711370303_20260711T053300-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_DEPTH_V3_FULL_BODY_ARMS_UP_QA_20260711T053000-0500.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W70_DEPTH_V3_FULL_BODY_ARMS_UP_LOCAL_SCOPE_DONE_20260711T053000-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_DEPTH_V3_FULL_BODY_MULTISEED_ROBUSTNESS_QA_20260711T053500-0500.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W70_DEPTH_V3_FULL_BODY_MULTISEED_ROBUSTNESS_DONE_20260711T053500-0500.json",
     "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_EC2_LANE_STATIC_PROOF_DEPTH_20260711T000500-0500.json",
     "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_SMOKE_DEPTH_20260711T000500-0500.json",
     "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_DEPTH_TARGET_RUNTIME_TECHNICAL_QA_20260710T235900-0500.json",
     "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_DEPTH_TARGET_RUNTIME_VISUAL_QA_20260711T000500-0500.json",
     "Plan/Instructions/QA/Evidence/Done_Certifications/W66_DEPTH_LANE_FINAL_CERTIFICATION_20260711T000500-0500.json"
   ],
-  "status_notes": "Depth v2 local multisample robustness and one hash-bound EC2 target-runtime portrait run passed with notes. Object-info, model/input hashes, generation history, pullback hashes, technical QA, and visual QA passed. Mild beauty-polished skin remains a note; hands, full-body anatomy, contact, and broader scenes remain outside the certified scope."
+  "status_notes": "Depth lane keeps its bounded target-runtime portrait certification, and local Depth v3 full-body arms-up robustness passed across seeds 711370301/302/303 (3/3 runtime, 3/3 geometry) with one person, 18 common landmarks, full subject/hands/bare feet in frame, and no depth leakage. Strict wardrobe exact pass is 0/3 and advisory only (crop tops/cropped or ankle-length leggings), mild beauty-polished skin remains, and one plantar-flexed foot was observed. This local v3 evidence is not target-runtime proof, not universal/final certification, and does not grant detailed hand/foot geometry authority."
 }

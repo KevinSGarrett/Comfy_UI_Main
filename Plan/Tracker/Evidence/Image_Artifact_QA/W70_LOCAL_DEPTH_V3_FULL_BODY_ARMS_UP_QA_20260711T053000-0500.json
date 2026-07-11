@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-LOCAL-DEPTH-V3-FULL-BODY-ARMS-UP-QA-20260711T053000-0500",
+  "timestamp": "2026-07-11T05:30:14-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_depth_lane",
+  "result": "pass_with_notes_local_depth_v3_full_body_arms_up_scope",
+  "pass": true,
+  "scope": "one_local_full_body_arms_up_depth_control_sample",
+  "inputs": {
+    "source": {
+      "path": "Ref_Image_1/Full/7ab4daaba22dba31ae206dbebd4fa8d3.jpg",
+      "sha256": "236a21d2ae7d3f817380a5367295d841990f185dc6ad7be8cf6be6478509e688"
+    },
+    "control_map": {
+      "path": "Plan/Instructions/Operations/Prepared_Input_Assets/depth_full_body_arms_up_w70_v1/controlnet_depth_anything_full_body_arms_up_w70_v1.png",
+      "sha256": "7ef5e4bf7d2200630afa6f835329c3e70ff9d09e834d4191b40f6ae84cb98e67"
+    },
+    "profile": {
+      "path": "PromptProfiles/base_generation/controlnet_depth_v1_followup/depth_v3_full_body_arms_up_seed711370301.json",
+      "sha256": "b56fdcd61c2831a1a4599413e5c25bf501fbdb3c3f96d9699213737ff9b8fd80"
+    },
+    "runtime_evidence": {
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_DEPTH_V3_FULL_BODY_ARMS_UP_RUNTIME_20260711T052700-0500.json",
+      "sha256": "9a0337c25550df7a222fdf80f18fbf0adcbc324791e0e893178473b79c05e605"
+    }
+  },
+  "outputs": {
+    "generated_image": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/depth_v3_full_body_arms_up_seed711370301_20260711T052638-0500/images/depth_v3_fullbody_armsup_711370301_00001_.png",
+      "sha256": "0f672df46c5da0821410da48deb3abed94661d838d12c0f8da13d52556f0d845",
+      "width": 704,
+      "height": 1056
+    },
+    "diagnostic": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/depth_v3_full_body_arms_up_seed711370301_20260711T052638-0500/images/codex_sdxl_realvisxl_controlnet_depth_control_map_diagnostic_00006_.png",
+      "sha256": "98b0daa54ea57fff680a0b95cd7a6aae6b59781990d63a088aa1d700d389b7fe",
+      "pixel_match": true,
+      "pixel_mae": 0.0
+    },
+    "source_keypoints": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/depth_v3_full_body_arms_up_seed711370301_20260711T052638-0500/qa_source_openpose_keypoints.json",
+      "sha256": "c911ace3c0919c9c3835da3b4b2e359b7fc2e9f6b899d79b660c4105135f096e"
+    },
+    "generated_keypoints": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/depth_v3_full_body_arms_up_seed711370301_20260711T052638-0500/qa_generated_openpose_keypoints.json",
+      "sha256": "3f31a96eb77519a0c83006e9838af7069efb50ff89545089284d86efde2460e9"
+    }
+  },
+  "metrics": {
+    "common_body_landmarks": 18,
+    "mean_normalized_landmark_error": 0.006384206015330638,
+    "max_normalized_landmark_error": 0.015205989550926965
+  },
+  "visual_review": {
+    "reviewed_at_original_resolution": true,
+    "observations": [
+      "One full-length subject is visible from head through both feet with both elbows and hands in frame.",
+      "Pose tracks one lifted foot with plantar-flexed presentation and coherent bilateral limb continuity.",
+      "Readable hands and feet are present without a blocking defect, and no grayscale depth leakage is visible.",
+      "Wardrobe drifts from requested short-sleeve/full-length to a strapless crop top plus cropped leggings.",
+      "Skin rendering appears mildly beauty-polished."
+    ],
+    "notes": [
+      "Advisory wardrobe mismatch is retained as pass_with_notes and does not fail blocking scope.",
+      "Detailed body geometry fidelity is not certified by this single depth-control sample."
+    ]
+  },
+  "checks": {
+    "preparation_manifest_passed": true,
+    "runtime_generation_passed": true,
+    "request_hash_matched": true,
+    "server_stopped_and_port_closed": true,
+    "output_is_704x1056": true,
+    "diagnostic_pixels_match_prepared_map": true,
+    "exactly_one_person_in_source_and_output": true,
+    "all_18_body_landmarks_common": true,
+    "mean_normalized_landmark_error_lte_0_08": true,
+    "max_normalized_landmark_error_lte_0_16": true,
+    "visual_one_full_length_subject": true,
+    "visual_head_elbows_hands_and_feet_in_frame": true,
+    "visual_bilateral_limb_continuity_coherent": true,
+    "visual_hands_and_feet_readable_without_blocking_defect": true,
+    "visual_no_grayscale_depth_leakage": true,
+    "gold_masks_not_consumed": true,
+    "advisory_exact_requested_short_sleeve_full_length_wardrobe_match": false,
+    "advisory_one_lifted_plantar_flexed_foot_present": true
+  },
+  "boundaries": {
+    "local_only": true,
+    "target_runtime_proof": false,
+    "final_lane_certification": false,
+    "full_project_certification": false,
+    "body_mask_or_geometry_authority": false,
+    "mask_promotion": false,
+    "wave70_hard_gate_rerun": false,
+    "wave71_activated": false,
+    "aws_contacted": false,
+    "ec2_started": false
+  }
+}

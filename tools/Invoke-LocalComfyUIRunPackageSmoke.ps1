@@ -340,6 +340,7 @@ if (![string]::IsNullOrWhiteSpace($ExtraModelPathsConfig) -and !(Test-Path -Lite
 
 if ($Execute -and $record.errors.Count -eq 0) {
   $startedProcess = $null
+  $artifactManifestPath = $null
   try {
     $argsList = @("main.py", "--listen", $HostAddress, "--port", [string]$Port)
     if ($LowVram) { $argsList += "--lowvram" }
@@ -456,6 +457,15 @@ if ($Execute -and $record.errors.Count -eq 0) {
       $record.local_comfy.port_closed_after_stop = $false
     } catch {
       $record.local_comfy.port_closed_after_stop = $true
+    }
+    if (![string]::IsNullOrWhiteSpace($artifactManifestPath)) {
+      try {
+        Write-JsonNoBom -Value $record -Path $artifactManifestPath -Depth 50
+      } catch {
+        $record.errors += "Finalize local artifact manifest after shutdown failed: $($_.Exception.Message)"
+        $record.result = "fail_local_run_package_generation_smoke"
+        $record.failure_category = "artifact_manifest_finalization_failed"
+      }
     }
   }
 }

@@ -773,3 +773,10 @@ Retain `u_lip_dilate_exclusive_v1` only as a tested negative fixture. Controlled
 - Retained the visual note that the output is effectively unchanged from the source at normal inspection; this proves execution and preservation, not material detail improvement.
 - Refused full-lane, full-route, trusted-mask, body/hand/contact, mask-promotion, and Wave71 claims.
 - Superseded the July 9 missing-runtime/pullback blocker only within the bounded single-sample scope; no generation or EC2 start was repeated.
+## 2026-07-11T05:45:00-05:00 - Depth full-body local evidence passes without expanding target authority
+
+- Seeds `711370301`, `711370302`, and `711370303` pass local Depth runtime and bounded full-body geometry scope `3/3`.
+- The prior target-runtime certification remains portrait-bounded; local V3 does not certify full-body target behavior or the entire lane/project.
+- Wardrobe exactness is advisory `0/3`, and no detailed hand/foot geometry authority is claimed.
+- Preserve the completed seed matrix without replay.
+- Reconcile legacy/Main/AWS state before selecting more runtime work, and import only hash/evidence-proven missing completed artifacts.

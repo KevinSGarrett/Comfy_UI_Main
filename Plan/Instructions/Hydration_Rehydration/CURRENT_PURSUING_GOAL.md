@@ -6399,3 +6399,8 @@ Continue the selected-inpaint target-runtime proof from `C:\Comfy_UI_Main`. S3 t
 Continue the full autonomous ComfyUI project from authoritative `C:\Comfy_UI_Main`. The RealVisXL SDXL Depth ControlNet lane is now target-runtime certified for one bounded head-and-shoulders portrait profile with passing static, runtime, pullback, technical, and visual evidence. Preserve its no-rerun boundary and keep EC2 stopped unless a different genuinely open runtime proof requires it.
 
 This does not certify depth behavior for hands, full body, contact, or broader scenes and does not clear any manual gold-mask, Wave70, Wave71+, Jira, or full-project certification gate. Select the next concrete non-mask implementation/runtime task from current local state without using stale legacy or EC2 planning state.
+## Active Runtime Posture - Depth Full-Body Local Robustness Complete, Reconciliation Active - 2026-07-11T05:45:00-05:00
+
+Continue from authoritative `C:\Comfy_UI_Main`. Depth V3 now has three hash-bound local full-body arms-up samples with `3/3` runtime and geometry-scope passes, 18 common landmarks per sample, complete subject/hands/bare-feet framing, and no depth leakage. Strict wardrobe exactness is `0/3` and remains advisory; target-runtime authority is still bounded to the prior portrait proof.
+
+The immediate pursuing subgoal is a no-duplicate reconciliation of `C:\Comfy_UI`, Main, and authenticated AWS EC2/S3. Use legacy and cloud state only as discovery inputs; classify exact matches, newer Main state, stale/conflicting state, and genuinely missing completed artifacts before any import or new runtime work. Preserve all mask, Wave70/Wave71+, Flux1-license, Jira, and no-rerun boundaries.
