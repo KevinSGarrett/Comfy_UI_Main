@@ -6286,3 +6286,8 @@ Continue the selected-inpaint target-runtime proof from `C:\Comfy_UI_Main`. All 
 ## Current Pursuing Goal - Selected Inpaint Ready For Bounded EC2 Smoke - 2026-07-10T21:00:00-05:00
 
 Continue the selected-inpaint target-runtime proof from `C:\Comfy_UI_Main`. S3 transfer, EC2 install, and EC2 static object-info/model-hash proof now pass. Checkpoint this authority, then execute one bounded workflow smoke with the current-head bundle, pullback/hash QA, strict whole-image visual review, and verified final EC2 stop.
+## Active Runtime Posture - Bounded Depth Lane Certified - 2026-07-11T00:05:00-05:00
+
+Continue the full autonomous ComfyUI project from authoritative `C:\Comfy_UI_Main`. The RealVisXL SDXL Depth ControlNet lane is now target-runtime certified for one bounded head-and-shoulders portrait profile with passing static, runtime, pullback, technical, and visual evidence. Preserve its no-rerun boundary and keep EC2 stopped unless a different genuinely open runtime proof requires it.
+
+This does not certify depth behavior for hands, full body, contact, or broader scenes and does not clear any manual gold-mask, Wave70, Wave71+, Jira, or full-project certification gate. Select the next concrete non-mask implementation/runtime task from current local state without using stale legacy or EC2 planning state.

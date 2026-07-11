@@ -1,0 +1,44 @@
+{
+  "evidence_id": "W66-DEPTH-TARGET-RUNTIME-VISUAL-QA-20260711T000500-0500",
+  "timestamp": "2026-07-11T00:05:00-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_depth_lane",
+  "run_id": "aws_gpu_workflow_smoke_20260710T235321-0500",
+  "reviewer": "Codex Desktop autonomous visual QA",
+  "protocol": "Plan/Instructions/QA/IMAGE_GENERATION_VISUAL_REVIEW_PROTOCOL.md",
+  "image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260710T235321-0500/images/9_depth_v2_eye_fill_711270202_00001_.png",
+    "sha256": "97f748fe52007d327171b65ccf9e67229bf9194cb9f729f39f9d678662a1941c",
+    "dimensions": "768x768"
+  },
+  "control_map": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260710T235321-0500/images/13_codex_sdxl_realvisxl_controlnet_depth_control_map_diagnostic_00001_.png",
+    "sha256": "98deac7e4b463ae64958e5d696562a25a3804503211f8ec120acf0b104ae4b51"
+  },
+  "decision": "pass_with_notes_target_runtime_bounded_portrait",
+  "scores": {
+    "overall": 92,
+    "skin_texture": 86,
+    "eyes_and_catchlights": 93,
+    "anatomy_and_facial_structure": 94,
+    "depth_adherence_and_separation": 94,
+    "artifact_freedom": 96
+  },
+  "blocking_defects": [],
+  "observations": [
+    "Coherent head-and-shoulders portrait with readable eyes, natural facial volume, and a clean bright background.",
+    "No visible depth leakage, anatomy break, duplicate feature, or output corruption.",
+    "The diagnostic control map has a coherent subject silhouette and depth structure."
+  ],
+  "notes": [
+    "Skin remains mildly beauty-polished and smoother than the ideal hyperreal target."
+  ],
+  "certified_scope": "single bounded head-and-shoulders portrait depth-conditioning target-runtime proof",
+  "excluded_scope": [
+    "hands",
+    "full-body anatomy",
+    "contact ownership",
+    "broader scene classes",
+    "universal depth generalization"
+  ],
+  "final_decision_allowed": true
+}

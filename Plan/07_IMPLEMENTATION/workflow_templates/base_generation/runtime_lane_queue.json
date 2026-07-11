@@ -218,13 +218,13 @@
                   {
                       "order":  5,
                       "lane_id":  "sdxl_realvisxl_controlnet_depth_lane",
-                      "role":  "fifth_sdxl_realvisxl_controlnet_depth_v2_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+                      "role":  "fifth_sdxl_realvisxl_controlnet_depth_target_runtime_bounded_portrait_certified_with_notes",
                       "workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_depth_lane/workflow.api.json",
                       "requirements_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_depth_lane/runtime_requirements.json",
-                      "status":  "local_depth_v2_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
-                      "required_next_runtime_gate":  "optional_target_runtime_proof_or_final_depth_certification_when_intentionally_selected",
+                      "status":  "target_runtime_depth_v2_bounded_portrait_certified_with_notes",
+                      "required_next_runtime_gate":  "broader_scene_hand_full_body_contact_expansion_only_if_intentionally_selected",
                       "local_pre_ec2_status":  "local_depth_model_hash_verified_depth_map_input_hash_verified_v2_eye_fill_candidate_passed_with_notes_and_two_seed_local_robustness_passed_with_notes",
-                      "promotion_rule":  "Do not promote to target-runtime proven or final depth certification from local multisample evidence alone. Target-runtime object_info/path/hash/input proof, bounded target-runtime generation, pullback, technical QA, strict whole-image visual QA, and final certification review remain separate if this lane is selected for promotion.",
+                      "promotion_rule":  "Bounded portrait target-runtime depth proof and final lane certification are complete. Do not generalize this certification to hands, full-body anatomy, contact, or broader scenes without new lane-matched runtime output and QA.",
                       "source_evidence":  [
                                               "Plan/10_REGISTRIES/wave11_control_map_type_registry.json",
                                               "Plan/10_REGISTRIES/wave11_control_map_runtime_requirements.json",
@@ -255,7 +255,11 @@
                                                      "Plan/Tracker/Evidence/W69_LOCAL_DEPTH_V2_MULTISEED_ROBUSTNESS_20260707T081600-0500.json"
                                                  ],
                       "proof_evidence":  [
-
+                                               "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_EC2_LANE_STATIC_PROOF_DEPTH_20260711T000500-0500.json",
+                                               "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_SMOKE_DEPTH_20260711T000500-0500.json",
+                                               "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_DEPTH_TARGET_RUNTIME_TECHNICAL_QA_20260710T235900-0500.json",
+                                               "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_DEPTH_TARGET_RUNTIME_VISUAL_QA_20260711T000500-0500.json",
+                                               "Plan/Instructions/QA/Evidence/Done_Certifications/W66_DEPTH_LANE_FINAL_CERTIFICATION_20260711T000500-0500.json"
                                          ]
                   },
                   {

@@ -1,0 +1,46 @@
+{
+  "evidence_id": "W66-DEPTH-LANE-FINAL-CERTIFICATION-20260711T000500-0500",
+  "timestamp": "2026-07-11T00:05:00-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_depth_lane",
+  "work_orders": [
+    "WO-W66-SDXL_REALVISXL_CONTROLNET_DEPTH_LANE-TARGET-RUNTIME-PROOF",
+    "WO-W66-SDXL_REALVISXL_CONTROLNET_DEPTH_LANE-FINAL-CERTIFICATION"
+  ],
+  "decision": "pass_bounded_depth_portrait_lane_target_runtime_certified_with_notes",
+  "checks": {
+    "clean_head_package_and_deploy_consistency": true,
+    "exact_s3_asset_identity_and_no_duplicate_checkpoint_upload": true,
+    "ec2_object_info_and_required_nodes": true,
+    "ec2_model_and_input_hashes": true,
+    "bounded_generation_success": true,
+    "pullback_hash_integrity": true,
+    "technical_qa": true,
+    "visual_qa": true,
+    "ec2_stopped": true
+  },
+  "target_runtime_proof": true,
+  "final_lane_certification": true,
+  "full_project_certification": false,
+  "universal_depth_generalization": false,
+  "certified_scope": "RealVisXL plus SDXL Depth ControlNet for one 768x768 head-and-shoulders portrait using the depth_v2 profile on the approved EC2 runtime",
+  "notes": [
+    "Skin is mildly beauty-polished but remains acceptable for this bounded proof.",
+    "Non-output-impacting ONNX DRM inspection and ComfyUI database-lock warnings were recorded."
+  ],
+  "excluded_scope": [
+    "hands",
+    "full-body anatomy",
+    "body-part masking",
+    "contact ownership",
+    "broader scene classes",
+    "Wave70 mask authority",
+    "Wave71 activation"
+  ],
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_EC2_LANE_STATIC_PROOF_DEPTH_20260711T000500-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_SMOKE_DEPTH_20260711T000500-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_DEPTH_TARGET_RUNTIME_TECHNICAL_QA_20260710T235900-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_DEPTH_TARGET_RUNTIME_VISUAL_QA_20260711T000500-0500.json"
+  ],
+  "no_rerun_boundary": "Do not rerun this unchanged bounded depth portrait proof. New execution requires a deliberately expanded scope or changed workflow, model, input, request, or runtime integrity state."
+}

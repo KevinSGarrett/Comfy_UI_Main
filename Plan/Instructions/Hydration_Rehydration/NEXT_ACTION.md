@@ -8353,3 +8353,8 @@ Next exact action: checkpoint this failure record, rebuild the selected-inpaint 
 The selected-inpaint marked runtime window completed successfully. Current-head deploy bundle SHA256 verified on EC2, all 12 required ComfyUI nodes were present, object-info passed with 1,915 nodes, and remote RealVisXL checkpoint SHA256 matched `6a35a785...5643b80`. Final EC2 state is `stopped`; no generation ran. The active runtime marker was removed after final-state verification.
 
 Next exact action: checkpoint static proof and runtime-window evidence, rebuild/publish the deploy bundle once at the resulting clean head, then run one bounded selected-inpaint workflow smoke under a fresh active marker. Do not repeat model/input transfer or static proof unless an input contract changes.
+## Immediate Next Action - Depth Target Runtime Certified, No Rerun - 2026-07-11T00:05:00-05:00
+
+`sdxl_realvisxl_controlnet_depth_lane` now has a passing clean-head package/deploy chain, exact S3 asset identity, EC2 object-info and model/input hash proof, one successful bounded 768x768 portrait generation, 5/5 hash-verified pullback, technical QA, visual QA, and final lane certification with notes. EC2 `i-0560bf8d143f93bb1` is stopped. Do not rerun this unchanged depth portrait proof.
+
+The certification is intentionally narrow: hands, full-body anatomy, contact ownership, broader scenes, body masks, Wave70 authority, and Wave71+ remain unproven or blocked. Continue with the next genuinely open non-mask runtime/orchestration lane after the clean checkpoint; keep Flux1 blocked until explicit license acceptance and do not reopen completed Canny, selected-inpaint, or depth proof.

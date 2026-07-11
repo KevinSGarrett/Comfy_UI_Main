@@ -1,0 +1,213 @@
+{
+  "meta": {
+    "13": {
+      "display_node": "13",
+      "node_id": "13",
+      "parent_node": null,
+      "real_node_id": "13"
+    },
+    "9": {
+      "display_node": "9",
+      "node_id": "9",
+      "parent_node": null,
+      "real_node_id": "9"
+    }
+  },
+  "outputs": {
+    "13": {
+      "images": [
+        {
+          "filename": "codex_sdxl_realvisxl_controlnet_depth_control_map_diagnostic_00001_.png",
+          "subfolder": "",
+          "type": "output"
+        }
+      ]
+    },
+    "9": {
+      "images": [
+        {
+          "filename": "depth_v2_eye_fill_711270202_00001_.png",
+          "subfolder": "",
+          "type": "output"
+        }
+      ]
+    }
+  },
+  "prompt": [
+    0,
+    "ca53b3bd-fe37-43ba-aea2-c6a2e11fd089",
+    {
+      "10": {
+        "class_type": "ControlNetLoader",
+        "inputs": {
+          "control_net_name": "controlnet-depth-sdxl-1.0-small.safetensors"
+        }
+      },
+      "11": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "controlnet_depth_anything_w69_v1.png",
+          "upload": "image"
+        }
+      },
+      "12": {
+        "class_type": "ControlNetApplyAdvanced",
+        "inputs": {
+          "control_net": [
+            "10",
+            0
+          ],
+          "end_percent": 0.7,
+          "image": [
+            "11",
+            0
+          ],
+          "negative": [
+            "7",
+            0
+          ],
+          "positive": [
+            "6",
+            0
+          ],
+          "start_percent": 0.0,
+          "strength": 0.55,
+          "vae": [
+            "4",
+            2
+          ]
+        }
+      },
+      "13": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "codex_sdxl_realvisxl_controlnet_depth_control_map_diagnostic",
+          "images": [
+            "11",
+            0
+          ]
+        }
+      },
+      "3": {
+        "class_type": "KSampler",
+        "inputs": {
+          "cfg": 5.5,
+          "denoise": 1.0,
+          "latent_image": [
+            "5",
+            0
+          ],
+          "model": [
+            "4",
+            0
+          ],
+          "negative": [
+            "12",
+            1
+          ],
+          "positive": [
+            "12",
+            0
+          ],
+          "sampler_name": "dpmpp_2m_sde",
+          "scheduler": "karras",
+          "seed": 711270202,
+          "steps": 20
+        }
+      },
+      "4": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "realvisxlV50_v50Bakedvae.safetensors"
+        }
+      },
+      "5": {
+        "class_type": "EmptyLatentImage",
+        "inputs": {
+          "batch_size": 1,
+          "height": 768,
+          "width": 768
+        }
+      },
+      "6": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "4",
+            1
+          ],
+          "text": "hyperrealistic cinematic editorial portrait, natural skin texture, realistic fine pores, subtle cheek texture, soft human skin asymmetry, realistic eyes with clean catchlights, clear iris detail, gentle eye fill light, open eye shadow detail, balanced cheek exposure, detailed hair, depth-guided composition, coherent face and shoulder volume, natural portrait depth separation, tailored dark blazer over textured shirt, clothed shoulders, quiet neutral interior background, clean upper-right background, soft window fill light, balanced exposure, clean face with no painted marks, lifelike lens rendering"
+        }
+      },
+      "7": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "4",
+            1
+          ],
+          "text": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, beauty filter skin, airbrushed face, porcelain skin, glossy skin, distorted anatomy, extra fingers, missing fingers, deformed hands, crossed eyes, low resolution, blurry, watermark, text, depth artifacts, flattened face, melted facial volume, harsh outlines, colored blotches, paint marks, over-dark eyes, underexposed eyes, muddy shadows, crushed shadows, dark upper-right foreground shape, black background blob, heavy vignette, control map stains, bare shoulders, strapless top, nude, unclothed torso"
+        }
+      },
+      "8": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "3",
+            0
+          ],
+          "vae": [
+            "4",
+            2
+          ]
+        }
+      },
+      "9": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "depth_v2_eye_fill_711270202",
+          "images": [
+            "8",
+            0
+          ]
+        }
+      }
+    },
+    {
+      "client_id": "codex-root-run-package",
+      "create_time": 1783745755191
+    },
+    [
+      "13",
+      "9"
+    ]
+  ],
+  "status": {
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "ca53b3bd-fe37-43ba-aea2-c6a2e11fd089",
+          "timestamp": 1783745755191
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [],
+          "prompt_id": "ca53b3bd-fe37-43ba-aea2-c6a2e11fd089",
+          "timestamp": 1783745755201
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "ca53b3bd-fe37-43ba-aea2-c6a2e11fd089",
+          "timestamp": 1783745815176
+        }
+      ]
+    ],
+    "status_str": "success"
+  }
+}
