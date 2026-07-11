@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-07-10T18:57:00-05:00",
+  "classification": "BLOCKED_NECK_SPECIALIST_MODEL_OR_FIXED_ROUTE_MISSING",
+  "registered_route": {
+    "model_key": "bisenet_face_parsing_checkpoint",
+    "checkpoint_name": "79999_iter.pth",
+    "checkpoint_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\face_parsing\\79999_iter.pth",
+    "checkpoint_sha256": "468e13ca13a9b43cc0881a9f99083a430e9c0a38abd935431d1c28ee94b26567",
+    "checkpoint_present": true,
+    "anatomical_neck_class": "neck",
+    "accessory_necklace_class": "neck_l",
+    "classes_kept_separate": true,
+    "gold_exposed_to_route": false
+  },
+  "existing_gold_results": {
+    "controlled_ids_0_1_2": {
+      "aggregate_iou": 0.7974018246727489,
+      "false_negative_ratio_vs_gold": 0.0927451201624732,
+      "false_positive_ratio_vs_gold": 0.1377637368836737,
+      "mean_protected_neighbor_leakage": 0.0,
+      "gate_pass": false,
+      "failed_reasons": ["iou_below_0.85"]
+    },
+    "heldout_ids_6_7_8": {
+      "aggregate_iou": 0.8836303031788436,
+      "false_negative_ratio_vs_gold": 0.041627900794811136,
+      "false_positive_ratio_vs_gold": 0.08458491719609772,
+      "mean_protected_neighbor_leakage": 0.0,
+      "gate_pass": true,
+      "failed_reasons": []
+    }
+  },
+  "audit_result": {
+    "second_registered_neck_specialist_route_present": false,
+    "valid_fixed_semantic_union_available": false,
+    "repeat_current_route_evaluation_warranted": false,
+    "route_promotion_ready": false,
+    "exact_dependency": "A newly registered neck-specialist model or a fixed non-gold-derived route with distinct implementation authority is required before another neck candidate evaluation."
+  },
+  "boundaries": {
+    "neck_l_may_be_merged_into_neck": false,
+    "candidate_masks_may_be_consumed_as_truth": false,
+    "mask_promoted": false,
+    "ec2_started": false,
+    "s3_mutated": false,
+    "wave70_hard_gate_rerun": false,
+    "wave71_activated": false
+  },
+  "supporting_evidence": {
+    "controlled_gate_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Facial_Gold_Standards/FACIAL_GOLD_SKIN_UNION_CONTROL_GATE_IDS_0_1_2_20260710T181200-0500.json",
+    "controlled_gate_sha256": "2343aad2c2a099733a1a955bcc226e6f5ee4fdab22a299fd0c91bd168dcb3fa3",
+    "heldout_gate_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Facial_Gold_Standards/FACIAL_GOLD_SKIN_UNION_HELDOUT_GATE_IDS_6_7_8_20260710T181700-0500.json",
+    "heldout_gate_sha256": "61b76bbb3923aecadc03ab6200fd97cbbd5d599c6ddc8e024a7cf6a9a6f21f93",
+    "cursor_handoff": "runtime_artifacts/agent_handoffs/cursor/20260710T185223-0500_facial_neck_registered_asset_route_audit/handoff_record.json"
+  }
+}

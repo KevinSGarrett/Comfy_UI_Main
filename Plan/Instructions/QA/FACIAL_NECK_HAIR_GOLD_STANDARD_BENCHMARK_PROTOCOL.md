@@ -175,3 +175,6 @@ Machine-readable paths, counts, pairing rules, and claim boundaries are in:
 ## Rejected Ear Multiscale Candidate
 
 `ear_multiscale_union_v1` is a rejected controlled candidate. It unions the BiSeNet `l_ear`, `r_ear`, and `ear_r` argmax masks at fixed `384`, `512`, and `640` inference scales while preserving every non-target base mask from the canonical `512` pass. On controlled IDs `0,1,2`, all three target classes remained far below the existing aggregate-IoU and false-negative gates, and the added coverage increased false positives. Do not run held-out evaluation, promote the candidate, or repeat the same scale union. The mode remains available only as hash-bound rejected evidence and a regression fixture.
+## Neck Route Dependency Boundary
+
+The registered BiSeNet checkpoint `79999_iter.pth` exposes anatomical `neck` and accessory `neck_l` as separate classes. The current route passes held-out IDs `6,7,8` but fails controlled IDs `0,1,2`, and no second registered neck-specialist model or valid fixed semantic reconstruction exists. Do not merge `neck_l` into `neck` or rerun the identical route as a new candidate. Another neck evaluation requires a newly registered distinct model-backed route or a fixed non-gold-derived implementation artifact.

@@ -6229,3 +6229,6 @@ The next facial implementation task targets the measured semantic mismatch betwe
 ## Current Pursuing Goal - Ear Multiscale Rejected, Facial Repair Continues - 2026-07-10T18:50:00-05:00
 
 Continue the full ComfyUI hyperrealism project from `C:\Comfy_UI_Main`. The latest concrete facial-mask result is a controlled rejection of `ear_multiscale_union_v1`: it preserved all non-ear base masks and the accepted skin composition, but did not meet the existing ear/accessory gates. The route remains unpromoted. Continue with one fixed neck-specific model-backed route or a newly registered ear-specialist model; do not repeat rejected flip TTA or ear multiscale union, consume manual body candidates as truth, rerun Wave70 hard gates, activate Wave71+, or start EC2 without a truly live-gated need.
+## Current Pursuing Goal - Facial Ear And Neck Candidates Fail Closed - 2026-07-10T18:57:00-05:00
+
+Continue the full ComfyUI hyperrealism project from `C:\Comfy_UI_Main`. The accepted skin composition remains intact, while the ear multiscale candidate is rejected and the neck lane is precisely blocked on a distinct neck-specialist model or fixed route. Continue concrete non-mask local runtime/orchestration work without consuming candidate masks as truth; keep EC2 stopped unless a genuinely required live proof is selected.
