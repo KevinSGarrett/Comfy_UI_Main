@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "realesrgan_normal_fullbody_w70_v1",
+  "target_lane_id": "sdxl_realesrgan_upscale_polish_lane",
+  "purpose": "RealESRGAN robustness sample for a portrait-aspect full-body Normal ControlNet output with visible hands, clothing, legs, and shoes.",
+  "request_patch_values": {
+    "source_image": "upscale_source_normal_fullbody_w70_v1.png",
+    "upscale_model": "RealESRGAN_x4plus.pth",
+    "save_prefix": "realesrgan_normal_fullbody_w70_v1"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "realesrgan_normal_fullbody_w70_v1"
+  },
+  "qa_focus": [
+    "exact 4x dimensions",
+    "full-body silhouette preservation",
+    "hands and shoes remain coherent",
+    "fabric and hair edges avoid ringing",
+    "no new color shifts or block artifacts"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "source_generation_repeated": false,
+    "requires_source_output_comparison": true,
+    "requires_target_runtime_reproof_before_final_certification": true
+  }
+}

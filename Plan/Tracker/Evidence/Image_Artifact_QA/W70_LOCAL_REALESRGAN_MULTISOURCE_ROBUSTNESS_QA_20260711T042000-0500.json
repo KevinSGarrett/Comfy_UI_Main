@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-LOCAL-REALESRGAN-MULTISOURCE-ROBUSTNESS-QA-20260711T042000-0500",
+  "timestamp": "2026-07-11T04:14:52-05:00",
+  "lane_id": "sdxl_realesrgan_upscale_polish_lane",
+  "result": "pass_with_notes_local_realesrgan_multisource_runtime_robustness_quality_tradeoffs",
+  "pass": true,
+  "scope": "two_additional_local_source_classes_exact_4x_upscale_and_preservation",
+  "preparation_manifest": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/realesrgan_multisource_w70_v1/PREPARATION_MANIFEST.json",
+    "sha256": "72be3bb8486fddbe5803797210169c1845e83cd684ced6ca73a84b897ef80f1c"
+  },
+  "samples": [
+    {
+      "sample_id": "normal_fullbody",
+      "source_class": "fullbody_portrait_normal_control_output",
+      "profile": "PromptProfiles/base_generation/realesrgan_multisource_robustness/realesrgan_normal_fullbody_w70_v1.json",
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_REALESRGAN_NORMAL_FULLBODY_RUNTIME_20260711T041500-0500.json",
+      "source": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/images/normal_v4_fullbody_standing_711670301_00001_.png",
+        "sha256": "b01b694125e08027195baf3c5a4eeac472eba242bfb4bbe69473625844134fc1",
+        "width": 768,
+        "height": 1024
+      },
+      "output": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realesrgan_normal_fullbody_w70_v1_20260711T040825-0500/images/realesrgan_normal_fullbody_w70_v1_00001_.png",
+        "sha256": "1724ed736087ee3394063de10f228db39a753c8bf71583a04c855bd544db682c",
+        "width": 3072,
+        "height": 4096,
+        "bytes": 10390925
+      },
+      "metrics": {
+        "downsample_ssim": 0.9816330744033922,
+        "downsample_psnr_db": 41.025828591820606,
+        "downsample_mae": 1.205689787864685,
+        "mean_color_shift": 0.21639124552408853,
+        "source_laplacian_variance": 129.41091604747473,
+        "downsampled_output_laplacian_variance": 207.84081592922868,
+        "edge_variance_ratio": 1.6060532007437591
+      },
+      "checks": {
+        "runtime_passed": true,
+        "generation_executed": true,
+        "request_hash_matched": true,
+        "server_stopped_and_port_closed": true,
+        "exact_4x_dimensions": true,
+        "downsample_ssim_gte_0_95": true,
+        "downsample_psnr_gte_29db": true,
+        "downsample_mae_lte_5": true,
+        "mean_color_shift_lte_3": true,
+        "visual_no_blocking_composition_or_anatomy_regression": true
+      },
+      "visual_result": "pass_with_notes_fullbody_preserved_smoothing_amplified",
+      "visual_findings": [
+        "Full-length composition, pose, both hands, both legs, and both shoes remain coherent.",
+        "No new limb break, crop, ringing halo, block artifact, or color contamination is visible.",
+        "The source's polished skin and smooth clothing surfaces are amplified; the result is not a true-detail reconstruction."
+      ]
+    },
+    {
+      "sample_id": "two_character_contact",
+      "source_class": "square_two_character_contact_output",
+      "profile": "PromptProfiles/base_generation/realesrgan_multisource_robustness/realesrgan_two_character_contact_w70_v1.json",
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_REALESRGAN_TWO_CHARACTER_CONTACT_RUNTIME_20260711T041500-0500.json",
+      "source": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_two_character_hand_to_body_w69_seed7152026252_20260707T113434-0500/images/codex_realvisxl_two_character_hand_to_body_seed7152026252_00001_.png",
+        "sha256": "d6ef67713167d55696b1f07e86c88e9ee0a038f946be9cd8cc56810f724b81a7",
+        "width": 1024,
+        "height": 1024
+      },
+      "output": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realesrgan_two_character_contact_w70_v1_20260711T040856-0500/images/realesrgan_twochar_contact_w70_v1_00001_.png",
+        "sha256": "88ffb99111f3187f76dbfe54d285c7a2a646d4ce5ac25255d154e242a647939e",
+        "width": 4096,
+        "height": 4096,
+        "bytes": 20991072
+      },
+      "metrics": {
+        "downsample_ssim": 0.953011062681217,
+        "downsample_psnr_db": 29.627742706452945,
+        "downsample_mae": 4.617269992828369,
+        "mean_color_shift": 2.616846720377604,
+        "source_laplacian_variance": 3091.6557990447463,
+        "downsampled_output_laplacian_variance": 3767.7880465667113,
+        "edge_variance_ratio": 1.2186958353290411
+      },
+      "checks": {
+        "runtime_passed": true,
+        "generation_executed": true,
+        "request_hash_matched": true,
+        "server_stopped_and_port_closed": true,
+        "exact_4x_dimensions": true,
+        "downsample_ssim_gte_0_95": true,
+        "downsample_psnr_gte_29db": true,
+        "downsample_mae_lte_5": true,
+        "mean_color_shift_lte_3": true,
+        "visual_no_blocking_composition_or_anatomy_regression": true
+      },
+      "visual_result": "pass_with_notes_composition_preserved_waxy_skin_and_oversharpened_jacket",
+      "visual_findings": [
+        "Both people, faces, hair masses, clothing silhouettes, and the existing hand-to-shoulder contact remain spatially coherent.",
+        "No new person merge, hand loss, contact-owner reversal, block artifact, or edge-panel seam is visible.",
+        "Skin appears waxier and the patterned jacket is visibly over-sharpened, so this output is not preferred over the source for hyperrealism quality."
+      ]
+    }
+  ],
+  "aggregate": {
+    "source_class_count": 2,
+    "runtime_pass_count": 2,
+    "exact_4x_count": 2,
+    "preservation_gate_pass_count": 2
+  },
+  "quality_decision": {
+    "runtime_multisource_robustness_pass": true,
+    "universal_hyperrealism_improvement_claimed": false,
+    "two_character_upscale_preferred_over_source": false,
+    "reason": "Exact 4x runtime and structural preservation pass, but smooth skin is amplified and high-frequency jacket texture is over-sharpened."
+  },
+  "known_issue_review": [
+    "RealESRGAN increases pixel resolution but does not reconstruct true pore-level or hand-detail information absent from the source.",
+    "Polished source skin can become waxier after upscale.",
+    "Dense patterned fabric can become over-sharpened or noisy.",
+    "This local matrix does not prove target-runtime behavior or final export suitability for every source class."
+  ],
+  "boundaries": {
+    "source_lanes_regenerated": false,
+    "source_lane_certification_changed": false,
+    "local_only": true,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "gold_masks_consumed": false,
+    "mask_promotion": false,
+    "wave70_hard_gate_rerun": false,
+    "wave71_activated": false
+  }
+}

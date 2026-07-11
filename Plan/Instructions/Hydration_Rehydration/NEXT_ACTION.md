@@ -1,3 +1,9 @@
+## Immediate Next Action - RealESRGAN Multisource Runtime Passed With Quality Limits - 2026-07-11T04:20:00-05:00
+
+RealESRGAN local evidence now spans three source classes instead of one: the completed Canny portrait plus new tracked Normal full-body and two-character contact outputs. Both new current-head packages generated exact 4x images and shut ComfyUI down cleanly. Strict preservation gates passed `2/2`: full-body SSIM/PSNR were `0.9816`/`41.03 dB`; two-character SSIM/PSNR were `0.9530`/`29.63 dB`. Whole-image composition, anatomy, identities, and contact ownership remained stable.
+
+The bounded multisource local runtime item is done with notes and must not be replayed. Do not claim universal hyperrealism improvement: RealESRGAN amplified smooth/waxy skin and over-sharpened the patterned jacket, so the two-character upscale is not preferred over its source. Target-runtime proof and a final source-selection/export policy remain open. Continue another concrete local non-mask implementation task without reopening completed source lanes.
+
 ## Immediate Next Action - Normal V4 Full-Body Local Scope Passed - 2026-07-11T04:10:00-05:00
 
 The Normal lane now extends beyond its completed V1-V3 portrait evidence. A real BAE normal map was derived from the true full-body original `Ref_Image_1/Full/78b8e4ca10fd769e0752bd21c3599339.jpg` with the cached `scannet.pt` hash recorded, then used in one current-head 768x1024 local RealVisXL/ControlNet Union Normal generation. Runtime, diagnostic pixel identity, technical QA, metric QA, and original-resolution visual review passed: all 18 body landmarks were common, mean/max normalized errors were `0.00781`/`0.01444`, the head, both hands, and both shoes stayed in frame, and no normal-map colors leaked.

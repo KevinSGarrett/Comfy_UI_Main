@@ -1,3 +1,9 @@
+## Active Runtime Posture - RealESRGAN Multisource Local Robustness Passed With Notes - 2026-07-11T04:20:00-05:00
+
+Continue from authoritative `C:\Comfy_UI_Main`. RealESRGAN_x4plus now has local runtime and preservation QA across Canny portrait, Normal full-body, and two-character contact source classes. The two new samples passed exact 4x, request/hash, shutdown, SSIM, PSNR, MAE, color-shift, whole-image, Item, Tracker, known-issue, and bounded Done_Certification checks without regenerating or reclassifying either source lane.
+
+Preserve the matrix without replay. Runtime robustness is proven locally, but quality is source-dependent: smooth skin becomes waxier and dense jacket texture can over-sharpen. Do not prefer the two-character upscale over its source or claim final export quality. Target-runtime proof and the final source-selection/export policy remain open; manual masks, Wave70 hard gates, Wave71+, Flux1 licensing, Jira, and AWS-authentication boundaries remain unchanged.
+
 ## Active Runtime Posture - Normal Full-Body Single Sample Passed Locally - 2026-07-11T04:10:00-05:00
 
 Continue from authoritative `C:\Comfy_UI_Main`. Normal V4 now has a hash-recorded full-body BAE control source, one clean current-head local generation, pixel-identical diagnostic proof, all 18 common body landmarks, mean/max normalized landmark errors `0.00781`/`0.01444`, coherent full-length framing, readable hands, visible shoes, and no normal-map leakage. The Item, Tracker mirrors, known-issue review, and bounded local-scope Done_Certification are recorded.

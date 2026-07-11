@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "realesrgan_two_character_contact_w70_v1",
+  "target_lane_id": "sdxl_realesrgan_upscale_polish_lane",
+  "purpose": "RealESRGAN robustness sample for a square two-character Base output with two faces, hair, clothing texture, hands, and a contact boundary.",
+  "request_patch_values": {
+    "source_image": "upscale_source_two_character_contact_w70_v1.png",
+    "upscale_model": "RealESRGAN_x4plus.pth",
+    "save_prefix": "realesrgan_twochar_contact_w70_v1"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "realesrgan_twochar_contact_w70_v1"
+  },
+  "qa_focus": [
+    "exact 4x dimensions",
+    "both identities and faces remain coherent",
+    "contact hand and sleeve boundary remain stable",
+    "hair and clothing avoid ringing",
+    "no new merge, color shift, or block artifacts"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "source_generation_repeated": false,
+    "source_base_certification_status_unchanged": true,
+    "requires_source_output_comparison": true,
+    "requires_target_runtime_reproof_before_final_certification": true
+  }
+}

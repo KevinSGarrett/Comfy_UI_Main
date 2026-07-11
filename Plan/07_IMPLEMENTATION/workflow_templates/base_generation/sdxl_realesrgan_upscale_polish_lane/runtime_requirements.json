@@ -29,6 +29,22 @@
                                 "comfyui_input_path":  "ComfyUI/input/upscale_polish_source_canny_w69.png",
                                 "source_artifact":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_eyeonly_seam_suppression_711570105_20260707T104736-0500/images/canny_w69_eyeonly_seam_suppression_711570105_00001_.png",
                                 "source_sha256":  "4119997a991d443c17e2a9b26fad775a179c5ee11d060c730eb64c81e50f728e"
+                            },
+                            {
+                                "role":  "profile_scoped_fullbody_source_image",
+                                "filename":  "upscale_source_normal_fullbody_w70_v1.png",
+                                "comfyui_input_path":  "ComfyUI/input/upscale_source_normal_fullbody_w70_v1.png",
+                                "source_artifact":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/images/normal_v4_fullbody_standing_711670301_00001_.png",
+                                "source_sha256":  "b01b694125e08027195baf3c5a4eeac472eba242bfb4bbe69473625844134fc1",
+                                "profile":  "PromptProfiles/base_generation/realesrgan_multisource_robustness/realesrgan_normal_fullbody_w70_v1.json"
+                            },
+                            {
+                                "role":  "profile_scoped_two_character_source_image",
+                                "filename":  "upscale_source_two_character_contact_w70_v1.png",
+                                "comfyui_input_path":  "ComfyUI/input/upscale_source_two_character_contact_w70_v1.png",
+                                "source_artifact":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_two_character_hand_to_body_w69_seed7152026252_20260707T113434-0500/images/codex_realvisxl_two_character_hand_to_body_seed7152026252_00001_.png",
+                                "source_sha256":  "d6ef67713167d55696b1f07e86c88e9ee0a038f946be9cd8cc56810f724b81a7",
+                                "profile":  "PromptProfiles/base_generation/realesrgan_multisource_robustness/realesrgan_two_character_contact_w70_v1.json"
                             }
                         ],
     "object_info_required":  true,
@@ -37,16 +53,24 @@
     "runtime_output_required":  true,
     "qa_report_required":  true,
     "promotion_allowed_without_evidence":  false,
-    "current_status":  "local_upscale_polish_runtime_visual_qa_pass_with_notes_pending_target_runtime_and_final_certification",
+    "current_status":  "local_realesrgan_three_source_classes_runtime_pass_with_notes_quality_tradeoffs_pending_target_runtime_and_final_source_selection_policy",
     "known_blockers":  [
-
+                           "RealESRGAN preserves structure at 4x but can amplify waxy skin and over-sharpen dense patterned fabric; it is not a universal hyperrealism improvement.",
+                           "Target-runtime proof and final source-selection/export policy remain separate from local multisource robustness."
                        ],
     "evidence_paths":  [
                            "Plan/Instructions/QA/Evidence/Model_Registry/W69_LOCAL_REALESRGAN_UPSCALE_MODEL_PROVISIONING_20260707T110500-0500.json",
                            "runtime_artifacts/run_packages/upscale_polish_w69_canny_seed711570105/RUN_PACKAGE_MANIFEST.json",
                            "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_UPSCALE_POLISH_REALESRGAN_CANNY_SEED711570105_EXECUTE_20260707T111000-0500.json",
                            "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_UPSCALE_POLISH_REALESRGAN_CANNY_SEED711570105_VISUAL_QA_20260707T111500-0500.json",
-                           "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W69_LOCAL_PASS_PLANNER_CANNY_INPAINT_READINESS_P06_BOUND_20260707T112000-0500.json"
+                           "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W69_LOCAL_PASS_PLANNER_CANNY_INPAINT_READINESS_P06_BOUND_20260707T112000-0500.json",
+                           "Plan/Instructions/Operations/Prepared_Input_Assets/realesrgan_multisource_w70_v1/PREPARATION_MANIFEST.json",
+                           "PromptProfiles/base_generation/realesrgan_multisource_robustness/realesrgan_normal_fullbody_w70_v1.json",
+                           "PromptProfiles/base_generation/realesrgan_multisource_robustness/realesrgan_two_character_contact_w70_v1.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_REALESRGAN_NORMAL_FULLBODY_RUNTIME_20260711T041500-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_REALESRGAN_TWO_CHARACTER_CONTACT_RUNTIME_20260711T041500-0500.json",
+                           "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_REALESRGAN_MULTISOURCE_ROBUSTNESS_QA_20260711T042000-0500.json",
+                           "Plan/Instructions/QA/Evidence/Done_Certifications/W70_REALESRGAN_MULTISOURCE_LOCAL_ROBUSTNESS_DONE_20260711T042000-0500.json"
                        ],
-    "status_notes":  "Local RealESRGAN upscale/polish lane has model provisioning, runtime generation smoke, pullback, visual QA, and p06 pass-planner binding evidence. Target-runtime proof, broader robustness, and final certification remain separate."
+    "status_notes":  "Local RealESRGAN now has runtime and visual evidence across the original Canny portrait, a Normal full-body portrait source, and a two-character contact source. Both new outputs are exact 4x and pass strict downsample preservation (SSIM 0.9816/0.9530; PSNR 41.03/29.63 dB). Quality review retains waxy-skin and over-sharpened-fabric limitations, so the two-character upscale is not preferred over its source. Target-runtime proof and final source-selection/export policy remain separate."
 }

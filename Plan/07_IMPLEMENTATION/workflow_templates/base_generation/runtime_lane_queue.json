@@ -451,13 +451,13 @@
                   {
                       "order":  9,
                       "lane_id":  "sdxl_realesrgan_upscale_polish_lane",
-                      "role":  "ninth_realesrgan_upscale_polish_local_postprocess_pass_with_notes_pending_target_runtime_and_final_certification",
+                      "role":  "ninth_realesrgan_upscale_polish_three_source_class_local_runtime_robustness_pass_with_quality_notes",
                       "workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realesrgan_upscale_polish_lane/workflow.api.json",
                       "requirements_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realesrgan_upscale_polish_lane/runtime_requirements.json",
-                      "status":  "local_upscale_polish_runtime_visual_qa_pass_with_notes_pending_target_runtime_and_final_certification",
-                      "required_next_runtime_gate":  "optional_target_runtime_proof_or_final_upscale_polish_certification_when_intentionally_selected",
-                      "local_pre_ec2_status":  "local_realesrgan_x4plus_model_hash_recorded_runtime_loaded_upscale_polish_generation_smoke_and_visual_qa_passed_with_notes_for_p06_binding",
-                      "promotion_rule":  "Do not promote to final upscale/polish certification from this single local sample alone. Target-runtime object_info/path/hash proof, bounded target-runtime generation, pullback, technical QA, strict whole-image visual QA, and final certification review remain separate if this lane is selected for promotion.",
+                      "status":  "local_realesrgan_three_source_classes_runtime_pass_with_notes_quality_tradeoffs_pending_target_runtime_and_final_source_selection_policy",
+                      "required_next_runtime_gate":  "target_runtime_proof_and_final_source_selection_export_policy_only_when_intentionally_selected",
+                      "local_pre_ec2_status":  "canny_portrait_plus_normal_fullbody_plus_two_character_contact_exact_4x_runtime_and_preservation_pass_with_quality_notes",
+                      "promotion_rule":  "Do not promote to universal or final upscale/polish certification from local multisource runtime alone. RealESRGAN preserves structure but can amplify waxy skin and patterned-fabric sharpening; target-runtime proof, strict final source-selection policy, and export review remain separate.",
                       "source_evidence":  [
                                               "Plan/07_IMPLEMENTATION/COMFYUI_WIRING_REPAIR_LIST.md",
                                               "Plan/10_REGISTRIES/wave14_workflow_patch_targets.json",
@@ -467,9 +467,14 @@
                                                      "Plan/Instructions/QA/Evidence/Model_Registry/W69_LOCAL_REALESRGAN_UPSCALE_MODEL_PROVISIONING_20260707T110500-0500.json",
                                                      "runtime_artifacts/run_packages/upscale_polish_w69_canny_seed711570105/RUN_PACKAGE_MANIFEST.json",
                                                      "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_UPSCALE_POLISH_REALESRGAN_CANNY_SEED711570105_EXECUTE_20260707T111000-0500.json",
-                                                     "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_UPSCALE_POLISH_REALESRGAN_CANNY_SEED711570105_VISUAL_QA_20260707T111500-0500.json",
-                                                     "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W69_LOCAL_PASS_PLANNER_CANNY_INPAINT_READINESS_P06_BOUND_20260707T112000-0500.json"
-                                                 ],
+                                   "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_UPSCALE_POLISH_REALESRGAN_CANNY_SEED711570105_VISUAL_QA_20260707T111500-0500.json",
+                                   "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W69_LOCAL_PASS_PLANNER_CANNY_INPAINT_READINESS_P06_BOUND_20260707T112000-0500.json",
+                                   "Plan/Instructions/Operations/Prepared_Input_Assets/realesrgan_multisource_w70_v1/PREPARATION_MANIFEST.json",
+                                   "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_REALESRGAN_NORMAL_FULLBODY_RUNTIME_20260711T041500-0500.json",
+                                   "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_REALESRGAN_TWO_CHARACTER_CONTACT_RUNTIME_20260711T041500-0500.json",
+                                   "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_REALESRGAN_MULTISOURCE_ROBUSTNESS_QA_20260711T042000-0500.json",
+                                   "Plan/Instructions/QA/Evidence/Done_Certifications/W70_REALESRGAN_MULTISOURCE_LOCAL_ROBUSTNESS_DONE_20260711T042000-0500.json"
+                               ],
                       "proof_evidence":  [
 
                                          ]
