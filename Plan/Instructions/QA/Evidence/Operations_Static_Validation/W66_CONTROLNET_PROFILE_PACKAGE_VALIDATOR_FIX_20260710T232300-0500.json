@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "evidence_id": "W66-CONTROLNET-PROFILE-PACKAGE-VALIDATOR-FIX-20260710T232300-0500",
+  "created_at": "2026-07-10T23:23:00-05:00",
+  "status": "pass_local_only",
+  "classification": "CONTROLNET_PROFILE_PACKAGE_CONSISTENCY_SUPPORTED",
+  "changed_file": "Plan/Instructions/QA/Scripts/Test-ControlNetSelectedLanePackageDeployConsistency.ps1",
+  "problem": "The ControlNet-specific consistency validator required source_hash_match=true for smoke_test_request.json even when New-WorkflowRunPackage.ps1 intentionally applied a prompt profile and recorded profile_modified=true with source_hash_match=false.",
+  "fix": "Allow the packaged smoke hash only when the run manifest records prompt_profile.applied=true, the smoke row records profile_modified=true, and source_hash_match=false. Unmodified packages still require source_hash_match=true.",
+  "verification": {
+    "profile_modified_current_package": {
+      "run_id": "depth_target_prep_c5fe903",
+      "result": "pass_local_only",
+      "check_count": 10,
+      "failed_check_count": 0,
+      "smoke_request_profile_modified": true,
+      "prompt_profile_applied": true,
+      "smoke_source_hash_match_declared": false,
+      "runtime_evidence": "runtime_artifacts/depth_target_runtime/depth_c5fe903_package_deploy_consistency.json"
+    },
+    "unmodified_historical_package": {
+      "run_id": "depth_target_prep_current_43638e6",
+      "profile_contract_check": "pass",
+      "smoke_request_profile_modified": false,
+      "prompt_profile_applied": false,
+      "smoke_source_hash_match_declared": true,
+      "overall_result": "expected_fail_stale_clean_git_metadata",
+      "runtime_evidence": "runtime_artifacts/depth_target_runtime/depth_validator_backward_compat_no_profile.json"
+    },
+    "depth_asset_transfer_dry_run": {
+      "result": "pass_local_only_controlnet_asset_transfer_dry_run_bundle_validated",
+      "failed_check_count": 0,
+      "runtime_evidence": "runtime_artifacts/depth_target_runtime/depth_c5fe903_asset_transfer_dry_run.json"
+    }
+  },
+  "boundaries": {
+    "local_only": true,
+    "aws_contacted_by_validation": false,
+    "ec2_started": false,
+    "generation_executed": false,
+    "target_runtime_proof_claimed": false,
+    "certification_claimed": false
+  },
+  "next_action": "Checkpoint the validator fix, rebuild the depth package and deploy bundle at the resulting clean head, and rerun the consistency and pre-EC2 gates before any live transfer."
+}
