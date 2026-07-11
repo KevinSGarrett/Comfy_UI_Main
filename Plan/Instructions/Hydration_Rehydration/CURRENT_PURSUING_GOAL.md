@@ -1,3 +1,9 @@
+## Active Runtime Posture - Wave64 Audio Pipeline Strict Offline Pass, Production Proof Blocked - 2026-07-11T16:33:00-05:00
+
+Continue the full autonomous project goal from authoritative `C:\Comfy_UI_Main`. Preserve `TRK-W64-025` / `ITEM-W64-025` as `Blocked_Audio_Production_Runtime_Proof_Missing`: the existing Wave30 chain now strictly validates PCM WAVs, event ownership/timing, dialogue/ambience/foley coverage, mix metadata, AV sync, and independent proof artifacts, while synthetic fixtures remain unpromotable.
+
+Proceed to `TRK-W64-026` / `ITEM-W64-026` for one duplicate-checked audio-engine-routing implementation gap. Keep EC2 stopped and retain local-source, no-duplicate, manual-mask, Wave70/Wave71+, Flux1-license, expired-AWS-authentication, and Jira boundaries.
+
 ## Active Runtime Posture - Wave64 GIF Technical Certification Ready, Production Proof Blocked - 2026-07-11T16:00:00-05:00
 
 Continue the full autonomous project goal from authoritative `C:\Comfy_UI_Main`. Preserve `TRK-W64-024` / `ITEM-W64-024` as `Blocked_Video_GIF_Production_Proof_Missing`: the strict certifier and schema pass offline, every GIF frame is truly decoded, and synthetic fixtures remain unpromotable, but no genuine runtime generation or loop-playback visual evidence exists.

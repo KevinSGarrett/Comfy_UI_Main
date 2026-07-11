@@ -1,3 +1,9 @@
+## Immediate Next Action - Wave64 Audio Pipeline Strict Offline Pass, Production Proof Blocked - 2026-07-11T16:33:00-05:00
+
+Start from `Plan/Instructions/QA/Evidence/Wave64/audio_pipeline_build.json`. `TRK-W64-025` / `ITEM-W64-025` now has strict Wave30 PCM-WAV event/mix manifests, dialogue/ambience/foley support, spatial and AV-sync bindings, independent runtime/audio-review proof parsing, computed-only promotion, 13/13 Windows tests, and a retained three-lane technical probe. Keep the row `Blocked_Audio_Production_Runtime_Proof_Missing`: no genuine audio-engine runtime or playback review exists.
+
+Continue `TRK-W64-026` / `ITEM-W64-026` by duplicate-checking the existing audio-engine-routing lane and selecting one bounded offline routing implementation gap. Do not fabricate engine availability, license, runtime, or audio-review proof; do not start EC2, contact AWS while authentication is expired, consume candidate masks as truth, rerun Wave70 hard gates, activate Wave71+, recreate legacy/cloud work, or switch to Jira bookkeeping.
+
 ## Immediate Next Action - Wave64 GIF Certifier Ready, Production Proof Blocked - 2026-07-11T16:00:00-05:00
 
 Start from `Plan/Instructions/QA/Evidence/Wave64/video_gif_loop_export.json`. `TRK-W64-024` / `ITEM-W64-024` now has actual GIF frame decode, source/export hash binding, frame/dimension/duration/loop parity, a decoded-pixel seam metric, hash-bound runtime/visual proof contracts, 12/12 focused tests, and a retained technical-only GIF probe. Keep the row `Blocked_Video_GIF_Production_Proof_Missing`: no genuine production GIF runtime proof or loop-playback review exists.

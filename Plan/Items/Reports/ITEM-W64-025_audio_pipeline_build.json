@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "report_id": "ITEM-W64-025-AUDIO-PIPELINE-BUILD-20260711T163300-0500",
+  "timestamp": "2026-07-11T16:33:00-05:00",
+  "item_id": "ITEM-W64-025",
+  "tracker_id": "TRK-W64-025",
+  "workstream": "audio_pipeline_build",
+  "status": "Blocked_Audio_Production_Runtime_Proof_Missing",
+  "row_complete": false,
+  "implementation": {
+    "wave30_event_compiler_hardened": true,
+    "pcm_wav_and_artifact_verifier_ready": true,
+    "dialogue_ambience_foley_lane_contracts_ready": true,
+    "spatial_mix_and_av_sync_contracts_ready": true,
+    "independent_runtime_and_audio_review_proof_verifier_ready": true,
+    "computed_only_promotion_ready": true,
+    "strict_schemas_ready": true,
+    "local_validator_and_wrapper_ready": true,
+    "synthetic_promotion_forbidden": true
+  },
+  "validation": {
+    "unit_tests_passed": 13,
+    "unit_test_failures": 0,
+    "unit_test_skips": 0,
+    "python_compile": "pass",
+    "schema_check": "pass",
+    "powershell_parse": "pass",
+    "local_validator": "pass",
+    "synthetic_pcm_probe": "technical_pass_promotion_blocked",
+    "synthetic_event_count": 3,
+    "synthetic_layers": ["ambience", "body_foley", "dialogue"],
+    "claude_high_findings_remediated": 2,
+    "claude_medium_findings_remediated": 2,
+    "remaining_remediable_high_or_medium_findings": 0
+  },
+  "acceptance_gates": {
+    "audio_workflow_valid": true,
+    "audio_manifest": true,
+    "av_sync_check": true,
+    "mixdown_hash_and_pcm_check": true,
+    "proof_and_review_contracts": true,
+    "genuine_audio_engine_runtime": false,
+    "genuine_audio_review_record": false,
+    "final_audio_certification": false
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Audio_Production_Runtime_Proof_Missing",
+      "reason": "No genuine audio-engine runtime produced and hash-bound the final dialogue, ambience, foley, and mixdown artifacts."
+    },
+    {
+      "classification": "Blocked_Audio_Playback_Review_Missing",
+      "reason": "No genuine playback review proves speaker/voice quality, intelligibility, foley alignment, ambience balance, clipping safety, mix balance, and AV sync."
+    }
+  ],
+  "evidence": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/audio_pipeline_build.json",
+      "sha256": "a8567ba39311d2465ffab23ad262f9365fd588ba81d96d824d033ec16d564a91"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/audio_pipeline_build_test_log.json",
+      "sha256": "00ac384d7da3e9a8824e0942a4bdfe9ca79516e5bbdd5e9ebba5a02a69f888cd"
+    }
+  ],
+  "runtime": {
+    "production_audio_generation_count": 0,
+    "production_mixdown_count": 0,
+    "production_runtime_proof_count": 0,
+    "production_audio_review_count": 0,
+    "comfyui_started": false,
+    "aws_contacted": false,
+    "ec2_started": false
+  },
+  "next_action": "Keep row 025 blocked without production audio runtime, playback-review, promotion, or certification claims. Continue TRK-W64-026 / ITEM-W64-026 by duplicate-checking the existing audio-engine-routing lane and selecting one bounded offline routing implementation gap; do not start EC2 or fabricate engine/license/runtime proof."
+}

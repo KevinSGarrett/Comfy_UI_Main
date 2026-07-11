@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-AUDIO-PIPELINE-BUILD-TEST-LOG-20260711T163300-0500",
+  "timestamp": "2026-07-11T16:33:00-05:00",
+  "tracker_id": "TRK-W64-025",
+  "item_id": "ITEM-W64-025",
+  "command": "python Plan/Instructions/QA/Scripts/test_wave30_audio_pipeline_strict.py",
+  "result": "pass",
+  "exit_code": 0,
+  "tests_run": 13,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "elapsed_seconds": 58.937,
+  "transcript": "runtime_artifacts/wave64_audio_pipeline/unit_tests_20260711T162919-0500.stderr.txt",
+  "transcript_sha256": "fa1c5f600482db9d1a761547a9bd8b6ae802e9a21d98a0c2e17fc0f79c0b112f",
+  "local_validation": "runtime_artifacts/wave64_audio_pipeline/local_validation_20260711T162919-0500.json",
+  "local_validation_sha256": "948b20c84b1aa4684fc049800e5707f6d624509ec7d5f81df6b22c777d996ae0",
+  "covered_files": [
+    "Plan/07_IMPLEMENTATION/scripts/compile_wave30_audio_event_manifest.py",
+    "Plan/07_IMPLEMENTATION/scripts/score_wave30_audio_qa.py",
+    "Plan/07_IMPLEMENTATION/scripts/run_wave30_local_validation.py",
+    "Plan/07_IMPLEMENTATION/templates/powershell/Run-Wave30-AudioGenerationValidation.ps1",
+    "Plan/08_SCHEMAS/wave30_audio_event_manifest.schema.json",
+    "Plan/08_SCHEMAS/wave30_audio_mix_manifest.schema.json",
+    "Plan/08_SCHEMAS/wave30_audio_qa_report.schema.json",
+    "Plan/Instructions/QA/Scripts/test_wave30_audio_pipeline_strict.py"
+  ],
+  "positive_contracts_covered": [
+    "actual PCM WAV decoding and artifact SHA256, byte, duration, sample-rate, channel, sample-width, and frame-count binding",
+    "canonical event taxonomy, subject ownership, purpose, source event, timing, QA rule, and expected video-frame binding",
+    "dialogue, ambience, and foley lane support in one strict event manifest",
+    "mixdown PCM decode, spatial/pan/gain metadata, loudness, clipping, ducking, and AV-sync evidence",
+    "exact event-manifest, mix-manifest, mixdown, runtime-proof, and audio-review hash binding",
+    "independent runtime and playback-review proof JSON parsing",
+    "hard-gate precedence and computed-only promotion decision",
+    "strict Draft 2020-12 schemas and transactional output preservation",
+    "local validator and PowerShell wrapper prerequisite checks"
+  ],
+  "negative_contracts_covered": [
+    "unknown taxonomy and missing or invalid subject ownership",
+    "WAV decode, hash, byte, timing, sample metadata, and AV frame mismatch",
+    "event, mix, proof, and mixdown hash or binding drift",
+    "missing required lane and missing, duplicate, or extra mixed event IDs",
+    "missing or failed hard gates and non-finite QA scores",
+    "inline boolean proof spoof, malformed proof JSON, unknown proof keys, and stale mixdown proof",
+    "run-id mismatch and AV frame-rate, span, offset, or duration mismatch",
+    "synthetic promotion and contradictory schema states",
+    "existing output preservation on failed publication and missing-wrapper-validator failure"
+  ],
+  "production_audio_runtime_executed": false,
+  "production_audio_review_executed": false
+}

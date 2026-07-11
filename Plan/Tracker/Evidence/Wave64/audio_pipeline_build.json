@@ -1,0 +1,170 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-AUDIO-PIPELINE-BUILD-20260711T163300-0500",
+  "timestamp": "2026-07-11T16:33:00-05:00",
+  "tracker_id": "TRK-W64-025",
+  "item_id": "ITEM-W64-025",
+  "source_citation": "Plan/05_AUDIO_SYSTEM/AUDIO_GENERATION_AV_SYNC_BLUEPRINT.md",
+  "implementation": {
+    "existing_wave30_chain_hardened_in_place": true,
+    "canonical_event_taxonomy_binding": true,
+    "dialogue_ambience_and_foley_lane_support": true,
+    "actual_pcm_wav_decode_and_artifact_binding": true,
+    "subject_timing_purpose_source_and_av_frame_binding": true,
+    "spatial_pan_gain_loudness_clipping_and_ducking_mix_contract": true,
+    "mixdown_pcm_and_av_sync_cross_validation": true,
+    "independent_runtime_and_audio_review_proof_parsing": true,
+    "computed_only_promotion": true,
+    "synthetic_promotion_forbidden": true,
+    "transactional_outputs": true,
+    "offline_local_validator_and_wrapper_preflight": true
+  },
+  "implementation_artifacts": [
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/compile_wave30_audio_event_manifest.py",
+      "sha256": "7e8d7ceda30f00b888e5b7c102f75d21387c96a4a1724c3ff336c98f034a0667"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/score_wave30_audio_qa.py",
+      "sha256": "f2a0015c873338ea596ad18d9c0b65a4fcffd951a1e1feb36f1246a36199c26c"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/run_wave30_local_validation.py",
+      "sha256": "fbf5dd98774a8756ee6af0364aead57c7ac3a6d29d9732ae2582533f0db1f671"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/templates/powershell/Run-Wave30-AudioGenerationValidation.ps1",
+      "sha256": "21cbaf3b0954c79aa5ec6443b7064ebb4a3e52a6218838fe60083a49c1ab52fa"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave30_audio_event_manifest.schema.json",
+      "sha256": "d614c9961d8a0710844f363cf9b59ccf404e28b11ba3e39ecd698abc51dea133"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave30_audio_mix_manifest.schema.json",
+      "sha256": "5869e5d7873a60ed51900fd85c6f40270697fbd367c5af51608cac89274d09e6"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave30_audio_qa_report.schema.json",
+      "sha256": "141ed62456249b181bf7140b9d52f47d4ae50df34275ea260efb8b51fe4ca0c4"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_wave30_audio_pipeline_strict.py",
+      "sha256": "e5e18c38a3aa2fcf872f3d1ab5d20b569d97899b8a9a7d3261adafc2a05ac666"
+    }
+  ],
+  "offline_validation": {
+    "test_log": "Plan/Instructions/QA/Evidence/Wave64/audio_pipeline_build_test_log.json",
+    "test_log_sha256": "00ac384d7da3e9a8824e0942a4bdfe9ca79516e5bbdd5e9ebba5a02a69f888cd",
+    "tests_run": 13,
+    "test_failures": 0,
+    "test_errors": 0,
+    "test_skips": 0,
+    "python_compile": "pass",
+    "draft_2020_12_schema_check": "pass",
+    "powershell_parse": "pass",
+    "local_validation": "pass",
+    "local_validation_artifact": "runtime_artifacts/wave64_audio_pipeline/local_validation_20260711T162919-0500.json",
+    "local_validation_sha256": "948b20c84b1aa4684fc049800e5707f6d624509ec7d5f81df6b22c777d996ae0",
+    "technical_offline_pass": true
+  },
+  "synthetic_technical_probe": {
+    "production_evidence": false,
+    "fixture_type": "three_lane_pcm_wav_packet_for_offline_structural_validation_only",
+    "event_manifest": "runtime_artifacts/wave64_audio_pipeline/synthetic_probe_20260711T163155-0500/event_manifest.json",
+    "event_manifest_sha256": "1665be380b3b3d75d9908ffe0a1dbd7b85e942a516e1ca84d293b5815abc26c7",
+    "mix_manifest": "runtime_artifacts/wave64_audio_pipeline/synthetic_probe_20260711T163155-0500/mix_manifest.json",
+    "mix_manifest_sha256": "fae937cd3d9fbbe2dcb29b89a41cb85714297673c5673daf072604ae5d660eec",
+    "qa_report": "runtime_artifacts/wave64_audio_pipeline/synthetic_probe_20260711T163155-0500/qa_report.json",
+    "qa_report_sha256": "8d144b96e0e1e0e45315567acfc2b935034869ea20a98ca622cbebbc7cee59cf",
+    "event_count": 3,
+    "event_layers": [
+      "ambience",
+      "body_foley",
+      "dialogue"
+    ],
+    "actual_pcm_wav_artifacts": [
+      {
+        "path": "runtime_artifacts/wave64_audio_pipeline/synthetic_probe_20260711T163155-0500/dialogue.wav",
+        "sha256": "59460d5690616336b990fc7b1629428e3bd825e422da84469d2c8c8ecfaff43b"
+      },
+      {
+        "path": "runtime_artifacts/wave64_audio_pipeline/synthetic_probe_20260711T163155-0500/ambience.wav",
+        "sha256": "358c6dcef4442790decb0a5c03fb320154f9d1dd5b4618e301f9e6661a413cb5"
+      },
+      {
+        "path": "runtime_artifacts/wave64_audio_pipeline/synthetic_probe_20260711T163155-0500/body_foley.wav",
+        "sha256": "59460d5690616336b990fc7b1629428e3bd825e422da84469d2c8c8ecfaff43b"
+      },
+      {
+        "path": "runtime_artifacts/wave64_audio_pipeline/synthetic_probe_20260711T163155-0500/mixdown.wav",
+        "sha256": "358c6dcef4442790decb0a5c03fb320154f9d1dd5b4618e301f9e6661a413cb5"
+      }
+    ],
+    "artifact_bindings_verified": true,
+    "runtime_proof_verified": false,
+    "audio_review_verified": false,
+    "promotion_decision": "block",
+    "production_eligible": false
+  },
+  "acceptance_gates": {
+    "audio_workflow_structure": true,
+    "event_and_artifact_manifest": true,
+    "dialogue_voice_metadata_support": true,
+    "foley_sfx_metadata_support": true,
+    "ambience_room_tone_music_metadata_support": true,
+    "spatial_mix_and_mixdown_contract": true,
+    "av_sync_cross_validation": true,
+    "runtime_proof_contract": true,
+    "audio_review_contract": true,
+    "genuine_audio_engine_runtime_proof": false,
+    "genuine_audio_playback_review": false,
+    "final_audio_certification": false
+  },
+  "review": {
+    "cursor_gap_review": "runtime_artifacts/agent_handoffs/cursor/20260711T160622-0500_wave64_audio_pipeline_gap_review/handoff_record.json",
+    "cursor_initial_implementation": "runtime_artifacts/agent_handoffs/cursor/20260711T160823-0500_wave64_audio_pipeline_hardening/handoff_record.json",
+    "claude_initial_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T161542-0500_wave64_audio_pipeline_final_review/handoff_record.json",
+    "claude_high_findings_remediated": 2,
+    "claude_medium_findings_remediated": 2,
+    "cursor_proof_correction": "runtime_artifacts/agent_handoffs/cursor/20260711T162144-0500_wave64_audio_pipeline_proof_correction/handoff_record.json",
+    "claude_confirmation": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T162602-0500_wave64_audio_pipeline_review_confirmation/handoff_record.json",
+    "remaining_remediable_high_or_medium_findings": 0
+  },
+  "runtime": {
+    "production_audio_generation_count": 0,
+    "production_mixdown_count": 0,
+    "production_runtime_proof_count": 0,
+    "production_audio_review_count": 0,
+    "comfyui_started": false,
+    "generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "mask_promotion_executed": false
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Audio_Production_Runtime_Proof_Missing",
+      "scope": "primary_row_blocker",
+      "reason": "No genuine audio-engine runtime generated and hash-bound the dialogue, ambience, foley, and final mixdown artifacts; retained PCM WAVs are synthetic technical fixtures only."
+    },
+    {
+      "classification": "Blocked_Audio_Playback_Review_Missing",
+      "scope": "audio_review",
+      "reason": "No genuine playback review proves speaker identity, voice consistency, intelligibility, foley/action alignment, ambience/dialogue balance, clipping safety, mix balance, and AV sync."
+    }
+  ],
+  "result": "blocked_audio_production_runtime_proof_missing",
+  "overall_pass": false,
+  "status_decision": "Blocked_Audio_Production_Runtime_Proof_Missing",
+  "strict_decision": {
+    "row_complete": false,
+    "offline_pipeline_and_schema_pass": true,
+    "synthetic_technical_probe_pass": true,
+    "production_runtime_claimed": false,
+    "audio_review_claimed": false,
+    "final_audio_promotion_claimed": false,
+    "certification_claimed": false,
+    "wave71_activation_claimed": false
+  }
+}

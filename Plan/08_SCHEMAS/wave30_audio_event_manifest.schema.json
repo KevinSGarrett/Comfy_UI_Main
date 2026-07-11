@@ -1,37 +1,344 @@
 {
-  "schema_name": "wave30_audio_event_manifest",
-  "required_fields": [
-    "audio_event_id",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave30_audio_event_manifest.schema.json",
+  "title": "Wave30 Audio Event Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schema_name",
+    "event_manifest_version",
+    "run_id",
     "scene_id",
     "shot_id",
-    "event_type",
-    "source_event_id",
-    "start_time",
-    "end_time",
-    "layer",
-    "routing",
-    "qa_targets"
+    "is_synthetic",
+    "production_proof",
+    "taxonomy_registry_path",
+    "taxonomy_registry_sha256",
+    "audio_event_count",
+    "required_lanes",
+    "audio_events",
+    "artifact_manifest",
+    "av_sync_binding"
   ],
-  "event_types": [
-    "dialogue",
-    "voice_reaction",
-    "breath",
-    "body_foley",
-    "clothing_foley",
-    "prop_foley",
-    "ambience",
-    "music",
-    "impact",
-    "sfx"
+  "properties": {
+    "$schema": {
+      "const": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "schema_name": {
+      "const": "wave30_audio_event_manifest"
+    },
+    "event_manifest_version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9999
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scene_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "shot_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "is_synthetic": {
+      "type": "boolean"
+    },
+    "production_proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "runtime_proof_present",
+        "audio_review_present",
+        "certified_for_release"
+      ],
+      "properties": {
+        "runtime_proof_present": { "type": "boolean" },
+        "audio_review_present": { "type": "boolean" },
+        "certified_for_release": { "type": "boolean" }
+      }
+    },
+    "taxonomy_registry_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "taxonomy_registry_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "audio_event_count": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10000
+    },
+    "required_lanes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "audio_events": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/audioEvent" }
+    },
+    "artifact_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_input_path",
+        "source_input_sha256"
+      ],
+      "properties": {
+        "source_input_path": { "type": "string", "minLength": 1 },
+        "source_input_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    },
+    "av_sync_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "frame_rate",
+        "sync_scope"
+      ],
+      "properties": {
+        "frame_rate": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 240
+        },
+        "sync_scope": {
+          "const": "event_level"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "is_synthetic": { "const": true } }, "required": ["is_synthetic"] },
+      "then": {
+        "properties": {
+          "production_proof": {
+            "properties": {
+              "runtime_proof_present": { "const": false },
+              "audio_review_present": { "const": false },
+              "certified_for_release": { "const": false }
+            }
+          }
+        }
+      }
+    }
   ],
-  "layers": [
-    "dialogue",
-    "breath",
-    "body_foley",
-    "clothing_foley",
-    "prop_foley",
-    "impact_sfx",
-    "ambience",
-    "music"
-  ]
+  "$defs": {
+    "audioEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "audio_event_id",
+        "scene_id",
+        "shot_id",
+        "event_type",
+        "sync_class",
+        "purpose",
+        "source_event_id",
+        "start_seconds",
+        "end_seconds",
+        "expected_video_frame_range",
+        "qa_rules",
+        "layer",
+        "routing",
+        "subject_binding",
+        "artifact",
+        "synthetic_state"
+      ],
+      "properties": {
+        "audio_event_id": { "type": "string", "minLength": 1 },
+        "scene_id": { "type": "string", "minLength": 1 },
+        "shot_id": { "type": "string", "minLength": 1 },
+        "event_type": {
+          "type": "string",
+          "enum": [
+            "dialogue",
+            "voice_reaction",
+            "breath",
+            "body_foley",
+            "clothing_foley",
+            "prop_foley",
+            "furniture_foley",
+            "ambience",
+            "room_tone",
+            "music",
+            "impact",
+            "action_sfx",
+            "transition_sfx"
+          ]
+        },
+        "sync_class": {
+          "type": "string",
+          "enum": [
+            "frame_exact",
+            "windowed",
+            "ambient_free",
+            "music_scene_phase"
+          ]
+        },
+        "purpose": { "type": "string", "minLength": 1 },
+        "source_event_id": { "type": "string", "minLength": 1 },
+        "start_seconds": { "type": "number", "minimum": 0, "maximum": 86400 },
+        "end_seconds": { "type": "number", "minimum": 0, "maximum": 86400 },
+        "expected_video_frame_range": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["start_frame", "end_frame", "frame_rate"],
+          "properties": {
+            "start_frame": { "type": "integer", "minimum": 0, "maximum": 2000000 },
+            "end_frame": { "type": "integer", "minimum": 0, "maximum": 2000000 },
+            "frame_rate": { "type": "number", "exclusiveMinimum": 0, "maximum": 240 }
+          }
+        },
+        "qa_rules": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "layer": { "type": "string", "minLength": 1 },
+        "routing": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": ["string", "number", "boolean"]
+          }
+        },
+        "subject_binding": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["binding_type"],
+          "properties": {
+            "binding_type": {
+              "type": "string",
+              "enum": ["character", "object", "environment", "none"]
+            },
+            "character_id": { "type": ["string", "null"], "minLength": 1 },
+            "object_id": { "type": ["string", "null"], "minLength": 1 }
+          }
+        },
+        "artifact": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "sha256",
+            "bytes",
+            "duration_seconds",
+            "sample_rate_hz",
+            "channels",
+            "sample_width_bytes",
+            "frame_count"
+          ],
+          "properties": {
+            "path": { "type": "string", "minLength": 1 },
+            "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            "bytes": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+            "duration_seconds": { "type": "number", "exclusiveMinimum": 0, "maximum": 86400 },
+            "sample_rate_hz": { "type": "integer", "minimum": 8000, "maximum": 384000 },
+            "channels": { "type": "integer", "minimum": 1, "maximum": 16 },
+            "sample_width_bytes": { "type": "integer", "minimum": 1, "maximum": 8 },
+            "frame_count": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+          }
+        },
+        "synthetic_state": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["synthetic_origin", "production_proof_claimed"],
+          "properties": {
+            "synthetic_origin": { "type": "string", "minLength": 1 },
+            "production_proof_claimed": { "type": "boolean" }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "event_type": { "enum": ["dialogue", "voice_reaction", "breath"] }
+            },
+            "required": ["event_type"]
+          },
+          "then": {
+            "properties": {
+              "subject_binding": {
+                "required": ["binding_type", "character_id"],
+                "properties": {
+                  "binding_type": { "const": "character" }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "event_type": {
+                "enum": [
+                  "body_foley",
+                  "clothing_foley",
+                  "prop_foley",
+                  "furniture_foley",
+                  "impact",
+                  "action_sfx",
+                  "transition_sfx"
+                ]
+              }
+            },
+            "required": ["event_type"]
+          },
+          "then": {
+            "properties": {
+              "subject_binding": {
+                "properties": {
+                  "binding_type": { "enum": ["character", "object"] }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "event_type": { "enum": ["ambience", "room_tone", "music"] }
+            },
+            "required": ["event_type"]
+          },
+          "then": {
+            "properties": {
+              "subject_binding": {
+                "properties": {
+                  "binding_type": { "enum": ["environment", "none"] }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "synthetic_state": {
+                "properties": {
+                  "production_proof_claimed": { "const": true }
+                }
+              }
+            }
+          },
+          "then": false
+        }
+      ]
+    }
+  }
 }

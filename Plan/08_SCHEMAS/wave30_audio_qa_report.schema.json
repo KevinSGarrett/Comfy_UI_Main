@@ -1,20 +1,187 @@
 {
-  "schema_name": "wave30_audio_qa_report",
-  "required_fields": [
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave30_audio_qa_report.schema.json",
+  "title": "Wave30 Audio QA Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schema_name",
+    "report_version",
     "run_id",
-    "audio_files",
-    "decode_status",
-    "duration_status",
-    "loudness_status",
-    "sync_status",
-    "failure_flags",
-    "repair_events",
+    "is_synthetic",
+    "event_manifest_binding",
+    "mix_manifest_binding",
+    "qa_scores",
+    "overall_audio_score",
+    "hard_gate_statuses",
+    "proof_verification",
+    "computed_flags",
     "promotion_decision"
   ],
-  "promotion_decisions": [
-    "promote",
-    "repair",
-    "rerun",
-    "block"
-  ]
+  "properties": {
+    "$schema": { "const": "https://json-schema.org/draft/2020-12/schema" },
+    "schema_name": { "const": "wave30_audio_qa_report" },
+    "report_version": { "type": "integer", "minimum": 1, "maximum": 9999 },
+    "run_id": { "type": "string", "minLength": 1 },
+    "is_synthetic": { "type": "boolean" },
+    "event_manifest_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    },
+    "mix_manifest_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    },
+    "qa_scores": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decode",
+        "duration",
+        "loudness",
+        "clipping",
+        "sync",
+        "voice_identity",
+        "event_coverage",
+        "mix_balance"
+      ],
+      "properties": {
+        "decode": { "type": "number", "minimum": 0, "maximum": 100 },
+        "duration": { "type": "number", "minimum": 0, "maximum": 100 },
+        "loudness": { "type": "number", "minimum": 0, "maximum": 100 },
+        "clipping": { "type": "number", "minimum": 0, "maximum": 100 },
+        "sync": { "type": "number", "minimum": 0, "maximum": 100 },
+        "voice_identity": { "type": "number", "minimum": 0, "maximum": 100 },
+        "event_coverage": { "type": "number", "minimum": 0, "maximum": 100 },
+        "mix_balance": { "type": "number", "minimum": 0, "maximum": 100 }
+      }
+    },
+    "overall_audio_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "hard_gate_statuses": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decode",
+        "duration",
+        "loudness",
+        "clipping",
+        "sync",
+        "voice_identity",
+        "event_coverage",
+        "mix_balance",
+        "artifact_manifest",
+        "runtime_proof",
+        "audio_review"
+      ],
+      "properties": {
+        "decode": { "$ref": "#/$defs/gateState" },
+        "duration": { "$ref": "#/$defs/gateState" },
+        "loudness": { "$ref": "#/$defs/gateState" },
+        "clipping": { "$ref": "#/$defs/gateState" },
+        "sync": { "$ref": "#/$defs/gateState" },
+        "voice_identity": { "$ref": "#/$defs/gateState" },
+        "event_coverage": { "$ref": "#/$defs/gateState" },
+        "mix_balance": { "$ref": "#/$defs/gateState" },
+        "artifact_manifest": { "$ref": "#/$defs/gateState" },
+        "runtime_proof": { "$ref": "#/$defs/gateState" },
+        "audio_review": { "$ref": "#/$defs/gateState" }
+      }
+    },
+    "proof_verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "runtime_proof_verified",
+        "audio_review_verified",
+        "artifact_bindings_verified"
+      ],
+      "properties": {
+        "runtime_proof_verified": { "type": "boolean" },
+        "audio_review_verified": { "type": "boolean" },
+        "artifact_bindings_verified": { "type": "boolean" }
+      }
+    },
+    "computed_flags": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["all_hard_gates_passed", "production_eligible"],
+      "properties": {
+        "all_hard_gates_passed": { "type": "boolean" },
+        "production_eligible": { "type": "boolean" }
+      }
+    },
+    "promotion_decision": {
+      "type": "string",
+      "enum": ["promote", "repair", "rerun", "block"]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "is_synthetic": { "const": true } },
+        "required": ["is_synthetic"]
+      },
+      "then": {
+        "properties": {
+          "promotion_decision": { "enum": ["repair", "rerun", "block"] },
+          "proof_verification": {
+            "properties": {
+              "runtime_proof_verified": { "const": false },
+              "audio_review_verified": { "const": false }
+            }
+          },
+          "computed_flags": {
+            "properties": {
+              "production_eligible": { "const": false }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "promotion_decision": { "const": "promote" } },
+        "required": ["promotion_decision"]
+      },
+      "then": {
+        "properties": {
+          "is_synthetic": { "const": false },
+          "proof_verification": {
+            "properties": {
+              "runtime_proof_verified": { "const": true },
+              "audio_review_verified": { "const": true },
+              "artifact_bindings_verified": { "const": true }
+            }
+          },
+          "computed_flags": {
+            "properties": {
+              "all_hard_gates_passed": { "const": true },
+              "production_eligible": { "const": true }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "gateState": {
+      "type": "string",
+      "enum": ["pass", "fail", "block"]
+    }
+  }
 }
