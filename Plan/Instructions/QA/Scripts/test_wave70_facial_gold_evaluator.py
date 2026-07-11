@@ -64,6 +64,7 @@ CELEB_CLASSES = (
     "skin", "l_brow", "r_brow", "l_eye", "r_eye", "eye_g", "l_ear", "r_ear", "ear_r",
     "nose", "mouth", "u_lip", "l_lip", "neck", "neck_l", "cloth", "hair", "hat",
 )
+REGISTERED_BISENET_NECK_MODEL_SHA256 = "468e13ca13a9b43cc0881a9f99083a430e9c0a38abd935431d1c28ee94b26567"
 
 
 def composition_fixture(project: Path) -> tuple[dict, Path, Path]:
@@ -606,6 +607,80 @@ def test_nonempty_neck_and_neck_l_duplicate_rejected(tmp_path: Path) -> None:
     result = run_eval(project, manifest_path, out_path)
     assert result.returncode != 0
     assert any(event["code"] == "neck_and_neck_l_pixel_identical" for event in read_evidence(out_path)["fail_closed_events"])
+
+
+def test_registered_bisenet_neck_candidate_without_new_authority_rejected(tmp_path: Path) -> None:
+    project, _ = base_project(tmp_path)
+    source = project / "MaskedWarehouse/CelebAMask-HQ/CelebA-HQ-img/57.jpg"
+    save_rgb(source)
+    pred_dir = project / "pred/57"
+    for name in ("skin", "neck", "neck_l"):
+        save_mask(pred_dir / f"{name}.png", [[0, 0, 0, 0]] * 4)
+    manifest = celeb_manifest(project, source, pred_dir)
+    manifest["route_model_identity"]["model_sha256"] = REGISTERED_BISENET_NECK_MODEL_SHA256
+    manifest_path = project / "manifest.json"
+    out_path = project / "out.json"
+    write_json(manifest_path, manifest)
+    assert run_eval(project, manifest_path, out_path).returncode != 0
+    evidence = read_evidence(out_path)
+    assert "neck_candidate_not_distinct_from_registered_route" in evidence["fail_closed_events"][-1]["message"]
+    assert evidence["neck_candidate_novelty_audit"]["result"] == "blocked_registered_route_reuse"
+
+
+def test_registered_bisenet_neck_candidate_with_fixed_non_gold_authority_passes(tmp_path: Path) -> None:
+    project, _ = base_project(tmp_path)
+    source = project / "MaskedWarehouse/CelebAMask-HQ/CelebA-HQ-img/58.jpg"
+    save_rgb(source)
+    pred_dir = project / "pred/58"
+    for name in ("skin", "neck", "neck_l"):
+        save_mask(pred_dir / f"{name}.png", [[0, 0, 0, 0]] * 4)
+    manifest = celeb_manifest(project, source, pred_dir)
+    manifest["route_model_identity"]["model_sha256"] = REGISTERED_BISENET_NECK_MODEL_SHA256
+    implementation_path = project / "routes/fixed_neck_reconstruction.py"
+    implementation_path.parent.mkdir(parents=True, exist_ok=True)
+    implementation_path.write_text("def reconstruct_neck():\n    return 'fixture'\n", encoding="utf-8")
+    manifest["neck_candidate_authority"] = {
+        "kind": "fixed_non_gold_reconstruction",
+        "authority_id": "fixture-neck-reconstruction-v1",
+        "implementation_path": str(implementation_path),
+        "implementation_sha256": sha256_file(implementation_path),
+        "gold_derived": False,
+    }
+    manifest_path = project / "manifest.json"
+    out_path = project / "out.json"
+    write_json(manifest_path, manifest)
+    assert run_eval(project, manifest_path, out_path).returncode == 0
+    evidence = read_evidence(out_path)
+    assert evidence["neck_candidate_novelty_audit"]["result"] == "fixed_non_gold_reconstruction"
+    assert evidence["neck_candidate_novelty_audit"]["fixed_reconstruction_authority_valid"] is True
+
+
+def test_registered_bisenet_neck_candidate_with_wrong_implementation_hash_rejected(tmp_path: Path) -> None:
+    project, _ = base_project(tmp_path)
+    source = project / "MaskedWarehouse/CelebAMask-HQ/CelebA-HQ-img/59.jpg"
+    save_rgb(source)
+    pred_dir = project / "pred/59"
+    for name in ("skin", "neck", "neck_l"):
+        save_mask(pred_dir / f"{name}.png", [[0, 0, 0, 0]] * 4)
+    implementation_path = project / "routes/fixed_neck_reconstruction.py"
+    implementation_path.parent.mkdir(parents=True, exist_ok=True)
+    implementation_path.write_text("def reconstruct_neck():\n    return 'fixture'\n", encoding="utf-8")
+    manifest = celeb_manifest(project, source, pred_dir)
+    manifest["route_model_identity"]["model_sha256"] = REGISTERED_BISENET_NECK_MODEL_SHA256
+    manifest["neck_candidate_authority"] = {
+        "kind": "fixed_non_gold_reconstruction",
+        "authority_id": "fixture-neck-reconstruction-v1",
+        "implementation_path": str(implementation_path),
+        "implementation_sha256": "3" * 64,
+        "gold_derived": False,
+    }
+    manifest_path = project / "manifest.json"
+    out_path = project / "out.json"
+    write_json(manifest_path, manifest)
+    assert run_eval(project, manifest_path, out_path).returncode != 0
+    evidence = read_evidence(out_path)
+    assert "neck_candidate_not_distinct_from_registered_route" in evidence["fail_closed_events"][-1]["message"]
+    assert evidence["neck_candidate_novelty_audit"]["observed_implementation_sha256"] == sha256_file(implementation_path)
 
 
 def test_source_hash_mismatch_rejected(tmp_path: Path) -> None:

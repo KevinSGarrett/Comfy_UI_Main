@@ -178,3 +178,13 @@ Machine-readable paths, counts, pairing rules, and claim boundaries are in:
 ## Neck Route Dependency Boundary
 
 The registered BiSeNet checkpoint `79999_iter.pth` exposes anatomical `neck` and accessory `neck_l` as separate classes. The current route passes held-out IDs `6,7,8` but fails controlled IDs `0,1,2`, and no second registered neck-specialist model or valid fixed semantic reconstruction exists. Do not merge `neck_l` into `neck` or rerun the identical route as a new candidate. Another neck evaluation requires a newly registered distinct model-backed route or a fixed non-gold-derived implementation artifact.
+
+The evaluator enforces this boundary before loading gold annotations. A neck
+manifest using the registered BiSeNet SHA256
+`468e13ca13a9b43cc0881a9f99083a430e9c0a38abd935431d1c28ee94b26567`
+fails with `neck_candidate_not_distinct_from_registered_route` unless it
+declares `neck_candidate_authority.kind=fixed_non_gold_reconstruction`, a
+non-empty authority ID, a local implementation artifact path whose observed
+SHA256 matches the declared 64-character implementation SHA256, and
+`gold_derived=false`. A genuinely distinct model SHA256 remains eligible for
+evaluation but does not imply gate passage, promotion, or certification.

@@ -1,3 +1,15 @@
+## Immediate Next Action - Neck Candidate Novelty Guard Enforced - 2026-07-10T21:33:00-05:00
+
+The facial gold evaluator now fails closed before gold access when anatomical `neck` is evaluated with the already-audited BiSeNet SHA256 and no hash-bound, explicitly non-gold fixed reconstruction authority is declared. Distinct model hashes remain evaluator-eligible; they are not automatically passing or promotable. The manifest schema and benchmark protocol document the conditional authority contract, and all 27 disposable evaluator regressions pass.
+
+Next exact action: select one different failing facial class with an implementable non-gold route or record its exact dependency boundary. Do not rerun the registered BiSeNet neck route as a new candidate, invent authority metadata, merge `neck_l`, alter the accepted skin rule, promote the facial route, clear body-gold dependencies, rerun Wave70 hard gates, or activate Wave71+.
+
+## Immediate Next Action - Selected Inpaint Target Runtime Proven - 2026-07-10T21:25:00-05:00
+
+The `sdxl_realvisxl_inpaint_detail_lane` completed one bounded EC2 target-runtime smoke from exact Git head `15f4014fdc672077130e58d125c42ab6a3548b0d` and deploy-bundle SHA256 `d950d5848e5b3e0fedf87f86b5eb36b9342c718b80ccb3817690791f15a704f5`. Generation, remote artifact manifest, approved-prefix pullback, hash verification, technical QA, and Codex visual QA pass; EC2 is stopped. The initial custom-prefix pullback failure was recovered without regeneration or IAM changes.
+
+Do not rerun this selected-inpaint smoke unless its workflow contract, model, or target runtime changes. Next exact action: continue the next concrete non-mask implementation/orchestration task, with bounded facial benchmark work eligible when it does not interrupt a more current lane. Do not promote candidate masks, clear manual body-gold dependencies, rerun Wave70 hard gates, activate Wave71+, or treat this single runtime sample as full-route certification.
+
 ## Immediate Next Action - Overlapping Skin Composition Accepted, Remaining Facial Classes Blocked - 2026-07-10T18:20:00-05:00
 
 The hash-bound `skin_nested_union_v1` derived overlay is implemented, evaluator-recomputed, and visually reviewed across controlled IDs `0,1,2` plus fresh held-out IDs `6,7,8`. Controlled skin IoU improves from `0.815` to `0.973`, held-out skin passes at `0.946`, and no controlled passing class regresses. Fifty-five producer/evaluator/gate/comparison/panel regressions pass.
@@ -8309,8 +8321,3 @@ Next exact action: checkpoint this failure record, rebuild the selected-inpaint 
 The selected-inpaint marked runtime window completed successfully. Current-head deploy bundle SHA256 verified on EC2, all 12 required ComfyUI nodes were present, object-info passed with 1,915 nodes, and remote RealVisXL checkpoint SHA256 matched `6a35a785...5643b80`. Final EC2 state is `stopped`; no generation ran. The active runtime marker was removed after final-state verification.
 
 Next exact action: checkpoint static proof and runtime-window evidence, rebuild/publish the deploy bundle once at the resulting clean head, then run one bounded selected-inpaint workflow smoke under a fresh active marker. Do not repeat model/input transfer or static proof unless an input contract changes.
-## Immediate Next Action - Selected Inpaint Target Runtime Proven - 2026-07-10T21:25:00-05:00
-
-The `sdxl_realvisxl_inpaint_detail_lane` completed one bounded EC2 target-runtime smoke from exact Git head `15f4014fdc672077130e58d125c42ab6a3548b0d` and deploy-bundle SHA256 `d950d5848e5b3e0fedf87f86b5eb36b9342c718b80ccb3817690791f15a704f5`. Generation, remote artifact manifest, approved-prefix pullback, hash verification, technical QA, and Codex visual QA pass; EC2 is stopped. The initial custom-prefix pullback failure was recovered without regeneration or IAM changes.
-
-Do not rerun this selected-inpaint smoke unless its workflow contract, model, or target runtime changes. Next exact action: continue the next concrete non-mask implementation/orchestration task, with bounded facial benchmark work eligible when it does not interrupt a more current lane. Do not promote candidate masks, clear manual body-gold dependencies, rerun Wave70 hard gates, activate Wave71+, or treat this single runtime sample as full-route certification.

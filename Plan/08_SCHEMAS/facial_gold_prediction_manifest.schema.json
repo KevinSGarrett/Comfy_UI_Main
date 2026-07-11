@@ -17,6 +17,18 @@
       }
     },
     "route_configuration_sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
+    "neck_candidate_authority": {
+      "type": "object",
+      "required": ["kind", "authority_id", "implementation_path", "implementation_sha256", "gold_derived"],
+      "properties": {
+        "kind": {"const": "fixed_non_gold_reconstruction"},
+        "authority_id": {"type": "string", "minLength": 1},
+        "implementation_path": {"type": "string", "minLength": 1},
+        "implementation_sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
+        "gold_derived": {"const": false}
+      },
+      "additionalProperties": false
+    },
     "dataset_id": {"enum": ["celebamask_hq_shard_0", "lapa"]},
     "split": {"enum": ["train", "val", "test"]},
     "run_id": {"type": "string", "minLength": 1},

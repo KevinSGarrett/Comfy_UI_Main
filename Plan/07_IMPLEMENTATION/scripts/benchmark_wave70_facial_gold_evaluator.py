@@ -16,6 +16,7 @@ from scipy import ndimage
 ALLOWED_TRANSFORMS = ("identity", "resize", "pad", "crop", "horizontal_flip")
 LAPA_REQUIRED_IDS = {str(index) for index in range(11)}
 CELEB_SKIN_UNION_SOURCES = ("skin", "l_brow", "r_brow", "l_eye", "r_eye", "nose", "mouth", "u_lip", "l_lip")
+REGISTERED_BISENET_NECK_MODEL_SHA256 = "468e13ca13a9b43cc0881a9f99083a430e9c0a38abd935431d1c28ee94b26567"
 
 
 def sha256_file(path: Path) -> str:
@@ -814,8 +815,12 @@ def evaluate_manifest(
             if producer.get(key) is not expected:
                 raise ValueError(f"producer_contract_invalid:{key}")
         dataset_id = str(manifest["dataset_id"])
-        if not isinstance(manifest["route_model_identity"], dict) or not manifest["route_model_identity"].get("model_id"):
+        route_model_identity = manifest["route_model_identity"]
+        if not isinstance(route_model_identity, dict) or not route_model_identity.get("model_id"):
             raise ValueError("route_model_identity_invalid")
+        model_sha256 = str(route_model_identity.get("model_sha256", "")).lower()
+        if len(model_sha256) != 64 or any(char not in "0123456789abcdef" for char in model_sha256):
+            raise ValueError("route_model_identity_model_sha256_invalid")
         if not isinstance(manifest["route_configuration_sha256"], str) or len(manifest["route_configuration_sha256"]) != 64:
             raise ValueError("route_configuration_sha256_invalid")
         dataset = None
@@ -855,6 +860,64 @@ def evaluate_manifest(
         samples = manifest.get("samples")
         if not isinstance(samples, list) or not samples:
             raise ValueError("samples_must_be_non_empty_list")
+        evaluated_classes = {
+            str(class_name)
+            for sample in samples
+            if isinstance(sample, dict)
+            for class_name in sample.get("classes", [])
+        }
+        neck_novelty_audit = {
+            "neck_evaluated": "neck" in evaluated_classes,
+            "registered_bisenet_sha256": REGISTERED_BISENET_NECK_MODEL_SHA256,
+            "candidate_model_sha256": model_sha256,
+            "candidate_model_distinct": model_sha256 != REGISTERED_BISENET_NECK_MODEL_SHA256,
+            "fixed_reconstruction_authority_valid": False,
+            "result": "not_applicable",
+        }
+        evidence["neck_candidate_novelty_audit"] = neck_novelty_audit
+        if "neck" in evaluated_classes:
+            if model_sha256 != REGISTERED_BISENET_NECK_MODEL_SHA256:
+                neck_novelty_audit["result"] = "distinct_model_route"
+            else:
+                authority = manifest.get("neck_candidate_authority")
+                implementation_path_value = authority.get("implementation_path") if isinstance(authority, dict) else None
+                implementation_path = (
+                    to_abs_path(project_root, implementation_path_value)
+                    if isinstance(implementation_path_value, str) and implementation_path_value.strip()
+                    else None
+                )
+                declared_implementation_sha256 = (
+                    str(authority.get("implementation_sha256", "")).lower()
+                    if isinstance(authority, dict)
+                    else ""
+                )
+                observed_implementation_sha256 = (
+                    sha256_file(implementation_path)
+                    if implementation_path is not None and implementation_path.is_file()
+                    else None
+                )
+                authority_valid = (
+                    isinstance(authority, dict)
+                    and authority.get("kind") == "fixed_non_gold_reconstruction"
+                    and isinstance(authority.get("authority_id"), str)
+                    and bool(authority["authority_id"].strip())
+                    and implementation_path is not None
+                    and implementation_path.is_file()
+                    and len(declared_implementation_sha256) == 64
+                    and all(char in "0123456789abcdef" for char in declared_implementation_sha256)
+                    and observed_implementation_sha256 == declared_implementation_sha256
+                    and authority.get("gold_derived") is False
+                )
+                neck_novelty_audit["fixed_reconstruction_authority_valid"] = authority_valid
+                neck_novelty_audit["authority_id"] = authority.get("authority_id") if isinstance(authority, dict) else None
+                neck_novelty_audit["implementation_path"] = str(implementation_path) if implementation_path else None
+                neck_novelty_audit["declared_implementation_sha256"] = declared_implementation_sha256 or None
+                neck_novelty_audit["observed_implementation_sha256"] = observed_implementation_sha256
+                neck_novelty_audit["result"] = (
+                    "fixed_non_gold_reconstruction" if authority_valid else "blocked_registered_route_reuse"
+                )
+                if not authority_valid:
+                    raise ValueError("neck_candidate_not_distinct_from_registered_route")
         boundary_tolerance = int(manifest.get("boundary_tolerance_pixels", 1))
         if boundary_tolerance < 0 or boundary_tolerance > 10:
             raise ValueError("boundary_tolerance_out_of_range")
