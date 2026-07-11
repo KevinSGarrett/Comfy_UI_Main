@@ -332,12 +332,12 @@
                   {
                       "order":  7,
                       "lane_id":  "sdxl_realvisxl_controlnet_openpose_lane",
-                      "role":  "seventh_sdxl_realvisxl_controlnet_openpose_first_local_smoke_pass_with_notes_pending_target_runtime_and_multisample_certification",
+                      "role":  "seventh_sdxl_realvisxl_controlnet_openpose_local_tablehands_and_fullbody_pose_variety_pass_with_notes_pending_target_runtime_and_final_certification",
                       "workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_openpose_lane/workflow.api.json",
                       "requirements_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_openpose_lane/runtime_requirements.json",
-                      "status":  "local_openpose_tablehands_multisample_pass_with_notes_pending_target_runtime_and_final_hand_certification",
-                      "required_next_runtime_gate":  "optional_target_runtime_proof_or_stricter_hand_anatomy_certification_when_intentionally_selected",
-                      "local_pre_ec2_status":  "new_openpose_tabletop_hands_control_source_prepared_v4_passed_and_v5_two_seed_robustness_passed_with_notes",
+                      "status":  "local_openpose_tablehands_multisample_plus_fullbody_walking_pose_variety_pass_with_notes_pending_target_runtime_and_final_certification",
+                      "required_next_runtime_gate":  "optional_target_runtime_proof_or_additional_pose_robustness_only_when_intentionally_selected",
+                      "local_pre_ec2_status":  "tabletop_hands_v4_v5_robustness_plus_true_fullbody_walking_v6_single_sample_passed_with_notes",
                       "promotion_rule":  "Do not promote to final OpenPose certification from local multisample alone. Target-runtime object_info/path/hash/input proof, bounded target-runtime generation, pullback, technical QA, and strict final hand-anatomy QA remain separate if selected.",
                       "source_evidence":  [
                                               "Plan/10_REGISTRIES/wave11_control_map_type_registry.json",
@@ -345,6 +345,9 @@
                                               "Plan/10_REGISTRIES/wave11_controlnet_model_router_rules.json"
                                           ],
                       "local_pre_ec2_evidence":  [
+                                                     "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_LOCAL_OPENPOSE_V6_FULL_BODY_WALKING_VISUAL_QA_20260711T034500-0500.json",
+                                                     "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_OPENPOSE_V6_FULL_BODY_WALKING_RUNTIME_20260711T034000-0500.json",
+                                                     "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_full_body_walking_w70_v1/PREPARATION_MANIFEST.json",
                                                      "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_OBJECT_INFO_CONTROL_PREPROCESSORS_AFTER_AUX_INSTALL_20260707T052500-0500.json",
                                                      "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CONTROL_PREPROCESSOR_MAPS_RETRY_EXECUTE_20260707T053300-0500.json",
                                                      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CONTROL_PREPROCESSOR_MAPS_VISUAL_QA_20260707T053800-0500.json",

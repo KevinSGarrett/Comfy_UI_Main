@@ -6357,3 +6357,8 @@ Continue the selected-inpaint target-runtime proof from `C:\Comfy_UI_Main`. S3 t
 Continue the full autonomous ComfyUI project from authoritative `C:\Comfy_UI_Main`. The RealVisXL SDXL Depth ControlNet lane is now target-runtime certified for one bounded head-and-shoulders portrait profile with passing static, runtime, pullback, technical, and visual evidence. Preserve its no-rerun boundary and keep EC2 stopped unless a different genuinely open runtime proof requires it.
 
 This does not certify depth behavior for hands, full body, contact, or broader scenes and does not clear any manual gold-mask, Wave70, Wave71+, Jira, or full-project certification gate. Select the next concrete non-mask implementation/runtime task from current local state without using stale legacy or EC2 planning state.
+## Active Runtime Posture - OpenPose Full-Body Walking Sample Passed - 2026-07-11T03:45:00-05:00
+
+Continue from authoritative `C:\Comfy_UI_Main`. The OpenPose lane now has its prior tabletop-hands multisample evidence plus one new true full-body walking sample derived from an original image with no gold-mask consumption. Runtime evidence and strict QA record a clean local generation, all 18 common body landmarks, mean/max normalized landmark errors `0.00968`/`0.02268`, preserved crossed-leg topology, coherent full-subject framing, and no pose-map leakage.
+
+Do not recreate the V4/V5 tabletop samples or V6 walking seed. The V6 result expands local pose variety only; it does not certify body masks, detailed feet, target runtime, the full lane, Wave70 hard gates, or Wave71+. Keep EC2/S3 work staged until authentication is restored and continue another concrete local non-mask task.
