@@ -1,3 +1,9 @@
+## Active Runtime Posture - Facial Route Repair, Existing Evaluator Reused - 2026-07-11T03:25:00-05:00
+
+Continue from authoritative `C:\Comfy_UI_Main`. The runtime queue now correctly preserves completed low-risk, Canny, Depth, Lineart, and bounded Inpaint proof; Base remains scope-blocked; OpenPose, Normal, and RealESRGAN remain staged without duplicate cloud work. The facial benchmark evaluator stack is also already implemented and validated, so do not create a parallel evaluator.
+
+Advance one local held-out facial semantic route repair, beginning with upper lip because it is nearest the current gate. Keep gold labels evaluator-only, preserve LaPa splits, stop after one candidate/benchmark/gate result, and retain body-mask, promotion, Wave70 hard-gate, and Wave71+ boundaries.
+
 ## Active Runtime Posture - Canny Certified, Base Scope-Blocked, Inpaint Audit Next - 2026-07-11T03:00:00-05:00
 
 Continue from authoritative `C:\Comfy_UI_Main`. Canny is bounded-certified; Base remains correctly blocked because its generic runtime proof does not match its current contact candidates. Normal, OpenPose, and RealESRGAN retain their recorded capacity-limited staging states. EC2 is stopped.
@@ -6327,13 +6333,3 @@ Continue the selected-inpaint target-runtime proof from `C:\Comfy_UI_Main`. S3 t
 Continue the full autonomous ComfyUI project from authoritative `C:\Comfy_UI_Main`. The RealVisXL SDXL Depth ControlNet lane is now target-runtime certified for one bounded head-and-shoulders portrait profile with passing static, runtime, pullback, technical, and visual evidence. Preserve its no-rerun boundary and keep EC2 stopped unless a different genuinely open runtime proof requires it.
 
 This does not certify depth behavior for hands, full body, contact, or broader scenes and does not clear any manual gold-mask, Wave70, Wave71+, Jira, or full-project certification gate. Select the next concrete non-mask implementation/runtime task from current local state without using stale legacy or EC2 planning state.
-## Active Runtime Posture - Inpaint Bounded Smoke Certified, Broader Scope Deferred - 2026-07-11T03:15:00-05:00
-
-Continue from authoritative `C:\Comfy_UI_Main`. Inpaint no-mouth v4 has one target-runtime smoke certificate with notes, not full-lane certification. The exact run must not be repeated; broader or changed scopes require new lane-matched proof. Base remains scope-blocked, Canny remains bounded-certified, and Normal/OpenPose/RealESRGAN retain their capacity-limited staged states.
-
-Do not treat the inpaint diagnostic mask as gold truth or use it to clear body/hand/contact, mask promotion, Wave70 hard gates, or Wave71+. Continue concrete non-mask runtime/orchestration progress without bookkeeping loops.
-## Active Runtime Posture - Completed Proofs Reconciled, Facial Benchmark Implementation Next - 2026-07-11T03:20:00-05:00
-
-Continue from authoritative `C:\Comfy_UI_Main`. Low-risk fallback, Canny, Depth, Lineart, and bounded Inpaint proof now have aligned completion states; Base remains correctly scope-blocked; OpenPose, Normal, and RealESRGAN remain staged pending available AWS capacity/authentication. Do not rerun completed proof or duplicate existing EC2/S3 artifacts.
-
-Advance the local facial/neck/hair benchmark evaluator against the registered CelebAMask-HQ and LaPa gold datasets. Gold labels remain evaluator-only, body gold masks remain unavailable, and all mask-promotion/Wave71+ boundaries stay closed.
