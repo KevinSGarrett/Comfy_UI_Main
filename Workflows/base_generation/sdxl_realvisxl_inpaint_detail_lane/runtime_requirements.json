@@ -69,15 +69,16 @@
   "runtime_output_required": true,
   "qa_report_required": true,
   "promotion_allowed_without_evidence": false,
-  "current_status": "local_nomouth_v4_mask_preview_handoff_runtime_visual_qa_and_readiness_pass_with_notes_pending_target_runtime",
-  "known_blockers": [
+  "current_status": "target_runtime_inpaint_nomouth_v4_single_sample_smoke_certified_with_notes_full_lane_not_certified",
+  "known_limits": [
     "Full face VAEEncodeForInpaint v1/v2 local outputs failed strict visual QA.",
     "Local micro-mask SetLatentNoiseMask v3 passed strict whole-image visual QA with notes.",
     "No-mouth v4 local retest reduced the v3 lip saturation note while preserving identity.",
     "No-mouth v4 two-seed local robustness passed strict whole-image QA with notes.",
     "V5 texture-preserve local retest safely preserved identity but did not materially improve the remaining slight smooth-skin note.",
     "Local object_info, model hash, source input hash, and mask input hash proof passed for the no-mouth v4 identity-preserving inpaint lane.",
-    "Requires target-runtime object_info/path/hash/input proof, output, pullback, technical image QA, and whole-image visual QA before promotion."
+    "The July 10 target-runtime chain passed for one exact sample; broader robustness and material detail improvement remain unproven.",
+    "The runtime diagnostic mask is not trusted gold truth and cannot support mask promotion, body/hand/contact authority, or Wave71 activation."
   ],
   "repair_notes": [
     "Replaced Wave04 incompatible flux1-dev-fp8.safetensors checkpoint reference with RealVisXL.",
@@ -108,6 +109,12 @@
     "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_MASK_PREVIEW_EXECUTE_20260707T045100-0500.json",
     "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_MASK_PREVIEW_VISUAL_QA_20260707T045800-0500.json",
     "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_nomouth_v4_mask_preview_w69_20260707T045056-0500/OUTPUT_HANDOFF_MANIFEST.json",
-    "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W69_INPAINT_DETAIL_NOMOUTH_V4_OUTPUT_HANDOFF_20260707T050500-0500.json"
+    "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W69_INPAINT_DETAIL_NOMOUTH_V4_OUTPUT_HANDOFF_20260707T050500-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_EC2_LANE_STATIC_PROOF_SELECTED_INPAINT_MARKED_WINDOW_20260710T215000-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_SMOKE_SELECTED_INPAINT_20260710T220500-0500.json",
+    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_INPAINT_PULLBACK_RECOVERY_20260710T212500-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_SELECTED_INPAINT_TARGET_RUNTIME_TECHNICAL_QA_20260710T222500-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_SELECTED_INPAINT_TARGET_RUNTIME_VISUAL_QA_20260710T212500-0500.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W66_INPAINT_BOUNDED_TARGET_RUNTIME_SMOKE_CERTIFICATE_20260711T031500-0500.json"
   ]
 }

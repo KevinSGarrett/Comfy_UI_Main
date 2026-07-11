@@ -1,0 +1,80 @@
+{
+  "evidence_id": "W66-INPAINT-BOUNDED-TARGET-RUNTIME-SMOKE-CERTIFICATE-20260711T031500-0500",
+  "timestamp": "2026-07-11T03:15:00-05:00",
+  "task_tracker_id": "WO-W66-SDXL_REALVISXL_INPAINT_DETAIL-BOUNDED-SMOKE-CERTIFICATE",
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "result": "bounded_target_runtime_smoke_certified_with_notes",
+  "final_decision": "pass_bounded_smoke_scope_only",
+  "closes_prior_runtime_blockers": true,
+  "closes_full_lane_work_order": false,
+  "certified_scope": "Single selected-inpaint target-runtime smoke for the RealVisXL no-mouth v4 micro facial-detail workflow and exact source/mask inputs.",
+  "implementation_summary": "Reconciled the July 10 static, runtime, pullback, technical, and visual evidence with the stale July 9 blocker packet. No generation was rerun. Codex reinspected the source, diagnostic mask preview, and pulled-back output before issuing this bounded certificate.",
+  "tests_performed": [
+    {
+      "name": "target_runtime_static_proof",
+      "result": "pass",
+      "evidence": "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W66_EC2_LANE_STATIC_PROOF_SELECTED_INPAINT_MARKED_WINDOW_20260710T215000-0500.json"
+    },
+    {
+      "name": "target_runtime_workflow_smoke",
+      "result": "pass",
+      "evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_SMOKE_SELECTED_INPAINT_20260710T220500-0500.json"
+    },
+    {
+      "name": "artifact_pullback_hash_verification",
+      "result": "pass_without_regeneration",
+      "evidence": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_SELECTED_INPAINT_PULLBACK_RECOVERY_20260710T212500-0500.json"
+    },
+    {
+      "name": "technical_image_qa",
+      "result": "pass_for_technical_integrity_pending_visual_at_record_time",
+      "evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_SELECTED_INPAINT_TARGET_RUNTIME_TECHNICAL_QA_20260710T222500-0500.json"
+    },
+    {
+      "name": "strict_whole_image_visual_qa",
+      "result": "pass_target_runtime_smoke_with_notes",
+      "evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_SELECTED_INPAINT_TARGET_RUNTIME_VISUAL_QA_20260710T212500-0500.json"
+    },
+    {
+      "name": "independent_worker_contradiction_audit",
+      "result": "pass_bounded_certificate_supported_full_route_not_supported",
+      "evidence": "runtime_artifacts/agent_handoffs/cursor/20260711T024112-0500_inpaint_bounded_final_certification_audit_narrow_retry/handoff_record.json"
+    }
+  ],
+  "artifact_hashes": {
+    "output_png_sha256": "85e974f84e1d77ea41f2cc6a2585d02c4d4ed84310e5ff6161f3e276d5b2f4cb",
+    "mask_preview_png_sha256": "450e37fe51cf352a3702b31d64564b04a024ab8ec99f860b743ae2c607bc4cb9",
+    "source_png_sha256": "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523"
+  },
+  "codex_visual_judgment": {
+    "result": "pass_for_bounded_runtime_smoke_with_notes",
+    "identity_preserved": true,
+    "gross_artifact_detected": false,
+    "material_detail_improvement_demonstrated": false,
+    "observation": "The output is effectively unchanged from the source at normal inspection; the run proves bounded execution and preservation, not material enhancement."
+  },
+  "retained_limits": [
+    "Only one target-runtime sample is certified.",
+    "Slight smoothness in masked skin remains a visual note.",
+    "The diagnostic facial mask is not promoted or treated as gold truth.",
+    "Local July 7 variants provide iteration context but do not broaden this target-runtime certificate."
+  ],
+  "explicit_exclusions": [
+    "full_lane_or_portfolio_certification",
+    "full_route_quality_or_robustness_claim",
+    "body_hand_contact_or_whole_body_authority",
+    "mask_promotion_or_manual_gold_substitution",
+    "wave71_or_later_activation",
+    "changed_workflow_model_source_mask_prompt_or_scene_without_target_runtime_reproof"
+  ],
+  "new_ec2_started": false,
+  "new_generation_executed": false,
+  "bounded_target_runtime_smoke_certificate": true,
+  "final_lane_certification": false,
+  "full_route_certification": false,
+  "mask_promotion_allowed": false,
+  "wave71_activation_allowed": false,
+  "certifier": "Codex Desktop autonomous release manager",
+  "itemized_list_record": "Plan/Items/Reports/W66_INPAINT_BOUNDED_TARGET_RUNTIME_SMOKE_CERTIFICATE_ITEMIZED_LIST_20260711T031500-0500.json",
+  "next_action": "Do not rerun this exact smoke. Revisit broader certification only after materially scoped robustness and any required trusted-mask evidence exist."
+}

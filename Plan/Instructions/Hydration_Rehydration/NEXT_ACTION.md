@@ -8394,3 +8394,8 @@ Next exact action: checkpoint static proof and runtime-window evidence, rebuild/
 `sdxl_realvisxl_controlnet_depth_lane` now has a passing clean-head package/deploy chain, exact S3 asset identity, EC2 object-info and model/input hash proof, one successful bounded 768x768 portrait generation, 5/5 hash-verified pullback, technical QA, visual QA, and final lane certification with notes. EC2 `i-0560bf8d143f93bb1` is stopped. Do not rerun this unchanged depth portrait proof.
 
 The certification is intentionally narrow: hands, full-body anatomy, contact ownership, broader scenes, body masks, Wave70 authority, and Wave71+ remain unproven or blocked. Continue with the next genuinely open non-mask runtime/orchestration lane after the clean checkpoint; keep Flux1 blocked until explicit license acceptance and do not reopen completed Canny, selected-inpaint, or depth proof.
+## Immediate Next Action - Inpaint Bounded Runtime Smoke Certified - 2026-07-11T03:15:00-05:00
+
+`sdxl_realvisxl_inpaint_detail_lane` now has a strictly bounded single-sample target-runtime smoke certificate from the existing July 10 static, execution, hash-verified pullback, technical, and visual chain. Codex reinspected the output, source, and mask preview: identity is preserved and no gross artifact is present, but the output is effectively unchanged from the source, so no material detail-improvement or broad robustness claim is allowed.
+
+Do not rerun this exact smoke. Keep full-lane certification, mask promotion, body/hand/contact authority, Wave71+, and changed variants fail-closed. Continue with the next concrete non-mask lane audit or prepared runtime task while AWS capacity/authentication state is handled separately.

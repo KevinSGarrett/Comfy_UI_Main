@@ -758,3 +758,9 @@ Do not publish or execute from `runtime_artifacts/run_packages/upscale_polish_w6
 ## 2026-07-10T22:20:00-05:00 - Reject Fixed Upper-Lip Dilation
 
 Retain `u_lip_dilate_exclusive_v1` only as a tested negative fixture. Controlled and held-out IoU both decreased despite better recall, visual QA showed overexpansion, no non-target class changed, and no model route was rerun. Do not tune or promote this rule.
+## 2026-07-11T03:15:00-05:00 - Inpaint target-runtime evidence accepted only as a bounded smoke certificate
+
+- Accepted the July 10 selected-inpaint static, execution, pullback, technical, and visual evidence as proof of one exact no-mouth v4 micro facial-detail target-runtime smoke.
+- Retained the visual note that the output is effectively unchanged from the source at normal inspection; this proves execution and preservation, not material detail improvement.
+- Refused full-lane, full-route, trusted-mask, body/hand/contact, mask-promotion, and Wave71 claims.
+- Superseded the July 9 missing-runtime/pullback blocker only within the bounded single-sample scope; no generation or EC2 start was repeated.

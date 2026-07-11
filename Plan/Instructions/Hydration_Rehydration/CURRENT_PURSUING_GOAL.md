@@ -6327,3 +6327,8 @@ Continue the selected-inpaint target-runtime proof from `C:\Comfy_UI_Main`. S3 t
 Continue the full autonomous ComfyUI project from authoritative `C:\Comfy_UI_Main`. The RealVisXL SDXL Depth ControlNet lane is now target-runtime certified for one bounded head-and-shoulders portrait profile with passing static, runtime, pullback, technical, and visual evidence. Preserve its no-rerun boundary and keep EC2 stopped unless a different genuinely open runtime proof requires it.
 
 This does not certify depth behavior for hands, full body, contact, or broader scenes and does not clear any manual gold-mask, Wave70, Wave71+, Jira, or full-project certification gate. Select the next concrete non-mask implementation/runtime task from current local state without using stale legacy or EC2 planning state.
+## Active Runtime Posture - Inpaint Bounded Smoke Certified, Broader Scope Deferred - 2026-07-11T03:15:00-05:00
+
+Continue from authoritative `C:\Comfy_UI_Main`. Inpaint no-mouth v4 has one target-runtime smoke certificate with notes, not full-lane certification. The exact run must not be repeated; broader or changed scopes require new lane-matched proof. Base remains scope-blocked, Canny remains bounded-certified, and Normal/OpenPose/RealESRGAN retain their capacity-limited staged states.
+
+Do not treat the inpaint diagnostic mask as gold truth or use it to clear body/hand/contact, mask promotion, Wave70 hard gates, or Wave71+. Continue concrete non-mask runtime/orchestration progress without bookkeeping loops.
