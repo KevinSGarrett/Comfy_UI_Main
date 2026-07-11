@@ -22,6 +22,8 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+$startFailureClassifier = Join-Path $PSScriptRoot "EC2StartFailureClassification.ps1"
+. $startFailureClassifier
 
 function Write-JsonNoBom {
   param(
@@ -88,6 +90,8 @@ $record = [ordered]@{
   command_id = $null
   command_status = "not_started"
   start_state = $null
+  start_exit_code = $null
+  start_output_tail = $null
   final_state = $null
   remote_result = $null
   generation_executed = $false
@@ -187,7 +191,21 @@ PY
 try {
   $record.start_state = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
   if ($record.start_state -ne "running") {
-    aws ec2 start-instances --region $Region --instance-ids $InstanceId --output json | Out-Null
+    $previousErrorActionPreference = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    try {
+      $startOutput = @(aws ec2 start-instances --region $Region --instance-ids $InstanceId --output json 2>&1)
+      $record.start_exit_code = $LASTEXITCODE
+    } finally {
+      $ErrorActionPreference = $previousErrorActionPreference
+    }
+    $startText = (($startOutput | ForEach-Object { [string]$_ }) -join [Environment]::NewLine).Trim()
+    $record.start_output_tail = $(if ($startText.Length -gt 2000) { $startText.Substring($startText.Length - 2000) } else { $startText })
+    if ($record.start_exit_code -ne 0) {
+      $record.failure_category = Get-EC2StartFailureCategory -ExitCode $record.start_exit_code -OutputText $startText
+      $record.result = "input_asset_install_start_failed"
+      throw "EC2 start-instances failed with exit code $($record.start_exit_code). $startText"
+    }
     $record.ec2_started = $true
     $null = Wait-InstanceState -DesiredState "running" -MaxAttempts 120 -SleepSeconds 5
   }
@@ -229,9 +247,14 @@ try {
   $record.errors += $_.Exception.Message
 } finally {
   try {
-    aws ec2 stop-instances --region $Region --instance-ids $InstanceId --output json | Out-Null
-    $null = Wait-InstanceState -DesiredState "stopped" -MaxAttempts 120 -SleepSeconds 5
-    $record.final_state = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
+    $shouldStopInstance = ($record.ec2_started -or $record.start_state -eq "running" -or $record.command_status -ne "not_started")
+    if ($shouldStopInstance) {
+      aws ec2 stop-instances --region $Region --instance-ids $InstanceId --output json | Out-Null
+      $null = Wait-InstanceState -DesiredState "stopped" -MaxAttempts 120 -SleepSeconds 5
+      $record.final_state = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
+    } else {
+      $record.final_state = $record.start_state
+    }
   } catch {
     $record.errors += "Stop/final-state verification failed: $($_.Exception.Message)"
   }
@@ -242,8 +265,12 @@ if ($record.remote_result -and [string]$record.remote_result.result -eq "input_a
   $record.failure_category = $null
   $record.next_action = "Run EC2 workflow smoke that uses LoadImage."
 } else {
-  $record.result = "input_asset_install_failed"
-  $record.failure_category = "input_asset_install_failed"
+  if ($record.result -ne "input_asset_install_start_failed") {
+    $record.result = "input_asset_install_failed"
+  }
+  if ([string]::IsNullOrWhiteSpace([string]$record.failure_category)) {
+    $record.failure_category = "input_asset_install_failed"
+  }
   if ($record.remote_result -and $record.remote_result.errors) {
     $record.errors += @($record.remote_result.errors)
   }

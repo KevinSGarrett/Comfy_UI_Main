@@ -1,3 +1,9 @@
+## Immediate Next Action - All EC2 Start Call Sites Fail Fast - 2026-07-11T04:10:00-05:00
+
+All five known direct EC2 start call sites now preserve native failure output, classify rejected starts, and avoid false start/polling behavior. Static proof, workflow smoke, model install, input install, and manual GPU server start share the same classifier. The two installers also skip stop calls when the instance never left its original stopped state. Six classifier cases, seven workflow contracts, eighteen sibling contracts, two installer dry runs, and all 51 operations-harness parser checks pass locally.
+
+No AWS call or generation occurred. The full operations harness retains only its known unrelated selected-inpaint refresh mismatch. Continue another concrete local non-mask implementation task while authentication is expired; in a future live window reuse staged assets and these hardened paths without recreating S3/EC2 work.
+
 ## Immediate Next Action - Workflow-Smoke Start Failures Hardened - 2026-07-11T03:50:00-05:00
 
 `Invoke-EC2WorkflowSmokeRun.ps1` now fails fast when EC2 rejects `start-instances`, preserves native output/exit code, classifies capacity/auth/throttle/generic failures, skips the running-state poll, and avoids an unnecessary stop call when the instance never started. The static-proof helper shares the classifier. Six classifier cases, seven workflow source contracts, five focused parser checks, and all 51 operations-script parser checks pass locally; no AWS call or generation occurred.

@@ -11,6 +11,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 . (Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Load-ComfyEnv.ps1") -ProjectRoot $ProjectRoot -Quiet
+. (Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\EC2StartFailureClassification.ps1")
 
 $identityScript = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Test-AwsComfyGpuIdentity.ps1"
 & $identityScript -ProjectRoot $ProjectRoot
@@ -34,7 +35,20 @@ if (-not $Execute) {
   exit 0
 }
 
-aws ec2 start-instances --instance-ids $InstanceId
+$previousErrorActionPreference = $ErrorActionPreference
+$ErrorActionPreference = "Continue"
+try {
+  $startOutput = @(aws ec2 start-instances --instance-ids $InstanceId 2>&1)
+  $startExitCode = $LASTEXITCODE
+} finally {
+  $ErrorActionPreference = $previousErrorActionPreference
+}
+if ($startExitCode -ne 0) {
+  $startText = (($startOutput | ForEach-Object { [string]$_ }) -join [Environment]::NewLine).Trim()
+  $failureCategory = Get-EC2StartFailureCategory -ExitCode $startExitCode -OutputText $startText
+  Write-Error "EC2 start failed [$failureCategory] exit=$startExitCode. $startText" -ErrorAction Continue
+  exit 2
+}
 aws ec2 wait instance-running --instance-ids $InstanceId
 aws ec2 wait instance-status-ok --instance-ids $InstanceId
 $newState = aws ec2 describe-instances --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text

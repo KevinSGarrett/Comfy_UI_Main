@@ -1,3 +1,9 @@
+## Active Runtime Posture - EC2 Start Surface Is Consistently Fail-Fast - 2026-07-11T04:10:00-05:00
+
+Continue from authoritative `C:\Comfy_UI_Main`. Every known direct EC2 start path now uses shared capacity/auth/throttle/generic classification and preserves truthful state evidence. This closes the local orchestration consistency gap but does not provide live target-runtime proof or current AWS state.
+
+Keep OpenPose, Normal, and RealESRGAN staged until authentication and capacity are available. Continue concrete local implementation without duplicating completed lanes, S3 objects, EC2 assets, mask work, Wave70 hard gates, or Wave71+ activation.
+
 ## Active Runtime Posture - EC2 Start Failure Evidence Is Fail-Fast - 2026-07-11T03:50:00-05:00
 
 Continue from authoritative `C:\Comfy_UI_Main`. Both EC2 static-proof and workflow-smoke coordinators now classify rejected starts consistently, and workflow smoke no longer burns a polling window or issues an unnecessary stop after a failed start. This is locally certified orchestration hardening, not target-runtime proof.

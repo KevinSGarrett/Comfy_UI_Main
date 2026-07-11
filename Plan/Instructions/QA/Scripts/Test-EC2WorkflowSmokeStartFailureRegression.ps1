@@ -15,8 +15,14 @@ $ErrorActionPreference = "Stop"
 $ProjectRoot = [System.IO.Path]::GetFullPath($ProjectRoot)
 $classifier = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\EC2StartFailureClassification.ps1"
 $workflowSmoke = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1"
+$modelInstaller = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Install-EC2ModelFromS3.ps1"
+$inputInstaller = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Install-EC2InputAssetFromS3.ps1"
+$gpuStarter = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Start-ComfyUIGpuServer.ps1"
 if (!(Test-Path -LiteralPath $classifier -PathType Leaf)) { throw "Classifier missing: $classifier" }
 if (!(Test-Path -LiteralPath $workflowSmoke -PathType Leaf)) { throw "Workflow smoke helper missing: $workflowSmoke" }
+foreach ($path in @($modelInstaller, $inputInstaller, $gpuStarter)) {
+  if (!(Test-Path -LiteralPath $path -PathType Leaf)) { throw "EC2 start call site missing: $path" }
+}
 . $classifier
 
 $cases = @(
@@ -55,7 +61,40 @@ foreach ($check in $sourceChecks) {
   $check.result = $(if ($check.observed -eq $check.required) { "pass" } else { "fail" })
 }
 
-$failures = @($caseResults | Where-Object result -ne "pass") + @($sourceChecks | Where-Object result -ne "pass")
+$siblingSourceChecks = @()
+foreach ($spec in @(
+  [ordered]@{ script = "Install-EC2ModelFromS3.ps1"; path = $modelInstaller; exit_field = '$record.start_exit_code = $LASTEXITCODE'; classifier_call = 'Get-EC2StartFailureCategory -ExitCode $record.start_exit_code'; failure_result = 'model_install_start_failed'; stop_guard = '$shouldStopInstance =' },
+  [ordered]@{ script = "Install-EC2InputAssetFromS3.ps1"; path = $inputInstaller; exit_field = '$record.start_exit_code = $LASTEXITCODE'; classifier_call = 'Get-EC2StartFailureCategory -ExitCode $record.start_exit_code'; failure_result = 'input_asset_install_start_failed'; stop_guard = '$shouldStopInstance =' },
+  [ordered]@{ script = "Start-ComfyUIGpuServer.ps1"; path = $gpuStarter; exit_field = '$startExitCode = $LASTEXITCODE'; classifier_call = 'Get-EC2StartFailureCategory -ExitCode $startExitCode'; failure_result = 'EC2 start failed [$failureCategory]'; stop_guard = 'exit 2' }
+)) {
+  $scriptSource = Get-Content -LiteralPath $spec.path -Raw
+  foreach ($literal in @(
+    '$startOutput = @(aws ec2 start-instances',
+    $spec.exit_field,
+    $spec.classifier_call,
+    $spec.failure_result,
+    $spec.stop_guard
+  )) {
+    $observed = $scriptSource.Contains($literal)
+    $siblingSourceChecks += [ordered]@{
+      script = $spec.script
+      contract = $literal
+      required = $true
+      observed = $observed
+      result = $(if ($observed) { "pass" } else { "fail" })
+    }
+  }
+  $oldDiscardPatternPresent = [regex]::IsMatch($scriptSource, 'aws ec2 start-instances[^\r\n]+\| Out-Null')
+  $siblingSourceChecks += [ordered]@{
+    script = $spec.script
+    contract = "discarded_start_output_absent"
+    required = $true
+    observed = (-not $oldDiscardPatternPresent)
+    result = $(if (-not $oldDiscardPatternPresent) { "pass" } else { "fail" })
+  }
+}
+
+$failures = @($caseResults | Where-Object result -ne "pass") + @($sourceChecks | Where-Object result -ne "pass") + @($siblingSourceChecks | Where-Object result -ne "pass")
 $stamp = Get-Date -Format "yyyyMMddTHHmmss-0500"
 if ([string]::IsNullOrWhiteSpace($OutFile)) {
   $OutFile = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Operations_Static_Validation\W66_EC2_WORKFLOW_SMOKE_START_FAILURE_REGRESSION_$stamp.json"
@@ -70,6 +109,7 @@ $record = [ordered]@{
   generation_executed = $false
   classifier_cases = $caseResults
   workflow_source_contract_checks = $sourceChecks
+  sibling_source_contract_checks = $siblingSourceChecks
   failure_count = $failures.Count
   failures = @($failures)
   next_action = $(if ($failures.Count -eq 0) { "Use the hardened workflow-smoke helper in the next intentionally gated live window." } else { "Repair failed classifier or source-contract checks before live workflow smoke." })
