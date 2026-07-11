@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-VIDEO-GIF-LOOP-EXPORT-20260711T160000-0500",
+  "timestamp": "2026-07-11T16:00:00-05:00",
+  "tracker_id": "TRK-W64-024",
+  "item_id": "ITEM-W64-024",
+  "source_citation": "Plan/04_VIDEO_GIF_SYSTEM/WAVE26_GIF_EXPORT_PLAN.md",
+  "implementation": {
+    "existing_wave26_loop_profile_registry_reused": true,
+    "existing_wave27_frame_manifest_contract_reused": true,
+    "existing_wave27_temporal_evidence_contract_reused": true,
+    "actual_gif_frame_decode_required": true,
+    "candidate_artifact_hash_and_metadata_binding": true,
+    "frame_count_dimension_duration_and_loop_parity": true,
+    "decoded_pixel_seam_metric": true,
+    "technical_seam_metric_not_visual_claim": true,
+    "runtime_and_visual_proofs_hash_bound": true,
+    "synthetic_promotion_forbidden": true,
+    "transactional_output": true
+  },
+  "implementation_artifacts": [
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/certify_wave26_gif_loop_export.py",
+      "sha256": "6836b9c492f926fe548aa5444394a10269898608c770dfb541d49bbe9b892097"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave26_gif_loop_export_evidence.schema.json",
+      "sha256": "f74968c0347e47e1dde115b9340d2272d3946147e1aab8c9ba60b3d97e94297b"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_wave26_gif_loop_export_strict.py",
+      "sha256": "814e9eb066002533e435b56b4dec07d9e888402d2635d1818c8554ef7137eff4"
+    }
+  ],
+  "offline_validation": {
+    "test_log": "Plan/Instructions/QA/Evidence/Wave64/video_gif_loop_export_test_log.json",
+    "test_log_sha256": "f4159302ee7020434bbd1161f35eec461b932ea1c8c8a811560e94fa32029295",
+    "tests_run": 12,
+    "test_failures": 0,
+    "test_errors": 0,
+    "python_compile": "pass",
+    "draft_2020_12_schema_check": "pass",
+    "technical_offline_pass": true
+  },
+  "synthetic_technical_probe": {
+    "production_evidence": false,
+    "fixture_type": "real_decoded_synthetic_gif_for_offline_technical_validation_only",
+    "manifest": "runtime_artifacts/wave64_video_gif_loop_export/synthetic_probe_20260711T155906-0500/packet/manifest.json",
+    "manifest_sha256": "438cbfa65d3290293d0b131660bb335251e8db1d26e7fb78d3702e2dd9d5cd0a",
+    "temporal_evidence": "runtime_artifacts/wave64_video_gif_loop_export/synthetic_probe_20260711T155906-0500/packet/temporal_evidence.json",
+    "temporal_evidence_sha256": "c737ce7d42ecb40e1baeddcacab98e1f0bf5bfaa28db91d752961b3b40b680d0",
+    "candidate_gif": "runtime_artifacts/wave64_video_gif_loop_export/synthetic_probe_20260711T155906-0500/candidate/synthetic_loop.gif",
+    "candidate_gif_sha256": "c04e37b34c7a2a410c0f8689f22bec479fca7b709d93844a5f312978d635e63f",
+    "certifier_evidence": "runtime_artifacts/wave64_video_gif_loop_export/synthetic_probe_20260711T155906-0500/gif_loop_export_evidence.json",
+    "certifier_evidence_sha256": "65ff1c68b3a25efa4826a39df791ae36520affa583f61648c2f541b143248299",
+    "expected_exit_code": 2,
+    "decoded_frame_count": 3,
+    "dimensions": "1x1",
+    "frame_durations_ms": [40, 40, 40],
+    "loop_count": 0,
+    "seam_metric_name": "first_last_rgba_mean_absolute_difference_normalized",
+    "seam_metric_value": 0.32352941,
+    "technical_passed": true,
+    "blocker_codes": [
+      "runtime_proof_absent",
+      "visual_playback_review_absent_or_failed"
+    ],
+    "all_runtime_visual_final_flags_false": true
+  },
+  "acceptance_gates": {
+    "loop_profile_and_source_contract_validation": true,
+    "actual_gif_decode": true,
+    "export_manifest_binding": true,
+    "loop_boundary_technical_measurement": true,
+    "production_gif_candidate_present": false,
+    "production_runtime_proof": false,
+    "loop_playback_visual_review": false,
+    "identity_and_no_popping_visual_pass": false,
+    "final_export_certification": false
+  },
+  "review": {
+    "cursor_gap_review": "runtime_artifacts/agent_handoffs/cursor/20260711T153612-0500_wave64_video_gif_loop_export_gap_review/handoff_record.json",
+    "cursor_initial_implementation": "runtime_artifacts/agent_handoffs/cursor/20260711T153725-0500_wave64_video_gif_loop_export_implementation/handoff_record.json",
+    "cursor_correction": "runtime_artifacts/agent_handoffs/cursor/20260711T154246-0500_wave64_video_gif_loop_export_correction/handoff_record.json",
+    "claude_initial_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T154632-0500_wave64_video_gif_loop_export_final_review/handoff_record.json",
+    "claude_high_findings_resolved_by_policy_blocker": 1,
+    "claude_medium_findings_remediated": 1,
+    "claude_confirmation": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T155246-0500_wave64_video_gif_loop_export_review_confirmation/handoff_record.json",
+    "remaining_remediable_high_or_medium_findings": 0
+  },
+  "runtime": {
+    "production_gif_generation_count": 0,
+    "production_runtime_proof_count": 0,
+    "production_loop_playback_review_count": 0,
+    "comfyui_started": false,
+    "generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "mask_promotion_executed": false
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Video_GIF_Production_Proof_Missing",
+      "scope": "primary_row_blocker",
+      "reason": "No genuine non-synthetic GIF candidate packet with hash-bound runtime generation proof exists; the retained synthetic GIF is technical test evidence only."
+    },
+    {
+      "classification": "Blocked_Video_GIF_Loop_Playback_Review_Missing",
+      "scope": "visual_loop_review",
+      "reason": "No genuine loop-playback review proves intentional cadence, no visible pop, identity preservation, background continuity, and contact/deformation continuity."
+    }
+  ],
+  "result": "blocked_video_gif_production_proof_missing",
+  "overall_pass": false,
+  "status_decision": "Blocked_Video_GIF_Production_Proof_Missing",
+  "strict_decision": {
+    "row_complete": false,
+    "offline_certifier_and_schema_pass": true,
+    "synthetic_technical_probe_pass": true,
+    "production_runtime_claimed": false,
+    "visual_loop_review_claimed": false,
+    "final_export_claimed": false,
+    "certification_claimed": false,
+    "wave71_activation_claimed": false
+  }
+}

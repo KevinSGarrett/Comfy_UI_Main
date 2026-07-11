@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "report_id": "ITEM-W64-024-VIDEO-GIF-LOOP-EXPORT-20260711T160000-0500",
+  "timestamp": "2026-07-11T16:00:00-05:00",
+  "item_id": "ITEM-W64-024",
+  "tracker_id": "TRK-W64-024",
+  "workstream": "video_gif_loop_export",
+  "status": "Blocked_Video_GIF_Production_Proof_Missing",
+  "row_complete": false,
+  "implementation": {
+    "actual_gif_decode_ready": true,
+    "export_metadata_and_hash_binding_ready": true,
+    "loop_profile_and_source_contract_validation_ready": true,
+    "frame_count_dimension_duration_and_loop_parity_ready": true,
+    "decoded_pixel_seam_metric_ready": true,
+    "runtime_and_visual_proof_binding_ready": true,
+    "synthetic_promotion_forbidden": true,
+    "transactional_output_ready": true
+  },
+  "validation": {
+    "unit_tests_passed": 12,
+    "unit_test_failures": 0,
+    "python_compile": "pass",
+    "schema_check": "pass",
+    "synthetic_real_decode_probe": "technical_pass_expected_exit_2",
+    "synthetic_decoded_frame_count": 3,
+    "synthetic_final_export_passed": false,
+    "claude_medium_findings_remediated": 1,
+    "remaining_remediable_high_or_medium_findings": 0
+  },
+  "acceptance_gates": {
+    "loop_boundary_check_implementation": true,
+    "export_manifest_implementation": true,
+    "production_gif_candidate": false,
+    "production_runtime_ready": false,
+    "visual_loop_playback_review": false,
+    "identity_and_no_popping_pass": false,
+    "final_export_certification": false
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Video_GIF_Production_Proof_Missing",
+      "reason": "No genuine non-synthetic GIF candidate and hash-bound runtime generation proof exists."
+    },
+    {
+      "classification": "Blocked_Video_GIF_Loop_Playback_Review_Missing",
+      "reason": "No genuine loop-playback review proves cadence, seam quality, identity, background, and contact/deformation continuity."
+    }
+  ],
+  "evidence": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/video_gif_loop_export.json",
+      "sha256": "508a0f7c8be4aaeff8b08a92aa271437b9d6c1c094b3417cb62b2a5d772350ff"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/video_gif_loop_export_test_log.json",
+      "sha256": "f4159302ee7020434bbd1161f35eec461b932ea1c8c8a811560e94fa32029295"
+    }
+  ],
+  "runtime": {
+    "production_gif_generation_count": 0,
+    "production_runtime_proof_count": 0,
+    "production_visual_review_count": 0,
+    "comfyui_started": false,
+    "aws_contacted": false,
+    "ec2_started": false
+  },
+  "next_action": "Keep row 024 blocked without production runtime, playback-review, or final-export claims. Continue TRK-W64-025 / ITEM-W64-025 by duplicate-checking the existing audio pipeline lane and selecting one bounded offline implementation gap; do not start EC2 or fabricate audio/runtime review proof."
+}

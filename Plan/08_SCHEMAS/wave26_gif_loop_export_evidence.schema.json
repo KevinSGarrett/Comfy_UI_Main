@@ -1,0 +1,831 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave26 GIF Loop Export Evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_name",
+    "evidence_version",
+    "loop_profile",
+    "synthetic_input",
+    "source_bindings",
+    "candidate_binding",
+    "parity_checks",
+    "technical_checks",
+    "runtime_proof",
+    "visual_review",
+    "decision",
+    "deterministic_export_metadata_sha256"
+  ],
+  "properties": {
+    "schema_name": {
+      "type": "string",
+      "const": "wave26_gif_loop_export_evidence"
+    },
+    "evidence_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "loop_profile": {
+      "type": "string",
+      "minLength": 1
+    },
+    "synthetic_input": {
+      "type": "boolean"
+    },
+    "source_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "manifest_path",
+        "manifest_sha256",
+        "manifest_sequence_sha256",
+        "temporal_evidence_path",
+        "temporal_evidence_sha256"
+      ],
+      "properties": {
+        "manifest_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "manifest_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "manifest_sequence_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "temporal_evidence_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "temporal_evidence_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "candidate_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_path",
+        "candidate_sha256",
+        "candidate_bytes",
+        "container_format",
+        "container_header",
+        "width",
+        "height",
+        "decoded_frame_count",
+        "frame_durations_ms",
+        "loop_count",
+        "first_frame_sha256",
+        "last_frame_sha256",
+        "decoded_rgba_frame_hashes"
+      ],
+      "properties": {
+        "candidate_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "candidate_sha256": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          ]
+        },
+        "candidate_bytes": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "integer",
+              "minimum": 1
+            }
+          ]
+        },
+        "container_format": {
+          "type": "string",
+          "const": "gif"
+        },
+        "container_header": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "enum": [
+                "GIF87a",
+                "GIF89a"
+              ]
+            }
+          ]
+        },
+        "width": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "integer",
+              "minimum": 1
+            }
+          ]
+        },
+        "height": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "integer",
+              "minimum": 1
+            }
+          ]
+        },
+        "decoded_frame_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "frame_durations_ms": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "loop_count": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "integer",
+              "minimum": 0
+            }
+          ]
+        },
+        "first_frame_sha256": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          ]
+        },
+        "last_frame_sha256": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          ]
+        },
+        "decoded_rgba_frame_hashes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "parity_checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "frame_count_match",
+        "dimensions_match",
+        "timing_match",
+        "duration_mismatch_indices",
+        "loop_count_match",
+        "expected_source_dimensions",
+        "expected_source_frame_durations_ms",
+        "expected_loop_count"
+      ],
+      "properties": {
+        "frame_count_match": {
+          "type": "boolean"
+        },
+        "dimensions_match": {
+          "type": "boolean"
+        },
+        "timing_match": {
+          "type": "boolean"
+        },
+        "duration_mismatch_indices": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "uniqueItems": true
+        },
+        "loop_count_match": {
+          "type": "boolean"
+        },
+        "expected_source_dimensions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "width",
+            "height"
+          ],
+          "properties": {
+            "width": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "height": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "expected_source_frame_durations_ms": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "expected_loop_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "technical_checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_sequence_integrity",
+        "source_hash_binding_valid",
+        "candidate_decodable_gif",
+        "declared_container_valid",
+        "seam_metric_name",
+        "seam_metric_value",
+        "seam_metric_is_technical_not_visual",
+        "seam_metric_deterministic",
+        "technical_passed"
+      ],
+      "properties": {
+        "source_sequence_integrity": {
+          "type": "boolean",
+          "const": true
+        },
+        "source_hash_binding_valid": {
+          "type": "boolean",
+          "const": true
+        },
+        "candidate_decodable_gif": {
+          "type": "boolean"
+        },
+        "declared_container_valid": {
+          "type": "boolean"
+        },
+        "seam_metric_name": {
+          "type": "string",
+          "const": "first_last_rgba_mean_absolute_difference_normalized"
+        },
+        "seam_metric_value": {
+          "type": "number",
+          "minimum": 0
+        },
+        "seam_metric_is_technical_not_visual": {
+          "type": "boolean",
+          "const": true
+        },
+        "seam_metric_deterministic": {
+          "type": "boolean",
+          "const": true
+        },
+        "technical_passed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "runtime_proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "proof_path",
+        "proof_sha256",
+        "runtime_ready",
+        "runtime_proof_present",
+        "generation_executed",
+        "production_proof",
+        "binding_valid",
+        "verified"
+      ],
+      "properties": {
+        "proof_path": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1
+            }
+          ]
+        },
+        "proof_sha256": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          ]
+        },
+        "runtime_ready": {
+          "type": "boolean"
+        },
+        "runtime_proof_present": {
+          "type": "boolean"
+        },
+        "generation_executed": {
+          "type": "boolean"
+        },
+        "production_proof": {
+          "type": "boolean"
+        },
+        "binding_valid": {
+          "type": "boolean"
+        },
+        "verified": {
+          "type": "boolean"
+        }
+      }
+    },
+    "visual_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "proof_path",
+        "proof_sha256",
+        "review_method",
+        "visual_loop_review_passed",
+        "no_visible_pop_passed",
+        "intentional_cadence_passed",
+        "identity_preservation_passed",
+        "background_continuity_passed",
+        "contact_deformation_continuity",
+        "binding_valid",
+        "verified"
+      ],
+      "properties": {
+        "proof_path": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1
+            }
+          ]
+        },
+        "proof_sha256": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          ]
+        },
+        "review_method": {
+          "type": "string",
+          "minLength": 1
+        },
+        "visual_loop_review_passed": {
+          "type": "boolean"
+        },
+        "no_visible_pop_passed": {
+          "type": "boolean"
+        },
+        "intentional_cadence_passed": {
+          "type": "boolean"
+        },
+        "identity_preservation_passed": {
+          "type": "boolean"
+        },
+        "background_continuity_passed": {
+          "type": "boolean"
+        },
+        "contact_deformation_continuity": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "string",
+              "const": "ping_pong_compatible"
+            }
+          ]
+        },
+        "binding_valid": {
+          "type": "boolean"
+        },
+        "verified": {
+          "type": "boolean"
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "blocked",
+        "blocker_codes",
+        "final_export_ready",
+        "final_export_passed",
+        "certification_ready",
+        "production_proof"
+      ],
+      "properties": {
+        "blocked": {
+          "type": "boolean"
+        },
+        "blocker_codes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "final_export_ready": {
+          "type": "boolean"
+        },
+        "final_export_passed": {
+          "type": "boolean"
+        },
+        "certification_ready": {
+          "type": "boolean"
+        },
+        "production_proof": {
+          "type": "boolean"
+        }
+      }
+    },
+    "deterministic_export_metadata_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "synthetic_input": {
+            "const": true
+          }
+        },
+        "required": [
+          "synthetic_input"
+        ]
+      },
+      "then": {
+        "properties": {
+          "runtime_proof": {
+            "properties": {
+              "proof_path": {
+                "type": "null"
+              },
+              "proof_sha256": {
+                "type": "null"
+              },
+              "runtime_ready": {
+                "const": false
+              },
+              "runtime_proof_present": {
+                "const": false
+              },
+              "generation_executed": {
+                "const": false
+              },
+              "production_proof": {
+                "const": false
+              },
+              "binding_valid": {
+                "const": false
+              },
+              "verified": {
+                "const": false
+              }
+            }
+          },
+          "visual_review": {
+            "properties": {
+              "proof_path": {
+                "type": "null"
+              },
+              "proof_sha256": {
+                "type": "null"
+              },
+              "review_method": {
+                "const": "unverified"
+              },
+              "visual_loop_review_passed": {
+                "const": false
+              },
+              "no_visible_pop_passed": {
+                "const": false
+              },
+              "intentional_cadence_passed": {
+                "const": false
+              },
+              "identity_preservation_passed": {
+                "const": false
+              },
+              "background_continuity_passed": {
+                "const": false
+              },
+              "contact_deformation_continuity": {
+                "const": false
+              },
+              "binding_valid": {
+                "const": false
+              },
+              "verified": {
+                "const": false
+              }
+            }
+          },
+          "decision": {
+            "properties": {
+              "final_export_ready": {
+                "const": false
+              },
+              "final_export_passed": {
+                "const": false
+              },
+              "certification_ready": {
+                "const": false
+              },
+              "production_proof": {
+                "const": false
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "runtime_proof": {
+            "properties": {
+              "verified": {
+                "const": false
+              }
+            },
+            "required": [
+              "verified"
+            ]
+          }
+        },
+        "required": [
+          "runtime_proof"
+        ]
+      },
+      "then": {
+        "properties": {
+          "runtime_proof": {
+            "properties": {
+              "runtime_ready": {
+                "const": false
+              },
+              "runtime_proof_present": {
+                "const": false
+              },
+              "generation_executed": {
+                "const": false
+              },
+              "production_proof": {
+                "const": false
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "visual_review": {
+            "properties": {
+              "verified": {
+                "const": false
+              }
+            },
+            "required": [
+              "verified"
+            ]
+          }
+        },
+        "required": [
+          "visual_review"
+        ]
+      },
+      "then": {
+        "properties": {
+          "visual_review": {
+            "properties": {
+              "visual_loop_review_passed": {
+                "const": false
+              },
+              "no_visible_pop_passed": {
+                "const": false
+              },
+              "intentional_cadence_passed": {
+                "const": false
+              },
+              "identity_preservation_passed": {
+                "const": false
+              },
+              "background_continuity_passed": {
+                "const": false
+              },
+              "contact_deformation_continuity": {
+                "const": false
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "properties": {
+              "final_export_passed": {
+                "const": true
+              }
+            },
+            "required": [
+              "final_export_passed"
+            ]
+          }
+        },
+        "required": [
+          "decision"
+        ]
+      },
+      "then": {
+        "properties": {
+          "synthetic_input": {
+            "const": false
+          },
+          "technical_checks": {
+            "properties": {
+              "technical_passed": {
+                "const": true
+              },
+              "candidate_decodable_gif": {
+                "const": true
+              },
+              "declared_container_valid": {
+                "const": true
+              }
+            }
+          },
+          "runtime_proof": {
+            "properties": {
+              "runtime_ready": {
+                "const": true
+              },
+              "runtime_proof_present": {
+                "const": true
+              },
+              "generation_executed": {
+                "const": true
+              },
+              "production_proof": {
+                "const": true
+              },
+              "binding_valid": {
+                "const": true
+              },
+              "verified": {
+                "const": true
+              }
+            }
+          },
+          "visual_review": {
+            "properties": {
+              "review_method": {
+                "const": "loop_playback_review"
+              },
+              "visual_loop_review_passed": {
+                "const": true
+              },
+              "no_visible_pop_passed": {
+                "const": true
+              },
+              "intentional_cadence_passed": {
+                "const": true
+              },
+              "identity_preservation_passed": {
+                "const": true
+              },
+              "background_continuity_passed": {
+                "const": true
+              },
+              "contact_deformation_continuity": {
+                "enum": [
+                  true,
+                  "ping_pong_compatible"
+                ]
+              },
+              "binding_valid": {
+                "const": true
+              },
+              "verified": {
+                "const": true
+              }
+            }
+          },
+          "decision": {
+            "properties": {
+              "blocked": {
+                "const": false
+              },
+              "final_export_ready": {
+                "const": true
+              },
+              "certification_ready": {
+                "const": true
+              },
+              "production_proof": {
+                "const": true
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "properties": {
+              "blocked": {
+                "const": true
+              }
+            },
+            "required": [
+              "blocked"
+            ]
+          }
+        },
+        "required": [
+          "decision"
+        ]
+      },
+      "then": {
+        "properties": {
+          "decision": {
+            "properties": {
+              "final_export_ready": {
+                "const": false
+              },
+              "final_export_passed": {
+                "const": false
+              },
+              "certification_ready": {
+                "const": false
+              },
+              "production_proof": {
+                "const": false
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

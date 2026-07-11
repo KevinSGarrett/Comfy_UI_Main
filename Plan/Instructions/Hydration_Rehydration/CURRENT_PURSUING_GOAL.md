@@ -1,3 +1,9 @@
+## Active Runtime Posture - Wave64 GIF Technical Certification Ready, Production Proof Blocked - 2026-07-11T16:00:00-05:00
+
+Continue the full autonomous project goal from authoritative `C:\Comfy_UI_Main`. Preserve `TRK-W64-024` / `ITEM-W64-024` as `Blocked_Video_GIF_Production_Proof_Missing`: the strict certifier and schema pass offline, every GIF frame is truly decoded, and synthetic fixtures remain unpromotable, but no genuine runtime generation or loop-playback visual evidence exists.
+
+Proceed to `TRK-W64-025` / `ITEM-W64-025` for one duplicate-checked audio pipeline implementation gap. Keep EC2 stopped and retain local-source, no-duplicate, manual-mask, Wave70/Wave71+, Flux1-license, expired-AWS-authentication, and Jira boundaries.
+
 ## Active Runtime Posture - Selected-Inpaint Local Recheck Is Lane-Scoped - 2026-07-11T10:22:00-05:00
 
 Continue the full autonomous project goal from authoritative `C:\Comfy_UI_Main`. The selected-inpaint pre-EC2 refresh now evaluates selected-inpaint readiness independently from unrelated global Flux1 coverage while remaining fail-closed on malformed evidence, selected-lane failures, structural queue failures, unaccounted counts, selected-lane coverage failures, or missing/live side-effect flags. The real local refresh returns four passing child contracts and still keeps execution and target-runtime launch false.

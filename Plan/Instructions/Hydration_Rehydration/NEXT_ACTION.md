@@ -1,3 +1,9 @@
+## Immediate Next Action - Wave64 GIF Certifier Ready, Production Proof Blocked - 2026-07-11T16:00:00-05:00
+
+Start from `Plan/Instructions/QA/Evidence/Wave64/video_gif_loop_export.json`. `TRK-W64-024` / `ITEM-W64-024` now has actual GIF frame decode, source/export hash binding, frame/dimension/duration/loop parity, a decoded-pixel seam metric, hash-bound runtime/visual proof contracts, 12/12 focused tests, and a retained technical-only GIF probe. Keep the row `Blocked_Video_GIF_Production_Proof_Missing`: no genuine production GIF runtime proof or loop-playback review exists.
+
+Continue `TRK-W64-025` / `ITEM-W64-025` by duplicate-checking the existing audio generation/AV-sync lane and selecting one bounded offline implementation gap. Do not fabricate runtime or audio-review proof, start EC2, contact AWS while authentication is expired, consume candidate masks as truth, rerun Wave70 hard gates, activate Wave71+, recreate legacy/cloud work, or switch to Jira bookkeeping.
+
 ## Immediate Next Action - Selected-Inpaint Recheck Repair Complete - 2026-07-11T10:22:00-05:00
 
 Start from `Plan/Instructions/QA/Evidence/Done_Certifications/W66_SELECTED_INPAINT_LANE_SCOPED_RECHECK_REPAIR_DONE_20260711T102200-0500.json`. The selected-inpaint local refresh no longer fails on unrelated Flux1 coverage: the selected lane is checked exactly once, all four selected-lane checks pass, the three global failures are fully accounted to Flux1 coverage, and all live side-effect fields remain explicit and false. Focused regression passes `11/11`; the real wrapper passes `4/4` child contracts; the full operations harness passes `53` parsers and `33` smokes with zero failures.

@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-VIDEO-GIF-LOOP-EXPORT-TEST-LOG-20260711T160000-0500",
+  "timestamp": "2026-07-11T16:00:00-05:00",
+  "tracker_id": "TRK-W64-024",
+  "item_id": "ITEM-W64-024",
+  "command": "python Plan/Instructions/QA/Scripts/test_wave26_gif_loop_export_strict.py",
+  "result": "pass",
+  "exit_code": 0,
+  "tests_run": 12,
+  "failures": 0,
+  "errors": 0,
+  "elapsed_seconds": 23.435,
+  "pillow_version": "12.3.0",
+  "transcript": "runtime_artifacts/wave64_video_gif_loop_export/unit_tests_20260711T155755-0500.stderr.txt",
+  "transcript_sha256": "9a5d1524906bef2ef7eb6912f42c0d11b3af7ce38a3465136d33feede5b67a9f",
+  "covered_files": [
+    "Plan/07_IMPLEMENTATION/scripts/certify_wave26_gif_loop_export.py",
+    "Plan/08_SCHEMAS/wave26_gif_loop_export_evidence.schema.json",
+    "Plan/Instructions/QA/Scripts/test_wave26_gif_loop_export_strict.py"
+  ],
+  "positive_contracts_covered": [
+    "Wave26 loop-profile registry and Wave27 frame-manifest and temporal-evidence reuse",
+    "actual Pillow decode and RGBA load of every GIF frame",
+    "candidate GIF SHA256, byte count, dimensions, frame count, durations, loop count, and decoded-frame hash binding",
+    "deterministic decoded-pixel first-to-last technical seam metric",
+    "source-frame artifact hash, byte, dimension, timing, and sequence integrity",
+    "transactional evidence publication",
+    "synthetic technical verification remains blocked and unpromotable"
+  ],
+  "negative_contracts_covered": [
+    "missing candidate, invalid container, truncated GIF, and invalid LZW decode",
+    "unknown loop taxonomy and tampered source artifacts or sequence binding",
+    "frame-count, dimension, duration, zero-duration, and loop-count mismatch",
+    "boolean-only runtime or visual proof claims",
+    "runtime and visual proof artifact hash or source/candidate binding mismatch",
+    "unverified proof records cannot retain readiness or pass subfields",
+    "synthetic inputs cannot claim runtime, visual, export, certification, or production pass"
+  ],
+  "production_happy_path_executed": false,
+  "production_happy_path_policy": "A synthetic fixture must not set runtime, visual, final-export, certification, or production-proof flags true; a genuine production GIF packet is required."
+}
