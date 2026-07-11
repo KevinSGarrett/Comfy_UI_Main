@@ -1,3 +1,9 @@
+## Immediate Next Action - Preserve Canny Full-Body Matrix And Continue - 2026-07-11T09:38:00-05:00
+
+Start from `Plan/Instructions/QA/Evidence/Done_Certifications/W70_CANNY_FULL_BODY_MULTISEED_ROBUSTNESS_DONE_20260711T093800-0500.json`. The hash-pinned OpenCV Canny map and fixed seeds `711570301` through `711570303` pass local runtime, exact graph/control binding, DWPose geometry, and strict original-resolution visual QA `3/3`. Do not replay this matrix.
+
+The existing target-runtime Canny certificate remains bounded to its portrait proof; the new full-body evidence is local-only and does not certify identity, detailed fingers, contact, masks, or broader scenes. After the guarded checkpoint, select another concrete non-mask implementation/runtime gap that is not already complete in Main or recorded AWS evidence. AWS authentication is expired, so do not start EC2 or claim current live EC2/S3 state until authentication is genuinely restored.
+
 ## Immediate Next Action - Ownership Packet Closed, Select A Real Local Gap - 2026-07-11T09:13:00-05:00
 
 Start from `Plan/Instructions/QA/Evidence/Done_Certifications/W70_BASE_OPENPOSE_REMEDIATION_OWNERSHIP_DECISION_20260711T091300-0500.json`. It closes only the Base/OpenPose evidence-ownership question; Base certification remains blocked and the existing image pairs must not be replayed.

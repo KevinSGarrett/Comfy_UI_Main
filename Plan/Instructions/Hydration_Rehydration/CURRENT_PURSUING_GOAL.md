@@ -1,3 +1,9 @@
+## Active Runtime Posture - Canny Full-Body Local Robustness Complete - 2026-07-11T09:38:00-05:00
+
+Continue the full autonomous project goal from authoritative `C:\Comfy_UI_Main`. The canonical Canny lane now has a fixed three-seed local full-body matrix passing runtime, technical, geometry, and strict visual QA `3/3`. The OpenCV control map is binary and hash-pinned to the true full-body source; each generated sample binds the exact model, Canny asset, control image, sampler, scheduler, dimensions, and seed, preserves all 18 body landmarks, and shows no visible Canny leakage.
+
+Preserve seeds `711570301`, `711570302`, and `711570303` without replay. Keep target-runtime ownership explicit: the existing AWS Canny certificate remains portrait-bounded, while this full-body matrix is local-only. Continue another concrete non-mask implementation task without recreating legacy/cloud work, consuming candidate body masks as truth, rerunning Wave70 hard gates, activating Wave71+, inferring Flux1 license acceptance, or switching to Jira bookkeeping. Live AWS inventory remains unavailable until the expired CLI session is reauthenticated.
+
 ## Active Runtime Posture - Cross-Lane Ownership Explicit, Continue Real Local Work - 2026-07-11T09:13:00-05:00
 
 Continue the full autonomous project goal from authoritative `C:\Comfy_UI_Main`. The one-time ownership validator confirms that OpenPose locally resolves the materially different composition-control option, but its evidence cannot certify Base. Preserve both the failed Base `0/2` pair and successful OpenPose `2/2` remediation pair without replay.

@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "canny_full_body_standing_seed711570303",
+  "target_lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "purpose": "Bounded local three-seed Canny full-body robustness sample using one hash-pinned realistic full-body source and invariant generation settings.",
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic full-length studio fashion photograph of exactly one fully clothed adult woman, entire body visible from top of head through both shoes, standing naturally, both hands visible, both arms visible, both legs visible, anatomically coherent shoulders elbows wrists hips knees and ankles, natural skin texture, realistic face and eyes, detailed natural hair, structured long-sleeve blouse, full-length tailored trousers, closed-toe shoes, clean continuous neutral studio backdrop, soft balanced studio lighting, edge-guided silhouette fidelity without visible outlines, lifelike lens rendering",
+    "negative_prompt": "cartoon, anime, illustration, child, teen, extra person, duplicate body, cropped head, cropped hands, cropped legs, cropped feet, close-up portrait, seated pose, distorted anatomy, extra limbs, missing limbs, fused limbs, extra fingers, missing fingers, deformed hands, malformed feet, low resolution, blurry, watermark, text, logo, canny edge leakage, harsh black outlines, contour stains, edge halos, scribble artifacts, border seam, vertical seam, background panel line, control map overlay, unnatural skin, waxy skin, plastic skin, nudity, lingerie, bikini, unclothed torso",
+    "seed": 711570303,
+    "sampler_settings": {
+      "steps": 24,
+      "cfg": 5.5,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1
+    },
+    "latent_resolution": {
+      "width": 768,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "controlnet_asset": "controlnet-canny-sdxl-1.0-small.safetensors",
+    "control_image": "controlnet_canny_full_body_standing_w70_v1.png",
+    "controlnet_settings": {
+      "strength": 0.42,
+      "start_percent": 0,
+      "end_percent": 0.6
+    },
+    "save_prefix": "canny_full_body_standing_711570303"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "canny_full_body_standing_711570303"
+  },
+  "qa_focus": [
+    "exactly one fully clothed adult",
+    "head both hands both legs and both feet remain in frame",
+    "coherent limbs hands and feet",
+    "Canny consistency across fixed seeds",
+    "absence of edge leakage harsh outlines and border seams",
+    "natural skin clothing and backdrop rendering"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "gold_masks_consumed": false,
+    "body_mask_or_geometry_authority_claimed": false,
+    "identity_matching_claimed": false,
+    "requires_target_runtime_reproof_before_final_certification": true
+  }
+}

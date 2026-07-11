@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "W70-LOCAL-CANNY-FULL-BODY-STANDING-CONTROL-MAP-V1",
+  "timestamp": "2026-07-11T09:31:22-05:00",
+  "pass": true,
+  "result": "pass_local_canny_full_body_control_map_prepared",
+  "target_lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+  "scope": "single_original_full_body_canny_control_map",
+  "source": {
+    "path": "Ref_Image_1/Full/78b8e4ca10fd769e0752bd21c3599339.jpg",
+    "sha256": "e20a857f0ac23151ae1b8aa47fb4746c975e522a5598896f747ef08a50cc9336",
+    "expected_sha256": "e20a857f0ac23151ae1b8aa47fb4746c975e522a5598896f747ef08a50cc9336",
+    "width": 3000,
+    "height": 4000,
+    "selection_boundary": "Ref_Image_1/Full source only; excludes Ref_Image_1/Full/New folder.",
+    "selection_checks": {
+      "source_is_ref_image_1_full": true,
+      "source_outside_excluded_new_folder": true,
+      "source_sha256_matches_expected": true
+    }
+  },
+  "preprocess": {
+    "operator": "opencv_canny",
+    "opencv_version": "5.0.0",
+    "gaussian_kernel": [
+      5,
+      5
+    ],
+    "gaussian_sigma": 1.4,
+    "canny_low_threshold": 100,
+    "canny_high_threshold": 200,
+    "note": "Pillow FIND_EDGES is never used."
+  },
+  "outputs": {
+    "source_copy": {
+      "path": "Plan/Instructions/Operations/Prepared_Input_Assets/canny_full_body_standing_w70_v1/source_original.jpg",
+      "sha256": "e20a857f0ac23151ae1b8aa47fb4746c975e522a5598896f747ef08a50cc9336",
+      "size_bytes": 350118
+    },
+    "control_map": {
+      "path": "Plan/Instructions/Operations/Prepared_Input_Assets/canny_full_body_standing_w70_v1/controlnet_canny_full_body_standing_w70_v1.png",
+      "sha256": "9f62f5fe0c9cd44d71de521ba6eb5efb63c7d096632c94eee8b63ad7c83f11ad",
+      "size_bytes": 13280,
+      "width": 768,
+      "height": 1024,
+      "pixel_stats": {
+        "min": 0.0,
+        "max": 255.0,
+        "mean": 1.9925117492675781,
+        "std": 22.452625525587493,
+        "edge_density": 0.007813771565755209,
+        "white_pixel_ratio": 0.007813771565755209,
+        "black_pixel_ratio": 0.9921862284342448,
+        "unique_values": [
+          0,
+          255
+        ]
+      }
+    },
+    "active_input_copy": {
+      "path": "ComfyUI/input/controlnet_canny_full_body_standing_w70_v1.png",
+      "written": true,
+      "sha256": "9f62f5fe0c9cd44d71de521ba6eb5efb63c7d096632c94eee8b63ad7c83f11ad"
+    }
+  },
+  "checks": {
+    "control_map_nonempty": true,
+    "control_map_is_exact_768x1024": true,
+    "control_map_aspect_ratio_matches_source": true,
+    "control_map_binary_uint8_0_255_only": true,
+    "control_map_contains_black_and_white": true,
+    "edge_map_not_blank_by_std": true,
+    "edge_density_gte_0_005": true,
+    "edge_density_lte_0_35": true,
+    "black_background_ratio_gte_0_65": true,
+    "source_selection_boundary_pass": true,
+    "source_copy_hash_matches_source": true
+  },
+  "boundaries": {
+    "local_only": true,
+    "generation_executed": false,
+    "gold_masks_consumed": false,
+    "mask_promotion_performed": false,
+    "target_runtime_proof": false,
+    "final_lane_certification": false,
+    "aws_contacted": false,
+    "ec2_started": false
+  }
+}
