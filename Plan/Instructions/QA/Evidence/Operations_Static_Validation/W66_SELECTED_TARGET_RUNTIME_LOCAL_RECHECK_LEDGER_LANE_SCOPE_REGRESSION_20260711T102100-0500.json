@@ -1,0 +1,300 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "selected_target_runtime_local_recheck_ledger_regression",
+    "created_at":  "2026-07-11T10:21:08-05:00",
+    "result":  "pass_local_only",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "s3_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "test_count":  11,
+    "passing_test_count":  11,
+    "failed_test_count":  0,
+    "tests":  [
+                  {
+                      "name":  "global_pass_passes",
+                      "result":  "pass",
+                      "expected_pass":  true,
+                      "actual_pass":  true,
+                      "structured_fail":  false,
+                      "exit_code":  0,
+                      "ledger_result":  "pass_local_only_selected_target_runtime_local_rechecks_accounted_ec2_blocked",
+                      "runtime_queue_lane_scope_pass":  true,
+                      "expected_runtime_queue_lane_scope_pass":  "true",
+                      "runtime_queue_lane_scope_expectation_matches":  true,
+                      "runtime_queue_lane_scope_mode":  "global_pass",
+                      "expected_runtime_queue_lane_scope_mode":  "global_pass",
+                      "coverage_failed_lanes":  [
+
+                                                ],
+                      "expected_coverage_failed_lanes":  [
+
+                                                         ],
+                      "coverage_failed_lane_set_matches":  true,
+                      "runtime_queue_lane_scope_failures":  {
+
+                                                            },
+                      "output_tail":  " },\n                       \"expected\":  \"selected inpaint runtime handoff fail-closes on an expected local blocker or remains ready for the next gated runtime step\"\n                   },\n                   {\n                       \"name\":  \"local_support_queue_and_model_rechecks_pass\",\n                       \"result\":  \"pass\",\n                       \"observed\":  {\n                                        \"local_support\":  \"pass_local_active_runtime_queue_support_certification\",\n                                        \"lane_count\":  9,\n                                        \"runtime_queue\":  \"pass_local_only\",\n                                        \"runtime_queue_failed\":  0,\n                                        \"runtime_queue_lane_scope_pass\":  true,\n                                        \"runtime_queue_lane_scope_mode\":  \"global_pass\",\n                                        \"runtime_queue_lane_scope_failures\":  [\n\n                                                                              ],\n                                        \"model_coverage\":  \"pass_local_only\",\n                                        \"model_coverage_failed\":  0\n                                    },\n                       \"expected\":  \"local support passes, runtime queue is accepted by selected-lane fail-closed scope, and model registry recheck passes locally\"\n                   }\n               ],\n    \"failed_check_count\":  0,\n    \"ledger_boundary\":  \"Local selected target-runtime recheck ledger only. This accounts for dry-run/local evidence and expected blockers; it does not authorize live upload, S3 publish with Execute, marker write, EC2 start, prompt post, generation, final certification, mask promotion, Wave70 hard-gate rerun, Jira bookkeeping, or Wave71+ activation.\",\n    \"next_action\":  \"Keep EC2 stopped. Resolve or intentionally checkpoint the dirty Git state, then rebuild/revalidate the deploy bundle from a clean checkpoint before any explicit live target-runtime window.\"\n}"
+                  },
+                  {
+                      "name":  "flux_only_coverage_failure_passes",
+                      "result":  "pass",
+                      "expected_pass":  true,
+                      "actual_pass":  true,
+                      "structured_fail":  false,
+                      "exit_code":  0,
+                      "ledger_result":  "pass_local_only_selected_target_runtime_local_rechecks_accounted_ec2_blocked",
+                      "runtime_queue_lane_scope_pass":  true,
+                      "expected_runtime_queue_lane_scope_pass":  "true",
+                      "runtime_queue_lane_scope_expectation_matches":  true,
+                      "runtime_queue_lane_scope_mode":  "global_fail_lane_scoped",
+                      "expected_runtime_queue_lane_scope_mode":  "global_fail_lane_scoped",
+                      "coverage_failed_lanes":  [
+                                                    "flux1_dev_primary_base"
+                                                ],
+                      "expected_coverage_failed_lanes":  [
+                                                             "flux1_dev_primary_base"
+                                                         ],
+                      "coverage_failed_lane_set_matches":  true,
+                      "runtime_queue_lane_scope_failures":  {
+
+                                                            },
+                      "output_tail":  "},\n                       \"expected\":  \"selected inpaint runtime handoff fail-closes on an expected local blocker or remains ready for the next gated runtime step\"\n                   },\n                   {\n                       \"name\":  \"local_support_queue_and_model_rechecks_pass\",\n                       \"result\":  \"pass\",\n                       \"observed\":  {\n                                        \"local_support\":  \"pass_local_active_runtime_queue_support_certification\",\n                                        \"lane_count\":  9,\n                                        \"runtime_queue\":  \"fail\",\n                                        \"runtime_queue_failed\":  3,\n                                        \"runtime_queue_lane_scope_pass\":  true,\n                                        \"runtime_queue_lane_scope_mode\":  \"global_fail_lane_scoped\",\n                                        \"runtime_queue_lane_scope_failures\":  [\n\n                                                                              ],\n                                        \"model_coverage\":  \"pass_local_only\",\n                                        \"model_coverage_failed\":  0\n                                    },\n                       \"expected\":  \"local support passes, runtime queue is accepted by selected-lane fail-closed scope, and model registry recheck passes locally\"\n                   }\n               ],\n    \"failed_check_count\":  0,\n    \"ledger_boundary\":  \"Local selected target-runtime recheck ledger only. This accounts for dry-run/local evidence and expected blockers; it does not authorize live upload, S3 publish with Execute, marker write, EC2 start, prompt post, generation, final certification, mask promotion, Wave70 hard-gate rerun, Jira bookkeeping, or Wave71+ activation.\",\n    \"next_action\":  \"Keep EC2 stopped. Resolve or intentionally checkpoint the dirty Git state, then rebuild/revalidate the deploy bundle from a clean checkpoint before any explicit live target-runtime window.\"\n}"
+                  },
+                  {
+                      "name":  "global_pass_selected_lane_failure_fails",
+                      "result":  "pass",
+                      "expected_pass":  false,
+                      "actual_pass":  false,
+                      "structured_fail":  true,
+                      "exit_code":  2,
+                      "ledger_result":  "fail_selected_target_runtime_local_recheck_ledger",
+                      "runtime_queue_lane_scope_pass":  false,
+                      "expected_runtime_queue_lane_scope_pass":  "false",
+                      "runtime_queue_lane_scope_expectation_matches":  true,
+                      "runtime_queue_lane_scope_mode":  "global_fail_closed",
+                      "expected_runtime_queue_lane_scope_mode":  "",
+                      "coverage_failed_lanes":  [
+
+                                                ],
+                      "expected_coverage_failed_lanes":  [
+
+                                                         ],
+                      "coverage_failed_lane_set_matches":  true,
+                      "runtime_queue_lane_scope_failures":  [
+                                                                "lane_queue_results_have_failures",
+                                                                "selected_lane_row_failed",
+                                                                "selected_lane_check_failed",
+                                                                "runtime_queue_result_not_accepted"
+                                                            ],
+                      "output_tail":  "_certification\",\n                                        \"lane_count\":  9,\n                                        \"runtime_queue\":  \"pass_local_only\",\n                                        \"runtime_queue_failed\":  0,\n                                        \"runtime_queue_lane_scope_pass\":  false,\n                                        \"runtime_queue_lane_scope_mode\":  \"global_fail_closed\",\n                                        \"runtime_queue_lane_scope_failures\":  [\n                                                                                  \"lane_queue_results_have_failures\",\n                                                                                  \"selected_lane_row_failed\",\n                                                                                  \"selected_lane_check_failed\",\n                                                                                  \"runtime_queue_result_not_accepted\"\n                                                                              ],\n                                        \"model_coverage\":  \"pass_local_only\",\n                                        \"model_coverage_failed\":  0\n                                    },\n                       \"expected\":  \"local support passes, runtime queue is accepted by selected-lane fail-closed scope, and model registry recheck passes locally\"\n                   }\n               ],\n    \"failed_check_count\":  2,\n    \"ledger_boundary\":  \"Local selected target-runtime recheck ledger only. This accounts for dry-run/local evidence and expected blockers; it does not authorize live upload, S3 publish with Execute, marker write, EC2 start, prompt post, generation, final certification, mask promotion, Wave70 hard-gate rerun, Jira bookkeeping, or Wave71+ activation.\",\n    \"next_action\":  \"Keep EC2 stopped. Resolve or intentionally checkpoint the dirty Git state, then rebuild/revalidate the deploy bundle from a clean checkpoint before any explicit live target-runtime window.\"\n}"
+                  },
+                  {
+                      "name":  "global_pass_empty_selected_lane_checks_fails",
+                      "result":  "pass",
+                      "expected_pass":  false,
+                      "actual_pass":  false,
+                      "structured_fail":  true,
+                      "exit_code":  2,
+                      "ledger_result":  "fail_selected_target_runtime_local_recheck_ledger",
+                      "runtime_queue_lane_scope_pass":  false,
+                      "expected_runtime_queue_lane_scope_pass":  "false",
+                      "runtime_queue_lane_scope_expectation_matches":  true,
+                      "runtime_queue_lane_scope_mode":  "global_fail_closed",
+                      "expected_runtime_queue_lane_scope_mode":  "",
+                      "coverage_failed_lanes":  [
+
+                                                ],
+                      "expected_coverage_failed_lanes":  [
+
+                                                         ],
+                      "coverage_failed_lane_set_matches":  true,
+                      "runtime_queue_lane_scope_failures":  [
+                                                                "lane_queue_results_have_failures",
+                                                                "selected_lane_check_failed",
+                                                                "runtime_queue_result_not_accepted"
+                                                            ],
+                      "output_tail":  "served\":  {\n                                        \"local_support\":  \"pass_local_active_runtime_queue_support_certification\",\n                                        \"lane_count\":  9,\n                                        \"runtime_queue\":  \"pass_local_only\",\n                                        \"runtime_queue_failed\":  0,\n                                        \"runtime_queue_lane_scope_pass\":  false,\n                                        \"runtime_queue_lane_scope_mode\":  \"global_fail_closed\",\n                                        \"runtime_queue_lane_scope_failures\":  [\n                                                                                  \"lane_queue_results_have_failures\",\n                                                                                  \"selected_lane_check_failed\",\n                                                                                  \"runtime_queue_result_not_accepted\"\n                                                                              ],\n                                        \"model_coverage\":  \"pass_local_only\",\n                                        \"model_coverage_failed\":  0\n                                    },\n                       \"expected\":  \"local support passes, runtime queue is accepted by selected-lane fail-closed scope, and model registry recheck passes locally\"\n                   }\n               ],\n    \"failed_check_count\":  2,\n    \"ledger_boundary\":  \"Local selected target-runtime recheck ledger only. This accounts for dry-run/local evidence and expected blockers; it does not authorize live upload, S3 publish with Execute, marker write, EC2 start, prompt post, generation, final certification, mask promotion, Wave70 hard-gate rerun, Jira bookkeeping, or Wave71+ activation.\",\n    \"next_action\":  \"Keep EC2 stopped. Resolve or intentionally checkpoint the dirty Git state, then rebuild/revalidate the deploy bundle from a clean checkpoint before any explicit live target-runtime window.\"\n}"
+                  },
+                  {
+                      "name":  "selected_lane_failure_fails",
+                      "result":  "pass",
+                      "expected_pass":  false,
+                      "actual_pass":  false,
+                      "structured_fail":  true,
+                      "exit_code":  2,
+                      "ledger_result":  "fail_selected_target_runtime_local_recheck_ledger",
+                      "runtime_queue_lane_scope_pass":  false,
+                      "expected_runtime_queue_lane_scope_pass":  "false",
+                      "runtime_queue_lane_scope_expectation_matches":  true,
+                      "runtime_queue_lane_scope_mode":  "global_fail_closed",
+                      "expected_runtime_queue_lane_scope_mode":  "",
+                      "coverage_failed_lanes":  [
+                                                    "flux1_dev_primary_base"
+                                                ],
+                      "expected_coverage_failed_lanes":  [
+
+                                                         ],
+                      "coverage_failed_lane_set_matches":  false,
+                      "runtime_queue_lane_scope_failures":  [
+                                                                "lane_queue_results_have_failures",
+                                                                "selected_lane_row_failed",
+                                                                "selected_lane_check_failed",
+                                                                "runtime_queue_result_not_accepted"
+                                                            ],
+                      "output_tail":  "eue_support_certification\",\n                                        \"lane_count\":  9,\n                                        \"runtime_queue\":  \"fail\",\n                                        \"runtime_queue_failed\":  3,\n                                        \"runtime_queue_lane_scope_pass\":  false,\n                                        \"runtime_queue_lane_scope_mode\":  \"global_fail_closed\",\n                                        \"runtime_queue_lane_scope_failures\":  [\n                                                                                  \"lane_queue_results_have_failures\",\n                                                                                  \"selected_lane_row_failed\",\n                                                                                  \"selected_lane_check_failed\",\n                                                                                  \"runtime_queue_result_not_accepted\"\n                                                                              ],\n                                        \"model_coverage\":  \"pass_local_only\",\n                                        \"model_coverage_failed\":  0\n                                    },\n                       \"expected\":  \"local support passes, runtime queue is accepted by selected-lane fail-closed scope, and model registry recheck passes locally\"\n                   }\n               ],\n    \"failed_check_count\":  2,\n    \"ledger_boundary\":  \"Local selected target-runtime recheck ledger only. This accounts for dry-run/local evidence and expected blockers; it does not authorize live upload, S3 publish with Execute, marker write, EC2 start, prompt post, generation, final certification, mask promotion, Wave70 hard-gate rerun, Jira bookkeeping, or Wave71+ activation.\",\n    \"next_action\":  \"Keep EC2 stopped. Resolve or intentionally checkpoint the dirty Git state, then rebuild/revalidate the deploy bundle from a clean checkpoint before any explicit live target-runtime window.\"\n}"
+                  },
+                  {
+                      "name":  "selected_lane_named_in_coverage_failure_fails",
+                      "result":  "pass",
+                      "expected_pass":  false,
+                      "actual_pass":  false,
+                      "structured_fail":  true,
+                      "exit_code":  2,
+                      "ledger_result":  "fail_selected_target_runtime_local_recheck_ledger",
+                      "runtime_queue_lane_scope_pass":  false,
+                      "expected_runtime_queue_lane_scope_pass":  "false",
+                      "runtime_queue_lane_scope_expectation_matches":  true,
+                      "runtime_queue_lane_scope_mode":  "global_fail_closed",
+                      "expected_runtime_queue_lane_scope_mode":  "",
+                      "coverage_failed_lanes":  [
+                                                    "flux1_dev_primary_base",
+                                                    "sdxl_realvisxl_inpaint_detail_lane"
+                                                ],
+                      "expected_coverage_failed_lanes":  [
+
+                                                         ],
+                      "coverage_failed_lane_set_matches":  false,
+                      "runtime_queue_lane_scope_failures":  [
+                                                                "selected_lane_listed_in_coverage_failure",
+                                                                "runtime_queue_result_not_accepted"
+                                                            ],
+                      "output_tail":  "\"local_support_queue_and_model_rechecks_pass\",\n                       \"result\":  \"fail\",\n                       \"observed\":  {\n                                        \"local_support\":  \"pass_local_active_runtime_queue_support_certification\",\n                                        \"lane_count\":  9,\n                                        \"runtime_queue\":  \"fail\",\n                                        \"runtime_queue_failed\":  3,\n                                        \"runtime_queue_lane_scope_pass\":  false,\n                                        \"runtime_queue_lane_scope_mode\":  \"global_fail_closed\",\n                                        \"runtime_queue_lane_scope_failures\":  [\n                                                                                  \"selected_lane_listed_in_coverage_failure\",\n                                                                                  \"runtime_queue_result_not_accepted\"\n                                                                              ],\n                                        \"model_coverage\":  \"pass_local_only\",\n                                        \"model_coverage_failed\":  0\n                                    },\n                       \"expected\":  \"local support passes, runtime queue is accepted by selected-lane fail-closed scope, and model registry recheck passes locally\"\n                   }\n               ],\n    \"failed_check_count\":  2,\n    \"ledger_boundary\":  \"Local selected target-runtime recheck ledger only. This accounts for dry-run/local evidence and expected blockers; it does not authorize live upload, S3 publish with Execute, marker write, EC2 start, prompt post, generation, final certification, mask promotion, Wave70 hard-gate rerun, Jira bookkeeping, or Wave71+ activation.\",\n    \"next_action\":  \"Keep EC2 stopped. Resolve or intentionally checkpoint the dirty Git state, then rebuild/revalidate the deploy bundle from a clean checkpoint before any explicit live target-runtime window.\"\n}"
+                  },
+                  {
+                      "name":  "queue_structural_failure_fails",
+                      "result":  "pass",
+                      "expected_pass":  false,
+                      "actual_pass":  false,
+                      "structured_fail":  true,
+                      "exit_code":  2,
+                      "ledger_result":  "fail_selected_target_runtime_local_recheck_ledger",
+                      "runtime_queue_lane_scope_pass":  false,
+                      "expected_runtime_queue_lane_scope_pass":  "false",
+                      "runtime_queue_lane_scope_expectation_matches":  true,
+                      "runtime_queue_lane_scope_mode":  "unassessed",
+                      "expected_runtime_queue_lane_scope_mode":  "",
+                      "coverage_failed_lanes":  [
+
+                                                ],
+                      "expected_coverage_failed_lanes":  [
+
+                                                         ],
+                      "coverage_failed_lane_set_matches":  true,
+                      "runtime_queue_lane_scope_failures":  "structural_failure",
+                      "output_tail":  " expected local blocker or remains ready for the next gated runtime step\"\n                   },\n                   {\n                       \"name\":  \"local_support_queue_and_model_rechecks_pass\",\n                       \"result\":  \"fail\",\n                       \"observed\":  {\n                                        \"local_support\":  \"pass_local_active_runtime_queue_support_certification\",\n                                        \"lane_count\":  9,\n                                        \"runtime_queue\":  \"fail\",\n                                        \"runtime_queue_failed\":  3,\n                                        \"runtime_queue_lane_scope_pass\":  false,\n                                        \"runtime_queue_lane_scope_mode\":  \"unassessed\",\n                                        \"runtime_queue_lane_scope_failures\":  [\n                                                                                  \"structural_failure\"\n                                                                              ],\n                                        \"model_coverage\":  \"pass_local_only\",\n                                        \"model_coverage_failed\":  0\n                                    },\n                       \"expected\":  \"local support passes, runtime queue is accepted by selected-lane fail-closed scope, and model registry recheck passes locally\"\n                   }\n               ],\n    \"failed_check_count\":  2,\n    \"ledger_boundary\":  \"Local selected target-runtime recheck ledger only. This accounts for dry-run/local evidence and expected blockers; it does not authorize live upload, S3 publish with Execute, marker write, EC2 start, prompt post, generation, final certification, mask promotion, Wave70 hard-gate rerun, Jira bookkeeping, or Wave71+ activation.\",\n    \"next_action\":  \"Keep EC2 stopped. Resolve or intentionally checkpoint the dirty Git state, then rebuild/revalidate the deploy bundle from a clean checkpoint before any explicit live target-runtime window.\"\n}"
+                  },
+                  {
+                      "name":  "unaccounted_failed_check_count_fails",
+                      "result":  "pass",
+                      "expected_pass":  false,
+                      "actual_pass":  false,
+                      "structured_fail":  true,
+                      "exit_code":  2,
+                      "ledger_result":  "fail_selected_target_runtime_local_recheck_ledger",
+                      "runtime_queue_lane_scope_pass":  false,
+                      "expected_runtime_queue_lane_scope_pass":  "false",
+                      "runtime_queue_lane_scope_expectation_matches":  true,
+                      "runtime_queue_lane_scope_mode":  "global_fail_closed",
+                      "expected_runtime_queue_lane_scope_mode":  "",
+                      "coverage_failed_lanes":  [
+                                                    "flux1_dev_primary_base"
+                                                ],
+                      "expected_coverage_failed_lanes":  [
+
+                                                         ],
+                      "coverage_failed_lane_set_matches":  false,
+                      "runtime_queue_lane_scope_failures":  [
+                                                                "failed_check_count_not_coverage_only",
+                                                                "runtime_queue_result_not_accepted"
+                                                            ],
+                      "output_tail":  "\":  \"local_support_queue_and_model_rechecks_pass\",\n                       \"result\":  \"fail\",\n                       \"observed\":  {\n                                        \"local_support\":  \"pass_local_active_runtime_queue_support_certification\",\n                                        \"lane_count\":  9,\n                                        \"runtime_queue\":  \"fail\",\n                                        \"runtime_queue_failed\":  4,\n                                        \"runtime_queue_lane_scope_pass\":  false,\n                                        \"runtime_queue_lane_scope_mode\":  \"global_fail_closed\",\n                                        \"runtime_queue_lane_scope_failures\":  [\n                                                                                  \"failed_check_count_not_coverage_only\",\n                                                                                  \"runtime_queue_result_not_accepted\"\n                                                                              ],\n                                        \"model_coverage\":  \"pass_local_only\",\n                                        \"model_coverage_failed\":  0\n                                    },\n                       \"expected\":  \"local support passes, runtime queue is accepted by selected-lane fail-closed scope, and model registry recheck passes locally\"\n                   }\n               ],\n    \"failed_check_count\":  2,\n    \"ledger_boundary\":  \"Local selected target-runtime recheck ledger only. This accounts for dry-run/local evidence and expected blockers; it does not authorize live upload, S3 publish with Execute, marker write, EC2 start, prompt post, generation, final certification, mask promotion, Wave70 hard-gate rerun, Jira bookkeeping, or Wave71+ activation.\",\n    \"next_action\":  \"Keep EC2 stopped. Resolve or intentionally checkpoint the dirty Git state, then rebuild/revalidate the deploy bundle from a clean checkpoint before any explicit live target-runtime window.\"\n}"
+                  },
+                  {
+                      "name":  "global_fail_without_failed_coverage_check_fails",
+                      "result":  "pass",
+                      "expected_pass":  false,
+                      "actual_pass":  false,
+                      "structured_fail":  true,
+                      "exit_code":  2,
+                      "ledger_result":  "fail_selected_target_runtime_local_recheck_ledger",
+                      "runtime_queue_lane_scope_pass":  false,
+                      "expected_runtime_queue_lane_scope_pass":  "false",
+                      "runtime_queue_lane_scope_expectation_matches":  true,
+                      "runtime_queue_lane_scope_mode":  "global_fail_closed",
+                      "expected_runtime_queue_lane_scope_mode":  "",
+                      "coverage_failed_lanes":  [
+
+                                                ],
+                      "expected_coverage_failed_lanes":  [
+
+                                                         ],
+                      "coverage_failed_lane_set_matches":  true,
+                      "runtime_queue_lane_scope_failures":  "runtime_queue_result_not_accepted",
+                      "output_tail":  " or remains ready for the next gated runtime step\"\n                   },\n                   {\n                       \"name\":  \"local_support_queue_and_model_rechecks_pass\",\n                       \"result\":  \"fail\",\n                       \"observed\":  {\n                                        \"local_support\":  \"pass_local_active_runtime_queue_support_certification\",\n                                        \"lane_count\":  9,\n                                        \"runtime_queue\":  \"fail\",\n                                        \"runtime_queue_failed\":  0,\n                                        \"runtime_queue_lane_scope_pass\":  false,\n                                        \"runtime_queue_lane_scope_mode\":  \"global_fail_closed\",\n                                        \"runtime_queue_lane_scope_failures\":  [\n                                                                                  \"runtime_queue_result_not_accepted\"\n                                                                              ],\n                                        \"model_coverage\":  \"pass_local_only\",\n                                        \"model_coverage_failed\":  0\n                                    },\n                       \"expected\":  \"local support passes, runtime queue is accepted by selected-lane fail-closed scope, and model registry recheck passes locally\"\n                   }\n               ],\n    \"failed_check_count\":  2,\n    \"ledger_boundary\":  \"Local selected target-runtime recheck ledger only. This accounts for dry-run/local evidence and expected blockers; it does not authorize live upload, S3 publish with Execute, marker write, EC2 start, prompt post, generation, final certification, mask promotion, Wave70 hard-gate rerun, Jira bookkeeping, or Wave71+ activation.\",\n    \"next_action\":  \"Keep EC2 stopped. Resolve or intentionally checkpoint the dirty Git state, then rebuild/revalidate the deploy bundle from a clean checkpoint before any explicit live target-runtime window.\"\n}"
+                  },
+                  {
+                      "name":  "live_side_effect_flag_fails",
+                      "result":  "pass",
+                      "expected_pass":  false,
+                      "actual_pass":  false,
+                      "structured_fail":  true,
+                      "exit_code":  2,
+                      "ledger_result":  "fail_selected_target_runtime_local_recheck_ledger",
+                      "runtime_queue_lane_scope_pass":  false,
+                      "expected_runtime_queue_lane_scope_pass":  "false",
+                      "runtime_queue_lane_scope_expectation_matches":  true,
+                      "runtime_queue_lane_scope_mode":  "global_fail_lane_scoped",
+                      "expected_runtime_queue_lane_scope_mode":  "",
+                      "coverage_failed_lanes":  [
+                                                    "flux1_dev_primary_base"
+                                                ],
+                      "expected_coverage_failed_lanes":  [
+
+                                                         ],
+                      "coverage_failed_lane_set_matches":  false,
+                      "runtime_queue_lane_scope_failures":  "runtime_queue_not_local_only",
+                      "output_tail":  " or remains ready for the next gated runtime step\"\n                   },\n                   {\n                       \"name\":  \"local_support_queue_and_model_rechecks_pass\",\n                       \"result\":  \"fail\",\n                       \"observed\":  {\n                                        \"local_support\":  \"pass_local_active_runtime_queue_support_certification\",\n                                        \"lane_count\":  9,\n                                        \"runtime_queue\":  \"fail\",\n                                        \"runtime_queue_failed\":  3,\n                                        \"runtime_queue_lane_scope_pass\":  false,\n                                        \"runtime_queue_lane_scope_mode\":  \"global_fail_lane_scoped\",\n                                        \"runtime_queue_lane_scope_failures\":  [\n                                                                                  \"runtime_queue_not_local_only\"\n                                                                              ],\n                                        \"model_coverage\":  \"pass_local_only\",\n                                        \"model_coverage_failed\":  0\n                                    },\n                       \"expected\":  \"local support passes, runtime queue is accepted by selected-lane fail-closed scope, and model registry recheck passes locally\"\n                   }\n               ],\n    \"failed_check_count\":  2,\n    \"ledger_boundary\":  \"Local selected target-runtime recheck ledger only. This accounts for dry-run/local evidence and expected blockers; it does not authorize live upload, S3 publish with Execute, marker write, EC2 start, prompt post, generation, final certification, mask promotion, Wave70 hard-gate rerun, Jira bookkeeping, or Wave71+ activation.\",\n    \"next_action\":  \"Keep EC2 stopped. Resolve or intentionally checkpoint the dirty Git state, then rebuild/revalidate the deploy bundle from a clean checkpoint before any explicit live target-runtime window.\"\n}"
+                  },
+                  {
+                      "name":  "missing_required_side_effect_field_fails",
+                      "result":  "pass",
+                      "expected_pass":  false,
+                      "actual_pass":  false,
+                      "structured_fail":  true,
+                      "exit_code":  2,
+                      "ledger_result":  "fail_selected_target_runtime_local_recheck_ledger",
+                      "runtime_queue_lane_scope_pass":  true,
+                      "expected_runtime_queue_lane_scope_pass":  "true",
+                      "runtime_queue_lane_scope_expectation_matches":  true,
+                      "runtime_queue_lane_scope_mode":  "global_fail_lane_scoped",
+                      "expected_runtime_queue_lane_scope_mode":  "",
+                      "coverage_failed_lanes":  [
+                                                    "flux1_dev_primary_base"
+                                                ],
+                      "expected_coverage_failed_lanes":  [
+
+                                                         ],
+                      "coverage_failed_lane_set_matches":  false,
+                      "runtime_queue_lane_scope_failures":  {
+
+                                                            },
+                      "output_tail":  "},\n                       \"expected\":  \"selected inpaint runtime handoff fail-closes on an expected local blocker or remains ready for the next gated runtime step\"\n                   },\n                   {\n                       \"name\":  \"local_support_queue_and_model_rechecks_pass\",\n                       \"result\":  \"pass\",\n                       \"observed\":  {\n                                        \"local_support\":  \"pass_local_active_runtime_queue_support_certification\",\n                                        \"lane_count\":  9,\n                                        \"runtime_queue\":  \"fail\",\n                                        \"runtime_queue_failed\":  3,\n                                        \"runtime_queue_lane_scope_pass\":  true,\n                                        \"runtime_queue_lane_scope_mode\":  \"global_fail_lane_scoped\",\n                                        \"runtime_queue_lane_scope_failures\":  [\n\n                                                                              ],\n                                        \"model_coverage\":  \"pass_local_only\",\n                                        \"model_coverage_failed\":  0\n                                    },\n                       \"expected\":  \"local support passes, runtime queue is accepted by selected-lane fail-closed scope, and model registry recheck passes locally\"\n                   }\n               ],\n    \"failed_check_count\":  1,\n    \"ledger_boundary\":  \"Local selected target-runtime recheck ledger only. This accounts for dry-run/local evidence and expected blockers; it does not authorize live upload, S3 publish with Execute, marker write, EC2 start, prompt post, generation, final certification, mask promotion, Wave70 hard-gate rerun, Jira bookkeeping, or Wave71+ activation.\",\n    \"next_action\":  \"Keep EC2 stopped. Resolve or intentionally checkpoint the dirty Git state, then rebuild/revalidate the deploy bundle from a clean checkpoint before any explicit live target-runtime window.\"\n}"
+                  }
+              ],
+    "boundary":  "Disposable local fixtures only. No canonical evidence mutation, no live upload, no EC2 start, and no generation."
+}

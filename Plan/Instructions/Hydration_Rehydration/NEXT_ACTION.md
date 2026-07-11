@@ -1,3 +1,9 @@
+## Immediate Next Action - Selected-Inpaint Recheck Repair Complete - 2026-07-11T10:22:00-05:00
+
+Start from `Plan/Instructions/QA/Evidence/Done_Certifications/W66_SELECTED_INPAINT_LANE_SCOPED_RECHECK_REPAIR_DONE_20260711T102200-0500.json`. The selected-inpaint local refresh no longer fails on unrelated Flux1 coverage: the selected lane is checked exactly once, all four selected-lane checks pass, the three global failures are fully accounted to Flux1 coverage, and all live side-effect fields remain explicit and false. Focused regression passes `11/11`; the real wrapper passes `4/4` child contracts; the full operations harness passes `53` parsers and `33` smokes with zero failures.
+
+Do not rerun selected-inpaint generation or clear the Flux1 blocker. After the guarded checkpoint, select another concrete non-mask local implementation gap. AWS CLI authentication remains expired, so do not claim current EC2/S3 state or start EC2 until authentication is genuinely restored.
+
 ## Immediate Next Action - Preserve Canny Full-Body Matrix And Continue - 2026-07-11T09:38:00-05:00
 
 Start from `Plan/Instructions/QA/Evidence/Done_Certifications/W70_CANNY_FULL_BODY_MULTISEED_ROBUSTNESS_DONE_20260711T093800-0500.json`. The hash-pinned OpenCV Canny map and fixed seeds `711570301` through `711570303` pass local runtime, exact graph/control binding, DWPose geometry, and strict original-resolution visual QA `3/3`. Do not replay this matrix.

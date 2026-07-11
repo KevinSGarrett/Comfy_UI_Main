@@ -1,0 +1,129 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W66-SELECTED-INPAINT-LANE-SCOPED-RECHECK-REPAIR-20260711T102200-0500",
+  "timestamp": "2026-07-11T10:22:00-05:00",
+  "result": "pass_local_only_selected_inpaint_lane_scoped_recheck_repair",
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "scope": "selected_target_runtime_local_recheck_lane_scoping_and_fail_closed_orchestration",
+  "baseline": {
+    "operations_harness_result": "fail",
+    "script_parse_failures": 0,
+    "local_smoke_failures": 1,
+    "sole_failed_smoke": "selected_inpaint_pre_ec2_refresh_orchestration_smoke",
+    "root_cause": "The selected-inpaint ledger required the global runtime queue to have zero failures even though all three current failures were unrelated Flux1 coverage checks and the selected inpaint lane itself passed."
+  },
+  "implementation": [
+    {
+      "path": "Plan/Instructions/QA/Scripts/New-SelectedTargetRuntimeLocalRecheckLedger.ps1",
+      "sha256": "ce29c6a5876d2e3c73d6fd99f2207fe80e8d9915b93c39e5e8dafd40245b0398",
+      "purpose": "Fail-closed selected-lane runtime queue assessment with explicit side-effect fields and structured evidence."
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/Test-SelectedTargetRuntimeLocalRecheckLedgerRegression.ps1",
+      "sha256": "0feebecf61c41d2d931d3a639795c0b70e5f818de629783802d2be78484bbc43",
+      "purpose": "Disposable positive and negative lane-scope regression fixtures."
+    },
+    {
+      "path": "Plan/Instructions/Operations/Scripts/Test-OperationsHelperStatic.ps1",
+      "sha256": "0be26ed960b5a41535a5711e84e9f4b96e6ee9da15ff51532c19fdbd03648ffd",
+      "purpose": "Parser registration and scope accounting for the new regression helper."
+    }
+  ],
+  "lane_scope_decision": {
+    "global_runtime_queue_result": "fail",
+    "global_runtime_queue_failed_check_count": 3,
+    "selected_lane_row_count": 1,
+    "selected_lane_result": "pass",
+    "selected_lane_failed_check_count": 0,
+    "selected_lane_check_count": 4,
+    "selected_lane_checks_all_pass": true,
+    "queue_check_count": 20,
+    "queue_checks_all_pass": true,
+    "lane_queue_result_count": 10,
+    "lane_queue_results_all_pass": true,
+    "coverage_check_count": 14,
+    "coverage_failed_check_names": [
+      "coverage_result_pass_local_only",
+      "coverage_failed_lane_count_zero",
+      "coverage_queue_lane_results_pass"
+    ],
+    "coverage_failed_lanes": [
+      "flux1_dev_primary_base"
+    ],
+    "coverage_failures_exclude_selected_lane": true,
+    "failed_check_count_fully_accounted": true,
+    "assessment_mode": "global_fail_lane_scoped",
+    "lane_scope_pass": true
+  },
+  "validation": {
+    "focused_regression": {
+      "path": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_SELECTED_TARGET_RUNTIME_LOCAL_RECHECK_LEDGER_LANE_SCOPE_REGRESSION_20260711T102100-0500.json",
+      "sha256": "ab72f7b7760b996cc554c20809ae05d7f9108fe4021e707eed2a694c65afe39b",
+      "result": "pass_local_only",
+      "test_count": 11,
+      "passing_test_count": 11,
+      "failed_test_count": 0,
+      "positive_modes": [
+        "global_pass",
+        "global_fail_lane_scoped"
+      ],
+      "structured_negative_count": 9
+    },
+    "real_selected_inpaint_refresh": {
+      "path": "runtime_artifacts/selected_inpaint_refresh_lane_scope_review_fix/selected_inpaint_pre_ec2_refresh_orchestration.json",
+      "sha256": "cbd3e1b6e4cb12bb731249ee5779b8e4c8d89cfa0ad10f1358cc77d3946ded32",
+      "result": "pass_local_only_selected_inpaint_pre_ec2_refresh_orchestrated_live_gates_closed",
+      "child_artifact_count": 4,
+      "failed_child_contract_count": 0,
+      "ledger_path": "runtime_artifacts/selected_inpaint_refresh_lane_scope_review_fix/W66_SELECTED_TARGET_RUNTIME_LOCAL_RECHECK_LEDGER_20260711T101800-0500.json",
+      "ledger_sha256": "02baa64791794cfa4d331080a4e863be9154ae2601c0de63f431acf09e353e0d"
+    },
+    "operations_harness": {
+      "path": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W60_OPERATIONS_HELPER_SELECTED_INPAINT_LANE_SCOPE_REPAIR_20260711T102200-0500.json",
+      "sha256": "dcb80fedd980fc7a3d237086ffd88596ff721e8b78561630ba0819a54605f5a5",
+      "result": "pass_local_only",
+      "script_count": 53,
+      "script_parse_failures": 0,
+      "local_smoke_count": 33,
+      "local_smoke_failures": 0,
+      "evidence_check_count": 8,
+      "evidence_check_failures": 0,
+      "evidence_contract_check_count": 10,
+      "evidence_contract_check_failures": 0
+    }
+  },
+  "review": {
+    "cursor_read_only_review_completed": true,
+    "claude_contradiction_review_completed": true,
+    "claude_blocker_count": 0,
+    "medium_finding_remediated": "All six recheck payloads now require explicit local_only, AWS, GitHub, Civitai, EC2, and generation fields before they can be considered side-effect-free.",
+    "low_findings_remediated": [
+      "Failed-lane parsing is case-insensitive and accepts comma, semicolon, or newline delimiters.",
+      "Positive regressions assert lane-scope pass, assessment mode, and exact failed-lane sets.",
+      "Operations-harness reporting distinguishes parser registration from the separately executed 11-case regression."
+    ]
+  },
+  "known_limits": [
+    "The global runtime queue remains failed only for the separately license-gated Flux1 coverage path; this repair does not clear or hide that blocker.",
+    "This is local orchestration validation, not new selected-inpaint generation, target-runtime proof, or final project certification.",
+    "AWS CLI authentication remains expired, so no current EC2 or S3 state is claimed."
+  ],
+  "boundaries": {
+    "local_only": true,
+    "aws_contacted_by_validation": false,
+    "s3_contacted": false,
+    "ec2_started": false,
+    "comfyui_contacted": false,
+    "generation_executed": false,
+    "prompt_posted": false,
+    "active_runtime_marker_written": false,
+    "masks_consumed_as_truth": false,
+    "masks_promoted": false,
+    "wave70_hard_gate_rerun": false,
+    "wave71_plus_activated": false,
+    "jira_mutated": false,
+    "target_runtime_launch_allowed": false,
+    "full_project_certification_allowed": false
+  },
+  "next_action": "Preserve the passing repair and do not rerun selected-inpaint generation. Continue another concrete non-mask local implementation task while live AWS authentication remains externally gated."
+}

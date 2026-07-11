@@ -1589,6 +1589,8 @@ $controlNetAssetTransferScript = Join-Path $ProjectRoot "Plan\Instructions\QA\Sc
 $scriptParseResults += Test-PowerShellParser -Path $controlNetAssetTransferScript
 $controlNetPreEc2HandoffScript = Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\New-ControlNetLanePreEC2HandoffBundle.ps1"
 $scriptParseResults += Test-PowerShellParser -Path $controlNetPreEc2HandoffScript
+$selectedRuntimeLocalRecheckRegressionScript = Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\Test-SelectedTargetRuntimeLocalRecheckLedgerRegression.ps1"
+$scriptParseResults += Test-PowerShellParser -Path $selectedRuntimeLocalRecheckRegressionScript
 
 $jsonParseResults = @()
 foreach ($json in @(
@@ -1969,6 +1971,7 @@ $record = [ordered]@{
     "Plan/Instructions/QA/Scripts/Test-LicensedModelInstallRegression.ps1",
     "Plan/Instructions/QA/Scripts/Test-RunPackageDeployBundleConsistency.ps1",
     "Plan/Instructions/QA/Scripts/Test-RunPackageDeployBundleConsistencyRegression.ps1",
+    "Plan/Instructions/QA/Scripts/Test-SelectedTargetRuntimeLocalRecheckLedgerRegression.ps1",
     "Plan/Instructions/QA/Scripts/Test-ControlNetSelectedLanePackageDeployConsistency.ps1",
     "Plan/Instructions/QA/Scripts/Test-ControlNetLaneAssetTransferDryRunBundle.ps1",
     "Plan/Instructions/QA/Scripts/Test-EC2WorkflowSmokeStartFailureRegression.ps1",

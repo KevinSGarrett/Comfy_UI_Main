@@ -91,10 +91,13 @@ function New-Check {
 
 function Test-NoLiveSideEffects {
   param([object]$Payload)
+  foreach ($required in @("local_only", "aws_contacted", "github_api_contacted", "civitai_contacted", "ec2_started", "generation_executed")) {
+    if (-not (Has-Property -Object $Payload -Name $required)) { return $false }
+  }
+  if (-not [bool]$Payload.local_only) { return $false }
   foreach ($name in @("aws_contacted", "github_api_contacted", "civitai_contacted", "s3_contacted", "comfyui_contacted", "ec2_started", "generation_executed", "prompt_posted", "active_runtime_marker_written", "masks_consumed_as_truth", "masks_promoted", "wave70_hard_gate_rerun", "wave71_plus_activated")) {
     if ((Has-Property -Object $Payload -Name $name) -and [bool]$Payload.$name) { return $false }
   }
-  if ((Has-Property -Object $Payload -Name "local_only") -and -not [bool]$Payload.local_only) { return $false }
   return $true
 }
 
@@ -118,6 +121,306 @@ function New-RecheckRow {
     result_accepted = $resultAccepted
     no_live_side_effects = $sideEffectsPass
   }
+}
+
+function Parse-FailedLaneList {
+  param([AllowNull()][object]$Observed)
+  $text = [string]$Observed
+  if ([string]::IsNullOrWhiteSpace($text)) { return @() }
+  if ($text -match "(?i)^\s*all queued lane coverage results pass\s*$") { return @() }
+  return @($text -split "[,;\r\n]+" | ForEach-Object { [string]$_.Trim() } | Where-Object { -not [string]::IsNullOrWhiteSpace([string]$_) })
+}
+
+function Test-RuntimeQueueLaneScope {
+  param(
+    [AllowNull()][object]$RuntimeQueue,
+    [Parameter(Mandatory = $true)][string]$SelectedLaneId
+  )
+
+  $allowedCoverageFailureNames = @("coverage_result_pass_local_only", "coverage_failed_lane_count_zero", "coverage_queue_lane_results_pass")
+  $structuralFailures = New-Object System.Collections.Generic.List[string]
+  $failureReasons = New-Object System.Collections.Generic.List[string]
+
+  $scope = [ordered]@{
+    selected_lane_id = $SelectedLaneId
+    assessment_mode = "unassessed"
+    pass = $false
+    runtime_queue_result = $null
+    runtime_queue_failed_check_count = $null
+    local_no_side_effects = $false
+    structure_valid = $false
+    queue_check_count = 0
+    queue_checks_all_pass = $false
+    lane_queue_result_count = 0
+    lane_queue_results_all_pass = $false
+    selected_lane_row_count = 0
+    selected_lane_row_pass = $false
+    selected_lane_check_count = 0
+    selected_lane_checks_all_pass = $false
+    coverage_check_count = 0
+    coverage_checks_all_pass = $false
+    coverage_failed_check_count = 0
+    coverage_failed_check_names = @()
+    coverage_failed_check_names_allowed = $false
+    coverage_queue_lane_results_pass_check_count = 0
+    coverage_queue_lane_results_pass_check_failed = $false
+    coverage_queue_lane_results_failed_lanes = @()
+    coverage_queue_lane_results_failed_lane_count = 0
+    coverage_queue_lane_results_excludes_selected_lane = $false
+    failed_check_count_accounts_for_coverage_only = $false
+    structural_failures = @()
+    failure_reasons = @()
+  }
+
+  if ($null -eq $RuntimeQueue) {
+    [void]$structuralFailures.Add("runtime_queue_missing")
+    $scope.structural_failures = @($structuralFailures)
+    $scope.failure_reasons = @("structural_failure")
+    return [pscustomobject]$scope
+  }
+
+  $scope.runtime_queue_result = if (Has-Property -Object $RuntimeQueue -Name "result") { [string]$RuntimeQueue.result } else { $null }
+  $scope.local_no_side_effects = Test-NoLiveSideEffects -Payload $RuntimeQueue
+  if (-not $scope.local_no_side_effects) {
+    [void]$failureReasons.Add("runtime_queue_not_local_only")
+  }
+
+  foreach ($required in @("result", "failed_check_count", "local_only", "queue_checks", "lane_queue_results", "coverage_checks")) {
+    if (-not (Has-Property -Object $RuntimeQueue -Name $required)) {
+      [void]$structuralFailures.Add("missing_$required")
+    }
+  }
+  if ($structuralFailures.Count -gt 0) {
+    $scope.structural_failures = @($structuralFailures)
+    [void]$failureReasons.Add("structural_failure")
+    $scope.failure_reasons = @($failureReasons)
+    return [pscustomobject]$scope
+  }
+
+  $runtimeFailedCount = $null
+  try {
+    $runtimeFailedCount = [int]$RuntimeQueue.failed_check_count
+  } catch {
+    [void]$structuralFailures.Add("failed_check_count_not_int")
+  }
+  if ($structuralFailures.Count -gt 0) {
+    $scope.structural_failures = @($structuralFailures)
+    [void]$failureReasons.Add("structural_failure")
+    $scope.failure_reasons = @($failureReasons)
+    return [pscustomobject]$scope
+  }
+  $scope.runtime_queue_failed_check_count = $runtimeFailedCount
+
+  $queueChecks = Convert-ToArray -Value $RuntimeQueue.queue_checks
+  $laneQueueResults = Convert-ToArray -Value $RuntimeQueue.lane_queue_results
+  $coverageChecks = Convert-ToArray -Value $RuntimeQueue.coverage_checks
+  $scope.queue_check_count = $queueChecks.Count
+  $scope.lane_queue_result_count = $laneQueueResults.Count
+  $scope.coverage_check_count = $coverageChecks.Count
+  if (
+    $RuntimeQueue.queue_checks -is [string] -or
+    $RuntimeQueue.lane_queue_results -is [string] -or
+    $RuntimeQueue.coverage_checks -is [string] -or
+    $queueChecks.Count -eq 0 -or
+    $laneQueueResults.Count -eq 0 -or
+    $coverageChecks.Count -eq 0
+  ) {
+    [void]$structuralFailures.Add("check_collections_malformed")
+  }
+  if ($structuralFailures.Count -gt 0) {
+    $scope.structural_failures = @($structuralFailures)
+    [void]$failureReasons.Add("structural_failure")
+    $scope.failure_reasons = @($failureReasons)
+    return [pscustomobject]$scope
+  }
+
+  $scope.structure_valid = $true
+  $scope.structural_failures = @()
+
+  $queueCheckShapeFailures = @($queueChecks | Where-Object {
+    -not (Has-Property -Object $_ -Name "name") -or
+    [string]::IsNullOrWhiteSpace([string]$_.name) -or
+    -not (Has-Property -Object $_ -Name "result")
+  })
+  if ($queueCheckShapeFailures.Count -gt 0) {
+    $scope.structure_valid = $false
+    [void]$structuralFailures.Add("queue_check_shape_invalid")
+    [void]$failureReasons.Add("structural_failure")
+  }
+  $queueCheckFailures = @($queueChecks | Where-Object { -not (Has-Property -Object $_ -Name "result") -or [string]$_.result -ne "pass" })
+  $scope.queue_checks_all_pass = ($queueCheckFailures.Count -eq 0)
+  if (-not $scope.queue_checks_all_pass) {
+    [void]$failureReasons.Add("queue_checks_have_failures")
+  }
+
+  $laneQueueFailures = @()
+  foreach ($laneRow in @($laneQueueResults)) {
+    $laneIdValid = (
+      (Has-Property -Object $laneRow -Name "lane_id") -and
+      -not [string]::IsNullOrWhiteSpace([string]$laneRow.lane_id)
+    )
+    $laneChecks = if (Has-Property -Object $laneRow -Name "checks") { Convert-ToArray -Value $laneRow.checks } else { @() }
+    $laneCheckShapeFailures = @($laneChecks | Where-Object {
+      -not (Has-Property -Object $_ -Name "name") -or
+      [string]::IsNullOrWhiteSpace([string]$_.name) -or
+      -not (Has-Property -Object $_ -Name "result")
+    })
+    $laneChecksValid = ($laneChecks.Count -gt 0 -and $laneCheckShapeFailures.Count -eq 0)
+    $laneCheckFailures = @($laneChecks | Where-Object { -not (Has-Property -Object $_ -Name "result") -or [string]$_.result -ne "pass" })
+    $laneFailedCount = $null
+    $laneFailedCountValid = $true
+    if (-not (Has-Property -Object $laneRow -Name "failed_check_count")) {
+      $laneFailedCountValid = $false
+    } else {
+      try {
+        $laneFailedCount = [int]$laneRow.failed_check_count
+      } catch {
+        $laneFailedCountValid = $false
+      }
+    }
+    if (
+      -not $laneIdValid -or
+      -not $laneChecksValid -or
+      $laneCheckFailures.Count -gt 0 -or
+      -not (Has-Property -Object $laneRow -Name "result") -or
+      [string]$laneRow.result -ne "pass" -or
+      -not $laneFailedCountValid -or
+      $laneFailedCount -ne 0
+    ) {
+      $laneQueueFailures += $laneRow
+    }
+  }
+  $scope.lane_queue_results_all_pass = ($laneQueueFailures.Count -eq 0)
+  if (-not $scope.lane_queue_results_all_pass) {
+    [void]$failureReasons.Add("lane_queue_results_have_failures")
+  }
+
+  $selectedRows = @($laneQueueResults | Where-Object { (Has-Property -Object $_ -Name "lane_id") -and [string]$_.lane_id -eq $SelectedLaneId })
+  $scope.selected_lane_row_count = $selectedRows.Count
+  if ($selectedRows.Count -ne 1) {
+    [void]$failureReasons.Add("selected_lane_row_count_invalid")
+  } else {
+    $selectedRow = $selectedRows[0]
+    $selectedRowChecks = if (Has-Property -Object $selectedRow -Name "checks") { Convert-ToArray -Value $selectedRow.checks } else { @() }
+    $scope.selected_lane_check_count = $selectedRowChecks.Count
+    $selectedRowCheckShapeFailures = @($selectedRowChecks | Where-Object {
+      -not (Has-Property -Object $_ -Name "name") -or
+      [string]::IsNullOrWhiteSpace([string]$_.name) -or
+      -not (Has-Property -Object $_ -Name "result")
+    })
+    $selectedRowCheckFailures = @($selectedRowChecks | Where-Object { -not (Has-Property -Object $_ -Name "result") -or [string]$_.result -ne "pass" })
+    $scope.selected_lane_checks_all_pass = (
+      $selectedRowChecks.Count -gt 0 -and
+      $selectedRowCheckShapeFailures.Count -eq 0 -and
+      $selectedRowCheckFailures.Count -eq 0
+    )
+    $selectedRowFailedCount = $null
+    $selectedRowFailedCountValid = $true
+    if (-not (Has-Property -Object $selectedRow -Name "failed_check_count")) {
+      $selectedRowFailedCountValid = $false
+    } else {
+      try {
+        $selectedRowFailedCount = [int]$selectedRow.failed_check_count
+      } catch {
+        $selectedRowFailedCountValid = $false
+      }
+    }
+    $scope.selected_lane_row_pass = (
+      (Has-Property -Object $selectedRow -Name "result") -and [string]$selectedRow.result -eq "pass" -and
+      $selectedRowFailedCountValid -and $selectedRowFailedCount -eq 0
+    )
+    if (-not $scope.selected_lane_row_pass) {
+      [void]$failureReasons.Add("selected_lane_row_failed")
+    }
+    if (-not $scope.selected_lane_checks_all_pass) {
+      [void]$failureReasons.Add("selected_lane_check_failed")
+    }
+  }
+
+  $coverageCheckShapeFailures = @($coverageChecks | Where-Object {
+    -not (Has-Property -Object $_ -Name "name") -or
+    [string]::IsNullOrWhiteSpace([string]$_.name) -or
+    -not (Has-Property -Object $_ -Name "result")
+  })
+  if ($coverageCheckShapeFailures.Count -gt 0) {
+    $scope.structure_valid = $false
+    [void]$structuralFailures.Add("coverage_check_shape_invalid")
+    [void]$failureReasons.Add("structural_failure")
+  }
+  $failedCoverageChecks = @($coverageChecks | Where-Object { -not (Has-Property -Object $_ -Name "result") -or [string]$_.result -ne "pass" })
+  $scope.coverage_checks_all_pass = ($failedCoverageChecks.Count -eq 0)
+  $scope.coverage_failed_check_count = $failedCoverageChecks.Count
+  $scope.coverage_failed_check_names = @($failedCoverageChecks | ForEach-Object { if (Has-Property -Object $_ -Name "name") { [string]$_.name } else { "missing_name" } })
+  $scope.coverage_failed_check_names_allowed = (@($scope.coverage_failed_check_names | Where-Object { $allowedCoverageFailureNames -notcontains [string]$_ }).Count -eq 0)
+  if (-not $scope.coverage_failed_check_names_allowed) {
+    [void]$failureReasons.Add("coverage_failure_name_not_allowed")
+  }
+
+  $coverageQueueLaneResultsChecks = @($coverageChecks | Where-Object { (Has-Property -Object $_ -Name "name") -and [string]$_.name -eq "coverage_queue_lane_results_pass" })
+  $scope.coverage_queue_lane_results_pass_check_count = $coverageQueueLaneResultsChecks.Count
+  if ($coverageQueueLaneResultsChecks.Count -ne 1) {
+    [void]$failureReasons.Add("coverage_queue_lane_results_pass_check_count_invalid")
+  } else {
+    $scope.coverage_queue_lane_results_pass_check_failed = ([string]$coverageQueueLaneResultsChecks[0].result -eq "fail")
+    $failedLanes = Parse-FailedLaneList -Observed $coverageQueueLaneResultsChecks[0].observed
+    $scope.coverage_queue_lane_results_failed_lanes = @($failedLanes)
+    $scope.coverage_queue_lane_results_failed_lane_count = $failedLanes.Count
+    $scope.coverage_queue_lane_results_excludes_selected_lane = (@($failedLanes | Where-Object { [string]$_ -eq $SelectedLaneId }).Count -eq 0)
+    if (-not $scope.coverage_queue_lane_results_excludes_selected_lane) {
+      [void]$failureReasons.Add("selected_lane_listed_in_coverage_failure")
+    }
+  }
+
+  $scope.failed_check_count_accounts_for_coverage_only = ($runtimeFailedCount -eq $failedCoverageChecks.Count)
+  if (-not $scope.failed_check_count_accounts_for_coverage_only) {
+    [void]$failureReasons.Add("failed_check_count_not_coverage_only")
+  }
+
+  $commonSelectedLaneContract = (
+    $scope.structure_valid -and
+    $scope.queue_checks_all_pass -and
+    $scope.lane_queue_results_all_pass -and
+    $scope.selected_lane_row_count -eq 1 -and
+    $scope.selected_lane_row_pass -and
+    $scope.selected_lane_checks_all_pass -and
+    $scope.coverage_queue_lane_results_pass_check_count -eq 1 -and
+    $scope.failed_check_count_accounts_for_coverage_only
+  )
+  $globalPass = (
+    [string]$scope.runtime_queue_result -eq "pass_local_only" -and
+    $runtimeFailedCount -eq 0 -and
+    $commonSelectedLaneContract -and
+    $scope.coverage_checks_all_pass -and
+    $scope.coverage_queue_lane_results_failed_lane_count -eq 0
+  )
+  $globalFailLaneScoped = (
+    [string]$scope.runtime_queue_result -eq "fail" -and
+    $commonSelectedLaneContract -and
+    $scope.coverage_failed_check_count -gt 0 -and
+    $scope.coverage_failed_check_names_allowed -and
+    $scope.coverage_queue_lane_results_pass_check_failed -and
+    $scope.coverage_queue_lane_results_failed_lane_count -gt 0 -and
+    $scope.coverage_queue_lane_results_excludes_selected_lane
+  )
+
+  if ($globalPass) {
+    $scope.assessment_mode = "global_pass"
+    if ($scope.local_no_side_effects) {
+      $scope.pass = $true
+    }
+  } elseif ($globalFailLaneScoped) {
+    $scope.assessment_mode = "global_fail_lane_scoped"
+    if ($scope.local_no_side_effects) {
+      $scope.pass = $true
+    }
+  } else {
+    $scope.assessment_mode = "global_fail_closed"
+    [void]$failureReasons.Add("runtime_queue_result_not_accepted")
+  }
+
+  $scope.structural_failures = @($structuralFailures | Select-Object -Unique)
+  $scope.failure_reasons = @($failureReasons | Select-Object -Unique)
+  return [pscustomobject]$scope
 }
 
 $qaRoot = Resolve-ProjectPath -Path "Plan\Instructions\QA\Evidence"
@@ -179,6 +482,7 @@ $localSupport = Read-JsonFile -Path $paths.local_support_certification
 $runtimeQueue = Read-JsonFile -Path $paths.runtime_lane_queue
 $modelCoverage = Read-JsonFile -Path $paths.model_registry_coverage
 
+$selectedLaneId = "sdxl_realvisxl_inpaint_detail_lane"
 $laneId = [string]$handoffBundle.lane_id
 $workOrderId = [string]$handoffBundle.selected_work_order_id
 $handoffMaterializedBundle = (
@@ -187,12 +491,18 @@ $handoffMaterializedBundle = (
   -not (Get-BoolValue -Object $handoffBundle -Name "selected_deploy_bundle_s3_upload_execute_allowed")
 )
 
+$runtimeQueueLaneScope = Test-RuntimeQueueLaneScope -RuntimeQueue $runtimeQueue -SelectedLaneId $selectedLaneId
+$runtimeLaneQueueRow = New-RecheckRow -Name "runtime_lane_queue_recheck" -Path $paths.runtime_lane_queue -Payload $runtimeQueue -AcceptedResults @("pass_local_only", "fail") -ExpectedDisposition "pass_local_recheck"
+$runtimeLaneQueueRow.result_accepted = [bool]$runtimeQueueLaneScope.pass
+$runtimeLaneQueueRow.disposition = $(if ([bool]$runtimeLaneQueueRow.result_accepted -and [bool]$runtimeLaneQueueRow.no_live_side_effects) { "pass_local_recheck" } else { "unexpected" })
+$runtimeLaneQueueRow | Add-Member -NotePropertyName "runtime_queue_lane_scope" -NotePropertyValue $runtimeQueueLaneScope
+
 $rows = @(
   (New-RecheckRow -Name "closure_rollup_recheck" -Path $paths.closure_rollup -Payload $closure -AcceptedResults @("pass_local_only_final_certification_closure_rollup") -ExpectedDisposition "pass_local_recheck"),
   (New-RecheckRow -Name "git_checkpoint_recheck" -Path $paths.git_checkpoint_gate -Payload $gitGate -AcceptedResults @("blocked_git_checkpoint_dirty_worktree", "pass_git_checkpoint_ready") -ExpectedDisposition $(if ([string]$gitGate.result -eq "pass_git_checkpoint_ready") { "pass_local_recheck" } else { "blocked_expected_dirty_git" })),
   (New-RecheckRow -Name "runtime_unblock_handoff_recheck" -Path $paths.runtime_unblock_handoff -Payload $runtimeHandoff -AcceptedResults @("handoff_failed_local_readiness", "handoff_git_checkpoint_blocked", "handoff_ready_for_ec2_static_proof", "handoff_ready_runtime_blocked_auth", "handoff_auth_ready_lane_not_ready", "handoff_lane_queue_order_blocked", "handoff_model_registry_blocked") -ExpectedDisposition $(if ([string]$runtimeHandoff.result -eq "handoff_failed_local_readiness") { "blocked_expected_missing_project_readiness" } elseif ([string]$runtimeHandoff.result -eq "handoff_git_checkpoint_blocked") { "blocked_expected_dirty_git" } else { "pass_or_blocked_local_handoff" })),
   (New-RecheckRow -Name "active_runtime_queue_local_support_recheck" -Path $paths.local_support_certification -Payload $localSupport -AcceptedResults @("pass_local_active_runtime_queue_support_certification") -ExpectedDisposition "pass_local_recheck"),
-  (New-RecheckRow -Name "runtime_lane_queue_recheck" -Path $paths.runtime_lane_queue -Payload $runtimeQueue -AcceptedResults @("pass_local_only") -ExpectedDisposition "pass_local_recheck"),
+  $runtimeLaneQueueRow,
   (New-RecheckRow -Name "model_registry_coverage_recheck" -Path $paths.model_registry_coverage -Payload $modelCoverage -AcceptedResults @("pass_local_only") -ExpectedDisposition "pass_local_recheck")
 )
 
@@ -245,13 +555,13 @@ if ((Has-Property -Object $runtimeHandoff -Name "gate_summary") -and
 }
 
 $checks = @(
-  (New-Check -Name "pre_ec2_handoff_bundle_still_fail_closed" -Passed ([string]$handoffBundle.result -eq "pass_local_only_selected_target_runtime_pre_ec2_handoff_bundle_ready_ec2_blocked" -and $laneId -eq "sdxl_realvisxl_inpaint_detail_lane" -and -not [bool]$handoffBundle.target_runtime_launch_allowed -and -not [bool]$handoffBundle.execute_allowed_now) -Observed ([ordered]@{ result = $handoffBundle.result; lane_id = $laneId; launch_allowed = $handoffBundle.target_runtime_launch_allowed; execute_allowed_now = $handoffBundle.execute_allowed_now }) -Expected "selected inpaint pre-EC2 handoff bundle remains fail-closed"),
+  (New-Check -Name "pre_ec2_handoff_bundle_still_fail_closed" -Passed ([string]$handoffBundle.result -eq "pass_local_only_selected_target_runtime_pre_ec2_handoff_bundle_ready_ec2_blocked" -and $laneId -eq $selectedLaneId -and -not [bool]$handoffBundle.target_runtime_launch_allowed -and -not [bool]$handoffBundle.execute_allowed_now) -Observed ([ordered]@{ result = $handoffBundle.result; lane_id = $laneId; launch_allowed = $handoffBundle.target_runtime_launch_allowed; execute_allowed_now = $handoffBundle.execute_allowed_now }) -Expected "selected inpaint pre-EC2 handoff bundle remains fail-closed"),
   (New-Check -Name "materialized_bundle_commands_preserved_when_available" -Passed ((-not $handoffMaterializedBundle) -or (-not [string]::IsNullOrWhiteSpace([string]$handoffBundle.selected_deploy_bundle_s3_bundle_uri) -and -not [string]::IsNullOrWhiteSpace([string]$handoffBundle.selected_deploy_bundle_s3_bundle_sha256))) -Observed ([ordered]@{ materialized = $handoffMaterializedBundle; uri = [string]$handoffBundle.selected_deploy_bundle_s3_bundle_uri; sha = [string]$handoffBundle.selected_deploy_bundle_s3_bundle_sha256; s3_upload_execute_allowed = $handoffBundle.selected_deploy_bundle_s3_upload_execute_allowed }) -Expected "materialized selected bundle evidence carries URI/SHA while upload execute remains blocked"),
   (New-Check -Name "six_recheck_rows_accounted" -Passed (@($rows).Count -eq 6 -and $allRowsAccepted -and $allRowsSideEffectFree -and $unexpectedRows.Count -eq 0) -Observed ([ordered]@{ row_count = @($rows).Count; accepted = $allRowsAccepted; side_effect_free = $allRowsSideEffectFree; unexpected_count = $unexpectedRows.Count }) -Expected "six accepted local-only recheck rows with no live side effects"),
   (New-Check -Name "closure_rollup_keeps_final_certification_blocked" -Passed ([int]$closure.closed_work_order_count -eq 2 -and [int]$closure.open_work_order_count -eq $expectedOpenWorkOrderCount -and [int]$closure.remaining_target_runtime_count -eq 8 -and [int]$closure.remaining_final_review_count -eq 7 -and -not [bool]$closure.full_project_certification_allowed) -Observed ([ordered]@{ source_work_orders = $closure.source_work_order_count; closed = $closure.closed_work_order_count; open = $closure.open_work_order_count; expected_open = $expectedOpenWorkOrderCount; target_runtime = $closure.remaining_target_runtime_count; final_review = $closure.remaining_final_review_count; full_project_certification_allowed = $closure.full_project_certification_allowed }) -Expected "closure rollup keeps two local review closures, all target-runtime/final-review blockers open, and full certification blocked"),
   (New-Check -Name "git_checkpoint_dry_run_accounted_without_commit_or_push" -Passed ($gitGatePasses -or $gitGateDirtyBlocker) -Observed ([ordered]@{ result = $gitGate.result; clean_worktree = $gitGate.clean_worktree; local_matches_origin = $gitGate.local_matches_origin; porcelain_count = $gitGate.porcelain_count; commit_attempted = $gitGate.commit_attempted; push_attempted = $gitGate.push_attempted; passes_for_ec2_execute = $gitGatePasses; dirty_blocker = $gitGateDirtyBlocker }) -Expected "clean/synced pass gate or dirty Git blocker, always with no commit or push"),
   (New-Check -Name "runtime_unblock_handoff_records_expected_blocker" -Passed ([string]$runtimeHandoff.lane_id -eq $laneId -and (@("handoff_failed_local_readiness", "handoff_git_checkpoint_blocked", "handoff_ready_runtime_blocked_auth", "handoff_auth_ready_lane_not_ready", "handoff_lane_queue_order_blocked", "handoff_model_registry_blocked", "handoff_ready_for_ec2_static_proof") -contains [string]$runtimeHandoff.result) -and $null -ne $runtimeHandoffProjectReadiness -and (@("missing_project_readiness", "pass_local_ready_runtime_blocked", "pass_local_ready_for_ec2_static_proof") -contains [string]$runtimeHandoffProjectReadiness.result)) -Observed ([ordered]@{ result = $runtimeHandoff.result; failure_category = $runtimeHandoff.failure_category; project_readiness = $(if ($null -ne $runtimeHandoffProjectReadiness) { $runtimeHandoffProjectReadiness.result } else { $null }) }) -Expected "selected inpaint runtime handoff fail-closes on an expected local blocker or remains ready for the next gated runtime step"),
-  (New-Check -Name "local_support_queue_and_model_rechecks_pass" -Passed ([string]$localSupport.result -eq "pass_local_active_runtime_queue_support_certification" -and [int]$localSupport.lane_count -eq 9 -and [string]$runtimeQueue.result -eq "pass_local_only" -and [int]$runtimeQueue.failed_check_count -eq 0 -and [string]$modelCoverage.result -eq "pass_local_only" -and [int]$modelCoverage.failed_check_count -eq 0) -Observed ([ordered]@{ local_support = $localSupport.result; lane_count = $localSupport.lane_count; runtime_queue = $runtimeQueue.result; runtime_queue_failed = $runtimeQueue.failed_check_count; model_coverage = $modelCoverage.result; model_coverage_failed = $modelCoverage.failed_check_count }) -Expected "local support, runtime queue, and model registry rechecks pass locally")
+  (New-Check -Name "local_support_queue_and_model_rechecks_pass" -Passed ([string]$localSupport.result -eq "pass_local_active_runtime_queue_support_certification" -and [int]$localSupport.lane_count -eq 9 -and [bool]$runtimeQueueLaneScope.pass -and [string]$modelCoverage.result -eq "pass_local_only" -and [int]$modelCoverage.failed_check_count -eq 0) -Observed ([ordered]@{ local_support = $localSupport.result; lane_count = $localSupport.lane_count; runtime_queue = $runtimeQueue.result; runtime_queue_failed = $runtimeQueue.failed_check_count; runtime_queue_lane_scope_pass = $runtimeQueueLaneScope.pass; runtime_queue_lane_scope_mode = $runtimeQueueLaneScope.assessment_mode; runtime_queue_lane_scope_failures = @($runtimeQueueLaneScope.failure_reasons); model_coverage = $modelCoverage.result; model_coverage_failed = $modelCoverage.failed_check_count }) -Expected "local support passes, runtime queue is accepted by selected-lane fail-closed scope, and model registry recheck passes locally")
 )
 $failedChecks = @($checks | Where-Object { [string]$_.result -ne "pass" })
 
@@ -290,6 +600,7 @@ $record = [ordered]@{
   selected_deploy_bundle_live_commands_materialized = $handoffMaterializedBundle
   selected_deploy_bundle_s3_bundle_uri = [string]$handoffBundle.selected_deploy_bundle_s3_bundle_uri
   selected_deploy_bundle_s3_bundle_sha256 = [string]$handoffBundle.selected_deploy_bundle_s3_bundle_sha256
+  runtime_queue_lane_scope = $runtimeQueueLaneScope
   recheck_rows = @($rows)
   pass_recheck_count = $passRows.Count
   expected_blocked_recheck_count = $expectedBlockedRows.Count

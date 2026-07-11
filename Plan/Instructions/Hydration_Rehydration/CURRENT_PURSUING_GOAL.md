@@ -1,3 +1,9 @@
+## Active Runtime Posture - Selected-Inpaint Local Recheck Is Lane-Scoped - 2026-07-11T10:22:00-05:00
+
+Continue the full autonomous project goal from authoritative `C:\Comfy_UI_Main`. The selected-inpaint pre-EC2 refresh now evaluates selected-inpaint readiness independently from unrelated global Flux1 coverage while remaining fail-closed on malformed evidence, selected-lane failures, structural queue failures, unaccounted counts, selected-lane coverage failures, or missing/live side-effect flags. The real local refresh returns four passing child contracts and still keeps execution and target-runtime launch false.
+
+Preserve existing selected-inpaint runtime proof without replay. Flux1 remains separately blocked by its license/model boundary, and AWS authentication remains expired. Continue another genuine non-mask local implementation task without body-mask promotion, Wave70 hard-gate reruns, Wave71+ activation, Jira bookkeeping, or legacy/cloud duplication.
+
 ## Active Runtime Posture - Canny Full-Body Local Robustness Complete - 2026-07-11T09:38:00-05:00
 
 Continue the full autonomous project goal from authoritative `C:\Comfy_UI_Main`. The canonical Canny lane now has a fixed three-seed local full-body matrix passing runtime, technical, geometry, and strict visual QA `3/3`. The OpenCV control map is binary and hash-pinned to the true full-body source; each generated sample binds the exact model, Canny asset, control image, sampler, scheduler, dimensions, and seed, preserves all 18 body landmarks, and shows no visible Canny leakage.
