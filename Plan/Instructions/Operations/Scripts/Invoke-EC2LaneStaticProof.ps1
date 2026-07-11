@@ -28,6 +28,8 @@ param(
 $ErrorActionPreference = "Stop"
 $startFailureClassifier = Join-Path $PSScriptRoot "EC2StartFailureClassification.ps1"
 . $startFailureClassifier
+$stopFailureClassifier = Join-Path $PSScriptRoot "EC2StopFailureClassification.ps1"
+. $stopFailureClassifier
 
 function Get-RelativePathCompat {
   param(
@@ -426,6 +428,9 @@ $startState = ""
 $finalState = ""
 $executionErrorMessage = ""
 $executionFailureCategory = $null
+$stopExitCode = $null
+$stopOutputTail = $null
+$stopFailureCategory = $null
 $expectedRemoteGitHead = [string]$localGitGate.expected_remote_head
 $ssmExecutionTimeoutSeconds = [Math]::Max(600, $MaxEc2RuntimeMinutes * 60)
 
@@ -751,13 +756,37 @@ catch {
   }
 }
 finally {
-  $currentState = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
-  if ($currentState -ne "stopped") {
-    Write-Host "Stopping EC2 instance $InstanceId after static proof attempt"
-    aws ec2 stop-instances --region $Region --instance-ids $InstanceId --output json | Out-Null
-    $null = Wait-InstanceState -DesiredState "stopped" -MaxAttempts 120 -SleepSeconds 5
+  try {
+    $currentState = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
+    if ($currentState -ne "stopped") {
+      Write-Host "Stopping EC2 instance $InstanceId after static proof attempt"
+      $previousErrorActionPreference = $ErrorActionPreference
+      $ErrorActionPreference = "Continue"
+      try {
+        $stopOutput = @(aws ec2 stop-instances --region $Region --instance-ids $InstanceId --output json 2>&1)
+        $stopExitCode = $LASTEXITCODE
+      } finally {
+        $ErrorActionPreference = $previousErrorActionPreference
+      }
+      $stopText = (($stopOutput | ForEach-Object { [string]$_ }) -join [Environment]::NewLine).Trim()
+      $stopOutputTail = $(if ($stopText.Length -gt 2000) { $stopText.Substring($stopText.Length - 2000) } else { $stopText })
+      if ($stopExitCode -ne 0) {
+        $stopFailureCategory = Get-EC2StopFailureCategory -ExitCode $stopExitCode -OutputText $stopText
+        throw "EC2 stop-instances failed with exit code $stopExitCode. $stopText"
+      }
+      $null = Wait-InstanceState -DesiredState "stopped" -MaxAttempts 120 -SleepSeconds 5
+    }
+    $finalState = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
+  } catch {
+    $cleanupMessage = "Stop/final-state verification failed: $($_.Exception.Message)"
+    $executionErrorMessage = $(if ([string]::IsNullOrWhiteSpace($executionErrorMessage)) { $cleanupMessage } else { "$executionErrorMessage $cleanupMessage" })
+    if ([string]::IsNullOrWhiteSpace([string]$stopFailureCategory)) {
+      $stopFailureCategory = "ec2_stop_or_final_state_verification_failed"
+    }
+    if ([string]::IsNullOrWhiteSpace([string]$executionFailureCategory)) {
+      $executionFailureCategory = $stopFailureCategory
+    }
   }
-  $finalState = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
 }
 
 $record = [ordered]@{
@@ -787,6 +816,9 @@ $record = [ordered]@{
   stdout = $stdout
   stderr = $stderr
   final_state = $finalState
+  stop_exit_code = $stopExitCode
+  stop_output_tail = $stopOutputTail
+  stop_failure_category = $stopFailureCategory
   generation_executed = $false
 }
 

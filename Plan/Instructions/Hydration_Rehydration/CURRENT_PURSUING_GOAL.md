@@ -1,3 +1,9 @@
+## Active Runtime Posture - EC2 Start And Stop Evidence Is Fail-Closed - 2026-07-11T04:40:00-05:00
+
+Continue from authoritative `C:\Comfy_UI_Main`. Every known direct EC2 start and stop path now captures native failures, classifies them consistently, and avoids false transition claims or inappropriate polling. Cleanup exceptions are retained in evidence rather than aborting record creation. This is locally certified orchestration safety, not live AWS state proof.
+
+Keep OpenPose, Normal, and RealESRGAN staged until authentication and capacity are available. Continue local implementation without duplicating completed runtime proof, cloud transfers, masks, Wave70 hard gates, or Wave71+ activation.
+
 ## Active Runtime Posture - EC2 Start Surface Is Consistently Fail-Fast - 2026-07-11T04:10:00-05:00
 
 Continue from authoritative `C:\Comfy_UI_Main`. Every known direct EC2 start path now uses shared capacity/auth/throttle/generic classification and preserves truthful state evidence. This closes the local orchestration consistency gap but does not provide live target-runtime proof or current AWS state.

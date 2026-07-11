@@ -48,6 +48,8 @@ param(
 $ErrorActionPreference = "Stop"
 $startFailureClassifier = Join-Path $PSScriptRoot "EC2StartFailureClassification.ps1"
 . $startFailureClassifier
+$stopFailureClassifier = Join-Path $PSScriptRoot "EC2StopFailureClassification.ps1"
+. $stopFailureClassifier
 
 function Get-RelativePathCompat {
   param(
@@ -859,6 +861,9 @@ $record = [ordered]@{
   start_state = $null
   start_exit_code = $null
   start_output_tail = $null
+  stop_exit_code = $null
+  stop_output_tail = $null
+  stop_failure_category = $null
   final_state = $null
   remote_result = $null
   local_pullback = [ordered]@{
@@ -1342,13 +1347,29 @@ finally {
     $shouldStopInstance = ($record.ec2_started -or $record.start_state -eq "running" -or $record.command_status -ne "not_started")
     if ($shouldStopInstance) {
       Write-Host "Stopping EC2 instance $InstanceId after workflow smoke attempt"
-      aws ec2 stop-instances --region $Region --instance-ids $InstanceId --output json | Out-Null
+      $previousErrorActionPreference = $ErrorActionPreference
+      $ErrorActionPreference = "Continue"
+      try {
+        $stopOutput = @(aws ec2 stop-instances --region $Region --instance-ids $InstanceId --output json 2>&1)
+        $record.stop_exit_code = $LASTEXITCODE
+      } finally {
+        $ErrorActionPreference = $previousErrorActionPreference
+      }
+      $stopText = (($stopOutput | ForEach-Object { [string]$_ }) -join [Environment]::NewLine).Trim()
+      $record.stop_output_tail = Get-TailText -Text $stopText -MaxChars 2000
+      if ($record.stop_exit_code -ne 0) {
+        $record.stop_failure_category = Get-EC2StopFailureCategory -ExitCode $record.stop_exit_code -OutputText $stopText
+        throw "EC2 stop-instances failed with exit code $($record.stop_exit_code). $stopText"
+      }
       $null = Wait-InstanceState -DesiredState "stopped" -MaxAttempts 120 -SleepSeconds 5
       $record.final_state = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
     } else {
       $record.final_state = $record.start_state
     }
   } catch {
+    if ([string]::IsNullOrWhiteSpace([string]$record.stop_failure_category)) {
+      $record.stop_failure_category = "ec2_stop_or_final_state_verification_failed"
+    }
     $record.errors += "Stop/final-state verification failed: $($_.Exception.Message)"
   }
 }

@@ -1,3 +1,9 @@
+## Immediate Next Action - EC2 Shutdown Evidence Is Fail-Closed - 2026-07-11T04:40:00-05:00
+
+All five direct EC2 stop call sites now preserve native output/exit code, classify auth/throttle/state/generic failures, and skip stopped-state polling after a rejected stop. Static proof, workflow smoke, both S3 installers, and manual GPU stop retain truthful shutdown evidence; static proof no longer loses its whole record if cleanup verification throws. The remote watchdog's stderr/fallback guard remains intact.
+
+Six stop-classifier cases, 32 shutdown source contracts, 52 operations-harness parser targets, and 33 local smokes were checked. The changed regression passes; the sole harness failure remains the unrelated selected-inpaint refresh mismatch. No AWS request or generation occurred. Continue another concrete local non-mask implementation task while authentication is expired.
+
 ## Immediate Next Action - All EC2 Start Call Sites Fail Fast - 2026-07-11T04:10:00-05:00
 
 All five known direct EC2 start call sites now preserve native failure output, classify rejected starts, and avoid false start/polling behavior. Static proof, workflow smoke, model install, input install, and manual GPU server start share the same classifier. The two installers also skip stop calls when the instance never left its original stopped state. Six classifier cases, seven workflow contracts, eighteen sibling contracts, two installer dry runs, and all 51 operations-harness parser checks pass locally.

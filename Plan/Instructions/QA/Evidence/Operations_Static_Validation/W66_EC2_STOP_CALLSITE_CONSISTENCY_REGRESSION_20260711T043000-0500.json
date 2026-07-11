@@ -1,0 +1,280 @@
+﻿{
+    "evidence_id":  "W66-EC2-STOP-FAILURE-REGRESSION-20260711T032523-0500",
+    "timestamp":  "2026-07-11T03:25:23-05:00",
+    "result":  "pass_local_only",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "ec2_stop_requested":  false,
+    "generation_executed":  false,
+    "classifier_cases":  [
+                             {
+                                 "name":  "success",
+                                 "expected":  null,
+                                 "observed":  null,
+                                 "result":  "pass"
+                             },
+                             {
+                                 "name":  "expired_auth",
+                                 "expected":  "aws_auth_or_authorization_failed",
+                                 "observed":  "aws_auth_or_authorization_failed",
+                                 "result":  "pass"
+                             },
+                             {
+                                 "name":  "authorization",
+                                 "expected":  "aws_auth_or_authorization_failed",
+                                 "observed":  "aws_auth_or_authorization_failed",
+                                 "result":  "pass"
+                             },
+                             {
+                                 "name":  "throttle",
+                                 "expected":  "ec2_stop_throttled",
+                                 "observed":  "ec2_stop_throttled",
+                                 "result":  "pass"
+                             },
+                             {
+                                 "name":  "invalid_state",
+                                 "expected":  "ec2_stop_invalid_instance_state",
+                                 "observed":  "ec2_stop_invalid_instance_state",
+                                 "result":  "pass"
+                             },
+                             {
+                                 "name":  "generic",
+                                 "expected":  "ec2_stop_failed",
+                                 "observed":  "ec2_stop_failed",
+                                 "result":  "pass"
+                             }
+                         ],
+    "stop_source_contract_checks":  [
+                                        {
+                                            "script":  "Invoke-EC2LaneStaticProof.ps1",
+                                            "contract":  "$stopOutput = @(aws ec2 stop-instances",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Invoke-EC2LaneStaticProof.ps1",
+                                            "contract":  "$stopExitCode = $LASTEXITCODE",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Invoke-EC2LaneStaticProof.ps1",
+                                            "contract":  "Get-EC2StopFailureCategory -ExitCode $stopExitCode",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Invoke-EC2LaneStaticProof.ps1",
+                                            "contract":  "$stopFailureCategory",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Invoke-EC2LaneStaticProof.ps1",
+                                            "contract":  "Stop/final-state verification failed:",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Invoke-EC2LaneStaticProof.ps1",
+                                            "contract":  "discarded_stop_output_absent",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Invoke-EC2WorkflowSmokeRun.ps1",
+                                            "contract":  "$stopOutput = @(aws ec2 stop-instances",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Invoke-EC2WorkflowSmokeRun.ps1",
+                                            "contract":  "$record.stop_exit_code = $LASTEXITCODE",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Invoke-EC2WorkflowSmokeRun.ps1",
+                                            "contract":  "Get-EC2StopFailureCategory -ExitCode $record.stop_exit_code",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Invoke-EC2WorkflowSmokeRun.ps1",
+                                            "contract":  "$record.stop_failure_category",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Invoke-EC2WorkflowSmokeRun.ps1",
+                                            "contract":  "Stop/final-state verification failed:",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Invoke-EC2WorkflowSmokeRun.ps1",
+                                            "contract":  "discarded_stop_output_absent",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Install-EC2ModelFromS3.ps1",
+                                            "contract":  "$stopOutput = @(aws ec2 stop-instances",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Install-EC2ModelFromS3.ps1",
+                                            "contract":  "$record.stop_exit_code = $LASTEXITCODE",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Install-EC2ModelFromS3.ps1",
+                                            "contract":  "Get-EC2StopFailureCategory -ExitCode $record.stop_exit_code",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Install-EC2ModelFromS3.ps1",
+                                            "contract":  "$record.stop_failure_category",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Install-EC2ModelFromS3.ps1",
+                                            "contract":  "Stop/final-state verification failed:",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Install-EC2ModelFromS3.ps1",
+                                            "contract":  "discarded_stop_output_absent",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Install-EC2InputAssetFromS3.ps1",
+                                            "contract":  "$stopOutput = @(aws ec2 stop-instances",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Install-EC2InputAssetFromS3.ps1",
+                                            "contract":  "$record.stop_exit_code = $LASTEXITCODE",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Install-EC2InputAssetFromS3.ps1",
+                                            "contract":  "Get-EC2StopFailureCategory -ExitCode $record.stop_exit_code",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Install-EC2InputAssetFromS3.ps1",
+                                            "contract":  "$record.stop_failure_category",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Install-EC2InputAssetFromS3.ps1",
+                                            "contract":  "Stop/final-state verification failed:",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Install-EC2InputAssetFromS3.ps1",
+                                            "contract":  "discarded_stop_output_absent",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Stop-ComfyUIGpuServer.ps1",
+                                            "contract":  "$stopOutput = @(aws ec2 stop-instances",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Stop-ComfyUIGpuServer.ps1",
+                                            "contract":  "$stopExitCode = $LASTEXITCODE",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Stop-ComfyUIGpuServer.ps1",
+                                            "contract":  "Get-EC2StopFailureCategory -ExitCode $stopExitCode",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Stop-ComfyUIGpuServer.ps1",
+                                            "contract":  "EC2 stop failed [$failureCategory]",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Stop-ComfyUIGpuServer.ps1",
+                                            "contract":  "exit 2",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Stop-ComfyUIGpuServer.ps1",
+                                            "contract":  "discarded_stop_output_absent",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Start-EC2InstanceStopWatchdog.ps1",
+                                            "contract":  "2\u003e/tmp/codex_ec2_stop_watchdog_stop.err || {",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        },
+                                        {
+                                            "script":  "Start-EC2InstanceStopWatchdog.ps1",
+                                            "contract":  "sudo shutdown -h now",
+                                            "required":  true,
+                                            "observed":  true,
+                                            "result":  "pass"
+                                        }
+                                    ],
+    "direct_stop_callsites":  5,
+    "watchdog_contract_checked":  true,
+    "failure_count":  0,
+    "failures":  [
+
+                 ],
+    "next_action":  "Use classified shutdown paths during the next intentionally gated live window."
+}

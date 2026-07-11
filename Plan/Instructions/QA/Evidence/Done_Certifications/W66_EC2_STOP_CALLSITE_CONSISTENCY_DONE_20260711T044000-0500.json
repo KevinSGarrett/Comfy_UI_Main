@@ -1,0 +1,68 @@
+{
+  "evidence_id": "W66-EC2-STOP-CALLSITE-CONSISTENCY-DONE-20260711T044000-0500",
+  "timestamp": "2026-07-11T04:40:00-05:00",
+  "task_tracker_id": "TRK-W66-EC2-STOP-CALLSITE-CONSISTENCY",
+  "result": "done_all_known_ec2_stop_callsites_preserve_failures",
+  "final_decision": "pass_local_only",
+  "closes_work_order": true,
+  "implementation_summary": "Added shared EC2 stop-failure classification and applied native output/exit-code capture to static proof, workflow smoke, model install, input install, and manual GPU stop. Coordinator and installer records now preserve stop failure category/output, avoid waiting after a rejected stop, and retain truthful final state. Static proof catches cleanup exceptions so its evidence record is still written. The remote watchdog's existing stderr/fallback contract was verified unchanged.",
+  "covered_direct_stop_callsites": [
+    "Plan/Instructions/Operations/Scripts/Invoke-EC2LaneStaticProof.ps1",
+    "Plan/Instructions/Operations/Scripts/Invoke-EC2WorkflowSmokeRun.ps1",
+    "Plan/Instructions/Operations/Scripts/Install-EC2ModelFromS3.ps1",
+    "Plan/Instructions/Operations/Scripts/Install-EC2InputAssetFromS3.ps1",
+    "Plan/Instructions/Operations/Scripts/Stop-ComfyUIGpuServer.ps1"
+  ],
+  "tests_performed": [
+    {
+      "name": "stop_failure_classifier_cases",
+      "result": "pass",
+      "cases": 6,
+      "failures": 0
+    },
+    {
+      "name": "stop_source_contracts",
+      "result": "pass",
+      "checks": 32,
+      "failures": 0
+    },
+    {
+      "name": "operations_helper_full_local_harness",
+      "result": "pass_for_changed_scope_with_known_unrelated_failure",
+      "harness_script_count": 52,
+      "parse_failures": 0,
+      "local_smoke_count": 33,
+      "stop_regression_smoke": "pass",
+      "known_unrelated_failure": "selected_inpaint_pre_ec2_refresh_orchestration_smoke"
+    }
+  ],
+  "evidence_paths": {
+    "regression": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_EC2_STOP_CALLSITE_CONSISTENCY_REGRESSION_20260711T043000-0500.json",
+    "start_callsite_consistency": "Plan/Instructions/QA/Evidence/Done_Certifications/W66_EC2_START_CALLSITE_CONSISTENCY_DONE_20260711T041000-0500.json"
+  },
+  "qa_summary": {
+    "known_direct_stop_callsites": 5,
+    "classified_stop_callsites": 5,
+    "discarded_stop_output_callsites": 0,
+    "wait_after_rejected_stop": false,
+    "static_proof_evidence_lost_on_cleanup_exception": false,
+    "watchdog_error_capture_and_os_fallback_preserved": true
+  },
+  "known_issues": [
+    "No live EC2 stop rejection was induced; validation is local-only and avoids AWS state mutation.",
+    "A stop command accepted by AWS can still fail to reach stopped state; existing bounded wait/final-state checks remain authoritative.",
+    "AWS authentication remains expired, so current live EC2 state is not asserted here.",
+    "The operations harness retains the unrelated selected-inpaint refresh mismatch."
+  ],
+  "claim_boundary": {
+    "local_only": true,
+    "aws_contacted": false,
+    "ec2_stop_requested": false,
+    "generation_executed": false,
+    "target_runtime_proof": false,
+    "full_project_certification": false
+  },
+  "itemized_list_record": "Plan/Items/Reports/W66_EC2_STOP_CALLSITE_CONSISTENCY_ITEMIZED_LIST_20260711T044000-0500.json",
+  "certifier": "Codex Desktop autonomous release manager",
+  "next_action": "Use classified shutdown paths in future live windows and continue another concrete local non-mask implementation task while AWS authentication is expired."
+}
