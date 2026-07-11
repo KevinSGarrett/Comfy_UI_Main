@@ -1,0 +1,72 @@
+{
+  "evidence_id": "W66-EC2-WORKFLOW-SMOKE-START-FAILURE-HARDENING-DONE-20260711T032000-0500",
+  "timestamp": "2026-07-11T03:50:00-05:00",
+  "task_tracker_id": "TRK-W66-EC2-WORKFLOW-SMOKE-START-FAILURE-HARDENING",
+  "result": "done_local_orchestration_hardening_certified",
+  "final_decision": "pass_local_only",
+  "closes_work_order": true,
+  "implementation_summary": "Hardened the EC2 workflow-smoke coordinator to capture start-instances output and exit code, classify capacity/auth/throttle/generic failures, fail before state polling, set ec2_started only after success, and avoid stop-instances when the instance never left its original stopped state. Static proof now uses the same classifier.",
+  "implemented_files": [
+    "Plan/Instructions/Operations/Scripts/EC2StartFailureClassification.ps1",
+    "Plan/Instructions/Operations/Scripts/Invoke-EC2LaneStaticProof.ps1",
+    "Plan/Instructions/Operations/Scripts/Invoke-EC2WorkflowSmokeRun.ps1",
+    "Plan/Instructions/Operations/Scripts/Test-OperationsHelperStatic.ps1",
+    "Plan/Instructions/QA/Scripts/Test-EC2WorkflowSmokeStartFailureRegression.ps1"
+  ],
+  "tests_performed": [
+    {
+      "name": "powershell_parser",
+      "result": "pass",
+      "checked_files": 5,
+      "parse_failures": 0
+    },
+    {
+      "name": "start_failure_classifier_regression",
+      "result": "pass",
+      "cases": 6,
+      "failures": 0,
+      "evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_EC2_WORKFLOW_SMOKE_START_FAILURE_REGRESSION_20260711T032000-0500.json"
+    },
+    {
+      "name": "workflow_smoke_source_contract",
+      "result": "pass",
+      "checks": 7,
+      "failures": 0,
+      "evidence": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_EC2_WORKFLOW_SMOKE_START_FAILURE_REGRESSION_20260711T032000-0500.json"
+    },
+    {
+      "name": "operations_helper_full_local_harness",
+      "result": "pass_for_changed_scope_with_known_unrelated_failure",
+      "operations_script_count": 51,
+      "operations_parse_failures": 0,
+      "changed_regression_result": "pass",
+      "known_unrelated_failure": "selected_inpaint_pre_ec2_refresh_orchestration_smoke"
+    }
+  ],
+  "qa_summary": {
+    "capacity_classification": "ec2_insufficient_instance_capacity",
+    "auth_classification": "aws_auth_or_authorization_failed",
+    "throttle_classification": "ec2_start_throttled",
+    "generic_classification": "ec2_start_failed",
+    "polling_after_rejected_start": false,
+    "unconditional_stop_after_rejected_start": false,
+    "failure_evidence_preserved": true,
+    "pre_start_execute_errors_cannot_remain_ready": true
+  },
+  "known_issues": [
+    "No live AWS start failure was induced; local regression verifies classifier behavior and coordinator source contracts without contacting AWS.",
+    "The full operations harness retains the unrelated selected_inpaint_pre_ec2_refresh_orchestration_smoke failure from current queue-derived checks.",
+    "AWS authentication remains expired and live capacity/runtime proof is separate."
+  ],
+  "claim_boundary": {
+    "local_only": true,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "generation_executed": false,
+    "target_runtime_proof": false,
+    "full_project_certification": false
+  },
+  "itemized_list_record": "Plan/Items/Reports/W66_EC2_WORKFLOW_SMOKE_START_FAILURE_HARDENING_ITEMIZED_LIST_20260711T032000-0500.json",
+  "certifier": "Codex Desktop autonomous release manager",
+  "next_action": "Use the hardened coordinator during the next intentionally gated live workflow smoke after AWS authentication and a fresh capacity state are available."
+}

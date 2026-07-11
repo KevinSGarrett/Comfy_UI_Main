@@ -1,0 +1,81 @@
+<#
+.SYNOPSIS
+Validates EC2 start-failure classification and workflow-smoke fail-fast wiring.
+
+.DESCRIPTION
+Runs local-only classifier cases and source-contract assertions. It never calls
+AWS, starts EC2, or runs ComfyUI.
+#>
+param(
+  [string]$ProjectRoot = "C:\Comfy_UI_Main",
+  [string]$OutFile = ""
+)
+
+$ErrorActionPreference = "Stop"
+$ProjectRoot = [System.IO.Path]::GetFullPath($ProjectRoot)
+$classifier = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\EC2StartFailureClassification.ps1"
+$workflowSmoke = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1"
+if (!(Test-Path -LiteralPath $classifier -PathType Leaf)) { throw "Classifier missing: $classifier" }
+if (!(Test-Path -LiteralPath $workflowSmoke -PathType Leaf)) { throw "Workflow smoke helper missing: $workflowSmoke" }
+. $classifier
+
+$cases = @(
+  [ordered]@{ name = "success"; exit_code = 0; output = ""; expected = $null },
+  [ordered]@{ name = "capacity"; exit_code = 255; output = "An error occurred (InsufficientInstanceCapacity)"; expected = "ec2_insufficient_instance_capacity" },
+  [ordered]@{ name = "expired_auth"; exit_code = 255; output = "ExpiredToken: The security token included in the request is expired"; expected = "aws_auth_or_authorization_failed" },
+  [ordered]@{ name = "authorization"; exit_code = 254; output = "UnauthorizedOperation: You are not authorized"; expected = "aws_auth_or_authorization_failed" },
+  [ordered]@{ name = "throttle"; exit_code = 253; output = "RequestLimitExceeded"; expected = "ec2_start_throttled" },
+  [ordered]@{ name = "generic"; exit_code = 2; output = "unknown native failure"; expected = "ec2_start_failed" }
+)
+
+$caseResults = @()
+foreach ($case in $cases) {
+  $observed = Get-EC2StartFailureCategory -ExitCode $case.exit_code -OutputText $case.output
+  $passed = if ($null -eq $case.expected) { $null -eq $observed } else { [string]$observed -eq [string]$case.expected }
+  $caseResults += [ordered]@{
+    name = $case.name
+    expected = $case.expected
+    observed = $observed
+    result = $(if ($passed) { "pass" } else { "fail" })
+  }
+}
+
+$source = Get-Content -LiteralPath $workflowSmoke -Raw
+$sourceChecks = @(
+  [ordered]@{ name = "captures_start_output"; pattern = [regex]::Escape('$startOutput = @(aws ec2 start-instances'); required = $true },
+  [ordered]@{ name = "captures_start_exit_code"; pattern = [regex]::Escape('$record.start_exit_code = $LASTEXITCODE'); required = $true },
+  [ordered]@{ name = "uses_shared_classifier"; pattern = [regex]::Escape('Get-EC2StartFailureCategory -ExitCode $record.start_exit_code'); required = $true },
+  [ordered]@{ name = "sets_started_only_after_success"; pattern = [regex]::Escape('$record.ec2_started = $true'); required = $true },
+  [ordered]@{ name = "guards_stop_call"; pattern = [regex]::Escape('$shouldStopInstance ='); required = $true },
+  [ordered]@{ name = "records_start_failed_result"; pattern = [regex]::Escape('workflow_smoke_start_failed'); required = $true }
+  [ordered]@{ name = "execute_errors_cannot_remain_ready"; pattern = [regex]::Escape('workflow_smoke_preflight_or_start_failed'); required = $true }
+)
+foreach ($check in $sourceChecks) {
+  $check.observed = [regex]::IsMatch($source, $check.pattern)
+  $check.result = $(if ($check.observed -eq $check.required) { "pass" } else { "fail" })
+}
+
+$failures = @($caseResults | Where-Object result -ne "pass") + @($sourceChecks | Where-Object result -ne "pass")
+$stamp = Get-Date -Format "yyyyMMddTHHmmss-0500"
+if ([string]::IsNullOrWhiteSpace($OutFile)) {
+  $OutFile = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Operations_Static_Validation\W66_EC2_WORKFLOW_SMOKE_START_FAILURE_REGRESSION_$stamp.json"
+}
+$record = [ordered]@{
+  evidence_id = "W66-EC2-WORKFLOW-SMOKE-START-FAILURE-REGRESSION-$stamp"
+  timestamp = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
+  result = $(if ($failures.Count -eq 0) { "pass_local_only" } else { "fail" })
+  local_only = $true
+  aws_contacted = $false
+  ec2_started = $false
+  generation_executed = $false
+  classifier_cases = $caseResults
+  workflow_source_contract_checks = $sourceChecks
+  failure_count = $failures.Count
+  failures = @($failures)
+  next_action = $(if ($failures.Count -eq 0) { "Use the hardened workflow-smoke helper in the next intentionally gated live window." } else { "Repair failed classifier or source-contract checks before live workflow smoke." })
+}
+$outDir = Split-Path -Parent $OutFile
+if (![string]::IsNullOrWhiteSpace($outDir)) { $null = New-Item -ItemType Directory -Force -Path $outDir }
+$record | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath $OutFile -Encoding UTF8
+$record | ConvertTo-Json -Depth 12
+if ($failures.Count -gt 0) { exit 2 }

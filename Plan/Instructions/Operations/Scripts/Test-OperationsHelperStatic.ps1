@@ -1827,6 +1827,12 @@ $localSmokeResults += Invoke-LocalHelper -Name "ec2_workflow_smoke_run_dry_run" 
   -Arguments @("-OutFile", $coordinatorFile, "-OutRequestFile", $coordinatorRequestFile, "-ReadinessFile", $readinessFile) `
   -ExpectedOutputFile $coordinatorFile
 
+$startFailureRegressionFile = Join-Path $tempRoot "ec2_workflow_smoke_start_failure_regression.json"
+$localSmokeResults += Invoke-LocalHelper -Name "ec2_workflow_smoke_start_failure_regression" `
+  -ScriptPath (Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\Test-EC2WorkflowSmokeStartFailureRegression.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-OutFile", $startFailureRegressionFile) `
+  -ExpectedOutputFile $startFailureRegressionFile
+
 $packageCoordinatorFile = Join-Path $tempRoot "ec2_workflow_smoke_run_package_dry_run.json"
 $packageCoordinatorRequestFile = Join-Path $tempRoot "ec2_workflow_smoke_run_package_request.json"
 $hyperrealPackageManifest = Join-Path $ProjectRoot "runtime_artifacts\run_packages\sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1\RUN_PACKAGE_MANIFEST.json"
@@ -1959,6 +1965,7 @@ $record = [ordered]@{
     "Plan/Instructions/QA/Scripts/Test-RunPackageDeployBundleConsistencyRegression.ps1",
     "Plan/Instructions/QA/Scripts/Test-ControlNetSelectedLanePackageDeployConsistency.ps1",
     "Plan/Instructions/QA/Scripts/Test-ControlNetLaneAssetTransferDryRunBundle.ps1",
+    "Plan/Instructions/QA/Scripts/Test-EC2WorkflowSmokeStartFailureRegression.ps1",
     "Plan/Instructions/QA/Scripts/New-ControlNetLanePreEC2HandoffBundle.ps1",
     "latest selected-lane runtime gate evidence",
     "runtime unblock handoff smoke"

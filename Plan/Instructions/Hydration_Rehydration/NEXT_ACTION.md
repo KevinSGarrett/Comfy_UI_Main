@@ -1,3 +1,9 @@
+## Immediate Next Action - Workflow-Smoke Start Failures Hardened - 2026-07-11T03:50:00-05:00
+
+`Invoke-EC2WorkflowSmokeRun.ps1` now fails fast when EC2 rejects `start-instances`, preserves native output/exit code, classifies capacity/auth/throttle/generic failures, skips the running-state poll, and avoids an unnecessary stop call when the instance never started. The static-proof helper shares the classifier. Six classifier cases, seven workflow source contracts, five focused parser checks, and all 51 operations-script parser checks pass locally; no AWS call or generation occurred.
+
+The full operations harness still reports only its known unrelated `selected_inpaint_pre_ec2_refresh_orchestration_smoke` queue-derived failure. Do not loop on that refresh. Continue the next concrete local non-mask implementation task while AWS authentication remains expired, or use the hardened helper in a later intentionally gated capacity window.
+
 ## Immediate Next Action - Upper-Lip Repair Improved But Stopped - 2026-07-11T03:40:00-05:00
 
 The single authorized upper-lip repair is complete. Vertical-only 3x1 dilation improved held-out aggregate IoU from 0.8186 to 0.8281 with zero protected-neighbor leakage, but it remains below the 0.85 gate. The diagnostic panel shows no gross cross-region spill. The stop rule is active: do not run another upper-lip morphology sweep, promote the mask, certify the route, or clear any body/Wave71 gate.

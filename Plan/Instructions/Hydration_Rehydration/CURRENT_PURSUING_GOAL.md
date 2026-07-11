@@ -1,3 +1,9 @@
+## Active Runtime Posture - EC2 Start Failure Evidence Is Fail-Fast - 2026-07-11T03:50:00-05:00
+
+Continue from authoritative `C:\Comfy_UI_Main`. Both EC2 static-proof and workflow-smoke coordinators now classify rejected starts consistently, and workflow smoke no longer burns a polling window or issues an unnecessary stop after a failed start. This is locally certified orchestration hardening, not target-runtime proof.
+
+Keep AWS-dependent OpenPose, Normal, and RealESRGAN work staged until authentication and capacity are available. Continue local non-mask implementation without duplicating completed lanes, S3 objects, EC2 assets, body-mask work, Wave70 hard gates, or Wave71+ activation.
+
 ## Active Runtime Posture - Facial Morphology Stopped, Non-Mask Runtime Lane Next - 2026-07-11T03:40:00-05:00
 
 Continue from authoritative `C:\Comfy_UI_Main`. The existing facial evaluator was reused, one vertical upper-lip candidate was evaluated once on held-out IDs 6-8, and the route remains blocked at IoU 0.8281. Preserve the result and do not loop on morphology. All body-mask, promotion, Wave70 hard-gate, and Wave71+ boundaries remain closed.

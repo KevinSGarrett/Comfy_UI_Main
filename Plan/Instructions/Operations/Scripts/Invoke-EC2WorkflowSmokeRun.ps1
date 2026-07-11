@@ -46,6 +46,8 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+$startFailureClassifier = Join-Path $PSScriptRoot "EC2StartFailureClassification.ps1"
+. $startFailureClassifier
 
 function Get-RelativePathCompat {
   param(
@@ -855,6 +857,8 @@ $record = [ordered]@{
   command_id = $null
   command_status = "not_started"
   start_state = $null
+  start_exit_code = $null
+  start_output_tail = $null
   final_state = $null
   remote_result = $null
   local_pullback = [ordered]@{
@@ -1231,7 +1235,21 @@ try {
   $record.start_state = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
   if ($record.start_state -ne "running") {
     Write-Host "Starting EC2 instance $InstanceId from state $($record.start_state)"
-    aws ec2 start-instances --region $Region --instance-ids $InstanceId --output json | Out-Null
+    $previousErrorActionPreference = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    try {
+      $startOutput = @(aws ec2 start-instances --region $Region --instance-ids $InstanceId --output json 2>&1)
+      $record.start_exit_code = $LASTEXITCODE
+    } finally {
+      $ErrorActionPreference = $previousErrorActionPreference
+    }
+    $startText = (($startOutput | ForEach-Object { [string]$_ }) -join [Environment]::NewLine).Trim()
+    $record.start_output_tail = Get-TailText -Text $startText -MaxChars 2000
+    if ($record.start_exit_code -ne 0) {
+      $record.failure_category = Get-EC2StartFailureCategory -ExitCode $record.start_exit_code -OutputText $startText
+      $record.result = "workflow_smoke_start_failed"
+      throw "EC2 start-instances failed with exit code $($record.start_exit_code). $startText"
+    }
     $record.ec2_started = $true
   }
   $null = Wait-InstanceState -DesiredState "running"
@@ -1321,23 +1339,35 @@ catch {
 }
 finally {
   try {
-    Write-Host "Stopping EC2 instance $InstanceId after workflow smoke attempt"
-    aws ec2 stop-instances --region $Region --instance-ids $InstanceId --output json | Out-Null
-    $null = Wait-InstanceState -DesiredState "stopped" -MaxAttempts 120 -SleepSeconds 5
-    $record.final_state = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
+    $shouldStopInstance = ($record.ec2_started -or $record.start_state -eq "running" -or $record.command_status -ne "not_started")
+    if ($shouldStopInstance) {
+      Write-Host "Stopping EC2 instance $InstanceId after workflow smoke attempt"
+      aws ec2 stop-instances --region $Region --instance-ids $InstanceId --output json | Out-Null
+      $null = Wait-InstanceState -DesiredState "stopped" -MaxAttempts 120 -SleepSeconds 5
+      $record.final_state = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
+    } else {
+      $record.final_state = $record.start_state
+    }
   } catch {
     $record.errors += "Stop/final-state verification failed: $($_.Exception.Message)"
   }
 }
 
 $record.next_action = $(if ($record.generation_executed -and $record.local_pullback.status -eq "pullback_record_created") { "Run image QA on the pulled-back generated image artifacts." } else { "Inspect run record, complete artifact pullback if needed, and do not claim image QA until artifacts are local and reviewed." })
-if ($record.generation_executed -and $record.final_state -eq "stopped" -and $record.errors.Count -eq 0) {
+if ($record.result -eq "workflow_smoke_start_failed") {
+  $record.next_action = $(if ($record.failure_category -eq "ec2_insufficient_instance_capacity") { "Do not retry in the same capacity window; preserve staged assets and wait for a fresh capacity state." } else { "Resolve the recorded EC2 start failure before another intentionally gated workflow smoke." })
+} elseif ($record.generation_executed -and $record.final_state -eq "stopped" -and $record.errors.Count -eq 0) {
   $record.result = "workflow_smoke_generation_complete"
   $record.failure_category = $null
 } elseif ($record.ec2_started -or $record.command_status -ne "not_started") {
   $record.result = "workflow_smoke_generation_incomplete"
   if ([string]::IsNullOrWhiteSpace([string]$record.failure_category)) {
     $record.failure_category = "workflow_smoke_generation_incomplete"
+  }
+} elseif ($record.errors.Count -gt 0) {
+  $record.result = "workflow_smoke_generation_incomplete"
+  if ([string]::IsNullOrWhiteSpace([string]$record.failure_category)) {
+    $record.failure_category = "workflow_smoke_preflight_or_start_failed"
   }
 }
 

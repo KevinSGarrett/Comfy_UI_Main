@@ -26,6 +26,8 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+$startFailureClassifier = Join-Path $PSScriptRoot "EC2StartFailureClassification.ps1"
+. $startFailureClassifier
 
 function Get-RelativePathCompat {
   param(
@@ -696,7 +698,7 @@ try {
     $startExitCode = $LASTEXITCODE
     if ($startExitCode -ne 0) {
       $startText = (($startOutput | ForEach-Object { [string]$_ }) -join [Environment]::NewLine).Trim()
-      $executionFailureCategory = $(if ($startText -match "InsufficientInstanceCapacity") { "ec2_insufficient_instance_capacity" } else { "ec2_start_failed" })
+      $executionFailureCategory = Get-EC2StartFailureCategory -ExitCode $startExitCode -OutputText $startText
       throw "EC2 start-instances failed with exit code $startExitCode. $startText"
     }
     $started = $true
