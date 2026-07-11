@@ -1,3 +1,15 @@
+## Active Runtime Posture - Base Robustness Attempt Failed, No Seed Loop - 2026-07-11T03:55:00-05:00
+
+Continue from authoritative `C:\Comfy_UI_Main`. The Base lane's corrected two-character preferred seed was tested with two unchanged-contract adjacent seeds. Both local runs passed runtime integrity and whole-image coherence, but neither preserved the requested source/target contact: both became mutual hand clasps. The bounded robustness result is `0/2`, the experiment is complete, and Base final certification remains blocked.
+
+Do not run more adjacent Base seeds, rerun the generic Base smoke, reassign inpaint evidence, or weaken the scope requirement. A future Base revisit needs materially different composition control or a trusted mask-routed route plus scope-matched target-runtime proof. Continue another concrete local non-mask task while preserving manual-mask, Wave70 hard-gate, Wave71+, Flux1-license, Jira, AWS-authentication, and no-duplicate boundaries.
+
+## Active Runtime Posture - OpenPose Full-Body Walking Sample Passed - 2026-07-11T03:45:00-05:00
+
+Continue from authoritative `C:\Comfy_UI_Main`. The OpenPose lane now has its prior tabletop-hands multisample evidence plus one new true full-body walking sample derived from an original image with no gold-mask consumption. Runtime evidence and strict QA record a clean local generation, all 18 common body landmarks, mean/max normalized landmark errors `0.00968`/`0.02268`, preserved crossed-leg topology, coherent full-subject framing, and no pose-map leakage.
+
+Do not recreate the V4/V5 tabletop samples or V6 walking seed. The V6 result expands local pose variety only; it does not certify body masks, detailed feet, target runtime, the full lane, Wave70 hard gates, or Wave71+. Keep EC2/S3 work staged until authentication is restored and continue another concrete local non-mask task.
+
 ## Active Runtime Posture - EC2 Start And Stop Evidence Is Fail-Closed - 2026-07-11T04:40:00-05:00
 
 Continue from authoritative `C:\Comfy_UI_Main`. Every known direct EC2 start and stop path now captures native failures, classifies them consistently, and avoids false transition claims or inappropriate polling. Cleanup exceptions are retained in evidence rather than aborting record creation. This is locally certified orchestration safety, not live AWS state proof.
@@ -6357,8 +6369,3 @@ Continue the selected-inpaint target-runtime proof from `C:\Comfy_UI_Main`. S3 t
 Continue the full autonomous ComfyUI project from authoritative `C:\Comfy_UI_Main`. The RealVisXL SDXL Depth ControlNet lane is now target-runtime certified for one bounded head-and-shoulders portrait profile with passing static, runtime, pullback, technical, and visual evidence. Preserve its no-rerun boundary and keep EC2 stopped unless a different genuinely open runtime proof requires it.
 
 This does not certify depth behavior for hands, full body, contact, or broader scenes and does not clear any manual gold-mask, Wave70, Wave71+, Jira, or full-project certification gate. Select the next concrete non-mask implementation/runtime task from current local state without using stale legacy or EC2 planning state.
-## Active Runtime Posture - OpenPose Full-Body Walking Sample Passed - 2026-07-11T03:45:00-05:00
-
-Continue from authoritative `C:\Comfy_UI_Main`. The OpenPose lane now has its prior tabletop-hands multisample evidence plus one new true full-body walking sample derived from an original image with no gold-mask consumption. Runtime evidence and strict QA record a clean local generation, all 18 common body landmarks, mean/max normalized landmark errors `0.00968`/`0.02268`, preserved crossed-leg topology, coherent full-subject framing, and no pose-map leakage.
-
-Do not recreate the V4/V5 tabletop samples or V6 walking seed. The V6 result expands local pose variety only; it does not certify body masks, detailed feet, target runtime, the full lane, Wave70 hard gates, or Wave71+. Keep EC2/S3 work staged until authentication is restored and continue another concrete local non-mask task.

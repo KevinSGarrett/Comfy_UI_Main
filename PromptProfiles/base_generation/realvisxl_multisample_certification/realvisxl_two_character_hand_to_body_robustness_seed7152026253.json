@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "realvisxl_two_character_hand_to_body_robustness_seed7152026253",
+  "target_lane_id": "sdxl_realvisxl_base_lane",
+  "purpose": "First unchanged-contract robustness sample after corrected preferred seed 7152026252 established the intended woman-to-man upper-arm contact ownership.",
+  "source_profile": "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_two_character_hand_to_body_seed7152026252_source_hand_visible.json",
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic editorial studio photograph of exactly two fully clothed adult professionals, medium shot, woman on the left extends her right arm across the center and rests one open relaxed hand flat on the man's upper arm sleeve, man on the right keeps both hands down and away from the contact, clear visible contact shadow under the woman's fingertips on the man's sleeve, two separate bodies, two separate clothing silhouettes, natural skin texture, realistic eyes, detailed hair, crisp fabric weave, respectful non-romantic professional gesture, no merged anatomy, balanced soft studio lighting, lifelike lens rendering",
+    "negative_prompt": "cartoon, anime, illustration, child, nude, lingerie, erotic pose, plastic skin, waxy skin, over-smoothed face, distorted anatomy, merged bodies, fused people, shared torso, extra person, extra arms, extra hands, extra fingers, missing fingers, deformed hands, claw fingers, clenched fist, gripping fabric, pulling sleeve, hand on own chest, man touching woman, hand passing through arm, impossible contact, no contact shadow, crossed eyes, low resolution, blurry, watermark, text",
+    "seed": 7152026253,
+    "sampler_settings": {
+      "steps": 30,
+      "cfg": 5.4,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1
+    },
+    "latent_resolution": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "rvxl_twochar_contact_robust_7152026253"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "rvxl_twochar_contact_robust_7152026253"
+  },
+  "qa_focus": [
+    "exactly two distinct clothed adults",
+    "woman on left owns the contact hand",
+    "open right hand rests on man's upper-arm sleeve",
+    "man's hands remain away from the contact",
+    "contact shadow and readable fingers",
+    "separate bodies with coherent faces and clothing"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "seed_only_variation_from_corrected_preferred_contract": true,
+    "mask_route_used": false,
+    "requires_strict_comparative_qa": true,
+    "requires_scope_matched_target_runtime_proof_before_final_certification": true
+  }
+}

@@ -1,3 +1,15 @@
+## Immediate Next Action - Base Two-Character Seed Robustness Failed - 2026-07-11T03:55:00-05:00
+
+The required bounded Base-lane robustness pair was executed from the corrected preferred `7152026252` contract with only seeds changed to `7152026253` and `7152026254`. Both current-head packages and local 1024x1024 generations passed technically, hash-matched their requests, pulled back successfully, and stopped ComfyUI with port 8188 closed. Strict visual QA failed both: each changed the requested woman's open hand on the man's upper-arm sleeve into a mutual hand clasp/handshake, so robustness compliance is `0/2`.
+
+Stop adjacent-seed retries. Base final certification remains blocked by failed multiseed robustness, missing scope-matched target-runtime candidate proof, and the unavailable mask-routed or materially different composition-control route. Do not borrow later inpaint evidence into Base. Continue a different concrete local non-mask implementation task without rerunning completed Base, OpenPose, Canny, Depth, Lineart, selected-inpaint, facial morphology, or generic smoke work.
+
+## Immediate Next Action - OpenPose Full-Body Pose Variety Passed Locally - 2026-07-11T03:45:00-05:00
+
+The existing OpenPose lane was expanded without replaying completed tabletop work. DWPose derived a hash-recorded control map from the true full-body walking original `Ref_Image_1/Full/59bcb65a41a752476c58e9c81f70681a.jpg`; one current-head local SDXL/RealVisXL generation passed runtime, technical, metric, and visual QA. All 18 body landmarks were re-detected, mean normalized landmark error was `0.00968`, maximum was `0.02268`, crossed-leg topology was preserved, the full subject and both shoes remained in frame, and no control-map colors leaked. Local ComfyUI stopped and port 8188 closed.
+
+This is one local pose-variety sample, not body-mask authority, detailed foot-keypoint proof, target-runtime proof, or final OpenPose certification. Do not rerun this seed or the completed tabletop seeds. Continue the next concrete non-mask implementation task; keep AWS work staged while authentication is expired and preserve all manual-mask, Wave70 hard-gate, Wave71+, Flux1-license, and Jira boundaries.
+
 ## Immediate Next Action - EC2 Shutdown Evidence Is Fail-Closed - 2026-07-11T04:40:00-05:00
 
 All five direct EC2 stop call sites now preserve native output/exit code, classify auth/throttle/state/generic failures, and skip stopped-state polling after a rejected stop. Static proof, workflow smoke, both S3 installers, and manual GPU stop retain truthful shutdown evidence; static proof no longer loses its whole record if cleanup verification throws. The remote watchdog's stderr/fallback guard remains intact.
@@ -8424,8 +8436,3 @@ Next exact action: checkpoint static proof and runtime-window evidence, rebuild/
 `sdxl_realvisxl_controlnet_depth_lane` now has a passing clean-head package/deploy chain, exact S3 asset identity, EC2 object-info and model/input hash proof, one successful bounded 768x768 portrait generation, 5/5 hash-verified pullback, technical QA, visual QA, and final lane certification with notes. EC2 `i-0560bf8d143f93bb1` is stopped. Do not rerun this unchanged depth portrait proof.
 
 The certification is intentionally narrow: hands, full-body anatomy, contact ownership, broader scenes, body masks, Wave70 authority, and Wave71+ remain unproven or blocked. Continue with the next genuinely open non-mask runtime/orchestration lane after the clean checkpoint; keep Flux1 blocked until explicit license acceptance and do not reopen completed Canny, selected-inpaint, or depth proof.
-## Immediate Next Action - OpenPose Full-Body Pose Variety Passed Locally - 2026-07-11T03:45:00-05:00
-
-The existing OpenPose lane was expanded without replaying completed tabletop work. DWPose derived a hash-recorded control map from the true full-body walking original `Ref_Image_1/Full/59bcb65a41a752476c58e9c81f70681a.jpg`; one current-head local SDXL/RealVisXL generation passed runtime, technical, metric, and visual QA. All 18 body landmarks were re-detected, mean normalized landmark error was `0.00968`, maximum was `0.02268`, crossed-leg topology was preserved, the full subject and both shoes remained in frame, and no control-map colors leaked. Local ComfyUI stopped and port 8188 closed.
-
-This is one local pose-variety sample, not body-mask authority, detailed foot-keypoint proof, target-runtime proof, or final OpenPose certification. Do not rerun this seed or the completed tabletop seeds. Continue the next concrete non-mask implementation task; keep AWS work staged while authentication is expired and preserve all manual-mask, Wave70 hard-gate, Wave71+, Flux1-license, and Jira boundaries.

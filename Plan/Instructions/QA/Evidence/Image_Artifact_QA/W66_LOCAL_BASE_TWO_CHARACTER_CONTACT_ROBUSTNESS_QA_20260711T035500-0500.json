@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W66-LOCAL-BASE-TWO-CHARACTER-CONTACT-ROBUSTNESS-QA-20260711T035500-0500",
+  "timestamp": "2026-07-11T03:53:18-05:00",
+  "lane_id": "sdxl_realvisxl_base_lane",
+  "result": "fail_local_two_character_contact_robustness_wrong_interaction",
+  "technical_runtime_pass": true,
+  "robustness_contract_pass": false,
+  "baseline": {
+    "seed": 7152026252,
+    "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_two_character_hand_to_body_w69_seed7152026252_20260707T113434-0500/images/codex_realvisxl_two_character_hand_to_body_seed7152026252_00001_.png",
+    "sha256": "d6ef67713167d55696b1f07e86c88e9ee0a038f946be9cd8cc56810f724b81a7",
+    "visual_result": "pass_with_notes_correct_source_owner_shoulder_upper_arm_contact"
+  },
+  "samples": [
+    {
+      "seed": 7152026253,
+      "profile": "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_two_character_hand_to_body_robustness_seed7152026253.json",
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_LOCAL_BASE_TWO_CHARACTER_CONTACT_ROBUSTNESS_SEED7152026253_20260711T035000-0500.json",
+      "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_two_character_contact_robustness_seed7152026253_20260711T034617-0500/images/rvxl_twochar_contact_robust_7152026253_00001_.png",
+      "image_sha256": "2f8490d50f38d8cc3dbab8452705e3bc96ce362e97276ab3956b866119d09369",
+      "width": 1024,
+      "height": 1024,
+      "technical_checks": {
+        "runtime_passed": true,
+        "generation_executed": true,
+        "request_hash_matched": true,
+        "server_stopped": true,
+        "port_closed": true,
+        "output_is_1024_square": true,
+        "positive_prompt_unchanged": true,
+        "negative_prompt_unchanged": true,
+        "sampler_settings_unchanged": true,
+        "latent_resolution_unchanged": true,
+        "model_asset_unchanged": true,
+        "expected_seed_applied": true
+      },
+      "visual_result": "fail_wrong_interaction_mutual_hand_clasp",
+      "interaction_contract_pass": false,
+      "findings": [
+        "Exactly two distinct clothed adults are present with coherent faces, bodies, and clothing.",
+        "The requested woman-to-man upper-arm contact is absent.",
+        "Both subjects clasp hands near the center; the man directly participates in the contact.",
+        "The woman's open right hand does not rest on the man's upper-arm sleeve.",
+        "An additional pointing hand is visible from the man, further violating the hands-down contract."
+      ]
+    },
+    {
+      "seed": 7152026254,
+      "profile": "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_two_character_hand_to_body_robustness_seed7152026254.json",
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_LOCAL_BASE_TWO_CHARACTER_CONTACT_ROBUSTNESS_SEED7152026254_20260711T035000-0500.json",
+      "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_two_character_contact_robustness_seed7152026254_20260711T034707-0500/images/rvxl_twochar_contact_robust_7152026254_00001_.png",
+      "image_sha256": "61db240fad38510ca85b585b2dfde6090b3cab2d5b10c770e637c280a20daefb",
+      "width": 1024,
+      "height": 1024,
+      "technical_checks": {
+        "runtime_passed": true,
+        "generation_executed": true,
+        "request_hash_matched": true,
+        "server_stopped": true,
+        "port_closed": true,
+        "output_is_1024_square": true,
+        "positive_prompt_unchanged": true,
+        "negative_prompt_unchanged": true,
+        "sampler_settings_unchanged": true,
+        "latent_resolution_unchanged": true,
+        "model_asset_unchanged": true,
+        "expected_seed_applied": true
+      },
+      "visual_result": "fail_wrong_interaction_handshake_clasp",
+      "interaction_contract_pass": false,
+      "findings": [
+        "Exactly two distinct clothed adults are present with coherent faces, bodies, and clothing.",
+        "The requested woman-to-man upper-arm contact is absent.",
+        "The subjects form a mutual handshake or arm-wrestling-style clasp at center frame.",
+        "The man directly owns one side of the contact instead of keeping both hands away.",
+        "No open woman's hand rests flat on the man's upper-arm sleeve."
+      ]
+    }
+  ],
+  "aggregate": {
+    "new_samples": 2,
+    "technical_runtime_pass_count": 2,
+    "interaction_contract_pass_count": 0,
+    "interaction_contract_fail_count": 2,
+    "repeated_failure_mode": "mutual_hand_clasp_or_handshake_instead_of_source_hand_on_target_upper_arm"
+  },
+  "strict_decision": {
+    "stop_seed_loop": true,
+    "base_final_certification_allowed": false,
+    "small_robustness_pair_requirement_cleared": false,
+    "mask_routed_refine_substituted": false,
+    "target_runtime_scope_proven": false
+  },
+  "known_issue_review": [
+    "The corrected prompt is not robust across nearby seeds; both new outputs changed the interaction class.",
+    "The images are visually coherent but do not satisfy source/target ownership or target-region placement.",
+    "Later inpaint-detail evidence remains owned by the inpaint lane and is not reassigned to Base.",
+    "Manual gold masks remain unavailable and were not consumed by this experiment."
+  ],
+  "boundaries": {
+    "local_only": true,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "mask_route_used": false,
+    "mask_promotion_performed": false,
+    "wave70_hard_gate_rerun": false,
+    "wave71_activated": false
+  },
+  "next_action": "Do not run more adjacent seeds or certify Base. Revisit only with a materially different composition-control route or scope-matched target-runtime proof after its prerequisites are available."
+}

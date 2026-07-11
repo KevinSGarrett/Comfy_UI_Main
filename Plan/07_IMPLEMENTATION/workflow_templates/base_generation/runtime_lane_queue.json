@@ -64,12 +64,12 @@
                   {
                       "order":  2,
                       "lane_id":  "sdxl_realvisxl_base_lane",
-                      "role":  "second_sdxl_realvisxl_checkpoint_path_hash_load_output_qa_plus_local_single_hand_contact_closeup_and_two_character_contact_pass_with_notes",
+                      "role":  "second_sdxl_realvisxl_checkpoint_path_hash_load_output_qa_plus_local_contact_candidates_with_failed_two_character_seed_robustness",
                       "workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/workflow.api.json",
                       "requirements_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_base_lane/runtime_requirements.json",
-                      "status":  "runtime_smoke_proven_local_single_hand_contact_closeup_and_two_character_contact_pixel_attempt_pass_with_notes_pending_final_certification",
-                      "required_next_runtime_gate":  "optional_mask_routed_two_character_refine_or_final_base_lane_certification_or_target_runtime_reproof_when_intentionally_selected",
-                      "promotion_rule":  "Do not promote to final RealVisXL certification from the close-up or two-character local samples alone. They prove local single-hand tabletop-contact close-up quality and a first Wave25-linked two-character contact pixel attempt only; mask-routed refine, robustness, target-runtime proof, and final certification remain separate.",
+                      "status":  "runtime_smoke_proven_local_contact_candidates_two_character_seed_robustness_failed_wrong_interaction_final_certification_blocked",
+                      "required_next_runtime_gate":  "materially_different_composition_control_or_mask_routed_refine_plus_scope_matched_target_runtime_proof_when_prerequisites_are_available",
+                      "promotion_rule":  "Do not promote to final RealVisXL certification from the close-up or two-character local samples. The corrected preferred two-character seed remains a local pass with notes, while both adjacent seed-only robustness samples changed the interaction into mutual hand clasps. A materially different composition-control or mask-routed route and scope-matched target-runtime proof remain separate requirements.",
                       "blocker_evidence":  [
                                                "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_REALVISXL_20260706T123028-0500.json",
                                                "Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_REALVISXL_MISSING_MODEL_CLASSIFICATION_20260706T124103-0500.json"
@@ -92,10 +92,16 @@
                                              "runtime_artifacts/run_packages/realvisxl_two_character_hand_to_body_w69_seed7152026252/RUN_PACKAGE_MANIFEST.json",
                                              "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_REALVISXL_TWO_CHARACTER_HAND_TO_BODY_SEED7152026251_EXECUTE_20260707T114000-0500.json",
                                              "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_REALVISXL_TWO_CHARACTER_HAND_TO_BODY_SEED7152026252_EXECUTE_20260707T114500-0500.json",
-                                             "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_TWO_CHARACTER_HAND_TO_BODY_VISUAL_QA_20260707T115000-0500.json",
-                                             "Plan/Tracker/Evidence/W69_LOCAL_REALVISXL_TWO_CHARACTER_HAND_TO_BODY_PIXEL_ATTEMPT_20260707T115000-0500.json"
-                                         ],
-                      "local_quality_status":  "local_single_hand_tabletop_contact_closeup_passed_with_notes_after_portrait_hand_prompt_drift; local_wave25_linked_two_character_contact_pixel_attempt_seed7152026252_passed_with_notes_after_one_qa_driven_rerun"
+                           "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_TWO_CHARACTER_HAND_TO_BODY_VISUAL_QA_20260707T115000-0500.json",
+                           "Plan/Tracker/Evidence/W69_LOCAL_REALVISXL_TWO_CHARACTER_HAND_TO_BODY_PIXEL_ATTEMPT_20260707T115000-0500.json",
+                           "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_two_character_hand_to_body_robustness_seed7152026253.json",
+                           "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_two_character_hand_to_body_robustness_seed7152026254.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_LOCAL_BASE_TWO_CHARACTER_CONTACT_ROBUSTNESS_SEED7152026253_20260711T035000-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_LOCAL_BASE_TWO_CHARACTER_CONTACT_ROBUSTNESS_SEED7152026254_20260711T035000-0500.json",
+                           "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_LOCAL_BASE_TWO_CHARACTER_CONTACT_ROBUSTNESS_QA_20260711T035500-0500.json",
+                           "Plan/Instructions/QA/Evidence/Done_Certifications/W66_BASE_LANE_FINAL_CERTIFICATION_BLOCKER_AFTER_ROBUSTNESS_20260711T035500-0500.json"
+                       ],
+    "local_quality_status":  "local_single_hand_tabletop_contact_closeup_passed_with_notes; corrected_two_character_seed7152026252_passed_with_notes; adjacent_seed_robustness_7152026253_and_7152026254_failed_as_mutual_hand_clasps"
                   },
                   {
                       "order":  3,

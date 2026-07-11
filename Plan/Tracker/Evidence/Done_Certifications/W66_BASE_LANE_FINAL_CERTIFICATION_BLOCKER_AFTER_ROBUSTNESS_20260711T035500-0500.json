@@ -1,0 +1,29 @@
+{
+  "evidence_id": "W66-BASE-LANE-FINAL-CERTIFICATION-BLOCKER-AFTER-ROBUSTNESS-20260711T035500-0500",
+  "timestamp": "2026-07-11T03:53:18-05:00",
+  "task_tracker_id": "WO-W66-SDXL_REALVISXL_BASE_LANE-FINAL-CERTIFICATION",
+  "lane_id": "sdxl_realvisxl_base_lane",
+  "result": "blocked_base_lane_final_certification_robustness_pair_failed",
+  "final_decision": "blocked",
+  "closes_work_order": false,
+  "implementation_summary": "Executed the required bounded seed-only robustness pair from the corrected preferred Base profile. Both runs passed technically; both failed the interaction contract as mutual hand clasps.",
+  "qa_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_LOCAL_BASE_TWO_CHARACTER_CONTACT_ROBUSTNESS_QA_20260711T035500-0500.json",
+  "itemized_list_record": "Plan/Items/Reports/W66_BASE_TWO_CHARACTER_CONTACT_ROBUSTNESS_ITEMIZED_LIST_20260711T035500-0500.json",
+  "exact_blockers": [
+    "two_character_multiseed_robustness_missing",
+    "scope_matched_target_runtime_candidate_proof_missing",
+    "mask_routed_refine_or_materially_different_composition_control_missing"
+  ],
+  "known_issues": [
+    "The corrected prompt is not robust across nearby seeds; both new outputs changed the interaction class.",
+    "The images are visually coherent but do not satisfy source/target ownership or target-region placement.",
+    "Later inpaint-detail evidence remains owned by the inpaint lane and is not reassigned to Base.",
+    "Manual gold masks remain unavailable and were not consumed by this experiment."
+  ],
+  "generation_executed": true,
+  "new_ec2_started": false,
+  "final_lane_certification": false,
+  "full_project_certification": false,
+  "certifier": "Codex Desktop autonomous release manager",
+  "next_action": "Do not run more adjacent seeds or certify Base. Revisit only with a materially different composition-control route or scope-matched target-runtime proof after its prerequisites are available."
+}
