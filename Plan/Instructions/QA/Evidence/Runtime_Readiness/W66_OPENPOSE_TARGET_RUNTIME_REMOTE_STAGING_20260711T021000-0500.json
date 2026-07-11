@@ -1,0 +1,46 @@
+{
+  "evidence_id": "W66-OPENPOSE-TARGET-RUNTIME-REMOTE-STAGING-20260711T021000-0500",
+  "timestamp": "2026-07-11T02:10:00-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+  "decision": "pass_remote_staging_pending_ec2_capacity",
+  "source_git_head": "377e6c6e6ba72d2823fbac028deb8d8755401bcb",
+  "profile_id": "openpose_v5_tablehands_robust_seed711470202",
+  "local_handoff": {
+    "run_package_result": "pass_local_only",
+    "package_deploy_consistency_checks": "10/10",
+    "asset_transfer_children": "6/6",
+    "pre_ec2_handoff_checks": "7/7",
+    "git_gate_clean_and_synced": true
+  },
+  "s3_assets": {
+    "checkpoint": {
+      "uri": "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/realvisxlV50_v50Bakedvae.safetensors",
+      "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+      "reused_without_duplicate_upload": true
+    },
+    "controlnet": {
+      "uri": "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/controlnet/OpenPoseXL2.safetensors",
+      "bytes": 5004167829,
+      "sha256": "5a4b928cb1e93748217900cb66d4135bf70d932d2924232f925910fad9e43a92",
+      "metadata_hash_verified": true
+    },
+    "control_image": {
+      "uri": "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets/sdxl_realvisxl_controlnet_openpose_lane/controlnet_openpose_hands_tabletop_w69_v1.png",
+      "sha256": "071fae66490195443a883b157f68455707be00c6427686a4252dcfd7e6a6019c",
+      "metadata_hash_verified": true
+    },
+    "deploy_bundle": {
+      "uri": "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/openpose_377e6c6/openpose_377e6c6.zip",
+      "sha256": "8c75439e127f14032ef7fb7bfae9e9a3a845d2a37cbc61a2e6b68dfc1fceea94"
+    }
+  },
+  "prompt_request_sha256": "ce07d2982e585634dc75557113ce5dff99c2eaef2924927f629e2de419930c86",
+  "ec2_install_proof": false,
+  "target_runtime_static_proof": false,
+  "generation_executed": false,
+  "target_runtime_proof": false,
+  "certification_claimed": false,
+  "final_ec2_state": "stopped",
+  "capacity_boundary": "Normal static proof established the current InsufficientInstanceCapacity condition. OpenPose does not retry EC2 in the same capacity window.",
+  "next_action": "When AWS capacity changes, install the OpenPose model and control image from these exact S3 URIs, then run lane-matched static proof before any single bounded generation."
+}

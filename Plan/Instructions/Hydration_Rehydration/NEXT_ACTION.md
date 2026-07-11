@@ -1,3 +1,9 @@
+## Immediate Next Action - OpenPose Remotely Staged, Await Capacity Without Loop - 2026-07-11T02:10:00-05:00
+
+`sdxl_realvisxl_controlnet_openpose_lane` now has a clean-head preferred-table-hands package, 10/10 package consistency, 6/6 asset-transfer dry-run children, 7/7 pre-EC2 handoff checks, and exact S3 objects for the 5.0 GB OpenPoseXL2 model, control image, and deploy bundle. RealVisXL was reused without duplicate upload. EC2 was not started for OpenPose because the current capacity window already failed on Normal.
+
+Do not claim OpenPose install, static proof, generation, hand certification, or final lane certification. Keep EC2 stopped and avoid capacity retries in the same window. When capacity changes, resume from the exact staged URIs and install/hash-verify before object-info; otherwise continue another local non-mask task.
+
 ## Immediate Next Action - Normal Ready, EC2 Capacity Blocked, OpenPose Local Next - 2026-07-11T01:48:00-05:00
 
 `sdxl_realvisxl_controlnet_normal_lane` now has a clean-head profiled package/deploy chain, 10/10 package consistency, 6/6 asset-transfer dry-run children, 7/7 pre-EC2 handoff checks, exact S3 uploads, and hash-verified EC2 installs for the Normal union model and control image. The existing RealVisXL checkpoint was reused. AWS then rejected static-proof startup with `InsufficientInstanceCapacity`; no object-info proof or generation occurred, and EC2 is stopped.

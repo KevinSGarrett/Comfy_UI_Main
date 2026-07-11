@@ -1,3 +1,9 @@
+## Active Runtime Posture - Normal Capacity Blocked, OpenPose Remotely Staged - 2026-07-11T02:10:00-05:00
+
+Continue from authoritative `C:\Comfy_UI_Main`. Normal remains prepared but blocked before static proof by AWS capacity. OpenPose is now additionally packaged and staged in S3 with exact hashes, but has not been installed or executed on EC2. Preserve both fail-closed boundaries and keep the instance stopped.
+
+When capacity changes, OpenPose may resume from its staged model/input/deploy URIs through EC2 install, object-info, one bounded table-hands generation, pullback, strict hand QA, and scoped certification. Until then, continue local non-mask implementation without reopening completed depth/lineart work or any mask/Wave70/Wave71+/Jira lane.
+
 ## Active Runtime Posture - Normal Prepared, Capacity Blocked, OpenPose Local Next - 2026-07-11T01:48:00-05:00
 
 Continue from authoritative `C:\Comfy_UI_Main`. Normal target-runtime prerequisites and remote asset installs are complete, but AWS capacity prevented the approved instance from starting for static proof. Preserve `BLOCKED_EC2_INSUFFICIENT_INSTANCE_CAPACITY`, do not claim Normal target-runtime proof or certification, and do not retry in a loop. EC2 is stopped.
