@@ -1,3 +1,9 @@
+## Immediate Next Action - Lineart Target Runtime Certified, No Rerun - 2026-07-11T00:47:00-05:00
+
+`sdxl_realvisxl_controlnet_lineart_lane` now has a passing clean-head profiled package/deploy chain, exact S3 asset identity with RealVisXL reuse, EC2 object-info and model/input hash proof, one successful bounded 768x768 portrait generation, 5/5 hash-verified pullback, technical QA, visual QA, and final lane certification with notes. EC2 `i-0560bf8d143f93bb1` is stopped. Do not rerun this unchanged lineart portrait proof.
+
+The certification excludes exact identity/silhouette preservation, hands, full-body anatomy, contact, broader scenes, masks, Wave70 authority, and Wave71+. Continue with `sdxl_realvisxl_controlnet_normal_lane`, which has local v3 multisample robustness but still lacks target-runtime proof and final certification. Flux1 remains blocked on explicit license acceptance.
+
 ## Immediate Next Action - Legacy And AWS Reconciled, Depth Lane Next - 2026-07-10T23:17:00-05:00
 
 `C:\Comfy_UI_Main` remains authoritative and now physically preserves the previously unmapped substantive legacy corpora as two sanitized, hash-bound source archives: 4,241 `Plans` files and 8,615 `Tech_Plan_Additions` files. Python caches and one environment example were excluded; seven legacy SDXL preset values and source hashes are preserved in an inactive registry because their absolute paths are obsolete. These archives are source history only and cannot reopen completed work or override current tracker/hydration state.
@@ -8358,8 +8364,3 @@ Next exact action: checkpoint static proof and runtime-window evidence, rebuild/
 `sdxl_realvisxl_controlnet_depth_lane` now has a passing clean-head package/deploy chain, exact S3 asset identity, EC2 object-info and model/input hash proof, one successful bounded 768x768 portrait generation, 5/5 hash-verified pullback, technical QA, visual QA, and final lane certification with notes. EC2 `i-0560bf8d143f93bb1` is stopped. Do not rerun this unchanged depth portrait proof.
 
 The certification is intentionally narrow: hands, full-body anatomy, contact ownership, broader scenes, body masks, Wave70 authority, and Wave71+ remain unproven or blocked. Continue with the next genuinely open non-mask runtime/orchestration lane after the clean checkpoint; keep Flux1 blocked until explicit license acceptance and do not reopen completed Canny, selected-inpaint, or depth proof.
-## Immediate Next Action - Lineart Target Runtime Certified, No Rerun - 2026-07-11T00:47:00-05:00
-
-`sdxl_realvisxl_controlnet_lineart_lane` now has a passing clean-head profiled package/deploy chain, exact S3 asset identity with RealVisXL reuse, EC2 object-info and model/input hash proof, one successful bounded 768x768 portrait generation, 5/5 hash-verified pullback, technical QA, visual QA, and final lane certification with notes. EC2 `i-0560bf8d143f93bb1` is stopped. Do not rerun this unchanged lineart portrait proof.
-
-The certification excludes exact identity/silhouette preservation, hands, full-body anatomy, contact, broader scenes, masks, Wave70 authority, and Wave71+. Continue with a different genuinely open non-mask lane after the clean checkpoint; normal, openpose, or upscale remain candidates, while Flux1 remains blocked on explicit license acceptance.
