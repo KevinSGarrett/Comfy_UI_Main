@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-WAVE10-CAMERA-COMPILER-FULL-BODY-VISUAL-QA-20260711T113100-0500",
+  "timestamp": "2026-07-11T11:31:00-05:00",
+  "tracker_id": "TRK-W64-011",
+  "item_id": "ITEM-W64-011",
+  "reviewer": "Codex Desktop vision",
+  "review_method": "original_resolution_whole_image_visual_review",
+  "original_resolution_review": true,
+  "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave10_camera_full_body_realvisxl_seed7152026101_20260711T112700-0500/images/wave10_camera_full_body_7152026101_00001_.png",
+  "image_sha256": "f3921e7bf7af9262989a0e4ca70aa4566fca3603c2c014a9eb6437da4ae42aa1",
+  "image_dimensions": {
+    "width": 768,
+    "height": 1024
+  },
+  "checks": {
+    "exactly_one_adult": true,
+    "eye_level_full_body_camera_intent": true,
+    "head_and_hair_fully_in_frame": true,
+    "both_hands_fully_visible_and_inspectable": false,
+    "both_feet_fully_in_frame": true,
+    "balanced_headroom_footroom_and_side_margins": true,
+    "no_required_region_hidden": false,
+    "natural_skin_clothing_and_background": true,
+    "no_obvious_anatomy_or_render_defect": true
+  },
+  "result": "fail",
+  "classification": "Blocked_Visual_Runtime_Composition_Mismatch",
+  "notes": [
+    "The eye-level full-body framing is strong: one adult is centered, the complete hair silhouette and both shoes remain inside the frame, and headroom, footroom, and side margins are balanced.",
+    "Both hands are partially inserted into trouser pockets. Visible wrists and portions of the hands are not enough to satisfy the explicit request for both open hands to be fully visible and inspectable.",
+    "No seed retry or prompt retry was performed. This exact sample fails the strict visual-runtime gate while preserving the successful compiler and runtime evidence."
+  ],
+  "retry_performed": false,
+  "lane_certification_claimed": false,
+  "mask_or_geometry_authority_claimed": false
+}

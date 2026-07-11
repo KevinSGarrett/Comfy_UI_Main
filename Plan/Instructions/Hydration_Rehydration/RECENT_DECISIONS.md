@@ -798,3 +798,10 @@ Retain `u_lip_dilate_exclusive_v1` only as a tested negative fixture. Controlled
 - Wardrobe exactness is advisory `0/3`, and no detailed hand/foot geometry authority is claimed.
 - Preserve the completed seed matrix without replay.
 - Reconcile legacy/Main/AWS state before selecting more runtime work, and import only hash/evidence-proven missing completed artifacts.
+## 2026-07-11T11:45:00-05:00 - Preserve the camera compiler and reject the pocket-hidden sample
+
+- Extend the existing `compile_camera_plan.py`; do not create a duplicate compiler.
+- Accept the implementation and technical runtime proof, including 22 tests and one-person/all-18-landmark DWPose evidence.
+- Reject visual readiness because both hands are partly hidden in pockets and cannot be fully inspected.
+- Stop after the one bounded sample; do not seed-loop or claim Base-lane certification.
+- Continue with a duplicate-checked non-mask implementation candidate at `TRK-W64-019` / `ITEM-W64-019` after checkpointing.

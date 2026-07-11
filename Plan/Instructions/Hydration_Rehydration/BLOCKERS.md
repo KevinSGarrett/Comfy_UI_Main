@@ -1244,3 +1244,6 @@ The stale-package/clean-bundle contradiction is resolved locally. The current pa
 ## Facial Upper-Lip Distinct Route Dependency - 2026-07-10T22:20:00-05:00
 
 `u_lip_dilate_exclusive_v1` is rejected after one controlled and one held-out evaluation. It improved recall but increased false positives and lowered IoU on both sets; no parameter tuning or repeat is allowed. Another upper-lip candidate requires a distinct model-backed route or independently justified non-morphological implementation with hash-bound authority. This blocker does not prevent unrelated non-mask project work.
+## Wave64 Camera Visual Runtime Mismatch - 2026-07-11T11:45:00-05:00
+
+`TRK-W64-011` / `ITEM-W64-011` pass compiler, unit, schema, package, graph, local runtime, hash, nonblank, and DWPose technical checks, but fail strict original-resolution visual readiness. Both hands are partly hidden in trouser pockets instead of fully open and inspectable. Classification: `Blocked_Visual_Runtime_Composition_Mismatch`. No retry was performed; this does not block unrelated non-mask project work.

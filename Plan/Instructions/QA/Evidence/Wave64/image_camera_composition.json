@@ -1,0 +1,167 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-IMAGE-CAMERA-COMPOSITION",
+  "timestamp": "2026-07-11T11:40:12-05:00",
+  "tracker_id": "TRK-W64-011",
+  "item_id": "ITEM-W64-011",
+  "lane_id": "sdxl_realvisxl_base_lane",
+  "source_citation": "Plan/03_IMAGE_SYSTEM/WAVE10_IMAGE_CAMERA_PLAN_COMPILER.md",
+  "compiler": {
+    "request": "Plan/09_EXAMPLES/wave10_camera_full_body_runtime_request.example.json",
+    "request_sha256": "c1e1d988c74defe5d279bee93aed7f4919cf8b0357bd2e365d67d8164f6155f7",
+    "plan": "Plan/09_EXAMPLES/wave10_camera_full_body_compiled.example.json",
+    "plan_sha256": "0d4ab18741193a8196c9ddfb7563041db8ec3f9cda081fe1df7529f4c988d9cc",
+    "canonical_plan_sha256": "7ab0490f38fff28349e037baf3ef913b112675afe16ee788bdf97f1675892978",
+    "profile": "PromptProfiles/base_generation/wave10_camera_compiler/wave10_camera_full_body_realvisxl_seed7152026101.json",
+    "profile_sha256": "eecd877834ca71ed6a1eb9c059f8a65dd460a4a0c2aeb54b9951c2c1fcbfa427"
+  },
+  "runtime": {
+    "package": "runtime_artifacts/run_packages/wave10_camera_full_body_realvisxl_seed7152026101/RUN_PACKAGE_MANIFEST.json",
+    "package_sha256": "ca2d5546dc0f4a034b636bf2319af07b82956578880868a335f7068eaf8f0b2e",
+    "prompt_request": "runtime_artifacts/run_packages/wave10_camera_full_body_realvisxl_seed7152026101/prompt_request.json",
+    "prompt_request_sha256": "19b891809a9711e05b0d07a4f1d1cb55ab3416b70bd1b495d1ae821f83d837e2",
+    "execution_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_WAVE10_CAMERA_COMPILER_FULL_BODY_EXECUTE_20260711T112700-0500.json",
+    "execution_evidence_sha256": "70b0a9d96343d3478e0bae0a37cc34eeef39dc0eb6c8a65c3a229153e1167ef2",
+    "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave10_camera_full_body_realvisxl_seed7152026101_20260711T112700-0500/images/wave10_camera_full_body_7152026101_00001_.png",
+    "image_sha256": "f3921e7bf7af9262989a0e4ca70aa4566fca3603c2c014a9eb6437da4ae42aa1",
+    "dimensions": {
+      "width": 768,
+      "height": 1024
+    },
+    "nonblank_metrics": {
+      "std": 47.64352035522461,
+      "nonwhite_ratio": 1.0,
+      "nonblack_ratio": 0.99664306640625,
+      "pass": true
+    }
+  },
+  "dwpose": {
+    "models": [
+      {
+        "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\yolox_l.onnx",
+        "filename": "yolox_l.onnx",
+        "sha256": "7860ae79de6c89a3c1eb72ae9a2756c0ccfbe04b7791bb5880afabd97855a411",
+        "expected_sha256": "7860ae79de6c89a3c1eb72ae9a2756c0ccfbe04b7791bb5880afabd97855a411",
+        "sha256_matches_expected": true,
+        "size_bytes": 216746733
+      },
+      {
+        "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\dw-ll_ucoco_384.onnx",
+        "filename": "dw-ll_ucoco_384.onnx",
+        "sha256": "724f4ff2439ed61afb86fb8a1951ec39c6220682803b4a8bd4f598cd913b1843",
+        "expected_sha256": "724f4ff2439ed61afb86fb8a1951ec39c6220682803b4a8bd4f598cd913b1843",
+        "sha256_matches_expected": true,
+        "size_bytes": 134399116
+      }
+    ],
+    "keypoints": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave10_camera_full_body_realvisxl_seed7152026101_20260711T112700-0500/qa_openpose_keypoints.json",
+    "keypoints_sha256": "88ef929bbb462a6066e19ca93869f7cb5528f789e90649d2c2c0f9dab84a3fa1",
+    "person_count": 1,
+    "detected_body_landmark_count": 18,
+    "normalized_framing_points": {
+      "0": {
+        "x": 0.5202804341291388,
+        "y": 0.14485466379361844
+      },
+      "4": {
+        "x": 0.36553703621029854,
+        "y": 0.42184534606834245
+      },
+      "7": {
+        "x": 0.6316956806307038,
+        "y": 0.4373196858602266
+      },
+      "10": {
+        "x": 0.44600360312809545,
+        "y": 0.8706012000329792
+      },
+      "13": {
+        "x": 0.697719530409409,
+        "y": 0.8829806718664863
+      }
+    }
+  },
+  "unit_test_log": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/image_camera_composition_test_log.json",
+    "sha256": "931e7b428eee08d2a0dc7d26f51a8993fcd662260a7a10ef3a386c4f4868bb37",
+    "result": "pass",
+    "tests_run": 22
+  },
+  "technical_checks": {
+    "request_recompiles_to_committed_plan": true,
+    "request_and_plan_recompile_to_committed_profile": true,
+    "profile_camera_plan_binding_matches": true,
+    "package_result_pass_local_only": true,
+    "package_profile_applied": true,
+    "package_profile_path_matches": true,
+    "package_has_no_live_side_effects": true,
+    "prompt_request_hash_matches_package": true,
+    "runtime_passed": true,
+    "runtime_is_local_and_aws_free": true,
+    "runtime_generated_exactly_one_output": true,
+    "runtime_stopped_server_and_closed_port": true,
+    "runtime_prompt_hash_matches_package": true,
+    "image_pullback_hash_bound": true,
+    "output_dimensions_exact": true,
+    "output_nonblank": true,
+    "model_asset_bound": true,
+    "seed_bound": true,
+    "steps_bound": true,
+    "cfg_bound": true,
+    "sampler_bound": true,
+    "scheduler_bound": true,
+    "denoise_bound": true,
+    "latent_width_bound": true,
+    "latent_height_bound": true,
+    "latent_batch_bound": true,
+    "positive_prompt_bound": true,
+    "negative_prompt_bound": true,
+    "save_prefix_bound": true,
+    "dwpose_models_hash_trusted": true,
+    "exactly_one_person_detected": true,
+    "all_18_body_landmarks_detected": true,
+    "head_wrists_and_ankles_in_frame": true,
+    "unit_tests_passed": true
+  },
+  "technical_pass": true,
+  "strict_visual_disposition": {
+    "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAVE10_CAMERA_COMPILER_FULL_BODY_VISUAL_QA_20260711T113100-0500.json",
+    "sha256": "36db7ecd3ffb363b659e5a825e598f24a925188a146bd62c2683a78f4c4da3e7",
+    "contract_valid": true,
+    "visual_pass": false,
+    "issues": [],
+    "checks": {
+      "exactly_one_adult": true,
+      "eye_level_full_body_camera_intent": true,
+      "head_and_hair_fully_in_frame": true,
+      "both_hands_fully_visible_and_inspectable": false,
+      "both_feet_fully_in_frame": true,
+      "balanced_headroom_footroom_and_side_margins": true,
+      "no_required_region_hidden": false,
+      "natural_skin_clothing_and_background": true,
+      "no_obvious_anatomy_or_render_defect": true
+    },
+    "notes": [
+      "The eye-level full-body framing is strong: one adult is centered, the complete hair silhouette and both shoes remain inside the frame, and headroom, footroom, and side margins are balanced.",
+      "Both hands are partially inserted into trouser pockets. Visible wrists and portions of the hands are not enough to satisfy the explicit request for both open hands to be fully visible and inspectable.",
+      "No seed retry or prompt retry was performed. This exact sample fails the strict visual-runtime gate while preserving the successful compiler and runtime evidence."
+    ]
+  },
+  "acceptance_gates": {
+    "camera_spec_check": true,
+    "crop_boundary_check": false,
+    "composition_score": 100,
+    "visual_runtime_ready": false
+  },
+  "result": "fail_visual_runtime_composition_mismatch",
+  "overall_pass": false,
+  "status_decision": "Blocked_Visual_Runtime_Composition_Mismatch",
+  "strict_decision": {
+    "row_complete": false,
+    "retry_performed": false,
+    "retry_allowed_by_this_evidence": false,
+    "reason": "The compiler, package, graph, runtime, image, and pose checks pass, but both hands are partly hidden in trouser pockets rather than fully open and inspectable as requested.",
+    "target_runtime_or_lane_certification_claimed": false,
+    "mask_or_geometry_authority_claimed": false
+  }
+}

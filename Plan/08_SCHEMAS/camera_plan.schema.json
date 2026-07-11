@@ -30,13 +30,47 @@
       ]
     },
     "shot_size": {
-      "type": "string"
+      "type": "string",
+      "enum": [
+        "full_body",
+        "three_quarter_body",
+        "half_body",
+        "medium_shot",
+        "close_up",
+        "extreme_close_up",
+        "wide_shot",
+        "two_shot",
+        "group_shot",
+        "detail_insert"
+      ]
     },
     "lens_profile": {
-      "type": "string"
+      "type": "string",
+      "enum": [
+        "ultra_wide_18mm",
+        "wide_24mm",
+        "classic_35mm",
+        "normal_50mm",
+        "portrait_85mm",
+        "macro_100mm",
+        "telephoto_135mm",
+        "telephoto_200mm"
+      ]
     },
     "camera_angle": {
-      "type": "string"
+      "type": "string",
+      "enum": [
+        "eye_level",
+        "low_angle",
+        "high_angle",
+        "overhead",
+        "worm_eye",
+        "three_quarter_front",
+        "profile_side",
+        "back_view",
+        "over_shoulder",
+        "dutch_angle"
+      ]
     },
     "camera_height": {
       "type": "string"
@@ -55,10 +89,16 @@
       ],
       "properties": {
         "width": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 512,
+          "maximum": 2048,
+          "multipleOf": 64
         },
         "height": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 512,
+          "maximum": 2048,
+          "multipleOf": 64
         }
       }
     },
@@ -85,6 +125,52 @@
       "type": "array",
       "items": {
         "type": "string"
+      }
+    },
+    "workflow_instructions": {
+      "type": "object",
+      "required": [
+        "positive_prompt_camera_module",
+        "negative_prompt_crop_guard",
+        "latent_resolution",
+        "reference_routing_plan",
+        "control_plan",
+        "save_prefix",
+        "qa_goals"
+      ],
+      "properties": {
+        "positive_prompt_camera_module": {
+          "type": "string",
+          "minLength": 1
+        },
+        "negative_prompt_crop_guard": {
+          "type": "string",
+          "minLength": 1
+        },
+        "latent_resolution": {
+          "type": "object",
+          "required": [
+            "width",
+            "height",
+            "batch_size"
+          ]
+        },
+        "reference_routing_plan": {
+          "type": "object"
+        },
+        "control_plan": {
+          "type": "object"
+        },
+        "save_prefix": {
+          "type": "string",
+          "minLength": 1
+        },
+        "qa_goals": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       }
     }
   },

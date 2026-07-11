@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "report_id": "ITEM-W64-011-IMAGE-CAMERA-COMPOSITION-20260711T114500-0500",
+  "timestamp": "2026-07-11T11:45:00-05:00",
+  "item_id": "ITEM-W64-011",
+  "tracker_id": "TRK-W64-011",
+  "workstream": "image_camera_composition",
+  "status": "Blocked_Visual_Runtime_Composition_Mismatch",
+  "row_complete": false,
+  "implementation": {
+    "existing_compiler_extended_in_place": true,
+    "duplicate_compiler_created": false,
+    "workflow_compatible_profile_emitted": true,
+    "unknown_taxonomy_and_unsafe_crop_claims_fail_closed": true,
+    "reference_and_control_routes_default_disabled": true
+  },
+  "validation": {
+    "unit_tests_passed": 22,
+    "unit_test_failures": 0,
+    "schema_validation": "pass",
+    "deterministic_plan_recompile_exact": true,
+    "deterministic_profile_recompile_exact": true,
+    "technical_runtime_qa": "pass",
+    "strict_visual_runtime_qa": "fail"
+  },
+  "runtime": {
+    "local_only": true,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "generation_count": 1,
+    "seed_retry_count": 0,
+    "person_count": 1,
+    "detected_body_landmark_count": 18,
+    "output_sha256": "f3921e7bf7af9262989a0e4ca70aa4566fca3603c2c014a9eb6437da4ae42aa1"
+  },
+  "acceptance_gates": {
+    "camera_spec_check": true,
+    "crop_boundary_check": false,
+    "composition_score": 100,
+    "visual_runtime_ready": false
+  },
+  "blocker": {
+    "classification": "Blocked_Visual_Runtime_Composition_Mismatch",
+    "reason": "The image preserves the requested eye-level full-body framing, but both hands are partly hidden in trouser pockets rather than fully open and inspectable. The strict crop/visibility and visual-runtime gates therefore fail.",
+    "retry_performed": false,
+    "lane_certification_claimed": false,
+    "mask_or_geometry_authority_claimed": false
+  },
+  "evidence": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/image_camera_composition.json",
+      "sha256": "8f18bd068e6c3b73b4242c040462dc2d75249bc4c6a77bbf8d9a59afad176daf"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/image_camera_composition_test_log.json",
+      "sha256": "931e7b428eee08d2a0dc7d26f51a8993fcd662260a7a10ef3a386c4f4868bb37"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAVE10_CAMERA_COMPILER_FULL_BODY_VISUAL_QA_20260711T113100-0500.json",
+      "sha256": "36db7ecd3ffb363b659e5a825e598f24a925188a146bd62c2683a78f4c4da3e7"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_WAVE10_CAMERA_COMPILER_FULL_BODY_EXECUTE_20260711T112700-0500.json",
+      "sha256": "70b0a9d96343d3478e0bae0a37cc34eeef39dc0eb6c8a65c3a229153e1167ef2"
+    }
+  ],
+  "review": {
+    "cursor_record": "runtime_artifacts/agent_handoffs/cursor/20260711T113653-0500_wave10_camera_compiler_independent_code_review_retry/handoff_record.json",
+    "cursor_findings_remediated": true,
+    "claude_record": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T114128-0500_wave10_camera_compiler_final_contradiction_review/handoff_record.json",
+    "claude_high_or_medium_blockers": 0
+  },
+  "next_action": "Keep this row blocked. Do not seed-loop or claim completion. Continue the next concrete non-mask project task; revisit only under a deliberately changed camera/prompt objective with a new scoped proof."
+}
