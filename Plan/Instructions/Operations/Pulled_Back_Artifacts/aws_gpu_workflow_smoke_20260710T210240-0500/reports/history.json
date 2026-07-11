@@ -1,0 +1,245 @@
+{
+  "meta": {
+    "11": {
+      "display_node": "11",
+      "node_id": "11",
+      "parent_node": null,
+      "real_node_id": "11"
+    },
+    "16": {
+      "display_node": "16",
+      "node_id": "16",
+      "parent_node": null,
+      "real_node_id": "16"
+    }
+  },
+  "outputs": {
+    "11": {
+      "images": [
+        {
+          "filename": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_00001_.png",
+          "subfolder": "",
+          "type": "output"
+        }
+      ]
+    },
+    "16": {
+      "images": [
+        {
+          "filename": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview_00001_.png",
+          "subfolder": "",
+          "type": "output"
+        }
+      ]
+    }
+  },
+  "prompt": [
+    0,
+    "56261427-dd70-4e0d-947a-275a30594db4",
+    {
+      "10": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "3",
+            0
+          ],
+          "vae": [
+            "4",
+            2
+          ]
+        }
+      },
+      "11": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4",
+          "images": [
+            "14",
+            0
+          ]
+        }
+      },
+      "12": {
+        "class_type": "SetLatentNoiseMask",
+        "inputs": {
+          "mask": [
+            "13",
+            0
+          ],
+          "samples": [
+            "7",
+            0
+          ]
+        }
+      },
+      "13": {
+        "class_type": "FeatherMask",
+        "inputs": {
+          "bottom": 24,
+          "left": 24,
+          "mask": [
+            "6",
+            0
+          ],
+          "right": 24,
+          "top": 24
+        }
+      },
+      "14": {
+        "class_type": "ImageCompositeMasked",
+        "inputs": {
+          "destination": [
+            "5",
+            0
+          ],
+          "mask": [
+            "13",
+            0
+          ],
+          "resize_source": false,
+          "source": [
+            "10",
+            0
+          ],
+          "x": 0,
+          "y": 0
+        }
+      },
+      "15": {
+        "class_type": "MaskToImage",
+        "inputs": {
+          "mask": [
+            "13",
+            0
+          ]
+        }
+      },
+      "16": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_mask_preview",
+          "images": [
+            "15",
+            0
+          ]
+        }
+      },
+      "3": {
+        "class_type": "KSampler",
+        "inputs": {
+          "cfg": 5.0,
+          "denoise": 0.24,
+          "latent_image": [
+            "12",
+            0
+          ],
+          "model": [
+            "4",
+            0
+          ],
+          "negative": [
+            "9",
+            0
+          ],
+          "positive": [
+            "8",
+            0
+          ],
+          "sampler_name": "euler",
+          "scheduler": "normal",
+          "seed": 210422,
+          "steps": 20
+        }
+      },
+      "4": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "realvisxlV50_v50Bakedvae.safetensors"
+        }
+      },
+      "5": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "sdxl_inpaint_detail_source_canny_v1.png"
+        }
+      },
+      "6": {
+        "class_type": "LoadImageMask",
+        "inputs": {
+          "channel": "red",
+          "image": "sdxl_inpaint_detail_micro_nomouth_v4.png"
+        }
+      },
+      "7": {
+        "class_type": "VAEEncode",
+        "inputs": {
+          "pixels": [
+            "5",
+            0
+          ],
+          "vae": [
+            "4",
+            2
+          ]
+        }
+      },
+      "8": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "4",
+            1
+          ],
+          "text": "subtle photoreal skin texture refinement, preserve exact identity, preserve original eye color gaze and lip color, natural skin pores, consistent portrait lighting, no global style drift"
+        }
+      },
+      "9": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "4",
+            1
+          ],
+          "text": "blank face, gray mask, identity change, eye color change, lip color change, gaze drift, face shape drift, plastic skin, waxy skin, over-smoothed face, distorted eyes, crossed eyes, extra teeth, deformed mouth, new jewelry, new clothing, background change, watermark, text"
+        }
+      }
+    },
+    {
+      "client_id": "codex-root-run-package",
+      "create_time": 1783735563886
+    },
+    [
+      "11",
+      "16"
+    ]
+  ],
+  "status": {
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "56261427-dd70-4e0d-947a-275a30594db4",
+          "timestamp": 1783735563887
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [],
+          "prompt_id": "56261427-dd70-4e0d-947a-275a30594db4",
+          "timestamp": 1783735563908
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "56261427-dd70-4e0d-947a-275a30594db4",
+          "timestamp": 1783735621779
+        }
+      ]
+    ],
+    "status_str": "success"
+  }
+}

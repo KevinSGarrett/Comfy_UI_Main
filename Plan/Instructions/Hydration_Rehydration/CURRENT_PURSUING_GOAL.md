@@ -6244,3 +6244,8 @@ Continue the selected-inpaint target-runtime proof from `C:\Comfy_UI_Main`. All 
 ## Current Pursuing Goal - Selected Inpaint Ready For Bounded EC2 Smoke - 2026-07-10T21:00:00-05:00
 
 Continue the selected-inpaint target-runtime proof from `C:\Comfy_UI_Main`. S3 transfer, EC2 install, and EC2 static object-info/model-hash proof now pass. Checkpoint this authority, then execute one bounded workflow smoke with the current-head bundle, pullback/hash QA, strict whole-image visual review, and verified final EC2 stop.
+## Active Runtime Posture - Selected Inpaint Target Runtime Proven - 2026-07-10T21:25:00-05:00
+
+Continue the full ComfyUI project from `C:\Comfy_UI_Main`. The selected RealVisXL inpaint-detail lane now has exact-head S3 bundle proof, marked-window EC2 static proof, generation-ready evidence, one successful target-runtime generation, a six-file local pullback with five remote-manifest files hash-verified, and passing technical plus visual QA. EC2 is stopped, the active marker is removed, and the pullback recovery reused the existing generation rather than recreating it.
+
+This closes the selected-inpaint target-runtime smoke only. It does not promote candidate masks, certify facial/body masks, clear manual body-gold dependencies, authorize Wave70 hard gates or Wave71+, or replace multi-sample final certification. Continue a concrete non-mask implementation task and avoid rerunning completed local, legacy-root, or EC2 proof.
