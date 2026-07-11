@@ -17,6 +17,11 @@
       }
     },
     "route_configuration_sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
+    "candidate_target_classes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
     "neck_candidate_authority": {
       "type": "object",
       "required": ["kind", "authority_id", "implementation_path", "implementation_sha256", "gold_derived"],
@@ -72,11 +77,11 @@
           "protected_neighbors": {"type": "object"},
           "composition": {
             "type": "object",
-            "required": ["enabled", "composition_rule_id", "target_class", "union_sources", "base_prediction_path", "base_prediction_sha256", "composition_input_hashes", "base_skin_sha256_preserved", "composition_output_sha256"],
+            "required": ["enabled", "composition_rule_id", "target_class", "base_prediction_path", "base_prediction_sha256", "composition_output_sha256"],
             "properties": {
               "enabled": {"const": true},
-              "composition_rule_id": {"const": "celeb_skin_nested_union_v1"},
-              "target_class": {"const": "skin"},
+              "composition_rule_id": {"enum": ["celeb_skin_nested_union_v1", "u_lip_dilate_exclusive_v1"]},
+              "target_class": {"enum": ["skin", "u_lip"]},
               "union_sources": {"type": "array", "minItems": 9, "maxItems": 9, "items": {"type": "string"}},
               "base_prediction_path": {"type": "string", "minLength": 1},
               "base_prediction_sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
@@ -97,8 +102,65 @@
                 "additionalProperties": false
               },
               "base_skin_sha256_preserved": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
+              "composition_source_hashes": {
+                "type": "object",
+                "required": ["u_lip"],
+                "properties": {
+                  "u_lip": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"}
+                },
+                "additionalProperties": false
+              },
+              "composition_exclusion_hashes": {
+                "type": "object",
+                "required": ["mouth", "l_lip"],
+                "properties": {
+                  "mouth": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
+                  "l_lip": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"}
+                },
+                "additionalProperties": false
+              },
+              "base_u_lip_sha256_preserved": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
+              "fixed_parameters": {
+                "type": "object",
+                "required": ["operator", "kernel", "iterations", "exclude_from_new_pixels"],
+                "properties": {
+                  "operator": {"const": "binary_dilation"},
+                  "kernel": {"const": "square_3x3"},
+                  "iterations": {"const": 1},
+                  "exclude_from_new_pixels": {
+                    "type": "array",
+                    "minItems": 2,
+                    "maxItems": 2,
+                    "prefixItems": [
+                      {"const": "mouth"},
+                      {"const": "l_lip"}
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
               "composition_output_sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"}
             },
+            "allOf": [
+              {
+                "if": {"properties": {"composition_rule_id": {"const": "celeb_skin_nested_union_v1"}}},
+                "then": {
+                  "required": ["union_sources", "composition_input_hashes", "base_skin_sha256_preserved"],
+                  "properties": {
+                    "target_class": {"const": "skin"}
+                  }
+                }
+              },
+              {
+                "if": {"properties": {"composition_rule_id": {"const": "u_lip_dilate_exclusive_v1"}}},
+                "then": {
+                  "required": ["composition_source_hashes", "composition_exclusion_hashes", "base_u_lip_sha256_preserved", "fixed_parameters"],
+                  "properties": {
+                    "target_class": {"const": "u_lip"}
+                  }
+                }
+              }
+            ],
             "additionalProperties": false
           },
           "transforms": {

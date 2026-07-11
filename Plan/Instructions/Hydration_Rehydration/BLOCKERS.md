@@ -1215,3 +1215,6 @@ No active blockers remain for local Wave 58-62 static and packaging validation; 
 ## RealESRGAN Local Package Drift Resolved; Live Gates Remain - 2026-07-10T11:46:52-05:00
 
 The stale-package/clean-bundle contradiction is resolved locally. The current package and bundle pass 40 consistency checks and the deploy-bundle S3 plan is `dry_run_ready_to_upload`; no upload occurred. Remaining blockers are explicit live intent, deploy/model/input S3 Execute proofs, EC2 hash-verified install, target-runtime static proof, bounded output, pullback, strict visual QA, and final certification review. The work order remains open.
+## Facial Upper-Lip Distinct Route Dependency - 2026-07-10T22:20:00-05:00
+
+`u_lip_dilate_exclusive_v1` is rejected after one controlled and one held-out evaluation. It improved recall but increased false positives and lowered IoU on both sets; no parameter tuning or repeat is allowed. Another upper-lip candidate requires a distinct model-backed route or independently justified non-morphological implementation with hash-bound authority. This blocker does not prevent unrelated non-mask project work.

@@ -95,6 +95,37 @@ def composition_fixture(project: Path) -> tuple[dict, Path, Path]:
     return {"composition": composition}, base, output
 
 
+def u_lip_dilate_exclusive_fixture(project: Path) -> tuple[dict, Path, Path]:
+    base = project / "base_u_lip"
+    output = project / "output_u_lip"
+    zero = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+    for class_name in CELEB_CLASSES:
+        save_mask(base / f"{class_name}.png", zero)
+        save_mask(output / f"{class_name}.png", zero)
+    save_mask(base / "u_lip.png", [[0, 0, 0], [0, 255, 0], [0, 0, 0]])
+    save_mask(base / "mouth.png", [[0, 0, 0], [0, 0, 255], [0, 0, 0]])
+    save_mask(base / "l_lip.png", [[0, 0, 0], [0, 0, 0], [0, 0, 0]])
+    save_mask(output / "mouth.png", [[0, 0, 0], [0, 0, 255], [0, 0, 0]])
+    save_mask(output / "l_lip.png", [[0, 0, 0], [0, 0, 0], [0, 0, 0]])
+    save_mask(output / "u_lip.png", [[255, 255, 255], [255, 255, 0], [255, 255, 255]])
+    composition = {
+        "enabled": True,
+        "composition_rule_id": "u_lip_dilate_exclusive_v1",
+        "target_class": "u_lip",
+        "base_prediction_path": str(base),
+        "base_prediction_sha256": sha256_path(base),
+        "composition_source_hashes": {"u_lip": sha256_file(base / "u_lip.png")},
+        "composition_exclusion_hashes": {
+            "mouth": sha256_file(base / "mouth.png"),
+            "l_lip": sha256_file(base / "l_lip.png"),
+        },
+        "base_u_lip_sha256_preserved": sha256_file(base / "u_lip.png"),
+        "fixed_parameters": dict(evaluator_module.U_LIP_DILATE_EXCLUSIVE_PARAMETERS),
+        "composition_output_sha256": sha256_file(output / "u_lip.png"),
+    }
+    return {"composition": composition}, base, output
+
+
 def test_composition_contract_recomputes_union_and_preserves_non_target(tmp_path: Path) -> None:
     project = tmp_path / "project"
     sample, _, output = composition_fixture(project)
@@ -115,6 +146,36 @@ def test_composition_contract_rejects_nonreproducible_skin(tmp_path: Path) -> No
     save_mask(output / "skin.png", [[255, 255], [0, 0]])
     sample["composition"]["composition_output_sha256"] = sha256_file(output / "skin.png")
     with pytest.raises(ValueError, match="composition_output_not_reproducible"):
+        evaluator_module.validate_celeb_composition(project, sample, output)
+
+
+def test_u_lip_dilate_exclusive_contract_passes(tmp_path: Path) -> None:
+    project = tmp_path / "project"
+    sample, _, output = u_lip_dilate_exclusive_fixture(project)
+    evaluator_module.validate_celeb_composition(project, sample, output)
+
+
+def test_u_lip_dilate_exclusive_rejects_changed_non_target(tmp_path: Path) -> None:
+    project = tmp_path / "project"
+    sample, _, output = u_lip_dilate_exclusive_fixture(project)
+    save_mask(output / "mouth.png", [[0, 0, 0], [0, 255, 255], [0, 0, 0]])
+    with pytest.raises(ValueError, match="composition_non_target_class_changed:mouth"):
+        evaluator_module.validate_celeb_composition(project, sample, output)
+
+
+def test_u_lip_dilate_exclusive_rejects_invalid_fixed_parameters(tmp_path: Path) -> None:
+    project = tmp_path / "project"
+    sample, _, output = u_lip_dilate_exclusive_fixture(project)
+    sample["composition"]["fixed_parameters"]["iterations"] = 2
+    with pytest.raises(ValueError, match="composition_fixed_parameters_invalid"):
+        evaluator_module.validate_celeb_composition(project, sample, output)
+
+
+def test_u_lip_dilate_exclusive_rejects_wrong_exclusion_hash(tmp_path: Path) -> None:
+    project = tmp_path / "project"
+    sample, _, output = u_lip_dilate_exclusive_fixture(project)
+    sample["composition"]["composition_exclusion_hashes"]["mouth"] = "f" * 64
+    with pytest.raises(ValueError, match="composition_exclusion_hash_mismatch:mouth"):
         evaluator_module.validate_celeb_composition(project, sample, output)
 
 
@@ -618,6 +679,7 @@ def test_registered_bisenet_neck_candidate_without_new_authority_rejected(tmp_pa
         save_mask(pred_dir / f"{name}.png", [[0, 0, 0, 0]] * 4)
     manifest = celeb_manifest(project, source, pred_dir)
     manifest["route_model_identity"]["model_sha256"] = REGISTERED_BISENET_NECK_MODEL_SHA256
+    manifest["candidate_target_classes"] = ["neck"]
     manifest_path = project / "manifest.json"
     out_path = project / "out.json"
     write_json(manifest_path, manifest)
@@ -625,6 +687,26 @@ def test_registered_bisenet_neck_candidate_without_new_authority_rejected(tmp_pa
     evidence = read_evidence(out_path)
     assert "neck_candidate_not_distinct_from_registered_route" in evidence["fail_closed_events"][-1]["message"]
     assert evidence["neck_candidate_novelty_audit"]["result"] == "blocked_registered_route_reuse"
+
+
+def test_registered_bisenet_non_neck_candidate_may_report_unchanged_neck(tmp_path: Path) -> None:
+    project, _ = base_project(tmp_path)
+    source = project / "MaskedWarehouse/CelebAMask-HQ/CelebA-HQ-img/60.jpg"
+    save_rgb(source)
+    pred_dir = project / "pred/60"
+    for name in ("skin", "neck", "neck_l"):
+        save_mask(pred_dir / f"{name}.png", [[0, 0, 0, 0]] * 4)
+    manifest = celeb_manifest(project, source, pred_dir)
+    manifest["route_model_identity"]["model_sha256"] = REGISTERED_BISENET_NECK_MODEL_SHA256
+    manifest["candidate_target_classes"] = ["skin"]
+    manifest_path = project / "manifest.json"
+    out_path = project / "out.json"
+    write_json(manifest_path, manifest)
+    assert run_eval(project, manifest_path, out_path).returncode == 0
+    audit = read_evidence(out_path)["neck_candidate_novelty_audit"]
+    assert audit["neck_evaluated"] is True
+    assert audit["neck_claimed_as_candidate"] is False
+    assert audit["result"] == "not_applicable"
 
 
 def test_registered_bisenet_neck_candidate_with_fixed_non_gold_authority_passes(tmp_path: Path) -> None:
@@ -636,6 +718,7 @@ def test_registered_bisenet_neck_candidate_with_fixed_non_gold_authority_passes(
         save_mask(pred_dir / f"{name}.png", [[0, 0, 0, 0]] * 4)
     manifest = celeb_manifest(project, source, pred_dir)
     manifest["route_model_identity"]["model_sha256"] = REGISTERED_BISENET_NECK_MODEL_SHA256
+    manifest["candidate_target_classes"] = ["neck"]
     implementation_path = project / "routes/fixed_neck_reconstruction.py"
     implementation_path.parent.mkdir(parents=True, exist_ok=True)
     implementation_path.write_text("def reconstruct_neck():\n    return 'fixture'\n", encoding="utf-8")
@@ -667,6 +750,7 @@ def test_registered_bisenet_neck_candidate_with_wrong_implementation_hash_reject
     implementation_path.write_text("def reconstruct_neck():\n    return 'fixture'\n", encoding="utf-8")
     manifest = celeb_manifest(project, source, pred_dir)
     manifest["route_model_identity"]["model_sha256"] = REGISTERED_BISENET_NECK_MODEL_SHA256
+    manifest["candidate_target_classes"] = ["neck"]
     manifest["neck_candidate_authority"] = {
         "kind": "fixed_non_gold_reconstruction",
         "authority_id": "fixture-neck-reconstruction-v1",

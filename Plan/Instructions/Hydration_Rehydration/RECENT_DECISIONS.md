@@ -728,3 +728,6 @@ The selected-inpaint runtime chain now treats the clean/synced Git checkpoint ga
 ## Decision - Supersede Stale RealESRGAN Package Before Any Upload - 2026-07-10T11:46:52-05:00
 
 Do not publish or execute from `runtime_artifacts/run_packages/upscale_polish_w69_canny_seed711570105/RUN_PACKAGE_MANIFEST.json`; it is retained only as historical regression evidence and fails `stale_clean_git_metadata`. Use the current package `upscale_polish_w69_canny_seed711570105_current_3e4207a` and clean bundle `realesrgan_current_3e4207a`, validated by `W66_REALESRGAN_CURRENT_RUN_PACKAGE_DEPLOY_BUNDLE_CONSISTENCY_20260710T114200-0500.json`.
+## 2026-07-10T22:20:00-05:00 - Reject Fixed Upper-Lip Dilation
+
+Retain `u_lip_dilate_exclusive_v1` only as a tested negative fixture. Controlled and held-out IoU both decreased despite better recall, visual QA showed overexpansion, no non-target class changed, and no model route was rerun. Do not tune or promote this rule.

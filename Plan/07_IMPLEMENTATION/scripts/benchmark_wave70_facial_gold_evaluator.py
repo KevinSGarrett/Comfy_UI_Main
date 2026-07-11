@@ -16,6 +16,12 @@ from scipy import ndimage
 ALLOWED_TRANSFORMS = ("identity", "resize", "pad", "crop", "horizontal_flip")
 LAPA_REQUIRED_IDS = {str(index) for index in range(11)}
 CELEB_SKIN_UNION_SOURCES = ("skin", "l_brow", "r_brow", "l_eye", "r_eye", "nose", "mouth", "u_lip", "l_lip")
+U_LIP_DILATE_EXCLUSIVE_PARAMETERS = {
+    "operator": "binary_dilation",
+    "kernel": "square_3x3",
+    "iterations": 1,
+    "exclude_from_new_pixels": ["mouth", "l_lip"],
+}
 REGISTERED_BISENET_NECK_MODEL_SHA256 = "468e13ca13a9b43cc0881a9f99083a430e9c0a38abd935431d1c28ee94b26567"
 
 
@@ -421,38 +427,85 @@ def validate_celeb_composition(project_root: Path, sample: dict[str, Any], pred_
         return
     if not isinstance(composition, dict) or composition.get("enabled") is not True:
         raise ValueError("composition_contract_invalid")
-    if composition.get("composition_rule_id") != "celeb_skin_nested_union_v1":
-        raise ValueError("composition_rule_unknown")
-    if composition.get("target_class") != "skin":
-        raise ValueError("composition_target_invalid")
-    if tuple(composition.get("union_sources", [])) != CELEB_SKIN_UNION_SOURCES:
-        raise ValueError("composition_union_sources_invalid")
+    rule_id = composition.get("composition_rule_id")
     base_dir = to_abs_path(project_root, str(composition.get("base_prediction_path", "")))
     if not base_dir.is_dir() or sha256_path(base_dir) != composition.get("base_prediction_sha256"):
         raise ValueError("composition_base_prediction_hash_mismatch")
-    input_hashes = composition.get("composition_input_hashes")
-    if not isinstance(input_hashes, dict) or set(input_hashes) != set(CELEB_SKIN_UNION_SOURCES):
-        raise ValueError("composition_input_hashes_invalid")
-    union: np.ndarray | None = None
-    for class_name in CELEB_SKIN_UNION_SOURCES:
-        base_path = base_dir / f"{class_name}.png"
-        if not base_path.is_file() or sha256_file(base_path) != input_hashes[class_name]:
-            raise ValueError(f"composition_input_hash_mismatch:{class_name}")
-        mask = image_to_bool_mask(base_path)
-        union = mask if union is None else np.logical_or(union, mask)
-    if input_hashes["skin"] != composition.get("base_skin_sha256_preserved"):
-        raise ValueError("composition_base_skin_hash_mismatch")
-    composed_path = pred_dir / "skin.png"
-    if not composed_path.is_file() or sha256_file(composed_path) != composition.get("composition_output_sha256"):
-        raise ValueError("composition_output_hash_mismatch")
-    if union is None or not np.array_equal(union, image_to_bool_mask(composed_path)):
-        raise ValueError("composition_output_not_reproducible")
-    for base_path in base_dir.glob("*.png"):
-        if base_path.stem == "skin":
-            continue
-        output_path = pred_dir / base_path.name
-        if not output_path.is_file() or sha256_file(base_path) != sha256_file(output_path):
-            raise ValueError(f"composition_non_target_class_changed:{base_path.stem}")
+    if rule_id == "celeb_skin_nested_union_v1":
+        if composition.get("target_class") != "skin":
+            raise ValueError("composition_target_invalid")
+        if tuple(composition.get("union_sources", [])) != CELEB_SKIN_UNION_SOURCES:
+            raise ValueError("composition_union_sources_invalid")
+        input_hashes = composition.get("composition_input_hashes")
+        if not isinstance(input_hashes, dict) or set(input_hashes) != set(CELEB_SKIN_UNION_SOURCES):
+            raise ValueError("composition_input_hashes_invalid")
+        union: np.ndarray | None = None
+        for class_name in CELEB_SKIN_UNION_SOURCES:
+            base_path = base_dir / f"{class_name}.png"
+            if not base_path.is_file() or sha256_file(base_path) != input_hashes[class_name]:
+                raise ValueError(f"composition_input_hash_mismatch:{class_name}")
+            mask = image_to_bool_mask(base_path)
+            union = mask if union is None else np.logical_or(union, mask)
+        if input_hashes["skin"] != composition.get("base_skin_sha256_preserved"):
+            raise ValueError("composition_base_skin_hash_mismatch")
+        composed_path = pred_dir / "skin.png"
+        if not composed_path.is_file() or sha256_file(composed_path) != composition.get("composition_output_sha256"):
+            raise ValueError("composition_output_hash_mismatch")
+        if union is None or not np.array_equal(union, image_to_bool_mask(composed_path)):
+            raise ValueError("composition_output_not_reproducible")
+        for base_path in base_dir.glob("*.png"):
+            if base_path.stem == "skin":
+                continue
+            output_path = pred_dir / base_path.name
+            if not output_path.is_file() or sha256_file(base_path) != sha256_file(output_path):
+                raise ValueError(f"composition_non_target_class_changed:{base_path.stem}")
+        return
+    if rule_id == "u_lip_dilate_exclusive_v1":
+        if composition.get("target_class") != "u_lip":
+            raise ValueError("composition_target_invalid")
+        source_hashes = composition.get("composition_source_hashes")
+        if not isinstance(source_hashes, dict) or set(source_hashes.keys()) != {"u_lip"}:
+            raise ValueError("composition_source_hashes_invalid")
+        exclusion_hashes = composition.get("composition_exclusion_hashes")
+        if not isinstance(exclusion_hashes, dict) or set(exclusion_hashes.keys()) != {"mouth", "l_lip"}:
+            raise ValueError("composition_exclusion_hashes_invalid")
+        if composition.get("fixed_parameters") != U_LIP_DILATE_EXCLUSIVE_PARAMETERS:
+            raise ValueError("composition_fixed_parameters_invalid")
+        u_lip_path = base_dir / "u_lip.png"
+        mouth_path = base_dir / "mouth.png"
+        l_lip_path = base_dir / "l_lip.png"
+        if not u_lip_path.is_file() or sha256_file(u_lip_path) != source_hashes["u_lip"]:
+            raise ValueError("composition_source_hash_mismatch:u_lip")
+        if source_hashes["u_lip"] != composition.get("base_u_lip_sha256_preserved"):
+            raise ValueError("composition_base_u_lip_hash_mismatch")
+        if not mouth_path.is_file() or sha256_file(mouth_path) != exclusion_hashes["mouth"]:
+            raise ValueError("composition_exclusion_hash_mismatch:mouth")
+        if not l_lip_path.is_file() or sha256_file(l_lip_path) != exclusion_hashes["l_lip"]:
+            raise ValueError("composition_exclusion_hash_mismatch:l_lip")
+        u_lip = image_to_bool_mask(u_lip_path)
+        mouth = image_to_bool_mask(mouth_path)
+        l_lip = image_to_bool_mask(l_lip_path)
+        if not (u_lip.shape == mouth.shape == l_lip.shape):
+            raise ValueError("composition_input_dimension_mismatch:u_lip_dilate_exclusive_v1")
+        dilated = ndimage.binary_dilation(u_lip, structure=np.ones((3, 3), dtype=bool), iterations=1)
+        newly_added = np.logical_and(dilated, np.logical_not(u_lip))
+        exclusion = np.logical_or(mouth, l_lip)
+        exclusive_newly_added = np.logical_and(newly_added, np.logical_not(exclusion))
+        expected_u_lip = np.logical_or(u_lip, exclusive_newly_added)
+        composed_path = pred_dir / "u_lip.png"
+        if not composed_path.is_file() or sha256_file(composed_path) != composition.get("composition_output_sha256"):
+            raise ValueError("composition_output_hash_mismatch")
+        composed_u_lip = image_to_bool_mask(composed_path)
+        if not np.array_equal(expected_u_lip, composed_u_lip):
+            raise ValueError("composition_output_not_reproducible")
+        for base_path in base_dir.glob("*.png"):
+            if base_path.stem == "u_lip":
+                continue
+            output_path = pred_dir / base_path.name
+            if not output_path.is_file() or sha256_file(base_path) != sha256_file(output_path):
+                raise ValueError(f"composition_non_target_class_changed:{base_path.stem}")
+        return
+    raise ValueError("composition_rule_unknown")
 
 
 def evaluate_celeb_sample(
@@ -866,8 +919,18 @@ def evaluate_manifest(
             if isinstance(sample, dict)
             for class_name in sample.get("classes", [])
         }
+        candidate_target_classes = manifest.get("candidate_target_classes", [])
+        if not isinstance(candidate_target_classes, list) or any(
+            not isinstance(class_name, str) or not class_name.strip() for class_name in candidate_target_classes
+        ):
+            raise ValueError("candidate_target_classes_invalid")
+        candidate_target_classes = sorted(set(candidate_target_classes))
+        if any(class_name not in evaluated_classes for class_name in candidate_target_classes):
+            raise ValueError("candidate_target_class_not_evaluated")
         neck_novelty_audit = {
             "neck_evaluated": "neck" in evaluated_classes,
+            "neck_claimed_as_candidate": "neck" in candidate_target_classes,
+            "candidate_target_classes": candidate_target_classes,
             "registered_bisenet_sha256": REGISTERED_BISENET_NECK_MODEL_SHA256,
             "candidate_model_sha256": model_sha256,
             "candidate_model_distinct": model_sha256 != REGISTERED_BISENET_NECK_MODEL_SHA256,
@@ -875,7 +938,7 @@ def evaluate_manifest(
             "result": "not_applicable",
         }
         evidence["neck_candidate_novelty_audit"] = neck_novelty_audit
-        if "neck" in evaluated_classes:
+        if "neck" in candidate_target_classes:
             if model_sha256 != REGISTERED_BISENET_NECK_MODEL_SHA256:
                 neck_novelty_audit["result"] = "distinct_model_route"
             else:

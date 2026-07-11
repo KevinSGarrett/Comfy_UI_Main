@@ -1,3 +1,9 @@
+## Immediate Next Action - Upper-Lip Fixed Dilation Rejected - 2026-07-10T22:20:00-05:00
+
+The gold-blind `u_lip_dilate_exclusive_v1` candidate was composed from existing hash-verified skin-union predictions without rerunning BiSeNet. Producer/evaluator/composer contracts pass 54 disposable tests; controlled and held-out evaluator runs pass structurally, but the class gate fails. Upper-lip IoU decreases from `0.8435` to `0.8307` on IDs `0,1,2` and from `0.8198` to `0.8186` on IDs `6,7,8`; visual QA confirms overexpansion and increased false positives. No non-target class changed.
+
+Do not tune or rerun this dilation rule. The next facial `u_lip` attempt requires a distinct model-backed route or an independently justified non-morphological implementation. Continue a different concrete non-mask project task while preserving the accepted skin rule, rejected ear/flip/upper-lip candidates, neck novelty guard, manual body-gold boundary, Wave70/Wave71+ locks, and EC2 stopped state.
+
 ## Immediate Next Action - Neck Candidate Novelty Guard Enforced - 2026-07-10T21:33:00-05:00
 
 The facial gold evaluator now fails closed before gold access when anatomical `neck` is evaluated with the already-audited BiSeNet SHA256 and no hash-bound, explicitly non-gold fixed reconstruction authority is declared. Distinct model hashes remain evaluator-eligible; they are not automatically passing or promotable. The manifest schema and benchmark protocol document the conditional authority contract, and all 27 disposable evaluator regressions pass.

@@ -101,6 +101,53 @@ def test_skin_composition_fails_when_base_class_is_missing(tmp_path: Path) -> No
         producer.materialize_composition(base, tmp_path / "output", "skin_nested_union_v1")
 
 
+def test_u_lip_dilate_exclusive_composition_passes_and_preserves_non_target(tmp_path: Path) -> None:
+    base = tmp_path / "base"
+    for class_name in producer.CLASS_ORDER:
+        save_mask(base / f"{class_name}.png", 0, size=(4, 4))
+    u_lip = Image.new("L", (4, 4), 0)
+    u_lip.putdata(
+        [
+            0, 0, 0, 0,
+            0, 255, 0, 0,
+            0, 0, 0, 0,
+            0, 0, 0, 0,
+        ]
+    )
+    u_lip.save(base / "u_lip.png")
+    mouth = Image.new("L", (4, 4), 0)
+    mouth.putdata(
+        [
+            0, 0, 0, 0,
+            0, 0, 255, 0,
+            0, 0, 0, 0,
+            0, 0, 0, 0,
+        ]
+    )
+    mouth.save(base / "mouth.png")
+    output = tmp_path / "output"
+    record = producer.materialize_composition(base, output, "u_lip_dilate_exclusive_v1")
+    assert record is not None
+    assert record["composition_rule_id"] == "u_lip_dilate_exclusive_v1"
+    assert record["target_class"] == "u_lip"
+    assert record["fixed_parameters"] == producer.U_LIP_DILATE_EXCLUSIVE_PARAMETERS
+    u_lip_output = np.asarray(Image.open(output / "u_lip.png").convert("L")) > 0
+    assert u_lip_output[1, 1]
+    assert not u_lip_output[1, 2]  # excluded because mouth claims this new pixel
+    assert producer.sha256_file(base / "mouth.png") == producer.sha256_file(output / "mouth.png")
+
+
+def test_u_lip_dilate_exclusive_rejects_dimension_mismatch(tmp_path: Path) -> None:
+    base = tmp_path / "base"
+    for class_name in producer.CLASS_ORDER:
+        save_mask(base / f"{class_name}.png", 0, size=(4, 4))
+    save_mask(base / "u_lip.png", 0, size=(4, 4))
+    save_mask(base / "mouth.png", 0, size=(5, 4))
+    save_mask(base / "l_lip.png", 0, size=(4, 4))
+    with pytest.raises(ValueError, match="composition_input_dimension_mismatch:u_lip_dilate_exclusive_v1"):
+        producer.materialize_composition(base, tmp_path / "output", "u_lip_dilate_exclusive_v1")
+
+
 def test_configuration_hash_binds_component_order_and_content(tmp_path: Path) -> None:
     first = tmp_path / "first.py"
     second = tmp_path / "second.py"

@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "FACIAL-GOLD-U-LIP-DILATE-EXCLUSIVE-REJECTION-20260710T222000-0500",
+  "timestamp": "2026-07-10T22:20:00-05:00",
+  "classification": "REJECTED_U_LIP_DILATE_EXCLUSIVE_V1",
+  "candidate_rule": {
+    "composition_rule_id": "u_lip_dilate_exclusive_v1",
+    "target_class": "u_lip",
+    "operator": "binary_dilation",
+    "kernel": "square_3x3",
+    "iterations": 1,
+    "exclude_from_new_pixels": ["mouth", "l_lip"],
+    "gold_derived": false,
+    "model_route_rerun": false
+  },
+  "source_prediction_manifests": {
+    "control_path": "runtime_artifacts/mask_factory/facial_original_predictions/20260710T181000-0500/prediction_manifest.json",
+    "control_sha256": "f5498ce57d2d4275a7723bc07c7c9570f76a2712666746ec9ad6fab61672e728",
+    "heldout_path": "runtime_artifacts/mask_factory/facial_original_predictions/20260710T181500-0500/prediction_manifest.json",
+    "heldout_sha256": "3419b2bf6c0942280459328706ed608d6ce341ea7d857b7c291ed52afc2cbfba"
+  },
+  "candidate_prediction_manifests": {
+    "control_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Facial_Gold_Standards/Prediction_Manifests/FACIAL_GOLD_U_LIP_DILATE_EXCLUSIVE_CONTROL_PREDICTION_MANIFEST_20260710T220000-0500.json",
+    "control_sha256": "eff44277f66c744bba0fc54bdf8ca14c1c8242da3975d6962d28df29fae1e2ef",
+    "heldout_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Facial_Gold_Standards/Prediction_Manifests/FACIAL_GOLD_U_LIP_DILATE_EXCLUSIVE_HELDOUT_PREDICTION_MANIFEST_20260710T220000-0500.json",
+    "heldout_sha256": "691e5e7a17b9241a5051e8dd4a011ab5fff869d28852a06b7d2992328e34de33"
+  },
+  "u_lip_metrics": {
+    "control": {
+      "sample_ids": ["0", "1", "2"],
+      "baseline_iou": 0.8434646490999217,
+      "candidate_iou": 0.830694275274056,
+      "iou_delta": -0.012770373825865655,
+      "baseline_false_negative_ratio": 0.11739011739011738,
+      "candidate_false_negative_ratio": 0.06906906906906907,
+      "baseline_false_positive_ratio": 0.04641004641004641,
+      "candidate_false_positive_ratio": 0.12066612066612066,
+      "candidate_gate_pass": false
+    },
+    "heldout": {
+      "sample_ids": ["6", "7", "8"],
+      "baseline_iou": 0.8197932053175776,
+      "candidate_iou": 0.8186098033785655,
+      "iou_delta": -0.0011834019390121187,
+      "baseline_false_negative_ratio": 0.1661658653846154,
+      "candidate_false_negative_ratio": 0.11177884615384616,
+      "baseline_false_positive_ratio": 0.017127403846153848,
+      "candidate_false_positive_ratio": 0.0850360576923077,
+      "candidate_gate_pass": false
+    }
+  },
+  "comparison": {
+    "control_classification": "FACIAL_ROUTE_COMPARISON_NO_ACCEPTABLE_IMPROVEMENT",
+    "heldout_classification": "FACIAL_ROUTE_COMPARISON_NO_ACCEPTABLE_IMPROVEMENT",
+    "newly_passed_classes": [],
+    "previously_passing_classes_regressed": [],
+    "non_target_metrics_unchanged": true
+  },
+  "visual_review": {
+    "reviewer": "Codex Desktop autonomous visual QA",
+    "result": "reject_candidate_overexpanded_upper_lip_boundary",
+    "control_panel": "Plan/Instructions/QA/Evidence/Mask_Factory/Facial_Gold_Standards/Panels/FACIAL_GOLD_U_LIP_DILATE_EXCLUSIVE_CONTROL_PANEL_20260710T221000-0500.png",
+    "control_panel_sha256": "8b7ec4fe7bae7740c60a22a43838d590586ec53f885a2609f450f897ae0dc02b",
+    "heldout_panel": "Plan/Instructions/QA/Evidence/Mask_Factory/Facial_Gold_Standards/Panels/FACIAL_GOLD_U_LIP_DILATE_EXCLUSIVE_HELDOUT_PANEL_20260710T221000-0500.png",
+    "heldout_panel_sha256": "3dfe7f8c89b7e2039976ffdfcb63d17008c8b19d6fc863da2b6b179354c25dba",
+    "finding": "The fixed dilation recovers missing boundary pixels but visibly broadens the upper-lip region and increases false positives enough to reduce IoU on both sample sets."
+  },
+  "decision": {
+    "candidate_accepted": false,
+    "heldout_pass": false,
+    "parameter_tuning_allowed": false,
+    "repeat_same_candidate_allowed": false,
+    "mask_promoted": false,
+    "route_promoted": false,
+    "certification_authorized": false,
+    "next_dependency": "A distinct model-backed upper-lip route or independently justified non-morphological fixed implementation is required before another u_lip candidate evaluation."
+  },
+  "boundaries": {
+    "gold_exposed_to_producer": false,
+    "body_gold_dependency_cleared": false,
+    "wave70_hard_gate_rerun": false,
+    "wave71_activated": false,
+    "ec2_started": false
+  }
+}

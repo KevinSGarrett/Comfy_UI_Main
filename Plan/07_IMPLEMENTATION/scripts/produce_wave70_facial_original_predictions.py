@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Any
 from zoneinfo import ZoneInfo
 
-from PIL import Image, ImageChops
+from PIL import Image, ImageChops, ImageFilter
 
 from wave70_model_registry import COMFYUI_VENV_PYTHON, first_existing_asset
 
@@ -25,6 +25,12 @@ CLASS_INDEX = {class_name: index for index, class_name in enumerate(CLASS_ORDER,
 ROUTE_INPUT_SIZE = (512, 512)
 TTA_RUNNER = Path(__file__).resolve().with_name("run_wave70_facial_bisenet_inference.py")
 SKIN_UNION_SOURCES = ("skin", "l_brow", "r_brow", "l_eye", "r_eye", "nose", "mouth", "u_lip", "l_lip")
+U_LIP_DILATE_EXCLUSIVE_PARAMETERS = {
+    "operator": "binary_dilation",
+    "kernel": "square_3x3",
+    "iterations": 1,
+    "exclude_from_new_pixels": ["mouth", "l_lip"],
+}
 # Celeb annotations intentionally overlap nested anatomy and accessories. These
 # lists contain only regions where prediction overlap is unambiguously leakage.
 PROTECTED_NEIGHBORS = {
@@ -150,36 +156,72 @@ def materialize_composition(base_dir: Path, output_dir: Path, mode: str) -> dict
         shutil.copy2(source, output_dir / source.name)
     if mode == "none":
         return None
-    if mode != "skin_nested_union_v1":
-        raise ValueError(f"unsupported_mask_composition:{mode}")
-    union: Image.Image | None = None
-    input_hashes: dict[str, str] = {}
-    expected_size: tuple[int, int] | None = None
-    for class_name in SKIN_UNION_SOURCES:
-        path = base_dir / f"{class_name}.png"
-        input_hashes[class_name] = sha256_file(path)
-        with Image.open(path) as image:
-            mask = image.convert("L").point(lambda value: 255 if value else 0)
-            if expected_size is None:
-                expected_size = mask.size
-            elif mask.size != expected_size:
-                raise ValueError(f"composition_input_dimension_mismatch:{class_name}")
-            union = mask.copy() if union is None else ImageChops.lighter(union, mask)
-    if union is None:
-        raise ValueError("composition_sources_empty")
-    output_path = output_dir / "skin.png"
-    union.save(output_path)
-    return {
-        "enabled": True,
-        "composition_rule_id": "celeb_skin_nested_union_v1",
-        "target_class": "skin",
-        "union_sources": list(SKIN_UNION_SOURCES),
-        "base_prediction_path": str(base_dir),
-        "base_prediction_sha256": sha256_directory(base_dir),
-        "composition_input_hashes": input_hashes,
-        "base_skin_sha256_preserved": input_hashes["skin"],
-        "composition_output_sha256": sha256_file(output_path),
-    }
+    if mode == "skin_nested_union_v1":
+        union: Image.Image | None = None
+        input_hashes: dict[str, str] = {}
+        expected_size: tuple[int, int] | None = None
+        for class_name in SKIN_UNION_SOURCES:
+            path = base_dir / f"{class_name}.png"
+            input_hashes[class_name] = sha256_file(path)
+            with Image.open(path) as image:
+                mask = image.convert("L").point(lambda value: 255 if value else 0)
+                if expected_size is None:
+                    expected_size = mask.size
+                elif mask.size != expected_size:
+                    raise ValueError(f"composition_input_dimension_mismatch:{class_name}")
+                union = mask.copy() if union is None else ImageChops.lighter(union, mask)
+        if union is None:
+            raise ValueError("composition_sources_empty")
+        output_path = output_dir / "skin.png"
+        union.save(output_path)
+        return {
+            "enabled": True,
+            "composition_rule_id": "celeb_skin_nested_union_v1",
+            "target_class": "skin",
+            "union_sources": list(SKIN_UNION_SOURCES),
+            "base_prediction_path": str(base_dir),
+            "base_prediction_sha256": sha256_directory(base_dir),
+            "composition_input_hashes": input_hashes,
+            "base_skin_sha256_preserved": input_hashes["skin"],
+            "composition_output_sha256": sha256_file(output_path),
+        }
+    if mode == "u_lip_dilate_exclusive_v1":
+        u_lip_path = base_dir / "u_lip.png"
+        mouth_path = base_dir / "mouth.png"
+        l_lip_path = base_dir / "l_lip.png"
+        source_hashes = {"u_lip": sha256_file(u_lip_path)}
+        exclusion_hashes = {
+            "mouth": sha256_file(mouth_path),
+            "l_lip": sha256_file(l_lip_path),
+        }
+        with Image.open(u_lip_path) as image:
+            u_lip_mask = image.convert("L").point(lambda value: 255 if value else 0)
+        with Image.open(mouth_path) as image:
+            mouth_mask = image.convert("L").point(lambda value: 255 if value else 0)
+        with Image.open(l_lip_path) as image:
+            l_lip_mask = image.convert("L").point(lambda value: 255 if value else 0)
+        if not (u_lip_mask.size == mouth_mask.size == l_lip_mask.size):
+            raise ValueError("composition_input_dimension_mismatch:u_lip_dilate_exclusive_v1")
+        dilated_u_lip = u_lip_mask.filter(ImageFilter.MaxFilter(3))
+        exclusion_union = ImageChops.lighter(mouth_mask, l_lip_mask)
+        newly_added = ImageChops.subtract(dilated_u_lip, u_lip_mask)
+        exclusive_newly_added = ImageChops.multiply(newly_added, ImageChops.invert(exclusion_union))
+        composed_u_lip = ImageChops.lighter(u_lip_mask, exclusive_newly_added).point(lambda value: 255 if value else 0)
+        output_path = output_dir / "u_lip.png"
+        composed_u_lip.save(output_path)
+        return {
+            "enabled": True,
+            "composition_rule_id": "u_lip_dilate_exclusive_v1",
+            "target_class": "u_lip",
+            "base_prediction_path": str(base_dir),
+            "base_prediction_sha256": sha256_directory(base_dir),
+            "composition_source_hashes": source_hashes,
+            "composition_exclusion_hashes": exclusion_hashes,
+            "base_u_lip_sha256_preserved": source_hashes["u_lip"],
+            "fixed_parameters": dict(U_LIP_DILATE_EXCLUSIVE_PARAMETERS),
+            "composition_output_sha256": sha256_file(output_path),
+        }
+    raise ValueError(f"unsupported_mask_composition:{mode}")
 
 
 def build_route_spec(inference_mode: str, input_dir: Path, output_dir: Path, checkpoint: Path) -> dict[str, Any]:
@@ -248,7 +290,11 @@ def main() -> int:
         choices=("single_pass", "hflip_logit_mean", "ear_multiscale_union_v1"),
         default="single_pass",
     )
-    parser.add_argument("--mask-composition", choices=("none", "skin_nested_union_v1"), default="none")
+    parser.add_argument(
+        "--mask-composition",
+        choices=("none", "skin_nested_union_v1", "u_lip_dilate_exclusive_v1"),
+        default="none",
+    )
     args = parser.parse_args()
 
     project_root = Path(args.project_root).resolve()

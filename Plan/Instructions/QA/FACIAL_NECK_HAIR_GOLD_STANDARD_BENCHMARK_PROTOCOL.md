@@ -179,7 +179,8 @@ Machine-readable paths, counts, pairing rules, and claim boundaries are in:
 
 The registered BiSeNet checkpoint `79999_iter.pth` exposes anatomical `neck` and accessory `neck_l` as separate classes. The current route passes held-out IDs `6,7,8` but fails controlled IDs `0,1,2`, and no second registered neck-specialist model or valid fixed semantic reconstruction exists. Do not merge `neck_l` into `neck` or rerun the identical route as a new candidate. Another neck evaluation requires a newly registered distinct model-backed route or a fixed non-gold-derived implementation artifact.
 
-The evaluator enforces this boundary before loading gold annotations. A neck
+The evaluator enforces this boundary before loading gold annotations when
+`neck` is explicitly named in `candidate_target_classes`. A neck candidate
 manifest using the registered BiSeNet SHA256
 `468e13ca13a9b43cc0881a9f99083a430e9c0a38abd935431d1c28ee94b26567`
 fails with `neck_candidate_not_distinct_from_registered_route` unless it
@@ -188,3 +189,19 @@ non-empty authority ID, a local implementation artifact path whose observed
 SHA256 matches the declared 64-character implementation SHA256, and
 `gold_derived=false`. A genuinely distinct model SHA256 remains eligible for
 evaluation but does not imply gate passage, promotion, or certification.
+
+## Rejected Upper-Lip Dilation Candidate
+
+`u_lip_dilate_exclusive_v1` is a rejected fixed non-gold candidate. It reuses
+hash-verified accepted skin-union predictions without rerunning the model,
+applies one square `3x3` binary dilation to `u_lip`, and excludes newly added
+pixels already claimed by predicted `mouth` or `l_lip`. The evaluator
+independently recomputes the rule and verifies source, exclusion, output, base
+directory, and unchanged non-target hashes.
+
+The rule improved false-negative ratios but increased false positives and
+reduced aggregate IoU from `0.8435` to `0.8307` on controlled IDs `0,1,2` and
+from `0.8198` to `0.8186` on held-out IDs `6,7,8`. Visual QA confirmed an
+overexpanded upper-lip boundary. Do not tune or repeat this dilation candidate.
+Another `u_lip` evaluation requires a distinct model-backed route or an
+independently justified non-morphological fixed implementation.

@@ -1,3 +1,9 @@
+## Active Facial Benchmark Posture - Upper-Lip Dilation Rejected - 2026-07-10T22:20:00-05:00
+
+Continue the full ComfyUI project from `C:\Comfy_UI_Main`. A reusable, hash-bound candidate composer and independently recomputed upper-lip composition contract now exist, but the first fixed dilation candidate is rejected on both controlled and held-out metrics plus direct visual QA. It remains a regression fixture only and must not be promoted or tuned against the same sets.
+
+Facial skin remains the only accepted reconstructed class from this benchmark cycle. Ear multiscale, horizontal flip, upper-lip dilation, and identical-route neck retries are closed as rejected or blocked paths. Continue another concrete non-mask implementation or a genuinely distinct registered facial route; manual body gold and all body/hand/contact, Wave70/Wave71+, Jira, and certification boundaries remain intact.
+
 ## Active Facial Benchmark Posture - Neck Novelty Fail-Closed - 2026-07-10T21:33:00-05:00
 
 Continue the full ComfyUI project from `C:\Comfy_UI_Main`. The evaluator now operationalizes the recorded neck dependency boundary: the known BiSeNet checkpoint cannot be reevaluated as a new neck candidate without a distinct, hash-bound, non-gold fixed reconstruction authority. This prevents duplicate work while preserving eligibility for a genuinely distinct neck model route.

@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "FACIAL-GOLD-U-LIP-DILATE-EXCLUSIVE-REGRESSION-20260710T222000-0500",
+  "timestamp": "2026-07-10T22:20:00-05:00",
+  "result": "pass_local_only",
+  "commands": [
+    "python -m py_compile Plan/07_IMPLEMENTATION/scripts/compose_wave70_facial_prediction_candidate.py Plan/Instructions/QA/Scripts/test_wave70_facial_prediction_candidate_composer.py",
+    "python -m pytest -q Plan/Instructions/QA/Scripts/test_wave70_facial_prediction_producer.py Plan/Instructions/QA/Scripts/test_wave70_facial_prediction_candidate_composer.py Plan/Instructions/QA/Scripts/test_wave70_facial_gold_evaluator.py --disable-warnings"
+  ],
+  "test_count": 54,
+  "passing_test_count": 54,
+  "failed_test_count": 0,
+  "schema_validation": "Draft202012Validator.check_schema_pass",
+  "implementation_hashes": {
+    "producer_sha256": "6707b79e30cfa2ac240593a6d9276670eb4154730fab2a42d446e37b8777e018",
+    "composer_sha256": "c6286da48bea0eda6e7a2b54abf9c5a5f2cf256f2658a086752a9fe7650297b2",
+    "evaluator_sha256": "8a36fcd00c33af0eacf77ba7876eed14aad240f355708f32eed603a10f314de2"
+  },
+  "coverage": [
+    "producer preserves all non-target masks and applies fixed square-3x3 one-iteration upper-lip dilation",
+    "new pixels claimed by mouth or lower-lip predictions are excluded",
+    "evaluator independently recomputes the candidate and rejects parameter, source hash, exclusion hash, output, and non-target drift",
+    "candidate composer rejects source prediction hash drift, nonempty output destinations, and records model_route_executed=false",
+    "neck novelty applies only when neck is explicitly claimed in candidate_target_classes"
+  ],
+  "local_only": true,
+  "model_route_executed": false,
+  "gold_dataset_mutated": false,
+  "aws_contacted": false,
+  "ec2_started": false,
+  "mask_promoted": false,
+  "claim_boundary": "Disposable contract regression only; metric and visual acceptance are recorded separately."
+}

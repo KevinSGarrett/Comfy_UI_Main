@@ -1,0 +1,980 @@
+{
+  "boundary_tolerance_pixels": 1,
+  "candidate_target_classes": [
+    "u_lip"
+  ],
+  "claim_boundary": "Fixed non-gold candidate composition over hash-verified originals-only predictions; no model rerun, evaluator truth access, mask promotion, or certification.",
+  "created_at": "2026-07-10T21:49:31.279464-05:00",
+  "dataset_id": "celebamask_hq_shard_0",
+  "derived_from_prediction_manifest": {
+    "base_route_configuration_sha256": "160f303dee6554922dd44fea28cb186f51763991baf669fe55d5d2fc09bc9256",
+    "model_route_rerun": false,
+    "path": "runtime_artifacts/mask_factory/facial_original_predictions/20260710T181000-0500/prediction_manifest.json",
+    "sha256": "f5498ce57d2d4275a7723bc07c7c9570f76a2712666746ec9ad6fab61672e728"
+  },
+  "producer_contract": {
+    "gold_paths_exposed_to_route": false,
+    "originals_only": true,
+    "prediction_generated_before_evaluation": true,
+    "route_input_image_paths": [
+      "MaskedWarehouse/CelebAMask-HQ/CelebA-HQ-img/0.jpg",
+      "MaskedWarehouse/CelebAMask-HQ/CelebA-HQ-img/1.jpg",
+      "MaskedWarehouse/CelebAMask-HQ/CelebA-HQ-img/2.jpg"
+    ]
+  },
+  "route_configuration_components": [
+    {
+      "path": "runtime_artifacts/mask_factory/facial_original_predictions/20260710T181000-0500/prediction_manifest.json",
+      "sha256": "f5498ce57d2d4275a7723bc07c7c9570f76a2712666746ec9ad6fab61672e728"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/compose_wave70_facial_prediction_candidate.py",
+      "sha256": "8cddf32712bd707a3fc05c542fb67b401b95376d6a6242e30fe4cb23401d8b25"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/produce_wave70_facial_original_predictions.py",
+      "sha256": "6707b79e30cfa2ac240593a6d9276670eb4154730fab2a42d446e37b8777e018"
+    }
+  ],
+  "route_configuration_sha256": "c5eca3b7bd9f174a9a8655732e5f71d9d75cf85b0945c52961db5368306e23f4",
+  "route_execution": {
+    "input_sample_count": 3,
+    "model_route_executed": false,
+    "reused_hash_verified_predictions": true
+  },
+  "route_id": "face_parsing.segment.evaluate.fixed_composition",
+  "route_inference": {
+    "logit_fusion": "none",
+    "mode": "single_pass",
+    "semantic_channel_swaps": [],
+    "spatial_unflip": false
+  },
+  "route_mask_composition": {
+    "base_masks_preserved": true,
+    "derived_overlay": true,
+    "mode": "u_lip_dilate_exclusive_v1",
+    "target_classes": [
+      "u_lip"
+    ]
+  },
+  "route_model_identity": {
+    "model_id": "79999_iter.pth",
+    "model_path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\face_parsing\\79999_iter.pth",
+    "model_sha256": "468e13ca13a9b43cc0881a9f99083a430e9c0a38abd935431d1c28ee94b26567"
+  },
+  "route_preprocessing": {
+    "authority": "face_parsing.segment.vis_parsing_maps 512x512 input contract",
+    "native_input_size": [
+      512,
+      512
+    ],
+    "operation": "bilinear_resize"
+  },
+  "run_id": "facial-fixed-candidate-u_lip_dilate_exclusive_v1-20260710T214931-0500",
+  "samples": [
+    {
+      "classes": [
+        "skin",
+        "l_brow",
+        "r_brow",
+        "l_eye",
+        "r_eye",
+        "eye_g",
+        "l_ear",
+        "r_ear",
+        "ear_r",
+        "nose",
+        "mouth",
+        "u_lip",
+        "l_lip",
+        "neck",
+        "neck_l",
+        "cloth",
+        "hair",
+        "hat"
+      ],
+      "composition": {
+        "base_prediction_path": "runtime_artifacts/mask_factory/facial_original_predictions/20260710T181000-0500/normalized_predictions/0",
+        "base_prediction_sha256": "691a71b9591f087200fd3b72e5cf91edda8ec14762d167ccc659691f956702ba",
+        "base_u_lip_sha256_preserved": "9fc01abcbb4df0d1ced4a132c4e45886b15e2d91a718bafcd84247b27086ff95",
+        "composition_exclusion_hashes": {
+          "l_lip": "d5543a2d75185681cf604579e73b017cebba64179409f429bb9f204a5d553675",
+          "mouth": "8062be58969de4692c7bca644a5b8069231914c2fd80a6cf63916aeee736ca93"
+        },
+        "composition_output_sha256": "e5692da9d96cd4787da7bea3874436ed9580a1872c264597485d8296d54b3ac4",
+        "composition_rule_id": "u_lip_dilate_exclusive_v1",
+        "composition_source_hashes": {
+          "u_lip": "9fc01abcbb4df0d1ced4a132c4e45886b15e2d91a718bafcd84247b27086ff95"
+        },
+        "enabled": true,
+        "fixed_parameters": {
+          "exclude_from_new_pixels": [
+            "mouth",
+            "l_lip"
+          ],
+          "iterations": 1,
+          "kernel": "square_3x3",
+          "operator": "binary_dilation"
+        },
+        "target_class": "u_lip"
+      },
+      "isolated_route_input_path": "runtime_artifacts/mask_factory/facial_original_predictions/20260710T181000-0500/original_inputs/0.png",
+      "isolated_route_input_sha256": "f830d1f3310c5269eae5326c5466d354fe040abab55350e4b8a34e153eaa7811",
+      "isolated_route_input_size": [
+        512,
+        512
+      ],
+      "materialized_empty_route_classes": [
+        "eye_g",
+        "l_ear",
+        "r_ear",
+        "ear_r",
+        "neck_l",
+        "cloth"
+      ],
+      "prediction_path": "runtime_artifacts/mask_factory/facial_u_lip_dilate_exclusive_v1/20260710T220000-0500/control/normalized_predictions/0",
+      "prediction_sha256": "e4c315236998bbd7ebdf724f4320b526cd40ded6ff2770aa82015c119683f8fb",
+      "protected_neighbors": {
+        "cloth": [
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "eye_g",
+          "ear_r",
+          "hat"
+        ],
+        "ear_r": [
+          "eye_g",
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck_l",
+          "cloth",
+          "hat"
+        ],
+        "eye_g": [
+          "l_ear",
+          "r_ear",
+          "ear_r",
+          "neck",
+          "neck_l",
+          "cloth",
+          "hat"
+        ],
+        "hair": [
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip"
+        ],
+        "hat": [
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck",
+          "neck_l",
+          "cloth"
+        ],
+        "l_brow": [
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck",
+          "cloth",
+          "hat"
+        ],
+        "l_ear": [
+          "r_ear",
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck",
+          "cloth",
+          "hat"
+        ],
+        "l_eye": [
+          "r_eye",
+          "l_brow",
+          "r_brow",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck",
+          "cloth",
+          "hair",
+          "hat"
+        ],
+        "l_lip": [
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "l_ear",
+          "r_ear",
+          "nose",
+          "neck",
+          "cloth",
+          "hair",
+          "hat"
+        ],
+        "mouth": [
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "l_ear",
+          "r_ear",
+          "nose",
+          "neck",
+          "cloth",
+          "hair",
+          "hat"
+        ],
+        "neck": [
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "hat"
+        ],
+        "neck_l": [
+          "eye_g",
+          "ear_r",
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "hat"
+        ],
+        "nose": [
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "l_ear",
+          "r_ear",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck",
+          "cloth",
+          "hair",
+          "hat"
+        ],
+        "r_brow": [
+          "l_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck",
+          "cloth",
+          "hat"
+        ],
+        "r_ear": [
+          "l_ear",
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck",
+          "cloth",
+          "hat"
+        ],
+        "r_eye": [
+          "l_eye",
+          "l_brow",
+          "r_brow",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck",
+          "cloth",
+          "hair",
+          "hat"
+        ],
+        "skin": [
+          "cloth",
+          "hat"
+        ],
+        "u_lip": [
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "l_ear",
+          "r_ear",
+          "nose",
+          "neck",
+          "cloth",
+          "hair",
+          "hat"
+        ]
+      },
+      "sample_id": "0",
+      "source_path": "MaskedWarehouse/CelebAMask-HQ/CelebA-HQ-img/0.jpg",
+      "source_sha256": "92583489fae83d937ed33b51459e41bf52104b87b4214ea9390512d860c88c2d",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "transforms": [
+        {
+          "from_size": [
+            1024,
+            1024
+          ],
+          "op": "resize",
+          "to_size": [
+            512,
+            512
+          ]
+        }
+      ]
+    },
+    {
+      "classes": [
+        "skin",
+        "l_brow",
+        "r_brow",
+        "l_eye",
+        "r_eye",
+        "eye_g",
+        "l_ear",
+        "r_ear",
+        "ear_r",
+        "nose",
+        "mouth",
+        "u_lip",
+        "l_lip",
+        "neck",
+        "neck_l",
+        "cloth",
+        "hair",
+        "hat"
+      ],
+      "composition": {
+        "base_prediction_path": "runtime_artifacts/mask_factory/facial_original_predictions/20260710T181000-0500/normalized_predictions/1",
+        "base_prediction_sha256": "a187f5a1c685675c3133a386b3f715b4719167c90a85768c6076112fe870031a",
+        "base_u_lip_sha256_preserved": "6327c69bbdc1bbf64361ff021d62728c3510be83e3490cf4f7894daba91e42a4",
+        "composition_exclusion_hashes": {
+          "l_lip": "acd1fc530d30a377162d8a4f40637a8cd5901d7406a72e3dba576213e990456b",
+          "mouth": "9252e4362dcc0d70854ee6ce7118faf94daa03339ca8733064c59130c9d2d965"
+        },
+        "composition_output_sha256": "fdd299b99807ac67305e2fc8a88929380e90ff27cc0bba2f44297f9c1c9cbede",
+        "composition_rule_id": "u_lip_dilate_exclusive_v1",
+        "composition_source_hashes": {
+          "u_lip": "6327c69bbdc1bbf64361ff021d62728c3510be83e3490cf4f7894daba91e42a4"
+        },
+        "enabled": true,
+        "fixed_parameters": {
+          "exclude_from_new_pixels": [
+            "mouth",
+            "l_lip"
+          ],
+          "iterations": 1,
+          "kernel": "square_3x3",
+          "operator": "binary_dilation"
+        },
+        "target_class": "u_lip"
+      },
+      "isolated_route_input_path": "runtime_artifacts/mask_factory/facial_original_predictions/20260710T181000-0500/original_inputs/1.png",
+      "isolated_route_input_sha256": "4eb97d88feed2b56ee98e4c13d71512fb59d26f6050e82873c76b8accf4d6daf",
+      "isolated_route_input_size": [
+        512,
+        512
+      ],
+      "materialized_empty_route_classes": [
+        "eye_g",
+        "ear_r",
+        "neck_l",
+        "hat"
+      ],
+      "prediction_path": "runtime_artifacts/mask_factory/facial_u_lip_dilate_exclusive_v1/20260710T220000-0500/control/normalized_predictions/1",
+      "prediction_sha256": "4b1ba62e9d7f19f54a400b82c0aeea5bcafcafde9ac6bbf828f369924b0ba7c3",
+      "protected_neighbors": {
+        "cloth": [
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "eye_g",
+          "ear_r",
+          "hat"
+        ],
+        "ear_r": [
+          "eye_g",
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck_l",
+          "cloth",
+          "hat"
+        ],
+        "eye_g": [
+          "l_ear",
+          "r_ear",
+          "ear_r",
+          "neck",
+          "neck_l",
+          "cloth",
+          "hat"
+        ],
+        "hair": [
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip"
+        ],
+        "hat": [
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck",
+          "neck_l",
+          "cloth"
+        ],
+        "l_brow": [
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck",
+          "cloth",
+          "hat"
+        ],
+        "l_ear": [
+          "r_ear",
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck",
+          "cloth",
+          "hat"
+        ],
+        "l_eye": [
+          "r_eye",
+          "l_brow",
+          "r_brow",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck",
+          "cloth",
+          "hair",
+          "hat"
+        ],
+        "l_lip": [
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "l_ear",
+          "r_ear",
+          "nose",
+          "neck",
+          "cloth",
+          "hair",
+          "hat"
+        ],
+        "mouth": [
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "l_ear",
+          "r_ear",
+          "nose",
+          "neck",
+          "cloth",
+          "hair",
+          "hat"
+        ],
+        "neck": [
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "hat"
+        ],
+        "neck_l": [
+          "eye_g",
+          "ear_r",
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "hat"
+        ],
+        "nose": [
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "l_ear",
+          "r_ear",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck",
+          "cloth",
+          "hair",
+          "hat"
+        ],
+        "r_brow": [
+          "l_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck",
+          "cloth",
+          "hat"
+        ],
+        "r_ear": [
+          "l_ear",
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck",
+          "cloth",
+          "hat"
+        ],
+        "r_eye": [
+          "l_eye",
+          "l_brow",
+          "r_brow",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck",
+          "cloth",
+          "hair",
+          "hat"
+        ],
+        "skin": [
+          "cloth",
+          "hat"
+        ],
+        "u_lip": [
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "l_ear",
+          "r_ear",
+          "nose",
+          "neck",
+          "cloth",
+          "hair",
+          "hat"
+        ]
+      },
+      "sample_id": "1",
+      "source_path": "MaskedWarehouse/CelebAMask-HQ/CelebA-HQ-img/1.jpg",
+      "source_sha256": "18b35dd98b31c0390f04d6bbc0ddaaec6432474679ac0b8454afb7343ecb779d",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "transforms": [
+        {
+          "from_size": [
+            1024,
+            1024
+          ],
+          "op": "resize",
+          "to_size": [
+            512,
+            512
+          ]
+        }
+      ]
+    },
+    {
+      "classes": [
+        "skin",
+        "l_brow",
+        "r_brow",
+        "l_eye",
+        "r_eye",
+        "eye_g",
+        "l_ear",
+        "r_ear",
+        "ear_r",
+        "nose",
+        "mouth",
+        "u_lip",
+        "l_lip",
+        "neck",
+        "neck_l",
+        "cloth",
+        "hair",
+        "hat"
+      ],
+      "composition": {
+        "base_prediction_path": "runtime_artifacts/mask_factory/facial_original_predictions/20260710T181000-0500/normalized_predictions/2",
+        "base_prediction_sha256": "c8ce800bb5d50ad78e5f6837f2b0a3c88899a80d33f0111e9c9c3118a3ae3603",
+        "base_u_lip_sha256_preserved": "2a93b2de6f58c5d1275c29029a2a00343ffbe85ba922d0b37a204ad39fa8261f",
+        "composition_exclusion_hashes": {
+          "l_lip": "9161b50fc6b8e018352202d6ffa987f9056a8ece8f5355ab483c8db96dfa49f0",
+          "mouth": "65795a5b91030a2a433dae510d1edf494082a9cfa1153cd94f3797759f68f257"
+        },
+        "composition_output_sha256": "aefef9447cfd491ee11fd7c683a2b24a719a136f550065347488c874050e0b35",
+        "composition_rule_id": "u_lip_dilate_exclusive_v1",
+        "composition_source_hashes": {
+          "u_lip": "2a93b2de6f58c5d1275c29029a2a00343ffbe85ba922d0b37a204ad39fa8261f"
+        },
+        "enabled": true,
+        "fixed_parameters": {
+          "exclude_from_new_pixels": [
+            "mouth",
+            "l_lip"
+          ],
+          "iterations": 1,
+          "kernel": "square_3x3",
+          "operator": "binary_dilation"
+        },
+        "target_class": "u_lip"
+      },
+      "isolated_route_input_path": "runtime_artifacts/mask_factory/facial_original_predictions/20260710T181000-0500/original_inputs/2.png",
+      "isolated_route_input_sha256": "c08a806aa795a27afb05d85a8999657583fa0584d24835c35d98be0f4508fb2a",
+      "isolated_route_input_size": [
+        512,
+        512
+      ],
+      "materialized_empty_route_classes": [
+        "eye_g",
+        "r_ear",
+        "ear_r",
+        "mouth",
+        "hat"
+      ],
+      "prediction_path": "runtime_artifacts/mask_factory/facial_u_lip_dilate_exclusive_v1/20260710T220000-0500/control/normalized_predictions/2",
+      "prediction_sha256": "2000521f20008d77314f107a597ebde3b55f84af79cc46c47a5084a8ac893d12",
+      "protected_neighbors": {
+        "cloth": [
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "eye_g",
+          "ear_r",
+          "hat"
+        ],
+        "ear_r": [
+          "eye_g",
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck_l",
+          "cloth",
+          "hat"
+        ],
+        "eye_g": [
+          "l_ear",
+          "r_ear",
+          "ear_r",
+          "neck",
+          "neck_l",
+          "cloth",
+          "hat"
+        ],
+        "hair": [
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip"
+        ],
+        "hat": [
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck",
+          "neck_l",
+          "cloth"
+        ],
+        "l_brow": [
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck",
+          "cloth",
+          "hat"
+        ],
+        "l_ear": [
+          "r_ear",
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck",
+          "cloth",
+          "hat"
+        ],
+        "l_eye": [
+          "r_eye",
+          "l_brow",
+          "r_brow",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck",
+          "cloth",
+          "hair",
+          "hat"
+        ],
+        "l_lip": [
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "l_ear",
+          "r_ear",
+          "nose",
+          "neck",
+          "cloth",
+          "hair",
+          "hat"
+        ],
+        "mouth": [
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "l_ear",
+          "r_ear",
+          "nose",
+          "neck",
+          "cloth",
+          "hair",
+          "hat"
+        ],
+        "neck": [
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "hat"
+        ],
+        "neck_l": [
+          "eye_g",
+          "ear_r",
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "hat"
+        ],
+        "nose": [
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "l_ear",
+          "r_ear",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck",
+          "cloth",
+          "hair",
+          "hat"
+        ],
+        "r_brow": [
+          "l_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck",
+          "cloth",
+          "hat"
+        ],
+        "r_ear": [
+          "l_ear",
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck",
+          "cloth",
+          "hat"
+        ],
+        "r_eye": [
+          "l_eye",
+          "l_brow",
+          "r_brow",
+          "nose",
+          "mouth",
+          "u_lip",
+          "l_lip",
+          "neck",
+          "cloth",
+          "hair",
+          "hat"
+        ],
+        "skin": [
+          "cloth",
+          "hat"
+        ],
+        "u_lip": [
+          "l_brow",
+          "r_brow",
+          "l_eye",
+          "r_eye",
+          "l_ear",
+          "r_ear",
+          "nose",
+          "neck",
+          "cloth",
+          "hair",
+          "hat"
+        ]
+      },
+      "sample_id": "2",
+      "source_path": "MaskedWarehouse/CelebAMask-HQ/CelebA-HQ-img/2.jpg",
+      "source_sha256": "b764542cc120974f53fe5aae9d2eb870986be3e370c37d4fa5907dac3dc0c88b",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "transforms": [
+        {
+          "from_size": [
+            1024,
+            1024
+          ],
+          "op": "resize",
+          "to_size": [
+            512,
+            512
+          ]
+        }
+      ]
+    }
+  ],
+  "schema_version": "1.0"
+}
