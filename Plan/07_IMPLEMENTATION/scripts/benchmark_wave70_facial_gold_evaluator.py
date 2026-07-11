@@ -22,6 +22,12 @@ U_LIP_DILATE_EXCLUSIVE_PARAMETERS = {
     "iterations": 1,
     "exclude_from_new_pixels": ["mouth", "l_lip"],
 }
+U_LIP_DILATE_VERTICAL_EXCLUSIVE_PARAMETERS = {
+    "operator": "binary_dilation",
+    "kernel": "vertical_3x1",
+    "iterations": 1,
+    "exclude_from_new_pixels": ["mouth", "l_lip"],
+}
 REGISTERED_BISENET_NECK_MODEL_SHA256 = "468e13ca13a9b43cc0881a9f99083a430e9c0a38abd935431d1c28ee94b26567"
 
 
@@ -460,7 +466,7 @@ def validate_celeb_composition(project_root: Path, sample: dict[str, Any], pred_
             if not output_path.is_file() or sha256_file(base_path) != sha256_file(output_path):
                 raise ValueError(f"composition_non_target_class_changed:{base_path.stem}")
         return
-    if rule_id == "u_lip_dilate_exclusive_v1":
+    if rule_id in {"u_lip_dilate_exclusive_v1", "u_lip_dilate_vertical_exclusive_v2"}:
         if composition.get("target_class") != "u_lip":
             raise ValueError("composition_target_invalid")
         source_hashes = composition.get("composition_source_hashes")
@@ -469,7 +475,12 @@ def validate_celeb_composition(project_root: Path, sample: dict[str, Any], pred_
         exclusion_hashes = composition.get("composition_exclusion_hashes")
         if not isinstance(exclusion_hashes, dict) or set(exclusion_hashes.keys()) != {"mouth", "l_lip"}:
             raise ValueError("composition_exclusion_hashes_invalid")
-        if composition.get("fixed_parameters") != U_LIP_DILATE_EXCLUSIVE_PARAMETERS:
+        expected_parameters = (
+            U_LIP_DILATE_EXCLUSIVE_PARAMETERS
+            if rule_id == "u_lip_dilate_exclusive_v1"
+            else U_LIP_DILATE_VERTICAL_EXCLUSIVE_PARAMETERS
+        )
+        if composition.get("fixed_parameters") != expected_parameters:
             raise ValueError("composition_fixed_parameters_invalid")
         u_lip_path = base_dir / "u_lip.png"
         mouth_path = base_dir / "mouth.png"
@@ -486,8 +497,9 @@ def validate_celeb_composition(project_root: Path, sample: dict[str, Any], pred_
         mouth = image_to_bool_mask(mouth_path)
         l_lip = image_to_bool_mask(l_lip_path)
         if not (u_lip.shape == mouth.shape == l_lip.shape):
-            raise ValueError("composition_input_dimension_mismatch:u_lip_dilate_exclusive_v1")
-        dilated = ndimage.binary_dilation(u_lip, structure=np.ones((3, 3), dtype=bool), iterations=1)
+            raise ValueError(f"composition_input_dimension_mismatch:{rule_id}")
+        structure = np.ones((3, 3), dtype=bool) if rule_id == "u_lip_dilate_exclusive_v1" else np.ones((3, 1), dtype=bool)
+        dilated = ndimage.binary_dilation(u_lip, structure=structure, iterations=1)
         newly_added = np.logical_and(dilated, np.logical_not(u_lip))
         exclusion = np.logical_or(mouth, l_lip)
         exclusive_newly_added = np.logical_and(newly_added, np.logical_not(exclusion))

@@ -94,6 +94,20 @@ def test_composer_rejects_source_prediction_hash_drift(tmp_path: Path) -> None:
         )
 
 
+def test_composer_supports_vertical_upper_lip_candidate(tmp_path: Path) -> None:
+    project = tmp_path / "project"
+    source_manifest = fixture_manifest(project)
+    result = composer.compose_manifest(
+        project,
+        source_manifest,
+        project / "candidate_vertical/runtime",
+        project / "candidate_vertical/manifest.json",
+        "u_lip_dilate_vertical_exclusive_v2",
+    )
+    assert result["candidate_target_classes"] == ["u_lip"]
+    assert result["samples"][0]["composition"]["composition_rule_id"] == "u_lip_dilate_vertical_exclusive_v2"
+
+
 def test_composer_rejects_nonempty_candidate_destination(tmp_path: Path) -> None:
     project = tmp_path / "project"
     source_manifest = fixture_manifest(project)

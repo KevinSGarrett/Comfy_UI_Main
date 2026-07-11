@@ -1,3 +1,9 @@
+## Active Runtime Posture - Facial Morphology Stopped, Non-Mask Runtime Lane Next - 2026-07-11T03:40:00-05:00
+
+Continue from authoritative `C:\Comfy_UI_Main`. The existing facial evaluator was reused, one vertical upper-lip candidate was evaluated once on held-out IDs 6-8, and the route remains blocked at IoU 0.8281. Preserve the result and do not loop on morphology. All body-mask, promotion, Wave70 hard-gate, and Wave71+ boundaries remain closed.
+
+Resume a genuinely open non-mask runtime/orchestration task after the checkpoint. Prefer the already prepared OpenPose, Normal, or RealESRGAN target-runtime chain only after AWS authentication and capacity are available; never duplicate existing local, S3, or EC2 artifacts.
+
 ## Active Runtime Posture - Facial Route Repair, Existing Evaluator Reused - 2026-07-11T03:25:00-05:00
 
 Continue from authoritative `C:\Comfy_UI_Main`. The runtime queue now correctly preserves completed low-risk, Canny, Depth, Lineart, and bounded Inpaint proof; Base remains scope-blocked; OpenPose, Normal, and RealESRGAN remain staged without duplicate cloud work. The facial benchmark evaluator stack is also already implemented and validated, so do not create a parallel evaluator.

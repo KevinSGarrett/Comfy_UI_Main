@@ -12,7 +12,9 @@ from pathlib import Path
 from typing import Any
 from zoneinfo import ZoneInfo
 
+import numpy as np
 from PIL import Image, ImageChops, ImageFilter
+from scipy import ndimage
 
 from wave70_model_registry import COMFYUI_VENV_PYTHON, first_existing_asset
 
@@ -28,6 +30,12 @@ SKIN_UNION_SOURCES = ("skin", "l_brow", "r_brow", "l_eye", "r_eye", "nose", "mou
 U_LIP_DILATE_EXCLUSIVE_PARAMETERS = {
     "operator": "binary_dilation",
     "kernel": "square_3x3",
+    "iterations": 1,
+    "exclude_from_new_pixels": ["mouth", "l_lip"],
+}
+U_LIP_DILATE_VERTICAL_EXCLUSIVE_PARAMETERS = {
+    "operator": "binary_dilation",
+    "kernel": "vertical_3x1",
     "iterations": 1,
     "exclude_from_new_pixels": ["mouth", "l_lip"],
 }
@@ -185,7 +193,7 @@ def materialize_composition(base_dir: Path, output_dir: Path, mode: str) -> dict
             "base_skin_sha256_preserved": input_hashes["skin"],
             "composition_output_sha256": sha256_file(output_path),
         }
-    if mode == "u_lip_dilate_exclusive_v1":
+    if mode in {"u_lip_dilate_exclusive_v1", "u_lip_dilate_vertical_exclusive_v2"}:
         u_lip_path = base_dir / "u_lip.png"
         mouth_path = base_dir / "mouth.png"
         l_lip_path = base_dir / "l_lip.png"
@@ -201,8 +209,17 @@ def materialize_composition(base_dir: Path, output_dir: Path, mode: str) -> dict
         with Image.open(l_lip_path) as image:
             l_lip_mask = image.convert("L").point(lambda value: 255 if value else 0)
         if not (u_lip_mask.size == mouth_mask.size == l_lip_mask.size):
-            raise ValueError("composition_input_dimension_mismatch:u_lip_dilate_exclusive_v1")
-        dilated_u_lip = u_lip_mask.filter(ImageFilter.MaxFilter(3))
+            raise ValueError(f"composition_input_dimension_mismatch:{mode}")
+        if mode == "u_lip_dilate_exclusive_v1":
+            dilated_u_lip = u_lip_mask.filter(ImageFilter.MaxFilter(3))
+            fixed_parameters = U_LIP_DILATE_EXCLUSIVE_PARAMETERS
+        else:
+            u_lip_array = np.asarray(u_lip_mask, dtype=np.uint8) > 0
+            dilated_array = ndimage.binary_dilation(
+                u_lip_array, structure=np.ones((3, 1), dtype=bool), iterations=1
+            )
+            dilated_u_lip = Image.fromarray(dilated_array.astype(np.uint8) * 255, mode="L")
+            fixed_parameters = U_LIP_DILATE_VERTICAL_EXCLUSIVE_PARAMETERS
         exclusion_union = ImageChops.lighter(mouth_mask, l_lip_mask)
         newly_added = ImageChops.subtract(dilated_u_lip, u_lip_mask)
         exclusive_newly_added = ImageChops.multiply(newly_added, ImageChops.invert(exclusion_union))
@@ -211,14 +228,14 @@ def materialize_composition(base_dir: Path, output_dir: Path, mode: str) -> dict
         composed_u_lip.save(output_path)
         return {
             "enabled": True,
-            "composition_rule_id": "u_lip_dilate_exclusive_v1",
+            "composition_rule_id": mode,
             "target_class": "u_lip",
             "base_prediction_path": str(base_dir),
             "base_prediction_sha256": sha256_directory(base_dir),
             "composition_source_hashes": source_hashes,
             "composition_exclusion_hashes": exclusion_hashes,
             "base_u_lip_sha256_preserved": source_hashes["u_lip"],
-            "fixed_parameters": dict(U_LIP_DILATE_EXCLUSIVE_PARAMETERS),
+            "fixed_parameters": dict(fixed_parameters),
             "composition_output_sha256": sha256_file(output_path),
         }
     raise ValueError(f"unsupported_mask_composition:{mode}")
@@ -292,7 +309,12 @@ def main() -> int:
     )
     parser.add_argument(
         "--mask-composition",
-        choices=("none", "skin_nested_union_v1", "u_lip_dilate_exclusive_v1"),
+        choices=(
+            "none",
+            "skin_nested_union_v1",
+            "u_lip_dilate_exclusive_v1",
+            "u_lip_dilate_vertical_exclusive_v2",
+        ),
         default="none",
     )
     args = parser.parse_args()

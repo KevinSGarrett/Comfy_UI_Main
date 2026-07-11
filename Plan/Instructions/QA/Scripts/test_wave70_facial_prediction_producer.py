@@ -148,6 +148,22 @@ def test_u_lip_dilate_exclusive_rejects_dimension_mismatch(tmp_path: Path) -> No
         producer.materialize_composition(base, tmp_path / "output", "u_lip_dilate_exclusive_v1")
 
 
+def test_u_lip_vertical_dilate_changes_only_vertical_neighbors(tmp_path: Path) -> None:
+    base = tmp_path / "base_vertical"
+    for class_name in producer.CLASS_ORDER:
+        save_mask(base / f"{class_name}.png", 0, size=(5, 5))
+    center = Image.new("L", (5, 5), 0)
+    center.putpixel((2, 2), 255)
+    center.save(base / "u_lip.png")
+    output = tmp_path / "output_vertical"
+    record = producer.materialize_composition(base, output, "u_lip_dilate_vertical_exclusive_v2")
+    assert record is not None
+    assert record["fixed_parameters"] == producer.U_LIP_DILATE_VERTICAL_EXCLUSIVE_PARAMETERS
+    observed = np.asarray(Image.open(output / "u_lip.png").convert("L")) > 0
+    assert observed[1, 2] and observed[2, 2] and observed[3, 2]
+    assert not observed[2, 1] and not observed[2, 3]
+
+
 def test_configuration_hash_binds_component_order_and_content(tmp_path: Path) -> None:
     first = tmp_path / "first.py"
     second = tmp_path / "second.py"

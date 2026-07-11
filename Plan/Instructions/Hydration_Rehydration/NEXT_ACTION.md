@@ -1,3 +1,9 @@
+## Immediate Next Action - Upper-Lip Repair Improved But Stopped - 2026-07-11T03:40:00-05:00
+
+The single authorized upper-lip repair is complete. Vertical-only 3x1 dilation improved held-out aggregate IoU from 0.8186 to 0.8281 with zero protected-neighbor leakage, but it remains below the 0.85 gate. The diagnostic panel shows no gross cross-region spill. The stop rule is active: do not run another upper-lip morphology sweep, promote the mask, certify the route, or clear any body/Wave71 gate.
+
+Next select a concrete non-mask implementation/runtime task outside this blocked morphology route. OpenPose, Normal, and RealESRGAN remain hash-staged for AWS target-runtime proof, but do not retry capacity or start EC2 until AWS authentication is restored and a fresh capacity check is intentionally made. Completed lanes and existing S3 objects must not be recreated.
+
 ## Immediate Next Action - Facial Evaluator Exists, One Held-Out Route Repair Next - 2026-07-11T03:25:00-05:00
 
 The facial/neck/hair evaluator, producer, schemas, gates, regression suite, and multiple benchmark records already exist and must not be recreated. LaPa InsightFace-106 validation executes without leakage or transform failures but remains evaluation-only. Celeb held-out semantic gates remain blocked because several facial classes miss the 0.85 IoU and/or 0.15 error-ratio thresholds; no mask promotion or certification is authorized.

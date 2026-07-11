@@ -155,6 +155,17 @@ def test_u_lip_dilate_exclusive_contract_passes(tmp_path: Path) -> None:
     evaluator_module.validate_celeb_composition(project, sample, output)
 
 
+def test_u_lip_vertical_dilate_exclusive_contract_passes(tmp_path: Path) -> None:
+    project = tmp_path / "project"
+    sample, _, output = u_lip_dilate_exclusive_fixture(project)
+    save_mask(output / "u_lip.png", [[0, 255, 0], [0, 255, 0], [0, 255, 0]])
+    composition = sample["composition"]
+    composition["composition_rule_id"] = "u_lip_dilate_vertical_exclusive_v2"
+    composition["fixed_parameters"] = dict(evaluator_module.U_LIP_DILATE_VERTICAL_EXCLUSIVE_PARAMETERS)
+    composition["composition_output_sha256"] = sha256_file(output / "u_lip.png")
+    evaluator_module.validate_celeb_composition(project, sample, output)
+
+
 def test_u_lip_dilate_exclusive_rejects_changed_non_target(tmp_path: Path) -> None:
     project = tmp_path / "project"
     sample, _, output = u_lip_dilate_exclusive_fixture(project)

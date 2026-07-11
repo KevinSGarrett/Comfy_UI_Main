@@ -20,7 +20,10 @@ from produce_wave70_facial_original_predictions import (
 )
 
 
-ALLOWED_MODES = {"u_lip_dilate_exclusive_v1": "u_lip"}
+ALLOWED_MODES = {
+    "u_lip_dilate_exclusive_v1": "u_lip",
+    "u_lip_dilate_vertical_exclusive_v2": "u_lip",
+}
 
 
 def resolve_project_path(project_root: Path, value: str) -> Path:

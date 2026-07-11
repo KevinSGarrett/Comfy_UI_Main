@@ -1,0 +1,64 @@
+{
+  "evidence_id": "W70-FACIAL-U-LIP-VERTICAL-DILATION-HELDOUT-REPAIR-20260711T034000-0500",
+  "timestamp": "2026-07-11T03:40:00-05:00",
+  "task_tracker_id": "TRK-W70-FACIAL-U-LIP-ROUTE-REPAIR",
+  "result": "blocked_upper_lip_route_improved_but_threshold_not_met",
+  "classification": "BLOCKED_FACIAL_GOLD_BENCHMARK_METRIC_THRESHOLD_NOT_MET",
+  "candidate_id": "u_lip_dilate_vertical_exclusive_v2",
+  "implementation_summary": "Added a fixed vertical 3x1 one-iteration upper-lip dilation that excludes mouth and lower-lip pixels. The candidate was selected from control IDs 0-2, frozen, then evaluated once on held-out IDs 6-8 without rerunning the face model.",
+  "control_selection": {
+    "sample_ids": ["0", "1", "2"],
+    "aggregate_iou": 0.856405,
+    "selection_use": "configuration_selection_only",
+    "gold_exposed_to_route": false
+  },
+  "heldout_result": {
+    "sample_ids": ["6", "7", "8"],
+    "previous_aggregate_iou": 0.8186098033785655,
+    "candidate_aggregate_iou": 0.8280851063829787,
+    "absolute_iou_change": 0.0094753030044132,
+    "candidate_mean_iou": 0.8289700628054447,
+    "false_negative_ratio_vs_gold": 0.12289663461538461,
+    "false_positive_ratio_vs_gold": 0.059194711538461536,
+    "mean_protected_neighbor_leakage": 0.0,
+    "required_min_aggregate_iou": 0.85,
+    "gate_pass": false
+  },
+  "visual_qa": {
+    "panel": "runtime_artifacts/mask_factory/facial_u_lip_dilate_vertical_exclusive_v2/20260711T033000-0500/u_lip_heldout_panel.png",
+    "result": "candidate_geometry_visible_no_gross_cross_region_spill_observed",
+    "scope": "diagnostic_panel_only"
+  },
+  "tests_performed": [
+    {
+      "name": "facial_prediction_producer_composer_evaluator_regression",
+      "result": "pass",
+      "count": 56
+    },
+    {
+      "name": "vertical_dilation_evaluator_reproducibility_contract",
+      "result": "pass",
+      "count": 1
+    },
+    {
+      "name": "heldout_benchmark_and_gate",
+      "result": "blocked_iou_below_0.85"
+    }
+  ],
+  "evidence_paths": {
+    "heldout_prediction_manifest": "Plan/Instructions/QA/Evidence/Mask_Factory/Facial_Gold_Standards/Prediction_Manifests/FACIAL_GOLD_U_LIP_DILATE_VERTICAL_EXCLUSIVE_HELDOUT_PREDICTION_MANIFEST_20260711T033000-0500.json",
+    "heldout_benchmark": "Plan/Instructions/QA/Evidence/Mask_Factory/Facial_Gold_Standards/FACIAL_GOLD_U_LIP_DILATE_VERTICAL_EXCLUSIVE_HELDOUT_BENCHMARK_IDS_6_7_8_20260711T033500-0500.json",
+    "heldout_gate": "Plan/Instructions/QA/Evidence/Mask_Factory/Facial_Gold_Standards/FACIAL_GOLD_U_LIP_DILATE_VERTICAL_EXCLUSIVE_HELDOUT_GATE_IDS_6_7_8_20260711T033600-0500.json"
+  },
+  "claim_boundary": {
+    "mask_promoted": false,
+    "certification_authorized": false,
+    "body_mask_dependency_cleared": false,
+    "wave71_activation_allowed": false,
+    "model_route_rerun": false,
+    "gold_paths_exposed_to_route": false
+  },
+  "stop_rule_applied": true,
+  "next_action": "Stop upper-lip morphology attempts. A future repair requires a materially different original-image route or model, not another dilation sweep."
+}
+
