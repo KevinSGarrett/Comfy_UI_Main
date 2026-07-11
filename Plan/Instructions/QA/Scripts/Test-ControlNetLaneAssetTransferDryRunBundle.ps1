@@ -13,6 +13,9 @@ param(
   [string]$LaneRuntimeRequirements = "",
   [string]$ModelS3BaseUri = "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache",
   [string]$InputS3BaseUri = "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets",
+  [string]$CheckpointS3UriOverride = "",
+  [string]$ControlnetS3UriOverride = "",
+  [string]$ControlImageS3UriOverride = "",
   [string]$InstanceId = "i-0560bf8d143f93bb1",
   [string]$Region = "us-east-1",
   [string]$ArtifactOutputDirectory = "",
@@ -144,9 +147,26 @@ $observedSourceHash = Get-Sha256 -Path $sourceArtifactPath
 
 $modelBaseValid = Test-S3BaseUri -Uri $ModelS3BaseUri
 $inputBaseValid = Test-S3BaseUri -Uri $InputS3BaseUri
-$checkpointS3Uri = if ($modelBaseValid -and $null -ne $checkpoint) { "$ModelS3BaseUri/checkpoints/$([string]$checkpoint.filename)" } else { "" }
-$controlnetS3Uri = if ($modelBaseValid -and $null -ne $controlnet) { "$ModelS3BaseUri/controlnet/$([string]$controlnet.filename)" } else { "" }
-$inputS3Uri = if ($inputBaseValid -and $null -ne $controlImage) { "$InputS3BaseUri/$LaneId/$([string]$controlImage.filename)" } else { "" }
+$checkpointS3Uri = if (-not [string]::IsNullOrWhiteSpace($CheckpointS3UriOverride)) {
+  $CheckpointS3UriOverride.TrimEnd('/')
+} elseif ($modelBaseValid -and $null -ne $checkpoint) {
+  "$ModelS3BaseUri/checkpoints/$([string]$checkpoint.filename)"
+} else { "" }
+$controlnetS3Uri = if (-not [string]::IsNullOrWhiteSpace($ControlnetS3UriOverride)) {
+  $ControlnetS3UriOverride.TrimEnd('/')
+} elseif ($modelBaseValid -and $null -ne $controlnet) {
+  "$ModelS3BaseUri/controlnet/$([string]$controlnet.filename)"
+} else { "" }
+$inputS3Uri = if (-not [string]::IsNullOrWhiteSpace($ControlImageS3UriOverride)) {
+  $ControlImageS3UriOverride.TrimEnd('/')
+} elseif ($inputBaseValid -and $null -ne $controlImage) {
+  "$InputS3BaseUri/$LaneId/$([string]$controlImage.filename)"
+} else { "" }
+$resolvedS3UrisValid = (
+  (Test-S3BaseUri -Uri $checkpointS3Uri) -and
+  (Test-S3BaseUri -Uri $controlnetS3Uri) -and
+  (Test-S3BaseUri -Uri $inputS3Uri)
+)
 
 $checks = [System.Collections.Generic.List[object]]::new()
 [void]$checks.Add((New-Check -Name "supported_controlnet_lane" -Passed $supportedLane -Observed $LaneId -Expected @($laneMapTypes.Keys)))
@@ -175,7 +195,14 @@ $checks = [System.Collections.Generic.List[object]]::new()
 [void]$checks.Add((New-Check -Name "controlnet_hash_matches" -Passed ($observedControlnetHash -eq $expectedControlnetHash) -Observed $observedControlnetHash -Expected $expectedControlnetHash))
 [void]$checks.Add((New-Check -Name "control_image_hash_matches" -Passed ($observedInputHash -eq $expectedInputHash) -Observed $observedInputHash -Expected $expectedInputHash))
 [void]$checks.Add((New-Check -Name "source_artifact_hash_matches" -Passed ($observedSourceHash -eq $expectedInputHash) -Observed $observedSourceHash -Expected $expectedInputHash))
-[void]$checks.Add((New-Check -Name "s3_base_uris_valid" -Passed ($modelBaseValid -and $inputBaseValid) -Observed ([ordered]@{ model=$ModelS3BaseUri; input=$InputS3BaseUri }) -Expected "two non-root s3://bucket/prefix URIs without trailing slash"))
+[void]$checks.Add((New-Check -Name "resolved_s3_uris_valid" -Passed $resolvedS3UrisValid -Observed ([ordered]@{
+  checkpoint=$checkpointS3Uri
+  controlnet=$controlnetS3Uri
+  input=$inputS3Uri
+  checkpoint_override_used=(-not [string]::IsNullOrWhiteSpace($CheckpointS3UriOverride))
+  controlnet_override_used=(-not [string]::IsNullOrWhiteSpace($ControlnetS3UriOverride))
+  input_override_used=(-not [string]::IsNullOrWhiteSpace($ControlImageS3UriOverride))
+}) -Expected "three non-root exact s3://bucket/key URIs without trailing slash"))
 
 $failureCategory = $null
 if (-not $supportedLane) {
@@ -196,8 +223,8 @@ if (-not $supportedLane) {
   $failureCategory = "control_image_hash_mismatch"
 } elseif ($observedSourceHash -ne $expectedInputHash) {
   $failureCategory = "source_artifact_hash_mismatch"
-} elseif (-not $modelBaseValid -or -not $inputBaseValid) {
-  $failureCategory = "missing_or_invalid_s3_base_uri"
+} elseif (-not $resolvedS3UrisValid) {
+  $failureCategory = "missing_or_invalid_resolved_s3_uri"
 }
 
 $stamp = (Get-Date -Format "yyyyMMddTHHmmsszzz").Replace(":", "")

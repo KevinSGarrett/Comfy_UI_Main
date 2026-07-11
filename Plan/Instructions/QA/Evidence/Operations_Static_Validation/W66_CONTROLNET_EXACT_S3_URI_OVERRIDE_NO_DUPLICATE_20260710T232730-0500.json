@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "evidence_id": "W66-CONTROLNET-EXACT-S3-URI-OVERRIDE-NO-DUPLICATE-20260710T232730-0500",
+  "created_at": "2026-07-10T23:27:30-05:00",
+  "status": "pass_local_only",
+  "classification": "EXISTING_S3_ASSET_REUSED_NO_DUPLICATE_KEY",
+  "changed_file": "Plan/Instructions/QA/Scripts/Test-ControlNetLaneAssetTransferDryRunBundle.ps1",
+  "change": "Added optional exact checkpoint, ControlNet, and control-image S3 URI overrides while preserving existing base-prefix defaults.",
+  "verification": {
+    "result": "pass_local_only_controlnet_asset_transfer_dry_run_bundle_validated",
+    "failed_check_count": 0,
+    "checkpoint_override_used": true,
+    "controlnet_override_used": true,
+    "input_override_used": true,
+    "checkpoint_s3_uri": "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/realvisxlV50_v50Bakedvae.safetensors",
+    "checkpoint_head_metadata_sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+    "controlnet_s3_uri": "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/controlnet/controlnet-depth-sdxl-1.0-small.safetensors",
+    "input_s3_uri": "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets/sdxl_realvisxl_controlnet_depth_lane/controlnet_depth_anything_w69_v1.png",
+    "runtime_evidence": "runtime_artifacts/depth_target_runtime/depth_eb39e37_asset_transfer_exact_uri.json"
+  },
+  "duplicate_guard": {
+    "realvisxl_upload_again": false,
+    "controlnet_key_preexisting": false,
+    "input_key_preexisting": false
+  },
+  "boundaries": {
+    "aws_contacted_by_helper": false,
+    "s3_uploaded": false,
+    "ec2_started": false,
+    "generation_executed": false
+  },
+  "next_action": "Checkpoint this helper change, rebuild the clean-head depth package, and use exact URIs in the final pre-EC2 handoff."
+}
