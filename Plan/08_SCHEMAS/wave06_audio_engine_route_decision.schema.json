@@ -1,0 +1,274 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave06_audio_engine_route_decision.schema.json",
+  "title": "Wave06 Audio Engine Route Decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "decision_version",
+    "output_type",
+    "route_type",
+    "request_constraints_hash",
+    "selected_engine_id",
+    "route_mode",
+    "block_final_av_promotion",
+    "is_synthetic",
+    "blockers",
+    "required_next_proofs",
+    "evaluated_candidates",
+    "authority_bindings",
+    "proof_evaluation"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "decision_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "output_type": {
+      "type": "string",
+      "enum": [
+        "audio",
+        "av"
+      ]
+    },
+    "route_type": {
+      "type": "string",
+      "enum": [
+        "dialogue_voice",
+        "breath_body_effort",
+        "foley_contact_fabric",
+        "ambience_room_tone",
+        "music",
+        "synchronized_av"
+      ]
+    },
+    "request_constraints_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "selected_engine_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "route_mode": {
+      "type": "string",
+      "enum": [
+        "audio_engine_selected",
+        "manifest_only",
+        "silent_video_plus_audio_plan_manifest"
+      ]
+    },
+    "block_final_av_promotion": {
+      "type": "boolean"
+    },
+    "is_synthetic": {
+      "type": "boolean"
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "required_next_proofs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "capability",
+          "license",
+          "asset",
+          "runtime",
+          "qa"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "evaluated_candidates": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "authority_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "registry_sha256",
+        "matrix_sha256",
+        "rules_sha256",
+        "notes_sha256"
+      ],
+      "properties": {
+        "registry_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "matrix_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "rules_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "notes_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "proof_evaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "capability",
+        "license",
+        "asset",
+        "runtime",
+        "qa"
+      ],
+      "properties": {
+        "capability": {
+          "$ref": "#/$defs/proofState"
+        },
+        "license": {
+          "$ref": "#/$defs/proofState"
+        },
+        "asset": {
+          "$ref": "#/$defs/proofState"
+        },
+        "runtime": {
+          "$ref": "#/$defs/proofState"
+        },
+        "qa": {
+          "$ref": "#/$defs/proofState"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "proofState": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "missing",
+        "malformed",
+        "unsupported",
+        "hash_mismatch",
+        "stale",
+        "synthetic_blocked"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "route_mode": {
+            "const": "audio_engine_selected"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "selected_engine_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "block_final_av_promotion": {
+            "const": false
+          },
+          "blockers": {
+            "maxItems": 0
+          },
+          "required_next_proofs": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "selected_engine_id": {
+            "type": "null"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "route_mode": {
+            "enum": [
+              "manifest_only",
+              "silent_video_plus_audio_plan_manifest"
+            ]
+          },
+          "block_final_av_promotion": {
+            "const": true
+          },
+          "blockers": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "output_type": {
+            "const": "audio"
+          }
+        }
+      },
+      "then": {
+        "not": {
+          "properties": {
+            "route_mode": {
+              "const": "silent_video_plus_audio_plan_manifest"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "output_type": {
+            "const": "av"
+          }
+        }
+      },
+      "then": {
+        "not": {
+          "allOf": [
+            {
+              "properties": {
+                "selected_engine_id": {
+                  "type": "null"
+                }
+              }
+            },
+            {
+              "properties": {
+                "route_mode": {
+                  "const": "manifest_only"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

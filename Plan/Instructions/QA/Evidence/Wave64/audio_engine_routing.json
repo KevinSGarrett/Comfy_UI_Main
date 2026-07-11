@@ -1,0 +1,166 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-AUDIO-ENGINE-ROUTING-20260711T170500-0500",
+  "timestamp": "2026-07-11T17:05:00-05:00",
+  "tracker_id": "TRK-W64-026",
+  "item_id": "ITEM-W64-026",
+  "source_citation": "Plan/05_AUDIO_SYSTEM/WAVE06_AUDIO_ENGINE_ROUTING_STRATEGY.md",
+  "implementation": {
+    "generic_wave06_authority_reused": true,
+    "audio_specific_prefilter_added": true,
+    "route_as_audio_exact_gate": true,
+    "six_route_type_taxonomy": true,
+    "duration_sample_rate_channel_output_and_usage_constraints": true,
+    "deterministic_request_constraints_hash": true,
+    "independent_capability_license_asset_runtime_and_qa_proofs": true,
+    "license_document_and_asset_bundle_hash_verification": true,
+    "runtime_asset_sha_and_qa_runtime_hash_binding": true,
+    "physical_action_audio_event_gate": true,
+    "current_authority_promotion_status_gate": true,
+    "manifest_only_failover": true,
+    "synthetic_engine_selection_forbidden": true,
+    "transactional_output": true
+  },
+  "implementation_artifacts": [
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/route_wave06_audio_engine.py",
+      "sha256": "2d3023fac1b5addbe93af7f8373205b0e52905cd5b341c7c4a066d296b319a85"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave06_audio_engine_route_request.schema.json",
+      "sha256": "d5c8a7b49e15c394d358e9b5a74f6c986f29a38ae34c641b13b3965f41dd94ce"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave06_audio_engine_route_decision.schema.json",
+      "sha256": "9611038c07fa9a0a354e1c5bf3c9898df771d43e2622fbb41e7595f2e8f51a0b"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_wave06_audio_engine_router_strict.py",
+      "sha256": "e30274c6834cc31a2a75ea328b6f376d4a3ff8fd75899f1c746562edcc4b3644"
+    }
+  ],
+  "authority_bindings": {
+    "engine_registry": {
+      "path": "Plan/10_REGISTRIES/wave06_engine_registry.json",
+      "sha256": "9c44937c07289f2e585d537bb8a5873115f781b7da89245d93d2b4770139109a"
+    },
+    "compatibility_matrix": {
+      "path": "Plan/10_REGISTRIES/wave06_engine_compatibility_matrix.json",
+      "sha256": "cc5e7fee7bb64ea8854dfab097c0e2d4ab4a6e010b55d5c48bc7bed5f6d81fb2"
+    },
+    "router_rules": {
+      "path": "Plan/10_REGISTRIES/wave06_engine_router_rules.json",
+      "sha256": "a8a624a83c11e9f30fa8186674be8df5a863787033413fc5d47f34a1275dd8b4"
+    },
+    "source_flow_notes": {
+      "path": "Plan/10_REGISTRIES/wave06_source_flow_engine_notes.json",
+      "sha256": "0134d9ed5921db96334904275036bee27a3746e2e031900fd6ddd3bfa277f744"
+    }
+  },
+  "offline_validation": {
+    "test_log": "Plan/Instructions/QA/Evidence/Wave64/audio_engine_routing_test_log.json",
+    "test_log_sha256": "11bbedacbbf9e1c269ac3b1be4b7cf8833f11c285ceba9c3f14ef276269ec9a3",
+    "tests_run": 14,
+    "test_failures": 0,
+    "test_errors": 0,
+    "test_skips": 0,
+    "python_compile": "pass",
+    "draft_2020_12_schema_check": "pass",
+    "technical_offline_pass": true
+  },
+  "synthetic_technical_probe": {
+    "production_evidence": false,
+    "fixture_type": "synthetic_request_and_test_only_proofs_for_fail_closed_route_evaluation",
+    "request": "runtime_artifacts/wave64_audio_engine_routing/synthetic_probe_20260711T170405-0500/request.json",
+    "request_sha256": "999b0f1fdb082645efef6867fda3ba41814ec9ec615e99f8c524f9558439df23",
+    "decision": "runtime_artifacts/wave64_audio_engine_routing/synthetic_probe_20260711T170405-0500/decision.json",
+    "decision_sha256": "789639a44d5156bd4ea72586aa63fc521e0c50ed61728722df59779964bb9372",
+    "expected_exit_code": 2,
+    "evaluated_candidates": [
+      "ltx2_audio_video"
+    ],
+    "selected_engine_id": null,
+    "route_mode": "manifest_only",
+    "block_final_av_promotion": true,
+    "blockers": [
+      "engine_promotion_status_not_approved",
+      "synthetic_input_no_engine_selection"
+    ],
+    "proof_evaluation": {
+      "capability": "synthetic_blocked",
+      "license": "synthetic_blocked",
+      "asset": "synthetic_blocked",
+      "runtime": "synthetic_blocked",
+      "qa": "synthetic_blocked"
+    }
+  },
+  "current_authority": {
+    "audio_routable_engine_count": 1,
+    "audio_routable_engine_ids": [
+      "ltx2_audio_video"
+    ],
+    "ltx2_registry_promotion_status": "planned_av_candidate",
+    "ltx2_matrix_promotion_status": "planned_av_candidate",
+    "ltx2_blocked_until": "runtime proof",
+    "approved_audio_promotion_statuses_defined": false,
+    "separate_audio_engine_registered": false
+  },
+  "acceptance_gates": {
+    "audio_engine_compatibility_prefilter": true,
+    "sample_rate_duration_channel_and_output_checks": true,
+    "license_artifact_contract": true,
+    "asset_and_runtime_contract": true,
+    "qa_and_sync_contract": true,
+    "current_engine_authority_approved": false,
+    "genuine_license_asset_runtime_and_qa_proofs_present": false,
+    "production_engine_selected": false,
+    "final_av_promotion_allowed": false
+  },
+  "review": {
+    "cursor_gap_review": "runtime_artifacts/agent_handoffs/cursor/20260711T164026-0500_wave64_audio_engine_routing_gap_review/handoff_record.json",
+    "cursor_initial_implementation": "runtime_artifacts/agent_handoffs/cursor/20260711T164149-0500_wave64_audio_engine_router_implementation/handoff_record.json",
+    "claude_initial_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T164653-0500_wave64_audio_engine_router_final_review/handoff_record.json",
+    "claude_high_findings_remediated": 3,
+    "claude_medium_findings_remediated": 2,
+    "cursor_correction": "runtime_artifacts/agent_handoffs/cursor/20260711T165359-0500_wave64_audio_engine_router_correction/handoff_record.json",
+    "claude_confirmation": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T165755-0500_wave64_audio_engine_router_review_confirmation/handoff_record.json",
+    "local_schema_output_mismatch_remediated": 1,
+    "remaining_remediable_high_or_medium_findings": 0
+  },
+  "runtime": {
+    "production_engine_selection_count": 0,
+    "production_audio_generation_count": 0,
+    "genuine_license_proof_count": 0,
+    "genuine_asset_runtime_qa_proof_set_count": 0,
+    "comfyui_started": false,
+    "generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "mask_promotion_executed": false
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Audio_Engine_Authority_Not_Approved",
+      "scope": "primary_row_blocker",
+      "reason": "The sole audio-routable engine is only a planned AV candidate, no current authority defines an approved production-audio status, and the separate audio lane has no registered engine."
+    },
+    {
+      "classification": "Blocked_Audio_Engine_Proof_Artifacts_Missing",
+      "scope": "license_asset_runtime_qa",
+      "reason": "No genuine capability, license document, installed asset bundle, runtime execution, and route QA proof set exists for a production audio request."
+    }
+  ],
+  "result": "blocked_audio_engine_authority_not_approved",
+  "overall_pass": false,
+  "status_decision": "Blocked_Audio_Engine_Authority_Not_Approved",
+  "strict_decision": {
+    "row_complete": false,
+    "offline_router_and_schema_pass": true,
+    "synthetic_fail_closed_probe_pass": true,
+    "production_engine_selected": false,
+    "license_or_runtime_claimed": false,
+    "final_av_promotion_claimed": false,
+    "certification_claimed": false,
+    "wave71_activation_claimed": false
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "report_id": "ITEM-W64-026-AUDIO-ENGINE-ROUTING-20260711T170500-0500",
+  "timestamp": "2026-07-11T17:05:00-05:00",
+  "item_id": "ITEM-W64-026",
+  "tracker_id": "TRK-W64-026",
+  "workstream": "audio_engine_routing",
+  "status": "Blocked_Audio_Engine_Authority_Not_Approved",
+  "row_complete": false,
+  "implementation": {
+    "wave06_authority_hash_binding_ready": true,
+    "route_as_audio_prefilter_ready": true,
+    "six_audio_route_type_constraints_ready": true,
+    "capability_license_asset_runtime_qa_proof_verifiers_ready": true,
+    "license_and_asset_artifact_hash_verification_ready": true,
+    "physical_action_audio_event_gate_ready": true,
+    "manifest_only_fallback_ready": true,
+    "synthetic_selection_forbidden": true,
+    "transactional_output_ready": true
+  },
+  "validation": {
+    "unit_tests_passed": 14,
+    "unit_test_failures": 0,
+    "unit_test_skips": 0,
+    "python_compile": "pass",
+    "schema_check": "pass",
+    "synthetic_route_probe": "expected_exit_2",
+    "evaluated_candidates": ["ltx2_audio_video"],
+    "selected_engine_id": null,
+    "block_final_av_promotion": true,
+    "claude_high_findings_remediated": 3,
+    "claude_medium_findings_remediated": 2,
+    "remaining_remediable_high_or_medium_findings": 0
+  },
+  "acceptance_gates": {
+    "audio_engine_compatibility": true,
+    "sample_rate_duration_channel_output_checks": true,
+    "license_metadata_and_artifact_contract": true,
+    "asset_runtime_qa_contract": true,
+    "current_engine_authority_approved": false,
+    "genuine_proof_set_present": false,
+    "production_route_selected": false,
+    "final_av_promotion_allowed": false
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Audio_Engine_Authority_Not_Approved",
+      "reason": "LTX-2 is only a planned AV candidate, no approved production-audio status exists, and no separate audio engine is registered."
+    },
+    {
+      "classification": "Blocked_Audio_Engine_Proof_Artifacts_Missing",
+      "reason": "No genuine capability, license, installed asset, runtime, and QA proof set exists for a production route."
+    }
+  ],
+  "evidence": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/audio_engine_routing.json",
+      "sha256": "4a1b04ec0075321f3602bdb773c1f9d87d7b9c5bc5866a7a263d656f3a907093"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/audio_engine_routing_test_log.json",
+      "sha256": "11bbedacbbf9e1c269ac3b1be4b7cf8833f11c285ceba9c3f14ef276269ec9a3"
+    }
+  ],
+  "runtime": {
+    "production_engine_selection_count": 0,
+    "production_audio_generation_count": 0,
+    "genuine_proof_set_count": 0,
+    "comfyui_started": false,
+    "aws_contacted": false,
+    "ec2_started": false
+  },
+  "next_action": "Keep row 026 blocked without approved engine authority, genuine license/asset/runtime/QA proof, production selection, or AV promotion claims. Continue TRK-W64-027 / ITEM-W64-027 by duplicate-checking the existing dialogue/voice continuity lane and selecting one bounded offline review implementation gap; do not fabricate voice or playback evidence."
+}

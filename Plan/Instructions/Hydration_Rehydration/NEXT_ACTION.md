@@ -1,3 +1,9 @@
+## Immediate Next Action - Wave64 Audio Router Strict, Current Engine Authority Blocked - 2026-07-11T17:05:00-05:00
+
+Start from `Plan/Instructions/QA/Evidence/Wave64/audio_engine_routing.json`. `TRK-W64-026` / `ITEM-W64-026` now has a strict Wave06 audio prefilter for six route types, exact duration/sample-rate/channel/output/license/asset/runtime/QA gates, 14/14 Windows tests, and a retained fail-closed request. Keep the row `Blocked_Audio_Engine_Authority_Not_Approved`: only LTX-2 is audio-routable, it remains a planned candidate, no approved audio status exists, and no genuine proof set is present.
+
+Continue `TRK-W64-027` / `ITEM-W64-027` by duplicate-checking the existing dialogue/voice continuity lane and selecting one bounded offline review implementation gap. Do not fabricate voice identity, intelligibility, emotional-tone, playback, engine, license, or runtime proof; do not start EC2, contact AWS while authentication is expired, consume candidate masks as truth, rerun Wave70 hard gates, activate Wave71+, recreate legacy/cloud work, or switch to Jira bookkeeping.
+
 ## Immediate Next Action - Wave64 Audio Pipeline Strict Offline Pass, Production Proof Blocked - 2026-07-11T16:33:00-05:00
 
 Start from `Plan/Instructions/QA/Evidence/Wave64/audio_pipeline_build.json`. `TRK-W64-025` / `ITEM-W64-025` now has strict Wave30 PCM-WAV event/mix manifests, dialogue/ambience/foley support, spatial and AV-sync bindings, independent runtime/audio-review proof parsing, computed-only promotion, 13/13 Windows tests, and a retained three-lane technical probe. Keep the row `Blocked_Audio_Production_Runtime_Proof_Missing`: no genuine audio-engine runtime or playback review exists.

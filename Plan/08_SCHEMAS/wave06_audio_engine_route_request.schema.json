@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave06_audio_engine_route_request.schema.json",
+  "title": "Wave06 Audio Engine Route Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "output_type",
+    "route_type",
+    "duration_seconds",
+    "sample_rate_hz",
+    "channels",
+    "channel_layout",
+    "target_output",
+    "target_container",
+    "usage_scope",
+    "physical_action_present",
+    "aligned_audio_event_present",
+    "is_synthetic",
+    "proof_bindings"
+  ],
+  "properties": {
+    "output_type": {
+      "type": "string",
+      "enum": [
+        "audio",
+        "av"
+      ]
+    },
+    "route_type": {
+      "type": "string",
+      "enum": [
+        "dialogue_voice",
+        "breath_body_effort",
+        "foley_contact_fabric",
+        "ambience_room_tone",
+        "music",
+        "synchronized_av"
+      ]
+    },
+    "duration_seconds": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "sample_rate_hz": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "channels": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "channel_layout": {
+      "type": "string",
+      "enum": [
+        "mono",
+        "stereo",
+        "5.1"
+      ]
+    },
+    "target_output": {
+      "type": "string",
+      "enum": [
+        "wav",
+        "flac",
+        "aac",
+        "pcm"
+      ]
+    },
+    "target_container": {
+      "type": "string",
+      "enum": [
+        "wav",
+        "flac",
+        "mp4",
+        "mov",
+        "mkv"
+      ]
+    },
+    "usage_scope": {
+      "type": "string",
+      "enum": [
+        "internal_eval",
+        "client_preview",
+        "production"
+      ]
+    },
+    "physical_action_present": {
+      "type": "boolean"
+    },
+    "aligned_audio_event_present": {
+      "type": "boolean"
+    },
+    "is_synthetic": {
+      "type": "boolean"
+    },
+    "preferred_engine_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "proof_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "capability",
+        "license",
+        "asset",
+        "runtime",
+        "qa"
+      ],
+      "properties": {
+        "capability": {
+          "$ref": "#/$defs/proofBinding"
+        },
+        "license": {
+          "$ref": "#/$defs/proofBinding"
+        },
+        "asset": {
+          "$ref": "#/$defs/proofBinding"
+        },
+        "runtime": {
+          "$ref": "#/$defs/proofBinding"
+        },
+        "qa": {
+          "$ref": "#/$defs/proofBinding"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "proofBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-AUDIO-ENGINE-ROUTING-TEST-LOG-20260711T170500-0500",
+  "timestamp": "2026-07-11T17:05:00-05:00",
+  "tracker_id": "TRK-W64-026",
+  "item_id": "ITEM-W64-026",
+  "command": "python Plan/Instructions/QA/Scripts/test_wave06_audio_engine_router_strict.py",
+  "result": "pass",
+  "exit_code": 0,
+  "tests_run": 14,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "elapsed_seconds": 21.069,
+  "transcript": "runtime_artifacts/wave64_audio_engine_routing/unit_tests_20260711T170419-0500.stderr.txt",
+  "transcript_sha256": "e903720539353a33ef0e8f12fcd3cb4520d9367b17291805ce33a0ec0f1b9380",
+  "covered_files": [
+    "Plan/07_IMPLEMENTATION/scripts/route_wave06_audio_engine.py",
+    "Plan/08_SCHEMAS/wave06_audio_engine_route_request.schema.json",
+    "Plan/08_SCHEMAS/wave06_audio_engine_route_decision.schema.json",
+    "Plan/Instructions/QA/Scripts/test_wave06_audio_engine_router_strict.py"
+  ],
+  "positive_contracts_covered": [
+    "current Wave06 registry, matrix, router-rules, and source-note hash binding",
+    "route_as_audio exact prefilter and sole discovery of ltx2_audio_video",
+    "six audio route types plus duration, sample rate, channel layout, output, container, and usage constraints",
+    "deterministic normalized request-constraints hash",
+    "independent capability, license, asset, runtime, and QA proof JSON parsing",
+    "actual license-document and asset-bundle path, byte, and SHA256 verification",
+    "runtime asset ID and SHA binding plus QA runtime-proof hash binding",
+    "manifest-only and silent-video-plus-audio-plan failover decisions",
+    "transactional decision publication and strict Draft 2020-12 schemas"
+  ],
+  "negative_contracts_covered": [
+    "non-audio engine preference and unknown route taxonomy",
+    "missing each proof class and fake inline boolean proof",
+    "unknown proof keys, malformed hashes, and constraints-hash drift",
+    "string booleans, numeric strings, non-finite values, and non-list capability fields",
+    "unsupported duration, sample rate, channels, layout, output, container, and usage scope",
+    "missing or mismatched license artifact and asset bundle",
+    "runtime asset ID or SHA mismatch and QA runtime hash or strict gate failure",
+    "physical action without aligned audio event",
+    "current planned engine promotion status is not approved",
+    "synthetic no-selection and contradictory request/decision schema states",
+    "existing output preservation on invalid request"
+  ],
+  "production_engine_route_executed": false,
+  "production_license_or_runtime_proof_present": false
+}

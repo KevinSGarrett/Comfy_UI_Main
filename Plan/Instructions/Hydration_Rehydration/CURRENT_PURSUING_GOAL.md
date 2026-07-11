@@ -1,3 +1,9 @@
+## Active Runtime Posture - Wave64 Audio Router Strict, Current Authority Unapproved - 2026-07-11T17:05:00-05:00
+
+Continue the full autonomous project goal from authoritative `C:\Comfy_UI_Main`. Preserve `TRK-W64-026` / `ITEM-W64-026` as `Blocked_Audio_Engine_Authority_Not_Approved`: current authority discovers LTX-2 as the sole audio candidate but explicitly permits no production selection; capability, license document, asset bundle, runtime, and QA proofs are independently required and synthetic proofs remain non-authoritative.
+
+Proceed to `TRK-W64-027` / `ITEM-W64-027` for one duplicate-checked dialogue/voice continuity review implementation gap. Keep EC2 stopped and retain local-source, no-duplicate, manual-mask, Wave70/Wave71+, Flux1-license, expired-AWS-authentication, and Jira boundaries.
+
 ## Active Runtime Posture - Wave64 Audio Pipeline Strict Offline Pass, Production Proof Blocked - 2026-07-11T16:33:00-05:00
 
 Continue the full autonomous project goal from authoritative `C:\Comfy_UI_Main`. Preserve `TRK-W64-025` / `ITEM-W64-025` as `Blocked_Audio_Production_Runtime_Proof_Missing`: the existing Wave30 chain now strictly validates PCM WAVs, event ownership/timing, dialogue/ambience/foley coverage, mix metadata, AV sync, and independent proof artifacts, while synthetic fixtures remain unpromotable.
