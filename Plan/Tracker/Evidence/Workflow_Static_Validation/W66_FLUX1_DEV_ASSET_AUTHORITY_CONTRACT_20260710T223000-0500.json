@@ -1,7 +1,7 @@
 {
     "schema_version":  "1.0",
     "artifact_type":  "flux1_dev_workflow_contract_validation",
-    "created_at":  "2026-07-10T22:25:40-05:00",
+    "created_at":  "2026-07-10T22:49:47-05:00",
     "result":  "pass_asset_authority_recorded_local_model_blocked",
     "classification":  "FLUX1_DEV_ASSET_AUTHORITY_RECORDED_LOCAL_MODEL_BLOCKED",
     "lane_id":  "flux1_dev_primary_base",
@@ -16,7 +16,7 @@
     "target_runtime_proof":  false,
     "certification_claimed":  false,
     "promotion_claimed":  false,
-    "check_count":  21,
+    "check_count":  25,
     "failed_check_count":  0,
     "failed_check_names":  [
 
@@ -168,6 +168,7 @@
                                         "revision":  "0f6b956e6e2e041fb73d079b72ec0e761506f601",
                                         "filename":  "flux1-dev-fp8.safetensors",
                                         "immutable_file_url":  "https://huggingface.co/Comfy-Org/flux1-dev/blob/0f6b956e6e2e041fb73d079b72ec0e761506f601/flux1-dev-fp8.safetensors",
+                                        "download_url":  "https://huggingface.co/Comfy-Org/flux1-dev/resolve/0f6b956e6e2e041fb73d079b72ec0e761506f601/flux1-dev-fp8.safetensors?download=true",
                                         "api_url":  "https://huggingface.co/api/models/Comfy-Org/flux1-dev/revision/0f6b956e6e2e041fb73d079b72ec0e761506f601?blobs=true",
                                         "upstream_license_url":  "https://huggingface.co/black-forest-labs/FLUX.1-dev/blob/main/LICENSE.md",
                                         "license_id":  "flux-1-dev-non-commercial-license",
@@ -235,6 +236,70 @@
                                                                "ec2_started":  false,
                                                                "s3_mutated":  false
                                                            }
+                                    }
+                   },
+                   {
+                       "name":  "licensed_local_install_contract_declared",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  {
+                                        "installer":  "Plan/Instructions/Operations/Scripts/Install-LicensedModelFromHttp.ps1",
+                                        "regression":  "Plan/Instructions/QA/Scripts/Test-LicensedModelInstallRegression.ps1",
+                                        "license_acceptance_template":  "Plan/Instructions/Operations/Templates/flux1_dev_license_acceptance.template.json",
+                                        "dry_run_evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_FLUX1_DEV_LICENSED_INSTALL_DRY_RUN_20260710T224500-0500.json",
+                                        "regression_evidence":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LICENSED_MODEL_INSTALL_REGRESSION_20260710T224500-0500.json",
+                                        "status":  "ready_dry_run_license_acceptance_pending",
+                                        "execute_requires":  [
+                                                                 "explicit LicenseAccepted switch",
+                                                                 "hash-bound noncommercial license acceptance JSON",
+                                                                 "sufficient local disk",
+                                                                 "immutable HTTPS source"
+                                                             ]
+                                    }
+                   },
+                   {
+                       "name":  "license_acceptance_template_remains_unaccepted",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  {
+                                        "schema_version":  "1.0",
+                                        "record_type":  "licensed_model_acceptance",
+                                        "accepted":  false,
+                                        "license_id":  "flux-1-dev-non-commercial-license",
+                                        "repository":  "Comfy-Org/flux1-dev",
+                                        "revision":  "0f6b956e6e2e041fb73d079b72ec0e761506f601",
+                                        "filename":  "flux1-dev-fp8.safetensors",
+                                        "use_scope":  "noncommercial",
+                                        "accepted_by":  "",
+                                        "accepted_at":  "",
+                                        "license_url":  "https://huggingface.co/black-forest-labs/FLUX.1-dev/blob/main/LICENSE.md",
+                                        "notice":  "Review the linked license. Setting accepted=true is a legal-use assertion by the named person; automation must not infer or populate it."
+                                    }
+                   },
+                   {
+                       "name":  "licensed_installer_dry_run_hash_bound_no_network",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  {
+                                        "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_FLUX1_DEV_LICENSED_INSTALL_DRY_RUN_20260710T224500-0500.json",
+                                        "result":  "ready_dry_run",
+                                        "network_contacted":  false,
+                                        "download_attempted":  false,
+                                        "installer_script_sha256":  "0eebf3629ddfbe8c8307ceb5b8e33b74c47b71f03c0441204c4666fc26211b29",
+                                        "runtime_requirements_sha256":  "6a87e9515e166589339f9f29f2c3c286a7fc558a48df0308f91a20683800ed6b"
+                                    }
+                   },
+                   {
+                       "name":  "licensed_installer_regression_passes",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  {
+                                        "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LICENSED_MODEL_INSTALL_REGRESSION_20260710T224500-0500.json",
+                                        "result":  "pass_local_only",
+                                        "check_count":  14,
+                                        "failed_check_count":  0,
+                                        "installer_script_sha256":  "0eebf3629ddfbe8c8307ceb5b8e33b74c47b71f03c0441204c4666fc26211b29",
+                                        "regression_script_sha256":  "130f75a8821c4a0ad29505eee96f315a92e55097af6b4917c4178f004395f695"
                                     }
                    },
                    {

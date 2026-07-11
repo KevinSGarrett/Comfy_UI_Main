@@ -181,14 +181,21 @@ function Invoke-LocalHelper {
     [string]$ExpectedOutputFile = ""
   )
 
-  $output = & powershell -NoProfile -ExecutionPolicy Bypass -File $ScriptPath @Arguments 2>&1
+  $previousErrorAction = $ErrorActionPreference
+  try {
+    $ErrorActionPreference = "Continue"
+    $output = & powershell -NoProfile -ExecutionPolicy Bypass -File $ScriptPath @Arguments 2>&1
+    $childExitCode = $LASTEXITCODE
+  } finally {
+    $ErrorActionPreference = $previousErrorAction
+  }
   $text = (($output | ForEach-Object { $_.ToString() }) -join "`n").Trim()
   $text = ConvertTo-RedactedEvidenceText -Text $text -TempRoot $script:ValidationTempRoot
   $entry = [ordered]@{
     name = $Name
     script = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $ScriptPath
-    exit_code = $LASTEXITCODE
-    result = $(if ($LASTEXITCODE -eq 0) { "pass" } else { "fail" })
+    exit_code = $childExitCode
+    result = $(if ($childExitCode -eq 0) { "pass" } else { "fail" })
     output_tail = $(if ($text.Length -gt 1000) { $text.Substring($text.Length - 1000) } else { $text })
     expected_output_file = ConvertTo-EvidencePath -BasePath $ProjectRoot -TargetPath $ExpectedOutputFile -TempRoot $script:ValidationTempRoot
     expected_output_file_exists = (![string]::IsNullOrWhiteSpace($ExpectedOutputFile) -and (Test-Path -LiteralPath $ExpectedOutputFile))
@@ -1671,6 +1678,12 @@ $localSmokeResults += Invoke-LocalHelper -Name "publish_model_to_s3_dry_run" `
   -Arguments @("-ModelFile", $dummyModelFile, "-S3Uri", "s3://example-bucket/model-cache/dummy_model.safetensors", "-ExpectedSha256", $dummyModelHash, "-OutFile", $publishModelFile) `
   -ExpectedOutputFile $publishModelFile
 
+$licensedModelInstallDryRunFile = Join-Path $tempRoot "licensed_model_install_dry_run.json"
+$localSmokeResults += Invoke-LocalHelper -Name "licensed_model_install_dry_run" `
+  -ScriptPath (Join-Path $scriptsRoot "Install-LicensedModelFromHttp.ps1") `
+  -Arguments @("-ProjectRoot", $ProjectRoot, "-RuntimeRequirementsFile", "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux1_dev_primary_base/runtime_requirements.json", "-DestinationModelRoot", (Join-Path $tempRoot "licensed_model_destination"), "-OutFile", $licensedModelInstallDryRunFile) `
+  -ExpectedOutputFile $licensedModelInstallDryRunFile
+
 $s3TransferReadinessFile = Join-Path $tempRoot "s3_runtime_transfer_readiness.json"
 $localSmokeResults += Invoke-LocalHelper -Name "s3_runtime_transfer_readiness_smoke" `
   -ScriptPath (Join-Path $scriptsRoot "Test-S3RuntimeTransferReadiness.ps1") `
@@ -1940,6 +1953,8 @@ $record = [ordered]@{
     "tools/Test-Flux2DevLaneReadiness.ps1",
     "Plan/Instructions/QA/Scripts/Test-Flux2DevLaneReadinessRegression.ps1",
     "Plan/Instructions/QA/Scripts/Test-Flux1DevWorkflowContract.ps1",
+    "Plan/Instructions/Operations/Scripts/Install-LicensedModelFromHttp.ps1",
+    "Plan/Instructions/QA/Scripts/Test-LicensedModelInstallRegression.ps1",
     "Plan/Instructions/QA/Scripts/Test-RunPackageDeployBundleConsistency.ps1",
     "Plan/Instructions/QA/Scripts/Test-RunPackageDeployBundleConsistencyRegression.ps1",
     "Plan/Instructions/QA/Scripts/Test-ControlNetSelectedLanePackageDeployConsistency.ps1",

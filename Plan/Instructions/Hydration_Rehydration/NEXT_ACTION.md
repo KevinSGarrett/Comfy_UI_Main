@@ -1,3 +1,9 @@
+## Immediate Next Action - Flux1 Licensed Installer Ready, Acceptance Still External - 2026-07-10T22:45:00-05:00
+
+The new local `Install-LicensedModelFromHttp.ps1` is dry-run by default and now has a passing 14-check disposable HTTP regression. It rejects missing or mismatched license acceptance before network contact, validates immutable source metadata, prevents destination traversal and credential-bearing source queries, downloads through a resumable `.partial` file, verifies exact byte count/SHA256, refuses overwrite, and atomically installs only after validation. The real Flux1 dry run is hash-bound to the final script and requirements, reports `ready_dry_run`, confirms sufficient disk, and contacted no network.
+
+Flux1 execution remains disabled because no noncommercial acceptance record exists and the 17.2 GB checkpoint is absent. The 24-check Flux1 contract passes. The broader operations harness now records child stderr instead of aborting; its licensed-installer smoke passes, while its only remaining failure is the already-recorded selected-inpaint refresh dependency on Flux1 coverage. Do not rerun coverage or download the model until the license boundary changes. Continue another concrete local task.
+
 ## Immediate Next Action - Flux1 Asset Authority Recorded, Install Still Blocked - 2026-07-10T22:25:00-05:00
 
 `flux1_dev_primary_base` now binds `flux1-dev-fp8.safetensors` to immutable Comfy-Org revision `0f6b956e6e2e041fb73d079b72ec0e761506f601`, size `17246524772`, and SHA256 `8e91b68084b53a7fc44ed2a3756d821e355ac1a7b6fe29be760c1db532f3d88a`. The 21-check workflow/authority contract passes and local preflight now recognizes a valid model declaration. Both authorized project roots, both legacy roots, and the two project S3 buckets contain no matching file.

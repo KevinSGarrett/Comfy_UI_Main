@@ -34,6 +34,11 @@ $runtimeLane = Join-Path $ProjectRoot "Workflows\base_generation\flux1_dev_prima
 $staticValidator = Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\Test-ComfyWorkflowStatic.ps1"
 $objectInfoPath = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Runtime_Readiness\BASE_GENERATION_RUN_PACKAGE_OBJECT_INFO_SNAPSHOT_20260709T005603-0500.json"
 $assetEvidencePath = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Runtime_Readiness\W66_FLUX1_DEV_ASSET_AUTHORITY_20260710T222500-0500.json"
+$installDryRunPath = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Runtime_Readiness\W66_FLUX1_DEV_LICENSED_INSTALL_DRY_RUN_20260710T224500-0500.json"
+$installRegressionPath = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Runtime_Readiness\W66_LICENSED_MODEL_INSTALL_REGRESSION_20260710T224500-0500.json"
+$installerScriptPath = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Install-LicensedModelFromHttp.ps1"
+$installerRegressionScriptPath = Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\Test-LicensedModelInstallRegression.ps1"
+$acceptanceTemplatePath = Join-Path $ProjectRoot "Plan\Instructions\Operations\Templates\flux1_dev_license_acceptance.template.json"
 $activePath = Join-Path $ProjectRoot "Workflows\base_generation\ACTIVE_LANES.json"
 $queuePath = Join-Path $ProjectRoot "Plan\07_IMPLEMENTATION\workflow_templates\base_generation\runtime_lane_queue.json"
 $registryPath = Join-Path $ProjectRoot "Plan\10_REGISTRIES\wave15_image_base_lane_registry.json"
@@ -73,6 +78,9 @@ $queue = Read-Json $queuePath
 $registry = Read-Json $registryPath
 $objectInfoRecord = Read-Json $objectInfoPath
 $assetEvidence = Read-Json $assetEvidencePath
+$installDryRun = Read-Json $installDryRunPath
+$installRegression = Read-Json $installRegressionPath
+$acceptanceTemplate = Read-Json $acceptanceTemplatePath
 $requiredNodes = @($runtime.required_nodes)
 $workflowNodeClasses = @($workflow.PSObject.Properties | ForEach-Object { [string]$_.Value.class_type })
 $missingWorkflowNodes = @($requiredNodes | Where-Object { $_ -notin $workflowNodeClasses })
@@ -130,6 +138,31 @@ $sourceAuthorityPass = [string]$runtime.licensed_source.repository -eq "Comfy-Or
 Add-Check $checks "licensed_source_authority_is_immutable" $sourceAuthorityPass $runtime.licensed_source
 $evidenceBindingPass = $null -ne $assetEvidence -and [string]$assetEvidence.authority.revision -eq $expectedRevision -and [string]$assetEvidence.authority.sha256 -eq $expectedSha256 -and -not [bool]$assetEvidence.local_inventory.present -and -not [bool]$assetEvidence.s3_inventory.present
 Add-Check $checks "asset_authority_evidence_matches_requirements" $evidenceBindingPass $assetEvidence
+$installContractPass = [string]$runtime.local_install_contract.installer -eq "Plan/Instructions/Operations/Scripts/Install-LicensedModelFromHttp.ps1" -and [string]$runtime.local_install_contract.status -eq "ready_dry_run_license_acceptance_pending" -and [string]$runtime.licensed_source.download_url -like "*$expectedRevision*"
+Add-Check $checks "licensed_local_install_contract_declared" $installContractPass $runtime.local_install_contract
+$acceptanceTemplatePass = $null -ne $acceptanceTemplate -and -not [bool]$acceptanceTemplate.accepted -and [string]$acceptanceTemplate.license_id -eq "flux-1-dev-non-commercial-license" -and [string]$acceptanceTemplate.repository -eq "Comfy-Org/flux1-dev" -and [string]$acceptanceTemplate.revision -eq $expectedRevision -and [string]$acceptanceTemplate.filename -eq "flux1-dev-fp8.safetensors" -and [string]$acceptanceTemplate.use_scope -eq "noncommercial" -and [string]::IsNullOrWhiteSpace([string]$acceptanceTemplate.accepted_by) -and [string]::IsNullOrWhiteSpace([string]$acceptanceTemplate.accepted_at)
+Add-Check $checks "license_acceptance_template_remains_unaccepted" $acceptanceTemplatePass $acceptanceTemplate
+$installerHash = if (Test-Path -LiteralPath $installerScriptPath -PathType Leaf) { (Get-FileHash -LiteralPath $installerScriptPath -Algorithm SHA256).Hash.ToLowerInvariant() } else { "" }
+$requirementsHash = (Get-FileHash -LiteralPath (Join-Path $planLane "runtime_requirements.json") -Algorithm SHA256).Hash.ToLowerInvariant()
+$dryRunPass = $null -ne $installDryRun -and [string]$installDryRun.result -eq "ready_dry_run" -and -not [bool]$installDryRun.network_contacted -and -not [bool]$installDryRun.download_attempted -and [string]$installDryRun.installer_script_sha256 -eq $installerHash -and [string]$installDryRun.runtime_requirements_sha256 -eq $requirementsHash
+Add-Check $checks "licensed_installer_dry_run_hash_bound_no_network" $dryRunPass ([ordered]@{
+  path = "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_FLUX1_DEV_LICENSED_INSTALL_DRY_RUN_20260710T224500-0500.json"
+  result = $installDryRun.result
+  network_contacted = $installDryRun.network_contacted
+  download_attempted = $installDryRun.download_attempted
+  installer_script_sha256 = $installDryRun.installer_script_sha256
+  runtime_requirements_sha256 = $installDryRun.runtime_requirements_sha256
+})
+$regressionScriptHash = if (Test-Path -LiteralPath $installerRegressionScriptPath -PathType Leaf) { (Get-FileHash -LiteralPath $installerRegressionScriptPath -Algorithm SHA256).Hash.ToLowerInvariant() } else { "" }
+$regressionPass = $null -ne $installRegression -and [string]$installRegression.result -eq "pass_local_only" -and [int]$installRegression.failed_check_count -eq 0 -and [int]$installRegression.check_count -ge 14 -and [string]$installRegression.installer_script_sha256 -eq $installerHash -and [string]$installRegression.regression_script_sha256 -eq $regressionScriptHash
+Add-Check $checks "licensed_installer_regression_passes" $regressionPass ([ordered]@{
+  path = "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LICENSED_MODEL_INSTALL_REGRESSION_20260710T224500-0500.json"
+  result = $installRegression.result
+  check_count = $installRegression.check_count
+  failed_check_count = $installRegression.failed_check_count
+  installer_script_sha256 = $installRegression.installer_script_sha256
+  regression_script_sha256 = $installRegression.regression_script_sha256
+})
 $canonicalWorkflowPath = "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux1_dev_primary_base/workflow.api.json"
 $canonicalPathPolicy = "canonical_plan_authority_with_byte_identical_runtime_mirror"
 $pathPolicyPass = @($runtime, $smoke, (Read-Json (Join-Path $planLane "patch_points.json"))) | Where-Object { [string]$_.workflow_path -ne $canonicalWorkflowPath -or [string]$_.workflow_path_policy -ne $canonicalPathPolicy }

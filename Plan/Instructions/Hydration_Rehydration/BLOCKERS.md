@@ -1,3 +1,11 @@
+## Flux1 License Acceptance Is The Remaining Install Gate - 2026-07-10T22:45:00-05:00
+
+The licensed-model installer is implemented, hardened, and regression-proven, and the machine has enough disk for the expected `17246524772` bytes. Execute mode still requires both an explicit switch and a JSON acceptance record bound to the exact noncommercial license, repository, revision, and filename. No such project record exists, and automation does not create or infer legal acceptance. This blocks download/install only; the dry-run and unrelated local work remain available.
+
+## Semantic Ear-Accessory Detector Missing - 2026-07-10T22:45:00-05:00
+
+`ear_r` cannot be truthfully reconstructed from anatomical ear geometry because the rule must first determine whether an accessory exists. Local detection, background-removal, CLIP-vision, and geometry-estimation model slots contain placeholders only; SAM2 is cached but is not semantic accessory-presence authority. The proposed boundary heuristic was rejected before implementation. A future route requires a semantic accessory detector/parser or a nonempty semantic detection that SAM2 can refine.
+
 ## Flux1 Dev Checkpoint Install/License Boundary - 2026-07-10T22:25:00-05:00
 
 The authoritative Comfy-Org revision, size, SHA256, and upstream FLUX.1 Dev non-commercial license are recorded. `flux1-dev-fp8.safetensors` is absent from the project and legacy local model roots and from both relevant project S3 buckets. Automation cannot assert license acceptance and did not download the 17.2 GB asset. This blocks observed-hash, model-load, output, and visual proof for `flux1_dev_primary_base`; it does not block unrelated local non-mask work.

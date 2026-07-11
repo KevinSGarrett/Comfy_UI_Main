@@ -1,0 +1,86 @@
+{
+    "schema_version":  "1.0",
+    "timestamp":  "2026-07-10T22:47:47-05:00",
+    "operation":  "install_licensed_model_from_http",
+    "installer_script_path":  "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Install-LicensedModelFromHttp.ps1",
+    "installer_script_sha256":  "0eebf3629ddfbe8c8307ceb5b8e33b74c47b71f03c0441204c4666fc26211b29",
+    "execute":  false,
+    "project_root":  "C:\\Comfy_UI_Main",
+    "runtime_requirements_file":  "C:\\Comfy_UI_Main\\Plan\\07_IMPLEMENTATION\\workflow_templates\\base_generation\\flux1_dev_primary_base\\runtime_requirements.json",
+    "runtime_requirements_sha256":  "6a87e9515e166589339f9f29f2c3c286a7fc558a48df0308f91a20683800ed6b",
+    "model_role":  "checkpoint",
+    "destination_model_root":  "C:\\Comfy_UI_Main\\ComfyUI\\models",
+    "license_acceptance_file":  "",
+    "source_url_override":  "",
+    "network_contacted":  false,
+    "download_attempted":  false,
+    "partial_preserved":  false,
+    "aws_contacted":  false,
+    "ec2_contacted":  false,
+    "s3_contacted":  false,
+    "github_contacted":  false,
+    "comfyui_contacted":  false,
+    "expected":  {
+                     "filename":  "flux1-dev-fp8.safetensors",
+                     "model_subdir":  "checkpoints",
+                     "sha256":  "8e91b68084b53a7fc44ed2a3756d821e355ac1a7b6fe29be760c1db532f3d88a",
+                     "bytes":  17246524772,
+                     "license_id":  "flux-1-dev-non-commercial-license",
+                     "repository":  "Comfy-Org/flux1-dev",
+                     "revision":  "0f6b956e6e2e041fb73d079b72ec0e761506f601",
+                     "source_url":  "https://huggingface.co/Comfy-Org/flux1-dev/resolve/0f6b956e6e2e041fb73d079b72ec0e761506f601/flux1-dev-fp8.safetensors?download=true"
+                 },
+    "observed":  {
+                     "destination_path":  "C:\\Comfy_UI_Main\\ComfyUI\\models\\checkpoints\\flux1-dev-fp8.safetensors",
+                     "destination_exists":  false,
+                     "destination_size_bytes":  null,
+                     "destination_sha256":  null,
+                     "partial_path":  "C:\\Comfy_UI_Main\\ComfyUI\\models\\checkpoints\\flux1-dev-fp8.safetensors.partial",
+                     "partial_exists":  false,
+                     "partial_size_bytes":  null,
+                     "free_disk_bytes":  105701068800,
+                     "enough_free_disk":  true,
+                     "curl_exit_code":  null
+                 },
+    "license_acceptance":  {
+                               "switch_present":  false,
+                               "file_sha256":  null,
+                               "record":  {
+                                              "path":  "",
+                                              "present":  false,
+                                              "parse_ok":  false,
+                                              "valid":  false,
+                                              "accepted":  false,
+                                              "binding":  {
+                                                              "license_id_match":  false,
+                                                              "repository_match":  false,
+                                                              "revision_match":  false,
+                                                              "filename_match":  false,
+                                                              "use_scope_noncommercial":  false,
+                                                              "accepted_by_present":  false,
+                                                              "accepted_at_present":  false,
+                                                              "accepted_at_valid":  false
+                                                          },
+                                              "errors":  [
+                                                             "LicenseAcceptanceFile is required for Execute."
+                                                         ]
+                                          }
+                           },
+    "result":  "ready_dry_run",
+    "classification":  "DRY_RUN_READY_NO_NETWORK",
+    "next_action":  "Provide -LicenseAccepted and a valid LicenseAcceptanceFile, then rerun with -Execute.",
+    "errors":  [
+
+               ],
+    "curl_contract":  [
+                          "--continue-at",
+                          "-",
+                          "--location",
+                          "--fail",
+                          "--retry",
+                          "3",
+                          "--output",
+                          "C:\\Comfy_UI_Main\\ComfyUI\\models\\checkpoints\\flux1-dev-fp8.safetensors.partial",
+                          "https://huggingface.co/Comfy-Org/flux1-dev/resolve/0f6b956e6e2e041fb73d079b72ec0e761506f601/flux1-dev-fp8.safetensors?download=true"
+                      ]
+}

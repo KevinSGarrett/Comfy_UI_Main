@@ -206,6 +206,18 @@ overexpanded upper-lip boundary. Do not tune or repeat this dilation candidate.
 Another `u_lip` evaluation requires a distinct model-backed route or an
 independently justified non-morphological fixed implementation.
 
+## Ear-Accessory Semantic Boundary
+
+CelebAMask-HQ `ear_r` is an accessory-presence class, not anatomical ear skin.
+Do not synthesize it from an `l_ear`/`r_ear` boundary ring or other ear geometry:
+geometry cannot determine whether jewelry exists, and an empty semantic seed
+cannot be repaired by dilation. The local detection, background-removal,
+CLIP-vision, and geometry-estimation model slots currently contain placeholders
+only; cached SAM2 is promptable segmentation, not an earring-presence detector.
+A new `ear_r` route therefore requires a genuinely semantic accessory detector
+or parser with originals-only inference. This boundary does not prohibit using
+SAM2 to refine a nonempty, independently semantic accessory prompt or detection.
+
 ## InsightFace 106-Point LaPa Boundary
 
 The local InsightFace `buffalo_l/2d106det.onnx` route may be evaluated against

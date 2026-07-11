@@ -1,3 +1,11 @@
+## Decision - Licensed Model Installation Must Be Hash-Bound And Pre-Network Gated - 2026-07-10T22:45:00-05:00
+
+Use `Install-LicensedModelFromHttp.ps1` for the Flux1 local checkpoint when acceptance exists. Require exact acceptance binding before network contact, immutable HTTPS, contained destination paths, resumable partial download, exact size/SHA verification, and non-overwriting atomic install. Dry-run is the only authorized current mode.
+
+## Decision - Do Not Infer Earring Presence From Ear Geometry - 2026-07-10T22:45:00-05:00
+
+Reject `ear_r_boundary_exclusive_v1` before implementation because an anatomical boundary cannot establish accessory presence and the current semantic seed is effectively empty. Require a semantic accessory detector/parser first; SAM2 may refine a semantic detection but may not replace one.
+
 ## Decision - Bind Flux1 To Immutable Source Before Installation - 2026-07-10T22:25:00-05:00
 
 Use Comfy-Org revision `0f6b956e6e2e041fb73d079b72ec0e761506f601` and SHA256 `8e91b68084b53a7fc44ed2a3756d821e355ac1a7b6fe29be760c1db532f3d88a` as the only accepted `flux1-dev-fp8.safetensors` authority for this lane. Keep execution disabled until a license-authorized local file matches. Do not infer acceptance, silently download the asset, substitute a legacy/EC2 copy, or treat remote metadata as model-load proof.

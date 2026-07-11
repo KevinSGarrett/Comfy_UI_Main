@@ -1,0 +1,923 @@
+{
+    "schema_version":  "1.0",
+    "timestamp":  "2026-07-10T22:42:39-05:00",
+    "operation":  "test_licensed_model_install_regression",
+    "installer_script":  "Plan/Instructions/Operations/Scripts/Install-LicensedModelFromHttp.ps1",
+    "installer_script_sha256":  "0eebf3629ddfbe8c8307ceb5b8e33b74c47b71f03c0441204c4666fc26211b29",
+    "regression_script":  "Plan/Instructions/QA/Scripts/Test-LicensedModelInstallRegression.ps1",
+    "regression_script_sha256":  "130f75a8821c4a0ad29505eee96f315a92e55097af6b4917c4178f004395f695",
+    "local_only":  true,
+    "external_network_contacted":  false,
+    "aws_contacted":  false,
+    "ec2_contacted":  false,
+    "s3_contacted":  false,
+    "github_contacted":  false,
+    "comfyui_contacted":  false,
+    "check_count":  14,
+    "failed_check_count":  0,
+    "failed_check_names":  [
+
+                           ],
+    "checks":  [
+                   {
+                       "name":  "dry_run_exit_zero",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  0
+                   },
+                   {
+                       "name":  "dry_run_no_network_contact",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  false
+                   },
+                   {
+                       "name":  "dry_run_reports_acceptance_required",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  "Provide -LicenseAccepted and a valid LicenseAcceptanceFile, then rerun with -Execute."
+                   },
+                   {
+                       "name":  "dry_run_did_not_hit_http_server",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  {
+                                        "before":  0,
+                                        "after":  0
+                                    }
+                   },
+                   {
+                       "name":  "execute_without_license_switch_fails_pre_network",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  {
+                                        "exit":  2,
+                                        "result":  "blocked_license_switch_required"
+                                    }
+                   },
+                   {
+                       "name":  "invalid_acceptance_binding_fails_pre_network",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  {
+                                        "exit":  2,
+                                        "result":  "blocked_invalid_license_acceptance_record"
+                                    }
+                   },
+                   {
+                       "name":  "invalid_acceptance_timestamp_fails_pre_network",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  {
+                                        "exit":  2,
+                                        "result":  "blocked_invalid_license_acceptance_record"
+                                    }
+                   },
+                   {
+                       "name":  "model_subdir_traversal_fails_pre_network",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  {
+                                        "exit":  2,
+                                        "errors":  [
+                                                       "required_models comfyui_model_subdir must be a contained relative path without traversal."
+                                                   ]
+                                    }
+                   },
+                   {
+                       "name":  "non_loopback_http_source_fails_pre_network",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  {
+                                        "exit":  2,
+                                        "errors":  [
+                                                       "Resolved source URL must use HTTPS; HTTP is allowed only for loopback regression fixtures."
+                                                   ]
+                                    }
+                   },
+                   {
+                       "name":  "valid_acceptance_downloads_and_verifies",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  {
+                                        "exit":  0,
+                                        "result":  "installed_verified",
+                                        "size":  49,
+                                        "sha256":  "2a5491826a2e15298b304b15802aecaeb8e996b0cc73949995db95113b52730e"
+                                    }
+                   },
+                   {
+                       "name":  "partial_install_path_verified",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  [
+                                        "--continue-at",
+                                        "-",
+                                        "--location",
+                                        "--fail",
+                                        "--retry",
+                                        "3",
+                                        "--output",
+                                        "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models\\checkpoints\\fixture-model.safetensors.partial",
+                                        "http://127.0.0.1:64118/fixture-model.safetensors?revision=fixture-revision-001"
+                                    ]
+                   },
+                   {
+                       "name":  "second_execute_already_installed_verified",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  {
+                                        "exit":  0,
+                                        "result":  "already_installed_verified"
+                                    }
+                   },
+                   {
+                       "name":  "preexisting_mismatch_fails_without_overwrite",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  {
+                                        "exit":  2,
+                                        "result":  "destination_mismatch_blocked",
+                                        "hash_unchanged":  true
+                                    }
+                   },
+                   {
+                       "name":  "curl_continue_at_contract_present",
+                       "passed":  true,
+                       "result":  "pass",
+                       "observed":  [
+                                        "--continue-at",
+                                        "-",
+                                        "--location",
+                                        "--fail",
+                                        "--retry",
+                                        "3",
+                                        "--output",
+                                        "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models\\checkpoints\\fixture-model.safetensors.partial",
+                                        "http://127.0.0.1:64118/fixture-model.safetensors?revision=fixture-revision-001"
+                                    ]
+                   }
+               ],
+    "case_outputs":  {
+                         "execute_no_switch":  {
+                                                   "case":  "execute_no_switch",
+                                                   "out_file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\cases\\execute_no_switch.json",
+                                                   "exit_code":  2,
+                                                   "payload":  {
+                                                                   "schema_version":  "1.0",
+                                                                   "timestamp":  "2026-07-10T22:42:32-05:00",
+                                                                   "operation":  "install_licensed_model_from_http",
+                                                                   "installer_script_path":  "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Install-LicensedModelFromHttp.ps1",
+                                                                   "installer_script_sha256":  "0eebf3629ddfbe8c8307ceb5b8e33b74c47b71f03c0441204c4666fc26211b29",
+                                                                   "execute":  true,
+                                                                   "project_root":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture",
+                                                                   "runtime_requirements_file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\runtime_requirements.json",
+                                                                   "runtime_requirements_sha256":  "9af7ba976d1087d7ec52db65122b623857433410ff2bf8150a4dc4e2b70e8954",
+                                                                   "model_role":  "checkpoint",
+                                                                   "destination_model_root":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models",
+                                                                   "license_acceptance_file":  "",
+                                                                   "source_url_override":  "http://127.0.0.1:64118/fixture-model.safetensors?revision=fixture-revision-001",
+                                                                   "network_contacted":  false,
+                                                                   "download_attempted":  false,
+                                                                   "partial_preserved":  false,
+                                                                   "aws_contacted":  false,
+                                                                   "ec2_contacted":  false,
+                                                                   "s3_contacted":  false,
+                                                                   "github_contacted":  false,
+                                                                   "comfyui_contacted":  false,
+                                                                   "expected":  {
+                                                                                    "filename":  "fixture-model.safetensors",
+                                                                                    "model_subdir":  "checkpoints",
+                                                                                    "sha256":  "2a5491826a2e15298b304b15802aecaeb8e996b0cc73949995db95113b52730e",
+                                                                                    "bytes":  49,
+                                                                                    "license_id":  "fixture-noncommercial-license",
+                                                                                    "repository":  "fixtures/local-license-model",
+                                                                                    "revision":  "fixture-revision-001",
+                                                                                    "source_url":  "http://127.0.0.1:64118/fixture-model.safetensors?revision=fixture-revision-001"
+                                                                                },
+                                                                   "observed":  {
+                                                                                    "destination_path":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models\\checkpoints\\fixture-model.safetensors",
+                                                                                    "destination_exists":  false,
+                                                                                    "destination_size_bytes":  null,
+                                                                                    "destination_sha256":  null,
+                                                                                    "partial_path":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models\\checkpoints\\fixture-model.safetensors.partial",
+                                                                                    "partial_exists":  false,
+                                                                                    "partial_size_bytes":  null,
+                                                                                    "free_disk_bytes":  105741975552,
+                                                                                    "enough_free_disk":  true,
+                                                                                    "curl_exit_code":  null
+                                                                                },
+                                                                   "license_acceptance":  {
+                                                                                              "switch_present":  false,
+                                                                                              "file_sha256":  null,
+                                                                                              "record":  {
+                                                                                                             "path":  "",
+                                                                                                             "present":  false,
+                                                                                                             "parse_ok":  false,
+                                                                                                             "valid":  false,
+                                                                                                             "accepted":  false,
+                                                                                                             "binding":  {
+                                                                                                                             "license_id_match":  false,
+                                                                                                                             "repository_match":  false,
+                                                                                                                             "revision_match":  false,
+                                                                                                                             "filename_match":  false,
+                                                                                                                             "use_scope_noncommercial":  false,
+                                                                                                                             "accepted_by_present":  false,
+                                                                                                                             "accepted_at_present":  false,
+                                                                                                                             "accepted_at_valid":  false
+                                                                                                                         },
+                                                                                                             "errors":  [
+                                                                                                                            "LicenseAcceptanceFile is required for Execute."
+                                                                                                                        ]
+                                                                                                         }
+                                                                                          },
+                                                                   "result":  "blocked_license_switch_required",
+                                                                   "classification":  "LICENSE_ACCEPTANCE_REQUIRED_PRE_NETWORK",
+                                                                   "next_action":  "Rerun with -LicenseAccepted and a valid acceptance JSON.",
+                                                                   "errors":  [
+                                                                                  "Execute requires -LicenseAccepted switch."
+                                                                              ],
+                                                                   "curl_contract":  [
+                                                                                         "--continue-at",
+                                                                                         "-",
+                                                                                         "--location",
+                                                                                         "--fail",
+                                                                                         "--retry",
+                                                                                         "3",
+                                                                                         "--output",
+                                                                                         "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models\\checkpoints\\fixture-model.safetensors.partial",
+                                                                                         "http://127.0.0.1:64118/fixture-model.safetensors?revision=fixture-revision-001"
+                                                                                     ]
+                                                               }
+                                               },
+                         "execute_valid":  {
+                                               "case":  "execute_valid",
+                                               "out_file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\cases\\execute_valid.json",
+                                               "exit_code":  0,
+                                               "payload":  {
+                                                               "schema_version":  "1.0",
+                                                               "timestamp":  "2026-07-10T22:42:36-05:00",
+                                                               "operation":  "install_licensed_model_from_http",
+                                                               "installer_script_path":  "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Install-LicensedModelFromHttp.ps1",
+                                                               "installer_script_sha256":  "0eebf3629ddfbe8c8307ceb5b8e33b74c47b71f03c0441204c4666fc26211b29",
+                                                               "execute":  true,
+                                                               "project_root":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture",
+                                                               "runtime_requirements_file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\runtime_requirements.json",
+                                                               "runtime_requirements_sha256":  "9af7ba976d1087d7ec52db65122b623857433410ff2bf8150a4dc4e2b70e8954",
+                                                               "model_role":  "checkpoint",
+                                                               "destination_model_root":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models",
+                                                               "license_acceptance_file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\license_acceptance_valid.json",
+                                                               "source_url_override":  "http://127.0.0.1:64118/fixture-model.safetensors?revision=fixture-revision-001",
+                                                               "network_contacted":  true,
+                                                               "download_attempted":  true,
+                                                               "partial_preserved":  false,
+                                                               "aws_contacted":  false,
+                                                               "ec2_contacted":  false,
+                                                               "s3_contacted":  false,
+                                                               "github_contacted":  false,
+                                                               "comfyui_contacted":  false,
+                                                               "expected":  {
+                                                                                "filename":  "fixture-model.safetensors",
+                                                                                "model_subdir":  "checkpoints",
+                                                                                "sha256":  "2a5491826a2e15298b304b15802aecaeb8e996b0cc73949995db95113b52730e",
+                                                                                "bytes":  49,
+                                                                                "license_id":  "fixture-noncommercial-license",
+                                                                                "repository":  "fixtures/local-license-model",
+                                                                                "revision":  "fixture-revision-001",
+                                                                                "source_url":  "http://127.0.0.1:64118/fixture-model.safetensors?revision=fixture-revision-001"
+                                                                            },
+                                                               "observed":  {
+                                                                                "destination_path":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models\\checkpoints\\fixture-model.safetensors",
+                                                                                "destination_exists":  true,
+                                                                                "destination_size_bytes":  49,
+                                                                                "destination_sha256":  "2a5491826a2e15298b304b15802aecaeb8e996b0cc73949995db95113b52730e",
+                                                                                "partial_path":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models\\checkpoints\\fixture-model.safetensors.partial",
+                                                                                "partial_exists":  true,
+                                                                                "partial_size_bytes":  49,
+                                                                                "free_disk_bytes":  105739399168,
+                                                                                "enough_free_disk":  true,
+                                                                                "curl_exit_code":  0
+                                                                            },
+                                                               "license_acceptance":  {
+                                                                                          "switch_present":  true,
+                                                                                          "file_sha256":  "0a67a49b658c6cd7364db7d1f33ba7285114a624d17f395aab2c6dba821ded9f",
+                                                                                          "record":  {
+                                                                                                         "path":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\license_acceptance_valid.json",
+                                                                                                         "present":  true,
+                                                                                                         "parse_ok":  true,
+                                                                                                         "valid":  true,
+                                                                                                         "accepted":  true,
+                                                                                                         "binding":  {
+                                                                                                                         "license_id_match":  true,
+                                                                                                                         "repository_match":  true,
+                                                                                                                         "revision_match":  true,
+                                                                                                                         "filename_match":  true,
+                                                                                                                         "use_scope_noncommercial":  true,
+                                                                                                                         "accepted_by_present":  true,
+                                                                                                                         "accepted_at_present":  true,
+                                                                                                                         "accepted_at_valid":  true
+                                                                                                                     },
+                                                                                                         "errors":  [
+
+                                                                                                                    ]
+                                                                                                     }
+                                                                                      },
+                                                               "result":  "installed_verified",
+                                                               "classification":  "INSTALL_SUCCESS_VERIFIED",
+                                                               "next_action":  "No action required.",
+                                                               "errors":  [
+
+                                                                          ],
+                                                               "curl_contract":  [
+                                                                                     "--continue-at",
+                                                                                     "-",
+                                                                                     "--location",
+                                                                                     "--fail",
+                                                                                     "--retry",
+                                                                                     "3",
+                                                                                     "--output",
+                                                                                     "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models\\checkpoints\\fixture-model.safetensors.partial",
+                                                                                     "http://127.0.0.1:64118/fixture-model.safetensors?revision=fixture-revision-001"
+                                                                                 ]
+                                                           }
+                                           },
+                         "execute_invalid_timestamp":  {
+                                                           "case":  "execute_invalid_timestamp",
+                                                           "out_file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\cases\\execute_invalid_timestamp.json",
+                                                           "exit_code":  2,
+                                                           "payload":  {
+                                                                           "schema_version":  "1.0",
+                                                                           "timestamp":  "2026-07-10T22:42:34-05:00",
+                                                                           "operation":  "install_licensed_model_from_http",
+                                                                           "installer_script_path":  "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Install-LicensedModelFromHttp.ps1",
+                                                                           "installer_script_sha256":  "0eebf3629ddfbe8c8307ceb5b8e33b74c47b71f03c0441204c4666fc26211b29",
+                                                                           "execute":  true,
+                                                                           "project_root":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture",
+                                                                           "runtime_requirements_file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\runtime_requirements.json",
+                                                                           "runtime_requirements_sha256":  "9af7ba976d1087d7ec52db65122b623857433410ff2bf8150a4dc4e2b70e8954",
+                                                                           "model_role":  "checkpoint",
+                                                                           "destination_model_root":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models",
+                                                                           "license_acceptance_file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\license_acceptance_invalid_timestamp.json",
+                                                                           "source_url_override":  "http://127.0.0.1:64118/fixture-model.safetensors?revision=fixture-revision-001",
+                                                                           "network_contacted":  false,
+                                                                           "download_attempted":  false,
+                                                                           "partial_preserved":  false,
+                                                                           "aws_contacted":  false,
+                                                                           "ec2_contacted":  false,
+                                                                           "s3_contacted":  false,
+                                                                           "github_contacted":  false,
+                                                                           "comfyui_contacted":  false,
+                                                                           "expected":  {
+                                                                                            "filename":  "fixture-model.safetensors",
+                                                                                            "model_subdir":  "checkpoints",
+                                                                                            "sha256":  "2a5491826a2e15298b304b15802aecaeb8e996b0cc73949995db95113b52730e",
+                                                                                            "bytes":  49,
+                                                                                            "license_id":  "fixture-noncommercial-license",
+                                                                                            "repository":  "fixtures/local-license-model",
+                                                                                            "revision":  "fixture-revision-001",
+                                                                                            "source_url":  "http://127.0.0.1:64118/fixture-model.safetensors?revision=fixture-revision-001"
+                                                                                        },
+                                                                           "observed":  {
+                                                                                            "destination_path":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models\\checkpoints\\fixture-model.safetensors",
+                                                                                            "destination_exists":  false,
+                                                                                            "destination_size_bytes":  null,
+                                                                                            "destination_sha256":  null,
+                                                                                            "partial_path":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models\\checkpoints\\fixture-model.safetensors.partial",
+                                                                                            "partial_exists":  false,
+                                                                                            "partial_size_bytes":  null,
+                                                                                            "free_disk_bytes":  105741352960,
+                                                                                            "enough_free_disk":  true,
+                                                                                            "curl_exit_code":  null
+                                                                                        },
+                                                                           "license_acceptance":  {
+                                                                                                      "switch_present":  true,
+                                                                                                      "file_sha256":  "70b6408532f27ab25b82ae50cadfbec4923bf1ab237fcbcd443d0f2dfe7763a8",
+                                                                                                      "record":  {
+                                                                                                                     "path":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\license_acceptance_invalid_timestamp.json",
+                                                                                                                     "present":  true,
+                                                                                                                     "parse_ok":  true,
+                                                                                                                     "valid":  false,
+                                                                                                                     "accepted":  true,
+                                                                                                                     "binding":  {
+                                                                                                                                     "license_id_match":  true,
+                                                                                                                                     "repository_match":  true,
+                                                                                                                                     "revision_match":  true,
+                                                                                                                                     "filename_match":  true,
+                                                                                                                                     "use_scope_noncommercial":  true,
+                                                                                                                                     "accepted_by_present":  true,
+                                                                                                                                     "accepted_at_present":  true,
+                                                                                                                                     "accepted_at_valid":  false
+                                                                                                                                 },
+                                                                                                                     "errors":  [
+                                                                                                                                    "License acceptance record exists but required fields do not fully bind."
+                                                                                                                                ]
+                                                                                                                 }
+                                                                                                  },
+                                                                           "result":  "blocked_invalid_license_acceptance_record",
+                                                                           "classification":  "LICENSE_ACCEPTANCE_REQUIRED_PRE_NETWORK",
+                                                                           "next_action":  "Fix LicenseAcceptanceFile binding fields and rerun.",
+                                                                           "errors":  [
+                                                                                          "License acceptance record exists but required fields do not fully bind."
+                                                                                      ],
+                                                                           "curl_contract":  [
+                                                                                                 "--continue-at",
+                                                                                                 "-",
+                                                                                                 "--location",
+                                                                                                 "--fail",
+                                                                                                 "--retry",
+                                                                                                 "3",
+                                                                                                 "--output",
+                                                                                                 "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models\\checkpoints\\fixture-model.safetensors.partial",
+                                                                                                 "http://127.0.0.1:64118/fixture-model.safetensors?revision=fixture-revision-001"
+                                                                                             ]
+                                                                       }
+                                                       },
+                         "execute_second":  {
+                                                "case":  "execute_second",
+                                                "out_file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\cases\\execute_second.json",
+                                                "exit_code":  0,
+                                                "payload":  {
+                                                                "schema_version":  "1.0",
+                                                                "timestamp":  "2026-07-10T22:42:36-05:00",
+                                                                "operation":  "install_licensed_model_from_http",
+                                                                "installer_script_path":  "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Install-LicensedModelFromHttp.ps1",
+                                                                "installer_script_sha256":  "0eebf3629ddfbe8c8307ceb5b8e33b74c47b71f03c0441204c4666fc26211b29",
+                                                                "execute":  true,
+                                                                "project_root":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture",
+                                                                "runtime_requirements_file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\runtime_requirements.json",
+                                                                "runtime_requirements_sha256":  "9af7ba976d1087d7ec52db65122b623857433410ff2bf8150a4dc4e2b70e8954",
+                                                                "model_role":  "checkpoint",
+                                                                "destination_model_root":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models",
+                                                                "license_acceptance_file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\license_acceptance_valid.json",
+                                                                "source_url_override":  "http://127.0.0.1:64118/fixture-model.safetensors?revision=fixture-revision-001",
+                                                                "network_contacted":  false,
+                                                                "download_attempted":  false,
+                                                                "partial_preserved":  false,
+                                                                "aws_contacted":  false,
+                                                                "ec2_contacted":  false,
+                                                                "s3_contacted":  false,
+                                                                "github_contacted":  false,
+                                                                "comfyui_contacted":  false,
+                                                                "expected":  {
+                                                                                 "filename":  "fixture-model.safetensors",
+                                                                                 "model_subdir":  "checkpoints",
+                                                                                 "sha256":  "2a5491826a2e15298b304b15802aecaeb8e996b0cc73949995db95113b52730e",
+                                                                                 "bytes":  49,
+                                                                                 "license_id":  "fixture-noncommercial-license",
+                                                                                 "repository":  "fixtures/local-license-model",
+                                                                                 "revision":  "fixture-revision-001",
+                                                                                 "source_url":  "http://127.0.0.1:64118/fixture-model.safetensors?revision=fixture-revision-001"
+                                                                             },
+                                                                "observed":  {
+                                                                                 "destination_path":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models\\checkpoints\\fixture-model.safetensors",
+                                                                                 "destination_exists":  true,
+                                                                                 "destination_size_bytes":  49,
+                                                                                 "destination_sha256":  "2a5491826a2e15298b304b15802aecaeb8e996b0cc73949995db95113b52730e",
+                                                                                 "partial_path":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models\\checkpoints\\fixture-model.safetensors.partial",
+                                                                                 "partial_exists":  false,
+                                                                                 "partial_size_bytes":  null,
+                                                                                 "free_disk_bytes":  105739051008,
+                                                                                 "enough_free_disk":  true,
+                                                                                 "curl_exit_code":  null
+                                                                             },
+                                                                "license_acceptance":  {
+                                                                                           "switch_present":  true,
+                                                                                           "file_sha256":  "0a67a49b658c6cd7364db7d1f33ba7285114a624d17f395aab2c6dba821ded9f",
+                                                                                           "record":  {
+                                                                                                          "path":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\license_acceptance_valid.json",
+                                                                                                          "present":  true,
+                                                                                                          "parse_ok":  true,
+                                                                                                          "valid":  true,
+                                                                                                          "accepted":  true,
+                                                                                                          "binding":  {
+                                                                                                                          "license_id_match":  true,
+                                                                                                                          "repository_match":  true,
+                                                                                                                          "revision_match":  true,
+                                                                                                                          "filename_match":  true,
+                                                                                                                          "use_scope_noncommercial":  true,
+                                                                                                                          "accepted_by_present":  true,
+                                                                                                                          "accepted_at_present":  true,
+                                                                                                                          "accepted_at_valid":  true
+                                                                                                                      },
+                                                                                                          "errors":  [
+
+                                                                                                                     ]
+                                                                                                      }
+                                                                                       },
+                                                                "result":  "already_installed_verified",
+                                                                "classification":  "ALREADY_INSTALLED_VERIFIED",
+                                                                "next_action":  "No action required.",
+                                                                "errors":  [
+
+                                                                           ],
+                                                                "curl_contract":  [
+                                                                                      "--continue-at",
+                                                                                      "-",
+                                                                                      "--location",
+                                                                                      "--fail",
+                                                                                      "--retry",
+                                                                                      "3",
+                                                                                      "--output",
+                                                                                      "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models\\checkpoints\\fixture-model.safetensors.partial",
+                                                                                      "http://127.0.0.1:64118/fixture-model.safetensors?revision=fixture-revision-001"
+                                                                                  ]
+                                                            }
+                                            },
+                         "traversal":  {
+                                           "case":  "traversal",
+                                           "out_file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\cases\\traversal.json",
+                                           "exit_code":  2,
+                                           "payload":  {
+                                                           "schema_version":  "1.0",
+                                                           "timestamp":  "2026-07-10T22:42:35-05:00",
+                                                           "operation":  "install_licensed_model_from_http",
+                                                           "installer_script_path":  "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Install-LicensedModelFromHttp.ps1",
+                                                           "installer_script_sha256":  "0eebf3629ddfbe8c8307ceb5b8e33b74c47b71f03c0441204c4666fc26211b29",
+                                                           "execute":  false,
+                                                           "project_root":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture",
+                                                           "runtime_requirements_file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\runtime_requirements_traversal.json",
+                                                           "runtime_requirements_sha256":  "41edf0712ca6d1aecc4bae910bf26cd929e97f2cf2a92de3325a37bdd429c277",
+                                                           "model_role":  "checkpoint",
+                                                           "destination_model_root":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models",
+                                                           "license_acceptance_file":  "",
+                                                           "source_url_override":  "http://127.0.0.1:64118/fixture-model.safetensors?revision=fixture-revision-001",
+                                                           "network_contacted":  false,
+                                                           "download_attempted":  false,
+                                                           "partial_preserved":  false,
+                                                           "aws_contacted":  false,
+                                                           "ec2_contacted":  false,
+                                                           "s3_contacted":  false,
+                                                           "github_contacted":  false,
+                                                           "comfyui_contacted":  false,
+                                                           "expected":  {
+                                                                            "filename":  "fixture-model.safetensors",
+                                                                            "model_subdir":  "../escape",
+                                                                            "sha256":  "2a5491826a2e15298b304b15802aecaeb8e996b0cc73949995db95113b52730e",
+                                                                            "bytes":  49,
+                                                                            "license_id":  "fixture-noncommercial-license",
+                                                                            "repository":  "fixtures/local-license-model",
+                                                                            "revision":  "fixture-revision-001",
+                                                                            "source_url":  "http://127.0.0.1:64118/fixture-model.safetensors?revision=fixture-revision-001"
+                                                                        },
+                                                           "observed":  {
+                                                                            "destination_path":  null,
+                                                                            "destination_exists":  false,
+                                                                            "destination_size_bytes":  null,
+                                                                            "destination_sha256":  null,
+                                                                            "partial_path":  null,
+                                                                            "partial_exists":  false,
+                                                                            "partial_size_bytes":  null,
+                                                                            "free_disk_bytes":  null,
+                                                                            "enough_free_disk":  null,
+                                                                            "curl_exit_code":  null
+                                                                        },
+                                                           "license_acceptance":  {
+                                                                                      "switch_present":  false,
+                                                                                      "file_sha256":  null,
+                                                                                      "record":  null
+                                                                                  },
+                                                           "result":  "blocked_preconditions_not_met",
+                                                           "classification":  "BLOCKED_PRECONDITIONS_NOT_MET",
+                                                           "next_action":  "Fix blocker(s) and rerun.",
+                                                           "errors":  [
+                                                                          "required_models comfyui_model_subdir must be a contained relative path without traversal."
+                                                                      ]
+                                                       }
+                                       },
+                         "insecure_source":  {
+                                                 "case":  "insecure_source",
+                                                 "out_file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\cases\\insecure_source.json",
+                                                 "exit_code":  2,
+                                                 "payload":  {
+                                                                 "schema_version":  "1.0",
+                                                                 "timestamp":  "2026-07-10T22:42:35-05:00",
+                                                                 "operation":  "install_licensed_model_from_http",
+                                                                 "installer_script_path":  "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Install-LicensedModelFromHttp.ps1",
+                                                                 "installer_script_sha256":  "0eebf3629ddfbe8c8307ceb5b8e33b74c47b71f03c0441204c4666fc26211b29",
+                                                                 "execute":  false,
+                                                                 "project_root":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture",
+                                                                 "runtime_requirements_file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\runtime_requirements.json",
+                                                                 "runtime_requirements_sha256":  "9af7ba976d1087d7ec52db65122b623857433410ff2bf8150a4dc4e2b70e8954",
+                                                                 "model_role":  "checkpoint",
+                                                                 "destination_model_root":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models",
+                                                                 "license_acceptance_file":  "",
+                                                                 "source_url_override":  "http://example.com/fixtures/local-license-model/fixture-revision-001/fixture-model.safetensors",
+                                                                 "network_contacted":  false,
+                                                                 "download_attempted":  false,
+                                                                 "partial_preserved":  false,
+                                                                 "aws_contacted":  false,
+                                                                 "ec2_contacted":  false,
+                                                                 "s3_contacted":  false,
+                                                                 "github_contacted":  false,
+                                                                 "comfyui_contacted":  false,
+                                                                 "expected":  {
+                                                                                  "filename":  "fixture-model.safetensors",
+                                                                                  "model_subdir":  "checkpoints",
+                                                                                  "sha256":  "2a5491826a2e15298b304b15802aecaeb8e996b0cc73949995db95113b52730e",
+                                                                                  "bytes":  49,
+                                                                                  "license_id":  "fixture-noncommercial-license",
+                                                                                  "repository":  "fixtures/local-license-model",
+                                                                                  "revision":  "fixture-revision-001",
+                                                                                  "source_url":  "http://example.com/fixtures/local-license-model/fixture-revision-001/fixture-model.safetensors"
+                                                                              },
+                                                                 "observed":  {
+                                                                                  "destination_path":  null,
+                                                                                  "destination_exists":  false,
+                                                                                  "destination_size_bytes":  null,
+                                                                                  "destination_sha256":  null,
+                                                                                  "partial_path":  null,
+                                                                                  "partial_exists":  false,
+                                                                                  "partial_size_bytes":  null,
+                                                                                  "free_disk_bytes":  null,
+                                                                                  "enough_free_disk":  null,
+                                                                                  "curl_exit_code":  null
+                                                                              },
+                                                                 "license_acceptance":  {
+                                                                                            "switch_present":  false,
+                                                                                            "file_sha256":  null,
+                                                                                            "record":  null
+                                                                                        },
+                                                                 "result":  "blocked_preconditions_not_met",
+                                                                 "classification":  "BLOCKED_PRECONDITIONS_NOT_MET",
+                                                                 "next_action":  "Fix blocker(s) and rerun.",
+                                                                 "errors":  [
+                                                                                "Resolved source URL must use HTTPS; HTTP is allowed only for loopback regression fixtures."
+                                                                            ]
+                                                             }
+                                             },
+                         "execute_mismatch":  {
+                                                  "case":  "execute_mismatch",
+                                                  "out_file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\cases\\execute_mismatch.json",
+                                                  "exit_code":  2,
+                                                  "payload":  {
+                                                                  "schema_version":  "1.0",
+                                                                  "timestamp":  "2026-07-10T22:42:38-05:00",
+                                                                  "operation":  "install_licensed_model_from_http",
+                                                                  "installer_script_path":  "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Install-LicensedModelFromHttp.ps1",
+                                                                  "installer_script_sha256":  "0eebf3629ddfbe8c8307ceb5b8e33b74c47b71f03c0441204c4666fc26211b29",
+                                                                  "execute":  true,
+                                                                  "project_root":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture",
+                                                                  "runtime_requirements_file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\runtime_requirements.json",
+                                                                  "runtime_requirements_sha256":  "9af7ba976d1087d7ec52db65122b623857433410ff2bf8150a4dc4e2b70e8954",
+                                                                  "model_role":  "checkpoint",
+                                                                  "destination_model_root":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\mismatch_root\\models",
+                                                                  "license_acceptance_file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\license_acceptance_valid.json",
+                                                                  "source_url_override":  "http://127.0.0.1:64118/fixture-model.safetensors?revision=fixture-revision-001",
+                                                                  "network_contacted":  false,
+                                                                  "download_attempted":  false,
+                                                                  "partial_preserved":  false,
+                                                                  "aws_contacted":  false,
+                                                                  "ec2_contacted":  false,
+                                                                  "s3_contacted":  false,
+                                                                  "github_contacted":  false,
+                                                                  "comfyui_contacted":  false,
+                                                                  "expected":  {
+                                                                                   "filename":  "fixture-model.safetensors",
+                                                                                   "model_subdir":  "checkpoints",
+                                                                                   "sha256":  "2a5491826a2e15298b304b15802aecaeb8e996b0cc73949995db95113b52730e",
+                                                                                   "bytes":  49,
+                                                                                   "license_id":  "fixture-noncommercial-license",
+                                                                                   "repository":  "fixtures/local-license-model",
+                                                                                   "revision":  "fixture-revision-001",
+                                                                                   "source_url":  "http://127.0.0.1:64118/fixture-model.safetensors?revision=fixture-revision-001"
+                                                                               },
+                                                                  "observed":  {
+                                                                                   "destination_path":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\mismatch_root\\models\\checkpoints\\fixture-model.safetensors",
+                                                                                   "destination_exists":  true,
+                                                                                   "destination_size_bytes":  8,
+                                                                                   "destination_sha256":  "5acbfff1b086e0f920c5857527976199018afe0cbf16e28d42c7eb9c683508e5",
+                                                                                   "partial_path":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\mismatch_root\\models\\checkpoints\\fixture-model.safetensors.partial",
+                                                                                   "partial_exists":  false,
+                                                                                   "partial_size_bytes":  null,
+                                                                                   "free_disk_bytes":  105738952704,
+                                                                                   "enough_free_disk":  true,
+                                                                                   "curl_exit_code":  null
+                                                                               },
+                                                                  "license_acceptance":  {
+                                                                                             "switch_present":  true,
+                                                                                             "file_sha256":  "0a67a49b658c6cd7364db7d1f33ba7285114a624d17f395aab2c6dba821ded9f",
+                                                                                             "record":  {
+                                                                                                            "path":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\license_acceptance_valid.json",
+                                                                                                            "present":  true,
+                                                                                                            "parse_ok":  true,
+                                                                                                            "valid":  true,
+                                                                                                            "accepted":  true,
+                                                                                                            "binding":  {
+                                                                                                                            "license_id_match":  true,
+                                                                                                                            "repository_match":  true,
+                                                                                                                            "revision_match":  true,
+                                                                                                                            "filename_match":  true,
+                                                                                                                            "use_scope_noncommercial":  true,
+                                                                                                                            "accepted_by_present":  true,
+                                                                                                                            "accepted_at_present":  true,
+                                                                                                                            "accepted_at_valid":  true
+                                                                                                                        },
+                                                                                                            "errors":  [
+
+                                                                                                                       ]
+                                                                                                        }
+                                                                                         },
+                                                                  "result":  "destination_mismatch_blocked",
+                                                                  "classification":  "DESTINATION_MISMATCH_BLOCKED",
+                                                                  "next_action":  "Manually remediate destination mismatch, then rerun.",
+                                                                  "errors":  [
+                                                                                 "Destination file exists but size/hash mismatch. Refusing overwrite."
+                                                                             ],
+                                                                  "curl_contract":  [
+                                                                                        "--continue-at",
+                                                                                        "-",
+                                                                                        "--location",
+                                                                                        "--fail",
+                                                                                        "--retry",
+                                                                                        "3",
+                                                                                        "--output",
+                                                                                        "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\mismatch_root\\models\\checkpoints\\fixture-model.safetensors.partial",
+                                                                                        "http://127.0.0.1:64118/fixture-model.safetensors?revision=fixture-revision-001"
+                                                                                    ]
+                                                              }
+                                              },
+                         "dry_run":  {
+                                         "case":  "dry_run",
+                                         "out_file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\cases\\dry_run.json",
+                                         "exit_code":  0,
+                                         "payload":  {
+                                                         "schema_version":  "1.0",
+                                                         "timestamp":  "2026-07-10T22:42:32-05:00",
+                                                         "operation":  "install_licensed_model_from_http",
+                                                         "installer_script_path":  "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Install-LicensedModelFromHttp.ps1",
+                                                         "installer_script_sha256":  "0eebf3629ddfbe8c8307ceb5b8e33b74c47b71f03c0441204c4666fc26211b29",
+                                                         "execute":  false,
+                                                         "project_root":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture",
+                                                         "runtime_requirements_file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\runtime_requirements.json",
+                                                         "runtime_requirements_sha256":  "9af7ba976d1087d7ec52db65122b623857433410ff2bf8150a4dc4e2b70e8954",
+                                                         "model_role":  "checkpoint",
+                                                         "destination_model_root":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models",
+                                                         "license_acceptance_file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\license_acceptance_valid.json",
+                                                         "source_url_override":  "http://127.0.0.1:64118/fixture-model.safetensors?revision=fixture-revision-001",
+                                                         "network_contacted":  false,
+                                                         "download_attempted":  false,
+                                                         "partial_preserved":  false,
+                                                         "aws_contacted":  false,
+                                                         "ec2_contacted":  false,
+                                                         "s3_contacted":  false,
+                                                         "github_contacted":  false,
+                                                         "comfyui_contacted":  false,
+                                                         "expected":  {
+                                                                          "filename":  "fixture-model.safetensors",
+                                                                          "model_subdir":  "checkpoints",
+                                                                          "sha256":  "2a5491826a2e15298b304b15802aecaeb8e996b0cc73949995db95113b52730e",
+                                                                          "bytes":  49,
+                                                                          "license_id":  "fixture-noncommercial-license",
+                                                                          "repository":  "fixtures/local-license-model",
+                                                                          "revision":  "fixture-revision-001",
+                                                                          "source_url":  "http://127.0.0.1:64118/fixture-model.safetensors?revision=fixture-revision-001"
+                                                                      },
+                                                         "observed":  {
+                                                                          "destination_path":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models\\checkpoints\\fixture-model.safetensors",
+                                                                          "destination_exists":  false,
+                                                                          "destination_size_bytes":  null,
+                                                                          "destination_sha256":  null,
+                                                                          "partial_path":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models\\checkpoints\\fixture-model.safetensors.partial",
+                                                                          "partial_exists":  false,
+                                                                          "partial_size_bytes":  null,
+                                                                          "free_disk_bytes":  105742131200,
+                                                                          "enough_free_disk":  true,
+                                                                          "curl_exit_code":  null
+                                                                      },
+                                                         "license_acceptance":  {
+                                                                                    "switch_present":  false,
+                                                                                    "file_sha256":  "0a67a49b658c6cd7364db7d1f33ba7285114a624d17f395aab2c6dba821ded9f",
+                                                                                    "record":  {
+                                                                                                   "path":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\license_acceptance_valid.json",
+                                                                                                   "present":  true,
+                                                                                                   "parse_ok":  true,
+                                                                                                   "valid":  true,
+                                                                                                   "accepted":  true,
+                                                                                                   "binding":  {
+                                                                                                                   "license_id_match":  true,
+                                                                                                                   "repository_match":  true,
+                                                                                                                   "revision_match":  true,
+                                                                                                                   "filename_match":  true,
+                                                                                                                   "use_scope_noncommercial":  true,
+                                                                                                                   "accepted_by_present":  true,
+                                                                                                                   "accepted_at_present":  true,
+                                                                                                                   "accepted_at_valid":  true
+                                                                                                               },
+                                                                                                   "errors":  [
+
+                                                                                                              ]
+                                                                                               }
+                                                                                },
+                                                         "result":  "ready_dry_run",
+                                                         "classification":  "DRY_RUN_READY_NO_NETWORK",
+                                                         "next_action":  "Provide -LicenseAccepted and a valid LicenseAcceptanceFile, then rerun with -Execute.",
+                                                         "errors":  [
+
+                                                                    ],
+                                                         "curl_contract":  [
+                                                                               "--continue-at",
+                                                                               "-",
+                                                                               "--location",
+                                                                               "--fail",
+                                                                               "--retry",
+                                                                               "3",
+                                                                               "--output",
+                                                                               "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models\\checkpoints\\fixture-model.safetensors.partial",
+                                                                               "http://127.0.0.1:64118/fixture-model.safetensors?revision=fixture-revision-001"
+                                                                           ]
+                                                     }
+                                     },
+                         "execute_invalid_acceptance":  {
+                                                            "case":  "execute_invalid_acceptance",
+                                                            "out_file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\cases\\execute_invalid_acceptance.json",
+                                                            "exit_code":  2,
+                                                            "payload":  {
+                                                                            "schema_version":  "1.0",
+                                                                            "timestamp":  "2026-07-10T22:42:33-05:00",
+                                                                            "operation":  "install_licensed_model_from_http",
+                                                                            "installer_script_path":  "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Scripts\\Install-LicensedModelFromHttp.ps1",
+                                                                            "installer_script_sha256":  "0eebf3629ddfbe8c8307ceb5b8e33b74c47b71f03c0441204c4666fc26211b29",
+                                                                            "execute":  true,
+                                                                            "project_root":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture",
+                                                                            "runtime_requirements_file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\runtime_requirements.json",
+                                                                            "runtime_requirements_sha256":  "9af7ba976d1087d7ec52db65122b623857433410ff2bf8150a4dc4e2b70e8954",
+                                                                            "model_role":  "checkpoint",
+                                                                            "destination_model_root":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models",
+                                                                            "license_acceptance_file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\license_acceptance_invalid.json",
+                                                                            "source_url_override":  "http://127.0.0.1:64118/fixture-model.safetensors?revision=fixture-revision-001",
+                                                                            "network_contacted":  false,
+                                                                            "download_attempted":  false,
+                                                                            "partial_preserved":  false,
+                                                                            "aws_contacted":  false,
+                                                                            "ec2_contacted":  false,
+                                                                            "s3_contacted":  false,
+                                                                            "github_contacted":  false,
+                                                                            "comfyui_contacted":  false,
+                                                                            "expected":  {
+                                                                                             "filename":  "fixture-model.safetensors",
+                                                                                             "model_subdir":  "checkpoints",
+                                                                                             "sha256":  "2a5491826a2e15298b304b15802aecaeb8e996b0cc73949995db95113b52730e",
+                                                                                             "bytes":  49,
+                                                                                             "license_id":  "fixture-noncommercial-license",
+                                                                                             "repository":  "fixtures/local-license-model",
+                                                                                             "revision":  "fixture-revision-001",
+                                                                                             "source_url":  "http://127.0.0.1:64118/fixture-model.safetensors?revision=fixture-revision-001"
+                                                                                         },
+                                                                            "observed":  {
+                                                                                             "destination_path":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models\\checkpoints\\fixture-model.safetensors",
+                                                                                             "destination_exists":  false,
+                                                                                             "destination_size_bytes":  null,
+                                                                                             "destination_sha256":  null,
+                                                                                             "partial_path":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models\\checkpoints\\fixture-model.safetensors.partial",
+                                                                                             "partial_exists":  false,
+                                                                                             "partial_size_bytes":  null,
+                                                                                             "free_disk_bytes":  105741582336,
+                                                                                             "enough_free_disk":  true,
+                                                                                             "curl_exit_code":  null
+                                                                                         },
+                                                                            "license_acceptance":  {
+                                                                                                       "switch_present":  true,
+                                                                                                       "file_sha256":  "fa24f8bf5669bba938ccfcbb0802a77ebb4ac388f8928606d9de5c4bffe74ee2",
+                                                                                                       "record":  {
+                                                                                                                      "path":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\license_acceptance_invalid.json",
+                                                                                                                      "present":  true,
+                                                                                                                      "parse_ok":  true,
+                                                                                                                      "valid":  false,
+                                                                                                                      "accepted":  true,
+                                                                                                                      "binding":  {
+                                                                                                                                      "license_id_match":  false,
+                                                                                                                                      "repository_match":  true,
+                                                                                                                                      "revision_match":  true,
+                                                                                                                                      "filename_match":  true,
+                                                                                                                                      "use_scope_noncommercial":  false,
+                                                                                                                                      "accepted_by_present":  false,
+                                                                                                                                      "accepted_at_present":  false,
+                                                                                                                                      "accepted_at_valid":  false
+                                                                                                                                  },
+                                                                                                                      "errors":  [
+                                                                                                                                     "License acceptance record exists but required fields do not fully bind."
+                                                                                                                                 ]
+                                                                                                                  }
+                                                                                                   },
+                                                                            "result":  "blocked_invalid_license_acceptance_record",
+                                                                            "classification":  "LICENSE_ACCEPTANCE_REQUIRED_PRE_NETWORK",
+                                                                            "next_action":  "Fix LicenseAcceptanceFile binding fields and rerun.",
+                                                                            "errors":  [
+                                                                                           "License acceptance record exists but required fields do not fully bind."
+                                                                                       ],
+                                                                            "curl_contract":  [
+                                                                                                  "--continue-at",
+                                                                                                  "-",
+                                                                                                  "--location",
+                                                                                                  "--fail",
+                                                                                                  "--retry",
+                                                                                                  "3",
+                                                                                                  "--output",
+                                                                                                  "C:\\Users\\kevin\\AppData\\Local\\Temp\\licensed_model_install_regression_2fae3c2bba2c4f15b06c8cb78a9d553a\\fixture\\ComfyUI\\models\\checkpoints\\fixture-model.safetensors.partial",
+                                                                                                  "http://127.0.0.1:64118/fixture-model.safetensors?revision=fixture-revision-001"
+                                                                                              ]
+                                                                        }
+                                                        }
+                     },
+    "result":  "pass_local_only"
+}

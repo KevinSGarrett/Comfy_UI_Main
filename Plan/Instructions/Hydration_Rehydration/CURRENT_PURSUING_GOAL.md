@@ -1,3 +1,9 @@
+## Active Runtime Posture - Flux1 Installer Implemented And Proven Dry-Run Safe - 2026-07-10T22:45:00-05:00
+
+Continue the full ComfyUI project from `C:\Comfy_UI_Main`. Flux1 now has not only immutable source/hash authority but a tested local installation path. The installer and regression are integrated into operations static validation, and the real lane dry-run is exact-hash bound with no network, AWS, EC2, S3, ComfyUI, or generation contact.
+
+This does not assert license acceptance or install/runtime proof. Keep Flux1 smoke disabled and EC2 stopped. The local earring-accessory inventory also confirms no semantic accessory detector is installed, so do not substitute an ear-boundary heuristic for `ear_r`; continue other local implementation until a semantic route or licensed Flux1 acceptance becomes available.
+
 ## Active Runtime Posture - Flux1 Source/Hash Authority Complete - 2026-07-10T22:25:00-05:00
 
 Continue the full ComfyUI project from `C:\Comfy_UI_Main`. The current Flux1 lane has advanced from an invalid empty-hash asset declaration to an immutable licensed-source authority with exact byte count and SHA256. Static workflow, mirrors, queue state, saved object-info compatibility, and source/evidence binding pass; local generation remains unavailable because the checkpoint is absent.

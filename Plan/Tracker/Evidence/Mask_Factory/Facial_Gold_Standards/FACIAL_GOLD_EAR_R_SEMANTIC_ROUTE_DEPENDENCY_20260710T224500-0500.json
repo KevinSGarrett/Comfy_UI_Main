@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "FACIAL-GOLD-EAR-R-SEMANTIC-ROUTE-DEPENDENCY-20260710T224500-0500",
+  "timestamp": "2026-07-10T22:45:00-05:00",
+  "result": "blocked_semantic_ear_accessory_detector_missing_no_geometry_substitute",
+  "classification": "FACIAL_EAR_R_SEMANTIC_ROUTE_DEPENDENCY_MISSING",
+  "target_class": "ear_r",
+  "semantic_boundary": "Accessory presence cannot be inferred from anatomical ear geometry alone.",
+  "rejected_before_implementation": {
+    "candidate_id": "ear_r_boundary_exclusive_v1",
+    "reason": "A boundary ring would create accessory pixels even when no jewelry is present, while an empty ear_r seed cannot be repaired by morphology.",
+    "duplicate_of_ear_multiscale_union": false
+  },
+  "local_inventory": {
+    "ComfyUI/models/detection": "placeholder_only",
+    "ComfyUI/models/background_removal": "placeholder_only",
+    "ComfyUI/models/clip_vision": "placeholder_only",
+    "ComfyUI/models/geometry_estimation": "placeholder_only",
+    "huggingface_cache/facebook/sam2-hiera-tiny": "present_promptable_segmentation_not_semantic_accessory_detection",
+    "ComfyUI/custom_nodes/comfyui_controlnet_aux": "present_no_earring_semantic_detector"
+  },
+  "prior_evidence": {
+    "ear_multiscale_rejection": "Plan/Instructions/QA/Evidence/Mask_Factory/Facial_Gold_Standards/FACIAL_GOLD_EAR_MULTISCALE_CONTROLLED_REJECTION_20260710T185000-0500.json",
+    "controlled_ear_r_baseline_iou": 0.0,
+    "controlled_ear_r_multiscale_iou": 0.0017766497461928934,
+    "controlled_false_negative_ratio": 0.9982204143892208
+  },
+  "future_eligible_route": "A genuinely semantic accessory detector/parser may produce an originals-only detection or mask; SAM2 may then refine a nonempty semantic prompt.",
+  "claim_boundary": {
+    "candidate_mask_created": false,
+    "gold_exposed_to_route": false,
+    "mask_promoted": false,
+    "wave70_hard_gate_rerun": false,
+    "wave71_activated": false,
+    "ec2_started": false
+  }
+}
