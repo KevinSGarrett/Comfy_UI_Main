@@ -1,0 +1,114 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-LOCAL-BASE-OPENPOSE-OWNERSHIP-VALIDATOR",
+  "timestamp": "2026-07-11T09:16:02-05:00",
+  "lane_scope": {
+    "base_lane_id": "sdxl_realvisxl_base_lane",
+    "openpose_lane_id": "sdxl_realvisxl_controlnet_openpose_lane"
+  },
+  "input_records": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/W66_BASE_LANE_FINAL_CERTIFICATION_BLOCKER_AFTER_ROBUSTNESS_20260711T035500-0500.json",
+      "sha256": "9dfa90c45ba0fed4460dc2198fbf5ee7993b937a8d695cce4bb46bb49f2b6ca5",
+      "size_bytes": 1979
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/W70_BASE_REMEDIATION_OPENPOSE_CONTACT_PAIR_DONE_20260711T074300-0500.json",
+      "sha256": "57cf76c36288d2d7d2c2e732fc5a2b18c862b3d0ae202b33a5037aa602771665",
+      "size_bytes": 1875
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_BASE_REMEDIATION_OPENPOSE_CONTACT_PAIR_QA_20260711T073700-0500.json",
+      "sha256": "991516a54f971ecf2db1af11437c6c366f3422725bd0017104f5c6b21eafd1c8",
+      "size_bytes": 11173
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+      "sha256": "f7be923597f6a262d43b71783ae3f89ca89c7bca18b313b611ecede2596350d7",
+      "size_bytes": 84185
+    },
+    {
+      "path": "Workflows/base_generation/ACTIVE_LANES.json",
+      "sha256": "aafdc44f880a9f21810e5d86f31d3eccaca5c27d555e696a1b40b08baf8f98bc",
+      "size_bytes": 9805
+    }
+  ],
+  "evaluation": {
+    "result": "pass_base_openpose_ownership_boundaries_confirmed_fail_closed",
+    "pass": true,
+    "checks": [
+      {
+        "name": "base_lane_blocked_and_not_certified",
+        "pass": true,
+        "detail": "W66 blocker remains canonical for Base lane and final decision is blocked."
+      },
+      {
+        "name": "openpose_owns_remediation_with_two_seed_pass_and_noncertification",
+        "pass": true,
+        "detail": "W70 remediation remains OpenPose-owned, remediates Base, passes 2-seed technical/visual QA, and keeps both lane certifications false."
+      },
+      {
+        "name": "base_queue_status_and_promotion_rule_keep_cross_lane_ownership_separate",
+        "pass": true,
+        "detail": "Base queue status/gate/rule keep OpenPose remediation evidence separate from Base certification."
+      },
+      {
+        "name": "active_lane_status_and_next_gate_match_queue",
+        "pass": true,
+        "detail": "ACTIVE_LANES status/next_gate align with runtime queue for Base and OpenPose."
+      },
+      {
+        "name": "materially_different_route_resolved_only_in_openpose",
+        "pass": true,
+        "detail": "Materially different composition-control route is available in OpenPose and does not clear Base canonical failure."
+      },
+      {
+        "name": "base_owned_blockers_still_present",
+        "pass": true,
+        "detail": "Base-owned target-runtime proof, route-adoption decision, and final review remain blockers."
+      },
+      {
+        "name": "zero_generation_aws_masks_wave_gates_jira_confirmed",
+        "pass": true,
+        "detail": "Output explicitly records zero validator generation/AWS/mask/Wave/Jira actions and no source gate promotion."
+      }
+    ],
+    "ownership_classification": {
+      "materially_different_route_resolved_only_in_openpose": true,
+      "base_scope_matched_target_runtime_proof_blocker": true,
+      "base_route_adoption_decision_blocker": true,
+      "base_final_review_blocker": true,
+      "base_final_certification_allowed": false,
+      "openpose_final_certification_allowed": false,
+      "target_runtime_proof_added": false
+    },
+    "zero_activity": {
+      "validator_generation_executed": false,
+      "validator_contacted_aws": false,
+      "validator_ec2_started": false,
+      "validator_masks_promoted": false,
+      "validator_wave70_hard_gate_rerun": false,
+      "validator_wave71_or_higher_activated": false,
+      "validator_jira_mutation_performed": false,
+      "source_target_runtime_proof_added": false,
+      "source_aws_contacted": false,
+      "source_ec2_started": false,
+      "source_mask_promotion_performed": false,
+      "source_wave70_hard_gate_rerun": false,
+      "source_wave71_activated": false,
+      "source_gold_masks_consumed": false,
+      "queue_generation_allowed": false
+    },
+    "boundary_requirements": {
+      "source_local_only": true,
+      "source_gold_masks_not_consumed": true
+    }
+  },
+  "strict_boundaries": {
+    "local_only_validation": true,
+    "does_not_certify_base_lane": true,
+    "does_not_certify_openpose_lane": true,
+    "does_not_enable_target_runtime_proof": true,
+    "zero_generation_aws_masks_wave_gates_jira": true
+  }
+}
