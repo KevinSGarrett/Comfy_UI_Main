@@ -8299,3 +8299,8 @@ Next exact action: checkpoint this exact reviewed set, verify a clean worktree a
 The selected-inpaint deploy bundle, source input, mask input, and RealVisXL checkpoint were published to previously absent exact S3 keys. The model and both inputs were installed on approved instance `i-0560bf8d143f93bb1` with exact remote SHA256 matches; every helper verified final EC2 state `stopped`, and no generation ran. The first static-proof attempt failed closed before EC2 start because the newly written evidence made Git dirty and stored auth/readiness evidence was expired.
 
 Next exact action: checkpoint these publish/install/fail-closed records, refresh `Test-AwsAuthGate.ps1` and `Test-LaneRuntimeReadiness.ps1`, then rerun selected-inpaint static proof from clean synced Git. Do not repeat uploads or installs whose hashes already passed.
+## Immediate Next Action - Selected Inpaint Static Proof Requires Current-Head Bundle - 2026-07-10T20:30:00-05:00
+
+Current AWS auth, lane readiness, clean Git, S3, and EC2 identity gates passed. The selected-inpaint static proof reached SSM but failed closed because deploy bundle `sel_inpaint_clean_1944` records source head `995b89d`, while current synced authority is `693643b`. EC2 returned to `stopped`; object-info was not run and no generation occurred.
+
+Next exact action: checkpoint this failure record, rebuild the selected-inpaint deploy bundle from current clean head, publish the new hash-bound bundle under a new S3 key, then rerun static proof. Do not repeat model or input uploads/installations.

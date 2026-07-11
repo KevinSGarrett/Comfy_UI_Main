@@ -1,0 +1,88 @@
+﻿{
+    "evidence_id":  "EC2-LANE-STATIC-PROOF-20260710T202013-0500",
+    "timestamp":  "2026-07-10T20:28:37-05:00",
+    "start_time":  "2026-07-10T20:20:16-05:00",
+    "instance_id":  "i-0560bf8d143f93bb1",
+    "region":  "us-east-1",
+    "lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+    "max_ec2_runtime_minutes":  25,
+    "ssm_execution_timeout_seconds":  1500,
+    "git_lfs_pull_skipped":  true,
+    "deploy_bundle_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/sel_inpaint_clean_1944/sel_inpaint_clean_1944.zip",
+    "deploy_bundle_sha256":  "5634b1bf07060982351c5537dd1c667f4748220ce9f82c0171298dc59a8469f7",
+    "auth_gate":  {
+                      "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_AWS_AUTH_GATE_SELECTED_INPAINT_20260710T203000-0500.json",
+                      "found":  true,
+                      "expected_account":  "029530099913",
+                      "account_match":  false,
+                      "ec2_work_allowed":  true,
+                      "safe_to_start_ec2":  true,
+                      "generation_allowed":  true,
+                      "result":  "pass",
+                      "status":  "pass",
+                      "failure_category":  "",
+                      "remote_login_status":  "not_attempted"
+                  },
+    "readiness_gate":  {
+                           "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LANE_RUNTIME_READINESS_SELECTED_INPAINT_20260710T203100-0500.json",
+                           "found":  true,
+                           "local_pre_ec2_ready":  true,
+                           "ready_for_ec2_static_proof":  true,
+                           "ready_for_generation":  false,
+                           "lane_id":  "sdxl_realvisxl_inpaint_detail_lane",
+                           "lane_match":  true,
+                           "result":  "ready_for_ec2_static_proof",
+                           "failure_category":  "ec2_static_proof_object_info_incomplete",
+                           "status":  "static_proof_ready"
+                       },
+    "execute_gates_pass":  true,
+    "blocked_reasons":  [
+
+                        ],
+    "result":  "ec2_static_proof_failed",
+    "failure_category":  "remote_static_proof_error",
+    "local_git_checkpoint_gate":  {
+                                      "git_root":  "C:/Comfy_UI_Main",
+                                      "head":  "693643b0c004df5ccaa91ae3f5da7cdee09b9f56",
+                                      "origin_main":  "693643b0c004df5ccaa91ae3f5da7cdee09b9f56",
+                                      "expected_remote_head":  "693643b0c004df5ccaa91ae3f5da7cdee09b9f56",
+                                      "local_matches_origin":  true,
+                                      "clean":  true,
+                                      "porcelain_count":  0,
+                                      "remote":  "origin\thttps://github.com/KevinSGarrett/Comfy_UI_Main.git (fetch)",
+                                      "result":  "pass",
+                                      "error":  null
+                                  },
+    "start_state":  "stopped",
+    "ec2_started":  true,
+    "ssm_available":  true,
+    "command_id":  "cdac7c56-992f-4a7a-b7cd-1290032108b5",
+    "command_status":  "Success",
+    "stdout":  [
+                   "{\"errors\": [\"deploy bundle source head 995b89dc1cf96a940830c1c88e8d97885366c85c did not match expected origin/main 693643b0c004df5ccaa91ae3f5da7cdee09b9f56\"], \"lane_id\": \"sdxl_realvisxl_inpaint_detail_lane\", \"model_proofs\": [], \"object_info\": {\"executed\": false, \"status\": \"not_started\"}, \"remote_comfyui\": {\"path\": \"/home/ubuntu/ComfyUI\"}, \"remote_project\": {\"path\": \"/home/ubuntu/Comfy_UI_Main\"}, \"timestamp_utc\": \"2026-07-11T01:23:48.275241+00:00\", \"traceback\": \"Traceback (most recent call last):\\n  File \\\"\u003cstdin\u003e\\\", line 110, in \u003cmodule\u003e\\n  File \\\"\u003cstdin\u003e\\\", line 74, in apply_deploy_bundle_if_configured\\nRuntimeError: deploy bundle source head 995b89dc1cf96a940830c1c88e8d97885366c85c did not match expected origin/main 693643b0c004df5ccaa91ae3f5da7cdee09b9f56\\n\"}",
+                   ""
+               ],
+    "stderr":  "",
+    "final_state":  "stopped",
+    "generation_executed":  false,
+    "remote_project":  {
+                           "path":  "/home/ubuntu/Comfy_UI_Main"
+                       },
+    "static_proof_summary":  {
+                                 "remote_payload_parsed":  true,
+                                 "remote_errors":  [
+                                                       "deploy bundle source head 995b89dc1cf96a940830c1c88e8d97885366c85c did not match expected origin/main 693643b0c004df5ccaa91ae3f5da7cdee09b9f56"
+                                                   ],
+                                 "object_info_pass":  false,
+                                 "model_proof_count":  0,
+                                 "model_missing_count":  0,
+                                 "model_hash_missing_count":  0,
+                                 "required_models_present":  false,
+                                 "required_model_hashes_present":  false,
+                                 "pass":  false
+                             },
+    "errors":  [
+                   "Remote proof error: deploy bundle source head 995b89dc1cf96a940830c1c88e8d97885366c85c did not match expected origin/main 693643b0c004df5ccaa91ae3f5da7cdee09b9f56",
+                   "ComfyUI object_info proof did not pass."
+               ]
+}

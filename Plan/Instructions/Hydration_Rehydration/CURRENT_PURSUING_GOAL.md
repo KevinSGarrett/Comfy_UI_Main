@@ -6238,3 +6238,6 @@ Continue the full ComfyUI hyperrealism project from `C:\Comfy_UI_Main`. The fina
 ## Current Pursuing Goal - Selected Inpaint Ready For Auth And Static Reproof - 2026-07-10T20:20:00-05:00
 
 Continue the full ComfyUI hyperrealism project from `C:\Comfy_UI_Main`. Selected-inpaint S3 bundle/model/input publication and EC2 model/input hash installation are complete, with EC2 stopped. Checkpoint current evidence, refresh the expired AWS auth and lane-readiness gates, then run static proof and bounded workflow smoke without repeating completed transfers.
+## Current Pursuing Goal - Rebuild Selected Inpaint Bundle At Current Head - 2026-07-10T20:30:00-05:00
+
+Continue the selected-inpaint target-runtime proof from `C:\Comfy_UI_Main`. All model/input transfer and install proofs remain valid. Rebuild only the deploy bundle because its source-head contract is stale, then rerun static proof from clean synced Git with EC2 bounded and stopped afterward.
