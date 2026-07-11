@@ -1,6 +1,6 @@
 # AI Worker Lane Routing Policy
 
-Updated: 2026-07-09
+Updated: 2026-07-10
 
 This policy defines how Codex Desktop, Cursor CLI, and Claude Code subscription work together for Comfy_UI_Main.
 
@@ -17,6 +17,15 @@ C:\Comfy_UI_Main\runtime_artifacts\agent_handoffs\ai_worker_rollout\CODEX_DESKTO
 ```
 
 The bookmarked Codex Desktop weekly usage is `78%` with a weekly reset on `2026-07-15`. Worker delegation should be evaluated against the explicit target of reducing Codex Desktop usage by at least 50%.
+
+Use these deterministic tools for comparable measurements:
+
+```text
+C:\Comfy_UI_Main\tools\New-CodexDesktopUsageSnapshot.ps1
+C:\Comfy_UI_Main\tools\Measure-AIWorkerCodexUsageReduction.ps1
+```
+
+The monitor must prefer measured weekly quota burn-rate reduction over an unaudited estimate whenever a finalized second snapshot exists. A snapshot must record the displayed percentage and whether it means `UsedPercent` or `RemainingPercent`; never infer the UI semantics.
 
 ## Shared Project Boundaries
 
@@ -52,6 +61,14 @@ If yes, route the work out:
 Codex should then review the compact result, make final decisions, apply any final patches, and validate. Codex should not live-tail worker output or redo the worker task unless the worker handoff is incomplete or unsafe.
 
 Worker delegation does not replace progress. A worker handoff counts only when it returns compact evidence that advances a concrete ComfyUI runtime/orchestration/QA task or materially reduces Codex active reasoning.
+
+Before a broad worker scan, create a bounded scope packet when authoritative files are already known:
+
+```text
+C:\Comfy_UI_Main\tools\New-AIWorkerScopePacket.ps1
+```
+
+The normal path is deterministic shortlist first, then narrow worker review. A worker-side whole-tree task-selection scan is allowed only when current hydration, work-order, queue, or manifest authority cannot produce a bounded candidate list; record that reason in the work order.
 
 ## Lane 1: Codex Desktop Final Authority
 
@@ -109,7 +126,7 @@ The wrapper must verify:
 - `apiProvider: firstParty`
 - no `ANTHROPIC_API_KEY`, `ANTHROPIC_AUTH_TOKEN`, or `ANTHROPIC_BASE_URL` environment fallback
 
-Default model is `sonnet`. Use `--Effort medium` for routine synthesis, `--Effort high` for difficult review, and `--Effort xhigh` or `--Effort max` only for unusually heavy work.
+Default heavy-review model is `claude-sonnet-5`. Use `--Effort medium` for routine difficult synthesis, `--Effort high` for broad review, and `--Effort xhigh` or `--Effort max` only for unusually heavy work. Health probes may use the cheaper `sonnet` alias with low effort.
 
 ## Lane 4: Git/GitHub Worker Analysis
 
@@ -175,13 +192,30 @@ Use these thresholds as hard routing triggers:
 - More than 3 minutes of active Codex reasoning expected: use Cursor or Claude.
 - Helper/script first draft in a narrow local scope: Cursor first unless final authority blocks delegation.
 - Strategy/contradiction review, broad synthesis, or architecture/routing critique: `CLAUDE_HEAVY_REVIEW_REQUIRED` unless it includes final authority.
-- More than 5 changed files in Git status: `GIT_GITHUB_WORKER_ANALYSIS_REQUIRED`.
+- More than 5 unclassified changed files, more than one ownership group, or any uncertain checkpoint boundary: `GIT_GITHUB_WORKER_ANALYSIS_REQUIRED`.
 - More than one Git/GitHub failure source: `GIT_GITHUB_WORKER_ANALYSIS_REQUIRED`.
 - CI/log review beyond a tiny bounded read: `GIT_GITHUB_WORKER_ANALYSIS_REQUIRED`.
 - Unclear checkpoint boundary, PR review inventory, branch/upstream divergence analysis, or GitHub Actions diagnosis likely to take more than 3 minutes: `GIT_GITHUB_WORKER_ANALYSIS_REQUIRED`.
 - Failed or incomplete worker output: retry once with a narrower work order before Codex absorbs the task.
 
 Codex may bypass these triggers only when the task is explicitly in final authority scope, and the bypass reason must be recorded.
+
+## Deterministic Scope And Known-Git Fast Paths
+
+For worker selection, use `New-AIWorkerScopePacket.ps1` with no more than 12 explicit candidate files. Prefer current hydration, the active work order, queue rows, and existing manifest links as shortlist sources. Do not ask a worker to rediscover the entire repository when those authorities already identify the candidate surface.
+
+For Git, a checkpoint may stay on the deterministic fast path even when more than five files changed only when all conditions hold:
+
+- every changed path was produced by the current implementation unit;
+- the include list was declared before mutation;
+- no unrelated or user-owned dirty path is present;
+- branch/upstream state is already known;
+- existing local scripts perform status, diff-check, blocked-path, and secret checks;
+- Codex records `KNOWN_SCOPE_GIT_FAST_PATH` and keeps mutation authority.
+
+If any condition is false, use `GIT_GITHUB_WORKER_ANALYSIS_REQUIRED`. File count alone must not create worker ceremony for an already deterministic checkpoint, but file count plus uncertainty requires delegation.
+
+While a worker runs, do not issue repeated progress narration or poll partial output. Start one bounded handoff, wait for its finalized record, and emit at most one timeout/retry update unless the user asks for status.
 
 ## Fallback Rules
 
@@ -249,6 +283,8 @@ Usage reduction confidence should be reported as:
 - `MEDIUM`: 40-60% estimated reduction with some worker success and limited fallback.
 - `HIGH`: 60%+ estimated reduction with successful worker-first behavior and no major violations.
 - `PROVEN`: multiple consecutive audit windows show 50%+ estimated reduction and worker outputs are used in practice.
+
+When finalized baseline and current usage snapshots exist, replace the estimated percentage with the result from `Measure-AIWorkerCodexUsageReduction.ps1`. `HIGH` requires at least 24 post-baseline hours, a measurable quota delta, 50% or greater burn-rate reduction, and no major worker-authority violation. `PROVEN` additionally requires two consecutive measured windows meeting the target.
 
 ## Output Contract
 

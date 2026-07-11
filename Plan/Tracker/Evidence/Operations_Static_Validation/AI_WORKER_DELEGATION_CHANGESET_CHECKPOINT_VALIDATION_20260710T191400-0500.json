@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-07-10T19:14:00-05:00",
+  "classification": "AI_WORKER_DELEGATION_CHANGESET_VALIDATED_FOR_CHECKPOINT",
+  "scope": {
+    "policy_files": 4,
+    "context_and_skill_files": 4,
+    "implementation_scripts": 3,
+    "regression_scripts": 2,
+    "unrelated_runtime_artifacts_included": false
+  },
+  "validation": {
+    "powershell_files_parsed": 5,
+    "powershell_parse_failures": 0,
+    "project_manifest_json_parsed": true,
+    "scope_packet_regression": {
+      "status": "PASS",
+      "checks": 4,
+      "failures": 0
+    },
+    "usage_reduction_regression": {
+      "status": "PASS",
+      "checks": 4,
+      "failures": 0
+    },
+    "usage_snapshot_disposable_test": {
+      "status": "PASS",
+      "remaining_percent_normalized_to_consumed_percent": true,
+      "temporary_output_removed": true
+    },
+    "cross_file_references_present": true,
+    "secret_or_env_content_detected": false,
+    "git_or_aws_mutation_in_worker_scripts": false
+  },
+  "worker_reviews": {
+    "cursor": {
+      "handoff": "runtime_artifacts/agent_handoffs/cursor/20260710T190319-0500_ai_worker_remaining_change_set_mechanical_checkpoint_review/handoff_record.json",
+      "wrapper_status": "PASS",
+      "content_result": "blocked_on_wsl_git_lfs_status_noise",
+      "usable_findings": "Scoped files were coherent and cross-file references existed; Windows-native Git and parser results remained authoritative."
+    },
+    "claude": {
+      "handoff": "runtime_artifacts/agent_handoffs/claude_subscription/20260710T191016-0500_ai_worker_policy_contradiction_review_narrow/handoff_record.json",
+      "wrapper_status": "FAIL",
+      "classification": "CLAUDE_SUBSCRIPTION_INCOMPLETE_OUTPUT_CONTRACT",
+      "usable_content": "No policy contradiction or blocking issue found; wrapper failure was the missing files-inspected label.",
+      "counted_as_completed_handoff": false
+    }
+  },
+  "authority_boundaries": {
+    "codex_retains_git_github_mutation": true,
+    "codex_retains_aws_ec2_s3_mutation": true,
+    "codex_retains_jira_mutation": true,
+    "codex_retains_mask_promotion_and_wave_gates": true,
+    "codex_retains_items_tracker_mutation": true,
+    "workers_are_read_only_for_these_authority_actions": true
+  },
+  "decision": {
+    "checkpoint_allowed": true,
+    "known_blocking_issues": [],
+    "next_action": "Create the exact scoped checkpoint, confirm local HEAD matches origin/main and the worktree is clean, then return to selected-inpaint target-runtime launch-gate evaluation."
+  }
+}

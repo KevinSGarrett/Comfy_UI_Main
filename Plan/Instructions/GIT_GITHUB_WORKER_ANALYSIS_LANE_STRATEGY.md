@@ -1,6 +1,6 @@
 # Git/GitHub Worker Analysis Lane Strategy
 
-Updated: 2026-07-09
+Updated: 2026-07-10
 
 This strategy defines how Codex Desktop, Cursor CLI, and Claude Code subscription should split Git and GitHub work without giving worker lanes mutation authority.
 
@@ -40,7 +40,7 @@ This is a worker-analysis gate, not a worker-authority gate.
 
 Codex must use this lane before spending a long turn on Git/GitHub analysis when any of these are true:
 
-- More than 5 changed files are present.
+- More than 5 changed files are present and their ownership or checkpoint grouping is not already deterministic.
 - More than one Git/GitHub failure source is involved.
 - The branch, origin, upstream, or PR state is unclear.
 - GitHub Actions or CI logs require more than a tiny bounded read.
@@ -49,6 +49,20 @@ Codex must use this lane before spending a long turn on Git/GitHub analysis when
 - The dirty worktree contains generated evidence, runtime artifacts, hydration files, tracker files, or policy files mixed together.
 - Large-file, Git LFS, artifact, or binary inclusion risk is present.
 - A commit, push, PR, merge, rebase, checkout, reset, or restore is being considered and Codex would need more than 3 minutes of active analysis before deciding.
+
+## Known-Scope Deterministic Fast Path
+
+Do not create a worker handoff only to restate a checkpoint boundary that is already exact. Codex may use `KNOWN_SCOPE_GIT_FAST_PATH` when the current implementation unit declared its include list, every changed path belongs to that unit, no unrelated dirty files exist, branch/upstream state is known, and repository scripts perform the mechanical safety checks.
+
+This fast path covers deterministic status, scoped diff-stat, diff-check, blocked-path, staged-secret, and local/origin verification around Codex-owned mutation. It does not cover uncertain grouping, pre-existing dirty state, Git LFS or binary risk, branch divergence, CI failures, PR review, or GitHub diagnosis. Those remain worker-analysis tasks.
+
+When analysis is required, create a bounded input packet with:
+
+```text
+C:\Comfy_UI_Main\tools\New-AIWorkerScopePacket.ps1
+```
+
+Supply exact candidate paths or captured read-only evidence. Do not ask Cursor or Claude to perform broad repository discovery when deterministic Git evidence is already available.
 
 ## Cursor Responsibilities
 

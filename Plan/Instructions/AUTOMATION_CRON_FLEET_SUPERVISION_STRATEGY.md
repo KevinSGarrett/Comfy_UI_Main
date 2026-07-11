@@ -1,6 +1,6 @@
 # Automation Cron Fleet Supervision Strategy
 
-Updated: 2026-07-09
+Updated: 2026-07-10
 
 This protocol defines the Comfy_UI_Main scheduled automation fleet posture while the main Codex session advances the ComfyUI project autonomously.
 
@@ -54,6 +54,15 @@ Hydration, proof-log, tracker, manifest, index, Git, or audit updates do not cou
 The Cursor and Claude subscription lanes exist to reduce Codex Desktop usage so the autonomous ComfyUI build can run longer without exhausting weekly limits.
 
 Expected reduction target: at least 50% less active Codex Desktop time for broad local scanning, repetitive evidence extraction, first-pass helper/script drafting, long contradiction review, and high-effort synthesis.
+
+Usage-reduction scoring must use the deterministic snapshot and burn-rate tools when a current finalized snapshot exists:
+
+```text
+C:\Comfy_UI_Main\tools\New-CodexDesktopUsageSnapshot.ps1
+C:\Comfy_UI_Main\tools\Measure-AIWorkerCodexUsageReduction.ps1
+```
+
+Without a second comparable snapshot, the monitor may report only a proxy estimate and must cap confidence at `MEDIUM`.
 
 Cron jobs should reinforce this division:
 - Use Cursor-first for broad mechanical local reads, inventories, parser/validator triage, file/path/hash summaries, and first-pass drafts.
@@ -112,7 +121,7 @@ Hard thresholds:
 - More than one validator/parser triage pass: Cursor first.
 - More than 3 minutes active Codex reasoning: Cursor or Claude.
 - Strategy/contradiction review: Claude Sonnet unless final authority applies.
-- More than 5 changed files, more than one Git/GitHub failure source, long CI logs, unclear checkpoint boundaries, branch/upstream divergence analysis, or PR/review triage over 3 minutes: Git/GitHub worker analysis first.
+- More than 5 unclassified changed files, more than one ownership group or Git/GitHub failure source, long CI logs, unclear checkpoint boundaries, branch/upstream divergence analysis, or PR/review triage over 3 minutes: Git/GitHub worker analysis first.
 - Failed worker output: retry once with a narrower work order before Codex absorbs the task.
 
 Each cron audit that touches worker-eligible work should record the selected gate, the worker handoff path if used, and any fallback reason.
@@ -155,6 +164,8 @@ Monitor Scoring fields for worker-aware audits:
 - `estimated_codex_work_avoided_minutes`
 - `estimated_usage_reduction_percent`
 - `usage_reduction_confidence`
+
+The combined worker monitor is the sole recurring Cursor/Claude/GitHub delegation-health authority. A separate Claude-only monitor is redundant once the combined monitor verifies subscription auth, the Claude adoption floor, and substantive Claude handoffs. Keep ordinary monitor runs small-model, low-effort, and bounded; use a heavyweight model only for an explicitly requested deep effectiveness review.
 
 ## Role Ownership
 
