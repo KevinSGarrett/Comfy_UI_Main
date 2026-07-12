@@ -1,3 +1,9 @@
+## Immediate Next Action - Wave64 Strict QA Master Protocol Certified - 2026-07-12T04:25:00-05:00
+
+Start from `Plan/Instructions/QA/Evidence/Wave64/qa_master_protocol.json`. `TRK-W64-035` / `ITEM-W64-035` is complete: the fail-closed conformance evaluator and current QA/done helpers pass 50/50 isolated Windows cases, the canonical hash-bound packet exits `0` with every gate true and zero failures/blockers, and final current-hash review reports zero unresolved HIGH/MEDIUM findings.
+
+Continue with one bounded duplicate check of `TRK-W64-036` / `ITEM-W64-036` against its existing workflow static-validation evidence before any rerun. The row already reports `Evidence_Passed_Scoped_NonRuntime`; preserve it unless an exact source, evidence, or downstream-gate mismatch is found. Do not start EC2, contact AWS while authentication is expired, consume candidate masks as truth, rerun Wave70 hard gates, activate Wave71+, recreate legacy/cloud work, or switch to Jira bookkeeping.
+
 ## Immediate Next Action - Wave64 Whole-Artifact Regression Offline Green, Production Proof Blocked - 2026-07-12T02:56:16-05:00
 
 Start from `Plan/Instructions/QA/Evidence/Wave64/localized_change_whole_artifact_regression.json`. `TRK-W64-034` / `ITEM-W64-034` now has a canonical-root aggregation-only evaluator for exact before/after media, complete visual/audio partition coverage, target and unrelated findings, Row032/Row033/Wave33 lineage, runtime/retest evidence, independent review, and derived retry escalation. The final Windows suite passes 58/58 tests with no skips; the canonical empty-authority probe exits `2` with an explicit blocker; current-hash Claude closure reports zero unresolved HIGH/MEDIUM findings.

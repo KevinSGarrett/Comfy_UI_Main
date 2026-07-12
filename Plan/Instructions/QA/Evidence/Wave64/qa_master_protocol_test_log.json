@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-STRICT-QA-MASTER-PROTOCOL-TEST-LOG-20260712T042500-0500",
+  "timestamp": "2026-07-12T04:25:00-05:00",
+  "tracker_id": "TRK-W64-035",
+  "item_id": "ITEM-W64-035",
+  "command": "powershell.exe -NoProfile -File Plan/Instructions/QA/Scripts/test_strict_autonomous_qa_master_protocol_conformance.ps1",
+  "result": "pass",
+  "exit_code": 0,
+  "cases_run": 50,
+  "cases_passed": 50,
+  "cases_failed": 0,
+  "wall_elapsed_seconds": 42.069,
+  "transcript": "runtime_artifacts/wave64_strict_qa_master_protocol/20260712T042310-0500/windows_strict_conformance_harness.txt",
+  "transcript_sha256": "86fa1e50ef552c42361718c0f1696d2e2ea15e06a5811fa48ca27e06dd369901",
+  "canonical_request": "runtime_artifacts/wave64_strict_qa_master_protocol/20260712T042310-0500/canonical_pass/request.json",
+  "canonical_request_sha256": "252ac035504dcecad4cb83a000b3e766c9f399fb9cd4c16803e666cf29f67055",
+  "canonical_report": "runtime_artifacts/wave64_strict_qa_master_protocol/20260712T042310-0500/canonical_pass/report.json",
+  "canonical_report_sha256": "2d70681378a3dadaf1e42b4476ba8ac52b9076cf00189eedae21052ae2864842",
+  "canonical_final_decision": "pass",
+  "canonical_failure_count": 0,
+  "canonical_blocker_count": 0,
+  "positive_contracts_covered": [
+    "complete hash-bound record bundle reaches pass with every gate true",
+    "strict JSON done helper output is accepted and independently recomputed",
+    "image QA helper output matches the strict QA schema",
+    "genuine fourth-attempt new-direction evidence is allowed only when manifest verified"
+  ],
+  "negative_contracts_covered": [
+    "missing, malformed, unknown-key, wrong-type, wrong-identity, and path-escape inputs fail closed",
+    "missing, size-mismatched, or sha-mismatched file bindings fail closed",
+    "unbound logs and unmanifested test evidence fail closed",
+    "suppressed, quality, and test failures cannot authorize pass",
+    "incomplete, mismatched, or self-asserted done certification cannot authorize pass",
+    "missing, gapped, inconsistent, overflowed, or repeated retry history cannot bypass escalation",
+    "pending lifecycle or QA states remain blocked",
+    "output collision and request path escape use operational exit 1"
+  ],
+  "covered_artifacts": [
+    {
+      "path": "Plan/Instructions/QA/Scripts/Test-StrictAutonomousQAMasterProtocolConformance.ps1",
+      "sha256": "a75c5c834e9c153b0cd87be0c868163fa12c8b6c05046cea3f29895b933d868b"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_strict_autonomous_qa_master_protocol_conformance.ps1",
+      "sha256": "12de7c54518ec2db189381401b198dd3edb0966574046b4aa898cab1904ca02e"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/New-DoneCertification.ps1",
+      "sha256": "77e1d03981e6d2d0327f7c5a24ca6b063d22b5507a9fea07960932207d7aadbd"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/New-ImageArtifactQARecord.ps1",
+      "sha256": "73cc14bccc6fd6786c265df5287a3a9a4288d45fa9ae544bbacc0b6fd4d7cd47"
+    },
+    {
+      "path": "Plan/Instructions/Templates/TASK_DONE_CERTIFICATION_TEMPLATE.md",
+      "sha256": "4c56122661be04b45d98910dca61cdd82433caa030804d4a98748b0f7d23e0ec"
+    }
+  ],
+  "remaining_high_findings": 0,
+  "remaining_medium_findings": 0
+}

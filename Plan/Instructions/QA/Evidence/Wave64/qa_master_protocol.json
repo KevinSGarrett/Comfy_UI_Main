@@ -1,0 +1,153 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-STRICT-QA-MASTER-PROTOCOL-20260712T042500-0500",
+  "timestamp": "2026-07-12T04:25:00-05:00",
+  "tracker_id": "TRK-W64-035",
+  "item_id": "ITEM-W64-035",
+  "artifact_id": "ART-W64-035-STRICT-QA-MASTER-PROTOCOL",
+  "source_citation": "Plan/Instructions/QA/STRICT_AUTONOMOUS_QA_MASTER_PROTOCOL.md",
+  "implementation": {
+    "fail_closed_conformance_evaluator": true,
+    "exact_request_and_record_keys": true,
+    "sha256_and_byte_bound_files": true,
+    "canonical_root_containment": true,
+    "cross_record_identity_linkage": true,
+    "verified_test_logs_and_evidence": true,
+    "verified_evidence_manifest": true,
+    "explicit_blocker_policy": true,
+    "persisted_attempt_history": true,
+    "bounded_retry_attempt_numbers": true,
+    "verified_new_direction_evidence": true,
+    "independently_derived_completion_gates": true,
+    "helper_compatible_done_certification": true,
+    "helper_compatible_image_qa_record": true,
+    "operational_exit_contract": true
+  },
+  "implementation_artifacts": [
+    {
+      "path": "Plan/Instructions/QA/Scripts/Test-StrictAutonomousQAMasterProtocolConformance.ps1",
+      "sha256": "a75c5c834e9c153b0cd87be0c868163fa12c8b6c05046cea3f29895b933d868b",
+      "bytes": 64752
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_strict_autonomous_qa_master_protocol_conformance.ps1",
+      "sha256": "12de7c54518ec2db189381401b198dd3edb0966574046b4aa898cab1904ca02e",
+      "bytes": 44815
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/New-DoneCertification.ps1",
+      "sha256": "77e1d03981e6d2d0327f7c5a24ca6b063d22b5507a9fea07960932207d7aadbd",
+      "bytes": 4330
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/New-ImageArtifactQARecord.ps1",
+      "sha256": "73cc14bccc6fd6786c265df5287a3a9a4288d45fa9ae544bbacc0b6fd4d7cd47",
+      "bytes": 9784
+    },
+    {
+      "path": "Plan/Instructions/Templates/TASK_DONE_CERTIFICATION_TEMPLATE.md",
+      "sha256": "4c56122661be04b45d98910dca61cdd82433caa030804d4a98748b0f7d23e0ec",
+      "bytes": 931
+    }
+  ],
+  "authority_bindings": [
+    {
+      "path": "Plan/Instructions/QA/STRICT_AUTONOMOUS_QA_MASTER_PROTOCOL.md",
+      "sha256": "93b09c92b7b3794d57f2a9f295db56c8660060ff273e9449b848d5149420f31b"
+    },
+    {
+      "path": "Plan/Instructions/QA/FAILURE_CLASSIFICATION_AND_RETEST_PROTOCOL.md",
+      "sha256": "7560134a21905d09c72404527843d366f87feb03731dd124cdb55a6bd9e1699f"
+    },
+    {
+      "path": "Plan/Instructions/QA/DONE_CERTIFICATION_EVIDENCE_PROTOCOL.md",
+      "sha256": "9944d2973861c2f4af7d954cf77abbcad9e90c53f5f860aea7453358889a4b7c"
+    }
+  ],
+  "offline_validation": {
+    "test_log": "Plan/Instructions/QA/Evidence/Wave64/qa_master_protocol_test_log.json",
+    "native_windows_cases_run": 50,
+    "native_windows_cases_passed": 50,
+    "native_windows_cases_failed": 0,
+    "exit_code": 0,
+    "wall_elapsed_seconds": 42.069,
+    "powershell_syntax_files_checked": 4,
+    "powershell_syntax_errors": 0,
+    "technical_offline_pass": true
+  },
+  "canonical_pass": {
+    "request_path": "runtime_artifacts/wave64_strict_qa_master_protocol/20260712T042310-0500/canonical_pass/request.json",
+    "request_sha256": "252ac035504dcecad4cb83a000b3e766c9f399fb9cd4c16803e666cf29f67055",
+    "report_path": "runtime_artifacts/wave64_strict_qa_master_protocol/20260712T042310-0500/canonical_pass/report.json",
+    "report_sha256": "2d70681378a3dadaf1e42b4476ba8ac52b9076cf00189eedae21052ae2864842",
+    "done_certification_path": "runtime_artifacts/wave64_strict_qa_master_protocol/20260712T042310-0500/canonical_pass/done_certification.json",
+    "done_certification_sha256": "5f8655947413944227ebe5b739f1d0784064e5f0aea52c1afa11087dc6153505",
+    "exit_code": 0,
+    "final_decision": "pass",
+    "production_eligibility": true,
+    "certification_eligibility": true,
+    "all_gates_passed": true,
+    "failure_count": 0,
+    "blocker_count": 0
+  },
+  "acceptance_gates": {
+    "strict_protocol_read": true,
+    "qa_record_required": true,
+    "evidence_path_required": true,
+    "blocker_policy_required": true,
+    "test_run_required": true,
+    "failure_retest_discipline": true,
+    "tracker_item_linkage": true,
+    "done_certification_gate": true,
+    "row_complete": true
+  },
+  "review": {
+    "cursor_gap_analysis": {
+      "path": "runtime_artifacts/agent_handoffs/cursor/20260712T031318-0500_wave64_row035_qa_master_protocol_gap_analysis/handoff_record.json",
+      "sha256": "1c96fa6b496266e3e9c181fe16e7311c348acf4dba2ebb816c381f247b9aa5d7",
+      "classification": "CURSOR_HANDOFF_COMPLETED"
+    },
+    "cursor_initial_implementation": {
+      "path": "runtime_artifacts/agent_handoffs/cursor/20260712T031548-0500_wave64_row035_qa_master_protocol_implementation/handoff_record.json",
+      "sha256": "5321198b5feb163c8d4c640698f33fe4eeaebb23ae667741ed9ada40edc061ba",
+      "worker_runtime_validation_available": false,
+      "codex_native_validation_completed": true
+    },
+    "claude_initial_adversarial_review": {
+      "path": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T033223-0500_wave64_row035_current_hash_adversarial_review/handoff_record.json",
+      "sha256": "03a3a61bc71d1e286069f578575011e67cfab16f2b39d2489775c9dbdc3b5207",
+      "high_findings": 6,
+      "medium_findings": 3,
+      "low_findings": 2
+    },
+    "claude_full_scope_current_hash_review": {
+      "path": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T041011-0500_wave64_row035_final_current_hash_closure/handoff_record.json",
+      "sha256": "0e80c9b84fc7676f0cd7576b8910f56f0f45f68fe59b18f3fbd54f6f62b938dd"
+    },
+    "claude_final_retry_boundary_closure": {
+      "path": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T041858-0500_wave64_row035_retry_boundary_final_closure/handoff_record.json",
+      "sha256": "ce7baa5acda25c49378c26fe62d5a6e5aeaf6e853ca08f501f83d6ce1092a2ae",
+      "remaining_high_findings": 0,
+      "remaining_medium_findings": 0
+    }
+  },
+  "environment_authority": {
+    "authoritative_root": "C:\\Comfy_UI_Main",
+    "legacy_c_comfy_ui_used_as_authority": false,
+    "ec2_or_s3_used_as_planning_authority": false,
+    "duplicate_completed_work_recreated": false
+  },
+  "runtime_boundaries": {
+    "comfyui_started": false,
+    "generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "mask_promotion_executed": false,
+    "wave70_hard_gate_executed": false,
+    "wave71_activated": false
+  },
+  "blockers": [],
+  "result": "passed_strict_qa_master_protocol_conformance",
+  "overall_pass": true,
+  "status_decision": "Completed_Strict_QA_Master_Protocol_Conformance_Pass"
+}

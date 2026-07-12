@@ -1,3 +1,10 @@
+## 2026-07-12T04:25:00-05:00 - Strict QA completion is independently derived
+
+- A done record may claim completion gates, but the Row035 evaluator independently recomputes every gate from hash-bound implementation scope, passing test/QA evidence, tracker/item state, manifest membership, retry history, and exact record bindings.
+- Fourth-or-later retries require a genuinely new hash-verified manifest artifact; normalized repeats, unverified prose, empty evidence, history gaps, and oversized attempt numbers fail closed or remain blocked.
+- Current done-certification and image-QA helpers are aligned with the strict schema and exercised by the 50-case Windows harness.
+- Advance to Row036 only after duplicate-checking its existing evidence; do not rerun already-passed workflow validation without an exact changed input or unresolved gap.
+
 ## 2026-07-11T07:43:00-05:00 - Reuse the canonical OpenPose lane for Base contact remediation
 
 - Do not create a duplicate Base-plus-OpenPose workflow when the canonical OpenPose lane already exposes all required profile patch points.

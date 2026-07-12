@@ -210,6 +210,17 @@ if (![string]::IsNullOrWhiteSpace($ChecklistOutFile)) {
   $evidencePaths += (Get-DisplayPath -Path $ChecklistOutFile)
 }
 
+$severityFindings = [ordered]@{ s0 = 0; s1 = 0; s2 = 0; s3 = 0; s4 = 0 }
+foreach ($defect in @($defects)) {
+  switch ([string]$defect.severity) {
+    'critical' { $severityFindings.s0++ }
+    'major' { $severityFindings.s1++ }
+    'minor' { $severityFindings.s2++ }
+    default { $severityFindings.s3++ }
+  }
+}
+$inspectionStatus = if ($DryRun) { 'not_started' } else { 'partial' }
+
 $record = [ordered]@{
   artifact_id = $ArtifactId
   artifact_type = "image"
@@ -224,6 +235,9 @@ $record = [ordered]@{
   known_issues = @($knownIssues)
   next_action = $nextAction
   timestamp = $timestamp
+  review_modalities = @('technical_integrity')
+  severity_findings = $severityFindings
+  inspection_status = $inspectionStatus
   evidence_id = $evidenceId
   workflow_reference = $WorkflowReference
   prompt_reference = $PromptReference
