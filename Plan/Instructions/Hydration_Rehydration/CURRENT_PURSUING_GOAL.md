@@ -1,3 +1,11 @@
+## Wave64 Row027 Voice Dialogue Request Producer - 2026-07-12T16:54:35-05:00
+
+`TRK-W64-027` / `ITEM-W64-027` remains `Blocked_Voice_Dialogue_Production_Proof_Missing`. A fail-closed producer now validates voice-profile and dialogue-contract ownership, binds each declared line to one unique PCM WAV, discovers optional proof files, emits null for missing proofs, and atomically publishes the existing evaluator request contract. Producer and evaluator pass 39/39 tests. A two-line synthetic probe passes profile, timing, and PCM metrics while ASR, speaker, emotion, playback, runtime, authority, and overall gates remain blocked. No voice generation, proof approval, AWS, EC2, mask, Jira, or Wave71+ action occurred.
+
+Next safe local action in strict sequence: `TRK-W64-028` / `ITEM-W64-028`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/audio_voice_dialogue.json`; `Plan/Instructions/QA/Evidence/Wave64/audio_voice_dialogue_test_log.json`; `Plan/Items/Reports/ITEM-W64-027_audio_voice_dialogue.json`.
+
 ## Wave64 Row026 Audio Event Route Bridge - 2026-07-12T16:39:16-05:00
 
 `TRK-W64-026` / `ITEM-W64-026` remains `Blocked_Audio_Engine_Authority_Not_Approved`. The validated Wave30 event manifest now expands into deterministic per-event Wave06 requests, invokes the existing strict router unchanged, hash-binds every request and decision, and emits an aggregate fail-closed route plan. The bridge and router pass 20/20 tests. A three-event synthetic probe mapped ambience, body foley, and dialogue correctly and selected zero engines because current authority is unapproved and capability, license, asset, runtime, and QA proofs are missing. No authority approval, engine installation, runtime generation, AWS, EC2, mask, Jira, or Wave71+ action occurred.
