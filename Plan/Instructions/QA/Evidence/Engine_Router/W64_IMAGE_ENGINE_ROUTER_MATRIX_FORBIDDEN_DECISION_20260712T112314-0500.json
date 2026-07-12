@@ -1,0 +1,2157 @@
+{
+  "evidence_id": "W64_IMAGE_ENGINE_ROUTER_MATRIX_FORBIDDEN_DECISION_20260712T112314-0500",
+  "created_at": "2026-07-12T11:23:16-05:00",
+  "artifact_id": "TRK-W64-009",
+  "artifact_type": "wave64_image_engine_router_decision",
+  "request": {
+    "pass_type": "base_hyperreal_photoreal_image",
+    "output_type": "image",
+    "requested_engine_family": "sdxl",
+    "preferred_lane_id": "sdxl_realvisxl_base_lane",
+    "preferred_model_name": "RealVisXL",
+    "requires_lora_family": "sdxl_unproven",
+    "loras": [
+      {
+        "name": "example_unproven_sdxl_lora.safetensors",
+        "family": "sdxl_unproven"
+      }
+    ],
+    "promotion_required": true,
+    "scene_requirements": {
+      "detail_level": "high",
+      "compatibility_priority": "matrix_policy_must_override_broad_family_normalization"
+    }
+  },
+  "selected_engine": null,
+  "selected_family": null,
+  "selected_lane_id": null,
+  "selected_model": null,
+  "reason": "No compatible active image base-generation lane passed the local router gate; the request was blocked instead of silently falling back.",
+  "blocked": [
+    "checkpoint_requirement_present",
+    "lora_families_match_engine_family",
+    "matrix_checkpoint_family_allowed",
+    "matrix_lora_families_allowed",
+    "model_compatibility_matrix_rule_present",
+    "model_compatibility_status_runtime_validated",
+    "model_compatible_engine_includes_lane_family",
+    "model_qa_status_pass",
+    "model_registry_checkpoint_match",
+    "model_registry_evidence_paths_exist",
+    "model_runtime_validation_status_complete",
+    "object_info_status_passed",
+    "queue_status_runtime_smoke_proven",
+    "requested_engine_family_matches_lane",
+    "required_model_hash_status_verified",
+    "required_model_path_status_verified",
+    "required_model_sha_matches_registry",
+    "requirements_status_runtime_smoke_qa_complete"
+  ],
+  "required_proof": [
+    "model_compatibility_matrix",
+    "object_info_check",
+    "registry_hash_match",
+    "runtime_queue_status",
+    "router_decision_evidence"
+  ],
+  "proof_sources": {
+    "Workflows/base_generation/ACTIVE_LANES.json": "e564a2a654b40add3202b9aead9d78317670592eea1fbf0e68a5a0a16f7bc05b",
+    "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json": "f6720781658e747ab8da5aa5bb6eb59989415cf2691b9d2204cf53a4ab027385",
+    "Plan/Registries/Models/model_registry.jsonl": "60ce5bd6d86d6416474b5c66d8a023fb8e5e632f03072ab4ea05620736382b2f",
+    "Plan/10_REGISTRIES/wave15_model_family_compatibility_matrix.json": "3aec72c56039cc1d1a2b94548afa5393a2c1f9f7e36bff19b052dd3a971f1ce7"
+  },
+  "candidate_results": [
+    {
+      "lane_id": "sdxl_realvisxl_base_lane",
+      "score": 180,
+      "engine_family": "sdxl",
+      "runtime_requirements_path": "Workflows/base_generation/sdxl_realvisxl_base_lane/runtime_requirements.json",
+      "queue_status": "runtime_smoke_proven_canonical_two_character_seed_robustness_failed_local_openpose_composition_remediation_pair_passed_final_certification_blocked",
+      "current_status": "runtime_smoke_qa_complete_local_single_hand_contact_closeup_pass_with_notes_pending_final_certification",
+      "selected_model": {
+        "record_id": "MODEL-REALVISXL-V50-BAKEDVAE-CHECKPOINT-001",
+        "model_name": "RealVisXL V5.0",
+        "file_name": "realvisxlV50_v50Bakedvae.safetensors",
+        "base_model": "sdxl",
+        "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+        "workflow_lane": "sdxl_realvisxl_base_lane",
+        "compatibility_status": "runtime_validated",
+        "runtime_validation_status": "runtime_smoke_complete",
+        "qa_status": "pass_with_notes_for_runtime_smoke",
+        "evidence_paths": [
+          "Plan/Instructions/QA/Evidence/Model_Registry/W63_EC2_REALVISXL_MODEL_INSTALL_20260706T125425-0500.json",
+          "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_EC2_LANE_STATIC_PROOF_REALVISXL_AFTER_INSTALL_20260706T131129-0500.json",
+          "Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_LANE_RUNTIME_READINESS_REALVISXL_AFTER_STATIC_PROOF_20260706T132103-0500.json",
+          "Plan/Instructions/QA/Evidence/Workflow_Runtime/W63_EC2_WORKFLOW_SMOKE_REALVISXL_AFTER_STATIC_PROOF_20260706T132206-0500.json",
+          "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T132206-0500/PULLBACK_RECORD.json",
+          "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_IMAGE_QA_TECHNICAL_REALVISXL_20260706T140027-0500.json",
+          "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_REALVISXL_IMAGE_QA_VISUAL_20260706T140120-0500.json",
+          "Plan/Instructions/QA/Evidence/Model_Registry/W66_LOCAL_REALVISXL_MODEL_DOWNLOAD_20260706T204500-0500.json",
+          "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_COMFYUI_PYTHON_ENV_EXECUTE_20260706T203510-0500.json",
+          "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_COMFYUI_DEV_PREFLIGHT_FULL_READY_20260706T204500-0500.json",
+          "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_COMFYUI_OBJECT_INFO_SMOKE_20260706T204800-0500.json"
+        ]
+      },
+      "checks": [
+        {
+          "name": "active_lane_present",
+          "result": "pass",
+          "observed": "sdxl_realvisxl_base_lane",
+          "expected": "non-empty lane_id"
+        },
+        {
+          "name": "runtime_requirements_present",
+          "result": "pass",
+          "observed": "Workflows/base_generation/sdxl_realvisxl_base_lane/runtime_requirements.json",
+          "expected": "existing runtime_requirements.json"
+        },
+        {
+          "name": "queue_lane_present",
+          "result": "pass",
+          "observed": "sdxl_realvisxl_base_lane",
+          "expected": "lane listed in runtime_lane_queue.json"
+        },
+        {
+          "name": "queue_status_runtime_smoke_proven",
+          "result": "fail",
+          "observed": "runtime_smoke_proven_canonical_two_character_seed_robustness_failed_local_openpose_composition_remediation_pair_passed_final_certification_blocked",
+          "expected": [
+            "runtime_smoke_complete",
+            "runtime_smoke_proven",
+            "runtime_smoke_proven*",
+            "runtime_smoke_complete*"
+          ]
+        },
+        {
+          "name": "requirements_status_runtime_smoke_qa_complete",
+          "result": "fail",
+          "observed": "runtime_smoke_qa_complete_local_single_hand_contact_closeup_pass_with_notes_pending_final_certification",
+          "expected": [
+            "runtime_smoke_qa_complete",
+            "runtime_smoke_qa_complete*"
+          ]
+        },
+        {
+          "name": "requested_engine_family_matches_lane",
+          "result": "pass",
+          "observed": "sdxl",
+          "expected": "sdxl"
+        },
+        {
+          "name": "lora_families_match_engine_family",
+          "result": "pass",
+          "observed": [
+            "sdxl"
+          ],
+          "expected": "sdxl"
+        },
+        {
+          "name": "model_compatibility_matrix_rule_present",
+          "result": "pass",
+          "observed": "sdxl",
+          "expected": "matching family_id"
+        },
+        {
+          "name": "matrix_checkpoint_family_allowed",
+          "result": "pass",
+          "observed": "realvisxl_sdxl",
+          "expected": [
+            "realvisxl_sdxl",
+            "sdxl"
+          ]
+        },
+        {
+          "name": "matrix_lora_families_allowed",
+          "result": "fail",
+          "observed": [
+            "sdxl_unproven"
+          ],
+          "expected": [
+            "sdxl"
+          ]
+        },
+        {
+          "name": "checkpoint_requirement_present",
+          "result": "pass",
+          "observed": 1,
+          "expected": 1
+        },
+        {
+          "name": "model_registry_checkpoint_match",
+          "result": "pass",
+          "observed": "realvisxlV50_v50Bakedvae.safetensors",
+          "expected": "registry record for lane and checkpoint"
+        },
+        {
+          "name": "model_compatible_engine_includes_lane_family",
+          "result": "pass",
+          "observed": [
+            "sdxl"
+          ],
+          "expected": "sdxl"
+        },
+        {
+          "name": "model_compatibility_status_runtime_validated",
+          "result": "pass",
+          "observed": "runtime_validated",
+          "expected": "runtime_validated"
+        },
+        {
+          "name": "model_runtime_validation_status_complete",
+          "result": "pass",
+          "observed": "runtime_smoke_complete",
+          "expected": [
+            "runtime_smoke_complete",
+            "runtime_smoke_proven",
+            "runtime_smoke_complete*",
+            "runtime_smoke_proven*"
+          ]
+        },
+        {
+          "name": "model_qa_status_pass",
+          "result": "pass",
+          "observed": "pass_with_notes_for_runtime_smoke",
+          "expected": "pass*"
+        },
+        {
+          "name": "required_model_sha_matches_registry",
+          "result": "pass",
+          "observed": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "expected": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80"
+        },
+        {
+          "name": "model_registry_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        },
+        {
+          "name": "required_model_hash_status_verified",
+          "result": "pass",
+          "observed": [
+            "ec2_static_match_verified"
+          ],
+          "expected": [
+            "ec2_static_match_verified"
+          ]
+        },
+        {
+          "name": "required_model_path_status_verified",
+          "result": "pass",
+          "observed": [
+            "ec2_static_match_verified"
+          ],
+          "expected": [
+            "ec2_static_match_verified"
+          ]
+        },
+        {
+          "name": "object_info_status_passed",
+          "result": "pass",
+          "observed": "ec2_object_info_passed",
+          "expected": [
+            "ec2_object_info_passed"
+          ]
+        },
+        {
+          "name": "runtime_requirement_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        },
+        {
+          "name": "runtime_queue_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        }
+      ],
+      "blockers": [
+        "queue_status_runtime_smoke_proven",
+        "requirements_status_runtime_smoke_qa_complete",
+        "matrix_lora_families_allowed"
+      ],
+      "result": "block"
+    },
+    {
+      "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+      "score": 80,
+      "engine_family": "sdxl",
+      "runtime_requirements_path": "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json",
+      "queue_status": "target_runtime_canny_v4_bounded_portrait_certified_with_notes_plus_local_portrait_and_fullbody_variant_robustness",
+      "current_status": "target_runtime_canny_v4_bounded_portrait_certified_with_notes_plus_local_variant_robustness",
+      "selected_model": {
+        "record_id": "MODEL-REALVISXL-V50-CANNY-LANE-CHECKPOINT-001",
+        "model_name": "RealVisXL V5.0",
+        "file_name": "realvisxlV50_v50Bakedvae.safetensors",
+        "base_model": "sdxl",
+        "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+        "workflow_lane": "sdxl_realvisxl_controlnet_canny_lane",
+        "compatibility_status": "runtime_smoke_validated",
+        "runtime_validation_status": "runtime_smoke_complete",
+        "qa_status": "pass_with_notes_for_runtime_smoke",
+        "evidence_paths": [
+          "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W68_EC2_STATIC_PROOF_CANNY_V4_RUNTIME_PASS_20260707T014700-0500.json",
+          "Plan/Instructions/QA/Evidence/Runtime_Readiness/W68_EC2_INPUT_ASSET_INSTALL_CANNY_CLEANED_V1_20260707T020300-0500.json",
+          "Plan/Instructions/QA/Evidence/Workflow_Runtime/W68_EC2_WORKFLOW_SMOKE_CANNY_V4_AFTER_INPUT_INSTALL_20260707T020800-0500.json",
+          "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260707T021155-0500/PULLBACK_RECORD.json",
+          "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_CANNY_V4_EC2_IMAGE_QA_TECHNICAL_20260707T021700-0500.json",
+          "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W68_CANNY_V4_EC2_IMAGE_QA_VISUAL_20260707T022300-0500.json"
+        ]
+      },
+      "checks": [
+        {
+          "name": "active_lane_present",
+          "result": "pass",
+          "observed": "sdxl_realvisxl_controlnet_canny_lane",
+          "expected": "non-empty lane_id"
+        },
+        {
+          "name": "runtime_requirements_present",
+          "result": "pass",
+          "observed": "Workflows/base_generation/sdxl_realvisxl_controlnet_canny_lane/runtime_requirements.json",
+          "expected": "existing runtime_requirements.json"
+        },
+        {
+          "name": "queue_lane_present",
+          "result": "pass",
+          "observed": "sdxl_realvisxl_controlnet_canny_lane",
+          "expected": "lane listed in runtime_lane_queue.json"
+        },
+        {
+          "name": "queue_status_runtime_smoke_proven",
+          "result": "fail",
+          "observed": "target_runtime_canny_v4_bounded_portrait_certified_with_notes_plus_local_portrait_and_fullbody_variant_robustness",
+          "expected": [
+            "runtime_smoke_complete",
+            "runtime_smoke_proven",
+            "runtime_smoke_proven*",
+            "runtime_smoke_complete*"
+          ]
+        },
+        {
+          "name": "requirements_status_runtime_smoke_qa_complete",
+          "result": "fail",
+          "observed": "target_runtime_canny_v4_bounded_portrait_certified_with_notes_plus_local_variant_robustness",
+          "expected": [
+            "runtime_smoke_qa_complete",
+            "runtime_smoke_qa_complete*"
+          ]
+        },
+        {
+          "name": "requested_engine_family_matches_lane",
+          "result": "pass",
+          "observed": "sdxl",
+          "expected": "sdxl"
+        },
+        {
+          "name": "lora_families_match_engine_family",
+          "result": "pass",
+          "observed": [
+            "sdxl"
+          ],
+          "expected": "sdxl"
+        },
+        {
+          "name": "model_compatibility_matrix_rule_present",
+          "result": "pass",
+          "observed": "sdxl",
+          "expected": "matching family_id"
+        },
+        {
+          "name": "matrix_checkpoint_family_allowed",
+          "result": "pass",
+          "observed": "realvisxl_sdxl",
+          "expected": [
+            "realvisxl_sdxl",
+            "sdxl"
+          ]
+        },
+        {
+          "name": "matrix_lora_families_allowed",
+          "result": "fail",
+          "observed": [
+            "sdxl_unproven"
+          ],
+          "expected": [
+            "sdxl"
+          ]
+        },
+        {
+          "name": "checkpoint_requirement_present",
+          "result": "pass",
+          "observed": 1,
+          "expected": 1
+        },
+        {
+          "name": "model_registry_checkpoint_match",
+          "result": "pass",
+          "observed": "realvisxlV50_v50Bakedvae.safetensors",
+          "expected": "registry record for lane and checkpoint"
+        },
+        {
+          "name": "model_compatible_engine_includes_lane_family",
+          "result": "pass",
+          "observed": [
+            "sdxl"
+          ],
+          "expected": "sdxl"
+        },
+        {
+          "name": "model_compatibility_status_runtime_validated",
+          "result": "fail",
+          "observed": "runtime_smoke_validated",
+          "expected": "runtime_validated"
+        },
+        {
+          "name": "model_runtime_validation_status_complete",
+          "result": "pass",
+          "observed": "runtime_smoke_complete",
+          "expected": [
+            "runtime_smoke_complete",
+            "runtime_smoke_proven",
+            "runtime_smoke_complete*",
+            "runtime_smoke_proven*"
+          ]
+        },
+        {
+          "name": "model_qa_status_pass",
+          "result": "pass",
+          "observed": "pass_with_notes_for_runtime_smoke",
+          "expected": "pass*"
+        },
+        {
+          "name": "required_model_sha_matches_registry",
+          "result": "pass",
+          "observed": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "expected": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80"
+        },
+        {
+          "name": "model_registry_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        },
+        {
+          "name": "required_model_hash_status_verified",
+          "result": "pass",
+          "observed": [
+            "ec2_static_match_verified",
+            "ec2_static_match_verified"
+          ],
+          "expected": [
+            "ec2_static_match_verified"
+          ]
+        },
+        {
+          "name": "required_model_path_status_verified",
+          "result": "pass",
+          "observed": [
+            "ec2_static_match_verified",
+            "ec2_static_match_verified"
+          ],
+          "expected": [
+            "ec2_static_match_verified"
+          ]
+        },
+        {
+          "name": "object_info_status_passed",
+          "result": "fail",
+          "observed": "local_object_info_passed_model_and_input_visible",
+          "expected": [
+            "ec2_object_info_passed"
+          ]
+        },
+        {
+          "name": "runtime_requirement_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        },
+        {
+          "name": "runtime_queue_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        }
+      ],
+      "blockers": [
+        "queue_status_runtime_smoke_proven",
+        "requirements_status_runtime_smoke_qa_complete",
+        "matrix_lora_families_allowed",
+        "model_compatibility_status_runtime_validated",
+        "object_info_status_passed"
+      ],
+      "result": "block"
+    },
+    {
+      "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+      "score": 80,
+      "engine_family": "sdxl",
+      "runtime_requirements_path": "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/runtime_requirements.json",
+      "queue_status": "target_runtime_inpaint_nomouth_v4_single_sample_smoke_certified_with_notes_full_lane_not_certified",
+      "current_status": "target_runtime_inpaint_nomouth_v4_single_sample_smoke_certified_with_notes_full_lane_not_certified",
+      "selected_model": {
+        "record_id": "MODEL-REALVISXL-V50-INPAINT-DETAIL-CHECKPOINT-001",
+        "model_name": "RealVisXL V5.0",
+        "file_name": "realvisxlV50_v50Bakedvae.safetensors",
+        "base_model": "sdxl",
+        "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+        "workflow_lane": "sdxl_realvisxl_inpaint_detail_lane",
+        "compatibility_status": "needs_runtime_validation",
+        "runtime_validation_status": "queued",
+        "qa_status": "not_tested",
+        "evidence_paths": [
+          "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_face_mask_v1_20260707T024000-0500/INPAINT_INPUT_ASSET_MANIFEST.json",
+          "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W69_SDXL_REALVISXL_INPAINT_DETAIL_STATIC_VALIDATION_20260707T024200-0500.json"
+        ]
+      },
+      "checks": [
+        {
+          "name": "active_lane_present",
+          "result": "pass",
+          "observed": "sdxl_realvisxl_inpaint_detail_lane",
+          "expected": "non-empty lane_id"
+        },
+        {
+          "name": "runtime_requirements_present",
+          "result": "pass",
+          "observed": "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/runtime_requirements.json",
+          "expected": "existing runtime_requirements.json"
+        },
+        {
+          "name": "queue_lane_present",
+          "result": "pass",
+          "observed": "sdxl_realvisxl_inpaint_detail_lane",
+          "expected": "lane listed in runtime_lane_queue.json"
+        },
+        {
+          "name": "queue_status_runtime_smoke_proven",
+          "result": "fail",
+          "observed": "target_runtime_inpaint_nomouth_v4_single_sample_smoke_certified_with_notes_full_lane_not_certified",
+          "expected": [
+            "runtime_smoke_complete",
+            "runtime_smoke_proven",
+            "runtime_smoke_proven*",
+            "runtime_smoke_complete*"
+          ]
+        },
+        {
+          "name": "requirements_status_runtime_smoke_qa_complete",
+          "result": "fail",
+          "observed": "target_runtime_inpaint_nomouth_v4_single_sample_smoke_certified_with_notes_full_lane_not_certified",
+          "expected": [
+            "runtime_smoke_qa_complete",
+            "runtime_smoke_qa_complete*"
+          ]
+        },
+        {
+          "name": "requested_engine_family_matches_lane",
+          "result": "pass",
+          "observed": "sdxl",
+          "expected": "sdxl"
+        },
+        {
+          "name": "lora_families_match_engine_family",
+          "result": "pass",
+          "observed": [
+            "sdxl"
+          ],
+          "expected": "sdxl"
+        },
+        {
+          "name": "model_compatibility_matrix_rule_present",
+          "result": "pass",
+          "observed": "sdxl",
+          "expected": "matching family_id"
+        },
+        {
+          "name": "matrix_checkpoint_family_allowed",
+          "result": "pass",
+          "observed": "realvisxl_sdxl",
+          "expected": [
+            "realvisxl_sdxl",
+            "sdxl"
+          ]
+        },
+        {
+          "name": "matrix_lora_families_allowed",
+          "result": "fail",
+          "observed": [
+            "sdxl_unproven"
+          ],
+          "expected": [
+            "sdxl"
+          ]
+        },
+        {
+          "name": "checkpoint_requirement_present",
+          "result": "pass",
+          "observed": 1,
+          "expected": 1
+        },
+        {
+          "name": "model_registry_checkpoint_match",
+          "result": "pass",
+          "observed": "realvisxlV50_v50Bakedvae.safetensors",
+          "expected": "registry record for lane and checkpoint"
+        },
+        {
+          "name": "model_compatible_engine_includes_lane_family",
+          "result": "pass",
+          "observed": [
+            "sdxl"
+          ],
+          "expected": "sdxl"
+        },
+        {
+          "name": "model_compatibility_status_runtime_validated",
+          "result": "fail",
+          "observed": "needs_runtime_validation",
+          "expected": "runtime_validated"
+        },
+        {
+          "name": "model_runtime_validation_status_complete",
+          "result": "fail",
+          "observed": "queued",
+          "expected": [
+            "runtime_smoke_complete",
+            "runtime_smoke_proven",
+            "runtime_smoke_complete*",
+            "runtime_smoke_proven*"
+          ]
+        },
+        {
+          "name": "model_qa_status_pass",
+          "result": "fail",
+          "observed": "not_tested",
+          "expected": "pass*"
+        },
+        {
+          "name": "required_model_sha_matches_registry",
+          "result": "pass",
+          "observed": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "expected": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80"
+        },
+        {
+          "name": "model_registry_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        },
+        {
+          "name": "required_model_hash_status_verified",
+          "result": "fail",
+          "observed": [
+            "pending_ec2_static_match"
+          ],
+          "expected": [
+            "ec2_static_match_verified"
+          ]
+        },
+        {
+          "name": "required_model_path_status_verified",
+          "result": "fail",
+          "observed": [
+            "pending_ec2_static_match"
+          ],
+          "expected": [
+            "ec2_static_match_verified"
+          ]
+        },
+        {
+          "name": "object_info_status_passed",
+          "result": "fail",
+          "observed": "local_object_info_model_input_hash_proof_passed_identity_preserving_inpaint_nodes",
+          "expected": [
+            "ec2_object_info_passed"
+          ]
+        },
+        {
+          "name": "runtime_requirement_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        },
+        {
+          "name": "runtime_queue_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        }
+      ],
+      "blockers": [
+        "queue_status_runtime_smoke_proven",
+        "requirements_status_runtime_smoke_qa_complete",
+        "matrix_lora_families_allowed",
+        "model_compatibility_status_runtime_validated",
+        "model_runtime_validation_status_complete",
+        "model_qa_status_pass",
+        "required_model_hash_status_verified",
+        "required_model_path_status_verified",
+        "object_info_status_passed"
+      ],
+      "result": "block"
+    },
+    {
+      "lane_id": "sdxl_realvisxl_controlnet_depth_lane",
+      "score": 80,
+      "engine_family": "sdxl",
+      "runtime_requirements_path": "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/runtime_requirements.json",
+      "queue_status": "target_runtime_depth_v2_bounded_portrait_certified_with_notes_plus_local_v3_fullbody_multiseed_robustness_pass_with_notes",
+      "current_status": "target_runtime_depth_v2_bounded_portrait_certified_with_notes_plus_local_v3_fullbody_multiseed_robustness_pass_with_notes",
+      "selected_model": {
+        "record_id": "MODEL-REALVISXL-V50-DEPTH-LANE-CHECKPOINT-001",
+        "model_name": "RealVisXL V5.0",
+        "file_name": "realvisxlV50_v50Bakedvae.safetensors",
+        "base_model": "sdxl",
+        "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+        "workflow_lane": "sdxl_realvisxl_controlnet_depth_lane",
+        "compatibility_status": "runtime_smoke_validated",
+        "runtime_validation_status": "runtime_smoke_complete",
+        "qa_status": "pass_with_notes_for_runtime_smoke",
+        "evidence_paths": [
+          "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_DEPTH_CONTROLNET_V1_VISUAL_QA_20260707T055200-0500.json",
+          "Plan/Instructions/QA/Evidence/Done_Certifications/W66_DEPTH_LANE_FINAL_CERTIFICATION_20260711T000500-0500.json"
+        ]
+      },
+      "checks": [
+        {
+          "name": "active_lane_present",
+          "result": "pass",
+          "observed": "sdxl_realvisxl_controlnet_depth_lane",
+          "expected": "non-empty lane_id"
+        },
+        {
+          "name": "runtime_requirements_present",
+          "result": "pass",
+          "observed": "Workflows/base_generation/sdxl_realvisxl_controlnet_depth_lane/runtime_requirements.json",
+          "expected": "existing runtime_requirements.json"
+        },
+        {
+          "name": "queue_lane_present",
+          "result": "pass",
+          "observed": "sdxl_realvisxl_controlnet_depth_lane",
+          "expected": "lane listed in runtime_lane_queue.json"
+        },
+        {
+          "name": "queue_status_runtime_smoke_proven",
+          "result": "fail",
+          "observed": "target_runtime_depth_v2_bounded_portrait_certified_with_notes_plus_local_v3_fullbody_multiseed_robustness_pass_with_notes",
+          "expected": [
+            "runtime_smoke_complete",
+            "runtime_smoke_proven",
+            "runtime_smoke_proven*",
+            "runtime_smoke_complete*"
+          ]
+        },
+        {
+          "name": "requirements_status_runtime_smoke_qa_complete",
+          "result": "fail",
+          "observed": "target_runtime_depth_v2_bounded_portrait_certified_with_notes_plus_local_v3_fullbody_multiseed_robustness_pass_with_notes",
+          "expected": [
+            "runtime_smoke_qa_complete",
+            "runtime_smoke_qa_complete*"
+          ]
+        },
+        {
+          "name": "requested_engine_family_matches_lane",
+          "result": "pass",
+          "observed": "sdxl",
+          "expected": "sdxl"
+        },
+        {
+          "name": "lora_families_match_engine_family",
+          "result": "pass",
+          "observed": [
+            "sdxl"
+          ],
+          "expected": "sdxl"
+        },
+        {
+          "name": "model_compatibility_matrix_rule_present",
+          "result": "pass",
+          "observed": "sdxl",
+          "expected": "matching family_id"
+        },
+        {
+          "name": "matrix_checkpoint_family_allowed",
+          "result": "pass",
+          "observed": "realvisxl_sdxl",
+          "expected": [
+            "realvisxl_sdxl",
+            "sdxl"
+          ]
+        },
+        {
+          "name": "matrix_lora_families_allowed",
+          "result": "fail",
+          "observed": [
+            "sdxl_unproven"
+          ],
+          "expected": [
+            "sdxl"
+          ]
+        },
+        {
+          "name": "checkpoint_requirement_present",
+          "result": "pass",
+          "observed": 1,
+          "expected": 1
+        },
+        {
+          "name": "model_registry_checkpoint_match",
+          "result": "pass",
+          "observed": "realvisxlV50_v50Bakedvae.safetensors",
+          "expected": "registry record for lane and checkpoint"
+        },
+        {
+          "name": "model_compatible_engine_includes_lane_family",
+          "result": "pass",
+          "observed": [
+            "sdxl"
+          ],
+          "expected": "sdxl"
+        },
+        {
+          "name": "model_compatibility_status_runtime_validated",
+          "result": "fail",
+          "observed": "runtime_smoke_validated",
+          "expected": "runtime_validated"
+        },
+        {
+          "name": "model_runtime_validation_status_complete",
+          "result": "pass",
+          "observed": "runtime_smoke_complete",
+          "expected": [
+            "runtime_smoke_complete",
+            "runtime_smoke_proven",
+            "runtime_smoke_complete*",
+            "runtime_smoke_proven*"
+          ]
+        },
+        {
+          "name": "model_qa_status_pass",
+          "result": "pass",
+          "observed": "pass_with_notes_for_runtime_smoke",
+          "expected": "pass*"
+        },
+        {
+          "name": "required_model_sha_matches_registry",
+          "result": "pass",
+          "observed": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "expected": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80"
+        },
+        {
+          "name": "model_registry_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        },
+        {
+          "name": "required_model_hash_status_verified",
+          "result": "fail",
+          "observed": [
+            "verified_ec2_static_match",
+            "verified_ec2_static_match"
+          ],
+          "expected": [
+            "ec2_static_match_verified"
+          ]
+        },
+        {
+          "name": "required_model_path_status_verified",
+          "result": "fail",
+          "observed": [
+            "verified_ec2_static_match",
+            "verified_ec2_static_match"
+          ],
+          "expected": [
+            "ec2_static_match_verified"
+          ]
+        },
+        {
+          "name": "object_info_status_passed",
+          "result": "fail",
+          "observed": null,
+          "expected": [
+            "ec2_object_info_passed"
+          ]
+        },
+        {
+          "name": "runtime_requirement_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        },
+        {
+          "name": "runtime_queue_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        }
+      ],
+      "blockers": [
+        "queue_status_runtime_smoke_proven",
+        "requirements_status_runtime_smoke_qa_complete",
+        "matrix_lora_families_allowed",
+        "model_compatibility_status_runtime_validated",
+        "required_model_hash_status_verified",
+        "required_model_path_status_verified",
+        "object_info_status_passed"
+      ],
+      "result": "block"
+    },
+    {
+      "lane_id": "sdxl_realvisxl_controlnet_lineart_lane",
+      "score": 80,
+      "engine_family": "sdxl",
+      "runtime_requirements_path": "Workflows/base_generation/sdxl_realvisxl_controlnet_lineart_lane/runtime_requirements.json",
+      "queue_status": "portrait_target_runtime_scope_bounded_complete_with_notes_plus_local_fullbody_multiseed_robustness_pass_with_notes",
+      "current_status": "target_runtime_lineart_v4_bounded_portrait_certified_with_notes",
+      "selected_model": {
+        "record_id": "MODEL-REALVISXL-V50-LINEART-LANE-CHECKPOINT-001",
+        "model_name": "RealVisXL V5.0",
+        "file_name": "realvisxlV50_v50Bakedvae.safetensors",
+        "base_model": "sdxl",
+        "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+        "workflow_lane": "sdxl_realvisxl_controlnet_lineart_lane",
+        "compatibility_status": "runtime_smoke_validated",
+        "runtime_validation_status": "runtime_smoke_complete",
+        "qa_status": "pass_with_notes_for_runtime_smoke",
+        "evidence_paths": [
+          "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_LINEART_CONTROLNET_V2_VISUAL_QA_20260707T061200-0500.json",
+          "Plan/Instructions/QA/Evidence/Done_Certifications/W66_LINEART_LANE_FINAL_CERTIFICATION_20260711T004700-0500.json"
+        ]
+      },
+      "checks": [
+        {
+          "name": "active_lane_present",
+          "result": "pass",
+          "observed": "sdxl_realvisxl_controlnet_lineart_lane",
+          "expected": "non-empty lane_id"
+        },
+        {
+          "name": "runtime_requirements_present",
+          "result": "pass",
+          "observed": "Workflows/base_generation/sdxl_realvisxl_controlnet_lineart_lane/runtime_requirements.json",
+          "expected": "existing runtime_requirements.json"
+        },
+        {
+          "name": "queue_lane_present",
+          "result": "pass",
+          "observed": "sdxl_realvisxl_controlnet_lineart_lane",
+          "expected": "lane listed in runtime_lane_queue.json"
+        },
+        {
+          "name": "queue_status_runtime_smoke_proven",
+          "result": "fail",
+          "observed": "portrait_target_runtime_scope_bounded_complete_with_notes_plus_local_fullbody_multiseed_robustness_pass_with_notes",
+          "expected": [
+            "runtime_smoke_complete",
+            "runtime_smoke_proven",
+            "runtime_smoke_proven*",
+            "runtime_smoke_complete*"
+          ]
+        },
+        {
+          "name": "requirements_status_runtime_smoke_qa_complete",
+          "result": "fail",
+          "observed": "target_runtime_lineart_v4_bounded_portrait_certified_with_notes",
+          "expected": [
+            "runtime_smoke_qa_complete",
+            "runtime_smoke_qa_complete*"
+          ]
+        },
+        {
+          "name": "requested_engine_family_matches_lane",
+          "result": "pass",
+          "observed": "sdxl",
+          "expected": "sdxl"
+        },
+        {
+          "name": "lora_families_match_engine_family",
+          "result": "pass",
+          "observed": [
+            "sdxl"
+          ],
+          "expected": "sdxl"
+        },
+        {
+          "name": "model_compatibility_matrix_rule_present",
+          "result": "pass",
+          "observed": "sdxl",
+          "expected": "matching family_id"
+        },
+        {
+          "name": "matrix_checkpoint_family_allowed",
+          "result": "pass",
+          "observed": "realvisxl_sdxl",
+          "expected": [
+            "realvisxl_sdxl",
+            "sdxl"
+          ]
+        },
+        {
+          "name": "matrix_lora_families_allowed",
+          "result": "fail",
+          "observed": [
+            "sdxl_unproven"
+          ],
+          "expected": [
+            "sdxl"
+          ]
+        },
+        {
+          "name": "checkpoint_requirement_present",
+          "result": "pass",
+          "observed": 1,
+          "expected": 1
+        },
+        {
+          "name": "model_registry_checkpoint_match",
+          "result": "pass",
+          "observed": "realvisxlV50_v50Bakedvae.safetensors",
+          "expected": "registry record for lane and checkpoint"
+        },
+        {
+          "name": "model_compatible_engine_includes_lane_family",
+          "result": "pass",
+          "observed": [
+            "sdxl"
+          ],
+          "expected": "sdxl"
+        },
+        {
+          "name": "model_compatibility_status_runtime_validated",
+          "result": "fail",
+          "observed": "runtime_smoke_validated",
+          "expected": "runtime_validated"
+        },
+        {
+          "name": "model_runtime_validation_status_complete",
+          "result": "pass",
+          "observed": "runtime_smoke_complete",
+          "expected": [
+            "runtime_smoke_complete",
+            "runtime_smoke_proven",
+            "runtime_smoke_complete*",
+            "runtime_smoke_proven*"
+          ]
+        },
+        {
+          "name": "model_qa_status_pass",
+          "result": "pass",
+          "observed": "pass_with_notes_for_runtime_smoke",
+          "expected": "pass*"
+        },
+        {
+          "name": "required_model_sha_matches_registry",
+          "result": "pass",
+          "observed": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "expected": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80"
+        },
+        {
+          "name": "model_registry_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        },
+        {
+          "name": "required_model_hash_status_verified",
+          "result": "fail",
+          "observed": [
+            "verified_ec2_static_match",
+            "verified_ec2_static_match"
+          ],
+          "expected": [
+            "ec2_static_match_verified"
+          ]
+        },
+        {
+          "name": "required_model_path_status_verified",
+          "result": "fail",
+          "observed": [
+            "verified_ec2_static_match",
+            "verified_ec2_static_match"
+          ],
+          "expected": [
+            "ec2_static_match_verified"
+          ]
+        },
+        {
+          "name": "object_info_status_passed",
+          "result": "fail",
+          "observed": null,
+          "expected": [
+            "ec2_object_info_passed"
+          ]
+        },
+        {
+          "name": "runtime_requirement_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        },
+        {
+          "name": "runtime_queue_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        }
+      ],
+      "blockers": [
+        "queue_status_runtime_smoke_proven",
+        "requirements_status_runtime_smoke_qa_complete",
+        "matrix_lora_families_allowed",
+        "model_compatibility_status_runtime_validated",
+        "required_model_hash_status_verified",
+        "required_model_path_status_verified",
+        "object_info_status_passed"
+      ],
+      "result": "block"
+    },
+    {
+      "lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+      "score": 80,
+      "engine_family": "sdxl",
+      "runtime_requirements_path": "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/runtime_requirements.json",
+      "queue_status": "local_openpose_tablehands_fullbody_walking_and_two_character_contact_remediation_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+      "current_status": "local_openpose_tablehands_and_fullbody_walking_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+      "selected_model": {
+        "record_id": "MODEL-REALVISXL-V50-OPENPOSE-LANE-CHECKPOINT-001",
+        "model_name": "RealVisXL V5.0",
+        "file_name": "realvisxlV50_v50Bakedvae.safetensors",
+        "base_model": "sdxl",
+        "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+        "workflow_lane": "sdxl_realvisxl_controlnet_openpose_lane",
+        "compatibility_status": "local_runtime_smoke_validated_with_notes",
+        "runtime_validation_status": "local_generation_smoke_complete",
+        "qa_status": "pass_with_notes_for_local_openpose_controlnet_smoke",
+        "evidence_paths": [
+          "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_CONTROLNET_V1_VISUAL_QA_20260707T062800-0500.json"
+        ]
+      },
+      "checks": [
+        {
+          "name": "active_lane_present",
+          "result": "pass",
+          "observed": "sdxl_realvisxl_controlnet_openpose_lane",
+          "expected": "non-empty lane_id"
+        },
+        {
+          "name": "runtime_requirements_present",
+          "result": "pass",
+          "observed": "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/runtime_requirements.json",
+          "expected": "existing runtime_requirements.json"
+        },
+        {
+          "name": "queue_lane_present",
+          "result": "pass",
+          "observed": "sdxl_realvisxl_controlnet_openpose_lane",
+          "expected": "lane listed in runtime_lane_queue.json"
+        },
+        {
+          "name": "queue_status_runtime_smoke_proven",
+          "result": "fail",
+          "observed": "local_openpose_tablehands_fullbody_walking_and_two_character_contact_remediation_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+          "expected": [
+            "runtime_smoke_complete",
+            "runtime_smoke_proven",
+            "runtime_smoke_proven*",
+            "runtime_smoke_complete*"
+          ]
+        },
+        {
+          "name": "requirements_status_runtime_smoke_qa_complete",
+          "result": "fail",
+          "observed": "local_openpose_tablehands_and_fullbody_walking_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+          "expected": [
+            "runtime_smoke_qa_complete",
+            "runtime_smoke_qa_complete*"
+          ]
+        },
+        {
+          "name": "requested_engine_family_matches_lane",
+          "result": "pass",
+          "observed": "sdxl",
+          "expected": "sdxl"
+        },
+        {
+          "name": "lora_families_match_engine_family",
+          "result": "pass",
+          "observed": [
+            "sdxl"
+          ],
+          "expected": "sdxl"
+        },
+        {
+          "name": "model_compatibility_matrix_rule_present",
+          "result": "pass",
+          "observed": "sdxl",
+          "expected": "matching family_id"
+        },
+        {
+          "name": "matrix_checkpoint_family_allowed",
+          "result": "pass",
+          "observed": "realvisxl_sdxl",
+          "expected": [
+            "realvisxl_sdxl",
+            "sdxl"
+          ]
+        },
+        {
+          "name": "matrix_lora_families_allowed",
+          "result": "fail",
+          "observed": [
+            "sdxl_unproven"
+          ],
+          "expected": [
+            "sdxl"
+          ]
+        },
+        {
+          "name": "checkpoint_requirement_present",
+          "result": "pass",
+          "observed": 1,
+          "expected": 1
+        },
+        {
+          "name": "model_registry_checkpoint_match",
+          "result": "pass",
+          "observed": "realvisxlV50_v50Bakedvae.safetensors",
+          "expected": "registry record for lane and checkpoint"
+        },
+        {
+          "name": "model_compatible_engine_includes_lane_family",
+          "result": "pass",
+          "observed": [
+            "sdxl"
+          ],
+          "expected": "sdxl"
+        },
+        {
+          "name": "model_compatibility_status_runtime_validated",
+          "result": "fail",
+          "observed": "local_runtime_smoke_validated_with_notes",
+          "expected": "runtime_validated"
+        },
+        {
+          "name": "model_runtime_validation_status_complete",
+          "result": "fail",
+          "observed": "local_generation_smoke_complete",
+          "expected": [
+            "runtime_smoke_complete",
+            "runtime_smoke_proven",
+            "runtime_smoke_complete*",
+            "runtime_smoke_proven*"
+          ]
+        },
+        {
+          "name": "model_qa_status_pass",
+          "result": "pass",
+          "observed": "pass_with_notes_for_local_openpose_controlnet_smoke",
+          "expected": "pass*"
+        },
+        {
+          "name": "required_model_sha_matches_registry",
+          "result": "pass",
+          "observed": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "expected": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80"
+        },
+        {
+          "name": "model_registry_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        },
+        {
+          "name": "required_model_hash_status_verified",
+          "result": "fail",
+          "observed": [
+            "pending_ec2_static_match",
+            "pending_ec2_static_match"
+          ],
+          "expected": [
+            "ec2_static_match_verified"
+          ]
+        },
+        {
+          "name": "required_model_path_status_verified",
+          "result": "fail",
+          "observed": [
+            "pending_ec2_static_match",
+            "pending_ec2_static_match"
+          ],
+          "expected": [
+            "ec2_static_match_verified"
+          ]
+        },
+        {
+          "name": "object_info_status_passed",
+          "result": "fail",
+          "observed": null,
+          "expected": [
+            "ec2_object_info_passed"
+          ]
+        },
+        {
+          "name": "runtime_requirement_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        },
+        {
+          "name": "runtime_queue_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        }
+      ],
+      "blockers": [
+        "queue_status_runtime_smoke_proven",
+        "requirements_status_runtime_smoke_qa_complete",
+        "matrix_lora_families_allowed",
+        "model_compatibility_status_runtime_validated",
+        "model_runtime_validation_status_complete",
+        "required_model_hash_status_verified",
+        "required_model_path_status_verified",
+        "object_info_status_passed"
+      ],
+      "result": "block"
+    },
+    {
+      "lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+      "score": 80,
+      "engine_family": "sdxl",
+      "runtime_requirements_path": "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/runtime_requirements.json",
+      "queue_status": "local_normal_v3_portrait_and_v4_fullbody_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+      "current_status": "local_normal_v3_portrait_and_v4_fullbody_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+      "selected_model": {
+        "record_id": "MODEL-REALVISXL-V50-NORMAL-LANE-CHECKPOINT-001",
+        "model_name": "RealVisXL V5.0",
+        "file_name": "realvisxlV50_v50Bakedvae.safetensors",
+        "base_model": "sdxl",
+        "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+        "workflow_lane": "sdxl_realvisxl_controlnet_normal_lane",
+        "compatibility_status": "local_runtime_smoke_validated_with_notes",
+        "runtime_validation_status": "local_generation_smoke_complete",
+        "qa_status": "pass_with_notes_for_local_normal_controlnet_smoke",
+        "evidence_paths": [
+          "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_NORMAL_CONTROLNET_V1_VISUAL_QA_20260707T064000-0500.json"
+        ]
+      },
+      "checks": [
+        {
+          "name": "active_lane_present",
+          "result": "pass",
+          "observed": "sdxl_realvisxl_controlnet_normal_lane",
+          "expected": "non-empty lane_id"
+        },
+        {
+          "name": "runtime_requirements_present",
+          "result": "pass",
+          "observed": "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/runtime_requirements.json",
+          "expected": "existing runtime_requirements.json"
+        },
+        {
+          "name": "queue_lane_present",
+          "result": "pass",
+          "observed": "sdxl_realvisxl_controlnet_normal_lane",
+          "expected": "lane listed in runtime_lane_queue.json"
+        },
+        {
+          "name": "queue_status_runtime_smoke_proven",
+          "result": "fail",
+          "observed": "local_normal_v3_portrait_and_v4_fullbody_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+          "expected": [
+            "runtime_smoke_complete",
+            "runtime_smoke_proven",
+            "runtime_smoke_proven*",
+            "runtime_smoke_complete*"
+          ]
+        },
+        {
+          "name": "requirements_status_runtime_smoke_qa_complete",
+          "result": "fail",
+          "observed": "local_normal_v3_portrait_and_v4_fullbody_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+          "expected": [
+            "runtime_smoke_qa_complete",
+            "runtime_smoke_qa_complete*"
+          ]
+        },
+        {
+          "name": "requested_engine_family_matches_lane",
+          "result": "pass",
+          "observed": "sdxl",
+          "expected": "sdxl"
+        },
+        {
+          "name": "lora_families_match_engine_family",
+          "result": "pass",
+          "observed": [
+            "sdxl"
+          ],
+          "expected": "sdxl"
+        },
+        {
+          "name": "model_compatibility_matrix_rule_present",
+          "result": "pass",
+          "observed": "sdxl",
+          "expected": "matching family_id"
+        },
+        {
+          "name": "matrix_checkpoint_family_allowed",
+          "result": "pass",
+          "observed": "realvisxl_sdxl",
+          "expected": [
+            "realvisxl_sdxl",
+            "sdxl"
+          ]
+        },
+        {
+          "name": "matrix_lora_families_allowed",
+          "result": "fail",
+          "observed": [
+            "sdxl_unproven"
+          ],
+          "expected": [
+            "sdxl"
+          ]
+        },
+        {
+          "name": "checkpoint_requirement_present",
+          "result": "pass",
+          "observed": 1,
+          "expected": 1
+        },
+        {
+          "name": "model_registry_checkpoint_match",
+          "result": "pass",
+          "observed": "realvisxlV50_v50Bakedvae.safetensors",
+          "expected": "registry record for lane and checkpoint"
+        },
+        {
+          "name": "model_compatible_engine_includes_lane_family",
+          "result": "pass",
+          "observed": [
+            "sdxl"
+          ],
+          "expected": "sdxl"
+        },
+        {
+          "name": "model_compatibility_status_runtime_validated",
+          "result": "fail",
+          "observed": "local_runtime_smoke_validated_with_notes",
+          "expected": "runtime_validated"
+        },
+        {
+          "name": "model_runtime_validation_status_complete",
+          "result": "fail",
+          "observed": "local_generation_smoke_complete",
+          "expected": [
+            "runtime_smoke_complete",
+            "runtime_smoke_proven",
+            "runtime_smoke_complete*",
+            "runtime_smoke_proven*"
+          ]
+        },
+        {
+          "name": "model_qa_status_pass",
+          "result": "pass",
+          "observed": "pass_with_notes_for_local_normal_controlnet_smoke",
+          "expected": "pass*"
+        },
+        {
+          "name": "required_model_sha_matches_registry",
+          "result": "pass",
+          "observed": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+          "expected": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80"
+        },
+        {
+          "name": "model_registry_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        },
+        {
+          "name": "required_model_hash_status_verified",
+          "result": "fail",
+          "observed": [
+            "pending_ec2_static_match",
+            "pending_ec2_static_match"
+          ],
+          "expected": [
+            "ec2_static_match_verified"
+          ]
+        },
+        {
+          "name": "required_model_path_status_verified",
+          "result": "fail",
+          "observed": [
+            "pending_ec2_static_match",
+            "pending_ec2_static_match"
+          ],
+          "expected": [
+            "ec2_static_match_verified"
+          ]
+        },
+        {
+          "name": "object_info_status_passed",
+          "result": "fail",
+          "observed": null,
+          "expected": [
+            "ec2_object_info_passed"
+          ]
+        },
+        {
+          "name": "runtime_requirement_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        },
+        {
+          "name": "runtime_queue_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        }
+      ],
+      "blockers": [
+        "queue_status_runtime_smoke_proven",
+        "requirements_status_runtime_smoke_qa_complete",
+        "matrix_lora_families_allowed",
+        "model_compatibility_status_runtime_validated",
+        "model_runtime_validation_status_complete",
+        "required_model_hash_status_verified",
+        "required_model_path_status_verified",
+        "object_info_status_passed"
+      ],
+      "result": "block"
+    },
+    {
+      "lane_id": "sdxl_low_risk_fallback_lane",
+      "score": 0,
+      "engine_family": "sdxl",
+      "runtime_requirements_path": "Workflows/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
+      "queue_status": "bounded_first_runtime_smoke_final_review_complete_with_notes",
+      "current_status": "bounded_first_runtime_smoke_final_review_complete_with_notes",
+      "selected_model": {
+        "record_id": "MODEL-SDXL-BASE-10-CHECKPOINT-001",
+        "model_name": "Stable Diffusion XL Base 1.0",
+        "file_name": "sd_xl_base_1.0.safetensors",
+        "base_model": "sdxl",
+        "sha256": "31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b",
+        "workflow_lane": "sdxl_low_risk_fallback_lane",
+        "compatibility_status": "runtime_validated",
+        "runtime_validation_status": "runtime_smoke_complete",
+        "qa_status": "pass_with_notes_for_runtime_smoke",
+        "evidence_paths": [
+          "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_POST_LOGIN_RETEST_20260706T104311-0500.json",
+          "Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_POST_STATIC_PROOF_RETEST_20260706T110424-0500.json",
+          "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/PULLBACK_RECORD.json",
+          "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_TECHNICAL_20260706T121958-0500.json",
+          "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_VISUAL_20260706T122027-0500.json"
+        ]
+      },
+      "checks": [
+        {
+          "name": "active_lane_present",
+          "result": "pass",
+          "observed": "sdxl_low_risk_fallback_lane",
+          "expected": "non-empty lane_id"
+        },
+        {
+          "name": "runtime_requirements_present",
+          "result": "pass",
+          "observed": "Workflows/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
+          "expected": "existing runtime_requirements.json"
+        },
+        {
+          "name": "queue_lane_present",
+          "result": "pass",
+          "observed": "sdxl_low_risk_fallback_lane",
+          "expected": "lane listed in runtime_lane_queue.json"
+        },
+        {
+          "name": "queue_status_runtime_smoke_proven",
+          "result": "fail",
+          "observed": "bounded_first_runtime_smoke_final_review_complete_with_notes",
+          "expected": [
+            "runtime_smoke_complete",
+            "runtime_smoke_proven",
+            "runtime_smoke_proven*",
+            "runtime_smoke_complete*"
+          ]
+        },
+        {
+          "name": "requirements_status_runtime_smoke_qa_complete",
+          "result": "fail",
+          "observed": "bounded_first_runtime_smoke_final_review_complete_with_notes",
+          "expected": [
+            "runtime_smoke_qa_complete",
+            "runtime_smoke_qa_complete*"
+          ]
+        },
+        {
+          "name": "requested_engine_family_matches_lane",
+          "result": "pass",
+          "observed": "sdxl",
+          "expected": "sdxl"
+        },
+        {
+          "name": "lora_families_match_engine_family",
+          "result": "pass",
+          "observed": [
+            "sdxl"
+          ],
+          "expected": "sdxl"
+        },
+        {
+          "name": "model_compatibility_matrix_rule_present",
+          "result": "pass",
+          "observed": "sdxl",
+          "expected": "matching family_id"
+        },
+        {
+          "name": "matrix_checkpoint_family_allowed",
+          "result": "pass",
+          "observed": "sdxl",
+          "expected": [
+            "realvisxl_sdxl",
+            "sdxl"
+          ]
+        },
+        {
+          "name": "matrix_lora_families_allowed",
+          "result": "fail",
+          "observed": [
+            "sdxl_unproven"
+          ],
+          "expected": [
+            "sdxl"
+          ]
+        },
+        {
+          "name": "checkpoint_requirement_present",
+          "result": "pass",
+          "observed": 1,
+          "expected": 1
+        },
+        {
+          "name": "model_registry_checkpoint_match",
+          "result": "pass",
+          "observed": "sd_xl_base_1.0.safetensors",
+          "expected": "registry record for lane and checkpoint"
+        },
+        {
+          "name": "model_compatible_engine_includes_lane_family",
+          "result": "pass",
+          "observed": [
+            "sdxl"
+          ],
+          "expected": "sdxl"
+        },
+        {
+          "name": "model_compatibility_status_runtime_validated",
+          "result": "pass",
+          "observed": "runtime_validated",
+          "expected": "runtime_validated"
+        },
+        {
+          "name": "model_runtime_validation_status_complete",
+          "result": "pass",
+          "observed": "runtime_smoke_complete",
+          "expected": [
+            "runtime_smoke_complete",
+            "runtime_smoke_proven",
+            "runtime_smoke_complete*",
+            "runtime_smoke_proven*"
+          ]
+        },
+        {
+          "name": "model_qa_status_pass",
+          "result": "pass",
+          "observed": "pass_with_notes_for_runtime_smoke",
+          "expected": "pass*"
+        },
+        {
+          "name": "required_model_sha_matches_registry",
+          "result": "pass",
+          "observed": "31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b",
+          "expected": "31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b"
+        },
+        {
+          "name": "model_registry_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        },
+        {
+          "name": "required_model_hash_status_verified",
+          "result": "pass",
+          "observed": [
+            "ec2_static_match_verified"
+          ],
+          "expected": [
+            "ec2_static_match_verified"
+          ]
+        },
+        {
+          "name": "required_model_path_status_verified",
+          "result": "pass",
+          "observed": [
+            "ec2_static_match_verified"
+          ],
+          "expected": [
+            "ec2_static_match_verified"
+          ]
+        },
+        {
+          "name": "object_info_status_passed",
+          "result": "pass",
+          "observed": "ec2_object_info_passed",
+          "expected": [
+            "ec2_object_info_passed"
+          ]
+        },
+        {
+          "name": "runtime_requirement_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        },
+        {
+          "name": "runtime_queue_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        }
+      ],
+      "blockers": [
+        "queue_status_runtime_smoke_proven",
+        "requirements_status_runtime_smoke_qa_complete",
+        "matrix_lora_families_allowed"
+      ],
+      "result": "block"
+    },
+    {
+      "lane_id": "sdxl_realesrgan_upscale_polish_lane",
+      "score": 0,
+      "engine_family": "upscale",
+      "runtime_requirements_path": "Workflows/base_generation/sdxl_realesrgan_upscale_polish_lane/runtime_requirements.json",
+      "queue_status": "local_realesrgan_source_selection_policy_enforced_one_conditional_two_rejected_pending_target_runtime_and_final_certification",
+      "current_status": "local_realesrgan_source_selection_policy_enforced_one_conditional_two_rejected_pending_target_runtime_and_final_certification",
+      "selected_model": null,
+      "checks": [
+        {
+          "name": "active_lane_present",
+          "result": "pass",
+          "observed": "sdxl_realesrgan_upscale_polish_lane",
+          "expected": "non-empty lane_id"
+        },
+        {
+          "name": "runtime_requirements_present",
+          "result": "pass",
+          "observed": "Workflows/base_generation/sdxl_realesrgan_upscale_polish_lane/runtime_requirements.json",
+          "expected": "existing runtime_requirements.json"
+        },
+        {
+          "name": "queue_lane_present",
+          "result": "pass",
+          "observed": "sdxl_realesrgan_upscale_polish_lane",
+          "expected": "lane listed in runtime_lane_queue.json"
+        },
+        {
+          "name": "queue_status_runtime_smoke_proven",
+          "result": "fail",
+          "observed": "local_realesrgan_source_selection_policy_enforced_one_conditional_two_rejected_pending_target_runtime_and_final_certification",
+          "expected": [
+            "runtime_smoke_complete",
+            "runtime_smoke_proven",
+            "runtime_smoke_proven*",
+            "runtime_smoke_complete*"
+          ]
+        },
+        {
+          "name": "requirements_status_runtime_smoke_qa_complete",
+          "result": "fail",
+          "observed": "local_realesrgan_source_selection_policy_enforced_one_conditional_two_rejected_pending_target_runtime_and_final_certification",
+          "expected": [
+            "runtime_smoke_qa_complete",
+            "runtime_smoke_qa_complete*"
+          ]
+        },
+        {
+          "name": "requested_engine_family_matches_lane",
+          "result": "fail",
+          "observed": "upscale",
+          "expected": "sdxl"
+        },
+        {
+          "name": "lora_families_match_engine_family",
+          "result": "fail",
+          "observed": [
+            "sdxl"
+          ],
+          "expected": "upscale"
+        },
+        {
+          "name": "model_compatibility_matrix_rule_present",
+          "result": "fail",
+          "observed": "upscale",
+          "expected": "matching family_id"
+        },
+        {
+          "name": "matrix_checkpoint_family_allowed",
+          "result": "fail",
+          "observed": "upscale",
+          "expected": []
+        },
+        {
+          "name": "matrix_lora_families_allowed",
+          "result": "fail",
+          "observed": [
+            "sdxl_unproven"
+          ],
+          "expected": []
+        },
+        {
+          "name": "checkpoint_requirement_present",
+          "result": "fail",
+          "observed": 0,
+          "expected": 1
+        },
+        {
+          "name": "model_registry_checkpoint_match",
+          "result": "fail",
+          "observed": null,
+          "expected": "registry record for lane and checkpoint"
+        },
+        {
+          "name": "model_compatible_engine_includes_lane_family",
+          "result": "fail",
+          "observed": null,
+          "expected": "upscale"
+        },
+        {
+          "name": "model_compatibility_status_runtime_validated",
+          "result": "fail",
+          "observed": null,
+          "expected": "runtime_validated"
+        },
+        {
+          "name": "model_runtime_validation_status_complete",
+          "result": "fail",
+          "observed": null,
+          "expected": [
+            "runtime_smoke_complete",
+            "runtime_smoke_proven"
+          ]
+        },
+        {
+          "name": "model_qa_status_pass",
+          "result": "fail",
+          "observed": null,
+          "expected": "pass*"
+        },
+        {
+          "name": "required_model_sha_matches_registry",
+          "result": "fail",
+          "observed": null,
+          "expected": null
+        },
+        {
+          "name": "model_registry_evidence_paths_exist",
+          "result": "fail",
+          "observed": null,
+          "expected": "no missing evidence paths"
+        },
+        {
+          "name": "required_model_hash_status_verified",
+          "result": "fail",
+          "observed": [
+            "local_sha256_verified"
+          ],
+          "expected": [
+            "ec2_static_match_verified"
+          ]
+        },
+        {
+          "name": "required_model_path_status_verified",
+          "result": "fail",
+          "observed": [
+            "local_model_present"
+          ],
+          "expected": [
+            "ec2_static_match_verified"
+          ]
+        },
+        {
+          "name": "object_info_status_passed",
+          "result": "fail",
+          "observed": null,
+          "expected": [
+            "ec2_object_info_passed"
+          ]
+        },
+        {
+          "name": "runtime_requirement_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        },
+        {
+          "name": "runtime_queue_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        }
+      ],
+      "blockers": [
+        "queue_status_runtime_smoke_proven",
+        "requirements_status_runtime_smoke_qa_complete",
+        "requested_engine_family_matches_lane",
+        "lora_families_match_engine_family",
+        "model_compatibility_matrix_rule_present",
+        "matrix_checkpoint_family_allowed",
+        "matrix_lora_families_allowed",
+        "checkpoint_requirement_present",
+        "model_registry_checkpoint_match",
+        "model_compatible_engine_includes_lane_family",
+        "model_compatibility_status_runtime_validated",
+        "model_runtime_validation_status_complete",
+        "model_qa_status_pass",
+        "required_model_sha_matches_registry",
+        "model_registry_evidence_paths_exist",
+        "required_model_hash_status_verified",
+        "required_model_path_status_verified",
+        "object_info_status_passed"
+      ],
+      "result": "block"
+    },
+    {
+      "lane_id": "flux1_dev_primary_base",
+      "score": 0,
+      "engine_family": "flux1",
+      "runtime_requirements_path": "Workflows/base_generation/flux1_dev_primary_base/runtime_requirements.json",
+      "queue_status": "asset_authority_recorded_blocked_local_install_and_runtime_proof",
+      "current_status": "asset_authority_recorded_blocked_local_install_and_runtime_proof",
+      "selected_model": {
+        "record_id": "MODEL-FLUX1-DEV-PRIMARY-BASE-CHECKPOINT-001",
+        "model_name": "FLUX.1-dev fp8",
+        "file_name": "flux1-dev-fp8.safetensors",
+        "base_model": "flux1",
+        "sha256": "8e91b68084b53a7fc44ed2a3756d821e355ac1a7b6fe29be760c1db532f3d88a",
+        "workflow_lane": "flux1_dev_primary_base",
+        "compatibility_status": "needs_runtime_validation",
+        "runtime_validation_status": "queued",
+        "qa_status": "not_tested",
+        "evidence_paths": [
+          "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_FLUX1_DEV_ASSET_AUTHORITY_20260710T222500-0500.json",
+          "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_FLUX1_DEV_LICENSED_INSTALL_DRY_RUN_20260710T224500-0500.json",
+          "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LICENSED_MODEL_INSTALL_REGRESSION_20260710T224500-0500.json"
+        ]
+      },
+      "checks": [
+        {
+          "name": "active_lane_present",
+          "result": "pass",
+          "observed": "flux1_dev_primary_base",
+          "expected": "non-empty lane_id"
+        },
+        {
+          "name": "runtime_requirements_present",
+          "result": "pass",
+          "observed": "Workflows/base_generation/flux1_dev_primary_base/runtime_requirements.json",
+          "expected": "existing runtime_requirements.json"
+        },
+        {
+          "name": "queue_lane_present",
+          "result": "pass",
+          "observed": "flux1_dev_primary_base",
+          "expected": "lane listed in runtime_lane_queue.json"
+        },
+        {
+          "name": "queue_status_runtime_smoke_proven",
+          "result": "fail",
+          "observed": "asset_authority_recorded_blocked_local_install_and_runtime_proof",
+          "expected": [
+            "runtime_smoke_complete",
+            "runtime_smoke_proven",
+            "runtime_smoke_proven*",
+            "runtime_smoke_complete*"
+          ]
+        },
+        {
+          "name": "requirements_status_runtime_smoke_qa_complete",
+          "result": "fail",
+          "observed": "asset_authority_recorded_blocked_local_install_and_runtime_proof",
+          "expected": [
+            "runtime_smoke_qa_complete",
+            "runtime_smoke_qa_complete*"
+          ]
+        },
+        {
+          "name": "requested_engine_family_matches_lane",
+          "result": "fail",
+          "observed": "flux1",
+          "expected": "sdxl"
+        },
+        {
+          "name": "lora_families_match_engine_family",
+          "result": "fail",
+          "observed": [
+            "sdxl"
+          ],
+          "expected": "flux1"
+        },
+        {
+          "name": "model_compatibility_matrix_rule_present",
+          "result": "pass",
+          "observed": "flux1",
+          "expected": "matching family_id"
+        },
+        {
+          "name": "matrix_checkpoint_family_allowed",
+          "result": "pass",
+          "observed": "flux1",
+          "expected": [
+            "flux1"
+          ]
+        },
+        {
+          "name": "matrix_lora_families_allowed",
+          "result": "fail",
+          "observed": [
+            "sdxl_unproven"
+          ],
+          "expected": [
+            "flux1"
+          ]
+        },
+        {
+          "name": "checkpoint_requirement_present",
+          "result": "pass",
+          "observed": 1,
+          "expected": 1
+        },
+        {
+          "name": "model_registry_checkpoint_match",
+          "result": "pass",
+          "observed": "flux1-dev-fp8.safetensors",
+          "expected": "registry record for lane and checkpoint"
+        },
+        {
+          "name": "model_compatible_engine_includes_lane_family",
+          "result": "pass",
+          "observed": [
+            "flux1"
+          ],
+          "expected": "flux1"
+        },
+        {
+          "name": "model_compatibility_status_runtime_validated",
+          "result": "fail",
+          "observed": "needs_runtime_validation",
+          "expected": "runtime_validated"
+        },
+        {
+          "name": "model_runtime_validation_status_complete",
+          "result": "fail",
+          "observed": "queued",
+          "expected": [
+            "runtime_smoke_complete",
+            "runtime_smoke_proven",
+            "runtime_smoke_complete*",
+            "runtime_smoke_proven*"
+          ]
+        },
+        {
+          "name": "model_qa_status_pass",
+          "result": "fail",
+          "observed": "not_tested",
+          "expected": "pass*"
+        },
+        {
+          "name": "required_model_sha_matches_registry",
+          "result": "pass",
+          "observed": "8e91b68084b53a7fc44ed2a3756d821e355ac1a7b6fe29be760c1db532f3d88a",
+          "expected": "8e91b68084b53a7fc44ed2a3756d821e355ac1a7b6fe29be760c1db532f3d88a"
+        },
+        {
+          "name": "model_registry_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        },
+        {
+          "name": "required_model_hash_status_verified",
+          "result": "fail",
+          "observed": [
+            "authoritative_remote_sha256_recorded_local_verification_pending"
+          ],
+          "expected": [
+            "ec2_static_match_verified"
+          ]
+        },
+        {
+          "name": "required_model_path_status_verified",
+          "result": "fail",
+          "observed": [
+            "blocked_model_not_present_locally"
+          ],
+          "expected": [
+            "ec2_static_match_verified"
+          ]
+        },
+        {
+          "name": "object_info_status_passed",
+          "result": "fail",
+          "observed": "node_classes_present_in_saved_local_snapshot_not_lane_runtime_proof",
+          "expected": [
+            "ec2_object_info_passed"
+          ]
+        },
+        {
+          "name": "runtime_requirement_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        },
+        {
+          "name": "runtime_queue_evidence_paths_exist",
+          "result": "pass",
+          "observed": [],
+          "expected": "no missing evidence paths"
+        }
+      ],
+      "blockers": [
+        "queue_status_runtime_smoke_proven",
+        "requirements_status_runtime_smoke_qa_complete",
+        "requested_engine_family_matches_lane",
+        "lora_families_match_engine_family",
+        "matrix_lora_families_allowed",
+        "model_compatibility_status_runtime_validated",
+        "model_runtime_validation_status_complete",
+        "model_qa_status_pass",
+        "required_model_hash_status_verified",
+        "required_model_path_status_verified",
+        "object_info_status_passed"
+      ],
+      "result": "block"
+    }
+  ],
+  "local_only": true,
+  "contacts": {
+    "aws": false,
+    "github_api": false,
+    "civitai": false,
+    "comfyui": false,
+    "ec2": false
+  },
+  "ec2_started": false,
+  "generation_executed": false,
+  "result": "block_local_only",
+  "next_action": "Use the selected lane for compatible local planning, or revise the request/model stack if blocked. Run EC2 only for new runtime proof, not for this local routing gate."
+}

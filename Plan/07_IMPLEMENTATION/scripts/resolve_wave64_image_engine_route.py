@@ -9,6 +9,7 @@ only: it does not contact AWS, GitHub, Civitai, EC2, or ComfyUI.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from datetime import datetime, timezone
 from pathlib import Path
@@ -23,6 +24,17 @@ PASS_OBJECT_INFO_STATUSES = {"ec2_object_info_passed"}
 PASS_LANE_STATUS_PREFIXES = ("runtime_smoke_proven", "runtime_smoke_complete")
 PASS_REQUIREMENT_STATUS_PREFIXES = ("runtime_smoke_qa_complete",)
 PASS_MODEL_RUNTIME_STATUS_PREFIXES = ("runtime_smoke_complete", "runtime_smoke_proven")
+FAIL_CLOSED_STATUS_TOKENS = {
+    "blocked",
+    "fail",
+    "failed",
+    "failure",
+    "incomplete",
+    "missing",
+    "not",
+    "pending",
+    "unproven",
+}
 
 
 def read_json(path: Path) -> Any:
@@ -41,6 +53,14 @@ def read_jsonl(path: Path) -> list[dict[str, Any]]:
             record["_line_number"] = line_number
             records.append(record)
     return records
+
+
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def project_path(root: Path, value: str | None) -> Path | None:
@@ -69,6 +89,10 @@ def normalize_family(value: Any) -> str | None:
         return None
     if "realvis" in text or text.startswith("sdxl") or "stable-diffusion-xl" in text:
         return "sdxl"
+    if "flux2" in text or "flux-2" in text:
+        return "flux2"
+    if "flux1" in text or "flux-1" in text:
+        return "flux1"
     if text.startswith("flux") or "flux" in text:
         return "flux"
     if text.startswith("pony") or "pony" in text:
@@ -80,9 +104,23 @@ def normalize_family(value: Any) -> str | None:
     return text
 
 
+def normalize_matrix_family(value: Any) -> str | None:
+    if value is None:
+        return None
+    text = str(value).strip().lower().replace("-", "_").replace(" ", "_")
+    if not text:
+        return None
+    if text in {"realvisxl", "realvisxl_sdxl", "stable_diffusion_xl"}:
+        return "realvisxl_sdxl"
+    return text
+
+
 def status_matches(value: Any, exact_values: set[str], prefixes: tuple[str, ...] = ()) -> bool:
     text = str(value or "").strip()
     if not text:
+        return False
+    status_tokens = {token for token in text.lower().replace("-", "_").split("_") if token}
+    if status_tokens & FAIL_CLOSED_STATUS_TOKENS:
         return False
     if text in exact_values:
         return True
@@ -110,6 +148,28 @@ def request_lora_families(request: dict[str, Any]) -> list[str]:
         if family:
             families.append(family)
     return sorted(set(families))
+
+
+def request_matrix_lora_families(request: dict[str, Any]) -> list[str]:
+    families: list[str] = []
+    primary = normalize_matrix_family(request.get("requires_lora_family"))
+    if primary:
+        families.append(primary)
+    for lora in request.get("loras", []) or []:
+        if isinstance(lora, dict):
+            family = normalize_matrix_family(lora.get("family") or lora.get("base_model") or lora.get("engine_family"))
+        else:
+            family = normalize_matrix_family(lora)
+        if family:
+            families.append(family)
+    return sorted(set(families))
+
+
+def matrix_rule_for_family(matrix: list[dict[str, Any]], family: str | None) -> dict[str, Any] | None:
+    for rule in matrix:
+        if normalize_family(rule.get("family_id")) == family:
+            return rule
+    return None
 
 
 def evidence_exists(root: Path, paths: list[str]) -> tuple[bool, list[str]]:
@@ -179,6 +239,7 @@ def evaluate_lane(
     active_lane: dict[str, Any],
     queue_lane: dict[str, Any] | None,
     registry: list[dict[str, Any]],
+    compatibility_matrix: list[dict[str, Any]],
 ) -> dict[str, Any]:
     lane_id = str(active_lane.get("lane_id", ""))
     requirement_path = project_path(root, active_lane.get("runtime_requirements"))
@@ -186,6 +247,7 @@ def evaluate_lane(
     engine_family = normalize_family(requirements.get("engine_family"))
     requested_family = request_family(request)
     lora_families = request_lora_families(request)
+    matrix_lora_families = request_matrix_lora_families(request)
     checks: list[dict[str, Any]] = []
     blockers: list[str] = []
 
@@ -218,6 +280,31 @@ def evaluate_lane(
 
     incompatible_loras = [family for family in lora_families if family != engine_family]
     add_check(checks, "lora_families_match_engine_family", len(incompatible_loras) == 0, lora_families, engine_family)
+
+    matrix_rule = matrix_rule_for_family(compatibility_matrix, engine_family)
+    add_check(checks, "model_compatibility_matrix_rule_present", matrix_rule is not None, engine_family, "matching family_id")
+    checkpoint_matrix_family = normalize_matrix_family(requirements.get("checkpoint_family") or engine_family)
+    allowed_checkpoint_families = {
+        normalize_matrix_family(value) for value in (matrix_rule or {}).get("allowed_checkpoint_families", [])
+    }
+    allowed_lora_families = {
+        normalize_matrix_family(value) for value in (matrix_rule or {}).get("allowed_lora_families", [])
+    }
+    add_check(
+        checks,
+        "matrix_checkpoint_family_allowed",
+        matrix_rule is not None and checkpoint_matrix_family in allowed_checkpoint_families,
+        checkpoint_matrix_family,
+        sorted(value for value in allowed_checkpoint_families if value),
+    )
+    matrix_lora_allowed = matrix_rule is not None and all(family in allowed_lora_families for family in matrix_lora_families)
+    add_check(
+        checks,
+        "matrix_lora_families_allowed",
+        matrix_lora_allowed,
+        matrix_lora_families,
+        sorted(value for value in allowed_lora_families if value),
+    )
 
     required_models = requirements.get("required_models", []) or []
     checkpoint_requirements = [model for model in required_models if str(model.get("role", "")).lower() == "checkpoint"]
@@ -300,13 +387,18 @@ def evaluate_lane(
 
 
 def resolve(root: Path, request: dict[str, Any]) -> dict[str, Any]:
-    active = read_json(root / "Workflows" / "base_generation" / "ACTIVE_LANES.json")
-    queue = read_json(root / "Plan" / "07_IMPLEMENTATION" / "workflow_templates" / "base_generation" / "runtime_lane_queue.json")
-    registry = read_jsonl(root / "Plan" / "Registries" / "Models" / "model_registry.jsonl")
+    active_path = root / "Workflows" / "base_generation" / "ACTIVE_LANES.json"
+    queue_path = root / "Plan" / "07_IMPLEMENTATION" / "workflow_templates" / "base_generation" / "runtime_lane_queue.json"
+    registry_path = root / "Plan" / "Registries" / "Models" / "model_registry.jsonl"
+    matrix_path = root / "Plan" / "10_REGISTRIES" / "wave15_model_family_compatibility_matrix.json"
+    active = read_json(active_path)
+    queue = read_json(queue_path)
+    registry = read_jsonl(registry_path)
+    compatibility_matrix = read_json(matrix_path)
 
     queue_by_lane = {str(lane.get("lane_id")): lane for lane in queue.get("lanes", [])}
     candidate_results = [
-        evaluate_lane(root, request, lane, queue_by_lane.get(str(lane.get("lane_id"))), registry)
+        evaluate_lane(root, request, lane, queue_by_lane.get(str(lane.get("lane_id"))), registry, compatibility_matrix)
         for lane in active.get("lanes", [])
     ]
 
@@ -348,6 +440,10 @@ def resolve(root: Path, request: dict[str, Any]) -> dict[str, Any]:
         "reason": reason,
         "blocked": blocked,
         "required_proof": required_proof,
+        "proof_sources": {
+            rel_path(root, path): sha256_file(path)
+            for path in (active_path, queue_path, registry_path, matrix_path)
+        },
         "candidate_results": candidate_results,
         "local_only": True,
         "contacts": {

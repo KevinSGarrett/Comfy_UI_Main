@@ -1,0 +1,238 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "IMAGE_ENGINE_ROUTER_20260712T112713-0500",
+  "created_iso": "2026-07-12T11:27:13-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-009",
+  "item_id": "ITEM-W64-009",
+  "status": "Completed_Local_Router_Contract_Pass_Current_Lanes_Fail_Closed_Target_Runtime_Not_Certified",
+  "row_complete": true,
+  "qa_decision": "local_router_contract_pass_current_lanes_fail_closed_target_runtime_not_certified",
+  "validation_gates": {
+    "model_compatibility_matrix": {
+      "status": "pass_local_fail_closed",
+      "checks": [
+        "IER-002",
+        "IER-004",
+        "IER-005",
+        "IER-016",
+        "IER-017"
+      ]
+    },
+    "object_info_check": {
+      "status": "pass_local_fail_closed",
+      "checks": [
+        "IER-006",
+        "IER-007",
+        "IER-008",
+        "IER-014",
+        "IER-015"
+      ]
+    },
+    "registry_hash_match": {
+      "status": "pass_local_fail_closed",
+      "checks": [
+        "IER-003",
+        "IER-010",
+        "IER-011",
+        "IER-018",
+        "IER-020"
+      ]
+    },
+    "router_decision_evidence": {
+      "status": "pass_local_fail_closed",
+      "checks": [
+        "IER-001",
+        "IER-009",
+        "IER-012",
+        "IER-013",
+        "IER-019"
+      ]
+    }
+  },
+  "current_route_state": {
+    "active_lane_count": 10,
+    "runtime_queue_lane_count": 10,
+    "selected_lane_count": 0,
+    "decision_count": 3,
+    "all_decisions_fail_closed": true
+  },
+  "blockers": [
+    "all current image lanes fail closed for production selection under current certification-qualified statuses",
+    "target-runtime and final lane certification remain outside this local router contract proof",
+    "Flux1 remains blocked on local install, hash, license, and runtime proof"
+  ],
+  "checks": [
+    {
+      "name": "IER-001_row009_contract_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IER-002_source_documents_machine_contract",
+      "result": "pass"
+    },
+    {
+      "name": "IER-003_router_and_validator_present",
+      "result": "pass"
+    },
+    {
+      "name": "IER-004_matrix_has_six_unique_families",
+      "result": "pass"
+    },
+    {
+      "name": "IER-005_rules_and_matrix_parse",
+      "result": "pass"
+    },
+    {
+      "name": "IER-006_active_lane_count_current",
+      "result": "pass"
+    },
+    {
+      "name": "IER-007_runtime_queue_count_current",
+      "result": "pass"
+    },
+    {
+      "name": "IER-008_validator_nineteen_checks_pass",
+      "result": "pass"
+    },
+    {
+      "name": "IER-009_validator_zero_failures",
+      "result": "pass"
+    },
+    {
+      "name": "IER-010_three_decisions_exist",
+      "result": "pass"
+    },
+    {
+      "name": "IER-011_three_decisions_parse",
+      "result": "pass"
+    },
+    {
+      "name": "IER-012_all_current_decisions_fail_closed",
+      "result": "pass"
+    },
+    {
+      "name": "IER-013_no_current_lane_selected",
+      "result": "pass"
+    },
+    {
+      "name": "IER-014_blocked_suffix_rejected",
+      "result": "pass"
+    },
+    {
+      "name": "IER-015_pending_requirement_rejected",
+      "result": "pass"
+    },
+    {
+      "name": "IER-016_realvisxl_checkpoint_matrix_allowed",
+      "result": "pass"
+    },
+    {
+      "name": "IER-017_matrix_forbidden_same_family_rejected",
+      "result": "pass"
+    },
+    {
+      "name": "IER-018_current_proof_hashes_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IER-019_no_external_runtime_or_generation",
+      "result": "pass"
+    },
+    {
+      "name": "IER-020_matrix_regression_example_bound",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "source_validation": "Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_ROW009_RECONCILIATION_20260712T112314-0500.json",
+  "decision_evidence": [
+    "Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_REALVISXL_DECISION_20260712T112314-0500.json",
+    "Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_INCOMPATIBLE_LORA_DECISION_20260712T112314-0500.json",
+    "Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_MATRIX_FORBIDDEN_DECISION_20260712T112314-0500.json"
+  ],
+  "safety_boundary": {
+    "comfyui_contacted": false,
+    "generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "mask_consumed_or_promoted": false,
+    "wave71_activated": false,
+    "jira_mutated": false
+  },
+  "project_completion": {
+    "level": "BELOW_LEVEL_7",
+    "full_project_complete": false,
+    "final_certification_decision": "blocked"
+  },
+  "source_hashes": [
+    {
+      "path": "Plan/03_IMAGE_SYSTEM/ENGINE_ROUTER_SPEC.md",
+      "sha256": "2ee171c652092afb2d8fe2b9d8aa4dc5ea310e3ce5d6d1e540fa313a15493132"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/resolve_wave64_image_engine_route.py",
+      "sha256": "2c6002cb704238663d6dc6330f5472601b0a7f21594bb581986f5a15445b7ee9"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/Test-ImageEngineRouter.ps1",
+      "sha256": "f768eb9935918daa684666836c26ec2f6c1a778e2792bcf98eb4fe5ce373cbff"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave15_model_family_compatibility_matrix.json",
+      "sha256": "3aec72c56039cc1d1a2b94548afa5393a2c1f9f7e36bff19b052dd3a971f1ce7"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave06_engine_router_rules.json",
+      "sha256": "a8a624a83c11e9f30fa8186674be8df5a863787033413fc5d47f34a1275dd8b4"
+    },
+    {
+      "path": "Workflows/base_generation/ACTIVE_LANES.json",
+      "sha256": "e564a2a654b40add3202b9aead9d78317670592eea1fbf0e68a5a0a16f7bc05b"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+      "sha256": "f6720781658e747ab8da5aa5bb6eb59989415cf2691b9d2204cf53a4ab027385"
+    },
+    {
+      "path": "Plan/Registries/Models/model_registry.jsonl",
+      "sha256": "60ce5bd6d86d6416474b5c66d8a023fb8e5e632f03072ab4ea05620736382b2f"
+    },
+    {
+      "path": "Plan/09_EXAMPLES/wave64_image_engine_route_matrix_forbidden_sdxl_unproven_request.example.json",
+      "sha256": "67af48f3e3affb6582db9ec3bdc688265f1e854ac9c5131163fa5e23916a3cf9"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_ROW009_RECONCILIATION_20260712T112314-0500.json",
+      "sha256": "0192c084903236ddd042de51ec8afea3d4845be96cf90f46b50974a744ac1d8e"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_REALVISXL_DECISION_20260712T112314-0500.json",
+      "sha256": "dd8f4653dddb18d3eb5c58e6fc4c4818050d5f3b3d6d9b64bec9e2175fab7b3c"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_INCOMPATIBLE_LORA_DECISION_20260712T112314-0500.json",
+      "sha256": "9d88f512176594608fb02368fece450687ee46da6e010fb09fef40b9eb057288"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_MATRIX_FORBIDDEN_DECISION_20260712T112314-0500.json",
+      "sha256": "9cbc80881e8c3a85b12823f1e034d8f16d1bb8959fb47496cd7dee58a0fd42e6"
+    }
+  ],
+  "next_action": "Proceed to TRK-W64-010 / ITEM-W64-010 in strict sequence; preserve the current fail-closed router decision until a lane receives materially new certification evidence.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/image_engine_router.json",
+    "Plan/Instructions/QA/Evidence/Wave64/IMAGE_ENGINE_ROUTER_20260712T112713-0500.json",
+    "Plan/Tracker/Evidence/IMAGE_ENGINE_ROUTER_20260712T112713-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/image_engine_router_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-009_image_engine_router.json",
+    "Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_ROW009_RECONCILIATION_20260712T112314-0500.json",
+    "Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_REALVISXL_DECISION_20260712T112314-0500.json",
+    "Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_INCOMPATIBLE_LORA_DECISION_20260712T112314-0500.json",
+    "Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_MATRIX_FORBIDDEN_DECISION_20260712T112314-0500.json"
+  ]
+}

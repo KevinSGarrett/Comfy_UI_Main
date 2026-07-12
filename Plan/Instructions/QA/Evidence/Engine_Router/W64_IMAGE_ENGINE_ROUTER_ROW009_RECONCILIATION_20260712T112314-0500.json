@@ -1,0 +1,200 @@
+﻿{
+    "evidence_id":  "W64_IMAGE_ENGINE_ROUTER_VALIDATION_20260712T112314-0500",
+    "created_at":  "2026-07-12T11:23:14-05:00",
+    "artifact_id":  "TRK-W64-009",
+    "artifact_type":  "wave64_image_engine_router_validation",
+    "local_only":  true,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "scripts":  {
+                    "router":  "Plan/07_IMPLEMENTATION/scripts/resolve_wave64_image_engine_route.py",
+                    "validator":  "Plan/Instructions/QA/Scripts/Test-ImageEngineRouter.ps1"
+                },
+    "requests":  {
+                     "compatible":  "Plan/09_EXAMPLES/wave64_image_engine_route_realvisxl_request.example.json",
+                     "incompatible_lora":  "Plan/09_EXAMPLES/wave64_image_engine_route_incompatible_lora_request.example.json",
+                     "matrix_forbidden":  "Plan/09_EXAMPLES/wave64_image_engine_route_matrix_forbidden_sdxl_unproven_request.example.json"
+                 },
+    "decisions":  {
+                      "compatible":  "Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_REALVISXL_DECISION_20260712T112314-0500.json",
+                      "incompatible_lora":  "Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_INCOMPATIBLE_LORA_DECISION_20260712T112314-0500.json",
+                      "matrix_forbidden":  "Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_MATRIX_FORBIDDEN_DECISION_20260712T112314-0500.json"
+                  },
+    "runs":  {
+                 "compatible":  {
+                                    "exit_code":  0,
+                                    "stdout_tail":  "     \"expected\": \"no missing evidence paths\"\r\n        }\r\n      ],\r\n      \"blockers\": [\r\n        \"queue_status_runtime_smoke_proven\",\r\n        \"requirements_status_runtime_smoke_qa_complete\",\r\n        \"requested_engine_family_matches_lane\",\r\n        \"model_compatibility_status_runtime_validated\",\r\n        \"model_runtime_validation_status_complete\",\r\n        \"model_qa_status_pass\",\r\n        \"required_model_hash_status_verified\",\r\n        \"required_model_path_status_verified\",\r\n        \"object_info_status_passed\"\r\n      ],\r\n      \"result\": \"block\"\r\n    }\r\n  ],\r\n  \"local_only\": true,\r\n  \"contacts\": {\r\n    \"aws\": false,\r\n    \"github_api\": false,\r\n    \"civitai\": false,\r\n    \"comfyui\": false,\r\n    \"ec2\": false\r\n  },\r\n  \"ec2_started\": false,\r\n  \"generation_executed\": false,\r\n  \"result\": \"block_local_only\",\r\n  \"next_action\": \"Use the selected lane for compatible local planning, or revise the request/model stack if blocked. Run EC2 only for new runtime proof, not for this local routing gate.\"\r\n}",
+                                    "stderr_tail":  ""
+                                },
+                 "incompatible_lora":  {
+                                           "exit_code":  0,
+                                           "stdout_tail":  "\n        \"queue_status_runtime_smoke_proven\",\r\n        \"requirements_status_runtime_smoke_qa_complete\",\r\n        \"requested_engine_family_matches_lane\",\r\n        \"lora_families_match_engine_family\",\r\n        \"matrix_lora_families_allowed\",\r\n        \"model_compatibility_status_runtime_validated\",\r\n        \"model_runtime_validation_status_complete\",\r\n        \"model_qa_status_pass\",\r\n        \"required_model_hash_status_verified\",\r\n        \"required_model_path_status_verified\",\r\n        \"object_info_status_passed\"\r\n      ],\r\n      \"result\": \"block\"\r\n    }\r\n  ],\r\n  \"local_only\": true,\r\n  \"contacts\": {\r\n    \"aws\": false,\r\n    \"github_api\": false,\r\n    \"civitai\": false,\r\n    \"comfyui\": false,\r\n    \"ec2\": false\r\n  },\r\n  \"ec2_started\": false,\r\n  \"generation_executed\": false,\r\n  \"result\": \"block_local_only\",\r\n  \"next_action\": \"Use the selected lane for compatible local planning, or revise the request/model stack if blocked. Run EC2 only for new runtime proof, not for this local routing gate.\"\r\n}",
+                                           "stderr_tail":  ""
+                                       },
+                 "matrix_forbidden":  {
+                                          "exit_code":  0,
+                                          "stdout_tail":  "\n        \"queue_status_runtime_smoke_proven\",\r\n        \"requirements_status_runtime_smoke_qa_complete\",\r\n        \"requested_engine_family_matches_lane\",\r\n        \"lora_families_match_engine_family\",\r\n        \"matrix_lora_families_allowed\",\r\n        \"model_compatibility_status_runtime_validated\",\r\n        \"model_runtime_validation_status_complete\",\r\n        \"model_qa_status_pass\",\r\n        \"required_model_hash_status_verified\",\r\n        \"required_model_path_status_verified\",\r\n        \"object_info_status_passed\"\r\n      ],\r\n      \"result\": \"block\"\r\n    }\r\n  ],\r\n  \"local_only\": true,\r\n  \"contacts\": {\r\n    \"aws\": false,\r\n    \"github_api\": false,\r\n    \"civitai\": false,\r\n    \"comfyui\": false,\r\n    \"ec2\": false\r\n  },\r\n  \"ec2_started\": false,\r\n  \"generation_executed\": false,\r\n  \"result\": \"block_local_only\",\r\n  \"next_action\": \"Use the selected lane for compatible local planning, or revise the request/model stack if blocked. Run EC2 only for new runtime proof, not for this local routing gate.\"\r\n}",
+                                          "stderr_tail":  ""
+                                      }
+             },
+    "checks":  [
+                   {
+                       "name":  "valid_router_exit_zero",
+                       "result":  "pass",
+                       "observed":  0,
+                       "expected":  0
+                   },
+                   {
+                       "name":  "blocked_router_exit_zero",
+                       "result":  "pass",
+                       "observed":  0,
+                       "expected":  0
+                   },
+                   {
+                       "name":  "matrix_blocked_router_exit_zero",
+                       "result":  "pass",
+                       "observed":  0,
+                       "expected":  0
+                   },
+                   {
+                       "name":  "current_realvisxl_request_fails_closed",
+                       "result":  "pass",
+                       "observed":  "block_local_only",
+                       "expected":  "block_local_only"
+                   },
+                   {
+                       "name":  "current_realvisxl_request_has_no_selected_lane",
+                       "result":  "pass",
+                       "observed":  null,
+                       "expected":  null
+                   },
+                   {
+                       "name":  "blocked_suffix_queue_status_rejected",
+                       "result":  "pass",
+                       "observed":  "runtime_smoke_proven_canonical_two_character_seed_robustness_failed_local_openpose_composition_remediation_pair_passed_final_certification_blocked",
+                       "expected":  "fail closed on blocked/fail/pending qualifier"
+                   },
+                   {
+                       "name":  "pending_requirement_status_rejected",
+                       "result":  "pass",
+                       "observed":  "runtime_smoke_qa_complete_local_single_hand_contact_closeup_pass_with_notes_pending_final_certification",
+                       "expected":  "fail closed on pending qualifier"
+                   },
+                   {
+                       "name":  "realvisxl_checkpoint_allowed_by_matrix",
+                       "result":  "pass",
+                       "observed":  "realvisxl_sdxl",
+                       "expected":  "realvisxl_sdxl"
+                   },
+                   {
+                       "name":  "realvisxl_empty_lora_stack_allowed_by_matrix",
+                       "result":  "pass",
+                       "observed":  [
+
+                                    ],
+                       "expected":  [
+
+                                    ]
+                   },
+                   {
+                       "name":  "blocked_request_blocks_local_gate",
+                       "result":  "pass",
+                       "observed":  "block_local_only",
+                       "expected":  "block_local_only"
+                   },
+                   {
+                       "name":  "blocked_request_has_no_selected_lane",
+                       "result":  "pass",
+                       "observed":  null,
+                       "expected":  null
+                   },
+                   {
+                       "name":  "blocked_request_reports_lora_family_mismatch",
+                       "result":  "pass",
+                       "observed":  [
+                                        "queue_status_runtime_smoke_proven",
+                                        "requirements_status_runtime_smoke_qa_complete",
+                                        "lora_families_match_engine_family",
+                                        "matrix_lora_families_allowed"
+                                    ],
+                       "expected":  "lora_families_match_engine_family"
+                   },
+                   {
+                       "name":  "matrix_forbidden_request_blocks_local_gate",
+                       "result":  "pass",
+                       "observed":  "block_local_only",
+                       "expected":  "block_local_only"
+                   },
+                   {
+                       "name":  "matrix_forbidden_request_has_no_selected_lane",
+                       "result":  "pass",
+                       "observed":  null,
+                       "expected":  null
+                   },
+                   {
+                       "name":  "matrix_forbidden_same_normalized_family_is_rejected",
+                       "result":  "pass",
+                       "observed":  [
+                                        "sdxl_unproven"
+                                    ],
+                       "expected":  "matrix rejects sdxl_unproven after broad family check passes"
+                   },
+                   {
+                       "name":  "decision_records_current_proof_source_hashes",
+                       "result":  "pass",
+                       "observed":  [
+                                        "Workflows/base_generation/ACTIVE_LANES.json",
+                                        "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+                                        "Plan/Registries/Models/model_registry.jsonl",
+                                        "Plan/10_REGISTRIES/wave15_model_family_compatibility_matrix.json"
+                                    ],
+                       "expected":  "four current source hashes"
+                   },
+                   {
+                       "name":  "valid_request_did_not_contact_external_services",
+                       "result":  "pass",
+                       "observed":  {
+                                        "aws":  false,
+                                        "github_api":  false,
+                                        "civitai":  false,
+                                        "comfyui":  false,
+                                        "ec2":  false
+                                    },
+                       "expected":  "all false; no EC2/generation"
+                   },
+                   {
+                       "name":  "blocked_request_did_not_contact_external_services",
+                       "result":  "pass",
+                       "observed":  {
+                                        "aws":  false,
+                                        "github_api":  false,
+                                        "civitai":  false,
+                                        "comfyui":  false,
+                                        "ec2":  false
+                                    },
+                       "expected":  "all false; no EC2/generation"
+                   },
+                   {
+                       "name":  "matrix_blocked_request_did_not_contact_external_services",
+                       "result":  "pass",
+                       "observed":  {
+                                        "aws":  false,
+                                        "github_api":  false,
+                                        "civitai":  false,
+                                        "comfyui":  false,
+                                        "ec2":  false
+                                    },
+                       "expected":  "all false; no EC2/generation"
+                   }
+               ],
+    "failure_count":  0,
+    "failures":  [
+
+                 ],
+    "known_limits":  [
+                         "Local router validation does not perform a new ComfyUI generation.",
+                         "Local router validation does not start EC2 or prove new model binaries.",
+                         "This validates active base-generation image lanes; future video/audio/router families need separate gates."
+                     ],
+    "result":  "pass_local_only"
+}

@@ -24,6 +24,18 @@ Select the best engine for each pass while avoiding incompatible model/LoRA usag
 6. Disabled/rejected models cannot be selected automatically.
 7. Every router decision must include reason, fallback, and QA gates.
 
+## Machine implementation
+
+- Resolver: `Plan/07_IMPLEMENTATION/scripts/resolve_wave64_image_engine_route.py`
+- Compatibility policy: `Plan/10_REGISTRIES/wave15_model_family_compatibility_matrix.json`
+- Local regression gate: `Plan/Instructions/QA/Scripts/Test-ImageEngineRouter.ps1`
+
+Runtime statuses fail closed when a nominal pass prefix also contains a blocked,
+failed, pending, missing, incomplete, unproven, or other negative qualifier.
+Checkpoint and LoRA compatibility must be accepted by the matrix itself; broad
+family normalization is not sufficient evidence. A blocked current lane is not
+silently substituted or presented as a selected production route.
+
 ## Example
 
 Cellulite on thighs:
