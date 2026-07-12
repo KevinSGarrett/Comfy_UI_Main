@@ -1,0 +1,607 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave64 AV Sync Certification Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_name",
+    "report_version",
+    "run_id",
+    "scene_id",
+    "shot_id",
+    "take_id",
+    "is_synthetic",
+    "evidence_origin",
+    "pyav_version",
+    "request_binding",
+    "artifact_bindings",
+    "metrics",
+    "gates",
+    "blockers",
+    "overall_pass"
+  ],
+  "properties": {
+    "schema_name": {
+      "const": "wave64_av_sync_certification_report"
+    },
+    "report_version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scene_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "shot_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "take_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "is_synthetic": {
+      "type": "boolean"
+    },
+    "evidence_origin": {
+      "type": "string",
+      "enum": [
+        "technical_capture",
+        "hand_authored_relabel",
+        "synthetic_fixture"
+      ]
+    },
+    "pyav_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "request_binding": {
+      "$ref": "#/$defs/pathShaBinding"
+    },
+    "artifact_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_video_artifact",
+        "source_audio_mix_artifact",
+        "final_mux_artifact",
+        "wave30_event_manifest",
+        "wave30_mix_manifest",
+        "observed_anchor_measurement_proof",
+        "playback_proof",
+        "runtime_proof",
+        "production_certification_bundle",
+        "wave64_gate_registry"
+      ],
+      "properties": {
+        "source_video_artifact": {
+          "$ref": "#/$defs/pathShaBytesBinding"
+        },
+        "source_audio_mix_artifact": {
+          "$ref": "#/$defs/pathShaBytesBinding"
+        },
+        "final_mux_artifact": {
+          "$ref": "#/$defs/pathShaBytesBinding"
+        },
+        "wave30_event_manifest": {
+          "$ref": "#/$defs/pathShaBinding"
+        },
+        "wave30_mix_manifest": {
+          "$ref": "#/$defs/pathShaBinding"
+        },
+        "observed_anchor_measurement_proof": {
+          "$ref": "#/$defs/pathShaBinding"
+        },
+        "playback_proof": {
+          "$ref": "#/$defs/nullablePathShaBinding"
+        },
+        "runtime_proof": {
+          "$ref": "#/$defs/nullablePathShaBinding"
+        },
+        "production_certification_bundle": {
+          "$ref": "#/$defs/nullablePathShaBinding"
+        },
+        "wave64_gate_registry": {
+          "$ref": "#/$defs/pathShaBinding"
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_video_decode",
+        "mux_video_decode",
+        "source_audio_decode",
+        "mux_audio_decode",
+        "lineage",
+        "sync",
+        "anchors",
+        "proofs"
+      ],
+      "properties": {
+        "source_video_decode": {
+          "$ref": "#/$defs/videoDecodeMetrics"
+        },
+        "mux_video_decode": {
+          "$ref": "#/$defs/videoDecodeMetrics"
+        },
+        "source_audio_decode": {
+          "$ref": "#/$defs/audioDecodeMetrics"
+        },
+        "mux_audio_decode": {
+          "$ref": "#/$defs/audioDecodeMetrics"
+        },
+        "lineage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "video_hash_match",
+            "audio_hash_match",
+            "video_frame_count_match",
+            "audio_sample_count_match",
+            "stream_count_match",
+            "video_codec_match",
+            "audio_codec_match"
+          ],
+          "properties": {
+            "video_hash_match": {
+              "type": "boolean"
+            },
+            "audio_hash_match": {
+              "type": "boolean"
+            },
+            "video_frame_count_match": {
+              "type": "boolean"
+            },
+            "audio_sample_count_match": {
+              "type": "boolean"
+            },
+            "stream_count_match": {
+              "type": "boolean"
+            },
+            "video_codec_match": {
+              "type": "boolean"
+            },
+            "audio_codec_match": {
+              "type": "boolean"
+            }
+          }
+        },
+        "sync": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "audio_start_offset_seconds",
+            "endpoint_delta_seconds",
+            "cumulative_endpoint_drift_seconds"
+          ],
+          "properties": {
+            "audio_start_offset_seconds": {
+              "type": "number"
+            },
+            "endpoint_delta_seconds": {
+              "type": "number"
+            },
+            "cumulative_endpoint_drift_seconds": {
+              "type": "number"
+            }
+          }
+        },
+        "anchors": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "required_anchor_event_count",
+            "observed_anchor_count",
+            "missing_anchor_count",
+            "extra_anchor_count",
+            "duplicate_anchor_count",
+            "measurement_producer"
+          ],
+          "properties": {
+            "required_anchor_event_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "observed_anchor_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "missing_anchor_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "extra_anchor_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "duplicate_anchor_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "measurement_producer": {
+              "$ref": "#/$defs/nullableProducerIdentity"
+            }
+          }
+        },
+        "proofs": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "playback_producer",
+            "runtime_producer"
+          ],
+          "properties": {
+            "playback_producer": {
+              "$ref": "#/$defs/nullableProducerIdentity"
+            },
+            "runtime_producer": {
+              "$ref": "#/$defs/nullableProducerIdentity"
+            }
+          }
+        }
+      }
+    },
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sync_offset_threshold",
+        "drift_check",
+        "mux_manifest",
+        "event_owner_alignment",
+        "av_review_record",
+        "production_runtime_proof",
+        "production_av_sync_authority",
+        "overall_pass"
+      ],
+      "properties": {
+        "sync_offset_threshold": {
+          "$ref": "#/$defs/gateResult"
+        },
+        "drift_check": {
+          "$ref": "#/$defs/gateResult"
+        },
+        "mux_manifest": {
+          "$ref": "#/$defs/gateResult"
+        },
+        "event_owner_alignment": {
+          "$ref": "#/$defs/gateResult"
+        },
+        "av_review_record": {
+          "$ref": "#/$defs/gateResult"
+        },
+        "production_runtime_proof": {
+          "$ref": "#/$defs/gateResult"
+        },
+        "production_av_sync_authority": {
+          "$ref": "#/$defs/gateResult"
+        },
+        "overall_pass": {
+          "$ref": "#/$defs/gateResult"
+        }
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "overall_pass": {
+      "type": "boolean"
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "pathShaBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "pathShaBytesBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "bytes"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "nullablePathShaBinding": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/pathShaBinding"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "videoDecodeMetrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "container_format",
+        "stream_count_video",
+        "stream_count_audio",
+        "codec",
+        "time_base",
+        "frame_rate",
+        "width",
+        "height",
+        "frame_count",
+        "first_pts_seconds",
+        "last_pts_seconds",
+        "duration_seconds",
+        "packet_pts_monotonic",
+        "frame_pts_monotonic",
+        "missing_packet_pts_count",
+        "missing_frame_pts_count",
+        "decoded_video_hash"
+      ],
+      "properties": {
+        "container_format": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stream_count_video": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "stream_count_audio": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "codec": {
+          "type": "string",
+          "minLength": 1
+        },
+        "time_base": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "frame_rate": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "frame_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "first_pts_seconds": {
+          "type": "number"
+        },
+        "last_pts_seconds": {
+          "type": "number"
+        },
+        "duration_seconds": {
+          "type": "number",
+          "minimum": 0
+        },
+        "packet_pts_monotonic": {
+          "type": "boolean"
+        },
+        "frame_pts_monotonic": {
+          "type": "boolean"
+        },
+        "missing_packet_pts_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "missing_frame_pts_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "decoded_video_hash": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "audioDecodeMetrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stream_count_audio",
+        "codec",
+        "time_base",
+        "sample_rate_hz",
+        "channels",
+        "channel_layout",
+        "sample_count",
+        "first_pts_seconds",
+        "last_pts_seconds",
+        "duration_seconds",
+        "packet_pts_monotonic",
+        "frame_pts_monotonic",
+        "missing_packet_pts_count",
+        "missing_frame_pts_count",
+        "decoded_audio_hash"
+      ],
+      "properties": {
+        "stream_count_audio": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "codec": {
+          "type": "string",
+          "minLength": 1
+        },
+        "time_base": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "sample_rate_hz": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "channels": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "channel_layout": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sample_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "first_pts_seconds": {
+          "type": "number"
+        },
+        "last_pts_seconds": {
+          "type": "number"
+        },
+        "duration_seconds": {
+          "type": "number",
+          "minimum": 0
+        },
+        "packet_pts_monotonic": {
+          "type": "boolean"
+        },
+        "frame_pts_monotonic": {
+          "type": "boolean"
+        },
+        "missing_packet_pts_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "missing_frame_pts_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "decoded_audio_hash": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "producerIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "proof_kind",
+        "engine",
+        "model",
+        "model_version",
+        "model_sha256",
+        "authority_id",
+        "synthetic_only"
+      ],
+      "properties": {
+        "proof_kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "engine": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "authority_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "synthetic_only": {
+          "type": "boolean"
+        }
+      }
+    },
+    "nullableProducerIdentity": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/producerIdentity"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "gateResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "blockers",
+        "artifact_bindings"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "PASS",
+            "FAIL",
+            "BLOCKED"
+          ]
+        },
+        "blockers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "artifact_bindings": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

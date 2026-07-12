@@ -1,3 +1,9 @@
+## Immediate Next Action - Wave64 AV Sync Evaluator Strict, Production Proof Blocked - 2026-07-11T21:01:14-05:00
+
+Start from `Plan/Instructions/QA/Evidence/Wave64/audio_av_sync.json`. `TRK-W64-030` / `ITEM-W64-030` now has a canonical-root strict evaluator for decoded AV start offset, endpoint drift, full-color video and exact PCM lineage, mux stream/content parity, Wave30 event-owner/sync corroboration, playback/runtime producers, cross-role authority independence, and immutable production-bundle authority. All 31 Windows tests pass; synthetic and hand-authored relabel probes both exit `2`. Keep the row `Blocked_AV_Sync_Production_Proof_Missing`: no genuine production proof chain exists and the production allowlist is empty.
+
+Continue `TRK-W64-031` / `ITEM-W64-031` with one bounded duplicate check of the strict audio artifact review lane from `Plan/Instructions/QA/AUDIO_GENERATION_REVIEW_PROTOCOL.md`. Do not fabricate audio, playback, spectrogram, prompt-alignment, sync, runtime, promotion, or approval proof; do not start EC2, contact AWS while authentication is expired, consume candidate masks as truth, rerun Wave70 hard gates, activate Wave71+, recreate legacy/cloud work, or switch to Jira bookkeeping.
+
 ## Immediate Next Action - Wave64 Spatial Room Evaluator Strict, Production Proof Blocked - 2026-07-11T20:01:53-05:00
 
 Start from `Plan/Instructions/QA/Evidence/Wave64/audio_spatial_room.json`. `TRK-W64-029` / `ITEM-W64-029` now has a canonical-root strict evaluator for source/listener/camera geometry, camera-oriented pan, attenuation, room/reverb/RT60, ambience continuity, mix reconstruction, dialogue protection, playback/runtime producers, and immutable production-bundle authority. All 46 Windows tests pass; synthetic and hand-authored relabel probes both exit `2`. Keep the row `Blocked_Spatial_Room_Production_Proof_Missing`: no genuine production proof chain exists and the production allowlist is empty.

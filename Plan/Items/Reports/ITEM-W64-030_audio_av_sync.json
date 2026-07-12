@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "report_id": "ITEM-W64-030-AUDIO-AV-SYNC-20260711T210114-0500",
+  "timestamp": "2026-07-11T21:01:14-05:00",
+  "item_id": "ITEM-W64-030",
+  "tracker_id": "TRK-W64-030",
+  "workstream": "audio_av_sync",
+  "status": "Blocked_AV_Sync_Production_Proof_Missing",
+  "row_complete": false,
+  "implementation": {
+    "sync_offset_threshold_evaluator_ready": true,
+    "endpoint_drift_evaluator_ready": true,
+    "mux_content_and_lineage_evaluator_ready": true,
+    "event_owner_and_wave30_corroboration_ready": true,
+    "playback_runtime_and_production_authority_ready": true,
+    "canonical_root_and_transactional_output_ready": true,
+    "synthetic_and_relabel_promotion_forbidden": true
+  },
+  "validation": {
+    "unit_tests_passed": 31,
+    "unit_test_failures": 0,
+    "unit_test_errors": 0,
+    "unit_test_skips": 0,
+    "python_compile": "pass",
+    "measurement_packet_schema_check": "pass",
+    "certification_report_schema_check": "pass",
+    "synthetic_technical_probe": "expected_exit_2",
+    "adversarial_relabel_probe": "expected_exit_2",
+    "authority_registry_unchanged_by_tests": true,
+    "remaining_high_findings": 0,
+    "remaining_medium_findings": 0,
+    "review_scope_hash_mismatches": 0
+  },
+  "acceptance_gates": {
+    "sync_offset_threshold_contract": true,
+    "drift_check_contract": true,
+    "mux_manifest_contract": true,
+    "av_review_record_contract": true,
+    "audio_video_playback_sync_review_contract": true,
+    "genuine_non_synthetic_av_sync_media_present": false,
+    "genuine_production_playback_review_present": false,
+    "genuine_production_runtime_proof_present": false,
+    "production_bundle_allowlisted": false,
+    "final_av_sync_certification_allowed": false
+  },
+  "blockers": [
+    {"classification": "Blocked_AV_Sync_Production_Proof_Missing", "reason": "No genuine non-synthetic production audio/video mux with bound anchor, playback-review, and runtime evidence exists."},
+    {"classification": "Blocked_AV_Sync_Production_Authority_Missing", "reason": "The canonical production certification bundle allowlist contains zero approved bundles."}
+  ],
+  "evidence": [
+    {"path": "Plan/Instructions/QA/Evidence/Wave64/audio_av_sync.json", "sha256": "70cab4746ab0cd720734f8fb36fe38ac9fd77b8ca01de5892de8c513f7ca46c7"},
+    {"path": "Plan/Instructions/QA/Evidence/Wave64/audio_av_sync_test_log.json", "sha256": "e224d1e0926f09a63eb42df9ba4755654391e414744318a9e81deb51aacbf6a8"},
+    {"path": "runtime_artifacts/wave64_av_sync_certification/20260711T210114-0500/probe_summary.json", "sha256": "56b5e02ac0b413064aa20ff49e6f305d009b23e729f048d6e65d3b84fc8b4246"},
+    {"path": "runtime_artifacts/wave64_av_sync_certification/20260711T210114-0500/windows_strict_tests.txt", "sha256": "07f2bd435d39bd1107344492ca7626a9e0dcb20954c683bcca3ebcfa6bd6bd07"}
+  ],
+  "runtime": {
+    "production_av_sync_generation_count": 0,
+    "production_av_sync_evaluation_count": 0,
+    "production_playback_review_count": 0,
+    "approved_production_bundle_count": 0,
+    "comfyui_started": false,
+    "aws_contacted": false,
+    "ec2_started": false
+  },
+  "next_action": "Proceed with TRK-W64-031 / ITEM-W64-031 by duplicate-checking the strict audio artifact review lane from Plan/Instructions/QA/AUDIO_GENERATION_REVIEW_PROTOCOL.md while keeping row030 blocked until genuine non-synthetic AV media, playback review, runtime proof, and an allowlisted production certification bundle are present."
+}

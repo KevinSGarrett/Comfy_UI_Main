@@ -1,0 +1,72 @@
+{
+  "schema_name": "wave64_av_sync_gate_rules",
+  "registry_version": 1,
+  "parser_rules": {
+    "allowed_pyav_versions": [
+      "18.0.0"
+    ]
+  },
+  "sync_rules": {
+    "max_start_offset_seconds": 0.04,
+    "max_cumulative_endpoint_drift_seconds": 0.05,
+    "max_anchor_frame_delta": 1.0
+  },
+  "mux_rules": {
+    "allowed_container_formats": [
+      "matroska",
+      "matroska,webm"
+    ],
+    "required_video_stream_count": 1,
+    "required_audio_stream_count": 1,
+    "required_video_codec": "ffv1",
+    "required_audio_codec": "pcm_s16le",
+    "required_audio_sample_rate_hz": 16000,
+    "required_audio_channels": 1,
+    "required_audio_layouts": [
+      "mono"
+    ]
+  },
+  "producer_rules": {
+    "measurement_allowlist": [
+      {
+        "proof_kind": "anchor_measurement",
+        "engine": "fixture_anchor_engine",
+        "model": "fixture_anchor_model",
+        "model_version": "2026.fixture",
+        "model_sha256": "759c422829ae9ef01d87ac87b48bd755a94c85514a4b56dbf535e534faf050eb",
+        "authority_id": "wave64_fixture_anchor_lab",
+        "synthetic_only": true
+      }
+    ],
+    "playback_allowlist": [
+      {
+        "proof_kind": "av_sync_playback_review",
+        "engine": "fixture_playback_engine",
+        "model": "fixture_playback_model",
+        "model_version": "2026.fixture",
+        "model_sha256": "4de2b3ebaebe994097f35d47b76888f3829312db320299ad008b7edfaa084672",
+        "authority_id": "wave64_fixture_playback_lab",
+        "synthetic_only": true
+      }
+    ],
+    "runtime_allowlist": [
+      {
+        "proof_kind": "production_runtime",
+        "engine": "fixture_runtime_engine",
+        "model": "fixture_runtime_model",
+        "model_version": "2026.fixture",
+        "model_sha256": "356de3ef78e966633007e21a27e9f4625698a33847596601b9aa3ff65a6ee1c7",
+        "authority_id": "wave64_fixture_runtime_lab",
+        "synthetic_only": true
+      }
+    ],
+    "forbid_self_authorization": true,
+    "require_distinct_authority_ids_across_roles": true,
+    "required_review_results": [
+      "PASS"
+    ]
+  },
+  "production_rules": {
+    "approved_certification_bundle_allowlist": []
+  }
+}

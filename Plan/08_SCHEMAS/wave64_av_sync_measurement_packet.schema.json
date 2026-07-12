@@ -1,0 +1,224 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave64 AV Sync Measurement Packet",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_name",
+    "packet_version",
+    "run_id",
+    "scene_id",
+    "shot_id",
+    "take_id",
+    "is_synthetic",
+    "evidence_origin",
+    "source_video_artifact",
+    "source_audio_mix_artifact",
+    "final_mux_artifact",
+    "wave30_event_manifest_binding",
+    "wave30_mix_manifest_binding",
+    "observed_anchor_measurement_proof_binding",
+    "playback_proof_binding",
+    "runtime_proof_binding",
+    "production_certification_bundle_binding",
+    "caller_claimed_overall_pass"
+  ],
+  "properties": {
+    "schema_name": {
+      "const": "wave64_av_sync_measurement_packet"
+    },
+    "packet_version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scene_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "shot_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "take_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "is_synthetic": {
+      "type": "boolean"
+    },
+    "evidence_origin": {
+      "type": "string",
+      "enum": [
+        "technical_capture",
+        "hand_authored_relabel",
+        "synthetic_fixture"
+      ]
+    },
+    "source_video_artifact": {
+      "$ref": "#/$defs/pathShaBytesMediaBindingVideo"
+    },
+    "source_audio_mix_artifact": {
+      "$ref": "#/$defs/pathShaBytesMediaBindingWav"
+    },
+    "final_mux_artifact": {
+      "$ref": "#/$defs/pathShaBytesMediaBindingVideo"
+    },
+    "wave30_event_manifest_binding": {
+      "$ref": "#/$defs/pathShaBinding"
+    },
+    "wave30_mix_manifest_binding": {
+      "$ref": "#/$defs/pathShaBinding"
+    },
+    "observed_anchor_measurement_proof_binding": {
+      "$ref": "#/$defs/pathShaBinding"
+    },
+    "playback_proof_binding": {
+      "$ref": "#/$defs/nullablePathShaBinding"
+    },
+    "runtime_proof_binding": {
+      "$ref": "#/$defs/nullablePathShaBinding"
+    },
+    "production_certification_bundle_binding": {
+      "$ref": "#/$defs/nullablePathShaBinding"
+    },
+    "caller_claimed_overall_pass": {
+      "type": "boolean"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "is_synthetic": {
+            "const": true
+          }
+        },
+        "required": [
+          "is_synthetic"
+        ]
+      },
+      "then": {
+        "properties": {
+          "evidence_origin": {
+            "const": "synthetic_fixture"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "is_synthetic": {
+            "const": false
+          }
+        },
+        "required": [
+          "is_synthetic"
+        ]
+      },
+      "then": {
+        "properties": {
+          "evidence_origin": {
+            "enum": [
+              "technical_capture",
+              "hand_authored_relabel"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "pathShaBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "pathShaBytesMediaBindingVideo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "bytes",
+        "media_type"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "media_type": {
+          "const": "video/x-matroska"
+        }
+      }
+    },
+    "pathShaBytesMediaBindingWav": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "bytes",
+        "media_type"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "media_type": {
+          "enum": [
+            "audio/wav",
+            "audio/x-wav"
+          ]
+        }
+      }
+    },
+    "nullablePathShaBinding": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/pathShaBinding"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,159 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-AUDIO-AV-SYNC-20260711T210114-0500",
+  "timestamp": "2026-07-11T21:01:14-05:00",
+  "tracker_id": "TRK-W64-030",
+  "item_id": "ITEM-W64-030",
+  "source_citation": "Plan/05_AUDIO_SYSTEM/WAVE30_AUDIO_VIDEO_SYNC_PLAN.md",
+  "implementation": {
+    "dedicated_av_sync_certification_evaluator_added": true,
+    "actual_mux_video_and_audio_decode": true,
+    "decoded_start_offset_and_endpoint_drift": true,
+    "decoded_last_frame_duration_and_irregular_cadence_handling": true,
+    "full_color_video_sequence_lineage": true,
+    "exact_pcm_sample_lineage": true,
+    "stream_codec_layout_and_count_validation": true,
+    "wave30_event_owner_and_sync_evidence_corroboration": true,
+    "decoded_mux_anchor_bounds": true,
+    "playback_and_runtime_producer_authority": true,
+    "cross_role_authority_independence": true,
+    "canonical_root_containment": true,
+    "output_collision_rejection": true,
+    "transactional_output": true,
+    "synthetic_and_relabel_authority_blocking": true,
+    "immutable_production_bundle_allowlist": true,
+    "current_allowlist_intentionally_empty": true
+  },
+  "implementation_artifacts": [
+    {"path": "Plan/05_AUDIO_SYSTEM/WAVE64_AV_SYNC_CERTIFICATION_GATE_SPEC.md", "sha256": "1785323e00938b680d7d179a19281d834c46845472e4123b6c5216eba8051562"},
+    {"path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_av_sync_certification.py", "sha256": "ce521bff0b9ec088bd7380ea588dc646807726a700e6e67158fa0aea9e3ccd04"},
+    {"path": "Plan/08_SCHEMAS/wave64_av_sync_measurement_packet.schema.json", "sha256": "4ff45cfbabd684a44a03021291b8ead363845eb1e7c286022e7fcb73ca77a206"},
+    {"path": "Plan/08_SCHEMAS/wave64_av_sync_certification_report.schema.json", "sha256": "4171b9a8a378266841be5714d2088878b0d7f1160aad08e55b1f5f92c001e9c8"},
+    {"path": "Plan/10_REGISTRIES/wave64_av_sync_gate_rules.json", "sha256": "edd5ee9e6f8ad4b025da9541557f8a73b14a5b7c90a0a26aea2b85d9c3a69479"},
+    {"path": "Plan/Instructions/QA/Scripts/test_wave64_av_sync_certification_strict.py", "sha256": "31cedfe4c543c3f6b77f034f5405a48e0804d582ad294201d338d7403c81cee7"}
+  ],
+  "authority_bindings": {
+    "wave30_av_sync_plan": {"path": "Plan/05_AUDIO_SYSTEM/WAVE30_AUDIO_VIDEO_SYNC_PLAN.md", "sha256": "c78bb1e996ef2adb0eb54cf3fe1b8b455b4e132ffe6eff3bb8e8b63040a52951"}
+  },
+  "offline_validation": {
+    "test_log": "Plan/Instructions/QA/Evidence/Wave64/audio_av_sync_test_log.json",
+    "test_log_sha256": "e224d1e0926f09a63eb42df9ba4755654391e414744318a9e81deb51aacbf6a8",
+    "tests_run": 31,
+    "test_failures": 0,
+    "test_errors": 0,
+    "test_skips": 0,
+    "python_compile": "pass",
+    "draft_2020_12_measurement_packet_schema": "pass",
+    "draft_2020_12_certification_report_schema": "pass",
+    "pyav_version": "18.0.0",
+    "authority_registry_unchanged_by_tests": true,
+    "technical_offline_pass": true
+  },
+  "retained_probes": {
+    "probe_summary": {"path": "runtime_artifacts/wave64_av_sync_certification/20260711T210114-0500/probe_summary.json", "sha256": "56b5e02ac0b413064aa20ff49e6f305d009b23e729f048d6e65d3b84fc8b4246"},
+    "synthetic_technical_probe": {
+      "fixture_origin": true,
+      "production_evidence": false,
+      "request": "runtime_artifacts/wave64_av_sync_certification/20260711T210114-0500/synthetic_technical_probe/request.json",
+      "request_sha256": "6e73237d46209495e9d4c916c2aafb90d533ecf27011564835fb34956eba96ff",
+      "report": "runtime_artifacts/wave64_av_sync_certification/20260711T210114-0500/synthetic_technical_probe/report.json",
+      "report_sha256": "e6d2b09ad2d82da39fb35d90365c284d01faadac122e601d98535cf463243e76",
+      "expected_exit_code": 2,
+      "overall_pass": false,
+      "acceptance_token_pass_count": 4,
+      "sync_offset_threshold": "PASS",
+      "drift_check": "PASS",
+      "mux_manifest": "PASS",
+      "av_review_record": "PASS",
+      "production_runtime_proof_status": "BLOCKED",
+      "production_av_sync_authority_status": "BLOCKED",
+      "overall_status": "BLOCKED",
+      "blockers": [
+        "synthetic input cannot satisfy production AV sync authority",
+        "synthetic input cannot satisfy production runtime proof gate"
+      ]
+    },
+    "adversarial_relabel_probe": {
+      "fixture_origin": true,
+      "declared_is_synthetic": false,
+      "production_evidence": false,
+      "request": "runtime_artifacts/wave64_av_sync_certification/20260711T210114-0500/adversarial_relabel_probe/request.json",
+      "request_sha256": "f8c1a0f6b9374e14ad240af4d2ae9ef627a95765185156dd3a08e4fd185b6e7f",
+      "report": "runtime_artifacts/wave64_av_sync_certification/20260711T210114-0500/adversarial_relabel_probe/report.json",
+      "report_sha256": "2b12f867a7e03b065be85f361da3ea5260e5fce3c2dd1aa5f8bdff81941876c6",
+      "expected_exit_code": 2,
+      "overall_pass": false,
+      "sync_offset_threshold": "PASS",
+      "drift_check": "PASS",
+      "mux_manifest": "PASS",
+      "av_review_record": "BLOCKED",
+      "production_runtime_proof_status": "BLOCKED",
+      "production_av_sync_authority_status": "BLOCKED",
+      "overall_status": "BLOCKED",
+      "blockers_include": [
+        "hand-authored relabel evidence cannot satisfy production AV sync authority",
+        "synthetic-only producers cannot certify hand-authored relabel evidence"
+      ]
+    }
+  },
+  "current_authority": {
+    "approved_production_bundle_count": 0,
+    "approved_production_av_sync_run_count": 0,
+    "approved_production_playback_review_count": 0,
+    "approved_production_runtime_proof_count": 0,
+    "production_pass_reachable_from_fixture_only_evidence": false
+  },
+  "acceptance_gates": {
+    "sync_offset_threshold_contract_ready": true,
+    "drift_check_contract_ready": true,
+    "mux_manifest_contract_ready": true,
+    "av_review_record_contract_ready": true,
+    "audio_video_playback_sync_review_contract_ready": true,
+    "strict_offline_validation_passed": true,
+    "genuine_non_synthetic_av_sync_media_present": false,
+    "genuine_production_playback_review_present": false,
+    "genuine_production_runtime_proof_present": false,
+    "production_bundle_allowlisted": false,
+    "row_complete": false
+  },
+  "review": {
+    "cursor_gap_review": {"path": "runtime_artifacts/agent_handoffs/cursor/20260711T201320-0500_wave64_av_sync_gap_review/handoff_record.json", "sha256": "daf6e92ad3d433c928780d21f10176599b69193c89d56fa891aba9a676d14981", "status": "PASS"},
+    "cursor_initial_implementation": {"path": "runtime_artifacts/agent_handoffs/cursor/20260711T201724-0500_wave64_av_sync_implementation/handoff_record.json", "sha256": "96612ad01cc06fc96e46b29085d787e9fcdf5c1ae9a61f293916adb2b6e2fbba", "status": "FAIL", "classification": "CURSOR_HANDOFF_WRAPPER_FAILED", "usable_files_written_before_timeout": 6},
+    "cursor_narrow_retry": {"path": "runtime_artifacts/agent_handoffs/cursor/20260711T202801-0500_wave64_av_sync_implementation_retry_narrow/handoff_record.json", "sha256": "1a88012d4c001dc1af367ea0780eb09ad7cc4f7500a205cc9a2307ea3acfa910", "status": "PASS", "worker_execution_blocked_by_wsl_exe_interop": true},
+    "claude_initial_review": {"path": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T204047-0500_wave64_av_sync_adversarial_review/handoff_record.json", "sha256": "f563c7ccaad57d4f5a9e9ef563f9a878133c05ee6b15df604909df6f72a9cffa", "high_findings": 2, "medium_or_medium_high_findings": 4, "low_findings": 1},
+    "claude_closure_review": {"path": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T205546-0500_wave64_av_sync_review_closure/handoff_record.json", "sha256": "0cff46f1daca96f621ce68ae9663cd2af5274281f5e7db4e15ca760703fc37ae", "remaining_high_findings": 0, "remaining_medium_findings": 0, "scope_hashes_verified": 8, "scope_hash_mismatches": 0}
+  },
+  "environment_authority": {
+    "authoritative_root": "C:\\Comfy_UI_Main",
+    "legacy_or_stale_cloud_state_used_as_authority": false,
+    "duplicate_completed_work_recreated": false
+  },
+  "runtime": {
+    "production_av_sync_generation_count": 0,
+    "production_av_sync_evaluation_count": 0,
+    "production_playback_review_count": 0,
+    "approved_production_bundle_count": 0,
+    "comfyui_started": false,
+    "generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "mask_promotion_executed": false
+  },
+  "blockers": [
+    {"classification": "Blocked_AV_Sync_Production_Proof_Missing", "scope": "primary_row_blocker", "reason": "No genuine non-synthetic production audio/video mux with bound anchor, playback-review, and runtime proof exists for this row."},
+    {"classification": "Blocked_AV_Sync_Production_Authority_Missing", "scope": "production_authority", "reason": "The canonical production certification bundle allowlist contains zero approved bundles."}
+  ],
+  "result": "blocked_av_sync_production_proof_missing",
+  "overall_pass": false,
+  "status_decision": "Blocked_AV_Sync_Production_Proof_Missing",
+  "strict_decision": {
+    "row_complete": false,
+    "offline_evaluator_and_schema_pass": true,
+    "synthetic_fail_closed_probe_pass": true,
+    "adversarial_relabel_fail_closed_probe_pass": true,
+    "production_av_sync_or_playback_claimed": false,
+    "production_bundle_approved": false,
+    "certification_claimed": false,
+    "wave71_activation_claimed": false
+  }
+}
