@@ -1,0 +1,629 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave64 Spatial Room Evaluator Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_name",
+    "report_version",
+    "run_id",
+    "scene_id",
+    "shot_id",
+    "take_id",
+    "is_synthetic",
+    "evidence_origin",
+    "request_binding",
+    "artifact_bindings",
+    "metrics",
+    "gates",
+    "blockers",
+    "overall_pass"
+  ],
+  "properties": {
+    "schema_name": {
+      "const": "wave64_spatial_room_evaluator_report"
+    },
+    "report_version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scene_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "shot_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "take_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "is_synthetic": {
+      "type": "boolean"
+    },
+    "evidence_origin": {
+      "type": "string",
+      "enum": [
+        "technical_capture",
+        "hand_authored_relabel",
+        "synthetic_fixture"
+      ]
+    },
+    "request_binding": {
+      "$ref": "#/$defs/path_sha_binding"
+    },
+    "artifact_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "wave31_spatial_mix",
+        "wave31_room_acoustics",
+        "dry_dialogue",
+        "spatial_dialogue",
+        "ambience_bed",
+        "final_mix",
+        "ambience_previous_segment",
+        "ambience_current_segment",
+        "playback_proof",
+        "runtime_proof",
+        "production_authority_bundle",
+        "wave64_gate_registry"
+      ],
+      "properties": {
+        "wave31_spatial_mix": {
+          "$ref": "#/$defs/path_sha_binding"
+        },
+        "wave31_room_acoustics": {
+          "$ref": "#/$defs/path_sha_binding"
+        },
+        "dry_dialogue": {
+          "$ref": "#/$defs/path_sha_bytes_binding"
+        },
+        "spatial_dialogue": {
+          "$ref": "#/$defs/path_sha_bytes_binding"
+        },
+        "ambience_bed": {
+          "$ref": "#/$defs/path_sha_bytes_binding"
+        },
+        "final_mix": {
+          "$ref": "#/$defs/path_sha_bytes_binding"
+        },
+        "ambience_previous_segment": {
+          "$ref": "#/$defs/path_sha_bytes_binding"
+        },
+        "ambience_current_segment": {
+          "$ref": "#/$defs/path_sha_bytes_binding"
+        },
+        "playback_proof": {
+          "$ref": "#/$defs/nullable_path_sha_binding"
+        },
+        "runtime_proof": {
+          "$ref": "#/$defs/nullable_path_sha_binding"
+        },
+        "production_authority_bundle": {
+          "$ref": "#/$defs/nullable_path_sha_binding"
+        },
+        "wave64_gate_registry": {
+          "$ref": "#/$defs/path_sha_binding"
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "audio_files",
+        "spatial_metrics",
+        "room_metrics",
+        "ambience_metrics",
+        "mix_metrics",
+        "proof_metrics"
+      ],
+      "properties": {
+        "audio_files": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "dry_dialogue",
+            "spatial_dialogue",
+            "ambience_bed",
+            "final_mix",
+            "ambience_previous_segment",
+            "ambience_current_segment"
+          ],
+          "properties": {
+            "dry_dialogue": {
+              "$ref": "#/$defs/wav_metrics"
+            },
+            "spatial_dialogue": {
+              "$ref": "#/$defs/wav_metrics"
+            },
+            "ambience_bed": {
+              "$ref": "#/$defs/wav_metrics"
+            },
+            "final_mix": {
+              "$ref": "#/$defs/wav_metrics"
+            },
+            "ambience_previous_segment": {
+              "$ref": "#/$defs/wav_metrics"
+            },
+            "ambience_current_segment": {
+              "$ref": "#/$defs/wav_metrics"
+            }
+          }
+        },
+        "spatial_metrics": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_listener_distance_meters",
+            "camera_listener_distance_meters",
+            "expected_pan",
+            "observed_pan",
+            "pan_error",
+            "attenuation_ratio"
+          ],
+          "properties": {
+            "source_listener_distance_meters": {
+              "type": "number",
+              "minimum": 0.0
+            },
+            "camera_listener_distance_meters": {
+              "type": "number",
+              "minimum": 0.0
+            },
+            "expected_pan": {
+              "type": "number",
+              "minimum": -1.0,
+              "maximum": 1.0
+            },
+            "observed_pan": {
+              "type": "number",
+              "minimum": -1.0,
+              "maximum": 1.0
+            },
+            "pan_error": {
+              "type": "number",
+              "minimum": 0.0
+            },
+            "attenuation_ratio": {
+              "type": "number",
+              "minimum": 0.0
+            }
+          }
+        },
+        "room_metrics": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "room_profile_id",
+            "reverb_profile",
+            "measured_rt60_seconds",
+            "measured_reverb_tail_seconds"
+          ],
+          "properties": {
+            "room_profile_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "reverb_profile": {
+              "type": "string",
+              "minLength": 1
+            },
+            "measured_rt60_seconds": {
+              "type": "number",
+              "minimum": 0.0
+            },
+            "measured_reverb_tail_seconds": {
+              "type": "number",
+              "minimum": 0.0
+            }
+          }
+        },
+        "ambience_metrics": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "drift_ratio",
+            "hard_cut_used",
+            "hard_cut_contract"
+          ],
+          "properties": {
+            "drift_ratio": {
+              "type": "number",
+              "minimum": 0.0
+            },
+            "hard_cut_used": {
+              "type": "boolean"
+            },
+            "hard_cut_contract": {
+              "$ref": "#/$defs/nullable_hard_cut_report_binding"
+            }
+          }
+        },
+        "mix_metrics": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "dialogue_to_ambience_db",
+            "final_mix_clipping_ratio",
+            "stereo_balance_delta",
+            "sample_rate_match",
+            "channel_match",
+            "duration_delta_seconds",
+            "sample_width_match",
+            "final_mix_distinct_path_from_stems",
+            "final_mix_distinct_sha_from_stems",
+            "used_sample_reconstruction",
+            "normalized_reconstruction_residual_ratio",
+            "final_mix_energy_ratio"
+          ],
+          "properties": {
+            "dialogue_to_ambience_db": {
+              "type": "number"
+            },
+            "final_mix_clipping_ratio": {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 1.0
+            },
+            "stereo_balance_delta": {
+              "type": "number",
+              "minimum": 0.0
+            },
+            "sample_rate_match": {
+              "type": "boolean"
+            },
+            "channel_match": {
+              "type": "boolean"
+            },
+            "duration_delta_seconds": {
+              "type": "number",
+              "minimum": 0.0
+            },
+            "sample_width_match": {
+              "type": "boolean"
+            },
+            "final_mix_distinct_path_from_stems": {
+              "type": "boolean"
+            },
+            "final_mix_distinct_sha_from_stems": {
+              "type": "boolean"
+            },
+            "used_sample_reconstruction": {
+              "type": "boolean"
+            },
+            "normalized_reconstruction_residual_ratio": {
+              "type": "number",
+              "minimum": 0.0
+            },
+            "final_mix_energy_ratio": {
+              "type": "number",
+              "minimum": 0.0
+            }
+          }
+        },
+        "proof_metrics": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "playback_producer_authority",
+            "runtime_producer_authority"
+          ],
+          "properties": {
+            "playback_producer_authority": {
+              "$ref": "#/$defs/nullable_proof_producer_authority"
+            },
+            "runtime_producer_authority": {
+              "$ref": "#/$defs/nullable_proof_producer_authority"
+            }
+          }
+        }
+      }
+    },
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "spatial_position_check",
+        "room_reverb_check",
+        "ambience_continuity",
+        "mix_balance_review",
+        "spatial_audio_playback_review",
+        "production_runtime_proof",
+        "production_spatial_room_authority",
+        "overall_pass"
+      ],
+      "properties": {
+        "spatial_position_check": {
+          "$ref": "#/$defs/gate_result"
+        },
+        "room_reverb_check": {
+          "$ref": "#/$defs/gate_result"
+        },
+        "ambience_continuity": {
+          "$ref": "#/$defs/gate_result"
+        },
+        "mix_balance_review": {
+          "$ref": "#/$defs/gate_result"
+        },
+        "spatial_audio_playback_review": {
+          "$ref": "#/$defs/gate_result"
+        },
+        "production_runtime_proof": {
+          "$ref": "#/$defs/gate_result"
+        },
+        "production_spatial_room_authority": {
+          "$ref": "#/$defs/gate_result"
+        },
+        "overall_pass": {
+          "$ref": "#/$defs/gate_result"
+        }
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "overall_pass": {
+      "type": "boolean"
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "path_sha_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "path_sha_bytes_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "bytes"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "nullable_path_sha_binding": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/path_sha_binding"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "hard_cut_report_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cut_id",
+        "reason",
+        "approver_id",
+        "approval_authority_id",
+        "synthetic_only_approver"
+      ],
+      "properties": {
+        "cut_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "approver_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "approval_authority_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "synthetic_only_approver": {
+          "type": "boolean"
+        }
+      }
+    },
+    "nullable_hard_cut_report_binding": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/hard_cut_report_binding"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "proof_producer_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "proof_kind",
+        "engine",
+        "model",
+        "model_version",
+        "model_sha256",
+        "authority_id",
+        "synthetic_only"
+      ],
+      "properties": {
+        "proof_kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "engine": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "authority_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "synthetic_only": {
+          "type": "boolean"
+        }
+      }
+    },
+    "nullable_proof_producer_authority": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/proof_producer_authority"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "wav_metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "duration_seconds",
+        "sample_rate_hz",
+        "sample_width_bytes",
+        "channels",
+        "frame_count",
+        "overall_rms_ratio",
+        "peak_ratio",
+        "clipping_ratio",
+        "stereo_pan",
+        "rt60_seconds",
+        "reverb_tail_seconds"
+      ],
+      "properties": {
+        "duration_seconds": {
+          "type": "number",
+          "minimum": 0.0
+        },
+        "sample_rate_hz": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sample_width_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "channels": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "frame_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "overall_rms_ratio": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "peak_ratio": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "clipping_ratio": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "stereo_pan": {
+          "type": "number",
+          "minimum": -1.0,
+          "maximum": 1.0
+        },
+        "rt60_seconds": {
+          "type": "number",
+          "minimum": 0.0
+        },
+        "reverb_tail_seconds": {
+          "type": "number",
+          "minimum": 0.0
+        }
+      }
+    },
+    "gate_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "blockers",
+        "artifact_bindings"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "PASS",
+            "FAIL",
+            "BLOCKED"
+          ]
+        },
+        "blockers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "artifact_bindings": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

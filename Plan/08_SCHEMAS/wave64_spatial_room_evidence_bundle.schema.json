@@ -1,0 +1,337 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave64 Spatial Room Evidence Bundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_name",
+    "bundle_version",
+    "run_id",
+    "scene_id",
+    "shot_id",
+    "take_id",
+    "is_synthetic",
+    "evidence_origin",
+    "listener_position",
+    "camera_position",
+    "camera_orientation",
+    "source_position",
+    "wave31_spatial_mix_binding",
+    "wave31_room_acoustics_binding",
+    "audio_artifacts",
+    "ambience_continuity_evidence",
+    "playback_proof_binding",
+    "runtime_proof_binding",
+    "production_authority_bundle_binding",
+    "threshold_overrides"
+  ],
+  "properties": {
+    "schema_name": {
+      "const": "wave64_spatial_room_evidence_bundle"
+    },
+    "bundle_version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scene_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "shot_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "take_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "is_synthetic": {
+      "type": "boolean"
+    },
+    "evidence_origin": {
+      "type": "string",
+      "enum": [
+        "technical_capture",
+        "hand_authored_relabel",
+        "synthetic_fixture"
+      ]
+    },
+    "listener_position": {
+      "$ref": "#/$defs/position3d"
+    },
+    "camera_position": {
+      "$ref": "#/$defs/position3d"
+    },
+    "camera_orientation": {
+      "$ref": "#/$defs/camera_orientation"
+    },
+    "source_position": {
+      "$ref": "#/$defs/position3d"
+    },
+    "wave31_spatial_mix_binding": {
+      "$ref": "#/$defs/path_sha_binding"
+    },
+    "wave31_room_acoustics_binding": {
+      "$ref": "#/$defs/path_sha_binding"
+    },
+    "audio_artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dry_dialogue",
+        "spatial_dialogue",
+        "ambience_bed",
+        "final_mix"
+      ],
+      "properties": {
+        "dry_dialogue": {
+          "$ref": "#/$defs/path_sha_bytes_binding"
+        },
+        "spatial_dialogue": {
+          "$ref": "#/$defs/path_sha_bytes_binding"
+        },
+        "ambience_bed": {
+          "$ref": "#/$defs/path_sha_bytes_binding"
+        },
+        "final_mix": {
+          "$ref": "#/$defs/path_sha_bytes_binding"
+        }
+      }
+    },
+    "ambience_continuity_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "previous_segment",
+        "current_segment",
+        "hard_cut_contract"
+      ],
+      "properties": {
+        "previous_segment": {
+          "$ref": "#/$defs/path_sha_bytes_binding"
+        },
+        "current_segment": {
+          "$ref": "#/$defs/path_sha_bytes_binding"
+        },
+        "hard_cut_contract": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/hard_cut_contract"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "playback_proof_binding": {
+      "$ref": "#/$defs/nullable_path_sha_binding"
+    },
+    "runtime_proof_binding": {
+      "$ref": "#/$defs/nullable_path_sha_binding"
+    },
+    "production_authority_bundle_binding": {
+      "$ref": "#/$defs/nullable_path_sha_binding"
+    },
+    "threshold_overrides": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_camera_listener_distance_delta",
+        "max_pan_error",
+        "min_attenuation_ratio",
+        "max_attenuation_ratio",
+        "min_rt60_seconds",
+        "max_rt60_seconds",
+        "max_reverb_tail_error_seconds",
+        "max_ambience_drift",
+        "min_dialogue_to_ambience_db",
+        "max_clipping_ratio",
+        "max_stereo_balance_delta",
+        "max_duration_delta_seconds"
+      ],
+      "properties": {
+        "max_camera_listener_distance_delta": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 10.0
+        },
+        "max_pan_error": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "min_attenuation_ratio": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "max_attenuation_ratio": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 2.0
+        },
+        "min_rt60_seconds": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 10.0
+        },
+        "max_rt60_seconds": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 10.0
+        },
+        "max_reverb_tail_error_seconds": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 10.0
+        },
+        "max_ambience_drift": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 10.0
+        },
+        "min_dialogue_to_ambience_db": {
+          "type": "number",
+          "minimum": -60.0,
+          "maximum": 60.0
+        },
+        "max_clipping_ratio": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "max_stereo_balance_delta": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "max_duration_delta_seconds": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 10.0
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "position3d": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "x",
+        "y",
+        "z"
+      ],
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        }
+      }
+    },
+    "path_sha_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "path_sha_bytes_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "bytes"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "nullable_path_sha_binding": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/path_sha_binding"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "hard_cut_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cut_id",
+        "reason",
+        "approver_id"
+      ],
+      "properties": {
+        "cut_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "approver_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "camera_orientation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "right_unit_vector",
+        "forward_unit_vector"
+      ],
+      "properties": {
+        "right_unit_vector": {
+          "$ref": "#/$defs/position3d"
+        },
+        "forward_unit_vector": {
+          "$ref": "#/$defs/position3d"
+        }
+      }
+    }
+  }
+}

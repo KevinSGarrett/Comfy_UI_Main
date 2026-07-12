@@ -1,0 +1,170 @@
+{
+  "schema_name": "wave64_spatial_room_gate_rules",
+  "registry_version": 1,
+  "spatial_rules": {
+    "max_camera_listener_distance_delta": 1.5,
+    "max_pan_error": 0.25,
+    "min_attenuation_ratio": 0.25,
+    "max_attenuation_ratio": 1.0,
+    "max_source_listener_distance_meters": 25.0
+  },
+  "room_rules": {
+    "max_reverb_tail_error_seconds": 0.15,
+    "known_reverb_profiles": [
+      "short_warm_room",
+      "short_bright_room",
+      "long_bright_room",
+      "minimal_room_environment_bed"
+    ],
+    "profile_rules": [
+      {
+        "room_profile_id": "small_soft_room",
+        "reverb_profile": "short_warm_room",
+        "allowed_materials": [
+          "fabric",
+          "carpet",
+          "soft_furniture"
+        ],
+        "rt60_seconds_range": [
+          0.2,
+          0.8
+        ],
+        "tail_seconds_range": [
+          0.15,
+          0.9
+        ]
+      },
+      {
+        "room_profile_id": "small_hard_room",
+        "reverb_profile": "short_bright_room",
+        "allowed_materials": [
+          "tile",
+          "drywall",
+          "wood"
+        ],
+        "rt60_seconds_range": [
+          0.25,
+          0.9
+        ],
+        "tail_seconds_range": [
+          0.2,
+          1.0
+        ]
+      },
+      {
+        "room_profile_id": "large_hard_room",
+        "reverb_profile": "long_bright_room",
+        "allowed_materials": [
+          "concrete",
+          "glass",
+          "hard_floor"
+        ],
+        "rt60_seconds_range": [
+          0.35,
+          1.5
+        ],
+        "tail_seconds_range": [
+          0.3,
+          1.5
+        ]
+      },
+      {
+        "room_profile_id": "outdoor_open",
+        "reverb_profile": "minimal_room_environment_bed",
+        "allowed_materials": [
+          "open_air"
+        ],
+        "rt60_seconds_range": [
+          0.05,
+          0.3
+        ],
+        "tail_seconds_range": [
+          0.05,
+          0.35
+        ]
+      }
+    ]
+  },
+  "ambience_rules": {
+    "max_continuity_drift": 0.25
+  },
+  "mix_rules": {
+    "min_dialogue_to_ambience_db": 2.0,
+    "max_clipping_ratio": 0.001,
+    "max_stereo_balance_delta": 0.35,
+    "max_mix_reconstruction_residual_ratio": 0.08,
+    "min_final_mix_energy_ratio": 0.6,
+    "max_final_mix_energy_ratio": 1.4,
+    "required_sample_rate_hz": 16000,
+    "required_channels": 2,
+    "max_duration_delta_seconds": 0.05
+  },
+  "proof_rules": {
+    "required_review_results": [
+      "PASS"
+    ],
+    "forbid_self_authorization": true,
+    "hard_cut_approvers": [
+      {
+        "approver_id": "qa_reviewer",
+        "approval_authority_id": "wave64_room_cut_board",
+        "allowed_reasons": [
+          "camera_cut",
+          "scene_break",
+          "set_transition"
+        ],
+        "synthetic_only": false
+      },
+      {
+        "approver_id": "fixture_cut_approver",
+        "approval_authority_id": "wave64_fixture_cut_lab",
+        "allowed_reasons": [
+          "fixture_reset",
+          "synthetic_jump"
+        ],
+        "synthetic_only": true
+      }
+    ],
+    "producer_allowlist": [
+      {
+        "proof_kind": "spatial_audio_playback_review",
+        "engine": "playback_engine",
+        "model": "playback_model",
+        "model_version": "2026.07",
+        "model_sha256": "963a76dc3ea273393f719cead9f33aa64f584f6a75f3dea2820228fa0a8f7198",
+        "authority_id": "wave64_playback_prod",
+        "synthetic_only": false
+      },
+      {
+        "proof_kind": "production_runtime",
+        "engine": "runtime_engine",
+        "model": "runtime_model",
+        "model_version": "2026.07",
+        "model_sha256": "d92c6a81b2ff50096bcda80885427d1f59a25b5f483f7055523504925d16ab23",
+        "authority_id": "wave64_runtime_prod",
+        "synthetic_only": false
+      },
+      {
+        "proof_kind": "spatial_audio_playback_review",
+        "engine": "fixture_playback_engine",
+        "model": "fixture_playback_model",
+        "model_version": "2026.fixture",
+        "model_sha256": "dabc12c8b581dcdbfa7cd3b035d10f5021340091ad712223f90995c9b52a8647",
+        "authority_id": "wave64_fixture_playback_lab",
+        "synthetic_only": true
+      },
+      {
+        "proof_kind": "production_runtime",
+        "engine": "fixture_runtime_engine",
+        "model": "fixture_runtime_model",
+        "model_version": "2026.fixture",
+        "model_sha256": "8ca1dbdf9a94a5bec8cddda37f8dcce6ad179da7e25e899cc80226a44672f047",
+        "authority_id": "wave64_fixture_runtime_lab",
+        "synthetic_only": true
+      }
+    ]
+  },
+  "production_rules": {
+    "approved_bundle_allowlist": []
+  }
+}

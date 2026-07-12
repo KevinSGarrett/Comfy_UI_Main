@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "report_id": "ITEM-W64-029-AUDIO-SPATIAL-ROOM-20260711T200153-0500",
+  "timestamp": "2026-07-11T20:01:53-05:00",
+  "item_id": "ITEM-W64-029",
+  "tracker_id": "TRK-W64-029",
+  "workstream": "audio_spatial_room",
+  "status": "Blocked_Spatial_Room_Production_Proof_Missing",
+  "row_complete": false,
+  "implementation": {
+    "spatial_position_and_camera_pan_evaluator_ready": true,
+    "room_reverb_rt60_and_tail_evaluator_ready": true,
+    "ambience_continuity_and_cut_authority_ready": true,
+    "mix_balance_and_stem_reconstruction_ready": true,
+    "playback_runtime_and_production_authority_ready": true,
+    "canonical_root_and_transactional_output_ready": true,
+    "synthetic_and_relabel_promotion_forbidden": true
+  },
+  "validation": {
+    "unit_tests_passed": 46,
+    "unit_test_failures": 0,
+    "unit_test_errors": 0,
+    "unit_test_skips": 0,
+    "python_compile": "pass",
+    "bundle_schema_check": "pass",
+    "report_schema_check": "pass",
+    "synthetic_technical_probe": "expected_exit_2",
+    "adversarial_relabel_probe": "expected_exit_2",
+    "authority_registry_unchanged_by_tests": true,
+    "remaining_remediable_high_or_medium_findings": 0
+  },
+  "acceptance_gates": {
+    "spatial_position_check_contract": true,
+    "room_reverb_check_contract": true,
+    "ambience_continuity_contract": true,
+    "mix_balance_review_contract": true,
+    "spatial_audio_playback_review_contract": true,
+    "genuine_production_spatial_audio_present": false,
+    "genuine_production_playback_review_present": false,
+    "genuine_production_runtime_proof_present": false,
+    "production_bundle_allowlisted": false,
+    "final_spatial_room_certification_allowed": false
+  },
+  "blockers": [
+    {"classification": "Blocked_Spatial_Room_Production_Proof_Missing", "reason": "No genuine non-synthetic production spatial audio with bound room, mix, playback-review, and runtime evidence exists."},
+    {"classification": "Blocked_Spatial_Room_Production_Authority_Missing", "reason": "The canonical production bundle allowlist contains zero approved bundles."}
+  ],
+  "evidence": [
+    {"path": "Plan/Instructions/QA/Evidence/Wave64/audio_spatial_room.json", "sha256": "a84bb430381e305b8836e7f8369e8e38214b0c51f66121ddc207bb93b5b8eec7"},
+    {"path": "Plan/Instructions/QA/Evidence/Wave64/audio_spatial_room_test_log.json", "sha256": "20609dc0c2f1545c17c175da371329d9b98c3af418cac9ae2f84b1ba961e2fcd"},
+    {"path": "runtime_artifacts/wave64_spatial_room_evidence/20260711T200153-0500/probe_summary.json", "sha256": "f1d3f597754ef42c2748ed0f7bde2df3f06e668f7e42654ee5ca4201ae392c58"},
+    {"path": "runtime_artifacts/wave64_spatial_room_evidence/20260711T200153-0500/windows_strict_tests.txt", "sha256": "a2d28058d84f04ffec08a714753bd7f25d42f0b181bf84351476495b56976aa0"}
+  ],
+  "runtime": {
+    "production_spatial_audio_generation_count": 0,
+    "production_spatial_audio_evaluation_count": 0,
+    "production_playback_review_count": 0,
+    "approved_production_bundle_count": 0,
+    "comfyui_started": false,
+    "aws_contacted": false,
+    "ec2_started": false
+  },
+  "next_action": "Proceed with TRK-W64-030 / ITEM-W64-030 by duplicate-checking and implementing the next strict audio/video synchronization gap from Plan/05_AUDIO_SYSTEM/WAVE30_AUDIO_VIDEO_SYNC_PLAN.md while keeping row029 blocked until genuine non-synthetic production spatial audio, playback, runtime, and allowlisted bundle proof are present."
+}
