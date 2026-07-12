@@ -1,3 +1,11 @@
+## Wave64 Row010 Character Identity And Multi-Character Separation - 2026-07-12T11:46:33-05:00
+
+`TRK-W64-010` / `ITEM-W64-010` is `Blocked_Identity_Reference_Proof_Missing_Separation_And_Merge_Rejection_Pass`. Existing W66/W69 runtime and visual evidence plus direct Codex review support exactly two distinct people, separate body/region ownership, depth ordering, contact ownership, and strict rejection of wrong handshake/clasp interactions. These artifacts do not bind either generated person to a unique `character_id`, isolated identity references, and a per-character comparison crop, so `identity_reference_check` remains blocked. The split-state audit passes 20/20 checks. No new generation, AWS, EC2, mask use/promotion, Jira, or Wave71+ action occurred.
+
+Next safe local action in strict sequence: `TRK-W64-011 / ITEM-W64-011`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/image_identity_multicharacter.json`; `Plan/Instructions/QA/Evidence/Wave64/IMAGE_IDENTITY_MULTICHARACTER_20260712T114633-0500.json`; `Plan/Tracker/Evidence/IMAGE_IDENTITY_MULTICHARACTER_20260712T114633-0500.json`.
+
 ## Wave64 Row009 Image Engine Router Compatibility - 2026-07-12T11:27:13-05:00
 
 `TRK-W64-009` / `ITEM-W64-009` is `Completed_Local_Router_Contract_Pass_Current_Lanes_Fail_Closed_Target_Runtime_Not_Certified`. The router now fails closed on negative status qualifiers even when a legacy pass prefix is present. It loads and enforces the Wave15 checkpoint/LoRA compatibility matrix and records hashes for the current active lanes, runtime queue, model registry, and matrix. The three-case regression and canonical audit pass 19/19 and 20/20 checks. All current production lane selections remain blocked under current certification-qualified statuses; no silent fallback occurred. No ComfyUI generation, AWS, EC2, mask use/promotion, Jira, or Wave71+ action occurred.

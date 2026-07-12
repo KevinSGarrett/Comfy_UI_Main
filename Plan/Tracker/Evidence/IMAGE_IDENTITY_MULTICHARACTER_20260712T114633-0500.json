@@ -1,0 +1,238 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "IMAGE_IDENTITY_MULTICHARACTER_20260712T114633-0500",
+  "created_iso": "2026-07-12T11:46:33-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-010",
+  "item_id": "ITEM-W64-010",
+  "status": "Blocked_Identity_Reference_Proof_Missing_Separation_And_Merge_Rejection_Pass",
+  "row_complete": false,
+  "qa_decision": "identity_reference_blocked_multi_instance_occlusion_and_merge_rejection_supported",
+  "validation_gates": {
+    "identity_reference_check": {
+      "status": "blocked_missing_per_character_reference_chain",
+      "checks": [
+        "IMC-002",
+        "IMC-003",
+        "IMC-017",
+        "IMC-018",
+        "IMC-020"
+      ]
+    },
+    "multi_instance_check": {
+      "status": "pass_reused_local_evidence",
+      "checks": [
+        "IMC-001",
+        "IMC-004",
+        "IMC-009",
+        "IMC-010",
+        "IMC-014"
+      ]
+    },
+    "occlusion_depth_check": {
+      "status": "pass_with_local_limits",
+      "checks": [
+        "IMC-007",
+        "IMC-013",
+        "IMC-015",
+        "IMC-016",
+        "IMC-020"
+      ]
+    },
+    "visual_reject_on_merge": {
+      "status": "pass_reject_logic_demonstrated",
+      "checks": [
+        "IMC-005",
+        "IMC-006",
+        "IMC-008",
+        "IMC-011",
+        "IMC-019"
+      ]
+    }
+  },
+  "exact_blocker": "No supplied artifact binds each generated person to a unique character_id, isolated identity references, and a per-character comparison crop.",
+  "codex_visual_review": {
+    "reviewed_by": "Codex Desktop",
+    "reviewed_existing_images_only": true,
+    "images": [
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_two_character_hand_to_body_w69_seed7152026252_20260707T113434-0500/images/codex_realvisxl_two_character_hand_to_body_seed7152026252_00001_.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_two_character_contact_robustness_seed7152026253_20260711T034617-0500/images/rvxl_twochar_contact_robust_7152026253_00001_.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_two_character_contact_robustness_seed7152026254_20260711T034707-0500/images/rvxl_twochar_contact_robust_7152026254_00001_.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_two_character_contact_refine_seed210702_20260707T115721-0500/images/codex_wave25_two_character_contact_refine_seed210702_00001_.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_two_character_contact_refine_seed210703_20260707T115814-0500/images/codex_wave25_two_character_contact_refine_seed210703_00001_.png"
+    ],
+    "findings": [
+      "Exactly two visually distinct adults remain spatially separated in the baseline and failure exemplars.",
+      "The two W66 failures correctly reject handshake/clasp interactions instead of the requested one-way upper-arm contact.",
+      "The W69 contact crops preserve a stable open hand and separate sleeve/body boundary across three seeds.",
+      "No reviewed image is paired to independent per-character identity references, so identity preservation is not certifiable."
+    ]
+  },
+  "checks": [
+    {
+      "name": "IMC-001_row010_contract_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-002_source_requires_per_character_reference_chain",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-003_source_separates_identity_from_instance_proof",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-004_w66_two_samples_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-005_w66_runtime_integrity_passes",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-006_w66_wrong_interactions_rejected",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-007_baseline_hash_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-008_failure_image_hashes_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-009_w69_participants_distinct",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-010_w69_no_body_merge",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-011_w69_local_support_only",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-012_refine_pair_stable_without_merge",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-013_refine_image_hashes_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-014_interaction_structure_pass",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-015_depth_ownership_pass",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-016_contact_graph_pass",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-017_prompt_profiles_distinct",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-018_identity_reference_chain_absent",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-019_visual_reject_examples_bound",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-020_no_false_identity_or_final_claim",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "safety_boundary": {
+    "new_generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "candidate_or_gold_masks_consumed": false,
+    "mask_promotion_performed": false,
+    "wave71_activated": false,
+    "jira_mutated": false
+  },
+  "project_completion": {
+    "level": "BELOW_LEVEL_7",
+    "full_project_complete": false,
+    "final_certification_decision": "blocked"
+  },
+  "source_hashes": [
+    {
+      "path": "Plan/03_IMAGE_SYSTEM/CHARACTER_IDENTITY_AND_MULTICHARACTER_SPEC.md",
+      "sha256": "7bd986be8be4ca4a6eae7790afaf6aa569fb687e24a0ed2489687f384e46a648"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_LOCAL_BASE_TWO_CHARACTER_CONTACT_ROBUSTNESS_QA_20260711T035500-0500.json",
+      "sha256": "a8ede4da85d535a8b9c5b90f8352ebdda5479d4ab1d7afe553c4d987e684e370"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_HAND_CONTACT_VISUAL_CERTIFICATION_TWO_CHARACTER_HAND_TO_BODY_20260707T123500-0500.json",
+      "sha256": "c5cb51aeed5fd10dfcc7ae411048bcf8f55d99917e198f8627687d6404540924"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_WAVE25_TWO_CHARACTER_CONTACT_REFINE_ROBUSTNESS_VISUAL_QA_20260707T121500-0500.json",
+      "sha256": "8468b20bee2416a67e3e013b766d204b63a3a33b0c66b925be41fcfad93a4917"
+    },
+    {
+      "path": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/WAVE25_INTERACTION_VALIDATION_RECHECK.json",
+      "sha256": "f031260980db906063135fa086fc1a613a422e7f6e98709dd7e1353b75f894e3"
+    },
+    {
+      "path": "runtime_artifacts/instance_layout/two_character_hand_to_body_w69/INSTANCE_LAYOUT_VALIDATION_RECHECK.json",
+      "sha256": "dd2501918cf1635753d58b82e65eeafcf503c6f12b7cbe4f33c4df7f11c4267f"
+    },
+    {
+      "path": "runtime_artifacts/physical_contact_graph/two_character_hand_to_body_w69/CONTACT_GRAPH_VALIDATION_RECHECK.json",
+      "sha256": "c742ec40bd7b280d339099f86c2e5a9a495dde173cb1f1c1282bf2dced6d9860"
+    },
+    {
+      "path": "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_two_character_openpose_contact_robustness_seed7152026253.json",
+      "sha256": "5e5066bf9196d8580aa1302f0327cb11ed14bb32bfbdb763a7fd3e9414bb60a3"
+    },
+    {
+      "path": "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_two_character_openpose_contact_robustness_seed7152026254.json",
+      "sha256": "25391766e9667b010313e4e49c4c5291ac183fc6166a11db7507cab902971ffd"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_two_character_hand_to_body_w69_seed7152026252_20260707T113434-0500/images/codex_realvisxl_two_character_hand_to_body_seed7152026252_00001_.png",
+      "sha256": "d6ef67713167d55696b1f07e86c88e9ee0a038f946be9cd8cc56810f724b81a7"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_two_character_contact_robustness_seed7152026253_20260711T034617-0500/images/rvxl_twochar_contact_robust_7152026253_00001_.png",
+      "sha256": "2f8490d50f38d8cc3dbab8452705e3bc96ce362e97276ab3956b866119d09369"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_two_character_contact_robustness_seed7152026254_20260711T034707-0500/images/rvxl_twochar_contact_robust_7152026254_00001_.png",
+      "sha256": "61db240fad38510ca85b585b2dfde6090b3cab2d5b10c770e637c280a20daefb"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_two_character_contact_refine_seed210702_20260707T115721-0500/images/codex_wave25_two_character_contact_refine_seed210702_00001_.png",
+      "sha256": "13bbf5171c572dee5d54527b049d7ab6478d35be5762ca363904adbe757483ec"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_two_character_contact_refine_seed210703_20260707T115814-0500/images/codex_wave25_two_character_contact_refine_seed210703_00001_.png",
+      "sha256": "7c928e6d2ab9cf2bad3b8499fa9a109acc9fbed74f71e3456fe323fa2055416a"
+    }
+  ],
+  "next_action": "Proceed to TRK-W64-011 / ITEM-W64-011 in strict sequence. Reopen Row010 only when a per-character identity-reference chain and comparison crops exist; do not regenerate the demonstrated separation/contact scope.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/image_identity_multicharacter.json",
+    "Plan/Instructions/QA/Evidence/Wave64/IMAGE_IDENTITY_MULTICHARACTER_20260712T114633-0500.json",
+    "Plan/Tracker/Evidence/IMAGE_IDENTITY_MULTICHARACTER_20260712T114633-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/image_identity_multicharacter_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-010_image_identity_multicharacter.json"
+  ]
+}

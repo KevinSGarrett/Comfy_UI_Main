@@ -43,3 +43,11 @@ Every character must have:
 - no cross-character LoRA/detail bleed
 - pose and gaze match plan
 - interactions occur between correct entities
+
+## Evidence boundary
+
+Multi-instance separation, depth ownership, and merge rejection do not prove
+identity preservation by themselves. Identity certification requires an explicit
+per-character reference chain that binds each `character_id` to isolated source
+references and a generated QA crop. Distinct-looking people without that binding
+must remain blocked at `identity_reference_check`.
