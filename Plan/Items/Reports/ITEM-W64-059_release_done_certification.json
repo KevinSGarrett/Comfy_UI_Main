@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0",
+  "created_at": "2026-07-12T08:27:39-05:00",
+  "tracker_id": "TRK-W64-059",
+  "item_id": "ITEM-W64-059",
+  "status": "Blocked_Full_Project_Release_Certification_Gates_Not_Met",
+  "final_decision": "blocked",
+  "required_gates": {
+    "done_cert_schema": {
+      "result": "pass_audit_record_created",
+      "reason_codes": []
+    },
+    "evidence_manifest": {
+      "result": "pass_mixed_state_inventory_complete",
+      "reason_codes": [
+        "inventory_proves_mixed_pass_blocked_state"
+      ]
+    },
+    "qa_pass": {
+      "result": "fail",
+      "reason_codes": [
+        "full_project_qa_not_passed",
+        "advanced_direct_visual_audio_qa_missing"
+      ]
+    },
+    "runtime_pass": {
+      "result": "fail",
+      "reason_codes": [
+        "final_readiness_inputs_invalid",
+        "nine_runtime_lanes_blocked",
+        "aws_live_proof_expired"
+      ]
+    },
+    "review_pass": {
+      "result": "fail",
+      "reason_codes": [
+        "base_lane_final_review_blocked",
+        "inpaint_bounded_scope_not_final_lane_review"
+      ]
+    },
+    "blockers_zero": {
+      "result": "fail",
+      "reason_codes": [
+        "BLOCKER-W64-AWS-EXPIRED-SESSION-001",
+        "BLOCKER-W64-GIT-DIRTY-WORKTREE-001",
+        "BLOCKER-W64-ADVANCED-DIRECT-PROOF-001",
+        "BLOCKER-W64-ORGANIZATION-PLACEMENT-DEBT-001",
+        "BLOCKER-W64-RUNTIME-DEPENDENT-TRACE-LINKS-001",
+        "BLOCKER-W66-FINAL-READINESS-001"
+      ]
+    }
+  },
+  "missing_absolute_requirements": [
+    "implementation_complete",
+    "test_run_complete",
+    "qa_pass_or_conditional_pass"
+  ],
+  "global_blockers": [
+    {
+      "blocker_id": "BLOCKER-W64-AWS-EXPIRED-SESSION-001",
+      "source": "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json",
+      "scope": "new live AWS/EC2/S3 and target-runtime proof"
+    },
+    {
+      "blocker_id": "BLOCKER-W64-GIT-DIRTY-WORKTREE-001",
+      "source": "Plan/Instructions/QA/Evidence/Wave64/secret_git_security.json",
+      "scope": "strict clean checkpoint"
+    },
+    {
+      "blocker_id": "BLOCKER-W64-ADVANCED-DIRECT-PROOF-001",
+      "source": "Plan/Instructions/QA/Evidence/Wave64/advanced_additions_integration.json",
+      "scope": "advanced runtime/visual/audio/model/mask proof"
+    },
+    {
+      "blocker_id": "BLOCKER-W64-ORGANIZATION-PLACEMENT-DEBT-001",
+      "source": "Plan/Instructions/QA/Evidence/Wave64/organization_system.json",
+      "scope": "85 tracked placement violations"
+    },
+    {
+      "blocker_id": "BLOCKER-W64-RUNTIME-DEPENDENT-TRACE-LINKS-001",
+      "source": "Plan/Instructions/QA/Evidence/Wave64/blueprint_projectplan_combination.json",
+      "scope": "cw_006/cw_007/cw_008 runtime proof"
+    },
+    {
+      "blocker_id": "BLOCKER-W66-FINAL-READINESS-001",
+      "source": "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_20260711T211346-0500.json",
+      "scope": "nine of ten runtime lanes blocked from final readiness"
+    }
+  ],
+  "evidence": [
+    "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
+    "Plan/Instructions/QA/Evidence/Wave64/RELEASE_DONE_CERTIFICATION_20260712T082739-0500.json",
+    "Plan/Tracker/Evidence/RELEASE_DONE_CERTIFICATION_20260712T082739-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/release_done_certification_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-059_release_done_certification.json",
+    "Plan/Instructions/QA/DONE_CERTIFICATION_EVIDENCE_PROTOCOL.md",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_20260711T211346-0500.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W66_BASE_LANE_FINAL_CERTIFICATION_BLOCKER_AFTER_ROBUSTNESS_20260711T035500-0500.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W66_INPAINT_BOUNDED_TARGET_RUNTIME_SMOKE_CERTIFICATE_20260711T031500-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/advanced_additions_integration.json",
+    "Plan/Instructions/QA/Evidence/Wave64/organization_system.json",
+    "Plan/Instructions/QA/Evidence/Wave64/blueprint_projectplan_combination.json",
+    "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json",
+    "Plan/Instructions/QA/Evidence/Wave64/secret_git_security.json",
+    "Plan/Instructions/QA/Evidence/Wave64/blocker_known_issue_control.json"
+  ],
+  "next_action": "Advance to TRK-W64-060 / ITEM-W64-060 final end-to-end certification audit while preserving all blockers and bounded lane proofs."
+}

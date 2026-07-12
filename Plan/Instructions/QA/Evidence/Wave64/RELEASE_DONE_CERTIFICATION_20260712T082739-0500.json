@@ -1,0 +1,249 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "release_done_certification_audit",
+  "certification_id": "RELEASE_DONE_CERTIFICATION_20260712T082739-0500",
+  "created_at": "2026-07-12T08:27:39-05:00",
+  "tracker_id": "TRK-W64-059",
+  "item_id": "ITEM-W64-059",
+  "title": "Full-project release done-certification audit",
+  "artifact_scope": "C:/Comfy_UI_Main full-project release readiness",
+  "implementation_summary": "Current fail-closed audit across done-cert inventory, runtime readiness, lane certificates, active blockers, Tracker, Items, and known issues.",
+  "status": "Blocked_Full_Project_Release_Certification_Gates_Not_Met",
+  "row_complete": false,
+  "final_decision": "blocked",
+  "certifier": "Codex Desktop autonomous release manager",
+  "inventory_summary": {
+    "file_count": 162,
+    "json_count": 55,
+    "invalid_json_count": 0,
+    "inventory_sha256": "07e427b4bbaf1733922707ae489269aec3e6191b2c9f8fc2664eb56e94a95b75"
+  },
+  "required_gates": {
+    "done_cert_schema": {
+      "result": "pass_audit_record_created",
+      "reason_codes": []
+    },
+    "evidence_manifest": {
+      "result": "pass_mixed_state_inventory_complete",
+      "reason_codes": [
+        "inventory_proves_mixed_pass_blocked_state"
+      ]
+    },
+    "qa_pass": {
+      "result": "fail",
+      "reason_codes": [
+        "full_project_qa_not_passed",
+        "advanced_direct_visual_audio_qa_missing"
+      ]
+    },
+    "runtime_pass": {
+      "result": "fail",
+      "reason_codes": [
+        "final_readiness_inputs_invalid",
+        "nine_runtime_lanes_blocked",
+        "aws_live_proof_expired"
+      ]
+    },
+    "review_pass": {
+      "result": "fail",
+      "reason_codes": [
+        "base_lane_final_review_blocked",
+        "inpaint_bounded_scope_not_final_lane_review"
+      ]
+    },
+    "blockers_zero": {
+      "result": "fail",
+      "reason_codes": [
+        "BLOCKER-W64-AWS-EXPIRED-SESSION-001",
+        "BLOCKER-W64-GIT-DIRTY-WORKTREE-001",
+        "BLOCKER-W64-ADVANCED-DIRECT-PROOF-001",
+        "BLOCKER-W64-ORGANIZATION-PLACEMENT-DEBT-001",
+        "BLOCKER-W64-RUNTIME-DEPENDENT-TRACE-LINKS-001",
+        "BLOCKER-W66-FINAL-READINESS-001"
+      ]
+    }
+  },
+  "absolute_completion_requirements": {
+    "implementation_complete": false,
+    "test_run_complete": false,
+    "qa_pass_or_conditional_pass": false,
+    "artifact_inspection_complete": true,
+    "tracker_update_complete": true,
+    "itemized_list_update_complete": true,
+    "known_issue_review_complete": true,
+    "final_done_certification_record_created": true
+  },
+  "missing_absolute_requirements": [
+    "implementation_complete",
+    "test_run_complete",
+    "qa_pass_or_conditional_pass"
+  ],
+  "lane_scope_preservation": {
+    "preserved_proofs": [
+      "Plan/Instructions/QA/Evidence/Done_Certifications/W66_INPAINT_BOUNDED_TARGET_RUNTIME_SMOKE_CERTIFICATE_20260711T031500-0500.json"
+    ],
+    "non_promotable_proofs": [
+      {
+        "path": "Plan/Instructions/QA/Evidence/Done_Certifications/W66_INPAINT_BOUNDED_TARGET_RUNTIME_SMOKE_CERTIFICATE_20260711T031500-0500.json",
+        "boundary": "bounded smoke only; not final lane or full route"
+      },
+      {
+        "path": "Plan/Instructions/QA/Evidence/Done_Certifications/W66_BASE_LANE_FINAL_CERTIFICATION_BLOCKER_AFTER_ROBUSTNESS_20260711T035500-0500.json",
+        "boundary": "blocked base final certification"
+      }
+    ]
+  },
+  "global_blockers": [
+    {
+      "blocker_id": "BLOCKER-W64-AWS-EXPIRED-SESSION-001",
+      "source": "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json",
+      "scope": "new live AWS/EC2/S3 and target-runtime proof"
+    },
+    {
+      "blocker_id": "BLOCKER-W64-GIT-DIRTY-WORKTREE-001",
+      "source": "Plan/Instructions/QA/Evidence/Wave64/secret_git_security.json",
+      "scope": "strict clean checkpoint"
+    },
+    {
+      "blocker_id": "BLOCKER-W64-ADVANCED-DIRECT-PROOF-001",
+      "source": "Plan/Instructions/QA/Evidence/Wave64/advanced_additions_integration.json",
+      "scope": "advanced runtime/visual/audio/model/mask proof"
+    },
+    {
+      "blocker_id": "BLOCKER-W64-ORGANIZATION-PLACEMENT-DEBT-001",
+      "source": "Plan/Instructions/QA/Evidence/Wave64/organization_system.json",
+      "scope": "85 tracked placement violations"
+    },
+    {
+      "blocker_id": "BLOCKER-W64-RUNTIME-DEPENDENT-TRACE-LINKS-001",
+      "source": "Plan/Instructions/QA/Evidence/Wave64/blueprint_projectplan_combination.json",
+      "scope": "cw_006/cw_007/cw_008 runtime proof"
+    },
+    {
+      "blocker_id": "BLOCKER-W66-FINAL-READINESS-001",
+      "source": "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_20260711T211346-0500.json",
+      "scope": "nine of ten runtime lanes blocked from final readiness"
+    }
+  ],
+  "tests_performed": [
+    "20 deterministic release checks",
+    "162-file certification inventory parse/hash audit",
+    "lane-scope boundary review",
+    "Tracker/Items/known-issue review"
+  ],
+  "qa_summary": "Full-project QA/review/runtime gates fail; bounded lane evidence preserved without scope promotion.",
+  "certification_boundary": "No full-project, final-image, mask, Wave71+, runtime-lane, or release certification is granted.",
+  "checks": [
+    {
+      "name": "CHK-001_inventory_file_count_eq_162",
+      "result": "pass"
+    },
+    {
+      "name": "CHK-002_inventory_json_count_eq_55",
+      "result": "pass"
+    },
+    {
+      "name": "CHK-003_inventory_invalid_json_eq_0",
+      "result": "pass"
+    },
+    {
+      "name": "CHK-004_tracker_row059_exists",
+      "result": "pass"
+    },
+    {
+      "name": "CHK-005_tracker_row059_status_not_complete",
+      "result": "pass"
+    },
+    {
+      "name": "CHK-006_tracker_validation_exact",
+      "result": "pass"
+    },
+    {
+      "name": "CHK-007_protocol_has_8_requirements",
+      "result": "pass"
+    },
+    {
+      "name": "CHK-008_protocol_allows_blocked",
+      "result": "pass"
+    },
+    {
+      "name": "CHK-009_readiness_result_fail",
+      "result": "pass"
+    },
+    {
+      "name": "CHK-010_ready_less_than_lane_count",
+      "result": "pass"
+    },
+    {
+      "name": "CHK-011_blocked_lanes_positive",
+      "result": "pass"
+    },
+    {
+      "name": "CHK-012_git_clean_false",
+      "result": "pass"
+    },
+    {
+      "name": "CHK-013_aws_blocker_present",
+      "result": "pass"
+    },
+    {
+      "name": "CHK-014_dirty_blocker_present",
+      "result": "pass"
+    },
+    {
+      "name": "CHK-015_base_final_blocked",
+      "result": "pass"
+    },
+    {
+      "name": "CHK-016_inpaint_bounded_only",
+      "result": "pass"
+    },
+    {
+      "name": "CHK-017_inpaint_lane_cert_false",
+      "result": "pass"
+    },
+    {
+      "name": "CHK-018_inpaint_route_cert_false",
+      "result": "pass"
+    },
+    {
+      "name": "CHK-019_no_full_project_claim",
+      "result": "pass"
+    },
+    {
+      "name": "CHK-020_fail_closed_if_gate_fails",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "safety_boundary": {
+    "aws_contacted": false,
+    "ec2_started": false,
+    "comfyui_contacted": false,
+    "generation_executed": false,
+    "release_promoted": false,
+    "mask_or_jira_mutated": false
+  },
+  "next_action": "Advance to TRK-W64-060 / ITEM-W64-060 final end-to-end certification audit while preserving all blockers and bounded lane proofs.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
+    "Plan/Instructions/QA/Evidence/Wave64/RELEASE_DONE_CERTIFICATION_20260712T082739-0500.json",
+    "Plan/Tracker/Evidence/RELEASE_DONE_CERTIFICATION_20260712T082739-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/release_done_certification_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-059_release_done_certification.json",
+    "Plan/Instructions/QA/DONE_CERTIFICATION_EVIDENCE_PROTOCOL.md",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_20260711T211346-0500.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W66_BASE_LANE_FINAL_CERTIFICATION_BLOCKER_AFTER_ROBUSTNESS_20260711T035500-0500.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W66_INPAINT_BOUNDED_TARGET_RUNTIME_SMOKE_CERTIFICATE_20260711T031500-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/advanced_additions_integration.json",
+    "Plan/Instructions/QA/Evidence/Wave64/organization_system.json",
+    "Plan/Instructions/QA/Evidence/Wave64/blueprint_projectplan_combination.json",
+    "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json",
+    "Plan/Instructions/QA/Evidence/Wave64/secret_git_security.json",
+    "Plan/Instructions/QA/Evidence/Wave64/blocker_known_issue_control.json"
+  ]
+}
