@@ -1,81 +1,196 @@
 {
   "schema_version": "1.0",
-  "evidence_id": "CIVITAI_METADATA_20260708T234544-0500",
-  "created_iso": "2026-07-08T23:45:44-05:00",
+  "evidence_id": "CIVITAI_METADATA_RECONCILIATION_20260712T070524-0500",
+  "created_iso": "2026-07-12T07:05:24-05:00",
   "wave": 64,
   "tracker_id": "TRK-W64-045",
   "item_id": "ITEM-W64-045",
-  "task": "Validate Civitai metadata lookup and provenance for registered RealVisXL checkpoint records.",
-  "source_protocol": "Plan/Instructions/Operations/CIVITAI_API_OPERATING_PROTOCOL.md",
-  "lookup_script": "Plan/Instructions/Operations/Scripts/Invoke-CivitaiModelLookup.ps1",
-  "query_evidence": "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_REALVISXL_QUERY_20260708T234325-0500.json",
-  "detail_summary": "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_REALVISXL_DETAIL_SUMMARY_20260708T234347-0500.json",
-  "model_detail_evidence": "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_MODEL_139562_CLEAN_20260708T234347-0500.json",
-  "version_detail_evidence": "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_MODEL_VERSION_789646_CLEAN_20260708T234347-0500.json",
-  "secret_safety": {
-    "token_loaded_for_clean_lookup": true,
-    "token_printed": false,
-    "evidence_files_contain_secret_markers": false,
-    "secret_marker_paths": []
-  },
-  "metadata_match": {
-    "model_id": 139562,
-    "model_name": "RealVisXL V5.0",
-    "model_type": "Checkpoint",
-    "version_id": 789646,
-    "version_name": "V5.0 (BakedVAE)",
-    "base_model": "SDXL 1.0",
-    "primary_file_name": "realvisxlV50_v50Bakedvae.safetensors",
-    "primary_file_size_kb": 6775454.578125,
-    "primary_sha256": "6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80",
-    "download_url_present": true
-  },
-  "registry_provenance": {
-    "civitai_registry_record_count": 7,
-    "realvisxl_registry_record_count": 7,
-    "registry_record_ids": [
-      "MODEL-REALVISXL-V50-BAKEDVAE-CHECKPOINT-001",
-      "MODEL-REALVISXL-V50-CANNY-LANE-CHECKPOINT-001",
-      "MODEL-REALVISXL-V50-INPAINT-DETAIL-CHECKPOINT-001",
-      "MODEL-REALVISXL-V50-DEPTH-LANE-CHECKPOINT-001",
-      "MODEL-REALVISXL-V50-LINEART-LANE-CHECKPOINT-001",
-      "MODEL-REALVISXL-V50-OPENPOSE-LANE-CHECKPOINT-001",
-      "MODEL-REALVISXL-V50-NORMAL-LANE-CHECKPOINT-001"
+  "status": "Completed_Local_Civitai_Metadata_Provenance_Pass",
+  "row_complete": true,
+  "qa_decision": "civitai_metadata_current_registry_provenance_pass_no_rerun",
+  "task": "Reconcile Civitai provenance against the current 15-record registry without duplicate live lookup.",
+  "registry_scope": {
+    "total_records": 15,
+    "civitai_records": 7,
+    "non_civitai_records": 8,
+    "non_civitai_sources": [
+      "github",
+      "huggingface"
     ],
-    "registry_mismatches": [],
-    "source_url_recorded": true,
-    "version_file_match": true
+    "civitai_tuple": {
+      "source_model_id": "139562",
+      "source_model_version_id": "789646",
+      "source_url": "https://civitai.com/models/139562?modelVersionId=789646",
+      "file_name": "realvisxlV50_v50Bakedvae.safetensors",
+      "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80"
+    },
+    "mismatches": []
   },
-  "download_boundary": {
-    "model_binary_downloaded_by_this_row": false,
-    "unsafe_model_binary_committed": false,
-    "download_url_recorded_as_metadata_only": true
+  "clean_evidence": {
+    "summary": "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_REALVISXL_DETAIL_SUMMARY_20260708T234347-0500.json",
+    "model": "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_MODEL_139562_CLEAN_20260708T234347-0500.json",
+    "version": "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_MODEL_VERSION_789646_CLEAN_20260708T234347-0500.json",
+    "query": "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_REALVISXL_QUERY_20260708T234325-0500.json",
+    "scanned_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/CIVITAI_METADATA_20260708T234544-0500.json",
+      "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_REALVISXL_DETAIL_SUMMARY_20260708T234347-0500.json",
+      "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_MODEL_139562_CLEAN_20260708T234347-0500.json",
+      "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_MODEL_VERSION_789646_CLEAN_20260708T234347-0500.json",
+      "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_REALVISXL_QUERY_20260708T234325-0500.json"
+    ],
+    "primary_file_name": "realvisxlV50_v50Bakedvae.safetensors",
+    "primary_sha256": "6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80",
+    "secret_findings": {
+      "authorization_bearer": 0,
+      "civitai_token_assignment": 0,
+      "api_key_query_parameter": 0,
+      "generic_secret_assignment": 0
+    },
+    "secret_markers_found": 0,
+    "token_value_read_or_printed": false
   },
-  "runtime_boundary": {
+  "rerun_decision": {
+    "live_civitai_lookup": false,
+    "reason": "Current seven-record tuple matches clean evidence with no provenance or secret-safety drift.",
+    "trigger": "Rerun only if Civitai count or model/version/file/hash tuple changes, or new evidence regresses secret safety."
+  },
+  "boundaries": {
+    "network_contacted": false,
+    "token_accessed": false,
+    "binary_downloaded": false,
     "ec2_started": false,
     "generation_executed": false,
-    "comfyui_contacted": false,
-    "target_runtime_promoted": false
+    "masks_or_wave_gates_touched": false,
+    "jira_mutated": false
   },
-  "gold_mask_dependency_boundary": {
-    "mask_truth_consumed": false,
-    "masks_promoted": false,
-    "hard_gates_rerun": false,
-    "wave71_activation_attempted": false
+  "source_hashes": [
+    {
+      "path": "Plan/Registries/Models/model_registry.jsonl",
+      "sha256": "60ce5bd6d86d6416474b5c66d8a023fb8e5e632f03072ab4ea05620736382b2f"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_REALVISXL_DETAIL_SUMMARY_20260708T234347-0500.json",
+      "sha256": "8b323690aa3c1b58f0272190e6ab36151f4ed48e7a0f770c7b755a4f78e9f9d3"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_MODEL_139562_CLEAN_20260708T234347-0500.json",
+      "sha256": "a97f41fe3dd7221471ffd5000b1a2e0d8372b6cfb94d24006bd88a70386d609f"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_MODEL_VERSION_789646_CLEAN_20260708T234347-0500.json",
+      "sha256": "e7f90ec9ee1b7fb491c1413acfc326ab8dc49816720089cd1edf5811ca324ad5"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_REALVISXL_QUERY_20260708T234325-0500.json",
+      "sha256": "0a0106874240ebfaaa977070348edaa23d42993fa811215db991e9a7ee12a4e7"
+    },
+    {
+      "path": "Plan/Instructions/Operations/CIVITAI_API_OPERATING_PROTOCOL.md",
+      "sha256": "392d96c40e8332a774ce5267ddae5338637e5034f488bb0c2d29abe196d9867b"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Scripts/Invoke-CivitaiModelLookup.ps1",
+      "sha256": "3808bda098f091e965c80d934688b02005fb25db012a1ffda13ce8dcbe5cc218"
+    }
+  ],
+  "checks": [
+    {
+      "name": "registry_count_15",
+      "result": "pass"
+    },
+    {
+      "name": "civitai_record_count_7",
+      "result": "pass"
+    },
+    {
+      "name": "non_civitai_record_count_8",
+      "result": "pass"
+    },
+    {
+      "name": "non_civitai_sources_scoped_out",
+      "result": "pass"
+    },
+    {
+      "name": "all_civitai_records_realvisxl",
+      "result": "pass"
+    },
+    {
+      "name": "registry_tuple_matches",
+      "result": "pass"
+    },
+    {
+      "name": "clean_model_id_matches",
+      "result": "pass"
+    },
+    {
+      "name": "clean_version_id_matches",
+      "result": "pass"
+    },
+    {
+      "name": "clean_file_name_matches",
+      "result": "pass"
+    },
+    {
+      "name": "clean_sha_matches",
+      "result": "pass"
+    },
+    {
+      "name": "source_url_recorded",
+      "result": "pass"
+    },
+    {
+      "name": "download_url_metadata_present",
+      "result": "pass"
+    },
+    {
+      "name": "scanned_evidence_no_authorization_bearer",
+      "result": "pass"
+    },
+    {
+      "name": "scanned_evidence_no_token_or_key_assignment",
+      "result": "pass"
+    },
+    {
+      "name": "scanned_evidence_set_complete",
+      "result": "pass"
+    },
+    {
+      "name": "no_binary_download_by_row",
+      "result": "pass"
+    },
+    {
+      "name": "no_unsafe_binary_commit",
+      "result": "pass"
+    },
+    {
+      "name": "live_lookup_not_required_without_drift",
+      "result": "pass"
+    },
+    {
+      "name": "no_external_runtime_action",
+      "result": "pass"
+    },
+    {
+      "name": "next_tracker_row_exists",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
   },
-  "errors": [],
-  "qa_decision": "civitai_metadata_passed_secret_safe_realvisxl_provenance",
-  "next_step": "Advance to TRK-W64-046/ITEM-W64-046.",
+  "next_action": "Advance to TRK-W64-046 / ITEM-W64-046; preserve this provenance evidence unless the source tuple changes.",
   "evidence_paths": [
     "Plan/Instructions/QA/Evidence/Wave64/civitai_metadata.json",
+    "Plan/Instructions/QA/Evidence/Wave64/CIVITAI_METADATA_RECONCILIATION_20260712T070524-0500.json",
+    "Plan/Tracker/Evidence/CIVITAI_METADATA_RECONCILIATION_20260712T070524-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/civitai_metadata_reconciliation_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-045_civitai_metadata.json",
     "Plan/Instructions/QA/Evidence/Wave64/CIVITAI_METADATA_20260708T234544-0500.json",
-    "Plan/Tracker/Evidence/CIVITAI_METADATA_20260708T234544-0500.json",
-    "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_REALVISXL_QUERY_20260708T234325-0500.json",
     "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_REALVISXL_DETAIL_SUMMARY_20260708T234347-0500.json",
     "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_MODEL_139562_CLEAN_20260708T234347-0500.json",
     "Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_MODEL_VERSION_789646_CLEAN_20260708T234347-0500.json",
-    "Plan/Instructions/Operations/CIVITAI_API_OPERATING_PROTOCOL.md",
-    "Plan/Instructions/Operations/Scripts/Invoke-CivitaiModelLookup.ps1",
     "Plan/Registries/Models/model_registry.jsonl"
   ]
 }

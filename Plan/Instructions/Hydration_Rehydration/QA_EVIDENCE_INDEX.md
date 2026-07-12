@@ -1,3 +1,11 @@
+## Wave64 Row045 Civitai Provenance - 2026-07-12T07:05:24-05:00
+
+`TRK-W64-045` / `ITEM-W64-045` is `Completed_Local_Civitai_Metadata_Provenance_Pass`. The current 15-record registry contains seven Civitai-backed RealVisXL records; all seven match model `139562`, version `789646`, the expected checkpoint filename, source URL, and SHA256. Eight GitHub/Hugging Face records are correctly outside Civitai scope. Clean evidence contains no secret markers, and no token or network lookup was used.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/civitai_metadata.json`; `Plan/Instructions/QA/Evidence/Wave64/CIVITAI_METADATA_RECONCILIATION_20260712T070524-0500.json`; `Plan/Tracker/Evidence/CIVITAI_METADATA_RECONCILIATION_20260712T070524-0500.json`; `Plan/Instructions/QA/Evidence/Model_Registry/W64_CIVITAI_REALVISXL_DETAIL_SUMMARY_20260708T234347-0500.json`.
+
+Next: `TRK-W64-046 / ITEM-W64-046`; rerun Civitai only if the source tuple or secret-safety evidence changes.
+
 ## Wave64 Row044 Model Registry Governance - 2026-07-12T06:56:30-05:00
 
 `TRK-W64-044` / `ITEM-W64-044` is `Completed_Local_Model_Registry_Governance_Pass`. Current coverage is `pass_local_only`: 15 registry records, 15 validation rows, 10 lanes, zero failed checks. Depth/Lineart target-runtime records are aligned. Flux has a fail-closed authority record and queued validation row, but remains uninstalled and unpromoted; license acceptance is not asserted.
