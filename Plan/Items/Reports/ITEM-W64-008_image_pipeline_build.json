@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-12T10:57:51-05:00",
+  "tracker_id": "TRK-W64-008",
+  "item_id": "ITEM-W64-008",
+  "status": "Blocked_End_To_End_Image_Promotion_Planner_And_Local_Stages_Pass",
+  "stage_states": [
+    {
+      "stage": "base_generation",
+      "lane_ids": [
+        "sdxl_low_risk_fallback_lane",
+        "sdxl_realvisxl_base_lane",
+        "flux1_dev_primary_base"
+      ],
+      "status": "partial_mixed_scope",
+      "blockers": [
+        "base_broader_composition_certification",
+        "flux_license_install_runtime"
+      ]
+    },
+    {
+      "stage": "pose_camera_control",
+      "lane_ids": [
+        "sdxl_realvisxl_controlnet_canny_lane",
+        "sdxl_realvisxl_controlnet_depth_lane",
+        "sdxl_realvisxl_controlnet_lineart_lane",
+        "sdxl_realvisxl_controlnet_openpose_lane",
+        "sdxl_realvisxl_controlnet_normal_lane"
+      ],
+      "status": "partial_mixed_local_and_bounded_target_runtime",
+      "blockers": [
+        "scope_matched_fullbody_target_runtime",
+        "openpose_normal_final_review"
+      ]
+    },
+    {
+      "stage": "mask_factory",
+      "lane_ids": [],
+      "status": "blocked_gold_mask_and_geometry_authority",
+      "blockers": [
+        "manual_gold_body_masks_not_ready",
+        "body_hand_contact_geometry_not_authoritative"
+      ]
+    },
+    {
+      "stage": "regional_repair_detail",
+      "lane_ids": [
+        "sdxl_realvisxl_inpaint_detail_lane"
+      ],
+      "status": "partial_single_sample_target_runtime_with_notes",
+      "blockers": [
+        "full_lane_multisample_robustness",
+        "trusted_mask_dependent_scope"
+      ]
+    },
+    {
+      "stage": "contact_deformation",
+      "lane_ids": [],
+      "status": "blocked_mask_geometry_and_runtime_proof",
+      "blockers": [
+        "contact_ownership",
+        "trusted_masks",
+        "target_runtime_and_visual_qa"
+      ]
+    },
+    {
+      "stage": "upscale_final_polish",
+      "lane_ids": [
+        "sdxl_realesrgan_upscale_polish_lane"
+      ],
+      "status": "partial_local_conditional_only",
+      "blockers": [
+        "target_runtime_proof",
+        "final_lane_review"
+      ]
+    },
+    {
+      "stage": "promotion",
+      "lane_ids": [],
+      "status": "blocked_final_promotion_missing_target_runtime",
+      "blockers": [
+        "current_run_manifest_missing",
+        "promoted_outputs_empty",
+        "required_target_runtime_and_certification_gaps"
+      ]
+    }
+  ],
+  "artifact_manifest": {
+    "source": "Plan/07_IMPLEMENTATION/manifests/generated/W69_LOCAL_IMAGE_QA_ORCHESTRATOR_PROMOTION_MANIFEST_SUPERSEDED_20260707T103500-0500.json",
+    "status": "partial_local_superseded",
+    "run_manifest_present": false,
+    "promoted_output_count": 0,
+    "target_runtime_block_count": 45
+  },
+  "promotion": {
+    "policy": "Plan/Instructions/QA/Evidence/Wave64/future_lane_promotion.json",
+    "current_decision": "deny_no_promotion_request",
+    "promotion_allowed": false,
+    "promoted_lane_count": 0
+  },
+  "blockers": [
+    "complete same-scope base-to-final runtime chain missing",
+    "current image artifact manifest is local and superseded with no run manifest or promoted outputs",
+    "trusted mask/body/hand/contact authority remains blocked",
+    "Flux license/install/hash/runtime proof remains blocked",
+    "final promotion is denied pending target-runtime and certification proof"
+  ],
+  "project_completion": {
+    "level": "BELOW_LEVEL_7",
+    "full_project_complete": false,
+    "final_certification_decision": "blocked"
+  },
+  "evidence": [
+    "Plan/Instructions/QA/Evidence/Wave64/image_pipeline_build.json",
+    "Plan/Instructions/QA/Evidence/Wave64/IMAGE_PIPELINE_BUILD_20260712T105751-0500.json",
+    "Plan/Tracker/Evidence/IMAGE_PIPELINE_BUILD_20260712T105751-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/image_pipeline_build_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-008_image_pipeline_build.json"
+  ],
+  "next_action": "Proceed to TRK-W64-009 / ITEM-W64-009 for safe local work; do not generate, consume candidate masks as truth, or promote without a selected materially scoped runtime chain and all gates."
+}

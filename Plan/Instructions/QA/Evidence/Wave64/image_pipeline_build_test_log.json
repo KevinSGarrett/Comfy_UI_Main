@@ -1,0 +1,135 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-12T10:57:51-05:00",
+  "tracker_id": "TRK-W64-008",
+  "result": "pass_static_planner_artifact_and_promotion_blocked",
+  "validation_gates": {
+    "workflow_template_valid": {
+      "status": "pass_local_static",
+      "checks": [
+        "IPB-001_row008_contract_exact",
+        "IPB-002_source_contract_linked",
+        "IPB-003_contract_schema_identity",
+        "IPB-004_gate_order_exact",
+        "IPB-005_exact_ten_active_lanes",
+        "IPB-006_all_lane_contract_files_exist",
+        "IPB-007_all_lane_contract_json_parseable",
+        "IPB-008_active_manifest_denies_runtime",
+        "IPB-009_compiler_stage_contract_present",
+        "IPB-010_validator_evidence_checks_present"
+      ]
+    },
+    "prompt_request_valid": {
+      "status": "pass_local_evidence_bound",
+      "checks": [
+        "IPB-011_example_request_valid_shape",
+        "IPB-012_planner_passes_exact",
+        "IPB-013_planner_validation_clean",
+        "IPB-014_planner_local_only_no_generation"
+      ]
+    },
+    "image_artifact_manifest": {
+      "status": "partial_local_superseded",
+      "checks": [
+        "IPB-015_stage_contract_exact_seven",
+        "IPB-016_mask_and_contact_fail_closed",
+        "IPB-017_artifact_manifest_partial_exact",
+        "IPB-018_contract_manifest_matches_source"
+      ]
+    },
+    "promotion_gate": {
+      "status": "blocked_final_promotion_missing_target_runtime",
+      "checks": [
+        "IPB-019_promotion_policy_denies_zero_promotions",
+        "IPB-020_no_runtime_mask_wave71_or_completion"
+      ]
+    }
+  },
+  "checks": [
+    {
+      "name": "IPB-001_row008_contract_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-002_source_contract_linked",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-003_contract_schema_identity",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-004_gate_order_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-005_exact_ten_active_lanes",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-006_all_lane_contract_files_exist",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-007_all_lane_contract_json_parseable",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-008_active_manifest_denies_runtime",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-009_compiler_stage_contract_present",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-010_validator_evidence_checks_present",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-011_example_request_valid_shape",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-012_planner_passes_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-013_planner_validation_clean",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-014_planner_local_only_no_generation",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-015_stage_contract_exact_seven",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-016_mask_and_contact_fail_closed",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-017_artifact_manifest_partial_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-018_contract_manifest_matches_source",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-019_promotion_policy_denies_zero_promotions",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-020_no_runtime_mask_wave71_or_completion",
+      "result": "pass"
+    }
+  ],
+  "summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  }
+}

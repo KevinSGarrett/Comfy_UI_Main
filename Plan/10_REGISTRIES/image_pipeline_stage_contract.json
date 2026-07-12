@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "wave64_image_pipeline_stage_contract",
+  "tracker_id": "TRK-W64-008",
+  "item_id": "ITEM-W64-008",
+  "gates_required": [
+    "workflow_template_valid",
+    "prompt_request_valid",
+    "image_artifact_manifest",
+    "promotion_gate"
+  ],
+  "planner": {
+    "compiler": "Plan/07_IMPLEMENTATION/scripts/compile_orchestrator_run_plan.py",
+    "validator": "Plan/07_IMPLEMENTATION/scripts/validate_orchestrator_run_plan.py",
+    "request_example": "Plan/09_EXAMPLES/wave14_orchestrator_request.example.json",
+    "evidence_bound_validation": "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W69_LOCAL_PASS_PLANNER_CANNY_INPAINT_READINESS_P06_BOUND_20260707T112000-0500.json",
+    "status": "pass_local_dry_run_planning_only"
+  },
+  "stages": [
+    {
+      "stage": "base_generation",
+      "lane_ids": ["sdxl_low_risk_fallback_lane", "sdxl_realvisxl_base_lane", "flux1_dev_primary_base"],
+      "status": "partial_mixed_scope",
+      "blockers": ["base_broader_composition_certification", "flux_license_install_runtime"]
+    },
+    {
+      "stage": "pose_camera_control",
+      "lane_ids": ["sdxl_realvisxl_controlnet_canny_lane", "sdxl_realvisxl_controlnet_depth_lane", "sdxl_realvisxl_controlnet_lineart_lane", "sdxl_realvisxl_controlnet_openpose_lane", "sdxl_realvisxl_controlnet_normal_lane"],
+      "status": "partial_mixed_local_and_bounded_target_runtime",
+      "blockers": ["scope_matched_fullbody_target_runtime", "openpose_normal_final_review"]
+    },
+    {
+      "stage": "mask_factory",
+      "lane_ids": [],
+      "status": "blocked_gold_mask_and_geometry_authority",
+      "blockers": ["manual_gold_body_masks_not_ready", "body_hand_contact_geometry_not_authoritative"]
+    },
+    {
+      "stage": "regional_repair_detail",
+      "lane_ids": ["sdxl_realvisxl_inpaint_detail_lane"],
+      "status": "partial_single_sample_target_runtime_with_notes",
+      "blockers": ["full_lane_multisample_robustness", "trusted_mask_dependent_scope"]
+    },
+    {
+      "stage": "contact_deformation",
+      "lane_ids": [],
+      "status": "blocked_mask_geometry_and_runtime_proof",
+      "blockers": ["contact_ownership", "trusted_masks", "target_runtime_and_visual_qa"]
+    },
+    {
+      "stage": "upscale_final_polish",
+      "lane_ids": ["sdxl_realesrgan_upscale_polish_lane"],
+      "status": "partial_local_conditional_only",
+      "blockers": ["target_runtime_proof", "final_lane_review"]
+    },
+    {
+      "stage": "promotion",
+      "lane_ids": [],
+      "status": "blocked_final_promotion_missing_target_runtime",
+      "blockers": ["current_run_manifest_missing", "promoted_outputs_empty", "required_target_runtime_and_certification_gaps"]
+    }
+  ],
+  "artifact_manifest": {
+    "source": "Plan/07_IMPLEMENTATION/manifests/generated/W69_LOCAL_IMAGE_QA_ORCHESTRATOR_PROMOTION_MANIFEST_SUPERSEDED_20260707T103500-0500.json",
+    "status": "partial_local_superseded",
+    "run_manifest_present": false,
+    "promoted_output_count": 0,
+    "target_runtime_block_count": 45
+  },
+  "promotion": {
+    "policy": "Plan/Instructions/QA/Evidence/Wave64/future_lane_promotion.json",
+    "current_decision": "deny_no_promotion_request",
+    "promotion_allowed": false,
+    "promoted_lane_count": 0
+  },
+  "current_decision": "planner_and_prompt_pass_artifact_partial_promotion_blocked",
+  "runtime_action_allowed": false,
+  "generation_allowed": false,
+  "mask_promotion_allowed": false,
+  "wave71_activation_allowed": false,
+  "full_project_completion_implied": false
+}

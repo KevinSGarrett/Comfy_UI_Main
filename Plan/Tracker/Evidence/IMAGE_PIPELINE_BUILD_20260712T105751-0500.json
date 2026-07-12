@@ -1,0 +1,304 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "IMAGE_PIPELINE_BUILD_20260712T105751-0500",
+  "created_iso": "2026-07-12T10:57:51-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-008",
+  "item_id": "ITEM-W64-008",
+  "status": "Blocked_End_To_End_Image_Promotion_Planner_And_Local_Stages_Pass",
+  "row_complete": false,
+  "qa_decision": "planner_and_prompt_pass_artifact_partial_final_promotion_blocked",
+  "validation_gates": {
+    "workflow_template_valid": {
+      "status": "pass_local_static",
+      "checks": [
+        "IPB-001_row008_contract_exact",
+        "IPB-002_source_contract_linked",
+        "IPB-003_contract_schema_identity",
+        "IPB-004_gate_order_exact",
+        "IPB-005_exact_ten_active_lanes",
+        "IPB-006_all_lane_contract_files_exist",
+        "IPB-007_all_lane_contract_json_parseable",
+        "IPB-008_active_manifest_denies_runtime",
+        "IPB-009_compiler_stage_contract_present",
+        "IPB-010_validator_evidence_checks_present"
+      ]
+    },
+    "prompt_request_valid": {
+      "status": "pass_local_evidence_bound",
+      "checks": [
+        "IPB-011_example_request_valid_shape",
+        "IPB-012_planner_passes_exact",
+        "IPB-013_planner_validation_clean",
+        "IPB-014_planner_local_only_no_generation"
+      ]
+    },
+    "image_artifact_manifest": {
+      "status": "partial_local_superseded",
+      "checks": [
+        "IPB-015_stage_contract_exact_seven",
+        "IPB-016_mask_and_contact_fail_closed",
+        "IPB-017_artifact_manifest_partial_exact",
+        "IPB-018_contract_manifest_matches_source"
+      ]
+    },
+    "promotion_gate": {
+      "status": "blocked_final_promotion_missing_target_runtime",
+      "checks": [
+        "IPB-019_promotion_policy_denies_zero_promotions",
+        "IPB-020_no_runtime_mask_wave71_or_completion"
+      ]
+    }
+  },
+  "stage_states": [
+    {
+      "stage": "base_generation",
+      "lane_ids": [
+        "sdxl_low_risk_fallback_lane",
+        "sdxl_realvisxl_base_lane",
+        "flux1_dev_primary_base"
+      ],
+      "status": "partial_mixed_scope",
+      "blockers": [
+        "base_broader_composition_certification",
+        "flux_license_install_runtime"
+      ]
+    },
+    {
+      "stage": "pose_camera_control",
+      "lane_ids": [
+        "sdxl_realvisxl_controlnet_canny_lane",
+        "sdxl_realvisxl_controlnet_depth_lane",
+        "sdxl_realvisxl_controlnet_lineart_lane",
+        "sdxl_realvisxl_controlnet_openpose_lane",
+        "sdxl_realvisxl_controlnet_normal_lane"
+      ],
+      "status": "partial_mixed_local_and_bounded_target_runtime",
+      "blockers": [
+        "scope_matched_fullbody_target_runtime",
+        "openpose_normal_final_review"
+      ]
+    },
+    {
+      "stage": "mask_factory",
+      "lane_ids": [],
+      "status": "blocked_gold_mask_and_geometry_authority",
+      "blockers": [
+        "manual_gold_body_masks_not_ready",
+        "body_hand_contact_geometry_not_authoritative"
+      ]
+    },
+    {
+      "stage": "regional_repair_detail",
+      "lane_ids": [
+        "sdxl_realvisxl_inpaint_detail_lane"
+      ],
+      "status": "partial_single_sample_target_runtime_with_notes",
+      "blockers": [
+        "full_lane_multisample_robustness",
+        "trusted_mask_dependent_scope"
+      ]
+    },
+    {
+      "stage": "contact_deformation",
+      "lane_ids": [],
+      "status": "blocked_mask_geometry_and_runtime_proof",
+      "blockers": [
+        "contact_ownership",
+        "trusted_masks",
+        "target_runtime_and_visual_qa"
+      ]
+    },
+    {
+      "stage": "upscale_final_polish",
+      "lane_ids": [
+        "sdxl_realesrgan_upscale_polish_lane"
+      ],
+      "status": "partial_local_conditional_only",
+      "blockers": [
+        "target_runtime_proof",
+        "final_lane_review"
+      ]
+    },
+    {
+      "stage": "promotion",
+      "lane_ids": [],
+      "status": "blocked_final_promotion_missing_target_runtime",
+      "blockers": [
+        "current_run_manifest_missing",
+        "promoted_outputs_empty",
+        "required_target_runtime_and_certification_gaps"
+      ]
+    }
+  ],
+  "artifact_manifest": {
+    "source": "Plan/07_IMPLEMENTATION/manifests/generated/W69_LOCAL_IMAGE_QA_ORCHESTRATOR_PROMOTION_MANIFEST_SUPERSEDED_20260707T103500-0500.json",
+    "status": "partial_local_superseded",
+    "run_manifest_present": false,
+    "promoted_output_count": 0,
+    "target_runtime_block_count": 45
+  },
+  "promotion": {
+    "policy": "Plan/Instructions/QA/Evidence/Wave64/future_lane_promotion.json",
+    "current_decision": "deny_no_promotion_request",
+    "promotion_allowed": false,
+    "promoted_lane_count": 0
+  },
+  "blockers": [
+    "complete same-scope base-to-final runtime chain missing",
+    "current image artifact manifest is local and superseded with no run manifest or promoted outputs",
+    "trusted mask/body/hand/contact authority remains blocked",
+    "Flux license/install/hash/runtime proof remains blocked",
+    "final promotion is denied pending target-runtime and certification proof"
+  ],
+  "checks": [
+    {
+      "name": "IPB-001_row008_contract_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-002_source_contract_linked",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-003_contract_schema_identity",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-004_gate_order_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-005_exact_ten_active_lanes",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-006_all_lane_contract_files_exist",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-007_all_lane_contract_json_parseable",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-008_active_manifest_denies_runtime",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-009_compiler_stage_contract_present",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-010_validator_evidence_checks_present",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-011_example_request_valid_shape",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-012_planner_passes_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-013_planner_validation_clean",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-014_planner_local_only_no_generation",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-015_stage_contract_exact_seven",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-016_mask_and_contact_fail_closed",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-017_artifact_manifest_partial_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-018_contract_manifest_matches_source",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-019_promotion_policy_denies_zero_promotions",
+      "result": "pass"
+    },
+    {
+      "name": "IPB-020_no_runtime_mask_wave71_or_completion",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "safety_boundary": {
+    "compiler_executed": false,
+    "validator_executed": false,
+    "comfyui_contacted": false,
+    "generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "mask_consumed_or_promoted": false,
+    "promotion_executed": false,
+    "wave71_activated": false,
+    "jira_mutated": false
+  },
+  "project_completion": {
+    "level": "BELOW_LEVEL_7",
+    "full_project_complete": false,
+    "final_certification_decision": "blocked"
+  },
+  "source_hashes": [
+    {
+      "path": "Plan/03_IMAGE_SYSTEM/IMAGE_PIPELINE_BLUEPRINT.md",
+      "sha256": "08a3ec327fc5264d6e2484dfdad7219406a57181f7e78e1fa52cc2aeccd0007f"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/image_pipeline_stage_contract.json",
+      "sha256": "1a7ae30ab1a163118b91e5ba79623fa4758951f0af4f11ed30c61d80cacd3ddd"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/compile_orchestrator_run_plan.py",
+      "sha256": "472264396926ea892c3c42d8fc778c7c0420371e9363822c537f82104ca4345a"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/validate_orchestrator_run_plan.py",
+      "sha256": "bd4eb1540cdb912da6e2f66582e439a70b2d63a8d96f5f3e23ccacf2f75f42a3"
+    },
+    {
+      "path": "Plan/09_EXAMPLES/wave14_orchestrator_request.example.json",
+      "sha256": "dbf9f8ddf2b6da52258e453fbb3c21d3372cf2a4974505d939644834fb5e6013"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W69_LOCAL_PASS_PLANNER_CANNY_INPAINT_READINESS_P06_BOUND_20260707T112000-0500.json",
+      "sha256": "55a47fb33946414d5d6f9a44395a05f2edfdcd7e0aa0918bfec5508aabd5cc34"
+    },
+    {
+      "path": "Workflows/base_generation/ACTIVE_LANES.json",
+      "sha256": "e564a2a654b40add3202b9aead9d78317670592eea1fbf0e68a5a0a16f7bc05b"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/manifests/generated/W69_LOCAL_IMAGE_QA_ORCHESTRATOR_PROMOTION_MANIFEST_SUPERSEDED_20260707T103500-0500.json",
+      "sha256": "10afcb445be8b66b7d93614f24c1cc9102019f7704ba4f75c54f26c1139464e3"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/future_lane_promotion.json",
+      "sha256": "0131ef3a4cb513243d49d7250a80c75f6ec4f78642aa292603b6c9ebcf799fbf"
+    }
+  ],
+  "next_action": "Proceed to TRK-W64-009 / ITEM-W64-009 for safe local work; do not generate, consume candidate masks as truth, or promote without a selected materially scoped runtime chain and all gates.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/image_pipeline_build.json",
+    "Plan/Instructions/QA/Evidence/Wave64/IMAGE_PIPELINE_BUILD_20260712T105751-0500.json",
+    "Plan/Tracker/Evidence/IMAGE_PIPELINE_BUILD_20260712T105751-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/image_pipeline_build_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-008_image_pipeline_build.json"
+  ]
+}
