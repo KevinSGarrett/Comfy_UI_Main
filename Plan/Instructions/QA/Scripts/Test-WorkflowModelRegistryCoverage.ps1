@@ -294,10 +294,14 @@ foreach ($laneId in $activeLaneIds) {
   if ($null -ne $workflowLane -and (Has-Property -Object $workflowLane -Name "local_pre_ec2_evidence")) {
     $workflowLaneLocalEvidence = @($workflowLane.local_pre_ec2_evidence | ForEach-Object { [string]$_ } | Where-Object { ![string]::IsNullOrWhiteSpace($_) })
   }
+  $laneExplicitlyBlocked = $workflowLaneStatus -match "^blocked|asset_authority_recorded_blocked|pending_install_and_runtime_proof"
+  $lanePartialTargetRuntime = $workflowLaneStatus -match "single_sample_smoke_certified.*full_lane_not_certified"
   $laneRuntimeProven = (
-    $workflowLaneStatus -in @("runtime_smoke_proven", "runtime_smoke_qa_complete") -or
-    $workflowLaneStatus -match "runtime_smoke_proven|runtime_smoke_qa_complete" -or
-    @($workflowLaneProofEvidence).Count -gt 0
+    -not $laneExplicitlyBlocked -and -not $lanePartialTargetRuntime -and (
+      $workflowLaneStatus -in @("runtime_smoke_proven", "runtime_smoke_qa_complete") -or
+      $workflowLaneStatus -match "runtime_smoke_proven|runtime_smoke_qa_complete|first_runtime_smoke.*complete|target_runtime.*certified|target_runtime_scope.*complete" -or
+      (($workflowLaneStatus -match "target_runtime") -and @($workflowLaneProofEvidence).Count -gt 0)
+    )
   )
   $laneLocalPreEc2Validated = (
     -not $laneRuntimeProven -and
@@ -428,8 +432,9 @@ foreach ($laneId in $activeLaneIds) {
     if ($null -ne $requirements) {
       $hashStatus = $(if (Has-Property -Object $model -Name "hash_status") { [string]$model.hash_status } else { "" })
       $pathStatus = $(if (Has-Property -Object $model -Name "path_status") { [string]$model.path_status } else { "" })
-      $expectedHashStatuses = $(if ($laneRuntimeProven) { @("ec2_static_match_verified") } elseif ($laneLocalPreEc2Validated) { @("pending_ec2_static_match", "local_sha256_verified") } else { @("pending_ec2_static_match") })
-      $expectedPathStatuses = $(if ($laneRuntimeProven) { @("ec2_static_match_verified") } elseif ($laneLocalPreEc2Validated) { @("pending_ec2_static_match", "local_model_present") } else { @("pending_ec2_static_match") })
+      $laneBlockedPreinstall = $workflowLaneStatus -eq "asset_authority_recorded_blocked_local_install_and_runtime_proof"
+      $expectedHashStatuses = $(if ($laneRuntimeProven) { @("ec2_static_match_verified", "verified_ec2_static_match") } elseif ($laneLocalPreEc2Validated) { @("pending_ec2_static_match", "local_sha256_verified") } elseif ($laneBlockedPreinstall) { @("authoritative_remote_sha256_recorded_local_verification_pending") } else { @("pending_ec2_static_match") })
+      $expectedPathStatuses = $(if ($laneRuntimeProven) { @("ec2_static_match_verified", "verified_ec2_static_match") } elseif ($laneLocalPreEc2Validated) { @("pending_ec2_static_match", "local_model_present") } elseif ($laneBlockedPreinstall) { @("blocked_model_not_present_locally") } else { @("pending_ec2_static_match") })
       $laneChecks += New-Check -Name "requirements_hash_status_matches_lane_state" `
         -Passed ($expectedHashStatuses -contains $hashStatus) `
         -Expected ($expectedHashStatuses -join " | ") `

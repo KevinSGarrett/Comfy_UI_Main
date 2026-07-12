@@ -1,3 +1,11 @@
+## Wave64 Row044 Model Registry Governance - 2026-07-12T06:56:30-05:00
+
+`TRK-W64-044` / `ITEM-W64-044` is `Completed_Local_Model_Registry_Governance_Pass`. Current coverage is `pass_local_only`: 15 registry records, 15 validation rows, 10 lanes, zero failed checks. Depth/Lineart target-runtime records are aligned. Flux has a fail-closed authority record and queued validation row, but remains uninstalled and unpromoted; license acceptance is not asserted.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/model_registry_governance.json`; `Plan/Instructions/QA/Evidence/Wave64/MODEL_REGISTRY_GOVERNANCE_RECONCILIATION_20260712T065630-0500.json`; `Plan/Tracker/Evidence/MODEL_REGISTRY_GOVERNANCE_RECONCILIATION_20260712T065630-0500.json`; `runtime_artifacts/wave64/row044_model_registry_governance/20260712T065523-0500/workflow_model_registry_coverage_after_classifier_fix.json`.
+
+Next: `TRK-W64-045 / ITEM-W64-045` Civitai metadata/provenance duplicate-check; do not install Flux without explicit license acceptance.
+
 ## Wave64 Row043 Artifact Pullback Reconciliation - 2026-07-12T06:47:43-05:00
 
 `TRK-W64-043` / `ITEM-W64-043` is `Completed_Lane_Scoped_Artifact_Pullback_Integrity_Pass` for `aws_gpu_workflow_smoke_20260706T110424-0500`. Existing evidence proves manifest presence, 4/4 remote/local count parity, pullback hash verification, image/log hash parity, visual QA 86/80, and final review closure. Current checked-out history/prompt text copies differ after a later one-token edit; the original Git blobs remain recoverable and reproduce the recorded remote hashes, so historical integrity passes without claiming current-copy parity or full-project certification.

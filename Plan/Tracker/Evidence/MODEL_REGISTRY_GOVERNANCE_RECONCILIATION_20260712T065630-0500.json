@@ -1,0 +1,163 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "MODEL_REGISTRY_GOVERNANCE_RECONCILIATION_20260712T065630-0500",
+  "created_iso": "2026-07-12T06:56:30-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-044",
+  "item_id": "ITEM-W64-044",
+  "status": "Completed_Local_Model_Registry_Governance_Pass",
+  "row_complete": true,
+  "qa_decision": "model_registry_governance_current_15_record_10_lane_pass_local_only",
+  "task": "Align current model registry governance with proven runtime lanes and fail-closed Flux authority.",
+  "coverage": {
+    "path": "runtime_artifacts/wave64/row044_model_registry_governance/20260712T065523-0500/workflow_model_registry_coverage_after_classifier_fix.json",
+    "sha256": "25f01dcc32e374fdddf44d85b0b2daddcf0bc53b74f31d489f84330daa0c2b2e",
+    "result": "pass_local_only",
+    "failed_check_count": 0,
+    "registry_record_count": 15,
+    "runtime_validation_queue_row_count": 15,
+    "workflow_runtime_lane_count": 10
+  },
+  "changes": {
+    "depth_lineart_registry_records_promoted_to_target_runtime_vocabulary": 4,
+    "depth_lineart_queue_rows_promoted": 4,
+    "flux_fail_closed_registry_records_added": 1,
+    "flux_queued_validation_rows_added": 1,
+    "validator_lane_classifier_hardened": true,
+    "verified_ec2_static_match_synonym_supported": true
+  },
+  "flux_boundary": {
+    "registered": true,
+    "installed": false,
+    "license_acceptance_asserted": false,
+    "runtime_proof": false,
+    "promotion_allowed": false,
+    "required_next": "Explicit noncommercial license acceptance, hash-verified install, model load, generation, technical QA, and visual QA."
+  },
+  "scope": {
+    "local_only": true,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "comfyui_contacted": false,
+    "generation_executed": false,
+    "masks_or_wave_gates_touched": false,
+    "jira_mutated": false
+  },
+  "source_hashes": [
+    {
+      "path": "Plan/Registries/Models/model_registry.jsonl",
+      "sha256": "60ce5bd6d86d6416474b5c66d8a023fb8e5e632f03072ab4ea05620736382b2f"
+    },
+    {
+      "path": "Plan/Registries/Models/model_runtime_validation_queue.csv",
+      "sha256": "800bf8837efe299bddb79fb9c5b8deedb0b234baef8ea8366964dca2922d6bdd"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/Test-WorkflowModelRegistryCoverage.ps1",
+      "sha256": "57f8e9dbdd43a4ff60aeaea5940b5765a25605899ec5ac9e6fea7c171cfe725f"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/implement_wave64_model_registry_current_alignment.py",
+      "sha256": "fa633b5f0917c9d3461ad749196189cadcbf9183109833c221f98595f6cc4f55"
+    }
+  ],
+  "checks": [
+    {
+      "name": "coverage_pass",
+      "result": "pass"
+    },
+    {
+      "name": "coverage_zero_failures",
+      "result": "pass"
+    },
+    {
+      "name": "registry_count_15",
+      "result": "pass"
+    },
+    {
+      "name": "queue_count_15",
+      "result": "pass"
+    },
+    {
+      "name": "lane_count_10",
+      "result": "pass"
+    },
+    {
+      "name": "all_lanes_pass",
+      "result": "pass"
+    },
+    {
+      "name": "flux_single_registry_record",
+      "result": "pass"
+    },
+    {
+      "name": "flux_single_queue_row",
+      "result": "pass"
+    },
+    {
+      "name": "flux_registry_queued",
+      "result": "pass"
+    },
+    {
+      "name": "flux_queue_queued",
+      "result": "pass"
+    },
+    {
+      "name": "flux_not_installed",
+      "result": "pass"
+    },
+    {
+      "name": "flux_license_not_asserted",
+      "result": "pass"
+    },
+    {
+      "name": "flux_promotion_prohibited",
+      "result": "pass"
+    },
+    {
+      "name": "flux_local_binary_absent",
+      "result": "pass"
+    },
+    {
+      "name": "depth_lineart_four_records",
+      "result": "pass"
+    },
+    {
+      "name": "depth_lineart_registry_runtime_complete",
+      "result": "pass"
+    },
+    {
+      "name": "depth_lineart_four_queue_rows",
+      "result": "pass"
+    },
+    {
+      "name": "depth_lineart_queue_runtime_complete",
+      "result": "pass"
+    },
+    {
+      "name": "no_external_runtime_action",
+      "result": "pass"
+    },
+    {
+      "name": "next_row_selected",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "next_action": "Advance to TRK-W64-045 / ITEM-W64-045 Civitai metadata/provenance duplicate-check; do not install Flux without explicit license acceptance.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/model_registry_governance.json",
+    "Plan/Instructions/QA/Evidence/Wave64/MODEL_REGISTRY_GOVERNANCE_RECONCILIATION_20260712T065630-0500.json",
+    "Plan/Tracker/Evidence/MODEL_REGISTRY_GOVERNANCE_RECONCILIATION_20260712T065630-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/model_registry_governance_reconciliation_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-044_model_registry_governance.json",
+    "runtime_artifacts/wave64/row044_model_registry_governance/20260712T065523-0500/workflow_model_registry_coverage_after_classifier_fix.json",
+    "Plan/Registries/Models/model_registry.jsonl",
+    "Plan/Registries/Models/model_runtime_validation_queue.csv",
+    "Plan/Instructions/QA/Scripts/Test-WorkflowModelRegistryCoverage.ps1"
+  ]
+}
