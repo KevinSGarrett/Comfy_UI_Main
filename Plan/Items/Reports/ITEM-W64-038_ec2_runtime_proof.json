@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "report_id": "ITEM-W64-038-EC2-TARGET-RUNTIME-PROOF-20260712T054900-0500",
+  "timestamp": "2026-07-12T05:49:00-05:00",
+  "item_id": "ITEM-W64-038",
+  "tracker_id": "TRK-W64-038",
+  "workstream": "ec2_runtime_proof",
+  "lane_id": "sdxl_low_risk_fallback_lane",
+  "status": "Completed_Lane_Scoped_EC2_Target_Runtime_Proof_Pass",
+  "row_complete": true,
+  "completion_scope": "Existing SDXL low-risk EC2 target-runtime chain only",
+  "rerun_required": false,
+  "acceptance": {
+    "object_info_verified": true,
+    "required_nodes_verified": true,
+    "model_path_hash_and_bytes_verified": true,
+    "model_load_demonstrated_by_generation": true,
+    "generation_verified": true,
+    "artifact_manifest_present": true,
+    "runtime_log_present": true,
+    "pullback_hashes_verified": true,
+    "visual_qa_passed": true,
+    "final_state_stopped": true,
+    "lane_scoped_done_certification_closes_work_order": true
+  },
+  "target_runtime_result": {
+    "object_info_node_count": 1915,
+    "checkpoint": "checkpoints/sd_xl_base_1.0.safetensors",
+    "checkpoint_bytes": 6938078334,
+    "checkpoint_sha256": "31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b",
+    "generation_result": "workflow_smoke_generation_complete",
+    "pullback_result": "pullback_hashes_verified",
+    "visual_qa_result": "pass_with_notes_for_runtime_smoke",
+    "visual_qa_score": 86,
+    "visual_qa_threshold": 80,
+    "final_state": "stopped",
+    "final_decision": "done_with_non_blocking_notes"
+  },
+  "historical_prestart_disposition": {
+    "old_status": "Blocked_Target_Runtime_PreStart_Gates",
+    "old_evidence_sha256": "f0cfbd17dc24781e67d9f05822cbee7ef6c219826d3095b73019ddced53b6893",
+    "preserved_as_historical_truth": true,
+    "superseded_for_bounded_row_completion": true,
+    "reason": "A proposed new run was blocked, but the required target-runtime facts already existed and were later final-reviewed."
+  },
+  "integrity": {
+    "historical_records_mutated": false,
+    "current_image_and_log_match_remote_manifest": true,
+    "original_prompt_and_history_bytes_recoverable_from_git": true,
+    "original_blob_hashes_match_remote_manifest": true,
+    "integrity_caveat_blocking_for_lane_scope": false
+  },
+  "runtime_boundaries": {
+    "new_aws_contacted": false,
+    "new_ec2_started": false,
+    "new_generation_executed": false,
+    "current_aws_authentication_expired": true,
+    "mask_truth_consumed": false,
+    "mask_promotion_executed": false,
+    "wave70_hard_gate_executed": false,
+    "wave71_plus_activated": false
+  },
+  "evidence": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/ec2_runtime_proof.json",
+      "sha256": "e8f45394046e9f562427af29e5050bc85d11ff62bcf6626a7c988620d950d678"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_POST_LOGIN_RETEST_20260706T104311-0500.json",
+      "sha256": "5bbf863b9b728114ef5de4790e83ce9ee2c03fb25ca48be1a931fd4f025dc63f"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_POST_STATIC_PROOF_RETEST_20260706T110424-0500.json",
+      "sha256": "5317a8170a935c0ec0c31c1c01a698bbfbba6da52c91aeb6350b967bb2d7f981"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/PULLBACK_RECORD.json",
+      "sha256": "446baf33a984b791d0f03c75df4a1dde863c5df4966d3f35f7194a851a9528e5"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_VISUAL_20260706T122027-0500.json",
+      "sha256": "68948ea1a0a2c8efd29e71ea942d84dede44edfad088e94130f3c28e348aa450"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/W66_LOW_RISK_LANE_FINAL_REVIEW_PACKET_SELECTED_CHAIN_20260709T183200-0500.json",
+      "sha256": "f238ca198b1ddfae5af5b2a7863a6c23ad5d1dd34a42426ddecfa6b7143adbec"
+    },
+    {
+      "path": "runtime_artifacts/agent_handoffs/cursor/20260712T054749-0500_wave64_row038_existing_ec2_proof_duplicate_check/handoff_record.json",
+      "sha256": "14e8054293bae541a5f017fc78f26288432706701177524bb96f7443c16ef7c7"
+    }
+  ],
+  "blockers": [],
+  "certification_boundary": "This closes only the existing SDXL low-risk EC2 target-runtime proof. It does not certify all active lanes, final portfolio quality, masks, Wave70 promotion, Wave71+ activation, or the full project.",
+  "next_action": "Duplicate-check TRK-W64-039 / ITEM-W64-039 against existing local ComfyUI development-lane evidence without rerunning completed previews."
+}

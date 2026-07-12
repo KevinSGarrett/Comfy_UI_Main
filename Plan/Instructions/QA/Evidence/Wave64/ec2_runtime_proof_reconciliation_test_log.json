@@ -1,0 +1,137 @@
+{
+  "schema_version": "1.0",
+  "test_log_id": "EC2_RUNTIME_PROOF_RECONCILIATION_TEST_LOG_20260712T054900-0500",
+  "created_at": "2026-07-12T05:49:00-05:00",
+  "tracker_id": "TRK-W64-038",
+  "item_id": "ITEM-W64-038",
+  "subject_evidence": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/ec2_runtime_proof.json",
+    "sha256": "e8f45394046e9f562427af29e5050bc85d11ff62bcf6626a7c988620d950d678"
+  },
+  "item_report": {
+    "path": "Plan/Items/Reports/ITEM-W64-038_ec2_runtime_proof.json",
+    "sha256": "75a7afe936462f631db73b4786665d973d5e69c8cea0bdc5b2721b860f45b7a4"
+  },
+  "tests": [
+    {
+      "name": "canonical_and_mirror_json_parse",
+      "result": "PASS"
+    },
+    {
+      "name": "canonical_instruction_tracker_mirrors_exact",
+      "result": "PASS",
+      "observed_sha256": "e8f45394046e9f562427af29e5050bc85d11ff62bcf6626a7c988620d950d678"
+    },
+    {
+      "name": "historical_prestart_record_preserved",
+      "result": "PASS",
+      "observed_sha256": "f0cfbd17dc24781e67d9f05822cbee7ef6c219826d3095b73019ddced53b6893"
+    },
+    {
+      "name": "source_plan_hash_match",
+      "result": "PASS",
+      "observed_sha256": "f54cab4d6b784c5b61da69423abd050fe10ad1022674d9fb9667af29b48b344f"
+    },
+    {
+      "name": "ec2_static_execute_gates_pass",
+      "result": "PASS"
+    },
+    {
+      "name": "object_info_executed_and_passed",
+      "result": "PASS",
+      "observed_node_count": 1915
+    },
+    {
+      "name": "all_required_node_types_present",
+      "result": "PASS",
+      "observed_required_node_count": 6
+    },
+    {
+      "name": "checkpoint_path_exists",
+      "result": "PASS",
+      "observed": "checkpoints/sd_xl_base_1.0.safetensors"
+    },
+    {
+      "name": "checkpoint_bytes_match",
+      "result": "PASS",
+      "observed": 6938078334
+    },
+    {
+      "name": "checkpoint_sha256_match",
+      "result": "PASS",
+      "observed_sha256": "31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b"
+    },
+    {
+      "name": "successful_generation_demonstrates_model_load",
+      "result": "PASS",
+      "observed": "workflow_smoke_generation_complete"
+    },
+    {
+      "name": "prompt_and_output_recorded",
+      "result": "PASS",
+      "observed_output_count": 1
+    },
+    {
+      "name": "remote_artifact_manifest_present",
+      "result": "PASS",
+      "observed_file_count": 4
+    },
+    {
+      "name": "pullback_hashes_verified",
+      "result": "PASS",
+      "observed": {
+        "remote_files": 4,
+        "local_files": 4,
+        "errors": 0
+      }
+    },
+    {
+      "name": "pulled_image_matches_remote_manifest",
+      "result": "PASS",
+      "observed_sha256": "c6ebdf0d8eb904ed297e06ef36e93c6c6e0251ddf49ff1408a252ed21eacac54"
+    },
+    {
+      "name": "pulled_runtime_log_matches_remote_manifest",
+      "result": "PASS",
+      "observed_sha256": "a6631f9912d2c2b2bf6f4f075289d4425b612128d9ee39af5c337b010a243bb1"
+    },
+    {
+      "name": "visual_qa_threshold_pass",
+      "result": "PASS",
+      "observed_score": 86,
+      "required_score": 80
+    },
+    {
+      "name": "static_and_generation_final_states_stopped",
+      "result": "PASS"
+    },
+    {
+      "name": "lane_scoped_done_certification_closes_work_order",
+      "result": "PASS",
+      "observed": "done_with_non_blocking_notes"
+    },
+    {
+      "name": "historical_prompt_and_history_hash_provenance_preserved",
+      "result": "PASS"
+    },
+    {
+      "name": "no_new_live_action",
+      "result": "PASS",
+      "observed": {
+        "aws_contacted": false,
+        "ec2_started": false,
+        "generation_executed": false
+      }
+    },
+    {
+      "name": "full_project_and_mask_scope_excluded",
+      "result": "PASS"
+    }
+  ],
+  "summary": {
+    "tests_run": 22,
+    "tests_passed": 22,
+    "tests_failed": 0,
+    "final_decision": "PASS"
+  }
+}

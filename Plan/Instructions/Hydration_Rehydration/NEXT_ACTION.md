@@ -1,3 +1,9 @@
+## Immediate Next Action - Wave64 Existing EC2 Target Runtime Proof Reconciled - 2026-07-12T05:56:00-05:00
+
+Start from `Plan/Instructions/QA/Evidence/Wave64/ec2_runtime_proof.json` and `ec2_runtime_proof_reconciliation_test_log.json`. `TRK-W64-038` / `ITEM-W64-038` is complete for the bounded SDXL low-risk EC2 target-runtime scope: object-info reports 1,915 nodes and all six required types, the 6,938,078,334-byte checkpoint hash matches, generation/model load succeeded, 4/4 pullback hashes verified, visual QA scored `86/80`, and both static and generation runs ended stopped. The old pre-start dry-run blocker remains historical truth but is superseded for this exact row; no new AWS or EC2 action occurred.
+
+Continue with one bounded duplicate check of `TRK-W64-039` / `ITEM-W64-039` against existing local ComfyUI development-lane evidence. Do not rerun completed previews or cloud proofs, contact AWS while authentication is expired, install Flux without license acceptance, consume candidate masks as truth, rerun Wave70 hard gates, activate Wave71+, recreate legacy/cloud work, or switch to Jira bookkeeping.
+
 ## Immediate Next Action - Wave64 SDXL Runtime Smoke Existing EC2 Chain Reconciled - 2026-07-12T05:37:00-05:00
 
 Start from `Plan/Instructions/QA/Evidence/Wave64/workflow_runtime_smoke.json` and `workflow_runtime_smoke_reconciliation_test_log.json`. `TRK-W64-037` / `ITEM-W64-037` is complete for the bounded `sdxl_low_risk_fallback_lane`: current static validation passes, the existing W61 EC2 generation stopped cleanly, pullback hashes were verified, visual QA scored `86/80`, and the W66 lane-scoped done packet closes the work order. Original remote prompt/history bytes remain auditable through exact Git blobs; no historical evidence was rewritten and no rerun occurred.

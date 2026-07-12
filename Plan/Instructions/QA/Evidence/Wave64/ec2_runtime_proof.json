@@ -1,81 +1,184 @@
 {
-  "schema_version": "1.0",
-  "evidence_id": "EC2_RUNTIME_PROOF_20260708T231944-0500",
-  "created_iso": "2026-07-08T23:19:44-05:00",
+  "schema_version": "1.1",
+  "evidence_id": "EC2_RUNTIME_PROOF_RECONCILIATION_20260712T054900-0500",
+  "created_at": "2026-07-12T05:49:00-05:00",
+  "artifact_type": "wave64_ec2_target_runtime_proof_reconciliation",
   "wave": 64,
   "tracker_id": "TRK-W64-038",
   "item_id": "ITEM-W64-038",
   "lane_id": "sdxl_low_risk_fallback_lane",
-  "task": "Evaluate EC2 target runtime proof gates without starting EC2.",
-  "source_plan": "Plan/07_IMPLEMENTATION/EC2_DEPLOYMENT_AND_RUNTIME_PROOF_PLAN.md",
-  "dry_run_record": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_EC2_TARGET_RUNTIME_PROOF_DRY_RUN_CURRENT_GATES_20260708T232200-0500.json",
-  "prompt_request": {
-    "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_EC2_TARGET_RUNTIME_PROOF_REQUEST_CURRENT_GATES_20260708T232200-0500.json",
-    "exists": true,
-    "sha256": "b587ece0adeda257624139c172901d035247d591cc66a422ab803af9e31daaa0"
+  "status": "Completed_Lane_Scoped_EC2_Target_Runtime_Proof_Pass",
+  "row_complete": true,
+  "objective": "Verify the existing EC2 target-runtime object_info, model, generation, pullback, QA, and stopped-state proof without repeating a completed GPU run.",
+  "source_plan": {
+    "path": "Plan/07_IMPLEMENTATION/EC2_DEPLOYMENT_AND_RUNTIME_PROOF_PLAN.md",
+    "sha256": "f54cab4d6b784c5b61da69423abd050fe10ad1022674d9fb9667af29b48b344f"
   },
-  "aws_auth_gate": {
-    "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_AWS_AUTH_GATE_EC2_TARGET_RUNTIME_PROOF_20260708T232100-0500.json",
-    "result": "blocked_expired_session",
-    "failure_category": "expired_session",
-    "safe_to_start_ec2": false,
-    "generation_allowed": false,
-    "secrets_printed": false,
-    "auth_url_recorded": false
+  "historical_prestart_record": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/EC2_RUNTIME_PROOF_20260708T231944-0500.json",
+    "sha256": "f0cfbd17dc24781e67d9f05822cbee7ef6c219826d3095b73019ddced53b6893",
+    "qa_decision": "blocked_ec2_target_runtime_proof_pre_start_gates",
+    "historical_truth_preserved": true,
+    "superseded_for_lane_scoped_row_completion": true,
+    "supersession_reason": "The dry-run record captured expired authentication and a dirty local worktree before a proposed new run. The required SDXL target-runtime facts already existed in the earlier W61 execution chain and were later closed by W66 lane-scoped final review, so a new run is neither required nor allowed by the rerun policy."
   },
-  "local_git_checkpoint_gate": {
-    "result": "fail",
-    "clean": false,
-    "local_matches_origin": true,
-    "porcelain_count": 946,
-    "head": "7e30bf1fb4ca3176aa98fe427e6a247d0129f5c2",
-    "origin_main": "7e30bf1fb4ca3176aa98fe427e6a247d0129f5c2"
+  "rerun_decision": {
+    "duplicate_check_performed": true,
+    "new_ec2_run_required": false,
+    "new_generation_required": false,
+    "preserve_passed_evidence": true,
+    "reason": "The existing target-runtime chain satisfies every Row038 acceptance field for the bounded SDXL low-risk lane, and no source objective, workflow, model, or QA threshold change invalidates that chain."
   },
-  "lane_readiness_gate": {
-    "file": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W61_LANE_RUNTIME_READINESS_AFTER_STATIC_PROOF_20260706T105156-0500.json",
-    "lane_match": true,
-    "ready_for_generation": true,
-    "result": "ready_for_generation"
+  "target_runtime_chain": {
+    "static_proof": {
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_POST_LOGIN_RETEST_20260706T104311-0500.json",
+      "sha256": "5bbf863b9b728114ef5de4790e83ce9ee2c03fb25ca48be1a931fd4f025dc63f",
+      "result": "ec2_static_proof_recorded",
+      "execute_gates_pass": true,
+      "command_status": "Success",
+      "object_info_executed": true,
+      "object_info_status": "pass",
+      "object_info_node_count": 1915,
+      "required_nodes_present": {
+        "CheckpointLoaderSimple": true,
+        "EmptyLatentImage": true,
+        "CLIPTextEncode": true,
+        "KSampler": true,
+        "VAEDecode": true,
+        "SaveImage": true
+      },
+      "model_proof": {
+        "relative_path": "checkpoints/sd_xl_base_1.0.safetensors",
+        "exists": true,
+        "bytes": 6938078334,
+        "sha256": "31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b"
+      },
+      "remote_project_clean": true,
+      "remote_head_matches_expected": true,
+      "generation_executed": false,
+      "final_state": "stopped"
+    },
+    "generation_proof": {
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_POST_STATIC_PROOF_RETEST_20260706T110424-0500.json",
+      "sha256": "5317a8170a935c0ec0c31c1c01a698bbfbba6da52c91aeb6350b967bb2d7f981",
+      "result": "workflow_smoke_generation_complete",
+      "execute_gates_pass": true,
+      "command_status": "Success",
+      "generation_executed": true,
+      "model_load_demonstrated_by_successful_generation": true,
+      "prompt_id": "351dcf65-fd57-49a5-947c-ce1171ada67c",
+      "output_images": 1,
+      "remote_manifest_file_count": 4,
+      "remote_project_head_matches_expected": true,
+      "errors": 0,
+      "final_state": "stopped"
+    },
+    "artifact_manifest": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/REMOTE_ARTIFACT_MANIFEST.json",
+      "sha256": "f6417ccc35386cd40e41e6e2212e7bab707d598c87c347a15db512a695fb9e8b",
+      "run_id": "aws_gpu_workflow_smoke_20260706T110424-0500",
+      "file_count": 4
+    },
+    "pullback": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/PULLBACK_RECORD.json",
+      "sha256": "446baf33a984b791d0f03c75df4a1dde863c5df4966d3f35f7194a851a9528e5",
+      "status": "pullback_hashes_verified",
+      "remote_file_count": 4,
+      "local_file_count": 4,
+      "hashes_verified": true,
+      "errors": 0
+    },
+    "pulled_output": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/images/9_codex_hyperreal_editorial_portrait_00002_.png",
+      "sha256": "c6ebdf0d8eb904ed297e06ef36e93c6c6e0251ddf49ff1408a252ed21eacac54",
+      "matches_remote_manifest": true
+    },
+    "pulled_log": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/logs/comfyui.log",
+      "sha256": "a6631f9912d2c2b2bf6f4f075289d4425b612128d9ee39af5c337b010a243bb1",
+      "matches_remote_manifest": true
+    },
+    "visual_qa": {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_VISUAL_20260706T122027-0500.json",
+      "sha256": "68948ea1a0a2c8efd29e71ea942d84dede44edfad088e94130f3c28e348aa450",
+      "result": "pass_with_notes_for_runtime_smoke",
+      "qa_score": 86,
+      "pass_threshold": 80
+    },
+    "final_review": {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/W66_LOW_RISK_LANE_FINAL_REVIEW_PACKET_SELECTED_CHAIN_20260709T183200-0500.json",
+      "sha256": "f238ca198b1ddfae5af5b2a7863a6c23ad5d1dd34a42426ddecfa6b7143adbec",
+      "result": "pass_low_risk_lane_final_review_packet_ready",
+      "final_decision": "done_with_non_blocking_notes",
+      "tests_passed": 7,
+      "defects": 0,
+      "closes_work_order": true,
+      "full_project_certification_allowed": false
+    }
   },
-  "ec2_static_proof_gate": {
-    "file": "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_POST_LOGIN_RETEST_20260706T104311-0500.json",
-    "valid": true,
-    "lane_match": true,
-    "object_info_status": "pass",
-    "model_proof_count": 1
+  "acceptance_contract": {
+    "object_info_verified": true,
+    "required_node_types_verified": true,
+    "model_path_verified": true,
+    "model_bytes_verified": true,
+    "model_sha256_verified": true,
+    "model_load_demonstrated": true,
+    "generation_verified": true,
+    "prompt_and_output_recorded": true,
+    "artifact_manifest_recorded": true,
+    "runtime_log_recorded": true,
+    "artifact_pullback_verified": true,
+    "visual_qa_passed": true,
+    "final_stopped_state_verified": true,
+    "lane_scoped_final_review_closed": true,
+    "all_required_row_evidence_present": true
   },
-  "smoke_request_gate": {
-    "request_file_exists": true,
-    "json_parsed": true,
-    "execution_allowed": true,
-    "errors": []
+  "integrity_boundary": {
+    "row037_reconciliation": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/workflow_runtime_smoke.json",
+      "sha256": "4544cd47b960677a87325f9af6e5e60d89db2005157e100cced7b9fc99d89be5"
+    },
+    "current_image_and_log_match_remote_manifest": true,
+    "current_history_and_prompt_text_copies_match_remote_manifest": false,
+    "original_history_and_prompt_bytes_recoverable_from_git": true,
+    "history_original_git_blob": "8bc0cc058126dab4404a31aa5081f431d9b56a05",
+    "prompt_original_git_blob": "2edbeeac47b925299416eab909f1c6b34e896391",
+    "original_git_commit": "86a8b6b67e31639ee2344dda7e780c8ee7f13a77",
+    "original_blob_hashes_match_remote_manifest": true,
+    "historical_chain_records_mutated": false
   },
-  "runtime_execution": {
-    "ec2_started": false,
-    "generation_executed": false,
-    "execute_gates_pass": false,
-    "result": "dry_run_blocked_before_ec2_start",
-    "failure_category": "local_git_worktree_dirty",
-    "blocked_reasons": [
-      "Local Git checkpoint gate is not clean and synced to origin/main.",
-      "Auth gate does not allow EC2 start."
-    ]
+  "current_live_boundary": {
+    "aws_authentication_currently_expired": true,
+    "current_live_reexecution_allowed": false,
+    "current_live_reexecution_needed_for_row": false,
+    "ec2_currently_started_by_this_task": false,
+    "generation_currently_executed_by_this_task": false,
+    "current_local_head_at_reconciliation": "94cd64221a97273d7d2478259ee56b47523d8daf",
+    "current_local_matches_origin_main": true,
+    "preserved_unrelated_local_paths": 5
   },
-  "gold_mask_dependency_boundary": {
-    "mask_truth_consumed": false,
-    "masks_promoted": false,
-    "hard_gates_rerun": false,
-    "wave71_activation_attempted": false
+  "scope_boundary": {
+    "sdxl_low_risk_lane_target_runtime_complete": true,
+    "all_active_lanes_certified": false,
+    "final_portfolio_quality_certified": false,
+    "full_project_certification_allowed": false,
+    "wave70_mask_promotion_authorized": false,
+    "wave71_plus_activation_authorized": false
   },
-  "errors": [],
-  "qa_decision": "blocked_ec2_target_runtime_proof_pre_start_gates",
-  "next_step": "Resolve expired AWS session and local Git checkpoint gate before any EC2 target-runtime execution; continue only with non-EC2 work meanwhile.",
-  "evidence_paths": [
-    "Plan/Instructions/QA/Evidence/Wave64/ec2_runtime_proof.json",
-    "Plan/Instructions/QA/Evidence/Wave64/EC2_RUNTIME_PROOF_20260708T231944-0500.json",
-    "Plan/Tracker/Evidence/EC2_RUNTIME_PROOF_20260708T231944-0500.json",
-    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_EC2_TARGET_RUNTIME_PROOF_DRY_RUN_CURRENT_GATES_20260708T232200-0500.json",
-    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_EC2_TARGET_RUNTIME_PROOF_REQUEST_CURRENT_GATES_20260708T232200-0500.json",
-    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_AWS_AUTH_GATE_EC2_TARGET_RUNTIME_PROOF_20260708T232100-0500.json"
-  ]
+  "independent_duplicate_check": {
+    "path": "runtime_artifacts/agent_handoffs/cursor/20260712T054749-0500_wave64_row038_existing_ec2_proof_duplicate_check/handoff_record.json",
+    "sha256": "14e8054293bae541a5f017fc78f26288432706701177524bb96f7443c16ef7c7",
+    "status": "PASS",
+    "classification": "CURSOR_HANDOFF_COMPLETED",
+    "decision": "pass_with_integrity_caveats_nonblocking_for_lane_scope"
+  },
+  "qa_decision": "ec2_target_runtime_proof_lane_scoped_pass_existing_evidence",
+  "final_render_gate": "LANE_SCOPED_EC2_TARGET_RUNTIME_PASS_FULL_PROJECT_CERTIFICATION_NOT_IMPLIED",
+  "blockers": [],
+  "known_limits": [
+    "The visual QA records minor beauty-retouch softness and slightly synthetic hair and blazer edges.",
+    "The checked-in prompt/history text copies contain a later one-token edit; original exact bytes remain hash-verifiable in Git and are recorded by the Row037 reconciliation.",
+    "This row certifies one SDXL low-risk EC2 target-runtime proof, not all active lanes, final portfolio quality, masks, or the full project."
+  ],
+  "next_action": "Duplicate-check TRK-W64-039 / ITEM-W64-039 against existing local ComfyUI development-lane evidence before any rerun."
 }

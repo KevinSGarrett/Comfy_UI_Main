@@ -1,3 +1,10 @@
+## 2026-07-12T05:56:00-05:00 - Supersede a proposed-rerun blocker with existing target proof
+
+- Keep the 2026-07-08 Row038 pre-start dry-run blocker as historical truth, but do not let it hide the earlier completed W61 EC2 target-runtime chain.
+- Mark Row038 lane-scoped complete because object-info, exact model proof, generation/load, manifest/log, pullback, visual QA, and stopped-state evidence all exist and W66 closes the lane review.
+- Treat current expired AWS authentication as a blocker to new live work, not a reason to erase or rerun completed proof.
+- Preserve the disclosed prompt/history text drift and exact Git-blob provenance; do not rewrite hash-bound historical artifacts.
+
 ## 2026-07-12T05:37:00-05:00 - Reconcile completed target-runtime proof instead of rerunning it
 
 - Advance Row037 to lane-scoped complete because the existing W61 EC2 generation, verified pullback, visual QA, and W66 done packet satisfy its exact acceptance contract.

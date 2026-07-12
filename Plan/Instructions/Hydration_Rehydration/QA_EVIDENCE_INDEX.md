@@ -1,3 +1,14 @@
+## Wave64 Existing EC2 Target Runtime Proof Reconciliation - 2026-07-12T05:56:00-05:00
+
+Row038 is complete for the bounded SDXL low-risk EC2 target-runtime scope using existing W61/W66 proof. The reconciliation records object-info, required nodes, exact checkpoint bytes/hash, successful generation/model load, manifest/log, 4/4 pullback, visual QA, and stopped final state. No live rerun occurred; full-project and mask gates remain excluded.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Wave64/ec2_runtime_proof.json`
+- `Plan/Instructions/QA/Evidence/Wave64/EC2_RUNTIME_PROOF_RECONCILIATION_20260712T054900-0500.json`
+- `Plan/Tracker/Evidence/EC2_RUNTIME_PROOF_RECONCILIATION_20260712T054900-0500.json`
+- `Plan/Instructions/QA/Evidence/Wave64/ec2_runtime_proof_reconciliation_test_log.json`
+- `Plan/Items/Reports/ITEM-W64-038_ec2_runtime_proof.json`
+
 ## Wave64 SDXL Runtime Smoke Existing-Proof Reconciliation - 2026-07-12T05:37:00-05:00
 
 Row037 is complete for the bounded SDXL low-risk runtime-smoke lane using existing local and W61/W66 target-runtime evidence. No live rerun occurred. The current aggregate records exact static, runtime, pullback, artifact, visual-QA, done-certification, and historical Git-blob provenance with full-project and mask gates excluded.
