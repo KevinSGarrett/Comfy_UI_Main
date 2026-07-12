@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-12T08:39:16-05:00",
+  "tracker_id": "TRK-W64-061",
+  "item_id": "ITEM-W64-061",
+  "status": "Blocked_Live_Operations_Safety_Gates_Not_Met_Local_Controls_Pass",
+  "gate_results": {
+    "bounded_resource_use": {
+      "state": "pass_local_policy_live_blocked",
+      "local_scope": "bounded dry-runs, no EC2/generation, stop-after schedule contract",
+      "live_scope": "blocked_expired_auth_no_live_runtime_authority"
+    },
+    "latest_state_read": {
+      "state": "pass",
+      "scope": "current hydration/no-loop/final-cert evidence"
+    },
+    "no_loop_gate": {
+      "state": "pass",
+      "scope": "20/20 current anti-rerun checks and stop rules"
+    },
+    "checkpoint_gate": {
+      "state": "blocked",
+      "scope": "five intentionally preserved worktree paths"
+    },
+    "emergency_stop_gate": {
+      "state": "pass_dry_run_live_blocked",
+      "scope": "W64/W66 dry-run schedule plans pass; live schedule/watchdog/stopped-state proof absent"
+    }
+  },
+  "normalized_blockers": [
+    {
+      "blocker_id": "AWS_AUTH_EXPIRED_LIVE_RUNTIME_BLOCK",
+      "source": "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json"
+    },
+    {
+      "blocker_id": "EMERGENCY_STOP_LIVE_PROOF_MISSING",
+      "source": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_EC2_EMERGENCY_STOP_SCHEDULE_SELECTED_INPAINT_CURRENT_BUNDLE_DRY_RUN_20260709T173000-0500.json"
+    },
+    {
+      "blocker_id": "CHECKPOINT_DIRTY_WORKTREE_INTENTIONAL_5_PATHS",
+      "source": "Plan/Instructions/QA/Evidence/Wave64/secret_git_security.json"
+    },
+    {
+      "blocker_id": "LIVE_RUNTIME_AUTHORITY_NOT_GRANTED",
+      "source": "Plan/Instructions/AUTOMATION_CRON_FLEET_SUPERVISION_STRATEGY.md"
+    },
+    {
+      "blocker_id": "FINAL_CERTIFICATION_STILL_BLOCKED_UPSTREAM",
+      "source": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json"
+    }
+  ],
+  "evidence": [
+    "Plan/Instructions/QA/Evidence/Wave64/autonomous_24_7_operations.json",
+    "Plan/Instructions/QA/Evidence/Wave64/AUTONOMOUS_24_7_OPERATIONS_20260712T083916-0500.json",
+    "Plan/Tracker/Evidence/AUTONOMOUS_24_7_OPERATIONS_20260712T083916-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/autonomous_24_7_operations_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-061_autonomous_24_7_operations.json",
+    "Plan/Instructions/Operations/OPERATIONAL_DONE_GATES.md",
+    "Plan/Instructions/AUTOMATION_CRON_FLEET_SUPERVISION_STRATEGY.md",
+    "Plan/Instructions/LOCAL_SOURCE_OF_TRUTH_AND_EC2_STALE_WORKSPACE_PROTOCOL.md",
+    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_EC2_EMERGENCY_STOP_SCHEDULE_DRY_RUN_20260708T233332-0500.json",
+    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_EC2_EMERGENCY_STOP_SCHEDULE_SELECTED_INPAINT_CURRENT_BUNDLE_DRY_RUN_20260709T173000-0500.json",
+    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_QA_HELPER_SELECTED_QUEUE_SENTINEL_CURRENT_CONTRACT_FIXED_20260709T132000-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/no_loop_no_drift.json",
+    "Plan/Instructions/QA/Evidence/Wave64/hydration_resume_control.json",
+    "Plan/Instructions/QA/Evidence/Wave64/secret_git_security.json",
+    "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json",
+    "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json"
+  ],
+  "next_action": "Advance with safe local TRK-W64-062 / ITEM-W64-062 observability/evidence retention; keep Row061 live authority blocked until AWS, emergency-stop, and checkpoint proof clear."
+}

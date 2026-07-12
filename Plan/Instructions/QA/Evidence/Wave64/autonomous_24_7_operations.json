@@ -1,0 +1,239 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "AUTONOMOUS_24_7_OPERATIONS_20260712T083916-0500",
+  "created_iso": "2026-07-12T08:39:16-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-061",
+  "item_id": "ITEM-W64-061",
+  "status": "Blocked_Live_Operations_Safety_Gates_Not_Met_Local_Controls_Pass",
+  "row_complete": false,
+  "qa_decision": "local_24_7_safety_controls_pass_live_authority_blocked",
+  "gate_results": {
+    "bounded_resource_use": {
+      "state": "pass_local_policy_live_blocked",
+      "local_scope": "bounded dry-runs, no EC2/generation, stop-after schedule contract",
+      "live_scope": "blocked_expired_auth_no_live_runtime_authority"
+    },
+    "latest_state_read": {
+      "state": "pass",
+      "scope": "current hydration/no-loop/final-cert evidence"
+    },
+    "no_loop_gate": {
+      "state": "pass",
+      "scope": "20/20 current anti-rerun checks and stop rules"
+    },
+    "checkpoint_gate": {
+      "state": "blocked",
+      "scope": "five intentionally preserved worktree paths"
+    },
+    "emergency_stop_gate": {
+      "state": "pass_dry_run_live_blocked",
+      "scope": "W64/W66 dry-run schedule plans pass; live schedule/watchdog/stopped-state proof absent"
+    }
+  },
+  "local_policy_passes": [
+    "bounded dry-run resource policy",
+    "latest local hydration state",
+    "no-loop/no-drift control",
+    "emergency-stop schedule planning",
+    "local queue sentinel"
+  ],
+  "live_proof_requirements": [
+    "fresh AWS identity/account proof",
+    "live emergency-stop schedule creation",
+    "live SSM watchdog start/verification",
+    "bounded runtime execution if separately authorized",
+    "final stopped-state verification",
+    "clean checkpoint proof"
+  ],
+  "normalized_blockers": [
+    {
+      "blocker_id": "AWS_AUTH_EXPIRED_LIVE_RUNTIME_BLOCK",
+      "source": "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json"
+    },
+    {
+      "blocker_id": "EMERGENCY_STOP_LIVE_PROOF_MISSING",
+      "source": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_EC2_EMERGENCY_STOP_SCHEDULE_SELECTED_INPAINT_CURRENT_BUNDLE_DRY_RUN_20260709T173000-0500.json"
+    },
+    {
+      "blocker_id": "CHECKPOINT_DIRTY_WORKTREE_INTENTIONAL_5_PATHS",
+      "source": "Plan/Instructions/QA/Evidence/Wave64/secret_git_security.json"
+    },
+    {
+      "blocker_id": "LIVE_RUNTIME_AUTHORITY_NOT_GRANTED",
+      "source": "Plan/Instructions/AUTOMATION_CRON_FLEET_SUPERVISION_STRATEGY.md"
+    },
+    {
+      "blocker_id": "FINAL_CERTIFICATION_STILL_BLOCKED_UPSTREAM",
+      "source": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json"
+    }
+  ],
+  "preserved_paths": [
+    "Plan/Instructions/AUTOMATION_CRON_FLEET_SUPERVISION_STRATEGY.md",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_LATEST.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_LATEST.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_20260711T211346-0500.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_20260711T211346-0500.md"
+  ],
+  "source_hashes": [
+    {
+      "path": "Plan/Instructions/Operations/OPERATIONAL_DONE_GATES.md",
+      "sha256": "cf7755d0a0a549bbff928169a29fdf443090b0a0472d9152ce8c46fbaef56271"
+    },
+    {
+      "path": "Plan/Instructions/AUTOMATION_CRON_FLEET_SUPERVISION_STRATEGY.md",
+      "sha256": "7a419a2608ab23552602ae4b8065378e637a27ffa75752837cf70227ec81412d"
+    },
+    {
+      "path": "Plan/Instructions/LOCAL_SOURCE_OF_TRUTH_AND_EC2_STALE_WORKSPACE_PROTOCOL.md",
+      "sha256": "4a57fbd43b7bca8f6d720b9618edbfb32c3702349b683f911659e6b77bf2650d"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_EC2_EMERGENCY_STOP_SCHEDULE_DRY_RUN_20260708T233332-0500.json",
+      "sha256": "b25f347557c8cf1a81738b8b57d78a0188423140d9abc8c65a99dcb34b5d2da9"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_EC2_EMERGENCY_STOP_SCHEDULE_SELECTED_INPAINT_CURRENT_BUNDLE_DRY_RUN_20260709T173000-0500.json",
+      "sha256": "aa55d89804a6aebdd49497c49fbce061951a47cb2375df9b8078748e3de08f93"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_QA_HELPER_SELECTED_QUEUE_SENTINEL_CURRENT_CONTRACT_FIXED_20260709T132000-0500.json",
+      "sha256": "2e926b8fa5004ad1f8748d995568c3c12edfd8c4ba49e3814789f7d26f8db635"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/no_loop_no_drift.json",
+      "sha256": "623f0b02ff2628c954de84afb2b74bbc9d4edd604e252e5a76635a4811dcdad2"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/hydration_resume_control.json",
+      "sha256": "7ee89c0dfd06e69f17e4cf12427bbbb759c97337e8eb3770534e2486e306417a"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/secret_git_security.json",
+      "sha256": "45addfc7558c576b0e66aa49cfee0b88cb751993ebabfb8c4e17c3f6118a070b"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json",
+      "sha256": "bdae77c5dab8fbabd432a6c0473aabadc3e681cf3106c54abd59d140fef07eee"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+      "sha256": "053a6c1b1656619b5e4924fb8568aebd20fee2faf8b2655a305d6c592e3ddc25"
+    }
+  ],
+  "checks": [
+    {
+      "name": "OPS-001_row061_tracker_contract_present",
+      "result": "pass"
+    },
+    {
+      "name": "OPS-002_required_gate_tuple_exact",
+      "result": "pass"
+    },
+    {
+      "name": "OPS-003_operational_done_gates_present",
+      "result": "pass"
+    },
+    {
+      "name": "OPS-004_no_loop_current_pass",
+      "result": "pass"
+    },
+    {
+      "name": "OPS-005_no_loop_20_of_20",
+      "result": "pass"
+    },
+    {
+      "name": "OPS-006_hydration_current_pass",
+      "result": "pass"
+    },
+    {
+      "name": "OPS-007_hydration_20_of_20",
+      "result": "pass"
+    },
+    {
+      "name": "OPS-008_checkpoint_status_blocked",
+      "result": "pass"
+    },
+    {
+      "name": "OPS-009_preserved_paths_5",
+      "result": "pass"
+    },
+    {
+      "name": "OPS-010_ttl_live_blocked",
+      "result": "pass"
+    },
+    {
+      "name": "OPS-011_ttl_20_of_20",
+      "result": "pass"
+    },
+    {
+      "name": "OPS-012_w64_dry_run",
+      "result": "pass"
+    },
+    {
+      "name": "OPS-013_w66_dry_run",
+      "result": "pass"
+    },
+    {
+      "name": "OPS-014_dry_runs_no_aws",
+      "result": "pass"
+    },
+    {
+      "name": "OPS-015_queue_sentinel_local_pass",
+      "result": "pass"
+    },
+    {
+      "name": "OPS-016_sentinel_no_ec2_generation",
+      "result": "pass"
+    },
+    {
+      "name": "OPS-017_final_cert_blocked",
+      "result": "pass"
+    },
+    {
+      "name": "OPS-018_final_cert_requires_row061",
+      "result": "pass"
+    },
+    {
+      "name": "OPS-019_local_authority_policy_present",
+      "result": "pass"
+    },
+    {
+      "name": "OPS-020_live_authority_fail_closed",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "safety_boundary": {
+    "aws_contacted": false,
+    "ec2_started": false,
+    "generation_executed": false,
+    "git_mutated_by_audit": false,
+    "automation_strategy_modified": false,
+    "jira_mutated": false,
+    "mask_or_wave71_touched": false
+  },
+  "next_action": "Advance with safe local TRK-W64-062 / ITEM-W64-062 observability/evidence retention; keep Row061 live authority blocked until AWS, emergency-stop, and checkpoint proof clear.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/autonomous_24_7_operations.json",
+    "Plan/Instructions/QA/Evidence/Wave64/AUTONOMOUS_24_7_OPERATIONS_20260712T083916-0500.json",
+    "Plan/Tracker/Evidence/AUTONOMOUS_24_7_OPERATIONS_20260712T083916-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/autonomous_24_7_operations_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-061_autonomous_24_7_operations.json",
+    "Plan/Instructions/Operations/OPERATIONAL_DONE_GATES.md",
+    "Plan/Instructions/AUTOMATION_CRON_FLEET_SUPERVISION_STRATEGY.md",
+    "Plan/Instructions/LOCAL_SOURCE_OF_TRUTH_AND_EC2_STALE_WORKSPACE_PROTOCOL.md",
+    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_EC2_EMERGENCY_STOP_SCHEDULE_DRY_RUN_20260708T233332-0500.json",
+    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_EC2_EMERGENCY_STOP_SCHEDULE_SELECTED_INPAINT_CURRENT_BUNDLE_DRY_RUN_20260709T173000-0500.json",
+    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_QA_HELPER_SELECTED_QUEUE_SENTINEL_CURRENT_CONTRACT_FIXED_20260709T132000-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/no_loop_no_drift.json",
+    "Plan/Instructions/QA/Evidence/Wave64/hydration_resume_control.json",
+    "Plan/Instructions/QA/Evidence/Wave64/secret_git_security.json",
+    "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json",
+    "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json"
+  ]
+}
