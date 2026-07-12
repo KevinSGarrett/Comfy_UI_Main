@@ -7,7 +7,11 @@
     "source_image_id",
     "repair_regions",
     "crop_plans",
-    "qa_goals"
+    "qa_goals",
+    "anatomy_scorecard",
+    "hands_feet_check",
+    "face_teeth_eye_check",
+    "hard_reject_on_deformation"
   ],
   "properties": {
     "contract_version": {
@@ -42,6 +46,98 @@
       "items": {
         "type": "string"
       }
+    },
+    "anatomy_scorecard": {
+      "$ref": "#/definitions/anatomy_scorecard"
+    },
+    "hands_feet_check": {
+      "$ref": "#/definitions/hands_feet_check"
+    },
+    "face_teeth_eye_check": {
+      "$ref": "#/definitions/face_teeth_eye_check"
+    },
+    "hard_reject_on_deformation": {
+      "$ref": "#/definitions/hard_reject"
+    }
+  },
+  "definitions": {
+    "status": {
+      "type": "string",
+      "enum": ["pass", "fail", "blocked", "not_applicable"]
+    },
+    "evidence_paths": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "regional_disposition": {
+      "type": "object",
+      "required": ["status", "inspectable"],
+      "properties": {
+        "status": {"$ref": "#/definitions/status"},
+        "inspectable": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "gate_base": {
+      "type": "object",
+      "required": ["status", "evidence_paths", "blockers"],
+      "properties": {
+        "status": {"$ref": "#/definitions/status"},
+        "evidence_paths": {"$ref": "#/definitions/evidence_paths"},
+        "blockers": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "anatomy_scorecard": {
+      "allOf": [
+        {"$ref": "#/definitions/gate_base"},
+        {
+          "type": "object",
+          "required": ["local_score", "global_score", "regional_checks"],
+          "properties": {
+            "local_score": {"type": "number", "minimum": 0, "maximum": 1},
+            "global_score": {"type": "number", "minimum": 0, "maximum": 1},
+            "regional_checks": {"type": "array", "items": {"type": "object"}}
+          }
+        }
+      ]
+    },
+    "hands_feet_check": {
+      "allOf": [
+        {"$ref": "#/definitions/gate_base"},
+        {
+          "type": "object",
+          "required": ["hands", "feet"],
+          "properties": {
+            "hands": {"$ref": "#/definitions/regional_disposition"},
+            "feet": {"$ref": "#/definitions/regional_disposition"}
+          }
+        }
+      ]
+    },
+    "face_teeth_eye_check": {
+      "allOf": [
+        {"$ref": "#/definitions/gate_base"},
+        {
+          "type": "object",
+          "required": ["face", "eyes", "teeth"],
+          "properties": {
+            "face": {"$ref": "#/definitions/regional_disposition"},
+            "eyes": {"$ref": "#/definitions/regional_disposition"},
+            "teeth": {"$ref": "#/definitions/regional_disposition"}
+          }
+        }
+      ]
+    },
+    "hard_reject": {
+      "type": "object",
+      "required": ["enabled", "triggered", "reasons", "promotion_allowed"],
+      "properties": {
+        "enabled": {"const": true},
+        "triggered": {"type": "boolean"},
+        "reasons": {"type": "array", "items": {"type": "string"}},
+        "promotion_allowed": {"type": "boolean"}
+      },
+      "additionalProperties": false
     }
   }
 }

@@ -7,5 +7,18 @@
     "pose_contact_preservation": 0.2,
     "seam_blend_quality": 0.15,
     "frame_integrity": 0.1
-  }
+  },
+  "required_gate_fields": [
+    "anatomy_scorecard",
+    "hands_feet_check",
+    "face_teeth_eye_check",
+    "hard_reject_on_deformation"
+  ],
+  "automatic_fail_flags": [
+    "anatomy_scorecard_not_passed",
+    "hands_or_feet_not_inspectable",
+    "face_teeth_or_eyes_not_inspectable",
+    "hard_reject_on_deformation_triggered"
+  ],
+  "numeric_score_override_allowed": false
 }

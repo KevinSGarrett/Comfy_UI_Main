@@ -32,5 +32,34 @@
     "body_proportions",
     "frame_integrity",
     "contact_continuity"
-  ]
+  ],
+  "anatomy_scorecard": {
+    "status": "blocked",
+    "evidence_paths": [],
+    "blockers": ["zoomed_regional_evidence_missing"],
+    "local_score": 0.0,
+    "global_score": 0.0,
+    "regional_checks": []
+  },
+  "hands_feet_check": {
+    "status": "blocked",
+    "evidence_paths": [],
+    "blockers": ["finger_and_toe_authority_missing"],
+    "hands": {"status": "blocked", "inspectable": false},
+    "feet": {"status": "blocked", "inspectable": false}
+  },
+  "face_teeth_eye_check": {
+    "status": "blocked",
+    "evidence_paths": [],
+    "blockers": ["scope_matched_face_teeth_eye_evidence_missing"],
+    "face": {"status": "blocked", "inspectable": false},
+    "eyes": {"status": "blocked", "inspectable": false},
+    "teeth": {"status": "blocked", "inspectable": false}
+  },
+  "hard_reject_on_deformation": {
+    "enabled": true,
+    "triggered": true,
+    "reasons": ["required_hard_anatomy_authority_missing"],
+    "promotion_allowed": false
+  }
 }

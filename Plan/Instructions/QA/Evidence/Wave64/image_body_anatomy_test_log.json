@@ -1,0 +1,162 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-12T12:36:13-05:00",
+  "tracker_id": "TRK-W64-013",
+  "result": "pass_contract_implementation_regional_authority_blocked",
+  "commands": {
+    "unit": [
+      "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+      "-m",
+      "unittest",
+      "-v",
+      "Plan.Instructions.QA.Scripts.test_hard_anatomy_contract"
+    ],
+    "pack": [
+      "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+      "Plan/07_IMPLEMENTATION/scripts/run_wave20_local_validation.py",
+      "--root",
+      "Plan"
+    ]
+  },
+  "test_results": {
+    "unit_tests": {
+      "run": 8,
+      "passed": 8
+    },
+    "wave20_pack": {
+      "json_files_checked": 5025,
+      "required_files_checked": 9,
+      "minimum_json_files_required": 5020,
+      "result": "pass"
+    }
+  },
+  "validation_gates": {
+    "anatomy_scorecard": {
+      "status": "partial_contract_implemented_whole_image_support_only",
+      "checks": [
+        "IBA-001",
+        "IBA-002",
+        "IBA-005",
+        "IBA-007",
+        "IBA-013"
+      ]
+    },
+    "hands_feet_check": {
+      "status": "blocked_zoomed_finger_toe_authority_missing",
+      "checks": [
+        "IBA-003",
+        "IBA-006",
+        "IBA-014",
+        "IBA-016",
+        "IBA-017"
+      ]
+    },
+    "face_teeth_eye_check": {
+      "status": "blocked_scope_matched_regional_evidence_missing",
+      "checks": [
+        "IBA-009",
+        "IBA-010",
+        "IBA-015",
+        "IBA-018",
+        "IBA-019"
+      ]
+    },
+    "hard_reject_on_deformation": {
+      "status": "pass_fail_closed_implementation",
+      "checks": [
+        "IBA-004",
+        "IBA-008",
+        "IBA-011",
+        "IBA-012",
+        "IBA-020"
+      ]
+    }
+  },
+  "checks": [
+    {
+      "name": "IBA-001_row013_contract_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-002_source_documents_four_gates",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-003_compiler_emits_four_gates",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-004_validator_requires_four_gates",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-005_schema_requires_four_gates",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-006_example_fail_closed",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-007_scoring_registries_bind_gates",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-008_scorer_hard_override_present",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-009_eight_regressions_pass",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-010_wave20_pack_validation_pass",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-011_compile_and_validate_example",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-012_compiled_example_stays_blocked",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-013_openpose_whole_body_support",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-014_normal_whole_body_support",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-015_canny_whole_body_support",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-016_representative_hashes_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-017_fullbody_evidence_non_authoritative",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-018_zoomed_regions_not_proven",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-019_gold_geometry_dependency_preserved",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-020_no_runtime_or_promotion_action",
+      "result": "pass"
+    }
+  ],
+  "summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  }
+}

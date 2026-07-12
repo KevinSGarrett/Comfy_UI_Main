@@ -1,0 +1,262 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "IMAGE_BODY_ANATOMY_20260712T123613-0500",
+  "created_iso": "2026-07-12T12:36:13-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-013",
+  "item_id": "ITEM-W64-013",
+  "status": "Blocked_Regional_Hard_Anatomy_Evidence_Missing_Contract_Gates_Implemented",
+  "row_complete": false,
+  "qa_decision": "hard_anatomy_contract_pass_whole_image_support_regional_authority_blocked",
+  "validation_gates": {
+    "anatomy_scorecard": {
+      "status": "partial_contract_implemented_whole_image_support_only",
+      "checks": [
+        "IBA-001",
+        "IBA-002",
+        "IBA-005",
+        "IBA-007",
+        "IBA-013"
+      ]
+    },
+    "hands_feet_check": {
+      "status": "blocked_zoomed_finger_toe_authority_missing",
+      "checks": [
+        "IBA-003",
+        "IBA-006",
+        "IBA-014",
+        "IBA-016",
+        "IBA-017"
+      ]
+    },
+    "face_teeth_eye_check": {
+      "status": "blocked_scope_matched_regional_evidence_missing",
+      "checks": [
+        "IBA-009",
+        "IBA-010",
+        "IBA-015",
+        "IBA-018",
+        "IBA-019"
+      ]
+    },
+    "hard_reject_on_deformation": {
+      "status": "pass_fail_closed_implementation",
+      "checks": [
+        "IBA-004",
+        "IBA-008",
+        "IBA-011",
+        "IBA-012",
+        "IBA-020"
+      ]
+    }
+  },
+  "exact_blocker": "No scope-matched zoomed regional evidence proves fingers, toes, teeth, eyes, joints, limbs, and contact anatomy together; trusted body/hand/contact geometry authority remains unavailable.",
+  "codex_visual_review": {
+    "reviewed_existing_images_only": true,
+    "images": [
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/openpose_v6_full_body_walking_seed711470301_20260711T033754-0500/images/op_fullbody_walk_v6_711470301_00001_.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/images/normal_v4_fullbody_standing_711670301_00001_.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_full_body_seed711570301_20260711T093300-0500/images/canny_full_body_standing_711570301_00001_.png"
+    ],
+    "findings": [
+      "Representative OpenPose, Normal, and Canny images show plausible whole-body silhouettes, coherent major limbs, and in-frame hands and footwear.",
+      "Hands and shoes are too small for authoritative finger, nail, toe, or sole inspection; teeth are not visible and eye detail is not scope-matched for regional certification.",
+      "Whole-image visual plausibility therefore supports anatomy triage but cannot clear the new regional hard gates."
+    ]
+  },
+  "test_results": {
+    "unit_tests": {
+      "run": 8,
+      "passed": 8
+    },
+    "wave20_pack": {
+      "json_files_checked": 5025,
+      "required_files_checked": 9,
+      "minimum_json_files_required": 5020,
+      "result": "pass"
+    }
+  },
+  "checks": [
+    {
+      "name": "IBA-001_row013_contract_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-002_source_documents_four_gates",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-003_compiler_emits_four_gates",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-004_validator_requires_four_gates",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-005_schema_requires_four_gates",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-006_example_fail_closed",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-007_scoring_registries_bind_gates",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-008_scorer_hard_override_present",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-009_eight_regressions_pass",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-010_wave20_pack_validation_pass",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-011_compile_and_validate_example",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-012_compiled_example_stays_blocked",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-013_openpose_whole_body_support",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-014_normal_whole_body_support",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-015_canny_whole_body_support",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-016_representative_hashes_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-017_fullbody_evidence_non_authoritative",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-018_zoomed_regions_not_proven",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-019_gold_geometry_dependency_preserved",
+      "result": "pass"
+    },
+    {
+      "name": "IBA-020_no_runtime_or_promotion_action",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "safety_boundary": {
+    "new_generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "candidate_masks_consumed_as_truth": false,
+    "mask_promotion_performed": false,
+    "hard_gates_rerun": false,
+    "wave71_activated": false,
+    "jira_mutated": false
+  },
+  "project_completion": {
+    "level": "BELOW_LEVEL_7",
+    "full_project_complete": false,
+    "final_certification_decision": "blocked"
+  },
+  "source_hashes": [
+    {
+      "path": "Plan/03_IMAGE_SYSTEM/WAVE20_IMAGE_HARD_ANATOMY_REPAIR_PLAN.md",
+      "sha256": "3a0de7b8b0f5b3daa0f6ed2fed25da98ed157c83374748dc04b15b83d25d236e"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/compile_hard_anatomy_repair_contract.py",
+      "sha256": "57b01bea4405d8fb9960597be5af673fe2ae0f5e8099f3e6ddb86139983798fa"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/validate_hard_anatomy_repair_contract.py",
+      "sha256": "8a71bdfa8d294a6f1d743f582a2d4c2ad808b8880f3aab50a0c36a63f86f00d9"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/score_hard_anatomy_evidence.py",
+      "sha256": "fd18dac477215265fc4554902e89c2e995315638c126b2e102398ba603826709"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/run_wave20_local_validation.py",
+      "sha256": "2e519f9bbefd2149de775073aeb5d4ec18bff91f6638d9bab4e7a938e7d23e2f"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/hard_anatomy_repair_contract.schema.json",
+      "sha256": "00b33fc2f8300a0170edd9e9842daf3f9a5ab111696222004281bdfc254653a8"
+    },
+    {
+      "path": "Plan/09_EXAMPLES/wave20_hard_anatomy_repair_contract.example.json",
+      "sha256": "b288a0ad3752d9dcc0a030561f2c43ecedd1ae19ac7bec2194f9b3c3b3fbdfce"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave17_body_proportion_qa_scoring_rules.json",
+      "sha256": "6669b967a1fc027bf08d772175769eeac72033fa899f0e7d827aad84761a5d0c"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave20_hard_anatomy_qa_scoring_rules.json",
+      "sha256": "f58dd90b8ae55aa29ac313388e60e7466586bb30bdefa8d2d459965640b8093a"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_hard_anatomy_contract.py",
+      "sha256": "1ee73043c1e73a20afa526625691f3fbd1bfcbad70403cf300fa8a5e1fc00040"
+    },
+    {
+      "path": "Plan/Instructions/QA/GOLD_STANDARD_MASK_DEPENDENCY_GATE_PROTOCOL.md",
+      "sha256": "659fd3c21c084b0e3ebdbf8e8378eba2cd845186089a7b824ff4297403727cd3"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_OPENPOSE_V6_FULL_BODY_MULTISEED_ROBUSTNESS_QA_20260711T045000-0500.json",
+      "sha256": "9271618eb064a95ccf71d63f480758c1d36c2de91c78bcadb15a1505240896a5"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_NORMAL_V4_FULL_BODY_MULTISEED_ROBUSTNESS_QA_20260711T043500-0500.json",
+      "sha256": "512a8393165cba868ebfc12b0f7c75135ad1fefc5400fb8dfb48e75b12ac0a68"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_CANNY_FULL_BODY_MULTISEED_ROBUSTNESS_QA_20260711T093800-0500.json",
+      "sha256": "2a19ee000d59985fb8da42bb300d97c25f7d50b632a8e953b752ddaa93fe920e"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/openpose_v6_full_body_walking_seed711470301_20260711T033754-0500/images/op_fullbody_walk_v6_711470301_00001_.png",
+      "sha256": "c3b25b322dcf155a88fb72a33a3058f8615161941223389187b0aee62ab108fc"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/images/normal_v4_fullbody_standing_711670301_00001_.png",
+      "sha256": "b01b694125e08027195baf3c5a4eeac472eba242bfb4bbe69473625844134fc1"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_full_body_seed711570301_20260711T093300-0500/images/canny_full_body_standing_711570301_00001_.png",
+      "sha256": "1c2a51ec34a0a3ef4e69c4f38ee2ad51cc90921783cb5ae75f3eab16de667c9c"
+    }
+  ],
+  "next_action": "Proceed to TRK-W64-014 / ITEM-W64-014 in strict sequence. Reopen Row013 only with scope-matched regional evidence and trusted geometry prerequisites; whole-image matrices must not be promoted into finger/toe/teeth/eye authority.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/image_body_anatomy.json",
+    "Plan/Instructions/QA/Evidence/Wave64/IMAGE_BODY_ANATOMY_20260712T123613-0500.json",
+    "Plan/Tracker/Evidence/IMAGE_BODY_ANATOMY_20260712T123613-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/image_body_anatomy_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-013_image_body_anatomy.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_OPENPOSE_V6_FULL_BODY_MULTISEED_ROBUSTNESS_QA_20260711T045000-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_NORMAL_V4_FULL_BODY_MULTISEED_ROBUSTNESS_QA_20260711T043500-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_CANNY_FULL_BODY_MULTISEED_ROBUSTNESS_QA_20260711T093800-0500.json"
+  ]
+}

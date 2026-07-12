@@ -1,3 +1,11 @@
+## Wave64 Row013 Hard Anatomy And Body Proportion Review - 2026-07-12T12:36:13-05:00
+
+`TRK-W64-013` / `ITEM-W64-013` is `Blocked_Regional_Hard_Anatomy_Evidence_Missing_Contract_Gates_Implemented`. The compiler, validator, schema, example, Wave17/Wave20 scoring rules, and evidence scorer now implement `anatomy_scorecard`, `hands_feet_check`, `face_teeth_eye_check`, and `hard_reject_on_deformation`. Missing regional evidence compiles blocked, numeric scores cannot override regional failure, and promotion is rejected unless every applicable region is pass-like and inspectable. Eight regressions pass, and the repaired Wave20 validator parses at least 5,020 JSON files and all 9 required files. Direct Codex review of representative OpenPose, Normal, and Canny images supports broad whole-body plausibility only; fingers, toes, teeth, detailed eyes, joints, and contact anatomy remain unproven at zoomed regional authority. The split-state audit passes 20/20 checks. No generation, AWS, EC2, mask truth consumption/promotion, hard-gate rerun, Jira, or Wave71+ action occurred.
+
+Next safe local action in strict sequence: `TRK-W64-014 / ITEM-W64-014`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/image_body_anatomy.json`; `Plan/Instructions/QA/Evidence/Wave64/IMAGE_BODY_ANATOMY_20260712T123613-0500.json`; `Plan/Tracker/Evidence/IMAGE_BODY_ANATOMY_20260712T123613-0500.json`.
+
 ## Wave64 Row012 Mask Factory And Regional Control Integrity - 2026-07-12T12:09:25-05:00
 
 `TRK-W64-012` / `ITEM-W64-012` is `Blocked_Gold_Mask_Dependency_Missing`. Four mask schemas parse, and bounded historical contact-mask, inpaint-delta, and protected-region evidence provides local support. Direct Codex review confirms a localized hand/sleeve overlay and two stable no-mouth inpaint outputs without obvious hard boundaries. These artifacts are candidate/bounded evidence, not trusted body/body-part spatial truth. Manual gold masks remain in progress, no masks are promoted, and the latest Wave70 geometry/promotion snapshots remained read-only at 332 checked rows and zero pass-like rows. The split-state audit passes 20/20 checks. No hard-gate rerun, new generation, AWS, EC2, mask truth consumption/promotion, Jira, or Wave71+ action occurred.

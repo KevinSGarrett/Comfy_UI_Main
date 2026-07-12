@@ -7,6 +7,14 @@ import json
 from pathlib import Path
 
 
+def blocked_gate(reason: str) -> dict:
+    return {
+        'status': 'blocked',
+        'evidence_paths': [],
+        'blockers': [reason],
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument('--input', required=True)
@@ -23,6 +31,29 @@ def main() -> int:
         'global_preservation_goals': src.get('global_preservation_goals', [
             'identity', 'pose', 'body_proportions', 'frame_integrity', 'contact_continuity'
         ]),
+        'anatomy_scorecard': src.get('anatomy_scorecard', {
+            **blocked_gate('anatomy_scorecard_evidence_missing'),
+            'local_score': 0.0,
+            'global_score': 0.0,
+            'regional_checks': [],
+        }),
+        'hands_feet_check': src.get('hands_feet_check', {
+            **blocked_gate('hands_feet_evidence_missing'),
+            'hands': {'status': 'blocked', 'inspectable': False},
+            'feet': {'status': 'blocked', 'inspectable': False},
+        }),
+        'face_teeth_eye_check': src.get('face_teeth_eye_check', {
+            **blocked_gate('face_teeth_eye_evidence_missing'),
+            'face': {'status': 'blocked', 'inspectable': False},
+            'eyes': {'status': 'blocked', 'inspectable': False},
+            'teeth': {'status': 'blocked', 'inspectable': False},
+        }),
+        'hard_reject_on_deformation': src.get('hard_reject_on_deformation', {
+            'enabled': True,
+            'triggered': True,
+            'reasons': ['required_hard_anatomy_evidence_missing'],
+            'promotion_allowed': False,
+        }),
     }
     Path(args.output).write_text(json.dumps(out, indent=2) + '\n', encoding='utf-8')
     print(args.output)

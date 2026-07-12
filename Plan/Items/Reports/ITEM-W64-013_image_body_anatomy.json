@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-12T12:36:13-05:00",
+  "tracker_id": "TRK-W64-013",
+  "item_id": "ITEM-W64-013",
+  "status": "Blocked_Regional_Hard_Anatomy_Evidence_Missing_Contract_Gates_Implemented",
+  "implementation": {
+    "four_machine_gates": [
+      "anatomy_scorecard",
+      "hands_feet_check",
+      "face_teeth_eye_check",
+      "hard_reject_on_deformation"
+    ],
+    "fail_closed_defaults": true,
+    "numeric_override_forbidden": true
+  },
+  "exact_blocker": "No scope-matched zoomed regional evidence proves fingers, toes, teeth, eyes, joints, limbs, and contact anatomy together; trusted body/hand/contact geometry authority remains unavailable.",
+  "codex_visual_review": {
+    "reviewed_existing_images_only": true,
+    "images": [
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/openpose_v6_full_body_walking_seed711470301_20260711T033754-0500/images/op_fullbody_walk_v6_711470301_00001_.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/images/normal_v4_fullbody_standing_711670301_00001_.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_full_body_seed711570301_20260711T093300-0500/images/canny_full_body_standing_711570301_00001_.png"
+    ],
+    "findings": [
+      "Representative OpenPose, Normal, and Canny images show plausible whole-body silhouettes, coherent major limbs, and in-frame hands and footwear.",
+      "Hands and shoes are too small for authoritative finger, nail, toe, or sole inspection; teeth are not visible and eye detail is not scope-matched for regional certification.",
+      "Whole-image visual plausibility therefore supports anatomy triage but cannot clear the new regional hard gates."
+    ]
+  },
+  "evidence": [
+    "Plan/Instructions/QA/Evidence/Wave64/image_body_anatomy.json",
+    "Plan/Instructions/QA/Evidence/Wave64/IMAGE_BODY_ANATOMY_20260712T123613-0500.json",
+    "Plan/Tracker/Evidence/IMAGE_BODY_ANATOMY_20260712T123613-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/image_body_anatomy_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-013_image_body_anatomy.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_OPENPOSE_V6_FULL_BODY_MULTISEED_ROBUSTNESS_QA_20260711T045000-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_NORMAL_V4_FULL_BODY_MULTISEED_ROBUSTNESS_QA_20260711T043500-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_CANNY_FULL_BODY_MULTISEED_ROBUSTNESS_QA_20260711T093800-0500.json"
+  ],
+  "next_action": "Proceed to TRK-W64-014 / ITEM-W64-014 in strict sequence. Reopen Row013 only with scope-matched regional evidence and trusted geometry prerequisites; whole-image matrices must not be promoted into finger/toe/teeth/eye authority."
+}
