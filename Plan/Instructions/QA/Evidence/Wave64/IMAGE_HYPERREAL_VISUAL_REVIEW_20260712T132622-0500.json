@@ -1,0 +1,272 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "IMAGE_HYPERREAL_VISUAL_REVIEW_20260712T132622-0500",
+  "created_iso": "2026-07-12T13:26:22-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-016",
+  "item_id": "ITEM-W64-016",
+  "status": "Blocked_No_Promoted_Image_Set_And_Upstream_Quality_Authority_Missing",
+  "row_complete": false,
+  "qa_decision": "row016_contract_pass_bounded_certificates_reconciled_no_promoted_outputs",
+  "validation_gates": {
+    "technical_image_qa": {
+      "status": "partial_bounded_lane_and_matrix_technical_qa_pass",
+      "checks": [
+        "IHV-001",
+        "IHV-003",
+        "IHV-005",
+        "IHV-015"
+      ]
+    },
+    "visual_review_scorecard": {
+      "status": "partial_bounded_visual_scorecards_pass_with_notes",
+      "checks": [
+        "IHV-002",
+        "IHV-008",
+        "IHV-010",
+        "IHV-013"
+      ]
+    },
+    "prompt_alignment": {
+      "status": "blocked_no_single_promoted_image_record_binds_explicit_prompt_alignment",
+      "checks": [
+        "IHV-007",
+        "IHV-011",
+        "IHV-016",
+        "IHV-019"
+      ]
+    },
+    "artifact_hash_manifest": {
+      "status": "partial_bounded_artifact_hashes_verified_no_promoted_set",
+      "checks": [
+        "IHV-004",
+        "IHV-006",
+        "IHV-009",
+        "IHV-014"
+      ]
+    },
+    "promotion_decision": {
+      "status": "blocked_no_current_promoted_outputs_and_upstream_rows_incomplete",
+      "checks": [
+        "IHV-012",
+        "IHV-017",
+        "IHV-018",
+        "IHV-020"
+      ]
+    }
+  },
+  "exact_blocker": "No current promoted output exists, no single certificate binds all five Row016 gates for the same image scope, and Rows013-015 remain incomplete; bounded lane and matrix certificates cannot be generalized into per-image or full-project promotion.",
+  "certificate_reconciliation": {
+    "current_promoted_output_count": 0,
+    "bounded_certified_lane_ids": [
+      "sdxl_low_risk_fallback_lane",
+      "sdxl_realvisxl_controlnet_canny_lane",
+      "sdxl_realvisxl_controlnet_depth_lane",
+      "sdxl_realvisxl_controlnet_lineart_lane",
+      "sdxl_realvisxl_inpaint_detail_lane"
+    ],
+    "matrix_certification": "bounded_three_sample_pass_with_notes_not_project_final",
+    "historical_readiness_note": "The 2026-07-09 readiness snapshot predates the 2026-07-11 Canny, Depth, and Lineart final lane certificates; it remains historical evidence and is not rewritten.",
+    "scope_boundary": "No new visual judgment was substituted for existing strict QA; certificates were reconciled only within their explicit bounded scopes."
+  },
+  "test_results": {
+    "unit_tests": {
+      "run": 8,
+      "passed": 8
+    },
+    "contract_example_validation": "pass"
+  },
+  "checks": [
+    {
+      "name": "IHV-001_row016_contract_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IHV-002_protocol_binds_five_gates",
+      "result": "pass"
+    },
+    {
+      "name": "IHV-003_schema_requires_five_gates",
+      "result": "pass"
+    },
+    {
+      "name": "IHV-004_schema_hash_and_upstream_constraints",
+      "result": "pass"
+    },
+    {
+      "name": "IHV-005_validator_requires_all_gates",
+      "result": "pass"
+    },
+    {
+      "name": "IHV-006_validator_requires_nonempty_promoted_outputs",
+      "result": "pass"
+    },
+    {
+      "name": "IHV-007_validator_requires_prompt_alignment",
+      "result": "pass"
+    },
+    {
+      "name": "IHV-008_validator_requires_strict_score",
+      "result": "pass"
+    },
+    {
+      "name": "IHV-009_validator_requires_complete_upstream",
+      "result": "pass"
+    },
+    {
+      "name": "IHV-010_eight_regressions_pass",
+      "result": "pass"
+    },
+    {
+      "name": "IHV-011_blocked_example_validates",
+      "result": "pass"
+    },
+    {
+      "name": "IHV-012_promotion_manifests_empty",
+      "result": "pass"
+    },
+    {
+      "name": "IHV-013_matrix_is_bounded_not_project_final",
+      "result": "pass"
+    },
+    {
+      "name": "IHV-014_matrix_artifact_hashes_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IHV-015_canny_bounded_final_only",
+      "result": "pass"
+    },
+    {
+      "name": "IHV-016_depth_lineart_bounded_final_only",
+      "result": "pass"
+    },
+    {
+      "name": "IHV-017_readiness_timing_reconciled",
+      "result": "pass"
+    },
+    {
+      "name": "IHV-018_queue_remains_bounded",
+      "result": "pass"
+    },
+    {
+      "name": "IHV-019_upstream_rows_incomplete",
+      "result": "pass"
+    },
+    {
+      "name": "IHV-020_no_new_runtime_or_promotion",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "safety_boundary": {
+    "new_generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "mask_promotion_performed": false,
+    "image_promotion_performed": false,
+    "wave71_activated": false,
+    "jira_mutated": false
+  },
+  "project_completion": {
+    "level": "BELOW_LEVEL_7",
+    "full_project_complete": false,
+    "final_certification_decision": "blocked"
+  },
+  "source_hashes": [
+    {
+      "path": "Plan/Instructions/QA/IMAGE_GENERATION_VISUAL_REVIEW_PROTOCOL.md",
+      "sha256": "abd41a623dcc984c6445ed63a5b3a5bb1cfe2b0cbf71899dbe017e1fa7e505a5"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/image_hyperreal_visual_certification.schema.json",
+      "sha256": "121b0975b5e1caf65bac3e919b79e64ad3dfdd3031ab4b7934ded69b8cdcb4e3"
+    },
+    {
+      "path": "Plan/09_EXAMPLES/image_hyperreal_visual_certification.example.json",
+      "sha256": "6582bee94955198f4ced093883367e6982531524764d50dc06f7e68f6e8277ee"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/validate_image_hyperreal_visual_certification.py",
+      "sha256": "5e5044cee30b6606635a8e9eaacf5d05b3815feaba2c8461673e1f3628348fe8"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_image_hyperreal_visual_certification.py",
+      "sha256": "8ad25db7657f8e126db9241ef5f8a706106aa9317c2f5cd343c48b872c2cd4f5"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_FINAL_QA_CERTIFICATION_20260706T201000-0500.json",
+      "sha256": "cf6365a95d4da2e71b5564a58458abaefe6f3d077ee9914dd076cb41589b5575"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/W66_CANNY_LANE_FINAL_CERTIFICATION_20260711T024500-0500.json",
+      "sha256": "96de16999a3e5384633bec2a6af5928bbb22aa5d11f84dd52f2259af01cedf66"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/W66_DEPTH_LANE_FINAL_CERTIFICATION_20260711T000500-0500.json",
+      "sha256": "c2817fdea0a5b5c9509c4d3b831bacdb4405380d36ff27c273ac8e72de01490a"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/W66_LINEART_LANE_FINAL_CERTIFICATION_20260711T004700-0500.json",
+      "sha256": "05210877dcec5c177db4fe028589b05f4eaf70444d003bdbddd2a4398124408c"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/manifests/generated/W69_LOCAL_IMAGE_QA_ORCHESTRATOR_PROMOTION_MANIFEST_20260707T102500-0500.json",
+      "sha256": "968baea2bd246c7de315ed76b8b1cb2a95381592be91659e70676cb4350e8c3a"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/manifests/generated/W69_LOCAL_IMAGE_QA_ORCHESTRATOR_PROMOTION_MANIFEST_SUPERSEDED_20260707T103500-0500.json",
+      "sha256": "10afcb445be8b66b7d93614f24c1cc9102019f7704ba4f75c54f26c1139464e3"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_POST_ALIGNMENT_20260709T210200-0500.json",
+      "sha256": "7083ab46051895c0b3bead009adfca309c0ccd7cda119ffea4a05bec07e9a2ca"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+      "sha256": "f6720781658e747ab8da5aa5bb6eb59989415cf2691b9d2204cf53a4ab027385"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/image_body_anatomy.json",
+      "sha256": "0724604126aa8916ac92000567d99474178a7a32f8b5aceb0babc1173c42ec36"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/image_skin_material.json",
+      "sha256": "56a5a457e2d3ba7ea6fe9faa2fb9ade2155eff66be7c45205c3b61f8c665f0ca"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/image_contact_physics.json",
+      "sha256": "8be4eb226a3f559430c67608e1616a936e2cfeaac76fbeaede5fab0069a0d983"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T185315-0500/images/9_codex_realvisxl_cert_closeup_skin_eye_00001_.png",
+      "sha256": "5f8a996ea615a7376f9186dff80bce0ee600b19378bdaa307bbcf73394e0e18d"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T192734-0500/images/9_codex_realvisxl_cert_hands_fabric_00001_.png",
+      "sha256": "3d69eb051d1d416a0adf01de2ba357d7540d24a4993638888dea28a0b1ba9076"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T195752-0500/images/9_codex_realvisxl_cert_environment_lowlight_00001_.png",
+      "sha256": "5a47e700233c29065c8ccfc18397ff55e7bc1717596110cf89a9d5e9eca23bc5"
+    }
+  ],
+  "next_action": "Proceed to TRK-W64-017 / ITEM-W64-017 in strict sequence. Reopen Row016 only for a scope-matched image record binding all five gates and a nonempty hash-verified promoted-output set after upstream quality authority clears.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/image_hyperreal_visual_review.json",
+    "Plan/Instructions/QA/Evidence/Wave64/IMAGE_HYPERREAL_VISUAL_REVIEW_20260712T132622-0500.json",
+    "Plan/Tracker/Evidence/IMAGE_HYPERREAL_VISUAL_REVIEW_20260712T132622-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/image_hyperreal_visual_review_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-016_image_hyperreal_visual_review.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_FINAL_QA_CERTIFICATION_20260706T201000-0500.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W66_CANNY_LANE_FINAL_CERTIFICATION_20260711T024500-0500.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W66_DEPTH_LANE_FINAL_CERTIFICATION_20260711T000500-0500.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W66_LINEART_LANE_FINAL_CERTIFICATION_20260711T004700-0500.json",
+    "Plan/07_IMPLEMENTATION/manifests/generated/W69_LOCAL_IMAGE_QA_ORCHESTRATOR_PROMOTION_MANIFEST_20260707T102500-0500.json",
+    "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json"
+  ]
+}

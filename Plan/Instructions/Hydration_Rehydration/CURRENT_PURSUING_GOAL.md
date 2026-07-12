@@ -1,3 +1,11 @@
+## Wave64 Row016 Strict Hyperreal Image Visual Certification - 2026-07-12T13:26:22-05:00
+
+`TRK-W64-016` / `ITEM-W64-016` is `Blocked_No_Promoted_Image_Set_And_Upstream_Quality_Authority_Missing`. The visual-review protocol now requires one scope-matched machine record binding `technical_image_qa`, `visual_review_scorecard`, `prompt_alignment`, `artifact_hash_manifest`, and `promotion_decision`. Promotion fails closed without strict scores, explicit prompt alignment, nonempty hash-bound outputs, and completed upstream quality rows. Eight regressions pass and the split-state audit passes 20/20 checks. Existing RealVisXL matrix and Canny/Depth/Lineart certificates remain valid only for their bounded scopes; both W69 promotion manifests contain zero promoted outputs, and Rows013-015 remain incomplete. No generation, AWS, EC2, mask/image promotion, hard-gate rerun, Jira, or Wave71+ action occurred.
+
+Next safe local action in strict sequence: `TRK-W64-017 / ITEM-W64-017`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/image_hyperreal_visual_review.json`; `Plan/Instructions/QA/Evidence/Wave64/IMAGE_HYPERREAL_VISUAL_REVIEW_20260712T132622-0500.json`; `Plan/Tracker/Evidence/IMAGE_HYPERREAL_VISUAL_REVIEW_20260712T132622-0500.json`.
+
 ## Wave64 Row015 Clothing Prop Furniture And Contact Physics Review - 2026-07-12T13:12:25-05:00
 
 `TRK-W64-015` / `ITEM-W64-015` is `Blocked_Gold_Mask_Dependency_Missing`. Wave19 now requires machine-readable `contact_graph_check`, `shadow_contact_check`, `no_floating_check`, and `visual_reject_on_clip` gates. Empty or unknown contact edges, missing masks, uninspectable passes, any detected clipping, required-gate failure, and non-Wave19 visual authority fail closed regardless of weighted score. Ten regressions pass and the Wave19 pack validates at least 5,033 JSON files plus all 13 required files. Direct Codex review confirms bounded local contact support, but shadow strength/placement, overlapping-hand prompt drift, furniture coverage, and trusted contact ownership prevent certification. No generation, AWS, EC2, mask truth consumption/promotion, hard-gate rerun, Jira, or Wave71+ action occurred.

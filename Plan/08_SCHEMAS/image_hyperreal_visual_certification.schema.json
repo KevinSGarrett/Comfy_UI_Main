@@ -1,0 +1,82 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ImageHyperrealVisualCertification",
+  "type": "object",
+  "required": ["schema_version", "certification_scope", "technical_image_qa", "visual_review_scorecard", "prompt_alignment", "artifact_hash_manifest", "promotion_decision", "upstream_quality_rows"],
+  "properties": {
+    "schema_version": {"const": "row016.v1"},
+    "certification_scope": {"type": "string", "minLength": 1},
+    "technical_image_qa": {"$ref": "#/definitions/gate"},
+    "visual_review_scorecard": {
+      "allOf": [
+        {"$ref": "#/definitions/gate"},
+        {"type": "object", "required": ["average_score", "minimum_category_score", "blocking_defects"], "properties": {
+          "average_score": {"type": ["number", "null"], "minimum": 0, "maximum": 5},
+          "minimum_category_score": {"type": ["number", "null"], "minimum": 0, "maximum": 5},
+          "blocking_defects": {"type": "array", "items": {"type": "string", "minLength": 1}}
+        }}
+      ]
+    },
+    "prompt_alignment": {
+      "allOf": [
+        {"$ref": "#/definitions/gate"},
+        {"type": "object", "required": ["prompt_reference", "alignment_result"], "properties": {
+          "prompt_reference": {"type": ["string", "null"]},
+          "alignment_result": {"enum": ["pass", "partial", "blocked", "fail"]}
+        }}
+      ]
+    },
+    "artifact_hash_manifest": {
+      "allOf": [
+        {"$ref": "#/definitions/gate"},
+        {"type": "object", "required": ["artifacts"], "properties": {
+          "artifacts": {"type": "array", "items": {
+            "type": "object",
+            "required": ["path", "sha256"],
+            "properties": {
+              "path": {"type": "string", "minLength": 1},
+              "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+            },
+            "additionalProperties": false
+          }}
+        }}
+      ]
+    },
+    "promotion_decision": {
+      "type": "object",
+      "required": ["decision", "promoted_outputs", "full_project_certification"],
+      "properties": {
+        "decision": {"enum": ["promoted", "blocked", "not_promoted"]},
+        "promoted_outputs": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "full_project_certification": {"type": "boolean"},
+        "reason_codes": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      },
+      "additionalProperties": false
+    },
+    "upstream_quality_rows": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["tracker_id", "row_complete", "status"],
+        "properties": {
+          "tracker_id": {"type": "string", "minLength": 1},
+          "row_complete": {"type": "boolean"},
+          "status": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "definitions": {
+    "gate": {
+      "type": "object",
+      "required": ["status", "evidence_paths"],
+      "properties": {
+        "status": {"enum": ["pass", "partial", "blocked", "fail"]},
+        "evidence_paths": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      }
+    }
+  },
+  "additionalProperties": false
+}

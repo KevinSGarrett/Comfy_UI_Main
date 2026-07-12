@@ -108,3 +108,20 @@ Immediate fail examples:
 - score summary
 - decision
 - references to the specific output path and workflow used
+
+## Row016 machine certification contract
+
+Every promoted image or explicitly bounded image set must bind these literal fields in
+one scope-matched record:
+
+- `technical_image_qa`
+- `visual_review_scorecard`
+- `prompt_alignment`
+- `artifact_hash_manifest`
+- `promotion_decision`
+
+Promotion is fail-closed. It requires passing technical QA, no visual category below 3,
+an average score of at least 4.0, no blocking defect, an explicit prompt-alignment pass,
+verified SHA256 identities for every promoted artifact, a nonempty promoted-output list,
+and complete upstream quality authority for the claimed scope. Lane or matrix
+certification does not silently become per-image promotion or full-project certification.
