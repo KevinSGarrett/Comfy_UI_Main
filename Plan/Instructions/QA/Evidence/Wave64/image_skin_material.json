@@ -1,0 +1,272 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "IMAGE_SKIN_MATERIAL_20260712T130131-0500",
+  "created_iso": "2026-07-12T13:01:31-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-014",
+  "item_id": "ITEM-W64-014",
+  "status": "Blocked_Gold_Mask_Dependency_Missing",
+  "row_complete": false,
+  "qa_decision": "skin_material_contract_pass_bounded_visual_support_macro_regional_promotion_blocked",
+  "validation_gates": {
+    "surface_texture_check": {
+      "status": "partial_bounded_whole_image_support_macro_regional_authority_blocked",
+      "checks": [
+        "ISM-001",
+        "ISM-002",
+        "ISM-007",
+        "ISM-011",
+        "ISM-016"
+      ]
+    },
+    "lighting_consistency": {
+      "status": "partial_existing_whole_image_lighting_support_no_paired_regional_pass",
+      "checks": [
+        "ISM-003",
+        "ISM-005",
+        "ISM-008",
+        "ISM-015",
+        "ISM-017"
+      ]
+    },
+    "material_state_continuity": {
+      "status": "blocked_no_paired_before_after_material_state_authority",
+      "checks": [
+        "ISM-004",
+        "ISM-006",
+        "ISM-009",
+        "ISM-010",
+        "ISM-018"
+      ]
+    },
+    "visual_score_threshold": {
+      "status": "blocked_macro_and_full_frame_certifying_record_missing",
+      "checks": [
+        "ISM-012",
+        "ISM-013",
+        "ISM-014",
+        "ISM-019",
+        "ISM-020"
+      ]
+    }
+  },
+  "exact_blocker": "No trusted owned regional mask and no paired Wave18 before/after set provide both macro and full-frame skin/material visual authority; existing W69 Normal v2 is mixed/non-promotable and W66 sample3 is bounded whole-image support only.",
+  "codex_visual_review": {
+    "reviewed_existing_images_only": true,
+    "images": [
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v2_skin_fabric_711670202_20260707T074551-0500/images/normal_v2_skin_fabric_711670202_00001_.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T195752-0500/images/9_codex_realvisxl_cert_environment_lowlight_00001_.png"
+    ],
+    "findings": [
+      "Normal v2 is coherent but retains a mildly beauty-polished facial surface and weak shirt weave, matching its mixed non-promotable QA record.",
+      "RealVisXL sample3 shows visible age detail, pores, lace texture, and coherent window/lamp lighting, but remains one bounded whole-image base-generation sample.",
+      "Neither artifact is a linked Wave18 before/after regional pass with both macro and full-frame certification, so neither can clear Row014 promotion."
+    ]
+  },
+  "test_results": {
+    "unit_tests": {
+      "run": 8,
+      "passed": 8
+    },
+    "wave18_pack": {
+      "json_files_checked": 5031,
+      "required_files_checked": 13,
+      "minimum_json_files_required": 5026,
+      "result": "pass"
+    }
+  },
+  "checks": [
+    {
+      "name": "ISM-001_row014_contract_exact",
+      "result": "pass"
+    },
+    {
+      "name": "ISM-002_source_documents_four_gates",
+      "result": "pass"
+    },
+    {
+      "name": "ISM-003_compiler_emits_gate_contract",
+      "result": "pass"
+    },
+    {
+      "name": "ISM-004_validator_rejects_unknown_or_empty",
+      "result": "pass"
+    },
+    {
+      "name": "ISM-005_scorer_ands_four_gates",
+      "result": "pass"
+    },
+    {
+      "name": "ISM-006_contract_schema_fail_closed",
+      "result": "pass"
+    },
+    {
+      "name": "ISM-007_evidence_schema_requires_four_gates",
+      "result": "pass"
+    },
+    {
+      "name": "ISM-008_qa_threshold_bounded",
+      "result": "pass"
+    },
+    {
+      "name": "ISM-009_scoring_registry_forbids_override",
+      "result": "pass"
+    },
+    {
+      "name": "ISM-010_rerun_policy_blocks_visual_failures",
+      "result": "pass"
+    },
+    {
+      "name": "ISM-011_eight_regressions_pass",
+      "result": "pass"
+    },
+    {
+      "name": "ISM-012_wave18_pack_pass",
+      "result": "pass"
+    },
+    {
+      "name": "ISM-013_compile_validate_roundtrip",
+      "result": "pass"
+    },
+    {
+      "name": "ISM-014_blocked_example_scores_fail_closed",
+      "result": "pass"
+    },
+    {
+      "name": "ISM-015_normal_v2_is_mixed_nonpromotable",
+      "result": "pass"
+    },
+    {
+      "name": "ISM-016_normal_v2_texture_goal_missed",
+      "result": "pass"
+    },
+    {
+      "name": "ISM-017_realvis_is_bounded_whole_image_support",
+      "result": "pass"
+    },
+    {
+      "name": "ISM-018_visual_artifacts_hash_bound",
+      "result": "pass"
+    },
+    {
+      "name": "ISM-019_no_scope_matched_paired_authority",
+      "result": "pass"
+    },
+    {
+      "name": "ISM-020_gold_mask_boundary_preserved",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "safety_boundary": {
+    "new_generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "candidate_masks_consumed_as_truth": false,
+    "mask_promotion_performed": false,
+    "hard_gates_rerun": false,
+    "wave71_activated": false,
+    "jira_mutated": false
+  },
+  "project_completion": {
+    "level": "BELOW_LEVEL_7",
+    "full_project_complete": false,
+    "final_certification_decision": "blocked"
+  },
+  "source_hashes": [
+    {
+      "path": "Plan/03_IMAGE_SYSTEM/WAVE18_IMAGE_SKIN_MATERIAL_PASS_IMPLEMENTATION_PLAN.md",
+      "sha256": "46869714c4a5e2f3b556e2e0a694ff98ca1941590e39c5092b5fcd9f35d8db42"
+    },
+    {
+      "path": "Plan/06_QA_TESTING/WAVE18_SKIN_MATERIAL_REALISM_QA_GATES.md",
+      "sha256": "afed53ad155bb7200552b357d233c0392125e6659cb4e5561405ffa5e955b7cf"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/compile_skin_material_contract.py",
+      "sha256": "9b6d9df00777708eb30cdb11a259880ff36cdc6a43850ff216c00ff1ee950c93"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/validate_skin_material_contract.py",
+      "sha256": "80e5b94fafd993c13e0cf37f7da57df4fb616646dbc9a404e4116361c89dfafb"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/score_skin_material_evidence.py",
+      "sha256": "84fc472533c2c6e2ed694ea5e3fcf24e34ef99e1858cb857dd5a0e13037b1029"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/run_wave18_local_validation.py",
+      "sha256": "e539a25dbb578fbbd66079fd5258ba1f93abe72b2470582a01c6ffd9ac0ecdb8"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/skin_material_contract.schema.json",
+      "sha256": "8b9a629ae4e7ec8fb31895191f944ef24d5df4312fa30b25bef80eb621f077fb"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/skin_material_evidence.schema.json",
+      "sha256": "829bbd57ac1418e3d59a9cc24ca81748f60d49d091b70385fcc781c1ac87d9be"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/skin_material_qa_goal.schema.json",
+      "sha256": "14f9a22210bfbb140c1bb21afca4b158790db9c05c6b3a05ce708e61665ce874"
+    },
+    {
+      "path": "Plan/09_EXAMPLES/wave18_skin_material_contract.example.json",
+      "sha256": "8d70e53f7cc90b59a0ed5bf6dea719646229c644c4d6ebc52c2fadd4223c9620"
+    },
+    {
+      "path": "Plan/09_EXAMPLES/wave18_skin_material_evidence.example.json",
+      "sha256": "39c0ccc07fc24ae409d038efa53a64c0b77d34de86469ca396364e989f5f6c8b"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave18_skin_material_profiles.json",
+      "sha256": "83f6c48735894e6c523f02fe3706e8b731bcba774537cf92267587a4c7be73d6"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave18_surface_continuity_scoring_rules.json",
+      "sha256": "1eeace8b974bfa3d3b0abcd5a5f0301a49592e465e92af3267d32acd277a1223"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave18_skin_material_rerun_policy.json",
+      "sha256": "d082f435050539dec3e9e172305c77e91fecc44969fd5762d9c7108a1f348c96"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_skin_material_contract.py",
+      "sha256": "6aad29973025f554c0bf746102f4ad905bea562959fdc217dbd36d1e1c8c88c7"
+    },
+    {
+      "path": "Plan/Instructions/QA/GOLD_STANDARD_MASK_DEPENDENCY_GATE_PROTOCOL.md",
+      "sha256": "659fd3c21c084b0e3ebdbf8e8378eba2cd845186089a7b824ff4297403727cd3"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_NORMAL_V2_SKIN_FABRIC_VISUAL_QA_20260707T074900-0500.json",
+      "sha256": "624778f78cf28ccd913a1b9d07f7689b51451609f067589d0548aaee22a74b71"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE3_IMAGE_QA_VISUAL_20260706T200845-0500.json",
+      "sha256": "55bedb70247a7b1706177d14d15883d021ab941ff91239a5a466f3e3d768dfda"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v2_skin_fabric_711670202_20260707T074551-0500/images/normal_v2_skin_fabric_711670202_00001_.png",
+      "sha256": "f3186da8e115e0a25295d1af2075981a358b5fa6b91638de47b41f24a451cafd"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T195752-0500/images/9_codex_realvisxl_cert_environment_lowlight_00001_.png",
+      "sha256": "5a47e700233c29065c8ccfc18397ff55e7bc1717596110cf89a9d5e9eca23bc5"
+    }
+  ],
+  "next_action": "Proceed to TRK-W64-015 / ITEM-W64-015 in strict sequence. Reopen Row014 only with a trusted owned regional mask and linked paired before/after evidence that passes macro and full-frame visual review.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/image_skin_material.json",
+    "Plan/Instructions/QA/Evidence/Wave64/IMAGE_SKIN_MATERIAL_20260712T130131-0500.json",
+    "Plan/Tracker/Evidence/IMAGE_SKIN_MATERIAL_20260712T130131-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/image_skin_material_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-014_image_skin_material.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_NORMAL_V2_SKIN_FABRIC_VISUAL_QA_20260707T074900-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE3_IMAGE_QA_VISUAL_20260706T200845-0500.json"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-12T13:01:31-05:00",
+  "tracker_id": "TRK-W64-014",
+  "item_id": "ITEM-W64-014",
+  "status": "Blocked_Gold_Mask_Dependency_Missing",
+  "implementation": {
+    "required_machine_gates": [
+      "surface_texture_check",
+      "lighting_consistency",
+      "material_state_continuity",
+      "visual_score_threshold"
+    ],
+    "fail_closed_defaults": true,
+    "numeric_override_forbidden": true,
+    "visual_qa_reference_required": true
+  },
+  "exact_blocker": "No trusted owned regional mask and no paired Wave18 before/after set provide both macro and full-frame skin/material visual authority; existing W69 Normal v2 is mixed/non-promotable and W66 sample3 is bounded whole-image support only.",
+  "codex_visual_review": {
+    "reviewed_existing_images_only": true,
+    "images": [
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v2_skin_fabric_711670202_20260707T074551-0500/images/normal_v2_skin_fabric_711670202_00001_.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T195752-0500/images/9_codex_realvisxl_cert_environment_lowlight_00001_.png"
+    ],
+    "findings": [
+      "Normal v2 is coherent but retains a mildly beauty-polished facial surface and weak shirt weave, matching its mixed non-promotable QA record.",
+      "RealVisXL sample3 shows visible age detail, pores, lace texture, and coherent window/lamp lighting, but remains one bounded whole-image base-generation sample.",
+      "Neither artifact is a linked Wave18 before/after regional pass with both macro and full-frame certification, so neither can clear Row014 promotion."
+    ]
+  },
+  "evidence": [
+    "Plan/Instructions/QA/Evidence/Wave64/image_skin_material.json",
+    "Plan/Instructions/QA/Evidence/Wave64/IMAGE_SKIN_MATERIAL_20260712T130131-0500.json",
+    "Plan/Tracker/Evidence/IMAGE_SKIN_MATERIAL_20260712T130131-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/image_skin_material_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-014_image_skin_material.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_NORMAL_V2_SKIN_FABRIC_VISUAL_QA_20260707T074900-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE3_IMAGE_QA_VISUAL_20260706T200845-0500.json"
+  ],
+  "next_action": "Proceed to TRK-W64-015 / ITEM-W64-015 in strict sequence. Reopen Row014 only with a trusted owned regional mask and linked paired before/after evidence that passes macro and full-frame visual review."
+}

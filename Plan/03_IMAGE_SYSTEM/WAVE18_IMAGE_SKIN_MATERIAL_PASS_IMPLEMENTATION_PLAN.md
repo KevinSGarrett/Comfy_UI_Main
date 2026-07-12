@@ -18,3 +18,14 @@ Add localized skin/material realism after base generation and body-shape approva
 - engine routing decision from Wave 06 / Wave 16
 - scene director contract from Wave 07
 - QA goals from Wave 18
+
+## Required machine gates
+- `surface_texture_check`
+- `lighting_consistency`
+- `material_state_continuity`
+- `visual_score_threshold`
+
+Promotion is fail-closed. All applicable surface gates must be `pass` and inspectable, the
+visual score must meet its threshold, macro and full-frame reviews must pass, and the
+linked visual-QA record must explicitly allow certification. Whole-image support and
+self-reported booleans do not substitute for a scope-matched regional visual review.

@@ -6,26 +6,31 @@
     "contract_version",
     "source_image_id",
     "target_regions",
-    "surface_profile"
+    "surface_profile",
+    "required_evidence_gates"
   ],
   "properties": {
     "contract_version": {
       "type": "string"
     },
     "source_image_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "character_id": {
       "type": "string"
     },
     "target_regions": {
       "type": "array",
+      "minItems": 1,
       "items": {
-        "type": "string"
+        "type": "string",
+        "minLength": 1
       }
     },
     "surface_profile": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "pass_order": {
       "type": "array",
@@ -38,6 +43,15 @@
       "items": {
         "type": "string"
       }
+    },
+    "required_evidence_gates": {
+      "type": "array",
+      "const": [
+        "surface_texture_check",
+        "lighting_consistency",
+        "material_state_continuity",
+        "visual_score_threshold"
+      ]
     }
   }
 }

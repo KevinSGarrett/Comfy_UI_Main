@@ -18,12 +18,15 @@ REQUIRED_FILES = [
     '10_REGISTRIES/wave18_skin_material_rerun_policy.json',
     '10_REGISTRIES/wave18_main_flow_skin_material_inventory.json',
     '08_SCHEMAS/skin_material_contract.schema.json',
+    '08_SCHEMAS/skin_material_evidence.schema.json',
+    '08_SCHEMAS/skin_material_qa_goal.schema.json',
     '09_EXAMPLES/wave18_skin_material_contract.example.json',
+    '09_EXAMPLES/wave18_skin_material_evidence.example.json',
 ]
 
 
 def load_json(path: Path) -> Any:
-    return json.loads(path.read_text(encoding='utf-8'))
+    return json.loads(path.read_text(encoding='utf-8-sig'))
 
 
 def main() -> int:

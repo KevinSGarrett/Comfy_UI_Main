@@ -1,3 +1,11 @@
+## Wave64 Row014 Skin Material And Surface Hyperrealism Review - 2026-07-12T13:01:31-05:00
+
+`TRK-W64-014` / `ITEM-W64-014` is `Blocked_Gold_Mask_Dependency_Missing`. Wave18 now requires machine-readable `surface_texture_check`, `lighting_consistency`, `material_state_continuity`, and `visual_score_threshold` gates. Empty regions, unknown profiles, unbounded scores, uninspectable passes, broken lighting/material continuity, missing macro/full-frame review, and non-certifying visual references fail closed. Eight regressions pass and the Wave18 pack validates at least 5,026 JSON files plus all 13 required files. Direct Codex review confirms W69 Normal v2 is coherent but mixed/non-promotable and W66 RealVisXL sample3 is stronger bounded whole-image support; neither is paired regional before/after authority. No generation, AWS, EC2, mask truth consumption/promotion, hard-gate rerun, Jira, or Wave71+ action occurred.
+
+Next safe local action in strict sequence: `TRK-W64-015 / ITEM-W64-015`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/image_skin_material.json`; `Plan/Instructions/QA/Evidence/Wave64/IMAGE_SKIN_MATERIAL_20260712T130131-0500.json`; `Plan/Tracker/Evidence/IMAGE_SKIN_MATERIAL_20260712T130131-0500.json`.
+
 ## Wave64 Row013 Hard Anatomy And Body Proportion Review - 2026-07-12T12:36:13-05:00
 
 `TRK-W64-013` / `ITEM-W64-013` is `Blocked_Regional_Hard_Anatomy_Evidence_Missing_Contract_Gates_Implemented`. The compiler, validator, schema, example, Wave17/Wave20 scoring rules, and evidence scorer now implement `anatomy_scorecard`, `hands_feet_check`, `face_teeth_eye_check`, and `hard_reject_on_deformation`. Missing regional evidence compiles blocked, numeric scores cannot override regional failure, and promotion is rejected unless every applicable region is pass-like and inspectable. Eight regressions pass, and the repaired Wave20 validator parses at least 5,020 JSON files and all 9 required files. Direct Codex review of representative OpenPose, Normal, and Canny images supports broad whole-body plausibility only; fingers, toes, teeth, detailed eyes, joints, and contact anatomy remain unproven at zoomed regional authority. The split-state audit passes 20/20 checks. No generation, AWS, EC2, mask truth consumption/promotion, hard-gate rerun, Jira, or Wave71+ action occurred.

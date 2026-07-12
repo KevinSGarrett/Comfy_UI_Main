@@ -8,26 +8,56 @@
     "pose_preserved",
     "body_preserved",
     "crop_preserved",
-    "continuity_score"
+    "continuity_score",
+    "surface_texture_check",
+    "lighting_consistency",
+    "material_state_continuity",
+    "visual_score_threshold",
+    "visual_qa_reference"
   ],
   "properties": {
-    "surface_target_visible": {
-      "type": "boolean"
+    "surface_target_visible": {"type": "boolean"},
+    "identity_preserved": {"type": "boolean"},
+    "pose_preserved": {"type": "boolean"},
+    "body_preserved": {"type": "boolean"},
+    "crop_preserved": {"type": "boolean"},
+    "continuity_score": {"type": "number", "minimum": 0, "maximum": 1},
+    "surface_texture_check": {"$ref": "#/definitions/inspectionGate"},
+    "lighting_consistency": {"$ref": "#/definitions/inspectionGate"},
+    "material_state_continuity": {"$ref": "#/definitions/inspectionGate"},
+    "visual_score_threshold": {
+      "type": "object",
+      "required": ["score", "threshold", "macro_review_status", "full_frame_review_status"],
+      "properties": {
+        "score": {"type": "number", "minimum": 0, "maximum": 100},
+        "threshold": {"type": "number", "minimum": 0, "maximum": 100},
+        "macro_review_status": {"enum": ["pass", "fail", "blocked"]},
+        "full_frame_review_status": {"enum": ["pass", "fail", "blocked"]}
+      },
+      "additionalProperties": false
     },
-    "identity_preserved": {
-      "type": "boolean"
-    },
-    "pose_preserved": {
-      "type": "boolean"
-    },
-    "body_preserved": {
-      "type": "boolean"
-    },
-    "crop_preserved": {
-      "type": "boolean"
-    },
-    "continuity_score": {
-      "type": "number"
+    "visual_qa_reference": {
+      "type": "object",
+      "required": ["evidence_path", "qa_result", "certification_allowed"],
+      "properties": {
+        "evidence_path": {"type": "string", "minLength": 1},
+        "qa_result": {"type": "string", "minLength": 1},
+        "certification_allowed": {"type": "boolean"}
+      },
+      "additionalProperties": false
     }
-  }
+  },
+  "definitions": {
+    "inspectionGate": {
+      "type": "object",
+      "required": ["status", "inspectable"],
+      "properties": {
+        "status": {"enum": ["pass", "fail", "blocked", "not_applicable"]},
+        "inspectable": {"type": "boolean"},
+        "notes": {"type": "string"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
 }
