@@ -1,0 +1,135 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-12T12:09:25-05:00",
+  "tracker_id": "TRK-W64-012",
+  "result": "pass_partial_support_gold_mask_dependency_blocked",
+  "validation_gates": {
+    "mask_schema_check": {
+      "status": "partial_static_schemas_no_trusted_authority",
+      "checks": [
+        "IMC-001",
+        "IMC-002",
+        "IMC-003",
+        "IMC-004",
+        "IMC-005"
+      ]
+    },
+    "mask_boundary_visual_review": {
+      "status": "partial_local_contact_overlay_non_certifying",
+      "checks": [
+        "IMC-006",
+        "IMC-011",
+        "IMC-012",
+        "IMC-013",
+        "IMC-014"
+      ]
+    },
+    "inpaint_delta_check": {
+      "status": "partial_bounded_inpaint_preservation",
+      "checks": [
+        "IMC-008",
+        "IMC-015",
+        "IMC-016",
+        "IMC-018",
+        "IMC-019"
+      ]
+    },
+    "protected_region_preservation": {
+      "status": "partial_local_preservation_no_promotion",
+      "checks": [
+        "IMC-007",
+        "IMC-009",
+        "IMC-010",
+        "IMC-017",
+        "IMC-020"
+      ]
+    }
+  },
+  "checks": [
+    {
+      "name": "IMC-001_row012_contract_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-002_source_trusted_truth_boundary",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-003_four_schemas_parse",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-004_schema_titles_unique",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-005_gold_boundary_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-006_candidate_truth_forbidden",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-007_no_mask_promotion_or_wave71",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-008_boundary_records_no_hard_gate_rerun",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-009_geometry_gate_zero_pass_like",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-010_promotion_gate_zero_pass_like",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-011_contact_mask_local_qa_pass",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-012_contact_mask_metrics_bounded",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-013_contact_overlay_hash_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-014_contact_qa_non_certifying",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-015_inpaint_two_seed_local_pass",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-016_inpaint_image_hashes_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-017_protected_regions_stable",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-018_no_hard_mask_edges_observed",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-019_bounded_certificate_excludes_authority",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-020_no_false_mask_readiness",
+      "result": "pass"
+    }
+  ],
+  "summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  }
+}

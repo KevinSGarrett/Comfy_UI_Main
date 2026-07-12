@@ -1,0 +1,250 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "IMAGE_MASK_CONTROL_20260712T120925-0500",
+  "created_iso": "2026-07-12T12:09:25-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-012",
+  "item_id": "ITEM-W64-012",
+  "status": "Blocked_Gold_Mask_Dependency_Missing",
+  "row_complete": false,
+  "qa_decision": "schemas_and_bounded_mask_behavior_partial_trusted_mask_authority_blocked",
+  "validation_gates": {
+    "mask_schema_check": {
+      "status": "partial_static_schemas_no_trusted_authority",
+      "checks": [
+        "IMC-001",
+        "IMC-002",
+        "IMC-003",
+        "IMC-004",
+        "IMC-005"
+      ]
+    },
+    "mask_boundary_visual_review": {
+      "status": "partial_local_contact_overlay_non_certifying",
+      "checks": [
+        "IMC-006",
+        "IMC-011",
+        "IMC-012",
+        "IMC-013",
+        "IMC-014"
+      ]
+    },
+    "inpaint_delta_check": {
+      "status": "partial_bounded_inpaint_preservation",
+      "checks": [
+        "IMC-008",
+        "IMC-015",
+        "IMC-016",
+        "IMC-018",
+        "IMC-019"
+      ]
+    },
+    "protected_region_preservation": {
+      "status": "partial_local_preservation_no_promotion",
+      "checks": [
+        "IMC-007",
+        "IMC-009",
+        "IMC-010",
+        "IMC-017",
+        "IMC-020"
+      ]
+    }
+  },
+  "exact_blocker": "Manual trusted body/body-part gold masks are not ready or validated; bounded candidate/contact/inpaint evidence cannot establish spatial truth or promotion authority.",
+  "codex_visual_review": {
+    "reviewed_existing_artifacts_only": true,
+    "artifacts": [
+      "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/qa_contact_crops/contact_mask_overlay_seed210701.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_nomouth_v4_robustness_seed210501_20260707T033600-0500/images/codex_sdxl_realvisxl_inpaint_detail_nomouth_v4_seed210501_00001_.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_nomouth_v4_robustness_seed210502_20260707T033800-0500/images/codex_sdxl_realvisxl_inpaint_detail_nomouth_v4_seed210502_00001_.png"
+    ],
+    "findings": [
+      "The contact overlay is localized around the hand and sleeve interface and does not cover either whole person.",
+      "Both no-mouth inpaint samples retain face, gaze, clothing, hair, and background without an obvious hard edit boundary.",
+      "These are bounded behavior observations and do not validate body/body-part mask truth against manual gold annotations."
+    ]
+  },
+  "hard_gate_read_only_snapshot": {
+    "geometry_sha256": "d6dba534ab07f79ede30feff6bb838401bd1316e4e51b3d7d0a01945e94bd111",
+    "promotion_sha256": "bcd953d415b470e2a71cc7a9ff4012aa85802bfbd17404357f81f691e37e644a",
+    "checked_rows_each": 332,
+    "pass_like_rows_each": 0,
+    "rerun_by_this_audit": false
+  },
+  "checks": [
+    {
+      "name": "IMC-001_row012_contract_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-002_source_trusted_truth_boundary",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-003_four_schemas_parse",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-004_schema_titles_unique",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-005_gold_boundary_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-006_candidate_truth_forbidden",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-007_no_mask_promotion_or_wave71",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-008_boundary_records_no_hard_gate_rerun",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-009_geometry_gate_zero_pass_like",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-010_promotion_gate_zero_pass_like",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-011_contact_mask_local_qa_pass",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-012_contact_mask_metrics_bounded",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-013_contact_overlay_hash_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-014_contact_qa_non_certifying",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-015_inpaint_two_seed_local_pass",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-016_inpaint_image_hashes_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-017_protected_regions_stable",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-018_no_hard_mask_edges_observed",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-019_bounded_certificate_excludes_authority",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-020_no_false_mask_readiness",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "safety_boundary": {
+    "candidate_masks_consumed_as_truth": false,
+    "hard_gates_rerun": false,
+    "mask_promotion_performed": false,
+    "new_generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "wave71_activated": false,
+    "jira_mutated": false
+  },
+  "project_completion": {
+    "level": "BELOW_LEVEL_7",
+    "full_project_complete": false,
+    "final_certification_decision": "blocked"
+  },
+  "source_hashes": [
+    {
+      "path": "Plan/03_IMAGE_SYSTEM/MASK_FACTORY_SPEC.md",
+      "sha256": "7250fbca2d0ec7b059cfd6b2c07955da01a1dc1e047845fb8dc23b679741847d"
+    },
+    {
+      "path": "Plan/Instructions/QA/GOLD_STANDARD_MASK_DEPENDENCY_GATE_PROTOCOL.md",
+      "sha256": "659fd3c21c084b0e3ebdbf8e8378eba2cd845186089a7b824ff4297403727cd3"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/GOLD_MASK_DEPENDENCY_BOUNDARY_20260708T222123-0500.json",
+      "sha256": "3ace01803eda2120b9cc2d27e00ce680c58ae2364eebd1f387ee46ab5a4c2b9f"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_LATEST.json",
+      "sha256": "d6dba534ab07f79ede30feff6bb838401bd1316e4e51b3d7d0a01945e94bd111"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_LATEST.json",
+      "sha256": "bcd953d415b470e2a71cc7a9ff4012aa85802bfbd17404357f81f691e37e644a"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/mask_factory_contract.schema.json",
+      "sha256": "047deb7b0ea282d3f631dee406ee73e94e54043afb13ed518db896a51c6fe01c"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/mask_evidence.schema.json",
+      "sha256": "1cf564f1cb637b98d8ea7f2ac89e21b1cd6850ed50e67aaf11c8ca29b5249d37"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/body_part_mask.schema.json",
+      "sha256": "d7c290c7a0eca317520eaf7308e892ec0e3ea64d72c17db9474038aa4b104c7f"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/contact_mask.schema.json",
+      "sha256": "06617f7e378f5bd810bb467e16d41240848d2b833d4f865b79212e23d3f036d6"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/W69_LOCAL_WAVE13_CONTACT_MASK_QA_TWO_CHARACTER_HAND_TO_BODY_20260707T122500-0500.json",
+      "sha256": "239ac49fa25161bdb5f1c33b09090cd8772b78e6cc727e89ef7a22003698fe30"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_ROBUSTNESS_VISUAL_QA_20260707T034000-0500.json",
+      "sha256": "5701adc1700910d04394d6d6165ab99f2965e024c8d52133cc5abc282251add9"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/W66_INPAINT_BOUNDED_TARGET_RUNTIME_SMOKE_CERTIFICATE_20260711T031500-0500.json",
+      "sha256": "d2bbc6dcd50b6df46035f2df46494c8cf674ad6732747f3cc487db6a8fcd3d57"
+    },
+    {
+      "path": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/qa_contact_crops/contact_mask_overlay_seed210701.png",
+      "sha256": "024ff2f6c563ef4045da4d5a7703f78a321f77f41528ccb6c177692c537d91d7"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_nomouth_v4_robustness_seed210501_20260707T033600-0500/images/codex_sdxl_realvisxl_inpaint_detail_nomouth_v4_seed210501_00001_.png",
+      "sha256": "b11a5c5ba1a7731fe46bfacb98363b9a79c09c2e2b444b22de91408093bada26"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_nomouth_v4_robustness_seed210502_20260707T033800-0500/images/codex_sdxl_realvisxl_inpaint_detail_nomouth_v4_seed210502_00001_.png",
+      "sha256": "ec1006e8a01c489ab6fdce1c2d108503737ac08449136ffc5bf372a963900e0d"
+    }
+  ],
+  "next_action": "Proceed to TRK-W64-013 / ITEM-W64-013 in strict sequence. Reopen Row012 only after manual gold masks are declared ready and pass intake validation; do not rerun hard gates or consume candidate masks as truth.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/image_mask_control.json",
+    "Plan/Instructions/QA/Evidence/Wave64/IMAGE_MASK_CONTROL_20260712T120925-0500.json",
+    "Plan/Tracker/Evidence/IMAGE_MASK_CONTROL_20260712T120925-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/image_mask_control_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-012_image_mask_control.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/GOLD_MASK_DEPENDENCY_BOUNDARY_20260708T222123-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/W69_LOCAL_WAVE13_CONTACT_MASK_QA_TWO_CHARACTER_HAND_TO_BODY_20260707T122500-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_ROBUSTNESS_VISUAL_QA_20260707T034000-0500.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W66_INPAINT_BOUNDED_TARGET_RUNTIME_SMOKE_CERTIFICATE_20260711T031500-0500.json"
+  ]
+}

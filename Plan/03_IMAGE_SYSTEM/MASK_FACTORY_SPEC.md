@@ -67,3 +67,11 @@ For body-shape edits:
 - use depth/edge guidance
 - use moderate denoise
 - QA before/after overlay
+
+## Evidence boundary
+
+Schema validity and bounded local inpaint/contact-mask behavior are supporting
+evidence, not trusted spatial truth. Body, body-part, hand, and contact authority
+must remain blocked until evaluator-only manual gold masks are available and pass
+the dependency gate. Candidate or guarded masks must not be promoted, consumed as
+truth, or used to activate later waves.

@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-12T12:09:25-05:00",
+  "tracker_id": "TRK-W64-012",
+  "item_id": "ITEM-W64-012",
+  "status": "Blocked_Gold_Mask_Dependency_Missing",
+  "exact_blocker": "Manual trusted body/body-part gold masks are not ready or validated; bounded candidate/contact/inpaint evidence cannot establish spatial truth or promotion authority.",
+  "codex_visual_review": {
+    "reviewed_existing_artifacts_only": true,
+    "artifacts": [
+      "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/qa_contact_crops/contact_mask_overlay_seed210701.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_nomouth_v4_robustness_seed210501_20260707T033600-0500/images/codex_sdxl_realvisxl_inpaint_detail_nomouth_v4_seed210501_00001_.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_nomouth_v4_robustness_seed210502_20260707T033800-0500/images/codex_sdxl_realvisxl_inpaint_detail_nomouth_v4_seed210502_00001_.png"
+    ],
+    "findings": [
+      "The contact overlay is localized around the hand and sleeve interface and does not cover either whole person.",
+      "Both no-mouth inpaint samples retain face, gaze, clothing, hair, and background without an obvious hard edit boundary.",
+      "These are bounded behavior observations and do not validate body/body-part mask truth against manual gold annotations."
+    ]
+  },
+  "evidence": [
+    "Plan/Instructions/QA/Evidence/Wave64/image_mask_control.json",
+    "Plan/Instructions/QA/Evidence/Wave64/IMAGE_MASK_CONTROL_20260712T120925-0500.json",
+    "Plan/Tracker/Evidence/IMAGE_MASK_CONTROL_20260712T120925-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/image_mask_control_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-012_image_mask_control.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/GOLD_MASK_DEPENDENCY_BOUNDARY_20260708T222123-0500.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/W69_LOCAL_WAVE13_CONTACT_MASK_QA_TWO_CHARACTER_HAND_TO_BODY_20260707T122500-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_ROBUSTNESS_VISUAL_QA_20260707T034000-0500.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W66_INPAINT_BOUNDED_TARGET_RUNTIME_SMOKE_CERTIFICATE_20260711T031500-0500.json"
+  ],
+  "next_action": "Proceed to TRK-W64-013 / ITEM-W64-013 in strict sequence. Reopen Row012 only after manual gold masks are declared ready and pass intake validation; do not rerun hard gates or consume candidate masks as truth."
+}

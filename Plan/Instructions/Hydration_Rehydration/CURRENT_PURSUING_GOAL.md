@@ -1,3 +1,11 @@
+## Wave64 Row012 Mask Factory And Regional Control Integrity - 2026-07-12T12:09:25-05:00
+
+`TRK-W64-012` / `ITEM-W64-012` is `Blocked_Gold_Mask_Dependency_Missing`. Four mask schemas parse, and bounded historical contact-mask, inpaint-delta, and protected-region evidence provides local support. Direct Codex review confirms a localized hand/sleeve overlay and two stable no-mouth inpaint outputs without obvious hard boundaries. These artifacts are candidate/bounded evidence, not trusted body/body-part spatial truth. Manual gold masks remain in progress, no masks are promoted, and the latest Wave70 geometry/promotion snapshots remained read-only at 332 checked rows and zero pass-like rows. The split-state audit passes 20/20 checks. No hard-gate rerun, new generation, AWS, EC2, mask truth consumption/promotion, Jira, or Wave71+ action occurred.
+
+Next safe local action in strict sequence: `TRK-W64-013 / ITEM-W64-013`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/image_mask_control.json`; `Plan/Instructions/QA/Evidence/Wave64/IMAGE_MASK_CONTROL_20260712T120925-0500.json`; `Plan/Tracker/Evidence/IMAGE_MASK_CONTROL_20260712T120925-0500.json`.
+
 ## Wave64 Row011 Camera Framing And Composition Strictness - 2026-07-12T11:55:23-05:00
 
 `TRK-W64-011` / `ITEM-W64-011` remains `Blocked_Visual_Runtime_Composition_Mismatch`. The exact Wave10 compiler-bound request passes 22 tests, deterministic plan/profile binding, local runtime, one-person/18-landmark detection, camera intent, full-body framing, and composition score 100. Direct Codex visual review confirms both hands remain partly hidden in trouser pockets, so the required-region crop and strict visual-runtime gates fail. Later W70 OpenPose full-body robustness belongs to a different lane/control workflow and explicitly lacks target-runtime/final-lane certification; it is supportive but cannot supersede this blocker. The reconciliation audit passes 20/20 checks. No new generation, AWS, EC2, mask use/promotion, Jira, or Wave71+ action occurred.
