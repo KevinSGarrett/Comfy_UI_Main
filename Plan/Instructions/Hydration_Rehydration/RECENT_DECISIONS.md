@@ -1,3 +1,11 @@
+## Wave64 Row031 Strict Audio Review Request Producer - 2026-07-12T18:31:49-05:00
+
+`TRK-W64-031` / `ITEM-W64-031` remains `Blocked_Strict_Audio_Production_Review_Proof_Missing`. A fail-closed producer now binds identity-matched Wave30 event/mix/QA artifacts, PCM, prompt reference/alignment proof, and nullable playback/Row030/production-bundle evidence without creating review authority. The evaluator now forces validation whenever Row030 evidence is supplied and publishes reports durably without clobbering. Producer and evaluator pass 62/62 tests. The synthetic producer probe passes metadata, prompt alignment, and audio-only sync applicability while playback, promotion, and overall remain blocked. No generation, proof approval, AWS, EC2, mask promotion, Jira, or Wave71+ action occurred.
+
+Next safe local action in strict sequence: `TRK-W64-032` / `ITEM-W64-032`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/audio_strict_review.json`; `Plan/Instructions/QA/Evidence/Wave64/audio_strict_review_test_log.json`; `Plan/Items/Reports/ITEM-W64-031_audio_strict_review.json`.
+
 ## Wave64 Row030 AV Sync Packet Producer - 2026-07-12T17:59:07-05:00
 
 `TRK-W64-030` / `ITEM-W64-030` remains `Blocked_AV_Sync_Production_Proof_Missing`. A fail-closed producer now binds identity-matched Wave30 event/mix manifests, source video/audio, final mux, independent anchor measurements, and nullable external proof files into the strict certification contract without creating anchor, playback, runtime, or authority proof. Producer and evaluator pass 41/41 tests. The synthetic packet probe passes sync offset, drift, mux lineage, and event-owner alignment while playback, runtime, production authority, and overall gates remain blocked. No generation, proof approval, AWS, EC2, mask promotion, Jira, or Wave71+ action occurred.

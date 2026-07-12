@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import tempfile
 import wave
 from pathlib import Path
@@ -172,8 +173,11 @@ def _write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
     ) as handle:
         tmp_path = Path(handle.name)
         handle.write(json.dumps(payload, indent=2, sort_keys=True) + "\n")
+        handle.flush()
+        os.fsync(handle.fileno())
     try:
-        tmp_path.replace(path)
+        os.link(tmp_path, path)
+        tmp_path.unlink()
     finally:
         if tmp_path.exists():
             tmp_path.unlink()
@@ -629,7 +633,10 @@ def _evaluate_sync_evidence(
     row030_sync_schema: dict[str, Any],
     blockers: list[str],
 ) -> tuple[str, str | None]:
-    video_pairing_required = bool(prompt_reference.get("video_pairing_required"))
+    video_pairing_required = (
+        bool(prompt_reference.get("video_pairing_required"))
+        or row030_binding is not None
+    )
     if not video_pairing_required:
         return PASS, "not_applicable_video_pairing_not_required_by_prompt_reference"
     if row030_binding is None:
@@ -766,7 +773,7 @@ def _evaluate_promotion(
         if _expect_bool(bundle.get("revoked"), "production_review_bundle.revoked"):
             blockers.append("production bundle is revoked")
             return BLOCKED, producer_identity
-        _expect_string(bundle.get("bundle_sha256"), "production_review_bundle.bundle_sha256")
+        _expect_sha256(bundle.get("bundle_sha256"), "production_review_bundle.bundle_sha256")
         allowlist = set(registry.get("production_review_bundle_allowlist", []))
         if production_bundle_binding["sha256"] not in allowlist:
             blockers.append("production bundle hash is not allowlisted")

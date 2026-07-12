@@ -704,6 +704,15 @@ class Wave64StrictAudioArtifactReviewTests(unittest.TestCase):
         self.assertEqual(self._run_eval(request).returncode, 2)
         self.assertEqual(self._load_report()["gates"]["sync_evidence"], "BLOCKED")
 
+    def test_supplied_row030_cannot_be_bypassed_by_prompt_reference(self) -> None:
+        request = copy.deepcopy(self.base_request)
+        row030 = json.loads(self.row030_path.read_text(encoding="utf-8"))
+        row030["gates"]["av_review_record"]["status"] = "BLOCKED"
+        _write_json(self.row030_path, row030)
+        request["row030_av_sync_report_binding"] = _binding(self.row030_path)
+        self.assertEqual(self._run_eval(request).returncode, 2)
+        self.assertEqual(self._load_report()["gates"]["sync_evidence"], "FAIL")
+
     def test_sync_schema_valid_row030_technical_pass(self) -> None:
         request = copy.deepcopy(self.base_request)
         self._require_video_pairing(request)
