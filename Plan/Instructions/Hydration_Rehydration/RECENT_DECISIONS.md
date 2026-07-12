@@ -1,3 +1,11 @@
+## Wave64 Row018 Multi-Sample Image Quality Certification - 2026-07-12T13:44:44-05:00
+
+`TRK-W64-018` / `ITEM-W64-018` is `Blocked_No_Scope_Matched_MultiSeed_MultiPrompt_Target_Runtime_Portfolio_Certification`. The scorecard now requires one lane-scoped `multi_seed_sample_set`, `aggregate_score`, `defect_rate_limit`, and `portfolio_certification_record` with at least three distinct seeds, at least two prompts, strict score thresholds, zero blocking defects, hash-bound artifacts, and target-runtime proof for every sample. Nine regressions and 20/20 split-state checks pass. Existing RealVisXL, Canny, and OpenPose matrices remain valid within their bounded scopes but split prompt diversity, seed robustness, target-runtime coverage, or defect-free consistency across different records. No generation, AWS, EC2, promotion, hard-gate rerun, Jira, or Wave71+ action occurred.
+
+Next safe local action in strict sequence: `TRK-W64-019 / ITEM-W64-019`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/image_multi_sample_certification.json`; `Plan/Instructions/QA/Evidence/Wave64/IMAGE_MULTI_SAMPLE_CERTIFICATION_20260712T134444-0500.json`; `Plan/Tracker/Evidence/IMAGE_MULTI_SAMPLE_CERTIFICATION_20260712T134444-0500.json`.
+
 ## Wave64 Row017 Global Whole-Image Review For Localized Changes - 2026-07-12T13:37:49-05:00
 
 `TRK-W64-017` / `ITEM-W64-017` is `Blocked_Canonical_Global_Review_Records_Missing_For_Historical_Localized_Changes`. The visual protocol now requires canonical pre-edit whole-frame, target-region, non-target-region, six-category coverage, post-edit whole-frame, and automatic global-defect rejection evidence. A target-only pass cannot override damage elsewhere. Nine regressions pass and the split-state audit passes 20/20 checks. Existing inpaint, Canny, contact, cheek-skin, and RealVisXL records provide useful bounded whole-image support but use ad hoc fields and retain visibility, placement, runtime, or certification boundaries; they are not rewritten into false Row017 passes. No generation, AWS, EC2, image/mask promotion, hard-gate rerun, Jira, or Wave71+ action occurred.

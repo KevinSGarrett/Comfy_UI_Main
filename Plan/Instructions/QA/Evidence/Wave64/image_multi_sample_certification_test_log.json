@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-12T13:44:44-05:00",
+  "tracker_id": "TRK-W64-018",
+  "result": "row018_contract_pass_bounded_multisample_sets_reconciled_portfolio_certification_blocked",
+  "test_results": {
+    "unit_tests": {
+      "run": 9,
+      "passed": 9
+    },
+    "contract_example_validation": "pass"
+  },
+  "validation_gates": {
+    "multi_seed_sample_set": {
+      "status": "partial_multiple_three_sample_sets_exist_scope_dimensions_split",
+      "checks": [
+        "IMC-001",
+        "IMC-003",
+        "IMC-004",
+        "IMC-011",
+        "IMC-012"
+      ]
+    },
+    "aggregate_score": {
+      "status": "blocked_no_canonical_scope_matched_aggregate_across_seed_and_prompt_diversity",
+      "checks": [
+        "IMC-002",
+        "IMC-006",
+        "IMC-009",
+        "IMC-015",
+        "IMC-016"
+      ]
+    },
+    "defect_rate_limit": {
+      "status": "partial_local_sets_report_defects_but_no_portfolio_rate_certificate",
+      "checks": [
+        "IMC-007",
+        "IMC-010",
+        "IMC-014",
+        "IMC-017",
+        "IMC-018"
+      ]
+    },
+    "portfolio_certification_record": {
+      "status": "blocked_no_full_target_runtime_multi_seed_multi_prompt_portfolio_record",
+      "checks": [
+        "IMC-005",
+        "IMC-008",
+        "IMC-013",
+        "IMC-019",
+        "IMC-020"
+      ]
+    }
+  },
+  "checks": [
+    {
+      "name": "IMC-001_row018_contract_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-002_scorecard_binds_four_gates",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-003_schema_requires_four_gates",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-004_schema_requires_three_samples",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-005_validator_requires_seed_prompt_diversity",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-006_validator_checks_aggregate",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-007_validator_checks_defect_rate",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-008_validator_checks_target_runtime",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-009_nine_regressions_pass",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-010_blocked_example_validates",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-011_example_hashes_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-012_canny_three_seed_local_pass",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-013_canny_not_final_portfolio",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-014_openpose_has_prompt_drift",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-015_matrix_is_three_prompt_bounded",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-016_matrix_hashes_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-017_local_matrix_not_certified",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-018_local_matrix_has_hand_note",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-019_row016_has_no_promoted_outputs",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-020_row017_global_authority_incomplete",
+      "result": "pass"
+    }
+  ],
+  "summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  }
+}

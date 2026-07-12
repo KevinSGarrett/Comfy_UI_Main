@@ -63,3 +63,14 @@ Every scorecard record must include:
 - defects summary
 - approval decision
 - next action
+
+## Row018 multi-sample image certification
+
+Final portfolio image quality requires one lane-scoped record binding
+`multi_seed_sample_set`, `aggregate_score`, `defect_rate_limit`, and
+`portfolio_certification_record`. A certifying set must contain at least three distinct
+seeds and at least two distinct prompt references, hash-bind every artifact, pass
+technical and visual review for every sample, meet the declared aggregate and minimum
+score thresholds, remain within the declared defect-rate limit, and cover every sample
+on the target runtime. A local robustness set or a multi-prompt matrix may remain valid
+for its bounded purpose without becoming portfolio certification.

@@ -1,0 +1,256 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "IMAGE_MULTI_SAMPLE_CERTIFICATION_20260712T134444-0500",
+  "created_iso": "2026-07-12T13:44:44-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-018",
+  "item_id": "ITEM-W64-018",
+  "status": "Blocked_No_Scope_Matched_MultiSeed_MultiPrompt_Target_Runtime_Portfolio_Certification",
+  "row_complete": false,
+  "qa_decision": "row018_contract_pass_bounded_multisample_sets_reconciled_portfolio_certification_blocked",
+  "validation_gates": {
+    "multi_seed_sample_set": {
+      "status": "partial_multiple_three_sample_sets_exist_scope_dimensions_split",
+      "checks": [
+        "IMC-001",
+        "IMC-003",
+        "IMC-004",
+        "IMC-011",
+        "IMC-012"
+      ]
+    },
+    "aggregate_score": {
+      "status": "blocked_no_canonical_scope_matched_aggregate_across_seed_and_prompt_diversity",
+      "checks": [
+        "IMC-002",
+        "IMC-006",
+        "IMC-009",
+        "IMC-015",
+        "IMC-016"
+      ]
+    },
+    "defect_rate_limit": {
+      "status": "partial_local_sets_report_defects_but_no_portfolio_rate_certificate",
+      "checks": [
+        "IMC-007",
+        "IMC-010",
+        "IMC-014",
+        "IMC-017",
+        "IMC-018"
+      ]
+    },
+    "portfolio_certification_record": {
+      "status": "blocked_no_full_target_runtime_multi_seed_multi_prompt_portfolio_record",
+      "checks": [
+        "IMC-005",
+        "IMC-008",
+        "IMC-013",
+        "IMC-019",
+        "IMC-020"
+      ]
+    }
+  },
+  "exact_blocker": "No lane has one scope-matched set proving at least three distinct seeds, at least two prompt references, aggregate/minimum score thresholds, zero blocking-defect rate, complete target-runtime coverage, and final portfolio certification.",
+  "sample_set_reconciliation": {
+    "realvisxl_target_runtime_matrix": "three prompt-focused samples, bounded matrix certified, seed robustness and portfolio completion not claimed",
+    "canny_local_fullbody_matrix": "three seeds pass locally, target-runtime full-body scope and portfolio certification absent",
+    "openpose_local_fullbody_matrix": "three seeds pass pose scope, one of three violates footwear color prompt",
+    "local_realvisxl_matrix": "three local samples pass with notes, one hand/contact ambiguity, final decision disallowed"
+  },
+  "test_results": {
+    "unit_tests": {
+      "run": 9,
+      "passed": 9
+    },
+    "contract_example_validation": "pass"
+  },
+  "checks": [
+    {
+      "name": "IMC-001_row018_contract_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-002_scorecard_binds_four_gates",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-003_schema_requires_four_gates",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-004_schema_requires_three_samples",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-005_validator_requires_seed_prompt_diversity",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-006_validator_checks_aggregate",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-007_validator_checks_defect_rate",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-008_validator_checks_target_runtime",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-009_nine_regressions_pass",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-010_blocked_example_validates",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-011_example_hashes_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-012_canny_three_seed_local_pass",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-013_canny_not_final_portfolio",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-014_openpose_has_prompt_drift",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-015_matrix_is_three_prompt_bounded",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-016_matrix_hashes_exact",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-017_local_matrix_not_certified",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-018_local_matrix_has_hand_note",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-019_row016_has_no_promoted_outputs",
+      "result": "pass"
+    },
+    {
+      "name": "IMC-020_row017_global_authority_incomplete",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "safety_boundary": {
+    "new_generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "promotion_performed": false,
+    "hard_gates_rerun": false,
+    "wave71_activated": false,
+    "jira_mutated": false
+  },
+  "project_completion": {
+    "level": "BELOW_LEVEL_7",
+    "full_project_complete": false,
+    "final_certification_decision": "blocked"
+  },
+  "source_hashes": [
+    {
+      "path": "Plan/Instructions/QA/MULTIMODAL_ARTIFACT_REVIEW_SCORECARD.md",
+      "sha256": "c2b2f86b6bfe9679aaf3c8f92948f9c1567533bb2d0a682dc6b5af10f18b6e29"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/image_multi_sample_certification.schema.json",
+      "sha256": "4adb71737e1e565acfe9320f78c9ed0dcce45b665f117bf7fdd7a4c88eae330d"
+    },
+    {
+      "path": "Plan/09_EXAMPLES/image_multi_sample_certification.example.json",
+      "sha256": "77ece83318fc0c7da53c49b436281688dfa8ec2e01fcd4a4c57246021908ff1e"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/validate_image_multi_sample_certification.py",
+      "sha256": "2d5270e47783abbc95e284c7fb5a3d213c9253ffbe3837efb29877defc881d03"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_image_multi_sample_certification.py",
+      "sha256": "c43b6205b8c3c242d25fdcf040ca5cc9633e6a1ad06ce1dbe0ec57ff02a09913"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_CANNY_FULL_BODY_MULTISEED_ROBUSTNESS_QA_20260711T093800-0500.json",
+      "sha256": "2a19ee000d59985fb8da42bb300d97c25f7d50b632a8e953b752ddaa93fe920e"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/W70_CANNY_FULL_BODY_MULTISEED_ROBUSTNESS_DONE_20260711T093800-0500.json",
+      "sha256": "642c9ecee3f379d118b3d6d91ad6f8277da98ea2da5fefe825c23a2e9a5bb6b0"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_OPENPOSE_V6_FULL_BODY_MULTISEED_ROBUSTNESS_QA_20260711T045000-0500.json",
+      "sha256": "9271618eb064a95ccf71d63f480758c1d36c2de91c78bcadb15a1505240896a5"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_FINAL_QA_CERTIFICATION_20260706T201000-0500.json",
+      "sha256": "cf6365a95d4da2e71b5564a58458abaefe6f3d077ee9914dd076cb41589b5575"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_MULTISAMPLE_VISUAL_QA_20260707T034600-0500.json",
+      "sha256": "44cc9c5526af5fcf0f0d4fcdf00096324360e4d53cea105223955d54ebf98f16"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/image_hyperreal_visual_review.json",
+      "sha256": "fc8941ffd837f1e23e6a298f5429dd39610762aaa2e431bec187b41e684c3a7a"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/global_visual_review_not_local_only.json",
+      "sha256": "8d2604e48833b992f632b35168529213b9853b85b319a376e5ceefbd058d02ec"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_full_body_seed711570301_20260711T093300-0500/images/canny_full_body_standing_711570301_00001_.png",
+      "sha256": "1c2a51ec34a0a3ef4e69c4f38ee2ad51cc90921783cb5ae75f3eab16de667c9c"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_full_body_seed711570302_20260711T093400-0500/images/canny_full_body_standing_711570302_00001_.png",
+      "sha256": "a2a33a807bd49228cf4687470542040313a23312a8a543288739d3748d6f5d46"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_full_body_seed711570303_20260711T093500-0500/images/canny_full_body_standing_711570303_00001_.png",
+      "sha256": "f3e834d791c3b9b05fa4bd284652c8bee63d0fdc89361f555ffe3e1ab6c02fa8"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T185315-0500/images/9_codex_realvisxl_cert_closeup_skin_eye_00001_.png",
+      "sha256": "5f8a996ea615a7376f9186dff80bce0ee600b19378bdaa307bbcf73394e0e18d"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T192734-0500/images/9_codex_realvisxl_cert_hands_fabric_00001_.png",
+      "sha256": "3d69eb051d1d416a0adf01de2ba357d7540d24a4993638888dea28a0b1ba9076"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T195752-0500/images/9_codex_realvisxl_cert_environment_lowlight_00001_.png",
+      "sha256": "5a47e700233c29065c8ccfc18397ff55e7bc1717596110cf89a9d5e9eca23bc5"
+    }
+  ],
+  "next_action": "Proceed to TRK-W64-019 / ITEM-W64-019 in strict sequence. Reopen Row018 only with one lane-scoped target-runtime set satisfying the complete multi-seed, multi-prompt, score, defect-rate, and portfolio contract.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/image_multi_sample_certification.json",
+    "Plan/Instructions/QA/Evidence/Wave64/IMAGE_MULTI_SAMPLE_CERTIFICATION_20260712T134444-0500.json",
+    "Plan/Tracker/Evidence/IMAGE_MULTI_SAMPLE_CERTIFICATION_20260712T134444-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/image_multi_sample_certification_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-018_image_multi_sample_certification.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_CANNY_FULL_BODY_MULTISEED_ROBUSTNESS_QA_20260711T093800-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_OPENPOSE_V6_FULL_BODY_MULTISEED_ROBUSTNESS_QA_20260711T045000-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_FINAL_QA_CERTIFICATION_20260706T201000-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_MULTISAMPLE_VISUAL_QA_20260707T034600-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/image_hyperreal_visual_review.json",
+    "Plan/Instructions/QA/Evidence/Wave64/global_visual_review_not_local_only.json"
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ImageMultiSampleCertification",
+  "type": "object",
+  "required": ["schema_version", "lane_id", "multi_seed_sample_set", "aggregate_score", "defect_rate_limit", "consistency_status", "portfolio_certification_record"],
+  "properties": {
+    "schema_version": {"const": "row018.v1"},
+    "lane_id": {"type": "string", "minLength": 1},
+    "multi_seed_sample_set": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["sample_id", "seed", "prompt_reference", "artifact", "technical_status", "visual_score", "blocking_defects"],
+        "properties": {
+          "sample_id": {"type": "string", "minLength": 1},
+          "seed": {"type": ["integer", "string"]},
+          "prompt_reference": {"type": "string", "minLength": 1},
+          "artifact": {"$ref": "#/definitions/artifact"},
+          "technical_status": {"enum": ["pass", "fail", "blocked"]},
+          "visual_score": {"type": "number", "minimum": 0, "maximum": 5},
+          "blocking_defects": {"type": "array", "items": {"type": "string", "minLength": 1}},
+          "target_runtime_proof": {"type": "boolean"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "aggregate_score": {
+      "type": "object",
+      "required": ["mean", "minimum", "required_mean", "required_minimum"],
+      "properties": {
+        "mean": {"type": "number", "minimum": 0, "maximum": 5},
+        "minimum": {"type": "number", "minimum": 0, "maximum": 5},
+        "required_mean": {"type": "number", "minimum": 0, "maximum": 5},
+        "required_minimum": {"type": "number", "minimum": 0, "maximum": 5}
+      },
+      "additionalProperties": false
+    },
+    "defect_rate_limit": {
+      "type": "object",
+      "required": ["blocking_defect_sample_count", "sample_count", "rate", "maximum_rate"],
+      "properties": {
+        "blocking_defect_sample_count": {"type": "integer", "minimum": 0},
+        "sample_count": {"type": "integer", "minimum": 1},
+        "rate": {"type": "number", "minimum": 0, "maximum": 1},
+        "maximum_rate": {"type": "number", "minimum": 0, "maximum": 1}
+      },
+      "additionalProperties": false
+    },
+    "consistency_status": {"enum": ["pass", "partial", "fail", "blocked"]},
+    "portfolio_certification_record": {
+      "type": "object",
+      "required": ["decision", "certified_scope", "target_runtime_sample_count", "full_project_certification", "reason_codes"],
+      "properties": {
+        "decision": {"enum": ["certified", "blocked", "not_certified"]},
+        "certified_scope": {"type": "string"},
+        "target_runtime_sample_count": {"type": "integer", "minimum": 0},
+        "full_project_certification": {"type": "boolean"},
+        "reason_codes": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      },
+      "additionalProperties": false
+    }
+  },
+  "definitions": {
+    "artifact": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

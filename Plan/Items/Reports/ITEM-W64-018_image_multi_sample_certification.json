@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-12T13:44:44-05:00",
+  "tracker_id": "TRK-W64-018",
+  "item_id": "ITEM-W64-018",
+  "status": "Blocked_No_Scope_Matched_MultiSeed_MultiPrompt_Target_Runtime_Portfolio_Certification",
+  "implementation": {
+    "required_machine_gates": [
+      "multi_seed_sample_set",
+      "aggregate_score",
+      "defect_rate_limit",
+      "portfolio_certification_record"
+    ],
+    "minimum_distinct_seeds": 3,
+    "minimum_distinct_prompts": 2,
+    "target_runtime_all_samples_required": true
+  },
+  "exact_blocker": "No lane has one scope-matched set proving at least three distinct seeds, at least two prompt references, aggregate/minimum score thresholds, zero blocking-defect rate, complete target-runtime coverage, and final portfolio certification.",
+  "sample_set_reconciliation": {
+    "realvisxl_target_runtime_matrix": "three prompt-focused samples, bounded matrix certified, seed robustness and portfolio completion not claimed",
+    "canny_local_fullbody_matrix": "three seeds pass locally, target-runtime full-body scope and portfolio certification absent",
+    "openpose_local_fullbody_matrix": "three seeds pass pose scope, one of three violates footwear color prompt",
+    "local_realvisxl_matrix": "three local samples pass with notes, one hand/contact ambiguity, final decision disallowed"
+  },
+  "evidence": [
+    "Plan/Instructions/QA/Evidence/Wave64/image_multi_sample_certification.json",
+    "Plan/Instructions/QA/Evidence/Wave64/IMAGE_MULTI_SAMPLE_CERTIFICATION_20260712T134444-0500.json",
+    "Plan/Tracker/Evidence/IMAGE_MULTI_SAMPLE_CERTIFICATION_20260712T134444-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/image_multi_sample_certification_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-018_image_multi_sample_certification.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_CANNY_FULL_BODY_MULTISEED_ROBUSTNESS_QA_20260711T093800-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_OPENPOSE_V6_FULL_BODY_MULTISEED_ROBUSTNESS_QA_20260711T045000-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_FINAL_QA_CERTIFICATION_20260706T201000-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_MULTISAMPLE_VISUAL_QA_20260707T034600-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/image_hyperreal_visual_review.json",
+    "Plan/Instructions/QA/Evidence/Wave64/global_visual_review_not_local_only.json"
+  ],
+  "next_action": "Proceed to TRK-W64-019 / ITEM-W64-019 in strict sequence. Reopen Row018 only with one lane-scoped target-runtime set satisfying the complete multi-seed, multi-prompt, score, defect-rate, and portfolio contract."
+}
