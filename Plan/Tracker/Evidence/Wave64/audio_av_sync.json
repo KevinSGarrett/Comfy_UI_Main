@@ -1,12 +1,17 @@
 {
   "schema_version": "1.0",
-  "evidence_id": "W64-AUDIO-AV-SYNC-20260711T210114-0500",
-  "timestamp": "2026-07-11T21:01:14-05:00",
+  "evidence_id": "W64-AUDIO-AV-SYNC-20260712T175907-0500",
+  "timestamp": "2026-07-12T17:59:07-05:00",
   "tracker_id": "TRK-W64-030",
   "item_id": "ITEM-W64-030",
   "source_citation": "Plan/05_AUDIO_SYSTEM/WAVE30_AUDIO_VIDEO_SYNC_PLAN.md",
   "implementation": {
     "dedicated_av_sync_certification_evaluator_added": true,
+    "dedicated_av_sync_measurement_packet_producer_added": true,
+    "wave30_manifest_and_audio_lineage_binding": true,
+    "anchor_and_optional_proof_role_hash_chain_validation": true,
+    "caller_overall_pass_claim_hardcoded_false": true,
+    "no_clobber_atomic_packet_publication": true,
     "actual_mux_video_and_audio_decode": true,
     "decoded_start_offset_and_endpoint_drift": true,
     "decoded_last_frame_duration_and_irregular_cadence_handling": true,
@@ -27,18 +32,20 @@
   "implementation_artifacts": [
     {"path": "Plan/05_AUDIO_SYSTEM/WAVE64_AV_SYNC_CERTIFICATION_GATE_SPEC.md", "sha256": "1785323e00938b680d7d179a19281d834c46845472e4123b6c5216eba8051562"},
     {"path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_av_sync_certification.py", "sha256": "ce521bff0b9ec088bd7380ea588dc646807726a700e6e67158fa0aea9e3ccd04"},
+    {"path": "Plan/07_IMPLEMENTATION/scripts/produce_wave64_av_sync_measurement_packet.py", "sha256": "9144a26bbb0050ee5c10a2fce05cd320b54788800b9b09df816ba7fa492c6a1d"},
     {"path": "Plan/08_SCHEMAS/wave64_av_sync_measurement_packet.schema.json", "sha256": "4ff45cfbabd684a44a03021291b8ead363845eb1e7c286022e7fcb73ca77a206"},
     {"path": "Plan/08_SCHEMAS/wave64_av_sync_certification_report.schema.json", "sha256": "4171b9a8a378266841be5714d2088878b0d7f1160aad08e55b1f5f92c001e9c8"},
     {"path": "Plan/10_REGISTRIES/wave64_av_sync_gate_rules.json", "sha256": "edd5ee9e6f8ad4b025da9541557f8a73b14a5b7c90a0a26aea2b85d9c3a69479"},
-    {"path": "Plan/Instructions/QA/Scripts/test_wave64_av_sync_certification_strict.py", "sha256": "31cedfe4c543c3f6b77f034f5405a48e0804d582ad294201d338d7403c81cee7"}
+    {"path": "Plan/Instructions/QA/Scripts/test_wave64_av_sync_certification_strict.py", "sha256": "31cedfe4c543c3f6b77f034f5405a48e0804d582ad294201d338d7403c81cee7"},
+    {"path": "Plan/Instructions/QA/Scripts/test_produce_wave64_av_sync_measurement_packet.py", "sha256": "da4d6462b4246c5db2ef8e1240118f297502881c4843ca78cfe69f7585fafd3e"}
   ],
   "authority_bindings": {
     "wave30_av_sync_plan": {"path": "Plan/05_AUDIO_SYSTEM/WAVE30_AUDIO_VIDEO_SYNC_PLAN.md", "sha256": "c78bb1e996ef2adb0eb54cf3fe1b8b455b4e132ffe6eff3bb8e8b63040a52951"}
   },
   "offline_validation": {
     "test_log": "Plan/Instructions/QA/Evidence/Wave64/audio_av_sync_test_log.json",
-    "test_log_sha256": "e224d1e0926f09a63eb42df9ba4755654391e414744318a9e81deb51aacbf6a8",
-    "tests_run": 31,
+    "test_log_sha256": "57e47ab150df0ddbf87b46a3f76710a00ce54346bc62649c7878dce0c57b92fe",
+    "tests_run": 41,
     "test_failures": 0,
     "test_errors": 0,
     "test_skips": 0,
@@ -47,7 +54,9 @@
     "draft_2020_12_certification_report_schema": "pass",
     "pyav_version": "18.0.0",
     "authority_registry_unchanged_by_tests": true,
-    "technical_offline_pass": true
+    "technical_offline_pass": true,
+    "producer_tests_run": 10,
+    "evaluator_tests_run": 31
   },
   "retained_probes": {
     "probe_summary": {"path": "runtime_artifacts/wave64_av_sync_certification/20260711T210114-0500/probe_summary.json", "sha256": "56b5e02ac0b413064aa20ff49e6f305d009b23e729f048d6e65d3b84fc8b4246"},
@@ -94,6 +103,31 @@
         "hand-authored relabel evidence cannot satisfy production AV sync authority",
         "synthetic-only producers cannot certify hand-authored relabel evidence"
       ]
+    },
+    "packet_producer_probe": {
+      "directory": "runtime_artifacts/wave64_av_sync_certification/packet_producer_probe_20260712T175907-0500",
+      "request": "runtime_artifacts/wave64_av_sync_certification/packet_producer_probe_20260712T175907-0500/request.json",
+      "request_sha256": "c9607a8836e51677cc03f10623f1a36f286050e2e1056bcbaf69ca82c9903890",
+      "report": "runtime_artifacts/wave64_av_sync_certification/packet_producer_probe_20260712T175907-0500/report.json",
+      "report_sha256": "2850b1cde297a739f54272aeb064e73d2713913397222ea66d7c1b1bbc153d7c",
+      "expected_exit_code": 2,
+      "acceptance_token_pass_count": 4,
+      "missing_optional_count": 3,
+      "caller_claimed_overall_pass": false,
+      "overall_pass": false,
+      "sync_offset_threshold": "PASS",
+      "drift_check": "PASS",
+      "mux_manifest": "PASS",
+      "event_owner_alignment": "PASS",
+      "av_review_record": "BLOCKED",
+      "production_runtime_proof_status": "BLOCKED",
+      "production_av_sync_authority_status": "BLOCKED",
+      "blockers": [
+        "missing playback_proof_binding",
+        "missing runtime_proof_binding",
+        "synthetic input cannot satisfy production AV sync authority",
+        "synthetic input cannot satisfy production runtime proof gate"
+      ]
     }
   },
   "current_authority": {
@@ -117,6 +151,8 @@
     "row_complete": false
   },
   "review": {
+    "cursor_packet_producer_gap_review": {"path": "runtime_artifacts/agent_handoffs/cursor/20260712T174821-0500_row030_av_sync_packet_producer_gap/handoff_record.json", "sha256": "4abce72b2491f3df3b186b7cc83e89bd5a0de1b3bbcdf00ad086e798524fe7b3"},
+    "claude_packet_producer_semantic_review": {"path": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T175229-0500_row030_av_sync_packet_producer_semantic_review/handoff_record.json", "sha256": "5e463f0075a4db9f4b0870bf229157622ac7efd92a5b1f35976dce38b2da2e97", "medium_findings": 2, "remediated_findings": 2, "remaining_high_or_medium_findings": 0},
     "cursor_gap_review": {"path": "runtime_artifacts/agent_handoffs/cursor/20260711T201320-0500_wave64_av_sync_gap_review/handoff_record.json", "sha256": "daf6e92ad3d433c928780d21f10176599b69193c89d56fa891aba9a676d14981", "status": "PASS"},
     "cursor_initial_implementation": {"path": "runtime_artifacts/agent_handoffs/cursor/20260711T201724-0500_wave64_av_sync_implementation/handoff_record.json", "sha256": "96612ad01cc06fc96e46b29085d787e9fcdf5c1ae9a61f293916adb2b6e2fbba", "status": "FAIL", "classification": "CURSOR_HANDOFF_WRAPPER_FAILED", "usable_files_written_before_timeout": 6},
     "cursor_narrow_retry": {"path": "runtime_artifacts/agent_handoffs/cursor/20260711T202801-0500_wave64_av_sync_implementation_retry_narrow/handoff_record.json", "sha256": "1a88012d4c001dc1af367ea0780eb09ad7cc4f7500a205cc9a2307ea3acfa910", "status": "PASS", "worker_execution_blocked_by_wsl_exe_interop": true},

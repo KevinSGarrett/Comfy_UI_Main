@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "report_id": "ITEM-W64-030-AUDIO-AV-SYNC-20260711T210114-0500",
-  "timestamp": "2026-07-11T21:01:14-05:00",
+  "report_id": "ITEM-W64-030-AUDIO-AV-SYNC-20260712T175907-0500",
+  "timestamp": "2026-07-12T17:59:07-05:00",
   "item_id": "ITEM-W64-030",
   "tracker_id": "TRK-W64-030",
   "workstream": "audio_av_sync",
@@ -13,11 +13,15 @@
     "mux_content_and_lineage_evaluator_ready": true,
     "event_owner_and_wave30_corroboration_ready": true,
     "playback_runtime_and_production_authority_ready": true,
+    "measurement_packet_producer_ready": true,
+    "wave30_identity_and_media_lineage_binding_ready": true,
+    "optional_proof_role_and_hash_chain_validation_ready": true,
+    "producer_creates_no_anchor_or_authority_proof": true,
     "canonical_root_and_transactional_output_ready": true,
     "synthetic_and_relabel_promotion_forbidden": true
   },
   "validation": {
-    "unit_tests_passed": 31,
+    "unit_tests_passed": 41,
     "unit_test_failures": 0,
     "unit_test_errors": 0,
     "unit_test_skips": 0,
@@ -48,8 +52,11 @@
     {"classification": "Blocked_AV_Sync_Production_Authority_Missing", "reason": "The canonical production certification bundle allowlist contains zero approved bundles."}
   ],
   "evidence": [
-    {"path": "Plan/Instructions/QA/Evidence/Wave64/audio_av_sync.json", "sha256": "70cab4746ab0cd720734f8fb36fe38ac9fd77b8ca01de5892de8c513f7ca46c7"},
-    {"path": "Plan/Instructions/QA/Evidence/Wave64/audio_av_sync_test_log.json", "sha256": "e224d1e0926f09a63eb42df9ba4755654391e414744318a9e81deb51aacbf6a8"},
+    {"path": "Plan/Instructions/QA/Evidence/Wave64/audio_av_sync.json", "sha256": "48a227cf3c55e2349a69a4a75214149451311adac7adefc34afc7bf070a083cc"},
+    {"path": "Plan/Instructions/QA/Evidence/Wave64/audio_av_sync_test_log.json", "sha256": "57e47ab150df0ddbf87b46a3f76710a00ce54346bc62649c7878dce0c57b92fe"},
+    {"path": "runtime_artifacts/wave64_av_sync_certification/packet_producer_probe_20260712T175907-0500/request.json", "sha256": "c9607a8836e51677cc03f10623f1a36f286050e2e1056bcbaf69ca82c9903890"},
+    {"path": "runtime_artifacts/wave64_av_sync_certification/packet_producer_probe_20260712T175907-0500/report.json", "sha256": "2850b1cde297a739f54272aeb064e73d2713913397222ea66d7c1b1bbc153d7c"},
+    {"path": "runtime_artifacts/wave64_av_sync_certification/packet_producer_probe_20260712T175907-0500/windows_tests.txt", "sha256": "812c108f89838c5ae8685a3f1d2c74fab21034f3308d60dd8fe117c4acf2cdaa"},
     {"path": "runtime_artifacts/wave64_av_sync_certification/20260711T210114-0500/probe_summary.json", "sha256": "56b5e02ac0b413064aa20ff49e6f305d009b23e729f048d6e65d3b84fc8b4246"},
     {"path": "runtime_artifacts/wave64_av_sync_certification/20260711T210114-0500/windows_strict_tests.txt", "sha256": "07f2bd435d39bd1107344492ca7626a9e0dcb20954c683bcca3ebcfa6bd6bd07"}
   ],
