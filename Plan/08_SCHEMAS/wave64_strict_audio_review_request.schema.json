@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64_strict_audio_review_request.schema.json",
+  "title": "Wave64 Strict Audio Review Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_name",
+    "request_version",
+    "run_id",
+    "is_synthetic",
+    "capture_mode",
+    "mix_wav_binding",
+    "wave30_event_manifest_binding",
+    "wave30_mix_manifest_binding",
+    "wave30_qa_report_binding",
+    "prompt_reference_binding",
+    "prompt_alignment_proof_binding"
+  ],
+  "properties": {
+    "schema_name": {
+      "const": "wave64_strict_audio_review_request"
+    },
+    "request_version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9999
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "is_synthetic": {
+      "type": "boolean"
+    },
+    "capture_mode": {
+      "type": "string",
+      "enum": [
+        "technical_capture",
+        "hand_authored_relabel"
+      ]
+    },
+    "mix_wav_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "wave30_event_manifest_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "wave30_mix_manifest_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "wave30_qa_report_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "prompt_reference_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "prompt_alignment_proof_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "playback_proof_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "row030_av_sync_report_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "production_review_bundle_binding": {
+      "$ref": "#/$defs/binding"
+    }
+  },
+  "$defs": {
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "bytes"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  }
+}

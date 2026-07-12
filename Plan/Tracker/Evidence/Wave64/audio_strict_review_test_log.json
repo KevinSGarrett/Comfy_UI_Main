@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-AUDIO-STRICT-REVIEW-TEST-LOG-20260711T221501-0500",
+  "timestamp": "2026-07-11T22:15:01-05:00",
+  "tracker_id": "TRK-W64-031",
+  "item_id": "ITEM-W64-031",
+  "command": "python -m unittest Plan.Instructions.QA.Scripts.test_wave64_strict_audio_artifact_review -v",
+  "result": "pass",
+  "exit_code": 0,
+  "tests_run": 52,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "elapsed_seconds": 141.546,
+  "transcript": "runtime_artifacts/wave64_strict_audio_review/20260711T221501-0500/windows_strict_tests.txt",
+  "transcript_sha256": "01a21e02cc1a719c17060bcbfbdf6f6d77dd0e58050016d76b7882b51bbf28d2",
+  "covered_artifacts": [
+    {"path": "Plan/06_QA_TESTING/WAVE64_STRICT_AUDIO_ARTIFACT_REVIEW_GATE_SPEC.md", "sha256": "608cf837fb738ad235988f60e0990b9dd7b2f89c7ca39810f571365109cf60dd"},
+    {"path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_strict_audio_artifact_review.py", "sha256": "1e651508003e09192c8825e8ab41548a1c64c206304313216d02572f89b3f131"},
+    {"path": "Plan/08_SCHEMAS/wave64_strict_audio_review_request.schema.json", "sha256": "715dd6c5d2318ebdc8e5870ad40f5aafb191d43b1c81d69ffca4b8ee57b34bc8"},
+    {"path": "Plan/08_SCHEMAS/wave64_strict_audio_review_report.schema.json", "sha256": "ea653e56ef87187f8c52923fe4cad124c2e949ae713ba56640960ce520fba474"},
+    {"path": "Plan/10_REGISTRIES/wave64_strict_audio_review_authority_registry.json", "sha256": "f5a2cbfff1763cab4d7c2c57da3688a84ae371a76cd6dcead43da5a87a57f0a8"},
+    {"path": "Plan/Instructions/QA/Scripts/test_wave64_strict_audio_artifact_review.py", "sha256": "ca4c9c4197706a584e231b28546eb908bab1eb786087a16dc1a58976ba734470"}
+  ],
+  "positive_contracts_covered": [
+    "actual PCM WAV metadata and canonical Wave30 event/mix/QA lineage",
+    "computed speech WER and exact expected non-speech attribute coverage",
+    "full immutable prompt and playback producer identity matching",
+    "beginning/middle/end/loud/quiet/transition playback review coverage",
+    "protocol category scores and blocking defect policy",
+    "row030 schema-validated technical sync reuse when video pairing is required",
+    "independently recomputed upstream production eligibility",
+    "canonical Wave30 compiler/scorer/schema integration",
+    "canonical-root containment, strict JSON, atomic output, and empty production authority"
+  ],
+  "negative_contracts_covered": [
+    "WAV/hash/metadata/upstream-report tamper and failed upstream technical gates",
+    "WER mismatch, missing attributes, unapproved producer, and self-authorization",
+    "every prompt/playback engine/model/version/hash/authority identity mutation",
+    "synthetic/non-synthetic parity and production-evidence contradictions",
+    "missing sections, invalid scores, blocking defects, and case-fold bypass attempts",
+    "old duck-typed row030 shape, audio-binding mismatch, and each required sync gate non-PASS",
+    "forged upstream production flags with runtime/audio-review gates non-PASS",
+    "registry cross-role authority collision",
+    "non-finite JSON, unknown keys, root escape, output collision, and transactional preservation"
+  ],
+  "registry_assertion": {
+    "path": "Plan/10_REGISTRIES/wave64_strict_audio_review_authority_registry.json",
+    "sha256_before_and_after_tests": "f5a2cbfff1763cab4d7c2c57da3688a84ae371a76cd6dcead43da5a87a57f0a8",
+    "synthetic_prompt_producer_count": 1,
+    "synthetic_playback_producer_count": 1,
+    "production_review_authority_count": 0,
+    "approved_production_bundle_count": 0,
+    "registry_unchanged": true
+  },
+  "production_audio_review_executed": false,
+  "genuine_playback_review_present": false,
+  "production_bundle_approved": false
+}

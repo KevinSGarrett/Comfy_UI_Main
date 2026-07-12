@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0",
+  "report_id": "ITEM-W64-031-AUDIO-STRICT-REVIEW-20260711T221501-0500",
+  "timestamp": "2026-07-11T22:15:01-05:00",
+  "item_id": "ITEM-W64-031",
+  "tracker_id": "TRK-W64-031",
+  "workstream": "audio_strict_review",
+  "status": "Blocked_Strict_Audio_Production_Review_Proof_Missing",
+  "row_complete": false,
+  "implementation": {
+    "audio_metadata_check_ready": true,
+    "playback_review_ready": true,
+    "prompt_alignment_ready": true,
+    "sync_evidence_ready": true,
+    "promotion_decision_ready": true,
+    "canonical_wave30_integration_ready": true,
+    "canonical_root_and_transactional_output_ready": true,
+    "synthetic_and_relabel_promotion_forbidden": true
+  },
+  "validation": {
+    "unit_tests_passed": 52,
+    "unit_test_failures": 0,
+    "unit_test_errors": 0,
+    "unit_test_skips": 0,
+    "python_compile": "pass",
+    "request_schema_check": "pass",
+    "report_schema_check": "pass",
+    "canonical_wave30_integration": "pass",
+    "synthetic_technical_probe": "expected_exit_2",
+    "adversarial_relabel_probe": "expected_exit_2",
+    "authority_registry_unchanged_by_tests": true,
+    "remaining_high_findings": 0,
+    "remaining_medium_findings": 0,
+    "review_scope_hash_mismatches": 0
+  },
+  "acceptance_gates": {
+    "audio_metadata_check_contract": true,
+    "playback_review_contract": true,
+    "prompt_alignment_contract": true,
+    "sync_evidence_contract": true,
+    "promotion_decision_contract": true,
+    "audio_playback_and_spectrogram_review_contract": true,
+    "genuine_production_audio_present": false,
+    "genuine_non_synthetic_prompt_alignment_present": false,
+    "genuine_production_playback_review_present": false,
+    "production_bundle_allowlisted": false,
+    "final_strict_audio_certification_allowed": false
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Strict_Audio_Production_Review_Proof_Missing",
+      "reason": "No genuine production audio with independently approved non-synthetic prompt-alignment and playback-review producer proof exists."
+    },
+    {
+      "classification": "Blocked_Strict_Audio_Production_Authority_Missing",
+      "reason": "The canonical registry has no approved production review authority and no allowlisted production review bundle."
+    }
+  ],
+  "evidence": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/audio_strict_review.json",
+      "sha256": "1c2a8980dab05b8d1d485f1f4fe3bec50303ff5b331db373c092a812f1089355"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/audio_strict_review_test_log.json",
+      "sha256": "b3ec5a02369fe918916bfbaaaf5b6b40314d130d240ecc83b0fe883f1f1936b1"
+    },
+    {
+      "path": "runtime_artifacts/wave64_strict_audio_review/20260711T221501-0500/probe_summary.json",
+      "sha256": "1861a3233c9faf95d54a35306ee59e0e617030ab2e15d64f5fd44b4b784b1a60"
+    },
+    {
+      "path": "runtime_artifacts/wave64_strict_audio_review/20260711T221501-0500/windows_strict_tests.txt",
+      "sha256": "01a21e02cc1a719c17060bcbfbdf6f6d77dd0e58050016d76b7882b51bbf28d2"
+    }
+  ],
+  "runtime": {
+    "production_audio_generation_count": 0,
+    "production_audio_review_count": 0,
+    "approved_production_bundle_count": 0,
+    "comfyui_started": false,
+    "aws_contacted": false,
+    "ec2_started": false
+  },
+  "next_action": "Proceed with TRK-W64-032 / ITEM-W64-032 by duplicate-checking the global whole-audio review lane from Plan/Instructions/QA/AUDIO_GENERATION_REVIEW_PROTOCOL.md while keeping row031 blocked until genuine production audio, independent non-synthetic prompt and playback proof, and an allowlisted production review bundle exist."
+}

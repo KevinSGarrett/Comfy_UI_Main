@@ -1,0 +1,306 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64_strict_audio_review_report.schema.json",
+  "title": "Wave64 Strict Audio Review Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schema_name",
+    "report_version",
+    "run_id",
+    "is_synthetic",
+    "capture_mode",
+    "artifact_bindings",
+    "gates",
+    "computed_metrics",
+    "producer_identities",
+    "blockers",
+    "final_decision"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "schema_name": {
+      "const": "wave64_strict_audio_review_report"
+    },
+    "report_version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9999
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "is_synthetic": {
+      "type": "boolean"
+    },
+    "capture_mode": {
+      "type": "string",
+      "enum": [
+        "technical_capture",
+        "hand_authored_relabel"
+      ]
+    },
+    "artifact_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mix_wav",
+        "wave30_event_manifest",
+        "wave30_mix_manifest",
+        "wave30_qa_report",
+        "prompt_reference",
+        "prompt_alignment_proof"
+      ],
+      "properties": {
+        "mix_wav": {
+          "$ref": "#/$defs/binding"
+        },
+        "wave30_event_manifest": {
+          "$ref": "#/$defs/binding"
+        },
+        "wave30_mix_manifest": {
+          "$ref": "#/$defs/binding"
+        },
+        "wave30_qa_report": {
+          "$ref": "#/$defs/binding"
+        },
+        "prompt_reference": {
+          "$ref": "#/$defs/binding"
+        },
+        "prompt_alignment_proof": {
+          "$ref": "#/$defs/binding"
+        },
+        "playback_proof": {
+          "$ref": "#/$defs/binding"
+        },
+        "row030_av_sync_report": {
+          "$ref": "#/$defs/binding"
+        },
+        "production_review_bundle": {
+          "$ref": "#/$defs/binding"
+        }
+      }
+    },
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "audio_metadata_check",
+        "playback_review",
+        "prompt_alignment",
+        "sync_evidence",
+        "promotion_decision",
+        "overall_pass"
+      ],
+      "properties": {
+        "audio_metadata_check": {
+          "$ref": "#/$defs/gateState"
+        },
+        "playback_review": {
+          "$ref": "#/$defs/gateState"
+        },
+        "prompt_alignment": {
+          "$ref": "#/$defs/gateState"
+        },
+        "sync_evidence": {
+          "$ref": "#/$defs/gateState"
+        },
+        "promotion_decision": {
+          "$ref": "#/$defs/gateState"
+        },
+        "overall_pass": {
+          "$ref": "#/$defs/gateState"
+        }
+      }
+    },
+    "computed_metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "normalized_wer",
+        "wer_threshold",
+        "expected_attribute_coverage",
+        "upstream_production_eligible",
+        "sync_not_applicable_reason"
+      ],
+      "properties": {
+        "normalized_wer": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "wer_threshold": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "expected_attribute_coverage": {
+          "type": "boolean"
+        },
+        "upstream_production_eligible": {
+          "type": "boolean"
+        },
+        "sync_not_applicable_reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "producer_identities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "prompt_alignment_producer_id",
+        "playback_review_producer_id",
+        "production_review_producer_id"
+      ],
+      "properties": {
+        "prompt_alignment_producer_id": {
+          "$ref": "#/$defs/identityOrNull"
+        },
+        "playback_review_producer_id": {
+          "$ref": "#/$defs/identityOrNull"
+        },
+        "production_review_producer_id": {
+          "$ref": "#/$defs/identityOrNull"
+        }
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "final_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "overall_status",
+        "exit_code"
+      ],
+      "properties": {
+        "overall_status": {
+          "type": "string",
+          "enum": [
+            "PASS",
+            "FAIL",
+            "BLOCKED"
+          ]
+        },
+        "exit_code": {
+          "type": "integer",
+          "enum": [
+            0,
+            2
+          ]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "bytes"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "gateState": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL",
+        "BLOCKED"
+      ]
+    },
+    "identityRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "proof_kind",
+        "producer_id",
+        "engine",
+        "model",
+        "model_version",
+        "model_sha256",
+        "authority_id",
+        "synthetic_only"
+      ],
+      "properties": {
+        "proof_kind": {
+          "type": "string",
+          "enum": [
+            "prompt_alignment",
+            "playback_review",
+            "production_review"
+          ]
+        },
+        "producer_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "engine": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "authority_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "synthetic_only": {
+          "type": "boolean"
+        }
+      }
+    },
+    "identityOrNull": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/identityRecord"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,159 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-AUDIO-STRICT-REVIEW-20260711T221501-0500",
+  "timestamp": "2026-07-11T22:15:01-05:00",
+  "tracker_id": "TRK-W64-031",
+  "item_id": "ITEM-W64-031",
+  "source_citation": "Plan/Instructions/QA/AUDIO_GENERATION_REVIEW_PROTOCOL.md",
+  "implementation": {
+    "dedicated_strict_audio_artifact_review_evaluator_added": true,
+    "actual_pcm_and_wave30_metadata_validation": true,
+    "computed_speech_wer_and_attribute_alignment": true,
+    "immutable_prompt_producer_identity": true,
+    "immutable_playback_producer_identity": true,
+    "playback_sections_scores_and_defect_policy": true,
+    "schema_validated_row030_sync_binding": true,
+    "independent_upstream_production_eligibility_recomputation": true,
+    "synthetic_only_fixture_authority": true,
+    "canonical_wave30_schema_integration": true,
+    "canonical_root_containment": true,
+    "output_collision_rejection": true,
+    "transactional_output": true,
+    "immutable_production_bundle_allowlist": true,
+    "current_production_authority_intentionally_empty": true
+  },
+  "implementation_artifacts": [
+    {"path": "Plan/06_QA_TESTING/WAVE64_STRICT_AUDIO_ARTIFACT_REVIEW_GATE_SPEC.md", "sha256": "608cf837fb738ad235988f60e0990b9dd7b2f89c7ca39810f571365109cf60dd"},
+    {"path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_strict_audio_artifact_review.py", "sha256": "1e651508003e09192c8825e8ab41548a1c64c206304313216d02572f89b3f131"},
+    {"path": "Plan/08_SCHEMAS/wave64_strict_audio_review_request.schema.json", "sha256": "715dd6c5d2318ebdc8e5870ad40f5aafb191d43b1c81d69ffca4b8ee57b34bc8"},
+    {"path": "Plan/08_SCHEMAS/wave64_strict_audio_review_report.schema.json", "sha256": "ea653e56ef87187f8c52923fe4cad124c2e949ae713ba56640960ce520fba474"},
+    {"path": "Plan/10_REGISTRIES/wave64_strict_audio_review_authority_registry.json", "sha256": "f5a2cbfff1763cab4d7c2c57da3688a84ae371a76cd6dcead43da5a87a57f0a8"},
+    {"path": "Plan/Instructions/QA/Scripts/test_wave64_strict_audio_artifact_review.py", "sha256": "ca4c9c4197706a584e231b28546eb908bab1eb786087a16dc1a58976ba734470"}
+  ],
+  "authority_bindings": {
+    "audio_review_protocol": {"path": "Plan/Instructions/QA/AUDIO_GENERATION_REVIEW_PROTOCOL.md", "sha256": "c017a64f5946f493f1217f450dad80fd7816399a178891b11fe6b37fcf72d848"}
+  },
+  "offline_validation": {
+    "test_log": "Plan/Instructions/QA/Evidence/Wave64/audio_strict_review_test_log.json",
+    "test_log_sha256": "b3ec5a02369fe918916bfbaaaf5b6b40314d130d240ecc83b0fe883f1f1936b1",
+    "tests_run": 52,
+    "test_failures": 0,
+    "test_errors": 0,
+    "test_skips": 0,
+    "python_compile": "pass",
+    "draft_2020_12_request_schema": "pass",
+    "draft_2020_12_report_schema": "pass",
+    "canonical_wave30_integration": "pass",
+    "authority_registry_unchanged_by_tests": true,
+    "technical_offline_pass": true
+  },
+  "retained_probes": {
+    "probe_summary": {"path": "runtime_artifacts/wave64_strict_audio_review/20260711T221501-0500/probe_summary.json", "sha256": "1861a3233c9faf95d54a35306ee59e0e617030ab2e15d64f5fd44b4b784b1a60"},
+    "synthetic_technical_probe": {
+      "fixture_origin": true,
+      "canonical_wave30_schemas_and_scorer": true,
+      "production_evidence": false,
+      "request": "runtime_artifacts/wave64_strict_audio_review/20260711T221501-0500/synthetic_technical_probe/request.json",
+      "request_sha256": "359bdbd7476f98a34729989c14e24984d50e88ff143417ce58861cb39cd9623a",
+      "report": "runtime_artifacts/wave64_strict_audio_review/20260711T221501-0500/synthetic_technical_probe/report.json",
+      "report_sha256": "cc4d16160ba1ec619f8b5ad5e726568329f76b842bb8d479d4a8f3451bb6a50d",
+      "expected_exit_code": 2,
+      "overall_pass": false,
+      "audio_metadata_check": "PASS",
+      "playback_review": "PASS",
+      "prompt_alignment": "PASS",
+      "sync_evidence": "PASS",
+      "promotion_decision": "BLOCKED",
+      "overall_status": "BLOCKED",
+      "blockers": ["synthetic requests cannot pass promotion decision"]
+    },
+    "adversarial_relabel_probe": {
+      "fixture_origin": true,
+      "canonical_wave30_schemas_and_scorer": true,
+      "declared_is_synthetic": false,
+      "capture_mode": "hand_authored_relabel",
+      "production_evidence": false,
+      "request": "runtime_artifacts/wave64_strict_audio_review/20260711T221501-0500/adversarial_relabel_probe/request.json",
+      "request_sha256": "aa3125b56200bae86cbc6d59f418b7963e7137139b83b977f32d55a3087ba616",
+      "report": "runtime_artifacts/wave64_strict_audio_review/20260711T221501-0500/adversarial_relabel_probe/report.json",
+      "report_sha256": "6e8103e158210cc9b18120b9cc92c5b3bd7d944395e32ed510ecf2b569d252f9",
+      "expected_exit_code": 2,
+      "overall_pass": false,
+      "audio_metadata_check": "PASS",
+      "playback_review": "BLOCKED",
+      "prompt_alignment": "BLOCKED",
+      "sync_evidence": "PASS",
+      "promotion_decision": "BLOCKED",
+      "overall_status": "BLOCKED",
+      "blockers_include": [
+        "hand_authored_relabel cannot pass promotion decision",
+        "synthetic-only producer cannot be used on non-synthetic request"
+      ]
+    }
+  },
+  "current_authority": {
+    "synthetic_prompt_producer_count": 1,
+    "synthetic_playback_producer_count": 1,
+    "approved_non_synthetic_prompt_producer_count": 0,
+    "approved_non_synthetic_playback_producer_count": 0,
+    "approved_production_review_authority_count": 0,
+    "approved_production_bundle_count": 0,
+    "production_pass_reachable_from_fixture_only_evidence": false
+  },
+  "acceptance_gates": {
+    "audio_metadata_check_contract_ready": true,
+    "playback_review_contract_ready": true,
+    "prompt_alignment_contract_ready": true,
+    "sync_evidence_contract_ready": true,
+    "promotion_decision_contract_ready": true,
+    "audio_playback_and_spectrogram_review_contract_ready": true,
+    "strict_offline_validation_passed": true,
+    "genuine_production_audio_present": false,
+    "genuine_non_synthetic_prompt_alignment_present": false,
+    "genuine_production_playback_review_present": false,
+    "production_bundle_allowlisted": false,
+    "row_complete": false
+  },
+  "review": {
+    "cursor_gap_review": {"path": "runtime_artifacts/agent_handoffs/cursor/20260711T212644-0500_wave64_audio_strict_review_gap/handoff_record.json", "sha256": "db1d0e62a3b01c4bb43a207b9b71c613fcfae36776e4fe14f159114dda95cfa2"},
+    "cursor_initial_implementation": {"path": "runtime_artifacts/agent_handoffs/cursor/20260711T213239-0500_wave64_audio_strict_review_implementation/handoff_record.json", "sha256": "e0ed60fae8130ce9a6c260c480da5464649fa04371e9b2e74c086382ac317a1a"},
+    "claude_adversarial_review": {"path": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T214011-0500_wave64_audio_strict_review_adversarial/handoff_record.json", "sha256": "a34fdb719c5fc84f9353fedbbae5996173bb26815b7b57d163e4ba9cf3dbc72a", "high_findings": 2, "medium_findings": 2},
+    "cursor_hardening": {"path": "runtime_artifacts/agent_handoffs/cursor/20260711T214541-0500_wave64_audio_strict_review_hardening/handoff_record.json", "sha256": "47f1f65f309976b799cf21e2c92eb95935bb7521c74da2a879b4023f6a4b06b6"},
+    "claude_first_closure": {"path": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T215049-0500_wave64_audio_strict_review_closure/handoff_record.json", "sha256": "a05925ffd9a70cfcb036b3591c0c3ae28e6beb4b2e0e2890df49854e673be588", "remaining_high_findings": 0, "remaining_medium_findings": 0},
+    "cursor_authority_hardening": {"path": "runtime_artifacts/agent_handoffs/cursor/20260711T220033-0500_wave64_audio_strict_review_authority_hardening/handoff_record.json", "sha256": "18f82c1b1640d2f154d174632c1f0a71f040c66bc947479402d53b14ac1bb1b4"},
+    "claude_final_authority_closure": {"path": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T220625-0500_wave64_audio_strict_review_authority_closure/handoff_record.json", "sha256": "bbff72694cb7067de85b3d6ebca40f39805617e8dc63c6eb0173704abd266395", "remaining_high_findings": 0, "remaining_medium_findings": 0, "scope_hashes_verified": 8, "scope_hash_mismatches": 0}
+  },
+  "environment_authority": {
+    "authoritative_root": "C:\\Comfy_UI_Main",
+    "legacy_or_stale_cloud_state_used_as_authority": false,
+    "duplicate_completed_work_recreated": false
+  },
+  "runtime": {
+    "production_audio_generation_count": 0,
+    "production_audio_review_count": 0,
+    "approved_production_bundle_count": 0,
+    "comfyui_started": false,
+    "generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "mask_promotion_executed": false
+  },
+  "blockers": [
+    {"classification": "Blocked_Strict_Audio_Production_Review_Proof_Missing", "scope": "primary_row_blocker", "reason": "No genuine production audio with independently approved non-synthetic prompt-alignment and playback-review producer proof exists for this row."},
+    {"classification": "Blocked_Strict_Audio_Production_Authority_Missing", "scope": "production_authority", "reason": "The canonical registry has no approved production review authority and no allowlisted production review bundle."}
+  ],
+  "result": "blocked_strict_audio_production_review_proof_missing",
+  "overall_pass": false,
+  "status_decision": "Blocked_Strict_Audio_Production_Review_Proof_Missing",
+  "strict_decision": {
+    "row_complete": false,
+    "offline_evaluator_and_schema_pass": true,
+    "canonical_integration_pass": true,
+    "synthetic_fail_closed_probe_pass": true,
+    "adversarial_relabel_fail_closed_probe_pass": true,
+    "production_audio_or_playback_claimed": false,
+    "production_bundle_approved": false,
+    "certification_claimed": false,
+    "wave71_activation_claimed": false
+  }
+}
