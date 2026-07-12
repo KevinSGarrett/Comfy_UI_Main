@@ -38,3 +38,11 @@ Camera planning affects:
 ## Required QA
 
 Every image output should be scored against the camera plan before promotion.
+
+## Evidence boundary
+
+Camera acceptance is bound to the exact compiled request, profile, runtime output,
+and strict visual review. A full-body result from another lane or control workflow
+may support framing research, but it cannot supersede a failed required-region
+visibility check for the compiler-bound sample. Landmark presence is not proof
+that a hand, foot, face, or other requested region is fully visible and inspectable.

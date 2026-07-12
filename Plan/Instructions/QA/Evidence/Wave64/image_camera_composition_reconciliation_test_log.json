@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-12T11:55:23-05:00",
+  "tracker_id": "TRK-W64-011",
+  "result": "pass_split_state_camera_composition_blocker_preserved",
+  "validation_gates": {
+    "camera_spec_check": {
+      "status": "pass_compiler_bound",
+      "checks": [
+        "ICC-001",
+        "ICC-002",
+        "ICC-003",
+        "ICC-004",
+        "ICC-010"
+      ]
+    },
+    "crop_boundary_check": {
+      "status": "blocked_required_hands_not_fully_visible",
+      "checks": [
+        "ICC-008",
+        "ICC-009",
+        "ICC-013",
+        "ICC-014",
+        "ICC-016"
+      ]
+    },
+    "composition_score": {
+      "status": "pass_score_100_with_visibility_override",
+      "score": 100,
+      "checks": [
+        "ICC-005",
+        "ICC-006",
+        "ICC-007",
+        "ICC-012",
+        "ICC-017"
+      ]
+    },
+    "visual_runtime_ready": {
+      "status": "blocked_strict_visual_mismatch",
+      "checks": [
+        "ICC-011",
+        "ICC-015",
+        "ICC-018",
+        "ICC-019",
+        "ICC-020"
+      ]
+    }
+  },
+  "checks": [
+    {
+      "name": "ICC-001_row011_contract_exact",
+      "result": "pass"
+    },
+    {
+      "name": "ICC-002_source_exact_binding_rule",
+      "result": "pass"
+    },
+    {
+      "name": "ICC-003_original_row_identity_exact",
+      "result": "pass"
+    },
+    {
+      "name": "ICC-004_original_unit_tests_pass",
+      "result": "pass"
+    },
+    {
+      "name": "ICC-005_camera_tools_present",
+      "result": "pass"
+    },
+    {
+      "name": "ICC-006_compiler_recompile_exact",
+      "result": "pass"
+    },
+    {
+      "name": "ICC-007_runtime_and_bindings_pass",
+      "result": "pass"
+    },
+    {
+      "name": "ICC-008_exactly_one_person_all_landmarks",
+      "result": "pass"
+    },
+    {
+      "name": "ICC-009_image_hash_and_dimensions_exact",
+      "result": "pass"
+    },
+    {
+      "name": "ICC-010_camera_spec_gate_pass",
+      "result": "pass"
+    },
+    {
+      "name": "ICC-011_visual_contract_valid",
+      "result": "pass"
+    },
+    {
+      "name": "ICC-012_full_body_camera_intent_pass",
+      "result": "pass"
+    },
+    {
+      "name": "ICC-013_head_feet_and_margins_pass",
+      "result": "pass"
+    },
+    {
+      "name": "ICC-014_hands_visibility_fails",
+      "result": "pass"
+    },
+    {
+      "name": "ICC-015_required_region_visibility_fails",
+      "result": "pass"
+    },
+    {
+      "name": "ICC-016_crop_boundary_gate_blocked",
+      "result": "pass"
+    },
+    {
+      "name": "ICC-017_composition_score_preserved",
+      "result": "pass"
+    },
+    {
+      "name": "ICC-018_visual_runtime_gate_blocked",
+      "result": "pass"
+    },
+    {
+      "name": "ICC-019_w70_adjacent_lane_non_superseding",
+      "result": "pass"
+    },
+    {
+      "name": "ICC-020_w70_done_scope_not_wave10",
+      "result": "pass"
+    }
+  ],
+  "summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  }
+}

@@ -1,3 +1,11 @@
+## Wave64 Row011 Camera Framing And Composition Strictness - 2026-07-12T11:55:23-05:00
+
+`TRK-W64-011` / `ITEM-W64-011` remains `Blocked_Visual_Runtime_Composition_Mismatch`. The exact Wave10 compiler-bound request passes 22 tests, deterministic plan/profile binding, local runtime, one-person/18-landmark detection, camera intent, full-body framing, and composition score 100. Direct Codex visual review confirms both hands remain partly hidden in trouser pockets, so the required-region crop and strict visual-runtime gates fail. Later W70 OpenPose full-body robustness belongs to a different lane/control workflow and explicitly lacks target-runtime/final-lane certification; it is supportive but cannot supersede this blocker. The reconciliation audit passes 20/20 checks. No new generation, AWS, EC2, mask use/promotion, Jira, or Wave71+ action occurred.
+
+Next safe local action in strict sequence: `TRK-W64-012 / ITEM-W64-012`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/image_camera_composition.json`; `Plan/Instructions/QA/Evidence/Wave64/IMAGE_CAMERA_COMPOSITION_RECONCILIATION_20260712T115523-0500.json`; `Plan/Tracker/Evidence/IMAGE_CAMERA_COMPOSITION_RECONCILIATION_20260712T115523-0500.json`.
+
 ## Wave64 Row010 Character Identity And Multi-Character Separation - 2026-07-12T11:46:33-05:00
 
 `TRK-W64-010` / `ITEM-W64-010` is `Blocked_Identity_Reference_Proof_Missing_Separation_And_Merge_Rejection_Pass`. Existing W66/W69 runtime and visual evidence plus direct Codex review support exactly two distinct people, separate body/region ownership, depth ordering, contact ownership, and strict rejection of wrong handshake/clasp interactions. These artifacts do not bind either generated person to a unique `character_id`, isolated identity references, and a per-character comparison crop, so `identity_reference_check` remains blocked. The split-state audit passes 20/20 checks. No new generation, AWS, EC2, mask use/promotion, Jira, or Wave71+ action occurred.

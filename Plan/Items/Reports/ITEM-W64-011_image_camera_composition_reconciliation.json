@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-12T11:55:23-05:00",
+  "tracker_id": "TRK-W64-011",
+  "item_id": "ITEM-W64-011",
+  "status": "Blocked_Visual_Runtime_Composition_Mismatch",
+  "exact_blocker": "The exact Wave10 output keeps full-body framing but both hands are partly hidden in trouser pockets instead of fully visible and inspectable.",
+  "codex_visual_review": {
+    "reviewed_existing_image_only": true,
+    "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave10_camera_full_body_realvisxl_seed7152026101_20260711T112700-0500/images/wave10_camera_full_body_7152026101_00001_.png",
+    "image_sha256": "f3921e7bf7af9262989a0e4ca70aa4566fca3603c2c014a9eb6437da4ae42aa1",
+    "findings": [
+      "One adult is centered in an eye-level full-body portrait with complete hair and both shoes inside the frame.",
+      "Headroom, footroom, and side margins are balanced and the image has no obvious global composition defect.",
+      "Both hands are visibly inserted into trouser pockets; only partial hands/wrists are exposed, so the requested open inspectable hands are absent."
+    ]
+  },
+  "non_superseding_adjacent_evidence": {
+    "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_OPENPOSE_V6_FULL_BODY_MULTISEED_ROBUSTNESS_QA_20260711T045000-0500.json",
+    "lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+    "reason": "different OpenPose lane/control workflow; local robustness only; no target-runtime or final-lane certification"
+  },
+  "evidence": [
+    "Plan/Instructions/QA/Evidence/Wave64/image_camera_composition.json",
+    "Plan/Instructions/QA/Evidence/Wave64/IMAGE_CAMERA_COMPOSITION_RECONCILIATION_20260712T115523-0500.json",
+    "Plan/Tracker/Evidence/IMAGE_CAMERA_COMPOSITION_RECONCILIATION_20260712T115523-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/image_camera_composition_reconciliation_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-011_image_camera_composition_reconciliation.json",
+    "Plan/Tracker/Evidence/Wave64/image_camera_composition.json",
+    "Plan/Tracker/Evidence/Wave64/image_camera_composition_test_log.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAVE10_CAMERA_COMPILER_FULL_BODY_VISUAL_QA_20260711T113100-0500.json"
+  ],
+  "next_action": "Proceed to TRK-W64-012 / ITEM-W64-012 in strict sequence. Reopen Row011 only for a new Wave10-compiled, scope-bound sample with both hands fully visible; do not reuse W70 OpenPose evidence as a substitute."
+}
