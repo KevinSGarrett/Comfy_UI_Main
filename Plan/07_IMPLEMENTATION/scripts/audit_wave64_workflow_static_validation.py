@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import argparse
 import csv
+import hashlib
 import json
 from collections import Counter
 from datetime import datetime
@@ -17,6 +19,7 @@ STAMP = NOW.strftime("%Y%m%dT%H%M%S-0500")
 
 QA_DIR = PLAN_ROOT / "Instructions/QA/Evidence/Wave64"
 TRACKER_EVIDENCE_DIR = PLAN_ROOT / "Tracker/Evidence"
+TRACKER_CANONICAL_MIRROR = TRACKER_EVIDENCE_DIR / "Wave64/workflow_static_validation.json"
 HYDRATION_DIR = PLAN_ROOT / "Instructions/Hydration_Rehydration"
 RUNTIME_READINESS_DIR = PLAN_ROOT / "Instructions/QA/Evidence/Runtime_Readiness"
 
@@ -70,6 +73,17 @@ def read_json(path: Path) -> object:
     return json.loads(path.read_text(encoding="utf-8-sig"))
 
 
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as f:
+        while True:
+            chunk = f.read(1024 * 1024)
+            if not chunk:
+                break
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
 def write_json(path: Path, payload: object) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
@@ -84,14 +98,31 @@ def write_csv(path: Path, rows: list[dict[str, object]]) -> None:
         writer.writerows(rows)
 
 
+def is_valid_raw_object_info_map(candidate: object) -> bool:
+    if not isinstance(candidate, dict):
+        return False
+    if len(candidate) < 100:
+        return False
+    if "KSampler" not in candidate or "SaveImage" not in candidate:
+        return False
+    return all(isinstance(value, dict) for value in candidate.values())
+
+
 def latest_object_info() -> tuple[Path | None, dict[str, object]]:
     for path in sorted(RUNTIME_READINESS_DIR.glob("*.json"), key=lambda p: p.stat().st_mtime, reverse=True):
         try:
             payload = read_json(path)
         except Exception:
             continue
-        if isinstance(payload, dict) and isinstance(payload.get("object_info"), dict):
-            return path, payload["object_info"]
+        if not isinstance(payload, dict):
+            continue
+        candidates = []
+        if "object_info" in payload:
+            candidates.append(payload.get("object_info"))
+        candidates.append(payload)
+        for candidate in candidates:
+            if is_valid_raw_object_info_map(candidate):
+                return path, dict(candidate)
     return None, {}
 
 
@@ -221,7 +252,7 @@ def validate_lane(lane: dict[str, object], object_info: dict[str, object]) -> di
     smoke_path = resolve_project_path(lane.get("smoke_request"))
     runtime_path = resolve_project_path(lane.get("runtime_requirements"))
     patch_path = resolve_project_path(lane.get("patch_points"))
-    issues: list[str] = []
+    structural_issues: list[str] = []
     parse_pass = True
     workflow: dict[str, object] = {}
     smoke: dict[str, object] = {}
@@ -234,13 +265,13 @@ def validate_lane(lane: dict[str, object], object_info: dict[str, object]) -> di
         ("patch_points", patch_path),
     ]:
         if not path.exists():
-            issues.append(f"{label}_missing:{path}")
+            structural_issues.append(f"{label}_missing:{path}")
             parse_pass = False
             continue
         try:
             data = read_json(path)
         except Exception as exc:
-            issues.append(f"{label}_json_parse_failed:{exc}")
+            structural_issues.append(f"{label}_json_parse_failed:{exc}")
             parse_pass = False
             continue
         if label == "workflow" and isinstance(data, dict):
@@ -252,38 +283,59 @@ def validate_lane(lane: dict[str, object], object_info: dict[str, object]) -> di
         elif label == "patch_points" and isinstance(data, dict):
             patch_points = data
         else:
-            issues.append(f"{label}_not_object")
+            structural_issues.append(f"{label}_not_object")
             parse_pass = False
+    workflow_sha256 = sha256_file(workflow_path) if workflow_path.exists() else ""
+    smoke_request_sha256 = sha256_file(smoke_path) if smoke_path.exists() else ""
+    runtime_requirements_sha256 = sha256_file(runtime_path) if runtime_path.exists() else ""
+    patch_points_sha256 = sha256_file(patch_path) if patch_path.exists() else ""
     if workflow:
-        issues.extend(validate_api_links(workflow))
+        structural_issues.extend(validate_api_links(workflow))
         if not any(isinstance(node, dict) and node.get("class_type") == "SaveImage" for node in workflow.values()):
-            issues.append("missing_SaveImage_node")
+            structural_issues.append("missing_SaveImage_node")
     if workflow and patch_points:
-        issues.extend(validate_patch_points(workflow, patch_points))
+        structural_issues.extend(validate_patch_points(workflow, patch_points))
     if smoke:
-        issues.extend(validate_smoke_request(smoke))
+        structural_issues.extend(validate_smoke_request(smoke))
     if workflow and runtime_req:
-        issues.extend(validate_runtime_requirements(workflow, runtime_req))
+        structural_issues.extend(validate_runtime_requirements(workflow, runtime_req))
 
     class_types = sorted({str(node.get("class_type")) for node in workflow.values() if isinstance(node, dict) and node.get("class_type")})
-    object_info_is_raw_node_map = bool(object_info) and not {"status", "node_count"}.issubset(set(object_info.keys()))
+    object_info_is_raw_node_map = is_valid_raw_object_info_map(object_info)
     missing_object_info = [node_type for node_type in class_types if object_info_is_raw_node_map and node_type not in object_info]
+    object_info_issues: list[str] = []
     if not object_info:
-        issues.append("object_info_snapshot_missing")
+        object_info_issues.append("object_info_snapshot_missing")
     elif not object_info_is_raw_node_map:
-        issues.append("object_info_raw_node_class_map_unavailable")
+        object_info_issues.append("object_info_raw_node_class_map_unavailable")
     elif missing_object_info:
-        issues.extend(f"object_info_missing_node:{node_type}" for node_type in missing_object_info)
+        object_info_issues.extend(f"object_info_missing_node:{node_type}" for node_type in missing_object_info)
 
     refs = collect_model_refs(workflow)
     local_hits = model_local_hits(refs)
     missing_local_refs = [ref for ref in refs if ref not in local_hits]
-    issues.extend(f"local_model_reference_missing:{ref}" for ref in missing_local_refs)
+    local_model_issues = [f"local_model_reference_missing:{ref}" for ref in missing_local_refs]
+    issues = [*structural_issues, *object_info_issues, *local_model_issues]
+    structural_static_pass = parse_pass and not structural_issues
+    object_info_static_pass = not object_info_issues
+    local_model_dependency_pass = not local_model_issues
+    runtime_proof_present = False
     result = "PASS" if parse_pass and not issues else "FAIL"
     return {
         "lane_id": lane_id,
         "workflow": rel(workflow_path) if workflow_path.exists() else str(workflow_path),
+        "workflow_sha256": workflow_sha256,
+        "smoke_request_sha256": smoke_request_sha256,
+        "runtime_requirements_sha256": runtime_requirements_sha256,
+        "patch_points_sha256": patch_points_sha256,
         "parse_pass": parse_pass,
+        "structural_static_pass": structural_static_pass,
+        "structural_issue_count": len(structural_issues),
+        "object_info_static_pass": object_info_static_pass,
+        "object_info_issue_count": len(object_info_issues),
+        "local_model_dependency_pass": local_model_dependency_pass,
+        "local_model_dependency_issue_count": len(local_model_issues),
+        "runtime_proof_present": runtime_proof_present,
         "api_link_issue_count": len([issue for issue in issues if "missing_link_source" in issue or "output_index" in issue or "missing_class_type" in issue]),
         "issue_count": len(issues),
         "result": result,
@@ -354,9 +406,20 @@ def append_proof_log(payload: dict[str, object]) -> None:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Audit Wave64 workflow static validation evidence.")
+    parser.add_argument(
+        "--evidence-only",
+        action="store_true",
+        help="Write evidence outputs only and skip tracker/items/hydration/proof-log mutations.",
+    )
+    args = parser.parse_args()
     lanes_payload = read_json(ACTIVE_LANES)
     lanes = lanes_payload.get("lanes", []) if isinstance(lanes_payload, dict) else []
+    prior_payload = read_json(EVIDENCE) if EVIDENCE.exists() else None
+    prior_evidence_sha256 = sha256_file(EVIDENCE) if EVIDENCE.exists() else ""
+    active_lanes_sha256 = sha256_file(ACTIVE_LANES)
     object_info_path, object_info = latest_object_info()
+    object_info_evidence_sha256 = sha256_file(object_info_path) if object_info_path and object_info_path.exists() else ""
     lane_results = [validate_lane(lane, object_info) for lane in lanes if isinstance(lane, dict)]
     summary_counts = Counter(str(result["result"]) for result in lane_results)
     failed = [result for result in lane_results if result["result"] != "PASS"]
@@ -365,9 +428,11 @@ def main() -> None:
         for result in failed
         for issue in result.get("issues", [])
     ]
-    local_model_only_blocker = bool(failed) and bool(failed_issues) and all(
-        issue.startswith("local_model_reference_missing:")
-        for issue in failed_issues
+    local_model_only_blocker = bool(failed) and all(
+        result.get("structural_static_pass")
+        and result.get("object_info_static_pass")
+        and not result.get("local_model_dependency_pass")
+        for result in failed
     )
     missing_local_model_references = sorted({
         str(ref)
@@ -381,6 +446,55 @@ def main() -> None:
         if local_model_only_blocker
         else "blocked_workflow_static_validation_api_contract_or_object_info_gaps"
     )
+    current_lane_ids = sorted(str(result.get("lane_id", "")) for result in lane_results if str(result.get("lane_id", "")))
+    prior_lane_ids = []
+    historical_hash_comparison_available = False
+    prior_lane_hashes_by_id: dict[str, dict[str, str]] = {}
+    if isinstance(prior_payload, dict):
+        prior_lane_ids = sorted(
+            str(entry.get("lane_id", ""))
+            for entry in prior_payload.get("lane_results", [])
+            if isinstance(entry, dict) and str(entry.get("lane_id", ""))
+        )
+        historical_hash_comparison_available = all(
+            isinstance(entry, dict)
+            and all(
+                isinstance(entry.get(key), str) and bool(entry.get(key))
+                for key in [
+                    "workflow_sha256",
+                    "smoke_request_sha256",
+                    "runtime_requirements_sha256",
+                    "patch_points_sha256",
+                ]
+            )
+            for entry in prior_payload.get("lane_results", [])
+            if isinstance(entry, dict)
+        ) and bool(prior_payload.get("lane_results"))
+        if historical_hash_comparison_available:
+            for entry in prior_payload.get("lane_results", []):
+                if not isinstance(entry, dict):
+                    continue
+                lane_id = str(entry.get("lane_id", ""))
+                if not lane_id:
+                    continue
+                prior_lane_hashes_by_id[lane_id] = {
+                    "workflow_sha256": str(entry.get("workflow_sha256", "")),
+                    "smoke_request_sha256": str(entry.get("smoke_request_sha256", "")),
+                    "runtime_requirements_sha256": str(entry.get("runtime_requirements_sha256", "")),
+                    "patch_points_sha256": str(entry.get("patch_points_sha256", "")),
+                }
+    added_lane_ids = sorted(set(current_lane_ids) - set(prior_lane_ids))
+    removed_lane_ids = sorted(set(prior_lane_ids) - set(current_lane_ids))
+    current_lane_hashes_by_id = {
+        str(result["lane_id"]): {
+            "workflow_sha256": str(result.get("workflow_sha256", "")),
+            "smoke_request_sha256": str(result.get("smoke_request_sha256", "")),
+            "runtime_requirements_sha256": str(result.get("runtime_requirements_sha256", "")),
+            "patch_points_sha256": str(result.get("patch_points_sha256", "")),
+        }
+        for result in lane_results
+    }
+
     payload: dict[str, object] = {
         "schema_version": "1.0",
         "evidence_id": f"WORKFLOW_STATIC_VALIDATION_{STAMP}",
@@ -391,7 +505,9 @@ def main() -> None:
         "task": "Validate active base-generation ComfyUI API workflows before runtime.",
         "protocol": rel(PROTOCOL),
         "active_lanes": rel(ACTIVE_LANES),
+        "active_lanes_sha256": active_lanes_sha256,
         "object_info_evidence": rel(object_info_path) if object_info_path else "",
+        "object_info_evidence_sha256": object_info_evidence_sha256,
         "lane_count": len(lane_results),
         "summary_counts": dict(summary_counts),
         "failed_lane_count": len(failed),
@@ -409,6 +525,19 @@ def main() -> None:
         },
         "blocking_model_references": missing_local_model_references,
         "qa_decision": qa_decision,
+        "runtime_proof_present": False,
+        "prior_canonical_evidence": {
+            "path": rel(EVIDENCE),
+            "sha256": prior_evidence_sha256,
+            "exists": EVIDENCE.exists(),
+            "prior_lane_ids": prior_lane_ids,
+            "historical_hash_comparison_available": historical_hash_comparison_available,
+            "prior_lane_hashes_by_id": prior_lane_hashes_by_id,
+        },
+        "current_lane_ids": current_lane_ids,
+        "added_lane_ids": added_lane_ids,
+        "removed_lane_ids": removed_lane_ids,
+        "current_lane_hashes_by_id": current_lane_hashes_by_id,
         "next_step": (
             "Provision and hash the exact missing local model asset(s), or record an intentional lane deferral before runtime smoke."
             if local_model_only_blocker
@@ -420,15 +549,29 @@ def main() -> None:
         rel(STAMPED_EVIDENCE),
         rel(TRACKER_EVIDENCE),
         rel(LANE_CSV),
+        rel(TRACKER_CANONICAL_MIRROR),
     ]
     write_json(EVIDENCE, payload)
     write_json(STAMPED_EVIDENCE, payload)
     write_json(TRACKER_EVIDENCE, payload)
+    TRACKER_CANONICAL_MIRROR.parent.mkdir(parents=True, exist_ok=True)
+    TRACKER_CANONICAL_MIRROR.write_bytes(EVIDENCE.read_bytes())
     csv_rows = []
     for result in lane_results:
         csv_rows.append({
             "lane_id": result["lane_id"],
             "result": result["result"],
+            "workflow_sha256": result["workflow_sha256"],
+            "smoke_request_sha256": result["smoke_request_sha256"],
+            "runtime_requirements_sha256": result["runtime_requirements_sha256"],
+            "patch_points_sha256": result["patch_points_sha256"],
+            "structural_static_pass": result["structural_static_pass"],
+            "structural_issue_count": result["structural_issue_count"],
+            "object_info_static_pass": result["object_info_static_pass"],
+            "object_info_issue_count": result["object_info_issue_count"],
+            "local_model_dependency_pass": result["local_model_dependency_pass"],
+            "local_model_dependency_issue_count": result["local_model_dependency_issue_count"],
+            "runtime_proof_present": result["runtime_proof_present"],
             "issue_count": result["issue_count"],
             "node_count": result["node_count"],
             "model_reference_count": result["model_reference_count"],
@@ -439,6 +582,22 @@ def main() -> None:
             "workflow": result["workflow"],
         })
     write_csv(LANE_CSV, csv_rows)
+
+    if args.evidence_only:
+        print(json.dumps({
+            "evidence": str(EVIDENCE),
+            "stamped_evidence": str(STAMPED_EVIDENCE),
+            "tracker_evidence": str(TRACKER_EVIDENCE),
+            "tracker_canonical_mirror": str(TRACKER_CANONICAL_MIRROR),
+            "lane_csv": str(LANE_CSV),
+            "qa_decision": qa_decision,
+            "lane_count": len(lane_results),
+            "summary_counts": dict(summary_counts),
+            "failed_lane_count": len(failed),
+            "evidence_only": True,
+            "historical_hash_comparison_available": historical_hash_comparison_available,
+        }, indent=2))
+        return
 
     note = (
         f"Wave64 workflow static validation {STAMP}: checked {len(lane_results)} active base-generation API workflows; "

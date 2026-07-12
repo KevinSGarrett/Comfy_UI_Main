@@ -1,3 +1,9 @@
+## Immediate Next Action - Wave64 Workflow Static Validation Current 10-Lane Flux Block - 2026-07-12T04:57:00-05:00
+
+Start from `Plan/Instructions/QA/Evidence/Wave64/workflow_static_validation.json`. `TRK-W64-036` / `ITEM-W64-036` now records exact hashes for all ten current active workflows. Nine lanes pass; `flux1_dev_primary_base` passes structural and saved-object-info checks but fails `local_model_reference_missing:flux1-dev-fp8.safetensors`. Preserve the older nine-lane pass as historical scoped evidence and keep the current row `Blocked_Flux1_License_And_Local_Model_Dependency_Missing`.
+
+Continue with one bounded duplicate check of `TRK-W64-037` / `ITEM-W64-037` against existing workflow runtime-smoke evidence. Do not install Flux, infer license acceptance, start EC2, rerun completed SDXL lanes, consume candidate masks as truth, rerun Wave70 hard gates, activate Wave71+, recreate legacy/cloud work, or switch to Jira bookkeeping.
+
 ## Immediate Next Action - Wave64 Strict QA Master Protocol Certified - 2026-07-12T04:25:00-05:00
 
 Start from `Plan/Instructions/QA/Evidence/Wave64/qa_master_protocol.json`. `TRK-W64-035` / `ITEM-W64-035` is complete: the fail-closed conformance evaluator and current QA/done helpers pass 50/50 isolated Windows cases, the canonical hash-bound packet exits `0` with every gate true and zero failures/blockers, and final current-hash review reports zero unresolved HIGH/MEDIUM findings.

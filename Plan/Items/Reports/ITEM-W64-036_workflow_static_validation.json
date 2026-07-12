@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0",
+  "report_id": "ITEM-W64-036-WORKFLOW-STATIC-VALIDATION-20260712T045700-0500",
+  "timestamp": "2026-07-12T04:57:00-05:00",
+  "item_id": "ITEM-W64-036",
+  "tracker_id": "TRK-W64-036",
+  "workstream": "workflow_static_validation",
+  "status": "Blocked_Flux1_License_And_Local_Model_Dependency_Missing",
+  "row_complete": false,
+  "historical_scope": {
+    "prior_evidence_id": "WORKFLOW_STATIC_VALIDATION_20260708T231150-0500",
+    "prior_lane_count": 9,
+    "prior_pass_count": 9,
+    "prior_evidence_sha256": "7fdc538df22b92c8d367deb19c6293a26366f942c44fab9bc8a32bc73f759ee7",
+    "preserved_as_historical_truth": true,
+    "historical_workflow_hash_comparison_available": false
+  },
+  "current_scope": {
+    "active_lanes_sha256": "e564a2a654b40add3202b9aead9d78317670592eea1fbf0e68a5a0a16f7bc05b",
+    "lane_count": 10,
+    "pass_count": 9,
+    "fail_count": 1,
+    "added_lane_ids": [
+      "flux1_dev_primary_base"
+    ],
+    "removed_lane_ids": [],
+    "all_workflow_hashes_recorded": true,
+    "runtime_proof_present": false
+  },
+  "flux1_dev_primary_base": {
+    "workflow_sha256": "ff2de9da4e818b688eda367da24712f01329b9009487a56058aab4d8649c0dc0",
+    "runtime_requirements_sha256": "6a87e9515e166589339f9f29f2c3c286a7fc558a48df0308f91a20683800ed6b",
+    "structural_static_pass": true,
+    "object_info_static_pass": true,
+    "local_model_dependency_pass": false,
+    "runtime_proof_present": false,
+    "exact_issue": "local_model_reference_missing:flux1-dev-fp8.safetensors",
+    "license_acceptance_asserted": false,
+    "automated_install_authorized": false
+  },
+  "object_info_boundary": {
+    "snapshot": "Plan/Instructions/QA/Evidence/Runtime_Readiness/BASE_GENERATION_RUN_PACKAGE_OBJECT_INFO_SNAPSHOT_20260709T005603-0500.json",
+    "sha256": "e3881369874f85a48fdeada2ad2a10d7ac90bc2366993badc97acc26fa4da3cc",
+    "visible_node_type_count": 855,
+    "saved_static_snapshot_only": true,
+    "live_runtime_proof": false
+  },
+  "validation": {
+    "validator_compile": "pass",
+    "evidence_only_exit_code": 0,
+    "watched_ledger_hydration_files_changed": 0,
+    "canonical_tracker_mirror_exact": true,
+    "stamped_instruction_tracker_mirror_exact": true,
+    "remaining_high_findings": 0,
+    "remaining_medium_findings": 0
+  },
+  "evidence": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/workflow_static_validation.json",
+      "sha256": "13b722d4a880a9fbeee6c415ba04676a4096bc17f0966df693aed2718b7c54bf"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/workflow_static_validation_lanes_20260712T045246-0500.csv",
+      "sha256": "3375242af346bc79232ce782fade23aecc576a78681809592c71716af329c85b"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/audit_wave64_workflow_static_validation.py",
+      "sha256": "b10e902fdcb3566f9be43be9c3d7e599ec6ffe2bcdd9e2978083d9efc72ae4b0"
+    },
+    {
+      "path": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T045341-0500_wave64_row036_current_evidence_closure_review/handoff_record.json",
+      "sha256": "0e793a89e5573deef45c641fedc831841114a3dea64c36098a8b6793a46004ab"
+    }
+  ],
+  "runtime_boundaries": {
+    "comfyui_contacted": false,
+    "generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "model_installed": false,
+    "mask_truth_consumed": false,
+    "mask_promotion_executed": false,
+    "wave70_hard_gate_executed": false,
+    "wave71_activated": false
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Flux1_License_And_Local_Model_Dependency_Missing",
+      "reason": "The current tenth active lane references flux1-dev-fp8.safetensors, which is absent locally. License acceptance is not asserted, so automation cannot install it or claim dependency, model-load, runtime, output, or visual proof."
+    }
+  ],
+  "next_action": "Preserve the nine-lane historical pass and current ten-lane blocker; continue to TRK-W64-037 / ITEM-W64-037 with one duplicate check of existing workflow runtime-smoke evidence without starting EC2 or rerunning completed lanes."
+}

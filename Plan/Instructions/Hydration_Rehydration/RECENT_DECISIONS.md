@@ -1,3 +1,10 @@
+## 2026-07-12T04:57:00-05:00 - Preserve scoped passes when the active lane set grows
+
+- The 2026-07-08 Row036 nine-lane pass remains historical truth; it is not rewritten by a later tenth lane.
+- Current all-lane acceptance requires a one-time hash-bound refresh after `ACTIVE_LANES.json` changes.
+- Keep structural, saved object-info, local dependency, and runtime proof as separate dimensions.
+- Flux's current structural/object-info pass cannot override the missing checkpoint or infer license acceptance, install authorization, runtime proof, or visual quality.
+
 ## 2026-07-12T04:25:00-05:00 - Strict QA completion is independently derived
 
 - A done record may claim completion gates, but the Row035 evaluator independently recomputes every gate from hash-bound implementation scope, passing test/QA evidence, tracker/item state, manifest membership, retry history, and exact record bindings.

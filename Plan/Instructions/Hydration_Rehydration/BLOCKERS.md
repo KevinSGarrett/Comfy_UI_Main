@@ -1,3 +1,7 @@
+## Row036 Current Ten-Lane Static Scope Blocked By Flux License And Local Model Dependency - 2026-07-12T04:57:00-05:00
+
+The preserved 2026-07-08 evidence remains a valid nine-lane scoped pass. The current manifest has a tenth lane, `flux1_dev_primary_base`; its workflow structure and all required node classes pass against the saved 855-node object-info snapshot, but `flux1-dev-fp8.safetensors` is absent locally. Automation has not asserted the noncommercial license acceptance and may not install the model. This blocks current all-lane dependency completion and all Flux model-load/runtime/output/visual claims, but does not reopen the nine passed SDXL lanes or block unrelated non-Flux work.
+
 ## Canonical Base Robustness Still Failed; OpenPose Remediation Is Local-Only - 2026-07-11T07:43:00-05:00
 
 The missing materially different composition-control route is resolved locally: OpenPose passes the same two formerly failing seeds `2/2`. This does not rewrite the canonical Base lane's unconditioned `0/2` robustness result, transfer OpenPose evidence into Base ownership, establish target-runtime behavior, or authorize final Base/OpenPose certification. Seed `7152026254` retains mild contact-wrist stiffness. Any final route adoption requires an explicit ownership decision and scope-matched target-runtime proof.

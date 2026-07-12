@@ -1,3 +1,13 @@
+## Wave64 Current 10-Lane Workflow Static Validation - 2026-07-12T04:57:00-05:00
+
+One evidence-only refresh after the active lane set changed from nine to ten. Nine lanes pass; Flux passes structure/object-info and remains blocked on license/local-model dependency. No runtime execution occurred.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Wave64/workflow_static_validation.json`
+- `Plan/Instructions/QA/Evidence/Wave64/WORKFLOW_STATIC_VALIDATION_20260712T045246-0500.json`
+- `Plan/Tracker/Evidence/WORKFLOW_STATIC_VALIDATION_20260712T045246-0500.json`
+- `Plan/Instructions/QA/Evidence/Wave64/workflow_static_validation_lanes_20260712T045246-0500.csv`
+
 ## Wave70 InsightFace 106-Point Eye Route Evaluation - 2026-07-10T08:04:16-05:00
 
 - Installed local runtime 106-point authority dependencies into the ComfyUI venv: `wheel`, `insightface`, `onnx`, `onnxruntime`, and `ml_dtypes`; `onnxruntime-gpu` was already present.
