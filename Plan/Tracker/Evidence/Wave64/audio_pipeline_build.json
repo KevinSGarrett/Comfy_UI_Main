@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "evidence_id": "W64-AUDIO-PIPELINE-BUILD-20260711T163300-0500",
-  "timestamp": "2026-07-11T16:33:00-05:00",
+  "evidence_id": "W64-AUDIO-PIPELINE-BUILD-20260712T161737-0500",
+  "timestamp": "2026-07-12T16:17:37-05:00",
   "tracker_id": "TRK-W64-025",
   "item_id": "ITEM-W64-025",
   "source_citation": "Plan/05_AUDIO_SYSTEM/AUDIO_GENERATION_AV_SYNC_BLUEPRINT.md",
@@ -17,7 +17,11 @@
     "computed_only_promotion": true,
     "synthetic_promotion_forbidden": true,
     "transactional_outputs": true,
-    "offline_local_validator_and_wrapper_preflight": true
+    "offline_local_validator_and_wrapper_preflight": true,
+    "deterministic_pcm_event_to_mixdown_builder": true,
+    "exact_sample_window_and_shared_rate_enforcement": true,
+    "clipping_and_loudness_gate_cross_validation": true,
+    "technical_proxy_measurements_disclosed": true
   },
   "implementation_artifacts": [
     {
@@ -26,7 +30,7 @@
     },
     {
       "path": "Plan/07_IMPLEMENTATION/scripts/score_wave30_audio_qa.py",
-      "sha256": "f2a0015c873338ea596ad18d9c0b65a4fcffd951a1e1feb36f1246a36199c26c"
+      "sha256": "6feea4eb144624b0b9c2698bcbd2a0548a187c273fd9ea0605fc6334655c91d1"
     },
     {
       "path": "Plan/07_IMPLEMENTATION/scripts/run_wave30_local_validation.py",
@@ -42,7 +46,7 @@
     },
     {
       "path": "Plan/08_SCHEMAS/wave30_audio_mix_manifest.schema.json",
-      "sha256": "5869e5d7873a60ed51900fd85c6f40270697fbd367c5af51608cac89274d09e6"
+      "sha256": "0296aaf8d4fd70b26d1ac9c5311633c93c159d6445a75696e6e752dcc097d2ed"
     },
     {
       "path": "Plan/08_SCHEMAS/wave30_audio_qa_report.schema.json",
@@ -50,13 +54,33 @@
     },
     {
       "path": "Plan/Instructions/QA/Scripts/test_wave30_audio_pipeline_strict.py",
-      "sha256": "e5e18c38a3aa2fcf872f3d1ab5d20b569d97899b8a9a7d3261adafc2a05ac666"
+      "sha256": "785f20c271c16f49b59b6a428f4941cec892616cb9c038ce330b23b68ccd3d80"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave30_audio_qa_scoring_rules.json",
+      "sha256": "d4a13bcf8a597ac86fa62ef86a6fa28844f5e8b643d2781571e9b18cbe0d5027"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/build_wave30_deterministic_audio_mix.py",
+      "sha256": "b503ae8db922ebe649722a0277dda200fd22583f8e390c8a967018b1b43199c4"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave30_deterministic_pcm_mixer.json",
+      "sha256": "39e9724f977f8d6b08da14708a724e40e1b20b3e2c92230fa75c2b942d9b4b60"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_build_wave30_deterministic_audio_mix.py",
+      "sha256": "4da9b0dcfbee5fa3c0446242a1fcfe67e32d28d492b40cb7c0acb51619dfa6e1"
     }
   ],
   "offline_validation": {
     "test_log": "Plan/Instructions/QA/Evidence/Wave64/audio_pipeline_build_test_log.json",
-    "test_log_sha256": "00ac384d7da3e9a8824e0942a4bdfe9ca79516e5bbdd5e9ebba5a02a69f888cd",
-    "tests_run": 13,
+    "test_log_sha256": "592e344947a248c456ceea6622aa19a05f212b4430471eb4ab049193bb9fb9e0",
+    "tests_run": 21,
+    "suite_breakdown": {
+      "deterministic_mix_builder": 7,
+      "existing_audio_pipeline_verifier": 14
+    },
     "test_failures": 0,
     "test_errors": 0,
     "test_skips": 0,
@@ -107,7 +131,32 @@
     "promotion_decision": "block",
     "production_eligible": false
   },
+  "synthetic_deterministic_mix_probe": {
+    "production_evidence": false,
+    "probe_root": "runtime_artifacts/wave64_audio_pipeline/deterministic_mix_probe_20260712T161737-0500",
+    "source_event_manifest": "runtime_artifacts/wave64_audio_pipeline/synthetic_probe_20260711T163155-0500/event_manifest.json",
+    "source_event_manifest_sha256": "1665be380b3b3d75d9908ffe0a1dbd7b85e942a516e1ca84d293b5815abc26c7",
+    "mixdown": "runtime_artifacts/wave64_audio_pipeline/deterministic_mix_probe_20260712T161737-0500/mixdown.wav",
+    "mixdown_sha256": "358c6dcef4442790decb0a5c03fb320154f9d1dd5b4618e301f9e6661a413cb5",
+    "mix_manifest": "runtime_artifacts/wave64_audio_pipeline/deterministic_mix_probe_20260712T161737-0500/mix_manifest.json",
+    "mix_manifest_sha256": "1d60bc74eed1078e3393aa45bd93da47e63f462db30cbf5ed832f7895b15ef36",
+    "build_record": "runtime_artifacts/wave64_audio_pipeline/deterministic_mix_probe_20260712T161737-0500/build_record.json",
+    "build_record_sha256": "61e28311213daad64a2df23307e5d17845e9a6689e1da92f27a63310f2b0ed5c",
+    "qa_report": "runtime_artifacts/wave64_audio_pipeline/deterministic_mix_probe_20260712T161737-0500/qa_report.json",
+    "qa_report_sha256": "929fce6a406a45a281cfe882de4569d0e06e0fab976754eb1bb813e0a5ebbeeb",
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "frame_count": 8000,
+    "clipping_detected": false,
+    "artifact_bindings_verified": true,
+    "runtime_proof_verified": false,
+    "audio_review_verified": false,
+    "certification_loudness_verified": false,
+    "promotion_decision": "block"
+  },
   "acceptance_gates": {
+    "deterministic_mix_builder_ready": true,
+    "synthetic_deterministic_mix_verified": true,
     "audio_workflow_structure": true,
     "event_and_artifact_manifest": true,
     "dialogue_voice_metadata_support": true,
@@ -129,6 +178,10 @@
     "claude_medium_findings_remediated": 2,
     "cursor_proof_correction": "runtime_artifacts/agent_handoffs/cursor/20260711T162144-0500_wave64_audio_pipeline_proof_correction/handoff_record.json",
     "claude_confirmation": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T162602-0500_wave64_audio_pipeline_review_confirmation/handoff_record.json",
+    "cursor_mix_builder_gap_review": "runtime_artifacts/agent_handoffs/cursor/20260712T160518-0500_row025_audio_mix_gap_retry/handoff_record.json",
+    "claude_mix_builder_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T161050-0500_row025_deterministic_audio_mixer_final_review/handoff_record.json",
+    "claude_mix_builder_high_findings_remediated": 1,
+    "claude_mix_builder_medium_findings_remediated": 4,
     "remaining_remediable_high_or_medium_findings": 0
   },
   "runtime": {
@@ -152,6 +205,11 @@
       "classification": "Blocked_Audio_Playback_Review_Missing",
       "scope": "audio_review",
       "reason": "No genuine playback review proves speaker identity, voice consistency, intelligibility, foley/action alignment, ambience/dialogue balance, clipping safety, mix balance, and AV sync."
+    },
+    {
+      "classification": "Blocked_Audio_Certification_Loudness_Authority_Missing",
+      "scope": "certification_loudness",
+      "reason": "The deterministic builder reports explicitly labeled PCM RMS/sample-peak technical proxies; no ITU-R BS.1770 integrated loudness or true-peak certification measurement exists."
     }
   ],
   "result": "blocked_audio_production_runtime_proof_missing",
@@ -160,7 +218,9 @@
   "strict_decision": {
     "row_complete": false,
     "offline_pipeline_and_schema_pass": true,
+    "deterministic_mix_builder_pass": true,
     "synthetic_technical_probe_pass": true,
+    "synthetic_deterministic_mix_probe_pass": true,
     "production_runtime_claimed": false,
     "audio_review_claimed": false,
     "final_audio_promotion_claimed": false,

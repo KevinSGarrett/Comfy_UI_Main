@@ -421,6 +421,28 @@ def _validate_av_sync(event_manifest: dict[str, Any], mix_manifest: dict[str, An
         raise ValueError("mix AV frame span must match mix_technical.duration_seconds within one frame")
 
 
+def _validate_mix_loudness(
+    mix_manifest: dict[str, Any], gate_statuses: dict[str, str], scoring_rules: dict[str, Any]
+) -> None:
+    loudness = mix_manifest.get("mix_loudness")
+    limits = scoring_rules.get("mix_loudness_limits")
+    if not isinstance(loudness, dict) or not isinstance(limits, dict):
+        raise ValueError("mix loudness values and scoring limits must be objects")
+    integrated = float(loudness["integrated_lufs"])
+    peak = float(loudness["true_peak_dbtp"])
+    if loudness.get("clipping_detected") and gate_statuses["clipping"] == "pass":
+        raise ValueError("clipping gate cannot pass when mix_loudness.clipping_detected is true")
+    if gate_statuses["clipping"] == "pass" and peak > float(limits["true_peak_dbtp_max"]):
+        raise ValueError("clipping gate cannot pass above the true-peak limit")
+    if gate_statuses["loudness"] == "pass" and not (
+        float(limits["integrated_lufs_min"]) <= integrated <= float(limits["integrated_lufs_max"])
+    ):
+        raise ValueError("loudness gate cannot pass outside integrated loudness limits")
+    methods = mix_manifest.get("measurement_methods")
+    if isinstance(methods, dict) and methods.get("certification_authority") is False and gate_statuses["loudness"] == "pass":
+        raise ValueError("loudness gate cannot pass from technical proxy measurements")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", required=True)
@@ -545,6 +567,7 @@ def main() -> int:
         mixdown_sha = _verify_mixdown_artifact(mix_manifest)
         _validate_mix_event_metadata(event_manifest, mix_manifest, required_lanes)
         _validate_av_sync(event_manifest, mix_manifest)
+        _validate_mix_loudness(mix_manifest, gate_statuses, scoring_rules)
         runtime_ok = False
         if gate_statuses["runtime_proof"] == "pass":
             runtime_ok = _load_and_validate_runtime_proof(

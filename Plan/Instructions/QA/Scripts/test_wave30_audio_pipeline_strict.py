@@ -659,6 +659,31 @@ class Wave30AudioPipelineStrictTests(unittest.TestCase):
             )
             self._score(score_input, qa_report, expect_ok=False)
 
+    def test_scorer_rejects_attested_loudness_and_clipping_contradictions(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            tmpdir = Path(tmp)
+            packet_path, event_manifest_path = self._base_event_packet(tmpdir)
+            self._compile(packet_path, event_manifest_path, expect_ok=True)
+            mix_manifest_path, _, _ = self._make_mix_manifest(tmpdir, event_manifest_path)
+            score_input = tmpdir / "score_input.json"
+            qa_report = tmpdir / "qa_report.json"
+            _write_json(score_input, self._score_input(event_manifest_path, mix_manifest_path))
+
+            mix_payload = json.loads(mix_manifest_path.read_text(encoding="utf-8"))
+            mix_payload["mix_loudness"]["clipping_detected"] = True
+            _write_json(mix_manifest_path, mix_payload)
+            score_payload = json.loads(score_input.read_text(encoding="utf-8"))
+            score_payload["mix_manifest_binding"]["sha256"] = _sha256(mix_manifest_path)
+            _write_json(score_input, score_payload)
+            self._score(score_input, qa_report, expect_ok=False)
+
+            mix_payload["mix_loudness"]["clipping_detected"] = False
+            mix_payload["mix_loudness"]["integrated_lufs"] = -30.0
+            _write_json(mix_manifest_path, mix_payload)
+            score_payload["mix_manifest_binding"]["sha256"] = _sha256(mix_manifest_path)
+            _write_json(score_input, score_payload)
+            self._score(score_input, qa_report, expect_ok=False)
+
     def test_scorer_rejects_invalid_or_tampered_mixdown_wav(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             tmpdir = Path(tmp)

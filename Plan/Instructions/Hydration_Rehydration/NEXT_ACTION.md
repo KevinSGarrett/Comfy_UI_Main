@@ -1,3 +1,11 @@
+## Wave64 Row025 Deterministic Audio Mix Build - 2026-07-12T16:17:37-05:00
+
+`TRK-W64-025` / `ITEM-W64-025` remains `Blocked_Audio_Production_Runtime_Proof_Missing`. The existing Wave30 verifier is now preceded by a deterministic PCM16 event-to-mix builder with exact artifact/sample/timing bindings, registry-defined gains, multichannel mono downmix, clipping rejection, transactional publication, pending proof artifacts, and explicit technical-proxy measurement disclosure. The builder and verifier pass 21/21 tests, and an 8,000-frame synthetic mix passes structural QA with runtime, playback, certification loudness, and promotion gates blocked. No AWS, EC2, ComfyUI, mask, Jira, or Wave71+ action occurred.
+
+Next safe local action in strict sequence: `TRK-W64-026` / `ITEM-W64-026`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/audio_pipeline_build.json`; `Plan/Instructions/QA/Evidence/Wave64/audio_pipeline_build_test_log.json`; `Plan/Items/Reports/ITEM-W64-025_audio_pipeline_build.json`.
+
 ## Wave64 Row024 Deterministic GIF Export - 2026-07-12T15:55:11-05:00
 
 `TRK-W64-024` / `ITEM-W64-024` remains `Blocked_Video_GIF_Production_Proof_Missing`. A deterministic manifest-to-GIF exporter now produces hash-bound GIF89a candidates with normalized frame order, exact timing, infinite-loop metadata, global palette, reserved transparency handling, and transactional output. The exporter and existing certifier jointly pass 26/26 tests, including direct rejection of sub-10ms timing. A six-frame synthetic probe passes all technical parity checks and correctly retains only runtime-proof and loop-playback-review blockers; no production, final-export, promotion, mask, AWS, EC2, Jira, or Wave71+ action occurred.

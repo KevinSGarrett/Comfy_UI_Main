@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "report_id": "ITEM-W64-025-AUDIO-PIPELINE-BUILD-20260711T163300-0500",
-  "timestamp": "2026-07-11T16:33:00-05:00",
+  "report_id": "ITEM-W64-025-AUDIO-PIPELINE-BUILD-20260712T161737-0500",
+  "timestamp": "2026-07-12T16:17:37-05:00",
   "item_id": "ITEM-W64-025",
   "tracker_id": "TRK-W64-025",
   "workstream": "audio_pipeline_build",
@@ -16,10 +16,17 @@
     "computed_only_promotion_ready": true,
     "strict_schemas_ready": true,
     "local_validator_and_wrapper_ready": true,
+    "deterministic_pcm_mix_builder_ready": true,
+    "clipping_and_loudness_gate_cross_validation_ready": true,
+    "technical_measurement_proxy_disclosure_ready": true,
     "synthetic_promotion_forbidden": true
   },
   "validation": {
-    "unit_tests_passed": 13,
+    "unit_tests_passed": 21,
+    "unit_test_suite_breakdown": {
+      "deterministic_mix_builder": 7,
+      "existing_audio_pipeline_verifier": 14
+    },
     "unit_test_failures": 0,
     "unit_test_skips": 0,
     "python_compile": "pass",
@@ -29,8 +36,14 @@
     "synthetic_pcm_probe": "technical_pass_promotion_blocked",
     "synthetic_event_count": 3,
     "synthetic_layers": ["ambience", "body_foley", "dialogue"],
+    "synthetic_deterministic_mix_probe": "technical_candidate_verified_promotion_blocked",
+    "synthetic_mixdown_sha256": "358c6dcef4442790decb0a5c03fb320154f9d1dd5b4618e301f9e6661a413cb5",
+    "synthetic_mix_frame_count": 8000,
+    "synthetic_mix_clipping_detected": false,
     "claude_high_findings_remediated": 2,
     "claude_medium_findings_remediated": 2,
+    "claude_mix_builder_high_findings_remediated": 1,
+    "claude_mix_builder_medium_findings_remediated": 4,
     "remaining_remediable_high_or_medium_findings": 0
   },
   "acceptance_gates": {
@@ -39,6 +52,8 @@
     "av_sync_check": true,
     "mixdown_hash_and_pcm_check": true,
     "proof_and_review_contracts": true,
+    "deterministic_mix_builder": true,
+    "synthetic_deterministic_mix_verified": true,
     "genuine_audio_engine_runtime": false,
     "genuine_audio_review_record": false,
     "final_audio_certification": false
@@ -51,16 +66,20 @@
     {
       "classification": "Blocked_Audio_Playback_Review_Missing",
       "reason": "No genuine playback review proves speaker/voice quality, intelligibility, foley alignment, ambience balance, clipping safety, mix balance, and AV sync."
+    },
+    {
+      "classification": "Blocked_Audio_Certification_Loudness_Authority_Missing",
+      "reason": "Only explicitly labeled PCM technical loudness/peak proxies exist; certification-grade integrated loudness and true-peak measurements remain missing."
     }
   ],
   "evidence": [
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/audio_pipeline_build.json",
-      "sha256": "a8567ba39311d2465ffab23ad262f9365fd588ba81d96d824d033ec16d564a91"
+      "sha256": "dfc3790d77e590d9495b71c517942ae64fc903b90eb6dc17931babcafb577cf7"
     },
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/audio_pipeline_build_test_log.json",
-      "sha256": "00ac384d7da3e9a8824e0942a4bdfe9ca79516e5bbdd5e9ebba5a02a69f888cd"
+      "sha256": "592e344947a248c456ceea6622aa19a05f212b4430471eb4ab049193bb9fb9e0"
     }
   ],
   "runtime": {
