@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "created_at": "2026-07-12T08:33:16-05:00",
+  "created_at": "2026-07-12T09:45:37-05:00",
   "tracker_id": "TRK-W64-060",
   "item_id": "ITEM-W64-060",
   "status": "Blocked_Final_End_To_End_Certification_Gates_Not_Met",
@@ -9,9 +9,9 @@
     "all_domain_rows_pass": {
       "result": "fail",
       "reason_codes": [
-        "48_rows_not_pass_like_pre_audit",
-        "24_rows_blocked_pre_audit",
-        "22_rows_required_pre_audit"
+        "45_rows_not_pass_like_current",
+        "28_rows_blocked_current",
+        "15_rows_required_current"
       ]
     },
     "media_reviews_pass": {
@@ -43,7 +43,10 @@
       "reason_codes": [
         "final_readiness_inputs_invalid",
         "nine_of_ten_lanes_blocked",
-        "runtime_dependent_requirements_unproven"
+        "row061_live_operations_authority_blocked",
+        "row064_prompt_runtime_alignment_blocked",
+        "row065_realvisxl_terminal_smoke_scope_only",
+        "row066_current_promotion_denied"
       ]
     },
     "release_manifest_pass": {
@@ -57,14 +60,14 @@
   },
   "tracker_state": {
     "row_count": 66,
-    "pass_like_count": 18,
-    "blocked_count": 25,
-    "required_count": 21
+    "pass_like_count": 21,
+    "blocked_count": 28,
+    "required_count": 15
   },
   "evidence": [
     "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
-    "Plan/Instructions/QA/Evidence/Wave64/FINAL_END_TO_END_CERTIFICATION_20260712T083316-0500.json",
-    "Plan/Tracker/Evidence/FINAL_END_TO_END_CERTIFICATION_20260712T083316-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/FINAL_END_TO_END_CERTIFICATION_20260712T094537-0500.json",
+    "Plan/Tracker/Evidence/FINAL_END_TO_END_CERTIFICATION_20260712T094537-0500.json",
     "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification_test_log.json",
     "Plan/Items/Reports/ITEM-W64-060_final_end_to_end_certification.json",
     "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
@@ -75,7 +78,13 @@
     "Plan/Instructions/QA/Evidence/Wave64/global_audio_review_not_local_only.json",
     "Plan/Instructions/QA/Evidence/Wave64/multimodal_cross_review.json",
     "Plan/11_RELEASES/WAVE47_SECOND_PASS_COMBINED_RELEASE_MANIFEST.json",
-    "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_20260711T211346-0500.json"
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_20260711T211346-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/autonomous_24_7_operations.json",
+    "Plan/Instructions/QA/Evidence/Wave64/observability_evidence_logs.json",
+    "Plan/Instructions/QA/Evidence/Wave64/failure_classification_rerun.json",
+    "Plan/Instructions/QA/Evidence/Wave64/prompt_negative_prompt_qa.json",
+    "Plan/Instructions/QA/Evidence/Wave64/realvisxl_lane_terminal_state.json",
+    "Plan/Instructions/QA/Evidence/Wave64/future_lane_promotion.json"
   ],
-  "next_action": "Advance with safe local TRK-W64-061 / ITEM-W64-061 24/7 operations safety; keep final certification blocked until every domain/media/audio/runtime/release gate passes."
+  "next_action": "Advance in strict sequence to TRK-W64-002 / ITEM-W64-002 project-control autonomy; keep final certification blocked until every domain/media/audio/runtime/release gate passes."
 }
