@@ -1,0 +1,223 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TARGET_ARCHITECTURE_20260712T101025-0500",
+  "created_iso": "2026-07-12T10:10:25-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-004",
+  "item_id": "ITEM-W64-004",
+  "status": "Completed_Target_Architecture_Contract_Pass_Project_Incomplete",
+  "row_complete": true,
+  "qa_decision": "target_architecture_contract_pass_project_incomplete",
+  "validation_gates": {
+    "architecture_traceability": {
+      "pass": true,
+      "checks": [
+        "TAR-001_row004_contract_exact",
+        "TAR-002_registry_schema_and_id",
+        "TAR-003_exact_nine_authority_domains",
+        "TAR-004_required_domains_present",
+        "TAR-005_architecture_layers_present",
+        "TAR-006_architecture_boundary_table_present",
+        "TAR-007_eight_step_cross_boundary_contract"
+      ]
+    },
+    "interface_contracts": {
+      "pass": true,
+      "checks": [
+        "TAR-008_local_authority_exact",
+        "TAR-009_github_lightweight_only",
+        "TAR-010_s3_not_planning_authority",
+        "TAR-011_ec2_gated_non_authority",
+        "TAR-012_model_registry_parseable",
+        "TAR-013_git_s3_ec2_strategy_consistent",
+        "TAR-014_lane_authority_exact"
+      ]
+    },
+    "runtime_boundary_check": {
+      "pass": true,
+      "checks": [
+        "TAR-015_current_ten_lane_parity",
+        "TAR-016_manifests_deny_runtime",
+        "TAR-017_qa_existence_not_pass",
+        "TAR-020_no_runtime_promotion_or_completion"
+      ]
+    },
+    "release_gate_mapping": {
+      "pass": true,
+      "checks": [
+        "TAR-018_release_gate_fail_closed",
+        "TAR-019_done_certification_complete_contract"
+      ]
+    }
+  },
+  "authority_domains": [
+    "local_project",
+    "github",
+    "model_registry",
+    "s3",
+    "ec2",
+    "workflow_lanes",
+    "qa_evidence",
+    "release_gate",
+    "done_certification"
+  ],
+  "current_runtime_boundary": {
+    "queue_lanes": 10,
+    "active_lanes": 10,
+    "ordered_parity": true,
+    "runtime_enabled_by_manifests": false
+  },
+  "release_boundary": {
+    "historical_decision": "release_with_runtime_boundaries",
+    "missing_proof_fails_closed": true,
+    "done_certification_scope_inheritance": false
+  },
+  "checks": [
+    {
+      "name": "TAR-001_row004_contract_exact",
+      "result": "pass"
+    },
+    {
+      "name": "TAR-002_registry_schema_and_id",
+      "result": "pass"
+    },
+    {
+      "name": "TAR-003_exact_nine_authority_domains",
+      "result": "pass"
+    },
+    {
+      "name": "TAR-004_required_domains_present",
+      "result": "pass"
+    },
+    {
+      "name": "TAR-005_architecture_layers_present",
+      "result": "pass"
+    },
+    {
+      "name": "TAR-006_architecture_boundary_table_present",
+      "result": "pass"
+    },
+    {
+      "name": "TAR-007_eight_step_cross_boundary_contract",
+      "result": "pass"
+    },
+    {
+      "name": "TAR-008_local_authority_exact",
+      "result": "pass"
+    },
+    {
+      "name": "TAR-009_github_lightweight_only",
+      "result": "pass"
+    },
+    {
+      "name": "TAR-010_s3_not_planning_authority",
+      "result": "pass"
+    },
+    {
+      "name": "TAR-011_ec2_gated_non_authority",
+      "result": "pass"
+    },
+    {
+      "name": "TAR-012_model_registry_parseable",
+      "result": "pass"
+    },
+    {
+      "name": "TAR-013_git_s3_ec2_strategy_consistent",
+      "result": "pass"
+    },
+    {
+      "name": "TAR-014_lane_authority_exact",
+      "result": "pass"
+    },
+    {
+      "name": "TAR-015_current_ten_lane_parity",
+      "result": "pass"
+    },
+    {
+      "name": "TAR-016_manifests_deny_runtime",
+      "result": "pass"
+    },
+    {
+      "name": "TAR-017_qa_existence_not_pass",
+      "result": "pass"
+    },
+    {
+      "name": "TAR-018_release_gate_fail_closed",
+      "result": "pass"
+    },
+    {
+      "name": "TAR-019_done_certification_complete_contract",
+      "result": "pass"
+    },
+    {
+      "name": "TAR-020_no_runtime_promotion_or_completion",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "safety_boundary": {
+    "aws_contacted": false,
+    "ec2_started": false,
+    "s3_mutated": false,
+    "github_mutated_by_audit": false,
+    "generation_executed": false,
+    "promotion_executed": false,
+    "mask_or_wave71_touched": false,
+    "jira_mutated": false
+  },
+  "project_completion": {
+    "level": "BELOW_LEVEL_7",
+    "full_project_complete": false,
+    "final_certification_decision": "blocked"
+  },
+  "source_hashes": [
+    {
+      "path": "Plan/02_TARGET_ARCHITECTURE/END_TO_END_ARCHITECTURE.md",
+      "sha256": "47e63ea1643c2c48e63247f0ffbd975ec43fa3cf226cbf23931a94222174c8fc"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/end_to_end_architecture_boundary_registry.json",
+      "sha256": "12b9fcf842089fb2c646903d364fd70a92511178b6f5baf8dfb408666a09fc4e"
+    },
+    {
+      "path": "Plan/02_TARGET_ARCHITECTURE/GITHUB_LOCAL_EC2_S3_DEVELOPMENT_STRATEGY.md",
+      "sha256": "d54438f7995585a31e74c075942c1a482d1693101315ce07c5de9c31eb0469cf"
+    },
+    {
+      "path": "Plan/Registries/Models/model_registry.jsonl",
+      "sha256": "60ce5bd6d86d6416474b5c66d8a023fb8e5e632f03072ab4ea05620736382b2f"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+      "sha256": "f6720781658e747ab8da5aa5bb6eb59989415cf2691b9d2204cf53a4ab027385"
+    },
+    {
+      "path": "Workflows/base_generation/ACTIVE_LANES.json",
+      "sha256": "e564a2a654b40add3202b9aead9d78317670592eea1fbf0e68a5a0a16f7bc05b"
+    },
+    {
+      "path": "Plan/02_TARGET_ARCHITECTURE/WAVE34_RELEASE_GATE_DECISION_ENGINE.md",
+      "sha256": "e673b5aec513068c58ab0199d415336eaedb8f211f4c56cff90731a7930728e1"
+    },
+    {
+      "path": "Plan/11_RELEASES/WAVE34_RELEASE_GATE_DECISION.json",
+      "sha256": "80a7f597e963ba510c39e6da728042038bf7fa827e0f7c7277e11ecd4d1080c0"
+    },
+    {
+      "path": "Plan/Instructions/QA/DONE_CERTIFICATION_EVIDENCE_PROTOCOL.md",
+      "sha256": "9944d2973861c2f4af7d954cf77abbcad9e90c53f5f860aea7453358889a4b7c"
+    }
+  ],
+  "next_action": "Proceed in strict sequence to TRK-W64-005 / ITEM-W64-005; keep runtime, release, masks, and Wave71+ fail-closed.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/target_architecture.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TARGET_ARCHITECTURE_20260712T101025-0500.json",
+    "Plan/Tracker/Evidence/TARGET_ARCHITECTURE_20260712T101025-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/target_architecture_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-004_target_architecture.json"
+  ]
+}
