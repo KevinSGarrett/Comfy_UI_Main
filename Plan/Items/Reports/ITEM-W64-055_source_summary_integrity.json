@@ -1,0 +1,74 @@
+{
+    "schema_version":  "1.0",
+    "created_iso":  "2026-07-12T07:50:28-05:00",
+    "tracker_id":  "TRK-W64-055",
+    "item_id":  "ITEM-W64-055",
+    "status":  "Evidence_Passed_Source_Summary_Integrity_Boundary_Active",
+    "inventory":  {
+                      "source_root":  "Plan/12_SOURCE_SUMMARIES",
+                      "file_count":  33,
+                      "json_count":  23,
+                      "markdown_count":  10,
+                      "invalid_json_count":  0,
+                      "duplicate_hash_groups":  [
+                                                    {
+                                                        "sha256":  "37bb79301f4d704b3404389b08bb75e4683eada4a6c74878c86eff8c656a3a00",
+                                                        "paths":  [
+                                                                      "Plan/12_SOURCE_SUMMARIES/source_snapshots/WAVE42_MAIN_FLOW_20260702.runtime_bound_snapshot.json",
+                                                                      "Plan/12_SOURCE_SUMMARIES/source_snapshots/WAVE42_MAIN_FLOW_20260702_WAVE13_SOURCE.json"
+                                                                  ],
+                                                        "classification":  "explicit_byte_identical_alias_pair"
+                                                    }
+                                                ]
+                  },
+    "promotion_boundary":  "Source summaries and snapshots are historical context only. Hash or link presence is not runtime proof and cannot promote an active surface by itself.",
+    "active_surface_registry":  {
+                                    "path":  "Plan/10_REGISTRIES/source_summary_active_surface_links.json",
+                                    "sha256":  "2a0c3ade4b41fc3492d16aba194b9ebf5ce575bc97ad11c19ee91234838a3eb9",
+                                    "source_link_count":  33,
+                                    "active_surfaces":  {
+                                                            "current_main_flow_registry":  {
+                                                                                               "path":  "Plan/10_REGISTRIES/current_main_flow_summary.json",
+                                                                                               "exists":  true,
+                                                                                               "sha256":  "14033e054cb22af00b8db18b1f5f4416c4a1654154e4dd3d6479dd8ecf440118",
+                                                                                               "binding_mode":  "content_hash"
+                                                                                           },
+                                                            "current_runtime_lane_queue":  {
+                                                                                               "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+                                                                                               "exists":  true,
+                                                                                               "sha256":  "f6720781658e747ab8da5aa5bb6eb59989415cf2691b9d2204cf53a4ab027385",
+                                                                                               "binding_mode":  "content_hash"
+                                                                                           },
+                                                            "source_plan_registry":  {
+                                                                                         "path":  "Plan/10_REGISTRIES/source_plans_zip_summary.json",
+                                                                                         "exists":  true,
+                                                                                         "sha256":  "752c7147ff2b2f59efbf514b39a181869f980707313fbab6011d41df138bafb2",
+                                                                                         "binding_mode":  "content_hash"
+                                                                                     },
+                                                            "source_tracker_registry":  {
+                                                                                            "path":  "Plan/10_REGISTRIES/source_tracker_summary.json",
+                                                                                            "exists":  true,
+                                                                                            "sha256":  "bccaad6909beefcf8888fe2d6b0067e6b9087cd2b3524143364098b6914f14a3",
+                                                                                            "binding_mode":  "content_hash"
+                                                                                        },
+                                                            "current_execution_tracker":  {
+                                                                                              "path":  "Plan/Tracker/wave64_end_to_end_strict_ai_tracker.csv",
+                                                                                              "exists":  true,
+                                                                                              "sha256":  null,
+                                                                                              "binding_mode":  "mutable_path_and_policy"
+                                                                                          }
+                                                        }
+                                },
+    "evidence":  [
+                     "Plan/Instructions/QA/Evidence/Wave64/source_summary_integrity.json",
+                     "Plan/Instructions/QA/Evidence/Wave64/SOURCE_SUMMARY_INTEGRITY_20260712T075028-0500.json",
+                     "Plan/Tracker/Evidence/SOURCE_SUMMARY_INTEGRITY_20260712T075028-0500.json",
+                     "Plan/Instructions/QA/Evidence/Wave64/source_summary_integrity_test_log.json",
+                     "Plan/Items/Reports/ITEM-W64-055_source_summary_integrity.json",
+                     "Plan/10_REGISTRIES/source_summary_active_surface_links.json",
+                     "runtime_artifacts/wave64/row055_source_summary_integrity/current_source_summary_inventory.json",
+                     "runtime_artifacts/wave64/row055_source_summary_integrity/row055_active_surface_links.json",
+                     "runtime_artifacts/wave64/row055_source_summary_integrity/row055_integrity_gate_results.json"
+                 ],
+    "next_action":  "Advance to TRK-W64-056 / ITEM-W64-056 advanced-additions integration coverage without treating source summaries as runtime truth."
+}
