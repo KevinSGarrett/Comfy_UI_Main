@@ -1,0 +1,194 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "REALVISXL_LANE_TERMINAL_STATE_20260712T092510-0500",
+  "created_iso": "2026-07-12T09:25:10-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-065",
+  "item_id": "ITEM-W64-065",
+  "lane_id": "sdxl_realvisxl_base_lane",
+  "status": "Completed_Current_RealVisXL_Lane_Terminal_State_Pass_With_Notes",
+  "row_complete": true,
+  "qa_decision": "terminal_runtime_smoke_chain_pass_reuse_required_scope_limited",
+  "terminal_chain": {
+    "model_path": "/home/ubuntu/ComfyUI/models/checkpoints/realvisxlV50_v50Bakedvae.safetensors",
+    "model_sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+    "static_proof_result": "ec2_static_proof_recorded",
+    "object_info_pass": true,
+    "workflow_smoke_run_id": "aws_gpu_workflow_smoke_20260706T132206-0500",
+    "workflow_smoke_result": "workflow_smoke_generation_complete",
+    "workflow_smoke_final_state": "stopped",
+    "pullback_status": "pullback_hashes_verified",
+    "pullback_file_count": 4,
+    "image_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T132206-0500/images/9_codex_sdxl_realvisxl_base_smoke_00001_.png",
+    "image_sha256": "8742f7a3cc83924f6f30289148b94b0bc2c662835447be7eeab8421e3e89db4e",
+    "image_dimensions": [
+      1024,
+      1024
+    ],
+    "technical_integrity": "pass",
+    "visual_qa_result": "pass_with_notes_for_runtime_smoke",
+    "visual_qa_score": 88,
+    "project_readiness": "pass_runtime_smoke_qa_complete",
+    "runtime_handoff": "handoff_runtime_smoke_qa_complete",
+    "no_rerun": true
+  },
+  "scope_limitations": [
+    "Minor beauty-retouch smoothness in skin texture; acceptable for runtime smoke but not a final hyperreal quality bar by itself.",
+    "The close crop prevents evaluation of hands, body proportions, clothing, and background, so this proof should not be overextended beyond image-generation/runtime viability."
+  ],
+  "integrity_notes": [
+    {
+      "classification": "historical_gate_field_inconsistency_non_blocking",
+      "source": "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_EC2_LANE_STATIC_PROOF_REALVISXL_AFTER_INSTALL_20260706T131129-0500.json",
+      "detail": "Static proof records auth result pass and safe-to-start true while account_match=false; later smoke, readiness, and handoff records carry account_match=true and successful stopped-state outcomes.",
+      "historical_source_rewritten": false
+    }
+  ],
+  "checks": [
+    {
+      "name": "RVT-001_row065_tracker_contract_present",
+      "result": "pass"
+    },
+    {
+      "name": "RVT-002_eight_sources_present",
+      "result": "pass"
+    },
+    {
+      "name": "RVT-003_source_hashes_complete",
+      "result": "pass"
+    },
+    {
+      "name": "RVT-004_model_install_result",
+      "result": "pass"
+    },
+    {
+      "name": "RVT-005_model_hash_continuity",
+      "result": "pass"
+    },
+    {
+      "name": "RVT-006_model_install_stopped_no_generation",
+      "result": "pass"
+    },
+    {
+      "name": "RVT-007_static_lane_and_result",
+      "result": "pass"
+    },
+    {
+      "name": "RVT-008_static_object_info_pass",
+      "result": "pass"
+    },
+    {
+      "name": "RVT-009_static_model_proof_complete",
+      "result": "pass"
+    },
+    {
+      "name": "RVT-010_smoke_success_lane",
+      "result": "pass"
+    },
+    {
+      "name": "RVT-011_smoke_final_state_stopped",
+      "result": "pass"
+    },
+    {
+      "name": "RVT-012_pullback_counts_and_hashes",
+      "result": "pass"
+    },
+    {
+      "name": "RVT-013_pullback_image_hash",
+      "result": "pass"
+    },
+    {
+      "name": "RVT-014_technical_integrity",
+      "result": "pass"
+    },
+    {
+      "name": "RVT-015_visual_qa_pass_with_notes",
+      "result": "pass"
+    },
+    {
+      "name": "RVT-016_visual_scope_not_overextended",
+      "result": "pass"
+    },
+    {
+      "name": "RVT-017_terminal_project_readiness",
+      "result": "pass"
+    },
+    {
+      "name": "RVT-018_terminal_runtime_handoff",
+      "result": "pass"
+    },
+    {
+      "name": "RVT-019_no_rerun_invariant",
+      "result": "pass"
+    },
+    {
+      "name": "RVT-020_wrapper_read_only",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "safety_boundary": {
+    "new_runtime_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "generation_executed": false,
+    "historical_evidence_rewritten": false,
+    "portfolio_or_final_quality_certified": false,
+    "mask_or_wave71_touched": false,
+    "jira_mutated": false
+  },
+  "source_hashes": [
+    {
+      "role": "model_install",
+      "path": "Plan/Instructions/QA/Evidence/Model_Registry/W63_EC2_REALVISXL_MODEL_INSTALL_20260706T125425-0500.json",
+      "sha256": "8ef3601f42f44bc2f0ebd708aab860a032886675d55422731d976dface4e7ceb"
+    },
+    {
+      "role": "static_proof",
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_EC2_LANE_STATIC_PROOF_REALVISXL_AFTER_INSTALL_20260706T131129-0500.json",
+      "sha256": "8e213098142dbe6c5f5c536fa3a22583c22bce140496a61c34e8fb2c4cca7a34"
+    },
+    {
+      "role": "workflow_smoke",
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W63_EC2_WORKFLOW_SMOKE_REALVISXL_AFTER_STATIC_PROOF_20260706T132206-0500.json",
+      "sha256": "8ea342bbc1ef235bf16862f2dddbde6ae198414030d77948b9770f55559f63c2"
+    },
+    {
+      "role": "pullback",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T132206-0500/PULLBACK_RECORD.json",
+      "sha256": "1e455c3db83f72febb64664fdc91d42e1a59bdf4cb250cfedae8301e6c4197c5"
+    },
+    {
+      "role": "technical_qa",
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_IMAGE_QA_TECHNICAL_REALVISXL_20260706T140027-0500.json",
+      "sha256": "9e28363be247a984a585df069d93845dfaac73fc73ae62e49039bfb93b6d6c02"
+    },
+    {
+      "role": "visual_qa",
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_REALVISXL_IMAGE_QA_VISUAL_20260706T140120-0500.json",
+      "sha256": "9ca20dcbb1f57c11c126d939cea74f838a4aef31e0a118b5abc78940453cad6b"
+    },
+    {
+      "role": "project_readiness",
+      "path": "Plan/Instructions/QA/Evidence/Project_Readiness/W63_PROJECT_READINESS_REALVISXL_QA_COMPLETE_INDEX_REFRESH_20260706T141911-0500.json",
+      "sha256": "16dd00295e2edef6f44ece7f760f4c9299b69574a6e1a1c2cc13582f2a1b7ae7"
+    },
+    {
+      "role": "runtime_handoff",
+      "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W63_RUNTIME_UNBLOCK_HANDOFF_REALVISXL_QA_COMPLETE_FINAL_20260706T140828-0500.json",
+      "sha256": "57371f131971ab2b77c4ef5ac184de8e0d719ffe3e6a824b4a601d09b0f6a818"
+    }
+  ],
+  "next_action": "Advance to TRK-W64-066 / ITEM-W64-066 future-lane promotion rule; preserve this completed RealVisXL smoke chain and do not rerun it without a changed objective or artifact.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/realvisxl_lane_terminal_state.json",
+    "Plan/Instructions/QA/Evidence/Wave64/REALVISXL_LANE_TERMINAL_STATE_20260712T092510-0500.json",
+    "Plan/Tracker/Evidence/REALVISXL_LANE_TERMINAL_STATE_20260712T092510-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/realvisxl_lane_terminal_state_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-065_realvisxl_lane_terminal_state.json"
+  ]
+}
