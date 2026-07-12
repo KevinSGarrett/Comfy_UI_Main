@@ -1,3 +1,11 @@
+## Wave64 Row029 Spatial Room Evidence Producer - 2026-07-12T17:35:25-05:00
+
+`TRK-W64-029` / `ITEM-W64-029` remains `Blocked_Spatial_Room_Production_Proof_Missing`. A fail-closed producer now binds identity-matched Wave31 spatial/room manifests, exact PCM and continuity artifacts, registry-derived thresholds, and nullable independent proof files into the strict evaluator contract without creating authority proof. Producer and evaluator pass 55/55 tests. The synthetic producer probe passes spatial position, room reverb, ambience continuity, and mix balance while playback, runtime, production authority, and overall gates remain blocked. No generation, proof approval, AWS, EC2, mask promotion, Jira, or Wave71+ action occurred.
+
+Next safe local action in strict sequence: `TRK-W64-030` / `ITEM-W64-030`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/audio_spatial_room.json`; `Plan/Instructions/QA/Evidence/Wave64/audio_spatial_room_test_log.json`; `Plan/Items/Reports/ITEM-W64-029_audio_spatial_room.json`.
+
 ## Wave64 Row028 Foley Force Request Producer - 2026-07-12T17:12:00-05:00
 
 `TRK-W64-028` / `ITEM-W64-028` remains `Blocked_Foley_Force_Production_Proof_Missing`. A fail-closed producer now binds visual-contact, Wave22 force-event, and Wave30 audio-event manifests, discovers nullable Wave31/runtime/A-V-review/bundle artifacts, applies canonical thresholds, and atomically publishes the existing evaluator request. Producer and evaluator pass 54/54 tests. The synthetic probe passes event binding, frame/audio alignment, Foley presence, and false-event rejection while runtime, A/V review, production authority, and body/contact gold-mask-dependent certification remain blocked. No generation, proof approval, AWS, EC2, mask promotion, Jira, or Wave71+ action occurred.

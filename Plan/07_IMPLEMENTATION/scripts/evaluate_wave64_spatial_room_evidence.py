@@ -1337,13 +1337,21 @@ def evaluate(root: Path, request_path: Path, output_path: Path) -> int:
         ("wave31_room_acoustics_manifest", wave31_room_acoustics),
     ):
         for field, expected in (("scene_id", scene_id), ("shot_id", shot_id)):
-            if field in payload and payload[field] != expected:
+            if field not in payload:
+                raise InvalidInputError(f"{payload_label}.{field} missing")
+            if payload[field] != expected:
                 raise InvalidInputError(f"{payload_label}.{field} mismatch")
-        if "run_id" in payload and payload["run_id"] != run_id:
+        if "run_id" not in payload:
+            raise InvalidInputError(f"{payload_label}.run_id missing")
+        if payload["run_id"] != run_id:
             raise InvalidInputError(f"{payload_label}.run_id mismatch")
-        if "take_id" in payload and payload["take_id"] != take_id:
+        if "take_id" not in payload:
+            raise InvalidInputError(f"{payload_label}.take_id missing")
+        if payload["take_id"] != take_id:
             raise InvalidInputError(f"{payload_label}.take_id mismatch")
-        if "is_synthetic" in payload and _expect_bool(payload["is_synthetic"], f"{payload_label}.is_synthetic") != is_synthetic:
+        if "is_synthetic" not in payload:
+            raise InvalidInputError(f"{payload_label}.is_synthetic missing")
+        if _expect_bool(payload["is_synthetic"], f"{payload_label}.is_synthetic") != is_synthetic:
             raise InvalidInputError(f"{payload_label}.is_synthetic mismatch")
 
     bound_paths: set[Path] = {

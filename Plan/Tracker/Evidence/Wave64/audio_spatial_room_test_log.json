@@ -1,26 +1,28 @@
 {
   "schema_version": "1.0",
-  "evidence_id": "W64-AUDIO-SPATIAL-ROOM-TEST-LOG-20260711T200153-0500",
-  "timestamp": "2026-07-11T20:01:53-05:00",
+  "evidence_id": "W64-AUDIO-SPATIAL-ROOM-TEST-LOG-20260712T173525-0500",
+  "timestamp": "2026-07-12T17:35:25-05:00",
   "tracker_id": "TRK-W64-029",
   "item_id": "ITEM-W64-029",
-  "command": "python Plan/Instructions/QA/Scripts/test_wave64_spatial_room_evaluator_strict.py",
+  "command": "python Plan/Instructions/QA/Scripts/test_produce_wave64_spatial_room_evidence_bundle.py && python Plan/Instructions/QA/Scripts/test_wave64_spatial_room_evaluator_strict.py",
   "result": "pass",
   "exit_code": 0,
-  "tests_run": 46,
+  "tests_run": 55,
   "failures": 0,
   "errors": 0,
   "skips": 0,
-  "elapsed_seconds": 135.564,
-  "transcript": "runtime_artifacts/wave64_spatial_room_evidence/20260711T200153-0500/windows_strict_tests.txt",
-  "transcript_sha256": "a2d28058d84f04ffec08a714753bd7f25d42f0b181bf84351476495b56976aa0",
+  "elapsed_seconds": 107.862,
+  "transcript": "runtime_artifacts/wave64_spatial_room_evidence/request_producer_probe_20260712T173525-0500/windows_tests.txt",
+  "transcript_sha256": "49c6f503b6f261e01b0c40d373dbb2225806c68cee381113f1eccddb3b2de657",
   "covered_artifacts": [
     {"path": "Plan/05_AUDIO_SYSTEM/WAVE64_SPATIAL_ROOM_EVIDENCE_GATE_SPEC.md", "sha256": "b13e8aff4a7b439e3f6b7a1eea6c81d5ed344f2fb194626a319c8315f8d77434"},
-    {"path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_spatial_room_evidence.py", "sha256": "63246ac08f15289e665a94c5898c07837f4a79b16b3fb4d27ad65475cf7d0dd7"},
+    {"path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_spatial_room_evidence.py", "sha256": "515c181072e93bbe553a47061b29b22a4206f74a4338ed1a75cb3db8269c3733"},
+    {"path": "Plan/07_IMPLEMENTATION/scripts/produce_wave64_spatial_room_evidence_bundle.py", "sha256": "1725c4e24e27da8d7ee1c657be90de63a40c3cb5e4fa3127c745b8ca72d7cafc"},
     {"path": "Plan/08_SCHEMAS/wave64_spatial_room_evidence_bundle.schema.json", "sha256": "58d50edaecd665a49058ab1c8327fef1791109a37094b1a859438b0cddbe4200"},
     {"path": "Plan/08_SCHEMAS/wave64_spatial_room_evaluator_report.schema.json", "sha256": "6fd55e783cd530a6e240c32131194f082982aae5a8463132912ee4056dd62ec9"},
     {"path": "Plan/10_REGISTRIES/wave64_spatial_room_gate_rules.json", "sha256": "11300c817a4bd2b86ecdb6e83cb588a4a61365d511dec559dbfdecb89f30a8ef"},
-    {"path": "Plan/Instructions/QA/Scripts/test_wave64_spatial_room_evaluator_strict.py", "sha256": "e9fe09daa8e40c22ed3ce7a110be30445ae2bbde2edd7db7dd10bd60c366ae99"}
+    {"path": "Plan/Instructions/QA/Scripts/test_wave64_spatial_room_evaluator_strict.py", "sha256": "e9fe09daa8e40c22ed3ce7a110be30445ae2bbde2edd7db7dd10bd60c366ae99"},
+    {"path": "Plan/Instructions/QA/Scripts/test_produce_wave64_spatial_room_evidence_bundle.py", "sha256": "da608b66a3b494a380621e20a23b3f58a75221858cc2335e10ef145da433ab42"}
   ],
   "positive_contracts_covered": [
     "computed source-listener-camera geometry and camera-orientation pan",
@@ -32,6 +34,8 @@
     "upstream gate inheritance and immutable production bundle allowlist",
     "canonical-root containment, exact hashes, and transactional output",
     "Draft 2020-12 bundle and report schema validation"
+    ,"canonical-threshold request production with exact file hashes and byte counts"
+    ,"strict manifest identity binding and nullable independent proof discovery"
   ],
   "negative_contracts_covered": [
     "pan, distance, attenuation, camera proximity, orientation, and unit-vector defects",
@@ -40,7 +44,8 @@
     "dialogue masking, clipping, channel/sample/duration mismatch, stem reuse, unrelated mix, and one-frame reconstruction bypass",
     "missing, invalid, unapproved, or relabeled playback/runtime producer proofs",
     "synthetic parity, tampered hashes, malformed WAV, root escape, non-finite values, unknown keys, and output collision",
-    "invalid input preserves an existing output file"
+    "invalid input preserves an existing output file",
+    "missing manifest identity, malformed optional proof JSON, canonical-root mismatch, duplicate binding, and concurrent output creation"
   ],
   "registry_assertion": {
     "path": "Plan/10_REGISTRIES/wave64_spatial_room_gate_rules.json",
