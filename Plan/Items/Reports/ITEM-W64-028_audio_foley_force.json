@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "report_id": "ITEM-W64-028-AUDIO-FOLEY-FORCE-20260711T185232-0500",
+  "timestamp": "2026-07-11T18:52:32-05:00",
+  "item_id": "ITEM-W64-028",
+  "tracker_id": "TRK-W64-028",
+  "workstream": "audio_foley_force",
+  "status": "Blocked_Foley_Force_Production_Proof_Missing",
+  "row_complete": false,
+  "implementation": {
+    "visual_contact_force_event_binding_ready": true,
+    "foley_event_family_layer_material_and_owner_binding_ready": true,
+    "pcm_audio_metrics_and_sync_review_ready": true,
+    "foley_presence_and_false_event_rejection_ready": true,
+    "registry_ceiling_and_body_scope_fail_closed_rules_ready": true,
+    "runtime_and_av_review_proof_verifiers_ready": true,
+    "canonical_root_and_transactional_output_ready": true,
+    "immutable_production_alignment_bundle_allowlist_ready": true,
+    "synthetic_and_local_relabel_promotion_forbidden": true
+  },
+  "validation": {
+    "unit_tests_passed": 48,
+    "unit_test_failures": 0,
+    "unit_test_errors": 0,
+    "unit_test_skips": 0,
+    "python_compile": "pass",
+    "request_schema_check": "pass",
+    "report_schema_check": "pass",
+    "synthetic_technical_probe": "expected_exit_2",
+    "adversarial_relabel_probe": "expected_exit_2",
+    "authority_registry_unchanged_by_tests": true,
+    "remaining_remediable_high_or_medium_findings": 0
+  },
+  "acceptance_gates": {
+    "event_binding_check_contract": true,
+    "frame_to_audio_alignment_contract": true,
+    "foley_presence_contract": true,
+    "false_event_reject_contract": true,
+    "audio_video_event_alignment_review_contract": true,
+    "genuine_production_foley_audio_present": false,
+    "genuine_production_runtime_proof_present": false,
+    "genuine_production_av_review_present": false,
+    "manual_body_contact_gold_mask_authority_present": false,
+    "production_alignment_bundle_allowlisted": false,
+    "final_foley_force_certification_allowed": false
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Foley_Force_Production_Proof_Missing",
+      "reason": "No genuine non-synthetic production Foley audio with bound visual contact, force, A/V review, and runtime evidence exists."
+    },
+    {
+      "classification": "Blocked_Gold_Mask_Dependency_Missing",
+      "reason": "Manual body/contact gold masks are not ready, so mask-dependent body/contact production authority remains blocked."
+    },
+    {
+      "classification": "Blocked_Foley_Alignment_Bundle_Authority_Missing",
+      "reason": "The canonical production alignment bundle allowlist contains zero approved bundles."
+    }
+  ],
+  "evidence": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/audio_foley_force.json",
+      "sha256": "c4e7cf6147e02355a63ed16d62ceb70ce2c58265ef7e81de35cd114633e1af4d"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/audio_foley_force_test_log.json",
+      "sha256": "c3266af84008cbfc4d2777e175097d25eaf71865031b53bc9854afb017b8836d"
+    },
+    {
+      "path": "runtime_artifacts/wave64_foley_force_alignment/20260711T185232-0500/probe_summary.json",
+      "sha256": "816b9e43e9763cebb41a50a35eb0d59bee5d4c76d21b2d32c3313d719c24ad83"
+    },
+    {
+      "path": "runtime_artifacts/wave64_foley_force_alignment/20260711T185232-0500/windows_strict_tests.txt",
+      "sha256": "aec9d5e6e15417e538da35ec15db5ddfc0b645e3a3231be5f69f550b483b0ad3"
+    }
+  ],
+  "runtime": {
+    "production_foley_generation_count": 0,
+    "production_foley_evaluation_count": 0,
+    "production_av_review_count": 0,
+    "approved_alignment_bundle_count": 0,
+    "comfyui_started": false,
+    "aws_contacted": false,
+    "ec2_started": false
+  },
+  "next_action": "Proceed with TRK-W64-029 / ITEM-W64-029 by implementing and validating spatial-audio room-acoustics evidence from Plan/05_AUDIO_SYSTEM/WAVE31_ROOM_ACOUSTICS_REVERB_PLAN.md while keeping row028 blocked until genuine non-synthetic production Foley, A/V, runtime, allowlisted bundle, and required manual gold-mask authority are present."
+}

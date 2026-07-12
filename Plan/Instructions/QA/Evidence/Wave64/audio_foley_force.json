@@ -1,0 +1,219 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-AUDIO-FOLEY-FORCE-20260711T185232-0500",
+  "timestamp": "2026-07-11T18:52:32-05:00",
+  "tracker_id": "TRK-W64-028",
+  "item_id": "ITEM-W64-028",
+  "source_citation": "Plan/05_AUDIO_SYSTEM/WAVE22_AUDIO_FORCE_EVENT_BINDING_INTERFACE.md",
+  "implementation": {
+    "dedicated_foley_force_alignment_evaluator_added": true,
+    "actual_pcm_wav_decode": true,
+    "visual_contact_force_and_audio_event_binding": true,
+    "event_type_layer_profile_and_material_pair_consistency": true,
+    "contact_edge_ownership_validation": true,
+    "frame_rate_and_audio_timing_alignment": true,
+    "registry_ceiling_sync_tolerances": true,
+    "foley_presence_and_false_event_rejection": true,
+    "visual_png_and_contact_json_recognition": true,
+    "explicit_body_contact_gold_mask_dependency": true,
+    "body_material_scope_relabel_rejection": true,
+    "runtime_and_av_review_proof_binding": true,
+    "canonical_root_containment": true,
+    "output_collision_rejection": true,
+    "transactional_output": true,
+    "synthetic_runtime_and_authority_blocking": true,
+    "immutable_production_alignment_bundle_allowlist": true,
+    "current_allowlist_intentionally_empty": true
+  },
+  "implementation_artifacts": [
+    {
+      "path": "Plan/05_AUDIO_SYSTEM/WAVE64_FOLEY_FORCE_ALIGNMENT_GATE_SPEC.md",
+      "sha256": "2970c05c24ef8b8a6600bda3351cf24e87f013dbf57b1d808c0e83aceb19bf87"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_foley_force_alignment.py",
+      "sha256": "59b069099ec4fc903b4d6dbf993c3c88ff93e26d7c4dec0d6c15dd5949395413"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave64_foley_force_alignment_request.schema.json",
+      "sha256": "5ff92b6b1c26d2848dd423ef284f6b75cbbb3de0bc62bf110a6d7f134a13a603"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave64_foley_force_alignment_report.schema.json",
+      "sha256": "f7f42a4904635482b8716959295d2b2988dcb6b41f8c2251451139d04573359e"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave64_foley_force_alignment_authority_registry.json",
+      "sha256": "247a5e5c2a33cb49cccc72fc4002c035cc2910d5b7801faa11a3134830856587"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_wave64_foley_force_alignment_strict.py",
+      "sha256": "fb7ce4e5d4ccce040af728fccd93ff0011802f49414ba38bd92ac90e02cd0c6d"
+    }
+  ],
+  "authority_bindings": {
+    "wave22_force_event_interface": {
+      "path": "Plan/05_AUDIO_SYSTEM/WAVE22_AUDIO_FORCE_EVENT_BINDING_INTERFACE.md",
+      "sha256": "4f05a182d5e4de32eaac3843ac368b7d776e4cc8dd2bc86c745d7d18f7956f8a"
+    },
+    "row028_gate_spec": {
+      "path": "Plan/05_AUDIO_SYSTEM/WAVE64_FOLEY_FORCE_ALIGNMENT_GATE_SPEC.md",
+      "sha256": "2970c05c24ef8b8a6600bda3351cf24e87f013dbf57b1d808c0e83aceb19bf87"
+    }
+  },
+  "offline_validation": {
+    "test_log": "Plan/Instructions/QA/Evidence/Wave64/audio_foley_force_test_log.json",
+    "test_log_sha256": "c3266af84008cbfc4d2777e175097d25eaf71865031b53bc9854afb017b8836d",
+    "tests_run": 48,
+    "test_failures": 0,
+    "test_errors": 0,
+    "test_skips": 0,
+    "python_compile": "pass",
+    "draft_2020_12_request_schema": "pass",
+    "draft_2020_12_report_schema": "pass",
+    "authority_registry_unchanged_by_tests": true,
+    "technical_offline_pass": true
+  },
+  "retained_probes": {
+    "probe_summary": {
+      "path": "runtime_artifacts/wave64_foley_force_alignment/20260711T185232-0500/probe_summary.json",
+      "sha256": "816b9e43e9763cebb41a50a35eb0d59bee5d4c76d21b2d32c3313d719c24ad83"
+    },
+    "synthetic_technical_probe": {
+      "fixture_origin": true,
+      "production_evidence": false,
+      "request": "runtime_artifacts/wave64_foley_force_alignment/20260711T185232-0500/synthetic_technical_probe/request.json",
+      "request_sha256": "fccc619a0ae3536eeb5f242d7d625db8cfa8dd554b9923ddfaab7eb4cd1b9e61",
+      "evidence": "runtime_artifacts/wave64_foley_force_alignment/20260711T185232-0500/synthetic_technical_probe/evidence.json",
+      "evidence_sha256": "fa933d1eb0960d80ffc4fda0f408ee0f26adc7461fecd2b935b936ddaff6dd90",
+      "expected_exit_code": 2,
+      "overall_pass": false,
+      "technical_gate_pass_count": 5,
+      "production_runtime_proof_status": "BLOCKED",
+      "production_alignment_authority_status": "BLOCKED",
+      "overall_status": "BLOCKED",
+      "blockers": [
+        "synthetic input cannot satisfy production alignment authority",
+        "synthetic input cannot satisfy production runtime proof gate"
+      ]
+    },
+    "adversarial_relabel_probe": {
+      "fixture_origin": true,
+      "declared_is_synthetic": false,
+      "production_evidence": false,
+      "purpose": "prove that internally coherent hand-authored contact, force, audio, runtime, and review JSON cannot impersonate an approved production alignment bundle",
+      "request": "runtime_artifacts/wave64_foley_force_alignment/20260711T185232-0500/adversarial_relabel_probe/request.json",
+      "request_sha256": "dc2d36a0f908fa3fa9b5b881243a2ba62442ded09aacabe2d1236638359d9853",
+      "evidence": "runtime_artifacts/wave64_foley_force_alignment/20260711T185232-0500/adversarial_relabel_probe/evidence.json",
+      "evidence_sha256": "86e8a5c618b3ac8cd54eedb36e7df3798bfb3e0cda3764f0644e0d82ab46599f",
+      "expected_exit_code": 2,
+      "overall_pass": false,
+      "technical_gate_pass_count": 7,
+      "production_runtime_proof_status": "PASS",
+      "production_alignment_authority_status": "BLOCKED",
+      "overall_status": "BLOCKED",
+      "blockers": [
+        "production alignment bundle not allowlisted in authority registry"
+      ]
+    }
+  },
+  "current_authority": {
+    "approved_alignment_bundle_count": 0,
+    "approved_production_foley_run_count": 0,
+    "approved_production_av_review_count": 0,
+    "genuine_runtime_review_and_audio_proof_set_count": 0,
+    "manual_body_contact_gold_mask_authority_ready": false,
+    "production_pass_reachable_from_fixture_only_evidence": false
+  },
+  "acceptance_gates": {
+    "event_binding_check_contract_ready": true,
+    "frame_to_audio_alignment_contract_ready": true,
+    "foley_presence_contract_ready": true,
+    "false_event_reject_contract_ready": true,
+    "audio_video_event_alignment_review_contract_ready": true,
+    "strict_offline_validation_passed": true,
+    "genuine_production_foley_audio_present": false,
+    "genuine_production_runtime_proof_present": false,
+    "genuine_production_av_review_present": false,
+    "manual_body_contact_gold_mask_authority_present": false,
+    "production_alignment_bundle_allowlisted": false,
+    "row_complete": false
+  },
+  "review": {
+    "cursor_gap_review": {
+      "path": "runtime_artifacts/agent_handoffs/cursor/20260711T180355-0500_wave64_foley_force_alignment_gap_review/handoff_record.json",
+      "sha256": "7ba5e3caff05b468bb8a12010978da46d8f54a37b2bee6359a558655d1da4ea3"
+    },
+    "cursor_initial_implementation": {
+      "path": "runtime_artifacts/agent_handoffs/cursor/20260711T180627-0500_wave64_foley_force_alignment_implementation/handoff_record.json",
+      "sha256": "5c709e0a50aa6036ace688b80b4c3b38c67f07ddfee996b7472ab33cd17861ae"
+    },
+    "claude_initial_review": {
+      "path": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T181803-0500_wave64_foley_force_alignment_final_review/handoff_record.json",
+      "sha256": "cd68dd029924f05679ca111ec8b2d3b81806cbf208eeff86cad93a9d305c592d",
+      "high_findings": 4,
+      "medium_findings": 4
+    },
+    "cursor_correction": {
+      "path": "runtime_artifacts/agent_handoffs/cursor/20260711T182556-0500_wave64_foley_force_alignment_corrections/handoff_record.json",
+      "sha256": "c56334da270b7f4d13fca8b48997d6ada9a0bb05da06dd4c00658af9dde9a859"
+    },
+    "claude_confirmation": {
+      "path": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T183810-0500_wave64_foley_force_alignment_confirmation_review/handoff_record.json",
+      "sha256": "1a78e73985d00fc4cb2fb777e0541da884d267be2b7e7caa5e8d6fcd50a7c78c",
+      "new_residual_medium_findings": 2
+    },
+    "claude_residual_closure": {
+      "path": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T184931-0500_wave64_foley_force_alignment_residual_closure_review/handoff_record.json",
+      "sha256": "a0b7cfa040bd10d0e026022b47805eab73445a06015df3912059fe5b31c5d3be",
+      "remaining_remediable_high_or_medium_findings": 0
+    }
+  },
+  "environment_authority": {
+    "authoritative_root": "C:\\Comfy_UI_Main",
+    "legacy_or_stale_cloud_state_used_as_authority": false,
+    "duplicate_completed_work_recreated": false
+  },
+  "runtime": {
+    "production_foley_generation_count": 0,
+    "production_foley_evaluation_count": 0,
+    "production_av_review_count": 0,
+    "approved_alignment_bundle_count": 0,
+    "comfyui_started": false,
+    "generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "mask_promotion_executed": false
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Foley_Force_Production_Proof_Missing",
+      "scope": "primary_row_blocker",
+      "reason": "No genuine non-synthetic production Foley audio with bound visual contact, force-event, A/V review, and runtime proof exists for this row."
+    },
+    {
+      "classification": "Blocked_Gold_Mask_Dependency_Missing",
+      "scope": "body_contact_production_authority_dependency",
+      "reason": "Manual body/contact gold masks are not ready, so body/contact geometry authority and final production A/V alignment certification remain blocked without consuming candidate masks as truth."
+    },
+    {
+      "classification": "Blocked_Foley_Alignment_Bundle_Authority_Missing",
+      "scope": "production_alignment_authority",
+      "reason": "The canonical production alignment bundle allowlist contains zero approved bundles."
+    }
+  ],
+  "result": "blocked_foley_force_production_proof_missing",
+  "overall_pass": false,
+  "status_decision": "Blocked_Foley_Force_Production_Proof_Missing",
+  "strict_decision": {
+    "row_complete": false,
+    "offline_evaluator_and_schema_pass": true,
+    "synthetic_fail_closed_probe_pass": true,
+    "adversarial_relabel_fail_closed_probe_pass": true,
+    "production_foley_or_av_review_claimed": false,
+    "manual_gold_mask_authority_claimed": false,
+    "production_alignment_bundle_approved": false,
+    "certification_claimed": false,
+    "wave71_activation_claimed": false
+  }
+}

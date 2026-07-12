@@ -1,0 +1,214 @@
+{
+  "schema_name": "wave64_foley_force_alignment_authority_registry",
+  "registry_version": 1,
+  "visual_intensity_taxonomy": {
+    "none": [
+      "silent_contact"
+    ],
+    "feather": [
+      "silent_contact",
+      "soft_fabric_rustle"
+    ],
+    "light": [
+      "soft_fabric_rustle",
+      "skin_surface_contact"
+    ],
+    "medium": [
+      "skin_surface_contact",
+      "firm_surface_contact",
+      "object_tap",
+      "object_drag"
+    ],
+    "firm": [
+      "firm_surface_contact",
+      "impact_thud",
+      "furniture_creak",
+      "rebound_release"
+    ],
+    "heavy": [
+      "impact_thud",
+      "rebound_release"
+    ]
+  },
+  "force_profiles": {
+    "silent_contact": {
+      "allowed_loudness_hints": [
+        "silent"
+      ],
+      "normalized_pcm_rms_range": [
+        0.0,
+        0.004
+      ],
+      "maximum_clipping_ratio": 0.0,
+      "allowed_foley_families": [
+        "body_foley",
+        "clothing_foley"
+      ]
+    },
+    "soft_fabric_rustle": {
+      "allowed_loudness_hints": [
+        "very_low",
+        "low"
+      ],
+      "normalized_pcm_rms_range": [
+        0.005,
+        0.08
+      ],
+      "maximum_clipping_ratio": 0.0001,
+      "allowed_foley_families": [
+        "clothing_foley"
+      ]
+    },
+    "skin_surface_contact": {
+      "allowed_loudness_hints": [
+        "low",
+        "medium"
+      ],
+      "normalized_pcm_rms_range": [
+        0.01,
+        0.12
+      ],
+      "maximum_clipping_ratio": 0.0001,
+      "allowed_foley_families": [
+        "body_foley"
+      ]
+    },
+    "firm_surface_contact": {
+      "allowed_loudness_hints": [
+        "medium",
+        "high"
+      ],
+      "normalized_pcm_rms_range": [
+        0.06,
+        0.32
+      ],
+      "maximum_clipping_ratio": 0.0002,
+      "allowed_foley_families": [
+        "body_foley",
+        "furniture_foley"
+      ]
+    },
+    "object_tap": {
+      "allowed_loudness_hints": [
+        "low",
+        "medium"
+      ],
+      "normalized_pcm_rms_range": [
+        0.02,
+        0.25
+      ],
+      "maximum_clipping_ratio": 0.0002,
+      "allowed_foley_families": [
+        "prop_foley"
+      ]
+    },
+    "object_drag": {
+      "allowed_loudness_hints": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "normalized_pcm_rms_range": [
+        0.02,
+        0.28
+      ],
+      "maximum_clipping_ratio": 0.0002,
+      "allowed_foley_families": [
+        "prop_foley"
+      ]
+    },
+    "furniture_creak": {
+      "allowed_loudness_hints": [
+        "low",
+        "medium"
+      ],
+      "normalized_pcm_rms_range": [
+        0.02,
+        0.18
+      ],
+      "maximum_clipping_ratio": 0.0002,
+      "allowed_foley_families": [
+        "furniture_foley"
+      ]
+    },
+    "impact_thud": {
+      "allowed_loudness_hints": [
+        "medium",
+        "high",
+        "very_high"
+      ],
+      "normalized_pcm_rms_range": [
+        0.08,
+        0.6
+      ],
+      "maximum_clipping_ratio": 0.0003,
+      "allowed_foley_families": [
+        "impact",
+        "prop_foley",
+        "furniture_foley"
+      ]
+    },
+    "rebound_release": {
+      "allowed_loudness_hints": [
+        "medium",
+        "high"
+      ],
+      "normalized_pcm_rms_range": [
+        0.04,
+        0.4
+      ],
+      "maximum_clipping_ratio": 0.0002,
+      "allowed_foley_families": [
+        "body_foley",
+        "prop_foley"
+      ]
+    }
+  },
+  "material_pair_rules": [
+    {
+      "source_material": "fabric",
+      "target_material": "skin",
+      "expected_foley_family": "clothing_foley"
+    },
+    {
+      "source_material": "skin",
+      "target_material": "skin",
+      "expected_foley_family": "body_foley"
+    },
+    {
+      "source_material": "rubber",
+      "target_material": "wood",
+      "expected_foley_family": "prop_foley"
+    },
+    {
+      "source_material": "wood",
+      "target_material": "fabric",
+      "expected_foley_family": "furniture_foley"
+    },
+    {
+      "source_material": "metal",
+      "target_material": "wood",
+      "expected_foley_family": "impact"
+    }
+  ],
+  "body_contact_materials": [
+    "skin",
+    "hair",
+    "nail",
+    "tooth",
+    "body_surface"
+  ],
+  "allowed_foley_layers": [
+    "body_foley",
+    "clothing_foley",
+    "prop_foley",
+    "furniture_foley",
+    "impact"
+  ],
+  "sync_tolerances": {
+    "max_frame_drift": 2,
+    "max_seconds_drift": 0.08,
+    "max_wav_duration_drift_seconds": 0.05
+  },
+  "approved_alignment_bundles": []
+}

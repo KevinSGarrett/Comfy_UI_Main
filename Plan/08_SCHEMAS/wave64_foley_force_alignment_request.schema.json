@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave64 Foley Force Alignment Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_name",
+    "request_version",
+    "run_id",
+    "scene_id",
+    "shot_id",
+    "take_id",
+    "is_synthetic",
+    "visual_contact_manifest_binding",
+    "wave22_force_event_manifest_binding",
+    "wave30_audio_event_manifest_binding",
+    "wave31_force_event_manifest_binding",
+    "runtime_proof_binding",
+    "av_review_proof_binding",
+    "production_alignment_bundle_binding",
+    "thresholds"
+  ],
+  "properties": {
+    "schema_name": {
+      "const": "wave64_foley_force_alignment_request"
+    },
+    "request_version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scene_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "shot_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "take_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "is_synthetic": {
+      "type": "boolean"
+    },
+    "visual_contact_manifest_binding": {
+      "$ref": "#/$defs/path_sha_binding"
+    },
+    "wave22_force_event_manifest_binding": {
+      "$ref": "#/$defs/path_sha_binding"
+    },
+    "wave30_audio_event_manifest_binding": {
+      "$ref": "#/$defs/path_sha_binding"
+    },
+    "wave31_force_event_manifest_binding": {
+      "$ref": "#/$defs/nullable_path_sha_binding"
+    },
+    "runtime_proof_binding": {
+      "$ref": "#/$defs/nullable_path_sha_binding"
+    },
+    "av_review_proof_binding": {
+      "$ref": "#/$defs/nullable_path_sha_binding"
+    },
+    "production_alignment_bundle_binding": {
+      "$ref": "#/$defs/nullable_path_sha_binding"
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min_force_confidence",
+        "max_frame_drift",
+        "max_seconds_drift",
+        "max_wav_duration_drift_seconds",
+        "max_clipping_ratio",
+        "min_rms_ratio"
+      ],
+      "properties": {
+        "min_force_confidence": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "max_frame_drift": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 120
+        },
+        "max_seconds_drift": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 5.0
+        },
+        "max_wav_duration_drift_seconds": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 5.0
+        },
+        "max_clipping_ratio": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "min_rms_ratio": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "path_sha_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "nullable_path_sha_binding": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/path_sha_binding"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  }
+}
