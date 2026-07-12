@@ -1,3 +1,11 @@
+## Wave64 Row024 Deterministic GIF Export - 2026-07-12T15:55:11-05:00
+
+`TRK-W64-024` / `ITEM-W64-024` remains `Blocked_Video_GIF_Production_Proof_Missing`. A deterministic manifest-to-GIF exporter now produces hash-bound GIF89a candidates with normalized frame order, exact timing, infinite-loop metadata, global palette, reserved transparency handling, and transactional output. The exporter and existing certifier jointly pass 26/26 tests, including direct rejection of sub-10ms timing. A six-frame synthetic probe passes all technical parity checks and correctly retains only runtime-proof and loop-playback-review blockers; no production, final-export, promotion, mask, AWS, EC2, Jira, or Wave71+ action occurred.
+
+Next safe local action in strict sequence: `TRK-W64-025` / `ITEM-W64-025`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/video_gif_loop_export.json`; `Plan/Instructions/QA/Evidence/Wave64/video_gif_loop_export_test_log.json`; `Plan/Items/Reports/ITEM-W64-024_video_gif_loop_export.json`.
+
 ## Wave64 Row018 Multi-Sample Image Quality Certification - 2026-07-12T13:44:44-05:00
 
 `TRK-W64-018` / `ITEM-W64-018` is `Blocked_No_Scope_Matched_MultiSeed_MultiPrompt_Target_Runtime_Portfolio_Certification`. The scorecard now requires one lane-scoped `multi_seed_sample_set`, `aggregate_score`, `defect_rate_limit`, and `portfolio_certification_record` with at least three distinct seeds, at least two prompts, strict score thresholds, zero blocking defects, hash-bound artifacts, and target-runtime proof for every sample. Nine regressions and 20/20 split-state checks pass. Existing RealVisXL, Canny, and OpenPose matrices remain valid within their bounded scopes but split prompt diversity, seed robustness, target-runtime coverage, or defect-free consistency across different records. No generation, AWS, EC2, promotion, hard-gate rerun, Jira, or Wave71+ action occurred.

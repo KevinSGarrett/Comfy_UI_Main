@@ -1,42 +1,53 @@
 {
   "schema_version": "1.0",
-  "evidence_id": "W64-VIDEO-GIF-LOOP-EXPORT-TEST-LOG-20260711T160000-0500",
-  "timestamp": "2026-07-11T16:00:00-05:00",
+  "evidence_id": "W64-VIDEO-GIF-LOOP-EXPORT-TEST-LOG-20260712T155604-0500",
+  "timestamp": "2026-07-12T15:56:04-05:00",
   "tracker_id": "TRK-W64-024",
   "item_id": "ITEM-W64-024",
-  "command": "python Plan/Instructions/QA/Scripts/test_wave26_gif_loop_export_strict.py",
+  "command": "python -m unittest Plan.Instructions.QA.Scripts.test_wave26_gif_loop_export_strict Plan.Instructions.QA.Scripts.test_export_wave26_deterministic_gif",
   "result": "pass",
   "exit_code": 0,
-  "tests_run": 12,
+  "tests_run": 26,
+  "suite_breakdown": {
+    "gif_loop_export_certifier": 13,
+    "deterministic_gif_exporter": 13
+  },
   "failures": 0,
   "errors": 0,
-  "elapsed_seconds": 23.435,
+  "elapsed_seconds": 77.136,
   "pillow_version": "12.3.0",
-  "transcript": "runtime_artifacts/wave64_video_gif_loop_export/unit_tests_20260711T155755-0500.stderr.txt",
-  "transcript_sha256": "9a5d1524906bef2ef7eb6912f42c0d11b3af7ce38a3465136d33feede5b67a9f",
+  "transcript": "runtime_artifacts/wave64_video_gif_loop_export/unit_tests_20260712T155604-0500.txt",
+  "transcript_sha256": "b24d8e847a1cd1ef3e09e3118e76792d93956f869da81114f1265f9e83c2bc27",
   "covered_files": [
     "Plan/07_IMPLEMENTATION/scripts/certify_wave26_gif_loop_export.py",
     "Plan/08_SCHEMAS/wave26_gif_loop_export_evidence.schema.json",
-    "Plan/Instructions/QA/Scripts/test_wave26_gif_loop_export_strict.py"
+    "Plan/Instructions/QA/Scripts/test_wave26_gif_loop_export_strict.py",
+    "Plan/07_IMPLEMENTATION/scripts/export_wave26_deterministic_gif.py",
+    "Plan/08_SCHEMAS/wave26_deterministic_gif_export.schema.json",
+    "Plan/10_REGISTRIES/wave26_deterministic_gif_exporter.json",
+    "Plan/Instructions/QA/Scripts/test_export_wave26_deterministic_gif.py"
   ],
   "positive_contracts_covered": [
     "Wave26 loop-profile registry and Wave27 frame-manifest and temporal-evidence reuse",
+    "deterministic global-palette GIF89a export with stable bytes",
+    "manifest-order normalization, exact frame timing, infinite loop, and transactional publication",
+    "alpha transparency preservation without reserved-index collision for opaque pixels",
     "actual Pillow decode and RGBA load of every GIF frame",
     "candidate GIF SHA256, byte count, dimensions, frame count, durations, loop count, and decoded-frame hash binding",
     "deterministic decoded-pixel first-to-last technical seam metric",
     "source-frame artifact hash, byte, dimension, timing, and sequence integrity",
-    "transactional evidence publication",
     "synthetic technical verification remains blocked and unpromotable"
   ],
   "negative_contracts_covered": [
-    "missing candidate, invalid container, truncated GIF, and invalid LZW decode",
-    "unknown loop taxonomy and tampered source artifacts or sequence binding",
-    "frame-count, dimension, duration, zero-duration, and loop-count mismatch",
+    "missing or tampered source artifacts, invalid containers, truncated GIF, and invalid LZW decode",
+    "unknown loop taxonomy and tampered source sequence binding",
+    "frame-count, dimension, duration, sub-10ms timing, and loop-count mismatch",
+    "permuted manifests normalize identically in exporter and certifier",
+    "existing output survives failed export",
     "boolean-only runtime or visual proof claims",
     "runtime and visual proof artifact hash or source/candidate binding mismatch",
-    "unverified proof records cannot retain readiness or pass subfields",
-    "synthetic inputs cannot claim runtime, visual, export, certification, or production pass"
+    "synthetic inputs cannot claim runtime, visual, export certification, production proof, or promotion"
   ],
   "production_happy_path_executed": false,
-  "production_happy_path_policy": "A synthetic fixture must not set runtime, visual, final-export, certification, or production-proof flags true; a genuine production GIF packet is required."
+  "production_happy_path_policy": "A synthetic fixture must not set runtime, visual, final-export, certification, promotion, or production-proof flags true; a genuine production GIF packet is required."
 }

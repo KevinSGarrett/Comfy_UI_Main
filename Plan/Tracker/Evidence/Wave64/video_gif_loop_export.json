@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "evidence_id": "W64-VIDEO-GIF-LOOP-EXPORT-20260711T160000-0500",
-  "timestamp": "2026-07-11T16:00:00-05:00",
+  "evidence_id": "W64-VIDEO-GIF-LOOP-EXPORT-20260712T155511-0500",
+  "timestamp": "2026-07-12T15:55:11-05:00",
   "tracker_id": "TRK-W64-024",
   "item_id": "ITEM-W64-024",
   "source_citation": "Plan/04_VIDEO_GIF_SYSTEM/WAVE26_GIF_EXPORT_PLAN.md",
@@ -15,13 +15,17 @@
     "decoded_pixel_seam_metric": true,
     "technical_seam_metric_not_visual_claim": true,
     "runtime_and_visual_proofs_hash_bound": true,
+    "deterministic_manifest_to_gif_exporter": true,
+    "global_palette_and_reserved_transparency_index": true,
+    "minimum_frame_duration_ms": 10,
+    "manifest_order_normalized_consistently": true,
     "synthetic_promotion_forbidden": true,
     "transactional_output": true
   },
   "implementation_artifacts": [
     {
       "path": "Plan/07_IMPLEMENTATION/scripts/certify_wave26_gif_loop_export.py",
-      "sha256": "6836b9c492f926fe548aa5444394a10269898608c770dfb541d49bbe9b892097"
+      "sha256": "8dbd7f12fd429762a260b27a180f2cc41feccd015fb4ff6bb8f3a429be86f66b"
     },
     {
       "path": "Plan/08_SCHEMAS/wave26_gif_loop_export_evidence.schema.json",
@@ -29,13 +33,33 @@
     },
     {
       "path": "Plan/Instructions/QA/Scripts/test_wave26_gif_loop_export_strict.py",
-      "sha256": "814e9eb066002533e435b56b4dec07d9e888402d2635d1818c8554ef7137eff4"
+      "sha256": "6154348ff2b83c0c9b8026dc3fc740554f191ba2e448f1175d89628dbfb91409"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/export_wave26_deterministic_gif.py",
+      "sha256": "ceb4bcc8b678004189f306fde80ed7bb7104f2cee82bd48a25b1976459658c40"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave26_deterministic_gif_export.schema.json",
+      "sha256": "a72750e1e45a809202908440aebd5341d34c6d1afeb5b4630406888093a4e533"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave26_deterministic_gif_exporter.json",
+      "sha256": "ce45f5b1606666cbf85f2603ccc2d15365ec2907ebcb7e5c662d91b104e1b10a"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_export_wave26_deterministic_gif.py",
+      "sha256": "e5ff74e9bb7bd57ec393d39fd1171077511be0f49a72cefd1bdd716bf313eb71"
     }
   ],
   "offline_validation": {
     "test_log": "Plan/Instructions/QA/Evidence/Wave64/video_gif_loop_export_test_log.json",
-    "test_log_sha256": "f4159302ee7020434bbd1161f35eec461b932ea1c8c8a811560e94fa32029295",
-    "tests_run": 12,
+    "test_log_sha256": "61f814cbfc1e11285bbf7c089d21dad8e7d97567afa860733f1f45dc499a4a59",
+    "tests_run": 26,
+    "suite_breakdown": {
+      "gif_loop_export_certifier": 13,
+      "deterministic_gif_exporter": 13
+    },
     "test_failures": 0,
     "test_errors": 0,
     "python_compile": "pass",
@@ -67,7 +91,35 @@
     ],
     "all_runtime_visual_final_flags_false": true
   },
+  "synthetic_deterministic_export_probe": {
+    "production_evidence": false,
+    "fixture_type": "row023_decodable_synthetic_candidate_reused_for_deterministic_gif_export",
+    "probe_root": "runtime_artifacts/wave64_video_gif_loop_export/deterministic_export_probe_20260712T155511-0500",
+    "source_manifest": "runtime_artifacts/wave64_video_frame_repair/decodable_candidate_probe_20260712T152700-0500/candidate/candidate_manifest.json",
+    "source_manifest_sha256": "f552f1157f97a2c3bcdbbe390feacf314ac64957c79c63d3fc704aa6eb8e88ef",
+    "source_temporal_evidence": "runtime_artifacts/wave64_video_frame_repair/decodable_candidate_probe_20260712T152700-0500/packet/evidence.json",
+    "source_temporal_evidence_sha256": "2a215feb4435c6e486f9631d786280e6c69ec7d4a2d1b02718269cef230b6464",
+    "candidate_gif": "runtime_artifacts/wave64_video_gif_loop_export/deterministic_export_probe_20260712T155511-0500/candidate.gif",
+    "candidate_gif_sha256": "9eb6ce8c1df3640d1fa02b8029f64d6af7b749bb60a6aebb75b126aa9e4731e3",
+    "export_manifest": "runtime_artifacts/wave64_video_gif_loop_export/deterministic_export_probe_20260712T155511-0500/export_manifest.json",
+    "export_manifest_sha256": "8a31ecae7d206b64a1912f0a7aa9cc4666d906575dcea374fb81dc70c5f873da",
+    "certifier_evidence": "runtime_artifacts/wave64_video_gif_loop_export/deterministic_export_probe_20260712T155511-0500/certification.json",
+    "certifier_evidence_sha256": "c227aa3d28bb939f02d33fc9a5b60f21e4bc22a8afe05bbb213ca62143f8fa34",
+    "expected_certifier_exit_code": 2,
+    "decoded_frame_count": 6,
+    "dimensions": "96x72",
+    "frame_durations_ms": [40, 40, 40, 40, 40, 40],
+    "loop_count": 0,
+    "technical_passed": true,
+    "blocker_codes": [
+      "runtime_proof_absent",
+      "visual_playback_review_absent_or_failed"
+    ],
+    "all_runtime_visual_final_flags_false": true
+  },
   "acceptance_gates": {
+    "deterministic_gif_exporter_ready": true,
+    "synthetic_deterministic_export_verified": true,
     "loop_profile_and_source_contract_validation": true,
     "actual_gif_decode": true,
     "export_manifest_binding": true,
@@ -86,6 +138,11 @@
     "claude_high_findings_resolved_by_policy_blocker": 1,
     "claude_medium_findings_remediated": 1,
     "claude_confirmation": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T155246-0500_wave64_video_gif_loop_export_review_confirmation/handoff_record.json",
+    "claude_exporter_initial_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T153602-0500_row024_deterministic_gif_exporter_final_review/handoff_record.json",
+    "claude_exporter_remediation_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T154448-0500_row024_deterministic_gif_exporter_remediation_review/handoff_record.json",
+    "claude_exporter_medium_findings_remediated": 4,
+    "claude_final_confirmation_attempt": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T155209-0500_row024_gif_certifier_timing_floor_final_review/handoff_record.json",
+    "claude_final_confirmation_status": "incomplete_command_host_interruption_compact_codex_fallback",
     "remaining_remediable_high_or_medium_findings": 0
   },
   "runtime": {
@@ -116,7 +173,9 @@
   "strict_decision": {
     "row_complete": false,
     "offline_certifier_and_schema_pass": true,
+    "deterministic_exporter_pass": true,
     "synthetic_technical_probe_pass": true,
+    "synthetic_deterministic_export_probe_pass": true,
     "production_runtime_claimed": false,
     "visual_loop_review_claimed": false,
     "final_export_claimed": false,

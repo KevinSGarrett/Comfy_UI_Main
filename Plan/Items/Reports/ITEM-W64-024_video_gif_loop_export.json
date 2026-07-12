@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "report_id": "ITEM-W64-024-VIDEO-GIF-LOOP-EXPORT-20260711T160000-0500",
-  "timestamp": "2026-07-11T16:00:00-05:00",
+  "report_id": "ITEM-W64-024-VIDEO-GIF-LOOP-EXPORT-20260712T155511-0500",
+  "timestamp": "2026-07-12T15:55:11-05:00",
   "item_id": "ITEM-W64-024",
   "tracker_id": "TRK-W64-024",
   "workstream": "video_gif_loop_export",
@@ -14,23 +14,36 @@
     "frame_count_dimension_duration_and_loop_parity_ready": true,
     "decoded_pixel_seam_metric_ready": true,
     "runtime_and_visual_proof_binding_ready": true,
+    "deterministic_manifest_to_gif_exporter_ready": true,
+    "global_palette_transparency_handling_ready": true,
+    "minimum_10ms_timing_enforced_by_exporter_and_certifier": true,
     "synthetic_promotion_forbidden": true,
     "transactional_output_ready": true
   },
   "validation": {
-    "unit_tests_passed": 12,
+    "unit_tests_passed": 26,
+    "unit_test_suite_breakdown": {
+      "gif_loop_export_certifier": 13,
+      "deterministic_gif_exporter": 13
+    },
     "unit_test_failures": 0,
     "python_compile": "pass",
     "schema_check": "pass",
     "synthetic_real_decode_probe": "technical_pass_expected_exit_2",
     "synthetic_decoded_frame_count": 3,
+    "synthetic_deterministic_export_probe": "technical_pass_expected_certifier_exit_2",
+    "synthetic_deterministic_export_frame_count": 6,
+    "synthetic_deterministic_export_sha256": "9eb6ce8c1df3640d1fa02b8029f64d6af7b749bb60a6aebb75b126aa9e4731e3",
     "synthetic_final_export_passed": false,
-    "claude_medium_findings_remediated": 1,
+    "claude_exporter_medium_findings_remediated": 4,
+    "claude_final_confirmation_status": "incomplete_command_host_interruption_compact_codex_fallback",
     "remaining_remediable_high_or_medium_findings": 0
   },
   "acceptance_gates": {
     "loop_boundary_check_implementation": true,
     "export_manifest_implementation": true,
+    "deterministic_gif_exporter": true,
+    "synthetic_deterministic_export_verified": true,
     "production_gif_candidate": false,
     "production_runtime_ready": false,
     "visual_loop_playback_review": false,
@@ -50,11 +63,11 @@
   "evidence": [
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/video_gif_loop_export.json",
-      "sha256": "508a0f7c8be4aaeff8b08a92aa271437b9d6c1c094b3417cb62b2a5d772350ff"
+      "sha256": "8eaaaf9e8388593851acd87ea670af8f5e805769e49e4617c125d1e29d2069c9"
     },
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/video_gif_loop_export_test_log.json",
-      "sha256": "f4159302ee7020434bbd1161f35eec461b932ea1c8c8a811560e94fa32029295"
+      "sha256": "61f814cbfc1e11285bbf7c089d21dad8e7d97567afa860733f1f45dc499a4a59"
     }
   ],
   "runtime": {

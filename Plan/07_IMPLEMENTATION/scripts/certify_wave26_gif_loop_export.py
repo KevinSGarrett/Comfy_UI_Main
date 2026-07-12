@@ -17,6 +17,7 @@ SHA256_RE = re.compile(r"^[a-f0-9]{64}$")
 GIF_HEADERS = {b"GIF87a", b"GIF89a"}
 BLOCKED_EXIT_CODE = 2
 INVALID_EXIT_CODE = 1
+MIN_GIF_FRAME_DURATION_MS = 10
 RUNTIME_PROOF_REQUIRED_KEYS = {
     "runtime_ready",
     "runtime_proof_present",
@@ -194,8 +195,10 @@ def _normalize_manifest(manifest: dict[str, Any], manifest_path: Path) -> dict[s
     for idx in range(0, len(normalized_frames) - 1):
         delta = normalized_frames[idx + 1]["time_seconds"] - normalized_frames[idx]["time_seconds"]
         duration_ms = int(round(delta * 1000.0))
-        if duration_ms <= 0:
-            raise ValueError("manifest frame timing delta must be positive")
+        if duration_ms < MIN_GIF_FRAME_DURATION_MS:
+            raise ValueError(
+                f"manifest frame timing delta must be at least {MIN_GIF_FRAME_DURATION_MS}ms"
+            )
         expected_durations_ms.append(duration_ms)
     if len(normalized_frames) == 1:
         expected_durations_ms = [100]

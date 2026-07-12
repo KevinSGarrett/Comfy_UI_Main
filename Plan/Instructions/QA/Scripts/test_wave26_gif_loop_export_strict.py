@@ -28,6 +28,23 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _refresh_manifest_sequence(payload: dict[str, Any]) -> None:
+    frames = sorted(payload["frames"], key=lambda frame: frame["frame_index"])
+    sequence_payload = [
+        {
+            "frame_index": frame["frame_index"],
+            "time_seconds": float(frame["time_seconds"]),
+            "artifact_path": frame["artifact_path"],
+            "artifact_sha256": frame["artifact_sha256"],
+            "artifact_bytes": frame["artifact_bytes"],
+        }
+        for frame in frames
+    ]
+    payload["sequence_sha256"] = hashlib.sha256(
+        json.dumps(sequence_payload, separators=(",", ":"), sort_keys=True).encode("utf-8")
+    ).hexdigest()
+
+
 def _write_png(path: Path, width: int, height: int, seed: int) -> None:
     if width <= 0 or height <= 0:
         raise ValueError("PNG width/height must be positive")
@@ -460,6 +477,25 @@ class Wave26GifLoopExportStrictTests(unittest.TestCase):
             self.assertFalse(evidence["runtime_proof"]["runtime_proof_present"])
             self.assertFalse(evidence["runtime_proof"]["generation_executed"])
             self.assertFalse(evidence["runtime_proof"]["production_proof"])
+
+    def test_sub_centisecond_manifest_timing_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            tmpdir = Path(tmp)
+            manifest, temporal = self._build_manifest_and_evidence(tmpdir, frame_count=3)
+            manifest_payload = json.loads(manifest.read_text(encoding="utf-8"))
+            for frame in manifest_payload["frames"]:
+                frame["time_seconds"] = frame["frame_index"] * 0.005
+            _refresh_manifest_sequence(manifest_payload)
+            self._write_json(manifest, manifest_payload)
+
+            gif_path = tmpdir / "cand" / "too_fast.gif"
+            _build_gif(gif_path, width=1, height=1, durations_ms=[10, 10, 10], loop_count=0)
+            output = tmpdir / "out" / "evidence.json"
+            result = self._run_certifier(manifest, temporal, gif_path, output)
+
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("at least 10ms", result.stderr)
+            self.assertFalse(output.exists())
 
     def test_visual_proof_hash_and_binding_mismatch_blocked(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
