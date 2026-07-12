@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-12T10:31:34-05:00",
+  "tracker_id": "TRK-W64-006",
+  "item_id": "ITEM-W64-006",
+  "status": "Blocked_Live_Repo_EC2_S3_Proof_Static_Architecture_Pass",
+  "architecture_readiness": "pass_static_controls_with_live_blockers",
+  "live_runtime_status": "blocked",
+  "blockers": [
+    {
+      "dependency": "TRK-W64-040",
+      "reason": "current CI model-registry coverage alignment remains blocked"
+    },
+    {
+      "dependency": "TRK-W64-041",
+      "reason": "live S3 proof remains blocked by expired AWS authentication"
+    },
+    {
+      "dependency": "TRK-W64-042",
+      "reason": "live TTL/watchdog enforcement remains blocked by expired AWS authentication"
+    }
+  ],
+  "claims_allowed": [
+    "static_ci_package_architecture_ready",
+    "local_deploy_bundle_and_s3_readiness",
+    "historical_lane_scoped_hash_integrity",
+    "ec2_window_dry_run_plan_ready"
+  ],
+  "claims_forbidden": [
+    "current_ci_alignment_pass",
+    "current_live_s3_publish_certified",
+    "current_live_ec2_window_certified",
+    "all_lanes_runtime_certified",
+    "full_project_certified"
+  ],
+  "project_completion": {
+    "level": "BELOW_LEVEL_7",
+    "full_project_complete": false,
+    "final_certification_decision": "blocked"
+  },
+  "evidence": [
+    "Plan/Instructions/QA/Evidence/Wave64/repo_ec2_s3_architecture.json",
+    "Plan/Instructions/QA/Evidence/Wave64/REPO_EC2_S3_ARCHITECTURE_20260712T103134-0500.json",
+    "Plan/Tracker/Evidence/REPO_EC2_S3_ARCHITECTURE_20260712T103134-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/repo_ec2_s3_architecture_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-006_repo_ec2_s3_architecture.json"
+  ],
+  "next_action": "Proceed to TRK-W64-007 / ITEM-W64-007 for safe local work; do not rerun CI, contact AWS/S3, or start EC2 without material source change and current live gates."
+}

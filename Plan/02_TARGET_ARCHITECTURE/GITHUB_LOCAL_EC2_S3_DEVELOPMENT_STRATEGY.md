@@ -113,3 +113,36 @@ No wave can be marked runtime-complete until the EC2 proof report includes:
 - QA manifest,
 - pass/fail decision,
 - EC2 stopped confirmation.
+
+## Machine-readable deployment contract
+
+The canonical architecture contract is:
+
+`Plan/10_REGISTRIES/repo_ec2_s3_development_contract.json`
+
+The contract evaluates static and live state separately for four controls:
+
+1. `ci_preflight`: workflow structure, no-LFS checkout, package steps, artifact retention, and configuration-gated S3 upload are static facts; current CI alignment and any live workflow run are separate facts.
+2. `s3_bundle_manifest`: local deploy-bundle content and manifest integrity may pass before upload; `ready_local_only` is never equivalent to live S3 publication.
+3. `sha256_verification`: every bundle, model, input, output, log, manifest, and pullback claim is scoped to the exact hash chain reviewed.
+4. `ec2_window_bound`: local TTL/watchdog dry runs prove command planning only; live enforcement requires current authentication, executed schedule/watchdog evidence, the bounded runtime record, pullback, and stopped-state verification.
+
+## Split-state decisions
+
+Each control records both `static_status` and `live_status`. Static readiness may remain reusable while a dependent live gate is blocked. A static pass must not erase a live blocker, and a historical lane-scoped runtime pass must not certify the current queue, all lanes, or the full project.
+
+Allowed static claims:
+
+- repository and workflow contract readiness;
+- local deploy-bundle content readiness;
+- local S3 naming/policy/readiness validation;
+- exact historical lane-scoped hash integrity when its source evidence remains unchanged;
+- non-executing EC2 window/stop-control planning.
+
+Forbidden without current live proof:
+
+- current CI package alignment or successful CI execution;
+- current S3 upload/publication certification;
+- current EC2 TTL/watchdog enforcement;
+- current target-runtime execution for a changed scope;
+- full-lane, release, or full-project runtime certification.

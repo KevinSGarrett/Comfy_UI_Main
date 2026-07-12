@@ -1,0 +1,240 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "REPO_EC2_S3_ARCHITECTURE_20260712T103134-0500",
+  "created_iso": "2026-07-12T10:31:34-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-006",
+  "item_id": "ITEM-W64-006",
+  "status": "Blocked_Live_Repo_EC2_S3_Proof_Static_Architecture_Pass",
+  "row_complete": false,
+  "qa_decision": "static_architecture_pass_live_ci_s3_ec2_window_blocked",
+  "validation_gates": {
+    "ci_preflight": {
+      "static_status": "pass",
+      "live_status": "blocked_current_model_registry_coverage_alignment",
+      "checks": [
+        "RES-001_row006_contract_exact",
+        "RES-002_source_contract_linked",
+        "RES-003_contract_schema_identity",
+        "RES-004_control_order_exact",
+        "RES-005_ci_workflow_hash_exact",
+        "RES-006_ci_static_contract_present",
+        "RES-007_ci_s3_upload_config_gated",
+        "RES-008_ci_current_alignment_blocked",
+        "RES-009_ci_split_state_exact"
+      ]
+    },
+    "s3_bundle_manifest": {
+      "static_status": "pass_local_ready_only",
+      "live_status": "blocked_aws_authentication_expired",
+      "checks": [
+        "RES-010_bundle_static_pass_and_hash",
+        "RES-011_bundle_local_only_boundary",
+        "RES-012_s3_readiness_local_only",
+        "RES-013_s3_live_status_blocked"
+      ]
+    },
+    "sha256_verification": {
+      "static_status": "pass_bounded_historical_lane_scope",
+      "live_status": "not_current_live_reexecution",
+      "checks": [
+        "RES-014_runtime_lane_scoped_pass",
+        "RES-015_runtime_hash_chain_and_stopped",
+        "RES-016_hash_scope_inheritance_denied"
+      ]
+    },
+    "ec2_window_bound": {
+      "static_status": "pass_dry_run_only",
+      "live_status": "blocked_aws_authentication_expired",
+      "checks": [
+        "RES-017_ttl_dry_runs_exact",
+        "RES-018_ttl_live_status_blocked",
+        "RES-019_claim_boundaries_complete",
+        "RES-020_no_external_action_or_completion"
+      ]
+    }
+  },
+  "architecture_readiness": "pass_static_controls_with_live_blockers",
+  "live_runtime_status": "blocked",
+  "blockers": [
+    {
+      "dependency": "TRK-W64-040",
+      "reason": "current CI model-registry coverage alignment remains blocked"
+    },
+    {
+      "dependency": "TRK-W64-041",
+      "reason": "live S3 proof remains blocked by expired AWS authentication"
+    },
+    {
+      "dependency": "TRK-W64-042",
+      "reason": "live TTL/watchdog enforcement remains blocked by expired AWS authentication"
+    }
+  ],
+  "historical_runtime_scope": {
+    "lane": "sdxl_low_risk_fallback_lane",
+    "hash_chain_valid": true,
+    "stopped_state_verified": true,
+    "scope_inheritance_allowed": false
+  },
+  "claims_allowed": [
+    "static_ci_package_architecture_ready",
+    "local_deploy_bundle_and_s3_readiness",
+    "historical_lane_scoped_hash_integrity",
+    "ec2_window_dry_run_plan_ready"
+  ],
+  "claims_forbidden": [
+    "current_ci_alignment_pass",
+    "current_live_s3_publish_certified",
+    "current_live_ec2_window_certified",
+    "all_lanes_runtime_certified",
+    "full_project_certified"
+  ],
+  "checks": [
+    {
+      "name": "RES-001_row006_contract_exact",
+      "result": "pass"
+    },
+    {
+      "name": "RES-002_source_contract_linked",
+      "result": "pass"
+    },
+    {
+      "name": "RES-003_contract_schema_identity",
+      "result": "pass"
+    },
+    {
+      "name": "RES-004_control_order_exact",
+      "result": "pass"
+    },
+    {
+      "name": "RES-005_ci_workflow_hash_exact",
+      "result": "pass"
+    },
+    {
+      "name": "RES-006_ci_static_contract_present",
+      "result": "pass"
+    },
+    {
+      "name": "RES-007_ci_s3_upload_config_gated",
+      "result": "pass"
+    },
+    {
+      "name": "RES-008_ci_current_alignment_blocked",
+      "result": "pass"
+    },
+    {
+      "name": "RES-009_ci_split_state_exact",
+      "result": "pass"
+    },
+    {
+      "name": "RES-010_bundle_static_pass_and_hash",
+      "result": "pass"
+    },
+    {
+      "name": "RES-011_bundle_local_only_boundary",
+      "result": "pass"
+    },
+    {
+      "name": "RES-012_s3_readiness_local_only",
+      "result": "pass"
+    },
+    {
+      "name": "RES-013_s3_live_status_blocked",
+      "result": "pass"
+    },
+    {
+      "name": "RES-014_runtime_lane_scoped_pass",
+      "result": "pass"
+    },
+    {
+      "name": "RES-015_runtime_hash_chain_and_stopped",
+      "result": "pass"
+    },
+    {
+      "name": "RES-016_hash_scope_inheritance_denied",
+      "result": "pass"
+    },
+    {
+      "name": "RES-017_ttl_dry_runs_exact",
+      "result": "pass"
+    },
+    {
+      "name": "RES-018_ttl_live_status_blocked",
+      "result": "pass"
+    },
+    {
+      "name": "RES-019_claim_boundaries_complete",
+      "result": "pass"
+    },
+    {
+      "name": "RES-020_no_external_action_or_completion",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "safety_boundary": {
+    "github_ci_triggered": false,
+    "aws_contacted": false,
+    "s3_mutated": false,
+    "ec2_started": false,
+    "generation_executed": false,
+    "historical_evidence_mutated": false,
+    "mask_or_wave71_touched": false,
+    "jira_mutated": false
+  },
+  "project_completion": {
+    "level": "BELOW_LEVEL_7",
+    "full_project_complete": false,
+    "final_certification_decision": "blocked"
+  },
+  "source_hashes": [
+    {
+      "path": "Plan/02_TARGET_ARCHITECTURE/GITHUB_LOCAL_EC2_S3_DEVELOPMENT_STRATEGY.md",
+      "sha256": "ff753702ba3d474ab913b3afbbfbe86a5beab8802d2483e035761985ce0be2cc"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/repo_ec2_s3_development_contract.json",
+      "sha256": "bd8fa382483c35fd1daee33a060826f4956283caf9f3001d37f573aa78a1ebc5"
+    },
+    {
+      "path": ".github/workflows/preflight-package.yml",
+      "sha256": "8412a3055254973b3ada10355d64c7c4d78f4d5b453aa0f6b319de20cdd208f3"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/github_actions_ci_package.json",
+      "sha256": "dba1d6d84b8cebce8ec4c2b2fad9c08889391601cd2d6c3823d200927eed9f8a"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/s3_transfer_cost_control.json",
+      "sha256": "79ede1be596fe8b9f5487a6ea75d3903c4ef78e8c054e85a028a6af8cb35ecb7"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/ec2_runtime_proof.json",
+      "sha256": "e8f45394046e9f562427af29e5050bc85d11ff62bcf6626a7c988620d950d678"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json",
+      "sha256": "bdae77c5dab8fbabd432a6c0473aabadc3e681cf3106c54abd59d140fef07eee"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_EC2_DEPLOY_BUNDLE_CURRENT_ACTIVE_LANES_CONTENT_QA_20260709T014115-0500.json",
+      "sha256": "7c8e3e3505d6f3352c89979f6562d054287b27134bbeaa463ace196707fa9707"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_RUNTIME_TRANSFER_READINESS_CURRENT_ACTIVE_LANES_20260709T014300-0500.json",
+      "sha256": "ff0361d4579cc29545079847e2a335ec5e0cbdd7f051caf3dfbf4144047a436e"
+    }
+  ],
+  "next_action": "Proceed to TRK-W64-007 / ITEM-W64-007 for safe local work; do not rerun CI, contact AWS/S3, or start EC2 without material source change and current live gates.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/repo_ec2_s3_architecture.json",
+    "Plan/Instructions/QA/Evidence/Wave64/REPO_EC2_S3_ARCHITECTURE_20260712T103134-0500.json",
+    "Plan/Tracker/Evidence/REPO_EC2_S3_ARCHITECTURE_20260712T103134-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/repo_ec2_s3_architecture_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-006_repo_ec2_s3_architecture.json"
+  ]
+}

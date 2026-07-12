@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "wave64_repo_ec2_s3_development_contract",
+  "tracker_id": "TRK-W64-006",
+  "item_id": "ITEM-W64-006",
+  "controls_required": [
+    "ci_preflight",
+    "s3_bundle_manifest",
+    "sha256_verification",
+    "ec2_window_bound"
+  ],
+  "controls": {
+    "ci_preflight": {
+      "static_status": "pass",
+      "live_status": "blocked_current_model_registry_coverage_alignment",
+      "evidence": [
+        ".github/workflows/preflight-package.yml",
+        "Plan/Instructions/QA/Evidence/Wave64/github_actions_ci_package.json"
+      ],
+      "required_static_facts": [
+        "checkout_without_lfs",
+        "preflight_and_package_steps",
+        "seven_day_artifact_retention",
+        "optional_s3_upload_config_gated"
+      ]
+    },
+    "s3_bundle_manifest": {
+      "static_status": "pass_local_ready_only",
+      "live_status": "blocked_aws_authentication_expired",
+      "evidence": [
+        "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_EC2_DEPLOY_BUNDLE_CURRENT_ACTIVE_LANES_CONTENT_QA_20260709T014115-0500.json",
+        "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_RUNTIME_TRANSFER_READINESS_CURRENT_ACTIVE_LANES_20260709T014300-0500.json",
+        "Plan/Instructions/QA/Evidence/Wave64/s3_transfer_cost_control.json"
+      ],
+      "live_publish_certified": false
+    },
+    "sha256_verification": {
+      "static_status": "pass_bounded_historical_lane_scope",
+      "live_status": "not_current_live_reexecution",
+      "evidence": [
+        "Plan/Instructions/QA/Evidence/Wave64/ec2_runtime_proof.json"
+      ],
+      "required_chain": [
+        "commit",
+        "workflow",
+        "model",
+        "remote_manifest",
+        "pullback_manifest",
+        "output",
+        "log",
+        "visual_qa",
+        "stopped_state"
+      ],
+      "scope_inheritance_allowed": false
+    },
+    "ec2_window_bound": {
+      "static_status": "pass_dry_run_only",
+      "live_status": "blocked_aws_authentication_expired",
+      "evidence": [
+        "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json"
+      ],
+      "stop_after_minutes": 60,
+      "live_schedule_executed": false,
+      "live_watchdog_executed": false,
+      "current_stopped_state_verified": false
+    }
+  },
+  "architecture_readiness": "pass_static_controls_with_live_blockers",
+  "live_runtime_status": "blocked",
+  "claims_allowed": [
+    "static_ci_package_architecture_ready",
+    "local_deploy_bundle_and_s3_readiness",
+    "historical_lane_scoped_hash_integrity",
+    "ec2_window_dry_run_plan_ready"
+  ],
+  "claims_forbidden": [
+    "current_ci_alignment_pass",
+    "current_live_s3_publish_certified",
+    "current_live_ec2_window_certified",
+    "all_lanes_runtime_certified",
+    "full_project_certified"
+  ],
+  "runtime_action_allowed": false,
+  "aws_contact_allowed": false,
+  "ec2_start_allowed": false,
+  "s3_mutation_allowed": false,
+  "full_project_completion_implied": false
+}

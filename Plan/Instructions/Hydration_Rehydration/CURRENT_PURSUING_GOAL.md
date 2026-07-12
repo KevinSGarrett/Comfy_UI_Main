@@ -1,3 +1,11 @@
+## Wave64 Row006 GitHub Local EC2 S3 Architecture - 2026-07-12T10:31:34-05:00
+
+`TRK-W64-006` / `ITEM-W64-006` is `Blocked_Live_Repo_EC2_S3_Proof_Static_Architecture_Pass`. The direct split-state contract passes static CI/package architecture, local deploy-bundle/S3 readiness, the bounded historical low-risk lane SHA chain, and non-executing 60-minute EC2-window controls with 20/20 checks. It remains fail-closed for current CI alignment (`TRK-W64-040`), live S3 proof (`TRK-W64-041`), and live TTL/watchdog enforcement (`TRK-W64-042`). Historical Row038 proof remains valid only for its exact low-risk lane scope. No CI trigger, AWS/S3 contact, EC2 start, generation, mask, Jira, or Wave71+ action occurred.
+
+Next safe local action in strict sequence: `TRK-W64-007 / ITEM-W64-007`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/repo_ec2_s3_architecture.json`; `Plan/Instructions/QA/Evidence/Wave64/REPO_EC2_S3_ARCHITECTURE_20260712T103134-0500.json`; `Plan/Tracker/Evidence/REPO_EC2_S3_ARCHITECTURE_20260712T103134-0500.json`.
+
 ## Wave64 Row005 Local-First Runtime Validation Strategy - 2026-07-12T10:20:04-05:00
 
 `TRK-W64-005` / `ITEM-W64-005` is `Completed_Local_First_Runtime_Strategy_Contract_Pass_Project_Incomplete`. A canonical four-gate contract now binds local preflight, low-VRAM command policy, the EC2 final-proof boundary, and explicit no-false-equivalence rules. The audit verified zero-failure local static evidence, a non-executing localhost `--lowvram` plan on the recorded 8,151 MiB GPU, current ten-lane bounded queue controls, EC2 non-authority/stopped-state policy, and 20/20 checks. Local evidence remains local-scope only and does not become target-runtime, promotion, release, or project-completion proof. No AWS, EC2, generation, queue mutation, mask, Jira, or Wave71+ action occurred.

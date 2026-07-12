@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-12T10:31:34-05:00",
+  "tracker_id": "TRK-W64-006",
+  "result": "pass_split_state_audit_live_blocked",
+  "validation_gates": {
+    "ci_preflight": {
+      "static_status": "pass",
+      "live_status": "blocked_current_model_registry_coverage_alignment",
+      "checks": [
+        "RES-001_row006_contract_exact",
+        "RES-002_source_contract_linked",
+        "RES-003_contract_schema_identity",
+        "RES-004_control_order_exact",
+        "RES-005_ci_workflow_hash_exact",
+        "RES-006_ci_static_contract_present",
+        "RES-007_ci_s3_upload_config_gated",
+        "RES-008_ci_current_alignment_blocked",
+        "RES-009_ci_split_state_exact"
+      ]
+    },
+    "s3_bundle_manifest": {
+      "static_status": "pass_local_ready_only",
+      "live_status": "blocked_aws_authentication_expired",
+      "checks": [
+        "RES-010_bundle_static_pass_and_hash",
+        "RES-011_bundle_local_only_boundary",
+        "RES-012_s3_readiness_local_only",
+        "RES-013_s3_live_status_blocked"
+      ]
+    },
+    "sha256_verification": {
+      "static_status": "pass_bounded_historical_lane_scope",
+      "live_status": "not_current_live_reexecution",
+      "checks": [
+        "RES-014_runtime_lane_scoped_pass",
+        "RES-015_runtime_hash_chain_and_stopped",
+        "RES-016_hash_scope_inheritance_denied"
+      ]
+    },
+    "ec2_window_bound": {
+      "static_status": "pass_dry_run_only",
+      "live_status": "blocked_aws_authentication_expired",
+      "checks": [
+        "RES-017_ttl_dry_runs_exact",
+        "RES-018_ttl_live_status_blocked",
+        "RES-019_claim_boundaries_complete",
+        "RES-020_no_external_action_or_completion"
+      ]
+    }
+  },
+  "checks": [
+    {
+      "name": "RES-001_row006_contract_exact",
+      "result": "pass"
+    },
+    {
+      "name": "RES-002_source_contract_linked",
+      "result": "pass"
+    },
+    {
+      "name": "RES-003_contract_schema_identity",
+      "result": "pass"
+    },
+    {
+      "name": "RES-004_control_order_exact",
+      "result": "pass"
+    },
+    {
+      "name": "RES-005_ci_workflow_hash_exact",
+      "result": "pass"
+    },
+    {
+      "name": "RES-006_ci_static_contract_present",
+      "result": "pass"
+    },
+    {
+      "name": "RES-007_ci_s3_upload_config_gated",
+      "result": "pass"
+    },
+    {
+      "name": "RES-008_ci_current_alignment_blocked",
+      "result": "pass"
+    },
+    {
+      "name": "RES-009_ci_split_state_exact",
+      "result": "pass"
+    },
+    {
+      "name": "RES-010_bundle_static_pass_and_hash",
+      "result": "pass"
+    },
+    {
+      "name": "RES-011_bundle_local_only_boundary",
+      "result": "pass"
+    },
+    {
+      "name": "RES-012_s3_readiness_local_only",
+      "result": "pass"
+    },
+    {
+      "name": "RES-013_s3_live_status_blocked",
+      "result": "pass"
+    },
+    {
+      "name": "RES-014_runtime_lane_scoped_pass",
+      "result": "pass"
+    },
+    {
+      "name": "RES-015_runtime_hash_chain_and_stopped",
+      "result": "pass"
+    },
+    {
+      "name": "RES-016_hash_scope_inheritance_denied",
+      "result": "pass"
+    },
+    {
+      "name": "RES-017_ttl_dry_runs_exact",
+      "result": "pass"
+    },
+    {
+      "name": "RES-018_ttl_live_status_blocked",
+      "result": "pass"
+    },
+    {
+      "name": "RES-019_claim_boundaries_complete",
+      "result": "pass"
+    },
+    {
+      "name": "RES-020_no_external_action_or_completion",
+      "result": "pass"
+    }
+  ],
+  "summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  }
+}
