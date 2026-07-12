@@ -1,0 +1,172 @@
+{
+  "schema_version": "1.1",
+  "evidence_id": "LOCAL_COMFY_DEV_RECONCILIATION_20260712T060600-0500",
+  "created_at": "2026-07-12T06:06:00-05:00",
+  "artifact_type": "wave64_local_comfy_dev_reconciliation",
+  "wave": 64,
+  "tracker_id": "TRK-W64-039",
+  "item_id": "ITEM-W64-039",
+  "lane_id": "sdxl_low_risk_fallback_lane",
+  "status": "Completed_Lane_Scoped_Local_Comfy_Dev_Preview_Pass",
+  "row_complete": true,
+  "objective": "Confirm the bounded local ComfyUI development/preview lane from existing readiness and smoke evidence without launching the server or repeating generation.",
+  "source_runbook": {
+    "path": "Plan/Instructions/Operations/EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md",
+    "sha256": "e93cebcda53ae11d6b65ff6d5a169ba3be9915c69b86bf201bab928716298693"
+  },
+  "historical_evidence": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/LOCAL_COMFY_DEV_20260708T232249-0500.json",
+    "sha256": "9ec75355be86e1bd9728c9d0f8ea2cbe6ff46eafe0e2b3b7e386dd2c9c2d86fb",
+    "qa_decision": "local_comfy_dev_passed_non_ec2_preview_lane",
+    "preserved_as_historical_truth": true
+  },
+  "rerun_decision": {
+    "duplicate_check_performed": true,
+    "fresh_preflight_required": false,
+    "local_comfyui_start_required": false,
+    "new_generation_required": false,
+    "preserve_passed_evidence": true,
+    "reason": "The later hardened preflight regression and current runnable SDXL preflight both pass, while the existing local smoke artifact remains valid supporting evidence. No objective, lane requirement, checkpoint hash, or QA threshold change requires a rerun."
+  },
+  "historical_local_preflight": {
+    "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_LOCAL_COMFY_DEV_PREFLIGHT_SDXL_LOW_RISK_20260708T232400-0500.json",
+    "sha256": "e64071df84ace77b8981be1efd3e9a229eb69ae13a6ab0c857e0f49ddf4b62ed",
+    "result": "pass_local_gpu_generation_candidate",
+    "failed_check_count": 0
+  },
+  "low_vram_start_plan": {
+    "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_LOCAL_COMFY_DEV_START_DRY_RUN_LOWVRAM_20260708T232500-0500.json",
+    "sha256": "904bb8bf54bd4f774d73d76e3ac05956cc27f1e7451b0fc8201a2eb42cc4015e",
+    "result": "dry_run_local_comfyui_start_plan",
+    "execute": false,
+    "host": "127.0.0.1",
+    "port": 8188,
+    "low_vram_args_enabled": true,
+    "ec2_started": false,
+    "generation_executed": false
+  },
+  "hardened_preflight_regression": {
+    "path": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_LOCAL_COMFYUI_DEV_PREFLIGHT_MODEL_REQUIREMENTS_REGRESSION_20260710T144600-0500.json",
+    "sha256": "473399c84a012ac278ac8c4908a62de379cbb4ab59e8fad576f8e9e07240e2d3",
+    "result": "pass_local_only",
+    "tests_run": 8,
+    "tests_passed": 8,
+    "tests_failed": 0,
+    "fail_closed_cases": [
+      "missing_requirements",
+      "malformed_requirements",
+      "empty_required_models",
+      "invalid_model_contract",
+      "declared_model_missing",
+      "model_hash_mismatch"
+    ],
+    "positive_model_placement_cases": [
+      "project_model_present",
+      "comfy_model_present"
+    ],
+    "target_runtime_proof_claimed": false,
+    "certification_claimed": false
+  },
+  "current_runnable_preflight": {
+    "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_COMFYUI_DEV_PREFLIGHT_REQUIRE_RUNNABLE_CURRENT_20260710T144600-0500.json",
+    "sha256": "c714d773abf6d1ca328600ba945c62685ff7b66e958452c68d21e06eceaa8602",
+    "result": "pass_local_gpu_generation_candidate",
+    "failure_category": null,
+    "failed_check_count": 0,
+    "gpu": {
+      "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+      "memory_total_mib": 8151,
+      "driver_version": "592.01"
+    },
+    "python": {
+      "executable": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe",
+      "torch_imported": true,
+      "torch_version": "2.11.0+cu128",
+      "torch_cuda_available": true
+    },
+    "local_comfyui": {
+      "root": "C:\\Comfy_UI_Main\\ComfyUI",
+      "main_py_exists": true
+    },
+    "runtime_requirements": {
+      "path": "Workflows/base_generation/sdxl_low_risk_fallback_lane/runtime_requirements.json",
+      "found": true,
+      "parsed": true,
+      "status": "ready",
+      "required_model_count": 1,
+      "invalid_model_declaration_count": 0,
+      "hash_verified_model_count": 1,
+      "hash_mismatch_count": 0
+    },
+    "model": {
+      "filename": "sd_xl_base_1.0.safetensors",
+      "existing_path": "models/checkpoints/sd_xl_base_1.0.safetensors",
+      "expected_sha256": "31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b",
+      "observed_sha256": "31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b",
+      "hash_match": true
+    },
+    "selected_lane_static_valid": true
+  },
+  "supporting_local_smoke": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/workflow_runtime_smoke.json",
+    "sha256": "4544cd47b960677a87325f9af6e5e60d89db2005157e100cced7b9fc99d89be5",
+    "owned_by_tracker_id": "TRK-W64-037",
+    "reused_as_supporting_evidence_only": true,
+    "new_row039_generation_claimed": false
+  },
+  "implementation": {
+    "preflight_script": {
+      "path": "tools/Test-LocalComfyUIDevPreflight.ps1",
+      "sha256": "74c57786c72c5ee9df55a74ab019109b5729c905a2cb6f391892a30a1dadcaa9"
+    },
+    "regression_script": {
+      "path": "Plan/Instructions/QA/Scripts/Test-LocalComfyUIDevPreflightRegression.ps1",
+      "sha256": "bc1e02c2ab22401aa7fe42239b12003e7a888179feff0886a0952900a7a70bde"
+    }
+  },
+  "acceptance_contract": {
+    "local_gpu_available": true,
+    "local_vram_suitable_for_bounded_low_resolution_preview": true,
+    "local_python_and_torch_import": true,
+    "local_torch_cuda_available": true,
+    "local_comfyui_root_and_main_present": true,
+    "selected_lane_runtime_requirements_valid": true,
+    "required_model_declared": true,
+    "required_model_present": true,
+    "required_model_hash_match": true,
+    "selected_lane_static_validation_pass": true,
+    "low_vram_start_plan_valid": true,
+    "supporting_local_preview_exists": true,
+    "local_preview_can_reduce_ec2_starts": true,
+    "local_preview_replaces_final_ec2_proof": false,
+    "all_required_row_evidence_present": true
+  },
+  "runtime_boundaries": {
+    "new_local_comfyui_contacted": false,
+    "new_local_comfyui_started": false,
+    "new_generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "local_preview_lane_only": true,
+    "ec2_equivalence_claimed": false,
+    "mask_truth_consumed": false,
+    "mask_promotion_executed": false,
+    "wave70_hard_gate_executed": false,
+    "wave71_plus_activated": false
+  },
+  "independent_duplicate_check": {
+    "path": "runtime_artifacts/agent_handoffs/cursor/20260712T060441-0500_wave64_row039_local_comfy_dev_duplicate_check/handoff_record.json",
+    "sha256": "58076cbf104c4fd45f924ab14613c11a22114273ad5deebf3baae98cd344d600",
+    "status": "PASS",
+    "classification": "CURSOR_HANDOFF_COMPLETED"
+  },
+  "qa_decision": "local_comfy_dev_lane_scoped_preview_pass_existing_evidence",
+  "final_render_gate": "LOCAL_PREVIEW_PASS_EC2_EQUIVALENCE_NOT_CLAIMED",
+  "blockers": [],
+  "known_limits": [
+    "The local RTX 5060 Laptop GPU has 8,151 MiB and is limited to bounded low-resolution, batch-one, low-step, low-VRAM preview work.",
+    "Row037 runtime evidence is supporting lineage only and is not re-owned or reclassified as a new Row039 execution.",
+    "Local preview evidence never replaces target-runtime proof or full-project certification."
+  ],
+  "next_action": "Duplicate-check TRK-W64-040 / ITEM-W64-040 against existing GitHub Actions CI/package evidence before any rebuild or GitHub mutation."
+}

@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "report_id": "ITEM-W64-039-LOCAL-COMFY-DEV-20260712T060600-0500",
+  "timestamp": "2026-07-12T06:06:00-05:00",
+  "item_id": "ITEM-W64-039",
+  "tracker_id": "TRK-W64-039",
+  "workstream": "local_comfy_dev",
+  "lane_id": "sdxl_low_risk_fallback_lane",
+  "status": "Completed_Lane_Scoped_Local_Comfy_Dev_Preview_Pass",
+  "row_complete": true,
+  "completion_scope": "Bounded low-cost local ComfyUI preview and workflow-iteration readiness only",
+  "rerun_required": false,
+  "acceptance": {
+    "local_gpu_ready": true,
+    "local_python_torch_cuda_ready": true,
+    "local_comfyui_root_ready": true,
+    "runtime_requirements_valid": true,
+    "required_model_contract_valid": true,
+    "required_model_present_and_hash_matched": true,
+    "selected_lane_static_pass": true,
+    "low_vram_dry_run_valid": true,
+    "supporting_local_preview_present": true,
+    "ec2_equivalence_claimed": false
+  },
+  "current_preflight": {
+    "result": "pass_local_gpu_generation_candidate",
+    "failed_check_count": 0,
+    "gpu": "NVIDIA GeForce RTX 5060 Laptop GPU",
+    "memory_total_mib": 8151,
+    "torch_version": "2.11.0+cu128",
+    "torch_cuda_available": true,
+    "checkpoint_sha256": "31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b"
+  },
+  "regression": {
+    "tests_run": 8,
+    "tests_passed": 8,
+    "tests_failed": 0,
+    "missing_malformed_empty_invalid_missing_model_and_hash_mismatch_fail_closed": true,
+    "project_and_comfy_model_placement_positive_cases_pass": true
+  },
+  "runtime_boundaries": {
+    "new_local_comfyui_started": false,
+    "new_generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "local_preview_replaces_ec2_final_proof": false,
+    "mask_truth_consumed": false,
+    "wave70_hard_gate_executed": false,
+    "wave71_plus_activated": false
+  },
+  "evidence": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/local_comfy_dev.json",
+      "sha256": "fb0e3edf7b317890663f04d5629c69ae8bcb4ee83cc8194785086227bec6dea8"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_COMFYUI_DEV_PREFLIGHT_REQUIRE_RUNNABLE_CURRENT_20260710T144600-0500.json",
+      "sha256": "c714d773abf6d1ca328600ba945c62685ff7b66e958452c68d21e06eceaa8602"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_LOCAL_COMFYUI_DEV_PREFLIGHT_MODEL_REQUIREMENTS_REGRESSION_20260710T144600-0500.json",
+      "sha256": "473399c84a012ac278ac8c4908a62de379cbb4ab59e8fad576f8e9e07240e2d3"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/workflow_runtime_smoke.json",
+      "sha256": "4544cd47b960677a87325f9af6e5e60d89db2005157e100cced7b9fc99d89be5"
+    },
+    {
+      "path": "runtime_artifacts/agent_handoffs/cursor/20260712T060441-0500_wave64_row039_local_comfy_dev_duplicate_check/handoff_record.json",
+      "sha256": "58076cbf104c4fd45f924ab14613c11a22114273ad5deebf3baae98cd344d600"
+    }
+  ],
+  "blockers": [],
+  "certification_boundary": "This closes only local low-cost preview readiness. It does not create a new runtime artifact, replace EC2 target proof, certify final portfolio quality, or authorize mask/Wave70/Wave71+ gates.",
+  "next_action": "Duplicate-check TRK-W64-040 / ITEM-W64-040 against existing GitHub Actions CI/package evidence before any rebuild or GitHub mutation."
+}

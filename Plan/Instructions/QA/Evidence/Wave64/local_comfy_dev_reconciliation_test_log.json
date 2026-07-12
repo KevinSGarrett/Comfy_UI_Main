@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.0",
+  "test_log_id": "LOCAL_COMFY_DEV_RECONCILIATION_TEST_LOG_20260712T060600-0500",
+  "created_at": "2026-07-12T06:06:00-05:00",
+  "tracker_id": "TRK-W64-039",
+  "item_id": "ITEM-W64-039",
+  "subject_evidence": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/local_comfy_dev.json",
+    "sha256": "fb0e3edf7b317890663f04d5629c69ae8bcb4ee83cc8194785086227bec6dea8"
+  },
+  "item_report": {
+    "path": "Plan/Items/Reports/ITEM-W64-039_local_comfy_dev.json",
+    "sha256": "3ccf98afbc9addbbeb0b309bc5fd519eea0fe0c3659803bcfcf667a4b9d726ee"
+  },
+  "tests": [
+    {
+      "name": "canonical_and_mirror_json_parse",
+      "result": "PASS"
+    },
+    {
+      "name": "canonical_instruction_tracker_mirrors_exact",
+      "result": "PASS",
+      "observed_sha256": "fb0e3edf7b317890663f04d5629c69ae8bcb4ee83cc8194785086227bec6dea8"
+    },
+    {
+      "name": "historical_local_dev_evidence_preserved",
+      "result": "PASS",
+      "observed_sha256": "9ec75355be86e1bd9728c9d0f8ea2cbe6ff46eafe0e2b3b7e386dd2c9c2d86fb"
+    },
+    {
+      "name": "local_nvidia_gpu_available",
+      "result": "PASS",
+      "observed": "NVIDIA GeForce RTX 5060 Laptop GPU"
+    },
+    {
+      "name": "local_vram_bounded_preview_candidate",
+      "result": "PASS",
+      "observed_mib": 8151
+    },
+    {
+      "name": "local_comfyui_main_present",
+      "result": "PASS",
+      "observed": "C:\\Comfy_UI_Main\\ComfyUI"
+    },
+    {
+      "name": "python_and_torch_import",
+      "result": "PASS",
+      "observed_torch": "2.11.0+cu128"
+    },
+    {
+      "name": "torch_cuda_available",
+      "result": "PASS"
+    },
+    {
+      "name": "runtime_requirements_valid",
+      "result": "PASS",
+      "observed_required_models": 1
+    },
+    {
+      "name": "required_model_contract_valid",
+      "result": "PASS"
+    },
+    {
+      "name": "required_model_present",
+      "result": "PASS",
+      "observed": "models/checkpoints/sd_xl_base_1.0.safetensors"
+    },
+    {
+      "name": "required_model_sha256_match",
+      "result": "PASS",
+      "observed_sha256": "31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b"
+    },
+    {
+      "name": "selected_lane_static_validation_pass",
+      "result": "PASS"
+    },
+    {
+      "name": "low_vram_start_plan_dry_run",
+      "result": "PASS",
+      "observed_execute": false
+    },
+    {
+      "name": "model_requirement_regression_suite",
+      "result": "PASS",
+      "observed": "8/8"
+    },
+    {
+      "name": "missing_malformed_empty_invalid_missing_and_hash_mismatch_fail_closed",
+      "result": "PASS"
+    },
+    {
+      "name": "supporting_local_smoke_preserved_without_reownership",
+      "result": "PASS"
+    },
+    {
+      "name": "no_new_comfyui_start_or_generation",
+      "result": "PASS"
+    },
+    {
+      "name": "no_aws_or_ec2_action",
+      "result": "PASS"
+    },
+    {
+      "name": "local_preview_does_not_replace_ec2_proof",
+      "result": "PASS"
+    },
+    {
+      "name": "mask_and_wave70_wave71_scope_excluded",
+      "result": "PASS"
+    }
+  ],
+  "summary": {
+    "tests_run": 21,
+    "tests_passed": 21,
+    "tests_failed": 0,
+    "final_decision": "PASS"
+  }
+}

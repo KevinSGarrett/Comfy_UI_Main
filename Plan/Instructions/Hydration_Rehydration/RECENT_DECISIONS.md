@@ -1,3 +1,10 @@
+## 2026-07-12T06:12:00-05:00 - Preserve local preview evidence and enforce non-equivalence
+
+- Close Row039 from the original local-preview pass plus current hash-verified preflight and 8/8 fail-closed regression; no duplicate server start or image generation is needed.
+- Reuse Row037 smoke only as supporting lineage and never re-own it as a Row039 execution.
+- Keep local work limited to low-cost preview and workflow iteration; target-runtime and final-certification claims remain separate.
+- Duplicate-check Row040 before any CI/package rebuild or GitHub mutation.
+
 ## 2026-07-12T05:56:00-05:00 - Supersede a proposed-rerun blocker with existing target proof
 
 - Keep the 2026-07-08 Row038 pre-start dry-run blocker as historical truth, but do not let it hide the earlier completed W61 EC2 target-runtime chain.

@@ -1,3 +1,14 @@
+## Wave64 Local ComfyUI Preview Lane Reconciliation - 2026-07-12T06:12:00-05:00
+
+Row039 is complete for bounded local preview readiness using existing smoke evidence, current hash-verified runnable preflight, and the 8/8 fail-closed model-requirements regression. No local server start or generation occurred. EC2 equivalence, final certification, and mask gates remain excluded.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Wave64/local_comfy_dev.json`
+- `Plan/Instructions/QA/Evidence/Wave64/LOCAL_COMFY_DEV_RECONCILIATION_20260712T060600-0500.json`
+- `Plan/Tracker/Evidence/LOCAL_COMFY_DEV_RECONCILIATION_20260712T060600-0500.json`
+- `Plan/Instructions/QA/Evidence/Wave64/local_comfy_dev_reconciliation_test_log.json`
+- `Plan/Items/Reports/ITEM-W64-039_local_comfy_dev.json`
+
 ## Wave64 Existing EC2 Target Runtime Proof Reconciliation - 2026-07-12T05:56:00-05:00
 
 Row038 is complete for the bounded SDXL low-risk EC2 target-runtime scope using existing W61/W66 proof. The reconciliation records object-info, required nodes, exact checkpoint bytes/hash, successful generation/model load, manifest/log, 4/4 pullback, visual QA, and stopped final state. No live rerun occurred; full-project and mask gates remain excluded.

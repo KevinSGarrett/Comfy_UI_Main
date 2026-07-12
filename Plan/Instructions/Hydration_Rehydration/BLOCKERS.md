@@ -1,3 +1,7 @@
+## Row039 Local Preview Pass Does Not Replace Target Runtime Or Final Certification - 2026-07-12T06:12:00-05:00
+
+The bounded local ComfyUI development lane is ready for low-resolution, batch-one, low-step, low-VRAM previews. That pass does not claim a new generation in Row039, replace EC2 target-runtime proof, certify final portfolio quality, or clear any mask/Wave70/Wave71+ gate. Start a new local preview only when a changed workflow, model contract, prompt, or QA threshold creates a real iteration need.
+
 ## Row038 Target-Runtime Pass Is Lane-Scoped; Live AWS Remains Blocked - 2026-07-12T05:56:00-05:00
 
 The existing SDXL low-risk EC2 target-runtime proof is complete and does not need a rerun. This does not certify every active lane, final portfolio quality, masks, Wave70 promotion, Wave71+ activation, or the full project. Current AWS authentication remains expired, so all new EC2/S3 assertions and live execution remain blocked until separately authorized and authenticated; that current blocker does not invalidate the preserved W61/W66 proof.

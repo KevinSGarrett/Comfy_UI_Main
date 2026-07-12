@@ -1,3 +1,9 @@
+## Active Runtime Posture - Wave64 Local Preview Readiness Closed Without Rerun - 2026-07-12T06:12:00-05:00
+
+Continue the full autonomous project goal from authoritative `C:\Comfy_UI_Main`. Preserve `TRK-W64-039` / `ITEM-W64-039` as `Completed_Lane_Scoped_Local_Comfy_Dev_Preview_Pass`: the original preview evidence plus current hash-verified runnable preflight and 8/8 fail-closed regression satisfy the local development lane without starting ComfyUI or generating a duplicate image. Local preview remains cost-reduction and workflow-iteration evidence only, never target-runtime equivalence.
+
+Proceed to `TRK-W64-040` / `ITEM-W64-040` with a duplicate check of existing GitHub Actions CI/package evidence before rebuild or mutation. Retain local-source, no-duplicate, historical-integrity, manual-mask, Wave70/Wave71+, Flux1-license, expired-AWS-authentication, and Jira boundaries.
+
 ## Active Runtime Posture - Wave64 Existing EC2 Target Proof Closed At Lane Scope - 2026-07-12T05:56:00-05:00
 
 Continue the full autonomous project goal from authoritative `C:\Comfy_UI_Main`. Preserve `TRK-W64-038` / `ITEM-W64-038` as `Completed_Lane_Scoped_EC2_Target_Runtime_Proof_Pass`: the existing W61 object-info, model path/hash, generation, manifest, pullback, visual-QA, and stopped-state chain satisfies the bounded SDXL target-runtime objective, and W66 closes its lane review. Current expired AWS authentication forbids new live execution but does not erase the historical pass.
