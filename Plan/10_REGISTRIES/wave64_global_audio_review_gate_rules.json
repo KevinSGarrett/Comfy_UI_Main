@@ -1,0 +1,43 @@
+{
+  "schema_name": "wave64_global_audio_review_gate_rules",
+  "registry_version": 1,
+  "required_row031_technical_gates": [
+    "audio_metadata_check",
+    "prompt_alignment",
+    "playback_review",
+    "sync_evidence"
+  ],
+  "window_rules": {
+    "target_padding_before_seconds": 0.05,
+    "target_padding_after_seconds": 0.05,
+    "max_total_target_window_seconds": 60.0
+  },
+  "non_target_rules": {
+    "max_outside_target_diff_rms": 0.005,
+    "max_outside_target_peak_delta": 0.02,
+    "max_duration_delta_seconds": 0.001,
+    "per_target_min_rms_delta": 0.002
+  },
+  "global_audio_rules": {
+    "max_clipping_ratio": 0.0005,
+    "min_clipping_run_samples": 4,
+    "max_click_ratio": 0.001,
+    "click_delta_threshold": 0.75,
+    "silence_rms_threshold": 0.0008,
+    "max_silence_run_seconds": 0.08,
+    "loudness_window_seconds": 0.1,
+    "max_loudness_jump_db": 24.0,
+    "max_channel_imbalance_db": 2.5,
+    "required_event_min_rms": 0.001,
+    "max_single_channel_clipping_regression_ratio": 0.0001,
+    "max_single_channel_dropout_regression_seconds": 0.02
+  },
+  "production_rules": {
+    "require_non_synthetic_lineage": true,
+    "require_technical_capture": true,
+    "require_row031_promotion_pass": true,
+    "require_upstream_production_eligible": true,
+    "approved_production_baselines": [],
+    "approved_production_bundles": []
+  }
+}

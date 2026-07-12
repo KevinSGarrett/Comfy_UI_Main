@@ -1,0 +1,252 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64_global_audio_review_report.schema.json",
+  "title": "Wave64 Global Audio Review Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schema_name",
+    "report_version",
+    "review_run_id",
+    "baseline_run_id",
+    "candidate_run_id",
+    "is_synthetic",
+    "capture_mode",
+    "artifact_bindings",
+    "localized_change_context",
+    "gates",
+    "computed_metrics",
+    "blockers",
+    "review_lineage_blockers",
+    "production_authority_evidence",
+    "final_decision"
+  ],
+  "properties": {
+    "$schema": { "const": "https://json-schema.org/draft/2020-12/schema" },
+    "schema_name": { "const": "wave64_global_audio_review_report" },
+    "report_version": { "const": 1 },
+    "review_run_id": { "type": "string", "minLength": 1 },
+    "baseline_run_id": { "type": "string", "minLength": 1 },
+    "candidate_run_id": { "type": "string", "minLength": 1 },
+    "is_synthetic": { "type": "boolean" },
+    "capture_mode": {
+      "type": "string",
+      "enum": ["technical_capture", "hand_authored_relabel", "synthetic_fixture"]
+    },
+    "artifact_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baseline_mix_wav",
+        "candidate_mix_wav",
+        "baseline_row031_strict_report",
+        "candidate_row031_strict_report",
+        "baseline_wave30_event_manifest",
+        "candidate_wave30_event_manifest",
+        "baseline_wave30_mix_manifest",
+        "candidate_wave30_mix_manifest",
+        "baseline_wave30_qa_report",
+        "candidate_wave30_qa_report"
+      ],
+      "properties": {
+        "baseline_mix_wav": { "$ref": "#/$defs/binding" },
+        "candidate_mix_wav": { "$ref": "#/$defs/binding" },
+        "baseline_row031_strict_report": { "$ref": "#/$defs/binding" },
+        "candidate_row031_strict_report": { "$ref": "#/$defs/binding" },
+        "baseline_wave30_event_manifest": { "$ref": "#/$defs/binding" },
+        "candidate_wave30_event_manifest": { "$ref": "#/$defs/binding" },
+        "baseline_wave30_mix_manifest": { "$ref": "#/$defs/binding" },
+        "candidate_wave30_mix_manifest": { "$ref": "#/$defs/binding" },
+        "baseline_wave30_qa_report": { "$ref": "#/$defs/binding" },
+        "candidate_wave30_qa_report": { "$ref": "#/$defs/binding" },
+        "production_bundle": { "$ref": "#/$defs/binding" }
+      }
+    },
+    "localized_change_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "change_kind",
+        "audio_change_expected",
+        "target_audio_event_ids",
+        "derived_non_target_audio_event_ids",
+        "derived_allowed_change_windows_seconds",
+        "caller_allowed_change_windows_seconds"
+      ],
+      "properties": {
+        "change_kind": { "type": "string", "enum": ["audio_localized", "visual_localized"] },
+        "audio_change_expected": { "type": "boolean" },
+        "target_audio_event_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "derived_non_target_audio_event_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "derived_allowed_change_windows_seconds": { "$ref": "#/$defs/windowArray" },
+        "caller_allowed_change_windows_seconds": { "$ref": "#/$defs/windowArray" }
+      }
+    },
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "full_duration_playback_review",
+        "required_target_audio_check",
+        "required_non_target_audio_scan",
+        "clipping_noise_voice_ambience_foley_sync_check",
+        "reject_on_any_global_audio_defect",
+        "promotion_decision",
+        "overall_pass"
+      ],
+      "properties": {
+        "full_duration_playback_review": { "$ref": "#/$defs/gateState" },
+        "required_target_audio_check": { "$ref": "#/$defs/gateState" },
+        "required_non_target_audio_scan": { "$ref": "#/$defs/gateState" },
+        "clipping_noise_voice_ambience_foley_sync_check": { "$ref": "#/$defs/gateState" },
+        "reject_on_any_global_audio_defect": { "$ref": "#/$defs/gateState" },
+        "promotion_decision": { "$ref": "#/$defs/gateState" },
+        "overall_pass": { "$ref": "#/$defs/gateState" }
+      }
+    },
+    "computed_metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "outside_target_diff_rms",
+        "outside_target_peak_delta",
+        "inside_target_diff_rms_per_target",
+        "inside_target_diff_rms_min",
+        "inside_target_diff_rms_max",
+        "candidate_clipping_ratio",
+        "candidate_click_ratio",
+        "candidate_max_loudness_jump_db",
+        "candidate_channel_imbalance_db",
+        "candidate_duration_seconds",
+        "evaluated_duration_seconds",
+        "duration_delta_seconds",
+        "worst_channel_index",
+        "channel_count"
+      ],
+      "properties": {
+        "outside_target_diff_rms": { "type": "number", "minimum": 0 },
+        "outside_target_peak_delta": { "type": "number", "minimum": 0 },
+        "inside_target_diff_rms_per_target": {
+          "type": "object",
+          "additionalProperties": { "type": "number", "minimum": 0 }
+        },
+        "inside_target_diff_rms_min": { "type": "number", "minimum": 0 },
+        "inside_target_diff_rms_max": { "type": "number", "minimum": 0 },
+        "candidate_clipping_ratio": { "type": "number", "minimum": 0 },
+        "candidate_click_ratio": { "type": "number", "minimum": 0 },
+        "candidate_max_loudness_jump_db": { "type": "number", "minimum": 0 },
+        "candidate_channel_imbalance_db": { "type": "number", "minimum": 0 },
+        "candidate_duration_seconds": { "type": "number", "minimum": 0 },
+        "evaluated_duration_seconds": { "type": "number", "minimum": 0 },
+        "duration_delta_seconds": { "type": "number", "minimum": 0 },
+        "worst_channel_index": { "type": "integer", "minimum": 0 },
+        "channel_count": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "review_lineage_blockers": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "production_authority_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["baseline_authority_match", "bundle_authority_match", "bundle_content_match"],
+      "properties": {
+        "baseline_authority_match": { "type": "boolean" },
+        "bundle_authority_match": { "type": "boolean" },
+        "bundle_content_match": { "type": "boolean" }
+      }
+    },
+    "final_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["overall_status", "exit_code"],
+      "properties": {
+        "overall_status": {
+          "type": "string",
+          "enum": ["PASS", "FAIL", "BLOCKED"]
+        },
+        "exit_code": { "type": "integer", "enum": [0, 2] }
+      }
+    }
+  },
+  "$defs": {
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "bytes"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "bytes": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "gateState": {
+      "type": "string",
+      "enum": ["PASS", "FAIL", "BLOCKED"]
+    },
+    "windowArray": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["start_seconds", "end_seconds"],
+        "properties": {
+          "start_seconds": { "type": "number", "minimum": 0 },
+          "end_seconds": { "type": "number", "minimum": 0 }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "localized_change_context": {
+            "properties": {
+              "change_kind": { "const": "visual_localized" }
+            },
+            "required": ["change_kind"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "localized_change_context": {
+            "anyOf": [
+              {
+                "properties": {
+                  "audio_change_expected": { "const": false },
+                  "target_audio_event_ids": { "maxItems": 0 },
+                  "derived_allowed_change_windows_seconds": { "maxItems": 0 },
+                  "caller_allowed_change_windows_seconds": { "maxItems": 0 }
+                }
+              },
+              {
+                "properties": {
+                  "audio_change_expected": { "const": true },
+                  "target_audio_event_ids": { "minItems": 1 },
+                  "derived_allowed_change_windows_seconds": { "minItems": 1 },
+                  "caller_allowed_change_windows_seconds": { "minItems": 1 }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

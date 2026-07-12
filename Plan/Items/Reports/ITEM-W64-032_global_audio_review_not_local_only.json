@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0",
+  "report_id": "ITEM-W64-032-GLOBAL-AUDIO-REVIEW-20260711T234320-0500",
+  "timestamp": "2026-07-11T23:43:20-05:00",
+  "item_id": "ITEM-W64-032",
+  "tracker_id": "TRK-W64-032",
+  "workstream": "global_audio_review_not_local_only",
+  "status": "Blocked_Global_Audio_Production_Review_Proof_Missing",
+  "row_complete": false,
+  "implementation": {
+    "full_duration_pcm_analysis_ready": true,
+    "target_audio_check_ready": true,
+    "non_target_audio_scan_ready": true,
+    "voice_ambience_foley_mix_and_sync_binding_ready": true,
+    "visual_no_audio_and_visual_with_audio_modes_ready": true,
+    "row030_and_row031_reuse_ready": true,
+    "separate_baseline_candidate_wave30_lineage_ready": true,
+    "exact_production_authority_contract_ready": true,
+    "synthetic_and_relabel_promotion_forbidden": true
+  },
+  "validation": {
+    "unit_tests_passed": 32,
+    "unit_test_failures": 0,
+    "unit_test_errors": 0,
+    "unit_test_skips": 0,
+    "elapsed_seconds": 82.818,
+    "python_compile": "pass",
+    "request_schema_check": "pass",
+    "report_schema_check": "pass",
+    "synthetic_technical_contract": "pass_with_promotion_blocked",
+    "hand_authored_relabel_contract": "blocked",
+    "fixture_only_authority_contract": "pass_not_production_evidence",
+    "authority_registry_unchanged_by_tests": true,
+    "remaining_high_findings": 0,
+    "remaining_medium_findings": 0
+  },
+  "acceptance_gates": {
+    "full_duration_playback_review_contract": true,
+    "required_target_audio_check_contract": true,
+    "required_non_target_audio_scan_contract": true,
+    "clipping_noise_voice_ambience_foley_sync_check_contract": true,
+    "reject_on_any_global_audio_defect_contract": true,
+    "genuine_production_baseline_present": false,
+    "genuine_production_candidate_present": false,
+    "genuine_production_playback_review_present": false,
+    "approved_production_baseline_present": false,
+    "approved_production_bundle_present": false,
+    "final_global_audio_certification_allowed": false
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Global_Audio_Production_Review_Proof_Missing",
+      "reason": "No genuine production baseline/candidate pair with full-duration playback, target/non-target, artifact, and visible-event sync review exists."
+    },
+    {
+      "classification": "Blocked_Global_Audio_Production_Authority_Missing",
+      "reason": "The canonical registry has no approved production baseline authority and no approved production review bundle."
+    }
+  ],
+  "evidence": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/global_audio_review_not_local_only.json",
+      "sha256": "e05f58af08a5399996b920723b46897f2dea25ccee02c43c352313753148c4d4"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/global_audio_review_not_local_only_test_log.json",
+      "sha256": "872edf362387bff4f0400e4dc2b4b753ff733d89007d6d6479815190c74de0c0"
+    },
+    {
+      "path": "runtime_artifacts/wave64_global_audio_review/20260711T234500-0500/windows_strict_tests.txt",
+      "sha256": "85a05e30f8d44cb2cdf633cad02bd28b7b49facd7e48871ef617188a491352cb"
+    }
+  ],
+  "runtime": {
+    "production_audio_generation_count": 0,
+    "production_global_audio_review_count": 0,
+    "approved_production_baseline_count": 0,
+    "approved_production_bundle_count": 0,
+    "comfyui_started": false,
+    "aws_contacted": false,
+    "ec2_started": false
+  },
+  "next_action": "Proceed with TRK-W64-033 / ITEM-W64-033 by duplicate-checking the multimodal image/video/audio scorecard lane from Plan/Instructions/QA/MULTIMODAL_ARTIFACT_REVIEW_SCORECARD.md while keeping row032 blocked until genuine production baseline/candidate audio, full-duration playback and sync review, and exact approved authorities exist."
+}

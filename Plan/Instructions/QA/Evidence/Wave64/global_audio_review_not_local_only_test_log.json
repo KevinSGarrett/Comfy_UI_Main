@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-GLOBAL-AUDIO-REVIEW-TEST-LOG-20260711T234320-0500",
+  "timestamp": "2026-07-11T23:43:20-05:00",
+  "tracker_id": "TRK-W64-032",
+  "item_id": "ITEM-W64-032",
+  "command": "python -m unittest Plan.Instructions.QA.Scripts.test_wave64_global_audio_review_strict -v",
+  "result": "pass",
+  "exit_code": 0,
+  "tests_run": 32,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "elapsed_seconds": 82.818,
+  "transcript": "runtime_artifacts/wave64_global_audio_review/20260711T234500-0500/windows_strict_tests.txt",
+  "transcript_sha256": "85a05e30f8d44cb2cdf633cad02bd28b7b49facd7e48871ef617188a491352cb",
+  "python_compile": "pass",
+  "draft_2020_12_request_schema": "pass",
+  "draft_2020_12_report_schema": "pass",
+  "covered_artifacts": [
+    {
+      "path": "Plan/06_QA_TESTING/WAVE64_GLOBAL_AUDIO_REVIEW_GATE_SPEC.md",
+      "sha256": "7595ec5b2de50c6feb7a78b558690260a315e5b92c835e53ab34c5b8846d3f13"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_global_audio_review.py",
+      "sha256": "5134732ffb5e7738c6b66bf451700f5c9c5741ed6389d28a5ff9d54ce5cf5c11"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave64_global_audio_review_request.schema.json",
+      "sha256": "5eae888fd91d974f4dc3f0f3cb950178e1ea5d5aedf8ace13b8acdd4a535968d"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave64_global_audio_review_report.schema.json",
+      "sha256": "e2613fa43fb8d91441e759a6cdeaf401d7356c401dae7412c4aa649e36f08eb2"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave64_global_audio_review_gate_rules.json",
+      "sha256": "958a74b23772f522172f2b161c77b6d0cec2095dc33a2d8ca3febf3783b185ca"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_wave64_global_audio_review_strict.py",
+      "sha256": "9883cc29674f3228fd3dd8a436bb8a02b0c983885ebd770fd3f065222a20b998"
+    }
+  ],
+  "positive_contracts_covered": [
+    "synthetic expected-audio-change technical gate path with promotion blocked",
+    "visual-only byte-identical audio global scan",
+    "visual change with audio update and canonical row030 schema/gate binding",
+    "full-duration ambient overlap and different-layer foreground overlap",
+    "per-channel metric maxima and per-target audio delta",
+    "fixture-only exact authority contract exit 0 without production-proof status"
+  ],
+  "negative_contracts_covered": [
+    "hand-authored non-synthetic relabel cannot promote",
+    "row030 missing, malformed, failed-gate, lineage, or source-audio mismatch",
+    "row031 run, gate, artifact path, hash, or byte mismatch",
+    "Wave30 run, synthetic, binding, hard-gate, proof, mixdown, mix-technical, event-set, or QA contradiction",
+    "target omission, per-target missing change, caller window widening, and same-layer foreground overlap",
+    "non-target omission, event-record change, mix-metadata change, waveform regression, and duration drift",
+    "single-channel clipping, dropout, click, loudness, silence, channel imbalance, and computed-dirty contradiction",
+    "registry shape, authority identity, threshold-ceiling, unknown-key, duplicate-key, non-finite, root-escape, hash, output-collision, and transactional failures"
+  ],
+  "registry_assertion": {
+    "path": "Plan/10_REGISTRIES/wave64_global_audio_review_gate_rules.json",
+    "sha256_before_and_after_tests": "958a74b23772f522172f2b161c77b6d0cec2095dc33a2d8ca3febf3783b185ca",
+    "approved_production_baseline_count": 0,
+    "approved_production_bundle_count": 0,
+    "registry_unchanged": true
+  },
+  "fixture_only_authority_pass_is_production_evidence": false,
+  "production_audio_review_executed": false,
+  "genuine_production_baseline_present": false,
+  "genuine_production_candidate_present": false,
+  "production_bundle_approved": false
+}

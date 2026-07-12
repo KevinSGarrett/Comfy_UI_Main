@@ -1,0 +1,275 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64_global_audio_review_request.schema.json",
+  "title": "Wave64 Global Audio Review Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_name",
+    "request_version",
+    "review_run_id",
+    "baseline_run_id",
+    "candidate_run_id",
+    "is_synthetic",
+    "capture_mode",
+    "baseline_mix_wav_binding",
+    "candidate_mix_wav_binding",
+    "baseline_row031_strict_report_binding",
+    "candidate_row031_strict_report_binding",
+    "baseline_wave30_event_manifest_binding",
+    "candidate_wave30_event_manifest_binding",
+    "baseline_wave30_mix_manifest_binding",
+    "candidate_wave30_mix_manifest_binding",
+    "baseline_wave30_qa_report_binding",
+    "candidate_wave30_qa_report_binding",
+    "localized_change_declaration",
+    "output_report_path"
+  ],
+  "properties": {
+    "schema_name": {
+      "const": "wave64_global_audio_review_request"
+    },
+    "request_version": {
+      "const": 1
+    },
+    "review_run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "baseline_run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "candidate_run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "is_synthetic": {
+      "type": "boolean"
+    },
+    "capture_mode": {
+      "type": "string",
+      "enum": [
+        "technical_capture",
+        "hand_authored_relabel",
+        "synthetic_fixture"
+      ]
+    },
+    "baseline_mix_wav_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "candidate_mix_wav_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "baseline_row031_strict_report_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "candidate_row031_strict_report_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "baseline_wave30_event_manifest_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "candidate_wave30_event_manifest_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "baseline_wave30_mix_manifest_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "candidate_wave30_mix_manifest_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "baseline_wave30_qa_report_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "candidate_wave30_qa_report_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "production_bundle_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "localized_change_declaration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "change_kind",
+        "audio_change_expected",
+        "target_audio_event_ids",
+        "non_target_audio_event_ids",
+        "allowed_change_windows_seconds"
+      ],
+      "properties": {
+        "change_kind": {
+          "type": "string",
+          "enum": [
+            "audio_localized",
+            "visual_localized"
+          ]
+        },
+        "audio_change_expected": {
+          "type": "boolean"
+        },
+        "target_audio_event_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "non_target_audio_event_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "allowed_change_windows_seconds": {
+          "$ref": "#/$defs/windowArray"
+        }
+      }
+    },
+    "output_report_path": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "localized_change_declaration": {
+            "properties": {
+              "change_kind": {
+                "const": "audio_localized"
+              }
+            },
+            "required": [
+              "change_kind"
+            ]
+          }
+        },
+        "required": [
+          "localized_change_declaration"
+        ]
+      },
+      "then": {
+        "properties": {
+          "localized_change_declaration": {
+            "properties": {
+              "audio_change_expected": {
+                "const": true
+              },
+              "target_audio_event_ids": {
+                "minItems": 1
+              },
+              "allowed_change_windows_seconds": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "localized_change_declaration": {
+            "properties": {
+              "change_kind": {
+                "const": "visual_localized"
+              }
+            },
+            "required": [
+              "change_kind"
+            ]
+          }
+        },
+        "required": [
+          "localized_change_declaration"
+        ]
+      },
+      "then": {
+        "properties": {
+          "localized_change_declaration": {
+            "anyOf": [
+              {
+                "properties": {
+                  "audio_change_expected": {
+                    "const": false
+                  },
+                  "target_audio_event_ids": {
+                    "maxItems": 0
+                  },
+                  "allowed_change_windows_seconds": {
+                    "maxItems": 0
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "audio_change_expected": {
+                    "const": true
+                  },
+                  "target_audio_event_ids": {
+                    "minItems": 1
+                  },
+                  "allowed_change_windows_seconds": {
+                    "minItems": 1
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "bytes"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "windowArray": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "start_seconds",
+          "end_seconds"
+        ],
+        "properties": {
+          "start_seconds": {
+            "type": "number",
+            "minimum": 0
+          },
+          "end_seconds": {
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      }
+    }
+  }
+}
