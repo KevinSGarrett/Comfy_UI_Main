@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-023-VIDEO-FRAME-REPAIR-20260711T152500-0500",
-  "timestamp": "2026-07-11T15:25:00-05:00",
+  "timestamp": "2026-07-12T15:27:00-05:00",
   "item_id": "ITEM-W64-023",
   "tracker_id": "TRK-W64-023",
   "workstream": "video_frame_repair",
@@ -15,10 +15,13 @@
     "passing_metadata_preservation_ready": true,
     "target_metadata_delta_audit_ready": true,
     "transactional_output_ready": true,
+    "isolated_flicker_short_span_executor_ready": true,
+    "passing_frame_byte_preservation_ready": true,
+    "grayscale_bgr_bgra_preservation_ready": true,
     "final_acceptance_claim_forbidden": true
   },
   "validation": {
-    "unit_tests_passed": 15,
+    "unit_tests_passed": 29,
     "unit_test_failures": 0,
     "python_compile": "pass",
     "schema_check": "pass",
@@ -26,6 +29,11 @@
     "synthetic_route": "short_span_repair",
     "synthetic_failed_frames": [2, 3, 4],
     "synthetic_preserved_frames": [0, 1, 5],
+    "synthetic_decodable_candidate": "candidate_verified_technical_only",
+    "synthetic_target_frame_deltas": 3,
+    "synthetic_preserved_frame_verifications": 3,
+    "executor_medium_findings_remediated": 3,
+    "executor_remediation_review_status": "incomplete_twice_compact_codex_fallback",
     "claude_medium_findings_remediated": 2,
     "remaining_high_or_medium_findings": 0
   },
@@ -34,6 +42,8 @@
     "targeted_repair_record": true,
     "candidate_rerun_delta_verifier": true,
     "preserve_passed_frames_verifier": true,
+    "short_span_candidate_executor": true,
+    "synthetic_decodable_candidate_verified": true,
     "real_repaired_candidate": false,
     "before_after_visual_review": false,
     "runtime_repair_proof": false,
@@ -56,16 +66,18 @@
   "evidence": [
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/video_frame_repair.json",
-      "sha256": "be73af1970eb80227f2d7ea8f38b2e4e2ba68b0aae83ccf666c3701e5bbda2c3"
+      "sha256": "bc455c46e06f4974e0988885e32d284d257371838b34b02de1f0fa497aac8441"
     },
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/video_frame_repair_test_log.json",
-      "sha256": "365648ac509b57294c12e4b7944c68af008b9608b8b5cef21b96eb5d0667df15"
+      "sha256": "99bc4bf82a6251c077ada062db52021afd394ebc4e5e4a801f727203fef919dd"
     }
   ],
   "runtime": {
     "repair_execution_count": 0,
     "candidate_frame_count": 0,
+    "synthetic_candidate_execution_count": 1,
+    "synthetic_candidate_frame_count": 6,
     "visual_review_count": 0,
     "comfyui_started": false,
     "aws_contacted": false,

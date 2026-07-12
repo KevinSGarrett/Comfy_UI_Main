@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "evidence_id": "W64-VIDEO-FRAME-REPAIR",
-  "timestamp": "2026-07-11T15:25:00-05:00",
+  "timestamp": "2026-07-12T15:27:00-05:00",
   "tracker_id": "TRK-W64-023",
   "item_id": "ITEM-W64-023",
   "source_citation": "Plan/04_VIDEO_GIF_SYSTEM/WAVE27_FRAME_REPAIR_PIPELINE.md",
@@ -19,6 +19,11 @@
     "passing_artifact_and_metadata_delta_rejection": true,
     "target_protected_metadata_delta_rejection": true,
     "non_destructive_transactional_output": true,
+    "deterministic_short_span_candidate_executor": true,
+    "isolated_flicker_visual_repair_execution_ready": true,
+    "passing_frames_byte_preserved": true,
+    "grayscale_bgr_bgra_channel_preservation": true,
+    "identity_rerun_contact_and_deformation_actions_fail_closed": true,
     "visual_runtime_and_final_claims_forbidden": true
   },
   "implementation_artifacts": [
@@ -33,12 +38,32 @@
     {
       "path": "Plan/Instructions/QA/Scripts/test_wave27_frame_repair_ledger_strict.py",
       "sha256": "c8bceb9e17b0b139aaf8dd19d03df3b5330e196189f0c2acc123577a4c7d83a7"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/execute_wave27_short_span_repair.py",
+      "sha256": "b9dac2d750b96f56201cfedb46bd2501a33846bfab66e7dc2e7aab86a4a16a60"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave27_short_span_repair_execution.schema.json",
+      "sha256": "e0397b8ea6bec5f92a4e56a76e5474065b6985db210e18b6428481cb8aed8997"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave27_short_span_repair_executor.json",
+      "sha256": "eef81388eaebb8906ab99f9607bf7b28ddd664362a770dbd32e97ca4cb124e57"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_execute_wave27_short_span_repair.py",
+      "sha256": "f97f60c72a1536ed4133c9ab6f3d140990495d0a62ec3ce90baaec579e466bc3"
     }
   ],
   "offline_validation": {
     "test_log": "Plan/Instructions/QA/Evidence/Wave64/video_frame_repair_test_log.json",
-    "test_log_sha256": "365648ac509b57294c12e4b7944c68af008b9608b8b5cef21b96eb5d0667df15",
-    "tests_run": 15,
+    "test_log_sha256": "99bc4bf82a6251c077ada062db52021afd394ebc4e5e4a801f727203fef919dd",
+    "tests_run": 29,
+    "suite_breakdown": {
+      "frame_repair_ledger": 15,
+      "short_span_repair_executor": 14
+    },
     "test_failures": 0,
     "test_errors": 0,
     "python_compile": "pass",
@@ -66,12 +91,29 @@
     "schema_validation": "pass",
     "all_visual_runtime_final_flags_false": true
   },
+  "synthetic_candidate_execution_probe": {
+    "production_evidence": false,
+    "probe_root": "runtime_artifacts/wave64_video_frame_repair/decodable_candidate_probe_20260712T152700-0500",
+    "candidate_manifest": "runtime_artifacts/wave64_video_frame_repair/decodable_candidate_probe_20260712T152700-0500/candidate/candidate_manifest.json",
+    "candidate_manifest_sha256": "f552f1157f97a2c3bcdbbe390feacf314ac64957c79c63d3fc704aa6eb8e88ef",
+    "repair_execution": "runtime_artifacts/wave64_video_frame_repair/decodable_candidate_probe_20260712T152700-0500/candidate/repair_execution.json",
+    "repair_execution_sha256": "d42503308db1678648f61a276555e99a3f7690b97e4bce8883ff855c58741864",
+    "verified_ledger": "runtime_artifacts/wave64_video_frame_repair/decodable_candidate_probe_20260712T152700-0500/verified_ledger.json",
+    "verified_ledger_sha256": "353c3458ff9b3d31c38d767be4f5434d86b84d87d552379c8c4976e894bee2dc",
+    "planning_status": "repair_plan_candidate_verified",
+    "candidate_status": "candidate_verified_technical_only",
+    "target_frame_delta_count": 3,
+    "preserved_frame_verification_count": 3,
+    "all_visual_runtime_final_flags_false": true
+  },
   "acceptance_gates": {
     "defect_localization_planner": true,
     "targeted_repair_ledger": true,
     "repair_policy_route_selection": true,
     "candidate_delta_verifier": true,
     "passed_frame_preservation_verifier": true,
+    "short_span_candidate_executor_ready": true,
+    "synthetic_decodable_candidate_verified": true,
     "real_repaired_candidate_frames_present": false,
     "before_after_frame_repair_review": false,
     "identity_environment_visual_preservation": false,
@@ -86,6 +128,13 @@
     "claude_initial_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T151446-0500_wave64_video_frame_repair_ledger_final_review/handoff_record.json",
     "claude_medium_findings_remediated": 2,
     "claude_confirmation": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T152212-0500_wave64_video_frame_repair_ledger_review_confirmation/handoff_record.json",
+    "claude_executor_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T151143-0500_row023_short_span_repair_executor_final_review/handoff_record.json",
+    "claude_executor_medium_findings_remediated": 3,
+    "claude_executor_remediation_review_attempts": [
+      "runtime_artifacts/agent_handoffs/claude_subscription/20260712T151937-0500_row023_short_span_repair_executor_remediation_review/handoff_record.json",
+      "runtime_artifacts/agent_handoffs/claude_subscription/20260712T152016-0500_row023_short_span_repair_executor_remediation_review_retry/handoff_record.json"
+    ],
+    "claude_executor_remediation_review_status": "incomplete_twice_compact_codex_fallback",
     "remaining_high_or_medium_findings": 0
   },
   "runtime": {
@@ -121,6 +170,7 @@
     "row_complete": false,
     "offline_planner_verifier_pass": true,
     "planning_probe_pass": true,
+    "synthetic_candidate_execution_and_verification_pass": true,
     "repair_execution_claimed": false,
     "candidate_verification_claimed": false,
     "visual_preservation_claimed": false,

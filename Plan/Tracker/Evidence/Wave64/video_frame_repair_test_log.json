@@ -1,13 +1,20 @@
 {
   "schema_version": "1.0",
   "evidence_id": "W64-VIDEO-FRAME-REPAIR-TEST-LOG-20260711T152500-0500",
-  "timestamp": "2026-07-11T15:25:00-05:00",
+  "timestamp": "2026-07-12T15:27:00-05:00",
   "tracker_id": "TRK-W64-023",
   "item_id": "ITEM-W64-023",
-  "command": "python Plan/Instructions/QA/Scripts/test_wave27_frame_repair_ledger_strict.py",
+  "commands": [
+    "python -m unittest Plan.Instructions.QA.Scripts.test_wave27_frame_repair_ledger_strict Plan.Instructions.QA.Scripts.test_execute_wave27_short_span_repair",
+    "python -m py_compile Plan/07_IMPLEMENTATION/scripts/execute_wave27_short_span_repair.py Plan/Instructions/QA/Scripts/test_execute_wave27_short_span_repair.py"
+  ],
   "result": "pass",
   "exit_code": 0,
-  "tests_run": 15,
+  "tests_run": 29,
+  "suite_breakdown": {
+    "frame_repair_ledger": 15,
+    "short_span_repair_executor": 14
+  },
   "failures": 0,
   "errors": 0,
   "elapsed_seconds": 98.513,
@@ -16,7 +23,11 @@
   "covered_files": [
     "Plan/07_IMPLEMENTATION/scripts/plan_wave27_frame_repair_ledger.py",
     "Plan/08_SCHEMAS/wave27_frame_repair_ledger.schema.json",
-    "Plan/Instructions/QA/Scripts/test_wave27_frame_repair_ledger_strict.py"
+    "Plan/Instructions/QA/Scripts/test_wave27_frame_repair_ledger_strict.py",
+    "Plan/07_IMPLEMENTATION/scripts/execute_wave27_short_span_repair.py",
+    "Plan/08_SCHEMAS/wave27_short_span_repair_execution.schema.json",
+    "Plan/10_REGISTRIES/wave27_short_span_repair_executor.json",
+    "Plan/Instructions/QA/Scripts/test_execute_wave27_short_span_repair.py"
   ],
   "positive_contracts_covered": [
     "existing Wave27 manifest, evidence, and repair-policy reuse",
@@ -27,7 +38,11 @@
     "candidate manifest hash/sequence and target before-after delta audit",
     "passing-frame artifact and protected-metadata preservation",
     "zero-defect no-repair-required semantics",
-    "non-destructive transactional ledger publication"
+    "non-destructive transactional ledger publication",
+    "deterministic bidirectional optical-flow repair for eligible isolated-flicker spans",
+    "byte-identical passing-frame preservation and existing-verifier candidate acceptance",
+    "uint8 grayscale, BGR, and BGRA channel-shape preservation",
+    "transactional candidate and execution-evidence publication"
   ],
   "negative_contracts_covered": [
     "invalid defect taxonomy, index, binding, duplicate, or artifact hash",
@@ -37,6 +52,8 @@
     "candidate frame-count, dimension, timestamp, or artifact tamper",
     "contradictory planning and candidate schema states",
     "existing output preservation and publish-failure temp cleanup",
-    "before-after visual, runtime, temporal acceptance, and promotion flags remain false"
+    "before-after visual, runtime, temporal acceptance, and promotion flags remain false",
+    "identity, rerun-shot, contact/deformation, overlapping, edge, or metadata-drift spans fail closed",
+    "tampered/nondecodable sources and pre-existing outputs fail closed"
   ]
 }

@@ -5315,3 +5315,10 @@ Evidence: `Plan/Instructions/QA/Evidence/Wave64/video_temporal_visual_review.jso
 Next safe local action in strict sequence: `TRK-W64-023 / ITEM-W64-023`.
 
 Evidence: `Plan/Instructions/QA/Evidence/Wave64/video_reference_input.json`; `Plan/Instructions/QA/Evidence/Wave64/video_reference_input_test_log.json`; `Plan/Items/Reports/ITEM-W64-022_video_reference_input.json`.
+## Wave64 Row023 Deterministic Short-Span Repair Execution - 2026-07-12T15:27:00-05:00
+
+`TRK-W64-023` / `ITEM-W64-023` remains `Blocked_Video_Frame_Repair_Artifacts_Missing` for production proof. The existing planner/verifier now has a deterministic bidirectional-Farneback executor for eligible isolated-flicker single-frame and 2-5-frame spans. It requires two passing boundaries, rejects overlap and protected-metadata drift, preserves passing bytes exactly, retains uint8 grayscale/BGR/BGRA channel shape, rejects identity/rerun/contact/deformation work, and emits schema-bound technical candidate evidence. The combined suite passes 29/29, and a decodable synthetic probe produced three changed targets plus three preserved passing frames that the original verifier accepted as `candidate_verified_technical_only`. Initial Claude review found three medium issues; all were remediated. Two confirmation attempts ended incomplete, so a compact Codex fallback plus direct regressions were recorded instead of looping. No before/after visual preservation, production repair, runtime proof, temporal acceptance, promotion, AWS, EC2, S3, Wave70 hard-gate, Wave71+, or Jira claim occurred.
+
+Next safe local action in strict sequence: `TRK-W64-024 / ITEM-W64-024`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/video_frame_repair.json`; `Plan/Instructions/QA/Evidence/Wave64/video_frame_repair_test_log.json`; `Plan/Items/Reports/ITEM-W64-023_video_frame_repair.json`.

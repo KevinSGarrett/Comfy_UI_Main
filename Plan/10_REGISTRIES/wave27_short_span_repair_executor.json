@@ -1,0 +1,24 @@
+{
+  "schema_name": "wave27_short_span_repair_executor",
+  "version": 1,
+  "algorithm": "opencv_bidirectional_farneback_interpolation_v1",
+  "supported_failure": "isolated_flicker",
+  "supported_actions": [
+    "frame_local_visual_repair",
+    "short_span_repair"
+  ],
+  "maximum_span_frames": 5,
+  "opencv": {
+    "pyr_scale": 0.5,
+    "levels": 3,
+    "winsize": 15,
+    "iterations": 3,
+    "poly_n": 5,
+    "poly_sigma": 1.2,
+    "flags": 0,
+    "thread_count": 1,
+    "rng_seed": 0
+  },
+  "candidate_source_route": "wave27_bidirectional_flow_interpolation_repair",
+  "candidate_engine_name": "opencv_farneback_bidirectional_v1"
+}
