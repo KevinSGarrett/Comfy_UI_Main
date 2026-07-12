@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-019-VIDEO-PIPELINE-BUILD-20260711T125500-0500",
-  "timestamp": "2026-07-11T12:55:00-05:00",
+  "timestamp": "2026-07-12T14:00:00-05:00",
   "item_id": "ITEM-W64-019",
   "tracker_id": "TRK-W64-019",
   "workstream": "video_pipeline_build",
@@ -13,11 +13,14 @@
     "strict_sequence_manifest_compiler": true,
     "registry_derived_temporal_scorer": true,
     "artifact_hash_size_and_sequence_validation": true,
+    "frame_repair_policy_ledger": true,
+    "real_gif_export_certifier": true,
+    "strict_visual_review_packet_preparer": true,
     "pack_integrity_compatibility_preserved": true,
     "offline_final_export_claim_forbidden": true
   },
   "validation": {
-    "unit_tests_passed": 16,
+    "unit_tests_passed": 59,
     "unit_test_failures": 0,
     "python_compile": "pass",
     "schema_json_parse": "pass",
@@ -36,6 +39,8 @@
     "loop_export_structural_gate_ready": true,
     "artifact_evidence": false,
     "frame_repair_effectiveness": false,
+    "frame_repair_policy_structural_gate_ready": true,
+    "visual_review_prerequisite_gate_ready": true,
     "strict_frame_sequence_visual_review": false
   },
   "runtime": {
@@ -59,17 +64,18 @@
   "evidence": [
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build.json",
-      "sha256": "e9bfb3fe9018a9c7b8cab1e7cd6c1b84e452a25e86385c3a1b01aa302fe6d0ca"
+      "sha256": "eb621c728c5df569f96e84616150fed01e530f95e5529436767722d5aaf9c3e8"
     },
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build_test_log.json",
-      "sha256": "b10aeb303180d628ce6a56430e0baa9392e3c1b923bcfa5d8ec5918230aa14fd"
+      "sha256": "0396b7fb534e0797a1fe9efcb4a20f332bb1c5512e78b7463a297c650d9757c8"
     }
   ],
   "review": {
     "cursor_worker_first_used": true,
     "cursor_write_scope_violation": false,
     "claude_final_review": "pass",
+    "claude_expanded_surface_review": "pass",
     "codex_final_tests_and_acceptance_review": "pass_offline_blocked_runtime"
   },
   "next_action": "Keep this row blocked without runtime or visual certification. Continue the next concrete non-mask implementation row; revisit only when a production video engine can generate a real frame sequence and final export, and revisit contact/body proof only after trusted manual gold masks are ready."

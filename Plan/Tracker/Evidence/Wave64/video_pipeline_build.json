@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "evidence_id": "W64-VIDEO-PIPELINE-BUILD",
-  "timestamp": "2026-07-11T12:55:00-05:00",
+  "timestamp": "2026-07-12T14:00:00-05:00",
   "tracker_id": "TRK-W64-019",
   "item_id": "ITEM-W64-019",
   "source_citation": "Plan/04_VIDEO_GIF_SYSTEM/VIDEO_GIF_PIPELINE_BLUEPRINT.md",
@@ -38,12 +38,54 @@
     {
       "path": "Plan/Instructions/QA/Scripts/test_wave27_video_pipeline_strict.py",
       "sha256": "2b945c78ab88be5f6e70913fa72bb7367612b2a00396f530c5fac9c5c25260a8"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/plan_wave27_frame_repair_ledger.py",
+      "sha256": "5bf86afdf823b285d713d1d6b5cce622275b9823a5d84604311d4a1d6d69ca9a"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave27_frame_repair_ledger.schema.json",
+      "sha256": "f294896e079c7d9da90ae9b8226127c5e493d4a5746573e56e4f3a88909af6f0"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_wave27_frame_repair_ledger_strict.py",
+      "sha256": "c8bceb9e17b0b139aaf8dd19d03df3b5330e196189f0c2acc123577a4c7d83a7"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/certify_wave26_gif_loop_export.py",
+      "sha256": "6836b9c492f926fe548aa5444394a10269898608c770dfb541d49bbe9b892097"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave26_gif_loop_export_evidence.schema.json",
+      "sha256": "f74968c0347e47e1dde115b9340d2272d3946147e1aab8c9ba60b3d97e94297b"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_wave26_gif_loop_export_strict.py",
+      "sha256": "814e9eb066002533e435b56b4dec07d9e888402d2635d1818c8554ef7137eff4"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/prepare_wave27_strict_visual_review_packet.py",
+      "sha256": "8f9af73222ecb45185720d05c4258750b2982e691e4a8bbd90b314cabeeaa6a6"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave27_visual_review_packet.schema.json",
+      "sha256": "5179fe4e6a2b125109be04ef117da8a597144d85ed270eb9ef5c21c91a560c4b"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_prepare_wave27_strict_visual_review_packet.py",
+      "sha256": "7ca8e870cbf236408bae11b6aae1db5a8e2c53381fd09a623e8802cc99840c66"
     }
   ],
   "offline_validation": {
     "test_log": "Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build_test_log.json",
-    "test_log_sha256": "b10aeb303180d628ce6a56430e0baa9392e3c1b923bcfa5d8ec5918230aa14fd",
-    "tests_run": 16,
+    "test_log_sha256": "0396b7fb534e0797a1fe9efcb4a20f332bb1c5512e78b7463a297c650d9757c8",
+    "tests_run": 59,
+    "suite_breakdown": {
+      "wave27_video_pipeline_strict": 16,
+      "wave27_frame_repair_ledger_strict": 15,
+      "wave26_gif_loop_export_strict": 12,
+      "wave27_strict_visual_review_packet": 16
+    },
     "test_failures": 0,
     "test_errors": 0,
     "pack_integrity_wrapper_pass": true,
@@ -62,6 +104,8 @@
     "loop_export_structural_gate_ready": true,
     "artifact_evidence": false,
     "frame_repair_effectiveness": false,
+    "frame_repair_policy_structural_gate_ready": true,
+    "visual_review_prerequisite_gate_ready": true,
     "strict_frame_sequence_visual_review": false
   },
   "runtime": {
@@ -81,6 +125,7 @@
     "cursor_implementation": "runtime_artifacts/agent_handoffs/cursor/20260711T122748-0500_wave64_video_strict_sequence_patch/handoff_record.json",
     "cursor_correction": "runtime_artifacts/agent_handoffs/cursor/20260711T123451-0500_wave64_video_strict_sequence_correction/handoff_record.json",
     "claude_final_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T124725-0500_wave64_video_final_contradiction_review/handoff_record.json",
+    "claude_expanded_surface_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T135321-0500_row019_expanded_video_offline_surface_review/handoff_record.json",
     "claude_high_or_medium_findings": 0
   },
   "blockers": [

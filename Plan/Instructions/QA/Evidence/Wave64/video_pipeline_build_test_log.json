@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "evidence_id": "W64-VIDEO-PIPELINE-BUILD-TEST-LOG-20260711T125400-0500",
-  "timestamp": "2026-07-11T12:54:00-05:00",
+  "timestamp": "2026-07-12T14:00:00-05:00",
   "tracker_id": "TRK-W64-019",
   "item_id": "ITEM-W64-019",
   "commands": [
@@ -22,6 +22,36 @@
       "exit_code": 0,
       "transcript": "runtime_artifacts/wave64_video_pipeline_build/pack_wrapper_20260711T125226-0500.txt",
       "transcript_sha256": "2de9ba82a2885cfb4bddfba4c09ba278eb0d704f1ad87bb17d4d157c3b3db3ff"
+    },
+    {
+      "command": "python Plan\\Instructions\\QA\\Scripts\\test_wave27_frame_repair_ledger_strict.py",
+      "result": "pass",
+      "exit_code": 0,
+      "tests_run": 15,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "command": "python Plan\\Instructions\\QA\\Scripts\\test_wave26_gif_loop_export_strict.py",
+      "result": "pass",
+      "exit_code": 0,
+      "tests_run": 12,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "command": "python Plan\\Instructions\\QA\\Scripts\\test_prepare_wave27_strict_visual_review_packet.py",
+      "result": "pass",
+      "exit_code": 0,
+      "tests_run": 16,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "command": "python Plan\\07_IMPLEMENTATION\\scripts\\run_wave27_local_validation.py --root Plan",
+      "result": "pass",
+      "exit_code": 0,
+      "pack_integrity": "pass"
     }
   ],
   "covered_files": [
@@ -30,14 +60,26 @@
     "Plan/07_IMPLEMENTATION/scripts/run_wave27_local_validation.py",
     "Plan/08_SCHEMAS/wave27_frame_manifest.schema.json",
     "Plan/08_SCHEMAS/wave27_temporal_evidence.schema.json",
-    "Plan/Instructions/QA/Scripts/test_wave27_video_pipeline_strict.py"
+    "Plan/Instructions/QA/Scripts/test_wave27_video_pipeline_strict.py",
+    "Plan/07_IMPLEMENTATION/scripts/plan_wave27_frame_repair_ledger.py",
+    "Plan/08_SCHEMAS/wave27_frame_repair_ledger.schema.json",
+    "Plan/Instructions/QA/Scripts/test_wave27_frame_repair_ledger_strict.py",
+    "Plan/07_IMPLEMENTATION/scripts/certify_wave26_gif_loop_export.py",
+    "Plan/08_SCHEMAS/wave26_gif_loop_export_evidence.schema.json",
+    "Plan/Instructions/QA/Scripts/test_wave26_gif_loop_export_strict.py",
+    "Plan/07_IMPLEMENTATION/scripts/prepare_wave27_strict_visual_review_packet.py",
+    "Plan/08_SCHEMAS/wave27_visual_review_packet.schema.json",
+    "Plan/Instructions/QA/Scripts/test_prepare_wave27_strict_visual_review_packet.py"
   ],
   "positive_contracts_covered": [
     "repository-root and Plan-root pack-integrity compatibility",
     "six-dimension registry-derived temporal scoring",
     "deterministic ordered frame-sequence manifest and sequence hash",
     "applied repair history may pass the offline decision gate",
-    "offline loop structure cannot claim final export readiness"
+    "offline loop structure cannot claim final export readiness",
+    "frame-repair policy ledger remains distinct from runtime effectiveness",
+    "GIF loop certification parses real exports while remaining fail-closed without them",
+    "visual-review packet preparation remains distinct from final visual acceptance"
   ],
   "negative_contracts_covered": [
     "duplicate or gapped frame indexes",

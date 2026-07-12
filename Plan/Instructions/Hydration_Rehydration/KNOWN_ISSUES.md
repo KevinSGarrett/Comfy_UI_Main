@@ -439,3 +439,10 @@ The final pack defines instructions and protocols. It does not prove live runtim
 - `ISSUE-RUNTIME-REALVISXL-PULLBACK-QA-001`: Resolved after SSM SSH-tunnel pullback using `comfyui-lora-key.pem`, local pullback hash verification, and technical plus visual image QA. S3 permissions/configuration remain a cost-control improvement for future runs, not a blocker for the completed RealVisXL smoke. Evidence: `Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T132206-0500/PULLBACK_RECORD.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W63_REALVISXL_IMAGE_QA_VISUAL_20260706T140120-0500.json`.
 
 - `ISSUE-RUNTIME-REALVISXL-CHECKPOINT-EC2-001`: Resolved after installing `realvisxlV50_v50Bakedvae.safetensors`, verifying SHA256 `6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80`, and passing EC2 static proof after install. Evidence: `Plan/Instructions/QA/Evidence/Model_Registry/W63_EC2_REALVISXL_MODEL_INSTALL_20260706T125425-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W63_EC2_LANE_STATIC_PROOF_REALVISXL_AFTER_INSTALL_20260706T131129-0500.json`.
+## Wave64 Row019 Video Pipeline Evidence Reconciliation - 2026-07-12T14:00:00-05:00
+
+`TRK-W64-019` / `ITEM-W64-019` remains `Blocked_Video_Runtime_Visual_Proof_Missing`. The existing Wave26/Wave27 lane now has reconciled proof for sequence compilation, frame-repair policy, real-GIF export certification, and strict visual-review packet preparation. All 59/59 focused offline tests and the pack-integrity validator pass. Production generation, repaired-frame effectiveness, final GIF/MP4/WebM export, and strict temporal visual acceptance remain absent; body/contact-dependent proof also remains `Blocked_Gold_Mask_Dependency_Missing`. No runtime, AWS, EC2, S3, mask promotion, Wave70 hard-gate, Wave71+, or Jira action occurred.
+
+Next safe local action in strict sequence: `TRK-W64-020 / ITEM-W64-020`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build.json`; `Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build_test_log.json`; `Plan/Items/Reports/ITEM-W64-019_video_pipeline_build.json`.
