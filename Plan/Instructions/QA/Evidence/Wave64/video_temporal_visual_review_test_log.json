@@ -1,13 +1,20 @@
 {
   "schema_version": "1.0",
   "evidence_id": "W64-VIDEO-TEMPORAL-VISUAL-REVIEW-TEST-LOG-20260711T140300-0500",
-  "timestamp": "2026-07-11T14:03:00-05:00",
+  "timestamp": "2026-07-12T14:29:00-05:00",
   "tracker_id": "TRK-W64-021",
   "item_id": "ITEM-W64-021",
-  "command": "python -m unittest Plan.Instructions.QA.Scripts.test_prepare_wave27_strict_visual_review_packet -v",
+  "commands": [
+    "python -m unittest Plan.Instructions.QA.Scripts.test_analyze_wave27_frame_continuity Plan.Instructions.QA.Scripts.test_prepare_wave27_strict_visual_review_packet",
+    "python -m py_compile Plan/07_IMPLEMENTATION/scripts/analyze_wave27_frame_continuity.py Plan/Instructions/QA/Scripts/test_analyze_wave27_frame_continuity.py"
+  ],
   "result": "pass",
   "exit_code": 0,
-  "tests_run": 16,
+  "tests_run": 26,
+  "suite_breakdown": {
+    "frame_continuity_analyzer": 10,
+    "strict_visual_review_packet": 16
+  },
   "failures": 0,
   "errors": 0,
   "elapsed_seconds": 68.489,
@@ -17,7 +24,11 @@
     "Plan/07_IMPLEMENTATION/scripts/prepare_wave27_strict_visual_review_packet.py",
     "Plan/08_SCHEMAS/wave27_visual_review_prerequisites.schema.json",
     "Plan/08_SCHEMAS/wave27_visual_review_packet.schema.json",
-    "Plan/Instructions/QA/Scripts/test_prepare_wave27_strict_visual_review_packet.py"
+    "Plan/Instructions/QA/Scripts/test_prepare_wave27_strict_visual_review_packet.py",
+    "Plan/07_IMPLEMENTATION/scripts/analyze_wave27_frame_continuity.py",
+    "Plan/08_SCHEMAS/wave27_frame_continuity_metrics.schema.json",
+    "Plan/10_REGISTRIES/wave27_frame_continuity_thresholds.json",
+    "Plan/Instructions/QA/Scripts/test_analyze_wave27_frame_continuity.py"
   ],
   "positive_contracts_covered": [
     "strict Wave27 manifest and temporal-evidence gate reuse",
@@ -26,7 +37,10 @@
     "single-frame playback duration",
     "real prerequisite evidence file, SHA256, category, and sequence binding",
     "recorded Codex pass, fail, or blocked verdict without final acceptance",
-    "fresh nested output creation and transactional publication"
+    "fresh nested output creation and transactional publication",
+    "deterministic frame artifact re-verification and adjacency analysis",
+    "strict motion and static-camera prerequisite adapter compatibility",
+    "resolution-normalized threshold registry and hash-bound metrics record"
   ],
   "negative_contracts_covered": [
     "missing, empty, tampered, or malformed verified evidence",
@@ -37,6 +51,10 @@
     "undecodable or dimension-mismatched frame artifacts",
     "invalid audio not-required semantics",
     "pre-existing output file or non-empty output directory",
-    "final temporal visual pass and final acceptance remain false"
+    "final temporal visual pass and final acceptance remain false",
+    "single-frame and tampered-frame inputs fail closed",
+    "unknown or planned camera motion cannot pass the static-camera gate",
+    "non-finite thresholds and pre-existing outputs fail closed",
+    "identity, face, body, hand, contact, audio, flicker authority, runtime, visual acceptance, and promotion remain unclaimed"
   ]
 }

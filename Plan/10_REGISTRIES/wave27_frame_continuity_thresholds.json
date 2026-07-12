@@ -1,0 +1,21 @@
+{
+  "schema_name": "wave27_frame_continuity_thresholds",
+  "version": 1,
+  "algorithm": "opencv_phase_correlation_farneback_v1",
+  "rounding_digits": 6,
+  "minimum_frame_count": 2,
+  "static_camera_declaration": {
+    "field": "temporal_motion_mode",
+    "value": "static"
+  },
+  "border_fraction": 0.1,
+  "motion_analysis": {
+    "max_adjacent_luma_mae_percent": 30.0,
+    "max_flow_p95_diagonal_ratio": 0.25
+  },
+  "object_background_camera_analysis": {
+    "minimum_phase_response": 0.01,
+    "max_camera_shift_diagonal_ratio": 0.01,
+    "max_aligned_border_residual_percent": 15.0
+  }
+}

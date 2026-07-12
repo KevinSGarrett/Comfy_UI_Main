@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-021-VIDEO-TEMPORAL-VISUAL-REVIEW-20260711T140300-0500",
-  "timestamp": "2026-07-11T14:03:00-05:00",
+  "timestamp": "2026-07-12T14:29:00-05:00",
   "item_id": "ITEM-W64-021",
   "tracker_id": "TRK-W64-021",
   "workstream": "video_temporal_visual_review",
@@ -13,21 +13,27 @@
     "per_frame_adjacency_records_ready": true,
     "strict_prerequisite_evidence_binding_ready": true,
     "transactional_output_ready": true,
+    "deterministic_frame_continuity_analyzer_ready": true,
+    "motion_and_static_camera_prerequisite_producers_ready": true,
+    "planned_camera_motion_fails_closed": true,
     "final_acceptance_claim_forbidden": true
   },
   "validation": {
-    "unit_tests_passed": 16,
+    "unit_tests_passed": 26,
     "unit_test_failures": 0,
     "python_compile": "pass",
     "schema_json_parse": "pass",
     "git_diff_check": "pass",
     "claude_review_findings_remediated": 3,
     "remaining_high_or_medium_findings": 0,
+    "analyzer_medium_findings_remediated": 1,
     "production_frame_sequence_present": false,
     "production_visual_review_executed": false
   },
   "acceptance_gates": {
     "packet_preparation_implementation": true,
+    "motion_analysis_producer_ready": true,
+    "object_background_camera_analysis_producer_ready": true,
     "per_frame_qa": false,
     "temporal_identity_check": false,
     "flicker_detection": false,
@@ -49,11 +55,11 @@
   "evidence": [
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/video_temporal_visual_review.json",
-      "sha256": "99ca595eea94142607abd61dc1c0e4a0d0dfff236619f3ff43747e24e870bf85"
+      "sha256": "cefe504283ba79bd49397af9998ac6e600554f2d6f0837d340c35ac606d872ec"
     },
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/video_temporal_visual_review_test_log.json",
-      "sha256": "9a209495be8aff62ce30aca0701279bbacb8abce0916628a12ce10bbb31fc704"
+      "sha256": "b23146565425443af4de552d59e7394ce1960cb1e4376a8388b2df8e0402618e"
     }
   ],
   "runtime": {
