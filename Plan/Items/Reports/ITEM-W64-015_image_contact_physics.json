@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-12T13:12:25-05:00",
+  "tracker_id": "TRK-W64-015",
+  "item_id": "ITEM-W64-015",
+  "status": "Blocked_Gold_Mask_Dependency_Missing",
+  "implementation": {
+    "required_machine_gates": [
+      "contact_graph_check",
+      "shadow_contact_check",
+      "no_floating_check",
+      "visual_reject_on_clip"
+    ],
+    "fail_closed_defaults": true,
+    "numeric_override_forbidden": true,
+    "wave19_visual_authority_required": true
+  },
+  "exact_blocker": "Trusted contact ownership and occlusion authority remains unavailable, and existing W69 samples do not provide a Wave19-scoped final certificate across clothing, prop, furniture, support-shadow, no-floating, and no-clipping cases.",
+  "codex_visual_review": {
+    "reviewed_existing_images_only": true,
+    "images": [
+      "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/qa_contact_crops/contact_shadow_pressure_compare_seed210701_seed210704.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_contact_shadow_pressure_seed210704_20260707T122546-0500/images/codex_wave25_contact_shadow_pressure_seed210704_00001_.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_one_hand_table_contact_v1_20260707T041600-0500/images/codex_realvisxl_one_hand_table_contact_00001_.png"
+    ],
+    "findings": [
+      "The seed210704 hand-to-shoulder crop shows a subtle shadow/pressure increase without a gross body merge, but contact remains shoulder-biased rather than the requested lower upper-arm target.",
+      "The full two-character image preserves distinct participants and clothing, but does not establish a trusted owner graph or broad prop/furniture support behavior.",
+      "The table sample has plausible table support and shadows, but shows two overlapping hands despite a one-hand target and remains explicitly non-certifying."
+    ]
+  },
+  "evidence": [
+    "Plan/Instructions/QA/Evidence/Wave64/image_contact_physics.json",
+    "Plan/Instructions/QA/Evidence/Wave64/IMAGE_CONTACT_PHYSICS_20260712T131225-0500.json",
+    "Plan/Tracker/Evidence/IMAGE_CONTACT_PHYSICS_20260712T131225-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/image_contact_physics_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-015_image_contact_physics.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/contact_occlusion_ownership_authority.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_HAND_CONTACT_VISUAL_CERTIFICATION_SHADOW_PRESSURE_SEED210704_20260707T125000-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_WAVE25_CONTACT_SHADOW_PRESSURE_SEED210704_VISUAL_QA_20260707T124500-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_ONE_HAND_TABLE_CONTACT_V1_VISUAL_QA_20260707T041800-0500.json"
+  ],
+  "next_action": "Proceed to TRK-W64-016 / ITEM-W64-016 in strict sequence. Reopen Row015 only with trusted contact ownership plus a Wave19-scoped visual certificate covering the required contact matrix."
+}

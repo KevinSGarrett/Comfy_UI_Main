@@ -16,3 +16,10 @@
 - body/fabric/prop clipping
 - wrinkle/fold field disconnected from contact geometry
 - object ownership ambiguity
+
+## Machine-readable decision
+Evidence must contain `contact_graph_check`, `shadow_contact_check`,
+`no_floating_check`, and `visual_reject_on_clip`. All must be inspectable passes,
+`visual_reject_on_clip.clip_detected` must be false, and a Wave19-scoped visual-QA
+reference must explicitly allow final certification. Weighted scores cannot override a
+required-gate failure.

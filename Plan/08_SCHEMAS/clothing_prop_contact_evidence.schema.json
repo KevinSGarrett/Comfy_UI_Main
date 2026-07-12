@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Wave19 ClothingPropContactEvidence",
+  "type": "object",
+  "required": ["contact_graph_check", "shadow_contact_check", "no_floating_check", "visual_reject_on_clip", "fabric_material_continuity", "identity_pose_body_preserved", "visual_qa_reference"],
+  "properties": {
+    "contact_graph_check": {"$ref": "#/definitions/gate"},
+    "shadow_contact_check": {"$ref": "#/definitions/gate"},
+    "no_floating_check": {"$ref": "#/definitions/gate"},
+    "visual_reject_on_clip": {
+      "allOf": [
+        {"$ref": "#/definitions/gate"},
+        {"type": "object", "required": ["clip_detected"], "properties": {"clip_detected": {"type": "boolean"}}}
+      ]
+    },
+    "fabric_material_continuity": {"$ref": "#/definitions/gate"},
+    "identity_pose_body_preserved": {"$ref": "#/definitions/gate"},
+    "visual_qa_reference": {
+      "type": "object",
+      "required": ["evidence_path", "certification_scope", "final_certification_allowed"],
+      "properties": {
+        "evidence_path": {"type": "string", "minLength": 1},
+        "certification_scope": {"const": "wave19"},
+        "final_certification_allowed": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "definitions": {
+    "gate": {
+      "type": "object",
+      "required": ["status", "inspectable", "reason_codes"],
+      "properties": {
+        "status": {"enum": ["pass", "fail", "blocked"]},
+        "inspectable": {"type": "boolean"},
+        "reason_codes": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,264 @@
+from __future__ import annotations
+
+import csv
+import hashlib
+import json
+import re
+import subprocess
+import sys
+import tempfile
+from datetime import datetime
+from pathlib import Path
+from zoneinfo import ZoneInfo
+
+ROOT = Path(__file__).resolve().parents[3]
+PLAN = ROOT / "Plan"
+QA = PLAN / "Instructions/QA/Evidence/Wave64"
+HYD = PLAN / "Instructions/Hydration_Rehydration"
+TRK, ITEM = "TRK-W64-015", "ITEM-W64-015"
+STATUS = "Blocked_Gold_Mask_Dependency_Missing"
+DECISION = "contact_physics_contract_pass_local_visual_support_contact_authority_blocked"
+GATES = ["contact_graph_check", "shadow_contact_check", "no_floating_check", "visual_reject_on_clip"]
+
+
+def rel(path: Path) -> str:
+    return path.resolve().relative_to(ROOT.resolve()).as_posix()
+
+
+def sha(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def load(path: Path):
+    return json.loads(path.read_text(encoding="utf-8-sig"))
+
+
+def write(path: Path, value: object) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
+
+
+def run(*args: object) -> subprocess.CompletedProcess[str]:
+    return subprocess.run([sys.executable, *map(str, args)], cwd=ROOT, capture_output=True, text=True, check=False)
+
+
+def add(current: str, values: list[str]) -> str:
+    entries = [entry.strip() for entry in (current or "").split(";") if entry.strip()]
+    for value in values:
+        if value not in entries:
+            entries.append(value)
+    return "; ".join(entries)
+
+
+def rewrite_csv(path: Path, key: str, expected: str, changes: dict[str, object], note: str) -> int:
+    with path.open("r", encoding="utf-8-sig", newline="") as handle:
+        reader = csv.DictReader(handle)
+        fields, rows = reader.fieldnames or [], list(reader)
+    base = (
+        "AI-only operational row. Do not treat prose summary as completion; require structured evidence paths and pass/fail records. "
+        "| Wave64 reconciliation 2026-07-09: no exact direct row evidence found; do not infer completion from rollups, mentions, Wave65 planned rows, Wave70 supporting evidence, local artifacts, or AWS artifacts without matching item/tracker id."
+    )
+    matched = 0
+    for row in rows:
+        if row.get(key) != expected:
+            continue
+        matched += 1
+        if "Notes" in fields:
+            row["Notes"] = f"{base}; {note}"
+        for field, value in changes.items():
+            if field in fields:
+                row[field] = add(row.get(field, ""), value) if isinstance(value, list) else str(value)
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(rows)
+    return matched
+
+
+def prepend(path: Path, block: str) -> None:
+    current = path.read_text(encoding="utf-8-sig").lstrip()
+    marker = "## Wave64 Row015 Clothing Prop Furniture And Contact Physics Review"
+    if current.startswith(marker):
+        next_heading = current.find("\n## ", len(marker))
+        existing = current[:next_heading].strip() if next_heading >= 0 else current.strip()
+        if existing == block.strip():
+            return
+        current = current[next_heading + 1 :] if next_heading >= 0 else ""
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    temporary.write_text(block.strip() + "\n\n" + current, encoding="utf-8")
+    temporary.replace(path)
+
+
+def main() -> None:
+    canonical = QA / "image_contact_physics.json"
+    if canonical.exists():
+        prior = load(canonical)
+        iso = prior["created_iso"]
+        stamp = prior["evidence_id"].removeprefix("IMAGE_CONTACT_PHYSICS_")
+    else:
+        now = datetime.now(ZoneInfo("America/Chicago"))
+        iso = now.replace(microsecond=0).isoformat()
+        stamp = now.strftime("%Y%m%dT%H%M%S%z")
+
+    source_path = PLAN / "03_IMAGE_SYSTEM/WAVE19_IMAGE_CLOTHING_PROP_FURNITURE_CONTACT_PLAN.md"
+    qa_gates_path = PLAN / "06_QA_TESTING/WAVE19_CLOTHING_PROP_FURNITURE_CONTACT_QA_GATES.md"
+    no_float_path = PLAN / "06_QA_TESTING/WAVE19_NO_FLOATING_NO_CLIPPING_TESTS.md"
+    compiler_path = PLAN / "07_IMPLEMENTATION/scripts/compile_clothing_prop_contact_contract.py"
+    validator_path = PLAN / "07_IMPLEMENTATION/scripts/validate_clothing_prop_contact_contract.py"
+    scorer_path = PLAN / "07_IMPLEMENTATION/scripts/score_clothing_prop_contact_evidence.py"
+    pack_path = PLAN / "07_IMPLEMENTATION/scripts/run_wave19_local_validation.py"
+    contract_schema_path = PLAN / "08_SCHEMAS/clothing_prop_contact_contract.schema.json"
+    evidence_schema_path = PLAN / "08_SCHEMAS/clothing_prop_contact_evidence.schema.json"
+    contract_example_path = PLAN / "09_EXAMPLES/wave19_clothing_prop_contact_contract.example.json"
+    evidence_example_path = PLAN / "09_EXAMPLES/wave19_clothing_prop_contact_evidence.example.json"
+    scoring_path = PLAN / "10_REGISTRIES/wave19_contact_qa_scoring_rules.json"
+    rerun_path = PLAN / "10_REGISTRIES/wave19_contact_rerun_policy.json"
+    tests_path = PLAN / "Instructions/QA/Scripts/test_clothing_prop_contact_contract.py"
+    dependency_path = PLAN / "Instructions/QA/GOLD_STANDARD_MASK_DEPENDENCY_GATE_PROTOCOL.md"
+    ownership_path = PLAN / "Instructions/QA/Evidence/Mask_Factory/Wave70/contact_occlusion_ownership_authority.json"
+    cert_path = PLAN / "Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_HAND_CONTACT_VISUAL_CERTIFICATION_SHADOW_PRESSURE_SEED210704_20260707T125000-0500.json"
+    shadow_qa_path = PLAN / "Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_WAVE25_CONTACT_SHADOW_PRESSURE_SEED210704_VISUAL_QA_20260707T124500-0500.json"
+    table_qa_path = PLAN / "Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_ONE_HAND_TABLE_CONTACT_V1_VISUAL_QA_20260707T041800-0500.json"
+
+    source = source_path.read_text(encoding="utf-8-sig")
+    qa_gates = qa_gates_path.read_text(encoding="utf-8-sig")
+    no_float = no_float_path.read_text(encoding="utf-8-sig")
+    compiler = compiler_path.read_text(encoding="utf-8-sig")
+    validator = validator_path.read_text(encoding="utf-8-sig")
+    scorer = scorer_path.read_text(encoding="utf-8-sig")
+    contract_schema, evidence_schema, contract_example, evidence_example, scoring, rerun = map(load, (contract_schema_path, evidence_schema_path, contract_example_path, evidence_example_path, scoring_path, rerun_path))
+    ownership, cert, shadow_qa, table_qa = map(load, (ownership_path, cert_path, shadow_qa_path, table_qa_path))
+    shadow_image = ROOT / shadow_qa["qa_subject"]["image"]
+    comparison_image = ROOT / shadow_qa["comparison_artifacts"][0]["path"]
+    table_image = ROOT / table_qa["sample"]["output_path"]
+    with (PLAN / "Tracker/wave64_end_to_end_strict_ai_tracker.csv").open("r", encoding="utf-8-sig", newline="") as handle:
+        tracker_rows = [row for row in csv.DictReader(handle) if row.get("Tracker_ID") == TRK]
+
+    unit = run(tests_path)
+    pack = run(pack_path, "--root", PLAN)
+    pack_json_match = re.search(r"JSON files checked: (\d+)", pack.stdout)
+    pack_required_match = re.search(r"Required files checked: (\d+)", pack.stdout)
+    pack_json_count = int(pack_json_match.group(1)) if pack_json_match else 0
+    pack_required_count = int(pack_required_match.group(1)) if pack_required_match else 0
+    with tempfile.TemporaryDirectory() as tmp:
+        compiled_path = Path(tmp) / "compiled.json"
+        score_path = Path(tmp) / "score.json"
+        compile_run = run(compiler_path, "--input", contract_example_path, "--output", compiled_path)
+        validate_run = run(validator_path, "--input", compiled_path)
+        score_run = run(scorer_path, "--input", evidence_example_path, "--output", score_path)
+        compiled = load(compiled_path) if compiled_path.exists() else {}
+        blocked_score = load(score_path) if score_path.exists() else {}
+
+    dimensions = list(scoring["dimensions"])
+    required_schema = set(evidence_schema.get("required", []))
+    block_conditions = set(rerun["block_conditions"])
+    checks = {
+        "ICP-001_row015_contract_exact": len(tracker_rows) == 1 and tracker_rows[0]["Validation_Method"].split("|") == GATES,
+        "ICP-002_source_documents_four_gates": all(gate in source and gate in qa_gates for gate in GATES),
+        "ICP-003_no_float_clip_hard_block_documented": "hard promotion block" in no_float and "Weighted scores cannot override" in qa_gates,
+        "ICP-004_compiler_emits_exact_gates": "REQUIRED_EVIDENCE_GATES" in compiler and all(gate in compiler for gate in GATES),
+        "ICP-005_validator_rejects_bad_edges": "type is not registered" in validator and "must contain at least one edge" in validator and "must be a non-empty string" in validator,
+        "ICP-006_contract_schema_constrains_edges": contract_schema["properties"]["contact_graph"]["minItems"] == 1 and set(contract_schema["properties"]["contact_graph"]["items"]["required"]) == {"source", "target", "type", "behavior"},
+        "ICP-007_evidence_schema_requires_gates": set(GATES).issubset(required_schema) and evidence_schema["properties"]["visual_qa_reference"]["properties"]["certification_scope"]["const"] == "wave19",
+        "ICP-008_scorer_registry_names_aligned": dimensions == ["contact_graph_check", "no_floating_check", "visual_reject_on_clip", "shadow_contact_check", "fabric_material_continuity", "identity_pose_body_preserved"] and all(key in scorer for key in dimensions),
+        "ICP-009_scorer_hard_rejects": "required_gates_pass" in scorer and "clip_clear" in scorer and "visual_authority_pass" in scorer and scoring["numeric_score_override_allowed"] is False,
+        "ICP-010_policy_matches_blockers": {"missing_contact_owner", "missing_contact_shadow_at_required_touch_point", "floating_or_unsupported_contact", "any_body_fabric_prop_or_furniture_clipping", "wave19_visual_authority_missing"}.issubset(block_conditions),
+        "ICP-011_ten_regressions_pass": unit.returncode == 0 and "Ran 10 tests" in unit.stderr and "OK" in unit.stderr,
+        "ICP-012_wave19_pack_pass": pack.returncode == 0 and pack_json_count >= 5033 and pack_required_count == 13,
+        "ICP-013_compile_validate_roundtrip": compile_run.returncode == 0 and validate_run.returncode == 0 and compiled.get("required_evidence_gates") == GATES,
+        "ICP-014_blocked_example_fails_closed": score_run.returncode == 0 and blocked_score.get("pass") is False and {"required_gate_failure", "wave19_visual_authority_missing"}.issubset(blocked_score.get("automatic_fail_flags", [])),
+        "ICP-015_w69_certificate_is_local_only": cert["local_support_passed"] is True and cert["final_certification_allowed"] is False and "Wave25" in cert["certification_subject"],
+        "ICP-016_shadow_sample_remains_blocked": shadow_qa["qa_decision"]["promote_over_seed210701_for_final_certification"] is False and "contact_shadow_not_clear:subtle_to_moderate" in shadow_qa["qa_decision"]["expected_remaining_blockers"],
+        "ICP-017_table_sample_not_certified": table_qa["qa_decision"]["promotion_allowed"] is False and table_qa["certification_status"].startswith("not_certified"),
+        "ICP-018_visual_artifacts_hash_bound": shadow_image.is_file() and sha(shadow_image) == shadow_qa["qa_subject"]["sha256"] and comparison_image.is_file() and sha(comparison_image) == shadow_qa["comparison_artifacts"][0]["sha256"] and table_image.is_file() and sha(table_image) == table_qa["technical_checks"]["sha256"],
+        "ICP-019_contact_ownership_authority_blocked": ownership["contact_occlusion_ownership_authority"]["contact_occlusion_ownership_pass"] is False and ownership["contact_occlusion_ownership_authority"]["production_route_pass"] is False and ownership["promotion_decision"].startswith("no_mask_promoted"),
+        "ICP-020_gold_dependency_and_safety_preserved": "trusted manual gold masks" in dependency_path.read_text(encoding="utf-8-sig").lower() and cert["aws_contacted"] is False and cert["ec2_started"] is False and cert["generation_executed"] is False,
+    }
+    failed = [name for name, passed in checks.items() if not passed]
+    if failed:
+        raise SystemExit("failed contact-physics invariants: " + ", ".join(failed))
+
+    groups = {
+        "contact_graph_check": ["ICP-001", "ICP-004", "ICP-005", "ICP-006", "ICP-019"],
+        "shadow_contact_check": ["ICP-002", "ICP-008", "ICP-010", "ICP-015", "ICP-016"],
+        "no_floating_check": ["ICP-003", "ICP-007", "ICP-011", "ICP-017", "ICP-018"],
+        "visual_reject_on_clip": ["ICP-009", "ICP-012", "ICP-013", "ICP-014", "ICP-020"],
+    }
+    stamped = QA / f"IMAGE_CONTACT_PHYSICS_{stamp}.json"
+    mirror = PLAN / "Tracker/Evidence" / stamped.name
+    test_log = QA / "image_contact_physics_test_log.json"
+    report = PLAN / "Items/Reports/ITEM-W64-015_image_contact_physics.json"
+    blocker = "Trusted contact ownership and occlusion authority remains unavailable, and existing W69 samples do not provide a Wave19-scoped final certificate across clothing, prop, furniture, support-shadow, no-floating, and no-clipping cases."
+    payload = {
+        "schema_version": "1.0", "evidence_id": stamped.stem, "created_iso": iso, "wave": 64, "tracker_id": TRK, "item_id": ITEM,
+        "status": STATUS, "row_complete": False, "qa_decision": DECISION,
+        "validation_gates": {
+            "contact_graph_check": {"status": "blocked_trusted_contact_ownership_and_occlusion_authority_missing", "checks": groups["contact_graph_check"]},
+            "shadow_contact_check": {"status": "partial_local_shadow_support_subtle_not_certifying", "checks": groups["shadow_contact_check"]},
+            "no_floating_check": {"status": "partial_local_samples_support_no_gross_floating_full_contact_matrix_unproven", "checks": groups["no_floating_check"]},
+            "visual_reject_on_clip": {"status": "partial_no_gross_clip_in_reviewed_samples_wave19_final_visual_authority_missing", "checks": groups["visual_reject_on_clip"]},
+        },
+        "exact_blocker": blocker,
+        "codex_visual_review": {
+            "reviewed_existing_images_only": True,
+            "images": [rel(comparison_image), rel(shadow_image), rel(table_image)],
+            "findings": [
+                "The seed210704 hand-to-shoulder crop shows a subtle shadow/pressure increase without a gross body merge, but contact remains shoulder-biased rather than the requested lower upper-arm target.",
+                "The full two-character image preserves distinct participants and clothing, but does not establish a trusted owner graph or broad prop/furniture support behavior.",
+                "The table sample has plausible table support and shadows, but shows two overlapping hands despite a one-hand target and remains explicitly non-certifying.",
+            ],
+        },
+        "test_results": {"unit_tests": {"run": 10, "passed": 10}, "wave19_pack": {"json_files_checked": pack_json_count, "required_files_checked": pack_required_count, "minimum_json_files_required": 5033, "result": "pass"}},
+        "checks": [{"name": name, "result": "pass"} for name in checks], "check_summary": {"checked": 20, "passed": 20, "failed": 0},
+        "safety_boundary": {"new_generation_executed": False, "aws_contacted": False, "ec2_started": False, "candidate_masks_consumed_as_truth": False, "mask_promotion_performed": False, "hard_gates_rerun": False, "wave71_activated": False, "jira_mutated": False},
+        "project_completion": {"level": "BELOW_LEVEL_7", "full_project_complete": False, "final_certification_decision": "blocked"},
+        "source_hashes": [{"path": rel(path), "sha256": sha(path)} for path in (source_path, qa_gates_path, no_float_path, compiler_path, validator_path, scorer_path, pack_path, contract_schema_path, evidence_schema_path, contract_example_path, evidence_example_path, scoring_path, rerun_path, tests_path, dependency_path, ownership_path, cert_path, shadow_qa_path, table_qa_path, shadow_image, comparison_image, table_image)],
+        "next_action": "Proceed to TRK-W64-016 / ITEM-W64-016 in strict sequence. Reopen Row015 only with trusted contact ownership plus a Wave19-scoped visual certificate covering the required contact matrix.",
+    }
+    evidence_paths = [rel(canonical), rel(stamped), rel(mirror), rel(test_log), rel(report), rel(ownership_path), rel(cert_path), rel(shadow_qa_path), rel(table_qa_path)]
+    payload["evidence_paths"] = evidence_paths
+    for path in (canonical, stamped, mirror):
+        write(path, payload)
+    write(test_log, {"schema_version": "1.0", "created_iso": iso, "tracker_id": TRK, "result": DECISION, "test_results": payload["test_results"], "validation_gates": payload["validation_gates"], "checks": payload["checks"], "summary": payload["check_summary"]})
+    write(report, {"schema_version": "1.0", "created_iso": iso, "tracker_id": TRK, "item_id": ITEM, "status": STATUS, "implementation": {"required_machine_gates": GATES, "fail_closed_defaults": True, "numeric_override_forbidden": True, "wave19_visual_authority_required": True}, "exact_blocker": blocker, "codex_visual_review": payload["codex_visual_review"], "evidence": evidence_paths, "next_action": payload["next_action"]})
+
+    note = f"Wave64 Row015 {stamp}: implemented four fail-closed contact-physics gates, passed 10/10 regressions and the 5033-plus-JSON Wave19 pack, and preserved promotion blocking because trusted contact ownership and Wave19-scoped final visual authority are missing; 20/20 split-state checks pass."
+    tags = ["wave64_row015_contract_gates_implemented", "local_contact_visual_support_only", "gold_mask_dependency_blocked", "wave19_visual_authority_missing", "row016_next"]
+    tracker_paths = (PLAN / "Tracker/wave64_end_to_end_strict_ai_tracker.csv", PLAN / "Tracker/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_TRACKER_ROWS.csv")
+    item_paths = (PLAN / "Items/wave64_end_to_end_strict_ai_itemized_list.csv", PLAN / "Items/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_ITEM_ROWS.csv")
+    tracker_changes = [rewrite_csv(path, "Tracker_ID", TRK, {"Status": STATUS, "Status_Decision": DECISION, "Evidence_Path": evidence_paths, "Coverage_Audit_Status": tags}, note) for path in tracker_paths]
+    item_changes = [rewrite_csv(path, "Item_ID", ITEM, {"Status": STATUS, "Evidence_Required": evidence_paths, "Coverage_Audit_Status": tags}, note) for path in item_paths]
+    if tracker_changes != [1, 1] or item_changes != [1, 1]:
+        raise SystemExit(f"row update mismatch: {tracker_changes} {item_changes}")
+
+    block = f"""## Wave64 Row015 Clothing Prop Furniture And Contact Physics Review - {iso}
+
+`{TRK}` / `{ITEM}` is `{STATUS}`. Wave19 now requires machine-readable `contact_graph_check`, `shadow_contact_check`, `no_floating_check`, and `visual_reject_on_clip` gates. Empty or unknown contact edges, missing masks, uninspectable passes, any detected clipping, required-gate failure, and non-Wave19 visual authority fail closed regardless of weighted score. Ten regressions pass and the Wave19 pack validates at least 5,033 JSON files plus all 13 required files. Direct Codex review confirms bounded local contact support, but shadow strength/placement, overlapping-hand prompt drift, furniture coverage, and trusted contact ownership prevent certification. No generation, AWS, EC2, mask truth consumption/promotion, hard-gate rerun, Jira, or Wave71+ action occurred.
+
+Next safe local action in strict sequence: `TRK-W64-016 / ITEM-W64-016`.
+
+Evidence: `{rel(canonical)}`; `{rel(stamped)}`; `{rel(mirror)}`.
+"""
+    for name in ("NEXT_ACTION.md", "CURRENT_SESSION_STATE.md", "CURRENT_PURSUING_GOAL.md", "RESUME_HERE_NEXT_CODEX_SESSION.md", "QA_EVIDENCE_INDEX.md", "RECENT_DECISIONS.md", "BLOCKERS.md", "KNOWN_ISSUES.md"):
+        prepend(HYD / name, block)
+    proof = HYD / "PROOF_OF_MOVEMENT_LOG.csv"
+    with proof.open("r", encoding="utf-8-sig", newline="") as handle:
+        reader = csv.DictReader(handle)
+        proof_fields, proof_rows = reader.fieldnames or [], list(reader)
+    record = {"Timestamp": iso, "Wave": "64", "Task": TRK, "Action": "Implemented fail-closed contact-physics gates and reconciled bounded local visual evidence.", "Files_Changed": "; ".join(evidence_paths), "Validation_Run": "10/10 regressions; 5033-plus JSON pack validation; 20/20 audit checks", "Result": DECISION, "Evidence_Path": rel(canonical), "Next_Action": "Proceed to TRK-W64-016 / ITEM-W64-016."}
+    matched = False
+    for row in proof_rows:
+        if row.get("Task") == TRK and row.get("Evidence_Path") == rel(canonical):
+            row.update(record)
+            matched = True
+    if not matched:
+        proof_rows.append(record)
+    with proof.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=proof_fields, lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(proof_rows)
+    print(json.dumps({"status": STATUS, "row_complete": False, "gates": {gate: payload["validation_gates"][gate]["status"] for gate in GATES}, "tests": payload["test_results"], "checks": payload["check_summary"], "next": payload["next_action"]}, indent=2))
+
+
+if __name__ == "__main__":
+    main()

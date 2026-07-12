@@ -16,3 +16,14 @@
 - prop mask
 - furniture/support-surface mask
 - contact-edge mask
+
+## Required machine gates
+- `contact_graph_check`
+- `shadow_contact_check`
+- `no_floating_check`
+- `visual_reject_on_clip`
+
+Promotion is fail-closed. Every required gate must be an inspectable pass, clipping must
+be explicitly absent, and the linked visual-QA record must be scoped to Wave19 and allow
+final certification. Local evidence from another wave can support review but cannot
+certify this contract.

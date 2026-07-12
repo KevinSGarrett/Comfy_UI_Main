@@ -16,14 +16,17 @@ REQUIRED_FILES = [
     '10_REGISTRIES/wave19_contact_pass_profiles.json',
     '10_REGISTRIES/wave19_contact_qa_scoring_rules.json',
     '10_REGISTRIES/wave19_contact_rerun_policy.json',
+    '10_REGISTRIES/wave19_mask_requirements_by_contact_type.json',
     '10_REGISTRIES/wave19_main_flow_clothing_prop_contact_inventory.json',
     '08_SCHEMAS/clothing_prop_contact_contract.schema.json',
+    '08_SCHEMAS/clothing_prop_contact_evidence.schema.json',
     '09_EXAMPLES/wave19_clothing_prop_contact_contract.example.json',
+    '09_EXAMPLES/wave19_clothing_prop_contact_evidence.example.json',
 ]
 
 
 def load_json(path: Path) -> Any:
-    return json.loads(path.read_text(encoding='utf-8'))
+    return json.loads(path.read_text(encoding='utf-8-sig'))
 
 
 def main() -> int:

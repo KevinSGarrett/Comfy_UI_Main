@@ -13,3 +13,5 @@
 
 ## Required response
 The orchestrator must rerun, switch pass strategy, or block promotion.
+Any detected clipping is a hard promotion block; it is not downgraded to a score-only
+warning or a minor rerun condition.

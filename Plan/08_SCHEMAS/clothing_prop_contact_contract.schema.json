@@ -2,66 +2,36 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Wave19 ClothingPropContactContract",
   "type": "object",
-  "required": [
-    "contract_version",
-    "source_image_id",
-    "contact_graph",
-    "mask_ids"
-  ],
+  "required": ["contract_version", "source_image_id", "contact_graph", "mask_ids", "required_evidence_gates"],
   "properties": {
-    "contract_version": {
-      "type": "string"
-    },
-    "source_image_id": {
-      "type": "string"
-    },
-    "character_ids": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
+    "contract_version": {"const": "wave19.v1"},
+    "source_image_id": {"type": "string", "minLength": 1},
+    "character_ids": {"$ref": "#/definitions/stringArray"},
     "contact_graph": {
       "type": "array",
+      "minItems": 1,
       "items": {
-        "type": "object"
+        "type": "object",
+        "required": ["source", "target", "type", "behavior"],
+        "properties": {
+          "source": {"type": "string", "minLength": 1},
+          "target": {"type": "string", "minLength": 1},
+          "type": {"enum": ["body_to_fabric", "body_to_prop", "body_to_furniture", "prop_to_surface", "fabric_to_prop", "fabric_to_furniture"]},
+          "behavior": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
       }
     },
-    "fabric_targets": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "prop_targets": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "furniture_targets": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "mask_ids": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "pass_order": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "qa_goals": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    }
-  }
+    "fabric_targets": {"$ref": "#/definitions/stringArray"},
+    "prop_targets": {"$ref": "#/definitions/stringArray"},
+    "furniture_targets": {"$ref": "#/definitions/stringArray"},
+    "mask_ids": {"allOf": [{"$ref": "#/definitions/stringArray"}, {"minItems": 1}]},
+    "pass_order": {"$ref": "#/definitions/stringArray"},
+    "qa_goals": {"$ref": "#/definitions/stringArray"},
+    "required_evidence_gates": {"const": ["contact_graph_check", "shadow_contact_check", "no_floating_check", "visual_reject_on_clip"]}
+  },
+  "definitions": {
+    "stringArray": {"type": "array", "items": {"type": "string", "minLength": 1}}
+  },
+  "additionalProperties": false
 }

@@ -1,0 +1,283 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "IMAGE_CONTACT_PHYSICS_20260712T131225-0500",
+  "created_iso": "2026-07-12T13:12:25-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-015",
+  "item_id": "ITEM-W64-015",
+  "status": "Blocked_Gold_Mask_Dependency_Missing",
+  "row_complete": false,
+  "qa_decision": "contact_physics_contract_pass_local_visual_support_contact_authority_blocked",
+  "validation_gates": {
+    "contact_graph_check": {
+      "status": "blocked_trusted_contact_ownership_and_occlusion_authority_missing",
+      "checks": [
+        "ICP-001",
+        "ICP-004",
+        "ICP-005",
+        "ICP-006",
+        "ICP-019"
+      ]
+    },
+    "shadow_contact_check": {
+      "status": "partial_local_shadow_support_subtle_not_certifying",
+      "checks": [
+        "ICP-002",
+        "ICP-008",
+        "ICP-010",
+        "ICP-015",
+        "ICP-016"
+      ]
+    },
+    "no_floating_check": {
+      "status": "partial_local_samples_support_no_gross_floating_full_contact_matrix_unproven",
+      "checks": [
+        "ICP-003",
+        "ICP-007",
+        "ICP-011",
+        "ICP-017",
+        "ICP-018"
+      ]
+    },
+    "visual_reject_on_clip": {
+      "status": "partial_no_gross_clip_in_reviewed_samples_wave19_final_visual_authority_missing",
+      "checks": [
+        "ICP-009",
+        "ICP-012",
+        "ICP-013",
+        "ICP-014",
+        "ICP-020"
+      ]
+    }
+  },
+  "exact_blocker": "Trusted contact ownership and occlusion authority remains unavailable, and existing W69 samples do not provide a Wave19-scoped final certificate across clothing, prop, furniture, support-shadow, no-floating, and no-clipping cases.",
+  "codex_visual_review": {
+    "reviewed_existing_images_only": true,
+    "images": [
+      "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/qa_contact_crops/contact_shadow_pressure_compare_seed210701_seed210704.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_contact_shadow_pressure_seed210704_20260707T122546-0500/images/codex_wave25_contact_shadow_pressure_seed210704_00001_.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_one_hand_table_contact_v1_20260707T041600-0500/images/codex_realvisxl_one_hand_table_contact_00001_.png"
+    ],
+    "findings": [
+      "The seed210704 hand-to-shoulder crop shows a subtle shadow/pressure increase without a gross body merge, but contact remains shoulder-biased rather than the requested lower upper-arm target.",
+      "The full two-character image preserves distinct participants and clothing, but does not establish a trusted owner graph or broad prop/furniture support behavior.",
+      "The table sample has plausible table support and shadows, but shows two overlapping hands despite a one-hand target and remains explicitly non-certifying."
+    ]
+  },
+  "test_results": {
+    "unit_tests": {
+      "run": 10,
+      "passed": 10
+    },
+    "wave19_pack": {
+      "json_files_checked": 5038,
+      "required_files_checked": 13,
+      "minimum_json_files_required": 5033,
+      "result": "pass"
+    }
+  },
+  "checks": [
+    {
+      "name": "ICP-001_row015_contract_exact",
+      "result": "pass"
+    },
+    {
+      "name": "ICP-002_source_documents_four_gates",
+      "result": "pass"
+    },
+    {
+      "name": "ICP-003_no_float_clip_hard_block_documented",
+      "result": "pass"
+    },
+    {
+      "name": "ICP-004_compiler_emits_exact_gates",
+      "result": "pass"
+    },
+    {
+      "name": "ICP-005_validator_rejects_bad_edges",
+      "result": "pass"
+    },
+    {
+      "name": "ICP-006_contract_schema_constrains_edges",
+      "result": "pass"
+    },
+    {
+      "name": "ICP-007_evidence_schema_requires_gates",
+      "result": "pass"
+    },
+    {
+      "name": "ICP-008_scorer_registry_names_aligned",
+      "result": "pass"
+    },
+    {
+      "name": "ICP-009_scorer_hard_rejects",
+      "result": "pass"
+    },
+    {
+      "name": "ICP-010_policy_matches_blockers",
+      "result": "pass"
+    },
+    {
+      "name": "ICP-011_ten_regressions_pass",
+      "result": "pass"
+    },
+    {
+      "name": "ICP-012_wave19_pack_pass",
+      "result": "pass"
+    },
+    {
+      "name": "ICP-013_compile_validate_roundtrip",
+      "result": "pass"
+    },
+    {
+      "name": "ICP-014_blocked_example_fails_closed",
+      "result": "pass"
+    },
+    {
+      "name": "ICP-015_w69_certificate_is_local_only",
+      "result": "pass"
+    },
+    {
+      "name": "ICP-016_shadow_sample_remains_blocked",
+      "result": "pass"
+    },
+    {
+      "name": "ICP-017_table_sample_not_certified",
+      "result": "pass"
+    },
+    {
+      "name": "ICP-018_visual_artifacts_hash_bound",
+      "result": "pass"
+    },
+    {
+      "name": "ICP-019_contact_ownership_authority_blocked",
+      "result": "pass"
+    },
+    {
+      "name": "ICP-020_gold_dependency_and_safety_preserved",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "safety_boundary": {
+    "new_generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "candidate_masks_consumed_as_truth": false,
+    "mask_promotion_performed": false,
+    "hard_gates_rerun": false,
+    "wave71_activated": false,
+    "jira_mutated": false
+  },
+  "project_completion": {
+    "level": "BELOW_LEVEL_7",
+    "full_project_complete": false,
+    "final_certification_decision": "blocked"
+  },
+  "source_hashes": [
+    {
+      "path": "Plan/03_IMAGE_SYSTEM/WAVE19_IMAGE_CLOTHING_PROP_FURNITURE_CONTACT_PLAN.md",
+      "sha256": "ea4b45f8497a28c9eb9146f61736e80b3d6b668b6e9f53641e6190d69f574072"
+    },
+    {
+      "path": "Plan/06_QA_TESTING/WAVE19_CLOTHING_PROP_FURNITURE_CONTACT_QA_GATES.md",
+      "sha256": "1e832e6130ed81be5b54821c8acaa47c3642d89bf44955d47a5b7c281cfca9f3"
+    },
+    {
+      "path": "Plan/06_QA_TESTING/WAVE19_NO_FLOATING_NO_CLIPPING_TESTS.md",
+      "sha256": "62c435f513541dfd2ab2318569af1f0d7062d183a982bf41328ea0581a860449"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/compile_clothing_prop_contact_contract.py",
+      "sha256": "83d03303cee9d6117899c22d0a9ca0639bbdff57df2c4593e13aa0f7bdb02cda"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/validate_clothing_prop_contact_contract.py",
+      "sha256": "1dbe1ddf76152a16e0cd1b17c92d831caa8d054aedb34e7ecc612453cf612592"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/score_clothing_prop_contact_evidence.py",
+      "sha256": "cf9cb35bb6fbf224a6ea75212a324ddef1e5622ee3cbc37c0779b7f1896bfbde"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/run_wave19_local_validation.py",
+      "sha256": "1aaa8d267c5194836681a53ce555aa8c90314d9ea12f7602698d3d3eabea441a"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/clothing_prop_contact_contract.schema.json",
+      "sha256": "f4d610d32c9b5eabb6633114dd2579f969208580a42322aecac4203f21aebf9c"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/clothing_prop_contact_evidence.schema.json",
+      "sha256": "a6ba971f958a238759f56b9b743c7301cb4ab710ca45af190ad88b5959e36e3d"
+    },
+    {
+      "path": "Plan/09_EXAMPLES/wave19_clothing_prop_contact_contract.example.json",
+      "sha256": "c50a5b8f5e5a29a7865c7282c2ac29edf8e4ce5f97528885405cc3374ec64536"
+    },
+    {
+      "path": "Plan/09_EXAMPLES/wave19_clothing_prop_contact_evidence.example.json",
+      "sha256": "2dea477c58629773e04612ce1c3bdc5ba67fb69d4eecce74aaf71bd42cbcf6c9"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave19_contact_qa_scoring_rules.json",
+      "sha256": "ece500e4fba88b252993dc83a0a163db20fe0a45e102c08083e7e975bf0ce684"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave19_contact_rerun_policy.json",
+      "sha256": "981c49e600a0cc88ac112e296502e393fc4d84d08e0507b963c647fab296e552"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_clothing_prop_contact_contract.py",
+      "sha256": "aa8e7ca7a7c83d28beb6aa10776fed63aafe0285f47d0a3fb938650f4bceb71a"
+    },
+    {
+      "path": "Plan/Instructions/QA/GOLD_STANDARD_MASK_DEPENDENCY_GATE_PROTOCOL.md",
+      "sha256": "659fd3c21c084b0e3ebdbf8e8378eba2cd845186089a7b824ff4297403727cd3"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/contact_occlusion_ownership_authority.json",
+      "sha256": "1c0a5c910dafcebc8ee2863348fc8003c441de08e600265f74fdad80febedcd8"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_HAND_CONTACT_VISUAL_CERTIFICATION_SHADOW_PRESSURE_SEED210704_20260707T125000-0500.json",
+      "sha256": "2a5808c289cd6f6af219c103acaface89d1970c66256f1cf39cac7456d6ce585"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_WAVE25_CONTACT_SHADOW_PRESSURE_SEED210704_VISUAL_QA_20260707T124500-0500.json",
+      "sha256": "ca31434bb2dd01750e62767c6e95711ae52fcfea8b8ef39fae4edafad8bc88f1"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_ONE_HAND_TABLE_CONTACT_V1_VISUAL_QA_20260707T041800-0500.json",
+      "sha256": "9d18eb11d57d828fc68327119a8581bf713161baf3fd5dbf67a799c454d01651"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_contact_shadow_pressure_seed210704_20260707T122546-0500/images/codex_wave25_contact_shadow_pressure_seed210704_00001_.png",
+      "sha256": "b9a1a02057c99eeabf0d6427c1af0a5e2a5b33195db1b8ebd6866915fafd6321"
+    },
+    {
+      "path": "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/qa_contact_crops/contact_shadow_pressure_compare_seed210701_seed210704.png",
+      "sha256": "4f2d47f3506a2444f9c674fb050e11fd27177d322d741ba4834c287249400199"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_one_hand_table_contact_v1_20260707T041600-0500/images/codex_realvisxl_one_hand_table_contact_00001_.png",
+      "sha256": "ca94d25d71b473e11febf3026fc32149b047b0964d79c62eed434ee0fcc6bacb"
+    }
+  ],
+  "next_action": "Proceed to TRK-W64-016 / ITEM-W64-016 in strict sequence. Reopen Row015 only with trusted contact ownership plus a Wave19-scoped visual certificate covering the required contact matrix.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/image_contact_physics.json",
+    "Plan/Instructions/QA/Evidence/Wave64/IMAGE_CONTACT_PHYSICS_20260712T131225-0500.json",
+    "Plan/Tracker/Evidence/IMAGE_CONTACT_PHYSICS_20260712T131225-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/image_contact_physics_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-015_image_contact_physics.json",
+    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/contact_occlusion_ownership_authority.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_HAND_CONTACT_VISUAL_CERTIFICATION_SHADOW_PRESSURE_SEED210704_20260707T125000-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_WAVE25_CONTACT_SHADOW_PRESSURE_SEED210704_VISUAL_QA_20260707T124500-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_ONE_HAND_TABLE_CONTACT_V1_VISUAL_QA_20260707T041800-0500.json"
+  ]
+}
