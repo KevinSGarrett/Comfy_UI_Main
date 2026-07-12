@@ -1,0 +1,272 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "FUTURE_LANE_PROMOTION_20260712T093624-0500",
+  "created_iso": "2026-07-12T09:36:24-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-066",
+  "item_id": "ITEM-W64-066",
+  "status": "Completed_Current_Future_Lane_Module_Promotion_Control_Pass_No_Promotion_Executed",
+  "row_complete": true,
+  "qa_decision": "promotion_control_pass_current_promotion_denied_no_request",
+  "policy_path": "Plan/10_REGISTRIES/future_lane_module_promotion_policy.json",
+  "current_promotion_state": {
+    "decision": "deny_no_promotion_request",
+    "promotion_allowed": false,
+    "selected_lane_id": null,
+    "promotion_request_id": null,
+    "promoted_lane_count": 0
+  },
+  "required_gate_order": [
+    "objective_declared",
+    "lane_queue_update",
+    "model_registry",
+    "run_package",
+    "runtime_proof",
+    "runtime_gate"
+  ],
+  "queue_summary": {
+    "queue_lane_count": 10,
+    "active_lane_count": 10,
+    "ordered_parity": true,
+    "runtime_enabled_by_manifests": false,
+    "lane_ids": [
+      "sdxl_low_risk_fallback_lane",
+      "sdxl_realvisxl_base_lane",
+      "sdxl_realvisxl_controlnet_canny_lane",
+      "sdxl_realvisxl_inpaint_detail_lane",
+      "sdxl_realvisxl_controlnet_depth_lane",
+      "sdxl_realvisxl_controlnet_lineart_lane",
+      "sdxl_realvisxl_controlnet_openpose_lane",
+      "sdxl_realvisxl_controlnet_normal_lane",
+      "sdxl_realesrgan_upscale_polish_lane",
+      "flux1_dev_primary_base"
+    ]
+  },
+  "lane_policy_index": [
+    {
+      "order": 1,
+      "lane_id": "sdxl_low_risk_fallback_lane",
+      "status": "bounded_first_runtime_smoke_final_review_complete_with_notes",
+      "required_next_runtime_gate": "changed_workflow_model_or_broader_quality_scope_only_if_intentionally_selected",
+      "promotion_rule": "The first runtime-smoke final review is complete with notes. Do not rerun solely to re-prove the path or generalize the 86/100 portrait sample to final hyperreal portfolio quality.",
+      "active_status_match": true,
+      "active_next_gate_match": true
+    },
+    {
+      "order": 2,
+      "lane_id": "sdxl_realvisxl_base_lane",
+      "status": "runtime_smoke_proven_canonical_two_character_seed_robustness_failed_local_openpose_composition_remediation_pair_passed_final_certification_blocked",
+      "required_next_runtime_gate": "scope_matched_target_runtime_proof_and_explicit_review_before_any_base_owned_composition_route_adoption",
+      "promotion_rule": "Do not promote Base from the close-up, failed canonical seed pair, or cross-lane OpenPose remediation evidence. The canonical Base pair remains 0/2, while a materially different OpenPose composition-control route now passes the same two seeds locally. Base ownership, scope-matched target-runtime proof, and final review remain separate requirements.",
+      "active_status_match": true,
+      "active_next_gate_match": true
+    },
+    {
+      "order": 3,
+      "lane_id": "sdxl_realvisxl_controlnet_canny_lane",
+      "status": "target_runtime_canny_v4_bounded_portrait_certified_with_notes_plus_local_portrait_and_fullbody_variant_robustness",
+      "required_next_runtime_gate": "changed_variant_or_broader_scene_target_runtime_proof_only_if_intentionally_selected",
+      "promotion_rule": "Baseline Canny v4 bounded portrait target-runtime proof and final lane certification are complete with notes. Do not generalize this certificate to changed local variants, hands, full body, contact, masks, or broader scenes without new lane-matched target-runtime output and QA.",
+      "active_status_match": true,
+      "active_next_gate_match": true
+    },
+    {
+      "order": 4,
+      "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+      "status": "target_runtime_inpaint_nomouth_v4_single_sample_smoke_certified_with_notes_full_lane_not_certified",
+      "required_next_runtime_gate": "materially_scoped_multisample_target_runtime_robustness_or_changed_variant_reproof_only_if_intentionally_selected",
+      "promotion_rule": "The exact no-mouth v4 micro facial-detail workflow has one bounded target-runtime smoke certificate with notes. Do not generalize it to full-lane robustness, material detail improvement, trusted-mask authority, body/hand/contact scope, or changed variants without new scope-matched proof.",
+      "active_status_match": true,
+      "active_next_gate_match": true
+    },
+    {
+      "order": 5,
+      "lane_id": "sdxl_realvisxl_controlnet_depth_lane",
+      "status": "target_runtime_depth_v2_bounded_portrait_certified_with_notes_plus_local_v3_fullbody_multiseed_robustness_pass_with_notes",
+      "required_next_runtime_gate": "scope_matched_fullbody_target_runtime_or_changed_variant_only_if_intentionally_selected",
+      "promotion_rule": "Bounded portrait target-runtime depth proof and final lane certification remain complete. Local Depth v3 full-body three-seed evidence is advisory lane-local robustness only, not target-runtime proof, not universal/final certification, and must not be generalized to detailed hand/foot geometry authority. Require scope-matched full-body target-runtime proof for promotion of full-body claims.",
+      "active_status_match": true,
+      "active_next_gate_match": true
+    },
+    {
+      "order": 6,
+      "lane_id": "sdxl_realvisxl_controlnet_lineart_lane",
+      "status": "portrait_target_runtime_scope_bounded_complete_with_notes_plus_local_fullbody_multiseed_robustness_pass_with_notes",
+      "required_next_runtime_gate": "scope_matched_fullbody_target_runtime_or_changed_variant_only_if_intentionally_selected",
+      "promotion_rule": "Bounded portrait target-runtime Lineart proof and final lane certification remain complete and unchanged. The local full-body three-seed matrix is advisory lane-local robustness only, not full-body target-runtime proof or broader final certification. Require scope-matched target-runtime output and QA before promoting full-body claims.",
+      "active_status_match": true,
+      "active_next_gate_match": true
+    },
+    {
+      "order": 7,
+      "lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+      "status": "local_openpose_tablehands_fullbody_walking_and_two_character_contact_remediation_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+      "required_next_runtime_gate": "target_runtime_proof_and_final_openpose_review_only_when_intentionally_selected",
+      "promotion_rule": "Do not promote to target-runtime proven or final OpenPose certification from local table-hands, full-body, or two-character contact evidence. Detailed finger/foot geometry, target-runtime object_info/path/hash/input proof, bounded generation, pullback, strict QA, and final review remain separate. OpenPose remediation evidence may not be reassigned as Base certification.",
+      "active_status_match": true,
+      "active_next_gate_match": true
+    },
+    {
+      "order": 8,
+      "lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+      "status": "local_normal_v3_portrait_and_v4_fullbody_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+      "required_next_runtime_gate": "target_runtime_proof_and_final_normal_review_only_when_intentionally_selected",
+      "promotion_rule": "Do not promote to target-runtime proven or final Normal certification from local portrait/full-body multiseed evidence. Detailed hand/contact geometry, target-runtime object_info/path/hash/input proof, bounded target-runtime generation, pullback, strict QA, and final review remain separate.",
+      "active_status_match": true,
+      "active_next_gate_match": true
+    },
+    {
+      "order": 9,
+      "lane_id": "sdxl_realesrgan_upscale_polish_lane",
+      "status": "local_realesrgan_source_selection_policy_enforced_one_conditional_two_rejected_pending_target_runtime_and_final_certification",
+      "required_next_runtime_gate": "target_runtime_proof_and_final_realesrgan_review_only_when_intentionally_selected",
+      "promotion_rule": "Future candidates must pass the fail-closed source-selection gate. Retain every source master, do not claim universal improvement, and do not allow final production export until target-runtime proof and final lane review pass.",
+      "active_status_match": true,
+      "active_next_gate_match": true
+    },
+    {
+      "order": 10,
+      "lane_id": "flux1_dev_primary_base",
+      "status": "asset_authority_recorded_blocked_local_install_and_runtime_proof",
+      "required_next_runtime_gate": "record_noncommercial_license_acceptance_then_run_hash_verified_local_install",
+      "promotion_rule": "Do not execute or promote until the exact licensed model source and SHA256 are recorded, the installed file hash matches, object_info passes, and output technical and visual QA pass.",
+      "active_status_match": true,
+      "active_next_gate_match": true
+    }
+  ],
+  "model_registry_record_count": 15,
+  "checks": [
+    {
+      "name": "FLP-001_row066_tracker_contract_present",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-002_policy_schema_and_id",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-003_gate_order_exact",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-004_six_gate_objects_present",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-005_gate_fields_nonempty",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-006_default_decision_deny",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-007_current_decision_no_request",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-008_promotion_not_allowed",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-009_same_scope_invariant_present",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-010_exact_ten_queue_lanes",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-011_exact_ten_active_lanes",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-012_queue_active_order_parity",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-013_queue_active_status_parity",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-014_queue_active_gate_parity",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-015_all_queue_promotion_rules_present",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-016_runtime_manifest_denies_execution",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-017_model_registry_exact_15_rows",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-018_change_control_fail_closed",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-019_prior_controls_preserved",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-020_no_promotion_or_external_action",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "safety_boundary": {
+    "lane_selected": false,
+    "lane_promoted": false,
+    "queue_modified": false,
+    "active_lanes_modified": false,
+    "model_registry_modified": false,
+    "runtime_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "generation_executed": false,
+    "mask_or_wave71_touched": false,
+    "jira_mutated": false
+  },
+  "source_hashes": [
+    {
+      "path": "Plan/10_REGISTRIES/future_lane_module_promotion_policy.json",
+      "sha256": "b117ddb83d9ed4a0ddd2e0378cd479148c40e9e367387948597b936f3c2a2828"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+      "sha256": "f6720781658e747ab8da5aa5bb6eb59989415cf2691b9d2204cf53a4ab027385"
+    },
+    {
+      "path": "Workflows/base_generation/ACTIVE_LANES.json",
+      "sha256": "e564a2a654b40add3202b9aead9d78317670592eea1fbf0e68a5a0a16f7bc05b"
+    },
+    {
+      "path": "Plan/Registries/Models/model_registry.jsonl",
+      "sha256": "60ce5bd6d86d6416474b5c66d8a023fb8e5e632f03072ab4ea05620736382b2f"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/failure_classification_rerun.json",
+      "sha256": "8fca16a67194913c2b3cfdf4113c4548c1a05b1246a5d32785273bae1d322e9b"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/realvisxl_lane_terminal_state.json",
+      "sha256": "aada5f78c80d8ffc14a618fa9b872074125c79d2dfc2fcbfa3bfd9debdaf2005"
+    }
+  ],
+  "next_action": "Run a targeted Wave64 final end-to-end certification refresh because Rows061-066 now have direct evidence; keep release, runtime, masks, and Wave71+ fail-closed unless their exact gates pass.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/future_lane_promotion.json",
+    "Plan/Instructions/QA/Evidence/Wave64/FUTURE_LANE_PROMOTION_20260712T093624-0500.json",
+    "Plan/Tracker/Evidence/FUTURE_LANE_PROMOTION_20260712T093624-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/future_lane_promotion_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-066_future_lane_promotion.json"
+  ]
+}

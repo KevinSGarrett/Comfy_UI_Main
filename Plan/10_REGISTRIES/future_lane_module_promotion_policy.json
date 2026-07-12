@@ -1,0 +1,124 @@
+{
+  "schema_version": "1.0",
+  "policy_id": "wave64_future_lane_module_promotion_policy",
+  "authority": "Codex Desktop final promotion control",
+  "default_promotion_decision": "deny",
+  "current_promotion_decision": "deny_no_promotion_request",
+  "current_selected_lane_id": null,
+  "current_promotion_request_id": null,
+  "promotion_allowed": false,
+  "required_gate_order": [
+    "objective_declared",
+    "lane_queue_update",
+    "model_registry",
+    "run_package",
+    "runtime_proof",
+    "runtime_gate"
+  ],
+  "same_scope_invariant": "All six gates must reference the same promotion_request_id, selected_lane_id, declared objective, artifact scope, workflow/request hashes, and model/input identities.",
+  "gates": {
+    "objective_declared": {
+      "required_fields": [
+        "promotion_request_id",
+        "selected_lane_id",
+        "objective",
+        "artifact_scope",
+        "material_change",
+        "promotion_reason",
+        "expected_result"
+      ],
+      "pass_rule": "One bounded objective and one lane are explicitly selected; the material change and expected result are testable."
+    },
+    "lane_queue_update": {
+      "required_fields": [
+        "queue_path",
+        "queue_before_sha256",
+        "queue_after_sha256",
+        "changed_lane_ids",
+        "status_before",
+        "status_after",
+        "required_next_runtime_gate",
+        "active_lanes_parity"
+      ],
+      "pass_rule": "Exactly the selected lane changes, its status transition is evidence-backed, and ACTIVE_LANES remains ordered and hash-traceable to the queue."
+    },
+    "model_registry": {
+      "required_fields": [
+        "registry_path",
+        "model_record_ids",
+        "engine_family",
+        "model_paths",
+        "expected_sha256",
+        "installed_sha256",
+        "install_or_presence_proof"
+      ],
+      "pass_rule": "Every required model is family-compatible, path-resolved, and hash-verified for the selected lane."
+    },
+    "run_package": {
+      "required_fields": [
+        "manifest_path",
+        "manifest_sha256",
+        "selected_lane_id",
+        "source_commit",
+        "workflow_sha256",
+        "request_sha256",
+        "input_hashes",
+        "model_hashes",
+        "clean_source_checkpoint"
+      ],
+      "pass_rule": "The package is lane-scoped, reproducible from a clean checkpoint, and binds workflow, request, input, and model identities."
+    },
+    "runtime_proof": {
+      "required_fields": [
+        "target_runtime",
+        "object_info_evidence",
+        "model_input_hash_evidence",
+        "generation_evidence",
+        "artifact_manifest",
+        "pullback_record",
+        "technical_qa",
+        "visual_or_audio_qa",
+        "scope_match"
+      ],
+      "pass_rule": "Target-runtime proof, pullback, and strict whole-artifact QA match the declared lane and scope; local robustness or cross-lane proof cannot substitute."
+    },
+    "runtime_gate": {
+      "required_fields": [
+        "auth_identity_gate",
+        "git_checkpoint_gate",
+        "runtime_authority",
+        "bounded_runtime_limit",
+        "emergency_stop_proof",
+        "final_stopped_state",
+        "final_review",
+        "promotion_boundary_review"
+      ],
+      "pass_rule": "All live safety gates and final review pass, final state is stopped, and the promotion does not imply masks, another lane, broader scope, or Wave71+ authority."
+    }
+  },
+  "decision_rule": "Allow only when all six ordered gates pass for the same request, lane, and scope with current hash-verified evidence. Missing, stale, mismatched, inferred, local-only-substitute, or cross-lane evidence denies promotion.",
+  "change_control": {
+    "preserve_passed_evidence": true,
+    "no_broad_rerun": true,
+    "targeted_rerun_requires_material_change": true,
+    "completed_terminal_chain_reuse_required": true,
+    "single_lane_mutation_only": true,
+    "historical_evidence_append_only": true,
+    "promotion_request_must_supersede_explicitly": true
+  },
+  "forbidden_substitutions": [
+    "local proof for target-runtime proof",
+    "cross-lane proof for selected-lane proof",
+    "localized QA for whole-artifact QA",
+    "runtime-smoke viability for final quality certification",
+    "candidate masks for gold-mask authority",
+    "file presence for implementation or runtime proof"
+  ],
+  "authority_boundaries": {
+    "mask_promotion_authorized": false,
+    "wave70_hard_gate_rerun_authorized": false,
+    "wave71_plus_activation_authorized": false,
+    "jira_mutation_authorized": false,
+    "aws_or_ec2_execution_authorized": false
+  }
+}
