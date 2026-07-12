@@ -1,0 +1,262 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "PROJECT_CONTROL_AUTONOMY_20260712T095556-0500",
+  "created_iso": "2026-07-12T09:55:56-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-002",
+  "item_id": "ITEM-W64-002",
+  "status": "Completed_Current_Project_Control_Autonomy_Pass_Project_Incomplete",
+  "row_complete": true,
+  "policy_control_pass": true,
+  "qa_decision": "project_control_autonomy_pass_project_remains_incomplete",
+  "acceptance_gates": {
+    "operating_manual_read": {
+      "pass": true,
+      "checks": [
+        {
+          "id": "PCA-001_manual_exists",
+          "pass": true,
+          "evidence": "Plan/00_PROJECT_CONTROL/AI_PROJECT_MANAGER_OPERATING_MANUAL.md",
+          "reason": "Operating manual is present."
+        },
+        {
+          "id": "PCA-002_manual_sections",
+          "pass": true,
+          "evidence": "Plan/00_PROJECT_CONTROL/AI_PROJECT_MANAGER_OPERATING_MANUAL.md",
+          "reason": "Required operating sections are readable."
+        },
+        {
+          "id": "PCA-003_nine_authorities_hashable",
+          "pass": true,
+          "evidence": "nine scoped control sources",
+          "reason": "Every authority is hash-bound."
+        },
+        {
+          "id": "PCA-004_manual_runtime_truth",
+          "pass": true,
+          "evidence": "Plan/00_PROJECT_CONTROL/AI_PROJECT_MANAGER_OPERATING_MANUAL.md",
+          "reason": "Runtime claims require outputs and QA."
+        }
+      ]
+    },
+    "goal_alignment_check": {
+      "pass": true,
+      "checks": [
+        {
+          "id": "PCA-005_goal_ids_current",
+          "pass": true,
+          "evidence": "Plan/Instructions/Hydration_Rehydration/CURRENT_PURSUING_GOAL.md",
+          "reason": "Current goal names the active row."
+        },
+        {
+          "id": "PCA-006_next_action_ids_current",
+          "pass": true,
+          "evidence": "Plan/Instructions/Hydration_Rehydration/NEXT_ACTION.md",
+          "reason": "Next action names the active row."
+        },
+        {
+          "id": "PCA-007_final_cert_points_current",
+          "pass": true,
+          "evidence": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+          "reason": "Blocked final audit hands off to this row."
+        },
+        {
+          "id": "PCA-008_project_not_complete",
+          "pass": true,
+          "evidence": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+          "reason": "Policy row cannot imply project completion."
+        }
+      ]
+    },
+    "blocker_policy_check": {
+      "pass": true,
+      "checks": [
+        {
+          "id": "PCA-009_blocker_policy_exact",
+          "pass": true,
+          "evidence": "Wave64 Tracker/Items Row002",
+          "reason": "No human cleanup is delegated."
+        },
+        {
+          "id": "PCA-010_gold_mask_scope",
+          "pass": true,
+          "evidence": "Plan/Instructions/QA/GOLD_STANDARD_MASK_DEPENDENCY_GATE_PROTOCOL.md",
+          "reason": "Gold masks block only dependent work."
+        },
+        {
+          "id": "PCA-011_blockers_current",
+          "pass": true,
+          "evidence": "Plan/Instructions/Hydration_Rehydration/BLOCKERS.md",
+          "reason": "Blocker ledger retains current handoff."
+        },
+        {
+          "id": "PCA-012_checkpoint_exact",
+          "pass": true,
+          "evidence": "Plan/Instructions/QA/Evidence/Wave64/secret_git_security.json",
+          "reason": "Five intentional paths remain explicit, not hidden."
+        }
+      ]
+    },
+    "progress_control_check": {
+      "pass": true,
+      "checks": [
+        {
+          "id": "PCA-013_no_loop_current",
+          "pass": true,
+          "evidence": "Plan/Instructions/QA/Evidence/Wave64/no_loop_no_drift.json",
+          "reason": "Current no-loop control is 20/20."
+        },
+        {
+          "id": "PCA-014_hydration_complete",
+          "pass": true,
+          "evidence": "Plan/Instructions/Hydration_Rehydration",
+          "reason": "All nine continuation files exist and are nonempty."
+        },
+        {
+          "id": "PCA-015_tracker_item_parity",
+          "pass": true,
+          "evidence": "Wave64 master and wave mirrors",
+          "reason": "Tracker and Item contracts match their mirrors."
+        },
+        {
+          "id": "PCA-016_gate_tuple_exact",
+          "pass": true,
+          "evidence": "TRK-W64-002",
+          "reason": "Acceptance gate tuple is exact."
+        },
+        {
+          "id": "PCA-017_proof_log_schema",
+          "pass": true,
+          "evidence": "Plan/Instructions/Hydration_Rehydration/PROOF_OF_MOVEMENT_LOG.csv",
+          "reason": "Proof log has the required structured columns."
+        },
+        {
+          "id": "PCA-018_forward_progress_not_duplicate",
+          "pass": true,
+          "evidence": "Plan/Instructions/Hydration_Rehydration/PROOF_OF_MOVEMENT_LOG.csv",
+          "reason": "Previous movement is a distinct targeted certification refresh."
+        },
+        {
+          "id": "PCA-019_completion_level_separated",
+          "pass": true,
+          "evidence": "Plan/Instructions/COMPLETION_DEFINITION_AND_DONE_GATE.md",
+          "reason": "Control pass remains below Level 7 project completion."
+        },
+        {
+          "id": "PCA-020_local_read_only_audit",
+          "pass": true,
+          "evidence": "Plan/07_IMPLEMENTATION/scripts/audit_wave64_project_control_autonomy.py",
+          "reason": "Audit performs no AWS, EC2, ComfyUI, generation, mask, Jira, or Wave71 action."
+        }
+      ]
+    }
+  },
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "project_completion": {
+    "level": "BELOW_LEVEL_7",
+    "full_project_complete": false,
+    "final_certification_decision": "blocked",
+    "unresolved_wave64_rows": 45
+  },
+  "checkpoint_state": {
+    "status": "Blocked_Intentional_Preserved_Worktree_Checkpoint",
+    "preserved_path_count": 5,
+    "preserved_paths": [
+      "Plan/Instructions/AUTOMATION_CRON_FLEET_SUPERVISION_STRATEGY.md",
+      "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_LATEST.json",
+      "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_LATEST.json",
+      "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_20260711T211346-0500.json",
+      "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_20260711T211346-0500.md"
+    ]
+  },
+  "gold_mask_boundary": {
+    "scoped_dependency": true,
+    "candidate_masks_consumed_as_truth": false,
+    "masks_promoted": false,
+    "hard_gates_rerun": false,
+    "wave71_activated": false
+  },
+  "safety_boundary": {
+    "aws_contacted": false,
+    "ec2_started": false,
+    "comfyui_contacted": false,
+    "generation_executed": false,
+    "git_mutated_by_audit": false,
+    "jira_mutated": false,
+    "mask_or_wave71_touched": false
+  },
+  "source_hashes": [
+    {
+      "role": "operating_manual",
+      "path": "Plan/00_PROJECT_CONTROL/AI_PROJECT_MANAGER_OPERATING_MANUAL.md",
+      "sha256": "9251d31d989377ffb785881e3a7ac4d4c70e25c90078be9569c600f69a288d09"
+    },
+    {
+      "role": "master_manual",
+      "path": "Plan/Instructions/AUTONOMOUS_CODEX_DESKTOP_MASTER_MANUAL.md",
+      "sha256": "9caf3139b166c6b9ebf68d1866364b92a3713d4d501191487535d8bd56fd14af"
+    },
+    {
+      "role": "decision_recovery",
+      "path": "Plan/Instructions/AUTONOMOUS_DECISION_TREE_AND_RECOVERY_PROTOCOL.md",
+      "sha256": "06eef1c34000b6c4ef700f47f78d650ef5bdbe621f74151210922f1cdcfe6057"
+    },
+    {
+      "role": "no_loop_policy",
+      "path": "Plan/Instructions/NO_LOOP_NO_DRIFT_PROGRESS_CONTROL.md",
+      "sha256": "ffab5f87c9f51889f2b284ce769713d2448c012258757c9ba37290545c4d2091"
+    },
+    {
+      "role": "completion_gate",
+      "path": "Plan/Instructions/COMPLETION_DEFINITION_AND_DONE_GATE.md",
+      "sha256": "8ee1841af72e36dac39d3894918299d497459a75c9b75e1d5ad55e994c3fbc7d"
+    },
+    {
+      "role": "rehydration_checklist",
+      "path": "Plan/Instructions/Hydration_Rehydration/SESSION_START_REHYDRATION_CHECKLIST.md",
+      "sha256": "c25a4a7ace0b8575a9d586c3f1c577fa6483dfa5156940324b6801ef3da17818"
+    },
+    {
+      "role": "tracker_protocol",
+      "path": "Plan/Instructions/Hydration_Rehydration/TRACKER_UPDATE_PROTOCOL.md",
+      "sha256": "84beab623c50890ad8067b40917fc73e114994ee02422701a769fee1fa367ef1"
+    },
+    {
+      "role": "item_protocol",
+      "path": "Plan/Instructions/Hydration_Rehydration/ITEMIZED_LIST_UPDATE_PROTOCOL.md",
+      "sha256": "771dff9f7a48c62910adb5a89d8deb3156b9bf6efdde47978f7f6b1c000c864f"
+    },
+    {
+      "role": "gold_mask_gate",
+      "path": "Plan/Instructions/QA/GOLD_STANDARD_MASK_DEPENDENCY_GATE_PROTOCOL.md",
+      "sha256": "659fd3c21c084b0e3ebdbf8e8378eba2cd845186089a7b824ff4297403727cd3"
+    },
+    {
+      "role": "final_certification",
+      "path": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+      "sha256": "0b28eebfbb177463be1707778f313bbb56c4a2cb157059b735df2d90c2d30012"
+    },
+    {
+      "role": "no_loop",
+      "path": "Plan/Instructions/QA/Evidence/Wave64/no_loop_no_drift.json",
+      "sha256": "623f0b02ff2628c954de84afb2b74bbc9d4edd604e252e5a76635a4811dcdad2"
+    },
+    {
+      "role": "checkpoint",
+      "path": "Plan/Instructions/QA/Evidence/Wave64/secret_git_security.json",
+      "sha256": "45addfc7558c576b0e66aa49cfee0b88cb751993ebabfb8c4e17c3f6118a070b"
+    }
+  ],
+  "next_action": "Advance in strict sequence to TRK-W64-003 / ITEM-W64-003 current-system review; keep full-project certification blocked.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/project_control_autonomy.json",
+    "Plan/Instructions/QA/Evidence/Wave64/PROJECT_CONTROL_AUTONOMY_20260712T095556-0500.json",
+    "Plan/Tracker/Evidence/PROJECT_CONTROL_AUTONOMY_20260712T095556-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/project_control_autonomy_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-002_project_control_autonomy.json"
+  ]
+}

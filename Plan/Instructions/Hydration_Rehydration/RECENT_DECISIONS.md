@@ -1,3 +1,11 @@
+## Wave64 Row002 Project-Control Autonomy - 2026-07-12T09:55:56-05:00
+
+`TRK-W64-002` / `ITEM-W64-002` is `Completed_Current_Project_Control_Autonomy_Pass_Project_Incomplete`. The operating manual, active objective, blocker/checkpoint policy, and progress/continuation controls pass four named acceptance gates and 20/20 deterministic checks. Tracker and Item master/mirror rows are aligned; the current no-loop control remains 20/20; the five preserved worktree paths remain explicit; and the gold-mask dependency stays scoped while unrelated non-mask work continues autonomously. This completes only the project-control policy row. The full project remains below Level 7 with final certification blocked and 45 unresolved Wave64 rows. No AWS, EC2, ComfyUI, generation, Git mutation, mask, Jira, or Wave71+ action occurred.
+
+Next safe local action in strict sequence: `TRK-W64-003 / ITEM-W64-003` current-system review.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/project_control_autonomy.json`; `Plan/Instructions/QA/Evidence/Wave64/PROJECT_CONTROL_AUTONOMY_20260712T095556-0500.json`; `Plan/Tracker/Evidence/PROJECT_CONTROL_AUTONOMY_20260712T095556-0500.json`.
+
 ## Wave64 Row060 Targeted Final End-to-End Certification Refresh - 2026-07-12T09:45:37-05:00
 
 `TRK-W64-060` / `ITEM-W64-060` remains `Blocked_Final_End_To_End_Certification_Gates_Not_Met` with final decision `blocked`. The targeted refresh consumed direct Row061-066 evidence and measured the current 66-row matrix at 21 pass-like, 28 blocked, and 15 still requiring direct evidence, leaving 45 unresolved rows. Row063's historical classification ledger correctly retains its creation-time count of 48; this refresh supersedes that aggregate count with 45 after Rows063, 065, and 066 became pass-like, without rewriting historical evidence. All five end-to-end gates still fail. Video, audio, multimodal, live operations, prompt/runtime alignment, and current release-manifest proof remain incomplete. Row065 proves one RealVisXL terminal smoke chain only; Row066 proves promotion control while authorizing zero promotions. The Wave47 manifest remains historical Waves38-47 structure, not current Wave64 release authority.

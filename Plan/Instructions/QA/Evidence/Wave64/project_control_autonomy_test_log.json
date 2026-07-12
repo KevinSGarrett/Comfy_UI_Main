@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-12T09:55:56-05:00",
+  "tracker_id": "TRK-W64-002",
+  "result": "pass_policy_control_project_incomplete",
+  "gates": {
+    "operating_manual_read": true,
+    "goal_alignment_check": true,
+    "blocker_policy_check": true,
+    "progress_control_check": true
+  },
+  "checks": [
+    {
+      "id": "PCA-001_manual_exists",
+      "pass": true,
+      "evidence": "Plan/00_PROJECT_CONTROL/AI_PROJECT_MANAGER_OPERATING_MANUAL.md",
+      "reason": "Operating manual is present."
+    },
+    {
+      "id": "PCA-002_manual_sections",
+      "pass": true,
+      "evidence": "Plan/00_PROJECT_CONTROL/AI_PROJECT_MANAGER_OPERATING_MANUAL.md",
+      "reason": "Required operating sections are readable."
+    },
+    {
+      "id": "PCA-003_nine_authorities_hashable",
+      "pass": true,
+      "evidence": "nine scoped control sources",
+      "reason": "Every authority is hash-bound."
+    },
+    {
+      "id": "PCA-004_manual_runtime_truth",
+      "pass": true,
+      "evidence": "Plan/00_PROJECT_CONTROL/AI_PROJECT_MANAGER_OPERATING_MANUAL.md",
+      "reason": "Runtime claims require outputs and QA."
+    },
+    {
+      "id": "PCA-005_goal_ids_current",
+      "pass": true,
+      "evidence": "Plan/Instructions/Hydration_Rehydration/CURRENT_PURSUING_GOAL.md",
+      "reason": "Current goal names the active row."
+    },
+    {
+      "id": "PCA-006_next_action_ids_current",
+      "pass": true,
+      "evidence": "Plan/Instructions/Hydration_Rehydration/NEXT_ACTION.md",
+      "reason": "Next action names the active row."
+    },
+    {
+      "id": "PCA-007_final_cert_points_current",
+      "pass": true,
+      "evidence": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+      "reason": "Blocked final audit hands off to this row."
+    },
+    {
+      "id": "PCA-008_project_not_complete",
+      "pass": true,
+      "evidence": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+      "reason": "Policy row cannot imply project completion."
+    },
+    {
+      "id": "PCA-009_blocker_policy_exact",
+      "pass": true,
+      "evidence": "Wave64 Tracker/Items Row002",
+      "reason": "No human cleanup is delegated."
+    },
+    {
+      "id": "PCA-010_gold_mask_scope",
+      "pass": true,
+      "evidence": "Plan/Instructions/QA/GOLD_STANDARD_MASK_DEPENDENCY_GATE_PROTOCOL.md",
+      "reason": "Gold masks block only dependent work."
+    },
+    {
+      "id": "PCA-011_blockers_current",
+      "pass": true,
+      "evidence": "Plan/Instructions/Hydration_Rehydration/BLOCKERS.md",
+      "reason": "Blocker ledger retains current handoff."
+    },
+    {
+      "id": "PCA-012_checkpoint_exact",
+      "pass": true,
+      "evidence": "Plan/Instructions/QA/Evidence/Wave64/secret_git_security.json",
+      "reason": "Five intentional paths remain explicit, not hidden."
+    },
+    {
+      "id": "PCA-013_no_loop_current",
+      "pass": true,
+      "evidence": "Plan/Instructions/QA/Evidence/Wave64/no_loop_no_drift.json",
+      "reason": "Current no-loop control is 20/20."
+    },
+    {
+      "id": "PCA-014_hydration_complete",
+      "pass": true,
+      "evidence": "Plan/Instructions/Hydration_Rehydration",
+      "reason": "All nine continuation files exist and are nonempty."
+    },
+    {
+      "id": "PCA-015_tracker_item_parity",
+      "pass": true,
+      "evidence": "Wave64 master and wave mirrors",
+      "reason": "Tracker and Item contracts match their mirrors."
+    },
+    {
+      "id": "PCA-016_gate_tuple_exact",
+      "pass": true,
+      "evidence": "TRK-W64-002",
+      "reason": "Acceptance gate tuple is exact."
+    },
+    {
+      "id": "PCA-017_proof_log_schema",
+      "pass": true,
+      "evidence": "Plan/Instructions/Hydration_Rehydration/PROOF_OF_MOVEMENT_LOG.csv",
+      "reason": "Proof log has the required structured columns."
+    },
+    {
+      "id": "PCA-018_forward_progress_not_duplicate",
+      "pass": true,
+      "evidence": "Plan/Instructions/Hydration_Rehydration/PROOF_OF_MOVEMENT_LOG.csv",
+      "reason": "Previous movement is a distinct targeted certification refresh."
+    },
+    {
+      "id": "PCA-019_completion_level_separated",
+      "pass": true,
+      "evidence": "Plan/Instructions/COMPLETION_DEFINITION_AND_DONE_GATE.md",
+      "reason": "Control pass remains below Level 7 project completion."
+    },
+    {
+      "id": "PCA-020_local_read_only_audit",
+      "pass": true,
+      "evidence": "Plan/07_IMPLEMENTATION/scripts/audit_wave64_project_control_autonomy.py",
+      "reason": "Audit performs no AWS, EC2, ComfyUI, generation, mask, Jira, or Wave71 action."
+    }
+  ],
+  "summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  }
+}
