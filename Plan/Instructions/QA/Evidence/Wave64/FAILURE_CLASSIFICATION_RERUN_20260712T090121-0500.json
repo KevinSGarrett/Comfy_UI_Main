@@ -1,0 +1,905 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "FAILURE_CLASSIFICATION_RERUN_20260712T090121-0500",
+  "created_iso": "2026-07-12T09:01:21-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-063",
+  "item_id": "ITEM-W64-063",
+  "status": "Completed_Current_Failure_Classification_Targeted_Rerun_Control_Pass",
+  "row_complete": true,
+  "qa_decision": "pass_failure_controls_upstream_failures_remain_open",
+  "classification_summary": {
+    "entries": 18,
+    "by_source_row": {
+      "TRK-W64-059": 6,
+      "TRK-W64-060": 5,
+      "TRK-W64-061": 5,
+      "TRK-W64-062": 2
+    },
+    "by_category": {
+      "artifact_quality": 2,
+      "environment_infrastructure": 4,
+      "observability_evidence": 7,
+      "unknown_needs_diagnosis": 0,
+      "workflow_logic": 5
+    },
+    "targeted_reruns": 18,
+    "rerun_reasons_required": 18,
+    "passed_anchor_hashes": 4,
+    "broad_reruns_authorized": 0
+  },
+  "failure_ledger": [
+    {
+      "blocker_id": "BLOCKER-W64-AWS-EXPIRED-SESSION-001",
+      "source_row": "TRK-W64-059",
+      "failure_category": "environment_infrastructure",
+      "severity": "critical",
+      "suspected_cause": "AWS session is expired",
+      "material_change_prerequisite": "fresh authenticated identity/account proof",
+      "targeted_rerun_action": "targeted_auth_gate_recheck_only",
+      "expected_result_after_retry": "AWS auth gate reports the expected account or a new exact blocker",
+      "rerun_reason_required": true,
+      "similar_retry_count": 0,
+      "retry_limit": {
+        "deep_diagnosis_after": 2,
+        "blocked_needs_redesign_after": 3
+      },
+      "escalation_decision": "hold_no_rerun_until_material_change",
+      "affected_count": 1,
+      "preserved_passed_evidence_hashes": [
+        {
+          "row": "row059",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
+          "sha256": "cc7635bbf7ca597444f6509248b57521ef872aa231c18ef21e85aca06b32618f"
+        },
+        {
+          "row": "row060",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+          "sha256": "053a6c1b1656619b5e4924fb8568aebd20fee2faf8b2655a305d6c592e3ddc25"
+        },
+        {
+          "row": "row061",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/autonomous_24_7_operations.json",
+          "sha256": "7055ed87dc471b4cf5e8c8c5f5a2787519b2acd9cd155f74053f6cdeaf3d62ff"
+        },
+        {
+          "row": "row062",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/observability_evidence_logs.json",
+          "sha256": "ad0fd7cf4040bcd9228da40f4da356cefb646b2bf4bbd069ac71c1286619d856"
+        }
+      ]
+    },
+    {
+      "blocker_id": "BLOCKER-W64-GIT-DIRTY-WORKTREE-001",
+      "source_row": "TRK-W64-059",
+      "failure_category": "environment_infrastructure",
+      "severity": "high",
+      "suspected_cause": "five intentional paths remain outside scoped checkpoints",
+      "material_change_prerequisite": "preserved paths are intentionally checkpointed or explicitly resolved",
+      "targeted_rerun_action": "targeted_checkpoint_gate_recheck_only",
+      "expected_result_after_retry": "checkpoint gate reports the exact current worktree state",
+      "rerun_reason_required": true,
+      "similar_retry_count": 0,
+      "retry_limit": {
+        "deep_diagnosis_after": 2,
+        "blocked_needs_redesign_after": 3
+      },
+      "escalation_decision": "hold_no_rerun_until_material_change",
+      "affected_count": 1,
+      "preserved_passed_evidence_hashes": [
+        {
+          "row": "row059",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
+          "sha256": "cc7635bbf7ca597444f6509248b57521ef872aa231c18ef21e85aca06b32618f"
+        },
+        {
+          "row": "row060",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+          "sha256": "053a6c1b1656619b5e4924fb8568aebd20fee2faf8b2655a305d6c592e3ddc25"
+        },
+        {
+          "row": "row061",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/autonomous_24_7_operations.json",
+          "sha256": "7055ed87dc471b4cf5e8c8c5f5a2787519b2acd9cd155f74053f6cdeaf3d62ff"
+        },
+        {
+          "row": "row062",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/observability_evidence_logs.json",
+          "sha256": "ad0fd7cf4040bcd9228da40f4da356cefb646b2bf4bbd069ac71c1286619d856"
+        }
+      ]
+    },
+    {
+      "blocker_id": "BLOCKER-W64-ADVANCED-DIRECT-PROOF-001",
+      "source_row": "TRK-W64-059",
+      "failure_category": "observability_evidence",
+      "severity": "critical",
+      "suspected_cause": "advanced runtime, visual, audio, model, and mask proof is incomplete",
+      "material_change_prerequisite": "one exact missing proof artifact is newly produced",
+      "targeted_rerun_action": "targeted_missing_advanced_proof_validation_only",
+      "expected_result_after_retry": "the named proof advances without rerunning passed lanes",
+      "rerun_reason_required": true,
+      "similar_retry_count": 0,
+      "retry_limit": {
+        "deep_diagnosis_after": 2,
+        "blocked_needs_redesign_after": 3
+      },
+      "escalation_decision": "hold_no_rerun_until_material_change",
+      "affected_count": 1,
+      "preserved_passed_evidence_hashes": [
+        {
+          "row": "row059",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
+          "sha256": "cc7635bbf7ca597444f6509248b57521ef872aa231c18ef21e85aca06b32618f"
+        },
+        {
+          "row": "row060",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+          "sha256": "053a6c1b1656619b5e4924fb8568aebd20fee2faf8b2655a305d6c592e3ddc25"
+        },
+        {
+          "row": "row061",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/autonomous_24_7_operations.json",
+          "sha256": "7055ed87dc471b4cf5e8c8c5f5a2787519b2acd9cd155f74053f6cdeaf3d62ff"
+        },
+        {
+          "row": "row062",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/observability_evidence_logs.json",
+          "sha256": "ad0fd7cf4040bcd9228da40f4da356cefb646b2bf4bbd069ac71c1286619d856"
+        }
+      ]
+    },
+    {
+      "blocker_id": "BLOCKER-W64-ORGANIZATION-PLACEMENT-DEBT-001",
+      "source_row": "TRK-W64-059",
+      "failure_category": "workflow_logic",
+      "severity": "high",
+      "suspected_cause": "tracked legacy artifacts violate placement authority",
+      "material_change_prerequisite": "a bounded named placement subset is corrected with hashes",
+      "targeted_rerun_action": "targeted_organization_debt_subset_audit_only",
+      "expected_result_after_retry": "the named debt subset decreases and unrelated files remain unchanged",
+      "rerun_reason_required": true,
+      "similar_retry_count": 0,
+      "retry_limit": {
+        "deep_diagnosis_after": 2,
+        "blocked_needs_redesign_after": 3
+      },
+      "escalation_decision": "hold_no_rerun_until_material_change",
+      "affected_count": 85,
+      "preserved_passed_evidence_hashes": [
+        {
+          "row": "row059",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
+          "sha256": "cc7635bbf7ca597444f6509248b57521ef872aa231c18ef21e85aca06b32618f"
+        },
+        {
+          "row": "row060",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+          "sha256": "053a6c1b1656619b5e4924fb8568aebd20fee2faf8b2655a305d6c592e3ddc25"
+        },
+        {
+          "row": "row061",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/autonomous_24_7_operations.json",
+          "sha256": "7055ed87dc471b4cf5e8c8c5f5a2787519b2acd9cd155f74053f6cdeaf3d62ff"
+        },
+        {
+          "row": "row062",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/observability_evidence_logs.json",
+          "sha256": "ad0fd7cf4040bcd9228da40f4da356cefb646b2bf4bbd069ac71c1286619d856"
+        }
+      ]
+    },
+    {
+      "blocker_id": "BLOCKER-W64-RUNTIME-DEPENDENT-TRACE-LINKS-001",
+      "source_row": "TRK-W64-059",
+      "failure_category": "observability_evidence",
+      "severity": "critical",
+      "suspected_cause": "cw_006, cw_007, and cw_008 require runtime proof",
+      "material_change_prerequisite": "one named runtime-dependent trace link gains direct proof",
+      "targeted_rerun_action": "targeted_trace_link_validation_only",
+      "expected_result_after_retry": "the named link advances without broad traceability refresh",
+      "rerun_reason_required": true,
+      "similar_retry_count": 0,
+      "retry_limit": {
+        "deep_diagnosis_after": 2,
+        "blocked_needs_redesign_after": 3
+      },
+      "escalation_decision": "hold_no_rerun_until_material_change",
+      "affected_count": 3,
+      "preserved_passed_evidence_hashes": [
+        {
+          "row": "row059",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
+          "sha256": "cc7635bbf7ca597444f6509248b57521ef872aa231c18ef21e85aca06b32618f"
+        },
+        {
+          "row": "row060",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+          "sha256": "053a6c1b1656619b5e4924fb8568aebd20fee2faf8b2655a305d6c592e3ddc25"
+        },
+        {
+          "row": "row061",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/autonomous_24_7_operations.json",
+          "sha256": "7055ed87dc471b4cf5e8c8c5f5a2787519b2acd9cd155f74053f6cdeaf3d62ff"
+        },
+        {
+          "row": "row062",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/observability_evidence_logs.json",
+          "sha256": "ad0fd7cf4040bcd9228da40f4da356cefb646b2bf4bbd069ac71c1286619d856"
+        }
+      ]
+    },
+    {
+      "blocker_id": "BLOCKER-W66-FINAL-READINESS-001",
+      "source_row": "TRK-W64-059",
+      "failure_category": "workflow_logic",
+      "severity": "critical",
+      "suspected_cause": "nine of ten runtime lanes are not final-ready",
+      "material_change_prerequisite": "a specific blocked lane gains its missing prerequisite evidence",
+      "targeted_rerun_action": "targeted_blocked_lane_readiness_recheck_only",
+      "expected_result_after_retry": "only the changed lane readiness is recomputed",
+      "rerun_reason_required": true,
+      "similar_retry_count": 0,
+      "retry_limit": {
+        "deep_diagnosis_after": 2,
+        "blocked_needs_redesign_after": 3
+      },
+      "escalation_decision": "hold_no_rerun_until_material_change",
+      "affected_count": 9,
+      "preserved_passed_evidence_hashes": [
+        {
+          "row": "row059",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
+          "sha256": "cc7635bbf7ca597444f6509248b57521ef872aa231c18ef21e85aca06b32618f"
+        },
+        {
+          "row": "row060",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+          "sha256": "053a6c1b1656619b5e4924fb8568aebd20fee2faf8b2655a305d6c592e3ddc25"
+        },
+        {
+          "row": "row061",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/autonomous_24_7_operations.json",
+          "sha256": "7055ed87dc471b4cf5e8c8c5f5a2787519b2acd9cd155f74053f6cdeaf3d62ff"
+        },
+        {
+          "row": "row062",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/observability_evidence_logs.json",
+          "sha256": "ad0fd7cf4040bcd9228da40f4da356cefb646b2bf4bbd069ac71c1286619d856"
+        }
+      ]
+    },
+    {
+      "blocker_id": "ROW060_ALL_DOMAIN_ROWS_PASS",
+      "source_row": "TRK-W64-060",
+      "failure_category": "workflow_logic",
+      "severity": "critical",
+      "suspected_cause": "48 domain rows are not pass-like",
+      "material_change_prerequisite": "one unresolved row gains exact direct evidence",
+      "targeted_rerun_action": "targeted_changed_domain_row_recheck_only",
+      "expected_result_after_retry": "the changed row is re-evaluated and all passed rows are preserved",
+      "rerun_reason_required": true,
+      "similar_retry_count": 0,
+      "retry_limit": {
+        "deep_diagnosis_after": 2,
+        "blocked_needs_redesign_after": 3
+      },
+      "escalation_decision": "hold_no_rerun_until_material_change",
+      "affected_count": 48,
+      "preserved_passed_evidence_hashes": [
+        {
+          "row": "row059",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
+          "sha256": "cc7635bbf7ca597444f6509248b57521ef872aa231c18ef21e85aca06b32618f"
+        },
+        {
+          "row": "row060",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+          "sha256": "053a6c1b1656619b5e4924fb8568aebd20fee2faf8b2655a305d6c592e3ddc25"
+        },
+        {
+          "row": "row061",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/autonomous_24_7_operations.json",
+          "sha256": "7055ed87dc471b4cf5e8c8c5f5a2787519b2acd9cd155f74053f6cdeaf3d62ff"
+        },
+        {
+          "row": "row062",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/observability_evidence_logs.json",
+          "sha256": "ad0fd7cf4040bcd9228da40f4da356cefb646b2bf4bbd069ac71c1286619d856"
+        }
+      ]
+    },
+    {
+      "blocker_id": "ROW060_MEDIA_REVIEWS_PASS",
+      "source_row": "TRK-W64-060",
+      "failure_category": "artifact_quality",
+      "severity": "high",
+      "suspected_cause": "six media rows lack required production review proof",
+      "material_change_prerequisite": "a named media artifact and review record are newly available",
+      "targeted_rerun_action": "targeted_missing_media_review_only",
+      "expected_result_after_retry": "the named media review receives an evidence-backed decision",
+      "rerun_reason_required": true,
+      "similar_retry_count": 0,
+      "retry_limit": {
+        "deep_diagnosis_after": 2,
+        "blocked_needs_redesign_after": 3
+      },
+      "escalation_decision": "hold_no_rerun_until_material_change",
+      "affected_count": 6,
+      "preserved_passed_evidence_hashes": [
+        {
+          "row": "row059",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
+          "sha256": "cc7635bbf7ca597444f6509248b57521ef872aa231c18ef21e85aca06b32618f"
+        },
+        {
+          "row": "row060",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+          "sha256": "053a6c1b1656619b5e4924fb8568aebd20fee2faf8b2655a305d6c592e3ddc25"
+        },
+        {
+          "row": "row061",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/autonomous_24_7_operations.json",
+          "sha256": "7055ed87dc471b4cf5e8c8c5f5a2787519b2acd9cd155f74053f6cdeaf3d62ff"
+        },
+        {
+          "row": "row062",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/observability_evidence_logs.json",
+          "sha256": "ad0fd7cf4040bcd9228da40f4da356cefb646b2bf4bbd069ac71c1286619d856"
+        }
+      ]
+    },
+    {
+      "blocker_id": "ROW060_AUDIO_REVIEWS_PASS",
+      "source_row": "TRK-W64-060",
+      "failure_category": "artifact_quality",
+      "severity": "high",
+      "suspected_cause": "eight audio rows lack required production review proof",
+      "material_change_prerequisite": "a named audio artifact and review record are newly available",
+      "targeted_rerun_action": "targeted_missing_audio_review_only",
+      "expected_result_after_retry": "the named audio review receives an evidence-backed decision",
+      "rerun_reason_required": true,
+      "similar_retry_count": 0,
+      "retry_limit": {
+        "deep_diagnosis_after": 2,
+        "blocked_needs_redesign_after": 3
+      },
+      "escalation_decision": "hold_no_rerun_until_material_change",
+      "affected_count": 8,
+      "preserved_passed_evidence_hashes": [
+        {
+          "row": "row059",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
+          "sha256": "cc7635bbf7ca597444f6509248b57521ef872aa231c18ef21e85aca06b32618f"
+        },
+        {
+          "row": "row060",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+          "sha256": "053a6c1b1656619b5e4924fb8568aebd20fee2faf8b2655a305d6c592e3ddc25"
+        },
+        {
+          "row": "row061",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/autonomous_24_7_operations.json",
+          "sha256": "7055ed87dc471b4cf5e8c8c5f5a2787519b2acd9cd155f74053f6cdeaf3d62ff"
+        },
+        {
+          "row": "row062",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/observability_evidence_logs.json",
+          "sha256": "ad0fd7cf4040bcd9228da40f4da356cefb646b2bf4bbd069ac71c1286619d856"
+        }
+      ]
+    },
+    {
+      "blocker_id": "ROW060_RUNTIME_EVIDENCE_PASS",
+      "source_row": "TRK-W64-060",
+      "failure_category": "observability_evidence",
+      "severity": "critical",
+      "suspected_cause": "runtime-dependent requirements and nine lanes remain unproven",
+      "material_change_prerequisite": "a named lane gains new target-runtime evidence",
+      "targeted_rerun_action": "targeted_changed_runtime_lane_evidence_only",
+      "expected_result_after_retry": "only the changed runtime lane evidence is re-evaluated",
+      "rerun_reason_required": true,
+      "similar_retry_count": 0,
+      "retry_limit": {
+        "deep_diagnosis_after": 2,
+        "blocked_needs_redesign_after": 3
+      },
+      "escalation_decision": "hold_no_rerun_until_material_change",
+      "affected_count": 9,
+      "preserved_passed_evidence_hashes": [
+        {
+          "row": "row059",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
+          "sha256": "cc7635bbf7ca597444f6509248b57521ef872aa231c18ef21e85aca06b32618f"
+        },
+        {
+          "row": "row060",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+          "sha256": "053a6c1b1656619b5e4924fb8568aebd20fee2faf8b2655a305d6c592e3ddc25"
+        },
+        {
+          "row": "row061",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/autonomous_24_7_operations.json",
+          "sha256": "7055ed87dc471b4cf5e8c8c5f5a2787519b2acd9cd155f74053f6cdeaf3d62ff"
+        },
+        {
+          "row": "row062",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/observability_evidence_logs.json",
+          "sha256": "ad0fd7cf4040bcd9228da40f4da356cefb646b2bf4bbd069ac71c1286619d856"
+        }
+      ]
+    },
+    {
+      "blocker_id": "ROW060_RELEASE_MANIFEST_PASS",
+      "source_row": "TRK-W64-060",
+      "failure_category": "observability_evidence",
+      "severity": "critical",
+      "suspected_cause": "no current Wave64 all-pass release manifest exists",
+      "material_change_prerequisite": "all prerequisite rows pass and a current manifest is generated",
+      "targeted_rerun_action": "targeted_current_release_manifest_validation_only",
+      "expected_result_after_retry": "current manifest authority is validated without reusing Wave47 scope",
+      "rerun_reason_required": true,
+      "similar_retry_count": 0,
+      "retry_limit": {
+        "deep_diagnosis_after": 2,
+        "blocked_needs_redesign_after": 3
+      },
+      "escalation_decision": "hold_no_rerun_until_material_change",
+      "affected_count": 1,
+      "preserved_passed_evidence_hashes": [
+        {
+          "row": "row059",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
+          "sha256": "cc7635bbf7ca597444f6509248b57521ef872aa231c18ef21e85aca06b32618f"
+        },
+        {
+          "row": "row060",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+          "sha256": "053a6c1b1656619b5e4924fb8568aebd20fee2faf8b2655a305d6c592e3ddc25"
+        },
+        {
+          "row": "row061",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/autonomous_24_7_operations.json",
+          "sha256": "7055ed87dc471b4cf5e8c8c5f5a2787519b2acd9cd155f74053f6cdeaf3d62ff"
+        },
+        {
+          "row": "row062",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/observability_evidence_logs.json",
+          "sha256": "ad0fd7cf4040bcd9228da40f4da356cefb646b2bf4bbd069ac71c1286619d856"
+        }
+      ]
+    },
+    {
+      "blocker_id": "AWS_AUTH_EXPIRED_LIVE_RUNTIME_BLOCK",
+      "source_row": "TRK-W64-061",
+      "failure_category": "environment_infrastructure",
+      "severity": "critical",
+      "suspected_cause": "live AWS credentials are expired",
+      "material_change_prerequisite": "fresh authenticated identity/account proof",
+      "targeted_rerun_action": "targeted_live_auth_gate_recheck_only",
+      "expected_result_after_retry": "live auth state is recorded without starting EC2",
+      "rerun_reason_required": true,
+      "similar_retry_count": 0,
+      "retry_limit": {
+        "deep_diagnosis_after": 2,
+        "blocked_needs_redesign_after": 3
+      },
+      "escalation_decision": "hold_no_rerun_until_material_change",
+      "affected_count": 1,
+      "preserved_passed_evidence_hashes": [
+        {
+          "row": "row059",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
+          "sha256": "cc7635bbf7ca597444f6509248b57521ef872aa231c18ef21e85aca06b32618f"
+        },
+        {
+          "row": "row060",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+          "sha256": "053a6c1b1656619b5e4924fb8568aebd20fee2faf8b2655a305d6c592e3ddc25"
+        },
+        {
+          "row": "row061",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/autonomous_24_7_operations.json",
+          "sha256": "7055ed87dc471b4cf5e8c8c5f5a2787519b2acd9cd155f74053f6cdeaf3d62ff"
+        },
+        {
+          "row": "row062",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/observability_evidence_logs.json",
+          "sha256": "ad0fd7cf4040bcd9228da40f4da356cefb646b2bf4bbd069ac71c1286619d856"
+        }
+      ]
+    },
+    {
+      "blocker_id": "EMERGENCY_STOP_LIVE_PROOF_MISSING",
+      "source_row": "TRK-W64-061",
+      "failure_category": "observability_evidence",
+      "severity": "critical",
+      "suspected_cause": "only dry-run emergency-stop scheduling is proven",
+      "material_change_prerequisite": "live runtime is separately authorized and a stop schedule is created",
+      "targeted_rerun_action": "targeted_emergency_stop_live_proof_only",
+      "expected_result_after_retry": "schedule, watchdog, and stopped-state evidence are captured",
+      "rerun_reason_required": true,
+      "similar_retry_count": 0,
+      "retry_limit": {
+        "deep_diagnosis_after": 2,
+        "blocked_needs_redesign_after": 3
+      },
+      "escalation_decision": "hold_no_rerun_until_material_change",
+      "affected_count": 1,
+      "preserved_passed_evidence_hashes": [
+        {
+          "row": "row059",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
+          "sha256": "cc7635bbf7ca597444f6509248b57521ef872aa231c18ef21e85aca06b32618f"
+        },
+        {
+          "row": "row060",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+          "sha256": "053a6c1b1656619b5e4924fb8568aebd20fee2faf8b2655a305d6c592e3ddc25"
+        },
+        {
+          "row": "row061",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/autonomous_24_7_operations.json",
+          "sha256": "7055ed87dc471b4cf5e8c8c5f5a2787519b2acd9cd155f74053f6cdeaf3d62ff"
+        },
+        {
+          "row": "row062",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/observability_evidence_logs.json",
+          "sha256": "ad0fd7cf4040bcd9228da40f4da356cefb646b2bf4bbd069ac71c1286619d856"
+        }
+      ]
+    },
+    {
+      "blocker_id": "CHECKPOINT_DIRTY_WORKTREE_INTENTIONAL_5_PATHS",
+      "source_row": "TRK-W64-061",
+      "failure_category": "environment_infrastructure",
+      "severity": "high",
+      "suspected_cause": "five preserved paths intentionally remain dirty",
+      "material_change_prerequisite": "the exact five-path state materially changes",
+      "targeted_rerun_action": "targeted_five_path_checkpoint_recheck_only",
+      "expected_result_after_retry": "checkpoint evidence reflects the changed path set",
+      "rerun_reason_required": true,
+      "similar_retry_count": 0,
+      "retry_limit": {
+        "deep_diagnosis_after": 2,
+        "blocked_needs_redesign_after": 3
+      },
+      "escalation_decision": "hold_no_rerun_until_material_change",
+      "affected_count": 5,
+      "preserved_passed_evidence_hashes": [
+        {
+          "row": "row059",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
+          "sha256": "cc7635bbf7ca597444f6509248b57521ef872aa231c18ef21e85aca06b32618f"
+        },
+        {
+          "row": "row060",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+          "sha256": "053a6c1b1656619b5e4924fb8568aebd20fee2faf8b2655a305d6c592e3ddc25"
+        },
+        {
+          "row": "row061",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/autonomous_24_7_operations.json",
+          "sha256": "7055ed87dc471b4cf5e8c8c5f5a2787519b2acd9cd155f74053f6cdeaf3d62ff"
+        },
+        {
+          "row": "row062",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/observability_evidence_logs.json",
+          "sha256": "ad0fd7cf4040bcd9228da40f4da356cefb646b2bf4bbd069ac71c1286619d856"
+        }
+      ]
+    },
+    {
+      "blocker_id": "LIVE_RUNTIME_AUTHORITY_NOT_GRANTED",
+      "source_row": "TRK-W64-061",
+      "failure_category": "workflow_logic",
+      "severity": "critical",
+      "suspected_cause": "current policy does not authorize an unselected live run",
+      "material_change_prerequisite": "an exact lane and bounded runtime objective are authorized",
+      "targeted_rerun_action": "targeted_selected_runtime_authority_check_only",
+      "expected_result_after_retry": "authority is proven for one bounded lane",
+      "rerun_reason_required": true,
+      "similar_retry_count": 0,
+      "retry_limit": {
+        "deep_diagnosis_after": 2,
+        "blocked_needs_redesign_after": 3
+      },
+      "escalation_decision": "hold_no_rerun_until_material_change",
+      "affected_count": 1,
+      "preserved_passed_evidence_hashes": [
+        {
+          "row": "row059",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
+          "sha256": "cc7635bbf7ca597444f6509248b57521ef872aa231c18ef21e85aca06b32618f"
+        },
+        {
+          "row": "row060",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+          "sha256": "053a6c1b1656619b5e4924fb8568aebd20fee2faf8b2655a305d6c592e3ddc25"
+        },
+        {
+          "row": "row061",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/autonomous_24_7_operations.json",
+          "sha256": "7055ed87dc471b4cf5e8c8c5f5a2787519b2acd9cd155f74053f6cdeaf3d62ff"
+        },
+        {
+          "row": "row062",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/observability_evidence_logs.json",
+          "sha256": "ad0fd7cf4040bcd9228da40f4da356cefb646b2bf4bbd069ac71c1286619d856"
+        }
+      ]
+    },
+    {
+      "blocker_id": "FINAL_CERTIFICATION_STILL_BLOCKED_UPSTREAM",
+      "source_row": "TRK-W64-061",
+      "failure_category": "workflow_logic",
+      "severity": "critical",
+      "suspected_cause": "upstream final-certification gates remain failed",
+      "material_change_prerequisite": "one named upstream gate materially advances",
+      "targeted_rerun_action": "targeted_changed_final_gate_recheck_only",
+      "expected_result_after_retry": "only the changed final gate is recomputed",
+      "rerun_reason_required": true,
+      "similar_retry_count": 0,
+      "retry_limit": {
+        "deep_diagnosis_after": 2,
+        "blocked_needs_redesign_after": 3
+      },
+      "escalation_decision": "hold_no_rerun_until_material_change",
+      "affected_count": 1,
+      "preserved_passed_evidence_hashes": [
+        {
+          "row": "row059",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
+          "sha256": "cc7635bbf7ca597444f6509248b57521ef872aa231c18ef21e85aca06b32618f"
+        },
+        {
+          "row": "row060",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+          "sha256": "053a6c1b1656619b5e4924fb8568aebd20fee2faf8b2655a305d6c592e3ddc25"
+        },
+        {
+          "row": "row061",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/autonomous_24_7_operations.json",
+          "sha256": "7055ed87dc471b4cf5e8c8c5f5a2787519b2acd9cd155f74053f6cdeaf3d62ff"
+        },
+        {
+          "row": "row062",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/observability_evidence_logs.json",
+          "sha256": "ad0fd7cf4040bcd9228da40f4da356cefb646b2bf4bbd069ac71c1286619d856"
+        }
+      ]
+    },
+    {
+      "blocker_id": "LEGACY_RUN_RECORD_LOG_RETENTION_METADATA_MISSING",
+      "source_row": "TRK-W64-062",
+      "failure_category": "observability_evidence",
+      "severity": "high",
+      "suspected_cause": "four legacy records have no log path or explicit absence reason",
+      "material_change_prerequisite": "source-backed sidecar metadata becomes available",
+      "targeted_rerun_action": "targeted_four_record_log_metadata_reconciliation_only",
+      "expected_result_after_retry": "four records gain truthful metadata without historical rewriting",
+      "rerun_reason_required": true,
+      "similar_retry_count": 0,
+      "retry_limit": {
+        "deep_diagnosis_after": 2,
+        "blocked_needs_redesign_after": 3
+      },
+      "escalation_decision": "hold_no_rerun_until_material_change",
+      "affected_count": 4,
+      "preserved_passed_evidence_hashes": [
+        {
+          "row": "row059",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
+          "sha256": "cc7635bbf7ca597444f6509248b57521ef872aa231c18ef21e85aca06b32618f"
+        },
+        {
+          "row": "row060",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+          "sha256": "053a6c1b1656619b5e4924fb8568aebd20fee2faf8b2655a305d6c592e3ddc25"
+        },
+        {
+          "row": "row061",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/autonomous_24_7_operations.json",
+          "sha256": "7055ed87dc471b4cf5e8c8c5f5a2787519b2acd9cd155f74053f6cdeaf3d62ff"
+        },
+        {
+          "row": "row062",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/observability_evidence_logs.json",
+          "sha256": "ad0fd7cf4040bcd9228da40f4da356cefb646b2bf4bbd069ac71c1286619d856"
+        }
+      ]
+    },
+    {
+      "blocker_id": "LEGACY_RUN_RECORD_COMMAND_ID_MISSING",
+      "source_row": "TRK-W64-062",
+      "failure_category": "observability_evidence",
+      "severity": "medium",
+      "suspected_cause": "one legacy record lacks a recoverable command identifier",
+      "material_change_prerequisite": "original command id or an explicit unrecoverable reason is sourced",
+      "targeted_rerun_action": "targeted_one_record_command_id_reconciliation_only",
+      "expected_result_after_retry": "the single record receives source-backed reconciliation",
+      "rerun_reason_required": true,
+      "similar_retry_count": 0,
+      "retry_limit": {
+        "deep_diagnosis_after": 2,
+        "blocked_needs_redesign_after": 3
+      },
+      "escalation_decision": "hold_no_rerun_until_material_change",
+      "affected_count": 1,
+      "preserved_passed_evidence_hashes": [
+        {
+          "row": "row059",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
+          "sha256": "cc7635bbf7ca597444f6509248b57521ef872aa231c18ef21e85aca06b32618f"
+        },
+        {
+          "row": "row060",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+          "sha256": "053a6c1b1656619b5e4924fb8568aebd20fee2faf8b2655a305d6c592e3ddc25"
+        },
+        {
+          "row": "row061",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/autonomous_24_7_operations.json",
+          "sha256": "7055ed87dc471b4cf5e8c8c5f5a2787519b2acd9cd155f74053f6cdeaf3d62ff"
+        },
+        {
+          "row": "row062",
+          "path": "Plan/Instructions/QA/Evidence/Wave64/observability_evidence_logs.json",
+          "sha256": "ad0fd7cf4040bcd9228da40f4da356cefb646b2bf4bbd069ac71c1286619d856"
+        }
+      ]
+    }
+  ],
+  "preserved_passed_evidence": [
+    {
+      "row": "row059",
+      "path": "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
+      "sha256": "cc7635bbf7ca597444f6509248b57521ef872aa231c18ef21e85aca06b32618f"
+    },
+    {
+      "row": "row060",
+      "path": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+      "sha256": "053a6c1b1656619b5e4924fb8568aebd20fee2faf8b2655a305d6c592e3ddc25"
+    },
+    {
+      "row": "row061",
+      "path": "Plan/Instructions/QA/Evidence/Wave64/autonomous_24_7_operations.json",
+      "sha256": "7055ed87dc471b4cf5e8c8c5f5a2787519b2acd9cd155f74053f6cdeaf3d62ff"
+    },
+    {
+      "row": "row062",
+      "path": "Plan/Instructions/QA/Evidence/Wave64/observability_evidence_logs.json",
+      "sha256": "ad0fd7cf4040bcd9228da40f4da356cefb646b2bf4bbd069ac71c1286619d856"
+    }
+  ],
+  "checks": [
+    {
+      "name": "FCR-001_row063_tracker_contract_present",
+      "result": "pass"
+    },
+    {
+      "name": "FCR-002_protocol_present",
+      "result": "pass"
+    },
+    {
+      "name": "FCR-003_protocol_requires_classification",
+      "result": "pass"
+    },
+    {
+      "name": "FCR-004_protocol_material_change_fields",
+      "result": "pass"
+    },
+    {
+      "name": "FCR-005_protocol_retry_limits",
+      "result": "pass"
+    },
+    {
+      "name": "FCR-006_exact_18_entries",
+      "result": "pass"
+    },
+    {
+      "name": "FCR-007_source_id_set_exact",
+      "result": "pass"
+    },
+    {
+      "name": "FCR-008_all_categories_allowed",
+      "result": "pass"
+    },
+    {
+      "name": "FCR-009_all_severity_present",
+      "result": "pass"
+    },
+    {
+      "name": "FCR-010_all_causes_present",
+      "result": "pass"
+    },
+    {
+      "name": "FCR-011_all_material_prerequisites_present",
+      "result": "pass"
+    },
+    {
+      "name": "FCR-012_all_targeted_actions_present",
+      "result": "pass"
+    },
+    {
+      "name": "FCR-013_no_broad_reruns",
+      "result": "pass"
+    },
+    {
+      "name": "FCR-014_all_expected_results_present",
+      "result": "pass"
+    },
+    {
+      "name": "FCR-015_all_reasons_required",
+      "result": "pass"
+    },
+    {
+      "name": "FCR-016_retry_counters_zero",
+      "result": "pass"
+    },
+    {
+      "name": "FCR-017_escalation_rules_exact",
+      "result": "pass"
+    },
+    {
+      "name": "FCR-018_four_anchor_hashes_preserved_per_entry",
+      "result": "pass"
+    },
+    {
+      "name": "FCR-019_no_loop_control_current_pass",
+      "result": "pass"
+    },
+    {
+      "name": "FCR-020_local_read_only_control",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "safety_boundary": {
+    "rerun_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "generation_executed": false,
+    "historical_evidence_rewritten": false,
+    "jira_mutated": false,
+    "mask_or_wave71_touched": false
+  },
+  "source_hashes": [
+    {
+      "path": "Plan/Instructions/QA/FAILURE_CLASSIFICATION_AND_RETEST_PROTOCOL.md",
+      "sha256": "7560134a21905d09c72404527843d366f87feb03731dd124cdb55a6bd9e1699f"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
+      "sha256": "cc7635bbf7ca597444f6509248b57521ef872aa231c18ef21e85aca06b32618f"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
+      "sha256": "053a6c1b1656619b5e4924fb8568aebd20fee2faf8b2655a305d6c592e3ddc25"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/autonomous_24_7_operations.json",
+      "sha256": "7055ed87dc471b4cf5e8c8c5f5a2787519b2acd9cd155f74053f6cdeaf3d62ff"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/observability_evidence_logs.json",
+      "sha256": "ad0fd7cf4040bcd9228da40f4da356cefb646b2bf4bbd069ac71c1286619d856"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/no_loop_no_drift.json",
+      "sha256": "623f0b02ff2628c954de84afb2b74bbc9d4edd604e252e5a76635a4811dcdad2"
+    }
+  ],
+  "next_action": "Advance to TRK-W64-064 / ITEM-W64-064 prompt and negative-prompt QA; execute no Row063 rerun until its exact material-change prerequisite is proven.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/failure_classification_rerun.json",
+    "Plan/Instructions/QA/Evidence/Wave64/FAILURE_CLASSIFICATION_RERUN_20260712T090121-0500.json",
+    "Plan/Tracker/Evidence/FAILURE_CLASSIFICATION_RERUN_20260712T090121-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/failure_classification_rerun_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-063_failure_classification_rerun.json"
+  ]
+}

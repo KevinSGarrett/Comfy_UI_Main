@@ -1,3 +1,11 @@
+## Wave64 Row063 Failure Classification And Targeted Rerun - 2026-07-12T09:01:21-05:00
+
+`TRK-W64-063` / `ITEM-W64-063` is `Completed_Current_Failure_Classification_Targeted_Rerun_Control_Pass`. The control classified all 18 current Row059-062 blocker entries, assigned severity and material-change prerequisites, constrained every rerun to its named scope, preserved four canonical evidence hashes per entry, and passed 20/20 checks. No rerun, AWS, EC2, generation, historical rewrite, Jira, mask, or Wave71+ action occurred. Upstream failures remain open; this row passes because their recovery policy is now exact and fail-closed.
+
+Next safe local action: `TRK-W64-064 / ITEM-W64-064` prompt and negative-prompt QA.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/failure_classification_rerun.json`; `Plan/Instructions/QA/Evidence/Wave64/FAILURE_CLASSIFICATION_RERUN_20260712T090121-0500.json`; `Plan/Tracker/Evidence/FAILURE_CLASSIFICATION_RERUN_20260712T090121-0500.json`.
+
 ## Wave64 Row062 Observability And Evidence Retention - 2026-07-12T08:50:55-05:00
 
 `TRK-W64-062` / `ITEM-W64-062` is `Blocked_Legacy_Run_Record_Observability_Metadata_Gaps`. The audit indexed all 10 current operation records, validated both known schema variants, and established an append-only normalized contract plus durable retention policy. All records have status/final state and task/evidence linkage; six have explicit log paths, while four historical task-run records lack a log path or explicit absence reason. Nine expose command IDs; one legacy runtime-inventory record does not. Those records were preserved unchanged and remain fail-closed. The deterministic audit passed 20/20 checks without AWS, EC2, generation, Jira, mask, or Wave71+ action.
