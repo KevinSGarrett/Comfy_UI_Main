@@ -1,3 +1,9 @@
+## Immediate Next Action - Wave64 SDXL Runtime Smoke Existing EC2 Chain Reconciled - 2026-07-12T05:37:00-05:00
+
+Start from `Plan/Instructions/QA/Evidence/Wave64/workflow_runtime_smoke.json` and `workflow_runtime_smoke_reconciliation_test_log.json`. `TRK-W64-037` / `ITEM-W64-037` is complete for the bounded `sdxl_low_risk_fallback_lane`: current static validation passes, the existing W61 EC2 generation stopped cleanly, pullback hashes were verified, visual QA scored `86/80`, and the W66 lane-scoped done packet closes the work order. Original remote prompt/history bytes remain auditable through exact Git blobs; no historical evidence was rewritten and no rerun occurred.
+
+Continue with one bounded duplicate check of `TRK-W64-038` / `ITEM-W64-038` against existing EC2 target-runtime proof. Do not start EC2, contact AWS while authentication is expired, rerun completed SDXL/RealVisXL/Canny proof, install Flux without license acceptance, consume candidate masks as truth, rerun Wave70 hard gates, activate Wave71+, recreate legacy/cloud work, or switch to Jira bookkeeping.
+
 ## Immediate Next Action - Wave64 Workflow Static Validation Current 10-Lane Flux Block - 2026-07-12T04:57:00-05:00
 
 Start from `Plan/Instructions/QA/Evidence/Wave64/workflow_static_validation.json`. `TRK-W64-036` / `ITEM-W64-036` now records exact hashes for all ten current active workflows. Nine lanes pass; `flux1_dev_primary_base` passes structural and saved-object-info checks but fails `local_model_reference_missing:flux1-dev-fp8.safetensors`. Preserve the older nine-lane pass as historical scoped evidence and keep the current row `Blocked_Flux1_License_And_Local_Model_Dependency_Missing`.

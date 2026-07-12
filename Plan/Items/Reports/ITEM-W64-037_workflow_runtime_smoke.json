@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "report_id": "ITEM-W64-037-WORKFLOW-RUNTIME-SMOKE-20260712T052400-0500",
+  "timestamp": "2026-07-12T05:24:00-05:00",
+  "item_id": "ITEM-W64-037",
+  "tracker_id": "TRK-W64-037",
+  "workstream": "workflow_runtime_smoke",
+  "lane_id": "sdxl_low_risk_fallback_lane",
+  "status": "Completed_Lane_Scoped_Runtime_Smoke_Final_Review_Pass",
+  "row_complete": true,
+  "completion_scope": "Bounded SDXL low-risk runtime-smoke lane only",
+  "rerun_required": false,
+  "acceptance": {
+    "pre_runtime_gates_passed": true,
+    "prompt_request_present": true,
+    "output_present": true,
+    "runtime_log_present": true,
+    "remote_manifest_present": true,
+    "pullback_verified": true,
+    "technical_qa_present": true,
+    "visual_qa_passed": true,
+    "final_state_stopped": true,
+    "lane_scoped_done_certification_closes_work_order": true
+  },
+  "current_lane": {
+    "static_result": "PASS",
+    "workflow_sha256": "ef6f4383eb7b31a8b00b895a16eae70ab4ee50023d2daf48eb679351bce62a20",
+    "runtime_requirements_sha256": "21cba90bbc43fc98386a1ed061b6875603f6c08a9d18becd1fed8dde87944d99",
+    "unrelated_flux_blocker_applies": false
+  },
+  "target_runtime_result": {
+    "static_proof": "ec2_static_proof_recorded",
+    "workflow_smoke": "workflow_smoke_generation_complete",
+    "pullback": "pullback_hashes_verified",
+    "visual_qa": "pass_with_notes_for_runtime_smoke",
+    "qa_score": 86,
+    "pass_threshold": 80,
+    "final_decision": "done_with_non_blocking_notes",
+    "closes_work_order": true
+  },
+  "historical_integrity": {
+    "historical_records_mutated": false,
+    "image_and_log_current_hashes_match_remote_manifest": true,
+    "history_and_prompt_current_copies_match_remote_manifest": false,
+    "history_original_blob": "8bc0cc058126dab4404a31aa5081f431d9b56a05",
+    "prompt_original_blob": "2edbeeac47b925299416eab909f1c6b34e896391",
+    "original_blob_commit": "86a8b6b67e31639ee2344dda7e780c8ee7f13a77",
+    "original_blob_bytes_reproduce_recorded_remote_hashes": true,
+    "disposition": "Keep predecessor records immutable and carry the exact Git-blob provenance in the current reconciliation evidence."
+  },
+  "validation": {
+    "canonical_instruction_tracker_mirrors_exact": true,
+    "existing_ec2_generation_reused": true,
+    "new_aws_contacted": false,
+    "new_ec2_started": false,
+    "new_generation_executed": false,
+    "remaining_high_findings": 0,
+    "remaining_medium_findings": 0
+  },
+  "evidence": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/workflow_runtime_smoke.json",
+      "sha256": "4544cd47b960677a87325f9af6e5e60d89db2005157e100cced7b9fc99d89be5"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_POST_STATIC_PROOF_RETEST_20260706T110424-0500.json",
+      "sha256": "5317a8170a935c0ec0c31c1c01a698bbfbba6da52c91aeb6350b967bb2d7f981"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/PULLBACK_RECORD.json",
+      "sha256": "446baf33a984b791d0f03c75df4a1dde863c5df4966d3f35f7194a851a9528e5"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_VISUAL_20260706T122027-0500.json",
+      "sha256": "68948ea1a0a2c8efd29e71ea942d84dede44edfad088e94130f3c28e348aa450"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/W66_LOW_RISK_LANE_FINAL_REVIEW_PACKET_SELECTED_CHAIN_20260709T183200-0500.json",
+      "sha256": "f238ca198b1ddfae5af5b2a7863a6c23ad5d1dd34a42426ddecfa6b7143adbec"
+    },
+    {
+      "path": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T052008-0500_wave64_row037_target_runtime_contradiction_review/handoff_record.json",
+      "sha256": "9d11d721209a2c64a2d72def33b6edc95b713c2f8081b8a69d4b7740ddbb85a2"
+    }
+  ],
+  "blockers": [],
+  "certification_boundary": "This closes only the low-risk SDXL runtime-smoke row. It does not certify final portfolio quality, other runtime lanes, body masks, Wave70 promotion, Wave71+ activation, or full-project completion.",
+  "next_action": "Duplicate-check TRK-W64-038 / ITEM-W64-038 against existing EC2 target-runtime proof before any live action; preserve completed cloud artifacts and do not start EC2 unless a new exact gap is proven."
+}

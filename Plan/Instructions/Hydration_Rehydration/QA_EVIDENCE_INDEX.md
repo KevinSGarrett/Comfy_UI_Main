@@ -1,3 +1,14 @@
+## Wave64 SDXL Runtime Smoke Existing-Proof Reconciliation - 2026-07-12T05:37:00-05:00
+
+Row037 is complete for the bounded SDXL low-risk runtime-smoke lane using existing local and W61/W66 target-runtime evidence. No live rerun occurred. The current aggregate records exact static, runtime, pullback, artifact, visual-QA, done-certification, and historical Git-blob provenance with full-project and mask gates excluded.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Wave64/workflow_runtime_smoke.json`
+- `Plan/Instructions/QA/Evidence/Wave64/WORKFLOW_RUNTIME_SMOKE_RECONCILIATION_20260712T052400-0500.json`
+- `Plan/Tracker/Evidence/WORKFLOW_RUNTIME_SMOKE_RECONCILIATION_20260712T052400-0500.json`
+- `Plan/Instructions/QA/Evidence/Wave64/workflow_runtime_smoke_reconciliation_test_log.json`
+- `Plan/Items/Reports/ITEM-W64-037_workflow_runtime_smoke.json`
+
 ## Wave64 Current 10-Lane Workflow Static Validation - 2026-07-12T04:57:00-05:00
 
 One evidence-only refresh after the active lane set changed from nine to ten. Nine lanes pass; Flux passes structure/object-info and remains blocked on license/local-model dependency. No runtime execution occurred.

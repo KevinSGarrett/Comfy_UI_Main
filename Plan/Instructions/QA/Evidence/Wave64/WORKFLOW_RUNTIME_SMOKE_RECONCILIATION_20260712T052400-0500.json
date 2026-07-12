@@ -1,0 +1,227 @@
+{
+  "schema_version": "1.1",
+  "evidence_id": "WORKFLOW_RUNTIME_SMOKE_RECONCILIATION_20260712T052400-0500",
+  "created_at": "2026-07-12T05:24:00-05:00",
+  "artifact_type": "wave64_workflow_runtime_smoke_reconciliation",
+  "wave": 64,
+  "tracker_id": "TRK-W64-037",
+  "item_id": "ITEM-W64-037",
+  "lane_id": "sdxl_low_risk_fallback_lane",
+  "status": "Completed_Lane_Scoped_Runtime_Smoke_Final_Review_Pass",
+  "row_complete": true,
+  "objective": "Reconcile the existing bounded local and EC2 SDXL runtime-smoke proof chains without rerunning a completed generation.",
+  "scope_boundary": {
+    "lane_scoped_runtime_smoke_complete": true,
+    "first_runtime_smoke_scope_only": true,
+    "final_portfolio_quality_certified": false,
+    "full_project_certification_allowed": false,
+    "body_mask_or_geometry_certified": false,
+    "wave70_mask_promotion_authorized": false,
+    "wave71_plus_activation_authorized": false
+  },
+  "rerun_decision": {
+    "duplicate_check_performed": true,
+    "rerun_required": false,
+    "reason": "The current SDXL workflow and runtime-requirements hashes still match the current static PASS record, and the existing W61 EC2 generation, pullback, visual QA, and W66 lane-scoped done certification already satisfy this row's bounded objective.",
+    "preserve_passed_evidence": true,
+    "aws_or_comfyui_action_required": false
+  },
+  "current_static_validation": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/workflow_static_validation.json",
+    "sha256": "13b722d4a880a9fbeee6c415ba04676a4096bc17f0966df693aed2718b7c54bf",
+    "evidence_id": "WORKFLOW_STATIC_VALIDATION_20260712T045246-0500",
+    "lane_result": "PASS",
+    "structural_static_pass": true,
+    "object_info_static_pass": true,
+    "local_model_dependency_pass": true,
+    "workflow_sha256": "ef6f4383eb7b31a8b00b895a16eae70ab4ee50023d2daf48eb679351bce62a20",
+    "smoke_request_sha256": "112b63b48c194241fc82d689927ae2a0843f82f00aeaa99824d25bc815296d6f",
+    "runtime_requirements_sha256": "21cba90bbc43fc98386a1ed061b6875603f6c08a9d18becd1fed8dde87944d99",
+    "unrelated_flux_blocker_affects_this_lane": false
+  },
+  "local_smoke_chain": {
+    "historical_evidence": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/WORKFLOW_RUNTIME_SMOKE_20260708T231534-0500.json",
+      "sha256": "929e25702d46a4dd7d0ac9cf30b5f31b2392c684b03963423d404e8a14f0e2f3",
+      "qa_decision": "workflow_runtime_smoke_passed_local_nonmask_safe"
+    },
+    "execute_record": {
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_SDXL_LOW_RISK_FALLBACK_AFTER_MODEL_PROVISION_EXECUTE_20260708T231300-0500.json",
+      "sha256": "503aeb685bd6e3754770097afa4672b0c07faeedb9e439870836b84906ba9a41",
+      "generation_executed": true,
+      "history_status": "outputs_found",
+      "prompt_id": "87385393-d967-454d-b04c-a449de87275e"
+    },
+    "prompt_request": {
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_SDXL_LOW_RISK_FALLBACK_AFTER_MODEL_PROVISION_REQUEST_20260708T231300-0500.json",
+      "sha256": "e3800c88a70c2fb5c0c603b99ba27e2dcc179fd2d53ab3a084c042e9f6a39de6"
+    },
+    "output": {
+      "path": "ComfyUI/output/codex_sdxl_low_risk_smoke_00001_.png",
+      "sha256": "ab92ca8bf07233a4a745534a5463af67458b8e3487f4429506ba27edc9ba95c5",
+      "bytes": 1639341,
+      "width": 1024,
+      "height": 1024
+    },
+    "visual_qa": "pass_with_scope_notes"
+  },
+  "target_runtime_chain": {
+    "static_proof": {
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W61_EC2_LANE_STATIC_PROOF_POST_LOGIN_RETEST_20260706T104311-0500.json",
+      "sha256": "5bbf863b9b728114ef5de4790e83ce9ee2c03fb25ca48be1a931fd4f025dc63f",
+      "result": "ec2_static_proof_recorded",
+      "execute_gates_pass": true,
+      "generation_executed": false,
+      "final_state": "stopped"
+    },
+    "workflow_smoke": {
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W61_EC2_WORKFLOW_SMOKE_POST_STATIC_PROOF_RETEST_20260706T110424-0500.json",
+      "sha256": "5317a8170a935c0ec0c31c1c01a698bbfbba6da52c91aeb6350b967bb2d7f981",
+      "result": "workflow_smoke_generation_complete",
+      "execute_gates_pass": true,
+      "generation_executed": true,
+      "prompt_id": "351dcf65-fd57-49a5-947c-ce1171ada67c",
+      "command_status": "Success",
+      "final_state": "stopped",
+      "errors": 0
+    },
+    "pullback": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/PULLBACK_RECORD.json",
+      "sha256": "446baf33a984b791d0f03c75df4a1dde863c5df4966d3f35f7194a851a9528e5",
+      "status": "pullback_hashes_verified",
+      "remote_file_count": 4,
+      "local_file_count": 4,
+      "hashes_verified_at_pullback": true,
+      "errors": 0
+    },
+    "pulled_artifacts": [
+      {
+        "role": "remote_artifact_manifest",
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/REMOTE_ARTIFACT_MANIFEST.json",
+        "current_sha256": "f6417ccc35386cd40e41e6e2212e7bab707d598c87c347a15db512a695fb9e8b",
+        "current_hash_matches_recorded_source": true
+      },
+      {
+        "role": "generated_output",
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/images/9_codex_hyperreal_editorial_portrait_00002_.png",
+        "current_sha256": "c6ebdf0d8eb904ed297e06ef36e93c6c6e0251ddf49ff1408a252ed21eacac54",
+        "recorded_remote_sha256": "c6ebdf0d8eb904ed297e06ef36e93c6c6e0251ddf49ff1408a252ed21eacac54",
+        "current_hash_matches_recorded_source": true
+      },
+      {
+        "role": "runtime_log",
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/logs/comfyui.log",
+        "current_sha256": "a6631f9912d2c2b2bf6f4f075289d4425b612128d9ee39af5c337b010a243bb1",
+        "recorded_remote_sha256": "a6631f9912d2c2b2bf6f4f075289d4425b612128d9ee39af5c337b010a243bb1",
+        "current_hash_matches_recorded_source": true
+      },
+      {
+        "role": "history_report",
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/reports/history.json",
+        "current_sha256": "3aea83e8a121666cd7bed819adeae410e130fd5a7667aa6a66d3425eda3b21d6",
+        "recorded_remote_sha256": "a86ebbbae8270615690b8034a170fbc7ead701d9f3b362ff6a4d643f5400f282",
+        "current_hash_matches_recorded_source": false,
+        "original_git_blob": "8bc0cc058126dab4404a31aa5081f431d9b56a05",
+        "original_blob_sha256_matches_recorded_source": true
+      },
+      {
+        "role": "prompt_request",
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/workflows/prompt_request.json",
+        "current_sha256": "af886a105866e367ee6fdf298abe0fbc4c7db23e7056245a39b9a190cc8d5afd",
+        "recorded_remote_sha256": "2a875562a62ec8a2c576dd48572ac97b0b47dbb811cd82ef83272b512bf1b33a",
+        "current_hash_matches_recorded_source": false,
+        "original_git_blob": "2edbeeac47b925299416eab909f1c6b34e896391",
+        "original_blob_sha256_after_crlf_checkout_matches_recorded_source": true
+      }
+    ],
+    "technical_qa": {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_TECHNICAL_20260706T121958-0500.json",
+      "sha256": "cb4403fe996166c92f13e2ca07fc1886fd89efb635505364e573be0f52e135e5",
+      "technical_integrity": "pass",
+      "preliminary_visual_state": "pending_visual_review",
+      "superseded_by_later_visual_and_done_records": true
+    },
+    "visual_qa": {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_VISUAL_20260706T122027-0500.json",
+      "sha256": "68948ea1a0a2c8efd29e71ea942d84dede44edfad088e94130f3c28e348aa450",
+      "result": "pass_with_notes_for_runtime_smoke",
+      "qa_score": 86,
+      "pass_threshold": 80
+    },
+    "final_review": {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/W66_LOW_RISK_LANE_FINAL_REVIEW_PACKET_SELECTED_CHAIN_20260709T183200-0500.json",
+      "sha256": "f238ca198b1ddfae5af5b2a7863a6c23ad5d1dd34a42426ddecfa6b7143adbec",
+      "result": "pass_low_risk_lane_final_review_packet_ready",
+      "final_decision": "done_with_non_blocking_notes",
+      "closes_work_order": true,
+      "tests_passed": 7,
+      "defects": 0,
+      "full_project_certification_allowed": false
+    }
+  },
+  "historical_integrity_reconciliation": {
+    "historical_records_left_immutable": true,
+    "pullback_qa_completed_files_note": "The pullback record was written before technical and visual QA; its empty qa_completed_files array is a time-ordered predecessor state superseded by the later QA records and W66 final-review packet.",
+    "technical_qa_pending_note": "The technical record intentionally captured the pre-visual state and is superseded by the later visual QA and W66 done certification; it is not rewritten because its hash is part of the evidence chain.",
+    "text_artifact_drift_note": "A later committed edit changed one prompt token from 'adult' to 'body' in the checked-in history and prompt copies. Git commit 86a8b6b67e31639ee2344dda7e780c8ee7f13a77 retains the original blobs, and their exact byte representations reproduce the hashes in the remote manifest and pullback record.",
+    "original_remote_bytes_recoverable_from_git": true,
+    "historical_generation_identity_preserved": true,
+    "auth_snapshot_note": "The static record embeds account_match=false, but the authoritative auth-gate file and the generation-gating runtime record both report account_match=true; the successful generation record is the operative gate for this row.",
+    "authoritative_auth_gate": {
+      "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_AUTH_GATE_POST_LOGIN_20260706T103008-0500.json",
+      "sha256": "2fcfa7ae19d90bb4f1177ba79189d5dd3b47c285d0921ce51d3c2c70676832f5",
+      "account_match": true,
+      "result": "pass"
+    }
+  },
+  "acceptance_contract": {
+    "local_gates_passed_before_runtime": true,
+    "prompt_request_present_and_auditable": true,
+    "generated_output_present_and_hash_bound": true,
+    "runtime_log_present_and_hash_bound": true,
+    "artifact_manifest_present": true,
+    "pullback_hash_verification_recorded": true,
+    "technical_qa_present": true,
+    "visual_qa_passed": true,
+    "runtime_final_state_stopped": true,
+    "lane_scoped_final_review_closed": true,
+    "all_required_row_evidence_present": true
+  },
+  "independent_reviews": [
+    {
+      "lane": "cursor",
+      "path": "runtime_artifacts/agent_handoffs/cursor/20260712T051405-0500_wave64_row037_runtime_smoke_duplicate_check/handoff_record.json",
+      "sha256": "e676f246b8c6da6631c9962fb23aa325bfb96f1dd1b55b94014d066ba5755ae7",
+      "status": "PASS",
+      "use": "Preserve-current-local-proof duplicate check; target-runtime conclusion superseded after following the runtime-requirements evidence chain."
+    },
+    {
+      "lane": "claude_subscription",
+      "path": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T052008-0500_wave64_row037_target_runtime_contradiction_review/handoff_record.json",
+      "sha256": "9d11d721209a2c64a2d72def33b6edc95b713c2f8081b8a69d4b7740ddbb85a2",
+      "status": "PASS",
+      "remaining_high_findings_after_reconciliation": 0,
+      "remaining_medium_findings_after_reconciliation": 0
+    }
+  ],
+  "runtime_boundaries": {
+    "new_aws_contacted": false,
+    "new_ec2_started": false,
+    "new_generation_executed": false,
+    "new_comfyui_contacted": false,
+    "historical_ec2_generation_reused": true,
+    "mask_truth_consumed": false,
+    "mask_promotion_executed": false,
+    "wave70_hard_gate_executed": false,
+    "wave71_plus_activated": false
+  },
+  "qa_decision": "workflow_runtime_smoke_lane_scoped_target_runtime_final_review_pass",
+  "final_render_gate": "LANE_SCOPED_RUNTIME_SMOKE_PASS_FULL_PROJECT_CERTIFICATION_NOT_IMPLIED",
+  "blockers": [],
+  "known_limits": [
+    "The visual QA notes minor beauty-retouch softness, slightly synthetic hair flyaways, and soft blazer/lapel edges.",
+    "This row certifies only the bounded SDXL low-risk runtime-smoke lane, not final portfolio quality or broader image/video/audio behavior.",
+    "Manual body-mask dependencies, Wave70 promotion, Wave71+ activation, and full-project certification remain governed by their separate gates."
+  ],
+  "next_action": "Duplicate-check TRK-W64-038 / ITEM-W64-038 against existing EC2 target-runtime proof and preserve completed cloud work; do not start EC2 unless a new lane-specific artifact gap is proven after local gates pass."
+}

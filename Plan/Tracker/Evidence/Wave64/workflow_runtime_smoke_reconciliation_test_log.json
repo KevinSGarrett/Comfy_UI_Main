@@ -1,0 +1,151 @@
+{
+  "schema_version": "1.0",
+  "test_log_id": "WORKFLOW_RUNTIME_SMOKE_RECONCILIATION_TEST_LOG_20260712T053700-0500",
+  "created_at": "2026-07-12T05:37:00-05:00",
+  "tracker_id": "TRK-W64-037",
+  "item_id": "ITEM-W64-037",
+  "subject_evidence": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/workflow_runtime_smoke.json",
+    "sha256": "4544cd47b960677a87325f9af6e5e60d89db2005157e100cced7b9fc99d89be5"
+  },
+  "item_report": {
+    "path": "Plan/Items/Reports/ITEM-W64-037_workflow_runtime_smoke.json",
+    "sha256": "6945ca6071d28a990626115c451ff1fd3c1dc6f47b1ddbea8185f50cbfa191c4"
+  },
+  "tests": [
+    {
+      "name": "new_json_records_parse",
+      "result": "PASS",
+      "observed": 5,
+      "expected": 5
+    },
+    {
+      "name": "canonical_instruction_tracker_evidence_mirrors_exact",
+      "result": "PASS",
+      "observed_sha256": "4544cd47b960677a87325f9af6e5e60d89db2005157e100cced7b9fc99d89be5"
+    },
+    {
+      "name": "tracker_row_mirrors_exact",
+      "result": "PASS"
+    },
+    {
+      "name": "item_row_mirrors_exact",
+      "result": "PASS"
+    },
+    {
+      "name": "tracker_and_item_lane_scoped_status_match",
+      "result": "PASS",
+      "observed": "Completed_Lane_Scoped_Runtime_Smoke_Final_Review_Pass"
+    },
+    {
+      "name": "current_sdxl_static_lane_pass",
+      "result": "PASS",
+      "observed": "PASS"
+    },
+    {
+      "name": "current_sdxl_workflow_hash_match",
+      "result": "PASS",
+      "observed_sha256": "ef6f4383eb7b31a8b00b895a16eae70ab4ee50023d2daf48eb679351bce62a20"
+    },
+    {
+      "name": "current_sdxl_runtime_requirements_hash_match",
+      "result": "PASS",
+      "observed_sha256": "21cba90bbc43fc98386a1ed061b6875603f6c08a9d18becd1fed8dde87944d99"
+    },
+    {
+      "name": "ec2_runtime_generation_complete_and_stopped",
+      "result": "PASS",
+      "observed": {
+        "generation_executed": true,
+        "command_status": "Success",
+        "final_state": "stopped"
+      }
+    },
+    {
+      "name": "pullback_record_hashes_verified",
+      "result": "PASS",
+      "observed": {
+        "remote_files": 4,
+        "local_files": 4,
+        "hashes_verified": true,
+        "errors": 0
+      }
+    },
+    {
+      "name": "pulled_image_current_hash_matches_remote_manifest",
+      "result": "PASS",
+      "observed_sha256": "c6ebdf0d8eb904ed297e06ef36e93c6c6e0251ddf49ff1408a252ed21eacac54"
+    },
+    {
+      "name": "pulled_log_current_hash_matches_remote_manifest",
+      "result": "PASS",
+      "observed_sha256": "a6631f9912d2c2b2bf6f4f075289d4425b612128d9ee39af5c337b010a243bb1"
+    },
+    {
+      "name": "historical_history_blob_reproduces_remote_sha256",
+      "result": "PASS",
+      "git_blob": "8bc0cc058126dab4404a31aa5081f431d9b56a05",
+      "byte_mode": "raw_blob",
+      "observed_sha256": "a86ebbbae8270615690b8034a170fbc7ead701d9f3b362ff6a4d643f5400f282"
+    },
+    {
+      "name": "historical_prompt_blob_reproduces_remote_sha256",
+      "result": "PASS",
+      "git_blob": "2edbeeac47b925299416eab909f1c6b34e896391",
+      "byte_mode": "normal_crlf_checkout",
+      "observed_sha256": "2a875562a62ec8a2c576dd48572ac97b0b47dbb811cd82ef83272b512bf1b33a"
+    },
+    {
+      "name": "visual_qa_threshold_pass",
+      "result": "PASS",
+      "observed_score": 86,
+      "required_score": 80
+    },
+    {
+      "name": "w66_lane_scoped_done_certification_closes_work_order",
+      "result": "PASS",
+      "observed": {
+        "final_decision": "done_with_non_blocking_notes",
+        "closes_work_order": true,
+        "defects": 0
+      }
+    },
+    {
+      "name": "historical_chain_records_remain_unmodified",
+      "result": "PASS"
+    },
+    {
+      "name": "full_project_and_mask_scope_excluded",
+      "result": "PASS"
+    },
+    {
+      "name": "no_new_live_action",
+      "result": "PASS",
+      "observed": {
+        "aws_contacted": false,
+        "ec2_started": false,
+        "generation_executed": false,
+        "comfyui_contacted": false
+      }
+    },
+    {
+      "name": "scoped_git_diff_check",
+      "result": "PASS"
+    }
+  ],
+  "summary": {
+    "tests_run": 20,
+    "tests_passed": 20,
+    "tests_failed": 0,
+    "remaining_high_findings": 0,
+    "remaining_medium_findings": 0,
+    "final_decision": "PASS"
+  },
+  "final_review": {
+    "path": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T053324-0500_wave64_row037_reconciliation_final_closure/handoff_record.json",
+    "sha256": "964cf6db6b1134b37dc9ca7b8ae221d68bc568e333ccc7b1def540f2f88f54f3",
+    "status": "PASS",
+    "classification": "CLAUDE_SUBSCRIPTION_HANDOFF_COMPLETED",
+    "scope_limitation_closed_by_codex_byte_tests": true
+  }
+}

@@ -1,3 +1,10 @@
+## 2026-07-12T05:37:00-05:00 - Reconcile completed target-runtime proof instead of rerunning it
+
+- Advance Row037 to lane-scoped complete because the existing W61 EC2 generation, verified pullback, visual QA, and W66 done packet satisfy its exact acceptance contract.
+- Keep historical pullback and preliminary QA records immutable; document their time-ordered supersession in a new aggregate record instead of changing hash-bound evidence.
+- Preserve the original remote prompt/history bytes through exact Git-blob provenance and record later checked-in text drift explicitly.
+- Continue with a Row038 duplicate check; no Row037 result authorizes full-project certification, Flux installation, mask promotion, Wave70 hard-gate reruns, or Wave71+ activation.
+
 ## 2026-07-12T04:57:00-05:00 - Preserve scoped passes when the active lane set grows
 
 - The 2026-07-08 Row036 nine-lane pass remains historical truth; it is not rewritten by a later tenth lane.
