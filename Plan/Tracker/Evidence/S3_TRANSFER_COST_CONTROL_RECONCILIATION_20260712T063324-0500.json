@@ -1,0 +1,191 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "S3_TRANSFER_COST_CONTROL_RECONCILIATION_20260712T063324-0500",
+  "created_iso": "2026-07-12T06:33:24-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-041",
+  "item_id": "ITEM-W64-041",
+  "status": "Local_Ready_Only_AWS_Authentication_Expired",
+  "qa_decision": "s3_transfer_cost_control_ready_local_only_no_rerun_aws_auth_expired",
+  "task": "Reconcile existing local S3/model-cache transfer readiness without duplicate static or cloud work.",
+  "preserved_evidence": {
+    "original": "Plan/Instructions/QA/Evidence/Wave64/S3_TRANSFER_COST_CONTROL_20260708T233214-0500.json",
+    "original_sha256": "355da4d3d0f31b1b0cebd49b915d04594278438782c90e0e8a452669959ae062",
+    "tracker_mirror": "Plan/Tracker/Evidence/S3_TRANSFER_COST_CONTROL_20260708T233214-0500.json",
+    "static_readiness": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_S3_RUNTIME_TRANSFER_READINESS_20260708T233036-0500.json",
+    "static_readiness_sha256": "db8c15635240eb54f0db0fd593e6a5bd50fbcaa9fcde1660fcc8fc7a35596459",
+    "result": "ready_local_only"
+  },
+  "source_provenance": [
+    {
+      "commit": "27111d0c606336e5c67c529228e11703974b02e7",
+      "committed_iso": "2026-07-06T18:09:20-05:00",
+      "subject": "Wave66: initialize S3 runtime infrastructure",
+      "path": "Plan/Instructions/Operations/Scripts/Test-S3RuntimeTransferReadiness.ps1",
+      "sha256": "8121081d6623cd92a414dfc2a4e786a7958cb617f9360dfb1a765492f44f7035",
+      "predates_original_evidence": true
+    },
+    {
+      "commit": "50035f9f44431ac55225e5a4557ab71b912605b6",
+      "committed_iso": "2026-07-06T14:16:52-05:00",
+      "subject": "Wave63: complete RealVisXL pullback and QA",
+      "path": "configs/aws/ec2-runtime-s3-policy.template.json",
+      "sha256": "d68999164500381e5efc732fb9f2475793e8261e87325815aed43f9333f6e464",
+      "predates_original_evidence": true
+    },
+    {
+      "commit": "50035f9f44431ac55225e5a4557ab71b912605b6",
+      "committed_iso": "2026-07-06T14:16:52-05:00",
+      "subject": "Wave63: complete RealVisXL pullback and QA",
+      "path": "configs/aws/github-actions-oidc-deploy-bundle-policy.template.json",
+      "sha256": "a61c7c54aa659547edafcb38047ed50576130f0b6983d208066aed2e72b5c115",
+      "predates_original_evidence": true
+    },
+    {
+      "commit": "50035f9f44431ac55225e5a4557ab71b912605b6",
+      "committed_iso": "2026-07-06T14:16:52-05:00",
+      "subject": "Wave63: complete RealVisXL pullback and QA",
+      "path": "configs/aws/github-actions-oidc-trust-policy.template.json",
+      "sha256": "3082d9643ed9274de769b020994b750344a515e737b6cee0e11e59643337b1d5",
+      "predates_original_evidence": true
+    },
+    {
+      "commit": "50035f9f44431ac55225e5a4557ab71b912605b6",
+      "committed_iso": "2026-07-06T14:16:52-05:00",
+      "subject": "Wave63: complete RealVisXL pullback and QA",
+      "path": "configs/aws/eventbridge-scheduler-stop-role-policy.template.json",
+      "sha256": "b1dcac70fb5f016adeed053817bf23bcb10d8a98933130fa5d249987b6374ead",
+      "predates_original_evidence": true
+    },
+    {
+      "commit": "50035f9f44431ac55225e5a4557ab71b912605b6",
+      "committed_iso": "2026-07-06T14:16:52-05:00",
+      "subject": "Wave63: complete RealVisXL pullback and QA",
+      "path": "configs/aws/eventbridge-scheduler-stop-role-trust-policy.template.json",
+      "sha256": "cf89358d27a2af03ac1f6e7a4f012b48eab2fc7f46a7659fc9ca16e96479ba92",
+      "predates_original_evidence": true
+    }
+  ],
+  "rerun_decision": {
+    "static_readiness_rerun": false,
+    "reason": "All six scoped source files predate the original evidence and remain content-consistent; rerun policy forbids duplicate refresh.",
+    "worker_false_positive_corrected": "Commit 04ce32f did not touch any scoped Row041 source file."
+  },
+  "local_readiness": {
+    "config_shape_present_without_secret_values": true,
+    "policy_template_count": 5,
+    "least_privilege_static_pass_count": 5,
+    "no_secret_print": true
+  },
+  "live_aws_boundary": {
+    "aws_authentication": "expired_not_refreshed",
+    "s3_publish_execute_run": false,
+    "iam_policy_applied_or_live_tested": false,
+    "scheduler_role_live_tested": false,
+    "ec2_started": false,
+    "claim": "Local static readiness only; no live AWS/S3/IAM certification is made."
+  },
+  "safety_boundaries": {
+    "github_mutated": false,
+    "masks_consumed_or_promoted": false,
+    "wave70_or_wave71_gate_action": false,
+    "jira_mutated": false
+  },
+  "checks": [
+    {
+      "name": "original_canonical_snapshot_exists",
+      "result": "pass"
+    },
+    {
+      "name": "original_tracker_mirror_exists",
+      "result": "pass"
+    },
+    {
+      "name": "original_static_evidence_exists",
+      "result": "pass"
+    },
+    {
+      "name": "original_and_tracker_mirror_match",
+      "result": "pass"
+    },
+    {
+      "name": "original_result_ready_local_only",
+      "result": "pass"
+    },
+    {
+      "name": "static_result_ready_local_only",
+      "result": "pass"
+    },
+    {
+      "name": "original_missing_config_empty",
+      "result": "pass"
+    },
+    {
+      "name": "all_policy_templates_passed",
+      "result": "pass"
+    },
+    {
+      "name": "all_least_privilege_checks_passed",
+      "result": "pass"
+    },
+    {
+      "name": "all_six_sources_have_git_provenance",
+      "result": "pass"
+    },
+    {
+      "name": "all_sources_predate_original_evidence",
+      "result": "pass"
+    },
+    {
+      "name": "scoped_post_evidence_commit_false_positive_rejected",
+      "result": "pass"
+    },
+    {
+      "name": "static_gate_not_rerun_without_source_change",
+      "result": "pass"
+    },
+    {
+      "name": "local_static_claim_only",
+      "result": "pass"
+    },
+    {
+      "name": "live_s3_publish_not_claimed",
+      "result": "pass"
+    },
+    {
+      "name": "live_iam_validation_not_claimed",
+      "result": "pass"
+    },
+    {
+      "name": "aws_not_contacted",
+      "result": "pass"
+    },
+    {
+      "name": "ec2_not_started",
+      "result": "pass"
+    },
+    {
+      "name": "no_secret_values_recorded",
+      "result": "pass"
+    },
+    {
+      "name": "next_row_selected",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "next_action": "Advance to TRK-W64-042 / ITEM-W64-042 EC2 TTL watchdog reconciliation; keep EC2 and live AWS actions blocked while authentication is expired.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/s3_transfer_cost_control.json",
+    "Plan/Instructions/QA/Evidence/Wave64/S3_TRANSFER_COST_CONTROL_RECONCILIATION_20260712T063324-0500.json",
+    "Plan/Tracker/Evidence/S3_TRANSFER_COST_CONTROL_RECONCILIATION_20260712T063324-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/s3_transfer_cost_control_reconciliation_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-041_s3_transfer_cost_control.json",
+    "Plan/Instructions/QA/Evidence/Wave64/S3_TRANSFER_COST_CONTROL_20260708T233214-0500.json",
+    "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_S3_RUNTIME_TRANSFER_READINESS_20260708T233036-0500.json"
+  ]
+}

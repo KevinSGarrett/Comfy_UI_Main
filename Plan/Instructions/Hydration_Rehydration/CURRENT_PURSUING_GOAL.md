@@ -1,3 +1,11 @@
+## Wave64 Row041 S3 Transfer Readiness Reconciliation - 2026-07-12T06:33:24-05:00
+
+`TRK-W64-041` / `ITEM-W64-041` is `Local_Ready_Only_AWS_Authentication_Expired`. The July 8 local static readiness pass is preserved: all six scoped source files have exact Git provenance predating that evidence, so the static gate was not rerun. Commit `04ce32f` was checked and did not touch these sources. This is not live S3/IAM certification; AWS authentication remains expired, no cloud API was contacted, and EC2 stayed off.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/s3_transfer_cost_control.json`; `Plan/Instructions/QA/Evidence/Wave64/S3_TRANSFER_COST_CONTROL_RECONCILIATION_20260712T063324-0500.json`; `Plan/Tracker/Evidence/S3_TRANSFER_COST_CONTROL_RECONCILIATION_20260712T063324-0500.json`; `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_S3_RUNTIME_TRANSFER_READINESS_20260708T233036-0500.json`.
+
+Next: `TRK-W64-042 / ITEM-W64-042` EC2 TTL watchdog reconciliation. Keep EC2 and live AWS actions blocked while authentication is expired.
+
 ## Wave64 Row040 Current CI Coverage Reconciliation - 2026-07-12T06:24:43-05:00
 
 `TRK-W64-040` / `ITEM-W64-040` is `Blocked_Current_Model_Registry_Coverage_Alignment`. One authorized current coverage execution found three failed lanes: Depth and Lineart require verifier vocabulary alignment for existing local-result states; Flux1 lacks a matching registry/validation-queue record and local model proof. Historical run packages and deploy bundles were preserved and were not rebuilt. No GitHub, AWS, EC2, mask, Wave70, Wave71+, or Jira mutation occurred.
