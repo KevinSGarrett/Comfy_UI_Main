@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-12T13:37:49-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "status": "Blocked_Canonical_Global_Review_Records_Missing_For_Historical_Localized_Changes",
+  "implementation": {
+    "required_machine_gates": [
+      "whole_frame_visual_scan",
+      "required_target_region_check",
+      "required_non_target_region_scan",
+      "hands_face_body_background_contact_lighting_check",
+      "reject_on_any_global_defect"
+    ],
+    "pre_and_post_whole_frame_required": true,
+    "target_only_override_forbidden": true,
+    "global_defect_auto_reject": true
+  },
+  "exact_blocker": "Historical localized QA records use ad hoc whole-image fields and do not consistently bind canonical pre-edit, target, non-target, post-edit, six-category coverage, and global-rejection evidence for every localized change.",
+  "legacy_evidence_reconciliation": {
+    "representative_records_checked": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_VISUAL_QA_20260707T035000-0500.json",
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_ROBUSTNESS_VISUAL_QA_20260707T034000-0500.json",
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_EYEONLY_VISUAL_QA_20260707T071100-0500.json",
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_WAVE25_CONTACT_SHADOW_PRESSURE_SEED210704_VISUAL_QA_20260707T124500-0500.json",
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_CHEEKS_SKIN_SEED210805_VISUAL_QA_20260707T154500-0500.json",
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_FINAL_QA_CERTIFICATION_20260706T201000-0500.json"
+    ],
+    "finding": "Local pass-with-notes semantics can coexist with visibility gaps, placement blockers, bounded scope, or missing final authority; none is silently normalized into a Row017 pass.",
+    "new_contract_applies_to_future_or_explicitly_normalized_localized_reviews": true
+  },
+  "evidence": [
+    "Plan/Instructions/QA/Evidence/Wave64/global_visual_review_not_local_only.json",
+    "Plan/Instructions/QA/Evidence/Wave64/GLOBAL_VISUAL_REVIEW_NOT_LOCAL_ONLY_20260712T133749-0500.json",
+    "Plan/Tracker/Evidence/GLOBAL_VISUAL_REVIEW_NOT_LOCAL_ONLY_20260712T133749-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/global_visual_review_not_local_only_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-017_global_visual_review_not_local_only.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_VISUAL_QA_20260707T035000-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_ROBUSTNESS_VISUAL_QA_20260707T034000-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_EYEONLY_VISUAL_QA_20260707T071100-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_WAVE25_CONTACT_SHADOW_PRESSURE_SEED210704_VISUAL_QA_20260707T124500-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_CHEEKS_SKIN_SEED210805_VISUAL_QA_20260707T154500-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/image_hyperreal_visual_review.json"
+  ],
+  "next_action": "Proceed to TRK-W64-018 / ITEM-W64-018 in strict sequence. Reopen Row017 when localized-review producers emit the canonical contract or historical records are explicitly normalized without changing their bounded decisions."
+}

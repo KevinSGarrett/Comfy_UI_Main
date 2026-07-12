@@ -1,0 +1,110 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GlobalWholeImageVisualReview",
+  "type": "object",
+  "required": ["schema_version", "artifact", "localized_change", "whole_frame_visual_scan", "required_target_region_check", "required_non_target_region_scan", "hands_face_body_background_contact_lighting_check", "reject_on_any_global_defect", "overall_decision"],
+  "properties": {
+    "schema_version": {"const": "row017.v1"},
+    "artifact": {"$ref": "#/definitions/artifact"},
+    "localized_change": {
+      "type": "object",
+      "required": ["target_region", "source_artifact"],
+      "properties": {
+        "target_region": {"type": "string", "minLength": 1},
+        "source_artifact": {"$ref": "#/definitions/artifact"}
+      },
+      "additionalProperties": false
+    },
+    "whole_frame_visual_scan": {
+      "allOf": [
+        {"$ref": "#/definitions/gate"},
+        {"type": "object", "required": ["pre_edit_status", "post_edit_status"], "properties": {
+          "pre_edit_status": {"enum": ["pass", "blocked", "fail"]},
+          "post_edit_status": {"enum": ["pass", "blocked", "fail"]}
+        }}
+      ]
+    },
+    "required_target_region_check": {
+      "allOf": [
+        {"$ref": "#/definitions/gate"},
+        {"type": "object", "required": ["target_region", "findings"], "properties": {
+          "target_region": {"type": "string", "minLength": 1},
+          "findings": {"type": "array", "items": {"type": "string", "minLength": 1}}
+        }}
+      ]
+    },
+    "required_non_target_region_scan": {
+      "allOf": [
+        {"$ref": "#/definitions/gate"},
+        {"type": "object", "required": ["regions_scanned", "findings"], "properties": {
+          "regions_scanned": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+          "findings": {"type": "array", "items": {"type": "string", "minLength": 1}}
+        }}
+      ]
+    },
+    "hands_face_body_background_contact_lighting_check": {
+      "type": "object",
+      "required": ["hands", "face", "body", "background", "contact", "lighting"],
+      "properties": {
+        "hands": {"$ref": "#/definitions/coverage"},
+        "face": {"$ref": "#/definitions/coverage"},
+        "body": {"$ref": "#/definitions/coverage"},
+        "background": {"$ref": "#/definitions/coverage"},
+        "contact": {"$ref": "#/definitions/coverage"},
+        "lighting": {"$ref": "#/definitions/coverage"}
+      },
+      "additionalProperties": false
+    },
+    "reject_on_any_global_defect": {
+      "type": "object",
+      "required": ["status", "global_defects", "rejection_applied"],
+      "properties": {
+        "status": {"enum": ["pass", "blocked", "fail"]},
+        "global_defects": {"type": "array", "items": {
+          "type": "object",
+          "required": ["code", "severity", "region"],
+          "properties": {
+            "code": {"type": "string", "minLength": 1},
+            "severity": {"enum": ["blocking", "major", "minor"]},
+            "region": {"type": "string", "minLength": 1}
+          },
+          "additionalProperties": false
+        }},
+        "rejection_applied": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "overall_decision": {"enum": ["pass", "reject", "blocked"]}
+  },
+  "definitions": {
+    "artifact": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      },
+      "additionalProperties": false
+    },
+    "gate": {
+      "type": "object",
+      "required": ["status", "evidence_paths"],
+      "properties": {
+        "status": {"enum": ["pass", "blocked", "fail"]},
+        "evidence_paths": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "required": ["visibility", "inspected", "status", "reason"],
+      "properties": {
+        "visibility": {"enum": ["visible", "not_visible", "not_applicable"]},
+        "inspected": {"type": "boolean"},
+        "status": {"enum": ["pass", "fail", "blocked", "not_applicable"]},
+        "reason": {"type": "string"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

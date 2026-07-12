@@ -125,3 +125,20 @@ an average score of at least 4.0, no blocking defect, an explicit prompt-alignme
 verified SHA256 identities for every promoted artifact, a nonempty promoted-output list,
 and complete upstream quality authority for the claimed scope. Lane or matrix
 certification does not silently become per-image promotion or full-project certification.
+
+## Row017 global review contract
+
+A localized visual change must be reviewed in this order:
+
+1. inspect the whole source frame before the localized change
+2. inspect the required target region at useful zoom
+3. inspect every visible non-target region for drift or damage
+4. inspect the whole output frame again after the localized change
+5. reject the localized result when any global defect is present
+
+The machine record must contain `whole_frame_visual_scan`,
+`required_target_region_check`, `required_non_target_region_scan`,
+`hands_face_body_background_contact_lighting_check`, and
+`reject_on_any_global_defect`. A category outside the frame may be marked
+`not_applicable` only when it was explicitly inspected and a reason is recorded. A local
+target pass never overrides a defect elsewhere in the visible frame.

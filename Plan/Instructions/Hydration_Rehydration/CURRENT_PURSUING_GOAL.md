@@ -1,3 +1,11 @@
+## Wave64 Row017 Global Whole-Image Review For Localized Changes - 2026-07-12T13:37:49-05:00
+
+`TRK-W64-017` / `ITEM-W64-017` is `Blocked_Canonical_Global_Review_Records_Missing_For_Historical_Localized_Changes`. The visual protocol now requires canonical pre-edit whole-frame, target-region, non-target-region, six-category coverage, post-edit whole-frame, and automatic global-defect rejection evidence. A target-only pass cannot override damage elsewhere. Nine regressions pass and the split-state audit passes 20/20 checks. Existing inpaint, Canny, contact, cheek-skin, and RealVisXL records provide useful bounded whole-image support but use ad hoc fields and retain visibility, placement, runtime, or certification boundaries; they are not rewritten into false Row017 passes. No generation, AWS, EC2, image/mask promotion, hard-gate rerun, Jira, or Wave71+ action occurred.
+
+Next safe local action in strict sequence: `TRK-W64-018 / ITEM-W64-018`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/global_visual_review_not_local_only.json`; `Plan/Instructions/QA/Evidence/Wave64/GLOBAL_VISUAL_REVIEW_NOT_LOCAL_ONLY_20260712T133749-0500.json`; `Plan/Tracker/Evidence/GLOBAL_VISUAL_REVIEW_NOT_LOCAL_ONLY_20260712T133749-0500.json`.
+
 ## Wave64 Row016 Strict Hyperreal Image Visual Certification - 2026-07-12T13:26:22-05:00
 
 `TRK-W64-016` / `ITEM-W64-016` is `Blocked_No_Promoted_Image_Set_And_Upstream_Quality_Authority_Missing`. The visual-review protocol now requires one scope-matched machine record binding `technical_image_qa`, `visual_review_scorecard`, `prompt_alignment`, `artifact_hash_manifest`, and `promotion_decision`. Promotion fails closed without strict scores, explicit prompt alignment, nonempty hash-bound outputs, and completed upstream quality rows. Eight regressions pass and the split-state audit passes 20/20 checks. Existing RealVisXL matrix and Canny/Depth/Lineart certificates remain valid only for their bounded scopes; both W69 promotion manifests contain zero promoted outputs, and Rows013-015 remain incomplete. No generation, AWS, EC2, mask/image promotion, hard-gate rerun, Jira, or Wave71+ action occurred.

@@ -1,0 +1,18 @@
+{
+  "schema_version": "row017.v1",
+  "artifact": {"path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_local_nomouth_v4_20260707T035000-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4_00001_.png", "sha256": "d2e7834c93b2be7000fe5080c5f96d0cea511e68c48f0008d7aac8558630c8c7"},
+  "localized_change": {"target_region": "face_skin_excluding_eyes_and_mouth", "source_artifact": {"path": "ComfyUI/input/sdxl_inpaint_detail_source_canny_v1.png", "sha256": "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523"}},
+  "whole_frame_visual_scan": {"status": "blocked", "evidence_paths": ["Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_VISUAL_QA_20260707T035000-0500.json"], "pre_edit_status": "blocked", "post_edit_status": "pass"},
+  "required_target_region_check": {"status": "pass", "evidence_paths": ["Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_VISUAL_QA_20260707T035000-0500.json"], "target_region": "face_skin_excluding_eyes_and_mouth", "findings": ["Local target passed with mild smoothing notes."]},
+  "required_non_target_region_scan": {"status": "blocked", "evidence_paths": ["Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_VISUAL_QA_20260707T035000-0500.json"], "regions_scanned": ["face", "hair", "clothing", "background", "lighting"], "findings": ["Legacy record does not provide canonical pre/post non-target coverage."]},
+  "hands_face_body_background_contact_lighting_check": {
+    "hands": {"visibility": "not_visible", "inspected": true, "status": "not_applicable", "reason": "Hands are outside the head-and-shoulders frame."},
+    "face": {"visibility": "visible", "inspected": true, "status": "pass", "reason": "Face remains coherent."},
+    "body": {"visibility": "not_visible", "inspected": true, "status": "not_applicable", "reason": "Full body is outside the frame."},
+    "background": {"visibility": "visible", "inspected": true, "status": "pass", "reason": "Background remains stable."},
+    "contact": {"visibility": "not_applicable", "inspected": true, "status": "not_applicable", "reason": "No required contact interaction exists in this frame."},
+    "lighting": {"visibility": "visible", "inspected": true, "status": "pass", "reason": "Lighting remains coherent."}
+  },
+  "reject_on_any_global_defect": {"status": "blocked", "global_defects": [], "rejection_applied": false},
+  "overall_decision": "blocked"
+}
