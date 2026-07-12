@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-022-VIDEO-REFERENCE-INPUT-20260711T145000-0500",
-  "timestamp": "2026-07-11T14:50:00-05:00",
+  "timestamp": "2026-07-12T15:06:00-05:00",
   "item_id": "ITEM-W64-022",
   "tracker_id": "TRK-W64-022",
   "workstream": "video_reference_input",
@@ -14,11 +14,13 @@
     "strict_schema_and_registry_checks_ready": true,
     "source_frame_and_manifest_hash_binding_ready": true,
     "transactional_non_destructive_output_ready": true,
+    "motion_peak_shot_boundary_and_loop_candidate_generation_ready": true,
+    "contact_phase_generation_ready": false,
     "powershell_entrypoint_claim_bounded": true,
     "final_promotion_claim_forbidden": true
   },
   "validation": {
-    "pytest_passed": 28,
+    "pytest_passed": 40,
     "pytest_skipped": 0,
     "pytest_failures": 0,
     "python_compile": "pass",
@@ -27,13 +29,21 @@
     "synthetic_local_decode": "pass",
     "synthetic_decoded_frames": 12,
     "synthetic_extracted_frames": 4,
+    "synthetic_semantic_candidate_analysis": "pass",
+    "synthetic_semantic_motion_candidates": 0,
+    "synthetic_semantic_shot_candidates": 0,
+    "synthetic_semantic_loop_candidates": 0,
     "synthetic_claim_flags_all_false": true,
     "claude_medium_findings_remediated": 1,
-    "remaining_high_or_medium_findings": 0
+    "remaining_high_or_medium_findings": 0,
+    "semantic_candidate_medium_findings_remediated": 3
   },
   "acceptance_gates": {
     "offline_ingest_implementation": true,
     "synthetic_local_runtime": true,
+    "synthetic_semantic_candidate_runtime": true,
+    "motion_peak_shot_boundary_loop_candidate_producers": true,
+    "contact_phase_candidate_producer": false,
     "production_reference_video_runtime": false,
     "pose_depth_mask_contact_timeline": false,
     "shot_matching_and_loop_extraction": false,
@@ -46,26 +56,23 @@
       "reason": "No production reference video or source-to-output comparison exists; synthetic decode/extraction is tool proof only."
     },
     {
-      "classification": "Blocked_Reference_Video_Semantic_Analyzers_Missing",
-      "reason": "Motion/contact/shot/loop sampling and derived timeline analyzers remain unavailable."
-    },
-    {
       "classification": "Blocked_Gold_Mask_Dependency_Missing",
-      "reason": "Only mask/contact timeline authority remains blocked by unavailable manual body gold masks."
+      "reason": "Mask/contact timeline authority and contact-phase sampling remain blocked by unavailable manual body gold masks."
     }
   ],
   "evidence": [
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/video_reference_input.json",
-      "sha256": "a2bd2a4fe876e1c7ad50c7f49c63eab778a40198032ec938ad41fe9a182894ea"
+      "sha256": "67755478bee0a9888340930032e68fc510ea150869623104ae3148f529931489"
     },
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/video_reference_input_test_log.json",
-      "sha256": "1aa2bc1e937be883eb1648fa7e6084a2806032347067289c05fcd2a145fa3976"
+      "sha256": "1d048bcb74c909b4d26218ee1db50de76c8f36d58152d732d7cf9bb37bdddf55"
     }
   ],
   "runtime": {
     "synthetic_video_count": 1,
+    "synthetic_semantic_probe_count": 1,
     "production_video_count": 0,
     "comfyui_started": false,
     "generation_count": 0,

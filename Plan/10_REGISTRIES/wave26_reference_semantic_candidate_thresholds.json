@@ -1,0 +1,23 @@
+{
+  "schema_name": "wave26_reference_semantic_candidate_thresholds",
+  "version": 1,
+  "algorithm": "opencv_farneback_histogram_luma_v1",
+  "rounding_digits": 6,
+  "minimum_frame_count": 3,
+  "motion_peak": {
+    "minimum_flow_p95_diagonal_ratio": 0.002,
+    "direction_change_degrees": 60.0,
+    "direction_vector_floor_diagonal_ratio": 0.0005
+  },
+  "shot_boundary": {
+    "minimum_luma_mae_percent": 22.0,
+    "minimum_histogram_bhattacharyya": 0.35
+  },
+  "loop_candidate": {
+    "minimum_span_seconds": 0.5,
+    "endpoint_luma_basis": "32x32_area_downsampled_grayscale",
+    "maximum_endpoint_descriptor_luma_mae_percent": 8.0,
+    "maximum_endpoint_histogram_bhattacharyya": 0.15,
+    "maximum_candidates": 10
+  }
+}

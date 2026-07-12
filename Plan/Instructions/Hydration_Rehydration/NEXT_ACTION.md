@@ -8967,3 +8967,10 @@ Evidence: `Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build.json`; `Pla
 Next safe local action in strict sequence: `TRK-W64-022 / ITEM-W64-022`.
 
 Evidence: `Plan/Instructions/QA/Evidence/Wave64/video_temporal_visual_review.json`; `Plan/Instructions/QA/Evidence/Wave64/video_temporal_visual_review_test_log.json`; `Plan/Items/Reports/ITEM-W64-021_video_temporal_visual_review.json`.
+## Wave64 Row022 Reference Semantic Candidate Analysis - 2026-07-12T15:06:00-05:00
+
+`TRK-W64-022` / `ITEM-W64-022` remains `Blocked_Reference_Video_Production_Proof_Missing`. The existing strict Wave26 ingest now feeds a separate exact-byte-bound semantic stage that produces deterministic motion-peak, conservative shot-boundary, and capped loop candidates from complete all-frame ingests. Sampled, insufficient, reordered, tampered, non-finite, or overwrite inputs fail closed. The combined suite passes 40/40, both synthetic probes pass, and all three semantic-review findings were remediated and confirmed. Candidate generation does not claim contact phases, pose/depth/mask/contact timelines, shot matching, loop export, source-reference visual review, production proof, or promotion. Contact-phase and mask/contact timeline work remains `Blocked_Gold_Mask_Dependency_Missing`. No AWS, EC2, S3, ComfyUI generation, mask promotion, Wave70 hard-gate, Wave71+, or Jira action occurred.
+
+Next safe local action in strict sequence: `TRK-W64-023 / ITEM-W64-023`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/video_reference_input.json`; `Plan/Instructions/QA/Evidence/Wave64/video_reference_input_test_log.json`; `Plan/Items/Reports/ITEM-W64-022_video_reference_input.json`.

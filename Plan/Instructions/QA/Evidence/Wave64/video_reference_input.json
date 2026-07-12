@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "evidence_id": "W64-VIDEO-REFERENCE-INPUT",
-  "timestamp": "2026-07-11T14:50:00-05:00",
+  "timestamp": "2026-07-12T15:06:00-05:00",
   "tracker_id": "TRK-W64-022",
   "item_id": "ITEM-W64-022",
   "source_citation": "Plan/04_VIDEO_GIF_SYSTEM/WAVE26_REFERENCE_VIDEO_INPUT_PIPELINE.md",
@@ -18,6 +18,11 @@
     "manifest_and_frame_manifest_sha256_binding": true,
     "container_frame_count_tolerance_recorded": true,
     "non_destructive_transactional_publication": true,
+    "semantic_candidate_stage_hash_bound": true,
+    "motion_peak_candidate_generation_ready": true,
+    "shot_boundary_candidate_generation_ready": true,
+    "loop_candidate_generation_ready": true,
+    "contact_phase_candidate_generation_ready": false,
     "powershell_structural_claim_bounded": true,
     "final_promotion_claim_forbidden": true
   },
@@ -37,12 +42,32 @@
     {
       "path": "Plan/07_IMPLEMENTATION/templates/powershell/Run-Wave26-ReferenceVideoValidation.ps1",
       "sha256": "3281d880ae906c02e0764f84a656090b3742fc1516d0529eed9c2d788d4ba9f8"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/analyze_wave26_reference_semantic_candidates.py",
+      "sha256": "c2baa1d108abcfc169e2cf9461a2ad15e1b7a60d814e57aafce02b20c9ad241f"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave26_reference_semantic_candidates.schema.json",
+      "sha256": "d4f870952942c9fa0378edd37a05d6a0a4e9b472c21484c04333b8d9b0c32bf2"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave26_reference_semantic_candidate_thresholds.json",
+      "sha256": "91b20d8c6312dca674cb59629106eff7567348a62820133e98b1892496c14e79"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_analyze_wave26_reference_semantic_candidates.py",
+      "sha256": "c3333263974c5089dbc4eac26bd8faaac004e6ca17186acc22608d5c237a8b2a"
     }
   ],
   "offline_validation": {
     "test_log": "Plan/Instructions/QA/Evidence/Wave64/video_reference_input_test_log.json",
-    "test_log_sha256": "1aa2bc1e937be883eb1648fa7e6084a2806032347067289c05fcd2a145fa3976",
-    "tests_run": 28,
+    "test_log_sha256": "1d048bcb74c909b4d26218ee1db50de76c8f36d58152d732d7cf9bb37bdddf55",
+    "tests_run": 40,
+    "suite_breakdown": {
+      "reference_video_ingest": 28,
+      "reference_semantic_candidates": 12
+    },
     "tests_skipped": 0,
     "test_failures": 0,
     "test_errors": 0,
@@ -77,9 +102,28 @@
     "all_artifact_hashes_verified": true,
     "all_claim_flags_false": true
   },
+  "synthetic_semantic_candidate_probe": {
+    "production_evidence": false,
+    "source_video": "runtime_artifacts/wave64_reference_video_input/synthetic_reference_20260711T144600-0500.avi",
+    "all_frames_ingest": "runtime_artifacts/wave64_reference_video_input/synthetic_all_frames_ingest_20260712T150100-0500",
+    "candidate_evidence": "runtime_artifacts/wave64_reference_video_input/synthetic_semantic_candidates_20260712T150600-0500.json",
+    "candidate_evidence_sha256": "4f0d12cc5849e61ee2a09135fbede2bcc47374f7b30b89571fc2a97f82b3ffb8",
+    "frame_count": 12,
+    "motion_peak_candidate_count": 0,
+    "shot_boundary_candidate_count": 0,
+    "loop_candidate_count": 0,
+    "analysis_completed": true,
+    "candidate_counts_may_be_zero": true,
+    "all_forbidden_claims_false": true
+  },
   "acceptance_gates": {
     "reference_video_ingest_implementation": true,
     "synthetic_local_decode_and_extract": true,
+    "synthetic_semantic_candidate_analysis": true,
+    "motion_peak_candidate_producer_ready": true,
+    "shot_boundary_candidate_producer_ready": true,
+    "loop_candidate_producer_ready": true,
+    "contact_phase_candidate_producer_ready": false,
     "production_reference_video_supplied": false,
     "production_reference_video_runtime_proof": false,
     "orientation_normalization_verified": false,
@@ -102,6 +146,9 @@
     "claude_initial_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T143725-0500_wave64_reference_video_ingest_final_review/handoff_record.json",
     "claude_medium_findings_remediated": 1,
     "claude_confirmation": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T144451-0500_wave64_reference_video_ingest_review_confirmation/handoff_record.json",
+    "claude_semantic_candidate_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T144329-0500_row022_reference_semantic_candidates_final_review/handoff_record.json",
+    "claude_semantic_candidate_remediation_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T145319-0500_row022_reference_semantic_candidates_remediation_review/handoff_record.json",
+    "claude_semantic_candidate_medium_findings_remediated": 3,
     "remaining_high_or_medium_findings": 0
   },
   "runtime": {
@@ -120,14 +167,9 @@
       "reason": "No user or production reference video has been supplied and evaluated through source-to-output comparison. Synthetic local extraction proves tooling only."
     },
     {
-      "classification": "Blocked_Reference_Video_Semantic_Analyzers_Missing",
-      "scope": "motion_contact_shot_loop_profiles",
-      "reason": "Motion-peak, contact-phase, shot-boundary, and loop-candidate profiles require analyzers and derived timeline proof that are not implemented or verified."
-    },
-    {
       "classification": "Blocked_Gold_Mask_Dependency_Missing",
       "scope": "mask_and_contact_timeline_subgates_only",
-      "reason": "Candidate masks cannot certify mask/contact timeline alignment while manual body gold masks remain unavailable."
+      "reason": "Candidate masks cannot certify mask/contact timeline alignment or contact-phase sampling while manual body gold masks remain unavailable."
     }
   ],
   "result": "blocked_reference_video_production_proof_missing",
@@ -137,6 +179,7 @@
     "row_complete": false,
     "offline_ingest_implementation_pass": true,
     "synthetic_runtime_probe_pass": true,
+    "semantic_candidate_implementation_pass": true,
     "production_runtime_claimed": false,
     "derived_timeline_claimed": false,
     "source_reference_visual_pass_claimed": false,

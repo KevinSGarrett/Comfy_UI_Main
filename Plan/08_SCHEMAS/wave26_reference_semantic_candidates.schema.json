@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave26 Reference Semantic Candidates",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_name", "version", "source_video_id", "source_bindings", "threshold_registry",
+    "analyzer", "frame_count", "fps", "image_dimensions", "adjacency_metrics",
+    "motion_peak_candidates", "shot_boundary_candidates", "loop_candidates", "claims"
+  ],
+  "properties": {
+    "schema_name": {"const": "wave26_reference_semantic_candidates"},
+    "version": {"type": "integer", "const": 1},
+    "source_video_id": {"type": "string", "minLength": 1},
+    "source_bindings": {
+      "type": "object", "additionalProperties": false,
+      "required": ["ingest_evidence", "reference_manifest", "frame_manifest"],
+      "properties": {
+        "ingest_evidence": {"$ref": "#/$defs/file_binding"},
+        "reference_manifest": {"$ref": "#/$defs/file_binding"},
+        "frame_manifest": {"$ref": "#/$defs/file_binding"}
+      }
+    },
+    "threshold_registry": {
+      "type": "object", "additionalProperties": false, "required": ["path", "sha256", "version"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "version": {"type": "integer", "minimum": 1}
+      }
+    },
+    "analyzer": {
+      "type": "object", "additionalProperties": false,
+      "required": ["algorithm", "opencv_version", "thread_count", "rng_seed", "rounding_digits", "candidate_scope"],
+      "properties": {
+        "algorithm": {"type": "string", "minLength": 1},
+        "opencv_version": {"type": "string", "minLength": 1},
+        "thread_count": {"const": 1}, "rng_seed": {"const": 0},
+        "rounding_digits": {"type": "integer", "minimum": 0, "maximum": 12},
+        "candidate_scope": {"const": "non_authoritative_candidate_generation_only"}
+      }
+    },
+    "frame_count": {"type": "integer", "minimum": 3},
+    "fps": {"type": "number", "exclusiveMinimum": 0},
+    "image_dimensions": {
+      "type": "object", "additionalProperties": false, "required": ["width", "height"],
+      "properties": {"width": {"type": "integer", "minimum": 1}, "height": {"type": "integer", "minimum": 1}}
+    },
+    "adjacency_metrics": {
+      "type": "array", "minItems": 2,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["from_frame", "to_frame", "timestamp_seconds", "luma_mae_percent", "histogram_bhattacharyya", "flow_p95_diagonal_ratio", "flow_mean_x_diagonal_ratio", "flow_mean_y_diagonal_ratio", "direction_change_degrees", "finite"],
+        "properties": {
+          "from_frame": {"type": "integer", "minimum": 0}, "to_frame": {"type": "integer", "minimum": 1},
+          "timestamp_seconds": {"type": "number", "minimum": 0},
+          "luma_mae_percent": {"$ref": "#/$defs/nonnegative"},
+          "histogram_bhattacharyya": {"$ref": "#/$defs/nonnegative"},
+          "flow_p95_diagonal_ratio": {"$ref": "#/$defs/nonnegative"},
+          "flow_mean_x_diagonal_ratio": {"type": "number"}, "flow_mean_y_diagonal_ratio": {"type": "number"},
+          "direction_change_degrees": {"type": ["number", "null"], "minimum": 0, "maximum": 180},
+          "finite": {"const": true}
+        }
+      }
+    },
+    "motion_peak_candidates": {"type": "array", "items": {"$ref": "#/$defs/motion_candidate"}},
+    "shot_boundary_candidates": {"type": "array", "items": {"$ref": "#/$defs/shot_candidate"}},
+    "loop_candidates": {"type": "array", "items": {"$ref": "#/$defs/loop_candidate"}},
+    "claims": {
+      "type": "object", "additionalProperties": false,
+      "required": ["motion_peak_sampling_ready", "shot_boundary_sampling_ready", "loop_candidate_sampling_ready", "contact_phase_sampling_ready", "pose_timeline_generated", "depth_timeline_generated", "mask_timeline_generated", "contact_timeline_generated", "shot_matching_performed", "loop_export_ready", "source_reference_visual_review", "production_proof_complete", "final_promotion_ready"],
+      "properties": {
+        "motion_peak_sampling_ready": {"const": true}, "shot_boundary_sampling_ready": {"const": true}, "loop_candidate_sampling_ready": {"const": true},
+        "contact_phase_sampling_ready": {"const": false}, "pose_timeline_generated": {"const": false}, "depth_timeline_generated": {"const": false},
+        "mask_timeline_generated": {"const": false}, "contact_timeline_generated": {"const": false}, "shot_matching_performed": {"const": false},
+        "loop_export_ready": {"const": false}, "source_reference_visual_review": {"const": false}, "production_proof_complete": {"const": false}, "final_promotion_ready": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "nonnegative": {"type": "number", "minimum": 0},
+    "file_binding": {
+      "type": "object", "additionalProperties": false, "required": ["path", "sha256"],
+      "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+    },
+    "motion_candidate": {
+      "type": "object", "additionalProperties": false, "required": ["frame_index", "timestamp_seconds", "reason", "flow_p95_diagonal_ratio", "direction_change_degrees"],
+      "properties": {"frame_index": {"type": "integer", "minimum": 1}, "timestamp_seconds": {"type": "number", "minimum": 0}, "reason": {"enum": ["local_motion_peak", "direction_change", "local_motion_peak_and_direction_change"]}, "flow_p95_diagonal_ratio": {"$ref": "#/$defs/nonnegative"}, "direction_change_degrees": {"type": ["number", "null"], "minimum": 0, "maximum": 180}}
+    },
+    "shot_candidate": {
+      "type": "object", "additionalProperties": false, "required": ["frame_index", "timestamp_seconds", "luma_mae_percent", "histogram_bhattacharyya", "reason"],
+      "properties": {"frame_index": {"type": "integer", "minimum": 1}, "timestamp_seconds": {"type": "number", "minimum": 0}, "luma_mae_percent": {"$ref": "#/$defs/nonnegative"}, "histogram_bhattacharyya": {"$ref": "#/$defs/nonnegative"}, "reason": {"enum": ["luma_threshold", "histogram_threshold", "luma_and_histogram_threshold"]}}
+    },
+    "loop_candidate": {
+      "type": "object", "additionalProperties": false, "required": ["start_frame", "end_frame", "start_seconds", "end_seconds", "span_seconds", "endpoint_descriptor_luma_mae_percent", "endpoint_histogram_bhattacharyya", "closure_score"],
+      "properties": {"start_frame": {"type": "integer", "minimum": 0}, "end_frame": {"type": "integer", "minimum": 1}, "start_seconds": {"type": "number", "minimum": 0}, "end_seconds": {"type": "number", "exclusiveMinimum": 0}, "span_seconds": {"type": "number", "exclusiveMinimum": 0}, "endpoint_descriptor_luma_mae_percent": {"$ref": "#/$defs/nonnegative"}, "endpoint_histogram_bhattacharyya": {"$ref": "#/$defs/nonnegative"}, "closure_score": {"type": "number", "minimum": 0, "maximum": 1}}
+    }
+  }
+}

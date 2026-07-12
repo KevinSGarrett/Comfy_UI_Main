@@ -1,13 +1,20 @@
 {
   "schema_version": "1.0",
   "evidence_id": "W64-VIDEO-REFERENCE-INPUT-TEST-LOG-20260711T145000-0500",
-  "timestamp": "2026-07-11T14:50:00-05:00",
+  "timestamp": "2026-07-12T15:06:00-05:00",
   "tracker_id": "TRK-W64-022",
   "item_id": "ITEM-W64-022",
-  "command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_ingest_wave26_reference_video.py",
+  "commands": [
+    "python -m pytest -q Plan/Instructions/QA/Scripts/test_ingest_wave26_reference_video.py Plan/Instructions/QA/Scripts/test_analyze_wave26_reference_semantic_candidates.py",
+    "python -m py_compile Plan/07_IMPLEMENTATION/scripts/analyze_wave26_reference_semantic_candidates.py Plan/Instructions/QA/Scripts/test_analyze_wave26_reference_semantic_candidates.py"
+  ],
   "result": "pass",
   "exit_code": 0,
-  "tests_run": 28,
+  "tests_run": 40,
+  "suite_breakdown": {
+    "reference_video_ingest": 28,
+    "reference_semantic_candidates": 12
+  },
   "tests_skipped": 0,
   "failures": 0,
   "errors": 0,
@@ -18,7 +25,11 @@
     "Plan/07_IMPLEMENTATION/scripts/ingest_wave26_reference_video.py",
     "Plan/08_SCHEMAS/wave26_reference_video_ingest_evidence.schema.json",
     "Plan/Instructions/QA/Scripts/test_ingest_wave26_reference_video.py",
-    "Plan/07_IMPLEMENTATION/templates/powershell/Run-Wave26-ReferenceVideoValidation.ps1"
+    "Plan/07_IMPLEMENTATION/templates/powershell/Run-Wave26-ReferenceVideoValidation.ps1",
+    "Plan/07_IMPLEMENTATION/scripts/analyze_wave26_reference_semantic_candidates.py",
+    "Plan/08_SCHEMAS/wave26_reference_semantic_candidates.schema.json",
+    "Plan/10_REGISTRIES/wave26_reference_semantic_candidate_thresholds.json",
+    "Plan/Instructions/QA/Scripts/test_analyze_wave26_reference_semantic_candidates.py"
   ],
   "positive_contracts_covered": [
     "real OpenCV video decode and all-frame extraction",
@@ -29,7 +40,10 @@
     "orientation and FPS assumptions recorded without normalization claims",
     "container frame-count exact and within-tolerance handling",
     "Windows PowerShell structural and source-video modes",
-    "same-volume staged publication"
+    "same-volume staged publication",
+    "hash-bound motion-peak, shot-boundary, and loop-candidate generation from all-frame ingests",
+    "deterministic OpenCV analysis and capped candidate ranking",
+    "exact-byte provenance binding and schema-pinned non-claim boundaries"
   ],
   "negative_contracts_covered": [
     "unknown or semantic-analyzer-dependent extraction profiles",
@@ -40,6 +54,9 @@
     "non-finite registry or schema JSON",
     "existing output file or directory preservation",
     "decode failure capture release and staging cleanup",
-    "pose, depth, mask, contact, shot, visual, production, and final claims remain false"
+    "pose, depth, mask, contact, shot, visual, production, and final claims remain false",
+    "sampled or insufficient timelines cannot produce semantic candidates",
+    "tampered frames, manifests, non-finite thresholds, and reordered records fail closed",
+    "all motion/shot reason branches and loop-candidate truncation are covered"
   ]
 }
