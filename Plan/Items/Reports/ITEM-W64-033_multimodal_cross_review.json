@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "report_id": "ITEM-W64-033-MULTIMODAL-CROSS-REVIEW-20260712T005302-0500",
+  "timestamp": "2026-07-12T00:53:02-05:00",
+  "item_id": "ITEM-W64-033",
+  "tracker_id": "TRK-W64-033",
+  "workstream": "multimodal_cross_review",
+  "status": "Blocked_Multimodal_Production_Review_Proof_Missing",
+  "row_complete": false,
+  "implementation": {
+    "aggregation_only_multimodal_scorecard_ready": true,
+    "image_video_audio_sync_manifest_release_binding_ready": true,
+    "real_image_realism_anatomy_and_full_visual_gates_ready": true,
+    "typed_source_contracts_and_exact_source_identity_ready": true,
+    "exact_production_authority_object_contract_ready": true,
+    "release_manifest_decision_and_reference_binding_ready": true,
+    "audio_provenance_and_producer_authority_checks_ready": true,
+    "caller_decision_recomputed": true,
+    "synthetic_and_fixture_promotion_forbidden": true
+  },
+  "validation": {
+    "unit_tests_passed": 34,
+    "unit_test_failures": 0,
+    "unit_test_errors": 0,
+    "unit_test_skips": 1,
+    "skip_scope": "Windows symlink creation unavailable in isolated fixture only",
+    "elapsed_seconds": 85.988,
+    "python_compile": "pass",
+    "request_schema_check": "pass",
+    "report_schema_check": "pass",
+    "canonical_empty_authority_probe": "blocked_exit_2",
+    "fixture_only_authority_contract": "conditionally_approved_not_production_evidence",
+    "exact_production_authority_fixture_contract": "approved_reachability_only_not_production_evidence",
+    "authority_registry_unchanged_by_tests": true,
+    "remaining_high_findings": 0,
+    "remaining_medium_findings": 0
+  },
+  "acceptance_gates": {
+    "image_score_contract": true,
+    "video_score_contract": true,
+    "audio_score_contract": true,
+    "sync_score_contract": true,
+    "artifact_manifest_contract": true,
+    "release_decision_contract": true,
+    "genuine_production_image_certification_present": false,
+    "genuine_production_temporal_video_review_present": false,
+    "genuine_production_audio_and_sync_review_present": false,
+    "exact_production_release_bundle_present": false,
+    "final_multimodal_certification_allowed": false
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Multimodal_Production_Review_Proof_Missing",
+      "reason": "No genuine final multimodal artifact has the required exact image, video, audio, sync, manifest, release, and whole-artifact review proof chain."
+    },
+    {
+      "classification": "Blocked_Multimodal_Production_Authority_Missing",
+      "reason": "The canonical registry has zero approved production authority objects and zero exact production bundles."
+    }
+  ],
+  "evidence": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/multimodal_cross_review.json",
+      "sha256": "e051f5d61df7fc37c4d41930d2b78679f5096ec71a7c27f70a21635ad66dcfba"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/multimodal_cross_review_test_log.json",
+      "sha256": "10985cd08177aa3ca518014c7081bdb8410d5c699aa808a65d11e88a8a6cee9e"
+    },
+    {
+      "path": "runtime_artifacts/wave64_multimodal_scorecard/20260712T004800-0500/windows_strict_tests.txt",
+      "sha256": "61e20605cacaa9fb7351020c4d56b62f7c05ff1f042ac7df95c9482d5d4c1a56"
+    },
+    {
+      "path": "runtime_artifacts/wave64_multimodal_scorecard/20260712T004800-0500/canonical_empty_authority_probe/probe_summary.json",
+      "sha256": "8e00285a88a831b3b5b5fa9616fe2c6b8954eb8db3d50ffe5690f988f36355a6"
+    }
+  ],
+  "runtime": {
+    "production_multimodal_generation_count": 0,
+    "production_multimodal_review_count": 0,
+    "approved_production_bundle_count": 0,
+    "comfyui_started": false,
+    "aws_contacted": false,
+    "ec2_started": false
+  },
+  "next_action": "Proceed with TRK-W64-034 / ITEM-W64-034 by duplicate-checking the localized-change whole-artifact regression lane from Plan/Instructions/QA/FAILURE_CLASSIFICATION_AND_RETEST_PROTOCOL.md while preserving Row033 as blocked until genuine exact multimodal production proof and authority exist."
+}

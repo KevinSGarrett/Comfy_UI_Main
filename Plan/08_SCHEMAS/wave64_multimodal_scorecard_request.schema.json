@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64_multimodal_scorecard_request.schema.json",
+  "title": "Wave64 Multimodal Scorecard Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_name",
+    "request_version",
+    "artifact_id",
+    "run_id",
+    "scene_id",
+    "shot_id",
+    "take_id",
+    "artifact_type",
+    "generation_test_method",
+    "is_synthetic",
+    "image_review_binding",
+    "video_review_binding",
+    "strict_audio_report_binding",
+    "global_audio_report_binding",
+    "av_sync_report_binding",
+    "artifact_manifest_binding",
+    "release_gate_decision_binding",
+    "production_authority_claim",
+    "caller_claimed_approval_decision",
+    "output_report_path"
+  ],
+  "properties": {
+    "schema_name": {
+      "const": "wave64_multimodal_scorecard_request"
+    },
+    "request_version": {
+      "const": 1
+    },
+    "artifact_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scene_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "shot_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "take_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifact_type": {
+      "type": "string",
+      "enum": [
+        "multimodal_cross_review"
+      ]
+    },
+    "generation_test_method": {
+      "type": "string",
+      "minLength": 1
+    },
+    "is_synthetic": {
+      "type": "boolean"
+    },
+    "image_review_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "video_review_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "strict_audio_report_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "global_audio_report_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "av_sync_report_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "artifact_manifest_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "release_gate_decision_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "production_authority_claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority_id",
+        "bundle_id"
+      ],
+      "properties": {
+        "authority_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bundle_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "caller_claimed_approval_decision": {
+      "type": "string",
+      "enum": [
+        "approved",
+        "conditionally_approved",
+        "rejected",
+        "blocked"
+      ]
+    },
+    "output_report_path": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "$defs": {
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "bytes"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  }
+}

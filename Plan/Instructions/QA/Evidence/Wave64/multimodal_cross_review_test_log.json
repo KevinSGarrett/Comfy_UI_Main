@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-MULTIMODAL-CROSS-REVIEW-TEST-LOG-20260712T005302-0500",
+  "timestamp": "2026-07-12T00:53:02-05:00",
+  "tracker_id": "TRK-W64-033",
+  "item_id": "ITEM-W64-033",
+  "command": "python -m unittest Plan.Instructions.QA.Scripts.test_wave64_multimodal_scorecard_strict -v",
+  "result": "pass",
+  "exit_code": 0,
+  "tests_run": 34,
+  "failures": 0,
+  "errors": 0,
+  "skips": 1,
+  "skip_reason": "Windows test host did not permit creation of the isolated symlink escape fixture; canonical path containment remained covered by traversal and resolved-path tests.",
+  "elapsed_seconds": 85.988,
+  "transcript": "runtime_artifacts/wave64_multimodal_scorecard/20260712T004800-0500/windows_strict_tests.txt",
+  "transcript_sha256": "61e20605cacaa9fb7351020c4d56b62f7c05ff1f042ac7df95c9482d5d4c1a56",
+  "python_compile": "pass",
+  "draft_2020_12_request_schema": "pass",
+  "draft_2020_12_report_schema": "pass",
+  "git_diff_check": "pass",
+  "covered_artifacts": [
+    {
+      "path": "Plan/06_QA_TESTING/WAVE64_MULTIMODAL_SCORECARD_GATE_SPEC.md",
+      "sha256": "6a3b3de8f16e339edf5e79c066b7006a5be56d04479fb188d00e8dd59993b755"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_multimodal_scorecard.py",
+      "sha256": "edaddedbe103da062ba3740d7e14d9f97208a119827f765b575757795a6f52df"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave64_multimodal_scorecard_request.schema.json",
+      "sha256": "8b3c87878e4bb6097ede1912ad047e589f43cfbcf9ba1af745e490e1377cdc5a"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave64_multimodal_scorecard_report.schema.json",
+      "sha256": "6d810c28ac5c59c9669403d394d78c570f978259ded19ced792a01145e5483a8"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave64_multimodal_scorecard_rules.json",
+      "sha256": "92e3da80e3ae3223fd13565283355a59bf77946d1ac0a915015367f569492714"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_wave64_multimodal_scorecard_strict.py",
+      "sha256": "5595dc5684517a9ccced169b4e6b1c75357305989e4348a3b1ecab103a590dbe"
+    }
+  ],
+  "positive_contracts_covered": [
+    "exact production-authority fixture contract reaches approved and production eligible only in an isolated fixture registry",
+    "fixture-only authority reaches conditionally approved while remaining non-production",
+    "deterministic score and decision recomputation ignores caller approval claims",
+    "real image realism, anatomy, hyperreal, global visual, multi-sample, prompt, and contamination gates contribute to scoring",
+    "canonical non-release promotion decisions receive distinct blocked or rejected classifications"
+  ],
+  "negative_contracts_covered": [
+    "authority and bundle cross-product, duplicate pair, wrong binding, wrong release, and wrong artifact lineage",
+    "missing file, hash mismatch, byte mismatch, schema mismatch, unknown key, duplicate key, non-finite number, traversal, and output collision",
+    "camera-only image evidence, malformed image/video nested types, missing lineage, wrong tracker/item/artifact identity, and individual image quality gate failures",
+    "strict or global audio synthetic mismatch, synthetic producer identity, false global authority booleans, and AV-sync blocker propagation",
+    "malformed legacy contracts, stale release decision reference, release-id mismatch, unknown promotion decision, and structured blocker propagation"
+  ],
+  "canonical_probe": {
+    "classification": "BLOCKED_MULTIMODAL_PRODUCTION_REVIEW_PROOF_MISSING",
+    "path": "runtime_artifacts/wave64_multimodal_scorecard/20260712T004800-0500/canonical_empty_authority_probe/probe_summary.json",
+    "sha256": "8e00285a88a831b3b5b5fa9616fe2c6b8954eb8db3d50ffe5690f988f36355a6",
+    "expected_exit_code": 2,
+    "actual_exit_code": 2,
+    "approval_decision": "blocked",
+    "eligible_for_production": false
+  },
+  "registry_assertion": {
+    "path": "Plan/10_REGISTRIES/wave64_multimodal_scorecard_rules.json",
+    "sha256_before_and_after_tests": "92e3da80e3ae3223fd13565283355a59bf77946d1ac0a915015367f569492714",
+    "approved_production_authority_object_count": 0,
+    "fixture_authority_object_count": 0,
+    "registry_unchanged": true
+  },
+  "fixture_contract_reachability_is_production_evidence": false,
+  "production_multimodal_review_executed": false,
+  "production_bundle_approved": false
+}

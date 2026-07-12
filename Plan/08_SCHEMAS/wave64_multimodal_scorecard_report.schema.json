@@ -1,0 +1,424 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64_multimodal_scorecard_report.schema.json",
+  "title": "Wave64 Multimodal Scorecard Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schema_name",
+    "report_version",
+    "artifact_id",
+    "reviewer_role",
+    "artifact_type",
+    "generation_test_method",
+    "lineage",
+    "artifact_bindings",
+    "validation",
+    "scorecard",
+    "defects_summary",
+    "approval_decision",
+    "next_action",
+    "blockers",
+    "production_eligibility",
+    "release_decision",
+    "final_decision",
+    "decision_derivation"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "schema_name": {
+      "const": "wave64_multimodal_scorecard_report"
+    },
+    "report_version": {
+      "const": 1
+    },
+    "artifact_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reviewer_role": {
+      "const": "Codex Desktop autonomous QA"
+    },
+    "artifact_type": {
+      "type": "string",
+      "enum": [
+        "multimodal_cross_review"
+      ]
+    },
+    "generation_test_method": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "run_id",
+        "scene_id",
+        "shot_id",
+        "take_id",
+        "is_synthetic",
+        "lineage_match"
+      ],
+      "properties": {
+        "run_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scene_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "shot_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "take_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "is_synthetic": {
+          "type": "boolean"
+        },
+        "lineage_match": {
+          "type": "boolean"
+        }
+      }
+    },
+    "artifact_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "image_review",
+        "video_review",
+        "strict_audio_report",
+        "global_audio_report",
+        "av_sync_report",
+        "artifact_manifest",
+        "release_gate_decision"
+      ],
+      "properties": {
+        "image_review": {
+          "$ref": "#/$defs/binding"
+        },
+        "video_review": {
+          "$ref": "#/$defs/binding"
+        },
+        "strict_audio_report": {
+          "$ref": "#/$defs/binding"
+        },
+        "global_audio_report": {
+          "$ref": "#/$defs/binding"
+        },
+        "av_sync_report": {
+          "$ref": "#/$defs/binding"
+        },
+        "artifact_manifest": {
+          "$ref": "#/$defs/binding"
+        },
+        "release_gate_decision": {
+          "$ref": "#/$defs/binding"
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "request_schema_valid",
+        "upstream_schema_contracts_valid",
+        "production_authority_exact_match",
+        "fixture_authority_exact_match",
+        "authority_release_binding_valid",
+        "authority_artifact_binding_valid",
+        "release_gate_decision_ref_binding_valid",
+        "source_identity_checks",
+        "source_identity_match",
+        "lineage_checks",
+        "binding_checks"
+      ],
+      "properties": {
+        "request_schema_valid": {
+          "type": "boolean"
+        },
+        "upstream_schema_contracts_valid": {
+          "type": "boolean"
+        },
+        "production_authority_exact_match": {
+          "type": "boolean"
+        },
+        "fixture_authority_exact_match": {
+          "type": "boolean"
+        },
+        "authority_release_binding_valid": {
+          "type": "boolean"
+        },
+        "authority_artifact_binding_valid": {
+          "type": "boolean"
+        },
+        "release_gate_decision_ref_binding_valid": {
+          "type": "boolean"
+        },
+        "source_identity_checks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "source_identity_match": {
+          "type": "boolean"
+        },
+        "lineage_checks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "binding_checks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "scorecard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "categories",
+        "required_categories",
+        "min_required_score",
+        "all_required_categories_meet_minimum"
+      ],
+      "properties": {
+        "categories": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "category",
+              "score",
+              "derivation"
+            ],
+            "properties": {
+              "category": {
+                "type": "string",
+                "minLength": 1
+              },
+              "score": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 5
+              },
+              "derivation": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "required_categories": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "min_required_score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "all_required_categories_meet_minimum": {
+          "type": "boolean"
+        }
+      }
+    },
+    "defects_summary": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "approval_decision": {
+      "type": "string",
+      "enum": [
+        "approved",
+        "conditionally_approved",
+        "rejected",
+        "blocked"
+      ]
+    },
+    "next_action": {
+      "type": "string",
+      "minLength": 1
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "production_eligibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "eligible_for_production",
+        "fixture_only_result",
+        "authority_id",
+        "bundle_id"
+      ],
+      "properties": {
+        "eligible_for_production": {
+          "type": "boolean"
+        },
+        "fixture_only_result": {
+          "type": "boolean"
+        },
+        "authority_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bundle_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "release_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "promotion_decision",
+        "classification",
+        "is_release_allowed"
+      ],
+      "properties": {
+        "promotion_decision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "classification": {
+          "type": "string",
+          "enum": [
+            "unknown_or_ill_typed",
+            "canonical_blocked_missing_proof",
+            "canonical_present_failure",
+            "canonical_release_allowed",
+            "canonical_non_release"
+          ]
+        },
+        "is_release_allowed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "final_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "exit_code"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "approved",
+            "conditionally_approved",
+            "rejected",
+            "blocked"
+          ]
+        },
+        "exit_code": {
+          "type": "integer",
+          "enum": [
+            0,
+            2
+          ]
+        }
+      }
+    },
+    "decision_derivation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "caller_claim_ignored",
+        "caller_claim_matches_recomputed",
+        "required_upstream_gates_pass",
+        "missing_or_untrusted_dependencies",
+        "present_failing_evidence",
+        "nonblocking_defects"
+      ],
+      "properties": {
+        "caller_claim_ignored": {
+          "type": "boolean"
+        },
+        "caller_claim_matches_recomputed": {
+          "type": "boolean"
+        },
+        "required_upstream_gates_pass": {
+          "type": "boolean"
+        },
+        "missing_or_untrusted_dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "present_failing_evidence": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "nonblocking_defects": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "bytes"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  }
+}

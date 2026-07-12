@@ -1,0 +1,121 @@
+{
+  "schema_name": "wave64_multimodal_scorecard_rules",
+  "registry_version": 1,
+  "required_categories": [
+    "specification compliance",
+    "technical integrity",
+    "quality level",
+    "usability / deployability",
+    "evidence completeness",
+    "image realism and anatomy",
+    "video temporal consistency and motion realism",
+    "audio clarity and content accuracy",
+    "prompt control and contamination resistance"
+  ],
+  "minimum_required_category_score": 3,
+  "required_upstream_gates": {
+    "image_review": [
+      "technical_pass",
+      "acceptance_gates.camera_spec_check",
+      "acceptance_gates.crop_boundary_check",
+      "acceptance_gates.visual_runtime_ready",
+      "acceptance_gates.image_realism_check",
+      "acceptance_gates.anatomy_check",
+      "acceptance_gates.hyperreal_visual_review",
+      "acceptance_gates.global_visual_review",
+      "acceptance_gates.multi_sample_certification",
+      "acceptance_gates.prompt_alignment_check",
+      "acceptance_gates.contamination_resistance_check"
+    ],
+    "video_review": [
+      "acceptance_gates.per_frame_qa",
+      "acceptance_gates.temporal_identity_check",
+      "acceptance_gates.flicker_detection",
+      "acceptance_gates.motion_consistency",
+      "acceptance_gates.frame_grid_and_playback_visual_review",
+      "acceptance_gates.runtime_proof",
+      "acceptance_gates.final_temporal_visual_pass"
+    ],
+    "strict_audio_report": [
+      "gates.audio_metadata_check",
+      "gates.playback_review",
+      "gates.prompt_alignment",
+      "gates.sync_evidence",
+      "gates.overall_pass"
+    ],
+    "global_audio_report": [
+      "gates.full_duration_playback_review",
+      "gates.required_target_audio_check",
+      "gates.required_non_target_audio_scan",
+      "gates.clipping_noise_voice_ambience_foley_sync_check",
+      "gates.reject_on_any_global_audio_defect",
+      "gates.overall_pass"
+    ],
+    "av_sync_report": [
+      "gates.sync_offset_threshold.status",
+      "gates.drift_check.status",
+      "gates.mux_manifest.status",
+      "gates.event_owner_alignment.status",
+      "gates.av_review_record.status",
+      "gates.production_runtime_proof.status",
+      "gates.production_av_sync_authority.status",
+      "gates.overall_pass.status"
+    ]
+  },
+  "release_allowed_promotion_decisions": [
+    "release_architecture_pack",
+    "release_runtime_certified",
+    "release_with_runtime_boundaries"
+  ],
+  "authority_rules": {
+    "production_authority_exact_objects": [],
+    "fixture_authority_exact_objects": [],
+    "require_genuine_non_synthetic_provenance_for_approved": true
+  },
+  "contracts": {
+    "image_review": {
+      "contract_id": "wave64_image_realism_and_prompt_contract_v2",
+      "expected_tracker_id": "TRK-W64-018",
+      "expected_item_id": "ITEM-W64-018",
+      "source_artifact_id_field": "evidence_id",
+      "required_fields": [
+        "schema_version",
+        "evidence_id",
+        "tracker_id",
+        "item_id",
+        "status_decision",
+        "overall_pass",
+        "technical_pass",
+        "acceptance_gates",
+        "strict_decision",
+        "lineage"
+      ]
+    },
+    "video_review": {
+      "contract_id": "wave64_video_temporal_visual_review_contract_v1",
+      "expected_tracker_id": "TRK-W64-021",
+      "expected_item_id": "ITEM-W64-021",
+      "source_artifact_id_field": "evidence_id",
+      "required_fields": [
+        "schema_version",
+        "evidence_id",
+        "tracker_id",
+        "item_id",
+        "status_decision",
+        "overall_pass",
+        "acceptance_gates",
+        "strict_decision",
+        "lineage"
+      ]
+    },
+    "strict_audio_report": {
+      "schema_name": "wave64_strict_audio_review_report"
+    },
+    "global_audio_report": {
+      "schema_name": "wave64_global_audio_review_report"
+    },
+    "av_sync_report": {
+      "schema_name": "wave64_av_sync_certification_report"
+    }
+  }
+}

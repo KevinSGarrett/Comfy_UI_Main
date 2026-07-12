@@ -1,3 +1,9 @@
+## Active Runtime Posture - Wave64 Multimodal Scorecard Offline Green, Production Authority Empty - 2026-07-12T00:53:02-05:00
+
+Continue the full autonomous project goal from authoritative `C:\Comfy_UI_Main`. Preserve `TRK-W64-033` / `ITEM-W64-033` as `Blocked_Multimodal_Production_Review_Proof_Missing`: the strict aggregation-only evaluator, schemas, and exact authority contract pass 34 Windows tests, but no genuine complete multimodal artifact, whole-artifact visual/audio review, exact release bundle, or approved production authority object exists. The synthetic canonical probe exits `2` and caller approval cannot promote it.
+
+Proceed to `TRK-W64-034` / `ITEM-W64-034` for one duplicate-checked localized-change whole-artifact regression implementation gap. Keep EC2 stopped and retain local-source, no-duplicate, manual-mask, Wave70/Wave71+, Flux1-license, expired-AWS-authentication, and Jira boundaries.
+
 ## Active Runtime Posture - Wave64 AV Sync Offline Green, Production Authority Empty - 2026-07-11T21:01:14-05:00
 
 Continue the full autonomous project goal from authoritative `C:\Comfy_UI_Main`. Preserve `TRK-W64-030` / `ITEM-W64-030` as `Blocked_AV_Sync_Production_Proof_Missing`: the strict evaluator and schemas pass 31/31 Windows tests, but no genuine non-synthetic AV mux, playback review, runtime proof, or allowlisted production certification bundle exists. Synthetic and hand-authored relabel fixtures cannot reach overall PASS.
