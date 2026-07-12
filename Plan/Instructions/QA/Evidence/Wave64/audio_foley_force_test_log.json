@@ -1,73 +1,42 @@
 {
   "schema_version": "1.0",
-  "evidence_id": "W64-AUDIO-FOLEY-FORCE-TEST-LOG-20260711T185232-0500",
-  "timestamp": "2026-07-11T18:52:32-05:00",
+  "evidence_id": "W64-AUDIO-FOLEY-FORCE-TEST-LOG-20260712T171137-0500",
+  "timestamp": "2026-07-12T17:11:37-05:00",
   "tracker_id": "TRK-W64-028",
   "item_id": "ITEM-W64-028",
-  "command": "python Plan/Instructions/QA/Scripts/test_wave64_foley_force_alignment_strict.py",
+  "command": "python -m unittest Plan.Instructions.QA.Scripts.test_produce_wave64_foley_force_alignment_request Plan.Instructions.QA.Scripts.test_wave64_foley_force_alignment_strict",
   "result": "pass",
   "exit_code": 0,
-  "tests_run": 48,
+  "tests_run": 54,
+  "suite_breakdown": {"foley_request_producer": 6, "existing_foley_force_evaluator": 48},
   "failures": 0,
   "errors": 0,
   "skips": 0,
-  "elapsed_seconds": 128.445,
-  "transcript": "runtime_artifacts/wave64_foley_force_alignment/20260711T185232-0500/windows_strict_tests.txt",
-  "transcript_sha256": "aec9d5e6e15417e538da35ec15db5ddfc0b645e3a3231be5f69f550b483b0ad3",
-  "covered_artifacts": [
-    {
-      "path": "Plan/05_AUDIO_SYSTEM/WAVE64_FOLEY_FORCE_ALIGNMENT_GATE_SPEC.md",
-      "sha256": "2970c05c24ef8b8a6600bda3351cf24e87f013dbf57b1d808c0e83aceb19bf87"
-    },
-    {
-      "path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_foley_force_alignment.py",
-      "sha256": "59b069099ec4fc903b4d6dbf993c3c88ff93e26d7c4dec0d6c15dd5949395413"
-    },
-    {
-      "path": "Plan/08_SCHEMAS/wave64_foley_force_alignment_request.schema.json",
-      "sha256": "5ff92b6b1c26d2848dd423ef284f6b75cbbb3de0bc62bf110a6d7f134a13a603"
-    },
-    {
-      "path": "Plan/08_SCHEMAS/wave64_foley_force_alignment_report.schema.json",
-      "sha256": "f7f42a4904635482b8716959295d2b2988dcb6b41f8c2251451139d04573359e"
-    },
-    {
-      "path": "Plan/10_REGISTRIES/wave64_foley_force_alignment_authority_registry.json",
-      "sha256": "247a5e5c2a33cb49cccc72fc4002c035cc2910d5b7801faa11a3134830856587"
-    },
-    {
-      "path": "Plan/Instructions/QA/Scripts/test_wave64_foley_force_alignment_strict.py",
-      "sha256": "fb7ce4e5d4ccce040af728fccd93ff0011802f49414ba38bd92ac90e02cd0c6d"
-    }
+  "elapsed_seconds": 100.397,
+  "transcript": "runtime_artifacts/wave64_foley_force_alignment/unit_tests_20260712T171137-0500.txt",
+  "transcript_sha256": "44bc0b15f0ab3f2c972e390c83c2d63570f29212790be80ca5faf30e9f489a1c",
+  "covered_files": [
+    "Plan/07_IMPLEMENTATION/scripts/produce_wave64_foley_force_alignment_request.py",
+    "Plan/Instructions/QA/Scripts/test_produce_wave64_foley_force_alignment_request.py",
+    "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_foley_force_alignment.py",
+    "Plan/08_SCHEMAS/wave64_foley_force_alignment_request.schema.json",
+    "Plan/08_SCHEMAS/wave64_foley_force_alignment_report.schema.json",
+    "Plan/10_REGISTRIES/wave64_foley_force_alignment_authority_registry.json",
+    "Plan/Instructions/QA/Scripts/test_wave64_foley_force_alignment_strict.py"
   ],
   "positive_contracts_covered": [
-    "strict visual-contact to Wave22 force-event to Wave30 foley-event binding",
-    "actual PCM WAV decode with RMS, clipping, duration, and timing metrics",
-    "event type, layer, force profile, material pair, and ownership consistency",
-    "frame-rate parity and registry-ceiling drift enforcement",
-    "foley presence and false-event rejection",
-    "explicit body/contact gold-mask authority dependency",
-    "visual PNG and contact JSON artifact recognition",
-    "runtime, A/V review, and immutable production alignment bundle authority",
-    "canonical-root containment and transactional output",
-    "Draft 2020-12 request and report schema validation"
+    "required visual-contact, Wave22 force-event, and Wave30 audio-event JSON binding",
+    "fixed nullable discovery for Wave31, runtime, A/V review, and production bundle artifacts",
+    "canonical threshold defaults and schema-valid atomic request publication",
+    "explicit synthetic default and production-input boundary",
+    "existing visual-contact, force, Foley, PCM, timing, ownership, material, runtime, A/V, gold-mask, and authority gates"
   ],
   "negative_contracts_covered": [
-    "synthetic origin mismatch across request and manifests",
-    "event count, lane, family, layer, ownership, material, and frame-rate mismatches",
-    "unknown material pairs and body-scope relabeling",
-    "caller attempts to loosen registry synchronization ceilings",
-    "missing runtime, A/V review, gold-mask authority, and production bundle proof",
-    "tampered hashes, malformed WAV, malformed media, non-finite values, unknown keys, and root escape",
-    "unmatched, duplicate, missing, and silent-edge event defects",
-    "invalid output preserves an existing output file"
+    "missing or malformed required JSON, Wave30 failures, and canonical-root escapes",
+    "output-under-optional-directory and existing-output collisions",
+    "all four optional artifact filename bindings",
+    "synthetic and locally relabeled packets cannot satisfy production alignment authority"
   ],
-  "registry_assertion": {
-    "path": "Plan/10_REGISTRIES/wave64_foley_force_alignment_authority_registry.json",
-    "sha256_before_and_after_tests": "247a5e5c2a33cb49cccc72fc4002c035cc2910d5b7801faa11a3134830856587",
-    "approved_alignment_bundle_count": 0,
-    "registry_unchanged": true
-  },
   "production_foley_runtime_executed": false,
   "production_av_review_present": false,
   "production_alignment_bundle_approved": false

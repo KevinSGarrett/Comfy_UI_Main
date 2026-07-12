@@ -1,3 +1,11 @@
+## Wave64 Row028 Foley Force Request Producer - 2026-07-12T17:12:00-05:00
+
+`TRK-W64-028` / `ITEM-W64-028` remains `Blocked_Foley_Force_Production_Proof_Missing`. A fail-closed producer now binds visual-contact, Wave22 force-event, and Wave30 audio-event manifests, discovers nullable Wave31/runtime/A-V-review/bundle artifacts, applies canonical thresholds, and atomically publishes the existing evaluator request. Producer and evaluator pass 54/54 tests. The synthetic probe passes event binding, frame/audio alignment, Foley presence, and false-event rejection while runtime, A/V review, production authority, and body/contact gold-mask-dependent certification remain blocked. No generation, proof approval, AWS, EC2, mask promotion, Jira, or Wave71+ action occurred.
+
+Next safe local action in strict sequence: `TRK-W64-029` / `ITEM-W64-029`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/audio_foley_force.json`; `Plan/Instructions/QA/Evidence/Wave64/audio_foley_force_test_log.json`; `Plan/Items/Reports/ITEM-W64-028_audio_foley_force.json`.
+
 ## Wave64 Row027 Voice Dialogue Request Producer - 2026-07-12T16:54:35-05:00
 
 `TRK-W64-027` / `ITEM-W64-027` remains `Blocked_Voice_Dialogue_Production_Proof_Missing`. A fail-closed producer now validates voice-profile and dialogue-contract ownership, binds each declared line to one unique PCM WAV, discovers optional proof files, emits null for missing proofs, and atomically publishes the existing evaluator request contract. Producer and evaluator pass 39/39 tests. A two-line synthetic probe passes profile, timing, and PCM metrics while ASR, speaker, emotion, playback, runtime, authority, and overall gates remain blocked. No voice generation, proof approval, AWS, EC2, mask, Jira, or Wave71+ action occurred.

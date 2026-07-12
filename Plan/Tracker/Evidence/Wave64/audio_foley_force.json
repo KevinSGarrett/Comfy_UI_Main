@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "evidence_id": "W64-AUDIO-FOLEY-FORCE-20260711T185232-0500",
-  "timestamp": "2026-07-11T18:52:32-05:00",
+  "evidence_id": "W64-AUDIO-FOLEY-FORCE-20260712T171200-0500",
+  "timestamp": "2026-07-12T17:12:00-05:00",
   "tracker_id": "TRK-W64-028",
   "item_id": "ITEM-W64-028",
   "source_citation": "Plan/05_AUDIO_SYSTEM/WAVE22_AUDIO_FORCE_EVENT_BINDING_INTERFACE.md",
@@ -23,7 +23,10 @@
     "transactional_output": true,
     "synthetic_runtime_and_authority_blocking": true,
     "immutable_production_alignment_bundle_allowlist": true,
-    "current_allowlist_intentionally_empty": true
+    "current_allowlist_intentionally_empty": true,
+    "alignment_evaluator_request_producer": true,
+    "required_manifest_and_optional_proof_discovery": true,
+    "canonical_threshold_request_defaults": true
   },
   "implementation_artifacts": [
     {
@@ -49,6 +52,14 @@
     {
       "path": "Plan/Instructions/QA/Scripts/test_wave64_foley_force_alignment_strict.py",
       "sha256": "fb7ce4e5d4ccce040af728fccd93ff0011802f49414ba38bd92ac90e02cd0c6d"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/produce_wave64_foley_force_alignment_request.py",
+      "sha256": "5d7c9055584e87781a05cf576d5fc86ee1e359624f9a66f766bd2d986177a5ce"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_produce_wave64_foley_force_alignment_request.py",
+      "sha256": "087a3add17ac0374b69024248a0219d03f5051e328ba2bb04347cfae7d18a53f"
     }
   ],
   "authority_bindings": {
@@ -63,8 +74,9 @@
   },
   "offline_validation": {
     "test_log": "Plan/Instructions/QA/Evidence/Wave64/audio_foley_force_test_log.json",
-    "test_log_sha256": "c3266af84008cbfc4d2777e175097d25eaf71865031b53bc9854afb017b8836d",
-    "tests_run": 48,
+    "test_log_sha256": "aba86001578d3d158d6ab41f5b9137ce406ebf1c9a92118efe0b903b79454e1f",
+    "tests_run": 54,
+    "suite_breakdown": {"foley_request_producer": 6, "existing_foley_force_evaluator": 48},
     "test_failures": 0,
     "test_errors": 0,
     "test_skips": 0,
@@ -75,6 +87,22 @@
     "technical_offline_pass": true
   },
   "retained_probes": {
+    "request_producer_probe": {
+      "fixture_origin": true,
+      "production_evidence": false,
+      "probe_root": "runtime_artifacts/wave64_foley_force_alignment/request_producer_probe_20260712T171200-0500",
+      "request": "runtime_artifacts/wave64_foley_force_alignment/request_producer_probe_20260712T171200-0500/request.json",
+      "request_sha256": "e06b7f72a6cb9ea43d1fc802852b7e7668c2a79fb57d06cd047d23a8e4aaca64",
+      "report": "runtime_artifacts/wave64_foley_force_alignment/request_producer_probe_20260712T171200-0500/report.json",
+      "report_sha256": "8789de2766343500f16e4336c0150bfc27b5f8920cf412e2ff2f13697165e0c6",
+      "expected_evaluator_exit_code": 2,
+      "missing_optional_count": 4,
+      "technical_gate_pass_count": 5,
+      "production_runtime_proof_status": "BLOCKED",
+      "production_alignment_authority_status": "BLOCKED",
+      "overall_status": "BLOCKED",
+      "overall_pass": false
+    },
     "probe_summary": {
       "path": "runtime_artifacts/wave64_foley_force_alignment/20260711T185232-0500/probe_summary.json",
       "sha256": "816b9e43e9763cebb41a50a35eb0d59bee5d4c76d21b2d32c3313d719c24ad83"
@@ -126,6 +154,9 @@
     "production_pass_reachable_from_fixture_only_evidence": false
   },
   "acceptance_gates": {
+    "evaluator_request_producer_ready": true,
+    "required_manifest_binding_ready": true,
+    "optional_proof_discovery_ready": true,
     "event_binding_check_contract_ready": true,
     "frame_to_audio_alignment_contract_ready": true,
     "foley_presence_contract_ready": true,
@@ -167,7 +198,10 @@
       "path": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T184931-0500_wave64_foley_force_alignment_residual_closure_review/handoff_record.json",
       "sha256": "a0b7cfa040bd10d0e026022b47805eab73445a06015df3912059fe5b31c5d3be",
       "remaining_remediable_high_or_medium_findings": 0
-    }
+    },
+    "cursor_request_producer_gap_review": "runtime_artifacts/agent_handoffs/cursor/20260712T170122-0500_row028_foley_request_producer_gap/handoff_record.json",
+    "claude_request_producer_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T170439-0500_row028_foley_request_producer_final_review/handoff_record.json",
+    "claude_request_producer_test_findings_remediated": 3
   },
   "environment_authority": {
     "authoritative_root": "C:\\Comfy_UI_Main",
@@ -208,6 +242,8 @@
   "strict_decision": {
     "row_complete": false,
     "offline_evaluator_and_schema_pass": true,
+    "request_producer_pass": true,
+    "request_producer_probe_pass": true,
     "synthetic_fail_closed_probe_pass": true,
     "adversarial_relabel_fail_closed_probe_pass": true,
     "production_foley_or_av_review_claimed": false,

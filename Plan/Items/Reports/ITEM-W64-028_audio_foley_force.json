@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "report_id": "ITEM-W64-028-AUDIO-FOLEY-FORCE-20260711T185232-0500",
-  "timestamp": "2026-07-11T18:52:32-05:00",
+  "report_id": "ITEM-W64-028-AUDIO-FOLEY-FORCE-20260712T171200-0500",
+  "timestamp": "2026-07-12T17:12:00-05:00",
   "item_id": "ITEM-W64-028",
   "tracker_id": "TRK-W64-028",
   "workstream": "audio_foley_force",
@@ -16,10 +16,13 @@
     "runtime_and_av_review_proof_verifiers_ready": true,
     "canonical_root_and_transactional_output_ready": true,
     "immutable_production_alignment_bundle_allowlist_ready": true,
-    "synthetic_and_local_relabel_promotion_forbidden": true
+    "synthetic_and_local_relabel_promotion_forbidden": true,
+    "evaluator_request_producer_ready": true,
+    "required_manifest_and_optional_proof_binding_ready": true
   },
   "validation": {
-    "unit_tests_passed": 48,
+    "unit_tests_passed": 54,
+    "unit_test_suite_breakdown": {"foley_request_producer": 6, "existing_foley_force_evaluator": 48},
     "unit_test_failures": 0,
     "unit_test_errors": 0,
     "unit_test_skips": 0,
@@ -28,6 +31,8 @@
     "report_schema_check": "pass",
     "synthetic_technical_probe": "expected_exit_2",
     "adversarial_relabel_probe": "expected_exit_2",
+    "request_producer_probe": "five_technical_gates_pass_runtime_review_authority_blocked",
+    "request_producer_missing_optional_count": 4,
     "authority_registry_unchanged_by_tests": true,
     "remaining_remediable_high_or_medium_findings": 0
   },
@@ -37,6 +42,7 @@
     "foley_presence_contract": true,
     "false_event_reject_contract": true,
     "audio_video_event_alignment_review_contract": true,
+    "evaluator_request_producer": true,
     "genuine_production_foley_audio_present": false,
     "genuine_production_runtime_proof_present": false,
     "genuine_production_av_review_present": false,
@@ -61,11 +67,11 @@
   "evidence": [
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/audio_foley_force.json",
-      "sha256": "c4e7cf6147e02355a63ed16d62ceb70ce2c58265ef7e81de35cd114633e1af4d"
+      "sha256": "d40c0760c6cb6cac65cade2bae67085e5b932019055cb3ed9b7998b980b68100"
     },
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/audio_foley_force_test_log.json",
-      "sha256": "c3266af84008cbfc4d2777e175097d25eaf71865031b53bc9854afb017b8836d"
+      "sha256": "aba86001578d3d158d6ab41f5b9137ce406ebf1c9a92118efe0b903b79454e1f"
     },
     {
       "path": "runtime_artifacts/wave64_foley_force_alignment/20260711T185232-0500/probe_summary.json",
