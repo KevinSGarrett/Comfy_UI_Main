@@ -1,0 +1,187 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "row057_placement_registry",
+  "created_iso": "2026-07-12T08:06:37-05:00",
+  "status": "current",
+  "rules": [
+    {
+      "artifact_class": "project_plan_control",
+      "path_prefix": "Plan/",
+      "owner_domain": "project_control",
+      "source_of_truth": true,
+      "generated_allowed": true,
+      "runtime_copy_allowed": false,
+      "catalog_required": true,
+      "commit_policy": "reviewed_commit_allowed"
+    },
+    {
+      "artifact_class": "workflow_library",
+      "path_prefix": "Workflows/",
+      "owner_domain": "workflow_library",
+      "source_of_truth": true,
+      "generated_allowed": false,
+      "runtime_copy_allowed": true,
+      "catalog_required": true,
+      "commit_policy": "reviewed_commit_allowed"
+    },
+    {
+      "artifact_class": "prompt_profiles",
+      "path_prefix": "PromptProfiles/",
+      "owner_domain": "prompt_engine",
+      "source_of_truth": true,
+      "generated_allowed": false,
+      "runtime_copy_allowed": true,
+      "catalog_required": true,
+      "commit_policy": "reviewed_commit_allowed"
+    },
+    {
+      "artifact_class": "configuration",
+      "path_prefix": "config/",
+      "owner_domain": "configuration",
+      "source_of_truth": true,
+      "generated_allowed": false,
+      "runtime_copy_allowed": true,
+      "catalog_required": true,
+      "commit_policy": "secret_scan_required"
+    },
+    {
+      "artifact_class": "configuration_set",
+      "path_prefix": "configs/",
+      "owner_domain": "configuration",
+      "source_of_truth": true,
+      "generated_allowed": false,
+      "runtime_copy_allowed": true,
+      "catalog_required": true,
+      "commit_policy": "secret_scan_required"
+    },
+    {
+      "artifact_class": "automation_source",
+      "path_prefix": ".github/",
+      "owner_domain": "source_control",
+      "source_of_truth": true,
+      "generated_allowed": false,
+      "runtime_copy_allowed": false,
+      "catalog_required": false,
+      "commit_policy": "reviewed_commit_allowed"
+    },
+    {
+      "artifact_class": "local_tools",
+      "path_prefix": "tools/",
+      "owner_domain": "developer_tooling",
+      "source_of_truth": true,
+      "generated_allowed": false,
+      "runtime_copy_allowed": false,
+      "catalog_required": true,
+      "commit_policy": "reviewed_commit_allowed"
+    },
+    {
+      "artifact_class": "model_layout_stubs",
+      "path_prefix": "models/",
+      "owner_domain": "heavy_assets",
+      "source_of_truth": false,
+      "generated_allowed": false,
+      "runtime_copy_allowed": true,
+      "catalog_required": true,
+      "commit_policy": "metadata_and_gitkeep_only"
+    },
+    {
+      "artifact_class": "runtime_artifacts",
+      "path_prefix": "runtime_artifacts/",
+      "owner_domain": "runtime_execution",
+      "source_of_truth": false,
+      "generated_allowed": true,
+      "runtime_copy_allowed": true,
+      "catalog_required": false,
+      "commit_policy": "local_only_except_readme_gitkeep",
+      "excluded_local_only": true
+    },
+    {
+      "artifact_class": "reference_assets",
+      "path_prefix": "Ref_Image",
+      "owner_domain": "reference_assets",
+      "source_of_truth": false,
+      "generated_allowed": false,
+      "runtime_copy_allowed": true,
+      "catalog_required": true,
+      "commit_policy": "local_only",
+      "excluded_local_only": true
+    },
+    {
+      "artifact_class": "reference_assets",
+      "path_prefix": "Reference_Images/",
+      "owner_domain": "reference_assets",
+      "source_of_truth": false,
+      "generated_allowed": false,
+      "runtime_copy_allowed": true,
+      "catalog_required": true,
+      "commit_policy": "local_only",
+      "excluded_local_only": true
+    },
+    {
+      "artifact_class": "mask_assets",
+      "path_prefix": "masks/",
+      "owner_domain": "mask_factory",
+      "source_of_truth": false,
+      "generated_allowed": true,
+      "runtime_copy_allowed": true,
+      "catalog_required": true,
+      "commit_policy": "local_only_unless_explicit_promoted_manifest",
+      "excluded_local_only": true
+    },
+    {
+      "artifact_class": "jira_control_plane",
+      "path_prefix": "Jira/",
+      "owner_domain": "jira_control_plane",
+      "source_of_truth": false,
+      "generated_allowed": true,
+      "runtime_copy_allowed": false,
+      "catalog_required": false,
+      "commit_policy": "local_only",
+      "excluded_local_only": true
+    },
+    {
+      "artifact_class": "local_cache",
+      "path_prefix": "cache/",
+      "owner_domain": "local_cache",
+      "source_of_truth": false,
+      "generated_allowed": true,
+      "runtime_copy_allowed": false,
+      "catalog_required": false,
+      "commit_policy": "local_only",
+      "excluded_local_only": true
+    }
+  ],
+  "root_allowed_files": [
+    ".env.example",
+    ".gitattributes",
+    ".gitignore",
+    "CLAUDE.md",
+    "PROJECT_ROOT_MANIFEST.json",
+    "README.md"
+  ],
+  "unknown_path_policy": "fail_closed_block",
+  "index_refresh": {
+    "mode": "event_driven_bounded",
+    "triggers": [
+      "new_wave",
+      "new_workflow",
+      "model_lora_change",
+      "app_mode_control_change",
+      "qa_evidence_generated",
+      "release_candidate",
+      "migration_move"
+    ],
+    "fixed_order": [
+      "scan_filesystem",
+      "file_catalog",
+      "workflow_catalog",
+      "asset_catalog",
+      "qa_evidence_catalog",
+      "search_index",
+      "stale_reference_detection",
+      "refresh_report",
+      "release_block_gate"
+    ],
+    "broad_refresh_loop_allowed": false
+  }
+}
