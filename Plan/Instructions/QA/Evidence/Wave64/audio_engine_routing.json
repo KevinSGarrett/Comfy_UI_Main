@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "evidence_id": "W64-AUDIO-ENGINE-ROUTING-20260711T170500-0500",
-  "timestamp": "2026-07-11T17:05:00-05:00",
+  "evidence_id": "W64-AUDIO-ENGINE-ROUTING-20260712T163916-0500",
+  "timestamp": "2026-07-12T16:39:16-05:00",
   "tracker_id": "TRK-W64-026",
   "item_id": "ITEM-W64-026",
   "source_citation": "Plan/05_AUDIO_SYSTEM/WAVE06_AUDIO_ENGINE_ROUTING_STRATEGY.md",
@@ -19,7 +19,11 @@
     "current_authority_promotion_status_gate": true,
     "manifest_only_failover": true,
     "synthetic_engine_selection_forbidden": true,
-    "transactional_output": true
+    "transactional_output": true,
+    "wave30_event_manifest_route_bridge": true,
+    "per_event_request_and_decision_orchestration": true,
+    "aggregate_fail_closed_route_plan": true,
+    "production_usage_scope_promotion_boundary": true
   },
   "implementation_artifacts": [
     {
@@ -37,6 +41,22 @@
     {
       "path": "Plan/Instructions/QA/Scripts/test_wave06_audio_engine_router_strict.py",
       "sha256": "e30274c6834cc31a2a75ea328b6f376d4a3ff8fd75899f1c746562edcc4b3644"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/plan_wave06_audio_routes_from_event_manifest.py",
+      "sha256": "e3c83c93e565de97298199bbfa4590bbfd0c72220eb7ff2c92c79e9bc8ed5f36"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave06_audio_event_route_plan.schema.json",
+      "sha256": "eb84f52718f09735c51e865796ec0de6daa19d0898bbbd1540a1bbd819779b92"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave06_audio_event_route_bridge_policy.json",
+      "sha256": "6f5ab712626415bd379374620c3ef20d3ebd138da02128bd7345e110aed870f9"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_plan_wave06_audio_routes_from_event_manifest.py",
+      "sha256": "3222c751d116ef66f92be95d175eb3edee976f600c4860e257d71fb8c1c3b15d"
     }
   ],
   "authority_bindings": {
@@ -59,8 +79,12 @@
   },
   "offline_validation": {
     "test_log": "Plan/Instructions/QA/Evidence/Wave64/audio_engine_routing_test_log.json",
-    "test_log_sha256": "11bbedacbbf9e1c269ac3b1be4b7cf8833f11c285ceba9c3f14ef276269ec9a3",
-    "tests_run": 14,
+    "test_log_sha256": "d0fa08d1dde8cdf9e2bd006d425b607f6ee6e4649406b673a37579ba953f2ac9",
+    "tests_run": 20,
+    "suite_breakdown": {
+      "event_manifest_route_bridge": 6,
+      "existing_audio_engine_router": 14
+    },
     "test_failures": 0,
     "test_errors": 0,
     "test_skips": 0,
@@ -94,6 +118,29 @@
       "qa": "synthetic_blocked"
     }
   },
+  "synthetic_event_manifest_bridge_probe": {
+    "production_evidence": false,
+    "probe_root": "runtime_artifacts/wave64_audio_engine_routing/event_bridge_probe_20260712T163916-0500",
+    "source_event_manifest": "runtime_artifacts/wave64_audio_pipeline/synthetic_probe_20260711T163155-0500/event_manifest.json",
+    "source_event_manifest_sha256": "1665be380b3b3d75d9908ffe0a1dbd7b85e942a516e1ca84d293b5815abc26c7",
+    "route_plan": "runtime_artifacts/wave64_audio_engine_routing/event_bridge_probe_20260712T163916-0500/route_plan.json",
+    "route_plan_sha256": "3344afca0513153b1106f23f2d2b595f6c704febe5c7826c62478025e6180e43",
+    "expected_exit_code": 2,
+    "event_count": 3,
+    "request_count": 3,
+    "selected_count": 0,
+    "blocked_count": 3,
+    "mapped_routes": {
+      "ambience": "ambience_room_tone",
+      "body_foley": "foley_contact_fabric",
+      "dialogue": "dialogue_voice"
+    },
+    "all_request_and_decision_hash_bindings_verified": true,
+    "all_events_routed": false,
+    "block_final_av_promotion": true,
+    "production_selection_claimed": false,
+    "status": "blocked"
+  },
   "current_authority": {
     "audio_routable_engine_count": 1,
     "audio_routable_engine_ids": [
@@ -106,6 +153,9 @@
     "separate_audio_engine_registered": false
   },
   "acceptance_gates": {
+    "wave30_event_manifest_bridge": true,
+    "per_event_route_request_generation": true,
+    "aggregate_route_plan_validation": true,
     "audio_engine_compatibility_prefilter": true,
     "sample_rate_duration_channel_and_output_checks": true,
     "license_artifact_contract": true,
@@ -124,6 +174,11 @@
     "claude_medium_findings_remediated": 2,
     "cursor_correction": "runtime_artifacts/agent_handoffs/cursor/20260711T165359-0500_wave64_audio_engine_router_correction/handoff_record.json",
     "claude_confirmation": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T165755-0500_wave64_audio_engine_router_review_confirmation/handoff_record.json",
+    "cursor_bridge_gap_review_attempt": "runtime_artifacts/agent_handoffs/cursor/20260712T162546-0500_row026_event_manifest_router_bridge_gap/handoff_record.json",
+    "cursor_bridge_gap_review_attempt_status": "incomplete_output_contract_not_counted",
+    "cursor_bridge_gap_review": "runtime_artifacts/agent_handoffs/cursor/20260712T162841-0500_row026_manifest_bridge_gap_retry/handoff_record.json",
+    "claude_bridge_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T163359-0500_row026_audio_route_bridge_final_review/handoff_record.json",
+    "claude_bridge_medium_findings_remediated": 1,
     "local_schema_output_mismatch_remediated": 1,
     "remaining_remediable_high_or_medium_findings": 0
   },
@@ -156,7 +211,9 @@
   "strict_decision": {
     "row_complete": false,
     "offline_router_and_schema_pass": true,
+    "event_manifest_route_bridge_pass": true,
     "synthetic_fail_closed_probe_pass": true,
+    "synthetic_event_manifest_bridge_probe_pass": true,
     "production_engine_selected": false,
     "license_or_runtime_claimed": false,
     "final_av_promotion_claimed": false,

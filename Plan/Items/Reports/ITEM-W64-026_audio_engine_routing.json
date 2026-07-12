@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "report_id": "ITEM-W64-026-AUDIO-ENGINE-ROUTING-20260711T170500-0500",
-  "timestamp": "2026-07-11T17:05:00-05:00",
+  "report_id": "ITEM-W64-026-AUDIO-ENGINE-ROUTING-20260712T163916-0500",
+  "timestamp": "2026-07-12T16:39:16-05:00",
   "item_id": "ITEM-W64-026",
   "tracker_id": "TRK-W64-026",
   "workstream": "audio_engine_routing",
@@ -16,10 +16,17 @@
     "physical_action_audio_event_gate_ready": true,
     "manifest_only_fallback_ready": true,
     "synthetic_selection_forbidden": true,
+    "wave30_event_manifest_route_bridge_ready": true,
+    "per_event_request_and_decision_orchestration_ready": true,
+    "aggregate_fail_closed_route_plan_ready": true,
     "transactional_output_ready": true
   },
   "validation": {
-    "unit_tests_passed": 14,
+    "unit_tests_passed": 20,
+    "unit_test_suite_breakdown": {
+      "event_manifest_route_bridge": 6,
+      "existing_audio_engine_router": 14
+    },
     "unit_test_failures": 0,
     "unit_test_skips": 0,
     "python_compile": "pass",
@@ -28,8 +35,13 @@
     "evaluated_candidates": ["ltx2_audio_video"],
     "selected_engine_id": null,
     "block_final_av_promotion": true,
+    "synthetic_bridge_event_count": 3,
+    "synthetic_bridge_request_count": 3,
+    "synthetic_bridge_selected_count": 0,
+    "synthetic_bridge_blocked_count": 3,
     "claude_high_findings_remediated": 3,
     "claude_medium_findings_remediated": 2,
+    "claude_bridge_medium_findings_remediated": 1,
     "remaining_remediable_high_or_medium_findings": 0
   },
   "acceptance_gates": {
@@ -37,6 +49,8 @@
     "sample_rate_duration_channel_output_checks": true,
     "license_metadata_and_artifact_contract": true,
     "asset_runtime_qa_contract": true,
+    "wave30_event_manifest_bridge": true,
+    "aggregate_route_plan": true,
     "current_engine_authority_approved": false,
     "genuine_proof_set_present": false,
     "production_route_selected": false,
@@ -55,11 +69,11 @@
   "evidence": [
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/audio_engine_routing.json",
-      "sha256": "4a1b04ec0075321f3602bdb773c1f9d87d7b9c5bc5866a7a263d656f3a907093"
+      "sha256": "df935068ccbff8bf6aaf6f3179da742b2d6bd111de53c68970cac7df51f9f441"
     },
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/audio_engine_routing_test_log.json",
-      "sha256": "11bbedacbbf9e1c269ac3b1be4b7cf8833f11c285ceba9c3f14ef276269ec9a3"
+      "sha256": "d0fa08d1dde8cdf9e2bd006d425b607f6ee6e4649406b673a37579ba953f2ac9"
     }
   ],
   "runtime": {

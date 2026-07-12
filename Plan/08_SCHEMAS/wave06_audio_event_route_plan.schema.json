@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave06_audio_event_route_plan.schema.json",
+  "title": "Wave06 Audio Event Route Plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_name", "plan_version", "run_id", "scene_id", "shot_id", "is_synthetic",
+    "source_event_manifest", "bridge_policy", "usage_scope", "event_count", "request_count",
+    "selected_count", "blocked_count", "events", "all_events_routed", "block_final_av_promotion",
+    "production_selection_claimed", "status"
+  ],
+  "properties": {
+    "schema_name": {"const": "wave06_audio_event_route_plan"},
+    "plan_version": {"const": 1},
+    "run_id": {"type": "string", "minLength": 1},
+    "scene_id": {"type": "string", "minLength": 1},
+    "shot_id": {"type": "string", "minLength": 1},
+    "is_synthetic": {"type": "boolean"},
+    "source_event_manifest": {"$ref": "#/$defs/binding"},
+    "bridge_policy": {"$ref": "#/$defs/binding"},
+    "usage_scope": {"enum": ["internal_eval", "client_preview", "production"]},
+    "event_count": {"type": "integer", "minimum": 1},
+    "request_count": {"type": "integer", "minimum": 0},
+    "selected_count": {"type": "integer", "minimum": 0},
+    "blocked_count": {"type": "integer", "minimum": 0},
+    "events": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/eventResult"}},
+    "all_events_routed": {"type": "boolean"},
+    "block_final_av_promotion": {"type": "boolean"},
+    "production_selection_claimed": {"type": "boolean"},
+    "status": {"enum": ["all_events_routed", "blocked"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "blocked"}}, "required": ["status"]},
+      "then": {"properties": {"all_events_routed": {"const": false}, "block_final_av_promotion": {"const": true}, "production_selection_claimed": {"const": false}}}
+    },
+    {
+      "if": {"properties": {"is_synthetic": {"const": true}}, "required": ["is_synthetic"]},
+      "then": {"properties": {"block_final_av_promotion": {"const": true}, "production_selection_claimed": {"const": false}}}
+    }
+  ],
+  "$defs": {
+    "binding": {
+      "type": "object", "additionalProperties": false, "required": ["path", "sha256"],
+      "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+    },
+    "eventResult": {
+      "type": "object", "additionalProperties": false,
+      "required": ["audio_event_id", "event_type", "route_type", "request", "decision", "router_exit_code", "selected_engine_id", "route_mode", "blockers"],
+      "properties": {
+        "audio_event_id": {"type": "string", "minLength": 1},
+        "event_type": {"type": "string", "minLength": 1},
+        "route_type": {"type": ["string", "null"]},
+        "request": {"anyOf": [{"$ref": "#/$defs/binding"}, {"type": "null"}]},
+        "decision": {"anyOf": [{"$ref": "#/$defs/binding"}, {"type": "null"}]},
+        "router_exit_code": {"type": ["integer", "null"]},
+        "selected_engine_id": {"type": ["string", "null"]},
+        "route_mode": {"type": ["string", "null"]},
+        "blockers": {"type": "array", "minItems": 0, "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+      }
+    }
+  }
+}

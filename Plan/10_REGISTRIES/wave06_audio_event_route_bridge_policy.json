@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "policy_name": "wave30_event_to_wave06_audio_route_v1",
+  "event_type_to_route_type": {
+    "dialogue": "dialogue_voice",
+    "voice_reaction": "dialogue_voice",
+    "breath": "breath_body_effort",
+    "body_foley": "foley_contact_fabric",
+    "clothing_foley": "foley_contact_fabric",
+    "prop_foley": "foley_contact_fabric",
+    "furniture_foley": "foley_contact_fabric",
+    "ambience": "ambience_room_tone",
+    "room_tone": "ambience_room_tone",
+    "music": "music",
+    "impact": "foley_contact_fabric",
+    "action_sfx": "foley_contact_fabric",
+    "transition_sfx": "foley_contact_fabric"
+  },
+  "physical_action_event_types": [
+    "body_foley",
+    "clothing_foley",
+    "prop_foley",
+    "furniture_foley",
+    "impact",
+    "action_sfx",
+    "transition_sfx"
+  ],
+  "channel_layout_by_channels": {
+    "1": "mono",
+    "2": "stereo",
+    "6": "5.1"
+  },
+  "audio_target": {
+    "output_type": "audio",
+    "target_output": "wav",
+    "target_container": "wav"
+  },
+  "synchronized_av_target": {
+    "output_type": "av",
+    "route_type": "synchronized_av",
+    "target_output": "aac",
+    "target_container": "mp4"
+  },
+  "synchronized_av_override_field": "synchronized_av_required",
+  "preferred_engine_field": "preferred_audio_engine_id",
+  "proof_kinds": ["capability", "license", "asset", "runtime", "qa"]
+}
