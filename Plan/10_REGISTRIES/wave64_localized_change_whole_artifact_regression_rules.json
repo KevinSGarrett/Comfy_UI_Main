@@ -1,0 +1,77 @@
+{
+  "schema_name": "wave64_localized_change_whole_artifact_regression_rules",
+  "registry_version": 3,
+  "required_recomputed_gates": [
+    "before_after_delta",
+    "target_region_pass",
+    "global_region_pass",
+    "unrelated_defect_scan",
+    "audio_visual_regression_scan",
+    "reject_on_new_defect"
+  ],
+  "required_failure_classifications": [
+    "environment_infrastructure",
+    "workflow_logic",
+    "artifact_quality",
+    "observability_evidence",
+    "unknown_needs_diagnosis"
+  ],
+  "finding_enums": {
+    "classification": [
+      "artifact",
+      "regression",
+      "timing",
+      "lineage"
+    ],
+    "severity": [
+      "low",
+      "medium",
+      "high",
+      "critical"
+    ],
+    "disposition": [
+      "pass",
+      "new_defect",
+      "regression",
+      "unresolved",
+      "persisting",
+      "resolved"
+    ]
+  },
+  "required_row033_approval_decision": "approved",
+  "required_row032_overall_status": "PASS",
+  "required_wave33_promotion_decision": "pass_preview",
+  "required_wave33_score_floor": 0.9,
+  "change_kind_audio_expectation_matrix": {
+    "localized_edit": false,
+    "mask_change": false,
+    "prompt_model_change": false,
+    "rerun": false,
+    "audio_repair": true,
+    "frame_repair": false,
+    "mixed": true
+  },
+  "no_audio_identity_required_change_kinds": [
+    "localized_edit",
+    "mask_change",
+    "prompt_model_change",
+    "rerun",
+    "frame_repair"
+  ],
+  "authority_rules": {
+    "production_authority_exact_objects": [],
+    "fixture_authority_exact_objects": [],
+    "require_non_synthetic_for_production": true
+  },
+  "contracts": {
+    "row033_report_schema_name": "wave64_multimodal_scorecard_report",
+    "row032_report_schema_name": "wave64_global_audio_review_report",
+    "wave33_preview_contract_schema_name": "wave33_preview_qa_report",
+    "whole_artifact_delta_schema_name": "wave64_localized_change_whole_artifact_delta",
+    "whole_artifact_review_schema_name": "wave64_localized_change_whole_artifact_review",
+    "runtime_proof_schema_name": "wave64_runtime_proof_record",
+    "failure_record_schema_name": "wave64_failure_record",
+    "retest_record_schema_name": "wave64_retest_record",
+    "artifact_manifest_schema_name": "wave64_artifact_manifest"
+  }
+}

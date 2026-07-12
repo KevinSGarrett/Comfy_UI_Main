@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "report_id": "ITEM-W64-034-LOCALIZED-CHANGE-WHOLE-ARTIFACT-REGRESSION-20260712T025616-0500",
+  "timestamp": "2026-07-12T02:56:16-05:00",
+  "item_id": "ITEM-W64-034",
+  "tracker_id": "TRK-W64-034",
+  "workstream": "localized_change_whole_artifact_regression",
+  "status": "Blocked_Localized_Change_Production_Review_Proof_Missing",
+  "row_complete": false,
+  "implementation": {
+    "strict_whole_artifact_regression_evaluator_ready": true,
+    "canonical_visual_audio_partition_contract_ready": true,
+    "target_and_non_target_finding_recomputation_ready": true,
+    "exact_media_manifest_upstream_and_runtime_lineage_ready": true,
+    "failure_retest_and_retry_escalation_protocol_ready": true,
+    "independent_reviewer_and_exact_authority_contract_ready": true,
+    "caller_decisions_and_similarity_claims_recomputed": true,
+    "candidate_mask_truth_and_mask_promotion_forbidden": true
+  },
+  "validation": {
+    "unit_tests_passed": 58,
+    "unit_test_failures": 0,
+    "unit_test_errors": 0,
+    "unit_test_skips": 0,
+    "unittest_elapsed_seconds": 104.714,
+    "wall_elapsed_seconds": 105.339,
+    "python_compile": "pass",
+    "request_schema_check": "pass",
+    "report_schema_check": "pass",
+    "canonical_empty_authority_probe": "blocked_exit_2_with_explicit_blocker",
+    "fixture_only_authority_contract": "conditionally_approved_not_production_evidence",
+    "exact_production_authority_fixture_contract": "approved_reachability_only_not_production_evidence",
+    "authority_registry_unchanged_by_tests": true,
+    "remaining_high_findings": 0,
+    "remaining_medium_findings": 0
+  },
+  "acceptance_gates": {
+    "before_after_delta_contract": true,
+    "target_region_contract": true,
+    "global_region_contract": true,
+    "unrelated_defect_scan_contract": true,
+    "audio_visual_regression_contract": true,
+    "reject_on_new_defect_contract": true,
+    "genuine_production_before_after_artifacts_present": false,
+    "genuine_production_whole_artifact_review_present": false,
+    "genuine_production_runtime_and_retest_proof_present": false,
+    "exact_production_authority_present": false,
+    "promotion_allowed": false
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Localized_Change_Production_Review_Proof_Missing",
+      "reason": "No genuine production localized before/after artifact has complete target and non-target visual/audio review, runtime/retest proof, and an independent final decision."
+    },
+    {
+      "classification": "Blocked_Localized_Change_Production_Authority_Missing",
+      "reason": "The canonical registry has zero approved production authority objects and zero fixture authority objects."
+    }
+  ],
+  "evidence": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/localized_change_whole_artifact_regression.json",
+      "sha256": "8e63be28abb4d1f23a5f4c276a44806e905e53c5b13e0aa15aae28bdc5670081"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/localized_change_whole_artifact_regression_test_log.json",
+      "sha256": "2fd537bd841bc7464c1acbc4e823af21ef1fe72f30adcb9ee295dbd341affdcc"
+    },
+    {
+      "path": "runtime_artifacts/wave64_localized_change_whole_artifact_regression/20260712T025145-0500/windows_strict_tests.txt",
+      "sha256": "c46710f288a8d9bcdb8b5d0d4f5e721fdfbdf2954548d93db2fc3e5871e97000"
+    },
+    {
+      "path": "runtime_artifacts/wave64_localized_change_whole_artifact_regression/20260712T025145-0500/canonical_empty_authority_probe/probe_summary.json",
+      "sha256": "4e147944f3781571f0658a14a71f7b6aa21466cb1d31261d11479c4ba234adde"
+    },
+    {
+      "path": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T025433-0500_wave64_row034_current_hash_closure/handoff_record.json",
+      "sha256": "71e05782b6f7ec220e0a7d8ca47191970fb4a18f68ed381ec58cb0eed480400a"
+    }
+  ],
+  "runtime": {
+    "production_localized_change_generation_count": 0,
+    "production_whole_artifact_review_count": 0,
+    "approved_production_bundle_count": 0,
+    "comfyui_started": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "mask_promotion_executed": false,
+    "wave70_hard_gate_executed": false,
+    "wave71_activated": false
+  },
+  "next_action": "Proceed with TRK-W64-035 / ITEM-W64-035 by duplicate-checking the strict autonomous QA master protocol from Plan/Instructions/QA/STRICT_AUTONOMOUS_QA_MASTER_PROTOCOL.md while preserving Row034 as blocked until genuine exact production whole-artifact review proof and authority exist."
+}

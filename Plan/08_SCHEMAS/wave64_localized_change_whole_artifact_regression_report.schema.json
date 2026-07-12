@@ -1,0 +1,460 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64_localized_change_whole_artifact_regression_report.schema.json",
+  "title": "Wave64 Localized Change Whole Artifact Regression Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schema_name",
+    "report_version",
+    "tracker_id",
+    "item_id",
+    "regression_id",
+    "change_id",
+    "lineage",
+    "artifact_bindings",
+    "validation",
+    "recomputed_gate_results",
+    "decision",
+    "production_eligibility",
+    "protocol",
+    "defects_summary",
+    "blockers",
+    "final_decision"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "schema_name": {
+      "const": "wave64_localized_change_whole_artifact_regression_report"
+    },
+    "report_version": {
+      "const": 3
+    },
+    "tracker_id": {
+      "const": "TRK-W64-034"
+    },
+    "item_id": {
+      "const": "ITEM-W64-034"
+    },
+    "regression_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "change_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scene_id",
+        "shot_id",
+        "take_id",
+        "baseline_artifact_id",
+        "candidate_artifact_id",
+        "baseline_run_id",
+        "candidate_run_id",
+        "review_run_id",
+        "producer_id",
+        "reviewer_id",
+        "reviewer_role"
+      ],
+      "properties": {
+        "scene_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "shot_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "take_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "baseline_artifact_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "candidate_artifact_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "baseline_run_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "candidate_run_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "review_run_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "producer_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reviewer_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reviewer_role": {
+          "const": "Codex Desktop autonomous QA"
+        }
+      }
+    },
+    "artifact_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baseline_row033_report_binding",
+        "candidate_row033_report_binding",
+        "row032_global_audio_report_binding",
+        "wave33_preview_qa_binding",
+        "baseline_artifact_manifest_binding",
+        "candidate_artifact_manifest_binding",
+        "failure_record_binding",
+        "retest_record_binding",
+        "whole_artifact_delta_binding",
+        "whole_artifact_review_binding",
+        "runtime_proof_binding",
+        "baseline_primary_media_binding",
+        "candidate_primary_media_binding",
+        "change_manifest_binding"
+      ],
+      "properties": {
+        "baseline_row033_report_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "candidate_row033_report_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "row032_global_audio_report_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "wave33_preview_qa_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "baseline_artifact_manifest_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "candidate_artifact_manifest_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "failure_record_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "retest_record_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "whole_artifact_delta_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "whole_artifact_review_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "runtime_proof_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "baseline_primary_media_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "candidate_primary_media_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "change_manifest_binding": {
+          "$ref": "#/$defs/binding"
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "request_schema_valid",
+        "upstream_contracts_valid",
+        "material_change_recomputed",
+        "change_summary_hash",
+        "change_kind",
+        "audio_change_expected",
+        "canonical_partition_digest",
+        "attempt_history_digest",
+        "authority_match_kind",
+        "authority_exact_match",
+        "production_authority_exact_match",
+        "fixture_authority_exact_match",
+        "mask_authority_promoted",
+        "candidate_masks_used_as_truth",
+        "wave70_hard_gate_claimed",
+        "wave71_activated"
+      ],
+      "properties": {
+        "request_schema_valid": {
+          "type": "boolean"
+        },
+        "upstream_contracts_valid": {
+          "type": "boolean"
+        },
+        "material_change_recomputed": {
+          "type": "boolean"
+        },
+        "change_summary_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "change_kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "audio_change_expected": {
+          "type": "boolean"
+        },
+        "canonical_partition_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "attempt_history_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "authority_match_kind": {
+          "type": "string",
+          "enum": [
+            "none",
+            "fixture",
+            "production"
+          ]
+        },
+        "authority_exact_match": {
+          "type": "boolean"
+        },
+        "production_authority_exact_match": {
+          "type": "boolean"
+        },
+        "fixture_authority_exact_match": {
+          "type": "boolean"
+        },
+        "mask_authority_promoted": {
+          "type": "boolean"
+        },
+        "candidate_masks_used_as_truth": {
+          "type": "boolean"
+        },
+        "wave70_hard_gate_claimed": {
+          "type": "boolean"
+        },
+        "wave71_activated": {
+          "type": "boolean"
+        }
+      }
+    },
+    "recomputed_gate_results": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "before_after_delta",
+        "target_region_pass",
+        "global_region_pass",
+        "unrelated_defect_scan",
+        "audio_visual_regression_scan",
+        "reject_on_new_defect"
+      ],
+      "properties": {
+        "before_after_delta": {
+          "type": "boolean"
+        },
+        "target_region_pass": {
+          "type": "boolean"
+        },
+        "global_region_pass": {
+          "type": "boolean"
+        },
+        "unrelated_defect_scan": {
+          "type": "boolean"
+        },
+        "audio_visual_regression_scan": {
+          "type": "boolean"
+        },
+        "reject_on_new_defect": {
+          "type": "boolean"
+        }
+      }
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "approved",
+        "conditionally_approved",
+        "rejected",
+        "blocked"
+      ]
+    },
+    "production_eligibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "eligible_for_production",
+        "fixture_only_result",
+        "authority_id",
+        "bundle_id"
+      ],
+      "properties": {
+        "eligible_for_production": {
+          "type": "boolean"
+        },
+        "fixture_only_result": {
+          "type": "boolean"
+        },
+        "authority_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bundle_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attempt_number",
+        "similar_failure_count",
+        "attempt_policy_ok"
+      ],
+      "properties": {
+        "attempt_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "similar_failure_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "attempt_policy_ok": {
+          "type": "boolean"
+        }
+      }
+    },
+    "defects_summary": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "final_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "exit_code"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "approved",
+            "conditionally_approved",
+            "rejected",
+            "blocked"
+          ]
+        },
+        "exit_code": {
+          "type": "integer",
+          "enum": [
+            0,
+            2
+          ]
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "enum": [
+              "approved",
+              "conditionally_approved"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "final_decision": {
+            "properties": {
+              "exit_code": {
+                "const": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "enum": [
+              "rejected",
+              "blocked"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "final_decision": {
+            "properties": {
+              "exit_code": {
+                "const": 2
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "bytes"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  }
+}

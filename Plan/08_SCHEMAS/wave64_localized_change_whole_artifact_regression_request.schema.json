@@ -1,0 +1,526 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64_localized_change_whole_artifact_regression_request.schema.json",
+  "title": "Wave64 Localized Change Whole Artifact Regression Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_name",
+    "request_version",
+    "tracker_id",
+    "item_id",
+    "regression_id",
+    "change_id",
+    "scene_id",
+    "shot_id",
+    "take_id",
+    "baseline_artifact_id",
+    "candidate_artifact_id",
+    "baseline_run_id",
+    "candidate_run_id",
+    "review_run_id",
+    "change_kind",
+    "audio_change_expected",
+    "production_authority_claim",
+    "canonical_partitions",
+    "target_partition_ids",
+    "non_target_partition_ids",
+    "attempt_history",
+    "bindings",
+    "output_report_path"
+  ],
+  "properties": {
+    "schema_name": {
+      "const": "wave64_localized_change_whole_artifact_regression_request"
+    },
+    "request_version": {
+      "const": 3
+    },
+    "tracker_id": {
+      "const": "TRK-W64-034"
+    },
+    "item_id": {
+      "const": "ITEM-W64-034"
+    },
+    "regression_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "change_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scene_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "shot_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "take_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "baseline_artifact_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "candidate_artifact_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "baseline_run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "candidate_run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "review_run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "change_kind": {
+      "type": "string",
+      "enum": [
+        "localized_edit",
+        "mask_change",
+        "prompt_model_change",
+        "rerun",
+        "audio_repair",
+        "frame_repair",
+        "mixed"
+      ]
+    },
+    "audio_change_expected": {
+      "type": "boolean"
+    },
+    "production_authority_claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority_id",
+        "bundle_id"
+      ],
+      "properties": {
+        "authority_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bundle_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "canonical_partitions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "visual_domain",
+        "audio_domain",
+        "visual_partitions",
+        "audio_partitions"
+      ],
+      "properties": {
+        "visual_domain": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "total_frames",
+            "width",
+            "height",
+            "timeline_start_frame",
+            "timeline_end_frame"
+          ],
+          "properties": {
+            "total_frames": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "width": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "height": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "timeline_start_frame": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "timeline_end_frame": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "audio_domain": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "total_samples",
+            "sample_rate_hz",
+            "channel_count",
+            "duration_seconds"
+          ],
+          "properties": {
+            "total_samples": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "sample_rate_hz": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "channel_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "duration_seconds": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        },
+        "visual_partitions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/visual_partition"
+          }
+        },
+        "audio_partitions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/audio_partition"
+          }
+        }
+      }
+    },
+    "target_partition_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "non_target_partition_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "attempt_history": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attempts",
+        "attempt_history_digest",
+        "deeper_diagnosis",
+        "new_direction_hash"
+      ],
+      "properties": {
+        "attempts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/attempt_entry"
+          }
+        },
+        "attempt_history_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "deeper_diagnosis": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "diagnosis_hash",
+            "binding"
+          ],
+          "properties": {
+            "diagnosis_hash": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "binding": {
+              "$ref": "#/$defs/binding"
+            }
+          }
+        },
+        "new_direction_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baseline_row033_report_binding",
+        "candidate_row033_report_binding",
+        "row032_global_audio_report_binding",
+        "wave33_preview_qa_binding",
+        "baseline_artifact_manifest_binding",
+        "candidate_artifact_manifest_binding",
+        "failure_record_binding",
+        "retest_record_binding",
+        "whole_artifact_delta_binding",
+        "whole_artifact_review_binding",
+        "runtime_proof_binding",
+        "baseline_primary_media_binding",
+        "candidate_primary_media_binding",
+        "change_manifest_binding"
+      ],
+      "properties": {
+        "baseline_row033_report_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "candidate_row033_report_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "row032_global_audio_report_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "wave33_preview_qa_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "baseline_artifact_manifest_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "candidate_artifact_manifest_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "failure_record_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "retest_record_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "whole_artifact_delta_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "whole_artifact_review_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "runtime_proof_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "baseline_primary_media_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "candidate_primary_media_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "change_manifest_binding": {
+          "$ref": "#/$defs/binding"
+        }
+      }
+    },
+    "output_report_path": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "$defs": {
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "bytes"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "visual_partition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "partition_id",
+        "start_frame",
+        "end_frame",
+        "x",
+        "y",
+        "width",
+        "height"
+      ],
+      "properties": {
+        "partition_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "start_frame": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "end_frame": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "x": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "y": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "audio_partition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "partition_id",
+        "start_sample",
+        "end_sample",
+        "start_seconds",
+        "end_seconds",
+        "channel_start",
+        "channel_end",
+        "sample_rate_hz",
+        "channel_count"
+      ],
+      "properties": {
+        "partition_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "start_sample": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "end_sample": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "start_seconds": {
+          "type": "number",
+          "minimum": 0
+        },
+        "end_seconds": {
+          "type": "number",
+          "minimum": 0
+        },
+        "channel_start": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "channel_end": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sample_rate_hz": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "channel_count": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "attempt_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attempt_number",
+        "failure_classification",
+        "severity",
+        "diagnosis_id",
+        "diagnosis_hash",
+        "change_hash",
+        "expected_result_hash",
+        "change_summary_hash",
+        "result",
+        "result_report_binding",
+        "similar_to_current",
+        "new_direction_hash"
+      ],
+      "properties": {
+        "attempt_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "failure_classification": {
+          "type": "string",
+          "minLength": 1
+        },
+        "severity": {
+          "type": "string",
+          "minLength": 1
+        },
+        "diagnosis_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "diagnosis_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "change_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "expected_result_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "change_summary_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "result": {
+          "type": "string",
+          "enum": [
+            "failed",
+            "passed",
+            "blocked"
+          ]
+        },
+        "result_report_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "similar_to_current": {
+          "type": "boolean"
+        },
+        "new_direction_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    }
+  }
+}
