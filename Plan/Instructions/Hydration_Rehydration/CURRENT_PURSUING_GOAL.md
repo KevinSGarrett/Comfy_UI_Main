@@ -1,3 +1,11 @@
+## Wave64 Row047 Hydration Resume Control - 2026-07-12T07:23:11-05:00
+
+`TRK-W64-047` / `ITEM-W64-047` is `Completed_Current_Hydration_Resume_Control_Pass`. A bounded pre-action snapshot hash-binds all eight required hydration sources. Active tops correctly carried Row046 evidence and the Row047 next pointer; blocker/known-issue sources were available, the QA index selected Row046, and Row048 exists. Historical hydration bodies remain preserved and non-active.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/hydration_resume_control.json`; `Plan/Instructions/QA/Evidence/Wave64/HYDRATION_RESUME_CONTROL_RECONCILIATION_20260712T072311-0500.json`; `Plan/Tracker/Evidence/HYDRATION_RESUME_CONTROL_RECONCILIATION_20260712T072311-0500.json`; `runtime_artifacts/wave64/row047_hydration_resume_control/current_hydration_top_snapshot.json`.
+
+Next: `TRK-W64-048 / ITEM-W64-048` bounded no-loop/no-drift control; EC2 remains blocked by Row046.
+
 ## Wave64 Row046 Secret And Git Security - 2026-07-12T07:11:57-05:00
 
 `TRK-W64-046` / `ITEM-W64-046` is `Blocked_Intentional_Preserved_Worktree_Checkpoint`. Current local scanning passes secret handling, required ignore patterns, tracked/staged secret checks, blocked binary/model tracking, empty staging, and HEAD/origin parity. Strict `clean_worktree` remains false only because five explicitly preserved paths remain; none were mutated, staged, or reverted, and EC2 remains disallowed.
