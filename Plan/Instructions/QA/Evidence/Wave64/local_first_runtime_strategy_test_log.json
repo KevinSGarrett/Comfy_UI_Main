@@ -1,0 +1,135 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-12T10:20:04-05:00",
+  "tracker_id": "TRK-W64-005",
+  "result": "pass_policy_scope_only",
+  "validation_gates": {
+    "local_preflight": {
+      "pass": true,
+      "checks": [
+        "LFR-001_row005_contract_exact",
+        "LFR-002_strategy_primary_rule",
+        "LFR-003_strategy_machine_contract_link",
+        "LFR-008_preflight_local_only",
+        "LFR-009_preflight_static_pass",
+        "LFR-015_full_ready_scope_consistent"
+      ]
+    },
+    "low_vram_policy": {
+      "pass": true,
+      "checks": [
+        "LFR-004_strategy_equivalence_matrix",
+        "LFR-005_strategy_low_vram_and_ec2_sections",
+        "LFR-011_dryrun_operation_and_scope",
+        "LFR-012_dryrun_low_vram_command",
+        "LFR-013_dryrun_gpu_recorded",
+        "LFR-014_dryrun_no_external_or_runtime"
+      ]
+    },
+    "ec2_final_proof_boundary": {
+      "pass": true,
+      "checks": [
+        "LFR-006_contract_schema_identity",
+        "LFR-007_gate_order_exact",
+        "LFR-017_ec2_non_authority_and_stopped",
+        "LFR-018_queue_current_ten_lanes_bounded",
+        "LFR-019_queue_manifest_denies_live_action"
+      ]
+    },
+    "no_false_equivalence": {
+      "pass": true,
+      "checks": [
+        "LFR-010_preflight_no_false_equivalence",
+        "LFR-016_architecture_anti_equivalence",
+        "LFR-020_contract_grants_no_action_or_completion"
+      ]
+    }
+  },
+  "checks": [
+    {
+      "name": "LFR-001_row005_contract_exact",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-002_strategy_primary_rule",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-003_strategy_machine_contract_link",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-004_strategy_equivalence_matrix",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-005_strategy_low_vram_and_ec2_sections",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-006_contract_schema_identity",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-007_gate_order_exact",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-008_preflight_local_only",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-009_preflight_static_pass",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-010_preflight_no_false_equivalence",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-011_dryrun_operation_and_scope",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-012_dryrun_low_vram_command",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-013_dryrun_gpu_recorded",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-014_dryrun_no_external_or_runtime",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-015_full_ready_scope_consistent",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-016_architecture_anti_equivalence",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-017_ec2_non_authority_and_stopped",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-018_queue_current_ten_lanes_bounded",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-019_queue_manifest_denies_live_action",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-020_contract_grants_no_action_or_completion",
+      "result": "pass"
+    }
+  ],
+  "summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  }
+}

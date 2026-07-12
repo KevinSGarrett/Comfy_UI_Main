@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-12T10:20:04-05:00",
+  "tracker_id": "TRK-W64-005",
+  "item_id": "ITEM-W64-005",
+  "status": "Completed_Local_First_Runtime_Strategy_Contract_Pass_Project_Incomplete",
+  "local_preflight": {
+    "lane_id": "sdxl_low_risk_fallback_lane",
+    "result": "pass_local_gpu_generation_candidate",
+    "failed_check_count": 0,
+    "local_only": true
+  },
+  "low_vram_policy": {
+    "gpu": {
+      "nvidia_smi_found": true,
+      "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+      "memory_total_mib": 8151
+    },
+    "host": "127.0.0.1",
+    "execute": false,
+    "low_vram_args_enabled": true
+  },
+  "equivalence_boundary": {
+    "local_dev_replaces_ec2_final_proof": false,
+    "ec2_final_proof_still_required": true,
+    "local_smoke_implies_final_certification": false
+  },
+  "project_completion": {
+    "level": "BELOW_LEVEL_7",
+    "full_project_complete": false,
+    "final_certification_decision": "blocked"
+  },
+  "evidence": [
+    "Plan/Instructions/QA/Evidence/Wave64/local_first_runtime_strategy.json",
+    "Plan/Instructions/QA/Evidence/Wave64/LOCAL_FIRST_RUNTIME_STRATEGY_20260712T102004-0500.json",
+    "Plan/Tracker/Evidence/LOCAL_FIRST_RUNTIME_STRATEGY_20260712T102004-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/local_first_runtime_strategy_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-005_local_first_runtime_strategy.json"
+  ],
+  "next_action": "Proceed in strict sequence to TRK-W64-006 / ITEM-W64-006 repo/EC2/S3 architecture; keep EC2 stopped and live/runtime gates fail-closed."
+}

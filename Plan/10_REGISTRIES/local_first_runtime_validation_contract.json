@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "wave64_local_first_runtime_validation",
+  "tracker_id": "TRK-W64-005",
+  "item_id": "ITEM-W64-005",
+  "scope": "local_validation_policy_and_evidence_equivalence_only",
+  "checks_required": [
+    "local_preflight",
+    "low_vram_policy",
+    "ec2_final_proof_boundary",
+    "no_false_equivalence"
+  ],
+  "checks": {
+    "local_preflight": {
+      "evidence": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_LOCAL_COMFY_DEV_PREFLIGHT_SDXL_LOW_RISK_20260708T232400-0500.json",
+      "required_values": {
+        "local_only": true,
+        "ec2_started": false,
+        "generation_executed": false,
+        "static_validation.qa_status": "pass",
+        "static_validation.defect_count": 0,
+        "failed_check_count": 0
+      }
+    },
+    "low_vram_policy": {
+      "evidence": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_LOCAL_COMFY_DEV_START_DRY_RUN_LOWVRAM_20260708T232500-0500.json",
+      "required_values": {
+        "operation": "start_local_comfyui_dev",
+        "local_only": true,
+        "ec2_started": false,
+        "generation_executed": false,
+        "low_vram_args_enabled": true,
+        "execute": false,
+        "command_contains": "--lowvram",
+        "host": "127.0.0.1"
+      }
+    },
+    "ec2_final_proof_boundary": {
+      "evidence": [
+        "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+        "Plan/10_REGISTRIES/end_to_end_architecture_boundary_registry.json"
+      ],
+      "required_values": {
+        "ec2_planning_authority": false,
+        "ec2_required_terminal_state": "stopped",
+        "runtime_action_allowed_by_registry": false,
+        "local_dev_replaces_ec2_final_proof": false,
+        "ec2_final_proof_still_required": true
+      }
+    },
+    "no_false_equivalence": {
+      "prohibited_inferences": [
+        "local_preflight_to_target_runtime",
+        "local_object_info_to_ec2_parity",
+        "local_smoke_to_lane_certification",
+        "local_visual_qa_to_changed_scope",
+        "target_runtime_proof_to_full_project_completion"
+      ],
+      "required_assertions": {
+        "local_runtime_evidence_equates_target_runtime": false,
+        "local_smoke_implies_final_certification": false,
+        "failed_local_static_validation_allows_ec2_bypass": false,
+        "full_project_completion_implied": false
+      }
+    }
+  },
+  "current_decision": "pass_local_first_contract_scope_only",
+  "runtime_action_allowed": false,
+  "ec2_start_allowed": false,
+  "generation_allowed": false,
+  "promotion_allowed": false,
+  "full_project_completion_implied": false
+}

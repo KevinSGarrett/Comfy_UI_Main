@@ -86,3 +86,39 @@ If object_info fails because a custom node is missing locally, do one of:
 4. remove the module from production scope.
 
 Never ignore missing node types.
+
+## Machine-readable contract
+
+The canonical Row005 contract is:
+
+`Plan/10_REGISTRIES/local_first_runtime_validation_contract.json`
+
+It defines four independently testable gates:
+
+1. `local_preflight` proves static validation, local-only scope, and zero failed checks before any live action.
+2. `low_vram_policy` requires a bounded localhost command, `--lowvram`, no execution during dry-run validation, and no external contact.
+3. `ec2_final_proof_boundary` keeps EC2 stopped unless a target-runtime fact cannot be established locally and all live gates pass.
+4. `no_false_equivalence` prohibits local preflight, local object-info, local smoke, or local visual QA from being relabeled as target-runtime proof, lane certification, release certification, or full-project completion.
+
+## Evidence equivalence matrix
+
+| Evidence scope | May prove | Must not prove by itself |
+|---|---|---|
+| Local static preflight | Parseability, graph/schema checks, model references, local prerequisites | Model loading, generation, visual quality, target-runtime behavior |
+| Local object-info | Local node visibility and API compatibility | EC2 node/path/model parity or target-runtime readiness |
+| Local low-VRAM smoke | Bounded local execution for the exact workflow/input/model scope | EC2 proof, broader robustness, lane promotion, final quality |
+| Local visual QA | Quality of the exact local artifact reviewed | Changed seeds, inputs, workflows, models, target runtime, or full portfolio |
+| Target-runtime proof | Exact remote model/input/workflow execution and pullback scope | Broader lane, wave, release, or project completion without their gates |
+
+## Low-VRAM execution policy
+
+- Bind local development to `127.0.0.1` and a recorded port.
+- Use `--lowvram` when the selected local GPU memory policy requires it.
+- Record the exact command, GPU identity, total memory, execute flag, process ID, and external-contact flags.
+- A dry run may validate command construction only; it is not runtime proof.
+- A local generation must retain exact workflow, input, model, output, and QA hashes and remains local-scope evidence.
+- Local failure blocks the dependent lane step. It does not justify starting EC2 to bypass a known static defect.
+
+## EC2 final-proof boundary
+
+EC2 remains an on-demand target-runtime worker, not a substitute for failed local validation and not a planning authority. Starting it requires an explicit selected scope plus current Git, authentication, budget, TTL, emergency-stop, input, model, workflow, pullback, and stopped-state controls. Local evidence may reduce EC2 starts; it never silently eliminates a required target-runtime gate.

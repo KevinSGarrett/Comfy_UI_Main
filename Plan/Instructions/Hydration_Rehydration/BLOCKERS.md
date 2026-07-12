@@ -1,3 +1,11 @@
+## Wave64 Row005 Local-First Runtime Validation Strategy - 2026-07-12T10:20:04-05:00
+
+`TRK-W64-005` / `ITEM-W64-005` is `Completed_Local_First_Runtime_Strategy_Contract_Pass_Project_Incomplete`. A canonical four-gate contract now binds local preflight, low-VRAM command policy, the EC2 final-proof boundary, and explicit no-false-equivalence rules. The audit verified zero-failure local static evidence, a non-executing localhost `--lowvram` plan on the recorded 8,151 MiB GPU, current ten-lane bounded queue controls, EC2 non-authority/stopped-state policy, and 20/20 checks. Local evidence remains local-scope only and does not become target-runtime, promotion, release, or project-completion proof. No AWS, EC2, generation, queue mutation, mask, Jira, or Wave71+ action occurred.
+
+Next safe local action in strict sequence: `TRK-W64-006 / ITEM-W64-006` repo/EC2/S3 architecture.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/local_first_runtime_strategy.json`; `Plan/Instructions/QA/Evidence/Wave64/LOCAL_FIRST_RUNTIME_STRATEGY_20260712T102004-0500.json`; `Plan/Tracker/Evidence/LOCAL_FIRST_RUNTIME_STRATEGY_20260712T102004-0500.json`.
+
 ## Wave64 Row004 End-to-End Target Architecture - 2026-07-12T10:10:25-05:00
 
 `TRK-W64-004` / `ITEM-W64-004` is `Completed_Target_Architecture_Contract_Pass_Project_Incomplete`. The target architecture now has a machine-readable nine-domain authority registry and an eight-step cross-boundary contract covering local, GitHub, model registry, S3, EC2, workflow lanes, QA evidence, release gates, and done certification. The audit verified 10/10 queue-to-ACTIVE_LANES parity, 15 parseable model records, EC2/S3 non-authority, runtime disabled by current manifests, existence-not-pass QA, and scoped fail-closed release/certification behavior with 20/20 checks. This completes the architecture contract row only; the full project remains below Level 7 and final certification stays blocked. No AWS, EC2, S3, runtime, generation, promotion, mask, Jira, or Wave71+ action occurred.

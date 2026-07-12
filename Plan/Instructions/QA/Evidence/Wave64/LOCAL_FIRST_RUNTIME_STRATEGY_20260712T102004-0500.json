@@ -1,0 +1,217 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "LOCAL_FIRST_RUNTIME_STRATEGY_20260712T102004-0500",
+  "created_iso": "2026-07-12T10:20:04-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-005",
+  "item_id": "ITEM-W64-005",
+  "status": "Completed_Local_First_Runtime_Strategy_Contract_Pass_Project_Incomplete",
+  "row_complete": true,
+  "qa_decision": "local_first_runtime_contract_pass_project_incomplete",
+  "validation_gates": {
+    "local_preflight": {
+      "pass": true,
+      "checks": [
+        "LFR-001_row005_contract_exact",
+        "LFR-002_strategy_primary_rule",
+        "LFR-003_strategy_machine_contract_link",
+        "LFR-008_preflight_local_only",
+        "LFR-009_preflight_static_pass",
+        "LFR-015_full_ready_scope_consistent"
+      ]
+    },
+    "low_vram_policy": {
+      "pass": true,
+      "checks": [
+        "LFR-004_strategy_equivalence_matrix",
+        "LFR-005_strategy_low_vram_and_ec2_sections",
+        "LFR-011_dryrun_operation_and_scope",
+        "LFR-012_dryrun_low_vram_command",
+        "LFR-013_dryrun_gpu_recorded",
+        "LFR-014_dryrun_no_external_or_runtime"
+      ]
+    },
+    "ec2_final_proof_boundary": {
+      "pass": true,
+      "checks": [
+        "LFR-006_contract_schema_identity",
+        "LFR-007_gate_order_exact",
+        "LFR-017_ec2_non_authority_and_stopped",
+        "LFR-018_queue_current_ten_lanes_bounded",
+        "LFR-019_queue_manifest_denies_live_action"
+      ]
+    },
+    "no_false_equivalence": {
+      "pass": true,
+      "checks": [
+        "LFR-010_preflight_no_false_equivalence",
+        "LFR-016_architecture_anti_equivalence",
+        "LFR-020_contract_grants_no_action_or_completion"
+      ]
+    }
+  },
+  "local_preflight": {
+    "lane_id": "sdxl_low_risk_fallback_lane",
+    "result": "pass_local_gpu_generation_candidate",
+    "failed_check_count": 0,
+    "local_only": true
+  },
+  "low_vram_policy": {
+    "gpu": {
+      "nvidia_smi_found": true,
+      "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+      "memory_total_mib": 8151
+    },
+    "host": "127.0.0.1",
+    "execute": false,
+    "low_vram_args_enabled": true
+  },
+  "equivalence_boundary": {
+    "local_dev_replaces_ec2_final_proof": false,
+    "ec2_final_proof_still_required": true,
+    "local_smoke_implies_final_certification": false
+  },
+  "checks": [
+    {
+      "name": "LFR-001_row005_contract_exact",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-002_strategy_primary_rule",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-003_strategy_machine_contract_link",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-004_strategy_equivalence_matrix",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-005_strategy_low_vram_and_ec2_sections",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-006_contract_schema_identity",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-007_gate_order_exact",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-008_preflight_local_only",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-009_preflight_static_pass",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-010_preflight_no_false_equivalence",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-011_dryrun_operation_and_scope",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-012_dryrun_low_vram_command",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-013_dryrun_gpu_recorded",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-014_dryrun_no_external_or_runtime",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-015_full_ready_scope_consistent",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-016_architecture_anti_equivalence",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-017_ec2_non_authority_and_stopped",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-018_queue_current_ten_lanes_bounded",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-019_queue_manifest_denies_live_action",
+      "result": "pass"
+    },
+    {
+      "name": "LFR-020_contract_grants_no_action_or_completion",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "safety_boundary": {
+    "aws_contacted": false,
+    "ec2_started": false,
+    "generation_executed": false,
+    "runtime_promoted": false,
+    "queue_modified": false,
+    "mask_or_wave71_touched": false,
+    "jira_mutated": false
+  },
+  "project_completion": {
+    "level": "BELOW_LEVEL_7",
+    "full_project_complete": false,
+    "final_certification_decision": "blocked"
+  },
+  "source_hashes": [
+    {
+      "path": "Plan/02_TARGET_ARCHITECTURE/LOCAL_FIRST_RUNTIME_VALIDATION_STRATEGY.md",
+      "sha256": "29bca68322ecfe5286dcdfaed92a87800f7e8072b5ff76d5847ca84461a06bc4"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/local_first_runtime_validation_contract.json",
+      "sha256": "0d82f4db6a0111f9354952542e931e65d25a404aa21fe82e9fd5d38662db21b3"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/end_to_end_architecture_boundary_registry.json",
+      "sha256": "ea3b639a47f16000d6d589afc2df341fc0310101710e9367c09cde77d629e173"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_LOCAL_COMFY_DEV_PREFLIGHT_SDXL_LOW_RISK_20260708T232400-0500.json",
+      "sha256": "e64071df84ace77b8981be1efd3e9a229eb69ae13a6ab0c857e0f49ddf4b62ed"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_LOCAL_COMFY_DEV_START_DRY_RUN_LOWVRAM_20260708T232500-0500.json",
+      "sha256": "904bb8bf54bd4f774d73d76e3ac05956cc27f1e7451b0fc8201a2eb42cc4015e"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_LOCAL_COMFYUI_DEV_PREFLIGHT_FULL_READY_20260706T204500-0500.json",
+      "sha256": "78621d28f8c7784b62ea82e89e1deead796d2ff2ad0d9189297091718d7f3910"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+      "sha256": "f6720781658e747ab8da5aa5bb6eb59989415cf2691b9d2204cf53a4ab027385"
+    },
+    {
+      "path": "Plan/Instructions/LOCAL_SOURCE_OF_TRUTH_AND_EC2_STALE_WORKSPACE_PROTOCOL.md",
+      "sha256": "4a57fbd43b7bca8f6d720b9618edbfb32c3702349b683f911659e6b77bf2650d"
+    }
+  ],
+  "next_action": "Proceed in strict sequence to TRK-W64-006 / ITEM-W64-006 repo/EC2/S3 architecture; keep EC2 stopped and live/runtime gates fail-closed.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/local_first_runtime_strategy.json",
+    "Plan/Instructions/QA/Evidence/Wave64/LOCAL_FIRST_RUNTIME_STRATEGY_20260712T102004-0500.json",
+    "Plan/Tracker/Evidence/LOCAL_FIRST_RUNTIME_STRATEGY_20260712T102004-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/local_first_runtime_strategy_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-005_local_first_runtime_strategy.json"
+  ]
+}
