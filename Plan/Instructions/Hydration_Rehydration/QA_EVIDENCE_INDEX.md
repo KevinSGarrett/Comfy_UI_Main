@@ -1,3 +1,11 @@
+## Wave64 Row040 Current CI Coverage Reconciliation - 2026-07-12T06:24:43-05:00
+
+`TRK-W64-040` / `ITEM-W64-040` is `Blocked_Current_Model_Registry_Coverage_Alignment`. One authorized current coverage execution found three failed lanes: Depth and Lineart require verifier vocabulary alignment for existing local-result states; Flux1 lacks a matching registry/validation-queue record and local model proof. Historical run packages and deploy bundles were preserved and were not rebuilt. No GitHub, AWS, EC2, mask, Wave70, Wave71+, or Jira mutation occurred.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/github_actions_ci_package.json`; `Plan/Instructions/QA/Evidence/Wave64/GITHUB_ACTIONS_CI_PACKAGE_RECONCILIATION_20260712T062443-0500.json`; `Plan/Tracker/Evidence/GITHUB_ACTIONS_CI_PACKAGE_RECONCILIATION_20260712T062443-0500.json`; `runtime_artifacts/wave64/row040_github_actions_ci_package/20260712T062203-0500/workflow_model_registry_coverage.json`.
+
+Next: advance to `TRK-W64-041 / ITEM-W64-041` and duplicate-check existing S3 deploy-bundle/model-cache readiness evidence. Do not rerun Row040 coverage unless its source inputs change again.
+
 ## Wave64 Local ComfyUI Preview Lane Reconciliation - 2026-07-12T06:12:00-05:00
 
 Row039 is complete for bounded local preview readiness using existing smoke evidence, current hash-verified runnable preflight, and the 8/8 fail-closed model-requirements regression. No local server start or generation occurred. EC2 equivalence, final certification, and mask gates remain excluded.
