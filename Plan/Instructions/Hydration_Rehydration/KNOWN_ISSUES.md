@@ -1,3 +1,9 @@
+## Wave64 Current Known-Issue Scope - 2026-07-12T07:41:51-05:00
+
+Known issues inherit the current Row049 register. AWS expiry applies only to new live cloud assertions; the five preserved paths apply only to strict clean-checkpoint requirements. Flux remains fail-closed only for its lane, and manual body gold masks remain fail-closed only for mask-dependent authority/promotion/certification. Pullback text-copy drift remains disclosed, while original Git blobs retain authority for the completed historical-byte proof. Superseded prose below is historical context and does not reopen completed proof.
+
+Next unresolved row: `TRK-W64-055 / ITEM-W64-055`. Rows050-054 remain passed and are not rerun without changed inputs.
+
 ## RealESRGAN Transfer Preflight Known-Issue Review - 2026-07-10T11:36:07-05:00
 
 The former split-artifact issue is resolved by one lane-scoped local-only bundle. This does not resolve the remaining live target-runtime and final-certification gates. The bundle intentionally leaves `target_runtime_proof=false`, `certification_claimed=false`, and `promotion_allowed=false`; no AWS, S3, EC2, or ComfyUI contact occurred.

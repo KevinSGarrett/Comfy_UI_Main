@@ -1,3 +1,11 @@
+## Wave64 Row049 Living Blocker Governance - 2026-07-12T07:41:51-05:00
+
+`TRK-W64-049` / `ITEM-W64-049` is `Evidence_Passed_Blocker_Governance_Active_Blockers_Tracked` after one justified living-governance refresh. Two active blockers, two deferred scope-specific dependencies, and three superseded historical blockers are source-cited with latest-state precedence. No AWS, EC2, S3, ComfyUI, generation, mask, Wave71+, or Jira action occurred.
+
+Next: skip unchanged passed Rows050-054 and begin `TRK-W64-055 / ITEM-W64-055` source-summary integrity.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/blocker_known_issue_control.json`; `Plan/Instructions/QA/Evidence/Wave64/BLOCKER_KNOWN_ISSUE_CONTROL_RECONCILIATION_20260712T074151-0500.json`; `Plan/Tracker/Evidence/BLOCKER_KNOWN_ISSUE_CONTROL_RECONCILIATION_20260712T074151-0500.json`.
+
 ## Wave64 Row048 No Loop No Drift - 2026-07-12T07:31:36-05:00
 
 `TRK-W64-048` / `ITEM-W64-048` is `Completed_Current_No_Loop_No_Drift_Control_Pass`. Current Rows040-047 show distinct movement without repeated AWS, EC2, mask, coverage, or hydration loops. Active blockers are limited to Row042 expired-auth live proof and Row046’s five preserved worktree paths. Older Depth/Lineart/Flux registry and Row043 artifact blockers are superseded by current governance and pullback evidence.

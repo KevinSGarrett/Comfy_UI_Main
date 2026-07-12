@@ -1,3 +1,11 @@
+## Wave64 Row049 Living Blocker Governance - 2026-07-12T07:41:51-05:00
+
+`TRK-W64-049` / `ITEM-W64-049` is `Evidence_Passed_Blocker_Governance_Active_Blockers_Tracked` after one justified living-governance refresh. Two active blockers, two deferred scope-specific dependencies, and three superseded historical blockers are source-cited with latest-state precedence. No AWS, EC2, S3, ComfyUI, generation, mask, Wave71+, or Jira action occurred.
+
+Next: skip unchanged passed Rows050-054 and begin `TRK-W64-055 / ITEM-W64-055` source-summary integrity.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/blocker_known_issue_control.json`; `Plan/Instructions/QA/Evidence/Wave64/BLOCKER_KNOWN_ISSUE_CONTROL_RECONCILIATION_20260712T074151-0500.json`; `Plan/Tracker/Evidence/BLOCKER_KNOWN_ISSUE_CONTROL_RECONCILIATION_20260712T074151-0500.json`.
+
 ## 2026-07-12T06:12:00-05:00 - Preserve local preview evidence and enforce non-equivalence
 
 - Close Row039 from the original local-preview pass plus current hash-verified preflight and 8/8 fail-closed regression; no duplicate server start or image generation is needed.

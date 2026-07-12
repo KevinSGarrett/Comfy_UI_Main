@@ -1,3 +1,11 @@
+## Wave64 Current Blocker Register - 2026-07-12T07:41:51-05:00
+
+Latest-state precedence: current global execution blockers are limited to `BLOCKER-W64-AWS-EXPIRED-SESSION-001` for live cloud work and the stable `BLOCKER-W64-GIT-DIRTY-WORKTREE-001` for a strict clean checkpoint. The latter's condition has narrowed to exactly five preserved paths; scoped commits and unrelated local work may continue.
+
+Flux license/install/runtime proof and manual body gold masks are deferred scope-specific dependencies, not global project blockers. Row040 registry gaps, Row043 artifact absence, and the old 977-entry dirty snapshot are superseded by current Rows044, 043, and 046 evidence. Historical entries below are archival and cannot override this register without newer explicit validation evidence.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/blocker_known_issue_control.json`; `Plan/Instructions/QA/Evidence/Wave64/BLOCKER_KNOWN_ISSUE_CONTROL_RECONCILIATION_20260712T074151-0500.json`; `Plan/Tracker/Evidence/BLOCKER_KNOWN_ISSUE_CONTROL_RECONCILIATION_20260712T074151-0500.json`.
+
 ## Row039 Local Preview Pass Does Not Replace Target Runtime Or Final Certification - 2026-07-12T06:12:00-05:00
 
 The bounded local ComfyUI development lane is ready for low-resolution, batch-one, low-step, low-VRAM previews. That pass does not claim a new generation in Row039, replace EC2 target-runtime proof, certify final portfolio quality, or clear any mask/Wave70/Wave71+ gate. Start a new local preview only when a changed workflow, model contract, prompt, or QA threshold creates a real iteration need.

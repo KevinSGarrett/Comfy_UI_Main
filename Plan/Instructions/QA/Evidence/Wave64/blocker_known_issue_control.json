@@ -1,104 +1,240 @@
 {
   "schema_version": "1.0",
-  "evidence_id": "BLOCKER_KNOWN_ISSUE_CONTROL_20260709T000153-0500",
-  "created_iso": "2026-07-09T00:01:53-05:00",
+  "evidence_id": "BLOCKER_KNOWN_ISSUE_CONTROL_RECONCILIATION_20260712T074151-0500",
+  "created_iso": "2026-07-12T07:41:51-05:00",
   "wave": 64,
   "tracker_id": "TRK-W64-049",
   "item_id": "ITEM-W64-049",
-  "task": "Validate blocker IDs, resolution evidence requirements, known-issue scope, and latest-state precedence.",
-  "source_files": [
-    "Plan/Instructions/Hydration_Rehydration/BLOCKERS.md",
-    "Plan/Instructions/Hydration_Rehydration/KNOWN_ISSUES.md"
-  ],
-  "blocker_register": [
+  "status": "Evidence_Passed_Blocker_Governance_Active_Blockers_Tracked",
+  "row_complete": true,
+  "qa_decision": "blocker_known_issue_control_current_pass_latest_state_precedence",
+  "task": "Refresh living blocker and known-issue governance once after materially changed Row040-048 inputs.",
+  "source_evidence": [
     {
-      "blocker_id": "BLOCKER-W64-GIT-DIRTY-WORKTREE-001",
-      "status": "active",
-      "scope": "EC2 checkpoint, commit/push checkpoint, and target-runtime starts",
-      "source_evidence": "Plan/Instructions/QA/Evidence/Wave64/secret_git_security.json",
-      "source_decision": "blocked_secret_git_security_dirty_worktree_checkpoint",
-      "exact_condition": "clean_worktree=False porcelain_count=977 tracked_porcelain_count=169",
-      "does_not_block": "non-EC2-safe local evidence, scaffolding, and tracker rows that do not require a clean checkpoint",
-      "resolution_evidence_required": "new secret/git security evidence showing clean_worktree=true plus intentional handling of existing dirty changes"
+      "path": "Plan/Instructions/QA/Evidence/Wave64/no_loop_no_drift.json",
+      "sha256": "623f0b02ff2628c954de84afb2b74bbc9d4edd604e252e5a76635a4811dcdad2",
+      "status": "Completed_Current_No_Loop_No_Drift_Control_Pass"
     },
     {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/secret_git_security.json",
+      "sha256": "45addfc7558c576b0e66aa49cfee0b88cb751993ebabfb8c4e17c3f6118a070b",
+      "status": "Blocked_Intentional_Preserved_Worktree_Checkpoint"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json",
+      "sha256": "bdae77c5dab8fbabd432a6c0473aabadc3e681cf3106c54abd59d140fef07eee",
+      "status": "Blocked_AWS_Expired_Session_Live_Proof"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/model_registry_governance.json",
+      "sha256": "0b33a55e6a5fd45c721482d55f36c29ab7634b403b98f40937772c488fadf466",
+      "status": "Completed_Local_Model_Registry_Governance_Pass"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/artifact_pullback_integrity.json",
+      "sha256": "8cb85216e1593afcd4e4740b09a7124cb502fd9bca099ce840b3ffb9a6347cc1",
+      "status": "Completed_Lane_Scoped_Artifact_Pullback_Integrity_Pass"
+    }
+  ],
+  "active_blockers": [
+    {
       "blocker_id": "BLOCKER-W64-AWS-EXPIRED-SESSION-001",
-      "status": "active_for_live_aws_or_ec2_actions",
-      "scope": "live AWS/EC2 proof, emergency stop live proof, target-runtime execution",
+      "status": "active_for_live_aws_ec2_s3_only",
+      "scope": "new live AWS/EC2/S3 assertions, target-runtime execution, and live TTL/watchdog proof",
       "source_evidence": "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json",
-      "source_decision": "blocked_ec2_ttl_watchdog_live_proof_expired_aws_session",
-      "exact_condition": "latest Wave64 TTL/live watchdog evidence is blocked by expired AWS session",
-      "does_not_block": "local-only static validation, packaging, registry, source-cited blocker governance, and non-mask rows",
-      "resolution_evidence_required": "fresh AWS auth/account gate evidence and bounded EC2 command evidence"
+      "source_decision": "blocked_ec2_ttl_watchdog_live_proof_expired_aws_session_current_dry_runs_pass",
+      "exact_condition": "AWS authentication is expired; current dry-run schedule and watchdog checks pass, but live proof is unavailable.",
+      "does_not_block": "local-only implementation, static validation, evidence reconciliation, or non-mask ComfyUI orchestration",
+      "resolution_evidence_required": "fresh AWS identity/account gate plus bounded live command evidence"
+    },
+    {
+      "blocker_id": "BLOCKER-W64-GIT-DIRTY-WORKTREE-001",
+      "status": "active_for_strict_clean_checkpoint_only",
+      "scope": "strict clean-worktree checkpoint and downstream actions that explicitly require it",
+      "source_evidence": "Plan/Instructions/QA/Evidence/Wave64/secret_git_security.json",
+      "source_decision": "local_secret_git_security_pass_checkpoint_blocked_only_by_preserved_worktree",
+      "exact_condition": "Exactly 5 intentionally preserved paths remain; HEAD matches origin and staged/secret gates pass.",
+      "preserved_paths": [
+        "Plan/Instructions/AUTOMATION_CRON_FLEET_SUPERVISION_STRATEGY.md",
+        "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_LATEST.json",
+        "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_LATEST.json",
+        "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_20260711T211346-0500.json",
+        "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_20260711T211346-0500.md"
+      ],
+      "does_not_block": "scoped commits that exclude the preserved paths or unrelated local non-EC2 work",
+      "resolution_evidence_required": "owner-approved resolution of the five preserved paths followed by clean-worktree and local-equals-origin proof"
+    }
+  ],
+  "deferred_scoped_dependencies": [
+    {
+      "dependency_id": "DEPENDENCY-FLUX1-LICENSE-INSTALL-RUNTIME-001",
+      "status": "deferred_lane_specific_fail_closed",
+      "scope": "flux1_dev_primary_base install, model load, output, visual QA, and certification",
+      "source_evidence": "Plan/Instructions/QA/Evidence/Wave64/model_registry_governance.json",
+      "does_not_block": "the other nine registered lanes or unrelated local work",
+      "resolution_evidence_required": "explicit license acceptance plus exact install/hash/model-load/runtime proof"
+    },
+    {
+      "dependency_id": "DEPENDENCY-GOLD-BODY-MASK-001",
+      "status": "deferred_mask_dependent_fail_closed",
+      "scope": "body/hand/contact geometry authority, mask promotion, final mask QA, and mask-proof Wave71+ activation",
+      "source_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/GOLD_MASK_DEPENDENCY_BOUNDARY_20260708T222123-0500.json",
+      "does_not_block": "non-mask implementation, orchestration, workflow wiring, validation scaffolding, or supported facial benchmark work",
+      "resolution_evidence_required": "user-declared-ready manual gold masks followed by intake validation and strict mask QA"
+    }
+  ],
+  "superseded_historical_blockers": [
+    {
+      "blocker_id": "BLOCKER-W64-CURRENT-MODEL-REGISTRY-COVERAGE-001",
+      "prior_condition": "Depth/Lineart vocabulary gaps and missing Flux registry/queue coverage",
+      "superseded_by": "Plan/Instructions/QA/Evidence/Wave64/model_registry_governance.json",
+      "current_state": "15 registry records, 15 queue rows, 10 lanes, zero coverage failures; Flux remains fail-closed only for license/install/runtime proof"
     },
     {
       "blocker_id": "BLOCKER-W64-CURRENT-EC2-ARTIFACTS-MISSING-001",
-      "status": "active_for_current_run_pullback_integrity",
-      "scope": "current-run artifact pullback integrity certification",
-      "source_evidence": "Plan/Instructions/QA/Evidence/Wave64/artifact_pullback_integrity.json",
-      "source_decision": "blocked_artifact_pullback_integrity_current_ec2_runtime_artifacts_missing",
-      "exact_condition": "no current EC2 runtime artifact set exists for this Wave64 run",
-      "does_not_block": "non-runtime local work or future pullback after a real EC2 run",
-      "resolution_evidence_required": "bounded EC2 runtime artifact set plus pullback manifest/hash verification evidence"
+      "prior_condition": "no current runtime artifact set for pullback validation",
+      "superseded_by": "Plan/Instructions/QA/Evidence/Wave64/artifact_pullback_integrity.json",
+      "current_state": "lane-scoped 4/4 pullback chain complete with manifest, image, log, and hash evidence"
     },
     {
-      "blocker_id": "BLOCKER-GOLD-MASK-DEPENDENCY-001",
-      "status": "active_for_mask_dependent_rows_only",
-      "scope": "mask-dependent promotion, geometry authority, body/hand/contact validation, final mask QA, certification-ready claims, Wave71+ mask-proof activation",
-      "source_evidence": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/GOLD_MASK_DEPENDENCY_BOUNDARY_20260708T222123-0500.json",
-      "source_decision": "Manual_Gold_Mask_Work_In_Progress",
-      "exact_condition": "manual gold masks are still being created and candidate masks must not be consumed as truth",
-      "does_not_block": "workflow structure, orchestration, logging, validation scaffolding, dataset organization, ComfyUI wiring that does not claim final mask truth, non-body-mask assets",
-      "resolution_evidence_required": "manual gold-mask intake validation evidence and strict mask QA pass records"
+      "blocker_id": "BLOCKER-W64-GIT-DIRTY-WORKTREE-977-001",
+      "prior_condition": "977-entry dirty worktree snapshot",
+      "superseded_by": "Plan/Instructions/QA/Evidence/Wave64/secret_git_security.json",
+      "current_state": "reduced to exactly five intentionally preserved paths; strict clean checkpoint remains separately active"
     }
   ],
-  "checks": {
-    "previous_row_passed": true,
-    "current_next_action_before_update": true,
-    "current_goal_aligned_before_update": true,
-    "blocker_id_required_pass": true,
-    "resolved_evidence_required_pass": true,
-    "known_issue_scope_pass": true,
-    "latest_state_precedence_pass": true,
-    "gold_mask_boundary_evidence_exists": true,
-    "blockers_head_changed": true,
-    "known_issues_head_changed": true
+  "known_issue_caveats": [
+    {
+      "issue_id": "KNOWN-ISSUE-W64-PULLBACK-TEXT-COPY-DRIFT-001",
+      "status": "disclosed_non_blocking_integrity_caveat",
+      "scope": "current local text copies differ from the pulled-back historical text bytes",
+      "source_evidence": "Plan/Instructions/QA/Evidence/Wave64/artifact_pullback_integrity.json",
+      "authority": "original Git blobs preserve the remote-history and prompt bytes used by the completed lane-scoped pullback proof",
+      "does_not_reopen": "the completed 4/4 lane-scoped pullback integrity result"
+    }
+  ],
+  "latest_state_precedence": "Only the active_blockers array is current global execution state. Deferred dependencies remain scope-limited; superseded entries cannot reopen without newer explicit validation evidence.",
+  "progression": {
+    "skip_unchanged_passed_rows": [
+      "TRK-W64-050",
+      "TRK-W64-051",
+      "TRK-W64-052",
+      "TRK-W64-053",
+      "TRK-W64-054"
+    ],
+    "next_unresolved_row": "TRK-W64-055",
+    "reason": "Rows050-054 retain passed evidence and their inputs were not invalidated by this living-governance refresh."
   },
-  "runtime_boundary": {
+  "safety_boundary": {
+    "aws_contacted": false,
     "ec2_started": false,
-    "generation_executed": false,
+    "s3_mutated": false,
     "comfyui_contacted": false,
-    "hard_gates_rerun": false
-  },
-  "gold_mask_dependency_boundary": {
+    "generation_executed": false,
     "mask_truth_consumed": false,
-    "candidate_masks_consumed_as_truth": false,
-    "masks_promoted": false,
-    "wave71_activation_attempted": false
+    "hard_gates_rerun": false,
+    "wave71_activated": false,
+    "jira_mutated": false
   },
-  "errors": [],
-  "qa_decision": "blocker_known_issue_control_passed_source_cited_latest_state_precedence",
-  "next_step": "Advance to TRK-W64-050/ITEM-W64-050; use the active blocker register for latest-state precedence.",
+  "checks": [
+    {
+      "name": "row048_current_pass",
+      "result": "pass"
+    },
+    {
+      "name": "row048_refresh_mode",
+      "result": "pass"
+    },
+    {
+      "name": "old_governance_predates_current_inputs",
+      "result": "pass"
+    },
+    {
+      "name": "active_blocker_count_exact",
+      "result": "pass"
+    },
+    {
+      "name": "active_blocker_ids_unique",
+      "result": "pass"
+    },
+    {
+      "name": "active_blockers_source_cited",
+      "result": "pass"
+    },
+    {
+      "name": "active_blockers_have_resolution_evidence",
+      "result": "pass"
+    },
+    {
+      "name": "aws_blocker_scope_limited",
+      "result": "pass"
+    },
+    {
+      "name": "preserved_path_count_exact",
+      "result": "pass"
+    },
+    {
+      "name": "head_origin_match_preserved",
+      "result": "pass"
+    },
+    {
+      "name": "registry_gap_superseded",
+      "result": "pass"
+    },
+    {
+      "name": "pullback_gap_superseded",
+      "result": "pass"
+    },
+    {
+      "name": "superseded_count_exact",
+      "result": "pass"
+    },
+    {
+      "name": "flux_dependency_not_global",
+      "result": "pass"
+    },
+    {
+      "name": "gold_mask_dependency_not_global",
+      "result": "pass"
+    },
+    {
+      "name": "gold_mask_boundary_exists",
+      "result": "pass"
+    },
+    {
+      "name": "rows050_054_still_passed",
+      "result": "pass"
+    },
+    {
+      "name": "row055_first_unresolved",
+      "result": "pass"
+    },
+    {
+      "name": "no_loop_stop_rule_preserved",
+      "result": "pass"
+    },
+    {
+      "name": "no_external_or_mask_action",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "next_action": "Skip unchanged passed Rows050-054 and begin TRK-W64-055 / ITEM-W64-055 source-summary integrity.",
   "evidence_paths": [
     "Plan/Instructions/QA/Evidence/Wave64/blocker_known_issue_control.json",
-    "Plan/Instructions/QA/Evidence/Wave64/BLOCKER_KNOWN_ISSUE_CONTROL_20260709T000153-0500.json",
-    "Plan/Tracker/Evidence/BLOCKER_KNOWN_ISSUE_CONTROL_20260709T000153-0500.json",
-    "Plan/Instructions/Hydration_Rehydration/BLOCKERS.md",
-    "Plan/Instructions/Hydration_Rehydration/KNOWN_ISSUES.md",
+    "Plan/Instructions/QA/Evidence/Wave64/BLOCKER_KNOWN_ISSUE_CONTROL_RECONCILIATION_20260712T074151-0500.json",
+    "Plan/Tracker/Evidence/BLOCKER_KNOWN_ISSUE_CONTROL_RECONCILIATION_20260712T074151-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/blocker_known_issue_control_reconciliation_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-049_blocker_known_issue_control.json",
     "Plan/Instructions/QA/Evidence/Wave64/no_loop_no_drift.json",
     "Plan/Instructions/QA/Evidence/Wave64/secret_git_security.json",
     "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json",
+    "Plan/Instructions/QA/Evidence/Wave64/model_registry_governance.json",
     "Plan/Instructions/QA/Evidence/Wave64/artifact_pullback_integrity.json",
     "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/GOLD_MASK_DEPENDENCY_BOUNDARY_20260708T222123-0500.json"
-  ],
-  "csv_updates": {
-    "tracker": {
-      "Plan/Tracker/wave64_end_to_end_strict_ai_tracker.csv": 1,
-      "Plan/Tracker/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_TRACKER_ROWS.csv": 1
-    },
-    "items": {
-      "Plan/Items/wave64_end_to_end_strict_ai_itemized_list.csv": 1,
-      "Plan/Items/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_ITEM_ROWS.csv": 1
-    }
-  }
+  ]
 }
