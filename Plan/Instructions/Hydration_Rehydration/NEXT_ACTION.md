@@ -1,3 +1,11 @@
+## Wave64 Row062 Observability And Evidence Retention - 2026-07-12T08:50:55-05:00
+
+`TRK-W64-062` / `ITEM-W64-062` is `Blocked_Legacy_Run_Record_Observability_Metadata_Gaps`. The audit indexed all 10 current operation records, validated both known schema variants, and established an append-only normalized contract plus durable retention policy. All records have status/final state and task/evidence linkage; six have explicit log paths, while four historical task-run records lack a log path or explicit absence reason. Nine expose command IDs; one legacy runtime-inventory record does not. Those records were preserved unchanged and remain fail-closed. The deterministic audit passed 20/20 checks without AWS, EC2, generation, Jira, mask, or Wave71+ action.
+
+Next safe local action: `TRK-W64-063 / ITEM-W64-063` failure classification and targeted rerun policy.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/observability_evidence_logs.json`; `Plan/Instructions/QA/Evidence/Wave64/OBSERVABILITY_EVIDENCE_LOGS_20260712T085055-0500.json`; `Plan/Tracker/Evidence/OBSERVABILITY_EVIDENCE_LOGS_20260712T085055-0500.json`.
+
 ## Wave64 Row061 24/7 Operations Safety - 2026-07-12T08:39:16-05:00
 
 `TRK-W64-061` / `ITEM-W64-061` is `Blocked_Live_Operations_Safety_Gates_Not_Met_Local_Controls_Pass`. Bounded local resource policy, latest-state hydration, no-loop controls, dry-run emergency-stop planning, and the local queue sentinel pass with 20/20 checks. Live 24/7 authority remains blocked by expired AWS authentication, absent live schedule/watchdog/stopped-state proof, five preserved checkpoint paths, and blocked upstream final certification. No AWS, EC2, generation, Git mutation, automation-strategy edit, mask, Jira, or Wave71+ action occurred.

@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-12T08:50:55-05:00",
+  "tracker_id": "TRK-W64-062",
+  "item_id": "ITEM-W64-062",
+  "status": "Blocked_Legacy_Run_Record_Observability_Metadata_Gaps",
+  "aggregate": {
+    "records": 10,
+    "parseable": 10,
+    "schema_variants": {
+      "legacy_task_run": 4,
+      "workflow_smoke_evidence": 6,
+      "unknown": 0,
+      "invalid_json": 0
+    },
+    "log_path_or_explicit_absence_pass": 6,
+    "log_metadata_missing": 4,
+    "command_ids_present": 9,
+    "command_ids_missing": 1,
+    "status_or_final_state_present": 10,
+    "task_or_evidence_link_present": 10,
+    "indexed": 10
+  },
+  "normalized_blockers": [
+    {
+      "blocker_id": "LEGACY_RUN_RECORD_LOG_RETENTION_METADATA_MISSING",
+      "count": 4,
+      "records": [
+        "Plan/Instructions/Operations/Run_Records/aws_gpu_run_20260706T012748-0500.json",
+        "Plan/Instructions/Operations/Run_Records/aws_gpu_run_20260706T015022-0500.json",
+        "Plan/Instructions/Operations/Run_Records/aws_gpu_run_20260706T020209-0500.json",
+        "Plan/Instructions/Operations/Run_Records/aws_gpu_run_20260706T022710-0500.json"
+      ],
+      "resolution": "Keep historical records unchanged; future records must satisfy the normalized contract. Add an explicit sidecar/backfill only when source truth supports it."
+    },
+    {
+      "blocker_id": "LEGACY_RUN_RECORD_COMMAND_ID_MISSING",
+      "count": 1,
+      "records": [
+        "Plan/Instructions/Operations/Run_Records/aws_gpu_run_20260706T020209-0500.json"
+      ],
+      "resolution": "Preserve the historical record; add a source-backed sidecar only if the original external command identifier can be recovered."
+    }
+  ],
+  "evidence": [
+    "Plan/Instructions/QA/Evidence/Wave64/observability_evidence_logs.json",
+    "Plan/Instructions/QA/Evidence/Wave64/OBSERVABILITY_EVIDENCE_LOGS_20260712T085055-0500.json",
+    "Plan/Tracker/Evidence/OBSERVABILITY_EVIDENCE_LOGS_20260712T085055-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/observability_evidence_logs_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-062_observability_evidence_logs.json"
+  ],
+  "next_action": "Advance to TRK-W64-063 / ITEM-W64-063 failure classification and targeted rerun policy; keep the four historical log-metadata gaps fail-closed."
+}
