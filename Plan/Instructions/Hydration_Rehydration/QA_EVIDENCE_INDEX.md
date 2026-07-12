@@ -1,3 +1,11 @@
+## Wave64 Row046 Secret And Git Security - 2026-07-12T07:11:57-05:00
+
+`TRK-W64-046` / `ITEM-W64-046` is `Blocked_Intentional_Preserved_Worktree_Checkpoint`. Current local scanning passes secret handling, required ignore patterns, tracked/staged secret checks, blocked binary/model tracking, empty staging, and HEAD/origin parity. Strict `clean_worktree` remains false only because five explicitly preserved paths remain; none were mutated, staged, or reverted, and EC2 remains disallowed.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/secret_git_security.json`; `Plan/Instructions/QA/Evidence/Wave64/SECRET_GIT_SECURITY_RECONCILIATION_20260712T071157-0500.json`; `Plan/Tracker/Evidence/SECRET_GIT_SECURITY_RECONCILIATION_20260712T071157-0500.json`; `Plan/Instructions/QA/Evidence/Security/W64_SECRET_GIT_SECURITY_CHECKS_20260712T071019-0500.json`.
+
+Next: continue only non-EC2-safe work at `TRK-W64-047 / ITEM-W64-047`.
+
 ## Wave64 Row045 Civitai Provenance - 2026-07-12T07:05:24-05:00
 
 `TRK-W64-045` / `ITEM-W64-045` is `Completed_Local_Civitai_Metadata_Provenance_Pass`. The current 15-record registry contains seven Civitai-backed RealVisXL records; all seven match model `139562`, version `789646`, the expected checkpoint filename, source URL, and SHA256. Eight GitHub/Hugging Face records are correctly outside Civitai scope. Clean evidence contains no secret markers, and no token or network lookup was used.
