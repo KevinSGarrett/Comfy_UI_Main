@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-12T06:40:23-05:00",
+  "tracker_id": "TRK-W64-042",
+  "item_id": "ITEM-W64-042",
+  "status": "Blocked_AWS_Expired_Session_Live_Proof",
+  "evidence": [
+    "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json",
+    "Plan/Instructions/QA/Evidence/Wave64/EC2_TTL_WATCHDOG_RECONCILIATION_20260712T064023-0500.json",
+    "Plan/Tracker/Evidence/EC2_TTL_WATCHDOG_RECONCILIATION_20260712T064023-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog_reconciliation_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-042_ec2_ttl_watchdog.json",
+    "runtime_artifacts/wave64/row042_ec2_ttl_watchdog/20260712T063917-0500/emergency_stop_schedule_dry_run.json",
+    "runtime_artifacts/wave64/row042_ec2_ttl_watchdog/20260712T063917-0500/instance_stop_watchdog_dry_run.json",
+    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_AWS_AUTH_GATE_EC2_TTL_WATCHDOG_20260708T233332-0500.json"
+  ],
+  "blockers": [
+    "AWS authentication remains expired.",
+    "No live EventBridge emergency-stop schedule was created.",
+    "No SSM instance watchdog command was started.",
+    "No bounded EC2 runtime was executed.",
+    "No final stopped-state verification was performed."
+  ],
+  "next_action": "Advance to the non-EC2-safe portion of TRK-W64-043 / ITEM-W64-043; do not attempt live TTL proof until AWS authentication is restored."
+}

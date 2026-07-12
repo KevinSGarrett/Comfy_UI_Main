@@ -1,3 +1,11 @@
+## Wave64 Row042 TTL Watchdog Reconciliation - 2026-07-12T06:40:23-05:00
+
+`TRK-W64-042` / `ITEM-W64-042` remains `Blocked_AWS_Expired_Session_Live_Proof`. One current local dry-run refresh produced valid 60-minute EventBridge schedule and instance-watchdog plans with `execute=false`, `aws_contacted=false`, and `ec2_started=false`. The AWS auth helper was not rerun because it contacts AWS. Live proof remains blocked: no schedule or SSM watchdog was executed and no final stopped-state verification occurred.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json`; `Plan/Instructions/QA/Evidence/Wave64/EC2_TTL_WATCHDOG_RECONCILIATION_20260712T064023-0500.json`; `Plan/Tracker/Evidence/EC2_TTL_WATCHDOG_RECONCILIATION_20260712T064023-0500.json`; `runtime_artifacts/wave64/row042_ec2_ttl_watchdog/20260712T063917-0500/emergency_stop_schedule_dry_run.json`; `runtime_artifacts/wave64/row042_ec2_ttl_watchdog/20260712T063917-0500/instance_stop_watchdog_dry_run.json`.
+
+Next: continue only the non-EC2-safe portion of `TRK-W64-043 / ITEM-W64-043` while AWS authentication remains expired.
+
 ## Wave64 Row041 S3 Transfer Readiness Reconciliation - 2026-07-12T06:33:24-05:00
 
 `TRK-W64-041` / `ITEM-W64-041` is `Local_Ready_Only_AWS_Authentication_Expired`. The July 8 local static readiness pass is preserved: all six scoped source files have exact Git provenance predating that evidence, so the static gate was not rerun. Commit `04ce32f` was checked and did not touch these sources. This is not live S3/IAM certification; AWS authentication remains expired, no cloud API was contacted, and EC2 stayed off.
