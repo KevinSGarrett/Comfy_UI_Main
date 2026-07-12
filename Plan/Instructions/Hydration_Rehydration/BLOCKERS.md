@@ -1,3 +1,11 @@
+## Wave64 Row007 Model Asset Storage And Cache Governance - 2026-07-12T10:41:42-05:00
+
+`TRK-W64-007` / `ITEM-W64-007` is `Blocked_Model_Presence_And_State_Reconciliation_Static_Governance_Pass`. The direct contract verifies 15/15 registry-to-validation declarations, valid expected SHA256 values, non-Git model paths, complete binary ignore policy, zero tracked model binaries, bounded RealVisXL local size/hash proof, and 20/20 controls. Required-model presence remains blocked for two strict states: inpaint declaration/proof reconciliation and locally missing, license-unasserted Flux. Existing bounded lane proofs remain preserved, but queued or missing declarations prevent new model-level promotion. No broad model hashing, download, registry/queue mutation, AWS, EC2, ComfyUI, generation, mask, Jira, or Wave71+ action occurred.
+
+Next safe local action in strict sequence: `TRK-W64-008 / ITEM-W64-008`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/model_asset_storage_cache.json`; `Plan/Instructions/QA/Evidence/Wave64/MODEL_ASSET_STORAGE_CACHE_20260712T104142-0500.json`; `Plan/Tracker/Evidence/MODEL_ASSET_STORAGE_CACHE_20260712T104142-0500.json`.
+
 ## Wave64 Row006 GitHub Local EC2 S3 Architecture - 2026-07-12T10:31:34-05:00
 
 `TRK-W64-006` / `ITEM-W64-006` is `Blocked_Live_Repo_EC2_S3_Proof_Static_Architecture_Pass`. The direct split-state contract passes static CI/package architecture, local deploy-bundle/S3 readiness, the bounded historical low-risk lane SHA chain, and non-executing 60-minute EC2-window controls with 20/20 checks. It remains fail-closed for current CI alignment (`TRK-W64-040`), live S3 proof (`TRK-W64-041`), and live TTL/watchdog enforcement (`TRK-W64-042`). Historical Row038 proof remains valid only for its exact low-risk lane scope. No CI trigger, AWS/S3 contact, EC2 start, generation, mask, Jira, or Wave71+ action occurred.

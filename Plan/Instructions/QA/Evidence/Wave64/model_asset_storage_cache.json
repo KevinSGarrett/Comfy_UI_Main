@@ -1,0 +1,233 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "MODEL_ASSET_STORAGE_CACHE_20260712T104142-0500",
+  "created_iso": "2026-07-12T10:41:42-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-007",
+  "item_id": "ITEM-W64-007",
+  "status": "Blocked_Model_Presence_And_State_Reconciliation_Static_Governance_Pass",
+  "row_complete": false,
+  "qa_decision": "static_model_storage_governance_pass_presence_and_state_reconciliation_blocked",
+  "validation_gates": {
+    "model_registry_required": {
+      "status": "pass",
+      "checks": [
+        "MSC-001_row007_contract_exact",
+        "MSC-002_source_contract_linked",
+        "MSC-003_contract_schema_identity",
+        "MSC-004_gate_order_exact",
+        "MSC-005_registry_exact_15",
+        "MSC-006_validation_queue_exact_15",
+        "MSC-007_declaration_pairs_unique",
+        "MSC-013_governance_current_pass"
+      ]
+    },
+    "sha256_required": {
+      "status": "pass_policy_and_bounded_realvis_proof",
+      "checks": [
+        "MSC-008_all_registry_hashes_valid",
+        "MSC-015_realvis_local_hash_proven",
+        "MSC-017_flux_presence_and_hash_missing"
+      ]
+    },
+    "non_git_model_path": {
+      "status": "pass",
+      "checks": [
+        "MSC-009_all_registry_paths_non_git",
+        "MSC-010_all_queue_paths_non_git",
+        "MSC-011_binary_ignore_policy_complete",
+        "MSC-012_zero_tracked_model_binaries"
+      ]
+    },
+    "required_model_presence": {
+      "status": "blocked_two_required_rows",
+      "checks": [
+        "MSC-014_status_distribution_exact",
+        "MSC-016_flux_registered_fail_closed",
+        "MSC-018_inpaint_declaration_proof_conflict_recorded",
+        "MSC-019_precedence_and_scope_fail_closed",
+        "MSC-020_no_download_runtime_or_promotion"
+      ]
+    }
+  },
+  "inventory": {
+    "registry_records": 15,
+    "validation_queue_rows": 15,
+    "status_counts": {
+      "runtime_smoke_complete": 8,
+      "queued": 2,
+      "local_generation_smoke_complete": 5
+    },
+    "tracked_model_binary_count": 0
+  },
+  "bounded_presence_proof": {
+    "model": "realvisxlV50_v50Bakedvae.safetensors",
+    "local_hash_match": true,
+    "scope": "local RealVisXL cache only"
+  },
+  "blockers": [
+    {
+      "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+      "classification": "blocked_declaration_proof_state_reconciliation",
+      "strict_state": "queued",
+      "promotion_allowed": false
+    },
+    {
+      "lane_id": "flux1_dev_primary_base",
+      "classification": "blocked_required_model_missing_license_unasserted",
+      "strict_state": "missing",
+      "promotion_allowed": false
+    }
+  ],
+  "checks": [
+    {
+      "name": "MSC-001_row007_contract_exact",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-002_source_contract_linked",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-003_contract_schema_identity",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-004_gate_order_exact",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-005_registry_exact_15",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-006_validation_queue_exact_15",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-007_declaration_pairs_unique",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-008_all_registry_hashes_valid",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-009_all_registry_paths_non_git",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-010_all_queue_paths_non_git",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-011_binary_ignore_policy_complete",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-012_zero_tracked_model_binaries",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-013_governance_current_pass",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-014_status_distribution_exact",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-015_realvis_local_hash_proven",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-016_flux_registered_fail_closed",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-017_flux_presence_and_hash_missing",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-018_inpaint_declaration_proof_conflict_recorded",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-019_precedence_and_scope_fail_closed",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-020_no_download_runtime_or_promotion",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "safety_boundary": {
+    "model_files_hashed_by_audit": false,
+    "model_downloaded": false,
+    "registry_modified": false,
+    "validation_queue_modified": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "comfyui_contacted": false,
+    "generation_executed": false,
+    "promotion_executed": false,
+    "mask_or_wave71_touched": false,
+    "jira_mutated": false
+  },
+  "project_completion": {
+    "level": "BELOW_LEVEL_7",
+    "full_project_complete": false,
+    "final_certification_decision": "blocked"
+  },
+  "source_hashes": [
+    {
+      "path": "Plan/02_TARGET_ARCHITECTURE/MODEL_ASSET_STORAGE_AND_CACHE_STRATEGY.md",
+      "sha256": "753a2c91a92ecf19d76e99776558b1fb7aea6fbe2088e0d5ca4c668150b55b97"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/model_asset_storage_cache_contract.json",
+      "sha256": "3cc6501e95eefcfdf983a3cbce2cdde3f90046641eb1617d389bd27459b1353d"
+    },
+    {
+      "path": "Plan/Registries/Models/model_registry.jsonl",
+      "sha256": "60ce5bd6d86d6416474b5c66d8a023fb8e5e632f03072ab4ea05620736382b2f"
+    },
+    {
+      "path": "Plan/Registries/Models/model_runtime_validation_queue.csv",
+      "sha256": "800bf8837efe299bddb79fb9c5b8deedb0b234baef8ea8366964dca2922d6bdd"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/model_registry_governance.json",
+      "sha256": "0b33a55e6a5fd45c721482d55f36c29ab7634b403b98f40937772c488fadf466"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+      "sha256": "f6720781658e747ab8da5aa5bb6eb59989415cf2691b9d2204cf53a4ab027385"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_FLUX1_DEV_ASSET_AUTHORITY_LOCAL_PREFLIGHT_20260710T223000-0500.json",
+      "sha256": "d3fa6326cb796418bdb602f7c03484abb1291b7fe20425ab907fbc4db4995e67"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Model_Registry/W66_LOCAL_REALVISXL_MODEL_DOWNLOAD_20260706T204500-0500.json",
+      "sha256": "1363c074c704596f36124600c39807bf546e72365f77748285048a5a30e2b414"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "32f539e0765be5af719b70b9133254d559797f69adf0d79b87394b2d906be45c"
+    }
+  ],
+  "next_action": "Proceed to TRK-W64-008 / ITEM-W64-008 for safe local work; reconcile inpaint declaration/proof state and install Flux only through their explicit dependency gates.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/model_asset_storage_cache.json",
+    "Plan/Instructions/QA/Evidence/Wave64/MODEL_ASSET_STORAGE_CACHE_20260712T104142-0500.json",
+    "Plan/Tracker/Evidence/MODEL_ASSET_STORAGE_CACHE_20260712T104142-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/model_asset_storage_cache_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-007_model_asset_storage_cache.json"
+  ]
+}

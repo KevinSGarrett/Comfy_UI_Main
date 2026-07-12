@@ -95,3 +95,39 @@ The AI system must maintain at least 70 columns of metadata per model asset. Wav
 ## Civitai is source intelligence, not rendering
 
 Civitai API data is used to organize and understand model assets. The ComfyUI local/EC2 runtime remains the execution layer.
+
+## Machine-readable storage and proof contract
+
+The canonical Row007 contract is:
+
+`Plan/10_REGISTRIES/model_asset_storage_cache_contract.json`
+
+Every runtime-required model is evaluated across two separate surfaces:
+
+1. The declaration surface (`model_registry.jsonl` plus `model_runtime_validation_queue.csv`) records identity, lane, path, expected SHA256, and intended validation state.
+2. The proof surface records actual presence, observed SHA256, runtime loading, output, QA, and promotion evidence for the exact lane and scope.
+
+## Fail-closed precedence
+
+When declaration and proof surfaces disagree, use the strictest current state for any runtime or promotion decision:
+
+```text
+blocked > missing > queued > local_validated > target_runtime_validated
+```
+
+A broader lane summary cannot override a queued or missing required-model row. Reconciliation requires a lane-matched evidence pointer and an intentional registry/queue state update; historical evidence is never rewritten to manufacture agreement.
+
+## Required model checks
+
+1. `model_registry_required`: exactly one active registry record must match the lane and required asset role.
+2. `sha256_required`: the registry must carry a 64-character SHA256; runtime presence requires an observed matching hash.
+3. `non_git_model_path`: the path must remain under an ignored model/cache root, and binary extensions remain prohibited from Git.
+4. `required_model_presence`: a required asset must be present and hash-matched before the dependent local or target-runtime execution.
+
+Registration is not installation. Expected hashes are not observed hashes. Local presence is not EC2 presence. A successful proof for one lane, model version, or scope does not promote a queued record for another lane.
+
+## Current controlled exceptions
+
+- The inpaint checkpoint declaration remains `queued` until its registry and validation-queue row are reconciled to the exact bounded proof state.
+- Flux.1 Dev remains registered but locally absent, hash-unverified in the local cache, license-acceptance unasserted, and promotion-blocked.
+- Existing validated SDXL/RealVisXL/ControlNet states remain bounded to their recorded lane evidence and do not imply universal model or project certification.

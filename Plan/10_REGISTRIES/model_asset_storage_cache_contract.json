@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "wave64_model_asset_storage_cache_contract",
+  "tracker_id": "TRK-W64-007",
+  "item_id": "ITEM-W64-007",
+  "checks_required": [
+    "model_registry_required",
+    "sha256_required",
+    "non_git_model_path",
+    "required_model_presence"
+  ],
+  "declaration_authority": [
+    "Plan/Registries/Models/model_registry.jsonl",
+    "Plan/Registries/Models/model_runtime_validation_queue.csv"
+  ],
+  "proof_authority": "lane_and_scope_matched_evidence_only",
+  "state_precedence_strictest_first": [
+    "blocked",
+    "missing",
+    "queued",
+    "local_validated",
+    "target_runtime_validated"
+  ],
+  "rules": {
+    "model_registry_required": {
+      "exact_active_record_count": 1,
+      "match_keys": ["workflow_lane", "file_name", "model_type"]
+    },
+    "sha256_required": {
+      "expected_sha256_length": 64,
+      "observed_hash_required_for_presence_claim": true,
+      "hash_match_required_for_runtime": true
+    },
+    "non_git_model_path": {
+      "required_prefix": "models/",
+      "ignored_binary_extensions": [".safetensors", ".ckpt", ".pt", ".pth", ".onnx", ".bin", ".gguf"],
+      "model_binary_commit_allowed": false
+    },
+    "required_model_presence": {
+      "presence_required_before_runtime": true,
+      "registration_equates_installation": false,
+      "local_presence_equates_ec2_presence": false
+    }
+  },
+  "current_inventory_expectation": {
+    "registry_records": 15,
+    "validation_queue_rows": 15,
+    "runtime_smoke_complete": 8,
+    "local_generation_smoke_complete": 5,
+    "queued": 2
+  },
+  "current_blockers": [
+    {
+      "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+      "classification": "blocked_declaration_proof_state_reconciliation",
+      "strict_state": "queued",
+      "promotion_allowed": false
+    },
+    {
+      "lane_id": "flux1_dev_primary_base",
+      "classification": "blocked_required_model_missing_license_unasserted",
+      "strict_state": "missing",
+      "promotion_allowed": false
+    }
+  ],
+  "current_decision": "static_governance_pass_required_model_presence_and_state_reconciliation_blocked",
+  "runtime_action_allowed": false,
+  "model_download_allowed": false,
+  "promotion_allowed": false,
+  "full_project_completion_implied": false
+}

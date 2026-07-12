@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-12T10:41:42-05:00",
+  "tracker_id": "TRK-W64-007",
+  "item_id": "ITEM-W64-007",
+  "status": "Blocked_Model_Presence_And_State_Reconciliation_Static_Governance_Pass",
+  "inventory": {
+    "registry_records": 15,
+    "validation_queue_rows": 15,
+    "status_counts": {
+      "runtime_smoke_complete": 8,
+      "queued": 2,
+      "local_generation_smoke_complete": 5
+    },
+    "tracked_model_binary_count": 0
+  },
+  "bounded_presence_proof": {
+    "model": "realvisxlV50_v50Bakedvae.safetensors",
+    "local_hash_match": true,
+    "scope": "local RealVisXL cache only"
+  },
+  "blockers": [
+    {
+      "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+      "classification": "blocked_declaration_proof_state_reconciliation",
+      "strict_state": "queued",
+      "promotion_allowed": false
+    },
+    {
+      "lane_id": "flux1_dev_primary_base",
+      "classification": "blocked_required_model_missing_license_unasserted",
+      "strict_state": "missing",
+      "promotion_allowed": false
+    }
+  ],
+  "project_completion": {
+    "level": "BELOW_LEVEL_7",
+    "full_project_complete": false,
+    "final_certification_decision": "blocked"
+  },
+  "evidence": [
+    "Plan/Instructions/QA/Evidence/Wave64/model_asset_storage_cache.json",
+    "Plan/Instructions/QA/Evidence/Wave64/MODEL_ASSET_STORAGE_CACHE_20260712T104142-0500.json",
+    "Plan/Tracker/Evidence/MODEL_ASSET_STORAGE_CACHE_20260712T104142-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/model_asset_storage_cache_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-007_model_asset_storage_cache.json"
+  ],
+  "next_action": "Proceed to TRK-W64-008 / ITEM-W64-008 for safe local work; reconcile inpaint declaration/proof state and install Flux only through their explicit dependency gates."
+}
