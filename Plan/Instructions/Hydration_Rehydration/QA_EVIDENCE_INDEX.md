@@ -1,3 +1,11 @@
+## Wave64 Row043 Artifact Pullback Reconciliation - 2026-07-12T06:47:43-05:00
+
+`TRK-W64-043` / `ITEM-W64-043` is `Completed_Lane_Scoped_Artifact_Pullback_Integrity_Pass` for `aws_gpu_workflow_smoke_20260706T110424-0500`. Existing evidence proves manifest presence, 4/4 remote/local count parity, pullback hash verification, image/log hash parity, visual QA 86/80, and final review closure. Current checked-out history/prompt text copies differ after a later one-token edit; the original Git blobs remain recoverable and reproduce the recorded remote hashes, so historical integrity passes without claiming current-copy parity or full-project certification.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/artifact_pullback_integrity.json`; `Plan/Instructions/QA/Evidence/Wave64/ARTIFACT_PULLBACK_INTEGRITY_RECONCILIATION_20260712T064743-0500.json`; `Plan/Tracker/Evidence/ARTIFACT_PULLBACK_INTEGRITY_RECONCILIATION_20260712T064743-0500.json`; `Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/REMOTE_ARTIFACT_MANIFEST.json`; `Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T110424-0500/PULLBACK_RECORD.json`.
+
+Next: `TRK-W64-044 / ITEM-W64-044` model-registry governance duplicate-check; do not rerun this completed pullback.
+
 ## Wave64 Row042 TTL Watchdog Reconciliation - 2026-07-12T06:40:23-05:00
 
 `TRK-W64-042` / `ITEM-W64-042` remains `Blocked_AWS_Expired_Session_Live_Proof`. One current local dry-run refresh produced valid 60-minute EventBridge schedule and instance-watchdog plans with `execute=false`, `aws_contacted=false`, and `ec2_started=false`. The AWS auth helper was not rerun because it contacts AWS. Live proof remains blocked: no schedule or SSM watchdog was executed and no final stopped-state verification occurred.
