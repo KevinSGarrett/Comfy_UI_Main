@@ -1,3 +1,11 @@
+## Wave64 Row064 Prompt And Negative-Prompt QA - 2026-07-12T09:17:38-05:00
+
+`TRK-W64-064` / `ITEM-W64-064` is `Blocked_Prompt_Profile_Static_And_Runtime_QA_Gaps`. The audit parsed all 112 PromptProfiles JSON artifacts and correctly separated 109 prompt profiles from two non-prompt RealESRGAN operations and one certification matrix. Of the prompt profiles, 105 pass deterministic static prompt-pair checks, four lack an explicit pair or source-profile link, zero have exact positive/negative clause contradictions, and all 19 duplicate-pair groups are controlled variants with unique patch payloads and output prefixes. Final approval remains fail-closed because 93 profiles lack exact lane-contract authority, all 109 lack direct representative-output evidence links, and 14 Wave71/Wave72-named profiles remain deferred. No profile was modified or approved, and no generation, AWS, EC2, mask, Jira, or Wave71+ activation occurred.
+
+Next safe local action: `TRK-W64-065 / ITEM-W64-065` RealVisXL completed-lane terminal-state proof.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/prompt_negative_prompt_qa.json`; `Plan/Instructions/QA/Evidence/Wave64/PROMPT_NEGATIVE_PROMPT_QA_20260712T091738-0500.json`; `Plan/Tracker/Evidence/PROMPT_NEGATIVE_PROMPT_QA_20260712T091738-0500.json`.
+
 ## Wave64 Row063 Failure Classification And Targeted Rerun - 2026-07-12T09:01:21-05:00
 
 `TRK-W64-063` / `ITEM-W64-063` is `Completed_Current_Failure_Classification_Targeted_Rerun_Control_Pass`. The control classified all 18 current Row059-062 blocker entries, assigned severity and material-change prerequisites, constrained every rerun to its named scope, preserved four canonical evidence hashes per entry, and passed 20/20 checks. No rerun, AWS, EC2, generation, historical rewrite, Jira, mask, or Wave71+ action occurred. Upstream failures remain open; this row passes because their recovery policy is now exact and fail-closed.

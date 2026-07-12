@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-12T09:17:38-05:00",
+  "tracker_id": "TRK-W64-064",
+  "item_id": "ITEM-W64-064",
+  "status": "Blocked_Prompt_Profile_Static_And_Runtime_QA_Gaps",
+  "inventory_summary": {
+    "json_files": 112,
+    "parsed": 112,
+    "parse_failures": 0,
+    "prompt_profiles": 109,
+    "non_prompt_artifacts": 3,
+    "non_prompt_operation_profiles": 2,
+    "certification_matrices": 1,
+    "static_prompt_profiles_pass": 105,
+    "missing_prompt_pair_or_link": 4,
+    "negative_prompts_present": 105,
+    "exact_contradictions": 0,
+    "duplicate_groups": 19,
+    "controlled_duplicate_groups": 19,
+    "prompt_lane_ids": 8,
+    "lane_authority_present": 16,
+    "lane_authority_missing": 93,
+    "wave71_plus_named_deferred": 14,
+    "direct_runtime_evidence_links": 0,
+    "approved_profiles": 0
+  },
+  "normalized_blockers": [
+    {
+      "blocker_id": "PROMPT_PAIR_OR_SOURCE_LINK_MISSING",
+      "count": 4,
+      "paths": [
+        "PromptProfiles/base_generation/controlnet_canny_v5_robustness/canny_v5_eye_fill_seed711170101.json",
+        "PromptProfiles/base_generation/controlnet_canny_v5_robustness/canny_v5_eye_fill_seed711170102.json",
+        "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_v4_nomouth_seed210501.json",
+        "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_v4_nomouth_seed210502.json"
+      ],
+      "resolution": "Add explicit source_profile linkage or a complete positive/negative prompt pair; do not infer inherited text."
+    },
+    {
+      "blocker_id": "PROMPT_TARGET_LANE_AUTHORITY_MISSING",
+      "count": 93,
+      "lane_counts": {
+        "sdxl_realvisxl_controlnet_canny_lane": 26,
+        "sdxl_realvisxl_controlnet_depth_lane": 6,
+        "sdxl_realvisxl_controlnet_lineart_lane": 10,
+        "sdxl_realvisxl_controlnet_normal_lane": 7,
+        "sdxl_realvisxl_controlnet_openpose_lane": 10,
+        "sdxl_realvisxl_inpaint_detail_lane": 34
+      },
+      "resolution": "Register exact lane contracts before compatibility approval."
+    },
+    {
+      "blocker_id": "REPRESENTATIVE_RUNTIME_OUTPUT_LINK_MISSING",
+      "count": 109,
+      "resolution": "Link per-profile representative output and visual QA evidence, or explicitly record pending runtime; do not approve from static text."
+    },
+    {
+      "blocker_id": "WAVE71_PLUS_PROFILE_ACTIVATION_DEFERRED",
+      "count": 14,
+      "paths": [
+        "PromptProfiles/base_generation/controlnet_canny_w71_local_quality_loop/canny_full_body_standing_seed711570301.json",
+        "PromptProfiles/base_generation/controlnet_canny_w71_local_quality_loop/canny_full_body_standing_seed711570302.json",
+        "PromptProfiles/base_generation/controlnet_canny_w71_local_quality_loop/canny_full_body_standing_seed711570303.json",
+        "PromptProfiles/base_generation/controlnet_canny_w71_local_quality_loop/canny_w71_followup_identitylock_044062_seed711570106.json",
+        "PromptProfiles/base_generation/controlnet_canny_w71_local_quality_loop/canny_w71_identity_anchor_seed711570106.json",
+        "PromptProfiles/base_generation/controlnet_canny_w71_local_quality_loop/canny_w71_matrix_preferred_042060_seed711570106.json",
+        "PromptProfiles/base_generation/controlnet_canny_w71_local_quality_loop/canny_w71_matrix_softer_036052_seed711570106.json",
+        "PromptProfiles/base_generation/controlnet_canny_w71_local_quality_loop/canny_w71_negative_antidrift_seed711570106.json",
+        "PromptProfiles/base_generation/controlnet_canny_w71_local_quality_loop/canny_w71_robust_seed711570107.json",
+        "PromptProfiles/base_generation/controlnet_canny_w71_local_quality_loop/canny_w71_robust_seed711570108.json",
+        "PromptProfiles/base_generation/controlnet_canny_w71_local_quality_loop/canny_w71_subject_anchor_seed711570106.json",
+        "PromptProfiles/base_generation/controlnet_canny_w71_local_quality_loop/canny_w72_followup_microbalance_0415_060_seed711570106.json",
+        "PromptProfiles/base_generation/controlnet_canny_w71_local_quality_loop/canny_w72_matrix_microlow_041060_seed711570106.json",
+        "PromptProfiles/base_generation/controlnet_canny_w71_local_quality_loop/canny_w72_matrix_microstrong_043060_seed711570106.json"
+      ],
+      "resolution": "Keep deferred until the explicit Wave71+ activation gate is proven."
+    }
+  ],
+  "evidence": [
+    "Plan/Instructions/QA/Evidence/Wave64/prompt_negative_prompt_qa.json",
+    "Plan/Instructions/QA/Evidence/Wave64/PROMPT_NEGATIVE_PROMPT_QA_20260712T091738-0500.json",
+    "Plan/Tracker/Evidence/PROMPT_NEGATIVE_PROMPT_QA_20260712T091738-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/prompt_negative_prompt_qa_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-064_prompt_negative_prompt_qa.json"
+  ],
+  "next_action": "Advance to TRK-W64-065 / ITEM-W64-065 RealVisXL terminal-state proof; keep prompt approvals blocked pending exact profile, lane, and runtime-evidence corrections."
+}
