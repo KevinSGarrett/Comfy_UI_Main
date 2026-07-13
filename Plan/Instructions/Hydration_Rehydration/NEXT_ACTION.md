@@ -9254,3 +9254,10 @@ Rows035, Row037, Row038, and Row039 were duplicate-checked and remain completed 
 Next safe local action: duplicate-check `TRK-W64-041` / `ITEM-W64-041` against current S3 deploy-bundle/model-cache readiness evidence; do not republish completed bundles unless exact current proof is missing.
 
 Evidence: `Plan/Instructions/QA/Evidence/Wave64/github_actions_ci_package.json`; `Plan/Instructions/QA/Evidence/Wave64/GITHUB_ACTIONS_CI_PACKAGE_SUPERSESSION_20260712T202727-0500.json`; `Plan/Items/Reports/ITEM-W64-040_github_actions_ci_package.json`.
+## Normal Runtime Queue Selected - 2026-07-13T11:20:00-05:00
+
+Normal (`sdxl_realvisxl_controlnet_normal_lane`) is now the authoritative current runtime lane. The hardened queue validator passes with zero failures, 10/10 deferred-coverage regressions pass, FLUX alone remains explicitly deferred behind its exact license/runtime-pending status, and both queue EC2/generation permissions remain false. This is local selection only; no EC2 start or generation occurred.
+
+Next: refresh the Normal runtime-window readiness contract against the authoritative selected queue and advance only the exact remaining non-generation prerequisites. Preserve `rw-normal-20260713T105243-0500-57f1f908`, keep EC2 stopped, and do not create live schedule/watchdog controls until the bounded runtime window is genuinely ready.
+
+Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_RUNTIME_QUEUE_SELECTION_20260713T112000-0500.json`; `Plan/Tracker/Evidence/W64_NORMAL_RUNTIME_QUEUE_SELECTION_20260713T112000-0500.json`.

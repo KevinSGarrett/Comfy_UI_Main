@@ -104,19 +104,13 @@ function ConvertTo-NullableInt {
 }
 
 function Test-CompletedLaneStatusAllowed {
-  param([string]$Status)
-
-  if ([string]::IsNullOrWhiteSpace($Status)) { return $false }
-  $normalized = $Status.ToLowerInvariant()
-  if ($normalized -match "blocked|failed|missing|error") { return $false }
-  return (
-    $normalized -eq "runtime_smoke_proven" -or
-    $normalized.Contains("runtime_smoke_proven") -or
-    $normalized.Contains("target_runtime_smoke_proven") -or
-    $normalized.StartsWith("local_") -or
-    $normalized.Contains("pass_with_notes") -or
-    $normalized.Contains("complete_with_limitations")
+  param(
+    [string]$Status,
+    [string]$ExpectedStatus
   )
+
+  if ([string]::IsNullOrWhiteSpace($Status) -or [string]::IsNullOrWhiteSpace($ExpectedStatus)) { return $false }
+  return ($Status -ceq $ExpectedStatus)
 }
 
 function Get-AuthoredBaseGenerationLanes {
@@ -210,6 +204,19 @@ if ([string]::IsNullOrWhiteSpace($OutFile)) {
 
 $requiredFirstLaneId = "sdxl_low_risk_fallback_lane"
 $requiredSecondLaneId = "sdxl_realvisxl_base_lane"
+$deferredLicenseLaneId = "flux1_dev_primary_base"
+$deferredLicenseStatus = "existing_external_model_hash_verified_license_and_live_runtime_proof_pending"
+$exactAllowedCompletedStatusByLaneId = [ordered]@{
+  "sdxl_low_risk_fallback_lane" = "bounded_first_runtime_smoke_final_review_complete_with_notes"
+  "sdxl_realvisxl_base_lane" = "runtime_smoke_proven_canonical_two_character_seed_robustness_failed_local_openpose_composition_remediation_pair_passed_final_certification_blocked"
+  "sdxl_realvisxl_controlnet_canny_lane" = "target_runtime_canny_v4_bounded_portrait_certified_with_notes_plus_local_portrait_and_fullbody_variant_robustness"
+  "sdxl_realvisxl_inpaint_detail_lane" = "target_runtime_inpaint_nomouth_v4_single_sample_smoke_certified_with_notes_full_lane_not_certified"
+  "sdxl_realvisxl_controlnet_depth_lane" = "target_runtime_depth_v2_bounded_portrait_certified_with_notes_plus_local_v3_fullbody_multiseed_robustness_pass_with_notes"
+  "sdxl_realvisxl_controlnet_lineart_lane" = "portrait_target_runtime_scope_bounded_complete_with_notes_plus_local_fullbody_multiseed_robustness_pass_with_notes"
+  "sdxl_realvisxl_controlnet_openpose_lane" = "local_openpose_tablehands_fullbody_walking_and_two_character_contact_remediation_robustness_pass_with_notes_pending_target_runtime_and_final_certification"
+  "sdxl_realvisxl_controlnet_normal_lane" = "local_normal_v3_portrait_and_v4_fullbody_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification"
+  "sdxl_realesrgan_upscale_polish_lane" = "local_realesrgan_source_selection_policy_enforced_one_conditional_two_rejected_pending_target_runtime_and_final_certification"
+}
 $allowedPendingStatuses = @(
   "queued",
   "local_static_valid_pending_local_runtime_smoke",
@@ -218,7 +225,8 @@ $allowedPendingStatuses = @(
   "local_pre_ec2_ready_runtime_blocked_auth",
   "asset_authority_recorded_blocked_local_install_and_runtime_proof",
   "pending_ec2_static_proof",
-  "pending_target_runtime_proof"
+  "pending_target_runtime_proof",
+  $deferredLicenseStatus
 )
 $checks = @()
 $laneResults = @()
@@ -254,6 +262,9 @@ $checks += New-Check -Name "authored_base_generation_lanes_discovered" `
 $queueLanes = @()
 $queueLaneIds = @()
 $orderedQueueLanes = @()
+$runtimeNotStartedLaneIds = @()
+$deferredCoverageLaneIds = @()
+$requiredCoverageLaneIds = @()
 
 if ($null -ne $queuePayload) {
   $selectionPolicy = $(if (Has-Property -Object $queuePayload -Name "selection_policy") { $queuePayload.selection_policy } else { $null })
@@ -276,6 +287,53 @@ if ($null -ne $queuePayload) {
   if ($null -ne $selectionPolicy -and (Has-Property -Object $selectionPolicy -Name "completed_runtime_lane_ids")) {
     $completedRuntimeLaneIds = @($selectionPolicy.completed_runtime_lane_ids | ForEach-Object { [string]$_ })
   }
+  if ($null -ne $selectionPolicy -and (Has-Property -Object $selectionPolicy -Name "runtime_not_started_lane_ids")) {
+    $runtimeNotStartedLaneIds = @($selectionPolicy.runtime_not_started_lane_ids | ForEach-Object { [string]$_ })
+  }
+
+  $runtimeNotStartedOutsideQueue = @($runtimeNotStartedLaneIds | Where-Object { $queueLaneIds -cnotcontains $_ })
+  $runtimeNotStartedNotAuthored = @($runtimeNotStartedLaneIds | Where-Object { $authoredLaneIds -cnotcontains $_ })
+  $runtimeNotStartedUnexpectedLaneIds = @($runtimeNotStartedLaneIds | Where-Object { $_ -cne $deferredLicenseLaneId })
+  $runtimeNotStartedWrongStatus = @()
+  foreach ($laneId in @($runtimeNotStartedLaneIds)) {
+    $deferredLane = $queueLanes | Where-Object { [string]$_.lane_id -ceq $laneId } | Select-Object -First 1
+    if ($null -eq $deferredLane -or !(Has-Property -Object $deferredLane -Name "status") -or [string]$deferredLane.status -cne $deferredLicenseStatus) {
+      $runtimeNotStartedWrongStatus += $laneId
+    }
+  }
+  $currentLaneDeferred = (![string]::IsNullOrWhiteSpace($currentRuntimeLaneId) -and @($runtimeNotStartedLaneIds) -ccontains $currentRuntimeLaneId)
+  $deferredCoverageLaneIds = @($runtimeNotStartedLaneIds | Where-Object {
+    $laneId = $_
+    $lane = $queueLanes | Where-Object { [string]$_.lane_id -ceq $laneId } | Select-Object -First 1
+    $laneId -ceq $deferredLicenseLaneId -and
+    $queueLaneIds -ccontains $laneId -and
+    $authoredLaneIds -ccontains $laneId -and
+    $laneId -cne $currentRuntimeLaneId -and
+    $null -ne $lane -and
+    (Has-Property -Object $lane -Name "status") -and
+    [string]$lane.status -ceq $deferredLicenseStatus
+  })
+  $requiredCoverageLaneIds = @($queueLaneIds | Where-Object { $deferredCoverageLaneIds -cnotcontains $_ })
+
+  $checks += New-Check -Name "runtime_not_started_lanes_queued_and_authored" `
+    -Passed (@($runtimeNotStartedOutsideQueue).Count -eq 0 -and @($runtimeNotStartedNotAuthored).Count -eq 0) `
+    -Expected "every runtime_not_started lane is queued and authored" `
+    -Observed ("outside_queue={0}; not_authored={1}" -f ($runtimeNotStartedOutsideQueue -join ", "), ($runtimeNotStartedNotAuthored -join ", "))
+
+  $checks += New-Check -Name "runtime_not_started_lane_ids_exact" `
+    -Passed (@($runtimeNotStartedLaneIds).Count -le 1 -and @($runtimeNotStartedUnexpectedLaneIds).Count -eq 0) `
+    -Expected "runtime_not_started_lane_ids is empty or contains only $deferredLicenseLaneId once" `
+    -Observed $(if (@($runtimeNotStartedLaneIds).Count -eq 0) { "empty" } else { $runtimeNotStartedLaneIds -join ", " })
+
+  $checks += New-Check -Name "current_runtime_lane_not_deferred" `
+    -Passed (!$currentLaneDeferred) `
+    -Expected "current_runtime_lane_id is not listed in runtime_not_started_lane_ids" `
+    -Observed $(if ($currentLaneDeferred) { $currentRuntimeLaneId } else { "not deferred" })
+
+  $checks += New-Check -Name "runtime_not_started_lane_statuses_exact" `
+    -Passed (@($runtimeNotStartedWrongStatus).Count -eq 0) `
+    -Expected "every runtime_not_started lane has status=$deferredLicenseStatus" `
+    -Observed $(if (@($runtimeNotStartedWrongStatus).Count -eq 0) { "all deferred statuses exact" } else { $runtimeNotStartedWrongStatus -join ", " })
   $localPackageSmokeComplete = (
     $null -ne $localPackageSmokeMatrix -and
     (Has-Property -Object $localPackageSmokeMatrix -Name "status") -and
@@ -377,9 +435,10 @@ if ($null -ne $queuePayload) {
     $resolvedRequirementsPath = Resolve-ProjectPath -Path $requirementsPath
     $expectedWorkflowPath = "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/$laneId/workflow.api.json"
     $expectedRequirementsPath = "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/$laneId/runtime_requirements.json"
-    $expectedStatus = $(if (@($completedRuntimeLaneIds) -contains $laneId) { "non-blocking completed local/target runtime status" } else { "one_of: $($allowedPendingStatuses -join ', ')" })
+    $expectedCompletedStatus = $(if ($exactAllowedCompletedStatusByLaneId.Contains($laneId)) { [string]$exactAllowedCompletedStatusByLaneId[$laneId] } else { "" })
+    $expectedStatus = $(if (@($completedRuntimeLaneIds) -contains $laneId) { $(if ([string]::IsNullOrWhiteSpace($expectedCompletedStatus)) { "lane-specific completed status mapping exists" } else { $expectedCompletedStatus }) } else { "one_of: $($allowedPendingStatuses -join ', ')" })
     $status = $(if (Has-Property -Object $queuedLane -Name "status") { [string]$queuedLane.status } else { "" })
-    $statusAllowed = $(if (@($completedRuntimeLaneIds) -contains $laneId) { Test-CompletedLaneStatusAllowed -Status $status } else { @($allowedPendingStatuses) -contains $status })
+    $statusAllowed = $(if (@($completedRuntimeLaneIds) -contains $laneId) { Test-CompletedLaneStatusAllowed -Status $status -ExpectedStatus $expectedCompletedStatus } else { @($allowedPendingStatuses) -ccontains $status })
 
     $laneChecks = @(
       (New-Check -Name "lane_is_authored" `
@@ -435,23 +494,33 @@ if ($null -ne $coveragePayload) {
   $coverageLaneIds = $(if (Has-Property -Object $coveragePayload -Name "authored_base_generation_lanes") { @($coveragePayload.authored_base_generation_lanes | ForEach-Object { [string]$_ }) } else { @() })
   $coverageLaneResults = $(if (Has-Property -Object $coveragePayload -Name "lane_results") { @($coveragePayload.lane_results) } else { @() })
   $coverageMissingQueueLanes = @($queueLaneIds | Where-Object { $coverageLaneIds -notcontains $_ })
+  $coverageNonPassRequiredLanes = @()
   $coverageNonPassQueueLanes = @()
   foreach ($laneId in @($queueLaneIds)) {
     $coverageLaneResult = @($coverageLaneResults | Where-Object { [string]$_.lane_id -eq $laneId } | Select-Object -First 1)
     if ($null -eq $coverageLaneResult -or [string]$coverageLaneResult.result -ne "pass") {
       $coverageNonPassQueueLanes += $laneId
+      if ($requiredCoverageLaneIds -ccontains $laneId) {
+        $coverageNonPassRequiredLanes += $laneId
+      }
     }
   }
+  $coverageFailuresOnlyDeferred = (@($coverageNonPassQueueLanes | Where-Object { $deferredCoverageLaneIds -cnotcontains $_ }).Count -eq 0)
+  $observedFailedLaneCount = $(if (Has-Property -Object $coveragePayload -Name "failed_lane_count") { ConvertTo-NullableInt -Value $coveragePayload.failed_lane_count } else { $null })
+  $coverageAggregateResultValid = (
+    (@($coverageNonPassQueueLanes).Count -eq 0 -and (Has-Property -Object $coveragePayload -Name "result") -and [string]$coveragePayload.result -eq "pass_local_only") -or
+    (@($coverageNonPassQueueLanes).Count -gt 0 -and $coverageFailuresOnlyDeferred -and (Has-Property -Object $coveragePayload -Name "result") -and [string]$coveragePayload.result -eq "fail")
+  )
 
   $coverageChecks += New-Check -Name "coverage_result_pass_local_only" `
-    -Passed ((Has-Property -Object $coveragePayload -Name "result") -and [string]$coveragePayload.result -eq "pass_local_only") `
-    -Expected "result=pass_local_only" `
-    -Observed $(if (Has-Property -Object $coveragePayload -Name "result") { [string]$coveragePayload.result } else { "missing" })
+    -Passed $coverageAggregateResultValid `
+    -Expected "result=pass_local_only, or result=fail only when every non-pass lane is an explicitly deferred license-gated lane" `
+    -Observed $(if (Has-Property -Object $coveragePayload -Name "result") { "result=$([string]$coveragePayload.result); non_pass=$($coverageNonPassQueueLanes -join ', ')" } else { "missing" })
 
   $coverageChecks += New-Check -Name "coverage_failed_lane_count_zero" `
-    -Passed ((Has-Property -Object $coveragePayload -Name "failed_lane_count") -and [int]$coveragePayload.failed_lane_count -eq 0) `
-    -Expected "failed_lane_count=0" `
-    -Observed $(if (Has-Property -Object $coveragePayload -Name "failed_lane_count") { [string]$coveragePayload.failed_lane_count } else { "missing" })
+    -Passed ($null -ne $observedFailedLaneCount -and $observedFailedLaneCount -eq @($coverageNonPassQueueLanes).Count -and $coverageFailuresOnlyDeferred) `
+    -Expected "failed_lane_count matches lane_results and every failure is explicitly deferred" `
+    -Observed $(if ($null -ne $observedFailedLaneCount) { "reported=$observedFailedLaneCount; derived=$(@($coverageNonPassQueueLanes).Count); non_pass=$($coverageNonPassQueueLanes -join ', ')" } else { "missing" })
 
   $coverageChecks += New-Check -Name "coverage_lane_count_matches_queued_lanes" `
     -Passed ((Has-Property -Object $coveragePayload -Name "authored_base_generation_lane_count") -and [int]$coveragePayload.authored_base_generation_lane_count -eq @($queueLaneIds).Count) `
@@ -479,9 +548,9 @@ if ($null -ne $coveragePayload) {
     -Observed $(if (@($coverageMissingQueueLanes).Count -eq 0) { "all queued lanes covered" } else { $coverageMissingQueueLanes -join ", " })
 
   $coverageChecks += New-Check -Name "coverage_queue_lane_results_pass" `
-    -Passed (@($coverageNonPassQueueLanes).Count -eq 0) `
-    -Expected "every queued lane has coverage result=pass" `
-    -Observed $(if (@($coverageNonPassQueueLanes).Count -eq 0) { "all queued lane coverage results pass" } else { $coverageNonPassQueueLanes -join ", " })
+    -Passed (@($coverageNonPassRequiredLanes).Count -eq 0) `
+    -Expected "every required non-deferred queued lane has coverage result=pass" `
+    -Observed $(if (@($coverageNonPassRequiredLanes).Count -eq 0) { "all required queued lane coverage results pass" } else { $coverageNonPassRequiredLanes -join ", " })
 }
 
 $failedChecks = @($checks | Where-Object { $_.result -ne "pass" })
@@ -525,6 +594,9 @@ $record = [ordered]@{
   required_second_lane_id = $requiredSecondLaneId
   current_runtime_lane_id = $(if ($null -ne $queuePayload -and (Has-Property -Object $queuePayload -Name "selection_policy") -and (Has-Property -Object $queuePayload.selection_policy -Name "current_runtime_lane_id")) { [string]$queuePayload.selection_policy.current_runtime_lane_id } else { $null })
   completed_runtime_lane_ids = $(if ($null -ne $queuePayload -and (Has-Property -Object $queuePayload -Name "selection_policy") -and (Has-Property -Object $queuePayload.selection_policy -Name "completed_runtime_lane_ids")) { @($queuePayload.selection_policy.completed_runtime_lane_ids | ForEach-Object { [string]$_ }) } else { @() })
+  runtime_not_started_lane_ids = $runtimeNotStartedLaneIds
+  deferred_coverage_lane_ids = $deferredCoverageLaneIds
+  required_coverage_lane_ids = $requiredCoverageLaneIds
   queue_checks = $checks
   lane_queue_results = $laneResults
   coverage_checks = $coverageChecks

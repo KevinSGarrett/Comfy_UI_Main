@@ -7181,3 +7181,8 @@ Rows035, Row037, Row038, and Row039 were duplicate-checked and remain completed 
 Next safe local action: duplicate-check `TRK-W64-041` / `ITEM-W64-041` against current S3 deploy-bundle/model-cache readiness evidence; do not republish completed bundles unless exact current proof is missing.
 
 Evidence: `Plan/Instructions/QA/Evidence/Wave64/github_actions_ci_package.json`; `Plan/Instructions/QA/Evidence/Wave64/GITHUB_ACTIONS_CI_PACKAGE_SUPERSESSION_20260712T202727-0500.json`; `Plan/Items/Reports/ITEM-W64-040_github_actions_ci_package.json`.
+## Normal Runtime Queue Selected - 2026-07-13T11:20:00-05:00
+
+Continue the full autonomous ComfyUI project from the authoritative Normal runtime-lane selection. Queue validation is `pass_local_only` with zero failures and 10/10 fail-closed regressions; FLUX remains deferred, and all EC2/generation permissions remain false. Refresh the bound runtime-window readiness contract and advance only concrete remaining prerequisites without reopening completed proof or crossing mask, Wave71+, Jira, FLUX-license, or live-runtime safety boundaries.
+
+Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_RUNTIME_QUEUE_SELECTION_20260713T112000-0500.json`; `Plan/Tracker/Evidence/W64_NORMAL_RUNTIME_QUEUE_SELECTION_20260713T112000-0500.json`.

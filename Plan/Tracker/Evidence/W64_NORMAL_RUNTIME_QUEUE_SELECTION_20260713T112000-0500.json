@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64_NORMAL_RUNTIME_QUEUE_SELECTION_20260713T112000-0500",
+  "created_at": "2026-07-13T11:20:00-05:00",
+  "classification": "NORMAL_RUNTIME_QUEUE_SELECTED_LOCAL_ONLY",
+  "result": "pass_local_only",
+  "current_runtime_lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+  "deferred_coverage_lane_ids": [
+    "flux1_dev_primary_base"
+  ],
+  "execution_authorized": false,
+  "ec2_start_allowed": false,
+  "generation_allowed": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "authoritative_queue": {
+    "path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+    "sha256": "898e189888d925d8d432c8d5c2fd457ed856bf4d0de0cbc1c748681e882fbe53",
+    "mutation_scope": [
+      "updated_at",
+      "selection_policy.current_runtime_lane_id"
+    ]
+  },
+  "validator": {
+    "path": "Plan/Instructions/QA/Scripts/Test-RuntimeLaneQueue.ps1",
+    "sha256": "d0522b78cb7b8fac174bc6d7be069bd76ceb093a692998a5544ae8f6228e2738",
+    "policy": "Lane-specific exact completed statuses; only flux1_dev_primary_base with the exact license/runtime-pending status may be deferred; all required lanes must have passing coverage; queue EC2 and generation permissions must remain false."
+  },
+  "regression": {
+    "script": "Plan/Instructions/QA/Scripts/Test-RuntimeLaneQueueDeferredCoverageRegression.ps1",
+    "script_sha256": "38d340bce44a88f0e1956e0fdc7de3ab2540e6f4694922a0a66e02fc43d5e5a4",
+    "runtime_record": "runtime_artifacts/runtime_lane_selection/20260713T100637-0500-normal/runtime_lane_queue_deferred_coverage_regression_final.json",
+    "runtime_record_sha256": "830bb4f1c2f1f25d017eff3441948cc89ba7e4923f69058dbe6545ea091c4740",
+    "case_count": 10,
+    "passed_case_count": 10,
+    "failed_case_count": 0
+  },
+  "authoritative_validation": {
+    "path": "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W64_RUNTIME_LANE_QUEUE_NORMAL_SELECTED_20260713T111900-0500.json",
+    "sha256": "fcf357f8837dd2cf8e8bdfbf9e327dff6622d318b6a43945da94d4414d820e9d",
+    "failed_check_count": 0,
+    "normal_lane_required_coverage": true,
+    "runtime_boundary_no_ec2_start": true,
+    "runtime_boundary_no_generation": true
+  },
+  "review": {
+    "primary_handoff": "runtime_artifacts/agent_handoffs/claude_subscription/20260713T110740-0500_normal_queue_validator_final_review/handoff_record.json",
+    "primary_status": "PASS_WITH_FINDINGS_REMEDIATED",
+    "confirmation_handoff": "runtime_artifacts/agent_handoffs/claude_subscription/20260713T111524-0500_normal_queue_validator_remediation_confirmation_retry/handoff_record.json",
+    "confirmation_worker_result": "HIGH_CONFIDENCE_NO_REMAINING_CORRECTNESS_OR_FAIL_OPEN_FINDINGS",
+    "confirmation_wrapper_status": "CLAUDE_SUBSCRIPTION_READ_ONLY_MUTATION_VIOLATION",
+    "confirmation_scope_mutation_paths": [],
+    "confirmation_note": "The wrapper detected concurrent repository-visible state drift outside the hash-bound scope. Claude changed no scoped file and reported no remaining actionable finding."
+  },
+  "boundaries": [
+    "This selects the next local target-runtime candidate only.",
+    "This does not authorize EC2 start, S3 mutation, model installation, ComfyUI execution, or generation.",
+    "FLUX remains deferred behind license and live-runtime proof.",
+    "Manual body gold-mask dependencies and Wave70/Wave71 boundaries are unchanged."
+  ],
+  "next_action": "Refresh the Normal runtime-window readiness contract from the authoritative selected queue and advance only the exact remaining non-generation prerequisites."
+}
