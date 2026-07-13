@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "evidence_id": "W64-VIDEO-REFERENCE-INPUT",
-  "timestamp": "2026-07-12T15:06:00-05:00",
+  "timestamp": "2026-07-13T03:57:10-05:00",
   "tracker_id": "TRK-W64-022",
   "item_id": "ITEM-W64-022",
   "source_citation": "Plan/04_VIDEO_GIF_SYSTEM/WAVE26_REFERENCE_VIDEO_INPUT_PIPELINE.md",
@@ -76,7 +76,10 @@
     "powershell_parse": "pass",
     "powershell_structural_mode": "pass_claim_bounded",
     "git_diff_check": "pass",
-    "technical_offline_pass": true
+    "technical_offline_pass": true,
+    "last_targeted_rerun": "2026-07-13T03:57:10-05:00",
+    "last_targeted_rerun_tests_passed": 40,
+    "last_targeted_rerun_tests_failed": 0
   },
   "synthetic_local_runtime_probe": {
     "production_evidence": false,
@@ -97,7 +100,12 @@
     "decoded_width": 96,
     "decoded_height": 64,
     "extracted_frame_count": 4,
-    "extracted_frame_indices": [0, 3, 6, 9],
+    "extracted_frame_indices": [
+      0,
+      3,
+      6,
+      9
+    ],
     "full_schema_validation": "pass",
     "all_artifact_hashes_verified": true,
     "all_claim_flags_false": true
@@ -149,7 +157,11 @@
     "claude_semantic_candidate_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T144329-0500_row022_reference_semantic_candidates_final_review/handoff_record.json",
     "claude_semantic_candidate_remediation_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T145319-0500_row022_reference_semantic_candidates_remediation_review/handoff_record.json",
     "claude_semantic_candidate_medium_findings_remediated": 3,
-    "remaining_high_or_medium_findings": 0
+    "remaining_high_or_medium_findings": 0,
+    "cursor_production_input_inventory": "runtime_artifacts/agent_handoffs/cursor/20260713T034607-0500_w64_row022_reference_video_inventory_narrow/handoff_record.json",
+    "claude_inventory_scope_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260713T040233-0500_w64_row022_semantic_final_review/handoff_record.json",
+    "claude_inventory_scope_medium_findings_remediated": 2,
+    "claude_inventory_scope_confirmation": "runtime_artifacts/agent_handoffs/claude_subscription/20260713T040835-0500_w64_row022_semantic_remediation_review/handoff_record.json"
   },
   "runtime": {
     "synthetic_video_created": true,
@@ -164,7 +176,7 @@
     {
       "classification": "Blocked_Reference_Video_Production_Proof_Missing",
       "scope": "primary_row_blocker",
-      "reason": "No user or production reference video has been supplied and evaluated through source-to-output comparison. Synthetic local extraction proves tooling only."
+      "reason": "Bounded inventory found zero production-reference video, GIF/WebP, or numbered PNG/JPG sequence candidates in five present user/reference and authoritative ComfyUI input roots; legacy C:\\Comfy_UI\\input is absent. Synthetic decode/extraction remains tooling proof only."
     },
     {
       "classification": "Blocked_Gold_Mask_Dependency_Missing",
@@ -172,7 +184,7 @@
       "reason": "Candidate masks cannot certify mask/contact timeline alignment or contact-phase sampling while manual body gold masks remain unavailable."
     }
   ],
-  "result": "blocked_reference_video_production_proof_missing",
+  "result": "blocked_no_production_reference_video_or_sequence_in_bounded_input_roots",
   "overall_pass": false,
   "status_decision": "Blocked_Reference_Video_Production_Proof_Missing",
   "strict_decision": {
@@ -185,5 +197,19 @@
     "source_reference_visual_pass_claimed": false,
     "final_promotion_claimed": false,
     "wave71_activation_claimed": false
-  }
+  },
+  "production_reference_inventory": {
+    "evidence": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_REFERENCE_INPUT_INVENTORY_20260713T035710-0500.json",
+    "roots_checked": 6,
+    "roots_present": 5,
+    "candidate_count": 0,
+    "supported_video_count": 0,
+    "numbered_sequence_count": 0,
+    "conditional_gif_count": 0,
+    "diagnostic_webp_count": 0,
+    "authoritative_comfyui_input_present": true,
+    "legacy_comfyui_input_present": false,
+    "production_candidate_discovered": false
+  },
+  "reconciliation_evidence": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_REFERENCE_INPUT_INVENTORY_20260713T035710-0500.json"
 }

@@ -1,0 +1,175 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-VIDEO-REFERENCE-INPUT-INVENTORY-20260713T035710-0500",
+  "timestamp": "2026-07-13T03:57:10-05:00",
+  "tracker_id": "TRK-W64-022",
+  "item_id": "ITEM-W64-022",
+  "status_decision": "Blocked_Reference_Video_Production_Proof_Missing",
+  "source_citation": "Plan/04_VIDEO_GIF_SYSTEM/WAVE26_REFERENCE_VIDEO_INPUT_PIPELINE.md",
+  "inventory_policy": {
+    "supported_video_extensions": [
+      ".avi",
+      ".m4v",
+      ".mkv",
+      ".mov",
+      ".mp4",
+      ".webm"
+    ],
+    "supported_sequence_inputs": [
+      "numbered_png_sequence",
+      "numbered_jpg_sequence",
+      "extracted_frame_folder"
+    ],
+    "conditional_reference_extensions": [
+      ".gif"
+    ],
+    "diagnostic_unsupported_extensions": [
+      ".webp"
+    ],
+    "generated_outputs_scanned": false,
+    "runtime_artifacts_scanned": false,
+    "model_caches_scanned": false,
+    "pulled_back_artifacts_scanned": false
+  },
+  "roots": [
+    {
+      "label": "reference_images",
+      "root": "Reference_Images",
+      "exists": true,
+      "media_candidate_count": 0,
+      "media_candidates": [],
+      "sequence_candidate_count": 0,
+      "sequence_candidates": [],
+      "candidate_count": 0
+    },
+    {
+      "label": "ref_image_1",
+      "root": "Ref_Image_1",
+      "exists": true,
+      "media_candidate_count": 0,
+      "media_candidates": [],
+      "sequence_candidate_count": 0,
+      "sequence_candidates": [],
+      "candidate_count": 0
+    },
+    {
+      "label": "ref_image_2",
+      "root": "Ref_Image_2",
+      "exists": true,
+      "media_candidate_count": 0,
+      "media_candidates": [],
+      "sequence_candidate_count": 0,
+      "sequence_candidates": [],
+      "candidate_count": 0
+    },
+    {
+      "label": "canonical_body",
+      "root": "Ref_Image_Canonical_Body",
+      "exists": true,
+      "media_candidate_count": 0,
+      "media_candidates": [],
+      "sequence_candidate_count": 0,
+      "sequence_candidates": [],
+      "candidate_count": 0
+    },
+    {
+      "label": "authoritative_comfyui_input",
+      "root": "ComfyUI/input",
+      "exists": true,
+      "media_candidate_count": 0,
+      "media_candidates": [],
+      "sequence_candidate_count": 0,
+      "sequence_candidates": [],
+      "candidate_count": 0
+    },
+    {
+      "label": "legacy_comfyui_input_absence_check",
+      "root": "C:\\Comfy_UI\\input",
+      "exists": false,
+      "media_candidate_count": 0,
+      "media_candidates": [],
+      "sequence_candidate_count": 0,
+      "sequence_candidates": [],
+      "candidate_count": 0
+    }
+  ],
+  "summary": {
+    "roots_checked": 6,
+    "roots_present": 5,
+    "roots_absent": 1,
+    "media_candidate_count": 0,
+    "sequence_candidate_count": 0,
+    "candidate_count": 0,
+    "production_candidate_count": 0
+  },
+  "supporting_worker_record": {
+    "path": "runtime_artifacts/agent_handoffs/cursor/20260713T034607-0500_w64_row022_reference_video_inventory_narrow/handoff_record.json",
+    "sha256": "6a82ff1a8705ee92d283b849d49f66259f81d1353283a2fa53769071bcf126bc"
+  },
+  "semantic_review": {
+    "path": "runtime_artifacts/agent_handoffs/claude_subscription/20260713T040233-0500_w64_row022_semantic_final_review/handoff_record.json",
+    "sha256": "ec2178e33a222e4823272219c813aa61afe7df82fbca9155e1c67d7ad58f8b3f",
+    "initial_medium_findings": 2,
+    "confirmation_path": "runtime_artifacts/agent_handoffs/claude_subscription/20260713T040835-0500_w64_row022_semantic_remediation_review/handoff_record.json",
+    "confirmation_sha256": "075ec376cc8e19760a880e41587ab86e04add0e736774fc01f4af187fa1167b7",
+    "remaining_high_or_medium_findings": 0,
+    "remediations": [
+      "Added the authoritative C:\\Comfy_UI_Main\\ComfyUI\\input root.",
+      "Added numbered PNG/JPG sequence detection across every present inventory root."
+    ]
+  },
+  "checks": {
+    "canonical_row_exact": true,
+    "report_row_exact": true,
+    "format_registry_matches_implementation": true,
+    "sequence_registry_matches_implementation": true,
+    "four_reference_roots_present": true,
+    "authoritative_comfyui_input_present": true,
+    "legacy_input_root_absent": true,
+    "media_candidate_inventory_empty": true,
+    "sequence_candidate_inventory_empty": true,
+    "production_video_not_previously_claimed": true,
+    "existing_test_count_exact": true,
+    "existing_tests_passed": true,
+    "synthetic_probe_not_production": true,
+    "worker_handoff_passed": true,
+    "worker_handoff_clean": true,
+    "worker_inventory_agrees": true,
+    "claude_review_passed": true,
+    "claude_medium_findings_addressed": true,
+    "claude_confirmation_passed": true,
+    "claude_confirmation_no_medium_high": true,
+    "candidate_masks_not_required_for_inventory": true
+  },
+  "check_summary": {
+    "checked": 21,
+    "passed": 21,
+    "failed": 0
+  },
+  "validation": {
+    "command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_ingest_wave26_reference_video.py Plan/Instructions/QA/Scripts/test_analyze_wave26_reference_semantic_candidates.py",
+    "tests_passed": 40,
+    "tests_failed": 0,
+    "elapsed_seconds": 117.7,
+    "python_compile": "pass"
+  },
+  "gate_results": {
+    "ingest_and_semantic_tooling_tested": true,
+    "production_reference_video_discovered": false,
+    "production_reference_video_provenance_verified": false,
+    "production_reference_video_runtime_proof": false,
+    "source_reference_visual_review": false,
+    "final_promotion_ready": false
+  },
+  "boundaries": {
+    "new_generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "candidate_masks_consumed_as_truth": false,
+    "mask_promotion_claimed": false,
+    "wave70_hard_gate_rerun": false,
+    "wave71_activation_claimed": false
+  },
+  "result": "blocked_no_production_reference_video_or_sequence_in_bounded_input_roots",
+  "next_action": "Continue TRK-W64-023 / ITEM-W64-023 frame repair and inpainting reconciliation without fabricating before/after repair proof."
+}

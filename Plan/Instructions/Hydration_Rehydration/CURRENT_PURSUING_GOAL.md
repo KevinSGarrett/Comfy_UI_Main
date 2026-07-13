@@ -1,3 +1,11 @@
+## Wave64 Row022 Production Reference Video Inventory - 2026-07-13T03:57:10-05:00
+
+`TRK-W64-022` / `ITEM-W64-022` remains `Blocked_Reference_Video_Production_Proof_Missing` after a bounded production-input inventory. The five present user/reference and authoritative ComfyUI input roots contain zero supported video, conditional GIF, diagnostic WebP, or numbered PNG/JPG sequence candidates; legacy `C:\Comfy_UI\input` is absent. The existing strict ingest and semantic-candidate implementation remains validated by 40 tests and synthetic tooling probes only. No production decode, derived timeline, source comparison, visual pass, generation, AWS, EC2, mask use/promotion, hard-gate rerun, Jira mutation, or Wave71+ activation occurred.
+
+Next action: preserve this exact external-input blocker and continue `TRK-W64-023` / `ITEM-W64-023` frame repair and inpainting reconciliation without fabricating before/after repair proof.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/VIDEO_REFERENCE_INPUT_INVENTORY_20260713T035710-0500.json`.
+
 ## Wave64 Row021 Strict Temporal Visual Review - 2026-07-13T03:24:00-05:00
 
 `TRK-W64-021` / `ITEM-W64-021` is `Blocked_Video_Temporal_Visual_Quality_And_Prerequisite_Failure`. The existing Row019 eight-frame sequence now has a strict Wave27 packet, frame grid, GIF playback, continuity metrics, and a hash-bound negative Codex visual verdict. Motion measurement passes, but background/camera continuity and direct visual quality fail; identity/face detector evidence is absent, and body/hand/contact subgates remain blocked by visibility and trusted-gold-mask dependencies. No new generation, EC2, FLUX, Jira, mask promotion, hard-gate rerun, or Wave71+ action occurred.

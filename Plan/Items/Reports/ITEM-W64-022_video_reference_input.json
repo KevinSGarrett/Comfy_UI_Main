@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-022-VIDEO-REFERENCE-INPUT-20260711T145000-0500",
-  "timestamp": "2026-07-12T15:06:00-05:00",
+  "timestamp": "2026-07-13T03:57:10-05:00",
   "item_id": "ITEM-W64-022",
   "tracker_id": "TRK-W64-022",
   "workstream": "video_reference_input",
@@ -36,7 +36,15 @@
     "synthetic_claim_flags_all_false": true,
     "claude_medium_findings_remediated": 1,
     "remaining_high_or_medium_findings": 0,
-    "semantic_candidate_medium_findings_remediated": 3
+    "semantic_candidate_medium_findings_remediated": 3,
+    "bounded_production_input_inventory": "pass",
+    "inventory_roots_checked": 6,
+    "inventory_roots_present": 5,
+    "inventory_candidate_count": 0,
+    "cursor_inventory_status": "PASS",
+    "targeted_test_rerun_passed": 40,
+    "targeted_test_rerun_failed": 0,
+    "claude_semantic_confirmation": "PASS_NO_HIGH_OR_MEDIUM_FINDINGS"
   },
   "acceptance_gates": {
     "offline_ingest_implementation": true,
@@ -53,21 +61,27 @@
   "blockers": [
     {
       "classification": "Blocked_Reference_Video_Production_Proof_Missing",
-      "reason": "No production reference video or source-to-output comparison exists; synthetic decode/extraction is tool proof only."
+      "scope": "primary_row_blocker",
+      "reason": "Bounded inventory found zero production-reference video, GIF/WebP, or numbered PNG/JPG sequence candidates in five present user/reference and authoritative ComfyUI input roots; legacy C:\\Comfy_UI\\input is absent. Synthetic decode/extraction remains tooling proof only."
     },
     {
       "classification": "Blocked_Gold_Mask_Dependency_Missing",
-      "reason": "Mask/contact timeline authority and contact-phase sampling remain blocked by unavailable manual body gold masks."
+      "scope": "mask_and_contact_timeline_subgates_only",
+      "reason": "Candidate masks cannot certify mask/contact timeline alignment or contact-phase sampling while manual body gold masks remain unavailable."
     }
   ],
   "evidence": [
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/video_reference_input.json",
-      "sha256": "67755478bee0a9888340930032e68fc510ea150869623104ae3148f529931489"
+      "sha256": "5a7ea4a8f74cee8f3e2939d1d24121516b5ac6e935c5d398efe09afb5db654b5"
     },
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/video_reference_input_test_log.json",
       "sha256": "1d048bcb74c909b4d26218ee1db50de76c8f36d58152d732d7cf9bb37bdddf55"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_REFERENCE_INPUT_INVENTORY_20260713T035710-0500.json",
+      "sha256": "f189bc255d32823cd6bf48117d569e6360379b5d5b584aafff1a6364ba8baffa"
     }
   ],
   "runtime": {
@@ -79,5 +93,5 @@
     "aws_contacted": false,
     "ec2_started": false
   },
-  "next_action": "Keep row 022 blocked without production-video, derived-timeline, visual-review, or promotion claims. Continue TRK-W64-023 / ITEM-W64-023 by duplicate-checking the existing Wave27 frame-repair lane and selecting one bounded offline defect-localization or repair-ledger gap; do not fabricate before/after repair proof or use candidate masks as truth."
+  "next_action": "Continue TRK-W64-023 / ITEM-W64-023 frame repair and inpainting reconciliation without fabricating before/after repair proof."
 }
