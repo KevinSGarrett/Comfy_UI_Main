@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-NORMAL-LANE-BOUNDED-TARGET-RUNTIME-FINAL-CERTIFICATION-20260713T152600-0500",
+  "timestamp": "2026-07-13T15:26:00-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+  "result": "done_bounded_target_runtime_normal_v4_seed711670303_certified_with_notes",
+  "certification_status": "bounded_final_certification_pass_with_notes",
+  "decision_unit": "normal_v4_full_body_standing_seed711670303_exact_control_and_runtime_configuration",
+  "source_git_head": "2011cf98969515e0962033cb1094aa77a1444912",
+  "certified_configuration": {
+    "checkpoint": "realvisxlV50_v50Bakedvae.safetensors",
+    "controlnet": "controlnet-union-sdxl-1.0.safetensors",
+    "union_control_type": "normal",
+    "control_image": "controlnet_normal_bae_full_body_standing_w70_v1.png",
+    "control_image_sha256": "ff7695e83c73dc53025a7ab960a11d6e46299dcde546d26a5d46bce8637dc6fd",
+    "seed": 711670303,
+    "width": 768,
+    "height": 1024,
+    "steps": 22,
+    "cfg": 5.4,
+    "sampler": "dpmpp_2m_sde",
+    "scheduler": "karras",
+    "denoise": 1.0,
+    "control_strength": 0.45,
+    "control_start_percent": 0.0,
+    "control_end_percent": 0.7
+  },
+  "local_robustness": {
+    "sample_count": 3,
+    "runtime_pass_count": 3,
+    "broad_full_body_geometry_scope_pass_count": 3,
+    "strict_wardrobe_contract_pass_with_notes_count": 2,
+    "strict_wardrobe_contract_drift_count": 1,
+    "seed_711670303_mean_normalized_landmark_error": 0.005480511797242406,
+    "seed_711670303_max_normalized_landmark_error": 0.010119123167105202,
+    "known_drift": "Seed 711670302 generated fitted shorts instead of full-length black leggings."
+  },
+  "target_runtime_proof": {
+    "run_id": "aws_gpu_workflow_smoke_20260713T150058-0500",
+    "prompt_id": "9c0dc78a-7b1c-427e-b8e3-a63e7f18c373",
+    "workflow_smoke_generation_complete": true,
+    "prompt_schema_node_count": 12,
+    "prompt_schema_checked_input_count": 36,
+    "prompt_schema_error_count": 0,
+    "required_input_hash_verified": true,
+    "deploy_bundle_hash_verified": true,
+    "s3_output_sync_succeeded": true,
+    "generated_image_sha256": "ad45c01d2cc3a9450a9046529d59db3fb537c710b47e8802d27e04e7708c2e57",
+    "diagnostic_normal_map_sha256": "36f4d2d3cacbed09bc37caa3ba2b18f268aa35e5dd1b889f844e4eb6b7f6f84d",
+    "visual_qa_result": "pass_runtime_smoke_visual_qa",
+    "major_visual_defect_count": 0,
+    "instance_final_state": "stopped",
+    "emergency_schedule_absence_verified": true
+  },
+  "integrity_note": {
+    "image_artifacts_match_remote_manifest": true,
+    "historical_pullback_record_failure_limited_to_mutating_comfyui_log": true,
+    "image_hash_or_size_failure_present": false,
+    "runner_log_stability_fix_added_after_run": true,
+    "runner_log_stability_regression": "38/38 pass_local_only",
+    "decision": "The historical log-only mismatch is nonblocking for this bounded image/runtime certification."
+  },
+  "evidence": [
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_NORMAL_V4_FULL_BODY_MULTISEED_ROBUSTNESS_QA_20260711T043500-0500.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W70_NORMAL_V4_FULL_BODY_MULTISEED_ROBUSTNESS_DONE_20260711T043500-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_NORMAL_EC2_WORKFLOW_SMOKE_EXECUTION_2011CF98_20260713T150058-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_NORMAL_EC2_WORKFLOW_SMOKE_VISUAL_QA_2011CF98_20260713T151500-0500.json",
+    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_EC2_RUNTIME_CLEANUP_2011CF98_20260713T151600-0500.json",
+    "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_EC2_RUNTIME_WINDOW_SAFETY_GATE_REGRESSION_LOG_STABILITY_20260713T151400-0500.json"
+  ],
+  "explicit_exclusions": [
+    "No certification is claimed for seeds other than 711670303 at target runtime.",
+    "The local three-seed result does not certify strict wardrobe adherence because seed 711670302 drifted.",
+    "No certification is claimed for poses or control images outside the exact standing Normal-map scope.",
+    "No detailed body, hand, finger, face, clothing-contact, support, or whole-body geometry authority is claimed.",
+    "No identity preservation or character consistency certification is claimed.",
+    "No body mask, body-part mask, contact mask, Mask Factory promotion, or gold-mask claim is made.",
+    "Wave70 mask hard gates were not rerun and Wave71+ was not activated.",
+    "No Jira mutation is part of this certification."
+  ],
+  "worker_review_note": {
+    "route": "claude-sonnet-5",
+    "decision_unit_id": "normal-final-cert-20260713",
+    "accepted_as_authority": false,
+    "wrapper_classification": "CLAUDE_CONCURRENT_WORKTREE_DRIFT_DETECTED",
+    "scope_files_changed_during_review": false,
+    "codex_fallback": "Compact deterministic and visual review completed because unrelated concurrent side-task drift invalidated the wrapper record."
+  },
+  "next_action": "Do not rerun this completed seed. Advance only a deliberately selected changed seed, pose, control image, workflow, model, or broader quality scope."
+}

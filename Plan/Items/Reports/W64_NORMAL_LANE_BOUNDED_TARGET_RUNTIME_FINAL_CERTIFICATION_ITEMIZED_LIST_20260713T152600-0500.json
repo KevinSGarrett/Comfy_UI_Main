@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "report_id": "W64-NORMAL-LANE-BOUNDED-TARGET-RUNTIME-FINAL-CERTIFICATION-ITEMIZED-LIST-20260713T152600-0500",
+  "timestamp": "2026-07-13T15:26:00-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+  "result": "complete_with_notes",
+  "items": [
+    {
+      "item": "Local Normal v4 full-body runtime and broad geometry robustness",
+      "status": "pass",
+      "detail": "Three of three seeds passed runtime and broad full-body landmark checks."
+    },
+    {
+      "item": "Strict wardrobe robustness",
+      "status": "pass_with_limitation",
+      "detail": "Two of three seeds retained the requested wardrobe; seed 711670302 changed leggings to fitted shorts."
+    },
+    {
+      "item": "Exact target-runtime seed 711670303 generation",
+      "status": "pass",
+      "detail": "The bounded EC2 run completed with the required model and control input hashes verified."
+    },
+    {
+      "item": "Live ComfyUI prompt schema",
+      "status": "pass",
+      "detail": "Twelve nodes and 36 inputs were validated with zero schema errors before prompt submission."
+    },
+    {
+      "item": "Target-runtime image and Normal diagnostic visual QA",
+      "status": "pass",
+      "detail": "Both 768x1024 RGB artifacts were nonblank, hash-matched, complete, and had zero major visual defects."
+    },
+    {
+      "item": "Runtime cleanup",
+      "status": "pass",
+      "detail": "The approved EC2 instance is stopped and the emergency schedule absence was verified."
+    },
+    {
+      "item": "Historical pullback record",
+      "status": "nonblocking_note",
+      "detail": "Only the still-mutating ComfyUI log mismatched; both images matched. The runner was fixed and its log-stability regression passes 38/38."
+    },
+    {
+      "item": "Bounded final certification",
+      "status": "pass_with_notes",
+      "detail": "Certification applies only to seed 711670303 with the exact recorded standing Normal-map configuration."
+    },
+    {
+      "item": "Body-mask and detailed anatomy authority",
+      "status": "excluded",
+      "detail": "No gold masks were consumed, no mask gates were rerun, and no detailed body/hand/contact authority is claimed."
+    }
+  ],
+  "certification_evidence": "Plan/Instructions/QA/Evidence/Done_Certifications/W64_NORMAL_LANE_BOUNDED_TARGET_RUNTIME_FINAL_CERTIFICATION_20260713T152600-0500.json",
+  "next_action": "Queue OpenPose as the next unproven target-runtime lane, but do not launch it until its concurrent workflow edits are checkpointed and the normal readiness gates pass."
+}

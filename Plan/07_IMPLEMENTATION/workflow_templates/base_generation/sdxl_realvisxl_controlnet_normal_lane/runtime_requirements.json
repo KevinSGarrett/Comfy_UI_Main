@@ -40,8 +40,8 @@
       "input": "ckpt_name",
       "local_hash_status": "verified_local",
       "local_path_status": "present_local_ignored_model_path",
-      "hash_status": "pending_ec2_static_match",
-      "path_status": "pending_ec2_static_match"
+      "hash_status": "verified_ec2_static_and_target_runtime",
+      "path_status": "verified_ec2_static_and_target_runtime"
     },
     {
       "role": "controlnet",
@@ -61,8 +61,8 @@
       "input": "control_net_name",
       "local_hash_status": "verified_local",
       "local_path_status": "present_local_ignored_model_path",
-      "hash_status": "pending_ec2_static_match",
-      "path_status": "pending_ec2_static_match"
+      "hash_status": "verified_ec2_static_and_target_runtime",
+      "path_status": "verified_ec2_static_and_target_runtime"
     }
   ],
   "required_input_assets": [
@@ -104,12 +104,12 @@
   "runtime_output_required": true,
   "qa_report_required": true,
   "promotion_allowed_without_evidence": false,
-  "current_status": "local_normal_v3_portrait_and_v4_fullbody_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+  "current_status": "bounded_normal_v4_fullbody_seed711670303_target_runtime_certified_with_notes",
   "known_blockers": [
-    "Normal lane has local v3 three-sample robustness with notes, but is not final-certified until target-runtime gates and broader final QA pass if promotion is selected.",
-    "Target-runtime EC2 proof is still separate from this local proof.",
-    "Normal V4 full-body geometry/runtime robustness passes across three seeds, but one seed drifted from full-length leggings to fitted shorts and detailed hand/contact geometry remains unproven.",
-    "Mild beauty-polished skin persists across samples; final image-quality certification must account for this note."
+    "The target-runtime certification is bounded to Normal v4 standing seed 711670303 and the exact recorded control/configuration.",
+    "Strict wardrobe robustness remains limited because seed 711670302 generated fitted shorts instead of full-length leggings.",
+    "Detailed body, hand, finger, face, contact, identity, and body-mask authority remain unproven and excluded.",
+    "Mild beauty-polished skin persists across samples; broader image-quality certification must account for this note."
   ],
   "evidence_paths": [
     "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_OBJECT_INFO_CONTROL_PREPROCESSORS_AFTER_AUX_INSTALL_20260707T052500-0500.json",
@@ -149,8 +149,13 @@
     "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_NORMAL_V4_FULL_BODY_ROBUSTNESS_SEED711670302_20260711T043000-0500.json",
     "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_NORMAL_V4_FULL_BODY_ROBUSTNESS_SEED711670303_20260711T043000-0500.json",
     "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_NORMAL_V4_FULL_BODY_MULTISEED_ROBUSTNESS_QA_20260711T043500-0500.json",
-    "Plan/Instructions/QA/Evidence/Done_Certifications/W70_NORMAL_V4_FULL_BODY_MULTISEED_ROBUSTNESS_DONE_20260711T043500-0500.json"
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W70_NORMAL_V4_FULL_BODY_MULTISEED_ROBUSTNESS_DONE_20260711T043500-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W64_NORMAL_EC2_LANE_STATIC_PROOF_43499461_20260713T125300-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_NORMAL_EC2_WORKFLOW_SMOKE_EXECUTION_2011CF98_20260713T150058-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_NORMAL_EC2_WORKFLOW_SMOKE_VISUAL_QA_2011CF98_20260713T151500-0500.json",
+    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_EC2_RUNTIME_CLEANUP_2011CF98_20260713T151600-0500.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W64_NORMAL_LANE_BOUNDED_TARGET_RUNTIME_FINAL_CERTIFICATION_20260713T152600-0500.json"
   ],
-  "status_notes": "Normal v3 portrait multisample robustness remains passed with notes. Normal V4 now adds three-seed true full-body local robustness from one hash-recorded BAE map: runtime and geometry scope pass 3/3, all samples retain 18 common landmarks, visible hands/shoes, coherent limbs, and no normal-map leakage. Seed 711670302 drifted to fitted shorts instead of full-length leggings. Detailed hand/contact geometry, target-runtime proof, and final lane certification remain separate.",
+  "status_notes": "Normal v3 portrait multisample robustness remains passed with notes. Normal v4 local broad full-body runtime/geometry checks pass 3/3, while strict wardrobe adherence passes 2/3 because seed 711670302 drifted. Exact standing seed 711670303 is now target-runtime proven and bounded-final-certified with notes. Other seeds, poses, controls, identity, detailed anatomy/contact geometry, body masks, Mask Factory promotion, and Wave71+ remain excluded.",
   "union_controlnet_type": "normal"
 }

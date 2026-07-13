@@ -1,12 +1,12 @@
 {
     "schema_version":  "1.0",
-    "updated_at":  "2026-07-13T11:19:00-05:00",
+    "updated_at":  "2026-07-13T15:26:00-05:00",
     "artifact_id":  "TRK-W61-006",
     "purpose":  "Local queue for base-generation lane runtime proof order before EC2 execution resumes.",
     "local_only":  true,
     "selection_policy":  {
                              "first_runtime_lane_id":  "sdxl_low_risk_fallback_lane",
-                            "current_runtime_lane_id":  "sdxl_realvisxl_controlnet_normal_lane",
+                            "current_runtime_lane_id":  "sdxl_realvisxl_controlnet_openpose_lane",
                              "completed_runtime_lane_ids":  [
                                                                 "sdxl_low_risk_fallback_lane",
                                                                 "sdxl_realvisxl_base_lane",
@@ -25,24 +25,25 @@
                                                                             "sdxl_realvisxl_controlnet_canny_lane",
                                                                             "sdxl_realvisxl_inpaint_detail_lane",
                                                                             "sdxl_realvisxl_controlnet_depth_lane",
-                                                                            "sdxl_realvisxl_controlnet_lineart_lane"
+                                                                            "sdxl_realvisxl_controlnet_lineart_lane",
+                                                                            "sdxl_realvisxl_controlnet_normal_lane"
                                                                         ],
                              "bounded_certification_present_lane_ids":  [
                                                                               "sdxl_low_risk_fallback_lane",
                                                                               "sdxl_realvisxl_controlnet_canny_lane",
                                                                               "sdxl_realvisxl_inpaint_detail_lane",
                                                                               "sdxl_realvisxl_controlnet_depth_lane",
-                                                                              "sdxl_realvisxl_controlnet_lineart_lane"
+                                                                              "sdxl_realvisxl_controlnet_lineart_lane",
+                                                                              "sdxl_realvisxl_controlnet_normal_lane"
                                                                           ],
                              "remote_assets_staged_without_target_runtime_proof_lane_ids":  [
-                                                                                                  "sdxl_realvisxl_controlnet_normal_lane",
                                                                                                   "sdxl_realvisxl_controlnet_openpose_lane",
                                                                                                   "sdxl_realesrgan_upscale_polish_lane"
                                                                                               ],
                              "runtime_not_started_lane_ids":  [
                                                                     "flux1_dev_primary_base"
                                                                 ],
-                             "proof_scope_note":  "Always read each lane status, promotion rule, proof evidence, and required next runtime gate. Base proof is for an older generic scope; Inpaint certification is a bounded single-sample target-runtime smoke; remote-staged lanes must resume from their recorded missing step without re-uploading completed assets.",
+                             "proof_scope_note":  "Always read each lane status, promotion rule, proof evidence, and required next runtime gate. Base proof is for an older generic scope; Inpaint and Normal certifications are bounded single-sample target-runtime decisions; remote-staged lanes must resume from their recorded missing step without re-uploading completed assets.",
                              "do_not_promote_later_lanes_before_first_lane_runtime_proof":  true,
                              "later_lane_promotion_allowed_after_first_lane_runtime_proof":  true,
                              "requires_aws_auth_gate_before_ec2":  true,
@@ -469,13 +470,13 @@
                   {
                       "order":  8,
                       "lane_id":  "sdxl_realvisxl_controlnet_normal_lane",
-                      "role":  "eighth_sdxl_realvisxl_controlnet_normal_v3_portrait_and_v4_fullbody_multiseed_robustness_pass_with_notes",
+                      "role":  "eighth_sdxl_realvisxl_controlnet_normal_bounded_seed711670303_target_runtime_certified_with_notes",
                       "workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_normal_lane/workflow.api.json",
                       "requirements_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_normal_lane/runtime_requirements.json",
-                      "status":  "local_normal_v3_portrait_and_v4_fullbody_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
-                      "required_next_runtime_gate":  "target_runtime_proof_and_final_normal_review_only_when_intentionally_selected",
+                      "status":  "bounded_normal_v4_fullbody_seed711670303_target_runtime_certified_with_notes",
+                      "required_next_runtime_gate":  "changed_workflow_model_control_input_seed_pose_or_broader_quality_scope_only_if_intentionally_selected",
                       "local_pre_ec2_status":  "normal_v3_portrait_multiseed_plus_v4_true_fullbody_three_seed_runtime_geometry_visual_pass_with_one_wardrobe_drift_note",
-                      "promotion_rule":  "Do not promote to target-runtime proven or final Normal certification from local portrait/full-body multiseed evidence. Detailed hand/contact geometry, target-runtime object_info/path/hash/input proof, bounded target-runtime generation, pullback, strict QA, and final review remain separate.",
+                      "promotion_rule":  "The exact Normal v4 standing seed 711670303 configuration is target-runtime proven and bounded-final-certified with notes. Do not generalize it to other seeds, strict wardrobe robustness, other poses or controls, identity, detailed body/hand/contact geometry, body masks, Mask Factory promotion, or Wave71+ activation.",
                       "source_evidence":  [
                                               "Plan/10_REGISTRIES/wave11_control_map_type_registry.json",
                                               "Plan/10_REGISTRIES/wave11_control_map_runtime_requirements.json",
@@ -520,7 +521,10 @@
                                    "Plan/Instructions/QA/Evidence/Done_Certifications/W70_NORMAL_V4_FULL_BODY_MULTISEED_ROBUSTNESS_DONE_20260711T043500-0500.json"
                                ],
                       "proof_evidence":  [
-
+                                             "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_NORMAL_EC2_WORKFLOW_SMOKE_EXECUTION_2011CF98_20260713T150058-0500.json",
+                                             "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_NORMAL_EC2_WORKFLOW_SMOKE_VISUAL_QA_2011CF98_20260713T151500-0500.json",
+                                             "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_EC2_RUNTIME_CLEANUP_2011CF98_20260713T151600-0500.json",
+                                             "Plan/Instructions/QA/Evidence/Done_Certifications/W64_NORMAL_LANE_BOUNDED_TARGET_RUNTIME_FINAL_CERTIFICATION_20260713T152600-0500.json"
                                          ]
                   },
                   {
