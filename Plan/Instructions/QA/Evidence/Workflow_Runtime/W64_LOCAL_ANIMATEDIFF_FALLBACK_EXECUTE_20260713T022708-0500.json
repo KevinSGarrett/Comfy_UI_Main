@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-LOCAL-ANIMATEDIFF-FALLBACK-EXECUTE-20260713T022708-0500",
+  "timestamp": "2026-07-13T02:27:44-05:00",
+  "tracker_id": "TRK-W64-019",
+  "item_id": "ITEM-W64-019",
+  "lane_id": "animatediff_fallback",
+  "mode": "execute",
+  "local_only": true,
+  "aws_source_read_used": true,
+  "aws_source_bucket": "comfyui-lora-outputs-029530099913-us-east-1",
+  "aws_source_prefix": "wave42/ec2_mirror/20260628_211600/ComfyUI",
+  "ec2_started": false,
+  "generation_executed": true,
+  "prompt_id": "b450c9d1-c22f-478e-a10c-3e1fee381859",
+  "workflow": "Workflows/video_generation/animatediff_fallback_lane/workflow.api.json",
+  "runtime_requirements": "Workflows/video_generation/animatediff_fallback_lane/runtime_requirements.json",
+  "object_info": {
+    "node_count": 1000,
+    "required_nodes_present": [
+      "CheckpointLoaderSimple",
+      "CLIPTextEncode",
+      "ADE_LoadAnimateDiffModel",
+      "ADE_ApplyAnimateDiffModelSimple",
+      "ADE_StandardUniformContextOptions",
+      "ADE_UseEvolvedSampling",
+      "EmptyLatentImage",
+      "KSampler",
+      "VAEDecode",
+      "SaveAnimatedWEBP"
+    ],
+    "motion_model_present": true
+  },
+  "history": {
+    "status": "success",
+    "completed": true,
+    "node_errors": []
+  },
+  "artifacts": [
+    {
+      "node_id": "12",
+      "field": "images",
+      "file_name": "wave64_animatediff_fallback_seed6401901_00001_.webp",
+      "type": "output",
+      "local_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave64_animatediff_fallback_seed6401901_00001_.webp",
+      "size_bytes": 519350,
+      "sha256": "893a8b5efd7b29fd52d8eab1440ef8db933e277b1151014398fdec2851171b18"
+    }
+  ],
+  "artifact_count": 1,
+  "comfyui": {
+    "started_by_run": true,
+    "stopped_by_run": true,
+    "port_closed_after_stop": true
+  },
+  "result": "pass_local_animatediff_fallback_runtime_smoke",
+  "boundaries": {
+    "target_runtime_certification_claimed": false,
+    "production_video_lane_certification_claimed": false,
+    "gold_masks_consumed": false,
+    "mask_or_geometry_authority_claimed": false,
+    "wave71_activation_claimed": false,
+    "jira_mutated": false
+  },
+  "next_action": "Run frame-by-frame technical and direct visual QA. Treat this as bounded local fallback runtime proof only."
+}

@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "lane_id": "animatediff_fallback",
+  "purpose": "One bounded local eight-frame AnimateDiff fallback smoke that reuses the archived Wave42 runtime assets and feeds the existing Wave27 strict sequence validators.",
+  "source_authority": {
+    "s3_bucket": "comfyui-lora-outputs-029530099913-us-east-1",
+    "s3_mirror_prefix": "wave42/ec2_mirror/20260628_211600/ComfyUI",
+    "source_workflow_key": "wave42/ec2_mirror/20260628_211600/ComfyUI/user/default/workflows/Wave42_Runtime_Bound__API__ANIMATEDIFF_RUNTIME_SMOKE.bound.local.json"
+  },
+  "required_nodes": [
+    "CheckpointLoaderSimple",
+    "CLIPTextEncode",
+    "ADE_LoadAnimateDiffModel",
+    "ADE_ApplyAnimateDiffModelSimple",
+    "ADE_StandardUniformContextOptions",
+    "ADE_UseEvolvedSampling",
+    "EmptyLatentImage",
+    "KSampler",
+    "VAEDecode",
+    "SaveAnimatedWEBP"
+  ],
+  "assets": [
+    {
+      "role": "checkpoint",
+      "file_name": "realvisxlV50_v50Bakedvae.safetensors",
+      "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+      "existing_authority": "Plan/Registries/Models/model_registry.jsonl"
+    },
+    {
+      "role": "animatediff_motion_model",
+      "file_name": "mm_sdxl_v10_beta.ckpt",
+      "size_bytes": 950143538,
+      "sha256": "fa4950a062e892fca50d4c441fcd6130d1ad68a621a0404d155be17580072978",
+      "s3_key": "wave42/ec2_mirror/20260628_211600/ComfyUI/models/animatediff_models/mm_sdxl_v10_beta.ckpt"
+    }
+  ],
+  "custom_node": {
+    "name": "ComfyUI-AnimateDiff-Evolved",
+    "version": "1.5.7",
+    "commit": "d8d163cd90b1111f6227495e3467633676fbb346",
+    "repository": "https://github.com/Kosinkadink/ComfyUI-AnimateDiff-Evolved.git",
+    "minimum_comfyui_version": "0.3.68"
+  },
+  "smoke_scope": {
+    "width": 256,
+    "height": 320,
+    "frame_count": 8,
+    "fps": 4.0,
+    "duration_seconds": 2.0,
+    "seed": 6401901,
+    "steps": 8,
+    "export_format": "animated_webp"
+  },
+  "boundaries": {
+    "local_only": true,
+    "aws_source_read_allowed": true,
+    "ec2_start_required": false,
+    "gold_masks_consumed": false,
+    "mask_or_geometry_authority_claimed": false,
+    "production_video_lane_certification_claimed": false,
+    "wave71_activation_claimed": false
+  }
+}

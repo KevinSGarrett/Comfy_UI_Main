@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "evidence_id": "W64-VIDEO-PIPELINE-BUILD",
-  "timestamp": "2026-07-12T14:00:00-05:00",
+  "evidence_id": "W64-VIDEO-PIPELINE-BUILD-RUNTIME-RECONCILIATION-20260713T024108-0500",
+  "timestamp": "2026-07-13T02:41:08-05:00",
   "tracker_id": "TRK-W64-019",
   "item_id": "ITEM-W64-019",
   "source_citation": "Plan/04_VIDEO_GIF_SYSTEM/VIDEO_GIF_PIPELINE_BLUEPRINT.md",
@@ -12,7 +12,12 @@
     "strict_temporal_evidence_scorer": true,
     "strict_packet_and_pack_integrity_validator": true,
     "registry_bound_engine_loop_repair_and_hard_failure_taxonomies": true,
-    "offline_final_export_claim_forbidden": true
+    "offline_final_export_claim_forbidden": true,
+    "existing_wave42_animatediff_assets_reconciled": true,
+    "new_video_model_download_avoided": true,
+    "animatediff_fallback_workflow_bound": true,
+    "animated_webp_technical_evaluator": true,
+    "wave27_frame_manifest_compiled_from_runtime": true
   },
   "implementation_artifacts": [
     {
@@ -96,27 +101,29 @@
     "technical_offline_pass": true
   },
   "acceptance_gates": {
-    "video_workflow_valid": false,
+    "video_workflow_valid": true,
     "keyframe_manifest": false,
-    "frame_sequence_manifest": false,
+    "frame_sequence_manifest": true,
     "frame_sequence_manifest_structural_validator_ready": true,
     "loop_export_gate": false,
     "loop_export_structural_gate_ready": true,
-    "artifact_evidence": false,
+    "artifact_evidence": true,
     "frame_repair_effectiveness": false,
     "frame_repair_policy_structural_gate_ready": true,
     "visual_review_prerequisite_gate_ready": true,
     "strict_frame_sequence_visual_review": false
   },
   "runtime": {
-    "generation_executed": false,
-    "generated_frame_count": 0,
-    "video_or_gif_export_count": 0,
-    "visual_review_executed": false,
-    "aws_contacted": false,
+    "generation_executed": true,
+    "generated_frame_count": 8,
+    "animated_webp_export_count": 1,
+    "final_gif_mp4_webm_export_count": 0,
+    "visual_review_executed": true,
+    "visual_review_pass": false,
+    "aws_contacted_for_existing_asset_discovery": true,
     "ec2_started": false,
-    "comfyui_started": false,
-    "reason": "This bounded packet closed the existing local sequence-validation gap. No production video-engine frame sequence, repaired span, or final GIF/MP4/WebM export was produced, and AWS authentication remains expired."
+    "comfyui_started_and_stopped": true,
+    "reason": "Existing Wave42 S3 assets produced one local AnimateDiff frame sequence and animated WebP. Technical runtime and manifest handoff pass, but frames 5-7 fail strict temporal visual quality."
   },
   "review": {
     "cursor_authority_inventory": "runtime_artifacts/agent_handoffs/cursor/20260711T121527-0500_wave64_video_authority_inventory/handoff_record.json",
@@ -130,23 +137,98 @@
   },
   "blockers": [
     {
-      "classification": "Blocked_Video_Runtime_Visual_Proof_Missing",
-      "reason": "No production route has produced a hash-bound frame sequence, repaired-frame result, temporal visual review, or final GIF/MP4/WebM export for this row. Offline structural proof cannot certify video runtime or visual quality."
+      "classification": "Blocked_Video_Visual_Temporal_Quality_Failure",
+      "reason": "Frames 5-6 introduce abrupt background changes and frame 7 has severe saturated color and anatomy corruption; visual and temporal promotion fail."
     },
     {
       "classification": "Blocked_Gold_Mask_Dependency_Missing",
-      "reason": "The blueprint's body/contact keyframe states require trusted body and contact masks. Manual body gold masks are not ready, so mask-dependent contact and soft-body video proof remains blocked."
+      "reason": "Trusted body/contact masks remain unavailable for contact and soft-body video proof; the non-contact fallback smoke does not clear that separate scope."
     }
   ],
-  "result": "blocked_video_runtime_visual_and_gold_mask_proof_missing",
+  "result": "blocked_video_visual_temporal_quality_failure_and_gold_mask_proof_missing",
   "overall_pass": false,
-  "status_decision": "Blocked_Video_Runtime_Visual_Proof_Missing",
+  "status_decision": "Blocked_Video_Visual_Temporal_Quality_Failure",
   "strict_decision": {
     "row_complete": false,
     "offline_implementation_pass": true,
+    "bounded_local_runtime_pass": true,
+    "frame_manifest_pass": true,
+    "visual_temporal_pass": false,
     "runtime_or_visual_certification_claimed": false,
     "mask_or_geometry_authority_claimed": false,
     "wave71_activation_claimed": false,
-    "reason": "The existing local Wave27 sequence lane is now strict and fail-closed, but production runtime, export, visual, repair-effectiveness, and mask-dependent proof are still absent."
-  }
+    "reason": "A real local fallback sequence now exists, but strict visual/temporal quality and final export gates fail."
+  },
+  "latest_runtime_attempt": {
+    "lane_id": "animatediff_fallback",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_ANIMATEDIFF_FALLBACK_EXECUTE_20260713T022708-0500.json",
+    "technical_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_TECHNICAL_QA_20260713T023200-0500.json",
+    "visual_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_VISUAL_QA_20260713T023500-0500.json",
+    "runtime_pass": true,
+    "technical_pass": true,
+    "visual_temporal_pass": false,
+    "generated_frame_count": 8,
+    "animated_export_count": 1,
+    "failed_frame_indexes": [
+      5,
+      6,
+      7
+    ],
+    "further_seed_loop_authorized": false
+  },
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_ANIMATEDIFF_FALLBACK_EXECUTE_20260713T022708-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_TECHNICAL_QA_20260713T023200-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_VISUAL_QA_20260713T023500-0500.json",
+    "Workflows/video_generation/animatediff_fallback_lane/workflow.api.json",
+    "Workflows/video_generation/animatediff_fallback_lane/runtime_requirements.json",
+    "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_animatediff_webp_technical.py",
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave64_animatediff_fallback_seed6401901_00001_.webp",
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/contact_sheet.png",
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave27_frame_manifest.json"
+  ],
+  "next_action": "Preserve this runtime proof. Do not seed-loop. Reopen the fallback only for a materially changed quality configuration; continue other non-mask video orchestration work meanwhile.",
+  "source_hashes": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_ANIMATEDIFF_FALLBACK_EXECUTE_20260713T022708-0500.json",
+      "sha256": "4f8c0510ba55e68494832480eb61465a7c35b368cc0ef57bf81d9167f42d22ec"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_TECHNICAL_QA_20260713T023200-0500.json",
+      "sha256": "0427bdcf2430e837aadf07fa890d9e56be1b73a2bd4d41028d78a70c4c1170c5"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_VISUAL_QA_20260713T023500-0500.json",
+      "sha256": "fcbd6dad6fa6f7e2bdf6782a2f4f3ca7b899264bcf8da8487bbf2e0499995eb9"
+    },
+    {
+      "path": "Workflows/video_generation/animatediff_fallback_lane/workflow.api.json",
+      "sha256": "1294216852bb5ae239504c721f4fd15e4206ce389f25fde822dd5de3bd4b702d"
+    },
+    {
+      "path": "Workflows/video_generation/animatediff_fallback_lane/runtime_requirements.json",
+      "sha256": "60be8070de159f5d9f396d8e41c49a32a8580ad4343e1e132739ff341b969e60"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_animatediff_webp_technical.py",
+      "sha256": "90505fa1b4f0cd2fdd723502adbca060955a58115bda2e2bc52a4c467de2d409"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave64_animatediff_fallback_seed6401901_00001_.webp",
+      "sha256": "893a8b5efd7b29fd52d8eab1440ef8db933e277b1151014398fdec2851171b18"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/contact_sheet.png",
+      "sha256": "01fe913c0365f1f907b6156af4a1e369f7ddfb2681740947b9b60e3fb8569a8e"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave27_frame_manifest.json",
+      "sha256": "a931177be02855c56c7589d91384fa1e0bc14b0c3c13faa9b3c454aba506ef14"
+    },
+    {
+      "path": "ComfyUI/models/animatediff_models/mm_sdxl_v10_beta.ckpt",
+      "sha256": "fa4950a062e892fca50d4c441fcd6130d1ad68a621a0404d155be17580072978"
+    }
+  ]
 }

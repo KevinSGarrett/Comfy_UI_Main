@@ -1,3 +1,11 @@
+## Wave64 Row019 AnimateDiff Fallback Runtime - 2026-07-13T02:41:08-05:00
+
+`TRK-W64-019` / `ITEM-W64-019` is `Blocked_Video_Visual_Temporal_Quality_Failure`. Existing Wave42 AnimateDiff assets were found in S3 and reused: the motion model hash, custom-node commit, live object-info surface, local eight-frame runtime, animated WebP export, technical evaluator, and Wave27 frame manifest all pass. Direct review fails frames 5-7 for background discontinuity and terminal-frame color/anatomy corruption, so no visual, temporal, target-runtime, or production-lane certification is claimed. No EC2 start, masks, Wave71+, FLUX, or Jira action occurred.
+
+Next action: preserve this proof and continue the next concrete non-mask video orchestration task without seed-looping Row019.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build.json`; `Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_ANIMATEDIFF_FALLBACK_EXECUTE_20260713T022708-0500.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_TECHNICAL_QA_20260713T023200-0500.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_VISUAL_QA_20260713T023500-0500.json`.
+
 ## Wave64 Row011 Camera Framing And Composition Strictness - 2026-07-13T01:58:34-05:00
 
 `TRK-W64-011` / `ITEM-W64-011` remains `Blocked_Visual_Runtime_Composition_Mismatch`. One bounded Wave10 prompt-and-seed retry passes 22 tests, deterministic plan/profile binding, local runtime, one-person/18-landmark detection, camera intent, full-body framing, and composition score 100. Direct Codex visual review confirms both hands are still inside trouser pockets, so the required-region crop and strict visual-runtime gates fail. Later W70 OpenPose full-body robustness belongs to a different lane/control workflow and explicitly lacks target-runtime/final-lane certification; it is supportive but cannot supersede this blocker. The reconciliation audit passes 20/20 checks. The retry ran locally without AWS, EC2, mask use/promotion, Jira, or Wave71+ action. Further Row011 seed looping is prohibited.

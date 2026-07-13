@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-019-VIDEO-PIPELINE-BUILD-20260711T125500-0500",
-  "timestamp": "2026-07-12T14:00:00-05:00",
+  "timestamp": "2026-07-13T02:41:08-05:00",
   "item_id": "ITEM-W64-019",
   "tracker_id": "TRK-W64-019",
   "workstream": "video_pipeline_build",
-  "status": "Blocked_Video_Runtime_Visual_Proof_Missing",
+  "status": "Blocked_Video_Visual_Temporal_Quality_Failure",
   "row_complete": false,
   "implementation": {
     "existing_lane_extended_in_place": true,
@@ -31,44 +31,80 @@
     "claude_high_or_medium_findings": 0
   },
   "acceptance_gates": {
-    "video_workflow_valid": false,
+    "video_workflow_valid": true,
     "keyframe_manifest": false,
-    "frame_sequence_manifest": false,
+    "frame_sequence_manifest": true,
     "frame_sequence_manifest_structural_validator_ready": true,
     "loop_export_gate": false,
     "loop_export_structural_gate_ready": true,
-    "artifact_evidence": false,
+    "artifact_evidence": true,
     "frame_repair_effectiveness": false,
     "frame_repair_policy_structural_gate_ready": true,
     "visual_review_prerequisite_gate_ready": true,
     "strict_frame_sequence_visual_review": false
   },
   "runtime": {
-    "generation_count": 0,
-    "export_count": 0,
-    "visual_review_count": 0,
-    "aws_contacted": false,
+    "generation_executed": true,
+    "generated_frame_count": 8,
+    "animated_webp_export_count": 1,
+    "final_gif_mp4_webm_export_count": 0,
+    "visual_review_executed": true,
+    "visual_review_pass": false,
+    "aws_contacted_for_existing_asset_discovery": true,
     "ec2_started": false,
-    "comfyui_started": false
+    "comfyui_started_and_stopped": true,
+    "reason": "Existing Wave42 S3 assets produced one local AnimateDiff frame sequence and animated WebP. Technical runtime and manifest handoff pass, but frames 5-7 fail strict temporal visual quality."
   },
   "blockers": [
     {
-      "classification": "Blocked_Video_Runtime_Visual_Proof_Missing",
-      "reason": "A production video route has not produced and exported a hash-bound frame sequence for temporal and visual review."
+      "classification": "Blocked_Video_Visual_Temporal_Quality_Failure",
+      "reason": "Frames 5-6 introduce abrupt background changes and frame 7 has severe saturated color and anatomy corruption; visual and temporal promotion fail."
     },
     {
       "classification": "Blocked_Gold_Mask_Dependency_Missing",
-      "reason": "Trusted body/contact masks remain unavailable for the blueprint's contact and soft-body keyframe proof."
+      "reason": "Trusted body/contact masks remain unavailable for contact and soft-body video proof; the non-contact fallback smoke does not clear that separate scope."
     }
   ],
   "evidence": [
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build.json",
-      "sha256": "eb621c728c5df569f96e84616150fed01e530f95e5529436767722d5aaf9c3e8"
+      "sha256": "01985d60e04da5ae4ed527f1579c271c79338f6ca494a7c2c43508cdc6037fc0"
     },
     {
-      "path": "Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build_test_log.json",
-      "sha256": "0396b7fb534e0797a1fe9efcb4a20f332bb1c5512e78b7463a297c650d9757c8"
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_ANIMATEDIFF_FALLBACK_EXECUTE_20260713T022708-0500.json",
+      "sha256": "4f8c0510ba55e68494832480eb61465a7c35b368cc0ef57bf81d9167f42d22ec"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_TECHNICAL_QA_20260713T023200-0500.json",
+      "sha256": "0427bdcf2430e837aadf07fa890d9e56be1b73a2bd4d41028d78a70c4c1170c5"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_VISUAL_QA_20260713T023500-0500.json",
+      "sha256": "fcbd6dad6fa6f7e2bdf6782a2f4f3ca7b899264bcf8da8487bbf2e0499995eb9"
+    },
+    {
+      "path": "Workflows/video_generation/animatediff_fallback_lane/workflow.api.json",
+      "sha256": "1294216852bb5ae239504c721f4fd15e4206ce389f25fde822dd5de3bd4b702d"
+    },
+    {
+      "path": "Workflows/video_generation/animatediff_fallback_lane/runtime_requirements.json",
+      "sha256": "60be8070de159f5d9f396d8e41c49a32a8580ad4343e1e132739ff341b969e60"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_animatediff_webp_technical.py",
+      "sha256": "90505fa1b4f0cd2fdd723502adbca060955a58115bda2e2bc52a4c467de2d409"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave64_animatediff_fallback_seed6401901_00001_.webp",
+      "sha256": "893a8b5efd7b29fd52d8eab1440ef8db933e277b1151014398fdec2851171b18"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/contact_sheet.png",
+      "sha256": "01fe913c0365f1f907b6156af4a1e369f7ddfb2681740947b9b60e3fb8569a8e"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave27_frame_manifest.json",
+      "sha256": "a931177be02855c56c7589d91384fa1e0bc14b0c3c13faa9b3c454aba506ef14"
     }
   ],
   "review": {
@@ -78,5 +114,22 @@
     "claude_expanded_surface_review": "pass",
     "codex_final_tests_and_acceptance_review": "pass_offline_blocked_runtime"
   },
-  "next_action": "Keep this row blocked without runtime or visual certification. Continue the next concrete non-mask implementation row; revisit only when a production video engine can generate a real frame sequence and final export, and revisit contact/body proof only after trusted manual gold masks are ready."
+  "next_action": "Preserve this runtime proof. Do not seed-loop. Reopen the fallback only for a materially changed quality configuration; continue other non-mask video orchestration work meanwhile.",
+  "latest_runtime_attempt": {
+    "lane_id": "animatediff_fallback",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_ANIMATEDIFF_FALLBACK_EXECUTE_20260713T022708-0500.json",
+    "technical_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_TECHNICAL_QA_20260713T023200-0500.json",
+    "visual_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_VISUAL_QA_20260713T023500-0500.json",
+    "runtime_pass": true,
+    "technical_pass": true,
+    "visual_temporal_pass": false,
+    "generated_frame_count": 8,
+    "animated_export_count": 1,
+    "failed_frame_indexes": [
+      5,
+      6,
+      7
+    ],
+    "further_seed_loop_authorized": false
+  }
 }

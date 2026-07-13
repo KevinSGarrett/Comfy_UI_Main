@@ -1,0 +1,234 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-VIDEO-PIPELINE-BUILD-RUNTIME-RECONCILIATION-20260713T024108-0500",
+  "timestamp": "2026-07-13T02:41:08-05:00",
+  "tracker_id": "TRK-W64-019",
+  "item_id": "ITEM-W64-019",
+  "source_citation": "Plan/04_VIDEO_GIF_SYSTEM/VIDEO_GIF_PIPELINE_BLUEPRINT.md",
+  "implementation": {
+    "existing_wave26_wave27_lane_extended_in_place": true,
+    "parallel_video_framework_created": false,
+    "strict_frame_sequence_compiler": true,
+    "strict_temporal_evidence_scorer": true,
+    "strict_packet_and_pack_integrity_validator": true,
+    "registry_bound_engine_loop_repair_and_hard_failure_taxonomies": true,
+    "offline_final_export_claim_forbidden": true,
+    "existing_wave42_animatediff_assets_reconciled": true,
+    "new_video_model_download_avoided": true,
+    "animatediff_fallback_workflow_bound": true,
+    "animated_webp_technical_evaluator": true,
+    "wave27_frame_manifest_compiled_from_runtime": true
+  },
+  "implementation_artifacts": [
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/compile_wave27_frame_manifest.py",
+      "sha256": "149c3bbd9a4e4b160b66ffe755c91bb161f13873c16cf89a7aeb571e3b33b9c0"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/score_wave27_temporal_evidence.py",
+      "sha256": "1109e69d3e7921981ac9be8f89c5979262837a9af1653ff41cdc87fd13fcda69"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/run_wave27_local_validation.py",
+      "sha256": "a3b986b8957937d1962a21b12f3b2165f5aafb17b72e38bbcf537e4191bc0917"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave27_frame_manifest.schema.json",
+      "sha256": "d897b82d0e47d7df1d9fb4d4011b9fd3051f61b4845f2824cbfabcfa0a2c2735"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave27_temporal_evidence.schema.json",
+      "sha256": "3c3892cefde63cfa029ce43720d48d7ab530868dbc99373e9729c195e7c1e86d"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_wave27_video_pipeline_strict.py",
+      "sha256": "2b945c78ab88be5f6e70913fa72bb7367612b2a00396f530c5fac9c5c25260a8"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/plan_wave27_frame_repair_ledger.py",
+      "sha256": "5bf86afdf823b285d713d1d6b5cce622275b9823a5d84604311d4a1d6d69ca9a"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave27_frame_repair_ledger.schema.json",
+      "sha256": "f294896e079c7d9da90ae9b8226127c5e493d4a5746573e56e4f3a88909af6f0"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_wave27_frame_repair_ledger_strict.py",
+      "sha256": "c8bceb9e17b0b139aaf8dd19d03df3b5330e196189f0c2acc123577a4c7d83a7"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/certify_wave26_gif_loop_export.py",
+      "sha256": "6836b9c492f926fe548aa5444394a10269898608c770dfb541d49bbe9b892097"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave26_gif_loop_export_evidence.schema.json",
+      "sha256": "f74968c0347e47e1dde115b9340d2272d3946147e1aab8c9ba60b3d97e94297b"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_wave26_gif_loop_export_strict.py",
+      "sha256": "814e9eb066002533e435b56b4dec07d9e888402d2635d1818c8554ef7137eff4"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/prepare_wave27_strict_visual_review_packet.py",
+      "sha256": "8f9af73222ecb45185720d05c4258750b2982e691e4a8bbd90b314cabeeaa6a6"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/wave27_visual_review_packet.schema.json",
+      "sha256": "5179fe4e6a2b125109be04ef117da8a597144d85ed270eb9ef5c21c91a560c4b"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_prepare_wave27_strict_visual_review_packet.py",
+      "sha256": "7ca8e870cbf236408bae11b6aae1db5a8e2c53381fd09a623e8802cc99840c66"
+    }
+  ],
+  "offline_validation": {
+    "test_log": "Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build_test_log.json",
+    "test_log_sha256": "0396b7fb534e0797a1fe9efcb4a20f332bb1c5512e78b7463a297c650d9757c8",
+    "tests_run": 59,
+    "suite_breakdown": {
+      "wave27_video_pipeline_strict": 16,
+      "wave27_frame_repair_ledger_strict": 15,
+      "wave26_gif_loop_export_strict": 12,
+      "wave27_strict_visual_review_packet": 16
+    },
+    "test_failures": 0,
+    "test_errors": 0,
+    "pack_integrity_wrapper_pass": true,
+    "repository_root_mode_pass": true,
+    "plan_root_mode_pass": true,
+    "strict_valid_packet_pass": true,
+    "strict_negative_cases_fail_closed": true,
+    "technical_offline_pass": true
+  },
+  "acceptance_gates": {
+    "video_workflow_valid": true,
+    "keyframe_manifest": false,
+    "frame_sequence_manifest": true,
+    "frame_sequence_manifest_structural_validator_ready": true,
+    "loop_export_gate": false,
+    "loop_export_structural_gate_ready": true,
+    "artifact_evidence": true,
+    "frame_repair_effectiveness": false,
+    "frame_repair_policy_structural_gate_ready": true,
+    "visual_review_prerequisite_gate_ready": true,
+    "strict_frame_sequence_visual_review": false
+  },
+  "runtime": {
+    "generation_executed": true,
+    "generated_frame_count": 8,
+    "animated_webp_export_count": 1,
+    "final_gif_mp4_webm_export_count": 0,
+    "visual_review_executed": true,
+    "visual_review_pass": false,
+    "aws_contacted_for_existing_asset_discovery": true,
+    "ec2_started": false,
+    "comfyui_started_and_stopped": true,
+    "reason": "Existing Wave42 S3 assets produced one local AnimateDiff frame sequence and animated WebP. Technical runtime and manifest handoff pass, but frames 5-7 fail strict temporal visual quality."
+  },
+  "review": {
+    "cursor_authority_inventory": "runtime_artifacts/agent_handoffs/cursor/20260711T121527-0500_wave64_video_authority_inventory/handoff_record.json",
+    "cursor_implementation_discovery": "runtime_artifacts/agent_handoffs/cursor/20260711T122039-0500_wave64_video_implementation_surface_discovery/handoff_record.json",
+    "cursor_gap_review": "runtime_artifacts/agent_handoffs/cursor/20260711T122529-0500_wave64_video_existing_lane_gap_review/handoff_record.json",
+    "cursor_implementation": "runtime_artifacts/agent_handoffs/cursor/20260711T122748-0500_wave64_video_strict_sequence_patch/handoff_record.json",
+    "cursor_correction": "runtime_artifacts/agent_handoffs/cursor/20260711T123451-0500_wave64_video_strict_sequence_correction/handoff_record.json",
+    "claude_final_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T124725-0500_wave64_video_final_contradiction_review/handoff_record.json",
+    "claude_expanded_surface_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T135321-0500_row019_expanded_video_offline_surface_review/handoff_record.json",
+    "claude_high_or_medium_findings": 0
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Video_Visual_Temporal_Quality_Failure",
+      "reason": "Frames 5-6 introduce abrupt background changes and frame 7 has severe saturated color and anatomy corruption; visual and temporal promotion fail."
+    },
+    {
+      "classification": "Blocked_Gold_Mask_Dependency_Missing",
+      "reason": "Trusted body/contact masks remain unavailable for contact and soft-body video proof; the non-contact fallback smoke does not clear that separate scope."
+    }
+  ],
+  "result": "blocked_video_visual_temporal_quality_failure_and_gold_mask_proof_missing",
+  "overall_pass": false,
+  "status_decision": "Blocked_Video_Visual_Temporal_Quality_Failure",
+  "strict_decision": {
+    "row_complete": false,
+    "offline_implementation_pass": true,
+    "bounded_local_runtime_pass": true,
+    "frame_manifest_pass": true,
+    "visual_temporal_pass": false,
+    "runtime_or_visual_certification_claimed": false,
+    "mask_or_geometry_authority_claimed": false,
+    "wave71_activation_claimed": false,
+    "reason": "A real local fallback sequence now exists, but strict visual/temporal quality and final export gates fail."
+  },
+  "latest_runtime_attempt": {
+    "lane_id": "animatediff_fallback",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_ANIMATEDIFF_FALLBACK_EXECUTE_20260713T022708-0500.json",
+    "technical_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_TECHNICAL_QA_20260713T023200-0500.json",
+    "visual_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_VISUAL_QA_20260713T023500-0500.json",
+    "runtime_pass": true,
+    "technical_pass": true,
+    "visual_temporal_pass": false,
+    "generated_frame_count": 8,
+    "animated_export_count": 1,
+    "failed_frame_indexes": [
+      5,
+      6,
+      7
+    ],
+    "further_seed_loop_authorized": false
+  },
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_ANIMATEDIFF_FALLBACK_EXECUTE_20260713T022708-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_TECHNICAL_QA_20260713T023200-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_VISUAL_QA_20260713T023500-0500.json",
+    "Workflows/video_generation/animatediff_fallback_lane/workflow.api.json",
+    "Workflows/video_generation/animatediff_fallback_lane/runtime_requirements.json",
+    "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_animatediff_webp_technical.py",
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave64_animatediff_fallback_seed6401901_00001_.webp",
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/contact_sheet.png",
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave27_frame_manifest.json"
+  ],
+  "next_action": "Preserve this runtime proof. Do not seed-loop. Reopen the fallback only for a materially changed quality configuration; continue other non-mask video orchestration work meanwhile.",
+  "source_hashes": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_ANIMATEDIFF_FALLBACK_EXECUTE_20260713T022708-0500.json",
+      "sha256": "4f8c0510ba55e68494832480eb61465a7c35b368cc0ef57bf81d9167f42d22ec"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_TECHNICAL_QA_20260713T023200-0500.json",
+      "sha256": "0427bdcf2430e837aadf07fa890d9e56be1b73a2bd4d41028d78a70c4c1170c5"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_VISUAL_QA_20260713T023500-0500.json",
+      "sha256": "fcbd6dad6fa6f7e2bdf6782a2f4f3ca7b899264bcf8da8487bbf2e0499995eb9"
+    },
+    {
+      "path": "Workflows/video_generation/animatediff_fallback_lane/workflow.api.json",
+      "sha256": "1294216852bb5ae239504c721f4fd15e4206ce389f25fde822dd5de3bd4b702d"
+    },
+    {
+      "path": "Workflows/video_generation/animatediff_fallback_lane/runtime_requirements.json",
+      "sha256": "60be8070de159f5d9f396d8e41c49a32a8580ad4343e1e132739ff341b969e60"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_animatediff_webp_technical.py",
+      "sha256": "90505fa1b4f0cd2fdd723502adbca060955a58115bda2e2bc52a4c467de2d409"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave64_animatediff_fallback_seed6401901_00001_.webp",
+      "sha256": "893a8b5efd7b29fd52d8eab1440ef8db933e277b1151014398fdec2851171b18"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/contact_sheet.png",
+      "sha256": "01fe913c0365f1f907b6156af4a1e369f7ddfb2681740947b9b60e3fb8569a8e"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave27_frame_manifest.json",
+      "sha256": "a931177be02855c56c7589d91384fa1e0bc14b0c3c13faa9b3c454aba506ef14"
+    },
+    {
+      "path": "ComfyUI/models/animatediff_models/mm_sdxl_v10_beta.ckpt",
+      "sha256": "fa4950a062e892fca50d4c441fcd6130d1ad68a621a0404d155be17580072978"
+    }
+  ]
+}

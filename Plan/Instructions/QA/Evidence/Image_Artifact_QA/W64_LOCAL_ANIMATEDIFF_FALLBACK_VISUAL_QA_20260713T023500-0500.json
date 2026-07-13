@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-LOCAL-ANIMATEDIFF-FALLBACK-VISUAL-QA-20260713T023500-0500",
+  "timestamp": "2026-07-13T02:35:00-05:00",
+  "tracker_id": "TRK-W64-019",
+  "item_id": "ITEM-W64-019",
+  "lane_id": "animatediff_fallback",
+  "review_scope": {
+    "original_animated_artifact_reviewed": true,
+    "all_extracted_frames_reviewed": true,
+    "contact_sheet_reviewed": true,
+    "frame_count": 8,
+    "resolution": {
+      "width": 256,
+      "height": 320
+    }
+  },
+  "artifacts": {
+    "animated_webp": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave64_animatediff_fallback_seed6401901_00001_.webp",
+      "sha256": "893a8b5efd7b29fd52d8eab1440ef8db933e277b1151014398fdec2851171b18"
+    },
+    "contact_sheet": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/contact_sheet.png",
+      "sha256": "01fe913c0365f1f907b6156af4a1e369f7ddfb2681740947b9b60e3fb8569a8e"
+    },
+    "wave27_frame_manifest": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave27_frame_manifest.json",
+      "sha256": "a931177be02855c56c7589d91384fa1e0bc14b0c3c13faa9b3c454aba506ef14"
+    },
+    "technical_qa": {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_TECHNICAL_QA_20260713T023200-0500.json",
+      "sha256": "0427bdcf2430e837aadf07fa890d9e56be1b73a2bd4d41028d78a70c4c1170c5"
+    }
+  },
+  "checks": {
+    "exactly_one_subject_all_frames": true,
+    "identity_stable_all_frames": false,
+    "background_stable_all_frames": false,
+    "exposure_and_tonal_range_acceptable": false,
+    "no_terminal_frame_corruption": false,
+    "no_abrupt_temporal_discontinuity": false,
+    "motion_present": true,
+    "artifact_readable_and_complete": true
+  },
+  "findings": [
+    "Frames 0 through 4 retain one recognizable adult subject and a broadly stable close portrait, but the face is soft and the white shirt is heavily clipped.",
+    "Frames 5 and 6 replace the dark studio background with bright window-like shapes, creating an abrupt scene and lighting discontinuity rather than subtle breathing motion.",
+    "Frame 7 is a hard failure: the portrait collapses into saturated blue, yellow, white, and black regions with severe face and clothing corruption.",
+    "The technical sequence is valid, animated, hash-bound, and manifest-ready, but its visual and temporal quality is not acceptable for promotion or certification."
+  ],
+  "failed_frame_indexes": [
+    5,
+    6,
+    7
+  ],
+  "result": "fail_visual_temporal_quality_terminal_frame_corruption",
+  "visual_temporal_pass": false,
+  "status_decision": "Blocked_Video_Visual_Temporal_Quality_Failure",
+  "boundaries": {
+    "local_runtime_proof_invalidated": false,
+    "technical_smoke_invalidated": false,
+    "production_video_lane_certification_claimed": false,
+    "target_runtime_certification_claimed": false,
+    "gold_masks_consumed": false,
+    "mask_or_geometry_authority_claimed": false,
+    "wave71_activation_claimed": false,
+    "jira_mutated": false
+  },
+  "next_action": "Preserve the bounded runtime and manifest proof, keep visual/temporal promotion blocked, and plan one materially changed quality pass rather than a seed loop."
+}
