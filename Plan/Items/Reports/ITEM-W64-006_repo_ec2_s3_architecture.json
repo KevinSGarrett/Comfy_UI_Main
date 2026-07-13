@@ -1,49 +1,66 @@
 {
   "schema_version": "1.0",
-  "created_iso": "2026-07-12T10:31:34-05:00",
+  "created_iso": "2026-07-13T05:48:16-05:00",
   "tracker_id": "TRK-W64-006",
   "item_id": "ITEM-W64-006",
-  "status": "Blocked_Live_Repo_EC2_S3_Proof_Static_Architecture_Pass",
-  "architecture_readiness": "pass_static_controls_with_live_blockers",
-  "live_runtime_status": "blocked",
+  "status": "Blocked_Live_EC2_TTL_Watchdog_Proof_Missing_Current_Architecture_Ready",
+  "row_complete": false,
+  "architecture_readiness": "pass_static_and_read_only_live_controls_with_runtime_window_blocker",
+  "live_runtime_status": "blocked_live_ttl_watchdog_proof_missing",
+  "dependency_state": {
+    "row040": {
+      "status": "Completed_CI_Package_Coverage_Alignment_Superseded_Pass",
+      "row_complete": true
+    },
+    "row041": {
+      "status": "Completed_S3_Transfer_Cost_Control_Readiness_Pass",
+      "row_complete": true
+    },
+    "row042": {
+      "status": "Blocked_Live_TTL_Watchdog_Proof_Missing_AWS_Readiness_Verified",
+      "row_complete": false
+    }
+  },
+  "validation": {
+    "regression_tests_passed": 21,
+    "architecture_checks_passed": 32,
+    "failures": 0
+  },
   "blockers": [
     {
-      "dependency": "TRK-W64-040",
-      "reason": "current CI model-registry coverage alignment remains blocked"
-    },
-    {
-      "dependency": "TRK-W64-041",
-      "reason": "live S3 proof remains blocked by expired AWS authentication"
-    },
-    {
       "dependency": "TRK-W64-042",
-      "reason": "live TTL/watchdog enforcement remains blocked by expired AWS authentication"
+      "classification": "Blocked_Live_TTL_Watchdog_Proof_Missing_AWS_Readiness_Verified",
+      "reason_codes": [
+        "live_emergency_stop_schedule_missing",
+        "ssm_watchdog_proof_missing"
+      ],
+      "reason": "AWS authentication, scheduler role, S3 access, and stopped instance state pass read-only checks; live emergency-stop schedule and SSM watchdog proof remain missing until the next required runtime window."
     }
   ],
   "claims_allowed": [
     "static_ci_package_architecture_ready",
+    "current_ci_package_coverage_control_pass",
     "local_deploy_bundle_and_s3_readiness",
+    "current_read_only_aws_s3_and_stopped_instance_readiness",
     "historical_lane_scoped_hash_integrity",
     "ec2_window_dry_run_plan_ready"
   ],
   "claims_forbidden": [
-    "current_ci_alignment_pass",
     "current_live_s3_publish_certified",
     "current_live_ec2_window_certified",
     "all_lanes_runtime_certified",
     "full_project_certified"
   ],
   "project_completion": {
-    "level": "BELOW_LEVEL_7",
     "full_project_complete": false,
     "final_certification_decision": "blocked"
   },
   "evidence": [
     "Plan/Instructions/QA/Evidence/Wave64/repo_ec2_s3_architecture.json",
-    "Plan/Instructions/QA/Evidence/Wave64/REPO_EC2_S3_ARCHITECTURE_20260712T103134-0500.json",
-    "Plan/Tracker/Evidence/REPO_EC2_S3_ARCHITECTURE_20260712T103134-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/REPO_EC2_S3_LIVE_ARCHITECTURE_RECONCILIATION_20260713T054816-0500.json",
+    "Plan/Tracker/Evidence/REPO_EC2_S3_LIVE_ARCHITECTURE_RECONCILIATION_20260713T054816-0500.json",
     "Plan/Instructions/QA/Evidence/Wave64/repo_ec2_s3_architecture_test_log.json",
     "Plan/Items/Reports/ITEM-W64-006_repo_ec2_s3_architecture.json"
   ],
-  "next_action": "Proceed to TRK-W64-007 / ITEM-W64-007 for safe local work; do not rerun CI, contact AWS/S3, or start EC2 without material source change and current live gates."
+  "next_action": "Keep Row006 blocked until Row042 live controls are proven inside a genuinely required bounded runtime window. Skip completed Row007 and continue safe local work at TRK-W64-008 / ITEM-W64-008 without starting EC2."
 }

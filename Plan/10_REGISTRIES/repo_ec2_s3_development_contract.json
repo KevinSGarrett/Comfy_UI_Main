@@ -12,7 +12,7 @@
   "controls": {
     "ci_preflight": {
       "static_status": "pass",
-      "live_status": "blocked_current_model_registry_coverage_alignment",
+      "live_status": "completed_current_coverage_alignment_control_pass",
       "evidence": [
         ".github/workflows/preflight-package.yml",
         "Plan/Instructions/QA/Evidence/Wave64/github_actions_ci_package.json"
@@ -26,7 +26,7 @@
     },
     "s3_bundle_manifest": {
       "static_status": "pass_local_ready_only",
-      "live_status": "blocked_aws_authentication_expired",
+      "live_status": "pass_read_only_access_verified_publish_not_run",
       "evidence": [
         "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_EC2_DEPLOY_BUNDLE_CURRENT_ACTIVE_LANES_CONTENT_QA_20260709T014115-0500.json",
         "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_RUNTIME_TRANSFER_READINESS_CURRENT_ACTIVE_LANES_20260709T014300-0500.json",
@@ -55,33 +55,35 @@
     },
     "ec2_window_bound": {
       "static_status": "pass_dry_run_only",
-      "live_status": "blocked_aws_authentication_expired",
+      "live_status": "blocked_live_schedule_and_watchdog_proof_missing_aws_readiness_verified",
       "evidence": [
         "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json"
       ],
       "stop_after_minutes": 60,
       "live_schedule_executed": false,
       "live_watchdog_executed": false,
-      "current_stopped_state_verified": false
+      "current_stopped_state_verified": true
     }
   },
-  "architecture_readiness": "pass_static_controls_with_live_blockers",
-  "live_runtime_status": "blocked",
+  "architecture_readiness": "pass_static_and_read_only_live_controls_with_runtime_window_blocker",
+  "live_runtime_status": "blocked_live_ttl_watchdog_proof_missing",
   "claims_allowed": [
     "static_ci_package_architecture_ready",
+    "current_ci_package_coverage_control_pass",
     "local_deploy_bundle_and_s3_readiness",
+    "current_read_only_aws_s3_and_stopped_instance_readiness",
     "historical_lane_scoped_hash_integrity",
     "ec2_window_dry_run_plan_ready"
   ],
   "claims_forbidden": [
-    "current_ci_alignment_pass",
     "current_live_s3_publish_certified",
     "current_live_ec2_window_certified",
     "all_lanes_runtime_certified",
     "full_project_certified"
   ],
   "runtime_action_allowed": false,
-  "aws_contact_allowed": false,
+  "aws_read_only_contact_allowed": true,
+  "aws_mutation_allowed": false,
   "ec2_start_allowed": false,
   "s3_mutation_allowed": false,
   "full_project_completion_implied": false

@@ -1,73 +1,152 @@
 {
   "schema_version": "1.0",
-  "evidence_id": "REPO_EC2_S3_ARCHITECTURE_20260712T103134-0500",
-  "created_iso": "2026-07-12T10:31:34-05:00",
+  "evidence_id": "REPO_EC2_S3_LIVE_ARCHITECTURE_RECONCILIATION_20260713T054816-0500",
+  "created_iso": "2026-07-13T05:48:16-05:00",
+  "refresh_basis": "rows040_042_current_live_read_only_aws_state",
   "wave": 64,
   "tracker_id": "TRK-W64-006",
   "item_id": "ITEM-W64-006",
-  "status": "Blocked_Live_Repo_EC2_S3_Proof_Static_Architecture_Pass",
+  "status": "Blocked_Live_EC2_TTL_Watchdog_Proof_Missing_Current_Architecture_Ready",
   "row_complete": false,
-  "qa_decision": "static_architecture_pass_live_ci_s3_ec2_window_blocked",
-  "validation_gates": {
-    "ci_preflight": {
-      "static_status": "pass",
-      "live_status": "blocked_current_model_registry_coverage_alignment",
-      "checks": [
-        "RES-001_row006_contract_exact",
-        "RES-002_source_contract_linked",
-        "RES-003_contract_schema_identity",
-        "RES-004_control_order_exact",
-        "RES-005_ci_workflow_hash_exact",
-        "RES-006_ci_static_contract_present",
-        "RES-007_ci_s3_upload_config_gated",
-        "RES-008_ci_current_alignment_blocked",
-        "RES-009_ci_split_state_exact"
-      ]
+  "qa_decision": "static_and_current_read_only_architecture_pass_live_ttl_watchdog_proof_blocked",
+  "architecture_readiness": "pass_static_and_read_only_live_controls_with_runtime_window_blocker",
+  "live_runtime_status": "blocked_live_ttl_watchdog_proof_missing",
+  "dependency_state": {
+    "row040": {
+      "status": "Completed_CI_Package_Coverage_Alignment_Superseded_Pass",
+      "row_complete": true
     },
-    "s3_bundle_manifest": {
-      "static_status": "pass_local_ready_only",
-      "live_status": "blocked_aws_authentication_expired",
-      "checks": [
-        "RES-010_bundle_static_pass_and_hash",
-        "RES-011_bundle_local_only_boundary",
-        "RES-012_s3_readiness_local_only",
-        "RES-013_s3_live_status_blocked"
-      ]
+    "row041": {
+      "status": "Completed_S3_Transfer_Cost_Control_Readiness_Pass",
+      "row_complete": true
     },
-    "sha256_verification": {
-      "static_status": "pass_bounded_historical_lane_scope",
-      "live_status": "not_current_live_reexecution",
-      "checks": [
-        "RES-014_runtime_lane_scoped_pass",
-        "RES-015_runtime_hash_chain_and_stopped",
-        "RES-016_hash_scope_inheritance_denied"
-      ]
-    },
-    "ec2_window_bound": {
-      "static_status": "pass_dry_run_only",
-      "live_status": "blocked_aws_authentication_expired",
-      "checks": [
-        "RES-017_ttl_dry_runs_exact",
-        "RES-018_ttl_live_status_blocked",
-        "RES-019_claim_boundaries_complete",
-        "RES-020_no_external_action_or_completion"
-      ]
+    "row042": {
+      "status": "Blocked_Live_TTL_Watchdog_Proof_Missing_AWS_Readiness_Verified",
+      "row_complete": false
     }
   },
-  "architecture_readiness": "pass_static_controls_with_live_blockers",
-  "live_runtime_status": "blocked",
+  "current_read_only_live_probes": {
+    "s3": {
+      "schema_version": "1.0",
+      "mode": "read_only_live_probe",
+      "operation": "row041_live_readiness_reconciliation",
+      "local_static_readiness": {
+        "ready": true,
+        "checks": {
+          "evidence_files_present": true,
+          "row041_ready_local_only": true,
+          "static_ready_local_only": true
+        }
+      },
+      "config_shape": {
+        "env_file_present": true,
+        "missing_required_keys": [],
+        "deploy_uri_parse_ok": true,
+        "required_keys_checked_count": 6
+      },
+      "aws_read_ops": {
+        "aws_contacted": true,
+        "sts_get_caller_identity_ok": true,
+        "head_bucket_ok_count": 1,
+        "head_bucket_total_count": 1,
+        "list_prefix_checks": [
+          {
+            "name": "model",
+            "required_for_completion": true,
+            "list_call_ok": true,
+            "has_object": true
+          },
+          {
+            "name": "deploy",
+            "required_for_completion": true,
+            "list_call_ok": true,
+            "has_object": true
+          },
+          {
+            "name": "render",
+            "required_for_completion": true,
+            "list_call_ok": true,
+            "has_object": true
+          },
+          {
+            "name": "manifest",
+            "required_for_completion": false,
+            "list_call_ok": true,
+            "has_object": false
+          }
+        ],
+        "head_object_flux_exists": false
+      },
+      "classification": {
+        "row041_complete": true,
+        "result": "pass",
+        "blockers": [],
+        "residuals": [
+          "manifest_prefix_empty",
+          "exact_flux_object_missing"
+        ]
+      }
+    },
+    "ttl_watchdog": {
+      "schema_version": "1.0",
+      "mode": "read_only_live_probe",
+      "operation": "row042_live_readiness_reconciliation",
+      "root_selection": {
+        "root_kind": "windows",
+        "env_override_used": false
+      },
+      "metadata_source": {
+        "canonical_evidence_path": "C:/Comfy_UI_Main/Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json",
+        "schedule_dry_run_path": "C:/Comfy_UI_Main/runtime_artifacts/wave64/row042_ec2_ttl_watchdog/20260712T063917-0500/emergency_stop_schedule_dry_run.json",
+        "watchdog_dry_run_path": "C:/Comfy_UI_Main/runtime_artifacts/wave64/row042_ec2_ttl_watchdog/20260712T063917-0500/instance_stop_watchdog_dry_run.json",
+        "region_present": true,
+        "instance_id_present": true,
+        "schedule_name_present": true,
+        "stop_after_minutes": 60
+      },
+      "env_parse": {
+        "env_file_present": true,
+        "candidate_role_keys_present": [
+          "COMFY_SCHEDULER_STOP_ROLE_ARN"
+        ],
+        "role_arn_seen": true,
+        "role_name_present": true
+      },
+      "aws_read_ops": {
+        "only_read_operations_used": true,
+        "sts_get_caller_identity_ok": true,
+        "ec2_describe_instances_ok": true,
+        "scheduler_get_schedule_ok": false,
+        "iam_get_role_ok": true,
+        "ssm_describe_instance_information_ok": true,
+        "instance_state": "stopped",
+        "schedule_present": false,
+        "ssm_managed": false,
+        "watchdog_proof_present": false
+      },
+      "classification": {
+        "row042_complete": false,
+        "status": "Blocked_Live_TTL_Watchdog_Proof_Missing_AWS_Readiness_Verified",
+        "qa_decision": "aws_readiness_verified_but_live_ttl_watchdog_proof_missing",
+        "blockers": [
+          "live_emergency_stop_schedule_missing",
+          "ssm_watchdog_proof_missing"
+        ],
+        "recommendations": [
+          "Create the emergency-stop schedule and start the SSM watchdog only inside the next genuinely required bounded runtime window; do not start EC2 now."
+        ]
+      }
+    }
+  },
   "blockers": [
     {
-      "dependency": "TRK-W64-040",
-      "reason": "current CI model-registry coverage alignment remains blocked"
-    },
-    {
-      "dependency": "TRK-W64-041",
-      "reason": "live S3 proof remains blocked by expired AWS authentication"
-    },
-    {
       "dependency": "TRK-W64-042",
-      "reason": "live TTL/watchdog enforcement remains blocked by expired AWS authentication"
+      "classification": "Blocked_Live_TTL_Watchdog_Proof_Missing_AWS_Readiness_Verified",
+      "reason_codes": [
+        "live_emergency_stop_schedule_missing",
+        "ssm_watchdog_proof_missing"
+      ],
+      "reason": "AWS authentication, scheduler role, S3 access, and stopped instance state pass read-only checks; live emergency-stop schedule and SSM watchdog proof remain missing until the next required runtime window."
     }
   ],
   "historical_runtime_scope": {
@@ -78,116 +157,190 @@
   },
   "claims_allowed": [
     "static_ci_package_architecture_ready",
+    "current_ci_package_coverage_control_pass",
     "local_deploy_bundle_and_s3_readiness",
+    "current_read_only_aws_s3_and_stopped_instance_readiness",
     "historical_lane_scoped_hash_integrity",
     "ec2_window_dry_run_plan_ready"
   ],
   "claims_forbidden": [
-    "current_ci_alignment_pass",
     "current_live_s3_publish_certified",
     "current_live_ec2_window_certified",
     "all_lanes_runtime_certified",
     "full_project_certified"
   ],
+  "offline_validation": {
+    "commands": [
+      "python Plan/07_IMPLEMENTATION/scripts/test_reconcile_wave64_s3_transfer_cost_control_live_readiness.py",
+      "python Plan/07_IMPLEMENTATION/scripts/test_reconcile_wave64_ec2_ttl_watchdog_live_readiness.py"
+    ],
+    "suite_results": [
+      {
+        "path": "Plan/07_IMPLEMENTATION/scripts/test_reconcile_wave64_s3_transfer_cost_control_live_readiness.py",
+        "exit_code": 0,
+        "tests_run": 11,
+        "ok": true
+      },
+      {
+        "path": "Plan/07_IMPLEMENTATION/scripts/test_reconcile_wave64_ec2_ttl_watchdog_live_readiness.py",
+        "exit_code": 0,
+        "tests_run": 10,
+        "ok": true
+      }
+    ],
+    "tests_run": 21,
+    "tests_passed": 21,
+    "tests_failed": 0,
+    "python_compile": "pass",
+    "json_contract_validation": "pass"
+  },
   "checks": [
     {
-      "name": "RES-001_row006_contract_exact",
+      "name": "RESL-001_row006_tracker_contract_exact",
       "result": "pass"
     },
     {
-      "name": "RES-002_source_contract_linked",
+      "name": "RESL-002_source_contract_linked",
       "result": "pass"
     },
     {
-      "name": "RES-003_contract_schema_identity",
+      "name": "RESL-003_contract_identity",
       "result": "pass"
     },
     {
-      "name": "RES-004_control_order_exact",
+      "name": "RESL-004_control_order_exact",
       "result": "pass"
     },
     {
-      "name": "RES-005_ci_workflow_hash_exact",
+      "name": "RESL-005_row040_current_complete",
       "result": "pass"
     },
     {
-      "name": "RES-006_ci_static_contract_present",
+      "name": "RESL-006_row040_checks_pass",
       "result": "pass"
     },
     {
-      "name": "RES-007_ci_s3_upload_config_gated",
+      "name": "RESL-006A_row044_superseding_governance_pass",
       "result": "pass"
     },
     {
-      "name": "RES-008_ci_current_alignment_blocked",
+      "name": "RESL-006B_row048_no_loop_no_drift_pass",
       "result": "pass"
     },
     {
-      "name": "RES-009_ci_split_state_exact",
+      "name": "RESL-007_row041_current_complete",
       "result": "pass"
     },
     {
-      "name": "RES-010_bundle_static_pass_and_hash",
+      "name": "RESL-008_row041_canonical_read_only_pass",
       "result": "pass"
     },
     {
-      "name": "RES-011_bundle_local_only_boundary",
+      "name": "RESL-009_s3_probe_current_pass",
       "result": "pass"
     },
     {
-      "name": "RES-012_s3_readiness_local_only",
+      "name": "RESL-010_s3_probe_auth_and_bucket",
       "result": "pass"
     },
     {
-      "name": "RES-013_s3_live_status_blocked",
+      "name": "RESL-011_s3_required_prefixes_ready",
       "result": "pass"
     },
     {
-      "name": "RES-014_runtime_lane_scoped_pass",
+      "name": "RESL-012_row042_current_blocked",
       "result": "pass"
     },
     {
-      "name": "RES-015_runtime_hash_chain_and_stopped",
+      "name": "RESL-013_row042_canonical_stopped",
       "result": "pass"
     },
     {
-      "name": "RES-016_hash_scope_inheritance_denied",
+      "name": "RESL-014_ttl_probe_read_only",
       "result": "pass"
     },
     {
-      "name": "RES-017_ttl_dry_runs_exact",
+      "name": "RESL-015_ttl_probe_instance_stopped",
       "result": "pass"
     },
     {
-      "name": "RES-018_ttl_live_status_blocked",
+      "name": "RESL-016_ttl_schedule_missing",
       "result": "pass"
     },
     {
-      "name": "RES-019_claim_boundaries_complete",
+      "name": "RESL-017_ttl_ssm_watchdog_missing",
       "result": "pass"
     },
     {
-      "name": "RES-020_no_external_action_or_completion",
+      "name": "RESL-018_ttl_blockers_exact",
+      "result": "pass"
+    },
+    {
+      "name": "RESL-019_contract_ci_current",
+      "result": "pass"
+    },
+    {
+      "name": "RESL-020_contract_s3_current",
+      "result": "pass"
+    },
+    {
+      "name": "RESL-021_contract_ttl_current",
+      "result": "pass"
+    },
+    {
+      "name": "RESL-022_contract_read_only_boundary",
+      "result": "pass"
+    },
+    {
+      "name": "RESL-023_historical_runtime_lane_scope",
+      "result": "pass"
+    },
+    {
+      "name": "RESL-024_historical_hash_and_stop_chain",
+      "result": "pass"
+    },
+    {
+      "name": "RESL-025_historical_scope_not_inherited",
+      "result": "pass"
+    },
+    {
+      "name": "RESL-026_contract_claims_current",
+      "result": "pass"
+    },
+    {
+      "name": "RESL-027_workflow_still_present",
+      "result": "pass"
+    },
+    {
+      "name": "RESL-028_no_live_runtime_or_mutation",
+      "result": "pass"
+    },
+    {
+      "name": "RESL-029_regression_suites_executed",
+      "result": "pass"
+    },
+    {
+      "name": "RESL-030_row007_complete_before_row008",
       "result": "pass"
     }
   ],
   "check_summary": {
-    "checked": 20,
-    "passed": 20,
+    "checked": 32,
+    "passed": 32,
     "failed": 0
   },
   "safety_boundary": {
+    "aws_contacted_read_only": true,
+    "aws_mutated": false,
     "github_ci_triggered": false,
-    "aws_contacted": false,
-    "s3_mutated": false,
-    "ec2_started": false,
+    "s3_uploaded_or_deleted": false,
+    "scheduler_created_updated_or_deleted": false,
+    "ssm_command_sent": false,
+    "ec2_started_or_stopped": false,
     "generation_executed": false,
-    "historical_evidence_mutated": false,
-    "mask_or_wave71_touched": false,
-    "jira_mutated": false
+    "mask_jira_wave_gate_action": false
   },
   "project_completion": {
-    "level": "BELOW_LEVEL_7",
     "full_project_complete": false,
     "final_certification_decision": "blocked"
   },
@@ -198,7 +351,7 @@
     },
     {
       "path": "Plan/10_REGISTRIES/repo_ec2_s3_development_contract.json",
-      "sha256": "bd8fa382483c35fd1daee33a060826f4956283caf9f3001d37f573aa78a1ebc5"
+      "sha256": "3751e7dd9683692e0c1fe20992f2b605cf3fa72b7a7456ed92f2ed86ed68af1a"
     },
     {
       "path": ".github/workflows/preflight-package.yml",
@@ -206,34 +359,54 @@
     },
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/github_actions_ci_package.json",
-      "sha256": "dba1d6d84b8cebce8ec4c2b2fad9c08889391601cd2d6c3823d200927eed9f8a"
+      "sha256": "bbb87ddbd4f8d53cc5937c2da7408e2114b0d2c3861b2e1b2727dbd608df3aca"
     },
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/s3_transfer_cost_control.json",
-      "sha256": "79ede1be596fe8b9f5487a6ea75d3903c4ef78e8c054e85a028a6af8cb35ecb7"
+      "sha256": "dae72052d5aa8e14cf7a7f9b9d7ce4a31e56645bdaed52d5d7cb3de6612219b7"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json",
+      "sha256": "72fa596de71474a8fa4a1360f41523f171f6727b0a8f8936a78f06f283568c01"
     },
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/ec2_runtime_proof.json",
       "sha256": "e8f45394046e9f562427af29e5050bc85d11ff62bcf6626a7c988620d950d678"
     },
     {
-      "path": "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json",
-      "sha256": "bdae77c5dab8fbabd432a6c0473aabadc3e681cf3106c54abd59d140fef07eee"
+      "path": "Plan/Instructions/QA/Evidence/Wave64/model_registry_governance.json",
+      "sha256": "0b33a55e6a5fd45c721482d55f36c29ab7634b403b98f40937772c488fadf466"
     },
     {
-      "path": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_EC2_DEPLOY_BUNDLE_CURRENT_ACTIVE_LANES_CONTENT_QA_20260709T014115-0500.json",
-      "sha256": "7c8e3e3505d6f3352c89979f6562d054287b27134bbeaa463ace196707fa9707"
+      "path": "Plan/Instructions/QA/Evidence/Wave64/no_loop_no_drift.json",
+      "sha256": "623f0b02ff2628c954de84afb2b74bbc9d4edd604e252e5a76635a4811dcdad2"
     },
     {
-      "path": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_S3_RUNTIME_TRANSFER_READINESS_CURRENT_ACTIVE_LANES_20260709T014300-0500.json",
-      "sha256": "ff0361d4579cc29545079847e2a335ec5e0cbdd7f051caf3dfbf4144047a436e"
+      "path": "Plan/Instructions/QA/Evidence/Wave64/model_asset_storage_cache.json",
+      "sha256": "fdeb0ca870fdcedfc983fc55d843ae653d8faf94ab3671efad848574e90b4a12"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/reconcile_wave64_s3_transfer_cost_control_live_readiness.py",
+      "sha256": "78cf0fb977c949254a1f614b62c59bb4cdf73bba0a1d7b155b702bb5f08a4813"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/reconcile_wave64_ec2_ttl_watchdog_live_readiness.py",
+      "sha256": "207bd848724a60d2b79e36ce3ef08c4e6bf1f1a9bac74475cc6e3e6c5348ef39"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/test_reconcile_wave64_s3_transfer_cost_control_live_readiness.py",
+      "sha256": "88b54aab3d56650747ead74b1c968811fff464b9fc8ddab46bea86d3a4df3085"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/test_reconcile_wave64_ec2_ttl_watchdog_live_readiness.py",
+      "sha256": "56ebc98cdf2cc405736bf840b6ce0a57839e287ce03527b86ee7b4678ef1ec95"
     }
   ],
-  "next_action": "Proceed to TRK-W64-007 / ITEM-W64-007 for safe local work; do not rerun CI, contact AWS/S3, or start EC2 without material source change and current live gates.",
+  "next_action": "Keep Row006 blocked until Row042 live controls are proven inside a genuinely required bounded runtime window. Skip completed Row007 and continue safe local work at TRK-W64-008 / ITEM-W64-008 without starting EC2.",
   "evidence_paths": [
     "Plan/Instructions/QA/Evidence/Wave64/repo_ec2_s3_architecture.json",
-    "Plan/Instructions/QA/Evidence/Wave64/REPO_EC2_S3_ARCHITECTURE_20260712T103134-0500.json",
-    "Plan/Tracker/Evidence/REPO_EC2_S3_ARCHITECTURE_20260712T103134-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/REPO_EC2_S3_LIVE_ARCHITECTURE_RECONCILIATION_20260713T054816-0500.json",
+    "Plan/Tracker/Evidence/REPO_EC2_S3_LIVE_ARCHITECTURE_RECONCILIATION_20260713T054816-0500.json",
     "Plan/Instructions/QA/Evidence/Wave64/repo_ec2_s3_architecture_test_log.json",
     "Plan/Items/Reports/ITEM-W64-006_repo_ec2_s3_architecture.json"
   ]

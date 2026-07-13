@@ -1,3 +1,11 @@
+## Wave64 Row006 Current Repo EC2 S3 Live Architecture - 2026-07-13T05:48:16-05:00
+
+`TRK-W64-006` / `ITEM-W64-006` is `Blocked_Live_EC2_TTL_Watchdog_Proof_Missing_Current_Architecture_Ready`. Rows040 and 041 are complete. Current redacted read-only AWS probes verify authentication, configured S3 access and required-prefix objects, and the approved EC2 instance in stopped state. Row042 remains the sole direct blocker because the live emergency-stop schedule and SSM watchdog proof do not exist; those controls must be created only inside the next genuinely required bounded runtime window. The historical Row038 hash chain remains valid only for its exact low-risk lane. No CI trigger, S3 publish/delete, scheduler mutation, SSM command, EC2 start/stop, generation, mask, Jira, Wave70, or Wave71+ action occurred.
+
+Next safe local action: skip completed Row007 and continue `TRK-W64-008 / ITEM-W64-008` without starting EC2.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/repo_ec2_s3_architecture.json`; `Plan/Instructions/QA/Evidence/Wave64/REPO_EC2_S3_LIVE_ARCHITECTURE_RECONCILIATION_20260713T054816-0500.json`; `Plan/Tracker/Evidence/REPO_EC2_S3_LIVE_ARCHITECTURE_RECONCILIATION_20260713T054816-0500.json`.
+
 ## Wave64 Row060 Targeted Final End-to-End Certification Refresh - 2026-07-13T05:30:54-05:00
 
 `TRK-W64-060` / `ITEM-W64-060` remains `Blocked_Final_End_To_End_Certification_Gates_Not_Met` with final decision `blocked`. The targeted refresh consumed the current direct Row019-025 artifacts plus the Row064 prompt/runtime evidence that postdates the prior Row060 snapshot, and measured the current 66-row matrix at 31 pass-like, 35 blocked, and zero merely-required rows, leaving 35 unresolved rows. Row063's historical classification ledger correctly retains its creation-time count of 48; this refresh supersedes that aggregate count with 35 after 13 rows gained direct pass-like evidence, without rewriting historical evidence. All five end-to-end gates still fail. Video, audio, multimodal, live operations, prompt/runtime alignment, and current release-manifest proof remain incomplete. Row065 proves one RealVisXL terminal smoke chain only; Row066 proves promotion control while authorizing zero promotions. The Wave47 manifest remains historical Waves38-47 structure, not current Wave64 release authority.
