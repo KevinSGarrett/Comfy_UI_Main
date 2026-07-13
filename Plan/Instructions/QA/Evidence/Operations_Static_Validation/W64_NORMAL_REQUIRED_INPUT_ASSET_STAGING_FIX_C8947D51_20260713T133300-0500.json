@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "normal_required_input_asset_staging_fix",
+  "created_at": "2026-07-13T13:33:00-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+  "base_source_head": "c8947d51dc371c3147dcaa22603993e758b7bb47",
+  "result": "required_input_asset_bundle_and_staging_contract_pass_local",
+  "root_cause": "The Normal prompt referenced controlnet_normal_bae_full_body_standing_w70_v1.png, but the deploy bundle contained only 27 project/package files and omitted runtime_requirements.required_input_assets; the smoke runner also had no step to copy those assets into ComfyUI/input before prompt validation.",
+  "required_assets": [
+    {
+      "filename": "controlnet_normal_bae_w69_v1.png",
+      "bundle_path": "runtime_inputs/sdxl_realvisxl_controlnet_normal_lane/controlnet_normal_bae_w69_v1.png",
+      "sha256": "1a0526da325d7fb29986b8de017ba9af7c43e1b328d51da5afa7c6bf84863139"
+    },
+    {
+      "filename": "controlnet_normal_bae_full_body_standing_w70_v1.png",
+      "bundle_path": "runtime_inputs/sdxl_realvisxl_controlnet_normal_lane/controlnet_normal_bae_full_body_standing_w70_v1.png",
+      "sha256": "ff7695e83c73dc53025a7ab960a11d6e46299dcde546d26a5d46bce8637dc6fd"
+    }
+  ],
+  "implementation": {
+    "bundle_hash_verifies_all_required_input_assets": true,
+    "bundle_uses_short_runtime_input_paths": true,
+    "bundle_required_input_asset_count": 2,
+    "local_validation_bundle_file_count": 29,
+    "local_validation_bundle_size_bytes": 455338,
+    "all_local_bundle_asset_hashes_match": true,
+    "remote_stager_prefers_bundle_manifest": true,
+    "remote_stager_falls_back_to_runtime_requirements_for_git_deploy": true,
+    "staging_occurs_after_current_deployment": true,
+    "staging_occurs_before_comfyui_start": true,
+    "source_and_destination_realpath_containment": true
+  },
+  "verification": {
+    "powershell_parse_pass": true,
+    "regression_result": "pass_local_only",
+    "regression_test_count": 33,
+    "regression_passing_count": 33,
+    "regression_failed_count": 0,
+    "sonnet_remediation_confirmation": "PASS",
+    "sonnet_confidence": "high",
+    "sonnet_issues": []
+  },
+  "safety": {
+    "aws_contacted_by_fix": false,
+    "ec2_started_by_fix": false,
+    "generation_executed_by_fix": false,
+    "mask_truth_consumed": false
+  },
+  "next_action": "After checkpointing, rebuild and publish one exact-head 29-file Normal bundle. On fresh g5.xlarge capacity, run one guarded smoke and inspect prompt_http_error.body only if prompt validation still fails."
+}

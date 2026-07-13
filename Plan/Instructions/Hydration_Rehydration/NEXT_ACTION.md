@@ -9301,3 +9301,10 @@ Normal target-runtime static proof is complete: the exact-head S3 bundle, watchd
 Next: do not retry in the same capacity window. When fresh `g5.xlarge` capacity is available, use the already validated diagnostic flow to run one guarded smoke, inspect `prompt_http_error.body`, and apply one exact workflow correction before any further prompt attempt. Preserve the manual-gold-mask boundary; do not run Wave70 hard gates, activate Wave71+, mutate Jira, or claim certification.
 
 Evidence: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W64_NORMAL_EC2_LANE_STATIC_PROOF_43499461_20260713T125300-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_NORMAL_EC2_WORKFLOW_SMOKE_EXECUTION_43499461_20260713T130600-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_SMOKE_DIAGNOSTIC_CAPACITY_BLOCKER_5D2C9778_20260713T132200-0500.json`.
+## Normal Required Input Asset Staging Fix - 2026-07-13T13:33:00-05:00
+
+The prior Normal HTTP 400 now has a concrete local packaging defect: the prompt referenced `controlnet_normal_bae_full_body_standing_w70_v1.png`, but the 27-file bundle omitted both `required_input_assets` and the smoke runner never staged them into `ComfyUI/input`. The bundle builder now hash-verifies both lane inputs and packages them at short `runtime_inputs/<lane>/<filename>` paths; the smoke runner stages and re-hashes them after the current deployment and before ComfyUI starts. A local 29-file validation bundle contains both exact hashes, all 33 regressions pass, and Sonnet remediation confirmation is PASS/high with no issues. No AWS or generation occurred for this fix.
+
+Next: checkpoint this correction. Do not retry the current capacity window. On fresh `g5.xlarge` capacity, rebuild/publish the exact-head 29-file bundle and run one guarded Normal smoke. If ComfyUI still rejects it, use the already-installed `prompt_http_error.body`; do not submit another blind retry.
+
+Evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_NORMAL_REQUIRED_INPUT_ASSET_STAGING_FIX_C8947D51_20260713T133300-0500.json`.

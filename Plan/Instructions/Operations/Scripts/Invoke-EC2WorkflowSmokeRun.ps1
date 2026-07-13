@@ -850,6 +850,7 @@ python3 - <<'PY'
 import base64, datetime, glob, hashlib, json, os, shutil, signal, subprocess, tempfile, time, traceback, urllib.error, urllib.request, zipfile
 
 RUN_ID = "$runId"
+LANE_ID = "$LaneId"
 PROJECT = "$RemoteProjectRoot"
 COMFY = "$RemoteComfyRoot"
 ARTIFACT_ROOT = "$RemoteArtifactRoot/$runId"
@@ -968,6 +969,50 @@ def artifact_type(rel):
 def qa_required(kind):
     return kind in ["image", "video", "audio", "log", "report", "workflow", "json"]
 
+def stage_required_input_assets():
+    requirements_path = os.path.join(PROJECT, "Workflows", "base_generation", LANE_ID, "runtime_requirements.json")
+    if not os.path.isfile(requirements_path):
+        raise RuntimeError("lane runtime requirements missing: " + requirements_path)
+    with open(requirements_path, "r", encoding="utf-8") as f:
+        requirements = json.load(f)
+    bundle_manifest_path = os.path.join(PROJECT, "DEPLOY_BUNDLE_MANIFEST.json")
+    bundle_assets = None
+    if os.path.isfile(bundle_manifest_path):
+        with open(bundle_manifest_path, "r", encoding="utf-8") as f:
+            bundle_manifest = json.load(f)
+        bundle_assets = bundle_manifest.get("required_input_assets")
+    assets = bundle_assets if bundle_assets is not None else requirements.get("required_input_assets", [])
+    staged = []
+    project_root = os.path.realpath(PROJECT)
+    comfy_input_root = os.path.realpath(os.path.join(COMFY, "input"))
+    for asset in assets:
+        source_rel = str(asset.get("bundle_path") or asset.get("source_artifact") or "")
+        filename = os.path.basename(str(asset.get("filename") or ""))
+        input_subdir = str(asset.get("comfyui_input_subdir") or "").strip("/\\")
+        expected_sha = str(asset.get("sha256") or "").lower()
+        source = os.path.realpath(os.path.join(PROJECT, source_rel))
+        destination = os.path.realpath(os.path.join(comfy_input_root, input_subdir, filename))
+        if not source_rel or not filename or os.path.commonpath([project_root, source]) != project_root:
+            raise RuntimeError("unsafe or incomplete required input asset: " + source_rel)
+        if os.path.commonpath([comfy_input_root, destination]) != comfy_input_root:
+            raise RuntimeError("unsafe ComfyUI input destination for: " + filename)
+        if not os.path.isfile(source):
+            raise RuntimeError("required input asset missing from deploy bundle: " + source_rel)
+        actual_sha = sha256_file(source).lower()
+        if expected_sha and actual_sha != expected_sha:
+            raise RuntimeError("required input asset sha256 mismatch for %s: expected %s observed %s" % (filename, expected_sha, actual_sha))
+        os.makedirs(os.path.dirname(destination), exist_ok=True)
+        shutil.copy2(source, destination)
+        staged.append({
+            "filename": filename,
+            "bundle_path": source_rel,
+            "source_artifact": str(asset.get("source_artifact") or ""),
+            "destination": destination,
+            "sha256": actual_sha,
+            "size_bytes": os.path.getsize(destination)
+        })
+    return staged
+
 proc = None
 log_handle = None
 try:
@@ -983,7 +1028,6 @@ try:
     os.makedirs(os.path.join(ARTIFACT_ROOT, "reports"), exist_ok=True)
     os.makedirs(os.path.join(ARTIFACT_ROOT, "workflows"), exist_ok=True)
     os.makedirs(os.path.join(ARTIFACT_ROOT, "images"), exist_ok=True)
-
     if not deployment:
         result["remote_project_deployment"] = {"deployment_method": "git_pull"}
         result["git_head_before"] = run(["git", "rev-parse", "HEAD"], cwd=PROJECT, check=True)["stdout"]
@@ -999,6 +1043,8 @@ try:
         result["git_head_matches_expected"] = (not EXPECTED_GIT_HEAD) or result["git_head_after"] == EXPECTED_GIT_HEAD
         if EXPECTED_GIT_HEAD and result["git_head_after"] != EXPECTED_GIT_HEAD:
             raise RuntimeError("remote project HEAD %s did not match expected origin/main %s" % (result["git_head_after"], EXPECTED_GIT_HEAD))
+
+    result["staged_input_assets"] = stage_required_input_assets()
 
     request_json = base64.b64decode(REQUEST_B64.encode("ascii")).decode("utf-8")
     request_path = os.path.join(ARTIFACT_ROOT, "workflows", "prompt_request.json")

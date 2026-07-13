@@ -11,6 +11,7 @@ $helper = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\EC2Runtim
 $staticExecutor = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1"
 $smokeExecutor = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1"
 $watchdogExecutor = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Start-EC2InstanceStopWatchdog.ps1"
+$deployBundleBuilder = Join-Path $ProjectRoot "tools\New-EC2DeployBundle.ps1"
 $queueFile = Join-Path $ProjectRoot "Plan\07_IMPLEMENTATION\workflow_templates\base_generation\runtime_lane_queue.json"
 . $helper
 
@@ -134,6 +135,7 @@ try {
   $staticExecutorText = Get-Content -LiteralPath $staticExecutor -Raw
   $smokeExecutorText = Get-Content -LiteralPath $smokeExecutor -Raw
   $watchdogExecutorText = Get-Content -LiteralPath $watchdogExecutor -Raw
+  $deployBundleBuilderText = Get-Content -LiteralPath $deployBundleBuilder -Raw
   $currentPorcelain = @(git -C $ProjectRoot status --porcelain 2>$null)
   $currentUnstagedPaths = @($currentPorcelain | Where-Object { $_.Length -gt 0 -and ($_.Substring(0, 1) -eq " " -or $_.Substring(0, 1) -eq "?") } | ForEach-Object { Get-EC2SafetyPorcelainPath $_ })
   $global:LASTEXITCODE = 99
@@ -145,6 +147,9 @@ try {
     (New-Test "static_executor_exposes_watchdog_fallback_switch" ($staticExecutorText -match '\[switch\]\$AllowWatchdogOsShutdownFallback' -and $staticExecutorText -match '-AllowOsShutdownFallback:\$AllowWatchdogOsShutdownFallback') "explicit static-proof switch" "static proof forwards explicit fallback choice"),
     (New-Test "smoke_executor_exposes_watchdog_fallback_switch" ($smokeExecutorText -match '\[switch\]\$AllowWatchdogOsShutdownFallback' -and $smokeExecutorText -match '-AllowOsShutdownFallback:\$AllowWatchdogOsShutdownFallback') "explicit smoke-run switch" "smoke run forwards explicit fallback choice"),
     (New-Test "smoke_executor_preserves_prompt_http_error_body" ($smokeExecutorText -match 'except urllib\.error\.HTTPError as exc:' -and $smokeExecutorText -match 'result\["prompt_http_error"\]' -and $smokeExecutorText -match 'response_body\[-12000:\]') "structured HTTP error capture" "ComfyUI prompt validation response is retained for diagnosis"),
+    (New-Test "deploy_bundle_includes_hash_verified_lane_inputs" ($deployBundleBuilderText -match 'required_input_assets' -and $deployBundleBuilderText -match 'Required lane input asset hash mismatch' -and $deployBundleBuilderText -match '\$bundlePath = "runtime_inputs/\$LaneId/\$filename"' -and $deployBundleBuilderText -match 'BundleRelativePath \$bundlePath') "hash-verified short-path input assets bundled" "lane-required source artifacts are included without archival path-length coupling"),
+    (New-Test "smoke_stages_inputs_after_deploy_before_comfyui_start" ($smokeExecutorText.IndexOf('result["staged_input_assets"] = stage_required_input_assets()') -gt $smokeExecutorText.IndexOf('if EXPECTED_GIT_HEAD and result["git_head_after"] != EXPECTED_GIT_HEAD:') -and $smokeExecutorText.IndexOf('result["staged_input_assets"] = stage_required_input_assets()') -lt $smokeExecutorText.IndexOf('proc = subprocess.Popen(')) "git/deploy then input staging then ComfyUI" "required assets staged from current deployment before API validation"),
+    (New-Test "smoke_input_staging_resolves_symlinks" ($smokeExecutorText -match 'project_root = os\.path\.realpath\(PROJECT\)' -and $smokeExecutorText -match 'source = os\.path\.realpath\(os\.path\.join\(PROJECT, source_rel\)\)' -and $smokeExecutorText -match 'destination = os\.path\.realpath') "realpath containment" "source and destination containment resolves symlinks"),
     (New-Test "flat_readiness_schema_supported" ($flatReadiness.schema_source -eq "flat" -and $flatReadiness.ready_for_ec2_static_proof -and $flatReadiness.lane_match) $flatReadiness "flat static readiness accepted"),
     (New-Test "nested_readiness_schema_supported" ($nestedReadiness.schema_source -eq "nested_local_readiness" -and $nestedReadiness.ready_for_ec2_static_proof -and $nestedReadiness.lane_match) $nestedReadiness "nested static readiness accepted"),
     (New-Test "nested_readiness_generation_remains_false" (-not $nestedReadiness.ready_for_generation -and $nestedReadiness.status -eq "static_proof_ready") $nestedReadiness "static ready, generation false"),

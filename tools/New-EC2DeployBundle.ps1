@@ -111,6 +111,7 @@ function Copy-BundleFile {
     [Parameter(Mandatory=$true)][string]$SourcePath,
     [Parameter(Mandatory=$true)][string]$ContentRoot,
     [System.Collections.ArrayList]$Records,
+    [string]$BundleRelativePath = "",
     [switch]$Required
   )
 
@@ -119,7 +120,10 @@ function Copy-BundleFile {
     return
   }
   Assert-UnderProject -Path $SourcePath
-  $repoPath = Convert-ToRepoPath -Path $SourcePath
+  $repoPath = $(if ([string]::IsNullOrWhiteSpace($BundleRelativePath)) { Convert-ToRepoPath -Path $SourcePath } else { $BundleRelativePath.Replace("\", "/").TrimStart("/") })
+  if ([string]::IsNullOrWhiteSpace($repoPath) -or [System.IO.Path]::IsPathRooted($repoPath) -or @($repoPath.Split("/") | Where-Object { $_ -eq ".." }).Count -gt 0) {
+    throw "Unsafe deploy-bundle relative path: $BundleRelativePath"
+  }
   $destination = Join-Path $ContentRoot $repoPath.Replace("/", "\")
   $destinationDir = Split-Path -Parent $destination
   if (![string]::IsNullOrWhiteSpace($destinationDir)) {
@@ -240,6 +244,36 @@ if ($runPackage.prompt_profile -and $runPackage.prompt_profile.path) {
   Copy-BundleFile -SourcePath (Resolve-ProjectPath -Path ([string]$runPackage.prompt_profile.path)) -ContentRoot $contentRoot -Records $records
 }
 
+$laneRuntimeRequirementsPath = Resolve-ProjectPath -Path "Workflows/base_generation/$LaneId/runtime_requirements.json"
+$laneRuntimeRequirements = Read-JsonFile -Path $laneRuntimeRequirementsPath
+$requiredInputAssets = New-Object System.Collections.ArrayList
+foreach ($asset in @($laneRuntimeRequirements.required_input_assets)) {
+  $sourceArtifact = [string]$asset.source_artifact
+  $filename = [string]$asset.filename
+  $expectedSha256 = ([string]$asset.sha256).Trim().ToLowerInvariant()
+  if ([string]::IsNullOrWhiteSpace($sourceArtifact) -or [string]::IsNullOrWhiteSpace($filename) -or $expectedSha256 -notmatch '^[0-9a-f]{64}$') {
+    throw "Lane required_input_assets entry is incomplete or has an invalid sha256: $($asset | ConvertTo-Json -Compress)"
+  }
+  $sourcePath = Resolve-ProjectPath -Path $sourceArtifact
+  if (!(Test-Path -LiteralPath $sourcePath -PathType Leaf)) {
+    throw "Required lane input asset is missing: $sourceArtifact"
+  }
+  $actualSha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $sourcePath).Hash.ToLowerInvariant()
+  if ($actualSha256 -cne $expectedSha256) {
+    throw "Required lane input asset hash mismatch for $sourceArtifact`: expected $expectedSha256 observed $actualSha256"
+  }
+  $bundlePath = "runtime_inputs/$LaneId/$filename"
+  Copy-BundleFile -SourcePath $sourcePath -ContentRoot $contentRoot -Records $records -BundleRelativePath $bundlePath -Required
+  [void]$requiredInputAssets.Add([ordered]@{
+    filename = $filename
+    source_artifact = Convert-ToRepoPath -Path $sourcePath
+    bundle_path = $bundlePath
+    comfyui_input_subdir = [string]$asset.comfyui_input_subdir
+    sha256 = $actualSha256
+    size_bytes = (Get-Item -LiteralPath $sourcePath).Length
+  })
+}
+
 $gitHead = $null
 $gitStatus = @()
 try {
@@ -287,6 +321,8 @@ $manifest = [ordered]@{
   }
   files = @($records | Sort-Object path)
   file_count = @($records).Count
+  required_input_assets = @($requiredInputAssets)
+  required_input_asset_count = @($requiredInputAssets).Count
   result = "pass_local_only"
   next_action = "Upload this bundle artifact to GitHub Actions/S3 before EC2 starts, then prefer bundle download on EC2 and skip Git LFS unless the selected lane explicitly requires it."
 }
