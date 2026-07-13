@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-13T06:28:34-05:00",
+  "tracker_id": "TRK-W64-011",
+  "item_id": "ITEM-W64-011",
+  "status": "Completed_Local_OpenPose_Camera_Composition_Pass_Target_Runtime_Not_Certified",
+  "row_complete": true,
+  "material_change": {
+    "from_lane": "sdxl_realvisxl_base_lane",
+    "to_lane": "sdxl_realvisxl_controlnet_openpose_lane",
+    "from_control": "prompt_only",
+    "to_control": "hash-bound DWPose/OpenPoseXL2",
+    "source_original": {
+      "path": "Ref_Image_1/Full/78b8e4ca10fd769e0752bd21c3599339.jpg",
+      "sha256": "e20a857f0ac23151ae1b8aa47fb4746c975e522a5598896f747ef08a50cc9336",
+      "width": 3000,
+      "height": 4000,
+      "selection_reason": "true front-facing full body with top of hair, both hands, both legs, and both feet visible; both hands hang outside clothing and are suitable for Row011 crop/visibility control"
+    }
+  },
+  "validation_gates": {
+    "camera_spec_check": "pass_compiler_and_hash_bound_control",
+    "crop_boundary_check": "pass_head_hair_hands_feet_visible",
+    "composition_score": {
+      "status": "pass",
+      "score": 100
+    },
+    "visual_runtime_ready": "pass_local_strict_visual_review"
+  },
+  "codex_visual_review": {
+    "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAVE10_CAMERA_OPENPOSE_HANDS_VISIBLE_VISUAL_QA_20260713T061500-0500.json",
+    "sha256": "f3670246650efb0cd3734ac90c4ee05e429a1050c4220a44c7fd4b0c73bfbab0",
+    "result": "pass",
+    "findings": [
+      "One adult subject is centered in a full-length eye-level studio composition with the complete hair silhouette and both shoes inside the frame.",
+      "Both arms hang outside the torso and both hands are fully outside clothing; wrists, palms, and separated finger silhouettes are visible on both sides.",
+      "Headroom, footroom, side margins, posture, major joint continuity, clothing, and background are coherent at original resolution.",
+      "No OpenPose skeleton, colored control marks, text, watermark, or other control-map leakage is visible in the generated image."
+    ],
+    "limitations": [
+      "Full-body framing makes fingers small; this is camera-composition visibility proof, not detailed finger geometry authority.",
+      "This local image does not certify the OpenPose lane in target runtime and does not provide mask, body-geometry, or Wave71+ authority."
+    ]
+  },
+  "claim_boundary": {
+    "local_generation_count": 1,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "s3_mutated": false,
+    "gold_or_candidate_masks_consumed": false,
+    "masks_promoted": false,
+    "wave70_hard_gates_rerun": false,
+    "wave71_plus_activated": false,
+    "jira_mutated": false,
+    "target_runtime_lane_certification_claimed": false,
+    "body_or_finger_geometry_authority_claimed": false
+  },
+  "evidence": [
+    "Plan/Instructions/QA/Evidence/Wave64/image_camera_composition.json",
+    "Plan/Instructions/QA/Evidence/Wave64/IMAGE_CAMERA_COMPOSITION_OPENPOSE_COMPLETION_20260713T062834-0500.json",
+    "Plan/Tracker/Evidence/IMAGE_CAMERA_COMPOSITION_OPENPOSE_COMPLETION_20260713T062834-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/image_camera_composition_openpose_completion_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-011_image_camera_composition_openpose_completion.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_WAVE10_CAMERA_OPENPOSE_HANDS_VISIBLE_EXECUTE_20260713T060800-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAVE10_CAMERA_OPENPOSE_HANDS_VISIBLE_VISUAL_QA_20260713T061500-0500.json",
+    "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_full_body_hands_visible_row011_v1/PREPARATION_MANIFEST.json"
+  ],
+  "next_action": "Preserve completed Row011 local camera-composition proof. Keep Row012 blocked on manual gold masks and continue the next eligible non-mask implementation/runtime task without treating this image as mask or geometry authority."
+}

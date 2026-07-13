@@ -1,0 +1,123 @@
+{
+  "camera_plan_id": "cam_w64_full_body_openpose_hands_visible_v3",
+  "scene_id": "scene_w64_camera_openpose_hands_visible",
+  "modality": "image",
+  "shot_size": "full_body",
+  "lens_profile": "classic_35mm",
+  "camera_angle": "eye_level",
+  "camera_height": "eye",
+  "zoom_level": "normal",
+  "aspect_ratio": "3:4",
+  "resolution": {
+    "width": 768,
+    "height": 1024
+  },
+  "framing": {
+    "composition_preset": "full_body_catalog",
+    "crop_policy": "blocked_unintentional_crop",
+    "headroom": "balanced_5_to_8_percent",
+    "footroom": "balanced_5_to_8_percent",
+    "side_margin": "balanced_5_to_10_percent",
+    "horizon_line": "neutral",
+    "must_not_crop": [
+      "head",
+      "hair",
+      "hands",
+      "feet",
+      "outfit_edges"
+    ],
+    "intentional_crop_allowed": false
+  },
+  "depth_plan": {
+    "depth_profile": "deep_focus",
+    "focus_targets": [
+      "face",
+      "hands",
+      "feet",
+      "outfit"
+    ],
+    "foreground_subjects": [],
+    "midground_subjects": [
+      "primary_subject"
+    ],
+    "background_subjects": [
+      "environment"
+    ],
+    "background_blur_strength": 0.15,
+    "depth_continuity_notes": "Keep required subjects readable and in focus."
+  },
+  "subjects": [
+    {
+      "subject_id": "primary_subject",
+      "character_id": "adult_studio_subject",
+      "screen_position": "center",
+      "depth_order": 1,
+      "identity_priority": "primary",
+      "crop_policy": "full_visible",
+      "occlusion_allowed": "none",
+      "must_show": [
+        "face",
+        "hands",
+        "feet"
+      ],
+      "must_not_merge_with": [],
+      "scale_anchor": "floor_contact"
+    }
+  ],
+  "workflow_patch_targets": [
+    "latent_width_height",
+    "positive_prompt_camera_module",
+    "negative_prompt_crop_guard",
+    "save_prefix"
+  ],
+  "qa_goals": [
+    "shot_size_matches_intent",
+    "no_unintentional_crop",
+    "full_body_visible",
+    "head_hands_feet_visible",
+    "balanced_headroom_and_footroom",
+    "focus_target_sharp",
+    "body_scale_consistent"
+  ],
+  "workflow_instructions": {
+    "positive_prompt_camera_module": "full-length composition, entire subject visible from the top of the head through both feet, both hands fully visible, 35mm natural environmental lens perspective, eye-level camera, full body catalog composition, balanced 5 to 8 percent headroom, deep focus, controlled footroom, 5 to 10 percent margin around the complete silhouette",
+    "negative_prompt_crop_guard": "cropped head, cropped hair, cropped hands, cropped fingers, cropped legs, cropped feet, cropped shoes, cut off body, out-of-frame limbs, partial body, close-up crop, tight framing, hidden hands, hidden feet",
+    "latent_resolution": {
+      "width": 768,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "reference_routing_plan": {
+      "enabled": false,
+      "route_id": "none",
+      "proof_status": "not_requested",
+      "asset": null,
+      "asset_sha256": null
+    },
+    "control_plan": {
+      "enabled": true,
+      "route_id": "local_dwpose_openpose_xl",
+      "proof_status": "proven",
+      "target_lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+      "controlnet_asset": "OpenPoseXL2.safetensors",
+      "controlnet_asset_sha256": "5a4b928cb1e93748217900cb66d4135bf70d932d2924232f925910fad9e43a92",
+      "control_image": "controlnet_openpose_row011_full_body_hands_visible_v1.png",
+      "control_image_sha256": "e3a193ebb91d3490d7703f2fa3eaafd3eaafac7772bb2cca7649131fbe310d5c",
+      "settings": {
+        "strength": 0.9,
+        "start_percent": 0.0,
+        "end_percent": 1.0
+      }
+    },
+    "save_prefix": "wave10_camera_openpose_hands_visible_7152026103",
+    "qa_goals": [
+      "shot_size_matches_intent",
+      "no_unintentional_crop",
+      "full_body_visible",
+      "head_hands_feet_visible",
+      "balanced_headroom_and_footroom",
+      "focus_target_sharp",
+      "body_scale_consistent"
+    ]
+  }
+}

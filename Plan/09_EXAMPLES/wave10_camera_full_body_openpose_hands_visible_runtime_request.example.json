@@ -1,0 +1,77 @@
+{
+  "camera_plan_id": "cam_w64_full_body_openpose_hands_visible_v3",
+  "scene_id": "scene_w64_camera_openpose_hands_visible",
+  "modality": "image",
+  "character_id": "adult_studio_subject",
+  "shot_size": "full_body",
+  "lens_profile": "classic_35mm",
+  "camera_angle": "eye_level",
+  "camera_height": "eye",
+  "zoom_level": "normal",
+  "aspect_ratio": "3:4",
+  "width": 768,
+  "height": 1024,
+  "composition_preset": "full_body_catalog",
+  "crop_policy": "blocked_unintentional_crop",
+  "headroom": "balanced_5_to_8_percent",
+  "footroom": "balanced_5_to_8_percent",
+  "side_margin": "balanced_5_to_10_percent",
+  "horizon_line": "neutral",
+  "must_not_crop": [
+    "head",
+    "hair",
+    "hands",
+    "feet",
+    "outfit_edges"
+  ],
+  "intentional_crop_allowed": false,
+  "focus_targets": [
+    "face",
+    "hands",
+    "feet",
+    "outfit"
+  ],
+  "background_blur_strength": 0.15,
+  "positive_prompt": "hyperrealistic full-length editorial studio photograph, one adult woman standing naturally, entire person visible from top of hair to both feet, front-facing relaxed stance, both arms hanging naturally at her sides, both hands fully outside clothing and fully visible, open relaxed fingers separated and inspectable, realistic bilateral hand anatomy, coherent shoulders elbows wrists hips knees and ankles, modest fitted black sleeveless athletic top, full-length charcoal leggings, simple low-profile black studio shoes, natural skin texture, detailed face and hair, soft neutral studio lighting, balanced exposure, uncluttered light gray studio background, lifelike lens rendering",
+  "negative_prompt": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, distorted anatomy, extra person, duplicate body, extra limbs, missing limbs, fused arms, fused legs, broken elbows, broken wrists, broken knees, twisted ankles, extra fingers, missing fingers, fused fingers, deformed hands, hands in pockets, hidden hands, hands behind back, crossed arms, cropped head, cropped hands, cropped feet, person out of frame, close-up portrait, seated pose, crossed eyes, low resolution, blurry, watermark, text, logo, openpose skeleton overlay, pose map stains, colored bones, colored dots, control map stains, nude, lingerie, swimsuit, unclothed torso",
+  "seed": 7152026103,
+  "sampler_settings": {
+    "steps": 24,
+    "cfg": 5.5,
+    "sampler_name": "dpmpp_2m_sde",
+    "scheduler": "karras",
+    "denoise": 1.0
+  },
+  "target_lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+  "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+  "save_prefix": "wave10_camera_openpose_hands_visible_7152026103",
+  "profile_id": "wave10_camera_full_body_openpose_hands_visible_seed7152026103",
+  "purpose": "Materially different Row011 local camera-control proof using a DWPose map from a user-supplied true full-body reference with both hands and feet visible.",
+  "reference_route": {
+    "enabled": false
+  },
+  "control_plan": {
+    "enabled": true,
+    "route_id": "local_dwpose_openpose_xl",
+    "proof_status": "proven",
+    "target_lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+    "controlnet_asset": "OpenPoseXL2.safetensors",
+    "controlnet_asset_sha256": "5a4b928cb1e93748217900cb66d4135bf70d932d2924232f925910fad9e43a92",
+    "control_image": "controlnet_openpose_row011_full_body_hands_visible_v1.png",
+    "control_image_sha256": "e3a193ebb91d3490d7703f2fa3eaafd3eaafac7772bb2cca7649131fbe310d5c",
+    "settings": {
+      "strength": 0.9,
+      "start_percent": 0.0,
+      "end_percent": 1.0
+    }
+  },
+  "qa_goals": [
+    "shot_size_matches_intent",
+    "no_unintentional_crop",
+    "full_body_visible",
+    "head_hands_feet_visible",
+    "balanced_headroom_and_footroom",
+    "focus_target_sharp",
+    "body_scale_consistent"
+  ]
+}

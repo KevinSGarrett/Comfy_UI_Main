@@ -1,3 +1,11 @@
+## Wave64 Row011 OpenPose Camera Composition Completion - 2026-07-13T06:28:34-05:00
+
+`TRK-W64-011` / `ITEM-W64-011` is `Completed_Local_OpenPose_Camera_Composition_Pass_Target_Runtime_Not_Certified`. A materially different local DWPose/OpenPoseXL2 objective uses the user-supplied true full-body reference `Ref_Image_1/Full/78b8e4ca10fd769e0752bd21c3599339.jpg`, outside the excluded partial-body folder. The hash-bound control map detects one person with all 18 body landmarks and both hand skeletons. One bounded local ComfyUI sample passes request/package/runtime hashes, 768x1024 framing, full head/hair, both fully visible hands, both feet, balanced margins, coherent whole-image anatomy, and no control-map leakage. The prior prompt-only hands-in-pockets failure remains historical evidence. This closes Row011 local camera composition only; it does not certify the OpenPose lane in target runtime or claim body, finger, mask, Wave70, or Wave71+ authority. AWS and EC2 were not used.
+
+Next safe action: preserve Row012's manual-gold-mask blocker and continue the next eligible non-mask implementation/runtime task.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/image_camera_composition.json`; `Plan/Instructions/QA/Evidence/Wave64/IMAGE_CAMERA_COMPOSITION_OPENPOSE_COMPLETION_20260713T062834-0500.json`; `Plan/Tracker/Evidence/IMAGE_CAMERA_COMPOSITION_OPENPOSE_COMPLETION_20260713T062834-0500.json`.
+
 ## Wave64 Row006 Current Repo EC2 S3 Live Architecture - 2026-07-13T05:48:16-05:00
 
 `TRK-W64-006` / `ITEM-W64-006` is `Blocked_Live_EC2_TTL_Watchdog_Proof_Missing_Current_Architecture_Ready`. Rows040 and 041 are complete. Current redacted read-only AWS probes verify authentication, configured S3 access and required-prefix objects, and the approved EC2 instance in stopped state. Row042 remains the sole direct blocker because the live emergency-stop schedule and SSM watchdog proof do not exist; those controls must be created only inside the next genuinely required bounded runtime window. The historical Row038 hash chain remains valid only for its exact low-risk lane. No CI trigger, S3 publish/delete, scheduler mutation, SSM command, EC2 start/stop, generation, mask, Jira, Wave70, or Wave71+ action occurred.

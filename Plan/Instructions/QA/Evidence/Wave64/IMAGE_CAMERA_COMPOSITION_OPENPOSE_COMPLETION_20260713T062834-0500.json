@@ -1,0 +1,298 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "wave64_image_camera_composition_openpose_completion",
+  "evidence_id": "IMAGE_CAMERA_COMPOSITION_OPENPOSE_COMPLETION_20260713T062834-0500",
+  "created_iso": "2026-07-13T06:28:34-05:00",
+  "refresh_basis": {
+    "Plan/09_EXAMPLES/wave10_camera_full_body_openpose_hands_visible_runtime_request.example.json": "e1ce9384ff3e5bed11491aa62f4ae5ee9e630ba23f9b69d4e6e7521e9f10e6f9",
+    "Plan/09_EXAMPLES/wave10_camera_full_body_openpose_hands_visible_compiled.example.json": "c660ef4e64cca7e5f161e1764155301c49dc3947c9153ef2c1c35894b716bed8",
+    "PromptProfiles/base_generation/wave10_camera_compiler/wave10_camera_full_body_openpose_hands_visible_seed7152026103.json": "b9573cbd2b1f969398e86015afbc8262282e15da671bf42b7aae5409a31f6d1d",
+    "runtime_artifacts/run_packages/wave10_camera_full_body_openpose_hands_visible_seed7152026103/RUN_PACKAGE_MANIFEST.json": "7c29b70ce33c1f8a693942ac750e68a7550185fb4a73a6eae899d024ee0d66ab",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_WAVE10_CAMERA_OPENPOSE_HANDS_VISIBLE_EXECUTE_20260713T060800-0500.json": "a91a22b15a165d08ddd71a866a82109c9c65e84542e970990bc6680c0ef3dad9",
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave10_camera_openpose_hands_visible_20260713T060800-0500/images/wave10_camera_openpose_hands_visible_7152026103_00001_.png": "60a239f002e9a6687efa39b404749a6ef1609e62178064c6eb0dff01292805fa",
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave10_camera_openpose_hands_visible_20260713T060800-0500/images/codex_sdxl_realvisxl_controlnet_openpose_control_map_diagnostic_00013_.png": "2f9a06bdbda9c550477f28dd4a222bfa4ea427d732f99856845770fc22f45656",
+    "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_full_body_hands_visible_row011_v1/PREPARATION_MANIFEST.json": "49ae532cd1625693cd5627d126e88f0ff7a91aa42b15d5c3464c7fa4f79c7365",
+    "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_full_body_hands_visible_row011_v1/controlnet_openpose_row011_full_body_hands_visible_v1.png": "e3a193ebb91d3490d7703f2fa3eaafd3eaafac7772bb2cca7649131fbe310d5c",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAVE10_CAMERA_OPENPOSE_HANDS_VISIBLE_VISUAL_QA_20260713T061500-0500.json": "f3670246650efb0cd3734ac90c4ee05e429a1050c4220a44c7fd4b0c73bfbab0",
+    "Plan/Instructions/QA/Evidence/Wave64/IMAGE_CAMERA_COMPOSITION_RECONCILIATION_20260713T015834-0500.json": "00dbb460ec8ec96541f0bccd274682915f1a69d2545d607e95824ab8fcf4e6f5",
+    "Plan/Tracker/Evidence/Wave64/image_camera_composition_retry.json": "5d7c25eab143d209263f618eca4b1af1f2a41e3a17f8309186a7a5cd9240333b",
+    "Plan/09_EXAMPLES/wave10_camera_full_body_hands_outside_pockets_compiled.example.json": "3481ded2e4952af9d223343f0e2b9fdb662ec59aa2b501194bffc89abda0a81e"
+  },
+  "wave": 64,
+  "tracker_id": "TRK-W64-011",
+  "item_id": "ITEM-W64-011",
+  "status": "Completed_Local_OpenPose_Camera_Composition_Pass_Target_Runtime_Not_Certified",
+  "row_complete": true,
+  "qa_decision": "local_openpose_camera_composition_complete_target_runtime_lane_certification_not_claimed",
+  "scope": "local Row011 camera framing, crop safety, required-region visibility, and strict visual-runtime proof",
+  "prior_failure_preserved": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/IMAGE_CAMERA_COMPOSITION_RECONCILIATION_20260713T015834-0500.json",
+    "status": "Blocked_Visual_Runtime_Composition_Mismatch",
+    "reason": "The bounded Wave10 prompt-and-seed retry keeps full-body framing but still places both hands inside trouser pockets instead of making them fully visible and inspectable."
+  },
+  "material_change": {
+    "from_lane": "sdxl_realvisxl_base_lane",
+    "to_lane": "sdxl_realvisxl_controlnet_openpose_lane",
+    "from_control": "prompt_only",
+    "to_control": "hash-bound DWPose/OpenPoseXL2",
+    "source_original": {
+      "path": "Ref_Image_1/Full/78b8e4ca10fd769e0752bd21c3599339.jpg",
+      "sha256": "e20a857f0ac23151ae1b8aa47fb4746c975e522a5598896f747ef08a50cc9336",
+      "width": 3000,
+      "height": 4000,
+      "selection_reason": "true front-facing full body with top of hair, both hands, both legs, and both feet visible; both hands hang outside clothing and are suitable for Row011 crop/visibility control"
+    }
+  },
+  "compiler": {
+    "request": "Plan/09_EXAMPLES/wave10_camera_full_body_openpose_hands_visible_runtime_request.example.json",
+    "request_sha256": "e1ce9384ff3e5bed11491aa62f4ae5ee9e630ba23f9b69d4e6e7521e9f10e6f9",
+    "plan": "Plan/09_EXAMPLES/wave10_camera_full_body_openpose_hands_visible_compiled.example.json",
+    "plan_sha256": "c660ef4e64cca7e5f161e1764155301c49dc3947c9153ef2c1c35894b716bed8",
+    "canonical_plan_sha256": "7261cac4c75a988bb3604c4ad0f2b60d43611f5ae0446a8f4ab13922d6a19246",
+    "profile": "PromptProfiles/base_generation/wave10_camera_compiler/wave10_camera_full_body_openpose_hands_visible_seed7152026103.json",
+    "profile_sha256": "b9573cbd2b1f969398e86015afbc8262282e15da671bf42b7aae5409a31f6d1d"
+  },
+  "runtime": {
+    "package": "runtime_artifacts/run_packages/wave10_camera_full_body_openpose_hands_visible_seed7152026103/RUN_PACKAGE_MANIFEST.json",
+    "package_sha256": "7c29b70ce33c1f8a693942ac750e68a7550185fb4a73a6eae899d024ee0d66ab",
+    "prompt_request": "runtime_artifacts/run_packages/wave10_camera_full_body_openpose_hands_visible_seed7152026103/prompt_request.json",
+    "prompt_request_sha256": "e2fbdc3c4f9e3894521bdcad46e5c79f1560f9f595b90588f6321cac7b115db0",
+    "execution_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_WAVE10_CAMERA_OPENPOSE_HANDS_VISIBLE_EXECUTE_20260713T060800-0500.json",
+    "execution_evidence_sha256": "a91a22b15a165d08ddd71a866a82109c9c65e84542e970990bc6680c0ef3dad9",
+    "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave10_camera_openpose_hands_visible_20260713T060800-0500/images/wave10_camera_openpose_hands_visible_7152026103_00001_.png",
+    "image_sha256": "60a239f002e9a6687efa39b404749a6ef1609e62178064c6eb0dff01292805fa",
+    "control_diagnostic": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave10_camera_openpose_hands_visible_20260713T060800-0500/images/codex_sdxl_realvisxl_controlnet_openpose_control_map_diagnostic_00013_.png",
+    "control_diagnostic_sha256": "2f9a06bdbda9c550477f28dd4a222bfa4ea427d732f99856845770fc22f45656",
+    "dimensions": {
+      "width": 768,
+      "height": 1024
+    },
+    "nonblank_metrics": {
+      "std": 49.03486633300781,
+      "nonwhite_ratio": 0.9999974568684896,
+      "nonblack_ratio": 0.9966773986816406,
+      "pass": true
+    }
+  },
+  "dwpose": {
+    "source_preparation": "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_full_body_hands_visible_row011_v1/PREPARATION_MANIFEST.json",
+    "source_preparation_sha256": "49ae532cd1625693cd5627d126e88f0ff7a91aa42b15d5c3464c7fa4f79c7365",
+    "control_map": "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_full_body_hands_visible_row011_v1/controlnet_openpose_row011_full_body_hands_visible_v1.png",
+    "control_map_sha256": "e3a193ebb91d3490d7703f2fa3eaafd3eaafac7772bb2cca7649131fbe310d5c",
+    "generated_keypoints": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave10_camera_openpose_hands_visible_20260713T060800-0500/qa_openpose_keypoints.json",
+    "generated_keypoints_sha256": "a29de555605982539de35e9c7f84b053a79f9fa16d6651fcb008436c030e744e",
+    "generated_person_count": 1,
+    "generated_body_landmark_count": 18,
+    "generated_visible_hand_keypoint_counts": {
+      "left": 21,
+      "right": 21
+    }
+  },
+  "validation_gates": {
+    "camera_spec_check": "pass_compiler_and_hash_bound_control",
+    "crop_boundary_check": "pass_head_hair_hands_feet_visible",
+    "composition_score": {
+      "status": "pass",
+      "score": 100
+    },
+    "visual_runtime_ready": "pass_local_strict_visual_review"
+  },
+  "codex_visual_review": {
+    "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAVE10_CAMERA_OPENPOSE_HANDS_VISIBLE_VISUAL_QA_20260713T061500-0500.json",
+    "sha256": "f3670246650efb0cd3734ac90c4ee05e429a1050c4220a44c7fd4b0c73bfbab0",
+    "result": "pass",
+    "findings": [
+      "One adult subject is centered in a full-length eye-level studio composition with the complete hair silhouette and both shoes inside the frame.",
+      "Both arms hang outside the torso and both hands are fully outside clothing; wrists, palms, and separated finger silhouettes are visible on both sides.",
+      "Headroom, footroom, side margins, posture, major joint continuity, clothing, and background are coherent at original resolution.",
+      "No OpenPose skeleton, colored control marks, text, watermark, or other control-map leakage is visible in the generated image."
+    ],
+    "limitations": [
+      "Full-body framing makes fingers small; this is camera-composition visibility proof, not detailed finger geometry authority.",
+      "This local image does not certify the OpenPose lane in target runtime and does not provide mask, body-geometry, or Wave71+ authority."
+    ]
+  },
+  "unit_tests": [
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_compile_camera_plan.py",
+      "sha256": "43462e95d117da5e6eebd3fb3d0580077582f25187408341b0114281e88c97fa",
+      "exit_code": 0,
+      "tests_run": 16,
+      "passed": true
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_qa_wave10_camera_compiler_runtime.py",
+      "sha256": "2bd837e94b031a7f0592965b643e32502d3b6c9e46fe9fa0223d52a30d03745d",
+      "exit_code": 0,
+      "tests_run": 6,
+      "passed": true
+    }
+  ],
+  "checks": [
+    {
+      "name": "ICOC-001_prior_prompt_only_failure_preserved",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-002_materially_different_openpose_objective",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-003_request_recompiles_exactly",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-004_compiled_plan_is_full_body",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-005_control_plan_hash_bound",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-006_preparation_passed",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-007_excluded_folder_not_used",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-008_gold_masks_not_consumed",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-009_dwpose_models_hash_match",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-010_active_control_input_hash_matches",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-011_package_passes_local_only",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-012_package_profile_exact",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-013_package_prompt_hash_matches",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-014_prompt_pair_bound",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-015_sampler_bound",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-016_resolution_bound",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-017_model_and_controlnet_bound",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-018_control_image_bound",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-019_control_settings_bound",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-020_output_prefix_bound",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-021_runtime_passed",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-022_runtime_request_hash_matches",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-023_runtime_local_and_aws_free",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-024_runtime_server_stopped",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-025_target_output_hash_bound",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-026_control_diagnostic_present",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-027_control_diagnostic_pixels_match",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-028_output_dimensions_and_pixels_pass",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-029_generated_person_and_landmarks_pass",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-030_visual_contract_passes",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-031_unit_tests_pass",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-032_no_lane_or_mask_overclaim",
+      "result": "pass"
+    },
+    {
+      "name": "ICOC-033_bilateral_hand_keypoints_visible",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 33,
+    "passed": 33,
+    "failed": 0
+  },
+  "safety_boundary": {
+    "local_generation_count": 1,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "s3_mutated": false,
+    "gold_or_candidate_masks_consumed": false,
+    "masks_promoted": false,
+    "wave70_hard_gates_rerun": false,
+    "wave71_plus_activated": false,
+    "jira_mutated": false,
+    "target_runtime_lane_certification_claimed": false,
+    "body_or_finger_geometry_authority_claimed": false
+  },
+  "project_completion": {
+    "full_project_complete": false,
+    "final_certification_decision": "blocked"
+  },
+  "next_action": "Preserve completed Row011 local camera-composition proof. Keep Row012 blocked on manual gold masks and continue the next eligible non-mask implementation/runtime task without treating this image as mask or geometry authority.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/image_camera_composition.json",
+    "Plan/Instructions/QA/Evidence/Wave64/IMAGE_CAMERA_COMPOSITION_OPENPOSE_COMPLETION_20260713T062834-0500.json",
+    "Plan/Tracker/Evidence/IMAGE_CAMERA_COMPOSITION_OPENPOSE_COMPLETION_20260713T062834-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/image_camera_composition_openpose_completion_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-011_image_camera_composition_openpose_completion.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_WAVE10_CAMERA_OPENPOSE_HANDS_VISIBLE_EXECUTE_20260713T060800-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAVE10_CAMERA_OPENPOSE_HANDS_VISIBLE_VISUAL_QA_20260713T061500-0500.json",
+    "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_full_body_hands_visible_row011_v1/PREPARATION_MANIFEST.json"
+  ]
+}

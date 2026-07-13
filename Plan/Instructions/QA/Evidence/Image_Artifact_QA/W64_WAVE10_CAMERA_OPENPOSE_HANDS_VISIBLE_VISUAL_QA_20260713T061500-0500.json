@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64_WAVE10_CAMERA_OPENPOSE_HANDS_VISIBLE_VISUAL_QA_20260713T061500-0500",
+  "created_at": "2026-07-13T06:15:00-05:00",
+  "tracker_id": "TRK-W64-011",
+  "item_id": "ITEM-W64-011",
+  "lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+  "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave10_camera_openpose_hands_visible_20260713T060800-0500/images/wave10_camera_openpose_hands_visible_7152026103_00001_.png",
+  "image_sha256": "60a239f002e9a6687efa39b404749a6ef1609e62178064c6eb0dff01292805fa",
+  "original_resolution_review": true,
+  "result": "pass",
+  "checks": {
+    "exactly_one_adult": true,
+    "eye_level_full_body_camera_intent": true,
+    "head_and_hair_fully_in_frame": true,
+    "both_hands_fully_visible_and_inspectable": true,
+    "both_feet_fully_in_frame": true,
+    "balanced_headroom_footroom_and_side_margins": true,
+    "no_required_region_hidden": true,
+    "natural_skin_clothing_and_background": true,
+    "no_obvious_anatomy_or_render_defect": true
+  },
+  "findings": [
+    "One adult subject is centered in a full-length eye-level studio composition with the complete hair silhouette and both shoes inside the frame.",
+    "Both arms hang outside the torso and both hands are fully outside clothing; wrists, palms, and separated finger silhouettes are visible on both sides.",
+    "Headroom, footroom, side margins, posture, major joint continuity, clothing, and background are coherent at original resolution.",
+    "No OpenPose skeleton, colored control marks, text, watermark, or other control-map leakage is visible in the generated image."
+  ],
+  "limitations": [
+    "Full-body framing makes fingers small; this is camera-composition visibility proof, not detailed finger geometry authority.",
+    "This local image does not certify the OpenPose lane in target runtime and does not provide mask, body-geometry, or Wave71+ authority."
+  ],
+  "safety_boundary": {
+    "local_generation_only": true,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "gold_masks_consumed": false,
+    "masks_promoted": false,
+    "wave70_hard_gates_rerun": false,
+    "wave71_plus_activated": false,
+    "jira_mutated": false
+  }
+}

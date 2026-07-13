@@ -54,6 +54,10 @@ def main() -> int:
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("--resolution", type=int, default=768)
     parser.add_argument("--active-input-name", default="controlnet_openpose_full_body_walking_w70_v1.png")
+    parser.add_argument(
+        "--selection-reason",
+        default="true full body with head, both hands, both legs, and both feet visible",
+    )
     args = parser.parse_args()
 
     source = args.source.resolve()
@@ -129,7 +133,7 @@ def main() -> int:
             "sha256": sha256_file(source),
             "width": source_size[0],
             "height": source_size[1],
-            "selection_reason": "true full body with head, both hands, both legs, and both feet in a walking stance",
+            "selection_reason": args.selection_reason,
         },
         "models": {
             "detector": {"path": str(detector_path), "sha256": sha256_file(detector_path)},

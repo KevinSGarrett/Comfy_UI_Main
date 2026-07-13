@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "wave10_camera_full_body_openpose_hands_visible_seed7152026103",
+  "target_lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+  "purpose": "Materially different Row011 camera-control retry using a DWPose map from a user-supplied true full-body reference with both hands and both feet visible.",
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic full-length editorial studio photograph, one adult woman standing naturally, entire person visible from top of hair to both feet, front-facing relaxed stance, both arms hanging naturally at her sides, both hands fully outside clothing and fully visible, open relaxed fingers separated and inspectable, realistic bilateral hand anatomy, coherent shoulders elbows wrists hips knees and ankles, modest fitted black sleeveless athletic top, full-length charcoal leggings, simple low-profile black studio shoes, natural skin texture, detailed face and hair, soft neutral studio lighting, balanced exposure, uncluttered light gray studio background, lifelike lens rendering",
+    "negative_prompt": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, distorted anatomy, extra person, duplicate body, extra limbs, missing limbs, fused arms, fused legs, broken elbows, broken wrists, broken knees, twisted ankles, extra fingers, missing fingers, fused fingers, deformed hands, hands in pockets, hidden hands, hands behind back, crossed arms, cropped head, cropped hands, cropped feet, person out of frame, close-up portrait, seated pose, crossed eyes, low resolution, blurry, watermark, text, logo, openpose skeleton overlay, pose map stains, colored bones, colored dots, control map stains, nude, lingerie, swimsuit, unclothed torso",
+    "seed": 7152026103,
+    "sampler_settings": {
+      "steps": 24,
+      "cfg": 5.5,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1
+    },
+    "latent_resolution": {
+      "width": 768,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "controlnet_asset": "OpenPoseXL2.safetensors",
+    "control_image": "controlnet_openpose_row011_full_body_hands_visible_v1.png",
+    "controlnet_settings": {
+      "strength": 0.9,
+      "start_percent": 0,
+      "end_percent": 1
+    },
+    "save_prefix": "wave10_camera_openpose_hands_visible_7152026103"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "wave10_camera_openpose_hands_visible_7152026103"
+  },
+  "qa_focus": [
+    "single full-length subject",
+    "top of hair and both feet inside frame",
+    "both hands fully visible outside clothing",
+    "open inspectable fingers without pocket occlusion",
+    "whole-image anatomy and prompt alignment",
+    "no OpenPose control-map leakage"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "materially_different_from_prompt_only_row011_retry": true,
+    "original_image_used_only_to_derive_control_map": true,
+    "gold_masks_consumed": false,
+    "body_mask_or_geometry_authority_claimed": false,
+    "requires_target_runtime_reproof_before_lane_certification": true
+  }
+}

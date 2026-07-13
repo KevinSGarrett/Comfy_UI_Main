@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "created_at": "2026-07-13T06:13:45-05:00",
+  "result": "pass_local_dwpose_full_body_control_map_prepared",
+  "pass": true,
+  "scope": "single_original_full_body_pose_variety_control_map",
+  "limitations": [
+    "This is a local control-map preparation check, not body-mask authority.",
+    "No gold mask was read, compared, promoted, or treated as truth.",
+    "One detected pose does not certify full-body geometry or target-runtime readiness."
+  ],
+  "source": {
+    "path": "Ref_Image_1/Full/78b8e4ca10fd769e0752bd21c3599339.jpg",
+    "sha256": "e20a857f0ac23151ae1b8aa47fb4746c975e522a5598896f747ef08a50cc9336",
+    "width": 3000,
+    "height": 4000,
+    "selection_reason": "true front-facing full body with top of hair, both hands, both legs, and both feet visible; both hands hang outside clothing and are suitable for Row011 crop/visibility control"
+  },
+  "models": {
+    "detector": {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\yolox_l.onnx",
+      "sha256": "7860ae79de6c89a3c1eb72ae9a2756c0ccfbe04b7791bb5880afabd97855a411"
+    },
+    "pose_estimator": {
+      "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\dw-ll_ucoco_384.onnx",
+      "sha256": "724f4ff2439ed61afb86fb8a1951ec39c6220682803b4a8bd4f598cd913b1843"
+    }
+  },
+  "outputs": {
+    "source_copy": {
+      "path": "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_full_body_hands_visible_row011_v1/source_original.jpg",
+      "sha256": "0d12b226b78d2713c95ca86169505fcc7baa51c2ffc56e3145f3b8d1b73c76a2"
+    },
+    "control_map": {
+      "path": "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_full_body_hands_visible_row011_v1/controlnet_openpose_row011_full_body_hands_visible_v1.png",
+      "sha256": "e3a193ebb91d3490d7703f2fa3eaafd3eaafac7772bb2cca7649131fbe310d5c",
+      "width": 768,
+      "height": 1024
+    },
+    "keypoints": {
+      "path": "Plan/Instructions/Operations/Prepared_Input_Assets/openpose_full_body_hands_visible_row011_v1/openpose_keypoints.json",
+      "sha256": "2a146d7a7a469b9d152f1a8246b41dab83dbc033c76335f69ae1cc960a2d4e6e"
+    }
+  },
+  "detections": {
+    "person_count": 1,
+    "visible_body_keypoint_counts": [
+      18
+    ]
+  },
+  "checks": {
+    "exactly_one_person_detected": true,
+    "at_least_14_body_keypoints_visible": true,
+    "control_map_nonempty": true,
+    "source_is_outside_excluded_new_folder": true,
+    "gold_masks_not_consumed": true
+  }
+}
