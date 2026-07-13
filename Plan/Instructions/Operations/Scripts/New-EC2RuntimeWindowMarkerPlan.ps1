@@ -84,17 +84,28 @@ function New-Check {
   }
 }
 
-function Get-JsonResult {
+function Get-JsonEvidence {
   param([string]$Path)
   $resolved = Resolve-ProjectPath -Path $Path
-  if ([string]::IsNullOrWhiteSpace($resolved) -or !(Test-Path -LiteralPath $resolved)) { return $null }
+  $record = [ordered]@{
+    supplied = ![string]::IsNullOrWhiteSpace($Path)
+    path = ConvertTo-ProjectRelativePath -Path $resolved
+    found = $false
+    json_valid = $false
+    result = $null
+    runtime_window_id = $null
+  }
+  if ([string]::IsNullOrWhiteSpace($resolved) -or !(Test-Path -LiteralPath $resolved)) { return [pscustomobject]$record }
+  $record.found = $true
   try {
     $json = Get-Content -LiteralPath $resolved -Raw | ConvertFrom-Json
-    if ($null -ne $json.PSObject.Properties["result"]) { return [string]$json.result }
-    return "json_parsed_no_result"
+    $record.json_valid = $true
+    $record.result = $(if ($null -ne $json.PSObject.Properties["result"]) { [string]$json.result } else { "json_parsed_no_result" })
+    $record.runtime_window_id = $(if ($null -ne $json.PSObject.Properties["runtime_window_id"]) { [string]$json.runtime_window_id } else { $null })
   } catch {
-    return "json_parse_failed"
+    $record.result = "json_parse_failed"
   }
+  return [pscustomobject]$record
 }
 
 $stamp = (Get-Date -Format "yyyyMMddTHHmmsszzz").Replace(":", "")
@@ -112,8 +123,21 @@ if ([string]::IsNullOrWhiteSpace($MarkerTemplateOutFile)) {
 $activeMarkerPath = Join-Path $ProjectRoot "runtime_artifacts\ec2_runtime_windows\ACTIVE_EC2_RUNTIME_WINDOW.json"
 $expiresAt = (Get-Date).ToUniversalTime().AddMinutes($MaxRuntimeMinutes).ToString("yyyy-MM-ddTHH:mm:ssZ")
 $gitOrBundle = $(if (![string]::IsNullOrWhiteSpace($DeployBundleSha256)) { $DeployBundleSha256 } else { "missing_bundle_sha256" })
-$emergencyResult = Get-JsonResult -Path $EmergencyStopEvidencePath
-$watchdogResult = Get-JsonResult -Path $WatchdogEvidencePath
+$emergencyEvidence = Get-JsonEvidence -Path $EmergencyStopEvidencePath
+$watchdogEvidence = Get-JsonEvidence -Path $WatchdogEvidencePath
+$emergencyResult = [string]$emergencyEvidence.result
+$watchdogResult = [string]$watchdogEvidence.result
+$allowedEmergencyResults = @(
+  "dry_run_emergency_stop_schedule_plan",
+  "emergency_stop_schedule_created",
+  "emergency_stop_schedule_created_verified",
+  "emergency_stop_schedule_created_and_verified"
+)
+$allowedWatchdogResults = @(
+  "dry_run_instance_watchdog_plan",
+  "instance_stop_watchdog_started",
+  "instance_stop_watchdog_started_and_capability_verified"
+)
 
 $markerPayload = [ordered]@{
   schema_version = "1.0"
@@ -138,14 +162,17 @@ $markerPayload = [ordered]@{
 $checks = @(
   (New-Check -Name "project_root_exists" -Passed (Test-Path -LiteralPath $ProjectRoot) -Observed $ProjectRoot -Expected "existing project root"),
   (New-Check -Name "active_marker_not_written" -Passed (!(Test-Path -LiteralPath $activeMarkerPath)) -Observed (Test-Path -LiteralPath $activeMarkerPath) -Expected $false),
+  (New-Check -Name "window_id_safe" -Passed ($WindowId -cmatch "^[A-Za-z0-9][A-Za-z0-9_.-]{7,127}$") -Observed $WindowId -Expected "8-128 safe identifier characters"),
   (New-Check -Name "lane_id_supplied" -Passed (![string]::IsNullOrWhiteSpace($LaneId)) -Observed $LaneId -Expected "non-empty lane id"),
   (New-Check -Name "command_supplied" -Passed (![string]::IsNullOrWhiteSpace($Command)) -Observed $Command -Expected "future live command string"),
   (New-Check -Name "deploy_bundle_uri_supplied" -Passed (![string]::IsNullOrWhiteSpace($DeployBundleS3Uri)) -Observed $DeployBundleS3Uri -Expected "s3:// deploy bundle URI"),
   (New-Check -Name "deploy_bundle_sha_supplied" -Passed ($DeployBundleSha256 -match "^[a-fA-F0-9]{64}$") -Observed $DeployBundleSha256 -Expected "64 character SHA256"),
   (New-Check -Name "max_runtime_minutes_bounded" -Passed ($MaxRuntimeMinutes -ge 5 -and $MaxRuntimeMinutes -le 240) -Observed $MaxRuntimeMinutes -Expected "5..240"),
-  (New-Check -Name "emergency_stop_evidence_parsed" -Passed ($emergencyResult -in @("dry_run_emergency_stop_schedule_plan", "emergency_stop_schedule_created", "emergency_stop_schedule_created_verified")) -Observed $emergencyResult -Expected "dry-run or created emergency-stop evidence"),
-  (New-Check -Name "watchdog_evidence_optional_or_parsed" -Passed ([string]::IsNullOrWhiteSpace($WatchdogEvidencePath) -or $watchdogResult -in @("dry_run_instance_watchdog_plan", "instance_stop_watchdog_started")) -Observed $watchdogResult -Expected "empty, dry-run, or started watchdog evidence"),
-  (New-Check -Name "owner_thread_current" -Passed ($OwnerThreadOrAutomation -eq "019f422f-88b1-7382-872b-21de2089e983") -Observed $OwnerThreadOrAutomation -Expected "019f422f-88b1-7382-872b-21de2089e983")
+  (New-Check -Name "emergency_stop_evidence_parsed" -Passed ($emergencyEvidence.found -and $emergencyEvidence.json_valid -and $emergencyResult -in $allowedEmergencyResults) -Observed $emergencyResult -Expected "dry-run or verified emergency-stop evidence"),
+  (New-Check -Name "emergency_stop_runtime_window_matches" -Passed ([string]$emergencyEvidence.runtime_window_id -ceq $WindowId) -Observed $emergencyEvidence.runtime_window_id -Expected $WindowId),
+  (New-Check -Name "watchdog_evidence_optional_or_parsed" -Passed (!$watchdogEvidence.supplied -or ($watchdogEvidence.found -and $watchdogEvidence.json_valid -and $watchdogResult -in $allowedWatchdogResults)) -Observed $watchdogResult -Expected "empty, dry-run, or capability-verified watchdog evidence"),
+  (New-Check -Name "watchdog_runtime_window_matches_when_supplied" -Passed (!$watchdogEvidence.supplied -or [string]$watchdogEvidence.runtime_window_id -ceq $WindowId) -Observed $watchdogEvidence.runtime_window_id -Expected $(if ($watchdogEvidence.supplied) { $WindowId } else { "not supplied" })),
+  (New-Check -Name "owner_identity_safe" -Passed ($OwnerThreadOrAutomation -cmatch "^[A-Za-z0-9][A-Za-z0-9_.-]{7,127}$") -Observed $OwnerThreadOrAutomation -Expected "8-128 safe identifier characters")
 )
 
 $failureCount = @($checks | Where-Object { $_.result -ne "pass" }).Count
@@ -169,6 +196,8 @@ $record = [ordered]@{
   deploy_bundle_sha256 = $DeployBundleSha256
   emergency_stop_result = $emergencyResult
   watchdog_result = $watchdogResult
+  emergency_stop_evidence = $emergencyEvidence
+  watchdog_evidence = $watchdogEvidence
   checks = $checks
   failure_count = $failureCount
   result = $(if ($failureCount -eq 0) { "pass_local_only_marker_plan_ready" } else { "fail_local_marker_plan_validation" })

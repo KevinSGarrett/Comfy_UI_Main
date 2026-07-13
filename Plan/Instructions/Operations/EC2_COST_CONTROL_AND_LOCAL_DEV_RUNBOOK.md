@@ -130,24 +130,24 @@ powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instru
 Emergency stop schedule dry-run:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\New-EC2EmergencyStopSchedule.ps1 -StopAfterMinutes 60 -SchedulerRoleArn arn:aws:iam::<account-id>:role/<scheduler-stop-role> -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W63_EC2_EMERGENCY_STOP_SCHEDULE_<timestamp>.json
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\New-EC2EmergencyStopSchedule.ps1 -RuntimeWindowId <runtime-window-id> -TrackerId TRK-W64-042 -ItemId ITEM-W64-042 -StopAfterMinutes 60 -SchedulerRoleArn arn:aws:iam::<account-id>:role/<scheduler-stop-role> -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W63_EC2_EMERGENCY_STOP_SCHEDULE_<timestamp>.json
 ```
 
 Instance-side watchdog dry-run:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Start-EC2InstanceStopWatchdog.ps1 -StopAfterMinutes 60 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W63_EC2_INSTANCE_WATCHDOG_<timestamp>.json
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Start-EC2InstanceStopWatchdog.ps1 -RuntimeWindowId <runtime-window-id> -TrackerId TRK-W64-042 -ItemId ITEM-W64-042 -StopAfterMinutes 60 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W63_EC2_INSTANCE_WATCHDOG_<timestamp>.json
 ```
 
-Both commands are dry-run by default. Add `-Execute` only when AWS auth, IAM permissions, and the intended EC2 runtime window are ready.
+Both commands are dry-run by default and must use the same `RuntimeWindowId`. The cloud-side emergency-stop schedule is created and verified first while the instance remains stopped. EC2 start authority is still separate. The instance-side watchdog can be attached only after the instance is running and SSM is online; generation stays blocked until its capability proof is verified. Add `-Execute` only for the matching phase after AWS auth, IAM permissions, Git checkpoint, queue authority, and the intended bounded window are current.
 
 Runtime-window marker plan:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\New-EC2RuntimeWindowMarkerPlan.ps1 -LaneId sdxl_realvisxl_base_lane -Command "<approved live EC2 command>" -DeployBundleS3Uri s3://<bucket>/<bundle>.zip -DeployBundleSha256 <bundle_sha256> -EmergencyStopEvidencePath <emergency-stop-evidence.json> -WatchdogEvidencePath <watchdog-evidence.json> -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W66_EC2_RUNTIME_WINDOW_MARKER_PLAN_<timestamp>.json
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\New-EC2RuntimeWindowMarkerPlan.ps1 -WindowId <runtime-window-id> -LaneId sdxl_realvisxl_base_lane -Command "<approved live EC2 command>" -DeployBundleS3Uri s3://<bucket>/<bundle>.zip -DeployBundleSha256 <bundle_sha256> -EmergencyStopEvidencePath <emergency-stop-evidence.json> -WatchdogEvidencePath <watchdog-evidence.json> -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W66_EC2_RUNTIME_WINDOW_MARKER_PLAN_<timestamp>.json
 ```
 
-This helper is local-only. It writes a marker template for the future live window, but it does not write `runtime_artifacts/ec2_runtime_windows/ACTIVE_EC2_RUNTIME_WINDOW.json`; write the active marker only when the approved EC2 window is actually starting, then remove it or mark it `ENDED` after final stopped-state verification.
+This helper is local-only. It validates that supplied emergency-stop and watchdog evidence, when present, use the same window ID and recognizes both dry-run and exact capability-verified live results. It writes a marker template for the future live window, but it does not write `runtime_artifacts/ec2_runtime_windows/ACTIVE_EC2_RUNTIME_WINDOW.json`; write the active marker only when the approved EC2 window is actually starting, then remove it or mark it `ENDED` after final stopped-state verification.
 
 ## Model Provisioning Cost Rules
 

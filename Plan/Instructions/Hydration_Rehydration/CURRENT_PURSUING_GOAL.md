@@ -7191,3 +7191,8 @@ Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_RUNTIME_QU
 Continue the autonomous project from preserved runtime window `rw-normal-20260713T105243-0500-57f1f908`. Normal is selected and the stale lane-selection blocker is cleared, but execution remains unauthorized with every permission false. Resolve only the exact remaining queue-permission and Row042 schedule/watchdog ordering as one bounded fail-closed window; keep EC2 stopped and preserve all mask, Wave71+, Jira, and FLUX-license boundaries.
 
 Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_RUNTIME_WINDOW_CONTRACT_REFRESH_20260713T112300-0500.json`; `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_NORMAL_RUNTIME_WINDOW_PRESERVED_ID_REGRESSION_20260713T113000-0500.json`.
+## Normal Runtime-Control Marker Binding Hardened - 2026-07-13T11:46:00-05:00
+
+Continue the autonomous project from the hardened same-window marker contract. Schedule evidence must bind to the preserved Normal window before EC2 start; watchdog evidence binds after SSM comes online; generation remains blocked until both phases are verified. Build/revalidate the current-source Normal deploy bundle and prepare local same-ID plans next. Keep all live authority, mask, Wave71+, Jira, and FLUX-license boundaries intact.
+
+Evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_EC2_RUNTIME_WINDOW_MARKER_PLAN_REGRESSION_20260713T114600-0500.json`; `Plan/Tracker/Evidence/Operations_Static_Validation/W64_EC2_RUNTIME_WINDOW_MARKER_PLAN_REGRESSION_20260713T114600-0500.json`.

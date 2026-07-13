@@ -9268,3 +9268,10 @@ Runtime window `rw-normal-20260713T105243-0500-57f1f908` has been refreshed agai
 Next: checkpoint this refresh, then reconcile the exact bounded authorization/control ordering for the same runtime-window ID. Do not create live controls or start EC2 until the queue permission and both Row042 control bindings can be satisfied as one fail-closed window.
 
 Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_RUNTIME_WINDOW_CONTRACT_REFRESH_20260713T112300-0500.json`; `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_NORMAL_RUNTIME_WINDOW_PRESERVED_ID_REGRESSION_20260713T113000-0500.json`.
+## Normal Runtime-Control Marker Binding Hardened - 2026-07-13T11:46:00-05:00
+
+The local runtime-window marker planner now accepts the exact capability-verified success strings emitted by the emergency-stop schedule and SSM watchdog helpers, rejects mismatched runtime-window IDs, supports the pre-start phase where watchdog evidence is not yet available, and no longer requires a stale historical owner thread ID. Regression coverage passes 8/8. The runbook now records the feasible ordering: schedule first while EC2 is stopped; EC2 start remains separately gated; watchdog immediately after SSM is online; generation only after watchdog verification. No AWS mutation or EC2 action occurred.
+
+Next: build and revalidate the current-source Normal deploy bundle for preserved window `rw-normal-20260713T105243-0500-57f1f908`, then prepare same-ID dry-run control evidence and a marker plan without starting EC2.
+
+Evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_EC2_RUNTIME_WINDOW_MARKER_PLAN_REGRESSION_20260713T114600-0500.json`; `Plan/Tracker/Evidence/Operations_Static_Validation/W64_EC2_RUNTIME_WINDOW_MARKER_PLAN_REGRESSION_20260713T114600-0500.json`.
