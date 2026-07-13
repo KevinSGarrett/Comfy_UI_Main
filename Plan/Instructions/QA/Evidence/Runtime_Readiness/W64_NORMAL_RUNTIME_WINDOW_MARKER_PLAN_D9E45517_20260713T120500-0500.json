@@ -1,0 +1,138 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "W66-EC2-RUNTIME-WINDOW-MARKER-PLAN-20260713T115625-0500",
+    "created_at":  "2026-07-13T11:56:25-05:00",
+    "artifact_type":  "ec2_runtime_window_marker_plan",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "github_api_contacted":  false,
+    "civitai_contacted":  false,
+    "comfyui_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "active_marker_written":  false,
+    "active_marker_path":  "runtime_artifacts/ec2_runtime_windows/ACTIVE_EC2_RUNTIME_WINDOW.json",
+    "marker_template_path":  "runtime_artifacts/ec2_runtime_windows/ACTIVE_EC2_RUNTIME_WINDOW.template.normal_d9e45517_20260713T120500-0500.json",
+    "marker_payload":  {
+                           "schema_version":  "1.0",
+                           "window_id":  "rw-normal-20260713T105243-0500-57f1f908",
+                           "status":  "ACTIVE",
+                           "created_at":  "\u003cwrite-actual-window-start-time\u003e",
+                           "expires_at":  "2026-07-13T17:56:25Z",
+                           "instance_id":  "i-0560bf8d143f93bb1",
+                           "region":  "us-east-1",
+                           "expected_account_id":  "029530099913",
+                           "purpose":  "normal_v4_full_body_target_runtime_validation",
+                           "target_lane_id":  "sdxl_realvisxl_controlnet_normal_lane",
+                           "command":  "powershell -NoProfile -File Plan/Instructions/Operations/Scripts/Invoke-EC2WorkflowSmokeRun.ps1 -ProjectRoot C:\\Comfy_UI_Main -LaneId sdxl_realvisxl_controlnet_normal_lane -RunPackageManifestFile runtime_artifacts/run_packages/normal_v4_full_body_target_runtime_candidate_20260713T102200-0500/RUN_PACKAGE_MANIFEST.json -DeployBundleS3Uri s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/normal_v4_full_body_target_runtime_d9e45517_20260713T115000-0500/normal_v4_full_body_target_runtime_d9e45517_20260713T115000-0500.zip -DeployBundleSha256 4dc2f2e14f6f6f4757e1567c723d58d0b1a884b3b1e6fba86929e06b72b35cbd -Execute",
+                           "max_runtime_minutes":  60,
+                           "emergency_stop_evidence_path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_EMERGENCY_STOP_SCHEDULE_DRY_RUN_D9E45517_20260713T120500-0500.json",
+                           "watchdog_evidence_path_or_null":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_INSTANCE_WATCHDOG_DRY_RUN_D9E45517_20260713T120500-0500.json",
+                           "git_head_or_bundle_sha":  "4dc2f2e14f6f6f4757e1567c723d58d0b1a884b3b1e6fba86929e06b72b35cbd",
+                           "owner_thread_or_automation":  "codex-main-normal-runtime-20260713",
+                           "allowed_stop_policy":  "stop_when_expired_or_unapproved"
+                       },
+    "deploy_bundle_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/normal_v4_full_body_target_runtime_d9e45517_20260713T115000-0500/normal_v4_full_body_target_runtime_d9e45517_20260713T115000-0500.zip",
+    "deploy_bundle_sha256":  "4dc2f2e14f6f6f4757e1567c723d58d0b1a884b3b1e6fba86929e06b72b35cbd",
+    "emergency_stop_result":  "dry_run_emergency_stop_schedule_plan",
+    "watchdog_result":  "dry_run_instance_watchdog_plan",
+    "emergency_stop_evidence":  {
+                                    "supplied":  true,
+                                    "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_EMERGENCY_STOP_SCHEDULE_DRY_RUN_D9E45517_20260713T120500-0500.json",
+                                    "found":  true,
+                                    "json_valid":  true,
+                                    "result":  "dry_run_emergency_stop_schedule_plan",
+                                    "runtime_window_id":  "rw-normal-20260713T105243-0500-57f1f908"
+                                },
+    "watchdog_evidence":  {
+                              "supplied":  true,
+                              "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_INSTANCE_WATCHDOG_DRY_RUN_D9E45517_20260713T120500-0500.json",
+                              "found":  true,
+                              "json_valid":  true,
+                              "result":  "dry_run_instance_watchdog_plan",
+                              "runtime_window_id":  "rw-normal-20260713T105243-0500-57f1f908"
+                          },
+    "checks":  [
+                   {
+                       "name":  "project_root_exists",
+                       "result":  "pass",
+                       "observed":  "C:\\Comfy_UI_Main",
+                       "expected":  "existing project root"
+                   },
+                   {
+                       "name":  "active_marker_not_written",
+                       "result":  "pass",
+                       "observed":  false,
+                       "expected":  false
+                   },
+                   {
+                       "name":  "window_id_safe",
+                       "result":  "pass",
+                       "observed":  "rw-normal-20260713T105243-0500-57f1f908",
+                       "expected":  "8-128 safe identifier characters"
+                   },
+                   {
+                       "name":  "lane_id_supplied",
+                       "result":  "pass",
+                       "observed":  "sdxl_realvisxl_controlnet_normal_lane",
+                       "expected":  "non-empty lane id"
+                   },
+                   {
+                       "name":  "command_supplied",
+                       "result":  "pass",
+                       "observed":  "powershell -NoProfile -File Plan/Instructions/Operations/Scripts/Invoke-EC2WorkflowSmokeRun.ps1 -ProjectRoot C:\\Comfy_UI_Main -LaneId sdxl_realvisxl_controlnet_normal_lane -RunPackageManifestFile runtime_artifacts/run_packages/normal_v4_full_body_target_runtime_candidate_20260713T102200-0500/RUN_PACKAGE_MANIFEST.json -DeployBundleS3Uri s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/normal_v4_full_body_target_runtime_d9e45517_20260713T115000-0500/normal_v4_full_body_target_runtime_d9e45517_20260713T115000-0500.zip -DeployBundleSha256 4dc2f2e14f6f6f4757e1567c723d58d0b1a884b3b1e6fba86929e06b72b35cbd -Execute",
+                       "expected":  "future live command string"
+                   },
+                   {
+                       "name":  "deploy_bundle_uri_supplied",
+                       "result":  "pass",
+                       "observed":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/normal_v4_full_body_target_runtime_d9e45517_20260713T115000-0500/normal_v4_full_body_target_runtime_d9e45517_20260713T115000-0500.zip",
+                       "expected":  "s3:// deploy bundle URI"
+                   },
+                   {
+                       "name":  "deploy_bundle_sha_supplied",
+                       "result":  "pass",
+                       "observed":  "4dc2f2e14f6f6f4757e1567c723d58d0b1a884b3b1e6fba86929e06b72b35cbd",
+                       "expected":  "64 character SHA256"
+                   },
+                   {
+                       "name":  "max_runtime_minutes_bounded",
+                       "result":  "pass",
+                       "observed":  60,
+                       "expected":  "5..240"
+                   },
+                   {
+                       "name":  "emergency_stop_evidence_parsed",
+                       "result":  "pass",
+                       "observed":  "dry_run_emergency_stop_schedule_plan",
+                       "expected":  "dry-run or verified emergency-stop evidence"
+                   },
+                   {
+                       "name":  "emergency_stop_runtime_window_matches",
+                       "result":  "pass",
+                       "observed":  "rw-normal-20260713T105243-0500-57f1f908",
+                       "expected":  "rw-normal-20260713T105243-0500-57f1f908"
+                   },
+                   {
+                       "name":  "watchdog_evidence_optional_or_parsed",
+                       "result":  "pass",
+                       "observed":  "dry_run_instance_watchdog_plan",
+                       "expected":  "empty, dry-run, or capability-verified watchdog evidence"
+                   },
+                   {
+                       "name":  "watchdog_runtime_window_matches_when_supplied",
+                       "result":  "pass",
+                       "observed":  "rw-normal-20260713T105243-0500-57f1f908",
+                       "expected":  "rw-normal-20260713T105243-0500-57f1f908"
+                   },
+                   {
+                       "name":  "owner_identity_safe",
+                       "result":  "pass",
+                       "observed":  "codex-main-normal-runtime-20260713",
+                       "expected":  "8-128 safe identifier characters"
+                   }
+               ],
+    "failure_count":  0,
+    "result":  "pass_local_only_marker_plan_ready",
+    "next_action":  "Write this marker payload to runtime_artifacts/ec2_runtime_windows/ACTIVE_EC2_RUNTIME_WINDOW.json only after an explicit live EC2 window is selected and actually starting; remove or mark ENDED after final stopped-state verification."
+}

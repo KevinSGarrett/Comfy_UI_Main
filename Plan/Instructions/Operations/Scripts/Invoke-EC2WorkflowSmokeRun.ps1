@@ -12,9 +12,11 @@ With -Execute, this script requires:
 - an auth gate proving account 029530099913 and safe_to_start_ec2=true
 - a selected-lane readiness record allowing generation
 - a static proof with passing object_info and model path/hash proof
+- a verified same-window emergency-stop schedule before EC2 start
 
-Only then does it start the approved EC2 instance, run the ComfyUI prompt
-remotely through SSM, create a remote artifact manifest, optionally sync
+Only then does it start the approved EC2 instance, verify the same-window
+instance watchdog after SSM is online, run the ComfyUI prompt remotely through
+SSM, create a remote artifact manifest, optionally sync
 artifacts through S3, create a local pullback record when artifacts arrive, and
 stop the instance in a finally block.
 #>
@@ -26,6 +28,9 @@ param(
   [string]$AuthGateFile = "",
   [string]$StaticProofFile = "",
   [string]$ReadinessFile = "",
+  [string]$RuntimeWindowId = "",
+  [string]$EmergencyStopEvidencePath = "",
+  [string]$WatchdogEvidenceOutFile = "",
   [string]$OutFile = "",
   [string]$OutRequestFile = "",
   [string]$RunPackageManifestFile = "",
@@ -50,6 +55,8 @@ $startFailureClassifier = Join-Path $PSScriptRoot "EC2StartFailureClassification
 . $startFailureClassifier
 $stopFailureClassifier = Join-Path $PSScriptRoot "EC2StopFailureClassification.ps1"
 . $stopFailureClassifier
+$runtimeSafetyGate = Join-Path $PSScriptRoot "EC2RuntimeWindowSafetyGate.ps1"
+. $runtimeSafetyGate
 
 function Get-RelativePathCompat {
   param(
@@ -737,6 +744,9 @@ $runtimeReadinessDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Run
 $workflowStaticDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Workflow_Static_Validation"
 $workflowRuntimeDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Workflow_Runtime"
 $pullbackRoot = Join-Path $ProjectRoot "Plan\Instructions\Operations\Pulled_Back_Artifacts"
+if ([string]::IsNullOrWhiteSpace($WatchdogEvidenceOutFile)) {
+  $WatchdogEvidenceOutFile = Join-Path $runtimeReadinessDir "W64_EC2_INSTANCE_WATCHDOG_EXECUTION_$stamp.json"
+}
 
 if ([string]::IsNullOrWhiteSpace($AuthGateFile)) {
   $AuthGateFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "*AWS_AUTH_GATE*.json"
@@ -761,6 +771,8 @@ $readinessGate = Get-ReadinessStatus -Path $ReadinessFile
 $staticProof = Test-StaticProof -Path $StaticProofFile
 $localGitGate = Get-LocalGitCheckpointGate
 $runPackage = Get-RunPackageStatus -Path $RunPackageManifestFile
+$runtimeWindowIdValid = ($RuntimeWindowId -cmatch "^[A-Za-z0-9][A-Za-z0-9_.-]{7,127}$")
+$emergencyStopGate = Get-EmergencyStopScheduleStatus -Path $EmergencyStopEvidencePath -ExpectedWindowId $RuntimeWindowId -ExpectedInstanceId $InstanceId -ExpectedRegion $Region
 
 if ([string]::IsNullOrWhiteSpace($OutRequestFile)) {
   $null = New-Item -ItemType Directory -Force -Path $workflowRuntimeDir
@@ -783,6 +795,8 @@ $smokeRequestReady = ($smokeRequest.exit_code -eq 0 -and $smokeRequest.json_pars
 
 $blockedReasons = @()
 if ($InstanceId -ne "i-0560bf8d143f93bb1") { $blockedReasons += "InstanceId is not the approved EC2 instance." }
+if (!$runtimeWindowIdValid) { $blockedReasons += "RuntimeWindowId is missing or invalid." }
+if (!$emergencyStopGate.verified) { $blockedReasons += "Same-window live emergency-stop schedule is not verified." }
 if (!$laneContractValid) { $blockedReasons += "Selected lane JSON contract is missing or invalid." }
 if ($runPackage.supplied -and !$runPackage.valid) { $blockedReasons += "Run package manifest/request is invalid." }
 if ($localGitGate.result -ne "pass") { $blockedReasons += "Local Git checkpoint gate is not clean and synced to origin/main." }
@@ -797,6 +811,10 @@ $executeGatesPass = ($blockedReasons.Count -eq 0)
 $gateFailureCategory = $null
 if ($InstanceId -ne "i-0560bf8d143f93bb1") {
   $gateFailureCategory = "unapproved_instance"
+} elseif (!$runtimeWindowIdValid) {
+  $gateFailureCategory = "missing_or_invalid_runtime_window_id"
+} elseif (!$emergencyStopGate.verified) {
+  $gateFailureCategory = [string]$emergencyStopGate.failure_category
 } elseif (!$laneContractValid) {
   $gateFailureCategory = "lane_contract_invalid"
 } elseif ($runPackage.supplied -and !$runPackage.valid) {
@@ -823,6 +841,7 @@ $record = [ordered]@{
   mode = $(if ($Execute) { "execute" } else { "dry_run" })
   run_id = $runId
   lane_id = $LaneId
+  runtime_window_id = $RuntimeWindowId
   instance_id = $InstanceId
   region = $Region
   remote_project_root = $RemoteProjectRoot
@@ -838,6 +857,9 @@ $record = [ordered]@{
   failure_category = $gateFailureCategory
   lane_contracts = $laneContracts
   local_git_checkpoint_gate = $localGitGate
+  emergency_stop_gate = $emergencyStopGate
+  instance_watchdog = $null
+  watchdog_evidence_out_file = $WatchdogEvidenceOutFile
   auth_gate = $authGate
   readiness_gate = $readinessGate
   ec2_static_proof = $staticProof
@@ -849,8 +871,10 @@ $record = [ordered]@{
   dry_run_actions = @(
     "Load .env without printing values.",
     "Require auth gate for AWS account 029530099913 before EC2 start.",
+    "Require a same-window live emergency-stop schedule before EC2 start.",
     "Require selected-lane readiness gate before generation.",
     "Require EC2 object-info/path/hash static proof before generation.",
+    "After SSM is online, start and verify the same-window instance watchdog before posting /prompt.",
     $(if ($runPackage.supplied) { "Load the validated run package prompt_request.json as the bounded ComfyUI /prompt body." } else { "Build the patched ComfyUI /prompt request body locally." }),
     "With -Execute only, start i-0560bf8d143f93bb1, run Git LFS only when needed, run remote ComfyUI smoke, create artifact manifest, pull back artifacts when S3 is available, then stop EC2."
   )
@@ -1268,6 +1292,21 @@ try {
     Start-Sleep -Seconds 10
   }
   if (!$ssmOnline) { throw "SSM did not become Online for $InstanceId." }
+
+  try {
+    $record.instance_watchdog = Invoke-VerifiedInstanceWatchdog `
+      -WatchdogScriptPath (Join-Path $PSScriptRoot "Start-EC2InstanceStopWatchdog.ps1") `
+      -InstanceId $InstanceId `
+      -Region $Region `
+      -RuntimeWindowId $RuntimeWindowId `
+      -OutFile $WatchdogEvidenceOutFile `
+      -StopAfterMinutes $MaxEc2RuntimeMinutes `
+      -TrackerId "TRK-W64-042" `
+      -ItemId "ITEM-W64-042"
+  } catch {
+    $record.failure_category = "instance_stop_watchdog_not_verified"
+    throw
+  }
 
   $payloadPath = Join-Path $env:TEMP ("codex_ec2_workflow_smoke_{0}.json" -f $stamp)
   $payload = @{

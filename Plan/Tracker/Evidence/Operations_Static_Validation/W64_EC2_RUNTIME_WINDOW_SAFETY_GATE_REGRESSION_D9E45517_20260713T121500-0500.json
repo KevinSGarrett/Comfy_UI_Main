@@ -1,0 +1,119 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "ec2_runtime_window_safety_gate_regression",
+    "created_at":  "2026-07-13T12:08:20-05:00",
+    "result":  "pass_local_only",
+    "failure_category":  null,
+    "local_only":  true,
+    "aws_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "test_count":  12,
+    "passing_test_count":  12,
+    "failed_test_count":  0,
+    "tests":  [
+                  {
+                      "name":  "valid_live_schedule_accepted",
+                      "result":  "pass",
+                      "observed":  "pass",
+                      "expected":  "pass"
+                  },
+                  {
+                      "name":  "dry_run_schedule_rejected",
+                      "result":  "pass",
+                      "observed":  "live_emergency_stop_schedule_not_verified",
+                      "expected":  "live_emergency_stop_schedule_not_verified"
+                  },
+                  {
+                      "name":  "mismatched_window_rejected",
+                      "result":  "pass",
+                      "observed":  false,
+                      "expected":  false
+                  },
+                  {
+                      "name":  "missing_safety_field_rejected",
+                      "result":  "pass",
+                      "observed":  false,
+                      "expected":  false
+                  },
+                  {
+                      "name":  "missing_schedule_rejected",
+                      "result":  "pass",
+                      "observed":  false,
+                      "expected":  false
+                  },
+                  {
+                      "name":  "valid_live_watchdog_accepted",
+                      "result":  "pass",
+                      "observed":  "pass",
+                      "expected":  "pass"
+                  },
+                  {
+                      "name":  "dry_run_watchdog_rejected",
+                      "result":  "pass",
+                      "observed":  "instance_stop_watchdog_not_verified",
+                      "expected":  "instance_stop_watchdog_not_verified"
+                  },
+                  {
+                      "name":  "static_emergency_gate_before_start",
+                      "result":  "pass",
+                      "observed":  {
+                                       "start":  31653,
+                                       "ssm":  32627,
+                                       "watchdog":  32711,
+                                       "payload":  33184
+                                   },
+                      "expected":  "gate before start"
+                  },
+                  {
+                      "name":  "static_watchdog_after_ssm_before_payload",
+                      "result":  "pass",
+                      "observed":  {
+                                       "start":  31653,
+                                       "ssm":  32627,
+                                       "watchdog":  32711,
+                                       "payload":  33184
+                                   },
+                      "expected":  "ssm \u003c watchdog \u003c payload"
+                  },
+                  {
+                      "name":  "smoke_emergency_gate_before_start",
+                      "result":  "pass",
+                      "observed":  {
+                                       "start":  53001,
+                                       "ssm":  54250,
+                                       "watchdog":  54337,
+                                       "payload":  54809
+                                   },
+                      "expected":  "gate before start"
+                  },
+                  {
+                      "name":  "smoke_watchdog_after_ssm_before_payload",
+                      "result":  "pass",
+                      "observed":  {
+                                       "start":  53001,
+                                       "ssm":  54250,
+                                       "watchdog":  54337,
+                                       "payload":  54809
+                                   },
+                      "expected":  "ssm \u003c watchdog \u003c payload"
+                  },
+                  {
+                      "name":  "queue_boundary_remains_fail_closed",
+                      "result":  "pass",
+                      "observed":  {
+                                       "ec2_start_allowed_by_queue_file":  false,
+                                       "generation_allowed_by_queue_file":  false,
+                                       "local_queue_validation_does_not_contact":  [
+                                                                                       "AWS",
+                                                                                       "GitHub API",
+                                                                                       "Civitai",
+                                                                                       "ComfyUI",
+                                                                                       "EC2"
+                                                                                   ]
+                                   },
+                      "expected":  "both flags false"
+                  }
+              ],
+    "boundary":  "Local evidence-parser and source-order regression only. No AWS, SSM, EC2, ComfyUI, or generation action occurred."
+}

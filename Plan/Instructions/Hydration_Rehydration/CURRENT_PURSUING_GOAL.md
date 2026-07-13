@@ -7201,3 +7201,6 @@ Evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_EC2_RU
 Continue the autonomous end-to-end ComfyUI project from the selected Normal lane. The current-source Normal deploy bundle is published and exact S3 pullback integrity is verified. Preserve runtime window `rw-normal-20260713T105243-0500-57f1f908`, keep EC2 stopped and generation unauthorized, checkpoint the bounded publish/validator work plus the approved routing bundle, then complete the same-ID emergency-stop schedule and SSM watchdog prerequisites before any start or target-runtime execution.
 
 This does not alter the manual body-gold-mask boundary, permit mask promotion or Wave70 hard-gate reruns, activate Wave71+, clear FLUX licensing, or authorize Jira mutation.
+## Current Pursuing Goal - Normal Static Proof Under Same-Window Controls - 2026-07-13T12:10:00-05:00
+
+Continue the autonomous project from the selected Normal lane and published current-source bundle. Checkpoint the implemented same-window EC2 safety gate, then create the live emergency-stop schedule for `rw-normal-20260713T105243-0500-57f1f908` only immediately before the bounded static-proof window. The static-proof executor must verify that schedule before start, attach and verify the same-window watchdog after SSM is online, run no generation, and always return the approved instance to `stopped`.

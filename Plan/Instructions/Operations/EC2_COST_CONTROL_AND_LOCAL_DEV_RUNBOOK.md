@@ -106,25 +106,25 @@ For future EC2 proof or smoke commands:
 Example static proof:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -MaxEc2RuntimeMinutes 25 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W63_EC2_LANE_STATIC_PROOF_REALVISXL_<timestamp>.json
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_realvisxl_base_lane -RuntimeWindowId <runtime-window-id> -EmergencyStopEvidencePath <verified-live-emergency-stop-evidence.json> -Execute -SkipGitLfsPull -MaxEc2RuntimeMinutes 25 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W63_EC2_LANE_STATIC_PROOF_REALVISXL_<timestamp>.json
 ```
 
 Preferred static proof when a verified S3 deploy bundle exists:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -DeployBundleS3Uri s3://<bucket>/<deploy-bundle-prefix>/<run-id>/<commit>/<bundle>.zip -DeployBundleSha256 <bundle_sha256> -MaxEc2RuntimeMinutes 25 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W63_EC2_LANE_STATIC_PROOF_REALVISXL_<timestamp>.json
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 -LaneId sdxl_realvisxl_base_lane -RuntimeWindowId <runtime-window-id> -EmergencyStopEvidencePath <verified-live-emergency-stop-evidence.json> -Execute -SkipGitLfsPull -DeployBundleS3Uri s3://<bucket>/<deploy-bundle-prefix>/<run-id>/<commit>/<bundle>.zip -DeployBundleSha256 <bundle_sha256> -MaxEc2RuntimeMinutes 25 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W63_EC2_LANE_STATIC_PROOF_REALVISXL_<timestamp>.json
 ```
 
 Example workflow smoke:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1 -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -MaxEc2RuntimeMinutes 45 -RunPackageManifestFile <run-package-manifest> -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Runtime\W63_EC2_WORKFLOW_SMOKE_REALVISXL_<timestamp>.json
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1 -LaneId sdxl_realvisxl_base_lane -RuntimeWindowId <runtime-window-id> -EmergencyStopEvidencePath <verified-live-emergency-stop-evidence.json> -Execute -SkipGitLfsPull -MaxEc2RuntimeMinutes 45 -RunPackageManifestFile <run-package-manifest> -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Runtime\W63_EC2_WORKFLOW_SMOKE_REALVISXL_<timestamp>.json
 ```
 
 Preferred workflow smoke when a verified S3 deploy bundle exists:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1 -LaneId sdxl_realvisxl_base_lane -Execute -SkipGitLfsPull -DeployBundleS3Uri s3://<bucket>/<deploy-bundle-prefix>/<run-id>/<commit>/<bundle>.zip -DeployBundleSha256 <bundle_sha256> -MaxEc2RuntimeMinutes 45 -RunPackageManifestFile <run-package-manifest> -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Runtime\W63_EC2_WORKFLOW_SMOKE_REALVISXL_<timestamp>.json
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1 -LaneId sdxl_realvisxl_base_lane -RuntimeWindowId <runtime-window-id> -EmergencyStopEvidencePath <verified-live-emergency-stop-evidence.json> -Execute -SkipGitLfsPull -DeployBundleS3Uri s3://<bucket>/<deploy-bundle-prefix>/<run-id>/<commit>/<bundle>.zip -DeployBundleSha256 <bundle_sha256> -MaxEc2RuntimeMinutes 45 -RunPackageManifestFile <run-package-manifest> -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Runtime\W63_EC2_WORKFLOW_SMOKE_REALVISXL_<timestamp>.json
 ```
 
 Emergency stop schedule dry-run:
@@ -139,7 +139,7 @@ Instance-side watchdog dry-run:
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Start-EC2InstanceStopWatchdog.ps1 -RuntimeWindowId <runtime-window-id> -TrackerId TRK-W64-042 -ItemId ITEM-W64-042 -StopAfterMinutes 60 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W63_EC2_INSTANCE_WATCHDOG_<timestamp>.json
 ```
 
-Both commands are dry-run by default and must use the same `RuntimeWindowId`. The cloud-side emergency-stop schedule is created and verified first while the instance remains stopped. EC2 start authority is still separate. The instance-side watchdog can be attached only after the instance is running and SSM is online; generation stays blocked until its capability proof is verified. Add `-Execute` only for the matching phase after AWS auth, IAM permissions, Git checkpoint, queue authority, and the intended bounded window are current.
+Both commands are dry-run by default and must use the same `RuntimeWindowId`. The cloud-side emergency-stop schedule is created and verified first while the instance remains stopped. EC2 start authority is still separate. Both live EC2 entrypoints reject missing, dry-run-only, or mismatched schedule evidence before any start. After SSM becomes online, each entrypoint launches `Start-EC2InstanceStopWatchdog.ps1 -Execute` with that same ID and blocks its proof or prompt command until the watchdog capability record is verified. Add `-Execute` only for the matching phase after AWS auth, IAM permissions, Git checkpoint, selected-lane readiness, and the intended bounded window are current. The passive queue boundary flags remain false and are not live authority switches.
 
 Runtime-window marker plan:
 

@@ -17,6 +17,9 @@ param(
   [string]$RemoteComfyRoot = "/home/ubuntu/ComfyUI",
   [string]$AuthGateFile = "",
   [string]$ReadinessFile = "",
+  [string]$RuntimeWindowId = "",
+  [string]$EmergencyStopEvidencePath = "",
+  [string]$WatchdogEvidenceOutFile = "",
   [string]$OutFile = "",
   [string]$DeployBundleS3Uri = "",
   [string]$DeployBundleSha256 = "",
@@ -30,6 +33,8 @@ $startFailureClassifier = Join-Path $PSScriptRoot "EC2StartFailureClassification
 . $startFailureClassifier
 $stopFailureClassifier = Join-Path $PSScriptRoot "EC2StopFailureClassification.ps1"
 . $stopFailureClassifier
+$runtimeSafetyGate = Join-Path $PSScriptRoot "EC2RuntimeWindowSafetyGate.ps1"
+. $runtimeSafetyGate
 
 function Get-RelativePathCompat {
   param(
@@ -280,6 +285,9 @@ function Get-LocalGitCheckpointGate {
 $stamp = (Get-Date -Format "yyyyMMddTHHmmsszzz").Replace(":", "")
 $runtimeReadinessDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Runtime_Readiness"
 $workflowStaticDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Workflow_Static_Validation"
+if ([string]::IsNullOrWhiteSpace($WatchdogEvidenceOutFile)) {
+  $WatchdogEvidenceOutFile = Join-Path $runtimeReadinessDir "W64_EC2_INSTANCE_WATCHDOG_EXECUTION_$stamp.json"
+}
 if ([string]::IsNullOrWhiteSpace($AuthGateFile)) {
   $AuthGateFile = Find-LatestFile -Directory $runtimeReadinessDir -Filter "*AWS_AUTH_GATE*.json"
 }
@@ -290,8 +298,12 @@ if ([string]::IsNullOrWhiteSpace($ReadinessFile)) {
 $authGate = Get-AuthGateStatus -Path $AuthGateFile
 $readinessGate = Get-ReadinessStatus -Path $ReadinessFile
 $localGitGate = Get-LocalGitCheckpointGate
+$runtimeWindowIdValid = ($RuntimeWindowId -cmatch "^[A-Za-z0-9][A-Za-z0-9_.-]{7,127}$")
+$emergencyStopGate = Get-EmergencyStopScheduleStatus -Path $EmergencyStopEvidencePath -ExpectedWindowId $RuntimeWindowId -ExpectedInstanceId $InstanceId -ExpectedRegion $Region
 $blockedReasons = @()
 if ($InstanceId -ne "i-0560bf8d143f93bb1") { $blockedReasons += "InstanceId is not the approved EC2 instance." }
+if (!$runtimeWindowIdValid) { $blockedReasons += "RuntimeWindowId is missing or invalid." }
+if (!$emergencyStopGate.verified) { $blockedReasons += "Same-window live emergency-stop schedule is not verified." }
 if ($localGitGate.result -ne "pass") { $blockedReasons += "Local Git checkpoint gate is not clean and synced to origin/main." }
 if (!$authGate.safe_to_start_ec2) { $blockedReasons += "Auth gate does not allow EC2 start." }
 if ($readinessGate.found -and !$readinessGate.lane_match) { $blockedReasons += "Lane readiness file does not match selected lane $LaneId." }
@@ -300,6 +312,10 @@ $executeGatesPass = ($blockedReasons.Count -eq 0)
 $gateFailureCategory = $null
 if ($InstanceId -ne "i-0560bf8d143f93bb1") {
   $gateFailureCategory = "unapproved_instance"
+} elseif (!$runtimeWindowIdValid) {
+  $gateFailureCategory = "missing_or_invalid_runtime_window_id"
+} elseif (!$emergencyStopGate.verified) {
+  $gateFailureCategory = [string]$emergencyStopGate.failure_category
 } elseif ($localGitGate.result -ne "pass") {
   $gateFailureCategory = $(if ($localGitGate.clean -ne $true) { "local_git_worktree_dirty" } elseif ($localGitGate.local_matches_origin -ne $true) { "local_git_not_synced_to_origin" } else { "local_git_checkpoint_invalid" })
 } elseif (!$authGate.safe_to_start_ec2) {
@@ -322,6 +338,9 @@ if (-not $Execute) {
     instance_id = $InstanceId
     region = $Region
     lane_id = $LaneId
+    runtime_window_id = $RuntimeWindowId
+    emergency_stop_gate = $emergencyStopGate
+    watchdog_evidence_out_file = $WatchdogEvidenceOutFile
     max_ec2_runtime_minutes = $MaxEc2RuntimeMinutes
     git_lfs_pull_skipped = [bool]$SkipGitLfsPull.IsPresent
     deploy_bundle_s3_uri = $DeployBundleS3Uri
@@ -337,9 +356,11 @@ if (-not $Execute) {
     actions = @(
       "Verify AWS account and EC2 identity.",
       "Require auth gate safe_to_start_ec2=true before EC2 start.",
+      "Require a same-window live emergency-stop schedule before EC2 start.",
       "Require lane readiness ready_for_ec2_static_proof=true before EC2 start.",
       "Start instance only if stopped.",
       "Wait for EC2 status checks and SSM online.",
+      "Start and verify the same-window instance watchdog before the static-proof SSM command.",
       "Update remote project checkout and run Git LFS only when the lane explicitly needs it.",
       "Read lane runtime_requirements.json.",
       "Launch ComfyUI only for /object_info.",
@@ -372,6 +393,9 @@ if (!$executeGatesPass) {
     instance_id = $InstanceId
     region = $Region
     lane_id = $LaneId
+    runtime_window_id = $RuntimeWindowId
+    emergency_stop_gate = $emergencyStopGate
+    watchdog_evidence_out_file = $WatchdogEvidenceOutFile
     max_ec2_runtime_minutes = $MaxEc2RuntimeMinutes
     git_lfs_pull_skipped = [bool]$SkipGitLfsPull.IsPresent
     deploy_bundle_s3_uri = $DeployBundleS3Uri
@@ -424,6 +448,7 @@ $stdout = ""
 $stderr = ""
 $started = $false
 $ssmAvailable = $false
+$instanceWatchdogStatus = $null
 $startState = ""
 $finalState = ""
 $executionErrorMessage = ""
@@ -719,6 +744,21 @@ try {
   }
   if (-not $ssmAvailable) { throw "SSM did not become Online for $InstanceId" }
 
+  try {
+    $instanceWatchdogStatus = Invoke-VerifiedInstanceWatchdog `
+      -WatchdogScriptPath (Join-Path $PSScriptRoot "Start-EC2InstanceStopWatchdog.ps1") `
+      -InstanceId $InstanceId `
+      -Region $Region `
+      -RuntimeWindowId $RuntimeWindowId `
+      -OutFile $WatchdogEvidenceOutFile `
+      -StopAfterMinutes $MaxEc2RuntimeMinutes `
+      -TrackerId "TRK-W64-042" `
+      -ItemId "ITEM-W64-042"
+  } catch {
+    $executionFailureCategory = "instance_stop_watchdog_not_verified"
+    throw
+  }
+
   $payloadPath = Join-Path $env:TEMP ("codex_ec2_lane_static_proof_{0}.json" -f $stamp)
   $payload = @{
     DocumentName = "AWS-RunShellScript"
@@ -796,6 +836,7 @@ $record = [ordered]@{
   instance_id = $InstanceId
   region = $Region
   lane_id = $LaneId
+  runtime_window_id = $RuntimeWindowId
   max_ec2_runtime_minutes = $MaxEc2RuntimeMinutes
   ssm_execution_timeout_seconds = $ssmExecutionTimeoutSeconds
   git_lfs_pull_skipped = [bool]$SkipGitLfsPull.IsPresent
@@ -803,6 +844,9 @@ $record = [ordered]@{
   deploy_bundle_sha256 = $DeployBundleSha256
   auth_gate = $authGate
   readiness_gate = $readinessGate
+  emergency_stop_gate = $emergencyStopGate
+  instance_watchdog = $instanceWatchdogStatus
+  watchdog_evidence_out_file = $WatchdogEvidenceOutFile
   execute_gates_pass = $executeGatesPass
   blocked_reasons = $blockedReasons
   result = $staticProofGateResult
@@ -832,7 +876,9 @@ if (![string]::IsNullOrWhiteSpace($executionErrorMessage)) {
 
 if ($commandStatus -ne "Success") {
   $staticProofErrors += "SSM command status was $commandStatus."
-  $staticProofFailureCategory = "ssm_command_failed"
+  if ([string]::IsNullOrWhiteSpace([string]$staticProofFailureCategory)) {
+    $staticProofFailureCategory = "ssm_command_failed"
+  }
 }
 if ($finalState -ne "stopped") {
   $staticProofErrors += "Final EC2 state was $finalState, expected stopped."
