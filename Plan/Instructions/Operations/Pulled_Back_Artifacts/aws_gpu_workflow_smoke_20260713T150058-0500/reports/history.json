@@ -1,0 +1,222 @@
+{
+  "meta": {
+    "13": {
+      "display_node": "13",
+      "node_id": "13",
+      "parent_node": null,
+      "real_node_id": "13"
+    },
+    "9": {
+      "display_node": "9",
+      "node_id": "9",
+      "parent_node": null,
+      "real_node_id": "9"
+    }
+  },
+  "outputs": {
+    "13": {
+      "images": [
+        {
+          "filename": "codex_sdxl_realvisxl_controlnet_normal_control_map_diagnostic_00001_.png",
+          "subfolder": "",
+          "type": "output"
+        }
+      ]
+    },
+    "9": {
+      "images": [
+        {
+          "filename": "normal_v4_fullbody_robust_711670303_00001_.png",
+          "subfolder": "",
+          "type": "output"
+        }
+      ]
+    }
+  },
+  "prompt": [
+    0,
+    "9c0dc78a-7b1c-427e-b8e3-a63e7f18c373",
+    {
+      "10": {
+        "class_type": "ControlNetLoader",
+        "inputs": {
+          "control_net_name": "controlnet-union-sdxl-1.0.safetensors"
+        }
+      },
+      "11": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "controlnet_normal_bae_full_body_standing_w70_v1.png"
+        }
+      },
+      "12": {
+        "class_type": "ControlNetApplyAdvanced",
+        "inputs": {
+          "control_net": [
+            "14",
+            0
+          ],
+          "end_percent": 0.7,
+          "image": [
+            "11",
+            0
+          ],
+          "negative": [
+            "7",
+            0
+          ],
+          "positive": [
+            "6",
+            0
+          ],
+          "start_percent": 0.0,
+          "strength": 0.45,
+          "vae": [
+            "4",
+            2
+          ]
+        }
+      },
+      "13": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "codex_sdxl_realvisxl_controlnet_normal_control_map_diagnostic",
+          "images": [
+            "11",
+            0
+          ]
+        }
+      },
+      "14": {
+        "class_type": "SetUnionControlNetType",
+        "inputs": {
+          "control_net": [
+            "10",
+            0
+          ],
+          "type": "normal"
+        }
+      },
+      "3": {
+        "class_type": "KSampler",
+        "inputs": {
+          "cfg": 5.4,
+          "denoise": 1.0,
+          "latent_image": [
+            "5",
+            0
+          ],
+          "model": [
+            "4",
+            0
+          ],
+          "negative": [
+            "12",
+            1
+          ],
+          "positive": [
+            "12",
+            0
+          ],
+          "sampler_name": "dpmpp_2m_sde",
+          "scheduler": "karras",
+          "seed": 711670303,
+          "steps": 22
+        }
+      },
+      "4": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "realvisxlV50_v50Bakedvae.safetensors"
+        }
+      },
+      "5": {
+        "class_type": "EmptyLatentImage",
+        "inputs": {
+          "batch_size": 1,
+          "height": 1024,
+          "width": 768
+        }
+      },
+      "6": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "4",
+            1
+          ],
+          "text": "hyperrealistic full-length editorial fitness photograph of one fully clothed adult woman standing in a clean studio, entire person visible from head to shoes, natural asymmetric standing pose, both arms relaxed at her sides, both hands visible with realistic fingers, coherent shoulders torso hips knees and ankles, fitted sleeveless athletic top with full-length black leggings, clean white low-profile sneakers, normal-map-guided body planes and clothing volume, natural skin texture, realistic face and eyes, detailed hair, crisp fabric texture, soft balanced studio lighting, neutral pale gray background, lifelike lens rendering"
+        }
+      },
+      "7": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "4",
+            1
+          ],
+          "text": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, beauty filter, distorted anatomy, warped body planes, melted geometry, extra person, extra limbs, missing limbs, extra arms, missing arms, extra fingers, missing fingers, fused fingers, deformed hands, fused legs, broken knees, twisted ankles, cropped head, cropped hands, cropped feet, close-up portrait, seated pose, low resolution, blurry, watermark, text, normal map stains, rainbow surface colors, purple green blue normal-map leakage, control map stains, nude, lingerie, bikini, swimsuit, unclothed torso"
+        }
+      },
+      "8": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "3",
+            0
+          ],
+          "vae": [
+            "4",
+            2
+          ]
+        }
+      },
+      "9": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "normal_v4_fullbody_robust_711670303",
+          "images": [
+            "8",
+            0
+          ]
+        }
+      }
+    },
+    {
+      "client_id": "codex-normal-target-schema-fixed",
+      "create_time": 1783973109387
+    },
+    [
+      "13",
+      "9"
+    ]
+  ],
+  "status": {
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "9c0dc78a-7b1c-427e-b8e3-a63e7f18c373",
+          "timestamp": 1783973109387
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [],
+          "prompt_id": "9c0dc78a-7b1c-427e-b8e3-a63e7f18c373",
+          "timestamp": 1783973109397
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "9c0dc78a-7b1c-427e-b8e3-a63e7f18c373",
+          "timestamp": 1783973189062
+        }
+      ]
+    ],
+    "status_str": "success"
+  }
+}

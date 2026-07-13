@@ -1158,6 +1158,27 @@ def validate_prompt_schema(request, object_info):
 
 proc = None
 log_handle = None
+
+def stop_comfyui_process():
+    global proc, log_handle
+    if proc is not None and proc.poll() is None:
+        try:
+            os.killpg(os.getpgid(proc.pid), signal.SIGTERM)
+            proc.wait(timeout=20)
+        except Exception:
+            try:
+                os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
+                proc.wait(timeout=10)
+            except Exception:
+                pass
+    if log_handle is not None:
+        try:
+            log_handle.flush()
+            log_handle.close()
+        except Exception:
+            pass
+        log_handle = None
+
 try:
     deployment = apply_deploy_bundle_if_configured()
     if deployment:
@@ -1297,6 +1318,8 @@ try:
     if not any(img.get("copied") for img in result["output_images"]):
         raise RuntimeError("ComfyUI history contained no copied image artifacts.")
 
+    stop_comfyui_process()
+
     files = []
     for root, _, names in os.walk(ARTIFACT_ROOT):
         for name in names:
@@ -1337,20 +1360,7 @@ except Exception as exc:
     result["errors"].append(str(exc))
     result["traceback_tail"] = traceback.format_exc()[-4000:]
 finally:
-    if proc is not None and proc.poll() is None:
-        try:
-            os.killpg(os.getpgid(proc.pid), signal.SIGTERM)
-            proc.wait(timeout=20)
-        except Exception:
-            try:
-                os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
-            except Exception:
-                pass
-    if log_handle is not None:
-        try:
-            log_handle.close()
-        except Exception:
-            pass
+    stop_comfyui_process()
 
 print(json.dumps(result, sort_keys=True))
 PY

@@ -1,3 +1,14 @@
+## Normal Target-Runtime Smoke Completed - 2026-07-13T15:15:00-05:00
+
+The exact-head Normal lane bundle from `2011cf98969515e0962033cb1094aa77a1444912` completed one bounded EC2 target-runtime smoke. The required full-body input was staged with SHA-256 `ff7695e83c73dc53025a7ab960a11d6e46299dcde546d26a5d46bce8637dc6fd`; live `/object_info` validation passed 12 nodes and 36 inputs with zero errors; ComfyUI returned prompt `9c0dc78a-7b1c-427e-b8e3-a63e7f18c373`; two 768x1024 images were pulled back; visual smoke QA passed. The approved instance is independently verified `stopped`, and the unused emergency schedule was deleted.
+
+The pullback validator's only mismatch was the mutable `logs/comfyui.log`, which continued changing after the remote manifest was hashed. The runner now stops ComfyUI and closes the log before manifest generation/S3 sync; deterministic runtime safety coverage passes 38/38. Do not rerun this completed seed merely to repair historical log evidence.
+
+Next action: checkpoint this runtime proof and advance to the next explicit non-mask Normal-lane robustness/certification task using a new bounded sample only when required by that task. Preserve the manual body gold-mask dependency boundary; do not promote masks, rerun Wave70 hard gates, activate Wave71+, mutate Jira, or use stale EC2 planning state.
+
+Current evidence: `Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_NORMAL_EC2_WORKFLOW_SMOKE_EXECUTION_2011CF98_20260713T150058-0500.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_NORMAL_EC2_WORKFLOW_SMOKE_VISUAL_QA_2011CF98_20260713T151500-0500.json`; `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_EC2_RUNTIME_WINDOW_SAFETY_GATE_REGRESSION_LOG_STABILITY_20260713T151400-0500.json`.
+
+
 ## Normal Direct-Archive Runtime Capacity Boundary - 2026-07-13T14:48:00-05:00
 
 The selected Normal target-runtime lane now uses a current-source run package, packages only the full-body W70 input referenced by that hash-verified prompt, validates required-input presence/count/path/hash fail closed, and normalizes direct ZIP-member streaming before ComfyUI staging. Deterministic coverage passes: EC2 runtime safety 35/35 and deploy-bundle consistency regression 17/17. The latest live attempt was blocked by AWS `InsufficientInstanceCapacity` before start: `ec2_started=false`, `generation_executed=false`, and final state `stopped`. The unused emergency schedule was deleted.

@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-NORMAL-EC2-WORKFLOW-SMOKE-VISUAL-QA-2011CF98-20260713T151500-0500",
+  "timestamp": "2026-07-13T15:15:00-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+  "run_id": "aws_gpu_workflow_smoke_20260713T150058-0500",
+  "source_git_head": "2011cf98969515e0962033cb1094aa77a1444912",
+  "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_NORMAL_EC2_WORKFLOW_SMOKE_EXECUTION_2011CF98_20260713T150058-0500.json",
+  "pullback_root": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260713T150058-0500",
+  "review_method": "Codex Desktop original-resolution visual inspection",
+  "result": "pass_runtime_smoke_visual_qa",
+  "failure_category": null,
+  "instance_final_state_independently_verified": "stopped",
+  "prompt_schema_validation": {
+    "status": "pass",
+    "node_count": 12,
+    "checked_input_count": 36,
+    "error_count": 0
+  },
+  "artifacts": [
+    {
+      "role": "generated_image",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260713T150058-0500/images/9_normal_v4_fullbody_robust_711670303_00001_.png",
+      "sha256": "ad45c01d2cc3a9450a9046529d59db3fb537c710b47e8802d27e04e7708c2e57",
+      "size_bytes": 595586,
+      "width": 768,
+      "height": 1024,
+      "mode": "RGB",
+      "remote_manifest_match": true
+    },
+    {
+      "role": "normal_control_map_diagnostic",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260713T150058-0500/images/13_codex_sdxl_realvisxl_controlnet_normal_control_map_diagnostic_00001_.png",
+      "sha256": "36f4d2d3cacbed09bc37caa3ba2b18f268aa35e5dd1b889f844e4eb6b7f6f84d",
+      "size_bytes": 230923,
+      "width": 768,
+      "height": 1024,
+      "mode": "RGB",
+      "remote_manifest_match": true
+    }
+  ],
+  "visual_checks": {
+    "generated_image_nonblank": true,
+    "full_subject_visible": true,
+    "head_not_cropped": true,
+    "both_feet_visible_and_not_cropped": true,
+    "limb_count_coherent": true,
+    "body_anatomy_coherent_for_smoke": true,
+    "hands_plausible_for_smoke": true,
+    "feet_and_floor_contact_plausible": true,
+    "clothing_edges_stable": true,
+    "background_free_of_major_artifacts": true,
+    "standing_pose_adheres_to_control_silhouette": true,
+    "diagnostic_normal_map_nonblank": true,
+    "diagnostic_normal_map_contains_complete_body": true,
+    "diagnostic_normal_color_structure_plausible": true,
+    "major_visual_defect_count": 0
+  },
+  "integrity_boundary": {
+    "image_artifacts_match_remote_manifest": true,
+    "runtime_generation_complete": true,
+    "s3_sync_succeeded": true,
+    "pullback_record_status": "pullback_validation_failed",
+    "pullback_failure_limited_to_mutating_comfyui_log": true,
+    "image_hash_or_size_failure_present": false,
+    "runner_log_stability_fix_added_after_run": true,
+    "runner_log_stability_regression": "38/38 pass_local_only"
+  },
+  "scope_boundary": [
+    "This is one Normal-lane target-runtime smoke sample, not multiseed robustness certification.",
+    "This does not evaluate or promote body, body-part, hand, contact, or whole-body masks.",
+    "Manual body gold-standard masks remain unavailable and candidate masks are not consumed as truth.",
+    "This does not activate Wave71+, clear Wave70 mask hard gates, or claim full Mask Factory certification."
+  ],
+  "next_action": "Checkpoint the runtime proof and log-stability fix, then advance the Normal lane's next non-mask runtime or robustness task without rerunning this completed seed."
+}
