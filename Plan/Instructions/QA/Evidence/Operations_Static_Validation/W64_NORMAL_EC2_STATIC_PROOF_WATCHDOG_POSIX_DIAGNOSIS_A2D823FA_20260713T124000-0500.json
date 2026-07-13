@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "ec2_static_proof_watchdog_failure_diagnosis",
+  "created_at": "2026-07-13T12:40:00-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+  "runtime_window_id": "rw-normal-20260713T105243-0500-57f1f908",
+  "source_head": "a2d823fa32f2fb861d154afcb7a543f80c7e73ca",
+  "instance_id": "i-0560bf8d143f93bb1",
+  "region": "us-east-1",
+  "result": "exact_watchdog_shell_blocker_identified_and_fixed_locally",
+  "failure_category": "ssm_outer_payload_used_bash_pipefail_under_posix_sh",
+  "failed_watchdog_command_id": "837911d8-6140-47d8-b33f-f6e8c96af628",
+  "failed_watchdog_command_status": "Failed",
+  "failed_watchdog_response_code": 2,
+  "ssm_standard_error": "/var/lib/amazon/ssm/i-0560bf8d143f93bb1/document/orchestration/837911d8-6140-47d8-b33f-f6e8c96af628/awsrunShellScript/0.awsrunShellScript/_script.sh: 1: set: Illegal option -o pipefail\nfailed to run commands: exit status 2",
+  "root_cause": "AWS-RunShellScript executed the outer watchdog payload with /bin/sh, which rejected Bash-only set -o pipefail before the watchdog could be created.",
+  "local_correction": {
+    "outer_payload": "set -eu",
+    "inner_watchdog_interpreter": "/usr/bin/env bash",
+    "inner_watchdog_strict_mode": "set -euo pipefail",
+    "ssm_stderr_recording_added": true
+  },
+  "verification": {
+    "powershell_parse_pass": true,
+    "regression_result": "pass_local_only",
+    "regression_test_count": 26,
+    "regression_passing_count": 26,
+    "regression_failed_count": 0,
+    "sonnet_semantic_result": "PASS",
+    "live_post_fix_watchdog_verification": false
+  },
+  "safety": {
+    "ec2_started_for_failed_attempt": true,
+    "remote_static_proof_command_sent": false,
+    "generation_executed": false,
+    "final_instance_state": "stopped",
+    "final_instance_state_verified_live": true,
+    "emergency_schedule_name": "cu-stop-normal-d70c8483-20260713t1224",
+    "emergency_schedule_state": "ENABLED"
+  },
+  "next_action": "Checkpoint the shell correction and failed-attempt evidence. Rebuild and publish an exact-head bundle before one guarded post-fix static-proof attempt; do not reuse the a2d823fa bundle after HEAD changes."
+}

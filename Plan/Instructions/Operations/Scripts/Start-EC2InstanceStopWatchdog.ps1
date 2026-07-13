@@ -39,7 +39,8 @@ if ([string]::IsNullOrWhiteSpace($OutFile)) {
 $seconds = [Math]::Max(60, $StopAfterMinutes * 60)
 $fallback = $(if ($AllowOsShutdownFallback) { "true" } else { "false" })
 $remoteScript = @"
-set -euo pipefail
+# AWS-RunShellScript executes this outer payload with /bin/sh.
+set -eu
 set +e
 dry_run_output=`$(aws ec2 stop-instances --dry-run --region '$Region' --instance-ids '$InstanceId' 2>&1)
 dry_run_rc=`$?
@@ -124,7 +125,9 @@ if ($InstanceId -notmatch '^i-[0-9a-f]{8}([0-9a-f]{9})?$' -or $Region -notmatch 
       if (@("Success","Failed","Cancelled","TimedOut").Contains($record.command_status)) { break }
       Start-Sleep -Seconds 5
     }
-    $stdout = (aws ssm get-command-invocation --region $Region --instance-id $InstanceId --command-id $record.command_id --query "StandardOutputContent" --output text 2>$null)
+    $invocation = aws ssm get-command-invocation --region $Region --instance-id $InstanceId --command-id $record.command_id --output json 2>$null | ConvertFrom-Json
+    $stdout = [string]$invocation.StandardOutputContent
+    $stderr = [string]$invocation.StandardErrorContent
     $stdoutLines = @(([string]$stdout -split "`r?`n") | ForEach-Object { $_.Trim() } | Where-Object { $_ })
     $capabilityLine = @($stdoutLines | Where-Object { $_ -like "STOP_CAPABILITY=*" } | Select-Object -Last 1)
     $pidLine = @($stdoutLines | Where-Object { $_ -like "WATCHDOG_PID=*" } | Select-Object -Last 1)
@@ -141,6 +144,9 @@ if ($InstanceId -notmatch '^i-[0-9a-f]{8}([0-9a-f]{9})?$' -or $Region -notmatch 
     } else {
       $record.result = "instance_stop_watchdog_failed"
       $record.failure_category = "ssm_watchdog_command_failed"
+      if (![string]::IsNullOrWhiteSpace($stderr)) {
+        $record.errors += $stderr.Trim()
+      }
     }
   } catch {
     $record.result = "instance_stop_watchdog_failed"
