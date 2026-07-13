@@ -101,14 +101,18 @@ function Get-LocalGitCheckpointGate {
     error = $null
   }
   try {
-    $result.git_root = (git -C $ProjectRoot rev-parse --show-toplevel 2>$null | Select-Object -First 1)
+    $global:LASTEXITCODE = 0
+    $result.git_root = [string](git -C $ProjectRoot rev-parse --show-toplevel 2>$null)
     if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace([string]$result.git_root)) { throw "Project root is not a Git checkout." }
-    $result.head = (git -C $ProjectRoot rev-parse HEAD 2>$null | Select-Object -First 1)
+    $global:LASTEXITCODE = 0
+    $result.head = [string](git -C $ProjectRoot rev-parse HEAD 2>$null)
     if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace([string]$result.head)) { throw "Unable to resolve local HEAD." }
-    $result.origin_main = (git -C $ProjectRoot rev-parse origin/main 2>$null | Select-Object -First 1)
+    $global:LASTEXITCODE = 0
+    $result.origin_main = [string](git -C $ProjectRoot rev-parse origin/main 2>$null)
     if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace([string]$result.origin_main)) { throw "Unable to resolve origin/main." }
     $result.expected_remote_head = $result.origin_main
     $result.local_matches_origin = ([string]$result.head -eq [string]$result.origin_main)
+    $global:LASTEXITCODE = 0
     $porcelain = @(git -C $ProjectRoot status --porcelain 2>$null)
     if ($LASTEXITCODE -ne 0) { throw "Unable to read Git porcelain status." }
     $cleanliness = Resolve-GitCheckpointCleanliness -PorcelainLines $porcelain -PreservedExcludePath $PreservedExcludePath

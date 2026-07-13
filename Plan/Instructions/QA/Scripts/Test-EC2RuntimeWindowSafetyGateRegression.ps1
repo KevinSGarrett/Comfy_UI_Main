@@ -122,6 +122,10 @@ try {
   $gitNormalizedExclude = Resolve-GitCheckpointCleanliness -PorcelainLines @("?? tools/new.ps1") -PreservedExcludePath @(".\tools\")
   $gitTypoExclude = Resolve-GitCheckpointCleanliness -PorcelainLines @("?? tools/new.ps1") -PreservedExcludePath @("tool")
   $helperText = Get-Content -LiteralPath $helper -Raw
+  $currentPorcelain = @(git -C $ProjectRoot status --porcelain 2>$null)
+  $currentUnstagedPaths = @($currentPorcelain | Where-Object { $_.Length -gt 0 -and ($_.Substring(0, 1) -eq " " -or $_.Substring(0, 1) -eq "?") } | ForEach-Object { Get-EC2SafetyPorcelainPath $_ })
+  $global:LASTEXITCODE = 99
+  $gitWrapperStatus = Get-LocalGitCheckpointGate -ProjectRoot $ProjectRoot -PreservedExcludePath $currentUnstagedPaths
 
   $tests = @(
     (New-Test "valid_live_schedule_accepted" $validScheduleStatus.verified $validScheduleStatus.status "pass"),
@@ -143,7 +147,8 @@ try {
     (New-Test "git_staged_path_blocks_even_when_excluded" (-not $gitStagedExcluded.effective_clean -and $gitStagedExcluded.staged_count -eq 1 -and $gitStagedExcluded.excluded_dirty_count -eq 0) $gitStagedExcluded "staged always blocks"),
     (New-Test "git_exclude_normalization_matches" ($gitNormalizedExclude.effective_clean -and $gitNormalizedExclude.excluded_dirty_count -eq 1) $gitNormalizedExclude "normalized prefix match"),
     (New-Test "git_typo_exclude_fails_closed" (-not $gitTypoExclude.effective_clean -and $gitTypoExclude.unexpected_dirty_count -eq 1) $gitTypoExclude "typo does not match"),
-    (New-Test "git_origin_match_remains_required" ($helperText -match '\$result\.local_matches_origin\s+-and\s+\$result\.effective_clean') "source contract present" "origin and effective cleanliness required")
+    (New-Test "git_origin_match_remains_required" ($helperText -match '\$result\.local_matches_origin\s+-and\s+\$result\.effective_clean') "source contract present" "origin and effective cleanliness required"),
+    (New-Test "git_wrapper_ignores_stale_native_exit_code" ([string]::IsNullOrWhiteSpace([string]$gitWrapperStatus.error) -and ![string]::IsNullOrWhiteSpace([string]$gitWrapperStatus.git_root) -and ![string]::IsNullOrWhiteSpace([string]$gitWrapperStatus.head) -and ![string]::IsNullOrWhiteSpace([string]$gitWrapperStatus.origin_main)) $gitWrapperStatus "repository/head/origin resolved after stale LASTEXITCODE seed")
   )
 
   $failed = @($tests | Where-Object result -ne "pass")
@@ -161,7 +166,7 @@ try {
     passing_test_count = @($tests | Where-Object result -eq "pass").Count
     failed_test_count = $failed.Count
     tests = $tests
-    boundary = "Local evidence-parser and source-order regression only. No AWS, SSM, EC2, ComfyUI, or generation action occurred."
+    boundary = "Local evidence-parser, source-order, and read-only Git regression only. No Git mutation, AWS, SSM, EC2, ComfyUI, or generation action occurred."
   }
   if ([string]::IsNullOrWhiteSpace($OutFile)) {
     $stamp = (Get-Date -Format "yyyyMMddTHHmmsszzz").Replace(":", "")
