@@ -1,0 +1,114 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-VIDEO-ENGINE-ROUTING-ANIMATEDIFF-RECONCILIATION-20260713T030800-0500",
+  "timestamp": "2026-07-13T03:08:00-05:00",
+  "tracker_id": "TRK-W64-020",
+  "item_id": "ITEM-W64-020",
+  "status_decision": "Blocked_Video_Engine_Resource_Cost_And_Promotion_Proof",
+  "inputs": [
+    {
+      "path": "Plan/09_EXAMPLES/wave64_animatediff_fallback_route_request.example.json",
+      "sha256": "624a23d0a59a391e8c198e712cc116f6c660ac2ab5574516a45100661712fa00"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/video_engine_routing_animatediff_fallback_probe.json",
+      "sha256": "f8a80b20d73436f8c12d9e26b1850adf2a79506884d2d5bad4b2d68d3d2e5630"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave27_video_engine_registry.json",
+      "sha256": "e9cd3e89c006edf3efc0180ae2b0d74f8f3e3b731bc90f158196229c711807b2"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_ANIMATEDIFF_FALLBACK_EXECUTE_20260713T022708-0500.json",
+      "sha256": "4f8c0510ba55e68494832480eb61465a7c35b368cc0ef57bf81d9167f42d22ec"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_TECHNICAL_QA_20260713T023200-0500.json",
+      "sha256": "0427bdcf2430e837aadf07fa890d9e56be1b73a2bd4d41028d78a70c4c1170c5"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_VISUAL_QA_20260713T023500-0500.json",
+      "sha256": "fcbd6dad6fa6f7e2bdf6782a2f4f3ca7b899264bcf8da8487bbf2e0499995eb9"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave27_video_route_selection_rules.json",
+      "sha256": "de46655a6e1e3737eae1e92af7cb651cb169e14993109d051c6beb515a2fd8ca"
+    }
+  ],
+  "route_probe": {
+    "matched_rule_ids": [
+      "failed_generation_with_frame_sequence",
+      "default_primary_candidate_wan"
+    ],
+    "candidate_order": [
+      "animatediff_fallback",
+      "wan"
+    ],
+    "selected_engine": null,
+    "result": "blocked",
+    "fallback_evaluation": {
+      "availability_passed": true,
+      "blocked_reasons": [
+        "cost_tiers:unsupported_or_unverified",
+        "promotion_proof:required_and_unverified",
+        "resource_limits:insufficient_or_unverified"
+      ],
+      "can_select": false,
+      "compatibility_passed": true,
+      "engine_id": "animatediff_fallback",
+      "promotion_passed": false,
+      "required_proof": [
+        "cost_tiers_verified",
+        "promotion_proof_verified",
+        "resource_limits_verified"
+      ],
+      "resource_passed": false
+    }
+  },
+  "gate_delta": {
+    "engine_compatibility": true,
+    "runtime_object_info": true,
+    "model_registry_link": true,
+    "runtime_proof": true,
+    "resource_budget_check": false,
+    "runtime_ready": false,
+    "final_promotion_ready": false
+  },
+  "checks": {
+    "fallback_rule_preconditions_exact": true,
+    "fallback_rule_matched": true,
+    "fallback_compatibility_passed": true,
+    "fallback_availability_passed": true,
+    "resource_budget_remains_blocked": true,
+    "promotion_remains_blocked": true,
+    "selection_remains_fail_closed": true,
+    "runtime_proof_passed": true,
+    "technical_proof_passed": true,
+    "visual_failure_preserved": true,
+    "registry_runtime_links_verified": true,
+    "registry_resource_cost_unverified": true,
+    "registry_promotion_unverified": true
+  },
+  "check_summary": {
+    "checked": 13,
+    "passed": 13,
+    "failed": 0
+  },
+  "boundaries": {
+    "new_generation_executed": false,
+    "row019_proof_reused": true,
+    "ec2_started": false,
+    "mask_or_geometry_authority_claimed": false,
+    "flux_executed": false,
+    "wave71_activation_claimed": false,
+    "production_video_certification_claimed": false
+  },
+  "blockers": [
+    "animatediff_fallback_resource_limits_unverified",
+    "animatediff_fallback_cost_tier_unverified",
+    "animatediff_fallback_visual_promotion_failed",
+    "default_wan_engine_unverified"
+  ],
+  "result": "blocked_fallback_route_compatible_resource_cost_and_promotion_unverified",
+  "next_action": "Continue Row021 temporal visual review with the existing eight-frame sequence; do not rerun Row019 or claim production readiness."
+}

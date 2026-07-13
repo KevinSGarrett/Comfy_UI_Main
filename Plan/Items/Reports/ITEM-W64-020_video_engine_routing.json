@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-020-VIDEO-ENGINE-ROUTING-20260711T132400-0500",
-  "timestamp": "2026-07-11T13:24:00-05:00",
+  "timestamp": "2026-07-13T03:08:00-05:00",
   "item_id": "ITEM-W64-020",
   "tracker_id": "TRK-W64-020",
   "workstream": "video_engine_routing",
-  "status": "Blocked_Video_Engine_Runtime_Evidence_Missing",
+  "status": "Blocked_Video_Engine_Resource_Cost_And_Promotion_Proof",
   "row_complete": false,
   "implementation": {
     "separate_video_router_added": true,
@@ -27,36 +27,43 @@
     "canonical_runtime_ready": false,
     "canonical_final_promotion_ready": false,
     "claude_medium_findings_remediated": 2,
-    "remaining_high_or_medium_findings": 0
+    "remaining_high_or_medium_findings": 0,
+    "animatediff_fallback_rule_matched": true,
+    "animatediff_fallback_compatibility": true,
+    "animatediff_fallback_availability": true,
+    "animatediff_fallback_resource_budget": false,
+    "animatediff_fallback_promotion": false
   },
   "acceptance_gates": {
-    "engine_compatibility": false,
+    "engine_compatibility": true,
     "engine_compatibility_router_ready": true,
-    "runtime_object_info": false,
-    "model_registry_link": false,
+    "runtime_object_info": true,
+    "model_registry_link": true,
     "resource_budget_check": false,
     "resource_budget_logic_ready": true,
-    "runtime_proof": false
+    "runtime_proof": true,
+    "final_promotion_ready": false
   },
   "blocker": {
-    "classification": "Blocked_Video_Engine_Runtime_Evidence_Missing",
-    "reason": "Canonical video engines remain unverified across model link, object_info, runtime, capability, resource, execution, cost, availability, and promotion evidence. Temporary test fixtures are not production proof."
+    "classification": "Blocked_Video_Engine_Resource_Cost_And_Promotion_Proof",
+    "reason": "AnimateDiff fallback routing compatibility is proven, but resource limits and cost tier are unverified, visual promotion failed, and the default WAN engine remains unverified."
   },
   "evidence": [
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/video_engine_routing.json",
-      "sha256": "e8bfbf07dd5e2f87344259f933e9ccca4259f9de947a11d921079cafbed346da"
+      "sha256": "e4049a8b9582e050b575f8469838ff5fdfbfcea71f023ea49176df575e72bed4"
     },
     {
-      "path": "Plan/Instructions/QA/Evidence/Wave64/video_engine_routing_test_log.json",
-      "sha256": "8cc607c0f99f2b31542b3b61fb021d71d74311f67c330de22ad82a1198dda598"
+      "path": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_ENGINE_ROUTING_ANIMATEDIFF_FALLBACK_RECONCILIATION_20260713T030800-0500.json",
+      "sha256": "46213372fb85dd6ec4a253000c0422b417f4a4c80313af66dcaea04bc1b33218"
     }
   ],
   "runtime": {
     "generation_count": 0,
     "aws_contacted": false,
     "ec2_started": false,
-    "comfyui_started": false
+    "comfyui_started": false,
+    "existing_row019_generation_reused": true
   },
-  "next_action": "Keep row 020 blocked without engine compatibility or runtime claims. Continue TRK-W64-021 / ITEM-W64-021 by inspecting the existing temporal visual-QA surface; do not fabricate a video review without a real frame sequence."
+  "next_action": "Continue Row021 temporal visual review with the existing eight-frame sequence; do not rerun Row019 or claim production readiness."
 }

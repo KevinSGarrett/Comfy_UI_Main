@@ -1,3 +1,11 @@
+## Wave64 Row020 AnimateDiff Fallback Routing Reconciliation - 2026-07-13T03:08:00-05:00
+
+`TRK-W64-020` / `ITEM-W64-020` is `Blocked_Video_Engine_Resource_Cost_And_Promotion_Proof`. The strict router is schema-valid again and its bounded fallback probe matches `failed_generation_with_frame_sequence`; `animatediff_fallback` passes engine compatibility and availability using the existing Row019 runtime/object-info/model proof. It remains unselectable because resource limits and cost tier are unverified, visual promotion failed, and default WAN authority remains unverified. No new generation, EC2, mask, FLUX, Jira, or Wave71+ action occurred.
+
+Next action: preserve the proven fallback route and continue `TRK-W64-021` temporal visual review using the existing eight-frame sequence; do not claim production video readiness.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/VIDEO_ENGINE_ROUTING_ANIMATEDIFF_FALLBACK_RECONCILIATION_20260713T030800-0500.json`.
+
 ## Wave64 Row019 AnimateDiff Fallback Runtime - 2026-07-13T02:41:08-05:00
 
 `TRK-W64-019` / `ITEM-W64-019` is `Blocked_Video_Visual_Temporal_Quality_Failure`. Existing Wave42 AnimateDiff assets were found in S3 and reused: the motion model hash, custom-node commit, live object-info surface, local eight-frame runtime, animated WebP export, technical evaluator, and Wave27 frame manifest all pass. Direct review fails frames 5-7 for background discontinuity and terminal-frame color/anatomy corruption, so no visual, temporal, target-runtime, or production-lane certification is claimed. No EC2 start, masks, Wave71+, FLUX, or Jira action occurred.

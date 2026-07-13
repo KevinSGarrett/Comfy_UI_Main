@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "evidence_id": "W64-VIDEO-ENGINE-ROUTING",
-  "timestamp": "2026-07-11T13:24:00-05:00",
+  "timestamp": "2026-07-13T03:08:00-05:00",
   "tracker_id": "TRK-W64-020",
   "item_id": "ITEM-W64-020",
   "source_citation": "Plan/04_VIDEO_GIF_SYSTEM/WAVE06_VIDEO_ENGINE_ROUTING_STRATEGY.md",
@@ -32,7 +32,7 @@
     },
     {
       "path": "Plan/10_REGISTRIES/wave27_video_engine_registry.json",
-      "sha256": "ec1d11a4b44d926227c216b3138b294416e4bea980579d3f7b1203b76cc083a1"
+      "sha256": "e9cd3e89c006edf3efc0180ae2b0d74f8f3e3b731bc90f158196229c711807b2"
     },
     {
       "path": "Plan/10_REGISTRIES/wave27_video_route_selection_rules.json",
@@ -76,21 +76,23 @@
     "required_proof_count": 10
   },
   "acceptance_gates": {
-    "engine_compatibility": false,
+    "engine_compatibility": true,
     "engine_compatibility_router_ready": true,
-    "runtime_object_info": false,
-    "model_registry_link": false,
+    "runtime_object_info": true,
+    "model_registry_link": true,
     "resource_budget_check": false,
     "resource_budget_logic_ready": true,
-    "runtime_proof": false,
-    "final_promotion_ready": false
+    "runtime_proof": true,
+    "final_promotion_ready": false,
+    "runtime_ready": false
   },
   "runtime": {
     "generation_executed": false,
     "aws_contacted": false,
     "ec2_started": false,
     "comfyui_started": false,
-    "reason": "All five canonical video engine entries remain explicitly unverified for model link, object_info, runtime proof, outputs/features, resource limits, execution target, cost tier, availability, and promotion evidence."
+    "reason": "Fallback compatibility and availability are proven from Row019; resource, cost, promotion, and default WAN authority remain blocked.",
+    "existing_row019_generation_reused": true
   },
   "review": {
     "cursor_gap_review": "runtime_artifacts/agent_handoffs/cursor/20260711T130316-0500_wave64_video_engine_routing_gap_review/handoff_record.json",
@@ -102,18 +104,49 @@
     "remaining_high_or_medium_findings": 0
   },
   "blocker": {
-    "classification": "Blocked_Video_Engine_Runtime_Evidence_Missing",
-    "reason": "The offline router and resource-budget logic are strict, but canonical engines have no verified model-registry link, ComfyUI object_info, runtime proof, output/feature support, resource limits, execution/cost support, availability, or promotion proof. No compatibility or runtime-ready engine can be selected truthfully."
+    "classification": "Blocked_Video_Engine_Resource_Cost_And_Promotion_Proof",
+    "reason": "AnimateDiff fallback routing compatibility is proven, but resource limits and cost tier are unverified, visual promotion failed, and the default WAN engine remains unverified."
   },
-  "result": "blocked_video_engine_runtime_evidence_missing",
+  "result": "blocked_fallback_route_compatible_resource_cost_and_promotion_unverified",
   "overall_pass": false,
-  "status_decision": "Blocked_Video_Engine_Runtime_Evidence_Missing",
+  "status_decision": "Blocked_Video_Engine_Resource_Cost_And_Promotion_Proof",
   "strict_decision": {
     "row_complete": false,
     "offline_implementation_pass": true,
-    "engine_compatibility_claimed": false,
+    "engine_compatibility_claimed": true,
     "runtime_ready_claimed": false,
     "final_promotion_claimed": false,
     "mask_or_geometry_authority_claimed": false
-  }
+  },
+  "animatediff_fallback_probe": {
+    "matched_rule_ids": [
+      "failed_generation_with_frame_sequence",
+      "default_primary_candidate_wan"
+    ],
+    "candidate_order": [
+      "animatediff_fallback",
+      "wan"
+    ],
+    "selected_engine": null,
+    "result": "blocked",
+    "fallback_evaluation": {
+      "availability_passed": true,
+      "blocked_reasons": [
+        "cost_tiers:unsupported_or_unverified",
+        "promotion_proof:required_and_unverified",
+        "resource_limits:insufficient_or_unverified"
+      ],
+      "can_select": false,
+      "compatibility_passed": true,
+      "engine_id": "animatediff_fallback",
+      "promotion_passed": false,
+      "required_proof": [
+        "cost_tiers_verified",
+        "promotion_proof_verified",
+        "resource_limits_verified"
+      ],
+      "resource_passed": false
+    }
+  },
+  "reconciliation_evidence": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_ENGINE_ROUTING_ANIMATEDIFF_FALLBACK_RECONCILIATION_20260713T030800-0500.json"
 }

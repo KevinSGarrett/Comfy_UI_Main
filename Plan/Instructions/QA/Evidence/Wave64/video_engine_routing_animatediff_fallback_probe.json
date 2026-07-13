@@ -1,0 +1,100 @@
+{
+  "blocked_reasons": [
+    "animatediff_fallback:cost_tiers:unsupported_or_unverified",
+    "animatediff_fallback:promotion_proof:required_and_unverified",
+    "animatediff_fallback:resource_limits:insufficient_or_unverified",
+    "wan:availability:unverified_or_unavailable",
+    "wan:cost_tiers:unsupported_or_unverified",
+    "wan:execution_targets:unsupported_or_unverified",
+    "wan:model_registry_link:unverified",
+    "wan:object_info_evidence:unverified",
+    "wan:promotion_proof:required_and_unverified",
+    "wan:resource_limits:insufficient_or_unverified",
+    "wan:runtime_proof:unverified",
+    "wan:supported_features:missing_or_unverified",
+    "wan:supported_outputs:unsupported_or_unverified"
+  ],
+  "candidate_order": [
+    "animatediff_fallback",
+    "wan"
+  ],
+  "decision_scope": "offline_routing_only",
+  "engine_evaluations": [
+    {
+      "availability_passed": true,
+      "blocked_reasons": [
+        "cost_tiers:unsupported_or_unverified",
+        "promotion_proof:required_and_unverified",
+        "resource_limits:insufficient_or_unverified"
+      ],
+      "can_select": false,
+      "compatibility_passed": true,
+      "engine_id": "animatediff_fallback",
+      "promotion_passed": false,
+      "required_proof": [
+        "cost_tiers_verified",
+        "promotion_proof_verified",
+        "resource_limits_verified"
+      ],
+      "resource_passed": false
+    },
+    {
+      "availability_passed": false,
+      "blocked_reasons": [
+        "availability:unverified_or_unavailable",
+        "cost_tiers:unsupported_or_unverified",
+        "execution_targets:unsupported_or_unverified",
+        "model_registry_link:unverified",
+        "object_info_evidence:unverified",
+        "promotion_proof:required_and_unverified",
+        "resource_limits:insufficient_or_unverified",
+        "runtime_proof:unverified",
+        "supported_features:missing_or_unverified",
+        "supported_outputs:unsupported_or_unverified"
+      ],
+      "can_select": false,
+      "compatibility_passed": false,
+      "engine_id": "wan",
+      "promotion_passed": false,
+      "required_proof": [
+        "availability_verified",
+        "cost_tiers_verified",
+        "execution_targets_verified",
+        "model_registry_link_verified",
+        "object_info_verified",
+        "promotion_proof_verified",
+        "resource_limits_verified",
+        "runtime_proof_verified",
+        "supported_features_verified",
+        "supported_outputs_verified"
+      ],
+      "resource_passed": false
+    }
+  ],
+  "final_promotion_ready": false,
+  "matched_rule_ids": [
+    "failed_generation_with_frame_sequence",
+    "default_primary_candidate_wan"
+  ],
+  "registry_sha256": "930df6786bc27aa742e3b72786ee4c42a6b7052356f4aa7c0422ebfb9cc84100",
+  "request_sha256": "074865c6ac80d6ef39e663f7c44e15e590338f1c17148484bf2becb064cb0a87",
+  "required_features": [
+    "frame_sequence_bridge"
+  ],
+  "required_proof": [
+    "availability_verified",
+    "cost_tiers_verified",
+    "execution_targets_verified",
+    "model_registry_link_verified",
+    "object_info_verified",
+    "promotion_proof_verified",
+    "resource_limits_verified",
+    "runtime_proof_verified",
+    "supported_features_verified",
+    "supported_outputs_verified"
+  ],
+  "result": "blocked",
+  "rules_sha256": "397483e0977df4910afc94d2a70e892f636a3924c9a434a1a883603ec2011768",
+  "runtime_ready": false,
+  "selected_engine": null
+}
