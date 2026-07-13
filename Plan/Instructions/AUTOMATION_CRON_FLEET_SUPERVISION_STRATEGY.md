@@ -1,6 +1,6 @@
 # Automation Cron Fleet Supervision Strategy
 
-Updated: 2026-07-11
+Updated: 2026-07-13
 
 This protocol defines the Comfy_UI_Main scheduled automation fleet posture while the main Codex session advances the ComfyUI project autonomously.
 
@@ -67,14 +67,18 @@ Without two comparable post-baseline measurements, the monitor may report only a
 
 Cron jobs should reinforce this division:
 - Use Cursor-first for broad mechanical local reads, inventories, parser/validator triage, file/path/hash summaries, and first-pass drafts.
-- Use Claude subscription for high-effort Sonnet synthesis, contradiction review, or strategy critique after Cursor extraction or when synthesis is the main task.
+- Use exact `claude-sonnet-5` as the primary worker when semantic synthesis is the hard part. Use exact `claude-opus-4-8` only through the audited escalation contract; Opus is never a routine extra reviewer.
 - Keep Codex Desktop on final authority: project steering, live runtime decisions, visual QA, Git/AWS/S3/Jira/mask authority, final validation, and user-facing conclusions.
+
+The seven project cron prompts must inherit the shared worker and Git/GitHub policies by path. Do not copy the full Git/GitHub routing policy into every prompt. Keep each prompt role-specific and compact; update the shared policy once. The combined delegation monitor is separate from the seven project jobs and is the sole recurring worker-health authority.
+
+Routine cron orchestration should use the smallest proven Codex model at low reasoning. A heavier automation model is justified only for an explicitly documented non-deterministic final-authority review that cannot be delegated. Broad mechanical cron reads route to Cursor; difficult non-authority synthesis routes to Claude; the cron retains only compact orchestration and its role-specific final classification.
 
 A cron audit should classify `CODEX_USAGE_DRIFT` only when the main session repeatedly performs long worker-suitable scans or synthesis directly in Codex while worker lanes are healthy. The first correction should be a compact recommendation to delegate the next suitable task, not a broad interruption or new bookkeeping task.
 
 ## Worker Lane Policy
 
-Use four explicit lanes:
+Use five explicit lanes:
 
 1. Codex-only
    - final authority for runtime, mask, Git, Jira, AWS, EC2, S3, and visual QA decisions
@@ -85,12 +89,16 @@ Use four explicit lanes:
    - helper/script first drafts
    - parser/validator triage
    - bookmark/task split diagnosis
-3. Claude subscription
-   - high-effort Sonnet synthesis after Cursor extraction
+3. Claude Sonnet primary
+   - first substantive semantic synthesis when reasoning is the hard part
    - long contradiction review
    - difficult strategy critique when no live authority is required
-   - heavy reasoning tasks that would otherwise consume a long Codex Desktop turn
-4. Git/GitHub worker analysis
+   - bounded safety and evidence-authority review
+4. Claude Opus escalation
+   - one adjudication for unresolved, high-severity, cross-system, or architectural decisions
+   - exact escalation reason, decision unit, hash-bound scope, prior Sonnet evidence or explicit direct exception
+   - at most two completed Opus calls per local day during the pilot, counted globally across project roots and capability probes
+5. Git/GitHub worker analysis
    - read-only dirty-worktree, diff, CI, PR, issue, and branch-state investigation
    - Cursor first for mechanical extraction
    - Claude for checkpoint, branch, PR, or push-risk synthesis
@@ -102,7 +110,7 @@ Claude Desktop/subscription is available through:
 C:\Users\kevin\.codex\claude_subscription_handoff\Invoke-ClaudeSubscriptionHandoff.ps1
 ```
 
-Use the Claude subscription lane only when `Test-ClaudeSubscriptionHandoff.ps1` passes or the latest successful probe is fresh. It must use `claude.ai` subscription auth and must not fall back to Anthropic API keys or Console PAYG billing.
+Use the Claude subscription lane only when `Test-ClaudeSubscriptionHandoff.ps1` passes or the latest successful probe is fresh. It must use `claude.ai` first-party subscription auth, exact model IDs, credential-scrubbed child execution, and unchanged worktree fingerprints. It must not fall back to Anthropic API keys or Console PAYG. Routine health checks must not consume Opus.
 
 ## Mandatory Pre-Work Delegation Gate
 
@@ -110,9 +118,10 @@ Before any cron job performs a broad scan, audit, helper draft, multi-file diagn
 
 - `CODEX_ONLY_AUTHORITY`
 - `CURSOR_FIRST_REQUIRED`
-- `CLAUDE_HEAVY_REVIEW_REQUIRED`
+- `CLAUDE_SONNET_PRIMARY_REQUIRED`
+- `CLAUDE_OPUS_ESCALATION_REQUIRED`
 - `GIT_GITHUB_WORKER_ANALYSIS_REQUIRED`
-- `NO_WORKER_NEEDED_UNDER_THRESHOLD`
+- `DETERMINISTIC_FAST_PATH`
 
 Hard thresholds:
 
@@ -121,7 +130,8 @@ Hard thresholds:
 - More than one broad `rg` or inventory pass: Cursor first.
 - More than one validator/parser triage pass: Cursor first.
 - More than 3 minutes active Codex reasoning: Cursor or Claude.
-- Strategy/contradiction review: Claude Sonnet unless final authority applies.
+- Strategy/contradiction review: `CLAUDE_SONNET_PRIMARY_REQUIRED` unless final authority applies.
+- Opus requires the centralized escalation contract; a cron prompt may not call Opus merely because a task is long.
 - More than 5 unclassified changed files, more than one ownership group or Git/GitHub failure source, long CI logs, unclear checkpoint boundaries, branch/upstream divergence analysis, or PR/review triage over 3 minutes: Git/GitHub worker analysis first.
 - Failed worker output: retry once with a narrower work order before Codex absorbs the task.
 
@@ -141,9 +151,15 @@ Use tightened temporary triggers until adoption recovers:
 - Any dirty-worktree, checkpoint-boundary, GitHub warning, CI/log, PR/comment, or branch/upstream analysis: Git/GitHub worker analysis first.
 - More than 2 minutes strategy/contradiction reasoning: Claude subscription when healthy.
 
-Claude adoption floor: if the latest audit window shows zero useful Claude handoffs while Claude subscription auth is healthy, the monitor should require the next eligible high-effort synthesis, contradiction review, routing critique, checkpoint-risk synthesis, or strategy review to use `CLAUDE_HEAVY_REVIEW_REQUIRED` before Codex absorbs it. This floor does not apply to mechanical extraction, final authority, live runtime, visual QA, Git/GitHub mutation, AWS, Jira, masks, or tracker mutation.
+Claude adoption floor: if the latest audit window shows zero useful Claude handoffs while subscription auth is healthy, the monitor should require the next eligible synthesis, contradiction review, routing critique, checkpoint-risk synthesis, or strategy review to use `CLAUDE_SONNET_PRIMARY_REQUIRED` before Codex absorbs it. This floor does not apply to mechanical extraction or final authority.
+
+Score Claude's share over 24 hours. The target is 60-70% of eligible non-authority semantic/synthesis work, plus at least one Sonnet handoff in any four-hour window containing two or more eligible semantic tasks. Opus has no minimum-use target. Do not create duplicate reviews to satisfy these targets.
 
 Cursor friction retry discipline: wrapper invocation, parser, environment, or lock friction should be followed by one narrow retry before Codex fallback. The retry should use ask mode, a hash-validated scope packet or supplied file/status list, no worker-side broad Git discovery, no file edits, and no mutation authority. The wrapper owns process-local execution-policy bypass. If the retry fails, classify `CURSOR_WRAPPER_FRICTION_COMPACT_FALLBACK` and record the fallback reason.
+
+Git LFS capability gaps are not generic wrapper friction. Git/LFS work must use `-RequireGitLfs`. Missing WSL capability is `CURSOR_ENVIRONMENT_CAPABILITY_GAP_GIT_LFS`; repair it once or use one hash-recorded Windows packet from `tools\Export-GitLfsReadOnlyEvidence.ps1`. Do not credit partial LFS grouping, do not send mechanical LFS extraction to Claude, and do not normalize recurring Codex fallback.
+
+Any ask/plan Cursor worktree change is `CURSOR_HANDOFF_READ_ONLY_MUTATION_VIOLATION`. Exclude it from useful credit, require Codex to preserve user-owned changes, and diagnose the exact command or script that wrote files.
 
 Broad Cursor discovery must pass `-ScopePacketPath` or use the explicit `-AllowBroadDiscovery -BroadDiscoveryReason` exception. The normal timeout ceiling is 600 seconds; only an explicit broad-discovery exception may use up to 900 seconds.
 
@@ -177,8 +193,40 @@ Monitor Scoring fields for worker-aware audits:
 - `scope_packet_compliance_percent`
 - `malformed_path_or_write_scope_violations`
 - `stale_or_interrupted_worker_records`
+- `git_lfs_tasks_detected`
+- `cursor_git_lfs_native_capability_passes`
+- `cursor_git_lfs_capability_gaps`
+- `windows_git_lfs_evidence_bridges`
+- `direct_codex_git_lfs_analysis_fallbacks`
+- `claude_sonnet_primary_handoffs`
+- `claude_opus_escalation_handoffs`
+- `claude_opus_escalations_justified`
+- `claude_opus_escalations_rejected`
+- `claude_opus_daily_ceiling_rejections`
+- `claude_subscription_capacity_unavailable`
+- `claude_worker_reported_blocked`
+- `claude_invalid_status_labels`
+- `claude_read_only_mutation_violations`
+- `claude_concurrent_worktree_drift_detected`
+- `adopted_worker_outputs`
+- `duplicate_review_cycles_detected`
 
-The combined worker monitor is the sole recurring Cursor/Claude/GitHub delegation-health authority. A separate Claude-only monitor is redundant once the combined monitor verifies subscription auth, the Claude adoption floor, and substantive Claude handoffs. Keep ordinary monitor and deterministic supervisor runs on the smallest model that passes their contract, low-effort, and bounded; use a heavyweight model only for an explicitly requested deep effectiveness review or a documented non-deterministic synthesis need.
+The combined worker monitor is the sole recurring Cursor/Claude/GitHub delegation-health authority. A separate Claude-only monitor is redundant once the combined monitor verifies subscription auth, the Claude adoption floor, and substantive Claude handoffs. Keep ordinary monitor runs small-model, low-effort, and bounded; use a heavyweight model only for an explicitly requested deep effectiveness review.
+
+For Opus daily-ceiling and duplicate-decision accounting, the combined monitor must read `C:\Users\kevin\.codex\claude_subscription_handoff\opus_usage\YYYY-MM-DD`. Project-local handoff directories remain the source for task outcomes; the external ledger is the cross-project source for completed Opus consumption.
+
+## Role-Specific Claude Invocation Rules
+
+- EC2 hourly sentinel: no Cursor or Claude during normal bounded checks; Sonnet only after repeated conflicting safety evidence; never call Opus automatically.
+- Automation fleet health: Sonnet only for a genuine shared-policy contradiction; never call Opus routinely.
+- Combined worker monitor: never launch Cursor, Sonnet, or Opus. It observes finalized records and runs deterministic verification only when required.
+- Two-hour anti-loop supervisor: Sonnet for a real multi-source progress contradiction; Opus only when one Sonnet pass cannot resolve a cross-authority deadlock.
+- Six-hour milestone auditor: Sonnet for real sequence or ledger contradiction; Opus only for unresolved cross-wave authority conflict.
+- Daily artifact QA: Cursor performs inventory; Sonnet is the normal semantic review when contradictory evidence remains; Opus only for certification-level contradiction.
+- Daily cost/local-first audit: Sonnet for cross-system cost/readiness contradiction; Opus only for unresolved architecture, never routine cost checks.
+- Weekly consistency audit: Cursor performs bounded inventory and Sonnet performs the normal semantic pass; at most one Opus escalation when Sonnet cannot reconcile authoritative policies.
+
+All eight active automations remain `gpt-5.4-mini` low-effort orchestrators. The seven project jobs plus the combined monitor inherit the complete contract from shared policy; each prompt carries only its role-specific clause.
 
 ## Role Ownership
 
@@ -225,6 +273,8 @@ Use these classifications where applicable:
 
 ## Main-Session Steering
 
+Every steering message must name `C:\Comfy_UI_Main` as the authoritative `ProjectRoot`. If the target thread metadata reports legacy `C:\Comfy_UI`, require explicit commands and worker packets to use Main; do not copy or recreate work to reconcile the thread's displayed directory.
+
 When correction is needed, steer toward one concrete next ComfyUI task:
 - selected inpaint deploy-bundle rebuild/revalidation;
 - selected S3 publish readiness or proof;
@@ -236,7 +286,7 @@ Do not steer to broad Wave65 refreshes, generic manifest hygiene, repeated hydra
 
 When the main session needs broad local scanning, manifest reconciliation, or repetitive evidence extraction, route that work to Cursor first and keep Codex on the final judgment and bounded correction pass.
 
-Use Claude as the high-effort Sonnet lane after Cursor has extracted raw evidence, or when the task is a difficult synthesis that does not require live authority. Do not route mask, EC2, S3, Jira, Git, Items/Tracker authority, or final visual QA decisions to Claude.
+Use Sonnet 5 before Codex absorbs eligible difficult synthesis, not only as a final reviewer after Codex has already done the reasoning. Allow one Sonnet remediation confirmation. Use Opus 4.8 only after its centralized escalation contract passes. Do not route mask, EC2, S3, Jira, Git, Items/Tracker authority, or final visual QA decisions to Claude.
 
 ## Cursor, Jira, And Masks
 

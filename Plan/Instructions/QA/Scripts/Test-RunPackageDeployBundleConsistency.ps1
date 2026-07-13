@@ -230,17 +230,28 @@ if ($publishEvidenceSupplied) {
 if ($null -ne $publish) {
   $bundleUriLeaf = [System.IO.Path]::GetFileName(([string]$publish.s3_bundle_uri).Replace("/", "\"))
   $manifestUriLeaf = [System.IO.Path]::GetFileName(([string]$publish.s3_manifest_uri).Replace("/", "\"))
+  $publishDryRunValid = (
+    [string]$publish.result -eq "dry_run_ready_to_upload" -and [bool]$publish.local_only -and
+    (Test-FlagFalse -Payload $publish -Name "aws_contacted") -and
+    (Test-FlagFalse -Payload $publish.upload -Name "attempted")
+  )
+  $publishLiveValid = (
+    [string]$publish.result -eq "deploy_bundle_uploaded_to_s3" -and
+    (Test-FlagFalse -Payload $publish -Name "local_only") -and
+    [bool]$publish.aws_contacted -and [bool]$publish.upload.attempted -and
+    [int]$publish.upload.bundle_rc -eq 0 -and [int]$publish.upload.manifest_rc -eq 0
+  )
   [void]$checks.Add((New-Check -Name "publish_dry_run_linkage" -Passed (
     [string]$publish.operation -eq "publish_deploy_bundle_to_s3" -and
-    [string]$publish.result -eq "dry_run_ready_to_upload" -and [bool]$publish.local_only -and
-    -not [bool]$publish.aws_contacted -and -not [bool]$publish.ec2_started -and
-    -not [bool]$publish.generation_executed -and -not [bool]$publish.upload.attempted -and
+    ($publishDryRunValid -or $publishLiveValid) -and
+    (Test-FlagFalse -Payload $publish -Name "ec2_started") -and
+    (Test-FlagFalse -Payload $publish -Name "generation_executed") -and
     [string]$publish.bundle_id -eq [string]$deploy.bundle_id -and
     [string]$publish.lane_id -eq [string]$deploy.lane_id -and
     ([string]$publish.bundle_zip_sha256).ToLowerInvariant() -eq $zipHash -and
     $bundleUriLeaf -eq [string]$deploy.bundle_zip -and
     $manifestUriLeaf -eq (Split-Path -Leaf $deployManifestPath)
-  ) -Observed ([ordered]@{ result=$publish.result; bundle_id=$publish.bundle_id; lane_id=$publish.lane_id; bundle_sha=$publish.bundle_zip_sha256; bundle_uri=$publish.s3_bundle_uri; manifest_uri=$publish.s3_manifest_uri; upload_attempted=$publish.upload.attempted }) -Expected "matching local-only publish dry-run with no upload" -FailureCategory "publish_linkage_mismatch"))
+  ) -Observed ([ordered]@{ result=$publish.result; bundle_id=$publish.bundle_id; lane_id=$publish.lane_id; bundle_sha=$publish.bundle_zip_sha256; bundle_uri=$publish.s3_bundle_uri; manifest_uri=$publish.s3_manifest_uri; upload_attempted=$publish.upload.attempted; bundle_rc=$publish.upload.bundle_rc; manifest_rc=$publish.upload.manifest_rc }) -Expected "matching local-only dry-run or successful live S3 publish with no EC2/generation activity" -FailureCategory "publish_linkage_mismatch"))
 } elseif (-not $publishEvidenceSupplied) {
   [void]$warnings.Add("publish_evidence_not_supplied")
 }

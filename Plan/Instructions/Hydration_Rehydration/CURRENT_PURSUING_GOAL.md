@@ -7196,3 +7196,8 @@ Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_RUNTIME_WI
 Continue the autonomous project from the hardened same-window marker contract. Schedule evidence must bind to the preserved Normal window before EC2 start; watchdog evidence binds after SSM comes online; generation remains blocked until both phases are verified. Build/revalidate the current-source Normal deploy bundle and prepare local same-ID plans next. Keep all live authority, mask, Wave71+, Jira, and FLUX-license boundaries intact.
 
 Evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_EC2_RUNTIME_WINDOW_MARKER_PLAN_REGRESSION_20260713T114600-0500.json`; `Plan/Tracker/Evidence/Operations_Static_Validation/W64_EC2_RUNTIME_WINDOW_MARKER_PLAN_REGRESSION_20260713T114600-0500.json`.
+## Current Pursuing Goal - Normal Runtime Control Completion - 2026-07-13T11:52:00-05:00
+
+Continue the autonomous end-to-end ComfyUI project from the selected Normal lane. The current-source Normal deploy bundle is published and exact S3 pullback integrity is verified. Preserve runtime window `rw-normal-20260713T105243-0500-57f1f908`, keep EC2 stopped and generation unauthorized, checkpoint the bounded publish/validator work plus the approved routing bundle, then complete the same-ID emergency-stop schedule and SSM watchdog prerequisites before any start or target-runtime execution.
+
+This does not alter the manual body-gold-mask boundary, permit mask promotion or Wave70 hard-gate reruns, activate Wave71+, clear FLUX licensing, or authorize Jira mutation.

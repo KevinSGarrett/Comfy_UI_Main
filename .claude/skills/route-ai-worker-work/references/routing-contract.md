@@ -22,10 +22,19 @@
 ## Hard Triggers
 
 - More than 10 files or one major tree: Cursor extraction.
-- More than 3 minutes difficult reasoning: Claude heavy review.
+- More than 3 minutes difficult reasoning: `CLAUDE_SONNET_PRIMARY_REQUIRED`.
+- Opus 4.8: only after a recorded escalation trigger, exact decision unit, hash-bound scope, and prior successful Sonnet result or explicit direct high-risk architecture exception.
 - More than 5 unclassified changed files or uncertain ownership: Git/GitHub worker analysis.
 - Incomplete worker output: one narrower retry.
 - Exact current-task Git scope with deterministic safety checks: `KNOWN_SCOPE_GIT_FAST_PATH`.
+
+## Exact Models
+
+- Cursor: plain `gpt-5.3-codex` only; no fast variants and no Claude models.
+- Sonnet primary: exact `claude-sonnet-5` through Claude subscription only.
+- Opus escalation: exact `claude-opus-4-8` through Claude subscription only, one per decision unit and at most two per local day during the pilot.
+
+Normal Claude scope is at most 12 files and 524,288 aggregate bytes. The review budget is one Sonnet pass, one remediation confirmation, then one Opus adjudication only when the escalation contract passes.
 
 ## Authority
 

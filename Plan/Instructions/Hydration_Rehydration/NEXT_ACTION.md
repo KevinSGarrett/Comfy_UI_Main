@@ -9275,3 +9275,10 @@ The local runtime-window marker planner now accepts the exact capability-verifie
 Next: build and revalidate the current-source Normal deploy bundle for preserved window `rw-normal-20260713T105243-0500-57f1f908`, then prepare same-ID dry-run control evidence and a marker plan without starting EC2.
 
 Evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_EC2_RUNTIME_WINDOW_MARKER_PLAN_REGRESSION_20260713T114600-0500.json`; `Plan/Tracker/Evidence/Operations_Static_Validation/W64_EC2_RUNTIME_WINDOW_MARKER_PLAN_REGRESSION_20260713T114600-0500.json`.
+## Normal Current-Source Bundle Published and Verified - 2026-07-13T11:52:00-05:00
+
+The authoritative queue now selects `sdxl_realvisxl_controlnet_normal_lane`. Its current-source deploy bundle at Git head `d9e455173e8d4146e5f85e890eadc5396eca0fa4` is published to S3 and exact pullback hashes match for both ZIP and manifest. The strict package/deploy/live-publish consistency validator passes 42/42 checks and its fail-closed regression passes 11/11. The approved EC2 instance remains stopped; generation is not authorized and no target-runtime or certification claim was made.
+
+Next: checkpoint this bounded publish/verification unit and the approved AI-worker routing bundle. Then continue the same preserved runtime window `rw-normal-20260713T105243-0500-57f1f908` with the emergency-stop schedule dry-run/marker plan and exact live-control prerequisites. Do not start EC2 until the same-ID schedule and SSM watchdog proof are both valid and the queue permissions are rechecked.
+
+Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_DEPLOY_BUNDLE_S3_PUBLISH_EXECUTE_D9E45517_20260713T115500-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_DEPLOY_BUNDLE_S3_PULLBACK_VERIFICATION_D9E45517_20260713T120000-0500.json`; `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_NORMAL_RUN_PACKAGE_DEPLOY_BUNDLE_S3_CONSISTENCY_LIVE_D9E45517_20260713T120000-0500.json`.

@@ -16,7 +16,7 @@ param(
   [string]$TaskName,
 
   [Parameter(Mandatory = $true)]
-  [ValidateSet("CURSOR_FIRST_REQUIRED", "CLAUDE_HEAVY_REVIEW_REQUIRED", "GIT_GITHUB_WORKER_ANALYSIS_REQUIRED")]
+  [ValidateSet("CURSOR_FIRST_REQUIRED", "CLAUDE_HEAVY_REVIEW_REQUIRED", "CLAUDE_SONNET_PRIMARY_REQUIRED", "CLAUDE_OPUS_ESCALATION_REQUIRED", "GIT_GITHUB_WORKER_ANALYSIS_REQUIRED")]
   [string]$Gate,
 
   [Parameter(Mandatory = $true)]
@@ -32,6 +32,11 @@ param(
   [ValidateRange(1024, 10485760)]
   [long]$MaxFileBytes = 2097152,
 
+  [ValidateRange(65536, 10485760)]
+  [long]$MaxTotalBytes = 524288,
+
+  [string]$SizeBudgetExceptionReason = "",
+
   [string]$OutputPath = ""
 )
 
@@ -44,8 +49,20 @@ if ($uniqueCandidates.Count -eq 0) { throw "At least one candidate path is requi
 if ($uniqueCandidates.Count -gt $MaxCandidates) {
   throw "Candidate count $($uniqueCandidates.Count) exceeds MaxCandidates=$MaxCandidates. Shortlist before worker delegation."
 }
+if ($MaxTotalBytes -gt 524288 -and [string]::IsNullOrWhiteSpace($SizeBudgetExceptionReason)) {
+  throw "MaxTotalBytes above 524288 requires SizeBudgetExceptionReason."
+}
+
+$claudeGates = @("CLAUDE_HEAVY_REVIEW_REQUIRED", "CLAUDE_SONNET_PRIMARY_REQUIRED", "CLAUDE_OPUS_ESCALATION_REQUIRED")
+if ($Gate -in $claudeGates -and $WorkerLane -ne "Claude") {
+  throw "Claude routing gates require WorkerLane=Claude."
+}
+if ($Gate -eq "CLAUDE_OPUS_ESCALATION_REQUIRED" -and $MaxCandidates -gt 12) {
+  throw "Opus scope packets may not exceed 12 candidates."
+}
 
 $files = @()
+[long]$totalBytes = 0
 foreach ($candidate in $uniqueCandidates) {
   $candidateFull = if ([System.IO.Path]::IsPathRooted($candidate)) {
     [System.IO.Path]::GetFullPath($candidate)
@@ -60,6 +77,10 @@ foreach ($candidate in $uniqueCandidates) {
   $item = Get-Item -LiteralPath $candidateFull
   if ($item.Length -gt $MaxFileBytes) {
     throw "Candidate exceeds MaxFileBytes=${MaxFileBytes}: $candidateFull ($($item.Length) bytes)"
+  }
+  $totalBytes += $item.Length
+  if ($totalBytes -gt $MaxTotalBytes) {
+    throw "Candidate aggregate size $totalBytes exceeds MaxTotalBytes=$MaxTotalBytes. Create a compact evidence packet or provide a justified size-budget exception."
   }
   $relative = $candidateFull.Substring($projectRootFull.Length).TrimStart('\').Replace('\', '/')
   $files += [ordered]@{
@@ -78,8 +99,11 @@ if ([string]::IsNullOrWhiteSpace($OutputPath)) {
 $outputParent = Split-Path -Parent $OutputPath
 if (![string]::IsNullOrWhiteSpace($outputParent)) { New-Item -ItemType Directory -Path $outputParent -Force | Out-Null }
 
+$requiredWorkerOutputLabels = @("status:", "summary:", "files inspected:", "blockers:", "confidence:", "recommended Codex follow-up:")
+if ($Gate -eq "CLAUDE_OPUS_ESCALATION_REQUIRED") { $requiredWorkerOutputLabels += "escalation outcome:" }
+
 $packet = [ordered]@{
-  schema_version = 1
+  schema_version = 2
   artifact_type = "ai_worker_scope_packet"
   status = "ready"
   created_at = $now.ToString("o")
@@ -90,8 +114,11 @@ $packet = [ordered]@{
   broad_worker_discovery_allowed = $false
   max_candidates = $MaxCandidates
   candidate_count = $files.Count
+  max_total_bytes = $MaxTotalBytes
+  total_bytes = $totalBytes
+  size_budget_exception_reason = $SizeBudgetExceptionReason
   files = $files
-  required_worker_output_labels = @("status:", "summary:", "files inspected:", "blockers:", "recommended Codex follow-up:")
+  required_worker_output_labels = $requiredWorkerOutputLabels
   mutation_boundary = "Codex-only"
 }
 

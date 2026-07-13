@@ -1,6 +1,6 @@
 # AI Worker Lane Routing Policy
 
-Updated: 2026-07-11
+Updated: 2026-07-13
 
 This policy defines how Codex Desktop, Cursor CLI, and Claude Code subscription work together for Comfy_UI_Main.
 
@@ -24,11 +24,14 @@ Use these deterministic tools for comparable measurements:
 C:\Comfy_UI_Main\tools\New-CodexDesktopUsageSnapshot.ps1
 C:\Comfy_UI_Main\tools\Measure-AIWorkerCodexUsageReduction.ps1
 C:\Comfy_UI_Main\tools\Measure-AIWorkerNetUsageReductionProxy.ps1
+C:\Comfy_UI_Main\tools\Measure-CodexAutomationScheduleLoad.ps1
 ```
 
 The monitor must prefer measured weekly quota burn-rate reduction over an unaudited estimate whenever finalized post-baseline snapshots exist. A snapshot must record the displayed percentage and whether it means `UsedPercent` or `RemainingPercent`; never infer the UI semantics. One post-baseline snapshot is capped at `MEDIUM`. `HIGH_TWO_MEASURED_PERIODS` requires two post-baseline measurements that both meet the 50% target, span at least 24 hours from baseline, and are at least 6 hours apart.
 
 Proxy estimates must use the net tool and include final-authority work, Codex review/validation, failed-handoff recovery, worker orchestration, direct eligible work absorbed by Codex, and incremental scheduled-Codex overhead. Worker-eligible avoided minutes alone are not an estimate of total Codex Desktop reduction. Every proxy result is capped at `MEDIUM`.
+
+Use `Measure-CodexAutomationScheduleLoad.ps1` for scheduled invocation frequency. Never convert scheduled run counts into token or quota cost without external usage telemetry.
 
 ## Shared Project Boundaries
 
@@ -40,6 +43,10 @@ C:\Comfy_UI_Main\Plan\Instructions\GIT_GITHUB_WORKER_ANALYSIS_LANE_STRATEGY.md
 C:\Comfy_UI_Main\Plan\Instructions\LOCAL_SOURCE_OF_TRUTH_AND_EC2_STALE_WORKSPACE_PROTOCOL.md
 C:\Comfy_UI_Main\Plan\Instructions\JIRA_CONTROL_PLANE_AND_AI_EXECUTION_LEDGER_POLICY.md
 ```
+
+## Main-Session Root Preflight
+
+The authoritative workspace is `C:\Comfy_UI_Main`. At the beginning of a resumed or compacted main-session turn, resolve this path and use it as the explicit working directory for project commands and every worker `-ProjectRoot`. If thread metadata still reports legacy `C:\Comfy_UI`, treat that as a host-context mismatch, not project authority. Do not copy, synchronize, or recreate completed work merely to reconcile the displayed thread directory.
 
 Local `C:\Comfy_UI_Main` is the authoritative execution ledger. EC2 `/home/ubuntu/Comfy_UI_Main` is runtime/cache state only and must not be used to reopen completed work.
 
@@ -100,6 +107,8 @@ Cursor is the default first worker for:
 - bookmark-resume diagnosis;
 - repetitive file/path/hash summaries.
 
+Cursor delegated work uses plain `gpt-5.3-codex`. Fast Cursor variants are prohibited. Cursor owns mechanical extraction and first-pass gap identification, not repeated semantic final review.
+
 Use:
 
 ```text
@@ -110,13 +119,19 @@ Default read-only mode is `ask`. Use `plan` only after `ask` is insufficient. In
 
 ## Lane 3: Claude Code Subscription
 
-Claude subscription is the high-effort Sonnet lane for:
+Claude subscription has two exact, non-interchangeable model tiers. `claude-sonnet-5` is the primary semantic worker for:
 
 - difficult strategy synthesis;
 - contradiction review across plans and policies;
 - architecture or routing critique;
-- second-pass review after Cursor extraction;
+- first substantive semantic diagnosis, plan, or contradiction synthesis;
+- bounded implementation and safety review after deterministic validation;
 - heavy reasoning tasks that would otherwise consume a long Codex Desktop turn.
+- semantic final review after a mechanical Cursor extraction when the decision crosses policies, evidence authority, certification wording, or more than eight files.
+
+`claude-opus-4-8` is an escalation lane only when Sonnet is blocked or low-confidence after one bounded pass, a high-severity issue survives one remediation cycle, the decision spans at least three subsystems or two authority domains, material local/GitHub/AWS/runtime/policy evidence conflicts, or the architecture decision would otherwise consume more than about 15 minutes of Codex reasoning.
+
+Use at most one Opus handoff per decision unit and at most two completed Opus handoffs per local day during the pilot. This is one global ceiling across project roots, including capability probes, backed by the external Claude wrapper's daily usage ledger. Opus has no minimum-use target and must not become a routine second or third reviewer.
 
 Use:
 
@@ -130,8 +145,12 @@ The wrapper must verify:
 - `authMethod: claude.ai`
 - `apiProvider: firstParty`
 - no `ANTHROPIC_API_KEY`, `ANTHROPIC_AUTH_TOKEN`, or `ANTHROPIC_BASE_URL` environment fallback
+- inherited AWS, GitHub, cloud-provider, and credential-helper variables removed from the Claude child process
+- repository-visible and scope-file fingerprints unchanged after every handoff
 
-Default heavy-review model is `claude-sonnet-5`. Use `--Effort medium` for routine difficult synthesis, `--Effort high` for broad review, and `--Effort xhigh` or `--Effort max` only for unusually heavy work. Health probes may use the cheaper `sonnet` alias with low effort.
+Do not use model aliases. Health probes use exact `claude-sonnet-5` with low effort. Sonnet primary work uses medium by default, high for broad or safety-sensitive review, and xhigh only when justified. Opus uses high or xhigh. Max requires explicit approval and is never a routine automation setting.
+
+Anthropic's planned separate Agent SDK credit treatment is currently paused. Noninteractive `claude -p` usage still draws from normal subscription limits. The CLI reports Team but not Standard versus Premium seat type, so the lane must fail closed on capacity errors and never switch to API or paid fallback automatically.
 
 ## Lane 4: Git/GitHub Worker Analysis
 
@@ -164,13 +183,39 @@ Reference:
 C:\Comfy_UI_Main\Plan\Instructions\GIT_GITHUB_WORKER_ANALYSIS_LANE_STRATEGY.md
 ```
 
+### Git LFS capability gate
+
+Git LFS analysis is not ordinary Git analysis. Any work order that mentions Git LFS, LFS-managed files, LFS tracking, or `.gitattributes` must use the Cursor wrapper's `-RequireGitLfs` contract. The wrapper probes `git lfs version` inside the pinned `Ubuntu-22.04` Cursor environment before the worker starts and records:
+
+- `git_lfs_capability_status`
+- `git_lfs_analysis_route`
+- `git_lfs_wsl_version`
+- `git_lfs_capability_classification` when degraded
+
+The native route is `CURSOR_WSL_NATIVE_GIT_LFS`. Missing native capability without validated fallback evidence is `CURSOR_ENVIRONMENT_CAPABILITY_GAP_GIT_LFS`, not generic wrapper friction and not a successful partial handoff.
+
+When native Git LFS is unavailable, Codex may run `C:\Comfy_UI_Main\tools\Export-GitLfsReadOnlyEvidence.ps1` once and pass its hash-recorded output with `-GitLfsEvidencePath`. This is `WINDOWS_READ_ONLY_GIT_LFS_EVIDENCE_BRIDGE`. It is a bounded contingency, not the expected normal route. Claude may synthesize the supplied evidence but must not replace Cursor's mechanical LFS extraction.
+
+Git LFS environment installation and all repository-changing LFS operations remain Codex-only. Workers must not run `git lfs install`, `track`, `untrack`, `migrate`, `pull`, `fetch`, `checkout`, or any command that changes attributes, pointers, the index, or working files.
+
 ## Routing Order
 
 1. If the task involves final authority, live runtime, masks, Git/GitHub mutation, Jira, S3, EC2, or visual QA, keep final execution in Codex.
 2. If the task is Git/GitHub read-only analysis above threshold, use `GIT_GITHUB_WORKER_ANALYSIS_REQUIRED`.
 3. If the task is mechanical local reading, inventory, triage, or drafting, send it to Cursor first.
-4. If the task is hard synthesis or strategy review, use Claude subscription after Cursor extraction or as the primary heavy-review lane.
-5. Codex reviews compact worker evidence and decides the final action.
+4. If semantic reasoning is the hard part, use `CLAUDE_SONNET_PRIMARY_REQUIRED` before Codex performs the same analysis.
+5. Use `CLAUDE_OPUS_ESCALATION_REQUIRED` only after its auditable escalation contract passes.
+6. Codex reviews compact worker evidence and decides the final action.
+
+Do not run Cursor gap review, Cursor final review, and Claude final review for the same deterministic unit. Use one of:
+
+- deterministic local validation only when the authority and expected result are already exact;
+- Cursor gap extraction followed by Codex bounded correction for mechanical defects;
+- Cursor extraction followed by one Sonnet semantic review for difficult cross-artifact decisions.
+
+Use one Sonnet confirmation after remediation at most. If a material problem remains and the Opus trigger passes, use one Opus adjudication instead of a third Sonnet review. Do not run independent Cursor, Sonnet, and Opus reviews of the same clean deterministic unit.
+
+Over a rolling 24-hour window, Claude should handle 60-70% of eligible non-authority semantic/synthesis work. In a four-hour window containing at least two eligible semantic tasks, at least one should use Sonnet. Mechanical tasks do not count toward this denominator. Opus has no minimum-use target.
 
 ## Mandatory Pre-Work Delegation Gate
 
@@ -178,13 +223,14 @@ Before Codex starts any broad scan, audit, helper draft, multi-file diagnosis, e
 
 - `CODEX_ONLY_AUTHORITY`
 - `CURSOR_FIRST_REQUIRED`
-- `CLAUDE_HEAVY_REVIEW_REQUIRED`
+- `CLAUDE_SONNET_PRIMARY_REQUIRED`
+- `CLAUDE_OPUS_ESCALATION_REQUIRED`
 - `GIT_GITHUB_WORKER_ANALYSIS_REQUIRED`
-- `NO_WORKER_NEEDED_UNDER_THRESHOLD`
+- `DETERMINISTIC_FAST_PATH`
 
 If Codex selects `CODEX_ONLY_AUTHORITY`, it must record the authority reason, such as visual QA, Git/GitHub mutation, EC2, S3, Jira, masks, Wave70/Wave71 gates, Items/Tracker status mutation, or final acceptance.
 
-If Codex selects `NO_WORKER_NEEDED_UNDER_THRESHOLD`, it must keep the work under the thresholds below. If the work grows past threshold, Codex must stop and create a worker handoff.
+If Codex selects `DETERMINISTIC_FAST_PATH`, it must keep the work under the thresholds below. If the work grows past threshold, Codex must stop and create a worker handoff. `CLAUDE_HEAVY_REVIEW_REQUIRED` and `NO_WORKER_NEEDED_UNDER_THRESHOLD` remain deprecated compatibility labels only.
 
 ## Budget Thresholds
 
@@ -196,7 +242,8 @@ Use these thresholds as hard routing triggers:
 - More than one validator or parser triage pass: `CURSOR_FIRST_REQUIRED`.
 - More than 3 minutes of active Codex reasoning expected: use Cursor or Claude.
 - Helper/script first draft in a narrow local scope: Cursor first unless final authority blocks delegation.
-- Strategy/contradiction review, broad synthesis, or architecture/routing critique: `CLAUDE_HEAVY_REVIEW_REQUIRED` unless it includes final authority.
+- Strategy/contradiction review, broad synthesis, or architecture/routing critique: `CLAUDE_SONNET_PRIMARY_REQUIRED` unless it includes final authority.
+- Opus may be selected only when a recorded escalation trigger, exact decision unit, hash-bound scope, daily ceiling, and prior successful Sonnet record or direct high-risk architecture exception all pass.
 - More than 5 unclassified changed files, more than one ownership group, or any uncertain checkpoint boundary: `GIT_GITHUB_WORKER_ANALYSIS_REQUIRED`.
 - More than one Git/GitHub failure source: `GIT_GITHUB_WORKER_ANALYSIS_REQUIRED`.
 - CI/log review beyond a tiny bounded read: `GIT_GITHUB_WORKER_ANALYSIS_REQUIRED`.
@@ -207,7 +254,7 @@ Codex may bypass these triggers only when the task is explicitly in final author
 
 ## Deterministic Scope And Known-Git Fast Paths
 
-For worker selection, use `New-AIWorkerScopePacket.ps1` with no more than 12 explicit candidate files. Prefer current hydration, the active work order, queue rows, and existing manifest links as shortlist sources. Do not ask a worker to rediscover the entire repository when those authorities already identify the candidate surface.
+For worker selection, use `New-AIWorkerScopePacket.ps1` with no more than 12 explicit candidate files and a default aggregate budget of 524,288 bytes. `SonnetPrimary` requires a hash-bound packet unless an explicit broad-discovery exception is recorded. Opus always requires a packet and a successful prior Sonnet record for the same decision unit unless the direct high-risk architecture exception is explicitly approved. Prefer current hydration top blocks, the active work order, queue rows, and existing manifest links as shortlist sources. Do not send the full large hydration ledgers or ask a worker to rediscover the repository when those authorities identify the candidate surface.
 
 For Git, a checkpoint may stay on the deterministic fast path even when more than five files changed only when all conditions hold:
 
@@ -222,6 +269,8 @@ If any condition is false, use `GIT_GITHUB_WORKER_ANALYSIS_REQUIRED`. File count
 
 While a worker runs, do not issue repeated progress narration or poll partial output. Start one bounded handoff, wait for its finalized record, and emit at most one timeout/retry update unless the user asks for status.
 
+For deterministic known-scope work, batch three to five completed units into one guarded Git checkpoint when their ownership boundaries and validation contracts are compatible. Use a single-unit checkpoint only for a safety boundary, independently reversible feature, user-requested checkpoint, or unrelated dirty-worktree constraint.
+
 ## Fallback Rules
 
 If Cursor is unavailable or returns incomplete output, Codex should narrow and retry once before doing the work directly.
@@ -229,6 +278,8 @@ If Cursor is unavailable or returns incomplete output, Codex should narrow and r
 If Claude subscription auth is missing, expired, non-`claude.ai`, or API-key fallback risk is present, Codex must route the work to Cursor or record `CLAUDE_SUBSCRIPTION_UNAVAILABLE`.
 
 If Git/GitHub worker analysis is incomplete, Codex should narrow the work order to one of: dirty-worktree grouping, CI failure extraction, PR comment inventory, checkpoint-boundary synthesis, or branch/upstream state summary. Codex may absorb the work only after one narrow retry or when the Git/GitHub decision is urgent final authority.
+
+`CURSOR_ENVIRONMENT_CAPABILITY_GAP_GIT_LFS` does not use the generic retry loop. Repair Git LFS in the pinned Cursor WSL environment once. If immediate repair is unavailable, export one bounded Windows read-only evidence packet and retry Cursor with that packet. Only if both routes fail may Codex perform a compact read-only fallback; record the capability probe, evidence-export result, and why Cursor could not consume the evidence.
 
 When Codex performs fallback work directly, it must record:
 
@@ -252,7 +303,7 @@ Temporary tightened triggers:
 - More than 2 minutes of active strategy or contradiction reasoning: Claude subscription when auth is healthy.
 - Any incomplete worker output: one narrower retry is required before direct Codex fallback.
 
-Claude adoption floor: if the latest monitor window shows zero useful Claude handoffs while Claude subscription auth is healthy, the next eligible high-effort synthesis, contradiction review, routing critique, checkpoint-risk synthesis, or strategy review expected to take more than 2 minutes must use `CLAUDE_HEAVY_REVIEW_REQUIRED` before Codex absorbs it. Do not route mechanical extraction, final authority, live runtime, visual QA, Git/GitHub mutation, AWS, Jira, masks, or tracker mutation to Claude.
+Claude adoption floor: if the latest monitor window shows zero useful Claude handoffs while subscription auth is healthy, the next eligible synthesis, contradiction review, routing critique, checkpoint-risk synthesis, or strategy review expected to take more than 2 minutes must use `CLAUDE_SONNET_PRIMARY_REQUIRED` before Codex absorbs it. Do not route mechanical extraction or final authority to Claude.
 
 Cursor friction retry discipline: if Cursor fails because of wrapper invocation, parser, environment, or lock friction, retry once with the smallest safe work order: ask mode, a validated scope packet or supplied file/status list, no worker-side broad Git discovery, no file edits, and no mutation authority. The wrapper applies process-local PowerShell execution-policy bypass internally. If the retry fails, classify `CURSOR_WRAPPER_FRICTION_COMPACT_FALLBACK`, record the failure evidence, and fall back compactly instead of live-tailing or absorbing a long task silently.
 
@@ -286,8 +337,25 @@ The combined AI worker monitor must score each audit window with:
 - scope-packet compliance percentage.
 - malformed-path or write-scope violations.
 - stale or interrupted worker records.
+- Cursor read-only mutation violations.
+- Claude substantive semantic-review share.
+- duplicate gap/final/reviewer cycles avoided.
+- deterministic checkpoint batch size.
+- Git LFS tasks detected.
+- native Cursor Git LFS capability passes and gaps.
+- Windows Git LFS evidence bridges used.
+- direct Codex Git LFS analysis fallbacks.
+- Sonnet primary handoffs.
+- Opus escalation handoffs and explicit trigger classifications.
+- justified, rejected, duplicate-suppressed, and daily-ceiling Opus attempts.
+- Claude subscription-capacity failures.
+- Claude worker-reported blocked and invalid-status results.
+- Claude read-only mutation violations.
+- Claude concurrent worktree drift classifications, counted separately from mutation violations and excluded from useful credit.
+- adopted worker outputs.
+- duplicate semantic/review cycles.
 
-The monitor may recommend 95% confidence only after the measured tool returns `HIGH_TWO_MEASURED_PERIODS`, at least 25 substantive handoffs have an 85% or better success rate, scope-packet compliance is at least 90%, and direct-Codex routing, malformed-path/write-scope, and stale/interrupted-record counts are all zero for the qualification window.
+The monitor may recommend high confidence only after the measured tool returns `HIGH_TWO_MEASURED_PERIODS`, at least 25 substantive handoffs have an 85% or better useful success rate, scope-packet compliance is at least 95%, adopted-output rate is at least 80%, duplicate-review rate is below 10%, and fast-Cursor, API-fallback, worker-mutation, live-authority, and direct-routing violations are all zero for the qualification window.
 
 Usage reduction confidence should be reported as:
 
@@ -305,7 +373,10 @@ Worker handoffs must return:
 - `summary:`
 - `files inspected:`
 - `blockers:`
+- `confidence:`
 - `recommended Codex follow-up:`
+
+Opus escalation handoffs must also return `escalation outcome:`.
 
 Git/GitHub worker-analysis handoffs must additionally return:
 
