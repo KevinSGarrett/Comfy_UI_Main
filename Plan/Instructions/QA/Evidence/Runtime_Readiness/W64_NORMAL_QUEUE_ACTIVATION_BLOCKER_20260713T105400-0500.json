@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-NORMAL-QUEUE-ACTIVATION-BLOCKER-20260713T105400-0500",
+  "created_at": "2026-07-13T10:54:00-05:00",
+  "classification": "BLOCKED_NORMAL_QUEUE_ACTIVATION_VALIDATOR_STATUS_AND_FLUX_COVERAGE_POLICY_STALE",
+  "lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+  "authoritative_queue_mutated": false,
+  "temporary_candidate_queue_only": true,
+  "validator_result": "fail",
+  "failed_check_count": 8,
+  "failed_lane_status_checks": [
+    "sdxl_low_risk_fallback_lane",
+    "sdxl_realvisxl_base_lane",
+    "sdxl_realvisxl_controlnet_canny_lane",
+    "sdxl_realvisxl_inpaint_detail_lane",
+    "flux1_dev_primary_base"
+  ],
+  "coverage_failures": [
+    "coverage_result_pass_local_only",
+    "coverage_failed_lane_count_zero",
+    "coverage_queue_lane_results_pass"
+  ],
+  "coverage_evidence_used": "Plan/Instructions/QA/Evidence/Workflow_Prerequisite_Matching/W66_AUTHORED_LANE_EVIDENCE_COVERAGE_POST_FLUX1_ASSET_AUTHORITY_20260710T223000-0500.json",
+  "diagnosis": {
+    "normal_candidate_rejected_for_its_own_lane_contract": false,
+    "validator_status_vocabulary_stale_for_current_lane_statuses": true,
+    "default_coverage_still_reports_flux1_dev_primary_base_failed": true,
+    "safe_to_edit_authoritative_queue_now": false
+  },
+  "artifacts": [
+    {
+      "path": "runtime_artifacts/runtime_lane_selection/20260713T100637-0500-normal/runtime_lane_queue_normal_candidate.json",
+      "sha256": "e659edaa461d4be0d5374cbcd20c528354650d88f6eea7bdd499daee4f51afab"
+    },
+    {
+      "path": "runtime_artifacts/runtime_lane_selection/20260713T100637-0500-normal/runtime_lane_queue_normal_candidate_validation.json",
+      "sha256": "6641caee9dfb92bc0a58fe3c5cbbf2abb52bacce426b94dd4c5ad29339c0cb2d"
+    }
+  ],
+  "safety_boundary": {
+    "aws_contacted": false,
+    "s3_mutated": false,
+    "scheduler_mutated": false,
+    "ssm_command_sent": false,
+    "ec2_started_or_stopped": false,
+    "generation_executed": false,
+    "authoritative_queue_mutated": false,
+    "git_mutated_by_validation": false
+  },
+  "rerun_policy": "Do not repeat this queue activation validation until Test-RuntimeLaneQueue.ps1 status vocabulary or the authored-lane coverage policy/evidence changes.",
+  "next_action": "Implement one bounded validator-policy correction for current completed/blocking lane statuses and explicitly deferred license-gated Flux coverage, then rerun the temporary Normal queue validation once."
+}

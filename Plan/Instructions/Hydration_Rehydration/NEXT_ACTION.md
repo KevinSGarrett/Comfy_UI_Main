@@ -1,3 +1,11 @@
+## Normal Queue Activation Validation Blocker - 2026-07-13T10:54:00-05:00
+
+A temporary Normal-selected queue copy failed the existing local validator with 8 checks. The authoritative queue was not edited. Five lane statuses use current valid/blocking vocabulary not accepted by `Test-RuntimeLaneQueue.ps1`, and the validator's default authored-lane coverage evidence still reports license-gated Flux failed. Do not repeat the queue activation check until one of those inputs changes.
+
+Next: implement one bounded validator-policy correction for current lane statuses and explicitly deferred license-gated Flux coverage, then rerun the temporary Normal queue validation once. Keep `rw-normal-20260713T105243-0500-57f1f908`, EC2 stopped, and every execution permission false.
+
+Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_QUEUE_ACTIVATION_BLOCKER_20260713T105400-0500.json`; `Plan/Tracker/Evidence/W64_NORMAL_QUEUE_ACTIVATION_BLOCKER_20260713T105400-0500.json`.
+
 ## Normal Runtime-Window Contract - 2026-07-13T10:52:43-05:00
 
 The local-only Normal runtime-window intent contract is structurally valid but never authorizes execution: `contract_valid=false`, `execution_authorized=false`, and every permission/mutation field is false. Its shared binding ID is `rw-normal-20260713T105243-0500-57f1f908`. Current blockers are `queue_lane_not_selected`, `queue_permission_denied_by_file`, `live_emergency_stop_schedule_missing`, and `ssm_watchdog_proof_missing`. Flux remains current, EC2 remains stopped, and no AWS mutation occurred.

@@ -1,3 +1,9 @@
+## Normal Queue Activation Validation Blocker - 2026-07-13T10:54:00-05:00
+
+Continue from the one-time temporary Normal queue validation blocker. Do not mutate the authoritative queue or rerun activation until the stale accepted-status vocabulary and deferred license-gated Flux coverage policy are corrected in one bounded implementation pass. Preserve runtime window `rw-normal-20260713T105243-0500-57f1f908`, all false permissions, and stopped EC2 state.
+
+Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_QUEUE_ACTIVATION_BLOCKER_20260713T105400-0500.json`; `Plan/Tracker/Evidence/W64_NORMAL_QUEUE_ACTIVATION_BLOCKER_20260713T105400-0500.json`.
+
 ## Normal Runtime-Window Contract - 2026-07-13T10:52:43-05:00
 
 Continue the autonomous project from the blocked Normal runtime-window contract `rw-normal-20260713T105243-0500-57f1f908`. The contract is local-only and structurally coherent, but `contract_valid=false`, `execution_authorized=false`, and all permissions remain false. Preserve Flux as the current queue lane and keep EC2 stopped until a later clean, explicit queue-authorized Normal window binds both Row042 live controls to this same ID before any start.
