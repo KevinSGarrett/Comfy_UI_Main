@@ -1,3 +1,131 @@
+function ConvertTo-EC2SafetyGitRelativePath {
+  param([AllowNull()][object]$Path)
+  if ($null -eq $Path) { return "" }
+  $value = ([string]$Path).Trim().Replace("\", "/")
+  while ($value.StartsWith("./")) { $value = $value.Substring(2) }
+  return $value.Trim("/")
+}
+
+function Test-EC2SafetyGitPathUnderRoot {
+  param(
+    [Parameter(Mandatory=$true)][string]$Path,
+    [Parameter(Mandatory=$true)][string]$Root
+  )
+  $normalizedPath = ConvertTo-EC2SafetyGitRelativePath $Path
+  $normalizedRoot = ConvertTo-EC2SafetyGitRelativePath $Root
+  if ([string]::IsNullOrWhiteSpace($normalizedPath) -or [string]::IsNullOrWhiteSpace($normalizedRoot)) { return $false }
+  return ($normalizedPath -eq $normalizedRoot -or $normalizedPath.StartsWith("$normalizedRoot/"))
+}
+
+function Get-EC2SafetyPorcelainPath {
+  param([string]$Line)
+  if ([string]::IsNullOrWhiteSpace($Line)) { return "" }
+  if ($Line.Length -gt 3) { return ConvertTo-EC2SafetyGitRelativePath $Line.Substring(3).Trim() }
+  return ConvertTo-EC2SafetyGitRelativePath $Line.Trim()
+}
+
+function Resolve-GitCheckpointCleanliness {
+  param(
+    [string[]]$PorcelainLines = @(),
+    [string[]]$PreservedExcludePath = @()
+  )
+
+  $normalizedExcludes = @($PreservedExcludePath | ForEach-Object { ConvertTo-EC2SafetyGitRelativePath $_ } | Where-Object { ![string]::IsNullOrWhiteSpace($_) } | Select-Object -Unique)
+  $stagedPaths = New-Object System.Collections.ArrayList
+  $excludedDirtyPaths = New-Object System.Collections.ArrayList
+  $unexpectedDirtyPaths = New-Object System.Collections.ArrayList
+
+  foreach ($line in @($PorcelainLines | Where-Object { ![string]::IsNullOrWhiteSpace($_) })) {
+    $path = Get-EC2SafetyPorcelainPath $line
+    if ([string]::IsNullOrWhiteSpace($path)) {
+      [void]$unexpectedDirtyPaths.Add([string]$line)
+      continue
+    }
+    $indexStatus = $(if ($line.Length -ge 1) { $line.Substring(0, 1) } else { "?" })
+    $isStaged = ($indexStatus -ne " " -and $indexStatus -ne "?")
+    if ($isStaged) {
+      [void]$stagedPaths.Add($path)
+      continue
+    }
+    $excluded = $false
+    foreach ($excludePath in $normalizedExcludes) {
+      if (Test-EC2SafetyGitPathUnderRoot -Path $path -Root $excludePath) {
+        $excluded = $true
+        break
+      }
+    }
+    if ($excluded) { [void]$excludedDirtyPaths.Add($path) } else { [void]$unexpectedDirtyPaths.Add($path) }
+  }
+
+  $actualClean = (@($PorcelainLines | Where-Object { ![string]::IsNullOrWhiteSpace($_) }).Count -eq 0)
+  $effectiveClean = ($stagedPaths.Count -eq 0 -and $unexpectedDirtyPaths.Count -eq 0)
+  return [pscustomobject][ordered]@{
+    actual_clean = $actualClean
+    effective_clean = $effectiveClean
+    normalized_exclude_paths = @($normalizedExcludes)
+    staged_paths = @($stagedPaths)
+    excluded_dirty_paths = @($excludedDirtyPaths)
+    unexpected_dirty_paths = @($unexpectedDirtyPaths)
+    porcelain_count = @($PorcelainLines | Where-Object { ![string]::IsNullOrWhiteSpace($_) }).Count
+    staged_count = $stagedPaths.Count
+    excluded_dirty_count = $excludedDirtyPaths.Count
+    unexpected_dirty_count = $unexpectedDirtyPaths.Count
+  }
+}
+
+function Get-LocalGitCheckpointGate {
+  param(
+    [Parameter(Mandatory=$true)][string]$ProjectRoot,
+    [string[]]$PreservedExcludePath = @()
+  )
+
+  $result = [ordered]@{
+    git_root = $null
+    head = $null
+    origin_main = $null
+    expected_remote_head = $null
+    local_matches_origin = $false
+    actual_clean = $false
+    effective_clean = $false
+    clean = $false
+    porcelain_count = $null
+    staged_count = $null
+    excluded_dirty_count = $null
+    unexpected_dirty_count = $null
+    normalized_exclude_paths = @()
+    staged_paths = @()
+    excluded_dirty_paths = @()
+    unexpected_dirty_paths = @()
+    remote = $null
+    result = "fail"
+    error = $null
+  }
+  try {
+    $result.git_root = (git -C $ProjectRoot rev-parse --show-toplevel 2>$null | Select-Object -First 1)
+    if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace([string]$result.git_root)) { throw "Project root is not a Git checkout." }
+    $result.head = (git -C $ProjectRoot rev-parse HEAD 2>$null | Select-Object -First 1)
+    if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace([string]$result.head)) { throw "Unable to resolve local HEAD." }
+    $result.origin_main = (git -C $ProjectRoot rev-parse origin/main 2>$null | Select-Object -First 1)
+    if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace([string]$result.origin_main)) { throw "Unable to resolve origin/main." }
+    $result.expected_remote_head = $result.origin_main
+    $result.local_matches_origin = ([string]$result.head -eq [string]$result.origin_main)
+    $porcelain = @(git -C $ProjectRoot status --porcelain 2>$null)
+    if ($LASTEXITCODE -ne 0) { throw "Unable to read Git porcelain status." }
+    $cleanliness = Resolve-GitCheckpointCleanliness -PorcelainLines $porcelain -PreservedExcludePath $PreservedExcludePath
+    foreach ($name in @("actual_clean", "effective_clean", "porcelain_count", "staged_count", "excluded_dirty_count", "unexpected_dirty_count", "normalized_exclude_paths", "staged_paths", "excluded_dirty_paths", "unexpected_dirty_paths")) {
+      $result[$name] = $cleanliness.$name
+    }
+    $result.clean = $cleanliness.effective_clean
+    $remoteLines = @(git -C $ProjectRoot remote -v 2>$null)
+    $result.remote = (($remoteLines | Where-Object { $_ -match "^origin\s+" }) | Select-Object -First 1)
+    $result.result = $(if ($result.local_matches_origin -and $result.effective_clean) { "pass" } else { "fail" })
+  } catch {
+    $result.error = $_.Exception.Message
+    $result.result = "fail"
+  }
+  return [pscustomobject]$result
+}
+
 function Test-EC2RuntimeSafetyProperty {
   param(
     [object]$Object,

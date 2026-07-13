@@ -9289,3 +9289,8 @@ The preserved Normal window `rw-normal-20260713T105243-0500-57f1f908` now has lo
 Next: checkpoint this safety-gate unit. The next live action, only when the full Git/auth/readiness gate is current, is to create and verify the same-ID emergency-stop schedule while EC2 is stopped, then run the bounded Normal EC2 static-proof entrypoint. That entrypoint must attach the watchdog before its proof command and stop the instance in `finally`. Do not run generation until a lane-matched static proof and refreshed readiness allow it.
 
 Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_RUNTIME_WINDOW_MARKER_PLAN_D9E45517_20260713T120500-0500.json`; `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_EC2_RUNTIME_WINDOW_SAFETY_GATE_REGRESSION_D9E45517_20260713T121500-0500.json`.
+## Explicit Preserved-Dirty Git Gate Ready - 2026-07-13T12:17:00-05:00
+
+Both EC2 entrypoints now share a fail-closed scoped Git gate. `HEAD` must match `origin/main`, staged changes always block, and only explicit caller-supplied unstaged/untracked paths may be preserved. With no exclusions, behavior remains full-clean only. The combined runtime safety and Git-scope regression passes 20/20.
+
+Next: checkpoint this gate, then dry-run the Normal static-proof entrypoint with the exact seven currently preserved unrelated paths. If the effective Git gate passes and only the dry-run emergency schedule blocks execution, create the same-ID live emergency schedule immediately before the bounded static-proof window; keep generation disabled.

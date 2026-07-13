@@ -31,6 +31,7 @@ param(
   [string]$RuntimeWindowId = "",
   [string]$EmergencyStopEvidencePath = "",
   [string]$WatchdogEvidenceOutFile = "",
+  [string[]]$PreservedGitExcludePath = @(),
   [string]$OutFile = "",
   [string]$OutRequestFile = "",
   [string]$RunPackageManifestFile = "",
@@ -537,54 +538,6 @@ function Get-ReadinessStatus {
   return $result
 }
 
-function Get-LocalGitCheckpointGate {
-  $result = [ordered]@{
-    git_root = $null
-    head = $null
-    origin_main = $null
-    expected_remote_head = $null
-    local_matches_origin = $false
-    clean = $false
-    porcelain_count = $null
-    remote = $null
-    result = "fail"
-    error = $null
-  }
-
-  try {
-    Push-Location $ProjectRoot
-    try {
-      $result.git_root = (git rev-parse --show-toplevel 2>$null)
-      if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace([string]$result.git_root)) {
-        throw "Project root is not a Git checkout."
-      }
-      $result.head = (git rev-parse HEAD 2>$null)
-      if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace([string]$result.head)) {
-        throw "Unable to resolve local HEAD."
-      }
-      $result.origin_main = (git rev-parse origin/main 2>$null)
-      if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace([string]$result.origin_main)) {
-        throw "Unable to resolve origin/main."
-      }
-      $result.expected_remote_head = $result.origin_main
-      $result.local_matches_origin = ([string]$result.head -eq [string]$result.origin_main)
-      $porcelain = @(git status --porcelain 2>$null)
-      $result.porcelain_count = $porcelain.Count
-      $result.clean = ($porcelain.Count -eq 0)
-      $remoteLines = @(git remote -v 2>$null)
-      $result.remote = (($remoteLines | Where-Object { $_ -match "^origin\s+" }) | Select-Object -First 1)
-      $result.result = $(if ($result.local_matches_origin -and $result.clean) { "pass" } else { "fail" })
-    } finally {
-      Pop-Location
-    }
-  } catch {
-    $result.error = $_.Exception.Message
-    $result.result = "fail"
-  }
-
-  return $result
-}
-
 function Invoke-SmokeRequestDryRun {
   param(
     [string]$SmokeScript,
@@ -769,7 +722,7 @@ $laneContractValid = (@($laneContracts | Where-Object { -not $_.exists -or -not 
 $authGate = Get-AuthGateStatus -Path $AuthGateFile
 $readinessGate = Get-ReadinessStatus -Path $ReadinessFile
 $staticProof = Test-StaticProof -Path $StaticProofFile
-$localGitGate = Get-LocalGitCheckpointGate
+$localGitGate = Get-LocalGitCheckpointGate -ProjectRoot $ProjectRoot -PreservedExcludePath $PreservedGitExcludePath
 $runPackage = Get-RunPackageStatus -Path $RunPackageManifestFile
 $runtimeWindowIdValid = ($RuntimeWindowId -cmatch "^[A-Za-z0-9][A-Za-z0-9_.-]{7,127}$")
 $emergencyStopGate = Get-EmergencyStopScheduleStatus -Path $EmergencyStopEvidencePath -ExpectedWindowId $RuntimeWindowId -ExpectedInstanceId $InstanceId -ExpectedRegion $Region
@@ -820,7 +773,7 @@ if ($InstanceId -ne "i-0560bf8d143f93bb1") {
 } elseif ($runPackage.supplied -and !$runPackage.valid) {
   $gateFailureCategory = "run_package_invalid"
 } elseif ($localGitGate.result -ne "pass") {
-  $gateFailureCategory = $(if ($localGitGate.clean -ne $true) { "local_git_worktree_dirty" } elseif ($localGitGate.local_matches_origin -ne $true) { "local_git_not_synced_to_origin" } else { "local_git_checkpoint_invalid" })
+  $gateFailureCategory = $(if ([int]$localGitGate.staged_count -gt 0) { "local_git_staged_changes_present" } elseif ([int]$localGitGate.unexpected_dirty_count -gt 0) { "local_git_unexpected_dirty_paths" } elseif ($localGitGate.local_matches_origin -ne $true) { "local_git_not_synced_to_origin" } else { "local_git_checkpoint_invalid" })
 } elseif (!$authGate.safe_to_start_ec2) {
   $gateFailureCategory = $(if (![string]::IsNullOrWhiteSpace([string]$authGate.failure_category)) { [string]$authGate.failure_category } else { "aws_auth_blocked" })
 } elseif ($readinessGate.found -and !$readinessGate.lane_match) {

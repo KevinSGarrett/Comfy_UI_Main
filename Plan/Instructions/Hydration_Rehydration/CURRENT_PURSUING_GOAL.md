@@ -7204,3 +7204,6 @@ This does not alter the manual body-gold-mask boundary, permit mask promotion or
 ## Current Pursuing Goal - Normal Static Proof Under Same-Window Controls - 2026-07-13T12:10:00-05:00
 
 Continue the autonomous project from the selected Normal lane and published current-source bundle. Checkpoint the implemented same-window EC2 safety gate, then create the live emergency-stop schedule for `rw-normal-20260713T105243-0500-57f1f908` only immediately before the bounded static-proof window. The static-proof executor must verify that schedule before start, attach and verify the same-window watchdog after SSM is online, run no generation, and always return the approved instance to `stopped`.
+## Current Pursuing Goal - Scoped-Clean Normal Static Proof - 2026-07-13T12:17:00-05:00
+
+Checkpoint and validate the explicit preserved-dirty Git gate, then advance the selected Normal lane into one bounded same-window EC2 static-proof window. Preserve only the seven known unrelated dirty paths, require zero staged or unexpected paths and `HEAD == origin/main`, verify the live schedule before start, verify the watchdog before proof, run no generation, and return EC2 to stopped.

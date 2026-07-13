@@ -141,6 +141,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instru
 
 Both commands are dry-run by default and must use the same `RuntimeWindowId`. The cloud-side emergency-stop schedule is created and verified first while the instance remains stopped. EC2 start authority is still separate. Both live EC2 entrypoints reject missing, dry-run-only, or mismatched schedule evidence before any start. After SSM becomes online, each entrypoint launches `Start-EC2InstanceStopWatchdog.ps1 -Execute` with that same ID and blocks its proof or prompt command until the watchdog capability record is verified. Add `-Execute` only for the matching phase after AWS auth, IAM permissions, Git checkpoint, selected-lane readiness, and the intended bounded window are current. The passive queue boundary flags remain false and are not live authority switches.
 
+When unrelated user or automation files must remain locally dirty, pass each exact file or intended directory prefix through `-PreservedGitExcludePath`. The shared Git gate reports actual and effective cleanliness separately. It still requires `HEAD == origin/main`, never supplies default exclusions, rejects every staged path even if it matches an exclusion, and blocks every unstaged or untracked path not covered by the explicit list. This option accounts for preserved local work; it does not authorize broad dirty-source execution.
+
 Runtime-window marker plan:
 
 ```powershell

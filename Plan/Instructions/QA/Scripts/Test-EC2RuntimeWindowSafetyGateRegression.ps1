@@ -114,6 +114,14 @@ try {
   $staticOrdering = Test-ExecutorOrdering $staticExecutor '$payloadPath = Join-Path $env:TEMP ("codex_ec2_lane_static_proof_'
   $smokeOrdering = Test-ExecutorOrdering $smokeExecutor '$payloadPath = Join-Path $env:TEMP ("codex_ec2_workflow_smoke_'
   $queue = Get-Content -LiteralPath $queueFile -Raw | ConvertFrom-Json
+  $gitEmpty = Resolve-GitCheckpointCleanliness -PorcelainLines @() -PreservedExcludePath @()
+  $gitDirtyNoExclude = Resolve-GitCheckpointCleanliness -PorcelainLines @(" M Plan/a.json") -PreservedExcludePath @()
+  $gitExactExclude = Resolve-GitCheckpointCleanliness -PorcelainLines @(" M Plan/a.json") -PreservedExcludePath @("Plan/a.json")
+  $gitPrefixPartial = Resolve-GitCheckpointCleanliness -PorcelainLines @(" M Plan/a.json", "?? tools/new.ps1") -PreservedExcludePath @("Plan")
+  $gitStagedExcluded = Resolve-GitCheckpointCleanliness -PorcelainLines @("M  Plan/a.json") -PreservedExcludePath @("Plan/a.json")
+  $gitNormalizedExclude = Resolve-GitCheckpointCleanliness -PorcelainLines @("?? tools/new.ps1") -PreservedExcludePath @(".\tools\")
+  $gitTypoExclude = Resolve-GitCheckpointCleanliness -PorcelainLines @("?? tools/new.ps1") -PreservedExcludePath @("tool")
+  $helperText = Get-Content -LiteralPath $helper -Raw
 
   $tests = @(
     (New-Test "valid_live_schedule_accepted" $validScheduleStatus.verified $validScheduleStatus.status "pass"),
@@ -127,7 +135,15 @@ try {
     (New-Test "static_watchdog_after_ssm_before_payload" ($staticOrdering.ssm_before_watchdog -and $staticOrdering.watchdog_before_payload) $staticOrdering.indexes "ssm < watchdog < payload"),
     (New-Test "smoke_emergency_gate_before_start" $smokeOrdering.emergency_gate_before_start $smokeOrdering.indexes "gate before start"),
     (New-Test "smoke_watchdog_after_ssm_before_payload" ($smokeOrdering.ssm_before_watchdog -and $smokeOrdering.watchdog_before_payload) $smokeOrdering.indexes "ssm < watchdog < payload"),
-    (New-Test "queue_boundary_remains_fail_closed" (-not [bool]$queue.runtime_boundary.ec2_start_allowed_by_queue_file -and -not [bool]$queue.runtime_boundary.generation_allowed_by_queue_file) $queue.runtime_boundary "both flags false")
+    (New-Test "queue_boundary_remains_fail_closed" (-not [bool]$queue.runtime_boundary.ec2_start_allowed_by_queue_file -and -not [bool]$queue.runtime_boundary.generation_allowed_by_queue_file) $queue.runtime_boundary "both flags false"),
+    (New-Test "git_no_excludes_empty_is_clean" ($gitEmpty.actual_clean -and $gitEmpty.effective_clean) $gitEmpty "actual and effective clean"),
+    (New-Test "git_no_excludes_dirty_blocks" (-not $gitDirtyNoExclude.effective_clean -and $gitDirtyNoExclude.unexpected_dirty_count -eq 1) $gitDirtyNoExclude "one unexpected dirty path"),
+    (New-Test "git_exact_exclude_is_effectively_clean" (-not $gitExactExclude.actual_clean -and $gitExactExclude.effective_clean -and $gitExactExclude.excluded_dirty_count -eq 1) $gitExactExclude "actual dirty, effective clean"),
+    (New-Test "git_prefix_exclude_does_not_hide_uncovered_path" (-not $gitPrefixPartial.effective_clean -and $gitPrefixPartial.excluded_dirty_count -eq 1 -and $gitPrefixPartial.unexpected_dirty_count -eq 1) $gitPrefixPartial "one excluded and one unexpected"),
+    (New-Test "git_staged_path_blocks_even_when_excluded" (-not $gitStagedExcluded.effective_clean -and $gitStagedExcluded.staged_count -eq 1 -and $gitStagedExcluded.excluded_dirty_count -eq 0) $gitStagedExcluded "staged always blocks"),
+    (New-Test "git_exclude_normalization_matches" ($gitNormalizedExclude.effective_clean -and $gitNormalizedExclude.excluded_dirty_count -eq 1) $gitNormalizedExclude "normalized prefix match"),
+    (New-Test "git_typo_exclude_fails_closed" (-not $gitTypoExclude.effective_clean -and $gitTypoExclude.unexpected_dirty_count -eq 1) $gitTypoExclude "typo does not match"),
+    (New-Test "git_origin_match_remains_required" ($helperText -match '\$result\.local_matches_origin\s+-and\s+\$result\.effective_clean') "source contract present" "origin and effective cleanliness required")
   )
 
   $failed = @($tests | Where-Object result -ne "pass")
