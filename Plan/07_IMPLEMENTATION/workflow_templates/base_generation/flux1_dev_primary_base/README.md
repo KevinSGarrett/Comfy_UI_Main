@@ -5,17 +5,20 @@ This directory contains the API workflow and patch/runtime contracts for the
 Schnell branch in the authoritative Main Flow and retargeted to the declared
 Flux1 Dev checkpoint with higher-quality static settings.
 
-## Current blocker
+## Current state
 
 The workflow is statically implemented. The immutable Comfy-Org revision,
-licensed source, byte count, and checkpoint SHA256 are recorded, but a matching
-local model file is not present. `runtime_requirements.json` keeps the lane
-fail-closed until license-authorized installation and observed-hash validation.
-The local installer is dry-run by default, resumes through a `.partial` file,
-requires a hash-bound noncommercial acceptance record before network contact,
-and atomically installs only after exact byte-count and SHA256 verification.
-The checked-in acceptance template is deliberately `accepted: false`; changing
-it is a legal-use assertion, not an automation or Codex approval prompt.
+licensed source, byte count, and checkpoint SHA256 are recorded. The existing
+checkpoint at `C:\Comfy_UI\Runtime_Data` is exposed through ComfyUI's configured
+external model path and matches the required SHA256, so no download, copy, or
+duplicate installation is needed. The evidence records static presence only.
+
+`runtime_requirements.json` remains fail-closed for use-rights and runtime proof.
+The local installer remains available for a future authorized replacement, is
+dry-run by default, resumes through a `.partial` file, requires a hash-bound
+noncommercial acceptance record before network contact, and installs only after
+exact verification. The checked-in acceptance template remains `accepted:
+false`; changing it is a legal-use assertion, not an automation approval.
 
 Both checked-in mirrors intentionally use the canonical Plan workflow path in
 their metadata. `Workflows/base_generation/ACTIVE_LANES.json` exposes the
@@ -24,5 +27,6 @@ remain byte-identical.
 
 ## Promotion rule
 
-This template is not promoted until object_info, model path/hash, model-loading,
-output, technical QA, and visual QA evidence pass.
+This template is not promoted until use rights are documented and live
+object_info/model listing, model loading, output, technical QA, visual QA, and
+target-runtime evidence pass.

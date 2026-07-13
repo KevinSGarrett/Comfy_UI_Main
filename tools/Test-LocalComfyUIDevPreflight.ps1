@@ -92,6 +92,97 @@ function Get-Sha256 {
   return (Get-FileHash -Algorithm SHA256 -LiteralPath $Path).Hash.ToLowerInvariant()
 }
 
+function Get-ExtraModelSearchRecord {
+  param(
+    [Parameter(Mandatory=$true)][string]$ComfyRoot,
+    [Parameter(Mandatory=$true)][string]$PythonPath,
+    [Parameter(Mandatory=$true)][string]$Root
+  )
+
+  $configCandidates = @(
+    (Join-Path $ComfyRoot "extra_model_paths.yaml"),
+    (Join-Path $Root "config\comfyui_extra_model_paths.yaml")
+  ) | Select-Object -Unique
+  $existingConfigs = @($configCandidates | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf })
+  $record = [ordered]@{
+    status = $(if ($existingConfigs.Count -gt 0) { "pending" } else { "not_configured" })
+    python = $PythonPath
+    config_files = @($existingConfigs | ForEach-Object { ConvertTo-ProjectRelativePath -Path $_ })
+    paths_by_type = [ordered]@{}
+    error = $null
+  }
+  if ($existingConfigs.Count -eq 0) { return $record }
+
+  $probe = @'
+import json, os, sys
+import yaml
+
+result = {'paths_by_type': {}, 'loaded_configs': [], 'errors': []}
+for config_path in sys.argv[1:]:
+    try:
+        with open(config_path, 'r', encoding='utf-8') as stream:
+            config = yaml.safe_load(stream)
+        if not isinstance(config, dict):
+            raise ValueError('top-level YAML value must be a mapping')
+        yaml_dir = os.path.dirname(os.path.abspath(config_path))
+        for section_name, raw_section in config.items():
+            if raw_section is None:
+                continue
+            if not isinstance(raw_section, dict):
+                raise ValueError(f'section {section_name!r} must be a mapping or null')
+            section = dict(raw_section)
+            base_path = section.pop('base_path', None)
+            section.pop('is_default', None)
+            if base_path is not None:
+                if not isinstance(base_path, str):
+                    raise ValueError(f'section {section_name!r} base_path must be a string')
+                base_path = os.path.expandvars(os.path.expanduser(base_path))
+                if not os.path.isabs(base_path):
+                    base_path = os.path.abspath(os.path.join(yaml_dir, base_path))
+            for model_type, raw_paths in section.items():
+                if not isinstance(raw_paths, str):
+                    raise ValueError(f'section {section_name!r} value {model_type!r} must be a string')
+                for configured_path in raw_paths.split('\n'):
+                    if not configured_path:
+                        continue
+                    full_path = configured_path
+                    if base_path:
+                        full_path = os.path.join(base_path, full_path)
+                    elif not os.path.isabs(full_path):
+                        full_path = os.path.abspath(os.path.join(yaml_dir, full_path))
+                    normalized = os.path.normpath(os.path.expandvars(os.path.expanduser(full_path)))
+                    result['paths_by_type'].setdefault(model_type, []).append(normalized)
+        result['loaded_configs'].append(os.path.abspath(config_path))
+    except Exception as error:
+        result['errors'].append({'config': os.path.abspath(config_path), 'error': str(error)})
+
+for model_type, paths in result['paths_by_type'].items():
+    result['paths_by_type'][model_type] = list(dict.fromkeys(paths))
+print(json.dumps(result))
+'@
+
+  try {
+    $raw = @(& $PythonPath -c $probe @existingConfigs 2>&1)
+    if ($LASTEXITCODE -ne 0) {
+      throw "extra-model path parser exited with code $LASTEXITCODE`: $($raw -join ' ')"
+    }
+    $parsed = ($raw | Out-String | ConvertFrom-Json)
+    if (@($parsed.errors).Count -gt 0) {
+      $record.status = "invalid_config"
+      $record.error = (@($parsed.errors | ForEach-Object { "$($_.config): $($_.error)" }) -join "; ")
+      return $record
+    }
+    foreach ($property in @($parsed.paths_by_type.PSObject.Properties)) {
+      $record.paths_by_type[$property.Name] = @($property.Value | ForEach-Object { ConvertTo-ProjectRelativePath -Path ([string]$_) })
+    }
+    $record.status = "ready"
+  } catch {
+    $record.status = "invalid_config"
+    $record.error = $_.Exception.Message
+  }
+  return $record
+}
+
 if (!(Test-Path -LiteralPath $ProjectRoot)) {
   throw "Project root not found: $ProjectRoot"
 }
@@ -180,6 +271,14 @@ try {
 Add-Check -Checks $checks -Name "python_torch_imports" -Passed ([bool]$pythonRecord.torch_imported) -Observed $pythonRecord
 Add-Check -Checks $checks -Name "python_torch_cuda_available" -Passed ([bool]$pythonRecord.torch_cuda_available) -Observed $pythonRecord -Message "CUDA-enabled Torch is required for useful local GPU generation; CPU Torch can still support limited CLI/import checks."
 
+$extraModelSearch = if ($localComfy.Count -gt 0) {
+  Get-ExtraModelSearchRecord -ComfyRoot ([string]$localComfy[0].path) -PythonPath ([string]$pythonRecord.python) -Root $ProjectRoot
+} else {
+  [ordered]@{ status = "not_evaluated_no_comfyui"; python = [string]$pythonRecord.python; config_files = @(); paths_by_type = [ordered]@{}; error = $null }
+}
+$extraModelConfigValid = ([string]$extraModelSearch.status -notin @("invalid_config", "not_evaluated_no_comfyui"))
+Add-Check -Checks $checks -Name "extra_model_path_config_valid" -Passed $extraModelConfigValid -Observed $extraModelSearch -Message "Configured external model roots must parse with ComfyUI-compatible YAML path semantics."
+
 $modelRoots = @(
   (Join-Path $ProjectRoot "models")
 ) | ForEach-Object {
@@ -232,8 +331,19 @@ try {
           $candidatePaths += (Join-Path ([string]$localComfy[0].path) (Join-Path "models" (Join-Path $subdir $filename)))
         }
         $candidatePaths += (Join-Path $ProjectRoot (Join-Path "models" (Join-Path $subdir $filename)))
+        if ($extraModelSearch.paths_by_type.Contains($subdir)) {
+          foreach ($externalRoot in @($extraModelSearch.paths_by_type[$subdir])) {
+            $resolvedExternalRoot = if ([System.IO.Path]::IsPathRooted([string]$externalRoot)) {
+              [System.IO.Path]::GetFullPath([string]$externalRoot)
+            } else {
+              [System.IO.Path]::GetFullPath((Join-Path $ProjectRoot ([string]$externalRoot)))
+            }
+            $candidatePaths += (Join-Path $resolvedExternalRoot $filename)
+          }
+        }
+        $candidatePaths = @($candidatePaths | Select-Object -Unique)
       }
-      $existingPath = @($candidatePaths | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1)
+      $existingPath = @($candidatePaths | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf } | Select-Object -First 1)
       $observedSha256 = if ($existingPath.Count -gt 0) { Get-Sha256 -Path ([string]$existingPath[0]) } else { "" }
       $hashMatch = ($modelContractValid -and $existingPath.Count -gt 0 -and $observedSha256 -eq $expectedSha256.ToLowerInvariant())
       if ($hashMatch) {
@@ -314,6 +424,7 @@ $runnableLocalDev = (
   (($gpuRecord.memory_total_mib -as [int]) -ge 7000) -and
   ($localComfy.Count -gt 0) -and
   [bool]$pythonRecord.torch_imported -and
+  $extraModelConfigValid -and
   $requiredModelContractsValid -and
   ([string]$staticValidation.qa_status -eq "pass")
 )
@@ -347,6 +458,7 @@ $record = [ordered]@{
     candidates = $comfyCandidates
   }
   local_model_roots = $modelRoots
+  configured_extra_model_paths = $extraModelSearch
   runtime_requirements = $runtimeRequirementsRecord
   local_required_models = $requiredModelChecks
   static_validation = $staticValidation

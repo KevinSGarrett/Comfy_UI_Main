@@ -22,6 +22,7 @@ TRACKER_EVIDENCE_DIR = PLAN_ROOT / "Tracker/Evidence"
 TRACKER_CANONICAL_MIRROR = TRACKER_EVIDENCE_DIR / "Wave64/workflow_static_validation.json"
 HYDRATION_DIR = PLAN_ROOT / "Instructions/Hydration_Rehydration"
 RUNTIME_READINESS_DIR = PLAN_ROOT / "Instructions/QA/Evidence/Runtime_Readiness"
+ITEM_REPORT = PLAN_ROOT / "Items/Reports/ITEM-W64-036_workflow_static_validation.json"
 
 ACTIVE_LANES = PROJECT_ROOT / "Workflows/base_generation/ACTIVE_LANES.json"
 PROTOCOL = PLAN_ROOT / "Instructions/QA/COMFYUI_WORKFLOW_TESTING_PROTOCOL.md"
@@ -32,6 +33,7 @@ LANE_CSV = QA_DIR / f"workflow_static_validation_lanes_{STAMP}.csv"
 
 TRACKER_FILES = [
     PLAN_ROOT / "Tracker/wave64_end_to_end_strict_ai_tracker.csv",
+    PLAN_ROOT / "Tracker/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_TRACKER_ROWS.csv",
 ]
 ITEM_FILES = [
     PLAN_ROOT / "Items/wave64_end_to_end_strict_ai_itemized_list.csv",
@@ -48,6 +50,10 @@ MODEL_INPUT_KEYS = {
     "model_name",
     "upscale_model_name",
 }
+FLUX_LANE_ID = "flux1_dev_primary_base"
+FLUX_MODEL_FILENAME = "flux1-dev-fp8.safetensors"
+FLUX_MODEL_SHA256 = "8e91b68084b53a7fc44ed2a3756d821e355ac1a7b6fe29be760c1db532f3d88a"
+FLUX_MODEL_BYTES = 17246524772
 
 
 def rel(path: Path) -> str:
@@ -124,6 +130,107 @@ def latest_object_info() -> tuple[Path | None, dict[str, object]]:
             if is_valid_raw_object_info_map(candidate):
                 return path, dict(candidate)
     return None, {}
+
+
+def latest_flux_model_preflight() -> tuple[Path | None, dict[str, object], dict[str, str], list[str], dict[str, object]]:
+    issues: list[str] = []
+    current_rehash: dict[str, object] = {
+        "attempted": False,
+        "path": "",
+        "observed_bytes": 0,
+        "observed_sha256": "",
+        "size_match": False,
+        "hash_match": False,
+    }
+    candidates = sorted(
+        RUNTIME_READINESS_DIR.glob("W66_FLUX1_DEV_EXISTING_EXTERNAL_MODEL_PREFLIGHT_*.json"),
+        key=lambda p: p.stat().st_mtime,
+        reverse=True,
+    )
+    if not candidates:
+        return None, {}, {}, ["flux_external_model_preflight_missing"], current_rehash
+    path = candidates[0]
+    try:
+        payload = read_json(path)
+    except Exception as exc:
+        return path, {}, {}, [f"flux_external_model_preflight_parse_failed:{exc}"], current_rehash
+    if not isinstance(payload, dict):
+        return path, {}, {}, ["flux_external_model_preflight_not_object"], current_rehash
+
+    expected_top = {
+        "lane_id": FLUX_LANE_ID,
+        "result": "pass_local_gpu_generation_candidate",
+        "failed_check_count": 0,
+        "local_only": True,
+        "aws_contacted": False,
+        "comfyui_contacted": False,
+        "ec2_started": False,
+        "generation_executed": False,
+        "local_dev_replaces_ec2_final_proof": False,
+        "ec2_final_proof_still_required": True,
+    }
+    for key, expected in expected_top.items():
+        if payload.get(key) != expected:
+            issues.append(f"flux_external_model_preflight_{key}_mismatch:{payload.get(key)!r}")
+    extra_paths = payload.get("configured_extra_model_paths")
+    if not isinstance(extra_paths, dict) or extra_paths.get("status") != "ready":
+        issues.append("flux_external_model_paths_not_ready")
+    runtime_req = payload.get("runtime_requirements")
+    if not isinstance(runtime_req, dict):
+        issues.append("flux_external_model_runtime_requirements_missing")
+    else:
+        if runtime_req.get("status") != "ready":
+            issues.append("flux_external_model_runtime_requirements_not_ready")
+        if runtime_req.get("required_model_count") != 1:
+            issues.append("flux_external_model_required_model_count_not_one")
+        if runtime_req.get("hash_verified_model_count") != 1:
+            issues.append("flux_external_model_hash_verified_count_not_one")
+        if runtime_req.get("hash_mismatch_count") != 0:
+            issues.append("flux_external_model_hash_mismatch_present")
+
+    trusted_hits: dict[str, str] = {}
+    models = payload.get("local_required_models")
+    if not isinstance(models, list) or len(models) != 1 or not isinstance(models[0], dict):
+        issues.append("flux_external_model_record_count_not_one")
+    else:
+        model = models[0]
+        expected_model = {
+            "filename": FLUX_MODEL_FILENAME,
+            "comfyui_model_subdir": "checkpoints",
+            "expected_sha256": FLUX_MODEL_SHA256,
+            "observed_sha256": FLUX_MODEL_SHA256,
+            "contract_valid": True,
+            "exists_locally": True,
+            "hash_match": True,
+        }
+        for key, expected in expected_model.items():
+            if model.get(key) != expected:
+                issues.append(f"flux_external_model_{key}_mismatch:{model.get(key)!r}")
+        existing_path = str(model.get("existing_path", ""))
+        if not existing_path:
+            issues.append("flux_external_model_existing_path_missing")
+        else:
+            resolved_model_path = resolve_project_path(existing_path).resolve()
+            current_rehash["attempted"] = True
+            current_rehash["path"] = evidence_path(resolved_model_path)
+            if not resolved_model_path.is_file():
+                issues.append("flux_external_model_current_file_missing")
+            else:
+                observed_bytes = resolved_model_path.stat().st_size
+                observed_sha256 = sha256_file(resolved_model_path)
+                current_rehash.update({
+                    "observed_bytes": observed_bytes,
+                    "observed_sha256": observed_sha256,
+                    "size_match": observed_bytes == FLUX_MODEL_BYTES,
+                    "hash_match": observed_sha256 == FLUX_MODEL_SHA256,
+                })
+                if observed_bytes != FLUX_MODEL_BYTES:
+                    issues.append(f"flux_external_model_current_size_mismatch:{observed_bytes}")
+                if observed_sha256 != FLUX_MODEL_SHA256:
+                    issues.append(f"flux_external_model_current_sha256_mismatch:{observed_sha256}")
+        if not issues:
+            trusted_hits[FLUX_MODEL_FILENAME] = existing_path
+    return path, payload, trusted_hits, issues, current_rehash
 
 
 def collect_model_refs(workflow: dict[str, object]) -> list[str]:
@@ -246,7 +353,12 @@ def model_local_hits(model_refs: list[str]) -> dict[str, str]:
     return hits
 
 
-def validate_lane(lane: dict[str, object], object_info: dict[str, object]) -> dict[str, object]:
+def validate_lane(
+    lane: dict[str, object],
+    object_info: dict[str, object],
+    trusted_flux_model_hits: dict[str, str],
+    flux_preflight_issues: list[str],
+) -> dict[str, object]:
     lane_id = str(lane.get("lane_id", ""))
     workflow_path = resolve_project_path(lane.get("workflow"))
     smoke_path = resolve_project_path(lane.get("smoke_request"))
@@ -313,8 +425,23 @@ def validate_lane(lane: dict[str, object], object_info: dict[str, object]) -> di
 
     refs = collect_model_refs(workflow)
     local_hits = model_local_hits(refs)
+    model_dependency_evidence = "direct_project_model_search"
+    if lane_id == FLUX_LANE_ID:
+        if flux_preflight_issues:
+            local_model_preflight_issues = list(flux_preflight_issues)
+        else:
+            local_model_preflight_issues = []
+            for ref in refs:
+                if ref in trusted_flux_model_hits:
+                    local_hits[ref] = trusted_flux_model_hits[ref]
+            model_dependency_evidence = "hash_verified_configured_external_model_preflight"
+    else:
+        local_model_preflight_issues = []
     missing_local_refs = [ref for ref in refs if ref not in local_hits]
-    local_model_issues = [f"local_model_reference_missing:{ref}" for ref in missing_local_refs]
+    local_model_issues = [
+        *local_model_preflight_issues,
+        *[f"local_model_reference_missing:{ref}" for ref in missing_local_refs],
+    ]
     issues = [*structural_issues, *object_info_issues, *local_model_issues]
     structural_static_pass = parse_pass and not structural_issues
     object_info_static_pass = not object_info_issues
@@ -344,6 +471,9 @@ def validate_lane(lane: dict[str, object], object_info: dict[str, object]) -> di
         "model_reference_count": len(refs),
         "missing_local_model_reference_count": len(missing_local_refs),
         "missing_local_model_references": missing_local_refs,
+        "local_model_hits": local_hits,
+        "model_dependency_evidence": model_dependency_evidence,
+        "external_model_hash_verified": lane_id == FLUX_LANE_ID and not local_model_issues,
         "object_info_missing_node_count": len(missing_object_info),
         "object_info_missing_nodes": missing_object_info,
         "issues": issues[:100],
@@ -384,11 +514,26 @@ def update_csv(path: Path, key: str, key_value: str, updates: dict[str, list[str
 
 def prepend(path: Path, block: str) -> None:
     existing = path.read_text(encoding="utf-8-sig") if path.exists() else ""
+    marker = "## Immediate Next Action - Wave64 Workflow Static Validation"
+    marker_index = existing.find(marker)
+    if marker_index >= 0:
+        next_heading = existing.find("\n## ", marker_index + len(marker))
+        if next_heading >= 0:
+            existing = existing[:marker_index] + existing[next_heading + 1 :]
+        else:
+            existing = existing[:marker_index]
     path.write_text(block.lstrip() + "\n\n" + existing.lstrip(), encoding="utf-8")
 
 
 def append_proof_log(payload: dict[str, object]) -> None:
     proof_path = HYDRATION_DIR / "PROOF_OF_MOVEMENT_LOG.csv"
+    stamped_path = rel(STAMPED_EVIDENCE)
+    with proof_path.open("r", encoding="utf-8-sig", newline="") as f:
+        if any(
+            row.get("Task") == TRACKER_ID and stamped_path in row.get("Evidence_Path", "")
+            for row in csv.DictReader(f)
+        ):
+            return
     line = [
         ISO_TS,
         "64",
@@ -420,7 +565,13 @@ def main() -> None:
     active_lanes_sha256 = sha256_file(ACTIVE_LANES)
     object_info_path, object_info = latest_object_info()
     object_info_evidence_sha256 = sha256_file(object_info_path) if object_info_path and object_info_path.exists() else ""
-    lane_results = [validate_lane(lane, object_info) for lane in lanes if isinstance(lane, dict)]
+    flux_preflight_path, flux_preflight, trusted_flux_model_hits, flux_preflight_issues, flux_current_rehash = latest_flux_model_preflight()
+    flux_preflight_sha256 = sha256_file(flux_preflight_path) if flux_preflight_path and flux_preflight_path.exists() else ""
+    lane_results = [
+        validate_lane(lane, object_info, trusted_flux_model_hits, flux_preflight_issues)
+        for lane in lanes
+        if isinstance(lane, dict)
+    ]
     summary_counts = Counter(str(result["result"]) for result in lane_results)
     failed = [result for result in lane_results if result["result"] != "PASS"]
     failed_issues = [
@@ -508,6 +659,16 @@ def main() -> None:
         "active_lanes_sha256": active_lanes_sha256,
         "object_info_evidence": rel(object_info_path) if object_info_path else "",
         "object_info_evidence_sha256": object_info_evidence_sha256,
+        "flux_external_model_preflight": {
+            "path": rel(flux_preflight_path) if flux_preflight_path else "",
+            "sha256": flux_preflight_sha256,
+            "accepted_for_static_model_presence": not flux_preflight_issues,
+            "issues": flux_preflight_issues,
+            "license_acceptance_asserted": False,
+            "live_model_load_proven": False,
+            "generation_executed": bool(flux_preflight.get("generation_executed", False)),
+            "current_file_rehash": flux_current_rehash,
+        },
         "lane_count": len(lane_results),
         "summary_counts": dict(summary_counts),
         "failed_lane_count": len(failed),
@@ -539,9 +700,11 @@ def main() -> None:
         "removed_lane_ids": removed_lane_ids,
         "current_lane_hashes_by_id": current_lane_hashes_by_id,
         "next_step": (
-            "Provision and hash the exact missing local model asset(s), or record an intentional lane deferral before runtime smoke."
+            "Resolve the exact missing local model dependency evidence before runtime smoke."
             if local_model_only_blocker
-            else "Fix exact static workflow blockers before any runtime smoke, or advance to runtime smoke only if all lanes pass."
+            else "Preserve the static pass; retain the FLUX noncommercial-license and live model-load/output/QA boundaries before execution or promotion."
+            if not failed
+            else "Fix exact static workflow blockers before any runtime smoke."
         ),
     }
     payload["evidence_paths"] = [
@@ -550,6 +713,7 @@ def main() -> None:
         rel(TRACKER_EVIDENCE),
         rel(LANE_CSV),
         rel(TRACKER_CANONICAL_MIRROR),
+        rel(ITEM_REPORT),
     ]
     write_json(EVIDENCE, payload)
     write_json(STAMPED_EVIDENCE, payload)
@@ -599,6 +763,14 @@ def main() -> None:
         }, indent=2))
         return
 
+    completed_status = "Completed_Workflow_Static_Validation_Pass"
+    blocked_status = (
+        "Blocked_Local_Model_Dependency_Evidence_Missing"
+        if local_model_only_blocker
+        else "Blocked_Workflow_Static_Validation_Gaps"
+    )
+    row_status = completed_status if not failed else blocked_status
+
     note = (
         f"Wave64 workflow static validation {STAMP}: checked {len(lane_results)} active base-generation API workflows; "
         f"summary={dict(summary_counts)}; decision={qa_decision}. Static only: no EC2 start, no generation, no mask truth."
@@ -615,7 +787,7 @@ def main() -> None:
             "Tracker_ID",
             TRACKER_ID,
             {
-                "Status": "Required_Tracked_Not_Complete_Until_Evidence_Passes",
+                "Status": row_status,
                 "Status_Decision": qa_decision,
                 "Evidence_Path": payload["evidence_paths"],
                 "Coverage_Audit_Status": coverage_additions,
@@ -629,7 +801,7 @@ def main() -> None:
             "Item_ID",
             ITEM_ID,
             {
-                "Status": "Required_Tracked_Not_Complete_Until_Evidence_Passes",
+                "Status": row_status,
                 "Evidence_Required": payload["evidence_paths"],
                 "Coverage_Audit_Status": coverage_additions,
                 "Notes": [note],
@@ -637,9 +809,9 @@ def main() -> None:
         )
 
     next_action = (
-        "advance to TRK-W64-037 workflow runtime smoke proof only after intentional runtime selection"
+        "retain the FLUX license-rights boundary, then run a bounded local model-list/object_info/model-load proof only after use rights are documented"
         if not failed
-        else "provision and hash the exact missing local model asset(s), or record an intentional lane deferral before runtime smoke"
+        else "resolve the exact missing local model dependency evidence before runtime smoke"
         if local_model_only_blocker
         else "fix the exact static workflow API/object_info blockers recorded in the lane CSV before runtime smoke"
     )
@@ -649,6 +821,8 @@ def main() -> None:
 Worked concrete non-mask orchestration task `{TRACKER_ID}` / `{ITEM_ID}`: ComfyUI workflow static validation.
 
 Result: checked `{len(lane_results)}` active base-generation API workflows from `{rel(ACTIVE_LANES)}`. Summary: `{dict(summary_counts)}`. Decision: `{qa_decision}`.
+
+FLUX boundary: the existing configured external checkpoint is accepted for static presence only when its preflight records the exact required SHA256. License acceptance, live model loading, output, technical QA, visual QA, target-runtime proof, and certification remain unproven.
 
 Runtime boundary: no local generation was executed, EC2 was not started, no masks were consumed as truth, no masks were promoted, no hard gates were rerun, and no Wave71+ activation was attempted.
 
@@ -682,6 +856,72 @@ Evidence:
 """,
     )
     append_proof_log(payload)
+
+    flux_result = next((result for result in lane_results if result.get("lane_id") == FLUX_LANE_ID), {})
+    report = {
+        "schema_version": "1.0",
+        "report_id": f"ITEM-W64-036-WORKFLOW-STATIC-VALIDATION-{STAMP}",
+        "timestamp": ISO_TS,
+        "item_id": ITEM_ID,
+        "tracker_id": TRACKER_ID,
+        "workstream": "workflow_static_validation",
+        "status": row_status,
+        "row_complete": not failed,
+        "current_scope": {
+            "active_lanes_sha256": active_lanes_sha256,
+            "lane_count": len(lane_results),
+            "pass_count": int(summary_counts.get("PASS", 0)),
+            "fail_count": int(summary_counts.get("FAIL", 0)),
+            "runtime_proof_present": False,
+        },
+        FLUX_LANE_ID: {
+            "workflow_sha256": flux_result.get("workflow_sha256", ""),
+            "runtime_requirements_sha256": flux_result.get("runtime_requirements_sha256", ""),
+            "structural_static_pass": flux_result.get("structural_static_pass", False),
+            "object_info_static_pass": flux_result.get("object_info_static_pass", False),
+            "local_model_dependency_pass": flux_result.get("local_model_dependency_pass", False),
+            "external_model_hash_verified": flux_result.get("external_model_hash_verified", False),
+            "model_dependency_evidence": flux_result.get("model_dependency_evidence", ""),
+            "local_model_hits": flux_result.get("local_model_hits", {}),
+            "runtime_proof_present": False,
+            "license_acceptance_asserted": False,
+            "automated_install_performed": False,
+        },
+        "validation": {
+            "qa_decision": qa_decision,
+            "preflight_path": rel(flux_preflight_path) if flux_preflight_path else "",
+            "preflight_sha256": flux_preflight_sha256,
+            "preflight_accepted": not flux_preflight_issues,
+            "preflight_issues": flux_preflight_issues,
+            "canonical_tracker_mirror_exact": True,
+        },
+        "evidence": [
+            {"path": rel(EVIDENCE), "sha256": sha256_file(EVIDENCE)},
+            {"path": rel(LANE_CSV), "sha256": sha256_file(LANE_CSV)},
+            {
+                "path": rel(flux_preflight_path) if flux_preflight_path else "",
+                "sha256": flux_preflight_sha256,
+            },
+            {"path": rel(Path(__file__)), "sha256": sha256_file(Path(__file__))},
+        ],
+        "runtime_boundaries": {
+            "comfyui_contacted": False,
+            "generation_executed": False,
+            "aws_contacted": False,
+            "ec2_started": False,
+            "model_downloaded_or_copied": False,
+            "mask_truth_consumed": False,
+            "mask_promotion_executed": False,
+            "wave70_hard_gate_executed": False,
+            "wave71_activated": False,
+        },
+        "residual_blockers": [
+            "FLUX.1 Dev noncommercial-license acceptance and use rights are not asserted by automation.",
+            "Lane-specific live object_info/model listing, model load, output, technical QA, visual QA, target-runtime proof, and certification remain unproven.",
+        ],
+        "next_action": next_action,
+    }
+    write_json(ITEM_REPORT, report)
 
     print(json.dumps({
         "evidence": str(EVIDENCE),

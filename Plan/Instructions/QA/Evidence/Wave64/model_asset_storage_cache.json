@@ -1,13 +1,13 @@
 {
   "schema_version": "1.0",
-  "evidence_id": "MODEL_ASSET_STORAGE_CACHE_20260712T104142-0500",
-  "created_iso": "2026-07-12T10:41:42-05:00",
+  "evidence_id": "MODEL_ASSET_STORAGE_CACHE_20260713T011550-0500",
+  "created_iso": "2026-07-13T01:15:50-05:00",
   "wave": 64,
   "tracker_id": "TRK-W64-007",
   "item_id": "ITEM-W64-007",
-  "status": "Blocked_Model_Presence_And_State_Reconciliation_Static_Governance_Pass",
+  "status": "Blocked_State_Reconciliation_Static_Governance_Pass",
   "row_complete": false,
-  "qa_decision": "static_model_storage_governance_pass_presence_and_state_reconciliation_blocked",
+  "qa_decision": "static_model_storage_governance_pass_flux_external_presence_verified_inpaint_state_reconciliation_blocked",
   "validation_gates": {
     "model_registry_required": {
       "status": "pass",
@@ -23,11 +23,11 @@
       ]
     },
     "sha256_required": {
-      "status": "pass_policy_and_bounded_realvis_proof",
+      "status": "pass_policy_realvis_and_flux_external_hash_proof",
       "checks": [
         "MSC-008_all_registry_hashes_valid",
         "MSC-015_realvis_local_hash_proven",
-        "MSC-017_flux_presence_and_hash_missing"
+        "MSC-017_flux_external_presence_and_hash_verified"
       ]
     },
     "non_git_model_path": {
@@ -40,7 +40,7 @@
       ]
     },
     "required_model_presence": {
-      "status": "blocked_two_required_rows",
+      "status": "blocked_one_declaration_proof_state_reconciliation",
       "checks": [
         "MSC-014_status_distribution_exact",
         "MSC-016_flux_registered_fail_closed",
@@ -61,21 +61,28 @@
     "tracked_model_binary_count": 0
   },
   "bounded_presence_proof": {
-    "model": "realvisxlV50_v50Bakedvae.safetensors",
-    "local_hash_match": true,
-    "scope": "local RealVisXL cache only"
+    "realvisxl": {
+      "model": "realvisxlV50_v50Bakedvae.safetensors",
+      "local_hash_match": true
+    },
+    "flux1_dev": {
+      "model": "flux1-dev-fp8.safetensors",
+      "existing_path": "../Comfy_UI/Runtime_Data/models/checkpoints/flux1-dev-fp8.safetensors",
+      "local_hash_match": true,
+      "current_file_rehashed_by_audit": true,
+      "observed_bytes": 17246524772,
+      "observed_sha256": "8e91b68084b53a7fc44ed2a3756d821e355ac1a7b6fe29be760c1db532f3d88a",
+      "configured_external_path": true,
+      "license_acceptance_asserted": false,
+      "runtime_proof_present": false
+    },
+    "scope": "local static model presence and exact hash only"
   },
   "blockers": [
     {
       "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
       "classification": "blocked_declaration_proof_state_reconciliation",
       "strict_state": "queued",
-      "promotion_allowed": false
-    },
-    {
-      "lane_id": "flux1_dev_primary_base",
-      "classification": "blocked_required_model_missing_license_unasserted",
-      "strict_state": "missing",
       "promotion_allowed": false
     }
   ],
@@ -145,7 +152,7 @@
       "result": "pass"
     },
     {
-      "name": "MSC-017_flux_presence_and_hash_missing",
+      "name": "MSC-017_flux_external_presence_and_hash_verified",
       "result": "pass"
     },
     {
@@ -167,7 +174,10 @@
     "failed": 0
   },
   "safety_boundary": {
-    "model_files_hashed_by_audit": false,
+    "model_files_hashed_by_audit": true,
+    "model_files_hashed_by_audit_scope": [
+      "C:\\Comfy_UI\\Runtime_Data\\models\\checkpoints\\flux1-dev-fp8.safetensors"
+    ],
     "model_downloaded": false,
     "registry_modified": false,
     "validation_queue_modified": false,
@@ -191,7 +201,7 @@
     },
     {
       "path": "Plan/10_REGISTRIES/model_asset_storage_cache_contract.json",
-      "sha256": "3cc6501e95eefcfdf983a3cbce2cdde3f90046641eb1617d389bd27459b1353d"
+      "sha256": "4f31995b8f105f59456636ffe4778d7d4088cb1bd02446216d1c371f9edc2b83"
     },
     {
       "path": "Plan/Registries/Models/model_registry.jsonl",
@@ -207,11 +217,11 @@
     },
     {
       "path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
-      "sha256": "f6720781658e747ab8da5aa5bb6eb59989415cf2691b9d2204cf53a4ab027385"
+      "sha256": "9252dc6abc21da16e987d99b00abb91c66d9745fd51665de0501feeefe086024"
     },
     {
-      "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_FLUX1_DEV_ASSET_AUTHORITY_LOCAL_PREFLIGHT_20260710T223000-0500.json",
-      "sha256": "d3fa6326cb796418bdb602f7c03484abb1291b7fe20425ab907fbc4db4995e67"
+      "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_FLUX1_DEV_EXISTING_EXTERNAL_MODEL_PREFLIGHT_20260713T010244-0500.json",
+      "sha256": "ea8cea3a06ad9d10c854603a13eafe114f1c1fd84c7ba99ec41b470ebfdc4536"
     },
     {
       "path": "Plan/Instructions/QA/Evidence/Model_Registry/W66_LOCAL_REALVISXL_MODEL_DOWNLOAD_20260706T204500-0500.json",
@@ -222,11 +232,11 @@
       "sha256": "32f539e0765be5af719b70b9133254d559797f69adf0d79b87394b2d906be45c"
     }
   ],
-  "next_action": "Proceed to TRK-W64-008 / ITEM-W64-008 for safe local work; reconcile inpaint declaration/proof state and install Flux only through their explicit dependency gates.",
+  "next_action": "Preserve the verified external FLUX bytes without copying or downloading; reconcile the remaining inpaint declaration/proof state independently, while keeping FLUX license and live-runtime gates fail-closed.",
   "evidence_paths": [
     "Plan/Instructions/QA/Evidence/Wave64/model_asset_storage_cache.json",
-    "Plan/Instructions/QA/Evidence/Wave64/MODEL_ASSET_STORAGE_CACHE_20260712T104142-0500.json",
-    "Plan/Tracker/Evidence/MODEL_ASSET_STORAGE_CACHE_20260712T104142-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/MODEL_ASSET_STORAGE_CACHE_20260713T011550-0500.json",
+    "Plan/Tracker/Evidence/MODEL_ASSET_STORAGE_CACHE_20260713T011550-0500.json",
     "Plan/Instructions/QA/Evidence/Wave64/model_asset_storage_cache_test_log.json",
     "Plan/Items/Reports/ITEM-W64-007_model_asset_storage_cache.json"
   ]

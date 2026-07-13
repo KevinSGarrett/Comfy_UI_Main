@@ -86,7 +86,10 @@ function Invoke-RegressionCase {
     [Parameter(Mandatory=$true)][string]$ExpectedStatus,
     [Parameter(Mandatory=$true)][int]$ExpectedModelCount,
     [Parameter(Mandatory=$true)][bool]$ExpectedModelsPresent,
-    [ValidateSet("none", "project", "comfy", "mismatch_project")][string]$ModelPlacement = "none"
+    [ValidateSet("none", "project", "comfy", "mismatch_project", "external", "mismatch_external")][string]$ModelPlacement = "none",
+    [ValidateSet("none", "valid", "malformed")][string]$ExtraConfigMode = "none",
+    [bool]$RequireRunnable = $false,
+    [int]$ExpectedExitCode = 0
   )
 
   $caseRoot = Join-Path $tempRoot $Name
@@ -96,7 +99,16 @@ function Invoke-RegressionCase {
   [System.IO.Directory]::CreateDirectory($laneDir) | Out-Null
   [System.IO.Directory]::CreateDirectory((Join-Path $projectFixture "models\checkpoints")) | Out-Null
   [System.IO.Directory]::CreateDirectory((Join-Path $comfyFixture "models\checkpoints")) | Out-Null
+  $externalFixture = Join-Path $caseRoot "external_model_store"
+  [System.IO.Directory]::CreateDirectory((Join-Path $externalFixture "models\checkpoints")) | Out-Null
   Write-TextNoBom -Value "# disposable ComfyUI main fixture`n" -Path (Join-Path $comfyFixture "main.py")
+
+  if ($ExtraConfigMode -eq "valid") {
+    $yamlBase = $externalFixture.Replace("\", "/")
+    Write-TextNoBom -Value "fixture_external:`n  base_path: $yamlBase`n  checkpoints: models/checkpoints`n" -Path (Join-Path $comfyFixture "extra_model_paths.yaml")
+  } elseif ($ExtraConfigMode -eq "malformed") {
+    Write-TextNoBom -Value "fixture_external: [invalid`n" -Path (Join-Path $comfyFixture "extra_model_paths.yaml")
+  }
 
   $matchingModelContent = "fixture model`n"
   $matchingModelSha256 = Get-StringSha256 -Value $matchingModelContent
@@ -121,14 +133,22 @@ function Invoke-RegressionCase {
     Write-TextNoBom -Value $matchingModelContent -Path (Join-Path $comfyFixture "models\checkpoints\fixture_model.safetensors")
   } elseif ($ModelPlacement -eq "mismatch_project") {
     Write-TextNoBom -Value "wrong model content`n" -Path (Join-Path $projectFixture "models\checkpoints\fixture_model.safetensors")
+  } elseif ($ModelPlacement -eq "external") {
+    Write-TextNoBom -Value $matchingModelContent -Path (Join-Path $externalFixture "models\checkpoints\fixture_model.safetensors")
+  } elseif ($ModelPlacement -eq "mismatch_external") {
+    Write-TextNoBom -Value "wrong external model content`n" -Path (Join-Path $externalFixture "models\checkpoints\fixture_model.safetensors")
   }
 
   $childOut = Join-Path $resultsRoot "$Name.json"
-  & powershell -NoProfile -ExecutionPolicy Bypass -File $preflightScript `
-    -ProjectRoot $projectFixture `
-    -LaneId "fixture_lane" `
-    -LocalComfyRoot $comfyFixture `
-    -OutFile $childOut *> $null
+  $childArgs = @(
+    "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $preflightScript,
+    "-ProjectRoot", $projectFixture,
+    "-LaneId", "fixture_lane",
+    "-LocalComfyRoot", $comfyFixture,
+    "-OutFile", $childOut
+  )
+  if ($RequireRunnable) { $childArgs += "-RequireRunnableComfyUI" }
+  & powershell @childArgs *> $null
   $exitCode = $LASTEXITCODE
   $payload = $null
   if (Test-Path -LiteralPath $childOut -PathType Leaf) {
@@ -175,14 +195,17 @@ function Invoke-RegressionCase {
     -not [bool]$payload.ec2_started -and -not [bool]$payload.generation_executed -and
     -not [bool]$payload.local_dev_replaces_ec2_final_proof -and [bool]$payload.ec2_final_proof_still_required
   )
-  $passed = ($exitCode -eq 0 -and $requirementsStatePass -and $modelsStatePass -and $contractCheckPass -and $safetyPass)
+  $passed = ($exitCode -eq $ExpectedExitCode -and $requirementsStatePass -and $modelsStatePass -and $contractCheckPass -and $safetyPass)
 
   return [pscustomobject][ordered]@{
     name = $Name
     requirement_mode = $RequirementMode
     model_placement = $ModelPlacement
+    extra_config_mode = $ExtraConfigMode
     result = $(if ($passed) { "pass" } else { "fail" })
     exit_code = $exitCode
+    expected_exit_code = $ExpectedExitCode
+    require_runnable = $RequireRunnable
     output_exists = Test-Path -LiteralPath $childOut -PathType Leaf
     observed_status = $(if ($null -ne $payload) { [string]$payload.runtime_requirements.status } else { $null })
     expected_status = $ExpectedStatus
@@ -191,6 +214,9 @@ function Invoke-RegressionCase {
     models_present = $(if ($null -ne $modelsCheck -and @($modelsCheck).Count -gt 0) { [bool]$modelsCheck[0].passed } else { $null })
     hashes_match = $(if ($null -ne $hashesCheck -and @($hashesCheck).Count -gt 0) { [bool]$hashesCheck[0].passed } else { $null })
     observed_sha256 = $(if ($null -ne $payload -and @($payload.local_required_models).Count -gt 0) { [string]$payload.local_required_models[0].observed_sha256 } else { $null })
+    candidate_paths = $(if ($null -ne $payload -and @($payload.local_required_models).Count -gt 0) { @($payload.local_required_models[0].candidate_paths) } else { @() })
+    extra_model_path_status = $(if ($null -ne $payload) { [string]$payload.configured_extra_model_paths.status } else { $null })
+    extra_model_path_error = $(if ($null -ne $payload) { [string]$payload.configured_extra_model_paths.error } else { $null })
     expected_models_present = $ExpectedModelsPresent
     local_gpu_generation_candidate = $(if ($null -ne $payload) { [bool]$payload.local_gpu_generation_candidate } else { $null })
     requirements_state_pass = $requirementsStatePass
@@ -222,6 +248,10 @@ $tests += Invoke-RegressionCase -Name "declared_model_missing_fails" -Requiremen
 $tests += Invoke-RegressionCase -Name "model_hash_mismatch_fails" -RequirementMode "one_model" -ExpectedStatus "ready" -ExpectedModelCount 1 -ExpectedModelsPresent $false -ModelPlacement "mismatch_project"
 $tests += Invoke-RegressionCase -Name "project_model_present_passes" -RequirementMode "one_model" -ExpectedStatus "ready" -ExpectedModelCount 1 -ExpectedModelsPresent $true -ModelPlacement "project"
 $tests += Invoke-RegressionCase -Name "comfy_model_present_passes" -RequirementMode "one_model" -ExpectedStatus "ready" -ExpectedModelCount 1 -ExpectedModelsPresent $true -ModelPlacement "comfy"
+$tests += Invoke-RegressionCase -Name "external_configured_model_present_passes" -RequirementMode "one_model" -ExpectedStatus "ready" -ExpectedModelCount 1 -ExpectedModelsPresent $true -ModelPlacement "external" -ExtraConfigMode "valid"
+$tests += Invoke-RegressionCase -Name "external_configured_model_hash_mismatch_fails" -RequirementMode "one_model" -ExpectedStatus "ready" -ExpectedModelCount 1 -ExpectedModelsPresent $false -ModelPlacement "mismatch_external" -ExtraConfigMode "valid"
+$tests += Invoke-RegressionCase -Name "external_config_malformed_fails_closed" -RequirementMode "one_model" -ExpectedStatus "ready" -ExpectedModelCount 1 -ExpectedModelsPresent $false -ModelPlacement "external" -ExtraConfigMode "malformed"
+$tests += Invoke-RegressionCase -Name "missing_requirements_require_runnable_exits_nonzero" -RequirementMode "missing" -ExpectedStatus "missing" -ExpectedModelCount 0 -ExpectedModelsPresent $false -RequireRunnable $true -ExpectedExitCode 1
 
 $failed = @($tests | Where-Object { [string]$_.result -ne "pass" })
 $record = [ordered]@{
@@ -244,7 +274,7 @@ $record = [ordered]@{
   passing_test_count = @($tests | Where-Object { [string]$_.result -eq "pass" }).Count
   failed_test_count = $failed.Count
   tests = @($tests)
-  work_order_closed = $false
+  work_order_closed = ($failed.Count -eq 0)
   target_runtime_proof = $false
   certification_claimed = $false
   boundary = "Disposable local model-requirement regression only. No GPU generation, ComfyUI launch, EC2, or target-runtime proof occurred."

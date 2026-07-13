@@ -1,3 +1,38 @@
+## Wave64 Row007 Model Asset Storage And Cache Governance - 2026-07-13T01:15:50-05:00
+
+`TRK-W64-007` / `ITEM-W64-007` is `Blocked_State_Reconciliation_Static_Governance_Pass`. The direct contract verifies 15/15 registry-to-validation declarations, valid expected SHA256 values, non-Git model paths, complete binary ignore policy, zero tracked model binaries, bounded RealVisXL proof, and configured-external FLUX presence with the exact required SHA256. FLUX is not copied or downloaded; license acceptance and every live-runtime/promotion gate remain unproven. Inpaint declaration/proof reconciliation is the sole Row007 blocker. No broad model hashing, download, registry/queue mutation, AWS, EC2, ComfyUI, generation, mask, Jira, or Wave71+ action occurred.
+
+Next safe local action: preserve existing FLUX bytes and reconcile the independent inpaint declaration/proof state only when that lane is intentionally selected.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/model_asset_storage_cache.json`; `Plan/Instructions/QA/Evidence/Wave64/MODEL_ASSET_STORAGE_CACHE_20260713T011550-0500.json`; `Plan/Tracker/Evidence/MODEL_ASSET_STORAGE_CACHE_20260713T011550-0500.json`.
+
+## Immediate Next Action - Wave64 Workflow Static Validation - 2026-07-13T01:15:37-05:00
+
+Worked concrete non-mask orchestration task `TRK-W64-036` / `ITEM-W64-036`: ComfyUI workflow static validation.
+
+Result: checked `10` active base-generation API workflows from `Workflows/base_generation/ACTIVE_LANES.json`. Summary: `{'PASS': 10}`. Decision: `workflow_static_validation_passed_nonmask_safe_no_runtime`.
+
+FLUX boundary: the existing configured external checkpoint is accepted for static presence only when its preflight records the exact required SHA256. License acceptance, live model loading, output, technical QA, visual QA, target-runtime proof, and certification remain unproven.
+
+Runtime boundary: no local generation was executed, EC2 was not started, no masks were consumed as truth, no masks were promoted, no hard gates were rerun, and no Wave71+ activation was attempted.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Wave64/workflow_static_validation.json`
+- `Plan/Instructions/QA/Evidence/Wave64/WORKFLOW_STATIC_VALIDATION_20260713T011537-0500.json`
+- `Plan/Tracker/Evidence/WORKFLOW_STATIC_VALIDATION_20260713T011537-0500.json`
+- `Plan/Instructions/QA/Evidence/Wave64/workflow_static_validation_lanes_20260713T011537-0500.csv`
+
+Next exact local action: retain the FLUX license-rights boundary, then run a bounded local model-list/object_info/model-load proof only after use rights are documented.
+
+
+## Wave64 Row007 Model Asset Storage And Cache Governance - 2026-07-13T01:07:49-05:00
+
+`TRK-W64-007` / `ITEM-W64-007` is `Blocked_State_Reconciliation_Static_Governance_Pass`. The direct contract verifies 15/15 registry-to-validation declarations, valid expected SHA256 values, non-Git model paths, complete binary ignore policy, zero tracked model binaries, bounded RealVisXL proof, and configured-external FLUX presence with the exact required SHA256. FLUX is not copied or downloaded; license acceptance and every live-runtime/promotion gate remain unproven. Inpaint declaration/proof reconciliation is the sole Row007 blocker. No broad model hashing, download, registry/queue mutation, AWS, EC2, ComfyUI, generation, mask, Jira, or Wave71+ action occurred.
+
+Next safe local action: preserve existing FLUX bytes and reconcile the independent inpaint declaration/proof state only when that lane is intentionally selected.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/model_asset_storage_cache.json`; `Plan/Instructions/QA/Evidence/Wave64/MODEL_ASSET_STORAGE_CACHE_20260713T010749-0500.json`; `Plan/Tracker/Evidence/MODEL_ASSET_STORAGE_CACHE_20260713T010749-0500.json`.
+
 ## Wave64 Row064 Prompt And Negative-Prompt QA - 2026-07-13T00:43:07-05:00
 
 `TRK-W64-064` / `ITEM-W64-064` is `Blocked_Prompt_Profile_Lane_Authority_And_Runtime_QA_Gaps`. The audit parsed all 112 PromptProfiles JSON artifacts and correctly separated 109 prompt profiles from two non-prompt RealESRGAN operations and one certification matrix. All 109 prompt profiles now carry durable positive/negative prompt pairs with zero exact clause contradictions. Four previously incomplete robustness profiles are hash-bound to their existing local prompt requests, runtime execution records, and visual-QA evidence; no generation was rerun. Final approval remains fail-closed because 93 profiles lack exact lane-contract authority, 105 lack direct representative-output evidence links, and 14 Wave71/Wave72-named profiles remain deferred. No profile was approved, and no AWS, EC2, mask, Jira, or Wave71+ activation occurred.
