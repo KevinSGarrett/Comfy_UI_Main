@@ -1,3 +1,19 @@
+## Wave64 Row042 EC2 TTL Watchdog Live Readiness - 2026-07-13T00:20:55-05:00
+
+`TRK-W64-042` / `ITEM-W64-042` is `Blocked_Live_TTL_Watchdog_Proof_Missing_AWS_Readiness_Verified`. The stale expired-session blocker is cleared: current read-only AWS proof verifies authentication, the scheduler role, and the approved instance in stopped state. All 24 reconciliation checks pass. Current blockers are recorded fail-closed: live_emergency_stop_schedule_missing, ssm_watchdog_proof_missing. EC2 was not started by this reconciliation; any missing controls must be installed only inside the next genuinely required bounded runtime window.
+
+Next: `Keep EC2 stopped. Create the emergency-stop schedule and start the SSM watchdog only inside the next genuinely required bounded runtime window, then record final stopped-state proof.`
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json`; `Plan/Instructions/QA/Evidence/Wave64/EC2_TTL_WATCHDOG_LIVE_READINESS_20260713T002055-0500.json`; `Plan/Tracker/Evidence/EC2_TTL_WATCHDOG_LIVE_READINESS_20260713T002055-0500.json`.
+
+## Wave64 Row041 S3 Transfer Cost Control Live Readiness - 2026-07-12T23:58:56-05:00
+
+`TRK-W64-041` / `ITEM-W64-041` is `Completed_S3_Transfer_Cost_Control_Readiness_Pass`. Preserved local static readiness is now supplemented by bounded read-only AWS proof: authentication and configured bucket access pass, and the required model, deploy-bundle, and render prefixes each contain existing objects. All 26 checks pass. The manifest prefix is currently empty and the exact Flux object is absent; those are separate publish/model dependency boundaries and were not promoted into false content readiness. No upload, delete, IAM mutation, EC2 action, generation, secret disclosure, mask/Jira mutation, or Wave70/Wave71 action occurred.
+
+Next: `Advance to TRK-W64-042 / ITEM-W64-042 live TTL/watchdog read-only reconciliation; keep EC2 stopped.`
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/s3_transfer_cost_control.json`; `Plan/Instructions/QA/Evidence/Wave64/S3_TRANSFER_COST_CONTROL_LIVE_READINESS_20260712T235856-0500.json`; `Plan/Tracker/Evidence/S3_TRANSFER_COST_CONTROL_LIVE_READINESS_20260712T235856-0500.json`.
+
 ## Wave64 Row057 Organization Governance - 2026-07-12T23:42:41-05:00
 
 `TRK-W64-057` / `ITEM-W64-057` is `Completed_Current_Organization_Governance_Pass`. An 83-file pre-action authority inventory plus four current Row057 governance outputs, deterministic placement registry, bounded event-driven refresh policy, safe-to-commit report, and explicit artifact exclusions now exist. All four governance gates and 20 checks pass. The bounded migration preserves all 85 local artifacts while removing them from source-control tracking; current tracked placement debt is zero. Historical Wave37 pass reports do not override current evidence. No files were deleted and no external/runtime/mask/Jira action occurred.

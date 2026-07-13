@@ -1,0 +1,191 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "S3_TRANSFER_COST_CONTROL_LIVE_READINESS_20260712T235856-0500",
+  "created_iso": "2026-07-12T23:58:56-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-041",
+  "item_id": "ITEM-W64-041",
+  "status": "Completed_S3_Transfer_Cost_Control_Readiness_Pass",
+  "row_complete": true,
+  "qa_decision": "s3_transfer_cost_control_pass_read_only_aws_access_verified",
+  "task": "Reconcile local S3 transfer-cost controls with bounded read-only AWS access proof.",
+  "preserved_evidence": {
+    "original_local": "Plan/Instructions/QA/Evidence/Wave64/S3_TRANSFER_COST_CONTROL_20260708T233214-0500.json",
+    "original_local_sha256": "355da4d3d0f31b1b0cebd49b915d04594278438782c90e0e8a452669959ae062",
+    "static_readiness": "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_S3_RUNTIME_TRANSFER_READINESS_20260708T233036-0500.json",
+    "static_readiness_sha256": "db8c15635240eb54f0db0fd593e6a5bd50fbcaa9fcde1660fcc8fc7a35596459"
+  },
+  "live_readiness": {
+    "mode": "read_only_live_probe",
+    "aws_authenticated": true,
+    "configured_bucket_access_count": 1,
+    "configured_bucket_total_count": 1,
+    "prefix_checks": [
+      {
+        "name": "model",
+        "required_for_completion": true,
+        "list_call_ok": true,
+        "has_object": true
+      },
+      {
+        "name": "deploy",
+        "required_for_completion": true,
+        "list_call_ok": true,
+        "has_object": true
+      },
+      {
+        "name": "render",
+        "required_for_completion": true,
+        "list_call_ok": true,
+        "has_object": true
+      },
+      {
+        "name": "manifest",
+        "required_for_completion": false,
+        "list_call_ok": true,
+        "has_object": false
+      }
+    ],
+    "exact_flux_object_present": false,
+    "blockers": [],
+    "residuals": [
+      "manifest_prefix_empty",
+      "exact_flux_object_missing"
+    ]
+  },
+  "residual_dependency_boundaries": {
+    "manifest_prefix_empty": "No current manifest object was found; publishing content remains a separate explicit operation.",
+    "exact_flux_object_missing": "Exact Flux content remains governed by the Row036 dependency/license boundary and is not transfer-control readiness proof."
+  },
+  "safety_boundary": {
+    "aws_contacted_read_only": true,
+    "s3_upload_or_delete_run": false,
+    "iam_mutated": false,
+    "ec2_started_or_stopped": false,
+    "generation_executed": false,
+    "secret_values_recorded": false,
+    "mask_or_jira_mutated": false,
+    "wave70_or_wave71_action": false
+  },
+  "checks": [
+    {
+      "name": "original_local_evidence_exists",
+      "result": "pass"
+    },
+    {
+      "name": "canonical_reconciliation_exists",
+      "result": "pass"
+    },
+    {
+      "name": "static_readiness_evidence_exists",
+      "result": "pass"
+    },
+    {
+      "name": "original_local_result_ready",
+      "result": "pass"
+    },
+    {
+      "name": "preserved_static_result_ready",
+      "result": "pass"
+    },
+    {
+      "name": "local_static_readiness_preserved",
+      "result": "pass"
+    },
+    {
+      "name": "config_shape_complete",
+      "result": "pass"
+    },
+    {
+      "name": "deploy_uri_parse_ok",
+      "result": "pass"
+    },
+    {
+      "name": "aws_authentication_verified",
+      "result": "pass"
+    },
+    {
+      "name": "all_configured_buckets_accessible",
+      "result": "pass"
+    },
+    {
+      "name": "model_prefix_accessible",
+      "result": "pass"
+    },
+    {
+      "name": "model_prefix_has_existing_object",
+      "result": "pass"
+    },
+    {
+      "name": "deploy_prefix_accessible",
+      "result": "pass"
+    },
+    {
+      "name": "deploy_prefix_has_existing_object",
+      "result": "pass"
+    },
+    {
+      "name": "render_prefix_accessible",
+      "result": "pass"
+    },
+    {
+      "name": "render_prefix_has_existing_object",
+      "result": "pass"
+    },
+    {
+      "name": "manifest_prefix_accessible",
+      "result": "pass"
+    },
+    {
+      "name": "manifest_empty_classified_nonblocking",
+      "result": "pass"
+    },
+    {
+      "name": "flux_absence_classified_model_dependency",
+      "result": "pass"
+    },
+    {
+      "name": "row041_classification_pass",
+      "result": "pass"
+    },
+    {
+      "name": "row041_blocker_count_zero",
+      "result": "pass"
+    },
+    {
+      "name": "aws_operations_read_only",
+      "result": "pass"
+    },
+    {
+      "name": "s3_publish_not_run",
+      "result": "pass"
+    },
+    {
+      "name": "ec2_not_started",
+      "result": "pass"
+    },
+    {
+      "name": "secrets_not_recorded",
+      "result": "pass"
+    },
+    {
+      "name": "next_row_selected",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 26,
+    "passed": 26,
+    "failed": 0
+  },
+  "next_action": "Advance to TRK-W64-042 / ITEM-W64-042 live TTL/watchdog read-only reconciliation; keep EC2 stopped.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/s3_transfer_cost_control.json",
+    "Plan/Instructions/QA/Evidence/Wave64/S3_TRANSFER_COST_CONTROL_LIVE_READINESS_20260712T235856-0500.json",
+    "Plan/Tracker/Evidence/S3_TRANSFER_COST_CONTROL_LIVE_READINESS_20260712T235856-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/s3_transfer_cost_control_live_readiness_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-041_s3_transfer_cost_control.json",
+    "Plan/Instructions/QA/Evidence/Wave64/S3_TRANSFER_COST_CONTROL_20260708T233214-0500.json",
+    "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_S3_RUNTIME_TRANSFER_READINESS_20260708T233036-0500.json"
+  ]
+}

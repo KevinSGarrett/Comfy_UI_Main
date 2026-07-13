@@ -1,0 +1,155 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "EC2_TTL_WATCHDOG_LIVE_READINESS_20260713T001111-0500",
+  "created_iso": "2026-07-13T00:11:11-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-042",
+  "item_id": "ITEM-W64-042",
+  "status": "Blocked_Live_TTL_Watchdog_Proof_Missing_AWS_Readiness_Verified",
+  "row_complete": false,
+  "qa_decision": "aws_readiness_verified_but_live_ttl_watchdog_proof_missing",
+  "task": "Replace the stale expired-auth blocker with bounded read-only AWS TTL/watchdog readiness proof.",
+  "preserved_local_plans": {
+    "schedule_path": "runtime_artifacts/wave64/row042_ec2_ttl_watchdog/20260712T063917-0500/emergency_stop_schedule_dry_run.json",
+    "schedule_sha256": "ff916997b8ee43aaa2abeee87d407211c0cf7f1073c648f8b1d129807b76cb31",
+    "watchdog_path": "runtime_artifacts/wave64/row042_ec2_ttl_watchdog/20260712T063917-0500/instance_stop_watchdog_dry_run.json",
+    "watchdog_sha256": "e757165d1ec5a144f57f839f74ba606ac5f2952e1bcc6cb1b6aacc23bb9a43ad"
+  },
+  "live_readiness": {
+    "mode": "read_only_live_probe",
+    "aws_authenticated": true,
+    "scheduler_role_verified": true,
+    "instance_state": "stopped",
+    "live_schedule_present": false,
+    "ssm_managed_record_present": false,
+    "watchdog_proof_present": false,
+    "blockers": [
+      "live_emergency_stop_schedule_missing",
+      "ssm_watchdog_proof_missing"
+    ],
+    "recommendations": [
+      "Create the emergency-stop schedule and start the SSM watchdog only inside the next genuinely required bounded runtime window; do not start EC2 now."
+    ]
+  },
+  "safety_boundary": {
+    "aws_contacted_read_only": true,
+    "ec2_started_or_stopped": false,
+    "scheduler_created_updated_or_deleted": false,
+    "ssm_command_sent": false,
+    "generation_executed": false,
+    "identifiers_or_secrets_recorded": false,
+    "mask_jira_wave_gate_action": false
+  },
+  "checks": [
+    {
+      "name": "original_evidence_exists",
+      "result": "pass"
+    },
+    {
+      "name": "schedule_dry_run_exists",
+      "result": "pass"
+    },
+    {
+      "name": "watchdog_dry_run_exists",
+      "result": "pass"
+    },
+    {
+      "name": "schedule_dry_run_hash_preserved",
+      "result": "pass"
+    },
+    {
+      "name": "watchdog_dry_run_hash_preserved",
+      "result": "pass"
+    },
+    {
+      "name": "schedule_plan_pass",
+      "result": "pass"
+    },
+    {
+      "name": "watchdog_plan_pass",
+      "result": "pass"
+    },
+    {
+      "name": "schedule_ttl_60",
+      "result": "pass"
+    },
+    {
+      "name": "watchdog_ttl_60",
+      "result": "pass"
+    },
+    {
+      "name": "schedule_execute_false",
+      "result": "pass"
+    },
+    {
+      "name": "watchdog_execute_false",
+      "result": "pass"
+    },
+    {
+      "name": "aws_authentication_verified",
+      "result": "pass"
+    },
+    {
+      "name": "scheduler_role_verified",
+      "result": "pass"
+    },
+    {
+      "name": "ec2_state_query_pass",
+      "result": "pass"
+    },
+    {
+      "name": "final_instance_state_stopped",
+      "result": "pass"
+    },
+    {
+      "name": "scheduler_query_completed",
+      "result": "pass"
+    },
+    {
+      "name": "live_schedule_absence_recorded",
+      "result": "pass"
+    },
+    {
+      "name": "ssm_query_pass",
+      "result": "pass"
+    },
+    {
+      "name": "ssm_watchdog_proof_absence_recorded",
+      "result": "pass"
+    },
+    {
+      "name": "stale_auth_blocker_cleared",
+      "result": "pass"
+    },
+    {
+      "name": "exact_live_blockers_recorded",
+      "result": "pass"
+    },
+    {
+      "name": "ec2_not_started",
+      "result": "pass"
+    },
+    {
+      "name": "aws_not_mutated",
+      "result": "pass"
+    },
+    {
+      "name": "next_runtime_window_boundary_recorded",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 24,
+    "passed": 24,
+    "failed": 0
+  },
+  "next_action": "Keep EC2 stopped. Create the emergency-stop schedule and start the SSM watchdog only inside the next genuinely required bounded runtime window, then record final stopped-state proof.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json",
+    "Plan/Instructions/QA/Evidence/Wave64/EC2_TTL_WATCHDOG_LIVE_READINESS_20260713T001111-0500.json",
+    "Plan/Tracker/Evidence/EC2_TTL_WATCHDOG_LIVE_READINESS_20260713T001111-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog_live_readiness_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-042_ec2_ttl_watchdog.json",
+    "Plan/Instructions/QA/Evidence/Wave64/EC2_TTL_WATCHDOG_20260708T233454-0500.json"
+  ]
+}

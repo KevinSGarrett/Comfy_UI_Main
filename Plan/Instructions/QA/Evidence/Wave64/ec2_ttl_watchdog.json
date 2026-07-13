@@ -1,70 +1,64 @@
 {
   "schema_version": "1.0",
-  "evidence_id": "EC2_TTL_WATCHDOG_RECONCILIATION_20260712T064023-0500",
-  "created_iso": "2026-07-12T06:40:23-05:00",
+  "evidence_id": "EC2_TTL_WATCHDOG_LIVE_READINESS_20260713T002055-0500",
+  "created_iso": "2026-07-13T00:20:55-05:00",
   "wave": 64,
   "tracker_id": "TRK-W64-042",
   "item_id": "ITEM-W64-042",
-  "status": "Blocked_AWS_Expired_Session_Live_Proof",
-  "qa_decision": "blocked_ec2_ttl_watchdog_live_proof_expired_aws_session_current_dry_runs_pass",
-  "task": "Refresh local non-executing TTL control plans after source change while preserving the live AWS blocker.",
-  "current_local_plans": {
-    "schedule": {
-      "path": "runtime_artifacts/wave64/row042_ec2_ttl_watchdog/20260712T063917-0500/emergency_stop_schedule_dry_run.json",
-      "sha256": "ff916997b8ee43aaa2abeee87d407211c0cf7f1073c648f8b1d129807b76cb31",
-      "result": "dry_run_emergency_stop_schedule_plan",
-      "stop_after_minutes": 60,
-      "execute": false,
-      "aws_contacted": false
-    },
-    "watchdog": {
-      "path": "runtime_artifacts/wave64/row042_ec2_ttl_watchdog/20260712T063917-0500/instance_stop_watchdog_dry_run.json",
-      "sha256": "e757165d1ec5a144f57f839f74ba606ac5f2952e1bcc6cb1b6aacc23bb9a43ad",
-      "result": "dry_run_instance_watchdog_plan",
-      "stop_after_minutes": 60,
-      "execute": false,
-      "aws_contacted": false
-    }
+  "status": "Blocked_Live_TTL_Watchdog_Proof_Missing_AWS_Readiness_Verified",
+  "row_complete": false,
+  "qa_decision": "aws_readiness_verified_but_live_ttl_watchdog_proof_missing",
+  "task": "Replace the stale expired-auth blocker with bounded read-only AWS TTL/watchdog readiness proof.",
+  "preserved_local_plans": {
+    "schedule_path": "runtime_artifacts/wave64/row042_ec2_ttl_watchdog/20260712T063917-0500/emergency_stop_schedule_dry_run.json",
+    "schedule_sha256": "ff916997b8ee43aaa2abeee87d407211c0cf7f1073c648f8b1d129807b76cb31",
+    "watchdog_path": "runtime_artifacts/wave64/row042_ec2_ttl_watchdog/20260712T063917-0500/instance_stop_watchdog_dry_run.json",
+    "watchdog_sha256": "e757165d1ec5a144f57f839f74ba606ac5f2952e1bcc6cb1b6aacc23bb9a43ad"
   },
-  "source_snapshot": [
-    {
-      "path": "Plan/Instructions/Operations/Scripts/New-EC2EmergencyStopSchedule.ps1",
-      "sha256": "ff6e5f093ff0e38e4a1ca773f3a689eccd81ff9e71fc41b4d711a27f0fe571c0"
-    },
-    {
-      "path": "Plan/Instructions/Operations/Scripts/Start-EC2InstanceStopWatchdog.ps1",
-      "sha256": "da54b775876ed286a038f94b598fe0ffa67dbaa7f4ad7e7d9a09a2522b4b301b"
-    }
-  ],
-  "auth_boundary": {
-    "evidence": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_AWS_AUTH_GATE_EC2_TTL_WATCHDOG_20260708T233332-0500.json",
-    "result": "blocked_expired_session",
-    "rerun": false,
-    "reason": "Auth helper contacts AWS and was not needed for local dry-run reconciliation."
+  "live_readiness": {
+    "mode": "read_only_live_probe",
+    "aws_authenticated": true,
+    "scheduler_role_verified": true,
+    "instance_state": "stopped",
+    "live_schedule_present": false,
+    "ssm_managed_record_present": false,
+    "watchdog_proof_present": false,
+    "blockers": [
+      "live_emergency_stop_schedule_missing",
+      "ssm_watchdog_proof_missing"
+    ],
+    "recommendations": [
+      "Create the emergency-stop schedule and start the SSM watchdog only inside the next genuinely required bounded runtime window; do not start EC2 now."
+    ]
   },
-  "live_proof_blockers": [
-    "AWS authentication remains expired.",
-    "No live EventBridge emergency-stop schedule was created.",
-    "No SSM instance watchdog command was started.",
-    "No bounded EC2 runtime was executed.",
-    "No final stopped-state verification was performed."
-  ],
-  "external_actions": {
-    "aws_contacted": false,
-    "ec2_started": false,
-    "eventbridge_mutated": false,
+  "safety_boundary": {
+    "aws_contacted_read_only": true,
+    "ec2_started_or_stopped": false,
+    "scheduler_created_updated_or_deleted": false,
     "ssm_command_sent": false,
-    "github_mutated": false,
-    "masks_or_wave_gates_touched": false,
-    "jira_mutated": false
+    "generation_executed": false,
+    "identifiers_or_secrets_recorded": false,
+    "mask_jira_wave_gate_action": false
   },
   "checks": [
     {
-      "name": "schedule_current_dry_run_exists",
+      "name": "original_evidence_exists",
       "result": "pass"
     },
     {
-      "name": "watchdog_current_dry_run_exists",
+      "name": "schedule_dry_run_exists",
+      "result": "pass"
+    },
+    {
+      "name": "watchdog_dry_run_exists",
+      "result": "pass"
+    },
+    {
+      "name": "schedule_dry_run_hash_preserved",
+      "result": "pass"
+    },
+    {
+      "name": "watchdog_dry_run_hash_preserved",
       "result": "pass"
     },
     {
@@ -76,30 +70,6 @@
       "result": "pass"
     },
     {
-      "name": "schedule_execute_false",
-      "result": "pass"
-    },
-    {
-      "name": "watchdog_execute_false",
-      "result": "pass"
-    },
-    {
-      "name": "schedule_aws_not_contacted",
-      "result": "pass"
-    },
-    {
-      "name": "watchdog_aws_not_contacted",
-      "result": "pass"
-    },
-    {
-      "name": "schedule_ec2_not_started",
-      "result": "pass"
-    },
-    {
-      "name": "watchdog_ec2_not_started",
-      "result": "pass"
-    },
-    {
       "name": "schedule_ttl_60",
       "result": "pass"
     },
@@ -108,52 +78,78 @@
       "result": "pass"
     },
     {
-      "name": "schedule_expression_present",
+      "name": "schedule_execute_false",
       "result": "pass"
     },
     {
-      "name": "schedule_auto_delete",
+      "name": "watchdog_execute_false",
       "result": "pass"
     },
     {
-      "name": "watchdog_command_not_started",
+      "name": "aws_authentication_verified",
       "result": "pass"
     },
     {
-      "name": "os_shutdown_fallback_disabled",
+      "name": "scheduler_role_verified",
       "result": "pass"
     },
     {
-      "name": "auth_gate_preserved_expired",
+      "name": "ec2_state_query_pass",
       "result": "pass"
     },
     {
-      "name": "auth_gate_not_rerun",
+      "name": "final_instance_state_stopped",
       "result": "pass"
     },
     {
-      "name": "original_evidence_preserved",
+      "name": "scheduler_query_completed",
       "result": "pass"
     },
     {
-      "name": "next_row_selected",
+      "name": "live_schedule_state_consistent",
+      "result": "pass"
+    },
+    {
+      "name": "ssm_query_pass",
+      "result": "pass"
+    },
+    {
+      "name": "ssm_watchdog_state_consistent",
+      "result": "pass"
+    },
+    {
+      "name": "stale_auth_blocker_cleared",
+      "result": "pass"
+    },
+    {
+      "name": "live_blockers_logically_consistent",
+      "result": "pass"
+    },
+    {
+      "name": "ec2_not_started",
+      "result": "pass"
+    },
+    {
+      "name": "aws_not_mutated",
+      "result": "pass"
+    },
+    {
+      "name": "next_runtime_window_boundary_recorded",
       "result": "pass"
     }
   ],
   "check_summary": {
-    "checked": 20,
-    "passed": 20,
+    "checked": 24,
+    "passed": 24,
     "failed": 0
   },
-  "next_action": "Advance to the non-EC2-safe portion of TRK-W64-043 / ITEM-W64-043; do not attempt live TTL proof until AWS authentication is restored.",
+  "next_action": "Keep EC2 stopped. Create the emergency-stop schedule and start the SSM watchdog only inside the next genuinely required bounded runtime window, then record final stopped-state proof.",
   "evidence_paths": [
     "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json",
-    "Plan/Instructions/QA/Evidence/Wave64/EC2_TTL_WATCHDOG_RECONCILIATION_20260712T064023-0500.json",
-    "Plan/Tracker/Evidence/EC2_TTL_WATCHDOG_RECONCILIATION_20260712T064023-0500.json",
-    "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog_reconciliation_test_log.json",
+    "Plan/Instructions/QA/Evidence/Wave64/EC2_TTL_WATCHDOG_LIVE_READINESS_20260713T002055-0500.json",
+    "Plan/Tracker/Evidence/EC2_TTL_WATCHDOG_LIVE_READINESS_20260713T002055-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog_live_readiness_test_log.json",
     "Plan/Items/Reports/ITEM-W64-042_ec2_ttl_watchdog.json",
-    "runtime_artifacts/wave64/row042_ec2_ttl_watchdog/20260712T063917-0500/emergency_stop_schedule_dry_run.json",
-    "runtime_artifacts/wave64/row042_ec2_ttl_watchdog/20260712T063917-0500/instance_stop_watchdog_dry_run.json",
-    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_AWS_AUTH_GATE_EC2_TTL_WATCHDOG_20260708T233332-0500.json"
+    "Plan/Instructions/QA/Evidence/Wave64/EC2_TTL_WATCHDOG_20260708T233454-0500.json"
   ]
 }
