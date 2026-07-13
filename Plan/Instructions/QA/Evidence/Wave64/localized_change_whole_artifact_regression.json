@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "evidence_id": "W64-LOCALIZED-CHANGE-WHOLE-ARTIFACT-REGRESSION-20260712T025616-0500",
-  "timestamp": "2026-07-12T02:56:16-05:00",
+  "evidence_id": "W64-LOCALIZED-CHANGE-WHOLE-ARTIFACT-REGRESSION-20260712T200500-0500",
+  "timestamp": "2026-07-12T20:05:00-05:00",
   "tracker_id": "TRK-W64-034",
   "item_id": "ITEM-W64-034",
   "source_citation": "Plan/Instructions/QA/FAILURE_CLASSIFICATION_AND_RETEST_PROTOCOL.md",
@@ -19,7 +19,12 @@
     "blocked_exit_2_for_untrusted_contained_bindings": true,
     "explicit_no_authority_blocker": true,
     "candidate_masks_never_used_as_truth": true,
-    "current_production_and_fixture_authority_arrays_empty": true
+    "current_production_and_fixture_authority_arrays_empty": true,
+    "dedicated_fail_closed_request_producer_added": true,
+    "producer_numeric_partition_and_attempt_validation": true,
+    "durable_atomic_no_clobber_request_and_report_output": true,
+    "unverified_report_binding_names_explicitly_disclosed": true,
+    "unrelated_malformed_authority_entries_identity_isolated": true
   },
   "implementation_artifacts": [
     {
@@ -28,7 +33,11 @@
     },
     {
       "path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_localized_change_whole_artifact_regression.py",
-      "sha256": "e29bcdc51e9a815dae96c6b873d224d343f07524397583a57b0f47d2d5cfb705"
+      "sha256": "8f25e9bc665e671dbeb3231fe147162d357ff9e36086eb3a2b6973904cfb531f"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/produce_wave64_localized_change_whole_artifact_regression_request.py",
+      "sha256": "4995fb222cda0c12b13f4507789114325f553cc634fdbdc86306ceda415457c0"
     },
     {
       "path": "Plan/08_SCHEMAS/wave64_localized_change_whole_artifact_regression_request.schema.json",
@@ -36,7 +45,7 @@
     },
     {
       "path": "Plan/08_SCHEMAS/wave64_localized_change_whole_artifact_regression_report.schema.json",
-      "sha256": "309d5d3051f20ebf8b2a9ce9df72e7db2a37a81ff1d6117d4626fea47b1a1a64"
+      "sha256": "f56e24c01acef353cc53912687b60f28bd01ed0ea4cf870b3c9aaab721920698"
     },
     {
       "path": "Plan/10_REGISTRIES/wave64_localized_change_whole_artifact_regression_rules.json",
@@ -44,7 +53,11 @@
     },
     {
       "path": "Plan/Instructions/QA/Scripts/test_wave64_localized_change_whole_artifact_regression_strict.py",
-      "sha256": "68721204e25bd36b60e5a3397e74c8216884469fac8fd5ff859ad87f1e2034bc"
+      "sha256": "fe47fe513f96cd1eb27b6c51f49dfd0b2e966fd3c7e15b5f194a606932ef390a"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_produce_wave64_localized_change_whole_artifact_regression_request.py",
+      "sha256": "007edfdeb53ca4ac87f4bf592f09a5233647742abd1b6893a4e654278fcdbfe5"
     }
   ],
   "authority_bindings": {
@@ -55,12 +68,13 @@
   },
   "offline_validation": {
     "test_log": "Plan/Instructions/QA/Evidence/Wave64/localized_change_whole_artifact_regression_test_log.json",
-    "tests_run": 58,
+    "test_log_sha256": "c98b32bb1b411b304739e34b1f4a07007eea6142b13d087ffe20182d4953f684",
+    "tests_run": 67,
     "test_failures": 0,
     "test_errors": 0,
     "test_skips": 0,
-    "unittest_elapsed_seconds": 104.714,
-    "wall_elapsed_seconds": 105.339,
+    "unittest_elapsed_seconds": 155.357,
+    "wall_elapsed_seconds": 155.357,
     "python_compile": "pass",
     "draft_2020_12_request_schema": "pass",
     "draft_2020_12_report_schema": "pass",
@@ -68,6 +82,18 @@
     "fixture_only_authority_contract": "conditionally_approved_not_production_evidence",
     "exact_production_authority_fixture_contract": "approved_reachability_only_not_production_evidence",
     "technical_offline_pass": true
+  },
+  "request_producer_probe": {
+    "request_path": "runtime_artifacts/wave64_localized_change_whole_artifact_regression/request_producer_probe_20260712T200500-0500/request.json",
+    "request_sha256": "5aad46b26f7908d38e95054d7481317a002b35be844b955028d0eb4e9c20436c",
+    "report_path": "runtime_artifacts/wave64_localized_change_whole_artifact_regression/request_producer_probe_20260712T200500-0500/report.json",
+    "report_sha256": "5bdeb5de20cf1bce0cc52617398b7d8c6fbbca102900b060eea8f6ccf6121777",
+    "producer_exit_code": 0,
+    "evaluator_exit_code": 2,
+    "decision": "blocked",
+    "eligible_for_production": false,
+    "unverified_artifact_binding_names": [],
+    "exact_blocker": "no exact production or fixture authority object matched the request"
   },
   "canonical_probe": {
     "path": "runtime_artifacts/wave64_localized_change_whole_artifact_regression/20260712T025145-0500/canonical_empty_authority_probe/probe_summary.json",
@@ -104,6 +130,23 @@
     "row_complete": false
   },
   "review": {
+    "cursor_request_producer_gap": {
+      "path": "runtime_artifacts/agent_handoffs/cursor/20260712T193654-0500_row034_localized_regression_request_producer_gap/handoff_record.json",
+      "sha256": "e8c7487f6f809d41b17fe7b3a49ade12126c57bc6552539f1ce6c1f69904ce73",
+      "classification": "CURSOR_HANDOFF_COMPLETED"
+    },
+    "claude_request_producer_semantic_review": {
+      "path": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T194637-0500_row034_localized_regression_request_producer_semantic_review/handoff_record.json",
+      "sha256": "2c497657a6bbfc55f3cbd5880ee15e06c309828e5318655f324af23e83cb3d14",
+      "high_findings": 1,
+      "medium_findings": 3
+    },
+    "claude_request_producer_closure_review": {
+      "path": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T200042-0500_row034_localized_regression_request_producer_closure_review/handoff_record.json",
+      "sha256": "1f46ce7ce289aea07777f5c4c98829080cefbb1e5de1949a1cf4b1837df98b0b",
+      "remaining_high_findings": 0,
+      "remaining_medium_findings": 0
+    },
     "cursor_gap_analysis": {
       "path": "runtime_artifacts/agent_handoffs/cursor/20260712T011609-0500_wave64_row034_whole_artifact_regression_gap/handoff_record.json",
       "sha256": "43ccc5c66cce74b428a5af605f1ac619a8abc5375e9d366994456436b63b5fa2",

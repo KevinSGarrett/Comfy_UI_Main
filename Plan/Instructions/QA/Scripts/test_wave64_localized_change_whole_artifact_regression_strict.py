@@ -1157,6 +1157,7 @@ class Wave64LocalizedChangeWholeArtifactRegressionStrictTests(unittest.TestCase)
         report = self._report()
         self.assertEqual(report["decision"], "blocked")
         self.assertTrue(any("untrusted top-level binding" in blocker for blocker in report["blockers"]))
+        self.assertEqual(report["validation"]["unverified_artifact_binding_names"], ["candidate_primary_media_binding"])
 
     def test_52_wave33_schema_name_mismatch_blocks(self) -> None:
         wave33 = json.loads(self.paths["wave33"].read_text(encoding="utf-8"))
@@ -1242,6 +1243,28 @@ class Wave64LocalizedChangeWholeArtifactRegressionStrictTests(unittest.TestCase)
         self.assertEqual(report["decision"], "blocked")
         self.assertFalse(report["production_eligibility"]["eligible_for_production"])
         self.assertTrue(any("no exact production or fixture authority" in blocker for blocker in report["blockers"]))
+
+    def test_59_report_writer_is_durable_no_clobber(self) -> None:
+        source = SOURCE_SCRIPT.read_text(encoding="utf-8")
+        self.assertIn("os.fsync(handle.fileno())", source)
+        self.assertIn("os.link(temporary, path)", source)
+        self.assertNotIn("temp_path.replace(path)", source)
+
+    def test_60_unrelated_malformed_authority_does_not_poison_matching_claim(self) -> None:
+        request = copy.deepcopy(self.base_request)
+        self._set_authority(request, "production")
+        rules = json.loads(self._rules_path().read_text(encoding="utf-8"))
+        rules["authority_rules"]["production_authority_exact_objects"].append(
+            {"authority_id": "unrelated", "bundle_id": "unrelated"}
+        )
+        _write_json(self._rules_path(), rules)
+        _write_json(self.paths["request"], request)
+        result = subprocess.run(
+            [sys.executable, str(self.root / "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_localized_change_whole_artifact_regression.py"), "--input", str(self.paths["request"]), "--output", str(self.paths["output"])],
+            cwd=self.root, capture_output=True, text=True, check=False,
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(self._report()["decision"], "approved")
 
 
 def _sha256_of_obj(payload: Any) -> str:

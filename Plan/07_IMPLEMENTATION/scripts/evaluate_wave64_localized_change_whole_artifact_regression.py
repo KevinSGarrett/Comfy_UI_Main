@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import tempfile
 from pathlib import Path
 from typing import Any
@@ -91,14 +92,18 @@ def _stable_sha256(payload: Any) -> str:
 
 def _write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, delete=False) as handle:
-        temp_path = Path(handle.name)
-        handle.write(json.dumps(payload, indent=2, sort_keys=True) + "\n")
+    descriptor, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=str(path.parent))
     try:
-        temp_path.replace(path)
-    finally:
-        if temp_path.exists():
-            temp_path.unlink()
+        with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
+            handle.write(json.dumps(payload, indent=2, sort_keys=True) + "\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.link(temporary, path)
+        os.unlink(temporary)
+    except Exception:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+        raise
 
 
 def _is_under_root(path: Path, root: Path) -> bool:
@@ -454,6 +459,7 @@ def _build_report(
     attempt_history_digest: str,
     producer_id: str,
     reviewer_id: str,
+    unverified_binding_names: list[str],
 ) -> dict[str, Any]:
     blockers = sorted(set(blockers))
     failures = sorted(set(failures))
@@ -495,6 +501,7 @@ def _build_report(
         "validation": {
             "request_schema_valid": True,
             "upstream_contracts_valid": len(blockers) == 0,
+            "unverified_artifact_binding_names": sorted(set(unverified_binding_names)),
             "material_change_recomputed": material_change,
             "change_summary_hash": change_summary_hash,
             "change_kind": req["change_kind"],
@@ -599,6 +606,7 @@ def main() -> int:
         raw_bindings = _expect_dict(request_payload["bindings"], "request.bindings")
         bindings: dict[str, dict[str, Any]] = {}
         binding_blockers: list[str] = []
+        unverified_binding_names: list[str] = []
         binding_integrity_ok = True
         for name, raw_binding in raw_bindings.items():
             binding_obj = _expect_dict(raw_binding, f"request.bindings.{name}")
@@ -616,6 +624,7 @@ def main() -> int:
             except (EvaluatorError, OSError) as exc:
                 binding_integrity_ok = False
                 bindings[name] = fallback_binding
+                unverified_binding_names.append(name)
                 binding_blockers.append(f"untrusted top-level binding {name}: {exc}")
     except Exception as exc:
         print(f"ERROR: {exc}")
@@ -1480,20 +1489,29 @@ def main() -> int:
         seen_pairs: set[tuple[str, str]] = set()
         seen_prod_pairs: set[tuple[str, str]] = set()
         seen_fixture_pairs: set[tuple[str, str]] = set()
+        def _authority_pair(value: Any) -> tuple[str, str] | None:
+            if not isinstance(value, dict):
+                return None
+            authority_id = value.get("authority_id")
+            bundle_id = value.get("bundle_id")
+            if not isinstance(authority_id, str) or not authority_id.strip():
+                return None
+            if not isinstance(bundle_id, str) or not bundle_id.strip():
+                return None
+            return authority_id.strip(), bundle_id.strip()
+
         for obj in prod_objects:
-            pair = (
-                _expect_str(_expect_dict(obj, "production_authority").get("authority_id"), "production_authority.authority_id"),
-                _expect_str(_expect_dict(obj, "production_authority").get("bundle_id"), "production_authority.bundle_id"),
-            )
+            pair = _authority_pair(obj)
+            if pair is None:
+                continue
             if pair in seen_pairs:
                 blockers.append("duplicate authority_id+bundle_id pair detected")
             seen_pairs.add(pair)
             seen_prod_pairs.add(pair)
         for obj in fixture_objects:
-            pair = (
-                _expect_str(_expect_dict(obj, "fixture_authority").get("authority_id"), "fixture_authority.authority_id"),
-                _expect_str(_expect_dict(obj, "fixture_authority").get("bundle_id"), "fixture_authority.bundle_id"),
-            )
+            pair = _authority_pair(obj)
+            if pair is None:
+                continue
             if pair in seen_pairs:
                 blockers.append("duplicate authority_id+bundle_id pair detected")
             seen_pairs.add(pair)
@@ -1573,10 +1591,14 @@ def main() -> int:
             return True
 
         for item in prod_objects:
+            if _authority_pair(item) != (claim_authority, claim_bundle):
+                continue
             if _matches_authority(item, "production"):
                 prod_match = True
                 authority_match_kind = "production"
         for item in fixture_objects:
+            if _authority_pair(item) != (claim_authority, claim_bundle):
+                continue
             if _matches_authority(item, "fixture"):
                 fixture_match = True
                 if not prod_match:
@@ -1621,6 +1643,7 @@ def main() -> int:
         attempt_history_digest=attempt_history_digest,
         producer_id=producer_id or "unknown_producer",
         reviewer_id=reviewer_id or "unknown_reviewer",
+        unverified_binding_names=unverified_binding_names,
     )
 
     try:

@@ -1210,3 +1210,10 @@ Evidence: `Plan/Instructions/QA/Evidence/Wave64/global_audio_review_not_local_on
 Next safe local action in strict sequence: duplicate-check `TRK-W64-034` / `ITEM-W64-034` against its existing whole-artifact regression artifacts before changing implementation or status.
 
 Evidence: `Plan/Instructions/QA/Evidence/Wave64/multimodal_cross_review.json`; `Plan/Instructions/QA/Evidence/Wave64/multimodal_cross_review_test_log.json`; `Plan/Items/Reports/ITEM-W64-033_multimodal_cross_review.json`.
+## Wave64 Row034 Localized Whole-Artifact Request Producer - 2026-07-12T20:05:00-05:00
+
+`TRK-W64-034` / `ITEM-W64-034` remains `Blocked_Localized_Change_Production_Review_Proof_Missing`. The existing 58-test evaluator and prior review closure were preserved. A fail-closed v3 producer now binds all 14 upstream artifacts and validates metadata, numeric visual/audio partition coverage, attempt sequencing/digests, path containment/distinctness, stable hashes, schema, and exact production authority. Evaluator report publication is durable/no-clobber; authority entries are identity-filtered before strict matching; unverified binding names are explicit in reports. Combined producer/evaluator coverage passes 67/67. The durable full-fixture probe emits successfully and remains blocked solely because no exact production or fixture authority object exists. Cursor gap review passed; Claude initial findings were remediated and closure found zero residual high/medium issues. No production review, generation, AWS, EC2, mask promotion, Wave70 hard gate, Jira, or Wave71+ action occurred.
+
+Next safe local action in strict sequence: duplicate-check `TRK-W64-035` / `ITEM-W64-035` against its existing strict autonomous QA master-protocol artifacts before changing implementation or status.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/localized_change_whole_artifact_regression.json`; `Plan/Instructions/QA/Evidence/Wave64/localized_change_whole_artifact_regression_test_log.json`; `Plan/Items/Reports/ITEM-W64-034_localized_change_whole_artifact_regression.json`.

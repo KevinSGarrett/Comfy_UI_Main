@@ -179,6 +179,7 @@
       "required": [
         "request_schema_valid",
         "upstream_contracts_valid",
+        "unverified_artifact_binding_names",
         "material_change_recomputed",
         "change_summary_hash",
         "change_kind",
@@ -200,6 +201,14 @@
         },
         "upstream_contracts_valid": {
           "type": "boolean"
+        },
+        "unverified_artifact_binding_names": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
         },
         "material_change_recomputed": {
           "type": "boolean"
