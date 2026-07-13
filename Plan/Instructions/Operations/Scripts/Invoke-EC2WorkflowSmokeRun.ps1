@@ -47,6 +47,7 @@ param(
   [int]$TimeoutSeconds = 900,
   [int]$PollSeconds = 3,
   [int]$MaxEc2RuntimeMinutes = 45,
+  [switch]$AllowWatchdogOsShutdownFallback,
   [switch]$SkipGitLfsPull,
   [switch]$Execute
 )
@@ -1218,7 +1219,8 @@ try {
       -OutFile $WatchdogEvidenceOutFile `
       -StopAfterMinutes $MaxEc2RuntimeMinutes `
       -TrackerId "TRK-W64-042" `
-      -ItemId "ITEM-W64-042"
+      -ItemId "ITEM-W64-042" `
+      -AllowOsShutdownFallback:$AllowWatchdogOsShutdownFallback
   } catch {
     $record.failure_category = "instance_stop_watchdog_not_verified"
     throw

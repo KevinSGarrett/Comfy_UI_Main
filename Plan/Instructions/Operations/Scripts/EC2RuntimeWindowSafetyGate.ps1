@@ -303,7 +303,8 @@ function Invoke-VerifiedInstanceWatchdog {
     [Parameter(Mandatory=$true)][string]$OutFile,
     [int]$StopAfterMinutes = 60,
     [string]$TrackerId = "",
-    [string]$ItemId = ""
+    [string]$ItemId = "",
+    [switch]$AllowOsShutdownFallback
   )
 
   $arguments = @(
@@ -317,6 +318,7 @@ function Invoke-VerifiedInstanceWatchdog {
   )
   if (![string]::IsNullOrWhiteSpace($TrackerId)) { $arguments += @("-TrackerId", $TrackerId) }
   if (![string]::IsNullOrWhiteSpace($ItemId)) { $arguments += @("-ItemId", $ItemId) }
+  if ($AllowOsShutdownFallback) { $arguments += "-AllowOsShutdownFallback" }
 
   $global:LASTEXITCODE = 0
   $output = @(& powershell @arguments 2>&1)

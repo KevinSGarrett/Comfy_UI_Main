@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "normal_lane_watchdog_os_shutdown_fallback_authority",
+  "created_at": "2026-07-13T12:51:00-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+  "runtime_window_id": "rw-normal-20260713T105243-0500-57f1f908",
+  "instance_id": "i-0560bf8d143f93bb1",
+  "region": "us-east-1",
+  "source_head": "f059f95e62dcd99cc25cc509ee8e70f37c55010e",
+  "result": "explicit_os_shutdown_fallback_ready_for_guarded_live_verification",
+  "trigger": {
+    "watchdog_command_id": "fe7ac735-c64b-4729-b9da-9bdd54719595",
+    "command_status": "Failed",
+    "observed_error": "STOP_CAPABILITY=unavailable rc=254",
+    "classification": "instance_profile_ec2_stop_instances_not_authorized"
+  },
+  "aws_read_only_verification": {
+    "instance_state_after_attempt": "stopped",
+    "instance_initiated_shutdown_behavior": "stop",
+    "verified_live": true
+  },
+  "implementation": {
+    "fallback_default_enabled": false,
+    "explicit_executor_switch": "AllowWatchdogOsShutdownFallback",
+    "shared_helper_switch": "AllowOsShutdownFallback",
+    "fallback_command": "sudo shutdown -h now",
+    "sudo_capability_checked_before_fallback_watchdog_arm": true,
+    "separate_aws_scheduler_stop_remains_required": true
+  },
+  "verification": {
+    "powershell_parse_pass": true,
+    "regression_result": "pass_local_only",
+    "regression_test_count": 29,
+    "regression_passing_count": 29,
+    "regression_failed_count": 0,
+    "sonnet_review_status": "PASS",
+    "sonnet_blockers": []
+  },
+  "safety": {
+    "generation_executed": false,
+    "remote_static_proof_command_sent": false,
+    "final_instance_state": "stopped",
+    "fallback_requires_explicit_opt_in": true
+  },
+  "next_action": "Checkpoint this exact control change, rebuild and publish an exact-head bundle, then run one static-proof attempt with -AllowWatchdogOsShutdownFallback."
+}

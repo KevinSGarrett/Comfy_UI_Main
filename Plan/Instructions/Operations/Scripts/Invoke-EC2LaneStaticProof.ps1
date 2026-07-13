@@ -25,6 +25,7 @@ param(
   [string]$DeployBundleS3Uri = "",
   [string]$DeployBundleSha256 = "",
   [int]$MaxEc2RuntimeMinutes = 25,
+  [switch]$AllowWatchdogOsShutdownFallback,
   [switch]$SkipGitLfsPull,
   [switch]$Execute
 )
@@ -669,7 +670,8 @@ try {
       -OutFile $WatchdogEvidenceOutFile `
       -StopAfterMinutes $MaxEc2RuntimeMinutes `
       -TrackerId "TRK-W64-042" `
-      -ItemId "ITEM-W64-042"
+      -ItemId "ITEM-W64-042" `
+      -AllowOsShutdownFallback:$AllowWatchdogOsShutdownFallback
   } catch {
     $executionFailureCategory = "instance_stop_watchdog_not_verified"
     throw

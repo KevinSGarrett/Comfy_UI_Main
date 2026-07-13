@@ -131,6 +131,8 @@ try {
   $gitNormalizedExclude = Resolve-GitCheckpointCleanliness -PorcelainLines @("?? tools/new.ps1") -PreservedExcludePath @(".\tools\")
   $gitTypoExclude = Resolve-GitCheckpointCleanliness -PorcelainLines @("?? tools/new.ps1") -PreservedExcludePath @("tool")
   $helperText = Get-Content -LiteralPath $helper -Raw
+  $staticExecutorText = Get-Content -LiteralPath $staticExecutor -Raw
+  $smokeExecutorText = Get-Content -LiteralPath $smokeExecutor -Raw
   $watchdogExecutorText = Get-Content -LiteralPath $watchdogExecutor -Raw
   $currentPorcelain = @(git -C $ProjectRoot status --porcelain 2>$null)
   $currentUnstagedPaths = @($currentPorcelain | Where-Object { $_.Length -gt 0 -and ($_.Substring(0, 1) -eq " " -or $_.Substring(0, 1) -eq "?") } | ForEach-Object { Get-EC2SafetyPorcelainPath $_ })
@@ -139,6 +141,9 @@ try {
 
   $tests = @(
     (New-Test "watchdog_outer_payload_is_posix_sh_compatible" ($watchdogExecutorText -match '(?s)\$remoteScript = @"\r?\n# AWS-RunShellScript executes this outer payload with /bin/sh\.\r?\nset -eu\r?\n.*?#!/usr/bin/env bash\r?\nset -euo pipefail') "posix outer payload and Bash inner watchdog" "outer payload uses set -eu; inner Bash script may use pipefail"),
+    (New-Test "watchdog_os_shutdown_fallback_is_explicit" ($helperText -match 'if \(\$AllowOsShutdownFallback\) \{ \$arguments \+= "-AllowOsShutdownFallback" \}') "explicit helper forwarding" "fallback flag forwarded only when explicitly selected"),
+    (New-Test "static_executor_exposes_watchdog_fallback_switch" ($staticExecutorText -match '\[switch\]\$AllowWatchdogOsShutdownFallback' -and $staticExecutorText -match '-AllowOsShutdownFallback:\$AllowWatchdogOsShutdownFallback') "explicit static-proof switch" "static proof forwards explicit fallback choice"),
+    (New-Test "smoke_executor_exposes_watchdog_fallback_switch" ($smokeExecutorText -match '\[switch\]\$AllowWatchdogOsShutdownFallback' -and $smokeExecutorText -match '-AllowOsShutdownFallback:\$AllowWatchdogOsShutdownFallback') "explicit smoke-run switch" "smoke run forwards explicit fallback choice"),
     (New-Test "flat_readiness_schema_supported" ($flatReadiness.schema_source -eq "flat" -and $flatReadiness.ready_for_ec2_static_proof -and $flatReadiness.lane_match) $flatReadiness "flat static readiness accepted"),
     (New-Test "nested_readiness_schema_supported" ($nestedReadiness.schema_source -eq "nested_local_readiness" -and $nestedReadiness.ready_for_ec2_static_proof -and $nestedReadiness.lane_match) $nestedReadiness "nested static readiness accepted"),
     (New-Test "nested_readiness_generation_remains_false" (-not $nestedReadiness.ready_for_generation -and $nestedReadiness.status -eq "static_proof_ready") $nestedReadiness "static ready, generation false"),

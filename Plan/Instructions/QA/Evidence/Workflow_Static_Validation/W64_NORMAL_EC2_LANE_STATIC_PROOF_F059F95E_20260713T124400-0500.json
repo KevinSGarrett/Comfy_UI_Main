@@ -1,0 +1,150 @@
+﻿{
+    "evidence_id":  "EC2-LANE-STATIC-PROOF-20260713T123946-0500",
+    "timestamp":  "2026-07-13T12:48:05-05:00",
+    "start_time":  "2026-07-13T12:39:49-05:00",
+    "instance_id":  "i-0560bf8d143f93bb1",
+    "region":  "us-east-1",
+    "lane_id":  "sdxl_realvisxl_controlnet_normal_lane",
+    "runtime_window_id":  "rw-normal-20260713T105243-0500-57f1f908",
+    "max_ec2_runtime_minutes":  25,
+    "ssm_execution_timeout_seconds":  1500,
+    "git_lfs_pull_skipped":  true,
+    "deploy_bundle_s3_uri":  "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/normal_v4_full_body_target_runtime_f059f95e_20260713T124100-0500/normal_v4_full_body_target_runtime_f059f95e_20260713T124100-0500.zip",
+    "deploy_bundle_sha256":  "7f7384f0bb77f6b75b6aa91699bf938a85f02f9d672cb7bcc925b0d8ab34318a",
+    "auth_gate":  {
+                      "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_AWS_AUTH_GATE_SELECTED_INPAINT_20260710T203000-0500.json",
+                      "found":  true,
+                      "expected_account":  "029530099913",
+                      "account_match":  false,
+                      "ec2_work_allowed":  true,
+                      "safe_to_start_ec2":  true,
+                      "generation_allowed":  true,
+                      "result":  "pass",
+                      "status":  "pass",
+                      "failure_category":  "",
+                      "remote_login_status":  "not_attempted"
+                  },
+    "readiness_gate":  {
+                           "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_TARGET_RUNTIME_CANDIDATE_LOCAL_READINESS_20260713T103230-0500.json",
+                           "found":  true,
+                           "schema_source":  "nested_local_readiness",
+                           "local_pre_ec2_ready":  true,
+                           "ready_for_ec2_static_proof":  true,
+                           "ready_for_generation":  false,
+                           "lane_id":  "sdxl_realvisxl_controlnet_normal_lane",
+                           "lane_match":  true,
+                           "result":  "ready_for_ec2_static_proof",
+                           "failure_category":  null,
+                           "status":  "static_proof_ready",
+                           "read_error":  null
+                       },
+    "emergency_stop_gate":  {
+                                "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_EMERGENCY_STOP_SCHEDULE_LIVE_D70C8483_20260713T122400-0500.json",
+                                "found":  true,
+                                "json_valid":  true,
+                                "result":  "emergency_stop_schedule_created_and_verified",
+                                "runtime_window_id":  "rw-normal-20260713T105243-0500-57f1f908",
+                                "instance_id":  "i-0560bf8d143f93bb1",
+                                "region":  "us-east-1",
+                                "verified":  true,
+                                "status":  "pass",
+                                "failure_category":  null,
+                                "checks":  {
+                                               "evidence_found":  true,
+                                               "json_valid":  true,
+                                               "result_verified":  true,
+                                               "runtime_window_match":  true,
+                                               "instance_match":  true,
+                                               "region_match":  true,
+                                               "execute_true":  true,
+                                               "aws_contacted_true":  true,
+                                               "schedule_verified_true":  true,
+                                               "ec2_not_started_by_schedule":  true,
+                                               "generation_not_executed":  true
+                                           },
+                                "read_error":  null
+                            },
+    "instance_watchdog":  null,
+    "watchdog_evidence_out_file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_INSTANCE_WATCHDOG_LIVE_F059F95E_20260713T124300-0500.json",
+    "execute_gates_pass":  true,
+    "blocked_reasons":  [
+
+                        ],
+    "result":  "ec2_static_proof_failed",
+    "failure_category":  "instance_stop_watchdog_not_verified",
+    "local_git_checkpoint_gate":  {
+                                      "git_root":  "C:/Comfy_UI_Main",
+                                      "head":  "f059f95e62dcd99cc25cc509ee8e70f37c55010e",
+                                      "origin_main":  "f059f95e62dcd99cc25cc509ee8e70f37c55010e",
+                                      "expected_remote_head":  "f059f95e62dcd99cc25cc509ee8e70f37c55010e",
+                                      "local_matches_origin":  true,
+                                      "actual_clean":  false,
+                                      "effective_clean":  true,
+                                      "clean":  true,
+                                      "porcelain_count":  9,
+                                      "staged_count":  0,
+                                      "excluded_dirty_count":  9,
+                                      "unexpected_dirty_count":  0,
+                                      "normalized_exclude_paths":  [
+                                                                       "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_LATEST.json",
+                                                                       "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_LATEST.json",
+                                                                       "Plan/PROJECT_MANIFEST.json",
+                                                                       "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_20260711T211346-0500.json",
+                                                                       "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_20260711T211346-0500.md",
+                                                                       "tools/Export-GitLfsReadOnlyEvidence.ps1",
+                                                                       "tools/Measure-CodexAutomationScheduleLoad.ps1",
+                                                                       "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_DEPLOY_BUNDLE_S3_PUBLISH_EXECUTE_F059F95E_20260713T124200-0500.json",
+                                                                       "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W64_NORMAL_EC2_LANE_STATIC_PROOF_F059F95E_20260713T124300-0500.json"
+                                                                   ],
+                                      "staged_paths":  [
+
+                                                       ],
+                                      "excluded_dirty_paths":  [
+                                                                   "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_LATEST.json",
+                                                                   "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_LATEST.json",
+                                                                   "Plan/PROJECT_MANIFEST.json",
+                                                                   "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_20260711T211346-0500.json",
+                                                                   "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_20260711T211346-0500.md",
+                                                                   "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_DEPLOY_BUNDLE_S3_PUBLISH_EXECUTE_F059F95E_20260713T124200-0500.json",
+                                                                   "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W64_NORMAL_EC2_LANE_STATIC_PROOF_F059F95E_20260713T124300-0500.json",
+                                                                   "tools/Export-GitLfsReadOnlyEvidence.ps1",
+                                                                   "tools/Measure-CodexAutomationScheduleLoad.ps1"
+                                                               ],
+                                      "unexpected_dirty_paths":  [
+
+                                                                 ],
+                                      "remote":  "origin\thttps://github.com/KevinSGarrett/Comfy_UI_Main.git (fetch)",
+                                      "result":  "pass",
+                                      "error":  null
+                                  },
+    "start_state":  "stopped",
+    "ec2_started":  true,
+    "ssm_available":  true,
+    "command_id":  null,
+    "command_status":  "NotStarted",
+    "stdout":  "",
+    "stderr":  "",
+    "final_state":  "stopped",
+    "stop_exit_code":  0,
+    "stop_output_tail":  "{\r\n    \"StoppingInstances\": [\r\n        {\r\n            \"InstanceId\": \"i-0560bf8d143f93bb1\",\r\n            \"CurrentState\": {\r\n                \"Code\": 64,\r\n                \"Name\": \"stopping\"\r\n            },\r\n            \"PreviousState\": {\r\n                \"Code\": 16,\r\n                \"Name\": \"running\"\r\n            }\r\n        }\r\n    ]\r\n}",
+    "stop_failure_category":  null,
+    "generation_executed":  false,
+    "static_proof_summary":  {
+                                 "remote_payload_parsed":  false,
+                                 "remote_errors":  [
+
+                                                   ],
+                                 "object_info_pass":  false,
+                                 "model_proof_count":  0,
+                                 "model_missing_count":  0,
+                                 "model_hash_missing_count":  0,
+                                 "required_models_present":  false,
+                                 "required_model_hashes_present":  false,
+                                 "pass":  false
+                             },
+    "errors":  [
+                   "Instance stop watchdog verification failed for runtime window rw-normal-20260713T105243-0500-57f1f908 (exit=2, result=instance_stop_watchdog_failed).",
+                   "SSM command status was NotStarted.",
+                   "Remote static proof stdout was empty."
+               ]
+}
