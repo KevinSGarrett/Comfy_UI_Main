@@ -847,7 +847,7 @@ $s3PrefixForRemote = "$S3Prefix/$runId".Trim("/")
 $ssmExecutionTimeoutSeconds = [Math]::Min([Math]::Max(600, $TimeoutSeconds + 900), [Math]::Max(600, $MaxEc2RuntimeMinutes * 60))
 $remoteScript = @"
 python3 - <<'PY'
-import base64, datetime, glob, hashlib, json, os, shutil, signal, subprocess, tempfile, time, traceback, urllib.request, zipfile
+import base64, datetime, glob, hashlib, json, os, shutil, signal, subprocess, tempfile, time, traceback, urllib.error, urllib.request, zipfile
 
 RUN_ID = "$runId"
 PROJECT = "$RemoteProjectRoot"
@@ -1046,8 +1046,18 @@ try:
         headers={"Content-Type": "application/json"},
         method="POST"
     )
-    with urllib.request.urlopen(req, timeout=30) as resp:
-        prompt_response = json.loads(resp.read().decode("utf-8"))
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            prompt_response = json.loads(resp.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        response_body = exc.read().decode("utf-8", errors="replace")
+        result["prompt_http_error"] = {
+            "status": exc.code,
+            "reason": str(exc.reason),
+            "headers": dict(exc.headers.items()),
+            "body": response_body[-12000:]
+        }
+        raise RuntimeError("ComfyUI /prompt rejected request with HTTP %s: %s" % (exc.code, response_body[-4000:])) from exc
     result["prompt_response"] = prompt_response
     result["prompt_id"] = prompt_response.get("prompt_id")
     if not result["prompt_id"]:

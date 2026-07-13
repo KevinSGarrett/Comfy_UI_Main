@@ -1,0 +1,463 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "ec2_runtime_window_safety_gate_regression",
+    "created_at":  "2026-07-13T13:18:45-05:00",
+    "result":  "pass_local_only",
+    "failure_category":  null,
+    "local_only":  true,
+    "aws_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "test_count":  30,
+    "passing_test_count":  30,
+    "failed_test_count":  0,
+    "tests":  [
+                  {
+                      "name":  "watchdog_outer_payload_is_posix_sh_compatible",
+                      "result":  "pass",
+                      "observed":  "posix outer payload and Bash inner watchdog",
+                      "expected":  "outer payload uses set -eu; inner Bash script may use pipefail"
+                  },
+                  {
+                      "name":  "watchdog_os_shutdown_fallback_is_explicit",
+                      "result":  "pass",
+                      "observed":  "explicit helper forwarding",
+                      "expected":  "fallback flag forwarded only when explicitly selected"
+                  },
+                  {
+                      "name":  "static_executor_exposes_watchdog_fallback_switch",
+                      "result":  "pass",
+                      "observed":  "explicit static-proof switch",
+                      "expected":  "static proof forwards explicit fallback choice"
+                  },
+                  {
+                      "name":  "smoke_executor_exposes_watchdog_fallback_switch",
+                      "result":  "pass",
+                      "observed":  "explicit smoke-run switch",
+                      "expected":  "smoke run forwards explicit fallback choice"
+                  },
+                  {
+                      "name":  "smoke_executor_preserves_prompt_http_error_body",
+                      "result":  "pass",
+                      "observed":  "structured HTTP error capture",
+                      "expected":  "ComfyUI prompt validation response is retained for diagnosis"
+                  },
+                  {
+                      "name":  "flat_readiness_schema_supported",
+                      "result":  "pass",
+                      "observed":  {
+                                       "file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\ec2_runtime_safety_regression_919cb36856204a53a6c9a42a268ac5ed\\flat_readiness.json",
+                                       "found":  true,
+                                       "schema_source":  "flat",
+                                       "local_pre_ec2_ready":  true,
+                                       "ready_for_ec2_static_proof":  true,
+                                       "ready_for_generation":  false,
+                                       "lane_id":  "lane-a",
+                                       "lane_match":  true,
+                                       "result":  "ready_for_ec2_static_proof",
+                                       "failure_category":  null,
+                                       "status":  "static_proof_ready",
+                                       "read_error":  null
+                                   },
+                      "expected":  "flat static readiness accepted"
+                  },
+                  {
+                      "name":  "nested_readiness_schema_supported",
+                      "result":  "pass",
+                      "observed":  {
+                                       "file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\ec2_runtime_safety_regression_919cb36856204a53a6c9a42a268ac5ed\\nested_readiness.json",
+                                       "found":  true,
+                                       "schema_source":  "nested_local_readiness",
+                                       "local_pre_ec2_ready":  true,
+                                       "ready_for_ec2_static_proof":  true,
+                                       "ready_for_generation":  false,
+                                       "lane_id":  "lane-a",
+                                       "lane_match":  true,
+                                       "result":  "ready_for_ec2_static_proof",
+                                       "failure_category":  null,
+                                       "status":  "static_proof_ready",
+                                       "read_error":  null
+                                   },
+                      "expected":  "nested static readiness accepted"
+                  },
+                  {
+                      "name":  "nested_readiness_generation_remains_false",
+                      "result":  "pass",
+                      "observed":  {
+                                       "file":  "C:\\Users\\kevin\\AppData\\Local\\Temp\\ec2_runtime_safety_regression_919cb36856204a53a6c9a42a268ac5ed\\nested_readiness.json",
+                                       "found":  true,
+                                       "schema_source":  "nested_local_readiness",
+                                       "local_pre_ec2_ready":  true,
+                                       "ready_for_ec2_static_proof":  true,
+                                       "ready_for_generation":  false,
+                                       "lane_id":  "lane-a",
+                                       "lane_match":  true,
+                                       "result":  "ready_for_ec2_static_proof",
+                                       "failure_category":  null,
+                                       "status":  "static_proof_ready",
+                                       "read_error":  null
+                                   },
+                      "expected":  "static ready, generation false"
+                  },
+                  {
+                      "name":  "nested_readiness_lane_mismatch_rejected",
+                      "result":  "pass",
+                      "observed":  "lane-a",
+                      "expected":  "lane mismatch"
+                  },
+                  {
+                      "name":  "valid_live_schedule_accepted",
+                      "result":  "pass",
+                      "observed":  "pass",
+                      "expected":  "pass"
+                  },
+                  {
+                      "name":  "dry_run_schedule_rejected",
+                      "result":  "pass",
+                      "observed":  "live_emergency_stop_schedule_not_verified",
+                      "expected":  "live_emergency_stop_schedule_not_verified"
+                  },
+                  {
+                      "name":  "mismatched_window_rejected",
+                      "result":  "pass",
+                      "observed":  false,
+                      "expected":  false
+                  },
+                  {
+                      "name":  "missing_safety_field_rejected",
+                      "result":  "pass",
+                      "observed":  false,
+                      "expected":  false
+                  },
+                  {
+                      "name":  "missing_schedule_rejected",
+                      "result":  "pass",
+                      "observed":  false,
+                      "expected":  false
+                  },
+                  {
+                      "name":  "valid_live_watchdog_accepted",
+                      "result":  "pass",
+                      "observed":  "pass",
+                      "expected":  "pass"
+                  },
+                  {
+                      "name":  "dry_run_watchdog_rejected",
+                      "result":  "pass",
+                      "observed":  "instance_stop_watchdog_not_verified",
+                      "expected":  "instance_stop_watchdog_not_verified"
+                  },
+                  {
+                      "name":  "static_emergency_gate_before_start",
+                      "result":  "pass",
+                      "observed":  {
+                                       "start":  28586,
+                                       "ssm":  29560,
+                                       "watchdog":  29644,
+                                       "payload":  30183
+                                   },
+                      "expected":  "gate before start"
+                  },
+                  {
+                      "name":  "static_watchdog_after_ssm_before_payload",
+                      "result":  "pass",
+                      "observed":  {
+                                       "start":  28586,
+                                       "ssm":  29560,
+                                       "watchdog":  29644,
+                                       "payload":  30183
+                                   },
+                      "expected":  "ssm \u003c watchdog \u003c payload"
+                  },
+                  {
+                      "name":  "smoke_emergency_gate_before_start",
+                      "result":  "pass",
+                      "observed":  {
+                                       "start":  50435,
+                                       "ssm":  51684,
+                                       "watchdog":  51771,
+                                       "payload":  52309
+                                   },
+                      "expected":  "gate before start"
+                  },
+                  {
+                      "name":  "smoke_watchdog_after_ssm_before_payload",
+                      "result":  "pass",
+                      "observed":  {
+                                       "start":  50435,
+                                       "ssm":  51684,
+                                       "watchdog":  51771,
+                                       "payload":  52309
+                                   },
+                      "expected":  "ssm \u003c watchdog \u003c payload"
+                  },
+                  {
+                      "name":  "queue_boundary_remains_fail_closed",
+                      "result":  "pass",
+                      "observed":  {
+                                       "ec2_start_allowed_by_queue_file":  false,
+                                       "generation_allowed_by_queue_file":  false,
+                                       "local_queue_validation_does_not_contact":  [
+                                                                                       "AWS",
+                                                                                       "GitHub API",
+                                                                                       "Civitai",
+                                                                                       "ComfyUI",
+                                                                                       "EC2"
+                                                                                   ]
+                                   },
+                      "expected":  "both flags false"
+                  },
+                  {
+                      "name":  "git_no_excludes_empty_is_clean",
+                      "result":  "pass",
+                      "observed":  {
+                                       "actual_clean":  true,
+                                       "effective_clean":  true,
+                                       "normalized_exclude_paths":  [
+
+                                                                    ],
+                                       "staged_paths":  [
+
+                                                        ],
+                                       "excluded_dirty_paths":  [
+
+                                                                ],
+                                       "unexpected_dirty_paths":  [
+
+                                                                  ],
+                                       "porcelain_count":  0,
+                                       "staged_count":  0,
+                                       "excluded_dirty_count":  0,
+                                       "unexpected_dirty_count":  0
+                                   },
+                      "expected":  "actual and effective clean"
+                  },
+                  {
+                      "name":  "git_no_excludes_dirty_blocks",
+                      "result":  "pass",
+                      "observed":  {
+                                       "actual_clean":  false,
+                                       "effective_clean":  false,
+                                       "normalized_exclude_paths":  [
+
+                                                                    ],
+                                       "staged_paths":  [
+
+                                                        ],
+                                       "excluded_dirty_paths":  [
+
+                                                                ],
+                                       "unexpected_dirty_paths":  [
+                                                                      "Plan/a.json"
+                                                                  ],
+                                       "porcelain_count":  1,
+                                       "staged_count":  0,
+                                       "excluded_dirty_count":  0,
+                                       "unexpected_dirty_count":  1
+                                   },
+                      "expected":  "one unexpected dirty path"
+                  },
+                  {
+                      "name":  "git_exact_exclude_is_effectively_clean",
+                      "result":  "pass",
+                      "observed":  {
+                                       "actual_clean":  false,
+                                       "effective_clean":  true,
+                                       "normalized_exclude_paths":  [
+                                                                        "Plan/a.json"
+                                                                    ],
+                                       "staged_paths":  [
+
+                                                        ],
+                                       "excluded_dirty_paths":  [
+                                                                    "Plan/a.json"
+                                                                ],
+                                       "unexpected_dirty_paths":  [
+
+                                                                  ],
+                                       "porcelain_count":  1,
+                                       "staged_count":  0,
+                                       "excluded_dirty_count":  1,
+                                       "unexpected_dirty_count":  0
+                                   },
+                      "expected":  "actual dirty, effective clean"
+                  },
+                  {
+                      "name":  "git_prefix_exclude_does_not_hide_uncovered_path",
+                      "result":  "pass",
+                      "observed":  {
+                                       "actual_clean":  false,
+                                       "effective_clean":  false,
+                                       "normalized_exclude_paths":  [
+                                                                        "Plan"
+                                                                    ],
+                                       "staged_paths":  [
+
+                                                        ],
+                                       "excluded_dirty_paths":  [
+                                                                    "Plan/a.json"
+                                                                ],
+                                       "unexpected_dirty_paths":  [
+                                                                      "tools/new.ps1"
+                                                                  ],
+                                       "porcelain_count":  2,
+                                       "staged_count":  0,
+                                       "excluded_dirty_count":  1,
+                                       "unexpected_dirty_count":  1
+                                   },
+                      "expected":  "one excluded and one unexpected"
+                  },
+                  {
+                      "name":  "git_staged_path_blocks_even_when_excluded",
+                      "result":  "pass",
+                      "observed":  {
+                                       "actual_clean":  false,
+                                       "effective_clean":  false,
+                                       "normalized_exclude_paths":  [
+                                                                        "Plan/a.json"
+                                                                    ],
+                                       "staged_paths":  [
+                                                            "Plan/a.json"
+                                                        ],
+                                       "excluded_dirty_paths":  [
+
+                                                                ],
+                                       "unexpected_dirty_paths":  [
+
+                                                                  ],
+                                       "porcelain_count":  1,
+                                       "staged_count":  1,
+                                       "excluded_dirty_count":  0,
+                                       "unexpected_dirty_count":  0
+                                   },
+                      "expected":  "staged always blocks"
+                  },
+                  {
+                      "name":  "git_exclude_normalization_matches",
+                      "result":  "pass",
+                      "observed":  {
+                                       "actual_clean":  false,
+                                       "effective_clean":  true,
+                                       "normalized_exclude_paths":  [
+                                                                        "tools"
+                                                                    ],
+                                       "staged_paths":  [
+
+                                                        ],
+                                       "excluded_dirty_paths":  [
+                                                                    "tools/new.ps1"
+                                                                ],
+                                       "unexpected_dirty_paths":  [
+
+                                                                  ],
+                                       "porcelain_count":  1,
+                                       "staged_count":  0,
+                                       "excluded_dirty_count":  1,
+                                       "unexpected_dirty_count":  0
+                                   },
+                      "expected":  "normalized prefix match"
+                  },
+                  {
+                      "name":  "git_typo_exclude_fails_closed",
+                      "result":  "pass",
+                      "observed":  {
+                                       "actual_clean":  false,
+                                       "effective_clean":  false,
+                                       "normalized_exclude_paths":  [
+                                                                        "tool"
+                                                                    ],
+                                       "staged_paths":  [
+
+                                                        ],
+                                       "excluded_dirty_paths":  [
+
+                                                                ],
+                                       "unexpected_dirty_paths":  [
+                                                                      "tools/new.ps1"
+                                                                  ],
+                                       "porcelain_count":  1,
+                                       "staged_count":  0,
+                                       "excluded_dirty_count":  0,
+                                       "unexpected_dirty_count":  1
+                                   },
+                      "expected":  "typo does not match"
+                  },
+                  {
+                      "name":  "git_origin_match_remains_required",
+                      "result":  "pass",
+                      "observed":  "source contract present",
+                      "expected":  "origin and effective cleanliness required"
+                  },
+                  {
+                      "name":  "git_wrapper_ignores_stale_native_exit_code",
+                      "result":  "pass",
+                      "observed":  {
+                                       "git_root":  "C:/Comfy_UI_Main",
+                                       "head":  "43499461a67f2c9a52711ae9aa6825b0297472a3",
+                                       "origin_main":  "43499461a67f2c9a52711ae9aa6825b0297472a3",
+                                       "expected_remote_head":  "43499461a67f2c9a52711ae9aa6825b0297472a3",
+                                       "local_matches_origin":  true,
+                                       "actual_clean":  false,
+                                       "effective_clean":  true,
+                                       "clean":  true,
+                                       "porcelain_count":  19,
+                                       "staged_count":  0,
+                                       "excluded_dirty_count":  19,
+                                       "unexpected_dirty_count":  0,
+                                       "normalized_exclude_paths":  [
+                                                                        "Plan/Instructions/Operations/Scripts/Invoke-EC2WorkflowSmokeRun.ps1",
+                                                                        "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_LATEST.json",
+                                                                        "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_LATEST.json",
+                                                                        "Plan/Instructions/QA/Scripts/Test-EC2RuntimeWindowSafetyGateRegression.ps1",
+                                                                        "Plan/PROJECT_MANIFEST.json",
+                                                                        "Plan/Instructions/Operations/Run_Records/W64_NORMAL_EC2_WORKFLOW_SMOKE_43499461_20260713T130600-0500.json",
+                                                                        "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_20260711T211346-0500.json",
+                                                                        "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_20260711T211346-0500.md",
+                                                                        "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_DEPLOY_BUNDLE_S3_PUBLISH_EXECUTE_43499461_20260713T125300-0500.json",
+                                                                        "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_INSTANCE_WATCHDOG_LIVE_43499461_20260713T125300-0500.json",
+                                                                        "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_LANE_RUNTIME_READINESS_AFTER_STATIC_PROOF_43499461_20260713T130400-0500.json",
+                                                                        "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_SMOKE_EMERGENCY_STOP_SCHEDULE_LIVE_43499461_20260713T130500-0500.json",
+                                                                        "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_SMOKE_INSTANCE_WATCHDOG_LIVE_43499461_20260713T130600-0500.json",
+                                                                        "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_NORMAL_EC2_WORKFLOW_SMOKE_DRY_RUN_43499461_20260713T130600-0500.json",
+                                                                        "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_NORMAL_EC2_WORKFLOW_SMOKE_EXECUTION_43499461_20260713T130600-0500.json",
+                                                                        "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_NORMAL_EC2_WORKFLOW_SMOKE_REQUEST_43499461_20260713T130600-0500.json",
+                                                                        "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W64_NORMAL_EC2_LANE_STATIC_PROOF_43499461_20260713T125300-0500.json",
+                                                                        "tools/Export-GitLfsReadOnlyEvidence.ps1",
+                                                                        "tools/Measure-CodexAutomationScheduleLoad.ps1"
+                                                                    ],
+                                       "staged_paths":  [
+
+                                                        ],
+                                       "excluded_dirty_paths":  [
+                                                                    "Plan/Instructions/Operations/Scripts/Invoke-EC2WorkflowSmokeRun.ps1",
+                                                                    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_GEOMETRY_HARD_GATE_LATEST.json",
+                                                                    "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/W70_MASK_PROMOTION_HARD_GATE_LATEST.json",
+                                                                    "Plan/Instructions/QA/Scripts/Test-EC2RuntimeWindowSafetyGateRegression.ps1",
+                                                                    "Plan/PROJECT_MANIFEST.json",
+                                                                    "Plan/Instructions/Operations/Run_Records/W64_NORMAL_EC2_WORKFLOW_SMOKE_43499461_20260713T130600-0500.json",
+                                                                    "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_20260711T211346-0500.json",
+                                                                    "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_20260711T211346-0500.md",
+                                                                    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_DEPLOY_BUNDLE_S3_PUBLISH_EXECUTE_43499461_20260713T125300-0500.json",
+                                                                    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_INSTANCE_WATCHDOG_LIVE_43499461_20260713T125300-0500.json",
+                                                                    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_LANE_RUNTIME_READINESS_AFTER_STATIC_PROOF_43499461_20260713T130400-0500.json",
+                                                                    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_SMOKE_EMERGENCY_STOP_SCHEDULE_LIVE_43499461_20260713T130500-0500.json",
+                                                                    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_SMOKE_INSTANCE_WATCHDOG_LIVE_43499461_20260713T130600-0500.json",
+                                                                    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_NORMAL_EC2_WORKFLOW_SMOKE_DRY_RUN_43499461_20260713T130600-0500.json",
+                                                                    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_NORMAL_EC2_WORKFLOW_SMOKE_EXECUTION_43499461_20260713T130600-0500.json",
+                                                                    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_NORMAL_EC2_WORKFLOW_SMOKE_REQUEST_43499461_20260713T130600-0500.json",
+                                                                    "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W64_NORMAL_EC2_LANE_STATIC_PROOF_43499461_20260713T125300-0500.json",
+                                                                    "tools/Export-GitLfsReadOnlyEvidence.ps1",
+                                                                    "tools/Measure-CodexAutomationScheduleLoad.ps1"
+                                                                ],
+                                       "unexpected_dirty_paths":  [
+
+                                                                  ],
+                                       "remote":  "origin\thttps://github.com/KevinSGarrett/Comfy_UI_Main.git (fetch)",
+                                       "result":  "pass",
+                                       "error":  null
+                                   },
+                      "expected":  "repository/head/origin resolved after stale LASTEXITCODE seed"
+                  }
+              ],
+    "boundary":  "Local evidence-parser, source-order, and read-only Git regression only. No Git mutation, AWS, SSM, EC2, ComfyUI, or generation action occurred."
+}

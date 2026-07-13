@@ -1,0 +1,337 @@
+﻿{
+    "evidence_id":  "LANE-RUNTIME-READINESS-20260713T130350-0500",
+    "timestamp":  "2026-07-13T13:03:50-05:00",
+    "lane_id":  "sdxl_realvisxl_controlnet_normal_lane",
+    "lane_dir":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_normal_lane",
+    "lane_files":  [
+                       {
+                           "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_normal_lane/workflow.api.json",
+                           "exists":  true,
+                           "json_valid":  true
+                       },
+                       {
+                           "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_normal_lane/patch_points.json",
+                           "exists":  true,
+                           "json_valid":  true
+                       },
+                       {
+                           "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_normal_lane/runtime_requirements.json",
+                           "exists":  true,
+                           "json_valid":  true
+                       },
+                       {
+                           "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_normal_lane/smoke_test_request.json",
+                           "exists":  true,
+                           "json_valid":  true
+                       }
+                   ],
+    "runtime_requirements_summary":  {
+                                         "required_nodes":  [
+                                                                "CheckpointLoaderSimple",
+                                                                "EmptyLatentImage",
+                                                                "CLIPTextEncode",
+                                                                "ControlNetLoader",
+                                                                "LoadImage",
+                                                                "ControlNetApplyAdvanced",
+                                                                "KSampler",
+                                                                "VAEDecode",
+                                                                "SaveImage",
+                                                                "SetUnionControlNetType"
+                                                            ],
+                                         "required_model_count":  2
+                                     },
+    "helper_scripts":  [
+                           {
+                               "path":  "Plan/Instructions/QA/Scripts/Test-ComfyWorkflowStatic.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/QA/Scripts/Test-WorkflowModelRegistryCoverage.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/Operations/Scripts/Invoke-EC2LaneStaticProof.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/Operations/Scripts/Invoke-ComfyWorkflowSmoke.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/Operations/Scripts/Invoke-EC2WorkflowSmokeRun.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/Operations/Scripts/Test-AwsAuthGate.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/Operations/Scripts/Test-AwsProfileAuthMatrix.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/Operations/Scripts/New-EC2PullbackRecord.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           },
+                           {
+                               "path":  "Plan/Instructions/QA/Scripts/New-ImageArtifactQARecord.ps1",
+                               "exists":  true,
+                               "parse_pass":  true,
+                               "errors":  [
+
+                                          ]
+                           }
+                       ],
+    "evidence_files":  [
+                           {
+                               "name":  "workflow_static_validation",
+                               "path":  "runtime_artifacts/run_packages/normal_v4_full_body_target_runtime_candidate_20260713T102200-0500/static_validation.json",
+                               "exists":  true,
+                               "json_valid":  true
+                           },
+                           {
+                               "name":  "smoke_dry_run",
+                               "path":  "runtime_artifacts/run_packages/normal_v4_full_body_target_runtime_candidate_20260713T102200-0500/smoke_dry_run.json",
+                               "exists":  true,
+                               "json_valid":  true
+                           },
+                           {
+                               "name":  "smoke_request",
+                               "path":  "runtime_artifacts/run_packages/normal_v4_full_body_target_runtime_candidate_20260713T102200-0500/prompt_request.json",
+                               "exists":  true,
+                               "json_valid":  true
+                           },
+                           {
+                               "name":  "model_registry_coverage",
+                               "path":  "Plan/Instructions/QA/Evidence/Model_Registry/W61_MODEL_REGISTRY_COVERAGE_20260713T024423-0500.json",
+                               "exists":  true,
+                               "json_valid":  true
+                           },
+                           {
+                               "name":  "image_qa_dry_run",
+                               "path":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W61_IMAGE_QA_DRY_RUN_20260706T030037-0500.json",
+                               "exists":  true,
+                               "json_valid":  true
+                           },
+                           {
+                               "name":  "pullback_dry_run",
+                               "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_EC2_PULLBACK_RECORD_DRY_RUN_20260706T031758-0500.json",
+                               "exists":  true,
+                               "json_valid":  true
+                           }
+                       ],
+    "lane_evidence_selection":  {
+                                    "source":  "run_package_manifest",
+                                    "workflow_static_validation":  "runtime_artifacts/run_packages/normal_v4_full_body_target_runtime_candidate_20260713T102200-0500/static_validation.json",
+                                    "smoke_dry_run":  "runtime_artifacts/run_packages/normal_v4_full_body_target_runtime_candidate_20260713T102200-0500/smoke_dry_run.json",
+                                    "smoke_request":  "runtime_artifacts/run_packages/normal_v4_full_body_target_runtime_candidate_20260713T102200-0500/prompt_request.json",
+                                    "lane_specific":  true
+                                },
+    "run_package_manifest":  {
+                                 "supplied":  true,
+                                 "file":  "runtime_artifacts/run_packages/normal_v4_full_body_target_runtime_candidate_20260713T102200-0500/RUN_PACKAGE_MANIFEST.json",
+                                 "found":  true,
+                                 "valid":  true,
+                                 "errors":  [
+
+                                            ],
+                                 "run_id":  "normal_v4_full_body_target_runtime_candidate_20260713T102200-0500",
+                                 "lane_id":  "sdxl_realvisxl_controlnet_normal_lane",
+                                 "lane_match":  true,
+                                 "result":  "pass_local_only",
+                                 "local_only_boundaries_pass":  true,
+                                 "packaged_files":  [
+                                                        {
+                                                            "source":  "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/workflow.api.json",
+                                                            "packaged":  "runtime_artifacts/run_packages/normal_v4_full_body_target_runtime_candidate_20260713T102200-0500/lane_files/workflow.api.json",
+                                                            "expected_sha256":  "472715e830586ad4fd9e88183ab59cee7bfdf8d813b4e9eadbeaa1a6092ac3ff",
+                                                            "actual_sha256":  "472715e830586ad4fd9e88183ab59cee7bfdf8d813b4e9eadbeaa1a6092ac3ff",
+                                                            "hash_match":  true,
+                                                            "declared_source_hash_match":  true,
+                                                            "actual_source_hash_match":  true,
+                                                            "profile_modified":  false,
+                                                            "valid":  true
+                                                        },
+                                                        {
+                                                            "source":  "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/smoke_test_request.json",
+                                                            "packaged":  "runtime_artifacts/run_packages/normal_v4_full_body_target_runtime_candidate_20260713T102200-0500/lane_files/smoke_test_request.json",
+                                                            "expected_sha256":  "1ac599a66e57c2d53ada84d16191a6894e858c6eff6a1348cb92c592dc0c558a",
+                                                            "actual_sha256":  "1ac599a66e57c2d53ada84d16191a6894e858c6eff6a1348cb92c592dc0c558a",
+                                                            "hash_match":  true,
+                                                            "declared_source_hash_match":  false,
+                                                            "actual_source_hash_match":  false,
+                                                            "profile_modified":  true,
+                                                            "valid":  true
+                                                        },
+                                                        {
+                                                            "source":  "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/runtime_requirements.json",
+                                                            "packaged":  "runtime_artifacts/run_packages/normal_v4_full_body_target_runtime_candidate_20260713T102200-0500/lane_files/runtime_requirements.json",
+                                                            "expected_sha256":  "71d183ba634d9e03c367f799fcc0ace48d12072a4ff69a8d80b6319c9e82dc8c",
+                                                            "actual_sha256":  "71d183ba634d9e03c367f799fcc0ace48d12072a4ff69a8d80b6319c9e82dc8c",
+                                                            "hash_match":  true,
+                                                            "declared_source_hash_match":  true,
+                                                            "actual_source_hash_match":  true,
+                                                            "profile_modified":  false,
+                                                            "valid":  true
+                                                        },
+                                                        {
+                                                            "source":  "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane/patch_points.json",
+                                                            "packaged":  "runtime_artifacts/run_packages/normal_v4_full_body_target_runtime_candidate_20260713T102200-0500/lane_files/patch_points.json",
+                                                            "expected_sha256":  "8d93ad166653aaa6023eed56eaa3ffc11e74e467ca128665b31470eb940c3593",
+                                                            "actual_sha256":  "8d93ad166653aaa6023eed56eaa3ffc11e74e467ca128665b31470eb940c3593",
+                                                            "hash_match":  true,
+                                                            "declared_source_hash_match":  true,
+                                                            "actual_source_hash_match":  true,
+                                                            "profile_modified":  false,
+                                                            "valid":  true
+                                                        },
+                                                        {
+                                                            "source":  "Workflows/base_generation/ACTIVE_LANES.json",
+                                                            "packaged":  "runtime_artifacts/run_packages/normal_v4_full_body_target_runtime_candidate_20260713T102200-0500/ACTIVE_LANES.snapshot.json",
+                                                            "expected_sha256":  "e564a2a654b40add3202b9aead9d78317670592eea1fbf0e68a5a0a16f7bc05b",
+                                                            "actual_sha256":  "e564a2a654b40add3202b9aead9d78317670592eea1fbf0e68a5a0a16f7bc05b",
+                                                            "hash_match":  true,
+                                                            "declared_source_hash_match":  true,
+                                                            "actual_source_hash_match":  true,
+                                                            "profile_modified":  false,
+                                                            "valid":  true
+                                                        }
+                                                    ],
+                                 "generated_files":  [
+                                                         {
+                                                             "name":  "static_validation.json",
+                                                             "path":  "runtime_artifacts/run_packages/normal_v4_full_body_target_runtime_candidate_20260713T102200-0500/static_validation.json",
+                                                             "expected_sha256":  "20b9bb4b877e339c13f16ced7f9f73196ed65002c1e84968bfaeb422eca91c8f",
+                                                             "actual_sha256":  "20b9bb4b877e339c13f16ced7f9f73196ed65002c1e84968bfaeb422eca91c8f",
+                                                             "hash_match":  true,
+                                                             "valid":  true
+                                                         },
+                                                         {
+                                                             "name":  "smoke_dry_run.json",
+                                                             "path":  "runtime_artifacts/run_packages/normal_v4_full_body_target_runtime_candidate_20260713T102200-0500/smoke_dry_run.json",
+                                                             "expected_sha256":  "e7c5a9b86ac0a18955f07c8b2141a1beef5f9b8a096ed82c6e402e787c668887",
+                                                             "actual_sha256":  "e7c5a9b86ac0a18955f07c8b2141a1beef5f9b8a096ed82c6e402e787c668887",
+                                                             "hash_match":  true,
+                                                             "valid":  true
+                                                         },
+                                                         {
+                                                             "name":  "prompt_request.json",
+                                                             "path":  "runtime_artifacts/run_packages/normal_v4_full_body_target_runtime_candidate_20260713T102200-0500/prompt_request.json",
+                                                             "expected_sha256":  "64ec92a7197d7b2e65d88b7217de6c04a1da279c7a55c4fab0422eae84872c6a",
+                                                             "actual_sha256":  "64ec92a7197d7b2e65d88b7217de6c04a1da279c7a55c4fab0422eae84872c6a",
+                                                             "hash_match":  true,
+                                                             "valid":  true
+                                                         }
+                                                     ]
+                             },
+    "auth_gate":  {
+                      "file":  "runtime_artifacts/runtime_lane_selection/20260713T100637-0500-normal/aws_auth_gate_current.json",
+                      "found":  true,
+                      "ec2_work_allowed":  true,
+                      "safe_to_start_ec2":  true,
+                      "generation_allowed":  true,
+                      "result":  "pass",
+                      "failure_category":  null,
+                      "account_match":  true,
+                      "remote_login_status":  "not_attempted",
+                      "status":  "pass",
+                      "sts_failure_category":  ""
+                  },
+    "profile_matrix":  {
+                           "file":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W60_W61_AWS_PROFILE_AUTH_MATRIX_REALVISXL_PRECHECK_20260706T122436-0500.json",
+                           "found":  true,
+                           "expected_account":  "029530099913",
+                           "active_env_profile_name":  "default",
+                           "profile_count":  15,
+                           "profiles_matching_expected_count":  2,
+                           "ec2_work_allowed":  true,
+                           "safe_to_start_ec2":  true,
+                           "result":  "pass_profile_available",
+                           "status":  "pass"
+                       },
+    "model_registry_coverage":  {
+                                    "file":  "Plan/Instructions/QA/Evidence/Model_Registry/W61_MODEL_REGISTRY_COVERAGE_20260713T024423-0500.json",
+                                    "found":  true,
+                                    "result":  "pass_local_only",
+                                    "failed_check_count":  0,
+                                    "registry_record_count":  16,
+                                    "runtime_validation_queue_row_count":  16,
+                                    "active_lane_ids":  [
+                                                            "sdxl_low_risk_fallback_lane",
+                                                            "sdxl_realvisxl_base_lane",
+                                                            "sdxl_realvisxl_controlnet_canny_lane",
+                                                            "sdxl_realvisxl_inpaint_detail_lane",
+                                                            "sdxl_realvisxl_controlnet_depth_lane",
+                                                            "sdxl_realvisxl_controlnet_lineart_lane",
+                                                            "sdxl_realvisxl_controlnet_openpose_lane",
+                                                            "sdxl_realvisxl_controlnet_normal_lane",
+                                                            "sdxl_realesrgan_upscale_polish_lane",
+                                                            "flux1_dev_primary_base"
+                                                        ],
+                                    "selected_lane_covered":  true,
+                                    "selected_lane_result":  "pass",
+                                    "local_only":  true,
+                                    "aws_contacted":  false,
+                                    "github_api_contacted":  false,
+                                    "civitai_contacted":  false,
+                                    "comfyui_contacted":  false,
+                                    "ec2_started":  false,
+                                    "generation_executed":  false,
+                                    "coverage_allows_selected_lane_ec2_static_proof":  true
+                                },
+    "ec2_static_proof":  {
+                             "file":  "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W64_NORMAL_EC2_LANE_STATIC_PROOF_43499461_20260713T125300-0500.json",
+                             "found":  true,
+                             "object_info_pass":  true,
+                             "model_hashes_present":  true,
+                             "model_proof_count":  2,
+                             "model_missing_count":  0,
+                             "model_hash_missing_count":  0,
+                             "generation_allowed":  true,
+                             "status":  "pass"
+                         },
+    "result":  "ready_for_generation",
+    "failure_category":  null,
+    "local_pre_ec2_ready":  true,
+    "ready_for_ec2_static_proof":  true,
+    "ready_for_generation":  true,
+    "errors":  [
+
+               ],
+    "warnings":  [
+
+                 ],
+    "next_action":  "Run Invoke-ComfyWorkflowSmoke.ps1 -Execute, pull back artifacts, create PULLBACK_RECORD.json, then perform image QA."
+}

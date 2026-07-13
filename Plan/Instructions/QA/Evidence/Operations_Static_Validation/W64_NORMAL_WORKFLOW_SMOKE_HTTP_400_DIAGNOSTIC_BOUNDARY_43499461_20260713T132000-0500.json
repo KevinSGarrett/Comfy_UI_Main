@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "normal_workflow_smoke_http_400_diagnostic_boundary",
+  "created_at": "2026-07-13T13:20:00-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+  "runtime_window_id": "rw-normal-smoke-20260713T1305-0500-8d972e1d",
+  "instance_id": "i-0560bf8d143f93bb1",
+  "source_head": "43499461a67f2c9a52711ae9aa6825b0297472a3",
+  "result": "workflow_smoke_failed_closed_prompt_validation_body_capture_added",
+  "completed_prerequisites": {
+    "static_proof_pass": true,
+    "object_info_pass": true,
+    "required_model_count": 2,
+    "required_models_present": true,
+    "required_model_hashes_present": true,
+    "runtime_readiness_result": "ready_for_generation",
+    "smoke_dry_run_result": "ready_for_workflow_smoke_execute"
+  },
+  "smoke_execution": {
+    "command_id": "65c41b3d-aff2-4ebf-8563-fed83b7be060",
+    "command_status": "Success",
+    "result": "workflow_smoke_generation_incomplete",
+    "failure_category": "workflow_smoke_generation_incomplete",
+    "remote_error": "HTTP Error 400: Bad Request",
+    "prompt_id": null,
+    "output_image_count": 0,
+    "artifact_sync_attempted": false,
+    "generation_executed": false,
+    "final_instance_state": "stopped"
+  },
+  "diagnostic_gap": "The remote runner recorded the HTTP status but discarded the ComfyUI validation response body, preventing exact node/input classification.",
+  "correction": {
+    "urllib_http_error_caught": true,
+    "status_reason_headers_recorded": true,
+    "response_body_tail_limit_bytes": 12000,
+    "exception_body_tail_limit_bytes": 4000,
+    "regression_result": "pass_local_only",
+    "regression_test_count": 30,
+    "regression_passing_count": 30,
+    "regression_failed_count": 0
+  },
+  "capacity_follow_up": {
+    "read_only_remote_log_retrieval_attempted": true,
+    "instance_started": false,
+    "result": "InsufficientInstanceCapacity",
+    "retry_loop_started": false,
+    "instance_state_after_attempt": "stopped"
+  },
+  "next_action": "Checkpoint the diagnostic capture change. On the next available guarded g5.xlarge window, run one bounded smoke attempt and use prompt_http_error.body to identify the exact workflow validation defect before any further retry."
+}
