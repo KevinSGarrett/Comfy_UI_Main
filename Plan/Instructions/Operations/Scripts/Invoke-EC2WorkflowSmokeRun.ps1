@@ -891,6 +891,14 @@ def sha256_file(path):
             h.update(chunk)
     return h.hexdigest()
 
+def normalized_bundle_member_name(name):
+    normalized = str(name).replace("\\", "/")
+    while normalized.startswith("./"):
+        normalized = normalized[2:]
+    if normalized.startswith("content/"):
+        normalized = normalized[len("content/"):]
+    return normalized
+
 def apply_deploy_bundle_if_configured():
     if not DEPLOY_BUNDLE_S3_URI:
         return None
@@ -904,8 +912,9 @@ def apply_deploy_bundle_if_configured():
     try:
         with zipfile.ZipFile(bundle_path, "r") as zf:
             for member in zf.infolist():
-                normalized = os.path.normpath(member.filename)
-                if normalized.startswith("..") or os.path.isabs(member.filename):
+                normalized_name = normalized_bundle_member_name(member.filename)
+                normalized = os.path.normpath(normalized_name)
+                if normalized.startswith("..") or os.path.isabs(normalized_name) or (len(normalized_name) >= 2 and normalized_name[1] == ":"):
                     raise RuntimeError("unsafe deploy bundle path: " + member.filename)
             zf.extractall(extract_root)
         manifest = {}
@@ -947,7 +956,7 @@ def apply_deploy_bundle_if_configured():
                 deployed_asset = os.path.realpath(os.path.join(project_root_real, normalized_rel))
                 if os.path.commonpath([project_root_real, deployed_asset]) != project_root_real:
                     raise RuntimeError("required input asset escapes remote project: " + rel)
-                matching_members = [info for info in archive_files if info.filename == rel]
+                matching_members = [info for info in archive_files if normalized_bundle_member_name(info.filename) == normalized_rel]
                 if len(matching_members) != 1:
                     raise RuntimeError("required input asset must appear exactly once in deploy archive: %s (found %s)" % (rel, len(matching_members)))
                 if not expected_asset_sha:
