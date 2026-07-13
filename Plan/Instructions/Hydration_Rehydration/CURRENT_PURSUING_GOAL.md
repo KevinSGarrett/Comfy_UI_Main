@@ -7186,3 +7186,8 @@ Evidence: `Plan/Instructions/QA/Evidence/Wave64/github_actions_ci_package.json`;
 Continue the full autonomous ComfyUI project from the authoritative Normal runtime-lane selection. Queue validation is `pass_local_only` with zero failures and 10/10 fail-closed regressions; FLUX remains deferred, and all EC2/generation permissions remain false. Refresh the bound runtime-window readiness contract and advance only concrete remaining prerequisites without reopening completed proof or crossing mask, Wave71+, Jira, FLUX-license, or live-runtime safety boundaries.
 
 Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_RUNTIME_QUEUE_SELECTION_20260713T112000-0500.json`; `Plan/Tracker/Evidence/W64_NORMAL_RUNTIME_QUEUE_SELECTION_20260713T112000-0500.json`.
+## Normal Runtime Window Refreshed With Preserved ID - 2026-07-13T11:30:00-05:00
+
+Continue the autonomous project from preserved runtime window `rw-normal-20260713T105243-0500-57f1f908`. Normal is selected and the stale lane-selection blocker is cleared, but execution remains unauthorized with every permission false. Resolve only the exact remaining queue-permission and Row042 schedule/watchdog ordering as one bounded fail-closed window; keep EC2 stopped and preserve all mask, Wave71+, Jira, and FLUX-license boundaries.
+
+Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_RUNTIME_WINDOW_CONTRACT_REFRESH_20260713T112300-0500.json`; `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_NORMAL_RUNTIME_WINDOW_PRESERVED_ID_REGRESSION_20260713T113000-0500.json`.

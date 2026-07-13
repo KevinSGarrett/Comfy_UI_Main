@@ -3,8 +3,9 @@
 Creates a local-only Normal target-runtime window intent contract.
 
 .DESCRIPTION
-Generates a unique runtime-window identifier and binds future Row042 schedule
-and watchdog evidence to it. This helper has no execute mode. It never contacts
+Generates a unique runtime-window identifier, or validates and preserves a
+caller-supplied identifier, then binds future Row042 schedule and watchdog
+evidence to it. This helper has no execute mode. It never contacts
 AWS, mutates the queue, starts EC2, sends SSM, or runs generation.
 #>
 param(
@@ -12,6 +13,7 @@ param(
   [string]$CandidateReadinessFile = "Plan\Instructions\QA\Evidence\Runtime_Readiness\W64_NORMAL_TARGET_RUNTIME_CANDIDATE_LOCAL_READINESS_20260713T103230-0500.json",
   [string]$RuntimeLaneQueueFile = "Plan\07_IMPLEMENTATION\workflow_templates\base_generation\runtime_lane_queue.json",
   [string]$TtlWatchdogEvidenceFile = "Plan\Instructions\QA\Evidence\Wave64\ec2_ttl_watchdog.json",
+  [string]$RuntimeWindowId = "",
   [string]$OutFile = ""
 )
 
@@ -71,7 +73,8 @@ function Write-JsonNoBom {
 $ProjectRoot = [System.IO.Path]::GetFullPath($ProjectRoot)
 $createdAt = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
 $stamp = (Get-Date -Format "yyyyMMddTHHmmsszzz").Replace(":", "")
-$runtimeWindowId = "rw-normal-{0}-{1}" -f $stamp, ([guid]::NewGuid().ToString("N").Substring(0, 8))
+$runtimeWindowIdSource = $(if ([string]::IsNullOrWhiteSpace($RuntimeWindowId)) { "generated" } else { "caller_supplied" })
+$runtimeWindowId = $(if ($runtimeWindowIdSource -eq "generated") { "rw-normal-{0}-{1}" -f $stamp, ([guid]::NewGuid().ToString("N").Substring(0, 8)) } else { $RuntimeWindowId.Trim() })
 $errors = @()
 $failureCategories = @()
 $checks = @()
@@ -105,9 +108,9 @@ foreach ($spec in $inputSpecs) {
   $inputRecords += $record
 }
 
-if ($runtimeWindowId -notmatch '^rw-normal-[0-9]{8}T[0-9]{6}[+-][0-9]{4}-[0-9a-f]{8}$') {
-  $errors += "Generated runtime_window_id is invalid."
-  $failureCategories += "runtime_window_id_generation_failed"
+if ($runtimeWindowId -cnotmatch '^rw-normal-[0-9]{8}T[0-9]{6}[+-][0-9]{4}-[0-9a-f]{8}$') {
+  $errors += "$runtimeWindowIdSource runtime_window_id is invalid."
+  $failureCategories += "runtime_window_id_invalid"
 }
 
 if ($null -ne $candidate) {
@@ -166,6 +169,7 @@ $record = [ordered]@{
   authority_semantics = "contract_valid and execution_authorized are always false; structural_consistency_valid means only that this local blocked-intent artifact is internally coherent."
   local_only = $true
   runtime_window_id = $runtimeWindowId
+  runtime_window_id_source = $runtimeWindowIdSource
   lane_id = $laneId
   tracker_id = $trackerId
   item_id = $itemId

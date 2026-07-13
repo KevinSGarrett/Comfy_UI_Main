@@ -1,0 +1,271 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "normal_runtime_window_contract_regression",
+    "created_at":  "2026-07-13T11:28:58-05:00",
+    "result":  "pass_local_only",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "scheduler_mutated":  false,
+    "ssm_command_sent":  false,
+    "ec2_started_or_stopped":  false,
+    "generation_executed":  false,
+    "queue_mutated":  false,
+    "git_mutated":  false,
+    "test_count":  14,
+    "passing_test_count":  14,
+    "failed_test_count":  0,
+    "tests":  [
+                  {
+                      "name":  "current_state_valid_blocked_contract",
+                      "result":  "pass",
+                      "exit_code":  0,
+                      "expected_exit_code":  0,
+                      "structural_consistency_valid":  true,
+                      "expected_structural_consistency_valid":  true,
+                      "contract_valid":  false,
+                      "runtime_window_id":  "rw-normal-20260713T112851-0500-cbf0b910",
+                      "failure_category":  "queue_and_live_controls_not_authorized",
+                      "exact_blockers":  [
+                                             "queue_permission_denied_by_file",
+                                             "live_emergency_stop_schedule_missing",
+                                             "ssm_watchdog_proof_missing"
+                                         ],
+                      "errors":  {
+
+                                 }
+                  },
+                  {
+                      "name":  "caller_supplied_runtime_window_id_preserved",
+                      "result":  "pass",
+                      "exit_code":  0,
+                      "expected_exit_code":  0,
+                      "structural_consistency_valid":  true,
+                      "expected_structural_consistency_valid":  true,
+                      "contract_valid":  false,
+                      "runtime_window_id":  "rw-normal-20260713T105243-0500-57f1f908",
+                      "failure_category":  "queue_and_live_controls_not_authorized",
+                      "exact_blockers":  [
+                                             "queue_permission_denied_by_file",
+                                             "live_emergency_stop_schedule_missing",
+                                             "ssm_watchdog_proof_missing"
+                                         ],
+                      "errors":  {
+
+                                 }
+                  },
+                  {
+                      "name":  "invalid_caller_supplied_runtime_window_id_rejected",
+                      "result":  "pass",
+                      "exit_code":  2,
+                      "expected_exit_code":  2,
+                      "structural_consistency_valid":  false,
+                      "expected_structural_consistency_valid":  false,
+                      "contract_valid":  false,
+                      "runtime_window_id":  "rw-normal-invalid",
+                      "failure_category":  "runtime_window_id_invalid",
+                      "exact_blockers":  [
+                                             "queue_permission_denied_by_file",
+                                             "live_emergency_stop_schedule_missing",
+                                             "ssm_watchdog_proof_missing",
+                                             "contract_internal_consistency_failed"
+                                         ],
+                      "errors":  "caller_supplied runtime_window_id is invalid."
+                  },
+                  {
+                      "name":  "uppercase_caller_supplied_runtime_window_id_rejected",
+                      "result":  "pass",
+                      "exit_code":  2,
+                      "expected_exit_code":  2,
+                      "structural_consistency_valid":  false,
+                      "expected_structural_consistency_valid":  false,
+                      "contract_valid":  false,
+                      "runtime_window_id":  "rw-normal-20260713T105243-0500-57F1F908",
+                      "failure_category":  "runtime_window_id_invalid",
+                      "exact_blockers":  [
+                                             "queue_permission_denied_by_file",
+                                             "live_emergency_stop_schedule_missing",
+                                             "ssm_watchdog_proof_missing",
+                                             "contract_internal_consistency_failed"
+                                         ],
+                      "errors":  "caller_supplied runtime_window_id is invalid."
+                  },
+                  {
+                      "name":  "candidate_lane_mismatch",
+                      "result":  "pass",
+                      "exit_code":  2,
+                      "expected_exit_code":  2,
+                      "structural_consistency_valid":  false,
+                      "expected_structural_consistency_valid":  false,
+                      "contract_valid":  false,
+                      "runtime_window_id":  "rw-normal-20260713T112853-0500-a25dc52c",
+                      "failure_category":  "candidate_lane_mismatch",
+                      "exact_blockers":  [
+                                             "queue_permission_denied_by_file",
+                                             "live_emergency_stop_schedule_missing",
+                                             "ssm_watchdog_proof_missing",
+                                             "contract_internal_consistency_failed"
+                                         ],
+                      "errors":  "Structural check failed: candidate_lane"
+                  },
+                  {
+                      "name":  "candidate_case_mismatch",
+                      "result":  "pass",
+                      "exit_code":  2,
+                      "expected_exit_code":  2,
+                      "structural_consistency_valid":  false,
+                      "expected_structural_consistency_valid":  false,
+                      "contract_valid":  false,
+                      "runtime_window_id":  "rw-normal-20260713T112854-0500-ff8f4e18",
+                      "failure_category":  "candidate_lane_mismatch",
+                      "exact_blockers":  [
+                                             "queue_permission_denied_by_file",
+                                             "live_emergency_stop_schedule_missing",
+                                             "ssm_watchdog_proof_missing",
+                                             "contract_internal_consistency_failed"
+                                         ],
+                      "errors":  "Structural check failed: candidate_lane"
+                  },
+                  {
+                      "name":  "candidate_not_selected",
+                      "result":  "pass",
+                      "exit_code":  2,
+                      "expected_exit_code":  2,
+                      "structural_consistency_valid":  false,
+                      "expected_structural_consistency_valid":  false,
+                      "contract_valid":  false,
+                      "runtime_window_id":  "rw-normal-20260713T112854-0500-877a24e7",
+                      "failure_category":  "candidate_not_selected_for_runtime_window",
+                      "exact_blockers":  [
+                                             "queue_permission_denied_by_file",
+                                             "live_emergency_stop_schedule_missing",
+                                             "ssm_watchdog_proof_missing",
+                                             "contract_internal_consistency_failed"
+                                         ],
+                      "errors":  "Structural check failed: candidate_window_selected"
+                  },
+                  {
+                      "name":  "queue_candidate_missing",
+                      "result":  "pass",
+                      "exit_code":  2,
+                      "expected_exit_code":  2,
+                      "structural_consistency_valid":  false,
+                      "expected_structural_consistency_valid":  false,
+                      "contract_valid":  false,
+                      "runtime_window_id":  "rw-normal-20260713T112855-0500-c2191b45",
+                      "failure_category":  "contract_internal_consistency_failed",
+                      "exact_blockers":  [
+                                             "queue_permission_denied_by_file",
+                                             "live_emergency_stop_schedule_missing",
+                                             "ssm_watchdog_proof_missing",
+                                             "contract_internal_consistency_failed"
+                                         ],
+                      "errors":  "Structural check failed: queue_candidate_cardinality"
+                  },
+                  {
+                      "name":  "ttl_identity_mismatch",
+                      "result":  "pass",
+                      "exit_code":  2,
+                      "expected_exit_code":  2,
+                      "structural_consistency_valid":  false,
+                      "expected_structural_consistency_valid":  false,
+                      "contract_valid":  false,
+                      "runtime_window_id":  "rw-normal-20260713T112855-0500-948ff69b",
+                      "failure_category":  "ttl_watchdog_tracker_item_mismatch",
+                      "exact_blockers":  [
+                                             "queue_permission_denied_by_file",
+                                             "live_emergency_stop_schedule_missing",
+                                             "ssm_watchdog_proof_missing",
+                                             "contract_internal_consistency_failed"
+                                         ],
+                      "errors":  "Structural check failed: ttl_tracker_id"
+                  },
+                  {
+                      "name":  "ttl_schedule_claim_not_missing",
+                      "result":  "pass",
+                      "exit_code":  2,
+                      "expected_exit_code":  2,
+                      "structural_consistency_valid":  false,
+                      "expected_structural_consistency_valid":  false,
+                      "contract_valid":  false,
+                      "runtime_window_id":  "rw-normal-20260713T112856-0500-64cd1499",
+                      "failure_category":  "ttl_watchdog_binding_evidence_missing",
+                      "exact_blockers":  [
+                                             "queue_permission_denied_by_file",
+                                             "ssm_watchdog_proof_missing",
+                                             "contract_internal_consistency_failed"
+                                         ],
+                      "errors":  "Structural check failed: ttl_schedule_missing"
+                  },
+                  {
+                      "name":  "forged_full_readiness_never_authorizes",
+                      "result":  "pass",
+                      "exit_code":  2,
+                      "expected_exit_code":  2,
+                      "structural_consistency_valid":  false,
+                      "expected_structural_consistency_valid":  false,
+                      "contract_valid":  false,
+                      "runtime_window_id":  "rw-normal-20260713T112856-0500-363c596a",
+                      "failure_category":  "ttl_watchdog_binding_evidence_missing",
+                      "exact_blockers":  "contract_internal_consistency_failed",
+                      "errors":  [
+                                     "Structural check failed: ttl_schedule_missing",
+                                     "Structural check failed: ttl_watchdog_missing"
+                                 ]
+                  },
+                  {
+                      "name":  "invalid_candidate_json",
+                      "result":  "pass",
+                      "exit_code":  2,
+                      "expected_exit_code":  2,
+                      "structural_consistency_valid":  false,
+                      "expected_structural_consistency_valid":  false,
+                      "contract_valid":  false,
+                      "runtime_window_id":  "rw-normal-20260713T112857-0500-c959ef63",
+                      "failure_category":  "invalid_json",
+                      "exact_blockers":  [
+                                             "queue_permission_denied_by_file",
+                                             "live_emergency_stop_schedule_missing",
+                                             "ssm_watchdog_proof_missing",
+                                             "contract_internal_consistency_failed"
+                                         ],
+                      "errors":  "Invalid object passed in, \u0027:\u0027 or \u0027}\u0027 expected. (11): { invalid json"
+                  },
+                  {
+                      "name":  "missing_candidate_file",
+                      "result":  "pass",
+                      "exit_code":  2,
+                      "expected_exit_code":  2,
+                      "structural_consistency_valid":  false,
+                      "expected_structural_consistency_valid":  false,
+                      "contract_valid":  false,
+                      "runtime_window_id":  "rw-normal-20260713T112857-0500-006187b7",
+                      "failure_category":  "missing_required_input",
+                      "exact_blockers":  [
+                                             "queue_permission_denied_by_file",
+                                             "live_emergency_stop_schedule_missing",
+                                             "ssm_watchdog_proof_missing",
+                                             "contract_internal_consistency_failed"
+                                         ],
+                      "errors":  "Required input missing: candidate_readiness"
+                  },
+                  {
+                      "name":  "runtime_window_id_unique",
+                      "result":  "pass",
+                      "exit_code":  0,
+                      "expected_exit_code":  0,
+                      "structural_consistency_valid":  true,
+                      "expected_structural_consistency_valid":  true,
+                      "contract_valid":  false,
+                      "runtime_window_id":  "rw-normal-20260713T112858-0500-d43d5f50",
+                      "failure_category":  "queue_and_live_controls_not_authorized",
+                      "exact_blockers":  [
+                                             "queue_permission_denied_by_file",
+                                             "live_emergency_stop_schedule_missing",
+                                             "ssm_watchdog_proof_missing"
+                                         ],
+                      "errors":  {
+
+                                 }
+                  }
+              ]
+}

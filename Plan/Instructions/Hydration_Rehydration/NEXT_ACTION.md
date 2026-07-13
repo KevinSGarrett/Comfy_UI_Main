@@ -9261,3 +9261,10 @@ Normal (`sdxl_realvisxl_controlnet_normal_lane`) is now the authoritative curren
 Next: refresh the Normal runtime-window readiness contract against the authoritative selected queue and advance only the exact remaining non-generation prerequisites. Preserve `rw-normal-20260713T105243-0500-57f1f908`, keep EC2 stopped, and do not create live schedule/watchdog controls until the bounded runtime window is genuinely ready.
 
 Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_RUNTIME_QUEUE_SELECTION_20260713T112000-0500.json`; `Plan/Tracker/Evidence/W64_NORMAL_RUNTIME_QUEUE_SELECTION_20260713T112000-0500.json`.
+## Normal Runtime Window Refreshed With Preserved ID - 2026-07-13T11:30:00-05:00
+
+Runtime window `rw-normal-20260713T105243-0500-57f1f908` has been refreshed against the authoritative Normal-selected queue without creating a new identity. The contract is structurally valid but remains deliberately non-authorizing: `contract_valid=false`, `execution_authorized=false`, and every permission is false. The stale `queue_lane_not_selected` blocker is cleared. Exact blockers are now `queue_permission_denied_by_file`, `live_emergency_stop_schedule_missing`, and `ssm_watchdog_proof_missing`. Preserved-ID and fail-closed regression coverage passes 14/14; EC2 remains stopped.
+
+Next: checkpoint this refresh, then reconcile the exact bounded authorization/control ordering for the same runtime-window ID. Do not create live controls or start EC2 until the queue permission and both Row042 control bindings can be satisfied as one fail-closed window.
+
+Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_RUNTIME_WINDOW_CONTRACT_REFRESH_20260713T112300-0500.json`; `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_NORMAL_RUNTIME_WINDOW_PRESERVED_ID_REGRESSION_20260713T113000-0500.json`.

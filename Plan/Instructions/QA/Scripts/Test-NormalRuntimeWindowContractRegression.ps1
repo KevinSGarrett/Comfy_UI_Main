@@ -54,7 +54,10 @@ function Invoke-Case {
     [scriptblock]$Mutate,
     [Parameter(Mandatory=$true)][int]$ExpectedExitCode,
     [Parameter(Mandatory=$true)][bool]$ExpectedStructuralValid,
-    [string]$ExpectedFailurePattern = ""
+    [string]$ExpectedFailurePattern = "",
+    [string]$RuntimeWindowId = "",
+    [string]$ExpectedRuntimeWindowId = "",
+    [bool]$ExpectedBindingValid = $true
   )
   $fixture = New-Fixture -Name $Name
   if ($null -ne $Mutate) { & $Mutate $fixture }
@@ -62,7 +65,10 @@ function Invoke-Case {
   Write-JsonNoBom -Path $fixture.queue_path -Payload $fixture.queue
   Write-JsonNoBom -Path $fixture.ttl_path -Payload $fixture.ttl
   $childOut = Join-Path $fixture.directory "contract.json"
-  & powershell -NoProfile -ExecutionPolicy Bypass -File $helper -ProjectRoot $ProjectRoot -CandidateReadinessFile $fixture.candidate_path -RuntimeLaneQueueFile $fixture.queue_path -TtlWatchdogEvidenceFile $fixture.ttl_path -OutFile $childOut *> $null
+  $childArgs = @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $helper, "-ProjectRoot", $ProjectRoot, "-CandidateReadinessFile", $fixture.candidate_path, "-RuntimeLaneQueueFile", $fixture.queue_path, "-TtlWatchdogEvidenceFile", $fixture.ttl_path)
+  if (![string]::IsNullOrWhiteSpace($RuntimeWindowId)) { $childArgs += @("-RuntimeWindowId", $RuntimeWindowId) }
+  $childArgs += @("-OutFile", $childOut)
+  & powershell @childArgs *> $null
   $exitCode = $LASTEXITCODE
   $payload = if (Test-Path -LiteralPath $childOut) { Get-Content -LiteralPath $childOut -Raw | ConvertFrom-Json } else { $null }
   $failureText = if ($null -ne $payload) { ([string]$payload.failure_category) + "`n" + (@($payload.errors) -join "`n") } else { "child_output_missing" }
@@ -82,11 +88,16 @@ function Invoke-Case {
     -not [bool]$payload.safety_boundary.queue_mutated -and
     -not [bool]$payload.safety_boundary.git_mutated
   )
-  $bindingPass = (
-    $null -ne $payload -and [string]$payload.runtime_window_id -match '^rw-normal-[0-9]{8}T[0-9]{6}[+-][0-9]{4}-[0-9a-f]{8}$' -and
+  $bindingShapeValid = (
+    $null -ne $payload -and [string]$payload.runtime_window_id -cmatch '^rw-normal-[0-9]{8}T[0-9]{6}[+-][0-9]{4}-[0-9a-f]{8}$' -and
     [string]$payload.future_schedule_runtime_window_id -eq [string]$payload.runtime_window_id -and
     [string]$payload.future_watchdog_runtime_window_id -eq [string]$payload.runtime_window_id -and
-    [string]$payload.tracker_id -eq "TRK-W64-042" -and [string]$payload.item_id -eq "ITEM-W64-042"
+    ([string]::IsNullOrWhiteSpace($ExpectedRuntimeWindowId) -or [string]$payload.runtime_window_id -ceq $ExpectedRuntimeWindowId)
+  )
+  $bindingPass = (
+    $null -ne $payload -and $bindingShapeValid -eq $ExpectedBindingValid -and
+    [string]$payload.tracker_id -eq "TRK-W64-042" -and [string]$payload.item_id -eq "ITEM-W64-042" -and
+    [string]$payload.runtime_window_id_source -ceq $(if ([string]::IsNullOrWhiteSpace($RuntimeWindowId)) { "generated" } else { "caller_supplied" })
   )
   $failurePass = [string]::IsNullOrWhiteSpace($ExpectedFailurePattern) -or $failureText -match $ExpectedFailurePattern
   $passed = (
@@ -123,6 +134,10 @@ $tempRoot = Join-Path $ProjectRoot ("runtime_artifacts\regression_temp\normal_ru
 
 $tests = @()
 $tests += Invoke-Case -Name "current_state_valid_blocked_contract" -ExpectedExitCode 0 -ExpectedStructuralValid $true
+$preservedRuntimeWindowId = "rw-normal-20260713T105243-0500-57f1f908"
+$tests += Invoke-Case -Name "caller_supplied_runtime_window_id_preserved" -ExpectedExitCode 0 -ExpectedStructuralValid $true -RuntimeWindowId $preservedRuntimeWindowId -ExpectedRuntimeWindowId $preservedRuntimeWindowId
+$tests += Invoke-Case -Name "invalid_caller_supplied_runtime_window_id_rejected" -ExpectedExitCode 2 -ExpectedStructuralValid $false -ExpectedFailurePattern "runtime_window_id_invalid" -RuntimeWindowId "rw-normal-invalid" -ExpectedBindingValid $false
+$tests += Invoke-Case -Name "uppercase_caller_supplied_runtime_window_id_rejected" -ExpectedExitCode 2 -ExpectedStructuralValid $false -ExpectedFailurePattern "runtime_window_id_invalid" -RuntimeWindowId "rw-normal-20260713T105243-0500-57F1F908" -ExpectedBindingValid $false
 $tests += Invoke-Case -Name "candidate_lane_mismatch" -ExpectedExitCode 2 -ExpectedStructuralValid $false -ExpectedFailurePattern "candidate_lane_mismatch" -Mutate { param($f) $f.candidate.lane_id = "wrong_lane" }
 $tests += Invoke-Case -Name "candidate_case_mismatch" -ExpectedExitCode 2 -ExpectedStructuralValid $false -ExpectedFailurePattern "candidate_lane_mismatch" -Mutate { param($f) $f.candidate.lane_id = "SDXL_REALVISXL_CONTROLNET_NORMAL_LANE" }
 $tests += Invoke-Case -Name "candidate_not_selected" -ExpectedExitCode 2 -ExpectedStructuralValid $false -ExpectedFailurePattern "candidate_not_selected_for_runtime_window" -Mutate { param($f) $f.candidate.candidate_selected_for_next_bounded_runtime_window = $false }
@@ -161,7 +176,18 @@ foreach ($inputFailure in @(
     -not [bool]$failurePayload.contract_valid -and -not [bool]$failurePayload.execution_authorized -and
     [string]$failurePayload.failure_category -match [string]$inputFailure.expected -and
     -not [bool]$failurePayload.permissions.execute_allowed_now -and
-    -not [bool]$failurePayload.safety_boundary.aws_contacted
+    -not [bool]$failurePayload.permissions.schedule_create_allowed_now -and
+    -not [bool]$failurePayload.permissions.ssm_watchdog_send_allowed_now -and
+    -not [bool]$failurePayload.permissions.ec2_start_allowed_now -and
+    -not [bool]$failurePayload.permissions.generation_allowed_now -and
+    -not [bool]$failurePayload.permissions.queue_mutation_allowed -and
+    -not [bool]$failurePayload.safety_boundary.aws_contacted -and
+    -not [bool]$failurePayload.safety_boundary.scheduler_mutated -and
+    -not [bool]$failurePayload.safety_boundary.ssm_command_sent -and
+    -not [bool]$failurePayload.safety_boundary.ec2_started_or_stopped -and
+    -not [bool]$failurePayload.safety_boundary.generation_executed -and
+    -not [bool]$failurePayload.safety_boundary.queue_mutated -and
+    -not [bool]$failurePayload.safety_boundary.git_mutated
   )
   $tests += [pscustomobject][ordered]@{
     name = $inputFailure.name
