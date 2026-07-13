@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "created_at": "2026-07-12T09:45:37-05:00",
+  "created_at": "2026-07-13T05:30:54-05:00",
   "tracker_id": "TRK-W64-060",
   "item_id": "ITEM-W64-060",
   "status": "Blocked_Final_End_To_End_Certification_Gates_Not_Met",
@@ -9,20 +9,20 @@
     "all_domain_rows_pass": {
       "result": "fail",
       "reason_codes": [
-        "45_rows_not_pass_like_current",
-        "28_rows_blocked_current",
-        "15_rows_required_current"
+        "35_rows_not_pass_like_current",
+        "35_rows_blocked_current",
+        "0_rows_required_current"
       ]
     },
     "media_reviews_pass": {
       "result": "fail",
       "reason_codes": [
-        "Blocked_Video_Runtime_Visual_Proof_Missing",
-        "Blocked_Video_Engine_Runtime_Evidence_Missing",
-        "Blocked_Video_Temporal_Visual_Proof_Missing",
+        "Blocked_Video_Visual_Temporal_Quality_Failure",
+        "Blocked_Video_Engine_Resource_Cost_And_Promotion_Proof",
+        "Blocked_Video_Temporal_Visual_Quality_And_Prerequisite_Failure",
         "Blocked_Reference_Video_Production_Proof_Missing",
-        "Blocked_Video_Frame_Repair_Artifacts_Missing",
-        "Blocked_Video_GIF_Production_Proof_Missing"
+        "Blocked_Video_Frame_Repair_Rerun_Shot_Required",
+        "Blocked_Video_GIF_Loop_Playback_Quality_Failure"
       ]
     },
     "audio_reviews_pass": {
@@ -60,20 +60,29 @@
   },
   "tracker_state": {
     "row_count": 66,
-    "pass_like_count": 21,
-    "blocked_count": 28,
-    "required_count": 15
+    "pass_like_count": 31,
+    "blocked_count": 35,
+    "required_count": 0
   },
   "evidence": [
     "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification.json",
-    "Plan/Instructions/QA/Evidence/Wave64/FINAL_END_TO_END_CERTIFICATION_20260712T094537-0500.json",
-    "Plan/Tracker/Evidence/FINAL_END_TO_END_CERTIFICATION_20260712T094537-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/FINAL_END_TO_END_CERTIFICATION_20260713T053054-0500.json",
+    "Plan/Tracker/Evidence/FINAL_END_TO_END_CERTIFICATION_20260713T053054-0500.json",
     "Plan/Instructions/QA/Evidence/Wave64/final_end_to_end_certification_test_log.json",
     "Plan/Items/Reports/ITEM-W64-060_final_end_to_end_certification.json",
     "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
     "Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build.json",
+    "Plan/Instructions/QA/Evidence/Wave64/video_engine_routing.json",
     "Plan/Instructions/QA/Evidence/Wave64/video_temporal_visual_review.json",
+    "Plan/Instructions/QA/Evidence/Wave64/video_reference_input.json",
+    "Plan/Instructions/QA/Evidence/Wave64/video_frame_repair.json",
+    "Plan/Instructions/QA/Evidence/Wave64/video_gif_loop_export.json",
     "Plan/Instructions/QA/Evidence/Wave64/audio_pipeline_build.json",
+    "Plan/Instructions/QA/Evidence/Wave64/audio_engine_routing.json",
+    "Plan/Instructions/QA/Evidence/Wave64/audio_voice_dialogue.json",
+    "Plan/Instructions/QA/Evidence/Wave64/audio_foley_force.json",
+    "Plan/Instructions/QA/Evidence/Wave64/audio_spatial_room.json",
+    "Plan/Instructions/QA/Evidence/Wave64/audio_av_sync.json",
     "Plan/Instructions/QA/Evidence/Wave64/audio_strict_review.json",
     "Plan/Instructions/QA/Evidence/Wave64/global_audio_review_not_local_only.json",
     "Plan/Instructions/QA/Evidence/Wave64/multimodal_cross_review.json",
@@ -86,5 +95,5 @@
     "Plan/Instructions/QA/Evidence/Wave64/realvisxl_lane_terminal_state.json",
     "Plan/Instructions/QA/Evidence/Wave64/future_lane_promotion.json"
   ],
-  "next_action": "Advance in strict sequence to TRK-W64-002 / ITEM-W64-002 project-control autonomy; keep final certification blocked until every domain/media/audio/runtime/release gate passes."
+  "next_action": "Advance in strict sequence to TRK-W64-006 / ITEM-W64-006 project-control autonomy; keep final certification blocked until every domain/media/audio/runtime/release gate passes."
 }
