@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0",
-  "created_iso": "2026-07-12T09:17:38-05:00",
+  "created_iso": "2026-07-13T00:43:07-05:00",
   "tracker_id": "TRK-W64-064",
   "item_id": "ITEM-W64-064",
-  "status": "Blocked_Prompt_Profile_Static_And_Runtime_QA_Gaps",
+  "status": "Blocked_Prompt_Profile_Lane_Authority_And_Runtime_QA_Gaps",
   "inventory_summary": {
     "json_files": 112,
     "parsed": 112,
@@ -12,31 +12,20 @@
     "non_prompt_artifacts": 3,
     "non_prompt_operation_profiles": 2,
     "certification_matrices": 1,
-    "static_prompt_profiles_pass": 105,
-    "missing_prompt_pair_or_link": 4,
-    "negative_prompts_present": 105,
+    "static_prompt_profiles_pass": 109,
+    "missing_prompt_pair_or_link": 0,
+    "negative_prompts_present": 109,
     "exact_contradictions": 0,
-    "duplicate_groups": 19,
-    "controlled_duplicate_groups": 19,
+    "duplicate_groups": 21,
+    "controlled_duplicate_groups": 21,
     "prompt_lane_ids": 8,
     "lane_authority_present": 16,
     "lane_authority_missing": 93,
     "wave71_plus_named_deferred": 14,
-    "direct_runtime_evidence_links": 0,
+    "direct_runtime_evidence_links": 4,
     "approved_profiles": 0
   },
   "normalized_blockers": [
-    {
-      "blocker_id": "PROMPT_PAIR_OR_SOURCE_LINK_MISSING",
-      "count": 4,
-      "paths": [
-        "PromptProfiles/base_generation/controlnet_canny_v5_robustness/canny_v5_eye_fill_seed711170101.json",
-        "PromptProfiles/base_generation/controlnet_canny_v5_robustness/canny_v5_eye_fill_seed711170102.json",
-        "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_v4_nomouth_seed210501.json",
-        "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_v4_nomouth_seed210502.json"
-      ],
-      "resolution": "Add explicit source_profile linkage or a complete positive/negative prompt pair; do not infer inherited text."
-    },
     {
       "blocker_id": "PROMPT_TARGET_LANE_AUTHORITY_MISSING",
       "count": 93,
@@ -52,7 +41,7 @@
     },
     {
       "blocker_id": "REPRESENTATIVE_RUNTIME_OUTPUT_LINK_MISSING",
-      "count": 109,
+      "count": 105,
       "resolution": "Link per-profile representative output and visual QA evidence, or explicitly record pending runtime; do not approve from static text."
     },
     {
@@ -79,8 +68,8 @@
   ],
   "evidence": [
     "Plan/Instructions/QA/Evidence/Wave64/prompt_negative_prompt_qa.json",
-    "Plan/Instructions/QA/Evidence/Wave64/PROMPT_NEGATIVE_PROMPT_QA_20260712T091738-0500.json",
-    "Plan/Tracker/Evidence/PROMPT_NEGATIVE_PROMPT_QA_20260712T091738-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/PROMPT_NEGATIVE_PROMPT_QA_20260713T004307-0500.json",
+    "Plan/Tracker/Evidence/PROMPT_NEGATIVE_PROMPT_QA_20260713T004307-0500.json",
     "Plan/Instructions/QA/Evidence/Wave64/prompt_negative_prompt_qa_test_log.json",
     "Plan/Items/Reports/ITEM-W64-064_prompt_negative_prompt_qa.json"
   ],

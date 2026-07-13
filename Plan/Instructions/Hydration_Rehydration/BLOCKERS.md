@@ -1,3 +1,11 @@
+## Wave64 Row064 Prompt And Negative-Prompt QA - 2026-07-13T00:43:07-05:00
+
+`TRK-W64-064` / `ITEM-W64-064` is `Blocked_Prompt_Profile_Lane_Authority_And_Runtime_QA_Gaps`. The audit parsed all 112 PromptProfiles JSON artifacts and correctly separated 109 prompt profiles from two non-prompt RealESRGAN operations and one certification matrix. All 109 prompt profiles now carry durable positive/negative prompt pairs with zero exact clause contradictions. Four previously incomplete robustness profiles are hash-bound to their existing local prompt requests, runtime execution records, and visual-QA evidence; no generation was rerun. Final approval remains fail-closed because 93 profiles lack exact lane-contract authority, 105 lack direct representative-output evidence links, and 14 Wave71/Wave72-named profiles remain deferred. No profile was approved, and no AWS, EC2, mask, Jira, or Wave71+ activation occurred.
+
+Next safe local action: `TRK-W64-065 / ITEM-W64-065` RealVisXL completed-lane terminal-state proof.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/prompt_negative_prompt_qa.json`; `Plan/Instructions/QA/Evidence/Wave64/PROMPT_NEGATIVE_PROMPT_QA_20260713T004307-0500.json`; `Plan/Tracker/Evidence/PROMPT_NEGATIVE_PROMPT_QA_20260713T004307-0500.json`.
+
 ## Wave64 Row042 EC2 TTL Watchdog Live Readiness - 2026-07-13T00:20:55-05:00
 
 `TRK-W64-042` / `ITEM-W64-042` is `Blocked_Live_TTL_Watchdog_Proof_Missing_AWS_Readiness_Verified`. The stale expired-session blocker is cleared: current read-only AWS proof verifies authentication, the scheduler role, and the approved instance in stopped state. All 24 reconciliation checks pass. Current blockers are recorded fail-closed: live_emergency_stop_schedule_missing, ssm_watchdog_proof_missing. EC2 was not started by this reconciliation; any missing controls must be installed only inside the next genuinely required bounded runtime window.
@@ -245,14 +253,6 @@ Evidence: `Plan/Instructions/QA/Evidence/Wave64/future_lane_promotion.json`; `Pl
 Next safe local action: `TRK-W64-066 / ITEM-W64-066` future lane and module promotion rule.
 
 Evidence: `Plan/Instructions/QA/Evidence/Wave64/realvisxl_lane_terminal_state.json`; `Plan/Instructions/QA/Evidence/Wave64/REALVISXL_LANE_TERMINAL_STATE_20260712T092510-0500.json`; `Plan/Tracker/Evidence/REALVISXL_LANE_TERMINAL_STATE_20260712T092510-0500.json`.
-
-## Wave64 Row064 Prompt And Negative-Prompt QA - 2026-07-12T09:17:38-05:00
-
-`TRK-W64-064` / `ITEM-W64-064` is `Blocked_Prompt_Profile_Static_And_Runtime_QA_Gaps`. The audit parsed all 112 PromptProfiles JSON artifacts and correctly separated 109 prompt profiles from two non-prompt RealESRGAN operations and one certification matrix. Of the prompt profiles, 105 pass deterministic static prompt-pair checks, four lack an explicit pair or source-profile link, zero have exact positive/negative clause contradictions, and all 19 duplicate-pair groups are controlled variants with unique patch payloads and output prefixes. Final approval remains fail-closed because 93 profiles lack exact lane-contract authority, all 109 lack direct representative-output evidence links, and 14 Wave71/Wave72-named profiles remain deferred. No profile was modified or approved, and no generation, AWS, EC2, mask, Jira, or Wave71+ activation occurred.
-
-Next safe local action: `TRK-W64-065 / ITEM-W64-065` RealVisXL completed-lane terminal-state proof.
-
-Evidence: `Plan/Instructions/QA/Evidence/Wave64/prompt_negative_prompt_qa.json`; `Plan/Instructions/QA/Evidence/Wave64/PROMPT_NEGATIVE_PROMPT_QA_20260712T091738-0500.json`; `Plan/Tracker/Evidence/PROMPT_NEGATIVE_PROMPT_QA_20260712T091738-0500.json`.
 
 ## Wave64 Row063 Failure Classification And Targeted Rerun - 2026-07-12T09:01:21-05:00
 

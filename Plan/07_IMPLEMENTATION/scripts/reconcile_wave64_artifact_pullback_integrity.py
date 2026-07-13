@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import csv, hashlib, json, subprocess
+import csv, hashlib, json, re, subprocess
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -8,6 +8,14 @@ from zoneinfo import ZoneInfo
 ROOT=Path(r"C:\Comfy_UI_Main"); PLAN=ROOT/"Plan"; TZ=ZoneInfo("America/Chicago")
 TRACKER="TRK-W64-043"; ITEM="ITEM-W64-043"; NEXT="TRK-W64-044 / ITEM-W64-044"
 STATUS="Completed_Lane_Scoped_Artifact_Pullback_Integrity_Pass"
+TRACKER_CSVS=(
+    PLAN/"Tracker/wave64_end_to_end_strict_ai_tracker.csv",
+    PLAN/"Tracker/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_TRACKER_ROWS.csv",
+)
+ITEM_CSVS=(
+    PLAN/"Items/wave64_end_to_end_strict_ai_itemized_list.csv",
+    PLAN/"Items/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_ITEM_ROWS.csv",
+)
 
 def rel(p:Path)->str: return p.resolve().relative_to(ROOT.resolve()).as_posix()
 def sha(p:Path)->str: return hashlib.sha256(p.read_bytes()).hexdigest()
@@ -31,8 +39,11 @@ def update(path:Path,key:str,value:str,changes:dict)->int:
     with path.open("w",encoding="utf-8",newline="") as f:
         writer=csv.DictWriter(f,fieldnames=fields,lineterminator="\n"); writer.writeheader(); writer.writerows(rows)
     return count
-def prepend(path:Path,block:str)->None:
-    old=path.read_text(encoding="utf-8-sig") if path.exists() else ""; path.write_text(block.strip()+"\n\n"+old.lstrip(),encoding="utf-8")
+def upsert_leading_section(path:Path,heading_prefix:str,block:str)->None:
+    old=path.read_text(encoding="utf-8-sig") if path.exists() else ""
+    pattern=re.compile(rf"(?ms)^## {re.escape(heading_prefix)}[^\n]*\n.*?(?=^## |\Z)")
+    old=pattern.sub("",old).lstrip()
+    path.write_text(block.strip()+"\n\n"+old,encoding="utf-8")
 def blob(oid:str)->bytes: return subprocess.check_output(["git","cat-file","blob",oid],cwd=ROOT)
 
 def main()->None:
@@ -77,10 +88,9 @@ def main()->None:
     write(report,{"schema_version":"1.0","created_iso":iso,"tracker_id":TRACKER,"item_id":ITEM,"status":STATUS,"evidence":paths,"caveat":payload["text_integrity_caveat"]["authority"],"next_action":payload["next_action"]})
     note=f"Wave64 Row043 {stamp}: lane-scoped 4/4 pullback, manifest/image/log hashes, QA and final review pass; original history/prompt Git blobs match remote hashes; current edited text copies not claimed identical."
     tags=["wave64_row043_lane_scoped_pullback_complete","remote_local_4_of_4_hash_verified","original_git_blob_integrity_preserved","full_project_certification_not_claimed"]
-    tc=update(PLAN/"Tracker/wave64_end_to_end_strict_ai_tracker.csv","Tracker_ID",TRACKER,{"Status":STATUS,"Status_Decision":payload["qa_decision"],"Evidence_Path":paths,"Coverage_Audit_Status":tags,"Notes":[note]})
-    ic=[]
-    for p in (PLAN/"Items/wave64_end_to_end_strict_ai_itemized_list.csv",PLAN/"Items/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_ITEM_ROWS.csv"): ic.append(update(p,"Item_ID",ITEM,{"Status":STATUS,"Evidence_Required":paths,"Coverage_Audit_Status":tags,"Notes":[note]}))
-    if tc!=1 or ic!=[1,1]: raise SystemExit(f"row update mismatch {tc} {ic}")
+    tc=[update(p,"Tracker_ID",TRACKER,{"Status":STATUS,"Status_Decision":payload["qa_decision"],"Evidence_Path":paths,"Coverage_Audit_Status":tags,"Notes":[note]}) for p in TRACKER_CSVS]
+    ic=[update(p,"Item_ID",ITEM,{"Status":STATUS,"Evidence_Required":paths,"Coverage_Audit_Status":tags,"Notes":[note]}) for p in ITEM_CSVS]
+    if tc!=[1,1] or ic!=[1,1]: raise SystemExit(f"row update mismatch {tc} {ic}")
     block=f"""## Wave64 Row043 Artifact Pullback Reconciliation - {iso}
 
 `{TRACKER}` / `{ITEM}` is `{STATUS}` for `aws_gpu_workflow_smoke_20260706T110424-0500`. Existing evidence proves manifest presence, 4/4 remote/local count parity, pullback hash verification, image/log hash parity, visual QA 86/80, and final review closure. Current checked-out history/prompt text copies differ after a later one-token edit; the original Git blobs remain recoverable and reproduce the recorded remote hashes, so historical integrity passes without claiming current-copy parity or full-project certification.
@@ -89,7 +99,8 @@ Evidence: `{rel(canonical)}`; `{rel(stamped)}`; `{rel(mirror)}`; `{rel(manifest)
 
 Next: `{NEXT}` model-registry governance duplicate-check; do not rerun this completed pullback."""
     hyd=PLAN/"Instructions/Hydration_Rehydration"
-    for n in ("NEXT_ACTION.md","CURRENT_SESSION_STATE.md","CURRENT_PURSUING_GOAL.md","RESUME_HERE_NEXT_CODEX_SESSION.md","QA_EVIDENCE_INDEX.md"): prepend(hyd/n,block)
+    for n in ("NEXT_ACTION.md","CURRENT_SESSION_STATE.md","CURRENT_PURSUING_GOAL.md","RESUME_HERE_NEXT_CODEX_SESSION.md","QA_EVIDENCE_INDEX.md"):
+        upsert_leading_section(hyd/n,"Wave64 Row043 Artifact Pullback Reconciliation - ",block)
     with (hyd/"PROOF_OF_MOVEMENT_LOG.csv").open("a",encoding="utf-8",newline="") as f: csv.writer(f,lineterminator="\n").writerow([iso,"64",TRACKER,"Closed lane-scoped pullback integrity from existing 4/4 hash-bound artifacts and recoverable original Git blobs.","; ".join(paths),"20/20 checks; count/hash parity; QA/final review; current text-copy caveat",payload["qa_decision"],rel(canonical),f"Advance to {NEXT}; no pullback rerun."])
     print(json.dumps({"status":STATUS,"stamped":str(stamped),"checks":payload["check_summary"],"next":NEXT},indent=2))
 

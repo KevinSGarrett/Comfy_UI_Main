@@ -1,13 +1,13 @@
 {
   "schema_version": "1.0",
-  "evidence_id": "PROMPT_NEGATIVE_PROMPT_QA_20260712T091738-0500",
-  "created_iso": "2026-07-12T09:17:38-05:00",
+  "evidence_id": "PROMPT_NEGATIVE_PROMPT_QA_20260713T004307-0500",
+  "created_iso": "2026-07-13T00:43:07-05:00",
   "wave": 64,
   "tracker_id": "TRK-W64-064",
   "item_id": "ITEM-W64-064",
-  "status": "Blocked_Prompt_Profile_Static_And_Runtime_QA_Gaps",
+  "status": "Blocked_Prompt_Profile_Lane_Authority_And_Runtime_QA_Gaps",
   "row_complete": false,
-  "qa_decision": "static_inventory_complete_prompt_approval_fail_closed",
+  "qa_decision": "static_prompt_pair_inventory_complete_approval_fail_closed",
   "inventory_summary": {
     "json_files": 112,
     "parsed": 112,
@@ -16,17 +16,17 @@
     "non_prompt_artifacts": 3,
     "non_prompt_operation_profiles": 2,
     "certification_matrices": 1,
-    "static_prompt_profiles_pass": 105,
-    "missing_prompt_pair_or_link": 4,
-    "negative_prompts_present": 105,
+    "static_prompt_profiles_pass": 109,
+    "missing_prompt_pair_or_link": 0,
+    "negative_prompts_present": 109,
     "exact_contradictions": 0,
-    "duplicate_groups": 19,
-    "controlled_duplicate_groups": 19,
+    "duplicate_groups": 21,
+    "controlled_duplicate_groups": 21,
     "prompt_lane_ids": 8,
     "lane_authority_present": 16,
     "lane_authority_missing": 93,
     "wave71_plus_named_deferred": 14,
-    "direct_runtime_evidence_links": 0,
+    "direct_runtime_evidence_links": 4,
     "approved_profiles": 0
   },
   "lane_counts": {
@@ -42,50 +42,74 @@
   "profile_index": [
     {
       "path": "PromptProfiles/base_generation/controlnet_canny_v5_robustness/canny_v5_eye_fill_seed711170101.json",
-      "sha256": "ed38e04de26635cfd5bebd9bd357945d72dab14f2d217af6b5b4fe5c897ddc58",
+      "sha256": "ec9839958fcd3197cc87ecf98852ea39c4e4a935da5e8b6a0a5c336383490530",
       "artifact_type": "prompt_profile",
       "profile_id": "canny_v5_eye_fill_seed711170101",
       "target_lane_id": "sdxl_realvisxl_controlnet_canny_lane",
       "purpose_present": true,
       "qa_focus_present": true,
       "expected_outputs_present": true,
-      "positive_prompt_present": false,
-      "negative_prompt_present": false,
-      "prompt_pair_complete": false,
+      "positive_prompt_present": true,
+      "negative_prompt_present": true,
+      "prompt_pair_complete": true,
       "metadata_complete": true,
       "exact_positive_negative_clause_overlap": [],
       "lane_authority_present": false,
       "model_asset": null,
       "model_family_compatible_static": true,
-      "request_patch_sha256": "e4dcf69654dcc77ddcbf7bdc93a03e79cce7bd86b0ea595deeb26705c6ff495f",
+      "request_patch_sha256": "a3e94538081aa9437da9fd2c819cde4f5f6ac40e35341032d2cdf71706d01e96",
       "save_prefix": "codex_sdxl_realvisxl_controlnet_canny_v5_seed711170101",
       "wave71_plus_named": false,
-      "runtime_evidence_paths": [],
-      "static_prompt_qa": "not_pass",
+      "runtime_evidence_paths": [
+        "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_V5_ROBUSTNESS_SEED711170101_EXECUTE_20260707T032900-0500.json",
+        "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_V5_ROBUSTNESS_VISUAL_QA_20260707T033200-0500.json"
+      ],
+      "prompt_source_binding": {
+        "path": "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_v5_robustness_seed711170101/prompt_request.json",
+        "valid": true,
+        "checks": {
+          "sha256_match": true,
+          "positive_prompt_match": true,
+          "negative_prompt_match": true
+        }
+      },
+      "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
     {
       "path": "PromptProfiles/base_generation/controlnet_canny_v5_robustness/canny_v5_eye_fill_seed711170102.json",
-      "sha256": "637adc5f5184b71e043ca65b5fea1d67521eb80f997c61138136565fe23b3bc0",
+      "sha256": "0636eca7b68f2c01a469ac0022771a95f213ddbaa907e937e79edd1b26cf852e",
       "artifact_type": "prompt_profile",
       "profile_id": "canny_v5_eye_fill_seed711170102",
       "target_lane_id": "sdxl_realvisxl_controlnet_canny_lane",
       "purpose_present": true,
       "qa_focus_present": true,
       "expected_outputs_present": true,
-      "positive_prompt_present": false,
-      "negative_prompt_present": false,
-      "prompt_pair_complete": false,
+      "positive_prompt_present": true,
+      "negative_prompt_present": true,
+      "prompt_pair_complete": true,
       "metadata_complete": true,
       "exact_positive_negative_clause_overlap": [],
       "lane_authority_present": false,
       "model_asset": null,
       "model_family_compatible_static": true,
-      "request_patch_sha256": "0003f10e22e155c935d23a3cb7bfb55056ee6b9d83f8e63195955a3082526859",
+      "request_patch_sha256": "a172afe0d600fa27864eba0e7afa30410ad2440a2c3123bc99e9c267163611f1",
       "save_prefix": "codex_sdxl_realvisxl_controlnet_canny_v5_seed711170102",
       "wave71_plus_named": false,
-      "runtime_evidence_paths": [],
-      "static_prompt_qa": "not_pass",
+      "runtime_evidence_paths": [
+        "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_CANNY_V5_ROBUSTNESS_SEED711170102_EXECUTE_20260707T033100-0500.json",
+        "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_V5_ROBUSTNESS_VISUAL_QA_20260707T033200-0500.json"
+      ],
+      "prompt_source_binding": {
+        "path": "runtime_artifacts/run_packages/sdxl_realvisxl_controlnet_canny_v5_robustness_seed711170102/prompt_request.json",
+        "valid": true,
+        "checks": {
+          "sha256_match": true,
+          "positive_prompt_match": true,
+          "negative_prompt_match": true
+        }
+      },
+      "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
     {
@@ -109,6 +133,7 @@
       "save_prefix": "codex_sdxl_realvisxl_controlnet_canny_v6_microtexture_collar_seed711170102",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -133,6 +158,7 @@
       "save_prefix": "canny_w69_edge_naturalness_seed711570105",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -157,6 +183,7 @@
       "save_prefix": "canny_w69_eyeonly_robust_711570104",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -181,6 +208,7 @@
       "save_prefix": "canny_w69_eyeonly_robust_711570105",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -205,6 +233,7 @@
       "save_prefix": "canny_w69_eyeonly_seam_suppression_711570105",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -229,6 +258,7 @@
       "save_prefix": "codex_sdxl_realvisxl_controlnet_canny_w69_followup_eye_microtexture_seed711570103",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -253,6 +283,7 @@
       "save_prefix": "canny_w69_eyeonly_711570102",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -277,6 +308,7 @@
       "save_prefix": "codex_sdxl_realvisxl_controlnet_canny_w69_matrix_baseline_seed711570101",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -301,6 +333,7 @@
       "save_prefix": "codex_sdxl_realvisxl_controlnet_canny_w69_matrix_softer_edges_seed711570102",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -325,6 +358,7 @@
       "save_prefix": "canny_w69_rightedge_masked_v3_seed711570105",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -349,6 +383,7 @@
       "save_prefix": "canny_full_body_standing_711570301",
       "wave71_plus_named": true,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -373,6 +408,7 @@
       "save_prefix": "canny_full_body_standing_711570302",
       "wave71_plus_named": true,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -397,6 +433,7 @@
       "save_prefix": "canny_full_body_standing_711570303",
       "wave71_plus_named": true,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -421,6 +458,7 @@
       "save_prefix": "canny_w71_followup_identitylock_044062_seed711570106",
       "wave71_plus_named": true,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -445,6 +483,7 @@
       "save_prefix": "canny_w71_identity_anchor_seed711570106",
       "wave71_plus_named": true,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -469,6 +508,7 @@
       "save_prefix": "canny_w71_matrix_preferred_042060_seed711570106",
       "wave71_plus_named": true,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -493,6 +533,7 @@
       "save_prefix": "canny_w71_matrix_softer_036052_seed711570106",
       "wave71_plus_named": true,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -517,6 +558,7 @@
       "save_prefix": "canny_w71_negative_antidrift_seed711570106",
       "wave71_plus_named": true,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -541,6 +583,7 @@
       "save_prefix": "canny_w71_robust_seed711570107",
       "wave71_plus_named": true,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -565,6 +608,7 @@
       "save_prefix": "canny_w71_robust_seed711570108",
       "wave71_plus_named": true,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -589,6 +633,7 @@
       "save_prefix": "canny_w71_subject_anchor_seed711570106",
       "wave71_plus_named": true,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -613,6 +658,7 @@
       "save_prefix": "canny_w72_followup_microbalance_0415_060_seed711570106",
       "wave71_plus_named": true,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -637,6 +683,7 @@
       "save_prefix": "canny_w72_matrix_microlow_041060_seed711570106",
       "wave71_plus_named": true,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -661,6 +708,7 @@
       "save_prefix": "canny_w72_matrix_microstrong_043060_seed711570106",
       "wave71_plus_named": true,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -685,6 +733,7 @@
       "save_prefix": "depth_v2_eye_fill_711270202",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -709,6 +758,7 @@
       "save_prefix": "depth_v2_robust_711270203",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -733,6 +783,7 @@
       "save_prefix": "depth_v2_robust_711270204",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -757,6 +808,7 @@
       "save_prefix": "depth_v3_fullbody_armsup_711370301",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -781,6 +833,7 @@
       "save_prefix": "depth_v3_fullbody_armsup_711370302",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -805,6 +858,7 @@
       "save_prefix": "depth_v3_fullbody_armsup_711370303",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -829,6 +883,7 @@
       "save_prefix": "lineart_fullbody_standing_711370301",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -853,6 +908,7 @@
       "save_prefix": "lineart_fullbody_standing_711370302",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -877,6 +933,7 @@
       "save_prefix": "lineart_fullbody_standing_711370303",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -901,6 +958,7 @@
       "save_prefix": "codex_sdxl_realvisxl_controlnet_lineart_v2_natural_skin_background_seed711370002",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -925,6 +983,7 @@
       "save_prefix": "lineart_v2_robust_711370003",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -949,6 +1008,7 @@
       "save_prefix": "lineart_v2_robust_711370004",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -973,6 +1033,7 @@
       "save_prefix": "lineart_v3_background_identity_711370003",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -997,6 +1058,7 @@
       "save_prefix": "lineart_v4_plain_backdrop_711370003",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1021,6 +1083,7 @@
       "save_prefix": "lineart_v4_robust_plain_711370005",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1045,6 +1108,7 @@
       "save_prefix": "lineart_v4_robust_plain_711370006",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1069,6 +1133,7 @@
       "save_prefix": "normal_v2_skin_fabric_711670202",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1093,6 +1158,7 @@
       "save_prefix": "normal_v3_oxford_711670203",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1117,6 +1183,7 @@
       "save_prefix": "normal_v3_robust_711670204",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1141,6 +1208,7 @@
       "save_prefix": "normal_v3_robust_711670205",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1165,6 +1233,7 @@
       "save_prefix": "normal_v4_fullbody_robust_711670302",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1189,6 +1258,7 @@
       "save_prefix": "normal_v4_fullbody_robust_711670303",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1213,6 +1283,7 @@
       "save_prefix": "normal_v4_fullbody_standing_711670301",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1237,6 +1308,7 @@
       "save_prefix": "codex_sdxl_realvisxl_controlnet_openpose_v2_upper_body_hands_seed711470101",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1261,6 +1333,7 @@
       "save_prefix": "codex_sdxl_realvisxl_controlnet_openpose_v3_tall_upper_body_hands_seed711470102",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1285,6 +1358,7 @@
       "save_prefix": "openpose_tablehands_711470201",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1309,6 +1383,7 @@
       "save_prefix": "op_tablehands_v5_711470202",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1333,6 +1408,7 @@
       "save_prefix": "op_tablehands_v5_711470203",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1357,6 +1433,7 @@
       "save_prefix": "op_fullbody_walk_v6_robust_711470302",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1381,6 +1458,7 @@
       "save_prefix": "op_fullbody_walk_v6_robust_711470303",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1405,6 +1483,7 @@
       "save_prefix": "op_fullbody_walk_v6_711470301",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1429,55 +1508,80 @@
       "save_prefix": "codex_hyperreal_editorial_portrait",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
     {
       "path": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_v4_nomouth_seed210501.json",
-      "sha256": "51e4b360b5dfcb52371aca4a92b323f5646e53bd2e9591b6742000d5983b9b23",
+      "sha256": "a6edfbc7c9691a8152e8dc64ea4a0bd6d2e07a7daf6684cb0a33e7acdface6bd",
       "artifact_type": "prompt_profile",
       "profile_id": "inpaint_v4_nomouth_seed210501",
       "target_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
       "purpose_present": true,
       "qa_focus_present": true,
       "expected_outputs_present": true,
-      "positive_prompt_present": false,
-      "negative_prompt_present": false,
-      "prompt_pair_complete": false,
+      "positive_prompt_present": true,
+      "negative_prompt_present": true,
+      "prompt_pair_complete": true,
       "metadata_complete": true,
       "exact_positive_negative_clause_overlap": [],
       "lane_authority_present": false,
       "model_asset": null,
       "model_family_compatible_static": true,
-      "request_patch_sha256": "96330d7b87636d09a0274e8cf92fb65fa7e44fe9657fc6d2fd99f4e771dceba2",
+      "request_patch_sha256": "0046404f0d47bbe0a26378479bd80dfa6bc601fe9f50df9dff3145b04aaa9544",
       "save_prefix": "codex_sdxl_realvisxl_inpaint_detail_nomouth_v4_seed210501",
       "wave71_plus_named": false,
-      "runtime_evidence_paths": [],
-      "static_prompt_qa": "not_pass",
+      "runtime_evidence_paths": [
+        "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_ROBUSTNESS_SEED210501_EXECUTE_20260707T033600-0500.json",
+        "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_ROBUSTNESS_VISUAL_QA_20260707T034000-0500.json"
+      ],
+      "prompt_source_binding": {
+        "path": "runtime_artifacts/run_packages/sdxl_realvisxl_inpaint_detail_nomouth_v4_robustness_seed210501/prompt_request.json",
+        "valid": true,
+        "checks": {
+          "sha256_match": true,
+          "positive_prompt_match": true,
+          "negative_prompt_match": true
+        }
+      },
+      "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
     {
       "path": "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_v4_nomouth_seed210502.json",
-      "sha256": "4d050bfada18e083173173e88b7cf98be1062198ade6b4e324fa0b9360ee287f",
+      "sha256": "760c78c5da169cc7f6dd8e4a8f56d425fea71ea00d60e4ba2123d51335bf6e45",
       "artifact_type": "prompt_profile",
       "profile_id": "inpaint_v4_nomouth_seed210502",
       "target_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
       "purpose_present": true,
       "qa_focus_present": true,
       "expected_outputs_present": true,
-      "positive_prompt_present": false,
-      "negative_prompt_present": false,
-      "prompt_pair_complete": false,
+      "positive_prompt_present": true,
+      "negative_prompt_present": true,
+      "prompt_pair_complete": true,
       "metadata_complete": true,
       "exact_positive_negative_clause_overlap": [],
       "lane_authority_present": false,
       "model_asset": null,
       "model_family_compatible_static": true,
-      "request_patch_sha256": "2345774cebc20211ea8eae45eaed91cec2227609346d95069459ea3430d03a94",
+      "request_patch_sha256": "b4ba5753a9a089e639da89cc2aa789458cc19b0e34cf4be06715627039abeef8",
       "save_prefix": "codex_sdxl_realvisxl_inpaint_detail_nomouth_v4_seed210502",
       "wave71_plus_named": false,
-      "runtime_evidence_paths": [],
-      "static_prompt_qa": "not_pass",
+      "runtime_evidence_paths": [
+        "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_ROBUSTNESS_SEED210502_EXECUTE_20260707T033800-0500.json",
+        "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_ROBUSTNESS_VISUAL_QA_20260707T034000-0500.json"
+      ],
+      "prompt_source_binding": {
+        "path": "runtime_artifacts/run_packages/sdxl_realvisxl_inpaint_detail_nomouth_v4_robustness_seed210502/prompt_request.json",
+        "valid": true,
+        "checks": {
+          "sha256_match": true,
+          "positive_prompt_match": true,
+          "negative_prompt_match": true
+        }
+      },
+      "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
     {
@@ -1501,6 +1605,7 @@
       "save_prefix": "codex_sdxl_realvisxl_inpaint_detail_nomouth_v5_texture_seed210601",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1525,6 +1630,7 @@
       "save_prefix": "codex_wave25_contact_lower_upper_arm_reposition_seed210705",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1549,6 +1655,7 @@
       "save_prefix": "codex_wave25_contact_shadow_pressure_seed210704",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1573,6 +1680,7 @@
       "save_prefix": "codex_wave25_two_character_contact_refine_seed210701",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1597,6 +1705,7 @@
       "save_prefix": "codex_wave25_two_character_contact_refine_seed210702",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1621,6 +1730,7 @@
       "save_prefix": "codex_wave25_two_character_contact_refine_seed210703",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1645,6 +1755,7 @@
       "save_prefix": "codex_wave70_mf70_cheeks_skin_seed210805",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1669,6 +1780,7 @@
       "save_prefix": "codex_wave70_mf70_expression_region_seed210803",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1693,6 +1805,7 @@
       "save_prefix": "codex_wave70_mf70_eyebrows_seed210815",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1717,6 +1830,7 @@
       "save_prefix": "codex_wave70_mf70_eyebrows_v4_seed210824",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1741,6 +1855,7 @@
       "save_prefix": "codex_wave70_mf70_eyelashes_seed210813",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1765,6 +1880,7 @@
       "save_prefix": "codex_wave70_mf70_eyelids_seed210812",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1789,6 +1905,7 @@
       "save_prefix": "codex_wave70_mf70_eyes_full_seed210808",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1813,6 +1930,7 @@
       "save_prefix": "codex_wave70_mf70_eyes_full_v3_seed210822",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1837,6 +1955,7 @@
       "save_prefix": "codex_wave70_mf70_eyes_full_v3b_seed210823",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1861,6 +1980,7 @@
       "save_prefix": "codex_wave70_mf70_face_full_instance_seed210802",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1885,6 +2005,7 @@
       "save_prefix": "codex_wave70_mf70_face_identity_critical_seed210801",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1909,6 +2030,7 @@
       "save_prefix": "codex_wave70_mf70_forehead_skin_seed210804",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1933,6 +2055,7 @@
       "save_prefix": "codex_wave70_mf70_jawline_chin_seed210806",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1957,6 +2080,7 @@
       "save_prefix": "codex_wave70_mf70_left_eye_seed210809",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -1981,6 +2105,7 @@
       "save_prefix": "codex_wave70_mf70_mouth_lips_seed210817",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2005,6 +2130,7 @@
       "save_prefix": "codex_wave70_mf70_mouth_lips_v4_seed210821",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2029,6 +2155,7 @@
       "save_prefix": "codex_wave70_mf70_nose_seed210816",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2053,6 +2180,7 @@
       "save_prefix": "codex_wave70_mf70_nose_strict_repair_seed210819",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2077,6 +2205,7 @@
       "save_prefix": "codex_wave70_mf70_nose_v2_source_landmark_seed210820",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2101,6 +2230,7 @@
       "save_prefix": "codex_wave70_mf70_nose_v5_parser_derived_seed210825",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2125,6 +2255,7 @@
       "save_prefix": "codex_wave70_mf70_pupils_iris_sclera_seed210811",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2149,6 +2280,7 @@
       "save_prefix": "codex_wave70_mf70_right_eye_seed210810",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2173,6 +2305,7 @@
       "save_prefix": "codex_wave70_mf70_skin_tone_continuity_seed210807",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2197,6 +2330,7 @@
       "save_prefix": "codex_wave70_mf70_teeth_mouth_area_v2_seed210826",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2221,6 +2355,7 @@
       "save_prefix": "codex_wave70_mf70_teeth_seed210818",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2245,6 +2380,7 @@
       "save_prefix": "codex_wave70_mf70_under_eye_seed210814",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2269,6 +2405,7 @@
       "save_prefix": "realesrgan_normal_fullbody_w70_v1",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "not_pass",
       "approval_state": "not_applicable_non_prompt_artifact"
     },
@@ -2293,6 +2430,7 @@
       "save_prefix": "realesrgan_twochar_contact_w70_v1",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "not_pass",
       "approval_state": "not_applicable_non_prompt_artifact"
     },
@@ -2317,6 +2455,7 @@
       "save_prefix": "codex_realvisxl_local_bounded_smoke",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2341,6 +2480,7 @@
       "save_prefix": "codex_realvisxl_cert_closeup_skin_eye",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2365,6 +2505,7 @@
       "save_prefix": "codex_realvisxl_cert_environment_lowlight",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2389,6 +2530,7 @@
       "save_prefix": "codex_realvisxl_hands_contact_composition_fix",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2413,6 +2555,7 @@
       "save_prefix": "codex_realvisxl_hands_contact_followup",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2437,6 +2580,7 @@
       "save_prefix": "codex_realvisxl_hands_contact_robustness_a",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2461,6 +2605,7 @@
       "save_prefix": "codex_realvisxl_hands_contact_robustness_b",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2485,6 +2630,7 @@
       "save_prefix": "codex_realvisxl_one_hand_table_contact",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2509,6 +2655,7 @@
       "save_prefix": "codex_realvisxl_single_hand_contact_closeup",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2533,6 +2680,7 @@
       "save_prefix": "codex_realvisxl_cert_hands_fabric",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2557,6 +2705,7 @@
       "save_prefix": "rvxl_twochar_contact_robust_7152026253",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2581,6 +2730,7 @@
       "save_prefix": "rvxl_twochar_contact_robust_7152026254",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2605,6 +2755,7 @@
       "save_prefix": "codex_realvisxl_two_character_hand_to_body_seed7152026251",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2629,6 +2780,7 @@
       "save_prefix": "codex_realvisxl_two_character_hand_to_body_seed7152026252",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2653,6 +2805,7 @@
       "save_prefix": "rvxl_twochar_openpose_contact_7152026253",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2677,6 +2830,7 @@
       "save_prefix": "rvxl_twochar_openpose_contact_7152026254",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     },
@@ -2701,6 +2855,7 @@
       "save_prefix": null,
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "not_pass",
       "approval_state": "not_applicable_non_prompt_artifact"
     },
@@ -2725,11 +2880,20 @@
       "save_prefix": "wave10_camera_full_body_7152026101",
       "wave71_plus_named": false,
       "runtime_evidence_paths": [],
+      "prompt_source_binding": null,
       "static_prompt_qa": "pass",
       "approval_state": "blocked_pending_representative_runtime_output"
     }
   ],
   "duplicate_prompt_pair_groups": [
+    {
+      "count": 2,
+      "controlled_variant_set": true,
+      "paths": [
+        "PromptProfiles/base_generation/controlnet_canny_v5_robustness/canny_v5_eye_fill_seed711170101.json",
+        "PromptProfiles/base_generation/controlnet_canny_v5_robustness/canny_v5_eye_fill_seed711170102.json"
+      ]
+    },
     {
       "count": 2,
       "controlled_variant_set": true,
@@ -2857,6 +3021,14 @@
       ]
     },
     {
+      "count": 2,
+      "controlled_variant_set": true,
+      "paths": [
+        "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_v4_nomouth_seed210501.json",
+        "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_v4_nomouth_seed210502.json"
+      ]
+    },
+    {
       "count": 3,
       "controlled_variant_set": true,
       "paths": [
@@ -2903,17 +3075,6 @@
   ],
   "normalized_blockers": [
     {
-      "blocker_id": "PROMPT_PAIR_OR_SOURCE_LINK_MISSING",
-      "count": 4,
-      "paths": [
-        "PromptProfiles/base_generation/controlnet_canny_v5_robustness/canny_v5_eye_fill_seed711170101.json",
-        "PromptProfiles/base_generation/controlnet_canny_v5_robustness/canny_v5_eye_fill_seed711170102.json",
-        "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_v4_nomouth_seed210501.json",
-        "PromptProfiles/base_generation/inpaint_detail_v4_robustness/inpaint_v4_nomouth_seed210502.json"
-      ],
-      "resolution": "Add explicit source_profile linkage or a complete positive/negative prompt pair; do not infer inherited text."
-    },
-    {
       "blocker_id": "PROMPT_TARGET_LANE_AUTHORITY_MISSING",
       "count": 93,
       "lane_counts": {
@@ -2928,7 +3089,7 @@
     },
     {
       "blocker_id": "REPRESENTATIVE_RUNTIME_OUTPUT_LINK_MISSING",
-      "count": 109,
+      "count": 105,
       "resolution": "Link per-profile representative output and visual QA evidence, or explicitly record pending runtime; do not approve from static text."
     },
     {
@@ -2983,11 +3144,11 @@
       "result": "pass"
     },
     {
-      "name": "PNQ-008_prompt_pairs_complete_105",
+      "name": "PNQ-008_prompt_pairs_complete_109",
       "result": "pass"
     },
     {
-      "name": "PNQ-009_missing_prompt_links_exact_four",
+      "name": "PNQ-009_missing_prompt_links_zero",
       "result": "pass"
     },
     {
@@ -2995,7 +3156,7 @@
       "result": "pass"
     },
     {
-      "name": "PNQ-011_negative_prompts_present_105",
+      "name": "PNQ-011_negative_prompts_present_109",
       "result": "pass"
     },
     {
@@ -3003,7 +3164,7 @@
       "result": "pass"
     },
     {
-      "name": "PNQ-013_duplicate_groups_19",
+      "name": "PNQ-013_duplicate_groups_21",
       "result": "pass"
     },
     {
@@ -3027,7 +3188,7 @@
       "result": "pass"
     },
     {
-      "name": "PNQ-019_no_direct_runtime_evidence_links",
+      "name": "PNQ-019_four_profiles_have_verified_prompt_sources_and_runtime_qa_links",
       "result": "pass"
     },
     {
@@ -3043,7 +3204,7 @@
   "safety_boundary": {
     "generation_executed": false,
     "profile_approved": false,
-    "profiles_modified": false,
+    "profiles_reconciled_from_hash_verified_local_requests": 4,
     "aws_contacted": false,
     "ec2_started": false,
     "wave71_activated": false,
@@ -3074,8 +3235,8 @@
   "next_action": "Advance to TRK-W64-065 / ITEM-W64-065 RealVisXL terminal-state proof; keep prompt approvals blocked pending exact profile, lane, and runtime-evidence corrections.",
   "evidence_paths": [
     "Plan/Instructions/QA/Evidence/Wave64/prompt_negative_prompt_qa.json",
-    "Plan/Instructions/QA/Evidence/Wave64/PROMPT_NEGATIVE_PROMPT_QA_20260712T091738-0500.json",
-    "Plan/Tracker/Evidence/PROMPT_NEGATIVE_PROMPT_QA_20260712T091738-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/PROMPT_NEGATIVE_PROMPT_QA_20260713T004307-0500.json",
+    "Plan/Tracker/Evidence/PROMPT_NEGATIVE_PROMPT_QA_20260713T004307-0500.json",
     "Plan/Instructions/QA/Evidence/Wave64/prompt_negative_prompt_qa_test_log.json",
     "Plan/Items/Reports/ITEM-W64-064_prompt_negative_prompt_qa.json"
   ]
