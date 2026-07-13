@@ -1,0 +1,70 @@
+{
+  "evidence_id": "EC2-RUNTIME-DELIVERY-AND-GITHUB-PROTECTION-HARDENING-20260713T154800-0500",
+  "created_at": "2026-07-13T15:48:00-05:00",
+  "result": "pass_with_explicit_ebs_followup_blocker",
+  "classifications": [
+    "MAIN_SESSION_SCOPED_AWS_ROLE_ACTIVE",
+    "GITHUB_OIDC_DEPLOY_BUNDLE_PUBLICATION_VERIFIED",
+    "DETERMINISTIC_LINUX_PORTABLE_ZIP_ACTIVE",
+    "EC2_RUNTIME_WINDOW_MARKER_LIFECYCLE_ACTIVE",
+    "EC2_CAPACITY_BACKOFF_AND_READINESS_DISPOSITION_ACTIVE",
+    "GITHUB_MAIN_PROTECTION_RULESET_ACTIVE_NO_BYPASS",
+    "BLOCKED_EBS_USED_BYTES_PROOF_MISSING"
+  ],
+  "aws": {
+    "account": "029530099913",
+    "routine_identity": "arn:aws:sts::029530099913:assumed-role/ComfyUIMainSessionRole/comfy-ui-main-session",
+    "root_is_break_glass_only": true,
+    "approved_instance_id": "i-0560bf8d143f93bb1",
+    "approved_instance_state_after_review": "stopped",
+    "instance_started_for_this_hardening_review": false,
+    "active_runtime_window_marker_present": false
+  },
+  "github": {
+    "repository": "KevinSGarrett/Comfy_UI_Main",
+    "workflow_run_id": 29283352274,
+    "workflow_run_url": "https://github.com/KevinSGarrett/Comfy_UI_Main/actions/runs/29283352274",
+    "head_sha": "4f7b99374d67cb3e08d182fbbf1d447896797d8c",
+    "matrix_lane_count": 9,
+    "matrix_success_count": 9,
+    "aggregate_required_check": "Required preflight and package",
+    "aggregate_required_check_result": "success",
+    "ruleset_id": 18888078,
+    "pull_request_required": true,
+    "owner_bypass_allowed": false,
+    "resolved_review_threads_required": true,
+    "required_external_approval_count": 0
+  },
+  "s3_publication": {
+    "bucket": "comfy-ui-main-runtime-029530099913-us-east-1",
+    "prefix": "deploy-bundles/github/",
+    "object_count_for_verified_sha": 18,
+    "manifest_count": 9,
+    "zip_count": 9,
+    "all_zip_sha256_matches": true,
+    "all_zip_portability_checks_pass": true,
+    "github_role_has_ec2_authority": false,
+    "long_lived_github_aws_credentials_used": false
+  },
+  "lifecycle": {
+    "deploy_bundle_current_days": 90,
+    "render_output_current_days": 180,
+    "noncurrent_version_days": 30,
+    "incomplete_multipart_days": 7,
+    "model_cache_expiration_enabled": false
+  },
+  "ebs": {
+    "volume_id": "vol-0eb9b2c6d3d2706d6",
+    "current_size_gib": 1024,
+    "encrypted": false,
+    "migration_performed": false,
+    "blocker": "BLOCKED_EBS_USED_BYTES_PROOF_MISSING",
+    "next_safe_action": "Capture root filesystem used bytes during the next already-required runtime window, then plan encrypted right-sizing. Do not start EC2 solely for measurement and do not guess a shrink target."
+  },
+  "boundaries": [
+    "No mask promotion, Wave70 hard-gate rerun, Wave71+ activation, Jira mutation, or Tracker status mutation was performed.",
+    "GitHub may publish deploy bundles through OIDC but may not start or stop EC2.",
+    "Scheduled supervisors may report readiness and backoff but may not autonomously start EC2.",
+    "Root AWS credentials are not the routine main-session identity."
+  ]
+}

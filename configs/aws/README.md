@@ -20,6 +20,11 @@ Use these policies to keep EC2 on-time short:
   `deploy-bundles/github/`; it has no EC2 authority.
 - Runtime-bucket lifecycle expires replaceable bundles and old output copies
   while preserving the model cache.
+- `tools/aws/Test-ComfyUICloudControlPlaneDrift.ps1` performs a read-only
+  comparison of the routine role, GitHub OIDC role, repository variables,
+  runtime-bucket lifecycle, stopped-instance state, and marker state against
+  these canonical controls. It reports the known EBS encryption/right-sizing
+  blocker without starting EC2 or authorizing a migration.
 
 Do not store AWS credentials, GitHub tokens, Civitai keys, model binaries, or
 private keys in this directory.
