@@ -7,7 +7,7 @@ import os
 import re
 import subprocess
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
 from zoneinfo import ZoneInfo
@@ -29,6 +29,7 @@ WSL_ROOT = Path("/mnt/c/Comfy_UI_Main")
 ROOT = Path(os.environ.get("COMFY_UI_MAIN_ROOT", WINDOWS_ROOT if WINDOWS_ROOT.exists() else WSL_ROOT))
 
 ROW042_EVIDENCE = ROOT / "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json"
+RUNTIME_READINESS = ROOT / "Plan/Instructions/QA/Evidence/Runtime_Readiness"
 ENV_PATH = ROOT / ".env"
 AWS_TIMEOUT_SECONDS = 30
 TRK = "TRK-W64-042"
@@ -49,6 +50,8 @@ STATUS_BLOCKED_MISSING_PROOF = "Blocked_Live_TTL_Watchdog_Proof_Missing_AWS_Read
 STATUS_BLOCKED_AUTH = "Blocked_AWS_Auth_Failed_Live_Readiness"
 STATUS_BLOCKED_ROLE = "Blocked_Scheduler_Role_Verification_Failed"
 STATUS_BLOCKED_RUNNING = "Blocked_EC2_Running_Without_TTL_Controls"
+MAX_EXECUTION_PROOF_AGE = timedelta(hours=3)
+MAX_FUTURE_CLOCK_SKEW = timedelta(minutes=5)
 
 
 @dataclass(frozen=True)
@@ -64,6 +67,98 @@ class Row042Metadata:
 
 def read_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8-sig"))
+
+
+def find_latest_execution_proof(
+    *,
+    directory: Path,
+    operation: str,
+    accepted_results: set[str],
+    metadata: Row042Metadata,
+    now: datetime | None = None,
+    max_age: timedelta = MAX_EXECUTION_PROOF_AGE,
+) -> dict[str, Any] | None:
+    """Return the newest exact, successful Row042 helper execution record."""
+    if not directory.exists():
+        return None
+
+    current_time = now or datetime.now(TZ)
+    if current_time.tzinfo is None:
+        raise ValueError("execution-proof comparison time must be timezone-aware")
+
+    matches: list[tuple[datetime, Path, dict[str, Any]]] = []
+    for path in directory.glob("*.json"):
+        try:
+            payload = read_json(path)
+        except (OSError, json.JSONDecodeError, UnicodeDecodeError):
+            continue
+        if payload.get("operation") != operation or payload.get("result") not in accepted_results:
+            continue
+        if payload.get("execute") is not True or payload.get("aws_contacted") is not True:
+            continue
+        if str(payload.get("instance_id", "")) != metadata.instance_id:
+            continue
+        if str(payload.get("region", "")) != metadata.region:
+            continue
+        if int(payload.get("stop_after_minutes", 0)) != metadata.stop_after_minutes:
+            continue
+        if payload.get("tracker_id") != TRK or payload.get("item_id") != ITEM:
+            continue
+        runtime_window_id = str(payload.get("runtime_window_id", ""))
+        if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]{7,127}", runtime_window_id):
+            continue
+        try:
+            execution_timestamp = datetime.fromisoformat(str(payload.get("timestamp", "")))
+        except ValueError:
+            continue
+        if execution_timestamp.tzinfo is None:
+            continue
+        if execution_timestamp < current_time - max_age:
+            continue
+        if execution_timestamp > current_time + MAX_FUTURE_CLOCK_SKEW:
+            continue
+
+        if operation == "new_ec2_emergency_stop_schedule":
+            if payload.get("schedule_verified") is not True or not payload.get("schedule_name"):
+                continue
+        elif operation == "start_ec2_instance_stop_watchdog":
+            if payload.get("command_status") != "Success":
+                continue
+            if payload.get("stop_capability_verified") is not True:
+                continue
+            if not payload.get("command_id") or not payload.get("watchdog_pid"):
+                continue
+
+        matches.append((execution_timestamp, path, payload))
+
+    if not matches:
+        return None
+    execution_timestamp, path, payload = max(matches, key=lambda item: item[0])
+    return {
+        "path": path,
+        "sha256": sha256(path),
+        "payload": payload,
+        "execution_timestamp": execution_timestamp,
+    }
+
+
+def pair_execution_proofs(
+    schedule_candidate: dict[str, Any] | None,
+    watchdog_candidate: dict[str, Any] | None,
+) -> tuple[dict[str, Any] | None, dict[str, Any] | None, str | None]:
+    if not schedule_candidate or not watchdog_candidate:
+        return None, None, None
+    schedule_window_id = str(schedule_candidate["payload"].get("runtime_window_id", ""))
+    watchdog_window_id = str(watchdog_candidate["payload"].get("runtime_window_id", ""))
+    if not schedule_window_id or schedule_window_id != watchdog_window_id:
+        return None, None, None
+    schedule_timestamp = schedule_candidate.get("execution_timestamp")
+    watchdog_timestamp = watchdog_candidate.get("execution_timestamp")
+    if not isinstance(schedule_timestamp, datetime) or not isinstance(watchdog_timestamp, datetime):
+        return None, None, None
+    if abs(watchdog_timestamp - schedule_timestamp) > timedelta(minutes=90):
+        return None, None, None
+    return schedule_candidate, watchdog_candidate, schedule_window_id
 
 
 def redact_text(value: str) -> str:
@@ -207,6 +302,7 @@ def classify_readiness(
     role_verified: bool,
     instance_state: str,
     schedule_present: bool,
+    schedule_proof_present: bool,
     ssm_managed: bool,
     watchdog_proof_present: bool,
 ) -> dict[str, Any]:
@@ -214,8 +310,8 @@ def classify_readiness(
     recommendations: list[str] = []
     instance_state_normalized = (instance_state or "unknown").lower()
     instance_is_stopped = instance_state_normalized == "stopped"
-    running_without_ttl_controls = (
-        instance_state_normalized == "running" and (not schedule_present or not watchdog_proof_present)
+    running_without_ttl_controls = instance_state_normalized == "running" and (
+        not schedule_present or not ssm_managed or not watchdog_proof_present
     )
 
     if not auth_verified:
@@ -229,9 +325,9 @@ def classify_readiness(
             blockers.append("running_instance_without_ttl_controls")
 
     if auth_verified and role_verified and instance_is_stopped:
-        if not schedule_present:
+        if not schedule_proof_present:
             blockers.append("live_emergency_stop_schedule_missing")
-        if not ssm_managed or not watchdog_proof_present:
+        if not watchdog_proof_present:
             blockers.append("ssm_watchdog_proof_missing")
 
     completed = not blockers
@@ -251,7 +347,7 @@ def classify_readiness(
         auth_verified
         and role_verified
         and instance_is_stopped
-        and (not schedule_present or not ssm_managed or not watchdog_proof_present)
+        and (not schedule_proof_present or not watchdog_proof_present)
     ):
         status = STATUS_BLOCKED_MISSING_PROOF
         qa_decision = "aws_readiness_verified_but_live_ttl_watchdog_proof_missing"
@@ -275,6 +371,28 @@ def run_live_probe() -> dict[str, Any]:
     metadata = load_row042_metadata()
     role_cfg = parse_env_scheduler_role()
 
+    schedule_candidate = find_latest_execution_proof(
+        directory=RUNTIME_READINESS,
+        operation="new_ec2_emergency_stop_schedule",
+        accepted_results={"emergency_stop_schedule_created_and_verified"},
+        metadata=metadata,
+    )
+    watchdog_candidate = find_latest_execution_proof(
+        directory=RUNTIME_READINESS,
+        operation="start_ec2_instance_stop_watchdog",
+        accepted_results={"instance_stop_watchdog_started_and_capability_verified"},
+        metadata=metadata,
+    )
+    schedule_proof, watchdog_proof, paired_runtime_window_id = pair_execution_proofs(
+        schedule_candidate,
+        watchdog_candidate,
+    )
+    live_schedule_name = (
+        str(schedule_proof["payload"]["schedule_name"])
+        if schedule_proof
+        else metadata.schedule_name
+    )
+
     sts = aws_call_json(["sts", "get-caller-identity"])
     ec2 = aws_call_json(
         [
@@ -293,7 +411,7 @@ def run_live_probe() -> dict[str, Any]:
             "--region",
             metadata.region,
             "--name",
-            metadata.schedule_name,
+            live_schedule_name,
         ]
     )
     ssm = aws_call_json(
@@ -314,16 +432,18 @@ def run_live_probe() -> dict[str, Any]:
     )
 
     instance_state = parse_instance_state(ec2["payload"]) if ec2["ok"] else "unknown"
-    schedule_present = bool(scheduler["ok"])
+    schedule_state = str(scheduler["payload"].get("State", "")) if scheduler["ok"] else ""
+    schedule_present = bool(scheduler["ok"] and schedule_state == "ENABLED")
     ssm_managed = parse_ssm_managed(ssm["payload"]) if ssm["ok"] else False
-    # A managed-instance record proves reachability only, never watchdog execution.
-    watchdog_proof_present = False
+    schedule_proof_present = schedule_proof is not None
+    watchdog_proof_present = watchdog_proof is not None
 
     classification = classify_readiness(
         auth_verified=bool(sts["ok"]),
         role_verified=bool(iam["ok"]),
         instance_state=instance_state,
         schedule_present=schedule_present,
+        schedule_proof_present=schedule_proof_present,
         ssm_managed=ssm_managed,
         watchdog_proof_present=watchdog_proof_present,
     )
@@ -343,7 +463,22 @@ def run_live_probe() -> dict[str, Any]:
             "region_present": bool(metadata.region),
             "instance_id_present": bool(metadata.instance_id),
             "schedule_name_present": bool(metadata.schedule_name),
+            "queried_live_schedule_name_from_execution_proof": schedule_proof_present,
             "stop_after_minutes": metadata.stop_after_minutes,
+        },
+        "execution_proof": {
+            "paired_runtime_window_id": paired_runtime_window_id,
+            "latest_candidates_pair": paired_runtime_window_id is not None,
+            "schedule": {
+                "present": schedule_proof_present,
+                "path": schedule_proof["path"].resolve().as_posix() if schedule_proof else None,
+                "sha256": schedule_proof["sha256"] if schedule_proof else None,
+            },
+            "watchdog": {
+                "present": watchdog_proof_present,
+                "path": watchdog_proof["path"].resolve().as_posix() if watchdog_proof else None,
+                "sha256": watchdog_proof["sha256"] if watchdog_proof else None,
+            },
         },
         "env_parse": {
             "env_file_present": role_cfg["env_file_present"],
@@ -356,10 +491,13 @@ def run_live_probe() -> dict[str, Any]:
             "sts_get_caller_identity_ok": bool(sts["ok"]),
             "ec2_describe_instances_ok": bool(ec2["ok"]),
             "scheduler_get_schedule_ok": bool(scheduler["ok"]),
+            "scheduler_schedule_state": schedule_state or "unknown",
+            "scheduler_schedule_enabled": schedule_present,
             "iam_get_role_ok": bool(iam["ok"]),
             "ssm_describe_instance_information_ok": bool(ssm["ok"]),
             "instance_state": instance_state,
             "schedule_present": schedule_present,
+            "schedule_proof_present": schedule_proof_present,
             "ssm_managed": ssm_managed,
             "watchdog_proof_present": watchdog_proof_present,
         },
@@ -392,14 +530,15 @@ def build_evidence(probe: dict[str, Any], created_iso: str, stamp: str) -> dict[
         "ec2_state_query_pass": aws["ec2_describe_instances_ok"],
         "final_instance_state_stopped": aws["instance_state"] == "stopped",
         "scheduler_query_completed": True,
-        "live_schedule_state_consistent": aws["schedule_present"] == ("live_emergency_stop_schedule_missing" not in classification["blockers"]),
+        "schedule_execution_proof_state_consistent": aws["instance_state"] != "stopped" or aws["schedule_proof_present"] == ("live_emergency_stop_schedule_missing" not in classification["blockers"]),
+        "running_instance_has_live_schedule": aws["instance_state"] != "running" or aws["schedule_present"],
         "ssm_query_pass": aws["ssm_describe_instance_information_ok"],
-        "ssm_watchdog_state_consistent": aws["watchdog_proof_present"] == ("ssm_watchdog_proof_missing" not in classification["blockers"]),
+        "ssm_watchdog_state_consistent": aws["instance_state"] != "stopped" or aws["watchdog_proof_present"] == ("ssm_watchdog_proof_missing" not in classification["blockers"]),
         "stale_auth_blocker_cleared": "aws_auth_not_verified" not in classification["blockers"],
         "live_blockers_logically_consistent": not ({"aws_auth_not_verified", "scheduler_role_not_verified"} & set(classification["blockers"])),
         "ec2_not_started": True,
         "aws_not_mutated": True,
-        "next_runtime_window_boundary_recorded": bool(classification["recommendations"]),
+        "next_runtime_window_boundary_recorded": classification["row042_complete"] or bool(classification["recommendations"]),
     }
     failed = [name for name, passed in checks.items() if not passed]
     return {
@@ -419,12 +558,14 @@ def build_evidence(probe: dict[str, Any], created_iso: str, stamp: str) -> dict[
             "watchdog_path": relative(watchdog_path),
             "watchdog_sha256": sha256(watchdog_path),
         },
+        "execution_proof": probe.get("execution_proof", {}),
         "live_readiness": {
             "mode": probe["mode"],
             "aws_authenticated": aws["sts_get_caller_identity_ok"],
             "scheduler_role_verified": aws["iam_get_role_ok"],
             "instance_state": aws["instance_state"],
             "live_schedule_present": aws["schedule_present"],
+            "schedule_execution_proof_present": aws["schedule_proof_present"],
             "ssm_managed_record_present": aws["ssm_managed"],
             "watchdog_proof_present": aws["watchdog_proof_present"],
             "blockers": classification["blockers"],
@@ -497,7 +638,7 @@ def write_evidence(probe: dict[str, Any]) -> dict[str, Any]:
         raise SystemExit(f"Row042 CSV cardinality failure: tracker={tracker_counts}, item={item_counts}")
     block = f"""## Wave64 Row042 EC2 TTL Watchdog Live Readiness - {created_iso}
 
-`{TRK}` / `{ITEM}` is `{payload['status']}`. The stale expired-session blocker is cleared: current read-only AWS proof verifies authentication, the scheduler role, and the approved instance in stopped state. All 24 reconciliation checks pass. {('Live schedule, SSM watchdog execution, and final stopped-state proof are complete.' if payload['row_complete'] else 'Current blockers are recorded fail-closed: ' + ', '.join(payload['live_readiness']['blockers']) + '.')} EC2 was not started by this reconciliation; any missing controls must be installed only inside the next genuinely required bounded runtime window.
+`{TRK}` / `{ITEM}` is `{payload['status']}`. The stale expired-session blocker is cleared: current read-only AWS proof verifies authentication, the scheduler role, and the approved instance in stopped state. All {payload['check_summary']['checked']} reconciliation checks pass. {('Verified schedule-creation evidence, capability-checked SSM watchdog evidence, and final stopped-state proof are complete.' if payload['row_complete'] else 'Current blockers are recorded fail-closed: ' + ', '.join(payload['live_readiness']['blockers']) + '.')} EC2 was not started by this reconciliation; any missing controls must be installed only inside the next genuinely required bounded runtime window.
 
 Next: `{payload['next_action']}`
 
@@ -506,7 +647,12 @@ Evidence: `{relative(canonical)}`; `{relative(stamped)}`; `{relative(mirror)}`.
     for name in ("NEXT_ACTION.md", "CURRENT_SESSION_STATE.md", "CURRENT_PURSUING_GOAL.md", "RESUME_HERE_NEXT_CODEX_SESSION.md", "QA_EVIDENCE_INDEX.md", "RECENT_DECISIONS.md", "BLOCKERS.md", "KNOWN_ISSUES.md"):
         upsert_hydration_block(HYD / name, block)
     with (HYD / "PROOF_OF_MOVEMENT_LOG.csv").open("a", encoding="utf-8", newline="") as handle:
-        csv.writer(handle, lineterminator="\n").writerow([created_iso, "64", TRK, "Reconciled EC2 TTL/watchdog live readiness without starting EC2.", "; ".join(evidence_paths), "24/24 checks; auth/role/stopped state pass; live schedule and watchdog proof missing", payload["qa_decision"], relative(canonical), "Install live controls only in next required bounded runtime window."])
+        proof_note = (
+            "verified schedule/watchdog execution proof and final stopped state pass"
+            if payload["row_complete"]
+            else "auth/role/stopped state pass; live schedule and watchdog proof missing"
+        )
+        csv.writer(handle, lineterminator="\n").writerow([created_iso, "64", TRK, "Reconciled EC2 TTL/watchdog live readiness without starting EC2.", "; ".join(evidence_paths), f"{payload['check_summary']['passed']}/{payload['check_summary']['checked']} checks; {proof_note}", payload["qa_decision"], relative(canonical), "Install live controls only in next required bounded runtime window."])
     return payload
 
 

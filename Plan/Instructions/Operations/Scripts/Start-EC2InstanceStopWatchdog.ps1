@@ -10,6 +10,9 @@ the instance and can optionally fall back to OS shutdown.
 param(
   [string]$InstanceId = "i-0560bf8d143f93bb1",
   [string]$Region = "us-east-1",
+  [string]$RuntimeWindowId = "",
+  [string]$TrackerId = "",
+  [string]$ItemId = "",
   [int]$StopAfterMinutes = 60,
   [string]$OutFile = "",
   [switch]$AllowOsShutdownFallback,
@@ -36,6 +39,21 @@ if ([string]::IsNullOrWhiteSpace($OutFile)) {
 $seconds = [Math]::Max(60, $StopAfterMinutes * 60)
 $fallback = $(if ($AllowOsShutdownFallback) { "true" } else { "false" })
 $remoteScript = @"
+set -euo pipefail
+set +e
+dry_run_output=`$(aws ec2 stop-instances --dry-run --region '$Region' --instance-ids '$InstanceId' 2>&1)
+dry_run_rc=`$?
+set -e
+if echo "`$dry_run_output" | grep -q 'DryRunOperation'; then
+  echo 'STOP_CAPABILITY=ec2_api_dry_run_verified'
+elif [ '$fallback' = 'true' ]; then
+  sudo -n true
+  echo 'STOP_CAPABILITY=os_shutdown_fallback_verified'
+else
+  echo "STOP_CAPABILITY=unavailable rc=`$dry_run_rc" >&2
+  exit 42
+fi
+
 cat >/tmp/codex_ec2_stop_watchdog.sh <<'SH'
 #!/usr/bin/env bash
 set -euo pipefail
@@ -50,14 +68,18 @@ aws ec2 stop-instances --region '$Region' --instance-ids '$InstanceId' --output 
 SH
 chmod 700 /tmp/codex_ec2_stop_watchdog.sh
 nohup /tmp/codex_ec2_stop_watchdog.sh >/tmp/codex_ec2_stop_watchdog.log 2>&1 &
-echo `$! >/tmp/codex_ec2_stop_watchdog.pid
-cat /tmp/codex_ec2_stop_watchdog.pid
+watchdog_pid=`$!
+echo `$watchdog_pid >/tmp/codex_ec2_stop_watchdog.pid
+echo "WATCHDOG_PID=`$watchdog_pid"
 "@
 
 $record = [ordered]@{
   schema_version = "1.0"
   timestamp = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
   operation = "start_ec2_instance_stop_watchdog"
+  runtime_window_id = $(if ([string]::IsNullOrWhiteSpace($RuntimeWindowId)) { $null } else { $RuntimeWindowId })
+  tracker_id = $(if ([string]::IsNullOrWhiteSpace($TrackerId)) { $null } else { $TrackerId })
+  item_id = $(if ([string]::IsNullOrWhiteSpace($ItemId)) { $null } else { $ItemId })
   instance_id = $InstanceId
   region = $Region
   stop_after_minutes = $StopAfterMinutes
@@ -69,13 +91,23 @@ $record = [ordered]@{
   command_id = $null
   command_status = "not_started"
   watchdog_pid = $null
+  stop_capability_verified = $false
+  stop_capability_method = $null
   result = "dry_run_instance_watchdog_plan"
   failure_category = $null
   errors = @()
   next_action = "Run with -Execute only after the instance is already running and SSM is online."
 }
 
-if ($Execute) {
+if ($InstanceId -notmatch '^i-[0-9a-f]{8}([0-9a-f]{9})?$' -or $Region -notmatch '^[a-z]{2}(-[a-z0-9]+)+-[0-9]+$') {
+  $record.result = "blocked_invalid_instance_or_region"
+  $record.failure_category = "invalid_instance_or_region"
+  $record.errors += "-InstanceId or -Region failed the strict AWS identifier format check."
+} elseif ($Execute -and $RuntimeWindowId -notmatch '^[A-Za-z0-9][A-Za-z0-9_.-]{7,127}$') {
+  $record.result = "blocked_missing_or_invalid_runtime_window_id"
+  $record.failure_category = "missing_or_invalid_runtime_window_id"
+  $record.errors += "-RuntimeWindowId is required for live execution and must use 8-128 safe identifier characters."
+} elseif ($Execute) {
   $record.aws_contacted = $true
   try {
     $payload = @{
@@ -93,9 +125,18 @@ if ($Execute) {
       Start-Sleep -Seconds 5
     }
     $stdout = (aws ssm get-command-invocation --region $Region --instance-id $InstanceId --command-id $record.command_id --query "StandardOutputContent" --output text 2>$null)
-    $record.watchdog_pid = ([string]$stdout).Trim()
-    if ($record.command_status -eq "Success") {
-      $record.result = "instance_stop_watchdog_started"
+    $stdoutLines = @(([string]$stdout -split "`r?`n") | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+    $capabilityLine = @($stdoutLines | Where-Object { $_ -like "STOP_CAPABILITY=*" } | Select-Object -Last 1)
+    $pidLine = @($stdoutLines | Where-Object { $_ -like "WATCHDOG_PID=*" } | Select-Object -Last 1)
+    if ($capabilityLine.Count -eq 1) {
+      $record.stop_capability_method = ([string]$capabilityLine[0]).Substring("STOP_CAPABILITY=".Length)
+      $record.stop_capability_verified = @("ec2_api_dry_run_verified", "os_shutdown_fallback_verified").Contains($record.stop_capability_method)
+    }
+    if ($pidLine.Count -eq 1) {
+      $record.watchdog_pid = ([string]$pidLine[0]).Substring("WATCHDOG_PID=".Length)
+    }
+    if ($record.command_status -eq "Success" -and $record.stop_capability_verified -and [string]$record.watchdog_pid -match '^[0-9]+$') {
+      $record.result = "instance_stop_watchdog_started_and_capability_verified"
       $record.next_action = "Continue the bounded EC2 runtime window; the watchdog is a last-resort stop only."
     } else {
       $record.result = "instance_stop_watchdog_failed"
@@ -114,4 +155,4 @@ if (![string]::IsNullOrWhiteSpace($outDir)) {
 }
 Write-JsonNoBom -Value $record -Path $OutFile -Depth 20
 $record | ConvertTo-Json -Depth 20
-if ($record.errors.Count -gt 0 -or ($Execute -and $record.result -ne "instance_stop_watchdog_started")) { exit 2 }
+if ($record.errors.Count -gt 0 -or ($Execute -and $record.result -ne "instance_stop_watchdog_started_and_capability_verified")) { exit 2 }

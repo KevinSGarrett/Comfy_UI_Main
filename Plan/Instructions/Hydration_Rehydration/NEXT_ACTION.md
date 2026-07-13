@@ -1,3 +1,11 @@
+## Wave64 Row042 EC2 TTL Watchdog Live Readiness - 2026-07-13T09:51:51-05:00
+
+`TRK-W64-042` / `ITEM-W64-042` is `Blocked_Live_TTL_Watchdog_Proof_Missing_AWS_Readiness_Verified`. The stale expired-session blocker is cleared: current read-only AWS proof verifies authentication, the scheduler role, and the approved instance in stopped state. All 25 reconciliation checks pass. Current blockers are recorded fail-closed: live_emergency_stop_schedule_missing, ssm_watchdog_proof_missing. EC2 was not started by this reconciliation; any missing controls must be installed only inside the next genuinely required bounded runtime window.
+
+Next: `Keep EC2 stopped. Create the emergency-stop schedule and start the SSM watchdog only inside the next genuinely required bounded runtime window, then record final stopped-state proof.`
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json`; `Plan/Instructions/QA/Evidence/Wave64/EC2_TTL_WATCHDOG_LIVE_READINESS_20260713T095151-0500.json`; `Plan/Tracker/Evidence/EC2_TTL_WATCHDOG_LIVE_READINESS_20260713T095151-0500.json`.
+
 ## Wave64 Row011 OpenPose Camera Composition Completion - 2026-07-13T06:28:34-05:00
 
 `TRK-W64-011` / `ITEM-W64-011` is `Completed_Local_OpenPose_Camera_Composition_Pass_Target_Runtime_Not_Certified`. A materially different local DWPose/OpenPoseXL2 objective uses the user-supplied true full-body reference `Ref_Image_1/Full/78b8e4ca10fd769e0752bd21c3599339.jpg`, outside the excluded partial-body folder. The hash-bound control map detects one person with all 18 body landmarks and both hand skeletons. One bounded local ComfyUI sample passes request/package/runtime hashes, 768x1024 framing, full head/hair, both fully visible hands, both feet, balanced margins, coherent whole-image anatomy, and no control-map leakage. The prior prompt-only hands-in-pockets failure remains historical evidence. This closes Row011 local camera composition only; it does not certify the OpenPose lane in target runtime or claim body, finger, mask, Wave70, or Wave71+ authority. AWS and EC2 were not used.

@@ -11,7 +11,12 @@ param(
   [string]$InstanceId = "i-0560bf8d143f93bb1",
   [string]$Region = "us-east-1",
   [string]$SchedulerRoleArn = "",
+  [string]$RuntimeWindowId = "",
+  [string]$TrackerId = "",
+  [string]$ItemId = "",
   [int]$StopAfterMinutes = 60,
+  [int]$VerificationAttempts = 6,
+  [int]$VerificationDelaySeconds = 2,
   [string]$ScheduleName = "",
   [string]$OutFile = "",
   [switch]$Execute
@@ -50,6 +55,9 @@ $record = [ordered]@{
   schema_version = "1.0"
   timestamp = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
   operation = "new_ec2_emergency_stop_schedule"
+  runtime_window_id = $(if ([string]::IsNullOrWhiteSpace($RuntimeWindowId)) { $null } else { $RuntimeWindowId })
+  tracker_id = $(if ([string]::IsNullOrWhiteSpace($TrackerId)) { $null } else { $TrackerId })
+  item_id = $(if ([string]::IsNullOrWhiteSpace($ItemId)) { $null } else { $ItemId })
   instance_id = $InstanceId
   region = $Region
   schedule_name = $ScheduleName
@@ -62,6 +70,9 @@ $record = [ordered]@{
   aws_contacted = $false
   ec2_started = $false
   generation_executed = $false
+  schedule_verified = $false
+  schedule_state = $null
+  verification_attempts = 0
   result = "dry_run_emergency_stop_schedule_plan"
   failure_category = $null
   errors = @()
@@ -72,7 +83,15 @@ $record = [ordered]@{
     })
 }
 
-if ([string]::IsNullOrWhiteSpace($SchedulerRoleArn)) {
+if ($InstanceId -notmatch '^i-[0-9a-f]{8}([0-9a-f]{9})?$' -or $Region -notmatch '^[a-z]{2}(-[a-z0-9]+)+-[0-9]+$') {
+  $record.result = "blocked_invalid_instance_or_region"
+  $record.failure_category = "invalid_instance_or_region"
+  $record.errors += "-InstanceId or -Region failed the strict AWS identifier format check."
+} elseif ($Execute -and $RuntimeWindowId -notmatch '^[A-Za-z0-9][A-Za-z0-9_.-]{7,127}$') {
+  $record.result = "blocked_missing_or_invalid_runtime_window_id"
+  $record.failure_category = "missing_or_invalid_runtime_window_id"
+  $record.errors += "-RuntimeWindowId is required for live execution and must use 8-128 safe identifier characters."
+} elseif ([string]::IsNullOrWhiteSpace($SchedulerRoleArn)) {
   $record.result = "blocked_missing_scheduler_role_arn"
   $record.failure_category = "missing_scheduler_role_arn"
 } elseif ($Execute) {
@@ -91,7 +110,37 @@ if ([string]::IsNullOrWhiteSpace($SchedulerRoleArn)) {
     if ($LASTEXITCODE -ne 0) {
       throw "aws scheduler create-schedule failed with exit code $LASTEXITCODE"
     }
-    $record.result = "emergency_stop_schedule_created"
+
+    for ($attempt = 1; $attempt -le [Math]::Max(1, $VerificationAttempts); $attempt++) {
+      $record.verification_attempts = $attempt
+      $liveJson = aws scheduler get-schedule --region $Region --name $ScheduleName --output json 2>$null
+      if ($LASTEXITCODE -eq 0 -and ![string]::IsNullOrWhiteSpace([string]$liveJson)) {
+        $live = $liveJson | ConvertFrom-Json
+        $liveInput = $null
+        try { $liveInput = ([string]$live.Target.Input | ConvertFrom-Json) } catch { $liveInput = $null }
+        $record.schedule_state = [string]$live.State
+        $record.schedule_verified = (
+          [string]$live.Name -eq $ScheduleName -and
+          [string]$live.ScheduleExpression -eq $scheduleExpression -and
+          [string]$live.ActionAfterCompletion -eq "DELETE" -and
+          [string]$live.State -eq "ENABLED" -and
+          [string]$live.Target.Arn -eq [string]$target.Arn -and
+          [string]$live.Target.RoleArn -eq $SchedulerRoleArn -and
+          $null -ne $liveInput -and
+          @($liveInput.InstanceIds).Count -eq 1 -and
+          [string]$liveInput.InstanceIds[0] -eq $InstanceId
+        )
+        if ($record.schedule_verified) { break }
+      }
+      if ($attempt -lt [Math]::Max(1, $VerificationAttempts)) {
+        Start-Sleep -Seconds ([Math]::Max(0, $VerificationDelaySeconds))
+      }
+    }
+    if (!$record.schedule_verified) {
+      throw "Emergency-stop schedule was created but exact live verification failed. Leave the schedule in place and block the runtime window."
+    }
+
+    $record.result = "emergency_stop_schedule_created_and_verified"
     $record.next_action = "Leave this one-time safety stop in place for the current EC2 window; it deletes itself after completion."
   } catch {
     $record.result = "emergency_stop_schedule_failed"
