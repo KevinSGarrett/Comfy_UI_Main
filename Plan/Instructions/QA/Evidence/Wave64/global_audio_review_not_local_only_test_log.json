@@ -1,19 +1,23 @@
 {
   "schema_version": "1.0",
-  "evidence_id": "W64-GLOBAL-AUDIO-REVIEW-TEST-LOG-20260711T234320-0500",
-  "timestamp": "2026-07-11T23:43:20-05:00",
+  "evidence_id": "W64-GLOBAL-AUDIO-REVIEW-TEST-LOG-20260712T190248-0500",
+  "timestamp": "2026-07-12T19:02:48-05:00",
   "tracker_id": "TRK-W64-032",
   "item_id": "ITEM-W64-032",
-  "command": "python -m unittest Plan.Instructions.QA.Scripts.test_wave64_global_audio_review_strict -v",
+  "command": "python Plan/Instructions/QA/Scripts/test_produce_wave64_global_audio_review_request.py && python -m unittest Plan.Instructions.QA.Scripts.test_wave64_global_audio_review_strict",
+  "commands": [
+    "python Plan/Instructions/QA/Scripts/test_produce_wave64_global_audio_review_request.py",
+    "python -m unittest Plan.Instructions.QA.Scripts.test_wave64_global_audio_review_strict"
+  ],
   "result": "pass",
   "exit_code": 0,
-  "tests_run": 32,
+  "tests_run": 42,
   "failures": 0,
   "errors": 0,
   "skips": 0,
-  "elapsed_seconds": 82.818,
-  "transcript": "runtime_artifacts/wave64_global_audio_review/20260711T234500-0500/windows_strict_tests.txt",
-  "transcript_sha256": "85a05e30f8d44cb2cdf633cad02bd28b7b49facd7e48871ef617188a491352cb",
+  "elapsed_seconds": 120.668,
+  "transcript": "runtime_artifacts/wave64_global_audio_review/request_producer_probe_20260712T190248-0500/test_transcript.txt",
+  "transcript_sha256": "be7d4138c190002a141ae14cc577e1347588013aff375968acbe196ded29b73f",
   "python_compile": "pass",
   "draft_2020_12_request_schema": "pass",
   "draft_2020_12_report_schema": "pass",
@@ -24,7 +28,11 @@
     },
     {
       "path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_global_audio_review.py",
-      "sha256": "5134732ffb5e7738c6b66bf451700f5c9c5741ed6389d28a5ff9d54ce5cf5c11"
+      "sha256": "1cff81e0654b1db565a3d9d1ad115dc81d568e212580c215acce2a2b9bd989a1"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/produce_wave64_global_audio_review_request.py",
+      "sha256": "59541c0c674505a143b55ec5c97591c6af4413efe6cab2e9088655c03357dd5a"
     },
     {
       "path": "Plan/08_SCHEMAS/wave64_global_audio_review_request.schema.json",
@@ -40,10 +48,16 @@
     },
     {
       "path": "Plan/Instructions/QA/Scripts/test_wave64_global_audio_review_strict.py",
-      "sha256": "9883cc29674f3228fd3dd8a436bb8a02b0c983885ebd770fd3f065222a20b998"
+      "sha256": "34d2988bd03c91d7611f0ceac08a3672c57fce96b1b07d182a294441cf44b9d5"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_produce_wave64_global_audio_review_request.py",
+      "sha256": "7e8482e012929e537be2ee6c954c3dd9ffd98c5ce2bf9f75f58e8aef82bd0de7"
     }
   ],
   "positive_contracts_covered": [
+    "fail-closed request producer with exact baseline and candidate lineage",
+    "atomic durable no-clobber request and evaluator report output",
     "synthetic expected-audio-change technical gate path with promotion blocked",
     "visual-only byte-identical audio global scan",
     "visual change with audio update and canonical row030 schema/gate binding",
@@ -52,6 +66,8 @@
     "fixture-only exact authority contract exit 0 without production-proof status"
   ],
   "negative_contracts_covered": [
+    "producer path, identity, lineage, target-set, production-bundle, output-collision, and duplicate-key failures",
+    "partial frame coverage and invalid audio-localized declaration fail closed",
     "hand-authored non-synthetic relabel cannot promote",
     "row030 missing, malformed, failed-gate, lineage, or source-audio mismatch",
     "row031 run, gate, artifact path, hash, or byte mismatch",

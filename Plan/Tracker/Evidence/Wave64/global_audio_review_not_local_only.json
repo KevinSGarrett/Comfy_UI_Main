@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "evidence_id": "W64-GLOBAL-AUDIO-REVIEW-20260711T234320-0500",
-  "timestamp": "2026-07-11T23:43:20-05:00",
+  "evidence_id": "W64-GLOBAL-AUDIO-REVIEW-20260712T190248-0500",
+  "timestamp": "2026-07-12T19:02:48-05:00",
   "tracker_id": "TRK-W64-032",
   "item_id": "ITEM-W64-032",
   "source_citation": "Plan/Instructions/QA/AUDIO_GENERATION_REVIEW_PROTOCOL.md",
@@ -19,6 +19,12 @@
     "independent_wave30_production_eligibility_recomputation": true,
     "exact_production_baseline_and_bundle_authority_objects": true,
     "canonical_root_and_transactional_output": true,
+    "dedicated_fail_closed_request_producer_added": true,
+    "producer_exact_lineage_and_identity_validation": true,
+    "producer_derived_non_target_event_set": true,
+    "producer_exact_production_bundle_contract": true,
+    "durable_atomic_no_clobber_request_and_report_output": true,
+    "exact_full_duration_frame_coverage_required": true,
     "current_production_authority_intentionally_empty": true
   },
   "implementation_artifacts": [
@@ -28,7 +34,11 @@
     },
     {
       "path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_global_audio_review.py",
-      "sha256": "5134732ffb5e7738c6b66bf451700f5c9c5741ed6389d28a5ff9d54ce5cf5c11"
+      "sha256": "1cff81e0654b1db565a3d9d1ad115dc81d568e212580c215acce2a2b9bd989a1"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/produce_wave64_global_audio_review_request.py",
+      "sha256": "59541c0c674505a143b55ec5c97591c6af4413efe6cab2e9088655c03357dd5a"
     },
     {
       "path": "Plan/08_SCHEMAS/wave64_global_audio_review_request.schema.json",
@@ -44,7 +54,11 @@
     },
     {
       "path": "Plan/Instructions/QA/Scripts/test_wave64_global_audio_review_strict.py",
-      "sha256": "9883cc29674f3228fd3dd8a436bb8a02b0c983885ebd770fd3f065222a20b998"
+      "sha256": "34d2988bd03c91d7611f0ceac08a3672c57fce96b1b07d182a294441cf44b9d5"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_produce_wave64_global_audio_review_request.py",
+      "sha256": "7e8482e012929e537be2ee6c954c3dd9ffd98c5ce2bf9f75f58e8aef82bd0de7"
     }
   ],
   "authority_bindings": {
@@ -55,12 +69,12 @@
   },
   "offline_validation": {
     "test_log": "Plan/Instructions/QA/Evidence/Wave64/global_audio_review_not_local_only_test_log.json",
-    "test_log_sha256": "872edf362387bff4f0400e4dc2b4b753ff733d89007d6d6479815190c74de0c0",
-    "tests_run": 32,
+    "test_log_sha256": "94bad344b71247a26ea74ab3819463a5bd7fa7ef2ed7b11f4e1c4636ea3c54cc",
+    "tests_run": 42,
     "test_failures": 0,
     "test_errors": 0,
     "test_skips": 0,
-    "elapsed_seconds": 82.818,
+    "elapsed_seconds": 120.668,
     "python_compile": "pass",
     "draft_2020_12_request_schema": "pass",
     "draft_2020_12_report_schema": "pass",
@@ -70,6 +84,21 @@
     "hand_authored_non_synthetic_relabel": "blocked",
     "fixture_only_exact_authority_contract": "pass_not_production_evidence",
     "technical_offline_pass": true
+  },
+  "request_producer_probe": {
+    "request_path": "runtime_artifacts/wave64_global_audio_review/request_producer_probe_20260712T190248-0500/request.json",
+    "request_sha256": "380e3fa18e3956a9360b5e6249948eaa7d926427e76be53c6167a16146aea4f6",
+    "report_path": "runtime_artifacts/wave64_global_audio_review/request_producer_probe_20260712T190248-0500/report.json",
+    "report_sha256": "11a252be19da1bfb753b83532ecbd6d7deaf30d73401b3b580ff5e1ac74db14d",
+    "producer_exit_code": 0,
+    "evaluator_exit_code": 2,
+    "lineage_blockers": [],
+    "full_duration_playback_review": "pass",
+    "target_audio_check": "pass",
+    "non_target_audio_scan": "pass",
+    "defect_scan": "fail_candidate_dropout_or_unexpected_silence",
+    "production_bundle_present": false,
+    "production_authority_claimed": false
   },
   "current_authority": {
     "approved_production_baseline_count": 0,
@@ -93,6 +122,21 @@
     "row_complete": false
   },
   "review": {
+    "cursor_request_producer_gap": {
+      "path": "runtime_artifacts/agent_handoffs/cursor/20260712T183956-0500_row032_global_audio_request_producer_gap/handoff_record.json",
+      "sha256": "b086a260291abefc2ad1cb110c36bff036ae9c4aff2909e0624d0f9182af30c7",
+      "classification": "CURSOR_HANDOFF_COMPLETED"
+    },
+    "claude_request_producer_semantic_review": {
+      "path": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T184642-0500_row032_global_audio_request_producer_semantic_review/handoff_record.json",
+      "sha256": "9abbb118f21575740e9ddf8a84c3f983dcf741db9e147acef48fbd50010db9e7"
+    },
+    "claude_request_producer_closure_review": {
+      "path": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T185622-0500_row032_global_audio_request_producer_closure_review/handoff_record.json",
+      "sha256": "3a13b2fcd833552aa23cb04c1db53e4929b37e62d9253aa13ab1c0bf9f86dbd2",
+      "remaining_high_findings": 0,
+      "remaining_production_code_findings": 0
+    },
     "cursor_initial_gap_failure": {
       "path": "runtime_artifacts/agent_handoffs/cursor/20260711T224048-0500_wave64_row032_global_audio_gap/handoff_record.json",
       "sha256": "83a27a0f4c9f5a2f61783c058509d857706f95234ff5027df0ec36981231a17e",

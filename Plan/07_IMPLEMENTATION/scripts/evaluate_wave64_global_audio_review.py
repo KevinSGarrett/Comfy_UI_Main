@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import tempfile
 import wave
 from pathlib import Path
@@ -198,8 +199,11 @@ def _write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
     with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, delete=False) as handle:
         tmp_path = Path(handle.name)
         handle.write(json.dumps(payload, indent=2, sort_keys=True) + "\n")
+        handle.flush()
+        os.fsync(handle.fileno())
     try:
-        tmp_path.replace(path)
+        os.link(tmp_path, path)
+        tmp_path.unlink()
     finally:
         if tmp_path.exists():
             tmp_path.unlink()
@@ -858,6 +862,8 @@ def main() -> int:
         target_blockers: list[str] = []
         non_target_blockers: list[str] = []
         global_blockers: list[str] = []
+        if baseline_wav["frame_count"] != candidate_wav["frame_count"]:
+            global_blockers.append("baseline/candidate frame counts differ; full-duration comparison requires exact coverage")
         gates = {gate: FAIL for gate in GATES}
 
         row031_required = set(registry["required_row031_technical_gates"])

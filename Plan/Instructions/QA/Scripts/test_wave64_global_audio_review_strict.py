@@ -372,6 +372,19 @@ class Wave64GlobalAudioReviewTests(unittest.TestCase):
         self.assertEqual(result.returncode, 2)
         self.assertEqual(self._report()["gates"]["required_target_audio_check"], "PASS")
 
+    def test_evaluator_rejects_audio_localized_without_expected_change(self) -> None:
+        request = copy.deepcopy(self.request)
+        request["localized_change_declaration"] = {
+            "change_kind": "audio_localized",
+            "audio_change_expected": False,
+            "target_audio_event_ids": [],
+            "non_target_audio_event_ids": ["evt_bg", "evt_target"],
+            "allowed_change_windows_seconds": [],
+        }
+        result = self._run(request)
+        self.assertEqual(result.returncode, 1)
+        self.assertFalse(self.output_path.exists())
+
     def test_visual_audio_change_requires_row030_binding(self) -> None:
         request = copy.deepcopy(self.request)
         request["localized_change_declaration"]["change_kind"] = "visual_localized"

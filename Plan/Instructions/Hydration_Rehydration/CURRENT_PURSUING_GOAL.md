@@ -6978,3 +6978,10 @@ Evidence: `Plan/Instructions/QA/Evidence/Wave64/video_reference_input.json`; `Pl
 Next safe local action in strict sequence: `TRK-W64-024 / ITEM-W64-024`.
 
 Evidence: `Plan/Instructions/QA/Evidence/Wave64/video_frame_repair.json`; `Plan/Instructions/QA/Evidence/Wave64/video_frame_repair_test_log.json`; `Plan/Items/Reports/ITEM-W64-023_video_frame_repair.json`.
+## Wave64 Row032 Global Audio Review Request Producer - 2026-07-12T19:02:48-05:00
+
+`TRK-W64-032` / `ITEM-W64-032` remains `Blocked_Global_Audio_Production_Review_Proof_Missing`. A fail-closed producer now assembles exact baseline/candidate Wave30 and Row031 lineage, derives non-target events, validates the optional production authority bundle, and publishes requests durably without clobbering. The evaluator now rejects partial frame coverage and also publishes durably. Producer and evaluator pass 42/42 tests. The durable synthetic probe preserves exact lineage and passes playback, target, and non-target gates while correctly blocking on a candidate-dropout defect and absent production authority. No production review, generation, AWS, EC2, mask promotion, Jira, or Wave71+ action occurred.
+
+Next safe local action in strict sequence: duplicate-check `TRK-W64-033` / `ITEM-W64-033` against its existing multimodal scorecard artifacts before changing implementation or status.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/global_audio_review_not_local_only.json`; `Plan/Instructions/QA/Evidence/Wave64/global_audio_review_not_local_only_test_log.json`; `Plan/Items/Reports/ITEM-W64-032_global_audio_review_not_local_only.json`.
