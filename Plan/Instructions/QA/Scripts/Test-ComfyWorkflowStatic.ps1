@@ -108,6 +108,10 @@ foreach ($property in $workflow.PSObject.Properties) {
   $classType = [string]$node.class_type
   if (!$classCounts.ContainsKey($classType)) { $classCounts[$classType] = 0 }
   $classCounts[$classType] = $classCounts[$classType] + 1
+
+  if ($classType -eq "LoadImage" -and (Has-Property -Object $node.inputs -Name "upload")) {
+    Add-Defect -List $defects -Severity "critical" -Code "load_image_ui_only_upload_input" -Message "LoadImage node $nodeId includes UI-only input 'upload'; ComfyUI /object_info accepts only the 'image' API input."
+  }
 }
 
 foreach ($nodeId in $nodeMap.Keys) {

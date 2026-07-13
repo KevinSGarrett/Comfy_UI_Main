@@ -1055,6 +1055,107 @@ def stage_required_input_assets():
         })
     return staged
 
+def prompt_link(value):
+    return (
+        isinstance(value, list) and
+        len(value) == 2 and
+        isinstance(value[0], (str, int)) and
+        isinstance(value[1], int) and
+        not isinstance(value[1], bool)
+    )
+
+def input_type_and_options(input_spec):
+    if not isinstance(input_spec, list) or not input_spec:
+        return None, None, {}
+    first = input_spec[0]
+    metadata = input_spec[1] if len(input_spec) > 1 and isinstance(input_spec[1], dict) else {}
+    if isinstance(first, list):
+        return "COMBO", first, metadata
+    if first == "COMBO":
+        return "COMBO", metadata.get("options"), metadata
+    return first if isinstance(first, str) else None, None, metadata
+
+def validate_prompt_schema(request, object_info):
+    graph = request.get("prompt") if isinstance(request, dict) else None
+    errors = []
+    node_reports = []
+    if not isinstance(graph, dict) or not graph:
+        return {"status": "fail", "errors": ["prompt graph is missing or empty"], "nodes": []}
+    for node_id, node in graph.items():
+        class_type = node.get("class_type") if isinstance(node, dict) else None
+        inputs = node.get("inputs") if isinstance(node, dict) else None
+        schema = object_info.get(class_type) if class_type else None
+        node_errors = []
+        if not isinstance(schema, dict):
+            node_errors.append("class_type is absent from live object_info: %s" % class_type)
+        if not isinstance(inputs, dict):
+            node_errors.append("inputs must be an object")
+            inputs = {}
+        input_schema = schema.get("input", {}) if isinstance(schema, dict) else {}
+        required = input_schema.get("required", {}) if isinstance(input_schema.get("required", {}), dict) else {}
+        optional = input_schema.get("optional", {}) if isinstance(input_schema.get("optional", {}), dict) else {}
+        hidden = input_schema.get("hidden", {}) if isinstance(input_schema.get("hidden", {}), dict) else {}
+        allowed = dict(required)
+        allowed.update(optional)
+        allowed.update(hidden)
+        for input_name in sorted(required):
+            if input_name not in inputs:
+                node_errors.append("missing required input: %s" % input_name)
+        for input_name, value in inputs.items():
+            if input_name not in allowed:
+                node_errors.append("unknown API input: %s" % input_name)
+                continue
+            expected_type, options, metadata = input_type_and_options(allowed[input_name])
+            if prompt_link(value):
+                source_id = str(value[0])
+                output_index = value[1]
+                source_node = graph.get(source_id)
+                if not isinstance(source_node, dict):
+                    node_errors.append("input %s references missing node %s" % (input_name, source_id))
+                    continue
+                source_schema = object_info.get(source_node.get("class_type"), {})
+                source_outputs = source_schema.get("output", []) if isinstance(source_schema, dict) else []
+                if output_index < 0 or output_index >= len(source_outputs):
+                    node_errors.append("input %s references invalid output %s.%s" % (input_name, source_id, output_index))
+                    continue
+                source_type = source_outputs[output_index]
+                if expected_type and source_type and expected_type != source_type:
+                    node_errors.append("input %s expects %s but link %s.%s outputs %s" % (input_name, expected_type, source_id, output_index, source_type))
+                continue
+            if isinstance(options, list) and value not in options:
+                node_errors.append("input %s value is not in live options: %s" % (input_name, value))
+            if expected_type == "INT" and (not isinstance(value, int) or isinstance(value, bool)):
+                node_errors.append("input %s must be INT" % input_name)
+            elif expected_type == "FLOAT" and (not isinstance(value, (int, float)) or isinstance(value, bool)):
+                node_errors.append("input %s must be FLOAT" % input_name)
+            elif expected_type == "BOOLEAN" and not isinstance(value, bool):
+                node_errors.append("input %s must be BOOLEAN" % input_name)
+            elif expected_type == "STRING" and not isinstance(value, str):
+                node_errors.append("input %s must be STRING" % input_name)
+            if isinstance(value, (int, float)) and not isinstance(value, bool):
+                if "min" in metadata and value < metadata["min"]:
+                    node_errors.append("input %s is below live minimum %s" % (input_name, metadata["min"]))
+                if "max" in metadata and value > metadata["max"]:
+                    node_errors.append("input %s exceeds live maximum %s" % (input_name, metadata["max"]))
+        errors.extend("node %s (%s): %s" % (node_id, class_type, error) for error in node_errors)
+        node_reports.append({
+            "node_id": str(node_id),
+            "class_type": class_type,
+            "input_names": sorted(inputs),
+            "required_input_names": sorted(required),
+            "optional_input_names": sorted(optional),
+            "hidden_input_names": sorted(hidden),
+            "errors": node_errors
+        })
+    return {
+        "status": "pass" if not errors else "fail",
+        "node_count": len(graph),
+        "checked_input_count": sum(len(node.get("input_names", [])) for node in node_reports),
+        "error_count": len(errors),
+        "errors": errors,
+        "nodes": node_reports
+    }
+
 proc = None
 log_handle = None
 try:
@@ -1112,13 +1213,15 @@ try:
     )
 
     ready_error = ""
+    object_info = None
     for _ in range(90):
         if proc.poll() is not None:
             ready_error = "ComfyUI exited early rc=%s" % proc.returncode
             break
         try:
             with urllib.request.urlopen("http://127.0.0.1:%s/object_info" % PORT, timeout=2) as resp:
-                result["object_info_node_count"] = len(json.loads(resp.read().decode("utf-8")))
+                object_info = json.loads(resp.read().decode("utf-8"))
+                result["object_info_node_count"] = len(object_info)
                 ready_error = ""
                 break
         except Exception as exc:
@@ -1126,6 +1229,15 @@ try:
             time.sleep(2)
     if ready_error:
         raise RuntimeError("ComfyUI API did not become ready: " + ready_error)
+
+    request_payload = json.loads(request_json)
+    schema_validation = validate_prompt_schema(request_payload, object_info or {})
+    result["prompt_schema_validation"] = schema_validation
+    schema_report_path = os.path.join(ARTIFACT_ROOT, "reports", "prompt_schema_validation.json")
+    with open(schema_report_path, "w", encoding="utf-8") as f:
+        json.dump(schema_validation, f, sort_keys=True, indent=2)
+    if schema_validation["status"] != "pass":
+        raise RuntimeError("prompt failed live object_info validation: " + "; ".join(schema_validation["errors"][:20]))
 
     prompt_body = request_json.encode("utf-8")
     req = urllib.request.Request(

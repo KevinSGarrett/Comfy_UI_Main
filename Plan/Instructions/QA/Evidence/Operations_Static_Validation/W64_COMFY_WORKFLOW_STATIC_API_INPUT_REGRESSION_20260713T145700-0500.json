@@ -1,0 +1,41 @@
+{
+    "evidence_id":  "W64-COMFY-WORKFLOW-STATIC-API-INPUT-REGRESSION-20260713T145647-0500",
+    "timestamp":  "2026-07-13T14:56:47-05:00",
+    "result":  "pass_local_only",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "checked":  3,
+    "passed":  3,
+    "cases":  [
+                  {
+                      "name":  "clean_lane_passes",
+                      "lane":  "Workflows/base_generation/sdxl_realvisxl_controlnet_normal_lane",
+                      "exit_code":  0,
+                      "qa_status":  "pass",
+                      "result":  "pass"
+                  },
+                  {
+                      "name":  "clean_lane_passes",
+                      "lane":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_normal_lane",
+                      "exit_code":  0,
+                      "qa_status":  "pass",
+                      "result":  "pass"
+                  },
+                  {
+                      "name":  "ui_only_upload_fails_closed",
+                      "lane":  "temporary_mutation",
+                      "exit_code":  2,
+                      "qa_status":  "fail",
+                      "defect_codes":  [
+                                           "load_image_ui_only_upload_input"
+                                       ],
+                      "result":  "pass"
+                  }
+              ],
+    "failures":  [
+
+                 ],
+    "next_action":  "Use API-only workflow inputs when rebuilding the Normal run package."
+}
