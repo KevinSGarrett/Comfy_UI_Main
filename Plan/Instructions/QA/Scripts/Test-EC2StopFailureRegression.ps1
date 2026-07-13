@@ -77,7 +77,12 @@ foreach ($spec in $specs) {
 
 $watchdog = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Start-EC2InstanceStopWatchdog.ps1"
 $watchdogSource = Get-Content -LiteralPath $watchdog -Raw
-foreach ($literal in @("2>/tmp/codex_ec2_stop_watchdog_stop.err || {", "sudo shutdown -h now")) {
+foreach ($literal in @(
+  "aws ec2 stop-instances --dry-run",
+  "STOP_CAPABILITY=ec2_api_dry_run_verified",
+  "2>/tmp/codex_ec2_stop_watchdog_stop.err",
+  "sudo -n shutdown -h now"
+)) {
   $observed = $watchdogSource.Contains($literal)
   $sourceChecks += [ordered]@{
     script = "Start-EC2InstanceStopWatchdog.ps1"

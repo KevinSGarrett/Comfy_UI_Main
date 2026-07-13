@@ -1,0 +1,275 @@
+﻿{
+    "evidence_id":  "W66-EC2-WORKFLOW-SMOKE-START-FAILURE-REGRESSION-20260713T183331-0500",
+    "timestamp":  "2026-07-13T18:33:31-05:00",
+    "result":  "pass_local_only",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "ec2_started":  false,
+    "generation_executed":  false,
+    "classifier_cases":  [
+                             {
+                                 "name":  "success",
+                                 "expected":  null,
+                                 "observed":  null,
+                                 "result":  "pass"
+                             },
+                             {
+                                 "name":  "capacity",
+                                 "expected":  "ec2_insufficient_instance_capacity",
+                                 "observed":  "ec2_insufficient_instance_capacity",
+                                 "result":  "pass"
+                             },
+                             {
+                                 "name":  "expired_auth",
+                                 "expected":  "aws_auth_or_authorization_failed",
+                                 "observed":  "aws_auth_or_authorization_failed",
+                                 "result":  "pass"
+                             },
+                             {
+                                 "name":  "authorization",
+                                 "expected":  "aws_auth_or_authorization_failed",
+                                 "observed":  "aws_auth_or_authorization_failed",
+                                 "result":  "pass"
+                             },
+                             {
+                                 "name":  "throttle",
+                                 "expected":  "ec2_start_throttled",
+                                 "observed":  "ec2_start_throttled",
+                                 "result":  "pass"
+                             },
+                             {
+                                 "name":  "generic",
+                                 "expected":  "ec2_start_failed",
+                                 "observed":  "ec2_start_failed",
+                                 "result":  "pass"
+                             }
+                         ],
+    "workflow_source_contract_checks":  [
+                                            {
+                                                "name":  "captures_start_output",
+                                                "pattern":  "\\$startOutput\\ =\\ @\\(aws\\ ec2\\ start-instances",
+                                                "required":  true,
+                                                "observed":  true,
+                                                "result":  "pass"
+                                            },
+                                            {
+                                                "name":  "captures_start_exit_code",
+                                                "pattern":  "\\$record\\.start_exit_code\\ =\\ \\$LASTEXITCODE",
+                                                "required":  true,
+                                                "observed":  true,
+                                                "result":  "pass"
+                                            },
+                                            {
+                                                "name":  "uses_shared_classifier",
+                                                "pattern":  "Get-EC2StartFailureCategory\\ -ExitCode\\ \\$record\\.start_exit_code",
+                                                "required":  true,
+                                                "observed":  true,
+                                                "result":  "pass"
+                                            },
+                                            {
+                                                "name":  "sets_started_only_after_success",
+                                                "pattern":  "\\$record\\.ec2_started\\ =\\ \\$true",
+                                                "required":  true,
+                                                "observed":  true,
+                                                "result":  "pass"
+                                            },
+                                            {
+                                                "name":  "guards_stop_call",
+                                                "pattern":  "\\$shouldStopInstance\\ =",
+                                                "required":  true,
+                                                "observed":  true,
+                                                "result":  "pass"
+                                            },
+                                            {
+                                                "name":  "records_start_failed_result",
+                                                "pattern":  "workflow_smoke_start_failed",
+                                                "required":  true,
+                                                "observed":  true,
+                                                "result":  "pass"
+                                            },
+                                            {
+                                                "name":  "execute_errors_cannot_remain_ready",
+                                                "pattern":  "workflow_smoke_preflight_or_start_failed",
+                                                "required":  true,
+                                                "observed":  true,
+                                                "result":  "pass"
+                                            }
+                                        ],
+    "static_proof_source_contract_checks":  [
+                                                {
+                                                    "name":  "guards_native_start_stderr",
+                                                    "pattern":  "(?s)\\$previousErrorActionPreference\\s*=\\s*\\$ErrorActionPreference\\s*\\r?\\n\\s*\\$ErrorActionPreference\\s*=\\s*\"Continue\"\\s*\\r?\\n\\s*try\\s*\\{\\s*\\r?\\n\\s*\\$startOutput\\s*=\\s*@\\(aws ec2 start-instances",
+                                                    "required":  true,
+                                                    "observed":  true,
+                                                    "result":  "pass"
+                                                },
+                                                {
+                                                    "name":  "captures_static_start_exit_code",
+                                                    "pattern":  "\\$startExitCode\\ =\\ \\$LASTEXITCODE",
+                                                    "required":  true,
+                                                    "observed":  true,
+                                                    "result":  "pass"
+                                                },
+                                                {
+                                                    "name":  "restores_error_action_preference",
+                                                    "pattern":  "(?s)\\$startExitCode\\s*=\\s*\\$LASTEXITCODE\\s*\\r?\\n\\s*\\}\\s*finally\\s*\\{\\s*\\r?\\n\\s*\\$ErrorActionPreference\\s*=\\s*\\$previousErrorActionPreference",
+                                                    "required":  true,
+                                                    "observed":  true,
+                                                    "result":  "pass"
+                                                },
+                                                {
+                                                    "name":  "records_static_start_exit_code",
+                                                    "pattern":  "start_exit_code\\ =\\ \\$startExitCode",
+                                                    "required":  true,
+                                                    "observed":  true,
+                                                    "result":  "pass"
+                                                },
+                                                {
+                                                    "name":  "records_static_start_output_tail",
+                                                    "pattern":  "start_output_tail\\ =\\ \\$startOutputTail",
+                                                    "required":  true,
+                                                    "observed":  true,
+                                                    "result":  "pass"
+                                                },
+                                                {
+                                                    "name":  "uses_static_shared_classifier",
+                                                    "pattern":  "Get-EC2StartFailureCategory\\ -ExitCode\\ \\$startExitCode",
+                                                    "required":  true,
+                                                    "observed":  true,
+                                                    "result":  "pass"
+                                                }
+                                            ],
+    "sibling_source_contract_checks":  [
+                                           {
+                                               "script":  "Install-EC2ModelFromS3.ps1",
+                                               "contract":  "$startOutput = @(aws ec2 start-instances",
+                                               "required":  true,
+                                               "observed":  true,
+                                               "result":  "pass"
+                                           },
+                                           {
+                                               "script":  "Install-EC2ModelFromS3.ps1",
+                                               "contract":  "$record.start_exit_code = $LASTEXITCODE",
+                                               "required":  true,
+                                               "observed":  true,
+                                               "result":  "pass"
+                                           },
+                                           {
+                                               "script":  "Install-EC2ModelFromS3.ps1",
+                                               "contract":  "Get-EC2StartFailureCategory -ExitCode $record.start_exit_code",
+                                               "required":  true,
+                                               "observed":  true,
+                                               "result":  "pass"
+                                           },
+                                           {
+                                               "script":  "Install-EC2ModelFromS3.ps1",
+                                               "contract":  "model_install_start_failed",
+                                               "required":  true,
+                                               "observed":  true,
+                                               "result":  "pass"
+                                           },
+                                           {
+                                               "script":  "Install-EC2ModelFromS3.ps1",
+                                               "contract":  "$shouldStopInstance =",
+                                               "required":  true,
+                                               "observed":  true,
+                                               "result":  "pass"
+                                           },
+                                           {
+                                               "script":  "Install-EC2ModelFromS3.ps1",
+                                               "contract":  "discarded_start_output_absent",
+                                               "required":  true,
+                                               "observed":  true,
+                                               "result":  "pass"
+                                           },
+                                           {
+                                               "script":  "Install-EC2InputAssetFromS3.ps1",
+                                               "contract":  "$startOutput = @(aws ec2 start-instances",
+                                               "required":  true,
+                                               "observed":  true,
+                                               "result":  "pass"
+                                           },
+                                           {
+                                               "script":  "Install-EC2InputAssetFromS3.ps1",
+                                               "contract":  "$record.start_exit_code = $LASTEXITCODE",
+                                               "required":  true,
+                                               "observed":  true,
+                                               "result":  "pass"
+                                           },
+                                           {
+                                               "script":  "Install-EC2InputAssetFromS3.ps1",
+                                               "contract":  "Get-EC2StartFailureCategory -ExitCode $record.start_exit_code",
+                                               "required":  true,
+                                               "observed":  true,
+                                               "result":  "pass"
+                                           },
+                                           {
+                                               "script":  "Install-EC2InputAssetFromS3.ps1",
+                                               "contract":  "input_asset_install_start_failed",
+                                               "required":  true,
+                                               "observed":  true,
+                                               "result":  "pass"
+                                           },
+                                           {
+                                               "script":  "Install-EC2InputAssetFromS3.ps1",
+                                               "contract":  "$shouldStopInstance =",
+                                               "required":  true,
+                                               "observed":  true,
+                                               "result":  "pass"
+                                           },
+                                           {
+                                               "script":  "Install-EC2InputAssetFromS3.ps1",
+                                               "contract":  "discarded_start_output_absent",
+                                               "required":  true,
+                                               "observed":  true,
+                                               "result":  "pass"
+                                           },
+                                           {
+                                               "script":  "Start-ComfyUIGpuServer.ps1",
+                                               "contract":  "$startOutput = @(aws ec2 start-instances",
+                                               "required":  true,
+                                               "observed":  true,
+                                               "result":  "pass"
+                                           },
+                                           {
+                                               "script":  "Start-ComfyUIGpuServer.ps1",
+                                               "contract":  "$startExitCode = $LASTEXITCODE",
+                                               "required":  true,
+                                               "observed":  true,
+                                               "result":  "pass"
+                                           },
+                                           {
+                                               "script":  "Start-ComfyUIGpuServer.ps1",
+                                               "contract":  "Get-EC2StartFailureCategory -ExitCode $startExitCode",
+                                               "required":  true,
+                                               "observed":  true,
+                                               "result":  "pass"
+                                           },
+                                           {
+                                               "script":  "Start-ComfyUIGpuServer.ps1",
+                                               "contract":  "EC2 start failed [$failureCategory]",
+                                               "required":  true,
+                                               "observed":  true,
+                                               "result":  "pass"
+                                           },
+                                           {
+                                               "script":  "Start-ComfyUIGpuServer.ps1",
+                                               "contract":  "exit 2",
+                                               "required":  true,
+                                               "observed":  true,
+                                               "result":  "pass"
+                                           },
+                                           {
+                                               "script":  "Start-ComfyUIGpuServer.ps1",
+                                               "contract":  "discarded_start_output_absent",
+                                               "required":  true,
+                                               "observed":  true,
+                                               "result":  "pass"
+                                           }
+                                       ],
+    "failure_count":  0,
+    "failures":  [
+
+                 ],
+    "next_action":  "Use the hardened workflow-smoke helper in the next intentionally gated live window."
+}

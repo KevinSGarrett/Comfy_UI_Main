@@ -364,6 +364,8 @@ $commandStatus = "NotStarted"
 $stdout = ""
 $stderr = ""
 $started = $false
+$startExitCode = $null
+$startOutputTail = $null
 $ssmAvailable = $false
 $instanceWatchdogStatus = $null
 $startState = ""
@@ -670,10 +672,17 @@ try {
     -Region $Region | ConvertFrom-Json
   if ($startState -ne "running") {
     Write-Host "Starting EC2 instance $InstanceId from state $startState"
-    $startOutput = @(aws ec2 start-instances --region $Region --instance-ids $InstanceId --output json 2>&1)
-    $startExitCode = $LASTEXITCODE
+    $previousErrorActionPreference = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    try {
+      $startOutput = @(aws ec2 start-instances --region $Region --instance-ids $InstanceId --output json 2>&1)
+      $startExitCode = $LASTEXITCODE
+    } finally {
+      $ErrorActionPreference = $previousErrorActionPreference
+    }
+    $startText = (($startOutput | ForEach-Object { [string]$_ }) -join [Environment]::NewLine).Trim()
+    $startOutputTail = $(if ($startText.Length -gt 2000) { $startText.Substring($startText.Length - 2000) } else { $startText })
     if ($startExitCode -ne 0) {
-      $startText = (($startOutput | ForEach-Object { [string]$_ }) -join [Environment]::NewLine).Trim()
       $executionFailureCategory = Get-EC2StartFailureCategory -ExitCode $startExitCode -OutputText $startText
       if ($executionFailureCategory -eq "ec2_insufficient_instance_capacity") {
         $capacityBackoff = & $capacityBackoffHelper -Action RecordFailure -ProjectRoot $ProjectRoot -RuntimeWorkOrderId $DeployBundleSha256.ToLowerInvariant() | ConvertFrom-Json
@@ -818,6 +827,8 @@ $record = [ordered]@{
   local_git_checkpoint_gate = $localGitGate
   start_state = $startState
   ec2_started = $started
+  start_exit_code = $startExitCode
+  start_output_tail = $startOutputTail
   ssm_available = $ssmAvailable
   command_id = $commandId
   command_status = $commandStatus
