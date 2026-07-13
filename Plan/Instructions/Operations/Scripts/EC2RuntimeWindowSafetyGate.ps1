@@ -1,3 +1,55 @@
+function Get-EC2LaneReadinessStatus {
+  param(
+    [string]$Path,
+    [Parameter(Mandatory=$true)][string]$ExpectedLaneId
+  )
+
+  $result = [ordered]@{
+    file = $Path
+    found = (![string]::IsNullOrWhiteSpace($Path) -and (Test-Path -LiteralPath $Path -PathType Leaf))
+    schema_source = $null
+    local_pre_ec2_ready = $false
+    ready_for_ec2_static_proof = $false
+    ready_for_generation = $false
+    lane_id = $null
+    lane_match = $false
+    result = "missing_readiness_record"
+    failure_category = "missing_readiness_record"
+    status = "missing_readiness_record"
+    read_error = $null
+  }
+  if (!$result.found) { return [pscustomobject]$result }
+
+  try {
+    $readiness = Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json
+    $source = $readiness
+    $result.schema_source = "flat"
+    if ((Test-EC2RuntimeSafetyProperty -Object $readiness -Name "local_readiness") -and $null -ne $readiness.local_readiness) {
+      $source = $readiness.local_readiness
+      $result.schema_source = "nested_local_readiness"
+    }
+    $result.failure_category = $null
+    $result.local_pre_ec2_ready = (Test-EC2RuntimeSafetyProperty $source "local_pre_ec2_ready") -and [bool]$source.local_pre_ec2_ready
+    $result.ready_for_ec2_static_proof = (Test-EC2RuntimeSafetyProperty $source "ready_for_ec2_static_proof") -and [bool]$source.ready_for_ec2_static_proof
+    $result.ready_for_generation = (Test-EC2RuntimeSafetyProperty $source "ready_for_generation") -and [bool]$source.ready_for_generation
+    if (Test-EC2RuntimeSafetyProperty $readiness "lane_id") { $result.lane_id = [string]$readiness.lane_id }
+    elseif (Test-EC2RuntimeSafetyProperty $source "lane_id") { $result.lane_id = [string]$source.lane_id }
+    $result.lane_match = ([string]$result.lane_id -ceq $ExpectedLaneId)
+    if (Test-EC2RuntimeSafetyProperty $source "result") { $result.result = [string]$source.result }
+    elseif (Test-EC2RuntimeSafetyProperty $readiness "result") { $result.result = [string]$readiness.result }
+    else { $result.result = $(if ($result.ready_for_generation) { "ready_for_generation" } elseif ($result.ready_for_ec2_static_proof) { "ready_for_ec2_static_proof" } elseif ($result.local_pre_ec2_ready) { "local_pre_ec2_ready_runtime_blocked" } else { "not_ready" }) }
+    if (Test-EC2RuntimeSafetyProperty $source "failure_category") { $result.failure_category = $source.failure_category }
+    elseif (Test-EC2RuntimeSafetyProperty $readiness "failure_category") { $result.failure_category = $readiness.failure_category }
+    $result.status = $(if ($result.ready_for_generation) { "generation_ready" } elseif ($result.ready_for_ec2_static_proof) { "static_proof_ready" } elseif ($result.local_pre_ec2_ready) { "local_ready_runtime_blocked" } else { "not_ready" })
+  } catch {
+    $result.result = "invalid_readiness_record"
+    $result.failure_category = "readiness_record_invalid"
+    $result.status = "invalid_readiness_record"
+    $result.read_error = $_.Exception.Message
+  }
+  return [pscustomobject]$result
+}
+
 function ConvertTo-EC2SafetyGitRelativePath {
   param([AllowNull()][object]$Path)
   if ($null -eq $Path) { return "" }

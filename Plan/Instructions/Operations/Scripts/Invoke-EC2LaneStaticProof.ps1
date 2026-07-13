@@ -198,43 +198,6 @@ function Get-AuthGateStatus {
   return $result
 }
 
-function Get-ReadinessStatus {
-  param([string]$Path)
-
-  $result = [ordered]@{
-    file = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $Path
-    found = (![string]::IsNullOrWhiteSpace($Path) -and (Test-Path -LiteralPath $Path))
-    local_pre_ec2_ready = $false
-    ready_for_ec2_static_proof = $false
-    ready_for_generation = $false
-    lane_id = $null
-    lane_match = $false
-    result = "missing_readiness_record"
-    failure_category = "missing_readiness_record"
-    status = "missing_readiness_record"
-  }
-  if (!$result.found) { return $result }
-  $readiness = Read-JsonFile -Path $Path
-  $result.failure_category = $null
-  $result.local_pre_ec2_ready = [bool]$readiness.local_pre_ec2_ready
-  $result.ready_for_ec2_static_proof = [bool]$readiness.ready_for_ec2_static_proof
-  $result.ready_for_generation = [bool]$readiness.ready_for_generation
-  if (Has-Property -Object $readiness -Name "lane_id") {
-    $result.lane_id = [string]$readiness.lane_id
-  }
-  $result.lane_match = ([string]$result.lane_id -eq [string]$LaneId)
-  if (Has-Property -Object $readiness -Name "result") {
-    $result.result = [string]$readiness.result
-  } else {
-    $result.result = $(if ($result.ready_for_ec2_static_proof) { "ready_for_ec2_static_proof" } elseif ($result.local_pre_ec2_ready) { "local_pre_ec2_ready_runtime_blocked" } else { "not_ready" })
-  }
-  if (Has-Property -Object $readiness -Name "failure_category") {
-    $result.failure_category = $readiness.failure_category
-  }
-  $result.status = $(if ($result.ready_for_ec2_static_proof) { "static_proof_ready" } elseif ($result.local_pre_ec2_ready) { "local_ready_runtime_blocked" } else { "not_ready" })
-  return $result
-}
-
 $stamp = (Get-Date -Format "yyyyMMddTHHmmsszzz").Replace(":", "")
 $runtimeReadinessDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Runtime_Readiness"
 $workflowStaticDir = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Workflow_Static_Validation"
@@ -249,7 +212,7 @@ if ([string]::IsNullOrWhiteSpace($ReadinessFile)) {
 }
 
 $authGate = Get-AuthGateStatus -Path $AuthGateFile
-$readinessGate = Get-ReadinessStatus -Path $ReadinessFile
+$readinessGate = Get-EC2LaneReadinessStatus -Path $ReadinessFile -ExpectedLaneId $LaneId
 $localGitGate = Get-LocalGitCheckpointGate -ProjectRoot $ProjectRoot -PreservedExcludePath $PreservedGitExcludePath
 $runtimeWindowIdValid = ($RuntimeWindowId -cmatch "^[A-Za-z0-9][A-Za-z0-9_.-]{7,127}$")
 $emergencyStopGate = Get-EmergencyStopScheduleStatus -Path $EmergencyStopEvidencePath -ExpectedWindowId $RuntimeWindowId -ExpectedInstanceId $InstanceId -ExpectedRegion $Region

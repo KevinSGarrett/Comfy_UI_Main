@@ -501,43 +501,6 @@ function Get-AuthGateStatus {
   return $result
 }
 
-function Get-ReadinessStatus {
-  param([string]$Path)
-
-  $result = [ordered]@{
-    file = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $Path
-    found = (![string]::IsNullOrWhiteSpace($Path) -and (Test-Path -LiteralPath $Path))
-    local_pre_ec2_ready = $false
-    ready_for_ec2_static_proof = $false
-    ready_for_generation = $false
-    lane_id = $null
-    lane_match = $false
-    result = "missing_readiness_record"
-    failure_category = "missing_readiness_record"
-    status = "missing_readiness_record"
-  }
-  if (!$result.found) { return $result }
-  $readiness = Read-JsonFile -Path $Path
-  $result.failure_category = $null
-  $result.local_pre_ec2_ready = [bool]$readiness.local_pre_ec2_ready
-  $result.ready_for_ec2_static_proof = [bool]$readiness.ready_for_ec2_static_proof
-  $result.ready_for_generation = [bool]$readiness.ready_for_generation
-  if (Has-Property -Object $readiness -Name "lane_id") {
-    $result.lane_id = [string]$readiness.lane_id
-  }
-  $result.lane_match = ([string]$result.lane_id -eq [string]$LaneId)
-  if (Has-Property -Object $readiness -Name "result") {
-    $result.result = [string]$readiness.result
-  } else {
-    $result.result = $(if ($result.ready_for_generation) { "ready_for_generation" } elseif ($result.local_pre_ec2_ready) { "local_pre_ec2_ready_runtime_blocked" } else { "not_ready" })
-  }
-  if (Has-Property -Object $readiness -Name "failure_category") {
-    $result.failure_category = $readiness.failure_category
-  }
-  $result.status = $(if ($result.ready_for_generation) { "generation_ready" } elseif ($result.local_pre_ec2_ready) { "local_ready_runtime_blocked" } else { "not_ready" })
-  return $result
-}
-
 function Invoke-SmokeRequestDryRun {
   param(
     [string]$SmokeScript,
@@ -720,7 +683,7 @@ if ([string]::IsNullOrWhiteSpace($RunRecordFile)) {
 $laneContracts = Test-JsonContract -Paths @($workflowPath, $patchPath, $runtimePath, $smokePath)
 $laneContractValid = (@($laneContracts | Where-Object { -not $_.exists -or -not $_.json_valid }).Count -eq 0)
 $authGate = Get-AuthGateStatus -Path $AuthGateFile
-$readinessGate = Get-ReadinessStatus -Path $ReadinessFile
+$readinessGate = Get-EC2LaneReadinessStatus -Path $ReadinessFile -ExpectedLaneId $LaneId
 $staticProof = Test-StaticProof -Path $StaticProofFile
 $localGitGate = Get-LocalGitCheckpointGate -ProjectRoot $ProjectRoot -PreservedExcludePath $PreservedGitExcludePath
 $runPackage = Get-RunPackageStatus -Path $RunPackageManifestFile

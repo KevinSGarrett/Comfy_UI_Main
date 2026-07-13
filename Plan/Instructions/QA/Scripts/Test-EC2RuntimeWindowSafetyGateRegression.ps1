@@ -46,6 +46,14 @@ function Test-ExecutorOrdering {
 $tempRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("ec2_runtime_safety_regression_" + [guid]::NewGuid().ToString("N"))
 [System.IO.Directory]::CreateDirectory($tempRoot) | Out-Null
 try {
+  $flatReadinessPath = Join-Path $tempRoot "flat_readiness.json"
+  Write-JsonNoBom ([ordered]@{ lane_id="lane-a"; result="ready_for_ec2_static_proof"; local_pre_ec2_ready=$true; ready_for_ec2_static_proof=$true; ready_for_generation=$false }) $flatReadinessPath
+  $nestedReadinessPath = Join-Path $tempRoot "nested_readiness.json"
+  Write-JsonNoBom ([ordered]@{ lane_id="lane-a"; classification="candidate_ready"; local_readiness=[ordered]@{ result="ready_for_ec2_static_proof"; local_pre_ec2_ready=$true; ready_for_ec2_static_proof=$true; ready_for_generation=$false } }) $nestedReadinessPath
+  $flatReadiness = Get-EC2LaneReadinessStatus -Path $flatReadinessPath -ExpectedLaneId "lane-a"
+  $nestedReadiness = Get-EC2LaneReadinessStatus -Path $nestedReadinessPath -ExpectedLaneId "lane-a"
+  $nestedMismatch = Get-EC2LaneReadinessStatus -Path $nestedReadinessPath -ExpectedLaneId "lane-b"
+
   $validSchedulePath = Join-Path $tempRoot "valid_schedule.json"
   $validSchedule = [ordered]@{
     result = "emergency_stop_schedule_created_and_verified"
@@ -128,6 +136,10 @@ try {
   $gitWrapperStatus = Get-LocalGitCheckpointGate -ProjectRoot $ProjectRoot -PreservedExcludePath $currentUnstagedPaths
 
   $tests = @(
+    (New-Test "flat_readiness_schema_supported" ($flatReadiness.schema_source -eq "flat" -and $flatReadiness.ready_for_ec2_static_proof -and $flatReadiness.lane_match) $flatReadiness "flat static readiness accepted"),
+    (New-Test "nested_readiness_schema_supported" ($nestedReadiness.schema_source -eq "nested_local_readiness" -and $nestedReadiness.ready_for_ec2_static_proof -and $nestedReadiness.lane_match) $nestedReadiness "nested static readiness accepted"),
+    (New-Test "nested_readiness_generation_remains_false" (-not $nestedReadiness.ready_for_generation -and $nestedReadiness.status -eq "static_proof_ready") $nestedReadiness "static ready, generation false"),
+    (New-Test "nested_readiness_lane_mismatch_rejected" (-not $nestedMismatch.lane_match) $nestedMismatch.lane_id "lane mismatch"),
     (New-Test "valid_live_schedule_accepted" $validScheduleStatus.verified $validScheduleStatus.status "pass"),
     (New-Test "dry_run_schedule_rejected" (-not $dryScheduleStatus.verified) $dryScheduleStatus.failure_category "live_emergency_stop_schedule_not_verified"),
     (New-Test "mismatched_window_rejected" (-not $mismatchScheduleStatus.verified) $mismatchScheduleStatus.checks.runtime_window_match $false),
