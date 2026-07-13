@@ -205,6 +205,66 @@ $runManifestRepoPath = ConvertTo-ProjectRelativePath -Path $runManifestPath
 $runIncluded = @($deploy.files | Where-Object { [string]$_.path -eq $runManifestRepoPath }).Count -eq 1
 [void]$checks.Add((New-Check -Name "bundle_contains_selected_run_manifest" -Passed $runIncluded -Observed $runManifestRepoPath -Expected "exact selected run manifest appears once in bundle files" -FailureCategory "bundle_linkage_mismatch"))
 
+$requiredAssetsPropertyPresent = $null -ne $deploy.PSObject.Properties["required_input_assets"] -and $null -ne $deploy.required_input_assets
+$requiredAssets = if ($requiredAssetsPropertyPresent) { @($deploy.required_input_assets) } else { @() }
+$requiredAssetCountPropertyPresent = $null -ne $deploy.PSObject.Properties["required_input_asset_count"]
+$declaredRequiredAssetCount = -1
+$requiredAssetCountParsed = $false
+if ($requiredAssetCountPropertyPresent) {
+  $requiredAssetCountParsed = [int64]::TryParse([string]$deploy.required_input_asset_count, [ref]$declaredRequiredAssetCount)
+}
+
+$requiredAssetRows = @()
+$normalizedRequiredPaths = @()
+foreach ($asset in $requiredAssets) {
+  $rawBundlePath = [string]$asset.bundle_path
+  $normalizedBundlePath = $rawBundlePath.Replace("\", "/")
+  $pathSafe = -not [string]::IsNullOrWhiteSpace($normalizedBundlePath) -and
+    -not [System.IO.Path]::IsPathRooted($rawBundlePath) -and
+    $normalizedBundlePath -notmatch '^[A-Za-z]:' -and
+    $normalizedBundlePath -notmatch '^/' -and
+    $normalizedBundlePath -notmatch '(^|/)\.\.($|/)'
+  if ($pathSafe) {
+    $resolvedAssetPath = [System.IO.Path]::GetFullPath((Join-Path $contentRoot $normalizedBundlePath.Replace("/", "\")))
+    $resolvedContentRoot = [System.IO.Path]::GetFullPath($contentRoot).TrimEnd("\", "/") + [System.IO.Path]::DirectorySeparatorChar
+    $pathSafe = $resolvedAssetPath.StartsWith($resolvedContentRoot, [System.StringComparison]::OrdinalIgnoreCase)
+  }
+
+  $matchingBundleFiles = @()
+  if ($pathSafe) {
+    $matchingBundleFiles = @($deploy.files | Where-Object { ([string]$_.path).Replace("\", "/").Equals($normalizedBundlePath, [System.StringComparison]::OrdinalIgnoreCase) })
+  }
+  $recordedAssetHash = ([string]$asset.sha256).ToLowerInvariant()
+  $mappedBundleHash = if ($matchingBundleFiles.Count -eq 1) { ([string]$matchingBundleFiles[0].sha256).ToLowerInvariant() } else { "" }
+  $hashMatches = $recordedAssetHash -match '^[0-9a-f]{64}$' -and $matchingBundleFiles.Count -eq 1 -and $recordedAssetHash -eq $mappedBundleHash
+  if (-not [string]::IsNullOrWhiteSpace($normalizedBundlePath)) {
+    $normalizedRequiredPaths += $normalizedBundlePath.ToLowerInvariant()
+  }
+  $requiredAssetRows += [pscustomobject][ordered]@{
+    filename = [string]$asset.filename
+    bundle_path = $rawBundlePath
+    normalized_bundle_path = $normalizedBundlePath
+    path_safe = $pathSafe
+    matching_bundle_file_count = $matchingBundleFiles.Count
+    recorded_sha256 = $recordedAssetHash
+    mapped_bundle_sha256 = $mappedBundleHash
+    hash_matches = $hashMatches
+  }
+}
+
+$requiredPathsUnique = @($normalizedRequiredPaths | Select-Object -Unique).Count -eq $normalizedRequiredPaths.Count
+$requiredPathsSafe = @($requiredAssetRows | Where-Object { -not [bool]$_.path_safe }).Count -eq 0
+$requiredAssetsMappedOnce = @($requiredAssetRows | Where-Object { [int]$_.matching_bundle_file_count -ne 1 }).Count -eq 0
+$requiredAssetHashesMatch = @($requiredAssetRows | Where-Object { -not [bool]$_.hash_matches }).Count -eq 0
+[void]$checks.Add((New-Check -Name "required_input_assets_present" -Passed $requiredAssetsPropertyPresent -Observed $requiredAssetsPropertyPresent -Expected "deploy manifest declares required_input_assets" -FailureCategory "required_input_assets_missing"))
+[void]$checks.Add((New-Check -Name "required_input_assets_count" -Passed (
+  $requiredAssetCountParsed -and $declaredRequiredAssetCount -ge 0 -and $declaredRequiredAssetCount -eq $requiredAssets.Count
+) -Observed ([ordered]@{ count_property_present=$requiredAssetCountPropertyPresent; count_parsed=$requiredAssetCountParsed; declared=$declaredRequiredAssetCount; observed=$requiredAssets.Count }) -Expected "required_input_asset_count equals required_input_assets count" -FailureCategory "required_input_assets_count_mismatch"))
+[void]$checks.Add((New-Check -Name "required_input_assets_unique" -Passed $requiredPathsUnique -Observed @($normalizedRequiredPaths) -Expected "case-insensitive required input bundle paths are unique" -FailureCategory "required_input_assets_duplicate"))
+[void]$checks.Add((New-Check -Name "required_input_assets_paths_safe" -Passed $requiredPathsSafe -Observed @($requiredAssetRows) -Expected "required input bundle paths are safe content-relative paths" -FailureCategory "required_input_assets_path_unsafe"))
+[void]$checks.Add((New-Check -Name "required_input_assets_in_bundle_files" -Passed $requiredAssetsMappedOnce -Observed @($requiredAssetRows) -Expected "each required input appears exactly once in deploy files" -FailureCategory "required_input_assets_not_in_bundle_files"))
+[void]$checks.Add((New-Check -Name "required_input_assets_hashes_match" -Passed $requiredAssetHashesMatch -Observed @($requiredAssetRows) -Expected "each required input SHA-256 matches its deploy file entry" -FailureCategory "required_input_assets_hash_mismatch"))
+
 $zipPath = Join-Path $deployDir ([string]$deploy.bundle_zip)
 $zipExists = Test-Path -LiteralPath $zipPath -PathType Leaf
 $zipHash = if ($zipExists) { Get-Sha256 -Path $zipPath } else { "" }
@@ -298,6 +358,8 @@ $record = [ordered]@{
   generated_files = @($generatedRows)
   bundle_content_file_count = @($bundleFileRows).Count
   bundle_content_files = @($bundleFileRows)
+  required_input_asset_count = @($requiredAssetRows).Count
+  required_input_assets = @($requiredAssetRows)
   checks = @($checks)
   failed_check_count = $failedChecks.Count
   failure_categories = @($failureCategories)

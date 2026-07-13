@@ -48,6 +48,7 @@ function Read-JsonIfPresent {
 function Invoke-Case {
   param(
     [Parameter(Mandatory=$true)][string]$Name,
+    [string]$DeployFile = $deployPath,
     [AllowNull()][string]$PublishFile,
     [Parameter(Mandatory=$true)][int]$ExpectedExitCode,
     [Parameter(Mandatory=$true)][string]$ExpectedResult,
@@ -61,7 +62,7 @@ function Invoke-Case {
     "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $validator,
     "-ProjectRoot", $ProjectRoot,
     "-RunPackageManifestFile", $runPath,
-    "-DeployBundleManifestFile", $deployPath,
+    "-DeployBundleManifestFile", $DeployFile,
     "-OutFile", $childOut,
     "-Strict"
   )
@@ -110,6 +111,20 @@ function Invoke-Case {
   }
 }
 
+function New-DeployFixture {
+  param(
+    [Parameter(Mandatory=$true)][string]$Name,
+    [Parameter(Mandatory=$true)][scriptblock]$Mutate
+  )
+  $fixtureDir = Join-Path $tempRoot "d_$Name"
+  Copy-Item -LiteralPath (Split-Path -Parent $deployPath) -Destination $fixtureDir -Recurse
+  $fixtureManifest = Join-Path $fixtureDir (Split-Path -Leaf $deployPath)
+  $fixture = Get-Content -LiteralPath $fixtureManifest -Raw | ConvertFrom-Json
+  & $Mutate $fixture
+  [System.IO.File]::WriteAllText($fixtureManifest, ($fixture | ConvertTo-Json -Depth 30), $utf8NoBom)
+  return $fixtureManifest
+}
+
 if (-not (Test-Path -LiteralPath $ProjectRoot -PathType Container)) {
   throw "Project root not found: $ProjectRoot"
 }
@@ -126,7 +141,7 @@ foreach ($required in @($runPath, $deployPath, $publishPath, $validator)) {
   }
 }
 
-$tempRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("run_package_deploy_regression_{0}" -f ([guid]::NewGuid().ToString("N")))
+$tempRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("rpdr_{0}" -f ([guid]::NewGuid().ToString("N").Substring(0, 8)))
 [System.IO.Directory]::CreateDirectory($tempRoot) | Out-Null
 $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
 
@@ -166,6 +181,32 @@ $generationExecuted.generation_executed = $true
 [System.IO.File]::WriteAllText($generationExecutedPath, ($generationExecuted | ConvertTo-Json -Depth 20), $utf8NoBom)
 $missingPath = Join-Path $tempRoot "missing_publish.json"
 
+$requiredMissingDeploy = New-DeployFixture -Name "m" -Mutate {
+  param($fixture)
+  $fixture.PSObject.Properties.Remove("required_input_assets")
+}
+$requiredCountMismatchDeploy = New-DeployFixture -Name "c" -Mutate {
+  param($fixture)
+  $fixture.required_input_asset_count = [int]$fixture.required_input_asset_count + 1
+}
+$requiredDuplicateDeploy = New-DeployFixture -Name "d" -Mutate {
+  param($fixture)
+  $fixture.required_input_assets = @($fixture.required_input_assets) + @($fixture.required_input_assets[0])
+  $fixture.required_input_asset_count = @($fixture.required_input_assets).Count
+}
+$requiredUnsafeDeploy = New-DeployFixture -Name "u" -Mutate {
+  param($fixture)
+  $fixture.required_input_assets[0].bundle_path = "../escape.png"
+}
+$requiredNotInFilesDeploy = New-DeployFixture -Name "n" -Mutate {
+  param($fixture)
+  $fixture.required_input_assets[0].bundle_path = "runtime_inputs/missing.png"
+}
+$requiredHashMismatchDeploy = New-DeployFixture -Name "h" -Mutate {
+  param($fixture)
+  $fixture.required_input_assets[0].sha256 = "0" * 64
+}
+
 $tests = @()
 $tests += Invoke-Case -Name "valid_publish_strict_pass" -PublishFile $publishPath -ExpectedExitCode 0 -ExpectedResult "pass_local_only" -ExpectedFailureCategory $null -ExpectedPublishStatus "parsed"
 $tests += Invoke-Case -Name "valid_live_publish_strict_pass" -PublishFile $livePublishPath -ExpectedExitCode 0 -ExpectedResult "pass_local_only" -ExpectedFailureCategory $null -ExpectedPublishStatus "parsed"
@@ -178,6 +219,12 @@ $tests += Invoke-Case -Name "missing_publish_structured_failure" -PublishFile $m
 $tests += Invoke-Case -Name "invalid_publish_json_structured_failure" -PublishFile $invalidJsonPath -ExpectedExitCode 1 -ExpectedResult "fail" -ExpectedFailureCategory "publish_evidence_json_invalid" -ExpectedPublishStatus "invalid_json"
 $tests += Invoke-Case -Name "invalid_publish_payload_structured_failure" -PublishFile $invalidPayloadPath -ExpectedExitCode 1 -ExpectedResult "fail" -ExpectedFailureCategory "publish_evidence_payload_invalid" -ExpectedPublishStatus "invalid_payload"
 $tests += Invoke-Case -Name "mismatched_publish_linkage_failure" -PublishFile $mismatchPath -ExpectedExitCode 1 -ExpectedResult "fail" -ExpectedFailureCategory "publish_linkage_mismatch" -ExpectedPublishStatus "parsed"
+$tests += Invoke-Case -Name "required_input_assets_missing_rejected" -DeployFile $requiredMissingDeploy -PublishFile $publishPath -ExpectedExitCode 1 -ExpectedResult "fail" -ExpectedFailureCategory "required_input_assets_missing" -ExpectedPublishStatus "parsed"
+$tests += Invoke-Case -Name "required_input_assets_count_mismatch_rejected" -DeployFile $requiredCountMismatchDeploy -PublishFile $publishPath -ExpectedExitCode 1 -ExpectedResult "fail" -ExpectedFailureCategory "required_input_assets_count_mismatch" -ExpectedPublishStatus "parsed"
+$tests += Invoke-Case -Name "required_input_assets_duplicate_rejected" -DeployFile $requiredDuplicateDeploy -PublishFile $publishPath -ExpectedExitCode 1 -ExpectedResult "fail" -ExpectedFailureCategory "required_input_assets_duplicate" -ExpectedPublishStatus "parsed"
+$tests += Invoke-Case -Name "required_input_assets_unsafe_path_rejected" -DeployFile $requiredUnsafeDeploy -PublishFile $publishPath -ExpectedExitCode 1 -ExpectedResult "fail" -ExpectedFailureCategory "required_input_assets_path_unsafe" -ExpectedPublishStatus "parsed"
+$tests += Invoke-Case -Name "required_input_assets_not_in_bundle_rejected" -DeployFile $requiredNotInFilesDeploy -PublishFile $publishPath -ExpectedExitCode 1 -ExpectedResult "fail" -ExpectedFailureCategory "required_input_assets_not_in_bundle_files" -ExpectedPublishStatus "parsed"
+$tests += Invoke-Case -Name "required_input_assets_hash_mismatch_rejected" -DeployFile $requiredHashMismatchDeploy -PublishFile $publishPath -ExpectedExitCode 1 -ExpectedResult "fail" -ExpectedFailureCategory "required_input_assets_hash_mismatch" -ExpectedPublishStatus "parsed"
 
 $failed = @($tests | Where-Object { [string]$_.result -ne "pass" })
 $record = [ordered]@{
