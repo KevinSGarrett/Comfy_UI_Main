@@ -1,3 +1,13 @@
+## Normal Direct-Archive Runtime Capacity Boundary - 2026-07-13T14:48:00-05:00
+
+The selected Normal target-runtime lane now uses a current-source run package, packages only the full-body W70 input referenced by that hash-verified prompt, validates required-input presence/count/path/hash fail closed, and normalizes direct ZIP-member streaming before ComfyUI staging. Deterministic coverage passes: EC2 runtime safety 35/35 and deploy-bundle consistency regression 17/17. The latest live attempt was blocked by AWS `InsufficientInstanceCapacity` before start: `ec2_started=false`, `generation_executed=false`, and final state `stopped`. The unused emergency schedule was deleted.
+
+Next action: do not retry the same capacity window. On a genuinely fresh capacity window, select the newest strict-pass Normal deploy bundle whose `source_git_head` exactly matches local/origin main, create a new same-window emergency-stop schedule, run the dry gate once, then execute one bounded smoke. The next runtime proof must show normalized archive-member staging and either a ComfyUI `prompt_id`/artifact pullback or the next exact structured runtime blocker.
+
+Keep the manual body gold-mask boundary active. Do not promote masks, rerun Wave70 hard gates, activate Wave71+, mutate Jira, use stale EC2 planning state, or rerun completed runtime proofs.
+
+Current evidence: `Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_NORMAL_EC2_WORKFLOW_SMOKE_EXECUTION_C5D05453_20260713T144300-0500.json`; `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_NORMAL_ARCHIVE_MEMBER_NORMALIZATION_REGRESSION_20260713T144100-0500.json`.
+
 ## Wave64 Row042 EC2 TTL Watchdog Live Readiness - 2026-07-13T09:51:51-05:00
 
 `TRK-W64-042` / `ITEM-W64-042` is `Blocked_Live_TTL_Watchdog_Proof_Missing_AWS_Readiness_Verified`. The stale expired-session blocker is cleared: current read-only AWS proof verifies authentication, the scheduler role, and the approved instance in stopped state. All 25 reconciliation checks pass. Current blockers are recorded fail-closed: live_emergency_stop_schedule_missing, ssm_watchdog_proof_missing. EC2 was not started by this reconciliation; any missing controls must be installed only inside the next genuinely required bounded runtime window.
