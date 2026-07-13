@@ -71,6 +71,19 @@ function Resolve-ProjectPath {
   return [System.IO.Path]::GetFullPath((Join-Path $ProjectRoot $Path.Replace("/", "\")))
 }
 
+function Resolve-ProjectContainedPath {
+  param([string]$Path)
+
+  if ([string]::IsNullOrWhiteSpace($Path)) { return $null }
+  $rootFull = [System.IO.Path]::GetFullPath($ProjectRoot).TrimEnd("\", "/")
+  $candidate = Resolve-ProjectPath -Path $Path
+  $prefix = $rootFull + [System.IO.Path]::DirectorySeparatorChar
+  if (!$candidate.StartsWith($prefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+    throw "Path is outside ProjectRoot: $Path"
+  }
+  return $candidate
+}
+
 function Has-Property {
   param(
     [object]$Object,
@@ -282,7 +295,12 @@ function Get-RunPackageSummary {
   }
 
   $summary.supplied = $true
-  $manifestPath = Resolve-ProjectPath -Path $Path
+  try {
+    $manifestPath = Resolve-ProjectContainedPath -Path $Path
+  } catch {
+    $summary.errors += $_.Exception.Message
+    return $summary
+  }
   $summary.evidence = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $manifestPath
   if (!(Test-Path -LiteralPath $manifestPath)) {
     $summary.errors += "Run package manifest not found: $Path"
@@ -346,7 +364,12 @@ function Get-RunPackageSummary {
     return $summary
   }
 
-  $promptFullPath = Resolve-ProjectPath -Path $promptRequestPath
+  try {
+    $promptFullPath = Resolve-ProjectContainedPath -Path $promptRequestPath
+  } catch {
+    $summary.errors += $_.Exception.Message
+    return $summary
+  }
   $summary.prompt_request.path = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $promptFullPath
   $summary.prompt_request.expected_sha256 = $expectedHash
   if (!(Test-Path -LiteralPath $promptFullPath)) {
@@ -864,7 +887,7 @@ $commandSequence = @(
   (New-CommandStep -Name "git_checkpoint_recheck" -Gate "before_any_ec2_execute" -Command "powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-GitHubCheckpoint.ps1 -ProjectRoot C:\Comfy_UI_Main -Message `"pre-ec2 checkpoint gate dry run`" -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Git_Verification\W66_GITHUB_CHECKPOINT_DRY_RUN_JSON_GATE_<timestamp>.json" -ExpectedEvidence "result=pass_git_checkpoint_ready, clean_worktree=true, local_matches_origin=true, commit_attempted=false, push_attempted=false before any EC2 helper runs with -Execute." -WhenToRun "Immediately before EC2 static proof or workflow smoke execution; use -Execute/-Push only when an explicit checkpoint is selected."),
   (New-CommandStep -Name "emergency_stop_schedule" -Gate "before_any_ec2_execute" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\New-EC2EmergencyStopSchedule.ps1 -SchedulerRoleArn arn:aws:iam::<account-id>:role/<scheduler-stop-role> -StopAfterMinutes 60 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W63_EC2_EMERGENCY_STOP_SCHEDULE_<timestamp>.json" -ExpectedEvidence "One-time EventBridge Scheduler stop created or explicit missing-role blocker recorded." -WhenToRun "Before a live EC2 window when the scheduler role exists."),
   (New-CommandStep -Name "realvisxl_model_s3_install" -Gate "before_realvisxl_static_proof" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Install-EC2ModelFromS3.ps1 -SourceS3Uri s3://<bucket>/<model-cache-prefix>/realvisxlV50_v50Bakedvae.safetensors -ExpectedSha256 6A35A7855770AE9820A3C931D4964C3817B6D9E3C6F9C4DABB5B3A94E5643B80 -MaxEc2RuntimeMinutes 20 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Model_Registry\W63_EC2_REALVISXL_MODEL_INSTALL_<timestamp>.json" -ExpectedEvidence "result=install_model_hash_verified, final_state=stopped, generation_executed=false." -WhenToRun "For RealVisXL only, after the checkpoint exists in an approved S3 model-cache prefix."),
-  (New-CommandStep -Name "lane_readiness_recheck" -Gate "auth_gate_safe_to_start_ec2_true" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-LaneRuntimeReadiness.ps1 -LaneId $LaneId -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_LANE_RUNTIME_READINESS_<timestamp>.json" -ExpectedEvidence "local_pre_ec2_ready=true, lane_id=$LaneId, and ready_for_ec2_static_proof=true before EC2 static proof." -WhenToRun "Only after auth gate reports safe_to_start_ec2=true."),
+  (New-CommandStep -Name "lane_readiness_recheck" -Gate "auth_gate_safe_to_start_ec2_true" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-LaneRuntimeReadiness.ps1 -LaneId $LaneId$runPackageCommandArg -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_LANE_RUNTIME_READINESS_<timestamp>.json" -ExpectedEvidence "local_pre_ec2_ready=true, lane_id=$LaneId, and ready_for_ec2_static_proof=true before EC2 static proof." -WhenToRun "Only after auth gate reports safe_to_start_ec2=true."),
   (New-CommandStep -Name "ec2_static_proof" -Gate "ready_for_ec2_static_proof_true" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1 -LaneId $LaneId -Execute -SkipGitLfsPull -DeployBundleS3Uri s3://<bucket>/<deploy-bundle-prefix>/<run-id>/<commit>/<bundle>.zip -DeployBundleSha256 <bundle_sha256> -MaxEc2RuntimeMinutes 25 -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W61_EC2_LANE_STATIC_PROOF_<timestamp>.json" -ExpectedEvidence "Object-info node availability, checkpoint path, checkpoint size/hash, LaneId match, S3 bundle hash verification when supplied, and EC2 stop verification." -WhenToRun "Only after readiness reports ready_for_ec2_static_proof=true."),
   (New-CommandStep -Name "bounded_workflow_smoke" -Gate "static_proof_generation_allowed" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1 -LaneId $LaneId -Execute -SkipGitLfsPull -DeployBundleS3Uri s3://<bucket>/<deploy-bundle-prefix>/<run-id>/<commit>/<bundle>.zip -DeployBundleSha256 <bundle_sha256> -MaxEc2RuntimeMinutes 45 -StaticProofFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Static_Validation\W61_EC2_LANE_STATIC_PROOF_<timestamp>.json -ReadinessFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W61_LANE_RUNTIME_READINESS_<timestamp>.json$runPackageCommandArg -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Workflow_Runtime\W61_EC2_WORKFLOW_SMOKE_RUN_EXECUTION_<timestamp>.json" -ExpectedEvidence $(if ($runPackageSummary.supplied) { "Bounded prompt execution from validated run package $($runPackageSummary.run_id), LaneId-matched static proof/readiness, S3 deploy bundle preference, remote artifact manifest, pullback route, and EC2 stop verification." } else { "Bounded prompt execution, LaneId-matched static proof/readiness, S3 deploy bundle preference, remote artifact manifest, pullback route, and EC2 stop verification." }) -WhenToRun "Only after EC2 static proof permits generation."),
   (New-CommandStep -Name "artifact_pullback_record" -Gate "generated_artifacts_pulled_back" -Command "powershell -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\New-EC2PullbackRecord.ps1 -RunId <run_id> -LocalDestination C:\Comfy_UI_Main\Plan\Instructions\Operations\Pulled_Back_Artifacts\<run_id> -RemoteManifestFile C:\Comfy_UI_Main\Plan\Instructions\Operations\Pulled_Back_Artifacts\<run_id>\REMOTE_ARTIFACT_MANIFEST.json" -ExpectedEvidence "PULLBACK_RECORD.json with count/hash match and QA routing." -WhenToRun "After generated artifacts and remote manifest exist locally."),

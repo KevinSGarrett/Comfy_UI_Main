@@ -16,6 +16,7 @@ param(
   [string]$ProfileMatrixFile = "",
   [string]$StaticProofFile = "",
   [string]$ModelRegistryCoverageFile = "",
+  [string]$RunPackageManifestFile = "",
   [string]$OutFile = ""
 )
 
@@ -149,6 +150,27 @@ function Resolve-ProjectOrAbsolutePath {
   return Join-Path $ProjectRoot $Path
 }
 
+function Resolve-ProjectContainedPath {
+  param([Parameter(Mandatory=$true)][string]$Path)
+
+  $rootFull = [System.IO.Path]::GetFullPath($ProjectRoot).TrimEnd("\", "/")
+  $candidate = if ([System.IO.Path]::IsPathRooted($Path)) {
+    [System.IO.Path]::GetFullPath($Path)
+  } else {
+    [System.IO.Path]::GetFullPath((Join-Path $rootFull $Path))
+  }
+  $prefix = $rootFull + [System.IO.Path]::DirectorySeparatorChar
+  if (!$candidate.StartsWith($prefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+    throw "Path is outside ProjectRoot: $Path"
+  }
+  return $candidate
+}
+
+function Get-FileSha256Lower {
+  param([Parameter(Mandatory=$true)][string]$Path)
+  return (Get-FileHash -Algorithm SHA256 -LiteralPath $Path).Hash.ToLowerInvariant()
+}
+
 function Has-Property {
   param(
     [object]$Object,
@@ -194,18 +216,177 @@ $helperPaths = @(
   (Join-Path $ProjectRoot "Plan\Instructions\QA\Scripts\New-ImageArtifactQARecord.ps1")
 )
 
-$workflowStaticValidationFile = Find-LatestJsonByLaneId -Directory $workflowStaticDir -Filter "*STATIC_VALIDATION*.json" -ExpectedLaneId $LaneId
-$smokeDryRunFile = Find-LatestJsonByLaneId -Directory $workflowStaticDir -Filter "*WORKFLOW_SMOKE_DRY_RUN*.json" -ExpectedLaneId $LaneId -RequiredProperty "mode" -RequiredValue "dry_run"
+$errors = @()
+$warnings = @()
+$runPackageManifest = [ordered]@{
+  supplied = ![string]::IsNullOrWhiteSpace($RunPackageManifestFile)
+  file = $null
+  found = $false
+  valid = $false
+  errors = @()
+  run_id = $null
+  lane_id = $null
+  lane_match = $false
+  result = $null
+  local_only_boundaries_pass = $false
+  packaged_files = @()
+  generated_files = @()
+}
+
+$workflowStaticValidationFile = $null
+$smokeDryRunFile = $null
 $smokeRequestFile = $null
-if (![string]::IsNullOrWhiteSpace($smokeDryRunFile) -and (Test-Path -LiteralPath $smokeDryRunFile)) {
+
+if ($runPackageManifest.supplied) {
+  $manifestErrors = @()
   try {
-    $smokeDryRun = Read-JsonFile -Path $smokeDryRunFile
-    if ((Has-Property -Object $smokeDryRun -Name "request_body_written") -and [bool]$smokeDryRun.request_body_written -and
-        (Has-Property -Object $smokeDryRun -Name "request_body_path")) {
-      $smokeRequestFile = Resolve-ProjectOrAbsolutePath -Path ([string]$smokeDryRun.request_body_path)
+    $manifestPath = Resolve-ProjectContainedPath -Path $RunPackageManifestFile
+    $runPackageManifest.file = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $manifestPath
+    $runPackageManifest.found = Test-Path -LiteralPath $manifestPath -PathType Leaf
+    if (!$runPackageManifest.found) { throw "Run package manifest missing: $($runPackageManifest.file)" }
+
+    $manifest = Read-JsonFile -Path $manifestPath
+    $runPackageManifest.run_id = [string]$manifest.run_id
+    $runPackageManifest.lane_id = [string]$manifest.lane_id
+    $runPackageManifest.lane_match = ([string]$manifest.lane_id -eq $LaneId)
+    $runPackageManifest.result = [string]$manifest.result
+    if (!$runPackageManifest.lane_match) { $manifestErrors += "Run package lane_id does not match selected LaneId." }
+    if ([string]$manifest.result -ne "pass_local_only") { $manifestErrors += "Run package result is not pass_local_only." }
+
+    $boundaryNames = @("local_only", "aws_contacted", "github_api_contacted", "civitai_contacted", "comfyui_contacted", "ec2_started", "generation_executed")
+    foreach ($name in $boundaryNames) {
+      if (!(Has-Property -Object $manifest -Name $name)) { $manifestErrors += "Run package boundary field missing: $name" }
+    }
+    $runPackageManifest.local_only_boundaries_pass = (
+      (Has-Property -Object $manifest -Name "local_only") -and [bool]$manifest.local_only -and
+      (Has-Property -Object $manifest -Name "aws_contacted") -and ![bool]$manifest.aws_contacted -and
+      (Has-Property -Object $manifest -Name "github_api_contacted") -and ![bool]$manifest.github_api_contacted -and
+      (Has-Property -Object $manifest -Name "civitai_contacted") -and ![bool]$manifest.civitai_contacted -and
+      (Has-Property -Object $manifest -Name "comfyui_contacted") -and ![bool]$manifest.comfyui_contacted -and
+      (Has-Property -Object $manifest -Name "ec2_started") -and ![bool]$manifest.ec2_started -and
+      (Has-Property -Object $manifest -Name "generation_executed") -and ![bool]$manifest.generation_executed -and
+      (Has-Property -Object $manifest -Name "runtime_boundaries") -and
+      (Has-Property -Object $manifest.runtime_boundaries -Name "ec2_start_allowed_by_package") -and ![bool]$manifest.runtime_boundaries.ec2_start_allowed_by_package -and
+      (Has-Property -Object $manifest.runtime_boundaries -Name "generation_allowed_by_package") -and ![bool]$manifest.runtime_boundaries.generation_allowed_by_package
+    )
+    if (!$runPackageManifest.local_only_boundaries_pass) { $manifestErrors += "Run package local-only runtime boundaries are incomplete or unsafe." }
+
+    $packagedEntries = @($manifest.packaged_files)
+    if ($packagedEntries.Count -eq 0) { $manifestErrors += "Run package has no packaged_files entries." }
+    foreach ($packagedEntry in $packagedEntries) {
+      $packagedSummary = [ordered]@{
+        source = [string]$packagedEntry.source
+        packaged = [string]$packagedEntry.packaged
+        expected_sha256 = ([string]$packagedEntry.sha256).ToLowerInvariant()
+        actual_sha256 = $null
+        hash_match = $false
+        declared_source_hash_match = $(if (Has-Property -Object $packagedEntry -Name "source_hash_match") { [bool]$packagedEntry.source_hash_match } else { $null })
+        actual_source_hash_match = $false
+        profile_modified = $(if (Has-Property -Object $packagedEntry -Name "profile_modified") { [bool]$packagedEntry.profile_modified } else { $false })
+        valid = $false
+      }
+      try {
+        $packagedPath = Resolve-ProjectContainedPath -Path ([string]$packagedEntry.packaged)
+        $sourcePath = Resolve-ProjectContainedPath -Path ([string]$packagedEntry.source)
+        if (!(Test-Path -LiteralPath $packagedPath -PathType Leaf)) { throw "Packaged lane file missing: $($packagedEntry.packaged)" }
+        if (!(Test-Path -LiteralPath $sourcePath -PathType Leaf)) { throw "Source lane file missing: $($packagedEntry.source)" }
+        if ($packagedSummary.expected_sha256 -notmatch '^[0-9a-f]{64}$') { throw "Packaged lane file SHA-256 is invalid: $($packagedEntry.packaged)" }
+        $packagedSummary.actual_sha256 = Get-FileSha256Lower -Path $packagedPath
+        $packagedSummary.hash_match = ($packagedSummary.actual_sha256 -eq $packagedSummary.expected_sha256)
+        if (!$packagedSummary.hash_match) { throw "Packaged lane file SHA-256 mismatch: $($packagedEntry.packaged)" }
+        $sourceHash = Get-FileSha256Lower -Path $sourcePath
+        $packagedSummary.actual_source_hash_match = ($sourceHash -eq $packagedSummary.actual_sha256)
+        if ($null -eq $packagedSummary.declared_source_hash_match -or $packagedSummary.declared_source_hash_match -ne $packagedSummary.actual_source_hash_match) {
+          throw "Packaged lane source_hash_match does not match current source content: $($packagedEntry.packaged)"
+        }
+        if (!$packagedSummary.actual_source_hash_match -and !$packagedSummary.profile_modified) {
+          throw "Packaged lane file drift is not declared profile_modified: $($packagedEntry.packaged)"
+        }
+        $packagedSummary.valid = $true
+      } catch {
+        $manifestErrors += $_.Exception.Message
+      }
+      $runPackageManifest.packaged_files += $packagedSummary
+    }
+
+    $resolvedGenerated = @{}
+    foreach ($fileName in @("static_validation.json", "smoke_dry_run.json", "prompt_request.json")) {
+      $fileMatches = @($manifest.generated_files | Where-Object { [System.IO.Path]::GetFileName([string]$_.path) -eq $fileName })
+      $entry = [ordered]@{
+        name = $fileName
+        path = $null
+        expected_sha256 = $null
+        actual_sha256 = $null
+        hash_match = $false
+        valid = $false
+      }
+      if ($fileMatches.Count -ne 1) {
+        $manifestErrors += "Run package must contain exactly one generated_files entry for $fileName."
+        $runPackageManifest.generated_files += $entry
+        continue
+      }
+      try {
+        $resolved = Resolve-ProjectContainedPath -Path ([string]$fileMatches[0].path)
+        $entry.path = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $resolved
+        $entry.expected_sha256 = ([string]$fileMatches[0].sha256).ToLowerInvariant()
+        if (!(Test-Path -LiteralPath $resolved -PathType Leaf)) { throw "Generated proof missing: $($entry.path)" }
+        if ($entry.expected_sha256 -notmatch '^[0-9a-f]{64}$') { throw "Generated proof SHA-256 is invalid: $fileName" }
+        $entry.actual_sha256 = Get-FileSha256Lower -Path $resolved
+        $entry.hash_match = ($entry.actual_sha256 -eq $entry.expected_sha256)
+        if (!$entry.hash_match) { throw "Generated proof SHA-256 mismatch: $fileName" }
+        $entry.valid = $true
+        $resolvedGenerated[$fileName] = $resolved
+      } catch {
+        $manifestErrors += $_.Exception.Message
+      }
+      $runPackageManifest.generated_files += $entry
+    }
+
+    if ($resolvedGenerated.Count -eq 3) {
+      $staticJson = Read-JsonFile -Path $resolvedGenerated["static_validation.json"]
+      if (!(Test-JsonMatchesLane -Payload $staticJson -ExpectedLaneId $LaneId) -or [string]$staticJson.qa_status -ne "pass" -or @($staticJson.defects).Count -ne 0) {
+        $manifestErrors += "Manifest static validation is not a lane-matched defect-free pass."
+      }
+      $smokeJson = Read-JsonFile -Path $resolvedGenerated["smoke_dry_run.json"]
+      $requestPath = $null
+      try { $requestPath = Resolve-ProjectContainedPath -Path ([string]$smokeJson.request_body_path) } catch { $manifestErrors += $_.Exception.Message }
+      if (!(Test-JsonMatchesLane -Payload $smokeJson -ExpectedLaneId $LaneId) -or [string]$smokeJson.mode -ne "dry_run" -or
+          ![bool]$smokeJson.request_body_written -or [bool]$smokeJson.execution_allowed -or [bool]$smokeJson.generation_executed -or
+          $null -eq $requestPath -or $requestPath -ne $resolvedGenerated["prompt_request.json"]) {
+        $manifestErrors += "Manifest smoke dry-run is not a lane-matched non-executing request for the hash-bound prompt file."
+      }
+      $promptJson = Read-JsonFile -Path $resolvedGenerated["prompt_request.json"]
+      if (!(Has-Property -Object $promptJson -Name "prompt") -or $null -eq $promptJson.prompt -or @($promptJson.prompt.PSObject.Properties).Count -eq 0) {
+        $manifestErrors += "Manifest prompt request has no non-empty prompt object."
+      }
+    }
+
+    if ($manifestErrors.Count -eq 0) {
+      $workflowStaticValidationFile = $resolvedGenerated["static_validation.json"]
+      $smokeDryRunFile = $resolvedGenerated["smoke_dry_run.json"]
+      $smokeRequestFile = $resolvedGenerated["prompt_request.json"]
     }
   } catch {
-    $warnings += "Unable to derive smoke request path from lane-specific smoke dry-run evidence."
+    $manifestErrors += $_.Exception.Message
+  }
+  $runPackageManifest.errors = @($manifestErrors | Select-Object -Unique)
+  $runPackageManifest.valid = ($runPackageManifest.errors.Count -eq 0)
+  if (!$runPackageManifest.valid) {
+    $errors += @($runPackageManifest.errors | ForEach-Object { "Run package manifest invalid: $_" })
+  }
+} else {
+  $workflowStaticValidationFile = Find-LatestJsonByLaneId -Directory $workflowStaticDir -Filter "*STATIC_VALIDATION*.json" -ExpectedLaneId $LaneId
+  $smokeDryRunFile = Find-LatestJsonByLaneId -Directory $workflowStaticDir -Filter "*WORKFLOW_SMOKE_DRY_RUN*.json" -ExpectedLaneId $LaneId -RequiredProperty "mode" -RequiredValue "dry_run"
+  if (![string]::IsNullOrWhiteSpace($smokeDryRunFile) -and (Test-Path -LiteralPath $smokeDryRunFile)) {
+    try {
+      $smokeDryRun = Read-JsonFile -Path $smokeDryRunFile
+      if ((Has-Property -Object $smokeDryRun -Name "request_body_written") -and [bool]$smokeDryRun.request_body_written -and
+          (Has-Property -Object $smokeDryRun -Name "request_body_path")) {
+        $smokeRequestFile = Resolve-ProjectOrAbsolutePath -Path ([string]$smokeDryRun.request_body_path)
+      }
+    } catch {
+      $warnings += "Unable to derive smoke request path from lane-specific smoke dry-run evidence."
+    }
   }
 }
 
@@ -217,9 +398,6 @@ $evidenceFiles = [ordered]@{
   image_qa_dry_run = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Image_Artifact_QA\W61_IMAGE_QA_DRY_RUN_20260706T030037-0500.json"
   pullback_dry_run = Join-Path $runtimeReadinessDir "W60_EC2_PULLBACK_RECORD_DRY_RUN_20260706T031758-0500.json"
 }
-
-$errors = @()
-$warnings = @()
 
 $laneFiles = @()
 foreach ($path in @($workflowPath, $patchPath, $runtimePath, $smokePath)) {
@@ -546,11 +724,13 @@ $record = [ordered]@{
   helper_scripts = $helperResults
   evidence_files = $evidenceResults
   lane_evidence_selection = [ordered]@{
+    source = $(if ($runPackageManifest.supplied) { "run_package_manifest" } else { "lane_scan" })
     workflow_static_validation = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $workflowStaticValidationFile
     smoke_dry_run = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $smokeDryRunFile
     smoke_request = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $smokeRequestFile
     lane_specific = $true
   }
+  run_package_manifest = $runPackageManifest
   auth_gate = $auth
   profile_matrix = $profileMatrix
   model_registry_coverage = $modelRegistryCoverage

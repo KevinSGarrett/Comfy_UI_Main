@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-NORMAL-TARGET-RUNTIME-CANDIDATE-LOCAL-READINESS-20260713T103230-0500",
+  "created_at": "2026-07-13T10:32:30-05:00",
+  "classification": "NORMAL_TARGET_RUNTIME_CANDIDATE_LOCAL_READINESS_PASS_QUEUE_NOT_SELECTED",
+  "lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+  "candidate_selected_for_next_bounded_runtime_window": true,
+  "active_queue_selection_changed": false,
+  "target_runtime_proof_present": false,
+  "certification_claimed": false,
+  "local_readiness": {
+    "result": "ready_for_ec2_static_proof",
+    "run_package_manifest_valid": true,
+    "packaged_files_valid": "5/5",
+    "generated_proofs_valid": "3/3",
+    "local_pre_ec2_ready": true,
+    "ready_for_ec2_static_proof": true,
+    "ready_for_generation": false,
+    "error_count": 0
+  },
+  "current_queue_boundary": {
+    "current_runtime_lane_id": "flux1_dev_primary_base",
+    "ec2_start_allowed_by_queue_file": false,
+    "generation_allowed_by_queue_file": false,
+    "normal_lane_is_active_queue_selection": false
+  },
+  "row042_boundary": {
+    "status": "Blocked_Live_TTL_Watchdog_Proof_Missing_AWS_Readiness_Verified",
+    "live_emergency_stop_schedule_present": false,
+    "ssm_watchdog_proof_present": false,
+    "paired_runtime_window_id": null,
+    "rule": "Create the emergency-stop schedule and SSM watchdog only inside the same genuinely required bounded runtime window selected for Normal."
+  },
+  "current_read_only_auth": {
+    "result": "pass",
+    "account_match": true,
+    "remote_login_attempted": false,
+    "aws_mutated": false,
+    "ec2_started_or_stopped": false
+  },
+  "validation": {
+    "powershell_parse_errors": 0,
+    "regression_tests": 14,
+    "regression_passed": 14,
+    "regression_failed": 0,
+    "claude_sonnet_5_final_review": "pass_no_remaining_correctness_or_fail_open_finding"
+  },
+  "artifacts": [
+    {
+      "path": "runtime_artifacts/run_packages/normal_v4_full_body_target_runtime_candidate_20260713T102200-0500/RUN_PACKAGE_MANIFEST.json",
+      "sha256": "ef6f84eeb5bb485065d9ff3a6daab07ba38412182090d546b51e7089adec98a6"
+    },
+    {
+      "path": "runtime_artifacts/runtime_lane_selection/20260713T100637-0500-normal/aws_auth_gate_current.json",
+      "sha256": "c741979339197d1f9d2a8a591c6e06a68bc11a7108acc9dfceddf4d9def411c3"
+    },
+    {
+      "path": "runtime_artifacts/runtime_lane_selection/20260713T100637-0500-normal/normal_candidate_current_readiness.json",
+      "sha256": "be3b0dd52d03415a4d84aa1dcaecdeca21aca049777bef6507c637adc4cbaf46"
+    },
+    {
+      "path": "runtime_artifacts/runtime_lane_selection/20260713T100637-0500-normal/run_package_regression_final_v2.json",
+      "sha256": "6e8d3dd5be37493e20ecff724d6a5f993c9c4542b6ec40477aeed4396fb82250"
+    }
+  ],
+  "implementation": [
+    "Plan/Instructions/Operations/Scripts/Test-LaneRuntimeReadiness.ps1",
+    "Plan/Instructions/Operations/Scripts/New-RuntimeUnblockHandoff.ps1",
+    "Plan/Instructions/QA/Scripts/Test-LaneRuntimeReadinessRunPackageRegression.ps1"
+  ],
+  "review_records": [
+    "runtime_artifacts/agent_handoffs/claude_subscription/20260713T101426-0500_normal_lane_readiness_manifest_final_review/handoff_record.json",
+    "runtime_artifacts/agent_handoffs/claude_subscription/20260713T102548-0500_normal_lane_readiness_manifest_confirmation/handoff_record.json",
+    "runtime_artifacts/agent_handoffs/claude_subscription/20260713T103010-0500_normal_lane_readiness_sibling_confirmation/handoff_record.json"
+  ],
+  "safety_boundary": {
+    "aws_contacted_read_only": true,
+    "aws_mutated": false,
+    "s3_mutated": false,
+    "scheduler_mutated": false,
+    "ssm_command_sent": false,
+    "ec2_started_or_stopped": false,
+    "generation_executed": false,
+    "queue_mutated": false,
+    "mask_promotion_or_hard_gate_action": false,
+    "wave71_or_jira_action": false
+  },
+  "next_action": "Checkpoint this local readiness hardening. Before any Normal EC2 start, create one explicit live-intent/runtime-window contract, bind Row042 schedule and watchdog controls to that same runtime_window_id, recheck clean Git and current queue authority, and fail closed unless the queue explicitly permits the selected lane."
+}

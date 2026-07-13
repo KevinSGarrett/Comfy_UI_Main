@@ -1,3 +1,11 @@
+## Normal Target-Runtime Candidate Local Readiness - 2026-07-13T10:32:30-05:00
+
+Normal (`sdxl_realvisxl_controlnet_normal_lane`) is the next eligible target-runtime candidate, but it is not activated. A fresh current-source run package passes local static/request validation; the hardened readiness helper verifies all 5 packaged files, all 3 generated proofs, current read-only AWS authentication, and model-registry coverage. The result is `ready_for_ec2_static_proof=true` and `ready_for_generation=false`. The queue still selects `flux1_dev_primary_base`; `ec2_start_allowed_by_queue_file=false` and `generation_allowed_by_queue_file=false`. EC2 remains stopped.
+
+Next: checkpoint the readiness hardening. Before any Normal EC2 start, create one explicit live-intent/runtime-window contract, bind the Row042 emergency-stop schedule and SSM watchdog to that same `runtime_window_id`, recheck clean Git/current queue authority, and fail closed unless the queue explicitly permits Normal. Do not promote masks, rerun Wave70 hard gates, activate Wave71+, or mutate Jira.
+
+Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_TARGET_RUNTIME_CANDIDATE_LOCAL_READINESS_20260713T103230-0500.json`; `Plan/Tracker/Evidence/W64_NORMAL_TARGET_RUNTIME_CANDIDATE_LOCAL_READINESS_20260713T103230-0500.json`.
+
 ## Wave64 Row042 EC2 TTL Watchdog Live Readiness - 2026-07-13T09:51:51-05:00
 
 `TRK-W64-042` / `ITEM-W64-042` is `Blocked_Live_TTL_Watchdog_Proof_Missing_AWS_Readiness_Verified`. The stale expired-session blocker is cleared: current read-only AWS proof verifies authentication, the scheduler role, and the approved instance in stopped state. All 25 reconciliation checks pass. Current blockers are recorded fail-closed: live_emergency_stop_schedule_missing, ssm_watchdog_proof_missing. EC2 was not started by this reconciliation; any missing controls must be installed only inside the next genuinely required bounded runtime window.

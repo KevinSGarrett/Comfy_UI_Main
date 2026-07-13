@@ -1,3 +1,9 @@
+## Normal Target-Runtime Candidate Local Readiness - 2026-07-13T10:32:30-05:00
+
+Continue the full autonomous ComfyUI project from the locally ready Normal target-runtime candidate without activating it prematurely. The fresh candidate package and hardened readiness chain pass local validation and current read-only authentication, but generation remains blocked. Preserve the current Flux queue selection and false EC2/generation flags until one explicit Normal live-intent/runtime-window contract is created and Row042 schedule/watchdog controls are bound to the same `runtime_window_id`. EC2 remains stopped; no target-runtime proof or certification is claimed.
+
+Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_TARGET_RUNTIME_CANDIDATE_LOCAL_READINESS_20260713T103230-0500.json`; `Plan/Tracker/Evidence/W64_NORMAL_TARGET_RUNTIME_CANDIDATE_LOCAL_READINESS_20260713T103230-0500.json`.
+
 ## Wave64 Row042 EC2 TTL Watchdog Live Readiness - 2026-07-13T09:51:51-05:00
 
 `TRK-W64-042` / `ITEM-W64-042` is `Blocked_Live_TTL_Watchdog_Proof_Missing_AWS_Readiness_Verified`. The stale expired-session blocker is cleared: current read-only AWS proof verifies authentication, the scheduler role, and the approved instance in stopped state. All 25 reconciliation checks pass. Current blockers are recorded fail-closed: live_emergency_stop_schedule_missing, ssm_watchdog_proof_missing. EC2 was not started by this reconciliation; any missing controls must be installed only inside the next genuinely required bounded runtime window.
