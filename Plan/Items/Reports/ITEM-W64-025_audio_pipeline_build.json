@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-025-AUDIO-PIPELINE-BUILD-20260712T161737-0500",
-  "timestamp": "2026-07-12T16:17:37-05:00",
+  "timestamp": "2026-07-13T05:10:04-05:00",
   "item_id": "ITEM-W64-025",
   "tracker_id": "TRK-W64-025",
   "workstream": "audio_pipeline_build",
@@ -35,7 +35,11 @@
     "local_validator": "pass",
     "synthetic_pcm_probe": "technical_pass_promotion_blocked",
     "synthetic_event_count": 3,
-    "synthetic_layers": ["ambience", "body_foley", "dialogue"],
+    "synthetic_layers": [
+      "ambience",
+      "body_foley",
+      "dialogue"
+    ],
     "synthetic_deterministic_mix_probe": "technical_candidate_verified_promotion_blocked",
     "synthetic_mixdown_sha256": "358c6dcef4442790decb0a5c03fb320154f9d1dd5b4618e301f9e6661a413cb5",
     "synthetic_mix_frame_count": 8000,
@@ -44,7 +48,13 @@
     "claude_medium_findings_remediated": 2,
     "claude_mix_builder_high_findings_remediated": 1,
     "claude_mix_builder_medium_findings_remediated": 4,
-    "remaining_remediable_high_or_medium_findings": 0
+    "remaining_remediable_high_or_medium_findings": 0,
+    "bounded_genuine_audio_inventory": "pass",
+    "inventory_roots_checked": 2,
+    "inventory_candidate_count": 0,
+    "targeted_test_rerun_passed": 21,
+    "targeted_test_rerun_failed": 0,
+    "semantic_review": "pass_no_high_or_medium_findings"
   },
   "acceptance_gates": {
     "audio_workflow_valid": true,
@@ -61,25 +71,32 @@
   "blockers": [
     {
       "classification": "Blocked_Audio_Production_Runtime_Proof_Missing",
-      "reason": "No genuine audio-engine runtime produced and hash-bound the final dialogue, ambience, foley, and mixdown artifacts."
+      "scope": "primary_row_blocker",
+      "reason": "Bounded inventory found zero genuine audio candidates in authoritative ComfyUI input and pulled-back runtime-artifact roots; retained PCM WAVs are synthetic fixtures only."
     },
     {
       "classification": "Blocked_Audio_Playback_Review_Missing",
-      "reason": "No genuine playback review proves speaker/voice quality, intelligibility, foley alignment, ambience balance, clipping safety, mix balance, and AV sync."
+      "scope": "audio_review",
+      "reason": "No genuine playback review proves speaker identity, voice consistency, intelligibility, foley/action alignment, ambience/dialogue balance, clipping safety, mix balance, and AV sync."
     },
     {
       "classification": "Blocked_Audio_Certification_Loudness_Authority_Missing",
-      "reason": "Only explicitly labeled PCM technical loudness/peak proxies exist; certification-grade integrated loudness and true-peak measurements remain missing."
+      "scope": "certification_loudness",
+      "reason": "The deterministic builder reports explicitly labeled PCM RMS/sample-peak technical proxies; no ITU-R BS.1770 integrated loudness or true-peak certification measurement exists."
     }
   ],
   "evidence": [
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/audio_pipeline_build.json",
-      "sha256": "dfc3790d77e590d9495b71c517942ae64fc903b90eb6dc17931babcafb577cf7"
+      "sha256": "6db56c42ecb1be887c626e0ed7a3530a753914ee3f9750840f8d1c8cda999677"
     },
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/audio_pipeline_build_test_log.json",
       "sha256": "592e344947a248c456ceea6622aa19a05f212b4430471eb4ab049193bb9fb9e0"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_PIPELINE_RUNTIME_INPUT_INVENTORY_20260713T051004-0500.json",
+      "sha256": "75c3c468a034c01b858684a5f3b8e4987f493b17c10a3eed62903be1331aa67a"
     }
   ],
   "runtime": {
@@ -91,5 +108,5 @@
     "aws_contacted": false,
     "ec2_started": false
   },
-  "next_action": "Keep row 025 blocked without production audio runtime, playback-review, promotion, or certification claims. Continue TRK-W64-026 / ITEM-W64-026 by duplicate-checking the existing audio-engine-routing lane and selecting one bounded offline routing implementation gap; do not start EC2 or fabricate engine/license/runtime proof."
+  "next_action": "Continue TRK-W64-026 / ITEM-W64-026 audio-engine routing reconciliation without fabricating engine availability or license proof."
 }

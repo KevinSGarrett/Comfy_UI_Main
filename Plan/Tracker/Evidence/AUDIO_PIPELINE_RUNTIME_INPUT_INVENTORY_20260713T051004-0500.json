@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-AUDIO-PIPELINE-RUNTIME-INPUT-INVENTORY-20260713T051004-0500",
+  "timestamp": "2026-07-13T05:10:04-05:00",
+  "tracker_id": "TRK-W64-025",
+  "item_id": "ITEM-W64-025",
+  "status_decision": "Blocked_Audio_Production_Runtime_Proof_Missing",
+  "extensions": [
+    ".aac",
+    ".aif",
+    ".aiff",
+    ".flac",
+    ".m4a",
+    ".mp3",
+    ".ogg",
+    ".opus",
+    ".wav"
+  ],
+  "roots": [
+    {
+      "label": "authoritative_comfyui_input",
+      "root": "ComfyUI/input",
+      "exists": true,
+      "candidate_count": 0,
+      "candidates": []
+    },
+    {
+      "label": "pulled_back_runtime_artifacts",
+      "root": "Plan/Instructions/Operations/Pulled_Back_Artifacts",
+      "exists": true,
+      "candidate_count": 0,
+      "candidates": []
+    }
+  ],
+  "summary": {
+    "roots_checked": 2,
+    "roots_present": 2,
+    "candidate_count": 0,
+    "genuine_runtime_candidate_count": 0
+  },
+  "checks": {
+    "canonical_row_exact": true,
+    "report_row_exact": true,
+    "inventory_roots_present": true,
+    "candidate_inventory_empty": true,
+    "existing_tests_passed": true,
+    "synthetic_probe_not_production": true,
+    "synthetic_mix_not_production": true,
+    "production_runtime_not_previously_claimed": true,
+    "broad_worker_timeout_recorded": true,
+    "narrow_worker_timeout_recorded": true,
+    "semantic_review_completed": true,
+    "semantic_review_no_wrapper_issues": true,
+    "semantic_review_no_high_findings": true,
+    "semantic_review_no_medium_findings": true
+  },
+  "check_summary": {
+    "checked": 14,
+    "passed": 14,
+    "failed": 0
+  },
+  "validation": {
+    "command": "python -m unittest Plan.Instructions.QA.Scripts.test_build_wave30_deterministic_audio_mix Plan.Instructions.QA.Scripts.test_wave30_audio_pipeline_strict",
+    "tests_passed": 21,
+    "tests_failed": 0,
+    "elapsed_seconds": 52.021,
+    "python_compile": "pass"
+  },
+  "worker_fallback": {
+    "broad_attempt": "runtime_artifacts/agent_handoffs/cursor/20260713T050045-0500_w64_row025_audio_candidate_inventory/handoff_record.json",
+    "broad_status": "FAIL",
+    "broad_classification": "CURSOR_HANDOFF_WRAPPER_FAILED",
+    "broad_timeout_detail": "Cursor handoff timed out after 300 seconds.",
+    "narrow_attempt": "runtime_artifacts/agent_handoffs/cursor/20260713T050602-0500_w64_row025_audio_candidate_inventory_narrow/handoff_record.json",
+    "narrow_status": "FAIL",
+    "narrow_classification": "CURSOR_HANDOFF_WRAPPER_FAILED",
+    "narrow_timeout_detail": "Cursor handoff timed out after 180 seconds.",
+    "fallback_scope": "two exact roots and nine audio extensions"
+  },
+  "semantic_review": {
+    "handoff_record": "runtime_artifacts/agent_handoffs/claude_subscription/20260713T051823-0500_w64_row025_semantic_remediation_review/handoff_record.json",
+    "status": "PASS",
+    "classification": "CLAUDE_SUBSCRIPTION_HANDOFF_COMPLETED",
+    "high_findings": "none",
+    "medium_findings": "none"
+  },
+  "gate_results": {
+    "pipeline_implementation_tested": true,
+    "genuine_audio_candidate_present": false,
+    "genuine_audio_engine_runtime_proof": false,
+    "genuine_audio_playback_review": false,
+    "certification_loudness_authority": false,
+    "final_audio_certification": false
+  },
+  "boundaries": {
+    "audio_generation_executed": false,
+    "comfyui_started": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "candidate_masks_consumed_as_truth": false,
+    "wave71_activation_claimed": false
+  },
+  "result": "blocked_no_genuine_audio_runtime_input_in_bounded_roots",
+  "next_action": "Continue TRK-W64-026 / ITEM-W64-026 audio-engine routing reconciliation without fabricating engine availability or license proof."
+}

@@ -1,3 +1,11 @@
+## Wave64 Row025 Genuine Audio Input Inventory - 2026-07-13T05:10:04-05:00
+
+`TRK-W64-025` / `ITEM-W64-025` remains `Blocked_Audio_Production_Runtime_Proof_Missing` after a bounded local inventory. The authoritative `ComfyUI/input` and pulled-back runtime-artifact roots both exist and contain zero WAV/MP3/FLAC/OGG/M4A/AAC/Opus/AIFF candidates. The existing strict Wave30 implementation, deterministic PCM mixer, 21-test suite, and synthetic technical probes remain preserved; they are not promoted into genuine audio-engine runtime proof. No audio generation, playback review, ComfyUI start, AWS, EC2, mask use/promotion, Jira mutation, or Wave71+ activation occurred.
+
+Next action: preserve this exact external-runtime blocker and continue `TRK-W64-026` / `ITEM-W64-026` audio-engine routing reconciliation without fabricating engine availability or license proof.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/AUDIO_PIPELINE_RUNTIME_INPUT_INVENTORY_20260713T051004-0500.json`.
+
 ## Wave64 Row024 Real GIF Loop Export - 2026-07-13T04:43:36-05:00
 
 `TRK-W64-024` / `ITEM-W64-024` is `Blocked_Video_GIF_Loop_Playback_Quality_Failure`. The real Row019 eight-frame sequence was exported deterministically to an 8-frame, 256x320 GIF89a with 250 ms frame timing, infinite looping, hash-bound non-synthetic runtime proof, and full technical parity. Direct review of the candidate and decoded contact sheet fails frames 5-7 for background/lighting discontinuity and terminal face/clothing/color collapse; the frame-7-to-frame-0 boundary has a severe visible pop. The certifier correctly remains blocked on visual playback only. No ComfyUI generation, AWS, EC2, mask use/promotion, hard-gate rerun, Jira mutation, or Wave71+ activation occurred.

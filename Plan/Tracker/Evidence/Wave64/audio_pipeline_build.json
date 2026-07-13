@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "evidence_id": "W64-AUDIO-PIPELINE-BUILD-20260712T161737-0500",
-  "timestamp": "2026-07-12T16:17:37-05:00",
+  "timestamp": "2026-07-13T05:10:04-05:00",
   "tracker_id": "TRK-W64-025",
   "item_id": "ITEM-W64-025",
   "source_citation": "Plan/05_AUDIO_SYSTEM/AUDIO_GENERATION_AV_SYNC_BLUEPRINT.md",
@@ -90,7 +90,10 @@
     "local_validation": "pass",
     "local_validation_artifact": "runtime_artifacts/wave64_audio_pipeline/local_validation_20260711T162919-0500.json",
     "local_validation_sha256": "948b20c84b1aa4684fc049800e5707f6d624509ec7d5f81df6b22c777d996ae0",
-    "technical_offline_pass": true
+    "technical_offline_pass": true,
+    "last_targeted_rerun": "2026-07-13T05:10:04-05:00",
+    "last_targeted_rerun_tests_passed": 21,
+    "last_targeted_rerun_tests_failed": 0
   },
   "synthetic_technical_probe": {
     "production_evidence": false,
@@ -182,7 +185,12 @@
     "claude_mix_builder_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T161050-0500_row025_deterministic_audio_mixer_final_review/handoff_record.json",
     "claude_mix_builder_high_findings_remediated": 1,
     "claude_mix_builder_medium_findings_remediated": 4,
-    "remaining_remediable_high_or_medium_findings": 0
+    "remaining_remediable_high_or_medium_findings": 0,
+    "cursor_audio_inventory_attempt": "runtime_artifacts/agent_handoffs/cursor/20260713T050045-0500_w64_row025_audio_candidate_inventory/handoff_record.json",
+    "cursor_audio_inventory_retry": "runtime_artifacts/agent_handoffs/cursor/20260713T050602-0500_w64_row025_audio_candidate_inventory_narrow/handoff_record.json",
+    "audio_inventory_fallback": "compact_bounded_codex_inventory_after_two_timeouts",
+    "semantic_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260713T051823-0500_w64_row025_semantic_remediation_review/handoff_record.json",
+    "semantic_review_status": "pass_no_high_or_medium_findings"
   },
   "runtime": {
     "production_audio_generation_count": 0,
@@ -199,7 +207,7 @@
     {
       "classification": "Blocked_Audio_Production_Runtime_Proof_Missing",
       "scope": "primary_row_blocker",
-      "reason": "No genuine audio-engine runtime generated and hash-bound the dialogue, ambience, foley, and final mixdown artifacts; retained PCM WAVs are synthetic technical fixtures only."
+      "reason": "Bounded inventory found zero genuine audio candidates in authoritative ComfyUI input and pulled-back runtime-artifact roots; retained PCM WAVs are synthetic fixtures only."
     },
     {
       "classification": "Blocked_Audio_Playback_Review_Missing",
@@ -212,7 +220,7 @@
       "reason": "The deterministic builder reports explicitly labeled PCM RMS/sample-peak technical proxies; no ITU-R BS.1770 integrated loudness or true-peak certification measurement exists."
     }
   ],
-  "result": "blocked_audio_production_runtime_proof_missing",
+  "result": "blocked_no_genuine_audio_runtime_input_in_bounded_roots",
   "overall_pass": false,
   "status_decision": "Blocked_Audio_Production_Runtime_Proof_Missing",
   "strict_decision": {
@@ -226,5 +234,12 @@
     "final_audio_promotion_claimed": false,
     "certification_claimed": false,
     "wave71_activation_claimed": false
-  }
+  },
+  "production_audio_inventory": {
+    "evidence": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_PIPELINE_RUNTIME_INPUT_INVENTORY_20260713T051004-0500.json",
+    "roots_checked": 2,
+    "candidate_count": 0,
+    "genuine_runtime_candidate_present": false
+  },
+  "reconciliation_evidence": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_PIPELINE_RUNTIME_INPUT_INVENTORY_20260713T051004-0500.json"
 }
