@@ -171,16 +171,35 @@ $familyPass = ($supportedLane -and -not [string]::IsNullOrWhiteSpace($controlFam
 [void]$checks.Add((New-Check -Name "control_family_matches_lane" -Passed $familyPass -Observed $controlFamily -Expected $expectedFamilyToken -FailureCategory "control_family_mismatch"))
 
 $inputAssets = if ($null -ne $requirements) { @($requirements.required_input_assets) } else { @() }
-$controlImages = @($inputAssets | Where-Object { [string]$_.role -eq "control_image" })
-$controlImage = if ($controlImages.Count -eq 1) { $controlImages[0] } else { $null }
-$controlImagePass = (
-  $controlImages.Count -eq 1 -and
-  (Test-HashContract -Row $controlImage) -and
-  [string]$controlImage.control_map_type -eq $expectedMapType
-)
-[void]$checks.Add((New-Check -Name "control_image_contract" -Passed $controlImagePass -Observed $controlImage -Expected "one hash-bound control_image with control_map_type $expectedMapType" -FailureCategory "control_image_contract_invalid"))
-
 $patch = if ($null -ne $smoke) { $smoke.request_patch_values } else { $null }
+$requestedControlImage = if ($null -ne $patch) { [string]$patch.control_image } else { "" }
+$controlImages = @($inputAssets | Where-Object {
+  -not [string]::IsNullOrWhiteSpace([string]$_.filename) -and
+  [string]$_.node_class -eq "LoadImage"
+})
+$matchingControlImages = @()
+if (-not [string]::IsNullOrWhiteSpace($requestedControlImage)) {
+  $matchingControlImages = @($controlImages | Where-Object { [string]$_.filename -eq $requestedControlImage })
+} else {
+  $matchingControlImages = @($controlImages | Where-Object { [string]$_.role -eq "control_image" })
+}
+$controlImage = if ($matchingControlImages.Count -eq 1) { $matchingControlImages[0] } else { $null }
+$controlMapType = if ($null -ne $controlImage) { [string]$controlImage.control_map_type } else { "" }
+$controlMapTypePass = (
+  $controlMapType -eq $expectedMapType -or
+  ($LaneId -eq "sdxl_realvisxl_controlnet_openpose_lane" -and $controlMapType.ToLowerInvariant().Contains("openpose"))
+)
+$controlImagePass = (
+  $matchingControlImages.Count -eq 1 -and
+  (Test-HashContract -Row $controlImage) -and
+  $controlMapTypePass
+)
+[void]$checks.Add((New-Check -Name "control_image_contract" -Passed $controlImagePass -Observed ([ordered]@{
+  requested_filename = $requestedControlImage
+  matching_asset_count = $matchingControlImages.Count
+  selected_asset = $controlImage
+}) -Expected "one hash-bound declared LoadImage asset matching the smoke request and lane control-map family" -FailureCategory "control_image_contract_invalid"))
+
 $patchBindings = [ordered]@{
   model_asset = $(if ($null -ne $patch) { [string]$patch.model_asset } else { "" })
   expected_model_asset = $(if ($null -ne $checkpointRow) { [string]$checkpointRow.filename } else { "" })
