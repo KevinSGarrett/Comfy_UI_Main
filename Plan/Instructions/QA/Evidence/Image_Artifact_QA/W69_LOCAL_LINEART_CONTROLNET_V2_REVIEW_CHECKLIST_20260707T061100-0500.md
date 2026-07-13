@@ -1,7 +1,7 @@
-﻿# Image Review Checklist
+# Image Review Checklist
 
 - Artifact ID: W69-LOCAL-LINEART-CONTROLNET-V2-GENERATED-IMAGE
-- Output Path: Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_lineart_v2_natural_skin_background_w69_20260707T061000-0500/images/codex_sdxl_realvisxl_controlnet_lineart_v2_natural_skin_background_seed711370002_00001_.png
+- Output Path: Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_lineart_v2_natural_skin_background_w69_20260707T061000-0500/images/lineart_v2_seed711370002.png
 - Workflow / Prompt Reference: Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_lineart_lane/workflow.api.json; PromptProfiles/base_generation/controlnet_lineart_v1_followup/lineart_v2_natural_skin_background_seed711370002.json
 - Model / LoRA Context: sdxl_realvisxl_controlnet_lineart_lane / RealVisXL V5.0 / controlnet-lineart-sdxl-fp16.safetensors
 

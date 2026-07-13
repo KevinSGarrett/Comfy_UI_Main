@@ -8,11 +8,15 @@ as the source of truth. This gives the project root directly usable ComfyUI
 workflow files while preserving Plan as the authoritative implementation source.
 #>
 param(
-  [string]$ProjectRoot = "C:\Comfy_UI_Main",
+  [string]$ProjectRoot = "",
   [string]$OutFile = ""
 )
 
 $ErrorActionPreference = "Stop"
+if ([string]::IsNullOrWhiteSpace($ProjectRoot)) {
+  $ProjectRoot = Join-Path $PSScriptRoot ".."
+}
+$ProjectRoot = (Resolve-Path -LiteralPath $ProjectRoot).Path
 
 function Read-JsonFile {
   param([Parameter(Mandatory=$true)][string]$Path)
@@ -119,7 +123,7 @@ foreach ($lane in @($queue.lanes)) {
 $activeLanesPath = Join-Path $destinationBase "ACTIVE_LANES.json"
 $activeLanes = [ordered]@{
   schema_version = "1.0"
-  updated_at = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
+  updated_at = [string]$queue.updated_at
   source_queue = "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json"
   lanes = @($laneExports)
   runtime_boundaries = [ordered]@{

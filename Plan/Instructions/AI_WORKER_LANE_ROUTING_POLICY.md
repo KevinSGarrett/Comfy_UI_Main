@@ -94,6 +94,16 @@ Codex owns:
 - mask promotion, Wave70 hard gates, Wave71+ activation, and Jira mutation;
 - Items/Tracker status mutation.
 
+## Canonical Enforcement Package
+
+The versioned authority for worker wrappers, verifier scripts, policy mirrors, and automation templates is `tools/ai_worker_handoffs`. `worker_handoff_package_manifest.json` binds every deployable file by byte length and SHA-256. Use `Install-AIWorkerHandoffPackage.ps1` only after canonical validation and only when neither worker lock exists. Use `Test-AIWorkerHandoffPackageDrift.ps1` to detect live-versus-canonical drift; direct edits to live wrapper or automation files are temporary defects that must be reconciled back to the package.
+
+Cursor is read-only: ask/plan only, plain `gpt-5.3-codex`, no fast variant, no agent mode, no writes, and no `--force`. Scope packets must declare `Cursor` or `GitGitHub`, use the matching routing gate, and remain within the wrapper's aggregate byte budget. `status: blocked` is `CURSOR_HANDOFF_WORKER_REPORTED_BLOCKED`, not useful completion. A changed hash-bound scope is a mutation violation; unrelated worktree change with unchanged scope is `CURSOR_CONCURRENT_WORKTREE_DRIFT_DETECTED` and receives no useful credit without misattributing the edit.
+
+Claude receives only `Read,Glob,Grep` through `--tools` under `--safe-mode`, `--strict-mcp-config`, disabled slash-command skills, and `--no-chrome`. The child environment excludes AWS, GitHub, cloud, and API credentials while preserving first-party subscription OAuth. The Opus ceiling is an immutable global maximum of two completed calls per local day. Except for the explicit direct high-risk architecture exception, Opus requires a same-decision Sonnet record with exact normalized status, exact `low|medium|high` confidence, mutation-free bounded scope, and evidence satisfying the named escalation trigger.
+
+Default worker verification is static and must not launch Cursor, Sonnet, or Opus. Live transport probes require an explicit verifier switch and are never launched by the recurring combined monitor. Probe calls consume normal subscription capacity and, for Opus, the same immutable daily ceiling.
+
 Codex should not spend long active turns doing broad mechanical scans when Cursor or Claude can produce compact evidence.
 
 ## Lane 2: Cursor First Worker

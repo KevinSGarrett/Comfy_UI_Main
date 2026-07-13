@@ -1,7 +1,7 @@
-﻿# Image Review Checklist
+# Image Review Checklist
 
 - Artifact ID: W69-LOCAL-OPENPOSE-V2-UPPER-BODY-HANDS
-- Output Path: Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_openpose_v2_upper_body_hands_w69_20260707T064600-0500/images/codex_sdxl_realvisxl_controlnet_openpose_v2_upper_body_hands_seed711470101_00001_.png
+- Output Path: Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_openpose_v2_upper_body_hands_w69_20260707T064600-0500/images/openpose_v2_seed711470101.png
 - Workflow / Prompt Reference: Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realvisxl_controlnet_openpose_lane/workflow.api.json; PromptProfiles/base_generation/controlnet_openpose_v1_robustness/openpose_v2_upper_body_hands_seed711470101.json
 - Model / LoRA Context: sdxl_realvisxl_controlnet_openpose_lane / RealVisXL V5.0 / OpenPoseXL2.safetensors / upper-body-hands robustness profile
 
