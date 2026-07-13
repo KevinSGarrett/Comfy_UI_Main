@@ -9329,3 +9329,10 @@ The prior Normal HTTP 400 now has a concrete local packaging defect: the prompt 
 Next: checkpoint this correction. Do not retry the current capacity window. On fresh `g5.xlarge` capacity, rebuild/publish the exact-head 29-file bundle and run one guarded Normal smoke. If ComfyUI still rejects it, use the already-installed `prompt_http_error.body`; do not submit another blind retry.
 
 Evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_NORMAL_REQUIRED_INPUT_ASSET_STAGING_FIX_C8947D51_20260713T133300-0500.json`.
+## Normal Bounded Certification Complete - 2026-07-13T15:31:00-05:00
+
+Normal v4 standing seed `711670303` is target-runtime proven and bounded-final-certified with notes at commit `070b05360fa322788b182a36f2df45d8c37f1cfb`. The local three-seed broad full-body runtime/geometry checks pass 3/3; strict wardrobe adherence remains 2/3 because seed `711670302` changed leggings to fitted shorts. The certification does not cover other seeds, poses, controls, identity, detailed body/hand/contact geometry, body masks, Mask Factory promotion, or Wave71+.
+
+Next action: continue `sdxl_realvisxl_controlnet_openpose_lane`, now selected in the runtime queue. Do not start EC2 or build a deploy bundle while the concurrent OpenPose workflow and EC2 hardening changes are uncheckpointed. Once their owner produces a stable exact-head checkpoint, reuse existing local OpenPose robustness and staged-asset evidence, run current-source local/static readiness once, and execute only the next genuinely missing bounded target-runtime proof. Use the least-privilege `ComfyUIMainSessionRole` by default; keep root restricted to the explicit break-glass profile.
+
+Preserve the manual body gold-mask boundary. Do not promote masks, rerun Wave70 hard gates, activate Wave71+, mutate Jira, or recreate completed local/EC2/S3 proof.

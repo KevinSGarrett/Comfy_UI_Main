@@ -7238,3 +7238,10 @@ Evidence: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W64_NORMAL_E
 Continue from the locally complete Normal runtime-input correction. The next live decision unit is one exact-head guarded smoke using a deploy bundle that includes and hash-verifies both required Normal control images, then stages them into `ComfyUI/input` before server startup. Capacity remains the only immediate external blocker. Do not retry until a fresh capacity state; preserve the HTTP validation-body capture as a secondary diagnostic, not as a reason for repeated prompts.
 
 Evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_NORMAL_REQUIRED_INPUT_ASSET_STAGING_FIX_C8947D51_20260713T133300-0500.json`.
+## Current Pursuing Goal - 2026-07-13T15:31:00-05:00
+
+Continue autonomous end-to-end ComfyUI implementation from local authority `C:\Comfy_UI_Main`. Normal v4 standing seed `711670303` is bounded-final-certified with notes and checkpointed at `070b05360fa322788b182a36f2df45d8c37f1cfb`; do not rerun it or generalize its proof. The selected next runtime lane is OpenPose, using existing local robustness and remote-staging evidence without duplicating completed work.
+
+Hold OpenPose EC2 execution until the concurrent workflow and EC2 hardening edits have a stable exact-head checkpoint. Then perform one current-source readiness/static-proof pass and only the missing bounded target-runtime run or exact blocker. Keep AWS on the least-privilege `ComfyUIMainSessionRole`; root is break-glass only. Continue unrelated concrete non-mask implementation while waiting, without bookkeeping loops.
+
+Manual body gold masks still block only mask-dependent promotion, detailed body/hand/contact authority, final mask QA, and dependent Wave71+ activation. No candidate mask may be consumed as truth.
