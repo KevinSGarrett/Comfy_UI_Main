@@ -1375,6 +1375,7 @@ finally:
 print(json.dumps(result, sort_keys=True))
 PY
 "@
+$remoteScript = $remoteScript.Replace("`r`n", "`n")
 
 function Wait-InstanceState {
   param(

@@ -181,12 +181,12 @@ function Get-AuthGateStatus {
   if (Has-Property -Object $auth -Name "remote_login_status") {
     $result.remote_login_status = [string]$auth.remote_login_status
   }
-  if (Has-Property -Object $auth -Name "sts_after" -and $null -ne $auth.sts_after) {
+  if ((Has-Property -Object $auth -Name "sts_after") -and $null -ne $auth.sts_after) {
     $result.account_match = [bool]$auth.sts_after.account_match
     if ([string]::IsNullOrWhiteSpace([string]$result.failure_category)) {
       $result.failure_category = [string]$auth.sts_after.failure_category
     }
-  } elseif (Has-Property -Object $auth -Name "sts_before" -and $null -ne $auth.sts_before) {
+  } elseif ((Has-Property -Object $auth -Name "sts_before") -and $null -ne $auth.sts_before) {
     $result.account_match = [bool]$auth.sts_before.account_match
     if ([string]::IsNullOrWhiteSpace([string]$result.failure_category)) {
       $result.failure_category = [string]$auth.sts_before.failure_category
@@ -617,6 +617,7 @@ except Exception as exc:
 print(json.dumps(result, sort_keys=True))
 PY
 "@
+$remoteScript = $remoteScript.Replace("`r`n", "`n")
 
 function Wait-InstanceState {
   param(
