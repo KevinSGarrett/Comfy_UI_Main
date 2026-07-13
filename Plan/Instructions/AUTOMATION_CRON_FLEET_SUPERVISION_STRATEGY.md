@@ -295,3 +295,9 @@ Cursor read-only delegation should use ask mode first and must not be counted if
 Jira remains a control-plane board only. Do not bulk-create or recreate Jira Stories, Tasks, or Sub-tasks from the local ledger.
 
 Manual gold masks remain a dependency boundary. Do not promote masks, consume candidate masks as truth, rerun Wave70 hard gates, or activate Wave71+ unless the user has explicitly declared the required gold masks ready and the relevant gates pass.
+
+## Canonical Worker Package And Monitor Boundary
+
+All eight active automations inherit the worker rules from `AI_WORKER_LANE_ROUTING_POLICY.md`; do not duplicate the full contract in each prompt. Their canonical TOML templates live under `tools/ai_worker_handoffs/automations` and are installed only through the hash-validated package installer. Active jobs remain `gpt-5.4-mini` with low reasoning and `C:\Comfy_UI_Main` as their only project cwd. The two retired/replaced jobs remain paused in the canonical package.
+
+The combined monitor may run only static wrapper/package drift verification. It must never pass a live-probe switch or launch Cursor, Sonnet, or Opus. It separately counts Cursor worker-blocked results, invalid status/confidence, scoped mutation, concurrent drift, Claude tool-isolation drift, unjustified Opus attempts, invalid Opus usage markers, and live/canonical package drift. The seven project jobs may request a worker only for real role-specific work allowed by the shared routing policy; normal EC2 sentinel checks never launch a worker.

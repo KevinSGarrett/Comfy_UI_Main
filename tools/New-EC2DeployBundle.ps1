@@ -246,11 +246,32 @@ if ($runPackage.prompt_profile -and $runPackage.prompt_profile.path) {
 
 $laneRuntimeRequirementsPath = Resolve-ProjectPath -Path "Workflows/base_generation/$LaneId/runtime_requirements.json"
 $laneRuntimeRequirements = Read-JsonFile -Path $laneRuntimeRequirementsPath
+$laneWorkflowPath = Resolve-ProjectPath -Path "Workflows/base_generation/$LaneId/workflow.api.json"
+$laneWorkflow = Read-JsonFile -Path $laneWorkflowPath
+$workflowInputFilenames = @(
+  $laneWorkflow.psobject.Properties.Value |
+    Where-Object { [string]$_.class_type -in @("LoadImage", "LoadImageMask") } |
+    ForEach-Object { [string]$_.inputs.image } |
+    Where-Object { ![string]::IsNullOrWhiteSpace($_) } |
+    Sort-Object -Unique
+)
+$declaredInputAssets = @(
+  @($laneRuntimeRequirements.required_input_assets | Where-Object { $null -ne $_ })
+  @($laneRuntimeRequirements.required_inputs | Where-Object { $null -ne $_ })
+)
 $requiredInputAssets = New-Object System.Collections.ArrayList
-foreach ($asset in @($laneRuntimeRequirements.required_input_assets)) {
+foreach ($workflowInputFilename in $workflowInputFilenames) {
+  $matchingAssets = @($declaredInputAssets | Where-Object { [string]$_.filename -eq $workflowInputFilename })
+  if ($matchingAssets.Count -ne 1) {
+    throw "Workflow input must have exactly one required_input_assets entry: $workflowInputFilename (found $($matchingAssets.Count))"
+  }
+  $asset = $matchingAssets[0]
   $sourceArtifact = [string]$asset.source_artifact
   $filename = [string]$asset.filename
   $expectedSha256 = ([string]$asset.sha256).Trim().ToLowerInvariant()
+  if ([string]::IsNullOrWhiteSpace($expectedSha256)) {
+    $expectedSha256 = ([string]$asset.source_sha256).Trim().ToLowerInvariant()
+  }
   if ([string]::IsNullOrWhiteSpace($sourceArtifact) -or [string]::IsNullOrWhiteSpace($filename) -or $expectedSha256 -notmatch '^[0-9a-f]{64}$') {
     throw "Lane required_input_assets entry is incomplete or has an invalid sha256: $($asset | ConvertTo-Json -Compress)"
   }
@@ -321,6 +342,8 @@ $manifest = [ordered]@{
   }
   files = @($records | Sort-Object path)
   file_count = @($records).Count
+  workflow_input_filenames = $workflowInputFilenames
+  declared_required_input_asset_count = $declaredInputAssets.Count
   required_input_assets = @($requiredInputAssets)
   required_input_asset_count = @($requiredInputAssets).Count
   result = "pass_local_only"

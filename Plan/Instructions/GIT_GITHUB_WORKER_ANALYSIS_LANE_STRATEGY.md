@@ -255,3 +255,11 @@ This lane is working when:
 - Workers return compact Git/GitHub evidence and draft commands.
 - Codex only reviews and executes final safe mutations.
 - Git/GitHub work stops becoming a loop that delays concrete ComfyUI runtime/orchestration progress.
+
+## GitHub Validation Restoration
+
+GitHub is an independent clean-environment validation authority, not a passive mirror. The Windows workflow must complete checkout, deterministic gates, all configured run packages, and deploy-bundle assembly before its result can support merge or production confidence.
+
+Tracked Windows paths must fit a projected `D:\a\Comfy_UI_Main\Comfy_UI_Main` checkout with a 249-character budget. `tools/Test-WindowsCheckoutPathBudget.ps1` enforces that margin. Do not hide evidence directories with sparse checkout to work around path debt; shorten artifact filenames and update exact references. CI may substitute absent ignored model binaries only through the explicit clean-environment switch when registry hash/path state and tracked evidence satisfy the validator. Missing tracked evidence still fails closed, while absent supplemental `runtime_artifacts` references are recorded as clean-environment limits.
+
+Every third-party action is pinned to a full commit SHA and checkout disables persisted credentials. Required-check protection may be enabled only after the repaired workflow passes on a pull request and the repository's direct-main automation has a documented non-bypass merge path. Until that transition is complete, do not activate a ruleset that silently blocks the main autonomous session; treat this as `GITHUB_REQUIRED_CHECK_PROTECTION_PENDING_PASSING_PR` rather than claiming protection is active.

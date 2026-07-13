@@ -85,3 +85,9 @@ Do not return future-intention narration. If blocked, return `status: blocked` a
 Use `tools/New-CodexDesktopUsageSnapshot.ps1`, `tools/Measure-AIWorkerCodexUsageReduction.ps1`, and `tools/Measure-AIWorkerNetUsageReductionProxy.ps1`. Never infer whether the UI percentage means used or remaining quota. One post-baseline measurement or any proxy is capped at MEDIUM; HIGH requires two qualifying measured observations.
 
 Use `tools/Measure-CodexAutomationScheduleLoad.ps1` to measure scheduled invocation frequency; do not infer quota cost from frequency alone.
+
+## Enforced Worker Runtime
+
+The canonical worker package is `tools/ai_worker_handoffs`. Claude substantive calls use exact `claude-sonnet-5` or `claude-opus-4-8` with first-party subscription OAuth, `--safe-mode`, `--tools Read,Glob,Grep`, strict MCP isolation, disabled slash-command skills, and Chrome disabled. Opus has an immutable global ceiling of two completed calls per local day and requires same-decision Sonnet status/confidence evidence matching the escalation trigger unless the explicit direct high-risk architecture exception applies.
+
+Cursor is plain `gpt-5.3-codex` only and is read-only ask/plan. Agent mode, writes, fast models, and forced commands are prohibited. Default wrapper verification is static; recurring monitors must not launch live probes.

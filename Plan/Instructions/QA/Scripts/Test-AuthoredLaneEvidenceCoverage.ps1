@@ -154,21 +154,35 @@ function Test-WorkflowStaticEvidence {
 
   $match = Find-LatestEvidence -Directories $Directories -ExpectedLaneId $LaneId -Predicate {
     param($payload)
-    return ((Has-Property -Object $payload -Name "qa_status") -and [string]$payload.qa_status -eq "pass")
+    $legacyPass = ((Has-Property -Object $payload -Name "qa_status") -and [string]$payload.qa_status -eq "pass")
+    $structuredPass = (
+      (Has-Property -Object $payload -Name "result") -and [string]$payload.result -like "pass_*" -and
+      (Has-Property -Object $payload -Name "failed_check_count") -and [int]$payload.failed_check_count -eq 0 -and
+      (Has-Property -Object $payload -Name "local_only") -and [bool]$payload.local_only -and
+      (!(Has-Property -Object $payload -Name "generation_executed") -or -not [bool]$payload.generation_executed)
+    )
+    return ($legacyPass -or $structuredPass)
   }
   if ($null -eq $match) {
-    return New-MissingCheck -Name "workflow_static_validation" -Expected "lane-matched qa_status=pass"
+    return New-MissingCheck -Name "workflow_static_validation" -Expected "lane-matched qa_status=pass or structured local pass with zero failed checks and no generation"
   }
 
   $payload = $match.payload
-  $passed = ((Has-Property -Object $payload -Name "qa_status") -and [string]$payload.qa_status -eq "pass")
+  $legacyPass = ((Has-Property -Object $payload -Name "qa_status") -and [string]$payload.qa_status -eq "pass")
+  $structuredPass = (
+    (Has-Property -Object $payload -Name "result") -and [string]$payload.result -like "pass_*" -and
+    (Has-Property -Object $payload -Name "failed_check_count") -and [int]$payload.failed_check_count -eq 0 -and
+    (Has-Property -Object $payload -Name "local_only") -and [bool]$payload.local_only -and
+    (!(Has-Property -Object $payload -Name "generation_executed") -or -not [bool]$payload.generation_executed)
+  )
+  $passed = ($legacyPass -or $structuredPass)
   return [ordered]@{
     name = "workflow_static_validation"
     path = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $match.path
     found = $true
     passed = $passed
-    expected = "qa_status=pass"
-    observed = $(if (Has-Property -Object $payload -Name "qa_status") { [string]$payload.qa_status } else { "missing" })
+    expected = "qa_status=pass or structured local pass with zero failed checks and no generation"
+    observed = $(if ($legacyPass) { "qa_status=pass" } elseif ($structuredPass) { "result=$([string]$payload.result); failed_check_count=0; local_only=true; generation_executed=false" } else { "no recognized static pass" })
     details = [ordered]@{
       lane_match = (Test-JsonMatchesLane -Payload $payload -ExpectedLaneId $LaneId)
       workflow_path = $(if (Has-Property -Object $payload -Name "workflow_path") { [string]$payload.workflow_path } else { $null })
@@ -391,6 +405,64 @@ function Test-LocalRuntimeVisualQaEvidence {
   }
 }
 
+function Test-BlockedLaneAuthorityEvidence {
+  param(
+    [string]$LaneId,
+    [object]$QueueLane
+  )
+
+  $allowedStatuses = @(
+    "asset_authority_recorded_blocked_local_install_and_runtime_proof",
+    "existing_external_model_hash_verified_license_and_live_runtime_proof_pending"
+  )
+  if ($null -eq $QueueLane) {
+    return New-MissingCheck -Name "blocked_lane_authority" -Expected "queue row with an exact fail-closed status and existing lane-matched proof evidence"
+  }
+
+  $status = $(if (Has-Property -Object $QueueLane -Name "status") { [string]$QueueLane.status } else { "" })
+  $nextGate = $(if (Has-Property -Object $QueueLane -Name "required_next_runtime_gate") { [string]$QueueLane.required_next_runtime_gate } else { "" })
+  $promotionRule = $(if (Has-Property -Object $QueueLane -Name "promotion_rule") { [string]$QueueLane.promotion_rule } else { "" })
+  $proofPaths = $(if (Has-Property -Object $QueueLane -Name "proof_evidence") { @($QueueLane.proof_evidence | ForEach-Object { [string]$_ } | Where-Object { ![string]::IsNullOrWhiteSpace($_) }) } else { @() })
+  $existingProofPaths = @($proofPaths | Where-Object { Test-Path -LiteralPath (Resolve-ProjectPath -Path $_) })
+  $laneMatchedProofPaths = @()
+  foreach ($proofPath in $existingProofPaths) {
+    try {
+      $payload = Read-JsonFile -Path (Resolve-ProjectPath -Path $proofPath)
+      if (Test-JsonMatchesLane -Payload $payload -ExpectedLaneId $LaneId) {
+        $laneMatchedProofPaths += $proofPath
+      }
+    } catch {
+      continue
+    }
+  }
+
+  $passed = (
+    $allowedStatuses -contains $status -and
+    ![string]::IsNullOrWhiteSpace($nextGate) -and
+    $promotionRule -match "(?i)do not execute or promote" -and
+    $proofPaths.Count -ge 2 -and
+    $existingProofPaths.Count -eq $proofPaths.Count -and
+    $laneMatchedProofPaths.Count -ge 2
+  )
+
+  return [ordered]@{
+    name = "blocked_lane_authority"
+    path = $(if ($laneMatchedProofPaths.Count -gt 0) { $laneMatchedProofPaths[-1] } else { $null })
+    found = ($proofPaths.Count -gt 0)
+    passed = $passed
+    expected = "exact fail-closed queue status, explicit next gate, no-execute/no-promote rule, and at least two lane-matched proof records"
+    observed = "status=$status; proof=$($proofPaths.Count); existing=$($existingProofPaths.Count); lane_matched=$($laneMatchedProofPaths.Count)"
+    details = [ordered]@{
+      status = $status
+      required_next_runtime_gate = $nextGate
+      promotion_rule = $promotionRule
+      proof_evidence = $proofPaths
+      lane_matched_proof_evidence = $laneMatchedProofPaths
+      claim_boundary = "Blocked authority coverage is not runtime readiness, generation proof, target-runtime proof, promotion, or certification."
+    }
+  }
+}
+
 $stamp = (Get-Date -Format "yyyyMMddTHHmmsszzz").Replace(":", "")
 $createdAt = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
 $baseGenerationRoot = Join-Path $ProjectRoot "Plan\07_IMPLEMENTATION\workflow_templates\base_generation"
@@ -416,11 +488,13 @@ $requiredLaneFiles = @(
 
 $laneResults = @()
 $queueLaneIds = @()
+$queueLanes = @()
 $excludedAuthoredLaneIds = @()
 if (Test-Path -LiteralPath $QueueFile) {
   try {
     $queuePayload = Read-JsonFile -Path $QueueFile
     if (Has-Property -Object $queuePayload -Name "lanes") {
+      $queueLanes = @($queuePayload.lanes)
       $queueLaneIds = @($queuePayload.lanes | ForEach-Object { [string]$_.lane_id } | Where-Object { ![string]::IsNullOrWhiteSpace($_) })
     }
   } catch {
@@ -449,24 +523,28 @@ if (Test-Path -LiteralPath $baseGenerationRoot) {
     $laneReadinessCheck = Test-LaneReadinessEvidence -LaneId $laneId -Directories @($runtimeReadinessDir)
     $localPackageSmokeCheck = Test-LocalPackageSmokeMatrixEvidence -LaneId $laneId -MatrixMatch $localPackageSmokeMatrix
     $localRuntimeVisualQaCheck = Test-LocalRuntimeVisualQaEvidence -LaneId $laneId -RuntimeDirectory $workflowRuntimeDir -ImageQaDirectory $imageQaDir
+    $queueLane = @($queueLanes | Where-Object { [string]$_.lane_id -eq $laneId } | Select-Object -First 1)
+    $blockedLaneAuthorityCheck = Test-BlockedLaneAuthorityEvidence -LaneId $laneId -QueueLane $(if ($queueLane.Count -gt 0) { $queueLane[0] } else { $null })
     $checks = @(
       $workflowStaticCheck,
       $workflowSmokeDryRunCheck,
       $laneReadinessCheck,
       $localPackageSmokeCheck,
-      $localRuntimeVisualQaCheck
+      $localRuntimeVisualQaCheck,
+      $blockedLaneAuthorityCheck
     )
     $legacyPreEc2CoveragePassed = ([bool]$workflowSmokeDryRunCheck.passed -and [bool]$laneReadinessCheck.passed)
     $localPackageSmokeCoveragePassed = [bool]$localPackageSmokeCheck.passed
     $localRuntimeVisualQaPassed = [bool]$localRuntimeVisualQaCheck.passed
-    $lanePassed = ([bool]$workflowStaticCheck.passed -and ($legacyPreEc2CoveragePassed -or $localPackageSmokeCoveragePassed -or $localRuntimeVisualQaPassed))
+    $blockedLaneAuthorityPassed = [bool]$blockedLaneAuthorityCheck.passed
+    $lanePassed = ([bool]$workflowStaticCheck.passed -and ($legacyPreEc2CoveragePassed -or $localPackageSmokeCoveragePassed -or $localRuntimeVisualQaPassed -or $blockedLaneAuthorityPassed))
     $failures = $(if ($lanePassed) { @() } else { @($checks | Where-Object { -not [bool]$_.passed }) })
 
     $laneResults += [ordered]@{
       lane_id = $laneId
       lane_dir = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $laneDir.FullName
       authored_contract_files = @($requiredLaneFiles)
-      coverage_mode = $(if ($legacyPreEc2CoveragePassed) { "legacy_pre_ec2_readiness" } elseif ($localPackageSmokeCoveragePassed) { "local_package_smoke_matrix" } elseif ($localRuntimeVisualQaPassed) { "local_runtime_visual_qa" } else { "insufficient" })
+      coverage_mode = $(if ($legacyPreEc2CoveragePassed) { "legacy_pre_ec2_readiness" } elseif ($localPackageSmokeCoveragePassed) { "local_package_smoke_matrix" } elseif ($localRuntimeVisualQaPassed) { "local_runtime_visual_qa" } elseif ($blockedLaneAuthorityPassed) { "blocked_lane_authority" } else { "insufficient" })
       required_evidence_checks = $checks
       required_evidence_failures = @($failures).Count
       result = $(if ($lanePassed) { "pass" } else { "fail" })
@@ -523,6 +601,7 @@ $record = [ordered]@{
     "Does not perform new generated artifact visual QA.",
     "When coverage_mode is local_package_smoke_matrix, the lane is covered only by repaired local package-smoke evidence with limitations; this is not final quality certification or target-runtime EC2 proof."
     "When coverage_mode is local_runtime_visual_qa, the lane is covered by existing local runtime and image QA evidence only; this is not target-runtime EC2 proof, final certification, or gold mask proof."
+    "When coverage_mode is blocked_lane_authority, the lane remains fail-closed and is not runtime-ready, executable, promoted, or certified."
   )
   next_action = "Use this queued-lane coverage with runtime lane queue validation before any future EC2 proof; nonqueued authored lanes require explicit queue selection and their own evidence coverage."
 }

@@ -14,7 +14,8 @@ param(
   [string]$RegistryFile = "",
   [string]$RuntimeQueueFile = "",
   [string]$WorkflowQueueFile = "",
-  [string]$OutFile = ""
+  [string]$OutFile = "",
+  [switch]$AllowMissingLocalModelBinariesWithEvidence
 )
 
 $ErrorActionPreference = "Stop"
@@ -375,6 +376,8 @@ foreach ($laneId in $activeLaneIds) {
       $compatibilityStatus = $(if (Has-Property -Object $entry -Name "compatibility_status") { [string]$entry.compatibility_status } else { "" })
       $qaStatus = $(if (Has-Property -Object $entry -Name "qa_status") { [string]$entry.qa_status } else { "" })
       $storageLocation = $(if (Has-Property -Object $entry -Name "storage_location") { [string]$entry.storage_location } else { "" })
+      $hashStatus = $(if (Has-Property -Object $model -Name "hash_status") { [string]$model.hash_status } else { "" })
+      $pathStatus = $(if (Has-Property -Object $model -Name "path_status") { [string]$model.path_status } else { "" })
       $runtimeQueued = ($runtimeValidationStatus -eq "queued")
       $runtimeComplete = ($runtimeValidationStatus -in @("runtime_smoke_complete", "runtime_validated"))
       if ($laneModelRuntimeProven) {
@@ -395,6 +398,23 @@ foreach ($laneId in $activeLaneIds) {
         $evidencePaths = @($entry.evidence_paths | ForEach-Object { [string]$_ } | Where-Object { ![string]::IsNullOrWhiteSpace($_) })
       }
       $existingEvidencePaths = @($evidencePaths | Where-Object { Test-Path -LiteralPath (Resolve-ProjectPath -Path $_) })
+      $missingEvidencePaths = @($evidencePaths | Where-Object { !(Test-Path -LiteralPath (Resolve-ProjectPath -Path $_)) })
+      $missingEvidenceIsSupplementalRuntimeOnly = @($missingEvidencePaths | Where-Object { $_.Replace("\", "/") -notlike "runtime_artifacts/*" }).Count -eq 0
+      $cleanEnvironmentEvidenceCoverage = (
+        $AllowMissingLocalModelBinariesWithEvidence -and
+        @($existingEvidencePaths).Count -gt 0 -and
+        $missingEvidenceIsSupplementalRuntimeOnly
+      )
+      $verifiedHashStatuses = @("local_sha256_verified", "observed_external_local_sha256_verified", "ec2_static_match_verified", "verified_ec2_static_match")
+      $verifiedPathStatuses = @("local_model_present", "present_via_configured_external_model_path", "ec2_static_match_verified", "verified_ec2_static_match")
+      $verifiedHashAndPathAuthority = ($verifiedHashStatuses -contains $hashStatus -and $verifiedPathStatuses -contains $pathStatus)
+      $boundedLocalPreEc2Authority = ($laneLocalPreEc2Validated -and $hashStatus -eq "pending_ec2_static_match" -and $pathStatus -eq "pending_ec2_static_match")
+      $cleanEnvironmentEvidenceSubstitution = (
+        $AllowMissingLocalModelBinariesWithEvidence -and
+        !$binaryExists -and
+        ($verifiedHashAndPathAuthority -or $boundedLocalPreEc2Authority) -and
+        $cleanEnvironmentEvidenceCoverage
+      )
 
       $laneChecks += New-Check -Name "registry_local_path_matches_requirement" `
         -Passed ($localPath -eq $expectedLocalPath) `
@@ -425,14 +445,14 @@ foreach ($laneId in $activeLaneIds) {
         -Expected ($expectedQaStatuses -join " | ") `
         -Observed $(if ([string]::IsNullOrWhiteSpace($qaStatus)) { "missing" } else { $qaStatus })
       $laneChecks += New-Check -Name "registry_completed_lane_has_evidence_paths" `
-        -Passed (!$laneModelRuntimeProven -or (@($evidencePaths).Count -gt 0 -and @($existingEvidencePaths).Count -eq @($evidencePaths).Count)) `
-        -Expected $(if ($laneModelRuntimeProven) { "model runtime-smoke-complete lane registry record has existing evidence_paths" } else { "not required for pending lane" }) `
-        -Observed ("lane_status={0}; evidence_paths={1}; existing={2}" -f $workflowLaneStatus, @($evidencePaths).Count, @($existingEvidencePaths).Count)
+        -Passed (!$laneModelRuntimeProven -or (@($evidencePaths).Count -gt 0 -and (@($existingEvidencePaths).Count -eq @($evidencePaths).Count -or $cleanEnvironmentEvidenceCoverage))) `
+        -Expected $(if ($laneModelRuntimeProven) { "model runtime-smoke-complete lane has complete evidence, or clean CI is missing only supplemental runtime_artifacts paths while tracked evidence remains" } else { "not required for pending lane" }) `
+        -Observed ("lane_status={0}; evidence_paths={1}; existing={2}; missing_supplemental_runtime_only={3}" -f $workflowLaneStatus, @($evidencePaths).Count, @($existingEvidencePaths).Count, $missingEvidenceIsSupplementalRuntimeOnly)
       $laneChecks += New-Check -Name "local_model_binary_boundary_respected" `
-        -Passed ($binaryExists -or $runtimeQueued -or ($laneModelRuntimeProven -and $runtimeComplete -and $storageLocation -in @("ec2", "local_and_target_runtime_validated") -and @($existingEvidencePaths).Count -gt 0)) `
-        -Expected "binary may be absent locally if validation is queued or completed on EC2 with evidence" `
-        -Observed $(if ($binaryExists) { "local binary present" } elseif ($laneModelRuntimeProven -and $runtimeComplete) { "local binary absent; bounded runtime evidence recorded" } else { "local binary absent; registry remains queued" }) `
-        -Details ([ordered]@{ expected_local_path = $expectedLocalPath; local_file_exists = $binaryExists; storage_location = $storageLocation; lane_status = $workflowLaneStatus })
+        -Passed ($binaryExists -or $runtimeQueued -or $cleanEnvironmentEvidenceSubstitution -or ($laneModelRuntimeProven -and $runtimeComplete -and $storageLocation -in @("ec2", "local_and_target_runtime_validated") -and @($existingEvidencePaths).Count -gt 0)) `
+        -Expected "binary is present, queued, target-runtime proven, or explicitly substituted in a clean environment by verified hash/path state and complete evidence" `
+        -Observed $(if ($binaryExists) { "local binary present" } elseif ($cleanEnvironmentEvidenceSubstitution) { "local binary absent; explicit clean-environment evidence substitution passed" } elseif ($laneModelRuntimeProven -and $runtimeComplete) { "local binary absent; bounded runtime evidence recorded" } else { "local binary absent; registry remains queued" }) `
+        -Details ([ordered]@{ expected_local_path = $expectedLocalPath; local_file_exists = $binaryExists; storage_location = $storageLocation; lane_status = $workflowLaneStatus; hash_status = $hashStatus; path_status = $pathStatus; verified_hash_and_path_authority = $verifiedHashAndPathAuthority; bounded_local_pre_ec2_authority = $boundedLocalPreEc2Authority; clean_environment_evidence_substitution = $cleanEnvironmentEvidenceSubstitution; missing_evidence_paths = $missingEvidencePaths; missing_evidence_is_supplemental_runtime_only = $missingEvidenceIsSupplementalRuntimeOnly })
     }
 
     if ($null -ne $requirements) {
@@ -537,6 +557,7 @@ $record = [ordered]@{
     "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/<queued-lane>/runtime_requirements.json"
   )
   local_only = $true
+  missing_local_model_binary_evidence_substitution_enabled = [bool]$AllowMissingLocalModelBinariesWithEvidence
   aws_contacted = $false
   github_api_contacted = $false
   civitai_contacted = $false
