@@ -206,7 +206,10 @@ $runIncluded = @($deploy.files | Where-Object { [string]$_.path -eq $runManifest
 [void]$checks.Add((New-Check -Name "bundle_contains_selected_run_manifest" -Passed $runIncluded -Observed $runManifestRepoPath -Expected "exact selected run manifest appears once in bundle files" -FailureCategory "bundle_linkage_mismatch"))
 
 $requiredAssetsPropertyPresent = $null -ne $deploy.PSObject.Properties["required_input_assets"] -and $null -ne $deploy.required_input_assets
-$requiredAssets = if ($requiredAssetsPropertyPresent) { @($deploy.required_input_assets) } else { @() }
+$requiredAssets = @()
+if ($requiredAssetsPropertyPresent) {
+  $requiredAssets = @($deploy.required_input_assets)
+}
 $requiredAssetCountPropertyPresent = $null -ne $deploy.PSObject.Properties["required_input_asset_count"]
 $declaredRequiredAssetCount = -1
 $requiredAssetCountParsed = $false
