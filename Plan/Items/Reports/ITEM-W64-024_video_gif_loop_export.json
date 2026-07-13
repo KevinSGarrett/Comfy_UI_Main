@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-024-VIDEO-GIF-LOOP-EXPORT-20260712T155511-0500",
-  "timestamp": "2026-07-12T15:55:11-05:00",
+  "timestamp": "2026-07-13T04:43:36-05:00",
   "item_id": "ITEM-W64-024",
   "tracker_id": "TRK-W64-024",
   "workstream": "video_gif_loop_export",
-  "status": "Blocked_Video_GIF_Production_Proof_Missing",
+  "status": "Blocked_Video_GIF_Loop_Playback_Quality_Failure",
   "row_complete": false,
   "implementation": {
     "actual_gif_decode_ready": true,
@@ -37,46 +37,64 @@
     "synthetic_final_export_passed": false,
     "claude_exporter_medium_findings_remediated": 4,
     "claude_final_confirmation_status": "incomplete_command_host_interruption_compact_codex_fallback",
-    "remaining_remediable_high_or_medium_findings": 0
+    "remaining_remediable_high_or_medium_findings": 0,
+    "real_deterministic_export": "pass",
+    "real_candidate_sha256": "d3069ca8694f8fc8d565400362b8ddb1887de5cafda36ea97cd4a28b403264b1",
+    "real_runtime_proof": "verified",
+    "real_technical_certifier": "pass",
+    "real_visual_review": "fail",
+    "real_failed_frame_indexes": [
+      5,
+      6,
+      7
+    ],
+    "targeted_test_rerun_passed": 26,
+    "targeted_test_rerun_failed": 0,
+    "claude_semantic_confirmation": "PASS_NO_HIGH_OR_MEDIUM_FINDINGS"
   },
   "acceptance_gates": {
     "loop_boundary_check_implementation": true,
     "export_manifest_implementation": true,
     "deterministic_gif_exporter": true,
     "synthetic_deterministic_export_verified": true,
-    "production_gif_candidate": false,
-    "production_runtime_ready": false,
-    "visual_loop_playback_review": false,
+    "production_gif_candidate": true,
+    "production_runtime_ready": true,
+    "visual_loop_playback_review": true,
     "identity_and_no_popping_pass": false,
     "final_export_certification": false
   },
   "blockers": [
     {
-      "classification": "Blocked_Video_GIF_Production_Proof_Missing",
-      "reason": "No genuine non-synthetic GIF candidate and hash-bound runtime generation proof exists."
-    },
-    {
-      "classification": "Blocked_Video_GIF_Loop_Playback_Review_Missing",
-      "reason": "No genuine loop-playback review proves cadence, seam quality, identity, background, and contact/deformation continuity."
+      "classification": "Blocked_Video_GIF_Loop_Playback_Quality_Failure",
+      "scope": "primary_row_blocker",
+      "reason": "The real deterministic GIF passes technical/runtime gates but fails direct playback review for frames 5-7, background/identity corruption, and a severe terminal-to-first loop pop."
     }
   ],
   "evidence": [
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/video_gif_loop_export.json",
-      "sha256": "8eaaaf9e8388593851acd87ea670af8f5e805769e49e4617c125d1e29d2069c9"
+      "sha256": "fa4107e4c4132f71d9cb1faa2c25649c41da0f966c9cf9662f4a48e07e7bc426"
     },
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/video_gif_loop_export_test_log.json",
       "sha256": "61f814cbfc1e11285bbf7c089d21dad8e7d97567afa860733f1f45dc499a4a59"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_GIF_LOOP_EXPORT_REAL_RUNTIME_20260713T044336-0500.json",
+      "sha256": "8d7bb049d371bcd27f82060efd3e93a3b719cdc859561ae288dd11dfb2b735d0"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_REAL_GIF_LOOP_VISUAL_QA_20260713T044336-0500.json",
+      "sha256": "58608794c4211bc4bfb5049322124c8a8b280c8df60f0b0495ea4ea7d4148eab"
     }
   ],
   "runtime": {
-    "production_gif_generation_count": 0,
-    "production_runtime_proof_count": 0,
-    "production_visual_review_count": 0,
+    "production_gif_generation_count": 1,
+    "production_runtime_proof_count": 1,
+    "production_visual_review_count": 1,
     "comfyui_started": false,
     "aws_contacted": false,
     "ec2_started": false
   },
-  "next_action": "Keep row 024 blocked without production runtime, playback-review, or final-export claims. Continue TRK-W64-025 / ITEM-W64-025 by duplicate-checking the existing audio pipeline lane and selecting one bounded offline implementation gap; do not start EC2 or fabricate audio/runtime review proof."
+  "next_action": "Continue TRK-W64-025 / ITEM-W64-025 audio-pipeline reconciliation; preserve this failed GIF and do not claim final export readiness."
 }

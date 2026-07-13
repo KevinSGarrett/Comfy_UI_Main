@@ -219,6 +219,8 @@ class Wave26GifLoopExportStrictTests(unittest.TestCase):
             "runtime_proof_present": True,
             "generation_executed": True,
             "production_proof": True,
+            "generation_scope": "deterministic_gif_export_only",
+            "comfyui_generation_executed": False,
             "candidate_gif_sha256": runtime_binding_sha_override or candidate_sha,
             "manifest_sha256": manifest_sha,
             "temporal_evidence_sha256": temporal_sha,

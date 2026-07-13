@@ -23,6 +23,8 @@ RUNTIME_PROOF_REQUIRED_KEYS = {
     "runtime_proof_present",
     "generation_executed",
     "production_proof",
+    "generation_scope",
+    "comfyui_generation_executed",
     "candidate_gif_sha256",
     "manifest_sha256",
     "temporal_evidence_sha256",
@@ -414,6 +416,12 @@ def _validate_runtime_proof_payload(
     for key in ("runtime_ready", "runtime_proof_present", "generation_executed", "production_proof"):
         if payload.get(key) is not True:
             raise ValueError(f"runtime proof requires {key}=true")
+    if payload.get("generation_scope") != "deterministic_gif_export_only":
+        raise ValueError(
+            "runtime proof generation_scope must be deterministic_gif_export_only"
+        )
+    if payload.get("comfyui_generation_executed") is not False:
+        raise ValueError("runtime proof requires comfyui_generation_executed=false")
     if payload.get("candidate_gif_sha256") != candidate_sha:
         raise ValueError("runtime proof candidate_gif_sha256 binding mismatch")
     if payload.get("manifest_sha256") != manifest_sha:

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "evidence_id": "W64-VIDEO-GIF-LOOP-EXPORT-20260712T155511-0500",
-  "timestamp": "2026-07-12T15:55:11-05:00",
+  "timestamp": "2026-07-13T04:43:36-05:00",
   "tracker_id": "TRK-W64-024",
   "item_id": "ITEM-W64-024",
   "source_citation": "Plan/04_VIDEO_GIF_SYSTEM/WAVE26_GIF_EXPORT_PLAN.md",
@@ -25,7 +25,7 @@
   "implementation_artifacts": [
     {
       "path": "Plan/07_IMPLEMENTATION/scripts/certify_wave26_gif_loop_export.py",
-      "sha256": "8dbd7f12fd429762a260b27a180f2cc41feccd015fb4ff6bb8f3a429be86f66b"
+      "sha256": "2a83fe9de7edeaa85bae37920692193ee2737732f2a642b9d467947160eb2c96"
     },
     {
       "path": "Plan/08_SCHEMAS/wave26_gif_loop_export_evidence.schema.json",
@@ -33,7 +33,7 @@
     },
     {
       "path": "Plan/Instructions/QA/Scripts/test_wave26_gif_loop_export_strict.py",
-      "sha256": "6154348ff2b83c0c9b8026dc3fc740554f191ba2e448f1175d89628dbfb91409"
+      "sha256": "f2fc7de1c5b8d96ab9aaab63f932f0c2ce63e61aafa003bc97fe3c68915f6f3b"
     },
     {
       "path": "Plan/07_IMPLEMENTATION/scripts/export_wave26_deterministic_gif.py",
@@ -64,7 +64,10 @@
     "test_errors": 0,
     "python_compile": "pass",
     "draft_2020_12_schema_check": "pass",
-    "technical_offline_pass": true
+    "technical_offline_pass": true,
+    "last_targeted_rerun": "2026-07-13T04:43:36-05:00",
+    "last_targeted_rerun_tests_passed": 26,
+    "last_targeted_rerun_tests_failed": 0
   },
   "synthetic_technical_probe": {
     "production_evidence": false,
@@ -80,7 +83,11 @@
     "expected_exit_code": 2,
     "decoded_frame_count": 3,
     "dimensions": "1x1",
-    "frame_durations_ms": [40, 40, 40],
+    "frame_durations_ms": [
+      40,
+      40,
+      40
+    ],
     "loop_count": 0,
     "seam_metric_name": "first_last_rgba_mean_absolute_difference_normalized",
     "seam_metric_value": 0.32352941,
@@ -108,7 +115,14 @@
     "expected_certifier_exit_code": 2,
     "decoded_frame_count": 6,
     "dimensions": "96x72",
-    "frame_durations_ms": [40, 40, 40, 40, 40, 40],
+    "frame_durations_ms": [
+      40,
+      40,
+      40,
+      40,
+      40,
+      40
+    ],
     "loop_count": 0,
     "technical_passed": true,
     "blocker_codes": [
@@ -124,9 +138,9 @@
     "actual_gif_decode": true,
     "export_manifest_binding": true,
     "loop_boundary_technical_measurement": true,
-    "production_gif_candidate_present": false,
-    "production_runtime_proof": false,
-    "loop_playback_visual_review": false,
+    "production_gif_candidate_present": true,
+    "production_runtime_proof": true,
+    "loop_playback_visual_review": true,
     "identity_and_no_popping_visual_pass": false,
     "final_export_certification": false
   },
@@ -143,12 +157,17 @@
     "claude_exporter_medium_findings_remediated": 4,
     "claude_final_confirmation_attempt": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T155209-0500_row024_gif_certifier_timing_floor_final_review/handoff_record.json",
     "claude_final_confirmation_status": "incomplete_command_host_interruption_compact_codex_fallback",
-    "remaining_remediable_high_or_medium_findings": 0
+    "remaining_remediable_high_or_medium_findings": 0,
+    "cursor_real_export_cli_mapping": "runtime_artifacts/agent_handoffs/cursor/20260713T043909-0500_w64_row024_real_export_cli_mapping/handoff_record.json",
+    "codex_real_candidate_visual_review": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_REAL_GIF_LOOP_VISUAL_QA_20260713T044336-0500.json",
+    "claude_real_export_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260713T044734-0500_w64_row024_semantic_final_review/handoff_record.json",
+    "claude_real_export_medium_findings_remediated": 1,
+    "claude_real_export_confirmation": "runtime_artifacts/agent_handoffs/claude_subscription/20260713T045400-0500_w64_row024_semantic_remediation_review/handoff_record.json"
   },
   "runtime": {
-    "production_gif_generation_count": 0,
-    "production_runtime_proof_count": 0,
-    "production_loop_playback_review_count": 0,
+    "production_gif_generation_count": 1,
+    "production_runtime_proof_count": 1,
+    "production_loop_playback_review_count": 1,
     "comfyui_started": false,
     "generation_executed": false,
     "aws_contacted": false,
@@ -157,29 +176,40 @@
   },
   "blockers": [
     {
-      "classification": "Blocked_Video_GIF_Production_Proof_Missing",
+      "classification": "Blocked_Video_GIF_Loop_Playback_Quality_Failure",
       "scope": "primary_row_blocker",
-      "reason": "No genuine non-synthetic GIF candidate packet with hash-bound runtime generation proof exists; the retained synthetic GIF is technical test evidence only."
-    },
-    {
-      "classification": "Blocked_Video_GIF_Loop_Playback_Review_Missing",
-      "scope": "visual_loop_review",
-      "reason": "No genuine loop-playback review proves intentional cadence, no visible pop, identity preservation, background continuity, and contact/deformation continuity."
+      "reason": "The real deterministic GIF passes technical/runtime gates but fails direct playback review for frames 5-7, background/identity corruption, and a severe terminal-to-first loop pop."
     }
   ],
-  "result": "blocked_video_gif_production_proof_missing",
+  "result": "blocked_real_gif_loop_playback_quality_failure",
   "overall_pass": false,
-  "status_decision": "Blocked_Video_GIF_Production_Proof_Missing",
+  "status_decision": "Blocked_Video_GIF_Loop_Playback_Quality_Failure",
   "strict_decision": {
     "row_complete": false,
     "offline_certifier_and_schema_pass": true,
     "deterministic_exporter_pass": true,
     "synthetic_technical_probe_pass": true,
     "synthetic_deterministic_export_probe_pass": true,
-    "production_runtime_claimed": false,
-    "visual_loop_review_claimed": false,
+    "production_runtime_claimed": true,
+    "visual_loop_review_claimed": true,
     "final_export_claimed": false,
     "certification_claimed": false,
-    "wave71_activation_claimed": false
-  }
+    "wave71_activation_claimed": false,
+    "visual_loop_pass_claimed": false
+  },
+  "real_runtime_export": {
+    "evidence": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_GIF_LOOP_EXPORT_REAL_RUNTIME_20260713T044336-0500.json",
+    "candidate": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave26_gif_export/candidate.gif",
+    "candidate_sha256": "d3069ca8694f8fc8d565400362b8ddb1887de5cafda36ea97cd4a28b403264b1",
+    "runtime_proof_verified": true,
+    "technical_passed": true,
+    "visual_review_executed": true,
+    "visual_loop_pass": false,
+    "failed_frame_indexes": [
+      5,
+      6,
+      7
+    ]
+  },
+  "reconciliation_evidence": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_GIF_LOOP_EXPORT_REAL_RUNTIME_20260713T044336-0500.json"
 }

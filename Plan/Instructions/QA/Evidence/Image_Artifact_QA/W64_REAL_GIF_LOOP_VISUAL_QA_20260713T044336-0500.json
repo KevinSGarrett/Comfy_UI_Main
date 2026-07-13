@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-REAL-GIF-LOOP-VISUAL-QA-20260713T044336-0500",
+  "timestamp": "2026-07-13T04:43:36-05:00",
+  "tracker_id": "TRK-W64-024",
+  "item_id": "ITEM-W64-024",
+  "candidate": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave26_gif_export/candidate.gif",
+    "sha256": "d3069ca8694f8fc8d565400362b8ddb1887de5cafda36ea97cd4a28b403264b1",
+    "frame_count": 8,
+    "width": 256,
+    "height": 320,
+    "frame_durations_ms": [250, 250, 250, 250, 250, 250, 250, 250],
+    "loop_count": 0
+  },
+  "review_assets": {
+    "contact_sheet": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave26_gif_export/candidate_contact_sheet.png",
+      "sha256": "2a4db50c94dc426dd82a1e9556cbc4c21ea8c2980d7522420f136b59650f2b69"
+    },
+    "source_visual_qa": {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_VISUAL_QA_20260713T023500-0500.json",
+      "sha256": "fcbd6dad6fa6f7e2bdf6782a2f4f3ca7b899264bcf8da8487bbf2e0499995eb9"
+    }
+  },
+  "review_method": "candidate_gif_decode_contact_sheet_and_source_playback_comparison",
+  "checks": {
+    "candidate_decoded_and_reviewed": true,
+    "all_eight_frames_reviewed": true,
+    "timing_cadence_consistent": true,
+    "no_visible_pop_passed": false,
+    "intentional_visual_cadence_passed": false,
+    "identity_preservation_passed": false,
+    "background_continuity_passed": false,
+    "contact_deformation_continuity_passed": false,
+    "first_last_loop_seam_passed": false,
+    "final_visual_loop_pass": false
+  },
+  "failed_frame_indexes": [5, 6, 7],
+  "findings": [
+    "Frames 0-4 retain one recognizable portrait but remain soft and heavily overexposed in the shirt and face highlights.",
+    "Frames 5-6 introduce bright window-like background shapes and a hard lighting discontinuity.",
+    "Frame 7 collapses into saturated blue, yellow, white, and black regions with severe face and clothing corruption.",
+    "The frame-7-to-frame-0 loop boundary produces a severe visible pop; technical first/last RGBA difference is not treated as a visual pass.",
+    "Contact/deformation continuity cannot pass because the portrait framing does not expose the required body/contact evidence and the terminal frame is corrupted."
+  ],
+  "result": "fail_loop_playback_background_identity_and_terminal_corruption",
+  "visual_loop_pass": false,
+  "status_decision": "Blocked_Video_GIF_Loop_Playback_Quality_Failure",
+  "boundaries": {
+    "technical_export_invalidated": false,
+    "runtime_generation_proof_invalidated": false,
+    "final_export_certification_claimed": false,
+    "production_lane_certification_claimed": false,
+    "gold_masks_consumed": false,
+    "mask_or_geometry_authority_claimed": false,
+    "wave71_activation_claimed": false,
+    "jira_mutated": false
+  },
+  "next_action": "Preserve the real technical GIF and runtime proof, keep visual/final export blocked, and continue Row025 without rerunning this failed loop."
+}
