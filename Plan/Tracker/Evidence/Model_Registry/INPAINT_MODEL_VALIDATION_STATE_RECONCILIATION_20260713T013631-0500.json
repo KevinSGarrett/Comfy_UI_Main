@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "INPAINT_MODEL_VALIDATION_STATE_RECONCILIATION_20260713T013631-0500",
+  "created_iso": "2026-07-13T01:36:31-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-007",
+  "item_id": "ITEM-W64-007",
+  "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "result": "applied_runtime_smoke_complete",
+  "authority_checks": {
+    "certificate": "pass_bounded_scope_only",
+    "runtime": "pass_generation_complete_final_state_stopped",
+    "visual_qa": "pass_target_runtime_smoke_with_notes",
+    "failure_count": 0
+  },
+  "state_transition": {
+    "queue_id": "MRQ-20260707-005",
+    "registry_record_id": "MODEL-REALVISXL-V50-INPAINT-DETAIL-CHECKPOINT-001",
+    "prior_allowed_states": [
+      "queued",
+      "runtime_smoke_complete"
+    ],
+    "current_state": "runtime_smoke_complete",
+    "inventory_distribution": {
+      "runtime_smoke_complete": 9,
+      "local_generation_smoke_complete": 5,
+      "queued": 1
+    }
+  },
+  "source_evidence": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/W66_INPAINT_BOUNDED_TARGET_RUNTIME_SMOKE_CERTIFICATE_20260711T031500-0500.json",
+      "sha256": "d2bbc6dcd50b6df46035f2df46494c8cf674ad6732747f3cc487db6a8fcd3d57"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_EC2_WORKFLOW_SMOKE_SELECTED_INPAINT_20260710T220500-0500.json",
+      "sha256": "e0ac415aa32744e792e384fa78ad387b5c1ce126d0961da30631614f8f03f2a2"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_SELECTED_INPAINT_TARGET_RUNTIME_VISUAL_QA_20260710T212500-0500.json",
+      "sha256": "5555a027ef892b1cfb9dc9fadc4791240b9bed505f7fb4accc126fb9595b0aaa"
+    }
+  ],
+  "mutated_paths": [
+    "Plan/Registries/Models/model_runtime_validation_queue.csv",
+    "Plan/Registries/Models/model_registry.jsonl",
+    "Plan/10_REGISTRIES/model_asset_storage_cache_contract.json"
+  ],
+  "before_hashes": {
+    "Plan/Registries/Models/model_runtime_validation_queue.csv": "800bf8837efe299bddb79fb9c5b8deedb0b234baef8ea8366964dca2922d6bdd",
+    "Plan/Registries/Models/model_registry.jsonl": "60ce5bd6d86d6416474b5c66d8a023fb8e5e632f03072ab4ea05620736382b2f",
+    "Plan/10_REGISTRIES/model_asset_storage_cache_contract.json": "4f31995b8f105f59456636ffe4778d7d4088cb1bd02446216d1c371f9edc2b83"
+  },
+  "after_hashes": {
+    "Plan/Registries/Models/model_runtime_validation_queue.csv": "b6f8c24f4833586451404c174989c36e4d09f6f61e0431207729464f335968f9",
+    "Plan/Registries/Models/model_registry.jsonl": "a310a9e76cf8631bbe1e2f8b27b5c39774e9d73e6ed3a28f66b46f5e68c4823e",
+    "Plan/10_REGISTRIES/model_asset_storage_cache_contract.json": "ef2332de0d23e71b6971e2287023a21730031af2fdb5d50250e934f1ff53e8df"
+  },
+  "boundaries": {
+    "full_lane_certification": false,
+    "full_route_certification": false,
+    "mask_truth_consumed": false,
+    "mask_promotion_allowed": false,
+    "wave71_activation_allowed": false,
+    "new_generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "comfyui_contacted": false
+  },
+  "next_action": "Run the Row007 owner once; do not rerun the selected-inpaint runtime smoke.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Model_Registry/INPAINT_MODEL_VALIDATION_STATE_RECONCILIATION_20260713T013631-0500.json",
+    "Plan/Tracker/Evidence/Model_Registry/INPAINT_MODEL_VALIDATION_STATE_RECONCILIATION_20260713T013631-0500.json"
+  ]
+}

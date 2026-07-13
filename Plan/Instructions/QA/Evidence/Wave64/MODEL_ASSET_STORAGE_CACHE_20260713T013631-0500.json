@@ -1,0 +1,242 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "MODEL_ASSET_STORAGE_CACHE_20260713T013631-0500",
+  "created_iso": "2026-07-13T01:36:31-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-007",
+  "item_id": "ITEM-W64-007",
+  "status": "Completed_Model_Asset_Storage_And_Cache_Governance_Pass",
+  "row_complete": true,
+  "qa_decision": "model_asset_storage_cache_governance_pass_required_model_state_reconciled",
+  "validation_gates": {
+    "model_registry_required": {
+      "status": "pass",
+      "checks": [
+        "MSC-001_row007_contract_exact",
+        "MSC-002_source_contract_linked",
+        "MSC-003_contract_schema_identity",
+        "MSC-004_gate_order_exact",
+        "MSC-005_registry_exact_15",
+        "MSC-006_validation_queue_exact_15",
+        "MSC-007_declaration_pairs_unique",
+        "MSC-013_governance_current_pass"
+      ]
+    },
+    "sha256_required": {
+      "status": "pass_policy_realvis_and_flux_external_hash_proof",
+      "checks": [
+        "MSC-008_all_registry_hashes_valid",
+        "MSC-015_realvis_local_hash_proven",
+        "MSC-017_flux_external_presence_and_hash_verified"
+      ]
+    },
+    "non_git_model_path": {
+      "status": "pass",
+      "checks": [
+        "MSC-009_all_registry_paths_non_git",
+        "MSC-010_all_queue_paths_non_git",
+        "MSC-011_binary_ignore_policy_complete",
+        "MSC-012_zero_tracked_model_binaries"
+      ]
+    },
+    "required_model_presence": {
+      "status": "pass_all_current_states_reconciled",
+      "checks": [
+        "MSC-014_status_distribution_exact",
+        "MSC-016_flux_registered_fail_closed",
+        "MSC-018_inpaint_declaration_proof_state_reconciled",
+        "MSC-019_precedence_and_scope_fail_closed",
+        "MSC-020_no_download_runtime_or_promotion"
+      ]
+    }
+  },
+  "inventory": {
+    "registry_records": 15,
+    "validation_queue_rows": 15,
+    "status_counts": {
+      "runtime_smoke_complete": 9,
+      "local_generation_smoke_complete": 5,
+      "queued": 1
+    },
+    "tracked_model_binary_count": 0
+  },
+  "bounded_presence_proof": {
+    "realvisxl": {
+      "model": "realvisxlV50_v50Bakedvae.safetensors",
+      "local_hash_match": true
+    },
+    "flux1_dev": {
+      "model": "flux1-dev-fp8.safetensors",
+      "existing_path": "../Comfy_UI/Runtime_Data/models/checkpoints/flux1-dev-fp8.safetensors",
+      "local_hash_match": true,
+      "current_file_rehashed_by_audit": true,
+      "observed_bytes": 17246524772,
+      "observed_sha256": "8e91b68084b53a7fc44ed2a3756d821e355ac1a7b6fe29be760c1db532f3d88a",
+      "configured_external_path": true,
+      "license_acceptance_asserted": false,
+      "runtime_proof_present": false
+    },
+    "scope": "local static model presence and exact hash only"
+  },
+  "blockers": [],
+  "checks": [
+    {
+      "name": "MSC-001_row007_contract_exact",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-002_source_contract_linked",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-003_contract_schema_identity",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-004_gate_order_exact",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-005_registry_exact_15",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-006_validation_queue_exact_15",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-007_declaration_pairs_unique",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-008_all_registry_hashes_valid",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-009_all_registry_paths_non_git",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-010_all_queue_paths_non_git",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-011_binary_ignore_policy_complete",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-012_zero_tracked_model_binaries",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-013_governance_current_pass",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-014_status_distribution_exact",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-015_realvis_local_hash_proven",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-016_flux_registered_fail_closed",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-017_flux_external_presence_and_hash_verified",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-018_inpaint_declaration_proof_state_reconciled",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-019_precedence_and_scope_fail_closed",
+      "result": "pass"
+    },
+    {
+      "name": "MSC-020_no_download_runtime_or_promotion",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "safety_boundary": {
+    "model_files_hashed_by_audit": true,
+    "model_files_hashed_by_audit_scope": [
+      "C:\\Comfy_UI\\Runtime_Data\\models\\checkpoints\\flux1-dev-fp8.safetensors"
+    ],
+    "model_downloaded": false,
+    "registry_modified": false,
+    "validation_queue_modified": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "comfyui_contacted": false,
+    "generation_executed": false,
+    "promotion_executed": false,
+    "mask_or_wave71_touched": false,
+    "jira_mutated": false
+  },
+  "project_completion": {
+    "level": "BELOW_LEVEL_7",
+    "full_project_complete": false,
+    "final_certification_decision": "blocked"
+  },
+  "source_hashes": [
+    {
+      "path": "Plan/02_TARGET_ARCHITECTURE/MODEL_ASSET_STORAGE_AND_CACHE_STRATEGY.md",
+      "sha256": "753a2c91a92ecf19d76e99776558b1fb7aea6fbe2088e0d5ca4c668150b55b97"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/model_asset_storage_cache_contract.json",
+      "sha256": "ef2332de0d23e71b6971e2287023a21730031af2fdb5d50250e934f1ff53e8df"
+    },
+    {
+      "path": "Plan/Registries/Models/model_registry.jsonl",
+      "sha256": "a310a9e76cf8631bbe1e2f8b27b5c39774e9d73e6ed3a28f66b46f5e68c4823e"
+    },
+    {
+      "path": "Plan/Registries/Models/model_runtime_validation_queue.csv",
+      "sha256": "b6f8c24f4833586451404c174989c36e4d09f6f61e0431207729464f335968f9"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/model_registry_governance.json",
+      "sha256": "0b33a55e6a5fd45c721482d55f36c29ab7634b403b98f40937772c488fadf466"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+      "sha256": "9252dc6abc21da16e987d99b00abb91c66d9745fd51665de0501feeefe086024"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_FLUX1_DEV_EXISTING_EXTERNAL_MODEL_PREFLIGHT_20260713T010244-0500.json",
+      "sha256": "ea8cea3a06ad9d10c854603a13eafe114f1c1fd84c7ba99ec41b470ebfdc4536"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Model_Registry/W66_LOCAL_REALVISXL_MODEL_DOWNLOAD_20260706T204500-0500.json",
+      "sha256": "1363c074c704596f36124600c39807bf546e72365f77748285048a5a30e2b414"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/W66_INPAINT_BOUNDED_TARGET_RUNTIME_SMOKE_CERTIFICATE_20260711T031500-0500.json",
+      "sha256": "d2bbc6dcd50b6df46035f2df46494c8cf674ad6732747f3cc487db6a8fcd3d57"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "32f539e0765be5af719b70b9133254d559797f69adf0d79b87394b2d906be45c"
+    }
+  ],
+  "next_action": "Row007 is complete for bounded model-storage governance. Preserve selected-inpaint proof without rerun and continue a concrete non-mask runtime/orchestration task; FLUX license/live-runtime gates remain separate.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/model_asset_storage_cache.json",
+    "Plan/Instructions/QA/Evidence/Wave64/MODEL_ASSET_STORAGE_CACHE_20260713T013631-0500.json",
+    "Plan/Tracker/Evidence/MODEL_ASSET_STORAGE_CACHE_20260713T013631-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/model_asset_storage_cache_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-007_model_asset_storage_cache.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W64_ROW007_MODEL_ASSET_STORAGE_CACHE_DONE_20260713T013631-0500.json",
+    "Plan/Tracker/Evidence/Done_Certifications/W64_ROW007_MODEL_ASSET_STORAGE_CACHE_DONE_20260713T013631-0500.json"
+  ]
+}

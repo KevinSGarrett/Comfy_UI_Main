@@ -1,13 +1,13 @@
 {
   "schema_version": "1.0",
-  "evidence_id": "MODEL_ASSET_STORAGE_CACHE_20260713T011550-0500",
-  "created_iso": "2026-07-13T01:15:50-05:00",
+  "evidence_id": "MODEL_ASSET_STORAGE_CACHE_20260713T013631-0500",
+  "created_iso": "2026-07-13T01:36:31-05:00",
   "wave": 64,
   "tracker_id": "TRK-W64-007",
   "item_id": "ITEM-W64-007",
-  "status": "Blocked_State_Reconciliation_Static_Governance_Pass",
-  "row_complete": false,
-  "qa_decision": "static_model_storage_governance_pass_flux_external_presence_verified_inpaint_state_reconciliation_blocked",
+  "status": "Completed_Model_Asset_Storage_And_Cache_Governance_Pass",
+  "row_complete": true,
+  "qa_decision": "model_asset_storage_cache_governance_pass_required_model_state_reconciled",
   "validation_gates": {
     "model_registry_required": {
       "status": "pass",
@@ -40,11 +40,11 @@
       ]
     },
     "required_model_presence": {
-      "status": "blocked_one_declaration_proof_state_reconciliation",
+      "status": "pass_all_current_states_reconciled",
       "checks": [
         "MSC-014_status_distribution_exact",
         "MSC-016_flux_registered_fail_closed",
-        "MSC-018_inpaint_declaration_proof_conflict_recorded",
+        "MSC-018_inpaint_declaration_proof_state_reconciled",
         "MSC-019_precedence_and_scope_fail_closed",
         "MSC-020_no_download_runtime_or_promotion"
       ]
@@ -54,9 +54,9 @@
     "registry_records": 15,
     "validation_queue_rows": 15,
     "status_counts": {
-      "runtime_smoke_complete": 8,
-      "queued": 2,
-      "local_generation_smoke_complete": 5
+      "runtime_smoke_complete": 9,
+      "local_generation_smoke_complete": 5,
+      "queued": 1
     },
     "tracked_model_binary_count": 0
   },
@@ -78,14 +78,7 @@
     },
     "scope": "local static model presence and exact hash only"
   },
-  "blockers": [
-    {
-      "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
-      "classification": "blocked_declaration_proof_state_reconciliation",
-      "strict_state": "queued",
-      "promotion_allowed": false
-    }
-  ],
+  "blockers": [],
   "checks": [
     {
       "name": "MSC-001_row007_contract_exact",
@@ -156,7 +149,7 @@
       "result": "pass"
     },
     {
-      "name": "MSC-018_inpaint_declaration_proof_conflict_recorded",
+      "name": "MSC-018_inpaint_declaration_proof_state_reconciled",
       "result": "pass"
     },
     {
@@ -201,15 +194,15 @@
     },
     {
       "path": "Plan/10_REGISTRIES/model_asset_storage_cache_contract.json",
-      "sha256": "4f31995b8f105f59456636ffe4778d7d4088cb1bd02446216d1c371f9edc2b83"
+      "sha256": "ef2332de0d23e71b6971e2287023a21730031af2fdb5d50250e934f1ff53e8df"
     },
     {
       "path": "Plan/Registries/Models/model_registry.jsonl",
-      "sha256": "60ce5bd6d86d6416474b5c66d8a023fb8e5e632f03072ab4ea05620736382b2f"
+      "sha256": "a310a9e76cf8631bbe1e2f8b27b5c39774e9d73e6ed3a28f66b46f5e68c4823e"
     },
     {
       "path": "Plan/Registries/Models/model_runtime_validation_queue.csv",
-      "sha256": "800bf8837efe299bddb79fb9c5b8deedb0b234baef8ea8366964dca2922d6bdd"
+      "sha256": "b6f8c24f4833586451404c174989c36e4d09f6f61e0431207729464f335968f9"
     },
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/model_registry_governance.json",
@@ -228,16 +221,22 @@
       "sha256": "1363c074c704596f36124600c39807bf546e72365f77748285048a5a30e2b414"
     },
     {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/W66_INPAINT_BOUNDED_TARGET_RUNTIME_SMOKE_CERTIFICATE_20260711T031500-0500.json",
+      "sha256": "d2bbc6dcd50b6df46035f2df46494c8cf674ad6732747f3cc487db6a8fcd3d57"
+    },
+    {
       "path": ".gitignore",
       "sha256": "32f539e0765be5af719b70b9133254d559797f69adf0d79b87394b2d906be45c"
     }
   ],
-  "next_action": "Preserve the verified external FLUX bytes without copying or downloading; reconcile the remaining inpaint declaration/proof state independently, while keeping FLUX license and live-runtime gates fail-closed.",
+  "next_action": "Row007 is complete for bounded model-storage governance. Preserve selected-inpaint proof without rerun and continue a concrete non-mask runtime/orchestration task; FLUX license/live-runtime gates remain separate.",
   "evidence_paths": [
     "Plan/Instructions/QA/Evidence/Wave64/model_asset_storage_cache.json",
-    "Plan/Instructions/QA/Evidence/Wave64/MODEL_ASSET_STORAGE_CACHE_20260713T011550-0500.json",
-    "Plan/Tracker/Evidence/MODEL_ASSET_STORAGE_CACHE_20260713T011550-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/MODEL_ASSET_STORAGE_CACHE_20260713T013631-0500.json",
+    "Plan/Tracker/Evidence/MODEL_ASSET_STORAGE_CACHE_20260713T013631-0500.json",
     "Plan/Instructions/QA/Evidence/Wave64/model_asset_storage_cache_test_log.json",
-    "Plan/Items/Reports/ITEM-W64-007_model_asset_storage_cache.json"
+    "Plan/Items/Reports/ITEM-W64-007_model_asset_storage_cache.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W64_ROW007_MODEL_ASSET_STORAGE_CACHE_DONE_20260713T013631-0500.json",
+    "Plan/Tracker/Evidence/Done_Certifications/W64_ROW007_MODEL_ASSET_STORAGE_CACHE_DONE_20260713T013631-0500.json"
   ]
 }

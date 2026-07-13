@@ -15,7 +15,8 @@ QA = PLAN / "Instructions/QA/Evidence/Wave64"
 HYD = PLAN / "Instructions/Hydration_Rehydration"
 TZ = ZoneInfo("America/Chicago")
 TRK, ITEM = "TRK-W64-007", "ITEM-W64-007"
-STATUS = "Blocked_State_Reconciliation_Static_Governance_Pass"
+COMPLETE_STATUS = "Completed_Model_Asset_Storage_And_Cache_Governance_Pass"
+BLOCKED_STATUS = "Blocked_Model_Asset_Storage_And_Cache_Governance_Gaps"
 GATES = ["model_registry_required", "sha256_required", "non_git_model_path", "required_model_presence"]
 
 
@@ -97,12 +98,14 @@ def main() -> None:
         raise SystemExit("missing current FLUX external-model preflight")
     flux_path = flux_candidates[0]
     realvis_path = PLAN / "Instructions/QA/Evidence/Model_Registry/W66_LOCAL_REALVISXL_MODEL_DOWNLOAD_20260706T204500-0500.json"
+    inpaint_certificate_path = PLAN / "Instructions/QA/Evidence/Done_Certifications/W66_INPAINT_BOUNDED_TARGET_RUNTIME_SMOKE_CERTIFICATE_20260711T031500-0500.json"
     gitignore_path = ROOT / ".gitignore"
     source, contract = source_path.read_text(encoding="utf-8-sig"), load(contract_path)
     registry = [json.loads(line) for line in registry_path.read_text(encoding="utf-8-sig").splitlines() if line.strip()]
     with validation_path.open("r", encoding="utf-8-sig", newline="") as handle:
         validation = list(csv.DictReader(handle))
     governance, queue, flux, realvis = load(governance_path), load(queue_path), load(flux_path), load(realvis_path)
+    inpaint_certificate = load(inpaint_certificate_path)
     flux_model_record = flux["local_required_models"][0]
     flux_model_path = (ROOT / str(flux_model_record["existing_path"])).resolve()
     flux_model_exists = flux_model_path.is_file()
@@ -124,7 +127,10 @@ def main() -> None:
     tracker_path = PLAN / "Tracker/wave64_end_to_end_strict_ai_tracker.csv"
     with tracker_path.open("r", encoding="utf-8-sig", newline="") as handle:
         tracker_rows = [row for row in csv.DictReader(handle) if row.get("Tracker_ID") == TRK]
-    inpaint_queue = [row for row in queued if row["workflow_lane"] == "sdxl_realvisxl_inpaint_detail_lane"]
+    inpaint_runtime = [
+        row for row in validation
+        if row["workflow_lane"] == "sdxl_realvisxl_inpaint_detail_lane" and row["status"] == "runtime_smoke_complete"
+    ]
     flux_queue = [row for row in queued if row["workflow_lane"] == "flux1_dev_primary_base"]
     checks = {
         "MSC-001_row007_contract_exact": len(tracker_rows) == 1 and tracker_rows[0]["Validation_Method"].split("|") == GATES,
@@ -140,11 +146,15 @@ def main() -> None:
         "MSC-011_binary_ignore_policy_complete": all(f"*{ext}" in gitignore for ext in binary_exts),
         "MSC-012_zero_tracked_model_binaries": tracked_binaries == [],
         "MSC-013_governance_current_pass": governance["status"] == "Completed_Local_Model_Registry_Governance_Pass" and governance["coverage"]["registry_record_count"] == 15 and governance["coverage"]["runtime_validation_queue_row_count"] == 15 and governance["coverage"]["failed_check_count"] == 0,
-        "MSC-014_status_distribution_exact": status_counts == {"runtime_smoke_complete": 8, "local_generation_smoke_complete": 5, "queued": 2},
+        "MSC-014_status_distribution_exact": status_counts == {
+            "runtime_smoke_complete": contract["current_inventory_expectation"]["runtime_smoke_complete"],
+            "local_generation_smoke_complete": contract["current_inventory_expectation"]["local_generation_smoke_complete"],
+            "queued": contract["current_inventory_expectation"]["queued"],
+        },
         "MSC-015_realvis_local_hash_proven": realvis["result"] == "local_model_download_verified" and realvis["size_match"] is True and realvis["sha256_match"] is True and realvis["actual_sha256"] == realvis["expected_sha256"],
         "MSC-016_flux_registered_fail_closed": governance["flux_boundary"]["registered"] is True and governance["flux_boundary"]["license_acceptance_asserted"] is False and governance["flux_boundary"]["promotion_allowed"] is False,
         "MSC-017_flux_external_presence_and_hash_verified": len(flux_queue) == 1 and flux["lane_id"] == "flux1_dev_primary_base" and flux["result"] == "pass_local_gpu_generation_candidate" and flux["failed_check_count"] == 0 and flux["configured_extra_model_paths"]["status"] == "ready" and len(flux["local_required_models"]) == 1 and flux_model_record["filename"] == "flux1-dev-fp8.safetensors" and flux_model_record["exists_locally"] is True and flux_model_record["hash_match"] is True and flux_model_record["observed_sha256"] == "8e91b68084b53a7fc44ed2a3756d821e355ac1a7b6fe29be760c1db532f3d88a" and flux_model_current_match and flux["generation_executed"] is False and flux["comfyui_contacted"] is False and flux["ec2_started"] is False,
-        "MSC-018_inpaint_declaration_proof_conflict_recorded": len(inpaint_queue) == 1 and "sdxl_realvisxl_inpaint_detail_lane" in queue["selection_policy"]["target_runtime_proof_present_lane_ids"] and contract["current_blockers"][0]["strict_state"] == "queued",
+        "MSC-018_inpaint_declaration_proof_state_reconciled": len(inpaint_runtime) == 1 and inpaint_runtime[0]["evidence_path"] == rel(inpaint_certificate_path) and "sdxl_realvisxl_inpaint_detail_lane" in queue["selection_policy"]["target_runtime_proof_present_lane_ids"] and inpaint_certificate["lane_id"] == "sdxl_realvisxl_inpaint_detail_lane" and inpaint_certificate["result"] == "bounded_target_runtime_smoke_certified_with_notes" and inpaint_certificate["final_decision"] == "pass_bounded_smoke_scope_only" and inpaint_certificate["closes_prior_runtime_blockers"] is True and inpaint_certificate["final_lane_certification"] is False and inpaint_certificate["full_route_certification"] is False and inpaint_certificate["mask_promotion_allowed"] is False and all(blocker.get("lane_id") != "sdxl_realvisxl_inpaint_detail_lane" for blocker in contract["current_blockers"]),
         "MSC-019_precedence_and_scope_fail_closed": contract["state_precedence_strictest_first"] == ["blocked", "missing", "queued", "local_validated", "target_runtime_validated"] and all(blocker["promotion_allowed"] is False for blocker in contract["current_blockers"]),
         "MSC-020_no_download_runtime_or_promotion": all(contract[key] is False for key in ("runtime_action_allowed", "model_download_allowed", "promotion_allowed", "full_project_completion_implied")),
     }
@@ -162,14 +172,20 @@ def main() -> None:
     test_log = QA / "model_asset_storage_cache_test_log.json"
     report = PLAN / "Items/Reports/ITEM-W64-007_model_asset_storage_cache.json"
     blockers = contract["current_blockers"]
+    status = COMPLETE_STATUS if not blockers else BLOCKED_STATUS
+    qa_decision = (
+        "model_asset_storage_cache_governance_pass_required_model_state_reconciled"
+        if not blockers
+        else "model_asset_storage_cache_governance_blocked_exact_gaps_recorded"
+    )
     payload = {
         "schema_version": "1.0", "evidence_id": stamped.stem, "created_iso": iso, "wave": 64, "tracker_id": TRK, "item_id": ITEM,
-        "status": STATUS, "row_complete": False, "qa_decision": "static_model_storage_governance_pass_flux_external_presence_verified_inpaint_state_reconciliation_blocked",
+        "status": status, "row_complete": not blockers, "qa_decision": qa_decision,
         "validation_gates": {
             "model_registry_required": {"status": "pass", "checks": groups["model_registry_required"]},
             "sha256_required": {"status": "pass_policy_realvis_and_flux_external_hash_proof", "checks": groups["sha256_required"]},
             "non_git_model_path": {"status": "pass", "checks": groups["non_git_model_path"]},
-            "required_model_presence": {"status": "blocked_one_declaration_proof_state_reconciliation", "checks": groups["required_model_presence"]},
+            "required_model_presence": {"status": "pass_all_current_states_reconciled" if not blockers else "blocked_exact_gaps_recorded", "checks": groups["required_model_presence"]},
         },
         "inventory": {"registry_records": len(registry), "validation_queue_rows": len(validation), "status_counts": dict(status_counts), "tracked_model_binary_count": 0},
         "bounded_presence_proof": {
@@ -191,26 +207,58 @@ def main() -> None:
         "checks": [{"name": name, "result": "pass"} for name in checks], "check_summary": {"checked": 20, "passed": 20, "failed": 0},
         "safety_boundary": {"model_files_hashed_by_audit": True, "model_files_hashed_by_audit_scope": [str(flux_model_path)], "model_downloaded": False, "registry_modified": False, "validation_queue_modified": False, "aws_contacted": False, "ec2_started": False, "comfyui_contacted": False, "generation_executed": False, "promotion_executed": False, "mask_or_wave71_touched": False, "jira_mutated": False},
         "project_completion": {"level": "BELOW_LEVEL_7", "full_project_complete": False, "final_certification_decision": "blocked"},
-        "source_hashes": [{"path": rel(path), "sha256": sha(path)} for path in (source_path, contract_path, registry_path, validation_path, governance_path, queue_path, flux_path, realvis_path, gitignore_path)],
-        "next_action": "Preserve the verified external FLUX bytes without copying or downloading; reconcile the remaining inpaint declaration/proof state independently, while keeping FLUX license and live-runtime gates fail-closed.",
+        "source_hashes": [{"path": rel(path), "sha256": sha(path)} for path in (source_path, contract_path, registry_path, validation_path, governance_path, queue_path, flux_path, realvis_path, inpaint_certificate_path, gitignore_path)],
+        "next_action": "Row007 is complete for bounded model-storage governance. Preserve selected-inpaint proof without rerun and continue a concrete non-mask runtime/orchestration task; FLUX license/live-runtime gates remain separate." if not blockers else "Resolve only the exact blockers recorded in current_blockers.",
     }
+    done = PLAN / "Instructions/QA/Evidence/Done_Certifications" / f"W64_ROW007_MODEL_ASSET_STORAGE_CACHE_DONE_{stamp}.json"
+    done_mirror = PLAN / "Tracker/Evidence/Done_Certifications" / done.name
     evidence_paths = [rel(canonical), rel(stamped), rel(mirror), rel(test_log), rel(report)]
+    if not blockers:
+        evidence_paths.extend([rel(done), rel(done_mirror)])
     payload["evidence_paths"] = evidence_paths
     for path in (canonical, stamped, mirror):
         write(path, payload)
-    write(test_log, {"schema_version": "1.0", "created_iso": iso, "tracker_id": TRK, "result": "pass_static_governance_presence_blocked", "validation_gates": payload["validation_gates"], "checks": payload["checks"], "summary": payload["check_summary"]})
-    write(report, {"schema_version": "1.0", "created_iso": iso, "tracker_id": TRK, "item_id": ITEM, "status": STATUS, "inventory": payload["inventory"], "bounded_presence_proof": payload["bounded_presence_proof"], "blockers": blockers, "project_completion": payload["project_completion"], "evidence": evidence_paths, "next_action": payload["next_action"]})
-    note = f"Wave64 Row007 {stamp}: 15 registry and 15 validation rows, all expected hashes/paths valid, zero tracked model binaries, bounded RealVisXL and configured-external FLUX hash proof, and 20/20 controls pass. FLUX is no longer missing; license/live-runtime gates remain fail-closed. Inpaint declaration/proof reconciliation remains the sole Row007 blocker."
-    tags = ["wave64_row007_static_model_governance_pass", "zero_model_binaries_tracked", "flux_external_presence_hash_verified", "flux_license_runtime_still_fail_closed", "inpaint_state_reconciliation_blocked"]
-    tracker_changes = [update_csv(path, "Tracker_ID", TRK, {"Status": STATUS, "Status_Decision": payload["qa_decision"], "Evidence_Path": evidence_paths, "Coverage_Audit_Status": tags, "Notes": [note]}) for path in (PLAN / "Tracker/wave64_end_to_end_strict_ai_tracker.csv", PLAN / "Tracker/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_TRACKER_ROWS.csv")]
-    item_changes = [update_csv(path, "Item_ID", ITEM, {"Status": STATUS, "Evidence_Required": evidence_paths, "Coverage_Audit_Status": tags, "Notes": [note]}) for path in (PLAN / "Items/wave64_end_to_end_strict_ai_itemized_list.csv", PLAN / "Items/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_ITEM_ROWS.csv")]
+    write(test_log, {"schema_version": "1.0", "created_iso": iso, "tracker_id": TRK, "result": "pass_static_governance_all_current_states_reconciled" if not blockers else "blocked_exact_gaps_recorded", "validation_gates": payload["validation_gates"], "checks": payload["checks"], "summary": payload["check_summary"]})
+    write(report, {"schema_version": "1.0", "created_iso": iso, "tracker_id": TRK, "item_id": ITEM, "status": status, "row_complete": not blockers, "inventory": payload["inventory"], "bounded_presence_proof": payload["bounded_presence_proof"], "blockers": blockers, "project_completion": payload["project_completion"], "evidence": evidence_paths, "next_action": payload["next_action"]})
+    if not blockers:
+        done_payload = {
+            "schema_version": "1.0",
+            "evidence_id": done.stem,
+            "created_iso": iso,
+            "tracker_id": TRK,
+            "item_id": ITEM,
+            "result": "done_model_asset_storage_cache_governance_pass",
+            "row_complete": True,
+            "check_summary": payload["check_summary"],
+            "inventory": payload["inventory"],
+            "inpaint_scope": {
+                "state": "runtime_smoke_complete",
+                "certificate": rel(inpaint_certificate_path),
+                "bounded_single_sample_only": True,
+                "full_lane_certification": False,
+                "mask_promotion_allowed": False,
+            },
+            "flux_scope": {
+                "external_model_hash_verified": True,
+                "license_acceptance_asserted": False,
+                "live_runtime_proof_present": False,
+            },
+            "full_project_complete": False,
+            "next_action": payload["next_action"],
+        }
+        write(done, done_payload)
+        write(done_mirror, done_payload)
+    note = f"Wave64 Row007 {stamp}: 15 registry and 15 validation rows, all expected hashes/paths valid, zero tracked model binaries, bounded RealVisXL and configured-external FLUX hash proof, and 20/20 controls pass. The stale selected-inpaint queue state is reconciled to its bounded target-runtime certificate; no runtime was rerun. FLUX license/live-runtime gates remain separate and fail-closed."
+    tags = ["wave64_row007_model_storage_governance_pass", "zero_model_binaries_tracked", "flux_external_presence_hash_verified", "flux_license_runtime_still_fail_closed", "inpaint_runtime_state_reconciled"]
+    tracker_changes = [update_csv(path, "Tracker_ID", TRK, {"Status": status, "Status_Decision": payload["qa_decision"], "Evidence_Path": evidence_paths, "Coverage_Audit_Status": tags, "Notes": [note]}) for path in (PLAN / "Tracker/wave64_end_to_end_strict_ai_tracker.csv", PLAN / "Tracker/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_TRACKER_ROWS.csv")]
+    item_changes = [update_csv(path, "Item_ID", ITEM, {"Status": status, "Evidence_Required": evidence_paths, "Coverage_Audit_Status": tags, "Notes": [note]}) for path in (PLAN / "Items/wave64_end_to_end_strict_ai_itemized_list.csv", PLAN / "Items/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_ITEM_ROWS.csv")]
     if tracker_changes != [1, 1] or item_changes != [1, 1]:
         raise SystemExit(f"row update mismatch: {tracker_changes} {item_changes}")
     block = f"""## Wave64 Row007 Model Asset Storage And Cache Governance - {iso}
 
-`{TRK}` / `{ITEM}` is `{STATUS}`. The direct contract verifies 15/15 registry-to-validation declarations, valid expected SHA256 values, non-Git model paths, complete binary ignore policy, zero tracked model binaries, bounded RealVisXL proof, and configured-external FLUX presence with the exact required SHA256. FLUX is not copied or downloaded; license acceptance and every live-runtime/promotion gate remain unproven. Inpaint declaration/proof reconciliation is the sole Row007 blocker. No broad model hashing, download, registry/queue mutation, AWS, EC2, ComfyUI, generation, mask, Jira, or Wave71+ action occurred.
+`{TRK}` / `{ITEM}` is `{status}`. The direct contract verifies 15/15 registry-to-validation declarations, valid expected SHA256 values, non-Git model paths, complete binary ignore policy, zero tracked model binaries, bounded RealVisXL proof, and configured-external FLUX presence with the exact required SHA256. The stale selected-inpaint declaration now matches its existing bounded target-runtime certificate; no runtime was rerun. FLUX is not copied or downloaded, and license acceptance plus every FLUX live-runtime/promotion gate remain unproven. No broad model hashing, download, AWS, EC2, ComfyUI, generation, mask, Jira, or Wave71+ action occurred.
 
-Next safe local action: preserve existing FLUX bytes and reconcile the independent inpaint declaration/proof state only when that lane is intentionally selected.
+Next safe local action: continue a concrete non-mask runtime/orchestration task without reopening selected-inpaint proof or executing FLUX before use rights are documented.
 
 Evidence: `{rel(canonical)}`; `{rel(stamped)}`; `{rel(mirror)}`.
 """
@@ -221,8 +269,8 @@ Evidence: `{rel(canonical)}`; `{rel(stamped)}`; `{rel(mirror)}`.
         recorded = any(row.get("Task") == TRK and rel(stamped) in row.get("Evidence_Path", "") for row in csv.DictReader(handle))
     if not recorded:
         with proof.open("a", encoding="utf-8", newline="") as handle:
-            csv.writer(handle, lineterminator="\n").writerow([iso, "64", TRK, "Reconciled configured-external FLUX model presence without copying or downloading bytes.", "; ".join(evidence_paths), "20/20 checks; 15/15 declarations; exact FLUX SHA256; one independent inpaint state blocker", payload["qa_decision"], rel(canonical), payload["next_action"]])
-    print(json.dumps({"status": STATUS, "row_complete": False, "gates": {gate: payload["validation_gates"][gate]["status"] for gate in GATES}, "inventory": payload["inventory"], "blockers": blockers, "checks": payload["check_summary"], "next": payload["next_action"]}, indent=2))
+            csv.writer(handle, lineterminator="\n").writerow([iso, "64", TRK, "Reconciled selected-inpaint model-validation state from existing bounded target-runtime proof.", "; ".join(evidence_paths), "20/20 checks; 15/15 declarations; exact FLUX SHA256; inpaint runtime state reconciled without rerun", payload["qa_decision"], rel(canonical), payload["next_action"]])
+    print(json.dumps({"status": status, "row_complete": not blockers, "gates": {gate: payload["validation_gates"][gate]["status"] for gate in GATES}, "inventory": payload["inventory"], "blockers": blockers, "checks": payload["check_summary"], "done_certification": rel(done) if not blockers else "", "next": payload["next_action"]}, indent=2))
 
 
 if __name__ == "__main__":

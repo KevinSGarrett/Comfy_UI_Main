@@ -303,8 +303,14 @@ foreach ($laneId in $activeLaneIds) {
       (($workflowLaneStatus -match "target_runtime") -and @($workflowLaneProofEvidence).Count -gt 0)
     )
   )
+  $targetRuntimeProofLaneIds = @()
+  if ($null -ne $workflowQueue -and (Has-Property -Object $workflowQueue -Name "selection_policy") -and (Has-Property -Object $workflowQueue.selection_policy -Name "target_runtime_proof_present_lane_ids")) {
+    $targetRuntimeProofLaneIds = @($workflowQueue.selection_policy.target_runtime_proof_present_lane_ids | ForEach-Object { [string]$_ })
+  }
+  $laneBoundedModelRuntimeProven = $lanePartialTargetRuntime -and ($targetRuntimeProofLaneIds -contains $laneId)
+  $laneModelRuntimeProven = $laneRuntimeProven -or $laneBoundedModelRuntimeProven
   $laneLocalPreEc2Validated = (
-    -not $laneRuntimeProven -and
+    -not $laneModelRuntimeProven -and
     ($workflowLaneStatus -match "local_") -and
     @($workflowLaneLocalEvidence).Count -gt 0
   )
@@ -371,10 +377,10 @@ foreach ($laneId in $activeLaneIds) {
       $storageLocation = $(if (Has-Property -Object $entry -Name "storage_location") { [string]$entry.storage_location } else { "" })
       $runtimeQueued = ($runtimeValidationStatus -eq "queued")
       $runtimeComplete = ($runtimeValidationStatus -in @("runtime_smoke_complete", "runtime_validated"))
-      if ($laneRuntimeProven) {
-        $expectedCompatibilityStatuses = @("runtime_validated", "runtime_smoke_validated")
+      if ($laneModelRuntimeProven) {
+        $expectedCompatibilityStatuses = @("runtime_validated", "runtime_smoke_validated", "bounded_target_runtime_smoke_validated")
         $expectedRuntimeStatuses = @("runtime_smoke_complete", "runtime_validated")
-        $expectedQaStatuses = @("pass_with_notes_for_runtime_smoke", "pass")
+        $expectedQaStatuses = @("pass_with_notes_for_runtime_smoke", "target_runtime_smoke_pass_with_notes", "pass")
       } elseif ($laneLocalPreEc2Validated) {
         $expectedCompatibilityStatuses = @("needs_runtime_validation", "local_runtime_smoke_validated_with_notes", "local_runtime_followup_validated_with_notes")
         $expectedRuntimeStatuses = @("queued", "local_generation_smoke_complete", "local_generation_followup_complete")
@@ -419,13 +425,13 @@ foreach ($laneId in $activeLaneIds) {
         -Expected ($expectedQaStatuses -join " | ") `
         -Observed $(if ([string]::IsNullOrWhiteSpace($qaStatus)) { "missing" } else { $qaStatus })
       $laneChecks += New-Check -Name "registry_completed_lane_has_evidence_paths" `
-        -Passed (!$laneRuntimeProven -or (@($evidencePaths).Count -gt 0 -and @($existingEvidencePaths).Count -eq @($evidencePaths).Count)) `
-        -Expected $(if ($laneRuntimeProven) { "completed lane registry record has existing evidence_paths" } else { "not required for pending lane" }) `
+        -Passed (!$laneModelRuntimeProven -or (@($evidencePaths).Count -gt 0 -and @($existingEvidencePaths).Count -eq @($evidencePaths).Count)) `
+        -Expected $(if ($laneModelRuntimeProven) { "model runtime-smoke-complete lane registry record has existing evidence_paths" } else { "not required for pending lane" }) `
         -Observed ("lane_status={0}; evidence_paths={1}; existing={2}" -f $workflowLaneStatus, @($evidencePaths).Count, @($existingEvidencePaths).Count)
       $laneChecks += New-Check -Name "local_model_binary_boundary_respected" `
-        -Passed ($binaryExists -or $runtimeQueued -or ($laneRuntimeProven -and $runtimeComplete -and $storageLocation -eq "ec2" -and @($existingEvidencePaths).Count -gt 0)) `
+        -Passed ($binaryExists -or $runtimeQueued -or ($laneModelRuntimeProven -and $runtimeComplete -and $storageLocation -in @("ec2", "local_and_target_runtime_validated") -and @($existingEvidencePaths).Count -gt 0)) `
         -Expected "binary may be absent locally if validation is queued or completed on EC2 with evidence" `
-        -Observed $(if ($binaryExists) { "local binary present" } elseif ($laneRuntimeProven -and $runtimeComplete) { "local binary absent; EC2 runtime evidence recorded" } else { "local binary absent; registry remains queued" }) `
+        -Observed $(if ($binaryExists) { "local binary present" } elseif ($laneModelRuntimeProven -and $runtimeComplete) { "local binary absent; bounded runtime evidence recorded" } else { "local binary absent; registry remains queued" }) `
         -Details ([ordered]@{ expected_local_path = $expectedLocalPath; local_file_exists = $binaryExists; storage_location = $storageLocation; lane_status = $workflowLaneStatus })
     }
 
@@ -433,8 +439,9 @@ foreach ($laneId in $activeLaneIds) {
       $hashStatus = $(if (Has-Property -Object $model -Name "hash_status") { [string]$model.hash_status } else { "" })
       $pathStatus = $(if (Has-Property -Object $model -Name "path_status") { [string]$model.path_status } else { "" })
       $laneBlockedPreinstall = $workflowLaneStatus -eq "asset_authority_recorded_blocked_local_install_and_runtime_proof"
-      $expectedHashStatuses = $(if ($laneRuntimeProven) { @("ec2_static_match_verified", "verified_ec2_static_match") } elseif ($laneLocalPreEc2Validated) { @("pending_ec2_static_match", "local_sha256_verified") } elseif ($laneBlockedPreinstall) { @("authoritative_remote_sha256_recorded_local_verification_pending") } else { @("pending_ec2_static_match") })
-      $expectedPathStatuses = $(if ($laneRuntimeProven) { @("ec2_static_match_verified", "verified_ec2_static_match") } elseif ($laneLocalPreEc2Validated) { @("pending_ec2_static_match", "local_model_present") } elseif ($laneBlockedPreinstall) { @("blocked_model_not_present_locally") } else { @("pending_ec2_static_match") })
+      $laneExternalModelHashVerified = $workflowLaneStatus -match "existing_external_model_hash_verified"
+      $expectedHashStatuses = $(if ($laneRuntimeProven) { @("ec2_static_match_verified", "verified_ec2_static_match") } elseif ($laneLocalPreEc2Validated) { @("pending_ec2_static_match", "local_sha256_verified") } elseif ($laneExternalModelHashVerified) { @("observed_external_local_sha256_verified") } elseif ($laneBlockedPreinstall) { @("authoritative_remote_sha256_recorded_local_verification_pending") } else { @("pending_ec2_static_match") })
+      $expectedPathStatuses = $(if ($laneRuntimeProven) { @("ec2_static_match_verified", "verified_ec2_static_match") } elseif ($laneLocalPreEc2Validated) { @("pending_ec2_static_match", "local_model_present") } elseif ($laneExternalModelHashVerified) { @("present_via_configured_external_model_path") } elseif ($laneBlockedPreinstall) { @("blocked_model_not_present_locally") } else { @("pending_ec2_static_match") })
       $laneChecks += New-Check -Name "requirements_hash_status_matches_lane_state" `
         -Passed ($expectedHashStatuses -contains $hashStatus) `
         -Expected ($expectedHashStatuses -join " | ") `
@@ -458,7 +465,7 @@ foreach ($laneId in $activeLaneIds) {
       -Expected "one queue row for required model" `
       -Observed ("{0} matching rows" -f @($queueMatches).Count)
     if (@($queueMatches).Count -gt 0) {
-      if ($laneRuntimeProven) {
+      if ($laneModelRuntimeProven) {
         $expectedQueueStatuses = @("runtime_smoke_complete", "runtime_validated")
       } elseif ($laneLocalPreEc2Validated) {
         $expectedQueueStatuses = @("queued", "local_generation_smoke_complete", "local_generation_followup_complete")
@@ -470,8 +477,8 @@ foreach ($laneId in $activeLaneIds) {
         -Expected ($expectedQueueStatuses -join " | ") `
         -Observed ([string]$queueMatches[0].status)
       $laneChecks += New-Check -Name "runtime_validation_queue_completed_lane_has_evidence" `
-        -Passed (!$laneRuntimeProven -or ![string]::IsNullOrWhiteSpace([string]$queueMatches[0].evidence_path)) `
-        -Expected $(if ($laneRuntimeProven) { "completed queue row has evidence_path" } else { "not required for pending lane" }) `
+        -Passed (!$laneModelRuntimeProven -or ![string]::IsNullOrWhiteSpace([string]$queueMatches[0].evidence_path)) `
+        -Expected $(if ($laneModelRuntimeProven) { "model runtime-smoke-complete queue row has evidence_path" } else { "not required for pending lane" }) `
         -Observed $(if ([string]::IsNullOrWhiteSpace([string]$queueMatches[0].evidence_path)) { "missing" } else { [string]$queueMatches[0].evidence_path })
     }
 

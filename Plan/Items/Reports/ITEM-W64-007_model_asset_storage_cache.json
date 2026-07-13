@@ -1,16 +1,17 @@
 {
   "schema_version": "1.0",
-  "created_iso": "2026-07-13T01:15:50-05:00",
+  "created_iso": "2026-07-13T01:36:31-05:00",
   "tracker_id": "TRK-W64-007",
   "item_id": "ITEM-W64-007",
-  "status": "Blocked_State_Reconciliation_Static_Governance_Pass",
+  "status": "Completed_Model_Asset_Storage_And_Cache_Governance_Pass",
+  "row_complete": true,
   "inventory": {
     "registry_records": 15,
     "validation_queue_rows": 15,
     "status_counts": {
-      "runtime_smoke_complete": 8,
-      "queued": 2,
-      "local_generation_smoke_complete": 5
+      "runtime_smoke_complete": 9,
+      "local_generation_smoke_complete": 5,
+      "queued": 1
     },
     "tracked_model_binary_count": 0
   },
@@ -32,14 +33,7 @@
     },
     "scope": "local static model presence and exact hash only"
   },
-  "blockers": [
-    {
-      "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
-      "classification": "blocked_declaration_proof_state_reconciliation",
-      "strict_state": "queued",
-      "promotion_allowed": false
-    }
-  ],
+  "blockers": [],
   "project_completion": {
     "level": "BELOW_LEVEL_7",
     "full_project_complete": false,
@@ -47,10 +41,12 @@
   },
   "evidence": [
     "Plan/Instructions/QA/Evidence/Wave64/model_asset_storage_cache.json",
-    "Plan/Instructions/QA/Evidence/Wave64/MODEL_ASSET_STORAGE_CACHE_20260713T011550-0500.json",
-    "Plan/Tracker/Evidence/MODEL_ASSET_STORAGE_CACHE_20260713T011550-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/MODEL_ASSET_STORAGE_CACHE_20260713T013631-0500.json",
+    "Plan/Tracker/Evidence/MODEL_ASSET_STORAGE_CACHE_20260713T013631-0500.json",
     "Plan/Instructions/QA/Evidence/Wave64/model_asset_storage_cache_test_log.json",
-    "Plan/Items/Reports/ITEM-W64-007_model_asset_storage_cache.json"
+    "Plan/Items/Reports/ITEM-W64-007_model_asset_storage_cache.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W64_ROW007_MODEL_ASSET_STORAGE_CACHE_DONE_20260713T013631-0500.json",
+    "Plan/Tracker/Evidence/Done_Certifications/W64_ROW007_MODEL_ASSET_STORAGE_CACHE_DONE_20260713T013631-0500.json"
   ],
-  "next_action": "Preserve the verified external FLUX bytes without copying or downloading; reconcile the remaining inpaint declaration/proof state independently, while keeping FLUX license and live-runtime gates fail-closed."
+  "next_action": "Row007 is complete for bounded model-storage governance. Preserve selected-inpaint proof without rerun and continue a concrete non-mask runtime/orchestration task; FLUX license/live-runtime gates remain separate."
 }

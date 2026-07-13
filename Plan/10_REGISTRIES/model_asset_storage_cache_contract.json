@@ -24,7 +24,11 @@
   "rules": {
     "model_registry_required": {
       "exact_active_record_count": 1,
-      "match_keys": ["workflow_lane", "file_name", "model_type"]
+      "match_keys": [
+        "workflow_lane",
+        "file_name",
+        "model_type"
+      ]
     },
     "sha256_required": {
       "expected_sha256_length": 64,
@@ -33,7 +37,15 @@
     },
     "non_git_model_path": {
       "required_prefix": "models/",
-      "ignored_binary_extensions": [".safetensors", ".ckpt", ".pt", ".pth", ".onnx", ".bin", ".gguf"],
+      "ignored_binary_extensions": [
+        ".safetensors",
+        ".ckpt",
+        ".pt",
+        ".pth",
+        ".onnx",
+        ".bin",
+        ".gguf"
+      ],
       "model_binary_commit_allowed": false
     },
     "required_model_presence": {
@@ -45,19 +57,12 @@
   "current_inventory_expectation": {
     "registry_records": 15,
     "validation_queue_rows": 15,
-    "runtime_smoke_complete": 8,
+    "runtime_smoke_complete": 9,
     "local_generation_smoke_complete": 5,
-    "queued": 2
+    "queued": 1
   },
-  "current_blockers": [
-    {
-      "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
-      "classification": "blocked_declaration_proof_state_reconciliation",
-      "strict_state": "queued",
-      "promotion_allowed": false
-    }
-  ],
-  "current_decision": "static_governance_pass_flux_external_presence_verified_inpaint_state_reconciliation_blocked",
+  "current_blockers": [],
+  "current_decision": "static_governance_pass_required_model_presence_and_inpaint_state_reconciled",
   "runtime_action_allowed": false,
   "model_download_allowed": false,
   "promotion_allowed": false,
