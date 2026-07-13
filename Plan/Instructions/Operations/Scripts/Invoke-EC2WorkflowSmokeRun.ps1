@@ -928,6 +928,38 @@ def apply_deploy_bundle_if_configured():
             else:
                 os.makedirs(os.path.dirname(dst), exist_ok=True)
                 shutil.copy2(src, dst)
+        required_assets = manifest.get("required_input_assets")
+        if required_assets is None:
+            raise RuntimeError("deploy bundle manifest missing required_input_assets")
+        declared_required_count = manifest.get("required_input_asset_count")
+        if not isinstance(declared_required_count, int) or declared_required_count != len(required_assets):
+            raise RuntimeError("deploy bundle required input asset count mismatch")
+        extract_root_real = os.path.realpath(extract_root)
+        project_root_real = os.path.realpath(PROJECT)
+        copied_required_assets = []
+        for asset in required_assets:
+            rel = str(asset.get("bundle_path") or "").replace("\\", "/")
+            expected_asset_sha = str(asset.get("sha256") or "").lower()
+            normalized_rel = os.path.normpath(rel)
+            if not rel or os.path.isabs(rel) or normalized_rel.startswith("..") or (len(rel) >= 2 and rel[1] == ":"):
+                raise RuntimeError("unsafe required input asset bundle path: " + rel)
+            extracted_asset = os.path.realpath(os.path.join(extract_root_real, normalized_rel))
+            deployed_asset = os.path.realpath(os.path.join(project_root_real, normalized_rel))
+            if os.path.commonpath([extract_root_real, extracted_asset]) != extract_root_real:
+                raise RuntimeError("required input asset escapes deploy bundle: " + rel)
+            if os.path.commonpath([project_root_real, deployed_asset]) != project_root_real:
+                raise RuntimeError("required input asset escapes remote project: " + rel)
+            if not os.path.isfile(extracted_asset):
+                raise RuntimeError("required input asset missing from extracted deploy bundle: " + rel)
+            extracted_sha = sha256_file(extracted_asset).lower()
+            if not expected_asset_sha or extracted_sha != expected_asset_sha:
+                raise RuntimeError("required input asset extracted sha256 mismatch for %s" % rel)
+            os.makedirs(os.path.dirname(deployed_asset), exist_ok=True)
+            shutil.copy2(extracted_asset, deployed_asset)
+            deployed_sha = sha256_file(deployed_asset).lower()
+            if deployed_sha != expected_asset_sha:
+                raise RuntimeError("required input asset deployed sha256 mismatch for %s" % rel)
+            copied_required_assets.append({"bundle_path": rel, "sha256": deployed_sha})
         return {
             "deployment_method": "s3_deploy_bundle",
             "s3_uri": DEPLOY_BUNDLE_S3_URI,
@@ -942,6 +974,8 @@ def apply_deploy_bundle_if_configured():
             "manifest_matrix_id": manifest.get("matrix_id"),
             "manifest_sample_count": manifest.get("sample_count"),
             "manifest_file_count": manifest.get("file_count"),
+            "required_input_asset_count": len(copied_required_assets),
+            "required_input_assets": copied_required_assets,
             "git_lfs_pull_skipped": True
         }
     finally:
@@ -999,7 +1033,7 @@ def stage_required_input_assets():
         if not os.path.isfile(source):
             raise RuntimeError("required input asset missing from deploy bundle: " + source_rel)
         actual_sha = sha256_file(source).lower()
-        if expected_sha and actual_sha != expected_sha:
+        if not expected_sha or actual_sha != expected_sha:
             raise RuntimeError("required input asset sha256 mismatch for %s: expected %s observed %s" % (filename, expected_sha, actual_sha))
         os.makedirs(os.path.dirname(destination), exist_ok=True)
         shutil.copy2(source, destination)
