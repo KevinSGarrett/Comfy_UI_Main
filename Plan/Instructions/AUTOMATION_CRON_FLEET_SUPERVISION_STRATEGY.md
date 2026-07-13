@@ -31,6 +31,8 @@ All scheduled jobs inherit `Plan/Instructions/Operations/EC2_COST_CONTROL_AND_LO
 - Every running instance requires the atomic active marker. Every ended window requires archived marker history and final `stopped` proof.
 - GitHub OIDC is deploy-bundle publication only. GitHub must never start/stop EC2, send SSM commands, mutate scheduler state, or receive long-lived AWS credentials.
 - S3 lifecycle must preserve `model-cache/`; EBS migration remains blocked until real filesystem used-byte proof exists.
+- The daily cost audit may run `tools/aws/Test-ComfyUICloudControlPlaneDrift.ps1` once as a read-only control-plane check. Report drift or the existing EBS blocker compactly; do not repair IAM, GitHub, S3, EBS, or EC2 from a scheduled job.
+- The weekly consistency audit may run `tools/github/Test-GitHubMainProtectionRulesetDrift.ps1` once. A failure is steering evidence for Codex final authority, never permission for an automation or worker to mutate the ruleset.
 
 Do not rerun completed EC2/local work as new work: low-risk fallback first runtime proof, RealVisXL base smoke/proof and prior certification sample runs, baseline/Canny v4 target-runtime smoke proof, or the 2026-07-09 active-lane local package smoke/visual QA matrix. Still-open selected-inpaint work is not duplicate only when intentionally selected and live gates pass: deploy-bundle rebuild/revalidation, S3 publish proof, EC2 input/model install hash proof, selected target-runtime proof, and final certification.
 
