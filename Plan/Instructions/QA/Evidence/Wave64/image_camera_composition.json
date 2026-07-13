@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "artifact_type": "wave64_camera_composition_reconciliation",
-  "evidence_id": "IMAGE_CAMERA_COMPOSITION_RECONCILIATION_20260712T115523-0500",
-  "created_iso": "2026-07-12T11:55:23-05:00",
+  "evidence_id": "IMAGE_CAMERA_COMPOSITION_RECONCILIATION_20260713T015834-0500",
+  "created_iso": "2026-07-13T01:58:34-05:00",
   "wave": 64,
   "tracker_id": "TRK-W64-011",
   "item_id": "ITEM-W64-011",
@@ -52,11 +52,18 @@
       ]
     }
   },
-  "exact_blocker": "The exact Wave10 output keeps full-body framing but both hands are partly hidden in trouser pockets instead of fully visible and inspectable.",
+  "exact_blocker": "The bounded Wave10 prompt-and-seed retry keeps full-body framing but still places both hands inside trouser pockets instead of making them fully visible and inspectable.",
+  "latest_runtime_attempt": {
+    "retry_performed": true,
+    "retry_evidence_path": "Plan/Tracker/Evidence/Wave64/image_camera_composition_retry.json",
+    "retry_result": "fail_visual_runtime_composition_mismatch",
+    "retry_seed": 7152026102,
+    "further_seed_loop_authorized": false
+  },
   "codex_visual_review": {
     "reviewed_existing_image_only": true,
-    "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave10_camera_full_body_realvisxl_seed7152026101_20260711T112700-0500/images/wave10_camera_full_body_7152026101_00001_.png",
-    "image_sha256": "f3921e7bf7af9262989a0e4ca70aa4566fca3603c2c014a9eb6437da4ae42aa1",
+    "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave10_camera_full_body_realvisxl_seed7152026102_hands_outside_pockets_20260713T015310-0500/images/wave10_camera_full_body_7152026102_hands_outside_pockets_00001_.png",
+    "image_sha256": "34fa57b4d30d8898dc5b9c0c48f39124df69efffce08f25a1f27ecf9309dad7d",
     "findings": [
       "One adult is centered in an eye-level full-body portrait with complete hair and both shoes inside the frame.",
       "Headroom, footroom, and side margins are balanced and the image has no obvious global composition defect.",
@@ -156,7 +163,8 @@
     "failed": 0
   },
   "safety_boundary": {
-    "new_generation_executed": false,
+    "new_generation_executed": true,
+    "generation_count": 1,
     "aws_contacted": false,
     "ec2_started": false,
     "mask_consumed_or_promoted": false,
@@ -174,16 +182,16 @@
       "sha256": "19e143d1208546767ed176a4e021753efffdf3cebf0ec0518730deaced80fdf7"
     },
     {
-      "path": "Plan/Tracker/Evidence/Wave64/image_camera_composition.json",
-      "sha256": "8f18bd068e6c3b73b4242c040462dc2d75249bc4c6a77bbf8d9a59afad176daf"
+      "path": "Plan/Tracker/Evidence/Wave64/image_camera_composition_retry.json",
+      "sha256": "5d7c25eab143d209263f618eca4b1af1f2a41e3a17f8309186a7a5cd9240333b"
     },
     {
-      "path": "Plan/Tracker/Evidence/Wave64/image_camera_composition_test_log.json",
-      "sha256": "931e7b428eee08d2a0dc7d26f51a8993fcd662260a7a10ef3a386c4f4868bb37"
+      "path": "Plan/Instructions/QA/Evidence/Wave64/image_camera_composition_retry_test_log.json",
+      "sha256": "5bb1ecd762f7c8f77f2af720168d389ee4b1d1cb7023e50ef2e2f61f6161884f"
     },
     {
-      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAVE10_CAMERA_COMPILER_FULL_BODY_VISUAL_QA_20260711T113100-0500.json",
-      "sha256": "36db7ecd3ffb363b659e5a825e598f24a925188a146bd62c2683a78f4c4da3e7"
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAVE10_CAMERA_HANDS_OUTSIDE_POCKETS_RETRY_VISUAL_QA_20260713T015900-0500.json",
+      "sha256": "2ab773c12426b4ff014e861f74d6220607f2a09a99acd839c493113a78bc4786"
     },
     {
       "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_OPENPOSE_V6_FULL_BODY_MULTISEED_ROBUSTNESS_QA_20260711T045000-0500.json",
@@ -206,23 +214,23 @@
       "sha256": "cc6bd9cad9908f673d90830e363e899744d6e55b58219af69c881f59caa9415d"
     },
     {
-      "path": "PromptProfiles/base_generation/wave10_camera_compiler/wave10_camera_full_body_realvisxl_seed7152026101.json",
-      "sha256": "eecd877834ca71ed6a1eb9c059f8a65dd460a4a0c2aeb54b9951c2c1fcbfa427"
+      "path": "PromptProfiles/base_generation/wave10_camera_compiler/wave10_camera_full_body_realvisxl_seed7152026102_hands_outside_pockets.json",
+      "sha256": "07464d62b52cd8aebc376d9f0ab1913d088039c60e6aa6200a2280c461e3de4e"
     },
     {
-      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave10_camera_full_body_realvisxl_seed7152026101_20260711T112700-0500/images/wave10_camera_full_body_7152026101_00001_.png",
-      "sha256": "f3921e7bf7af9262989a0e4ca70aa4566fca3603c2c014a9eb6437da4ae42aa1"
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave10_camera_full_body_realvisxl_seed7152026102_hands_outside_pockets_20260713T015310-0500/images/wave10_camera_full_body_7152026102_hands_outside_pockets_00001_.png",
+      "sha256": "34fa57b4d30d8898dc5b9c0c48f39124df69efffce08f25a1f27ecf9309dad7d"
     }
   ],
-  "next_action": "Proceed to TRK-W64-012 / ITEM-W64-012 in strict sequence. Reopen Row011 only for a new Wave10-compiled, scope-bound sample with both hands fully visible; do not reuse W70 OpenPose evidence as a substitute.",
+  "next_action": "Proceed to TRK-W64-012 / ITEM-W64-012 in strict sequence. Do not seed-loop Row011; reopen only for a materially different scope-bound camera/control objective that can prove both hands fully visible.",
   "evidence_paths": [
     "Plan/Instructions/QA/Evidence/Wave64/image_camera_composition.json",
-    "Plan/Instructions/QA/Evidence/Wave64/IMAGE_CAMERA_COMPOSITION_RECONCILIATION_20260712T115523-0500.json",
-    "Plan/Tracker/Evidence/IMAGE_CAMERA_COMPOSITION_RECONCILIATION_20260712T115523-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/IMAGE_CAMERA_COMPOSITION_RECONCILIATION_20260713T015834-0500.json",
+    "Plan/Tracker/Evidence/IMAGE_CAMERA_COMPOSITION_RECONCILIATION_20260713T015834-0500.json",
     "Plan/Instructions/QA/Evidence/Wave64/image_camera_composition_reconciliation_test_log.json",
     "Plan/Items/Reports/ITEM-W64-011_image_camera_composition_reconciliation.json",
-    "Plan/Tracker/Evidence/Wave64/image_camera_composition.json",
-    "Plan/Tracker/Evidence/Wave64/image_camera_composition_test_log.json",
-    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAVE10_CAMERA_COMPILER_FULL_BODY_VISUAL_QA_20260711T113100-0500.json"
+    "Plan/Tracker/Evidence/Wave64/image_camera_composition_retry.json",
+    "Plan/Instructions/QA/Evidence/Wave64/image_camera_composition_retry_test_log.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAVE10_CAMERA_HANDS_OUTSIDE_POCKETS_RETRY_VISUAL_QA_20260713T015900-0500.json"
   ]
 }

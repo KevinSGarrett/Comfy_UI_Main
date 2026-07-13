@@ -174,6 +174,9 @@ def main() -> int:
     parser.add_argument("--visual-disposition", type=Path, required=True)
     parser.add_argument("--unit-test-log", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--expected-seed", type=int, default=EXPECTED_SEED)
+    parser.add_argument("--expected-save-prefix", default=EXPECTED_SAVE_PREFIX)
+    parser.add_argument("--retry-performed", action="store_true")
     args = parser.parse_args()
 
     resolved = {
@@ -294,7 +297,7 @@ def main() -> int:
         "output_dimensions_exact": dimensions == EXPECTED_DIMENSIONS,
         "output_nonblank": image_metrics["pass"] is True,
         "model_asset_bound": checkpoint.get("ckpt_name") == EXPECTED_MODEL == patch.get("model_asset"),
-        "seed_bound": int(sampler.get("seed")) == EXPECTED_SEED == int(patch.get("seed")),
+        "seed_bound": int(sampler.get("seed")) == args.expected_seed == int(patch.get("seed")),
         "steps_bound": int(sampler.get("steps")) == EXPECTED_STEPS == int(patch["sampler_settings"]["steps"]),
         "cfg_bound": float(sampler.get("cfg")) == EXPECTED_CFG == float(patch["sampler_settings"]["cfg"]),
         "sampler_bound": sampler.get("sampler_name") == EXPECTED_SAMPLER == patch["sampler_settings"]["sampler_name"],
@@ -305,7 +308,9 @@ def main() -> int:
         "latent_batch_bound": int(latent.get("batch_size")) == 1 == int(patch["latent_resolution"]["batch_size"]),
         "positive_prompt_bound": patch.get("positive_prompt") in prompt_texts,
         "negative_prompt_bound": patch.get("negative_prompt") in prompt_texts,
-        "save_prefix_bound": save.get("filename_prefix") == EXPECTED_SAVE_PREFIX == patch.get("save_prefix"),
+        "save_prefix_bound": save.get("filename_prefix")
+        == args.expected_save_prefix
+        == patch.get("save_prefix"),
         "dwpose_models_hash_trusted": all(record["sha256_matches_expected"] for record in model_records),
         "exactly_one_person_detected": len(keypoints.get("people") or []) == 1,
         "all_18_body_landmarks_detected": len(points) == 18,
@@ -351,6 +356,11 @@ def main() -> int:
             "dimensions": {"width": dimensions[0], "height": dimensions[1]},
             "nonblank_metrics": image_metrics,
         },
+        "expected_runtime_bindings": {
+            "seed": args.expected_seed,
+            "save_prefix": args.expected_save_prefix,
+            "retry_performed": args.retry_performed,
+        },
         "dwpose": {
             "models": model_records,
             "keypoints": rel(keypoints_path),
@@ -395,6 +405,7 @@ def main() -> int:
             and visual.get("checks", {}).get("both_feet_fully_in_frame") is True
             and visual.get("checks", {}).get("no_required_region_hidden") is True,
             "composition_score": 100 if technical_pass else 0,
+            "composition_score_basis": "technical_contract_only_visual_disposition_separate",
             "visual_runtime_ready": visual_pass,
         },
         "result": result,
@@ -402,10 +413,10 @@ def main() -> int:
         "status_decision": status_decision,
         "strict_decision": {
             "row_complete": overall_pass,
-            "retry_performed": False,
+            "retry_performed": args.retry_performed,
             "retry_allowed_by_this_evidence": False,
             "reason": (
-                "The compiler, package, graph, runtime, image, and pose checks pass, but both hands are partly hidden in trouser pockets rather than fully open and inspectable as requested."
+                "The compiler, package, graph, runtime, image, and pose checks pass, but the strict visual disposition still fails one or more required composition checks."
                 if result == "fail_visual_runtime_composition_mismatch"
                 else "See technical and visual checks."
             ),

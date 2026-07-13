@@ -1,0 +1,173 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-IMAGE-CAMERA-COMPOSITION",
+  "timestamp": "2026-07-13T02:04:19-05:00",
+  "tracker_id": "TRK-W64-011",
+  "item_id": "ITEM-W64-011",
+  "lane_id": "sdxl_realvisxl_base_lane",
+  "source_citation": "Plan/03_IMAGE_SYSTEM/WAVE10_IMAGE_CAMERA_PLAN_COMPILER.md",
+  "compiler": {
+    "request": "Plan/09_EXAMPLES/wave10_camera_full_body_hands_outside_pockets_runtime_request.example.json",
+    "request_sha256": "372fb4f3a29699461485fc14aa1220eda9a2b84bdff487607e247cef08581c2d",
+    "plan": "Plan/09_EXAMPLES/wave10_camera_full_body_hands_outside_pockets_compiled.example.json",
+    "plan_sha256": "3481ded2e4952af9d223343f0e2b9fdb662ec59aa2b501194bffc89abda0a81e",
+    "canonical_plan_sha256": "9a74ac71e32fa2ce21fa66fcc7f8c9c637ce0ca164d864a3239eef35602805c2",
+    "profile": "PromptProfiles/base_generation/wave10_camera_compiler/wave10_camera_full_body_realvisxl_seed7152026102_hands_outside_pockets.json",
+    "profile_sha256": "07464d62b52cd8aebc376d9f0ab1913d088039c60e6aa6200a2280c461e3de4e"
+  },
+  "runtime": {
+    "package": "runtime_artifacts/run_packages/wave10_camera_full_body_realvisxl_seed7152026102_hands_outside_pockets/RUN_PACKAGE_MANIFEST.json",
+    "package_sha256": "831da0b75503d8c39e9c817b5d1bcb407e2f171723cb8fd34aae5f06a08f6dd1",
+    "prompt_request": "runtime_artifacts/run_packages/wave10_camera_full_body_realvisxl_seed7152026102_hands_outside_pockets/prompt_request.json",
+    "prompt_request_sha256": "1cce2d50822c96e2156a97cda1e9af00a60d9fbbb190b19fb66a83538f0ac201",
+    "execution_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_WAVE10_CAMERA_HANDS_OUTSIDE_POCKETS_EXECUTE_20260713T015301-0500.json",
+    "execution_evidence_sha256": "f8cf9f2828cbc62635402b0b8f532acb4972b572f7739ef69254ef5f326671dd",
+    "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave10_camera_full_body_realvisxl_seed7152026102_hands_outside_pockets_20260713T015310-0500/images/wave10_camera_full_body_7152026102_hands_outside_pockets_00001_.png",
+    "image_sha256": "34fa57b4d30d8898dc5b9c0c48f39124df69efffce08f25a1f27ecf9309dad7d",
+    "dimensions": {
+      "width": 768,
+      "height": 1024
+    },
+    "nonblank_metrics": {
+      "std": 36.282039642333984,
+      "nonwhite_ratio": 1.0,
+      "nonblack_ratio": 0.9993985493977865,
+      "pass": true
+    }
+  },
+  "expected_runtime_bindings": {
+    "seed": 7152026102,
+    "save_prefix": "wave10_camera_full_body_7152026102_hands_outside_pockets",
+    "retry_performed": true
+  },
+  "dwpose": {
+    "models": [
+      {
+        "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\yolox_l.onnx",
+        "filename": "yolox_l.onnx",
+        "sha256": "7860ae79de6c89a3c1eb72ae9a2756c0ccfbe04b7791bb5880afabd97855a411",
+        "expected_sha256": "7860ae79de6c89a3c1eb72ae9a2756c0ccfbe04b7791bb5880afabd97855a411",
+        "sha256_matches_expected": true,
+        "size_bytes": 216746733
+      },
+      {
+        "path": "C:\\Comfy_UI_Lora\\OpenPose\\models\\dwpose\\dw-ll_ucoco_384.onnx",
+        "filename": "dw-ll_ucoco_384.onnx",
+        "sha256": "724f4ff2439ed61afb86fb8a1951ec39c6220682803b4a8bd4f598cd913b1843",
+        "expected_sha256": "724f4ff2439ed61afb86fb8a1951ec39c6220682803b4a8bd4f598cd913b1843",
+        "sha256_matches_expected": true,
+        "size_bytes": 134399116
+      }
+    ],
+    "keypoints": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave10_camera_full_body_realvisxl_seed7152026102_hands_outside_pockets_20260713T015310-0500/qa_openpose_keypoints.json",
+    "keypoints_sha256": "68622281e8df80eb5f41b382581ddefaabf3146fc336d3b61cdba47ec5161a6a",
+    "person_count": 1,
+    "detected_body_landmark_count": 18,
+    "normalized_framing_points": {
+      "0": {
+        "x": 0.5398085723314175,
+        "y": 0.12033524634413573
+      },
+      "4": {
+        "x": 0.40599354430257034,
+        "y": 0.46156356781769614
+      },
+      "7": {
+        "x": 0.698327913227129,
+        "y": 0.46619562648023316
+      },
+      "10": {
+        "x": 0.31746975652964055,
+        "y": 0.9093292385296081
+      },
+      "13": {
+        "x": 0.5377498795925123,
+        "y": 0.8985211016503549
+      }
+    }
+  },
+  "unit_test_log": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/image_camera_composition_retry_test_log.json",
+    "sha256": "5bb1ecd762f7c8f77f2af720168d389ee4b1d1cb7023e50ef2e2f61f6161884f",
+    "result": "pass",
+    "tests_run": 22
+  },
+  "technical_checks": {
+    "request_recompiles_to_committed_plan": true,
+    "request_and_plan_recompile_to_committed_profile": true,
+    "profile_camera_plan_binding_matches": true,
+    "package_result_pass_local_only": true,
+    "package_profile_applied": true,
+    "package_profile_path_matches": true,
+    "package_has_no_live_side_effects": true,
+    "prompt_request_hash_matches_package": true,
+    "runtime_passed": true,
+    "runtime_is_local_and_aws_free": true,
+    "runtime_generated_exactly_one_output": true,
+    "runtime_stopped_server_and_closed_port": true,
+    "runtime_prompt_hash_matches_package": true,
+    "image_pullback_hash_bound": true,
+    "output_dimensions_exact": true,
+    "output_nonblank": true,
+    "model_asset_bound": true,
+    "seed_bound": true,
+    "steps_bound": true,
+    "cfg_bound": true,
+    "sampler_bound": true,
+    "scheduler_bound": true,
+    "denoise_bound": true,
+    "latent_width_bound": true,
+    "latent_height_bound": true,
+    "latent_batch_bound": true,
+    "positive_prompt_bound": true,
+    "negative_prompt_bound": true,
+    "save_prefix_bound": true,
+    "dwpose_models_hash_trusted": true,
+    "exactly_one_person_detected": true,
+    "all_18_body_landmarks_detected": true,
+    "head_wrists_and_ankles_in_frame": true,
+    "unit_tests_passed": true
+  },
+  "technical_pass": true,
+  "strict_visual_disposition": {
+    "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAVE10_CAMERA_HANDS_OUTSIDE_POCKETS_RETRY_VISUAL_QA_20260713T015900-0500.json",
+    "sha256": "2ab773c12426b4ff014e861f74d6220607f2a09a99acd839c493113a78bc4786",
+    "contract_valid": true,
+    "visual_pass": false,
+    "issues": [],
+    "checks": {
+      "exactly_one_adult": true,
+      "eye_level_full_body_camera_intent": true,
+      "head_and_hair_fully_in_frame": true,
+      "both_hands_fully_visible_and_inspectable": false,
+      "both_feet_fully_in_frame": true,
+      "balanced_headroom_footroom_and_side_margins": true,
+      "no_required_region_hidden": false,
+      "natural_skin_clothing_and_background": true,
+      "no_obvious_anatomy_or_render_defect": true
+    },
+    "notes": [
+      "The retry preserves one-person eye-level full-body framing with complete hair, both shoes, balanced margins, and a clean studio background.",
+      "Both hands remain inserted into the trouser pockets. Small wrist and thumb regions are visible, but neither hand is fully visible or inspectable.",
+      "This is the single bounded prompt-and-seed retry selected for Row011. No further seed loop is authorized by this evidence."
+    ]
+  },
+  "acceptance_gates": {
+    "camera_spec_check": true,
+    "crop_boundary_check": false,
+    "composition_score": 100,
+    "composition_score_basis": "technical_contract_only_visual_disposition_separate",
+    "visual_runtime_ready": false
+  },
+  "result": "fail_visual_runtime_composition_mismatch",
+  "overall_pass": false,
+  "status_decision": "Blocked_Visual_Runtime_Composition_Mismatch",
+  "strict_decision": {
+    "row_complete": false,
+    "retry_performed": true,
+    "retry_allowed_by_this_evidence": false,
+    "reason": "The compiler, package, graph, runtime, image, and pose checks pass, but the strict visual disposition still fails one or more required composition checks.",
+    "target_runtime_or_lane_certification_claimed": false,
+    "mask_or_geometry_authority_claimed": false
+  }
+}

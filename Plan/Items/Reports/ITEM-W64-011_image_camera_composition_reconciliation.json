@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0",
-  "created_iso": "2026-07-12T11:55:23-05:00",
+  "created_iso": "2026-07-13T01:58:34-05:00",
   "tracker_id": "TRK-W64-011",
   "item_id": "ITEM-W64-011",
   "status": "Blocked_Visual_Runtime_Composition_Mismatch",
-  "exact_blocker": "The exact Wave10 output keeps full-body framing but both hands are partly hidden in trouser pockets instead of fully visible and inspectable.",
+  "exact_blocker": "The bounded Wave10 prompt-and-seed retry keeps full-body framing but still places both hands inside trouser pockets instead of making them fully visible and inspectable.",
   "codex_visual_review": {
     "reviewed_existing_image_only": true,
-    "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave10_camera_full_body_realvisxl_seed7152026101_20260711T112700-0500/images/wave10_camera_full_body_7152026101_00001_.png",
-    "image_sha256": "f3921e7bf7af9262989a0e4ca70aa4566fca3603c2c014a9eb6437da4ae42aa1",
+    "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave10_camera_full_body_realvisxl_seed7152026102_hands_outside_pockets_20260713T015310-0500/images/wave10_camera_full_body_7152026102_hands_outside_pockets_00001_.png",
+    "image_sha256": "34fa57b4d30d8898dc5b9c0c48f39124df69efffce08f25a1f27ecf9309dad7d",
     "findings": [
       "One adult is centered in an eye-level full-body portrait with complete hair and both shoes inside the frame.",
       "Headroom, footroom, and side margins are balanced and the image has no obvious global composition defect.",
@@ -22,13 +22,13 @@
   },
   "evidence": [
     "Plan/Instructions/QA/Evidence/Wave64/image_camera_composition.json",
-    "Plan/Instructions/QA/Evidence/Wave64/IMAGE_CAMERA_COMPOSITION_RECONCILIATION_20260712T115523-0500.json",
-    "Plan/Tracker/Evidence/IMAGE_CAMERA_COMPOSITION_RECONCILIATION_20260712T115523-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/IMAGE_CAMERA_COMPOSITION_RECONCILIATION_20260713T015834-0500.json",
+    "Plan/Tracker/Evidence/IMAGE_CAMERA_COMPOSITION_RECONCILIATION_20260713T015834-0500.json",
     "Plan/Instructions/QA/Evidence/Wave64/image_camera_composition_reconciliation_test_log.json",
     "Plan/Items/Reports/ITEM-W64-011_image_camera_composition_reconciliation.json",
-    "Plan/Tracker/Evidence/Wave64/image_camera_composition.json",
-    "Plan/Tracker/Evidence/Wave64/image_camera_composition_test_log.json",
-    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAVE10_CAMERA_COMPILER_FULL_BODY_VISUAL_QA_20260711T113100-0500.json"
+    "Plan/Tracker/Evidence/Wave64/image_camera_composition_retry.json",
+    "Plan/Instructions/QA/Evidence/Wave64/image_camera_composition_retry_test_log.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAVE10_CAMERA_HANDS_OUTSIDE_POCKETS_RETRY_VISUAL_QA_20260713T015900-0500.json"
   ],
-  "next_action": "Proceed to TRK-W64-012 / ITEM-W64-012 in strict sequence. Reopen Row011 only for a new Wave10-compiled, scope-bound sample with both hands fully visible; do not reuse W70 OpenPose evidence as a substitute."
+  "next_action": "Proceed to TRK-W64-012 / ITEM-W64-012 in strict sequence. Do not seed-loop Row011; reopen only for a materially different scope-bound camera/control objective that can prove both hands fully visible."
 }

@@ -1,0 +1,65 @@
+{
+  "camera_plan_id": "cam_w64_full_body_realvisxl_hands_outside_pockets_v2",
+  "scene_id": "scene_w64_camera_compiler_hands_outside_pockets_retry",
+  "modality": "image",
+  "character_id": "adult_catalog_subject",
+  "shot_size": "full_body",
+  "lens_profile": "classic_35mm",
+  "camera_angle": "eye_level",
+  "camera_height": "eye",
+  "zoom_level": "normal",
+  "aspect_ratio": "3:4",
+  "width": 768,
+  "height": 1024,
+  "composition_preset": "full_body_catalog",
+  "crop_policy": "blocked_unintentional_crop",
+  "headroom": "balanced_5_to_8_percent",
+  "footroom": "balanced_5_to_8_percent",
+  "side_margin": "balanced_5_to_10_percent",
+  "horizon_line": "neutral",
+  "must_not_crop": [
+    "head",
+    "hair",
+    "hands",
+    "feet",
+    "outfit_edges"
+  ],
+  "intentional_crop_allowed": false,
+  "focus_targets": [
+    "face",
+    "hands",
+    "feet",
+    "outfit"
+  ],
+  "background_blur_strength": 0.15,
+  "positive_prompt": "hyperrealistic full-length editorial catalog photograph of exactly one fully clothed adult woman, standing naturally and facing the camera, both arms straight and relaxed beside the thighs with a clear gap from the torso, both hands fully outside trouser pockets, fingers and palms fully visible, hands relaxed beside thighs and not touching pockets, both legs and both closed-toe shoes visible, anatomically coherent shoulders elbows wrists hips knees and ankles, natural skin texture, realistic face and eyes, detailed natural hair, tailored long-sleeve jacket over a high-neck top, full-length straight-leg trousers, clean continuous light gray studio backdrop, soft balanced studio lighting, lifelike material detail",
+  "negative_prompt": "cartoon, anime, illustration, child, teen, extra person, duplicate body, distorted anatomy, extra limbs, missing limbs, fused limbs, extra fingers, missing fingers, deformed hands, malformed feet, low resolution, blurry, watermark, text, logo, harsh outlines, edge halos, background seam, nudity, lingerie, bikini, unclothed torso, hands in pockets, hand in pocket, pocketed hands, partially hidden hands, occluded hands, fingers obscured by pockets, arms behind back, crossed arms",
+  "seed": 7152026102,
+  "sampler_settings": {
+    "steps": 24,
+    "cfg": 5.5,
+    "sampler_name": "dpmpp_2m",
+    "scheduler": "karras",
+    "denoise": 1.0
+  },
+  "target_lane_id": "sdxl_realvisxl_base_lane",
+  "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+  "save_prefix": "wave10_camera_full_body_7152026102_hands_outside_pockets",
+  "profile_id": "wave10_camera_full_body_realvisxl_seed7152026102_hands_outside_pockets",
+  "purpose": "One bounded local RealVisXL Row011 retry that preserves the Wave10 full-body camera contract while requiring both hands fully visible outside pockets, without consuming masks or claiming lane certification.",
+  "reference_route": {
+    "enabled": false
+  },
+  "control_plan": {
+    "enabled": false
+  },
+  "qa_goals": [
+    "shot_size_matches_intent",
+    "no_unintentional_crop",
+    "full_body_visible",
+    "head_hands_feet_visible",
+    "balanced_headroom_and_footroom",
+    "focus_target_sharp",
+    "body_scale_consistent"
+  ]
+}

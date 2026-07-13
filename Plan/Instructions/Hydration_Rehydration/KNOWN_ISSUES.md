@@ -1,3 +1,11 @@
+## Wave64 Row011 Camera Framing And Composition Strictness - 2026-07-13T01:58:34-05:00
+
+`TRK-W64-011` / `ITEM-W64-011` remains `Blocked_Visual_Runtime_Composition_Mismatch`. One bounded Wave10 prompt-and-seed retry passes 22 tests, deterministic plan/profile binding, local runtime, one-person/18-landmark detection, camera intent, full-body framing, and composition score 100. Direct Codex visual review confirms both hands are still inside trouser pockets, so the required-region crop and strict visual-runtime gates fail. Later W70 OpenPose full-body robustness belongs to a different lane/control workflow and explicitly lacks target-runtime/final-lane certification; it is supportive but cannot supersede this blocker. The reconciliation audit passes 20/20 checks. The retry ran locally without AWS, EC2, mask use/promotion, Jira, or Wave71+ action. Further Row011 seed looping is prohibited.
+
+Next safe local action in strict sequence: `TRK-W64-012 / ITEM-W64-012`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/image_camera_composition.json`; `Plan/Instructions/QA/Evidence/Wave64/IMAGE_CAMERA_COMPOSITION_RECONCILIATION_20260713T015834-0500.json`; `Plan/Tracker/Evidence/IMAGE_CAMERA_COMPOSITION_RECONCILIATION_20260713T015834-0500.json`.
+
 ## Wave64 Row064 Prompt And Negative-Prompt QA - 2026-07-13T00:43:07-05:00
 
 `TRK-W64-064` / `ITEM-W64-064` is `Blocked_Prompt_Profile_Lane_Authority_And_Runtime_QA_Gaps`. The audit parsed all 112 PromptProfiles JSON artifacts and correctly separated 109 prompt profiles from two non-prompt RealESRGAN operations and one certification matrix. All 109 prompt profiles now carry durable positive/negative prompt pairs with zero exact clause contradictions. Four previously incomplete robustness profiles are hash-bound to their existing local prompt requests, runtime execution records, and visual-QA evidence; no generation was rerun. Final approval remains fail-closed because 93 profiles lack exact lane-contract authority, 105 lack direct representative-output evidence links, and 14 Wave71/Wave72-named profiles remain deferred. No profile was approved, and no AWS, EC2, mask, Jira, or Wave71+ activation occurred.

@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "wave10_camera_full_body_realvisxl_seed7152026102_hands_outside_pockets",
+  "target_lane_id": "sdxl_realvisxl_base_lane",
+  "purpose": "One bounded local RealVisXL Row011 retry that preserves the Wave10 full-body camera contract while requiring both hands fully visible outside pockets, without consuming masks or claiming lane certification.",
+  "camera_plan_binding": {
+    "camera_plan_id": "cam_w64_full_body_realvisxl_hands_outside_pockets_v2",
+    "sha256": "9a74ac71e32fa2ce21fa66fcc7f8c9c637ce0ca164d864a3239eef35602805c2"
+  },
+  "request_patch_values": {
+    "positive_prompt": "hyperrealistic full-length editorial catalog photograph of exactly one fully clothed adult woman, standing naturally and facing the camera, both arms straight and relaxed beside the thighs with a clear gap from the torso, both hands fully outside trouser pockets, fingers and palms fully visible, hands relaxed beside thighs and not touching pockets, both legs and both closed-toe shoes visible, anatomically coherent shoulders elbows wrists hips knees and ankles, natural skin texture, realistic face and eyes, detailed natural hair, tailored long-sleeve jacket over a high-neck top, full-length straight-leg trousers, clean continuous light gray studio backdrop, soft balanced studio lighting, lifelike material detail, full-length composition, entire subject visible from the top of the head through both feet, both hands fully visible, 35mm natural environmental lens perspective, eye-level camera, full body catalog composition, balanced 5 to 8 percent headroom, deep focus, controlled footroom, 5 to 10 percent margin around the complete silhouette",
+    "negative_prompt": "cartoon, anime, illustration, child, teen, extra person, duplicate body, distorted anatomy, extra limbs, missing limbs, fused limbs, extra fingers, missing fingers, deformed hands, malformed feet, low resolution, blurry, watermark, text, logo, harsh outlines, edge halos, background seam, nudity, lingerie, bikini, unclothed torso, hands in pockets, hand in pocket, pocketed hands, partially hidden hands, occluded hands, fingers obscured by pockets, arms behind back, crossed arms, cropped head, cropped hair, cropped hands, cropped fingers, cropped legs, cropped feet, cropped shoes, cut off body, out-of-frame limbs, partial body, close-up crop, tight framing, hidden hands, hidden feet",
+    "seed": 7152026102,
+    "sampler_settings": {
+      "steps": 24,
+      "cfg": 5.5,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    },
+    "latent_resolution": {
+      "width": 768,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "wave10_camera_full_body_7152026102_hands_outside_pockets"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "wave10_camera_full_body_7152026102_hands_outside_pockets"
+  },
+  "compiler_outputs": {
+    "positive_prompt_camera_module": "full-length composition, entire subject visible from the top of the head through both feet, both hands fully visible, 35mm natural environmental lens perspective, eye-level camera, full body catalog composition, balanced 5 to 8 percent headroom, deep focus, controlled footroom, 5 to 10 percent margin around the complete silhouette",
+    "negative_prompt_crop_guard": "cropped head, cropped hair, cropped hands, cropped fingers, cropped legs, cropped feet, cropped shoes, cut off body, out-of-frame limbs, partial body, close-up crop, tight framing, hidden hands, hidden feet",
+    "latent_resolution": {
+      "width": 768,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "reference_routing_plan": {
+      "enabled": false,
+      "route_id": "none",
+      "proof_status": "not_requested",
+      "asset": null,
+      "asset_sha256": null
+    },
+    "control_plan": {
+      "enabled": false,
+      "route_id": "none",
+      "proof_status": "not_requested",
+      "target_lane_id": null,
+      "controlnet_asset": null,
+      "controlnet_asset_sha256": null,
+      "control_image": null,
+      "control_image_sha256": null,
+      "settings": null
+    },
+    "save_prefix": "wave10_camera_full_body_7152026102_hands_outside_pockets",
+    "qa_goals": [
+      "shot_size_matches_intent",
+      "no_unintentional_crop",
+      "full_body_visible",
+      "head_hands_feet_visible",
+      "balanced_headroom_and_footroom",
+      "focus_target_sharp",
+      "body_scale_consistent"
+    ]
+  },
+  "qa_focus": [
+    "shot_size_matches_intent",
+    "no_unintentional_crop",
+    "full_body_visible",
+    "head_hands_feet_visible",
+    "balanced_headroom_and_footroom",
+    "focus_target_sharp",
+    "body_scale_consistent"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "generation_executed": false,
+    "gold_masks_consumed": false,
+    "body_mask_or_geometry_authority_claimed": false,
+    "reference_route_claimed": false,
+    "control_plan_claimed": false,
+    "requires_visual_qa": true,
+    "requires_target_runtime_reproof_before_lane_certification": true
+  }
+}

@@ -83,7 +83,12 @@ def prepend(path: Path, block: str) -> None:
 
 def main() -> None:
     canonical = QA / "image_camera_composition.json"
-    if canonical.exists() and load(canonical).get("artifact_type") == "wave64_camera_composition_reconciliation":
+    retry_path = PLAN / "Tracker/Evidence/Wave64/image_camera_composition_retry.json"
+    retry_rel = rel(retry_path)
+    if (
+        canonical.exists()
+        and load(canonical).get("latest_runtime_attempt", {}).get("retry_evidence_path") == retry_rel
+    ):
         prior = load(canonical)
         iso = prior["created_iso"]
         stamp = prior["evidence_id"].removeprefix("IMAGE_CAMERA_COMPOSITION_RECONCILIATION_")
@@ -93,15 +98,15 @@ def main() -> None:
         stamp = now.strftime("%Y%m%dT%H%M%S%z")
 
     source_path = PLAN / "03_IMAGE_SYSTEM/WAVE10_IMAGE_CAMERA_PLAN_COMPILER.md"
-    original_path = PLAN / "Tracker/Evidence/Wave64/image_camera_composition.json"
-    original_test_path = PLAN / "Tracker/Evidence/Wave64/image_camera_composition_test_log.json"
-    visual_path = PLAN / "Instructions/QA/Evidence/Image_Artifact_QA/W64_WAVE10_CAMERA_COMPILER_FULL_BODY_VISUAL_QA_20260711T113100-0500.json"
+    original_path = retry_path
+    original_test_path = QA / "image_camera_composition_retry_test_log.json"
+    visual_path = PLAN / "Instructions/QA/Evidence/Image_Artifact_QA/W64_WAVE10_CAMERA_HANDS_OUTSIDE_POCKETS_RETRY_VISUAL_QA_20260713T015900-0500.json"
     w70_path = PLAN / "Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_OPENPOSE_V6_FULL_BODY_MULTISEED_ROBUSTNESS_QA_20260711T045000-0500.json"
     w70_done_path = PLAN / "Instructions/QA/Evidence/Done_Certifications/W70_OPENPOSE_V6_FULL_BODY_MULTISEED_ROBUSTNESS_DONE_20260711T045000-0500.json"
     compiler_path = PLAN / "07_IMPLEMENTATION/scripts/compile_camera_plan.py"
     validator_path = PLAN / "07_IMPLEMENTATION/scripts/validate_camera_plan.py"
     scorer_path = PLAN / "07_IMPLEMENTATION/scripts/score_framing_composition.py"
-    profile_path = ROOT / "PromptProfiles/base_generation/wave10_camera_compiler/wave10_camera_full_body_realvisxl_seed7152026101.json"
+    profile_path = ROOT / "PromptProfiles/base_generation/wave10_camera_compiler/wave10_camera_full_body_realvisxl_seed7152026102_hands_outside_pockets.json"
     source = source_path.read_text(encoding="utf-8-sig")
     original, original_test, visual, w70, w70_done = map(load, (original_path, original_test_path, visual_path, w70_path, w70_done_path))
     image_path = ROOT / original["runtime"]["image"]
@@ -146,7 +151,7 @@ def main() -> None:
     mirror = PLAN / "Tracker/Evidence" / stamped.name
     test_log = QA / "image_camera_composition_reconciliation_test_log.json"
     report = PLAN / "Items/Reports/ITEM-W64-011_image_camera_composition_reconciliation.json"
-    blocker = "The exact Wave10 output keeps full-body framing but both hands are partly hidden in trouser pockets instead of fully visible and inspectable."
+    blocker = "The bounded Wave10 prompt-and-seed retry keeps full-body framing but still places both hands inside trouser pockets instead of making them fully visible and inspectable."
     payload = {
         "schema_version": "1.0", "artifact_type": "wave64_camera_composition_reconciliation", "evidence_id": stamped.stem,
         "created_iso": iso, "wave": 64, "tracker_id": TRK, "item_id": ITEM, "status": STATUS, "row_complete": False, "qa_decision": DECISION,
@@ -157,6 +162,13 @@ def main() -> None:
             "visual_runtime_ready": {"status": "blocked_strict_visual_mismatch", "checks": groups["visual_runtime_ready"]},
         },
         "exact_blocker": blocker,
+        "latest_runtime_attempt": {
+            "retry_performed": True,
+            "retry_evidence_path": retry_rel,
+            "retry_result": original["result"],
+            "retry_seed": 7152026102,
+            "further_seed_loop_authorized": False,
+        },
         "codex_visual_review": {
             "reviewed_existing_image_only": True, "image": rel(image_path), "image_sha256": sha(image_path),
             "findings": [
@@ -167,10 +179,10 @@ def main() -> None:
         },
         "non_superseding_adjacent_evidence": {"path": rel(w70_path), "lane_id": w70["lane_id"], "reason": "different OpenPose lane/control workflow; local robustness only; no target-runtime or final-lane certification"},
         "checks": [{"name": name, "result": "pass"} for name in checks], "check_summary": {"checked": 20, "passed": 20, "failed": 0},
-        "safety_boundary": {"new_generation_executed": False, "aws_contacted": False, "ec2_started": False, "mask_consumed_or_promoted": False, "wave71_activated": False, "jira_mutated": False},
+        "safety_boundary": {"new_generation_executed": True, "generation_count": 1, "aws_contacted": False, "ec2_started": False, "mask_consumed_or_promoted": False, "wave71_activated": False, "jira_mutated": False},
         "project_completion": {"level": "BELOW_LEVEL_7", "full_project_complete": False, "final_certification_decision": "blocked"},
         "source_hashes": [{"path": rel(path), "sha256": sha(path)} for path in (source_path, original_path, original_test_path, visual_path, w70_path, w70_done_path, compiler_path, validator_path, scorer_path, profile_path, image_path)],
-        "next_action": "Proceed to TRK-W64-012 / ITEM-W64-012 in strict sequence. Reopen Row011 only for a new Wave10-compiled, scope-bound sample with both hands fully visible; do not reuse W70 OpenPose evidence as a substitute.",
+        "next_action": "Proceed to TRK-W64-012 / ITEM-W64-012 in strict sequence. Do not seed-loop Row011; reopen only for a materially different scope-bound camera/control objective that can prove both hands fully visible.",
     }
     evidence_paths = [rel(canonical), rel(stamped), rel(mirror), rel(test_log), rel(report), rel(original_path), rel(original_test_path), rel(visual_path)]
     payload["evidence_paths"] = evidence_paths
@@ -179,8 +191,8 @@ def main() -> None:
     write(test_log, {"schema_version": "1.0", "created_iso": iso, "tracker_id": TRK, "result": "pass_split_state_camera_composition_blocker_preserved", "validation_gates": payload["validation_gates"], "checks": payload["checks"], "summary": payload["check_summary"]})
     write(report, {"schema_version": "1.0", "created_iso": iso, "tracker_id": TRK, "item_id": ITEM, "status": STATUS, "exact_blocker": blocker, "codex_visual_review": payload["codex_visual_review"], "non_superseding_adjacent_evidence": payload["non_superseding_adjacent_evidence"], "evidence": evidence_paths, "next_action": payload["next_action"]})
 
-    note = f"Wave64 Row011 {stamp}: preserved the 22-test compiler/runtime pass and score 100, confirmed by Codex visual review that both hands remain pocket-obscured, and classified W70 OpenPose full-body proof as adjacent/non-superseding; crop and visual-runtime gates remain blocked; 20/20 split-state checks pass without regeneration."
-    tags = ["wave64_row011_compiler_and_score_pass", "crop_visibility_blocked", "visual_runtime_blocked", "w70_non_superseding", "row012_next"]
+    note = f"Wave64 Row011 {stamp}: one bounded prompt-and-seed retry passed the 22-test compiler/runtime contract and score 100, but direct Codex review confirmed both hands remain pocket-obscured; crop and visual-runtime gates remain blocked; 20/20 split-state checks pass and further seed looping is prohibited."
+    tags = ["wave64_row011_bounded_retry_executed", "crop_visibility_blocked", "visual_runtime_blocked", "further_seed_loop_prohibited", "row012_next"]
     tracker_paths = (PLAN / "Tracker/wave64_end_to_end_strict_ai_tracker.csv", PLAN / "Tracker/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_TRACKER_ROWS.csv")
     item_paths = (PLAN / "Items/wave64_end_to_end_strict_ai_itemized_list.csv", PLAN / "Items/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_ITEM_ROWS.csv")
     tracker_changes = [rewrite_csv(path, "Tracker_ID", TRK, {"Status": STATUS, "Status_Decision": DECISION, "Evidence_Path": evidence_paths, "Coverage_Audit_Status": tags}, note) for path in tracker_paths]
@@ -190,7 +202,7 @@ def main() -> None:
 
     block = f"""## Wave64 Row011 Camera Framing And Composition Strictness - {iso}
 
-`{TRK}` / `{ITEM}` remains `{STATUS}`. The exact Wave10 compiler-bound request passes 22 tests, deterministic plan/profile binding, local runtime, one-person/18-landmark detection, camera intent, full-body framing, and composition score 100. Direct Codex visual review confirms both hands remain partly hidden in trouser pockets, so the required-region crop and strict visual-runtime gates fail. Later W70 OpenPose full-body robustness belongs to a different lane/control workflow and explicitly lacks target-runtime/final-lane certification; it is supportive but cannot supersede this blocker. The reconciliation audit passes 20/20 checks. No new generation, AWS, EC2, mask use/promotion, Jira, or Wave71+ action occurred.
+`{TRK}` / `{ITEM}` remains `{STATUS}`. One bounded Wave10 prompt-and-seed retry passes 22 tests, deterministic plan/profile binding, local runtime, one-person/18-landmark detection, camera intent, full-body framing, and composition score 100. Direct Codex visual review confirms both hands are still inside trouser pockets, so the required-region crop and strict visual-runtime gates fail. Later W70 OpenPose full-body robustness belongs to a different lane/control workflow and explicitly lacks target-runtime/final-lane certification; it is supportive but cannot supersede this blocker. The reconciliation audit passes 20/20 checks. The retry ran locally without AWS, EC2, mask use/promotion, Jira, or Wave71+ action. Further Row011 seed looping is prohibited.
 
 Next safe local action in strict sequence: `TRK-W64-012 / ITEM-W64-012`.
 

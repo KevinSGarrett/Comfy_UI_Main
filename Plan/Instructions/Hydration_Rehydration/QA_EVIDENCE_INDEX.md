@@ -1,3 +1,11 @@
+## Wave64 Row011 Camera Framing And Composition Strictness - 2026-07-13T01:58:34-05:00
+
+`TRK-W64-011` / `ITEM-W64-011` remains `Blocked_Visual_Runtime_Composition_Mismatch`. One bounded Wave10 prompt-and-seed retry passes 22 tests, deterministic plan/profile binding, local runtime, one-person/18-landmark detection, camera intent, full-body framing, and composition score 100. Direct Codex visual review confirms both hands are still inside trouser pockets, so the required-region crop and strict visual-runtime gates fail. Later W70 OpenPose full-body robustness belongs to a different lane/control workflow and explicitly lacks target-runtime/final-lane certification; it is supportive but cannot supersede this blocker. The reconciliation audit passes 20/20 checks. The retry ran locally without AWS, EC2, mask use/promotion, Jira, or Wave71+ action. Further Row011 seed looping is prohibited.
+
+Next safe local action in strict sequence: `TRK-W64-012 / ITEM-W64-012`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/image_camera_composition.json`; `Plan/Instructions/QA/Evidence/Wave64/IMAGE_CAMERA_COMPOSITION_RECONCILIATION_20260713T015834-0500.json`; `Plan/Tracker/Evidence/IMAGE_CAMERA_COMPOSITION_RECONCILIATION_20260713T015834-0500.json`.
+
 ## Wave64 Row007 Model Asset Storage And Cache Governance - 2026-07-13T01:36:31-05:00
 
 `TRK-W64-007` / `ITEM-W64-007` is `Completed_Model_Asset_Storage_And_Cache_Governance_Pass`. The direct contract verifies 15/15 registry-to-validation declarations, valid expected SHA256 values, non-Git model paths, complete binary ignore policy, zero tracked model binaries, bounded RealVisXL proof, and configured-external FLUX presence with the exact required SHA256. The stale selected-inpaint declaration now matches its existing bounded target-runtime certificate; no runtime was rerun. FLUX is not copied or downloaded, and license acceptance plus every FLUX live-runtime/promotion gate remain unproven. No broad model hashing, download, AWS, EC2, ComfyUI, generation, mask, Jira, or Wave71+ action occurred.
