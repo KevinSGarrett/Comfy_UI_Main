@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "normal_smoke_diagnostic_capacity_blocker",
+  "created_at": "2026-07-13T13:22:00-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_normal_lane",
+  "runtime_window_id": "rw-normal-smoke-diag-20260713T1323-0500-59867107",
+  "source_head": "5d2c9778a86952d65931ada2dcef06a768c381ba",
+  "instance_id": "i-0560bf8d143f93bb1",
+  "region": "us-east-1",
+  "result": "blocked_fresh_ec2_capacity_unavailable",
+  "failure_category": "ec2_insufficient_instance_capacity",
+  "start_exit_code": 254,
+  "ec2_started": false,
+  "generation_executed": false,
+  "prompt_submitted": false,
+  "final_instance_state": "stopped",
+  "completed_before_blocker": {
+    "exact_head_bundle_published": true,
+    "same_window_schedule_verified": true,
+    "smoke_dry_run_result": "ready_for_workflow_smoke_execute",
+    "smoke_execute_gates_pass": true,
+    "prompt_http_error_capture_installed": true,
+    "prompt_http_error_capture_regression": "30/30 pass"
+  },
+  "preserved_prior_result": {
+    "static_proof_pass": true,
+    "runtime_readiness": "ready_for_generation",
+    "first_smoke_failure": "HTTP 400 before prompt_id",
+    "first_smoke_generation_executed": false
+  },
+  "retry_policy": "Do not retry in the same capacity window. On a fresh capacity state, run one guarded diagnostic smoke and inspect prompt_http_error.body before editing the workflow or submitting another prompt.",
+  "mask_and_release_boundary": "No mask promotion, Wave70 hard gate, Wave71 activation, Jira mutation, or certification claim is authorized by this evidence."
+}

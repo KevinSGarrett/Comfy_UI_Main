@@ -7207,3 +7207,8 @@ Continue the autonomous project from the selected Normal lane and published curr
 ## Current Pursuing Goal - Scoped-Clean Normal Static Proof - 2026-07-13T12:17:00-05:00
 
 Checkpoint and validate the explicit preserved-dirty Git gate, then advance the selected Normal lane into one bounded same-window EC2 static-proof window. Preserve only the seven known unrelated dirty paths, require zero staged or unexpected paths and `HEAD == origin/main`, verify the live schedule before start, verify the watchdog before proof, run no generation, and return EC2 to stopped.
+## Normal Target-Runtime Diagnostic Capacity Blocker - 2026-07-13T13:22:00-05:00
+
+Continue the autonomous ComfyUI project from the completed Normal static proof and `ready_for_generation` state. The immediate decision unit is one diagnostic Normal smoke: the prior request failed HTTP 400 before generation, structured ComfyUI validation-body capture is installed and regression-tested, and the latest attempt was blocked before start by `ec2_insufficient_instance_capacity`. Keep EC2 stopped and do not capacity-retry in the same window. On fresh capacity, run exactly one guarded diagnostic smoke, inspect `prompt_http_error.body`, and make the smallest evidence-backed workflow correction.
+
+Evidence: `Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W64_NORMAL_EC2_LANE_STATIC_PROOF_43499461_20260713T125300-0500.json`; `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_NORMAL_WORKFLOW_SMOKE_HTTP_400_DIAGNOSTIC_BOUNDARY_43499461_20260713T132000-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_SMOKE_DIAGNOSTIC_CAPACITY_BLOCKER_5D2C9778_20260713T132200-0500.json`.
