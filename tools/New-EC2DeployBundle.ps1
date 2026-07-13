@@ -248,8 +248,24 @@ $laneRuntimeRequirementsPath = Resolve-ProjectPath -Path "Workflows/base_generat
 $laneRuntimeRequirements = Read-JsonFile -Path $laneRuntimeRequirementsPath
 $laneWorkflowPath = Resolve-ProjectPath -Path "Workflows/base_generation/$LaneId/workflow.api.json"
 $laneWorkflow = Read-JsonFile -Path $laneWorkflowPath
+$workflowInputGraph = $laneWorkflow
+$workflowInputSource = "lane_workflow"
+$runPromptRequestPath = Join-Path (Split-Path -Parent $RunPackageManifestFile) "prompt_request.json"
+if (Test-Path -LiteralPath $runPromptRequestPath -PathType Leaf) {
+  $runPromptRequest = Read-JsonFile -Path $runPromptRequestPath
+  if ($null -eq $runPromptRequest.PSObject.Properties["prompt"] -or $null -eq $runPromptRequest.prompt) {
+    throw "Run package prompt_request.json does not contain a prompt graph: $runPromptRequestPath"
+  }
+  $recordedPromptRequestHash = ([string]$runPackage.prompt_request.sha256).Trim().ToLowerInvariant()
+  $actualPromptRequestHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $runPromptRequestPath).Hash.ToLowerInvariant()
+  if ($recordedPromptRequestHash -notmatch '^[0-9a-f]{64}$' -or $actualPromptRequestHash -cne $recordedPromptRequestHash) {
+    throw "Run package prompt_request.json hash mismatch: expected $recordedPromptRequestHash observed $actualPromptRequestHash"
+  }
+  $workflowInputGraph = $runPromptRequest.prompt
+  $workflowInputSource = "run_package_prompt_request"
+}
 $workflowInputFilenames = @(
-  $laneWorkflow.psobject.Properties.Value |
+  $workflowInputGraph.psobject.Properties.Value |
     Where-Object { [string]$_.class_type -in @("LoadImage", "LoadImageMask") } |
     ForEach-Object { [string]$_.inputs.image } |
     Where-Object { ![string]::IsNullOrWhiteSpace($_) } |
@@ -343,6 +359,7 @@ $manifest = [ordered]@{
   files = @($records | Sort-Object path)
   file_count = @($records).Count
   workflow_input_filenames = $workflowInputFilenames
+  workflow_input_source = $workflowInputSource
   declared_required_input_asset_count = $declaredInputAssets.Count
   required_input_assets = @($requiredInputAssets)
   required_input_asset_count = @($requiredInputAssets).Count
