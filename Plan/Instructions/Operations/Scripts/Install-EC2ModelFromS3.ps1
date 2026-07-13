@@ -175,6 +175,7 @@ finally:
 print(json.dumps(result, sort_keys=True))
 PY
 "@
+$remoteScript = $remoteScript.Replace("`r`n", "`n").Replace("`r", "`n")
 
 try {
   $record.start_state = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
