@@ -1,3 +1,11 @@
+## Wave64 Row023 Real Sequence Repair Routing - 2026-07-13T04:26:29-05:00
+
+`TRK-W64-023` / `ITEM-W64-023` is `Blocked_Video_Frame_Repair_Rerun_Shot_Required`. The real Row019/Row021 eight-frame sequence now has a hash-bound defect report and strict repair ledger: frames 5-7 carry `persistent_shot_instability`, frame 7 additionally carries `single_frame_identity_drift`, and the contiguous span correctly routes to `rerun_shot`. The local OpenCV executor supports only pure `isolated_flicker` and rejected this ledger with expected exit 2 without publishing an output directory. No repaired frames, generation, AWS, EC2, mask use/promotion, hard-gate rerun, Jira mutation, or Wave71+ activation occurred.
+
+Next action: preserve this fail-closed rerun decision and continue `TRK-W64-024` / `ITEM-W64-024` GIF loop/export reconciliation without treating the failed sequence as promotable.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/VIDEO_FRAME_REPAIR_REAL_SEQUENCE_ROUTING_20260713T042629-0500.json`.
+
 ## Wave64 Row022 Production Reference Video Inventory - 2026-07-13T03:57:10-05:00
 
 `TRK-W64-022` / `ITEM-W64-022` remains `Blocked_Reference_Video_Production_Proof_Missing` after a bounded production-input inventory. The five present user/reference and authoritative ComfyUI input roots contain zero supported video, conditional GIF, diagnostic WebP, or numbered PNG/JPG sequence candidates; legacy `C:\Comfy_UI\input` is absent. The existing strict ingest and semantic-candidate implementation remains validated by 40 tests and synthetic tooling probes only. No production decode, derived timeline, source comparison, visual pass, generation, AWS, EC2, mask use/promotion, hard-gate rerun, Jira mutation, or Wave71+ activation occurred.

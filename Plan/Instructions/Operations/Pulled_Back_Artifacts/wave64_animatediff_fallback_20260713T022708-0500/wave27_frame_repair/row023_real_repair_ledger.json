@@ -1,0 +1,148 @@
+{
+  "candidate_validation": {
+    "candidate_manifest_path": null,
+    "candidate_manifest_provided": false,
+    "candidate_manifest_sequence_sha256": null,
+    "candidate_manifest_sha256": null,
+    "preserved_frame_verification_count": 0,
+    "preserved_frame_verifications": [],
+    "status": "blocked_pending_repair_artifacts",
+    "target_frame_delta_count": 0,
+    "target_frame_deltas": []
+  },
+  "failed_frames": [
+    {
+      "failures": [
+        "persistent_shot_instability"
+      ],
+      "frame_index": 5,
+      "notes": [
+        "full frame background and lighting",
+        "Direct review found an abrupt replacement of the dark studio background with bright window-like shapes."
+      ],
+      "original_artifact_bytes": 89490,
+      "original_artifact_path": "extracted_frames/frame_0005.png",
+      "original_artifact_sha256": "3c761d80ca653c3fe823eb1f481e9e7bac65f1e4d2549b363e80b4547013a7c0",
+      "policy_actions": [
+        "rerun_shot"
+      ],
+      "time_seconds": 1.25
+    },
+    {
+      "failures": [
+        "persistent_shot_instability"
+      ],
+      "frame_index": 6,
+      "notes": [
+        "full frame background and lighting",
+        "Direct review found the scene and lighting discontinuity persisted into frame 6."
+      ],
+      "original_artifact_bytes": 92460,
+      "original_artifact_path": "extracted_frames/frame_0006.png",
+      "original_artifact_sha256": "f3e6c0b27ce5e629c435aab566a222c1744b465b1a57a4bf7a8567cd0ab00be3",
+      "policy_actions": [
+        "rerun_shot"
+      ],
+      "time_seconds": 1.5
+    },
+    {
+      "failures": [
+        "persistent_shot_instability",
+        "single_frame_identity_drift"
+      ],
+      "frame_index": 7,
+      "notes": [
+        "full frame color and scene state",
+        "Direct review found saturated blue, yellow, white, and black regions with terminal scene collapse.",
+        "face and clothing",
+        "Direct review found severe face and clothing corruption; body, hand, and contact authority remains unclaimed."
+      ],
+      "original_artifact_bytes": 100303,
+      "original_artifact_path": "extracted_frames/frame_0007.png",
+      "original_artifact_sha256": "77d8a611f8695156d38b5c1ed0ee2d1df8749959aad4b82577964d25cf797d29",
+      "policy_actions": [
+        "frame_local_identity_repair",
+        "rerun_shot"
+      ],
+      "time_seconds": 1.75
+    }
+  ],
+  "final_flags": {
+    "before_after_visual_review": false,
+    "final_promotion": false,
+    "final_temporal_acceptance": false,
+    "identity_environment_preservation_visual_pass": false,
+    "runtime_repair_proof": false
+  },
+  "frame_count": 8,
+  "ledger_version": 1,
+  "passing_frames": [
+    {
+      "frame_index": 0,
+      "original_artifact_bytes": 86070,
+      "original_artifact_path": "extracted_frames/frame_0000.png",
+      "original_artifact_sha256": "ffd60c5124d9da2a4f740e04571d7866875bd905be245dfcd56c5d9696130590",
+      "time_seconds": 0.0
+    },
+    {
+      "frame_index": 1,
+      "original_artifact_bytes": 89753,
+      "original_artifact_path": "extracted_frames/frame_0001.png",
+      "original_artifact_sha256": "feb016cadf4059e8337c58b4ef5b407151325b44ff7f73ee3bbad25d43c15594",
+      "time_seconds": 0.25
+    },
+    {
+      "frame_index": 2,
+      "original_artifact_bytes": 87511,
+      "original_artifact_path": "extracted_frames/frame_0002.png",
+      "original_artifact_sha256": "d6d5acd4579a34f0ebef9aa47a4d01e20e5bf83c3885c8e93f146eadeeb72665",
+      "time_seconds": 0.5
+    },
+    {
+      "frame_index": 3,
+      "original_artifact_bytes": 85633,
+      "original_artifact_path": "extracted_frames/frame_0003.png",
+      "original_artifact_sha256": "4c7b90c4ba93443ac6c21f91aff75367250c9078fb1ac472eadca3553f531731",
+      "time_seconds": 0.75
+    },
+    {
+      "frame_index": 4,
+      "original_artifact_bytes": 81630,
+      "original_artifact_path": "extracted_frames/frame_0004.png",
+      "original_artifact_sha256": "c2912b7e7377371db2b1da7064f42c43cebea24241e58bf1c3fb4dbcdf34e7f6",
+      "time_seconds": 1.0
+    }
+  ],
+  "planning_status": "repair_plan_pending_candidate",
+  "repair_spans": [
+    {
+      "end_frame_index": 7,
+      "failures": [
+        "persistent_shot_instability",
+        "single_frame_identity_drift"
+      ],
+      "frame_indices": [
+        5,
+        6,
+        7
+      ],
+      "reason": "persistent_shot_instability_escalation",
+      "recommended_action": "rerun_shot",
+      "span_length": 3,
+      "start_frame_index": 5
+    }
+  ],
+  "schema_name": "wave27_frame_repair_ledger",
+  "source_bindings": {
+    "defect_report_path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\wave64_animatediff_fallback_20260713T022708-0500\\wave27_frame_repair\\row023_real_defect_report.json",
+    "defect_report_sha256": "91f502391be88dfb3759b9ec6a02da1b0a339b1ca29adf159ca99ea74676a7e6",
+    "manifest_path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\wave64_animatediff_fallback_20260713T022708-0500\\wave27_frame_manifest.json",
+    "manifest_sequence_sha256": "3a0b6dda75d73dbbfabff2f2c2043fd6fe064e3d9ec2b1bbd5d0b201aa219e97",
+    "manifest_sha256": "a931177be02855c56c7589d91384fa1e0bc14b0c3c13faa9b3c454aba506ef14",
+    "normalized_defects_sha256": "618af1b62f47c284a33b1c6f5c9abdf67def1a729905f288733bdb8c42577ad1",
+    "repair_policy_path": "C:\\Comfy_UI_Main\\Plan\\10_REGISTRIES\\wave27_frame_repair_policy.json",
+    "repair_policy_sha256": "71f3ca3610a23cb1b0c8a80f660e23c4fb470bf25dabe3932c4ac2a9a6215c64",
+    "temporal_evidence_path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\wave64_animatediff_fallback_20260713T022708-0500\\wave27_temporal_review\\wave27_temporal_evidence.json",
+    "temporal_evidence_sha256": "e110844ac5b06fc25949aed84d53dd4846d62a1eb9897c9fb08f92ec66e2a3f9"
+  }
+}

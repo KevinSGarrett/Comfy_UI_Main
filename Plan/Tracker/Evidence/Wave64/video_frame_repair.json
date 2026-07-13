@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "evidence_id": "W64-VIDEO-FRAME-REPAIR",
-  "timestamp": "2026-07-12T15:27:00-05:00",
+  "timestamp": "2026-07-13T04:26:29-05:00",
   "tracker_id": "TRK-W64-023",
   "item_id": "ITEM-W64-023",
   "source_citation": "Plan/04_VIDEO_GIF_SYSTEM/WAVE27_FRAME_REPAIR_PIPELINE.md",
@@ -69,7 +69,10 @@
     "python_compile": "pass",
     "draft_2020_12_schema_check": "pass",
     "git_diff_check": "pass",
-    "technical_offline_pass": true
+    "technical_offline_pass": true,
+    "last_targeted_rerun": "2026-07-13T04:26:29-05:00",
+    "last_targeted_rerun_tests_passed": 29,
+    "last_targeted_rerun_tests_failed": 0
   },
   "synthetic_planning_probe": {
     "production_evidence": false,
@@ -84,8 +87,16 @@
     "repair_ledger_sha256": "9e56764806d3ec6fbb4d2ed8be82820dad8a394d1b9b51f3e407c4af7d65fe6a",
     "expected_exit_code": 2,
     "planning_status": "repair_plan_pending_candidate",
-    "failed_frame_indices": [2, 3, 4],
-    "preserved_frame_indices": [0, 1, 5],
+    "failed_frame_indices": [
+      2,
+      3,
+      4
+    ],
+    "preserved_frame_indices": [
+      0,
+      1,
+      5
+    ],
     "repair_span_action": "short_span_repair",
     "candidate_manifest_provided": false,
     "schema_validation": "pass",
@@ -119,7 +130,9 @@
     "identity_environment_visual_preservation": false,
     "runtime_repair_proof": false,
     "final_temporal_acceptance": false,
-    "final_promotion": false
+    "final_promotion": false,
+    "real_defect_report_present": true,
+    "real_repair_ledger_present": true
   },
   "review": {
     "cursor_gap_review": "runtime_artifacts/agent_handoffs/cursor/20260711T145643-0500_wave64_video_frame_repair_gap_review/handoff_record.json",
@@ -135,7 +148,11 @@
       "runtime_artifacts/agent_handoffs/claude_subscription/20260712T152016-0500_row023_short_span_repair_executor_remediation_review_retry/handoff_record.json"
     ],
     "claude_executor_remediation_review_status": "incomplete_twice_compact_codex_fallback",
-    "remaining_high_or_medium_findings": 0
+    "remaining_high_or_medium_findings": 0,
+    "cursor_real_sequence_attempt": "runtime_artifacts/agent_handoffs/cursor/20260713T041421-0500_w64_row023_real_sequence_repair_compatibility/handoff_record.json",
+    "cursor_real_sequence_retry": "runtime_artifacts/agent_handoffs/cursor/20260713T042447-0500_w64_row023_real_sequence_repair_compatibility_narrow/handoff_record.json",
+    "cursor_real_sequence_fallback": "compact_codex_taxonomy_mapping_after_timeout_and_incomplete_retry",
+    "claude_real_sequence_routing_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260713T043239-0500_w64_row023_semantic_final_review/handoff_record.json"
   },
   "runtime": {
     "repair_executed": false,
@@ -148,14 +165,14 @@
   },
   "blockers": [
     {
-      "classification": "Blocked_Video_Frame_Repair_Artifacts_Missing",
+      "classification": "Blocked_Video_Frame_Repair_Rerun_Shot_Required",
       "scope": "primary_row_blocker",
-      "reason": "The strict planner and candidate verifier pass offline, but no real repaired candidate frames or technically verified candidate manifest exists."
+      "reason": "The real frames 5-7 span contains persistent shot instability and frame-7 identity drift, so policy requires rerunning the shot; the isolated-flicker executor is ineligible and failed closed."
     },
     {
       "classification": "Blocked_Video_Frame_Repair_Visual_Proof_Missing",
       "scope": "before_after_and_preservation_review",
-      "reason": "No real before/after frame repair review proves identity, environment, motion, or temporal continuity preservation."
+      "reason": "No truthful repaired candidate exists, so no before/after visual preservation review can run."
     },
     {
       "classification": "Blocked_Gold_Mask_Dependency_Missing",
@@ -163,9 +180,9 @@
       "reason": "Contact/deformation repair cannot use candidate masks as truth while manual body gold masks remain unavailable."
     }
   ],
-  "result": "blocked_video_frame_repair_artifacts_missing",
+  "result": "blocked_real_sequence_requires_rerun_shot",
   "overall_pass": false,
-  "status_decision": "Blocked_Video_Frame_Repair_Artifacts_Missing",
+  "status_decision": "Blocked_Video_Frame_Repair_Rerun_Shot_Required",
   "strict_decision": {
     "row_complete": false,
     "offline_planner_verifier_pass": true,
@@ -176,6 +193,22 @@
     "visual_preservation_claimed": false,
     "runtime_repair_claimed": false,
     "final_promotion_claimed": false,
-    "wave71_activation_claimed": false
-  }
+    "wave71_activation_claimed": false,
+    "real_defect_localization_claimed": true,
+    "real_repair_ledger_claimed": true
+  },
+  "real_sequence_routing": {
+    "evidence": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_FRAME_REPAIR_REAL_SEQUENCE_ROUTING_20260713T042629-0500.json",
+    "source_sequence_sha256": "3a0b6dda75d73dbbfabff2f2c2043fd6fe064e3d9ec2b1bbd5d0b201aa219e97",
+    "failed_frame_indexes": [
+      5,
+      6,
+      7
+    ],
+    "recommended_action": "rerun_shot",
+    "isolated_flicker_executor_eligible": false,
+    "executor_fail_closed_exit_code": 2,
+    "executor_output_published": false
+  },
+  "reconciliation_evidence": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_FRAME_REPAIR_REAL_SEQUENCE_ROUTING_20260713T042629-0500.json"
 }

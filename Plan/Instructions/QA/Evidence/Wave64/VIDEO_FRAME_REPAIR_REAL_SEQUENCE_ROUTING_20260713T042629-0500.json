@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-VIDEO-FRAME-REPAIR-REAL-SEQUENCE-ROUTING-20260713T042629-0500",
+  "timestamp": "2026-07-13T04:26:29-05:00",
+  "tracker_id": "TRK-W64-023",
+  "item_id": "ITEM-W64-023",
+  "status_decision": "Blocked_Video_Frame_Repair_Rerun_Shot_Required",
+  "inputs": [
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave27_frame_manifest.json",
+      "sha256": "a931177be02855c56c7589d91384fa1e0bc14b0c3c13faa9b3c454aba506ef14"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave27_temporal_review/wave27_temporal_evidence.json",
+      "sha256": "e110844ac5b06fc25949aed84d53dd4846d62a1eb9897c9fb08f92ec66e2a3f9"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave27_temporal_review/codex_visual_verdict.json",
+      "sha256": "059560bdbef5adeb276a799c58eb6ac73c73010d50ecdd92dfbb0bb52eaa082a"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_VISUAL_QA_20260713T023500-0500.json",
+      "sha256": "fcbd6dad6fa6f7e2bdf6782a2f4f3ca7b899264bcf8da8487bbf2e0499995eb9"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave27_frame_repair/row023_real_defect_report.json",
+      "sha256": "91f502391be88dfb3759b9ec6a02da1b0a339b1ca29adf159ca99ea74676a7e6"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave27_frame_repair/row023_real_repair_ledger.json",
+      "sha256": "9cf0b5150265f8b5933680c57f0200419474a49ae0af4fe105c585fba71cf3f8"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave27_frame_repair_policy.json",
+      "sha256": "71f3ca3610a23cb1b0c8a80f660e23c4fb470bf25dabe3932c4ac2a9a6215c64"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave27_short_span_repair_executor.json",
+      "sha256": "eef81388eaebb8906ab99f9607bf7b28ddd664362a770dbd32e97ca4cb124e57"
+    },
+    {
+      "path": "runtime_artifacts/wave64_video_frame_repair/row023_real_executor_fail_closed_20260713T042629-0500.stderr.txt",
+      "sha256": "d2371cafe371923fabf8e46398033dace9ace29f03a359442f75799d836e0ce6"
+    }
+  ],
+  "checks": {
+    "canonical_row_exact": true,
+    "report_row_exact": true,
+    "manifest_sequence_bound": true,
+    "temporal_evidence_hash_bound": true,
+    "ledger_manifest_hash_bound": true,
+    "ledger_defect_hash_bound": true,
+    "ledger_temporal_hash_bound": true,
+    "visual_failed_indexes_exact": true,
+    "defect_indexes_exact": true,
+    "ledger_indexes_exact": true,
+    "persistent_instability_all_failed_frames": true,
+    "frame7_identity_drift_recorded": true,
+    "single_span_exact": true,
+    "rerun_shot_route_exact": true,
+    "candidate_remains_absent": true,
+    "executor_isolated_flicker_only": true,
+    "ledger_not_executor_eligible": true,
+    "executor_failed_closed": true,
+    "executor_output_absent": true,
+    "visual_verdict_failed": true,
+    "temporal_promotion_blocked": true,
+    "existing_tests_passed": true,
+    "worker_attempts_recorded": true,
+    "claude_review_passed": true,
+    "claude_no_high_or_medium_findings": true,
+    "candidate_masks_not_consumed": true
+  },
+  "check_summary": {
+    "checked": 26,
+    "passed": 26,
+    "failed": 0
+  },
+  "validation": {
+    "command": "python -m unittest Plan.Instructions.QA.Scripts.test_wave27_frame_repair_ledger_strict Plan.Instructions.QA.Scripts.test_execute_wave27_short_span_repair",
+    "tests_passed": 29,
+    "tests_failed": 0,
+    "elapsed_seconds": 104.914,
+    "python_compile": "pass"
+  },
+  "routing": {
+    "failed_frame_indexes": [
+      5,
+      6,
+      7
+    ],
+    "span_failures": [
+      "persistent_shot_instability",
+      "single_frame_identity_drift"
+    ],
+    "recommended_action": "rerun_shot",
+    "reason": "persistent_shot_instability_escalation",
+    "isolated_flicker_executor_eligible": false,
+    "executor_probe_exit_code": 2,
+    "executor_probe_stderr": {
+      "path": "runtime_artifacts/wave64_video_frame_repair/row023_real_executor_fail_closed_20260713T042629-0500.stderr.txt",
+      "sha256": "d2371cafe371923fabf8e46398033dace9ace29f03a359442f75799d836e0ce6"
+    },
+    "executor_output_published": false
+  },
+  "worker_fallback": {
+    "broad_attempt": "runtime_artifacts/agent_handoffs/cursor/20260713T041421-0500_w64_row023_real_sequence_repair_compatibility/handoff_record.json",
+    "broad_result": "timeout",
+    "narrow_attempt": "runtime_artifacts/agent_handoffs/cursor/20260713T042447-0500_w64_row023_real_sequence_repair_compatibility_narrow/handoff_record.json",
+    "narrow_result": "incomplete_output_contract",
+    "fallback_scope": "planner and executor taxonomy/routing blocks only"
+  },
+  "semantic_review": {
+    "path": "runtime_artifacts/agent_handoffs/claude_subscription/20260713T043239-0500_w64_row023_semantic_final_review/handoff_record.json",
+    "sha256": "b18231ce3fcaba00d09541ddfbf725ffba1a51d738b9e0bde06331b39502b8d2",
+    "remaining_high_or_medium_findings": 0
+  },
+  "gate_results": {
+    "real_defect_report_present": true,
+    "real_repair_ledger_present": true,
+    "real_failed_frames_hash_bound": true,
+    "local_short_span_executor_eligible": false,
+    "repaired_candidate_present": false,
+    "before_after_visual_review": false,
+    "runtime_repair_proof": false,
+    "final_temporal_acceptance": false
+  },
+  "boundaries": {
+    "new_generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "candidate_masks_consumed_as_truth": false,
+    "mask_promotion_claimed": false,
+    "wave70_hard_gate_rerun": false,
+    "wave71_activation_claimed": false
+  },
+  "result": "blocked_real_sequence_requires_rerun_shot",
+  "next_action": "Continue TRK-W64-024 / ITEM-W64-024 GIF loop/export reconciliation; preserve this failed sequence and do not treat it as promotable."
+}
