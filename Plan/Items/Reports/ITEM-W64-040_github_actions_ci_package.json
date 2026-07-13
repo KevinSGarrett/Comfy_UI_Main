@@ -1,21 +1,43 @@
 {
-  "schema_version": "1.0",
-  "created_iso": "2026-07-12T06:24:43-05:00",
-  "tracker_id": "TRK-W64-040",
-  "item_id": "ITEM-W64-040",
-  "status": "Blocked_Current_Model_Registry_Coverage_Alignment",
+  "blockers": [],
+  "current_coverage_alignment": {
+    "failed_checks": 0,
+    "lanes": 10,
+    "queue_rows": 15,
+    "registry_records": 15
+  },
   "evidence": [
-    "Plan/Instructions/QA/Evidence/Wave64/github_actions_ci_package.json",
-    "Plan/Instructions/QA/Evidence/Wave64/GITHUB_ACTIONS_CI_PACKAGE_RECONCILIATION_20260712T062443-0500.json",
-    "Plan/Tracker/Evidence/GITHUB_ACTIONS_CI_PACKAGE_RECONCILIATION_20260712T062443-0500.json",
-    "Plan/Instructions/QA/Evidence/Wave64/github_actions_ci_package_reconciliation_test_log.json",
-    "Plan/Items/Reports/ITEM-W64-040_github_actions_ci_package.json",
-    "runtime_artifacts/wave64/row040_github_actions_ci_package/20260712T062203-0500/workflow_model_registry_coverage.json"
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/github_actions_ci_package.json",
+      "sha256": "bbb87ddbd4f8d53cc5937c2da7408e2114b0d2c3861b2e1b2727dbd608df3aca"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/github_actions_ci_package_reconciliation_test_log.json",
+      "sha256": "134c1e68c891ed74fc8f5740aa50214946de9ecbc44c8541b68e804f310e0b23"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/GITHUB_ACTIONS_CI_PACKAGE_SUPERSESSION_20260712T202727-0500.json",
+      "sha256": "bbb87ddbd4f8d53cc5937c2da7408e2114b0d2c3861b2e1b2727dbd608df3aca"
+    }
   ],
-  "blockers": [
-    "sdxl_realvisxl_controlnet_depth_lane",
-    "sdxl_realvisxl_controlnet_lineart_lane",
-    "flux1_dev_primary_base"
-  ],
-  "next_action": "Advance to TRK-W64-041 / ITEM-W64-041 for a bounded duplicate-check of existing S3 deploy-bundle/model-cache readiness evidence; do not rerun Row040 coverage without a new source change."
+  "historical_package_evidence_preserved": true,
+  "item_id": "ITEM-W64-040",
+  "next_action": "Duplicate-check TRK-W64-041 / ITEM-W64-041 against current S3 deploy-bundle/model-cache readiness evidence without republishing completed bundles unless exact current proof is missing.",
+  "qa_decision": "ci_package_coverage_alignment_superseded_by_row044_pass",
+  "report_id": "ITEM-W64-040-CI-PACKAGE-SUPERSESSION-20260712T202727-0500",
+  "row_complete": true,
+  "runtime_boundaries": {
+    "aws_contacted": false,
+    "ci_triggered": false,
+    "ec2_started": false,
+    "flux_installed": false,
+    "flux_license_acceptance_asserted": false,
+    "github_mutated": false,
+    "package_rebuilt": false
+  },
+  "schema_version": "1.0",
+  "status": "Completed_CI_Package_Coverage_Alignment_Superseded_Pass",
+  "timestamp": "2026-07-12T20:27:27-05:00",
+  "tracker_id": "TRK-W64-040",
+  "workstream": "github_actions_ci_package"
 }

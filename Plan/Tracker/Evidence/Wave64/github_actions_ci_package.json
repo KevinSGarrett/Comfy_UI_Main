@@ -1,0 +1,191 @@
+{
+  "blockers": [],
+  "check_summary": {
+    "checked": 19,
+    "failed": 0,
+    "passed": 19
+  },
+  "checks": [
+    {
+      "name": "old_row040_snapshot_preserved",
+      "result": "pass"
+    },
+    {
+      "name": "old_row040_three_failed_lanes",
+      "result": "pass"
+    },
+    {
+      "name": "row044_completed",
+      "result": "pass"
+    },
+    {
+      "name": "row044_coverage_hash_matches",
+      "result": "pass"
+    },
+    {
+      "name": "row044_coverage_zero_failures",
+      "result": "pass"
+    },
+    {
+      "name": "row044_registry_count_15",
+      "result": "pass"
+    },
+    {
+      "name": "row044_queue_count_15",
+      "result": "pass"
+    },
+    {
+      "name": "row044_lane_count_10",
+      "result": "pass"
+    },
+    {
+      "name": "depth_lineart_registry_promoted",
+      "result": "pass"
+    },
+    {
+      "name": "depth_lineart_queue_promoted",
+      "result": "pass"
+    },
+    {
+      "name": "flux_registry_record_added",
+      "result": "pass"
+    },
+    {
+      "name": "flux_queue_row_added",
+      "result": "pass"
+    },
+    {
+      "name": "classifier_hardened",
+      "result": "pass"
+    },
+    {
+      "name": "row048_supersession_exact",
+      "result": "pass"
+    },
+    {
+      "name": "historical_packages_preserved",
+      "result": "pass"
+    },
+    {
+      "name": "historical_package_hashes_match",
+      "result": "pass"
+    },
+    {
+      "name": "no_ci_or_github_mutation",
+      "result": "pass"
+    },
+    {
+      "name": "no_package_rebuild",
+      "result": "pass"
+    },
+    {
+      "name": "no_aws_or_ec2_action",
+      "result": "pass"
+    }
+  ],
+  "confirming_row048_evidence": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/no_loop_no_drift.json",
+    "sha256": "623f0b02ff2628c954de84afb2b74bbc9d4edd604e252e5a76635a4811dcdad2",
+    "supersession": {
+      "blocker": "Depth/Lineart vocabulary and Flux missing record/queue",
+      "row": "TRK-W64-040",
+      "superseded_by": "TRK-W64-044 current 15-record/10-lane governance pass"
+    }
+  },
+  "created_iso": "2026-07-12T20:27:27-05:00",
+  "evidence_id": "GITHUB_ACTIONS_CI_PACKAGE_SUPERSESSION_20260712T202727-0500",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/github_actions_ci_package.json",
+    "Plan/Instructions/QA/Evidence/Wave64/GITHUB_ACTIONS_CI_PACKAGE_SUPERSESSION_20260712T202727-0500.json",
+    "Plan/Tracker/Evidence/GITHUB_ACTIONS_CI_PACKAGE_SUPERSESSION_20260712T202727-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/github_actions_ci_package_reconciliation_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-040_github_actions_ci_package.json",
+    "Plan/Instructions/QA/Evidence/Wave64/model_registry_governance.json",
+    "Plan/Instructions/QA/Evidence/Wave64/no_loop_no_drift.json"
+  ],
+  "historical_package_evidence": {
+    "clean_source_package_claimed": false,
+    "note": "The 2026-07-08 deploy manifests record a dirty source snapshot and remain historical package-build evidence only.",
+    "paths": [
+      {
+        "path": "_ci_w64_20260708T232900-0500/run_packages/sdxl_low_risk_fallback_lane_hyperreal_editorial_portrait_v1/RUN_PACKAGE_MANIFEST.json",
+        "sha256": "c147c925568425cfd93e73a41b42158e77acc8ffa0f07a4a665e41a1a2f24362"
+      },
+      {
+        "path": "_ci_w64_20260708T232900-0500/run_packages/sdxl_realvisxl_base_lane_ci_preflight/RUN_PACKAGE_MANIFEST.json",
+        "sha256": "26071fd97b7001d7164288d24a8c6527162324b182f1029ba5753846b14e533d"
+      },
+      {
+        "path": "_ci_w64_20260708T232900-0500/deploy_bundle/sdxl_low_risk/DEPLOY_BUNDLE_MANIFEST.json",
+        "sha256": "c2f6654bdf90294c098aa51dad0cee45e9ab37c6742ca15fe9086be39d28c31c"
+      },
+      {
+        "path": "_ci_w64_20260708T232900-0500/deploy_bundle/realvisxl/DEPLOY_BUNDLE_MANIFEST.json",
+        "sha256": "02f09d364b032a2c69ec75158012bff98b3420647bc8a3170f7942be144ba555"
+      }
+    ],
+    "preserved_not_rebuilt": true
+  },
+  "historical_row040_snapshot": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/GITHUB_ACTIONS_CI_PACKAGE_RECONCILIATION_20260712T062443-0500.json",
+    "sha256": "dba1d6d84b8cebce8ec4c2b2fad9c08889391601cd2d6c3823d200927eed9f8a",
+    "status": "Blocked_Current_Model_Registry_Coverage_Alignment"
+  },
+  "item_id": "ITEM-W64-040",
+  "next_action": "Duplicate-check TRK-W64-041 / ITEM-W64-041 against current S3 deploy-bundle/model-cache readiness evidence without republishing completed bundles unless exact current proof is missing.",
+  "qa_decision": "ci_package_coverage_alignment_superseded_by_row044_pass",
+  "resolution_map": [
+    {
+      "lane_id": "sdxl_realvisxl_controlnet_depth_lane",
+      "prior_issue": "target-runtime vocabulary mismatch",
+      "resolved_by": "4 depth/lineart registry records and 4 queue rows promoted; classifier hardened"
+    },
+    {
+      "lane_id": "sdxl_realvisxl_controlnet_lineart_lane",
+      "prior_issue": "target-runtime vocabulary mismatch",
+      "resolved_by": "4 depth/lineart registry records and 4 queue rows promoted; classifier hardened"
+    },
+    {
+      "lane_id": "flux1_dev_primary_base",
+      "prior_issue": "missing registry record and queue row",
+      "resolved_by": "one fail-closed registry record and one queued validation row added without install/license/promotion claims"
+    }
+  ],
+  "resolving_row044_evidence": {
+    "changes": {
+      "depth_lineart_queue_rows_promoted": 4,
+      "depth_lineart_registry_records_promoted_to_target_runtime_vocabulary": 4,
+      "flux_fail_closed_registry_records_added": 1,
+      "flux_queued_validation_rows_added": 1,
+      "validator_lane_classifier_hardened": true,
+      "verified_ec2_static_match_synonym_supported": true
+    },
+    "coverage": {
+      "failed_check_count": 0,
+      "path": "runtime_artifacts/wave64/row044_model_registry_governance/20260712T065523-0500/workflow_model_registry_coverage_after_classifier_fix.json",
+      "registry_record_count": 15,
+      "result": "pass_local_only",
+      "runtime_validation_queue_row_count": 15,
+      "sha256": "25f01dcc32e374fdddf44d85b0b2daddcf0bc53b74f31d489f84330daa0c2b2e",
+      "workflow_runtime_lane_count": 10
+    },
+    "path": "Plan/Instructions/QA/Evidence/Wave64/model_registry_governance.json",
+    "sha256": "0b33a55e6a5fd45c721482d55f36c29ab7634b403b98f40937772c488fadf466",
+    "status": "Completed_Local_Model_Registry_Governance_Pass"
+  },
+  "row_complete": true,
+  "safety_boundaries": {
+    "aws_contacted": false,
+    "ci_triggered": false,
+    "ec2_started": false,
+    "flux_installed": false,
+    "flux_license_acceptance_asserted": false,
+    "github_mutated": false,
+    "package_rebuilt": false
+  },
+  "schema_version": "1.0",
+  "status": "Completed_CI_Package_Coverage_Alignment_Superseded_Pass",
+  "task": "Close stale Row040 coverage blocker from exact later Row044 governance proof without rerunning CI or rebuilding packages.",
+  "tracker_id": "TRK-W64-040",
+  "wave": 64
+}

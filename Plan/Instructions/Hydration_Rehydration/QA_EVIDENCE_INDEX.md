@@ -5407,3 +5407,12 @@ Evidence: `Plan/Instructions/QA/Evidence/Wave64/multimodal_cross_review.json`; `
 Next safe local action in strict sequence: duplicate-check `TRK-W64-035` / `ITEM-W64-035` against its existing strict autonomous QA master-protocol artifacts before changing implementation or status.
 
 Evidence: `Plan/Instructions/QA/Evidence/Wave64/localized_change_whole_artifact_regression.json`; `Plan/Instructions/QA/Evidence/Wave64/localized_change_whole_artifact_regression_test_log.json`; `Plan/Items/Reports/ITEM-W64-034_localized_change_whole_artifact_regression.json`.
+## Wave64 Row040 CI Package Coverage Supersession - 2026-07-12T20:27:27-05:00
+
+`TRK-W64-040` / `ITEM-W64-040` is now `Completed_CI_Package_Coverage_Alignment_Superseded_Pass`. The original stamped blocked snapshot remains preserved. A deterministic 19-check reconciliation proves Row044's current 15 registry records, 15 queue rows, 10 active lanes, and zero coverage failures resolve the prior Depth/Lineart vocabulary and Flux record/queue gaps; Row048 independently records the same supersession. Historical packages remain historical and were not rebuilt. No CI trigger, GitHub mutation, AWS, EC2, model install, license assertion, mask action, or Wave71+ action occurred.
+
+Rows035, Row037, Row038, and Row039 were duplicate-checked and remain completed without rerun. Row036 remains blocked because the Flux checkpoint is absent locally and in checked ComfyUI S3 buckets and license acceptance is not recorded.
+
+Next safe local action: duplicate-check `TRK-W64-041` / `ITEM-W64-041` against current S3 deploy-bundle/model-cache readiness evidence; do not republish completed bundles unless exact current proof is missing.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/github_actions_ci_package.json`; `Plan/Instructions/QA/Evidence/Wave64/GITHUB_ACTIONS_CI_PACKAGE_SUPERSESSION_20260712T202727-0500.json`; `Plan/Items/Reports/ITEM-W64-040_github_actions_ci_package.json`.
