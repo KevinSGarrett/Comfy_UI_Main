@@ -324,7 +324,8 @@ class PrepareWave27StrictVisualReviewPacketTests(unittest.TestCase):
             packet = json.loads((out_dir / "visual_review_packet.json").read_text(encoding="utf-8"))
             self.assertEqual(packet["status"], "blocked_missing_prerequisites")
             self.assertFalse(packet["prerequisites_complete"])
-            self.assertIn("face_detector", packet["missing_prerequisite_categories"])
+            self.assertNotIn("face_detector", packet["missing_prerequisite_categories"])
+            self.assertIn("face_detector", packet["failed_prerequisite_categories"])
             self.assertFalse(packet["final_temporal_visual_pass"])
             self.assertFalse(packet["final_acceptance_claimed"])
 
@@ -354,7 +355,8 @@ class PrepareWave27StrictVisualReviewPacketTests(unittest.TestCase):
             packet = self._load_json(out_dir / "visual_review_packet.json")
             self.assertEqual(packet["status"], "blocked_missing_prerequisites")
             self.assertTrue(packet["visual_review_complete"])
-            self.assertIn("face_detector", packet["missing_prerequisite_categories"])
+            self.assertNotIn("face_detector", packet["missing_prerequisite_categories"])
+            self.assertIn("face_detector", packet["failed_prerequisite_categories"])
             self.assertFalse(packet["final_temporal_visual_pass"])
             self.assertFalse(packet["final_acceptance_claimed"])
 

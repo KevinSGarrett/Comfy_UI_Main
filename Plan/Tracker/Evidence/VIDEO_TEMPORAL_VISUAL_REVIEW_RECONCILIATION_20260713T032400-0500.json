@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-VIDEO-TEMPORAL-VISUAL-REVIEW-RECONCILIATION-20260713T032400-0500",
+  "timestamp": "2026-07-13T03:24:00-05:00",
+  "tracker_id": "TRK-W64-021",
+  "item_id": "ITEM-W64-021",
+  "status_decision": "Blocked_Video_Temporal_Visual_Quality_And_Prerequisite_Failure",
+  "inputs": [
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave27_frame_manifest.json",
+      "sha256": "a931177be02855c56c7589d91384fa1e0bc14b0c3c13faa9b3c454aba506ef14"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave27_temporal_review/strict_review_packet/visual_review_packet.json",
+      "sha256": "cf6ffeb674e91eaaad808a392fd2eadf573d614a9600ac5ee67da8e21ca8a966"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave27_temporal_review/temporal_continuity_metrics.json",
+      "sha256": "48fab43c3df208e10d3beeb71717f9c25665f066919ceca343310bbf766a0c02"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave27_temporal_review/motion_analysis.json",
+      "sha256": "e280fc5f4a9bea2793b06ae18c322b4655104e60cfea82fa6b23186ccbbb3450"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave27_temporal_review/object_background_camera_analysis.json",
+      "sha256": "ebf4c4d21ab2c097cc23aabc957201c1ca989f14e1129f3edea49f70c8ab13df"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave27_temporal_review/codex_visual_verdict.json",
+      "sha256": "059560bdbef5adeb276a799c58eb6ac73c73010d50ecdd92dfbb0bb52eaa082a"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave27_temporal_review/wave27_temporal_evidence.json",
+      "sha256": "e110844ac5b06fc25949aed84d53dd4846d62a1eb9897c9fb08f92ec66e2a3f9"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_TECHNICAL_QA_20260713T023200-0500.json",
+      "sha256": "0427bdcf2430e837aadf07fa890d9e56be1b73a2bd4d41028d78a70c4c1170c5"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_VISUAL_QA_20260713T023500-0500.json",
+      "sha256": "fcbd6dad6fa6f7e2bdf6782a2f4f3ca7b899264bcf8da8487bbf2e0499995eb9"
+    }
+  ],
+  "checks": {
+    "strict_packet_blocked_expected": true,
+    "review_assets_ready": true,
+    "visual_review_complete": true,
+    "final_pass_false": true,
+    "eight_frames_bound": true,
+    "missing_categories_exact": true,
+    "failed_categories_exact": true,
+    "motion_measurement_pass": true,
+    "background_camera_fail": true,
+    "codex_verdict_fail": true,
+    "temporal_promotion_blocked": true,
+    "conservative_identity_flicker_dimensions": true,
+    "packet_manifest_hash_exact": true,
+    "packet_temporal_evidence_hash_exact": true,
+    "verified_prerequisite_hashes_exact": true,
+    "technical_runtime_valid": true,
+    "visual_quality_failed": true,
+    "gold_masks_not_consumed": true
+  },
+  "check_summary": {
+    "checked": 18,
+    "passed": 18,
+    "failed": 0
+  },
+  "gate_results": {
+    "production_frame_sequence_present": true,
+    "production_temporal_evidence_present": true,
+    "frame_grid_present": true,
+    "review_playback_present": true,
+    "direct_visual_review_executed": true,
+    "motion_analysis_pass": true,
+    "object_background_camera_pass": false,
+    "identity_face_detector_proof": false,
+    "body_hand_contact_proof": false,
+    "runtime_proof": true,
+    "final_temporal_visual_pass": false
+  },
+  "failed_frame_indexes": [
+    5,
+    6,
+    7
+  ],
+  "missing_prerequisite_categories": [
+    "identity_detector",
+    "face_detector",
+    "body_silhouette_evidence",
+    "hand_finger_evidence",
+    "trusted_contact_mask_evidence"
+  ],
+  "failed_prerequisite_categories": [
+    "object_background_camera_analysis"
+  ],
+  "boundaries": {
+    "new_generation_executed": false,
+    "row019_proof_reused": true,
+    "ec2_started": false,
+    "candidate_masks_consumed_as_truth": false,
+    "mask_promotion_claimed": false,
+    "wave71_activation_claimed": false,
+    "production_video_certification_claimed": false
+  },
+  "result": "blocked_temporal_visual_quality_and_prerequisite_failure",
+  "next_action": "Continue Row022 reference-video input reconciliation; preserve this failed sequence and do not seed-loop or promote it."
+}

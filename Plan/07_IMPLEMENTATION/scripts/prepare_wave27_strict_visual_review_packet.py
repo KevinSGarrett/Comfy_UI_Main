@@ -719,11 +719,12 @@ def _downscale_for_preview(image: Image.Image, max_edge: int = MAX_PREVIEW_EDGE)
     return image.copy().resize(resized, Image.Resampling.LANCZOS)
 
 
-def _compute_missing_categories_from_results(
+def _compute_unsatisfied_categories_from_results(
     prerequisites: dict[str, Any], evidence_results: list[dict[str, Any]]
-) -> list[str]:
+) -> tuple[list[str], list[str]]:
     result_by_category = {str(item["category"]): item for item in evidence_results}
     missing: list[str] = []
+    failed: list[str] = []
 
     for key in NON_AUDIO_REQUIRED_KEYS:
         value = prerequisites.get(key, {})
@@ -732,7 +733,7 @@ def _compute_missing_categories_from_results(
         if status == "missing":
             missing.append(key)
         elif status == "verified" and not bool(result_entry.get("prerequisite_satisfied")):
-            missing.append(key)
+            failed.append(key)
 
     audio_required = bool(prerequisites.get("audio_required"))
     for key in AUDIO_KEYS:
@@ -742,10 +743,10 @@ def _compute_missing_categories_from_results(
         if status == "missing":
             missing.append(key)
         elif status == "verified" and not bool(result_entry.get("prerequisite_satisfied")):
-            missing.append(key)
+            failed.append(key)
         elif audio_required and status == "not_required":
             missing.append(key)
-    return missing
+    return missing, failed
 
 
 def main() -> int:
@@ -852,8 +853,10 @@ def main() -> int:
 
     preview_frames = [_downscale_for_preview(frame) for frame in frame_images]
     durations_ms = _compute_frame_durations_ms(frame_times)
-    missing_categories = _compute_missing_categories_from_results(prerequisites, evidence_results)
-    prerequisites_complete = not missing_categories
+    missing_categories, failed_categories = _compute_unsatisfied_categories_from_results(
+        prerequisites, evidence_results
+    )
+    prerequisites_complete = not missing_categories and not failed_categories
     if not prerequisites_complete:
         status = "blocked_missing_prerequisites"
         exit_code = 2
@@ -939,6 +942,7 @@ def main() -> int:
             "prerequisites": prerequisites,
             "prerequisite_evidence_results": evidence_results,
             "missing_prerequisite_categories": missing_categories,
+            "failed_prerequisite_categories": failed_categories,
             "review_assets_ready": True,
             "prerequisites_complete": prerequisites_complete,
             "visual_review_complete": visual_review_complete,
