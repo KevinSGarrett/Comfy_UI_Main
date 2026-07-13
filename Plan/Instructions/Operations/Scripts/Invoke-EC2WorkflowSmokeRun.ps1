@@ -775,6 +775,9 @@ $record = [ordered]@{
   lane_contracts = $laneContracts
   local_git_checkpoint_gate = $localGitGate
   emergency_stop_gate = $emergencyStopGate
+  runtime_window_marker_activation = $null
+  runtime_window_marker_completion = $null
+  capacity_backoff = $null
   instance_watchdog = $null
   watchdog_evidence_out_file = $WatchdogEvidenceOutFile
   auth_gate = $authGate
@@ -876,6 +879,13 @@ result = {
     "manifest_path": None,
     "s3_sync": {"attempted": False, "succeeded": False, "s3_uri": None},
     "errors": []
+}
+disk_usage = shutil.disk_usage("/")
+result["root_filesystem"] = {
+    "total_bytes": disk_usage.total,
+    "used_bytes": disk_usage.used,
+    "free_bytes": disk_usage.free,
+    "used_percent": round((disk_usage.used / disk_usage.total) * 100.0, 2) if disk_usage.total else None
 }
 
 def run(cmd, cwd=None, timeout=300, check=False):
@@ -1399,6 +1409,25 @@ function Wait-InstanceStatusOk {
 
 try {
   $record.start_state = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
+  $capacityBackoffHelper = Join-Path $PSScriptRoot "Set-EC2CapacityBackoffState.ps1"
+  $record.capacity_backoff = & $capacityBackoffHelper -Action Inspect -ProjectRoot $ProjectRoot | ConvertFrom-Json
+  if ([bool]$record.capacity_backoff.active -and [string]$record.capacity_backoff.state.runtime_work_order_id -ceq $DeployBundleSha256.ToLowerInvariant()) {
+    $record.failure_category = "ec2_capacity_backoff_active"
+    throw "EC2 capacity backoff is active until $($record.capacity_backoff.state.not_before)."
+  }
+  $markerHelper = Join-Path $PSScriptRoot "Set-EC2RuntimeWindowMarker.ps1"
+  $record.runtime_window_marker_activation = & $markerHelper `
+    -Action Activate `
+    -ProjectRoot $ProjectRoot `
+    -WindowId $RuntimeWindowId `
+    -LaneId $LaneId `
+    -Purpose "bounded_workflow_smoke" `
+    -DeployBundleS3Uri $DeployBundleS3Uri `
+    -DeployBundleSha256 $DeployBundleSha256 `
+    -EmergencyStopEvidencePath $EmergencyStopEvidencePath `
+    -MaxRuntimeMinutes $MaxEc2RuntimeMinutes `
+    -InstanceId $InstanceId `
+    -Region $Region | ConvertFrom-Json
   if ($record.start_state -ne "running") {
     Write-Host "Starting EC2 instance $InstanceId from state $($record.start_state)"
     $previousErrorActionPreference = $ErrorActionPreference
@@ -1413,10 +1442,14 @@ try {
     $record.start_output_tail = Get-TailText -Text $startText -MaxChars 2000
     if ($record.start_exit_code -ne 0) {
       $record.failure_category = Get-EC2StartFailureCategory -ExitCode $record.start_exit_code -OutputText $startText
+      if ($record.failure_category -eq "ec2_insufficient_instance_capacity") {
+        $record.capacity_backoff = & $capacityBackoffHelper -Action RecordFailure -ProjectRoot $ProjectRoot -RuntimeWorkOrderId $DeployBundleSha256.ToLowerInvariant() | ConvertFrom-Json
+      }
       $record.result = "workflow_smoke_start_failed"
       throw "EC2 start-instances failed with exit code $($record.start_exit_code). $startText"
     }
     $record.ec2_started = $true
+    $record.capacity_backoff = & $capacityBackoffHelper -Action Clear -ProjectRoot $ProjectRoot -ClearReason "ec2_start_succeeded" | ConvertFrom-Json
   }
   $null = Wait-InstanceState -DesiredState "running"
   $null = Wait-InstanceStatusOk
@@ -1542,6 +1575,16 @@ finally {
       $record.final_state = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
     } else {
       $record.final_state = $record.start_state
+    }
+    if ($null -ne $record.runtime_window_marker_activation -and $record.final_state -eq "stopped") {
+      $markerHelper = Join-Path $PSScriptRoot "Set-EC2RuntimeWindowMarker.ps1"
+      $record.runtime_window_marker_completion = & $markerHelper `
+        -Action Complete `
+        -ProjectRoot $ProjectRoot `
+        -WindowId $RuntimeWindowId `
+        -FinalInstanceState $record.final_state `
+        -CompletionResult $(if ($record.errors.Count -eq 0) { "workflow_smoke_finished" } else { "workflow_smoke_finished_with_errors" }) `
+        -CompletionEvidencePath $OutFile | ConvertFrom-Json
     }
   } catch {
     if ([string]::IsNullOrWhiteSpace([string]$record.stop_failure_category)) {

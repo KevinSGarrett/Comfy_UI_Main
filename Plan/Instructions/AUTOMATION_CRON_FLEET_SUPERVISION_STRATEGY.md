@@ -20,6 +20,18 @@ Verified 2026-07-09 finding: approved EC2 instance `i-0560bf8d143f93bb1` was ins
 
 Use these classifications when relevant: `LOCAL_SOURCE_OF_TRUTH_ACTIVE`, `EC2_WORKSPACE_STALE_NOT_AUTHORITY`, `NO_RERUN_COMPLETED_EC2_PROOF`, `SELECTED_INPAINT_TARGET_RUNTIME_NOT_DUPLICATE`, and `BLOCKED_EC2_STALE_QUEUE_SOURCE`.
 
+### EC2 Delivery, Identity, And Readiness Guard
+
+All scheduled jobs inherit `Plan/Instructions/Operations/EC2_COST_CONTROL_AND_LOCAL_DEV_RUNBOOK.md` and the 2026-07-13 runtime-delivery hardening boundary.
+
+- Routine AWS reads use the default `ComfyUIMainSessionRole`; account root is break-glass only. Never ask the user to repeat AWS login while that role profile passes.
+- The hourly EC2 sentinel must run `Get-EC2RuntimeReadinessDisposition.ps1 -IncludeAwsState` as part of its existing bounded check. It may report `NO_ELIGIBLE_GPU_WORK`, `READY_WORK_WAITING_FOR_EC2`, `CAPACITY_BACKOFF_ACTIVE`, `GPU_RUNTIME_WINDOW_ACTIVE`, or `RUNNING_MARKER_UNKNOWN_REVIEW_NEEDED`; it must never start EC2.
+- A ready classification should steer the main session toward one guarded 1-5 unit batch. It is not permission for an automation, Cursor, Claude, GitHub, or EC2 stale state to execute the batch.
+- Active capacity backoff forbids immediate retry. The sentinel reports the `not_before` time and otherwise stays silent.
+- Every running instance requires the atomic active marker. Every ended window requires archived marker history and final `stopped` proof.
+- GitHub OIDC is deploy-bundle publication only. GitHub must never start/stop EC2, send SSM commands, mutate scheduler state, or receive long-lived AWS credentials.
+- S3 lifecycle must preserve `model-cache/`; EBS migration remains blocked until real filesystem used-byte proof exists.
+
 Do not rerun completed EC2/local work as new work: low-risk fallback first runtime proof, RealVisXL base smoke/proof and prior certification sample runs, baseline/Canny v4 target-runtime smoke proof, or the 2026-07-09 active-lane local package smoke/visual QA matrix. Still-open selected-inpaint work is not duplicate only when intentionally selected and live gates pass: deploy-bundle rebuild/revalidation, S3 publish proof, EC2 input/model install hash proof, selected target-runtime proof, and final certification.
 
 ## Primary Objective

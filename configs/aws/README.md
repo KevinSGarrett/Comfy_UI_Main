@@ -1,10 +1,9 @@
 # AWS Cost-Control Templates
 
-These templates support the Wave 63 low-cost runtime path.
+These templates and canonical account policies support the low-cost runtime path.
 
-They are intentionally placeholders. Replace bracketed values such as
-`<bucket-name>`, `<account-id>`, `<github-owner>`, and `<github-repo>` before
-applying them in AWS.
+Files ending in `.template.json` remain placeholders. Files without that suffix
+are the canonical policies for this project/account and contain no secrets.
 
 Use these policies to keep EC2 on-time short:
 
@@ -14,6 +13,13 @@ Use these policies to keep EC2 on-time short:
   target-runtime proof, uploads artifacts, and stops.
 - EventBridge Scheduler can create a one-time emergency stop schedule before a
   runtime window.
+- The local main session uses a DPAPI-protected bootstrap key that can assume
+  only `ComfyUIMainSessionRole`; routine AWS commands use short-lived STS
+  credentials and root remains a named break-glass profile.
+- GitHub OIDC trusts only the repository main branch and writes only to
+  `deploy-bundles/github/`; it has no EC2 authority.
+- Runtime-bucket lifecycle expires replaceable bundles and old output copies
+  while preserving the model cache.
 
 Do not store AWS credentials, GitHub tokens, Civitai keys, model binaries, or
 private keys in this directory.

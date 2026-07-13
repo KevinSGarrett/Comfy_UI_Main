@@ -264,6 +264,144 @@ if (Test-Path -LiteralPath $runPromptRequestPath -PathType Leaf) {
   $workflowInputGraph = $runPromptRequest.prompt
   $workflowInputSource = "run_package_prompt_request"
 }
+
+function Get-ZipEntrySha256 {
+  param([Parameter(Mandatory=$true)][System.IO.Compression.ZipArchiveEntry]$Entry)
+
+  $stream = $Entry.Open()
+  $sha256 = [System.Security.Cryptography.SHA256]::Create()
+  try {
+    return ([System.BitConverter]::ToString($sha256.ComputeHash($stream))).Replace("-", "").ToLowerInvariant()
+  } finally {
+    $sha256.Dispose()
+    $stream.Dispose()
+  }
+}
+
+function Assert-SafeZipEntryName {
+  param([Parameter(Mandatory=$true)][string]$EntryName)
+
+  if ([string]::IsNullOrWhiteSpace($EntryName) -or
+      $EntryName.Contains("\") -or
+      $EntryName.StartsWith("/") -or
+      $EntryName -match '^[A-Za-z]:' -or
+      @($EntryName.Split("/") | Where-Object { $_ -in @("", ".", "..") }).Count -gt 0) {
+    throw "Unsafe or non-portable ZIP entry name: $EntryName"
+  }
+}
+
+function New-PortableZipArchive {
+  param(
+    [Parameter(Mandatory=$true)][string]$SourceRoot,
+    [Parameter(Mandatory=$true)][string]$DestinationPath
+  )
+
+  Add-Type -AssemblyName System.IO.Compression
+  Add-Type -AssemblyName System.IO.Compression.FileSystem
+
+  $sourceRootFull = [System.IO.Path]::GetFullPath($SourceRoot).TrimEnd("\", "/")
+  $entryNames = New-Object 'System.Collections.Generic.HashSet[string]' ([System.StringComparer]::OrdinalIgnoreCase)
+  $files = @(Get-ChildItem -LiteralPath $sourceRootFull -Recurse -File | Sort-Object FullName)
+  if ($files.Count -eq 0) {
+    throw "Refusing to create an empty deploy bundle ZIP: $SourceRoot"
+  }
+
+  $destinationDirectory = Split-Path -Parent $DestinationPath
+  if (![string]::IsNullOrWhiteSpace($destinationDirectory)) {
+    $null = New-Item -ItemType Directory -Force -Path $destinationDirectory
+  }
+  if (Test-Path -LiteralPath $DestinationPath) {
+    Remove-Item -LiteralPath $DestinationPath -Force
+  }
+
+  $fileStream = [System.IO.File]::Open($DestinationPath, [System.IO.FileMode]::CreateNew, [System.IO.FileAccess]::ReadWrite, [System.IO.FileShare]::None)
+  $archive = New-Object System.IO.Compression.ZipArchive($fileStream, [System.IO.Compression.ZipArchiveMode]::Create, $false)
+  try {
+    foreach ($file in $files) {
+      $entryName = (Get-RelativePathCompat -BasePath $sourceRootFull -TargetPath $file.FullName).Replace("\", "/")
+      Assert-SafeZipEntryName -EntryName $entryName
+      if (!$entryNames.Add($entryName)) {
+        throw "Duplicate normalized ZIP entry name: $entryName"
+      }
+
+      $entry = $archive.CreateEntry($entryName, [System.IO.Compression.CompressionLevel]::Optimal)
+      $entry.LastWriteTime = New-Object System.DateTimeOffset(1980, 1, 1, 0, 0, 0, [System.TimeSpan]::Zero)
+      $inputStream = [System.IO.File]::OpenRead($file.FullName)
+      $entryStream = $entry.Open()
+      try {
+        $inputStream.CopyTo($entryStream)
+      } finally {
+        $entryStream.Dispose()
+        $inputStream.Dispose()
+      }
+    }
+  } finally {
+    $archive.Dispose()
+    $fileStream.Dispose()
+  }
+}
+
+function Assert-PortableDeployBundleZip {
+  param(
+    [Parameter(Mandatory=$true)][string]$ZipPath,
+    [Parameter(Mandatory=$true)][object]$Manifest
+  )
+
+  Add-Type -AssemblyName System.IO.Compression
+  Add-Type -AssemblyName System.IO.Compression.FileSystem
+
+  $expected = New-Object 'System.Collections.Generic.Dictionary[string,string]' ([System.StringComparer]::OrdinalIgnoreCase)
+  foreach ($record in @($Manifest.files)) {
+    $path = ([string]$record.path).Replace("\", "/")
+    Assert-SafeZipEntryName -EntryName $path
+    if ($expected.ContainsKey($path)) {
+      throw "Deploy manifest contains duplicate normalized path: $path"
+    }
+    $hash = ([string]$record.sha256).Trim().ToLowerInvariant()
+    if ($hash -notmatch '^[0-9a-f]{64}$') {
+      throw "Deploy manifest contains an invalid SHA-256 for: $path"
+    }
+    $expected.Add($path, $hash)
+  }
+  if ($expected.Count -ne [int]$Manifest.file_count) {
+    throw "Deploy manifest file_count does not match its unique file records."
+  }
+
+  $fileStream = [System.IO.File]::OpenRead($ZipPath)
+  $archive = New-Object System.IO.Compression.ZipArchive($fileStream, [System.IO.Compression.ZipArchiveMode]::Read, $false)
+  $observed = New-Object 'System.Collections.Generic.HashSet[string]' ([System.StringComparer]::OrdinalIgnoreCase)
+  try {
+    foreach ($entry in @($archive.Entries)) {
+      $entryName = [string]$entry.FullName
+      Assert-SafeZipEntryName -EntryName $entryName
+      if (!$observed.Add($entryName)) {
+        throw "ZIP contains duplicate normalized entry name: $entryName"
+      }
+      if ($entryName -eq "DEPLOY_BUNDLE_MANIFEST.json") {
+        continue
+      }
+      if (!$expected.ContainsKey($entryName)) {
+        throw "ZIP entry is not declared by the deploy manifest: $entryName"
+      }
+      $actualHash = Get-ZipEntrySha256 -Entry $entry
+      if ($actualHash -cne $expected[$entryName]) {
+        throw "ZIP entry hash does not match the deploy manifest for: $entryName"
+      }
+    }
+  } finally {
+    $archive.Dispose()
+    $fileStream.Dispose()
+  }
+
+  if (!$observed.Contains("DEPLOY_BUNDLE_MANIFEST.json")) {
+    throw "ZIP is missing DEPLOY_BUNDLE_MANIFEST.json."
+  }
+  foreach ($path in $expected.Keys) {
+    if (!$observed.Contains($path)) {
+      throw "Deploy manifest path is missing from ZIP: $path"
+    }
+  }
+}
 $workflowInputFilenames = @(
   $workflowInputGraph.psobject.Properties.Value |
     Where-Object { [string]$_.class_type -in @("LoadImage", "LoadImageMask") } |
@@ -371,15 +509,20 @@ $contentManifestPath = Join-Path $contentRoot "DEPLOY_BUNDLE_MANIFEST.json"
 Write-JsonNoBom -Value $manifest -Path $contentManifestPath -Depth 30
 
 $zipPath = Join-Path $OutDir "$BundleName.zip"
-if (Test-Path -LiteralPath $zipPath) {
-  Remove-Item -LiteralPath $zipPath -Force
-}
-Compress-Archive -Path (Join-Path $contentRoot "*") -DestinationPath $zipPath -Force
+New-PortableZipArchive -SourceRoot $contentRoot -DestinationPath $zipPath
+Assert-PortableDeployBundleZip -ZipPath $zipPath -Manifest $manifest
 
 $zipHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $zipPath).Hash.ToLowerInvariant()
 $manifest.bundle_zip = Split-Path -Leaf $zipPath
 $manifest.bundle_zip_sha256 = $zipHash
 $manifest.bundle_zip_size_bytes = (Get-Item -LiteralPath $zipPath).Length
+$manifest.zip_portability_gate = [ordered]@{
+  result = "pass"
+  entry_separator = "/"
+  unsafe_entry_count = 0
+  duplicate_normalized_entry_count = 0
+  manifest_entry_mismatch_count = 0
+}
 
 $sidecarManifestPath = Join-Path $OutDir "DEPLOY_BUNDLE_MANIFEST.json"
 Write-JsonNoBom -Value $manifest -Path $sidecarManifestPath -Depth 30

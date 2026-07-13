@@ -1,0 +1,46 @@
+{
+  "Rules": [
+    {
+      "ID": "expire-superseded-deploy-bundles",
+      "Status": "Enabled",
+      "Filter": {
+        "Prefix": "deploy-bundles/"
+      },
+      "Expiration": {
+        "Days": 90
+      },
+      "NoncurrentVersionExpiration": {
+        "NoncurrentDays": 30
+      },
+      "AbortIncompleteMultipartUpload": {
+        "DaysAfterInitiation": 7
+      }
+    },
+    {
+      "ID": "expire-old-render-pullback-copies",
+      "Status": "Enabled",
+      "Filter": {
+        "Prefix": "render-outputs/"
+      },
+      "Expiration": {
+        "Days": 180
+      },
+      "NoncurrentVersionExpiration": {
+        "NoncurrentDays": 30
+      },
+      "AbortIncompleteMultipartUpload": {
+        "DaysAfterInitiation": 7
+      }
+    },
+    {
+      "ID": "abort-incomplete-model-cache-uploads",
+      "Status": "Enabled",
+      "Filter": {
+        "Prefix": "model-cache/"
+      },
+      "AbortIncompleteMultipartUpload": {
+        "DaysAfterInitiation": 7
+      }
+    }
+  ]
+}

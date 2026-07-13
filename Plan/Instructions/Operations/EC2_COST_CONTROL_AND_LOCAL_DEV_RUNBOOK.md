@@ -4,6 +4,18 @@
 
 This runbook is the active cost-control policy for `C:\Comfy_UI_Main`. It separates cheap/local validation from paid EC2 runtime proof so autonomous sessions can keep moving without repeatedly starting the GPU instance for work that can be done locally or in GitHub Actions.
 
+## 2026-07-13 Runtime Delivery Hardening
+
+- The default AWS CLI identity must be `ComfyUIMainSessionRole`, assumed through the DPAPI-protected `comfy-ui-main-bootstrap` credential process. Routine work must not use account root. Root is break-glass only through `--profile comfy-ui-root-breakglass`.
+- GitHub Actions assumes `ComfyUIGitHubDeployBundlePublisherRole` through OIDC only for `repo:KevinSGarrett/Comfy_UI_Main:ref:refs/heads/main`. It can publish only `deploy-bundles/github/*` and has no EC2 authority or static AWS keys.
+- Deploy ZIPs must be written by `tools/New-EC2DeployBundle.ps1` with `/` member separators. `Test-EC2DeployBundleZipPortability.ps1` rejects backslashes, absolute/traversal paths, duplicate normalized names, undeclared members, missing members, and hash mismatches. CI runs this gate before artifact or S3 publication.
+- `Invoke-EC2LaneStaticProof.ps1` and `Invoke-EC2WorkflowSmokeRun.ps1` atomically create `runtime_artifacts/ec2_runtime_windows/ACTIVE_EC2_RUNTIME_WINDOW.json` before `start-instances`. They archive and remove it only after independently observed `stopped`. A cleanup failure leaves the marker visible for the sentinel.
+- The instance watchdog uses direct verified OS shutdown when `-AllowWatchdogOsShutdownFallback` is supplied. It must not intentionally generate an `ec2:StopInstances` authorization failure before using that known-good path.
+- `New-EC2BatchedRuntimeWorkOrder.ps1` admits 1-5 hash-bound compatible units. `Get-EC2RuntimeReadinessDisposition.ps1` distinguishes `NO_ELIGIBLE_GPU_WORK`, `READY_WORK_WAITING_FOR_EC2`, active backoff, active window, and unowned running state. These classifications do not grant automation EC2-start authority.
+- Insufficient-capacity failures are persisted by `Set-EC2CapacityBackoffState.ps1` at 15, 30, 60, then 120 minutes. A successful start clears the state. Repeated immediate start loops are prohibited.
+- S3 lifecycle expires replaceable deploy bundles after 90 days and old render pullback copies after 180 days, expires noncurrent versions after 30 days, and aborts incomplete multipart uploads after 7 days. `model-cache/` has no object expiration.
+- The attached 1 TiB gp3 volume is unencrypted. Do not guess a smaller replacement. Future live proofs capture root filesystem usage; `Test-EC2EbsRightSizingReadiness.ps1` must pass before a separate encrypted-volume migration is planned. Never start EC2 only to collect that measurement.
+
 ## Current Cost Facts
 
 - A stopped EC2 instance does not accrue instance usage charges, but attached EBS storage still costs money while it exists.
@@ -149,7 +161,7 @@ Runtime-window marker plan:
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\New-EC2RuntimeWindowMarkerPlan.ps1 -WindowId <runtime-window-id> -LaneId sdxl_realvisxl_base_lane -Command "<approved live EC2 command>" -DeployBundleS3Uri s3://<bucket>/<bundle>.zip -DeployBundleSha256 <bundle_sha256> -EmergencyStopEvidencePath <emergency-stop-evidence.json> -WatchdogEvidencePath <watchdog-evidence.json> -OutFile C:\Comfy_UI_Main\Plan\Instructions\QA\Evidence\Runtime_Readiness\W66_EC2_RUNTIME_WINDOW_MARKER_PLAN_<timestamp>.json
 ```
 
-This helper is local-only. It validates that supplied emergency-stop and watchdog evidence, when present, use the same window ID and recognizes both dry-run and exact capability-verified live results. It writes a marker template for the future live window, but it does not write `runtime_artifacts/ec2_runtime_windows/ACTIVE_EC2_RUNTIME_WINDOW.json`; write the active marker only when the approved EC2 window is actually starting, then remove it or mark it `ENDED` after final stopped-state verification.
+`New-EC2RuntimeWindowMarkerPlan.ps1` remains a local planning helper. Live marker mutation is owned by `Set-EC2RuntimeWindowMarker.ps1` and is integrated directly into both EC2 entrypoints. Do not hand-write, pre-create, or manually delete the active marker. Completion requires the matching window ID and independently verified final state `stopped`; history is written before the active marker is removed.
 
 ## Model Provisioning Cost Rules
 

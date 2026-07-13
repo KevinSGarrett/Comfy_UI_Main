@@ -370,6 +370,9 @@ $startState = ""
 $finalState = ""
 $executionErrorMessage = ""
 $executionFailureCategory = $null
+$runtimeWindowMarkerActivation = $null
+$runtimeWindowMarkerCompletion = $null
+$capacityBackoff = $null
 $stopExitCode = $null
 $stopOutputTail = $null
 $stopFailureCategory = $null
@@ -398,6 +401,13 @@ result = {
     "object_info": {"executed": False, "status": "not_started"},
     "model_proofs": [],
     "errors": []
+}
+disk_usage = shutil.disk_usage("/")
+result["root_filesystem"] = {
+    "total_bytes": disk_usage.total,
+    "used_bytes": disk_usage.used,
+    "free_bytes": disk_usage.free,
+    "used_percent": round((disk_usage.used / disk_usage.total) * 100.0, 2) if disk_usage.total else None
 }
 
 def run(cmd, cwd=None, timeout=240, check=False):
@@ -639,6 +649,25 @@ function Wait-InstanceStatusOk {
 
 try {
   $startState = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
+  $capacityBackoffHelper = Join-Path $PSScriptRoot "Set-EC2CapacityBackoffState.ps1"
+  $capacityBackoff = & $capacityBackoffHelper -Action Inspect -ProjectRoot $ProjectRoot | ConvertFrom-Json
+  if ([bool]$capacityBackoff.active -and [string]$capacityBackoff.state.runtime_work_order_id -ceq $DeployBundleSha256.ToLowerInvariant()) {
+    $executionFailureCategory = "ec2_capacity_backoff_active"
+    throw "EC2 capacity backoff is active until $($capacityBackoff.state.not_before)."
+  }
+  $markerHelper = Join-Path $PSScriptRoot "Set-EC2RuntimeWindowMarker.ps1"
+  $runtimeWindowMarkerActivation = & $markerHelper `
+    -Action Activate `
+    -ProjectRoot $ProjectRoot `
+    -WindowId $RuntimeWindowId `
+    -LaneId $LaneId `
+    -Purpose "bounded_ec2_static_proof" `
+    -DeployBundleS3Uri $DeployBundleS3Uri `
+    -DeployBundleSha256 $DeployBundleSha256 `
+    -EmergencyStopEvidencePath $EmergencyStopEvidencePath `
+    -MaxRuntimeMinutes $MaxEc2RuntimeMinutes `
+    -InstanceId $InstanceId `
+    -Region $Region | ConvertFrom-Json
   if ($startState -ne "running") {
     Write-Host "Starting EC2 instance $InstanceId from state $startState"
     $startOutput = @(aws ec2 start-instances --region $Region --instance-ids $InstanceId --output json 2>&1)
@@ -646,9 +675,13 @@ try {
     if ($startExitCode -ne 0) {
       $startText = (($startOutput | ForEach-Object { [string]$_ }) -join [Environment]::NewLine).Trim()
       $executionFailureCategory = Get-EC2StartFailureCategory -ExitCode $startExitCode -OutputText $startText
+      if ($executionFailureCategory -eq "ec2_insufficient_instance_capacity") {
+        $capacityBackoff = & $capacityBackoffHelper -Action RecordFailure -ProjectRoot $ProjectRoot -RuntimeWorkOrderId $DeployBundleSha256.ToLowerInvariant() | ConvertFrom-Json
+      }
       throw "EC2 start-instances failed with exit code $startExitCode. $startText"
     }
     $started = $true
+    $capacityBackoff = & $capacityBackoffHelper -Action Clear -ProjectRoot $ProjectRoot -ClearReason "ec2_start_succeeded" | ConvertFrom-Json
   }
   $null = Wait-InstanceState -DesiredState "running"
   $null = Wait-InstanceStatusOk
@@ -735,6 +768,16 @@ finally {
       $null = Wait-InstanceState -DesiredState "stopped" -MaxAttempts 120 -SleepSeconds 5
     }
     $finalState = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
+    if ($null -ne $runtimeWindowMarkerActivation -and $finalState -eq "stopped") {
+      $markerHelper = Join-Path $PSScriptRoot "Set-EC2RuntimeWindowMarker.ps1"
+      $runtimeWindowMarkerCompletion = & $markerHelper `
+        -Action Complete `
+        -ProjectRoot $ProjectRoot `
+        -WindowId $RuntimeWindowId `
+        -FinalInstanceState $finalState `
+        -CompletionResult $(if ([string]::IsNullOrWhiteSpace($executionErrorMessage)) { "ec2_static_proof_finished" } else { "ec2_static_proof_finished_with_errors" }) `
+        -CompletionEvidencePath $OutFile | ConvertFrom-Json
+    }
   } catch {
     $cleanupMessage = "Stop/final-state verification failed: $($_.Exception.Message)"
     $executionErrorMessage = $(if ([string]::IsNullOrWhiteSpace($executionErrorMessage)) { $cleanupMessage } else { "$executionErrorMessage $cleanupMessage" })
@@ -763,6 +806,9 @@ $record = [ordered]@{
   auth_gate = $authGate
   readiness_gate = $readinessGate
   emergency_stop_gate = $emergencyStopGate
+  runtime_window_marker_activation = $runtimeWindowMarkerActivation
+  runtime_window_marker_completion = $runtimeWindowMarkerCompletion
+  capacity_backoff = $capacityBackoff
   instance_watchdog = $instanceWatchdogStatus
   watchdog_evidence_out_file = $WatchdogEvidenceOutFile
   execute_gates_pass = $executeGatesPass

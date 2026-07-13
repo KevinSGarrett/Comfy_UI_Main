@@ -4,8 +4,9 @@ Starts an instance-side EC2 stop watchdog through SSM.
 
 .DESCRIPTION
 Dry-run by default. With -Execute, sends a short SSM command that launches a
-background watchdog. The watchdog first tries AWS CLI StopInstances from inside
-the instance and can optionally fall back to OS shutdown.
+background watchdog. When -AllowOsShutdownFallback is supplied, the watchdog
+uses verified OS shutdown directly so the restricted instance role does not
+generate an expected-but-noisy ec2:StopInstances authorization failure.
 #>
 param(
   [string]$InstanceId = "i-0560bf8d143f93bb1",
@@ -41,31 +42,31 @@ $fallback = $(if ($AllowOsShutdownFallback) { "true" } else { "false" })
 $remoteScript = @"
 # AWS-RunShellScript executes this outer payload with /bin/sh.
 set -eu
-set +e
-dry_run_output=`$(aws ec2 stop-instances --dry-run --region '$Region' --instance-ids '$InstanceId' 2>&1)
-dry_run_rc=`$?
-set -e
-if echo "`$dry_run_output" | grep -q 'DryRunOperation'; then
-  echo 'STOP_CAPABILITY=ec2_api_dry_run_verified'
-elif [ '$fallback' = 'true' ]; then
-  sudo -n true
-  echo 'STOP_CAPABILITY=os_shutdown_fallback_verified'
+if [ '$fallback' = 'true' ]; then
+  sudo -n shutdown --help >/dev/null
+  echo 'STOP_CAPABILITY=os_shutdown_direct_verified'
 else
-  echo "STOP_CAPABILITY=unavailable rc=`$dry_run_rc" >&2
-  exit 42
+  set +e
+  dry_run_output=`$(aws ec2 stop-instances --dry-run --region '$Region' --instance-ids '$InstanceId' 2>&1)
+  dry_run_rc=`$?
+  set -e
+  if echo "`$dry_run_output" | grep -q 'DryRunOperation'; then
+    echo 'STOP_CAPABILITY=ec2_api_dry_run_verified'
+  else
+    echo "STOP_CAPABILITY=unavailable rc=`$dry_run_rc" >&2
+    exit 42
+  fi
 fi
 
 cat >/tmp/codex_ec2_stop_watchdog.sh <<'SH'
 #!/usr/bin/env bash
 set -euo pipefail
 sleep $seconds
-aws ec2 stop-instances --region '$Region' --instance-ids '$InstanceId' --output json >/tmp/codex_ec2_stop_watchdog_stop.json 2>/tmp/codex_ec2_stop_watchdog_stop.err || {
-  if [ '$fallback' = 'true' ]; then
-    sudo shutdown -h now
-  else
-    exit 1
-  fi
-}
+if [ '$fallback' = 'true' ]; then
+  sudo -n shutdown -h now
+else
+  aws ec2 stop-instances --region '$Region' --instance-ids '$InstanceId' --output json >/tmp/codex_ec2_stop_watchdog_stop.json 2>/tmp/codex_ec2_stop_watchdog_stop.err
+fi
 SH
 chmod 700 /tmp/codex_ec2_stop_watchdog.sh
 nohup /tmp/codex_ec2_stop_watchdog.sh >/tmp/codex_ec2_stop_watchdog.log 2>&1 &
@@ -85,6 +86,8 @@ $record = [ordered]@{
   region = $Region
   stop_after_minutes = $StopAfterMinutes
   allow_os_shutdown_fallback = [bool]$AllowOsShutdownFallback
+  effective_stop_method = $(if ($AllowOsShutdownFallback) { "os_shutdown_direct" } else { "ec2_api" })
+  avoids_expected_ec2_api_authorization_failure = [bool]$AllowOsShutdownFallback
   execute = [bool]$Execute
   aws_contacted = $false
   ec2_started = $false
@@ -133,7 +136,7 @@ if ($InstanceId -notmatch '^i-[0-9a-f]{8}([0-9a-f]{9})?$' -or $Region -notmatch 
     $pidLine = @($stdoutLines | Where-Object { $_ -like "WATCHDOG_PID=*" } | Select-Object -Last 1)
     if ($capabilityLine.Count -eq 1) {
       $record.stop_capability_method = ([string]$capabilityLine[0]).Substring("STOP_CAPABILITY=".Length)
-      $record.stop_capability_verified = @("ec2_api_dry_run_verified", "os_shutdown_fallback_verified").Contains($record.stop_capability_method)
+      $record.stop_capability_verified = @("ec2_api_dry_run_verified", "os_shutdown_direct_verified").Contains($record.stop_capability_method)
     }
     if ($pidLine.Count -eq 1) {
       $record.watchdog_pid = ([string]$pidLine[0]).Substring("WATCHDOG_PID=".Length)

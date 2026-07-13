@@ -133,6 +133,11 @@ jobs:
         run: |
           powershell -NoProfile -ExecutionPolicy Bypass -File "$env:GITHUB_WORKSPACE\tools\New-EC2DeployBundle.ps1" -ProjectRoot "$env:GITHUB_WORKSPACE" -LaneId "${{ matrix.lane_id }}" -RunPackageManifestFile "$env:GITHUB_WORKSPACE\ci_artifacts\run_packages\${{ matrix.run_id }}\RUN_PACKAGE_MANIFEST.json" -OutDir "$env:GITHUB_WORKSPACE\ci_artifacts\deploy_bundle\${{ matrix.run_id }}" -BundleName "${{ matrix.run_id }}"
 
+      - name: Validate deploy bundle ZIP portability
+        shell: pwsh
+        run: |
+          powershell -NoProfile -ExecutionPolicy Bypass -File "$env:GITHUB_WORKSPACE\Plan\Instructions\QA\Scripts\Test-EC2DeployBundleZipPortability.ps1" -BundleZip "$env:GITHUB_WORKSPACE\ci_artifacts\deploy_bundle\${{ matrix.run_id }}\${{ matrix.run_id }}.zip" -ManifestFile "$env:GITHUB_WORKSPACE\ci_artifacts\deploy_bundle\${{ matrix.run_id }}\DEPLOY_BUNDLE_MANIFEST.json"
+
       - name: Upload deploy bundle artifact
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
