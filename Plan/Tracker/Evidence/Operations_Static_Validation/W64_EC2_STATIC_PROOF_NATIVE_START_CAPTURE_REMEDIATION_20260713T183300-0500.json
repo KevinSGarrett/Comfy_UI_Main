@@ -1,0 +1,63 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "ec2_static_proof_native_start_capture_remediation",
+    "created_at":  "2026-07-13T18:33:32-05:00",
+    "result":  "pass_local_only_remediation_live_retry_pending",
+    "source_git_head":  "d45d98117cb29e01824b337842a2d6677e97bbb9",
+    "branch":  "codex/openpose-static-start-guard",
+    "observed_live_failure":  {
+                                  "result":  "ec2_static_proof_failed",
+                                  "failure_category":  "ec2_static_proof_exception",
+                                  "command_status":  "NotStarted",
+                                  "ec2_started":  false,
+                                  "final_state":  "stopped",
+                                  "runtime_window_completed":  true,
+                                  "generation_executed":  false
+                              },
+    "root_cause":  "Invoke-EC2LaneStaticProof redirected native AWS stderr while ErrorActionPreference was Stop, allowing a NativeCommandError to terminate before LASTEXITCODE, start state, and AWS output were recorded.",
+    "remediation":  [
+                        "Guard start-instances with a process-local ErrorActionPreference Continue/restore block matching the existing stop path.",
+                        "Persist start_exit_code and start_output_tail in static-proof evidence.",
+                        "Allow empty dry-run window IDs to produce structured blocked records instead of parameter-binding exceptions.",
+                        "Align marker-plan and watchdog regression fixtures with the current runtime-window and least-privilege shutdown contracts."
+                    ],
+    "changed_files":  [
+                          "Plan/Instructions/Operations/Scripts/Invoke-EC2LaneStaticProof.ps1",
+                          "Plan/Instructions/Operations/Scripts/EC2RuntimeWindowSafetyGate.ps1",
+                          "Plan/Instructions/Operations/Scripts/Test-OperationsHelperStatic.ps1",
+                          "Plan/Instructions/QA/Scripts/Test-EC2WorkflowSmokeStartFailureRegression.ps1",
+                          "Plan/Instructions/QA/Scripts/Test-EC2StopFailureRegression.ps1"
+                      ],
+    "validation":  {
+                       "powershell_parse_error_count":  0,
+                       "start_failure_regression_result":  "pass_local_only",
+                       "start_failure_regression_failure_count":  0,
+                       "stop_failure_regression_result":  "pass_local_only",
+                       "stop_failure_regression_failure_count":  0,
+                       "runtime_window_safety_result":  "pass_local_only",
+                       "runtime_window_safety_test_count":  38,
+                       "runtime_window_safety_failed_test_count":  0,
+                       "operations_helper_result":  "pass_local_only",
+                       "operations_script_count":  60,
+                       "operations_script_parse_failures":  0,
+                       "operations_local_smoke_count":  33,
+                       "operations_local_smoke_failures":  0,
+                       "operations_json_parse_failures":  0,
+                       "operations_evidence_check_failures":  0,
+                       "operations_evidence_contract_check_failures":  0
+                   },
+    "worker_review":  {
+                          "worker":  "claude-sonnet-5",
+                          "role":  "advisory_read_only_diagnosis",
+                          "conclusion":  "missing native-command ErrorActionPreference guard on start path",
+                          "wrapper_classification":  "CLAUDE_SUBSCRIPTION_INVALID_CONFIDENCE_LABEL",
+                          "note":  "The worker diagnosis was technically useful but not accepted as a completed handoff because its confidence label included explanatory text."
+                      },
+    "boundaries":  [
+                       "No generation occurred during the failed static-proof attempt.",
+                       "The approved EC2 instance was stopped and the runtime marker archived.",
+                       "This record proves the local remediation and regression coverage only; target-runtime OpenPose proof remains pending after PR merge.",
+                       "No mask promotion, Wave70 hard gate, Wave71 activation, Jira mutation, or certification claim is made."
+                   ],
+    "next_action":  "Checkpoint through PR, wait for Required preflight and package, merge, rebuild the exact-head OpenPose bundle, and rerun one guarded static proof."
+}

@@ -15,11 +15,13 @@ $ErrorActionPreference = "Stop"
 $ProjectRoot = [System.IO.Path]::GetFullPath($ProjectRoot)
 $classifier = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\EC2StartFailureClassification.ps1"
 $workflowSmoke = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1"
+$laneStaticProof = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1"
 $modelInstaller = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Install-EC2ModelFromS3.ps1"
 $inputInstaller = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Install-EC2InputAssetFromS3.ps1"
 $gpuStarter = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Start-ComfyUIGpuServer.ps1"
 if (!(Test-Path -LiteralPath $classifier -PathType Leaf)) { throw "Classifier missing: $classifier" }
 if (!(Test-Path -LiteralPath $workflowSmoke -PathType Leaf)) { throw "Workflow smoke helper missing: $workflowSmoke" }
+if (!(Test-Path -LiteralPath $laneStaticProof -PathType Leaf)) { throw "Lane static proof helper missing: $laneStaticProof" }
 foreach ($path in @($modelInstaller, $inputInstaller, $gpuStarter)) {
   if (!(Test-Path -LiteralPath $path -PathType Leaf)) { throw "EC2 start call site missing: $path" }
 }
@@ -61,6 +63,20 @@ foreach ($check in $sourceChecks) {
   $check.result = $(if ($check.observed -eq $check.required) { "pass" } else { "fail" })
 }
 
+$staticProofSource = Get-Content -LiteralPath $laneStaticProof -Raw
+$staticProofSourceChecks = @(
+  [ordered]@{ name = "guards_native_start_stderr"; pattern = '(?s)\$previousErrorActionPreference\s*=\s*\$ErrorActionPreference\s*\r?\n\s*\$ErrorActionPreference\s*=\s*"Continue"\s*\r?\n\s*try\s*\{\s*\r?\n\s*\$startOutput\s*=\s*@\(aws ec2 start-instances'; required = $true },
+  [ordered]@{ name = "captures_static_start_exit_code"; pattern = [regex]::Escape('$startExitCode = $LASTEXITCODE'); required = $true },
+  [ordered]@{ name = "restores_error_action_preference"; pattern = '(?s)\$startExitCode\s*=\s*\$LASTEXITCODE\s*\r?\n\s*\}\s*finally\s*\{\s*\r?\n\s*\$ErrorActionPreference\s*=\s*\$previousErrorActionPreference'; required = $true },
+  [ordered]@{ name = "records_static_start_exit_code"; pattern = [regex]::Escape('start_exit_code = $startExitCode'); required = $true },
+  [ordered]@{ name = "records_static_start_output_tail"; pattern = [regex]::Escape('start_output_tail = $startOutputTail'); required = $true },
+  [ordered]@{ name = "uses_static_shared_classifier"; pattern = [regex]::Escape('Get-EC2StartFailureCategory -ExitCode $startExitCode'); required = $true }
+)
+foreach ($check in $staticProofSourceChecks) {
+  $check.observed = [regex]::IsMatch($staticProofSource, $check.pattern)
+  $check.result = $(if ($check.observed -eq $check.required) { "pass" } else { "fail" })
+}
+
 $siblingSourceChecks = @()
 foreach ($spec in @(
   [ordered]@{ script = "Install-EC2ModelFromS3.ps1"; path = $modelInstaller; exit_field = '$record.start_exit_code = $LASTEXITCODE'; classifier_call = 'Get-EC2StartFailureCategory -ExitCode $record.start_exit_code'; failure_result = 'model_install_start_failed'; stop_guard = '$shouldStopInstance =' },
@@ -94,7 +110,7 @@ foreach ($spec in @(
   }
 }
 
-$failures = @($caseResults | Where-Object result -ne "pass") + @($sourceChecks | Where-Object result -ne "pass") + @($siblingSourceChecks | Where-Object result -ne "pass")
+$failures = @($caseResults | Where-Object result -ne "pass") + @($sourceChecks | Where-Object result -ne "pass") + @($staticProofSourceChecks | Where-Object result -ne "pass") + @($siblingSourceChecks | Where-Object result -ne "pass")
 $stamp = Get-Date -Format "yyyyMMddTHHmmss-0500"
 if ([string]::IsNullOrWhiteSpace($OutFile)) {
   $OutFile = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Operations_Static_Validation\W66_EC2_WORKFLOW_SMOKE_START_FAILURE_REGRESSION_$stamp.json"
@@ -109,6 +125,7 @@ $record = [ordered]@{
   generation_executed = $false
   classifier_cases = $caseResults
   workflow_source_contract_checks = $sourceChecks
+  static_proof_source_contract_checks = $staticProofSourceChecks
   sibling_source_contract_checks = $siblingSourceChecks
   failure_count = $failures.Count
   failures = @($failures)

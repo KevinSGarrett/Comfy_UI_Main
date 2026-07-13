@@ -216,7 +216,7 @@ function Read-EC2RuntimeSafetyEvidence {
 function Get-EmergencyStopScheduleStatus {
   param(
     [string]$Path,
-    [Parameter(Mandatory=$true)][string]$ExpectedWindowId,
+    [Parameter(Mandatory=$true)][AllowEmptyString()][string]$ExpectedWindowId,
     [Parameter(Mandatory=$true)][string]$ExpectedInstanceId,
     [Parameter(Mandatory=$true)][string]$ExpectedRegion
   )

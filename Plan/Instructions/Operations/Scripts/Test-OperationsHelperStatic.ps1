@@ -1764,13 +1764,13 @@ $localSmokeResults += Invoke-LocalHelper -Name "install_ec2_model_from_s3_dry_ru
 $emergencyStopFile = Join-Path $tempRoot "ec2_emergency_stop_schedule_dry_run.json"
 $localSmokeResults += Invoke-LocalHelper -Name "ec2_emergency_stop_schedule_dry_run" `
   -ScriptPath (Join-Path $scriptsRoot "New-EC2EmergencyStopSchedule.ps1") `
-  -Arguments @("-SchedulerRoleArn", "arn:aws:iam::029530099913:role/example-scheduler-stop-role", "-OutFile", $emergencyStopFile) `
+  -Arguments @("-SchedulerRoleArn", "arn:aws:iam::029530099913:role/example-scheduler-stop-role", "-RuntimeWindowId", "validation-window", "-OutFile", $emergencyStopFile) `
   -ExpectedOutputFile $emergencyStopFile
 
 $watchdogFile = Join-Path $tempRoot "ec2_instance_watchdog_dry_run.json"
 $localSmokeResults += Invoke-LocalHelper -Name "ec2_instance_watchdog_dry_run" `
   -ScriptPath (Join-Path $scriptsRoot "Start-EC2InstanceStopWatchdog.ps1") `
-  -Arguments @("-OutFile", $watchdogFile) `
+  -Arguments @("-RuntimeWindowId", "validation-window", "-OutFile", $watchdogFile) `
   -ExpectedOutputFile $watchdogFile
 
 $runtimeWindowMarkerPlanFile = Join-Path $tempRoot "ec2_runtime_window_marker_plan.json"
