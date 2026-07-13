@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "evidence_id": "W64-MULTIMODAL-CROSS-REVIEW-20260712T005302-0500",
-  "timestamp": "2026-07-12T00:53:02-05:00",
+  "evidence_id": "W64-MULTIMODAL-CROSS-REVIEW-20260712T193100-0500",
+  "timestamp": "2026-07-12T19:31:00-05:00",
   "tracker_id": "TRK-W64-033",
   "item_id": "ITEM-W64-033",
   "source_citation": "Plan/Instructions/QA/MULTIMODAL_ARTIFACT_REVIEW_SCORECARD.md",
@@ -19,6 +19,9 @@
     "audio_provenance_and_producer_authority_checks": true,
     "caller_decision_ignored_and_recomputed": true,
     "canonical_root_and_transactional_output": true,
+    "dedicated_fail_closed_request_producer_added": true,
+    "producer_identity_lineage_release_and_authority_validation": true,
+    "durable_atomic_no_clobber_request_and_report_output": true,
     "current_production_and_fixture_authority_arrays_empty": true
   },
   "implementation_artifacts": [
@@ -28,7 +31,11 @@
     },
     {
       "path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_multimodal_scorecard.py",
-      "sha256": "edaddedbe103da062ba3740d7e14d9f97208a119827f765b575757795a6f52df"
+      "sha256": "2d6b8a7899b17051a7c18945b831997581e1a0dff435ad33713613e4b25680ea"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/produce_wave64_multimodal_scorecard_request.py",
+      "sha256": "c2b5b3b5b88652dd909e5406fcb51c6449b40285c78dd224de9e044b90204f83"
     },
     {
       "path": "Plan/08_SCHEMAS/wave64_multimodal_scorecard_request.schema.json",
@@ -44,7 +51,11 @@
     },
     {
       "path": "Plan/Instructions/QA/Scripts/test_wave64_multimodal_scorecard_strict.py",
-      "sha256": "5595dc5684517a9ccced169b4e6b1c75357305989e4348a3b1ecab103a590dbe"
+      "sha256": "d537c1f80373a2c782130a32cabc27cdfdcb4b29b097894c52c5baa2a7cba44d"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_produce_wave64_multimodal_scorecard_request.py",
+      "sha256": "9f8e7dc008c414193aa72e10576abee49b995d67431f6c587ae40857ad7a926f"
     }
   ],
   "authority_bindings": {
@@ -55,13 +66,13 @@
   },
   "offline_validation": {
     "test_log": "Plan/Instructions/QA/Evidence/Wave64/multimodal_cross_review_test_log.json",
-    "test_log_sha256": "10985cd08177aa3ca518014c7081bdb8410d5c699aa808a65d11e88a8a6cee9e",
-    "tests_run": 34,
+    "test_log_sha256": "20fb4310792f46fc2e398e905c42ee828e5a1116278397d2a9face0fc6c12ac4",
+    "tests_run": 40,
     "test_failures": 0,
     "test_errors": 0,
     "test_skips": 1,
     "skip_scope": "isolated symlink creation unavailable on Windows host only",
-    "elapsed_seconds": 85.988,
+    "elapsed_seconds": 106.514,
     "python_compile": "pass",
     "draft_2020_12_request_schema": "pass",
     "draft_2020_12_report_schema": "pass",
@@ -70,6 +81,17 @@
     "fixture_only_authority_contract": "conditionally_approved_not_production_evidence",
     "exact_production_authority_fixture_contract": "approved_reachability_only_not_production_evidence",
     "technical_offline_pass": true
+  },
+  "request_producer_probe": {
+    "request_path": "runtime_artifacts/wave64_multimodal_scorecard/request_producer_probe_20260712T193100-0500/request.json",
+    "request_sha256": "bd8f14b17f9a787ab63c7282d5572afe659937ad316caf2b83c95280c82dce13",
+    "report_path": "runtime_artifacts/wave64_multimodal_scorecard/request_producer_probe_20260712T193100-0500/report.json",
+    "report_sha256": "118876fd5331eb50fddb798bb68feca018f7e4c74b6545ca231ce1fb6dbd56b6",
+    "producer_exit_code": 0,
+    "evaluator_exit_code": 2,
+    "approval_decision": "blocked",
+    "eligible_for_production": false,
+    "exact_blocker": "no exact authority object match for claimed authority_id + bundle_id"
   },
   "canonical_probe": {
     "path": "runtime_artifacts/wave64_multimodal_scorecard/20260712T004800-0500/canonical_empty_authority_probe/probe_summary.json",
@@ -106,6 +128,16 @@
     "row_complete": false
   },
   "review": {
+    "cursor_request_producer_gap": {
+      "path": "runtime_artifacts/agent_handoffs/cursor/20260712T191657-0500_row033_multimodal_request_producer_gap/handoff_record.json",
+      "sha256": "03656addaf35b21c9a71902b3873f1da984fb5ae4117a47f9bde6258962eda2e",
+      "classification": "CURSOR_HANDOFF_COMPLETED"
+    },
+    "claude_review_unavailable": {
+      "attempt_count": 2,
+      "result": "no_worker_output",
+      "fallback_scope": "compact_deterministic_compile_tests_and_probe_only"
+    },
     "cursor_gap_analysis": {
       "path": "runtime_artifacts/agent_handoffs/cursor/20260712T000423-0500_wave64_row033_multimodal_gap_analysis/handoff_record.json",
       "sha256": "d40078a34f529f0f63b7e5c1a4b24cb55a1c732dad6e492ab6c519963d5ca4d4",

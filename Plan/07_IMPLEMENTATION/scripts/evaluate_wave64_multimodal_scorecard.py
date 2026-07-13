@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import tempfile
 from pathlib import Path
 from typing import Any
@@ -145,14 +146,18 @@ def _binding_to_repo_relative(binding: dict[str, Any]) -> dict[str, Any]:
 
 def _write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, delete=False) as handle:
-        temp_path = Path(handle.name)
-        handle.write(json.dumps(payload, indent=2, sort_keys=True) + "\n")
+    descriptor, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=str(path.parent))
     try:
-        temp_path.replace(path)
-    finally:
-        if temp_path.exists():
-            temp_path.unlink()
+        with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
+            handle.write(json.dumps(payload, indent=2, sort_keys=True) + "\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.link(temporary, path)
+        os.unlink(temporary)
+    except Exception:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+        raise
 
 
 def _read_bool_path(payload: dict[str, Any], dotted_path: str) -> tuple[bool, str]:

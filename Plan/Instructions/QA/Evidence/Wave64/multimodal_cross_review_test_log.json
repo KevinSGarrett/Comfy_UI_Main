@@ -1,20 +1,20 @@
 {
   "schema_version": "1.0",
-  "evidence_id": "W64-MULTIMODAL-CROSS-REVIEW-TEST-LOG-20260712T005302-0500",
-  "timestamp": "2026-07-12T00:53:02-05:00",
+  "evidence_id": "W64-MULTIMODAL-CROSS-REVIEW-TEST-LOG-20260712T193100-0500",
+  "timestamp": "2026-07-12T19:31:00-05:00",
   "tracker_id": "TRK-W64-033",
   "item_id": "ITEM-W64-033",
-  "command": "python -m unittest Plan.Instructions.QA.Scripts.test_wave64_multimodal_scorecard_strict -v",
+  "command": "python Plan/Instructions/QA/Scripts/test_produce_wave64_multimodal_scorecard_request.py && python -m unittest Plan.Instructions.QA.Scripts.test_wave64_multimodal_scorecard_strict",
   "result": "pass",
   "exit_code": 0,
-  "tests_run": 34,
+  "tests_run": 40,
   "failures": 0,
   "errors": 0,
   "skips": 1,
   "skip_reason": "Windows test host did not permit creation of the isolated symlink escape fixture; canonical path containment remained covered by traversal and resolved-path tests.",
-  "elapsed_seconds": 85.988,
-  "transcript": "runtime_artifacts/wave64_multimodal_scorecard/20260712T004800-0500/windows_strict_tests.txt",
-  "transcript_sha256": "61e20605cacaa9fb7351020c4d56b62f7c05ff1f042ac7df95c9482d5d4c1a56",
+  "elapsed_seconds": 106.514,
+  "transcript": "runtime_artifacts/wave64_multimodal_scorecard/request_producer_probe_20260712T193100-0500/test_transcript.txt",
+  "transcript_sha256": "109f350ec087ac4469717ae1e89786ef7213ef945e3e4cee9ec5685f02daeb5f",
   "python_compile": "pass",
   "draft_2020_12_request_schema": "pass",
   "draft_2020_12_report_schema": "pass",
@@ -26,7 +26,11 @@
     },
     {
       "path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_multimodal_scorecard.py",
-      "sha256": "edaddedbe103da062ba3740d7e14d9f97208a119827f765b575757795a6f52df"
+      "sha256": "2d6b8a7899b17051a7c18945b831997581e1a0dff435ad33713613e4b25680ea"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/produce_wave64_multimodal_scorecard_request.py",
+      "sha256": "c2b5b3b5b88652dd909e5406fcb51c6449b40285c78dd224de9e044b90204f83"
     },
     {
       "path": "Plan/08_SCHEMAS/wave64_multimodal_scorecard_request.schema.json",
@@ -42,10 +46,16 @@
     },
     {
       "path": "Plan/Instructions/QA/Scripts/test_wave64_multimodal_scorecard_strict.py",
-      "sha256": "5595dc5684517a9ccced169b4e6b1c75357305989e4348a3b1ecab103a590dbe"
+      "sha256": "d537c1f80373a2c782130a32cabc27cdfdcb4b29b097894c52c5baa2a7cba44d"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_produce_wave64_multimodal_scorecard_request.py",
+      "sha256": "9f8e7dc008c414193aa72e10576abee49b995d67431f6c587ae40857ad7a926f"
     }
   ],
   "positive_contracts_covered": [
+    "fail-closed request production with exact seven-artifact bindings and lineage",
+    "durable atomic no-clobber request and evaluator report publication",
     "exact production-authority fixture contract reaches approved and production eligible only in an isolated fixture registry",
     "fixture-only authority reaches conditionally approved while remaining non-production",
     "deterministic score and decision recomputation ignores caller approval claims",

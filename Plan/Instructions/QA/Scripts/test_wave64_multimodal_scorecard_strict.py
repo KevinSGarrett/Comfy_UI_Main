@@ -676,6 +676,10 @@ class Wave64MultimodalScorecardStrictTests(unittest.TestCase):
         self.assertFalse(report["production_eligibility"]["eligible_for_production"])
 
     def test_output_collision_and_atomic_write(self) -> None:
+        source = SOURCE_SCRIPT.read_text(encoding="utf-8")
+        self.assertIn("os.fsync(handle.fileno())", source)
+        self.assertIn("os.link(temporary, path)", source)
+        self.assertNotIn("temp_path.replace(path)", source)
         self.output_path.write_text('{"preexisting": true}\n', encoding="utf-8")
         request = copy.deepcopy(self.base_request)
         self.assertEqual(self._run(request, preserve_output=True).returncode, 1)
