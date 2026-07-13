@@ -1,0 +1,164 @@
+{
+    "schema_version":  "1.0",
+    "artifact_type":  "normal_runtime_window_contract",
+    "created_at":  "2026-07-13T10:52:43-05:00",
+    "result":  "blocked_normal_runtime_window_contract_waiting_for_queue_and_live_controls",
+    "failure_category":  "queue_and_live_controls_not_authorized",
+    "structural_consistency_valid":  true,
+    "contract_valid":  false,
+    "execution_authorized":  false,
+    "authority_semantics":  "contract_valid and execution_authorized are always false; structural_consistency_valid means only that this local blocked-intent artifact is internally coherent.",
+    "local_only":  true,
+    "runtime_window_id":  "rw-normal-20260713T105243-0500-57f1f908",
+    "lane_id":  "sdxl_realvisxl_controlnet_normal_lane",
+    "tracker_id":  "TRK-W64-042",
+    "item_id":  "ITEM-W64-042",
+    "schedule_binding_required":  true,
+    "watchdog_binding_required":  true,
+    "future_schedule_runtime_window_id":  "rw-normal-20260713T105243-0500-57f1f908",
+    "future_watchdog_runtime_window_id":  "rw-normal-20260713T105243-0500-57f1f908",
+    "authority_snapshot":  {
+                               "candidate_selected_for_next_bounded_runtime_window":  true,
+                               "queue_current_runtime_lane_id":  "flux1_dev_primary_base",
+                               "queue_ec2_start_allowed":  false,
+                               "queue_generation_allowed":  false,
+                               "ttl_schedule_present":  false,
+                               "ttl_watchdog_proof_present":  false
+                           },
+    "permissions":  {
+                        "execute_allowed_now":  false,
+                        "schedule_create_allowed_now":  false,
+                        "ssm_watchdog_send_allowed_now":  false,
+                        "ec2_start_allowed_now":  false,
+                        "generation_allowed_now":  false,
+                        "queue_mutation_allowed":  false
+                    },
+    "inputs":  [
+                   {
+                       "name":  "candidate_readiness",
+                       "path":  "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_TARGET_RUNTIME_CANDIDATE_LOCAL_READINESS_20260713T103230-0500.json",
+                       "found":  true,
+                       "json_valid":  true,
+                       "sha256":  "420f7b9bf2e44830bad9aead140ea62bf5c6a15b899d8cd23c806fcc14c2ef72"
+                   },
+                   {
+                       "name":  "runtime_lane_queue",
+                       "path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+                       "found":  true,
+                       "json_valid":  true,
+                       "sha256":  "9252dc6abc21da16e987d99b00abb91c66d9745fd51665de0501feeefe086024"
+                   },
+                   {
+                       "name":  "ttl_watchdog_evidence",
+                       "path":  "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json",
+                       "found":  true,
+                       "json_valid":  true,
+                       "sha256":  "ee4dc24ad7944071f62e3833740fe3e8b527ec8ed688d6d0ec1975f20515b337"
+                   }
+               ],
+    "checks":  [
+                   {
+                       "name":  "candidate_classification",
+                       "result":  "pass",
+                       "observed":  "NORMAL_TARGET_RUNTIME_CANDIDATE_LOCAL_READINESS_PASS_QUEUE_NOT_SELECTED",
+                       "expected":  "NORMAL_TARGET_RUNTIME_CANDIDATE_LOCAL_READINESS_PASS_QUEUE_NOT_SELECTED"
+                   },
+                   {
+                       "name":  "candidate_lane",
+                       "result":  "pass",
+                       "observed":  "sdxl_realvisxl_controlnet_normal_lane",
+                       "expected":  "sdxl_realvisxl_controlnet_normal_lane"
+                   },
+                   {
+                       "name":  "candidate_window_selected",
+                       "result":  "pass",
+                       "observed":  true,
+                       "expected":  true
+                   },
+                   {
+                       "name":  "candidate_local_static_ready",
+                       "result":  "pass",
+                       "observed":  true,
+                       "expected":  true
+                   },
+                   {
+                       "name":  "candidate_generation_still_blocked",
+                       "result":  "pass",
+                       "observed":  false,
+                       "expected":  false
+                   },
+                   {
+                       "name":  "queue_candidate_cardinality",
+                       "result":  "pass",
+                       "observed":  1,
+                       "expected":  1
+                   },
+                   {
+                       "name":  "queue_boundary_present",
+                       "result":  "pass",
+                       "observed":  true,
+                       "expected":  true
+                   },
+                   {
+                       "name":  "queue_selection_policy_present",
+                       "result":  "pass",
+                       "observed":  true,
+                       "expected":  true
+                   },
+                   {
+                       "name":  "ttl_tracker_id",
+                       "result":  "pass",
+                       "observed":  "TRK-W64-042",
+                       "expected":  "TRK-W64-042"
+                   },
+                   {
+                       "name":  "ttl_item_id",
+                       "result":  "pass",
+                       "observed":  "ITEM-W64-042",
+                       "expected":  "ITEM-W64-042"
+                   },
+                   {
+                       "name":  "ttl_row_fail_closed",
+                       "result":  "pass",
+                       "observed":  false,
+                       "expected":  false
+                   },
+                   {
+                       "name":  "ttl_schedule_missing",
+                       "result":  "pass",
+                       "observed":  false,
+                       "expected":  false
+                   },
+                   {
+                       "name":  "ttl_watchdog_missing",
+                       "result":  "pass",
+                       "observed":  false,
+                       "expected":  false
+                   }
+               ],
+    "check_summary":  {
+                          "checked":  13,
+                          "passed":  13,
+                          "failed":  0
+                      },
+    "exact_blockers":  [
+                           "queue_lane_not_selected",
+                           "queue_permission_denied_by_file",
+                           "live_emergency_stop_schedule_missing",
+                           "ssm_watchdog_proof_missing"
+                       ],
+    "errors":  [
+
+               ],
+    "safety_boundary":  {
+                            "aws_contacted":  false,
+                            "s3_mutated":  false,
+                            "scheduler_mutated":  false,
+                            "ssm_command_sent":  false,
+                            "ec2_started_or_stopped":  false,
+                            "generation_executed":  false,
+                            "queue_mutated":  false,
+                            "git_mutated":  false
+                        },
+    "next_action":  "Checkpoint this contract. A later explicit queue-authorized live window must pass the same runtime_window_id to New-EC2EmergencyStopSchedule.ps1 and Start-EC2InstanceStopWatchdog.ps1 before any EC2 start."
+}

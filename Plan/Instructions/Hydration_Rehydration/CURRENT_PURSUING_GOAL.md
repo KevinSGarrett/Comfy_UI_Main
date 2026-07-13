@@ -1,3 +1,9 @@
+## Normal Runtime-Window Contract - 2026-07-13T10:52:43-05:00
+
+Continue the autonomous project from the blocked Normal runtime-window contract `rw-normal-20260713T105243-0500-57f1f908`. The contract is local-only and structurally coherent, but `contract_valid=false`, `execution_authorized=false`, and all permissions remain false. Preserve Flux as the current queue lane and keep EC2 stopped until a later clean, explicit queue-authorized Normal window binds both Row042 live controls to this same ID before any start.
+
+Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_RUNTIME_WINDOW_CONTRACT_20260713T105300-0500.json`; `Plan/Tracker/Evidence/W64_NORMAL_RUNTIME_WINDOW_CONTRACT_20260713T105300-0500.json`.
+
 ## Normal Target-Runtime Candidate Local Readiness - 2026-07-13T10:32:30-05:00
 
 Continue the full autonomous ComfyUI project from the locally ready Normal target-runtime candidate without activating it prematurely. The fresh candidate package and hardened readiness chain pass local validation and current read-only authentication, but generation remains blocked. Preserve the current Flux queue selection and false EC2/generation flags until one explicit Normal live-intent/runtime-window contract is created and Row042 schedule/watchdog controls are bound to the same `runtime_window_id`. EC2 remains stopped; no target-runtime proof or certification is claimed.

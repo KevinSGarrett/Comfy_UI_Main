@@ -1,3 +1,11 @@
+## Normal Runtime-Window Contract - 2026-07-13T10:52:43-05:00
+
+The local-only Normal runtime-window intent contract is structurally valid but never authorizes execution: `contract_valid=false`, `execution_authorized=false`, and every permission/mutation field is false. Its shared binding ID is `rw-normal-20260713T105243-0500-57f1f908`. Current blockers are `queue_lane_not_selected`, `queue_permission_denied_by_file`, `live_emergency_stop_schedule_missing`, and `ssm_watchdog_proof_missing`. Flux remains current, EC2 remains stopped, and no AWS mutation occurred.
+
+Next: preserve this ID for a later explicit queue-authorized Normal live window. Only after a clean checkpoint and queue-authority recheck may Codex bind the same ID through `New-EC2EmergencyStopSchedule.ps1` and `Start-EC2InstanceStopWatchdog.ps1`; both controls must exist before any EC2 start. Do not treat structural consistency or helper exit code as execution authority.
+
+Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_RUNTIME_WINDOW_CONTRACT_20260713T105300-0500.json`; `Plan/Tracker/Evidence/W64_NORMAL_RUNTIME_WINDOW_CONTRACT_20260713T105300-0500.json`.
+
 ## Normal Target-Runtime Candidate Local Readiness - 2026-07-13T10:32:30-05:00
 
 Normal (`sdxl_realvisxl_controlnet_normal_lane`) is the next eligible target-runtime candidate, but it is not activated. A fresh current-source run package passes local static/request validation; the hardened readiness helper verifies all 5 packaged files, all 3 generated proofs, current read-only AWS authentication, and model-registry coverage. The result is `ready_for_ec2_static_proof=true` and `ready_for_generation=false`. The queue still selects `flux1_dev_primary_base`; `ec2_start_allowed_by_queue_file=false` and `generation_allowed_by_queue_file=false`. EC2 remains stopped.
