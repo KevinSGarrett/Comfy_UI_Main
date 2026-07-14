@@ -263,6 +263,13 @@ function Invoke-LocalHelper {
           throw "$Name run package prompt profile id is missing."
         }
       }
+      if ($Name -eq "install_ec2_model_from_s3_dry_run") {
+        $installScriptText = Get-Content -Raw -LiteralPath $ScriptPath
+        $requiredTransportNormalization = '$remoteScript = $remoteScript.Replace("`r`n", "`n").Replace("`r", "`n")'
+        if (!$installScriptText.Contains($requiredTransportNormalization)) {
+          throw "$Name must normalize the Windows here-string to LF before SSM transport."
+        }
+      }
       if ($Name -eq "github_checkpoint_dry_run") {
         foreach ($required in @("result", "failure_category", "local_only", "clean_worktree", "local_matches_origin", "porcelain_count", "tracked_porcelain_count", "untracked_porcelain_count", "commit_attempted", "push_attempted", "stage_attempted", "reset_attempted", "checkout_attempted", "checkpoint_scope_mode", "checkpoint_include_paths", "checkpoint_exclude_paths", "scope_changed_path_count", "scope_excluded_changed_path_count")) {
           if (-not (Has-Property -Object $payload -Name $required)) {
