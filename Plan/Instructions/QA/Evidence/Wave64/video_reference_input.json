@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "evidence_id": "W64-VIDEO-REFERENCE-INPUT",
-  "timestamp": "2026-07-13T03:57:10-05:00",
+  "timestamp": "2026-07-14T05:28:00-05:00",
   "tracker_id": "TRK-W64-022",
   "item_id": "ITEM-W64-022",
   "source_citation": "Plan/04_VIDEO_GIF_SYSTEM/WAVE26_REFERENCE_VIDEO_INPUT_PIPELINE.md",
@@ -132,12 +132,12 @@
     "shot_boundary_candidate_producer_ready": true,
     "loop_candidate_producer_ready": true,
     "contact_phase_candidate_producer_ready": false,
-    "production_reference_video_supplied": false,
-    "production_reference_video_runtime_proof": false,
+    "production_reference_video_supplied": true,
+    "production_reference_video_runtime_proof": true,
     "orientation_normalization_verified": false,
     "fps_normalization_verified": false,
     "audio_presence_verified": false,
-    "semantic_frame_qa": false,
+    "semantic_frame_qa": true,
     "pose_timeline_generated": false,
     "depth_timeline_generated": false,
     "mask_timeline_generated": false,
@@ -145,7 +145,15 @@
     "shot_matching_performed": false,
     "loop_extraction_performed": false,
     "source_reference_visual_review": false,
-    "final_promotion_ready": false
+    "final_promotion_ready": false,
+    "reference_frame_extract": true,
+    "source_and_frame_hash_binding": true,
+    "orientation_noop_verified_for_selected_source": true,
+    "fps_noop_verified_for_selected_source": true,
+    "audio_presence_independently_verified": false,
+    "loop_candidate_shot_plan": true,
+    "target_shot_matching_performed": false,
+    "source_reference_visual_comparison": false
   },
   "review": {
     "cursor_gap_review": "runtime_artifacts/agent_handoffs/cursor/20260711T141434-0500_wave64_reference_video_input_gap_review/handoff_record.json",
@@ -165,51 +173,59 @@
   },
   "runtime": {
     "synthetic_video_created": true,
-    "production_video_used": false,
+    "production_video_used": true,
     "comfyui_started": false,
     "generation_executed": false,
     "aws_contacted": false,
     "ec2_started": false,
-    "mask_promotion_executed": false
+    "mask_promotion_executed": false,
+    "production_video_count": 1,
+    "production_frames_extracted": 49
   },
   "blockers": [
     {
-      "classification": "Blocked_Reference_Video_Production_Proof_Missing",
-      "scope": "primary_row_blocker",
-      "reason": "Bounded inventory found zero production-reference video, GIF/WebP, or numbered PNG/JPG sequence candidates in five present user/reference and authoritative ComfyUI input roots; legacy C:\\Comfy_UI\\input is absent. Synthetic decode/extraction remains tooling proof only."
+      "classification": "Blocked_Audio_Stream_Independent_Verification_Missing",
+      "scope": "selected_reference_metadata",
+      "reason": "Audio absence is explicitly declared to ingest but no local ffprobe or equivalent independent stream proof is available."
+    },
+    {
+      "classification": "Blocked_Pose_Depth_Timeline_Proof_Missing",
+      "scope": "derived_pose_depth_timelines",
+      "reason": "No pose or depth timeline has been generated for the extracted reference frames."
     },
     {
       "classification": "Blocked_Gold_Mask_Dependency_Missing",
-      "scope": "mask_and_contact_timeline_subgates_only",
-      "reason": "Candidate masks cannot certify mask/contact timeline alignment or contact-phase sampling while manual body gold masks remain unavailable."
+      "scope": "mask_and_contact_timelines_only",
+      "reason": "Trusted manual body masks are still unavailable, so mask/contact timeline authority is not claimed."
+    },
+    {
+      "classification": "Blocked_Target_Shot_Match_Proof_Missing",
+      "scope": "reference_to_target_output_comparison",
+      "reason": "A deterministic reference shot plan exists, but no target output has been generated from it for shot matching or visual comparison."
     }
   ],
-  "result": "blocked_no_production_reference_video_or_sequence_in_bounded_input_roots",
+  "result": "production_reference_ingest_and_loop_shot_plan_pass_derived_timelines_and_target_match_blocked",
   "overall_pass": false,
-  "status_decision": "Blocked_Reference_Video_Production_Proof_Missing",
+  "status_decision": "Blocked_Derived_Timeline_And_Target_Shot_Match_Proof_Missing_Production_Reference_Ingest_Pass",
   "strict_decision": {
     "row_complete": false,
     "offline_ingest_implementation_pass": true,
     "synthetic_runtime_probe_pass": true,
     "semantic_candidate_implementation_pass": true,
-    "production_runtime_claimed": false,
+    "production_runtime_claimed": true,
     "derived_timeline_claimed": false,
     "source_reference_visual_pass_claimed": false,
     "final_promotion_claimed": false,
-    "wave71_activation_claimed": false
+    "wave71_activation_claimed": false,
+    "production_reference_ingest_claimed": true
   },
   "production_reference_inventory": {
-    "evidence": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_REFERENCE_INPUT_INVENTORY_20260713T035710-0500.json",
-    "roots_checked": 6,
-    "roots_present": 5,
-    "candidate_count": 0,
-    "supported_video_count": 0,
-    "numbered_sequence_count": 0,
-    "conditional_gif_count": 0,
-    "diagnostic_webp_count": 0,
-    "authoritative_comfyui_input_present": true,
-    "legacy_comfyui_input_present": false,
-    "production_candidate_discovered": false
+    "previous_inventory_evidence": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_REFERENCE_INPUT_INVENTORY_20260713T035710-0500.json",
+    "previous_candidate_count": 0,
+    "selected_production_reference": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260714T041921-0500/images/12_wan22_ti2v5b_source_diversity_ref1_78b8_seed2271401_00001_.mp4",
+    "selected_reference_sha256": "5006e96e211538f3d2bb6795e93014d6642946583cc31aa635e171e13e1c80bf",
+    "production_candidate_discovered": true,
+    "inventory_superseded_by_new_authoritative_pulled_back_artifact": true
   },
-  "reconciliation_evidence": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_REFERENCE_INPUT_INVENTORY_20260713T035710-0500.json"
+  "reconciliation_evidence": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_REFERENCE_INPUT_WAN22_RECONCILIATION_20260714T052800-0500.json"
 }

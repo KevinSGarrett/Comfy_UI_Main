@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-022-VIDEO-REFERENCE-INPUT-20260711T145000-0500",
-  "timestamp": "2026-07-13T03:57:10-05:00",
+  "timestamp": "2026-07-14T05:28:00-05:00",
   "item_id": "ITEM-W64-022",
   "tracker_id": "TRK-W64-022",
   "workstream": "video_reference_input",
-  "status": "Blocked_Reference_Video_Production_Proof_Missing",
+  "status": "Blocked_Derived_Timeline_And_Target_Shot_Match_Proof_Missing_Production_Reference_Ingest_Pass",
   "row_complete": false,
   "implementation": {
     "real_file_decode_and_extraction_ready": true,
@@ -44,7 +44,12 @@
     "cursor_inventory_status": "PASS",
     "targeted_test_rerun_passed": 40,
     "targeted_test_rerun_failed": 0,
-    "claude_semantic_confirmation": "PASS_NO_HIGH_OR_MEDIUM_FINDINGS"
+    "claude_semantic_confirmation": "PASS_NO_HIGH_OR_MEDIUM_FINDINGS",
+    "production_reference_ingest": "pass",
+    "production_reference_frames_extracted": 49,
+    "production_reference_frame_hashes_verified": 49,
+    "semantic_loop_candidates": 10,
+    "loop_reference_shot_plan": "pass_candidate_only"
   },
   "acceptance_gates": {
     "offline_ingest_implementation": true,
@@ -56,42 +61,73 @@
     "pose_depth_mask_contact_timeline": false,
     "shot_matching_and_loop_extraction": false,
     "source_reference_visual_review": false,
-    "final_promotion": false
+    "final_promotion": false,
+    "production_reference_video_supplied": true,
+    "production_reference_video_runtime_proof": true,
+    "reference_frame_extract": true,
+    "source_and_frame_hash_binding": true,
+    "orientation_noop_verified_for_selected_source": true,
+    "fps_noop_verified_for_selected_source": true,
+    "audio_presence_independently_verified": false,
+    "semantic_frame_qa": true,
+    "loop_candidate_shot_plan": true,
+    "pose_timeline_generated": false,
+    "depth_timeline_generated": false,
+    "mask_timeline_generated": false,
+    "contact_timeline_generated": false,
+    "target_shot_matching_performed": false,
+    "source_reference_visual_comparison": false,
+    "final_promotion_ready": false
   },
   "blockers": [
     {
-      "classification": "Blocked_Reference_Video_Production_Proof_Missing",
-      "scope": "primary_row_blocker",
-      "reason": "Bounded inventory found zero production-reference video, GIF/WebP, or numbered PNG/JPG sequence candidates in five present user/reference and authoritative ComfyUI input roots; legacy C:\\Comfy_UI\\input is absent. Synthetic decode/extraction remains tooling proof only."
+      "classification": "Blocked_Audio_Stream_Independent_Verification_Missing",
+      "scope": "selected_reference_metadata",
+      "reason": "Audio absence is explicitly declared to ingest but no local ffprobe or equivalent independent stream proof is available."
+    },
+    {
+      "classification": "Blocked_Pose_Depth_Timeline_Proof_Missing",
+      "scope": "derived_pose_depth_timelines",
+      "reason": "No pose or depth timeline has been generated for the extracted reference frames."
     },
     {
       "classification": "Blocked_Gold_Mask_Dependency_Missing",
-      "scope": "mask_and_contact_timeline_subgates_only",
-      "reason": "Candidate masks cannot certify mask/contact timeline alignment or contact-phase sampling while manual body gold masks remain unavailable."
+      "scope": "mask_and_contact_timelines_only",
+      "reason": "Trusted manual body masks are still unavailable, so mask/contact timeline authority is not claimed."
+    },
+    {
+      "classification": "Blocked_Target_Shot_Match_Proof_Missing",
+      "scope": "reference_to_target_output_comparison",
+      "reason": "A deterministic reference shot plan exists, but no target output has been generated from it for shot matching or visual comparison."
     }
   ],
   "evidence": [
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/video_reference_input.json",
-      "sha256": "5a7ea4a8f74cee8f3e2939d1d24121516b5ac6e935c5d398efe09afb5db654b5"
+      "sha256": "97b598eeb0d5db9b80fcc0dc4b557cb790b97dc7e868060e092a2b15b4319c2d"
     },
     {
-      "path": "Plan/Instructions/QA/Evidence/Wave64/video_reference_input_test_log.json",
-      "sha256": "1d048bcb74c909b4d26218ee1db50de76c8f36d58152d732d7cf9bb37bdddf55"
+      "path": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_REFERENCE_INPUT_WAN22_RECONCILIATION_20260714T052800-0500.json",
+      "sha256": "249dd9744184bfd79bb10b3e85b23eeaa34c2fc06eab41ce4a980bf36f24bfaf"
     },
     {
-      "path": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_REFERENCE_INPUT_INVENTORY_20260713T035710-0500.json",
-      "sha256": "f189bc255d32823cd6bf48117d569e6360379b5d5b584aafff1a6364ba8baffa"
+      "path": "Plan/Instructions/QA/Evidence/Wave64/Reference_Video_Input/wan22_source_diversity_timeline_manifest.json",
+      "sha256": "c7e7b3d17b3b6a037dd14b5470508305e8993c58063ce3994d8c4f084ac13330"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/Reference_Video_Input/wan22_source_diversity_loop_shot_plan.json",
+      "sha256": "c9ca82efa9c524b944cfa7d5033bc435844a955ab69930220059edac741208b1"
     }
   ],
   "runtime": {
     "synthetic_video_count": 1,
     "synthetic_semantic_probe_count": 1,
-    "production_video_count": 0,
+    "production_video_count": 1,
     "comfyui_started": false,
     "generation_count": 0,
     "aws_contacted": false,
-    "ec2_started": false
+    "ec2_started": false,
+    "production_reference_frames_extracted": 49
   },
-  "next_action": "Continue TRK-W64-023 / ITEM-W64-023 frame repair and inpainting reconciliation without fabricating before/after repair proof."
+  "next_action": "Continue Row023 frame repair/inpainting while preserving Row022 derived-timeline and target-shot-match blockers."
 }
