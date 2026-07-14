@@ -154,6 +154,15 @@ try {
   Add-Check "post_stop_ebs_gate_wired" ($coordinatorSource -match 'Test-EC2EbsRightSizingReadiness\.ps1') $true ($coordinatorSource -match 'Test-EC2EbsRightSizingReadiness\.ps1')
   Add-Check "ebs_evidence_binds_stopped_batch_window" ($coordinatorSource -match 'EBS_FILESYSTEM_EVIDENCE\.json' -and $coordinatorSource -match 'final_state=\$record\.final_state' -and $coordinatorSource -match 'source_smoke_record_sha256') $true ($coordinatorSource -match 'EBS_FILESYSTEM_EVIDENCE\.json')
   Add-Check "work_order_state_machine_wired" (($coordinatorSource -match '"EXECUTING"') -and ($coordinatorSource -match '"COMPLETED"') -and ($coordinatorSource -match '"FAILED_CLOSED"') -and ($coordinatorSource -match '"READY_WORK_WAITING_FOR_EC2"')) $true "executing=$($coordinatorSource -match '"EXECUTING"'), completed=$($coordinatorSource -match '"COMPLETED"'), failed=$($coordinatorSource -match '"FAILED_CLOSED"')"
+  $carriesForwardPullbackExclusion = (
+    $coordinatorSource -match '\$runtimeGeneratedGitExcludePaths\s*=\s*@\(\$PreservedGitExcludePath\)' -and
+    $coordinatorSource -match 'PreservedGitExcludePath=\$runtimeGeneratedGitExcludePaths' -and
+    $coordinatorSource -match '\$pullbackPath\s*=\s*\[string\]\$smoke\.local_pullback\.local_destination' -and
+    $coordinatorSource -match '\$runtimeGeneratedGitExcludePaths\s*\+=\s*\$pullbackPath'
+  )
+  Add-Check "completed_unit_pullback_is_preserved_for_later_git_gates" $carriesForwardPullbackExclusion $true $carriesForwardPullbackExclusion
+  $requiresConcretePullbackDestination = $coordinatorSource -match '\[string\]::IsNullOrWhiteSpace\(\$pullbackPath\)'
+  Add-Check "successful_pullback_requires_concrete_destination" $requiresConcretePullbackDestination $true $requiresConcretePullbackDestination
   Add-Check "capacity_backoff_binds_work_order_id" ($coordinatorSource -match 'RecordFailure[^\r\n]+RuntimeWorkOrderId \(\[string\]\$workOrder\.work_order_id\)') $true ($coordinatorSource -match 'RuntimeWorkOrderId \(\[string\]\$workOrder\.work_order_id\)')
   $coordinatorClearReason = [regex]::Match($coordinatorSource, '-Action Clear[^\r\n]+-ClearReason\s+"([^"]+)"').Groups[1].Value
   Add-Check "capacity_backoff_clear_reason_matches_helper_contract" (($coordinatorClearReason -ceq "ec2_start_succeeded") -and ($capacityBackoffSource -match '"ec2_start_succeeded"')) "ec2_start_succeeded" $coordinatorClearReason

@@ -236,6 +236,7 @@ $record = [ordered]@{
   local_git_checkpoint_gate = $gitGate
   validation_errors = @($validationErrors)
   units = @($validatedUnits | ForEach-Object { [ordered]@{ index=$_.index; run_id=$_.run_id; manifest_path=(ConvertTo-ProjectRelativePath $_.manifest_path); manifest_sha256=$_.manifest_sha256; prompt_sha256=$_.prompt_sha256; result="pending"; smoke_record=$null; pullback_status=$null } })
+  coordinator_generated_git_exclude_paths = @()
   marker_activation = $null
   marker_completion = $null
   capacity_backoff = $null
@@ -266,6 +267,7 @@ $markerActivated = $false
 $staticProofFile = Join-Path $OutDirectory "EC2_STATIC_PROOF.json"
 $batchReadinessFile = Join-Path $OutDirectory "BATCH_POST_STATIC_READINESS.json"
 $firstSuccessfulSmokeFile = $null
+$runtimeGeneratedGitExcludePaths = @($PreservedGitExcludePath)
 Set-WorkOrderField -WorkOrder $workOrder -Name "status" -Value "EXECUTING"
 Set-WorkOrderField -WorkOrder $workOrder -Name "execution_started_at" -Value ([datetimeoffset]::UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ"))
 Set-WorkOrderField -WorkOrder $workOrder -Name "runtime_window_id" -Value $RuntimeWindowId
@@ -342,7 +344,7 @@ try {
       $smokeParams = @{
         ProjectRoot=$ProjectRoot; LaneId=$laneId; InstanceId=$InstanceId; Region=$Region; AuthGateFile=$AuthGateFile; StaticProofFile=$staticProofFile
         ReadinessFile=$batchReadinessFile; RuntimeWindowId=$RuntimeWindowId; EmergencyStopEvidencePath=$EmergencyStopEvidencePath; WatchdogEvidenceOutFile=$WatchdogEvidenceOutFile
-        PreservedGitExcludePath=$PreservedGitExcludePath; OutFile=$smokeOut; OutRequestFile=$requestOut; RunPackageManifestFile=$unit.manifest_path; RunRecordFile=$runRecord
+        PreservedGitExcludePath=$runtimeGeneratedGitExcludePaths; OutFile=$smokeOut; OutRequestFile=$requestOut; RunPackageManifestFile=$unit.manifest_path; RunRecordFile=$runRecord
         S3Bucket=$S3Bucket; S3Prefix=("{0}/{1}/unit-{2:D2}" -f $S3Prefix.Trim('/'), [string]$workOrder.work_order_id, $unit.index)
         DeployBundleS3Uri=$deployBundleS3Uri; DeployBundleSha256=$deployBundleSha256; ComfyPort=$ComfyPort; TimeoutSeconds=$UnitTimeoutSeconds
         MaxEc2RuntimeMinutes=$maxRuntimeMinutes; CallerManagedRuntimeWindow=$true; Execute=$true
@@ -351,11 +353,16 @@ try {
       if ($SkipGitLfsPull) { $smokeParams.SkipGitLfsPull = $true }
       & (Join-Path $PSScriptRoot "Invoke-EC2WorkflowSmokeRun.ps1") @smokeParams | Out-Null
       $smoke = Read-JsonRequired -Path $smokeOut
-      if ([string]$smoke.result -ne "workflow_smoke_generation_complete" -or ![bool]$smoke.generation_executed -or [string]$smoke.final_state -ne "running" -or [string]$smoke.local_pullback.status -ne "pullback_record_created") { throw "Smoke unit did not complete generation and pullback inside the shared window." }
+      $pullbackPath = [string]$smoke.local_pullback.local_destination
+      if ([string]$smoke.result -ne "workflow_smoke_generation_complete" -or ![bool]$smoke.generation_executed -or [string]$smoke.final_state -ne "running" -or [string]$smoke.local_pullback.status -ne "pullback_record_created" -or [string]::IsNullOrWhiteSpace($pullbackPath)) { throw "Smoke unit did not complete generation and pullback inside the shared window." }
       $record.units[$i].result = "pass"
       $record.units[$i].smoke_record = ConvertTo-ProjectRelativePath $smokeOut
       $record.units[$i].pullback_status = [string]$smoke.local_pullback.status
       $record.generation_executed = $true
+      if ($pullbackPath -notin $runtimeGeneratedGitExcludePaths) {
+        $runtimeGeneratedGitExcludePaths += $pullbackPath
+        $record.coordinator_generated_git_exclude_paths = @($record.coordinator_generated_git_exclude_paths) + $pullbackPath
+      }
       if ($null -eq $firstSuccessfulSmokeFile) { $firstSuccessfulSmokeFile = $smokeOut }
       Write-JsonAtomic -Value $record -Path $aggregateOutFile
     } catch {
