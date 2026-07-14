@@ -1,3 +1,12 @@
+## Wan 2.2 Changed-Source Target Runtime Passed - 2026-07-14T04:35:10-05:00
+
+The active changed-source Wan unit is complete. Exact source binding, one unseen seed 2271401 generation, S3 pullback, hash verification, technical QA, and direct visual QA pass; EC2 is stopped and the one-time safety controls are closed. This is bounded changed-source evidence only, not multi-source robustness, production video certification, or mask authority.
+
+Pursuing goal: checkpoint this exact proof through the protected PR flow, do not rerun seed 2271401, and move to the next explicit non-mask implementation or orchestration task while manual body gold masks remain external work.
+
+Evidence: `Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_SOURCE_DIVERSITY_TARGET_RUNTIME_20260714T043510-0500.json`.
+
+
 ## Wan 2.2 Changed-Source Local Readiness Passed - 2026-07-14T03:45:15-05:00
 
 The active non-mask goal is now one changed-source Wan runtime unit, not another seed-only run. A true full-body 3000x4000 reference outside `Full/New folder` is exact-hash bound, copied into the local run package, and wired to unseen seed 2271401. Local validation passes with no AWS, ComfyUI, or generation contact; tampered hashes fail before source copy.

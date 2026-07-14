@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-WAN22-SOURCE-DIVERSITY-TARGET-RUNTIME-20260714T043510-0500",
+  "timestamp": "2026-07-14T04:35:10-05:00",
+  "lane_id": "wan_2_2_ti2v_5b_primary_lane",
+  "classification": "WAN22_CHANGED_SOURCE_BOUNDED_TARGET_RUNTIME_PASS",
+  "source_git_head": "bda2940d2bf753723eebc1dca3206f47bffde671",
+  "source_contract": {
+    "project_path": "Ref_Image_1/Full/78b8e4ca10fd769e0752bd21c3599339.jpg",
+    "staged_filename": "wan22_source_diversity_ref1_78b8e4ca.jpg",
+    "size_bytes": 350118,
+    "sha256": "e20a857f0ac23151ae1b8aa47fb4746c975e522a5598896f747ef08a50cc9336",
+    "source_width": 3000,
+    "source_height": 4000,
+    "true_full_body": true,
+    "excluded_partial_body_path": "Ref_Image_1/Full/New folder",
+    "excluded_partial_body_used": false
+  },
+  "runtime_unit": {
+    "seed": 2271401,
+    "run_id": "aws_gpu_workflow_smoke_20260714T041921-0500",
+    "prompt_id": "2d8171bb-f00c-48af-90ae-04ab3197976e",
+    "runtime_window_id": "rw-wan22-source-diversity-20260714T041821",
+    "prompt_request_sha256": "7d48f8859e7e0161c0bff82eaa13ae2ed2f8207567f422e67af387abacdadfe0",
+    "run_package_manifest": "runtime_artifacts/run_packages/w22sd_bda2_v1_wan22_ti2v5b_fullbody_source_diversity_ref1_78b8_seed2271401/RUN_PACKAGE_MANIFEST.json",
+    "run_package_manifest_sha256": "ca3c0eb85b189278a93eb88b02a7f109182bfc9f4accf254af91625543e549ff",
+    "output_prefix": "video/wan22_ti2v5b_source_diversity_ref1_78b8_seed2271401",
+    "width": 480,
+    "height": 640,
+    "frame_count": 49,
+    "fps": 24
+  },
+  "deployment": {
+    "deploy_bundle_s3_uri": "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/w22sd_bda2_v1/w22sd_bda2_v1.zip",
+    "deploy_bundle_sha256": "d87892bf5aeb03215b5e0ddf5937435da0a1f3ed8377ece5cf77e7b0e5feafd5",
+    "deploy_manifest_sha256": "d1a4e612bfd7702d61ee9191cdcd880c59d1663ecc6d4c6844346c77ede8fced",
+    "s3_redownload_hash_verified": true,
+    "remote_bundle_hash_verified": true,
+    "remote_source_hash_verified": true,
+    "remote_source_size_verified": true,
+    "prompt_schema_status": "pass",
+    "prompt_schema_error_count": 0
+  },
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260714T041921-0500/images/12_wan22_ti2v5b_source_diversity_ref1_78b8_seed2271401_00001_.mp4",
+    "size_bytes": 83544,
+    "sha256": "5006e96e211538f3d2bb6795e93014d6642946583cc31aa635e171e13e1c80bf",
+    "s3_uri": "s3://comfy-ui-main-runtime-029530099913-us-east-1/render-outputs/aws_gpu_workflow_smoke_20260714T041921-0500/",
+    "pullback_record": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260714T041921-0500/PULLBACK_RECORD.json",
+    "pullback_hashes_verified": true
+  },
+  "aws_safety": {
+    "account": "029530099913",
+    "session_role": "arn:aws:sts::029530099913:assumed-role/ComfyUIMainSessionRole/comfy-ui-main-session",
+    "approved_instance": "i-0560bf8d143f93bb1",
+    "emergency_stop_schedule_verified_before_start": true,
+    "instance_watchdog_verified_before_generation": true,
+    "runtime_marker_completed": true,
+    "active_runtime_marker_removed": true,
+    "final_instance_state": "stopped",
+    "emergency_stop_schedule_retired_after_window": true
+  },
+  "qa_evidence": {
+    "technical": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_SOURCE_DIVERSITY_TECHNICAL_QA_20260714T043510-0500.json",
+    "visual": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_SOURCE_DIVERSITY_VISUAL_QA_20260714T043510-0500.json"
+  },
+  "checks": {
+    "completed_seed_not_reused": true,
+    "changed_source_used": true,
+    "excluded_partial_source_not_used": true,
+    "exact_head_ci_passed_before_bundle": true,
+    "source_bound_bundle_verified_locally_and_remotely": true,
+    "prompt_schema_passed": true,
+    "generation_completed_once": true,
+    "s3_sync_and_pullback_passed": true,
+    "artifact_hash_verified": true,
+    "technical_qa_passed": true,
+    "direct_visual_qa_passed": true,
+    "final_instance_stopped": true
+  },
+  "failed_checks": [],
+  "result": "pass_bounded_wan22_changed_source_target_runtime",
+  "boundaries": {
+    "single_changed_source_single_seed_short_clip_only": true,
+    "multi_source_robustness_claimed": false,
+    "long_duration_quality_claimed": false,
+    "fine_finger_or_toe_certification_claimed": false,
+    "production_video_lane_certification_claimed": false,
+    "gold_masks_consumed": false,
+    "mask_or_geometry_authority_claimed": false,
+    "wave71_activation_claimed": false,
+    "jira_mutated": false
+  },
+  "next_action": "Preserve seed 2271401 without rerun. Checkpoint this bounded changed-source runtime proof, then select the next explicit non-mask implementation or orchestration task without promoting this sample into production certification."
+}
