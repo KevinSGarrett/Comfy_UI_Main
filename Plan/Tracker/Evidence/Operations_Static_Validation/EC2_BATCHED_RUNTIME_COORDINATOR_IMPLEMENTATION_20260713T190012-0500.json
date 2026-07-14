@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "created_at": "2026-07-13T19:00:12-05:00",
+  "result": "pass_local_only",
+  "classification": "EC2_BATCHED_RUNTIME_COORDINATOR_IMPLEMENTED_LOCAL_PROOF",
+  "local_only": true,
+  "aws_contacted": false,
+  "ec2_started": false,
+  "generation_executed": false,
+  "implementation_scope": [
+    "one coordinator-owned EC2 start and final stop",
+    "one verified runtime marker and watchdog",
+    "one static proof followed by 1-5 compatible sequential smoke units",
+    "generation and pullback required for every unit",
+    "capacity-backoff-aware work-order state transitions",
+    "post-stop EBS right-sizing readiness capture"
+  ],
+  "validation": {
+    "powershell_files_parsed": 6,
+    "powershell_parse_failures": 0,
+    "coordinator_regression_check_count": 21,
+    "coordinator_regression_failed_check_count": 0,
+    "compatibility_regressions": [
+      "Test-EC2WorkflowSmokeStartFailureRegression.ps1: pass_local_only",
+      "Test-EC2RuntimeWindowSafetyGateRegression.ps1: pass_local_only",
+      "Test-EC2RuntimeWindowMarkerLifecycleRegression.ps1: pass",
+      "Test-NormalRuntimeWindowContractRegression.ps1: pass_local_only"
+    ],
+    "operations_helper_script_count": 61,
+    "operations_helper_parse_failures": 0,
+    "operations_helper_overall_result": "fail_preexisting_fixture_and_evidence_expectation_drift",
+    "operations_helper_unrelated_failures": 6
+  },
+  "safety_contract": {
+    "children_can_start_or_stop_shared_window": false,
+    "caller_managed_preflight_can_exit_parent_host": false,
+    "identity_helper_can_exit_parent_host": false,
+    "marker_completion_requires_stopped": true,
+    "ebs_mutation_authorized": false
+  },
+  "remaining_live_proof": "Run one legitimate, explicitly authorized batch window after merge and same-window emergency-stop verification. Do not start EC2 only for EBS measurement.",
+  "remaining_ebs_blocker": "BLOCKED_EBS_USED_BYTES_PROOF_MISSING"
+}

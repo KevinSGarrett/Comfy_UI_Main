@@ -11,7 +11,8 @@ This runbook is the active cost-control policy for `C:\Comfy_UI_Main`. It separa
 - Deploy ZIPs must be written by `tools/New-EC2DeployBundle.ps1` with `/` member separators. `Test-EC2DeployBundleZipPortability.ps1` rejects backslashes, absolute/traversal paths, duplicate normalized names, undeclared members, missing members, and hash mismatches. CI runs this gate before artifact or S3 publication.
 - `Invoke-EC2LaneStaticProof.ps1` and `Invoke-EC2WorkflowSmokeRun.ps1` atomically create `runtime_artifacts/ec2_runtime_windows/ACTIVE_EC2_RUNTIME_WINDOW.json` before `start-instances`. They archive and remove it only after independently observed `stopped`. A cleanup failure leaves the marker visible for the sentinel.
 - The instance watchdog uses direct verified OS shutdown when `-AllowWatchdogOsShutdownFallback` is supplied. It must not intentionally generate an `ec2:StopInstances` authorization failure before using that known-good path.
-- `New-EC2BatchedRuntimeWorkOrder.ps1` admits 1-5 hash-bound compatible units. `Get-EC2RuntimeReadinessDisposition.ps1` distinguishes `NO_ELIGIBLE_GPU_WORK`, `READY_WORK_WAITING_FOR_EC2`, active backoff, active window, and unowned running state. These classifications do not grant automation EC2-start authority.
+- `New-EC2BatchedRuntimeWorkOrder.ps1` admits 1-5 hash-bound compatible units. `Invoke-EC2BatchedRuntimeWindow.ps1` owns one guarded start, one watchdog, static proof, sequential generation and pullback for every unit, one final stop, marker completion, and post-stop EBS readiness capture. Child static-proof and smoke helpers cannot start or stop its shared window.
+- `Get-EC2RuntimeReadinessDisposition.ps1` distinguishes `NO_ELIGIBLE_GPU_WORK`, `READY_WORK_WAITING_FOR_EC2`, `GPU_RUNTIME_WINDOW_STARTING`, `BLOCKED_FAILED_GPU_WORK_ORDER`, active backoff, active window, and unowned running state. These classifications do not grant automation EC2-start authority.
 - Insufficient-capacity failures are persisted by `Set-EC2CapacityBackoffState.ps1` at 15, 30, 60, then 120 minutes. A successful start clears the state. Repeated immediate start loops are prohibited.
 - S3 lifecycle expires replaceable deploy bundles after 90 days and old render pullback copies after 180 days, expires noncurrent versions after 30 days, and aborts incomplete multipart uploads after 7 days. `model-cache/` has no object expiration.
 - The attached 1 TiB gp3 volume is unencrypted. Do not guess a smaller replacement. Future live proofs capture root filesystem usage; `Test-EC2EbsRightSizingReadiness.ps1` must pass before a separate encrypted-volume migration is planned. Never start EC2 only to collect that measurement.
@@ -114,6 +115,14 @@ For future EC2 proof or smoke commands:
 - Batch all target-runtime work for a lane into one window: static proof, smoke generation, remote manifest, pullback, stop, final-state verification.
 - Stop the instance in a `finally` path and verify final state `stopped`.
 - If a command exceeds the local SSM timeout, cancel the command, stop EC2, and write incomplete evidence rather than waiting indefinitely.
+
+Preferred batched runtime dry run:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Invoke-EC2BatchedRuntimeWindow.ps1 -ProjectRoot C:\Comfy_UI_Main -WorkOrderFile <ready-work-order.json> -AuthGateFile <aws-auth-gate.json> -ReadinessFile <lane-readiness.json> -RuntimeWindowId <runtime-window-id> -EmergencyStopEvidencePath <verified-live-emergency-stop-evidence.json> -SkipGitLfsPull -OutDirectory C:\Comfy_UI_Main\runtime_artifacts\batched_runtime\<work-order-id>
+```
+
+Add `-Execute` only after reviewing the dry-run record and verifying the same-window emergency-stop schedule. The coordinator changes the work order from `READY_WORK_WAITING_FOR_EC2` to `EXECUTING`, then to `COMPLETED`, `READY_WORK_WAITING_FOR_EC2` for classified capacity failure, or `FAILED_CLOSED`. A successful live record requires every unit to report generation plus pullback, final instance state `stopped`, and matching marker completion.
 
 Example static proof:
 
