@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "FLUX1-EXISTING-RUNTIME-PROOF-RECONCILIATION-20260714T1021530500",
+  "timestamp": "2026-07-14T10:21:53-05:00",
+  "lane_id": "flux1_dev_primary_base",
+  "queue_id": "MRQ-W64-100",
+  "result": "existing_capability_proven_canonical_lane_and_license_blocked",
+  "classifications": [
+    "FLUX1_EXISTING_EXTERNAL_MODEL_REUSED",
+    "FLUX1_MODEL_LOAD_AND_OUTPUT_CAPABILITY_PROVEN",
+    "NO_DUPLICATE_MODEL_DOWNLOAD_REQUIRED",
+    "NO_DUPLICATE_CAPABILITY_GENERATION_REQUIRED",
+    "BLOCKED_CANONICAL_LANE_RUNTIME_PROOF_MISSING",
+    "BLOCKED_FLUX1_DEV_LICENSE_ACCEPTANCE_MISSING"
+  ],
+  "canonical_contract": {
+    "template_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux1_dev_primary_base/workflow.api.json",
+    "runtime_mirror_path": "Workflows/base_generation/flux1_dev_primary_base/workflow.api.json",
+    "template_sha256": "FF2DE9DA4E818B688EDA367DA24712F01329B9009487A56058AAB4D8649C0DC0",
+    "runtime_mirror_sha256": "FF2DE9DA4E818B688EDA367DA24712F01329B9009487A56058AAB4D8649C0DC0",
+    "byte_identical": true,
+    "required_node_classes": [
+      "CLIPTextEncodeFlux",
+      "CheckpointLoaderSimple",
+      "EmptySD3LatentImage",
+      "KSampler",
+      "ModelSamplingFlux",
+      "SaveImage",
+      "VAEDecode"
+    ],
+    "missing_from_canonical": [],
+    "smoke_request_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux1_dev_primary_base/smoke_test_request.json",
+    "smoke_request_sha256": "5BD707E303AB187B7A9DFDCCBAF99C17C6FF607E7C548541AA090F0804280420",
+    "exact_canonical_hash_found_in_handoff_workflows": false,
+    "exact_canonical_workflow_executed": false,
+    "canonical_lane_certified": false
+  },
+  "existing_runtime_proof": {
+    "workflow_path": "workflows/base_generation/character1_flux_calibration_front/workflow.passA.api.json",
+    "workflow_sha256": "A636429E735586C6B0F459963DC9446BD4E06B260FB0D9766E40D832539757BC",
+    "workflow_inventory_sha256": "A636429E735586C6B0F459963DC9446BD4E06B260FB0D9766E40D832539757BC",
+    "extra_node_classes": [
+      "LoraLoader"
+    ],
+    "missing_required_node_classes": [],
+    "output": {
+      "path": "assets/outputs/flux_base/front_passA_00001_.png",
+      "sha256": "A3000B8E061336B6886A535D07738C63137EA0B9EB46466B68AD50B697209C78",
+      "bytes": 811428,
+      "generated_inventory_match": true,
+      "file_manifest_match": true,
+      "verified": true
+    },
+    "model_load_and_image_output_capability_proven": true,
+    "proof_scope": "byte_distinct_character_calibration_workflow_not_canonical_lane"
+  },
+  "model_authority": {
+    "filename": "flux1-dev-fp8.safetensors",
+    "expected_sha256": "8E91B68084B53A7FC44ED2A3756D821E355AC1A7B6FE29BE760C1DB532F3D88A",
+    "expected_bytes": 17246524772,
+    "existing_path": "../Comfy_UI/Runtime_Data/models/checkpoints/flux1-dev-fp8.safetensors",
+    "preflight_observed_sha256": "8E91B68084B53A7FC44ED2A3756D821E355AC1A7B6FE29BE760C1DB532F3D88A",
+    "package_recorded_sha256": "8E91B68084B53A7FC44ED2A3756D821E355AC1A7B6FE29BE760C1DB532F3D88A",
+    "authority_records_agree": true,
+    "fresh_multi_gib_model_rehash_performed": false,
+    "download_required": false
+  },
+  "live_runtime": {
+    "url": "http://127.0.0.1:8188",
+    "reachable": true,
+    "comfyui_version": "0.27.0",
+    "device_count": 1,
+    "required_node_class_count": 7,
+    "missing_node_classes": [],
+    "queue_running_count": 0,
+    "queue_pending_count": 0,
+    "generation_submitted": false,
+    "pass": true
+  },
+  "license": {
+    "license_id": "flux-1-dev-non-commercial-license",
+    "non_commercial_boundary": "Non-commercial model license applies; automation does not assert acceptance or commercial-use rights.",
+    "acceptance_proven": false,
+    "commercial_use_authorized": false
+  },
+  "decision": {
+    "structural_reconciliation_pass": true,
+    "duplicate_capability_generation_required": false,
+    "exact_canonical_run_required_only_for_canonical_lane_certification": true,
+    "canonical_execution_allowed_before_license_acceptance": false,
+    "queue_file_mutated": false,
+    "recommended_queue_classification": "existing_runtime_capability_reconciled_canonical_lane_and_license_blocked"
+  },
+  "worker_assistance": {
+    "accepted_as_authority": false,
+    "reason": "Two Cursor mapping attempts returned useful substantive conclusions but failed the wrapper output contract; deterministic reconciliation is authority."
+  },
+  "process_exit_contract": {
+    "0": "canonical lane and license requirements passed",
+    "1": "structural reconciliation failed",
+    "2": "existing capability reconciled but canonical lane or license remains blocked",
+    "current_exit_code": 2
+  },
+  "boundaries": [
+    "No model was downloaded, copied, or reinstalled.",
+    "No prompt was submitted and no existing FLUX generation was repeated.",
+    "The dirty model runtime queue was not changed or staged.",
+    "No AWS, EC2, S3, Jira, mask promotion, Wave70 hard-gate, or Wave71+ action occurred."
+  ]
+}
