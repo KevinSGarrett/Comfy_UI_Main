@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-030-AUDIO-AV-SYNC-20260712T175907-0500",
-  "timestamp": "2026-07-12T17:59:07-05:00",
+  "timestamp": "2026-07-14T07:56:06-05:00",
   "item_id": "ITEM-W64-030",
   "tracker_id": "TRK-W64-030",
   "workstream": "audio_av_sync",
@@ -33,7 +33,21 @@
     "authority_registry_unchanged_by_tests": true,
     "remaining_high_findings": 0,
     "remaining_medium_findings": 0,
-    "review_scope_hash_mismatches": 0
+    "review_scope_hash_mismatches": 0,
+    "recovered_av_sync_readiness": "pass_fail_closed",
+    "recovered_av_sync_tests_passed": 47,
+    "recovered_av_sync_tests_failed": 0,
+    "recovered_mux_decodable": true,
+    "recovered_strict_profile_checks_passed": 1,
+    "recovered_strict_profile_checks_failed": 4,
+    "recovered_missing_required_field_count": 9,
+    "recovered_missing_production_proof_count": 3,
+    "recovered_strict_packet_eligible": false,
+    "recovered_strict_evaluator_invoked": false,
+    "recovered_av_sync_semantic_review": "PASS",
+    "recovered_av_sync_semantic_review_confidence": "high",
+    "recovered_av_sync_semantic_review_high_or_medium_findings": 0,
+    "recovered_av_sync_semantic_review_record": "runtime_artifacts/agent_handoffs/claude_subscription/20260714T080052-0500_row030_recovered_av_sync_readiness_semantic_review/handoff_record.json"
   },
   "acceptance_gates": {
     "sync_offset_threshold_contract": true,
@@ -45,20 +59,27 @@
     "genuine_production_playback_review_present": false,
     "genuine_production_runtime_proof_present": false,
     "production_bundle_allowlisted": false,
-    "final_av_sync_certification_allowed": false
+    "final_av_sync_certification_allowed": false,
+    "recovered_mux_present_and_decodable": true,
+    "legacy_provisional_report_present": true,
+    "legacy_provisional_report_accepted_as_current_proof": false,
+    "recovered_strict_mux_profile_passed": false,
+    "recovered_strict_packet_eligible": false
   },
   "blockers": [
-    {"classification": "Blocked_AV_Sync_Production_Proof_Missing", "reason": "No genuine non-synthetic production audio/video mux with bound anchor, playback-review, and runtime evidence exists."},
+    {"classification": "Blocked_AV_Sync_Production_Proof_Missing", "reason": "The recovered 10-second MP4 decodes with H.264 video and mono AAC audio, but it fails four of five strict mux-profile checks and lacks source-video, identity, Wave30, anchor, playback, runtime, and production-bundle proof chains."},
     {"classification": "Blocked_AV_Sync_Production_Authority_Missing", "reason": "The canonical production certification bundle allowlist contains zero approved bundles."}
   ],
   "evidence": [
-    {"path": "Plan/Instructions/QA/Evidence/Wave64/audio_av_sync.json", "sha256": "48a227cf3c55e2349a69a4a75214149451311adac7adefc34afc7bf070a083cc"},
+    {"path": "Plan/Instructions/QA/Evidence/Wave64/audio_av_sync.json", "sha256": "9388b8d9bfc70a4ab87bedad75364fa9e6fbd1350a808de1a7ad1ef31996e94b"},
     {"path": "Plan/Instructions/QA/Evidence/Wave64/audio_av_sync_test_log.json", "sha256": "57e47ab150df0ddbf87b46a3f76710a00ce54346bc62649c7878dce0c57b92fe"},
     {"path": "runtime_artifacts/wave64_av_sync_certification/packet_producer_probe_20260712T175907-0500/request.json", "sha256": "c9607a8836e51677cc03f10623f1a36f286050e2e1056bcbaf69ca82c9903890"},
     {"path": "runtime_artifacts/wave64_av_sync_certification/packet_producer_probe_20260712T175907-0500/report.json", "sha256": "2850b1cde297a739f54272aeb064e73d2713913397222ea66d7c1b1bbc153d7c"},
     {"path": "runtime_artifacts/wave64_av_sync_certification/packet_producer_probe_20260712T175907-0500/windows_tests.txt", "sha256": "812c108f89838c5ae8685a3f1d2c74fab21034f3308d60dd8fe117c4acf2cdaa"},
     {"path": "runtime_artifacts/wave64_av_sync_certification/20260711T210114-0500/probe_summary.json", "sha256": "56b5e02ac0b413064aa20ff49e6f305d009b23e729f048d6e65d3b84fc8b4246"},
-    {"path": "runtime_artifacts/wave64_av_sync_certification/20260711T210114-0500/windows_strict_tests.txt", "sha256": "07f2bd435d39bd1107344492ca7626a9e0dcb20954c683bcca3ebcfa6bd6bd07"}
+    {"path": "runtime_artifacts/wave64_av_sync_certification/20260711T210114-0500/windows_strict_tests.txt", "sha256": "07f2bd435d39bd1107344492ca7626a9e0dcb20954c683bcca3ebcfa6bd6bd07"},
+    {"path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_AV_SYNC_RECOVERED_READINESS_20260714T075606-0500.json", "sha256": "11af937ba322f285d3aebdca6466afd20ade7056aad8f284dce781ab4e331d89"},
+    {"path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_AV_SYNC_RECOVERED_READINESS_TEST_LOG_20260714T075606-0500.json", "sha256": "2020309a5fa617e69bb18ccbb9fb6d446618ef3ef2f84fa2cbe126e7993088c4"}
   ],
   "runtime": {
     "production_av_sync_generation_count": 0,
@@ -67,7 +88,8 @@
     "approved_production_bundle_count": 0,
     "comfyui_started": false,
     "aws_contacted": false,
-    "ec2_started": false
+    "ec2_started": false,
+    "recovered_mux_readiness_evaluation_count": 1
   },
-  "next_action": "Proceed with TRK-W64-031 / ITEM-W64-031 by duplicate-checking the strict audio artifact review lane from Plan/Instructions/QA/AUDIO_GENERATION_REVIEW_PROTOCOL.md while keeping row030 blocked until genuine non-synthetic AV media, playback review, runtime proof, and an allowlisted production certification bundle are present."
+  "next_action": "Retain the recovered mux as provisional lineage evidence; do not remux or regenerate until an explicit strict-source and proof-chain task is selected."
 }
