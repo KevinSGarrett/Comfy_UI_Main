@@ -1,0 +1,140 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-VIDEO-TEMPORAL-VISUAL-REVIEW-WAN22-COMPLETION-20260714T051404-0500",
+  "timestamp": "2026-07-14T05:14:04-05:00",
+  "tracker_id": "TRK-W64-021",
+  "item_id": "ITEM-W64-021",
+  "status_decision": "Completed_Bounded_Wan22_Temporal_QA_Pass_Fine_Finger_Toe_Certification_Excluded",
+  "source_citation": "Plan/04_VIDEO_GIF_SYSTEM/TEMPORAL_QA_AND_KEYFRAME_SYSTEM.md",
+  "inputs": [
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/complete_wave64_video_temporal_visual_review_wan22.py",
+      "sha256": "252e25f7a8942777ecba9f4c53a1e98d709ae86aaa18393330fa8f9e646b3fa9"
+    },
+    {
+      "path": "Plan/04_VIDEO_GIF_SYSTEM/TEMPORAL_QA_AND_KEYFRAME_SYSTEM.md",
+      "sha256": "cd89ffade2d028cfeffe447a4559afdd3f80f42bdc43091cb356ba0d5f3c81a8"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_TI2V5B_TARGET_RUNTIME_SMOKE_20260714T004424-0500.json",
+      "sha256": "283f7c5f9fbd28f5576986a3d16aef6e3688700764266c55a3912b6432e348b0"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_SEED_ROBUSTNESS_TARGET_RUNTIME_20260714T030930-0500.json",
+      "sha256": "e93018028b73f83484b3e4882214100fa1ca361d5e7c4b3d0ab20317d8fdf7b4"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_SOURCE_DIVERSITY_TARGET_RUNTIME_20260714T043510-0500.json",
+      "sha256": "edf43c02ea3673020f95fbc7e21804803b0b45c41664bfd8d39b2441b6d40ca0"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_TI2V5B_TARGET_RUNTIME_TECHNICAL_QA_20260714T004424-0500.json",
+      "sha256": "ef5960a1180b70335bdd6a5d5b29ec19d3d64a9db3f4c1424ece2e61b08f0772"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_SEED_ROBUSTNESS_TECHNICAL_QA_20260714T030930-0500.json",
+      "sha256": "575b9d70635ce4f95fdf7b952880d2a1efd60d7a83ff267d97acdc14d304e919"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_SOURCE_DIVERSITY_TECHNICAL_QA_20260714T043510-0500.json",
+      "sha256": "5aa5074a4db4ceff606504abda67c15b4268634e3387160ce792bdee1eab7e20"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_TI2V5B_TARGET_RUNTIME_VISUAL_QA_20260714T004424-0500.json",
+      "sha256": "ae50af479342b36dbdffded54c95ac49ebf9ac744e1eca2d07a09d4530eee259"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_SEED_ROBUSTNESS_VISUAL_QA_20260714T030930-0500.json",
+      "sha256": "88c5af441180e64d0d427c6682732395460f23460521fa4648d43b247875b474"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_SOURCE_DIVERSITY_VISUAL_QA_20260714T043510-0500.json",
+      "sha256": "48d0d422c8ca77a540d16aad63f1062fd70e4a2934ddebb4ee2f19b23aff0432"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_TEMPORAL_VISUAL_REVIEW_WAN22_TEST_LOG_20260714T051404-0500.json",
+      "sha256": "43d30ceb6c57e989e3a31543ea73cef06e57db7655eac807139ba3c6487dd3e5"
+    }
+  ],
+  "bounded_evidence_scope": {
+    "engine": "wan_2_2_ti2v_5b_primary_lane",
+    "clip_count": 4,
+    "seed_count": 4,
+    "source_count": 2,
+    "frame_count_per_clip": 49,
+    "total_decoded_frames": 196,
+    "width": 480,
+    "height": 640,
+    "fps": 24
+  },
+  "gate_results": {
+    "per_frame_qa": true,
+    "temporal_identity_check": true,
+    "face_consistency_at_available_resolution": true,
+    "gross_body_silhouette_consistency": true,
+    "gross_hand_foot_consistency_at_available_resolution": true,
+    "floor_contact_consistency": true,
+    "flicker_and_freeze_detection": true,
+    "motion_consistency": true,
+    "object_background_camera_consistency": true,
+    "terminal_frame_continuity": true,
+    "fine_hand_finger_foot_toe_certification": false,
+    "bounded_temporal_visual_pass": true,
+    "production_video_lane_certification": false
+  },
+  "checks": {
+    "four_unique_clips_bound": true,
+    "four_expected_seeds_present": true,
+    "two_distinct_sources_present": true,
+    "all_clips_exact_bounded_shape": true,
+    "all_technical_reviews_pass": true,
+    "no_black_or_disallowed_freeze_events": true,
+    "baseline_direct_visual_pass": true,
+    "three_seed_direct_visual_pass": true,
+    "changed_source_direct_visual_pass": true,
+    "identity_and_face_pass_at_available_resolution": true,
+    "gross_anatomy_and_silhouette_pass": true,
+    "gross_hands_and_feet_pass": true,
+    "floor_contact_pass": true,
+    "motion_pass": true,
+    "background_and_camera_pass": true,
+    "terminal_frame_pass": true,
+    "fine_digit_certification_explicitly_excluded": true,
+    "production_video_certification_not_claimed": true,
+    "masks_not_consumed_or_required": true,
+    "later_runtime_windows_closed": true
+  },
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "fine_digit_followup": {
+    "required_for_this_bounded_pass": false,
+    "certified_here": false,
+    "future_gate": "higher_resolution_or_cropped_hand_foot_temporal_review"
+  },
+  "boundaries": {
+    "existing_clips_reused": true,
+    "new_generation_executed": false,
+    "completed_seeds_rerun": false,
+    "aws_contacted_by_this_reconciliation": false,
+    "ec2_started_by_this_reconciliation": false,
+    "fine_hand_finger_foot_or_toe_certification_claimed": false,
+    "long_duration_quality_claimed": false,
+    "production_video_lane_certification_claimed": false,
+    "gold_masks_consumed": false,
+    "mask_or_geometry_authority_claimed": false,
+    "wave71_activation_claimed": false,
+    "jira_mutated": false
+  },
+  "semantic_review": {
+    "record": "runtime_artifacts/agent_handoffs/claude_subscription/20260714T051244-0500_w64_row021_wan22_temporal_boundary_review/handoff_record.json",
+    "status": "PASS",
+    "classification": "CLAUDE_SONNET_HANDOFF_COMPLETED",
+    "confidence": "high",
+    "blockers": []
+  },
+  "result": "pass_bounded_wan22_temporal_qa_fine_digit_certification_excluded",
+  "next_action": "Continue Row022 reference-video input reconciliation without new generation."
+}

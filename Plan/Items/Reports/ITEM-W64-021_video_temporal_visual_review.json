@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-021-VIDEO-TEMPORAL-VISUAL-REVIEW-20260711T140300-0500",
-  "timestamp": "2026-07-13T03:24:00-05:00",
+  "timestamp": "2026-07-14T05:14:04-05:00",
   "item_id": "ITEM-W64-021",
   "tracker_id": "TRK-W64-021",
   "workstream": "video_temporal_visual_review",
-  "status": "Blocked_Video_Temporal_Visual_Quality_And_Prerequisite_Failure",
-  "row_complete": false,
+  "status": "Completed_Bounded_Wan22_Temporal_QA_Pass_Fine_Finger_Toe_Certification_Excluded",
+  "row_complete": true,
   "implementation": {
     "strict_packet_preparation_added": true,
     "frame_grid_and_playback_generation_ready": true,
@@ -30,53 +30,68 @@
     "production_frame_sequence_present": true,
     "production_visual_review_executed": true,
     "strict_packet_generated": true,
-    "motion_analysis_result": "pass",
-    "background_camera_analysis_result": "fail",
-    "codex_visual_verdict": "fail"
+    "wan22_clip_count": 4,
+    "wan22_seed_count": 4,
+    "wan22_source_count": 2,
+    "wan22_bounded_temporal_visual_pass": true,
+    "fine_digit_certification_excluded": true,
+    "historical_validation": {
+      "animatediff_fallback_review": {
+        "motion_analysis_result": "pass",
+        "background_camera_analysis_result": "fail",
+        "codex_visual_verdict": "fail",
+        "status": "historical_failed_sequence_superseded_by_wan22_evidence"
+      }
+    }
   },
   "acceptance_gates": {
     "packet_preparation_implementation": true,
     "motion_analysis_producer_ready": true,
     "object_background_camera_analysis_producer_ready": true,
     "per_frame_qa": true,
-    "temporal_identity_check": false,
+    "temporal_identity_check": true,
     "flicker_detection": false,
-    "motion_consistency": false,
+    "motion_consistency": true,
     "body_hand_contact_consistency": false,
     "frame_grid_and_playback_visual_review": true,
     "runtime_proof": true,
-    "final_temporal_visual_pass": false
+    "final_temporal_visual_pass": false,
+    "face_consistency_at_available_resolution": true,
+    "gross_body_silhouette_consistency": true,
+    "gross_hand_foot_consistency_at_available_resolution": true,
+    "floor_contact_consistency": true,
+    "flicker_and_freeze_detection": true,
+    "object_background_camera_consistency": true,
+    "terminal_frame_continuity": true,
+    "fine_hand_finger_foot_toe_certification": false,
+    "bounded_temporal_visual_pass": true,
+    "production_video_lane_certification": false
   },
-  "blockers": [
-    {
-      "classification": "Blocked_Video_Temporal_Visual_Quality_And_Prerequisite_Failure",
-      "scope": "primary_row_blocker",
-      "reason": "Strict packet and direct review exist, but visual/background continuity fails and identity/face detector prerequisites are missing."
-    },
-    {
-      "classification": "Blocked_Gold_Mask_Dependency_Missing",
-      "scope": "body_hand_contact_subgates_only",
-      "reason": "Full-body visibility and trusted manual body/hand/contact masks remain unavailable; candidate masks were not consumed as truth."
-    }
-  ],
+  "blockers": [],
   "evidence": [
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/video_temporal_visual_review.json",
-      "sha256": "60d8454526b5c65880efd59d25b9ab1eee50c63c6231f89f8348ad7d5f8d6f2a"
+      "sha256": "868aa354bee32234336d3cf63a18c6f7bc900fce109ad473e573a09a919a4df5"
     },
     {
-      "path": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_TEMPORAL_VISUAL_REVIEW_RECONCILIATION_20260713T032400-0500.json",
-      "sha256": "59a524a6ca26d0fd4e1b17416741e97b8b0eb9b15654e00c7a2d07e76a37eaaa"
+      "path": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_TEMPORAL_VISUAL_REVIEW_WAN22_COMPLETION_20260714T051404-0500.json",
+      "sha256": "b740f09d67c8af17ceeb8717e3bc3728cef08d3231efa7f6e3007878ab62951a"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/W64_VIDEO_TEMPORAL_VISUAL_REVIEW_WAN22_BOUNDED_DONE_20260714T051404-0500.json",
+      "sha256": "60817f0357482271e3c50242ac66fc4b95904861391103b97959e0fc0efe0da2"
     }
   ],
   "runtime": {
-    "generation_count": 0,
-    "production_packet_count": 1,
-    "visual_review_count": 1,
-    "aws_contacted": false,
+    "new_generation_count": 0,
+    "existing_wan_clip_count_reused": 4,
     "ec2_started": false,
-    "comfyui_started": false,
-    "existing_row019_generation_reused": true
+    "production_video_certification_claimed": false
   },
-  "next_action": "Continue Row022 reference-video input reconciliation; preserve this failed sequence and do not seed-loop or promote it."
+  "next_action": "Continue Row022 reference-video input reconciliation without new generation.",
+  "excluded_followup": {
+    "required_for_this_bounded_pass": false,
+    "certified_here": false,
+    "future_gate": "higher_resolution_or_cropped_hand_foot_temporal_review"
+  }
 }
